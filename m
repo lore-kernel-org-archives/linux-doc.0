@@ -1,31 +1,37 @@
-Received: from outbound.st.icloud.com (p-east2-cluster5-host3-snip4-3.eps.apple.com [57.103.79.46])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0260A36DA03
-	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 22:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.79.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E175D35BDCA;
+	Wed,  6 May 2026 22:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778107302; cv=none; b=sCO9/sgFbd2CzdpXXjtmS1uGxX7kZ8OsDiW+6VX7XzLXK0eY4y58SgAJYuKIyrUTf6tJF7ELdnqXaAcAQpk06E89+lqlK4zdE8aVjf1HLq+jeGQbxfnMx+zmEdnV0sup3azxQKx2J10b/ezX6VodRjYNKdkWkNl7ta7qD9BLcI8=
+	t=1778107880; cv=none; b=JwCjVDiWHPG+qBrxYLyZLnbuyhrg0hlQvU3+o4JEuoX+B3CGFMjPOCWhHRxKcVUNB+flpcUYJExNskfCws2uytuDCVQR+fM32NX1TU3yUcBVIFjvC4jU+MFYL0+6Sy4Em13wmu6vtdbZc9NhNDm+Yz5AuwLZqoAEUq9WY7S2UTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778107302; c=relaxed/simple;
-	bh=hPdMkn450JuWKRS500xthFH8G5AslwJaPVUwStQFl1U=;
+	s=arc-20240116; t=1778107880; c=relaxed/simple;
+	bh=jAQL5gDem+zeyR1oV/244PtH6HUN1Bf68gLNy+I81hw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ILv1g40P2Zm1XrlxHk8PHfOK6F83afrEv5Pa3zt+sEZBGoaTmRPzLp1ktEZy7dhUcBEwyT//mbpUD9HsKPuacsQxJEvQKvntae9hMpzx/oKvGctt3arI/es2kmpt03eaMXQ7CJ1Tuj5dnwUzg4+RBcsjY+Mar9A0B/H/FMXGPgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=LxeYSjvR; arc=none smtp.client-ip=57.103.79.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	 In-Reply-To:Content-Type; b=XC9RGavjMOPPJzW4TjrNRGi2F3Ajoclw4iuX4+0+ewIKumZLEOPFrOh3AvAmk4r+3pBTfcoq8sU+yZmzQDu83bP3/h+/CwcCs+HxOtjuTwiXRMtZLLVWbe0a5UidbkkxGx3HrnLuRN4zqulSkB2V+cPPya1RMgavMbEs4cvt1Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=v8U9Jit1; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="LxeYSjvR"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-20-percent-0 (Postfix) with ESMTPS id E028B18004B1;
-	Wed, 06 May 2026 22:41:34 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhMHVsARQNFDFYEVBcOVk1RDUEfTgZTHgtKAl93AlEcVg1XQ1QEX1BfHA4FQhlACVQZXV8FWgAwUBtfAkIPHBNWFRMfVFYDRBkQVgFYVl0FTRpcGFkPHANNVloOWwRHFBcbXAAXG0YCBCMCXwBFAl4JVgEwFw9WTVAbXwJCDxwTVhUTAF4PD0xaT1ddUl1RRBRJUFtURgZDCx0eVAcOVl1fSAVdA18CQV1OClx3AlEcVg1XQ1QEX04ZDEodUlZbE1UXRgk=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778107299; x=1780699299; bh=0BTeNMLLcELYMuGSlXLUYA9M1ni+3fr3kGQGAJ5jpBM=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=LxeYSjvRrSZG/hp9QW9OHkvT8TaXCfil0z4g3CMRpYwPMZTXK5j67qlo6XSFZqfrSTtC8OOeKfXKYA+vzsgtK4rcQV3sU2bBTq0Q3/tcRITg+cc0iAcbqfkBSH5nX/1PBlvFEhfMAkOcvdNw8oQgIGiP3sze0SNAXCFUdc8RrWostLCst6UBUooGuV1Zyp16bm+1sBAIdSmTS3XQJX/ewbG7iLTLymdaMDV1ioZzz2UYfH9rWoYXWbR6AVLm9QGh7YqcRDIUu13M8qhtJ3B8sWikIVOKJbCRTSzlEY6UnjrO163rjo6P+XkvoPBVl8GsOc1KRp3GJWqOUxROrOtO4w==
-Received: from [192.168.89.2] (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-20-percent-0 (Postfix) with ESMTPSA id EEB601800844;
-	Wed, 06 May 2026 22:41:30 +0000 (UTC)
-Message-ID: <c7d0e6c4-1c6c-432e-90ed-f0604401d691@icloud.com>
-Date: Thu, 7 May 2026 07:41:28 +0900
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="v8U9Jit1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=eDTXCHLoDJNXy04tus5PhjPiOQuwbdC7CfEe20vyCIQ=; b=v8U9Jit1eCObKwIPqVB1rbkMSF
+	brVZDUv6QVa9LuSSQPbeMnL5NsosM1JUxVNZDzCQFwyUcwHg0e+vwEFMIf99e6MhiWJDKhPhVG7OT
+	Fm8y/vZ+8k7xm2MWTNbwG8p2DFq5StV4C+RWapnYAeI26DMMskGbLb/TjUIaTaxqtGgbqpJ2iAe+8
+	LmMtEnhIy/ilFO9ZPd5VETznXXLrQHYd3aB/i640c6QvWfGB+i5yfysyTS6Kchs8RHR0QuhWjEVEa
+	LM6wQ0/KWNRGzbROtWwGRqQqJi+OPVhPpm+/dwpRU8zzzixSVHnrTF3TJFjNhP86A4tZpEpQtLojH
+	Ce+qRdxA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wKl5K-00000002EfI-0C3N;
+	Wed, 06 May 2026 22:51:18 +0000
+Message-ID: <6c90bd2c-348f-4238-b80d-bfee4e4195e7@infradead.org>
+Date: Wed, 6 May 2026 15:51:17 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -33,212 +39,122 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] hwmon: add initial support for AMD PROM21 xHCI
- temperature sensor
-To: Michal Pecio <michal.pecio@gmail.com>, Jihong Min
- <hurryman2212@gmail.com>, Mario Limonciello <mario.limonciello@amd.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>, Guenter Roeck <linux@roeck-us.net>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260506032939.92351-1-hurryman2212@gmail.com>
- <cover.1778099627.git.hurryman2212@gmail.com>
- <2e2ea249b30168a2eab62fc110c226a511f21bf2.1778099627.git.hurryman2212@gmail.com>
- <20260506233332.664f220c.michal.pecio@gmail.com>
+Subject: Re: [PATCH v2] scripts/kernel-doc: Detect mismatched inline member
+ documentation tags
+To: Shuicheng Lin <shuicheng.lin@intel.com>, linux-doc@vger.kernel.org
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org,
+ intel-xe@lists.freedesktop.org
+References: <20260501160800.4043276-1-shuicheng.lin@intel.com>
 Content-Language: en-US
-From: Jihong Min <hurryman2212@icloud.com>
-In-Reply-To: <20260506233332.664f220c.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDIyMiBTYWx0ZWRfX0ublysw7nm2x
- kxlrXQ+eE10ezs6Lmug1sxnWjioJ53BlXSk3ygGFUwQ6zIrfZiTN00NPd7en0hAvSWtrRWdoGUO
- Ot5d2djdvbjZe9kzf973SelEW335v0ZrtrgdY7yzYoT4acSeI7fz7QOELUVGUkvTTdU1AzaPHcI
- EzUCBR1E3z+5QpeZ4pMacgtzMXCMaw9w7ncV66snaYxaXTuzL/tfwAw0T5tUxMhg7tp/2UEzFTi
- ykvSfDkaRlz2rRuvo6lA6aFYqwasxtL78rlr2dWcmfD9NH7neMk076Qn8756XCxqVjCFZqPwXHv
- CxtUZ/LBvfpFFFC9c4fDWSQ+gHLyEeWKsVMJ/W0X3aGJHTKayJ/0J5knKkjVEw=
-X-Proofpoint-ORIG-GUID: U0eIAQgGkDMrj7bbadnyiFptVJ61-VoO
-X-Proofpoint-GUID: U0eIAQgGkDMrj7bbadnyiFptVJ61-VoO
-X-Authority-Info-Out: v=2.4 cv=ZbYQ98VA c=1 sm=1 tr=0 ts=69fbc3a0
- cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
- a=YrL12D//S6tul8v/L+6tKg==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=QLJJKwC4gHwXwWTYzIsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=PgRulw5oR9JgysbTFEid:22 a=MienORt8HT0FiJ1vGQZ6:22
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260501160800.4043276-1-shuicheng.lin@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
- > I think this commit message and certainly the Kconfig help text should
- > include full name of the chip and perhaps its official marketing names
- > too, so that people better understand what hardware is supported.
- >
- > So: "AMD Promontory 21 chipset" and "AM5 6xx/8xx series chipsets", or
- > whatever they are called by AMD and motherboard vendors.
+Hi,
 
-Addressed locally for v3. I changed the commit message, Kconfig prompt/help
-text, and hwmon documentation to use the full name, "AMD Promontory 21
-(PROM21)".
+On 5/1/26 9:08 AM, Shuicheng Lin wrote:
+> Add validation in check_sections() to verify that inline member
+> documentation tags (/** @member: description */) match actual struct/union
+> member names. Previously, kernel-doc only validated section headers against
+> the parameter list, but inline doc tags stored in parameterdescs were never
+> cross-checked, allowing stale or mistyped member names to go undetected.
+> 
+> The new check iterates over parameterdescs keys and warns about any that
+> don't appear in the parameter list, catching issues like renamed struct
+> members where the documentation tag was not updated to match.
+> 
+> This catches real issues such as:
+>   - xe_bo_types.h: @atomic_access (missing struct prefix, should be
+>     @attr.atomic_access)
+>   - xe_device_types.h: @usm.asid (member is actually asid_to_vm)
+> 
+> Variadic arguments documented as ``@args...:`` are stored in
+> parameterdescs under the unstripped key (e.g. ``args...``), while
+> push_parameter() strips the trailing ``...`` before appending to
+> parameterlist (e.g. ``args``).  Treat the stripped form as a match so
+> the new loop doesn't emit a false-positive excess-parameter warning for
+> a properly documented named variadic parameter.  The bare ``@...:`` form
+> is unaffected because push_parameter() does not strip when the name is
+> exactly three characters.
+> 
+> v2: Skip variadic parameters whose documented key ends with ``...`` and
+>     whose stripped name is in parameterlist, to avoid false-positive
+>     "Excess function parameter 'args...'" warnings on macros like
+>     ``#define foo(fmt, args...)`` documented with ``@args...:``.
+> 
+> Assisted-by: Claude:claude-opus-4.6
+> Signed-off-by: Shuicheng Lin <shuicheng.lin@intel.com>
+> ---
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: intel-xe@lists.freedesktop.org
+> ---
 
-I avoided putting chipset marketing names directly into the Kconfig text and
-commit subject because some AMD 6xx/8xx series chipsets can be built 
-from more
-than one PROM21 IP in a daisy-chained configuration, including more than one
-PROM21 xHCI controller. I described that relationship in the hwmon
-documentation instead.
+This patch mostly works for me. I do see one issue, but maybe it wasn't
+meant to be addressed by this patch:
 
- > Is there any documentation of the index/data registers themselves?
+If I modify kthread_create() in include/linux/kthread.h to change
+its @arg: to @args:, and then run scripts/kernel-doc -none -Wall, I get:
 
-I am not aware of public AMD documentation for the PROM21 vendor index/data
-registers or the temperature selector.
+Warning: init/megaexcess.h:63 Excess function parameter 'args' description in 'kthread_create'
 
-For my initial validation on an X870E system with two PROM21 xHCI 
-controllers,
-I passed one PROM21 xHCI controller through to a Windows VM, left USB 
-traffic
-idle, and let a Windows monitoring utility poll the controller temperature.
- From the Linux host I monitored that controller's PCI MMIO BAR with 
-read-only
-accesses. The vendor index register repeatedly held the same selector value,
-and the adjacent data register exposed a stable low 8-bit value. That value
-matched the reported PROM21 xHCI temperature after the conversion formula
-below.
+(that part is good)
+but I would also expect to get a warning about @arg not being described.
 
- > Any potential danger that something else (FW? SMM?) uses them too?
 
-I did not find any other in-kernel user of this PROM21 vendor index/data
-register pair or the temperature selector.
+>  tools/lib/python/kdoc/kdoc_parser.py | 36 ++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+> index ca00695b47b3..884c6bf56d25 100644
+> --- a/tools/lib/python/kdoc/kdoc_parser.py
+> +++ b/tools/lib/python/kdoc/kdoc_parser.py
+> @@ -673,6 +673,42 @@ class KernelDoc:
+>                  self.emit_msg(ln,
+>                                f"Excess {dname} '{section}' description in '{decl_name}'")
+>  
+> +        #
+> +        # Check that documented parameter names (from doc comments, including
+> +        # inline ``/** @member: */`` tags) actually match real members in
+> +        # the declaration.  This catches mismatched or stale kernel-doc
+> +        # member tags that don't correspond to any actual struct/union
+> +        # member or function parameter.
+> +        #
+> +        for param_name, desc in self.entry.parameterdescs.items():
+> +            # Skip auto-generated entries from push_parameter()
+> +            if desc == self.undescribed:
+> +                continue
+> +            if desc in ("no arguments", "anonymous\n", "variable arguments"):
+> +                continue
+> +            if param_name.startswith("{unnamed_"):
+> +                continue
+> +            if param_name in self.entry.parameterlist:
+> +                continue
+> +            #
+> +            # Variadic arguments documented as ``@args...:`` are stored in
+> +            # parameterdescs under the unstripped key (e.g. ``args...``),
+> +            # while push_parameter() strips the trailing ``...`` before
+> +            # appending to parameterlist (e.g. ``args``).  Treat the
+> +            # stripped form as a match so this loop doesn't emit a false
+> +            # positive for a properly documented variadic parameter.
+> +            #
+> +            if param_name.endswith("...") and \
+> +               param_name[:-3] in self.entry.parameterlist:
+> +                continue
+> +
+> +            if decl_type == 'function':
+> +                dname = f"{decl_type} parameter"
+> +            else:
+> +                dname = f"{decl_type} member"
+> +            self.emit_msg(ln,
+> +                          f"Excess {dname} '{param_name}' description in '{decl_name}'")
+> +
+>      def check_return_section(self, ln, declaration_name, return_type):
+>          """
+>          If the function doesn't return void, warns about the lack of a
 
-The driver only serializes its own accesses. It saves the previous index,
-selects the temperature register, reads the data register, restores the
-previous index, and keeps the sequence short. This avoids leaving the vendor
-index/data pair in a different state for other OS code.
+-- 
+~Randy
 
-This cannot synchronize against firmware or SMM. I cannot rule out such 
-access
-without AMD documentation or confirmation, so I would appreciate AMD 
-feedback
-on whether this PROM21 vendor index/data register pair is safe for OS 
-polling.
-
-I also tested concurrent temperature reads while USB traffic was active 
-on the
-same controller, including fio against an external USB storage device and
-isochronous USB audio playback/capture. I did not observe USB transfer 
-errors
-or audio glitches in those tests.
-
- > Could make sense to describe methodology, particularly in case some
- > people would come and question the formula.
- >
- > How was actual chip temperature measured?
- > Was the output compared with any other (Windows?) utilities?
- >
- > People will be comparing these results and possibly trying to draw
- > some conclusions, like OMG Linux runs this chip 8°C hotter, should
- > I demand a full refund of my free Ubuntu download????!!!?
-
-After identifying the register pair, I used the same validation setup to 
-derive
-the conversion formula by comparing the observed raw MMIO register value
-against HWiNFO64's reported PROM21 xHCI temperature on Windows.
-
-This worked because the PROM21 xHCI temperature is very stable at idle 
-and the
-sensor appears to have low resolution, so the value usually stays unchanged
-long enough to compare both sides reliably.
-
- > Is such behavior useful?
- >
- > Maybe the driver could just disable runtime PM while it's loaded.
-
-and:
-
- > I'd encourage what we do in amdgpu for dGPUs. The hwmon files will
- > return an error code (I forget which code) when the device is in runtime
- > PM when called.  Don't explicitly wake it otherwise.
- >
- > This prevents someone installing a sensor monitoring application and
- > that application "being the only thing" keeping the dGPU awake.  If it's
- > awake already for other reasons (like being used) then return valid data
- > to the applications.
-
-I changed the local v3 branch to follow the amdgpu-style behavior by 
-default.
-The driver now does not wake the xHCI PCI device for a normal hwmon read. If
-the device is already active, the read returns valid data. If the device is
-suspended, the read returns -EPERM, matching the error code currently 
-returned
-by amdgpu's pm_runtime_get_if_active() based path. I used -EPERM to 
-match the
-current amdgpu precedent, but I can change the errno if maintainers prefer a
-different one for this driver.
-
-I kept the allow_pm_switch module parameter for now, but changed its 
-default to
-false. With the default setting, hwmon reads do not change the device 
-runtime PM
-state. Setting allow_pm_switch=Y explicitly opts into waking the xHCI PCI
-device for temperature reads.
-
-Thank you,
-Jihong Min
-
-On 5/7/26 06:33, Michal Pecio wrote:
-> On Thu,  7 May 2026 05:40:34 +0900, Jihong Min wrote:
->> AMD PROM21 xHCI controllers expose an 8-bit temperature value
-> I think this commit message and certainly the Kconfig help text should
-> include full name of the chip and perhaps its official marketing names
-> too, so that people better understand what hardware is supported.
->
-> So: "AMD Promontory 21 chipset" and "AM5 6xx/8xx series chipsets", or
-> whatever they are called by AMD and motherboard vendors.
->
->> through a vendor-specific index/data register pair in the xHCI PCI
->> MMIO BAR region. Add an auxiliary hwmon driver for AMD 1022:43fd
->> controllers and bind it to the xhci_pci.hwmon auxiliary device
->> created by xhci-pci.
->>
->> The read path verifies the parent PCI function and uses the
->> initialized xHCI HCD MMIO mapping. The vendor index register is at
->> byte offset 0x3000 from the xHCI MMIO BAR base and the vendor data
->> register is at byte offset 0x3008. The driver writes register selector
->> 0x0001e520 to the index register, reads the raw temperature value from
->> the low 8 bits of the data register, and restores the previous index
->> before returning. Expose temp1_input and an xHCI label through hwmon.
->>
->> Register the hwmon device under the parent PCI function so userspace
->> reports it as a PCI adapter, while the auxiliary driver still owns the
->> hwmon lifetime and unregisters it from the auxiliary remove path.
->>
->> No public AMD reference is available for this value.
-> Is there any documentation of the index/data registers themselves?
->
-> Any potential danger that something else (FW? SMM?) uses them too?
->
->> The conversion formula is derived from observed temperature readings:
->>
->>    temp[C] = raw * 0.9066 - 78.624
-> Could make sense to describe methodology, particularly in case some
-> people would come and question the formula.
->
-> How was actual chip temperature measured?
-> Was the output compared with any other (Windows?) utilities?
->
-> People will be comparing these results and possibly trying to draw
-> some conclusions, like OMG Linux runs this chip 8°C hotter, should
-> I demand a full refund of my free Ubuntu download????!!!?
->
->> The temperature register did not return a valid value while the xHCI
->> PCI function was suspended in testing. Keep the existing behavior by
->> default and allow temperature reads to wake the xHCI PCI device. Add an
->> allow_pm_switch module parameter so users can disable that behavior;
->> when disabled, reads do not wake the device and return -EAGAIN if it is
->> suspended.
-> Is such behavior useful?
->
-> Maybe the driver could just disable runtime PM while it's loaded.
->
->> Document the supported device, register access, conversion formula,
->> module parameter, sysfs attributes, and sysfs lookup method.
->>
->> Assisted-by: Codex:gpt-5.5
->> Signed-off-by: Jihong Min <hurryman2212@gmail.com>
