@@ -1,200 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012054.outbound.protection.outlook.com [52.101.66.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988A831714A;
-	Thu,  7 May 2026 14:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778163946; cv=none; b=cX0gcNLNH/5IrPauV3YRNpkIC4Cj7SuuoIPf73aq4kJjQTwDyQu+aY5EhfQnlNBxIeaGXIyOBwFH+G8uDMONl6X+pRBBJHX6heCpCqP+z0VsySqMGxbfCnyLQ5lGPGdh3/sgN2TwViwFOyMmjZmRW19aTTZqo6R3fIfliF0Kguw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778163946; c=relaxed/simple;
-	bh=vlPB5SDuOt75n5oB0tM9u/D39/Xgib3IJQ8fXj5/sdg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tw6nBNgaV1aru/0uy/aPTnzOEdGmkWVxm4+LWrpbS5wiuLr0G+2L4SsMtgDaj0m9fhxgHlmODm/7c/otl/t0xd949PvXyzE1fz7hHGLXlA9Y23/WHyOhdzO9a+IKZPvjXN2M4vxJYk3+IgZw+CKkKLWB2OfjSZv5eLt8m4JGEgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kqvm6WrF; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07FCB28313D;
+	Thu,  7 May 2026 14:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778164800; cv=fail; b=gBDKqUvF9dWq2/mzqsQBC5AVBjObN4QNNECX+iiPzdikSHVvtcmBO1wVzgoitML0BNphoogEBt2oLG4Cg1Fz30KCPV54e866Ob8EERelRl13XafNtuhFQygLdx4NNqq1DijoJBogdBVRnrP1QjHRmX2h21C1dCxFYdl2VMfKYss=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778164800; c=relaxed/simple;
+	bh=dm2tTJ/ZqP4Uz64U8BPA2jyD4IMAME9Nep3GQmfzvhM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qL7iH2225Hkv0FG6xyV6UgjnNQTdvYEmsYuKQdGnureQL9Vbv1jyk5At2YCjkzxapGtEJ4Zgo37AsjbJY2EmAPMLxFoSy87j0QKMJ2mcUVA1DnXKCuJYt56PYgrEgRjN5fkG/CzX1wcF1j4S3f/I+8ye8qBxrxCzNlpP10UiHFI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ctUUkcLA; arc=fail smtp.client-ip=52.101.66.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kqvm6WrF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC92FC2BCC9;
-	Thu,  7 May 2026 14:25:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778163946;
-	bh=vlPB5SDuOt75n5oB0tM9u/D39/Xgib3IJQ8fXj5/sdg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Kqvm6WrFdsSdlOu0qxKmLBuGM3nxTavGCrP+bpd9SNsH/MKkT+TZHdBUPnl2kAqkF
-	 v51j7R3UFIHs+c3I+sXkYCJCY1FldZquy4PhrOiqXsg2ce81bbG9HtXAYTi8MThkSF
-	 wqXHOkRa1SbnPp+Mz8ZFNmJfqeA0UGopZMnqSMOx8WVsX5le0XF1K6+FytOc1jzlnp
-	 7tZmPKxePPzKCKtKXWfGtGpERz76+TJazibrUPLLnQ/PKvCG2GdO9t6nHyiLlYx2dp
-	 VMzkKhZOXH2DHQ6B807kULwijk+ROT2WQCmx8BCuBO5f5Cuu3uPOZpijH9ZKlOYkZ4
-	 dyl+aDOe2wM0w==
-Date: Thu, 7 May 2026 15:25:32 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, "Hennerich, Michael"
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, "Sa,
- Nuno" <Nuno.Sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, Bartosz
- Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v9 3/6] iio: adc: ad4691: add triggered buffer support
-Message-ID: <20260507152532.09b385eb@jic23-huawei>
-In-Reply-To: <LV9PR03MB8414E0FFAD9C9423189117B2F73C2@LV9PR03MB8414.namprd03.prod.outlook.com>
-References: <20260430-ad4692-multichannel-sar-adc-driver-v9-0-33e439e4fb87@analog.com>
-	<20260430-ad4692-multichannel-sar-adc-driver-v9-3-33e439e4fb87@analog.com>
-	<LV9PR03MB8414E0FFAD9C9423189117B2F73C2@LV9PR03MB8414.namprd03.prod.outlook.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ctUUkcLA"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=R7FrtlDS9qLYqJpJonQtJcRBokljFUn7C5KXOr/MXdwgJSv7pd0jxhblHJdkUJaNp3ikeTkqLh/rK/Ajmu4D+AyfmPhssQfaez+4L+CrLoRHBnovBB4WrtxotSuQLyiR7lXYvk9iJCyBf6REXGR+fAMB3jil3Z0ShzHgAVkBfOexxPbaLqpkP4mURcA65p28AN3YuTb143ooRZtdTheLLS/xppHc4OObR3Q+Y4C5yepHE0ZYoV6e265F2KOOTVhVtgv0sUY2CocsUbgSWR/RLTZH1X70EuWV/hipZrQtaXQARmVZ+Ti+stRV5dmjvbTKA6pj+0qDAerhxhefPdWgPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dm2tTJ/ZqP4Uz64U8BPA2jyD4IMAME9Nep3GQmfzvhM=;
+ b=j2FMxXR8h92nkm02ObxTMbOy655hATSfwlZzOvVEcu1OWy5S9XJzUeB0fd4snO6YIhYNv0voh3h2kvZ0nIPK5+n/OoyFMhJIetAxWBWg6R68iQyb1gm8DpJ5kpPf+SS4/rXKSUnfRJ44R81mOCWxTtdhO/I+9q1V5/QQMFa/z9XEinVdKoRkukicwZ+WyC3MrqWHgr1IxUREaiBqlGl8hLs71v/5SsSY6BW6HmseAytlpLOvFMMBz1Kbx3DQNepi63RLhKnwLcMSdrRskLRnnnbk9hs/bn/h1oo8XhJ79FElN/QSUEOiJfpeFP9sm2wLX0bRsgk5EvGRG3tfRdZRcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dm2tTJ/ZqP4Uz64U8BPA2jyD4IMAME9Nep3GQmfzvhM=;
+ b=ctUUkcLAMYzMvNifP+6fws4kXz+To8cmiK2JW+CB/hVEWR9ir63DEHoAVioAuCxBmkmhL4JYwmqsgQBAQJX2deKyQLMvODADLWup+4sRIHM+1chX7R/DY9Pl18BDNkjJVr9bNY7ltuOmDvzcXWoIWwzWPnWhEU7uLiuqPYIXk8dfaI5MxR321xMXPw9WqbeWP/xLvYU1EgtxnWO7lLHwwbPEAQSD6TjlYHpbUe4OsjvgmA7ghYbNWNfmuqYdLh6wc89oRYKutIp8x8TQImqRAjdcNfh2iyc3H21MwSNxm0zuB0iokhmyaTLCI3YxujdA3BiWkcl/DQ+RmqZiY59mWw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by AM8PR04MB7473.eurprd04.prod.outlook.com (2603:10a6:20b:1d0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.17; Thu, 7 May
+ 2026 14:39:56 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%3]) with mapi id 15.20.9891.016; Thu, 7 May 2026
+ 14:39:56 +0000
+From: Frank Li <Frank.Li@nxp.com>
+To: linux-kernel@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Frank Li <Frank.Li@nxp.com>,
+	Pankaj Gupta <pankaj.gupta@nxp.com>,
+	imx@lists.linux.dev,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation/firmware: clean up other_interfaces.rst
+Date: Thu,  7 May 2026 10:39:40 -0400
+Message-ID: <177816473465.138900.17957626897365478178.b4-ty@nxp.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260507020446.370101-1-rdunlap@infradead.org>
+References: <20260507020446.370101-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1P222CA0130.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c2::21) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-On Thu, 7 May 2026 11:37:25 +0000
-"Sabau, Radu bogdan" <Radu.Sabau@analog.com> wrote:
-
-> Addressing Sashiko's review for triggered buffer patch.
-> 
-> > -----Original Message-----
-> > From: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
-> > Sent: Thursday, April 30, 2026 1:17 PM  
-> 
-> ...
-> 
-> > +static int ad4691_manual_buffer_preenable(struct iio_dev *indio_dev)
-> > +{
-> > +	struct ad4691_state *st = iio_priv(indio_dev);
-> > +	unsigned int prev_i, k, i;
-> > +	bool first;
-> > +	int ret;
-> > +
-> > +	memset(st->scan_xfers, 0, sizeof(st->scan_xfers));
-> > +	memset(st->scan_tx, 0, sizeof(st->scan_tx));
-> > +
-> > +	spi_message_init(&st->scan_msg);
-> > +
-> > +	first = true;
-> > +	prev_i = 0;
-> > +	k = 0;
-> > +	iio_for_each_active_channel(indio_dev, i) {
-> > +		st->scan_tx[k] = cpu_to_be16(AD4691_ADC_CHAN(i));
-> > +		st->scan_xfers[k].tx_buf = &st->scan_tx[k];
-> > +		/*
-> > +		 * The pipeline means xfer[0] receives the residual from the
-> > +		 * previous sequence, not a valid sample for channel i. Point
-> > +		 * it at vals[i] anyway; xfer[1] (or the NOOP when only one
-> > +		 * channel is active) will overwrite that slot with the real
-> > +		 * result, so no separate dummy buffer is needed.
-> > +		 */
-> > +		if (first) {
-> > +			st->scan_xfers[k].rx_buf = &st->vals[i];
-> > +			first = false;
-> > +		} else {
-> > +			st->scan_xfers[k].rx_buf = &st->vals[prev_i];
-> > +		}  
-> 
-> 
-> "The IIO subsystem expects data pushed to the buffer to be densely packed
-> according to the active channels in the scan mask.
-> If only a subset of channels are enabled, does assigning the rx_buf pointer
-> directly to absolute array indices at &st->vals[i] leave holes in the buffer?
-> When iio_push_to_buffers_with_ts() is called, this might cause it to read
-> uninitialized memory instead of the expected samples."
-> 
-> I would say there is no change needed. Writing to &st->vals[scan_index] and
-> passing the full array to iio_push_to_buffers_with_ts() is the standard IIO kfifo
-> pattern: the core demultiplexes by reading data[scan_index * storagebits/8]
-> for each active channel; holes at inactive indices are silently ignored.
-> The same pattern is used in ad4695, ad_sigma_delta, and others. The
-> pipeline residual in the first manual-mode transfer is overwritten by the
-> subsequent transfer before the scan is pushed, as the comment explains.
-
-This looks wrong to me.
-
-What holes?  If available_scan_masks is set we will do a bunch of
-demux work - but then this code would see the mask picked from that
-list. If it's not then typically we won't (subject to multiple consumers
-forcing it - but that still won't close up holes here).
-
-If the active_scan_mask == the one requested, there is no demux at all
-and I think that's the case here - the code pushes the data passed in
-directly to the kfifo.
-
-Perhaps given an illustration of what the layout of resulting data
-is if only even numbered channels are enabled.
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|AM8PR04MB7473:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5c41357b-d5cf-4231-db4a-08deac4681b2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|52116014|376014|1800799024|366016|38350700014|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	G0Lmff1nH4TsluZsjaw+stuH/YhVYR6wVl83G9tn9n2aTBLetz0D7x2UZrRbBSLGOyOKi4v6IIABdBbeGYYQ9VaiWMLlDyFr0GTDHbYuLOmmb8fHJd9v0L00wFbxH1HaJgTSQSCxAa6ea86/X18yxknsOOyr7R04JynO69JaR8ueEKWO00LuNQwI8bv4zrqOSsiN1vufgP545EfxUuQhlUO9uH6dUu37CZrNn+nIVTJsePrqI/pKkncT4WH2QRhyJdRBAcQVnViDVBP3dV3I40aOUe4PuVRgZCQKH7Z8U2bEMe/GMHLgSWSvFG3RTR3j6q1BV4gZbl+8GNJd2cQxfjpQavR+LTVQNDG39DlcTgzQDYD1Qrxn1lWXdHw2XNgZZXIYvSTO8k2a6w6rs1c2FmKB6YyBxq7w5ErRJK0kKWzXysgAqkzK7KJ9g9Hhhs+NtY6jS9FiLDtOgqBw3rsZKms36HOedUr0eu1/m0Ahx0OGYrY3srZtMWV2s6C0zDeO7n0UsWVjVFaobP6mST3CPce2gwk5yk2CSOtoilmz5bcr1WM0YOo6Z1H5SjTC1E9dN7jDWfM7KoKbpm6i6fR3prbPbaDYnfLe6JiOQyjekeZfR8EdljdpBbwa5r5lmIB/80vRaVKiyRNocjFFVjI7TqF34voUsITt8gkopduAnXShT83UD+vAH2xP8zfbpKhzoExgV5BYenvNiTwaTWuXeXw20taA2fFqHxIPJC97Td8ykavgWXbNU+ULv4XXE2Jw
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(52116014)(376014)(1800799024)(366016)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TkNrYTdkcmdFUm56NGpWd0NZOCt0bTZNemM3SkdKb0hOMTRvcG5iVCtaMW5v?=
+ =?utf-8?B?SkEyYTc3SktlNldCMm5LcUJHSVpoM3FUNWJqK0pNcE55U3VJeU4vV0RwcnMx?=
+ =?utf-8?B?N2RobkwwcitqVmtSbTRoZVdocDFxM3hQSlIrUHF0azlOOFJxT1U5RVFFTDUz?=
+ =?utf-8?B?VjR2YTRzTU1ZWEg3NVh1MkRuOUM0Y0pQVmN1ZHBTLzMyaERHYkdtaVVlUUs3?=
+ =?utf-8?B?aUpKYi9WRXUyWlZFbXNpZys3NmNvVnpJQnF4MWF0MVQ3QkdvZG1rdGMyd05K?=
+ =?utf-8?B?ODVhOVZKTjVCRm14VCsxTmFnQ05ZWThFeHpRaXNROGJ0VlZ0WEtoYVRaZFpR?=
+ =?utf-8?B?MnFmUi83eHp3c0RsRjg4d2NvUVVoY0VmdjZ4UG42aHI3aW1SY1h2UGVUMHFZ?=
+ =?utf-8?B?a0xWd2c4Z0hSbTRYTnE5L1l0RHhXRUE3YkY3ZGVhTE9CYVJiVXR1c3BlSmxE?=
+ =?utf-8?B?QVBaeXZFRVNPd0lxdzVKdGNVeEJhRXg5Zy9QRXJJWm1PSkx3TVhpZUQ2U3lW?=
+ =?utf-8?B?Q3o1cmlTOURXdFR3OHduaGYxR1cvbzgzR090L2FWSHptaklxd25HWElLVGpm?=
+ =?utf-8?B?T0tJcU5vd2dZbzZ6Rm4vZUFtSTZYZ2FCVTZyQUc5ZHBzQ1hlZ3Ryc0IwenpC?=
+ =?utf-8?B?VXdxMHJGZ1RUeXErOEVYQy9OMGtRaHdQT0dva1lHaUgySHFjL1plNVBGL0Na?=
+ =?utf-8?B?NmlhcnZYeDVXaDA3Q3JES25YcWk2anV6enRVMUlUUUFMTFpqcEw3NjRHSXV3?=
+ =?utf-8?B?L2FhVmU2akJGT2RwUkI0Q0V6T0IyOTd2Tnk5ZGYzRkl1RDdNV1QyclJHVHlm?=
+ =?utf-8?B?a3BVUTdHQUVRZHJ0VFR3bEFzejZoaUhoS0hWRkpjRlBleVVBSFRLTCtyRCtC?=
+ =?utf-8?B?SVBGUmhIbS9LT210MUJjc3ptR1VXN0dYSFowZjlHL2VCVDBYODQ5bUYzQ2ZP?=
+ =?utf-8?B?MGN0RTNCQi9BdE5Ibjg1TTdOS2ZDWVdVY1hORHhrb2o3QTBuakN0UUlOclZJ?=
+ =?utf-8?B?OWl5TFRHWmcrYUFvTTZiQTR5TnJnMjJnR2JkdFhrb3AyZmExVElrSnVoS3M2?=
+ =?utf-8?B?Yy9hbUdkYVZtajRwbmgzRHBab2pGNFhlaU9CUGFQcmdBOElLSUJ3elh5ZzR3?=
+ =?utf-8?B?cjhGL2RCREFDSU15dzhQajJOVndGZnV3bUhOYmtvTUdLVUVkVmQzM1dZMndn?=
+ =?utf-8?B?aEZ6NzlkZlhUTlh2ZWxzdWx5cEZyTWgvemN4QmZidTlCMFV5OFg0ZDdYOE0x?=
+ =?utf-8?B?UGF6RHMzd0k3MUNIZkg4L3pxT2lucys2dmlZYUVqeW14WUI0U2VNSXA3ZG5X?=
+ =?utf-8?B?bFlhYXhTazR2azl2SzlnZnY2WDl2UUpmblZxVW8wczJVZVYyS0hYZWIvTnd1?=
+ =?utf-8?B?ZXQzZVAvRG1FRHVjNnhxWUtwaFRFV2dJeHRkL0NITEk3Q3ZSVWk0eWgvUzNK?=
+ =?utf-8?B?VlZ0Tjc3QnRUMUE3UmFnQklkRjhwOTYvN0tadFZBcUI5UFN2Ny9uWkVrcnBs?=
+ =?utf-8?B?bk1rRVJ0TmVKVFlCNVRVSXJjUnZldk9FNUppRUdpYmRJQUZIMHpjVUFEZm0y?=
+ =?utf-8?B?aisvM1NhYVRJS0lsS0xXcit4L1BvYVVBbkViTndiYTM1VkxPVkVRaGJhNzB6?=
+ =?utf-8?B?RllBUURHRmxwOUI1bHpWNXlYTVhZK0ZQQUhWaDJja0RrWFo3N2NRYzVqRnpu?=
+ =?utf-8?B?eWwrOC9Xa3BtQ1NmSVU2VlorM3gyczVLWkVxcTZsQ2Y0YjVwVEtWVFljeWJW?=
+ =?utf-8?B?ZUczUGcxbEtZQzNuUGFtTGdmNFlPYXZhSG1hT3FzZFd5UG9jYlZCY3lObFRQ?=
+ =?utf-8?B?ckxqZmh3WGVib1IvbTdvYkIyS0FiNFo2ZnJUZ0pYYUh6b0I3YTNwN3FxOVFF?=
+ =?utf-8?B?V256Z0xycml4TVdRV1k5OHE2THpieVZOejJHR1VpSUhYaldYSWlPTTNqMGRJ?=
+ =?utf-8?B?NGNydFplRFBZQlg3VjMvODVRbDRNMlZaT1FReWhXK1R5aHNSd0gxdnFzY0Jp?=
+ =?utf-8?B?OWxSQ2R3cXU2WlA4R1NDSUs2MjBhc0syNjZNWExFZHB5WVpLa0UzeS9Kd0N1?=
+ =?utf-8?B?N1NMSFFLQlBkemZULzFpSTNKMFFPb3pjbWwrTk81R1NvL3hkQXBVbkdBTFZ3?=
+ =?utf-8?B?TGV0dWhZVnJ3Y2kxL1NoUVNTL1dvNnRRZThFUkRJekxQV0RmVEVsSEhEOWdD?=
+ =?utf-8?B?a08yQk9YbmJHQzNPZHJnRjR3YmZvM2ZNbkF0VDRVd0lQR2k2Qy90R2NDZXdM?=
+ =?utf-8?B?TDN6cnBtZjZtaFFRaDlSV1pKejY3WHJKRjZ0d2V4aVhEdm1RcUIxRkJMUXAz?=
+ =?utf-8?Q?ZV8X7ScYO0mOeDqpVJ?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c41357b-d5cf-4231-db4a-08deac4681b2
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 14:39:56.0100
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xo0x5tTHKHgwRdRM1vnCXYo96tvT6gv5fiyQ6BrpJu1IT+BtCdo7j2QxBl0wqSJWEF668ELYDjMEuzFfzgQt9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7473
 
 
-
-> 
-> > +		st->scan_xfers[k].len = sizeof(__be16);
-> > +		st->scan_xfers[k].cs_change = 1;
-> > +		spi_message_add_tail(&st->scan_xfers[k], &st->scan_msg);
-> > +		prev_i = i;
-> > +		k++;
-> > +	}
-> > +  
-> 
+On Wed, 06 May 2026 19:04:46 -0700, Randy Dunlap wrote:
+> Fix bullet lists, grammar, punctuation, spelling, and literal block
+> formatting. These changes eliminate several documentation build warnings
+> make the documentation more readable, and render it cleanly.
 >
-> > +	st->scan_xfers[2 * k + 1].len = sizeof(__be16);
-> > +	st->scan_xfers[2 * k + 1].cs_change = 1;
-> > +	spi_message_add_tail(&st->scan_xfers[2 * k + 1], &st->scan_msg);
-> > +
-> > +	ret = spi_optimize_message(st->spi, &st->scan_msg);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = regmap_write(st->regmap, AD4691_STD_SEQ_CONFIG,
-> > +			   bitmap_read(indio_dev->active_scan_mask, 0,
-> > +				       iio_get_masklength(indio_dev)));
-> > +	if (ret)
-> > +		goto err_unoptimize;
-> > +
-> > +	ret = regmap_write(st->regmap, AD4691_ACC_MASK_REG,
-> > +			   ~bitmap_read(indio_dev->active_scan_mask, 0,
-> > +				iio_get_masklength(indio_dev)) &
-> > GENMASK(15, 0));
-> > +	if (ret)
-> > +		goto err_unoptimize;
-> > +
-> > +	ret = ad4691_enter_conversion_mode(st);
-> > +	if (ret)
-> > +		goto err_unoptimize;
-> > +
-> > +	ret = ad4691_sampling_enable(st, true);
-> > +	if (ret)
-> > +		goto err_exit_conv;
-> > +
-> > +	enable_irq(st->irq);
-> > +	return 0;  
-> 
-> "Is there a race condition introduced by enabling the PWM and unmasking the
-> IRQ here?
-> If a hardware interrupt fires before the IIO core attaches the trigger's poll
-> function, iio_trigger_poll() drops the event. Will the IRQ handler then call
-> disable_irq_nosync() without ever running the consumer thread to re-enable it?"
-> 
-> Valid. preenable is called before the IIO core attaches the trigger
-> poll function; if a DATA_READY IRQ fires in that window, iio_trigger_poll()
-> is dropped, disable_irq_nosync() disables the IRQ, and enable_irq() is
-> never called, leaving the IRQ stuck. Although the delay would need to be 
-> very great for this to happen, I moved sampling_enable(true) and
-> enable_irq() to a new postenable callback which the IIO core calls only
-> after the trigger poll function is attached.
+> Documentation/driver-api/firmware/other_interfaces.rst:60: ERROR: Unexpected indentation. [docutils]
+> Documentation/driver-api/firmware/other_interfaces.rst:103: ERROR: Unexpected indentation. [docutils]
+> Documentation/driver-api/firmware/other_interfaces.rst:115: ERROR: Unexpected indentation. [docutils]
+> Documentation/driver-api/firmware/other_interfaces.rst:116: WARNING: Blank line required after table. [docutils]
+> Documentation/driver-api/firmware/other_interfaces.rst:140: WARNING: Bullet list ends without a blank line; unexpected unindent. [docutils]
+>
+> [...]
 
-Make sure to add a comment on why that is there.
-Otherwise makes sense.
+Applied, thanks!
 
-> 
+[1/1] Documentation/firmware: clean up other_interfaces.rst
 
-Rest look fine to me.
+squash to 3b4531c6e0f4 ("Documentation/firmware: add imx/se to other_interfaces")
+any concern let me known.
 
+Best regards,
+--
+Frank Li <Frank.Li@nxp.com>
