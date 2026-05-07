@@ -1,134 +1,268 @@
-Received: from flow-a2-smtp.messagingengine.com (flow-a2-smtp.messagingengine.com [103.168.172.137])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26F73C060C;
-	Thu,  7 May 2026 09:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36F0175A6E;
+	Thu,  7 May 2026 09:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778146016; cv=none; b=qHgX1skkC1N4Mzs6J97D3bvh1rvDn2LB19WiOMMMTmR1iYkZYH2OB3wTbfFq1fKJrhjwzk6T+KoyUx9Ed7SkkcX+r/Qkg4nV9iJjcwGs8UroB0oTtootwuJwzcx1WRq8CFK/P5yTLa4EWmPgZYQIiZvSWkYTh5HqdSH3SJVfHao=
+	t=1778146295; cv=none; b=Q93hRvHscN0MHTcVMYqz3jruQZuK6i8iG+EPgKjeoIWvYkHivirLNiJVn/9hyPJd7gD9OlFCFxcPlEvWEjd+R0oiUFbLr8HKU/EIB19orwRY79T2racbXGrW84UlrN+H8h8qtYZCguJqxUpDlAy71RMIpTPhY/Sr26lsGg2cxNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778146016; c=relaxed/simple;
-	bh=Zo3fg+NFkvKqceewB96F6ZZGnyUTHoGjFxPbcjBusYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HZBbJF5qfQAJ5tUkH+02ltXNSZtp+ZVp5Anf16n6B6l6BFTESfLS9QF08F6JqscphOYnDHb0lhS4U43pSlBxo800nbwNd84OLfUwGxeWucXonHPOMXGmQmwOh8YZ17IbwwYm6M6VcOkaQDuwv9XP+MasdwXpz9dSzp6VrSFGLLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=WQCJ3d3D; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vB85BIFd; arc=none smtp.client-ip=103.168.172.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1778146295; c=relaxed/simple;
+	bh=fnl5fISQxFrCK/lisBXUvoXxWWrrbQLIv9INB6mUopQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BUtWia4YISdcG6hfYKK6LBJpNiyQMZTgtNArT268G2vpCH73xKwraecGtxMTCBpDwu+lcDkKSIwUsfGMC9Egc6H9DYAid5DB7tNe9A8XEHkuRMNEufxlHwHqVBLrDL//immbanFo4qIJr41ncsJvLVhB+20LA4VvRplM9IhNZXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G8CoT6M5; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="WQCJ3d3D";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vB85BIFd"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailflow.phl.internal (Postfix) with ESMTP id BF9431380119;
-	Thu,  7 May 2026 05:26:52 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Thu, 07 May 2026 05:26:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1778146012; x=
-	1778153212; bh=dyuIOlvvoXqiYdKWiBRGqggzExiM1Bavzi5yk+4YmzA=; b=W
-	QCJ3d3DH3VDyV6e2/IHHRI4AQ7Ee9A+p0hgPjRWU3ErchVE8OumgDYDT5k4FAeej
-	rVrM4u+c3R7WqRu8TqipEEHPRjhTautvnSRL4lhCtZf4wxrYIPbR4SlvlxXYDHpj
-	GE3TdCEpkpuXYnIm0t9y05cNVUqN1jIe5xT8eE31n7Gs9lq7bZC06+7ommp+Qsqu
-	HYEavYaXXohppvQb40VaR+Ol5TmN3rddua0OxaJvmeOrJGL/CgmgTP6ecTw+W6xY
-	yYae+QPDv5T2b7+g/rbFOkcD8bpb/lUICaEMvYf1TGwPfPz0TleSdi8tK3C4XaUZ
-	57hVQjMPsZDbMVWBz3Eug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1778146012; x=1778153212; bh=dyuIOlvvoXqiYdKWiBRGqggzExiM1Bavzi5
-	yk+4YmzA=; b=vB85BIFd3VJWCwCvKQXu8I2SG0HmBGNN8AfhIJf/oiZ9cAbhY/b
-	HIPEk76eA3R5AAsbjd6ToildsRirEb8s3KHnFPvlvVZAtG99Z9W4JS3IuobJOkHe
-	dsch1OB1KlrXC92G20BC1CQPLZceF6/U2KlTlUFvMJtivUesOW597OlvsryfDrev
-	hrQ0K/hutj57JivgpNZzRyOwRXfj0elg4kJYY2FLzBkNdOj+z5ynrdHSG8dmGGvW
-	1CqpyTRxtz4d7dDA/VMM+HRyD+TTSUaiwVr3QTLKpkxtmnM0yL+1kOF14Y3dmhT3
-	ywb/9qxiH8qUe512YJGCcsgPk5gTniVxEKw==
-X-ME-Sender: <xms:3Fr8aS_pY1ztldVPsr1ARAA5XkgETcU3vio_l61GI7DzKBeRbGPoJA>
-    <xme:3Fr8aUWKJ-kl-3xtV4YzCO8XfJDuX8UrkQCCW46C8G75248VcxxcsuKvWxkaRdVGF
-    AuljbFtfzSuDnIPtULwSM5cthy4kmvrRyeorujn31qRp0COi6ITUkXA>
-X-ME-Received: <xmr:3Fr8acHCbYCDRhQUoxwfxBgJwRY3AVdAGXXjYJXADXSM5wyom_QLDJgwMAd0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdejudduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
-    rgcuffhusghrohgtrgcuoehsugesqhhuvggrshihshhnrghilhdrnhgvtheqnecuggftrf
-    grthhtvghrnhepuefhhfffgfffhfefueeiudegtdefhfekgeetheegheeifffguedvueff
-    fefgudffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgusehquhgvrghshihsnhgrihhlrdhnvghtpdhnsggprhgtphhtthhopedvvddpmhho
-    uggvpehsmhhtphhouhhtpdhrtghpthhtoheprghnthhonhihrdgrnhhtohhnhiesshgvtg
-    hunhgvthdrtghomhdprhgtphhtthhopehsthgvfhhfvghnrdhklhgrshhsvghrthesshgv
-    tghunhgvthdrtghomhdprhgtphhtthhopehhvghrsggvrhhtsehgohhnughorhdrrghprg
-    hnrgdrohhrghdrrghupdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgv
-    thdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtoh
-    epkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggsvghnihesrhgvughh
-    rghtrdgtohhmpdhrtghpthhtohephhhorhhmsheskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepughsrghhvghrnheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:3Fr8aQ75svl913xXKPMZrSNupQe34Uh7wCpPMv_eXiUdra7ciUn3Hw>
-    <xmx:3Fr8aWI72afoevaAXx_u7J6iWwBknd3Wcs5WVxaADonp_NwDQRu1YQ>
-    <xmx:3Fr8aTBIgV_aIo9-vA8NaVQnvzgzf2W0B3QVju3vqDPNoNts_p50rQ>
-    <xmx:3Fr8aUTtUlUf5Ir-m5jiqiC4bpY2EkUv8DbP5sV1XemksNJ518YQRQ>
-    <xmx:3Fr8aQxd4pkoGHInUl250eRSqBt7Po02ro8psEdG4f12FUUJN5J2KQ1K>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 May 2026 05:26:51 -0400 (EDT)
-Date: Thu, 7 May 2026 11:26:49 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Antony Antony <antony.antony@secunet.com>
-Cc: Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, David Ahern <dsahern@kernel.org>,
-	Masahide NAKAMURA <nakam@linux-ipv6.org>,
-	Paul Moore <paul@paul-moore.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, selinux@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Chiachang Wang <chiachangwang@google.com>,
-	Yan Yan <evitayan@google.com>, devel@linux-ipsec.org
-Subject: Re: [PATCH ipsec-next v8 03/14] xfrm: allow migration from UDP
- encapsulated to non-encapsulated ESP
-Message-ID: <afxa2RNjJGNeD7zf@krikkit>
-References: <migrate-state-v8-0-4578fb016965@secunet.com>
- <migrate-state-v8-3-4578fb016965@secunet.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G8CoT6M5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778146294; x=1809682294;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=fnl5fISQxFrCK/lisBXUvoXxWWrrbQLIv9INB6mUopQ=;
+  b=G8CoT6M5mhOZwG0BMo1G/n8/+XwOLL7D6s9za2GYDqDpIMsd52Z8I5d5
+   f46JduFonIh4zpdOmri3b5YcTbd0p+thiPBQ42LMAYzbvHkT11rdupywx
+   lzFjOFtIpDezwHZdQofgIjUap/iC9UWyd+DzelgOTL3CpfsQlXdhxibmW
+   TxhNrIurhmx5VWvCliiN4+3quIa4Nb8uB0VBndIXwPuy45MpAyfWjMlgK
+   IWCODWctuA2w4UcZQrM08xUPb9DwfhVDxLX8cWlKWlDI1o7KcvzODx+a2
+   kQXvuSAOaZp2jFP2Q2L0Asp31LqLP/o1K7DzgSndzG134wxHTH2cYRXXN
+   A==;
+X-CSE-ConnectionGUID: m3P1y2DwTTiNGe6d073xxA==
+X-CSE-MsgGUID: +gN0SbMDS3SJTp4idMxw+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="101767607"
+X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
+   d="scan'208";a="101767607"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 02:31:33 -0700
+X-CSE-ConnectionGUID: 792qLpIHSgKnVzg2h56TEQ==
+X-CSE-MsgGUID: B+lUKi63TAuujGLUo71Fkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,221,1770624000"; 
+   d="scan'208";a="241410896"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.245.122]) ([10.245.245.122])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2026 02:31:27 -0700
+Message-ID: <a5739875-b8a5-4918-8850-fa4b32d5279d@linux.intel.com>
+Date: Thu, 7 May 2026 12:31:24 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <migrate-state-v8-3-4578fb016965@secunet.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] usb: xhci-pci: add generic auxiliary device
+ interface
+To: Jihong Min <hurryman2212@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1778123510.git.hurryman2212@gmail.com>
+ <effa7bd7bef8a8ea28b9e28fe47af6a58e39edf2.1778123510.git.hurryman2212@gmail.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <effa7bd7bef8a8ea28b9e28fe47af6a58e39edf2.1778123510.git.hurryman2212@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-2026-05-05, 06:32:30 +0200, Antony Antony wrote:
-> The current code prevents migrating an SA from UDP encapsulation to
-> plain ESP. This is needed when moving from a NATed path to a non-NATed
-> one, for example when switching from IPv4+NAT to IPv6.
+On 5/7/26 06:31, Jihong Min wrote:
+> Some xHCI PCI controllers expose controller-specific functionality that is
+> not part of generic xHCI operation and is better handled by optional child
+> drivers in other subsystems. Add a small auxiliary device registration path
+> for selected xHCI PCI controllers.
 > 
-> Only copy the existing encapsulation during migration if the encap
-> attribute is explicitly provided.
+> The initial PCI ID match table lists AMD Promontory 21 (PROM21) 1022:43fd
+> controllers. For matching controllers, xhci-pci creates an auxiliary
+> device and stores it in devres so the remove path destroys it before HCD
+> teardown.
 > 
-> Note: PF_KEY's SADB_X_MIGRATE always passes encap=NULL and never
-> supported encapsulation in migration. PF_KEY is deprecated and was
-> in feature freeze when UDP encapsulation was added to xfrm.
+> Subsystem-specific child drivers can then bind to those devices through
+> the auxiliary bus and keep their hardware-specific logic outside xhci-pci.
 > 
-> Signed-off-by: Antony Antony <antony.antony@secunet.com>
-> Tested-by: Yan Yan <evitayan@google.com>
+> Assisted-by: Codex:gpt-5.5
+> Signed-off-by: Jihong Min <hurryman2212@gmail.com>
 > ---
->  net/xfrm/xfrm_state.c | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
+>   drivers/usb/host/Kconfig    | 10 +++++
+>   drivers/usb/host/xhci-pci.c | 83 +++++++++++++++++++++++++++++++++++++
+>   2 files changed, 93 insertions(+)
+> 
+> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+> index 0a277a07cf70..e0c2c7ac5c97 100644
+> --- a/drivers/usb/host/Kconfig
+> +++ b/drivers/usb/host/Kconfig
+> @@ -42,6 +42,16 @@ config USB_XHCI_PCI
+>   	depends on USB_PCI
+>   	default y
+>   
+> +config USB_XHCI_PCI_AUXDEV
+> +	bool "xHCI PCI auxiliary device support"
+> +	depends on USB_XHCI_PCI
+> +	select AUXILIARY_BUS
+> +	help
+> +	  This enables xHCI PCI support for registering auxiliary devices
+> +	  for selected controllers. It is used by optional child drivers
+> +	  that bind to xHCI PCI controller-specific functionality through
+> +	  the auxiliary bus.
+> +
+>   config USB_XHCI_PCI_RENESAS
+>   	tristate "Support for additional Renesas xHCI controller with firmware"
+>   	depends on USB_XHCI_PCI
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> index 585b2f3117b0..618d6840e108 100644
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+> @@ -8,6 +8,8 @@
+>    * Some code borrowed from the Linux EHCI driver.
+>    */
+>   
+> +#include <linux/auxiliary_bus.h>
+> +#include <linux/device/devres.h>
+>   #include <linux/pci.h>
+>   #include <linux/slab.h>
+>   #include <linux/module.h>
+> @@ -80,6 +82,7 @@
+>   #define PCI_DEVICE_ID_AMD_RAVEN_15E1_XHCI		0x15e1
+>   #define PCI_DEVICE_ID_AMD_RAVEN2_XHCI			0x15e5
+>   #define PCI_DEVICE_ID_AMD_RENOIR_XHCI			0x1639
+> +#define PCI_DEVICE_ID_AMD_PROM21_XHCI			0x43fd
+>   #define PCI_DEVICE_ID_AMD_PROMONTORYA_4			0x43b9
+>   #define PCI_DEVICE_ID_AMD_PROMONTORYA_3			0x43ba
+>   #define PCI_DEVICE_ID_AMD_PROMONTORYA_2			0x43bb
+> @@ -103,6 +106,80 @@ static int xhci_pci_run(struct usb_hcd *hcd);
+>   static int xhci_pci_update_hub_device(struct usb_hcd *hcd, struct usb_device *hdev,
+>   				      struct usb_tt *tt, gfp_t mem_flags);
+>   
+> +static const struct pci_device_id pci_ids_have_aux[] = {
+> +	{ PCI_DEVICE_DATA(AMD, PROM21_XHCI, "prom21_hwmon") },
+> +	{ /* end: all zeroes */ }
+> +};
+> +
+> +struct xhci_pci_aux_devres {
+> +	struct auxiliary_device *auxdev;
+> +};
+> +
+> +static const char *xhci_pci_aux_dev_name(struct pci_dev *pdev)
+> +{
+> +	const struct pci_device_id *id;
+> +
+> +	id = pci_match_id(pci_ids_have_aux, pdev);
+> +	if (!id)
+> +		return NULL;
+> +
+> +	return (const char *)id->driver_data;
+> +}
+> +
+> +static void xhci_pci_aux_devres_release(struct device *dev, void *res)
+> +{
+> +	struct xhci_pci_aux_devres *devres = res;
+> +
+> +	if (devres->auxdev)
+> +		auxiliary_device_destroy(devres->auxdev);
+> +}
+> +
+> +static void xhci_pci_try_add_aux_device(struct pci_dev *pdev)
+> +{
+> +	struct xhci_pci_aux_devres *devres;
+> +	struct auxiliary_device *auxdev;
+> +	const char *aux_dev_name;
+> +
+> +	aux_dev_name = xhci_pci_aux_dev_name(pdev);
+> +	if (!aux_dev_name)
+> +		return;
+> +
+> +	devres = devres_alloc(xhci_pci_aux_devres_release, sizeof(*devres),
+> +			      GFP_KERNEL);
+> +	if (!devres) {
+> +		dev_warn(&pdev->dev,
+> +			 "failed to allocate auxiliary device state\n");
+> +		return;
+> +	}
+> +
+> +	auxdev = auxiliary_device_create(&pdev->dev, KBUILD_MODNAME,
+> +					 aux_dev_name, NULL,
+> +					 (pci_domain_nr(pdev->bus) << 16) |
+> +						 pci_dev_id(pdev));
+> +	if (!auxdev) {
+> +		devres_free(devres);
+> +		dev_warn(&pdev->dev, "failed to add %s auxiliary device\n",
+> +			 aux_dev_name);
+> +		return;
+> +	}
+> +
+> +	devres->auxdev = auxdev;
+> +	devres_add(&pdev->dev, devres);
+> +}
+> +
+> +static void xhci_pci_try_remove_aux_device(struct pci_dev *pdev)
+> +{
+> +	struct xhci_pci_aux_devres *devres;
+> +
+> +	devres = devres_find(&pdev->dev, xhci_pci_aux_devres_release, NULL,
+> +			     NULL);
+> +	if (!devres || !devres->auxdev)
+> +		return;
+> +
+> +	auxiliary_device_destroy(devres->auxdev);
+> +	devres->auxdev = NULL;
+> +}
+> +
+>   static const struct xhci_driver_overrides xhci_pci_overrides __initconst = {
+>   	.reset = xhci_pci_setup,
+>   	.start = xhci_pci_run,
+> @@ -677,6 +754,9 @@ int xhci_pci_common_probe(struct pci_dev *dev, const struct pci_device_id *id)
+>   	if (device_property_read_bool(&dev->dev, "ti,pwron-active-high"))
+>   		pci_clear_and_set_config_dword(dev, 0xE0, 0, 1 << 22);
+>   
+> +	if (IS_ENABLED(CONFIG_USB_XHCI_PCI_AUXDEV))
+> +		xhci_pci_try_add_aux_device(dev);
+> +
+>   	return 0;
 
-Reviewed-by: Sabrina Dubroca <sd@queasysnail.net>
+I think this should be turned around so that the vendor specific code calls the common code.
+xhci-pci-renesas.c does this nicely.
 
-If someone complains about this we can add a sysctl
-"preserve_old_encap_on_migrate".
+In your case it would be adding something like a xhci-pci-prom21.c pci driver:
 
--- 
-Sabrina
+xhci_pci_prom21_probe(struct pci_dev *dev, const struct pci_device_id *id)
+{
+	crate_auxiliary_device(dev);
+	return xhci_pci_common_probe(dev, id);
+}
+
+xhci_pci_prom21_remove(struct pci_dev *dev)
+{
+	destroy_auxiliary_device(dev);
+	xhci_pci_remove(dev);
+}
+
+static const struct pci_device_id pci_ids[] = {
+	{ PCI_DEVICE(YOUR_AMD_PCI_VENDOR_ID, YOUR_PROM21_DEVICE_ID) },
+	{ /* end: all zeroes */ }
+};
+MODULE_DEVICE_TABLE(pci, pci_ids);
+
+static struct pci_driver xhci_prom21_pci_driver = {
+	.name =		"xhci-pci-prom21",
+	.id_table =	pci_ids,
+
+	.probe =	xhci_pci_prom21_probe,
+	.remove =	xhci_pci_prom21_remove,
+
+	.shutdown = 	usb_hcd_pci_shutdown,
+	.driver = {
+		.pm = pm_ptr(&usb_hcd_pci_pm_ops),
+	},
+};
+module_pci_driver(xhci_prom21_pci_driver);
+
+MODULE_DESCRIPTION("AMD Promontory 21 xHCI PCI Host Controller Driver");
+MODULE_IMPORT_NS("xhci");
+MODULE_LICENSE("GPL v2");
+
+-Mathias
