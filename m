@@ -1,142 +1,219 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010064.outbound.protection.outlook.com [52.101.201.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6723B3C2784
-	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 11:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778152794; cv=none; b=jLPDc7+HG9zEMXiaK3UW22UFW8xC8cntSPm4+R7V5AY2WDCUGup31FSlsW/4Ju7WHXa4WROEiKmZoTBMbGR+8mIeG0nZ17WraV/p1TL5hi4Y2L9TYvUnUROt1ktMxrTSQgcr7R5THBT6/kPVTSm0BkylNuzj0VZbLcRMeUCHaUg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778152794; c=relaxed/simple;
-	bh=f6dSOOBOrr4Nuqx5fzA2PmCUxgT5hzIFcxKN8w7AU5k=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qtF3sNVR11zIIyiQ8bHT1ihvJ0OBSDwJNDEVWHyaF49ZhTKxSGgv0Ns8lA8m1OA/1la72ive2djo0UN80iQtEg70RbAVMi+ZaurAazAGl767CNleDEFIt7U9BC3DhDXtymjf6MEjeSXpj0fSu0Rk2R9zAbbxy2OVxpKpDqMyef4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eowm4Ano; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD173DCD88;
+	Thu,  7 May 2026 11:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778153756; cv=fail; b=UdqmZ8DQiAIa3HTsLtWzsl6ca5EsjGVJrbfmwRNgNWkxF0lHdnsdOV7d9VmN3q9fYxrmqcUXwnv/x+GpxQsp5jYWAj4WJf8Rsv2uft1AFwi8dravT3Hv6YPrH1YY5NjG5EtSscrM4HdShMGKWo3mQcXSI5+/+7/ws9joVw9DZvY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778153756; c=relaxed/simple;
+	bh=9xUUXI9or4CYy3J4FtjJOd6IG1/4viHpa7PprGt99m0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Nt2QcFSSXLfDHmGTSkXF9YBFGUK+1a19y3PNfFCtpddJK/z7o2wfne6Xwkue4nuFIpkwP0X24wdWZK1XJ3vNr1VyagT8O4EQ208Pw5H/Rt4gKuueBxi9nQHB3skXydr6jibKCoYoXxdvvmeobFiME5b4oAqTHfnm9O5K4o/3bfQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=eZgwNX7W; arc=fail smtp.client-ip=52.101.201.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eowm4Ano"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so7019045e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 04:19:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778152788; x=1778757588; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/HfYKdw9t8t7YQxRwq0mAE+fhOLgPCxr7w0hEuXz/ZI=;
-        b=eowm4AnotIEdHPnkk7YexySQiFQR8LPI2oLTSBM6QcF42h027bNccl2wDxyJlTshER
-         MdNSN3K4YN+B0tmd3JfBqk5+7+GbLhyzq7y2kc7F76MwiWNAmxqrts0MrfoxhY7af9S5
-         2vPnU4lNCISYv3eXO9q2djooJD5YQjICE2/uXRzWp5d4EhHTOXZxt9T8D67EO9PX1Gjt
-         Q70MIZY4HunQVXmamluS+Sr88X1y5r5fGpIySZga/CYhMKUk8zY3zG2z4n9X0qgjm0Jz
-         QIQyaPBPSV/lYyZYJHIwsM47Bw77gVTQhImLTHiwEg6VeUA1q6e7tdUmEOR6xAImg0cT
-         uR+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778152788; x=1778757588;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/HfYKdw9t8t7YQxRwq0mAE+fhOLgPCxr7w0hEuXz/ZI=;
-        b=GFHGjtCxYtccDAmNvFXQfyIIzul8KBJ09VUlmjGQWDFjfLRVSs6YOUmh9ZFOPqDN26
-         JECpRqxCZUqKlvFBeuVN4NvvdMi6Ru9yZhElnYDSyaT2nIcCltiOoObBzakF4TwUx32t
-         J5oLIxPcLaX+wB649Ep0tHZjB8O/Gg+l90JH9TuyVsxprbM2g9eE30xyyOHHShaJkpCu
-         utJ6IT1+aMaihuEphTxQ5gE1zFm0BZz4NKvr48wKFgXsz+190Nepkjw7QRBI93p4/fHd
-         3kA8Ch0o2whWmJrqUOUlINV5v6ffKy8AmbJgivBDJCNbBM3frtClgj6xsbmHTF8Gq+Vo
-         Qg0Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/agc4MPIngw8MA98GpqJPXk1iuRHfuuA62FdeNw8PO/DozK3HnmlGkCPRp3z+aWHHA9dToWTkkDxo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKvYHlhXxNsHorubLAJs1olNTOjBn7ppCVhDXkbXH5i4tZIxwB
-	PxHoW9tPTDCWkX+jEzoDYCqrO4tDSsaWYRi2mB0hVe+fRLxkeUqDWmWm
-X-Gm-Gg: AeBDieuJCrZVr0xCpdIPgjfnHjzTLS4UEI3/lm67wEaZwgKPpnlYBiZlaz+NAGUWWU8
-	De9EcTsjz02k2ugADPefZFL+1+d1kfttfMtV1IJ9RnOo8SogA8MMg6jeSG5qVGYesTennFi+fuE
-	+fwrspSg4rCTivVW8bzUwYkHUFMHb4PABnG+YSu5itoUkifdIF4i60vt7Zw5/y1iPxLdxFXnSc0
-	NIkHM1ahZ4BS+c7KD+v/0e3VNdy5PtWTxmU2Vz82AKOcTahjB3lbtiPmMwqRSu/4753HDYlyUU3
-	dCe9txj7uSywJTzLbhLKGXIr4B2EjtEefUlc5/39rvRvQjfgm+NRf/IH5XhxlgY1hQ1rtVaU0h/
-	kI80KHuyphpdKYk3xvhu1rvoiOyzvQNYnz6vV2xI2CVDbX5VeUNCJbWDaxM0/9s5OVKth1jQqkI
-	YBOaYBE1WFfHoKkfFNjMmSN4wshFi+vglkKR3zQI6JRXqRTK1qOx5SBw0pdv6BFsWh/L60eQpFQ
-	6HcEPPl1WT0i4oXk9zfkl79kBZf9DnofHb9g1WScKcKq/LQ2w930puob0VJ
-X-Received: by 2002:a05:600c:83c5:b0:488:c683:be89 with SMTP id 5b1f17b1804b1-48e51f2a759mr110026335e9.9.1778152787811;
-        Thu, 07 May 2026 04:19:47 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e5382a327sm209504235e9.0.2026.05.07.04.19.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 04:19:46 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Thu, 7 May 2026 12:19:40 +0100
-To: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v11 09/11] iio: frequency: adf41513: features on
- frequency change
-Message-ID: <j6gysb6cp4cjzvf3erwgmpmltnwsjif5pcr5uxmysqbhbj72ml@svc7ncvercju>
-References: <20260506-adf41513-iio-driver-v11-0-2b7e99cfe8f2@analog.com>
- <20260506-adf41513-iio-driver-v11-9-2b7e99cfe8f2@analog.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="eZgwNX7W"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cCV76/VbIpeabubopHgNT5KmDt/N0e1pLQihRJsumL1QE5tiSq3BjHle2fhE0ZpxezsLdB5Xlg3J2BYxphn3o57gIek2GcrefcBKDES60Lw2ev2wm02QQ3x7b5NR0bXFOUlCNdRaFXwH7Ku7wvTJKxj1iHQe6UvCU/pKNs85jqkpJa2fkHxAtElWaXLDGBmYg8IcDTvKtbsII0O2l1opcB+ZSL+0t2fL1hHdcdlpTDFPoVshL+e9QGGWfydDk8r7+YvuV1k7vx7cq95Q5sBFf+CgJ7BrihAEtQe6x1FP6TlmhO2eZ+K5VR1CoQxl7xTX+ngHKBAErIxeH84Fkm6xiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3tZ9Df+6xyGXnbdwce84lyz3ti1TvdAdikpWhLyEGoM=;
+ b=UUWC69Mvo5Ikab51eHRKkySwZ90Ip+Q7C6aQW9jtBfNg5sjIzJVwO1JoYskeNFaeCmjUy4H8uu6Yonef54SytoARJVtdKVS2ia737ZLAeK1pUUS16y4S+w0Y6oEx/KYWe25jkuGdAW/Md23ex1LCfMLunKhQG/MKVTDAfFiqc/w5yCEkIWCXjrjqaZFhE7ONPjNsv9/PrzhboVetaZuTnoEogoAsH2SC7lggX4GpZyuhJss0cNjEYaxkXuheEKpqjEzradTYz4kxiYHS/vqMqHj/Cd5HnnDGow8skG1LtTKTfJqpHXhrHvYU9Sdc1dF5OIJjrnMUc5T9xliIppCqjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3tZ9Df+6xyGXnbdwce84lyz3ti1TvdAdikpWhLyEGoM=;
+ b=eZgwNX7W9Dkxu39b+Fd8VTZjllf5vKg1bQpN2eJBi7ZOviYqI2d5kuhG5NB/Zx9+e74+NXTEWRO+CoabCK2wYvM9hRwYVZjNutiw9XT9uOsLwLZ9raIPHTycbRDrArC2VVplshrdbSE++Gp+pEFh1IW8wA5dtHJYOQEm++lpLVs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MW4PR12MB6949.namprd12.prod.outlook.com (2603:10b6:303:208::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.18; Thu, 7 May
+ 2026 11:35:51 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9870.023; Thu, 7 May 2026
+ 11:35:50 +0000
+Message-ID: <b9c1b7a3-12a8-4104-b98f-a1e57b343046@amd.com>
+Date: Thu, 7 May 2026 13:35:44 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: Regression due to /sys/kernel/dmabuf/buffers removal
+To: "T.J. Mercier" <tjmercier@google.com>, Julian Orth <ju.orth@gmail.com>
+Cc: corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>
+References: <CAHijbEXhuVRgkkPA2dAC=njGBU7vpAbxAbsSmxvvPznO-ckVRA@mail.gmail.com>
+ <cf945dda-f526-4544-bc43-22f70acb28f5@amd.com>
+ <CAHijbEXQfm4QDDfo1yiVBV9mVvogGqt_BAu2ipnhqa-EDOKteg@mail.gmail.com>
+ <CABdmKX1pDc7wpLVQzM0ihH6AfW+=KWdyaZuorMqWCbC80Y7-Bw@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CABdmKX1pDc7wpLVQzM0ihH6AfW+=KWdyaZuorMqWCbC80Y7-Bw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0081.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::8) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260506-adf41513-iio-driver-v11-9-2b7e99cfe8f2@analog.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB6949:EE_
+X-MS-Office365-Filtering-Correlation-Id: 648388ac-2848-439f-f835-08deac2cca35
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|366016|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	A2yBIx8ZtxB/sBvYr1/X/VX+dqZNMZLQOdY4TTCowSAuh6ZVSwB987KEASY378E29NtOr0F2H5mlIvdBJw2L0x8scYu/5wzXcfeua+4Wzh5DOgBYCVNQQugzKbD/7koX6EO0K1ZZpBSqaH2R2LBwfK6Dilwz8CC/gEgvbmdK8HAHxO0TTOwZv4cAVHnObcMdRqAKuuDvdoXxY1E5pqGm3At4xTyoq4q6a/SXbTRv6XYQg/imXuJVQVkDzbkgTNnxKr2LLfbTwDKN1n2PN/I/YSikRyXo4HU8ehMrjw6fW/t9iCff4Vpd/SYx7/NTiSyMKwDT8L7qDCaXC+J8skMRQiKS5vVbfLM5OgRIFK7hNeC17hdhuYv5Ts1HzznuuZzz2QXxrYvwdBFdAYpgQb+0T77FXRuIYP1JCiIxi7D/qqGbLzn06wNzlx3yT0KEQVeW22huepLOwVgqA6aziMu8YBzrD5/UFf/lpn7iLvPbupHbUureEih1YzQa9s9ie/dDNjZ5OwW9H1hI7LyTJNMNXCWseIZRKo9FyF4yuHCwyvrS+yikcxGKWGtZFBZD9Um76Do3uPkzHfuA4w9A3ZakXazGUZfmqTBIzId5bQA4G4l4ZndlJpue11rL8O7Hc8dZDrKt13TUq1kaBXlbnD4vREQhI8nCjUyBfAtP2Ppf1w4C68ZZ/T392wAWcIcPDW9qiciPqHkxUDCBDKcWj4cIpQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TU4vTnhBUzlsSEQ0NXdROWZ6WWRQeW5aZnMyaUZYaFA0NDUxdXJNY2RKWW13?=
+ =?utf-8?B?T3kwbDJJNkRYRzNNMmtMa1Y3ZWcyL1p2L3FVWEpHSjh1SWllakk1b0orOW9R?=
+ =?utf-8?B?cnFLOTc1ZFVjVTk4VFVkc3hpV2x5TWVRSm84cVhKQmc4amtMa2NzL0NCSi9p?=
+ =?utf-8?B?cWx1ZkZCNGZtMkFuOHhKTGtwbitYenhSZmhqS2dFNC9JYWU3enMveGVKSDg5?=
+ =?utf-8?B?cmFZNm9DdHZRczhGLzVCdzBoYWx5YksyUHJkNkxvZjRwdE5wS2llNFFEQ3Z4?=
+ =?utf-8?B?SVd6cHFoNXU3Q0k2T1lYWVBleGYyYjEvdGcwRjljUlBRUXdXNllJYjdpcTBx?=
+ =?utf-8?B?a1EvLzZHSXdmbmc5M3h2VTU0aUdXTlhsVkVtQzdHUVJ3Z21JdFd2bGtLcGIw?=
+ =?utf-8?B?NnVFckpuU242MGxnTXZVL3l6VGhTS2JuSVJuSU8zM0Zkci8vMzlGWGVFY0Ro?=
+ =?utf-8?B?UUNaMWpIZjZyZXdQVDJrNUROOXFQbVBUNVRha0dVWlB5NG9EemF2NzdoT3Yw?=
+ =?utf-8?B?cEpydjRNaVdSZDlNMGlWY0hodW1nWWU1dHlMTUFIRVNuYVUvaGxGZlFaRk54?=
+ =?utf-8?B?RTA4dzhoU3AwclRxMDFxckhkOEZyYURQRTQ1YmgyYUpiZkozQlpqbmp3cmtP?=
+ =?utf-8?B?bSt2bkRTa2NIcUZVdGdSKzBHOTRVbmJKNWZqeHloaklpQVdFNEpnSnphOVE4?=
+ =?utf-8?B?bHlaUWxkMzhnQ0hud3gxZ3FNRE9HQktHN0pvanZxaWNuWVZVT3JHMGdzOHBv?=
+ =?utf-8?B?cEI5MG45MXcwYUZqK0FWUGdtMWNpUThPZXhnRHM0WU05ZzZmc1BlSmxEY2I0?=
+ =?utf-8?B?VWlzRldXL3FiRGRPMFFmQWRJWDZNdUluNlJUNXdJS3Evb0ZwV3ZhTUtCRXly?=
+ =?utf-8?B?TFlWczdXZXpPVGE3OUtQTStKSjVnNzNEajNySURKSHU2dUJ5UUc3ODdWbm41?=
+ =?utf-8?B?L29nMmliQUxYOUp4UmR3aVIxcXZIK3lJd1Y0R3Ywa2xob2NadWNNRjdPUXg4?=
+ =?utf-8?B?NkU4UXdaRDVybWZZdWRDT1E2dTlmVUlxVFo0STFTZEFSajRuRHdKeDFyRGFS?=
+ =?utf-8?B?aU5RYVczTXVzR01wK0lMOEJRdjhxZ3BGdml2cXlhR0lUTk5YaU5CYWpuaFFy?=
+ =?utf-8?B?ZjVuNE16K1dObGJ2Z3NjTzR6RTN6eTdBM0FjSkFjVGFmRHVEODAzaVYwTkV5?=
+ =?utf-8?B?aGNkaE5aS3JxNmxMR0g4dHhsWjRkcHYyeUk3M3g1ZEhLWk4zcUpyc0tpRE9L?=
+ =?utf-8?B?MFM2QmYrcVJwblV0a0J6RXZ1NUx0aUtPVitJSmI5OXBBeGpJcmRsbTFuQUNi?=
+ =?utf-8?B?NFBSYm01UjFvYS9JSVZLQjE2STlVZ0lhS1lZZlM5ZUdTancwdXZZa1huWE5T?=
+ =?utf-8?B?cm0rVTRvQnN4QWdXQk9wL0pSTjQzTmZBUDRhcW9BYy8rdjZ6emFoYkhpeTlv?=
+ =?utf-8?B?ZGNnc3dQYUNrZzNIVG5LN3g5Vk56TzZVVk9qN3JHdkZJSVFrR2xsK0xQN2Nw?=
+ =?utf-8?B?S2poSzZpNDdvZjVpT0ZKUDZVQ0M2cFR4c0NwU0FWaXQybk5PK3ZQa1BEbWJF?=
+ =?utf-8?B?S1BwUk12UTA2ODhENnI2RGo4YmNvWmdxT1FvYVNkN21VOWJkeGRWMGxzYnpa?=
+ =?utf-8?B?dG1yREJlc0ZKWnhHZDhZdStvUUVzbUV0cUxDUSt4OFIrYWlYOHdJNGJKcTdW?=
+ =?utf-8?B?cDBYRG85STRTdHhnN1lFTmE1cFhTSysrYzNVWVFnYzhDVkp6OVNmYWp2SEd6?=
+ =?utf-8?B?ajJHRm5RVGJJOXBPS1J5b0FaNW1HL0FuR2tvN2VrYXdEdVgwMkVzaE1ybWRJ?=
+ =?utf-8?B?Z0Q0WlhCTVFJRWg0bk9xOVFwc3lKZmZaYXNyY3ZhNGowTGRBbjJiSVYyZ1BK?=
+ =?utf-8?B?OGtJK3JkU3doNktPcmF5QU9LVHpDNWNSNGIzOEVIS082aWJFYUYvWVo4RXpL?=
+ =?utf-8?B?dTRwTEtjbkszcXNLRjJGS0tpc1E2dUQ2Z1pUalJsZUJveEFudEdEVndVUDlJ?=
+ =?utf-8?B?NC9USC9GSDBkaVdGZFFBMU0reTdnMzdUK2ZNUk5HOXI0VitGWUg1eitUcE14?=
+ =?utf-8?B?b0NSYzdseWxBMUYwMGdGVUxjQVN1Y3VGY0FsdTl5aGd5NnV2MXJZQ1JicVc3?=
+ =?utf-8?B?c21zbVg0TkNhZlZhOVFTaVNnZlEvdHBSUlhwQnBMUkR2S29HcEF5WDVYa2xM?=
+ =?utf-8?B?RExadm42S2ZMWVF1VnJUZjBabnFuc1Y0RmI0NWhkT1NNQTlDdmRSaVFvYWtt?=
+ =?utf-8?B?UmtpaFJtWE5OaVRVejlubkU5aXFIam5SSVZpdTlXdWYwekFZOHk5S0h5N3FQ?=
+ =?utf-8?Q?qsp8PVuzb6K3iI51Tn?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 648388ac-2848-439f-f835-08deac2cca35
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 11:35:50.7876
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vQZM9jgkvd0DN+xErr6aDyLCjjVz2BqssdPKbKEJBrzgcJ33eOzxTYKXRdiXBSRY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6949
 
-On 26/05/06 03:08PM, Rodrigo Alencar via B4 Relay wrote:
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On 5/5/26 16:32, T.J. Mercier wrote:
+> On Tue, May 5, 2026 at 6:00 AM Julian Orth <ju.orth@gmail.com> wrote:
+>>
+>> On Tue, May 5, 2026 at 2:41 PM Christian König <christian.koenig@amd.com> wrote:
+>>>
+>>> Hi Julian,
+>>>
+>>> On 5/5/26 14:25, Julian Orth wrote:
+>>>> In ab4c3dcf9a71582503b4fb25aeab884c696cab25 ("dma-buf: Remove DMA-BUF
+>>>> sysfs stats") the /sys/kernel/dmabuf/buffer directory was removed.
+>>>>
+>>>> I've been using this interface, specifically the exporter_name file,
+>>>> to detect dmabufs created via udmabuf. Such dmabufs show "udmabuf" in
+>>>> exporter_name. I've been doing this for two reasons: 1) to detect that
+>>>> mmap on such buffers will be fast and 2) to detect that GPU access to
+>>>> such buffers will be slow.
+>>>
+>>> Crap, I really hoped that Android was the only user of that sysfs interface since that approach turned out to be quite broken.
+>>>
+>>> It's number one rule on Linux that we don't break userspace. So I hope that you don't insist on bringing that interface back, but if you do I will just revert the removal until we found a better solution.
+>>
+>> Bringing it back shouldn't be necessary.
+>>
+>>>
+>>>> With the removal of that file, that detection mechanism no longer works.
+>>>>
+>>>> I'm not particularly fond of that mechanism but it was the only one
+>>>> providing that functionality that I could find at the time. If there
+>>>> is another one, ideally an ioctl on the dmabuf, please let me know.
+>>>
+>>> The virtual fdinfo file you can find under /proc/$pid/fdinfo/$fd also contains the exporter name for the DMA-buf.
+>>>
+>>> You can find the full documentation here: https://docs.kernel.org/filesystems/proc.html#dma-buffer-files
+>>>
+>>> Is that sufficient?
+>>
+>> I think that is sufficient. I probably didn't use fdinfo initially
+>> because 1) it's a lot more work to parse and 2) I wasn't sure if it
+>> was intended to be machine-readable or if there could sometimes be
+>> newlines in the values and such.
+>>
+>>>
+>>> Additional to that the debugfs for DMA-buf also contains that information and I'm open to the suggestion with the IOCTL.
+>>
+>> My application runs as a regular user so it cannot access /sys/kernel/debug.
+>>
+>> Having an IOCTL would be ideal if it is not too much work. I'll fall
+>> back to fdinfo for now.
+>>
+>> Thanks, Julian
 > 
-> Set Bleed current when PFD frequency changes (bleed enabled when in
-> fractional mode). Set lock detector window size, handling bias and
-> precision. Add phase resync support, setting clock dividers when
-> PFD frequency changes.
+> Phew, I'm glad fdinfo suits your needs.
 
-Sashiko's feedback:
-https://sashiko.dev/#/patchset/20260506-adf41513-iio-driver-v11-0-2b7e99cfe8f2%40analog.com?part=9
+Yeah, exactly my thinking as well :)
 
-...
+A college questioned me this week how to find DMA-buf stats for debugging and it turned out that Google points to the outdated DMA-buf sysfs documentation instead of the debugfs one.
 
-> +static void adf41513_set_phase_resync(struct adf41513_state *st)
-> +{
-> +	u32 total_div, clk1_div, clk2_div;
-> +
-> +	if (!st->data.phase_resync_period_ns)
-> +		return;
-> +
-> +	/* assuming both clock dividers hold similar values */
-> +	total_div = mul_u64_u64_div_u64(st->settings.pfd_frequency_uhz,
-> +					st->data.phase_resync_period_ns,
-> +					1ULL * MICROHZ_PER_HZ * NSEC_PER_SEC);
-> +	clk1_div = clamp(int_sqrt(total_div), 1,
-> +			 ADF41513_MAX_CLK_DIVIDER);
-> +	clk2_div = clamp(DIV_ROUND_CLOSEST(total_div, clk1_div), 1,
-> +			 ADF41513_MAX_CLK_DIVIDER);
-> +
-> +	FIELD_MODIFY(ADF41513_REG5_CLK1_DIV_MSK, &st->regs[ADF41513_REG5],
-> +		     clk1_div);
-> +	FIELD_MODIFY(ADF41513_REG7_CLK2_DIV_MSK, &st->regs[ADF41513_REG7],
-> +		     clk2_div);
-> +
-> +	/* enable phase resync */
-> +	st->regs[ADF41513_REG7] |= ADF41513_REG7_CLK_DIV_MODE_MSK;
+No idea why, maybe we need to improve the documentation here a bit.
 
-	Does this accidentally write a reserved hardware state by forcing all bits
-	in the mask to 1? 
-	If ADF41513_REG7_CLK_DIV_MODE_MSK is a multi-bit field, using the bitwise
-	OR operator will set all bits in the field to 1 (e.g., 0b11). Typically,
-	phase resync is 0b10, fast lock is 0b01, and 0b11 is reserved.
-	Should this use FIELD_MODIFY() with a specific phase resync mode value
-	instead of directly OR-ing the mask?
+> Adding an ioctl would introduce new UAPI so I think we'd want to avoid
+> that unless absolutely necessary.
 
-Indeed, it should be using FIELD_MODIFY() here:
+CRIU has some similar requirements, e.g. they need to know the exporting driver of a DMA-buf.
 
-	FIELD_MODIFY(ADF41513_REG7_CLK_DIV_MODE_MSK, &st->regs[ADF41513_REG7], 2);
+Not sure if the fdinfo file will be sufficient for that case or not. But yeah I agree that we only need this if actually necessary.
 
--- 
-Kind regards,
+Regards,
+Christian.
 
-Rodrigo Alencar
+> 
+> Thanks,
+> T.J.
+> 
+>>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>>
+>>>> Shipping an entire BPF compiler in my application, which the original
+>>>> patch suggests as the replacement, is not an option when the removed
+>>>> alternative was simply reading a file.
+>>>>
+>>>> Thanks, Julian
+>>>
+
