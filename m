@@ -1,370 +1,208 @@
-Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011057.outbound.protection.outlook.com [40.107.130.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FDF38F639;
-	Thu,  7 May 2026 09:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.27.206
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778144491; cv=none; b=dDj1rtwyj639E7cr0PKkD6rBKT6oJZ3FtxhFRNPWcPyyUXYr/Cd7mmAcmC335ljBkJR/I/LkBzOquAKzy8fretR6rGMx/jaL9ldizySn/XuzUmEutXam0ikF33ND43rRPZycvbIlAZFzjxdu0M96Ke2OKgj+lYxZG2zIMXVu2dY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778144491; c=relaxed/simple;
-	bh=jBR2yJ3vDFclS/Qxd6iymiJ6fZA4U+sR34CBEL1IsMA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gjuxlZ9f6bhdewkMTuijH5GqcLcczDeCYSLHWw5wZUIOD58zEYSO4Nqd2nCrIR+MgFEWgRjTn0fOjAUbn+XzS+mFPW5/7WlC4qbhpWY4Za6CTUK6JnB2+zHQ8durRQA8Od2YUeAQKR5mq3MeYjPbFUS7Qrzot7MSpW7MuAZlL3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=gQi+xfn2; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=s/X1XAdJ; arc=none smtp.client-ip=92.243.27.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91743AF643;
+	Thu,  7 May 2026 09:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.57
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778144646; cv=fail; b=Ju/qRw6yT3dv/LAYEjPOQUURx360U8NAWeNxV1yGAgV03+I+AIH7CuNZ3SYvm0qzwUnGkP+jrHsr+BnD7vbTNB1vPlbAGfFyZwoDduXF/W9E4popNN0M1utgDK8nI7UkZ+WjDHWfmnKFVvgnOHgJGs0anOm8bJFF2JrVh8JKEFA=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778144646; c=relaxed/simple;
+	bh=LSmbTPFeLg5A54BSIkEDSYbSpNTwgsxZyfdEDP9Typs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=djyoXzoj/RKxnmlIAIEXMIDo6NKEuDaieGHIkumNcs6oQlwNumR8qrNwkqs0R54qtCkc6y+8Aug9zfiCkJsDeRl6Qv9it3jVTil6vUZa4P6L7heNjQOBIi9WJArfFLLeRTC4T/7ABhkOwwiMwG45IIie1MibPWDYiN9k/bmaIRw=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=UmXr930S; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=UmXr930S; arc=fail smtp.client-ip=40.107.130.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="gQi+xfn2";
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="s/X1XAdJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1778144482; bh=jBR2yJ3vDFclS/Qxd6iymiJ6fZA4U+sR34CBEL1IsMA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=gQi+xfn2yDp/gtSOxRVOuo2bHZ5FZFfV+07nEsZQPZgNTWLllD9eWwQ7Z3tZOnt0B
-	 p2U2b3EG9E04o9OKTe9pMlJQ6kjxnmIRqvWHBk9ff9u1z22ljRG0d/XbWZU6TjUr8p
-	 ES6ZZ6iX4iOhOiJiYbCfjxuOCACeTCLozrELJi9vYSbnJ8l8c8fHKxswYfFcydVWaE
-	 yrgrDcKd/5efvkjlHsfZZOj7+TcJobzAyRsOe7/XoFCtgaQAvJuiBF12FnlLsxU3pT
-	 fey44mTli/9gQ3OrSaRFlsAx19nqf19M9GTnCqEMJnLoXmgG3A/Bbw7lJIeBxppgys
-	 T05mWhgZueCJw==
-Received: by extorris.mess.org (Postfix, from userid 1004)
-	id 8B51F41CDC; Thu, 07 May 2026 10:01:22 +0100 (BST)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1778144472; bh=jBR2yJ3vDFclS/Qxd6iymiJ6fZA4U+sR34CBEL1IsMA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=s/X1XAdJeGfhUhk1itUPYAuqv34PN19ReL8VVJ6Ulk2ZKQGeQM2V/2/HJgjWmTZHx
-	 pZZI3rc64fwMxsWTB9UPkfM5s4z98ZOaEFw6V5hjDoiEYvaJa2HbcUgmUKCMX+nSb0
-	 nVtAOOtj1hZQshTvTwTzNJ1eSEQeS92Txj08WIf2dcyA7E7MpDZswwrkPk+YGYoSU3
-	 ROrNtkQll3kppdvJBD3wSi+qmE6Rdp8WMRGyvaSnDYpC3lzSMp/lL57hFIUCNQivu0
-	 CYWZpjnZIu2AbmYUFH6vtnp1ZXFABfXrUurDmegg5SNf1wg4c70NBGlaCTjQlE5/+9
-	 4oN8PJ6JnfUow==
-Received: from maru.local (unknown [140.228.74.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by extorris.mess.org (Postfix) with ESMTPSA id 9822441CD2;
-	Thu, 07 May 2026 10:01:12 +0100 (BST)
-From: Sean Young <sean@mess.org>
-To: Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="UmXr930S";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="UmXr930S"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=JaVPDLzoFMGlVWswQI90aXUWM5ym9xObmWHYQwpRKvNf4VDe9PX5mIfH8Sn/sPQN0J3Qvd/QP5M36PKJh8hBegY19ciVepxShUJSyTJ7shaVHFcbIL72Pyf4Qz4dPo8CJ3hR/37LUMSy/0aHbWdy+2rvwiP7/RXyP4XjpuaEW0WRxkSS3G1KyiXIhfg4qnW4TY2yTEbKpwjQxYfLTW/AwSPPVJHw+TLSDFwlUxWnclgS6CNUwcQyu/5lrIjY7HppVgOlUT05GisuGoDtDuZdqGrzp9lOO8ZJqMQqbldxZBqYHIs46TOA/4mDFGL/G5/BLPC37mbOBpQFlaI1X8iXuA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mKRDwNHO9CCOWjAuV2t7h3EkjZpo/JcMPvzaQJBw8UE=;
+ b=AIMt1TIB1WGdYbZMiGI3MiWDjZjxozw9wvzDnhQn4PJNzoOoAlsvkHf5+h4xLu0SXYLswsnAsChqktjVoTDYB9wSBNWqSe6AcC7AAnleS9IICVVnF3fwREzV6gd+Ndqt1vG+LMUBtWFTS5c8rOpGYGTONdd+acmHAl8gRTg2HYpBHKo5J5KWwGbMmel4i2KKfojHkohZ8qJiBPfDKTH9g0SkBfeVpOVwMYCYLtGASNFb9/7RA2o3FhQQJR5COUn2AviX8UsAM8cC0/hHpGBMMEO20bMmC+ojBQOheSl8Su9fbFsyuWVTgv7zS4XPbBAMHCW7U6mDrA8tt0AEjAaQgg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mKRDwNHO9CCOWjAuV2t7h3EkjZpo/JcMPvzaQJBw8UE=;
+ b=UmXr930SmYZf8KzIPx5ni4l7KoRwmJhd1dB7ffQ5AuZJ8wCQTA7OPlC5jEl8W66ginn4h+4p9/x1giNAZkSLK+0Yc+AQldDxWNoGF33ff+smcHGlH3NL2hl5xMcB3a6NOV/8gvxqWQDgVBoNFgYjdiBAstcHQfj5uJ9jmFhgoEo=
+Received: from DU7P194CA0013.EURP194.PROD.OUTLOOK.COM (2603:10a6:10:553::29)
+ by AS8PR08MB5896.eurprd08.prod.outlook.com (2603:10a6:20b:294::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Thu, 7 May
+ 2026 09:03:50 +0000
+Received: from DB5PEPF00014B9A.eurprd02.prod.outlook.com
+ (2603:10a6:10:553:cafe::13) by DU7P194CA0013.outlook.office365.com
+ (2603:10a6:10:553::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.17 via Frontend Transport; Thu,
+ 7 May 2026 09:03:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB5PEPF00014B9A.mail.protection.outlook.com (10.167.8.167) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.9
+ via Frontend Transport; Thu, 7 May 2026 09:03:50 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vchLfvXcp1FeT5MRB1Rymxi8FdCVkBZtar8yMCBJAxZaalf0AoudpP3VKcM4q1VmzDYKaNnsH8woNXluAKmc/96onwY9xecT+c6sxS18rl/kQeq6p4pp1LC7oIAcsX2+4U7pUNtn1ra9fH4tmBWO+y5q+2gzbcTToTtg8T4WaWpjbVU0eUHQEKqwicyJJWF/1lyYAk68sjVQwKmJG7keplpnsm2XhNXPzWpu3uMs49gTdpls1Hf/GzWgzKYutqXw1GUbOGeUKxS6pqYj6fdNV9vf3ghN/dkr+ktDzrBLr+dzwEf6EYh9L6j4ke562oHkIABJdTrkUPAbm/8hj2kmzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mKRDwNHO9CCOWjAuV2t7h3EkjZpo/JcMPvzaQJBw8UE=;
+ b=uBWLjFiXpoHsTxGpU/vbLdZDPf9eNsLwIhhH65b+b8PHmS5B8eypQ4CnwYzApsDm1R9b60USpg2dQ/Sf+fZWYPcdNOWtfXA5waGjV3mstbXBFrjWZK/LBmGNjkaA9OM/i8jGgj5ck+rb+MNq8Q6ZZ2w+SAFxbs9jpsMWP4vIf5bDOSyqkU1rxM4haWUiyA35Uq4WZQbziMiKYhVj5C19TPeYPcoUi3OVRY4dkzqMdjwwMNcnfiA12YiCaPV0iypOb1VzbOh2KMi3pPow51vOsUSNImqJcCHMUlTIKvQU2qeW8LP4Fsx5kRxIKxC03lvXsoI8JulVAkOq8X1IiWa7MQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mKRDwNHO9CCOWjAuV2t7h3EkjZpo/JcMPvzaQJBw8UE=;
+ b=UmXr930SmYZf8KzIPx5ni4l7KoRwmJhd1dB7ffQ5AuZJ8wCQTA7OPlC5jEl8W66ginn4h+4p9/x1giNAZkSLK+0Yc+AQldDxWNoGF33ff+smcHGlH3NL2hl5xMcB3a6NOV/8gvxqWQDgVBoNFgYjdiBAstcHQfj5uJ9jmFhgoEo=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from PAWPR08MB9996.eurprd08.prod.outlook.com (2603:10a6:102:35a::11)
+ by GV1PR08MB11050.eurprd08.prod.outlook.com (2603:10a6:150:1f4::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Thu, 7 May
+ 2026 09:02:44 +0000
+Received: from PAWPR08MB9996.eurprd08.prod.outlook.com
+ ([fe80::5856:8db5:9ee6:414f]) by PAWPR08MB9996.eurprd08.prod.outlook.com
+ ([fe80::5856:8db5:9ee6:414f%6]) with mapi id 15.20.9891.016; Thu, 7 May 2026
+ 09:02:43 +0000
+Date: Thu, 7 May 2026 11:02:26 +0200
+From: Marcin =?utf-8?Q?=C5=9Alusarz?= <marcin.slusarz@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Ketil Johnsen <ketil.johnsen@arm.com>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: [PATCH v2] cpufreq: elanfreq: Drop support for AMD Elan SC4*
-Date: Thu,  7 May 2026 10:01:04 +0100
-Message-ID: <20260507090107.10113-1-sean@mess.org>
-X-Mailer: git-send-email 2.54.0
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Florent Tomasin <florent.tomasin@arm.com>, nd@arm.com
+Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
+ allocation in panthor
+Message-ID: <afxVIuVVPisBQ9p_@e129842.arm.com>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+ <20260505140516.1372388-5-ketil.johnsen@arm.com>
+ <20260505181523.49a3d85c@fedora>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260505181523.49a3d85c@fedora>
+X-ClientProxiedBy: LO6P123CA0002.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:338::6) To PAWPR08MB9996.eurprd08.prod.outlook.com
+ (2603:10a6:102:35a::11)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-TrafficTypeDiagnostic:
+	PAWPR08MB9996:EE_|GV1PR08MB11050:EE_|DB5PEPF00014B9A:EE_|AS8PR08MB5896:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad911ab8-5169-4bd0-8354-08deac178e16
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|366016|7416014|1800799024|376014|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info-Original:
+ K2xq1PP1A6l1UvXWdW+Bj3nc83B+6K+LRaqYD+uZ3voE28di9ZdhYBdJ+10lN0zlphXI7fWHUKsHiSo8xKRGY45ZpNodTZJ8cuBZgt6WIUiw5r8PqsTFSxY81ZEG9OmVruVbyqdcJrLej/kwzLtEupdhZiaFFAwQA2ZD7ktQFC5VrQpnexOP7/VjMyDS0Ma+Rud5eg8TkO+qxkiIRXgUygEYc0mK0YVKi/pGw78nIY6LqcUCNM04zfq1Lm2u8q7bSZ5wjrCGJmUpuWj0mGqZT/lVn3ij6mxzHCLxU38m5N96dSq6QCgnVI9QQ21Ah4aVMbxWvuT1CClG4utEilBmnxV/acmr2/ahJzYOChXIW/nMA3g5mjDoqwbeTot4lhfq9x9i4dSKLJoN2NcUTAwtH6ZycNkv8/mRM8oC4qKz6OG31i/n8K2mSSPlyJCrLv1JqJkGfwphZTiPOIE3gc8QrtDbTdlweqRqMzSsglTZPVIWflyrXgu/0LdHyWTCsbo3408kdolhybyi7Qivo3+nx6qAHwQkzHV3YOwe/vI2aWeHv6vt/Bt8dqF3m++ubE2tag2NrcsVYWRpRv+BT0ircb+Wg+grvBlnRdeFEmUmD31wSRDX9aQ9IWVlr+amVxx7z10EXySFtnHjoFwnuLwwrCKT/zKTKwT/Fr740vOTzeKBwMIvGIbWEpBtF2Kft78J
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWPR08MB9996.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ XJ1T6EoheAt6U+FREPkCNk9lmTPcfzSATSqW1yw+CL0VauPjAPvg0atTwGy6E2XOscgZriGtllJzvEMDByJ4mXxl/Ewd17+joUZcDGAkkNpoorbenAno8gaoJzpGnd7tBaucC1+bzNRn2jLbBwjfwuAj4DuBctHLOiNP3BFJ0924yDQhuVvuzerWRC3DBzOMlXTwNn+ocgGK+qu7RLmxsTOn2HXVIofFOfw8ZFtSeVo+D3yPyzzdrCxlEm+y9q52IoryKTY8yY5td+OF83hiRJWkaZwxBNKp4aCORgcJPmzxpzAwQj89zk9lpksBqnqxrRQ+mwyr1BnUbNO5VI/XOw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB11050
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DB5PEPF00014B9A.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	a30f35dd-b7e1-4ff8-fb75-08deac176625
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|35042699022|376014|36860700016|7416014|14060799003|82310400026|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	4PMk609cGl8yM/iCXDNq5MjFLTeHOukpC5pJhnfVbfogGwBsn5pIpif3fJhaCOG9DbPAuTTMEuA6IfI2Q0HZsPj5q7U1Ji+KAOM8FteiWOL5bgewPeYl/k2w2Md/Vi3gzTybGSFUUxkFM0llVyEPrxEyDSQzY7CkLIXVhA4mYeJWF1I6KteFe5XCKM07NTIwGWF0wDp8P7LRrY5hEgOZ9aPI+5Hn03JIA5o4kD5wYPlY7AEC5oCyOK2zKyferyuw8GFn4DRJzwBSmGc3JR2OBtwpMDHF/+ycijpTdfVGRRUdMDg/FvnhIZJ5ESo69SO4DrrgL0N2avMSm2EmtkYjGrEctdglGVZRzDx0ttq8OR5TNggQG1qW8k0xsx3UvBa48p6WBTWCPGkv93W7wJUMaA3zEjAykwnB5IMen0mmiIdmwphVpmpWt0s2S80WVKWFrMA+LYecfMgLxwmTg3xLWM8XjsxIZsemBKlTd7E6oke6Ejn3sZifEizoQofBt2dA0Zis2tstRAQ8uKX8vrCJ+kUiECCYcZhJgBXqlulbXbA5DVwREYK2XNWUWN0qlmIcFEmygQAiNVdVFt67mtPimnJG4yH3EpnKvvo5hxoOw8heYVnY4NAr0xjBSPzDE6mDIFl7wXPQhLdOcTq2RTHYLl65psdzQDNbyYVZdx/wAA1Uz0kLogqsJ7z5wyHctR1LrSPDw74THoT5b3dE+cj7ZKO2eVglJpNevoNi+5xG9wo=
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(35042699022)(376014)(36860700016)(7416014)(14060799003)(82310400026)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	QJWvgALR1WNRC/tRN7VrsCzAf3Sm1moslUv4ThmlKKZEXxBFtSs3iaYs3DQarPjewgLny9TBYL7//x2E5/Rkzq6lSTm2fe9fdT1tWdMnPrsUkqcXYEtCX8nJ+xtnbVmZqrPEOY/I6MsfHaVkIpE5G0mlMCsNeQ+j7mqLvACpwIEqMC+06VuElmspkuE403j6m3vHZ1VZ+BE1YyPOTUPpyLz9rbwZ64WMZMWZliJ+sXtoDR5Z2rzXTXpsYmaPA8P09wuP5u1V1ejspl+jxwICVbreAq7GebtqHXWlovOtIw4vPEAkO7hXpgpCIVx/xY6ysq3IxDEO/gVW9V4K1BBigyebMooHZ7J2ebjniigoc9BAI+nbLG6lcBWzSIjIezAF/MfMM6GVT6G4OVo8xwMT+/PMDONZUrB/MKnaTXMIcDWP/r/U+qO5u9D45kH1roa7
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 09:03:50.0262
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad911ab8-5169-4bd0-8354-08deac178e16
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB5PEPF00014B9A.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5896
 
-Since commit 8b793a92d862 ("x86/cpu: Remove M486/M486SX/ELAN support"),
-the AMD Elan SC4* is no longer supported, so the cpu frequency
-driver is no longer needed.
+On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon wrote:
+> > @@ -277,9 +286,21 @@ int panthor_device_init(struct panthor_device *ptdev)
+> >  			return ret;
+> >  	}
+> >  
+> > +	/* If a protected heap name is specified but not found, defer the probe until created */
+> > +	if (protected_heap_name && strlen(protected_heap_name)) {
+> 
+> Do we really need this strlen() > 0? Won't dma_heap_find() fail is the
+> name is "" already?
 
-Signed-off-by: Sean Young <sean@mess.org>
----
-Changes since v1:
- - Also removes elanfreq= entry from kernel-parameters.txt
+If dma_heap_find() will fail, then the whole probe with fail too.
+This check prevents that. I'm not sure why it's needed at all, but if
+it is really needed, then s/strlen(protected_heap_name)/protected_heap_name[0]/
+would simplify this.
 
- .../admin-guide/kernel-parameters.txt         |   4 -
- drivers/cpufreq/Kconfig.x86                   |  15 --
- drivers/cpufreq/Makefile                      |   1 -
- drivers/cpufreq/elanfreq.c                    | 226 ------------------
- 4 files changed, 246 deletions(-)
- delete mode 100644 drivers/cpufreq/elanfreq.c
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 4d0f545fb3ec..7ab0e58c4aa9 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1669,10 +1669,6 @@ Kernel parameters
- 			very early in the boot process. For early debugging
- 			via a serial port see kgdboc_earlycon instead.
- 
--	elanfreq=	[X86-32]
--			See comment before function elanfreq_setup() in
--			arch/x86/kernel/cpu/cpufreq/elanfreq.c.
--
- 	elfcorehdr=[size[KMG]@]offset[KMG] [PPC,SH,X86,S390,EARLY]
- 			Specifies physical address of start of kernel core
- 			image elf header and optionally the size. Generally
-diff --git a/drivers/cpufreq/Kconfig.x86 b/drivers/cpufreq/Kconfig.x86
-index 865b290b01ff..c42dd39e0b2a 100644
---- a/drivers/cpufreq/Kconfig.x86
-+++ b/drivers/cpufreq/Kconfig.x86
-@@ -126,21 +126,6 @@ config X86_ACPI_CPUFREQ_CPB
- 	  By enabling this option the acpi_cpufreq driver provides the old
- 	  entry in addition to the new boost ones, for compatibility reasons.
- 
--config ELAN_CPUFREQ
--	tristate "AMD Elan SC400 and SC410"
--	depends on MELAN
--	help
--	  This adds the CPUFreq driver for AMD Elan SC400 and SC410
--	  processors.
--
--	  You need to specify the processor maximum speed as boot
--	  parameter: elanfreq=maxspeed (in kHz) or as module
--	  parameter "max_freq".
--
--	  For details, take a look at <file:Documentation/cpu-freq/>.
--
--	  If in doubt, say N.
--
- config X86_POWERNOW_K6
- 	tristate "AMD Mobile K6-2/K6-3 PowerNow!"
- 	depends on X86_32
-diff --git a/drivers/cpufreq/Makefile b/drivers/cpufreq/Makefile
-index 96196edf79d5..6c7a39b7f8d2 100644
---- a/drivers/cpufreq/Makefile
-+++ b/drivers/cpufreq/Makefile
-@@ -40,7 +40,6 @@ obj-$(CONFIG_X86_POWERNOW_K6)		+= powernow-k6.o
- obj-$(CONFIG_X86_POWERNOW_K7)		+= powernow-k7.o
- obj-$(CONFIG_X86_LONGHAUL)		+= longhaul.o
- obj-$(CONFIG_X86_E_POWERSAVER)		+= e_powersaver.o
--obj-$(CONFIG_ELAN_CPUFREQ)		+= elanfreq.o
- obj-$(CONFIG_X86_LONGRUN)		+= longrun.o
- obj-$(CONFIG_X86_GX_SUSPMOD)		+= gx-suspmod.o
- obj-$(CONFIG_X86_SPEEDSTEP_ICH)		+= speedstep-ich.o
-diff --git a/drivers/cpufreq/elanfreq.c b/drivers/cpufreq/elanfreq.c
-deleted file mode 100644
-index fc5a58088b35..000000000000
---- a/drivers/cpufreq/elanfreq.c
-+++ /dev/null
-@@ -1,226 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- *	elanfreq:	cpufreq driver for the AMD ELAN family
-- *
-- *	(c) Copyright 2002 Robert Schwebel <r.schwebel@pengutronix.de>
-- *
-- *	Parts of this code are (c) Sven Geggus <sven@geggus.net>
-- *
-- *      All Rights Reserved.
-- *
-- *	2002-02-13: - initial revision for 2.4.18-pre9 by Robert Schwebel
-- */
--
--#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
--
--#include <linux/kernel.h>
--#include <linux/module.h>
--#include <linux/init.h>
--
--#include <linux/delay.h>
--#include <linux/cpufreq.h>
--
--#include <asm/cpu_device_id.h>
--#include <linux/timex.h>
--#include <linux/io.h>
--
--#define REG_CSCIR 0x22		/* Chip Setup and Control Index Register    */
--#define REG_CSCDR 0x23		/* Chip Setup and Control Data  Register    */
--
--/* Module parameter */
--static int max_freq;
--
--struct s_elan_multiplier {
--	int clock;		/* frequency in kHz                         */
--	int val40h;		/* PMU Force Mode register                  */
--	int val80h;		/* CPU Clock Speed Register                 */
--};
--
--/*
-- * It is important that the frequencies
-- * are listed in ascending order here!
-- */
--static struct s_elan_multiplier elan_multiplier[] = {
--	{1000,	0x02,	0x18},
--	{2000,	0x02,	0x10},
--	{4000,	0x02,	0x08},
--	{8000,	0x00,	0x00},
--	{16000,	0x00,	0x02},
--	{33000,	0x00,	0x04},
--	{66000,	0x01,	0x04},
--	{99000,	0x01,	0x05}
--};
--
--static struct cpufreq_frequency_table elanfreq_table[] = {
--	{0, 0,	1000},
--	{0, 1,	2000},
--	{0, 2,	4000},
--	{0, 3,	8000},
--	{0, 4,	16000},
--	{0, 5,	33000},
--	{0, 6,	66000},
--	{0, 7,	99000},
--	{0, 0,	CPUFREQ_TABLE_END},
--};
--
--
--/**
-- *	elanfreq_get_cpu_frequency: determine current cpu speed
-- *
-- *	Finds out at which frequency the CPU of the Elan SOC runs
-- *	at the moment. Frequencies from 1 to 33 MHz are generated
-- *	the normal way, 66 and 99 MHz are called "Hyperspeed Mode"
-- *	and have the rest of the chip running with 33 MHz.
-- */
--
--static unsigned int elanfreq_get_cpu_frequency(unsigned int cpu)
--{
--	u8 clockspeed_reg;    /* Clock Speed Register */
--
--	local_irq_disable();
--	outb_p(0x80, REG_CSCIR);
--	clockspeed_reg = inb_p(REG_CSCDR);
--	local_irq_enable();
--
--	if ((clockspeed_reg & 0xE0) == 0xE0)
--		return 0;
--
--	/* Are we in CPU clock multiplied mode (66/99 MHz)? */
--	if ((clockspeed_reg & 0xE0) == 0xC0) {
--		if ((clockspeed_reg & 0x01) == 0)
--			return 66000;
--		else
--			return 99000;
--	}
--
--	/* 33 MHz is not 32 MHz... */
--	if ((clockspeed_reg & 0xE0) == 0xA0)
--		return 33000;
--
--	return (1<<((clockspeed_reg & 0xE0) >> 5)) * 1000;
--}
--
--
--static int elanfreq_target(struct cpufreq_policy *policy,
--			    unsigned int state)
--{
--	/*
--	 * Access to the Elan's internal registers is indexed via
--	 * 0x22: Chip Setup & Control Register Index Register (CSCI)
--	 * 0x23: Chip Setup & Control Register Data  Register (CSCD)
--	 *
--	 */
--
--	/*
--	 * 0x40 is the Power Management Unit's Force Mode Register.
--	 * Bit 6 enables Hyperspeed Mode (66/100 MHz core frequency)
--	 */
--
--	local_irq_disable();
--	outb_p(0x40, REG_CSCIR);		/* Disable hyperspeed mode */
--	outb_p(0x00, REG_CSCDR);
--	local_irq_enable();		/* wait till internal pipelines and */
--	udelay(1000);			/* buffers have cleaned up          */
--
--	local_irq_disable();
--
--	/* now, set the CPU clock speed register (0x80) */
--	outb_p(0x80, REG_CSCIR);
--	outb_p(elan_multiplier[state].val80h, REG_CSCDR);
--
--	/* now, the hyperspeed bit in PMU Force Mode Register (0x40) */
--	outb_p(0x40, REG_CSCIR);
--	outb_p(elan_multiplier[state].val40h, REG_CSCDR);
--	udelay(10000);
--	local_irq_enable();
--
--	return 0;
--}
--/*
-- *	Module init and exit code
-- */
--
--static int elanfreq_cpu_init(struct cpufreq_policy *policy)
--{
--	struct cpuinfo_x86 *c = &cpu_data(0);
--	struct cpufreq_frequency_table *pos;
--
--	/* capability check */
--	if ((c->x86_vendor != X86_VENDOR_AMD) ||
--	    (c->x86 != 4) || (c->x86_model != 10))
--		return -ENODEV;
--
--	/* max freq */
--	if (!max_freq)
--		max_freq = elanfreq_get_cpu_frequency(0);
--
--	/* table init */
--	cpufreq_for_each_entry(pos, elanfreq_table)
--		if (pos->frequency > max_freq)
--			pos->frequency = CPUFREQ_ENTRY_INVALID;
--
--	policy->freq_table = elanfreq_table;
--	return 0;
--}
--
--
--#ifndef MODULE
--/**
-- * elanfreq_setup - elanfreq command line parameter parsing
-- *
-- * elanfreq command line parameter.  Use:
-- *  elanfreq=66000
-- * to set the maximum CPU frequency to 66 MHz. Note that in
-- * case you do not give this boot parameter, the maximum
-- * frequency will fall back to _current_ CPU frequency which
-- * might be lower. If you build this as a module, use the
-- * max_freq module parameter instead.
-- */
--static int __init elanfreq_setup(char *str)
--{
--	max_freq = simple_strtoul(str, &str, 0);
--	pr_warn("You're using the deprecated elanfreq command line option. Use elanfreq.max_freq instead, please!\n");
--	return 1;
--}
--__setup("elanfreq=", elanfreq_setup);
--#endif
--
--
--static struct cpufreq_driver elanfreq_driver = {
--	.get		= elanfreq_get_cpu_frequency,
--	.flags		= CPUFREQ_NO_AUTO_DYNAMIC_SWITCHING,
--	.verify		= cpufreq_generic_frequency_table_verify,
--	.target_index	= elanfreq_target,
--	.init		= elanfreq_cpu_init,
--	.name		= "elanfreq",
--};
--
--static const struct x86_cpu_id elan_id[] = {
--	X86_MATCH_VENDOR_FAM_MODEL(AMD, 4, 10, NULL),
--	{}
--};
--MODULE_DEVICE_TABLE(x86cpu, elan_id);
--
--static int __init elanfreq_init(void)
--{
--	if (!x86_match_cpu(elan_id))
--		return -ENODEV;
--	return cpufreq_register_driver(&elanfreq_driver);
--}
--
--
--static void __exit elanfreq_exit(void)
--{
--	cpufreq_unregister_driver(&elanfreq_driver);
--}
--
--
--module_param(max_freq, int, 0444);
--
--MODULE_LICENSE("GPL");
--MODULE_AUTHOR("Robert Schwebel <r.schwebel@pengutronix.de>, "
--		"Sven Geggus <sven@geggus.net>");
--MODULE_DESCRIPTION("cpufreq driver for AMD's Elan CPUs");
--
--module_init(elanfreq_init);
--module_exit(elanfreq_exit);
--- 
-2.54.0
-
+> > +		ptdev->protm.heap = dma_heap_find(protected_heap_name);
+> > +		if (!ptdev->protm.heap) {
+> > +			drm_warn(&ptdev->base,
+> > +				 "Protected heap \'%s\' not (yet) available - deferring probe",
+> > +				 protected_heap_name);
+> > +			ret = -EPROBE_DEFER;
+> > +			goto err_rpm_put;
+> 
+> If you move the heap retrieval before the rpm enablement, you can get
+> rid of this goto err_rpm_put.
+> 
+> > +		}
+> > +	}
+> > +
+> >  	ret = panthor_hw_init(ptdev);
+> >  	if (ret)
+> > -		goto err_rpm_put;
+> > +		goto err_dma_heap_put;
+> >  
+> >  	ret = panthor_pwr_init(ptdev);
+> >  	if (ret)
