@@ -1,138 +1,185 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758761CFBA;
-	Thu,  7 May 2026 04:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F271C23ABBF;
+	Thu,  7 May 2026 05:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778127513; cv=none; b=HFSdCvfA+zoFdRoCEXpI8Ia5A7yJuGc9TSeN71F69AVyuacBSNnQL/uuq2SuLGuKLVpLVwlcmavThf3vZiuEvIaMk1ts/Ca7kcCENSHYLzrpIGSjkvTRQWds1PM2n00ITlidR2dBYREcMYp7whTXylIVN78w4FhywUeIXBURJpY=
+	t=1778130755; cv=none; b=KWwj+g14b7UTJmJrFHOTHt5iYCTqqBO2TMfddKkprQKY+T0WTyIOqhM7XMEADoSnV79TYhJvng0BvLOvmvXo4QBCS4GpRNTiNRiODLTl6CwqqVzaPqzfDmI0P+8+CsJHkP8IPcjZXBIOHiF4ZH68/8+51dwDaJFRFvp1zAn5xS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778127513; c=relaxed/simple;
-	bh=nE8pEYUjJ3MQ9dJLwmhhz1cUJNV6CC+sW+5G3m53hqQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ahei0k7ug+zudhXWk65RdMzF3L86VRDHrTxma1TVnMBvrdBp0LD1OFu68ci9w3in4jQ2c8hL0H8BA8cqGA37sHOEHmZcVE8GsbWUwO9KVvqxXNdpZi2qJcWNCrHaCWh/KFdm2q0G9xvx2D/Qek+9mGMgAd+NfHurc6PbOmRjzXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=exbUtlAm; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1778130755; c=relaxed/simple;
+	bh=ZG6EAt6QuyZEF5Q1C1YnthssCRpvs7iwMwqrX4o7QwQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=CoiBNBOC3JvZT4wk6QSkujhyxYokGQ47ICkbNU5S4L8ow/hqtBrkxY8vYGF0f8LQBdMZK1ODDy6BbYKNf6OV8b817gmP75uFpdusjUz5dSztr/BCAHmnBtCtC7C8TqjBpIJDlkyx2wiWihi1q/wBWDAbkviibZbpILoEKTAw0R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A9Ok0s8E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="exbUtlAm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1778127508; bh=HggbJKsWAbyTUqF9cCHSdSJKGC/niCg/w9Y43kUFCTA=;
-	h=From:Message-ID:From;
-	b=exbUtlAm0xj6IpLj5Pbz1LoUs+3hDOh/ypVcPtzQ0amUe44Nd53/hksDLrpgQbZrf
-	 QLHjPdwtGUD2yecBlSPqluEwFoVr5bNv1+USStWpbjgsvi//OdilkJ4EXlLF/JAaTN
-	 R+qDqnSZFxpFGXnsdb/wtODmRZWOvlKWlRYYW0+4=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 67473C0B2C;
-	Thu, 07 May 2026 06:18:28 +0200 (CEST)
-Date: Thu, 7 May 2026 06:18:27 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: greg@kroah.com, leon@kernel.org, security@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
- is not a security bug
-Message-ID: <afwSk3BC8mewPfPp@1wt.eu>
-References: <20260503113506.5710-1-w@1wt.eu>
- <20260503113506.5710-3-w@1wt.eu>
- <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
- <aftmB435XJ8FP3V_@1wt.eu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A9Ok0s8E"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C4918C2BCF5;
+	Thu,  7 May 2026 05:12:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778130754;
+	bh=ZG6EAt6QuyZEF5Q1C1YnthssCRpvs7iwMwqrX4o7QwQ=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=A9Ok0s8Ed2p5N+3C64FFyYZAVg7CA+cMhqPkqm3ZCRjS4cOla4Cgl5uuitVzHdG5i
+	 /Lf6+0EJZpc2H/O3SKplmfE/5jCl9IgO52Qc+63KFQnNTGoZxD+U2ix0DolcdotzzC
+	 mT1YZQfWYkMfLCUaz3Z6kCxCmIxNmDHPXM/VHSC+viAwq6+t/VbIX9R9nfCevzEL+m
+	 pgEoss3GD9QFUlk6s3qKgTjLbFFbTlPSjUbhc3wPdiByksfrJwaoJncA2vhEeb6HA6
+	 9lDO3kntpm46KEDSarR79WcBfZ0sobtTRKo+uW9uchDyaCvR15MiYSRQzCv95cEdyl
+	 AYMiVF7bJkxSA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE59DCD3445;
+	Thu,  7 May 2026 05:12:34 +0000 (UTC)
+From: Colin Huang via B4 Relay <devnull+u8813345.gmail.com@kernel.org>
+Date: Thu, 07 May 2026 13:12:27 +0800
+Subject: [PATCH v4 2/3] Documentation/hwmon: add Delta E50SN12051
+ documentation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aftmB435XJ8FP3V_@1wt.eu>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260507-add-e50sn12051-v4-2-ff2b3768ac7e@gmail.com>
+References: <20260507-add-e50sn12051-v4-0-ff2b3768ac7e@gmail.com>
+In-Reply-To: <20260507-add-e50sn12051-v4-0-ff2b3768ac7e@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kevin Chang <kevin.chang2@amd.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Colin Huang <colin.huang2@amd.com>, Colin Huang <u8813345@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778130752; l=3975;
+ i=u8813345@gmail.com; s=20260202; h=from:subject:message-id;
+ bh=AWrzobGEVmZ1wrQzAaH1cnIviz5MTfwrqcs9SVlqod0=;
+ b=kwzObFFsGjNxBsLw7zNjj5w0T2RYFjiS+TYKc7NqviY2UHCnAaJgwS6GPH7o9xOLOFsNzB29i
+ 0VzMbd5tze7C/ZiUGNeunpEObbJaEoGNhHboZX3dcx6BprfsMjv26gc
+X-Developer-Key: i=u8813345@gmail.com; a=ed25519;
+ pk=Zlg0WqpCw4qbswOqamTBTXIchwR/3SnYZpy7rjaGMdQ=
+X-Endpoint-Received: by B4 Relay for u8813345@gmail.com/20260202 with
+ auth_id=761
+X-Original-From: Colin Huang <u8813345@gmail.com>
+Reply-To: u8813345@gmail.com
 
-On Wed, May 06, 2026 at 06:02:15PM +0200, Willy Tarreau wrote:
-> Hi Linus,
-> 
-> On Wed, May 06, 2026 at 08:46:07AM -0700, Linus Torvalds wrote:
-> > [ Coming back to this after a week of trying to clean up the disaster
-> > that is my inbox after the merge window ]
-> > 
-> > On Sun, 3 May 2026 at 04:35, Willy Tarreau <w@1wt.eu> wrote:
-> > >
-> > > The use of automated tools to find bugs in random locations of the kernel
-> > > induces a raise of security reports even if most of them should just be
-> > > reported as regular bugs. This patch is an attempt at drawing a line
-> > > between what qualifies as a security bug and what does not, hoping to
-> > > improve the situation and ease decision on the reporter's side.
-> > 
-> > I actually think we may want to go further than this.
-> > 
-> > I think we should simply make it a rule that "a 'security' bug that is
-> > found by AI is public".
-> 
-> This would definitely help us a lot on sec@k.o, but...
-> 
-> > Now, I may be influenced by that "my inbox is a disaster during the
-> > merge window" thing, but I do think this is pretty fundamental: if
-> > somebody finds a bug with more or less standard AI tools (ie we're not
-> > talking magical special hardware and nation-state level efforts), then
-> > that bug pretty much by definition IS NOT SECRET.
-> 
-> I think it's only 99.9% true. I mean, I've used such tools myself to
-> find bugs that were not found otherwise and I know that:
->   - interactions with the tools count a lot
->   - luck counts even more
+From: Colin Huang <u8813345@gmail.com>
 
-Thinking more about it, there's still something that won't go round:
+Document the hardware monitoring support for the Delta E50SN12051
+device.
 
-- people have always been looking for vulnerabilities, sometimes for
-  fun, and often to proudly show a CVE on their resume ; we've been
-  dealing with that for many years.
-- now they can do the same using AI and making much less effort, but
-  their approach still stems from actively searching a vulnerability
-- when they find something, they're certain it's a vulnerability
-  because it's what they asked for (hence the threat model addition).
-- if we tell them "don't report this to s@k.o" they will simply send
-  them directly to the maintainers, who are even less accustomed to
-  the process and will not benefit from the security team's experience
-  in triaging nor support in saying "no". And we all know how stressful
-  a vulnerability report can be for a developer who instantly has to
-  stop doing everything and start to look at it just in case it would
-  be valid.
+The documentation describes the supported sensors exposed via the
+hwmon subsystem, including voltage, current, and temperature measurements.
 
-For these reasons I'd rather propose that we say something around these
-lines:
+Signed-off-by: Colin Huang <u8813345@gmail.com>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+---
+ Documentation/hwmon/e50sn12051.rst | 81 ++++++++++++++++++++++++++++++++++++++
+ Documentation/hwmon/index.rst      |  1 +
+ 2 files changed, 82 insertions(+)
 
-    Note that the security team will generally consider AI-assisted
-    findings as public and will often ask you to repost your report
-    to public lists.
+diff --git a/Documentation/hwmon/e50sn12051.rst b/Documentation/hwmon/e50sn12051.rst
+new file mode 100644
+index 000000000000..cbbfa7895d82
+--- /dev/null
++++ b/Documentation/hwmon/e50sn12051.rst
+@@ -0,0 +1,81 @@
++.. SPDX-License-Identifier: GPL-2.0-or-later
++
++Kernel driver e50sn12051
++========================
++
++Supported chips:
++
++  * Delta E50SN12051
++
++    Prefix: 'e50sn12051'
++
++    Addresses scanned: -
++
++    Datasheet:
++
++      Provided by Delta upon request and NDA
++
++Description
++-----------
++
++E50SN12051 is a 600W non-isolated 1/8th brick DC-DC power module.
++
++This driver supports the E50SN12051 PMBus compliant monitor device.
++
++The device provides measurements for:
++
++* Input voltage
++* Output current
++* Output voltage
++* Temperature
++
++The driver is based on the PMBus core and exposes standard hwmon
++sysfs attributes.
++
++Sysfs attributes
++----------------
++
++======================= =======================================================
++curr1_label             "iout1"
++curr1_crit              Critical maximum current.
++                        From IOUT_OC_FAULT_LIMIT register.
++curr1_crit_alarm        Current critical high alarm.
++                        From IOUT_OC_FAULT status.
++curr1_input             Measured current.
++                        From READ_IOUT register.
++curr1_max               Maximum current.
++                        From IOUT_OC_WARN_LIMIT register.
++curr1_max_alarm         Current high alarm.
++                        From IOUT_OC_WARN_LIMIT status.
++
++in1_label               "vin"
++in1_alarm               Input voltage alarm.
++in1_input               Measured voltage.
++                        From READ_VIN register.
++
++in2_label               "vout1"
++in2_crit                Critical maximum voltage.
++                        From VOUT_OV_FAULT_LIMIT register.
++in2_crit_alarm          Voltage critical high alarm.
++                        From VOLTAGE_OV_FAULT status.
++in2_input               Measured voltage.
++                        From READ_VOUT register.
++in2_max                 Maximum voltage.
++                        From VOUT_OV_WARN_LIMIT register.
++in2_max_alarm           Voltage high alarm.
++                        From VOLTAGE_OV_WARNING status.
++
++temp1_crit              Critical high temperature.
++                        From OT_FAULT_LIMIT register.
++temp1_crit_alarm        Module temperature critical high alarm.
++                        Set by comparing READ_TEMPERATURE_1 with OT_FAULT_LIMIT
++                        if TEMP_OT_FAULT status is set.
++temp1_input             Measured module's hot spot temperature.
++                        From READ_TEMPERATURE_1 register.
++temp1_max               Maximum temperature.
++                        From OT_WARN_LIMIT register.
++temp1_max_alarm         Module temperature high alarm.
++                        Set by comparing READ_TEMPERATURE_1 with OT_WARN_LIMIT if
++                        TEMP_OT_WARNING status is set.
++======================= =======================================================
++
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index 8b655e5d6b68..ba08655fc496 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -68,6 +68,7 @@ Hardware Monitoring Kernel Drivers
+    drivetemp
+    ds1621
+    ds620
++   e50sn12051
+    emc1403
+    emc2103
+    emc2305
 
-Another point is that for many vulns there are two types of adversaries:
-  - criminals
-  - script kiddies
+-- 
+2.34.1
 
-The former must be assumed to also have discovered the same vuln, possibly
-earlier, and to be actively exploiting it. The latter however, is just
-going to use whatever published exploit to say "look mum, I'm root".
-Public reports containing too many details will speed up usability for
-this group and that's not good for users.
 
-And we *know* that some reports contain working PoC that need very little
-modification. Passing them through s@k.o for triaging feels safer than
-directing them to public lists with no early validation.
-
-So in short, I think that:
-  - AI reports should be considered public, but not necessarily well known
-    yet
-  - AI reports often contain repros that shouldn't be posted publicly
-  - AI reports wording can be intimidating to developers not used to
-    receiving these things
-
- -> the security team should remain the first filtering layer for this
-    for new reporters even if it means continuing to see some noise.
-    I think that instead it's the 3rd patch about the threat model that
-    should help us receive less noise by explaining what is not a
-    vulnerability.
-
-I can rework that part a bit to reflect this.
-
-Willy
