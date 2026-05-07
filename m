@@ -1,59 +1,40 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619AE401491;
-	Thu,  7 May 2026 16:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6697631F983
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 16:46:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778171361; cv=none; b=b3WuIkwZbJjr7ShotKcDWiUgWK+T8eQFXAh+prPWJrXTLNNSwnYMVr+/0tzvaBZ6NIlY3ZFSCgb2tjdctKjrr3uuu69qkI7pygFHFea91g6fi7LtvGvFRxcjl9eYVjsllmC12Ngq/7mqowfaC18QotVSF0NHwgB2qbzZl1WaLJ0=
+	t=1778172420; cv=none; b=vAcwyuKgoGMMnW5Fvx7JjNeS5krkgH4LmwssfEmXjt1+KQcRsJ8u6vp9BHzqr/ojmI55ZePlSm81e7RSrq8tXbfJkaxqHfuy6TpL+ujBHFwOLUn3qUijDPLNEn95FK8wu3x4YKoVWJV00hHtQ+4aSOKBh9tdG1eglRu74xaCHu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778171361; c=relaxed/simple;
-	bh=P9mXeJgXu3G094Z1prlgsGiO5LkUGbIg5tek83BKT0w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=pMlVMV1Aiy5U3s3ZIvp3amInIHMkuYDWXjgEmmSmni8wwAz5bvK4BT2IJAiuOvz6ecDv9fzoNaoOyUax6k4ul3DCZcB8uxDWITXTgrki8cEnrkqQaYIkrB2MPmNW2hXzn4beEvPOrA6RwCL9SrqrJ/Uzxz5mA4qD1zqiY6Et94I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=i8g0tAv7; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1778172420; c=relaxed/simple;
+	bh=NM2J54S9rt1rDkUoxTt39MCtsfZfJD/uxQArOC9cST0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qxdTKGQA0j8os/51WsVmpRdCFr+sSEePeOGcKPzEQslbHKYQjr11tAsiWN9lhX8A5rB7Lps4Cj885vnP22vm5X9Ok2hLOMF7x1VqQnwQvUP6dgH9SulzYDYzKG8F6jQcSdBuy9yj+fWW9RfMxJZyF0hw1h2bON+IkWJIZ2vTmFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Rqymipg9; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="i8g0tAv7"
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 647Eowd82002948;
-	Thu, 7 May 2026 12:28:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=BWBQP
-	8Qt6lKY3NoXv3Yso6JZ3IttCVoyJv3A637tjUg=; b=i8g0tAv7IYqXUbDr8d8uR
-	ybDBgII4yLN7uy/CwAC2r7SHQn0AGkeUbUF2sQB++W/2dTTN/7skHHbppCqjf2I3
-	oP6xlIUDua+U4GKokWv9wp4st8bAMfkRMSJkgfRdyOKEd6AyErjA+C2NA1+5IH/q
-	00dBVSl12ofC7cgELStKAf7sK/nToKA6pvlr/6HOPJvzJEB/qLBZMe3VjUP1O4WR
-	m50ZAtdvsVxFxSIiPls1wbq+NtpO7Hh6Asbotd55hnrdMejYpCjK6MwiRzjbt6OP
-	0bFCqKpEo6I5a2S7Cw6pvK7ge5FWpDZCsdSRnoBqchTKMapvjUMfvNNT08tNPsRU
-	A==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4dyv3r802p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 May 2026 12:28:50 -0400 (EDT)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 647GSnsY021393
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 7 May 2026 12:28:49 -0400
-Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
- ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Thu, 7 May 2026 12:28:49 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Thu, 7 May 2026 12:28:49 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Thu, 7 May 2026 12:28:49 -0400
-Received: from HYB-e1y2fvUQ3cx.ad.analog.com (HYB-e1y2fvUQ3cx.ad.analog.com [10.44.4.71])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 647GSMkO030829;
-	Thu, 7 May 2026 12:28:41 -0400
-From: Janani Sunil <janani.sunil@analog.com>
-Date: Thu, 7 May 2026 18:28:11 +0200
-Subject: [PATCH 3/3] Documentation: iio: Add AD5529R Documentation
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Rqymipg9"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id BAB544E42C13;
+	Thu,  7 May 2026 16:46:56 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 79DB2605CF;
+	Thu,  7 May 2026 16:46:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DF68E108194A8;
+	Thu,  7 May 2026 18:46:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1778172415; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=8ZjXYHxFLpGqdP6xSDXPObLI6FpFPItAK6zPqiXuvb8=;
+	b=Rqymipg9qz628HCteGa4XUtrSWNtK/JLDRHCulUJeqnsGCwqz+DtBoPkL05xddaHd1axHK
+	7Z3ofX2EFRmCLZ/P+OEzbcLf026D/AI0ikfnDsfxl372I3uuXpCIV/5OoOPjVV5b4Fs/zS
+	axK3HjQMAbutOMfY/ZYjnLOM8mHqYIHjozCwDDQEk0vWdUx5gMDDZfevNpZpvGJZfJn8zH
+	RvaUMsTTKWpw6cjd7ONwZOI/dovK7iSNf3h9l4mZ4Abm/ZMBsVPMvcS8Y7UMxO71/vWxse
+	HCR2x5wUbquPHTabHXhDx2eU7Y0ox7O/tcv2csBwW+v6YpvPX5voOhEYHqjQSA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH v5 00/28] mtd: spi-nor: Enhance software protection
+Date: Thu, 07 May 2026 18:46:41 +0200
+Message-Id: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,320 +42,171 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-ID: <20260507-ad5529r-driver-v1-3-b4460f3cb44f@analog.com>
-References: <20260507-ad5529r-driver-v1-0-b4460f3cb44f@analog.com>
-In-Reply-To: <20260507-ad5529r-driver-v1-0-b4460f3cb44f@analog.com>
-To: Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich
-	<Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        "David
- Lechner" <dlechner@baylibre.com>,
-        =?utf-8?q?Nuno_S=C3=A1?=
-	<nuno.sa@analog.com>,
-        Andy Shevchenko <andy@kernel.org>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Jonathan
- Corbet" <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Janani Sunil
-	<jan.sun97@gmail.com>,
-        Janani Sunil <janani.sunil@analog.com>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43NzW4CIRiF4VsxrPsZPv5x5X0YFwPDVJIWJmDQx
+ sy9F02MaVxMl+9ZPOdGaigxVLLb3EgJLdaYUw/5sSH+NKTPAHHsTRhlEhEFXGJyOY3QFKCB4hH
+ qHCHlAvUyg1Fy5GoSk7KSdGMuYYrXh3849j7Fes7l53HX8L7+V24IFITRzmtk1nLcu5zPXzFtf
+ f4md7uxp6coUrPmse55oViYDFXI6bvHXx5Hvebx7jE/2DCIoJ117554eYLyNU90z3A+Dk4GzYz
+ 56y3L8guw+TOhvAEAAA==
+X-Change-ID: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
+ Takahiro Kuwano <takahiro.kuwano@infineon.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: Sean Anderson <sean.anderson@linux.dev>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Steam Lin <STLin2@winbond.com>, linux-mtd@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, stable@kernel.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778171303; l=8473;
- i=janani.sunil@analog.com; s=20260507; h=from:subject:message-id;
- bh=P9mXeJgXu3G094Z1prlgsGiO5LkUGbIg5tek83BKT0w=;
- b=aBAOCS6o93MnVTsO/7AtCOgVnf/+6gdxCgWrp39jNFCNtJJf6AcdCEWo08C3e8EcNzNPHoG0u
- Qme/VqJbcghCgFnnaUjQJy6XBJZd0nvl6Al5j3NmhtZnzKfkQMk/ibS
-X-Developer-Key: i=janani.sunil@analog.com; a=ed25519;
- pk=e25MyjRLPY3RWrYm/LrJ+/+t1MZJUbkgIW5CZg+g+hA=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Authority-Analysis: v=2.4 cv=O7UJeh9W c=1 sm=1 tr=0 ts=69fcbdc2 cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=0sLvza09kfJOxVLZPwjg:22 a=uXIjobp8t2wMuQ0fPvqm:22 a=gAnH3GRIAAAA:8
- a=VwQbUJbxAAAA:8 a=zj84cDznfa0kqzTLJ-AA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: dmxF1QgIyfKflIBwFpCt8EYsiL2KlROi
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDE2NSBTYWx0ZWRfX4DNozq/QCl+u
- fVtZ037n+PXBq5lWApQdQxcFHMk/a3ayJJqd3l1BuSjlco2UoJ1Wp81Wgh8w4v7G6gyT8hryl8F
- YGZ5dbg6NN5gSs3mQd2u9q6hPIVtxmKdLU2Cl3unvtxb3+S7JBYycAseGmBK3tQf0Opcr/E02xb
- skkvW9Z2FTFI72pQ5nDApqbcUfwCw0QeEsoPiLEzNk/HCk4FGoMSe29X3dcrr+kB49kOA6TzoUr
- pAxQmPmDCez1DPdFmdLetbkDmAoMly0uPNMsQAxwjQoZFLWqfDaSuPJw5g+vp6NaiHGk9UJsHbA
- CN6SVQWIFiLiY6WRnrjZKCEZTin9hPSYPcRaHBYI9YGfUgXcBBREO9dih2BtumktgUDko+cZ1KZ
- axA+cqd/VybPtSLcpJL3D9UMNKoyvNYlHUDMFqTFVTJrIjo+ropVL1GRqSk6ZPZ5S0TwUZ3Q3i5
- FsA0YnH9RPY9QHTIIzA==
-X-Proofpoint-ORIG-GUID: dmxF1QgIyfKflIBwFpCt8EYsiL2KlROi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-07_02,2026-05-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- priorityscore=1501 suspectscore=0 clxscore=1015 malwarescore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070165
+X-Last-TLS-Session-Version: TLSv1.3
 
-Add documentation for AD5529R high voltage, 16-channel 12/16 bit DAC
+Hello,
 
-Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+As recently raised on the mailing-list (link below), it seems that the
+"locking" support in SPI NOR could benefit from some enhancements. As I
+myself had to dig into it recently, here is a proposal.
+
+First issue that I see, the MEMLOCK ioctl is not behaving correctly
+in some cases, as addressed in:
+
+    mtd: spi-nor: swp: Improve locking user experience
+
+Then there is no clear explanation of the shortcuts taken by the kernel
+in terms of uAPI, so there is an attempt to list them in:
+
+    mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
+
+Plus, Tudor also asked if we could cover locking in the testing
+procedure, which is done in:
+
+    mtd: spi-nor: Add steps for testing locking support
+
+In order to simplify this procedure, and because it got very helpful
+during my testing/development, I want to propose additions to the
+debugfs output:
+
+    mtd: spi-nor: debugfs: Add locking support TODO: make the captures again
+
+Finally, I am providing an implementation for the complement (CMP)
+feature in order to allow finer control of the regions locked. This
+feature is for instance available on Winbond chips:
+
+    [core] mtd: spi-nor: swp: Add support for the complement feature
+    [doc]  mtd: spi-nor: Add steps for testing locking with CMP
+    [use]  mtd: spi-nor: winbond: Add CMP locking support
+
+Disclaimer: it was much less straightforward than I initially thought to
+get the CMP feature working correctly. I tested it with as much focus as
+I could, and I am improving the test coverage for the new cases, I am
+also providing extra test cases in the metadata of the commit (which do
+not make sense to test for chip additions, but may be sensible show when
+making core additions like this one), but honestly there are so many
+possibilities, I may still be missing corner cases. I hope this will
+anyway be helpful to others!
+
+All the other patches are misc improvements or style fixes which I faced
+and fixed during my development.
+
+Link: https://lore.kernel.org/linux-mtd/92e99a96-5582-48a5-a4f9-e9b33fcff171@linux.dev/
+
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- Documentation/iio/ad5529r.rst | 214 ++++++++++++++++++++++++++++++++++++++++++
- Documentation/iio/index.rst   |   1 +
- MAINTAINERS                   |   1 +
- 3 files changed, 216 insertions(+)
+Changes in v5:
+- Fixed the writing of SR2 in the locking ops for devices without RDCR
+  capability.
+- Moved the ioctl comments to an existing comment as advised by
+  Pratyush.
+- Changed the documentation to use the concept of lock sector instead of
+  block because on small density devices, the two amounts are typically
+  different.
+- Renamed the debugfs output "#blocks" -> "#sectors" for the same
+  reason.
+- Added a patch to make sure the QE bit is not badly overwritten when
+  using the core's SR/CR status write helpers.
+- Link to v4: https://lore.kernel.org/r/20260403-winbond-v6-18-rc1-spi-nor-swp-v4-0-833dab5e7288@bootlin.com
 
-diff --git a/Documentation/iio/ad5529r.rst b/Documentation/iio/ad5529r.rst
-new file mode 100644
-index 000000000000..c9760945eee7
---- /dev/null
-+++ b/Documentation/iio/ad5529r.rst
-@@ -0,0 +1,214 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+==============
-+AD5529R driver
-+==============
-+
-+Device driver for Analog Devices Inc. AD5529R 16-Channel 12/16-bit High Voltage DAC.
-+The module name is ``ad5529r``.
-+
-+Supported devices
-+=================
-+
-+* `AD5529R <https://www.analog.com/en/products/ad5529r.html>`_
-+
-+Description
-+===========
-+
-+The AD5529R is a 16-channel, 12-bit or 16-bit, high voltage, buffered voltage output
-+digital-to-analog converter (DAC) with an integrated precision reference.
-+The device operates from unipolar and bipolar supplies and is guaranteed
-+monotonic. It has built-in rail-to-rail output buffers that can source or
-+sink up to 25mA.
-+
-+Hardware Features
-+=================
-+
-+* 16 independent 12-bit or 16-bit DAC channels
-+* Independently programmable output ranges:
-+
-+  - 0V to 5V (current driver default)
-+  - 0V to 10V
-+  - 0V to 20V
-+  - 0V to 40V
-+  - ±5V to ±15V
-+  - ±10V to ±20V
-+
-+* 4.096V precision reference (12ppm/°C maximum)
-+* Built-in function generation capabilities (hardware support)
-+* Output voltage and current monitoring (hardware support)
-+* Temperature monitoring with 8 on-chip sensors (hardware support)
-+* Over-temperature protection
-+* SPI interface with CRC error detection support
-+
-+Current Driver Implementation
-+=============================
-+
-+The current driver provides basic DAC functionality with the following features:
-+
-+* Basic DAC output control for all 16 channels
-+* Scale attributes for voltage conversion (0-5V default range)
-+* SPI communication with regmap support
-+* Reset control framework support
-+* Automatic hardware variant detection (16-bit vs 12-bit) based on product ID
-+* Debugfs register access for development
-+
-+SPI Configuration:
-+
-+* **Mode**: Supports SPI mode 0 and mode 3 (default: mode 0)
-+* **Frequency**: Up to 50 MHz (typically tested at lower frequencies)
-+* **Word Size**: 16-bit transactions
-+
-+.. note::
-+   The device default configuration uses address decrement mode (ADDR_ASCENSION=0)
-+   for multi-byte SPI transactions. Therefore, all 16-bit register addresses are
-+   incremented by 1 in the driver to access the last byte first, allowing the
-+   hardware to decrement and access the complete multi-byte register correctly.
-+
-+IIO Attributes (Currently Implemented)
-+======================================
-+
-+Basic DAC Control
-+-----------------
-+
-+For each of the 16 channels (0-15):
-+
-+**out_voltageY_raw**
-+  Raw DAC code (12-bit: 0-4095, 16-bit: 0-65535)
-+
-+  * Read: Returns the current DAC register value
-+  * Write: Sets the DAC output code
-+
-+**out_voltageY_scale**
-+  Scale factor for voltage conversion (microvolts per LSB)
-+
-+  Based on the formula: VOUTn = A × D/2^N + B, where A=5V, B=0V, N=resolution
-+
-+  * 16-bit: 76.294 µV/LSB (5V ÷ 2^16 = 5V ÷ 65536 = 76.294µV)
-+  * 12-bit: 1220.703 µV/LSB (5V ÷ 2^12 = 5V ÷ 4096 = 1.220703mV)
-+  * Read-only attribute
-+
-+Debug Interface
-+===============
-+
-+**Register Access**
-+
-+The driver provides debugfs register access for debugging and development:
-+
-+``/sys/kernel/debug/iio/iio:deviceX/direct_reg_access``
-+  Direct register read/write access. Format:
-+
-+  * Read: ``echo <register_address> > direct_reg_access; cat direct_reg_access``
-+  * Write: ``echo <register_address> <value> > direct_reg_access``
-+
-+Usage examples
-+==============
-+
-+Basic DAC Output Control
-+------------------------
-+
-+.. code-block:: bash
-+
-+    # Set channel 0 to mid-scale (approximately 2.048V with 4.096V reference)
-+    echo "32768" > /sys/bus/iio/devices/iio:device0/out_voltage0_raw
-+
-+    # Set channel 15 to full scale
-+    echo "65535" > /sys/bus/iio/devices/iio:device0/out_voltage15_raw
-+
-+    # Read current value from channel 5
-+    cat /sys/bus/iio/devices/iio:device0/out_voltage5_raw
-+
-+Scale Attributes
-+----------------
-+
-+.. code-block:: bash
-+
-+    # Read scale factor (microvolts per LSB)
-+    cat /sys/bus/iio/devices/iio:device0/out_voltage0_scale
-+    # Output: 0.076294 (for 16-bit) or 1.220703 (for 12-bit)
-+
-+    # Convert raw to voltage: voltage_uv = raw * scale
-+    # Formula: VOUTn = A × D/2^N + B where A=5V, B=0V
-+
-+Register Access for Development
-+-------------------------------
-+
-+.. code-block:: bash
-+
-+    # Navigate to debugfs directory
-+    cd /sys/kernel/debug/iio/iio:device0/
-+
-+    # Read device product ID (register 0x04)
-+    echo 4 > direct_reg_access
-+    cat direct_reg_access
-+
-+    # Write to a 16-bit configuration register (example: LDAC_HW_SW register 0x19)
-+    echo "0x019 0xAA11" > direct_reg_access
-+    cat direct_reg_access
-+    # Output: 0xAA11
-+
-+    # Write to DAC channel registers (16-bit values)
-+    echo "0x149 32768" > direct_reg_access   # DAC channel 0 mid-scale
-+    echo "0x14B 65535" > direct_reg_access   # DAC channel 1 full-scale
-+
-+    # Read back DAC register values
-+    echo 0x149 > direct_reg_access && cat direct_reg_access  # Read channel 0
-+    echo 0x14B > direct_reg_access && cat direct_reg_access  # Read channel 1
-+
-+.. note::
-+   For 16-bit registers, use hexadecimal format for addresses (0x019, 0x149, etc.).
-+   Values can be decimal (32768) or hexadecimal (0xAA11). Register addresses shown
-+   include the +1 offset required for decrement mode operation.
-+
-+Device Tree Configuration
-+=========================
-+
-+Basic configuration example:
-+
-+.. code-block:: devicetree
-+
-+    &spi0 {
-+        status = "okay";
-+
-+        ad5529r@0 {
-+            compatible = "adi,ad5529r";
-+            reg = <0>;
-+            spi-max-frequency = <25000000>;
-+
-+            vdd-supply = <&vdd_regulator>;
-+            avdd-supply = <&avdd_regulator>;
-+            hvdd-supply = <&hvdd_regulator>;
-+            hvss-supply = <&hvss_regulator>;
-+
-+            reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
-+        };
-+    };
-+
-+For complete device tree binding documentation, see:
-+``Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml``
-+
-+Driver Architecture
-+===================
-+
-+The driver is structured as follows:
-+
-+* **Core**: Basic SPI communication and device initialization
-+* **IIO Interface**: Standard IIO DAC channel interface with scale attributes
-+* **Dual Regmap**: Uses standard regmap-spi for both 8-bit and 16-bit register access
-+* **Reset Framework**: Reset control support
-+
-+Development Notes
-+=================
-+
-+* The driver uses standard regmap-spi for both 8-bit and 16-bit register access
-+* SPI mode 0 (CPOL=0, CPHA=0) is typically used
-+* Reset control framework support for device initialization
-+* Register addresses are incremented by 1 for 16-bit registers due to decrement mode addressing
-+* Scale attributes provide voltage conversion for 0-5V range
-+* Automatic regmap selection based on register address (≤0x13: 8-bit, >0x13: 16-bit)
-+
-+References
-+==========
-+
-+* AD5529R Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ad5529r.pdf
-+* Linux IIO Subsystem: https://www.kernel.org/doc/html/latest/driver-api/iio/index.html
-\ No newline at end of file
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 007e0a1fcc5a..4b1d0432a040 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -21,6 +21,7 @@ Industrial I/O Kernel Drivers
- 
-    ad3552r
-    ad4000
-+   ad5529r
-    ad4030
-    ad4062
-    ad4691
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 143714e27d51..41f42eb1adf2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1513,6 +1513,7 @@ L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
-+F:	Documentation/iio/ad5529r.rst
- F:	drivers/iio/dac/ad5529r.c
- 
- ANALOG DEVICES INC AD5706R DRIVER
+Changes in v4:
+- Make sure we don't try to show the (SR specific) debugfs info if the
+  chip does not support an SR based locking scheme. For this, add a new
+  helper to derive whether we are using the default ops or not.
+- Fix compilation issue on arm32, by using div_u64.
+- Link to v3: https://lore.kernel.org/r/20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com
 
+Changes in v3:
+- No change at all, just rebased on top of v7.0-rc1.
+- Collected 2 R-by from M. Walle.
+- Link to v2: https://lore.kernel.org/r/20260108-winbond-v6-18-rc1-spi-nor-swp-v2-0-c462ef806130@bootlin.com
+
+Changes in v2:
+- Collect tags.
+- Add missing Fixes/Cc: stable tags.
+- Add a comment explaining why can_be_top && can_be_bottom is a specific
+  condition.
+- Fix commit logs following Michael Walle's reviews.
+- Amend the documentation following our discussion with Michael Walle as
+  well.
+- Cache the SR register for debugfs use.
+- Create a locked sector map file instead of dumping it as part of the
+  `params` file output.
+- Improved greatly the output of the map as suggested by Michael.
+- Add a patch fixing a duplicate dependency in Kconfig.
+- Add an important comment in the doc about the small 4kiB erase size
+  choice.
+- Add test runs for each and every chip for which the CMP feature is
+  added. This prove me that testing of each and every chip was needed,
+  as some of them seem to feature a broken BFPT table which does not
+  advertise a working 35h (Read CR) command.
+- Added a condition on which the CMP feature is enabled: RDCR must be
+  possible.
+- Link to v1: https://lore.kernel.org/r/20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com
+
+---
+Miquel Raynal (28):
+      mtd: spi-nor: Drop duplicate Kconfig dependency
+      mtd: spi-nor: debugfs: Fix the flags list
+      mtd: spi-nor: Make sure the QE bit is kept enabled if useful
+      mtd: spi-nor: swp: Improve locking user experience
+      mtd: spi-nor: Improve opcodes documentation
+      mtd: spi-nor: debugfs: Align variable access with the rest of the file
+      mtd: spi-nor: debugfs: Enhance output
+      mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
+      mtd: spi-nor: swp: Clarify a comment
+      mtd: spi-nor: swp: Use a pointer for SR instead of a single byte
+      mtd: spi-nor: swp: Create a helper that writes SR, CR and checks
+      mtd: spi-nor: swp: Rename a mask
+      mtd: spi-nor: swp: Create a TB intermediate variable
+      mtd: spi-nor: swp: Create helpers for building the SR register
+      mtd: spi-nor: swp: Simplify checking the locked/unlocked range
+      mtd: spi-nor: swp: Cosmetic changes
+      mtd: spi-nor: Create a local SR cache
+      mtd: spi-nor: debugfs: Add locking support
+      mtd: spi-nor: debugfs: Add a locked sectors map
+      mtd: spi-nor: Add steps for testing locking support
+      mtd: spi-nor: swp: Add support for the complement feature
+      mtd: spi-nor: Add steps for testing locking with CMP
+      mtd: spi-nor: winbond: Add W25H512NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H01NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H02NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H01NWxxIQ CMP locking support
+      mtd: spi-nor: winbond: Add W25Q01NWxxIM CMP locking support
+      mtd: spi-nor: winbond: Add W25Q02NWxxIM CMP locking support
+
+ Documentation/driver-api/mtd/spi-nor.rst | 169 +++++++++++++++
+ drivers/mtd/spi-nor/Kconfig              |   1 -
+ drivers/mtd/spi-nor/core.c               |  78 ++++++-
+ drivers/mtd/spi-nor/core.h               |  25 ++-
+ drivers/mtd/spi-nor/debugfs.c            |  69 +++++-
+ drivers/mtd/spi-nor/swp.c                | 359 ++++++++++++++++++++++++-------
+ drivers/mtd/spi-nor/winbond.c            |  41 +++-
+ include/linux/mtd/spi-nor.h              |   7 +-
+ 8 files changed, 656 insertions(+), 93 deletions(-)
+---
+base-commit: 2df04c01437d44ea7cac641cb4d0c9fd1275df45
+change-id: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+
+Best regards,
 -- 
-2.43.0
+Miquel Raynal <miquel.raynal@bootlin.com>
 
