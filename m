@@ -1,128 +1,163 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC493B5837
-	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 09:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746013A783C;
+	Thu,  7 May 2026 09:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778144915; cv=none; b=ltr+clyKroPrVIFTD8rSRk006g8PUdk6/1bjPbrCRZ91T5RSddzI/Egd85qYYg4W5oG9nVB0/l1//cVWe5CNpQVN1OmzNkNHSlXh8hp4Rm4l4nEfgJY39mwpKuhyffSnphnIb7o/g0K/94UNkeeYFCIiCueDCER4QXtz4TzIcI8=
+	t=1778145156; cv=none; b=quISsd6iGRG3+dpPg4wUVCrZB9ZrNPtPMDi4Mz90vG1Ub0sxBzDn3mChs+vJjKB49IQL6t7VgiKj8Q/ZoeHybHuglV+LJECB1f7iukW1zWmebDz5S9I6CXVB9EcFTcc1hwoqIGKoYiXxmFcXllAWNLk8aMPH4Or/XLJFB61d5ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778144915; c=relaxed/simple;
-	bh=6KNYU1WpeWbZtLaI95Q3FSHorYk7ZzRQOvKRN7EcI9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XTP9yOdBDFfuCGqZHWEcox0OJgDS2iBrN6TvbRyrlknn0/eUaHyWFmjihrmpyJOflDzya5WIs3sG00NIitsYBCA075w2QsdKQEx/mqrF4nN7ETV/3gRrkKsyNh0gHDsgLT8P0v6E9SgZVgMMuztO7f9qjODFGAvk05kJQI7uYlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NxheRe1i; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778145156; c=relaxed/simple;
+	bh=TpAH4ly1JvzSBPKPKez3qwvO9mLMoA6jZXSQAGqWwJs=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gTsZ6r9BugahesEqzrru2EZvXkhxS+RGuY7doDGRpKBYvE1qSo1q2KgRZQs8AkHAHY3QVhZqjC8DQBgo8H1yxitonzldGmW3sXaSPoyPXQPp+MjWouGNzUqGXQo/WNmdEAzjkX+IugEnguW2ZcJcMehFqYkYRZdxxmRnQKcCJ8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=HLiDjvEU; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NxheRe1i"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4891b0786beso4120715e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 02:08:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778144906; x=1778749706; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h8AqCHUecRdMHaTSiwSFKRzA+aPKBe0J8V8U1pAN7qQ=;
-        b=NxheRe1i9m2sCCP55ucTBUdx1urWhohFrPkwD4vBI2HOdw4eg+P8II9CkHEe5txdp+
-         XkWbVrqMHS9rPml5LOR0L3FaQjhmpZEhUeQfEx4NsC3t8B6rGdmoct7VFHNnGwyc3+WP
-         Xz6dpU6+9WtBf8Bgr8My5FX4rDZ24MAf7s3xSqFe3Ldy+Ux15aKtB39mxZrKPrblNitE
-         trusfVBCNaTesfP2fz48nJ2DxZ76xtU0aQejmDchHmxbdKEqu2W/NuqNsHO15cLPkscf
-         J5/YSXNnjqCUBeOjOTXnJGncT3ANWGG5fRBrOOgWpb3jtQ7LnyzyhLFSf3qZVD45eUmf
-         119g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778144906; x=1778749706;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=h8AqCHUecRdMHaTSiwSFKRzA+aPKBe0J8V8U1pAN7qQ=;
-        b=A3B2Q8+VWwqNikPgALEXofPcMZcNDf2gNYlIgA256r3MOKly2WSu9aButap8TwDjpI
-         0JH6G0kNxCNxHNso8BhGNCH6wQza4Awj4VrfXQ090CFV4yjnI69SycAXe6YONvx7rVHM
-         vEBHY2teMCOKLTyg5O/ku+anYLBluClKhm2aJRABILYV/SE6gkh4sgIJVONgfZOz7NEG
-         EbmyF6YPu76ySPTI1KCgmRwgPN5a8cWrVSYzOtB9uPbir/1nctO0gh1bBYqxUxPlthyc
-         FVALfMd1y/3UDyjm5tgYkfT2rTmt0/sU40wnRHGPtJcTwc9HhopgZwo4QYwTBdZ2qyuy
-         DYTw==
-X-Forwarded-Encrypted: i=1; AFNElJ+Lj1RGZnI8L7yIO5YALNI60vnEdA/w9tLvzXrQhCldEJnP+5oR2Fn/uYaLWQTx/ZOUYBab1hy9gAo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzEi/ULoEUUMSOFB8VVON+wDQG8F9Eu5oBpflWXyRya2+8mQta
-	bJA8DflhmrSebquLvSINXr3pwsEjxwDG/N0Mhc3YOYlLPiKqZxn2v/+1
-X-Gm-Gg: AeBDiev4ux80RH0w+JsmF7tgI+SFXVdHqaukFxx3DqW1iX/FDQO1Oj2T2Wnlimj176f
-	wxy3VKFBlNVI2XlUQ8uzniBP7fRoIFS8vpZ8TorrlZxKtvzOKRIB++1quS8nCSC0HiBXaYyJSiS
-	z+mU0357oFPV7JAm3qqFeccq/3u1KV8Q/lclbMRK1sCKX//vQVKoB0HvMCBbKjrEz0kAJ0Jet73
-	vzRNQonegU438nXPF8o7yKiMD/pdbeFsSDAgRSSAVThTmBeYWUT/Hots4UhJdX7Okb92wqc5kXi
-	XN3cNSgjnJX9Pbm22aMILHclb/tI0iZXUOR5DUWr28gUlzK+DzIAHIVpmW22ZdZbRLxPRhPfKSo
-	ronLXyL4psu/LtAk5nvSL/K8qkhdiH+zzmC/T1a4dKK95PWAq3QWqvTrohVHUaPl4qAUMFHo4jH
-	f3Ew5AEQk9S5sZj+DWZWANH0cXvHIdU937BVEhJvuJEoUnzQ==
-X-Received: by 2002:a05:600c:46d2:b0:488:b187:3c with SMTP id 5b1f17b1804b1-48e51f32c65mr113284595e9.14.1778144905786;
-        Thu, 07 May 2026 02:08:25 -0700 (PDT)
-Received: from foxbook (bgt227.neoplus.adsl.tpnet.pl. [83.28.83.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e53895cb5sm102053505e9.1.2026.05.07.02.08.24
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Thu, 07 May 2026 02:08:25 -0700 (PDT)
-Date: Thu, 7 May 2026 11:08:21 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Jihong Min <hurryman2212@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Basavaraj Natikar
- <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] hwmon: add initial support for AMD PROM21 xHCI
- temperature sensor
-Message-ID: <20260507110821.07480da8.michal.pecio@gmail.com>
-In-Reply-To: <424c4dc4-1810-4ffb-ae93-7ec9f880ec1e@amd.com>
-References: <20260506032939.92351-1-hurryman2212@gmail.com>
-	<cover.1778099627.git.hurryman2212@gmail.com>
-	<2e2ea249b30168a2eab62fc110c226a511f21bf2.1778099627.git.hurryman2212@gmail.com>
-	<20260506233332.664f220c.michal.pecio@gmail.com>
-	<424c4dc4-1810-4ffb-ae93-7ec9f880ec1e@amd.com>
+	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="HLiDjvEU"
+Received: from localhost (localhost [127.0.0.1])
+	by mx1.secunet.com (Postfix) with ESMTP id 1E093207BE;
+	Thu,  7 May 2026 11:12:23 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from mx1.secunet.com ([127.0.0.1])
+ by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id L46hcP1uUZqt; Thu,  7 May 2026 11:12:22 +0200 (CEST)
+Received: from EXCH-01.secunet.de (rl1.secunet.de [10.32.0.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.secunet.com (Postfix) with ESMTPS id 57AB320538;
+	Thu,  7 May 2026 11:12:22 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com 57AB320538
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
+	s=202301; t=1778145142;
+	bh=a5m+ellgDoNWmkgUOHOlkJbkKAnPK7OIv3NtKD+YVYM=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To:From;
+	b=HLiDjvEURj3ZZ5A52+qlzNbT0c1HHlrFlaa2Mo1fbn9Oq41ZlKIroh4agYnqsua7y
+	 uBaXUIB8zf1JT/WTbjrvL706dDIh2Jjp5K3MGfp+w4bNgQ3/yKFMoaACsgV7w8ijyF
+	 84yv0YVMbs4c3K9tf4jSFR9J8ol123aQCic+Rouxp10zN4nnbFvL2ryW/gfI8p3BO1
+	 J23gzwFfy+qrwJRKjNdjVnF/1O5Pkmd6WpAxLV04OqZvT286YAi+0dScTxfAn9LPGl
+	 2p0dFeYwvu8VSAUVp7GSTulZmTX9xgs1iuiBc8m3x6QV6oDOo1fspXvyfvKh0AGZwE
+	 55JgJBLiohkiQ==
+Received: from secunet.com (10.182.7.193) by EXCH-01.secunet.de (10.32.0.171)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 7 May
+ 2026 11:12:20 +0200
+Received: (nullmailer pid 1495340 invoked by uid 1000);
+	Thu, 07 May 2026 09:12:19 -0000
+Date: Thu, 7 May 2026 11:12:19 +0200
+From: Steffen Klassert <steffen.klassert@secunet.com>
+To: Antony Antony <antony.antony@secunet.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, David Ahern <dsahern@kernel.org>, Masahide NAKAMURA
+	<nakam@linux-ipv6.org>, Paul Moore <paul@paul-moore.com>, Stephen Smalley
+	<stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Sabrina Dubroca <sd@queasysnail.net>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <selinux@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, Chiachang Wang <chiachangwang@google.com>, Yan
+ Yan <evitayan@google.com>, <devel@linux-ipsec.org>
+Subject: Re: [PATCH ipsec-next v8 12/14] xfrm: add XFRM_MSG_MIGRATE_STATE for
+ single SA migration
+Message-ID: <afxXc2T3lOWuhyvq@secunet.com>
+References: <migrate-state-v8-0-4578fb016965@secunet.com>
+ <migrate-state-v8-12-4578fb016965@secunet.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <migrate-state-v8-12-4578fb016965@secunet.com>
+X-ClientProxiedBy: EXCH-04.secunet.de (10.32.0.184) To EXCH-01.secunet.de
+ (10.32.0.171)
 
-On Wed, 6 May 2026 16:36:49 -0500, Mario Limonciello wrote:
-> > > The temperature register did not return a valid value while the
-> > > xHCI PCI function was suspended in testing. Keep the existing
-> > > behavior by default and allow temperature reads to wake the xHCI
-> > > PCI device. Add an allow_pm_switch module parameter so users can
-> > > disable that behavior; when disabled, reads do not wake the
-> > > device and return -EAGAIN if it is suspended.  
-> > 
-> > Is such behavior useful?
-> > 
-> > Maybe the driver could just disable runtime PM while it's loaded.  
+On Tue, May 05, 2026 at 06:34:29AM +0200, Antony Antony wrote:
+> Add a new netlink method to migrate a single xfrm_state.
+> Unlike the existing migration mechanism (SA + policy), this
+> supports migrating only the SA and allows changing the reqid.
 > 
-> I'd encourage what we do in amdgpu for dGPUs. The hwmon files will 
-> return an error code (I forget which code) when the device is in
-> runtime PM when called.  Don't explicitly wake it otherwise.
+> The SA is looked up via xfrm_usersa_id, which uniquely
+> identifies it, so old_saddr is not needed. old_daddr is carried in
+> xfrm_usersa_id.daddr.
 > 
-> This prevents someone installing a sensor monitoring application and 
-> that application "being the only thing" keeping the dGPU awake.  If
-> it's awake already for other reasons (like being used) then return
-> valid data to the applications
+> The reqid is invariant in the old migration.
+> 
+> Signed-off-by: Antony Antony <antony.antony@secunet.com>
+> 
+> ---
+> v7->v8: - removed the unknown-flags validation block
+> v6->v7: - add flags field to xfrm_user_migrate_state (based on Sabrina's feedback)
+>   - add XFRM_MIGRATE_STATE_NO_OFFLOAD (bit 0): suppresses offload
+>   - omit-to-inherit; mutually exclusive with XFRMA_OFFLOAD_DEV
+>   - zero-initialize struct xfrm_migrate m[XFRM_MAX_DEPTH]
+>   - add struct xfrm_selector new_sel to xfrm_user_migrate_state
+>   - add XFRM_MIGRATE_STATE_UPDATE_SEL: derive new selector
+>     from SA addresses when old selector is a single-host match
+> v5->v6: - (Feedback from Sabrina's review)
+>   - reqid change: use xfrm_state_add, not xfrm_state_insert
+>   - encap and xuo: use nla_data() directly, no kmemdup needed
+>   - notification failure is non-fatal: set extack warning, return 0
+>   - drop state direction, x->dir, check, not required
+>   - reverse xmas tree local variable ordering
+>   - use NL_SET_ERR_MSG_WEAK for clone failure message
+>   - fix implicit padding in xfrm_user_migrate_state uapi struct
+>   - support XFRMA_SET_MARK/XFRMA_SET_MARK_MASK in XFRM_MSG_MIGRATE_STATE
+> v4->v5: - set portid, seq in XFRM_MSG_MIGRATE_STATE netlink notification
+>   - rename error label to out for clarity
+>   - add locking and synchronize after cloning
+>   - change some if(x) to if(!x) for clarity
+>   - call __xfrm_state_delete() inside the lock
+>   - return error from xfrm_send_migrate_state() instead of always returning 0
+> v3->v4: preserve reqid invariant for each state migrated
+> v2->v3: free the skb on the error path
+> v1->v2: merged next patch here to fix use uninitialized value
+>   - removed unnecessary inline
+>   - added const when possible
+> ---
+>  include/net/xfrm.h          |  16 ++-
+>  include/uapi/linux/xfrm.h   |  21 ++++
+>  net/xfrm/xfrm_device.c      |   2 +-
+>  net/xfrm/xfrm_policy.c      |  19 +++
+>  net/xfrm/xfrm_state.c       |  29 +++--
+>  net/xfrm/xfrm_user.c        | 281 +++++++++++++++++++++++++++++++++++++++++++-
+>  security/selinux/nlmsgtab.c |   3 +-
+>  7 files changed, 357 insertions(+), 14 deletions(-)
 
-Well, that's not a dGPU but an xHCI controller embedded in the chipset,
-which chipset is more or less active all the time (includes bridges to
-PCIe ports, some SATA controllers and mabe other things I forgot).
-Is the saving from disabling xHCI significant for a desktop system?
+...
 
-Users may be interested in monitoring chipset temperature even while
-not actively using USB.
+> +static unsigned int xfrm_migrate_state_msgsize(const struct xfrm_migrate *m,
+> +					       u8 dir)
+> +{
+> +	return NLMSG_ALIGN(sizeof(struct xfrm_user_migrate_state)) +
+> +		(m->encap ? nla_total_size(sizeof(struct xfrm_encap_tmpl)) : 0) +
+> +		(m->xuo ? nla_total_size(sizeof(struct xfrm_user_offload)) : 0) +
+> +		(m->new_mark ? nla_total_size(sizeof(struct xfrm_mark)) : 0) +
+> +		(m->smark.v ? nla_total_size(sizeof(u32)) * 2 : 0) + /* SET_MARK + SET_MARK_MASK */
 
-I don't know what are the conditions to put GPUs into runtime suspend,
-but a USB HC will be going in and out quite randomly, depending on
-connected devices and their workload. You may end up needing to answer
-people why their sensor only works when they turn on a webcam :)
+xfrm_smark_put() checks (m->v | m->m), maybe you should
+do (m->smark.v | m->smark.m) here.
 
-Alternatively, would it be possible to bring a suspendend HC into D0,
-read the temperature register and then put it back into D3hot without
-bothering the USB layer to fully resume and suspend xHCI logic?
+> +		(m->mapping_maxage ? nla_total_size(sizeof(u32)) : 0) +
+> +		(m->nat_keepalive_interval ? nla_total_size(sizeof(u32)) : 0) +
+> +		(dir ? nla_total_size(sizeof(u8)) : 0); /* XFRMA_SA_DIR */
+> +}
 
-Regards,
-Michal
+Also, the function is not really readable.
+
+> +
+> +static int xfrm_send_migrate_state(const struct xfrm_user_migrate_state *um,
+> +				   const struct xfrm_migrate *m,
+> +				   u8 dir, u32 portid, u32 seq)
+> +{
+> +	int err;
+> +	struct sk_buff *skb;
+> +	struct net *net = &init_net;
+
+This is wrong. I know we had this in the tree for ages, but I now have
+a fix in ipsec/testing for it. We need to make this namespace aware.
+
