@@ -1,572 +1,580 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010005.outbound.protection.outlook.com [52.101.201.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879912BCF4C;
-	Thu,  7 May 2026 18:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778178835; cv=fail; b=XhUhzTkoxBuGEhvZ0Fs+Fhk0DE1wFnYC5Q1WFIPONGoSOANygw4wfOxAdLEgeMMM0Ze8F/14zLPVuhKKcmVJSh0vns813wkcLYLQcsA+LJrhOW8ZFOe1gucsapACs6pCCvoN179U0mqvRz9a3HN+tbVa1VvjsaAtbSp/+YWXoM8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778178835; c=relaxed/simple;
-	bh=BOw+KOdP+/IooSnAxxNUL/2tkQN8oJLCr2Wcp5JGMeY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=s3Escx0PJefZxs4l1vE2Yh4DyX3U38YgRPRaH+CGe42wMBufmDdP0PPK5juHt27IlA0e72n5uC3d0I8GhgngqmhO/ZQ9zv9hmdbbE/QDcmoswQSNrw3Mga8Hu//FiY6rxvGbyWcGm4n2bBceNSN70lwx9zKhqt1zXyQBdt2pRVM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Q6MN/bij; arc=fail smtp.client-ip=52.101.201.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36ED4466B63;
+	Thu,  7 May 2026 18:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778178841; cv=none; b=BP1q05JL1RNvfvkp9GXG3x3UsryytAeaZe7NBc5g4LCWml/syYkvSwBGdXpUrtb/jzTNoGl+pTmtBWST2yZMP+kB13hNWbPvRwTnvXvh/KpCOBGf+dqFQYDz3ndJHDsq9r03Z/3ffWqLLtx9hToOlVkCYYavTGn9oqbB2XAacpI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778178841; c=relaxed/simple;
+	bh=D4dt37yXLL0edwzLumYtDYUeQFmnkqCrsicPXx941mY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=DurnlrZh860NqiYyWmzD0G6rHGYaGYPBjs3Ixy6t1Qto0vctUpTKQnvT0+JoK9g1ys5mRJmqL/7sql1Q2RvZtZ5+VmR2UyMoOw9VeKphLEgxzHtG3sPxSEKkGoj9hy+w4t3L/dJJPfcAr7hLa4vlg9vOl9ydxcwrrK2S+RhnDmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=HsTxio2y; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Q6MN/bij"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SWGjKV8xqqQJMv+E7l3TzHr1gYGdu9aBMjWfYnsmItMVDUpqdOv1nCxcmFgCSBCMR7blbPmRjvs9ALhJjJ/t+wd+JKkwozJlccMu60/P9tPyUVSZjkgay0GVFhzLzb64/4VikwjfSuwUkolrOWhR4lz77HjBin9/1eBZ+3H+2eiuyEWpyfSXafdGVgSRtr81MeTOnkPJVQ9aYWrPJ+hFLDfIpy+3Uf4jlVVknJlsp/98E9A50FD7d3pBzStgJ33ip+5vm8uDhwhzH1B039DFRjo2OBoDqNTqD/NvdOJezlGJsIciwXpBSHKo6jbS3yXnjKtUsSglNE9IaZfVii+5iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b6zEJ3lJbeZs5gj1g8CVwzED4BGUBnr9Tspd8AEHJOY=;
- b=n0kCWKoKaY4jDQTPPcxlw1LqBZ8Vqchet+Wr7EPLNJHSTDVfwtg4RVou3wI4cySLjQFgKyQ5hWroGMPUxAvEK2LxG65iaz1XO/HoYHlfw1JBhebZpWn+5Ha7vc1s9XXgFrejvI513xpg89a/6FPKQBFrtsfXd0l+TKfQaYH1wNc/TZLazmMceyxsdn0n+MoMg39TAkwLkR8aNwt9EyxmJEgArvZS2SmdIntx1SANgAn5+6ChwXApqCWPPqMj7mlN2YBRKDYMk1fFobwgp4un5YjAcLeybJMDC+D5QmPh8rWt2y6nfHTuriwAco2vsp4e88sFA0XEbxHIGz5Dv7QFGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b6zEJ3lJbeZs5gj1g8CVwzED4BGUBnr9Tspd8AEHJOY=;
- b=Q6MN/bijgex95l30Ov+omzuj8Mt3bUOLDCrEovzXYPPj2PljPqEe2SJRlkF4vGYpoIR/k3yQI5R27/zso70+23knJtHF2qxeOQs/v4HRWAK5tc8Mzuk40IoRKMYQgrSkxzyKNerPUtLPWrvfjzR87q3zYoWZA1yx07yuSNHNbmc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH8PR12MB9766.namprd12.prod.outlook.com (2603:10b6:610:2b6::10)
- by BY5PR12MB4033.namprd12.prod.outlook.com (2603:10b6:a03:213::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.16; Thu, 7 May
- 2026 18:33:49 +0000
-Received: from CH8PR12MB9766.namprd12.prod.outlook.com
- ([fe80::be0f:431f:5f27:96d9]) by CH8PR12MB9766.namprd12.prod.outlook.com
- ([fe80::be0f:431f:5f27:96d9%3]) with mapi id 15.20.9891.008; Thu, 7 May 2026
- 18:33:49 +0000
-Message-ID: <8913c666-a343-4717-8ab2-0b8546d1bdfb@amd.com>
-Date: Thu, 7 May 2026 13:33:45 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v17 02/11] cxl/ras: Unify Endpoint and Port AER trace
- events
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: dave@stgolabs.net, dave.jiang@intel.com, alison.schofield@intel.com,
- djbw@kernel.org, bhelgaas@google.com, shiju.jose@huawei.com,
- ming.li@zohomail.com, Smita.KoralahalliChannabasappa@amd.com,
- rrichter@amd.com, dan.carpenter@linaro.org,
- PradeepVineshReddy.Kodamati@amd.com, lukas@wunner.de,
- Benjamin.Cheatham@amd.com, sathyanarayanan.kuppuswamy@linux.intel.com,
- vishal.l.verma@intel.com, alucerop@amd.com, ira.weiny@intel.com,
- corbet@lwn.net, rafael@kernel.org, xueshuai@linux.alibaba.com,
- linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20260505173029.2718246-1-terry.bowman@amd.com>
- <20260505173029.2718246-3-terry.bowman@amd.com>
- <20260507190836.70197e24@jic23-huawei>
-Content-Language: en-US
-From: "Bowman, Terry" <terry.bowman@amd.com>
-In-Reply-To: <20260507190836.70197e24@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR08CA0014.namprd08.prod.outlook.com
- (2603:10b6:610:33::19) To CH8PR12MB9766.namprd12.prod.outlook.com
- (2603:10b6:610:2b6::10)
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="HsTxio2y"
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 41BD227174;
+	Thu,  7 May 2026 20:33:49 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id l9KnIYgvsfA0; Thu,  7 May 2026 20:33:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1778178828; bh=D4dt37yXLL0edwzLumYtDYUeQFmnkqCrsicPXx941mY=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To;
+	b=HsTxio2yNSFoGBeCluUZJmtcziNk9S1ev2SrHHXqrPzH/OSubIlC+/9zwXvK5PHsM
+	 4wfgBuGwq9PGZEdcdMm52V70NZ1AlUjHvN/YaYA7ymwwHYsk2aRv+d198RoBWQ22G2
+	 C2NbhOQkmPMmnRkxS8okC8pU5JJy0DQUK4ncKID5QUkryLIoZflpMDnabJpNnzB1ZV
+	 tb54UFQa8RlU71nEnZ6+6NynJP+/kp19ot6ZJCG5RqD7tEScRdbw9k3UOb7VbC+jZ3
+	 NPE/NBI2CfkVh1l6r57+ULdm0CaPLYY1gAit4Md90r/nimCCa2Gj59VaxanwJo5kv3
+	 bvdzMPrcsxHvg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH8PR12MB9766:EE_|BY5PR12MB4033:EE_
-X-MS-Office365-Filtering-Correlation-Id: 02863f24-379f-4244-97a7-08deac672e2a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|13003099007|3023799003|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	icc3+kVOxrvUN87eatPXNN6MXRtyYonkUD3QMjmhBmys41AXs5N7kK39pKqXIFZPJjyiH/BCxHBYisilYfiT+sZzx9h5IrHXGTxjXzuxhgjzLfnr33S+qeKPryohrvKJlPJaglIGMl8/LwpgIOyHxdAS7reiHfbgVR5rg6QJwtsRZY5lsiKr3LOgFpK2esid1AZa/9hvjJVyy6Ks9JaR+0uUUyIo6MYv7pW3sTdy43e9pbPfdzkr04Ot7dPkOj2fL6sw9CVHln5Ne39XBuj2WiRyRXi26WeDp9vVCKJw/f7EDqrrnfTdXViZV3VqLp9+ZtSe7/J9AsTa4HRDu1oFUhFeMwAO0CJKmmJzZ164zcrRJHnNnGVQa+WurVQV+QvTgz9EBYXcy2eosB3N86H+sU7ZOE7is5u8c+yY7LV+Klg6ocATFs5kQPKBP5KJ1c+oS4un4d21Bu3hFpsQM1xi4iVdQIUrjbPBRetevroWpukBV/I/g8ed6zpJJ0QoYSCuixWjN45ouwn8emr7G8BCmlI3K3TyLGGf8FCZPV+4M4D0Eols/o3aHv4OpsfrHxnVWMkEbaLZziKwO1egGGCzPKCtruYIe1Cw1RWjddLP+ozaQJMOdeVsjZ5Bq8y0p/rFtp52QHyMpCpgYKd8ddxYIcLnh10YvNeMdsKJuIPcGMdsb42TrlXRP77WVrAepgdK5kkMLn/ncCYRYMIz8y4O0Q==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH8PR12MB9766.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(13003099007)(3023799003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?N0hCVGdwSGt0MGZsSUw2bmR4TWE2ZkFtT3NwVlpxMHRZb2JPUWRiY1lYVnV5?=
- =?utf-8?B?a05jNERYeit0RTN4dFRyaWVDdXdOOEpBVlV4eTRWbE5rWER3VWROY3pHS1dH?=
- =?utf-8?B?ekExaS96VEk0cWw4cjFSZFJmakNaRVM3OWhDRzJVUTNLamJrVkRIeUpmZjNR?=
- =?utf-8?B?bW9ZWmlTeU44RUtLZGd6aitCY2FMNDRvMGhGUTZRNkxoUXhnLzVXdjBBNHc3?=
- =?utf-8?B?cUJrazQwSVBjZ0dzMHI0THp6aytjdG5iYmZwbG1saWZGZjBIUGZBKzNoSmFH?=
- =?utf-8?B?NDdnS3pJdDhMVmpLeTd5NEUveGxYUnU4YkM1QzBiQjNnTHJzR05NYjAxRkJi?=
- =?utf-8?B?VEUxV29VczhCY1JTNUJvVUFhUUdRWTNpZUVHVm15ajJBSFRwTnovVy9ZWW5E?=
- =?utf-8?B?RkczZUNrMm56ZG00Nmplb0VHdGFRS0hCa2ZWNnl1M2VVNlF1UjZxREtMOWxP?=
- =?utf-8?B?d1FWOTdlVDdQL1lIL2Vic21TTkxnZ1hyZDRjaDkvMVVWeGR3RUZSNmVCY2or?=
- =?utf-8?B?cjR6TmdkOFljMVhMVFFtVnA2YWwrUnZadGFWcFllN05LWlExM2E1ZlFDN2ZI?=
- =?utf-8?B?U09ENWRhaWlDbmJuRHpub0xEZHhnYTk3OXhheE5PVXZZb21vMjdndzh4aHl2?=
- =?utf-8?B?ZjBXbS9SU0hwNGNkUjZ2dGNpbXdieVhsMzh1cGlkcXdWeWRMNi9CUThIS2Y1?=
- =?utf-8?B?T3ArS0Z1c3VCMGR3MGE4T2J2c2xkVTVLZ1hYRzE4MDhBQ25CKzZpc1hGRys0?=
- =?utf-8?B?V1N6aUdIZzhVdm5YUHZUbTFMRGhCaVZ5b3h6K3VVVW5MZFlrWFY2bXVIREt3?=
- =?utf-8?B?NDhYajR2d09nNENHVm43Q25EdUcxbm5XbGkvT0JtWXFZd3VoZzM3WExEcHBK?=
- =?utf-8?B?QzZWeEhzNTV4blpYQkEyTy9oZUpNN3Z3bWZTQUFCVjdNUGx6QlNGZlZialBZ?=
- =?utf-8?B?SWpScXpOK3N0YVB6U3NEbStXQnV3bWlLVGh0bHN5VHZWVnZJell0UXlhT3RW?=
- =?utf-8?B?WnJCNVlqaVdPdUxXNGV2NTdqd3U4cDZNUWpvT0pFTUtXbnBwaHZCNlZaSnlR?=
- =?utf-8?B?V2hqWEcxTWxPMXVWOGttOXR4aWF3YXVPZjdVZEdPMG5adkYyc1krZE8wSXA2?=
- =?utf-8?B?dXI5S2tCVUpFeGNiaVU0Tzl5T213czZOZU9RQVpNV2xmSDVNWW1hOGFWUGdF?=
- =?utf-8?B?MjhkWEtuSnY3a0hlTVRmWDd4cXFrVSt3aVBwbjMzWlc3QXFPZks4M0QzekNm?=
- =?utf-8?B?QnREbU4xcXd3WDQrY1VOLzJZeEE3TVZaeUpiN3BjMnNybCtzTzZXRGxLU1ov?=
- =?utf-8?B?c2JwTm96MDF0c2pUV1orUXMxS1lpMkgxRmp1QW9wenkydC9HTHFGdkhyL1hS?=
- =?utf-8?B?WmNKaUJzSW02c2FWYjl5TzBObE1TYTg3c24vR0llQ1JzUFJ0YTFieHVMdHVM?=
- =?utf-8?B?Z2RZUnRkd0dMNVZtSTBYV0tlTFRnRmV0TXBhdHVhL3MwZWNqVHZJV045MEtX?=
- =?utf-8?B?SnBlcGFYQzIwM080dGxTbytJZlMzWkk2US9RY0p4aStRNlFJWWlRZmR4Vytk?=
- =?utf-8?B?cnNoWHc4TktHbHNQTklSOHczWmVoeHp1Y2M4RG9PczFGTm8vZW9JVW9DZ3hQ?=
- =?utf-8?B?dGwwcWdYNmpkcVVTRFhzM091NmxRRm4wdEVjcktRWUdXOUl4TDlRN2Z6cDlJ?=
- =?utf-8?B?NGRaSURJQkMrTFM2QkliMTlnMXA0U2NPQ0ErOCtBSDVRZUlVTWxMZnJlK1RL?=
- =?utf-8?B?K096V3VPVHV4cjNFV2tMTUYveWxzNkVpK25NakNwUE1KSzRlQkpZUEVMbkN5?=
- =?utf-8?B?S1JOb3NYSCt4Nm1INS84c1lSNmhlNUZremdFOU9ibVZRSHlpUTVQMHJ2MTN4?=
- =?utf-8?B?dWQySTg0QklxY29JSjJlUzF5WE9wZTc0Vk4yb2NHOWlGMjI3SDlkOVB4V1lj?=
- =?utf-8?B?aHcrZm96MWJZeVpXQ1VVZGFRUWs1RFllYnFXcTEwelQzTEh1L0xqVE1KbjJX?=
- =?utf-8?B?Z2xYNEpDR3dJVVdidXdYYjltMXhqT1lQMTRXejJuYjhYeTIzaHpIRUpCUlp3?=
- =?utf-8?B?YjUvcmo1VldmRGZQZXpacFZpUXdPOFZpaGJFMElYSVJvZXJoOVRkNUlObDcw?=
- =?utf-8?B?Y1JmZEw2bllRYzRRNVoyOXRKcXd6M25Ea1NrKzArVTgvT2krRjZiaVhHSDBh?=
- =?utf-8?B?ZXRDWlZlSWVaeGoxb1d0RGhGNDVKaWIzNjF0NExIWmJkY2lrWDNuZUcvL0Ew?=
- =?utf-8?B?R3J0M2xxL3J6WXlDb1U2aGp4MkVHREo0SWs0Mk80cTlKWk1wWjJuT0pIZzFO?=
- =?utf-8?Q?AmByK2nMThLEmfk4ri?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02863f24-379f-4244-97a7-08deac672e2a
-X-MS-Exchange-CrossTenant-AuthSource: CH8PR12MB9766.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 18:33:49.1121
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bJi0M/+1UZ3nhdx5TEcZazEMoiQJgZFemh3JOk3kYB7f5b659gYFCF8zPjrvWcC3wL2Whc+Ot2PiNbt0TFIZgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4033
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 08 May 2026 00:03:31 +0530
+Message-Id: <DICNS4WYM1BY.C1WROHZ5D687@disroot.org>
+Cc: "Pavel Machek" <pavel@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "MyungJoo Ham" <myungjoo.ham@samsung.com>, "Chanwoo
+ Choi" <cw00.choi@samsung.com>, "Sebastian Reichel" <sre@kernel.org>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
+ <andre.draszik@linaro.org>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, "Nam Tran" <trannamatk@gmail.com>,
+ =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>,
+ <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v5 07/11] leds: flash: add support for Samsung S2M
+ series PMIC flash LED device
+From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
+To: "Lee Jones" <lee@kernel.org>, "Kaustabh Chakraborty"
+ <kauschluss@disroot.org>
+References: <20260424-s2mu005-pmic-v5-0-fcbc9da5a004@disroot.org>
+ <20260424-s2mu005-pmic-v5-7-fcbc9da5a004@disroot.org>
+ <20260507164654.GS305027@google.com>
+In-Reply-To: <20260507164654.GS305027@google.com>
 
-On 5/7/2026 1:08 PM, Jonathan Cameron wrote:
-> [Some people who received this message don't often get email from jic23@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> 
-> On Tue, 5 May 2026 12:30:20 -0500
-> Terry Bowman <terry.bowman@amd.com> wrote:
-> 
->> From: Dan Williams <djbw@kernel.org>
-> 
-> +CC Mauro - rasdaemon related - see below.
-> 
->>
->> CXL protocol error logging uses two parallel sets of trace events. The
->> cxl_port_aer_correctable_error() and cxl_port_aer_uncorrectable_error()
->> events are used by CPER for CXL Port devices. The cxl_aer_correctable_error()
->> and cxl_aer_uncorrectable_error() events are used for CXL Endpoints. Update
->> the trace routines to use the latter for all CXL devices on both the CPER
->> and native AER paths.
->>
->> Generalize cxl_aer_correctable_error()/cxl_aer_uncorrectable_error to
->> take a struct device * and a u64 serial argument supplied by the caller.
->> cxl_handle_ras() and cxl_handle_cor_ras() gain the new u64 serial parameter,
->> sourced from pci_get_dsn().
->>
->> The CPER path keeps its existing Port-vs-Endpoint dispatch and passes the
->> new arguments to the unified trace events. The CPER path will be folded
->> together in a following patch.
->>
->> Remove the now-unused cxl_port_aer_correctable_error() and
->> cxl_port_aer_uncorrectable_error().
->>
->> **WARNING: ABI BREAK**
->> Rename the trace event field "memdev" to "device" so all CXL device types
->> (Ports and Endpoints) can be reported under a common field name. Note this
->> is an ABI break for userspace tools that key off the old "memdev" field.
->> Specifically, rasdaemon's ras-cxl-handler.c looks up "memdev" and bails on
->> NULL, so an unmodified rasdaemon will drop every CXL CE/UCE event once this
->> kernel ships. A rasdaemon update is needed in a separate series.
->>
->> The need for the field rename was discussed in v16 review [1].
-> 
-> This concerns me (sorry I wasn't paying attention to the v16 thread).
-> It is a userspace regression against code that is out in the wild and typically
-> not updated in sync with the kernel.
-> 
-> If you are suggesting breaking ras-daemon at the very least +CC the maintainer.
-> 
-> To get to a unified tracepoint add a new one that does what you want, but
-> maintain the existing ones as well.  Userspace can then migrate and maybe
-> in 5+ years time we can delete the non unified ones.
-> 
-> No actually comments on the code, just left it all here for Mauro,
-> 
-> Thanks,
-> 
-> Jonathan
-> 
-
-Dan was clear about using a single set of CE and UE handlers for all CXL RAS 
-protocol errors. While I understand there may be concerns, please direct any 
-objections to Dan and clarify what changes are required to avoid this 
-repeatedly going back and forth.
-
-[1] https://lore.kernel.org/linux-cxl/69cb2d5ba3111_178904100b7@dwillia2-mobl4.notmuch/
-
-- Terry
-
-
->>
->> Also, for CXL Upstream Switch Port (USP) and Endpoint (EP) fatal UCE,
->> the cxl_aer_uncorrectable_error trace event is not emitted. The AER core
->> only retrieves PCI_ERR_UNCOR_STATUS for Root Ports, RCECs, and Downstream
->> Ports, or for non-fatal severities. PCI config reads to the source device
->> are expected to fail otherwise, so the AER core never reads the status
->> word, is_cxl_error() does not classify the event as CXL, and the AER path
->> handles it instead. In this case the AER handler consumes the event and
->> logs it as an AER error without calling the CXL RAS handlers or trace
->> logging.
->>
->> Before this patch, Endpoint and Port devices emitted different events:
->>
->>   # Endpoint (cxl_aer_*):
->>   cxl_aer_correctable_error: memdev=mem0 host=0000:0c:00.0 serial=0: status: 'CRC Threshold Hit'
->>   cxl_aer_uncorrectable_error: memdev=mem0 host=0000:0c:00.0 serial=0: status: 'Cache Data ECC Error | Memory Data ECC Error' first_error: 'Cache Data ECC Error'
->>
->>   # Port (cxl_port_aer_*, no serial field):
->>   cxl_port_aer_correctable_error: device=0000:0c:00.0 host=pci0000:0c status='CRC Threshold Hit'
->>   cxl_port_aer_uncorrectable_error: device=0000:0c:00.0 host=pci0000:0c status: 'Cache Data ECC Error | Memory Data ECC Error' first_error: 'Cache Data ECC Error'
->>
->> After this patch, all CXL devices emit the unified cxl_aer_* events
->> with the same field layout:
->>
->>   cxl_aer_correctable_error: device=0000:0c:00.0 host=pci0000:0c serial=0 status: 'CRC Threshold Hit'
->>   cxl_aer_uncorrectable_error: device=0000:0c:00.0 host=pci0000:0c serial=0 status: 'Cache Data ECC Error | Memory Data ECC Error' first_error: 'Cache Data ECC Error'
->>
->> [1] https://lore.kernel.org/linux-cxl/69cb2d5ba3111_178904100b7@dwillia2-mobl4.notmuch/
->>
->> Co-developed-by: Terry Bowman <terry.bowman@amd.com>
->> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
->> Signed-off-by: Dan Williams <djbw@kernel.org>
->>
+On 2026-05-07 17:46 +01:00, Lee Jones wrote:
+> On Fri, 24 Apr 2026, Kaustabh Chakraborty wrote:
+>
+>> Add support for flash LEDs in certain Samsung S2M series PMICs.
+>> The device has two channels for LEDs, typically for the back and front
+>> cameras in mobile devices. Both channels can be independently
+>> controlled, and can be operated in torch or flash modes.
+>>=20
+>> The driver includes initial support for the S2MU005 PMIC flash LEDs.
+>>=20
+>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 >> ---
->>
->> Changes in v16->v17:
->> - Replace cxlds->serial with pci_get_dsn()
->> - Change 'memdev' to 'device' (Dan)
->> - Updated Commit message
->>
->> Changes in v15->v16:
->> - Add Dan's review-by
->> - Incorporate Dan's comment into commit message:
->> "Add the serial number at the end to preserve compatibility with
->> libtraceevent parsing of the parameters."
->>
->> Changes in v14->v15:
->> - Update commit message.
->> - Moved cxl_handle_ras/cxl_handle_cor_ras() changes to future patch (terry)
->>
->> Changes in v13->v14:
->> - Update commit headline (Bjorn)
->>
->> Changes in v12->v13:
->> - Added Dave Jiang's review-by
->>
->> Changes in v11 -> v12:
->> - Correct parameters to call trace_cxl_aer_correctable_error()
->> - Add reviewed-by for Jonathan and Shiju
->>
->> Changes in v10->v11:
->> - Updated CE and UCE trace routines to maintain consistent TP_Struct ABI
->> and unchanged TP_printk() logging.
->> ---
->>  drivers/cxl/core/core.h    | 11 ++++--
->>  drivers/cxl/core/ras.c     | 39 +++++++++++--------
->>  drivers/cxl/core/ras_rch.c |  6 ++-
->>  drivers/cxl/core/trace.h   | 76 ++++++++------------------------------
->>  4 files changed, 49 insertions(+), 83 deletions(-)
->>
->> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
->> index 82ca3a476708..132ac9c1ebf4 100644
->> --- a/drivers/cxl/core/core.h
->> +++ b/drivers/cxl/core/core.h
->> @@ -183,8 +183,9 @@ static inline struct device *dport_to_host(struct cxl_dport *dport)
->>  #ifdef CONFIG_CXL_RAS
->>  int cxl_ras_init(void);
->>  void cxl_ras_exit(void);
->> -bool cxl_handle_ras(struct device *dev, void __iomem *ras_base);
->> -void cxl_handle_cor_ras(struct device *dev, void __iomem *ras_base);
->> +bool cxl_handle_ras(struct device *dev, u64 serial, void __iomem *ras_base);
->> +void cxl_handle_cor_ras(struct device *dev, u64 serial,
->> +                     void __iomem *ras_base);
->>  void cxl_dport_map_rch_aer(struct cxl_dport *dport);
->>  void cxl_disable_rch_root_ints(struct cxl_dport *dport);
->>  void cxl_handle_rdport_errors(struct cxl_dev_state *cxlds);
->> @@ -195,11 +196,13 @@ static inline int cxl_ras_init(void)
->>       return 0;
->>  }
->>  static inline void cxl_ras_exit(void) { }
->> -static inline bool cxl_handle_ras(struct device *dev, void __iomem *ras_base)
->> +static inline bool cxl_handle_ras(struct device *dev, u64 serial,
->> +                               void __iomem *ras_base)
->>  {
->>       return false;
->>  }
->> -static inline void cxl_handle_cor_ras(struct device *dev, void __iomem *ras_base) { }
->> +static inline void cxl_handle_cor_ras(struct device *dev, u64 serial,
->> +                                   void __iomem *ras_base) { }
->>  static inline void cxl_dport_map_rch_aer(struct cxl_dport *dport) { }
->>  static inline void cxl_disable_rch_root_ints(struct cxl_dport *dport) { }
->>  static inline void cxl_handle_rdport_errors(struct cxl_dev_state *cxlds) { }
->> diff --git a/drivers/cxl/core/ras.c b/drivers/cxl/core/ras.c
->> index 006c6ffc2f56..d7081caaf5d3 100644
->> --- a/drivers/cxl/core/ras.c
->> +++ b/drivers/cxl/core/ras.c
->> @@ -13,7 +13,7 @@ static void cxl_cper_trace_corr_port_prot_err(struct pci_dev *pdev,
->>  {
->>       u32 status = ras_cap.cor_status & ~ras_cap.cor_mask;
->>
->> -     trace_cxl_port_aer_correctable_error(&pdev->dev, status);
->> +     trace_cxl_aer_correctable_error(&pdev->dev, status, pci_get_dsn(pdev));
->>  }
->>
->>  static void cxl_cper_trace_uncorr_port_prot_err(struct pci_dev *pdev,
->> @@ -28,20 +28,24 @@ static void cxl_cper_trace_uncorr_port_prot_err(struct pci_dev *pdev,
->>       else
->>               fe = status;
->>
->> -     trace_cxl_port_aer_uncorrectable_error(&pdev->dev, status, fe,
->> -                                            ras_cap.header_log);
->> +     trace_cxl_aer_uncorrectable_error(&pdev->dev, status, fe,
->> +                                       ras_cap.header_log,
->> +                                       pci_get_dsn(pdev));
->>  }
->>
->> -static void cxl_cper_trace_corr_prot_err(struct cxl_memdev *cxlmd,
->> +static void cxl_cper_trace_corr_prot_err(struct pci_dev *pdev,
->> +                                      struct cxl_memdev *cxlmd,
->>                                        struct cxl_ras_capability_regs ras_cap)
->>  {
->>       u32 status = ras_cap.cor_status & ~ras_cap.cor_mask;
->>
->> -     trace_cxl_aer_correctable_error(cxlmd, status);
->> +     trace_cxl_aer_correctable_error(&cxlmd->dev, status,
->> +                                     pci_get_dsn(pdev));
->>  }
->>
->>  static void
->> -cxl_cper_trace_uncorr_prot_err(struct cxl_memdev *cxlmd,
->> +cxl_cper_trace_uncorr_prot_err(struct pci_dev *pdev,
->> +                            struct cxl_memdev *cxlmd,
->>                              struct cxl_ras_capability_regs ras_cap)
->>  {
->>       u32 status = ras_cap.uncor_status & ~ras_cap.uncor_mask;
->> @@ -53,8 +57,9 @@ cxl_cper_trace_uncorr_prot_err(struct cxl_memdev *cxlmd,
->>       else
->>               fe = status;
->>
->> -     trace_cxl_aer_uncorrectable_error(cxlmd, status, fe,
->> -                                       ras_cap.header_log);
->> +     trace_cxl_aer_uncorrectable_error(&cxlmd->dev, status, fe,
->> +                                       ras_cap.header_log,
->> +                                       pci_get_dsn(pdev));
->>  }
->>
->>  static int match_memdev_by_parent(struct device *dev, const void *uport)
->> @@ -101,9 +106,9 @@ void cxl_cper_handle_prot_err(struct cxl_cper_prot_err_work_data *data)
->>
->>       cxlmd = to_cxl_memdev(mem_dev);
->>       if (data->severity == AER_CORRECTABLE)
->> -             cxl_cper_trace_corr_prot_err(cxlmd, data->ras_cap);
->> +             cxl_cper_trace_corr_prot_err(pdev, cxlmd, data->ras_cap);
->>       else
->> -             cxl_cper_trace_uncorr_prot_err(cxlmd, data->ras_cap);
->> +             cxl_cper_trace_uncorr_prot_err(pdev, cxlmd, data->ras_cap);
->>  }
->>  EXPORT_SYMBOL_GPL(cxl_cper_handle_prot_err);
->>
->> @@ -183,7 +188,7 @@ void devm_cxl_port_ras_setup(struct cxl_port *port)
->>  }
->>  EXPORT_SYMBOL_NS_GPL(devm_cxl_port_ras_setup, "CXL");
->>
->> -void cxl_handle_cor_ras(struct device *dev, void __iomem *ras_base)
->> +void cxl_handle_cor_ras(struct device *dev, u64 serial, void __iomem *ras_base)
->>  {
->>       void __iomem *addr;
->>       u32 status;
->> @@ -195,7 +200,7 @@ void cxl_handle_cor_ras(struct device *dev, void __iomem *ras_base)
->>       status = readl(addr);
->>       if (status & CXL_RAS_CORRECTABLE_STATUS_MASK) {
->>               writel(status & CXL_RAS_CORRECTABLE_STATUS_MASK, addr);
->> -             trace_cxl_aer_correctable_error(to_cxl_memdev(dev), status);
->> +             trace_cxl_aer_correctable_error(dev, status, serial);
->>       }
->>  }
->>
->> @@ -220,7 +225,7 @@ static void header_log_copy(void __iomem *ras_base, u32 *log)
->>   * Log the state of the RAS status registers and prepare them to log the
->>   * next error status. Return 1 if reset needed.
->>   */
->> -bool cxl_handle_ras(struct device *dev, void __iomem *ras_base)
->> +bool cxl_handle_ras(struct device *dev, u64 serial, void __iomem *ras_base)
->>  {
->>       u32 hl[CXL_HEADERLOG_SIZE_U32];
->>       void __iomem *addr;
->> @@ -247,7 +252,7 @@ bool cxl_handle_ras(struct device *dev, void __iomem *ras_base)
->>       }
->>
->>       header_log_copy(ras_base, hl);
->> -     trace_cxl_aer_uncorrectable_error(to_cxl_memdev(dev), status, fe, hl);
->> +     trace_cxl_aer_uncorrectable_error(dev, status, fe, hl, serial);
->>       writel(status & CXL_RAS_UNCORRECTABLE_STATUS_MASK, addr);
->>
->>       return true;
->> @@ -270,7 +275,8 @@ void cxl_cor_error_detected(struct pci_dev *pdev)
->>               if (cxlds->rcd)
->>                       cxl_handle_rdport_errors(cxlds);
->>
->> -             cxl_handle_cor_ras(&cxlds->cxlmd->dev, cxlmd->endpoint->regs.ras);
->> +             cxl_handle_cor_ras(&cxlds->cxlmd->dev, pci_get_dsn(pdev),
->> +                                cxlmd->endpoint->regs.ras);
->>       }
->>  }
->>  EXPORT_SYMBOL_NS_GPL(cxl_cor_error_detected, "CXL");
->> @@ -299,7 +305,8 @@ pci_ers_result_t cxl_error_detected(struct pci_dev *pdev,
->>                * chance the situation is recoverable dump the status of the RAS
->>                * capability registers and bounce the active state of the memdev.
->>                */
->> -             ue = cxl_handle_ras(&cxlds->cxlmd->dev, cxlmd->endpoint->regs.ras);
->> +             ue = cxl_handle_ras(&cxlds->cxlmd->dev, pci_get_dsn(pdev),
->> +                                 cxlmd->endpoint->regs.ras);
->>       }
->>
->>       switch (state) {
->> diff --git a/drivers/cxl/core/ras_rch.c b/drivers/cxl/core/ras_rch.c
->> index 0a8b3b9b6388..61835fbafc0f 100644
->> --- a/drivers/cxl/core/ras_rch.c
->> +++ b/drivers/cxl/core/ras_rch.c
->> @@ -115,7 +115,9 @@ void cxl_handle_rdport_errors(struct cxl_dev_state *cxlds)
->>
->>       pci_print_aer(pdev, severity, &aer_regs);
->>       if (severity == AER_CORRECTABLE)
->> -             cxl_handle_cor_ras(&cxlds->cxlmd->dev, dport->regs.ras);
->> +             cxl_handle_cor_ras(&cxlds->cxlmd->dev, pci_get_dsn(pdev),
->> +                                dport->regs.ras);
->>       else
->> -             cxl_handle_ras(&cxlds->cxlmd->dev, dport->regs.ras);
->> +             cxl_handle_ras(&cxlds->cxlmd->dev, pci_get_dsn(pdev),
->> +                            dport->regs.ras);
->>  }
->> diff --git a/drivers/cxl/core/trace.h b/drivers/cxl/core/trace.h
->> index a972e4ef1936..6f3957b3c3af 100644
->> --- a/drivers/cxl/core/trace.h
->> +++ b/drivers/cxl/core/trace.h
->> @@ -48,49 +48,22 @@
->>       { CXL_RAS_UC_IDE_RX_ERR, "IDE Rx Error" }                         \
->>  )
->>
->> -TRACE_EVENT(cxl_port_aer_uncorrectable_error,
->> -     TP_PROTO(struct device *dev, u32 status, u32 fe, u32 *hl),
->> -     TP_ARGS(dev, status, fe, hl),
->> +TRACE_EVENT(cxl_aer_uncorrectable_error,
->> +     TP_PROTO(const struct device *dev, u32 status, u32 fe, u32 *hl,
->> +              u64 serial),
->> +     TP_ARGS(dev, status, fe, hl, serial),
->>       TP_STRUCT__entry(
->>               __string(device, dev_name(dev))
->>               __string(host, dev_name(dev->parent))
->> -             __field(u32, status)
->> -             __field(u32, first_error)
->> -             __array(u32, header_log, CXL_HEADERLOG_SIZE_U32)
->> -     ),
->> -     TP_fast_assign(
->> -             __assign_str(device);
->> -             __assign_str(host);
->> -             __entry->status = status;
->> -             __entry->first_error = fe;
->> -             /*
->> -              * Embed the 512B headerlog data for user app retrieval and
->> -              * parsing, but no need to print this in the trace buffer.
->> -              */
->> -             memcpy(__entry->header_log, hl, CXL_HEADERLOG_SIZE);
->> -     ),
->> -     TP_printk("device=%s host=%s status: '%s' first_error: '%s'",
->> -               __get_str(device), __get_str(host),
->> -               show_uc_errs(__entry->status),
->> -               show_uc_errs(__entry->first_error)
->> -     )
->> -);
->> -
->> -TRACE_EVENT(cxl_aer_uncorrectable_error,
->> -     TP_PROTO(const struct cxl_memdev *cxlmd, u32 status, u32 fe, u32 *hl),
->> -     TP_ARGS(cxlmd, status, fe, hl),
->> -     TP_STRUCT__entry(
->> -             __string(memdev, dev_name(&cxlmd->dev))
->> -             __string(host, dev_name(cxlmd->dev.parent))
->>               __field(u64, serial)
->>               __field(u32, status)
->>               __field(u32, first_error)
->>               __array(u32, header_log, CXL_HEADERLOG_SIZE_U32)
->>       ),
->>       TP_fast_assign(
->> -             __assign_str(memdev);
->> +             __assign_str(device);
->>               __assign_str(host);
->> -             __entry->serial = cxlmd->cxlds->serial;
->> +             __entry->serial = serial;
->>               __entry->status = status;
->>               __entry->first_error = fe;
->>               /*
->> @@ -99,8 +72,8 @@ TRACE_EVENT(cxl_aer_uncorrectable_error,
->>                */
->>               memcpy(__entry->header_log, hl, CXL_HEADERLOG_SIZE);
->>       ),
->> -     TP_printk("memdev=%s host=%s serial=%lld: status: '%s' first_error: '%s'",
->> -               __get_str(memdev), __get_str(host), __entry->serial,
->> +     TP_printk("device=%s host=%s serial=%lld status: '%s' first_error: '%s'",
->> +               __get_str(device), __get_str(host), __entry->serial,
->>                 show_uc_errs(__entry->status),
->>                 show_uc_errs(__entry->first_error)
->>       )
->> @@ -124,42 +97,23 @@ TRACE_EVENT(cxl_aer_uncorrectable_error,
->>       { CXL_RAS_CE_PHYS_LAYER_ERR, "Received Error From Physical Layer" }     \
->>  )
->>
->> -TRACE_EVENT(cxl_port_aer_correctable_error,
->> -     TP_PROTO(struct device *dev, u32 status),
->> -     TP_ARGS(dev, status),
->> +TRACE_EVENT(cxl_aer_correctable_error,
->> +     TP_PROTO(const struct device *dev, u32 status, u64 serial),
->> +     TP_ARGS(dev, status, serial),
->>       TP_STRUCT__entry(
->>               __string(device, dev_name(dev))
->>               __string(host, dev_name(dev->parent))
->> -             __field(u32, status)
->> -     ),
->> -     TP_fast_assign(
->> -             __assign_str(device);
->> -             __assign_str(host);
->> -             __entry->status = status;
->> -     ),
->> -     TP_printk("device=%s host=%s status='%s'",
->> -               __get_str(device), __get_str(host),
->> -               show_ce_errs(__entry->status)
->> -     )
->> -);
->> -
->> -TRACE_EVENT(cxl_aer_correctable_error,
->> -     TP_PROTO(const struct cxl_memdev *cxlmd, u32 status),
->> -     TP_ARGS(cxlmd, status),
->> -     TP_STRUCT__entry(
->> -             __string(memdev, dev_name(&cxlmd->dev))
->> -             __string(host, dev_name(cxlmd->dev.parent))
->>               __field(u64, serial)
->>               __field(u32, status)
->>       ),
->>       TP_fast_assign(
->> -             __assign_str(memdev);
->> +             __assign_str(device);
->>               __assign_str(host);
->> -             __entry->serial = cxlmd->cxlds->serial;
->> +             __entry->serial = serial;
->>               __entry->status = status;
->>       ),
->> -     TP_printk("memdev=%s host=%s serial=%lld: status: '%s'",
->> -               __get_str(memdev), __get_str(host), __entry->serial,
->> +     TP_printk("device=%s host=%s serial=%lld status: '%s'",
->> +               __get_str(device), __get_str(host), __entry->serial,
->>                 show_ce_errs(__entry->status)
->>       )
->>  );
-> 
+>>  drivers/leds/flash/Kconfig          |  12 ++
+>>  drivers/leds/flash/Makefile         |   1 +
+>>  drivers/leds/flash/leds-s2m-flash.c | 358 +++++++++++++++++++++++++++++=
++++++++
+>>  3 files changed, 371 insertions(+)
+>>=20
+>> diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
+>> index 5e08102a67841..be62e05277429 100644
+>> --- a/drivers/leds/flash/Kconfig
+>> +++ b/drivers/leds/flash/Kconfig
+>> @@ -114,6 +114,18 @@ config LEDS_RT8515
+>>  	  To compile this driver as a module, choose M here: the module
+>>  	  will be called leds-rt8515.
+>> =20
+>> +config LEDS_S2M_FLASH
+>> +	tristate "Samsung S2M series PMICs flash/torch LED support"
+>> +	depends on LEDS_CLASS
+>> +	depends on MFD_SEC_CORE
+>> +	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+>
+> The `|| !V4L2_FLASH_LED_CLASS` part of this dependency makes it
+> unconditionally true. Was this intended? Perhaps this dependency can be
+> removed entirely.
+
+Right? Similar lines are also present in entries of other drivers too.
+It is indeed weird, but I disregarded my doubts and added it anyway.
+
+>> +	select REGMAP_IRQ
+>> +	help
+>> +	  This option enables support for the flash/torch LEDs found in
+>> +	  certain Samsung S2M series PMICs, such as the S2MU005. It has
+>> +	  a LED channel dedicated for every physical LED. The LEDs can
+>> +	  be controlled in flash and torch modes.
+>> +
+>>  config LEDS_SGM3140
+>>  	tristate "LED support for the SGM3140"
+>>  	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+>> diff --git a/drivers/leds/flash/Makefile b/drivers/leds/flash/Makefile
+>> index 712fb737a428e..44e6c1b4beb37 100644
+>> --- a/drivers/leds/flash/Makefile
+>> +++ b/drivers/leds/flash/Makefile
+>> @@ -10,6 +10,7 @@ obj-$(CONFIG_LEDS_MAX77693)	+=3D leds-max77693.o
+>>  obj-$(CONFIG_LEDS_QCOM_FLASH)	+=3D leds-qcom-flash.o
+>>  obj-$(CONFIG_LEDS_RT4505)	+=3D leds-rt4505.o
+>>  obj-$(CONFIG_LEDS_RT8515)	+=3D leds-rt8515.o
+>> +obj-$(CONFIG_LEDS_S2M_FLASH)	+=3D leds-s2m-flash.o
+>>  obj-$(CONFIG_LEDS_SGM3140)	+=3D leds-sgm3140.o
+>>  obj-$(CONFIG_LEDS_SY7802)	+=3D leds-sy7802.o
+>>  obj-$(CONFIG_LEDS_TPS6131X)	+=3D leds-tps6131x.o
+>> diff --git a/drivers/leds/flash/leds-s2m-flash.c b/drivers/leds/flash/le=
+ds-s2m-flash.c
+>> new file mode 100644
+>> index 0000000000000..177d23b432ce6
+>> --- /dev/null
+>> +++ b/drivers/leds/flash/leds-s2m-flash.c
+>> @@ -0,0 +1,358 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Flash and Torch LED Driver for Samsung S2M series PMICs.
+>> + *
+>> + * Copyright (c) 2015 Samsung Electronics Co., Ltd
+>> + * Copyright (c) 2026 Kaustabh Chakraborty <kauschluss@disroot.org>
+>> + */
+>> +
+>> +#include <linux/container_of.h>
+>> +#include <linux/led-class-flash.h>
+>> +#include <linux/mfd/samsung/core.h>
+>> +#include <linux/mfd/samsung/s2mu005.h>
+>> +#include <linux/module.h>
+>> +#include <linux/of.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/regmap.h>
+>> +#include <media/v4l2-flash-led-class.h>
+>> +
+>> +#define MAX_CHANNELS	2
+>> +
+>> +struct s2m_led {
+>> +	struct regmap *regmap;
+>> +	struct led_classdev_flash fled;
+>> +	struct v4l2_flash *v4l2_flash;
+>> +	/*
+>> +	 * The mutex object prevents the concurrent access of flash control
+>> +	 * registers by the LED and V4L2 subsystems.
+>> +	 */
+>> +	struct mutex lock;
+>> +	unsigned int reg_enable;
+>> +	u8 channel;
+>> +	u8 flash_brightness;
+>> +	u8 flash_timeout;
+>> +};
+>> +
+>> +static struct s2m_led *to_s2m_led(struct led_classdev_flash *fled)
+>> +{
+>> +	return container_of(fled, struct s2m_led, fled);
+>> +}
+>> +
+>> +static struct led_classdev_flash *to_s2m_fled(struct led_classdev *cdev=
+)
+>> +{
+>> +	return container_of(cdev, struct led_classdev_flash, led_cdev);
+>> +}
+>> +
+>> +static int s2m_fled_flash_brightness_set(struct led_classdev_flash *fle=
+d, u32 brightness)
+>> +{
+>> +	struct s2m_led *led =3D to_s2m_led(fled);
+>> +	struct led_flash_setting *setting =3D &fled->brightness;
+>> +
+>> +	led->flash_brightness =3D (brightness - setting->min) / setting->step;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int s2m_fled_flash_timeout_set(struct led_classdev_flash *fled, =
+u32 timeout)
+>> +{
+>> +	struct s2m_led *led =3D to_s2m_led(fled);
+>> +	struct led_flash_setting *setting =3D &fled->timeout;
+>> +
+>> +	led->flash_timeout =3D (timeout - setting->min) / setting->step;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +#if IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS)
+>> +static int s2m_fled_flash_external_strobe_set(struct v4l2_flash *v4l2_f=
+lash, bool enable)
+>> +{
+>> +	struct s2m_led *led =3D to_led(v4l2_flash->fled_cdev);
+>
+> What is to_led()?
+>
+> Was this tested?
+
+I honestly don't know what happened here, and yes this (well, not this
+precisely) was tested. I had changed something later? Don't know, its
+odd. Will fix.
+
+>> +	mutex_lock(&led->lock);
+>> +
+>> +	led->fled.ops->strobe_set(&led->fled, enable);
+>> +
+>> +	mutex_unlock(&led->lock);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct v4l2_flash_ops s2m_fled_v4l2_flash_ops =3D {
+>> +	.external_strobe_set =3D s2m_fled_flash_external_strobe_set,
+>> +};
+>> +#else
+>> +static const struct v4l2_flash_ops s2m_fled_v4l2_flash_ops;
+>> +#endif
+>> +
+>> +static void s2m_fled_v4l2_flash_release(void *v4l2_flash)
+>> +{
+>> +	v4l2_flash_release(v4l2_flash);
+>> +}
+>> +
+>> +static int s2mu005_fled_torch_brightness_set(struct led_classdev *cdev,=
+ enum led_brightness value)
+>> +{
+>> +	struct s2m_led *led =3D to_s2m_led(to_s2m_fled(cdev));
+>> +	int ret;
+>> +
+>> +	mutex_lock(&led->lock);
+>> +
+>> +	if (!value) {
+>> +		ret =3D regmap_clear_bits(led->regmap, led->reg_enable,
+>> +					S2MU005_FLED_TORCH_EN(led->channel));
+>> +		if (ret < 0)
+>> +			dev_err(cdev->dev, "failed to disable torch LED\n");
+>> +		goto unlock;
+>> +	}
+>> +
+>> +	ret =3D regmap_update_bits(led->regmap, S2MU005_REG_FLED_CH_CTRL1(led-=
+>channel),
+>> +				 S2MU005_FLED_TORCH_IOUT,
+>> +				 FIELD_PREP(S2MU005_FLED_TORCH_IOUT, value - 1));
+>> +	if (ret < 0) {
+>
+> Is a positive number even possible?
+
+As per the docs, no. Will fix here and in other instances as well.
+
+>> +		dev_err(cdev->dev, "failed to set torch current\n");
+>> +		goto unlock;
+>> +	}
+>> +
+>> +	ret =3D regmap_set_bits(led->regmap, led->reg_enable, S2MU005_FLED_TOR=
+CH_EN(led->channel));
+>> +	if (ret < 0) {
+>> +		dev_err(cdev->dev, "failed to enable torch LED\n");
+>> +		goto unlock;
+>> +	}
+>> +
+>> +unlock:
+>> +	mutex_unlock(&led->lock);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int s2mu005_fled_flash_strobe_set(struct led_classdev_flash *fle=
+d, bool state)
+>> +{
+>> +	struct s2m_led *led =3D to_s2m_led(fled);
+>> +	int ret;
+>> +
+>> +	mutex_lock(&led->lock);
+>> +
+>> +	ret =3D regmap_clear_bits(led->regmap, led->reg_enable, S2MU005_FLED_F=
+LASH_EN(led->channel));
+>> +	if (ret < 0) {
+>> +		dev_err(fled->led_cdev.dev, "failed to disable flash LED\n");
+>> +		goto unlock;
+>> +	}
+>> +
+>> +	if (!state)
+>> +		goto unlock;
+>> +
+>> +	ret =3D regmap_update_bits(led->regmap, S2MU005_REG_FLED_CH_CTRL0(led-=
+>channel),
+>> +				 S2MU005_FLED_FLASH_IOUT,
+>> +				 FIELD_PREP(S2MU005_FLED_FLASH_IOUT, led->flash_brightness));
+>> +	if (ret < 0) {
+>> +		dev_err(fled->led_cdev.dev, "failed to set flash brightness\n");
+>> +		goto unlock;
+>> +	}
+>> +
+>> +	ret =3D regmap_update_bits(led->regmap, S2MU005_REG_FLED_CH_CTRL3(led-=
+>channel),
+>> +				 S2MU005_FLED_FLASH_TIMEOUT,
+>> +				 FIELD_PREP(S2MU005_FLED_FLASH_TIMEOUT, led->flash_timeout));
+>> +	if (ret < 0) {
+>> +		dev_err(fled->led_cdev.dev, "failed to set flash timeout\n");
+>> +		goto unlock;
+>> +	}
+>> +
+>> +	ret =3D regmap_set_bits(led->regmap, led->reg_enable, S2MU005_FLED_FLA=
+SH_EN(led->channel));
+>> +	if (ret < 0) {
+>> +		dev_err(fled->led_cdev.dev, "failed to enable flash LED\n");
+>> +		goto unlock;
+>> +	}
+>> +
+>> +unlock:
+>> +	mutex_unlock(&led->lock);
+>> +
+>> +	return 0;
+>
+> It seems like this function swallows error codes.
+>
+> Better if they're propagated properly.
+>
+>> +}
+>> +
+>> +static int s2mu005_fled_flash_strobe_get(struct led_classdev_flash *fle=
+d, bool *state)
+>> +{
+>> +	struct s2m_led *led =3D to_s2m_led(fled);
+>> +	u32 val;
+>> +	int ret;
+>> +
+>> +	mutex_lock(&led->lock);
+>> +
+>> +	ret =3D regmap_read(led->regmap, S2MU005_REG_FLED_STATUS, &val);
+>> +	if (ret < 0) {
+>> +		dev_err(fled->led_cdev.dev, "failed to fetch LED status");
+>
+> Missed '/n'.
+>
+>> +		goto unlock;
+>> +	}
+>> +
+>> +	*state =3D !!(val & S2MU005_FLED_FLASH_STATUS(led->channel));
+>> +
+>> +unlock:
+>> +	mutex_unlock(&led->lock);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static const struct led_flash_ops s2mu005_fled_flash_ops =3D {
+>> +	.flash_brightness_set =3D s2m_fled_flash_brightness_set,
+>> +	.timeout_set =3D s2m_fled_flash_timeout_set,
+>> +	.strobe_set =3D s2mu005_fled_flash_strobe_set,
+>> +	.strobe_get =3D s2mu005_fled_flash_strobe_get,
+>> +};
+>> +
+>> +static int s2mu005_fled_init(struct s2m_led *led, struct device *dev, s=
+truct regmap *regmap,
+>> +			     unsigned int nr_channels)
+>> +{
+>> +	unsigned int val;
+>> +	int i, ret;
+>> +
+>> +	/* Enable the LED channels. */
+>> +	ret =3D regmap_set_bits(regmap, S2MU005_REG_FLED_CTRL1, S2MU005_FLED_C=
+H_EN);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed to enable LED channels\n");
+>> +
+>> +	ret =3D regmap_read(regmap, S2MU005_REG_ID, &val);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed to read revision\n");
+>> +
+>> +	for (i =3D 0; i < nr_channels; i++) {
+>
+> for (int i =3D 0; i < nr_channels; i++)
+
+Is that allowed in the kernel source? I have never seen variable
+declaration in a for loop.
+
+>> +		/*
+>> +		 * Read the revision register. Revision EVT0 has the register
+>> +		 * at CTRL4, while EVT1 and higher have it at CTRL6.
+>> +		 */
+>> +		if (FIELD_GET(S2MU005_ID_MASK, val) =3D=3D 0)
+>
+> Why not remove the " =3D=3D 0" and reverse the branches?
+
+My intention was to make it explicit that the value used is an integer
+value, as opposed to a boolean.
+
+>> +			led[i].reg_enable =3D S2MU005_REG_FLED_CTRL4;
+>> +		else
+>> +			led[i].reg_enable =3D S2MU005_REG_FLED_CTRL6;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int s2mu005_fled_init_channel(struct s2m_led *led, struct device=
+ *dev,
+>> +				     struct fwnode_handle *fwnp)
+>> +{
+>> +	struct led_classdev *cdev =3D &led->fled.led_cdev;
+>> +	struct led_init_data init_data =3D {};
+>> +	struct v4l2_flash_config v4l2_cfg =3D {};
+>> +	int ret;
+>> +
+>> +	cdev->max_brightness =3D 16;
+>> +	cdev->brightness_set_blocking =3D s2mu005_fled_torch_brightness_set;
+>> +	cdev->flags |=3D LED_DEV_CAP_FLASH;
+>> +
+>> +	led->fled.timeout.min =3D 62000;
+>> +	led->fled.timeout.step =3D 62000;
+>> +	led->fled.timeout.max =3D 992000;
+>> +	led->fled.timeout.val =3D 992000;
+>> +
+>> +	led->fled.brightness.min =3D 25000;
+>> +	led->fled.brightness.step =3D 25000;
+>> +	led->fled.brightness.max =3D 375000; /* 400000 causes flickering */
+>> +	led->fled.brightness.val =3D 375000;
+>> +
+>> +	s2m_fled_flash_timeout_set(&led->fled, led->fled.timeout.val);
+>> +	s2m_fled_flash_brightness_set(&led->fled, led->fled.brightness.val);
+>> +
+>> +	led->fled.ops =3D &s2mu005_fled_flash_ops;
+>> +
+>> +	init_data.fwnode =3D fwnp;
+>> +	ret =3D devm_led_classdev_flash_register_ext(dev, &led->fled, &init_da=
+ta);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed to create LED flash device\n")=
+;
+>> +
+>> +	v4l2_cfg.intensity.min =3D led->fled.timeout.min;
+>> +	v4l2_cfg.intensity.step =3D led->fled.timeout.step;
+>> +	v4l2_cfg.intensity.max =3D led->fled.timeout.max;
+>> +	v4l2_cfg.intensity.val =3D led->fled.timeout.val;
+>
+> Is it correct to configure the V4L2 intensity settings from the timeout
+> values?  I would expect these to be based on the brightness settings.
+
+Stupid me. Admittedly, I am unable to test the v4l2 functionality
+properly for now. I will remove all related code in the next revision.
+Will add them back when they're needed and I'm able to test.
+
+>> +
+>> +	v4l2_cfg.has_external_strobe =3D true;
+>> +
+>> +	led->v4l2_flash =3D v4l2_flash_init(dev, fwnp, &led->fled, &s2m_fled_v=
+4l2_flash_ops,
+>> +					  &v4l2_cfg);
+>> +	if (IS_ERR(led->v4l2_flash)) {
+>> +		v4l2_flash_release(led->v4l2_flash);
+>
+> So you're going to try and release an error?
+>
+>> +		return dev_err_probe(dev, PTR_ERR(led->v4l2_flash),
+>> +				     "failed to create V4L2 flash device\n");
+>> +	}
+>> +
+>> +	ret =3D devm_add_action_or_reset(dev, (void *)s2m_fled_v4l2_flash_rele=
+ase, led->v4l2_flash);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed to add cleanup action\n");
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int s2m_fled_probe(struct platform_device *pdev)
+>> +{
+>> +	struct device *dev =3D &pdev->dev;
+>> +	struct sec_pmic_dev *ddata =3D dev_get_drvdata(dev->parent);
+>> +	struct s2m_led *led;
+>> +	int ret;
+>> +
+>> +	led =3D devm_kzalloc(dev, sizeof(*led) * MAX_CHANNELS, GFP_KERNEL);
+>> +	if (!led)
+>> +		return -ENOMEM;
+>> +
+>> +	switch (platform_get_device_id(pdev)->driver_data) {
+>> +	case S2MU005:
+>> +		ret =3D s2mu005_fled_init(led, dev, ddata->regmap_pmic, MAX_CHANNELS)=
+;
+>> +		if (ret)
+>> +			return ret;
+>> +		break;
+>> +	default:
+>> +		return dev_err_probe(dev, -ENODEV, "device type %d is not supported b=
+y driver\n",
+>> +				     ddata->device_type);
+>> +	}
+>
+> Will this be expanded in the very near future?
+>
+> If not, having a switch () with only one entry seems odd.
+
+I have plans to introduce support for S2MU004 at one point. I'll change
+it now, and re-introduce the switch block later.
+
+> if (platform_get_device_id(pdev)->driver_data !=3D S2MU005)
+> 	dev_err_probe()
+>
+>> +	device_for_each_child_node_scoped(dev, child) {
+>> +		u32 reg;
+>> +
+>> +		if (fwnode_property_read_u32(child, "reg", &reg))
+>> +			continue;
+>> +
+>> +		if (led[reg].regmap) {
+>> +			dev_warn(dev, "duplicate node for channel %d\n", reg);
+>> +			continue;
+>> +		}
+>
+> If reg > MAX_CHANNELS, you just created an OOB condition.
+>
+>> +
+>> +		led[reg].regmap =3D ddata->regmap_pmic;
+>> +		led[reg].channel =3D (u8)reg;
+>> +
+>> +		ret =3D devm_mutex_init(dev, &led[reg].lock);
+>> +		if (ret)
+>> +			return dev_err_probe(dev, ret, "failed to create mutex\n");
+>> +
+>> +		switch (platform_get_device_id(pdev)->driver_data) {
+>> +		case S2MU005:
+>> +			ret =3D s2mu005_fled_init_channel(led + reg, dev, child);
+>> +			if (ret < 0)
+>> +				return ret;
+>> +			break;
+>> +		}
+>
+> This is even more odd!
+
+What's exactly odd about it?
+
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct platform_device_id s2m_fled_id_table[] =3D {
+>> +	{ "s2mu005-flash", S2MU005 },
+>> +	{ /* sentinel */ },
+>> +};
+>> +MODULE_DEVICE_TABLE(platform, s2m_fled_id_table);
+>> +
+>> +static const struct of_device_id s2m_fled_of_match_table[] =3D {
+>> +	{ .compatible =3D "samsung,s2mu005-flash", .data =3D (void *)S2MU005 }=
+,
+>> +	{ /* sentinel */ },
+>> +};
+>> +MODULE_DEVICE_TABLE(of, s2m_fled_of_match_table);
+>> +
+>> +static struct platform_driver s2m_fled_driver =3D {
+>> +	.driver =3D {
+>> +		.name =3D "s2m-flash",
+>> +	},
+>> +	.probe =3D s2m_fled_probe,
+>> +	.id_table =3D s2m_fled_id_table,
+>> +};
+>> +module_platform_driver(s2m_fled_driver);
+>> +
+>> +MODULE_DESCRIPTION("Flash/Torch LED Driver For Samsung S2M Series PMICs=
+");
+>> +MODULE_AUTHOR("Kaustabh Chakraborty <kauschluss@disroot.org>");
+>> +MODULE_LICENSE("GPL");
 
