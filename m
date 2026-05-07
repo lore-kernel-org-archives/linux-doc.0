@@ -1,83 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9043372B23;
-	Thu,  7 May 2026 16:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08854301717;
+	Thu,  7 May 2026 16:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778169726; cv=none; b=VKpNkbVTRxS+vGpUvT3ornPh0ApideiUvr0RiuMY3iTfqh2MnmLyHxIgW+taTkp0sTDNYnMwC0q2/WT09kO40tEgkCkgY4mDhMoRYy5PqPMlb+wnAXBAg8uhMvD9553x3vFz/Gyl9ryJOmjPZaIEFjLZzsRD9d8sCYY7SJAuUSM=
+	t=1778171019; cv=none; b=MCLNbQz8mvwrWuLumdH1TdJg6U+ULXTvQZsVfnT4vgUpRGKNjgfF/Z3rQHujJhar9yvNTRmqR5W23qJ08h+nYDTbzDwOvcJa7Rdub7URi67H8l21p96ym8pWTBw2EnuWkuAYxmG7GmbSoudk02YqzF+f0WbIe9DylJfRAmnWRgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778169726; c=relaxed/simple;
-	bh=f2hzin3nefcffzqxgbzMklPTa6zT29OO6KXHSSBokuE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=coKDUctbLW9q6TD1EAdf+UmwIgUq54vue/cVRYwRfniz4OudgyuD4AKTQHtZ5oAUjkmW1YbAIRclZ1vi6m74TNcStEo2doq0es3/fTjyeNkYbM4WO3x2N0IPDnwjNKIGtAnVmGRKuLUxwWLYZNkiO1XQuD6Gz1xU/yIbJObDwLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HdBB9hWI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778171019; c=relaxed/simple;
+	bh=uIYiL9x4CPNwSjvypddtVxMGDADdf2REbF2Ck+DORoE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XUCrxdAWny1AgDUJYvJu4KKSvbGncus32bIgFyIpiKBEdD3bmAntsiB2j09hsYwziUQ0DtmyLUw76GOyGmVKlFJPy0CepbFwx9fFZQJRtTSA4C8FxTdo0t89IoveqehkgI+h5zat34H2b+F6EOd+6DXmsU0Ay9lMxdDuInywEgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bu73JaUo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HdBB9hWI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50BBDC2BCB2;
-	Thu,  7 May 2026 16:01:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778169725;
-	bh=f2hzin3nefcffzqxgbzMklPTa6zT29OO6KXHSSBokuE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HdBB9hWIvACu7K+AY6WnDLX1eE8Ye2nOhklmDg4xcVBobtu2wEXxOP0RHx3E9gcR4
-	 3Fvbz23MaLTPPPekFHHPpwWhoWwiWIYC3bHv91DPnd5kln/Sem2H6WdYcBTO/+TVSl
-	 Hwo6l6lP6LDX8FmWhhwoJKZJWHxxZzGvgsGIb9j1/tcYf7OpHm4qxCGQXIehcczqtN
-	 C5CIIHBghjDK3eVZrS9Uu7iFYmsE7Ez4aNZzv1jJXyENn3m6i1f3L2M/ggoxTOhboo
-	 GQHtZcPbCF/hGDecfd2Yru7xNR0sDIOMmKfkNVVctMwM+/3NOIvi3DLW2j4uEVY5YB
-	 dpH6r3qvvolhw==
-Date: Thu, 7 May 2026 17:01:52 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
- <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
- <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v11 05/11] iio: core: add decimal value formatting into
- 64-bit value
-Message-ID: <20260507170152.55027f68@jic23-huawei>
-In-Reply-To: <20260506-adf41513-iio-driver-v11-5-2b7e99cfe8f2@analog.com>
-References: <20260506-adf41513-iio-driver-v11-0-2b7e99cfe8f2@analog.com>
-	<20260506-adf41513-iio-driver-v11-5-2b7e99cfe8f2@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bu73JaUo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 427CDC2BCB2;
+	Thu,  7 May 2026 16:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1778171018;
+	bh=uIYiL9x4CPNwSjvypddtVxMGDADdf2REbF2Ck+DORoE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bu73JaUocAwIX25an4fEPhpc6xkdwvFrEDK23rWYdklIWGGr7h+nABiGLD2gdPUhJ
+	 MUeyhH9umZLA3mLifpOLIlrVIjOg5xwwNrKx8lvVful3fp693TK4Dwg9Xl8PhBl6MO
+	 8GbsxFTsLVJi+CctyF+JmKZEXZWl1CCkCvtr4Lb8=
+Date: Thu, 7 May 2026 18:23:36 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, akpm@linux-foundation.org, skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
+ primitive
+Message-ID: <2026050702-slick-goofy-a949@gregkh>
+References: <20260507070547.2268452-1-sashal@kernel.org>
+ <2026050739-football-dreamy-351f@gregkh>
+ <afyWXIsqqgMpxVIb@laps>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afyWXIsqqgMpxVIb@laps>
 
-On Wed, 06 May 2026 15:08:49 +0100
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On Thu, May 07, 2026 at 09:40:44AM -0400, Sasha Levin wrote:
+> On Thu, May 07, 2026 at 12:47:43PM +0200, Greg KH wrote:
+> > > +	atomic_long_t		retval;
+> > 
+> > Why is this an atomic value?  Shouldn't it be whatever the userspace
+> > return type is?
 > 
-> Create new format types for iio values (IIO_VAL_DECIMAL64_*), which
-> defines the representation of fixed decimal point values into a single
-> 64-bit number. This new format increases the range of represented values,
-> allowing for integer parts greater than 2^32, as bits are not "wasted"
-> in the fractional part, which can be seen in IIO_VAL_INT_PLUS_MICRO and
-> IIO_VAL_INT_PLUS_NANO. Helpers are created to compose and decompose 64-bit
-> decimals into integer values used in IIO formatting interfaces, which
-> creates consistency and avoid error-prone manual assignments when using
-> wordpart macros. When doing the parsing, kstrtodec64() is used with the
-> scale defined by the specific decimal format type.
+> The return register is `long` on every arch.
 > 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Looks good to me now. I'll probably take one final look before applying
-but for now looks like you've still got some Sashiko reported stuff to
-sort and I don't have any other feedback.
+> While testing this, I added the ability to modify the return value after we
+> create a killswitch, and figured that it could be a useful thing to keep in the
+> code.
+> 
+> But then I got worried about a race between a user changing the return value of
+> the killswitch and some program trying to execute the code, and getting some
+> combination of the old and the new return value.
+> 
+> Is that a real concern? I'm not sure - but making this atomic was cheap enough.
 
-Thanks,
+I don't think that a combination should matter all that much here, but
+at least it makes sense now.  You might want to document that somewhere
+here.
 
-Jonathan
+thanks,
+
+greg k-h
