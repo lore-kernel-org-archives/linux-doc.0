@@ -1,140 +1,184 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B112930EF7B;
-	Thu,  7 May 2026 22:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00172BEFE8;
+	Thu,  7 May 2026 22:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778191803; cv=none; b=hzl9tP1lbRODHG79MTPiyBfJTJy6dOpbBc0YS1O1ZR27QNCWaHDYuW1kKMvdhj5Vvfx5JWNzc+JPnhAdp2oNgCJJiiMqGK+Mnl8dJpojRv8XBcM3GId3blj5I0ve4H18dehtbDgW8Mvb/7SBWY/4HRvzdx3u9+uGlQiq37wyA/c=
+	t=1778192428; cv=none; b=RkBvppP/Q82lT7cDaYHWf8lto9mQ2KI/fuuFt+wYcKba/ALdHK8Fy6Eecja/Ybb7ltHFU5lSwXeqoPgZ0N5fgVXaKd2qcceC+vVeZ2i/GGMDauk7XEzo9tnbQh1hpOdWEBftN9C6paeEL33rDaMvj3JFISyJV+ouak8k71wkQOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778191803; c=relaxed/simple;
-	bh=jTOX2TqyeO2cWkSnac14LlKPe5V5EVCnWKW2ovINUB0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BGeXWXp8htJB8qivU6y0oYXAiAWxLGvHHlN5QoArvvVrUAWb8a1VKow+S2L8yfYRa9Bqq3fXR0HDUi+mC3HwUNNUOiiR+ZmdPfU2P7tHZws4Efs+5nkijo86GS3hsVFX9EG1zim+fhicKk4ICDR4n6sS++tJUkSyOn9m9cXjTtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DgGG2vvs; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1778192428; c=relaxed/simple;
+	bh=s1TsvnWxBMLKi1rpi/gQlZCWWYXmUON5jm8poglnmz4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=blLAN3puAaJUqFlkb6+B3Av8cwn9sNbbrI6pTkbdEDuMQRrijoKVlTECeUsi4zAaud3hLT3+AS4skHBp2g0PWAayScr+vJeyv/rIw89dOivAJ9sZ0dAmp+zChYCExEaMdaWEG6G85cq7ARcVfy3wpjpCywRucRaQUhPbSIrdtKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=refedxBV; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DgGG2vvs"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4925C19F0;
-	Thu,  7 May 2026 15:09:54 -0700 (PDT)
-Received: from thinkpad-e142931.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3090A3F763;
-	Thu,  7 May 2026 15:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778191799; bh=jTOX2TqyeO2cWkSnac14LlKPe5V5EVCnWKW2ovINUB0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DgGG2vvsVyzMfSGvMdlwVIEzP3CbT0HmzJKIO9QbZQmR/128UWPhZcbay7Ad8oSQK
-	 S6YJNfbK60E98hpW5pRgQt24WSLV9NnPtbtg/1/O2TWDHSJ6zhFpTLjpQXDlYJGEGI
-	 867B0mfya1qXjN68cKQnC9FyR+jxegDUxxLfJCNQ=
-Date: Thu, 7 May 2026 23:09:48 +0100
-From: Wei-Lin Chang <weilin.chang@arm.com>
-To: "Liam R. Howlett" <liam@infradead.org>
-Cc: maple-tree@lists.infradead.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Andrew Ballance <andrewjballance@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 2/2] Documentation: maple_tree: Clarify behavior when
- using reserved values
-Message-ID: <q2dtphja7i45kknjk3bs4hn2bpictyoaideyjfbdh4sz4pxllo@xtsyvo3eztdb>
-References: <20260504165746.1422057-1-weilin.chang@arm.com>
- <20260504165746.1422057-3-weilin.chang@arm.com>
- <5qnwgdcxqat2zo5qe7qy63xm5awo5l4lkdkf4umbj3sl2ct5sj@v5c3szzdbbq3>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="refedxBV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=s1TsvnWxBMLKi1rpi/gQlZCWWYXmUON5jm8poglnmz4=; b=refedxBVKVVJZv/+Ul0YUVnGbS
+	UgAV43BgQxKWJ8842+1dpbDp2PgGnp4EKBT78kwvtDdERLglUzT+kt5TXdZj8OqXubCP8LxFkRwdG
+	k0XouuqdJh0WPErXn2mtD5LHf7GxsM09Pyhv8BcAcJ/56QigAyeLNHMwxK183nt7zSH9S8Pg3483r
+	pk3nSMu4rHcL2MJhLucjSsHMJwLYtPwoE3WGdgh1TD8PdC38QzK7vNrGwhwW4YsFUkDlArsDv5SRf
+	ozs11yjLOn5PjDYT0jEfPupLy35syYll95rv9EOMeSyUybcjjZCMHwTJDWsPe0aQP65/M3VJvDlBj
+	XNSh0uIw==;
+Received: from [172.31.31.148] (helo=u09cd745991455d.ant.amazon.com)
+	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wL74s-00000004gHf-1SZt;
+	Thu, 07 May 2026 22:20:18 +0000
+Message-ID: <32d91fe1379c8e55bbab23182f1670832a8214bb.camel@infradead.org>
+Subject: Re: [PATCH] char: applicom: remove low-quality, unused driver
+From: David Woodhouse <dwmw2@infradead.org>
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Jiri Slaby (SUSE)"
+ <jirislaby@kernel.org>, Max Nikulin <manikulin@gmail.com>, "Martin K.
+ Petersen" <martin.petersen@oracle.com>
+Date: Thu, 07 May 2026 23:20:18 +0100
+In-Reply-To: <20260503035824.24078-1-enelsonmoore@gmail.com>
+References: <20260503035824.24078-1-enelsonmoore@gmail.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-Jz/m3uWDC0EW6loSKol+"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5qnwgdcxqat2zo5qe7qy63xm5awo5l4lkdkf4umbj3sl2ct5sj@v5c3szzdbbq3>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
-On Thu, May 07, 2026 at 05:24:11AM +0200, Liam R. Howlett wrote:
-> On 26/05/04 05:57PM, Wei-Lin Chang wrote:
-> > It doesn't matter whether the normal or the advanced API is used if the
-> > user uses xa_{mk, to}_value when storing and retrieving the values. Just
-> > specify that the normal API blocks usages of reserved values while the
-> > advanced API does not.
-> 
-> Your comment above is incorrect.
-> 
-> The normal API will filter out reserved values on return while the
-> advanced API will return whatever is stored there regardless of the
-> value.
-> 
-> Meaning, if you store a reserved value with the advanced API, it will
-> not be returned by the normal API.
 
-This is valuable information, thanks for explaining.
-However, I'm confused how this shows my comment incorrect?
+--=-Jz/m3uWDC0EW6loSKol+
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From the original doc:
+On Sat, 2026-05-02 at 20:58 -0700, Ethan Nelson-Moore wrote:
+> The applicom driver supports PCI Profibus cards from Applicom, later
+> acquired by Molex. It has severe coding style issues and has attracted
+> a number of bug and security fixes over the years, despite the fact
+> that no one appears to be using it. It was broken from at least the
+> beginning of Git history (Linux 2.6.12-rc2 in April 2005) until October
+> 2008, when a fatal bug was fixed in commit bc20589bf1c6 ("applicom.c:
+> fix apparently-broken code in do_ac_read()"). In the commit message,
+> the author commented that no one they knew was able to test the change.
+> Since then, there have been no commits that indicate the driver is
+> being used. Later PCI and PCI-Express Applicom Profibus cards only
+> officially support Windows [1], and even the PCI-Express cards have
+> been discontinued [2]. Given all these factors, remove the driver to
+> reduce future maintenance workload.
+>=20
+> [1] https://www.sarcitalia.it/file_upload/prodotti//PCIE1500S7_PFB_987651=
+-3769_0876250001505823933.pdf
+> [2] https://us.rs-online.com/product/molex-woodhead-brad/112011-5026/7063=
+1928/
+>=20
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 
-<quote>
-If the user needs to use a reserved value, then the user can convert the
-value when using the :ref:`maple-tree-advanced-api`, but are blocked by
-the normal API.
-</quote>
+Acked-by: David Woodhouse <dwmw2@infradead.org>
 
-To me this is conveying the following points:
+I'm not aware of anyone using these cards in the 21st century.
 
-1. User can convert the value with xa_{mk, to}_value() when using the
-   advanced API if reserved values are being stored. This works because
-   those functions transform the reserved values into non-reserved ones.
-2. User can not use reserved values with or without xa_{mk, to}_value()
-   with the normal API.
-3. What happens when reserved values are stored is not clearly stated,
-   but the normal API will block it.
+--=-Jz/m3uWDC0EW6loSKol+
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-In my understanding 2. is incorrect because if xa_{mk, to}_value() are
-deployed, it doesn't matter whether the normal or advanced API is used,
-they both work since the values stored aren't reserved.
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCD9Aw
+ggSOMIIDdqADAgECAhAOmiw0ECVD4cWj5DqVrT9PMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0yNDAxMzAwMDAwMDBaFw0zMTEx
+MDkyMzU5NTlaMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYDVQQDExdWZXJv
+a2V5IFNlY3VyZSBFbWFpbCBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMjvgLKj
+jfhCFqxYyRiW8g3cNFAvltDbK5AzcOaR7yVzVGadr4YcCVxjKrEJOgi7WEOH8rUgCNB5cTD8N/Et
+GfZI+LGqSv0YtNa54T9D1AWJy08ZKkWvfGGIXN9UFAPMJ6OLLH/UUEgFa+7KlrEvMUupDFGnnR06
+aDJAwtycb8yXtILj+TvfhLFhafxroXrflspavejQkEiHjNjtHnwbZ+o43g0/yxjwnarGI3kgcak7
+nnI9/8Lqpq79tLHYwLajotwLiGTB71AGN5xK+tzB+D4eN9lXayrjcszgbOv2ZCgzExQUAIt98mre
+8EggKs9mwtEuKAhYBIP/0K6WsoMnQCcCAwEAAaOCAVwwggFYMBIGA1UdEwEB/wQIMAYBAf8CAQAw
+HQYDVR0OBBYEFIlICOogTndrhuWByNfhjWSEf/xwMB8GA1UdIwQYMBaAFEXroq/0ksuCMS1Ri6en
+IZ3zbcgPMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIweQYI
+KwYBBQUHAQEEbTBrMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYB
+BQUHMAKGN2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RD
+QS5jcnQwRQYDVR0fBD4wPDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0
+QXNzdXJlZElEUm9vdENBLmNybDARBgNVHSAECjAIMAYGBFUdIAAwDQYJKoZIhvcNAQELBQADggEB
+ACiagCqvNVxOfSd0uYfJMiZsOEBXAKIR/kpqRp2YCfrP4Tz7fJogYN4fxNAw7iy/bPZcvpVCfe/H
+/CCcp3alXL0I8M/rnEnRlv8ItY4MEF+2T/MkdXI3u1vHy3ua8SxBM8eT9LBQokHZxGUX51cE0kwa
+uEOZ+PonVIOnMjuLp29kcNOVnzf8DGKiek+cT51FvGRjV6LbaxXOm2P47/aiaXrDD5O0RF5SiPo6
+xD1/ClkCETyyEAE5LRJlXtx288R598koyFcwCSXijeVcRvBB1cNOLEbg7RMSw1AGq14fNe2cH1HG
+W7xyduY/ydQt6gv5r21mDOQ5SaZSWC/ZRfLDuEYwggWbMIIEg6ADAgECAhAH5JEPagNRXYDiRPdl
+c1vgMA0GCSqGSIb3DQEBCwUAMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYD
+VQQDExdWZXJva2V5IFNlY3VyZSBFbWFpbCBHMjAeFw0yNDEyMzAwMDAwMDBaFw0yODAxMDQyMzU5
+NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqGSIb3DQEBAQUAA4IC
+DwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZeYAS/SRV6zmfXlXaZ
+sNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2zkC9S7/yHDYnqegqt
+w4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qGpgFdZEk2/c//ZvUN
+i12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41vav1RhZJzYan4a1gU0
+kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0cvnO8FM6PTqsnSbcc
+0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PWPU6zfQTOMZ9uLQRR
+ci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXtREF5lLXxp+CJ6KKS
+blPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQrlR0gO3lBzuyPPArV
+hvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7IqaAovAX0d+f1YjbmC
+VsAwjhLmveFjNwIDAQABo4IBsDCCAawwHwYDVR0jBBgwFoAUiUgI6iBOd2uG5YHI1+GNZIR//HAw
+HQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3bXcyQGluZnJhZGVh
+ZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEBMA4GA1UdDwEB/wQE
+AwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwewYDVR0fBHQwcjA3oDWgM4YxaHR0
+cDovL2NybDMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDA3oDWgM4YxaHR0
+cDovL2NybDQuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDB2BggrBgEFBQcB
+AQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0
+aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNydDANBgkq
+hkiG9w0BAQsFAAOCAQEAQXc4FPiPLRnTDvmOABEzkIumojfZAe5SlnuQoeFUfi+LsWCKiB8Uextv
+iBAvboKhLuN6eG/NC6WOzOCppn4mkQxRkOdLNThwMHW0d19jrZFEKtEG/epZ/hw/DdScTuZ2m7im
+8ppItAT6GXD3aPhXkXnJpC/zTs85uNSQR64cEcBFjjoQDuSsTeJ5DAWf8EMyhMuD8pcbqx5kRvyt
+JPsWBQzv1Dsdv2LDPLNd/JUKhHSgr7nbUr4+aAP2PHTXGcEBh8lTeYea9p4d5k969pe0OHYMV5aL
+xERqTagmSetuIwolkAuBCzA9vulg8Y49Nz2zrpUGfKGOD0FMqenYxdJHgDCCBZswggSDoAMCAQIC
+EAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoT
+B1Zlcm9rZXkxIDAeBgNVBAMTF1Zlcm9rZXkgU2VjdXJlIEVtYWlsIEcyMB4XDTI0MTIzMDAwMDAw
+MFoXDTI4MDEwNDIzNTk1OVowHjEcMBoGA1UEAwwTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJ
+KoZIhvcNAQEBBQADggIPADCCAgoCggIBANqWLse95HW2F7FhfH9bugyT/danKmmXrbMnz5GZNAfj
+Jl5gBL9JFXrOZ9eVdpmw04Tp6aDxZctFLoEDvSWKi367Q7Sg+ci+fH4KwwfQ8Pi0IpIKx2n5emEg
+nbOQL1Lv/IcNiep6Cq3DiyaSpSp/RZf+CAfUNySHS8eWmhLU6jGpSD6hxTpYKye7PmrmvMWwfGEP
+WoamAV1kSTb9z/9m9Q2LXa89aKmTxNwnAfD3Ohn9mtU3JukwILRMewn9QRXK7KzM+01h5hkCE4nj
+W9q/VGFknNhqfhrWBTSQoE9CSVylASGrjzCgS7XmKy/BaH3/7mOOHQv5g1o3Qj/+cdKnpT0I5Qb1
+nRy+c7wUzo9OqydJtxzSP4ZyHA4dELto/a3m/ay1XHcpum1pgTOLgxAfGb/T4dCkwRUstSKLMmpL
+g9Y9TrN9BM4xn24tBFFyL5znGG0wQGzOVAM68RBzIQb6Fz758fjsr4yZnPbVsU1+gHEs/puNHrG0
+9e1EQXmUtfGn4InoopJuU8p5VGD9S3Ikd4UoBlc7xl5yjtNlQxUeYrRlnUSmdlucCEoTX1n4UmtA
+9CuVHSA7eUHO7I88CtWG9bGOU7tLgOZoSEvNqtaL/N7sQbBZK4jZ4Rr/zNTQg1SwYjjLB7u96lDP
+sipoCi8BfR35/ViNuYJWwDCOEua94WM3AgMBAAGjggGwMIIBrDAfBgNVHSMEGDAWgBSJSAjqIE53
+a4blgcjX4Y1khH/8cDAdBgNVHQ4EFgQUXGIam3Bs59Y60yTmWgfDu6pZQ6cwMAYDVR0RBCkwJ4ET
+ZHdtdzJAaW5mcmFkZWFkLm9yZ4EQZGF2aWRAd29vZGhvdS5zZTAUBgNVHSAEDTALMAkGB2eBDAEF
+AQEwDgYDVR0PAQH/BAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDB7BgNVHR8E
+dDByMDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMDegNaAzhjFodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMHYGCCsGAQUFBwEBBGowaDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29t
+MEAGCCsGAQUFBzAChjRodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVt
+YWlsRzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBBdzgU+I8tGdMO+Y4AETOQi6aiN9kB7lKWe5Ch
+4VR+L4uxYIqIHxR7G2+IEC9ugqEu43p4b80LpY7M4KmmfiaRDFGQ50s1OHAwdbR3X2OtkUQq0Qb9
+6ln+HD8N1JxO5nabuKbymki0BPoZcPdo+FeRecmkL/NOzzm41JBHrhwRwEWOOhAO5KxN4nkMBZ/w
+QzKEy4PylxurHmRG/K0k+xYFDO/UOx2/YsM8s138lQqEdKCvudtSvj5oA/Y8dNcZwQGHyVN5h5r2
+nh3mT3r2l7Q4dgxXlovERGpNqCZJ624jCiWQC4ELMD2+6WDxjj03PbOulQZ8oY4PQUyp6djF0keA
+MYIDuzCCA7cCAQEwVTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMX
+VmVyb2tleSBTZWN1cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJYIZIAWUDBAIBBQCg
+ggE3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDUwNzIyMjAx
+OFowLwYJKoZIhvcNAQkEMSIEIP6lGsUAZQSAJYAJz0OIcPr502Lrx0SBIYMOXNcj5TLZMGQGCSsG
+AQQBgjcQBDFXMFUwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoTB1Zlcm9rZXkxIDAeBgNVBAMTF1Zl
+cm9rZXkgU2VjdXJlIEVtYWlsIEcyAhAH5JEPagNRXYDiRPdlc1vgMGYGCyqGSIb3DQEJEAILMVeg
+VTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMXVmVyb2tleSBTZWN1
+cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQEBBQAEggIAj1XGV2323z7p
+oifcEKu7oFz6LGxfgy7orzJtUaW2z54+uhsEffOAUXL5XqjVTWNScIC2g+8uJsNI4xlMuFCY3KrF
+IZErcm+lCEKpU5Sxhfx2l0u+RhXsAmsDbRoZpraSbGBAGBKWn5A/M1qWnuJU+gu+zwocDbTao+7t
+2GISU/juFsJXr68DPwUnDdMMvT1zmjbJX40CnluN16KxczCgE/c2+IAOs3EAVwOuQVMyYQINr2eT
+ade4WGQfeSHH2zViwOTJjZ0vK6omW1Djs2uL3VwJFXjgU7eVR9agujA0deF7xbrw1nXlCVvA1o0u
+GmCR7OQuNwmk/lF8TEe9wDYLmOe0roX1rMkqKEFHc/R1GbfsbjJPik20f2qyjeqRskQ5gdaMj5kA
+WeZnzLj9wTz6SGC2aNvDcyxWGoUzZGfY5y3apT9x9JYDraD+aJEWSAee9KC7dtPScel6lMMQwjQa
+DLpU5qd8N9r97I3eQ5ri9mlIIm8ZKBsx05el3we1X0yI4QEjBYJVZHUAHIZ06sFIYZSBV60gFAF2
+fXRCdG+2Wi2BZYRGilcnKFWjwdZFhLBs4DlKL7dxMadrE2Akbl9vgOHO50aaarbDLW/WDlc9KaRE
+AgXY7vD1jXHrN8iTQREPKQJ0G5+fk0QDbkR5CFrG5s0rBbSsHsU2oZ01KwkHSI8AAAAAAAA=
 
-Please do you mind pointing out what I am getting wrong here?
 
-I was genuinely confused when I was reading the doc and trying to use
-this data structure.
-
-> 
-> > 
-> > Signed-off-by: Wei-Lin Chang <weilin.chang@arm.com>
-> > ---
-> >  Documentation/core-api/maple_tree.rst | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/Documentation/core-api/maple_tree.rst b/Documentation/core-api/maple_tree.rst
-> > index 87020a30ba69..e5ccafb84804 100644
-> > --- a/Documentation/core-api/maple_tree.rst
-> > +++ b/Documentation/core-api/maple_tree.rst
-> > @@ -30,9 +30,9 @@ Tree reserves values with the bottom two bits set to '10' which are below 4096
-> >  (ie 2, 6, 10 .. 4094) for internal use.  If the entries may use reserved
-> >  entries then the users can convert the entries using xa_mk_value() and convert
-> >  them back by calling xa_to_value().  Note that xa_{mk, to}_value() bit shifts
-> > -the given data, so the top bit will be lost.  If the user needs to use a
-> > -reserved value, then the user can convert the value when using the
-> > -:ref:`maple-tree-advanced-api`, but are blocked by the normal API.
-> > +the given data, so the top bit will be lost.  Usage of reserved values is
-> > +blocked by the normal API, and will cause undefined behavior if used with the
-> > +:ref:`maple-tree-advanced-api`.
-> 
-> Which behaviour is undefined?
-
-I originally thought storing reserved values could break the tree
-because of its internal use (see 3. above).
-
-Thanks,
-Wei-Lin Chang
-
-> 
-> >  
-> >  The Maple Tree can also be configured to support searching for a gap of a given
-> >  size (or larger).
-> > -- 
-> > 2.43.0
-> > 
-> > 
-> > -- 
-> > maple-tree mailing list
-> > maple-tree@lists.infradead.org
-> > https://lists.infradead.org/mailman/listinfo/maple-tree
+--=-Jz/m3uWDC0EW6loSKol+--
