@@ -1,370 +1,610 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DD9274B53;
-	Thu,  7 May 2026 18:52:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555D82F12C5;
+	Thu,  7 May 2026 19:00:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778179931; cv=none; b=NElLSfudHHqFk6/nCRYSgL19r/SDiwlmx/U7YUf9mnKGVVYbGSujGMcsOj5h9WApm/NzkxTTW1aXSEpfQFgQdcbwf2qd+s9F6NuwiUMVa/wXkxB8z9K3rEf4cJxJn7pc4rngZAnQMuB/Npy+Ma1j3LahT/GiXsaadScs+JT51WU=
+	t=1778180414; cv=none; b=tncB1N/zIjO+SfaZ2cD21kF+9pnRtqk2C2NjPPSlgWLhcqjz8vwNlXZuAECikNdnujWdQXtQiZnQI1XqrzhdWc6w/nTAmPJKSwdWHWJRcwqrDaISI5Ey0oFFRir00F1jDXtoIE/1V88za31BIwuFw7scqeDUT5hcSBEs+o5ZmCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778179931; c=relaxed/simple;
-	bh=dPvk0Ao+9NzrVwPu/7e+NRYDILr8HDv2Ef1wxRjfB8A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tuc7NQN3YjuxDssUd1ugQvG5vp8tCUmMFyK7ZT4nHztghS0c3sjEVYcdGtvdB1ZUULhL2a4OUoQwhT1ObGfJDidi3iqShDEoUs0c6ZLEpZ7gF+DElSnoifGfyfwpoZ+3sCFWxJ/ae2HFaZ5EOnCK63/UgmW94y91RYf2Y5UVQD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O2ut9QPm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778180414; c=relaxed/simple;
+	bh=kugqW37oPnQ/320NnlrYJISfzdlcj0AxYgqOEVVXtxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cB9/DBH4J/GGEZf1gW2peRUrQFV2iXFZmw1ADToYylUhVCd2N3N5hTtLHyieJHUAMFRU9f9q245KvW6u1XwAj9xLl/sZ0sg0ha1GXu07rhiQyV5i4YW5CDm9x1XumL60Bdj7e6PMtcQ0F0Tw3g5fNNqSUFtBRwXdTD3uwPEkm2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzDQNbLn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O2ut9QPm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 497F2C2BCB2;
-	Thu,  7 May 2026 18:52:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzDQNbLn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00D31C2BCB2;
+	Thu,  7 May 2026 19:00:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778179930;
-	bh=dPvk0Ao+9NzrVwPu/7e+NRYDILr8HDv2Ef1wxRjfB8A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=O2ut9QPmkIas6p5rRy1BY/vSHFQJmBRPCVUzdc+ircsAvSbD4KdxXf60vz+T3DGou
-	 3JRiLQc5OR2j+riAjiZ+7ZxoUbmAViw1+T8wvpNLmVgls/D5wW4ReuKvlVDhuoN5Al
-	 tHJxzYE3b/ZOxK0ZlrHOYPul9/8d6vENSyeDkjAiscJ8go/OJSHUo293WFEBZ+rKIt
-	 08ommsQyaPb1OWcIPoJ/V7pcI4ZRLW/qY0Jiw4sbo+ZpKv3gHwglkMITSsTx1eGnJc
-	 x4SA+cUFGPfjgbmucaN7aBAaqbPsE5+4YbTCHHJmPSpJfQmEGaSavBGx8FGv1zNoiw
-	 wAqdUcfFL3BTA==
-Date: Thu, 7 May 2026 19:51:56 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Terry Bowman <terry.bowman@amd.com>
-Cc: <dave@stgolabs.net>, <dave.jiang@intel.com>,
- <alison.schofield@intel.com>, <djbw@kernel.org>, <bhelgaas@google.com>,
- <shiju.jose@huawei.com>, <ming.li@zohomail.com>,
- <Smita.KoralahalliChannabasappa@amd.com>, <rrichter@amd.com>,
- <dan.carpenter@linaro.org>, <PradeepVineshReddy.Kodamati@amd.com>,
- <lukas@wunner.de>, <Benjamin.Cheatham@amd.com>,
- <sathyanarayanan.kuppuswamy@linux.intel.com>, <vishal.l.verma@intel.com>,
- <alucerop@amd.com>, <ira.weiny@intel.com>, <corbet@lwn.net>,
- <rafael@kernel.org>, <xueshuai@linux.alibaba.com>,
- <linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v17 11/11] Documentation: cxl: Document CXL protocol
- error handling
-Message-ID: <20260507195156.3757a20b@jic23-huawei>
-In-Reply-To: <20260505173029.2718246-12-terry.bowman@amd.com>
-References: <20260505173029.2718246-1-terry.bowman@amd.com>
-	<20260505173029.2718246-12-terry.bowman@amd.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20201202; t=1778180413;
+	bh=kugqW37oPnQ/320NnlrYJISfzdlcj0AxYgqOEVVXtxw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OzDQNbLn3S3wDKxIrTA/n4PzmJicO/V74dzELVy0ffxUq7JsVTVLmL4i/AwVhNMeP
+	 47NkVRP1mDTTabUTKwNZ4FPkFod+mgXfR7v97Ds4ZH6ijyMLfwnhHc6Rc896Q4dDsu
+	 OFhJBoyytEEw/takTnKzjJYwj9M1jSJ7wrHBnXP1j2Ceb0EZ8dtdFIb1T/GUv8VpWJ
+	 DW+eN/EMw32maymX83FpCvuO+oDU3Y+g0sfz6v8GohuYwLCG3oUbhiJqfn8hUSQUbO
+	 AYyclWAa2roV3yfXj2Q91rG9YMXez/kOXzqDKA5SSy6ksEdzAGE5kPq0WYniDRLZB+
+	 6KgJEDM58SlhQ==
+Date: Thu, 7 May 2026 20:00:05 +0100
+From: Lee Jones <lee@kernel.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Nam Tran <trannamatk@gmail.com>,
+	=?utf-8?B?xYF1a2FzeiBMZWJpZWR6acWEc2tp?= <kernel@lvkasz.us>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 08/11] leds: rgb: add support for Samsung S2M series
+ PMIC RGB LED device
+Message-ID: <20260507190005.GT305027@google.com>
+References: <20260424-s2mu005-pmic-v5-0-fcbc9da5a004@disroot.org>
+ <20260424-s2mu005-pmic-v5-8-fcbc9da5a004@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260424-s2mu005-pmic-v5-8-fcbc9da5a004@disroot.org>
 
-On Tue, 5 May 2026 12:30:29 -0500
-Terry Bowman <terry.bowman@amd.com> wrote:
+On Fri, 24 Apr 2026, Kaustabh Chakraborty wrote:
 
-> Add Documentation/driver-api/cxl/linux/protocol-error-handling.rst
-> describing the end-to-end CXL protocol error path: AER ingress, the
-> AER-CXL kfifo handoff, the cxl_core consumer worker, RCD/RCH special
-> cases, severity policy, trace events, and a source code map.
+> Add support for the RGB LEDs found in certain Samsung S2M series PMICs.
+> The device has three LED channels, controlled as a single device. These
+> LEDs are typically used as status indicators in mobile phones.
 > 
-> This documents the architecture introduced by the preceding patches in
-> this series.
+> The driver includes initial support for the S2MU005 PMIC RGB LEDs.
 > 
-> This was generated by claude-opus-4.7.
-
-Maybe too much?  I got bored reading it and stopped which is probably
-not the best sign.
-
-A few formatting related comments inline.
-
-Thanks,
-
-J
-> 
-> Assisted-by: Claude:claude-opus-4.7
-> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 > ---
->  Documentation/driver-api/cxl/index.rst        |   1 +
->  .../cxl/linux/protocol-error-handling.rst     | 440 ++++++++++++++++++
->  2 files changed, 441 insertions(+)
->  create mode 100644 Documentation/driver-api/cxl/linux/protocol-error-handling.rst
+>  drivers/leds/rgb/Kconfig        |  11 +
+>  drivers/leds/rgb/Makefile       |   1 +
+>  drivers/leds/rgb/leds-s2m-rgb.c | 446 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 458 insertions(+)
 > 
-> diff --git a/Documentation/driver-api/cxl/index.rst b/Documentation/driver-api/cxl/index.rst
-> index 3dfae1d310ca..6861b2e5726a 100644
-> --- a/Documentation/driver-api/cxl/index.rst
-> +++ b/Documentation/driver-api/cxl/index.rst
-> @@ -42,6 +42,7 @@ that have impacts on each other.  The docs here break up configurations steps.
->     linux/dax-driver
->     linux/memory-hotplug
->     linux/access-coordinates
-> +   linux/protocol-error-handling
+> diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
+> index 28ef4c487367c..30051342f4e4d 100644
+> --- a/drivers/leds/rgb/Kconfig
+> +++ b/drivers/leds/rgb/Kconfig
+> @@ -75,6 +75,17 @@ config LEDS_QCOM_LPG
 >  
->  .. toctree::
->     :maxdepth: 2
-> diff --git a/Documentation/driver-api/cxl/linux/protocol-error-handling.rst b/Documentation/driver-api/cxl/linux/protocol-error-handling.rst
+>  	  If compiled as a module, the module will be named leds-qcom-lpg.
+>  
+> +config LEDS_S2M_RGB
+> +	tristate "Samsung S2M series PMICs RGB LED support"
+> +	depends on LEDS_CLASS
+> +	depends on MFD_SEC_CORE
+> +	select REGMAP_IRQ
+> +	help
+> +	  This option enables support for the S2MU005 RGB LEDs. These
+> +	  devices have three LED channels, with 8-bit brightness control
+> +	  for each channel. It's usually found in mobile phones as
+
+"The S2MU005 is ..."
+
+> +	  status indicators.
+> +
+>  config LEDS_MT6370_RGB
+>  	tristate "LED Support for MediaTek MT6370 PMIC"
+>  	depends on MFD_MT6370
+> diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
+> index be45991f63f50..98050e1aa4255 100644
+> --- a/drivers/leds/rgb/Makefile
+> +++ b/drivers/leds/rgb/Makefile
+> @@ -6,4 +6,5 @@ obj-$(CONFIG_LEDS_LP5812)		+= leds-lp5812.o
+>  obj-$(CONFIG_LEDS_NCP5623)		+= leds-ncp5623.o
+>  obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
+>  obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
+> +obj-$(CONFIG_LEDS_S2M_RGB)		+= leds-s2m-rgb.o
+>  obj-$(CONFIG_LEDS_MT6370_RGB)		+= leds-mt6370-rgb.o
+> diff --git a/drivers/leds/rgb/leds-s2m-rgb.c b/drivers/leds/rgb/leds-s2m-rgb.c
 > new file mode 100644
-> index 000000000000..4d6f33f0ed31
+> index 0000000000000..51d12f2ef762a
 > --- /dev/null
-> +++ b/Documentation/driver-api/cxl/linux/protocol-error-handling.rst
-> @@ -0,0 +1,440 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+> +++ b/drivers/leds/rgb/leds-s2m-rgb.c
+> @@ -0,0 +1,446 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * RGB LED Driver for Samsung S2M series PMICs.
+> + *
+> + * Copyright (c) 2015 Samsung Electronics Co., Ltd
+> + * Copyright (c) 2026 Kaustabh Chakraborty <kauschluss@disroot.org>
+> + */
 > +
-> +==============================
-> +CXL Protocol Error Handling
-> +==============================
+> +#include <linux/container_of.h>
+> +#include <linux/led-class-multicolor.h>
+> +#include <linux/mfd/samsung/core.h>
+> +#include <linux/mfd/samsung/s2mu005.h>
+> +#include <linux/minmax.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
 > +
-> +This document describes how the kernel detects, classifies, dispatches,
-> +logs, and recovers from CXL protocol errors signaled through the PCIe
-> +Advanced Error Reporting (AER) interface. It covers both Virtual
-> +Hierarchy (VH) topologies (Root Ports, Upstream/Downstream Switch
-> +Ports, and Endpoints) and Restricted CXL Host (RCH) topologies
-> +(Root Complex Event Collectors driving Restricted CXL Devices).
+> +struct s2m_rgb {
+> +	struct device *dev;
+> +	struct regmap *regmap;
+> +	struct led_classdev_mc mc;
+> +	enum sec_device_type device_type;
+> +	/*
+> +	 * The mutex object prevents race conditions when evaluation and
+> +	 * application of LED pattern state.
+> +	 */
+> +	struct mutex lock;
+> +	/*
+> +	 * State variables representing the current LED pattern, these only to
+> +	 * be accessed when lock is held.
+> +	 */
+> +	u8 ramp_up;
+> +	u8 ramp_dn;
+> +	u8 stay_hi;
+> +	u8 stay_lo;
+> +};
+> +
+> +static struct led_classdev_mc *to_s2m_mc(struct led_classdev *cdev)
+> +{
+> +	return container_of(cdev, struct led_classdev_mc, led_cdev);
+> +}
+> +
+> +static struct s2m_rgb *to_s2m_rgb(struct led_classdev_mc *mc)
+> +{
+> +	return container_of(mc, struct s2m_rgb, mc);
+> +}
+> +
+> +static const u32 s2mu005_rgb_lut_ramp[] = {
+> +	0,	100,	200,	300,	400,	500,	600,	700,
+> +	800,	1000,	1200,	1400,	1600,	1800,	2000,	2200,
+> +};
+> +
+> +static const u32 s2mu005_rgb_lut_stay_hi[] = {
+> +	100,	200,	300,	400,	500,	750,	1000,	1250,
+> +	1500,	1750,	2000,	2250,	2500,	2750,	3000,	3250,
+> +};
+> +
+> +static const u32 s2mu005_rgb_lut_stay_lo[] = {
+> +	0,	500,	1000,	1500,	2000,	2500,	3000,	3500,
+> +	4000,	4500,	5000,	6000,	7000,	8000,	10000,	12000,
+> +};
+> +
+> +static int s2mu005_rgb_apply_params(struct s2m_rgb *rgb)
+> +{
+> +	struct regmap *regmap = rgb->regmap;
+> +	unsigned int ramp_val = 0;
+> +	unsigned int stay_val = 0;
+> +	int ret;
+> +	int i;
+> +
+> +	ramp_val |= FIELD_PREP(S2MU005_RGB_CH_RAMP_UP, rgb->ramp_up);
+> +	ramp_val |= FIELD_PREP(S2MU005_RGB_CH_RAMP_DN, rgb->ramp_dn);
+> +
+> +	stay_val |= FIELD_PREP(S2MU005_RGB_CH_STAY_HI, rgb->stay_hi);
+> +	stay_val |= FIELD_PREP(S2MU005_RGB_CH_STAY_LO, rgb->stay_lo);
+> +
+> +	ret = regmap_write(regmap, S2MU005_REG_RGB_EN, S2MU005_RGB_RESET);
+> +	if (ret < 0) {
+> +		dev_err(rgb->dev, "failed to reset RGB LEDs\n");
+> +		return ret;
+> +	}
+> +
+> +	for (i = 0; i < rgb->mc.num_colors; i++) {
 
-Odd drifting wrapping. I thought only humans did that. I guess it's common
-enough in kernel docs maybe it learn it!  Anyhow, I think Docs are 80 char
-limit in which case something like:
+for (int i = 0; ...)
 
-This document describes how the kernel detects, classifies, dispatches, logs,
-and recovers from CXL protocol errors signaled through the PCIe Advanced Error
-Reporting (AER) interface. It covers both Virtual Hierarchy (VH) topologies
-(Root Ports, Upstream/Downstream Switch Ports, and Endpoints) and Restricted
-CXL Host (RCH) topologies (Root Complex Event Collectors driving Restricted
-CXL Devices).
+> +		ret = regmap_write(regmap, S2MU005_REG_RGB_CH_CTRL(i),
+> +				   rgb->mc.subled_info[i].brightness);
+> +		if (ret < 0) {
+> +			dev_err(rgb->dev, "failed to set LED brightness\n");
+> +			return ret;
+> +		}
+> +
+> +		ret = regmap_write(regmap, S2MU005_REG_RGB_CH_RAMP(i), ramp_val);
+> +		if (ret < 0) {
+> +			dev_err(rgb->dev, "failed to set ramp timings\n");
+> +			return ret;
+> +		}
+> +
+> +		ret = regmap_write(regmap, S2MU005_REG_RGB_CH_STAY(i), stay_val);
+> +		if (ret < 0) {
+> +			dev_err(rgb->dev, "failed to set stay timings\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	ret = regmap_update_bits(regmap, S2MU005_REG_RGB_EN, S2MU005_RGB_SLOPE,
+> +				 S2MU005_RGB_SLOPE_SMOOTH);
+> +	if (ret < 0) {
+> +		dev_err(rgb->dev, "failed to set ramp slope\n");
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int s2mu005_rgb_reset_params(struct s2m_rgb *rgb)
+> +{
+> +	struct regmap *regmap = rgb->regmap;
+> +	int ret;
+> +
+> +	ret = regmap_write(regmap, S2MU005_REG_RGB_EN, S2MU005_RGB_RESET);
+> +	if (ret < 0) {
+> +		dev_err(rgb->dev, "failed to reset RGB LEDs\n");
+> +		return ret;
+> +	}
+> +
+> +	rgb->ramp_up = 0;
+> +	rgb->ramp_dn = 0;
+> +	rgb->stay_hi = 0;
+> +	rgb->stay_lo = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static int s2m_rgb_lut_calc_timing(const u32 *lut, const size_t len,
+> +				   const u32 req_time, u8 *idx)
+> +{
+> +	int lo = 0;
+> +	int hi = len - 2;
+> +
+> +	/* Bounds checking */
+> +	if (req_time < lut[0] || req_time > lut[len - 1])
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Perform a binary search to pick the best timing from the LUT.
+> +	 *
+> +	 * The search algorithm picks two consecutive elements of the
+> +	 * LUT and tries to search the pair between which the requested
+> +	 * time lies.
+> +	 */
+> +	while (lo <= hi) {
+> +		*idx = (lo + hi) / 2;
+> +
+> +		if ((lut[*idx] <= req_time) && (req_time <= lut[*idx + 1]))
+> +			break;
+> +
+> +		if ((req_time < lut[*idx]) && (req_time < lut[*idx + 1]))
+> +			hi = *idx - 1;
+> +		else
+> +			lo = *idx + 1;
+> +	}
+> +
+> +	/*
+> +	 * The searched timing is always less than the requested time. At
+> +	 * times, the succeeding timing in the LUT is closer thus more
+> +	 * accurate. Adjust the resulting value if that's the case.
+> +	 */
+> +	if (abs(req_time - lut[*idx]) > abs(lut[*idx + 1] - req_time))
+> +		(*idx)++;
 
-Maybe t was intentional to keep lines similar lengths and brackets on last one?
-I'm not sure..
+As much as I appreciate the comments, most of the function is pretty
+unreadable.  Are you able to use better variable nomenclature and layout
+to better describe your aims?
+
+> +	return 0;
+> +}
+> +
+> +static int s2m_rgb_pattern_set(struct led_classdev *cdev, struct led_pattern *pattern,
+> +			       u32 len, int repeat)
+> +{
+> +	struct s2m_rgb *rgb = to_s2m_rgb(to_s2m_mc(cdev));
+> +	const u32 *lut_ramp_up, *lut_ramp_dn, *lut_stay_hi, *lut_stay_lo;
+> +	size_t lut_ramp_up_len, lut_ramp_dn_len, lut_stay_hi_len, lut_stay_lo_len;
+> +	int brightness_peak = 0;
+> +	u32 time_hi = 0, time_lo = 0;
+> +	bool ramp_up_en, ramp_dn_en;
+> +	int ret;
+> +	int i;
+> +
+> +	/*
+> +	 * The typical pattern supported by this device can be
+> +	 * represented with the following graph:
+> +	 *
+> +	 *  255 T ''''''-.                         .-'''''''-.
+> +	 *      |         '.                     .'           '.
+> +	 *      |           \                   /               \
+> +	 *      |            '.               .'                 '.
+> +	 *      |              '-...........-'                     '-
+> +	 *    0 +----------------------------------------------------> time (s)
+> +	 *
+> +	 *       <---- HIGH ----><-- LOW --><-------- HIGH --------->
+> +	 *       <-----><-------><---------><-------><-----><------->
+> +	 *       stay_hi ramp_dn   stay_lo   ramp_up stay_hi ramp_dn
+> +	 *
+> +	 * There are two states, named HIGH and LOW. HIGH has a non-zero
+> +	 * brightness level, while LOW is of zero brightness. The
+> +	 * pattern provided should mention only one zero and non-zero
+> +	 * brightness level. The hardware always starts the pattern from
+> +	 * the HIGH state, as shown in the graph.
+> +	 *
+> +	 * The HIGH state can be divided in three somewhat equal timings:
+> +	 * ramp_up, stay_hi, and ramp_dn. The LOW state has only one
+> +	 * timing: stay_lo.
+> +	 */
+> +
+> +	/* Only indefinitely looping patterns are supported. */
+> +	if (repeat != -1)
+> +		return -EINVAL;
+> +
+> +	/* Pattern should consist of at least two tuples. */
+> +	if (len < 2)
+> +		return -EINVAL;
+> +
+> +	for (i = 0; i < len; i++) {
+
+for (int i = 0; ...) would be preferable.
+
+> +		int brightness = pattern[i].brightness;
+> +		u32 delta_t = pattern[i].delta_t;
+> +
+> +		if (brightness) {
+> +			/*
+> +			 * The pattern shold define only one non-zero
+> +			 * brightness in the HIGH state. The device
+> +			 * doesn't have any provisions to handle
+> +			 * multiple peak brightness levels.
+> +			 */
+> +			if (brightness_peak && brightness_peak != brightness)
+> +				return -EINVAL;
+> +
+> +			brightness_peak = brightness;
+> +			time_hi += delta_t;
+> +			ramp_dn_en = !!delta_t;
+> +		} else {
+> +			time_lo += delta_t;
+> +			ramp_up_en = !!delta_t;
+> +		}
+> +	}
+> +
+> +	switch (rgb->device_type) {
+> +	case S2MU005:
+> +		lut_ramp_up = s2mu005_rgb_lut_ramp;
+> +		lut_ramp_up_len = ARRAY_SIZE(s2mu005_rgb_lut_ramp);
+> +		lut_ramp_dn = s2mu005_rgb_lut_ramp;
+> +		lut_ramp_dn_len = ARRAY_SIZE(s2mu005_rgb_lut_ramp);
+> +		lut_stay_hi = s2mu005_rgb_lut_stay_hi;
+> +		lut_stay_hi_len = ARRAY_SIZE(s2mu005_rgb_lut_stay_hi);
+> +		lut_stay_lo = s2mu005_rgb_lut_stay_lo;
+> +		lut_stay_lo_len = ARRAY_SIZE(s2mu005_rgb_lut_stay_lo);
+> +		break;
+> +	default:
+> +		/* execution shouldn't reach here */
+
+Instead of a comment, perhaps a WARN_ON_ONCE(1); or similar would be
+more robust here to catch unexpected device types?
+
+> +		break;
+> +	}
+> +
+> +	mutex_lock(&rgb->lock);
+> +
+> +	/*
+> +	 * The timings ramp_up, stay_hi, and ramp_dn of the HIGH state
+> +	 * are roughly equal. Firstly, calculate and set timings for
+> +	 * ramp_up and ramp_dn (making sure they're exactly equal).
+> +	 */
+> +	rgb->ramp_up = 0;
+> +	rgb->ramp_dn = 0;
+> +
+> +	if (ramp_up_en) {
+> +		ret = s2m_rgb_lut_calc_timing(lut_ramp_up, lut_ramp_up_len, time_hi / 3,
+> +					      &rgb->ramp_up);
+> +		if (ret < 0)
+> +			goto param_fail;
+> +	}
+> +
+> +	if (ramp_dn_en) {
+> +		ret = s2m_rgb_lut_calc_timing(lut_ramp_dn, lut_ramp_dn_len, time_hi / 3,
+> +					      &rgb->ramp_dn);
+> +		if (ret < 0)
+> +			goto param_fail;
+> +	}
+> +
+> +	/*
+> +	 * Subtract the allocated ramp timings from time_hi (and also
+> +	 * making sure it doesn't underflow!). The remaining time is
+> +	 * allocated to stay_hi.
+> +	 */
+> +	time_hi -= min(time_hi, lut_ramp_up[rgb->ramp_up]);
+> +	time_hi -= min(time_hi, lut_ramp_dn[rgb->ramp_dn]);
+> +
+> +	ret = s2m_rgb_lut_calc_timing(lut_stay_hi, lut_stay_hi_len, time_hi, &rgb->stay_hi);
+> +	if (ret < 0)
+> +		goto param_fail;
+> +
+> +	ret = s2m_rgb_lut_calc_timing(lut_stay_lo, lut_stay_lo_len, time_lo, &rgb->stay_lo);
+> +	if (ret < 0)
+> +		goto param_fail;
+> +
+> +	led_mc_calc_color_components(&rgb->mc, brightness_peak);
+> +	switch (rgb->device_type) {
+> +	case S2MU005:
+> +		ret = s2mu005_rgb_apply_params(rgb);
+> +		break;
+> +	default:
+> +		/* execution shouldn't reach here */
+> +		break;
+> +	}
+> +	if (ret < 0)
+> +		goto param_fail;
+
+Are we expecting positive values in these 'ret's?
+
+If not if (!ret) will do.
 
 > +
-> +It is intended for kernel developers maintaining or extending
-> +``drivers/pci/pcie/aer*.c``, ``drivers/cxl/core/ras.c``, and the
-> +related plumbing in ``include/linux/aer.h``.
+> +	mutex_unlock(&rgb->lock);
 > +
+> +	return 0;
 > +
-> +Background
-> +==========
+> +param_fail:
+> +	rgb->ramp_up = 0;
+> +	rgb->ramp_dn = 0;
+> +	rgb->stay_hi = 0;
+> +	rgb->stay_lo = 0;
 > +
-> +A CXL device reports protocol-layer failures (CXL.cachemem RAS) as
-> +PCIe AER **Internal Errors**: ``PCI_ERR_COR_INTERNAL`` for correctable
-> +events and ``PCI_ERR_UNC_INTN`` for uncorrectable events. From the AER
-> +core's point of view these look like ordinary PCIe AER messages, but
-> +their semantics are CXL-specific: the actual fault information lives
-> +in CXL RAS capability registers, not in the PCIe AER status registers.
+> +	mutex_unlock(&rgb->lock);
 > +
-> +Historically, native CXL.cachemem RAS handling was implemented only
-> +for CXL Endpoints and for RCH Downstream Ports. CXL Root Ports,
-> +Upstream Switch Ports, and Downstream Switch Ports were not covered.
-> +This left the kernel unable to log or react to protocol errors
-> +signaled by switch components.
+> +	return ret;
+> +}
+> +
+> +static int s2m_rgb_pattern_clear(struct led_classdev *cdev)
+> +{
+> +	struct s2m_rgb *rgb = to_s2m_rgb(to_s2m_mc(cdev));
+> +	int ret = 0;
+> +
+> +	mutex_lock(&rgb->lock);
+> +
+> +	switch (rgb->device_type) {
+> +	case S2MU005:
+> +		ret = s2mu005_rgb_reset_params(rgb);
+> +		break;
+> +	default:
+> +		/* execution shouldn't reach here */
+> +		break;
 
-I'd drop the historical bit.  Not sure it adds value and these tend to
-become stale (like all the 'New Courts' in my local Uni. Some of those are
-500+ years old :)
+As above.
 
-> +
-> +The unified CXL protocol error path closes that gap by routing every
-> +CXL Internal Error through a single producer/consumer pipeline shared
-> +by all CXL device types.
+And a single branch switch () makes little sense.
 
-The unified CXL Protocol path routes every ...
-(so no historical gap - as we don't care now you fixed it ;)
+> +	}
+> +
+> +	mutex_unlock(&rgb->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int s2m_rgb_brightness_set(struct led_classdev *cdev, enum led_brightness value)
+> +{
+> +	struct s2m_rgb *rgb = to_s2m_rgb(to_s2m_mc(cdev));
+> +	int ret = 0;
+> +
+> +	if (!value)
+> +		return s2m_rgb_pattern_clear(cdev);
+> +
+> +	mutex_lock(&rgb->lock);
+> +
+> +	led_mc_calc_color_components(&rgb->mc, value);
+> +	switch (rgb->device_type) {
+> +	case S2MU005:
+> +		ret = s2mu005_rgb_apply_params(rgb);
+> +		break;
+> +	default:
+> +		/* execution shouldn't reach here */
+> +		break;
+> +	}
+> +
+> +	mutex_unlock(&rgb->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static struct mc_subled s2mu005_rgb_subled_info[] = {
 
-Similar follows for some other parts - I might not have called them all out.
+const?
 
+> +	{ .channel = 0, .color_index = LED_COLOR_ID_BLUE },
+> +	{ .channel = 1, .color_index = LED_COLOR_ID_GREEN },
+> +	{ .channel = 2, .color_index = LED_COLOR_ID_RED },
+> +};
 > +
+> +static int s2m_rgb_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct sec_pmic_dev *pmic_drvdata = dev_get_drvdata(dev->parent);
+> +	struct s2m_rgb *rgb;
+> +	struct led_init_data init_data = {};
+> +	int ret;
 > +
-> +Architecture overview
-> +=====================
+> +	rgb = devm_kzalloc(dev, sizeof(*rgb), GFP_KERNEL);
+> +	if (!rgb)
+> +		return -ENOMEM;
 > +
-> +CXL protocol error handling is implemented as a distinct error plane
-> +layered on top of the existing PCIe AER infrastructure. The two planes
+> +	platform_set_drvdata(pdev, rgb);
+> +	rgb->dev = dev;
+> +	rgb->regmap = pmic_drvdata->regmap_pmic;
+> +	rgb->device_type = platform_get_device_id(pdev)->driver_data;
 
-(drop existing - same why do we need the history theme)
-
-> +are kept separate:
-> +
-> +* The **PCIe AER plane** continues to handle native PCIe errors
-** handles native  
-> +  (Receiver overflows, malformed TLPs, completion timeouts, and so
-> +  on). This is unchanged.
-> +
-> +* The **CXL protocol error plane** owns CXL Internal Errors. The AER
-> +  core forwards them to ``cxl_core`` via a dedicated kfifo; ``cxl_core``
-> +  then dispatches to CE/UE handlers and drives the recovery and
-> +  panic policy.
-> +
-> +The boundary between the two planes is ``is_cxl_error()`` in
-
-I think you can drop the `` and the automarkup.py magic in the kernel docs build
-will make that :c:func::is_cxl_error or something along those lines to
-both pretty print it and hopefully match autobuilt kernel-doc (assuming
-we include it anywhere for cxl)
-
-
-> +===============
-> +
-> +The diagram below shows the full path from an AER interrupt through
-> +producer classification, kfifo handoff, and consumer dispatch.
-> +
-> +.. code-block:: text
-> +
-> +   +-------------------------------------------------------------------------+
-> +   |                  CXL Internal Error Packet Flow                         |
-> +   |    From PCIe AER Interrupt to CXL Protocol Error Handling and Logging   |
-> +   +-------------------------------------------------------------------------+
-> +
-> +      CXL device (RP / USP / DSP / EP / RCD) raises AER Internal Error
-> +      (correctable PCI_ERR_COR_INTERNAL or uncorrectable PCI_ERR_UNC_INTN)
-> +                      |
-> +                      v
-> +      +-------------------------------------------------------------+
-> +      |    PCIe Root Port AER MSI/MSI-X interrupt fires             |
-> +      +-------------------------------------------------------------+
-> +                      |
-> +      ============= drivers/pci/pcie/aer.c (AER core) =============
-> +                      |
-> +                      v
-> +           +---------------------------------+
-> +           |  aer_irq()  /  aer_isr()        |  (top + threaded handler)
-> +           +---------------------------------+
-> +                      |
-> +                      v
-> +           +---------------------------------+
-> +           |  aer_isr_one_error()            |
-> +           |  aer_isr_one_error_type()       |
-> +           +---------------------------------+
-> +                      |
-> +                      v
-> +          +------------------------------------------+
-> +          |  aer_get_device_error_info()             |
-> +          |  - reads PCI_ERR_COR_STATUS              |
-> +          |  - reads PCI_ERR_UNCOR_STATUS  (*if RP/  |
-> +          |    RCEC/DSP, or non-fatal severity)      |
-> +          |  - sets info->is_cxl = pcie_is_cxl(dev)  |
-> +          +------------------------------------------+
-> +                      |
-> +                      v
-> +           +---------------------------------+
-> +           |  handle_error_source(dev, info) |
-> +           +---------------------------------+
-> +              |                          |
-> +              |  is_cxl_error()          +--->  pci_aer_handle_error()
-> +              |  (CXL device + Internal)        (native PCIe AER path,
-> +              v                                  not covered here)
-> +      +-------------------------------------------------------------+
-> +      | Topology dispatch within AER core:                          |
-> +      |                                                             |
-> +      |   - VH topology  (RP / USP / DSP / EP)                      |
-> +      |     -> drivers/pci/pcie/aer_cxl_vh.c                        |
-> +      |                                                             |
-> +      |   - RCH topology (RCEC iterates RCDs under it)              |
-> +      |     -> drivers/pci/pcie/aer_cxl_rch.c                       |
-> +      +-------------------------------------------------------------+
-> +           |                                            |
-> +           | VH path                            RCH path (RCEC AER)
-> +           v                                            v
-> +      ============= aer_cxl_vh.c (VH      ============= aer_cxl_rch.c (RCH
-> +                    producer) =============              producer) ==========
-> +           |                                            |
-> +           v                                            v
-> +      +-----------------------------+         +-------------------------------+
-> +      | cxl_forward_error(pdev,info)|         | cxl_rch_handle_error_iter()   |
-> +      |  - if AER_CORRECTABLE:      |         |  - iterate each RCD pdev      |
-> +      |     clear PCI_ERR_COR_STATUS|         |    beneath the RCEC           |
-> +      |  - pci_dev_get(pdev)        |         |  - call cxl_forward_error()   |
-> +      |  - build cxl_proto_err_     |         |    for each RCD               |
-> +      |    work_data                |         |    (same producer helper as   |
-> +      |    { pdev, severity }       |         |     the VH path uses)         |
-> +      |  - kfifo_in_spinlocked(...) |         +-------------------------------+
-> +      |  - schedule_work(...)       |                       |
-> +      +-----------------------------+                       |
-> +              |                                             |
-> +              +-----------------+---------------------------+
-> +                                |
-> +                                v
-> +                    +--------------------------+
-> +                    |     AER-CXL kfifo        |
-> +                    |     (work_struct)        |
-> +                    +--------------------------+
-> +                                |
-> +                                v
-> +      ============= drivers/cxl/core/ras.c (consumer worker) =======
-> +                                |
-> +                                v
-> +      +-------------------------------------------------------------+
-> +      | cxl_proto_err_work_fn() (workqueue handler)                 |
-> +      |   for_each_cxl_proto_err(&wd, __cxl_proto_err_work_fn)      |
-> +      +-------------------------------------------------------------+
-> +                      |
-> +                      v
-> +      +-------------------------------------------------------------+
-> +      | __cxl_proto_err_work_fn(wd)                                 |
-> +      |   port = find_cxl_port_by_dev(&pdev->dev, &dport)           |
-> +      |   cxl_handle_proto_error(pdev, port, dport, severity)       |
-> +      |   pci_dev_put(pdev)                                         |
-> +      +-------------------------------------------------------------+
-> +                      |
-> +                      v
-> +      +-------------------------------------------------------------+
-> +      | cxl_handle_proto_error()                                    |
-> +      +-------------------------------------------------------------+
-> +           |                                            |
-> +      pci_pcie_type ==                          pci_pcie_type !=
-> +      PCI_EXP_TYPE_RC_END                       PCI_EXP_TYPE_RC_END
-> +      (RCD Endpoint)                            (VH: RP/USP/DSP/EP)
-> +           |                                            |
-> +           v                                            |
-> +      +-------------------------------------+           |
-> +      | cxl_handle_rdport_errors(pdev)      |           |
-> +      |   - process RCH Downstream Port's   |           |
-> +      |     RAS register block first        |           |
-> +      |   - cxl_handle_cor_ras() for CE     |           |
-> +      |   - cxl_handle_ras() for UE         |           |
-> +      |     (log only; does NOT panic)      |           |
-> +      +-------------------------------------+           |
-> +           |                                            |
-> +           +--------------------+-----------------------+
-> +                                |
-> +                                v
-> +                   +-----------------------------+
-> +                   | severity == AER_CORRECTABLE |
-> +                   +-----------------------------+
-> +                         |                  |
-> +                         yes                no
-> +                         v                  v
-> +            +----------------------+   +-------------------------+
-> +            | cxl_handle_cor_ras() |   | cxl_do_recovery()       |
-> +            |  - emit cxl_aer_     |   | (described below)       |
-> +            |    correctable_      |   +-------------------------+
-> +            |    error trace       |
-> +            | pcie_clear_device_   |
-> +            |   status()           |
-> +            +----------------------+
-> +
-> +                    +-------------------------------+
-> +                    | cxl_do_recovery()             |
-> +                    |  if pci_dev_is_disconnected:  |
-> +                    |    panic("CXL cachemem err.") |
-> +                    |                               |
-> +                    |  ue = cxl_handle_ras()        |
-> +                    |    -> emit                    |
-> +                    |       cxl_aer_uncorrectable_  |
-> +                    |       error trace event       |
-> +                    |                               |
-> +                    |  if (ue):                     |
-> +                    |    panic("CXL cachemem err.") |
-> +                    |                               |
-> +                    |  pcie_clear_device_status()   |
-> +                    |  pci_aer_clear_nonfatal_status|
-> +                    |  pci_aer_clear_fatal_status   |
-> +                    +-------------------------------+
-
-Pretty diagram but maybe far too much given we have the code?
+We don't tend to use these object oriented-type constructs in the
+kernel.  Also, we have helper functions of extracting driver_data.
+Please use them.
 
 > +
-> +
-> +Severity policy
-> +===============
-> +
-> +The kernel's response to a CXL protocol error depends on the AER
-> +severity reported by the device and on the result of inspecting the
-> +CXL RAS registers.
-> +
+> +	switch (rgb->device_type) {
+> +	case S2MU005:
+> +		rgb->mc.subled_info = s2mu005_rgb_subled_info;
+> +		rgb->mc.num_colors = ARRAY_SIZE(s2mu005_rgb_subled_info);
+> +		break;
+> +	default:
+> +		return dev_err_probe(dev, -ENODEV, "device type %d is not supported by driver\n",
+> +				     pmic_drvdata->device_type);
 
+Small point, but for consistency, would it be better to print
+`rgb->device_type` here, since that is the value being checked in the
+switch statement?
+
+Also, same single branch comment as before.
+
+> +	}
+> +
+> +	rgb->mc.led_cdev.max_brightness = 255;
+> +	rgb->mc.led_cdev.brightness_set_blocking = s2m_rgb_brightness_set;
+> +	rgb->mc.led_cdev.pattern_set = s2m_rgb_pattern_set;
+> +	rgb->mc.led_cdev.pattern_clear = s2m_rgb_pattern_clear;
+> +
+> +	ret = devm_mutex_init(dev, &rgb->lock);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to create mutex lock\n");
+> +
+> +	init_data.fwnode = of_fwnode_handle(dev->of_node);
+> +	ret = devm_led_classdev_multicolor_register_ext(dev, &rgb->mc, &init_data);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "failed to create LED device\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct platform_device_id s2m_rgb_id_table[] = {
+> +	{ "s2mu005-rgb", S2MU005 },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(platform, s2m_rgb_id_table);
+> +
+> +static const struct of_device_id s2m_rgb_of_match_table[] = {
+> +	{ .compatible = "samsung,s2mu005-rgb", .data = (void *)S2MU005 },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, s2m_rgb_of_match_table);
+> +
+> +static struct platform_driver s2m_rgb_driver = {
+> +	.driver = {
+> +		.name = "s2m-rgb",
+> +	},
+> +	.probe = s2m_rgb_probe,
+> +	.id_table = s2m_rgb_id_table,
+> +};
+> +module_platform_driver(s2m_rgb_driver);
+> +
+> +MODULE_DESCRIPTION("RGB LED Driver For Samsung S2M Series PMICs");
+
+"for"
+
+> +MODULE_AUTHOR("Kaustabh Chakraborty <kauschluss@disroot.org>");
+> +MODULE_LICENSE("GPL");
+
+-- 
+Lee Jones
