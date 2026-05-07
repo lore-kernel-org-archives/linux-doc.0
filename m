@@ -1,366 +1,442 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D8E3EDAD8;
-	Thu,  7 May 2026 12:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E67358D27
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 12:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778157098; cv=none; b=jvACfGpmQBvcDuWSNRRKYsYeun8TV6OIWcLuLLBgY4w7cFLUrXNQXYXtpG6G+RhMrf5tQYGMYUVgc3hUBgqap/jkj+TWM8DEGocPbp4cf7PX+BsoSob2xt9pQljgZQg8SQ+1zF8Ml535aewBu5RkEi35j2WIvUlzBNM3ktlNYCY=
+	t=1778157312; cv=none; b=SO4LCVOjWfeMjcr57eWC8toF5pPuIsNTsw3h03tvE7DOahQY4GR1YE1bzjjnuuJs/omcYvjggW+nzLTQWP1LRwMCX910fR7PQhcs6FKwDbuYpsl+V8s9xz66aJV57vr7c3K5BzE5WjvACWITTLobb9h2YFWj3YgBVKuqyHqvaWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778157098; c=relaxed/simple;
-	bh=BCCfU1BpfqNy2x4V7fCN3tZRiiBnL6Bnrv8ZbfymGKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IPNJ61CXxmHNCMUSFIvF/AqMAOU86USrmD6MYk1YYI5mIVN7D4cMCI/Ye3d0JMbEwRueyVYbqNsMEP3nKl9Tg5otx4/zCqFTpMbF5XWp3t7sHvPc3+KKMWSDEeRyxhjNkP0yo9tqHXRQfW17AFulYc1wT/2N3pz5Hz6YtMz7zGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4RW9da8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778157312; c=relaxed/simple;
+	bh=ETuDtSwyaUddnAug53346DgVOI/9ZQNWbc7pgqdfZVY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UNJQXUM3DsNvMXIkIg2oBfLeDB5tqItyjKql/jHb9KkJA7OSlKLoB3Js54xDRaatcAdqFbrCSCFaW6QgH8IH6oiZXne6Mlfyj54QjUl4I0+EHNbMzOHthkHRaFoZlp5Z9fOpwiOcnmQxl3X89YzCM6nBkfQF+qFhATy3ZrJTD0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WnGe8msX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=d0RhSNXX; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4RW9da8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD71BC2BCB8;
-	Thu,  7 May 2026 12:31:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778157097;
-	bh=BCCfU1BpfqNy2x4V7fCN3tZRiiBnL6Bnrv8ZbfymGKE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H4RW9da8uWzf07/S57Y0i3exiQ1ZZ5Qr2xK6KTIL8ILOu3yGaGmEYolKrh+y3MHHI
-	 2jse/eQd3aKKdcpTa8aVq8qKBXT/U9nqJnpASyh4Z0pKnhfcvumiswP/5qOGOuOySR
-	 M/vygUDXeR+gZDJAwoYPxp9rq1aHNTZKxxw9rKcFMJTjqW5V4MTkD5mWDMpNyoNhLG
-	 D/i5SGfwUMsBF+mW1A7VPTvVj4fOmevpsk1QI9TpqCVJcycbxWyH60TqDVGMHz1M7a
-	 VHWXQqNwSPvM5V3fJ5IPlVmW0kKvucZkMZTUXtiIW/DAq481ep9plD+9mKqUuNbd+F
-	 tB1RsNkyY3UeA==
-Date: Thu, 7 May 2026 13:31:31 +0100
-From: Lee Jones <lee@kernel.org>
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: pavel@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, linux-leds@vger.kernel.org,
-	linux-doc@vger.kernel.org, jacek.anaszewski@gmail.com,
-	pobrn@protonmail.com, m.tretter@pengutronix.de,
-	wse@tuxedocomputers.com
-Subject: Re: [PATCH v3 1/1] leds: Introduce the multi_max_intensity sysfs
- attribute
-Message-ID: <20260507123131.GH305027@google.com>
-References: <20260409210629.9934-1-W_Armin@gmx.de>
- <20260409210629.9934-2-W_Armin@gmx.de>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WnGe8msX";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="d0RhSNXX"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6479N4OB3464902
+	for <linux-doc@vger.kernel.org>; Thu, 7 May 2026 12:35:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	cp/b8ILc3ZsSOIZ8f2jupbkg6WAQAkIuZCfNcQoaBiA=; b=WnGe8msXks6nrWfj
+	Ak4QFi+SrRu0cVy07aMUhhpwq9+AmUiEinnXJfPHn60q3H+5rVzUFq3Ax2w+hrt7
+	6GfF2h9SzvvZOC3UtZpx4tCdvkAfy+C/u/X8byYIw+xhH6rl27XYa20hTpqsHp8O
+	D/QA1KjBmdg8wGAz1678SBYywj1cftJpOb00PoT1mP+7Swq4r2KZsIKogLNci3we
+	TnbcT09T8E/GdYYpKYdEqRULm+deND2mlLX3CtdOghhEFOtY8xtfYebhjm7cIE5X
+	zb7AGwm8KWGNpvbkNjCTIG7Ym3+8qK0Kkkn8rbb3z5GGyPSIgrRMYj6M4uqOlq3h
+	n7Cvaw==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e0hvn22ss-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 12:35:09 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-c797efdaa9cso407362a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 05:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778157308; x=1778762108; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cp/b8ILc3ZsSOIZ8f2jupbkg6WAQAkIuZCfNcQoaBiA=;
+        b=d0RhSNXXJAbC6hb9QzRqHcfiet23aHwwXCwOXjroM11c9OR+zGR6pS8FkvdIViaJKB
+         /6m9WT3BkwQiTp9QSS+mWm+z9TJ5za+VocCMoQeXUkrfH6401f9LMMhJ4aY0AeLl/QhA
+         hFR3xrfyDzB9LNBQHH+qSoJWS1KJz+zrhmZpHJhR9gXUIen6/CB/IQNFyiz7X0aVYy0/
+         6mupywPjvLIrST73R6TOT1vr96CCwsiJJhdG3PNUTmlIlWcH7coLEoXkLIcYLCuKRMg9
+         /1Z1U5RXkviZn0OV6vBtZiUZsYL6CUMZXfBr+VGHaDnDkniZqeUI7C5FapJf1hUqRgkM
+         /v/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778157308; x=1778762108;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cp/b8ILc3ZsSOIZ8f2jupbkg6WAQAkIuZCfNcQoaBiA=;
+        b=I7x3G1BzAuX3D6aFVBDCfbjU/IXbo+n3SYvv/iHMtkF6MhqoWQQvcd0pfhFVLrBkMC
+         zfJbT9JafKfN1uGjChbzqvCWwdOR5hz8kmUs1YjNoQYSa/pyNkje51RuWra238lAeErk
+         qqBG3MQ1zAnOL4RTs5Uc7G2niwbAYQUEL1QxE8GpEFRua1w6Fvo7Gw623grp8ct3vp7h
+         SlmU4pDqTQhRca9qr3YCB3ZY4NpLI2bmfDSvY0U/AlBz4r1s52EmZruLfYerxY9D3Xee
+         /UOcXkVLi0YlZ6laRYC3eVIwN4yYl/kExzKpInLGsf1WEHIcZh9/DYdm+HdNbG7Fuke8
+         Ybjg==
+X-Gm-Message-State: AOJu0YzxMv/f0irZPvxphu1ienKFxgcP8/5T+5sX91Qq1EXUDJ0unXmm
+	i6mpNYMccv/txdhmWBb1wT0ODW7AVwoUXAn76YAq8W0ijTsn4vMxzF2TXOdhsCQJiW51leOJMHz
+	nvUf5C751g/x2Wv7PKwjrlVfQFfNWplaJcvVS0L1sLSFqoN3/UGwDw2dlLO2FwEbRyBm5CdU=
+X-Gm-Gg: AeBDieuOD+09Rj0/W2tcRILpsFhZKAybB/E+OUQRetOigrEmzKELdHUAlXQihbO6INX
+	OV31YubiMB1iFGBOIXaBwDaJiZ/T94+ZVXVMRpPvBDOG9L4JwNoD2lLNSho6mmNai29XISfYIr9
+	3kpnDAk3Cg3W/jlRCvBQQJLcsh2ueg8TlSywxRtqqOCxiyjernVHCvnVlWtWQo4NSEBuDbYcArT
+	EAylPPyhEbwB23ECB5bJ0eqq7z1z1Tmbsl5nUSYR+N9THUdGVhZ8j4wkNisd22NQgjxk3J0fz8m
+	MbGfguaPX3wRIkOSPFM7Hd+aHHCS+Mug68lYLDG0rgPWopvmiUgIrlMfPQBs9WQSs33yDP4yQXK
+	IIZRQIcVzbQYmn4q7zSFt1K5ZBrb1pPN+BMStfPpAA6rNQU+CJVEp7mTr/3he34FVF+clGxlmNM
+	9YxsW7ncPs+1cKZ0NEEcbPr8zprR0=
+X-Received: by 2002:a05:6a00:3e21:b0:82f:120:fd6f with SMTP id d2e1a72fcca58-83a585411cfmr7197073b3a.0.1778157307965;
+        Thu, 07 May 2026 05:35:07 -0700 (PDT)
+X-Received: by 2002:a05:6a00:3e21:b0:82f:120:fd6f with SMTP id d2e1a72fcca58-83a585411cfmr7197024b3a.0.1778157307350;
+        Thu, 07 May 2026 05:35:07 -0700 (PDT)
+Received: from [10.133.33.84] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83965c30ddasm11025255b3a.21.2026.05.07.05.35.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 May 2026 05:35:06 -0700 (PDT)
+Message-ID: <a8501d98-7bd9-491b-81f5-fa343c2ecd42@oss.qualcomm.com>
+Date: Thu, 7 May 2026 20:35:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260409210629.9934-2-W_Armin@gmx.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] cpufreq: elanfreq: Drop support for AMD Elan SC4*
+To: Sean Young <sean@mess.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        "Rafael J. Wysocki"
+ <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, zhongqiu.han@oss.qualcomm.com
+References: <20260507090107.10113-1-sean@mess.org>
+Content-Language: en-US
+From: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+In-Reply-To: <20260507090107.10113-1-sean@mess.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDEyNSBTYWx0ZWRfX+P0KUpAwkIfR
+ s9r3fZ9RQDR9BEEA2YfmfT6qE4b8AOI951GqAC/3uTR6MV4dsijyrjsMHqz1H8MzxtdLTsd1J2c
+ mj6ZS+kC/oa5PlbNHIX/CWhgG5m9p+cI6vabfsTCQHD69MJQxtvUkK8AyuYt08ac1kCJkh3KD7O
+ 9dAfKREtgAPmd1jNvvbB7OhSNAdegp86wbAxKyERx7L/7WoeC0YdYTGyBBLUtXn/hyz0YB1qGB5
+ UJ54ZJmOVU+ng9vYuMWuxCTkU07OY8izBOYTtYLj/W7e39h7+PTVUmWJMvN6sm2FENGW3BWCXVj
+ MNlVGftdpLZ3hds8+qb0wQOdKtiXVc/VyZFY0rV3VjV/5Ma7j4tcU20QV25o3kDoSMBrsiczVVi
+ 2Xw3mCD4eUsh9xYKq9X+xXP0J9GhJx7xDMe5Vdh8WGiN8ejJIMkf2Op3LRnUKzWmuMRs98rpheK
+ CKNsC20C0Zah3Ni0VIw==
+X-Proofpoint-ORIG-GUID: eFGYG9RK9dY7WTjdP4mvdDcSt4IwffQF
+X-Proofpoint-GUID: eFGYG9RK9dY7WTjdP4mvdDcSt4IwffQF
+X-Authority-Analysis: v=2.4 cv=ZZ4t8MVA c=1 sm=1 tr=0 ts=69fc86fd cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=xGAvDSoXAAAA:8 a=EUspDBNiAAAA:8 a=WQVVGId5AAAA:8 a=hSG5pozmvi54k6qu7kUA:9
+ a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22 a=I9AbH5bZuplaqbmfSwNo:22
+ a=Ro4MoL-rP1oEvTRli_YJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-07_01,2026-05-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 suspectscore=0 spamscore=0 priorityscore=1501 bulkscore=0
+ phishscore=0 clxscore=1011 impostorscore=0 malwarescore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070125
 
-On Thu, 09 Apr 2026, Armin Wolf wrote:
-
-> Some multicolor LEDs support global brightness control in hardware,
-> meaning that the maximum intensity of the color components is not
-> connected to the maximum global brightness. Such LEDs cannot be
-> described properly by the current multicolor LED class interface,
-> because it assumes that the maximum intensity of each color component
-> is described by the maximum global brightness of the LED.
+On 5/7/2026 5:01 PM, Sean Young wrote:
+> Since commit 8b793a92d862 ("x86/cpu: Remove M486/M486SX/ELAN support"),
+> the AMD Elan SC4* is no longer supported, so the cpu frequency
+> driver is no longer needed.
 > 
-> Fix this by introducing a new sysfs attribute called
-> "multi_max_intensity" holding the maximum intensity values for the
-> color components of a multicolor LED class device. Drivers can use
-> the new max_intensity field inside struct mc_subled to tell the
-> multicolor LED class code about those values. Intensity values written
-> by userspace applications will be limited to this maximum value.
-> 
-> Drivers for multicolor LEDs that do not support global brightness
-> control in hardware might still want to use the maximum global LED
-> brightness supplied via devicetree as the maximum intensity of each
-> individual color component. Such drivers should set max_intensity
-> to 0 so that the multicolor LED core can act accordingly.
-> 
-> The lp50xx and ncp5623 LED drivers already use hardware-based control
-> for the global LED brightness. Modify those drivers to correctly
-> initalize .max_intensity to avoid being limited to the maximum global
-> brightness supplied via devicetree.
-> 
-> Reviewed-by: Werner Sembach <wse@tuxedocomputers.com>
-> Reviewed-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-
-Pretty good overall.
-
-Please fix these small nits and submit with my R-b.
-
+> Signed-off-by: Sean Young <sean@mess.org>
 > ---
->  .../ABI/testing/sysfs-class-led-multicolor    | 19 ++++++--
->  Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++-
->  drivers/leds/led-class-multicolor.c           | 47 ++++++++++++++++++-
->  drivers/leds/leds-lp50xx.c                    |  1 +
->  drivers/leds/rgb/leds-ncp5623.c               |  4 +-
->  include/linux/led-class-multicolor.h          | 30 +++++++++++-
->  6 files changed, 113 insertions(+), 9 deletions(-)
+> Changes since v1:
+>   - Also removes elanfreq= entry from kernel-parameters.txt
+
+
+Reviewed-by: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+
+
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> index 16fc827b10cb..197da3e775b4 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led-multicolor
-> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> @@ -16,9 +16,22 @@ Date:		March 2020
->  KernelVersion:	5.9
->  Contact:	Dan Murphy <dmurphy@ti.com>
->  Description:	read/write
-> -		This file contains array of integers. Order of components is
-> -		described by the multi_index array. The maximum intensity should
-> -		not exceed /sys/class/leds/<led>/max_brightness.
-> +		This file contains an array of integers. The order of components
-> +		is described by the multi_index array. The maximum intensity value
-> +		supported by each color component is described by the multi_max_intensity
-> +		file. Writing intensity values larger than the maximum value of a
-> +		given color component will result in those values being clamped.
-> +
-> +		For additional details please refer to
-> +		Documentation/leds/leds-class-multicolor.rst.
-> +
-> +What:		/sys/class/leds/<led>/multi_max_intensity
-> +Date:		March 2026
-> +KernelVersion:	7.1
-> +Contact:	Armin Wolf <W_Armin@gmx.de>
-> +Description:	read
-> +		This file contains an array of integers describing the maximum
-> +		intensity value for each intensity component.
->  
->  		For additional details please refer to
->  		Documentation/leds/leds-class-multicolor.rst.
-> diff --git a/Documentation/leds/leds-class-multicolor.rst b/Documentation/leds/leds-class-multicolor.rst
-> index c6b47b4093c4..68340644f80b 100644
-> --- a/Documentation/leds/leds-class-multicolor.rst
-> +++ b/Documentation/leds/leds-class-multicolor.rst
-> @@ -25,10 +25,14 @@ color name to indexed value.
->  The ``multi_index`` file is an array that contains the string list of the colors as
->  they are defined in each ``multi_*`` array file.
->  
-> -The ``multi_intensity`` is an array that can be read or written to for the
-> +The ``multi_intensity`` file is an array that can be read or written to for the
->  individual color intensities.  All elements within this array must be written in
->  order for the color LED intensities to be updated.
->  
-> +The ``multi_max_intensity`` file is an array that contains the maximum intensity
-> +value supported by each color intensity. Intensity values above this will be
-> +automatically clamped into the supported range.
-> +
->  Directory Layout Example
->  ========================
->  .. code-block:: console
-> @@ -38,6 +42,7 @@ Directory Layout Example
->      -r--r--r--    1 root     root          4096 Oct 19 16:16 max_brightness
->      -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_index
->      -rw-r--r--    1 root     root          4096 Oct 19 16:16 multi_intensity
-> +    -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_max_intensity
->  
->  ..
->  
-> @@ -104,3 +109,17 @@ the color LED group.
->      128
->  
->  ..
-> +
-> +Writing intensity values larger than the maximum specified in ``multi_max_intensity``
-> +will result in those values being clamped into the supported range.
-> +
-> +.. code-block:: console
-> +
-> +   # cat /sys/class/leds/multicolor:status/multi_max_intensity
-> +   255 255 255
-> +
-> +   # echo 512 512 512 > /sys/class/leds/multicolor:status/multi_intensity
-> +   # cat /sys/class/leds/multicolor:status/multi_intensity
-> +   255 255 255
-> +
-> +..
-> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
-> index 6b671f3f9c61..8d763b1ae76f 100644
-> --- a/drivers/leds/led-class-multicolor.c
-> +++ b/drivers/leds/led-class-multicolor.c
-> @@ -7,10 +7,28 @@
->  #include <linux/init.h>
->  #include <linux/led-class-multicolor.h>
->  #include <linux/math.h>
-> +#include <linux/minmax.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
->  #include <linux/uaccess.h>
->  
-> +static unsigned int led_mc_get_max_intensity(struct led_classdev_mc *mcled_cdev, size_t index)
-> +{
-> +	unsigned int max_intensity;
-> +
-> +	/* The maximum global brightness value might still be changed by
-
-Nit: Please use proper multi-line comment formatting.
-
-> +	 * led_classdev_register_ext() using devicetree properties. This
-> +	 * prevents us from changing subled_info[X].max_intensity when
-> +	 * registering a multicolor LED class device, so we have to do
-> +	 * this during runtime.
-> +	 */
-> +	max_intensity = mcled_cdev->subled_info[index].max_intensity;
-> +	if (max_intensity)
-> +		return max_intensity;
-> +
-> +	return mcled_cdev->led_cdev.max_brightness;
-> +}
-> +
->  int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->  				 enum led_brightness brightness)
->  {
-> @@ -27,6 +45,27 @@ int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->  }
->  EXPORT_SYMBOL_GPL(led_mc_calc_color_components);
->  
-> +static ssize_t multi_max_intensity_show(struct device *dev,
-> +					struct device_attribute *intensity_attr, char *buf)
-> +{
-> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
-> +	unsigned int max_intensity;
-> +	int len = 0;
-> +	int i;
-> +
-> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
-
-Nit: for (int i = 0; ...)
-
-> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
-> +		len += sysfs_emit_at(buf, len, "%u", max_intensity);
-> +		if (i < mcled_cdev->num_colors - 1)
-> +			len += sprintf(buf + len, " ");
-> +	}
-> +
-> +	buf[len++] = '\n';
-> +	return len;
-> +}
-> +static DEVICE_ATTR_RO(multi_max_intensity);
-> +
->  static ssize_t multi_intensity_store(struct device *dev,
->  				struct device_attribute *intensity_attr,
->  				const char *buf, size_t size)
-> @@ -35,6 +74,7 @@ static ssize_t multi_intensity_store(struct device *dev,
->  	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
->  	int nrchars, offset = 0;
->  	unsigned int intensity_value[LED_COLOR_ID_MAX];
-> +	unsigned int max_intensity;
->  	int i;
->  	ssize_t ret;
->  
-> @@ -56,8 +96,10 @@ static ssize_t multi_intensity_store(struct device *dev,
->  		goto err_out;
->  	}
->  
-> -	for (i = 0; i < mcled_cdev->num_colors; i++)
-> -		mcled_cdev->subled_info[i].intensity = intensity_value[i];
-> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
-
-As above.
-
-> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
-> +		mcled_cdev->subled_info[i].intensity = min(intensity_value[i], max_intensity);
-> +	}
->  
->  	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
->  		led_set_brightness(led_cdev, led_cdev->brightness);
-> @@ -111,6 +153,7 @@ static ssize_t multi_index_show(struct device *dev,
->  static DEVICE_ATTR_RO(multi_index);
->  
->  static struct attribute *led_multicolor_attrs[] = {
-> +	&dev_attr_multi_max_intensity.attr,
->  	&dev_attr_multi_intensity.attr,
->  	&dev_attr_multi_index.attr,
->  	NULL,
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> index e2a9c8592953..69c3550f1a31 100644
-> --- a/drivers/leds/leds-lp50xx.c
-> +++ b/drivers/leds/leds-lp50xx.c
-> @@ -525,6 +525,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->  			}
->  
->  			mc_led_info[multi_index].color_index = color_id;
-> +			mc_led_info[multi_index].max_intensity = 255;
->  			num_colors++;
->  		}
->  
-> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
-> index 85d6be6fff2b..f2528f06507d 100644
-> --- a/drivers/leds/rgb/leds-ncp5623.c
-> +++ b/drivers/leds/rgb/leds-ncp5623.c
-> @@ -56,8 +56,7 @@ static int ncp5623_brightness_set(struct led_classdev *cdev,
->  	for (int i = 0; i < mc_cdev->num_colors; i++) {
->  		ret = ncp5623_write(ncp->client,
->  				    NCP5623_PWM_REG(mc_cdev->subled_info[i].channel),
-> -				    min(mc_cdev->subled_info[i].intensity,
-> -					NCP5623_MAX_BRIGHTNESS));
-> +				    mc_cdev->subled_info[i].intensity);
->  		if (ret)
->  			return ret;
->  	}
-> @@ -190,6 +189,7 @@ static int ncp5623_probe(struct i2c_client *client)
->  			goto release_led_node;
->  
->  		subled_info[ncp->mc_dev.num_colors].channel = reg;
-> +		subled_info[ncp->mc_dev.num_colors].max_intensity = NCP5623_MAX_BRIGHTNESS;
->  		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
->  	}
->  
-> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
-> index db9f34c6736e..45469388bb1a 100644
-> --- a/include/linux/led-class-multicolor.h
-> +++ b/include/linux/led-class-multicolor.h
-> @@ -9,10 +9,31 @@
->  #include <linux/leds.h>
->  #include <dt-bindings/leds/common.h>
->  
-> +/**
-> + * struct mc_subled - Color component description.
-> + * @color_index: Color ID.
-> + * @brightness: Scaled intensity.
-> + * @intensity: Current intensity.
-> + * @max_intensity: Maximum supported intensity value.
-> + * @channel: Channel index.
-> + *
-> + * Describes a color component of a multicolor LED. Many multicolor LEDs
-> + * do no support global brightness control in hardware, so they use
-
-Nit: "not"
-
-> + * the brightness field in connection with led_mc_calc_color_components()
-> + * to perform the intensity scaling in software.
-> + * Such drivers should set max_intensity to 0 to signal the multicolor LED core
-> + * that the maximum global brightness of the LED class device should be used for
-> + * limiting incoming intensity values.
-> + *
-> + * Multicolor LEDs that do support global brightness control in hardware
-> + * should instead set max_intensity to the maximum intensity value supported
-> + * by the hardware for a given color component.
-> + */
->  struct mc_subled {
->  	unsigned int color_index;
->  	unsigned int brightness;
->  	unsigned int intensity;
-> +	unsigned int max_intensity;
->  	unsigned int channel;
->  };
->  
-> @@ -53,7 +74,14 @@ int led_classdev_multicolor_register_ext(struct device *parent,
->   */
->  void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev);
->  
-> -/* Calculate brightness for the monochrome LED cluster */
-> +/**
-> + * led_mc_calc_color_components() - Calculates component brightness values of a LED cluster.
-> + * @mcled_cdev - Multicolor LED class device of the LED cluster.
-> + * @brightness - Global brightness of the LED cluster.
-> + *
-> + * Calculates the brightness values for each color component of a monochrome LED cluster,
-> + * see Documentation/leds/leds-class-multicolor.rst for details.
-> + */
->  int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->  				 enum led_brightness brightness);
->  
-> -- 
-> 2.39.5
+>   .../admin-guide/kernel-parameters.txt         |   4 -
+>   drivers/cpufreq/Kconfig.x86                   |  15 --
+>   drivers/cpufreq/Makefile                      |   1 -
+>   drivers/cpufreq/elanfreq.c                    | 226 ------------------
+>   4 files changed, 246 deletions(-)
+>   delete mode 100644 drivers/cpufreq/elanfreq.c
 > 
-> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 4d0f545fb3ec..7ab0e58c4aa9 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1669,10 +1669,6 @@ Kernel parameters
+>   			very early in the boot process. For early debugging
+>   			via a serial port see kgdboc_earlycon instead.
+>   
+> -	elanfreq=	[X86-32]
+> -			See comment before function elanfreq_setup() in
+> -			arch/x86/kernel/cpu/cpufreq/elanfreq.c.
+> -
+>   	elfcorehdr=[size[KMG]@]offset[KMG] [PPC,SH,X86,S390,EARLY]
+>   			Specifies physical address of start of kernel core
+>   			image elf header and optionally the size. Generally
+> diff --git a/drivers/cpufreq/Kconfig.x86 b/drivers/cpufreq/Kconfig.x86
+> index 865b290b01ff..c42dd39e0b2a 100644
+> --- a/drivers/cpufreq/Kconfig.x86
+> +++ b/drivers/cpufreq/Kconfig.x86
+> @@ -126,21 +126,6 @@ config X86_ACPI_CPUFREQ_CPB
+>   	  By enabling this option the acpi_cpufreq driver provides the old
+>   	  entry in addition to the new boost ones, for compatibility reasons.
+>   
+> -config ELAN_CPUFREQ
+> -	tristate "AMD Elan SC400 and SC410"
+> -	depends on MELAN
+> -	help
+> -	  This adds the CPUFreq driver for AMD Elan SC400 and SC410
+> -	  processors.
+> -
+> -	  You need to specify the processor maximum speed as boot
+> -	  parameter: elanfreq=maxspeed (in kHz) or as module
+> -	  parameter "max_freq".
+> -
+> -	  For details, take a look at <file:Documentation/cpu-freq/>.
+> -
+> -	  If in doubt, say N.
+> -
+>   config X86_POWERNOW_K6
+>   	tristate "AMD Mobile K6-2/K6-3 PowerNow!"
+>   	depends on X86_32
+> diff --git a/drivers/cpufreq/Makefile b/drivers/cpufreq/Makefile
+> index 96196edf79d5..6c7a39b7f8d2 100644
+> --- a/drivers/cpufreq/Makefile
+> +++ b/drivers/cpufreq/Makefile
+> @@ -40,7 +40,6 @@ obj-$(CONFIG_X86_POWERNOW_K6)		+= powernow-k6.o
+>   obj-$(CONFIG_X86_POWERNOW_K7)		+= powernow-k7.o
+>   obj-$(CONFIG_X86_LONGHAUL)		+= longhaul.o
+>   obj-$(CONFIG_X86_E_POWERSAVER)		+= e_powersaver.o
+> -obj-$(CONFIG_ELAN_CPUFREQ)		+= elanfreq.o
+>   obj-$(CONFIG_X86_LONGRUN)		+= longrun.o
+>   obj-$(CONFIG_X86_GX_SUSPMOD)		+= gx-suspmod.o
+>   obj-$(CONFIG_X86_SPEEDSTEP_ICH)		+= speedstep-ich.o
+> diff --git a/drivers/cpufreq/elanfreq.c b/drivers/cpufreq/elanfreq.c
+> deleted file mode 100644
+> index fc5a58088b35..000000000000
+> --- a/drivers/cpufreq/elanfreq.c
+> +++ /dev/null
+> @@ -1,226 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0-or-later
+> -/*
+> - *	elanfreq:	cpufreq driver for the AMD ELAN family
+> - *
+> - *	(c) Copyright 2002 Robert Schwebel <r.schwebel@pengutronix.de>
+> - *
+> - *	Parts of this code are (c) Sven Geggus <sven@geggus.net>
+> - *
+> - *      All Rights Reserved.
+> - *
+> - *	2002-02-13: - initial revision for 2.4.18-pre9 by Robert Schwebel
+> - */
+> -
+> -#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> -
+> -#include <linux/kernel.h>
+> -#include <linux/module.h>
+> -#include <linux/init.h>
+> -
+> -#include <linux/delay.h>
+> -#include <linux/cpufreq.h>
+> -
+> -#include <asm/cpu_device_id.h>
+> -#include <linux/timex.h>
+> -#include <linux/io.h>
+> -
+> -#define REG_CSCIR 0x22		/* Chip Setup and Control Index Register    */
+> -#define REG_CSCDR 0x23		/* Chip Setup and Control Data  Register    */
+> -
+> -/* Module parameter */
+> -static int max_freq;
+> -
+> -struct s_elan_multiplier {
+> -	int clock;		/* frequency in kHz                         */
+> -	int val40h;		/* PMU Force Mode register                  */
+> -	int val80h;		/* CPU Clock Speed Register                 */
+> -};
+> -
+> -/*
+> - * It is important that the frequencies
+> - * are listed in ascending order here!
+> - */
+> -static struct s_elan_multiplier elan_multiplier[] = {
+> -	{1000,	0x02,	0x18},
+> -	{2000,	0x02,	0x10},
+> -	{4000,	0x02,	0x08},
+> -	{8000,	0x00,	0x00},
+> -	{16000,	0x00,	0x02},
+> -	{33000,	0x00,	0x04},
+> -	{66000,	0x01,	0x04},
+> -	{99000,	0x01,	0x05}
+> -};
+> -
+> -static struct cpufreq_frequency_table elanfreq_table[] = {
+> -	{0, 0,	1000},
+> -	{0, 1,	2000},
+> -	{0, 2,	4000},
+> -	{0, 3,	8000},
+> -	{0, 4,	16000},
+> -	{0, 5,	33000},
+> -	{0, 6,	66000},
+> -	{0, 7,	99000},
+> -	{0, 0,	CPUFREQ_TABLE_END},
+> -};
+> -
+> -
+> -/**
+> - *	elanfreq_get_cpu_frequency: determine current cpu speed
+> - *
+> - *	Finds out at which frequency the CPU of the Elan SOC runs
+> - *	at the moment. Frequencies from 1 to 33 MHz are generated
+> - *	the normal way, 66 and 99 MHz are called "Hyperspeed Mode"
+> - *	and have the rest of the chip running with 33 MHz.
+> - */
+> -
+> -static unsigned int elanfreq_get_cpu_frequency(unsigned int cpu)
+> -{
+> -	u8 clockspeed_reg;    /* Clock Speed Register */
+> -
+> -	local_irq_disable();
+> -	outb_p(0x80, REG_CSCIR);
+> -	clockspeed_reg = inb_p(REG_CSCDR);
+> -	local_irq_enable();
+> -
+> -	if ((clockspeed_reg & 0xE0) == 0xE0)
+> -		return 0;
+> -
+> -	/* Are we in CPU clock multiplied mode (66/99 MHz)? */
+> -	if ((clockspeed_reg & 0xE0) == 0xC0) {
+> -		if ((clockspeed_reg & 0x01) == 0)
+> -			return 66000;
+> -		else
+> -			return 99000;
+> -	}
+> -
+> -	/* 33 MHz is not 32 MHz... */
+> -	if ((clockspeed_reg & 0xE0) == 0xA0)
+> -		return 33000;
+> -
+> -	return (1<<((clockspeed_reg & 0xE0) >> 5)) * 1000;
+> -}
+> -
+> -
+> -static int elanfreq_target(struct cpufreq_policy *policy,
+> -			    unsigned int state)
+> -{
+> -	/*
+> -	 * Access to the Elan's internal registers is indexed via
+> -	 * 0x22: Chip Setup & Control Register Index Register (CSCI)
+> -	 * 0x23: Chip Setup & Control Register Data  Register (CSCD)
+> -	 *
+> -	 */
+> -
+> -	/*
+> -	 * 0x40 is the Power Management Unit's Force Mode Register.
+> -	 * Bit 6 enables Hyperspeed Mode (66/100 MHz core frequency)
+> -	 */
+> -
+> -	local_irq_disable();
+> -	outb_p(0x40, REG_CSCIR);		/* Disable hyperspeed mode */
+> -	outb_p(0x00, REG_CSCDR);
+> -	local_irq_enable();		/* wait till internal pipelines and */
+> -	udelay(1000);			/* buffers have cleaned up          */
+> -
+> -	local_irq_disable();
+> -
+> -	/* now, set the CPU clock speed register (0x80) */
+> -	outb_p(0x80, REG_CSCIR);
+> -	outb_p(elan_multiplier[state].val80h, REG_CSCDR);
+> -
+> -	/* now, the hyperspeed bit in PMU Force Mode Register (0x40) */
+> -	outb_p(0x40, REG_CSCIR);
+> -	outb_p(elan_multiplier[state].val40h, REG_CSCDR);
+> -	udelay(10000);
+> -	local_irq_enable();
+> -
+> -	return 0;
+> -}
+> -/*
+> - *	Module init and exit code
+> - */
+> -
+> -static int elanfreq_cpu_init(struct cpufreq_policy *policy)
+> -{
+> -	struct cpuinfo_x86 *c = &cpu_data(0);
+> -	struct cpufreq_frequency_table *pos;
+> -
+> -	/* capability check */
+> -	if ((c->x86_vendor != X86_VENDOR_AMD) ||
+> -	    (c->x86 != 4) || (c->x86_model != 10))
+> -		return -ENODEV;
+> -
+> -	/* max freq */
+> -	if (!max_freq)
+> -		max_freq = elanfreq_get_cpu_frequency(0);
+> -
+> -	/* table init */
+> -	cpufreq_for_each_entry(pos, elanfreq_table)
+> -		if (pos->frequency > max_freq)
+> -			pos->frequency = CPUFREQ_ENTRY_INVALID;
+> -
+> -	policy->freq_table = elanfreq_table;
+> -	return 0;
+> -}
+> -
+> -
+> -#ifndef MODULE
+> -/**
+> - * elanfreq_setup - elanfreq command line parameter parsing
+> - *
+> - * elanfreq command line parameter.  Use:
+> - *  elanfreq=66000
+> - * to set the maximum CPU frequency to 66 MHz. Note that in
+> - * case you do not give this boot parameter, the maximum
+> - * frequency will fall back to _current_ CPU frequency which
+> - * might be lower. If you build this as a module, use the
+> - * max_freq module parameter instead.
+> - */
+> -static int __init elanfreq_setup(char *str)
+> -{
+> -	max_freq = simple_strtoul(str, &str, 0);
+> -	pr_warn("You're using the deprecated elanfreq command line option. Use elanfreq.max_freq instead, please!\n");
+> -	return 1;
+> -}
+> -__setup("elanfreq=", elanfreq_setup);
+> -#endif
+> -
+> -
+> -static struct cpufreq_driver elanfreq_driver = {
+> -	.get		= elanfreq_get_cpu_frequency,
+> -	.flags		= CPUFREQ_NO_AUTO_DYNAMIC_SWITCHING,
+> -	.verify		= cpufreq_generic_frequency_table_verify,
+> -	.target_index	= elanfreq_target,
+> -	.init		= elanfreq_cpu_init,
+> -	.name		= "elanfreq",
+> -};
+> -
+> -static const struct x86_cpu_id elan_id[] = {
+> -	X86_MATCH_VENDOR_FAM_MODEL(AMD, 4, 10, NULL),
+> -	{}
+> -};
+> -MODULE_DEVICE_TABLE(x86cpu, elan_id);
+> -
+> -static int __init elanfreq_init(void)
+> -{
+> -	if (!x86_match_cpu(elan_id))
+> -		return -ENODEV;
+> -	return cpufreq_register_driver(&elanfreq_driver);
+> -}
+> -
+> -
+> -static void __exit elanfreq_exit(void)
+> -{
+> -	cpufreq_unregister_driver(&elanfreq_driver);
+> -}
+> -
+> -
+> -module_param(max_freq, int, 0444);
+> -
+> -MODULE_LICENSE("GPL");
+> -MODULE_AUTHOR("Robert Schwebel <r.schwebel@pengutronix.de>, "
+> -		"Sven Geggus <sven@geggus.net>");
+> -MODULE_DESCRIPTION("cpufreq driver for AMD's Elan CPUs");
+> -
+> -module_init(elanfreq_init);
+> -module_exit(elanfreq_exit);
+
 
 -- 
-Lee Jones
+Thx and BRs,
+Zhongqiu Han
