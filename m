@@ -1,185 +1,140 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF933332909
-	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 22:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B112930EF7B;
+	Thu,  7 May 2026 22:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778191743; cv=none; b=XRLpci+T5lkbJZVFFafCZq0BZ+1ED41X++bWh+AIJanWw18/SyoKidB5ZgvpkC8xgRLV8REtTSEWdhhnF22qsabUHpoOhRZKj2b4+xYZ96CZq/AgbAuCe1gzv+Ki9eNWfVaLim48kxFuhhpCjdEqcmivvMptn+0kjrq7Nb5K7sU=
+	t=1778191803; cv=none; b=hzl9tP1lbRODHG79MTPiyBfJTJy6dOpbBc0YS1O1ZR27QNCWaHDYuW1kKMvdhj5Vvfx5JWNzc+JPnhAdp2oNgCJJiiMqGK+Mnl8dJpojRv8XBcM3GId3blj5I0ve4H18dehtbDgW8Mvb/7SBWY/4HRvzdx3u9+uGlQiq37wyA/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778191743; c=relaxed/simple;
-	bh=trZCIv4VUbmZsT+tqtZK8MjDiIjWO57JQfjXqAJtZwc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IOiXSDIwmbW66H5KW4kyXbk3cD+uxXCGrOY+0YUZ9NUPugr4v3N2Mn1RKc4zCxGESLHXBbP+qw4rqMgWeAlKawGFphJyFMyrR4pRxThsDlzpKpScuPHLsSvP0CzKOw3qcLnnmOvVdqntD82d3KBFdeWSMddjAcCivJLlFF4Dtd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TS8RMX/r; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778191803; c=relaxed/simple;
+	bh=jTOX2TqyeO2cWkSnac14LlKPe5V5EVCnWKW2ovINUB0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BGeXWXp8htJB8qivU6y0oYXAiAWxLGvHHlN5QoArvvVrUAWb8a1VKow+S2L8yfYRa9Bqq3fXR0HDUi+mC3HwUNNUOiiR+ZmdPfU2P7tHZws4Efs+5nkijo86GS3hsVFX9EG1zim+fhicKk4ICDR4n6sS++tJUkSyOn9m9cXjTtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DgGG2vvs; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TS8RMX/r"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so11684895e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 15:09:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778191740; x=1778796540; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=trZCIv4VUbmZsT+tqtZK8MjDiIjWO57JQfjXqAJtZwc=;
-        b=TS8RMX/r6PH+MkBNNRfyXf5BvgXb5OkjCBwOOajaDb4vSQLyFCmZviVLdgHj7Fhq7n
-         f86xDcMvdrqvB3fdXWI30Giz8t8XSFpbcSZsEqhyOXxESkjEtorlY5IC7j+IYEiZXDkJ
-         Fhaxhntecj14ga0ZbccIAB3qYDm61ygrZ7N5dGYw7Tgvrv/FkBix/G5b3USGwZjNNnKv
-         I+w2H1MOSfAvO6bfi9YwwdwKqa0yCDQEkSOZg8pD5R/P97/FUFPEwhF4ChUcaw+B4BN3
-         RgVvz4NqxSGvB33yNOzrxbA1VJfzyGXd+v+3Ac8RsQ7DBBoHz9/pq4hzHAmTi4JDGnWq
-         VWtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778191740; x=1778796540;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=trZCIv4VUbmZsT+tqtZK8MjDiIjWO57JQfjXqAJtZwc=;
-        b=ZhwBgkz4VO+XvPYV3wnjijHBCldaPIK4NBg0W59qG7N2B0H0kWMLjqNcZN2yaWCaZR
-         dQRKUYPmqAzXQy0w2A6gqsjf7gJI0KLkEu2mBWVbpHvE3uv/72mdyhaEEb2THqek4mU5
-         M3Mtw8WGlhJ/93F0I9pq8mjTjGOHJ3/fIXKhC/SNX54YicLaCqFMeIn5uRiw2fURQtOG
-         DfkUSWhfLz1jYh3Wwu1u8AJvjuJC9N46qEbcfDhRGtk0l7bWl71a9FeAiyeJPDR8lzpM
-         I+L/QFC9w2gnLa3ckqkPm6p69W9bFtAcj6wdLcvKxGROXX9h1YzvFvdNIK3td6ohTt0w
-         kFdw==
-X-Forwarded-Encrypted: i=1; AFNElJ+KvB1JQKQhDSCwTf3ZFmcyN6f4fzXGTF/U6D+s+Mc95pp+WKrZQr3DmqszVQorYyws7qxrnk53teg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzC7OKtxnsGy2PcQlp9FrB2RiA3hJ+3u65+VvbrvEbBFluVCDqg
-	XkMzTLikpFwEBmOiul5VzEVl03bvsJG1y+4ckvOYHD1OgVruJnlkCrrK
-X-Gm-Gg: AeBDieuzTIQEfIbRyK3eDxFGDTTHGL6MjP8SS7VOgZBOeHkjiSNypOS9359+dgt3i4/
-	do3zw4HMAFKyL5sgYlneFB8Zh9da9HLqZ0MRAprlC2GFKwC30Mok9MFmP2jKrRZDmNx1s3932bi
-	MoXvjhYqNA0ywp/10J3JH6ypGOaAzh5nOm2GOD75W4PeZIaTGt3cHxGa4TUIjXhK60/HYU7cx1b
-	eEJn3+27heAIRADpNSS7tvVmBZyJFTUVIqHyuy0RKiQqShcDY352lpXVHI9Jq1VpK6PfeJEiD+K
-	Z2uwNduF0o09zxjuyCXD96QTYHkVH4PBkVx8l2rRBxamhGcOnbR1LFwawVTGjmE0ZoL+k2QW282
-	5UO2iAeR6nl8D8E9/tva3v1aHa+a1oOnxGhls6oyaax0neUTroOjIR35938zC88PFusQVrqy5E0
-	+fY3tSe4oQJB7H/U8tmfwJjKZtDR7e/naUAhKzMfKtVlll+1xJ
-X-Received: by 2002:a05:600c:3548:b0:487:1108:48b8 with SMTP id 5b1f17b1804b1-48e51e0a60fmr153507315e9.2.1778191740007;
-        Thu, 07 May 2026 15:09:00 -0700 (PDT)
-Received: from silicon.doe.home ([197.250.51.203])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45412de445csm1834705f8f.14.2026.05.07.15.08.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 15:08:59 -0700 (PDT)
-From: Stefan =?UTF-8?B?RMO2c2luZ2Vy?= <stefandoesinger@gmail.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Drew Fustini <fustini@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v7 6/6] ARM: zte: defconfig: Add a zx29 defconfig file
-Date: Fri, 08 May 2026 01:08:49 +0300
-Message-ID: <23095518.EfDdHjke4D@silicon.doe.home>
-In-Reply-To:
- <CAD++jLk02QnkXYwJ0b6x=qw9stR4nPrjD3sYPOvWAQz8t9OsUA@mail.gmail.com>
-References:
- <20260429-send-v7-0-b432e00d2db8@gmail.com> <5379905.31r3eYUQgx@strix>
- <CAD++jLk02QnkXYwJ0b6x=qw9stR4nPrjD3sYPOvWAQz8t9OsUA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DgGG2vvs"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4925C19F0;
+	Thu,  7 May 2026 15:09:54 -0700 (PDT)
+Received: from thinkpad-e142931.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3090A3F763;
+	Thu,  7 May 2026 15:09:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778191799; bh=jTOX2TqyeO2cWkSnac14LlKPe5V5EVCnWKW2ovINUB0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DgGG2vvsVyzMfSGvMdlwVIEzP3CbT0HmzJKIO9QbZQmR/128UWPhZcbay7Ad8oSQK
+	 S6YJNfbK60E98hpW5pRgQt24WSLV9NnPtbtg/1/O2TWDHSJ6zhFpTLjpQXDlYJGEGI
+	 867B0mfya1qXjN68cKQnC9FyR+jxegDUxxLfJCNQ=
+Date: Thu, 7 May 2026 23:09:48 +0100
+From: Wei-Lin Chang <weilin.chang@arm.com>
+To: "Liam R. Howlett" <liam@infradead.org>
+Cc: maple-tree@lists.infradead.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Andrew Ballance <andrewjballance@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 2/2] Documentation: maple_tree: Clarify behavior when
+ using reserved values
+Message-ID: <q2dtphja7i45kknjk3bs4hn2bpictyoaideyjfbdh4sz4pxllo@xtsyvo3eztdb>
+References: <20260504165746.1422057-1-weilin.chang@arm.com>
+ <20260504165746.1422057-3-weilin.chang@arm.com>
+ <5qnwgdcxqat2zo5qe7qy63xm5awo5l4lkdkf4umbj3sl2ct5sj@v5c3szzdbbq3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart7940474.EvYhyI6sBW";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5qnwgdcxqat2zo5qe7qy63xm5awo5l4lkdkf4umbj3sl2ct5sj@v5c3szzdbbq3>
 
---nextPart7940474.EvYhyI6sBW
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
-From: Stefan =?UTF-8?B?RMO2c2luZ2Vy?= <stefandoesinger@gmail.com>
-To: Linus Walleij <linusw@kernel.org>
-Date: Fri, 08 May 2026 01:08:49 +0300
-Message-ID: <23095518.EfDdHjke4D@silicon.doe.home>
-MIME-Version: 1.0
+On Thu, May 07, 2026 at 05:24:11AM +0200, Liam R. Howlett wrote:
+> On 26/05/04 05:57PM, Wei-Lin Chang wrote:
+> > It doesn't matter whether the normal or the advanced API is used if the
+> > user uses xa_{mk, to}_value when storing and retrieving the values. Just
+> > specify that the normal API blocks usages of reserved values while the
+> > advanced API does not.
+> 
+> Your comment above is incorrect.
+> 
+> The normal API will filter out reserved values on return while the
+> advanced API will return whatever is stored there regardless of the
+> value.
+> 
+> Meaning, if you store a reserved value with the advanced API, it will
+> not be returned by the normal API.
 
-Hi Linus,
+This is valuable information, thanks for explaining.
+However, I'm confused how this shows my comment incorrect?
 
-Am Donnerstag, 7. Mai 2026, 15:24:38 Ostafrikanische Zeit schrieb Linus=20
-Walleij:
-> Hi Stefan,
->=20
-> On Wed, May 6, 2026 at 7:39=E2=80=AFPM Stefan D=C3=B6singer
->=20
-> <stefandoesinger@gmail.com> wrote:
-> > I'll send a v8 with some of Sashiko's (very impressive)
-> > findings but keep the defconfig.
->=20
-> Maybe not send all patches to soc@kernel.org right now because they
-> end up in the patch tracker.
+From the original doc:
 
-I meant send them to linux-arm-kernel@, not soc@ just yet.
+<quote>
+If the user needs to use a reserved value, then the user can convert the
+value when using the :ref:`maple-tree-advanced-api`, but are blocked by
+the normal API.
+</quote>
 
-I propose to hold off on adding the new SoC upstream until the clk and pinc=
-trl=20
-drivers had at least an initial review. They are more complicated than this=
-=20
-current patchset and they will be necessary to do anything useful with this=
-=20
-SoC. I expect to send a first version of the clock driver over the weekend.
+To me this is conveying the following points:
 
-The important thing with the submission to this mailing list was to get=20
-feedback, so I avoid building a long set of patches on a shaky foundation.
+1. User can convert the value with xa_{mk, to}_value() when using the
+   advanced API if reserved values are being stored. This works because
+   those functions transform the reserved values into non-reserved ones.
+2. User can not use reserved values with or without xa_{mk, to}_value()
+   with the normal API.
+3. What happens when reserved values are stored is not clearly stated,
+   but the normal API will block it.
 
-> For a new platform that may be OK though...
->=20
-> Nominall it should be three pull requests:
-> 1. Platform
-> 2. DTS files
-> 3. Defconfig
+In my understanding 2. is incorrect because if xa_{mk, to}_value() are
+deployed, it doesn't matter whether the normal or advanced API is used,
+they both work since the values stored aren't reserved.
 
-So I read https://docs.kernel.org/process/maintainer-soc.html a few times. =
-If=20
-I understand it correctly at this point "pull request" still means emails s=
-ent=20
-with p4, correct? Or does someone create a git repository on git.kernel.org=
-=20
-for me that I can use to send actual pull requests?
+Please do you mind pointing out what I am getting wrong here?
 
-As I understand it, my 6 patches then go to the 4 corners of the kernel:
+I was genuinely confused when I was reading the doc and trying to use
+this data structure.
 
-Patch 1 (dt binding) to devicetree@vger.kernel.org
-Patches 2 (platform), 5 (DTS) and 6 (defconfig) to soc@kernel.org, but not =
-in=20
-one series but 3 independent ones
-Patches 3 and 4 (UART) to linux-serial@vger.kernel.org. I think this can an=
-d=20
-should be a series of both patches belonging together
+> 
+> > 
+> > Signed-off-by: Wei-Lin Chang <weilin.chang@arm.com>
+> > ---
+> >  Documentation/core-api/maple_tree.rst | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/Documentation/core-api/maple_tree.rst b/Documentation/core-api/maple_tree.rst
+> > index 87020a30ba69..e5ccafb84804 100644
+> > --- a/Documentation/core-api/maple_tree.rst
+> > +++ b/Documentation/core-api/maple_tree.rst
+> > @@ -30,9 +30,9 @@ Tree reserves values with the bottom two bits set to '10' which are below 4096
+> >  (ie 2, 6, 10 .. 4094) for internal use.  If the entries may use reserved
+> >  entries then the users can convert the entries using xa_mk_value() and convert
+> >  them back by calling xa_to_value().  Note that xa_{mk, to}_value() bit shifts
+> > -the given data, so the top bit will be lost.  If the user needs to use a
+> > -reserved value, then the user can convert the value when using the
+> > -:ref:`maple-tree-advanced-api`, but are blocked by the normal API.
+> > +the given data, so the top bit will be lost.  Usage of reserved values is
+> > +blocked by the normal API, and will cause undefined behavior if used with the
+> > +:ref:`maple-tree-advanced-api`.
+> 
+> Which behaviour is undefined?
 
-It might make sense to send the DT binding on its way so it is in place whe=
-n=20
-the SoC maintainers look at the patch that adds the new platform.
-
-Do I understand the mechanics correctly?
+I originally thought storing reserved values could break the tree
+because of its internal use (see 3. above).
 
 Thanks,
-Stefan
---nextPart7940474.EvYhyI6sBW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+Wei-Lin Chang
 
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEQxb0tqoFWyeVMl1sPRO8yFRPGiIFAmn9DXEbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMywyAAoJED0TvMhUTxoixokQAJhmmO8EPvppOjAKiU0j
-VdiM0KDUx5XdfQy6Y3qibMHrfltre+BU1sXBALudR/Cu6eVqbRG7LnTS/SnW1HJV
-nikfjKT1fNHMgbObi7u6cg/h7vAN8nH5GLgB+cXLO6WO+227c1rusLbDW7ofc3NW
-5B6vIjy7FcGfNv2vLHucbdANPdwqrJWN/Ls5qHMUPmOo6Dqyp4t6KUUdlIHte5QZ
-TwKse0rRM0gc3qkeiL1tAWyDGAsx3l0nkWY8Dbrv38rhF/GbnSo58wv8QGUKEwoj
-7JEmr/4EKArvnpz2Hw3Kstgj2E9e2OUqV0Ba6LCKGhq5oV/+YQ0PPIrepFFznmCf
-dOs0Ek838VCedQ7tTNr689DQiQqcfc9xaU9BZWOBx8c6neW6dqlLXb+Z+PzmcAMc
-qwIMk7D+ryNHp8zKF5zc2P4GXwpeH5W87wU8y/pAscTqkBHe0lJqmqAemRqR5GQ1
-JrpbZ9+q19rh43uWQJDc/gpBm+CqzfFRIpPHpZvgqC+C6tc+IfERZPVzp/qjG6Ee
-QKks/Sw6Ppz24RhR696N1fOadSZpEBM2982UXlpTmBE6SbdMpIwycjtlakyx+qmY
-31Vt8syR+uK7HDGzKaGdXU/IouS4tJ43mfi1uIPAy7OUWlFq+3foENXKECN+E9kQ
-caBl+NzhrviDrlkehVYTcNkx
-=U1tW
------END PGP SIGNATURE-----
-
---nextPart7940474.EvYhyI6sBW--
-
-
-
+> 
+> >  
+> >  The Maple Tree can also be configured to support searching for a gap of a given
+> >  size (or larger).
+> > -- 
+> > 2.43.0
+> > 
+> > 
+> > -- 
+> > maple-tree mailing list
+> > maple-tree@lists.infradead.org
+> > https://lists.infradead.org/mailman/listinfo/maple-tree
