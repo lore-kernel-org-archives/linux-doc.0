@@ -1,208 +1,128 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011057.outbound.protection.outlook.com [40.107.130.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91743AF643;
-	Thu,  7 May 2026 09:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.57
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778144646; cv=fail; b=Ju/qRw6yT3dv/LAYEjPOQUURx360U8NAWeNxV1yGAgV03+I+AIH7CuNZ3SYvm0qzwUnGkP+jrHsr+BnD7vbTNB1vPlbAGfFyZwoDduXF/W9E4popNN0M1utgDK8nI7UkZ+WjDHWfmnKFVvgnOHgJGs0anOm8bJFF2JrVh8JKEFA=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778144646; c=relaxed/simple;
-	bh=LSmbTPFeLg5A54BSIkEDSYbSpNTwgsxZyfdEDP9Typs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=djyoXzoj/RKxnmlIAIEXMIDo6NKEuDaieGHIkumNcs6oQlwNumR8qrNwkqs0R54qtCkc6y+8Aug9zfiCkJsDeRl6Qv9it3jVTil6vUZa4P6L7heNjQOBIi9WJArfFLLeRTC4T/7ABhkOwwiMwG45IIie1MibPWDYiN9k/bmaIRw=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=UmXr930S; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=UmXr930S; arc=fail smtp.client-ip=40.107.130.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC493B5837
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 09:08:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778144915; cv=none; b=ltr+clyKroPrVIFTD8rSRk006g8PUdk6/1bjPbrCRZ91T5RSddzI/Egd85qYYg4W5oG9nVB0/l1//cVWe5CNpQVN1OmzNkNHSlXh8hp4Rm4l4nEfgJY39mwpKuhyffSnphnIb7o/g0K/94UNkeeYFCIiCueDCER4QXtz4TzIcI8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778144915; c=relaxed/simple;
+	bh=6KNYU1WpeWbZtLaI95Q3FSHorYk7ZzRQOvKRN7EcI9c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XTP9yOdBDFfuCGqZHWEcox0OJgDS2iBrN6TvbRyrlknn0/eUaHyWFmjihrmpyJOflDzya5WIs3sG00NIitsYBCA075w2QsdKQEx/mqrF4nN7ETV/3gRrkKsyNh0gHDsgLT8P0v6E9SgZVgMMuztO7f9qjODFGAvk05kJQI7uYlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NxheRe1i; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="UmXr930S";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="UmXr930S"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=JaVPDLzoFMGlVWswQI90aXUWM5ym9xObmWHYQwpRKvNf4VDe9PX5mIfH8Sn/sPQN0J3Qvd/QP5M36PKJh8hBegY19ciVepxShUJSyTJ7shaVHFcbIL72Pyf4Qz4dPo8CJ3hR/37LUMSy/0aHbWdy+2rvwiP7/RXyP4XjpuaEW0WRxkSS3G1KyiXIhfg4qnW4TY2yTEbKpwjQxYfLTW/AwSPPVJHw+TLSDFwlUxWnclgS6CNUwcQyu/5lrIjY7HppVgOlUT05GisuGoDtDuZdqGrzp9lOO8ZJqMQqbldxZBqYHIs46TOA/4mDFGL/G5/BLPC37mbOBpQFlaI1X8iXuA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mKRDwNHO9CCOWjAuV2t7h3EkjZpo/JcMPvzaQJBw8UE=;
- b=AIMt1TIB1WGdYbZMiGI3MiWDjZjxozw9wvzDnhQn4PJNzoOoAlsvkHf5+h4xLu0SXYLswsnAsChqktjVoTDYB9wSBNWqSe6AcC7AAnleS9IICVVnF3fwREzV6gd+Ndqt1vG+LMUBtWFTS5c8rOpGYGTONdd+acmHAl8gRTg2HYpBHKo5J5KWwGbMmel4i2KKfojHkohZ8qJiBPfDKTH9g0SkBfeVpOVwMYCYLtGASNFb9/7RA2o3FhQQJR5COUn2AviX8UsAM8cC0/hHpGBMMEO20bMmC+ojBQOheSl8Su9fbFsyuWVTgv7zS4XPbBAMHCW7U6mDrA8tt0AEjAaQgg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mKRDwNHO9CCOWjAuV2t7h3EkjZpo/JcMPvzaQJBw8UE=;
- b=UmXr930SmYZf8KzIPx5ni4l7KoRwmJhd1dB7ffQ5AuZJ8wCQTA7OPlC5jEl8W66ginn4h+4p9/x1giNAZkSLK+0Yc+AQldDxWNoGF33ff+smcHGlH3NL2hl5xMcB3a6NOV/8gvxqWQDgVBoNFgYjdiBAstcHQfj5uJ9jmFhgoEo=
-Received: from DU7P194CA0013.EURP194.PROD.OUTLOOK.COM (2603:10a6:10:553::29)
- by AS8PR08MB5896.eurprd08.prod.outlook.com (2603:10a6:20b:294::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Thu, 7 May
- 2026 09:03:50 +0000
-Received: from DB5PEPF00014B9A.eurprd02.prod.outlook.com
- (2603:10a6:10:553:cafe::13) by DU7P194CA0013.outlook.office365.com
- (2603:10a6:10:553::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.17 via Frontend Transport; Thu,
- 7 May 2026 09:03:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB5PEPF00014B9A.mail.protection.outlook.com (10.167.8.167) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.9
- via Frontend Transport; Thu, 7 May 2026 09:03:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vchLfvXcp1FeT5MRB1Rymxi8FdCVkBZtar8yMCBJAxZaalf0AoudpP3VKcM4q1VmzDYKaNnsH8woNXluAKmc/96onwY9xecT+c6sxS18rl/kQeq6p4pp1LC7oIAcsX2+4U7pUNtn1ra9fH4tmBWO+y5q+2gzbcTToTtg8T4WaWpjbVU0eUHQEKqwicyJJWF/1lyYAk68sjVQwKmJG7keplpnsm2XhNXPzWpu3uMs49gTdpls1Hf/GzWgzKYutqXw1GUbOGeUKxS6pqYj6fdNV9vf3ghN/dkr+ktDzrBLr+dzwEf6EYh9L6j4ke562oHkIABJdTrkUPAbm/8hj2kmzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mKRDwNHO9CCOWjAuV2t7h3EkjZpo/JcMPvzaQJBw8UE=;
- b=uBWLjFiXpoHsTxGpU/vbLdZDPf9eNsLwIhhH65b+b8PHmS5B8eypQ4CnwYzApsDm1R9b60USpg2dQ/Sf+fZWYPcdNOWtfXA5waGjV3mstbXBFrjWZK/LBmGNjkaA9OM/i8jGgj5ck+rb+MNq8Q6ZZ2w+SAFxbs9jpsMWP4vIf5bDOSyqkU1rxM4haWUiyA35Uq4WZQbziMiKYhVj5C19TPeYPcoUi3OVRY4dkzqMdjwwMNcnfiA12YiCaPV0iypOb1VzbOh2KMi3pPow51vOsUSNImqJcCHMUlTIKvQU2qeW8LP4Fsx5kRxIKxC03lvXsoI8JulVAkOq8X1IiWa7MQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mKRDwNHO9CCOWjAuV2t7h3EkjZpo/JcMPvzaQJBw8UE=;
- b=UmXr930SmYZf8KzIPx5ni4l7KoRwmJhd1dB7ffQ5AuZJ8wCQTA7OPlC5jEl8W66ginn4h+4p9/x1giNAZkSLK+0Yc+AQldDxWNoGF33ff+smcHGlH3NL2hl5xMcB3a6NOV/8gvxqWQDgVBoNFgYjdiBAstcHQfj5uJ9jmFhgoEo=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from PAWPR08MB9996.eurprd08.prod.outlook.com (2603:10a6:102:35a::11)
- by GV1PR08MB11050.eurprd08.prod.outlook.com (2603:10a6:150:1f4::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Thu, 7 May
- 2026 09:02:44 +0000
-Received: from PAWPR08MB9996.eurprd08.prod.outlook.com
- ([fe80::5856:8db5:9ee6:414f]) by PAWPR08MB9996.eurprd08.prod.outlook.com
- ([fe80::5856:8db5:9ee6:414f%6]) with mapi id 15.20.9891.016; Thu, 7 May 2026
- 09:02:43 +0000
-Date: Thu, 7 May 2026 11:02:26 +0200
-From: Marcin =?utf-8?Q?=C5=9Alusarz?= <marcin.slusarz@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Ketil Johnsen <ketil.johnsen@arm.com>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Florent Tomasin <florent.tomasin@arm.com>, nd@arm.com
-Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
- allocation in panthor
-Message-ID: <afxVIuVVPisBQ9p_@e129842.arm.com>
-References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
- <20260505140516.1372388-5-ketil.johnsen@arm.com>
- <20260505181523.49a3d85c@fedora>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260505181523.49a3d85c@fedora>
-X-ClientProxiedBy: LO6P123CA0002.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:338::6) To PAWPR08MB9996.eurprd08.prod.outlook.com
- (2603:10a6:102:35a::11)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NxheRe1i"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4891b0786beso4120715e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 02:08:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778144906; x=1778749706; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h8AqCHUecRdMHaTSiwSFKRzA+aPKBe0J8V8U1pAN7qQ=;
+        b=NxheRe1i9m2sCCP55ucTBUdx1urWhohFrPkwD4vBI2HOdw4eg+P8II9CkHEe5txdp+
+         XkWbVrqMHS9rPml5LOR0L3FaQjhmpZEhUeQfEx4NsC3t8B6rGdmoct7VFHNnGwyc3+WP
+         Xz6dpU6+9WtBf8Bgr8My5FX4rDZ24MAf7s3xSqFe3Ldy+Ux15aKtB39mxZrKPrblNitE
+         trusfVBCNaTesfP2fz48nJ2DxZ76xtU0aQejmDchHmxbdKEqu2W/NuqNsHO15cLPkscf
+         J5/YSXNnjqCUBeOjOTXnJGncT3ANWGG5fRBrOOgWpb3jtQ7LnyzyhLFSf3qZVD45eUmf
+         119g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778144906; x=1778749706;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=h8AqCHUecRdMHaTSiwSFKRzA+aPKBe0J8V8U1pAN7qQ=;
+        b=A3B2Q8+VWwqNikPgALEXofPcMZcNDf2gNYlIgA256r3MOKly2WSu9aButap8TwDjpI
+         0JH6G0kNxCNxHNso8BhGNCH6wQza4Awj4VrfXQ090CFV4yjnI69SycAXe6YONvx7rVHM
+         vEBHY2teMCOKLTyg5O/ku+anYLBluClKhm2aJRABILYV/SE6gkh4sgIJVONgfZOz7NEG
+         EbmyF6YPu76ySPTI1KCgmRwgPN5a8cWrVSYzOtB9uPbir/1nctO0gh1bBYqxUxPlthyc
+         FVALfMd1y/3UDyjm5tgYkfT2rTmt0/sU40wnRHGPtJcTwc9HhopgZwo4QYwTBdZ2qyuy
+         DYTw==
+X-Forwarded-Encrypted: i=1; AFNElJ+Lj1RGZnI8L7yIO5YALNI60vnEdA/w9tLvzXrQhCldEJnP+5oR2Fn/uYaLWQTx/ZOUYBab1hy9gAo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzEi/ULoEUUMSOFB8VVON+wDQG8F9Eu5oBpflWXyRya2+8mQta
+	bJA8DflhmrSebquLvSINXr3pwsEjxwDG/N0Mhc3YOYlLPiKqZxn2v/+1
+X-Gm-Gg: AeBDiev4ux80RH0w+JsmF7tgI+SFXVdHqaukFxx3DqW1iX/FDQO1Oj2T2Wnlimj176f
+	wxy3VKFBlNVI2XlUQ8uzniBP7fRoIFS8vpZ8TorrlZxKtvzOKRIB++1quS8nCSC0HiBXaYyJSiS
+	z+mU0357oFPV7JAm3qqFeccq/3u1KV8Q/lclbMRK1sCKX//vQVKoB0HvMCBbKjrEz0kAJ0Jet73
+	vzRNQonegU438nXPF8o7yKiMD/pdbeFsSDAgRSSAVThTmBeYWUT/Hots4UhJdX7Okb92wqc5kXi
+	XN3cNSgjnJX9Pbm22aMILHclb/tI0iZXUOR5DUWr28gUlzK+DzIAHIVpmW22ZdZbRLxPRhPfKSo
+	ronLXyL4psu/LtAk5nvSL/K8qkhdiH+zzmC/T1a4dKK95PWAq3QWqvTrohVHUaPl4qAUMFHo4jH
+	f3Ew5AEQk9S5sZj+DWZWANH0cXvHIdU937BVEhJvuJEoUnzQ==
+X-Received: by 2002:a05:600c:46d2:b0:488:b187:3c with SMTP id 5b1f17b1804b1-48e51f32c65mr113284595e9.14.1778144905786;
+        Thu, 07 May 2026 02:08:25 -0700 (PDT)
+Received: from foxbook (bgt227.neoplus.adsl.tpnet.pl. [83.28.83.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e53895cb5sm102053505e9.1.2026.05.07.02.08.24
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Thu, 07 May 2026 02:08:25 -0700 (PDT)
+Date: Thu, 7 May 2026 11:08:21 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Jihong Min <hurryman2212@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, Basavaraj Natikar
+ <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] hwmon: add initial support for AMD PROM21 xHCI
+ temperature sensor
+Message-ID: <20260507110821.07480da8.michal.pecio@gmail.com>
+In-Reply-To: <424c4dc4-1810-4ffb-ae93-7ec9f880ec1e@amd.com>
+References: <20260506032939.92351-1-hurryman2212@gmail.com>
+	<cover.1778099627.git.hurryman2212@gmail.com>
+	<2e2ea249b30168a2eab62fc110c226a511f21bf2.1778099627.git.hurryman2212@gmail.com>
+	<20260506233332.664f220c.michal.pecio@gmail.com>
+	<424c4dc4-1810-4ffb-ae93-7ec9f880ec1e@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	PAWPR08MB9996:EE_|GV1PR08MB11050:EE_|DB5PEPF00014B9A:EE_|AS8PR08MB5896:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad911ab8-5169-4bd0-8354-08deac178e16
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|366016|7416014|1800799024|376014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info-Original:
- K2xq1PP1A6l1UvXWdW+Bj3nc83B+6K+LRaqYD+uZ3voE28di9ZdhYBdJ+10lN0zlphXI7fWHUKsHiSo8xKRGY45ZpNodTZJ8cuBZgt6WIUiw5r8PqsTFSxY81ZEG9OmVruVbyqdcJrLej/kwzLtEupdhZiaFFAwQA2ZD7ktQFC5VrQpnexOP7/VjMyDS0Ma+Rud5eg8TkO+qxkiIRXgUygEYc0mK0YVKi/pGw78nIY6LqcUCNM04zfq1Lm2u8q7bSZ5wjrCGJmUpuWj0mGqZT/lVn3ij6mxzHCLxU38m5N96dSq6QCgnVI9QQ21Ah4aVMbxWvuT1CClG4utEilBmnxV/acmr2/ahJzYOChXIW/nMA3g5mjDoqwbeTot4lhfq9x9i4dSKLJoN2NcUTAwtH6ZycNkv8/mRM8oC4qKz6OG31i/n8K2mSSPlyJCrLv1JqJkGfwphZTiPOIE3gc8QrtDbTdlweqRqMzSsglTZPVIWflyrXgu/0LdHyWTCsbo3408kdolhybyi7Qivo3+nx6qAHwQkzHV3YOwe/vI2aWeHv6vt/Bt8dqF3m++ubE2tag2NrcsVYWRpRv+BT0ircb+Wg+grvBlnRdeFEmUmD31wSRDX9aQ9IWVlr+amVxx7z10EXySFtnHjoFwnuLwwrCKT/zKTKwT/Fr740vOTzeKBwMIvGIbWEpBtF2Kft78J
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWPR08MB9996.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- XJ1T6EoheAt6U+FREPkCNk9lmTPcfzSATSqW1yw+CL0VauPjAPvg0atTwGy6E2XOscgZriGtllJzvEMDByJ4mXxl/Ewd17+joUZcDGAkkNpoorbenAno8gaoJzpGnd7tBaucC1+bzNRn2jLbBwjfwuAj4DuBctHLOiNP3BFJ0924yDQhuVvuzerWRC3DBzOMlXTwNn+ocgGK+qu7RLmxsTOn2HXVIofFOfw8ZFtSeVo+D3yPyzzdrCxlEm+y9q52IoryKTY8yY5td+OF83hiRJWkaZwxBNKp4aCORgcJPmzxpzAwQj89zk9lpksBqnqxrRQ+mwyr1BnUbNO5VI/XOw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB11050
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DB5PEPF00014B9A.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	a30f35dd-b7e1-4ff8-fb75-08deac176625
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|35042699022|376014|36860700016|7416014|14060799003|82310400026|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	4PMk609cGl8yM/iCXDNq5MjFLTeHOukpC5pJhnfVbfogGwBsn5pIpif3fJhaCOG9DbPAuTTMEuA6IfI2Q0HZsPj5q7U1Ji+KAOM8FteiWOL5bgewPeYl/k2w2Md/Vi3gzTybGSFUUxkFM0llVyEPrxEyDSQzY7CkLIXVhA4mYeJWF1I6KteFe5XCKM07NTIwGWF0wDp8P7LRrY5hEgOZ9aPI+5Hn03JIA5o4kD5wYPlY7AEC5oCyOK2zKyferyuw8GFn4DRJzwBSmGc3JR2OBtwpMDHF/+ycijpTdfVGRRUdMDg/FvnhIZJ5ESo69SO4DrrgL0N2avMSm2EmtkYjGrEctdglGVZRzDx0ttq8OR5TNggQG1qW8k0xsx3UvBa48p6WBTWCPGkv93W7wJUMaA3zEjAykwnB5IMen0mmiIdmwphVpmpWt0s2S80WVKWFrMA+LYecfMgLxwmTg3xLWM8XjsxIZsemBKlTd7E6oke6Ejn3sZifEizoQofBt2dA0Zis2tstRAQ8uKX8vrCJ+kUiECCYcZhJgBXqlulbXbA5DVwREYK2XNWUWN0qlmIcFEmygQAiNVdVFt67mtPimnJG4yH3EpnKvvo5hxoOw8heYVnY4NAr0xjBSPzDE6mDIFl7wXPQhLdOcTq2RTHYLl65psdzQDNbyYVZdx/wAA1Uz0kLogqsJ7z5wyHctR1LrSPDw74THoT5b3dE+cj7ZKO2eVglJpNevoNi+5xG9wo=
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(35042699022)(376014)(36860700016)(7416014)(14060799003)(82310400026)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	QJWvgALR1WNRC/tRN7VrsCzAf3Sm1moslUv4ThmlKKZEXxBFtSs3iaYs3DQarPjewgLny9TBYL7//x2E5/Rkzq6lSTm2fe9fdT1tWdMnPrsUkqcXYEtCX8nJ+xtnbVmZqrPEOY/I6MsfHaVkIpE5G0mlMCsNeQ+j7mqLvACpwIEqMC+06VuElmspkuE403j6m3vHZ1VZ+BE1YyPOTUPpyLz9rbwZ64WMZMWZliJ+sXtoDR5Z2rzXTXpsYmaPA8P09wuP5u1V1ejspl+jxwICVbreAq7GebtqHXWlovOtIw4vPEAkO7hXpgpCIVx/xY6ysq3IxDEO/gVW9V4K1BBigyebMooHZ7J2ebjniigoc9BAI+nbLG6lcBWzSIjIezAF/MfMM6GVT6G4OVo8xwMT+/PMDONZUrB/MKnaTXMIcDWP/r/U+qO5u9D45kH1roa7
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 09:03:50.0262
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad911ab8-5169-4bd0-8354-08deac178e16
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DB5PEPF00014B9A.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5896
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon wrote:
-> > @@ -277,9 +286,21 @@ int panthor_device_init(struct panthor_device *ptdev)
-> >  			return ret;
-> >  	}
-> >  
-> > +	/* If a protected heap name is specified but not found, defer the probe until created */
-> > +	if (protected_heap_name && strlen(protected_heap_name)) {
+On Wed, 6 May 2026 16:36:49 -0500, Mario Limonciello wrote:
+> > > The temperature register did not return a valid value while the
+> > > xHCI PCI function was suspended in testing. Keep the existing
+> > > behavior by default and allow temperature reads to wake the xHCI
+> > > PCI device. Add an allow_pm_switch module parameter so users can
+> > > disable that behavior; when disabled, reads do not wake the
+> > > device and return -EAGAIN if it is suspended.  
+> > 
+> > Is such behavior useful?
+> > 
+> > Maybe the driver could just disable runtime PM while it's loaded.  
 > 
-> Do we really need this strlen() > 0? Won't dma_heap_find() fail is the
-> name is "" already?
+> I'd encourage what we do in amdgpu for dGPUs. The hwmon files will 
+> return an error code (I forget which code) when the device is in
+> runtime PM when called.  Don't explicitly wake it otherwise.
+> 
+> This prevents someone installing a sensor monitoring application and 
+> that application "being the only thing" keeping the dGPU awake.  If
+> it's awake already for other reasons (like being used) then return
+> valid data to the applications
 
-If dma_heap_find() will fail, then the whole probe with fail too.
-This check prevents that. I'm not sure why it's needed at all, but if
-it is really needed, then s/strlen(protected_heap_name)/protected_heap_name[0]/
-would simplify this.
+Well, that's not a dGPU but an xHCI controller embedded in the chipset,
+which chipset is more or less active all the time (includes bridges to
+PCIe ports, some SATA controllers and mabe other things I forgot).
+Is the saving from disabling xHCI significant for a desktop system?
 
-> > +		ptdev->protm.heap = dma_heap_find(protected_heap_name);
-> > +		if (!ptdev->protm.heap) {
-> > +			drm_warn(&ptdev->base,
-> > +				 "Protected heap \'%s\' not (yet) available - deferring probe",
-> > +				 protected_heap_name);
-> > +			ret = -EPROBE_DEFER;
-> > +			goto err_rpm_put;
-> 
-> If you move the heap retrieval before the rpm enablement, you can get
-> rid of this goto err_rpm_put.
-> 
-> > +		}
-> > +	}
-> > +
-> >  	ret = panthor_hw_init(ptdev);
-> >  	if (ret)
-> > -		goto err_rpm_put;
-> > +		goto err_dma_heap_put;
-> >  
-> >  	ret = panthor_pwr_init(ptdev);
-> >  	if (ret)
+Users may be interested in monitoring chipset temperature even while
+not actively using USB.
+
+I don't know what are the conditions to put GPUs into runtime suspend,
+but a USB HC will be going in and out quite randomly, depending on
+connected devices and their workload. You may end up needing to answer
+people why their sensor only works when they turn on a webcam :)
+
+Alternatively, would it be possible to bring a suspendend HC into D0,
+read the temperature register and then put it back into D3hot without
+bothering the USB layer to fully resume and suspend xHCI logic?
+
+Regards,
+Michal
