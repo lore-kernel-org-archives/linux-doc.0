@@ -1,249 +1,297 @@
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634C33C554B
-	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 09:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1003A3CAE8F;
+	Thu,  7 May 2026 09:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778147321; cv=none; b=I9ywPp9X8tpv+s6k8ghrYk1QrIT8SJGzsVU2n2N7NPR5BGIVq74aj7sloNVaSZoK7vYpY7fbVgAv4hn9D247CjMxlU/d8yDtVpjGIN8Q5IVzEjCipN7lOPIdGq+wTmHSkYoJDLZ2tdct7e0FDGtdNAMUgh2/dniMFjToTWiqGJU=
+	t=1778147727; cv=none; b=jqeMRbEX0Weuh/UIfhLxP4P3EXz7wVWyrb15FHA1zyCwAoV8JFy55VL+PCGpMbb2Q5C4TfpWoNYt1HZ7POx8/GLaYX7dtXfGS3lF6BZ/NHE/ocdv+czNueSroKFXQWsnGc04o1ru2MMT4e25ZX7k6JTTZ+8XAUhoMyECzbsRdEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778147321; c=relaxed/simple;
-	bh=Kck5RApHLcEtIKnWSIGvyvLJHcpYud1QlsRgC8hkVt4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=CzcGLfwQUVrUujdeb38k5nhgc56EmVl4t79A8emRPBTbCsY0DaFCgY4NogKZZMPrVZeiNnexM5LGTBqjziXR8HfEQe+yLdaetwEohfOetfl8VGIMEyLenesOpwIa5dfeZSH0N9vc1yDtkCBwnGd3V9UkKJcTw5Y2A7szRLIrqsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IZg1v6Uw; arc=none smtp.client-ip=209.85.221.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1778147727; c=relaxed/simple;
+	bh=6f4IUJ1E4ztQUpHbwhPfFSRZ/AcEMsNKjRAB71LwAPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=COm3lhClvXPOWUvS/BfP8HNmnnfs56/akZg6iBwx+ZZy8SlF4EF3lB2/FmgQ7ygwjGRSWT8XRrmMRnaHoV91zjvBIazN+MV3VtIiK4AOJOi9PZ15TKxcPHey1CsDGfYmm2mr22Szre4Ru64c6vYHdzqUDFAA98V7vNr0mt3dWeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p0eDM5N7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IZg1v6Uw"
-Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-44696b11265so712264f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 02:48:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778147315; x=1778752115; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q52zqrVvsWcOkwluGdV+N4+XDtNzFRNtqNgzoXFz/h0=;
-        b=IZg1v6UwamBWQgujaHdvRi/qyuq4oA560OTelPtu0vwdeIXoGxxsDOiUx9JeZR/Ysg
-         Xb/kl+G+wy/IgL8qWs8LOn/nma52HqSHgtmoMs5BWEtfQSq/M8fu39kI/Cxs3aCjmhLG
-         qoaWZS903KCaogoG+bmGBR/6OJlEm6AEPdrVce7GD42URpP8ox4Ew/AIIiW+d3vTEQyQ
-         j6Egu6HILaw0igjDKSZTJ7uk4UHwo9/GFbgtTwlzTyX7RhviMr9t5mmTg5dBzY6TjJ1T
-         Gd4q6lQUS//bj4xxXBF81GMT6nKjwN9f/1Y/Ne6IESBZn6Rhpaq7Zg8EoGiO9IyY7Jr5
-         KFpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778147315; x=1778752115;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Q52zqrVvsWcOkwluGdV+N4+XDtNzFRNtqNgzoXFz/h0=;
-        b=B4x5Dn6l/0Utgp7Q0t0Rl8ll9tHYEjz/dwNZWdM2qwsucVEnXtl2QUZb3/E2VuTf0y
-         QauXoGTh+45KjtO8VRhjrB0OzPVwejo9ik/c1i866rTtjPelp+Cfz9+yh+RlFbd5qqlU
-         z44cGIYAD6npCWCME7eCw3MbajsQaxiuVVA1U/X79rwm7cmH1hc1gDHUzwnvk8wPk7jb
-         zeZV4eTu5qGbM+TrSt+MdU2pP7OlsqjwDDlgMReiWEiVVknsq6z+4k0UUC8EfREt1ry3
-         U2w/ALfKiF0TbIRx3lf2hJ0Yf72rGMjePZxlylNdnO1ZTkWAsOck1ayfnMC3Y7/D0l6C
-         ZUsQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8M8EQ0tpYvdtXksSFYVq6CMHXE58I1Te8FBSmgWyD+cvCfl+R4faKSL/k61qr0yigElEec+BXy2Wk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXLzuzgklXRcKQVdKT0IoW6ojnEb9OH4p8Ks+yMiiDlSccmjt4
-	JuaVNaq9kuLnSnOfpCGfQgKrw3fNGaowJ17PP57NPfoY/aSC4xSKCFlnV3cIW/HcgVftycxVxpR
-	rEsbc5LHItmihnQhDaQ==
-X-Received: from wrmj12.prod.google.com ([2002:adf:e50c:0:b0:44d:5fe8:d4d2])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:400d:b0:43d:69ff:6898 with SMTP id ffacd0b85a97d-4515b0571d2mr10651589f8f.9.1778147314545;
- Thu, 07 May 2026 02:48:34 -0700 (PDT)
-Date: Thu, 07 May 2026 09:48:23 +0000
-In-Reply-To: <20260507-remove-task-euid-v3-0-27f22f335c2c@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p0eDM5N7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C6DC2BCB2;
+	Thu,  7 May 2026 09:55:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778147726;
+	bh=6f4IUJ1E4ztQUpHbwhPfFSRZ/AcEMsNKjRAB71LwAPo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p0eDM5N7LxyU5Wd+zRdrf12o7vwrbTAgQ011HoxS4viScLV1BEvFLDiwrlnntC/3i
+	 VWdDQ3lUXRCEKECz+OurDuShpuY2jjTg1Vou9xLUfcMKSjHEVHLozO95Q8G1eOiNCj
+	 d38kS9D5g9H5T2wyWKw3uA8UBxR9Dlv+JXrQKdLJFo5Un66oQHo3Ui5BRxvwTFbc2P
+	 Ml/5TzdI+DQ5l3md01wyXdAYHK3j2GSmo4LJHkaVu6xHn/EiII+vuGYmaaFycSzqN8
+	 9WazOB9Kfnsbgf/kzeYwR1nUCgUCJhcXedv5aCN+CEXQpBFs9zQlvLQnD2du80HcZk
+	 75H3pWmR5wxzA==
+Date: Thu, 7 May 2026 15:25:10 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
+	Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, brgl@kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v16 00/12] crypto/dmaengine: qce: introduce BAM locking
+ and use DMA for register I/O
+Message-ID: <ditrkd5jcxlx7onykxh6n3qhyoclfngmpp277y4t4qwc4vswoo@5os4o5lumidn>
+References: <20260427-qcom-qce-cmd-descr-v16-0-945fd1cafbbc@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260507-remove-task-euid-v3-0-27f22f335c2c@google.com>
-X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5385; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=YZaQnO0/RzMgZPjIB10gcLXfTw3mRzG0OE4nZNpKhT4=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBp/F/uhk/grCm2NFexX+u2a584xxgYuMHdud2ZK
- C1EM5Zf0TeJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCafxf7gAKCRAEWL7uWMY5
- Rp8eD/9+w++qF9SowAHtRemKBRNbIEqe5V514GjKPXOBltPszzQCDgl07KF4V5nVkjCcOzK0IsP
- 0j+eHd/Isns5nRsDgqIFIXluCJRrVsJavv6lyV7BMg+wma6g7/+QBoN0j5nErPJKYH3BNqyJqUP
- Vz7MnIwud74JPhjkn9G5lQdaV+aKyTQUjpY3mSyjAZKdo5ssM1emdQw917RO+dfOU//AMsKV3/h
- /uKH62Ksyo/iBpNVcaRj9f3JMcW60HIGbuYjEHEA6p0UXjnuEmCodJ8EYEruE0PaZDM1+CW83HB
- lxiQph21e4+O20esDJ5VgTXi8M7nxF2djO6eDtcHj6Ro7M9tWx8E7dwTrIotPcmM+vgQjur5P48
- PWfzIiHIRk8PREw9X1lU6UadHHzvLQK8cBo1jtEuWP6eUAb/FBJ+0SeigkTSo8gZAmqUz67HvMS
- Ohu/2X2XR4L+XTLGwUYsOmj0lyXD3bUzugMbyWBvpM1Y85KtOalAT2vhhsPGJLNkdnSC3Iuu18N
- /HOnzC+1z/gXwmjwWuzHg2peAXTVDGkhfVhMaHPV+gB4C+qowqMSeIaUtvqJgg8voFLCM8V/7+e
- +GEEZb/lHrkZRvrxFOi3i1K5VAMCLFWiT9Ra76rX3rtJknC9a8HNCE2e2/gHbAnGFEe03uEpf4I KKYU+lNgdE2xL7g==
-X-Mailer: b4 0.14.3
-Message-ID: <20260507-remove-task-euid-v3-2-27f22f335c2c@google.com>
-Subject: [PATCH v3 2/2] cred: delete task_euid()
-From: Alice Ryhl <aliceryhl@google.com>
-To: Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Jann Horn <jannh@google.com>, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260427-qcom-qce-cmd-descr-v16-0-945fd1cafbbc@oss.qualcomm.com>
 
-task_euid() is a very weird operation. You can see how weird it is by
-grepping for task_euid() - binder is its only user. task_euid() obtains
-the objective effective UID - it looks at the credentials of the task
-for purposes of acting on it as an object, but then accesses the
-effective UID (which the credentials.7 man page describes as "[...] used
-by the kernel to determine the permissions that the process will have
-when accessing shared resources [...]").
+On Mon, Apr 27, 2026 at 11:15:33AM +0200, Bartosz Golaszewski wrote:
+> This missed the v7.1 cycle so let's try to get it in for v7.2.
+> 
+> Merging strategy: there are build-time dependencies between the crypto
+> and DMA patches so the best approach is for Vinod to create an immutable
+> branch with the DMA part pulled in by the crypto tree.
+> 
+> This iteration continues to build on top of v12 but uses the BAM's NWD
+> bit on data descriptors as suggested by Stephan. To that end, there are
+> some more changes like reversing the order of command and data
+> descriptors queuedy by the QCE driver.
+> 
+> Currently the QCE crypto driver accesses the crypto engine registers
+> directly via CPU. Trust Zone may perform crypto operations simultaneously
+> resulting in a race condition. To remedy that, let's introduce support
+> for BAM locking/unlocking to the driver. The BAM driver will now wrap
+> any existing issued descriptor chains with additional descriptors
+> performing the locking when the client starts the transaction
+> (dmaengine_issue_pending()). The client wanting to profit from locking
+> needs to switch to performing register I/O over DMA and communicate the
+> address to which to perform the dummy writes via a call to
+> dmaengine_desc_attach_metadata().
+> 
+> In the specific case of the BAM DMA this translates to sending command
+> descriptors performing dummy writes with the relevant flags set. The BAM
+> will then lock all other pipes not related to the current pipe group, and
+> keep handling the current pipe only until it sees the the unlock bit.
+> 
+> In order for the locking to work correctly, we also need to switch to
+> using DMA for all register I/O.
+> 
+> On top of this, the series contains some additional tweaks and
+> refactoring.
+> 
+> The goal of this is not to improve the performance but to prepare the
+> driver for supporting decryption into secure buffers in the future.
+> 
+> Tested with tcrypt.ko, kcapi and cryptsetup.
+> 
+> Shout out to Daniel and Udit from Qualcomm for helping me out with some
+> DMA issues we encountered.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Since usage in Binder has now been removed, get rid of the resulting
-dead code.
+For the whole series,
 
-Changes to the zh_CN translation was carried out with the help of
-Gemini and Google Translate, and since adjusted as per Alex Shi's
-feedback.
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
-Suggested-by: Jann Horn <jannh@google.com>
-Reviewed-by: Gary Guo <gary@garyguo.net>
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
----
- Documentation/security/credentials.rst                    |  6 ++----
- Documentation/translations/zh_CN/security/credentials.rst |  4 +---
- include/linux/cred.h                                      |  1 -
- rust/helpers/task.c                                       |  5 -----
- rust/kernel/task.rs                                       | 10 ----------
- 5 files changed, 3 insertions(+), 23 deletions(-)
+Thanks for incorporating all the comments, Bart!
 
-diff --git a/Documentation/security/credentials.rst b/Documentation/securit=
-y/credentials.rst
-index d0191c8b8060..81d3b5737d85 100644
---- a/Documentation/security/credentials.rst
-+++ b/Documentation/security/credentials.rst
-@@ -393,16 +393,14 @@ the credentials so obtained when they're finished wit=
-h.
-    The result of ``__task_cred()`` should not be passed directly to
-    ``get_cred()`` as this may race with ``commit_cred()``.
-=20
--There are a couple of convenience functions to access bits of another task=
-'s
--credentials, hiding the RCU magic from the caller::
-+There is a convenience function to access bits of another task's credentia=
-ls,
-+hiding the RCU magic from the caller::
-=20
- 	uid_t task_uid(task)		Task's real UID
--	uid_t task_euid(task)		Task's effective UID
-=20
- If the caller is holding the RCU read lock at the time anyway, then::
-=20
- 	__task_cred(task)->uid
--	__task_cred(task)->euid
-=20
- should be used instead.  Similarly, if multiple aspects of a task's creden=
-tials
- need to be accessed, RCU read lock should be used, ``__task_cred()`` calle=
-d,
-diff --git a/Documentation/translations/zh_CN/security/credentials.rst b/Do=
-cumentation/translations/zh_CN/security/credentials.rst
-index 88fcd9152ffe..20c8696f8198 100644
---- a/Documentation/translations/zh_CN/security/credentials.rst
-+++ b/Documentation/translations/zh_CN/security/credentials.rst
-@@ -337,15 +337,13 @@ const=E6=8C=87=E9=92=88=E4=B8=8A=E6=93=8D=E4=BD=9C=EF=
-=BC=8C=E5=9B=A0=E6=AD=A4=E4=B8=8D=E9=9C=80=E8=A6=81=E8=BF=9B=E8=A1=8C=E7=B1=
-=BB=E5=9E=8B=E8=BD=AC=E6=8D=A2=EF=BC=8C=E4=BD=86=E9=9C=80=E8=A6=81=E4=B8=B4=
-=E6=97=B6=E6=94=BE=E5=BC=83
-    ``__task_cred()`` =E7=9A=84=E7=BB=93=E6=9E=9C=E4=B8=8D=E5=BA=94=E7=9B=
-=B4=E6=8E=A5=E4=BC=A0=E9=80=92=E7=BB=99 ``get_cred()`` =EF=BC=8C
-    =E5=9B=A0=E4=B8=BA=E8=BF=99=E5=8F=AF=E8=83=BD=E4=B8=8E ``commit_cred()`=
-` =E5=8F=91=E7=94=9F=E7=AB=9E=E4=BA=89=E6=9D=A1=E4=BB=B6=E3=80=82
-=20
--=E8=BF=98=E6=9C=89=E4=B8=80=E4=BA=9B=E6=96=B9=E4=BE=BF=E7=9A=84=E5=87=BD=
-=E6=95=B0=E5=8F=AF=E4=BB=A5=E8=AE=BF=E9=97=AE=E5=8F=A6=E4=B8=80=E4=B8=AA=E4=
-=BB=BB=E5=8A=A1=E5=87=AD=E6=8D=AE=E7=9A=84=E7=89=B9=E5=AE=9A=E9=83=A8=E5=88=
-=86=EF=BC=8C=E5=B0=86RCU=E6=93=8D=E4=BD=9C=E5=AF=B9=E8=B0=83=E7=94=A8=E6=96=
-=B9=E9=9A=90=E8=97=8F=E8=B5=B7=E6=9D=A5::
-+=E6=9C=89=E4=B8=80=E4=B8=AA=E6=96=B9=E4=BE=BF=E7=9A=84=E5=87=BD=E6=95=B0=
-=E5=8F=AF=E7=94=A8=E4=BA=8E=E8=AE=BF=E9=97=AE=E5=8F=A6=E4=B8=80=E4=B8=AA=E4=
-=BB=BB=E5=8A=A1=E5=87=AD=E6=8D=AE=E7=9A=84=E7=89=B9=E5=AE=9A=E9=83=A8=E5=88=
-=86=EF=BC=8C=E4=BB=8E=E8=80=8C=E5=AF=B9=E8=B0=83=E7=94=A8=E6=96=B9=E9=9A=90=
-=E8=97=8FRCU=E6=9C=BA=E5=88=B6::
-=20
- 	uid_t task_uid(task)		Task's real UID
--	uid_t task_euid(task)		Task's effective UID
-=20
- =E5=A6=82=E6=9E=9C=E8=B0=83=E7=94=A8=E6=96=B9=E5=9C=A8=E6=AD=A4=E6=97=B6=
-=E5=B7=B2=E7=BB=8F=E6=8C=81=E6=9C=89RCU=E8=AF=BB=E9=94=81=EF=BC=8C=E5=88=99=
-=E5=BA=94=E4=BD=BF=E7=94=A8::
-=20
- 	__task_cred(task)->uid
--	__task_cred(task)->euid
-=20
- =E7=B1=BB=E4=BC=BC=E5=9C=B0=EF=BC=8C=E5=A6=82=E6=9E=9C=E9=9C=80=E8=A6=81=
-=E8=AE=BF=E9=97=AE=E4=BB=BB=E5=8A=A1=E5=87=AD=E6=8D=AE=E7=9A=84=E5=A4=9A=E4=
-=B8=AA=E6=96=B9=E9=9D=A2=EF=BC=8C=E5=BA=94=E4=BD=BF=E7=94=A8RCU=E8=AF=BB=E9=
-=94=81=EF=BC=8C=E8=B0=83=E7=94=A8 ``__task_cred()``
- =E5=87=BD=E6=95=B0=EF=BC=8C=E5=B0=86=E7=BB=93=E6=9E=9C=E5=AD=98=E5=82=A8=
-=E5=9C=A8=E4=B8=B4=E6=97=B6=E6=8C=87=E9=92=88=E4=B8=AD=EF=BC=8C=E7=84=B6=E5=
-=90=8E=E4=BB=8E=E4=B8=B4=E6=97=B6=E6=8C=87=E9=92=88=E4=B8=AD=E8=B0=83=E7=94=
-=A8=E5=87=AD=E6=8D=AE=E7=9A=84=E5=90=84=E4=B8=AA=E6=96=B9=E9=9D=A2=EF=BC=8C=
-=E6=9C=80=E5=90=8E=E9=87=8A=E6=94=BE=E9=94=81=E3=80=82
-diff --git a/include/linux/cred.h b/include/linux/cred.h
-index c6676265a985..6ef1750c93e2 100644
---- a/include/linux/cred.h
-+++ b/include/linux/cred.h
-@@ -371,7 +371,6 @@ DEFINE_FREE(put_cred, struct cred *, if (!IS_ERR_OR_NUL=
-L(_T)) put_cred(_T))
- })
-=20
- #define task_uid(task)		(task_cred_xxx((task), uid))
--#define task_euid(task)		(task_cred_xxx((task), euid))
- #define task_ucounts(task)	(task_cred_xxx((task), ucounts))
-=20
- #define current_cred_xxx(xxx)			\
-diff --git a/rust/helpers/task.c b/rust/helpers/task.c
-index c0e1a06ede78..b46b1433a67e 100644
---- a/rust/helpers/task.c
-+++ b/rust/helpers/task.c
-@@ -28,11 +28,6 @@ __rust_helper kuid_t rust_helper_task_uid(struct task_st=
-ruct *task)
- 	return task_uid(task);
- }
-=20
--__rust_helper kuid_t rust_helper_task_euid(struct task_struct *task)
--{
--	return task_euid(task);
--}
--
- #ifndef CONFIG_USER_NS
- __rust_helper uid_t rust_helper_from_kuid(struct user_namespace *to, kuid_=
-t uid)
- {
-diff --git a/rust/kernel/task.rs b/rust/kernel/task.rs
-index 7950c3a3950d..e568dfab93c4 100644
---- a/rust/kernel/task.rs
-+++ b/rust/kernel/task.rs
-@@ -217,16 +217,6 @@ pub fn uid(&self) -> Kuid {
-         Kuid::from_raw(unsafe { bindings::task_uid(self.as_ptr()) })
-     }
-=20
--    /// Returns the objective effective UID of the given task.
--    ///
--    /// You should probably not be using this; the effective UID is normal=
-ly
--    /// only relevant in subjective credentials.
--    #[inline]
--    pub fn euid(&self) -> Kuid {
--        // SAFETY: It's always safe to call `task_euid` on a valid task.
--        Kuid::from_raw(unsafe { bindings::task_euid(self.as_ptr()) })
--    }
--
-     /// Determines whether the given task has pending signals.
-     #[inline]
-     pub fn signal_pending(&self) -> bool {
+- Mani
 
---=20
-2.54.0.563.g4f69b47b94-goog
+> ---
+> Changes in v16:
+> - Fix a reported race between dma_map_sg() called with spinlock taken
+>   and the corresponding dma_unmap_sg() called without it by moving the
+>   descriptor locking data into the descriptor struct
+> - Also queue the TX data descriptors before the command descriptors to
+>   match what downstream is doing
+> - Tweak commit messages
+> - Rebase on top of v7.1-rc1
+> - Link to v15: https://patch.msgid.link/20260402-qcom-qce-cmd-descr-v15-0-98b5361f7ed7@oss.qualcomm.com
+> 
+> Changes in v15:
+> - Extend the descriptor metadata struct to also carry the channel's
+>   transfer direction and stop using dmaengine_slave_config() for that
+> - Link to v14: https://patch.msgid.link/20260323-qcom-qce-cmd-descr-v14-0-f323af411274@oss.qualcomm.com
+> 
+> Changes in v14:
+> - Don't return an error to a client which wants to use locking on BAM
+>   that doesn't support it
+> - Add a comment describing the DMA descriptor metadata structure
+> - Fix memory leaks
+> - Remove leftovers from previous iterations
+> - Propagate errors from dma_cookie_assign() when setting up lock
+>   descriptors
+> - Link to v13: https://patch.msgid.link/20260317-qcom-qce-cmd-descr-v13-0-0968eb4f8c40@oss.qualcomm.com
+> 
+> Changes in v13:
+> - As part of the DMA changes in the QCE driver: reverse the order of
+>   queueing the descriptors in the QCE driver: queue command descriptors
+>   with all the register writes first, followed by all the data descriptors,
+>   this is in line with the recommandations from the BAM HPG
+> - Set the NWD (notify-when-done) bit (DMA_PREP_FENCE in dmaengine
+>   parlance) on the data descriptors to ensure that the UNLOCK descriptor
+>   will not be processed until after they have been processed by the
+>   engine. While technically the NWD bit is only needed on the final data
+>   descriptor, it's hard to tell which one *will* be the last from the
+>   driver's point-of-view and both the downstream driver as well as
+>   the Qualcomm TZ against which we want to synchronize sets NWD on every
+>   data descriptor,
+> - Revert to creating the LOCK/UNLOCK command descriptor pair in one
+>   place now that the NWD bit is in place,
+> - Link to v12: https://patch.msgid.link/20260310-qcom-qce-cmd-descr-v12-0-398f37f26ef0@oss.qualcomm.com
+> 
+> Changes in v12:
+> - Wait until the transaction is done before queueing the UNLOCK command
+>   descriptor
+> - Use descriptor metadata for communicating the scratchpad address to
+>   the BAM driver
+> - To that end: reverse the order of the series (first BAM, then QCE) to
+>   maintain bisectability
+> - Unmap buffers used for dummy writes after the transaction
+> - Link to v11: https://patch.msgid.link/20260302-qcom-qce-cmd-descr-v11-0-4bf1f5db4802@oss.qualcomm.com
+> 
+> Changes in v11:
+> - Use new approach, not requiring the client to be involved in locking.
+> - Add a patch constifying dma_descriptor_metadata_ops
+> - Rebase on top of v7.0-rc1
+> - Link to v10: https://lore.kernel.org/r/20251219-qcom-qce-cmd-descr-v10-0-ff7e4bf7dad4@oss.qualcomm.com
+> 
+> Changes in v10:
+> - Move DESC_FLAG_(UN)LOCK BIT definitions from patch 2 to 3
+> - Add a patch constifying the dma engine metadata as the first in the
+>   series
+> - Use the VERSION register for dummy lock/unlock writes
+> - Link to v9: https://lore.kernel.org/r/20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org
+> 
+> Changes in v9:
+> - Drop the global, generic LOCK/UNLOCK flags and instead use DMA
+>   descriptor metadata ops to pass BAM-specific information from the QCE
+>   to the DMA engine
+> - Link to v8: https://lore.kernel.org/r/20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org
+> 
+> Changes in v8:
+> - Rework the command descriptor logic and drop a lot of unneeded code
+> - Use the physical address for BAM command descriptor access, not the
+>   mapped DMA address
+> - Fix the problems with iommu faults on newer platforms
+> - Generalize the LOCK/UNLOCK flags in dmaengine and reword the docs and
+>   commit messages
+> - Make the BAM locking logic stricter in the DMA engine driver
+> - Add some additional minor QCE driver refactoring changes to the series
+> - Lots of small reworks and tweaks to rebase on current mainline and fix
+>   previous issues
+> - Link to v7: https://lore.kernel.org/all/20250311-qce-cmd-descr-v7-0-db613f5d9c9f@linaro.org/
+> 
+> Changes in v7:
+> - remove unused code: writing to multiple registers was not used in v6,
+>   neither were the functions for reading registers over BAM DMA-
+> - remove
+> - don't read the SW_VERSION register needlessly in the BAM driver,
+>   instead: encode the information on whether the IP supports BAM locking
+>   in device match data
+> - shrink code where possible with logic modifications (for instance:
+>   change the implementation of qce_write() instead of replacing it
+>   everywhere with a new symbol)
+> - remove duplicated error messages
+> - rework commit messages
+> - a lot of shuffling code around for easier review and a more
+>   streamlined series
+> - Link to v6: https://lore.kernel.org/all/20250115103004.3350561-1-quic_mdalam@quicinc.com/
+> 
+> Changes in v6:
+> - change "BAM" to "DMA"
+> - Ensured this series is compilable with the current Linux-next tip of
+>   the tree (TOT).
+> 
+> Changes in v5:
+> - Added DMA_PREP_LOCK and DMA_PREP_UNLOCK flag support in separate patch
+> - Removed DMA_PREP_LOCK & DMA_PREP_UNLOCK flag
+> - Added FIELD_GET and GENMASK macro to extract major and minor version
+> 
+> Changes in v4:
+> - Added feature description and test hardware
+>   with test command
+> - Fixed patch version numbering
+> - Dropped dt-binding patch
+> - Dropped device tree changes
+> - Added BAM_SW_VERSION register read
+> - Handled the error path for the api dma_map_resource()
+>   in probe
+> - updated the commit messages for batter redability
+> - Squash the change where qce_bam_acquire_lock() and
+>   qce_bam_release_lock() api got introduce to the change where
+>   the lock/unlock flag get introced
+> - changed cover letter subject heading to
+>   "dmaengine: qcom: bam_dma: add cmd descriptor support"
+> - Added the very initial post for BAM lock/unlock patch link
+>   as v1 to track this feature
+> 
+> Changes in v3:
+> - https://lore.kernel.org/lkml/183d4f5e-e00a-8ef6-a589-f5704bc83d4a@quicinc.com/
+> - Addressed all the comments from v2
+> - Added the dt-binding
+> - Fix alignment issue
+> - Removed type casting from qce_write_reg_dma()
+>   and qce_read_reg_dma()
+> - Removed qce_bam_txn = dma->qce_bam_txn; line from
+>   qce_alloc_bam_txn() api and directly returning
+>   dma->qce_bam_txn
+> 
+> Changes in v2:
+> - https://lore.kernel.org/lkml/20231214114239.2635325-1-quic_mdalam@quicinc.com/
+> - Initial set of patches for cmd descriptor support
+> - Add client driver to use BAM lock/unlock feature
+> - Added register read/write via BAM in QCE Crypto driver
+>   to use BAM lock/unlock feature
+> 
+> ---
+> Bartosz Golaszewski (12):
+>       dmaengine: constify struct dma_descriptor_metadata_ops
+>       dmaengine: qcom: bam_dma: convert tasklet to a BH workqueue
+>       dmaengine: qcom: bam_dma: Extend the driver's device match data
+>       dmaengine: qcom: bam_dma: Add pipe_lock_supported flag support
+>       dmaengine: qcom: bam_dma: add support for BAM locking
+>       crypto: qce - Include algapi.h in the core.h header
+>       crypto: qce - Remove unused ignore_buf
+>       crypto: qce - Simplify arguments of devm_qce_dma_request()
+>       crypto: qce - Use existing devres APIs in devm_qce_dma_request()
+>       crypto: qce - Map crypto memory for DMA
+>       crypto: qce - Add BAM DMA support for crypto register I/O
+>       crypto: qce - Communicate the base physical address to the dmaengine
+> 
+>  drivers/crypto/qce/aead.c        |   8 +-
+>  drivers/crypto/qce/common.c      |  20 ++--
+>  drivers/crypto/qce/core.c        |  28 ++++-
+>  drivers/crypto/qce/core.h        |  11 ++
+>  drivers/crypto/qce/dma.c         | 163 +++++++++++++++++++++++------
+>  drivers/crypto/qce/dma.h         |  11 +-
+>  drivers/crypto/qce/sha.c         |   8 +-
+>  drivers/crypto/qce/skcipher.c    |   8 +-
+>  drivers/dma/qcom/bam_dma.c       | 217 ++++++++++++++++++++++++++++++++++-----
+>  drivers/dma/ti/k3-udma.c         |   2 +-
+>  drivers/dma/xilinx/xilinx_dma.c  |   2 +-
+>  include/linux/dma/qcom_bam_dma.h |  14 +++
+>  include/linux/dmaengine.h        |   2 +-
+>  13 files changed, 404 insertions(+), 90 deletions(-)
+> ---
+> base-commit: 06ae5ec2a5f35da6b24d404d16310ee3553dba6f
+> change-id: 20251103-qcom-qce-cmd-descr-c5e9b11fe609
+> 
+> Best regards,
+> -- 
+> Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> 
 
+-- 
+மணிவண்ணன் சதாசிவம்
