@@ -1,181 +1,145 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96EC19992C;
-	Thu,  7 May 2026 07:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97374386C37
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 08:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778140183; cv=none; b=YgCtdBTk6m/q/m0+a1UEXIftYxxTyHUYi5gVZ2wI/NQbCpnsMUVgw8fkg6pND7oISvH/Lz2z3mG3fcqay/P9SacjmNApSc6bneRabiC5i+biWE2DaYO1P8W+58Ya/zHwDA9P2T0caY1QVZ3omSlqRU1eZC9tTXjUS4w58ezANII=
+	t=1778143296; cv=none; b=EWsySGsp6RwXm0hxnMKSEO8P+vMzsUPgmK/Ub6IZMsQPDT8+1d+SLk/dTU58ApkUyRlBVx1NrG3BLe/7zrPDjpDsHRxmwnF5krJiVOfCz4tqKNyB+6GW5fDJtsKAflD8VC22FwaCUpNJ4BTE3AAW3n+lpTp3hjn1ExWegVsaxok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778140183; c=relaxed/simple;
-	bh=6oJig+EG3g1rxKRjj/IGw1ruhQ/l/cMKOC5/Yc3k8t4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TtTrEquIDtnwmrB9cSLT1+vdCXffPsYimcS/zF8sGqS0YHXRwOn1IZib4rXmZRSBUrPcbCznoQrgNvDWI/KmjQteuV5KQJJCN+mpKBMoUDipusnqq8t3cUQmQahnxmUvX45t3ysvpt7AQNmqLROGBrrgsfadBXm4bF5bwpfudy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Dbz8sYhJ; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+	s=arc-20240116; t=1778143296; c=relaxed/simple;
+	bh=pJgf/8K6i1UqZ4sD9tXxKWjDKHpurXxLzcy/xPBEzko=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IH1bWENmbAMPmZ9w0+0wM/f4sUTkDOqcdmxwwyZmip6DkgCgi9lI1NgN5OgulMhRIvJGSEk2hBPJrACSuNgLU1F3sIWn8tqPhNw7rVWtnxjOoBwT5T+gi8Zh0LmRCru+g1xNLi4RMgFydmQfy+zUXSWfTv4Wb/kseiUkWo+6t58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T4RnwNW8; arc=none smtp.client-ip=209.85.215.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Dbz8sYhJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=6oJig+EG3g1rxKRjj/IGw1ruhQ/l/cMKOC5/Yc3k8t4=; b=Dbz8sYhJfjzCShdR2z+Ekmm/gy
-	x/yNCyH98nG6O8HxRrgT+VnutsPq2UT8A7K9nHoISGEAOxN9MTcj5uv2Q6PUEri/IA7YcYSlVLjA5
-	80szBEdDCAkVeloJO6pBfgjMMIxnL1aFbZ3OY8K+WVrjxPoTtDsI0zWWLYKhiaqy7cSJzua4XUbMW
-	yxvtMK7hjEIZufQRt8uaiaZhFR53iW02lkbyqtqQjZzBkCK/qImmyVoJylgTFB8s9g8MsmVz8lyQO
-	SSgyrSl3SU4L2Fpy5S3Arux1jOtlkdetqxoISIvRzypNdrxPfbrHDvLmg0JbWv6TG88LP/Zaljq6Z
-	gq7wn9Qw==;
-Received: from [172.31.31.148] (helo=u09cd745991455d.ant.amazon.com)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKtU7-00000002px7-2i4b;
-	Thu, 07 May 2026 07:49:28 +0000
-Message-ID: <f4650572ea8277dcde8d68e4fa5317e1abdb988c.camel@infradead.org>
-Subject: Re: [PATCH v9 00/22] Enable FRED with KVM VMX
-From: David Woodhouse <dwmw2@infradead.org>
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, Andrew Cooper
-	 <andrew.cooper3@citrix.com>
-Cc: Xin Li <xin@zytor.com>, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org,  linux-doc@vger.kernel.org, "Saenz Julienne, Nicolas"
- <nsaenz@amazon.es>,  pbonzini@redhat.com, seanjc@google.com,
- corbet@lwn.net, tglx@linutronix.de,  mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org,  hpa@zytor.com,
- luto@kernel.org, peterz@infradead.org, chao.gao@intel.com, 
- hch@infradead.org, sohil.mehta@intel.com
-Date: Thu, 07 May 2026 08:49:27 +0100
-In-Reply-To: <afpPt7gObsyFkPRy@wieczorr-mobl1.localdomain>
-References: <20251026201911.505204-1-xin@zytor.com>
-	 <7f93eb25874ddd13a1ad6e3c75785f11041c8b7f.camel@infradead.org>
-	 <DADE0E58-DD8A-4206-BF54-1DA87864117D@zytor.com>
-	 <afojoHJSlqqm2Ges@wieczorr-mobl1.localdomain>
-	 <f4cb5f8e-caf5-4513-9538-edaaea20de2d@citrix.com>
-	 <afpPt7gObsyFkPRy@wieczorr-mobl1.localdomain>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-Io5FFnTsJIYq+42nOOvQ"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T4RnwNW8"
+Received: by mail-pg1-f196.google.com with SMTP id 41be03b00d2f7-c822652f82aso377263a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 01:41:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778143287; x=1778748087; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tYLd8a4rOgJ0HgA5aFHjScXvqopFgzBf/Pbs3wYF8a8=;
+        b=T4RnwNW8ietBMUmVcoZOW6WX/zS313x7qMTXepqdQlrCYRrDTHdt9nfYNaZCLvcaXS
+         N89RCMi+uWFuIthxlu7ZxOFXd/CHswqPWQFMurd0eVhEVuP4nKj1Q2GtCixqZdcnV5dC
+         sbMsZ8nRvHDJ2C8cVbcZsT5c7VjSiW1kCH2M7P/ifUfP19GuOzID6qxEkAxSpBK5FHUw
+         2XOBhoqcgkUD6dS3KknuXj9jVBnvyvEM6nytYh8TkCbslkJHXiWg5z9tGBnVpV3Vblbn
+         B0m3NQHQ8k9VNVuZG+W9d8xBT/hisbpbCmYBbde8ED2L0iuHBS09Gs1n3pGHODqIJjw5
+         Aiuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778143287; x=1778748087;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tYLd8a4rOgJ0HgA5aFHjScXvqopFgzBf/Pbs3wYF8a8=;
+        b=dutbuCH9vbo1dkZCliL9sSpDvyHpKvpX5ZgfiaxURLryy58Jicu+OSGmXobgX9spNa
+         CSiSGsVoaAr1rXGz8jndJANjVBeB6Yu/u+Gi9y/VuPnvznfxvuvzJuL/r/HHBPoF+Dl/
+         cDg6HyU9Ov+lsMGTyRkktkSWcQppZqOf8uV43wXYEX5FaedH2dbMIjPyMzKqzBQqJVge
+         vwglDoCKDa8to4enkABTGjdaAeNhlQd2Q/qC1ns616G2ckOStySPx/A5G5QSs89RbuX+
+         WRoiBPy43CDKEcj5cRrzqHcH+wODDp8As3PuJeWnx5ede7TI+7bwlql/HEiL//0EZpHQ
+         YuWQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8wSx6mpV25kthlqfvkTQDVrpfR5bdGe4baGHdMCU7UtNw47HfYkDOxSX0u/VasG5zBL4xZdcCdoQE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaT5nR85PENF9TG8A7jARbpKYSjLW+pnbnb4GPSGo10BOMmfcw
+	frmpxAazMJAykHIYu3z2024Jz3DS4VULt05/B5cW0STh4eUki+A5QhtU
+X-Gm-Gg: AeBDiev0H7E6XrwN+aK1yeUm4sqhceyAW9h5KcHO7CdCanrXanjoPMzZSfVfGo5z+XN
+	CAR21k9mV1nlfUFXkDa/TZO1dm4rsblF+Ir/W2Sy8X/ap8dHhEiTa0PgQpGoUStuW8WJPqA5AbZ
+	O93+vgTSOB0BVsjCpvO6m/IfJ6apbO0gbADhg3ALG84nfdgKh+H89fndBZ7W7xyHckFQYTQupci
+	dG18pPHaCEKXks0Bi+IX2ifcuY2FvUDwx8e0jh/50ZPIkCIMVnPvTHvP46qTsVKyk+GCuObWqNy
+	hd4Hp88G4/J0qBsAWx6ZbFq9+zMCZNrWzxhGPQy1227fMyOjA12srlxCODxZexPom+0vw9TMcaz
+	LeCk3XD9cFsaYBpgMt65KT+5alKVQIbb0Z6okJ2tQ3bpNQc9dq291ZEciVvRAa8+4vv9uGSmOum
+	Jn7waOZjiNnwkkJvmmPyLVuvVFfee2M8jQBOGWFjWwcA==
+X-Received: by 2002:a05:6a20:a106:b0:3a2:dc51:445 with SMTP id adf61e73a8af0-3aa5ab6853cmr7732684637.36.1778143287552;
+        Thu, 07 May 2026 01:41:27 -0700 (PDT)
+Received: from [10.125.112.20] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8253586c6asm1305583a12.4.2026.05.07.01.41.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 May 2026 01:41:26 -0700 (PDT)
+Message-ID: <126f4fd0-0a1c-41e0-8746-fa7ab85d6773@gmail.com>
+Date: Thu, 7 May 2026 16:41:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/11] of: reserved_mem: fix region count for nodes with
+ multiple reg entries
+To: Rob Herring <robh@kernel.org>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
+ devicetree@vger.kernel.org, akpm@linux-foundation.org, bhe@redhat.com,
+ rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org,
+ ruirui.yang@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org,
+ catalin.marinas@arm.com, will@kernel.org, chenhuacai@kernel.org,
+ kernel@xen0n.name, pjw@kernel.org, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, saravanak@kernel.org, chenwandun@lixiang.com,
+ zhaomeijing@lixiang.com, everyzhao@126.com
+References: <20260429065831.1510858-1-chenwandun@lixiang.com>
+ <20260429065831.1510858-2-chenwandun@lixiang.com>
+ <20260506014752.GA280279-robh@kernel.org>
+Content-Language: en-US
+From: Wandun <chenwandun1@gmail.com>
+In-Reply-To: <20260506014752.GA280279-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---=-Io5FFnTsJIYq+42nOOvQ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+在 2026/5/6 09:47, Rob Herring 写道:
+> On Wed, Apr 29, 2026 at 02:58:21PM +0800, Chen Wandun wrote:
+>> When a reserved-memory node contains multiple reg entries (e.g.,
+>> reg = <base1 size1>, <base2 size2>), the count used for
+>> total_reserved_mem_cnt is wrong in two places:
+>>
+>> 1) __reserved_mem_reserve_reg() returns 0 on success regardless of how
+>>     many regions it reserved in memblock. The caller in
+>>     fdt_scan_reserved_mem() then increments count by just 1.
+> Just to make sure, more than 1 worked before the referenced commits? It
+> would be easier to just define we only expect/support 1 entry.
+Looking at the pre-8a6e02d0c00e code, __reserved_mem_reserve_reg()
+reserved memblock memory for all reg entries, but only called
+fdt_reserved_mem_save_node() for the first one (guarded by an 'if 
+(first)' flag).
 
-On Tue, 2026-05-05 at 22:20 +0200, Maciej Wieczor-Retman wrote:
->=20
-> I take it you mean dropping the ICEBP selftest test case and just checkin=
-g INT3
-> and INT $0x20? In that case the other two tests pass after a minor change=
- -
-> namely in guest_code() the expected_rip needs to be volatile as well. Oth=
-erwise
-> there is a RIP mismatch.
+So multiple reg entries were never fully supported: subsequent entries
+got their memory reserved in memblock, but their metadata was lost
+and driver-specific init callbacks were never invoked for them.
 
-I don't understand the part about making expected_rip volatile. Are the
-asm constraints there not correct? If not I'd rather *fix* them than
-use 'volatile' to paper over it. I can't see the issue though.
+The referenced commits made this worse by also breaking the count
+tracking, but the root limitation predates them.
 
-Can you show the generated asm both with and without it?
+I support documenting "only 1 entry supported" based on the
+following reasons:
 
---=-Io5FFnTsJIYq+42nOOvQ
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+   - of_reserved_mem_lookup() does a name-based linear scan and returns
+     the *first* matching entry. A node with N reg entries would create
+     N entries with identical names; entries [1..N-1] are permanently
+     unreachable via lookup.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCD9Aw
-ggSOMIIDdqADAgECAhAOmiw0ECVD4cWj5DqVrT9PMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0yNDAxMzAwMDAwMDBaFw0zMTEx
-MDkyMzU5NTlaMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYDVQQDExdWZXJv
-a2V5IFNlY3VyZSBFbWFpbCBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMjvgLKj
-jfhCFqxYyRiW8g3cNFAvltDbK5AzcOaR7yVzVGadr4YcCVxjKrEJOgi7WEOH8rUgCNB5cTD8N/Et
-GfZI+LGqSv0YtNa54T9D1AWJy08ZKkWvfGGIXN9UFAPMJ6OLLH/UUEgFa+7KlrEvMUupDFGnnR06
-aDJAwtycb8yXtILj+TvfhLFhafxroXrflspavejQkEiHjNjtHnwbZ+o43g0/yxjwnarGI3kgcak7
-nnI9/8Lqpq79tLHYwLajotwLiGTB71AGN5xK+tzB+D4eN9lXayrjcszgbOv2ZCgzExQUAIt98mre
-8EggKs9mwtEuKAhYBIP/0K6WsoMnQCcCAwEAAaOCAVwwggFYMBIGA1UdEwEB/wQIMAYBAf8CAQAw
-HQYDVR0OBBYEFIlICOogTndrhuWByNfhjWSEf/xwMB8GA1UdIwQYMBaAFEXroq/0ksuCMS1Ri6en
-IZ3zbcgPMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIweQYI
-KwYBBQUHAQEEbTBrMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYB
-BQUHMAKGN2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RD
-QS5jcnQwRQYDVR0fBD4wPDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0
-QXNzdXJlZElEUm9vdENBLmNybDARBgNVHSAECjAIMAYGBFUdIAAwDQYJKoZIhvcNAQELBQADggEB
-ACiagCqvNVxOfSd0uYfJMiZsOEBXAKIR/kpqRp2YCfrP4Tz7fJogYN4fxNAw7iy/bPZcvpVCfe/H
-/CCcp3alXL0I8M/rnEnRlv8ItY4MEF+2T/MkdXI3u1vHy3ua8SxBM8eT9LBQokHZxGUX51cE0kwa
-uEOZ+PonVIOnMjuLp29kcNOVnzf8DGKiek+cT51FvGRjV6LbaxXOm2P47/aiaXrDD5O0RF5SiPo6
-xD1/ClkCETyyEAE5LRJlXtx288R598koyFcwCSXijeVcRvBB1cNOLEbg7RMSw1AGq14fNe2cH1HG
-W7xyduY/ydQt6gv5r21mDOQ5SaZSWC/ZRfLDuEYwggWbMIIEg6ADAgECAhAH5JEPagNRXYDiRPdl
-c1vgMA0GCSqGSIb3DQEBCwUAMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYD
-VQQDExdWZXJva2V5IFNlY3VyZSBFbWFpbCBHMjAeFw0yNDEyMzAwMDAwMDBaFw0yODAxMDQyMzU5
-NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqGSIb3DQEBAQUAA4IC
-DwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZeYAS/SRV6zmfXlXaZ
-sNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2zkC9S7/yHDYnqegqt
-w4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qGpgFdZEk2/c//ZvUN
-i12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41vav1RhZJzYan4a1gU0
-kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0cvnO8FM6PTqsnSbcc
-0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PWPU6zfQTOMZ9uLQRR
-ci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXtREF5lLXxp+CJ6KKS
-blPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQrlR0gO3lBzuyPPArV
-hvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7IqaAovAX0d+f1YjbmC
-VsAwjhLmveFjNwIDAQABo4IBsDCCAawwHwYDVR0jBBgwFoAUiUgI6iBOd2uG5YHI1+GNZIR//HAw
-HQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3bXcyQGluZnJhZGVh
-ZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEBMA4GA1UdDwEB/wQE
-AwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwewYDVR0fBHQwcjA3oDWgM4YxaHR0
-cDovL2NybDMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDA3oDWgM4YxaHR0
-cDovL2NybDQuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDB2BggrBgEFBQcB
-AQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0
-aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNydDANBgkq
-hkiG9w0BAQsFAAOCAQEAQXc4FPiPLRnTDvmOABEzkIumojfZAe5SlnuQoeFUfi+LsWCKiB8Uextv
-iBAvboKhLuN6eG/NC6WOzOCppn4mkQxRkOdLNThwMHW0d19jrZFEKtEG/epZ/hw/DdScTuZ2m7im
-8ppItAT6GXD3aPhXkXnJpC/zTs85uNSQR64cEcBFjjoQDuSsTeJ5DAWf8EMyhMuD8pcbqx5kRvyt
-JPsWBQzv1Dsdv2LDPLNd/JUKhHSgr7nbUr4+aAP2PHTXGcEBh8lTeYea9p4d5k969pe0OHYMV5aL
-xERqTagmSetuIwolkAuBCzA9vulg8Y49Nz2zrpUGfKGOD0FMqenYxdJHgDCCBZswggSDoAMCAQIC
-EAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoT
-B1Zlcm9rZXkxIDAeBgNVBAMTF1Zlcm9rZXkgU2VjdXJlIEVtYWlsIEcyMB4XDTI0MTIzMDAwMDAw
-MFoXDTI4MDEwNDIzNTk1OVowHjEcMBoGA1UEAwwTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJ
-KoZIhvcNAQEBBQADggIPADCCAgoCggIBANqWLse95HW2F7FhfH9bugyT/danKmmXrbMnz5GZNAfj
-Jl5gBL9JFXrOZ9eVdpmw04Tp6aDxZctFLoEDvSWKi367Q7Sg+ci+fH4KwwfQ8Pi0IpIKx2n5emEg
-nbOQL1Lv/IcNiep6Cq3DiyaSpSp/RZf+CAfUNySHS8eWmhLU6jGpSD6hxTpYKye7PmrmvMWwfGEP
-WoamAV1kSTb9z/9m9Q2LXa89aKmTxNwnAfD3Ohn9mtU3JukwILRMewn9QRXK7KzM+01h5hkCE4nj
-W9q/VGFknNhqfhrWBTSQoE9CSVylASGrjzCgS7XmKy/BaH3/7mOOHQv5g1o3Qj/+cdKnpT0I5Qb1
-nRy+c7wUzo9OqydJtxzSP4ZyHA4dELto/a3m/ay1XHcpum1pgTOLgxAfGb/T4dCkwRUstSKLMmpL
-g9Y9TrN9BM4xn24tBFFyL5znGG0wQGzOVAM68RBzIQb6Fz758fjsr4yZnPbVsU1+gHEs/puNHrG0
-9e1EQXmUtfGn4InoopJuU8p5VGD9S3Ikd4UoBlc7xl5yjtNlQxUeYrRlnUSmdlucCEoTX1n4UmtA
-9CuVHSA7eUHO7I88CtWG9bGOU7tLgOZoSEvNqtaL/N7sQbBZK4jZ4Rr/zNTQg1SwYjjLB7u96lDP
-sipoCi8BfR35/ViNuYJWwDCOEua94WM3AgMBAAGjggGwMIIBrDAfBgNVHSMEGDAWgBSJSAjqIE53
-a4blgcjX4Y1khH/8cDAdBgNVHQ4EFgQUXGIam3Bs59Y60yTmWgfDu6pZQ6cwMAYDVR0RBCkwJ4ET
-ZHdtdzJAaW5mcmFkZWFkLm9yZ4EQZGF2aWRAd29vZGhvdS5zZTAUBgNVHSAEDTALMAkGB2eBDAEF
-AQEwDgYDVR0PAQH/BAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDB7BgNVHR8E
-dDByMDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
-Y3JsMDegNaAzhjFodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
-Y3JsMHYGCCsGAQUFBwEBBGowaDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29t
-MEAGCCsGAQUFBzAChjRodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVt
-YWlsRzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBBdzgU+I8tGdMO+Y4AETOQi6aiN9kB7lKWe5Ch
-4VR+L4uxYIqIHxR7G2+IEC9ugqEu43p4b80LpY7M4KmmfiaRDFGQ50s1OHAwdbR3X2OtkUQq0Qb9
-6ln+HD8N1JxO5nabuKbymki0BPoZcPdo+FeRecmkL/NOzzm41JBHrhwRwEWOOhAO5KxN4nkMBZ/w
-QzKEy4PylxurHmRG/K0k+xYFDO/UOx2/YsM8s138lQqEdKCvudtSvj5oA/Y8dNcZwQGHyVN5h5r2
-nh3mT3r2l7Q4dgxXlovERGpNqCZJ624jCiWQC4ELMD2+6WDxjj03PbOulQZ8oY4PQUyp6djF0keA
-MYIDuzCCA7cCAQEwVTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMX
-VmVyb2tleSBTZWN1cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJYIZIAWUDBAIBBQCg
-ggE3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDUwNzA3NDky
-N1owLwYJKoZIhvcNAQkEMSIEIPUnN3HQeGRAu6UaGSxTAOh0NAs9l7aKhWYF978HJzqMMGQGCSsG
-AQQBgjcQBDFXMFUwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoTB1Zlcm9rZXkxIDAeBgNVBAMTF1Zl
-cm9rZXkgU2VjdXJlIEVtYWlsIEcyAhAH5JEPagNRXYDiRPdlc1vgMGYGCyqGSIb3DQEJEAILMVeg
-VTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMXVmVyb2tleSBTZWN1
-cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQEBBQAEggIAKfdekeeUaODs
-b2oXpytvswovWBFk0IwPMnWELm/42M/9MxzLRj8RSZ1dJpyYgXoHrpL61JdjwVkuqSFnb8dUHFhG
-1IOl40tIUxcQKz/DSWJ4ai5KizTDRVIfgFJ+8pmWsYTGnZvwrykQ8Rr0UHx9eDCBClmjvEupoBu+
-m1UpiE2Ijkf1Sxz1FGAxHch3pkCd5ufU17Yw1fbmpqPV5K/XcQKQpBToVEVqrNO5X+HgBFAMNCaE
-e55/IIeuvwukR2CAOyjSjoBh8DzjOQl4Q0Fc+wbJ2MRGzzBY8pNh0aQ3J8SsZqh7cfc6TsY/pCww
-bg6EOv5mUR65f0qZlfbvNtWtnVpeeE7HF7VWuTVw3o8HrSO5UqWXyvc/LBtgmrR7O2v0WOqzEIXo
-dobF5Vm/4Eq/V2U7Mvr8KrwkxZhp6YOxxFtxKRhkgB85r+642V6brrD9DvbKR6LQB+sZmEiJBiPh
-9oHcYrfXPbL5gpKOX5J7OVhZm5W+TiXB2nzZE9kZ22I76JRutEWd1aauTiwUNrcQ/+c3woPX+S/y
-WRXht8kqo0N7JGdY2mdJCWM0J3YU6SpZ5YJT1RBUUUh9Xxr9+2a7W6UhAmztydIzoJLWaO0eK3qb
-N+2oAyhEvyTFcLMYhwL6aB72/MoBYxyyXM5qSHZXaO6wC3j3lmynGurvxgeILcYAAAAAAAA=
+   - Drivers like CMA and DMA coherent are designed to initialize a
+     single contiguous pool per node_init call. Calling node_init
+     multiple times with the same FDT node is not a supported usage.
 
 
---=-Io5FFnTsJIYq+42nOOvQ--
+>
+>> 2) fdt_scan_reserved_mem_late() uses of_flat_dt_get_addr_size() which
+>>     only reads the first reg entry. Subsequent entries are never
+>>     initialized via fdt_init_reserved_mem_node(), so their metadata is
+>>     lost.
+>>
+>> Fix both issues:
+>>   - Make __reserved_mem_reserve_reg() return the actual number of
+>>     regions successfully reserved. Update the caller to accumulate
+>>     the returned count.
+>>   - Rewrite fdt_scan_reserved_mem_late() to use
+>>     of_flat_dt_get_addr_size_prop() and iterate all reg entries,
+>>     initializing each one via fdt_init_reserved_mem_node().
+>>
+>> Fixes: 8a6e02d0c00e ("of: reserved_mem: Restructure how the reserved memory regions are processed")
+>> Fixes: 00c9a452a235 ("of: reserved_mem: Add code to dynamically allocate reserved_mem array")
