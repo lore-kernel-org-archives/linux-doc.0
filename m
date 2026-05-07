@@ -1,301 +1,273 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012049.outbound.protection.outlook.com [52.101.53.49])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B009E3EFD07;
-	Thu,  7 May 2026 19:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778183064; cv=fail; b=AAB6JK6G1mBNcS0nxzhWyQgRI3lwvaEcLt9/kK/VodOl7s0SMWLpC28gW+nuZDWr0KQdCrCEHVdJw+Ck+1+B4TJBd1B29HfW25E00NYupSz75XTYUKB1QlzN9Ba9DaDb257q+MvuK4Fnt6g21EESKAdDM8Pr/Vw5H3kTBhW2Zu0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778183064; c=relaxed/simple;
-	bh=70wQmr8HfWvL6VKbBKvRVFJhpjE9NjYvzNvic1BOuw4=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=JQK+LY5beaMKzIjW//qz2ApUIWm6JoYOB298DoHtKGdlCW+xHPLYFF7pS6IObbkhfqsX8hIMk1dvsIAPjCledGBKAnZN9FTopRR0Q6DWIN0+WwvJUn+tpchAV9NGYzsEVbJx3zkPZeL2yKA3EAhvGk52ddmkwUFCNONV8ywjPFY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=i//P/Op4; arc=fail smtp.client-ip=52.101.53.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835CA1A316E;
+	Thu,  7 May 2026 20:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778185368; cv=none; b=fnhJcoY4UdcCQUJHpa5/xa00TBrMlyltz5o4R02k4R6X04e0clO/MGYgjn/9cZMWxMSMGSgmfhFSdAL3N5W/NDJ1FhTjl7xG51R2YWWAj7Zh30Ok8LeZMLeYnNpSBmEwOl5SWxF9Rokg+p9GeOnvsnOxjz6JOFSfRy7ZTHjW2mk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778185368; c=relaxed/simple;
+	bh=kgKZO4h2eVvkn8wuMk3gXIDfRMzXQVLQ4LVyu2XGn7Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pGRcaP12UdLsIMzq3ByRHyaOwP+NDqjJnop+q0t3YESTGa4WGfrMLr54BL37bYMiHpjqWyMpJBTZkCGLiHJMvmCt2Mumm/S+uvR5INMgS5cyZl1BesapzZ2UnPIbUKxjvLt9zKU8nGKw5R5yLboLtwfqBBHPPT0BW9UdeW1jMt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a/qXUHDM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="i//P/Op4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eDB9m/rKsxEVQ34Ntr19svvc655fz8tsIi3tYcy426b8StCYyxmf1TjdMuc5tYi2cReV3ixqp1WryFhSgluOewClKCj/NcJ053q/qntqf+9vgOGuuaqa7+tunUZhiBpsi+f8Snqy7U1PRiqpF1K4GmLBmEDZjnPklQkiLLQxCONLJQxIqDKKob6NKY2bq0jaJhl53S4buVM2Bek2CxwMAnsZrquPU09kciMCxGE7gfH60c6ejTavR4RFBVNkYJKEJJdFx16WbCtG8NFO6lXBwejGRo+3EtztpY1PbE0N7+m/K26qaJtDSMcrcrDKwPXD4Torh0yUGZbmu4kvsdWtYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NBVAyPvggvraxEneTB9MGknPQ5esLCXNnfF/e6S5IJo=;
- b=Mgg/9QbVcVlY9/Jb0evYVlBeFKwxA9ZOCyUaMuMDZapHIVYZ14WScU5LH0MWRWvuf/7mhJ9E4Z9DYvMKrX823+jeWALbgMldRT3Wgy4G24/IOpmXHNW0vrdY5kTq7wBnvFV/71krGfhrdlm59mH/ApRdAJ5rns15A7CWZXMTcQo7RrVBObLQB/Ykukd1owRrQ29Fi38O2r4kIH+1f2HBusrzzObjB24LC5Zuk0k5j6lnzsdQp1cRnsA/l2wEpCJG/Syv1/LBPmJWl7zDaSvoG50mES5Ot+KK+/SjJ6UpLXQ72haztaGeYWI7S8zOnot/KBS6+CrnMP8Ed5C6kd/dcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NBVAyPvggvraxEneTB9MGknPQ5esLCXNnfF/e6S5IJo=;
- b=i//P/Op4dl34VXbZaa+Db0vOIdCzFa2At2h4J6aY5pM89BrGC4cSzhb/wB9RyJf7QntRrwa3qxKRLTs2NzhWTTGCY1jgvABTA1VQdZ02fsfYB0kfkocx4rSgWgyy5aD59+MUHtzRYYffr7FyS97ZZxiowWjUpFvd7icaLHrnp5h7cAzb9bzmihha7FmGzehMwyIRK+nwWX1F8f4fMR/s046sEtJJM9d3JJTIuoUclAa6c4PNnxk+RlI9PhNxwzvzQ0T6XnVhbOmHZASHNmRUu+SJ/pkkrIlYyqWPkxUeexg+opli6arEW8b2b8Ndbsvdu7gunlgLzCgPiiBiZCQKjw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- PH8PR12MB7376.namprd12.prod.outlook.com (2603:10b6:510:214::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Thu, 7 May
- 2026 19:44:16 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%6]) with mapi id 15.20.9891.008; Thu, 7 May 2026
- 19:44:16 +0000
-Message-ID: <296ae420-5400-4903-8d36-62b471862065@nvidia.com>
-Date: Thu, 7 May 2026 15:44:11 -0400
-User-Agent: Mozilla Thunderbird
-From: Joel Fernandes <joelagnelf@nvidia.com>
-Subject: Re: [PATCH v12 04/22] gpu: nova-core: mm: Add support to use PRAMIN
- windows to write to VRAM
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- nova-gpu@lists.linux.dev, Nikola Djukic <ndjukic@nvidia.com>,
- David Airlie <airlied@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
- Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
- Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>, alexeyi@nvidia.com,
- Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
- linux-doc@vger.kernel.org
-References: <20260425211454.174696-1-joelagnelf@nvidia.com>
- <20260425211454.174696-5-joelagnelf@nvidia.com>
- <DI8B0103X0HQ.7C99YLBMS2X5@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <DI8B0103X0HQ.7C99YLBMS2X5@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN9PR03CA0122.namprd03.prod.outlook.com
- (2603:10b6:408:fe::7) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/qXUHDM"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 63F47C2BCB8;
+	Thu,  7 May 2026 20:22:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778185368;
+	bh=kgKZO4h2eVvkn8wuMk3gXIDfRMzXQVLQ4LVyu2XGn7Y=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=a/qXUHDM3OnYjlwtNfO+FgrX9CzuPaUhoujHFdrX6AaZCNXqWQlf4AzKB6V1Z0SkB
+	 0snLIDnFQFupWSxdbu0lQk+0S79Z/D4EXj0Y0mrC5OcNwNShhQ+WVMbi0UOgsBnLv5
+	 2dGF1dVxSLkWyxIpJJrJ88njBHfBcMTtfR4ebyHR1+LhMcRPJZhzdNYE0fPwC/cWRw
+	 nSim6p8pmd9I58QqkJknNE3HWRX2T4vz2ain/chFEhxehqNc37RKlIRp10q9zG3Z/t
+	 xmmPeqvP2coP8j0+orV47Zn0oMk1sUt60oD4GblM53AgvrYouaAxdAudV1CCA4kbLH
+	 5gyJhjlwcMS2A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E362CD3446;
+	Thu,  7 May 2026 20:22:48 +0000 (UTC)
+From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
+Subject: [PATCH v6 00/43] guest_memfd: In-place conversion support
+Date: Thu, 07 May 2026 13:22:19 -0700
+Message-Id: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|PH8PR12MB7376:EE_
-X-MS-Office365-Filtering-Correlation-Id: f01e9b96-ef93-4281-4c07-08deac7105c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|10070799003|376014|366016|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	t0Va80DdST4xs6gSJ7vT45lLM4TNmYQDqrJLYl7ztwLFEXlkuU1aNEUw+NGK8/Ysh3de3ZPijQzw3a4OMgR7tvHh8qQgT0kBHJ4bfN/EHnDm6Qax1UPuCO1XFoBhfIcjqV9F+Q/pGDwbimsa3/Yufv2DYUbrIfR02brz7b4GQR9EO9D7y6tgQ/r72ItgYPIiqtNG509lzd5GBlBAuxOsd5esK4NmNOkI8hVEXhQYB32y6UCLGDDaxPa/nN+2krL+a8piUfx7zgQupmZzJYwwe+OmlJQnZnCZQ5EFnEQ2jffjiCXLS+hslugDTS2fKw6GOKrWl24MCZ8UuJ6nKa4vy0UMuHDfb1PQVs8rVXmXINFjgSe6y0Se298Qr1Ua1IoxUKszZw4eFlU3l0Rj24Nn8fvthXWTphc4bTq7UoOIqW1pzWsxuEUEaadcez7TtjK88EgwrHEFe8HwbtzLHTyXpzxOLOBynE9GRxlTKv0K9AZ2bU28YbVtYifRikf5bZ90cA9RXiH8FsZfvBcFf6yYBKWEBfN1lMCDYCJQh4mjrMWZoujcoZv255Cbp3X2XulGFR5MUMMbXbhOWf7HwiekxMBUrnCw7AUyx9ru17XP9Oi4cFFz62MAPgDcCgQ3B0Qe1li0Bj0LT4V544pQkVQT/AbH3sv/wBghRcp26ik40sln90s+N/5opEe0XjCxpe0D9NPwbVl2RNOnoHbRnnlOpA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(10070799003)(376014)(366016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?c240S1JOSUg4REN6eDNJY0Nremgyd3J3N2pESng1WGJlaHlxMkJjeXN4VDVy?=
- =?utf-8?B?L0w5VmZSd2NVL2VRRmJaYTluZU1sUERubzlVeWxMVkpsdVIyNWRUNVFhZ0Y0?=
- =?utf-8?B?bjlNOW45VFlPWm1RRWZwUnFTZVozRkx4TXpXWXk2VThONUJBS3N4aWs4K1Ev?=
- =?utf-8?B?b2cxQktVMzZOMldIU21TaUUwQzFkY0tYMkVNcXo1YjU3SlVmS25saWRkbGl5?=
- =?utf-8?B?ekJsVXJWTERVVVpNNERsN29VRGFXYys2c2t2SEpsSnhFWDExaUdEQ3BRVXBr?=
- =?utf-8?B?T2syQ3p1YUVoRFlMRzZRNlAzRDU1YVhGL0hxL2NhRWRGMndsZjBNYXlJV0l0?=
- =?utf-8?B?eUxzNDdKQkFMVEphbkVOS2d1U0VVbEZTMkVSVXVaQkNwOS9ZZDEzNTE5bWk5?=
- =?utf-8?B?aHZNNWFDb293eG9IaUxmY3E0dWFVK2Y0dWp2bDJYOW00Qm9iZkQ4TzlHKy9a?=
- =?utf-8?B?aE9DS1JpYkdrVFJXS2Nrd081RWFsY2pxc25ydDIyeG1jWXk3eUVCTFdtZlVZ?=
- =?utf-8?B?TXBrSkVNbzhETVFveWkzWElHUTlQVS9NRVBObFNSNEx4YUtIejMvOXRtem5H?=
- =?utf-8?B?Wjc0TmlvSlo0TW1FNHdJRmtHb0Job1RXRUhkN2l6TWxwRjRmT2IxTElSa2h6?=
- =?utf-8?B?VDhES3NHR0h0dFZjdnkxYUJSS1dHOTdjTURaUURhamNhRmd6VEVSdlNtZVBj?=
- =?utf-8?B?NHlHbHR3UFB4OENOK3RrOSsvK2lFQjRUOGZuSWNlYzdZcmZtNnhwKzBkeWY0?=
- =?utf-8?B?VXFDU1d2VFJMMTdCVk9BWFFRZ3FNOGtpZUxHdzQ0RzZ2TEtCNkVGOC8vNS9v?=
- =?utf-8?B?NVREcGdCa05aN0NSV09sOEt5aXNtSHQvQmFKQkVLUG9rMGc0b1R4K1BoWWlZ?=
- =?utf-8?B?cTJDeCsxSXh0WWVLSW1VKzh4ZW05Nk5CRUV1NEdCVmZQU1NSRXdkV0tjRWpM?=
- =?utf-8?B?V0Q1dHJOa3lpbEI0TkoxdC9YeFN1T2EzVU9uTHduS09EdktiUUVZVm9wT1ZQ?=
- =?utf-8?B?NnowUkh0MkdlTUFIV0hFejc3d25RdmZDK1B6MXNNd09Tb0R0L0pPMHVvcXM1?=
- =?utf-8?B?bGFzMzNja0QrbXpybnk1cm95ZFkzS2pwZkRyY1JWL0tjd1VzNDRrZmJJY3V3?=
- =?utf-8?B?TmlRZXpPOGNFTUV1b05hT3BWcEJaTm5hbzlqYXNXOVV6SlJ2UXprV2lockVZ?=
- =?utf-8?B?c0tWSFJhTGdCa0dvRUVZL2puZ01xMk1XS1RYazZ2ZmNOYmlWWHBSWGMyWmY4?=
- =?utf-8?B?azhNUVQrT24rWGI1cE9wQlQvTmdvZFZQNWYyNHhqdTJDQysyVEhhRFdJYkZw?=
- =?utf-8?B?ZEV3dnJzOHdJZjVwcEgrVjhxUjNmNG91UG03MDJHRURiRHlPaTRYNXZjYWpl?=
- =?utf-8?B?ZUc2Nmd5ZlNJMlptaWtRVnRmZ0IvT2V5aUx3MmQ0VWVjamF3cHBoeVlxL1FP?=
- =?utf-8?B?bGZmdVZaTmk0RzFCMzNtUXV4U0VVNmVxU3BFS2NxS2VxZ25RZWlzbDBFTWda?=
- =?utf-8?B?WlZwTWs4VVZzYStDZDVyenBZSjNmTzdQblNYMElBK1FkOHJtdXU1ajhJS3BV?=
- =?utf-8?B?NlpUYW4rRnR0V1VZTGplYlR5aEZhdFVsRE5PREU3bXlsMXcyeVpXRzRhZEhz?=
- =?utf-8?B?eEsyaTl6Uk53eUNlN2RBVm9EU3AremE5VllGeVdCc0pZT29QY0gvbzRpd2lD?=
- =?utf-8?B?L05jRXhLMHozVktueUovazh4azlDRWZJclZSNm5acWJaNWhHSlBFeHI2TmxR?=
- =?utf-8?B?bWJvR2pqRWhtRUd1YUVrZHB1V05adzJwbDZLMjVSZWlJVk1OVzN3M0h4ZVhp?=
- =?utf-8?B?d1R2TjI3bHl0eWZ6dmgxME1leFpmRkowWDFTeDk5MEF3eVlTQklYOXVvK3FL?=
- =?utf-8?B?d0UyUlBCVkcwb1ZCWWRWbzJWQlFwTGk1SmJlVWxPQ3pIcjdnQzR1c0hmMWhF?=
- =?utf-8?B?Ni9vTUhUNUdyWmltdUsyR1hjMjhMd1BTZFAyLytUZWJub2kzcy9SN0ZRaXBN?=
- =?utf-8?B?R0lTdkVPVStBckx3QWlTWmNVTDJQUTBaRzVtYytqM0FWMHFKa2w3SWhETzdo?=
- =?utf-8?B?M0JxM2hOekJMcXNlT0lXR1NUckJQRnVjbmljRzVYYXRUYTZwWTFZVk9Ba0lC?=
- =?utf-8?B?UVB3V3ZTblQ1dy8wbUZyV2ZDNVA2RnErV3FjMWs1U0RST1BmTXhqOHQ4UXl1?=
- =?utf-8?B?eVdldzBVRUo5TVE1RVFHUk1UZWswcER5TEE0c2c1NnJ0THR6VG9reEV3ZGo1?=
- =?utf-8?B?dUY2N2c1RjJnQ0ZJeUt6eFQxdE1QVmdiRit3cnByelVQSkdJK1hGejJaUEcz?=
- =?utf-8?B?MGYycy9Dczh6b2ROSTJXYzhicFAzT00yY2FCbStzMzJaWDVZeG1qOGc0eWxG?=
- =?utf-8?Q?7a6Fy20o64ll5oR8fiS/H0npsJX1pdddgaAia1vfCXUVK?=
-X-MS-Exchange-AntiSpam-MessageData-1: JTANI742/NPrxQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f01e9b96-ef93-4281-4c07-08deac7105c5
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 19:44:16.3496
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xVagD+1tICX3Sb37Xl3KLjd40+5FOqVo8Fiku8m5ZgAGAnEnanuZ9gnfgG7XdNX7KgpPOm2Hx1BvbtmEumPCYg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7376
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHz0/GkC/3XOwY7CIBAG4FcxnJddHEptPfkexgMdhpasBQOGa
+ EzffUEP7mbT45/M//3zYImio8T2mweLlF1ywZfQfmwYTtqPxJ0pmYGAVgAoPs40c+cvZ43EMfh
+ MsXb4YIQZjOx3SmpW2pdI1t2e8vFU8qAT8SFqj1P1vvP85el2raeTS9cQ788fsqyF15zcytW5L
+ LngyuIW9E4Qdv1hDGE80yeGmdW93PyCoF2HmgJRObPUK2Gt+QepN9RAtw6pApmuFR2iRQ3wB1q
+ W5Qejh3ofbAEAAA==
+X-Change-ID: 20260225-gmem-inplace-conversion-bd0dbd39753a
+To: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+ brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+ ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
+ michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+ qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+ shivankg@amd.com, steven.price@arm.com, tabba@google.com, 
+ willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
+ forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
+ aneesh.kumar@kernel.org, liam@infradead.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, 
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+ Youngjun Park <youngjun.park@lge.com>, Qi Zheng <qi.zheng@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+ linux-coco@lists.linux.dev, Ackerley Tng <ackerleytng@google.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778185365; l=9937;
+ i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
+ bh=kgKZO4h2eVvkn8wuMk3gXIDfRMzXQVLQ4LVyu2XGn7Y=;
+ b=0V3uJDwYZJQjjlQTEBaaPZVgwbzAwCsO4IgutmnZuaAIID7tgmfFzi8w2geQSGLX0TRdm5Hfe
+ wm6wCAgISEWAS1VEXjE6hrbwBOZO+uzpTMWCCdJjZXYiz704PVsBS2+
+X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
+ pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
+X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
+ auth_id=649
+X-Original-From: Ackerley Tng <ackerleytng@google.com>
+Reply-To: ackerleytng@google.com
 
-Hi Alex,
+This is v6 of guest_memfd in-place conversion support, now out of RFC.
 
-On Sun, 03 May 2026, Alexandre Courbot wrote:
-> `Pramin::new` takes different arguments (also check the other examples).
+Up till now, guest_memfd supports the entire inode worth of memory being
+used as all-shared, or all-private. CoCo VMs may request guest memory to be
+converted between private and shared states, and the only way to support
+that currently would be to have the userspace VMM provide two sources of
+backing memory from completely different areas of physical memory.
 
-Fixed.
+pKVM has a use case for in-place sharing: the guest and host may be
+cooperating on given data, and pKVM doesn't protect data through
+encryption, so copying that given data between different areas of physical
+memory as part of conversions would be unnecessary work.
 
-> The HRT series [1] will allow you to greatly simplify all this by
-> storing a `&'a Bar0` directly in this structure. It will most likely
-> land this cycle, so I think it's a good idea to proactively depend on
-> them. It should apply cleanly (modulo the Tyr patches IIRC, but you can
-> skip them if you don't build the driver) on top of `drm-rust-next` - on
-> top of which this should also be rebased anyway.
->
-> [1] https://lore.kernel.org/all/20260427221155.2144848-1-dakr@kernel.org/
+This series also serves as a foundation for guest_memfd huge page
+support. Now, guest_memfd only supports PAGE_SIZE pages, so if two sources
+of backing memory are used, the userspace VMM could maintain a steady total
+memory utilized by punching out the pages that are not used. When huge
+pages are available in guest_memfd, even if the backing memory source
+supports hole punching within a huge page, punching out pages to maintain
+the total memory utilized by a VM would be introducing lots of
+fragmentation.
 
-Actually, I was going in the direction of making Bar0, GpuMm and Bar1
-use Arc instead of lifetimes initially. The reason is, some of these are
-long lived references. Directly using `&'a Bar0` means the lifetimes
-also gets threaded to Pramin and then threads to GpuMm which is long
-lived in some of my later patches. Some of the cases where we will have
-long lived mappings are also vGPU and channels. I spoke to Danilo about
-this, and we discussed that an initial approach could just use Arc since
-refcounts are cheap and it should be just as performant, then once we
-have the design ironed out, we can migrate to using lifetimes in this
-code where appropriate. Even before HRT, I already used lifetimes and
-analyzed the tradeoffs.
+In-place conversion avoids fragmentation by allowing the same physical
+memory to be used for both shared and private memory, with guest_memfd
+tracks the shared/private status of all the pages at a per-page
+granularity.
 
-> I don't think that checking the range in this type is particularly
-> useful, because this abstraction cannot validate VRAM ownership
-> completely: VRAM can be sparse, reserved, or protected, and with the
-> current bound access to these invalid areas is not prevented.
+The central principle, which guest_memfd continues to uphold, is that any
+guest-private page will not be mappable to host userspace. All pages will
+be mmap()-able in host userspace, but accesses to guest-private pages (as
+tracked by guest_memfd) will result in a SIGBUS.
 
-I think there's value in keeping this. The range check is similar in
-spirit to what `Bar0` accessors do -- bounds are checked, but a passing
-check doesn't guarantee the IO will succeed at the hardware level (an
-address in a valid range could still cause issues). That's not a reason
-to remove the guard; it still catches obvious bugs early. Having a sanity
-check that says "this address is at least within the declared VRAM
-region" is more useful than having no check at all, even if ownership
-semantics aren't enforced at this layer.
+This series introduces a guest_memfd ioctl (not kvm, vm or vcpu, but
+guest_memfd ioctl) that allows userspace to set memory
+attributes (shared/private) directly through the guest_memfd. This is the
+appropriate interface because shared/private-ness is a property of memory
+and hence the request should be sent directly to the memory provider -
+guest_memfd.
 
->
-> PRAMIN should only model the hardware windowing mechanism; address
-> validity belongs to the higher layers that allocate or obtain those
-> addresses. IIUC nothing will explode if we try to read or write into
-> areas that are not VRAM.
-> The problem with this lock is that it is buried, alongside its usage
-> guide, deep into this type, ensuring that users won't ever see it. It
-> will create deadlocks rather than preventing them.
+Tested with both CONFIG_KVM_VM_MEMORY_ATTRIBUTES enabled and disabled:
 
-Having an internal lock isn't inherently problematic -- the GPU buddy
-allocator bindings follow the same pattern, for example. Let us go by usecase,
-lets not complicate design based on a hypothetical. I wouldn't move the mutex
-out of Pramin just based on guessing and complicate/thread the mutable reference
-to layers that don't need to handle that complexity.
++ tools/testing/selftests/kvm/guest_memfd_test.c
++ tools/testing/selftests/kvm/pre_fault_memory_test.c
++ tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
++ tools/testing/selftests/kvm/x86/private_mem_conversions_test.c
++ tools/testing/selftests/kvm/x86/private_mem_conversions_test.sh
++ tools/testing/selftests/kvm/x86/private_mem_kvm_exits_test.c
 
-Further, what concrete design or use case requires mutex to be external? I
-wouldn't add that complexity based on hypotheticals -- we go by actual use
-cases, and there are actual users of this code in the patches that follow. For
-what it's worth, I did try the outer-mutex approach myself before you mentioned
-it and decided against it for this and the buddy code based on the reasons
-mentioned.
+Updates for this revision:
 
-> And when you look closer at it, you realize it is actually acquired for
-> any use of `Pramin`, since the only method it exposes is `get_window`,
-> which acquires the lock, and returns a `PraminWindow` which has exactly
-> the same layout as `Pramin`, except that the lock is acquired.
->
-> So what's the point? Let's just make `get_window` require a `&mut self`
-> and let the owner of `Pramin` decide how to manage concurrent accesses.
-> At least the doccomment for the lock will be visible from a higher
-> layer.
++ Dropped everything to do with content modes (ZERO/PRESERVE) (thanks
+  Michael and Sean!)
+    + Discussed this at PUCK on 2026-05-06
+    + guest_memfd was taking on too much complexity to try to paper
+      over differences in how trusted firmware handle conversions
++ Addressed Liam's comments about usage of the maple_tree
 
-The point is to keep it simple. What you're suggesting requires the
-caller to do: lock + get_window + access window. My design is get_window
-+ access window -- you need the latter two anyway, so the locking is
-absorbed without any extra burden. Propagating lock outward adds
-complexity at every layer that calls into `Pramin`; handling the lock
-internally, as done elsewhere in the codebase, avoids that.
+TODOs
 
-> Currently `Pramin` mixes elements of hardware access, memory management,
-> and synchronization into the same type, squashing what should be
-> different layers into a single one. Now that the `Io` trait is merged
-> and available in `drm-rust-next`, it is a good time to implement the
-> feedback I gave on v8. Roughly:
->
-> - `Pramin` should just be the owner and arbiter of the
->   `NV_PBUS_BAR0_WINDOW` register. Its `get_window(&mut self,
->   window_base: Bounded<u64, 24>)` method simply returns a window to the
->   1MB area starting from `base << 16`. It's the simplest possible
->   abstraction.
-> - The returned window implements `Io` and `IoKnownSize`. This will allow
->   users to do all the fancy stuff that comes with `Io`, including
->   projections.
-> - Random accesses to VRAM, which are needed for walking the page tables
->   and updating them, can be built on top of this simple API. Either by
->   adding read/write ops directly to `Pramin`, or by defining another
->   type that owns a `&mut Pramin` and moves the window automatically if
->   the next access is out of bounds. This should result in window
->   management code that is simpler than the current `compute_window`.
->
-> That's really all we need. Then `GpuMm` can manage concurrency similarly
-> to the current model by wrapping `Pramin` inside a `Mutex`, and is also
-> free to experiment with different locking strategies, something the
-> current design doesn't allow.
++ Resolve issue where guest_memfd_conversions_test, which uses the
+  kselftest framework, doesn't perform teardown on assertion
+  failure. Please see proposal at [9]
++ Test with TDX selftests. We're in the process of rebasing TDX selftests
+  on this series and will post updates when that's tested.
 
-I am looking into implementing `Io`/`IoKnownSize` on `PraminWindow` --
-that part makes sense independently. The `Io` impl would operate on the
-current fixed 1MB window view; the auto-repositioning methods stay as a
-there is a usecase (more later). None of this requires the locking changes.
+I would like feedback on:
 
-I'm familiar with the v8 feedback, but I disagree with parts of it. The
-current design isn't complex -- it's the external locking + split into
-multiple types approach that I think would make it more complex. I'm
-adopting the parts of your suggestions that I agreed with.
++ The use of private_mem_conversions_test.sh to run different options in
+  private_mem_conversions_test. If this makes sense, I'll adjust the
+  Makefile to have private_mem_conversions_test tested only via the script.
 
-The auto-repositioning is actively used and not hypothetical.
-`install_mappings` (mm/pagetable/map.rs) holds a single `PraminWindow`
-while writing PDEs at scattered buddy-allocated VRAM addresses and then
-walking up to 4 PDE levels per VFN -- each level a separately-allocated
-4KB page that can be many MB apart. `invalidate_ptes` similarly holds one
-window across all VFNs: for a range mapping more than ~256 PT pages the
-PTE region alone spans > 1MB. Removing auto-repositioning would push that
-window arithmetic onto every caller.
+This series is based on kvm/next, and here's the tree for your convenience:
 
-> > +        // TODO: Convert to Bounded<u64, 40> when available.
->
-> It's available. :)
+https://github.com/googleprodkernel/linux-cc/commits/guest_memfd-inplace-conversion-v6
 
-Changed to use Bounded, thanks for that primitive.
+Older series:
 
-> I think this method (and `write_window_base`) should be methods of the
-> `NV_PBUS_BAR0_WINDOW` register (`window_base` and `set_window_base`)
++ RFCv5 is at [8]
++ RFCv4 is at [7]
++ RFCv3 is at [6]
++ RFCv2 is at [5]
++ RFCv1 is at [4]
++ Previous versions of this feature, part of other series, are available at
+  [1][2][3].
 
-Agreed, I will move it to the registers.
+[1] https://lore.kernel.org/all/bd163de3118b626d1005aa88e71ef2fb72f0be0f.1726009989.git.ackerleytng@google.com/
+[2] https://lore.kernel.org/all/20250117163001.2326672-6-tabba@google.com/
+[3] https://lore.kernel.org/all/b784326e9ccae6a08388f1bf39db70a2204bdc51.1747264138.git.ackerleytng@google.com/
+[4] https://lore.kernel.org/all/cover.1760731772.git.ackerleytng@google.com/T/
+[5] https://lore.kernel.org/all/cover.1770071243.git.ackerleytng@google.com/T/
+[6] https://lore.kernel.org/r/20260313-gmem-inplace-conversion-v3-0-5fc12a70ec89@google.com/T/
+[7] https://lore.kernel.org/all/20260326-gmem-inplace-conversion-v4-0-e202fe950ffd@google.com/T/
+[8] https://lore.kernel.org/r/20260428-gmem-inplace-conversion-v5-0-d8608ccfca22@google.com
+[9] https://lore.kernel.org/all/20260414-selftest-global-metadata-v1-0-fd223922bc57@google.com/T/
 
-> > +        vram_offset: usize,
->
-> This should be a `u64`, since it is a VRAM address.
->
-> Actually, I noticed that you introduced a `VramAddress` type in a latter
-> patch. It might be worth introducing it earlier and using it everywhere
-> a VRAM address is involved, that way we cannot make any mistake - not
-> critical for now, but feel free to do it if you think it helps.
+Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+---
+Ackerley Tng (25):
+      KVM: x86/mmu: Bug the VM if gmem attributes are queried to determine max mapping level
+      KVM: guest_memfd: Update kvm_gmem_populate() to use gmem attributes
+      KVM: guest_memfd: Only prepare folios for private pages
+      KVM: Move kvm_supported_mem_attributes() to kvm_host.h
+      KVM: guest_memfd: Add base support for KVM_SET_MEMORY_ATTRIBUTES2
+      KVM: guest_memfd: Ensure pages are not in use before conversion
+      KVM: guest_memfd: Call arch invalidate hooks on conversion
+      KVM: guest_memfd: Return early if range already has requested attributes
+      KVM: guest_memfd: Advertise KVM_SET_MEMORY_ATTRIBUTES2 ioctl
+      KVM: guest_memfd: Handle lru_add fbatch refcounts during conversion safety check
+      KVM: guest_memfd: Use actual size for invalidation in kvm_gmem_release()
+      KVM: guest_memfd: Determine invalidation filter from memory attributes
+      KVM: TDX: Make source page optional for KVM_TDX_INIT_MEM_REGION
+      KVM: selftests: Test basic single-page conversion flow
+      KVM: selftests: Test conversion flow when INIT_SHARED
+      KVM: selftests: Test conversion precision in guest_memfd
+      KVM: selftests: Test conversion before allocation
+      KVM: selftests: Convert with allocated folios in different layouts
+      KVM: selftests: Test that truncation does not change shared/private status
+      KVM: selftests: Test conversion with elevated page refcount
+      KVM: selftests: Reset shared memory after hole-punching
+      KVM: selftests: Provide function to look up guest_memfd details from gpa
+      KVM: selftests: Make TEST_EXPECT_SIGBUS thread-safe
+      KVM: selftests: Update private_mem_conversions_test to mmap() guest_memfd
+      KVM: selftests: Add script to exercise private_mem_conversions_test
 
-Cool, I will look into it. Sounds reasonable to do.
+Michael Roth (1):
+      KVM: SEV: Make 'uaddr' parameter optional for KVM_SEV_SNP_LAUNCH_UPDATE
 
-thanks,
--- 
-Joel Fernandes
+Sean Christopherson (17):
+      KVM: guest_memfd: Introduce per-gmem attributes, use to guard user mappings
+      KVM: Rename KVM_GENERIC_MEMORY_ATTRIBUTES to KVM_VM_MEMORY_ATTRIBUTES
+      KVM: Enumerate support for PRIVATE memory iff kvm_arch_has_private_mem is defined
+      KVM: Stub in ability to disable per-VM memory attribute tracking
+      KVM: guest_memfd: Wire up kvm_get_memory_attributes() to per-gmem attributes
+      KVM: Move KVM_VM_MEMORY_ATTRIBUTES config definition to x86
+      KVM: Let userspace disable per-VM mem attributes, enable per-gmem attributes
+      KVM: guest_memfd: Enable INIT_SHARED on guest_memfd for x86 Coco VMs
+      KVM: selftests: Create gmem fd before "regular" fd when adding memslot
+      KVM: selftests: Rename guest_memfd{,_offset} to gmem_{fd,offset}
+      KVM: selftests: Add support for mmap() on guest_memfd in core library
+      KVM: selftests: Add selftests global for guest memory attributes capability
+      KVM: selftests: Add helpers for calling ioctls on guest_memfd
+      KVM: selftests: Test that shared/private status is consistent across processes
+      KVM: selftests: Provide common function to set memory attributes
+      KVM: selftests: Check fd/flags provided to mmap() when setting up memslot
+      KVM: selftests: Update private memory exits test to work with per-gmem attributes
+
+ Documentation/virt/kvm/api.rst                     |  78 +++-
+ .../virt/kvm/x86/amd-memory-encryption.rst         |  15 +-
+ Documentation/virt/kvm/x86/intel-tdx.rst           |   4 +
+ arch/x86/include/asm/kvm_host.h                    |   2 +-
+ arch/x86/kvm/Kconfig                               |  15 +-
+ arch/x86/kvm/mmu/mmu.c                             |  13 +-
+ arch/x86/kvm/svm/sev.c                             |  18 +-
+ arch/x86/kvm/vmx/tdx.c                             |  11 +-
+ arch/x86/kvm/x86.c                                 |  13 +-
+ include/linux/kvm_host.h                           |  53 ++-
+ include/trace/events/kvm.h                         |   4 +-
+ include/uapi/linux/kvm.h                           |  16 +
+ mm/swap.c                                          |   2 +
+ tools/testing/selftests/kvm/Makefile.kvm           |   5 +
+ tools/testing/selftests/kvm/include/kvm_util.h     | 138 +++++-
+ tools/testing/selftests/kvm/include/test_util.h    |  34 +-
+ .../selftests/kvm/kvm_has_gmem_attributes.c        |  17 +
+ tools/testing/selftests/kvm/lib/kvm_util.c         | 133 +++---
+ tools/testing/selftests/kvm/lib/test_util.c        |   7 -
+ .../kvm/x86/guest_memfd_conversions_test.c         | 487 +++++++++++++++++++++
+ .../kvm/x86/private_mem_conversions_test.c         |  53 ++-
+ .../kvm/x86/private_mem_conversions_test.sh        | 128 ++++++
+ .../selftests/kvm/x86/private_mem_kvm_exits_test.c |  36 +-
+ virt/kvm/Kconfig                                   |   3 +-
+ virt/kvm/guest_memfd.c                             | 457 +++++++++++++++++--
+ virt/kvm/kvm_main.c                                |  82 +++-
+ 26 files changed, 1636 insertions(+), 188 deletions(-)
+---
+base-commit: 6d35786de28116ecf78797a62b84e6bf3c45aa5a
+change-id: 20260225-gmem-inplace-conversion-bd0dbd39753a
+
+Best regards,
+--
+Ackerley Tng <ackerleytng@google.com>
+
+
