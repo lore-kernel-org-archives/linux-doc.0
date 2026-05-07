@@ -1,38 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA69C3E928F;
-	Thu,  7 May 2026 10:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8016830B535
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 11:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778150865; cv=none; b=sS8LaKPiL158X7lWz4vDGOy0l+o4h/rsf24djFYq8JXXwEkM6zNIGNnQIoC6Kn4x9pb0u3xkmWMUoEb3720dbsYQDTra7Rpg8Sl+lZo5CC1Dq9H3VSa011x5ec99MwjUC9klsgm85moOvNfoaaWltHVU0BCzdptlJDPzUKLFcBw=
+	t=1778151798; cv=none; b=AWHwyiDKC+F3uVKL/XtvABBV1EnTDMkVS/kkhKSajIxxxy9QrQv2fq2idkPUWlT600y/gws9wikI8+vCcoYTpsJn+JmLssN3cSMQtAB5AUE4r0TTouLE7rqzeewTILcSrlS3bQCbTl8S0oCmam0HLz73z/HpWsb8jZ/iMB2xdqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778150865; c=relaxed/simple;
-	bh=SL/Uzqz/QGgF/VweKAgSNoRQLTvda/ncyjudgCEBgRo=;
+	s=arc-20240116; t=1778151798; c=relaxed/simple;
+	bh=980NOX7dWNrknY5Yk4nVOzgX46BS3p5+nFO0T7e/fJY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NixXWDazN+pRQYKvklCqh4QeOk3Jcs1Gso6gFVj5a8FJyVa6lR0Dw+V0Tr9T+xj/qMrxNorlv71nWNjjDLTc/RCTRCoioYPAlcXMi4VqNpPS6e5ygT5MGSINB70YWPaXPX/z6NSI5/vI3MX5SyqEZwJF7hQOm1VevCKbohOOgT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FfYWQsHm; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=HttlypKVek1hauLmCMQPmWPLSP9iBgdZxq7qQ7b6fZ3nzuL6OM0iyf4h8v0bswvZeik4FoTV3fXLxm2B6O+/UjXyxIxxyG6oyQTzDoHLrBohESm+LzI9QwOpGHsXa5rttxw8erES8cPLjXGCDdQPBjOjGZSZN20ETXIo5a3DkNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=ReYzco9Z; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FfYWQsHm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DE7BC2BCB8;
-	Thu,  7 May 2026 10:47:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778150865;
-	bh=SL/Uzqz/QGgF/VweKAgSNoRQLTvda/ncyjudgCEBgRo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FfYWQsHmOktZ2TmkIshnu17gSrdX0iSYCPdI04qYxIGtue/fQKrL6170OdOk8vs68
-	 jilmS3xkTXbfr9kBXo7qXJfkfHLYnvQsORJtY9Tjpp/VGFu7XPmGPZ91SF+0dCCF1a
-	 ulz/iJTOBgX1TiZuHms854YYHJ2iQKEIVh9KDxRI=
-Date: Thu, 7 May 2026 12:47:43 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, akpm@linux-foundation.org, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
- primitive
-Message-ID: <2026050739-football-dreamy-351f@gregkh>
-References: <20260507070547.2268452-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="ReYzco9Z"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-44985f4ab0fso411808f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 04:03:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1778151794; x=1778756594; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WZHy3FEoaiutkBHBHyFqnRvVmB/IvEeWiPTq0EU2YHc=;
+        b=ReYzco9Zadvkvd1/0xCL0X4t83zAxYIGFgFCwVnkWHparVa6XuHv0DtzqblwgceSxK
+         oaSMlFf/YnT+9liQscEgO8Ygx6nBX69Oi97p580A8b2dJPrFdAISBzYeHLEBfTiyjMil
+         bbWLQv3eyqXk3NLHUjhwUv3ZR947uVqP/OnlOFowFE4aFhzgZ1mZyLZJ4S4+mGeVtv40
+         3Jm70zu3f4w2XtXPQreAjslzCaeeIKyLiyaDBigyoW2Mz8oP0s28xi91htIVOcwd5YoC
+         vXfFvFYR9TO+ErgYUmkyOX4OwyCEBv40DCeUfindB6RdcmwILWNkBRaJDsVpEPq+hfg6
+         Yb/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778151794; x=1778756594;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WZHy3FEoaiutkBHBHyFqnRvVmB/IvEeWiPTq0EU2YHc=;
+        b=b4oapo+lH49yscJWosF63JyNIZWOfQv5ezp1LidT5Rv2Pk5gaKxOFZPakjzZB5A4TD
+         u24i4EeVM09udK4WObLpv50ORamLo08aJs+Jjyat9a6v7NFe2gXW1V35bf1y8TefGbR1
+         PGq9U9rPnlPc0GR/iKlD7u/LIZzQ2g3jIsyDl7Cv9WcncUYMTTDlnS0vhyycEi9qegKj
+         nmMNPU1QOPK8+x1RksfrB5wsP/PubeVMAY46J9G3YH8H2oV3DtXsyC3BojnLCvNRd1wy
+         lJiF/dotpDB2kOOf1Ja1p8eVjcu8SeMiCshMghps5tKK+CAcdk+KcNkyy1+nq59FvAbv
+         0FNg==
+X-Forwarded-Encrypted: i=1; AFNElJ8S52XOOKuCoG7fpeANZCSaQFICg8W+oilFrP8KkxrlUUISdOjIPdCqN4nc2R8Pxo8wj2wpGq0/nK8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdLEUmvuTQmmWQKW2WIywi+0RzWRx0Uh7iG/afoC4dedko/4kw
+	IpeclxAdlbhaYF15sF4vrSSvwgTySVQj8vuXFNjMNiERDX4CmCSZ2qv3vRj0tKUAaGc=
+X-Gm-Gg: AeBDiesZUtWIqQIuxik1Dx5TXpk+dZroQZocCovjaPnVaehPtrSj85b0RhRGbMfrRPd
+	HyiWqT4JbEFSHbX0jsyeR8G4noDRsWPXleRHVs6v9xrqfslG2VgmMu91oqa4DFq47xFqGrIHBVS
+	ElBYFoVkua42cUbdJ7WFO21wXzLXEfdLy0tqYChXX7QP7JPmtLHcGP6+xM/F8fkY5OZ4rvCc10M
+	iihDNgpgJfENcm/lMlamg6/5qzOxRJzogXQbBMkuacL0CYYMCvo7QdnXAEwQwSrAaogfQQMrTBU
+	Gh5bmk+q3DxSHvNNUfOmbPc8bFYj2Ka/Iqy1TXymtYPmPtMEcG/Lj6f6mt9Ibav9K3mkHUJ2ZZP
+	fk0o4cpb4q2QiPwy6npTOAIyUXe0YzyFLwTSm8QTNs6T/BMP7Oqa95FGK72RI7vcyxaxlnpilT7
+	Ryj6WkiHHyuXRqcqqScHAUcafx6kYWbH6JmmORZYXw8GlwvTRfwJGVMgn82yWJEnPN
+X-Received: by 2002:a05:600c:a30b:b0:489:1c1f:35f9 with SMTP id 5b1f17b1804b1-48e51e1773bmr90083345e9.9.1778151793380;
+        Thu, 07 May 2026 04:03:13 -0700 (PDT)
+Received: from FV6GYCPJ69 ([2001:1ae9:6084:ab00:6064:31aa:7680:7221])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e530b05d9sm53089215e9.3.2026.05.07.04.03.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 04:03:12 -0700 (PDT)
+Date: Thu, 7 May 2026 13:03:08 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Mark Bloch <mbloch@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Randy Dunlap <rdunlap@infradead.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Christian Brauner <brauner@kernel.org>, 
+	Petr Mladek <pmladek@suse.com>, "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
+	Eric Biggers <ebiggers@kernel.org>, Li RongQing <lirongqing@baidu.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [RFC net-next 0/4] devlink: Add boot-time defaults
+Message-ID: <afxvzOjqw-vxUAED@FV6GYCPJ69>
+References: <20260506123739.1959770-1-mbloch@nvidia.com>
+ <aftaW-irGmkfA7FS@FV6GYCPJ69>
+ <3f9215c4-7c84-46d9-ba74-30dabe24db09@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,57 +87,102 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260507070547.2268452-1-sashal@kernel.org>
+In-Reply-To: <3f9215c4-7c84-46d9-ba74-30dabe24db09@nvidia.com>
 
-On Thu, May 07, 2026 at 03:05:45AM -0400, Sasha Levin wrote:
-> When a (security) issue goes public, fleets stay exposed until a patched kernel
-> is built, distributed, and rebooted into.
-> 
-> For many such issues the simplest mitigation is to stop calling the buggy
-> function. Killswitch provides that. An admin writes:
-> 
->     echo "engage af_alg_sendmsg -1" \
->         > /sys/kernel/security/killswitch/control
-> 
-> After this, af_alg_sendmsg() returns -EPERM on every call without
-> running its body. The mitigation takes effect immediately, and is dropped on
-> the next reboot.
-> 
-> A lot of recent kernel issues sit in code paths most installs only have enabled
-> to support a relative minority of users: AF_ALG, ksmbd, nf_tables, vsock, ax25,
-> and friends.
-> 
-> For most users, the cost of "this socket family stops working for the day" is
-> much smaller than the cost of running a known vulnerable kernel until the fix
-> land.
-> 
-> Assisted-by: Claude:claude-opus-4-7
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Wed, May 06, 2026 at 07:35:10PM +0200, mbloch@nvidia.com wrote:
+>
+>
+>On 06/05/2026 18:22, Jiri Pirko wrote:
+>> Wed, May 06, 2026 at 02:37:35PM +0200, mbloch@nvidia.com wrote:
+>>> This series adds a devlink= kernel command line parameter for applying
+>>> selected devlink settings during device initialization.
+>>>
+>>> Following a discussion with Jakub[1], I am sending this RFC to get the
+>>> conversation moving. I started from Jakub's example/request and extended
+>>> it to cover requirements from production systems and configurations that
+>>> customers use.
+>>>
+>>> One important caveat is that the parsing logic in this RFC was written
+>>> with AI assistance. I am also not sure whether the resulting syntax and
+>>> parser are too complex for a kernel command line interface. This is part
+>>> of why I am sending it as an RFC: to understand what direction and level
+>>> of complexity would be acceptable to people.
+>>>
+>>> The implementation is intended to support the following properties:
+>>>
+>>> - A system may have multiple devlink devices that usually need the same
+>>>  configuration. For a configuration such as eswitch mode switchdev, a
+>>>  user should be able to specify multiple devices to which that
+>>>  configuration applies.
+>>>
+>>> - There may be ordering dependencies between options. For example, in
+>>>  mlx5, flow_steering_mode should be set before moving to switchdev.
+>>>  With this in mind, defaults are applied per device in the left-to-right
+>>>  order in which they appear on the command line.
+>>>
+>>> The intent is to let deployments set devlink defaults before normal
+>>> userspace orchestration runs, while still using devlink concepts and
+>> 
+>> "defaults before normal userspace orchestrarion". I read it as config
+>> before config, which eventually could be skipped.
+>> 
+>> 
+>>> driver callbacks rather than adding driver-specific module parameters.
+>>> A default is scoped to one or more devlink handles, for example:
+>>>
+>>>  devlink=[pci/0000:08:00.0]:esw:mode:switchdev
+>>>  devlink=[pci/0000:08:00.0]:param:flow_steering_mode:smfs
+>>>  devlink=[pci/0000:08:00.0,pci/0000:08:00.1]:param:flow_steering_mode:hmfs,[pci/0000:08:00.0,pci/0000:08:00.1]:esw:mode:switchdev
+>> 
+>> I don't like this. What you do, you are basically introducing user
+>> configuration tool on kernel cmdline.
+>> 
+>> The same you would achieve with a proper userspace tool/daemon.
+>> I did try to come up with it and push it here:
+>> https://github.com/systemd/systemd/pull/37393
+>> That didn't get merged for unknown reason, but the idea is sound. You
+>> provide configuration files for devlink object and systemd-devlinkd
+>> will apply when they appear. Wouldn't this help your case?
+>
+>I agree that systemd-devlinkd is the right shape for normal
+>devlink configuration, and it could probably replace the udev/devlink
+>plumbing we use today.
+>
+>The case I am trying to cover is earlier than that.
+>
+>On BlueField/ECPF/DPU systems, the host PF driver cannot always finish
+>probing independently of the ECPF side. When the ECPF is the eswitch
+>manager, the host PF is kept in initializing state until the ECPF eswitch
+>side is set up and mlx5 enables the external host PF HCA. That happens as
+>part of moving the ECPF to switchdev.
+>
+>Today userspace observes the ECPF instance and then switches the
+>mode through devlink, usually via udev or similar plumbing. That still
+>leaves a window where the ECPF has probed, userspace has not applied the
+>mode yet, and the host PF is waiting. With many ECPFs this becomes visible
+>in host PF probe/boot time. A daemon reacting to the devlink object
+>appearing can make the userspace side cleaner, but it still runs after the
+>device has appeared and after userspace scheduling/uevent handling.
+>
+>Long term, for these DPU deployments, we would like mlx5 to initialize
+>directly in switchdev. I am hesitant to make that unconditional because it
+>changes existing behavior and there is no early opt-out before probe. The
+>cmdline parameter was meant as an explicit opt-in middle step: ask the
+>driver to apply the same devlink operation during init, before this path
+>depends on userspace.
+>
+>We previously tried to address this with an mlx5 module parameter. By
+>design, that was too coarse: it applied to all mlx5 devices handled by the
+>module. That makes it usable only for narrow DPU-only configurations. The
+>devlink-handle based cmdline syntax was intended to keep the opt-in scoped
+>to the specific devices that need this early switchdev transition.
 
-This is kind of funny, but understandable.  Odds are a distro would want
-to pick this up so that they can enable this for when their kernel
-updates do not get out to users quick enough.
+The switchdev mode was introduced at roughly the time CX4 was out. What
+stopped us from making it default for CX4+ ?
 
-One question:
+Introducing this horrible plumbing only bacause we were not able to
+change the default sounds so absurd.
 
-> +struct ks_attr {
-> +	struct list_head	list;
-> +	struct kprobe		kp;
-> +	atomic_long_t		retval;
-
-Why is this an atomic value?  Shouldn't it be whatever the userspace
-return type is?
-
-
-> +	/* false once disengaged; per-fn file ops then return -EIDRM. */
-> +	bool			engaged;
-> +	unsigned long __percpu	*hits;
-> +	struct dentry		*dir;
-> +	/* engaged_list holds one ref; each open per-fn fd holds one. */
-> +	refcount_t		refcnt;
-
-Why is a refcnt needed?  Why not use a kref instead?
-
-thanks,
-
-greg k-h
+Can we write the default mode as a bit in ASIC NV memory perhaps? Simple
+devlink cmode permanent param to write it, the driver can read this bit
+during init to decide the init flow path?
