@@ -1,82 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E56024728F;
-	Thu,  7 May 2026 01:33:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725C4239E7F;
+	Thu,  7 May 2026 01:48:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778117625; cv=none; b=Kb9prStcAcFWSkdrqSqaPfgeh/uIpw2HfngYzRA4u+6y6wmBFMv8co3Y0xVMOwjBmI1m+KCIgpHhtDt8fRnTOirrLDd7SS11OhR51pPYxAn6bvzjHV/EeB4zKduoAqDrDTtxNMEaeWqiQn99mOWCP0GTfTrgstnyPn7lBthcwRM=
+	t=1778118497; cv=none; b=GZIolnE45JzDpvOka7v5jpHCCOPYiJhMBTg4FErKAXJ7Tbp7Id95DznVtZJJlr+J6+Q+/+RCmwINAl+6FNnpaVYfpRETn+8PExwVngDcw77CXuFQzE/EoZIwm2j16E1L4TFfmYCyfZ/ArqJCQNmwPKH2JQqp41k0EHKnqcfYMPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778117625; c=relaxed/simple;
-	bh=XLKH7WaHBP0XLooJ86aMJ4Ej/10y46n1cv9vNbKP/cY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nbfn4ibsVfNxISwKKBht6KvtzKf/YLotSFsIik6h+seOz1+WErK+CO1MNOHGuNS2F5Ng+MLZrNzeG+SCCL/ZCJVJhV8JO9hdThLq4iIRd1Kj/vTEyqRYiYZYUnWOS8gGrtIvn340KqugZhRu49WR6dLZG6eaP0Clze+DA3I3CiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N63ywpGg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778118497; c=relaxed/simple;
+	bh=5HhwpwRsS7l51LNkTWq7isiIqE6MqU9L41kkHsOjBHo=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=TFxOfz0ptjCd5tlCUxPEYcHw9xemq3U7bSkI//Rg/v89eKRn9/QacnchoDE4pzq09KyL1OKFhn1pWKiSFdfRKRm3Lwbq/8KaRkXAXnD1ggRjVD/FOvk5+3PRHWMSFprvyaJoTjfg7ReAfCXoGotzMENsHyb9Py4KxQW2Blh4Gz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aWugQRt/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N63ywpGg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A10A2C2BCB0;
-	Thu,  7 May 2026 01:33:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aWugQRt/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B6E1C2BCB2;
+	Thu,  7 May 2026 01:48:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778117624;
-	bh=XLKH7WaHBP0XLooJ86aMJ4Ej/10y46n1cv9vNbKP/cY=;
+	s=k20201202; t=1778118497;
+	bh=5HhwpwRsS7l51LNkTWq7isiIqE6MqU9L41kkHsOjBHo=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=N63ywpGgAXjpiFVbJE1f6b1mUc5fj3avyPenVVPfVPA5cwrirFZjuj5NsSwNELENE
-	 FDCepGOFFfZwVw4xmyoP6sfBqPASY63mKT8pD3M27xiUJTaahbEl7+ThBnutviWmIX
-	 4kOEZ6evLwspTqmw/A9DAm2nanZfzhUcX8NpKf9O9NReQsD+MdJUlBRdd/zqfjrvBF
-	 QLXgslxz+VZ9M71KjIfX8nXHV4DHP8Ozpwn0I+3XbHTjlbJHx5V3a29HSelY7wppJm
-	 +gxWhzu2J8kxRBnwGn49ZkPpNPPPqMGLL/cgVNj/2oHaCPiOLdtRoWkUcbmUkFTO68
-	 UxzZc94gHI7QQ==
-Date: Wed, 6 May 2026 18:33:42 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, Jiri Pirko <jiri@resnulli.us>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Arkadiusz Kubalewski
- <arkadiusz.kubalewski@intel.com>, "David S. Miller" <davem@davemloft.net>,
- Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet
- <edumazet@google.com>, Jonathan Corbet <corbet@lwn.net>, Leon Romanovsky
- <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Michal Schmidt
- <mschmidt@redhat.com>, Paolo Abeni <pabeni@redhat.com>, Pasi Vaananen
- <pvaanane@redhat.com>, Petr Oros <poros@redhat.com>, Prathosh Satish
- <Prathosh.Satish@microchip.com>, Saeed Mahameed <saeedm@nvidia.com>, Shuah
- Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, Tariq
- Toukan <tariqt@nvidia.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org
-Subject: Re: [PATCH net-next v3 1/2] dpll: add fractional frequency offset
- to pin-parent-device
-Message-ID: <20260506183342.767b5fbc@kernel.org>
-In-Reply-To: <20260504155340.411063-2-ivecera@redhat.com>
-References: <20260504155340.411063-1-ivecera@redhat.com>
-	<20260504155340.411063-2-ivecera@redhat.com>
+	b=aWugQRt/ObDuUE47cSe7pMkOH9qSHwAbj5d0teAwrGducRN8dyYgee9IK0WwmIsFg
+	 gZTmmh2f0ahahBpdya+rgiqDSJpKfZ4ZKYZEjDIq/2KHG2NzlePCYUsSBXwMhybnSv
+	 JjH2AMrsb/9sMioZmIdfcwQyGNiCwBmr6wQ3YBWGyk2MIqZn9ZStB+o1kZGHJeWrw/
+	 VLjjAjSrdKs+y7euJTZpyOyDEKmE+Q5B0HXbaan+mFlJohYCXot8T5+E23uJEhL5qe
+	 m6lcSH7Ivi8B1i/FNOX1Zlkwql4J9r9mwnU5FO/SnMU9VNZ+v6+DqP76LebSl20+HI
+	 23B15sU9J0cmw==
+Date: Thu, 7 May 2026 10:48:14 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet
+ <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] fprobe: Add unregister_fprobe_sync() for synchronous
+ unregistration
+Message-Id: <20260507104814.528d32f1500f9350254a1c3f@kernel.org>
+In-Reply-To: <20260428142736.11f5211a@gandalf.local.home>
+References: <177729179863.401400.6063130067239479972.stgit@mhiramat.tok.corp.google.com>
+	<20260428142736.11f5211a@gandalf.local.home>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon,  4 May 2026 17:53:39 +0200 Ivan Vecera wrote:
-> +          At top level this represents the RX vs TX symbol rate
-> +          offset on the media associated with the pin.
+On Tue, 28 Apr 2026 14:27:36 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-Isn't this a hacky hack? I'd think that pin is in or out.
-Having a freq offset between two pins or pin and parent's
-ref lock makes sense. This new interpretation sounds like
-we are trying to shove a difference between two pins into one?
+> On Mon, 27 Apr 2026 21:09:58 +0900
+> "Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
+> 
+> > +/**
+> > + * unregister_fprobe_sync() - Unregister fprobe synchronously with RCU grace period.
+> > + * @fp: A fprobe data structure to be unregistered.
+> > + *
+> > + * Unregister fprobe (and remove ftrace hooks from the function entries) and
+> > + * wait for the RCU grace period to finish. This is useful for preventing
+> > + * the fprobe from being used after it is unregistered.
+> > + *
+> > + * Return 0 if @fp is unregistered successfully, -errno if not.
+> > + */
+> > +int unregister_fprobe_sync(struct fprobe *fp)
+> > +{
+> > +	int ret;
+> > +
+> > +	guard(mutex)(&fprobe_mutex);
+> > +	if (!fp || !fprobe_registered(fp))
+> > +		return -EINVAL;
+> > +
+> > +	ret = unregister_fprobe_nolock(fp);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	synchronize_rcu();
+> 
+> Hmm, do we really need to hold the fprobe_mutex when doing the
+> synchronize_rcu()? This could cause other updates to have to wait longer
+> too.
 
-> @@ -299,6 +299,10 @@ zl3073x_dpll_input_pin_ffo_get(const struct dpll_pin *dpll_pin, void *pin_priv,
->  {
->  	struct zl3073x_dpll_pin *pin = pin_priv;
->  
-> +	/* Only rx vs tx symbol rate FFO is supported */
-> +	if (dpll)
-> +		return -ENODATA;
-> +
->  	*ffo = pin->freq_offset;
+Good catch! Indeed, there is no need to hold the mutex.
+OK, let me update it.
 
-It's easy for driver authors to forget this sort of validation.
-We should fail close, so it's better to have some "capability"
-bits or something for the driver to opt into getting given format 
-of the call.
+Thanks,
+
+> 
+> -- Steve
+> 
+> 
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(unregister_fprobe_sync);
+> 
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
