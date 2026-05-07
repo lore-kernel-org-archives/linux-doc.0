@@ -1,198 +1,144 @@
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520CC3FAE18
-	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 16:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778172976; cv=pass; b=LpJgt3S6/8ExYLwoezsMpcuRG0IVA+fTIDb+tIycJheuB5j3tk31SHPptVQWYym+/q/7pEba8qHJQ0cu8DedhMyEojXUVqhui6/M5dSL/lv7Efc8cQDartu3w+wi2Ehj5QSMR9mWnD3OI+1noF6s1fTSEAs2pZ0wgGyLIcHjzGQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778172976; c=relaxed/simple;
-	bh=yU58Xq2jlsKwRvWVzMF/35DqD9SuerVG6YnTfgrQsdg=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UMYkESBYgFBafI1ivfFRiYWEI9356qfoWS61LXUXkEuBoIRAy4YOKFqD4cOMhi+/Db1hJ2dbS0JteRXvQVJgM3LfGrDliny43kQz9dKl54ALMLmGHkMnKIhD2g2Db9/bFBxfAlzrUCRSxUOd4i1PbstD1TRdwoffKSEWLOWQy/8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=X+qM3eJX; arc=pass smtp.client-ip=209.85.222.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE2F32C923;
+	Thu,  7 May 2026 17:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778173640; cv=none; b=KusSzLDSrkyZR1Od6FOP/3VvexOaC8pTkCAohDWIJeO9eu1gQoLgmgqjWuK+i3yV7jORramGe2WyNjxXGNewqeX4ms5a26Xjy0PtG9AA8DVxjAzi+sme5mZl2lTWvBqNwwsU93dVSiVDozJyi6EqdB9JJuEjqgIhU+kkcfiVZB8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778173640; c=relaxed/simple;
+	bh=c4gV57TC8fT2cJF8+yJXdW2q5GT1M2sibP6Ru132maY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DYoJk7drxulYtNWiMJayPZyUQV9hswoqTWZSMh+C8kDtsywNyzvfbDaFrKTgMuo+AomkdLyT59y74O4QQhWDRpW8QvUmB43Y+fhwWIOX6NMBmcwyWfRNKTkx7ENDc3iSPW8uFbmOPVM/sPo7XE8cT12GK5HBUJ45aFKiCPbFO9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C3gMQBJl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="X+qM3eJX"
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-95cc3522c40so683162241.2
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 09:56:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778172973; cv=none;
-        d=google.com; s=arc-20240605;
-        b=D8kAIm7URjk+EfyCYaI/gqpvbfMjulCMFZ3vdzsutD0aLLSliO+E0HqEKiJ8bR5Jc0
-         MXXXmM3ltpLFqm3Py1egwDgh9a42z+i8On45se+twUzwFI1Ab0oKfJjEywPRzJATuxr/
-         5THble0O0eXodq7TdZdTP2YaB8ph3ARuZhKBhruWLl2sTKoQpW2QbNYvZ2IQm2u4CWnZ
-         DUFiOUuk9nedD6oijqutgcAaumNllomQOmhZqTSj+B3efJCmZ9WfWzKYxgixCgjufSu9
-         4CgLhOfTKTZE4fttM3zJzVlXqMfWC2zsD0CLdoqiDXzVVSodxZ7G6dO7Fyuv7ZZ5gkim
-         Azow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=fxKJNK3JYOXtq/6RpdHSxauIPnnYNnrQjQPiGKEVycA=;
-        fh=yiJGO347ZTV31R/XNxc1Hm/juB9VysjuiqwBPKxx4Wo=;
-        b=MPoj0PbPK8ZX8Omoo/HXZusI6G2S7yd5yWNXOOEgw1/Jcg5Vt04k83YmlZa5NJSL2t
-         Vm6qct+PMn/PTGJYARVXcIpdpgc8LeTnftgWpahJLuxcjzBDuSqthaHqCxqTIee7OwPc
-         NbCQdK0ta18BpHPCFtkZvBpP0xOeZ7rjxDRPa3gSsRg+QwKI9r7+S7YcrTUBvWLZ2YJv
-         8QvBiqN5KvaAQEJSIcawk63BL3PCyTOvzl5pfsU3F3w4Rw+P5XmmHBSGbtQmxE6qMYA8
-         jkOqobaAK4FSIOOEjQjzKfzx4cb+uepD6lGq07o+htUa0lt3g9GyDuZDuR+EZLA+WYQv
-         UKdQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778172973; x=1778777773; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fxKJNK3JYOXtq/6RpdHSxauIPnnYNnrQjQPiGKEVycA=;
-        b=X+qM3eJXNBkXxwX1JTjGOqY+SYIjD7OSQTTVvvH/d7Nt/MhXpv/9WeJL03HkywvFpu
-         lDNyX+dclfgyAnhD+8YhHeNs5NOIBeliQTxtb8XsPAmy168xewtjrqpiDUODMgKv8j4G
-         S4MFtygN/7tarwoktBPjP2v4hmJwm/cQhkSRO6F3xWWFtwvysExswW6eESe7LkSwF6ZA
-         zTDl6THueBMTmPSkjEHcp50WYWxQefW/LSpbIvVkvqecKpIvnbleFhnWRg4wFwJnVCem
-         rwB+sfNX0dtugfmtyQV7/a7IBs7+GPxCDbM5fVrClxK3C8X2tJ9hpm4tNg5S8jMzzLdC
-         lIRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778172973; x=1778777773;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fxKJNK3JYOXtq/6RpdHSxauIPnnYNnrQjQPiGKEVycA=;
-        b=sNroWAazk0VKELXAFcpPJM33vuH0haGei7uJuXOJvXwhn037L8ZXgHAOd5Sd6ZBZsQ
-         U2ja779LYKmQBwS1Qul4cC0VvuZuY3ry4dIqwyxNBYs4XV5HvEN4VUg8tPRKMqwOVTFb
-         zxleP5c/g1P6rGfYtk0IlAZuAHk+f37ropqNtGzTiqiEf6ceguoEDEAoVbIrT5QzAim6
-         0h40WUQ9QZtraz3+VOxYkI2PhKkYrj2Teqk+GAj6PHZ/pClpc4ktevnrJ232TR39P4Jg
-         +5kGNmuDWnM5smaPFWuApvWAWPS6t1s6SPwFdJ5paMds9SaO4Slw9L9S06DPSz2myfC6
-         P9uw==
-X-Forwarded-Encrypted: i=1; AFNElJ+EJ1j8kLBu9hZCa7Jq+fBU0AJ3Msyzre4tW9tZZoGYF6UPht0fUAn0u8B00+7hPPrxSz6ENayJx/g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlBH0fSsp067UR9an94EEITlMVNmLJxDK/4Mblra+E6xmsvO+G
-	svGnhfFm9wbyLW7qcsxJErH3OxTmVK1OYWaPeM2pqAjQPpUTuRm7S8O08ZvzZXq1x8M35shHf5z
-	4UaPWwx/bfXah3UmW79k+i2q3BuikPH3nGdwCMgjV
-X-Gm-Gg: AeBDiesaHoPjztoVOZWXToC13wjGQoZPi7MR6xBsPAoZ0/085wp0rrFu+DMy0t7zyHN
-	HfK4Rmy0WU/kgL5SPjIdps6RmZqoFjAqepGvZAyXWEZ+40rfpQDBaAZeAAqMfEE8DbEPyN9owGk
-	54+nfHQbTHeu62PeDaDqOl2wuIAsbRtYidA5USgWdQYbNOo2hxtmC+GCvwGxIpGIxZFezkcFX3g
-	Z5S2CCT9I4WNkw90TMCd0NaSJw+kQ5fLKMrV6ZCsewhI+XnDB/tu9ZI56CApIAJ0CCMzZTHhsw1
-	szww1Vi1kDEBmHBWn1iP2PZwO1UplU2bQPVIeE5k6VTPJvoIh78RgDZgcz9U97gZh2TxLJc3Aku
-	/0kMn
-X-Received: by 2002:a05:6102:3f52:b0:604:f29d:84be with SMTP id
- ada2fe7eead31-630f8e78530mr5085650137.3.1778172972306; Thu, 07 May 2026
- 09:56:12 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 7 May 2026 09:56:11 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 7 May 2026 09:56:11 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <n5ce32wumzeiqqyqutom4apy2kqfetbvusc6j4k2xarsska5mw@klp5bmy7qhfm>
-References: <20260428-gmem-inplace-conversion-v5-0-d8608ccfca22@google.com>
- <20260428-gmem-inplace-conversion-v5-10-d8608ccfca22@google.com> <n5ce32wumzeiqqyqutom4apy2kqfetbvusc6j4k2xarsska5mw@klp5bmy7qhfm>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C3gMQBJl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1875BC4AF09;
+	Thu,  7 May 2026 17:07:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778173640;
+	bh=c4gV57TC8fT2cJF8+yJXdW2q5GT1M2sibP6Ru132maY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C3gMQBJlN1MSWCADLTajo0HPH5qHwTnHu3X1QxAa8OYsCd82DlrohUg2lby1g8oLp
+	 vJIsAsJgGO0eWXLtd/hrLgSCwZtLMEtCkirAC8Rhb0JiKg8LeFk0R0HiGu3+Bj1EoY
+	 iYKoVecuc25eD9UTuIy4vIgaxZBhZJzv+1gFRC2KsLgvVN4eXFd/Jk0VsLLZOI7AhC
+	 t7WmH3ZHH2U/f2Kj34uCUmGDD7hQVxYJCIwuaP0hb1BqjKdvkaVRoZ/Fg6gnCtWJ7Q
+	 PfQ7gUMCD9GrbMgZE+MJOuX+g5iL3oTpDYKfjR7yUOKsdkKTxUpVB88bHGCeSXVyLW
+	 rgruAi7OyFwDA==
+Date: Thu, 7 May 2026 18:07:15 +0100
+From: Conor Dooley <conor@kernel.org>
+To: u8813345@gmail.com
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kevin Chang <kevin.chang2@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Colin Huang <colin.huang2@amd.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: hwmon: pmbus: add Delta E50SN12051
+ binding
+Message-ID: <20260507-squealing-vanish-16fea3c114f5@spud>
+References: <20260507-add-e50sn12051-v4-0-ff2b3768ac7e@gmail.com>
+ <20260507-add-e50sn12051-v4-1-ff2b3768ac7e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 7 May 2026 09:56:11 -0700
-X-Gm-Features: AVHnY4IiEmQejwyUzKbSGtsBzFH7WMpl699YC0dogi8imsP9-pFhPzVdvXeVDZc
-Message-ID: <CAEvNRgF9+Gr7UVEq-E2SQEb_XOQQMOXy9F_A2tA=DbNV_fJ0EQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v5 10/53] KVM: guest_memfd: Add basic support for KVM_SET_MEMORY_ATTRIBUTES2
-To: "Liam R. Howlett" <liam@infradead.org>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="PcTxrWV42aINvzPC"
+Content-Disposition: inline
+In-Reply-To: <20260507-add-e50sn12051-v4-1-ff2b3768ac7e@gmail.com>
 
-"Liam R. Howlett" <liam@infradead.org> writes:
 
-> On 26/04/28 04:25PM, Ackerley Tng via B4 Relay wrote:
->>
->> [...snip...]
->>
->> +/*
->> + * Preallocate memory for attributes to be stored on a maple tree, pointed to
->> + * by mas.  Adjacent ranges with attributes identical to the new attributes
->> + * will be merged.  Also sets mas's bounds up for storing attributes.
->> + *
->> + * This maintains the invariant that ranges with the same attributes will
->> + * always be merged.
->> + */
->> +static int kvm_gmem_mas_preallocate(struct ma_state *mas, u64 attributes,
->> +				    pgoff_t start, size_t nr_pages)
->> +{
->> +	pgoff_t end = start + nr_pages;
->> +	pgoff_t last = end - 1;
->> +	void *entry;
->> +
->> +	/* Try extending range. entry is NULL on overflow/wrap-around. */
->> +	mas_set_range(mas, end, end);
->> +	entry = mas_find(mas, end);
+--PcTxrWV42aINvzPC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your reviews!
+On Thu, May 07, 2026 at 01:12:26PM +0800, Colin Huang via B4 Relay wrote:
+> From: Colin Huang <u8813345@gmail.com>
+>=20
+> Add devicetree binding documentation for the Delta E50SN12051
+> PMBus-compliant device.
+>=20
+> Signed-off-by: Colin Huang <u8813345@gmail.com>
+> ---
+>  .../bindings/hwmon/pmbus/delta,e50sn12051.yaml     | 42 ++++++++++++++++=
+++++++
+>  1 file changed, 42 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/delta,e50sn120=
+51.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/delta,e50sn12051.ya=
+ml
+> new file mode 100644
+> index 000000000000..72aefe212d17
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/delta,e50sn12051.yaml
+> @@ -0,0 +1,42 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/pmbus/delta,e50sn12051.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Delta E50SN12051 PMBus Sensor
+> +
+> +maintainers:
+> +  - Kevin Chang <kevin.chang2@amd.com>
+> +
+> +description: |
+> +  Delta E50SN12051 is a non-isolated 1/8th brick DC-DC power module.
+> +  It is a PMBus-compliant device accessible via an I2C/SMBus interface
+> +  and provides standard telemetry such as voltage, current, and
+> +  temperature measurements.
+> +
+> +properties:
+> +  compatible:
+> +    const: delta,e50sn12051
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: I2C bus address of the PMBus device
+> +
+> +required:
+> +  - compatible
+> +  - reg
 
->
-> Please read the documentation as I believe you have a bug here.  What
-> happens if there is another range stored higher than end + 1?
->
+With only these two properties, shouldn't this be in trivial-devices?
 
-The invariant in this maple tree is that contiguous ranges with the same
-attribute are stored as a single range.
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        power-module@40 {
+> +            compatible =3D "delta,e50sn12051";
+> +            reg =3D <0x40>;
+> +        };
+> +    };
+>=20
+> --=20
+> 2.34.1
+>=20
+>=20
 
-The goal of this first part is to get the entry at the index just after
-the requested range, and see what the attribute there is. If that
-attribute is what we're about to set, extend the requested range for
-storing to the end of that range.
+--PcTxrWV42aINvzPC
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If there is another range higher than end + 1, with the invariant
-maintained, that attribute has to be different than the attribute stored
-at end. Hence, we only want to extend this requested range up till end.
+-----BEGIN PGP SIGNATURE-----
 
-> Do you have testing of these functions somewhere?
->
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCafzGwwAKCRB4tDGHoIJi
+0qdCAPoDRX/x8dDtyITcvWtPvsglAgujnKJfndPcFrd5MaOiNQEAo3dkj9tX23oA
+5+H451V3Kj9vCQ2sMmUeR8DxzbazqQI=
+=J5lY
+-----END PGP SIGNATURE-----
 
-GMEM_CONVERSION_MULTIPAGE_TEST_INIT_SHARED(indexing, 4) tests setting
-attributes in ranges. If test_page is 2,
-
-1. [0, 4) starts off shared (4 is the number of pages in the guest_memfd)
-2. [2, 3) is converted to private
-    => so the ranges should now be [0, 2), [2, 3), [3, 4)
-3. [2, 3) is converted back to shared
-    => so the ranges should now be [0, 4)
-
-I verified this by inserting some trace_printk()s and inspecting manually.
-
->> +	if (entry && xa_to_value(entry) == attributes)
->> +		last = mas->last;
->> +
->> +	if (start > 0) {
->> +		mas_set_range(mas, start - 1, start - 1);
->> +		entry = mas_find(mas, start - 1);
->> +		if (entry && xa_to_value(entry) == attributes)
->> +			start = mas->index;
->> +	}
->> +
->> +	mas_set_range(mas, start, last);
->> +	return mas_preallocate(mas, xa_mk_value(attributes), GFP_KERNEL);
->> +}
->> +
->>
->> [...snip...]
->>
+--PcTxrWV42aINvzPC--
