@@ -1,106 +1,87 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871EB286425
-	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 12:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E5E3C3455
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 12:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778155448; cv=none; b=iPmlwM1WBMAzuI20uhc+wimI+ruONzQ56JhcE5dQL6taIKHQxD/vqApupMm3V23f6V4UB2mJJ1JeHDqRyidrOcS5ELzTxTdO0Pon7PDBBREgg3RwFTO7Hl64imjU2oXIOu6Cq1xmlzJYqhff7MDqVt40mfW4NPCkGBwg8zFzCAg=
+	t=1778156691; cv=none; b=afom7xtimmizU+PWG5PyaNb3z0GL4Q/cvMvX2meffA4x6guEuElnHAw2U/IIqv/5DcRHEHW/yYMjf0lY4HaBSIedX8+JxgFDi5T1uvTflJY5JccCm8pPraFbLgJhcynC8wLRYqsEXZpa/G88W5DrR9xHE2YpGjh6NU2aN7K774s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778155448; c=relaxed/simple;
-	bh=T8EtYFipGWvnMjMF+3tEvxPNBm0vfHz1WTDCFPpbNV0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=acgfGO4TsfXrsOh4vBD8Sbqkv51nJIk33n7S+s06HHsz4mWkNdX4MYkfm0NXE8CsT722LasEijBpeUNvgrIjO5ZevGgCxYH0r/dil+FP2ZNzUzddByBKU4VUDAwWAjYmR6IlCTFxS5GmIAiOfRtK3O5uKcrSJQuhzMohMM8Sdv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MseMl9LM; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1778156691; c=relaxed/simple;
+	bh=QIql3ABFxBxfhPdKS/rwS+nEJrZPiQL67AN4+VOVMso=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=s3DsFOpdtCLFArh+yTFBTmv8gr8zCPeeF5MRKqzN57h0r5KjXcLzokHclgHaDStZ2hGYWzguBBO5LJ6S/ZDawNJtEvw7Begp/k+lrqF8Zj99cwp8HAHM9L5gBQ3IcoFEh3J4xlF1d1H4Gx5SIH8C+Av8pa5YU0EiPII10sO6QXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKv5nDNm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MseMl9LM"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-676fb54c0cdso616701a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 05:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778155441; x=1778760241; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PXDCzyYbe0fvDc+BkrtxvXQejJaBIAM1AIWN2IkCsvs=;
-        b=MseMl9LM/9YVaq0qbUpCjMMWfuZRO5ktR2j9AGDU9hH2VC05nIYE1gSkzScR29I4LT
-         guV5C7d6mVf55B1/c7zGMpALw31oP//jS4t8IhQCXQeQUM2ZTeAcKd5BTnkFF7nPHlzI
-         DzDnF4vcKVXTiOzW5BJIQdJzkn2YtK//eUnpEjDx/ANIqVr+OZIoPnDs/43MbnUUqe8y
-         IYrbDCbXHbQe6q9zOYHY46bhl0Jl0tD/K9/sdiOM32Fr6K5f9UlZuy57n9RDXyog/Qsj
-         OFi5X63rnr/H46Rf1bXEwe0Q6KJgxNmImRl8i57xfms7JbCngXN3QlJiocKtRBIYSv0r
-         j3BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778155441; x=1778760241;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PXDCzyYbe0fvDc+BkrtxvXQejJaBIAM1AIWN2IkCsvs=;
-        b=CiGLuSmx6SAKhx3ELGeaW5nkzVE/TxuIL5ufWuMTbajhlrGHr7AIwoyR1eRxJFvTQ5
-         NEHCX1XSBY/GXMCjb2bDHJy8JkF6BoLeKJFZKAEFmBI4mNnsaAWxdSusRS6nW0z2e+eb
-         Ru+XOj54jnpd5L6jc+5dtfObNF7Maov8mM6XE9wVZ93MPzG1qU9OCaQDoGjPJRs5I7IK
-         btuILFyse+7WbOU8wORBDwPxbiYdEElY+zE4pgcUP/NkIcNbMQ2XNJwqFYYH4y5HIrbk
-         GDly0OXE8+aAOG2R3m9uHHd0UzeSPbsyqc0qJb95bWBhrhmRvrX13jstXJmfGhW2lteg
-         ZZRw==
-X-Forwarded-Encrypted: i=1; AFNElJ92nGM+6uep7o1O6cKFae3e/ySMr3mlhdJ78pXjf5FE/aQ5Vzic4i+ANgrN28Chl8bvE2YVtE6Vq2A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBabw+R+yo6qh2RP93GG3QddKosoTGmBNPWwItEUCHHR0N3o8e
-	QlxKcF42B7hnm+iWUF/uPqvWD5DrlM8eZ/iMc8hJkRk440H5xY3XJ5+fomVdwYFZzOlqLCdSd65
-	9omhmAi9OMNOLa0inwg==
-X-Received: from edbh15.prod.google.com ([2002:a05:6402:50cf:b0:672:bfdb:8b72])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:eaa:b0:669:cc03:334a with SMTP id 4fb4d7f45d1cf-67d63d984d0mr3569787a12.11.1778155440181;
- Thu, 07 May 2026 05:04:00 -0700 (PDT)
-Date: Thu, 7 May 2026 12:03:59 +0000
-In-Reply-To: <DICEBGUAU4OT.244JDJIKXRHBS@garyguo.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKv5nDNm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58F50C2BCFD
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 12:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778156691;
+	bh=QIql3ABFxBxfhPdKS/rwS+nEJrZPiQL67AN4+VOVMso=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=RKv5nDNm8HFBZ/inumudOz8bq/9D0RjWYEYvjZAonv+XeRXE/imJ8Qqy8AMlTq2/3
+	 hiTSyhuBXJEe1/W4ad2WCVpo4YydHtCpkviJfrU6xwIFA0JwyxqjujRuYf9M3mFfgZ
+	 7lIZdnr+Z9aOWGtutXOFLo+ub4pk0mUe+JTqNPeyDm3eQ0h0l3/SSNBuMpfIGRw2AZ
+	 6y6nh+Yf/G0uWxYfAZHMB0VBhBoP2DzpehNT3YjR87Ei7luHPc5avzFuwBUeFTcsPc
+	 /kJgYH0QDk4OdOX+6ZDX7xLOdrnY8yxTOwqZz+ezUcEyuj0XEXfELugJSPs4IQyjWK
+	 5chGoE6TbBt+g==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5a87782588cso1070150e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 05:24:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+DuKyWSz+qG5YnjhtOTkk9oERWQobZxE2f/aqAQ7DhHPnlP0y7YBlt5uQjMfCFqkqQ0HpRQaBYKfo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYTFuKAtfs8z7dtjymCtoUBlMRy6zPTV40gPsOu52fVQo3bKVH
+	kHMRJlLrJUNeyvrINC7k0DD/znowLS+yUmA7seVcO5nMUoPq3O1I1sCc3quKGXWu75OXhk9f6nB
+	Z9gO65zRMUn3cVbwJz7BtNXGYtL8c4RU=
+X-Received: by 2002:a05:6512:3c81:b0:5a7:4783:a13a with SMTP id
+ 2adb3069b0e04-5a887adfe0cmr2797785e87.6.1778156689988; Thu, 07 May 2026
+ 05:24:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260507-remove-task-euid-v3-0-27f22f335c2c@google.com>
- <20260507-remove-task-euid-v3-1-27f22f335c2c@google.com> <DICEBGUAU4OT.244JDJIKXRHBS@garyguo.net>
-Message-ID: <afx_rzB-NvW5JkoY@google.com>
-Subject: Re: [PATCH v3 1/2] rust: task: clarify comments on task UID accessors
-From: Alice Ryhl <aliceryhl@google.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Jann Horn <jannh@google.com>, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+References: <20260429-send-v7-0-b432e00d2db8@gmail.com> <20260429-send-v7-6-b432e00d2db8@gmail.com>
+ <CAD++jL=S6DSOuC-PXFn76SA7e-Lgueu9Z2wuF7icXCVX7MBpJw@mail.gmail.com> <5379905.31r3eYUQgx@strix>
+In-Reply-To: <5379905.31r3eYUQgx@strix>
+From: Linus Walleij <linusw@kernel.org>
+Date: Thu, 7 May 2026 14:24:38 +0200
+X-Gmail-Original-Message-ID: <CAD++jLk02QnkXYwJ0b6x=qw9stR4nPrjD3sYPOvWAQz8t9OsUA@mail.gmail.com>
+X-Gm-Features: AVHnY4KG1i7F86ysxgeSAop-bGeT8IWW7pLynGDyGg64qsvOgzwotjy6zksXjl4
+Message-ID: <CAD++jLk02QnkXYwJ0b6x=qw9stR4nPrjD3sYPOvWAQz8t9OsUA@mail.gmail.com>
+Subject: Re: [PATCH v7 6/6] ARM: zte: defconfig: Add a zx29 defconfig file
+To: =?UTF-8?Q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Drew Fustini <fustini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-serial@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 07, 2026 at 12:08:35PM +0100, Gary Guo wrote:
-> On Thu May 7, 2026 at 10:48 AM BST, Alice Ryhl wrote:
-> > -    /// Returns the UID of the given task.
-> > +    /// Returns the objective real UID of the given task.
-> >      #[inline]
-> >      pub fn uid(&self) -> Kuid {
-> >          // SAFETY: It's always safe to call `task_uid` on a valid task.
-> >          Kuid::from_raw(unsafe { bindings::task_uid(self.as_ptr()) })
-> >      }
-> >  
-> > -    /// Returns the effective UID of the given task.
-> > +    /// Returns the objective effective UID of the given task.
-> > +    ///
-> > +    /// You should probably not be using this; the effective UID is normally
-> > +    /// only relevant in subjective credentials.
-> >      #[inline]
-> >      pub fn euid(&self) -> Kuid {
-> >          // SAFETY: It's always safe to call `task_euid` on a valid task.
-> > @@ -371,7 +374,7 @@ fn eq(&self, other: &Self) -> bool {
-> >  impl Eq for Task {}
-> >  
-> >  impl Kuid {
-> > -    /// Get the current euid.
-> > +    /// Get the current subjective euid.
-> 
-> For consistency this should be "subjective effective UID".
+Hi Stefan,
 
-I can update this for the next version.
+On Wed, May 6, 2026 at 7:39=E2=80=AFPM Stefan D=C3=B6singer
+<stefandoesinger@gmail.com> wrote:
 
-Alice
+> I'll send a v8 with some of Sashiko's (very impressive)
+> findings but keep the defconfig.
+
+Maybe not send all patches to soc@kernel.org right now because they
+end up in the patch tracker.
+
+For a new platform that may be OK though...
+
+Nominall it should be three pull requests:
+1. Platform
+2. DTS files
+3. Defconfig
+
+But in this case maybe it is better if we cherry-pick them to the
+SoC tree.
+
+Yours,
+Linus Walleij
