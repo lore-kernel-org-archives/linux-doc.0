@@ -1,74 +1,147 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8E839D6D4;
-	Thu,  7 May 2026 15:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700F8307494;
+	Thu,  7 May 2026 15:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778167292; cv=none; b=iSWbQnX1hGj/u4L+GWXDhaYJBvDN3+V8HhahT+nj+GISYAS8bvfpb7H8CyyM7m68GO9KxRqUEbFM14qV4COUrBzJ8VL8Cqyutk2OJCisb22W73gs6p1Goae43h2k7V7H3iVAHkABgzdEsiBv1hg52Q45vW/o1bc0Q7naDITuLtk=
+	t=1778167625; cv=none; b=EuwNpdknnYa3SYbdXoMiYaq2RNWuzHqLWEDMhYDQiF+/lX/UxRhtLeBwm8Q4RdDSvFJtYmoMe1GZpi+DL5mKK/x2h5yXdGYH40NHoZ8YLqLYjHeWpQV7sUj1YU+fIY0HyD20yUxEiqnC691FTHs2BawK+nkkW3OU1O+BFEGE6K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778167292; c=relaxed/simple;
-	bh=tgQiX65MaDTd0e0pppV5eTZfP9m73Ez7zUWY/PyEnyQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=W6E/WIlBDj1IDnY8GFjWVJA5ky/UE42lD/opFCZasEDQLyeiPmkA3VwyZ74ZHQNY3DyTU9A3TtNKKGicNVClZ9AU9TAqXj4DbWSyKhmGhPjZlSus6CyDIy/nTYp3tmuF4LCnF89Z2AjTiD1vtl5nMg9lR8TX5hiAhBj+mtWfons=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LYKwtqFg; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1778167625; c=relaxed/simple;
+	bh=Gy7En/vU2sMCKfgUrfCdWLhMOj6oSO3eGcp/sS8Bwuw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CaX/HnDMGP2X4+ogAQBVDB5Jbj+lQl9C2BghFPDjiZuRxQ7vnNQL0CXCXIeHlKg/L5kj7hTKHS9tmggR1IOZOrtrWMx2BaGgN1CtugRgYoV6p+W36Fe6XzUskXgcy/IDN0WQwW4/Ooi2BCQJnMMxhjpRXSMSWN3rbhawxpyP6ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qXRwrAcC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LYKwtqFg"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 586124108F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1778167284; bh=DEzm1tZe4DktoqZvyeXcW1Sgc7YEkjL6yYSQZXCykhg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=LYKwtqFgf566PtxHtp2WVCo/srD52ANWYiOoQAh2eAnn+lLwAljR5LenO6ZNeUHPZ
-	 U/OOspwmkY0mXc+9DPQ2Kikfn1fX9yyqidl5Q9y8CoCn7pi5UNvhLBaqhA4DYAI7oB
-	 S7yCCO9CXGBnvGRVQ+bRl1+Vfl9Ic19ZS4/2UvvSvnAtpcNlTe1JJQHJxR0CHrtLFj
-	 po/EQ8WnKz3Z2VuZayB4yFoRmisExpyrQJcExSuDgT6Fwas27YSSQDps6Ju3kYjV0m
-	 YPoGwR1Crqz8fJsqQw46PmpwjA6lO45J5O+/NP0bcNFmAp5zePqAFSHY2v9UGzIyAU
-	 qGR4ZOpMNc7aQ==
-Received: from localhost (unknown [205.220.129.21])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 586124108F;
-	Thu,  7 May 2026 15:21:23 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sasha Levin <sashal@kernel.org>, akpm@linux-foundation.org
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- gregkh@linuxfoundation.org, Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
- primitive
-In-Reply-To: <20260507070547.2268452-1-sashal@kernel.org>
-References: <20260507070547.2268452-1-sashal@kernel.org>
-Date: Thu, 07 May 2026 09:21:15 -0600
-Message-ID: <87v7cz8cus.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qXRwrAcC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E547BC2BCB2;
+	Thu,  7 May 2026 15:26:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778167625;
+	bh=Gy7En/vU2sMCKfgUrfCdWLhMOj6oSO3eGcp/sS8Bwuw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qXRwrAcCOh7Tz+VALQS7OpEUePKkjR0GqUxrclVyte7JwXDPKh/aIqqwGp8rL8hel
+	 j85NmBB1mYSuv1OwXyY4md4nFmUnFdFQBG2LoKtf6xakWYdPF8cmuyxBqnHNC/uwW9
+	 YEiLpRhlchpzp73zTTsjfc8D3yvBbhdzQe3l6wplo2sbcnfXj3xr/vmEmLDoHjrZlE
+	 My74kOklbf8x6ekiR++IhnmssTe6q77j2+83Tf0xMENZD9JmQfLIrMvDLAZlmo6rY+
+	 /vDQGLN2RUXaPmgxrktY8Z0EfI8wOjrF1vlcN//U2AlsPX0KUDjtrGSlTjU5FcBLvF
+	 OUqwk6o780DOg==
+Date: Thu, 7 May 2026 16:26:52 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, "Hennerich, Michael"
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, "Sa,
+ Nuno" <Nuno.Sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, Bartosz
+ Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v9 5/6] iio: adc: ad4691: add oversampling support
+Message-ID: <20260507162652.18898e28@jic23-huawei>
+In-Reply-To: <LV9PR03MB8414B9A4A4D48BDF8E60398FF73C2@LV9PR03MB8414.namprd03.prod.outlook.com>
+References: <20260430-ad4692-multichannel-sar-adc-driver-v9-0-33e439e4fb87@analog.com>
+	<20260430-ad4692-multichannel-sar-adc-driver-v9-5-33e439e4fb87@analog.com>
+	<LV9PR03MB8414B9A4A4D48BDF8E60398FF73C2@LV9PR03MB8414.namprd03.prod.outlook.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Sasha Levin <sashal@kernel.org> writes:
+On Thu, 7 May 2026 11:56:53 +0000
+"Sabau, Radu bogdan" <Radu.Sabau@analog.com> wrote:
 
-> When a (security) issue goes public, fleets stay exposed until a patched kernel
-> is built, distributed, and rebooted into.
->
-> For many such issues the simplest mitigation is to stop calling the buggy
-> function. Killswitch provides that. An admin writes:
->
->     echo "engage af_alg_sendmsg -1" \
->         > /sys/kernel/security/killswitch/control
->
-> After this, af_alg_sendmsg() returns -EPERM on every call without
-> running its body. The mitigation takes effect immediately, and is dropped on
-> the next reboot.
+> Addressing Sashiko's review for the oversampling support patch.
+>=20
+One thing inline. I think Sashiko got it wrong..
 
-A quick look suggests that you're not checking lockdown status.  I don't
-doubt for a second that this thing could be used to bypass lockdown - by
-shorting out security_locked_down() if nothing else.  I'm guessing that
-might not prove entirely popular.
+> > @@ -691,6 +857,10 @@ static int ad4691_enter_conversion_mode(struct
+> > ad4691_state *st)
+> >  		return regmap_update_bits(st->regmap,
+> > AD4691_DEVICE_SETUP,
+> >  					  AD4691_MANUAL_MODE,
+> > AD4691_MANUAL_MODE);
+> >=20
+> > +	ret =3D ad4691_write_osc_freq(st);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> >  	ret =3D regmap_update_bits(st->regmap, AD4691_ADC_SETUP,
+> >  				 AD4691_ADC_MODE_MASK,
+> > AD4691_CNV_BURST_MODE);
+> >  	if (ret)
+> > @@ -844,6 +1014,12 @@ static int
+> > ad4691_cnv_burst_buffer_preenable(struct iio_dev *indio_dev)
+> >  	if (ret)
+> >  		goto err_unoptimize;
+> >=20
+> > +	iio_for_each_active_channel(indio_dev, i) {
+> > +		ret =3D regmap_write(st->regmap, AD4691_ACC_DEPTH_IN(i),
+> > st->osr[i]);
+> > +		if (ret)
+> > +			goto err_unoptimize;
+> > +	}
+> > + =20
+>=20
+> "If the IIO soft timestamp channel is enabled, its scan_index is 16.
+> iio_for_each_active_channel() iterates over all active channels including
+> the timestamp channel.
 
-jon
+I saw this one and think it's wrong.
+
+It is sort of true and sort of not.  active_scan_mask never has the timesta=
+mp
+channel set.  There is special handling for that channel.
+
+https://elixir.bootlin.com/linux/v7.0.1/source/drivers/iio/industrialio-buf=
+fer.c#L613
+
+IIRC the bitmap is technically one bit too large given that quirk
+(I've not checked that today so I'm relying on memory of when this last cam=
+e up).
+
+Jonathan
+
+
+
+> Will this loop process i =3D 16 and access st->osr[16] out of bounds, sin=
+ce
+> st->osr is an array of size 16?
+> Additionally, since AD4691_ACC_DEPTH_IN(16) resolves to 0x196
+> (AD4691_GPIO_MODE1_REG), will this silently corrupt the GPIO configuration
+> and potentially break the DATA_READY interrupt?
+> Furthermore, does the presence of the timestamp channel cause the loop
+> iteration to advance k to 17, making the state-reset SPI transfers append=
+ed
+> after the loop write to st->scan_xfers[34] and [35]? This would overflow
+> the scan_xfers array which is sized 34 and could corrupt the surrounding
+> struct ad4691_state."
+>=20
+> Valid for the osr[] out-of-bounds and GPIO corruption concerns. With
+> the soft timestamp enabled (scan_index =3D 16), the loop would access
+> st->osr[16] out-of-bounds and write to AD4691_ACC_DEPTH_IN(16) =3D 0x196,
+> which is AD4691_GPIO_MODE1_REG, silently corrupting the GPIO configuration
+> and potentially breaking the DATA_READY interrupt.
+>=20
+> Added the same guard used by the scan_xfers loops in the triggered-buffer
+> commit: if (i >=3D indio_dev->num_channels - 1) break.
+>=20
+> The scan_xfers k-overflow concern is already handled by that existing gua=
+rd
+> in a separate loop =E2=80=94 it is not affected by the ACC_DEPTH_IN loop =
+added
+> here.
+>=20
+
