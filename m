@@ -1,199 +1,221 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E89537BE60;
-	Thu,  7 May 2026 14:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C5A3FCB30;
+	Thu,  7 May 2026 14:16:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778162589; cv=none; b=cDoCMQslWSfj30Z5UZ4FNxA5g8Aqn9QUp/XjtDNf66cNlfeyMLZjOiKNbzWCHeR1Rq2uz2YnhDod0XSJ7183uC3Ph3lVds6V7bevaSUAYSyGOLP6GpgOCy8S6zlAQ1L77IHB9bGOp3q26oNgh5em2cWdAlRr+ABDJRu0GRM5JMo=
+	t=1778163364; cv=none; b=DmYRTeldiHl+/tjKy6F/P/h8hXlqqjwtodGUA6ayjOnNNwUc70qUdZh8Cs3FFSUaQvIWwT3pfzTU4A7mARnvlm43tQEuIKYJlY1YcRrmn76YFOM4IhW7mfwyZVwYRLtP4nB6DUVWQVybJyaZYtNFdLNPFlCi58I9VHbMHuG72RM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778162589; c=relaxed/simple;
-	bh=jyuVFQpYFnIAVWhCEnjNlutVh3WPNcOXa3xc2KxdMYA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eIs0SBc+vQFupiCAEpnpYrfkbBuSVGWzp01jQEqUmnzPST5HuToIyClYMWSeEjrXxji6ep43aPB6CBqWMwTuASM+1kAsGTRV7JPIgJvIrVvWTNNc0ZKpYBbKGr701zIuSMmcI7hgqhcjt7D3dFzD8pwsolFNXqEMyxDJbx/SpwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eznREBL+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778163364; c=relaxed/simple;
+	bh=bbrbEtkbVlAVQ/692G80E3CKsqbcxeQRCAsWArl4QmA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l4ElsZs8X4ORUJ6Pi62srIctbdOI3VAjqpPWQC3HLraW4lV1d5o0we40NMdBsTJNgG7sJhrVDtDOlYNXo3+oBCJLEjIGVYdYBZ6qHQ48LuYPu7uRnnfJArY5ZvRC4DkQHZVS7RJRgM0If1Vt0WW4pCsHHZqTdtEjXyvoVAQQVIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XT6JeDT0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eznREBL+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9972AC2BCB2;
-	Thu,  7 May 2026 14:03:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XT6JeDT0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD29C2BCB2;
+	Thu,  7 May 2026 14:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778162589;
-	bh=jyuVFQpYFnIAVWhCEnjNlutVh3WPNcOXa3xc2KxdMYA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eznREBL+qNKkanfIG+aTygQcLiDLfZrLND26zqwNnw+NnWQqdjLRaLbOU4vPhoslI
-	 tSA2q04yy15s4rYLHZ82vq3sXkyr//zSLnpjP5SMFBAbrk3UpSAI9hVF34E7cDCZIE
-	 fMr4Fa884Fc5iHxn9zD0XzThv9WRlrLFiwPRPkyQoAACssvSOwA2sZzDaSid4ofc7A
-	 dd70Au51prePJ3YVB08ONVFQVuzeLmI8JE2X06l2pprE2g4i9Sufe6OLjUP/1C07N8
-	 5Rl9/WnpRjlbgRZRvhxP3uK342ueIDqGq4KUY6IKe4efreIm7cRbB7UOQMgdCn1oxL
-	 JBbAnpvmrRN9Q==
-Date: Thu, 7 May 2026 22:03:03 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Johan Hovold <johan@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Walleij <linusw@kernel.org>
-Subject: Re: [PATCH v9 1/9] revocable: Revocable resource management
-Message-ID: <afybl1LWaESdtX5U@tzungbi-laptop>
-References: <20260427135841.96266-1-tzungbi@kernel.org>
- <20260427135841.96266-2-tzungbi@kernel.org>
- <CAMRc=McG41iHWfY+3U4Xp6YNFCwbt_zAUE-2417LrQVrTfdWjA@mail.gmail.com>
+	s=k20201202; t=1778163362;
+	bh=bbrbEtkbVlAVQ/692G80E3CKsqbcxeQRCAsWArl4QmA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XT6JeDT0CcdgJNhOX+Z3Ocj7OeJKn7+o1VZRuNFWOwvyE1lrQW/eIxFqod2yyyXKe
+	 Cw1DPm5Hjdiodz/9grKfl9OB8p8NYK8my1IefT5GD9flNaD538X2Z5Sii7JNzXiXBc
+	 FHKGpFm9wnYkZX0jOrtrm1ObC8II8SQqFk/oBXMF9nXcrKvDFnVCafyrStH7nBug6X
+	 HhT9TcYnLOEHho/RNNwZxQw2+ueza2kXKCMStzj9rn5P9awQg3fpDGq1Sci1C7ojgn
+	 aggw2gJ8dlt3QpThaGiQ8v1v1/SvGjLzuw/rGVFnTT/PlaXCd5ywykJP+QhRwWPrel
+	 gzV8tQnrOFBDg==
+Date: Thu, 7 May 2026 15:15:49 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, "Hennerich, Michael"
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, "Sa,
+ Nuno" <Nuno.Sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, Bartosz
+ Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v9 2/6] iio: adc: ad4691: add initial driver for AD4691
+ family
+Message-ID: <20260507151549.61e4e8fb@jic23-huawei>
+In-Reply-To: <LV9PR03MB841460307B0CF4C6F267A631F73C2@LV9PR03MB8414.namprd03.prod.outlook.com>
+References: <20260430-ad4692-multichannel-sar-adc-driver-v9-0-33e439e4fb87@analog.com>
+	<20260430-ad4692-multichannel-sar-adc-driver-v9-2-33e439e4fb87@analog.com>
+	<LV9PR03MB841460307B0CF4C6F267A631F73C2@LV9PR03MB8414.namprd03.prod.outlook.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=McG41iHWfY+3U4Xp6YNFCwbt_zAUE-2417LrQVrTfdWjA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 05, 2026 at 05:55:40AM -0700, Bartosz Golaszewski wrote:
-> On Mon, 27 Apr 2026 15:58:33 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
-> > diff --git a/include/linux/revocable.h b/include/linux/revocable.h
-> > new file mode 100644
-> > index 000000000000..2bcf23f01ace
-> > --- /dev/null
-> > +++ b/include/linux/revocable.h
-> > @@ -0,0 +1,214 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright 2026 Google LLC
-> > + */
-> > +
-> > +#ifndef __LINUX_REVOCABLE_H
-> > +#define __LINUX_REVOCABLE_H
-> > +
-> > +#include <linux/cleanup.h>
-> > +#include <linux/compiler.h>
-> 
-> I don't think you need this header.
+On Thu, 7 May 2026 09:26:00 +0000
+"Sabau, Radu bogdan" <Radu.Sabau@analog.com> wrote:
 
-Ack, will remove it in the next version.
+> Addressing Sashiko's review for initial driver's patch.
+>=20
+> > -----Original Message-----
+> > From: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+> > Sent: Thursday, April 30, 2026 1:17 PM =20
+>=20
+> ...
+>=20
+> > diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> > index 60038ae8dfc4..3685a03aa8dc 100644
+> > --- a/drivers/iio/adc/Kconfig
+> > +++ b/drivers/iio/adc/Kconfig
+> > @@ -139,6 +139,17 @@ config AD4170_4
+> >  	  To compile this driver as a module, choose M here: the module will =
+be
+> >  	  called ad4170-4.
+> >=20
+> > +config AD4691
+> > +	tristate "Analog Devices AD4691 Family ADC Driver"
+> > +	depends on SPI =20
+>=20
+> "Should this driver also depend on REGULATOR? In ad4691_regulator_setup(),
+> it relies on devm_regulator_get_enable_read_voltage() to obtain its refer=
+ence
+> voltage. If the kernel is compiled without CONFIG_REGULATOR, this function
+> is stubbed to return -ENODEV, causing probe to fail unconditionally."
+>=20
+> Will add "depends on REGULATOR". Without it,
+> devm_regulator_get_enable_read_voltage() can be stubbed and
+> return -ENODEV, making the driver unusable regardless of hardware.
 
-> 
-> > +#include <linux/kref.h>
-> > +#include <linux/srcu.h>
-> > +
-> > +/**
-> > + * enum revocable_alloc_type - The allocation method for a revocable provider.
-> > + * @REVOCABLE_DYNAMIC: The struct revocable was dynamically allocated using
-> > + *                     revocable_alloc() and its lifetime is managed by
-> > + *                     reference counting.
-> > + * @REVOCABLE_EMBEDDED: The struct revocable is embedded within another
-> > + *                      structure.  Its lifetime is tied to the parent
-> > + *                      structure and is not reference counted.
-> > + */
-> > +enum revocable_alloc_type {
-> > +	REVOCABLE_DYNAMIC,
-> > +	REVOCABLE_EMBEDDED,
-> > +};
-> 
-> Maybe we don't need this public enum at all, we could just use a different
-> release callback for kref_put() depending on how the revocable was allocated?
-> 
-> The enum is not used elsewhere so it doesn't make sense to document it as if it
-> was part of the revocable API.
-> 
-> > +
-> > +/**
-> > + * struct revocable - A handle for resource provider.
-> > + * @srcu: The SRCU to protect the resource.
-> > + * @res:  The pointer of resource.  It can point to anything.
-> > + * @kref: The refcount for this handle.
-> > + * @alloc_type: The memory allocation type.
-> > + */
-> > +struct revocable {
-> > +	struct srcu_struct srcu;
-> > +	void __rcu *res;
-> > +	struct kref kref;
-> > +	enum revocable_alloc_type alloc_type;
-> 
-> This could be replaced with the pointer to the release callback, assigned
-> by revocable_alloc()/revocable_init() respectively.
-> 
+If you really want to also add || COMPILE_TEST because
+I want maximum build coverage and for that I don't mind if the driver
+can actually probe or not.
 
-Ack, will remove the enum.  A boolean is sufficient given that the
-allocation type is binary.
-
+>=20
+> > +	select REGMAP
+> > +	help
+> > +	  Say yes here to build support for Analog Devices AD4691 Family =20
+>=20
+> ...
+>=20
 > > +};
 > > +
-> > +/**
-> > + * struct revocable_consumer - A handle for resource consumer.
-> > + * @rev: The pointer of resource provider.
-> > + * @idx: The index for the SRCU critical section.
-> 
-> Should any of these be accessed directly by the user? Maybe document them
-> as __private?
+> > +#define AD4691_CHANNEL(ch)
+> > 	\
+> > +	{								\
+> > +		.type =3D IIO_VOLTAGE,					\
+> > +		.indexed =3D 1,						\
+> > +		.info_mask_separate =3D BIT(IIO_CHAN_INFO_RAW)
+> > 	\
+> > +				    | BIT(IIO_CHAN_INFO_SAMP_FREQ),	\
+> > +		.info_mask_separate_available =3D
+> > 	\
+> > +				      BIT(IIO_CHAN_INFO_SAMP_FREQ),	\
+> > +		.info_mask_shared_by_all =3D BIT(IIO_CHAN_INFO_SCALE),
+> > 	\ =20
+>=20
+> "Since ad4691_set_sampling_freq() modifies the AD4691_OSC_FREQ_REG regist=
+er
+> which controls the global internal oscillator frequency for the entire AD=
+C,
+> should IIO_CHAN_INFO_SAMP_FREQ be exposed as info_mask_shared_by_all
+> instead of info_mask_separate? Changing the frequency for one channel
+> currently seems to silently alter it for all channels."
+>=20
+> Agreed for this commit. With no per-channel OSR in the base driver
+> all channels share a single oscillator register, so info_mask_shared_by_a=
+ll
+> is the correct annotation. Changing accordingly. The OSR commit switches =
+it
+> back to info_mask_separate because at that point the effective rate is
+> genuinely per-channel (osc_freq / osr[N]).
 
-I don't think that is necessary.  All members in both struct revocable and
-struct revocable_consumer are intended to be opaque and should not be
-accessed directly by users.  However, I made them public structures
-because:
-- The try_access_* macros need to allocate a struct revocable_consumer
-  locally.
-- KUnit tests require access to these members for verification.
+Don't.  That would mean an ABI change mid way through the series which we
+don't want. Just add a note to the patch description.
 
-I can add a comment to the structure definitions noting that they should
-be treated as private.  Does it make sense?
+...
 
-> 
-> > + */
-> > +struct revocable_consumer {
-> > +	struct revocable *rev;
-> > +	int idx;
-> > +};
-> 
-> I'd rename it to struct revocable_handle which indicates better what it is:
-> it's a handle *owned* by the consumer.
 
-Ack, will rename it.
-
-> 
+>=20
 > > +
-> > +void revocable_get(struct revocable *rev);
-> > +void revocable_put(struct revocable *rev);
+> > +static int ad4691_reset(struct ad4691_state *st)
+> > +{
+> > +	struct device *dev =3D regmap_get_device(st->regmap);
+> > +	struct reset_control *rst;
 > > +
-> > +struct revocable *revocable_alloc(void *res);
-> > +void revocable_revoke(struct revocable *rev);
-> > +int revocable_embed_init(struct revocable *rev, void *res);
-> > +void revocable_embed_destroy(struct revocable *rev);
+> > +	rst =3D devm_reset_control_get_optional_exclusive(dev, NULL);
+> > +	if (IS_ERR(rst))
+> > +		return dev_err_probe(dev, PTR_ERR(rst), "Failed to get
+> > reset\n");
 > > +
-> > +void revocable_init(struct revocable *rev, struct revocable_consumer *rc);
-> > +void revocable_deinit(struct revocable_consumer *rc);
-> 
-> If we hid the release logic, we could drop revocable_embed_destroy() and use
-> the same refcounting functions for both variants. I'd suggest the following:
-> 
-> For refcounting (same for both variants):
-> 
-> 	void revocable_get(struct revocable *rev);
-> 	void revocable_put(struct revocable *rev);
-> 
-> For dynamic variant:
-> 
-> 	struct revocable *revocable_alloc(void *res);
-> 
-> For embedded:
-> 
-> 	int revocable_init(struct revocable *rev, void *res);
-> 
-> For handles:
-> 
-> 	void revocable_handle_init(struct revocable *rev, struct
-> revocable_consumer *rc);
-> 	void revocable_handle_deinit(struct revocable_consumer *rc);
-> 
-> Does it make sense?
+> > +	if (rst) {
+> > +		/*
+> > +		 * reset_gpio_probe() already drives the pin asserted, so the
+> > +		 * device is held in reset before we get here.
+> > +		 * devm_reset_control_get_optional_exclusive_deasserted()
+> > cannot
+> > +		 * be used because it deasserts immediately without delay; the
+> > +		 * datasheet (Table 5) requires a =E2=89=A5300 =C2=B5s reset pulse w=
+idth
+> > +		 * before deassertion.
+> > +		 */
+> > +		fsleep(300);
+> > +		return reset_control_deassert(rst); =20
+>=20
+> "Could this sequence break on driver reload?
+> When the driver is unloaded, the reset line remains in its deasserted sta=
+te
+> because there is no cleanup action to re-assert it. Upon reloading, the 3=
+00
+> microsecond sleep will occur while the pin is already deasserted, meaning
+> the hardware might not receive the required reset pulse.
+> Should reset_control_assert() be called explicitly prior to the delay?"
+>=20
+> Valid. reset_control_put() does not re-assert the line at unload, so
+> on reload the pin is already deasserted when we enter the 300 =C2=B5s sle=
+ep.
+> Adding reset_control_assert(rst) before fsleep(300) to guarantee a proper
+> reset pulse on every probe including reloads.
 
-That makes sense.  I'll fix this in the next version.
+I'm not that fussed about driver reload bugs like this one but why
+not fix it I guess.  Lots of cases of this in upstream code though.
+
+>=20
+> > +	}
+> > + =20
+>=20
+> ...
+>=20
+> > +
+> > +	st =3D iio_priv(indio_dev);
+> > +	st->info =3D spi_get_device_match_data(spi); =20
+>=20
+> "Is it possible for st->info to be NULL here?
+> If the driver is manually bound to a device with a non-matching name using
+> the sysfs bind interface in combination with driver_override,
+> spi_get_device_match_data() could return NULL, which would cause a NULL
+> pointer dereference later in the probe sequence."
+>=20
+> Agreed, will add the NULL check with -ENODEV immediately after
+> spi_get_device_match_data().
+
+Andy, you seeing this one?  Looks like we are putting these checks back in =
+again.
+Whilst anyone forcing a bind like this is onto a looser anyway we shouldn't
+crash due to a null dereference.
+
+>=20
+> > +
+> > +	ret =3D devm_mutex_init(dev, &st->lock);
+> > +	if (ret)
+> > +		return ret; =20
+>=20
+
