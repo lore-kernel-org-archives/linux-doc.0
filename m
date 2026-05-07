@@ -1,104 +1,113 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CDF29ACCD;
-	Thu,  7 May 2026 07:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961AA3314DE
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 07:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778138067; cv=none; b=URFha2OOgktcKrZR81DVgTpGK5viIdemkgAknalO8ra3PlDKbZiMUkHn35b4QxfgFrTKhmX5MQae58RJ4NMoKS59kyFotIYnNMQjOSk/o3QFrOjoUuSv/Zna+ROIlyI/PFm4YNl5Ct9RifIi63Q425RlWZp+5yHTidTzBXXOrBg=
+	t=1778138330; cv=none; b=H4R0rKDUD0Y5dYCQo2TfdBakdxL+hCiJ9xxpO+d6x19QNSRZT9JXHCTVia4hPTtvD66X8hmQq6iOuqjSZS+p2uCfAb3CPbtu1TsbIhsAqwTvp57qcsVQGzNxkoRn1GWaN/qjPt4GNMP11XRRwInL2BBPJssCboJ/BPHU2QRGZuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778138067; c=relaxed/simple;
-	bh=sfzUWyFFEcE2Y45OBZlR+P5Ex9YeL7EpMGzBNOcsJYA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gFZUSNMmcgzjScwl9egA4qGGB3VVpkIoM4ls+Ncs3imr9RWBvH6/bHP/K9O0V2JO0IBaw7SxUzpb7TIR+N873irEUUMcqcAZlBxwEz5RNs9qrzKT670aQW/xf08gExC3hkXECvBZ3RBbMpKK7iXfv47MGjVlrPFv/Q5+nPf4gLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AgvroNTu; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1778138330; c=relaxed/simple;
+	bh=1ArEdGwJd4akLgQ+SZ6Un1i7sYoRraUekLjZXcwXaWE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=pZsPSgUEcsirF1R99wIgLOKTvAUtGAQNPwDgDl4QtJl4UXHhZvu/ZhOULMy6Xdanm2uqymgjEWTdSdIzr3ltj8AUq31r1yjy1Lz1tmZoWHiRlhCrpIQDppyxtaUVtDAtuAS4AkhdmbEFag0/UxOaPUgT7Im2vnvCek9feNf3lJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jc36E/pG; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AgvroNTu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=lCBUz6OTC9OMEfsbs0YD70bMJfL1qeVOQYEJQKKBxdc=; b=AgvroNTuaguGlHdaG+Mlh6sqRW
-	e3Yk+SyUT7f5yAEejQvLxnyE+ipORDMkkXENRZPXfQzhKuUPMAjhyfr1lDu+y2+YUMnD8ldebO01n
-	6cZ7+rmGtDjEp2N3cTt7DPOYXzhETLKop4U/1qFIg+Q8oVDpuzcc1XH73q6WD9CkcI01CL4AFxg8U
-	ygON2NZSsVDg3xJLQrStzt0NR7TIP+DhVVIowVPlB7k1EVQgybglV01j0owNQp1duGpsVtgL7t2wo
-	ja/vgCHVl7ozeeWJuF8vfNjnXmE1GmiMqlES6jkOj2m7G7S8aC1VyBJsykQhrICq3ALYli0bq+zwk
-	JJXuXf1A==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKsw0-00000002mUx-3phW;
-	Thu, 07 May 2026 07:14:16 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 5A4783008D6; Thu, 07 May 2026 09:14:12 +0200 (CEST)
-Date: Thu, 7 May 2026 09:14:12 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Willy Tarreau <w@1wt.eu>
-Cc: Linus Torvalds <torvalds@linuxfoundation.org>, greg@kroah.com,
-	leon@kernel.org, security@kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
- is not a security bug
-Message-ID: <20260507071412.GH3126523@noisy.programming.kicks-ass.net>
-References: <20260503113506.5710-1-w@1wt.eu>
- <20260503113506.5710-3-w@1wt.eu>
- <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
- <aftmB435XJ8FP3V_@1wt.eu>
- <afwSk3BC8mewPfPp@1wt.eu>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jc36E/pG"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-44cc3c9b2feso468735f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 00:18:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778138327; x=1778743127; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=STH36cS/F87DhIyaZ+8OVzfArrGCDV+Ojd5JS20sYwA=;
+        b=jc36E/pGmC39UkJUJNndAyekhU6asksxweNoIOt6W9GwjHdiKUZKVEODySSxDoRSXj
+         EemefrI5O/A+X42a78LLcrFbrXCO7sUOubUlk+dKts2hPN/sfL0/gT+VF6ACn3lyvn2E
+         YrNbAnNyYgzjmGx47LGPazloL7S36M0a9Qe8Q/Bo5PAs0PIvwppFUDXOBWA4YNLamr2h
+         lDs5DJtYBau7z6hGXwub8UR/VJBa0KwR2s6zWSmOlGN1ZsyAFlPJa/yAmx8M1mV2cBM0
+         CN1hizGVuKBLQ0c6j4x9AMFP/iCKMCxdflWCNHhYNLFZ55EE0qT7JVMDmu2u/zsQ/+8G
+         LpxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778138327; x=1778743127;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=STH36cS/F87DhIyaZ+8OVzfArrGCDV+Ojd5JS20sYwA=;
+        b=DUj9V1Fn8d82BgzqSSy3n03tvo9LRl3p9iCrvleak/JqZLHqApjbg7drFGTu28McKa
+         yzKJfNBwchltUmG7MBAH39Hqwi4XLu1aJR+lgjM9DV2Lz+6kxSiFH6vC+BxvIpE7RCfX
+         Z0WeoKFPBCaFt9eIp3V41QpbM/vz4UhSMwyeBlp4lkZ8QFc5aJs0wKQATaTT0VXy8WqX
+         HyHYftyBIz/ax71oeE5bK3nC2qqN2TGANFecPqCAvlrIoxNd/mMhzDh9XgbLqghUiQa9
+         yJGQz+1iE9zJnjJXsoj3z9Ystc2HZfgKlS52CAUZkn1b6KZnIfvfOXajJelglnVlw9v4
+         qi8A==
+X-Forwarded-Encrypted: i=1; AFNElJ/d1SSHJTJYx2xamHcSibMi9qeMoCbZKvs2zeJLDxo3UH9jsxc5M5XP7ate9h0rKMSLojmcFJLP0/I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYzfa97WIXY+4/lbvb182wPPJkxWMqcgb1UnLkpdP5v4zAvXTi
+	97bXJGramwfdiEsxN539qZNyzMkI9m9ftJrRYrPL6Hhc2FNMzTzMELAoyTtZ1t08ehTTJcBUhXr
+	nE6f4dLWakPRuSXIRRg==
+X-Received: from wrqr6.prod.google.com ([2002:a5d:4986:0:b0:43c:f906:ae85])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:4381:b0:441:247a:e98e with SMTP id ffacd0b85a97d-4515ce1c738mr11025046f8f.24.1778138326535;
+ Thu, 07 May 2026 00:18:46 -0700 (PDT)
+Date: Thu, 7 May 2026 07:18:45 +0000
+In-Reply-To: <20260506135122.GA1432412@joelbox2>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <afwSk3BC8mewPfPp@1wt.eu>
+Mime-Version: 1.0
+References: <20260506135122.GA1432412@joelbox2>
+Message-ID: <afw81cVYyF6hRhkj@google.com>
+Subject: Re: [PATCH v2] rust: maple_tree: implement Send and Sync for MapleTree
+From: Alice Ryhl <aliceryhl@google.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, dri-devel@lists.freedesktop.org, 
+	rust-for-linux@vger.kernel.org, nova-gpu@lists.linux.dev, 
+	Nikola Djukic <ndjukic@nvidia.com>, David Airlie <airlied@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>, 
+	Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>, 
+	Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>, 
+	Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>, 
+	Philipp Stanner <phasta@kernel.org>, alexeyi@nvidia.com, 
+	Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-On Thu, May 07, 2026 at 06:18:27AM +0200, Willy Tarreau wrote:
-
-> Another point is that for many vulns there are two types of adversaries:
->   - criminals
->   - script kiddies
+On Wed, May 06, 2026 at 09:51:22AM -0400, Joel Fernandes wrote:
+> The C maple_tree struct contains a *mut c_void, which prevents Rust from
+> auto-deriving Send/Sync. Following is an example error message when using
+> MapleTree in nova-core's Vmm.
 > 
-> The former must be assumed to also have discovered the same vuln, possibly
-> earlier, and to be actively exploiting it. The latter however, is just
-> going to use whatever published exploit to say "look mum, I'm root".
-> Public reports containing too many details will speed up usability for
-> this group and that's not good for users.
+> This propagates up through MapleTreeAlloc to Vmm, BarUser, Gpu, and NovaCore,
+> causing NovaCore to fail the Send bound required by pci::Driver:
 > 
-> And we *know* that some reports contain working PoC that need very little
-> modification. Passing them through s@k.o for triaging feels safer than
-> directing them to public lists with no early validation.
+>   error[E0277]: `*mut c_void` cannot be sent between threads safely
+>       --> drivers/gpu/nova-core/driver.rs:77:22
+>        |
+>   77   | impl pci::Driver for NovaCore {
+>        |                      ^^^^^^^^ `*mut c_void` cannot be sent between threads safely
+>        |
+>        = help: within `MapleTreeAlloc<()>`, the trait `Send` is not implemented for `*mut c_void`
+>   note: required because it appears within the type `kernel::bindings::maple_tree`
+>   note: required because it appears within the type `Opaque<kernel::bindings::maple_tree>`
+>   note: required because it appears within the type `MapleTree<()>`
+>   note: required because it appears within the type `MapleTreeAlloc<()>`
+>        = note: required for `Box<MapleTreeAlloc<()>, Kmalloc>` to implement `Send`
+>   note: required because it appears within the type `core::pin::Pin<Box<MapleTreeAlloc<()>, Kmalloc>>`
+>   note: required because it appears within the type `Vmm`
+>   note: required because it appears within the type `BarUser`
+>   note: required because it appears within the type `Gpu`
+>   note: required because it appears within the type `NovaCore`
+>   note: required by a bound in `kernel::pci::Driver`
+>       --> rust/kernel/pci.rs:294:19
 > 
-> So in short, I think that:
->   - AI reports should be considered public, but not necessarily well known
->     yet
->   - AI reports often contain repros that shouldn't be posted publicly
-
-So, I think a targeted repro that exposes just the initial bug is in
-most cases useful and shouldn't be held back. Full blown exploits on the
-other hand should definitely be kept from the public list.
-
-Most times, it still takes skill to get from the former to the latter,
-although I suppose with LLMs this gap is shrinking too.
-
->   - AI reports wording can be intimidating to developers not used to
->     receiving these things
+> Implement Send and Sync for MapleTree. The tree contains no thread-local
+> state, and all shared access goes through the internal ma_lock spinlock.
 > 
->  -> the security team should remain the first filtering layer for this
->     for new reporters even if it means continuing to see some noise.
->     I think that instead it's the 3rd patch about the threat model that
->     should help us receive less noise by explaining what is not a
->     vulnerability.
-> 
-> I can rework that part a bit to reflect this.
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 
-Yes, I think that covers my earlier point well. And yes AI babble should
-be sanitized, both for brevity and for explaining how to do the rest of
-the exploit :-)
-
-
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
