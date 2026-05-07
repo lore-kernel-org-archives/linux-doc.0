@@ -1,132 +1,198 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB79481FB0;
-	Thu,  7 May 2026 16:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778172468; cv=none; b=q4C3i0wro1M9eLE26P2rIyY9ELKOMLKzotgGG0MdlrdNomhEEEBoKQySQXEme/9mA7JT6OfMCNTKZRKU7N1QkzD+wVW64QXMvbJ/rY+oHoqJ1molz80UAmEUTowa1iLrXsJXcChEPKHIVzQtofsJIrc68OTBmQBUx9yv3adygQ8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778172468; c=relaxed/simple;
-	bh=0wpgmlXHBRw9lGQfHW5FB6pxXYO70vjFrF4HUpKUNdQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j2X43JgiEvGwUG0Ve5mDPYiS+FP+PbVsJJY2aQ7z8lSUX76BnKfBnN6SgobN6abDQ55PDuF7pIwx6avAIjJTfwF98q3kLLL8LuUfE7nWYUw0yJq4lhLRdTGxlXMCLwHmj8hfVkGuaeUNTxlVLODMiKVrc3ofPRsx8dKTwtaPgSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mYvXZdy8; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520CC3FAE18
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 16:56:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778172976; cv=pass; b=LpJgt3S6/8ExYLwoezsMpcuRG0IVA+fTIDb+tIycJheuB5j3tk31SHPptVQWYym+/q/7pEba8qHJQ0cu8DedhMyEojXUVqhui6/M5dSL/lv7Efc8cQDartu3w+wi2Ehj5QSMR9mWnD3OI+1noF6s1fTSEAs2pZ0wgGyLIcHjzGQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778172976; c=relaxed/simple;
+	bh=yU58Xq2jlsKwRvWVzMF/35DqD9SuerVG6YnTfgrQsdg=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UMYkESBYgFBafI1ivfFRiYWEI9356qfoWS61LXUXkEuBoIRAy4YOKFqD4cOMhi+/Db1hJ2dbS0JteRXvQVJgM3LfGrDliny43kQz9dKl54ALMLmGHkMnKIhD2g2Db9/bFBxfAlzrUCRSxUOd4i1PbstD1TRdwoffKSEWLOWQy/8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=X+qM3eJX; arc=pass smtp.client-ip=209.85.222.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mYvXZdy8"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id F1C39C5DC63;
-	Thu,  7 May 2026 16:48:33 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 31FC7605CF;
-	Thu,  7 May 2026 16:47:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2856A108194ED;
-	Thu,  7 May 2026 18:47:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778172465; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=tZrjKlrSTIx0EpT8S91i2zZxREgNAGIUjyhXtv54w/g=;
-	b=mYvXZdy8urt7OjdZ5yUP+KbpFc+fDEFrhM0yjtEhBT19fVKAnPtcI2Ni6A2QaIN1+GXEhn
-	wy9gzxJ1MqCzQQtqERtht7A/B6yBofBfP8BDn1cohGMkQqcq1LCPF+gsWmVRO4RlbtMrXn
-	80JuZZBSncYuwUpmJykMVxiaC6/U6WrNxevVZfEfoE4y/SLi9wdUQpG+oWJeoFdS57xEZH
-	IP4IOGM2xEuURMMEG/nRKWgsLC9OY4uxxVnOBu1BpA2Zte/4gSTUMe2A2eO0LxB6eUE288
-	bJCFUf8uTUZz0eydFl9s+37noV7rmMeaVJLEah6t0QcCsW2R8bY0j1D4lN68yw==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Thu, 07 May 2026 18:47:09 +0200
-Subject: [PATCH v5 28/28] mtd: spi-nor: winbond: Add W25Q02NWxxIM CMP
- locking support
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="X+qM3eJX"
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-95cc3522c40so683162241.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 09:56:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778172973; cv=none;
+        d=google.com; s=arc-20240605;
+        b=D8kAIm7URjk+EfyCYaI/gqpvbfMjulCMFZ3vdzsutD0aLLSliO+E0HqEKiJ8bR5Jc0
+         MXXXmM3ltpLFqm3Py1egwDgh9a42z+i8On45se+twUzwFI1Ab0oKfJjEywPRzJATuxr/
+         5THble0O0eXodq7TdZdTP2YaB8ph3ARuZhKBhruWLl2sTKoQpW2QbNYvZ2IQm2u4CWnZ
+         DUFiOUuk9nedD6oijqutgcAaumNllomQOmhZqTSj+B3efJCmZ9WfWzKYxgixCgjufSu9
+         4CgLhOfTKTZE4fttM3zJzVlXqMfWC2zsD0CLdoqiDXzVVSodxZ7G6dO7Fyuv7ZZ5gkim
+         Azow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=fxKJNK3JYOXtq/6RpdHSxauIPnnYNnrQjQPiGKEVycA=;
+        fh=yiJGO347ZTV31R/XNxc1Hm/juB9VysjuiqwBPKxx4Wo=;
+        b=MPoj0PbPK8ZX8Omoo/HXZusI6G2S7yd5yWNXOOEgw1/Jcg5Vt04k83YmlZa5NJSL2t
+         Vm6qct+PMn/PTGJYARVXcIpdpgc8LeTnftgWpahJLuxcjzBDuSqthaHqCxqTIee7OwPc
+         NbCQdK0ta18BpHPCFtkZvBpP0xOeZ7rjxDRPa3gSsRg+QwKI9r7+S7YcrTUBvWLZ2YJv
+         8QvBiqN5KvaAQEJSIcawk63BL3PCyTOvzl5pfsU3F3w4Rw+P5XmmHBSGbtQmxE6qMYA8
+         jkOqobaAK4FSIOOEjQjzKfzx4cb+uepD6lGq07o+htUa0lt3g9GyDuZDuR+EZLA+WYQv
+         UKdQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778172973; x=1778777773; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fxKJNK3JYOXtq/6RpdHSxauIPnnYNnrQjQPiGKEVycA=;
+        b=X+qM3eJXNBkXxwX1JTjGOqY+SYIjD7OSQTTVvvH/d7Nt/MhXpv/9WeJL03HkywvFpu
+         lDNyX+dclfgyAnhD+8YhHeNs5NOIBeliQTxtb8XsPAmy168xewtjrqpiDUODMgKv8j4G
+         S4MFtygN/7tarwoktBPjP2v4hmJwm/cQhkSRO6F3xWWFtwvysExswW6eESe7LkSwF6ZA
+         zTDl6THueBMTmPSkjEHcp50WYWxQefW/LSpbIvVkvqecKpIvnbleFhnWRg4wFwJnVCem
+         rwB+sfNX0dtugfmtyQV7/a7IBs7+GPxCDbM5fVrClxK3C8X2tJ9hpm4tNg5S8jMzzLdC
+         lIRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778172973; x=1778777773;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fxKJNK3JYOXtq/6RpdHSxauIPnnYNnrQjQPiGKEVycA=;
+        b=sNroWAazk0VKELXAFcpPJM33vuH0haGei7uJuXOJvXwhn037L8ZXgHAOd5Sd6ZBZsQ
+         U2ja779LYKmQBwS1Qul4cC0VvuZuY3ry4dIqwyxNBYs4XV5HvEN4VUg8tPRKMqwOVTFb
+         zxleP5c/g1P6rGfYtk0IlAZuAHk+f37ropqNtGzTiqiEf6ceguoEDEAoVbIrT5QzAim6
+         0h40WUQ9QZtraz3+VOxYkI2PhKkYrj2Teqk+GAj6PHZ/pClpc4ktevnrJ232TR39P4Jg
+         +5kGNmuDWnM5smaPFWuApvWAWPS6t1s6SPwFdJ5paMds9SaO4Slw9L9S06DPSz2myfC6
+         P9uw==
+X-Forwarded-Encrypted: i=1; AFNElJ+EJ1j8kLBu9hZCa7Jq+fBU0AJ3Msyzre4tW9tZZoGYF6UPht0fUAn0u8B00+7hPPrxSz6ENayJx/g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlBH0fSsp067UR9an94EEITlMVNmLJxDK/4Mblra+E6xmsvO+G
+	svGnhfFm9wbyLW7qcsxJErH3OxTmVK1OYWaPeM2pqAjQPpUTuRm7S8O08ZvzZXq1x8M35shHf5z
+	4UaPWwx/bfXah3UmW79k+i2q3BuikPH3nGdwCMgjV
+X-Gm-Gg: AeBDiesaHoPjztoVOZWXToC13wjGQoZPi7MR6xBsPAoZ0/085wp0rrFu+DMy0t7zyHN
+	HfK4Rmy0WU/kgL5SPjIdps6RmZqoFjAqepGvZAyXWEZ+40rfpQDBaAZeAAqMfEE8DbEPyN9owGk
+	54+nfHQbTHeu62PeDaDqOl2wuIAsbRtYidA5USgWdQYbNOo2hxtmC+GCvwGxIpGIxZFezkcFX3g
+	Z5S2CCT9I4WNkw90TMCd0NaSJw+kQ5fLKMrV6ZCsewhI+XnDB/tu9ZI56CApIAJ0CCMzZTHhsw1
+	szww1Vi1kDEBmHBWn1iP2PZwO1UplU2bQPVIeE5k6VTPJvoIh78RgDZgcz9U97gZh2TxLJc3Aku
+	/0kMn
+X-Received: by 2002:a05:6102:3f52:b0:604:f29d:84be with SMTP id
+ ada2fe7eead31-630f8e78530mr5085650137.3.1778172972306; Thu, 07 May 2026
+ 09:56:12 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 7 May 2026 09:56:11 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 7 May 2026 09:56:11 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <n5ce32wumzeiqqyqutom4apy2kqfetbvusc6j4k2xarsska5mw@klp5bmy7qhfm>
+References: <20260428-gmem-inplace-conversion-v5-0-d8608ccfca22@google.com>
+ <20260428-gmem-inplace-conversion-v5-10-d8608ccfca22@google.com> <n5ce32wumzeiqqyqutom4apy2kqfetbvusc6j4k2xarsska5mw@klp5bmy7qhfm>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-28-93453e1a9597@bootlin.com>
-References: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597@bootlin.com>
-In-Reply-To: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597@bootlin.com>
-To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
- Takahiro Kuwano <takahiro.kuwano@infineon.com>, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Jonathan Corbet <corbet@lwn.net>, Tudor Ambarus <tudor.ambarus@linaro.org>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: Sean Anderson <sean.anderson@linux.dev>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Steam Lin <STLin2@winbond.com>, linux-mtd@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Miquel Raynal <miquel.raynal@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Date: Thu, 7 May 2026 09:56:11 -0700
+X-Gm-Features: AVHnY4IiEmQejwyUzKbSGtsBzFH7WMpl699YC0dogi8imsP9-pFhPzVdvXeVDZc
+Message-ID: <CAEvNRgF9+Gr7UVEq-E2SQEb_XOQQMOXy9F_A2tA=DbNV_fJ0EQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v5 10/53] KVM: guest_memfd: Add basic support for KVM_SET_MEMORY_ATTRIBUTES2
+To: "Liam R. Howlett" <liam@infradead.org>
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-This chip has support for the locking complement (CMP) feature. Add
-the relevant bit to enable it.
+"Liam R. Howlett" <liam@infradead.org> writes:
 
-Unfortunately, this chip also comes with an incorrect BFPT table,
-indicating the Control Register cannot be read back. This is wrong,
-reading back the register works and has no (observed) side effect. The
-datasheet clearly indicates supporting the 35h command and all bits from
-the CR are marked readable. QE and CMP bits are inside, and can be
-properly read back.
+> On 26/04/28 04:25PM, Ackerley Tng via B4 Relay wrote:
+>>
+>> [...snip...]
+>>
+>> +/*
+>> + * Preallocate memory for attributes to be stored on a maple tree, pointed to
+>> + * by mas.  Adjacent ranges with attributes identical to the new attributes
+>> + * will be merged.  Also sets mas's bounds up for storing attributes.
+>> + *
+>> + * This maintains the invariant that ranges with the same attributes will
+>> + * always be merged.
+>> + */
+>> +static int kvm_gmem_mas_preallocate(struct ma_state *mas, u64 attributes,
+>> +				    pgoff_t start, size_t nr_pages)
+>> +{
+>> +	pgoff_t end = start + nr_pages;
+>> +	pgoff_t last = end - 1;
+>> +	void *entry;
+>> +
+>> +	/* Try extending range. entry is NULL on overflow/wrap-around. */
+>> +	mas_set_range(mas, end, end);
+>> +	entry = mas_find(mas, end);
 
-Add a fixup for this, otherwise it would defeat the use of the CMP
-feature.
+Thank you for your reviews!
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
-Test run with W25Q02NWxxIM:
-$ flash_lock -u /dev/mtd0
-$ flash_lock -l /dev/mtd0 $bs $all_but_one # all but the first
-$ show_sectors
-locked sectors
- region (in hex)   | status   | #blocks
- ------------------+----------+--------
- 00000000-0000ffff | unlocked | 1
- 00010000-0fffffff |   locked | 4095
-$ flash_lock -u /dev/mtd0 $bs 1 # all but the two first
-$ show_sectors
-locked sectors
- region (in hex)   | status   | #blocks
- ------------------+----------+--------
- 00000000-0001ffff | unlocked | 2
- 00020000-0fffffff |   locked | 4094
-$ flash_lock -u /dev/mtd0
-$ flash_lock -l /dev/mtd0 0 $all_but_one # same from the other side
-$ show_sectors
-locked sectors
- region (in hex)   | status   | #blocks
- ------------------+----------+--------
- 00000000-0ffeffff |   locked | 4095
- 0fff0000-0fffffff | unlocked | 1
-$ flash_lock -u /dev/mtd0 $(($size - (2 * $bs))) 1 # all but two
-$ show_sectors
-locked sectors
- region (in hex)   | status   | #blocks
- ------------------+----------+--------
- 00000000-0ffdffff |   locked | 4094
- 0ffe0000-0fffffff | unlocked | 2
----
- drivers/mtd/spi-nor/winbond.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> Please read the documentation as I believe you have a bug here.  What
+> happens if there is another range stored higher than end + 1?
+>
 
-diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.c
-index 3a3b7f2f1659..8ebdbcec0b3f 100644
---- a/drivers/mtd/spi-nor/winbond.c
-+++ b/drivers/mtd/spi-nor/winbond.c
-@@ -379,7 +379,9 @@ static const struct flash_info winbond_nor_parts[] = {
- 	}, {
- 		/* W25Q02NWxxIM */
- 		.id = SNOR_ID(0xef, 0x80, 0x22),
--		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 | SPI_NOR_4BIT_BP,
-+		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
-+			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
-+		.fixups = &winbond_rdcr_fixup,
- 	}, {
- 		/* W25H512NWxxAM */
- 		.id = SNOR_ID(0xef, 0xa0, 0x20),
+The invariant in this maple tree is that contiguous ranges with the same
+attribute are stored as a single range.
 
--- 
-2.53.0
+The goal of this first part is to get the entry at the index just after
+the requested range, and see what the attribute there is. If that
+attribute is what we're about to set, extend the requested range for
+storing to the end of that range.
 
+If there is another range higher than end + 1, with the invariant
+maintained, that attribute has to be different than the attribute stored
+at end. Hence, we only want to extend this requested range up till end.
+
+> Do you have testing of these functions somewhere?
+>
+
+GMEM_CONVERSION_MULTIPAGE_TEST_INIT_SHARED(indexing, 4) tests setting
+attributes in ranges. If test_page is 2,
+
+1. [0, 4) starts off shared (4 is the number of pages in the guest_memfd)
+2. [2, 3) is converted to private
+    => so the ranges should now be [0, 2), [2, 3), [3, 4)
+3. [2, 3) is converted back to shared
+    => so the ranges should now be [0, 4)
+
+I verified this by inserting some trace_printk()s and inspecting manually.
+
+>> +	if (entry && xa_to_value(entry) == attributes)
+>> +		last = mas->last;
+>> +
+>> +	if (start > 0) {
+>> +		mas_set_range(mas, start - 1, start - 1);
+>> +		entry = mas_find(mas, start - 1);
+>> +		if (entry && xa_to_value(entry) == attributes)
+>> +			start = mas->index;
+>> +	}
+>> +
+>> +	mas_set_range(mas, start, last);
+>> +	return mas_preallocate(mas, xa_mk_value(attributes), GFP_KERNEL);
+>> +}
+>> +
+>>
+>> [...snip...]
+>>
