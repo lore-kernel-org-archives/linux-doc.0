@@ -1,139 +1,132 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5BD3BF685
-	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 09:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8E738D6A8
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 09:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778146922; cv=none; b=XXyphKHA0TMf97/YpUPPrEbyj7QHFc2C7ZoFpExDeWWCXxU2nnO0ineHi3nnNhhKF2oiAvvWXDX7kosG9+vZ/5zSrd8QZuSXEXkL9cO3sfmC1jBOgqHH6ihM1wvFBSFhdzxyiahaPkcy7bKYGd55w4RsZz7IErhnQaxaUIDDmnY=
+	t=1778147315; cv=none; b=l50F0mOi8PE/Ed4JC4xmg7DykWkzJoHnTXuYMXuvp/YOUjS9eYEx0+9uEy7mtvDgcsH4p7RAAac3mwBEmOvtwjEnjUbLCNeQs6QhK2TS1t3R9Mv319pgzLKHDLGOKg5y5VoiEF028VKyPq5/zQWu+vtGoJOmLrxfFmtKXWFhThw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778146922; c=relaxed/simple;
-	bh=K1VCjRoLW0QcGM0dhJF4jAnQbIUr+A3+Rl8KKkOY/EQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FtvctJZN3Fx8Z7gXn5ESLF7XfPJJm2fAO5O4ilrh6iZsBYc1NPcUjYciWH0YxKBDoJLshl7GuqinziQ1hISc/gplTCZetrLNmLzrOnaU5zjACeRVyjyxSJEHlS3h6cVQWJ2UROIvfaVOAxXJ5Hx4jQzEREnJ4YwbEXHPtdLB+Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RfwUwx01; arc=none smtp.client-ip=209.85.210.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778147315; c=relaxed/simple;
+	bh=zv4CRjMxG6cW6KI/xOU888dvIo0Dk/ZlhGhAZbIM0UU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=U9+wHuBkGJ5bqxIXYAHbRFvXCst3HzCzf513c1Epgy5ZZIwEyDtOAUdyU75N19zoyJPfpjfM6JSFRz6FqcUXyyCZv5PPH/HS50V1yPVqu0Rk6E6k/XmMKHPvhoH5PsHW9inGJlngfjLGpP5A1MRQFjV2+sf8qwB9EQpcs9FM9JQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sZoMdrqF; arc=none smtp.client-ip=209.85.218.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RfwUwx01"
-Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-82748257f5fso1103148b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 02:42:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sZoMdrqF"
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b97ed96ef12so53660166b.3
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 02:48:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778146921; x=1778751721; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JUrNwnrnHXKNK1Z+tsaGPk05Wyp59KKsZWMiHJkBCuY=;
-        b=RfwUwx011PnAQCww545ZbYX91bbrYk2UfJ57++JfIXMjmyb0Eck3lgYjMPI+u5nH98
-         2u48n+FkDwdbdB7nfyOzqOJZ2u2TJeYLZdkNZkuVdWjfzlDIxbPQmui/NJINbfmtI6MQ
-         1RARiyUrlslScD7Ar/tQkKlbwAZyEBlDFhYEjslxv7XmtrpO35X/CDzAz8a/4hEMzRkT
-         jBp307wJvS62s7mIxC7+j3x+BfggYwwHqcBtRJJyixFDUFgK8cAuK1GSj2cE1CKIqT1m
-         5/IXxTTAiV3q0do1TZdCCmh52uNbduY4tH6f9GvRc0bU+CM3ntqJV4tcGr9Jq0x9FnzS
-         cvtw==
+        d=google.com; s=20251104; t=1778147312; x=1778752112; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/5/sJ521HSqpx+LKygyBE1/z0Tq4GNP4hZm84SNxKc4=;
+        b=sZoMdrqF/q+mPwH8NhE9dn5IEFZdu5VbU2E++Xdj4adBU7BKZL4S8cyH0cDJCmUwZy
+         ZGRgKHLaG/n4Yn5WU3+iWlpQokD0aXht54p8pWKNgHHwVq/mcKTc5Os4tcEFkZuTtFO5
+         Gxd4NaMqXc+YlpAkehUQ09LtLC12/wjSUNLfOgL/+5BPuHuOzY2j9BpjwZnHFKNoh/lx
+         ufQgwWyS8TEoLZJl4tmBluOFTlkYMXiepSdB9S9S0iodYMaSrv4k1JRsdvz6UGtV8lAc
+         YBKohFAI0eVCrso0tpHuOnhhMMU5MU9A1AKql2M95QWw2pGdRHBVCotTTLoGQooABTuq
+         ct4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778146921; x=1778751721;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JUrNwnrnHXKNK1Z+tsaGPk05Wyp59KKsZWMiHJkBCuY=;
-        b=RUgpCag1G+u+FRTTX/FAHV9kTDw9SDkfDbeRb88WT1OHmnQr/16Cxb7n3/aRvtLUmK
-         dGA+w/+3AlGM6zCJRTNlZkDGn7iHm7RsKbTfGq0F2mgSsy0DhdaAFcmHe5qRH6pktMh1
-         GNyoSnJxNeuW2NOhzzEC074K3fXeBnQG0+YBn60J+qgJhVuyQwSUpNq8eDuSLxsVaSk+
-         5zk5IP/EBDF3iQEyyW2MO4eBSeM3uLx1WlTWunseTvJv83WXW1Ghtb41BIcI6IbH8rdD
-         WbTdTv0IWRfWRE9FB08pAjnhxqsoU2r212/ob20mRgCXsnnyq5P7FbobDUqurGUoEkC5
-         Perg==
-X-Forwarded-Encrypted: i=1; AFNElJ+kERk5OhkvLi/DEKxP/2Yqssb5lVj+m6usirIEsStOrzvACeumFl27Im9iHiHL/zELOknKghy7dUU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKuScSnkGJBvkrNZzZP1RdOfC3LSyIbf+qRTaxSbuEjje71Yp8
-	5Wx3yDbmbV/jdGvoc19BjKELxpu5XhUdyGmiTMzVoNwAlaAwhFkEbO/3
-X-Gm-Gg: AeBDiet/Ll8m+uJwf+oMESRvUxv24ES6yDuqVL9D6Zh56/2amvD7pcTvuUZL/ZSRLBI
-	5/8Aci/Z2oTvxhx9hWyrSYYiRKlQXM56MBdumZ/KCxaCibWCnxM3uLE09bmXC1bCT+a6ElUWE3F
-	jNYqabq2ADNVvAYOW1/KlJGSyZewCK1Fq8N9l3ieVVx1CDdsEBWQ/fUABjIqI6XK/3XIX82OR6T
-	nFBDFKDDXH8y08yGP1OxIloGoeJJ3DOsOup57Zaox4eHI5kvfzobn7Sr3D6488lQ60iIGqpd3yZ
-	ZaYGU1gSWnLzVBARHNY7z+J71kN6naqmXRcV7M0U6xHdzn2/QipgJjjvGqQUSbu38sQoJ6Gl+Nl
-	v5QaTOt3zJNalScRSPQhY/HfMHNwE/DKp9+ldjZPysD2TiFllk0r5E71I4BSjTpfB4JL/DyNWuw
-	gbhXKYuHh/SP9q+h/lzEMLyhMT/fJHxqCDSZ5xKcpYIscFQmM18xSA
-X-Received: by 2002:a05:6a00:4093:b0:82f:3e9:7bec with SMTP id d2e1a72fcca58-83bb7abceeemr1949432b3a.12.1778146920796;
-        Thu, 07 May 2026 02:42:00 -0700 (PDT)
-Received: from [10.125.112.20] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83965c30ddasm10264549b3a.21.2026.05.07.02.41.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 May 2026 02:42:00 -0700 (PDT)
-Message-ID: <eece7690-634a-43c5-9b20-0afc174a89a0@gmail.com>
-Date: Thu, 7 May 2026 17:41:49 +0800
+        d=1e100.net; s=20251104; t=1778147312; x=1778752112;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/5/sJ521HSqpx+LKygyBE1/z0Tq4GNP4hZm84SNxKc4=;
+        b=k2WUTRxOnf+RT6yItv4O+fqIt54sLahlo71fa6Ca4O0PlO1Zbk58Q9J9UDb9VWiyyj
+         baDkDI9schEywLkG0G5gGFZLC0YzFni6I6H1LdpTtqJOzu+2tzeckdjRMbSLtL2/hEES
+         toJyELofWr/+FhNgKbIr3ioHu+nAooVyHAeGyHqJiy6HZsw0FRmSpx9mbLb3kDtO45bu
+         sT6yu2xF8J6/ZBn3T6trYCArtDpro8bLuBHjlC3baRZ7Et5zoyppaClRQD1krmBNLj2B
+         cfjiE8FiXtEOd9sVVx1nqs4d7JQNpVqDmtAtT/A1FM8pPnGx8URmoTE7FmAXSphm3DPh
+         l34w==
+X-Forwarded-Encrypted: i=1; AFNElJ8Oe/H52c9628adoEcBx5ESeeEDATBNAMx3oG6ax/eq+F65jDxt9Bf4PcLuPkq2Tz2CnGC/GyehTcQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1hwNQ7wp646b20VNghooiL2IeJ878XYt9FMRtnkoNqi/rDQ0V
+	FjP+P4Ywi3TAK4jFuoDkUsjPNZDzNOERuonb1ILrPHND/hfCOxMfKdKx9RuPbj+BbiBEow31ZLU
+	iGVYx+RxXsSyDjToklQ==
+X-Received: from ejcgs39.prod.google.com ([2002:a17:907:2d27:b0:ba8:5b1a:e956])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:e148:20b0:bc6:1531:49f9 with SMTP id a640c23a62f3a-bc6153157a1mr253846766b.45.1778147311343;
+ Thu, 07 May 2026 02:48:31 -0700 (PDT)
+Date: Thu, 07 May 2026 09:48:21 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/11] of: reserved_mem: add linux,no-dump property
- support for reserved memory regions
-To: Rob Herring <robh@kernel.org>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org, akpm@linux-foundation.org, bhe@redhat.com,
- rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org,
- ruirui.yang@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org,
- catalin.marinas@arm.com, will@kernel.org, chenhuacai@kernel.org,
- kernel@xen0n.name, pjw@kernel.org, palmer@dabbelt.com,
- aou@eecs.berkeley.edu, saravanak@kernel.org, chenwandun@lixiang.com,
- zhaomeijing@lixiang.com, everyzhao@126.com
-References: <20260429065831.1510858-1-chenwandun@lixiang.com>
- <20260429065831.1510858-6-chenwandun@lixiang.com>
- <20260506144542.GA2072596-robh@kernel.org>
-Content-Language: en-US
-From: Wandun <chenwandun1@gmail.com>
-In-Reply-To: <20260506144542.GA2072596-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAOVf/GkC/33NQQ6CMBQE0KuQrq35/ZJCXXkP46KFLzSK1RYaD
+ eHuFlyoiXE5k8ybkQXylgLbZiPzFG2w7pLCZpWxqtWXhritU2YIKAGF4p46F4n3Opw4DbbmQlF
+ uAAyRIZZmV09He1/I/eGVPd2GJPfvsrWhd/6x3EYxt38eouCCK8hBQomSoNg1zjVnWleuY7MW8 UPA4oeAs6BVVYIukYz8EqZpegJx6cKUCAEAAA==
+X-Change-Id: 20260219-remove-task-euid-19e4b00beebe
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1480; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=zv4CRjMxG6cW6KI/xOU888dvIo0Dk/ZlhGhAZbIM0UU=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBp/F/pnv83zBt9u5iZhQPRTnp/ebl3127sNpbm3
+ 5exxhC2SqGJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCafxf6QAKCRAEWL7uWMY5
+ RgrxD/9JYGfzyTRaAucYzVs7UVsHG01MfJneX1ArtBW+XfdgCTMv1TaotjLvX3f9oWrjHSK81y1
+ e2LGHh+qVfi3MhrZKdNAjbsR0egqFdO4DBTVC9eQC2DJk3SmnBD5SSiRJP0r3jvPLKs4UqY7vsv
+ ylVhu2QnyaDhW85OpC8QZVL19i7mN3yDr1qtoEkWvLpZSIMNOSns725K4dZUCEDoP5Aq4IgU2An
+ VAZ3zHW6W0H8JtMfrMxya5KnOgf/w3qfZtzoqLSluCFs8TvKNgNapH6vfdcOFE+OMZq3l4mfT/J
+ w7mkMvxlI8bBYRP1QOeWNyH7a3gijntW++miYHC6tP8tM7qR3MFx3g+NlP70IP+BD7ipqpR2HIh
+ sq/D2zRS+cSsQ2Zs1vf/VeSYtyL9UZvyokb1gb7JpP9Zxe0eo3viJeOeS6XZi0yPB4cwyrUoI4E
+ nkW/WnQ5EftFckjHDmxVSfcy7m2IGtgwYSRF5zSUaMaAVQxHg+M2EU3DDhCL79lSiGjT8zhzu2h
+ Noogag6lnWz7K0uIYkMcMUAlhFfO7GObmjpeIb+51m6NpeREruXmhNkB6ud8N6tGjYxxjzidONW
+ grvS1CGsZaMaIcru4P+FCglOLQ4YNnqmCgn/cJ8fm2qrTjvLhLaU41L60aBmdDuOCMhDCmRNkzG YWQXsbq20HIyXZA==
+X-Mailer: b4 0.14.3
+Message-ID: <20260507-remove-task-euid-v3-0-27f22f335c2c@google.com>
+Subject: [PATCH v3 0/2] Delete task_euid()
+From: Alice Ryhl <aliceryhl@google.com>
+To: Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Jann Horn <jannh@google.com>, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 
+The task_euid() method is a very weird method, and Binder was the only
+user. As of commit 65b672152289 ("binder: use current_euid() for
+transaction sender identity") Binder doesn't use task_euid() anymore,
+so we can delete this method.
 
+My suggestion would be to merge this through the LSM tree.
 
-On 5/6/26 22:45, Rob Herring wrote:
-> On Wed, Apr 29, 2026 at 02:58:25PM +0800, Chen Wandun wrote:
->> Add a 'no_dump' field to struct reserved_mem and parse the
->> 'linux,no-dump' device tree property during reserved memory node
->> initialization. This property allows device tree authors to mark
->> specific reserved memory regions that should be excluded from kdump
->> vmcore dumps.
->>
->> Reserved memory regions used by device firmware (e.g., GPU, DSP, modem)
->> typically contain data that is not useful for kernel crash analysis and
->> can significantly increase vmcore size. The 'linux,no-dump' property
->> provides a declarative way to indicate these regions should be filtered
->> out when constructing the elfcorehdr for kdump.
->>
->> The property is named with a 'linux,' prefix because kdump/vmcore is
->> Linux-specific and the property is an OS hint rather than a hardware
->> description, matching existing properties such as 'linux,cma-default'
->> and 'linux,usable-memory-range'.
->>
->> The 'linux,no-dump' property is only effective when the region:
->>   - Does not have 'no-map': these regions are already excluded from
->>     vmcore since they are removed from the linear mapping (MEMBLOCK_NOMAP).
->>   - Does not have 'reusable': CMA reusable regions are actively used by
->>     the kernel for movable page allocations, and their contents are
->>     valuable for crash analysis.
->>
->> The no-dump status is also printed in the boot log alongside the
->> existing nomap and reusable flags for diagnostic purposes.
-> I think this property is the wrong way around and probably not needed.
-> The default should be exclude the regions, but if Linux is using the
-> regions (like CMA) then it can decide on its own to include them.
->
-> With the restructuring that went into 7.1, it should be possible for the
-> CMA code (and code for any other regions) to set some flag for the
-> region.
-Agree that the property direction is wrong. Rework in v2:
-   - Default: exclude reserved regions from vmcore
-   - CMA (reusable) setup path marks regions as kernel-managed general 
-memory → include
-   - No DT binding needed; linux,no-dump proposal withdrawn
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Changes in v3:
+- Include 'task' clarification commit in series.
+- Rebase and resend.
+- Link to v2: https://lore.kernel.org/r/20260227-remove-task-euid-v2-1-9a9c80a82eb6@google.com
 
-Thanks.
->
-> Rob
+Changes in v2:
+- Update translation as per Alex Shi.
+- Pick up Reviewed-by Gary.
+- Update commit title to use cred: prefix.
+- Link to v1: https://lore.kernel.org/r/20260219-remove-task-euid-v1-1-904060826e07@google.com
+
+---
+Alice Ryhl (1):
+      cred: delete task_euid()
+
+Jann Horn (1):
+      rust: task: clarify comments on task UID accessors
+
+ Documentation/security/credentials.rst                    |  6 ++----
+ Documentation/translations/zh_CN/security/credentials.rst |  4 +---
+ include/linux/cred.h                                      |  1 -
+ rust/helpers/task.c                                       |  5 -----
+ rust/kernel/task.rs                                       | 11 ++---------
+ 5 files changed, 5 insertions(+), 22 deletions(-)
+---
+base-commit: 7fd2df204f342fc17d1a0bfcd474b24232fb0f32
+change-id: 20260219-remove-task-euid-19e4b00beebe
+
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
 
