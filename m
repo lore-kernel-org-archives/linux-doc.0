@@ -1,106 +1,122 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CB5234973
-	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 15:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA233CF02E
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 15:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778168270; cv=none; b=geDoavpYbnyZBRqVE6ks2O5w4MGXpzLiWHNhUHtJTXSA/7sowBWgZEzXSKo0UErnu74ccRP9LDvS6ERBYKpkmvhUFo/WT0YLBLSa0RAmFyboRsGoIjAeC8OMIRTnabCudUJyB28rLevPhb2sy2d9BlHD7B+zwQxqYxRnMCYPBgw=
+	t=1778168347; cv=none; b=QI4Ooy/BBQfKlS4U9lbz8N6uU4s1gapnEuu6mGdJy4dclM/c0KX5UDToEFAdAF5iq5TGh4EPvbOgjbG4FUq8pbkwIEcruYKCoxC5pU0xDl1qvovBW6iRe8pB62o7wCkGDbCnRGf3yOI5fjAWZlOdAzReC2fNgYMDGoa/lkKAoTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778168270; c=relaxed/simple;
-	bh=4z1LA7620U3bIFCQ0fVra8G03PXRuuNdedi4Umdt+x8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uES1h4HZXjGhJnoifGmKj9IkMfBdv/le6yo2JPzWKKJoD26Sxr0lYtPwXdvQo71h996IZe70lJtJ770pMvsaB+STtHlyh9ImGcsgKIbFdYrwc9CgRZ9yCYX2lMkGznF1I/QOhQgUxcpg7VNmN2kaDdbs14+/hHSYmNmUt4rMe64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=M9BewFxm; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1778168347; c=relaxed/simple;
+	bh=I7bHVcUPCbFavnPQE9NIAPWTbSlQISkdMWu7R9FX+Ss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bZvYyCAF6QpVe6qR97mZIJ/ddFWd584bJbFN/tyoXrEemgOCH7JIQ4cO1Mi5TnbZFojbRCDQjMhbzyVNsiHWvGwiWjOr4zcc0sKRTsqAGNfvMJCozqmIE5fJZ28bQxn6k1v/HcfBMc0V8JBjwEa3L3NBMP/IGDZIvdgdXB234uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lELMVwd2; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="M9BewFxm"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b79f8f7ea43so163664066b.2
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 08:37:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lELMVwd2"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8ea8563c693so108524385a.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 08:39:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1778168267; x=1778773067; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3SFbYQj7gvmgabkGYv4xpzYjp9xPOKffoC2RtE/vgGY=;
-        b=M9BewFxmRBW7Tl4iuz96itayEv02vhhuPV9PNj4kC5yd/5S3PGgQva8qlD4DTmuC4J
-         SqMVrhtWN72jgzj/Lfkqs6x9UCtCt0efsaGKR+PK2NFBej8E+ocnirQA+R3AB6v0Okn1
-         9jPxchuU56/XqwzK9Qza9jGRiBnyrLzUnkFv4=
+        d=gmail.com; s=20251104; t=1778168344; x=1778773144; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hQASz0K9bAEWsvTANOg3uGMuZOgruzesi2JgdTAVAkE=;
+        b=lELMVwd2v+v3Y2UjmN0rjzuYIZkTeRK8VqQUHf+rI68gGfgcG8NCRLWnzDSU7Ejg3a
+         Fkw6my+S6bAF/4E4hCUawNWJPvhr1TNcPhPRWjqkvLDfn3aOBNptDGyNH86WSvyJo283
+         sWtpk53zfbttBN4gwE+xdhjPtewc4RWBahS89D/lN22YvuzFwhbBxwkjAQV+wl+AgeCk
+         lXNzb4qXqs00gTDv0uytVS0ClClxoEGzxVnEniq0d3y4Gw9GHs0fmfn66iThHtOpR7TJ
+         l3wCy1J1YODPtn2r0c+N3ZstW4mN3WeMU4SFG3zlY2trp4eE2dESUXTSK8mMG8ZRqvme
+         3PWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778168267; x=1778773067;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3SFbYQj7gvmgabkGYv4xpzYjp9xPOKffoC2RtE/vgGY=;
-        b=EOYYOHn33qsVeJ18amNlPmjw6hZF8aa4F9aTaqoTZxJMXaB03Jc782V8wLtyWhs0Cd
-         Q0sqRGEC1n95DQC+oVzynZdDFn/55ZcHmp3E+OKcJH9+gN/PcS3QM1USe7pqd4hQ+Ued
-         jhHH3YzVwugbWKHONV/nW8LHL7JD/SDO35RklaN3NvQHzxbH993Aaj/T3jvIgORbWfXe
-         2PhS6dReKk2C1B/GzTye3ShTojrJbT1f81SuYJCfuSLjUCU9y1OU0BOzeG+VEUIIROjO
-         WLZvv1kGUgkPRNxyaPuPaCk8iNJ/uRob1r5Rwq3AzjwrM5Ymdy0tQb6rwHVB6USoRXmt
-         qxXg==
-X-Forwarded-Encrypted: i=1; AFNElJ9yhllDdxyeeu+54LNXyd+D6J6uO7eOpk23JLtvqansE4GRMnZGeld9mKrESuvnJDGzD+zdeaCGXmM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzcku/vIjj1kPm5k2J0CRBVI2ZTjcpiBN3V5ZN8yXPLv9tJDrXn
-	OKS0c56TD8Z/XrPdZ5b0JrzDoQgfUQDtHfgJ9fFv+UEK6JEeIqRBOTMZr1jk7XFAl/FxMDjx0UK
-	IAxT/U5g=
-X-Gm-Gg: AeBDieuDnc7gexH4wpJXWSjH8LlRbvDGjWxNPzBXAuh74yWVt6iFCALx/u6To7jpdtE
-	YysEb5I3hSBXZlN3Vc6fexjiuFXj+oHydHB8gPsL23VDkkJhPxiFnGdc0yUmyBUffNuIn+pKrnP
-	+LOQ/4y7mFye72p5Xx8TK+A00zgRkbOrZ/0FO8RnY7IZn+peemzWh9ErMSvVJmfEUDOz+uPkHjc
-	s2kBGQUh36h8035n64hagbTkEeQ4a3kUFSj8q+zarzs25erUut9NVfKkrsa5HLca76JnBY/De7G
-	E2tt5X981gOSnejOjMtWfm1Z4XfewOHolJZbYLUfFJ5aMPi0aiDA1gqLifvcvmPPp/UxZiGgJFI
-	NTXkdOALN5mHb7wSaVU+b3E4honSsqrWOEV9oH2jyAvhATq2fiOqBJug2J3gCx6Kn7fxmXkb7BL
-	aNBIT3dY0Bbfm8xEfJPX9Ub5od2rWgPEu6AOrzO6CHNQfuavfcdlftsAIxbM2eTh7iYgpq5MuTz
-	x1e+B3P9g==
-X-Received: by 2002:a17:907:a704:b0:bc6:36c:96b6 with SMTP id a640c23a62f3a-bc6036ca011mr476970066b.30.1778168267090;
-        Thu, 07 May 2026 08:37:47 -0700 (PDT)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bca546d12e9sm1793866b.20.2026.05.07.08.37.46
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 May 2026 08:37:46 -0700 (PDT)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-bca0ff2f8dfso57295066b.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 08:37:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9UHggn8owsGjsrCfqb+OOzJwAqiiLJnply2XzMaVApUgv7ZLiapcsyVEeZbQ6aI12FEr1LMdSUVVE=@vger.kernel.org
-X-Received: by 2002:a17:907:3e8c:b0:bc2:b202:eaf3 with SMTP id
- a640c23a62f3a-bc56a6493c1mr490879266b.4.1778168265932; Thu, 07 May 2026
- 08:37:45 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778168344; x=1778773144;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hQASz0K9bAEWsvTANOg3uGMuZOgruzesi2JgdTAVAkE=;
+        b=isdh8Q05FlL+KJJLoqTw+Y3AKaEKf3JHQ4A/OMenpw2RpniFAFxL50mgYUpAIWydIl
+         Nh89r58ntK4MAvYJpWHZecSyFVQtU1IFAwYJfpCPkGDGABtQhrrG+CncxcvzqdHYmyOU
+         danqJB39QQM/58pft5W9d/VF+WUtEo07Ub6kIgQbiOoz4ZRJTJhf3cR6crslKF3G3f5K
+         hF2BbC42pTKvonkzqRiasOnil/gXUHvPT8SkSQC/vU7vH+Tw2XWXxKFgapzVrI7WiUrC
+         7DC4RTON7gFVg0q0bzx3K+o23uC3VjkaNYplCBEoKwuXFy8ekKNn8i/3UT1IOZTj8PES
+         gVWg==
+X-Forwarded-Encrypted: i=1; AFNElJ9PACmOa1sL1x8hr6PZ+5A7GzNuIQMo2hAljufu+lGiUR/631gKsSjeXK/vGTGr206Oyh+mwofr1XU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeGgEy/KywNkb3tN9m3W0rpabPDB6hxNDieCdHU0+9blfaTqk0
+	MIPA25hh9vwtcgVChKiuAVR9qcZqU57jOc9DMhAMLb+OwCE59Whhah2z
+X-Gm-Gg: AeBDievf26VApcGmNSY7BwXQsA42eMcK5U3ZapE1MW5YRqLVP6O1gLTekyIb9+T/2pQ
+	fcPP8rk0CfXMLDrHX+kLcJOJyZZaBCgoJIeN+mU9AMUVhv5qqee7Mr4PBRtbYN5H9aH+xPqJ9ZW
+	b77AIcQPjz7lRKD5MayfwvOlpop/04yWO6Hy/NzGFupfXU+BWpH/JzX6KHo7egilbTEmVLPuDNV
+	nK8KIfjzElg9WIPeKjxQDZACZpVmS0yderAAbl7CZnHR11+Nw0A3S9x6HMwsokFohEwgE8bPvOQ
+	W9yYixf+LuO8c68KYS6PMNlIiVzmalEgklFcjtBxtip+9rvDMb7et03ehdmMBwtlCtv0MAHF4U+
+	lLWFGWFJ/iPh5E19dGZHmAWTF1aFaHzlWYwwt/wVBSEtvkJfVMPHw0kmskIPTYGqbROYMPUa2Re
+	9gNMt3F0plObiHaBPivRrT7vXUwpE0bDmkrO8qUbcZHTwoEQOKy/BFIao7SQ==
+X-Received: by 2002:a05:620a:440f:b0:8ed:11b9:1ecb with SMTP id af79cd13be357-904d4b58929mr1205520185a.20.1778168344205;
+        Thu, 07 May 2026 08:39:04 -0700 (PDT)
+Received: from devvm29614.prn0.facebook.com ([2a03:2880:f800:13::])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8fc293837b5sm2153539785a.10.2026.05.07.08.38.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 08:39:02 -0700 (PDT)
+Date: Thu, 7 May 2026 08:38:56 -0700
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Joshua Washington <joshwash@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Mina Almasry <almasrymina@google.com>,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v2 2/6] net: devmem: support TX over
+ NETMEM_TX_NO_DMA devices
+Message-ID: <afyyEJNbrBem8igi@devvm29614.prn0.facebook.com>
+References: <20260504-tcp-dm-netkit-v2-0-56d52ac72fd4@meta.com>
+ <20260504-tcp-dm-netkit-v2-2-56d52ac72fd4@meta.com>
+ <20260506193420.575e1806@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260503113506.5710-1-w@1wt.eu> <20260503113506.5710-3-w@1wt.eu>
- <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
- <aftmB435XJ8FP3V_@1wt.eu> <20260507070720.GG3126523@noisy.programming.kicks-ass.net>
-In-Reply-To: <20260507070720.GG3126523@noisy.programming.kicks-ass.net>
-From: Linus Torvalds <torvalds@linuxfoundation.org>
-Date: Thu, 7 May 2026 08:37:29 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whE=rLLbBRsFuQKVX49NgN2UUdUE=Druf3fiSZ9Ou8c3Q@mail.gmail.com>
-X-Gm-Features: AVHnY4It7F_ZiVU3gWouldUT6m56NTwQHgBU0JJIDr0fU-oIC_OgJy_afcjmuto
-Message-ID: <CAHk-=whE=rLLbBRsFuQKVX49NgN2UUdUE=Druf3fiSZ9Ou8c3Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
- is not a security bug
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Willy Tarreau <w@1wt.eu>, greg@kroah.com, leon@kernel.org, security@kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260506193420.575e1806@kernel.org>
 
-On Thu, 7 May 2026 at 00:07, Peter Zijlstra <peterz@infradead.org> wrote:
->
-> Perhaps also note that including a reproducer for a crash in public is
-> fine, including a full blown exploit is not.
->
-> So perhaps that can serve as a guide
+On Wed, May 06, 2026 at 07:34:20PM -0700, Jakub Kicinski wrote:
+> On Mon, 04 May 2026 17:27:49 -0700 Bobby Eshleman wrote:
+> > +	if (bind_dev != netdev)
+> > +		netdev_lock(bind_dev);
+> > +	dma_dev = netdev_queue_get_dma_dev(bind_dev, 0, NETDEV_QUEUE_TYPE_TX);
+> > +	if (bind_dev != netdev)
+> > +		netdev_unlock(bind_dev);
+> > +	binding = net_devmem_bind_dmabuf(bind_dev,
+> > +					 bind_dev != netdev ? netdev : NULL,
+> > +					 dma_dev, DMA_TO_DEVICE, dmabuf_fd,
+> > +					 priv, info->extack);
+> 
+> Not sure if it matters but are we intentionally releasing the bind_dev
+> lock before calling net_devmem_bind_dmabuf() ? Previously more code here
+> was covered by the physical netdev's lock.
 
-That would be a good rule, I think - and I like how it has the
-advantage of being very explicit and black-and-white, rather than some
-"I think my bug is so important that it should be sent to the speshul
-super-sikret list".
+True, lock needs to be held at least until after binding. I have this
+fixed in the next rev.
 
-Because we all think we are special. Our mothers told us so, and even
-the AI bots are typically explicitly told to act as experts. So they
-think they are special too.
-
-              Linus
+Best,
+Bobby
