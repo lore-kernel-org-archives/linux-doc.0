@@ -1,122 +1,105 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05AAA47AF42
-	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 19:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778181597; cv=pass; b=f+x3eSi6wdoxriZCBklHrcuzj5n6z4WRASsG0Q6M1x4C8jrh6sZY4GKX5CuwNCKbv4Y3lUcPIT5gt9NjSHFEFkv/y9K0iHMmI3pEi8LOF9cvrYcP+z1O6a1a+GEtHq1kz7Cj5grnJhd6IcmYVD3wHWCrT/FJJnVZSMn60JM/53k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778181597; c=relaxed/simple;
-	bh=I5DZUCNXHDpvnJ8tiHxWBxQrtvvS0aWP/FaWpvJs1Mw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=opzyVkBXIh0hTwy09Se8S2wmERxxNZwofsI6gMGKAfNnpqq2/T7Q05TlE2glGHxqekAIW9f5OFLK4RjMKNFf9WxsXQpAZT1p2GF4ZhLZ8kC6093TgUBX1xF5apO705iLG6QoXn2rQTEAaWznjNVQ9e8kTKxgItMBWOuyZ7J1nTw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=GLnNKXiY; arc=pass smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916EB480321
+	for <linux-doc@vger.kernel.org>; Thu,  7 May 2026 19:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.193
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778182520; cv=none; b=jeg26Thys5OYo/LS4e74M22Q9ANWwTAotywpKVqxe8TgH4R0wx1d1i6kK1bnD/b9fU2Fs23ggVsLbHcwdXYzi0UWe404ZNUXLp2nUX2MybvUGHUdFaVkmjSELsFu+cmdUZ7y5Q0T2vNMbtwtX02SviwhX3QNrIUpLaqKMkLO4Vw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778182520; c=relaxed/simple;
+	bh=egyJ54W1Vz4slSGKdV3Sp2mle9aTDaiuFpCrkCmzJuM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nmwQy/OX1Z/830xUEJs3m8ZmWHNq/uukpm2tNvv3zji+1E1zQuIKpPOrMQM/sSFJ0tiUunR36ZklKIgoqAH8mCrdlNsmqb+AWn3rloMEomy8U9njRD7VQvoVTjI32YMvCgZEyqzCIAwflKQw06cKvmPwtSy6SFnhu8HLv4Hrb44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k8iO2GNb; arc=none smtp.client-ip=209.85.160.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="GLnNKXiY"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-364eef1891dso993351a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 12:19:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778181595; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DFRXA3/UNAZkw/NI0YgMiFq9y14O/q3wcYbsttffMfZdhR7uU9vGyGmfvwXjxPBS2e
-         Tb7WUAprvoi8MBdg523NeNmC7kfH8wbjnkKraEw7Oihv4C/x9POI6njw9Ef9AZxl9gYY
-         qw6uYKcr8gXx/Y71NcZGJVy5ShFM6S6I51SdtQAYTyQIcXy5uzYs9N+rAKzTwrC3jvTp
-         MvR8a9/0PGNnwqBGjVvjMEpW5P4m4No/pIFkay3x5dzqwhOfeMM6NLNBtc/bd8DD47Iq
-         qC3mGBHub/bpR38LvGhnZo9yISswYjDYtmIecNwBb844vlq60s/vb8BCMT9MzHXrpnNT
-         SwPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=lLAJ2nIgwojcJGz7oCLjCvCHgUm4ZxZWAITSlIqPTzE=;
-        fh=MqfiMVw9lcqF0TmPWmikzbG3x0e2/Qyv0gwM4TXXn8o=;
-        b=DfKMkiXiLWT4zYbSTzh3w03TxtKj/RIVnI/5x/3IMQkLjISVcbaJvzHfhb8vtvfKJq
-         VIY0thUc18IKtzWTDpAwVIEeLCrTvuYdkPGbdzBSwqNNpSBV6bqeA1zGkqALVudcw0Ej
-         CihQ8a70tzu2ph2gFVrCd3tqvbpiftWdHNYT+34ZQRKhdOu+JmQLUMB0smbANt9Uph8y
-         eMjG2CsjjpTVNoLKSEjGqRwBp78sjraPFByp3L/cQUv017AZ5qlaZdUmIfeLX7/w90p9
-         5aaCeoN+VcDmQUwBR5uL3LYKCVgsI2YDfYg8rBssnlHcg+Z0jjzSYnRqb9u4yyJmJ1M8
-         HXkg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k8iO2GNb"
+Received: by mail-qt1-f193.google.com with SMTP id d75a77b69052e-50e5eb0fabaso11946891cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 12:35:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1778181595; x=1778786395; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lLAJ2nIgwojcJGz7oCLjCvCHgUm4ZxZWAITSlIqPTzE=;
-        b=GLnNKXiYDLm9X4lYJUk02s0b+xtbyxLM6HP4HQx4rvJuLbAOYJILY1cJpj1vNvYPq7
-         IsgG3W/RqKyXG988mhDHnBhJKdvLepgkXwL0CiTNMCHdxOFlJqjE0CUq4yheVcwODhYy
-         uN/JtKwkvlrtUbHhiMzDk0LHc94wDdqa1JuReUq3eOpJkysLpIO+F4ANHmloLujAkE8X
-         T77szf4tb5LSXgz1RHfFaROnD6uMCDwWsDzAJBEXzhhkrDHauI8M2MxkOpBbou+zAAlv
-         fC1A0peVt1fHW63vTiXaWyJh8nJ01Czu7BUWbHZRwpnyYQjWoKepZ3tLXLtcSt4vBAs1
-         b1yQ==
+        d=gmail.com; s=20251104; t=1778182516; x=1778787316; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GUH1cXbC1tx+N4+5eObi62eHLa+mMesNGYbVZ4fNanM=;
+        b=k8iO2GNbmQEii8+o6MS7t8uaZaUhd8gZpAT/X2liNOgrgbS2jW6hAPdV7QEoUrYZat
+         yuPaJ0F234Y2DxIhSyvzBYvGcoJ9WLXczuNEGEzNc1r0VVkUWb1ij19zN/zr4FR6zDBv
+         sPOAxXA/XPql7n0Rbnv3mVCcz7e813t/oNs1trX/VhngUNODnsEfFTNyz4aMEeQKsLQV
+         TgVt0TBCqya4KtcO3YauZBucr5iXk905/nFgdHiPfYaVqH/KhRrOQHW2lhtGxnI4gmS7
+         w5fy6m7x7dUG+jeUSEudVijeQDb0WOxSBCZmrYEnB8JOGm1IZCGQPL+bCT9IP2dF14E6
+         H71g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778181595; x=1778786395;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lLAJ2nIgwojcJGz7oCLjCvCHgUm4ZxZWAITSlIqPTzE=;
-        b=La+SnpEELG842xI/0AbCH+b3xu02dFXWrjqAvmzjk2R9Lv1Nk9dwt3LRPvJeR2HkHK
-         RjN9XRtsGMMmdpRRCBo8Ye7tddmyNemmB6gjnL3zL1HQfkgoWxe4W3DHdSkyG1H66NqN
-         hRA1yt/j8w5V+WvWvmvt0rbMK6BXPzKQ28pKwec+V0CaTXXBscoohEf9z7gLI9bU8jRw
-         ghQvQaOoUfs6dBkcByWkyuQExRR+VhSgizbZHTEw1IJNUJYPP88Pf6je6nUXfOKGmecx
-         QOsTF9i1Ljv2vEEcINe7JQ8SsuHNMHvioeygEzZGwztZwYBvPHW5QVK8ZFRwGRgA3hfy
-         2W2Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9Wwp6uUEvgUM/0nucJdlQQeWoCNfqeBDCV3QlWVWhn2v0jGpkg3QvLiWD1I1rh6wNHaYOPOdgmARg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMOEnUSi3HkSIPZ/Jvt3bozdW4tlvlnzjVGUcLBLoLIbZpkJCy
-	EnOyd4mEhXi3qsOLXxWjEsk9pW3Uoppfs7kJYnbt0VlApG2mEG11IBQoor6z/aI8JlFJH/iylXJ
-	4yITr1XrsiEK/+mSWSoWA8M9rb3hH14FaNvEFP/enCTsRCyqf1oc=
-X-Gm-Gg: Acq92OHZOPpBgI2P5weg9i80aWYHugRPH+/qowA/cIoqV2tp9Bah0LZ0c8my4Wr+4fd
-	dnXmrhriviFljwv2PRoWv3mPmmkM3l9D4NrYkAPmmM8tAVA1tF1mloxD8jv4zJxb9ZZN8JfDkJN
-	sUjsNPgiWcIv5J7bo+qXjQ4LWcCSJXCTOOqI/Lmi7fT5r6Ot3zII91xtK6XNeg23Qm4tTDj7qbw
-	FaD2TCNOUCdLFDtqTDcM5su3JNWH7oGRS+KgKLReDhJhh6KhkCOLCNiaZ8i+2aXJi5BlBS0NhuE
-	wA4NTIA=
-X-Received: by 2002:a17:90b:3c8f:b0:35e:5ae3:299d with SMTP id
- 98e67ed59e1d1-365abcddd36mr9275143a91.11.1778181595203; Thu, 07 May 2026
- 12:19:55 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778182516; x=1778787316;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GUH1cXbC1tx+N4+5eObi62eHLa+mMesNGYbVZ4fNanM=;
+        b=XqJwax8PJOb4KNnHXIpllTv7p04YDYJ3yiRJa/bJCT+nOtUfxybUKynfC0H8KD6Iq/
+         AHNujEjrPmInxemc+KVvuBkI5leKRcT2RtZjUxQ3r+XCYILinE7T6ehBWYhSnsNWHSnP
+         YTSz1IBGZ3ZSojEZjNpMp7aIRFsA5NEd/Z08rg8amHnfWsbKX6lb6HkRnDEp0ic/syPv
+         iUvrAN3HuzlQVueXT8AZ0HM+mc3A6sbWXGMw7ojZtPmTa3D615g05VjqEWFWYpBHhhDf
+         x34mtXQ2l4LWJjz8zE88AHcFZqnoaUnPVoaMtYrxS67ZJbolw2wblbgSn+MpZdZcrSP7
+         cZiQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8sCKBC/B7/l+VZWPL2241zUC27vmfKoJvaJqsffnBun7GVyBHEw7A3KwQ3pyQoT9f9PntfRbjGHAE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhUnb0+HnwV8cTVTYIAVigfD3SalHetfsiNBcgcnr8Qour5kTF
+	xr84J0SIe4pDOOfR8aY7LgoPB3wUdXVok+Mwgwf86oUSVu8eZwGwPk7N
+X-Gm-Gg: AeBDievRaeedlH8xrhFrjOWLtIG5mhK6uT3+dF5piEK5bVX/By6YugKX+ZWqlF/BnXb
+	pLZ1RbeVknwJyY1YCfqIpUjzEQRhpvhdlM6OLtPY6mhAhtGYM4MdlR6Z45lrjok7/aL/LBjvdpG
+	cKTYzuCF7GaLBi/fLVUhzgrWCynqjlV+AzQUDnEXzkQxK1i7gIru5kf8g7szbUqA8J1xFcMoZEd
+	pluUUUwwLVHY8chTGNYvmCgRYOPJ4PEzHU60COcNo6fU4Le/9GY7EEYHgnfgb7TEiBaFaBZuuMs
+	Ipv8Q28Yk1L0FtOP6/1Ix2R+lbLPmUQLLRinl9UyVSzbWhMwyly4byjPZhoKNxbxBv/V9mHZuFM
+	IwYNja0yG9dgzMtYhTh667+YL4bweJBtlLf2IwwqmOygJ0zgg55j8d9ucIkmPXmClj8O5l5KJ8c
+	/qLX1Yl+wm25nS7Q7jAw==
+X-Received: by 2002:a05:622a:98b:b0:50b:a9d3:2e20 with SMTP id d75a77b69052e-514621df2camr123839701cf.49.1778182515941;
+        Thu, 07 May 2026 12:35:15 -0700 (PDT)
+Received: from drapl0n.kernel ([216.165.113.4])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-514851049f0sm5059641cf.10.2026.05.07.12.35.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 12:35:15 -0700 (PDT)
+Date: Thu, 7 May 2026 15:35:13 -0400
+From: Mayank Gite <drapl0n.kernel@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Paul Moore <paul@paul-moore.com>, 
+	Serge Hallyn <sergeh@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: fix typo and formattting in
+ security/credentials.rst
+Message-ID: <afzoL4RJk3po1Hwy@drapl0n.kernel>
+References: <20260506225925.271163-1-drapl0n.kernel@gmail.com>
+ <cbe6e145-9d2f-47bb-8d22-1599cfd1a9d4@infradead.org>
+ <afzQVIv4-Up24VNM@gmail.com>
+ <87pl378417.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260429191431.2345448-1-bboscaccy@linux.microsoft.com>
-In-Reply-To: <20260429191431.2345448-1-bboscaccy@linux.microsoft.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 7 May 2026 15:19:43 -0400
-X-Gm-Features: AVHnY4K2gE6-_wPdetwQUwodb--l1vbJFrrIitihnjQHsL-gyI1WmZmW-6cI99I
-Message-ID: <CAHC9VhScmOoCtoFtccJ6x_cTdwvKCBfUyg=1p-kuAGmo=FdgwA@mail.gmail.com>
-Subject: Re: [v6 00/10] Reintroduce Hornet LSM
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	"Dr. David Alan Gilbert" <linux@treblig.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	James.Bottomley@hansenpartnership.com, dhowells@redhat.com, 
-	Fan Wu <wufan@kernel.org>, Ryan Foster <foster.ryan.r@gmail.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-security-module@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
-	Song Liu <song@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87pl378417.fsf@trenco.lwn.net>
 
-On Wed, Apr 29, 2026 at 3:14=E2=80=AFPM Blaise Boscaccy
-<bboscaccy@linux.microsoft.com> wrote:
->
-> This patch series introduces the next iteration of the Hornet LSM.
-> Hornet=E2=80=99s goal is to provide a secure and extensible in-kernel
-> signature verification mechanism for eBPF programs.
+On Thu, May 07, 2026 at 12:31:48PM -0600, Jonathan Corbet wrote:
+> John Doe <drapl0n.kernel@gmail.com> writes:
+> 
+> > Thank you for the feedback and acknowledgment. I thought that since my
+> > earlier patch was invalid/corrupted, I should submit a new one rather than
+> > version 2.
+> >
+> > I understand the procedure now and will ensure that future revisions follow
+> > the guidelines.
+> 
+> Along those lines, seeing multiple names associated with the same email
+> account is a bit disconcerting.  We are not generally interested in
+> taking patches submitted under pseudonyms...
 
-I see that Fan identified a few issues that need resolution, but I
-just wanted to make sure you've read the expectations for a new LSM.
-To be clear, I think you've ticked all the boxes, and there is a
-MAINTAINERS entry with your name attached, but I just wanted to make
-sure you're okay with maintaining Hornet.  I like Hornet, I think it's
-a nice and fairly clever solution, but the last thing I need is a new
-LSM to maintain :)
+While configuring mutt, I forgot to change the default placeholder value
+for the "realname" variable, resulting in an inconsistent sender name.
 
-https://github.com/LinuxSecurityModule/kernel#new-lsms
+I have corrected the configuration and verified that my environment is
+now set up appropriately.
 
---
-paul-moore.com
+Sorry for the confusion.
+
+Mayank
