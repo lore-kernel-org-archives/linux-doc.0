@@ -1,157 +1,257 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E482F99BD;
-	Fri,  8 May 2026 16:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA713002AB
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 16:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778256440; cv=none; b=AROachXgDzbgI9p/aurhDcooEz1/hhq/F0XG/jY08ND09XWCp8Bz77weVNIfKlvAhcnNO9S8Gqa1DzYMWlQHbYTtjTh76iyoivE5/mKAg6UQYmsjMMnYuebKgVgJgZgsvdfXqWSAGBMAL7dyFbDD+Zh6g33AkrRzzdwKdF8Kf0o=
+	t=1778256682; cv=none; b=nz6FkrAyenli1MQLWex49rnyiTsGvqjr3dXtsgf7zmBB1G6nH+7ZGHng6fFQBYedztPfB0E7ryzJjxvQC1uL9CloVkY43LsejuFqnkVSWvUeDTWd+L08sd/6yrKsFI9uQVkvLP6VPanb7eyMHvgcQV/cLPHGtAXVFkkr8UCRFQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778256440; c=relaxed/simple;
-	bh=NXhc4qq2Val+dvAS0fe11J5GtsnFb7FwYFQF49976fY=;
+	s=arc-20240116; t=1778256682; c=relaxed/simple;
+	bh=H6Z+8CT3KjwWjNMFY6XYXNpX9S3GKUwrUsjc+V6VlCE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OymX5CoD8wDniZZ1fdmZh+KogPuU/61BZPXOleJ1T9DqdcI9JfKUHBvP5Nq/9gz/G+10Je3TYaYTDoiMGlVp4ES4BH53FPP4Slc4mxG1jQUvmqq/jGZ50Rqjn40LlIZXCbw6aYQiVrhAlHwgJ5fvnO9w8L6ZMrbKodcHuJLBfwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=Y6xCpPCC; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	 Content-Type:Content-Disposition:In-Reply-To; b=lk+OX9umkJHZL0zeHRwQTo9/9CJJKBxhkZdZoLF0Qvhyohfzf7jaCiHC+PDpnqirIigvcEW/3M+d419YPTN+t0K0ua+20G9gmRCy0d5wSrpkqc7KQqpQX38WehWc8sGaTr5eO0WT2fsV3FIGNGDjlDaxH2+3KDW41W/RpBqjZuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqbVe/7Y; arc=none smtp.client-ip=209.85.217.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="Y6xCpPCC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1778256436; bh=0f4octcpexIhSjsQMpH7nRTCC7nCifZ/N0FmmWGliuk=;
-	h=From:Message-ID:From;
-	b=Y6xCpPCCdr8p/dCM8aMmGDx3pp6iPUvLNUTzSs7zRtYpSe1R9y4dXBGuTXK4SPfkf
-	 zfuWVZFF7hu+JI01uz+5Td3QefD+Axi7V1EhzhyNp3KT9TIUvZHmDGyxMvypytFYsO
-	 56Ybp8lWeqjwIRtdA5DhDagvNGW4w9aLwihlZ+qY=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id E83C6C0C0C;
-	Fri, 08 May 2026 18:07:15 +0200 (CEST)
-Date: Fri, 8 May 2026 18:07:15 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Joshua Peisach <jpeisach@ubuntu.com>
-Cc: Greg KH <greg@kroah.com>, Linus Torvalds <torvalds@linuxfoundation.org>,
-        leon@kernel.org, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        skhan@linuxfoundation.org, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
- is not a security bug
-Message-ID: <af4KMwAQGK1AXKoo@1wt.eu>
-References: <20260503113506.5710-1-w@1wt.eu>
- <20260503113506.5710-3-w@1wt.eu>
- <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
- <2026050801-semifinal-expulsion-9af6@gregkh>
- <DIDF0Y3YTGL4.31WQZEPS1JOQW@ubuntu.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqbVe/7Y"
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-6313c800372so684388137.0
+        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 09:11:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778256679; x=1778861479; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6vdBcradM8S03iinDWnSXeMPjIWLpbzTHbnVlnltxq4=;
+        b=GqbVe/7YgabRsfx+ARki2K+jqMFHzQAg5niJlng8/wpcze/h3pTF4SoatmMJPyHB7D
+         /qNTHu1lVyE7mH9yKgbdm4ooIC2WUCq3XMpaXC6iH4j5k/vDldGibNvEIqbVNdLxqiPi
+         YH9fqJiGwTGW11itHd7LpOvvPKE1KAXrZK+HUNX6ClakxuHMEw1TnirPzvAhClx7ngGa
+         QtNxIliGYzFR29HuAe1iYaPfpSiaUrMr4e92u35Ne0L/R9XWJpz7nJxbNXKfGFNmiofw
+         QuowoaDCgsZ7lo7H+UD3MPNCMkZKODcRWgr3UT8n2AnLaBFagpAprzK5tjrQKe1dT9Kj
+         d1Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778256679; x=1778861479;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6vdBcradM8S03iinDWnSXeMPjIWLpbzTHbnVlnltxq4=;
+        b=fTxoxsTlRoT/z2guNFbJEeg4Sp4V+/UTz/eWkQQCPzX55SKyFrJ7ZeZ0/0XUeIHVC7
+         Z3Z3A6bpYJ/nE2BQHCVL0YGiGi/Jk16p7sdXXimsZZnwbqPTX4RtWNdHCZ3jE2ABFaAT
+         TxQjeyxIouH1+e1vKrIH9Cv187ANc0X7QzMG6HyF+05S062bD407i4U+Mxp1f6R1ImLD
+         iPK7huXaYspsazVVuG+Wso4c00IN2LM95AMjZpxj6054iDo7mAPfN8nZqJWi3qyOfHDP
+         WpyMkeTnwgcYDU1mnVZL63xruajy71AzhP9UZxC0OX6JIK+mRZsVu+cDBMDvwE1IQCP7
+         BZRw==
+X-Forwarded-Encrypted: i=1; AFNElJ++rAhgLSfFUUoGIoket7v8Zj1RrS1UkDDPPFBFSGCk5B7f8KnHooU+eqSOTjoIx9JIP8XFEBDAF/w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQDpi6fCg/kYXPketDMt0vEmZH0Xztztyqv7IpWeNJsiDOXXhL
+	0cgUdAA+FM8jTUriWyjeBF9GCQvcmlL3ZfjFlwk5kwknwkYSw8Romef/
+X-Gm-Gg: Acq92OHCF7IgWYdVBKg2fA/JRQt79G6xZ6H9IEOcrum5/vMVdHjDc1NQhaVDcU/SjoD
+	RcppPIpZH332mD8mjyPR6A74sSYhYei+bba6xBilRYhqZfWUaEE9IdRyzlLZrf2w0wGY8hfNWkf
+	pX0YyZJjTw6369pOXDx5eM+ByFsPOY3rO5Z/j3wZmmalkhF6UoYZKTqWnKHcCmacWJRvmOF2jiA
+	96O7f1dyDtxB6l2aYr9KXOPDgJRhUzVA6QBJ13jj9ZxKTRkyEsBjHgRTqx19BRgpPA6+xzq9bgC
+	y4vizPzozqN+c7F2K85viLWTXlG283DP73NCPUSy7LWCjpeTfo3VcKJX3NZrvE8eacFkUw8T7P6
+	BXwtfd3m7bg4dtmbC+GslMG1+pSHfCEhC5ba39jKOLI0Lqwb999dojQdYXtD2gPtemeDPKIH0qy
+	3CBJ14b4ZbZWnIwY6PT3b2TnLn/ZNNQ/1Ck3CqwUjf+gsN4EQ=
+X-Received: by 2002:a67:e114:0:b0:631:4e9a:ba3 with SMTP id ada2fe7eead31-6314e9a142fmr1065827137.21.1778256679486;
+        Fri, 08 May 2026 09:11:19 -0700 (PDT)
+Received: from devvm29614.prn0.facebook.com ([2a03:2880:f800:35::])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-907b8bae450sm239133785a.21.2026.05.08.09.11.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 09:11:18 -0700 (PDT)
+Date: Fri, 8 May 2026 09:11:12 -0700
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+To: Stanislav Fomichev <sdf.kernel@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Joshua Washington <joshwash@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Shuah Khan <shuah@kernel.org>, dw@davidwei.uk,
+	mohsin.bashr@gmail.com, willemb@google.com, jiang.kun2@zte.com.cn,
+	xu.xin16@zte.com.cn, wang.yaxin@zte.com.cn, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Mina Almasry <almasrymina@google.com>,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v3 1/8] net: convert netmem_tx flag to enum
+Message-ID: <af4LILMY6qEav7Ul@devvm29614.prn0.facebook.com>
+References: <20260507-tcp-dm-netkit-v3-0-52821445867c@meta.com>
+ <20260507-tcp-dm-netkit-v3-1-52821445867c@meta.com>
+ <af35ekIjYDXIDWVR@devvm7509.cco0.facebook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <DIDF0Y3YTGL4.31WQZEPS1JOQW@ubuntu.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <af35ekIjYDXIDWVR@devvm7509.cco0.facebook.com>
 
-On Fri, May 08, 2026 at 11:54:32AM -0400, Joshua Peisach wrote:
-> On Fri May 8, 2026 at 11:35 AM EDT, Greg KH wrote:
-> > On Wed, May 06, 2026 at 08:46:07AM -0700, Linus Torvalds wrote:
-> > > [ Coming back to this after a week of trying to clean up the disaster
-> > > that is my inbox after the merge window ]
-> > > 
-> > > On Sun, 3 May 2026 at 04:35, Willy Tarreau <w@1wt.eu> wrote:
-> > > >
-> > > > The use of automated tools to find bugs in random locations of the kernel
-> > > > induces a raise of security reports even if most of them should just be
-> > > > reported as regular bugs. This patch is an attempt at drawing a line
-> > > > between what qualifies as a security bug and what does not, hoping to
-> > > > improve the situation and ease decision on the reporter's side.
-> > > 
-> > > I actually think we may want to go further than this.
-> > > 
-> > > I think we should simply make it a rule that "a 'security' bug that is
-> > > found by AI is public".
-> 
-> Whether my opinion is cared about or not, I feel it should be put in here:
-> 
-> Yes, *in theory* the bug is public. Anyone can find it. But just like bugs
-> sitting in open source code repositories, anyone can look for if it they try.
-> 
-> The only difference is that a LLM is making it more apparent and noticable
-> to people, if you ask it to.
-> 
-> The choice to then decide "therefore we can disclose it immediately", in my
-> opinion, is not great. Because then you are bringing attention to a bug that
-> nobody, or at most, relatively few people knew about (even in small circles)
-> to a broader audience.
-
-It's no longer needed, please trust us. Last week we've seen about one
-duplicate every day and some bugs had up to 2 duplicates. I tried myself
-to ask my *local* LLM to find bugs in a certain class over the whole net
-tree, and it found one of the recently pubished ones without me having to
-give it any hint about this.
-
-Really, these days LLMs can swallow huge amounts of data and correlate
-complex patterns very easily over an immense context. You don't need to
-ask them to analyze a patch anymore nor to work on this or that file.
-
-An issue found by an LLM is just a proof that this issue CAN BE FOUND by 
-an LLM, thus a good indication that someone else will find it, and very
-likely that someone else might already be using it.
-
-> Take Dirty Frag - even though the embargo is said to have been broken, and
-> all parties agreed to release the disclosure, it was put on GitHub. Of course,
-> information that is public, is public. But putting it on GitHub and then
-> buying the domain dirtyfrag.io makes it easy to bring attention to the bug
-> that was disclosed **with no patch or CVE.**
-
-It's really not how it works nor how it worked.
-
-> Even if the mitigation is "just disable the module", I still think that by
-> giving up the embargo entirely, we are creating more attention, and more
-> opportunity for exploitation. Even if it's a PoC and not an exploit for
-> malicious purposes.
-
-What is important is that we insist on no longer sharing PoCs publicly.
-This will slow down script kiddies (who are the ones doing the most
-damage because they don't need the bug for their business yet they cause
-harm using it). Criminals are probably already playing with it and might
-have been for weeks or months already.
-
-> > After the past 2 weeks, and the past 2 months, I am going to violently
-> > agree with you here.  We've seen so many "duplicate" bug reports it's
-> > not funny.  All of the modern LLMs are feeding the output back into the
-> > model for future runs, which makes the data totally public.  Even if
-> > not, the output is being monitored by external companies at the very
-> > least.
+On Fri, May 08, 2026 at 07:56:42AM -0700, Stanislav Fomichev wrote:
+> On 05/07, Bobby Eshleman wrote:
+> > From: Bobby Eshleman <bobbyeshleman@meta.com>
 > > 
+> > Devices that support netmem TX previously set dev->netmem_tx = true.
+> > This was checked in validate_xmit_unreadable_skb() to drop unreadable
+> > skbs (skbs with dmabuf-backed frags) before they reach drivers that
+> > would mishandle them or devices that would not have the iommu mappings
+> > for them.
+> > 
+> > A subsequent patch will introduce a third state for virtual devices
+> > that forward unreadable skbs without ever performing DMA on them. To
+> > prepare for that, convert the boolean dev->netmem_tx into an enum:
+> > 
+> > NETMEM_TX_NONE   - no netmem TX support (drop unreadable skbs)
+> > NETMEM_TX_DMA    - full support, device does DMA
+> > 
+> > Update the existing NIC drivers (bnxt, gve, mlx5, fbnic) and the
+> > validators in net/core to use the new enum. No functional change.
+> > 
+> > Acked-by: Harshitha Ramamurthy <hramamurthy@google.com>
+> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+> > ---
+> > Changes in v3:
+> > - Split NO_DMA changes into subsequent commit (Jakub)
+> > - Move !netdev->netmem_tx -> netdev->netmem_tx ==
+> >   NETMEM_TX_NONE conversions to this patch (Jakub)
+> > 
+> > Changes in v2:
+> > - Squash driver conversion patches (2-5) into patch 1 (Jakub)
+> > ---
+> >  Documentation/networking/netmem.rst                    | 5 ++++-
+> >  Documentation/translations/zh_CN/networking/netmem.rst | 4 +++-
+> >  drivers/net/ethernet/broadcom/bnxt/bnxt.c              | 2 +-
+> >  drivers/net/ethernet/google/gve/gve_main.c             | 2 +-
+> >  drivers/net/ethernet/mellanox/mlx5/core/en_main.c      | 2 +-
+> >  drivers/net/ethernet/meta/fbnic/fbnic_netdev.c         | 2 +-
+> >  include/linux/netdevice.h                              | 8 +++++++-
+> >  net/core/dev.c                                         | 2 +-
+> >  net/core/netdev-genl.c                                 | 2 +-
+> >  9 files changed, 20 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/Documentation/networking/netmem.rst b/Documentation/networking/netmem.rst
+> > index b63aded46337..5ccadba4f373 100644
+> > --- a/Documentation/networking/netmem.rst
+> > +++ b/Documentation/networking/netmem.rst
+> > @@ -95,4 +95,7 @@ Driver TX Requirements
+> >     netdev@, or reach out to the maintainers and/or almasrymina@google.com for
+> >     help adding the netmem API.
+> >  
+> > -2. Driver should declare support by setting `netdev->netmem_tx = true`
+> > +2. Driver should declare support by setting `netdev->netmem_tx` to the
+> > +   appropriate mode:
+> > +
+> > +   - `NETMEM_TX_DMA`: for physical devices that perform DMA.
+> > diff --git a/Documentation/translations/zh_CN/networking/netmem.rst b/Documentation/translations/zh_CN/networking/netmem.rst
+> > index fe351a240f02..9c84423b7528 100644
+> > --- a/Documentation/translations/zh_CN/networking/netmem.rst
+> > +++ b/Documentation/translations/zh_CN/networking/netmem.rst
+> > @@ -89,4 +89,6 @@ dma-mapping API 去处理。
+> >  使用某个还不存在的 netmem API，你可以自行添加并提交到 netdev@，也可以联系维护
+> >  人员或者发送邮件至 almasrymina@google.com 寻求帮助。
+> >  
+> > -2. 驱动程序应通过设置 netdev->netmem_tx = true 来表明自身支持 netmem 功能。
+> > +2. 驱动程序应将 `netdev->netmem_tx` 设置为适当的模式：
+> > +
+> > +   - `NETMEM_TX_DMA`：适用于执行 DMA 的物理设备。
+> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > index 8c55874f44ca..ed9c22dc4a5a 100644
+> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > @@ -17120,7 +17120,7 @@ static int bnxt_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
+> >  	dev->queue_mgmt_ops = &bnxt_queue_mgmt_ops_unsupp;
+> >  	if (BNXT_SUPPORTS_QUEUE_API(bp))
+> >  		dev->queue_mgmt_ops = &bnxt_queue_mgmt_ops;
+> > -	dev->netmem_tx = true;
+> > +	dev->netmem_tx = NETMEM_TX_DMA;
+> >  
+> >  	rc = register_netdev(dev);
+> >  	if (rc)
+> > diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/ethernet/google/gve/gve_main.c
+> > index 424d973c97f2..dd2b8f087163 100644
+> > --- a/drivers/net/ethernet/google/gve/gve_main.c
+> > +++ b/drivers/net/ethernet/google/gve/gve_main.c
+> > @@ -2894,7 +2894,7 @@ static int gve_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+> >  		goto abort_with_wq;
+> >  
+> >  	if (!gve_is_gqi(priv) && !gve_is_qpl(priv))
+> > -		dev->netmem_tx = true;
+> > +		dev->netmem_tx = NETMEM_TX_DMA;
+> >  
+> >  	err = register_netdev(dev);
+> >  	if (err)
+> > diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+> > index 5a46870c4b74..fc49aae38807 100644
+> > --- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+> > +++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+> > @@ -5924,7 +5924,7 @@ static void mlx5e_build_nic_netdev(struct net_device *netdev)
+> >  
+> >  	netdev->priv_flags       |= IFF_UNICAST_FLT;
+> >  
+> > -	netdev->netmem_tx = true;
+> > +	netdev->netmem_tx = NETMEM_TX_DMA;
+> >  
+> >  	netif_set_tso_max_size(netdev, GSO_MAX_SIZE);
+> >  	mlx5e_set_xdp_feature(priv);
+> > diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
+> > index c406a3b56b37..138e522ef9b9 100644
+> > --- a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
+> > +++ b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
+> > @@ -752,7 +752,7 @@ struct net_device *fbnic_netdev_alloc(struct fbnic_dev *fbd)
+> >  	netdev->netdev_ops = &fbnic_netdev_ops;
+> >  	netdev->stat_ops = &fbnic_stat_ops;
+> >  	netdev->queue_mgmt_ops = &fbnic_queue_mgmt_ops;
+> > -	netdev->netmem_tx = true;
+> > +	netdev->netmem_tx = NETMEM_TX_DMA;
+> >  
+> >  	fbnic_set_ethtool_ops(netdev);
+> >  
+> > diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+> > index 0e1e581efc5a..580bccb118a0 100644
+> > --- a/include/linux/netdevice.h
+> > +++ b/include/linux/netdevice.h
+> > @@ -1788,6 +1788,11 @@ enum netdev_stat_type {
+> >  	NETDEV_PCPU_STAT_DSTATS, /* struct pcpu_dstats */
+> >  };
+> >  
+> > +enum netmem_tx_mode {
+> > +	NETMEM_TX_NONE,		/* no netmem TX support */
+> > +	NETMEM_TX_DMA,		/* DMA-capable netmem TX (real HW) */
+> > +};
+> > +
+> >  enum netdev_reg_state {
+> >  	NETREG_UNINITIALIZED = 0,
+> >  	NETREG_REGISTERED,	/* completed register_netdevice */
+> > @@ -1809,7 +1814,8 @@ enum netdev_reg_state {
+> >   *	@lltx:		device supports lockless Tx. Deprecated for real HW
+> >   *			drivers. Mainly used by logical interfaces, such as
+> >   *			bonding and tunnels
+> > - *	@netmem_tx:	device support netmem_tx.
+> > + *	@netmem_tx:	device netmem TX mode (NETMEM_TX_NONE or
+> > + *			NETMEM_TX_DMA).
 > 
-> I think that's more "unresponsible disclosure" - maybe there is some way
-> that LLM emails can be filtered?
-
-No :-(  If you saw the flood we're receiving on s@k.o, feels like
-taking a shower under the niagara falls. Sometimes we just say "trim
-this and repost it, it's too long we can't read it".
-
-> And again, yes, the data is being trained. But **you have to look for it.**.
-> It is still a needle in a haystack, but it's not a black hole absorbing
-> said haystack.
-
-No, really not at all. Not since the last month at least.
-
-> > > So why should be consider it special and have it be on the security list?
-> > 
-> > I don't think we should anymore.
-> > 
-> > Yes, having a full reproducer in public is not good, but the general
-> > "this is a bug" comments we should start redirecting to public lists
-> > more.  That's the only way we are going to handle this influx as our
-> > "normal" bug workflow works very well, especially when it comes with a
-> > fix, as these LLM tools can provide very easily.
-> > 
 > 
-> Could this at least be temporary? There are only a finite number of bugs
-> that can exist in a codebase.
+> nit: if you happen to repost, listing enum values here seems too much?
+> 
+> "device netmem TX mode" should be enough
 
-We regularly update the doc based on circumstances so we don't need to
-care now. It looks like AI-based reports consume the doc and this will
-make them less painful to maintainers, which is already a great thing.
+Will do!
 
-Willy
+Thanks,
+Bobby
