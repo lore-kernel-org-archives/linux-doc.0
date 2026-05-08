@@ -1,37 +1,31 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from outbound.st.icloud.com (p-east2-cluster5-host12-snip4-6.eps.apple.com [57.103.79.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6786E332EC1;
-	Fri,  8 May 2026 17:44:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D132C0303
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 17:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.79.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778262260; cv=none; b=Bcw66SKTn0QnheRpnhPH8c2RPWmkVD9TcHRt7Y5YtgDtwRYWsWzdo6jJKyJDKYK0KWqgYddiwbFT85pl/NBOCs1QilqEcM1VoWEolWgujEE731xVVPZPWSQvVx9TTj+JKjWwJvAUlqosOPbtvlnsOfr7Wp9LaPMRZZfAxD6IK+I=
+	t=1778262523; cv=none; b=PBM7NJDUMm1fAvrTWpPd6ck7zFGs45P+5WPWUuNFK7922FaXm9T2lUSxUc78wKnqw5s4bueAB5iGyv15pfqjCCtS1o3SKuUgTc77AkdUBlRGviodeaYrpShiHe+UKa7NVgDAMbkgdHJY5ZZCp3jkIUA4+kDO60Vupb0n5LnsWi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778262260; c=relaxed/simple;
-	bh=vWBbf3JinArC7hIZtuRm76eG4Ogp1fNM34BXC2qJUoo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=CZji/2PFG8jSmM3QVwhxIio/MQoaTW3xo/cP6XAbjwvwpsK919zjBThMrDRSuAebdo0dtr1xz8s5sqHkOs1yYVdcUq818tfKMiMxUcxsGbKvv3oj69jFL6/Py5pKqpd16Fu6N3TOXTJDBqoEOyBsOXHqCP4lC9AzMUWgzB7NfBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zuYsXKrB; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1778262523; c=relaxed/simple;
+	bh=bHw7HTwpfOq3QxiJ1BuUqK1tzCiOsxQO9p4QQ4I7pi0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UJ5b5sI/dlG8UcWM4jx/h3Bg0vOuKlHiTBnRBTybs5G5vCCQUNEaLxjAYHhQXRVZFu0Jaqw+rkd6DmyF9cof9czfwdRDUKQHWZnu4FneGWRDzLA1xxufyhPQwYcUKVZEl6CwwB98ggnS7pXosUiU3+uVoQTKzCQ1MhOLVP0OUI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=P0rY+qLi; arc=none smtp.client-ip=57.103.79.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zuYsXKrB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=fa/e34xs+vWwC/zpkG0Qp4UvPM0UzqYtHRg0W2k7uTo=; b=zuYsXKrByCw7L0zVLyvYfMEkAH
-	i5TqP3X44ObLDxGPgXhQwzrFz/tQlroxqLvqdN1GWUsEAfXSF13OtI0GFy9QLKBvghXNMFfO/URHH
-	S7eUmCu75/clOgqVhlmlVRvzhGnS5dHHoDz9Qk+EZpzUGlIlBP4FdNunjvD4Fq7hxoafOBAvZLquF
-	v2G9ZuYwQAo6/FJazbEv5UToxyUzSE9p7M1LKvKiU0oRMBzfPOWuITDPV6TWASg2fdGjYIDTuElq8
-	p3/djUgKtSzwOeKL1FSY6acGPzao662sbYJorlLdXupPudIVHChJ++pPwkjDGkjUiPHBE7USh/G11
-	fBZz2Nkg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wLPFD-00000007B7a-273Y;
-	Fri, 08 May 2026 17:44:11 +0000
-Message-ID: <7bb54e36-44cf-4816-b66d-a18534ea05c8@infradead.org>
-Date: Fri, 8 May 2026 10:44:10 -0700
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="P0rY+qLi"
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-7 (Postfix) with ESMTPS id 3192318002F5;
+	Fri, 08 May 2026 17:48:40 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJBkMDRQVJF0wBTVIPDxhMCkEUWgpcQgtJAS1eCF4fTBwdDlgGEhZdRVsYRRlLHVgWAV8GWXIZWhRcGFNFUR9UWEEOCloBUFEdXwIKBEcEWxdGA1NFQQQXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PGVoUXBhTRVEfVFheBFNWDhIBSwRfBlkKXVpBAV8aX1BGC1UKXFReH0QPHgtZD1oKQFsbBi1eCF4fTBwdDlgGDFBNAUMICgJRHFYNVw==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778262521; x=1780854521; bh=kHvvy5yxS7CNw2T1Cpc3tHmZrh6rKc5Q3rWxoahWoGI=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=P0rY+qLiJOhbkk4DD57e/fqrCGypCEtIH0T54h65TV6EmTxEUcPg4/Qo3Iy7BBOt+ykZpNQm33eHdCAXU7t5p+m5jGc9eO86MgUC+P5esZuQh3woZ1eAHDn6pOnPhDuw573yhgdcusab6Cx4caqRTW/rtZinwFkmITTsFw6oher3j1oVRi7x5+74TBLF0w5k0fp9T8oTRexRy+ULf2VZ+67F9H32uNP+AEeINXZYL5PPYvoE4dKrpctwSdx/cnDF2nNDXG875OdEfQsb30V34uvYigeu483UYhDMWMkmUyEFxrk+XVPz5DS0hU6g72APPllIJbaNkBWsxW01G/qFcQ==
+Received: from [192.168.89.2] (unknown [17.42.251.67])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-7 (Postfix) with ESMTPSA id 2D7D418002C1;
+	Fri, 08 May 2026 17:48:36 +0000 (UTC)
+Message-ID: <b8372128-c922-4b62-91c5-46f848180bc5@icloud.com>
+Date: Sat, 9 May 2026 02:48:35 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,98 +33,49 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] docs: fix repeated prepositions across documentation
-To: Shuah Khan <skhan@linuxfoundation.org>,
- Adrien Reynard <reynard.adrien.08@gmail.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- "open list:KASAN" <kasan-dev@googlegroups.com>,
- "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
- "open list:USER-MODE LINUX (UML)" <linux-um@lists.infradead.org>
-References: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
- <2b771350-0562-4cb1-b9b3-cc3ce59b1a63@linuxfoundation.org>
+Subject: Re: [PATCH v4 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Jihong Min <hurryman2212@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260508143910.14673-1-hurryman2212@gmail.com>
+ <20260508143910.14673-2-hurryman2212@gmail.com>
+ <ad41d70b-e9c0-446e-8bd0-4528de75b592@amd.com>
+ <0d518d40-e239-4d93-8e71-0d2e140f00ca@icloud.com>
+ <966c9e07-10e6-4abe-9cb5-77b974f31302@amd.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <2b771350-0562-4cb1-b9b3-cc3ce59b1a63@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Jihong Min <hurryman2212@icloud.com>
+In-Reply-To: <966c9e07-10e6-4abe-9cb5-77b974f31302@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDE3OCBTYWx0ZWRfX935Lm/qcOlJ4
+ Wd9FC7bHZcNIWRmEu4awLvUwSbEm2uMLs//2yZT8sgY4kYWdfpnwgSmELukQA0CfCZ4bUuVuD0Z
+ U+k/FjEfI8w/y0wKB+QhldIyZ1X1/5RtVcxAOGQQXndpLxzrt/yF6RADdaMcM4j1of9vEBdDg5g
+ g6tzmp/kz5P8i872ylvf4UjnucFwADrfm1DKeJcE5z9yxsKd4FS5bAQTofOjT4XOLuIqQS8NRHb
+ XMmWo06QZmHmKYbEnJOCbxx8WV1a2ArLy2Af4qhzA2V8lbbAvuT5uSK57oZsgMiFd4+hvPcv94o
+ euha7GuwlZHsxJyRk3WkUIOWQ+xwFljM5rpmL/xL/HyPmrhFHfxx9TvEQSTx6I=
+X-Proofpoint-GUID: Cd0ZLK5VeTSlOhUfl_RtlPeOkMoRsz_y
+X-Proofpoint-ORIG-GUID: Cd0ZLK5VeTSlOhUfl_RtlPeOkMoRsz_y
+X-Authority-Info-Out: v=2.4 cv=GJ4F0+NK c=1 sm=1 tr=0 ts=69fe21f8
+ cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
+ a=YrL12D//S6tul8v/L+6tKg==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=W5yn_su87cR4V-zVC3gA:9 a=QEXdDO2ut3YA:10 a=PgRulw5oR9JgysbTFEid:22
+ a=oa2-kN79Xhin27rcel9q:22
 
+> Something else I was thinking about while reviewing this series.
+>
+> Promontory 21 is only on AMD platforms and AMD platforms are only x86. 
+> I think the Kconfig should be conditional on AMD CPU support being 
+> enabled and X86 architecture so that we don't bloat other 
+> architectures with dead code that will never run.
+Agreed. PROM21 is AMD x86 platform-specific, so I will add X86 and
+CPU_SUP_AMD dependencies to USB_XHCI_PCI_PROM21 for v5.
 
-
-On 5/8/26 10:23 AM, Shuah Khan wrote:
-> On 5/8/26 10:38, Adrien Reynard wrote:
-> 
-> Missing commit log
-> 
->> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
->> ---
->>   Documentation/dev-tools/kasan.rst                   | 2 +-
->>   Documentation/networking/switchdev.rst              | 2 +-
->>   Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
->>   3 files changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
->> index 4968b2aa60c8..3a8bd40ad905 100644
->> --- a/Documentation/dev-tools/kasan.rst
->> +++ b/Documentation/dev-tools/kasan.rst
->> @@ -392,7 +392,7 @@ reserved to tag freed memory regions.
->>   If the hardware does not support MTE (pre ARMv8.5), Hardware Tag-Based KASAN
->>   will not be enabled. In this case, all KASAN boot parameters are ignored.
->>   -Note that enabling CONFIG_KASAN_HW_TAGS always results in in-kernel TBI being
->> +Note that enabling CONFIG_KASAN_HW_TAGS always results in-kernel TBI being
-> 
-> This is correct the way it is - no need to change this. "results in in-kernel"
-
-ack.
-
->>   enabled. Even when ``kasan.mode=off`` is provided or when the hardware does not
->>   support MTE (but supports TBI).
->>   diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
->> index 2966b7122f05..948bce44ca9b 100644
->> --- a/Documentation/networking/switchdev.rst
->> +++ b/Documentation/networking/switchdev.rst
->> @@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
->>   monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
->>   bond will see its upper master change.  If that bond is moved into a bridge,
->>   the bond's upper master will change.  And so on.  The driver will track such
->> -movements to know what position a port is in in the overall topology by
->> +movements to know what position a port is in the overall topology by
-> 
-> This looks fine.
-
-Change not needed.
-
->>   registering for netdevice events and acting on NETDEV_CHANGEUPPER.
->>     L2 Forwarding Offload
->> diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
->> index c37e8e594d12..7b08738c30aa 100644
->> --- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
->> +++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
->> @@ -1092,7 +1092,7 @@ be formatted as plain text.
->>     Developing always goes hand in hand with debugging. First of all,
->>   you can always run UML under gdb and there will be a whole section
->> -later on on how to do that. That, however, is not the only way to
->> +later on how to do that. That, however, is not the only way to
-> 
-> This change is not needed. If at all add a comma after "later" to make
-> a distinction between the use two back to back "on"s
-> 
->  "later on,"
-
-We disagree. :)
-This change LGTM.
-
--- 
-~Randy
-
+Sincerely,
+Jihong Min
