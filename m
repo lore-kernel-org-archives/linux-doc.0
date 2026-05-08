@@ -1,111 +1,238 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CBD26F2A0;
-	Fri,  8 May 2026 07:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E35336403A;
+	Fri,  8 May 2026 08:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.35.192.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778225881; cv=none; b=swzZhGj55SEzkuaLyx+NyLaxjQ+TqTMCfIbQg3ipcGEePHMz6QmJXz3LjoWz0JWyBeH2OIwQrhrlMwdeoX4lsTdnmFcko0ApK+cJsdHUUJ81nXQPJxtdDmhQeEVqFb9mTJUtpM0+lPf0IRhOPBIvYpMtcsSKz5bbKgEEorW/BYI=
+	t=1778228319; cv=none; b=c43kfh65tIJ0DrHDOcEoV5MKayoOfqYTMGOklFOMB5wjwT8t5L5/WcOKEH2xWt95J9tGscIuejjUPEazYxjw83J7417IOGU69P8ZqAeilP9l8RiEmzlfl3Y2tsZt6nIBdy5/bP+I4CGmi43Iz0xQ9YKDdw8PMhW9yTIGuCuRISg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778225881; c=relaxed/simple;
-	bh=NRhqpO0rWWTJQZAs7QEzV5sSKAJNdZGNTpfZ2fgN4xw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bzkeWjIMfQc9nmkxqIXCryVZY9P16WkGR6aV+gfc7s7AXCsyqkBJCfCHzIws90Dx5IRyoTGZjIYyeYXkK5zEW87r3kgjF8NvPjgMTMWgpvA6V2GUvc78Nna3BspkPOCjzvCNIqVQtwJkAmbKwJ34AFCvdRDAJvJvo+O3kg/URZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Af6tTmYX; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778228319; c=relaxed/simple;
+	bh=Jc3PpcNd3ZxX08IHUJtRP179UXyMvc29rNhuJm7NkoM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iVqVnJ+RxrMKTf0e0WUu1dNoR72yBGnG4/417ywyKyYb3YvWSSgudHFXC7vusVZ+1DAEJ5+qKJtx0T8f6i4blYzDQJLH7UQOcoE7CV5hNxcerIMZN+H7oHcH5EQkxyY8vM4/iVgQJG2QLGCEg89f7zcmdi5P67s7lq0zqmNl82g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=mpDmhIDH; arc=none smtp.client-ip=52.35.192.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Af6tTmYX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778225880; x=1809761880;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NRhqpO0rWWTJQZAs7QEzV5sSKAJNdZGNTpfZ2fgN4xw=;
-  b=Af6tTmYXXlMbtgTjef+DUdN23Z5tlojj4AzFLqoownDTBEb83MJAjDS/
-   M8UVXTXuiArIlJNzyglRZaK+D76N/KtdvnsmgPvYA9zzurosxjcm/sIJZ
-   nB6hstynqZxOx/vYvkcBS6oju+iD4U3pvGHoqM0nDHnxzK03VQhmryhIt
-   XQux/5pzuEghwF2fyk6mIqMkeLMd4AQo7V6DM/SNoJPir9Tu1C3586tiH
-   nrWiKKPS0e08oNi0V1YeiMkkQ0/m6xgkf8BOcqVSFgTkmL6JIq6a2ZYnx
-   hOo1jMggpMB14tIPCj70NoXTPW62ar6VQgbAyInMdudOp7wvjqcKzJl2y
-   Q==;
-X-CSE-ConnectionGUID: QQ/hh3sDTreiHv9ZCtjzKw==
-X-CSE-MsgGUID: hGE1wk46Sx2ntQjJRTaXLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="66716276"
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="66716276"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 00:37:59 -0700
-X-CSE-ConnectionGUID: D+9fE+sqSgO0SUvGSNuNCw==
-X-CSE-MsgGUID: W/HElhn4SGqBre2ryzpISw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="238483501"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.237])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 00:37:55 -0700
-Date: Fri, 8 May 2026 10:37:53 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>
-Subject: Re: [PATCH 0/3] iio: dac: Add support for AD5529R DAC
-Message-ID: <af2S0eIia76c4m2K@ashevche-desk.local>
-References: <20260507-ad5529r-driver-v1-0-b4460f3cb44f@analog.com>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="mpDmhIDH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1778228318; x=1809764318;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=he6DON9jfdhSLBt5e/vXn3CElWPL4k8qbH0NcK/2obw=;
+  b=mpDmhIDHD9Z9dIBy2Xr9/PGUfqlwPzQOsrVF1L+8dRzQXh4VWb6Lknfu
+   viYhguRusJq2uwxyhC7BLQ4Qer0k2W7yBTuSLHltw10UfN+LaTU/y2Yaw
+   N4VEBsUzGEQENERkloUMUDXEVmAocjvKMEt+toFlc3hbW5QoqC4Htw829
+   IpUSLopwAmAcPju6UHTPUIF7Rc9WMPZsbD6O0k2Qc3u1r2cr8Brp2fz2J
+   QoMIEU83/+OD4CmftCgWXiQEzMi96JyC1ZGJ36tAljgfgWosM3FMPP6Q6
+   vR18d8uiC9+3c16HSmqrgMYTNGrrhERX6iGxONV2frmr612c+VIJ7rmIB
+   A==;
+X-CSE-ConnectionGUID: T2XNpIqvShm0IOn66vQpwQ==
+X-CSE-MsgGUID: K+8ujvsvQ+aWk2f8+1q5Sw==
+X-IronPort-AV: E=Sophos;i="6.23,223,1770595200"; 
+   d="scan'208";a="18948631"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 08:18:34 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:1235]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.8.77:2525] with esmtp (Farcaster)
+ id 181a188e-b1e1-456f-b102-a9f2c8f54015; Fri, 8 May 2026 08:18:34 +0000 (UTC)
+X-Farcaster-Flow-ID: 181a188e-b1e1-456f-b102-a9f2c8f54015
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Fri, 8 May 2026 08:18:31 +0000
+Received: from dev-dsk-itazur-1b-11e7fc0f.eu-west-1.amazon.com (172.19.66.53)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Fri, 8 May 2026 08:18:18 +0000
+From: Takahiro Itazuri <itazur@amazon.com>
+To: <fvdl@google.com>, <seanjc@google.com>, <ljs@kernel.org>
+CC: <Liam.Howlett@oracle.com>, <ackerleytng@google.com>,
+	<agordeev@linux.ibm.com>, <ajones@ventanamicro.com>,
+	<akpm@linux-foundation.org>, <alex@ghiti.fr>, <andrii@kernel.org>,
+	<aou@eecs.berkeley.edu>, <ast@kernel.org>, <baolu.lu@linux.intel.com>,
+	<borntraeger@linux.ibm.com>, <bp@alien8.de>, <bpf@vger.kernel.org>,
+	<catalin.marinas@arm.com>, <chenhuacai@kernel.org>, <corbet@lwn.net>,
+	<coxu@redhat.com>, <daniel@iogearbox.net>, <dave.hansen@linux.intel.com>,
+	<david@kernel.org>, <derekmn@amazon.com>, <dev.jain@arm.com>,
+	<eddyz87@gmail.com>, <gerald.schaefer@linux.ibm.com>, <gor@linux.ibm.com>,
+	<haoluo@google.com>, <hca@linux.ibm.com>, <hpa@zytor.com>,
+	<itazur@amazon.co.uk>, <jackabt@amazon.co.uk>, <jackmanb@google.com>,
+	<jannh@google.com>, <jgg@ziepe.ca>, <jgross@suse.com>, <jhubbard@nvidia.com>,
+	<jiayuan.chen@shopee.com>, <jmattson@google.com>, <joey.gouly@arm.com>,
+	<john.fastabend@gmail.com>, <jolsa@kernel.org>, <jthoughton@google.com>,
+	<kalyazin@amazon.co.uk>, <kas@kernel.org>, <kernel@xen0n.name>,
+	<kpsingh@kernel.org>, <kvm@vger.kernel.org>, <kvmarm@lists.linux.dev>,
+	<lenb@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-pm@vger.kernel.org>,
+	<linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+	<loongarch@lists.linux.dev>, <lorenzo.stoakes@oracle.com>, <luto@kernel.org>,
+	<maobibo@loongson.cn>, <martin.lau@linux.dev>, <maz@kernel.org>,
+	<mhocko@suse.com>, <mingo@redhat.com>, <mlevitsk@redhat.com>,
+	<nikita.kalyazin@linux.dev>, <oupton@kernel.org>, <palmer@dabbelt.com>,
+	<patrick.roy@linux.dev>, <pavel@kernel.org>, <pbonzini@redhat.com>,
+	<peterx@redhat.com>, <peterz@infradead.org>, <pfalcato@suse.de>,
+	<pjw@kernel.org>, <prsampat@amd.com>, <rafael@kernel.org>,
+	<riel@surriel.com>, <rppt@kernel.org>, <ryan.roberts@arm.com>,
+	<sdf@fomichev.me>, <shijie@os.amperecomputing.com>,
+	<skhan@linuxfoundation.org>, <song@kernel.org>, <surenb@google.com>,
+	<suzuki.poulose@arm.com>, <svens@linux.ibm.com>, <tabba@google.com>,
+	<tglx@kernel.org>, <thuth@redhat.com>, <urezki@gmail.com>,
+	<vannapurve@google.com>, <vbabka@kernel.org>, <will@kernel.org>,
+	<willy@infradead.org>, <wu.fei9@sanechips.com.cn>, <x86@kernel.org>,
+	<yang@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
+	<yonghong.song@linux.dev>, <yosry@kernel.org>, <yu-cheng.yu@intel.com>,
+	<yuzenghui@huawei.com>, <zhengqi.arch@bytedance.com>, <zulinx86@gmai.com>
+Subject: Re: [PATCH v12 10/16] KVM: guest_memfd: Add flag to remove from direct map
+Date: Fri, 8 May 2026 08:18:10 +0000
+Message-ID: <20260508081812.12345-1-itazur@amazon.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CAPTztWb67XZvfcMVnbegDNNW0LJa9UsaTGx3M898xJUJrekk0w@mail.gmail.com>
+References: <CAPTztWb67XZvfcMVnbegDNNW0LJa9UsaTGx3M898xJUJrekk0w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260507-ad5529r-driver-v1-0-b4460f3cb44f@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: EX19D033UWA002.ant.amazon.com (10.13.139.10) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Thu, May 07, 2026 at 06:28:08PM +0200, Janani Sunil wrote:
-> This patch series adds support for Analog Devices AD5529R, a 16 channel
-> 16 and 12 bit voltage Digital-to-Analog Converter (DAC) with integrated
-> precision reference. The AD5529R operates from both unipolar and
-> bipolar supplies. The device communicates via SPI interface.
-> 
-> **Device Overview:**
-> The AD5529R features 16 independent DAC channels, with 16 or 12 bit
-> resolution, allowing independently programmable output ranges. The
-> internal 4.096V precision reference sets the accuracy of the output
-> voltage.
-> 
-> **Features Implemented:**
-> - Automatic detection of 12/16 bit generic with product ID read.
-> - Reset support via GPIO.
-> - Dual regmap configuration to handle 8 and 16 bit registers.
-> 
-> **Patch Summary:**
-> 1. **dt-bindings**: Binding documentation with channel configuration.
-> 2. **driver**: Implement IIO DAC Driver with regmap support.
-> 3. **documentation**: Add driver documentation with usage examples.
-> 
-> **Testing:**
-> The driver was compiled and tested on the EVAL-AD5529R-ARDZ using a
-> coraZ7 with a mainline v7.0 kernel.
+Hi Sean, Frank, Lorenzo,
 
-Missed section for a new driver. Id est answer the question "Why a new brand
-driver? Do we have something similar in IIO  already to be expanded to cover
-this HW part?"
+On Tue, Apr 21, 2026 at 10:08:48AM -0700, Frank van der Linden wrote:
+> On Tue, Apr 21, 2026 at 9:31 AM Sean Christopherson <seanjc@google.com> w=
+rote:
+> > Making guest_memfd responsible for zapping and restoring the direct map=
+ on a per-
+> > folio basis feels wrong given the addition of AS_NO_DIRECT_MAP.  I espe=
+cially don't
+> > like that the "rules" for when an AS_NO_DIRECT_MAP folio has a direct m=
+ap will vary
+> > based on the owner, and even within an owner (e.g. guest_memfd) will be=
+ ad hoc.
+> >
+> > E.g. as per the series to add guest_memfd write() support[*]:
+> >
+> >   When direct map removal is implemented [2]
+> >    - write() will not be allowed to access pages that have already
+> >      been removed from direct map
+> >    - on completion, write() will remove the populated pages from
+> >      direct map
+> >
+> > That's pretty gross ABI, because with KVM_GMEM_FOLIO_NO_DIRECT_MAP, use=
+rspace can
+> > write() exactly once.  To re-write memory, I assume userspace would nee=
+d to do a
+> > PUNCH_HOLE or truncate.
+> >
+> > What's preventing us from handling this automagically in e.g. filemap_a=
+dd_folio()
+> > and filemap_remove_folio()?  Then the usage rules are pretty straightfo=
+rward: the
+> > kernel must *always* assume the direct map is invalid for folios from
+> > AS_NO_DIRECT_MAP mappings.
+> >
+> > Then if KVM needs to utilize a kernel mapping, e.g. in kvm_gmem_populat=
+e(), KVM
+> > could use dedicated variants of kmap_local_xxx() to deal with a local m=
+apping for
+> > a folio/page without a direct map.  Or, KVM could simply disallow the s=
+pecific
+> > sequence that would require KVM to do the memcpy (I'm pretty sure we ca=
+n do that
+> > with in-place shared=3D>private conversion support).
+> >
+> > I realize that could throw a big wrench into write() performance, but I=
+MO, before
+> > merging either series, we need a complete story for exactly how this wi=
+ll all fit
+> > together, in a maintainable fashion and with sane ABI.
+>
+> I agree with this - this approach would also allow for memory that was
+> never in the direct map to begin with, or has been taken out already
+> (for which I happen to have a use case :-)). guest_memfd and other
+> code can then assume that AS_NO_DIRECT_MAP means they have to take
+> explicit action to map it if needed. It's a clean, simple ABI.
+>
+> With the current set of patches, it seems like this couldn't be done
+> in a clean manner.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Agreed with both of you.  I'll adopt the filemap-level approach:
 
+- Move the zap/restore hooks from guest_memfd into filemap_add_folio()
+  / filemap_remove_folio().
+- Tighten AS_NO_DIRECT_MAP semantics so that, for folios in such a
+  mapping, the direct map is invalid for the entire time the folio
+  resides in the page cache.
+- Drop the per-folio KVM_GMEM_FOLIO_NO_DIRECT_MAP bookkeeping in
+  folio->private, since the existence of the folio in the mapping is
+  itself the state.
+
+On each guest memory population path,
+
+- memcpy-based population from userspace goes through the userspace
+  mapping of guest_memfd, not through the kernel direct map, so the
+  filemap-level invariant doesn't affect it.  But this is slow, which
+  is what motivated the write() syscall support.
+
+- write(): meant to speed up the userspace-memcpy case above by doing
+  the copy in the kernel.  I believe Brendan's __GFP_UNMAPPED/mermap
+  work [1] would give us a low-overhead way to get temporary kernel
+  access to an AS_NO_DIRECT_MAP.  Landing mermap may take a while, but
+  this series does not introduce the write() path, so mermap is not a
+  blocker for now.
+
+- kvm_gmem_populate(): this is a TDX/SNP-only path, and NO_DIRECT_MAP
+  is not available on those VM types =E2=80=94
+  kvm_arch_gmem_supports_no_direct_map() returns false for
+  KVM_X86_TDX_VM and KVM_X86_SNP_VM, which are its only callers
+  today.  So it doesn't interact with the filemap invariant IIUC.
+
+So, unless I'm missing any path, adopting the filemap-level approach in
+this series should be fine.
+
+
+I'd like to consult with you folks on how to proceed in advance.  In a
+separate reply on the cover letter thread [2], Lorenzo and Sean
+suggested that the mm pieces should go through the mm subsystem:
+
+On Tue, Apr 21, 2026 at 04:36:00PM +0000, Sean Christopherson wrote:
+> Yeah, when the time comes, the mm pieces definitely need to go through th=
+e mm
+> tree.  Ideally, I think this would be merged in two separate parts, with =
+all mm
+> changes going through the mm tree, and then the KVM changes through the K=
+VM tree
+> using a stable topic branch/tag from Andrew.
+
+I see two reasonable paths to get there, and would appreciate your
+input on which you prefer:
+
+Path A =E2=80=94 validate on KVM side first, then split:
+  - Post v13 as a single series on the KVM list, gather feedback and
+    make sure the design is acceptable to KVM reviewers.
+  - Once v13 looks good ("the time comes"), do the MM/KVM split,
+    rebase the MM part onto the appropriate MM branch, and post the
+    MM part to linux-mm to build consensus with MM maintainers.
+
+Path B =E2=80=94 split early and seek MM consensus in parallel:
+  - With the filemap rework already in place, do the MM/KVM split
+    now and post the MM part to linux-mm directly.  The KVM part follows
+    on top of a stable topic from MM.
+
+Which of the two would you rather see?  Happy to go either way.
+
+
+[1] https://lore.kernel.org/all/20260320-page_alloc-unmapped-v2-0-28bf1bd54=
+f41@google.com/
+[2] https://lore.kernel.org/all/20260506080753.14517-1-itazur@amazon.com/
+
+Takahiro
 
