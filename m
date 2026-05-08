@@ -1,147 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7543C1F;
-	Fri,  8 May 2026 22:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBB23A3803;
+	Fri,  8 May 2026 22:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778280536; cv=none; b=jjayp+yf68Z3TZYqdbbKRgZ0nLUunbaRsd1PAZXRTbTEaDqUfzcSSLBArY0P2XhWc+m+RalFyuSkpM2dkszZKG/8G88ZToaCK53Pln9TT0EpWRfnza8watf3WExCJRaJCI9/p/kjEg7WFWQPCQ+3an6uBtDCb5zHGzOTz1uPYhA=
+	t=1778280773; cv=none; b=T2PaP1qxoO0LRy3wpvg+hKkn1cy8EVqBSrBgy4FZaCKeBi0sDtg1oUYWryE0BAb2bvhpQw/iXDOsPUeNdwf83+WI6DzpYcnXTambiUSPAJIajPQOuDhVFbnOzKkUpp8q6nLiVrfYFSxKkkVzowc1Y9Xism2TNsfH9QhPNoSvImg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778280536; c=relaxed/simple;
-	bh=6sz+vBdkuTvEzmaVLVonZ/ivfq2/k1Il2bgKgF4N7rA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MsSAPg2/uS6e8O6YYuXqsxgiUn5tjwH1k9MePHSoQNRmGJvgGhnf8Tts1rB6fYOzExR7ErBhHzfPdQ0PNxhFxZEYn8rF+JwFGN+vQhrOcr3xkQbNjA+cqXmURQ7Oep7aCR3t+p38KvhpzkyIlD5M2q0f3aVsGyjEB+ZCCPLuFFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=giwf11MK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778280773; c=relaxed/simple;
+	bh=s20kqENNCFxqHsADchApmHPC8MzLlEGRdfpMf4PZYOY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lqvtgBva9oPa8mvyzR68KNUH3ax9xhyQz+9dHRiR8IpG6/pPUQreBImnoL6iZwDFpsaTZP/bKjSPrXPz0KjAt7bnPn1PSqIqy/rO/qpBE95XeJrnqBXHr+/9dWzzrZDk3Nubyzw/XvEEs5zMdqsCzp5pzqDFZe6pGS0hcmhDfvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BZ65DI4W; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="giwf11MK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D2CCC2BCB0;
-	Fri,  8 May 2026 22:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778280536;
-	bh=6sz+vBdkuTvEzmaVLVonZ/ivfq2/k1Il2bgKgF4N7rA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=giwf11MKzluYBUgCH2GW0ROQyazLOtO9+H2Ex5ow7pYlfQqA9iDXYHdZYmsUVEuyd
-	 HGi7nNesirt4s8aeWPI0CTw0OxOycGJax8Eo6EnEsjrEBMGINQ5ngVwtkRsuZ6kkVv
-	 T6RpAhdaGpj0vNEX+lmIXr38xADiW7h44Ue3HdaphpUgbtePffpPCvpPZkLkXnfHxd
-	 QTXNlmQ9+BxiwIZAe/Ek40tdHTwFPo3Np/cGDqXreE/tV2QMopGG7nToaZeMuVrl+c
-	 +Hq/02Pj/WmWEQOkQSuNokMy38ErkmwcFyktq6r94y7HsAFsmaHtteGxHun8wsjH30
-	 tstTqXQXNo6PA==
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 9B7BEF4007C;
-	Fri,  8 May 2026 18:48:54 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Fri, 08 May 2026 18:48:54 -0400
-X-ME-Sender: <xms:Vmj-aeMrTOhfPeM7Lm1aS1S5iGEHVZrY5gO8qRAqJkBfpdgQAGVZEw>
-    <xme:Vmj-aV9nl_5mxVSKhaYrCbl6c37ZyGP0O4-dT_C8eJiDqZNNLf1tnuyRzmC1wf2Nv
-    yMlVssTyhbCCeOItHTOdvb03vlCmY6r5bFPty4pDufxsJM6tywRT2PI>
-X-ME-Received: <xmr:Vmj-ae9wx9F_B8SVKtl0vJNnrcbVCbaA96kfhpY3mOjen9SSkeTLWcZEeCB1Ug>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudduheelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttdertd
-    dttddvnecuhfhrohhmpefmihhrhihlucfuhhhuthhsvghmrghuuceokhgrsheskhgvrhhn
-    vghlrdhorhhgqeenucggtffrrghtthgvrhhnpeffffekgeffjefgkedvjeeggedttdelje
-    ekhffhudeiudfhiefgudeugffhheffudenucffohhmrghinhepkhgvrhhnvghlrdhorhhg
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
-    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
-    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
-    hnrghmvgdpnhgspghrtghpthhtohepgeeipdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoh
-    eprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehpvghtvghrgiesrhgvughh
-    rghtrdgtohhmpdhrtghpthhtohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htoheplhhjsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhurhgvnhgssehgohho
-    ghhlvgdrtghomhdprhgtphhtthhopehvsggrsghkrgeskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhirghmrdhhohiflhgvthhtsehorhgrtghlvgdrtghomhdprhgtphhtthho
-    peiiihihsehnvhhiughirgdrtghomh
-X-ME-Proxy: <xmx:Vmj-aVofAgSl9mSIiINXpTPQ8XI8WMb3JHJcwje24GO0tznJGlGTmQ>
-    <xmx:Vmj-aZJR0VFqVsZL7-CO3Z_G4jsNBRFVMeB-AoHye3zAVaeTZeh4Mw>
-    <xmx:Vmj-aa11GWmX_VLUA9xJWrlCC40s3BoSlAn9uZOeoj7AMM-MlkvNSg>
-    <xmx:Vmj-aS6bZWY5AwPgbOjfbsSRXt6YDwbIIHO7jjp0HSAS-RdjuO0ONg>
-    <xmx:Vmj-aYOglhxgNoFgXF7xSym8II-0Oh9NL6Qz8Bkxc0pGKRZEyvb9HTB2>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 May 2026 18:48:54 -0400 (EDT)
-Date: Fri, 8 May 2026 23:48:53 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: rppt@kernel.org, peterx@redhat.com, david@kernel.org, ljs@kernel.org, 
-	surenb@google.com, vbabka@kernel.org, Liam.Howlett@oracle.com, ziy@nvidia.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com, 
-	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, sj@kernel.org, 
-	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v2 00/14] userfaultfd: working set tracking for VM guest
- memory
-Message-ID: <af5eALk9yO8pPcHv@thinkstation>
-References: <cover.1778254670.git.kas@kernel.org>
- <20260508103220.aa46427b6f4c5d0247d2afb0@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BZ65DI4W"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=658ccoulNtX3cPhVXXZRudsliBqtDdGK7HxCbW6pxgA=; b=BZ65DI4WTcWke3r/UU48lt1x01
+	BgSKvShjFFs3wvDmN/5KQbJdnMt6sN85x9h3YYmLlIMFgnQJOlILOu/NpBz49JQmZGhmYhJYiVYx8
+	v+kkaM6lKHkemrEPXkuOX2rWjQc2osyA/EN0mdFIazaCTdX8vqJOwf6g58A9YLn9CNZOblAtetcMK
+	SFS71CB3A6w0ofLuGfKYSZVxXnxM6zWyI0QncjAnVVZhUTCeFT5DrR/kTpUgXVHBhNoBdIIVx867L
+	DgQ5v+xbC5F6xTWKbL6kIpsaj16uARiej9xLqxqZAIYdhrcIcDcXZVb6iZuKvmnx+/52+ZUVzwxKX
+	HKAo9sug==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wLU3k-00000007g6u-0dPG;
+	Fri, 08 May 2026 22:52:40 +0000
+Message-ID: <27c61395-f04f-420c-9a84-7e27773f2027@infradead.org>
+Date: Fri, 8 May 2026 15:52:39 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508103220.aa46427b6f4c5d0247d2afb0@linux-foundation.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] docs: fix repeated prepositions across documentation
+To: Andrew Lunn <andrew@lunn.ch>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Adrien Reynard <reynard.adrien.08@gmail.com>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ "open list:KASAN" <kasan-dev@googlegroups.com>,
+ "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
+ "open list:USER-MODE LINUX (UML)" <linux-um@lists.infradead.org>
+References: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
+ <2b771350-0562-4cb1-b9b3-cc3ce59b1a63@linuxfoundation.org>
+ <3c6cde1a-9ce0-4d63-ba89-820c596cff3e@lunn.ch>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <3c6cde1a-9ce0-4d63-ba89-820c596cff3e@lunn.ch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 08, 2026 at 10:32:20AM -0700, Andrew Morton wrote:
-> On Fri,  8 May 2026 16:55:12 +0100 "Kiryl Shutsemau (Meta)" <kas@kernel.org> wrote:
+
+
+On 5/8/26 3:41 PM, Andrew Lunn wrote:
+> On Fri, May 08, 2026 at 11:23:43AM -0600, Shuah Khan wrote:
+>> On 5/8/26 10:38, Adrien Reynard wrote:
+>>
+>> Missing commit log
+>>
+>>> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
+>>> ---
+>>>   Documentation/dev-tools/kasan.rst                   | 2 +-
+>>>   Documentation/networking/switchdev.rst              | 2 +-
+>>>   Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
+>>>   3 files changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+>>> index 4968b2aa60c8..3a8bd40ad905 100644
+>>> --- a/Documentation/dev-tools/kasan.rst
+>>> +++ b/Documentation/dev-tools/kasan.rst
+>>> @@ -392,7 +392,7 @@ reserved to tag freed memory regions.
+>>>   If the hardware does not support MTE (pre ARMv8.5), Hardware Tag-Based KASAN
+>>>   will not be enabled. In this case, all KASAN boot parameters are ignored.
+>>> -Note that enabling CONFIG_KASAN_HW_TAGS always results in in-kernel TBI being
+>>> +Note that enabling CONFIG_KASAN_HW_TAGS always results in-kernel TBI being
+>>
+>> This is correct the way it is - no need to change this. "results in in-kernel"
+>>
+>>>   enabled. Even when ``kasan.mode=off`` is provided or when the hardware does not
+>>>   support MTE (but supports TBI).
+>>> diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
+>>> index 2966b7122f05..948bce44ca9b 100644
+>>> --- a/Documentation/networking/switchdev.rst
+>>> +++ b/Documentation/networking/switchdev.rst
+>>> @@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
+>>>   monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
+>>>   bond will see its upper master change.  If that bond is moved into a bridge,
+>>>   the bond's upper master will change.  And so on.  The driver will track such
+>>> -movements to know what position a port is in in the overall topology by
+>>> +movements to know what position a port is in the overall topology by
+>>
+>> This looks fine.
 > 
-> > This series adds userfaultfd support for tracking the working set of
-> > VM guest memory, so a VMM can identify cold pages and evict them to
-> > tiered or remote storage.
-> > 
-> > v1: https://lore.kernel.org/all/20260427114607.4068647-1-kas@kernel.org/
+> Fine as in the change is correct, or fine in that the original is
+> correct and the change is wrong?
 > 
-> Thanks.  I'll duck v2 for now, await more review.
-
-Sure.
-
-> > Assisted-by: Claude:claude-opus-4-6
+> Because the change is wrong, there should be two in's here. Please
+> search the archive for an explanation why.
 > 
-> For my education, and perhaps for others: can you please explain how
-> you used Claude in the preparation of this series?
+> This is the second time in a week i've had to deal with "improvements"
+> like this actually breaking stuff. Which also shows that the submitter
+> did not search to see if somebody has tried to fix this once already,
+> and failed.
+> 
+> Can we get the tool changed to add a warning, something like:
+> 
+>   WARNING: This tool uses very simple pattern matching to look for
+>   repeated words. It does not understand the complexity of English,
+>   and will often result in false positive reports. Please assume it is
+>   wrong until proven otherwise.
 
-I'm no expert by any means, but here's how I used it here.
+There was no commit log and no cover letter AFAIK.
+Do we know what tool was used?
 
-For this particular project there was quite a bit of path-finding.
-I had a phase where I bounced ideas off Claude. It helped me
-understand the problem space better and formulate possible solutions.
-Rubber ducking on steroids.
+Adrien, how did you discover these repeated words?
 
-Once it's clear _what_ to do, we formulate a plan on _how_. It also
-involves back and forth.
-
-Once the plan was done, I gave the go-ahead on executing it.
-
-Userfaultfd already had a test suite, and it was extended to cover the new
-functionality. I have some scripts to build the kernel and run it in a VM.
-Claude knows how to use them, so at the end of plan execution I had a
-functional feature.
-
-Then the review phase. The most time-consuming and draining part.
-I carefully reviewed all patches.
-
-At this stage I use Claude as an editor.
-
-Some of the changes I asked for required substantial rework of the whole
-patchset, and I had to start the review from scratch. A good test suite and
-build-test harness help to keep the whole thing from falling apart.
-
-It took me quite a few review rounds before I was happy with the result.
-Maybe between 8 and 10. I think better instructions can cut this number down.
-
-And I need to rethink how I do the review. Reading the git log in
-parallel with examining the code in the editor and giving instructions to
-Claude is not very ergonomic. There's room for improvement.
-
-Once I was happy with the patchset to give it Signed-off-by, I ran it
-through Chris' review prompts several times, addressing the issues.
-
-I hope it is helpful. I would also be glad if other folks shared their
-workflow. There is probably a better way to achieve the same result.
-I am new to the game.
+(If it's my script from 2021, I'll gladly update it.)
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+~Randy
+
