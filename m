@@ -1,329 +1,159 @@
-Received: from outbound.qs.icloud.com (qs-2003l-snip4-5.eps.apple.com [57.103.86.118])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3057537BE80
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 07:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.86.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3849D3590A9;
+	Fri,  8 May 2026 07:16:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778223908; cv=none; b=qkWDLpFpbr4UWas9ssGoJdc0yRjJstwJHRR0zmZaNjBy7QSmOeSijY8lHJ6TOV5Q4pl2+VjjW+A4PKQiFzNa10gbLc7QK0iPg6p852Hr+FsDTgZbI/p3ulLEOGScPWBKOIugd2XjGegVn+ye44Za1W+e7ghsTuLVuB9t/Jk5Ljc=
+	t=1778224613; cv=none; b=diCbYHeGa30Ux6YWaXiEdbvV2mcsEOdtUrZ8SsjbcMUhXskYHwW7JroPvePTorSrue3LhV077SdXoEvr+kQUn2w6ic9VsSNuTvv+HUQdXPSgZOpgCh7XIoyqP1my7Vp065gtb3UTYFdr/P6EzbgFL08eGxb/WcXZUoForE5seac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778223908; c=relaxed/simple;
-	bh=FVVww/7ZCIlmqpV3f56A52J55Nootnml61a5paF3DJ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dmnS27fDgXYzKJUvUubbjV8wa2A5+Mv/WaqMV3rMOXaiLLiXIuxsKnH0YtU+lpuq5zcSqDeWllArI3dvC6o+B7rli5dKsN1DGHS9qcqKLMl6qBvPGp/fiJOTVTXMQ5uGSJNcmFBScXfLY40Ln0S4Zjm4O9XuUJrTtL+/1wXQGgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=dRHlgSxC; arc=none smtp.client-ip=57.103.86.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1778224613; c=relaxed/simple;
+	bh=ITvO/Wnnta7yKqzqzQ7Cj00XdBxl6lmGHadV6xLlKHE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NU+1eYAg1IAcsbLYbHgKiQ5E9K9XMXbxEuuzuZNJ6udRt2b5lbwu8SvmX+pz6dMz0lXUjOa+THXnoqN7sWtYikNIqrOFTg2PfFzTTICujeV/VP7iTsmuT1ciPztlcWG/E9Mm5BuClJKmL/ChFszlRe8OMyctkyEaT976EPW4PLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wmt1FzUK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="dRHlgSxC"
-Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-2d-60-percent-5 (Postfix) with ESMTPS id 7A33218000B1;
-	Fri, 08 May 2026 07:04:59 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJBkMDRQVJF0wBTVIPDxhMCkEUWgpcQgtJAS1eCF4fTBwdDlgGEhZdRVsYRRlLHVgWAV8GWXIZWhRcGFNFUR9UWEEOCloGUFEdXwIKBEcEWxdGA1NFQwMXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PGVoUXBhTRVEfVFheBFNWDhYNT1dUVAgDXVxLCg8aXwNJAFVRXQRaHxUASVFVUlsAEVtJVy1eCF4fTBwdDlgGDFBNAUMICgJRHFYNVw==
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778223902; x=1780815902; bh=vrmtu3cjU0Q9sWlHRKR3zouF3lZXojOuoaPUVq+EAGk=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=dRHlgSxCBwoj/Zd/vcadOj/ngR35cjx4kq2GWUFBWRgeElA4mHCfeIPBi5G1ouP/GLoceFsh0RxOsV5vBgNE7aftR3sDWUK2+A0YjxgEkjRmioIm/0JU/zC8dLFUNCynUEZZ6S7N+jH67+wV1ug4KFbLsHgZt8HMi98HSDhvqV6jC2AHYc5fml2vBk2bE8YGP4sWMosGwioKaMn/9KzZ1C0eX5GlrjfsLk6HRE+f2m3pYAhQHzQ3EXjUkxCeighdodgp0aqppCo+qg48cAl1bMydnTprZoA2qf+hpiJ9hfEn8j/mKhK8QQfuA2UiUehi3vuINnWs05+u5guYpzw7uA==
-Received: from [192.168.89.2] (unknown [17.57.155.37])
-	by p00-icloudmta-asmtp-us-east-2d-60-percent-5 (Postfix) with ESMTPSA id 876501800160;
-	Fri, 08 May 2026 07:04:55 +0000 (UTC)
-Message-ID: <f47d9cc1-e39b-4199-b031-e91b8e02ab1d@icloud.com>
-Date: Fri, 8 May 2026 16:04:52 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wmt1FzUK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E29D7C2BCB0;
+	Fri,  8 May 2026 07:16:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778224610;
+	bh=ITvO/Wnnta7yKqzqzQ7Cj00XdBxl6lmGHadV6xLlKHE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Wmt1FzUKrEAA1b4PfFOHOybT2shX0upZMutoo6lZcBTp33KH9LQJ7Z8x99jekJkmw
+	 O+gQhia36/J6hej27zdNqN8vRP9EPEbSNge5P60YEJwddn8ODYyLVy7YYvj8QB6qgh
+	 c0atxTx58daztgC98Hi8wfxtDFlaPUoAM0+lx/FyqXIk+xTod5OENaSUhUUgXsO6RJ
+	 TpMk+bMIPx7fHtzsryri3BMZoWZCnZO5PvcX/glHpdXu3SfUw3ntIkMLKLB0OmACvI
+	 fW4vnn1cefl16QIrUMkr/Pof1po3wbIRLoHkkxxdegKG8rcgKHcXSPNY99/Nf4oOzP
+	 IhqgWPxFHFKjg==
+Date: Fri, 8 May 2026 09:16:44 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Gary Guo <gary@garyguo.net>, Benno Lossin <lossin@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, =?UTF-8?B?QmrDtnJu?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Alice Ryhl <aliceryhl@google.com>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Boqun Feng <boqun@kernel.org>, Danilo
+ Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Trevor Gross
+ <tmgross@umich.edu>
+Subject: Re: [PATCH v2 11/11] MAINTAINERS: use a URL for pin-init
+ maintainer's profile entry
+Message-ID: <20260508091644.420bd440@foz.lan>
+In-Reply-To: <CANiq72kN=2RsE0Wm_489Sc-VKO40A0uYinCj1McT=YMu=cM4aQ@mail.gmail.com>
+References: <cover.1777987027.git.mchehab+huawei@kernel.org>
+	<1bceee886b9027d66bbb48d9d6c8d1250ce8dbcb.1777987028.git.mchehab+huawei@kernel.org>
+	<DIASHBBEIHQW.3EQSDUML6G3SB@garyguo.net>
+	<20260506084935.1cd4b794@foz.lan>
+	<CANiq72kN=2RsE0Wm_489Sc-VKO40A0uYinCj1McT=YMu=cM4aQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] usb: xhci-pci: add generic auxiliary device
- interface
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
- Jihong Min <hurryman2212@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1778123510.git.hurryman2212@gmail.com>
- <effa7bd7bef8a8ea28b9e28fe47af6a58e39edf2.1778123510.git.hurryman2212@gmail.com>
- <a5739875-b8a5-4918-8850-fa4b32d5279d@linux.intel.com>
-Content-Language: en-US
-From: Jihong Min <hurryman2212@icloud.com>
-In-Reply-To: <a5739875-b8a5-4918-8850-fa4b32d5279d@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDA2OSBTYWx0ZWRfX3OtCKsrl9iKU
- O0kZio6YZt0+Es+cFbKxRawMpamIQ0z5Zmi33Rr2pkBPoyyqwCgW2jre1TyywphSPIJeLCBDK/P
- yxS39LxuRePCzrmcTwNMsX02Q9Fq2R0K2OhfIBDGJbOwFyMPb4w9UmzbxiNMJy9ZsV6YfxNbeuR
- JUVYM6vpQgpehUnwYJkhdj7SQRQfCBVJ7oBMwqa800CgFo+TIbEBBVi5Z+JKjGMrnsQl3qy1K3j
- HzHPKDXMN1/CORzbjPS1dtBTJsXceHzjsKFUbXo0ex8Qd8iv4JffNfj8WIFBz109EcZH3vclFFZ
- PqYhy5h7dcoeXmrktBwpD3l7uxulVF2S51wAyJXa0g9C87URJvFFXbrSVFTM1o=
-X-Proofpoint-GUID: jxdjthE2mhazQywaLHtx2bDqtk9HS8zs
-X-Authority-Info-Out: v=2.4 cv=IdyKmGqa c=1 sm=1 tr=0 ts=69fd8b1c
- cx=c_apl:c_pps:t_out a=bsP7O+dXZ5uKcj+dsLqiMw==:117
- a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=L7A7A1ypuKKR8YZ4-2cA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=PgRulw5oR9JgysbTFEid:22 a=oa2-kN79Xhin27rcel9q:22
-X-Proofpoint-ORIG-GUID: jxdjthE2mhazQywaLHtx2bDqtk9HS8zs
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mathias,
+On Wed, 6 May 2026 10:38:07 +0200
+Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
 
-I tried the xhci-pci-prom21.c approach you suggested, with a PROM21-specific
-PCI glue driver calling xhci_pci_common_probe() and creating the auxiliary
-hwmon child device from that driver.
+> On Wed, May 6, 2026 at 8:49=E2=80=AFAM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> >
+> > Maybe it is just me, but placing doc files in the crowd together with c=
+ode
+> > on a project where documentation has its own directory sounds weird(*).
+> >
+> > (*) except for userspace tools and staging drivers where we want
+> >     everything, including documentation, contained on a single place. =
+=20
+>=20
+> It is a similar case -- they are vendored libraries developed and used
+> elsewhere (e.g. in userspace too).
 
-While doing that I noticed a possible boot-time regression with the module
-case.
+I see.
 
-If CONFIG_USB_XHCI_PCI=y and CONFIG_USB_XHCI_PCI_PROM21=m, then generic
-xhci-pci sees CONFIG_USB_XHCI_PCI_PROM21 as enabled and refuses the PROM21
-PCI ID:
+> > As you're already using some scripting to do a bidirectional sync,
+> > you could add there some logic to convert rust pin-init documentation
+> > to rst and place it at Documentation/rust/. =20
+>=20
+> Most of the pin-init documentation is elsewhere (embedded in the Rust
+> source code) and already rendered at rust.docs.kernel.org.
+>=20
+> (Using Sphinx for Rust has been discussed in the list a few times in
+> the past too, and that has its own set of constraints).
+>=20
+> > Btw, on a quick check, only Rust has markdown files:
+> >
+> >         $ git ls-files|grep ".md$"|grep -v tools/
+> >         rust/pin-init/CONTRIBUTING.md
+> >         rust/pin-init/README.md
+> >         rust/proc-macro2/README.md
+> >         rust/quote/README.md
+> >         rust/syn/README.md
+> >
+> > As one of the people who spent years helping improving the Kernel
+> > documentation and doing lots of conversions from markdown
+> > and other non-structured text formats to RST, I have to say that I'm
+> > concerned with any trends that would add doc files that aren't
+> > properly integrated with the Kernel documentation system like those. =20
+>=20
+> All those are vendored libraries, and most of those `README.md` files
+> are about clarifying where they are taken from and their licensing,
+> e.g.
+>=20
+>     # `quote`
+>=20
+>     These source files come from the Rust `quote` crate, version 1.0.40
+>     (released 2025-03-12), hosted in the <https://github.com/dtolnay/quot=
+e>
+>     repository, licensed under "Apache-2.0 OR MIT" and only modified to a=
+dd
+>     the SPDX license identifiers.
+>=20
+>     For copyright details, please see:
+>=20
+>         https://github.com/dtolnay/quote/blob/1.0.40/README.md#license
+>         https://github.com/dtolnay/quote/blob/1.0.40/LICENSE-APACHE
+>         https://github.com/dtolnay/quote/blob/1.0.40/LICENSE-MIT
 
-     if (IS_ENABLED(CONFIG_USB_XHCI_PCI_PROM21) &&
-         pci_match_id(pci_ids_prom21, dev))
-             return -ENODEV;
+Just my two cents, but all license files that are applies to the Kernel
+are already under LICENSES/ directory, and there is a document defining
+how SPDX and LICENSES should be used:
 
-That means the PROM21 xHCI controller is handled only by
-xhci-pci-prom21.ko. If that module is not present in the initramfs or is not
-loaded early enough, the PROM21 xHCI controller remains unbound during early
-boot. Devices behind that controller, such as a USB keyboard used for early
-boot or disk unlock, would not work even though the generic xhci-pci 
-driver is
-built in and could otherwise operate the controller.
+	Documentation/process/license-rules.rst.
 
-This seems different from the Renesas case, where the separate PCI driver is
-needed for controller-specific firmware handling. For PROM21, the USB/xHCI
-operation itself is still generic; the only extra function is publishing an
-optional hwmon child device.
+IMO it would make more sense to point to the corresponding LICENSES/ files.
 
-So I am not sure what the preferred direction should be:
+>=20
+> i.e. they are not intended to be kernel documentation, and moving them
+> away from the source files doesn't sound like an improvement,
+> especially since we were explicitly requested to make the provenance
+> very clear.
 
-   1. Keep the separate xhci-pci-prom21.c PCI glue driver and make
-      USB_XHCI_PCI_PROM21 built-in only, or otherwise constrain the 
-Kconfig so
-      the generic xhci-pci handoff cannot break early boot.
+In this case, this sounds OK.
 
-   2. Keep PROM21 handled by generic xhci-pci and add only a small
-      PROM21-specific auxiliary-device creation hook in xhci-pci after the
-      common probe succeeds. In that model, failure to create the 
-optional hwmon
-      auxiliary device would not affect USB operation.
+> We could perhaps have a list of vendored libraries in
+> Documentation/rust/vendored-libraries.rst` -- that could perhaps be
+> useful for some folks.
 
-   3. Some other split that keeps PROM21-specific sensor code outside
-      xhci-pci, but does not prevent generic xhci-pci from binding the
-      controller when the optional PROM21 glue is not available early.
+Makes sense to me.
 
-Do you still prefer the separate xhci-pci-prom21.c PCI driver for this case,
-or would the minimal xhci-pci auxiliary-device hook be more appropriate 
-given
-the built-in xhci-pci / modular PROM21 glue case?
+> In any case, I understand your desire to keep things integrated in the
+> kernel documentation, and I appreciate that (I also like to have
+> everything neatly integrated), but please do not assume we have been
+> randomly adding Markdown for no reason or that we are not trying to
+> keep things properly integrated... :(
 
-Sincerely,
-Jihong Min
+I didn't intend to imply that tose aren't properly integrated. It is
+just that it raised my eyebrows seeing more doc-like files over there.
 
-On 5/7/26 18:31, Mathias Nyman wrote:
-> On 5/7/26 06:31, Jihong Min wrote:
->> Some xHCI PCI controllers expose controller-specific functionality 
->> that is
->> not part of generic xHCI operation and is better handled by optional 
->> child
->> drivers in other subsystems. Add a small auxiliary device 
->> registration path
->> for selected xHCI PCI controllers.
->>
->> The initial PCI ID match table lists AMD Promontory 21 (PROM21) 
->> 1022:43fd
->> controllers. For matching controllers, xhci-pci creates an auxiliary
->> device and stores it in devres so the remove path destroys it before HCD
->> teardown.
->>
->> Subsystem-specific child drivers can then bind to those devices through
->> the auxiliary bus and keep their hardware-specific logic outside 
->> xhci-pci.
->>
->> Assisted-by: Codex:gpt-5.5
->> Signed-off-by: Jihong Min <hurryman2212@gmail.com>
->> ---
->>   drivers/usb/host/Kconfig    | 10 +++++
->>   drivers/usb/host/xhci-pci.c | 83 +++++++++++++++++++++++++++++++++++++
->>   2 files changed, 93 insertions(+)
->>
->> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
->> index 0a277a07cf70..e0c2c7ac5c97 100644
->> --- a/drivers/usb/host/Kconfig
->> +++ b/drivers/usb/host/Kconfig
->> @@ -42,6 +42,16 @@ config USB_XHCI_PCI
->>       depends on USB_PCI
->>       default y
->>   +config USB_XHCI_PCI_AUXDEV
->> +    bool "xHCI PCI auxiliary device support"
->> +    depends on USB_XHCI_PCI
->> +    select AUXILIARY_BUS
->> +    help
->> +      This enables xHCI PCI support for registering auxiliary devices
->> +      for selected controllers. It is used by optional child drivers
->> +      that bind to xHCI PCI controller-specific functionality through
->> +      the auxiliary bus.
->> +
->>   config USB_XHCI_PCI_RENESAS
->>       tristate "Support for additional Renesas xHCI controller with 
->> firmware"
->>       depends on USB_XHCI_PCI
->> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
->> index 585b2f3117b0..618d6840e108 100644
->> --- a/drivers/usb/host/xhci-pci.c
->> +++ b/drivers/usb/host/xhci-pci.c
->> @@ -8,6 +8,8 @@
->>    * Some code borrowed from the Linux EHCI driver.
->>    */
->>   +#include <linux/auxiliary_bus.h>
->> +#include <linux/device/devres.h>
->>   #include <linux/pci.h>
->>   #include <linux/slab.h>
->>   #include <linux/module.h>
->> @@ -80,6 +82,7 @@
->>   #define PCI_DEVICE_ID_AMD_RAVEN_15E1_XHCI        0x15e1
->>   #define PCI_DEVICE_ID_AMD_RAVEN2_XHCI            0x15e5
->>   #define PCI_DEVICE_ID_AMD_RENOIR_XHCI            0x1639
->> +#define PCI_DEVICE_ID_AMD_PROM21_XHCI            0x43fd
->>   #define PCI_DEVICE_ID_AMD_PROMONTORYA_4            0x43b9
->>   #define PCI_DEVICE_ID_AMD_PROMONTORYA_3            0x43ba
->>   #define PCI_DEVICE_ID_AMD_PROMONTORYA_2            0x43bb
->> @@ -103,6 +106,80 @@ static int xhci_pci_run(struct usb_hcd *hcd);
->>   static int xhci_pci_update_hub_device(struct usb_hcd *hcd, struct 
->> usb_device *hdev,
->>                         struct usb_tt *tt, gfp_t mem_flags);
->>   +static const struct pci_device_id pci_ids_have_aux[] = {
->> +    { PCI_DEVICE_DATA(AMD, PROM21_XHCI, "prom21_hwmon") },
->> +    { /* end: all zeroes */ }
->> +};
->> +
->> +struct xhci_pci_aux_devres {
->> +    struct auxiliary_device *auxdev;
->> +};
->> +
->> +static const char *xhci_pci_aux_dev_name(struct pci_dev *pdev)
->> +{
->> +    const struct pci_device_id *id;
->> +
->> +    id = pci_match_id(pci_ids_have_aux, pdev);
->> +    if (!id)
->> +        return NULL;
->> +
->> +    return (const char *)id->driver_data;
->> +}
->> +
->> +static void xhci_pci_aux_devres_release(struct device *dev, void *res)
->> +{
->> +    struct xhci_pci_aux_devres *devres = res;
->> +
->> +    if (devres->auxdev)
->> +        auxiliary_device_destroy(devres->auxdev);
->> +}
->> +
->> +static void xhci_pci_try_add_aux_device(struct pci_dev *pdev)
->> +{
->> +    struct xhci_pci_aux_devres *devres;
->> +    struct auxiliary_device *auxdev;
->> +    const char *aux_dev_name;
->> +
->> +    aux_dev_name = xhci_pci_aux_dev_name(pdev);
->> +    if (!aux_dev_name)
->> +        return;
->> +
->> +    devres = devres_alloc(xhci_pci_aux_devres_release, sizeof(*devres),
->> +                  GFP_KERNEL);
->> +    if (!devres) {
->> +        dev_warn(&pdev->dev,
->> +             "failed to allocate auxiliary device state\n");
->> +        return;
->> +    }
->> +
->> +    auxdev = auxiliary_device_create(&pdev->dev, KBUILD_MODNAME,
->> +                     aux_dev_name, NULL,
->> +                     (pci_domain_nr(pdev->bus) << 16) |
->> +                         pci_dev_id(pdev));
->> +    if (!auxdev) {
->> +        devres_free(devres);
->> +        dev_warn(&pdev->dev, "failed to add %s auxiliary device\n",
->> +             aux_dev_name);
->> +        return;
->> +    }
->> +
->> +    devres->auxdev = auxdev;
->> +    devres_add(&pdev->dev, devres);
->> +}
->> +
->> +static void xhci_pci_try_remove_aux_device(struct pci_dev *pdev)
->> +{
->> +    struct xhci_pci_aux_devres *devres;
->> +
->> +    devres = devres_find(&pdev->dev, xhci_pci_aux_devres_release, NULL,
->> +                 NULL);
->> +    if (!devres || !devres->auxdev)
->> +        return;
->> +
->> +    auxiliary_device_destroy(devres->auxdev);
->> +    devres->auxdev = NULL;
->> +}
->> +
->>   static const struct xhci_driver_overrides xhci_pci_overrides 
->> __initconst = {
->>       .reset = xhci_pci_setup,
->>       .start = xhci_pci_run,
->> @@ -677,6 +754,9 @@ int xhci_pci_common_probe(struct pci_dev *dev, 
->> const struct pci_device_id *id)
->>       if (device_property_read_bool(&dev->dev, "ti,pwron-active-high"))
->>           pci_clear_and_set_config_dword(dev, 0xE0, 0, 1 << 22);
->>   +    if (IS_ENABLED(CONFIG_USB_XHCI_PCI_AUXDEV))
->> +        xhci_pci_try_add_aux_device(dev);
->> +
->>       return 0;
->
-> I think this should be turned around so that the vendor specific code 
-> calls the common code.
-> xhci-pci-renesas.c does this nicely.
->
-> In your case it would be adding something like a xhci-pci-prom21.c pci 
-> driver:
->
-> xhci_pci_prom21_probe(struct pci_dev *dev, const struct pci_device_id 
-> *id)
-> {
->     crate_auxiliary_device(dev);
->     return xhci_pci_common_probe(dev, id);
-> }
->
-> xhci_pci_prom21_remove(struct pci_dev *dev)
-> {
->     destroy_auxiliary_device(dev);
->     xhci_pci_remove(dev);
-> }
->
-> static const struct pci_device_id pci_ids[] = {
->     { PCI_DEVICE(YOUR_AMD_PCI_VENDOR_ID, YOUR_PROM21_DEVICE_ID) },
->     { /* end: all zeroes */ }
-> };
-> MODULE_DEVICE_TABLE(pci, pci_ids);
->
-> static struct pci_driver xhci_prom21_pci_driver = {
->     .name =        "xhci-pci-prom21",
->     .id_table =    pci_ids,
->
->     .probe =    xhci_pci_prom21_probe,
->     .remove =    xhci_pci_prom21_remove,
->
->     .shutdown =     usb_hcd_pci_shutdown,
->     .driver = {
->         .pm = pm_ptr(&usb_hcd_pci_pm_ops),
->     },
-> };
-> module_pci_driver(xhci_prom21_pci_driver);
->
-> MODULE_DESCRIPTION("AMD Promontory 21 xHCI PCI Host Controller Driver");
-> MODULE_IMPORT_NS("xhci");
-> MODULE_LICENSE("GPL v2");
->
-> -Mathias
+---
+
+With regards to patch 11/11, I'll send a new version just changing
+the "P" tag without dropping the .md file.
+
+Thanks,
+Mauro
