@@ -1,113 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outbound.ci.icloud.com (ci-2004k-snip4-4.eps.apple.com [57.103.89.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB9D40B6E0;
-	Fri,  8 May 2026 16:54:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0991E40F8E9
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 16:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.89.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778259271; cv=none; b=IkaVl5Y8ytA9Rvk2ooELGme8ttDSnNM/9mrY72I2QyqcRrKUxy+HKEBYFruEfCEsGzdcPPPVRUJu205slM63kaCt8TNxBlOP6YxvuWo7LahDSVXXSgzfGrXVeEr4Z5GTQ6Em+0spHWWp1Cmo6A9asrdlGKa6Q7MpHJGY/keONQ8=
+	t=1778259387; cv=none; b=QKCnL1fx8NQwjYvS2wUKkLdD6UlgVXz+f3CqF0J+1l+QSqWtaKEXho7vsP23dMCVddP4LfBIklNBd+0uD0PtI+j0LcgZFjwQcWtv8gEWHmgpTK8M2D7PHuvOKWGxf/65OxHeRFUP4xaq8JVz28GPKJuv5yV+5BHN8bXulktiM+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778259271; c=relaxed/simple;
-	bh=QL6duMgwO5QJbMFah0NGraChZxWVXuFFwdSEtidI5z0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F/hSBEh6DUpnAuRxcPnxnAJRtt2b5sr78IR4frJEbtT4i4Q/O90E1jKVUEiNwgBQzlf6DfvkbEYiIMcaTY3YBkvjN+7hXFLHy5+ZpsgZxyjRiy3XyqkfQxjlhLslRsoIA7sIQscIk2A0wlGaRjWM0r7y1z/ZUenBSFvcMunxTP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CfKhSZ+L; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778259387; c=relaxed/simple;
+	bh=O+Z+iiQS6mOHEHFMXl2jZzyLVpVMQFSe6c0A8tPA/Y0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iYd9I9xhE1wgCDUFBKkFPPvlocDszJ2Cki9M7fMDau4KynqPcLwaVp7W0JHK1m5MEE+rNBY2Rszw2D3fXSLhV/NUZNPxvQbfHSrX/QX4jTLgQb5qEKfJBCSKHpwIAt6TViuQioxlKkoVpYt4ProqpG2eCJi2otEqyLkNWXNmpmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=mLSdWLvZ; arc=none smtp.client-ip=57.103.89.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CfKhSZ+L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE87DC2BCB0;
-	Fri,  8 May 2026 16:54:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778259271;
-	bh=QL6duMgwO5QJbMFah0NGraChZxWVXuFFwdSEtidI5z0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CfKhSZ+Lz4Jm1DA6WCuKJVkYDu/MMxRFWTwHn/y5VXtKExzkvKDiTKF2YCVD693zY
-	 4Rh4mYLwCe+f6d3CY8inz1gOeZk2ObCs7aA8ZMkNGFyW/7So60oqxf2OTkmP9YpiFX
-	 YUbIEdGULwAQlroRdv7B2gSHnEjwrDHK4VQWlsCI+EJyZix4iYD1E4jKU6C+Hn94WY
-	 b5dqV+u5gGFeYjgeK9CX5pZfj0ni2e4KsOmbOMQjs1uvl0Cue9H5Hvt1tCaaTAyAoN
-	 1NR6n6FZf3gR+dbp5+YCpAq0P6ppjX5Ks1Dni9tamhQubcYXtbdT7/mtH1nQelxQXv
-	 l2RH7VyPzWXWQ==
-Date: Fri, 8 May 2026 12:54:29 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Joshua Peisach <jpeisach@ubuntu.com>, corbet@lwn.net,
-	akpm@linux-foundation.org, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
- primitive
-Message-ID: <af4VRezugh3kJLfY@laps>
-References: <20260507070547.2268452-1-sashal@kernel.org>
- <DIDEQIFQF1EW.11CESAK4JL4PR@ubuntu.com>
- <af4Fwxndqv2knLov@localhost.localdomain>
- <af4LvqtLu-yeor-v@laps>
- <b14d54c0-0fe8-4d98-a2ea-2dd830cd5869@efficios.com>
- <af4N9_YOgDQziRCR@laps>
- <5616fbd5-612d-4c23-aa10-d6b8de81f9eb@efficios.com>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="mLSdWLvZ"
+Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-central-1k-100-percent-8 (Postfix) with ESMTPS id 1A45418003AE;
+	Fri, 08 May 2026 16:56:22 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJBkMDRQVJF0wBTVIPDxhMCkEUWgpcQgtJAS1eCF4fTBwdDlgGEhZdRVsYRRlLHVgWAV8GWXIZWhRcGFNFUR9UWEEOCloBUFEdXwIKBEcEWxdGA1NFURkXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PGVoUXBhTRVEfVFheBFNWDkAMSwZYUQlWXQ1LAFQaXwcRDVUKCFUNH0RfTwFcA14DQwFAAS1eCF4fTBwdDlgGDFBNAUMICgJRHFYNVw==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778259385; x=1780851385; bh=+QLZLsNYf7h9Ce79kOQN7zRPNN2q7F1QoiGbgvgNk78=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=mLSdWLvZwqNRhNXhUmkJmhVTY7rlx831BK9MA47Ujn6al8NsCzs2vAVcWeuMFjznM2mfiqMfa4WcmoBtLWqWQ1cIVC469vVg4XC8VyCxOwi4HgZQ4JkCml5gB4hnu7FuTuYjEFJHNPi5jFuHZFJtQWNmMAnH9oHV3ZIr9OvyDCgDmz7MRTePhkULARMyFcyCH6OFkzcz2aVfuAWyOQrbIQOWrR7VKaljt3q1UHzG2W1hdajhVA8Up4tJMK2rteIUXOtmpYsHxRRbER1UKg+kfKy08ZGxTCoBCv8t8rWSp2rqP9XK9Ug6y0DrTGZPEa3ul8K4cLTxlGrSYhpJ1JbLUg==
+Received: from [192.168.89.2] (unknown [17.57.156.36])
+	by p00-icloudmta-asmtp-us-central-1k-100-percent-8 (Postfix) with ESMTPSA id BB7C11802090;
+	Fri, 08 May 2026 16:56:19 +0000 (UTC)
+Message-ID: <05355fbd-4339-45a4-9ebf-4f7214513882@icloud.com>
+Date: Sat, 9 May 2026 01:56:17 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] hwmon: add AMD Promontory 21 xHCI temperature
+ sensor support
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jihong Min <hurryman2212@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1778123510.git.hurryman2212@gmail.com>
+ <0c35058bb088213397b42fca8d51e9ad0bba5169.1778123510.git.hurryman2212@gmail.com>
+ <35c2436b-d172-4172-a684-a96c4a0dcabe@roeck-us.net>
+ <16c4f7e5-e33d-4271-a7af-5d6c7fca0570@icloud.com>
+ <6745fd21-2001-4e06-af41-96ae63154c02@roeck-us.net>
+ <198ae20f-49c9-4f81-87e2-e16e81053f08@icloud.com>
+ <70035490-eafb-4610-8889-9e04931c8b32@amd.com>
+Content-Language: en-US
+From: Jihong Min <hurryman2212@icloud.com>
+In-Reply-To: <70035490-eafb-4610-8889-9e04931c8b32@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5616fbd5-612d-4c23-aa10-d6b8de81f9eb@efficios.com>
+X-Authority-Info-Out: v=2.4 cv=NfzrFmD4 c=1 sm=1 tr=0 ts=69fe15b7
+ cx=c_apl:c_pps:t_out a=2G65uMN5HjSv0sBfM2Yj2w==:117
+ a=2G65uMN5HjSv0sBfM2Yj2w==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=c92rfblmAAAA:8 a=pGLkceISAAAA:8 a=NEAV23lmAAAA:8 a=jm6BaUM5yunLdwCpO_4A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=GvGzcOZaWPEFPQC_NcjD:22
+ a=PgRulw5oR9JgysbTFEid:22 a=MienORt8HT0FiJ1vGQZ6:22
+X-Proofpoint-GUID: zLnn0M4GnOupoLmgccVWtpqh383ISKTu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDE2OSBTYWx0ZWRfX0oLtkKpTDFo8
+ Q1C3S/9OJHt0gK558mbjbUH+xyYetB1TWRJq3wYHUstKW9SGieVCx64c1+yxTgUzCwao8ZQ7cM3
+ WBLs05D7DOPnYPOyh63Lzf3G4CVkhHLN7OFA1rj5nh0zjLGft3IHygrOOMR8VEiIfGPU8s5SXYG
+ Mc4yCWAhsQFsCE5wHu6bTzrBYSK/Dx5mJrDKarAwAreLC3uNH7DvvdZ0YBMkAe8Wp4C3FOcMpcS
+ kfetB5gt5pLSjWgZFxjXJh9iQFgnVUxnQ2yjI8xqVCOyCoOEd/+jzs6eLyk0+ZuiIsTFVRNi1o4
+ bmp7pUK5BZDHsvIEdSswUJ9sKxnrwm9fwHQHZV5sJqVB5cgWLSeTFJeB16zV1w=
+X-Proofpoint-ORIG-GUID: zLnn0M4GnOupoLmgccVWtpqh383ISKTu
 
-On Fri, May 08, 2026 at 12:26:45PM -0400, Mathieu Desnoyers wrote:
->On 2026-05-08 12:23, Sasha Levin wrote:
->>On Fri, May 08, 2026 at 12:18:28PM -0400, Mathieu Desnoyers wrote:
->>>On 2026-05-08 12:13, Sasha Levin wrote:
->>>[...]
->>>>>One possible approach to prevent "footgun" type of killswitch use would
->>>>>be to first apply a statistics collection killswitch handler that does
->>>>>not change the behavior: it checks whether the target function is
->>>>>invoked at all on the system for a given period of time. Then 
->>>>>it applies
->>>>>the killswitch if it was not invoked during that period. Overall
->>>>>sequence:
->>>>>
->>>>>- pre-soak killswitch for e.g. 30s, checking whether the function is
->>>>> invoked at all. (period would be user-configurable)
->>>>>- if no calls were detected, engage killswitch, else report failure to
->>>>> the user.
->>>>>
->>>>>This should prevent footguns such as trying to killswitch fork, malloc
->>>>>or other core functions which are inherently required.
->>>>
->>>>Why not just use our good old tracing infra? Set tracepoints 
->>>>where ever you
->>>>want, collect any data you might need, and engage the killswitch 
->>>>when you're
->>>>happy with the data you have?
->>>>
->>>>It feels a bit weird adding something like this into killswitch.
->>>
->>>It really depends on whether you want to include some basic safety nets
->>>directly within killswitch, or leave that entirely to the end user.
->>>
->>>I don't have a strong opinion either way. I was just pointing out the
->>>feasibility of a pre-soak sanity check before applying the killswitch.
->>
->>What about doing this with some userspace tooling (maybe under scripts/) to
->>facilitate this?
->>
 >
->That could work, although it requires additional infrastructure to be in
->place (tracing) on production environments, which may not be the case
->everywhere. In comparison, if the sanity check is done within
->killswitch, you only need killswitch and kprobe to be compiled into
->the production system, which is more lightweight.
+> Another thing to mention is that you are going too fast between patch 
+> versions.Â  All your patches show up in a ton of people's inboxes.
+>
+> It's great you've gotten feedback on them but I suggest you give it a 
+> few days or a week between versions to gather more feedback.
+Thanks for the guidance. I understand, and I agree that I have been sending
+new revisions too quickly.
 
-So CONFIG_KPROBES but no CONFIG_KPROBES_EVENTS or BPF?
+I will slow down the revision cadence from now on and wait a few days, or
+until the review discussion settles, before sending the next version.
+>
+> If you haven't already; you should take a look at what Sahiko finds on 
+> your patches too.Â  Be sure to look at the feedback critically and take 
+> it with a grain of salt; but it often finds a few nuggets that are 
+> worthwhile to consider.
+>
+> Here is the Sahiko link for v4 you can review if you weren't already 
+> looking at it.
+>
+> https://sashiko.dev/#/patchset/20260508143910.14673-1-hurryman2212%40gmail.com 
+>
+>
+I have been checking the Sashiko feedback and have been incorporating the
+actionable issues it found where they made sense. I will continue to review
+it critically before sending future revisions.
 
-This sounds like a pretty small crowd :)
+For reference only, and not as a substitute for the mailing-list 
+patches, I am
+keeping my current work-in-progress branch here:
 
-I think it makes sense to document/script a workflow around tracing or
-bpftrace, but I don't think it's worth adding all that logic in the kernel.
+ Â  https://github.com/hurryman2212/linux/tree/prom21_hwmon
 
-I'd also note that you can always reverse the killswitch if you observe issues.
-
--- 
-Thanks,
-Sasha
+Sincerely,
+Jihong Min
