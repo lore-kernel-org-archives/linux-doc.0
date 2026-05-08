@@ -1,265 +1,573 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793A532C923
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 13:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778246359; cv=fail; b=V1Okhd/MplAC8hIsqDG3VPKYhlnXQgOOBuCss5uu3phzCtT5mmScAJN5bAORJIdIl5PGGRecOaJCXRMLT30omiNwH9EJDStRWj4n+uAbd3mJVzU91IZ8AU1yt8rx6RrPdGUWKUfRhDSvIGjUCg++uIyekOVj1QiPq/bdWTDrhlE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778246359; c=relaxed/simple;
-	bh=a1NSdC1+AemhwNtrlaF0E0sPReSYUMrIMyVRDHrKJiA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=U5cR5Q1Qs2z5dmGYxlu/ytSUyuLCoOdOI+BPKRtv3SoNlxhAvAqESYO1xlXGUiQXNd55Oy/NCYNzyIA6CpFGMiNWmn47O1YoCrFqlo7hN9qO+7zy3YLzZEQO/n7Z+oeARoXijMfqnrr9CCulcTe3RoDcE7QjxoyOvY2ghSlKuZ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJzXROo6; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7324B3F0AA2;
+	Fri,  8 May 2026 13:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778247027; cv=none; b=l2hB8+gQpIH0/C36isGVm2CKUDmG5hxWAh9xL3OCdPc7SZ7EvJJWgRYbnlO307IaBGPbbuGDNK1+jOkTs3gm23RzKI0YrHv/Xe2V/0YzNLLdJ2VxwqBpvYxBVN1LXWMMoXWSmxacYjwXKVd8a1UvRP9kF5pFJdlO09fOKPvNWJ0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778247027; c=relaxed/simple;
+	bh=Q78JCwHuHw/6hCCFE73xrv/3czGcBLb8PHqSQxTvX/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KuffpnE+aMgeKkDYKypvox6HJx1uORAcDw5PYBIx7tRAopGfzXGVjKW17nC5F8ygFDJOe3jxEUYquz6OCAUq5WFCDdQR78rrYE3we/9/s8NpA4PrHcXi17i/4Uptn20+M1Mx18K8BD/wN0b/ZjLMHnZnhwpX+Iz+rtFRHiYfH9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TtjnQ+B9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJzXROo6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778246357; x=1809782357;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=a1NSdC1+AemhwNtrlaF0E0sPReSYUMrIMyVRDHrKJiA=;
-  b=IJzXROo66HfvDiW9lXEvzFcCH7Be9mgyXUay449vOhQHdD9r1CYeikIa
-   vFwIDRB1B+kU7CjLBB3D/dSQZud61/SlaGoqVnAKnsxDOcvp4Jt2jB6AY
-   Ou+rJdOtiaDuWQRvvSDmMjmK77k9FzN7VDkPef0ewQw1tvsgjgI2OYajt
-   dB5g0W/xYaWnmg3qRKkSZtQsg56zZC9uB6Lov3pt/zRv1Jq/q0iXyrVAp
-   i1dUpJn3em+gdAh5ebgKOn275EN2P9SuPkTB8nI3cxLGOLDn7FQueG2FI
-   6BVqgv2XjaveQOle8bEZXXESgNJr6U+69KXYWA0KNbr6ND2rICdNdVK8c
-   Q==;
-X-CSE-ConnectionGUID: +sLRPMSdT6uT3CdhNY2G4g==
-X-CSE-MsgGUID: yqwUlY2ZTQ+ND2cVOmrxdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="89802061"
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="89802061"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 06:19:16 -0700
-X-CSE-ConnectionGUID: C77le9m9TRymzb5MywHR9Q==
-X-CSE-MsgGUID: X10knzFhSMevgY796UC01Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="235783804"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 06:19:16 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 8 May 2026 06:19:15 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Fri, 8 May 2026 06:19:15 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.26) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 8 May 2026 06:19:14 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cTgoFhps2ROawKJH6vSXyxYkgJoNey3Zod+Kay43v8oinnLc8e4+srVx+f41YOsROd/FheFHM72cfFxffmiRZQo8Q9PYhk/wQQHcLWtS08n8BlU9+lQFaakhMNuF3oQPWUazSElalQEZ6dprbjgRmeaULd3tEFJPGYVUynhrODgF3sEG1GiBAzxDxIls/9UdpkE7dYrDEP5NFTysMh7MjXkFB1XydAJCFlyDI6vASv0DmDbzs8uwSTFDgJAeqAmMrBTXB0GRBCJfeTnf3D2vOEpIm1Su5QJ5S/+4L+Q7Q0yZjtzB43/QTaLv2XE5wop25+ILPiUT8KDoqB3I3gQsPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5wzrQZCKVB6sCMSA2Vtf/hpa6P/31oPluKsvAWFAVLs=;
- b=Fsl/rC5THbJimbFTUiG26iBezJw9xuFaX4F0Me5Yay1Zxi4XNrrq1bn5nIwoFkmpLNm1wa1tIwlRXo/R0Ce6nvssgTIflXUnNRnEPL6tMXYT6ddWfphhQcP9rZvaqbFhoRG3rxyGh8tOTgx6BwKcHr1DcYnWUscF960qPaHOXtkWEny4XsgxdLlBt6WnXNpVQYEgmEoToHmStJ8k0m7+DbiovWRpROAnLC1h8Dr6TVSBDoZqaQ9QLK0hrWp1kx3DF/RQ5osXKnlTOhWC7E3nyn+vd7kwmk1cozZCLFB+PpC8Yb/wTFVj0lhxdeKSwHkDkvljkuwfez7IlG28GKaZ5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by LV3PR11MB8743.namprd11.prod.outlook.com (2603:10b6:408:20e::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.20; Fri, 8 May
- 2026 13:19:05 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::1d86:a34:519a:3b0d]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::1d86:a34:519a:3b0d%5]) with mapi id 15.20.9891.008; Fri, 8 May 2026
- 13:19:05 +0000
-Date: Fri, 8 May 2026 09:19:00 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-CC: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>, Matthew Brost
-	<matthew.brost@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
-	<thomas.hellstrom@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
-	<tursulin@ursulin.net>
-Subject: Re: [PATCH 3/3] Documentation/gpu: add remaining DOC: comments to
- Intel display documentation
-Message-ID: <af3ixP5pKOwxM9Jj@intel.com>
-References: <cover.1778235406.git.jani.nikula@intel.com>
- <589c46cf9a46763f4fbb7e1756656e6d71ba1431.1778235406.git.jani.nikula@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <589c46cf9a46763f4fbb7e1756656e6d71ba1431.1778235406.git.jani.nikula@intel.com>
-X-ClientProxiedBy: BYAPR08CA0040.namprd08.prod.outlook.com
- (2603:10b6:a03:117::17) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TtjnQ+B9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8545CC2BCB0;
+	Fri,  8 May 2026 13:30:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778247026;
+	bh=Q78JCwHuHw/6hCCFE73xrv/3czGcBLb8PHqSQxTvX/4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TtjnQ+B9JdiYiR/9muYI2RkPxptJRg8g4KHdNQq87M7ldB+hrx4eaILJdk6PRENTc
+	 LfEP3tsBFmJxRAdOT0lDtrPKuqn3u3UxOEfP/ZGW4uyoagVus36D93/QpDGt0tPsSx
+	 a8LKsmN/JM7y8d1Z75Xiq2z1wt6fF9eyhkDCnVLyATfiHqTWpdRU8flJFQ0d0nNbJ1
+	 Do6pmaKmp9IcpwhLDTwEUndpZFsg5EFuIjmoY08o+w8Zo0/g2XLdy+CkdSuEXGj/ko
+	 TOwDAQ1LTD6PLKeqPcoT4MJaUsgHF/57qvd0GQaNaWelhOr1yqCHykkVKnMzBDIQ+T
+	 rkAHImb8ONIUg==
+Date: Fri, 8 May 2026 14:30:17 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, "David Lechner" <dlechner@baylibre.com>,
+ Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko
+ <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, "Jonathan Corbet" <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, <linux-iio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, Janani Sunil <jan.sun97@gmail.com>
+Subject: Re: [PATCH v2 2/3] iio: dac: Add AD5529R DAC driver support
+Message-ID: <20260508143017.28f86551@jic23-huawei>
+In-Reply-To: <20260508-ad5529r-driver-v2-2-e315441685d7@analog.com>
+References: <20260508-ad5529r-driver-v2-0-e315441685d7@analog.com>
+	<20260508-ad5529r-driver-v2-2-e315441685d7@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|LV3PR11MB8743:EE_
-X-MS-Office365-Filtering-Correlation-Id: 00558d66-f37d-49d5-4ad6-08dead0460cb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info: SaIR7TH4l0dFjr+e6WYRP6pl6iOILlfk075YmS7MUCjIikFOA/tDyX7F2A7yN8BOB0r3B223elsC3fU/Rv+kSvfK3QnZe77gA0ZLl9wX6Dce/bM8CXm4a/CcZxWbnIf3qIywKeqwCnRUGt+wgjALErLWU3W2apz8OTFrXadAnCfo1yfYBwDTI1EFM2eyHBCd7UD3KCpbwFr8TFOT3ycG1+hIdGSOB/xN8waHQfMoyJoGQ0XkSHjLtHleZezfvRtQssVU6JuiYDgRGrp4a1KBH+KPrsfgqFAAVT50Tpd5REQZMTmJCNja8Lh1YuRbI8Trmsolg8OSZPXlFVgIWD79lW02la7sS0amdEXilUtcBkS/HRQIjKA0ykl/PwWh1/l1I/d/l6Y3NvgPc7kHTmW2FNeBfR2p23EaYzmk+pTqZt4asAWBeKqZVTMLMsjSZA8sZpNUx20+7Nw1PqwH7f8vO/0wuE496j2Ig91vYn8DADN2K9SXlc5wrJxKboiVEUlyXDR+i2z8GXnARSjT+Josdm7eYKd0AkIc+PNheoYTOJSIExlaHxah8jBiwjksWCFECL3duGzY/9PezXwd775WIY0rXnQhcOOcO9QOAI2UohcvGRwEvMVL1iTTq/HhcHMU/s4U/avfthyUw7cGD9o/YayL9bZ8mfqnQIw75jYlcuT9wKcDdhlforXIBBzTvVsE
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR11MB8430.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?PSI7Nn+41KDXZvSWn/O/lj4zfMf9nkf4Rfm45dXYM81eVs6o6Yt9uAthzm?=
- =?iso-8859-1?Q?EwjtDa4GhGXKNQrindlzpXSjK0VDijwWgGM2hLGGSBdIVTb/MFMH51WcDV?=
- =?iso-8859-1?Q?tU1dbrYn6SvNm62QUYNd6cf7ItQomuEgMjcnsxo7WJgmULMurFM8r8QdwX?=
- =?iso-8859-1?Q?5dPZ03/Jt73Zx0Cc/wUL8Q4EB2rVQ+iLFf7K6c0TwMuq4DNOIRWQz1aiVp?=
- =?iso-8859-1?Q?rsHYu/e2TZKRJg6jvnaGSPF37EwIvNj1HnMlXtUHHoQikV3MkY693sXZ13?=
- =?iso-8859-1?Q?D5bjtXUyqE1F3y2UXjEw7eS+vEyWtblKTej1m/6z2egZl1Z2oCg8rtDsJ5?=
- =?iso-8859-1?Q?3k2rE3paZwW9UnsToxIRDhLdetmBNsszC1mroavzU6XffFNT+8xbttgGKp?=
- =?iso-8859-1?Q?hNAs4S6cT+PBD4wTgsQX9iPSbIrvfiHRpk0A0Qyap7zQUXLJIMdbaw6uBG?=
- =?iso-8859-1?Q?iRpfEFHBl6kkOgZ94YAkH8ddU+e8wt5lQW0mNnkW0xmS8E0KFvNrwcXxn5?=
- =?iso-8859-1?Q?bk8vyqjKeGjhldDw5DD2Ip2895G3BZjXaWCK3JCLRzxEPC5UUg83PYg4ZF?=
- =?iso-8859-1?Q?iGV4GnT8RK6KuPWpVhRRFLpb7V5BYT/dDBUblhjZr1JTTpF0TiImBzVF/n?=
- =?iso-8859-1?Q?8K29SQvgyy0YCimQnUpUV7XRHrLkHa9/sDHQsuu6J7ODHCEGm4QRBS7pPK?=
- =?iso-8859-1?Q?NW2HZyGSS9PToyWd5fJTdNut//bDuY99ICjEuKISRfZWBvc6iDpfqZvdZM?=
- =?iso-8859-1?Q?e8fSk7okPA67BF9gYNkmEvvDKyi9bL2Eoi2Nv1fBIhoRBJx1JdQjXu57VK?=
- =?iso-8859-1?Q?d4G2bN1PQIDiZuKmSkpEeh4YnuEtaGf1Iz+Bq5drkUBU0NwWyqUVsxTdvG?=
- =?iso-8859-1?Q?vlRd2Db0Ie1LHTl9rlN0HN9j9mC+PR+feopEI/90eey+TLenwUnWXYHthO?=
- =?iso-8859-1?Q?QIrEVu0eE7bHxDl1PMMDNmBRNt+pZveGJLjg+OlXnaKCY7ZsyQq0MnA/Px?=
- =?iso-8859-1?Q?Jp8rqZfJf0v5bQ6xDNc+0MMk6STcT1XtQss6hPn3g6gH9LkKbOy2OySQjg?=
- =?iso-8859-1?Q?NX1Qbc1qhHJ9VLhMTgiGFt2xAuf6KPmVpQwYtEDOHCl9qwMSEjM6AR5iO0?=
- =?iso-8859-1?Q?Ke7HlKQWxxdegiRgOJV46Za6mMWHi0crjQgguYNMOoOXtEcSaXQFbn8Bmc?=
- =?iso-8859-1?Q?J4d3toTEARDVehj0h0I8i+nDMHQcv/3hQ/GuY6eWtjyan2UjOVjnOHynQp?=
- =?iso-8859-1?Q?rLs5bIeD+l7OJN3mqEXn1WR1521hyQY2qf6MgFvmhATLuGN1bfnPUf3ddR?=
- =?iso-8859-1?Q?wT8up84pH5ciZf640ZQzPv4HP7BBEBDMUQducEr7gr+F/7hmNRpMY9akD6?=
- =?iso-8859-1?Q?F59w3TikGqX207VEelrsm2c53etd5a+oOzXwx/ohMMaUGc05HtPZVbpfbl?=
- =?iso-8859-1?Q?BAJfOuUO75onyExcFw/7fY7x2yvgGem5bbCa/qza3DSIlwzKdwfLRmBsQU?=
- =?iso-8859-1?Q?cP+7Z4wlOgw7oEcF3Fjj0TxN5TaRuLnsq/c4aJ5w1LrLjYCkVAZVT2yGRD?=
- =?iso-8859-1?Q?15BNspN/1SR9yUGb1tmhdDABhPmZIYUAba/wOuNw49HmwDb3IW2P/3d0HX?=
- =?iso-8859-1?Q?ASDnnGMshDXwhcqiEppFzffuzhWx5dyxrtijT2N6khqqv12n0JHIJ/7Fy7?=
- =?iso-8859-1?Q?nD44w8NJjfZVxl/h8z0u6+IatMrxxNeVZUib4PskX5jJB+u8fkZcM0/LJ7?=
- =?iso-8859-1?Q?RfMFJeUxbfMnkmqkhYEyV0UfPLCNbb2eGtd3syvwhXUZxugViQIE/0Gnuv?=
- =?iso-8859-1?Q?ANWRL2PI7Q=3D=3D?=
-X-Exchange-RoutingPolicyChecked: OYbr5q+oLCWoFabsyyFMWygOTrodt9GIYaqgwr6P0M+WtChmeYHxns/E4L8AjYbGemeZh249QfGz3oxC8WQZ+yG4fGmol3w0sdpNdQZ06uFidfzJ//BoV04bWD9X9oCg52fw0twqC1kg6BZKV81U5D0g9djR6FJ1mTUg3PICmuS/rrEX1AfzxcoJrajC/gqRhn3suaXneYMaXABbCio4JAxV/HfmCuHcrsrhpeFYhxHc+4Z6Vp2Mf4ThxJOYb7oiLnAIZ3OPgTEskMLc8t8RlJdHFDK3hvMyh0QTztDz3kSnOMHEqaBSbaNxNtOdL0M02jg0RroVRrGWEMLSxfWCOg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00558d66-f37d-49d5-4ad6-08dead0460cb
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 13:19:05.0670
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S1rnPVnYwBFJSDO64AsE8z9q6xTE9zFyo8EsfJ9FM1QSMaWtZE1HpwA/9pPNqLRwyffnGAnlEO85DkLBNKzDuQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8743
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 08, 2026 at 01:20:49PM +0300, Jani Nikula wrote:
-> Not all of the overview DOC: comments in the display driver are
-> incorporated into the documentation. Add the missing ones, including
-> some function documentation.
-> 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  Documentation/gpu/intel-display/atomic.rst   | 11 +++++++++++
->  Documentation/gpu/intel-display/casf.rst     |  8 ++++++++
->  Documentation/gpu/intel-display/cmtg.rst     |  8 ++++++++
->  Documentation/gpu/intel-display/index.rst    |  4 ++++
->  Documentation/gpu/intel-display/snps-phy.rst |  8 ++++++++
->  5 files changed, 39 insertions(+)
->  create mode 100644 Documentation/gpu/intel-display/atomic.rst
->  create mode 100644 Documentation/gpu/intel-display/casf.rst
->  create mode 100644 Documentation/gpu/intel-display/cmtg.rst
->  create mode 100644 Documentation/gpu/intel-display/snps-phy.rst
-> 
-> diff --git a/Documentation/gpu/intel-display/atomic.rst b/Documentation/gpu/intel-display/atomic.rst
-> new file mode 100644
-> index 000000000000..43a473181e7a
-> --- /dev/null
-> +++ b/Documentation/gpu/intel-display/atomic.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: MIT
-> +.. Copyright © 2026 Intel Corporation
-> +
-> +Atomic Modeset Support
-> +======================
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_atomic.c
-> +   :doc: atomic modeset support
-> +
-> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_atomic.c
-> +   :internal:
+On Fri, 8 May 2026 13:55:48 +0200
+Janani Sunil <janani.sunil@analog.com> wrote:
 
-I believe they key functions on the other files below also deserves this
-kind of doc. But I know, future work not related to this patch. ;)
+> Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
+>=20
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+Hi Janani,
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Various comments inline
 
-> diff --git a/Documentation/gpu/intel-display/casf.rst b/Documentation/gpu/intel-display/casf.rst
+Thanks,
+Jonathan
+
+> diff --git a/drivers/iio/dac/ad5529r.c b/drivers/iio/dac/ad5529r.c
 > new file mode 100644
-> index 000000000000..406778ccd94c
+> index 000000000000..3676956f6eff
 > --- /dev/null
-> +++ b/Documentation/gpu/intel-display/casf.rst
-> @@ -0,0 +1,8 @@
-> +.. SPDX-License-Identifier: MIT
-> +.. Copyright © 2026 Intel Corporation
+> +++ b/drivers/iio/dac/ad5529r.c
+> @@ -0,0 +1,564 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * AD5529R Digital-to-Analog Converter Driver
+> + * 16-Channel, 12/16-Bit, 40V High Voltage Precision DAC
+> + *
+> + * Copyright 2026 Analog Devices Inc.
+> + * Author: Janani Sunil <janani.sunil@analog.com>
+> + */
 > +
-> +Content Adaptive Sharpness Filter (CASF)
-> +========================================
+> +#include <linux/array_size.h>
+> +#include <linux/bits.h>
+> +#include <linux/device.h>
+> +#include <linux/err.h>
+> +#include <linux/module.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/spi/spi.h>
+> +#include <linux/errno.h>
+> +#include <linux/iio/iio.h>
+> +#include <linux/regmap.h>
+> +#include <linux/reset.h>
+> +#include <linux/delay.h>
+> +#include <linux/regulator/consumer.h>
+
+Alphabetical order.
+
 > +
-> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_casf.c
-> +   :doc: Content Adaptive Sharpness Filter (CASF)
-> diff --git a/Documentation/gpu/intel-display/cmtg.rst b/Documentation/gpu/intel-display/cmtg.rst
-> new file mode 100644
-> index 000000000000..04edd0bd165d
-> --- /dev/null
-> +++ b/Documentation/gpu/intel-display/cmtg.rst
-> @@ -0,0 +1,8 @@
-> +.. SPDX-License-Identifier: MIT
-> +.. Copyright © 2026 Intel Corporation
+> +/* Register Map */
+> +#define AD5529R_REG_INTERFACE_CONFIG_A		0x00
+> +#define AD5529R_REG_INTERFACE_CONFIG_B		0x01
+> +#define AD5529R_REG_DEVICE_CONFIG		0x02
+> +#define AD5529R_REG_CHIP_TYPE			0x03
+> +#define AD5529R_REG_PRODUCT_ID_L		0x04
+> +#define AD5529R_REG_PRODUCT_ID_H		0x05
+> +#define AD5529R_REG_CHIP_GRADE			0x06
+> +#define AD5529R_REG_SCRATCH_PAD			0x0A
+> +#define AD5529R_REG_SPI_REVISION		0x0B
+> +#define AD5529R_REG_VENDOR_L			0x0C
+> +#define AD5529R_REG_VENDOR_H			0x0D
+> +#define AD5529R_REG_STREAM_MODE			0x0E
+> +#define AD5529R_REG_TRANSFER_CONFIG		0x0F
+> +#define AD5529R_REG_INTERFACE_CONFIG_C		0x10
+> +#define AD5529R_REG_INTERFACE_STATUS_A		0x11
 > +
-> +Common Primary Timing Generator (CMTG)
-> +======================================
+> +/* Configuration registers */
+> +#define AD5529R_REG_MULTI_DAC_CH_SEL		(0x14 + 1)
+
+Feels like this would all be simpler if you used autoincrement rather than
+default value of autdecrement.  What breaks if you do that?
+Superficially feels like all the +1 would go away - though with need
+for a byte swap?  Might be worth that pain for the simpler code.
+Should just be a regmap_config parameter.
+
+> +#define AD5529R_REG_LDAC_SYNC_ASYNC		(0x16 + 1)
+> +#define AD5529R_REG_LDAC_HW_SW			(0x18 + 1)
 > +
-> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_cmtg.c
-> +   :doc: Common Primary Timing Generator (CMTG)
-> diff --git a/Documentation/gpu/intel-display/index.rst b/Documentation/gpu/intel-display/index.rst
-> index 8d40363b8f90..01c3d1e576b7 100644
-> --- a/Documentation/gpu/intel-display/index.rst
-> +++ b/Documentation/gpu/intel-display/index.rst
-> @@ -24,8 +24,11 @@ driver. The display driver isn't an independent driver in that sense.
->     :caption: Detailed display topics
->  
->     async-flip
-> +   atomic
->     audio
-> +   casf
->     cdclk
-> +   cmtg
->     dmc
->     dpio
->     dpll
-> @@ -37,4 +40,5 @@ driver. The display driver isn't an independent driver in that sense.
->     hotplug
->     plane
->     psr
-> +   snps-phy
->     vbt
-> diff --git a/Documentation/gpu/intel-display/snps-phy.rst b/Documentation/gpu/intel-display/snps-phy.rst
-> new file mode 100644
-> index 000000000000..c9e333fa7f62
-> --- /dev/null
-> +++ b/Documentation/gpu/intel-display/snps-phy.rst
-> @@ -0,0 +1,8 @@
-> +.. SPDX-License-Identifier: MIT
-> +.. Copyright © 2026 Intel Corporation
+> +/* Hardware LDAC source and edge select registers (per channel, 16-bit) =
+*/
+> +#define AD5529R_REG_LDAC_HW_SRC_EDGE_SEL_BASE	(0x1A + 1)
+> +#define AD5529R_REG_LDAC_HW_SRC_EDGE_SEL(ch)	\
+> +	(AD5529R_REG_LDAC_HW_SRC_EDGE_SEL_BASE + (ch) * 2)
 > +
-> +Synopsis PHY support
-> +====================
+> +/* Output configuration */
+> +#define AD5529R_REG_OUT_OPERATING_MODE		(0x3A + 1)
+> +#define AD5529R_REG_OUT_RANGE_BASE		(0x3C + 1)
+> +#define AD5529R_REG_OUT_RANGE(ch)		(AD5529R_REG_OUT_RANGE_BASE + (ch) * =
+2)
 > +
-> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_snps_phy.c
-> +   :doc: Synopsis PHY support
-> -- 
-> 2.47.3
-> 
+> +/* Calibration registers */
+> +#define AD5529R_REG_CAL_GAIN_BASE		(0x5C + 1)
+> +#define AD5529R_REG_CAL_GAIN(ch)		(AD5529R_REG_CAL_GAIN_BASE + (ch) * 2)
+> +
+> +#define AD5529R_REG_CAL_OFFSET_BASE		(0x7C + 1)
+> +#define AD5529R_REG_CAL_OFFSET(ch)		(AD5529R_REG_CAL_OFFSET_BASE + (ch) =
+* 2)
+> +
+> +/* Function generator registers */
+> +#define AD5529R_REG_FUNC_EN			(0x9C + 1)
+> +#define AD5529R_REG_FUNC_MODE_SEL_BASE		(0x9E + 1)
+> +#define AD5529R_REG_FUNC_MODE_SEL(ch)		\
+> +	(AD5529R_REG_FUNC_MODE_SEL_BASE + (ch) * 2)
+> +
+> +#define AD5529R_REG_FUNC_DAC_INPUT_B_BASE	(0xBE + 1)
+> +#define AD5529R_REG_FUNC_DAC_INPUT_B(ch)	\
+> +	(AD5529R_REG_FUNC_DAC_INPUT_B_BASE + (ch) * 2)
+> +
+> +#define AD5529R_REG_FUNC_DITHER_PERIOD_BASE	(0xDE + 1)
+> +#define AD5529R_REG_FUNC_DITHER_PERIOD(ch)	\
+> +	(AD5529R_REG_FUNC_DITHER_PERIOD_BASE + (ch) * 2)
+> +
+> +#define AD5529R_REG_FUNC_DITHER_PHASE_BASE	(0xFE + 1)
+> +#define AD5529R_REG_FUNC_DITHER_PHASE(ch)	\
+> +	(AD5529R_REG_FUNC_DITHER_PHASE_BASE + (ch) * 2)
+> +
+> +#define AD5529R_REG_FUNC_RAMP_STEP_BASE		(0x11E + 1)
+> +#define AD5529R_REG_FUNC_RAMP_STEP(ch)		\
+> +	(AD5529R_REG_FUNC_RAMP_STEP_BASE + (ch) * 2)
+> +
+> +#define AD5529R_REG_FUNC_INT_EN			(0x13E + 1)
+> +
+> +/* Multiplexer and main DAC registers */
+> +#define AD5529R_REG_MUX_OUT_SEL			(0x140 + 1)
+> +#define AD5529R_REG_MULTI_DAC_SW_LDAC		(0x142 + 1)
+> +#define AD5529R_REG_MULTI_DAC_INPUT_A		(0x144 + 1)
+> +#define AD5529R_REG_DAC_SW_LDAC			(0x146 + 1)
+> +
+> +#define AD5529R_REG_DAC_INPUT_A_BASE		(0x148 + 1)
+> +#define AD5529R_REG_DAC_INPUT_A(ch)		(AD5529R_REG_DAC_INPUT_A_BASE + (ch=
+) * 2)
+> +
+> +/* Status and readback registers */
+> +#define AD5529R_REG_FUNC_INT_STAT		(0x168 + 1)
+> +#define AD5529R_REG_DAC_DATA_READBACK_BASE	(0x16A + 1)
+> +#define AD5529R_REG_DAC_DATA_READBACK(ch)	\
+> +	(AD5529R_REG_DAC_DATA_READBACK_BASE + (ch) * 2)
+> +
+> +/* Temperature sensor registers */
+> +#define AD5529R_REG_TSENS_EN			(0x18A + 1)
+> +#define AD5529R_REG_TSENS_ALERT_FLAG		(0x18C + 1)
+> +#define AD5529R_REG_TSENS_SHTD_FLAG		(0x18E + 1)
+> +#define AD5529R_REG_TSENS_ALERT_STAT		(0x190 + 1)
+> +#define AD5529R_REG_TSENS_SHTD_STAT		(0x192 + 1)
+> +#define AD5529R_REG_ALARMB_TSENS_EN		(0x194 + 1)
+> +#define AD5529R_REG_ALARMB_TSENS_SEL		(0x196 + 1)
+> +#define AD5529R_REG_TSENS_SHTD_EN_CH		(0x198 + 1)
+> +#define AD5529R_REG_DAC_DIS_DEGLITCH_CH		(0x19A + 1)
+> +#define AD5529R_REG_DAC_INT_EN			(0x19C + 1)
+> +#define AD5529R_REG_ALL_FUNC_INT_STAT		(0x19E + 1)
+> +#define AD5529R_REG_FUNC_BUSY			(0x1A0 + 1)
+> +#define AD5529R_REG_REF_SRC_SEL			(0x1A2 + 1)
+> +#define AD5529R_REG_INIT_CRC_ERR_STAT		(0x1A4 + 1)
+> +
+> +/* Hotpath registers for multi-device support */
+> +#define AD5529R_REG_MULTI_DAC_HOTPATH_SW_LDAC		(0x1A8 + 1)
+> +#define AD5529R_REG_MULTI_DAC_HOTPATH_INPUT_A_DIE_0	(0x1AA + 1)
+> +#define AD5529R_REG_MULTI_DAC_HOTPATH_INPUT_A_DIE_1	(0x1AC + 1)
+> +#define AD5529R_REG_MULTI_DAC_HOTPATH_INPUT_A_DIE_2	(0x1AE + 1)
+> +#define AD5529R_REG_MULTI_DAC_HOTPATH_INPUT_A_DIE_3	(0x1B0 + 1)
+> +#define AD5529R_REG_DAC_HOTPATH_SW_LDAC			(0x1B2 + 1)
+> +
+> +/* Hotpath per-channel DAC input registers for each die */
+> +#define AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_0_BASE	(0x1B4 + 1)
+> +#define AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_0(ch)	\
+> +	(AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_0_BASE + (ch) * 2)
+> +
+> +#define AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_1_BASE	(0x1D4 + 1)
+> +#define AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_1(ch)	\
+> +	(AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_1_BASE + (ch) * 2)
+> +
+> +#define AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_2_BASE	(0x1F4 + 1)
+> +#define AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_2(ch)	\
+> +	(AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_2_BASE + (ch) * 2)
+> +
+> +#define AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_3_BASE	(0x214 + 1)
+> +#define AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_3(ch)	\
+> +	(AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_3_BASE + (ch) * 2)
+> +
+> +#define   AD5529R_INTERFACE_CONFIG_A_SW_RESET	(BIT(7) | BIT(0))
+> +#define   AD5529R_INTERFACE_CONFIG_A_ADDR_ASCENSION	BIT(5)
+> +#define   AD5529R_INTERFACE_CONFIG_A_SDO_ENABLE	BIT(4)
+> +#define   AD5529R_INTERFACE_CONFIG_A_DEFAULT	0x10
+I'd put the values it represents inline and get rid of this define.
+
+_DEFAULT defines are rarely a good design pattern
+
+> +#define   AD5529R_NUM_CHANNELS			16
+
+I'd store this along side the channels pointer then you can use ARRAY_SIZE(=
+) on the
+the chan_spec array and drop this constant.
+
+> +#define   AD5529R_MAX_CHANNEL_INDEX		(AD5529R_NUM_CHANNELS - 1)
+
+With the above gone, just make this a hard coded 15.
+
+> +#define   AD5529R_MAX_REGISTER			(0x232 + 1)
+> +#define   AD5529R_8BIT_REG_MAX			0x13
+> +#define   AD5529R_ADDR(reg_addr)		((reg_addr) & 0xFFF)
+
+Not used, so drop it.
+
+> +#define   AD5529R_RESET_PULSE_US		1000
+> +#define   AD5529R_RESET_DELAY_US		10000
+
+As mentioned below - just put these numbers inline. Defines just make
+the code harder to read when they are used only once and represent exactly
+what the value is.
+
+> +#define   AD5529R_SPI_BUF_SIZE			4
+
+No idea what this is for - not used.
+
+
+> +#define   AD5529R_NUM_SUPPLIES			4
+
+No need for a constant for this - use [] to define the names array and ARRA=
+Y_SIZE()
+on that to get the size where needed.
+
+> +#define   AD5529R_SPI_READ_FLAG			0x80
+
+> +
+> +static const struct regmap_range ad5529r_8bit_readable_ranges[] =3D {
+> +	regmap_reg_range(AD5529R_REG_INTERFACE_CONFIG_A, AD5529R_REG_CHIP_GRADE=
+),
+> +	regmap_reg_range(AD5529R_REG_SCRATCH_PAD, AD5529R_REG_VENDOR_H),
+> +	regmap_reg_range(AD5529R_REG_STREAM_MODE, AD5529R_REG_INTERFACE_STATUS_=
+A),
+> +};
+> +
+> +static const struct regmap_range ad5529r_16bit_readable_ranges[] =3D {
+
+Tricky bit here is you are saying it's a 16 bit regmap but then providing
+address ranges including the ones we shouldn't use. We need to hide those
+intermediate addresses.  Various things might work depending on the address=
+es.
+Can we hide the bottom bit of each address then write it to appropriate val=
+ue
+under the hood. That is divide addresses by 2?
+
+> +	regmap_reg_range(AD5529R_REG_MULTI_DAC_CH_SEL, AD5529R_REG_LDAC_HW_SW),
+> +	regmap_reg_range(AD5529R_REG_LDAC_HW_SRC_EDGE_SEL_BASE,
+> +			 AD5529R_REG_LDAC_HW_SRC_EDGE_SEL_BASE + AD5529R_MAX_CHANNEL_INDEX * =
+2),
+> +	regmap_reg_range(AD5529R_REG_OUT_OPERATING_MODE, AD5529R_REG_OUT_OPERAT=
+ING_MODE),
+> +	regmap_reg_range(AD5529R_REG_OUT_RANGE_BASE,
+> +			 AD5529R_REG_OUT_RANGE_BASE + AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_CAL_GAIN_BASE,
+> +			 AD5529R_REG_CAL_GAIN_BASE + AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_CAL_OFFSET_BASE,
+> +			 AD5529R_REG_CAL_OFFSET_BASE + AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_FUNC_EN, AD5529R_REG_FUNC_EN),
+> +	regmap_reg_range(AD5529R_REG_FUNC_MODE_SEL_BASE,
+> +			 AD5529R_REG_FUNC_MODE_SEL_BASE + AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_FUNC_DAC_INPUT_B_BASE,
+> +			 AD5529R_REG_FUNC_DAC_INPUT_B_BASE + AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_FUNC_DITHER_PERIOD_BASE,
+> +			 AD5529R_REG_FUNC_DITHER_PERIOD_BASE + AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_FUNC_DITHER_PHASE_BASE,
+> +			 AD5529R_REG_FUNC_DITHER_PHASE_BASE + AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_FUNC_RAMP_STEP_BASE,
+> +			 AD5529R_REG_FUNC_RAMP_STEP_BASE + AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_FUNC_INT_EN, AD5529R_REG_DAC_SW_LDAC),
+> +	regmap_reg_range(AD5529R_REG_DAC_INPUT_A_BASE,
+> +			 AD5529R_REG_DAC_INPUT_A_BASE + AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_FUNC_INT_STAT, AD5529R_REG_FUNC_INT_STAT),
+> +	regmap_reg_range(AD5529R_REG_DAC_DATA_READBACK_BASE,
+> +			 AD5529R_REG_DAC_DATA_READBACK_BASE + AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_TSENS_EN, AD5529R_REG_INIT_CRC_ERR_STAT),
+> +	regmap_reg_range(AD5529R_REG_MULTI_DAC_HOTPATH_SW_LDAC, AD5529R_REG_DAC=
+_HOTPATH_SW_LDAC),
+> +	regmap_reg_range(AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_0_BASE,
+> +			 AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_0_BASE +
+> +			 AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_1_BASE,
+> +			 AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_1_BASE +
+> +			 AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_2_BASE,
+> +			 AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_2_BASE +
+> +			 AD5529R_MAX_CHANNEL_INDEX * 2),
+> +	regmap_reg_range(AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_3_BASE,
+> +			 AD5529R_REG_DAC_HOTPATH_INPUT_A_DIE_3_BASE +
+> +			 AD5529R_MAX_CHANNEL_INDEX * 2),
+
+Yikes. This thing has an ugly register map.
+
+> +};
+
+> +
+> +static int ad5529r_detect_device(struct ad5529r_state *st)
+> +{
+> +	unsigned int product_id;
+> +	int ret;
+> +
+> +	ret =3D regmap_read(st->regmap_8bit, AD5529R_REG_PRODUCT_ID_L, &product=
+_id);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (product_id) {
+> +	case AD5529R_PRODUCT_ID_16BIT:
+> +		st->model_data =3D &ad5529r_16bit_model_data;
+> +		break;
+> +	case AD5529R_PRODUCT_ID_12BIT:
+> +		st->model_data =3D &ad5529r_12bit_model_data;
+> +		break;
+> +	default:
+> +		dev_err(&st->spi->dev, "Unknown product ID: 0x%02X\n", product_id);
+> +		return -ENODEV;
+
+See below on why this doesn't extend to fallback compatibles from DT and
+what to do instead.
+
+> +	}
+> +
+> +	dev_dbg(&st->spi->dev, "Detected %s variant (Product ID: 0x%02X)\n",
+> +		st->model_data->model_name, product_id);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ad5529r_reset(struct ad5529r_state *st)
+> +{
+> +	struct reset_control *rst;
+> +	int ret;
+> +
+> +	rst =3D devm_reset_control_get_optional_exclusive(&st->spi->dev, NULL);
+> +	if (IS_ERR(rst))
+> +		return PTR_ERR(rst);
+> +
+> +	if (rst) {
+> +		ret =3D reset_control_deassert(rst);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		ret =3D regmap_write(st->regmap_8bit, AD5529R_REG_INTERFACE_CONFIG_A,
+> +				   AD5529R_INTERFACE_CONFIG_A_SW_RESET);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	fsleep(AD5529R_RESET_DELAY_US);
+
+This define is only used in one place. I'd rather see the value here and
+a comment on where it comes from - typically a spec reference.
+
+> +
+> +	return regmap_write(st->regmap_8bit, AD5529R_REG_INTERFACE_CONFIG_A,
+> +			   AD5529R_INTERFACE_CONFIG_A_DEFAULT);
+> +}
+> +
+> +static int ad5529r_read_raw(struct iio_dev *indio_dev,
+> +			    struct iio_chan_spec const *chan,
+> +			    int *val, int *val2, long mask)
+> +{
+> +	struct ad5529r_state *st =3D iio_priv(indio_dev);
+> +	unsigned int reg_addr;
+> +	unsigned int reg_val_h;
+
+Could combine those two on oneline (not that important)
+
+> +	int ret;
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_RAW:
+> +		reg_addr =3D AD5529R_REG_DAC_INPUT_A(chan->channel);
+> +		ret =3D regmap_read(st->regmap_16bit, reg_addr, &reg_val_h);
+> +		if (ret)
+> +			return ret;
+> +
+> +		*val =3D reg_val_h;
+> +
+> +		return IIO_VAL_INT;
+> +	case IIO_CHAN_INFO_SCALE:
+> +		/*
+> +		 * Using default 0-5V range: VOUTn =3D A =C3=97 D/2^N + B
+> +		 * where A =3D 5V, B =3D 0V, D =3D digital code, N =3D resolution
+> +		 * Scale =3D 5000mV / 2^resolution
+
+See the comment on the dt-binding. I think we need support for
+dt described output ranges from the start. This is a rare multi range
+device where we could set a safe default but to me it makes little sense
+and the driver will be doing something unexpected if a newer DT is
+provided with a different range.
+
+> +		 */
+> +		*val =3D 5000;
+> +		*val2 =3D st->model_data->resolution;
+> +
+> +		return IIO_VAL_FRACTIONAL_LOG2;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int ad5529r_write_raw(struct iio_dev *indio_dev,
+> +			     struct iio_chan_spec const *chan,
+> +			     int val, int val2, long mask)
+> +{
+> +	struct ad5529r_state *st =3D iio_priv(indio_dev);
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_RAW:
+> +		if (val < 0 || val > GENMASK(st->model_data->resolution - 1, 0))
+> +			return -EINVAL;
+> +
+> +		return regmap_write(st->regmap_16bit, AD5529R_REG_DAC_INPUT_A(chan->ch=
+annel), val);
+That's a very long line.  Break it up as:
+		return regmap_write(st->regmap_16bit,
+				    AD5529R_REG_DAC_INPUT_A(chan->channel), val);
+
+I don't mind going past 80 for readability but here I don't see it as great=
+ly hurt
+by breaking the line and it was way past 80.  Or use a local reg_addr varia=
+ble
+like you have in read_raw()
+
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+
+> +
+> +static int ad5529r_probe(struct spi_device *spi)
+> +{
+> +	struct device *dev =3D &spi->dev;
+> +	struct iio_dev *indio_dev;
+> +	struct ad5529r_state *st;
+> +	int ret;
+> +
+> +	indio_dev =3D devm_iio_device_alloc(dev, sizeof(*st));
+> +	if (!indio_dev)
+> +		return -ENOMEM;
+> +
+> +	st =3D iio_priv(indio_dev);
+> +
+> +	st->spi =3D spi;
+> +
+> +	ret =3D devm_regulator_bulk_get_enable(dev, AD5529R_NUM_SUPPLIES,
+> +					     ad5529r_supply_names);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to get and enable regulators\n"=
+);
+> +
+> +	st->regmap_8bit =3D devm_regmap_init_spi(spi, &ad5529r_regmap_8bit_conf=
+ig);
+> +	if (IS_ERR(st->regmap_8bit))
+> +		return dev_err_probe(dev, PTR_ERR(st->regmap_8bit),
+> +				     "Failed to initialize 8-bit regmap\n");
+> +
+> +	st->regmap_16bit =3D devm_regmap_init_spi(spi, &ad5529r_regmap_16bit_co=
+nfig);
+> +	if (IS_ERR(st->regmap_16bit))
+> +		return dev_err_probe(dev, PTR_ERR(st->regmap_16bit),
+> +				     "Failed to initialize 16-bit regmap\n");
+> +
+> +	ret =3D ad5529r_reset(st);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to reset device\n");
+> +
+> +	ret =3D ad5529r_detect_device(st);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to detect device variant\n");
+
+No to this. It breaks the use of fallback device tree compatibles.  As such=
+ we
+never fail on an ID missmatch. Instead we just believe firmware when it says
+whatever is there is compatible with this device. See below on why I think
+we need to break this into separate compatibles.
+
+> +
+> +	indio_dev->name =3D st->model_data->model_name;
+> +	indio_dev->info =3D &ad5529r_info;
+> +	indio_dev->modes =3D INDIO_DIRECT_MODE;
+> +	indio_dev->channels =3D st->model_data->channels;
+> +	indio_dev->num_channels =3D AD5529R_NUM_CHANNELS;
+> +
+> +	return devm_iio_device_register(dev, indio_dev);
+> +}
+> +
+> +static const struct of_device_id ad5529r_of_match[] =3D {
+> +	{ .compatible =3D "adi,ad5529r" },
+
+Hmm. I'm in two minds on this.  Is it better to do as you have
+an detect between the ad5529r-12 and ad5529r-16 based on ID or should
+we just have them as separate compatibles?  If they had different part
+numbers (which is most common way this is done by ADI and others) then
+we'd not consider sharing a compatible.  As such I think we should split
+them.  That also makes fallback compatibles work.  Otherwise how
+would we know whether a new device ID should be 12 or 16 bit?
+
+
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, ad5529r_of_match);
+> +
+> +static const struct spi_device_id ad5529r_id[] =3D {
+> +	{ "ad5529r" },
+Same would apply here for including the postfix in the naming.
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(spi, ad5529r_id);
+> +
+> +static struct spi_driver ad5529r_driver =3D {
+> +	.driver =3D {
+> +		.name =3D "ad5529r",
+> +		.of_match_table =3D ad5529r_of_match,
+> +	},
+> +	.probe =3D ad5529r_probe,
+> +	.id_table =3D ad5529r_id,
+> +};
+> +module_spi_driver(ad5529r_driver);
+> +
+> +MODULE_AUTHOR("Janani Sunil <janani.sunil@analog.com>");
+> +MODULE_DESCRIPTION("Analog Devices AD5529R 12/16-bit DAC driver");
+> +MODULE_LICENSE("GPL");
+>=20
+
