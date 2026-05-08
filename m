@@ -1,236 +1,95 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.ms.icloud.com (ms-2001e-snip4-11.eps.apple.com [57.103.73.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59195374E45
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 18:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F70250BF2
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 18:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.73.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778263678; cv=none; b=AuNiNh3DpyAE5bH6FzDrz9lg5H/Z9YIJGhZnnlpjq0T/1Rh5O76KH8xeazZIkxu70P0Y6/IZ5eW1St2+qhr2ki19dUoxIZXTrgPgw9MI7xnsjWYiaTIPiHU1YmsTxANXCpoOVXt8q9V3PvZ7/s98FYPAnk4OW5a2zhOJbK7bNBc=
+	t=1778263871; cv=none; b=XBT1tZnM8dYUjOFqcf9qpxwan0V7WxAzsTVYRb4o6LMchU0zwN5bjkgmWezxf3daZwIOn99Zsv8YQbIF2yyk8i29pNMbrcJ9dCcnBr11QkRD4cwLFTBscTIAUK95DBuSW6Pxj0AmEGA1tJo5bEOE4EHn/g1Fb0WbiOQZPs9w1yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778263678; c=relaxed/simple;
-	bh=ufqlUDmozp4nL1Tie+ZeU3H7JAYzyL2fgLNlzO2FG2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZYHRxBvZu9crZUVpxq6euIfUzaNeIJ5/pGgWRoKy+aDT0okWtYddBCCE8OOb3mByOCDc0areUial3ux+q6gqgkJsq0nomzykTdoWYy6aBPf0uXu4OcvbQif8R2CAJIzuaVr4JYiGqzzJ6As0fOAnCAkDoR8lCpXssBUxeVrF9rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=ogrl6MYO; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1778263871; c=relaxed/simple;
+	bh=uhoEwFpD0wLLc2f6/ghy4yzGQTrFwfEiWin1DsoyXDg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ihUPhEz/22uDIdgBSDcAfzkLa6W3xo/RK7kuZMvumSajK2Nze1XiTISZ9STv7cIHJC72IdhgVvvs8lKHPPhyMT3ZGFuROQjKtyZDRs3TmoKaWgBH4ucR2kwCuwZAltPZeUvG2q9FbLFUwtaICwgVmeW3CM6gaN2VZqsk4w4a4Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=nkFuTMQD; arc=none smtp.client-ip=57.103.73.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="ogrl6MYO"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4891f625344so24192975e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 11:07:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1778263669; x=1778868469; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=s0WKbRowPzovOif48EIjm8s484eRn+yiPRA2nQfqrh4=;
-        b=ogrl6MYOvZ2Fiftt2Y//Eh19O6LqsZQHZa95fGvytlIFZu2l+UwKqZem2yWGFg6FhA
-         hGkRyWUISEqZ8XBq/huN1SVMb2sGnzB4FY/QwGE9KGxTM+7Qdnb+wp453CA0507MvBKG
-         4Ah7lmbqm+eKmRqEWZY6LXzaY/26MrstWYMchklz/r+4ez00Itfji14JtE/n0LU88pgA
-         F546OW3H9K9TSKeskjW7wLuDLMFEstP5zu8dKDGdW4djTzF2LEu0v2VJ5OI+XTuytgSb
-         jdmyvCq38QjVbqrSItWJZlGB9BgG76Zj1md8J5STJug/xGEqv8xF790ZufviNAQFVbZK
-         DZFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778263669; x=1778868469;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s0WKbRowPzovOif48EIjm8s484eRn+yiPRA2nQfqrh4=;
-        b=WOGnT7++kSmO/TWxIGUAAH1XdOMKUg3zd2Df/zom5VxB/9P2sfR3Tv4s3fTq6CtQlW
-         VIoKIoC5g6PdOexdgacwOvyZumz3IZjgp7/bFwFF5b0zJeFL/SJ4eFfEy0RmFLDSYHBN
-         Fd7wA7IyQO+3GvxO1DcCFdGrqhybG2bIZ1zsO78qHdDNeEf3WJm5IpBdJtPd+3bzSWnw
-         9X/LcLSAcY8jiRrILAV+6sUwrWnygRSbdSnCifeZ6Uec+FU/fcUTtLTG32hvu4tkLcaX
-         7aWDwz7OoclQ50/j86vtZhHJ1oF29XzPbG6DzA35GbHofD451WGE6WImwG72IP4Jr/rc
-         N46A==
-X-Forwarded-Encrypted: i=1; AFNElJ/xN5TOM9Igj3xDW0/RNfnK9NrFmw2CSilIAouZ4izEGVMe0kB3KkGwPM9OBGZQftUpiZ2zf0IuLxw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0N/mUvR+GNK1acRY0cmKzN/4TwBtek+hj1mb/+avZgJgDCs84
-	wzOD/V7fAnl7igElCBCwVid1tBJz0yTBRiejHbXvkrIHrQFb6+y3mx6lNEgcy5YQZ+w=
-X-Gm-Gg: AeBDieuSx4EkEUUhN7S4jQe+5qT8HWBDZww7ZOG5bvmlNBOkosbJlq9BJI+ohhlMLsd
-	FZ7HqMSroRaiJSNO8muAWiS1JNVHDUSVz/sGiifeaBfXigVeaRTyt09IO/PdksX6IMjWbF/ltAn
-	NGXl6mmu6W12cyOaLxDvKJpB6mZScwBvSBnm8LtNkiFjFkO4NXJkVR4ZrV8xfM2Di+KBVQseYML
-	W3s1oSdiGORxVv/tBkbGi/8qVS52MsBQY4kt8GOxAoSw3mXWwbJ5L8MAkVDOcIP9GAKK+I/dLXh
-	41TjqxNCV8gRvA2R+KzXJ1eMP0OtqQ4oWE7Lfu8nVZLkRQgDn+KSzHqWoy84oKCo9ia4JYKIX40
-	81iSDuuZWx3rNB670D/Cyhi15o43/+C3f4Vkr/dqk82V3wIQNegnANMNOSIpbVESfb6OFSpgD5V
-	s0hYzW21r/HFUys/lTvU+fafu0pAQxcnCF7xs=
-X-Received: by 2002:a05:600c:8b6e:b0:485:3c2e:60d5 with SMTP id 5b1f17b1804b1-48e5dfcd72emr132299835e9.2.1778263669094;
-        Fri, 08 May 2026 11:07:49 -0700 (PDT)
-Received: from FV6GYCPJ69 ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6d8d4462sm8825735e9.1.2026.05.08.11.07.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 11:07:48 -0700 (PDT)
-Date: Fri, 8 May 2026 20:07:44 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	Tariq Toukan <tariqt@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Borislav Petkov (AMD)" <bp@alien8.de>, Randy Dunlap <rdunlap@infradead.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Christian Brauner <brauner@kernel.org>, 
-	Petr Mladek <pmladek@suse.com>, "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
-	Eric Biggers <ebiggers@kernel.org>, Li RongQing <lirongqing@baidu.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org
-Subject: Re: [RFC net-next 0/4] devlink: Add boot-time defaults
-Message-ID: <af4lBIJdCuN5VKq_@FV6GYCPJ69>
-References: <20260506123739.1959770-1-mbloch@nvidia.com>
- <aftaW-irGmkfA7FS@FV6GYCPJ69>
- <3f9215c4-7c84-46d9-ba74-30dabe24db09@nvidia.com>
- <afxvzOjqw-vxUAED@FV6GYCPJ69>
- <b6a9b568-dd09-4414-be57-6b9cd282a43c@nvidia.com>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="nkFuTMQD"
+Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-3a-100-percent-1 (Postfix) with ESMTPS id D77FE180044B;
+	Fri, 08 May 2026 18:11:06 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJBkMDRQVJF0wBTVIPDxhMCkEUWgpcQgtJAS1eCF4fTBwdDlgGEhZdRVsYRRlLHVgWAV8GWXIZWhRcGFNFUR9UWEEOCloBUFEdXwIKBEcEWxdGA1NFXwMXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PGVoUXBhTRVEfVFheBFNWDkIPTQQIBgkFXQhKBQkaX1FEW1ULXQVcH0AISlJbU1hUFlwdAC1eCF4fTBwdDlgGDFBNAUMICgJRHFYNVw==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778263869; x=1780855869; bh=0mjrF1GTIkE+Ezcb/ccqXnK0O806odp0Xc3hbwPBEkM=; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type:x-icloud-hme; b=nkFuTMQDJ8l08ZZ+Bhzk8a24C9DCGNM2eGCagE5cdFQRV9kjTmLrxMnnxQDHthRPosYB66SdV0fK9KQuiAy1RQdZK6zFGLt582R9nK75+n7zPu1sg1kRpZ8AhenUJzQ9lXBTCEwsWREk3z2XkCNw/L3sGEUUPpFA0l8VnxYWJhX+Qs/7aj5CSJhRJjVHFfokZz1MyP2ZSSXGL+DLbaJEPXWfF+eHezqGiBIr4CAJ+TwBDAlGIQfc4w/3RZybDZlkeWHVW9wun0i5TU6y3zePM35vOsqP424Jpe6L9emveubXnMQRQUgAA8kbuMAsR26aBCFgmC5V/qhPOvNa3c7fSA==
+Received: from [192.168.89.2] (unknown [17.57.154.37])
+	by p00-icloudmta-asmtp-us-west-3a-100-percent-1 (Postfix) with ESMTPSA id E513A1800152;
+	Fri, 08 May 2026 18:11:03 +0000 (UTC)
+Message-ID: <2657e1b7-126d-4c4b-8027-012a6d3ffee3@icloud.com>
+Date: Sat, 9 May 2026 03:11:01 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b6a9b568-dd09-4414-be57-6b9cd282a43c@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
+From: Jihong Min <hurryman2212@icloud.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Jihong Min <hurryman2212@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260508143910.14673-1-hurryman2212@gmail.com>
+ <20260508143910.14673-2-hurryman2212@gmail.com>
+ <ad41d70b-e9c0-446e-8bd0-4528de75b592@amd.com>
+ <0d518d40-e239-4d93-8e71-0d2e140f00ca@icloud.com>
+ <966c9e07-10e6-4abe-9cb5-77b974f31302@amd.com>
+ <b8372128-c922-4b62-91c5-46f848180bc5@icloud.com>
+Content-Language: en-US
+In-Reply-To: <b8372128-c922-4b62-91c5-46f848180bc5@icloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: sl9rJsX7eR6qgLM1qVLBH4gVb3t01cp7
+X-Authority-Info-Out: v=2.4 cv=f79FxeyM c=1 sm=1 tr=0 ts=69fe273c
+ cx=c_apl:c_pps:t_out a=qkKslKyYc0ctBTeLUVfTFg==:117 a=IkcTkHD0fZMA:10
+ a=NGcC8JguVDcA:10 a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=cZtEhlklJ10v6u5TLhAA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: sl9rJsX7eR6qgLM1qVLBH4gVb3t01cp7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDE4MiBTYWx0ZWRfX+B2wgVjg2Q/r
+ RNN4afRGFiweI7ch7aU7gk8wbXXDLe7vpVXTQNRBqgetOdAFvRiXZ9ra0bHEAv7FsvjsFaa52UR
+ aMDmjdnMfYNec17kLaG1ZkJqUN3q/IVNmIHbhsVX1ZU1VbAq5oIK2S3EV1HayXWpchk75te3iek
+ plxGGzivtAbYTEQ9QV/4SS6r0GMsBeRNOsgYI2E3dmn5U1pQLMutx00UVOdI1hlY9pMjQm2wYef
+ Y3inbE7domPmONMWSIDhZTF19tnOM68r5sZ8BBZ6wUOnY66gS0qtQMVSUVPhxlsiBMrB9Idfzww
+ LeRFlbox0YGi6iTwrG57y60ahU/owMXgxl98lm/hFHDjG5s184IaQFpHBZHBIg=
 
-Fri, May 08, 2026 at 07:59:04PM +0200, mbloch@nvidia.com wrote:
->
->
->On 07/05/2026 14:03, Jiri Pirko wrote:
->> Wed, May 06, 2026 at 07:35:10PM +0200, mbloch@nvidia.com wrote:
->>>
->>>
->>> On 06/05/2026 18:22, Jiri Pirko wrote:
->>>> Wed, May 06, 2026 at 02:37:35PM +0200, mbloch@nvidia.com wrote:
->>>>> This series adds a devlink= kernel command line parameter for applying
->>>>> selected devlink settings during device initialization.
->>>>>
->>>>> Following a discussion with Jakub[1], I am sending this RFC to get the
->>>>> conversation moving. I started from Jakub's example/request and extended
->>>>> it to cover requirements from production systems and configurations that
->>>>> customers use.
->>>>>
->>>>> One important caveat is that the parsing logic in this RFC was written
->>>>> with AI assistance. I am also not sure whether the resulting syntax and
->>>>> parser are too complex for a kernel command line interface. This is part
->>>>> of why I am sending it as an RFC: to understand what direction and level
->>>>> of complexity would be acceptable to people.
->>>>>
->>>>> The implementation is intended to support the following properties:
->>>>>
->>>>> - A system may have multiple devlink devices that usually need the same
->>>>>  configuration. For a configuration such as eswitch mode switchdev, a
->>>>>  user should be able to specify multiple devices to which that
->>>>>  configuration applies.
->>>>>
->>>>> - There may be ordering dependencies between options. For example, in
->>>>>  mlx5, flow_steering_mode should be set before moving to switchdev.
->>>>>  With this in mind, defaults are applied per device in the left-to-right
->>>>>  order in which they appear on the command line.
->>>>>
->>>>> The intent is to let deployments set devlink defaults before normal
->>>>> userspace orchestration runs, while still using devlink concepts and
->>>>
->>>> "defaults before normal userspace orchestrarion". I read it as config
->>>> before config, which eventually could be skipped.
->>>>
->>>>
->>>>> driver callbacks rather than adding driver-specific module parameters.
->>>>> A default is scoped to one or more devlink handles, for example:
->>>>>
->>>>>  devlink=[pci/0000:08:00.0]:esw:mode:switchdev
->>>>>  devlink=[pci/0000:08:00.0]:param:flow_steering_mode:smfs
->>>>>  devlink=[pci/0000:08:00.0,pci/0000:08:00.1]:param:flow_steering_mode:hmfs,[pci/0000:08:00.0,pci/0000:08:00.1]:esw:mode:switchdev
->>>>
->>>> I don't like this. What you do, you are basically introducing user
->>>> configuration tool on kernel cmdline.
->>>>
->>>> The same you would achieve with a proper userspace tool/daemon.
->>>> I did try to come up with it and push it here:
->>>> https://github.com/systemd/systemd/pull/37393
->>>> That didn't get merged for unknown reason, but the idea is sound. You
->>>> provide configuration files for devlink object and systemd-devlinkd
->>>> will apply when they appear. Wouldn't this help your case?
->>>
->>> I agree that systemd-devlinkd is the right shape for normal
->>> devlink configuration, and it could probably replace the udev/devlink
->>> plumbing we use today.
->>>
->>> The case I am trying to cover is earlier than that.
->>>
->>> On BlueField/ECPF/DPU systems, the host PF driver cannot always finish
->>> probing independently of the ECPF side. When the ECPF is the eswitch
->>> manager, the host PF is kept in initializing state until the ECPF eswitch
->>> side is set up and mlx5 enables the external host PF HCA. That happens as
->>> part of moving the ECPF to switchdev.
->>>
->>> Today userspace observes the ECPF instance and then switches the
->>> mode through devlink, usually via udev or similar plumbing. That still
->>> leaves a window where the ECPF has probed, userspace has not applied the
->>> mode yet, and the host PF is waiting. With many ECPFs this becomes visible
->>> in host PF probe/boot time. A daemon reacting to the devlink object
->>> appearing can make the userspace side cleaner, but it still runs after the
->>> device has appeared and after userspace scheduling/uevent handling.
->>>
->>> Long term, for these DPU deployments, we would like mlx5 to initialize
->>> directly in switchdev. I am hesitant to make that unconditional because it
->>> changes existing behavior and there is no early opt-out before probe. The
->>> cmdline parameter was meant as an explicit opt-in middle step: ask the
->>> driver to apply the same devlink operation during init, before this path
->>> depends on userspace.
->>>
->>> We previously tried to address this with an mlx5 module parameter. By
->>> design, that was too coarse: it applied to all mlx5 devices handled by the
->>> module. That makes it usable only for narrow DPU-only configurations. The
->>> devlink-handle based cmdline syntax was intended to keep the opt-in scoped
->>> to the specific devices that need this early switchdev transition.
->> 
->> The switchdev mode was introduced at roughly the time CX4 was out. What
->> stopped us from making it default for CX4+ ?
->> 
->> Introducing this horrible plumbing only bacause we were not able to
->> change the default sounds so absurd.
->> 
->> Can we write the default mode as a bit in ASIC NV memory perhaps? Simple
->> devlink cmode permanent param to write it, the driver can read this bit
->> during init to decide the init flow path?
->
->I don't think switchdev by default should mean CX4+ in general. If we get
->there, I would expect it to be limited to the DPU/BlueField/ECPF case, where
->the host PF probe path can depend on the ECPF reaching switchdev. Changing the
->default for regular host NIC deployments feels like a much larger compatibility
->change.
+>> Something else I was thinking about while reviewing this series.
+>>
+>> Promontory 21 is only on AMD platforms and AMD platforms are only 
+>> x86. I think the Kconfig should be conditional on AMD CPU support 
+>> being enabled and X86 architecture so that we don't bloat other 
+>> architectures with dead code that will never run.
+One related Kconfig question: would it be acceptable to make
+USB_XHCI_PCI_PROM21 default y with the X86 && CPU_SUP_AMD dependency?
 
-We can't travel throught time, but if from CX5 onwards the default would
-be switchdev, nobody would feel broken in terms of compatibility. That
-is my point. Having "legacy" as default is simply wrong for never NIC
-generations. That is why it is called "legacy" and it should have been
-rotten through and out since CX4 times.
+This would only default-enable the PROM21 xHCI PCI glue. The hwmon driver
+would still be controlled separately by SENSORS_PROM21_XHCI and would remain
+opt-in, so the undocumented temperature register polling would not be 
+enabled
+by default.
 
+The concern is that, without default y, distribution configs may miss the
+PROM21 PCI glue and then SENSORS_PROM21_XHCI can not bind even if the hwmon
+driver itself is enabled or available as a module.
 
->
->For the ASIC/NV bit: maybe technically possible, but it feels like the wrong
->layer. This is boot/deployment policy, not a persistent hardware property, and
->storing it in NV memory would make the state persist across kernels/hosts in a
->surprising way.
+Would you prefer this, or should USB_XHCI_PCI_PROM21 remain explicitly 
+enabled
+by distributions?
 
-Well, as any other nv config, it persists across kernels/hosts. Think
-about it as "unbreak-my-not-legacy-device" bit.
+Sincerely,
+Jihong Min
 
-
->
->I do agree the RFC probably went too far by making a generic devlink cmdline
->configuration language. Maybe the smaller thing to discuss is only:
->
->devlink=[pci/...]:esw:mode:{legacy|switchdev|switchdev_inactive}
->
->No runtime params, no ordering between different operations, just early eswitch
->mode for explicitly selected handles.
-
-FWIW, I'm still against this.
-
-
->
->@Jakub, I know you wanted something more generic/extensible, but maybe the
->generic case belongs in the devlinkd/systemd direction Jiri pointed at, while
->the kernel cmdline handles only this early boot eswitch mode case.
->
->Mark
