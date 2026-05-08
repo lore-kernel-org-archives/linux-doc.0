@@ -1,89 +1,85 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF300372EDB
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 18:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C51236E497
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 18:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778264773; cv=none; b=tu6MZtgp6MWJn36jz8+ylyWV9rrcQfNgq73l+zd246bLLhoZ2hg8Elj6dpDajJQuyJ5ONeNYqpGAdBJNfR7Q1fYJQNzVY81DWKlbYSeDd8XMZPuN+/P8Oty8E4A2XJtbEEYcuEan4qAgNrN71tiR784tmlod1qwBEE5rMVQ3Nd4=
+	t=1778264942; cv=none; b=IQ1460nRiUIaRXrLNDXzB2ixfDdIK+iknp+gMpYHUuIBxKfM5ejnDg9smg18pt6M17sR/zwZ3hD7OKURpmBRHlF4RkQ/8fN+JFKI7nICVT3wjYJdiFlshNITeWsSpYmB9rrRQUIUSSRh6jn7CJkF7eRSnoYLppergfD9z1oyhAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778264773; c=relaxed/simple;
-	bh=gPt2p5mRydIx09aB5eoi5h+EjR87ILB07pmtiyqKD6c=;
+	s=arc-20240116; t=1778264942; c=relaxed/simple;
+	bh=e+hoEU1BVnwIhgWSnafe2Ncw2XQkEPQSWsM97UwRlqM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gqfNXhtwHfPQoj8RCQszeEdYkuIEfEMcivYhR7u391l1zt9V0YRxXW86lIa/h2GM+TQZjpKULWlWwuTX85hdYVIWO0yQ/Bc/8lfBEZK0bGN8GbGaMwgOaEB+Z8uCCmpjHiJE9jtlFm9lGn22310fpLuhziUkfqoCUNYQWcAri60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UH89eDTW; arc=none smtp.client-ip=209.85.221.46
+	 MIME-Version:Content-Type; b=ce4y+dAWX0tjwuK65IFk44UyPoVvQdW6A0kUXGHjiQQb9CUI8GxgTZNNAE1Yy2oF147riHqTsyKgvtATIRRSJPniM6ET5af+lQvbrBpDRGgb3ajRj6EarqJDKnXk+HRKo/7a+aROFVM8ekxVjgsUUuUG34PdPtLC5ujQ4RKQ/1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tA9+tX1h; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UH89eDTW"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43d77f6092eso1476673f8f.2
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 11:26:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tA9+tX1h"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso17731885e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 11:28:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778264770; x=1778869570; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778264937; x=1778869737; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nadJ4F3fO0o2IbMhIzDipftu6czfRb7SQ9fGD7WtGtQ=;
-        b=UH89eDTWQh9OmS5hUj/dgbTfi3H7wYOPLAD09tyOadceQmuQ1jSW8ecpWt6e65vzgO
-         dUPuw2rKBsNlxygqwzKdECs3V10qe9a4JTkf9GaWDDLwqBqvoMNLKQ2z3FbIsAL/Xdkv
-         h7/yFvPjCarOyc2epdk5HYzixl3aB5dJ7/MAOl6vWwy/FkzEklri+HmlVblgJNeywYs3
-         jY4s5DAbrSwYKbkt8b7zGAZBoJzpLJWvDWX8ghQ6HhC4QCi71rcwijca/mxruMoHZWW5
-         w3gPGRNJQkqEZa35nbPwNKiM05kM5CZ5Ih7Ano8akSmPY2OogTfMOuflpNXAGNBjiHZS
-         1bcg==
+        bh=oVMKZWAk0SD1GHr6tr/9fhB28kwxhrp+So3ZgzrkNIs=;
+        b=tA9+tX1hlqIMJBQp8pL1dIdDwcZjzMQ9wtubMLabRWf7K0bR/A6WIro+Q2O1ojvMWk
+         SX1rlwnFZNY5snfZhVIyu0B5KJUVmiELdEbMx8RZjQJoA36C1ABXz1fpeSbOd4WJnHtI
+         +WuMIPxhbuLVXl9UOph4WsZMWrS2Qpla0uM5c6g/Byq6ekq0OqF1+h0Zxtdz/DR43d9j
+         F54CLJnS9JOXI+6HJwnka4w8Jl+Io0316vhvqY0f7XB0vI/U07D2UUnJO0lUMGZ5nQaR
+         YZKwCiYkvoN1QIspHuZQTB/BS2RIddDS1arJ4gJu96GfUyp0DJs0BkMtYC15aPhd57Uc
+         g1zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778264770; x=1778869570;
+        d=1e100.net; s=20251104; t=1778264937; x=1778869737;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=nadJ4F3fO0o2IbMhIzDipftu6czfRb7SQ9fGD7WtGtQ=;
-        b=f/L/nZnsZ84rGwWIL7Mybc4qghPNNtVQovQ49ojOb/jrbNyJHv8dWeN1DdePL7UnH5
-         WluTckE2zWSGJAeUT0parfbXx5QUFTReXwEegRuBV/SpPRyqB9F0CnEsp4m+6L7yGYdb
-         1+svgfE0Hdd1a3ziCPlEwVOjNhRXr2CWBkuK0xW7oRWXL8SQ/v9RM/M2fsZKpcLAfRz4
-         aJKqEogX0mBIYPjWZxgsPaytRiYsyeiMcmwnVhFDNkhMHqW9MRlW0X0cvXjGBj4uiK9c
-         xtR8Top061b/YCHExapriOKOfIN9t+ATmcAnbVH8UteTGu7KW7rrL3IxqqwRySm3152n
-         n8zw==
-X-Forwarded-Encrypted: i=1; AFNElJ+AahRfHkxiY6FQsXrcD4olr3/vaxmtgFHPYo41EU3pQpphX6KO493s1ZKJrHkg0ZXr5cr82blokS4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAiFa3BT1OITZqVAU2kjhAFlJgaVFRX4Pch+nD3ozLInRye37I
-	2lqLwcxZTYK74vQk86oJSHuPwhAb0MOLjOIl16maSdhnodpnFVvIpYGB
-X-Gm-Gg: Acq92OFLNWXQsw7hzCLz8jqAxiSgn7ZfvqMSwlyUYdDDt48J5T2tXaHHlbI1UYcqVkw
-	gtMTePBrLiYbTbaw4i/yKiX8oszFgGuKlo7I1s7+aUCYKAD3VAfpFN9eE29q53unW5Osgke1zIW
-	kpgcLhYQoNKaxpIp6mUBcq66BSA/8mUWUO6tVL9MuAP5EMJXN5myVpdFEKO0pUeL2yZoxIbarv5
-	fMv0+Ff0AbCk2d2xH0lDC2TQ4e85VH/V8Efmh/dDuIVFZICtt5yJAa1dk8nOxuX5UI5Vf8d0BrL
-	olho08BqXIMErS+E/DPTbNDalU92KFjkMlVW0y34rDFCZqODm7UMBK6e23KCW7+bX4Zc6z6zDTc
-	NaccObYgwiMJdS2XA0XR4j8+oxUleq7MtvrizE8vi/8awGIgx/yf3Om3CGxnNEuB91V7ESU/+Tu
-	pZu/ThqUZMgBQ4U67HYE5aHzxMxEivKh/SdshWGOCcn4rzvUAo7lzruMMpTu7bjRrg
-X-Received: by 2002:a05:6000:420c:b0:43d:7508:c9c9 with SMTP id ffacd0b85a97d-4515c5752d8mr22366137f8f.27.1778264770073;
-        Fri, 08 May 2026 11:26:10 -0700 (PDT)
+        bh=oVMKZWAk0SD1GHr6tr/9fhB28kwxhrp+So3ZgzrkNIs=;
+        b=nCCsL7uaRSABpwTb4EeWijWprHEA2Vr2JXUGQPop8gbigR/m31Qbl5VOaCj08GEibb
+         40GaWrEAILwtXmzp9EwA4/oLClLR1L6LYZdA08E5nHClL2dpjAP6f5S1uqxZgrkBc26f
+         ZJS38qpGsLLWs76IycMSyGjr+Zkw8oFpO8mQb6gVMjtKjY6122yannw0o/z59pKwzQWS
+         mASrjweJ7wvz7OxdWuH/0R9ZX5hY/VTtrhmxMv4XW66Px0h6Bb6bm6PIPBedfu/DhzUQ
+         2/HNwjRmXUUC+npYApDU1IOZGFqdVWr1kAph4N17OFzjAXWORWE8L05TVcSVbDMn270T
+         cEBg==
+X-Forwarded-Encrypted: i=1; AFNElJ/BVV97IeYRSpqucEeAPK1EL0TO01GBgrT3vHWA5VW+5J9naqvvWr6Hif41+N2x+s9N84W5EX0UXLk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9rWvICVb/t3WehUniQ5d0cc+kluPkBLHUbH8eHxd2YJm0BA+H
+	ZIPBsGa1GU9mKbLfdYWXh3dj65CPpjHQ2a100gErCFgzf3rZfM9CEube
+X-Gm-Gg: AeBDieuO/X7fn9L2/4xrSxKalvLrWle0iJAMy8YMjj8LSJizHtxkf6shYG5UBW4FN7P
+	tmGuCFHuiUi8k4YiX/5ITzVHEK3BJEvgyHLd6o0oo5Gi4tGtCZWvagzBcBVhJQ6Ko8AzwUBqWty
+	R3YFcotER5pupXypgPWy12Tkk8jRsYZh4RvMsaovSTVKTwMeBBa2nnMynEjcCWsiV8eB/giUh1b
+	AW6INIBYic+g9UPdeGvxxxMLfuBN9lwEY80PTbrvk/BHWpyRNPTs+rffXV9mtLIlwlv4tWlbn2U
+	jZehehZt9SU6aFQEf/2KRNyVkv5ErRnjZ+ioscuvaQeBnv90DFX+QP80FMnaYqg2l0pnxEmBYF7
+	fn30Ffz40qmq59W0vA6sREn6F5NO5Fvyyb/BD2g9RejQ8FzrNhegsJJrxmGG+CmoZ8iopb5V5eF
+	NDO6myadUnAh0+llalAPOPI0iGm1kSPqC75VkS85+19HqHd7BAelV8GtECOP84j8UR
+X-Received: by 2002:a05:600c:8011:b0:485:35d3:ce59 with SMTP id 5b1f17b1804b1-48e51e1a545mr213241825e9.10.1778264937224;
+        Fri, 08 May 2026 11:28:57 -0700 (PDT)
 Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6c79fsm6435208f8f.15.2026.05.08.11.26.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6dd3fd0csm10812815e9.14.2026.05.08.11.28.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 11:26:09 -0700 (PDT)
-Date: Fri, 8 May 2026 19:26:06 +0100
+        Fri, 08 May 2026 11:28:56 -0700 (PDT)
+Date: Fri, 8 May 2026 19:28:55 +0100
 From: David Laight <david.laight.linux@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Adrien Reynard <reynard.adrien.08@gmail.com>, "Paul E. McKenney"
- <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
- Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
- <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng
- <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt
- <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, David Howells <dhowells@redhat.com>,
- Paulo Alcantara <pc@manguebit.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- "open list:READ-COPY UPDATE (RCU)" <rcu@vger.kernel.org>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:DRIVER CORE, KOBJECTS, DEBUGFS
- AND SYSFS" <driver-core@lists.linux.dev>, "open list:FILESYSTEMS [NETFS
- LIBRARY]" <netfs@lists.linux.dev>, "open list:FILESYSTEMS [NETFS LIBRARY]"
- <linux-fsdevel@vger.kernel.org>, "open list:TRACING"
- <linux-trace-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/5] docs: fix repeated word 'that' across documentation
-Message-ID: <20260508192606.2423f50e@pumpkin>
-In-Reply-To: <1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
-References: <20260508163759.16231-1-reynard.adrien.08@gmail.com>
-	<1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
+To: Adrien Reynard <reynard.adrien.08@gmail.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
+ <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
+ <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Richard Weinberger
+ <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes
+ Berg <johannes@sipsolutions.net>, kasan-dev@googlegroups.com (open
+ list:KASAN), workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS),
+ linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+ linux-kernel@vger.kernel.org (open list), netdev@vger.kernel.org (open
+ list:NETWORKING [GENERAL]), linux-um@lists.infradead.org (open
+ list:USER-MODE LINUX (UML))
+Subject: Re: [PATCH 4/5] docs: fix repeated prepositions across
+ documentation
+Message-ID: <20260508192855.3b024c83@pumpkin>
+In-Reply-To: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
+References: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -94,56 +90,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 8 May 2026 11:15:28 -0600
-Shuah Khan <skhan@linuxfoundation.org> wrote:
+On Fri,  8 May 2026 18:38:03 +0200
+Adrien Reynard <reynard.adrien.08@gmail.com> wrote:
 
-> On 5/8/26 10:37, Adrien Reynard wrote:
+Nope, all these are correct as is.
+I'm not looking at any more.
+
+> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
+> ---
+>  Documentation/dev-tools/kasan.rst                   | 2 +-
+>  Documentation/networking/switchdev.rst              | 2 +-
+>  Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> Missing commit log in all your patches - I don't patch 1/5 in
-> my Inbox.
-> 
-> > Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
-> > ---
-> >   Documentation/RCU/rcu.rst                          | 2 +-
-> >   Documentation/driver-api/driver-model/overview.rst | 2 +-
-> >   Documentation/filesystems/netfs_library.rst        | 2 +-
-> >   Documentation/trace/histogram-design.rst           | 2 +-
-> >   Documentation/trace/histogram.rst                  | 2 +-
-> >   5 files changed, 5 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
-> > index bf6617b330a7..320ad3292b75 100644
-> > --- a/Documentation/RCU/rcu.rst
-> > +++ b/Documentation/RCU/rcu.rst
-> > @@ -32,7 +32,7 @@ Frequently Asked Questions
-> >     Just as with spinlocks, RCU readers are not permitted to
-> >     block, switch to user-mode execution, or enter the idle loop.
-> >     Therefore, as soon as a CPU is seen passing through any of these
-> > -  three states, we know that that CPU has exited any previous RCU
-> > +  three states, we know that CPU has exited any previous RCU  
-> 
-> The original intent might have been to say, "that cpu", so adding
-> the missing comma after the first "that" or change "that" to "the"
-> would make sense.
-...
-
-I don't think adding a comma would be correct.
-The clause splits as 'we know that' 'that CPU' and the repeated 'that'
-is absolutely correct.
-Maybe 'that CPU' could be replaced by 'it'; but it can be difficult to
-work out what back references like 'it' refer to.
-
-You can re-order it, as (say):
-	Therefore we know that as soon as a CPU is seen passing through any of these
-	three states it has exited any previous RCU read-side critical sections.
-
-But just because some grammar book says you shouldn't have repeated words
-doesn't mean there aren't exceptions.
-
-The sign writer was doing a new sign for the 'Pig and Whistle'.
-Unfortunately the gaps between Pig and and and and and Whistle
-ended up visibly different.
-
--- David
-
+> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+> index 4968b2aa60c8..3a8bd40ad905 100644
+> --- a/Documentation/dev-tools/kasan.rst
+> +++ b/Documentation/dev-tools/kasan.rst
+> @@ -392,7 +392,7 @@ reserved to tag freed memory regions.
+>  If the hardware does not support MTE (pre ARMv8.5), Hardware Tag-Based KASAN
+>  will not be enabled. In this case, all KASAN boot parameters are ignored.
+>  
+> -Note that enabling CONFIG_KASAN_HW_TAGS always results in in-kernel TBI being
+> +Note that enabling CONFIG_KASAN_HW_TAGS always results in-kernel TBI being
+>  enabled. Even when ``kasan.mode=off`` is provided or when the hardware does not
+>  support MTE (but supports TBI).
+>  
+> diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
+> index 2966b7122f05..948bce44ca9b 100644
+> --- a/Documentation/networking/switchdev.rst
+> +++ b/Documentation/networking/switchdev.rst
+> @@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
+>  monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
+>  bond will see its upper master change.  If that bond is moved into a bridge,
+>  the bond's upper master will change.  And so on.  The driver will track such
+> -movements to know what position a port is in in the overall topology by
+> +movements to know what position a port is in the overall topology by
+>  registering for netdevice events and acting on NETDEV_CHANGEUPPER.
+>  
+>  L2 Forwarding Offload
+> diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> index c37e8e594d12..7b08738c30aa 100644
+> --- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> +++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> @@ -1092,7 +1092,7 @@ be formatted as plain text.
+>  
+>  Developing always goes hand in hand with debugging. First of all,
+>  you can always run UML under gdb and there will be a whole section
+> -later on on how to do that. That, however, is not the only way to
+> +later on how to do that. That, however, is not the only way to
+>  debug a Linux kernel. Quite often adding tracing statements and/or
+>  using UML specific approaches such as ptracing the UML kernel process
+>  are significantly more informative.
 
