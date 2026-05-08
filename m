@@ -1,85 +1,103 @@
-Received: from outbound.st.icloud.com (p-east2-cluster4-host5-snip4-2.eps.apple.com [57.103.78.193])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4793D566C
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 18:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.78.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906C23D566C
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 18:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778265568; cv=none; b=Xwp6CPQieeYrZJa3f9ZruhryFyz9uVvsg6bbI7A4WnHPQfTIP6aBAt1AVsFDe2yn6pPQTDebdRpiH/KSX5zERsdLC9SvA1sfQdhLmQMTX2GYNHtUIPYY9h+QNx7wl2JbNJ1L2a6vWRXWODvePUEh4rgRViDwErgk5f3521w//i4=
+	t=1778265624; cv=none; b=vFCqMzBRf0KV1953JPNqZ5uF8PCML/NP3aX/UUMqiJeyriQlaeOTFy3EvRAOJb4vwbaFxByaWlSW7sN8DUdXYacUcRWT/S1VhmfDqUmpYdCEhPmH/IQLvZjWA88yTRoRfKpvTLLmsV9CIi5mWD3NnzGc1Fsk5z3Bu46Ph5xNH0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778265568; c=relaxed/simple;
-	bh=BVSUt+ZizRqp6BDhTylI8djJnN+nMLNyWkGm3KGv7k0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V1UwIJ8XdudFvdqUumgz913ML70iSEEFMEYfTev9jCpEGf5Qg3dP14/fl4dp2FmOjI6HU8M5tVcFqBxP5fev0GmxuANBhQy3jFbBtabt2QgVL8kT7XqB1U2ziGYhxPcJ/ExTkUwRbUMBAIaF4K8/hrm3d4Q9gYZvRyji0R219lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=tEEhhB/F; arc=none smtp.client-ip=57.103.78.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1778265624; c=relaxed/simple;
+	bh=qz93F/HxdriwHEV/MIqKAkXcmepTE7EdTknHdMsdiAE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ocorY7FjGBzxHJ0LiZ2MB0zA7opvkPFXMkk0RtmBDJO/11vfRrGXABTNly9uwEuQK/JLWoJYaQGY98n8BT3t5mP26HxsVB4yych0qydynJwyVYElDL9fDJrVC0hGoav75M4ylQs7WtrpumnGwN/OWxMxNN7u63iXbcge2IYBMn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKoI9bOP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="tEEhhB/F"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-2 (Postfix) with ESMTPS id C4D3A1800762;
-	Fri, 08 May 2026 18:39:23 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJBkMDRQVJF0wBTVIPDxhMCkEUWgpcQgtJAS1eCF4fTBwdDlgGEhZdRVsYRRlLHVgWAV8GWXIZWhRcGFNFUR9UWEEOCloBUFEdXwIKBEcEWxdGA1NFQQQXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PGVoUXBhTRVEfVFheBFNWDhYMHQEODw1WXV1OBwsaXwISXVUKCFJYH0EATwcIBV9RSFpKVy1eCF4fTBwdDlgGDFBNAUMICgJRHFYNVw==
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778265566; x=1780857566; bh=BVSUt+ZizRqp6BDhTylI8djJnN+nMLNyWkGm3KGv7k0=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=tEEhhB/F7RQKWpeFf1nvXjbBtKc6jgFBO6aQ8QGXKameHDW694/fC8G9SZduavVx4B7H8hrRAk/dNoV2BIvifr1lscV3gnWwUnwlWURjX7iooBjw/NkNgg3F7rC1VlwOKtf6kmdp9GjR6jD3kc/UrKKRHjKctBjj38GeQ/Of7Fs0P6/E+3drdZOewzv2l9XrT05tg3IBqWt8Dui76ryriEfEV6ceDJ3JnARAwswj00qIgwwCxLy589rgu/GljLK9AgV6P6CBAQpXIs33OBnyHYZwgoPSAKMY8OOyTO3BvM3U1n4DlbCyqlrQKejEQaTY8zB66TrCZmR2EsvaHLmPQA==
-Received: from [192.168.89.2] (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-2 (Postfix) with ESMTPSA id 6FB5718000B1;
-	Fri, 08 May 2026 18:39:20 +0000 (UTC)
-Message-ID: <f5e2c8fd-d64f-40bd-9ee3-1974e24c8c2d@icloud.com>
-Date: Sat, 9 May 2026 03:39:17 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKoI9bOP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56715C2BCFC
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 18:40:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778265624;
+	bh=qz93F/HxdriwHEV/MIqKAkXcmepTE7EdTknHdMsdiAE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dKoI9bOPWxgxC0+6yp6R0geAeeqpKPRqTDg2g3dM4Nnia09m1ZhLRUM1ZviTiUiDo
+	 XTiHqaZdmnpeDECBG7pvN7RuixmxJroanOwYH6POhWWt0PyzCb/7Si/gZYLZTwj50x
+	 Vkp/BHPtrXYv82BhUZZiLlRC40wUTOBkLL1CPClE5f8FU6tf4fpfC3cU1tRkVqoCH+
+	 m+oGDneRZCZw3PA6hbPxgiNMikcedLr+Db+DFn2UTQb8f7yz4XiGiRNh4FJM9+B6VF
+	 yMUdLCUzcw8P4Cxr+Lc7tEu6RerjTndLCUtvd616xap2bTab2FA/Fnqq1n9jSfV6kC
+	 +Oe3jHiWfVktA==
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1329507c387so566492c88.1
+        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 11:40:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9Omzv+0tphrE+uPB674SOywoI3W5PO64sf6LhxvGTnFQGIl+oBI82VabFnPzZueR3wXFXr7I2Tp7o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxy+4vUFuOCwfsIL7r8rH9MwXh3eZxQlD/fTaq7MDLQ9FQkzCnu
+	us7aHcsHL9RZCHMVwIDWrLklrj7LMdbWbUKODdHs6qGI+2hAPS6zDeg5505JD8bagTLkb/dCXpv
+	CKUUrWk3Bt0lYnz4uEOQ5qxwhB2boEtA=
+X-Received: by 2002:a05:7022:4184:b0:12d:b7bb:4f54 with SMTP id
+ a92af1059eb24-131965af1a2mr8712853c88.3.1778265623772; Fri, 08 May 2026
+ 11:40:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
-To: Guenter Roeck <linux@roeck-us.net>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Jihong Min <hurryman2212@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260508143910.14673-1-hurryman2212@gmail.com>
- <20260508143910.14673-2-hurryman2212@gmail.com>
- <ad41d70b-e9c0-446e-8bd0-4528de75b592@amd.com>
- <0d518d40-e239-4d93-8e71-0d2e140f00ca@icloud.com>
- <966c9e07-10e6-4abe-9cb5-77b974f31302@amd.com>
- <b8372128-c922-4b62-91c5-46f848180bc5@icloud.com>
- <2657e1b7-126d-4c4b-8027-012a6d3ffee3@icloud.com>
- <053b019e-9c6a-4eb3-aa69-0c07cd6e7f12@roeck-us.net>
-Content-Language: en-US
-From: Jihong Min <hurryman2212@icloud.com>
-In-Reply-To: <053b019e-9c6a-4eb3-aa69-0c07cd6e7f12@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDE4NiBTYWx0ZWRfX5l+nXdPZIG85
- 0vN+HkQohTFxE1W0vt+9a8Hok4QWjMOj5Kkg/hw3id43Nj81o3EznIxSnSteykA328i+BBWBMsw
- kZcb6ia2jqxFeuZ7/Ab9KLwrQOLyZN90OctDd5+Mk+boB5jNTBJ1uyEK3wR/mIeoesKuqTD++Pr
- Zd/PS+qoasJII2h3vZ9BEaB3L4vICxy+Lm3atWXyJYHwIPkqeLxlQRDMWad+fXqnW05gwdcMkzE
- cZ27s/+E5Dc3K7TYZYfUgA3iGIh4A+xhoQpi3q66ggx2UWoxlL2yQn6EGaMgfvB3DkCIXbiHajM
- seuAVvNp40C+oIjpvO4BNAL9p5DjHK8GNeU5u1KPf0xTnCDSamcekEAgSOoEBY=
-X-Authority-Info-Out: v=2.4 cv=eb4wvrEH c=1 sm=1 tr=0 ts=69fe2ddc
- cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
- a=YrL12D//S6tul8v/L+6tKg==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=KVoNWVYdi2H2b-9ruPcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=PgRulw5oR9JgysbTFEid:22 a=oa2-kN79Xhin27rcel9q:22
-X-Proofpoint-GUID: uGSqubEKY4K-OAH_rpyAlLQCnNopeudA
-X-Proofpoint-ORIG-GUID: uGSqubEKY4K-OAH_rpyAlLQCnNopeudA
+References: <20260507191416.2984054-1-bboscaccy@linux.microsoft.com> <20260507191416.2984054-11-bboscaccy@linux.microsoft.com>
+In-Reply-To: <20260507191416.2984054-11-bboscaccy@linux.microsoft.com>
+From: Fan Wu <wufan@kernel.org>
+Date: Fri, 8 May 2026 11:40:12 -0700
+X-Gmail-Original-Message-ID: <CAKtyLkHjxanzN5MZsMP520CytqjqhZBgC=P=USAZZf9-4Z5zjw@mail.gmail.com>
+X-Gm-Features: AVHnY4L0ricLjqitH1mYLaoPM_3aJ0znexaW7kxQTHh_lR1Ix2wR_9tibB86JxM
+Message-ID: <CAKtyLkHjxanzN5MZsMP520CytqjqhZBgC=P=USAZZf9-4Z5zjw@mail.gmail.com>
+Subject: Re: [PATCH v7 10/10] ipe: Add BPF program load policy enforcement via
+ Hornet integration
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	"Dr. David Alan Gilbert" <linux@treblig.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	James.Bottomley@hansenpartnership.com, dhowells@redhat.com, 
+	Fan Wu <wufan@kernel.org>, Ryan Foster <foster.ryan.r@gmail.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-security-module@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+	Song Liu <song@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> How about "default USB_XHCI_PCI" ?
+On Thu, May 7, 2026 at 12:15=E2=80=AFPM Blaise Boscaccy
+<bboscaccy@linux.microsoft.com> wrote:
 >
-> Guenter
-That makes sense. I changed USB_XHCI_PCI_PROM21 to use
+> Add support for the bpf_prog_load_post_integrity LSM hook, enabling IPE
+> to make policy decisions about BPF program loading based on integrity
+> verdicts provided by the Hornet LSM.
+>
+> New policy operation:
+>   op=3DBPF_PROG_LOAD - Matches BPF program load events
+>
+> New policy properties:
+>   bpf_signature=3DNONE      - No Verdict
+>   bpf_signature=3DOK        - Program signature and map hashes verified
+>   bpf_signature=3DUNSIGNED  - No signature provided
+>   bpf_signature=3DPARTIALSIG - Signature OK but no map hash data
+>   bpf_signature=3DUNKNOWNKEY - The keyring requested by the user is inval=
+id
+>   bpf_signature=3DUNEXPECTED - An unexpected hash value was encountered
+>   bpf_signature=3DFAULT      - System error during verification
+>   bpf_signature=3DBADSIG    - Signature or map hash verification failed
+>   bpf_keyring=3DBUILTIN     - Program was signed using a builtin keyring
+>   bpf_keyring=3DSECONDARY   - Program was signed using the secondary keyr=
+ing
+>   bpf_keyring=3DPLATFORM    - Program was signed using the platform keyri=
+ng
+>   bpf_kernel=3DTRUE         - Program originated from kernelspace
+>   bpf_kernel=3DFALSE        - Program originated from userspace
+>
+> These properties map directly to the lsm_integrity_verdict enum values
+> provided by the Hornet LSM through security_bpf_prog_load_post_integrity.
+>
+> The feature is gated on CONFIG_IPE_PROP_BPF_SIGNATURE which depends on
+> CONFIG_SECURITY_HORNET.
+>
+> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
 
-   default USB_XHCI_PCI
-
-locally.
-
-Sincerely,
-Jihong Min
-
+Acked-by: Fan Wu <wufan@kernel.org>
