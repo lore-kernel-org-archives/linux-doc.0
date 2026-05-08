@@ -1,81 +1,127 @@
-Received: from outbound.st.icloud.com (p-east2-cluster5-host12-snip4-6.eps.apple.com [57.103.79.79])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D132C0303
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 17:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.79.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9357F2FE056;
+	Fri,  8 May 2026 17:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778262523; cv=none; b=PBM7NJDUMm1fAvrTWpPd6ck7zFGs45P+5WPWUuNFK7922FaXm9T2lUSxUc78wKnqw5s4bueAB5iGyv15pfqjCCtS1o3SKuUgTc77AkdUBlRGviodeaYrpShiHe+UKa7NVgDAMbkgdHJY5ZZCp3jkIUA4+kDO60Vupb0n5LnsWi4=
+	t=1778262776; cv=none; b=n8Uc4bEMefzvAcq8QWzGPxTBEhiaXgCsmRhscvDf8GAJW/WwaEANBslEBiOOKJN/wAAGsGQeDjqnpTbyid12ESdRWqXuLsCc+AGWVsBgsSWiyjwPvvi/a1w+qOeMndb+KWVQ9TlP8vy8kOyL9+SivG8gFDEiG23fGLizRS2YxFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778262523; c=relaxed/simple;
-	bh=bHw7HTwpfOq3QxiJ1BuUqK1tzCiOsxQO9p4QQ4I7pi0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UJ5b5sI/dlG8UcWM4jx/h3Bg0vOuKlHiTBnRBTybs5G5vCCQUNEaLxjAYHhQXRVZFu0Jaqw+rkd6DmyF9cof9czfwdRDUKQHWZnu4FneGWRDzLA1xxufyhPQwYcUKVZEl6CwwB98ggnS7pXosUiU3+uVoQTKzCQ1MhOLVP0OUI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=P0rY+qLi; arc=none smtp.client-ip=57.103.79.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1778262776; c=relaxed/simple;
+	bh=7FO/OvjB81khbVySOVw1mhcX4mL/VhbRPd35cA9Jelc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u8raS1IdjyzdMKlJzkNKkcQpCUuVQlhxY0crvAP9mT/IowDujSWTxbBOkfoPtD/8bzP4Pej45gNnv4tMV8LhZ89Y0r6ttuqC1XQ3RUSMop/wjXRM1GRyD34nRc7tWtrg1uym0WCL/AtY0HM9RMu2KsHj7kkVFvjgT5WWv3fWWsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bhp/xG+x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="P0rY+qLi"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-7 (Postfix) with ESMTPS id 3192318002F5;
-	Fri, 08 May 2026 17:48:40 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJBkMDRQVJF0wBTVIPDxhMCkEUWgpcQgtJAS1eCF4fTBwdDlgGEhZdRVsYRRlLHVgWAV8GWXIZWhRcGFNFUR9UWEEOCloBUFEdXwIKBEcEWxdGA1NFQQQXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PGVoUXBhTRVEfVFheBFNWDhIBSwRfBlkKXVpBAV8aX1BGC1UKXFReH0QPHgtZD1oKQFsbBi1eCF4fTBwdDlgGDFBNAUMICgJRHFYNVw==
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778262521; x=1780854521; bh=kHvvy5yxS7CNw2T1Cpc3tHmZrh6rKc5Q3rWxoahWoGI=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=P0rY+qLiJOhbkk4DD57e/fqrCGypCEtIH0T54h65TV6EmTxEUcPg4/Qo3Iy7BBOt+ykZpNQm33eHdCAXU7t5p+m5jGc9eO86MgUC+P5esZuQh3woZ1eAHDn6pOnPhDuw573yhgdcusab6Cx4caqRTW/rtZinwFkmITTsFw6oher3j1oVRi7x5+74TBLF0w5k0fp9T8oTRexRy+ULf2VZ+67F9H32uNP+AEeINXZYL5PPYvoE4dKrpctwSdx/cnDF2nNDXG875OdEfQsb30V34uvYigeu483UYhDMWMkmUyEFxrk+XVPz5DS0hU6g72APPllIJbaNkBWsxW01G/qFcQ==
-Received: from [192.168.89.2] (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-7 (Postfix) with ESMTPSA id 2D7D418002C1;
-	Fri, 08 May 2026 17:48:36 +0000 (UTC)
-Message-ID: <b8372128-c922-4b62-91c5-46f848180bc5@icloud.com>
-Date: Sat, 9 May 2026 02:48:35 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bhp/xG+x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35495C2BCB0;
+	Fri,  8 May 2026 17:52:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778262776;
+	bh=7FO/OvjB81khbVySOVw1mhcX4mL/VhbRPd35cA9Jelc=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=Bhp/xG+xadRrlmz/bfTShSKS7y2H/NrORoSuGsy2gx2sEAXSdSN2O6nEdoCn2+/oE
+	 ai/3ujkjYhPSv6Q2VQ3yBLiXOYoMcD66gIbByk29qLaqxz5BGkPnxaV9weOix5FwAW
+	 VJfBK8byNFeo5ZGNFdXKPeTL4u9GT+GV6lPj+IILe2o7Yc8mUatY6Ck1vCnM7Emhhh
+	 oOuaH3u/OiIV2NtyEe0gNDu+RGmxZf2NTgueCVd12rb9wR2OibZY4Jp7YyQthlDfLy
+	 Xf5ZFsbvYUIjRjeahDmaHky1CFECNsfxhm9hbYzmE0Yyq2qU60oIwJ29TFZ5x6+Z73
+	 dY74NSOlqN5Dg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id D2C3CCE06FB; Fri,  8 May 2026 10:52:55 -0700 (PDT)
+Date: Fri, 8 May 2026 10:52:55 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Adrien Reynard <reynard.adrien.08@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	"open list:READ-COPY UPDATE (RCU)" <rcu@vger.kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:DRIVER CORE, KOBJECTS, DEBUGFS AND SYSFS" <driver-core@lists.linux.dev>,
+	"open list:FILESYSTEMS [NETFS LIBRARY]" <netfs@lists.linux.dev>,
+	"open list:FILESYSTEMS [NETFS LIBRARY]" <linux-fsdevel@vger.kernel.org>,
+	"open list:TRACING" <linux-trace-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/5] docs: fix repeated word 'that' across documentation
+Message-ID: <6acba84c-c92c-4f64-ac26-3308620b2398@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20260508163759.16231-1-reynard.adrien.08@gmail.com>
+ <1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
+ <5f68ac30-21ac-494b-a140-2307e236f0a2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Jihong Min <hurryman2212@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260508143910.14673-1-hurryman2212@gmail.com>
- <20260508143910.14673-2-hurryman2212@gmail.com>
- <ad41d70b-e9c0-446e-8bd0-4528de75b592@amd.com>
- <0d518d40-e239-4d93-8e71-0d2e140f00ca@icloud.com>
- <966c9e07-10e6-4abe-9cb5-77b974f31302@amd.com>
-Content-Language: en-US
-From: Jihong Min <hurryman2212@icloud.com>
-In-Reply-To: <966c9e07-10e6-4abe-9cb5-77b974f31302@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDE3OCBTYWx0ZWRfX935Lm/qcOlJ4
- Wd9FC7bHZcNIWRmEu4awLvUwSbEm2uMLs//2yZT8sgY4kYWdfpnwgSmELukQA0CfCZ4bUuVuD0Z
- U+k/FjEfI8w/y0wKB+QhldIyZ1X1/5RtVcxAOGQQXndpLxzrt/yF6RADdaMcM4j1of9vEBdDg5g
- g6tzmp/kz5P8i872ylvf4UjnucFwADrfm1DKeJcE5z9yxsKd4FS5bAQTofOjT4XOLuIqQS8NRHb
- XMmWo06QZmHmKYbEnJOCbxx8WV1a2ArLy2Af4qhzA2V8lbbAvuT5uSK57oZsgMiFd4+hvPcv94o
- euha7GuwlZHsxJyRk3WkUIOWQ+xwFljM5rpmL/xL/HyPmrhFHfxx9TvEQSTx6I=
-X-Proofpoint-GUID: Cd0ZLK5VeTSlOhUfl_RtlPeOkMoRsz_y
-X-Proofpoint-ORIG-GUID: Cd0ZLK5VeTSlOhUfl_RtlPeOkMoRsz_y
-X-Authority-Info-Out: v=2.4 cv=GJ4F0+NK c=1 sm=1 tr=0 ts=69fe21f8
- cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
- a=YrL12D//S6tul8v/L+6tKg==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=W5yn_su87cR4V-zVC3gA:9 a=QEXdDO2ut3YA:10 a=PgRulw5oR9JgysbTFEid:22
- a=oa2-kN79Xhin27rcel9q:22
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5f68ac30-21ac-494b-a140-2307e236f0a2@infradead.org>
 
-> Something else I was thinking about while reviewing this series.
->
-> Promontory 21 is only on AMD platforms and AMD platforms are only x86. 
-> I think the Kconfig should be conditional on AMD CPU support being 
-> enabled and X86 architecture so that we don't bloat other 
-> architectures with dead code that will never run.
-Agreed. PROM21 is AMD x86 platform-specific, so I will add X86 and
-CPU_SUP_AMD dependencies to USB_XHCI_PCI_PROM21 for v5.
+On Fri, May 08, 2026 at 10:40:49AM -0700, Randy Dunlap wrote:
+> 
+> 
+> On 5/8/26 10:15 AM, Shuah Khan wrote:
+> > On 5/8/26 10:37, Adrien Reynard wrote:
+> > 
+> > Missing commit log in all your patches - I don't patch 1/5 in
+> > my Inbox.
+> > 
+> >> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
+> >> ---
+> >>   Documentation/RCU/rcu.rst                          | 2 +-
+> >>   Documentation/driver-api/driver-model/overview.rst | 2 +-
+> >>   Documentation/filesystems/netfs_library.rst        | 2 +-
+> >>   Documentation/trace/histogram-design.rst           | 2 +-
+> >>   Documentation/trace/histogram.rst                  | 2 +-
+> >>   5 files changed, 5 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
+> >> index bf6617b330a7..320ad3292b75 100644
+> >> --- a/Documentation/RCU/rcu.rst
+> >> +++ b/Documentation/RCU/rcu.rst
+> >> @@ -32,7 +32,7 @@ Frequently Asked Questions
+> >>     Just as with spinlocks, RCU readers are not permitted to
+> >>     block, switch to user-mode execution, or enter the idle loop.
+> >>     Therefore, as soon as a CPU is seen passing through any of these
+> >> -  three states, we know that that CPU has exited any previous RCU
+> >> +  three states, we know that CPU has exited any previous RCU
+> > 
+> > The original intent might have been to say, "that cpu", so adding
+> > the missing comma after the first "that" or change "that" to "the"
+> > would make sense.
+> 
+> Not a comma, please.
+> I don't see a problem with "that that," but "that the" could also be OK.
 
-Sincerely,
-Jihong Min
+This CPU was already mentioned.  So if for whatever reason we cannnot
+stomach "that that", then "that this" would be better than "that the".
+
+I suppose that false positives from simple grammar checkers might be
+sufficient reason, but in this brave new world of LLMs, shouldn't we
+be hoping for better?  ;-)
+
+						Thanx, Paul
+
+> >>     read-side critical sections.  So, if we remove an item from a
+> >>     linked list, and then wait until all CPUs have switched context,
+> >>     executed in user mode, or executed in the idle loop, we can
+> 
+> 
+> -- 
+> ~Randy
+> 
