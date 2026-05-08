@@ -1,69 +1,73 @@
-Received: from YT6PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11022118.outbound.protection.outlook.com [40.107.193.118])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010053.outbound.protection.outlook.com [40.93.198.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187912D249B;
-	Fri,  8 May 2026 16:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.193.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D3330BBBF;
+	Fri,  8 May 2026 16:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778257613; cv=fail; b=jW2+jeeom+83d66NQ0ARQJKPpLp9Hfx59O7rzvTs2aQ0RYDir9DYTRfPYmzkKEoBYxUUhNXk0/FDzWL6SFy/xcxecgurlQ9I1+cwTCc6eQPlkfiLRvhl4G4TK3evy4Yk5XyXlRCxt7t5DGa/ffGSV4BqN+tM5yzoVDKBtaii5mk=
+	t=1778257651; cv=fail; b=WhcwC90Th7vTEq4Yel/XYIYF57W82bFB+wkHLT6KXxOn6B/wZgQ1v48pn0mXZtUgiW7RM0YY6f1YjURLP1+hwV0gBXqIQBpTyqXAX/5nPGAR5B+53dKVCn2/kJaRxeDnZNTJaoMwzDWHw/hPFFr3EjXVi3UXTN+bCDNuKROymO8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778257613; c=relaxed/simple;
-	bh=mqbsZYUYdwTU6gBRiR03psW+LzPXmOkStUg05i899+4=;
+	s=arc-20240116; t=1778257651; c=relaxed/simple;
+	bh=IPrhcqyUCxiuRWFEFEyDBBW2IZK9/gr9I0PYES++Muc=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RFCv6+aIuu5CWwp0W3zhBtD7olfVWgMSYK49n6FvNP7szYsjqVgx8fjd+IdEvB7bg3SFouobahQCu1G1sOr7MxQ8UWgwFE/7KQn7ku64S5mNewfjsYOzFZS6J5rJZfS+spi1COzFnmNUVmZIefgD1Loh56XRjimlmdNfKbE7244=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=afktSzqr; arc=fail smtp.client-ip=40.107.193.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	 Content-Type:MIME-Version; b=n206W+kosyTIV8je2ikl5jDvcMD/rNhSq+OQxj5igS6NJCQzWf7Xar+fj/PKZ8XqFb2q7GCgiiyDBjsp03jVzUV9V9nKWARdF+llxoqdiMncCkY3InONl4fafUUpcO7hiTXErcicHf3TrMEyT8Aw02TfGpWJvR40oKXiUh13Cco=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=BiE0iZ6P; arc=fail smtp.client-ip=40.93.198.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="afktSzqr"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="BiE0iZ6P"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tUeBHGPfJwP01HxJZMeqtGJkJLieCeEPEnZnLqY9zyUxn6FE8wqD+wWtimjdTJq+ls/IWkh/F6bENvo5b8JVSie6ET5WaVNGoDQMUC6UDvPQ9+wgdaezRguCEJ/pcSsmfI+ohLrOOq+n4sA9mazwyyFLMXu8xGhJT+kboz9L3v5Zrr/e4ayZtV/WgK+XcM04RUPN1+8fUVXCPhBksMbn2F1fhvXlNyuED57xfOVS0YhebQ9oug5u4Z17sjnu4BffTZ7VTR4UYgdz08nNsQPvGd9EAfDbzmAfBX2HsnKKgO4UyUd1KwzM5IjQBrbTxon/T6sljeStlKUCwfD9RXezRQ==
+ b=XvaYN4NQavJcV4B7M5g93kh6MSydAdE5ARbp8pTqasPKM7p4MsjqVLgs9uEXSTgcwUAJ4cNQU92Kx83451k5ctLbSktA7/jGPGXy0HeQc7cAta5ZxoaKOPA0TnrZ1tslWu2dlSk+A8+jt8Djq2iVhobhx0w81hYoVzkYoJVU43o7slESC5oBUKB7E9k2qFjgzFLB3Qo+9+IwRnVP+ZK0Oh5L0gkDuR4FRD9n6K8/IP4T3Bnu7sVlS2xMCdXG1h+61W9ks082U6KxzRiFBrjo0D6NOUSJlP1p5SKsCNbio64QwdUxuRPwavDVcgBrE00CkthH6N0uc0nBiyF0FAq+zA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=plAu6rbxAMEaOqRY4xd1bXww1LEhz1wqxT2a74tUtPI=;
- b=Wj1I/KX4ovVyEf8vOsr9V4NSdBFCjlHY6mQzDRoRRxPSOFpUjbckdJcu6EacUWpyktV63yS+DkPxxPvlaWmTThpx8xh4hA1FXeqm//ho+k0gQA+9X3ktsl7Srf2iArpwB4vm8dbpC3kC8+P7X5zYyDjgnv0gJkcAsSBK61tKF1ogjAaXCUzW+AGoLHBQMWTJL6TF+65zuu3YcHnPVSgCHq1yoFNsxPoi9Il/Mx1UfZPCQBXNvmRrrkTre7wc9m0WFjzH30Vj8SNlTEEUjvE/PFTrimSvi73UP17q+8WTZai/OWA1r9oVwBMiowrwZgWqu0yYyr9V0fvk27xeJU1BMA==
+ bh=xajWmA05dYFXq3UBkGXuWAxwfZZ7SIk+8PygALyOHP8=;
+ b=rCzPYo0YQgcme5A6MP5F9SyXIAW1UP260S8irKYRGU2zy1CVpEajAi0ffZ/WDqG3qJ6+s604wf7LIcOlXdVXvgf4j3TB7cDaXybrf0VR6gTLGdnIy8AbUyRXIUBoBnwgIPwKDNi+RyNJuEwf0uS1q8GjKxl681ZAsdejycG/ofs4aLT/+OaQho/XyLmIr1fpq0yfwMgg1tWK7CBqCYj02Yl4fpiP0cgCveZhTrIKkoTHVqA4clKKOsb2ZQLxFrrXSti4CnGorZTF0cehWrsM9WHlF97H/7qDj3FWT9gM7WQ3HtLRUukekfgzKYlUSAe+oWDfnBeWtwWU5Inr01+lbg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=selector1;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=plAu6rbxAMEaOqRY4xd1bXww1LEhz1wqxT2a74tUtPI=;
- b=afktSzqryVVLR5a/8scQEv8BRbTjWPm4KswFGbHJayng0C8zTB0AalkIDXSbT1tOzsq2t08i6Hb2q8ajXLqadGlPL8j0fNnwkpD2EMAcWX0MjOr5pk4Ek2k8p7KH6QmSZoyh8nzcjyrZ/50MRVMROUeBx8OdzmESJ8bs+sow+K/prdbSq/Bsf4euo/SCEJDTIhqwDdJeZQqSvaYgMNKsiy7zAUofH8Gf9LvaIChiupMtG2n/wYAgwCOMWt/O1ugiDzyB105WSFPkvJlKzqyvSu2plXCrcHpxMsZSyBJ8fIXg1Zbpu9JS/QBbDWMy81w2f0d8FIccY+b3dVW8JRMMMQ==
+ bh=xajWmA05dYFXq3UBkGXuWAxwfZZ7SIk+8PygALyOHP8=;
+ b=BiE0iZ6PfblQv0DkEY/MhLa5wMgYJWstaTeWg8dyZ6JZVKg1Wh66Fhlojs9ViJB8k7ODWnGG8PTrlhoCOubKgIlYchH6XFohUC/VQ29ju/lQHe04JhaHOer1608y9Oz1LDVSWXywNY2bLJVCD4Gu/b4EtSbx+tWQfeIDk4x+7Us=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=efficios.com;
-Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:be::5)
- by YQXPR01MB6430.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:4e::16) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
+ by BY5PR12MB4177.namprd12.prod.outlook.com (2603:10b6:a03:201::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.18; Fri, 8 May
- 2026 16:26:46 +0000
-Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6004:a862:d45d:90c1]) by YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6004:a862:d45d:90c1%3]) with mapi id 15.20.9891.015; Fri, 8 May 2026
- 16:26:46 +0000
-Message-ID: <5616fbd5-612d-4c23-aa10-d6b8de81f9eb@efficios.com>
-Date: Fri, 8 May 2026 12:26:45 -0400
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.19; Fri, 8 May
+ 2026 16:27:24 +0000
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::885a:79b3:8288:287]) by SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::885a:79b3:8288:287%5]) with mapi id 15.20.9891.019; Fri, 8 May 2026
+ 16:27:24 +0000
+Message-ID: <70035490-eafb-4610-8889-9e04931c8b32@amd.com>
+Date: Fri, 8 May 2026 11:27:21 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
- primitive
-To: Sasha Levin <sashal@kernel.org>
-Cc: Joshua Peisach <jpeisach@ubuntu.com>, corbet@lwn.net,
- akpm@linux-foundation.org, skhan@linuxfoundation.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, gregkh@linuxfoundation.org
-References: <20260507070547.2268452-1-sashal@kernel.org>
- <DIDEQIFQF1EW.11CESAK4JL4PR@ubuntu.com>
- <af4Fwxndqv2knLov@localhost.localdomain> <af4LvqtLu-yeor-v@laps>
- <b14d54c0-0fe8-4d98-a2ea-2dd830cd5869@efficios.com> <af4N9_YOgDQziRCR@laps>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH v3 2/2] hwmon: add AMD Promontory 21 xHCI temperature
+ sensor support
 Content-Language: en-US
-In-Reply-To: <af4N9_YOgDQziRCR@laps>
+To: Jihong Min <hurryman2212@icloud.com>, Guenter Roeck <linux@roeck-us.net>,
+ Jihong Min <hurryman2212@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1778123510.git.hurryman2212@gmail.com>
+ <0c35058bb088213397b42fca8d51e9ad0bba5169.1778123510.git.hurryman2212@gmail.com>
+ <35c2436b-d172-4172-a684-a96c4a0dcabe@roeck-us.net>
+ <16c4f7e5-e33d-4271-a7af-5d6c7fca0570@icloud.com>
+ <6745fd21-2001-4e06-af41-96ae63154c02@roeck-us.net>
+ <198ae20f-49c9-4f81-87e2-e16e81053f08@icloud.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <198ae20f-49c9-4f81-87e2-e16e81053f08@icloud.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0348.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:6b::25) To YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:be::5)
+X-ClientProxiedBy: DS7PR03CA0177.namprd03.prod.outlook.com
+ (2603:10b6:5:3b2::32) To SA0PR12MB4557.namprd12.prod.outlook.com
+ (2603:10b6:806:9d::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,119 +75,113 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT2PR01MB9175:EE_|YQXPR01MB6430:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4480fa09-1f7e-4ed6-b2e8-08dead1e992d
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:EE_|BY5PR12MB4177:EE_
+X-MS-Office365-Filtering-Correlation-Id: dfb10e12-ebe1-4e19-2786-08dead1eaf95
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|18002099003|56012099003|22082099003;
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|18002099003|56012099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	HaV0mYJC1Uh/d/EcF9JGsOEy8Ao1a2geutyTZWL01vTgScqvKA58hD8F8cjsWtoHC2fP0mOM2jthjzMlWw3kYz+T+bux1OsRD7V4MJHYoPLYc8PoA9e+O4rHzcQg6IEpTyLgG6eicXSN+QoUA8cPM+9pQERSf+hNJAaDlX0o/UNCLbTwQA9GOEhQNG+bqLNlqb/yyGtWTMQdXRbtfteL/ZQfaWqiayCZMmX3q89zuaKRI7eWkJsEDsUxnh6zHuS7/iXGyTjC5JT9OfSu5dc0I+huFxJzQ3C4lJqacbGfTzWTt8eNEZqI2r8cggX/AAgauULQVt7zGMUu5dy8Mi1OB5fKEEkRckdafLvEiYKXVCryuBi/AVDlXof/J1tKod0/7EJ3LHAxdyukacZFSjsqknvRDPlmx8eXFAE5RM7mjJhoBOuHxFyKBtDkFLmKXCCVcU1P9E31PoG/UIPeVL1p5Mug8y/ObZ00hnuwVmhcIsAXINnobq/tDXKnF1Fjr61Im11TaTI5CDZA4/awaoxtfkwol0/dmKYGFgB0aP+Uss69URU+ph8kdBW4hZbq/Cwmxd0DsZxFpDWLZqUiZwE3g/fCBApx4xvbQJOFh2gET5elRLVAS4pb6SIB/SO5Z3zvWmCSBJeDcPkcyTuCzg3bcg==
+	RfUTJvNyFnGomcX/Q/F/Myzeiv2n1PEgQeT/7cvx+42eOj8Xxlqv3gMapaXu0OCV5H6/6LuTpcjtPXLV/Cb9+DZ8QEX6FXkfbmxrPQMsqpKZQPoVniszFfpKbga9Eh6luUhrzdHzR8XgIb2ANiZ3d2QbYOn1fcSwfrB7YEbWpX8TwaZOvJQgEYHUOob0qZbYwN4yJuz/LAABRwpuHSgCAQfpOFqGsZD2F/098Pkf7yIEYpMJqseybdQ+fGAHGm257RJsQ3WSkRuMgE8URChM119gHBEKZ21KueF4lOF30tVxOYsX1L9oqaTQsEvMnMchnQuVO0axEz8+czdFNe2zoPKmyeAbPFRQBrY82c2LTQovM2DeJNx0NDc4PyDPwdBpKyBBFyf4SYEa5oW3roRVls/Wsp4ekxr4K2vsjBAkOKc0bNMzyCYypqXwfX7FDz4sTb9wsstm//TUlA8SZQiJ8SXnLmI7hoyPvklMo4xti9aeR5Q5CVwCkPAiEheo8XvBSMlpYltBmbdCoQh/V5oKjd9hh/no24/0ePxJ2pDu3ncVNEekOQ4AkeBzVXLpCfAxFHaLPKnZPyJYhFg61mz0x9qjVUjpkVabcTICFO/7LZPSj7huYqrTVYKNeSe1/6rwpCKKs+hx4c9+3pOiO/MqLA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?b05hcVNSeE1tcm8va21meCtrUTlZeWhHUTJ3TGc5NlNSQ0o1bFpwcDhORGVT?=
- =?utf-8?B?NzU2NC93UWJvN3daU0ZyS0tDL20wMVFiTWVkb1ZkTE55UlpUbGM4V2h2dFBh?=
- =?utf-8?B?T3duakFMYzdRV0YvUHk3Q09xMG9Pb3BNMDNHbGh3dVY4WEYva3NDeDhNa21m?=
- =?utf-8?B?M005dFlTdW5ML2JnOGJURkZnVC9NbGRZUlNHeHBZNWtpaXArZkkwemlEbEVz?=
- =?utf-8?B?VksyaUorU3lIKzJ5ajQvZlpzVjNhbXJJcDNnaXlEbG1rdXV2VG5BWTIxenQw?=
- =?utf-8?B?VlVMTXVtM2lxWDJLenRaSklUR0puUFlURW9HNERCeGM3TGloZHpweHdYTWpq?=
- =?utf-8?B?ZU9ReXBpVGRGUXI2aEN0eTQ0dnVtbndpdGliak92bCs0ZVlHM1hNR0owVGlQ?=
- =?utf-8?B?YnVZNStYNEl4T2dQNFVETkRxeEZTYkIzRXpKQSt3UW5zOVNyQUNpMXZrRjFP?=
- =?utf-8?B?UFVGTDVSWlJsMjJRcHVScmx6OW5OQW9CSFErUlhpdks4TkdMYTQzdjdLZU1M?=
- =?utf-8?B?ajZzWmlmdG9UczdHaG1rZ1VPNjQwWFRMS1NrSnEzRkE0eVA2LzljUmxaOW9w?=
- =?utf-8?B?Z1RTR1JXb0FmeXJBVjR4emNRS3FLaGY1dGtrQ1pMQ1YrMC9BKzdQMHlQQ1FL?=
- =?utf-8?B?cVpkcHkwanNSTEFyWjFwOHNTaUVpbVNnQ0p1YnVPU1U3V2l6c2UzZHQ5UEFC?=
- =?utf-8?B?WHBmMzZFdUJHcVE1b0dBS1c3dHV3RFRsTmJYVERTSVVPSmlyTnNpeHlsVUc4?=
- =?utf-8?B?bDlDMTJFZXJNL1A2c3F5SlNDdEErTWh5RTBuQmh6RFJxS01saFQwTXJSME1Y?=
- =?utf-8?B?RmpxYVloTlQvNm0raHdQUWZsMmwrdDltZk5FUXJjYUhua25QU3h6c2pEcTVo?=
- =?utf-8?B?dmJhb1Noa1Z1MFpQWXY4MU9pVlZMRHZLb2JvRC9wTFVBSVBjQzJsQ2lRTG1r?=
- =?utf-8?B?c21TWTZDbUNhZExRMmk0ait0WFphSnpQNThTYVhkaXdVNUd4cmZUV0pkQjVP?=
- =?utf-8?B?NEQ5OXNHOUxMSlhlVGxLcXprR09aTUtZNzFxbkkrS2YvWjFqL2RHeXVuZHVC?=
- =?utf-8?B?NTZqcm13NmNYRmdJeVhIRzlBcE1iMnBzbWVzekdGOTFmcWRhNGpuYmdQK3Ja?=
- =?utf-8?B?UXMySVp6eVVDZkRkb3h3d1pjL2V4c0R0U0x2bDZBNXBHcWtWZUlZbXJuNytJ?=
- =?utf-8?B?aGcyVllRd1lnK0JjRUNabmI2a3R5US95MmxLWVNjVTg1SUhZZkRLMFo2dGhO?=
- =?utf-8?B?aXdybkczYllYU0lhMUN2c05IS1hXUUVpT2ZjWFI4Q0RrOXVLekhzU2VSUkJ6?=
- =?utf-8?B?YmloREo3cm9DSDE4c0JmaENqblFZQmEvbUNWZWJLM0VRcWxXMkg5WjJTbDZJ?=
- =?utf-8?B?SnMzQnhPQkVZNjVRN0tmU3pOSzRCK0J2SlVRNWpEYXRuTkdydjUwRU9GL3d2?=
- =?utf-8?B?THdiTUc5T3F4TXNGVytZNzc1bDNiOXFaSVpLSHpyZzgydDJqSExubi9nY0gv?=
- =?utf-8?B?dDkzTm5SaWJZQjZZbVlhRmNYcVVRZEpZbDhGc2g3cmJyQ0IybDEvVnUxSDBw?=
- =?utf-8?B?RGV0Y21INjQ3Z0JqUlAzRHRkY25JWUtuS2dwaEgxTlhzenkxU1B3aG1ZRW5T?=
- =?utf-8?B?bmV4ZXlVVzYyUWpEanl5V0g3RGNGWENTeVRVdjhDTk5wUHRiQSszTWRobFAy?=
- =?utf-8?B?RjVyaEU1SGJWVHFITURTTHl3WEN2U285THdWcEJGMjdKQUJvaE16QURRemdT?=
- =?utf-8?B?azdpSnMvWVJFLzl1a0ZSUWNLRXAxaFVSYnZCTEcrUFlTci9RcjZtOEVwL1Vv?=
- =?utf-8?B?SXBOZTdWaGNmdzZ4NDNSSDc0ZCtxbXpoalQ0MHlHN20yQVdpRG5nNHk5Y0hk?=
- =?utf-8?B?TUVwemY3R3BiOWkzVnl2VTJzTi9tSDdKaWMyb1c0N0NFSUR1QW83OEEyRGIy?=
- =?utf-8?B?Uy9ieDF4UzI2c3grQW5SV2Q3WGtkSDQvUm9zcmJWN0ZlNHRCRE9xallCc2tB?=
- =?utf-8?B?Q3hFQm94UnJ5b2hOVmxnSSs1VmtacE94Y0tkSnBRQm1Fd3dZSHlrZ2RNaDJl?=
- =?utf-8?B?MVdLdzFpUVBzRVlhQlpJcW1ZL2lSSjFrSWdTQ3VYbmt2Zk5rZUQzaHhJZW5Q?=
- =?utf-8?B?cnFibktFUmxmRlNZMGRuMG91aFhhc2NwTkZ0SnB2QjFmY2o3dXUyQlAxNlFY?=
- =?utf-8?B?aktPamR2MHNScHlQNFB0eTB0TExmb3VYT0hkYmZ4dmhJOGFOYWxuZFNkazZ6?=
- =?utf-8?B?TXZHYkxHQTBOa3FybDdwK3FDZ25MYlhQUWQwa25KUVNraXRReWJTUldKdGJt?=
- =?utf-8?B?b01XdUNMZEljSHJsTnRqbGoyM1dTQmxhNzRKeVNXL0dMRVp0eFF2M0lTQnRO?=
- =?utf-8?Q?b0GrwcChGI68YIlNu9j+PO35KGKJ3wP9Kfkqu?=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4480fa09-1f7e-4ed6-b2e8-08dead1e992d
-X-MS-Exchange-CrossTenant-AuthSource: YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+	=?utf-8?B?eURmNUpIMWZYK0J5NURoNkU2cmJ2ZTFrUDhQVEdJdmduNGhPOUorTXRGUkdQ?=
+ =?utf-8?B?dDg3ZWEzbEQ2WXBWT0MyS2V1VGhQN2toNVo2RlJVT3hsSmNwUzdQV0VJZGp6?=
+ =?utf-8?B?em9yVk5VMXU2YmhaM0J2N1VYVFozM0FEU2pEbmZFYXRzbHNRaEFzTDRraHly?=
+ =?utf-8?B?V3VKMzB2K3gvNWorb0xwQXFVVU9NYWdyYWxTaXEwQ1U3ODRJUFJsRmd0UDdk?=
+ =?utf-8?B?OGliWGFMamw1YzhLZWVZdWxhWDQvaWl1aTNxazhaOWRKSXBMcGQ3UnhyNUl6?=
+ =?utf-8?B?NXhOblF6NzdvczRzQnhheWNVWEY3L2Q5bkF2dDlyUUZGbmp3WnM0NmU4SVFw?=
+ =?utf-8?B?T2M1bkpjUnJRVkNHekpVa2pnQXZld1ZldzVNYXUxaUd5UWxYckg4QXFyN1M5?=
+ =?utf-8?B?Q2dOelBKSVo3ejh6OHNNQXd4L0Z0OVRWWGMxNisyZnpSSklLdmc5R0RHaU1W?=
+ =?utf-8?B?VlpVWjVvaHh1YWtra0JYWnBSZ3NaVE5CaFhPU05QS1JIZ1JQUzRNZitteFM3?=
+ =?utf-8?B?RUJyN1NFSHA2eDZtSml2bUw1YzhSSjYxRWJpZU4yZ0MxRGd6RGFjWkUwNWlh?=
+ =?utf-8?B?UmRWSkk1dGVlMTJML3hFVVVWK2cwK25NOUd6bkdMQ3RXS0NXTmxpdm1JNVJ1?=
+ =?utf-8?B?djEvUDlXYVNqWlQ5MVpncTFQRW9hNDVMSU9JNjArZVFXRXlsTkdrRmVWaElo?=
+ =?utf-8?B?aDNSNGdLQ1RSaFRYeG1TRHBWYWRtaENNMXEwN0ljVFE4R2NpTnFNalVnSk5k?=
+ =?utf-8?B?UEQ3TDZFb0dIdnZjNGovZkpHZjdReG13NFpndkJZblZRZEJDOXgzSnpiZzJi?=
+ =?utf-8?B?dU9UaHUxWlc1S0xnUCtEOHhWcUhETndNbG9QbGJFZHk4YklZUzN0eGJqVVNR?=
+ =?utf-8?B?RnhtcnZpMHhXbTJjM1I0RXBIbGRaclVyQlhDalRiWTV3RjdYUHptenVuRVFq?=
+ =?utf-8?B?OWNkQi83aU1vU2lUalllc1E2Q1Zvb0F6TVZCaE9wWld6dElTTjcwSW5PQmtI?=
+ =?utf-8?B?cmk4VjA0ME1WN1pDbFByYk5aM24xbC9PVGx6RnFVcWtjVTljYklyWlFLN05H?=
+ =?utf-8?B?KzljczF3bmowZ282Q1BvYW9pcExmMXNtZnZKRmJzazk4UEtCOW5xMW9Kb3JO?=
+ =?utf-8?B?Rk8zL1FtcXJ4SkZXVDM0NTA2aFJFcTZtTEVrNWZJekZOTTArcWFtQ2pHOEsx?=
+ =?utf-8?B?ZEJxNWZGbThUbjJBeHBtTko2RmlaU1VCdzRMalAzN2t1L1UwTG50U25HZE50?=
+ =?utf-8?B?Yk1rZ2tBVWg2YmRnYWZsTlhwcStqVkhMa2VXalNzTGhCUDU1cXhSRS9nNjRj?=
+ =?utf-8?B?Vi80MlpFd2lOdWNxeXNCbjBmRVpyUVh1dndPekEweFNDK2NOS3hZd2lFY0th?=
+ =?utf-8?B?QyswMVRtMzNwVTlDV1ViRlpnZFA5QVBzb3RkcW9rTTU1dG11Tk9GL1V1MFcy?=
+ =?utf-8?B?bTBMcWFvK0lnZ0tVY2U2RWliRmIrMjdQdzJGcnlCNHpMK1BVS1VCNkdrME00?=
+ =?utf-8?B?SzBzU0NEb0c3UHhROVJEaWwxRTZYQlcxSzRGSlVaYUdWUXRzMWVpTXhFYnVH?=
+ =?utf-8?B?cUVtQzkxU3UvQjhmcHRXN0d5K1dNM0pzbjQvMDZrNnBDZFlrTEZQZW15OUdw?=
+ =?utf-8?B?aXF0K0swRHRuYmZkNEhlK0hybllWM1g4UWdlcGlkR2lVVHdibGxtTWQwekwv?=
+ =?utf-8?B?cW5qOTFGeXd3dDFRN3BRL3VPVVBxRE5yRkcvRTZLVG1jb3dBc1c1WUc2dUVu?=
+ =?utf-8?B?WUs3aFBVaGJsUW1WbVJKQW1oWjBwM2Vnb1FyMG9sai9ndmYxRXhHRW16bXpQ?=
+ =?utf-8?B?czdraXMyUGxPcGF4T0pWOVZkOTV1emhibnlDa3NSamZJYmxLSmg5K3lwaHR5?=
+ =?utf-8?B?cXI3cnlHQzRtRExSRW5mMHE4cjc0aXZ2dU1NWWJwelFqaVlrSjYyVEl0Y0JR?=
+ =?utf-8?B?ZWlxNjhqNHV5VldyQ1lGYVpvd3lQSGh0ZDBtWnJjWHJ1Z1N5RVRiZW4vYU8x?=
+ =?utf-8?B?UDlnZ0tmTXNUdS9OcTg0VWRtNGI2Ulp3anh3NGljOXZoUDFLODlraVJYamtm?=
+ =?utf-8?B?NkpPUk8zbUVwMkYwOFNmWVp4RFZJa0VROWxjZHhlQy9ObjRBYm5HMVJsd0RZ?=
+ =?utf-8?B?VFljalJuUU1JOHM0bXhudDJDRHhOdVhZVE1jWDlsMnVUMEhQRGF0ajYvTDJt?=
+ =?utf-8?B?UThmcFZnRUE1bVdNc21nRk5Mb2VYTDdMYlRQbjZ0SnlDdjlKTzBZTzduUVNZ?=
+ =?utf-8?B?QVlMb2F5ZHlRb0FyaDBpa0NRM0Jtc0Y0bjBNV01jZnNGWGwrYzhRckVGVG1y?=
+ =?utf-8?B?b2dvQWxsNVhJQkRPVWlLT1VUTkRNV095czR6SDBBMUdNeGtQVWVYQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfb10e12-ebe1-4e19-2786-08dead1eaf95
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 16:26:46.4979
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 16:27:24.2826
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qSc7Zp7UtF35bn3QYwuamtU6SAiB0uzO9pAH/gKv8IhvtriMtOgOVEZQyqpLn1WRhmUOCHvEAtLyKt2VSurk03uSiJLq+Qp1VP3xe0oJ630=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQXPR01MB6430
+X-MS-Exchange-CrossTenant-UserPrincipalName: fkdmyoDZPKPpK6UYdLa4xzFTVVSjW2Rwi4u0U54fLxQKeuB+VcPBvk73rxeotqFbliMYcRhXqgB95/1a2B5xSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4177
 
-On 2026-05-08 12:23, Sasha Levin wrote:
-> On Fri, May 08, 2026 at 12:18:28PM -0400, Mathieu Desnoyers wrote:
->> On 2026-05-08 12:13, Sasha Levin wrote:
->> [...]
->>>> One possible approach to prevent "footgun" type of killswitch use would
->>>> be to first apply a statistics collection killswitch handler that does
->>>> not change the behavior: it checks whether the target function is
->>>> invoked at all on the system for a given period of time. Then it 
->>>> applies
->>>> the killswitch if it was not invoked during that period. Overall
->>>> sequence:
->>>>
->>>> - pre-soak killswitch for e.g. 30s, checking whether the function is
->>>>  invoked at all. (period would be user-configurable)
->>>> - if no calls were detected, engage killswitch, else report failure to
->>>>  the user.
->>>>
->>>> This should prevent footguns such as trying to killswitch fork, malloc
->>>> or other core functions which are inherently required.
->>>
->>> Why not just use our good old tracing infra? Set tracepoints where 
->>> ever you
->>> want, collect any data you might need, and engage the killswitch when 
->>> you're
->>> happy with the data you have?
->>>
->>> It feels a bit weird adding something like this into killswitch.
+
+
+On 5/8/26 09:21, Jihong Min wrote:
+>> Yes.
 >>
->> It really depends on whether you want to include some basic safety nets
->> directly within killswitch, or leave that entirely to the end user.
->>
->> I don't have a strong opinion either way. I was just pointing out the
->> feasibility of a pre-soak sanity check before applying the killswitch.
+>> Please note that you keep top-posting. I don't mind that much, but
+>> top-posting is (sometimes strongly) discouraged for linux kernel 
+>> discussions.
 > 
-> What about doing this with some userspace tooling (maybe under scripts/) to
-> facilitate this?
+> Sorry, this is my first kernel contribution and I was not familiar with the
+> mailing list convention around top-posting. I will avoid top-posting and 
+> use
+> inline replies from now on.
+
+Another thing to mention is that you are going too fast between patch 
+versions.  All your patches show up in a ton of people's inboxes.
+
+It's great you've gotten feedback on them but I suggest you give it a 
+few days or a week between versions to gather more feedback.
+
+If you haven't already; you should take a look at what Sahiko finds on 
+your patches too.  Be sure to look at the feedback critically and take 
+it with a grain of salt; but it often finds a few nuggets that are 
+worthwhile to consider.
+
+Here is the Sahiko link for v4 you can review if you weren't already 
+looking at it.
+
+https://sashiko.dev/#/patchset/20260508143910.14673-1-hurryman2212%40gmail.com
+
 > 
+> I have addressed the review comments in v4, including runtime PM behavior,
+> temp1_label removal, -ENODATA return, the PROM21-specific xHCI PCI glue 
+> split,
+> and making the PROM21 PCI glue built-in only when enabled. I also 
+> adopted the
+> naming scheme discussed above:
+> 
+>    - drivers/hwmon/prom21-xhci.c
+>    - CONFIG_SENSORS_PROM21_XHCI
+>    - hwmon name: prom21_xhci
+> 
+> I will send v4 now.
+> 
+> Sincerely,
+> Jihong Min
 
-That could work, although it requires additional infrastructure to be in
-place (tracing) on production environments, which may not be the case
-everywhere. In comparison, if the sanity check is done within
-killswitch, you only need killswitch and kprobe to be compiled into
-the production system, which is more lightweight.
-
-Thanks,
-
-Mathieu
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
