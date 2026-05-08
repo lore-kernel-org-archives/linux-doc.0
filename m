@@ -1,156 +1,162 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A16F2D0615;
-	Fri,  8 May 2026 17:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9C1322C6D
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 17:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778260838; cv=none; b=IntMlXFb1Rfa6rkj3iXc+iZ7pssluYm2SBkmxwY4A2oJ2+k7N5ruscwdJ9xQjGh7YD/vxbXJYnhXfezf/MH1T/+hHrRTaV5U5VyWmUI4DfyPMaIBPkWMRTnWWZn3XaPTMYRWqsEnTwKutKvXOrr97cPHu2rUxqFXlCKDQK5TNtA=
+	t=1778261029; cv=none; b=Mg7awnCdGTysdPGpvDIXRBLq89PRB7+Pae+/GnNp3s1ldIwCQjXDJH6My9PWqA9VgpriZHL6mqBkQ8vMywKYAgSyjxy6aldfyn0X8jftNnLu9oIVD45pmI5IzPxvoDr+z9rQiaDzVrapzTtYX7+gY9bhOInpA9o24nmhFFVV8dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778260838; c=relaxed/simple;
-	bh=VIpaIdq08wjRpBWfnPXJEwTJDQEICZVJcS3hyR9NLpo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bijdqjxBZN971rr6OTSk8YuAIvqbQ/4+rrRyxtxoPxyyX7ERGIvPVFnUyffcRrImGYvemvaRC9eHqqDhfukbsICugG7HDe64Hzlgm970HG1JMMpNxzChOADvz4exA5nLBjahBKE0Z3qVeAJ4wMSHZxPGz+mIuH3ixNKts+hLE6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=oZlzpBvM; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1778261029; c=relaxed/simple;
+	bh=WOyx8Z48htcxwyxmNQbyPqTjfn7K0keNSd9wlveroLI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=VqPp88EDDEVqEDF8+BQX51bMjPIPbTUbwYCfASDUlN1mCfiqeEgXXmZ9Pp/mrKCq7QkErVTLGchnYvKb4kZI4dpyQaD1dqEdICZKkIdKl1ou8zpHcyJ8Gd4wISXZShf+lDYOtPBlhwLUbBrHMBbiHTFy09RJTkpn/zsLSzUqE/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gvciuZH9; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="oZlzpBvM"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F3DC22D7;
-	Fri,  8 May 2026 10:20:30 -0700 (PDT)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A1A783F836;
-	Fri,  8 May 2026 10:20:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778260835; bh=VIpaIdq08wjRpBWfnPXJEwTJDQEICZVJcS3hyR9NLpo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oZlzpBvM3kB4R3YSBeQz6gKgJmqfggBligCcpTqgEZXTpNWvuOS6tcb8YSZFF1+Fp
-	 kWnWUogxR1+d6Lsf9g9rsdrHZqLJNTKjJ1N1dWhsJRabhzYObA4PglPOeM69C9nq/z
-	 qCOQcg0gdCUWunQoEjjmnB+fLCkzhxF+ZBpNE7M4=
-Date: Fri, 8 May 2026 18:20:27 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v10 15/30] KVM: arm64: Support SME control registers
-Message-ID: <af4bWxiOogfPz_dp@J2N7QTR9R3>
-References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
- <20260306-kvm-arm64-sme-v10-15-43f7683a0fb7@kernel.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gvciuZH9"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7dca5f64e86so1914180a34.0
+        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 10:23:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1778261026; x=1778865826; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1DP+JuCnIiM0V9Dxy5rK6Ns6ZckVWIlwW+CDaFwu9r8=;
+        b=gvciuZH9/GpAabeNj7v0/yjRAaqzwh3FodU+bWFch5mONSfYvY2Je6Y+UVgivqN/0Q
+         wrc4bUh7DlcuPQUwjYpf+od8DT07F7xlRYQ7c+0IF1kYiFeeXtKUuddZtzQgEwWy2x7L
+         6+TJ/kQDyJsZjcy+uKhN5oltUqLo4Ylsa6ANo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778261026; x=1778865826;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1DP+JuCnIiM0V9Dxy5rK6Ns6ZckVWIlwW+CDaFwu9r8=;
+        b=ovK66Rs0NInIHFQS+Wa3eF0zVUPMcfDxty9i6eIFeVMU79/kjXOTAZAumNWXlqjGny
+         MWxMAjDI8G3FPxAW2Xt20oNFdulXPdTAqMGs3sa9Q/xRKUh8FiyAb8wAFYpOn3HG3E2/
+         qo4HGHDkuuTjKlxtBAPGyevB7uT9Bhelv7T2Jsogfn+LA2jiF6mvbPofHHd0UuwLRbx3
+         0M/7ln5VM/AyPFvFduVBHM2Y+xALTWGnwEydY5WkzKzA5p0XQlg/Gf0Sr4wC60509o6x
+         RALv0L5/Nf2IU1ysEp8xgU6XuGDJLrcZZCzshFMFA5Z2GfGqQie1Z3aFRNhpQVeB3cBP
+         dmSg==
+X-Forwarded-Encrypted: i=1; AFNElJ9Rmq4nw6Ul4vAWYmJElsfUQud3KHT7+dfI67nN84S9X+dLymYLVRJh/VZOFJPBuhYbY5/l1NiU2oM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyc14GfVsLMPm3eVTRA3Nm/nua+9+ka+3ew34el31sLaSqEO2tA
+	D5Q9H68c269VNGwUV+whrvC+OqGavTFOsPL7LOxbeqIE30bI6FJRkflEM7H5bP23Xmc=
+X-Gm-Gg: AeBDievoNIU8ikrE9v1flzNzyEzG3KMwNG/Tvp7gZA6nnVHNcvz4/wVDjP+CenjonEe
+	3ZhUeejoAFtTExbv/QZ+cUg4xlS5Ci9XI7GsBFHzT9otjRazBrbQ2h/r90LwMaTZBrKjEkvVx5n
+	3tOJPJwhGNh81yH6ChLfCoxMGjOUw1O7iBCHZRr0E/3HjhBlDlUVwn/w7JR9rEjRzf9bKEn8wfk
+	T5L6stL0FJ0k2mGgD1/1fzEfnErD4cV48p6yfp0V9Hp2+9Ihg92quh6pv0SIebQ7jecL0KLAJ/+
+	R5HrU77IYDr/kPO5wfnTxK1njqiUopVyAbcAwb9HdgfMxMSW/FPjoGF96EYirqZqL7gDD3S+Gnc
+	Hll2+tcBl023DUJHNp3SL+NIdlBLypMHmYN5gdcOc+7TCkjUFagxUbjcQtLeRnFMwTko3Tr+9Zj
+	yefgazcrHMokRGBj0WtdlF7S5YYQRc0FI=
+X-Received: by 2002:a05:6820:178a:b0:696:982b:1c24 with SMTP id 006d021491bc7-69998d56a5cmr7340448eaf.57.1778261025735;
+        Fri, 08 May 2026 10:23:45 -0700 (PDT)
+Received: from [192.168.1.14] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69b25c1a58asm1448361eaf.1.2026.05.08.10.23.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 May 2026 10:23:45 -0700 (PDT)
+Message-ID: <2b771350-0562-4cb1-b9b3-cc3ce59b1a63@linuxfoundation.org>
+Date: Fri, 8 May 2026 11:23:43 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260306-kvm-arm64-sme-v10-15-43f7683a0fb7@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] docs: fix repeated prepositions across documentation
+To: Adrien Reynard <reynard.adrien.08@gmail.com>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ "open list:KASAN" <kasan-dev@googlegroups.com>,
+ "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
+ "open list:USER-MODE LINUX (UML)" <linux-um@lists.infradead.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 06, 2026 at 05:01:07PM +0000, Mark Brown wrote:
-> SME is configured by the system registers SMCR_EL1 and SMCR_EL2, add
-> definitions and userspace access for them.  These control the SME vector
-> length in a manner similar to that for SVE and also have feature enable
-> bits for SME2 and FA64.  A subsequent patch will add management of them
-> for guests as part of the general floating point context switch, as is
-> done for the equivalent SVE registers.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+On 5/8/26 10:38, Adrien Reynard wrote:
+
+Missing commit log
+
+> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
 > ---
->  arch/arm64/include/asm/kvm_emulate.h  | 14 ++++++++++++
->  arch/arm64/include/asm/kvm_host.h     |  2 ++
->  arch/arm64/include/asm/vncr_mapping.h |  1 +
->  arch/arm64/kvm/sys_regs.c             | 42 ++++++++++++++++++++++++++++++++++-
->  4 files changed, 58 insertions(+), 1 deletion(-)
+>   Documentation/dev-tools/kasan.rst                   | 2 +-
+>   Documentation/networking/switchdev.rst              | 2 +-
+>   Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
+>   3 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
-> index 5bf3d7e1d92c..7a11dd7d554c 100644
-> --- a/arch/arm64/include/asm/kvm_emulate.h
-> +++ b/arch/arm64/include/asm/kvm_emulate.h
-> @@ -89,6 +89,14 @@ static inline void kvm_inject_nested_sve_trap(struct kvm_vcpu *vcpu)
->  	kvm_inject_nested_sync(vcpu, esr);
->  }
->  
-> +static inline void kvm_inject_nested_sme_trap(struct kvm_vcpu *vcpu)
-> +{
-> +	u64 esr = FIELD_PREP(ESR_ELx_EC_MASK, ESR_ELx_EC_SME) |
-> +		  ESR_ELx_IL;
-> +
-> +	kvm_inject_nested_sync(vcpu, esr);
-> +}
+> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+> index 4968b2aa60c8..3a8bd40ad905 100644
+> --- a/Documentation/dev-tools/kasan.rst
+> +++ b/Documentation/dev-tools/kasan.rst
+> @@ -392,7 +392,7 @@ reserved to tag freed memory regions.
+>   If the hardware does not support MTE (pre ARMv8.5), Hardware Tag-Based KASAN
+>   will not be enabled. In this case, all KASAN boot parameters are ignored.
+>   
+> -Note that enabling CONFIG_KASAN_HW_TAGS always results in in-kernel TBI being
+> +Note that enabling CONFIG_KASAN_HW_TAGS always results in-kernel TBI being
 
-This implicilty has the SMTC field as 0b000, which is correct for traps
-of SMCR_EL{1,2} due to SMEN, but wouldn't be right for other traps (e.g.
-traps of ZT0).
+This is correct the way it is - no need to change this. "results in in-kernel"
 
-If we only use this for traps of SMCR_EL{1,2}, that's ok, but I think
-it's worth a comment, and possibly a more specific name. Perhaps
-kvm_inject_nested_sme_smen_trap() for now.
+>   enabled. Even when ``kasan.mode=off`` is provided or when the hardware does not
+>   support MTE (but supports TBI).
+>   
+> diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
+> index 2966b7122f05..948bce44ca9b 100644
+> --- a/Documentation/networking/switchdev.rst
+> +++ b/Documentation/networking/switchdev.rst
+> @@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
+>   monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
+>   bond will see its upper master change.  If that bond is moved into a bridge,
+>   the bond's upper master will change.  And so on.  The driver will track such
+> -movements to know what position a port is in in the overall topology by
+> +movements to know what position a port is in the overall topology by
 
-[...]
+This looks fine.
 
-> +static bool access_smcr_el2(struct kvm_vcpu *vcpu,
-> +			    struct sys_reg_params *p,
-> +			    const struct sys_reg_desc *r)
-> +{
-> +	unsigned int vq;
-> +	u64 smcr;
-> +
-> +	if (guest_hyp_sme_traps_enabled(vcpu)) {
-> +		kvm_inject_nested_sme_trap(vcpu);
-> +		return false;
-> +	}
-> +
-> +	if (!p->is_write) {
-> +		p->regval = __vcpu_sys_reg(vcpu, SMCR_EL2);
-> +		return true;
-> +	}
-> +
-> +	smcr = p->regval & ~SMCR_ELx_RES0;
-> +	if (!vcpu_has_fa64(vcpu))
-> +		smcr &= ~SMCR_ELx_FA64;
-> +	if (!vcpu_has_sme2(vcpu))
-> +		smcr &= ~SMCR_ELx_EZT0;
-> +
-> +	vq = SYS_FIELD_GET(SMCR_ELx, LEN, smcr) + 1;
-> +	vq = min(vq, vcpu_sme_max_vq(vcpu));
-> +	smcr &= ~SMCR_ELx_LEN_MASK;
-> +	smcr |= SYS_FIELD_PREP(SMCR_ELx, LEN, vq - 1);
+>   registering for netdevice events and acting on NETDEV_CHANGEUPPER.
+>   
+>   L2 Forwarding Offload
+> diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> index c37e8e594d12..7b08738c30aa 100644
+> --- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> +++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> @@ -1092,7 +1092,7 @@ be formatted as plain text.
+>   
+>   Developing always goes hand in hand with debugging. First of all,
+>   you can always run UML under gdb and there will be a whole section
+> -later on on how to do that. That, however, is not the only way to
+> +later on how to do that. That, however, is not the only way to
 
-I'm not sure this sanitization is correct or necessary, and the same
-concern applies to ZCR_ELx.LEN.
+This change is not needed. If at all add a comma after "later" to make
+a distinction between the use two back to back "on"s
 
-AFAICT, none of the values for the SMCR_ELx.LEN and ZCR_ELx.LEN fields
-are reserved or unallocated. Thus all the bits of those fields should be
-stateful, and a read should observe the last value written, regardless
-of the effective value of the field.
+  "later on,"
 
-That means that the following at EL2 or vEL2 shouldn't produce a
-warning:
-		
-	int len_write, len_read;
+>   debug a Linux kernel. Quite often adding tracing statements and/or
+>   using UML specific approaches such as ptracing the UML kernel process
+>   are significantly more informative.
 
-	for (len_write = 0; len_write < 16; len_write++) {
-		write_sysreg_s(len_write, SYS_SMCR_EL2);
+With these changes:
 
-		len_read = read_sysreg_s(SYS_SMCR_EL2) & SMCR_ELx_LEN_MASK;
-		WARN_ON(len_read != len_write);
-	}
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
 
-Either what we're doing is wrong, or the architcture requires a
-clarification to say that values corresponding to unimplmented vector
-lengths are reserved.
-
-If those bit are always stateful, the the logic to sanitize the LEN
-field shouldn't live here, and that will need to happen when consuming
-the effective value.
-
-Mark.
+thanks,
+-- Shuah
