@@ -1,776 +1,771 @@
-Received: from FR4P281CU032.outbound.protection.outlook.com (mail-germanywestcentralazon11022137.outbound.protection.outlook.com [40.107.149.137])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618BF22759C;
-	Fri,  8 May 2026 06:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.149.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884B336167E
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 06:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778222692; cv=fail; b=nBy+Zu06OoCg5Aq7zKx6QarMqIRXFGz1HXE9HbR15q6YND0gZ65aIWVmnbz26QbOdBIrJ8NUO20fmaEMf9Lul0KKkbqTxmTKjNeUH6q9w9XYWT7peFKdsD3UgGX4s/KKHOYpy27kNCThHU2pCw2bjwnWfnPZSwKy25HK3YAPzRc=
+	t=1778223142; cv=pass; b=jM8O+kB9awByWemIdrJ6Akd59/MR7cenyy+q7VoEnU2sWpqFdro2ioHrqy6ALKscuOaqdToFjl0HRnsuYK91EvPieyWrNnHsj+4CSy3xguwYYXpY08Hqn5e55mlBrPSgmLSRmEgcn+fmNlZgiRGDpf1DdGUR0OQhki75rUCxkJI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778222692; c=relaxed/simple;
-	bh=MxKCcBtOI+EbWOFwjTdi28HGHpYa6UOmHByDatDBWYc=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=cjLv1Xe2hYi+M4IcDiUZrpgt8vp2LeWBbKiHMQ4zU6lHQAQ2pQSlDjwdHVtD1PMXq+LPlPFLsjcOPB5kgFM21xuv1K79V/YAWFxEpucZxggZbz05HSQZ1kK+zMvpx0qF2BWflxNjuBPj5LjGqRt0/Ch5rReL6bdJSeC8W85DzGQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arctic.de; spf=pass smtp.mailfrom=arctic.de; dkim=pass (2048-bit key) header.d=Arctic.de header.i=@Arctic.de header.b=ShrLEC5X; arc=fail smtp.client-ip=40.107.149.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arctic.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arctic.de
+	s=arc-20240116; t=1778223142; c=relaxed/simple;
+	bh=oUUcLG8RBWhqsP3nvXj/e/2jsC+HkZvybphhQvcZ+dY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Dojb9iAeVMvnvb9KspFOKoOe2PD7cViuMe5I5RxKdPu6hbks1766aRleNTLFSZX6gzhnzCNNtoUaWqkH/35p1Stk0hDxkYr+swcUBPrhJXvf+VhdCjDH0tEd18rCHRvrPQ5kxVxZTn6MNrMRPJekdtyneMfXCgJ51z9mDb1BuHY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G5/U83it; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=TtGGAxDZ; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Arctic.de header.i=@Arctic.de header.b="ShrLEC5X"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BmQLupEeLQM/aFQ7vCgLgwRvlKHtAzZaSz2TctaPyCO1cJD5z1rOsuVgKNB9A+RRNMJgaaqwdFz7YjMFdR7YczPsJeBiqmJQj6RrawtfWpJu5+MId/KwULjBIImiIhCKZQloK7amEUT70FB2Clsn+pQoVcE/0iDsFrLdZ1HLDzqvp4vpMppc//Iwm7g4s9wo13SjGiHYVhmOP3gtrKNaY+I/YtOBYAe5FvefSYz5a5vdiCvxD0mH70BQzXcVcGD1CNishYBQIGIeEqwiG3Et+XEwwgh1MON21WhcK3w4D0XpSQ5zpgUETfkP2bF2yeLn/FxL9WwV3VX+01uXpFdHeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XRjFUkxzlu7hHXZp6c5KqYd6K3cqW3q3QyJ3ywUduJs=;
- b=kj6ejyGuENTLqasjqA8jGt7ShLN7DiaI+zakU2IPiQKBfvXJnI4ds5QlA6pwbyzYHo1QiBfN8M/5+Oc+cs2tdu9g5gGfBrrvCO8Y9zF/vVSf5nppIOX0su3XMpMoPSalf2fqgSrxWrLjTQ4XUq3XtTVxDZ96SS+SHMriN2zPmHC3qaeD08dDzOu5v1hbsTzJsLYUf6Fw29hcsGZVLcmYylSdXO6YgEfyqj/e+PHzjRYh1wf5nBNoM16fOB/D0IsQtiL/leRtCDjN2GCZGk4oIWOiKgnz1qUEH9RBdPEfoOnN65dqYoJTpUzSzjz6jq1LTB73hJS3PaeaTwcAVSWf7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arctic.de; dmarc=pass action=none header.from=arctic.de;
- dkim=pass header.d=arctic.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Arctic.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XRjFUkxzlu7hHXZp6c5KqYd6K3cqW3q3QyJ3ywUduJs=;
- b=ShrLEC5X9ScAt4CxJgmvUQwIFnLwLEjWJx4lQPY7dcYgfeTlFmphbp/O8QoKS9xX8LHOicuFsf9z8NHrRYx99IxL9Q8fiipHeuldy5oGQ0fuTyb8n4WOZJIxDjD1AJ+7uCwnUvcYlodfooUgVpFrvaZ6IQGvJDovL7oJI2rs2r02iUO/j+f42JVQZh1gudICxiT+aiEBunFbEX90Zg2HPuXxHRZwcJC/cpNH70Pl4mzDuytzAzyG/n72FIncGCaKloYiuBNm81+TDzacXXIHAk/hgBXmAo93rnqeaxh+wCmlDQjXdKnDZBLtVKJMblxmT84mdjF0wTxQ4Bo60MPLQw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arctic.de;
-Received: from FRVP281MB5895.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1c3::20)
- by BE1P281MB3138.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:6a::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.20; Fri, 8 May
- 2026 06:44:35 +0000
-Received: from FRVP281MB5895.DEUP281.PROD.OUTLOOK.COM
- ([fe80::c6a2:6e8f:ea:cc0d]) by FRVP281MB5895.DEUP281.PROD.OUTLOOK.COM
- ([fe80::c6a2:6e8f:ea:cc0d%4]) with mapi id 15.20.9891.016; Fri, 8 May 2026
- 06:44:34 +0000
-From: Aureo Serrano de Souza <aureo.serrano@arctic.de>
-To: linux-hwmon@vger.kernel.org
-Cc: linux@roeck-us.net,
-	linux@weissschuh.net,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aureo Serrano de Souza <aureo.serrano@arctic.de>
-Subject: [PATCH v7 RESEND] hwmon: add driver for ARCTIC Fan Controller
-Date: Fri,  8 May 2026 14:44:00 +0800
-Message-ID: <20260508064405.38676-1-aureo.serrano@arctic.de>
-X-Mailer: git-send-email 2.43.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TPYP295CA0009.TWNP295.PROD.OUTLOOK.COM (2603:1096:7d0:9::8)
- To FRVP281MB5895.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1c3::20)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G5/U83it";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="TtGGAxDZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778223135;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9fY/UZO8qiQOWg5SWfBzXdF2X2Rl1DNNHRPCYWLtBI8=;
+	b=G5/U83itOv8n6OZk9G35DSmf4hHn9lc4zSVd2l6koDpb5G0kXcfLRLspSXRSScu2tm4X88
+	nHxEj9S5HMowGxXEl+ZoZIerAfPczJGWdBueyhYwNPipHYsOeZEGa+yKc1XoI72frQyFTZ
+	+Gw7x1Nsdq66Idc+x3h+x3zXpKrxKe0=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-76-w7VgOUu8MOKU8Fhsc29zMA-1; Fri, 08 May 2026 02:52:14 -0400
+X-MC-Unique: w7VgOUu8MOKU8Fhsc29zMA-1
+X-Mimecast-MFC-AGG-ID: w7VgOUu8MOKU8Fhsc29zMA_1778223133
+Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-7c027fb7a62so446177b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 23:52:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778223133; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dV7+izxBhEF02ahfgxisYK8a5inz3tE0sMYxop+aAtSdlpEtAs2itxg+LHQJZcTovZ
+         PVRnvuUzi+9IHejeuRIID47Nx/J4kEH7yRyc1xhRtRDraau5PDmm9XawfygguqPEO4GU
+         5txZpWASQHFoegiYZGRAKBVWRyPvg29AbNWDVonCI+eXYPX6qXBbXgvdUcZ2GAhMJBW6
+         KHgAw5uBkA4/YxCfGrZ1m7erXnVshRiAA1v1zupQtmS4TkVbd9AeGeXVvIu/yFe+jV2f
+         XD1AzIVw/y16Fydbn/q1vYToFLUp2eqXPHdImVXRxzrVfFi1bgLXAcyy6ayRBWbEqF0n
+         uX/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9fY/UZO8qiQOWg5SWfBzXdF2X2Rl1DNNHRPCYWLtBI8=;
+        fh=GNt7YmsXqRSL0YDRMgA9xmtawokSgrwkxgeFHsmyHm0=;
+        b=F5ddLL2I5+RMVa/rpErnLqKAJpOzPfoxrN4PpkS8dGF0KdRXH8WZcFmCtx6NlZCR7q
+         +4LYRAs3ptaDF/PIee+Qwwcv2ByikbPQXnXEI/pausJxyvBKCxY3lB178pOTqCLjezRl
+         BMuuOFzAQxvS/xKc6u13N3O3Du+tjFMQi2HtydxH5LEk3GQe1pMWaVjb58MUQNCb+6LL
+         MPlVPxHNnvQ959yacjTp/PgBIGJ0aKUWrj//oIF+k6u3vUSFf/Q7rgEvHbJz2S1MXvfq
+         bHNUBy0EpgVxxQa1YcgO055KuGeUsZm7s+SDk9jb1Tq3LlRE+Aqo1X3A8+96ThLHRB2O
+         YsGQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1778223133; x=1778827933; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9fY/UZO8qiQOWg5SWfBzXdF2X2Rl1DNNHRPCYWLtBI8=;
+        b=TtGGAxDZEg4txLNgdiLCkUzJN/f9MNev6QSFLrcPYntth27eUg1gbAnlyMo0divyAQ
+         HeAfw5NUh4hkKnWb6JGL1SfaMOuh8z3heYgMtWqVZKUsQmFkLuz+FM4MbOqm54HcVxRs
+         M3m0Jw9AVTtDBc+JE4OjioYDNPLScyjPFG93eOQca7LN7irz+i/t9nHRMlj4I6bCgchx
+         7ah+oU18u5ssIJrhw/vv4ClFBW5u18FkbGsRPDH+57DOR3T8A8dsbSJFEFYH1HmPc2f4
+         hxZ8g6c4/mKSNiTSmYexBmoS7vgxYr3s/ulk9A1dgw9s+47DE3pbqCIjB+bm4n6aLcVF
+         AHug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778223133; x=1778827933;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9fY/UZO8qiQOWg5SWfBzXdF2X2Rl1DNNHRPCYWLtBI8=;
+        b=Ht+ueRXrOlkkUNUKhTR5VByzXsB3gCFMMgiSGtxaSm6cly9cqjyZxtOb3RRlIQFieQ
+         sAEnDQ72bO+7h/Z2r2j2f9m4LYq+bSVM7bd0q1zs6ccUirh7haxMQLZ7P9sBez2i/L+f
+         Bk/DjA4P7/UgfCutHFwAVFauDLn9gjUdthUoxB6kagVqEvQ7mWCR7uZGpLI83KGSRPZZ
+         4nTkdMCtCqVeZC5h517W/fpPKwrmTtKhirub0VhsnOLWZrXnPv+IEHH8lB/DIhTvGte8
+         pZzB/PNo26ECB2UsVsfp8oIxy1OPuza5bNx5jF5hzOwGGQX86npHFIgtNWOEs/wxUcU8
+         OFDQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+74fGfvwKEK9GEGmM2rL2woPIehhhoa7dtNUaoAOABf+TTswUHzv5g/IFB+WndPwA6lpR64YOBAz8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwXlQJ4eLJqdp9fC5sTWcvD3Dk2fJurOykwyj8aIFT4dyji5e8
+	A2WtiNmGtWKMeESCV2PDEXF/CQw7AmU1oZ/hZTn/+kzMIvbsN6Xe4sbBWeNzZONrI+zuodnS54E
+	KAJPFoCaVjl7gO+uXUsqv7/8gj4SbfZHcrajsVJJX8Ty/Msnyp0JqZYhJa5BjvPpJue20SIZBa/
+	IimcVZAWla+EI7XnesMSBYqq6HfuaosiU5tIfs
+X-Gm-Gg: Acq92OHyR4GqmGWMjL8r+zR0N/kWEjV6zpDCoh1yVzcWeIjGWTLk7B+UTDz0LNZAUWO
+	C4GFFjtS4kKoD89/1vmkmnPQLEGlDeuwmh62sk+ysQoWUvm2P1xsICmwx/nVQubTC1nyNUpsg9K
+	hBb6ZbNAt9ZJoEgQuFjsNWPBBtldgkXSj/GtSSGxfYkbJDCxhC1sPcT6Gs4YsN3f09rnKcKGdrq
+	J078g==
+X-Received: by 2002:a05:690c:389:b0:7a4:80ce:8275 with SMTP id 00721157ae682-7bdf5eb925emr115870867b3.35.1778223133198;
+        Thu, 07 May 2026 23:52:13 -0700 (PDT)
+X-Received: by 2002:a05:690c:389:b0:7a4:80ce:8275 with SMTP id
+ 00721157ae682-7bdf5eb925emr115870487b3.35.1778223132602; Thu, 07 May 2026
+ 23:52:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: FRVP281MB5895:EE_|BE1P281MB3138:EE_
-X-MS-Office365-Filtering-Correlation-Id: 640a100d-9e6b-42f1-d2d6-08deaccd43eb
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|366016|52116014|376014|1800799024|3023799003|56012099003|18002099003|55112099003;
-X-Microsoft-Antispam-Message-Info:
-	Yvmbia01duVxe4kQ6Svm7Y9UI6eQevTplXoy5PAEFoDD+4dr8RVfKtq3a0U2F9aETeIczNesGbn2RaaxMI5oA4cDjURTVuwT9cIgP0r9rzosVlVTc7uuV1o7ydmL/IHCmCy0T1X2yunNEH7yNPB+YvzH0jt/FwIR3X7YwsiWtUbYd4YXbEl11bUEFGx26F+y5VWFKg9eEwVSOijBw2mYRIw8GTUcmKoqq9gXueN5RpCzmCLUZVNCidJmQO6pHs41i2JOAQ2eIkOLXEYmob6DjmCT1ymVJ07ETUmqmAlL1u5il1X6kLf4pCS+QeDPXcSTz5OuoDZ1WRH1SKihbFlXjHloSgpb5HC0gp2EAITxo0aDr9FVqUeQUpyVPP/MqsYmg41xaZQTADcTKvRW6lVF9sXO8iPXTr3VqQo6VQjazglGDrWLIdxQPUeYHNH8FCwnhNsaYjeaT27D82gTKkXpoF/PulHJV8hr9UZXlI2HwsWEqH4asHGbhjK812YwMOi0N+Xn7YNrRPGKgFIY/0CBLTNWO+u8ZW7vGD3B+6LmV2PBJgmyWY7EbmO6smT4HcDtSeeuGyleY+15w5Dr8VIdt4+7F8dMxk+PqlAqbO7rAABoSlu5BGSkwXGBOBgLFpk2EInZ+dr90gfsMHJQtgjvBv3z5aN9koHIVbwAgEeE/XpZA4ssgKtcXCmfbi3UTQaC
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FRVP281MB5895.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(52116014)(376014)(1800799024)(3023799003)(56012099003)(18002099003)(55112099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?N2NGS0paVjBucUxGc3J4TUNEUllxTnM1V3BPOGROMVlTSy93bklxTEFHUFo2?=
- =?utf-8?B?RTRtVUEyTzdLWC9sRTNxL29iVkg4V21QbW9wUm1zeHBxUUJoYXVqWmZRRzZ4?=
- =?utf-8?B?amlkbE9scUV0dWYvb0x1bC9LWnA3SWMrZVhKUkxYOC9jWkZtZlBIT1g1TWpr?=
- =?utf-8?B?Z0theVRLTHQzNFNtUjhMQjNtZFZCTHFmYzF4amQzS2EwSkIvZTFzcEw4bHBP?=
- =?utf-8?B?WDd0QzFIM3NDckJyczZBUmRhWjhNaWh4OHd4WnAwdFA2bmllSUdmblhIQW5t?=
- =?utf-8?B?UzBEWVpNTzRsY1RVMXB1TTMzRVJLcXF2Tk5RYUd2ckJ1Z0tPUy92SXUyS1JV?=
- =?utf-8?B?SkdEM1hBMXAxTnBCZGRvT3NjUGk4dm9WZ0dsSjhrcG9tRFBJOWZJN29wQmE5?=
- =?utf-8?B?bTJldmtRdG1uaVVLNlBRWm1uV29NTmhXR2hEZ3Y1c2c1SlJSNGk3NlMzcjNS?=
- =?utf-8?B?aDJ0SDNUa21ldFNUanZKYUJRMHA3aTZHbHEwUjlFbHQrOWJNV2JnNmxqNmdp?=
- =?utf-8?B?OVh1V2NQeDVlVi80UTFSVFdGZFM2a0dFSDZ5WTFiQlV5MHNEUmtLMm5wdUlw?=
- =?utf-8?B?V2hpOWhSNE1DbEw2WDJYK2Jja0NaMWs3cGE3ckk0eXhobGthMTYyZW81NHRK?=
- =?utf-8?B?SG9vTkpmNEF5bFUzbzFLUVo0cENaT2Z3dmRoajdieXF5T2dxNmN4NkZPSUJV?=
- =?utf-8?B?SFRRUldqaEZSU1dTRk9lMXlFOG1uRVVEWGlzZDdJNjk2MDNBVjkwSmQ2QzRv?=
- =?utf-8?B?QzhIa3IvWFZyQ3ljYTJwNUFWYU9Eb1NBMGcrcVVadG1WejI1dTFIYnh0N0lO?=
- =?utf-8?B?M0ppTWNhSlVZc0JxaXp5WjVlZyttTDRhRXNIc3Z2aEFObWx6VldNZ2dMZndz?=
- =?utf-8?B?R3VPU3N5OGQxK2RKdHFXYnZBdk94bXpyK2RVa0NYS0lPS2wxM0dRZWVpdGhV?=
- =?utf-8?B?Z3A2S0FubHJoYURvU2FkenpIakdpekdhUFg4cW1yNE1qQVdRc2VCWEgzRVk3?=
- =?utf-8?B?dFZvRzZBcGV3NkpVc3ptNVB0UDVLL1BFaWFQT3RwNUFpTi9jUTdEZUFGdjJy?=
- =?utf-8?B?OXRZSTI1U0ZUUFRaeW1wdzEzbnU4aEZmVDM5WUV0bHl3VlNzTm9pdGRrVi9w?=
- =?utf-8?B?RFBKNGpoSWdraWZIQzVram9YU2phalBmaDUrOFpNTVptNjYwdWxnYU5ZeUto?=
- =?utf-8?B?TGdNS1M1U2lOcVY2MTNwMnBCOXlQZnRnOWE0UmRaeE1TYUJzdTJ6MnRNckhx?=
- =?utf-8?B?NnRMOG5QZTZ6RjlRaWJQQVUwcUtIK1kyUWxrM0svcmxXSEU5bU14ZXlkb1ZE?=
- =?utf-8?B?c1BjRXV1UmZoUlZXT1N1S1VXdldyQ2xwek1zNXRGR3J5VVJyWjJ5R1l1b2lF?=
- =?utf-8?B?T0doZWNHM1AzaWNtNzdpRjc2MFZRZFJ1WGNSTDRwSEpuclVoT2hHVEZzZ05L?=
- =?utf-8?B?SXErVmo3QTJhSkxSR1RPcUJMakNzUFg0citvWEVMSzBnVXhDM2llTEU5em40?=
- =?utf-8?B?ZWRBL3FvdFNNT3BwUWtlT1E2ZWFzOEV3MXIzVVZoejFtNUZIU2p0VkduS2Zk?=
- =?utf-8?B?QkFsVnpPbkJMK1hmUzY4NUJFM2xLd3dGR0lXZFhDcWY5VjU4WkZiazZVU1lU?=
- =?utf-8?B?Y0NHTWxDWkZkSlh0VXlwL2p3WUNUS2dQdzRRTEUxQ2xtbE1sZ1EzUENXcWRF?=
- =?utf-8?B?MUV5a0pFU1hlaS9kVzFxU1FGYzJDRk4yWThUNDVZRjNuR0M1NWsvSkJFYkRY?=
- =?utf-8?B?SlpaY0Z0VGhjU2JJdng2YTZ4eWpMUUhqS0NWY1ZQSzhObTFNLytCenNRakx3?=
- =?utf-8?B?cnN6VXk5UGdabm5SbytPMDBLQThkSXBja3lqOFFhUjYzWVVNOEtsbXJwdnVM?=
- =?utf-8?B?aVViaWdXL2k0WTRMeFJFNmhGOXVsMEZEUWFlMHVtWXFjMHk0T2lEcGx4a2Qv?=
- =?utf-8?B?NlFTUjBSUllNUzljc1lPNkRSMSsvdkFsZExaVzBJekhFeUM4UzlTajNVZ090?=
- =?utf-8?B?bzlaRmVTSC9WakpKaVA4K3ZKWEJSZ0FwS1BaTnpQeXNrVTZzVmhOdytLSVlZ?=
- =?utf-8?B?REkvL2dESHZtdmV2TjdvQnlPWHhUZStseCtYRUZLUGwweWxvRkJsSTZlUmJt?=
- =?utf-8?B?Q2V4Q1RSblNFNGhwN1EzZUhBVkxzZDYycXJ4SXdlYnRZUnp2SnljUTUzYVhk?=
- =?utf-8?B?TWwwVURYRUJjaWxZMGZVaW1LVkdlOVdSNUtKSTc0VXF2RE5ReCsyVGZQV2dR?=
- =?utf-8?B?ZTErQ2c1cEZnTytEaGJiRDV0SWdmWCtQSVovYm5jQVQyeFFrT0lCc0NnNVVo?=
- =?utf-8?B?RTRydzRDR1VDZ2ZocDFPelc2OENtN0JWZjdKYXhEd0ZRNUxZZk9pNXQrSSto?=
- =?utf-8?Q?ayuifLfscEfiSVMo=3D?=
-X-OriginatorOrg: Arctic.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 640a100d-9e6b-42f1-d2d6-08deaccd43eb
-X-MS-Exchange-CrossTenant-AuthSource: FRVP281MB5895.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 06:44:34.8581
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 51cc2c5f-af21-4667-81ec-d88d36e264bb
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oJ6Ru+L30D8fwVIWmenKdhqS9w/lhwkH+GMiOxq4htWuxWpIzzKO6q4w+TxPx9l2NbhPRMjPTNYYi8PHZcCAnA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BE1P281MB3138
+References: <20260504-kunit_add_support-v8-0-3e5957cdd235@redhat.com>
+ <20260504-kunit_add_support-v8-1-3e5957cdd235@redhat.com> <c5c28f16-3940-4960-84e6-33f5479a5450@davidgow.net>
+ <CADSE00KLhyUpRD031-YveOv+o71jJ-NojX6VteSyF+SqxG0n4g@mail.gmail.com>
+In-Reply-To: <CADSE00KLhyUpRD031-YveOv+o71jJ-NojX6VteSyF+SqxG0n4g@mail.gmail.com>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Fri, 8 May 2026 08:52:01 +0200
+X-Gm-Features: AVHnY4J-w_smt4NdJgep3bSQTcgic6-xJhW_Zr-7uK_aZEXtV2FzlbXhyyMnoX0
+Message-ID: <CADSE00L5OCSNH_XsUHSvi_wAwZWiC2=bUGmiXVAu-LZ=XtvDjQ@mail.gmail.com>
+Subject: Re: [PATCH v8 1/4] bug/kunit: Core support for suppressing warning backtraces
+To: David Gow <david@davidgow.net>
+Cc: Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	Rae Moar <raemoar63@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
+	peterz@infradead.org, Alessandro Carminati <acarmina@redhat.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Kees Cook <kees@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add hwmon driver for the ARCTIC Fan Controller, a USB HID device
-(VID 0x3904, PID 0xF001) with 10 fan channels. Exposes fan speed in
-RPM (read-only) and PWM duty cycle (0-255, read/write) via sysfs.
+On Wed, May 6, 2026 at 12:11=E2=80=AFPM Albert Esteve <aesteve@redhat.com> =
+wrote:
+>
+> On Wed, May 6, 2026 at 11:40=E2=80=AFAM David Gow <david@davidgow.net> wr=
+ote:
+> >
+> > Le 04/05/2026 =C3=A0 3:41 PM, Albert Esteve a =C3=A9crit :
+> > > From: Alessandro Carminati <acarmina@redhat.com>
+> > >
+> > > Some unit tests intentionally trigger warning backtraces by passing b=
+ad
+> > > parameters to kernel API functions. Such unit tests typically check t=
+he
+> > > return value from such calls, not the existence of the warning backtr=
+ace.
+> > >
+> > > Such intentionally generated warning backtraces are neither desirable
+> > > nor useful for a number of reasons:
+> > > - They can result in overlooked real problems.
+> > > - A warning that suddenly starts to show up in unit tests needs to be
+> > >    investigated and has to be marked to be ignored, for example by
+> > >    adjusting filter scripts. Such filters are ad hoc because there is
+> > >    no real standard format for warnings. On top of that, such filter
+> > >    scripts would require constant maintenance.
+> > >
+> > > Solve the problem by providing a means to suppress warning backtraces
+> > > originating from the current kthread while executing test code. Since
+> > > each KUnit test runs in its own kthread, this effectively scopes
+> > > suppression to the test that enabled it. Limit changes to generic cod=
+e
+> > > to the absolute minimum.
+> > >
+> > > Implementation details:
+> > > Suppression is integrated into the existing KUnit hooks infrastructur=
+e
+> > > in test-bug.h, reusing the kunit_running static branch for zero
+> > > overhead when no tests are running.
+> > >
+> > > Suppression is checked at three points in the warning path:
+> > > - In warn_slowpath_fmt(), the check runs before any output, fully
+> > >    suppressing both message and backtrace. This covers architectures
+> > >    without __WARN_FLAGS.
+> > > - In __warn_printk(), the check suppresses the warning message text.
+> > >    This covers architectures that define __WARN_FLAGS but not their o=
+wn
+> > >    __WARN_printf (arm64, loongarch, parisc, powerpc, riscv, sh), wher=
+e
+> > >    the message is printed before the trap enters __report_bug().
+> > > - In __report_bug(), the check runs before __warn() is called,
+> > >    suppressing the backtrace and stack dump.
+> > >
+> > > To avoid double-counting on architectures where both __warn_printk()
+> > > and __report_bug() run for the same warning, kunit_is_suppressed_warn=
+ing()
+> > > takes a bool parameter: true to increment the suppression counter
+> > > (used in warn_slowpath_fmt and __report_bug), false to check only
+> > > (used in __warn_printk).
+> > >
+> > > The suppression state is dynamically allocated via kunit_kzalloc() an=
+d
+> > > tied to the KUnit test lifecycle via kunit_add_action(), ensuring
+> > > automatic cleanup at test exit. Writer-side access to the global
+> > > suppression list is serialized with a spinlock; readers use RCU.
+> > >
+> > > Three API forms are provided:
+> > > - kunit_warning_suppress(test) { ... }: scoped, uses __cleanup for
+> > >    automatic teardown on scope exit, kunit_add_action() as safety net
+> > >    for abnormal exits (e.g. kthread_exit from failed assertions).
+> > >    Suppression handle is only accessible inside the block.
+> > > - KUNIT_START/END_SUPPRESSED_WARNING(test): manual macros for larger
+> > >    blocks or when warning counts need to be checked after suppression
+> > >    ends. Limited to one pair per scope.
+> > > - kunit_start/end_suppress_warning(test): direct functions returning
+> > >    an explicit handle, for retaining the handle within the test,
+> > >    or for cross-function usage.
+> > >
+> > > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> > > Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
+> > > Reviewed-by: Kees Cook <kees@kernel.org>
+> > > Signed-off-by: Albert Esteve <aesteve@redhat.com>
+> > > ---
+> >
+> > This looks pretty good to me, thanks.
+> >
+> > Reviewed-by: David Gow <david@davidgow.net>
+> >
+> > It's maybe slightly over-the-top to now have three different ways of
+> > enabling warning suppression: I'd probably personally get rid of
+> > KUNIT_START/END_SUPPRESSED_WARNING() if we had to lose one. But if
+> > there's a real reason to prefer keeping all three, it's not actually a
+> > problem to do so.
+>
+> Thanks for the review!
+>
+> I think the three forms earn their keep: the scoped form is the go-to
+> for most cases, but the macros avoid indentation without requiring
+> users to manage a raw pointer. I initially removed the macros and
+> added them back later. Direct calls to the functions will be less
+> frequent, used only when you need the handle.
+>
+> That said, if it becomes a maintenance burden, the macros are the
+> easiest to drop since they're thin wrappers. Let me know if you prefer
+> them to be dropped, and I will send a v9 with that and the
+> `KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT` additions to the drm test
+> patch.
+>
+> BR,
+> Albert.
+>
+> >
+> > Regardless, this series is looking pretty ready to me. Let me know if
+> > you're planning a v9, otherwise we'll take this when you're ready.
 
-The device pushes IN reports at ~1 Hz containing RPM readings. PWM is
-set via OUT reports; the device applies the new duty cycle and sends
-back a 2-byte ACK (Report ID 0x02). The driver waits up to 1 s for
-the ACK using a completion. Measured device latency: max ~563 ms over
-500 iterations. PWM control is manual-only: the device never changes
-duty cycle autonomously.
+I have been thinking, and despite my last response arguing against it,
+I think I will send that v9 and remove
+KUNIT_START/END_SUPPRESSED_WARNING(). Since the scoped approach with a
+reduced extent should be the default style for most cases, the direct
+calls can cover any other use cases without needing macros. Plus,
+since macros set the handler name for you, it seems odd not to be able
+to use them more than once per test.
 
-raw_event() may run in hardirq context, so fan_rpm[] is protected by
-a spinlock with irq-save. pwm_duty[] is also protected by this spinlock
-because reset_resume() clears it outside the hwmon core lock. The OUT
-report buffer is built and write_pending is armed under the same lock so
-that no reset_resume() can race with the pwm_duty[] snapshot. priv->buf
-is exclusively accessed by write(), which the hwmon core serializes.
+I hope that's ok. After that I think it should be ready (at least from my s=
+ide).
 
-Signed-off-by: Aureo Serrano de Souza <aureo.serrano@arctic.de>
----
-Resend of v7; rebased on top of hwmon-next to fix the context
-mismatch that prevented the previous submission from applying.
-No code changes from v7.
+BR,
+Albert
 
-Thanks to Guenter Roeck and Thomas Weißschuh for the reviews.
-
-Changes since v6:
-- arctic_fan_remove(): drop the redundant hid_device_io_stop() call.
-  The HID core clears hdev->io_started before invoking ->remove(), so
-  the driver's call hit the "io already stopped" warning path in
-  hid_device_io_stop() (drivers/hid/hid-core.c clears io_started
-  before calling hdrv->remove; include/linux/hid.h's inline
-  hid_device_io_stop() warns when io_started is false). The
-  hid_device_io_stop() in probe()'s out_close label is kept because
-  probe itself calls hid_device_io_start().
-- struct arctic_fan_data: wrap buf[] in
-  __dma_from_device_group_begin()/_end() instead of
-  ____cacheline_aligned, as suggested by Thomas. The macro pair
-  expresses the DMA-buffer semantic directly and lets the surrounding
-  comment shrink. Same pattern used by drivers/virtio/virtio_input.c,
-  drivers/scsi/virtio_scsi.c, drivers/char/hw_random/virtio-rng.c,
-  drivers/gpio/gpio-virtio.c and net/vmw_vsock/virtio_transport.c.
-- #include <linux/dma-mapping.h> for the new macros; drop the now
-  unused <linux/cache.h>.
-
-Changes since v5:
-- arctic_fan_probe(): switch from devm_hwmon_device_register_with_info()
-  to hwmon_device_register_with_info(); store the returned pointer in
-  priv->hwmon_dev for explicit teardown in remove()
-- arctic_fan_remove(): call hwmon_device_unregister(priv->hwmon_dev)
-  before hid_device_io_stop/hid_hw_close/hid_hw_stop; this closes the
-  use-after-free window where a concurrent sysfs write could call
-  hid_hw_output_report() on an already-stopped device; matches the
-  removal pattern used by nzxt-smart2 and aquacomputer_d5next
-- arctic_fan_write(): expand write_pending comment to document the
-  residual theoretical late-ACK race (unfixable without a correlation
-  ID in the device ACK report) and its practical impossibility (observed
-  max ACK latency ~563 ms, timeout 1 s; a delay > 1 s indicates a
-  non-functional device)
-- arctic_fan_reset_resume(), arctic_fan_read(), arctic_fan_write():
-  extend in_report_lock coverage to pwm_duty[]; reset_resume() clears
-  pwm_duty[] outside the hwmon core lock, so all paths that read or
-  write pwm_duty[] now hold in_report_lock to prevent a data race
-  during resume
-- arctic_fan_write(): build the OUT report buffer inside in_report_lock
-  so reset_resume() cannot clear pwm_duty[] between the pwm_duty[]
-  snapshot and the buffer write; this makes the lock coverage complete
-
-Changes since v4:
-- arctic_fan_write(): switch to wait_for_completion_timeout() (non-
-  interruptible); eliminates the signal-interrupted write case of the
-  late-ACK race that write_pending could not fully prevent
-- arctic_fan_write(): guard pwm_duty[channel] commit with
-  ack_status == 0 check; a device error ACK (status 0x01) no longer
-  silently poisons the cached duty used in future OUT reports
-- arctic_fan_probe()/remove(): replace devm_add_action_or_reset() +
-  no-op remove() with explicit hid_device_io_stop/hid_hw_close/
-  hid_hw_stop in remove(); devm_add_action_or_reset() was called after
-  hdev->driver = NULL, causing a NULL deref in hid_hw_close() on unbind
-- add reset_resume callback: device resets PWM to hardware defaults on
-  power loss during suspend; driver now clears cached pwm_duty[] on
-  reset-resume so stale pre-suspend values are not re-sent as if valid
-- Documentation/hwmon/arctic_fan_controller.rst: document suspend/
-  resume behaviour and the updated pwm[1-10] read semantics
-
-Changes since v3:
-- buf[]: upgrade from __aligned(8) to ____cacheline_aligned so the
-  DMA buffer occupies its own cache line, preventing false sharing with
-  adjacent fan_rpm[]/pwm_duty[] fields on non-coherent architectures
-- arctic_fan_write(): add write_pending flag (protected by
-  in_report_lock) so raw_event() delivers ACKs only while a write is
-  in flight
-- arctic_fan_write(): commit pwm_duty[channel] only after the device
-  ACKs the command; a failed or timed-out write no longer leaves a
-  stale value in the cached duty state
-- arctic_fan_probe(): start IO (hid_device_io_start) before registering
-  with hwmon; previously a sysfs write arriving between hwmon
-  registration and io_start could send an OUT report whose ACK would be
-  discarded by the HID core, causing a spurious timeout
-- Documentation/hwmon/arctic_fan_controller.rst: document that cached
-  PWM values start at 0 (hardware state unknown at probe) and that each
-  OUT report carries all 10 channel values
-
-Changes since v2:
-- buf[]: add __aligned(8) for DMA safety
-- ARCTIC_ACK_TIMEOUT_MS: restore 1000 ms; note observed max ~563 ms
-- arctic_fan_parse_report(): replace hwmon_lock/hwmon_unlock with
-  spin_lock_irqsave; hwmon_lock() may sleep and is unsafe when
-  raw_event() runs in hardirq/softirq context
-- arctic_fan_raw_event(): use spin_lock_irqsave for ACK path
-- arctic_fan_write(): use spin_lock_irqsave for completion reinit
-- arctic_fan_write(): clamp val to [0, 255] before u8 cast
-- remove priv->hwmon_dev (no longer needed)
-
-Changes since v1:
-- Use hid_dbg() instead of module_param debug flag
-- Move hid_device_id table adjacent to hid_driver struct
-- Use get_unaligned_le16() for RPM parsing
-- Remove impossible bounds/NULL checks; remove retry loop
-- Add hid_is_usb() guard
-- Do not update pwm_duty from IN reports (device is manual-only)
-- Add completion/ACK mechanism for OUT report acknowledgment
-- Add Documentation/hwmon/arctic_fan_controller.rst and MAINTAINERS
-
- Documentation/hwmon/arctic_fan_controller.rst |  56 +++
- Documentation/hwmon/index.rst                 |   1 +
- MAINTAINERS                                   |   7 +
- drivers/hwmon/Kconfig                         |  12 +
- drivers/hwmon/Makefile                        |   1 +
- drivers/hwmon/arctic_fan_controller.c         | 374 ++++++++++++++++++
- 6 files changed, 451 insertions(+)
- create mode 100644 Documentation/hwmon/arctic_fan_controller.rst
- create mode 100644 drivers/hwmon/arctic_fan_controller.c
-
-diff --git a/Documentation/hwmon/arctic_fan_controller.rst b/Documentation/hwmon/arctic_fan_controller.rst
-new file mode 100644
-index 0000000000..b5be88ae46
---- /dev/null
-+++ b/Documentation/hwmon/arctic_fan_controller.rst
-@@ -0,0 +1,56 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver arctic_fan_controller
-+=====================================
-+
-+Supported devices:
-+
-+* ARCTIC Fan Controller (USB HID, VID 0x3904, PID 0xF001)
-+
-+Author: Aureo Serrano de Souza <aureo.serrano@arctic.de>
-+
-+Description
-+-----------
-+
-+This driver provides hwmon support for the ARCTIC Fan Controller, a USB
-+Custom HID device with 10 fan channels. The device sends IN reports about
-+once per second containing current RPM values (bytes 11-30, 10 x uint16 LE).
-+Fan speed control is manual-only: the device does not change PWM
-+autonomously; it only applies a new duty cycle when it receives an OUT
-+report from the host.
-+
-+After the device applies an OUT report, it sends back a 2-byte ACK IN
-+report (Report ID 0x02, byte 1 = 0x00 on success) confirming the command
-+was applied.
-+
-+Usage notes
-+-----------
-+
-+Since it is a USB device, hotplug is supported. The device is autodetected.
-+
-+The device does not support GET_REPORT, so the driver cannot read back the
-+current hardware PWM state at probe time. The cached PWM values (readable
-+via pwm[1-10]) start at 0 and reflect only values that have been
-+successfully written. Because each OUT report carries all 10 channel values,
-+writing a single channel also sends the cached values for all other channels.
-+Users should set all channels to the desired values before relying on the
-+cached state.
-+
-+On system suspend, the device may lose power and reset its PWM channels to
-+hardware defaults. The driver clears its cached duty values on resume so
-+that reads reflect the unknown hardware state rather than stale pre-suspend
-+values. Userspace is responsible for re-applying the desired duty cycles
-+after resume.
-+
-+Sysfs entries
-+-------------
-+
-+================ ==============================================================
-+fan[1-10]_input  Fan speed in RPM (read-only). Updated from IN reports at ~1 Hz.
-+pwm[1-10]        PWM duty cycle (0-255). Write: sends an OUT report setting the
-+                 duty cycle (scaled from 0-255 to 0-100% for the device);
-+                 the cached value is updated only after the device ACKs the
-+                 command with a success status. Read: returns the last
-+                 successfully written value; initialized to 0 at driver load
-+                 and after resume (hardware state unknown).
-+================ ==============================================================
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 595350bfc0..3cb9228f08 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -43,6 +43,7 @@ Hardware Monitoring Kernel Drivers
-    amc6821
-    aps-379
-    aquacomputer_d5next
-+   arctic_fan_controller
-    asb100
-    asc7621
-    aspeed-g6-pwm-tach
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9fa9702d34..b9f5fe6d1b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2064,6 +2064,13 @@ S:	Maintained
- F:	drivers/net/arcnet/
- F:	include/uapi/linux/if_arcnet.h
-
-+ARCTIC FAN CONTROLLER DRIVER
-+M:	Aureo Serrano de Souza <aureo.serrano@arctic.de>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/arctic_fan_controller.rst
-+F:	drivers/hwmon/arctic_fan_controller.c
-+
- ARM AND ARM64 SoC SUB-ARCHITECTURES (COMMON PARTS)
- M:	Arnd Bergmann <arnd@arndb.de>
- M:	Krzysztof Kozlowski <krzk@kernel.org>
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 14e4cea48a..997bba56fe 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -388,6 +388,18 @@ config SENSORS_APPLESMC
- 	  Say Y here if you have an applicable laptop and want to experience
- 	  the awesome power of applesmc.
-
-+config SENSORS_ARCTIC_FAN_CONTROLLER
-+	tristate "ARCTIC Fan Controller"
-+	depends on USB_HID
-+	help
-+	  If you say yes here you get support for the ARCTIC Fan Controller,
-+	  a USB HID device (VID 0x3904, PID 0xF001) with 10 fan channels.
-+	  The driver exposes fan speed (RPM) and PWM control via the hwmon
-+	  sysfs interface.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called arctic_fan_controller.
-+
- config SENSORS_ARM_SCMI
- 	tristate "ARM SCMI Sensors"
- 	depends on ARM_SCMI_PROTOCOL
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 982ee2c6f9..efbd1cb818 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -49,6 +49,7 @@ obj-$(CONFIG_SENSORS_ADT7475)	+= adt7475.o
- obj-$(CONFIG_SENSORS_AHT10)	+= aht10.o
- obj-$(CONFIG_SENSORS_APPLESMC)	+= applesmc.o
- obj-$(CONFIG_SENSORS_AQUACOMPUTER_D5NEXT) += aquacomputer_d5next.o
-+obj-$(CONFIG_SENSORS_ARCTIC_FAN_CONTROLLER)	+= arctic_fan_controller.o
- obj-$(CONFIG_SENSORS_ARM_SCMI)	+= scmi-hwmon.o
- obj-$(CONFIG_SENSORS_ARM_SCPI)	+= scpi-hwmon.o
- obj-$(CONFIG_SENSORS_AS370)	+= as370-hwmon.o
-diff --git a/drivers/hwmon/arctic_fan_controller.c b/drivers/hwmon/arctic_fan_controller.c
-new file mode 100644
-index 0000000000..dbe84cd93c
---- /dev/null
-+++ b/drivers/hwmon/arctic_fan_controller.c
-@@ -0,0 +1,374 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Linux hwmon driver for ARCTIC Fan Controller
-+ *
-+ * USB Custom HID device with 10 fan channels.
-+ * Exposes fan RPM (input) and PWM (0-255) via hwmon. Device pushes IN reports
-+ * at ~1 Hz; no GET_REPORT. OUT reports set PWM duty (bytes 1-10, 0-100%).
-+ * PWM is manual-only: the device does not change duty autonomously, only
-+ * when it receives an OUT report from the host.
-+ */
-+
-+#include <linux/completion.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/hid.h>
-+#include <linux/hwmon.h>
-+#include <linux/jiffies.h>
-+#include <linux/minmax.h>
-+#include <linux/module.h>
-+#include <linux/spinlock.h>
-+#include <linux/string.h>
-+#include <linux/unaligned.h>
-+
-+#define ARCTIC_VID			0x3904
-+#define ARCTIC_PID			0xF001
-+#define ARCTIC_NUM_FANS			10
-+#define ARCTIC_OUTPUT_REPORT_ID		0x01
-+#define ARCTIC_REPORT_LEN		32
-+#define ARCTIC_RPM_OFFSET		11	/* bytes 11-30: 10 x uint16 LE */
-+/* ACK report: device sends Report ID 0x02, 2 bytes (ID + status) after applying OUT report */
-+#define ARCTIC_ACK_REPORT_ID		0x02
-+#define ARCTIC_ACK_REPORT_LEN		2
-+/*
-+ * Time to wait for ACK report after send.
-+ * Measured over 500 iterations: max ~563 ms. Keep 1 s as margin.
-+ */
-+#define ARCTIC_ACK_TIMEOUT_MS		1000
-+
-+struct arctic_fan_data {
-+	struct hid_device *hdev;
-+	struct device *hwmon_dev;	/* stored for explicit unregister in remove() */
-+	spinlock_t in_report_lock;	/* protects fan_rpm, ack_status, write_pending, pwm_duty */
-+	struct completion in_report_received; /* ACK (ID 0x02) received in raw_event */
-+	int ack_status;			/* 0 = OK, negative errno on device error */
-+	bool write_pending;		/* true while an OUT report ACK is in flight */
-+	u32 fan_rpm[ARCTIC_NUM_FANS];
-+	u8 pwm_duty[ARCTIC_NUM_FANS];	/* 0-255 matching sysfs range; converted to 0-100 on send */
-+	/*
-+	 * OUT report buffer passed to hid_hw_output_report(). Embedded in the
-+	 * devm_kzalloc'd struct so it is heap-allocated and passes
-+	 * usb_hcd_map_urb_for_dma(). Exclusively accessed by write(), which
-+	 * the hwmon core serializes.
-+	 */
-+	__dma_from_device_group_begin();
-+	u8 buf[ARCTIC_REPORT_LEN];
-+	__dma_from_device_group_end();
-+};
-+
-+/*
-+ * Parse RPM values from the periodic status report (10 x uint16 LE at rpm_off).
-+ * pwm_duty is not updated from the report: the device is manual-only, so the
-+ * host cache is the authoritative source for PWM.
-+ * Called from raw_event which may run in IRQ context; must not sleep.
-+ */
-+static void arctic_fan_parse_report(struct arctic_fan_data *priv, u8 *buf,
-+				    int len, int rpm_off)
-+{
-+	unsigned long flags;
-+	int i;
-+
-+	if (len < rpm_off + 20)
-+		return;
-+
-+	spin_lock_irqsave(&priv->in_report_lock, flags);
-+	for (i = 0; i < ARCTIC_NUM_FANS; i++)
-+		priv->fan_rpm[i] = get_unaligned_le16(&buf[rpm_off + i * 2]);
-+	spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+}
-+
-+/*
-+ * raw_event: IN reports.
-+ *
-+ * Status report: Report ID 0x01, 32 bytes:
-+ *   byte 0 = report ID, bytes 1-10 = PWM 0-100%, bytes 11-30 = 10 x RPM uint16 LE.
-+ *   Device pushes these at ~1 Hz; no GET_REPORT.
-+ *
-+ * ACK report: Report ID 0x02, 2 bytes:
-+ *   byte 0 = 0x02, byte 1 = status (0x00 = OK, 0x01 = ERROR).
-+ *   Sent once after accepting and applying an OUT report (ID 0x01).
-+ */
-+static int arctic_fan_raw_event(struct hid_device *hdev,
-+				struct hid_report *report, u8 *data, int size)
-+{
-+	struct arctic_fan_data *priv = hid_get_drvdata(hdev);
-+	unsigned long flags;
-+
-+	hid_dbg(hdev, "arctic_fan: raw_event id=%u size=%d\n", report->id, size);
-+
-+	if (report->id == ARCTIC_ACK_REPORT_ID && size == ARCTIC_ACK_REPORT_LEN) {
-+		spin_lock_irqsave(&priv->in_report_lock, flags);
-+		/*
-+		 * Only deliver if a write is in flight. This prevents a
-+		 * late-arriving ACK from a timed-out write from erroneously
-+		 * satisfying a subsequent write's completion wait.
-+		 */
-+		if (priv->write_pending) {
-+			priv->ack_status = data[1] == 0x00 ? 0 : -EIO;
-+			complete(&priv->in_report_received);
-+		}
-+		spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+		return 0;
-+	}
-+
-+	if (report->id != ARCTIC_OUTPUT_REPORT_ID || size != ARCTIC_REPORT_LEN) {
-+		hid_dbg(hdev, "arctic_fan: raw_event id=%u size=%d ignored\n",
-+			report->id, size);
-+		return 0;
-+	}
-+
-+	arctic_fan_parse_report(priv, data, size, ARCTIC_RPM_OFFSET);
-+	return 0;
-+}
-+
-+static umode_t arctic_fan_is_visible(const void *data,
-+				     enum hwmon_sensor_types type,
-+				     u32 attr, int channel)
-+{
-+	if (type == hwmon_fan && attr == hwmon_fan_input)
-+		return 0444;
-+	if (type == hwmon_pwm && attr == hwmon_pwm_input)
-+		return 0644;
-+	return 0;
-+}
-+
-+static int arctic_fan_read(struct device *dev, enum hwmon_sensor_types type,
-+			   u32 attr, int channel, long *val)
-+{
-+	struct arctic_fan_data *priv = dev_get_drvdata(dev);
-+	unsigned long flags;
-+
-+	if (type == hwmon_fan && attr == hwmon_fan_input) {
-+		spin_lock_irqsave(&priv->in_report_lock, flags);
-+		*val = priv->fan_rpm[channel];
-+		spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+		return 0;
-+	}
-+	if (type == hwmon_pwm && attr == hwmon_pwm_input) {
-+		spin_lock_irqsave(&priv->in_report_lock, flags);
-+		*val = priv->pwm_duty[channel];
-+		spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+		return 0;
-+	}
-+	return -EINVAL;
-+}
-+
-+static int arctic_fan_write(struct device *dev, enum hwmon_sensor_types type,
-+			    u32 attr, int channel, long val)
-+{
-+	struct arctic_fan_data *priv = dev_get_drvdata(dev);
-+	u8 new_duty = (u8)clamp_val(val, 0, 255);
-+	unsigned long flags;
-+	unsigned long t;
-+	int i, ret;
-+
-+	/*
-+	 * Build the buffer and arm write_pending under in_report_lock so that
-+	 * reset_resume() cannot clear pwm_duty[] between the pwm_duty[] read
-+	 * and the buffer write, and raw_event() cannot deliver a stale ACK
-+	 * from a previous write into this write's completion.
-+	 *
-+	 * priv->buf is heap-allocated (embedded in the devm_kzalloc'd struct),
-+	 * satisfying usb_hcd_map_urb_for_dma(). Exclusively accessed by
-+	 * write() which the hwmon core serializes.
-+	 *
-+	 * pwm_duty[channel] is committed only after a positive device ACK so a
-+	 * failed or timed-out write does not corrupt the cached state.
-+	 *
-+	 * Residual theoretical race: if write A times out (write_pending
-+	 * cleared), write B sets write_pending = true, and a late ACK from
-+	 * write A—delayed beyond ARCTIC_ACK_TIMEOUT_MS—arrives during write
-+	 * B's pending window, it would falsely satisfy write B's completion.
-+	 * This cannot be prevented in driver code without protocol support
-+	 * (for example, a correlation ID echoed in the device ACK report).
-+	 * In testing, observed ACK latency stayed below the 1 s timeout
-+	 * (maximum ~563 ms over 500 iterations).
-+	 *
-+	 * The wait is non-interruptible so that a signal cannot cause write()
-+	 * to return early while the OUT report is already in flight; an
-+	 * interruptible early return would create the same late-ACK window
-+	 * without even the timeout guard.
-+	 * Serialized by the hwmon core: only one arctic_fan_write() at a time.
-+	 * Use irqsave to match the IRQ context in which raw_event may run.
-+	 */
-+	spin_lock_irqsave(&priv->in_report_lock, flags);
-+	priv->buf[0] = ARCTIC_OUTPUT_REPORT_ID;
-+	for (i = 0; i < ARCTIC_NUM_FANS; i++) {
-+		u8 d = i == channel ? new_duty : priv->pwm_duty[i];
-+
-+		priv->buf[1 + i] = DIV_ROUND_CLOSEST((unsigned int)d * 100, 255);
-+	}
-+	priv->ack_status = -ETIMEDOUT;
-+	priv->write_pending = true;
-+	reinit_completion(&priv->in_report_received);
-+	spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+
-+	ret = hid_hw_output_report(priv->hdev, priv->buf, ARCTIC_REPORT_LEN);
-+	if (ret < 0) {
-+		spin_lock_irqsave(&priv->in_report_lock, flags);
-+		priv->write_pending = false;
-+		spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+		return ret;
-+	}
-+
-+	t = wait_for_completion_timeout(&priv->in_report_received,
-+					msecs_to_jiffies(ARCTIC_ACK_TIMEOUT_MS));
-+	spin_lock_irqsave(&priv->in_report_lock, flags);
-+	priv->write_pending = false;
-+	/* Commit inside the lock so reset_resume() cannot race with this write */
-+	if (t && priv->ack_status == 0)
-+		priv->pwm_duty[channel] = new_duty;
-+	spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+
-+	if (!t)
-+		return -ETIMEDOUT;
-+	return priv->ack_status; /* 0=OK, -EIO=device error */
-+}
-+
-+static const struct hwmon_ops arctic_fan_ops = {
-+	.is_visible = arctic_fan_is_visible,
-+	.read = arctic_fan_read,
-+	.write = arctic_fan_write,
-+};
-+
-+static const struct hwmon_channel_info *arctic_fan_info[] = {
-+	HWMON_CHANNEL_INFO(fan,
-+			   HWMON_F_INPUT, HWMON_F_INPUT, HWMON_F_INPUT,
-+			   HWMON_F_INPUT, HWMON_F_INPUT, HWMON_F_INPUT,
-+			   HWMON_F_INPUT, HWMON_F_INPUT, HWMON_F_INPUT,
-+			   HWMON_F_INPUT),
-+	HWMON_CHANNEL_INFO(pwm,
-+			   HWMON_PWM_INPUT, HWMON_PWM_INPUT, HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT, HWMON_PWM_INPUT, HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT, HWMON_PWM_INPUT, HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info arctic_fan_chip_info = {
-+	.ops = &arctic_fan_ops,
-+	.info = arctic_fan_info,
-+};
-+
-+static int arctic_fan_reset_resume(struct hid_device *hdev)
-+{
-+	struct arctic_fan_data *priv = hid_get_drvdata(hdev);
-+	unsigned long flags;
-+
-+	/*
-+	 * The device resets its PWM channels to hardware defaults on power
-+	 * loss during suspend. Clear the cached duty values so they reflect
-+	 * the unknown hardware state, consistent with probe-time behaviour
-+	 * (the device has no GET_REPORT support). Hold in_report_lock so
-+	 * this does not race with a concurrent pwm read or write callback.
-+	 */
-+	spin_lock_irqsave(&priv->in_report_lock, flags);
-+	memset(priv->pwm_duty, 0, sizeof(priv->pwm_duty));
-+	spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+	return 0;
-+}
-+
-+static int arctic_fan_probe(struct hid_device *hdev,
-+			    const struct hid_device_id *id)
-+{
-+	struct arctic_fan_data *priv;
-+	int ret;
-+
-+	if (!hid_is_usb(hdev))
-+		return -ENODEV;
-+
-+	ret = hid_parse(hdev);
-+	if (ret)
-+		return ret;
-+
-+	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->hdev = hdev;
-+	spin_lock_init(&priv->in_report_lock);
-+	init_completion(&priv->in_report_received);
-+	hid_set_drvdata(hdev, priv);
-+
-+	ret = hid_hw_start(hdev, HID_CONNECT_DRIVER);
-+	if (ret)
-+		return ret;
-+
-+	ret = hid_hw_open(hdev);
-+	if (ret)
-+		goto out_stop;
-+
-+	/*
-+	 * Start IO before registering with hwmon. If IO were started after
-+	 * hwmon registration, a sysfs write arriving in that narrow window
-+	 * would send an OUT report but the ACK could not be delivered (the HID
-+	 * core discards events until io_started), causing a spurious timeout.
-+	 */
-+	hid_device_io_start(hdev);
-+
-+	/*
-+	 * Use the non-devm variant and store the pointer so remove() can
-+	 * call hwmon_device_unregister() before tearing down the HID
-+	 * transport. devm_hwmon_device_register_with_info() would defer
-+	 * unregistration until after remove() returns, leaving a window
-+	 * where a concurrent sysfs write could call hid_hw_output_report()
-+	 * on an already-stopped device (use-after-free).
-+	 */
-+	priv->hwmon_dev = hwmon_device_register_with_info(&hdev->dev, "arctic_fan",
-+							  priv, &arctic_fan_chip_info,
-+							  NULL);
-+	if (IS_ERR(priv->hwmon_dev)) {
-+		ret = PTR_ERR(priv->hwmon_dev);
-+		goto out_close;
-+	}
-+
-+	return 0;
-+
-+out_close:
-+	hid_device_io_stop(hdev);
-+	hid_hw_close(hdev);
-+out_stop:
-+	hid_hw_stop(hdev);
-+	return ret;
-+}
-+
-+static void arctic_fan_remove(struct hid_device *hdev)
-+{
-+	struct arctic_fan_data *priv = hid_get_drvdata(hdev);
-+
-+	/*
-+	 * Unregister hwmon before stopping the HID transport. This removes
-+	 * the sysfs files and waits for any in-progress write() callback to
-+	 * return, so no hwmon op can call hid_hw_output_report() after
-+	 * hid_hw_stop() frees the underlying USB resources.
-+	 * Matches the pattern used by nzxt-smart2 and aquacomputer_d5next.
-+	 *
-+	 * The HID core clears hdev->io_started before invoking ->remove(),
-+	 * so hid_device_io_stop() is not called here; doing so would emit
-+	 * a spurious "io already stopped" warning.
-+	 */
-+	hwmon_device_unregister(priv->hwmon_dev);
-+	hid_hw_close(hdev);
-+	hid_hw_stop(hdev);
-+}
-+
-+static const struct hid_device_id arctic_fan_id_table[] = {
-+	{ HID_USB_DEVICE(ARCTIC_VID, ARCTIC_PID) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, arctic_fan_id_table);
-+
-+static struct hid_driver arctic_fan_driver = {
-+	.name = "arctic_fan",
-+	.id_table = arctic_fan_id_table,
-+	.probe = arctic_fan_probe,
-+	.remove = arctic_fan_remove,
-+	.raw_event = arctic_fan_raw_event,
-+	.reset_resume = arctic_fan_reset_resume,
-+};
-+
-+module_hid_driver(arctic_fan_driver);
-+
-+MODULE_AUTHOR("Aureo Serrano de Souza <aureo.serrano@arctic.de>");
-+MODULE_DESCRIPTION("HID hwmon driver for ARCTIC Fan Controller");
-+MODULE_LICENSE("GPL");
---
-2.43.0
+> >
+> > Cheers,
+> > -- David
+> >
+> > >   include/kunit/test-bug.h |  25 +++++++++
+> > >   include/kunit/test.h     | 138 ++++++++++++++++++++++++++++++++++++=
++++++++++++
+> > >   kernel/panic.c           |  15 +++++-
+> > >   lib/bug.c                |  10 ++++
+> > >   lib/kunit/Makefile       |   3 +-
+> > >   lib/kunit/bug.c          | 115 ++++++++++++++++++++++++++++++++++++=
++++
+> > >   lib/kunit/hooks-impl.h   |   2 +
+> > >   7 files changed, 305 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/include/kunit/test-bug.h b/include/kunit/test-bug.h
+> > > index 47aa8f21ccce8..6237e48ceadfd 100644
+> > > --- a/include/kunit/test-bug.h
+> > > +++ b/include/kunit/test-bug.h
+> > > @@ -23,6 +23,7 @@ DECLARE_STATIC_KEY_FALSE(kunit_running);
+> > >   extern struct kunit_hooks_table {
+> > >       __printf(3, 4) void (*fail_current_test)(const char*, int, cons=
+t char*, ...);
+> > >       void *(*get_static_stub_address)(struct kunit *test, void *real=
+_fn_addr);
+> > > +     bool (*is_suppressed_warning)(bool count);
+> > >   } kunit_hooks;
+> > >
+> > >   /**
+> > > @@ -60,9 +61,33 @@ static inline struct kunit *kunit_get_current_test=
+(void)
+> > >               }                                                      =
+         \
+> > >       } while (0)
+> > >
+> > > +/**
+> > > + * kunit_is_suppressed_warning() - Check if warnings are being suppr=
+essed
+> > > + *                                 by the current KUnit test.
+> > > + * @count: if true, increment the suppression counter on match.
+> > > + *
+> > > + * Returns true if the current task has active warning suppression.
+> > > + * Uses the kunit_running static branch for zero overhead when no te=
+sts run.
+> > > + *
+> > > + * A single WARN*() may traverse multiple call sites in the warning =
+path
+> > > + * (e.g., __warn_printk() and __report_bug()). Pass @count =3D true =
+at the
+> > > + * primary suppression point to count each warning exactly once, and
+> > > + * @count =3D false at secondary points to suppress output without
+> > > + * inflating the count.
+> > > + */
+> > > +static inline bool kunit_is_suppressed_warning(bool count)
+> > > +{
+> > > +     if (!static_branch_unlikely(&kunit_running))
+> > > +             return false;
+> > > +
+> > > +     return kunit_hooks.is_suppressed_warning &&
+> > > +            kunit_hooks.is_suppressed_warning(count);
+> > > +}
+> > > +
+> > >   #else
+> > >
+> > >   static inline struct kunit *kunit_get_current_test(void) { return N=
+ULL; }
+> > > +static inline bool kunit_is_suppressed_warning(bool count) { return =
+false; }
+> > >
+> > >   #define kunit_fail_current_test(fmt, ...) do {} while (0)
+> > >
+> > > diff --git a/include/kunit/test.h b/include/kunit/test.h
+> > > index 9cd1594ab697d..f278ec028019c 100644
+> > > --- a/include/kunit/test.h
+> > > +++ b/include/kunit/test.h
+> > > @@ -1795,4 +1795,142 @@ do {                                         =
+                                \
+> > >   // include resource.h themselves if they need it.
+> > >   #include <kunit/resource.h>
+> > >
+> > > +/*
+> > > + * Warning backtrace suppression API.
+> > > + *
+> > > + * Suppresses WARN*() backtraces on the current task while active. T=
+hree forms
+> > > + * are provided, in order of convenience:
+> > > + *
+> > > + * - Scoped: kunit_warning_suppress(test) { ... }
+> > > + *   Suppression is active for the duration of the block. On normal =
+exit,
+> > > + *   the for-loop increment deactivates suppression. On early exit (=
+break,
+> > > + *   return, goto), the __cleanup attribute fires. On kthread_exit()=
+ (e.g.,
+> > > + *   a failed KUnit assertion), kunit_add_action() cleans up at test
+> > > + *   teardown. The suppression handle is only accessible inside the =
+block,
+> > > + *   so warning counts must be checked before the block exits.
+> > > + *
+> > > + * - Manual macros: KUNIT_[START|END]_SUPPRESSED_WARNING(test)
+> > > + *   Suppression spans an explicit range in the same scope. kunit_ad=
+d_action()
+> > > + *   guarantees cleanup even if KUNIT_END_SUPPRESSED_WARNING() is no=
+t reached.
+> > > + *   Prefer this form when suppressing warnings across a large block=
+ where
+> > > + *   extra indentation is undesirable, or when the warning count nee=
+ds to be
+> > > + *   checked after suppression ends. Limited to one pair per scope.
+> > > + *
+> > > + * - Direct: kunit_start_suppress_warning() / kunit_end_suppress_war=
+ning()
+> > > + *   The underlying functions, returning an explicit handle pointer.=
+ Use
+> > > + *   when the handle needs to be retained (e.g., for post-suppressio=
+n
+> > > + *   count checks) or passed across helper functions.
+> > > + */
+> > > +struct kunit_suppressed_warning;
+> > > +
+> > > +struct kunit_suppressed_warning *
+> > > +kunit_start_suppress_warning(struct kunit *test);
+> > > +void kunit_end_suppress_warning(struct kunit *test,
+> > > +                             struct kunit_suppressed_warning *w);
+> > > +int kunit_suppressed_warning_count(struct kunit_suppressed_warning *=
+w);
+> > > +void __kunit_suppress_auto_cleanup(struct kunit_suppressed_warning *=
+*wp);
+> > > +bool kunit_has_active_suppress_warning(void);
+> > > +
+> > > +/**
+> > > + * kunit_warning_suppress() - Suppress WARN*() backtraces for the du=
+ration
+> > > + *                            of a block.
+> > > + * @test: The test context object.
+> > > + *
+> > > + * Scoped form of the suppression API. Suppression starts when the b=
+lock is
+> > > + * entered and ends automatically when the block exits through any p=
+ath. See
+> > > + * the section comment above for the cleanup guarantees on each exit=
+ path.
+> > > + * Fails the test if suppression is already active; nesting is not s=
+upported.
+> > > + *
+> > > + * The warning count can be checked inside the block via
+> > > + * KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(). The handle is not access=
+ible
+> > > + * after the block exits.
+> > > + *
+> > > + * Example::
+> > > + *
+> > > + *   kunit_warning_suppress(test) {
+> > > + *       trigger_warning();
+> > > + *       KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
+> > > + *   }
+> > > + */
+> > > +#define kunit_warning_suppress(test)                                =
+ \
+> > > +     for (struct kunit_suppressed_warning *__kunit_suppress         =
+ \
+> > > +          __cleanup(__kunit_suppress_auto_cleanup) =3D              =
+   \
+> > > +          kunit_start_suppress_warning(test);                       =
+ \
+> > > +          __kunit_suppress;                                         =
+ \
+> > > +          kunit_end_suppress_warning(test, __kunit_suppress),       =
+ \
+> > > +          __kunit_suppress =3D NULL)
+> > > +
+> > > +/**
+> > > + * KUNIT_START_SUPPRESSED_WARNING() - Begin suppressing WARN*() back=
+traces.
+> > > + * @test: The test context object.
+> > > + *
+> > > + * Manual form of the suppression API. Must be paired with
+> > > + * KUNIT_END_SUPPRESSED_WARNING() in the same scope. See the section=
+ comment
+> > > + * above for cleanup guarantees. Fails the test if suppression is al=
+ready
+> > > + * active; nesting is not supported. Limited to one pair per scope; =
+use
+> > > + * sequential kunit_warning_suppress() blocks or the direct function=
+ API
+> > > + * when more than one suppression region is needed.
+> > > + *
+> > > + * Example::
+> > > + *
+> > > + *   KUNIT_START_SUPPRESSED_WARNING(test);
+> > > + *   trigger_code_that_should_warn_once();
+> > > + *   KUNIT_END_SUPPRESSED_WARNING(test);
+> > > + *   KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
+> > > + */
+> > > +#define KUNIT_START_SUPPRESSED_WARNING(test)                        =
+ \
+> > > +     struct kunit_suppressed_warning *__kunit_suppress =3D          =
+   \
+> > > +             kunit_start_suppress_warning(test)
+> > > +
+> > > +/**
+> > > + * KUNIT_END_SUPPRESSED_WARNING() - End suppressing WARN*() backtrac=
+es.
+> > > + * @test: The test context object.
+> > > + *
+> > > + * Deactivates suppression started by KUNIT_START_SUPPRESSED_WARNING=
+().
+> > > + * The warning count remains readable via KUNIT_SUPPRESSED_WARNING_C=
+OUNT()
+> > > + * after this call.
+> > > + */
+> > > +#define KUNIT_END_SUPPRESSED_WARNING(test)                          =
+ \
+> > > +     kunit_end_suppress_warning(test, __kunit_suppress)
+> > > +
+> > > +/**
+> > > + * KUNIT_SUPPRESSED_WARNING_COUNT() - Returns the suppressed warning=
+ count.
+> > > + *
+> > > + * Returns the number of WARN*() calls suppressed since the current
+> > > + * suppression block started, or 0 if the handle is NULL. Usable ins=
+ide a
+> > > + * kunit_warning_suppress() block or after KUNIT_END_SUPPRESSED_WARN=
+ING().
+> > > + */
+> > > +#define KUNIT_SUPPRESSED_WARNING_COUNT() \
+> > > +     kunit_suppressed_warning_count(__kunit_suppress)
+> > > +
+> > > +/**
+> > > + * KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT() - Sets an expectation tha=
+t the
+> > > + *                                           suppressed warning coun=
+t equals
+> > > + *                                           @expected.
+> > > + * @test: The test context object.
+> > > + * @expected: an expression that evaluates to the expected warning c=
+ount.
+> > > + *
+> > > + * Sets an expectation that the number of suppressed WARN*() calls e=
+quals
+> > > + * @expected. This is semantically equivalent to
+> > > + * KUNIT_EXPECT_EQ(@test, KUNIT_SUPPRESSED_WARNING_COUNT(), @expecte=
+d).
+> > > + * See KUNIT_EXPECT_EQ() for more information.
+> > > + */
+> > > +#define KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, expected) \
+> > > +     KUNIT_EXPECT_EQ(test, KUNIT_SUPPRESSED_WARNING_COUNT(), expecte=
+d)
+> > > +
+> > > +/**
+> > > + * KUNIT_ASSERT_SUPPRESSED_WARNING_COUNT() - Sets an assertion that =
+the
+> > > + *                                           suppressed warning coun=
+t equals
+> > > + *                                           @expected.
+> > > + * @test: The test context object.
+> > > + * @expected: an expression that evaluates to the expected warning c=
+ount.
+> > > + *
+> > > + * Sets an assertion that the number of suppressed WARN*() calls equ=
+als
+> > > + * @expected. This is the same as KUNIT_EXPECT_SUPPRESSED_WARNING_CO=
+UNT(),
+> > > + * except it causes an assertion failure (see KUNIT_ASSERT_TRUE()) w=
+hen the
+> > > + * assertion is not met.
+> > > + */
+> > > +#define KUNIT_ASSERT_SUPPRESSED_WARNING_COUNT(test, expected) \
+> > > +     KUNIT_ASSERT_EQ(test, KUNIT_SUPPRESSED_WARNING_COUNT(), expecte=
+d)
+> > > +
+> > >   #endif /* _KUNIT_TEST_H */
+> > > diff --git a/kernel/panic.c b/kernel/panic.c
+> > > index c78600212b6c1..697d8ca054bef 100644
+> > > --- a/kernel/panic.c
+> > > +++ b/kernel/panic.c
+> > > @@ -39,6 +39,7 @@
+> > >   #include <linux/sys_info.h>
+> > >   #include <trace/events/error_report.h>
+> > >   #include <asm/sections.h>
+> > > +#include <kunit/test-bug.h>
+> > >
+> > >   #define PANIC_TIMER_STEP 100
+> > >   #define PANIC_BLINK_SPD 18
+> > > @@ -1080,9 +1081,14 @@ void __warn(const char *file, int line, void *=
+caller, unsigned taint,
+> > >   void warn_slowpath_fmt(const char *file, int line, unsigned taint,
+> > >                      const char *fmt, ...)
+> > >   {
+> > > -     bool rcu =3D warn_rcu_enter();
+> > > +     bool rcu;
+> > >       struct warn_args args;
+> > >
+> > > +     if (kunit_is_suppressed_warning(true))
+> > > +             return;
+> > > +
+> > > +     rcu =3D warn_rcu_enter();
+> > > +
+> > >       pr_warn(CUT_HERE);
+> > >
+> > >       if (!fmt) {
+> > > @@ -1102,9 +1108,14 @@ EXPORT_SYMBOL(warn_slowpath_fmt);
+> > >   #else
+> > >   void __warn_printk(const char *fmt, ...)
+> > >   {
+> > > -     bool rcu =3D warn_rcu_enter();
+> > > +     bool rcu;
+> > >       va_list args;
+> > >
+> > > +     if (kunit_is_suppressed_warning(false))
+> > > +             return;
+> > > +
+> > > +     rcu =3D warn_rcu_enter();
+> > > +
+> > >       pr_warn(CUT_HERE);
+> > >
+> > >       va_start(args, fmt);
+> > > diff --git a/lib/bug.c b/lib/bug.c
+> > > index 623c467a8b76c..a5cebde554ed8 100644
+> > > --- a/lib/bug.c
+> > > +++ b/lib/bug.c
+> > > @@ -48,6 +48,7 @@
+> > >   #include <linux/rculist.h>
+> > >   #include <linux/ftrace.h>
+> > >   #include <linux/context_tracking.h>
+> > > +#include <kunit/test-bug.h>
+> > >
+> > >   extern struct bug_entry __start___bug_table[], __stop___bug_table[]=
+;
+> > >
+> > > @@ -223,6 +224,15 @@ static enum bug_trap_type __report_bug(struct bu=
+g_entry *bug, unsigned long buga
+> > >       no_cut   =3D bug->flags & BUGFLAG_NO_CUT_HERE;
+> > >       has_args =3D bug->flags & BUGFLAG_ARGS;
+> > >
+> > > +#ifdef CONFIG_KUNIT
+> > > +     /*
+> > > +      * Before the once logic so suppressed warnings do not consume
+> > > +      * the single-fire budget of WARN_ON_ONCE().
+> > > +      */
+> > > +     if (warning && kunit_is_suppressed_warning(true))
+> > > +             return BUG_TRAP_TYPE_WARN;
+> > > +#endif
+> > > +
+> > >       if (warning && once) {
+> > >               if (done)
+> > >                       return BUG_TRAP_TYPE_WARN;
+> > > diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+> > > index 656f1fa35abcc..4592f9d0aa8dd 100644
+> > > --- a/lib/kunit/Makefile
+> > > +++ b/lib/kunit/Makefile
+> > > @@ -10,7 +10,8 @@ kunit-objs +=3D                               test.=
+o \
+> > >                                       executor.o \
+> > >                                       attributes.o \
+> > >                                       device.o \
+> > > -                                     platform.o
+> > > +                                     platform.o \
+> > > +                                     bug.o
+> > >
+> > >   ifeq ($(CONFIG_KUNIT_DEBUGFS),y)
+> > >   kunit-objs +=3D                               debugfs.o
+> > > diff --git a/lib/kunit/bug.c b/lib/kunit/bug.c
+> > > new file mode 100644
+> > > index 0000000000000..b0b6778d7399a
+> > > --- /dev/null
+> > > +++ b/lib/kunit/bug.c
+> > > @@ -0,0 +1,115 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * KUnit helpers for backtrace suppression
+> > > + *
+> > > + * Copyright (C) 2025 Alessandro Carminati <acarmina@redhat.com>
+> > > + * Copyright (C) 2024 Guenter Roeck <linux@roeck-us.net>
+> > > + */
+> > > +
+> > > +#include <kunit/resource.h>
+> > > +#include <linux/export.h>
+> > > +#include <linux/rculist.h>
+> > > +#include <linux/sched.h>
+> > > +#include <linux/spinlock.h>
+> > > +
+> > > +#include "hooks-impl.h"
+> > > +
+> > > +struct kunit_suppressed_warning {
+> > > +     struct list_head node;
+> > > +     struct task_struct *task;
+> > > +     struct kunit *test;
+> > > +     int counter;
+> > > +};
+> > > +
+> > > +static LIST_HEAD(suppressed_warnings);
+> > > +static DEFINE_SPINLOCK(suppressed_warnings_lock);
+> > > +
+> > > +static void kunit_suppress_warning_remove(struct kunit_suppressed_wa=
+rning *w)
+> > > +{
+> > > +     unsigned long flags;
+> > > +
+> > > +     spin_lock_irqsave(&suppressed_warnings_lock, flags);
+> > > +     list_del_rcu(&w->node);
+> > > +     spin_unlock_irqrestore(&suppressed_warnings_lock, flags);
+> > > +     synchronize_rcu(); /* Wait for readers to finish */
+> > > +}
+> > > +
+> > > +KUNIT_DEFINE_ACTION_WRAPPER(kunit_suppress_warning_cleanup,
+> > > +                         kunit_suppress_warning_remove,
+> > > +                         struct kunit_suppressed_warning *);
+> > > +
+> > > +bool kunit_has_active_suppress_warning(void)
+> > > +{
+> > > +     return __kunit_is_suppressed_warning_impl(false);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(kunit_has_active_suppress_warning);
+> > > +
+> > > +struct kunit_suppressed_warning *
+> > > +kunit_start_suppress_warning(struct kunit *test)
+> > > +{
+> > > +     struct kunit_suppressed_warning *w;
+> > > +     unsigned long flags;
+> > > +     int ret;
+> > > +
+> > > +     if (kunit_has_active_suppress_warning()) {
+> > > +             KUNIT_FAIL(test, "Another suppression block is already =
+active");
+> > > +             return NULL;
+> > > +     }
+> > > +
+> > > +     w =3D kunit_kzalloc(test, sizeof(*w), GFP_KERNEL);
+> > > +     if (!w)
+> > > +             return NULL;
+> > > +
+> > > +     w->task =3D current;
+> > > +     w->test =3D test;
+> > > +
+> > > +     spin_lock_irqsave(&suppressed_warnings_lock, flags);
+> > > +     list_add_rcu(&w->node, &suppressed_warnings);
+> > > +     spin_unlock_irqrestore(&suppressed_warnings_lock, flags);
+> > > +
+> > > +     ret =3D kunit_add_action_or_reset(test,
+> > > +                                     kunit_suppress_warning_cleanup,=
+ w);
+> > > +     if (ret)
+> > > +             return NULL;
+> > > +
+> > > +     return w;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(kunit_start_suppress_warning);
+> > > +
+> > > +void kunit_end_suppress_warning(struct kunit *test,
+> > > +                             struct kunit_suppressed_warning *w)
+> > > +{
+> > > +     if (!w)
+> > > +             return;
+> > > +     kunit_release_action(test, kunit_suppress_warning_cleanup, w);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(kunit_end_suppress_warning);
+> > > +
+> > > +void __kunit_suppress_auto_cleanup(struct kunit_suppressed_warning *=
+*wp)
+> > > +{
+> > > +     if (*wp)
+> > > +             kunit_end_suppress_warning((*wp)->test, *wp);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(__kunit_suppress_auto_cleanup);
+> > > +
+> > > +int kunit_suppressed_warning_count(struct kunit_suppressed_warning *=
+w)
+> > > +{
+> > > +     return w ? w->counter : 0;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(kunit_suppressed_warning_count);
+> > > +
+> > > +bool __kunit_is_suppressed_warning_impl(bool count)
+> > > +{
+> > > +     struct kunit_suppressed_warning *w;
+> > > +
+> > > +     guard(rcu)();
+> > > +     list_for_each_entry_rcu(w, &suppressed_warnings, node) {
+> > > +             if (w->task =3D=3D current) {
+> > > +                     if (count)
+> > > +                             w->counter++;
+> > > +                     return true;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     return false;
+> > > +}
+> > > diff --git a/lib/kunit/hooks-impl.h b/lib/kunit/hooks-impl.h
+> > > index 4e71b2d0143ba..d8720f2616925 100644
+> > > --- a/lib/kunit/hooks-impl.h
+> > > +++ b/lib/kunit/hooks-impl.h
+> > > @@ -19,6 +19,7 @@ void __printf(3, 4) __kunit_fail_current_test_impl(=
+const char *file,
+> > >                                                  int line,
+> > >                                                  const char *fmt, ...=
+);
+> > >   void *__kunit_get_static_stub_address_impl(struct kunit *test, void=
+ *real_fn_addr);
+> > > +bool __kunit_is_suppressed_warning_impl(bool count);
+> > >
+> > >   /* Code to set all of the function pointers. */
+> > >   static inline void kunit_install_hooks(void)
+> > > @@ -26,6 +27,7 @@ static inline void kunit_install_hooks(void)
+> > >       /* Install the KUnit hook functions. */
+> > >       kunit_hooks.fail_current_test =3D __kunit_fail_current_test_imp=
+l;
+> > >       kunit_hooks.get_static_stub_address =3D __kunit_get_static_stub=
+_address_impl;
+> > > +     kunit_hooks.is_suppressed_warning =3D __kunit_is_suppressed_war=
+ning_impl;
+> > >   }
+> > >
+> > >   #endif /* _KUNIT_HOOKS_IMPL_H */
+> > >
+> >
 
