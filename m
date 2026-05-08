@@ -1,159 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3849D3590A9;
-	Fri,  8 May 2026 07:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CBD26F2A0;
+	Fri,  8 May 2026 07:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778224613; cv=none; b=diCbYHeGa30Ux6YWaXiEdbvV2mcsEOdtUrZ8SsjbcMUhXskYHwW7JroPvePTorSrue3LhV077SdXoEvr+kQUn2w6ic9VsSNuTvv+HUQdXPSgZOpgCh7XIoyqP1my7Vp065gtb3UTYFdr/P6EzbgFL08eGxb/WcXZUoForE5seac=
+	t=1778225881; cv=none; b=swzZhGj55SEzkuaLyx+NyLaxjQ+TqTMCfIbQg3ipcGEePHMz6QmJXz3LjoWz0JWyBeH2OIwQrhrlMwdeoX4lsTdnmFcko0ApK+cJsdHUUJ81nXQPJxtdDmhQeEVqFb9mTJUtpM0+lPf0IRhOPBIvYpMtcsSKz5bbKgEEorW/BYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778224613; c=relaxed/simple;
-	bh=ITvO/Wnnta7yKqzqzQ7Cj00XdBxl6lmGHadV6xLlKHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NU+1eYAg1IAcsbLYbHgKiQ5E9K9XMXbxEuuzuZNJ6udRt2b5lbwu8SvmX+pz6dMz0lXUjOa+THXnoqN7sWtYikNIqrOFTg2PfFzTTICujeV/VP7iTsmuT1ciPztlcWG/E9Mm5BuClJKmL/ChFszlRe8OMyctkyEaT976EPW4PLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wmt1FzUK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778225881; c=relaxed/simple;
+	bh=NRhqpO0rWWTJQZAs7QEzV5sSKAJNdZGNTpfZ2fgN4xw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bzkeWjIMfQc9nmkxqIXCryVZY9P16WkGR6aV+gfc7s7AXCsyqkBJCfCHzIws90Dx5IRyoTGZjIYyeYXkK5zEW87r3kgjF8NvPjgMTMWgpvA6V2GUvc78Nna3BspkPOCjzvCNIqVQtwJkAmbKwJ34AFCvdRDAJvJvo+O3kg/URZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Af6tTmYX; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wmt1FzUK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E29D7C2BCB0;
-	Fri,  8 May 2026 07:16:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778224610;
-	bh=ITvO/Wnnta7yKqzqzQ7Cj00XdBxl6lmGHadV6xLlKHE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Wmt1FzUKrEAA1b4PfFOHOybT2shX0upZMutoo6lZcBTp33KH9LQJ7Z8x99jekJkmw
-	 O+gQhia36/J6hej27zdNqN8vRP9EPEbSNge5P60YEJwddn8ODYyLVy7YYvj8QB6qgh
-	 c0atxTx58daztgC98Hi8wfxtDFlaPUoAM0+lx/FyqXIk+xTod5OENaSUhUUgXsO6RJ
-	 TpMk+bMIPx7fHtzsryri3BMZoWZCnZO5PvcX/glHpdXu3SfUw3ntIkMLKLB0OmACvI
-	 fW4vnn1cefl16QIrUMkr/Pof1po3wbIRLoHkkxxdegKG8rcgKHcXSPNY99/Nf4oOzP
-	 IhqgWPxFHFKjg==
-Date: Fri, 8 May 2026 09:16:44 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Gary Guo <gary@garyguo.net>, Benno Lossin <lossin@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, =?UTF-8?B?QmrDtnJu?= Roy Baron
- <bjorn3_gh@protonmail.com>, Alice Ryhl <aliceryhl@google.com>, Andreas
- Hindborg <a.hindborg@kernel.org>, Boqun Feng <boqun@kernel.org>, Danilo
- Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Trevor Gross
- <tmgross@umich.edu>
-Subject: Re: [PATCH v2 11/11] MAINTAINERS: use a URL for pin-init
- maintainer's profile entry
-Message-ID: <20260508091644.420bd440@foz.lan>
-In-Reply-To: <CANiq72kN=2RsE0Wm_489Sc-VKO40A0uYinCj1McT=YMu=cM4aQ@mail.gmail.com>
-References: <cover.1777987027.git.mchehab+huawei@kernel.org>
-	<1bceee886b9027d66bbb48d9d6c8d1250ce8dbcb.1777987028.git.mchehab+huawei@kernel.org>
-	<DIASHBBEIHQW.3EQSDUML6G3SB@garyguo.net>
-	<20260506084935.1cd4b794@foz.lan>
-	<CANiq72kN=2RsE0Wm_489Sc-VKO40A0uYinCj1McT=YMu=cM4aQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Af6tTmYX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778225880; x=1809761880;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NRhqpO0rWWTJQZAs7QEzV5sSKAJNdZGNTpfZ2fgN4xw=;
+  b=Af6tTmYXXlMbtgTjef+DUdN23Z5tlojj4AzFLqoownDTBEb83MJAjDS/
+   M8UVXTXuiArIlJNzyglRZaK+D76N/KtdvnsmgPvYA9zzurosxjcm/sIJZ
+   nB6hstynqZxOx/vYvkcBS6oju+iD4U3pvGHoqM0nDHnxzK03VQhmryhIt
+   XQux/5pzuEghwF2fyk6mIqMkeLMd4AQo7V6DM/SNoJPir9Tu1C3586tiH
+   nrWiKKPS0e08oNi0V1YeiMkkQ0/m6xgkf8BOcqVSFgTkmL6JIq6a2ZYnx
+   hOo1jMggpMB14tIPCj70NoXTPW62ar6VQgbAyInMdudOp7wvjqcKzJl2y
+   Q==;
+X-CSE-ConnectionGUID: QQ/hh3sDTreiHv9ZCtjzKw==
+X-CSE-MsgGUID: hGE1wk46Sx2ntQjJRTaXLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="66716276"
+X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
+   d="scan'208";a="66716276"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 00:37:59 -0700
+X-CSE-ConnectionGUID: D+9fE+sqSgO0SUvGSNuNCw==
+X-CSE-MsgGUID: W/HElhn4SGqBre2ryzpISw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
+   d="scan'208";a="238483501"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.237])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 00:37:55 -0700
+Date: Fri, 8 May 2026 10:37:53 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>
+Subject: Re: [PATCH 0/3] iio: dac: Add support for AD5529R DAC
+Message-ID: <af2S0eIia76c4m2K@ashevche-desk.local>
+References: <20260507-ad5529r-driver-v1-0-b4460f3cb44f@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260507-ad5529r-driver-v1-0-b4460f3cb44f@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, 6 May 2026 10:38:07 +0200
-Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
+On Thu, May 07, 2026 at 06:28:08PM +0200, Janani Sunil wrote:
+> This patch series adds support for Analog Devices AD5529R, a 16 channel
+> 16 and 12 bit voltage Digital-to-Analog Converter (DAC) with integrated
+> precision reference. The AD5529R operates from both unipolar and
+> bipolar supplies. The device communicates via SPI interface.
+> 
+> **Device Overview:**
+> The AD5529R features 16 independent DAC channels, with 16 or 12 bit
+> resolution, allowing independently programmable output ranges. The
+> internal 4.096V precision reference sets the accuracy of the output
+> voltage.
+> 
+> **Features Implemented:**
+> - Automatic detection of 12/16 bit generic with product ID read.
+> - Reset support via GPIO.
+> - Dual regmap configuration to handle 8 and 16 bit registers.
+> 
+> **Patch Summary:**
+> 1. **dt-bindings**: Binding documentation with channel configuration.
+> 2. **driver**: Implement IIO DAC Driver with regmap support.
+> 3. **documentation**: Add driver documentation with usage examples.
+> 
+> **Testing:**
+> The driver was compiled and tested on the EVAL-AD5529R-ARDZ using a
+> coraZ7 with a mainline v7.0 kernel.
 
-> On Wed, May 6, 2026 at 8:49=E2=80=AFAM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > Maybe it is just me, but placing doc files in the crowd together with c=
-ode
-> > on a project where documentation has its own directory sounds weird(*).
-> >
-> > (*) except for userspace tools and staging drivers where we want
-> >     everything, including documentation, contained on a single place. =
-=20
->=20
-> It is a similar case -- they are vendored libraries developed and used
-> elsewhere (e.g. in userspace too).
+Missed section for a new driver. Id est answer the question "Why a new brand
+driver? Do we have something similar in IIO  already to be expanded to cover
+this HW part?"
 
-I see.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> > As you're already using some scripting to do a bidirectional sync,
-> > you could add there some logic to convert rust pin-init documentation
-> > to rst and place it at Documentation/rust/. =20
->=20
-> Most of the pin-init documentation is elsewhere (embedded in the Rust
-> source code) and already rendered at rust.docs.kernel.org.
->=20
-> (Using Sphinx for Rust has been discussed in the list a few times in
-> the past too, and that has its own set of constraints).
->=20
-> > Btw, on a quick check, only Rust has markdown files:
-> >
-> >         $ git ls-files|grep ".md$"|grep -v tools/
-> >         rust/pin-init/CONTRIBUTING.md
-> >         rust/pin-init/README.md
-> >         rust/proc-macro2/README.md
-> >         rust/quote/README.md
-> >         rust/syn/README.md
-> >
-> > As one of the people who spent years helping improving the Kernel
-> > documentation and doing lots of conversions from markdown
-> > and other non-structured text formats to RST, I have to say that I'm
-> > concerned with any trends that would add doc files that aren't
-> > properly integrated with the Kernel documentation system like those. =20
->=20
-> All those are vendored libraries, and most of those `README.md` files
-> are about clarifying where they are taken from and their licensing,
-> e.g.
->=20
->     # `quote`
->=20
->     These source files come from the Rust `quote` crate, version 1.0.40
->     (released 2025-03-12), hosted in the <https://github.com/dtolnay/quot=
-e>
->     repository, licensed under "Apache-2.0 OR MIT" and only modified to a=
-dd
->     the SPDX license identifiers.
->=20
->     For copyright details, please see:
->=20
->         https://github.com/dtolnay/quote/blob/1.0.40/README.md#license
->         https://github.com/dtolnay/quote/blob/1.0.40/LICENSE-APACHE
->         https://github.com/dtolnay/quote/blob/1.0.40/LICENSE-MIT
 
-Just my two cents, but all license files that are applies to the Kernel
-are already under LICENSES/ directory, and there is a document defining
-how SPDX and LICENSES should be used:
-
-	Documentation/process/license-rules.rst.
-
-IMO it would make more sense to point to the corresponding LICENSES/ files.
-
->=20
-> i.e. they are not intended to be kernel documentation, and moving them
-> away from the source files doesn't sound like an improvement,
-> especially since we were explicitly requested to make the provenance
-> very clear.
-
-In this case, this sounds OK.
-
-> We could perhaps have a list of vendored libraries in
-> Documentation/rust/vendored-libraries.rst` -- that could perhaps be
-> useful for some folks.
-
-Makes sense to me.
-
-> In any case, I understand your desire to keep things integrated in the
-> kernel documentation, and I appreciate that (I also like to have
-> everything neatly integrated), but please do not assume we have been
-> randomly adding Markdown for no reason or that we are not trying to
-> keep things properly integrated... :(
-
-I didn't intend to imply that tose aren't properly integrated. It is
-just that it raised my eyebrows seeing more doc-like files over there.
-
----
-
-With regards to patch 11/11, I'll send a new version just changing
-the "P" tag without dropping the .md file.
-
-Thanks,
-Mauro
