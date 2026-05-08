@@ -1,128 +1,156 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED63330305
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 17:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A16F2D0615;
+	Fri,  8 May 2026 17:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778260721; cv=none; b=djH5WXjYc0FjTAMN8bn8Dq7BgZnFck/eBDpploJzum7Jid9sU1U8o5um971fLYyawWjUVr1MEy38OKuibMRglKAxSOVFpvYm+70bfD23t5lQibcoIOn7o+XHv8tA2wK8VG55cFDc9WvVs4qHAdbk3uzk/B1CCYwaBb+LAw6XL3Y=
+	t=1778260838; cv=none; b=IntMlXFb1Rfa6rkj3iXc+iZ7pssluYm2SBkmxwY4A2oJ2+k7N5ruscwdJ9xQjGh7YD/vxbXJYnhXfezf/MH1T/+hHrRTaV5U5VyWmUI4DfyPMaIBPkWMRTnWWZn3XaPTMYRWqsEnTwKutKvXOrr97cPHu2rUxqFXlCKDQK5TNtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778260721; c=relaxed/simple;
-	bh=kEkPEojWz3AAqcVu8a+KdT+NbzcoSP/4uQqn+HpYoVo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=CAHUm1zn5Du0+btyXZWZ+Ub9kF9TaUGkDxGrQVfW2osL+4AYA02Zt44UNOlg4JjJAGBvSXJBvoevjC2RA+AQuAM5BST4fZ49ijiEQ9W877Q1BdVMInHljTMCb5gHfVXgWABo8CNSBFNCY58FHNIUVR+Dv87J1ahy1EXq3SGQ0Q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=W3/7wFSE; arc=none smtp.client-ip=209.85.167.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1778260838; c=relaxed/simple;
+	bh=VIpaIdq08wjRpBWfnPXJEwTJDQEICZVJcS3hyR9NLpo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bijdqjxBZN971rr6OTSk8YuAIvqbQ/4+rrRyxtxoPxyyX7ERGIvPVFnUyffcRrImGYvemvaRC9eHqqDhfukbsICugG7HDe64Hzlgm970HG1JMMpNxzChOADvz4exA5nLBjahBKE0Z3qVeAJ4wMSHZxPGz+mIuH3ixNKts+hLE6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=oZlzpBvM; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="W3/7wFSE"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-4824176bbbeso151995b6e.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 10:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1778260718; x=1778865518; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=V83uRMo5W5vge1dn+47go5ARLmDf4mEAHcGcOSCIYG0=;
-        b=W3/7wFSEx8hsFCgzQZa8aanvQwnB52avPVsRAkXMZhbKr3sbA+hqJS9/4ywnP0H9UM
-         1FChZxQnFs7Pe+tI6CdEcjIKgKV+J82HbaSGjb56VRmGxA7ir//LOf4H/nsxYx6A4ad8
-         Kx72kjBguZweVdqgR16Ipk9DZN4fQTbUeqF3E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778260718; x=1778865518;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V83uRMo5W5vge1dn+47go5ARLmDf4mEAHcGcOSCIYG0=;
-        b=deKK0K0zLgH+/qyTh0fpkuaUsNhuhzXTzAX5CkGKHvgOeovOwtXZHQz49la/rmgDK1
-         vcgxuIMG3oa8NrHDdpCUB3mD92wEO711NpCCTcQjK5QDj0eHYAloQIU/oKIxUM71i9D5
-         +jT1/tq6uS6WKwl00kkCJn0nMYYMaMiL8W974W68cg3gOJlwotpOum+9zKoymFXUdTSd
-         3Vw76UzjVpNyATlM8RMdgYVk4ubwFeMyKkiAFW4rCxd1GBRRaotS6Fil9aJMJOetGQq0
-         GREBCkJeWjgrqpUwxSPUst1c+KBG0kckkwp7bmkB/3JUF3aRASxnNF3QNsDC5pHTvtlZ
-         T1Cg==
-X-Forwarded-Encrypted: i=1; AFNElJ9Y8QHCDhM1cvQS0s3YkGRAhsOmDRSvHAtSeymFqWEJKY62u8/0zgmnm1wEIR2iWqRbFkwyL3BS5V8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjCJ7FaRl76AoehX1T+3R08hNwGteALCVBwKUcMjEJXA4dipCY
-	xZAsr4cLgnk876nRQKC8uCVuZTv1m6ZdQZJoSiwrisryTY9kUnT3N3OEvhwmrZB5L0g=
-X-Gm-Gg: AeBDieu6UFaydJrTetgKznBQjsf+3rX27PO2Lm03rwYx4v42yz5M0fbLcUjCrJHKG58
-	u7a71xX2cRfpt/jenMO/EvnGO6nH2E7N2TCNHIzoED8XHcFon3nPIeXsR5FuSwBg03G3iGhVBuA
-	JmOI3mGIuZKDgxKEmr8qzJfm+/AOuCfIL+ZJMDr2OHjXHvcRUlsEZMg67VvuUgLvYFsekyyhYiv
-	XrlsonzaGz5BKi9PdSh+kKs7RCc2cyAgDHODZYE5sYO/4fKAItlmr5BP39p/vI6XaIGjXPqgeX7
-	cZfWfPZdgHafrDhy9FIak9+8Ebh9pFXa5udkMVQVTZzZ6PleKdOcTisZKG9euXqYBtrLhQ8bkhM
-	CH08YcxUuhHs8HN1lyeWJml77Ocm3rERpy/VbMTsOauhowifkNrWt9Zg4nGBOZLxGWX4LuD0Jp1
-	XlGkKsxfG1OJUWX7cJxuT6Ic/fwo4g7LuWVcV2cm7HOQ==
-X-Received: by 2002:a05:6808:15a4:b0:479:d25e:9065 with SMTP id 5614622812f47-480420d6cebmr7886811b6e.2.1778260717916;
-        Fri, 08 May 2026 10:18:37 -0700 (PDT)
-Received: from [192.168.1.14] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-47c763b33c1sm15055762b6e.1.2026.05.08.10.18.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 10:18:37 -0700 (PDT)
-Message-ID: <89177fce-8bc3-40bf-a06d-fcf2e95fad8c@linuxfoundation.org>
-Date: Fri, 8 May 2026 11:18:35 -0600
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="oZlzpBvM"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F3DC22D7;
+	Fri,  8 May 2026 10:20:30 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A1A783F836;
+	Fri,  8 May 2026 10:20:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778260835; bh=VIpaIdq08wjRpBWfnPXJEwTJDQEICZVJcS3hyR9NLpo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oZlzpBvM3kB4R3YSBeQz6gKgJmqfggBligCcpTqgEZXTpNWvuOS6tcb8YSZFF1+Fp
+	 kWnWUogxR1+d6Lsf9g9rsdrHZqLJNTKjJ1N1dWhsJRabhzYObA4PglPOeM69C9nq/z
+	 qCOQcg0gdCUWunQoEjjmnB+fLCkzhxF+ZBpNE7M4=
+Date: Fri, 8 May 2026 18:20:27 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v10 15/30] KVM: arm64: Support SME control registers
+Message-ID: <af4bWxiOogfPz_dp@J2N7QTR9R3>
+References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
+ <20260306-kvm-arm64-sme-v10-15-43f7683a0fb7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] docs: fix repeated word 'as' in dax-hv-api
-To: Adrien Reynard <reynard.adrien.08@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260508163802.16249-1-reynard.adrien.08@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260508163802.16249-1-reynard.adrien.08@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260306-kvm-arm64-sme-v10-15-43f7683a0fb7@kernel.org>
 
-On 5/8/26 10:38, Adrien Reynard wrote:
-
-Missing commit log
-
-> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
-> ---
->   Documentation/arch/sparc/oradax/dax-hv-api.txt | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+On Fri, Mar 06, 2026 at 05:01:07PM +0000, Mark Brown wrote:
+> SME is configured by the system registers SMCR_EL1 and SMCR_EL2, add
+> definitions and userspace access for them.  These control the SME vector
+> length in a manner similar to that for SVE and also have feature enable
+> bits for SME2 and FA64.  A subsequent patch will add management of them
+> for guests as part of the general floating point context switch, as is
+> done for the equivalent SVE registers.
 > 
-> diff --git a/Documentation/arch/sparc/oradax/dax-hv-api.txt b/Documentation/arch/sparc/oradax/dax-hv-api.txt
-> index ef1a4c2bf08b..297515ceb697 100644
-> --- a/Documentation/arch/sparc/oradax/dax-hv-api.txt
-> +++ b/Documentation/arch/sparc/oradax/dax-hv-api.txt
-> @@ -485,7 +485,7 @@ Offset   Size   Field Description
->                                the virtual machine to use when accessing this data stream
->                                (checking is only guaranteed to be performed when using API
->                                version 1.1 and later). If using a virtual address, this field will
-> -                             be used as as primary input address bits [59:56].
-> +                             be used as primary input address bits [59:56].
->                   [55:0]       Primary input address bits [55:0]. Address type is determined
->                                by CCB header.
->   24       8      Data Access Control
-> @@ -576,7 +576,7 @@ Offset   Size   Field Description
->                                                        the virtual machine to use when accessing this data stream
->                                                        (checking is only guaranteed to be performed when using API
->                                                        version 1.1 and later). If using a virtual address, this field will
-> -                                                     be used as as symbol table address bits [59:56].
-> +                                                     be used as symbol table address bits [59:56].
->                                           [55:4]       Symbol table address bits [55:4]. Address type is determined
->                                                        by CCB header.
->                                           [3:0]        Symbol table version
-> @@ -815,7 +815,7 @@ Offset   Size   Field Description
->                                the virtual machine to use when accessing this data stream
->                                (checking is only guaranteed to be performed when using API
->                                version 1.1 and later). If using a virtual address, this field will
-> -                             be used as as bit table address bits [59:56]
-> +                             be used as bit table address bits [59:56]
->                   [55:4]       Bit table address bits [55:4]. Address type is determined by
->                                CCB header. Address must be 64-byte aligned (CCB version
->                                0) or 16-byte aligned (CCB version 1).
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/kvm_emulate.h  | 14 ++++++++++++
+>  arch/arm64/include/asm/kvm_host.h     |  2 ++
+>  arch/arm64/include/asm/vncr_mapping.h |  1 +
+>  arch/arm64/kvm/sys_regs.c             | 42 ++++++++++++++++++++++++++++++++++-
+>  4 files changed, 58 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+> index 5bf3d7e1d92c..7a11dd7d554c 100644
+> --- a/arch/arm64/include/asm/kvm_emulate.h
+> +++ b/arch/arm64/include/asm/kvm_emulate.h
+> @@ -89,6 +89,14 @@ static inline void kvm_inject_nested_sve_trap(struct kvm_vcpu *vcpu)
+>  	kvm_inject_nested_sync(vcpu, esr);
+>  }
+>  
+> +static inline void kvm_inject_nested_sme_trap(struct kvm_vcpu *vcpu)
+> +{
+> +	u64 esr = FIELD_PREP(ESR_ELx_EC_MASK, ESR_ELx_EC_SME) |
+> +		  ESR_ELx_IL;
+> +
+> +	kvm_inject_nested_sync(vcpu, esr);
+> +}
 
+This implicilty has the SMTC field as 0b000, which is correct for traps
+of SMCR_EL{1,2} due to SMEN, but wouldn't be right for other traps (e.g.
+traps of ZT0).
 
-Looks good to me. With the commit log added,
+If we only use this for traps of SMCR_EL{1,2}, that's ok, but I think
+it's worth a comment, and possibly a more specific name. Perhaps
+kvm_inject_nested_sme_smen_trap() for now.
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+[...]
 
-thanks,
--- Shuah
+> +static bool access_smcr_el2(struct kvm_vcpu *vcpu,
+> +			    struct sys_reg_params *p,
+> +			    const struct sys_reg_desc *r)
+> +{
+> +	unsigned int vq;
+> +	u64 smcr;
+> +
+> +	if (guest_hyp_sme_traps_enabled(vcpu)) {
+> +		kvm_inject_nested_sme_trap(vcpu);
+> +		return false;
+> +	}
+> +
+> +	if (!p->is_write) {
+> +		p->regval = __vcpu_sys_reg(vcpu, SMCR_EL2);
+> +		return true;
+> +	}
+> +
+> +	smcr = p->regval & ~SMCR_ELx_RES0;
+> +	if (!vcpu_has_fa64(vcpu))
+> +		smcr &= ~SMCR_ELx_FA64;
+> +	if (!vcpu_has_sme2(vcpu))
+> +		smcr &= ~SMCR_ELx_EZT0;
+> +
+> +	vq = SYS_FIELD_GET(SMCR_ELx, LEN, smcr) + 1;
+> +	vq = min(vq, vcpu_sme_max_vq(vcpu));
+> +	smcr &= ~SMCR_ELx_LEN_MASK;
+> +	smcr |= SYS_FIELD_PREP(SMCR_ELx, LEN, vq - 1);
+
+I'm not sure this sanitization is correct or necessary, and the same
+concern applies to ZCR_ELx.LEN.
+
+AFAICT, none of the values for the SMCR_ELx.LEN and ZCR_ELx.LEN fields
+are reserved or unallocated. Thus all the bits of those fields should be
+stateful, and a read should observe the last value written, regardless
+of the effective value of the field.
+
+That means that the following at EL2 or vEL2 shouldn't produce a
+warning:
+		
+	int len_write, len_read;
+
+	for (len_write = 0; len_write < 16; len_write++) {
+		write_sysreg_s(len_write, SYS_SMCR_EL2);
+
+		len_read = read_sysreg_s(SYS_SMCR_EL2) & SMCR_ELx_LEN_MASK;
+		WARN_ON(len_read != len_write);
+	}
+
+Either what we're doing is wrong, or the architcture requires a
+clarification to say that values corresponding to unimplmented vector
+lengths are reserved.
+
+If those bit are always stateful, the the logic to sanitize the LEN
+field shouldn't live here, and that will need to happen when consuming
+the effective value.
+
+Mark.
