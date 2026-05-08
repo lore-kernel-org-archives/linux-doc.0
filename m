@@ -1,79 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94A81E5714;
-	Fri,  8 May 2026 21:47:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B1B32E743;
+	Fri,  8 May 2026 22:27:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778276827; cv=none; b=rhiI/fFvHpaswfaZUNa2jAUFEWJaP2nBCbq9nla5fDzM9zvADaZrn5vhuYwz+jlBa3QT2N+Ui7l1WqQHQx3JjLNKjBV7EB9pUDVGena0R6N3oe3KUN/Yi4h+N6ObHvHDMONoTobjoRBIssMs+c4rD2hU8mX4dYLy2MWCkTNhut0=
+	t=1778279231; cv=none; b=S8NlkJUlosb6NsLo5QV08qdW/MjNyxJkxzWj5G1B50ixPtGWTmjR0prnVIxmaH/XWnVyBpYNSM6VAKxvblNQu/xxrmC+41YOlX2G1lZqh5ZIKa8F+m8d3/orJlYODVkFkTFF4i1RvKgXgyJMPLK2uWqLvPobulE2oaz6v/QqFdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778276827; c=relaxed/simple;
-	bh=fEmMe0Q34kTPBHLIu208stdayo1a6GHo8vxlUsm5ceE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H6nQ6tChoKulXnStatQqUZZIRJjWADJCYMNdAmSLfQPV4rc1I99Fhe3XfBHja1RuzUM9A4S8IOnh3tfYPJzNgkQOyfx9ap5Ia7sgZgKjyssejRgkxARH2MZFvNQpTe369cpkpezzdl/TKQ8Aq64esXxtq7N9lt2B8YJoGeu7F6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bl1A/JRu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778279231; c=relaxed/simple;
+	bh=2aQvwbopJkerVMd5vnTCl8R5gei4pfbsadE3BwBNQh0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s7oK+iSiqeQ1WhNVfwmNERdsm+CdOGGfOhF9ZxEM0UAUyzNeyvY2Bzqm5+YJ8uGJwcpTmps27lrWBtDawG9nNR8/BBjW7nj4+FhUWU1PTvzosAr399NJP1H7lskV+YgIFXmLe7FqYoP9jZyPQmk1FDMe6Ute63FDxwRa+KaSwy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=arMMLK1g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bl1A/JRu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 658AFC2BCB0;
-	Fri,  8 May 2026 21:47:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arMMLK1g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C57DC2BCB0;
+	Fri,  8 May 2026 22:27:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778276826;
-	bh=fEmMe0Q34kTPBHLIu208stdayo1a6GHo8vxlUsm5ceE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bl1A/JRuWLW/BQzfUkRIqZrKatEjwAQxtY627K2zimBOY0j8Xw81vH/o5uhdvOdsb
-	 NqG/jJq+Y/MGBeAsF3sCf3hvAvFnKInsQa3s2CXVmIZVlP+X6qW7eQhfiS2q3XrEeu
-	 NEqMsLj2j1Kouztefxl0VzT3ojDocvCeYu1qaFifVW6hjBxLdvu7zrELyuz9UGMGUp
-	 E8x/IY8Y5ohwOQSMiBXCAsRrD/2Cy90iv3FgcXL5uuixgJkXfqaVbSXP4e1E4obsRi
-	 02Qxms5rOqjzvhFHHzB5JzcLL92Twhh8UipGavwbBTCtEJ9ElPfjNsZE3jl+aWQLnr
-	 n6abbKcW/j2cw==
-Date: Fri, 8 May 2026 17:47:04 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
- primitive
-Message-ID: <af5Z2IvtS5pVorSl@laps>
-References: <20260507070547.2268452-1-sashal@kernel.org>
- <20260508135630.a380e3c187b59e4c04e6f358@linux-foundation.org>
+	s=k20201202; t=1778279231;
+	bh=2aQvwbopJkerVMd5vnTCl8R5gei4pfbsadE3BwBNQh0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=arMMLK1gfFFzLGdlBUX4gJ2OkPlSCte255mTL8fvjuX/um9qlIpbFgi+bXVKbQgO7
+	 jscCSO3yOHEvcHYDWdUWQMy2hLCUU7DVSf/MRl6+sC7KMeICay2j2AGqySKRAyLLB+
+	 rTHg5b20pnh5jkxZsS/VdF2ZDz7T0qmkLkHE4Vdrpf+M0EjM8JQ8m8ZGZtCiyVp8Zm
+	 zoA8hPwDeI7rhBjUo6HeahXxDk+aOghqIm+/S4SCit9PGUqhxhg4x87x4WobGvOfvr
+	 VtznzSOcBOE13k9vhNbf38xjgOhE4O3gmtse6VMUWqwFDUhlwP+CFl1l+PaQIc4zKe
+	 53Z2FNkE4xIUQ==
+Date: Fri, 8 May 2026 15:27:08 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Alex Shi
+ <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu
+ <dzm91@hust.edu.cn>, Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi
+ <pavan.chebbi@broadcom.com>, Joshua Washington <joshwash@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, Saeed Mahameed
+ <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
+ <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Alexander Duyck
+ <alexanderduyck@fb.com>, kernel-team@meta.com, Daniel Borkmann
+ <daniel@iogearbox.net>, Nikolay Aleksandrov <razor@blackwall.org>, Shuah
+ Khan <shuah@kernel.org>, dw@davidwei.uk, sdf.kernel@gmail.com,
+ mohsin.bashr@gmail.com, willemb@google.com, jiang.kun2@zte.com.cn,
+ xu.xin16@zte.com.cn, wang.yaxin@zte.com.cn, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Stanislav Fomichev <sdf@fomichev.me>, Mina
+ Almasry <almasrymina@google.com>, Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v3 3/8] net: devmem: support TX over
+ NETMEM_TX_NO_DMA devices
+Message-ID: <20260508152708.011a9687@kernel.org>
+In-Reply-To: <af5Vlwb5RctHym8D@devvm29614.prn0.facebook.com>
+References: <20260507-tcp-dm-netkit-v3-0-52821445867c@meta.com>
+	<20260507-tcp-dm-netkit-v3-3-52821445867c@meta.com>
+	<20260508134717.4ef87ab6@kernel.org>
+	<af5Vlwb5RctHym8D@devvm29614.prn0.facebook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260508135630.a380e3c187b59e4c04e6f358@linux-foundation.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 08, 2026 at 01:56:30PM -0700, Andrew Morton wrote:
->On Thu,  7 May 2026 03:05:45 -0400 Sasha Levin <sashal@kernel.org> wrote:
->
->> When a (security) issue goes public, fleets stay exposed until a patched kernel
->> is built, distributed, and rebooted into.
->>
->> For many such issues the simplest mitigation is to stop calling the buggy
->> function. Killswitch provides that. An admin writes:
->>
->>     echo "engage af_alg_sendmsg -1" \
->>         > /sys/kernel/security/killswitch/control
->
->It certainly sounds useful, but what would I know.  How do we hunt down
->suitable operations people (aka "target audience") to find out how
->useful this is to them?
+On Fri, 8 May 2026 14:28:55 -0700 Bobby Eshleman wrote:
+> My guess is this would probably be the simplest way?
 
-I'm not entierly sure here... If folks have suggestions on folks to loop in,
-that'll be great!
-
->> 19 files changed, 1451 insertions(+), 1 deletion(-)
->
->wowzers.  I'm looking at samples/livepatch/livepatch-sample.c wondering
->"why"?
-
-Yup, a bit chunky, but over half of it is documentation and testing, and the
-actual functional code is largely the securityfs interface.
-
--- 
-Thanks,
-Sasha
+IDK. Notifiers are so inelegant. Don't we have the same problem with
+the main ->dev on Tx binding?
