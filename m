@@ -1,49 +1,48 @@
-Received: from out203-205-221-221.mail.qq.com (out203-205-221-221.mail.qq.com [203.205.221.221])
+Received: from out203-205-221-164.mail.qq.com (out203-205-221-164.mail.qq.com [203.205.221.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B2D270575;
-	Fri,  8 May 2026 20:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D2734AB00;
+	Fri,  8 May 2026 20:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.164
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778271647; cv=none; b=PUXpX0/4axzuLd9tNqDjF8P9Xea2Q1766U2+LNu+XZVBbWV0BxEUjKFyWVcqfCyjfC7uiiKVre6Ox3EJuVODQI2iOtj6Ei6i7QK0yjw2vV/D5wmjshwLU9FQ9vVP1qvPqtqiHaY5xW+tyw4xULPDmdN74nVgAsPCfBsjUhbc3z4=
+	t=1778271647; cv=none; b=GqFcscSLpZ8szIYB2wjz0ctoj8SuLo46T/r9D4hYPbm4CuBMVBoMlj84kODW5NsHkwFtVM0OA0FbucbQDiGaTKMUboj2WI/8IPmm5iawvkzmSC8gZnVscDuUidyESMuoGBNBSPaS0p4azyc8LVyTed6ztLI/oieDPnCjB4AFhrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778271647; c=relaxed/simple;
-	bh=0SsTQrE8/CfukGLoFTODd/Ziz6CRTgjLjK9jGiQ4Z/s=;
+	bh=7pzV74Xy1YMgSDaLbLTCZ/JeQlPopGqRG0xCubRXDXw=;
 	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=SR4V1rP45KRNsq3FJwg1rtwGIdvp2kdWAfvl4K9Mimy9mKODk2PlpMTcWSlzWpn6Sb3vIUmGPkcEO4GiIk9pEn+EQN44DWFaXRgDRqQtE3asgVRKV+wtW+bwjc4tmRXcicCQjPJBkVXwSnklKPUnWgCeK3EUTHpHzoiY2fHZ0lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=C4Svgf+C; arc=none smtp.client-ip=203.205.221.221
+	 MIME-Version; b=O9VzH1E+te14ccq2kO4nBrGrOdqLEscTpMEx1PZSyA9BZDOzbUKOJJI+qHaG/kpipgm7wA6JJz+VulptYxyH+mBc7nyjhOiAOhRrUal6rI0+DUCdAb9H2CBYGdNL0g6E8E/55S8Zz25NBka9o4iOJuLSASBAFWIjr4EbHvnXhs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=dvyJWb0O; arc=none smtp.client-ip=203.205.221.164
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="C4Svgf+C"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="dvyJWb0O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1778271643; bh=7+VsAe268AqTCt3bJy0GHLNrVxZajJrbaFUpnRg04rA=;
+	t=1778271637; bh=hWqx1blSQdp6dgm46Btp3ftogbY10gYMKeBKkQWtkfw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=C4Svgf+Cua3obXizWlV2nGfPpWvCazlMA5FVVMQc5uN2z5eVznxDUyBmpdR1EctLv
-	 3YDdso6F8BtdYh49Dc0G7UnLulbGTDM9vqJR8jZcXLQZwBGD+pZoRmD8Em2/W4o7oT
-	 3E3GZTS4Nv4TbM0h41n07gGgDUOFm+AofYhi/nbI=
+	b=dvyJWb0OGSTjSU4EJhFhbNSrBz2Bv2eoi6YPznBYGZe/H8Txc+jwnqtfErWpfIls9
+	 mqYysEDTIi9tghh+NoklI0KwGfAWeohhxalnDg501Td6DhzlrQnTMib5uyy95I7+d2
+	 1IQkfYkOXrV098uJK0BFURJP0DVsR870Ieerzsds=
 Received: from node68.. ([166.111.236.25])
 	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
 	id 52124024; Sat, 09 May 2026 04:20:33 +0800
-X-QQ-mid: xmsmtpt1778271640tmrmaao9o
-Message-ID: <tencent_CD11FE9B4A0B362E95E776C5F679598FAA07@qq.com>
-X-QQ-XMAILINFO: OATpkVjS499uoZq1R1mcC6Jb7yeLTJbbmAfMYJ8QqsiQrPoRXtIk/dAtVzCvNu
-	 YH4XmMQyzr/Zi6/QFcszsPO8FVD/417uIaBeVCyABHrm1lqRt6gp/EMGG6hL0GDY7QMzsHZEzrKr
-	 5aiYFn1muYUnHC5nDw9zogMmMYNduVIsEqPjrxlKUiE95THEL4mQzyDOf16Bh/idM1ozDn2nnLIc
-	 u4TP9X45EBo61+7csmKqkNnNrTvW3Ny+lk8A0KQNr9rJzZwBdt02xuplMF48tjZ9sMIG6pKLM2IA
-	 5PlCvduFrUdVcuGkV/OcJjD1ltjZf+HbuuLRYgAUnanPM6XzPbrzsyN3h1Ngl1kN8PLZ+4bLfJeP
-	 4TWv78/1bFqcgcXZIEKZwtwsV1EUOW1vRK8YyKGivI5wg/xy4K8tGn6Fu4LBFWHBVN82F4rjz+4Z
-	 R9zAy/wrRlh4RiI6xwiIf2si1EETe/lQQ9k5GaDN/Kw+HLmXif6UwccKsGeHHwjJn3ORz6mXT6N7
-	 jsQRE8SIdq00db+ZwSeqnYDPWqYlDdy1LMtrxmg5ODfEHEA3fIzC79HyWTs7ROuH978XDkSvDLTP
-	 kHkLzgkcrer4CY0E5FaTDiT1bY6cNgz09Ds11PKfzwpyDjR0u5q1RVFgMabn+wP8eutkhT0N2SZV
-	 mYRQHLqaN9JPlkLu3v+kUigyfZ0qoETkV0lizuwU9I2pZDMsJC79KGmcUtRbbknJY3G4lgeHA/Lm
-	 DQYPpPnXOYPfwtl7iQR3+Wcfb7AL2BbKAavXSWnmX8nz0Fwk1uVUzi3U5QKKjmE9ceXLwNFxADey
-	 8qBRIitATtl4os38v5ttIF31UUUn8+kOjCfu0lQ0qClI8FuwLoAbmM7eT76kZCsGNAWxV77aa5kK
-	 jjkgpJQuGITnTHZ6HZ+ELQpTsgFasU0AiwmmY+cFo3193QgWY2YBdlzPVl31jNJvK63dsq3e45nC
-	 UAA7HLsv/V3g9tovlugrvqzPMs8g/Z1+YBboemzQxzzDYB5VidpEl015kzEfhzdXpCYF+qZIHw6I
-	 W8C299uLZzEcQYXcMs3gUmJMjklf6AxUOaydthB9P0ImOSG55SIgj3c5U2EUSRO3vZHTOmXIAnR5
-	 kEelkJ
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-QQ-mid: xmsmtpt1778271633t2lmi0qjr
+Message-ID: <tencent_A63328EECD6F78288F70DD8C5A2070593D0A@qq.com>
+X-QQ-XMAILINFO: MhK4DKsBP06iWD5gycqxXUMJVpmboO9b7h3t7pVFSfFwEPA48/rNusLwO0eAWi
+	 k7sjJptT5r94bC1JGJTTnQmm5eOGSSuE2J/VoMyUkP7jcu2FpemRQaPCfFEAp2KhJeYXQms9BySm
+	 ovw48LEXWVXMpIakykHkqM0QASmYbJP+EDRkjpNr/iEbBINAZ/s5I/ReXguOkB5EYtmxX++O/yOn
+	 EzxIRvqQmpzuB4kOSc6uUz2texAuYCJd4r2C2+dARfcBKB6LkyGwxHZ35tmpHOasGvJGFBqS8o+B
+	 a2Dali0UPmXv9mWJI3zKycQCtpsHDEpCZiEw87Gs715CGnI1JC3LAOlclKDxzyOkct92j0VhFUQm
+	 ypvmeHB8QcupvY/V1e3+pR20KRlCFT7+7oKtRuh+pcQShv8Pc6jHTiX9xaNHlFQEhvLz7jqvjH6l
+	 WlvD3QUX5Rd6K6B7R8BGjGRINo1Lf2GHOBZHXZipSPMxD0QZBSWrGLBHon6ZHfjL6zDncfo1ooIn
+	 YG5PgavlMxuftw+NmgOehI41+zZyUQ+g1VHr5FoLo+GNQmNYokj3KQKSKQWCaha5JU/OYc/JMJur
+	 v2nGP1lTM+zNtRBe+/lmKDi4lsqLW/CIB+1y87kfICi/D8rSKhspt6a34R+Ygc4au295uEXmn4nn
+	 Yk+Km3Z9y0rGr7T7lwWXBsiE28nay69jcWQEIpFJePkhGGIh2T6yjN3bDwwfMj0YO2mmYY9wqNpH
+	 2qToW6SQbfCiCz/Sf7VqqTQFEPd1H03pKuF/eCrzp8XAixiJ1zQfzFHHm+XTEC857Ljxv/7UfsoH
+	 tAUQCg6P5PxlIVkhDRwaHLN1lMrQHNlfpjNaPYL8Y6OqgIQiYszzUHDLdB4HW5IjI4ji2qPRgyRu
+	 sJUxfFElIfZ9hYSi1udadCQfwvvcpwUvoFLZvVWfivYnvL74st1G3qPuSOkaGBT3/EHCoQp5nOxh
+	 629zGiBlH5K0TcxmFztsUGgZojjwu0defQirckaTdFGCNRGXwPnbM54K1GEZbfyI6s3jg7Woxffj
+	 gyPRYVn0f1oWxvdfnG8BjY2lzZ/YOBtHZPCg3uqg==
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
 From: fujunjie <fujunjie1@qq.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Chris Li <chrisl@kernel.org>,
@@ -62,9 +61,9 @@ Cc: linux-mm@kvack.org,
 	Chengming Zhou <chengming.zhou@linux.dev>,
 	Baoquan He <bhe@redhat.com>,
 	Lorenzo Stoakes <ljs@kernel.org>
-Subject: [RFC PATCH 4/5] mm: swap: fall back to order-0 after large swapin races
-Date: Fri,  8 May 2026 20:20:32 +0000
-X-OQ-MSGID: <20260508202033.1834876-4-fujunjie1@qq.com>
+Subject: [RFC PATCH 1/5] mm: zswap: decompress into a folio subpage
+Date: Fri,  8 May 2026 20:20:29 +0000
+X-OQ-MSGID: <20260508202033.1834876-1-fujunjie1@qq.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <tencent_8B437BE4F586C162950BF71954316C1EDB05@qq.com>
 References: <tencent_8B437BE4F586C162950BF71954316C1EDB05@qq.com>
@@ -76,90 +75,74 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-swapin_folio() documents that a large folio insertion race returns NULL
-so the caller can fall back to order-0 swapin. do_swap_page() currently
-turns that NULL into VM_FAULT_OOM if the PTE is unchanged, which is
-harsher than necessary and gets in the way of rejecting large folio
-ranges for backend reasons.
+zswap_decompress() always writes to offset 0 of the target folio. That
+is sufficient while zswap only loads order-0 folios, but large folio
+swapin needs to fill each base page from its own zswap entry.
 
-Move the synchronous swapin sequence into a helper and retry with an
-order-0 folio when a large folio cannot be inserted into the swap cache.
-Count the event as an mTHP swapin fallback before dropping the failed
-large allocation.
+Pass the base-page index to zswap_decompress() and use it for the kmap
+and scatterlist output offsets. Existing callers pass index 0, so this
+is a preparatory change with no intended behavior change.
 
 Signed-off-by: fujunjie <fujunjie1@qq.com>
 ---
- mm/memory.c | 50 +++++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 39 insertions(+), 11 deletions(-)
+ mm/zswap.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/mm/memory.c b/mm/memory.c
-index ea6568571131..84e3b77b8293 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -4757,6 +4757,44 @@ static struct folio *alloc_swap_folio(struct vm_fault *vmf)
+diff --git a/mm/zswap.c b/mm/zswap.c
+index 4b5149173b0e..afe38dfc5a29 100644
+--- a/mm/zswap.c
++++ b/mm/zswap.c
+@@ -921,12 +921,14 @@ static bool zswap_compress(struct page *page, struct zswap_entry *entry,
+ 	return comp_ret == 0 && alloc_ret == 0;
  }
- #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
  
-+static struct folio *swapin_synchronous_folio(swp_entry_t entry,
-+					      struct vm_fault *vmf)
-+{
-+	struct folio *swapcache, *folio;
-+	bool large;
-+	int order;
-+
-+	folio = alloc_swap_folio(vmf);
-+	if (!folio)
-+		return NULL;
-+
-+	large = folio_test_large(folio);
-+	order = folio_order(folio);
-+
-+	/*
-+	 * folio is charged, so swapin can only fail due to raced swapin and
-+	 * return NULL.
-+	 */
-+	swapcache = swapin_folio(entry, folio);
-+	if (swapcache == folio)
-+		return folio;
-+
-+	if (!swapcache && large)
-+		count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK);
-+	folio_put(folio);
-+	if (swapcache || !large)
-+		return swapcache;
-+
-+	folio = __alloc_swap_folio(vmf);
-+	if (!folio)
-+		return NULL;
-+
-+	swapcache = swapin_folio(entry, folio);
-+	if (swapcache != folio)
-+		folio_put(folio);
-+	return swapcache;
-+}
-+
- /* Sanity check that a folio is fully exclusive */
- static void check_swap_exclusive(struct folio *folio, swp_entry_t entry,
- 				 unsigned int nr_pages)
-@@ -4860,17 +4898,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
- 		swap_update_readahead(folio, vma, vmf->address);
- 	if (!folio) {
- 		if (data_race(si->flags & SWP_SYNCHRONOUS_IO)) {
--			folio = alloc_swap_folio(vmf);
--			if (folio) {
--				/*
--				 * folio is charged, so swapin can only fail due
--				 * to raced swapin and return NULL.
--				 */
--				swapcache = swapin_folio(entry, folio);
--				if (swapcache != folio)
--					folio_put(folio);
--				folio = swapcache;
--			}
-+			folio = swapin_synchronous_folio(entry, vmf);
- 		} else {
- 			folio = swapin_readahead(entry, GFP_HIGHUSER_MOVABLE, vmf);
- 		}
+-static bool zswap_decompress(struct zswap_entry *entry, struct folio *folio)
++static bool zswap_decompress(struct zswap_entry *entry, struct folio *folio,
++			     unsigned long index)
+ {
+ 	struct zswap_pool *pool = entry->pool;
+ 	struct scatterlist input[2]; /* zsmalloc returns an SG list 1-2 entries */
+ 	struct scatterlist output;
+ 	struct crypto_acomp_ctx *acomp_ctx;
++	size_t offset = index * PAGE_SIZE;
+ 	int ret = 0, dlen;
+ 
+ 	acomp_ctx = raw_cpu_ptr(pool->acomp_ctx);
+@@ -939,14 +941,14 @@ static bool zswap_decompress(struct zswap_entry *entry, struct folio *folio)
+ 
+ 		WARN_ON_ONCE(input->length != PAGE_SIZE);
+ 
+-		dst = kmap_local_folio(folio, 0);
++		dst = kmap_local_folio(folio, offset);
+ 		memcpy_from_sglist(dst, input, 0, PAGE_SIZE);
+ 		dlen = PAGE_SIZE;
+ 		kunmap_local(dst);
+ 		flush_dcache_folio(folio);
+ 	} else {
+ 		sg_init_table(&output, 1);
+-		sg_set_folio(&output, folio, PAGE_SIZE, 0);
++		sg_set_folio(&output, folio, PAGE_SIZE, offset);
+ 		acomp_request_set_params(acomp_ctx->req, input, &output,
+ 					 entry->length, PAGE_SIZE);
+ 		ret = crypto_acomp_decompress(acomp_ctx->req);
+@@ -1034,7 +1036,7 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
+ 		goto out;
+ 	}
+ 
+-	if (!zswap_decompress(entry, folio)) {
++	if (!zswap_decompress(entry, folio, 0)) {
+ 		ret = -EIO;
+ 		goto out;
+ 	}
+@@ -1611,7 +1613,7 @@ int zswap_load(struct folio *folio)
+ 	if (!entry)
+ 		return -ENOENT;
+ 
+-	if (!zswap_decompress(entry, folio)) {
++	if (!zswap_decompress(entry, folio, 0)) {
+ 		folio_unlock(folio);
+ 		return -EIO;
+ 	}
 -- 
 2.34.1
 
