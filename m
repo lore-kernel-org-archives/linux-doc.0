@@ -1,67 +1,37 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB66133858B
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 18:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E2637FF76
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 18:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778264164; cv=none; b=Cgq11q+zrxUuNqp15GK/SOXp6pLSq5KyZmkdjtfhTPxbzIDU1G74gny9yv/O5cGMleZ5pvPE0GxLn3HpZu8oXL5GK0EkbakMvZFnqtZWlQleZDFF9xXoOZalFo7DP7McebhBaCzoxHKCp4/c8Gs1ipn4bnZya8AW+Z+y29jYmCU=
+	t=1778264524; cv=none; b=OYkrPT/RM+26rO7ZoKOQMbf6Fuz8Dkk3DWTsIvbDPzoiWnqsWFD/sG73ySkzLu10pH13dnQkcNyAGx6FbuDYQxrrwfPeiW5szLGuvcDNc4e4MP5NCOpH5WcpemyTCCHybroJP2TeUnhXZAH8nRnMifiV/LUIwOSI//uTIAa88YU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778264164; c=relaxed/simple;
-	bh=LZCGgKEGEvKGeWkO7nM1Ue0hldFHRuium3dlrfRKmow=;
+	s=arc-20240116; t=1778264524; c=relaxed/simple;
+	bh=r6WsI/eR/R3ZNlnjq6rCybELhEH72kOF5SeXuCp1pkY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VGYcSdt+poy+hCZ9dku6hBU5IGLf9V//Hl8enZPR96ByNYwYwJIOEEGPLVltjxCU8qWlXxXVXGJx4zWbpQzlqmqdd+qpwansDl3g1X5Gk+e4ViRymRpVN4QJH6DxFQkh+lnlTyr9jKlqjwaZ7JvY4iGWyP9ts+jPGNw+XXI59P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NfM8b4LV; arc=none smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=cWPzBYncQomU/FV1yIQFf6bA7rRt4lVrRcPNP4Xg1xYqtotaMl++yZBpbM9eNr0yH+L3tbyjxHJ499RDK/Jqpkg6Pti5K3I/jOfQJR0IdRWEB4bwSrJwtUt6rnd47fw6LQbHWsD/jonVv028wNdkna3BHndogybRq3oHb0EVZBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=3oZLkdmP; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NfM8b4LV"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2ee990e8597so4002184eec.1
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 11:16:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778264162; x=1778868962; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=IM2/rTMkyCbqZ8kLdve8nrdCK1JQ4NVvOGN00DRH8wI=;
-        b=NfM8b4LV2t49DTTjvxGqrkKthY/sXbxZdnIdkye8qwpJiuBMn6vtWpmNJiiHxFdqvZ
-         IrUD0ndyFk3ycgAtUrSi2Gx0LsAhWz7cpVW5MhKsLBLHNvZ8Xt6MSaC9F1wLuWsHanGX
-         hkTAEeTKQyZLOKH2QE20KcXPohgH/OZFZlzOyviKC92CyxMkAnEp8d6qYUYQVOvHm6/G
-         Nc90cZ5pCE2JaUJTCgE7345hyg5xemVB2K7ijH0L2wFCpRz+SdtDK1Rmda/koFywAYul
-         /XLzJyQ6ErUidrEKiKN0ryIw4VbYjrbdn0gw93Ai9MeR8D24EXrvnk6eOP14Wm2DVVb4
-         1+sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778264162; x=1778868962;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IM2/rTMkyCbqZ8kLdve8nrdCK1JQ4NVvOGN00DRH8wI=;
-        b=FQ99bvA4UlKtwSBmoUTchabEhrvTrSy6Ad39dw3DrefT+b/UabcMnRqNhuu6FzGkWR
-         jheyRrECEggjUlS8ZA4YcqjWnHUzIQYloD2iJKECG6W8KTwSm5dQ8CFw0zfT2hEuucnC
-         A6XTWBJ1aVH8rrnTfs6BWhps2+Y6XnCfksZIBRYjBepawlHj7KO1MKnT9op7F3blNFhg
-         2Qsp0SqqwbyltXQCeA4ZzctQUC+p9Am4xw0jSg0HHpoX7wjvbmGTi+X0eU5IWUYnDXz1
-         P6IqThw4rp9WyIHnSPj6Gt44lY7PDSlROgQJM3M9y5lFqpC6y04jZPmYekv8CRC6zn58
-         lVPw==
-X-Forwarded-Encrypted: i=1; AFNElJ+M2R0Cw4LEV8JcOtLzEeTKaycREsjpHtAj9tQqCCowTRk2y6ga3XiARls+geacesZYdgZWMLh1glc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVHmIE8yxbNQx9r714oxGgQJ02fat0g4eX4DfbYrh5sCYus3uz
-	RBhtiL4ZqzwgTw/vmLxYDpy0IYUaK6ULKJ3yJJ5nqdcbDOtVe0Akr1wa
-X-Gm-Gg: Acq92OGFRpqVGmgf+EieKZhnYvpq8pcISERgtP1FJTkdYEMAMNxGxfMSi1ZUupufhbb
-	CstIgM75daHrIAaxaXdxvVBNi0KM2OHU0ceyqmK+5yXkKwlDRfQW9z2blRaAr9NNQKeBQqpGkEO
-	bEKHsAXVS9GQJLtyH118sFOK3LWjxoPnCduJ2IrRzNfCZm0lB5EjqmsRLgtA18+LptLqrczguAJ
-	haky88h4LUPqI5Bm6YA6GtM1lRzyWliF2/mzrJFLksy0HOtPvprAHe3ENi2DaB+2e93nL1dEoWU
-	MsyRmi5nsmXvHlDi/yAIr7cHHXtw560AKtePSEVQ/WFaQg5sqN0l2lDoxsTovknNF8YkqBcRwlW
-	HxO1MYW/g+DKlXBcKQhD0Gn7fiXKh4KEavewfTRVIhWXUNxVAveGlQOtiuosytuw4j1KEDMXjDL
-	qcECnoqOEoQU5xtygk14HeB3ZK/2tQ8tZVksEf4QGrpS7J9I3S7s7/dCgHkx2qLIoiB8Oi3bko
-X-Received: by 2002:a05:7301:9f10:b0:2b8:5159:eca5 with SMTP id 5a478bee46e88-2f54948f6ebmr6791259eec.14.1778264161953;
-        Fri, 08 May 2026 11:16:01 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f888d3af4esm3280193eec.25.2026.05.08.11.16.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 11:16:01 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <053b019e-9c6a-4eb3-aa69-0c07cd6e7f12@roeck-us.net>
-Date: Fri, 8 May 2026 11:15:59 -0700
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="3oZLkdmP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=fD79LjbLJzRV4SU5PUp0N6BYWSilqW/UE9YNtO6ZM6w=; b=3oZLkdmPo6NbLo4vBhDBSZkIk5
+	mPtsJ0KZOtzO4pfdTFH9DJ9wOKlMzcJnKdAjPANzKGIIkMRUDSGrMFJac5FGznslOQFOZ6kmr4VRL
+	uMy5euj+BuFydpcglmgVUwXWlCUYwACPx9exoiZgd7VxNJZtbZr73Xxdzubu0jrZgN2/ZDgcDJ2L3
+	rSZ+a7TOg7Qbb+Xi3A9nWyHCz/KrOO7XcEK5UMfR8pc13e7kaEUOkhpE5JgiaWZKnxxKhONo2SajO
+	LW/LXDAsnANICdARyu1ldMLQW00aGHneqQcAjOYAaM6QPwYov0M0i4MLHG8OKX/HkkCtYDE0nqxSI
+	Iqp8sogw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wLPpq-00000007FRf-2Pvf;
+	Fri, 08 May 2026 18:22:02 +0000
+Message-ID: <4aba5b5e-75a5-4800-bedb-8f7cc673c7f7@infradead.org>
+Date: Fri, 8 May 2026 11:22:01 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,93 +39,75 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
-To: Jihong Min <hurryman2212@icloud.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Jihong Min <hurryman2212@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260508143910.14673-1-hurryman2212@gmail.com>
- <20260508143910.14673-2-hurryman2212@gmail.com>
- <ad41d70b-e9c0-446e-8bd0-4528de75b592@amd.com>
- <0d518d40-e239-4d93-8e71-0d2e140f00ca@icloud.com>
- <966c9e07-10e6-4abe-9cb5-77b974f31302@amd.com>
- <b8372128-c922-4b62-91c5-46f848180bc5@icloud.com>
- <2657e1b7-126d-4c4b-8027-012a6d3ffee3@icloud.com>
+Subject: Re: [PATCH 1/3] Documentation/gpu: add dedicated documentation for
+ Intel display
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+Cc: rodrigo.vivi@intel.com, Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net
+References: <cover.1778235406.git.jani.nikula@intel.com>
+ <21bfa7777eb0926eadd309d4c6f5c9cf48405cf0.1778235406.git.jani.nikula@intel.com>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <2657e1b7-126d-4c4b-8027-012a6d3ffee3@icloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <21bfa7777eb0926eadd309d4c6f5c9cf48405cf0.1778235406.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 5/8/26 11:11, Jihong Min wrote:
->>> Something else I was thinking about while reviewing this series.
->>>
->>> Promontory 21 is only on AMD platforms and AMD platforms are only x86. I think the Kconfig should be conditional on AMD CPU support being enabled and X86 architecture so that we don't bloat other architectures with dead code that will never run.
-> One related Kconfig question: would it be acceptable to make
-> USB_XHCI_PCI_PROM21 default y with the X86 && CPU_SUP_AMD dependency?
-> 
-> This would only default-enable the PROM21 xHCI PCI glue. The hwmon driver
-> would still be controlled separately by SENSORS_PROM21_XHCI and would remain
-> opt-in, so the undocumented temperature register polling would not be enabled
-> by default.
-> 
-> The concern is that, without default y, distribution configs may miss the
-> PROM21 PCI glue and then SENSORS_PROM21_XHCI can not bind even if the hwmon
-> driver itself is enabled or available as a module.
-> 
-> Would you prefer this, or should USB_XHCI_PCI_PROM21 remain explicitly enabled
-> by distributions?
-> 
 
-How about "default USB_XHCI_PCI" ?
 
-Guenter
+On 5/8/26 3:20 AM, Jani Nikula wrote:
+> diff --git a/Documentation/gpu/intel-display/index.rst b/Documentation/gpu/intel-display/index.rst
+> new file mode 100644
+> index 000000000000..8d40363b8f90
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/index.rst
+> @@ -0,0 +1,40 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright © 2026 Intel Corporation
+> +
+> +.. _drm/intel-display:
+> +
+> +====================
+> +Intel Display Driver
+> +====================
+> +
+> +The Intel display driver provides the display, or :ref:`drm-kms`, support for
+> +both the :ref:`drm/xe <drm/xe>` and :ref:`drm/i915 <drm/i915>` Intel GPU
+> +drivers.
+> +
+> +The source code currently resides under ``drivers/gpu/drm/i915/display`` due to
+> +historical reasons, and it's compiled separately into both drm/xe and drm/i915
+> +kernel modules.
+> +
+> +The drm/xe and drm/i915 drivers are the "core" or "parent" drivers for display,
+> +as they initialize and own the drm device, and pass that on to the display
+> +driver. The display driver isn't an independent driver in that sense.
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +   :caption: Detailed display topics
+> +
+> +   async-flip
+> +   audio
+> +   cdclk
+> +   dmc
+> +   dpio
+> +   dpll
+> +   drrs
+> +   dsb
+> +   fbc
+> +   fifo-underrun
+> +   frontbuffer
+> +   hotplug
+> +   plane
+> +   psr
+> +   vbt
 
+Is this in almost-alphabetical order or just random?  :)
+
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+-- 
+~Randy
