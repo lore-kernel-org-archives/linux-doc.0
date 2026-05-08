@@ -1,228 +1,179 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAD92BEFEF
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 02:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3339258CD7;
+	Fri,  8 May 2026 02:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778207314; cv=none; b=ZtvlWVaXEmy3bPeSw9Y7BdgG1xvgfJFZ3HYw8P9JH37/FZXAzUvmBBLdFffNS3gdBxFUAzdM3UVH7Z1vzLlt45vFfyAJJmfJBjaZxbrny4mTSycqp8HRLIXLr0pdMSdYzXgpKB6yd5XpkGZsMPf5Ldlk1QT/0y2NH+n2jTl189M=
+	t=1778207634; cv=none; b=pjoKoTtR1RF4jaE7K0n7msOz8heLtqUF7EDGpt98xCekuTYFRjw/pVfH/3JMtHhoVqaf3Mjx3lpom0YF3yp1uj1TGbHCtzH90/xbx3apHi7ahPaFJagdgDbHMcl4I8zneCOS3tweKjnM4JaCXatVlDHPN0gPUItVMukdDvBDwZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778207314; c=relaxed/simple;
-	bh=n7tJve6PSP03zrqEiNRPQpgyL5Of2UxSvSD8zaqgtxU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Pw2dWUEWAmcO79A8vDus27Irf4sB2gKCH70SKi/+Zk1eODExbqYJYKt3zucSdDt2V82/XFVlIqCQJ19mQCQxrG7XhkpzoQrMCTdYVrZrARGa0FMEnG6lI+IadOzN9sDeRENmjcESKxN+Krqz3H5wh/P0s10kbeJv7cu9ORzT0LA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CUrh6Ic9; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CUrh6Ic9"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-899d6b7b073so12952876d6.2
-        for <linux-doc@vger.kernel.org>; Thu, 07 May 2026 19:28:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778207310; x=1778812110; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dXA1dxVApJgTc6+2n8TQWi9uv8RI7qdSUELHLNuyKvU=;
-        b=CUrh6Ic9M3t2F3UbV8S4dQY58uu4g0KGDl+yntHgetpwybawUW+HDyLQFkZ43ddXPr
-         6U13l9URBGfTLCoYhmCp2HbHFoxjltj0wO9LWOHyeLNGC59sFtZHyXs/EkFRYnduh8SY
-         RKn/cibXHGzXrKnPzZuErnScbQ1Jwo2P5hQLEDOR80HJmicgBxgIrj7kHcfn0taTGzxA
-         2t6+nLP/MWawRKEj2BWoxmTMDFxwkV+AIniQeF3VvVBMphhfzDFkL0PnNRfso7FiySdY
-         Yc/p30iIhxsUFdp/bag84dp6IRa5jsPESuHQt9ve5URFkCXOpYDek1DSg408CfkiIlcp
-         R06w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778207310; x=1778812110;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dXA1dxVApJgTc6+2n8TQWi9uv8RI7qdSUELHLNuyKvU=;
-        b=l8Ghu8jxqJYnie89rAg4D97ilxvvG7AFQW6cYeaaINdC6t9/2W45tFxaTHq3ak5xmh
-         Dd9dupgNh9Mk/pmD4kBrbfcS1+5UDPnrtzr+LI9AJtKgmtnkYzLlOT0Hvj1Vu7zcYd/M
-         0bZTz/m4DKZmQrUw45GjWOdYPu5Zgk7fKBuAbBjZs0wl5o30No1hTadHg+NkuGuiVA7T
-         e5AEw+Q8OH9UzvlpfWNFDzXEjUr+mWegN05sRpm41cuyhcJdoQZ79ShXBI+AGOUKqEHy
-         4E+nnivoITj9gv1xPX7mGrkd5LFY6XXHKBtJZ5+AlFXpzqJU9qD8lESAIrxC2PaVp0eb
-         6rYA==
-X-Forwarded-Encrypted: i=1; AFNElJ9QC/+m9gFZA20qu4GyTxEHwRjlC15D0TcG08sN9kTJ7NhjRJ5mFzdiRGwqAnt5SxAFU14pNR+avVc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuCznPyBibiwG32suoEfkHs2kXSXwvcRRvHPLYuxkK0If/Sywu
-	a9tdFJMtgYcpZWd9ttGHyZRvx3xAIx5zUlbybPojLadv8q6ftAYIvydpOwSgzjyH
-X-Gm-Gg: Acq92OGakWjsuY6YYNe5XnyxGOsmdPk8W/yb1cH0G2P+H60Gi1hmCkLoPWpxhjJfFMM
-	IqlRdq6ToD7C1pOVtMAt29JhEbcAYhih7kTIF/jG0xqnEuAcv33hWPJOgIBSxGkruXj8pWhXb9e
-	Fy0Ra6FkbzXgA1fL1BT0sSFbTfvq+EpvqQUNctJGOQbgmDvLZTDxLmM20Y0QAoYgYekDe72uHWb
-	9tCSiBRCQeM+YWk5daZTeX6IBkmqZJY/uqPuiqaldhNM2qbwB4iVM0Gxx38TXzkFqfQ3IE7ZTao
-	pylUwWK+najwWAr7zPPsQGPBsL5PnfzY4uO1/xL0APzIlx1iOqyBj1g/LlcvwwdMjROyfKxDHv8
-	TMCre2SV5/GW3KHOtdWiotdbUzSyxxJPu4v0jY9NPeRmGfY9epciUoCkUyIXJQsmiGCMi+ChsBl
-	OVMe/5uCnpTEDOrIkb13I=
-X-Received: by 2002:a05:6214:320f:b0:8ac:a6a5:1f41 with SMTP id 6a1803df08f44-8bc443d5c2cmr162619636d6.27.1778207309884;
-        Thu, 07 May 2026 19:28:29 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:73::])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8bf3a33fab4sm5419346d6.23.2026.05.07.19.28.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 19:28:29 -0700 (PDT)
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Thu, 07 May 2026 19:27:53 -0700
-Subject: [PATCH net-next v3 8/8] selftests: drv-net: add netkit devmem
- tests
+	s=arc-20240116; t=1778207634; c=relaxed/simple;
+	bh=33Kzi1QqQaOxup3HteWzWB4sskTQYnde6JYurTvGCjw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=NGFsSrISImWZEmFCLT2F7IFQSfspoJG6D3KPJOHmxc2Tzusn3HajrdKzbjvVe5MWA76cjQaq2eUvQcUvBl+tNDA+6EUAFtaSdGWQzE7pfPJekxipFjTigWNYR9CRE9ugeQcrnb2do92PGnGalGIHqjoxx5BXou79F2jAJgbCNaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gBXzc50SkzKmT6;
+	Fri,  8 May 2026 10:26:04 +0800 (CST)
+Received: from kwepemf200017.china.huawei.com (unknown [7.202.181.10])
+	by mail.maildlp.com (Postfix) with ESMTPS id E8FCF40572;
+	Fri,  8 May 2026 10:33:40 +0800 (CST)
+Received: from [10.67.121.58] (10.67.121.58) by kwepemf200017.china.huawei.com
+ (7.202.181.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 8 May
+ 2026 10:33:39 +0800
+Message-ID: <a9324a65-9da9-4e35-8c78-a054fb24bc8d@hisilicon.com>
+Date: Fri, 8 May 2026 10:33:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] cpufreq: CPPC: add autonomous mode boot parameter
+ support
+To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
+	<viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
+	<ionela.voinescu@arm.com>, <zhenglifeng1@huawei.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<mario.limonciello@amd.com>, <linux-pm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
+	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
+	<sanjayc@nvidia.com>, <mochs@nvidia.com>, <bbasu@nvidia.com>
+References: <20260424201814.230071-1-sumitg@nvidia.com>
+ <a4ed690a-50d6-4bfe-8810-86a75d7b51e3@hisilicon.com>
+ <bc06c3ab-0286-4e1e-a615-e704b267c21a@nvidia.com>
+Content-Language: en-US
+From: Jie Zhan <zhanjie9@hisilicon.com>
+In-Reply-To: <bc06c3ab-0286-4e1e-a615-e704b267c21a@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260507-tcp-dm-netkit-v3-8-52821445867c@meta.com>
-References: <20260507-tcp-dm-netkit-v3-0-52821445867c@meta.com>
-In-Reply-To: <20260507-tcp-dm-netkit-v3-0-52821445867c@meta.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
- Michael Chan <michael.chan@broadcom.com>, 
- Pavan Chebbi <pavan.chebbi@broadcom.com>, 
- Joshua Washington <joshwash@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>, 
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
- Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
- Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- Nikolay Aleksandrov <razor@blackwall.org>, Shuah Khan <shuah@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
- Michael Chan <michael.chan@broadcom.com>, 
- Pavan Chebbi <pavan.chebbi@broadcom.com>, 
- Joshua Washington <joshwash@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>, 
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
- Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
- Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- Nikolay Aleksandrov <razor@blackwall.org>, Shuah Khan <shuah@kernel.org>
-Cc: dw@davidwei.uk, sdf.kernel@gmail.com, mohsin.bashr@gmail.com, 
- willemb@google.com, jiang.kun2@zte.com.cn, xu.xin16@zte.com.cn, 
- wang.yaxin@zte.com.cn, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Stanislav Fomichev <sdf@fomichev.me>, Mina Almasry <almasrymina@google.com>, 
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Bobby Eshleman <bobbyeshleman@meta.com>
-X-Mailer: b4 0.14.3
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemf200017.china.huawei.com (7.202.181.10)
 
-From: Bobby Eshleman <bobbyeshleman@meta.com>
 
-Add nk_devmem.py with four tests for TCP devmem through a netkit device:
 
-These tests are just duplicates of the original devmem tests, with some
-adjusted parameters such as telling ncdevmem to avoid device setup
-(since it only has access to netkit, not a phys device).
+On 5/5/2026 8:29 PM, Sumit Gupta wrote:
+> Hi Jie,
+> 
+> 
+> On 27/04/26 13:54, Jie Zhan wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> Hi Sumit,
+>>
+>> In general, I would expect this parameter only toggles on auto_sel by
+>> default.  IIUC, other CPPC configurations (min/max/desired perf, EPP,
+>> enable) are optional and not closely related to this.
+>>
+>> Why including those stuff here?
+>>
+>>
+>> Please see other questions inline.
+>>
+>> Thanks!
+>> Jie
+> 
+> These together provide a known, predictable autonomous mode boot.
+> min/max/desired seeding ensures HW has a known starting bound (BIOS
+> may leave them unset).
+> EPP=PERFORMANCE_PREF is needed as BIOS defaults often bias toward
+> energy saving, and admins on many CPU systems shouldn't have to script
+> per CPU sysfs writes at every boot to undo that.
+Hi Sumit,
 
-Each test uses NetDrvContEnv with primary_rx_redirect=True to set up the
-BPF redirect program on the primary netkit interface.
+The min/max/desired perf might be a slightly different case, but the EPP
+value should probably follow the default if there is?
+Otherwise, users may complain that their BIOS defaults don't work and find
+out it's driver's fault.
 
-The NIC (HDS, RSS, queue lease) is configured once in main() before
-ksft_run() and torn down in a finally block via cleanup_nic(), mirroring
-the nk_qlease.py pattern. This avoids re-toggling NIC settings around
-every test case.
+Alternatively, we may also make an assumption that we ignore BIOS EPP
+config, but not sure if that's suitable?
 
-Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
----
-Changes in v4:
-- Call configure_nic()/cleanup_nic() once around ksft_run() rather than
-  relying on per-test configuration inside the run_* helpers.
+(Perhaps let's just discuss in the bottom trunk because the main issue is
+pretty much the same.)
+>>
+>> On 4/25/2026 4:18 AM, Sumit Gupta wrote:
+>>> Add a kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
+>>> CPPC autonomous performance selection on all CPUs at system startup.
+>>> When autonomous mode is enabled, the hardware automatically adjusts
+>>> CPU performance based on workload demands using Energy Performance
+>>> Preference (EPP) hints.
+>>>
+>>> When auto_sel_mode=1:
+>>> - Configure all CPUs for autonomous operation on first init
+>>> - Set EPP to performance preference (0x0)
+>>> - Use HW min/max_perf when available; otherwise initialize from caps
+>>> - Clamp desired_perf to bounds before enabling autonomous mode
+>>> - Hardware controls frequency instead of the OS governor
+>>>
+>>> The boot parameter is applied only during first policy initialization.
+>>> Skip applying it on CPU hotplug to preserve runtime sysfs configuration.
+>>>
+>>> This patch depends on patch [2] ("cpufreq: Set policy->min and max
+>>> as real QoS constraints") so that the policy->min/max set in
+>>> cppc_cpufreq_cpu_init() are not overridden by cpufreq_set_policy()
+>>> during init.
+>>>
+>>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org> (Documentation)
+>>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+>>> ---
+>>> v[1] -> v2:
+>>> - Call cppc_set_enable() unconditionally so CPPC is enabled for both
+>>>    OS-driven and autonomous modes.
+>> Why adding this in v2?
+>> This looks like a separate issue since setting CPPC Enable reg doesn't seem
+>> to be related with autonomous control.
+> 
+> In v2, moved it out of the auto_sel specific check.
+> Agree that cppc_set_enable() is general CPPC enablement and can be split
+> into a separate patch in v3 if preferred.
+> 
+Yeah it should be a separate patch I think.
+>>> - Init min/max from caps instead of cppc_cpufreq_update_perf_limits()
+>>>    as policy->min/max aren't yet populated.
+>>>
+>>> [1] https://lore.kernel.org/lkml/20260317151053.2361475-1-sumitg@nvidia.com/
+>>> [2] https://lore.kernel.org/lkml/20260423084731.1090384-2-pierre.gondois@arm.com/
+>>> ---
+>>>   .../admin-guide/kernel-parameters.txt         | 13 +++
+>>>   drivers/cpufreq/cppc_cpufreq.c                | 89 +++++++++++++++++--
+>>>   2 files changed, 97 insertions(+), 5 deletions(-)
+>>>
+...
+>>> +
+>>> +             policy->cur = cppc_perf_to_khz(caps,
+>>> +                                            cpu_data->perf_ctrls.desired_perf);
+>>> +
+>>> +             /* EPP is optional - some platforms may not support it */
+>>> +             ret = cppc_set_epp(cpu, CPPC_EPP_PERFORMANCE_PREF);
+>> Why setting this to PERFORMANCE by default?
+>> A platform can have its own default EPP value.  This would override that.
+> 
+> The boot option targets performance oriented use cases on many CPU
+> systems, avoiding sysfs scripting across all CPUs on every boot.
+> The BIOS default EPP (often biased toward energy saving) would otherwise
+> steer HW away from that goal. Admins can still re-tune EPP at runtime via
+> the existing energy_performance_preference_val sysfs.
+> 
+Yeah, avoiding scripting makes sense for sure.
+The thing is how do we do this nicely.
 
-Changes in v3:
-- Reorder os.path expressions
-- Drop @ksft_disruptive from check_nk_rx_hds to mirror the original
-  check_rx_hds in devmem.py
+For now we need to consider follow either the BIOS default or the driver
+default.
+They seem to be exclusive since there isn't a clear way to support both at
+the same time.
 
-Changes in v2:
-- Add nk_devmem.py to TEST_PROGS in Makefile (Sashiko)
----
- tools/testing/selftests/drivers/net/hw/Makefile    |  1 +
- .../testing/selftests/drivers/net/hw/nk_devmem.py  | 55 ++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
-
-diff --git a/tools/testing/selftests/drivers/net/hw/Makefile b/tools/testing/selftests/drivers/net/hw/Makefile
-index 85ca4d1ecf9e..2f78c6aec397 100644
---- a/tools/testing/selftests/drivers/net/hw/Makefile
-+++ b/tools/testing/selftests/drivers/net/hw/Makefile
-@@ -34,6 +34,7 @@ TEST_PROGS = \
- 	irq.py \
- 	loopback.sh \
- 	nic_timestamp.py \
-+	nk_devmem.py \
- 	nk_netns.py \
- 	nk_qlease.py \
- 	ntuple.py \
-diff --git a/tools/testing/selftests/drivers/net/hw/nk_devmem.py b/tools/testing/selftests/drivers/net/hw/nk_devmem.py
-new file mode 100755
-index 000000000000..0e36a0fa9688
---- /dev/null
-+++ b/tools/testing/selftests/drivers/net/hw/nk_devmem.py
-@@ -0,0 +1,55 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+"""Test devmem TCP with netkit."""
-+
-+import os
-+from lib.py import ksft_run, ksft_exit, ksft_disruptive
-+from lib.py import NetDrvContEnv
-+from lib.py.devmem import (setup_test, require_devmem, configure_nic,
-+                           cleanup_nic, run_rx, run_tx, run_tx_chunks,
-+                           run_rx_hds)
-+
-+
-+@ksft_disruptive
-+def check_nk_rx(cfg) -> None:
-+    """Run the devmem RX test through netkit."""
-+    run_rx(cfg)
-+
-+
-+@ksft_disruptive
-+def check_nk_tx(cfg) -> None:
-+    """Run the devmem TX test through netkit."""
-+    run_tx(cfg)
-+
-+
-+@ksft_disruptive
-+def check_nk_tx_chunks(cfg) -> None:
-+    """Run the devmem TX chunking test through netkit."""
-+    run_tx_chunks(cfg)
-+
-+
-+def check_nk_rx_hds(cfg) -> None:
-+    """Run the HDS test through netkit."""
-+    run_rx_hds(cfg)
-+
-+
-+def main() -> None:
-+    """Configure the NIC once, then run the netkit devmem test cases."""
-+    with NetDrvContEnv(__file__, rxqueues=2, primary_rx_redirect=True) as cfg:
-+        setup_test(cfg,
-+                   os.path.join(os.path.dirname(os.path.abspath(__file__)),
-+                                "ncdevmem"))
-+
-+        require_devmem(cfg)
-+        configure_nic(cfg)
-+        try:
-+            ksft_run([check_nk_rx, check_nk_tx, check_nk_tx_chunks,
-+                      check_nk_rx_hds], args=(cfg,))
-+        finally:
-+            cleanup_nic(cfg)
-+
-+    ksft_exit()
-+
-+
-+if __name__ == "__main__":
-+    main()
-
--- 
-2.53.0-Meta
-
+So, are we going to support the BIOS default case?
+For example, users can config a default EPP in the BIOS setup menu.
+>>> +             if (ret && ret != -EOPNOTSUPP)
+>>> +                     pr_warn("Failed to set EPP for CPU%d (%d)\n", cpu, ret);
+>>> +             else if (!ret)
+>>> +                     cpu_data->perf_ctrls.energy_perf = CPPC_EPP_PERFORMANCE_PREF;
+>>> +
+...
