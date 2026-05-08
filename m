@@ -1,125 +1,95 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from outbound.st.icloud.com (p-east2-cluster3-host4-snip4-10.eps.apple.com [57.103.77.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A5A3E1CF6;
-	Fri,  8 May 2026 14:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778250118; cv=pass; b=nFcWTemx7xoT8hHCfsvh8AeEWcK5/tLgxdsweDe0F4vBtsXm0QPWN9VDk3lb9AYR8W9ziaONY+Nivd3LnDhJjgN3KLVkhmJpsU7nH2k1TgWqdsqNcP+BOXLWDWBEe5qZAq01PDMVAS5orHe1N6Qf+a2hg6ac2YouuqSOr5fT6Mw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778250118; c=relaxed/simple;
-	bh=XtWNsD/ulZ2ZqkS2O39Whpj5apOb1G4eXI2AX6rDO9U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ks+qywmldg+tOkBBQV1cEuJ6M9nv0j7BKWG7ZhG6nKJ44mUjnXMFqoiKDTpZVR4Hmzz6yPiSafzJ8hHaR6ZwMJfqF6S9LYbpWtxoyLK47mFJ8Gqh089kehRgxisvNAUkI05u4nJfAKHPoUPvGNr/pt6RYD6xtSbLa4DUaL/geJs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=IcBm+RQi; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2EB3EDAB9
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 14:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.77.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778250125; cv=none; b=ETcev4Kw0XSY9ihETRE190lW6w0QGt3SMRYCy8NFdDnz2PTYshuW+aNJRSloWNRTHZTdfFbvBBYgax73dOKIQWZNMr/+ARkJ8y+x9PXrKiKAuTf2o1jR9U0NHTfOUbayqGiAVwrTnN7caWqrQL/W3eox2wIEjSn7kEueOUk8jkM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778250125; c=relaxed/simple;
+	bh=//1X+x+VpK+x5WtkB588wQ7uWRORnOWeDH9Ld2h5zYY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SPLBMjM45k4dqj8+8ytF5HKhvIlzvyho9tegHe8+MwG8QJLi4UP5rjxwOWbOlDxW626FbbcIDcHl/TG5rSBPYiU3JvI5t+R/L7JW3qzhzbDz4RGST95f9hanqFGM5uY3LaygCsubDweUCrdlo0ncXh9grM/NxQTnN5EqybQMl80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=NMakjWRh; arc=none smtp.client-ip=57.103.77.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="IcBm+RQi"
-ARC-Seal: i=1; a=rsa-sha256; t=1778250096; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=cZRc/W216m8fKpLIXQVwlhLul4vpcAlT1ooAPr3wpWSTXEiDejmftvdW6Za30E9TtHTcfjUO8la9qEwPHZowm/Nbj6W0MuvfplENlFxYGq9HT6WxQjFUHWFEVLXIDu9+pj16MWyAHtJt2ZKwACIXd6lPOyVfCUCk0qkfftfoox4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1778250096; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4gloFifugrfVm3nhB4BnQvOjHDLnV2uv7DC6X6OQOkE=; 
-	b=Eu9PUo9OL65TRIIqYM4XOGhv1GabuJXgXQ8ZpBODO75MPyZErN5HhGYkK/gAcaz0WItAjcvQVeb8IsACZOUM/LwD6chuBVcub6epzM75P/79F3A2VHx0lK4QX49lDUoNG/4pj3zly52XxQp2SOYBKMr0WjIQfuFDBxihX5i8gwY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778250096;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=4gloFifugrfVm3nhB4BnQvOjHDLnV2uv7DC6X6OQOkE=;
-	b=IcBm+RQiOCmsRoDcyI/Ssk2fSfS56u386yqZVtrw6KV7icsem7URENHLixYSm6Kf
-	JHGcV6vSx8iEJooUJoYhCYnZe54WbKBRAwAIv1iwmaEnnkE5b8dBjrlUwsVZB7oj7Pm
-	qMZTCVyut8xzrcVhwG1jeYgagxGD0H/d2d860s4o=
-Received: by mx.zohomail.com with SMTPS id 177825009450368.5628071820671;
-	Fri, 8 May 2026 07:21:34 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] drm/fdinfo: Add "evicted" memory accounting
-Date: Fri, 08 May 2026 16:21:29 +0200
-Message-ID: <AUXeYVnmTfKzaCIY1xm-CQ@collabora.com>
-In-Reply-To: <85d22f7e-af44-4a6e-911f-54830c91e339@ursulin.net>
-References:
- <20260423-panthor-bo-reclaim-observability-v3-0-60af32164a4f@collabora.com>
- <20260423-panthor-bo-reclaim-observability-v3-1-60af32164a4f@collabora.com>
- <85d22f7e-af44-4a6e-911f-54830c91e339@ursulin.net>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="NMakjWRh"
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-6 (Postfix) with ESMTPS id DF6751801A95;
+	Fri, 08 May 2026 14:21:59 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJBkMDRQVJF0wBTVIPDxhMCkEUWgpcQgtJAS1eCF4fTBwdDlgGEhZdRVsYRRlLHVgWAV8GWXIZWhRcGFNFUR9UWEEOCloBUFEdXwIKBEcEWxdGA1NFQQQXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PGVoUXBhTRVEfVFheBFNWDkEAQFIIBVtUXQ1BUFQaX1RICFULWlJZHxUITlZVBlsHQ19ICy1eCF4fTBwdDlgGDFBNAUMICgJRHFYNVw==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778250123; x=1780842123; bh=HY4m+GkqlwRuQ5y8wvkean++EHuF1sIVbF7Ol7ehg2U=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=NMakjWRhx5/sbK6oUfM8oBUH8kwKDao5HuHpsCIJv8uEvKBr7H7fXZnWu6dv/ElglK5Cf1eqgyDwyH0IbQItmFVe8QgxmReeKtJOmHCBkHq3f3yPiyUh2HwG0cmKt6Wcs7C33aVq+pqEJ0XiAsAbduaYhpHqccBwaHILcKAjknXkJQZ8jlV4zIkvTRYhsyHWC9+w/8mkldShKWnEn7pcPdVO7hvKC4WDBNc/llAdgt6oNSOH03MuWZ3EtDGobr8p1YWerFKzoJZvK/B1VoMnrM7BCF2BdBJy0y4iUNHTsKQM5MCey4Nyug4fOZPUa4wLXHDLDrmwbJ08T7vjc5dbAg==
+Received: from [192.168.89.2] (unknown [17.42.251.67])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-6 (Postfix) with ESMTPSA id 541801801AA0;
+	Fri, 08 May 2026 14:21:56 +0000 (UTC)
+Message-ID: <198ae20f-49c9-4f81-87e2-e16e81053f08@icloud.com>
+Date: Fri, 8 May 2026 23:21:53 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] hwmon: add AMD Promontory 21 xHCI temperature
+ sensor support
+To: Guenter Roeck <linux@roeck-us.net>, Jihong Min <hurryman2212@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1778123510.git.hurryman2212@gmail.com>
+ <0c35058bb088213397b42fca8d51e9ad0bba5169.1778123510.git.hurryman2212@gmail.com>
+ <35c2436b-d172-4172-a684-a96c4a0dcabe@roeck-us.net>
+ <16c4f7e5-e33d-4271-a7af-5d6c7fca0570@icloud.com>
+ <6745fd21-2001-4e06-af41-96ae63154c02@roeck-us.net>
+Content-Language: en-US
+From: Jihong Min <hurryman2212@icloud.com>
+In-Reply-To: <6745fd21-2001-4e06-af41-96ae63154c02@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: 3o8xSsRx6xnHW4ChACeWckgSTEKZMm6D
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDE0OSBTYWx0ZWRfXxWeM5aaXZBKr
+ BdcrZtpC4bCFy/GCZFOSzVGuJEXBKyjvR/xcnbEts3V+sVWMSvM4CPEt0mrtzFm0QemYDXGojT/
+ Hw5vi9stJIywc/hmfooeyUUCK856F0wRKD1tl0vgIBHEEx9mRS0YrAFCNx18TLGikm62e0ZK9r+
+ L02CNyJ5WSx7Un5qBQnLOXMvrFq4YpB9/5Kv/IMP08/4uYLOodv4WfzsME7iKkhq03OTJXqlmuY
+ 2YB9yxWguX6LHJh5cfDbGMJz3Z4Qvu1whvBv7ZJomq6osiBGGWOv4+FaPH4dpR/pbiJgfcI0uqB
+ PGAb3rUUxWBvMVJV5svoUC6XFidQWsegMrlvuAIDHPvleEUz5So4v2TT4O37vY=
+X-Authority-Info-Out: v=2.4 cv=Abu83nXG c=1 sm=1 tr=0 ts=69fdf189
+ cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
+ a=YrL12D//S6tul8v/L+6tKg==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=zsq4cwGLRDLkaE-V9JoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=zZCYzV9kfG8A:10 a=PgRulw5oR9JgysbTFEid:22 a=MienORt8HT0FiJ1vGQZ6:22
+X-Proofpoint-GUID: 3o8xSsRx6xnHW4ChACeWckgSTEKZMm6D
 
-On Friday, 24 April 2026 18:01:10 Central European Summer Time Tvrtko Ursulin wrote:
-> 
-> On 23/04/2026 13:33, Nicolas Frattaroli wrote:
-> > Currently, there's no way to know for certain how much GPU memory was
-> > swapped out. The difference between total and resident memory would
-> > include newly allocated pages, which are not resident, but also aren't
-> > swapped out.
-> > 
-> > Add a new drm_gem_object_status so drivers can signal when an object has
-> > been evicted to swap, and add a new "evicted" counter to
-> > drm_memory_stats.
-> > 
-> > Due to how the supported_flags bitmask is determined, the "evicted"
-> > count won't be printed to fdinfo if there's no swapped out pages.
-> > 
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > ---
-> >   Documentation/gpu/drm-usage-stats.rst | 6 ++++++
-> >   drivers/gpu/drm/drm_file.c            | 8 ++++++++
-> >   include/drm/drm_file.h                | 2 ++
-> >   include/drm/drm_gem.h                 | 2 ++
-> >   4 files changed, 18 insertions(+)
-> > 
-> > diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> > index 24d3012ca7a6..11570976095e 100644
-> > --- a/Documentation/gpu/drm-usage-stats.rst
-> > +++ b/Documentation/gpu/drm-usage-stats.rst
-> > @@ -200,6 +200,12 @@ One practical example of this could be the presence of unsignaled fences in a
-> >   GEM buffer reservation object. Therefore, the active category is a subset of the
-> >   resident category.
-> >   
-> > +- drm-evicted-<region>: <uint> [KiB|MiB]
-> > +
-> > +The total size of buffers that have been evicted and are currently in swap
-> > +space. Only present if there are buffers that are currently swapped out, and the
-> > +driver implements reporting of this type of memory.
-> 
-> Please hold off merging this for a few days, I just noticed it and would 
-> like to set aside some time next week to think about the semantics, how 
-> it applies to discrete GPUs where evicted != swapped and some other 
-> questions.
-> 
-> Regards,
-> 
-> Tvrtko
-> 
+> Yes.
+>
+> Please note that you keep top-posting. I don't mind that much, but
+> top-posting is (sometimes strongly) discouraged for linux kernel 
+> discussions.
 
-It's been more than a few days (2 weeks, in fact), with no follow-up.
-I'm getting a little grumpy because people expressing vague concerns,
-and then disappearing over the hills for weeks, is an ongoing problem
-in the DRM subsystem. If you want me to reword the documentation to
-decouple eviction from swapping, then I can do that, but please say
-so and then review the follow-up revision so that we're actually
-working towards a solution and not just rolling the dice of who saw
-the e-mail thread and felt like responding this time around.
+Sorry, this is my first kernel contribution and I was not familiar with the
+mailing list convention around top-posting. I will avoid top-posting and use
+inline replies from now on.
 
-Kind regards,
-Nicolas Frattaroli
+I have addressed the review comments in v4, including runtime PM behavior,
+temp1_label removal, -ENODATA return, the PROM21-specific xHCI PCI glue 
+split,
+and making the PROM21 PCI glue built-in only when enabled. I also 
+adopted the
+naming scheme discussed above:
 
+   - drivers/hwmon/prom21-xhci.c
+   - CONFIG_SENSORS_PROM21_XHCI
+   - hwmon name: prom21_xhci
 
+I will send v4 now.
+
+Sincerely,
+Jihong Min
