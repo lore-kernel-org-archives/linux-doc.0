@@ -1,98 +1,87 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA5640FD9A
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 16:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2433D6471;
+	Fri,  8 May 2026 16:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778258291; cv=none; b=EJwNOCJRalcHNPqSZ9BhU7u3LJ8AQ9lKtDjfEmea31IphbvKuJM24veDjR3/eDNtQ9blWMVo5Bei4Pp6ktXFSkEfhLq2Tbf99YMPX1FGXylIjHIlxXnyv6zF5byHCnh73X+EtBEBn28I0fp9L21gpsv+aYkAIL9LN6Zt441zMqE=
+	t=1778258351; cv=none; b=AwEjEcPL/Kw81YXLYWzH/CCkUG7CUKh3baf8I8VzTyCpgR2RuRRCocqwacjStvE91mUAAIZmsTVWdgwmb15zAHHeDzsiTx5FtDqQ2y1oaTeS1dAE/E7qtzRo+hy9G21me4/waXWDZ/InS1XQQsyH+pOqRbPoSYaZ0dwok64w4DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778258291; c=relaxed/simple;
-	bh=miCZKZSIXfc6On14RY8eKkgbOftaXNQE9AEPWg/TRyg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ux11/BC3rC7IwRVZCMfXg66jG3Qvgl0zymeyg6Zj6QWNLwIAd/rPqbH19BZADPiA5Q4i53W2opE1QBu/OGd3E97c79j8JFpluX1GrWDnUUXnCjy0+zpYOwnMC3IEYlQS58P7Cf2qC2l4pkoPs5mlqu/1ajLF/n7zW90/CcQG19M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ssvgksz1; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778258351; c=relaxed/simple;
+	bh=q6k5Oh0K5QycBkcQBFIrZQHNDdFaD3msFtXgp/nz9mE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U//EDvejvoEFwS5OOGQ0COOE4zq+HL8RJqEbHG4LVH2eXias2y/BDeNgGPADB4VqZ3UOP40oqrmx6CShLpBbZyCxMvFp/EXojwAfaVti8S9tzRYhfzg9qRVz34OeTDD1gWKCIaJUXKR20Nw+wsGgr3vDpdXXxNm5jAl+UXyNTFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=DnAdRSJi; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ssvgksz1"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488af96f6b2so25098005e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 09:38:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778258288; x=1778863088; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A9QeD8Xg4H3P/Vzek1gQkKxkZvHNGvXC5sVvuQGVo0o=;
-        b=ssvgksz1zBUxuMSbRp9kBv2BeZ+X1fwku0qNDOvxMoqdezVV7UXYRT18l3EFbbP1PC
-         yidl3V4BzRjW7WiUWqs9jRRN+9Vo9zQDBvhhJ2wb6NpJcnFl+AKWhNzLfXXRLM7D0MvH
-         YHyyasrJMj7Zuoq2qFQIyuuOZjIQjV+1HvEmyxz/iVhcrrzmD8mEOLuek85B4uXHa2T/
-         HfIZiUf+BRaYPl5e60G3Tz64Ur2JyWeDbBsAGC7J+Tz8t59XxZkbtDKb2efIymNMxYx4
-         e2GB49O9iuL/cjjqiwsrjV2VqJ0bwlkYz1YWOUXscpUuU8CI/ST6kVJ05OeZTuhePx+b
-         gPww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778258288; x=1778863088;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A9QeD8Xg4H3P/Vzek1gQkKxkZvHNGvXC5sVvuQGVo0o=;
-        b=QSMbHnGs8c8N2VO5pYBgZPJmp2HN95BOAihSl2FbrCIoRNY1jpjclqC9xAI/xv+som
-         VmEZlp6H+7UrLWjZR5gqTdWwzOxj8OgMYDMJZ8iiIQnCvIVGg6G3bNdx/V1XO+HF7SSA
-         GWr5na9R30PM8oxbbi6mKV71eWsBSz6fsvig++oPG+pAgZDdp3iVnqU0whbfl+rUny6+
-         x5pVfZpwdMproKa66yOb03IiwRJqBqQjnWpGECH0fcN2z7FG33v39KskQn5Qd8Xk5lzC
-         ADwvd8ERf5T9XV7NgNZ6SKKPGnqZROI4qvAMbNlIHXBwWZCbTQZRO7c0/t+7MZ3xayVs
-         c5lA==
-X-Forwarded-Encrypted: i=1; AFNElJ/Dq/XU+YV/0sL3C518vO0jDUhBx3YE0/5f7jLe9PFWxQzhAseWMZud/mFFplrKlR7F+pWEfmer8aY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxd/5AfiEMa7fkTtE7FOg7lyqU8ySUXQrd+gx8WQsyOgZu1QHjk
-	AAdWWgGWPGu6RUJI2q43YoxrHHfLzQaaF2/3x8YCr5yDS0XGWBYLYKYK
-X-Gm-Gg: AeBDiesiAvy4dRT+mbl6TROutrkrOhUQxbPSqKDegywqfuj+KZOrU1Qj57UffXmTYWj
-	WJtoNeFXKlpAj5/i+jmFy0B5Oh6pIXrUNhzKP+GTLf4j+i9v+w8jFBq1rUg5Olye1PbxsZnvhl+
-	C7EYmkDT8jpapmf50fx3lgnQazidoZVSl9g9UdENjCXcHdpkPzoZR4s8kceZyI8CHNlPYk/SKF2
-	PBD5I4Db0WC8stxzL4EDDc3sQKc8kFO3dkJr1k6+MLMDPk3JkodU62DFI9jSiAvlFhczyj4DWHR
-	vzcQbNEfnbXi+SU8XHfeGNctjhZn6mVR6MGkfbBBkUt3xW9J3bGdaV7HI/Pa6A0f0BtDZQN2qb2
-	xBHkSMutH56XfT9gcCX6Plydb9jMg/6PQfqbqU7H/T3btCCPMUQQcXrpIHIQtLDsFv1BX6htOJk
-	/Oo9koScT6IgqMDCBkPKGwz4PbpjsdytGalJOGDykST+t1N5D03IQaVanOxAvubU9M/MSgX4kzO
-	RAkNg==
-X-Received: by 2002:a05:600c:3ba8:b0:48a:7676:30bc with SMTP id 5b1f17b1804b1-48e52bd5035mr240431645e9.14.1778258288419;
-        Fri, 08 May 2026 09:38:08 -0700 (PDT)
-Received: from arey-arch ([2a02:1210:7298:ec00:73f0:d2e7:188c:1f61])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6daf496bsm5648605e9.4.2026.05.08.09.38.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 09:38:08 -0700 (PDT)
-From: Adrien Reynard <reynard.adrien.08@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Adrien Reynard <reynard.adrien.08@gmail.com>
-Subject: [PATCH 5/5] docs: fix repeated word 'at' in journalling.rst
-Date: Fri,  8 May 2026 18:38:06 +0200
-Message-ID: <20260508163807.16284-1-reynard.adrien.08@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="DnAdRSJi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1778258348; bh=DR7AdvxgyTTca330lS6EBoaCYRYIAttkm8UI6kl1vMc=;
+	h=From:Message-ID:From;
+	b=DnAdRSJie+xf85iJ//X/tH53LvUh7wYDJex9c0EqMCXil8rXAF0U2BguQ8xzAfTc/
+	 4NhlC2YzUtiIrlN0l2GozcByWFkjk1m2vKDPd37xwf3/WstL6sX41X7KOHlvrztU+w
+	 GBFnKAnirIC+MEksW7CsOvjehswUnASfcXjWDT+4=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id 1FDE8C0C24;
+	Fri, 08 May 2026 18:39:08 +0200 (CEST)
+Date: Fri, 8 May 2026 18:39:07 +0200
+From: Willy Tarreau <w@1wt.eu>
+To: Greg KH <greg@kroah.com>
+Cc: Linus Torvalds <torvalds@linuxfoundation.org>, leon@kernel.org,
+        security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        skhan@linuxfoundation.org, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
+ is not a security bug
+Message-ID: <af4RqzO_VHYAqcHf@1wt.eu>
+References: <20260503113506.5710-1-w@1wt.eu>
+ <20260503113506.5710-3-w@1wt.eu>
+ <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
+ <2026050801-semifinal-expulsion-9af6@gregkh>
+ <af4IW_ycR2RpAjhy@1wt.eu>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <af4IW_ycR2RpAjhy@1wt.eu>
 
-Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
----
- Documentation/filesystems/journalling.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Greg,
 
-diff --git a/Documentation/filesystems/journalling.rst b/Documentation/filesystems/journalling.rst
-index 863e93e623f7..2825f6c030c2 100644
---- a/Documentation/filesystems/journalling.rst
-+++ b/Documentation/filesystems/journalling.rst
-@@ -93,7 +93,7 @@ easily as on jbd2_journal_start().
- 
- Try to reserve the right number of blocks the first time. ;-). This will
- be the maximum number of blocks you are going to touch in this
--transaction. I advise having a look at at least ext4_jbd.h to see the
-+transaction. I advise having a look at least ext4_jbd.h to see the
- basis on which ext4 uses to make these decisions.
- 
- Another wriggle to watch out for is your on-disk block allocation
--- 
-2.54.0
+does this addition on top of the current patch address your concerns ?
 
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -88,6 +88,14 @@ can be easily exploited, representing an imminent threat to many users.  Before
+ reporting, consider whether the issue actually crosses a trust boundary on such
+ a system.
+
++**If you resorted to AI assistance to identify a bug, you must treat it as
++public**. While you may have valid reasons to believe it is not, the security
++team's experience shows that bugs discovered this way systematically surface
++simultaneously across multiple researchers, often on the same day. In this
++case, do not publicly share a reproducer, as this could cause unintended harm;
++just mention that one is available and maintainers might ask for it privately
++if they need it.
++
+ If you are unsure whether an issue qualifies, err on the side of reporting
+ privately: the security team would rather triage a borderline report than miss
+ a real vulnerability.  Reporting ordinary bugs to the security list, however,
+@@ -102,7 +110,7 @@ affected subsystem's maintainers and Cc: the Linux kernel security team.  Do
+ not send it to a public list at this stage, unless you have good reasons to
+ consider the issue as being public or trivial to discover (e.g. result of a
+ widely available automated vulnerability scanning tool that can be repeated by
+-anyone).
++anyone, or use of AI-based tools).
+
+ If you're sending a report for issues affecting multiple parts in the kernel,
+ even if they're fairly similar issues, please send individual messages (think
+
+If so I can resend with it.
+
+Thanks,
+Willy
