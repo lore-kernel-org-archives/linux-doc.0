@@ -1,46 +1,44 @@
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564A13D3D16;
-	Fri,  8 May 2026 15:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.69.130.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5352B3D75DA;
+	Fri,  8 May 2026 15:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778255906; cv=none; b=LaFUOR66UQjfmRfKW9Z3G81pTfpicWBDMa2LSeGuclVFyyJketKlfT6dorNVpzQCVDD6/MOIlb0Dt53cdGVGsmasFAlj3TSXnvcC9PX8MfoxbiDYOHE7MKcau6Y5sZC6VP4zTQ3mXp9LC0vXxQtbDnS4fALptdn/qucSxqQzj3k=
+	t=1778255976; cv=none; b=sghkq7dXH+bb7KtMLO5mCoiqT8Y+4rc83itj+E3QhCUaB/ZQPcJN31IssjsJSErUUSrF6vK9YqnxfsoPMxzcZaXF4JQs+riFrsm3FfoSawBKRCj0ligh8t/GdxBgJdGx2ckS5kvC72vXGQIqxrGn7f3vRG/7fyMhBx20XX3qVmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778255906; c=relaxed/simple;
-	bh=nyCUjOYqPTh9KITmYgP05IsbiD6gk6fZn8WAO9Rfr/k=;
+	s=arc-20240116; t=1778255976; c=relaxed/simple;
+	bh=Nv0IeqEWz/Sy1KGCTYSzmkcHAr2Ts+ZDRUdBTm0RZug=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G8qkmapsXrkh2RaaWvRLac2ZGR8InUEBrgp1GViqQBcEJSEkDDOr+S6y0L41+HVjey+ouxt5vnxOjRbrsq3W8d1KOwXWCf2sRXI1vts+g/F53bP+nFvau+RwL0EsA/JOIb9LeD+7B2OemsWQ5adBIO6B5JKbO9QFBZYpcIBo7l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=R1Dwp/mG; arc=none smtp.client-ip=158.69.130.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=dDyDzqmtUiGBQPC4bqV2mCUeRFuQBl/42p+IzziYXMth/oEfpp2U4pFolOxnONamOZ+chEgpg0KDsfwCMvE49jLunD8AmbJloYRQbpqzQ1xklBYcHWQfRnPHgLvodrPtsEdLw5k4ahVexqM6+pgnjnwTbZNg16b9yaJOtRT2kgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=LAwW89ex; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="R1Dwp/mG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1778255300;
-	bh=W678Qa/H8vJfMe39MVrcLpV6doreu41bREVmv4one20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R1Dwp/mGNrf59CjxoooJ2ZKh3ijYDeEG2dmoumfQ544up8p9IZEbSwx1JtnKUNUVh
-	 xAV7Deo+fyENZ0vb+QXDrmGQfrTv4lUrBCogqnwZ1oD6rH5wsAMQ1U50OVG7+zhpYA
-	 o/fmUMcEu8LhpNyVOQNyAj9h2Ysk44/1oTP07XA3snjmPhsD2QFQnE8hwPwo9drZFZ
-	 GZzcgp9YjkXS32j4zDzprFI/9HPAW5U4ShBzkQCKiX4ziyjLyVjYQkmypEe8hdeNRL
-	 FIyDDmszuCUZAGEeseVZjvbPg8YZqLMYRPBR+ji3e/Z5y78zYM48828CnFUmWtWDao
-	 JtP47zfJi2muw==
-Received: from localhost.localdomain (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4gBtnJ5T0qz1T4;
-	Fri, 08 May 2026 11:48:20 -0400 (EDT)
-Date: Fri, 8 May 2026 11:48:19 -0400
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: Joshua Peisach <jpeisach@ubuntu.com>
-Cc: Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-	akpm@linux-foundation.org, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
- primitive
-Message-ID: <af4Fwxndqv2knLov@localhost.localdomain>
-References: <20260507070547.2268452-1-sashal@kernel.org>
- <DIDEQIFQF1EW.11CESAK4JL4PR@ubuntu.com>
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="LAwW89ex"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1778255963; bh=tdrzBG+3GV5MhiEQB/dCW07kA3ElvBnTDOKowXqz3z8=;
+	h=From:Message-ID:From;
+	b=LAwW89exoX9XuiYIwUU8drp8RuFUjvWKtrlqdkfjKti8f1LivnSwyD+6mc8/0VT8h
+	 wgwzf8nz81Crkk1sXbOhox387r6ucIGhhSK0yim9uHRpaO2qPZR4Ms/xuNvP9coJ3Y
+	 PUCskQ2JuHVcdq7KnsVkoB68fwn+i2QzsZ2djZvM=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id DC237C0C0C;
+	Fri, 08 May 2026 17:59:23 +0200 (CEST)
+Date: Fri, 8 May 2026 17:59:23 +0200
+From: Willy Tarreau <w@1wt.eu>
+To: Greg KH <greg@kroah.com>
+Cc: Linus Torvalds <torvalds@linuxfoundation.org>, leon@kernel.org,
+        security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        skhan@linuxfoundation.org, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
+ is not a security bug
+Message-ID: <af4IW_ycR2RpAjhy@1wt.eu>
+References: <20260503113506.5710-1-w@1wt.eu>
+ <20260503113506.5710-3-w@1wt.eu>
+ <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
+ <2026050801-semifinal-expulsion-9af6@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,59 +47,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DIDEQIFQF1EW.11CESAK4JL4PR@ubuntu.com>
+In-Reply-To: <2026050801-semifinal-expulsion-9af6@gregkh>
 
-On 08-May-2026 11:40:54 AM, Joshua Peisach wrote:
-> On Thu May 7, 2026 at 3:05 AM EDT, Sasha Levin wrote:
+On Fri, May 08, 2026 at 05:35:39PM +0200, Greg KH wrote:
+> On Wed, May 06, 2026 at 08:46:07AM -0700, Linus Torvalds wrote:
+> > [ Coming back to this after a week of trying to clean up the disaster
+> > that is my inbox after the merge window ]
 > > 
-> > For many such issues the simplest mitigation is to stop calling the buggy
-> > function. Killswitch provides that. An admin writes:
+> > On Sun, 3 May 2026 at 04:35, Willy Tarreau <w@1wt.eu> wrote:
+> > >
+> > > The use of automated tools to find bugs in random locations of the kernel
+> > > induces a raise of security reports even if most of them should just be
+> > > reported as regular bugs. This patch is an attempt at drawing a line
+> > > between what qualifies as a security bug and what does not, hoping to
+> > > improve the situation and ease decision on the reporter's side.
 > > 
-> >     echo "engage af_alg_sendmsg -1" \
-> >         > /sys/kernel/security/killswitch/control
+> > I actually think we may want to go further than this.
 > > 
-> > After this, af_alg_sendmsg() returns -EPERM on every call without
-> > running its body. The mitigation takes effect immediately, and is dropped on
-> > the next reboot.
+> > I think we should simply make it a rule that "a 'security' bug that is
+> > found by AI is public".
 > > 
-> > A lot of recent kernel issues sit in code paths most installs only have enabled
-> > to support a relative minority of users: AF_ALG, ksmbd, nf_tables, vsock, ax25,
-> > and friends.
-> > 
-> > For most users, the cost of "this socket family stops working for the day" is
-> > much smaller than the cost of running a known vulnerable kernel until the fix
-> > land.
+> > Now, I may be influenced by that "my inbox is a disaster during the
+> > merge window" thing, but I do think this is pretty fundamental: if
+> > somebody finds a bug with more or less standard AI tools (ie we're not
+> > talking magical special hardware and nation-state level efforts), then
+> > that bug pretty much by definition IS NOT SECRET.
 > 
-> I like the concept - but is there any way to ensure that important functions
-> like malloc aren't being patched? Or some way to make sure that what is being
-> patched will not kill the entire kernel?
+> After the past 2 weeks, and the past 2 months, I am going to violently
+> agree with you here.  We've seen so many "duplicate" bug reports it's
+> not funny.  All of the modern LLMs are feeding the output back into the
+> model for future runs, which makes the data totally public.  Even if
+> not, the output is being monitored by external companies at the very
+> least.
 > 
-> I know this probably boils down to "operator has to use it correctly", but just
-> wondering if this was considered.
+> > So why should be consider it special and have it be on the security list?
+> 
+> I don't think we should anymore.
+> 
+> Yes, having a full reproducer in public is not good, but the general
+> "this is a bug" comments we should start redirecting to public lists
+> more.  That's the only way we are going to handle this influx as our
+> "normal" bug workflow works very well, especially when it comes with a
+> fix, as these LLM tools can provide very easily.
+> 
+> So if this could be reworded somehow to reflect that, maybe?
 
-I like the idea too, it should help prevent a few devops burnouts in the
-coming weeks.
+What I'm trying to do is to make sure the reports don't flood just to
+maintainers (some of whom never got a report, and getting an intimidating
+one written by an LLM can be really painful). And in parallel we're trying
+to limit public reports for non-AI. So I think the split point revolves
+to:
+  - all bugs (AI and non-AI) affecting the threat model are security bugs,
+    but AI reports must be considered public as others will find them in
+    parallel (and we do know that pretty well now).
+  - if non-AI, send to maintainers and Cc: security, send all repros 
+    you can share
+  - if AI,  the report must be considered public so send to maintainers
+    and Cc: public lists AND always LKML, and never security@, and do
+    not send the repros publicly.
 
-One possible approach to prevent "footgun" type of killswitch use would
-be to first apply a statistics collection killswitch handler that does
-not change the behavior: it checks whether the target function is
-invoked at all on the system for a given period of time. Then it applies
-the killswitch if it was not invoked during that period. Overall
-sequence:
+=> this reinforces the role of security@ to be for triage, coordination
+   and assitance to maintainers so that they're never left to themselves
+   (i.e. private bugs=maint+s@k.o; public bugs=maint+public list).
 
-- pre-soak killswitch for e.g. 30s, checking whether the function is
-  invoked at all. (period would be user-configurable)
-- if no calls were detected, engage killswitch, else report failure to
-  the user.
+Also, I'll add "for AI, please see the points below" (the 3rd patch with
+all the rules).
 
-This should prevent footguns such as trying to killswitch fork, malloc
-or other core functions which are inherently required.
+There remains a gray zone with the repros from AI tools (since they're
+good at writing them). They should sent to maintainers only (no need to
+involve s@k.o) but it requires a second message.
+
+> But the "what is and is not a security bug" is a good thing overall.  We
+> need a solid definition of our threat model if for no other reason to
+> keep me from having to write over and over "Once a driver is bound to
+> the kernel, we trust the hardware"...
+
+Over the last two weeks I felt like you needed a macro on your keyboard
+that would post a link to that doc in lore!
 
 Thanks,
-
-Mathieu
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+Willy
