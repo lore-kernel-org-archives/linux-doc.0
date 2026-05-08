@@ -1,71 +1,87 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD5140DFDC
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 16:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D47640FD9A
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 16:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778258286; cv=none; b=t6TC+Iq6pz3A2QcBMrS5P7Cu7DydPCRKs9aBixvhbRzuFZFvN3MBdnIZuoYRPFwJFtlM7Fh7i5565yDmRXnJsQgYrXo5InaFR0LFAl3rYBGWpaDzsY0kwAN8Tqb7VPHTHrPVtTgCF67wEvXrLo6aATfTKZTpDz+45UOpNv3DZjg=
+	t=1778258289; cv=none; b=sa5n9P+X5mVssmdMfAOg3vkkiDImIEAHeD4WdQ1HFgKtp0dzUhRGw+lNS7Qy3lfWjJnm4dGHJNzzdP3ky2hW9FcxlWhKlkbv7XaEwU7D6tmlLwLdYroTwLjYClmEDnN8tbOMkBIrCfqfKX9GmrfqLQ7jfOzKHNJecw/7w6ig91A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778258286; c=relaxed/simple;
-	bh=2rscKA+HFoNKvJIdGxfB7KU9JPY3WcmoLP0luIuuOyk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bPCVAwAGl7AiwgY4NP2Yc6uheJfBrrtoB9qXmZ1Ydjpupk7RT73ws2eTNgOcStThzMam09uKkKOoZanhxWSNsDCAHWNRQdmUoMPups32p723uV8w5SmCmIL8LVWlaMM31x1wRP1cIZIKzhBB/bIg0qM1LXjrHpcBPezrzN61FhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GTV0zijl; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1778258289; c=relaxed/simple;
+	bh=wNU0Th5XFAiJ7y6G8CDjt/dAtEYXDL6KcaolFhQPjEU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ONvvYJea8wEuNBWh7MHNCkf1yCbPwNf7Jxr5MxFHbQE1UBwPxPWDE6L+3MP4MvFP1T9JIy2uT8BeewsFj9RfcycxRP09xtKcs40lgLVGS70QMjamkfL0CudDShA5+frbOg4RvVym5s8C2o9PmypgxfC6e73cp4MTxYLBUqDcR34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r9PM+uEP; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GTV0zijl"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48984d29fe3so24827445e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 09:38:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r9PM+uEP"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso32157185e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 09:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778258283; x=1778863083; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778258287; x=1778863087; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rd370gXG/ew4bst/9jBG2RgUI2ruyVHTbbu5TsDabnA=;
-        b=GTV0zijlS2lYh7jf7K+sWEh5vdP5yvIxEa85tsIuO6CEzEQ6IzxDX06UwAed3SQR2m
-         vvJUijtZZYh9fRnvLZn7/SbJ+rcuThMGRZ5krVYYXIg0gf9aoz2keH8mpAyRJrcfbHXA
-         7QnL35tkXO119hxvPZRvk49CQzJYS+sV8iEyAftXwcBQeYleS1mHed8TSehhOLLhR6rC
-         fcuPJUECcgyVEymp8WRHwX10rUiWRCQV3TOgWBXFhOwIQkhfV/aUkeLl8pCxCVrwvU8p
-         SEggPIz3yHeU06blIFSBQvM/sufbqj59FOEKaVokny3nAchvXnfowRZ/MIEyAbK9nlsi
-         E/NA==
+        bh=WT56FP1Bt4LcxLxZsWkK8+jNPLJAOL9nE1Hwe4/BncM=;
+        b=r9PM+uEP1VTIerMwcLlTxQTqfFiZsRbwjH47TYsZJUVlNKXLHDDOZfmrrQ58M9syDh
+         ohtYUYUFMSCp6IJTO/NnElsvRuLWgo+P8mXLtarBTBPhLf8ehx0B7brv2EvYQE242AG+
+         vho9obhSXoyp9WFVuZ34GH5P2c6e9gGxMIzdiI3kOnL5hxhiOa51ai+N06tbP2tVVxo7
+         T1sms07yGafuNEj/qprrLSq/g9TGQszn7K2jrjlTxB0YzBQQTXt17DxvgS0wpaXgaA2q
+         JMd1Rv813g39HnXgD9aK5XYVDM1rmayk0CfDp8IgpFdKmMKJx7vLPy4tB6NRAzYsZq/b
+         V1zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778258283; x=1778863083;
+        d=1e100.net; s=20251104; t=1778258287; x=1778863087;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Rd370gXG/ew4bst/9jBG2RgUI2ruyVHTbbu5TsDabnA=;
-        b=I52Sl8hmSFs4f4jG+3PjSg0rpkwhbe/1KKsgEXJq3n+FZ9br/1ZiM51aXLAOzM389s
-         MBWcUaxdyteAoldUCRa9MX69QsM4PgaiVgJhfdOudb71yjLRcNRKKExNwS4z619HSCSq
-         j/WEjpFO3ZbJlWsynbMDYCmBO4kbNyWAvHuxIWt7dIecbbuK1QSYbPlXcT8WXadhaE4R
-         4umPksm8vYUJToBP87DCHycszANhE8dguMwlB3FmClf3dMdZe3X2LyOvX4zFebWIOf5x
-         Q60ivkVEKB0gAXKekCaN7iy4dsxeSqUIiLhB6KPLQsDVG18Y+yqB2B9VFyuzeg2srxMq
-         xdFQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/bwP6ZrWeRPMHcMc5jc00HhgY1dRnj5XSkzm4vcZWDYXL+ncMwiWZyooVmnJBBami2F+VpjDlhoco=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7MjvRom2gyXncXcWnY9DNSW87PxD7MQflZiQXOvFkjFla7Iq1
-	+VCiJdUHa7wSyXkHdRQbYJDXjJgWVwpsqCZOEc+uLeSk3LZA6m4AmHOmG7G/Grt0
-X-Gm-Gg: AeBDieuvvZedQXSsD4BrlgwXHxuaeiIHSIhPLhR4EMr81sDwA4l9MkvSz5cQ9Dhu1C8
-	pdqLbTvgTJXDlrc0sQP+ruLCmuF1Mah7VxjX4F6xhx53IvQ9sbUvwgeJQNWXmi5Hnl4DUk1iLbj
-	98QVQxFWiDeGf0ncJ06sxXo5dKvo5MQ9ggJrtGqVqqiAy/sQ8FxopcthUFV2LcS7H1A7DJYhX8J
-	YQZZI2IwG026nVx7EZNZDbGNIInAHbXyva1WyCAAK+ACsYc04yOfytdKHx/s9ICkUnts2BSIOJs
-	5bR7CQLEGMEaWMXANBCs65WGujddK5hr6iCy38CiYkWbaCCgfhiMNAVDaPL/ADY30JpeOMo4EDq
-	MKrnIiVhz9V3ffnaHfEGeLzWKyeZ4pHZpv5ILLILK2KRY3FDpKXI+mkz43jPeRDsmNjMlR1N5IW
-	B4xMKrxV6bpaPl32vGx6TElM4fMIYmKi53QSYHkOZb0q+ufLZQIMGBXoZFinrSyepJZ/G+pxBd2
-	aB6bQ==
-X-Received: by 2002:a05:600c:4449:b0:48a:89d9:a419 with SMTP id 5b1f17b1804b1-48e51f2e67fmr207369325e9.11.1778258283315;
-        Fri, 08 May 2026 09:38:03 -0700 (PDT)
+        bh=WT56FP1Bt4LcxLxZsWkK8+jNPLJAOL9nE1Hwe4/BncM=;
+        b=audnjz0GaQlIRbb8dvDhyreYmna3v4VKSOYlg7ByiusngsKp/6BmCVRwCSj5LQNMMP
+         1FqXbevGe5AVlCl0gKUaEdWTq1+Gq0ePX4wUf0qIeAhgeGBmNVk05MwPfQBvd6amWY+A
+         US3AgMGWEKYCL8XSe2tqa2rj8LtWamR0WA1+Wh5MA6Jrm/6ahDWjChGhyKAJKXiGes1s
+         1U0o4xGMK0H/u1gniW4HJqBuphHli1p56RtN7W1JT/wHswDjGkDnGoaiF/2Ksi6qusNJ
+         GvEqg6I6cynRcWjLcTG22yx7F0RZasmmAufU2UV7IwPWnol3Be5lCNlvHJv/8dwozh08
+         /2tQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9HmBcwWp6k1iDRP2up6IorrpfqyYMbtWmn0ljek1lhYPjbnb5ivuFDMB34nHXKR4XtyEHAyeiVTqM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywg6vPtOncCG0z1/lgeSkMrlWGsLZpJOGZHJLfBxFHuiimfGaNg
+	nQ+kDgxropd6VWbll7mbPEgH9x/h981u0oDLWudSk/D+mz7L6opmmIp+
+X-Gm-Gg: AeBDiesEmL8dPQLXJmgvHRQP3SkPMrTYCxw80cbpZsemxtOzBGaxJwfOG44tZB+hhLQ
+	aCQvyZGQ+eoYYB94sBbBsYk+h5dS6kRLvC6N9GAB/OMc7G1ZY1zsT10QKQ4OBYHd7obZ64cel5R
+	s024N6FCwhfopDmXJG5FzwHgKeD+I0hPBu8dDH1ZWQlj+LtPR7mo6XV3u1sJ/NKp7+PpspW8ilW
+	T2xTXRdUfDR3jj5SSccY/fcaeE6ibsOShg+XxI1iIw+tWkY55Hk1BXyfyfrmZlXHIR/6a/FxyIE
+	i+w+UEpiEdA2GX7NfNla2UUQ3VVyKECemec2nJu5koISgWmj/0Sc1seLinxNW4BA/saV/dA+ikC
+	CLOEpBkquTwej4b1mIo4najhYv/RgjpC2CaB8GDt5UcE+QQ16VPDFgOtrnPSIeRvH45VqjKbcZ/
+	zMZ3gRHGHpxYS7xzAvdbIcBX1KaZKMG2xiiAHAL7ml92Qdg3e4Eb4XZdTwKtV1Xsx5T1g=
+X-Received: by 2002:a05:600c:3b8f:b0:48a:79d8:a8d6 with SMTP id 5b1f17b1804b1-48e642deefamr69130145e9.7.1778258286363;
+        Fri, 08 May 2026 09:38:06 -0700 (PDT)
 Received: from arey-arch ([2a02:1210:7298:ec00:73f0:d2e7:188c:1f61])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6dd2c1afsm6333445e9.2.2026.05.08.09.38.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6dd32afasm6901045e9.5.2026.05.08.09.38.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 09:38:03 -0700 (PDT)
+        Fri, 08 May 2026 09:38:06 -0700 (PDT)
 From: Adrien Reynard <reynard.adrien.08@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	kasan-dev@googlegroups.com (open list:KASAN),
+	workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS),
 	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
+	linux-kernel@vger.kernel.org (open list),
+	netdev@vger.kernel.org (open list:NETWORKING [GENERAL]),
+	linux-um@lists.infradead.org (open list:USER-MODE LINUX (UML))
 Cc: Adrien Reynard <reynard.adrien.08@gmail.com>
-Subject: [PATCH 3/5] docs: fix repeated word 'as' in dax-hv-api
-Date: Fri,  8 May 2026 18:38:01 +0200
-Message-ID: <20260508163802.16249-1-reynard.adrien.08@gmail.com>
+Subject: [PATCH 4/5] docs: fix repeated prepositions across documentation
+Date: Fri,  8 May 2026 18:38:03 +0200
+Message-ID: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -77,40 +93,50 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
 ---
- Documentation/arch/sparc/oradax/dax-hv-api.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/dev-tools/kasan.rst                   | 2 +-
+ Documentation/networking/switchdev.rst              | 2 +-
+ Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/arch/sparc/oradax/dax-hv-api.txt b/Documentation/arch/sparc/oradax/dax-hv-api.txt
-index ef1a4c2bf08b..297515ceb697 100644
---- a/Documentation/arch/sparc/oradax/dax-hv-api.txt
-+++ b/Documentation/arch/sparc/oradax/dax-hv-api.txt
-@@ -485,7 +485,7 @@ Offset   Size   Field Description
-                              the virtual machine to use when accessing this data stream
-                              (checking is only guaranteed to be performed when using API
-                              version 1.1 and later). If using a virtual address, this field will
--                             be used as as primary input address bits [59:56].
-+                             be used as primary input address bits [59:56].
-                 [55:0]       Primary input address bits [55:0]. Address type is determined
-                              by CCB header.
- 24       8      Data Access Control
-@@ -576,7 +576,7 @@ Offset   Size   Field Description
-                                                      the virtual machine to use when accessing this data stream
-                                                      (checking is only guaranteed to be performed when using API
-                                                      version 1.1 and later). If using a virtual address, this field will
--                                                     be used as as symbol table address bits [59:56].
-+                                                     be used as symbol table address bits [59:56].
-                                         [55:4]       Symbol table address bits [55:4]. Address type is determined
-                                                      by CCB header.
-                                         [3:0]        Symbol table version
-@@ -815,7 +815,7 @@ Offset   Size   Field Description
-                              the virtual machine to use when accessing this data stream
-                              (checking is only guaranteed to be performed when using API
-                              version 1.1 and later). If using a virtual address, this field will
--                             be used as as bit table address bits [59:56]
-+                             be used as bit table address bits [59:56]
-                 [55:4]       Bit table address bits [55:4]. Address type is determined by
-                              CCB header. Address must be 64-byte aligned (CCB version
-                              0) or 16-byte aligned (CCB version 1).
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index 4968b2aa60c8..3a8bd40ad905 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -392,7 +392,7 @@ reserved to tag freed memory regions.
+ If the hardware does not support MTE (pre ARMv8.5), Hardware Tag-Based KASAN
+ will not be enabled. In this case, all KASAN boot parameters are ignored.
+ 
+-Note that enabling CONFIG_KASAN_HW_TAGS always results in in-kernel TBI being
++Note that enabling CONFIG_KASAN_HW_TAGS always results in-kernel TBI being
+ enabled. Even when ``kasan.mode=off`` is provided or when the hardware does not
+ support MTE (but supports TBI).
+ 
+diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
+index 2966b7122f05..948bce44ca9b 100644
+--- a/Documentation/networking/switchdev.rst
++++ b/Documentation/networking/switchdev.rst
+@@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
+ monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
+ bond will see its upper master change.  If that bond is moved into a bridge,
+ the bond's upper master will change.  And so on.  The driver will track such
+-movements to know what position a port is in in the overall topology by
++movements to know what position a port is in the overall topology by
+ registering for netdevice events and acting on NETDEV_CHANGEUPPER.
+ 
+ L2 Forwarding Offload
+diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+index c37e8e594d12..7b08738c30aa 100644
+--- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
++++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+@@ -1092,7 +1092,7 @@ be formatted as plain text.
+ 
+ Developing always goes hand in hand with debugging. First of all,
+ you can always run UML under gdb and there will be a whole section
+-later on on how to do that. That, however, is not the only way to
++later on how to do that. That, however, is not the only way to
+ debug a Linux kernel. Quite often adding tracing statements and/or
+ using UML specific approaches such as ptracing the UML kernel process
+ are significantly more informative.
 -- 
 2.54.0
 
