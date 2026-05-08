@@ -1,92 +1,71 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD32940626E
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 16:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD5140DFDC
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 16:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778258284; cv=none; b=KXeDg9S9+lSSk2t2Kjx0TP2LcxzslBt5SXQn4fOIC2UyiYhph0+waLvaEfkge0TVTDy7Lac5EbwMUMaoIUjTH53ODrzp4XSaiIQ8/t90lFunztcsY58GHpaG4Np9p/K5FDgrd6MgjsE5YDRMtQiC0I70xGSC2mKe5STYggN16qY=
+	t=1778258286; cv=none; b=t6TC+Iq6pz3A2QcBMrS5P7Cu7DydPCRKs9aBixvhbRzuFZFvN3MBdnIZuoYRPFwJFtlM7Fh7i5565yDmRXnJsQgYrXo5InaFR0LFAl3rYBGWpaDzsY0kwAN8Tqb7VPHTHrPVtTgCF67wEvXrLo6aATfTKZTpDz+45UOpNv3DZjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778258284; c=relaxed/simple;
-	bh=UA//K5KE5lxyKxBn51gpSzesiAf2ti5tilN0wFiDEj8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pTlONrMJ53WTPWvPwVv+QjqMCYIcTAoxjv1+awb6dDY+yhjqFZQZh7eKrEd7xag4BJcOg8Fk5wKbj3fWsl4byRnfQqYe9WveUxmL23Qozs9O97yLmvBKbxI//4BoPZw1Jniz8TQ7cwEhIC4hcIzlrHWK6yqPXedFY05YI8epAmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gsK3QfNl; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1778258286; c=relaxed/simple;
+	bh=2rscKA+HFoNKvJIdGxfB7KU9JPY3WcmoLP0luIuuOyk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bPCVAwAGl7AiwgY4NP2Yc6uheJfBrrtoB9qXmZ1Ydjpupk7RT73ws2eTNgOcStThzMam09uKkKOoZanhxWSNsDCAHWNRQdmUoMPups32p723uV8w5SmCmIL8LVWlaMM31x1wRP1cIZIKzhBB/bIg0qM1LXjrHpcBPezrzN61FhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GTV0zijl; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gsK3QfNl"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488ba840146so19854905e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 09:38:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GTV0zijl"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48984d29fe3so24827445e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 09:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778258281; x=1778863081; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778258283; x=1778863083; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DTJW4BGtGQqxWbz4seH8/4tzQ7UIXmQ1TeDbULZ3Ovo=;
-        b=gsK3QfNlZlD7oYfIGjgIx3NJkgEBskQXeW7Fljg4rZ4P97WRrFF64YSSQLaAw+5hSS
-         Fjt5CyWi4F8K/DFbs1VlnDdsMAY4FExTHDKQyKNTnvKHUkKt21/HAuB6sPRaNJlvqF1J
-         2Gwiwj0bjyjsLQR8moyAW6dxuby6EH2qbb66c0xXx6guSu71YcvevxdvC6DJeNqVkYVd
-         Jo48EpS/zdfizpqHF3s84EZZVLpT0LYRPAmAW2Wjf3xqT0a4CEiXO7jneVadAYY7kC1C
-         gXPRDKf9RWsWRMBLpnY9lBM3UKOrVjFDXmhrHgrgid6j4a0GG2O/1qTlnqXfD2L5OrTi
-         /F3g==
+        bh=Rd370gXG/ew4bst/9jBG2RgUI2ruyVHTbbu5TsDabnA=;
+        b=GTV0zijlS2lYh7jf7K+sWEh5vdP5yvIxEa85tsIuO6CEzEQ6IzxDX06UwAed3SQR2m
+         vvJUijtZZYh9fRnvLZn7/SbJ+rcuThMGRZ5krVYYXIg0gf9aoz2keH8mpAyRJrcfbHXA
+         7QnL35tkXO119hxvPZRvk49CQzJYS+sV8iEyAftXwcBQeYleS1mHed8TSehhOLLhR6rC
+         fcuPJUECcgyVEymp8WRHwX10rUiWRCQV3TOgWBXFhOwIQkhfV/aUkeLl8pCxCVrwvU8p
+         SEggPIz3yHeU06blIFSBQvM/sufbqj59FOEKaVokny3nAchvXnfowRZ/MIEyAbK9nlsi
+         E/NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778258281; x=1778863081;
+        d=1e100.net; s=20251104; t=1778258283; x=1778863083;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DTJW4BGtGQqxWbz4seH8/4tzQ7UIXmQ1TeDbULZ3Ovo=;
-        b=OSWK3Ho2+gojl7a/n7onu4frVgVgV930njBGAT6kUgmOgx/kNrbssEZvv+x4BX6EQ/
-         1qVQqmosFTA3upSXAOIkaQcuCpYs3VfQZK/DeYkIjiu4EpzejvJ6cBfA0FbW7nzeLPQQ
-         nwOvwSEfbRTEZajjAhRJCdEU4Tf395L4QVGAYRjfMDCDTMq2cDHX1T5Xd/qi1Ka8+SDj
-         C54T01J8dAS3KWvFh9hKsYyLr1y9abbOoONtK6O6uJqmDvcqBpUcvtB8jNCJon15JzKH
-         vOnFWi2SOuhXMu0YlXgymgjQcNNW1wonxppdQ0+ibyFmh/pFNJETNERPOm6jEvO3Y3Tf
-         Je5w==
-X-Forwarded-Encrypted: i=1; AFNElJ8C4GMfZxKmI3dp0ATwEU4NeCC7FrhmcpmrDHKOohoyMKVCIomDOSPFcltNgDdwKerBE+cpRHJEVtc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzX+BJ/kTSzHZhqXI1jQyXojXHRSmvQV9fNpJ28MXLHvaHQXNMX
-	YgICmh5BrmtfRnkchhC7nDN5VAPigZ2W9ZiGJovZXVlgmgMdeCALjsdH
-X-Gm-Gg: AeBDievxhrV07zPtmpKk8Ro5VFl6osMrmEGCKXoWlLE+N1wM8GrsAGHOp8g0RsnSo2w
-	ktqi9WjSP4c5wcUtofbwK/7n/ycxmYEyh85CPxsdpVRDg1BV9TjtMTkUm61/Yk2iQkdNnm1giEM
-	9IdL/j9di9YHFrkW9rdwrrEfOj6cgAzOIJgfaxwLlAbKlL+Z3gH8Yae7q8Df5BjgGI2jiCdpjr0
-	fjsGWkXSGVVY7mePllh6NgTcMr7T7gVTWucu++pYweI/AA/50djqjbDmYN8uYZ/AjyX401QUfdF
-	OWnuiSYlTJ4m+GA/f/ZVBfxuiWooTwgeDiLsCaTQcnIUp4nxokpY8NbJ4VSHG0QyjEIy6k/dxsM
-	wD+6CzbI4Wo78qsU8WeFJ5poqq8gNlFDZ+ONQsNnpX5YYzRmTznZB/txd7dhnMP0FC9536DPZ57
-	2FqL1W8OIXrYDLJlTFC9GI35EUdiBhn2eH9egr2iR3l6Pl6vt64OP1ZdWV2isLxlAyFX4=
-X-Received: by 2002:a05:600c:8b0c:b0:48a:7a10:4f47 with SMTP id 5b1f17b1804b1-48e51e0a620mr219801715e9.3.1778258281158;
-        Fri, 08 May 2026 09:38:01 -0700 (PDT)
+        bh=Rd370gXG/ew4bst/9jBG2RgUI2ruyVHTbbu5TsDabnA=;
+        b=I52Sl8hmSFs4f4jG+3PjSg0rpkwhbe/1KKsgEXJq3n+FZ9br/1ZiM51aXLAOzM389s
+         MBWcUaxdyteAoldUCRa9MX69QsM4PgaiVgJhfdOudb71yjLRcNRKKExNwS4z619HSCSq
+         j/WEjpFO3ZbJlWsynbMDYCmBO4kbNyWAvHuxIWt7dIecbbuK1QSYbPlXcT8WXadhaE4R
+         4umPksm8vYUJToBP87DCHycszANhE8dguMwlB3FmClf3dMdZe3X2LyOvX4zFebWIOf5x
+         Q60ivkVEKB0gAXKekCaN7iy4dsxeSqUIiLhB6KPLQsDVG18Y+yqB2B9VFyuzeg2srxMq
+         xdFQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/bwP6ZrWeRPMHcMc5jc00HhgY1dRnj5XSkzm4vcZWDYXL+ncMwiWZyooVmnJBBami2F+VpjDlhoco=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7MjvRom2gyXncXcWnY9DNSW87PxD7MQflZiQXOvFkjFla7Iq1
+	+VCiJdUHa7wSyXkHdRQbYJDXjJgWVwpsqCZOEc+uLeSk3LZA6m4AmHOmG7G/Grt0
+X-Gm-Gg: AeBDieuvvZedQXSsD4BrlgwXHxuaeiIHSIhPLhR4EMr81sDwA4l9MkvSz5cQ9Dhu1C8
+	pdqLbTvgTJXDlrc0sQP+ruLCmuF1Mah7VxjX4F6xhx53IvQ9sbUvwgeJQNWXmi5Hnl4DUk1iLbj
+	98QVQxFWiDeGf0ncJ06sxXo5dKvo5MQ9ggJrtGqVqqiAy/sQ8FxopcthUFV2LcS7H1A7DJYhX8J
+	YQZZI2IwG026nVx7EZNZDbGNIInAHbXyva1WyCAAK+ACsYc04yOfytdKHx/s9ICkUnts2BSIOJs
+	5bR7CQLEGMEaWMXANBCs65WGujddK5hr6iCy38CiYkWbaCCgfhiMNAVDaPL/ADY30JpeOMo4EDq
+	MKrnIiVhz9V3ffnaHfEGeLzWKyeZ4pHZpv5ILLILK2KRY3FDpKXI+mkz43jPeRDsmNjMlR1N5IW
+	B4xMKrxV6bpaPl32vGx6TElM4fMIYmKi53QSYHkOZb0q+ufLZQIMGBXoZFinrSyepJZ/G+pxBd2
+	aB6bQ==
+X-Received: by 2002:a05:600c:4449:b0:48a:89d9:a419 with SMTP id 5b1f17b1804b1-48e51f2e67fmr207369325e9.11.1778258283315;
+        Fri, 08 May 2026 09:38:03 -0700 (PDT)
 Received: from arey-arch ([2a02:1210:7298:ec00:73f0:d2e7:188c:1f61])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6d8e4f0dsm3379115e9.11.2026.05.08.09.37.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6dd2c1afsm6333445e9.2.2026.05.08.09.38.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 09:38:00 -0700 (PDT)
+        Fri, 08 May 2026 09:38:03 -0700 (PDT)
 From: Adrien Reynard <reynard.adrien.08@gmail.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
+To: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	rcu@vger.kernel.org (open list:READ-COPY UPDATE (RCU)),
 	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	driver-core@lists.linux.dev (open list:DRIVER CORE, KOBJECTS, DEBUGFS AND SYSFS),
-	netfs@lists.linux.dev (open list:FILESYSTEMS [NETFS LIBRARY]),
-	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS [NETFS LIBRARY]),
-	linux-trace-kernel@vger.kernel.org (open list:TRACING)
+	linux-kernel@vger.kernel.org (open list)
 Cc: Adrien Reynard <reynard.adrien.08@gmail.com>
-Subject: [PATCH 2/5] docs: fix repeated word 'that' across documentation
-Date: Fri,  8 May 2026 18:37:57 +0200
-Message-ID: <20260508163759.16231-1-reynard.adrien.08@gmail.com>
+Subject: [PATCH 3/5] docs: fix repeated word 'as' in dax-hv-api
+Date: Fri,  8 May 2026 18:38:01 +0200
+Message-ID: <20260508163802.16249-1-reynard.adrien.08@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -98,78 +77,40 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
 ---
- Documentation/RCU/rcu.rst                          | 2 +-
- Documentation/driver-api/driver-model/overview.rst | 2 +-
- Documentation/filesystems/netfs_library.rst        | 2 +-
- Documentation/trace/histogram-design.rst           | 2 +-
- Documentation/trace/histogram.rst                  | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ Documentation/arch/sparc/oradax/dax-hv-api.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
-index bf6617b330a7..320ad3292b75 100644
---- a/Documentation/RCU/rcu.rst
-+++ b/Documentation/RCU/rcu.rst
-@@ -32,7 +32,7 @@ Frequently Asked Questions
-   Just as with spinlocks, RCU readers are not permitted to
-   block, switch to user-mode execution, or enter the idle loop.
-   Therefore, as soon as a CPU is seen passing through any of these
--  three states, we know that that CPU has exited any previous RCU
-+  three states, we know that CPU has exited any previous RCU
-   read-side critical sections.  So, if we remove an item from a
-   linked list, and then wait until all CPUs have switched context,
-   executed in user mode, or executed in the idle loop, we can
-diff --git a/Documentation/driver-api/driver-model/overview.rst b/Documentation/driver-api/driver-model/overview.rst
-index b3f447bf9f07..c1966d506d55 100644
---- a/Documentation/driver-api/driver-model/overview.rst
-+++ b/Documentation/driver-api/driver-model/overview.rst
-@@ -55,7 +55,7 @@ struct pci_dev now looks like this::
- Note first that the struct device dev within the struct pci_dev is
- statically allocated. This means only one allocation on device discovery.
- 
--Note also that that struct device dev is not necessarily defined at the
-+Note also that struct device dev is not necessarily defined at the
- front of the pci_dev structure.  This is to make people think about what
- they're doing when switching between the bus driver and the global driver,
- and to discourage meaningless and incorrect casts between the two.
-diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
-index ddd799df6ce3..4033de4535ac 100644
---- a/Documentation/filesystems/netfs_library.rst
-+++ b/Documentation/filesystems/netfs_library.rst
-@@ -626,7 +626,7 @@ A number of members are available for access/use by the filesystem:
- 
-    These are set by the filesystem or the cache in ->prepare_read() or
-    ->prepare_write() for each subrequest to indicate the maximum number of
--   bytes and, optionally, the maximum number of segments (if not 0) that that
-+   bytes and, optionally, the maximum number of segments (if not 0) that
-    subrequest can support.
- 
-  * ``submit_extendable_to``
-diff --git a/Documentation/trace/histogram-design.rst b/Documentation/trace/histogram-design.rst
-index e92f56ebd0b5..949bbfdb0f16 100644
---- a/Documentation/trace/histogram-design.rst
-+++ b/Documentation/trace/histogram-design.rst
-@@ -738,7 +738,7 @@ creates its own variable, wakeup_lat, but nothing yet uses it::
- 
- Looking at the sched_waking 'hist_debug' output, in addition to the
- normal key and value hist_fields, in the val fields section we see a
--field with the HIST_FIELD_FL_VAR flag, which indicates that that field
-+field with the HIST_FIELD_FL_VAR flag, which indicates that field
- represents a variable.  Note that in addition to the variable name,
- contained in the var.name field, it includes the var.idx, which is the
- index into the tracing_map_elt.vars[] array of the actual variable
-diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
-index 340bcb5099e7..5b303fabdf32 100644
---- a/Documentation/trace/histogram.rst
-+++ b/Documentation/trace/histogram.rst
-@@ -1700,7 +1700,7 @@ to that rule is that any variable used in an expression is essentially
- 'read-once' - once it's used by an expression in a subsequent event,
- it's reset to its 'unset' state, which means it can't be used again
- unless it's set again.  This ensures not only that an event doesn't
--use an uninitialized variable in a calculation, but that that variable
-+use an uninitialized variable in a calculation, but that variable
- is used only once and not for any unrelated subsequent match.
- 
- The basic syntax for saving a variable is to simply prefix a unique
+diff --git a/Documentation/arch/sparc/oradax/dax-hv-api.txt b/Documentation/arch/sparc/oradax/dax-hv-api.txt
+index ef1a4c2bf08b..297515ceb697 100644
+--- a/Documentation/arch/sparc/oradax/dax-hv-api.txt
++++ b/Documentation/arch/sparc/oradax/dax-hv-api.txt
+@@ -485,7 +485,7 @@ Offset   Size   Field Description
+                              the virtual machine to use when accessing this data stream
+                              (checking is only guaranteed to be performed when using API
+                              version 1.1 and later). If using a virtual address, this field will
+-                             be used as as primary input address bits [59:56].
++                             be used as primary input address bits [59:56].
+                 [55:0]       Primary input address bits [55:0]. Address type is determined
+                              by CCB header.
+ 24       8      Data Access Control
+@@ -576,7 +576,7 @@ Offset   Size   Field Description
+                                                      the virtual machine to use when accessing this data stream
+                                                      (checking is only guaranteed to be performed when using API
+                                                      version 1.1 and later). If using a virtual address, this field will
+-                                                     be used as as symbol table address bits [59:56].
++                                                     be used as symbol table address bits [59:56].
+                                         [55:4]       Symbol table address bits [55:4]. Address type is determined
+                                                      by CCB header.
+                                         [3:0]        Symbol table version
+@@ -815,7 +815,7 @@ Offset   Size   Field Description
+                              the virtual machine to use when accessing this data stream
+                              (checking is only guaranteed to be performed when using API
+                              version 1.1 and later). If using a virtual address, this field will
+-                             be used as as bit table address bits [59:56]
++                             be used as bit table address bits [59:56]
+                 [55:4]       Bit table address bits [55:4]. Address type is determined by
+                              CCB header. Address must be 64-byte aligned (CCB version
+                              0) or 16-byte aligned (CCB version 1).
 -- 
 2.54.0
 
