@@ -1,389 +1,265 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B985E37F00C
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 13:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778246277; cv=none; b=VrnD4VTyOAfeNhaTAYs92GLbZ0/LPhxAHTbNzi36ZYjepOtJkyCHm2iYIBbYZQD5As4S++0R4L4+LfWcJwbEkR8Aj1T13EIrmH3QzTc9n8kvImkTkakLKCLP7UcICdcyEtp/ZAfwz0RaIANKGwH1qxxKoHzwiUcWw++kQcurCyM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778246277; c=relaxed/simple;
-	bh=8p27S5MOGU71UbNINV14aMU5g0i9T0ZM6IUt5Ys7L38=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jeRJRR9DMUhFmv0AGv2O4GtNdEYnm7q0S02eesXEmhOy82XBccFdmzi917PhjzA3s4h0PgZKtBVVFdVHeoWYzZiBZ5po91MuhW2lEhyAy4x0txo6tvSmMdywh8+Kn4q72jhwlGSgkwtuvugsASB1E8lMMGv0D7kS5T4WyKqk6sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=psxYf6iS; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793A532C923
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 13:19:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778246359; cv=fail; b=V1Okhd/MplAC8hIsqDG3VPKYhlnXQgOOBuCss5uu3phzCtT5mmScAJN5bAORJIdIl5PGGRecOaJCXRMLT30omiNwH9EJDStRWj4n+uAbd3mJVzU91IZ8AU1yt8rx6RrPdGUWKUfRhDSvIGjUCg++uIyekOVj1QiPq/bdWTDrhlE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778246359; c=relaxed/simple;
+	bh=a1NSdC1+AemhwNtrlaF0E0sPReSYUMrIMyVRDHrKJiA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=U5cR5Q1Qs2z5dmGYxlu/ytSUyuLCoOdOI+BPKRtv3SoNlxhAvAqESYO1xlXGUiQXNd55Oy/NCYNzyIA6CpFGMiNWmn47O1YoCrFqlo7hN9qO+7zy3YLzZEQO/n7Z+oeARoXijMfqnrr9CCulcTe3RoDcE7QjxoyOvY2ghSlKuZ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJzXROo6; arc=fail smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="psxYf6iS"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-835399c11e0so905900b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 06:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778246275; x=1778851075; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=GPQqbo0BGx+WtuCfVxMY5CEZE7UAc0Y6Xa4Xm40mq+I=;
-        b=psxYf6iSnTx2vR6kv8IOLvrsIJ/otyW6lYKpJ3tR1EOOlfaMSYkQc/srNsYRiQIGIh
-         w5Sxi9qQ+eTg3Q35xbRrdZvp8oY5Ti5+p6kPNPYGiylf0D0Vp4YMhRfAkdiCVION+S8G
-         tPGZaPERI6TK6+47FnYDwPfqyltZ4VCovlvoM5RvUiqbWYbsNSHrCNy2rbBf5PCCdGLw
-         HkWLGdVtQBoZoF8tLIJrX2TPVIEtTH2qfUDy3MOOesAA7i/FOpvnVUs34+Bsvt5NSDDc
-         IrVTFfOhCunrMp/gcBtJoIvhayhDaWYQA7YtjlWYthV1I7R4M1xS3WmwQpfYM0DYKiIU
-         WH0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778246275; x=1778851075;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GPQqbo0BGx+WtuCfVxMY5CEZE7UAc0Y6Xa4Xm40mq+I=;
-        b=QXIBw3vSNyIAVh7hBhG95hp7qd3x/COElgSpbC9isBchQuJy8rYWUaURcqxNBTQEi7
-         dTXZi3zuXjU6GyXn0pE72gDdo/PDgKnfCNiPbUfBFbgyszdM1+TVVA1fpcVvvHzlTQ5Z
-         /RlaAtdDZ2SJ3HZ2pmiUNQOJkMHFRJt7jGdIE+pktNzf8agXtcSorKQk1af0GBRA/r1l
-         S8UbuGx9rBH0dKBt5nNfb4I8s749gTbdFl7kAAc59yXcg61vQm7zvKBJbWD1WUielYHm
-         2kUO9E77aAlpzZs549TjY78OJimSMWrO1ea3Co4eoYrJxtk5qSx8F4ATS8b6jh6v9uOZ
-         xGmw==
-X-Forwarded-Encrypted: i=1; AFNElJ895WPxR/EzWFBMnv1eErqb6au1iliPgjQUt0lnWdC2Gq8hCmtQ7g0smp9TE0zBTymLn5T5WHUOzSs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvjCZg9K9V7j7uv9tM/S5PzEytxD2TANfYsa2B8Ob9nbSCaGrg
-	LfPXokaxB+l4xaMMgQyU6d/+bup+cpW/6hLOgKKG2aE7+nt0iOXXqlHn
-X-Gm-Gg: AeBDievSjSog2M1A3AwT0HuRT9Ai1lMomNdXk6CPNA9xsKU9mN71FGq63CGsQjMAA6X
-	hJ2YHswxCY+G7dM6X2jLYH9O/zmtKauCzMRQPvlYn0u5/ffplHQC/5ImdBKhecMjjF0IPl87eet
-	BeV47WI0/yh3oX162AgGeZx714LREzpEzEtrIQK77vGUQzhQlFBpaoO5Ca+WbfqiJGJ17m2T0WN
-	HD581Oa5vBfGC3l+aWgcbuzR0ZxE72zQOCyr6WV7Q8EMAHDcDk841pxOgq5pELPHNS4Gs24lGm0
-	db5DeJ7SiHNgJX/6jrz/7f4/Y51wEtG3zXs663EXWPTTdySqta0EMhFU6H5qb77oeN6vwyNsOPM
-	9UspJDeoJ0txUkPiUUbcx9AD+c04qJiD03G3LnmBFYCrb33/w404at23UcYD94CUqb3hsqQr+Yx
-	/f3629/Ur/V2ppgwAyUT/pBMtujSoJ1iB0jvWZEz591I2/GsF91JdwMWX1KvzEf7DRDFTSo/mY
-X-Received: by 2002:a05:6a00:f0f:b0:838:3f54:a0ee with SMTP id d2e1a72fcca58-83a5b2d2c16mr12005499b3a.7.1778246275059;
-        Fri, 08 May 2026 06:17:55 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83965945101sm12098812b3a.13.2026.05.08.06.17.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 06:17:54 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <e9808463-021b-41cf-8080-0f4e45ae2ebb@roeck-us.net>
-Date: Fri, 8 May 2026 06:17:53 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJzXROo6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778246357; x=1809782357;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=a1NSdC1+AemhwNtrlaF0E0sPReSYUMrIMyVRDHrKJiA=;
+  b=IJzXROo66HfvDiW9lXEvzFcCH7Be9mgyXUay449vOhQHdD9r1CYeikIa
+   vFwIDRB1B+kU7CjLBB3D/dSQZud61/SlaGoqVnAKnsxDOcvp4Jt2jB6AY
+   Ou+rJdOtiaDuWQRvvSDmMjmK77k9FzN7VDkPef0ewQw1tvsgjgI2OYajt
+   dB5g0W/xYaWnmg3qRKkSZtQsg56zZC9uB6Lov3pt/zRv1Jq/q0iXyrVAp
+   i1dUpJn3em+gdAh5ebgKOn275EN2P9SuPkTB8nI3cxLGOLDn7FQueG2FI
+   6BVqgv2XjaveQOle8bEZXXESgNJr6U+69KXYWA0KNbr6ND2rICdNdVK8c
+   Q==;
+X-CSE-ConnectionGUID: +sLRPMSdT6uT3CdhNY2G4g==
+X-CSE-MsgGUID: yqwUlY2ZTQ+ND2cVOmrxdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="89802061"
+X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
+   d="scan'208";a="89802061"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 06:19:16 -0700
+X-CSE-ConnectionGUID: C77le9m9TRymzb5MywHR9Q==
+X-CSE-MsgGUID: X10knzFhSMevgY796UC01Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
+   d="scan'208";a="235783804"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 06:19:16 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 8 May 2026 06:19:15 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Fri, 8 May 2026 06:19:15 -0700
+Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.26) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 8 May 2026 06:19:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cTgoFhps2ROawKJH6vSXyxYkgJoNey3Zod+Kay43v8oinnLc8e4+srVx+f41YOsROd/FheFHM72cfFxffmiRZQo8Q9PYhk/wQQHcLWtS08n8BlU9+lQFaakhMNuF3oQPWUazSElalQEZ6dprbjgRmeaULd3tEFJPGYVUynhrODgF3sEG1GiBAzxDxIls/9UdpkE7dYrDEP5NFTysMh7MjXkFB1XydAJCFlyDI6vASv0DmDbzs8uwSTFDgJAeqAmMrBTXB0GRBCJfeTnf3D2vOEpIm1Su5QJ5S/+4L+Q7Q0yZjtzB43/QTaLv2XE5wop25+ILPiUT8KDoqB3I3gQsPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5wzrQZCKVB6sCMSA2Vtf/hpa6P/31oPluKsvAWFAVLs=;
+ b=Fsl/rC5THbJimbFTUiG26iBezJw9xuFaX4F0Me5Yay1Zxi4XNrrq1bn5nIwoFkmpLNm1wa1tIwlRXo/R0Ce6nvssgTIflXUnNRnEPL6tMXYT6ddWfphhQcP9rZvaqbFhoRG3rxyGh8tOTgx6BwKcHr1DcYnWUscF960qPaHOXtkWEny4XsgxdLlBt6WnXNpVQYEgmEoToHmStJ8k0m7+DbiovWRpROAnLC1h8Dr6TVSBDoZqaQ9QLK0hrWp1kx3DF/RQ5osXKnlTOhWC7E3nyn+vd7kwmk1cozZCLFB+PpC8Yb/wTFVj0lhxdeKSwHkDkvljkuwfez7IlG28GKaZ5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by LV3PR11MB8743.namprd11.prod.outlook.com (2603:10b6:408:20e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.20; Fri, 8 May
+ 2026 13:19:05 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::1d86:a34:519a:3b0d]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::1d86:a34:519a:3b0d%5]) with mapi id 15.20.9891.008; Fri, 8 May 2026
+ 13:19:05 +0000
+Date: Fri, 8 May 2026 09:19:00 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>, Matthew Brost
+	<matthew.brost@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+	<thomas.hellstrom@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
+	<tursulin@ursulin.net>
+Subject: Re: [PATCH 3/3] Documentation/gpu: add remaining DOC: comments to
+ Intel display documentation
+Message-ID: <af3ixP5pKOwxM9Jj@intel.com>
+References: <cover.1778235406.git.jani.nikula@intel.com>
+ <589c46cf9a46763f4fbb7e1756656e6d71ba1431.1778235406.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <589c46cf9a46763f4fbb7e1756656e6d71ba1431.1778235406.git.jani.nikula@intel.com>
+X-ClientProxiedBy: BYAPR08CA0040.namprd08.prod.outlook.com
+ (2603:10b6:a03:117::17) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] usb: xhci-pci: add generic auxiliary device
- interface
-To: Jihong Min <hurryman2212@icloud.com>,
- Mathias Nyman <mathias.nyman@linux.intel.com>,
- Jihong Min <hurryman2212@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1778123510.git.hurryman2212@gmail.com>
- <effa7bd7bef8a8ea28b9e28fe47af6a58e39edf2.1778123510.git.hurryman2212@gmail.com>
- <a5739875-b8a5-4918-8850-fa4b32d5279d@linux.intel.com>
- <f47d9cc1-e39b-4199-b031-e91b8e02ab1d@icloud.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <f47d9cc1-e39b-4199-b031-e91b8e02ab1d@icloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|LV3PR11MB8743:EE_
+X-MS-Office365-Filtering-Correlation-Id: 00558d66-f37d-49d5-4ad6-08dead0460cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info: SaIR7TH4l0dFjr+e6WYRP6pl6iOILlfk075YmS7MUCjIikFOA/tDyX7F2A7yN8BOB0r3B223elsC3fU/Rv+kSvfK3QnZe77gA0ZLl9wX6Dce/bM8CXm4a/CcZxWbnIf3qIywKeqwCnRUGt+wgjALErLWU3W2apz8OTFrXadAnCfo1yfYBwDTI1EFM2eyHBCd7UD3KCpbwFr8TFOT3ycG1+hIdGSOB/xN8waHQfMoyJoGQ0XkSHjLtHleZezfvRtQssVU6JuiYDgRGrp4a1KBH+KPrsfgqFAAVT50Tpd5REQZMTmJCNja8Lh1YuRbI8Trmsolg8OSZPXlFVgIWD79lW02la7sS0amdEXilUtcBkS/HRQIjKA0ykl/PwWh1/l1I/d/l6Y3NvgPc7kHTmW2FNeBfR2p23EaYzmk+pTqZt4asAWBeKqZVTMLMsjSZA8sZpNUx20+7Nw1PqwH7f8vO/0wuE496j2Ig91vYn8DADN2K9SXlc5wrJxKboiVEUlyXDR+i2z8GXnARSjT+Josdm7eYKd0AkIc+PNheoYTOJSIExlaHxah8jBiwjksWCFECL3duGzY/9PezXwd775WIY0rXnQhcOOcO9QOAI2UohcvGRwEvMVL1iTTq/HhcHMU/s4U/avfthyUw7cGD9o/YayL9bZ8mfqnQIw75jYlcuT9wKcDdhlforXIBBzTvVsE
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR11MB8430.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?PSI7Nn+41KDXZvSWn/O/lj4zfMf9nkf4Rfm45dXYM81eVs6o6Yt9uAthzm?=
+ =?iso-8859-1?Q?EwjtDa4GhGXKNQrindlzpXSjK0VDijwWgGM2hLGGSBdIVTb/MFMH51WcDV?=
+ =?iso-8859-1?Q?tU1dbrYn6SvNm62QUYNd6cf7ItQomuEgMjcnsxo7WJgmULMurFM8r8QdwX?=
+ =?iso-8859-1?Q?5dPZ03/Jt73Zx0Cc/wUL8Q4EB2rVQ+iLFf7K6c0TwMuq4DNOIRWQz1aiVp?=
+ =?iso-8859-1?Q?rsHYu/e2TZKRJg6jvnaGSPF37EwIvNj1HnMlXtUHHoQikV3MkY693sXZ13?=
+ =?iso-8859-1?Q?D5bjtXUyqE1F3y2UXjEw7eS+vEyWtblKTej1m/6z2egZl1Z2oCg8rtDsJ5?=
+ =?iso-8859-1?Q?3k2rE3paZwW9UnsToxIRDhLdetmBNsszC1mroavzU6XffFNT+8xbttgGKp?=
+ =?iso-8859-1?Q?hNAs4S6cT+PBD4wTgsQX9iPSbIrvfiHRpk0A0Qyap7zQUXLJIMdbaw6uBG?=
+ =?iso-8859-1?Q?iRpfEFHBl6kkOgZ94YAkH8ddU+e8wt5lQW0mNnkW0xmS8E0KFvNrwcXxn5?=
+ =?iso-8859-1?Q?bk8vyqjKeGjhldDw5DD2Ip2895G3BZjXaWCK3JCLRzxEPC5UUg83PYg4ZF?=
+ =?iso-8859-1?Q?iGV4GnT8RK6KuPWpVhRRFLpb7V5BYT/dDBUblhjZr1JTTpF0TiImBzVF/n?=
+ =?iso-8859-1?Q?8K29SQvgyy0YCimQnUpUV7XRHrLkHa9/sDHQsuu6J7ODHCEGm4QRBS7pPK?=
+ =?iso-8859-1?Q?NW2HZyGSS9PToyWd5fJTdNut//bDuY99ICjEuKISRfZWBvc6iDpfqZvdZM?=
+ =?iso-8859-1?Q?e8fSk7okPA67BF9gYNkmEvvDKyi9bL2Eoi2Nv1fBIhoRBJx1JdQjXu57VK?=
+ =?iso-8859-1?Q?d4G2bN1PQIDiZuKmSkpEeh4YnuEtaGf1Iz+Bq5drkUBU0NwWyqUVsxTdvG?=
+ =?iso-8859-1?Q?vlRd2Db0Ie1LHTl9rlN0HN9j9mC+PR+feopEI/90eey+TLenwUnWXYHthO?=
+ =?iso-8859-1?Q?QIrEVu0eE7bHxDl1PMMDNmBRNt+pZveGJLjg+OlXnaKCY7ZsyQq0MnA/Px?=
+ =?iso-8859-1?Q?Jp8rqZfJf0v5bQ6xDNc+0MMk6STcT1XtQss6hPn3g6gH9LkKbOy2OySQjg?=
+ =?iso-8859-1?Q?NX1Qbc1qhHJ9VLhMTgiGFt2xAuf6KPmVpQwYtEDOHCl9qwMSEjM6AR5iO0?=
+ =?iso-8859-1?Q?Ke7HlKQWxxdegiRgOJV46Za6mMWHi0crjQgguYNMOoOXtEcSaXQFbn8Bmc?=
+ =?iso-8859-1?Q?J4d3toTEARDVehj0h0I8i+nDMHQcv/3hQ/GuY6eWtjyan2UjOVjnOHynQp?=
+ =?iso-8859-1?Q?rLs5bIeD+l7OJN3mqEXn1WR1521hyQY2qf6MgFvmhATLuGN1bfnPUf3ddR?=
+ =?iso-8859-1?Q?wT8up84pH5ciZf640ZQzPv4HP7BBEBDMUQducEr7gr+F/7hmNRpMY9akD6?=
+ =?iso-8859-1?Q?F59w3TikGqX207VEelrsm2c53etd5a+oOzXwx/ohMMaUGc05HtPZVbpfbl?=
+ =?iso-8859-1?Q?BAJfOuUO75onyExcFw/7fY7x2yvgGem5bbCa/qza3DSIlwzKdwfLRmBsQU?=
+ =?iso-8859-1?Q?cP+7Z4wlOgw7oEcF3Fjj0TxN5TaRuLnsq/c4aJ5w1LrLjYCkVAZVT2yGRD?=
+ =?iso-8859-1?Q?15BNspN/1SR9yUGb1tmhdDABhPmZIYUAba/wOuNw49HmwDb3IW2P/3d0HX?=
+ =?iso-8859-1?Q?ASDnnGMshDXwhcqiEppFzffuzhWx5dyxrtijT2N6khqqv12n0JHIJ/7Fy7?=
+ =?iso-8859-1?Q?nD44w8NJjfZVxl/h8z0u6+IatMrxxNeVZUib4PskX5jJB+u8fkZcM0/LJ7?=
+ =?iso-8859-1?Q?RfMFJeUxbfMnkmqkhYEyV0UfPLCNbb2eGtd3syvwhXUZxugViQIE/0Gnuv?=
+ =?iso-8859-1?Q?ANWRL2PI7Q=3D=3D?=
+X-Exchange-RoutingPolicyChecked: OYbr5q+oLCWoFabsyyFMWygOTrodt9GIYaqgwr6P0M+WtChmeYHxns/E4L8AjYbGemeZh249QfGz3oxC8WQZ+yG4fGmol3w0sdpNdQZ06uFidfzJ//BoV04bWD9X9oCg52fw0twqC1kg6BZKV81U5D0g9djR6FJ1mTUg3PICmuS/rrEX1AfzxcoJrajC/gqRhn3suaXneYMaXABbCio4JAxV/HfmCuHcrsrhpeFYhxHc+4Z6Vp2Mf4ThxJOYb7oiLnAIZ3OPgTEskMLc8t8RlJdHFDK3hvMyh0QTztDz3kSnOMHEqaBSbaNxNtOdL0M02jg0RroVRrGWEMLSxfWCOg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00558d66-f37d-49d5-4ad6-08dead0460cb
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 13:19:05.0670
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S1rnPVnYwBFJSDO64AsE8z9q6xTE9zFyo8EsfJ9FM1QSMaWtZE1HpwA/9pPNqLRwyffnGAnlEO85DkLBNKzDuQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8743
+X-OriginatorOrg: intel.com
 
-On 5/8/26 00:04, Jihong Min wrote:
-> Hi Mathias,
+On Fri, May 08, 2026 at 01:20:49PM +0300, Jani Nikula wrote:
+> Not all of the overview DOC: comments in the display driver are
+> incorporated into the documentation. Add the missing ones, including
+> some function documentation.
 > 
-> I tried the xhci-pci-prom21.c approach you suggested, with a PROM21-specific
-> PCI glue driver calling xhci_pci_common_probe() and creating the auxiliary
-> hwmon child device from that driver.
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  Documentation/gpu/intel-display/atomic.rst   | 11 +++++++++++
+>  Documentation/gpu/intel-display/casf.rst     |  8 ++++++++
+>  Documentation/gpu/intel-display/cmtg.rst     |  8 ++++++++
+>  Documentation/gpu/intel-display/index.rst    |  4 ++++
+>  Documentation/gpu/intel-display/snps-phy.rst |  8 ++++++++
+>  5 files changed, 39 insertions(+)
+>  create mode 100644 Documentation/gpu/intel-display/atomic.rst
+>  create mode 100644 Documentation/gpu/intel-display/casf.rst
+>  create mode 100644 Documentation/gpu/intel-display/cmtg.rst
+>  create mode 100644 Documentation/gpu/intel-display/snps-phy.rst
 > 
-> While doing that I noticed a possible boot-time regression with the module
-> case.
-> 
-> If CONFIG_USB_XHCI_PCI=y and CONFIG_USB_XHCI_PCI_PROM21=m, then generic
-> xhci-pci sees CONFIG_USB_XHCI_PCI_PROM21 as enabled and refuses the PROM21
-> PCI ID:
-> 
->      if (IS_ENABLED(CONFIG_USB_XHCI_PCI_PROM21) &&
->          pci_match_id(pci_ids_prom21, dev))
->              return -ENODEV;
-> 
-> That means the PROM21 xHCI controller is handled only by
-> xhci-pci-prom21.ko. If that module is not present in the initramfs or is not
-> loaded early enough, the PROM21 xHCI controller remains unbound during early
-> boot. Devices behind that controller, such as a USB keyboard used for early
-> boot or disk unlock, would not work even though the generic xhci-pci driver is
-> built in and could otherwise operate the controller.
-> 
-> This seems different from the Renesas case, where the separate PCI driver is
-> needed for controller-specific firmware handling. For PROM21, the USB/xHCI
-> operation itself is still generic; the only extra function is publishing an
-> optional hwmon child device.
-> 
-> So I am not sure what the preferred direction should be:
-> 
->    1. Keep the separate xhci-pci-prom21.c PCI glue driver and make
->       USB_XHCI_PCI_PROM21 built-in only, or otherwise constrain the Kconfig so
->       the generic xhci-pci handoff cannot break early boot.
-> 
->    2. Keep PROM21 handled by generic xhci-pci and add only a small
->       PROM21-specific auxiliary-device creation hook in xhci-pci after the
->       common probe succeeds. In that model, failure to create the optional hwmon
->       auxiliary device would not affect USB operation.
-> 
->    3. Some other split that keeps PROM21-specific sensor code outside
->       xhci-pci, but does not prevent generic xhci-pci from binding the
->       controller when the optional PROM21 glue is not available early.
-> 
-> Do you still prefer the separate xhci-pci-prom21.c PCI driver for this case,
-> or would the minimal xhci-pci auxiliary-device hook be more appropriate given
-> the built-in xhci-pci / modular PROM21 glue case?
-> 
+> diff --git a/Documentation/gpu/intel-display/atomic.rst b/Documentation/gpu/intel-display/atomic.rst
+> new file mode 100644
+> index 000000000000..43a473181e7a
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/atomic.rst
+> @@ -0,0 +1,11 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Atomic Modeset Support
+> +======================
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_atomic.c
+> +   :doc: atomic modeset support
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_atomic.c
+> +   :internal:
 
-Maybe I am missing something, but it seems to me that CONFIG_USB_XHCI_PCI_PROM21
-should be just as built-in as CONFIG_USB_XHCI_PCI.
+I believe they key functions on the other files below also deserves this
+kind of doc. But I know, future work not related to this patch. ;)
 
-Thanks,
-Guenter
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-> Sincerely,
-> Jihong Min
+> diff --git a/Documentation/gpu/intel-display/casf.rst b/Documentation/gpu/intel-display/casf.rst
+> new file mode 100644
+> index 000000000000..406778ccd94c
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/casf.rst
+> @@ -0,0 +1,8 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Content Adaptive Sharpness Filter (CASF)
+> +========================================
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_casf.c
+> +   :doc: Content Adaptive Sharpness Filter (CASF)
+> diff --git a/Documentation/gpu/intel-display/cmtg.rst b/Documentation/gpu/intel-display/cmtg.rst
+> new file mode 100644
+> index 000000000000..04edd0bd165d
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/cmtg.rst
+> @@ -0,0 +1,8 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Common Primary Timing Generator (CMTG)
+> +======================================
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_cmtg.c
+> +   :doc: Common Primary Timing Generator (CMTG)
+> diff --git a/Documentation/gpu/intel-display/index.rst b/Documentation/gpu/intel-display/index.rst
+> index 8d40363b8f90..01c3d1e576b7 100644
+> --- a/Documentation/gpu/intel-display/index.rst
+> +++ b/Documentation/gpu/intel-display/index.rst
+> @@ -24,8 +24,11 @@ driver. The display driver isn't an independent driver in that sense.
+>     :caption: Detailed display topics
+>  
+>     async-flip
+> +   atomic
+>     audio
+> +   casf
+>     cdclk
+> +   cmtg
+>     dmc
+>     dpio
+>     dpll
+> @@ -37,4 +40,5 @@ driver. The display driver isn't an independent driver in that sense.
+>     hotplug
+>     plane
+>     psr
+> +   snps-phy
+>     vbt
+> diff --git a/Documentation/gpu/intel-display/snps-phy.rst b/Documentation/gpu/intel-display/snps-phy.rst
+> new file mode 100644
+> index 000000000000..c9e333fa7f62
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/snps-phy.rst
+> @@ -0,0 +1,8 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Synopsis PHY support
+> +====================
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_snps_phy.c
+> +   :doc: Synopsis PHY support
+> -- 
+> 2.47.3
 > 
-> On 5/7/26 18:31, Mathias Nyman wrote:
->> On 5/7/26 06:31, Jihong Min wrote:
->>> Some xHCI PCI controllers expose controller-specific functionality that is
->>> not part of generic xHCI operation and is better handled by optional child
->>> drivers in other subsystems. Add a small auxiliary device registration path
->>> for selected xHCI PCI controllers.
->>>
->>> The initial PCI ID match table lists AMD Promontory 21 (PROM21) 1022:43fd
->>> controllers. For matching controllers, xhci-pci creates an auxiliary
->>> device and stores it in devres so the remove path destroys it before HCD
->>> teardown.
->>>
->>> Subsystem-specific child drivers can then bind to those devices through
->>> the auxiliary bus and keep their hardware-specific logic outside xhci-pci.
->>>
->>> Assisted-by: Codex:gpt-5.5
->>> Signed-off-by: Jihong Min <hurryman2212@gmail.com>
->>> ---
->>>   drivers/usb/host/Kconfig    | 10 +++++
->>>   drivers/usb/host/xhci-pci.c | 83 +++++++++++++++++++++++++++++++++++++
->>>   2 files changed, 93 insertions(+)
->>>
->>> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
->>> index 0a277a07cf70..e0c2c7ac5c97 100644
->>> --- a/drivers/usb/host/Kconfig
->>> +++ b/drivers/usb/host/Kconfig
->>> @@ -42,6 +42,16 @@ config USB_XHCI_PCI
->>>       depends on USB_PCI
->>>       default y
->>>   +config USB_XHCI_PCI_AUXDEV
->>> +    bool "xHCI PCI auxiliary device support"
->>> +    depends on USB_XHCI_PCI
->>> +    select AUXILIARY_BUS
->>> +    help
->>> +      This enables xHCI PCI support for registering auxiliary devices
->>> +      for selected controllers. It is used by optional child drivers
->>> +      that bind to xHCI PCI controller-specific functionality through
->>> +      the auxiliary bus.
->>> +
->>>   config USB_XHCI_PCI_RENESAS
->>>       tristate "Support for additional Renesas xHCI controller with firmware"
->>>       depends on USB_XHCI_PCI
->>> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
->>> index 585b2f3117b0..618d6840e108 100644
->>> --- a/drivers/usb/host/xhci-pci.c
->>> +++ b/drivers/usb/host/xhci-pci.c
->>> @@ -8,6 +8,8 @@
->>>    * Some code borrowed from the Linux EHCI driver.
->>>    */
->>>   +#include <linux/auxiliary_bus.h>
->>> +#include <linux/device/devres.h>
->>>   #include <linux/pci.h>
->>>   #include <linux/slab.h>
->>>   #include <linux/module.h>
->>> @@ -80,6 +82,7 @@
->>>   #define PCI_DEVICE_ID_AMD_RAVEN_15E1_XHCI        0x15e1
->>>   #define PCI_DEVICE_ID_AMD_RAVEN2_XHCI            0x15e5
->>>   #define PCI_DEVICE_ID_AMD_RENOIR_XHCI            0x1639
->>> +#define PCI_DEVICE_ID_AMD_PROM21_XHCI            0x43fd
->>>   #define PCI_DEVICE_ID_AMD_PROMONTORYA_4            0x43b9
->>>   #define PCI_DEVICE_ID_AMD_PROMONTORYA_3            0x43ba
->>>   #define PCI_DEVICE_ID_AMD_PROMONTORYA_2            0x43bb
->>> @@ -103,6 +106,80 @@ static int xhci_pci_run(struct usb_hcd *hcd);
->>>   static int xhci_pci_update_hub_device(struct usb_hcd *hcd, struct usb_device *hdev,
->>>                         struct usb_tt *tt, gfp_t mem_flags);
->>>   +static const struct pci_device_id pci_ids_have_aux[] = {
->>> +    { PCI_DEVICE_DATA(AMD, PROM21_XHCI, "prom21_hwmon") },
->>> +    { /* end: all zeroes */ }
->>> +};
->>> +
->>> +struct xhci_pci_aux_devres {
->>> +    struct auxiliary_device *auxdev;
->>> +};
->>> +
->>> +static const char *xhci_pci_aux_dev_name(struct pci_dev *pdev)
->>> +{
->>> +    const struct pci_device_id *id;
->>> +
->>> +    id = pci_match_id(pci_ids_have_aux, pdev);
->>> +    if (!id)
->>> +        return NULL;
->>> +
->>> +    return (const char *)id->driver_data;
->>> +}
->>> +
->>> +static void xhci_pci_aux_devres_release(struct device *dev, void *res)
->>> +{
->>> +    struct xhci_pci_aux_devres *devres = res;
->>> +
->>> +    if (devres->auxdev)
->>> +        auxiliary_device_destroy(devres->auxdev);
->>> +}
->>> +
->>> +static void xhci_pci_try_add_aux_device(struct pci_dev *pdev)
->>> +{
->>> +    struct xhci_pci_aux_devres *devres;
->>> +    struct auxiliary_device *auxdev;
->>> +    const char *aux_dev_name;
->>> +
->>> +    aux_dev_name = xhci_pci_aux_dev_name(pdev);
->>> +    if (!aux_dev_name)
->>> +        return;
->>> +
->>> +    devres = devres_alloc(xhci_pci_aux_devres_release, sizeof(*devres),
->>> +                  GFP_KERNEL);
->>> +    if (!devres) {
->>> +        dev_warn(&pdev->dev,
->>> +             "failed to allocate auxiliary device state\n");
->>> +        return;
->>> +    }
->>> +
->>> +    auxdev = auxiliary_device_create(&pdev->dev, KBUILD_MODNAME,
->>> +                     aux_dev_name, NULL,
->>> +                     (pci_domain_nr(pdev->bus) << 16) |
->>> +                         pci_dev_id(pdev));
->>> +    if (!auxdev) {
->>> +        devres_free(devres);
->>> +        dev_warn(&pdev->dev, "failed to add %s auxiliary device\n",
->>> +             aux_dev_name);
->>> +        return;
->>> +    }
->>> +
->>> +    devres->auxdev = auxdev;
->>> +    devres_add(&pdev->dev, devres);
->>> +}
->>> +
->>> +static void xhci_pci_try_remove_aux_device(struct pci_dev *pdev)
->>> +{
->>> +    struct xhci_pci_aux_devres *devres;
->>> +
->>> +    devres = devres_find(&pdev->dev, xhci_pci_aux_devres_release, NULL,
->>> +                 NULL);
->>> +    if (!devres || !devres->auxdev)
->>> +        return;
->>> +
->>> +    auxiliary_device_destroy(devres->auxdev);
->>> +    devres->auxdev = NULL;
->>> +}
->>> +
->>>   static const struct xhci_driver_overrides xhci_pci_overrides __initconst = {
->>>       .reset = xhci_pci_setup,
->>>       .start = xhci_pci_run,
->>> @@ -677,6 +754,9 @@ int xhci_pci_common_probe(struct pci_dev *dev, const struct pci_device_id *id)
->>>       if (device_property_read_bool(&dev->dev, "ti,pwron-active-high"))
->>>           pci_clear_and_set_config_dword(dev, 0xE0, 0, 1 << 22);
->>>   +    if (IS_ENABLED(CONFIG_USB_XHCI_PCI_AUXDEV))
->>> +        xhci_pci_try_add_aux_device(dev);
->>> +
->>>       return 0;
->>
->> I think this should be turned around so that the vendor specific code calls the common code.
->> xhci-pci-renesas.c does this nicely.
->>
->> In your case it would be adding something like a xhci-pci-prom21.c pci driver:
->>
->> xhci_pci_prom21_probe(struct pci_dev *dev, const struct pci_device_id *id)
->> {
->>     crate_auxiliary_device(dev);
->>     return xhci_pci_common_probe(dev, id);
->> }
->>
->> xhci_pci_prom21_remove(struct pci_dev *dev)
->> {
->>     destroy_auxiliary_device(dev);
->>     xhci_pci_remove(dev);
->> }
->>
->> static const struct pci_device_id pci_ids[] = {
->>     { PCI_DEVICE(YOUR_AMD_PCI_VENDOR_ID, YOUR_PROM21_DEVICE_ID) },
->>     { /* end: all zeroes */ }
->> };
->> MODULE_DEVICE_TABLE(pci, pci_ids);
->>
->> static struct pci_driver xhci_prom21_pci_driver = {
->>     .name =        "xhci-pci-prom21",
->>     .id_table =    pci_ids,
->>
->>     .probe =    xhci_pci_prom21_probe,
->>     .remove =    xhci_pci_prom21_remove,
->>
->>     .shutdown =     usb_hcd_pci_shutdown,
->>     .driver = {
->>         .pm = pm_ptr(&usb_hcd_pci_pm_ops),
->>     },
->> };
->> module_pci_driver(xhci_prom21_pci_driver);
->>
->> MODULE_DESCRIPTION("AMD Promontory 21 xHCI PCI Host Controller Driver");
->> MODULE_IMPORT_NS("xhci");
->> MODULE_LICENSE("GPL v2");
->>
->> -Mathias
-> 
-
