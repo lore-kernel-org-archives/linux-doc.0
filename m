@@ -1,108 +1,196 @@
-Received: from outbound.ci.icloud.com (ci-2004k-snip4-4.eps.apple.com [57.103.89.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0991E40F8E9
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 16:56:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.89.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AA02EBDDE;
+	Fri,  8 May 2026 17:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778259387; cv=none; b=QKCnL1fx8NQwjYvS2wUKkLdD6UlgVXz+f3CqF0J+1l+QSqWtaKEXho7vsP23dMCVddP4LfBIklNBd+0uD0PtI+j0LcgZFjwQcWtv8gEWHmgpTK8M2D7PHuvOKWGxf/65OxHeRFUP4xaq8JVz28GPKJuv5yV+5BHN8bXulktiM+g=
+	t=1778259634; cv=none; b=jFmHn2alv8GrahVglj30TDyiAxQ7IHu2mgOlVmSTPeSy9bsUNPXOTWdTGlWSy71th4YpumLtYY0QRtewPb3dnVBViRHq4Ipfz9ttoddJ57huW7TVVW9ACZxDe0zgjlKWIb/PZXf1z20MvpX2ogHtJTkmVDkOpnqvkXxw7MgUnZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778259387; c=relaxed/simple;
-	bh=O+Z+iiQS6mOHEHFMXl2jZzyLVpVMQFSe6c0A8tPA/Y0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iYd9I9xhE1wgCDUFBKkFPPvlocDszJ2Cki9M7fMDau4KynqPcLwaVp7W0JHK1m5MEE+rNBY2Rszw2D3fXSLhV/NUZNPxvQbfHSrX/QX4jTLgQb5qEKfJBCSKHpwIAt6TViuQioxlKkoVpYt4ProqpG2eCJi2otEqyLkNWXNmpmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=mLSdWLvZ; arc=none smtp.client-ip=57.103.89.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1778259634; c=relaxed/simple;
+	bh=hwFcZ1rYADG5Vl5cAE7VhwuunL029cCrXItus5CFbJE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=GlbgXnq3+kEUJoYKLo39UDXRLFfsuPoQYA4zCcTpYbU7AMZdE6MD7b77pk84xYJ9aUr7OGhOI6zN4aPPQXp2/fYZplDd78ApuCTlcU/8ttYneVDBZHmTXoUqPg7f8xZvH7XFMviTfHcMfKx7D1s7phYk0sZhCtVWigw1FN13H2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IwaIEUxK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="mLSdWLvZ"
-Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-central-1k-100-percent-8 (Postfix) with ESMTPS id 1A45418003AE;
-	Fri, 08 May 2026 16:56:22 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJBkMDRQVJF0wBTVIPDxhMCkEUWgpcQgtJAS1eCF4fTBwdDlgGEhZdRVsYRRlLHVgWAV8GWXIZWhRcGFNFUR9UWEEOCloBUFEdXwIKBEcEWxdGA1NFURkXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PGVoUXBhTRVEfVFheBFNWDkAMSwZYUQlWXQ1LAFQaXwcRDVUKCFUNH0RfTwFcA14DQwFAAS1eCF4fTBwdDlgGDFBNAUMICgJRHFYNVw==
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778259385; x=1780851385; bh=+QLZLsNYf7h9Ce79kOQN7zRPNN2q7F1QoiGbgvgNk78=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=mLSdWLvZwqNRhNXhUmkJmhVTY7rlx831BK9MA47Ujn6al8NsCzs2vAVcWeuMFjznM2mfiqMfa4WcmoBtLWqWQ1cIVC469vVg4XC8VyCxOwi4HgZQ4JkCml5gB4hnu7FuTuYjEFJHNPi5jFuHZFJtQWNmMAnH9oHV3ZIr9OvyDCgDmz7MRTePhkULARMyFcyCH6OFkzcz2aVfuAWyOQrbIQOWrR7VKaljt3q1UHzG2W1hdajhVA8Up4tJMK2rteIUXOtmpYsHxRRbER1UKg+kfKy08ZGxTCoBCv8t8rWSp2rqP9XK9Ug6y0DrTGZPEa3ul8K4cLTxlGrSYhpJ1JbLUg==
-Received: from [192.168.89.2] (unknown [17.57.156.36])
-	by p00-icloudmta-asmtp-us-central-1k-100-percent-8 (Postfix) with ESMTPSA id BB7C11802090;
-	Fri, 08 May 2026 16:56:19 +0000 (UTC)
-Message-ID: <05355fbd-4339-45a4-9ebf-4f7214513882@icloud.com>
-Date: Sat, 9 May 2026 01:56:17 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IwaIEUxK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 80C0AC2BCC7;
+	Fri,  8 May 2026 17:00:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778259634;
+	bh=hwFcZ1rYADG5Vl5cAE7VhwuunL029cCrXItus5CFbJE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=IwaIEUxKuwfFkuYpuWO4zk8yEqUpAhDSeEPvyKN1vhIv5NFUnJ1qVcz8LzbRYNxwT
+	 IoeVOHn2ciwGAz/v/4CmxiNEQUrLqveb6B3hOcmCLo/cbE0Ei47AV/NDzrvVcLBq0A
+	 e2wFSAkUVe8yIulD3uhQFxhUYYaFlJdljvlh9W47ey5wMIT10w0kTFJiYGA9BptR83
+	 ze/LyuTYoaD6SygERz7RMrK+lC5Gu1JRLgFeXpFjpkQGrK5wY+HLq3Tc1fZC/qNiUN
+	 6u1JPOz4y2rnuyWrCRjiyZxYKk5Jw2kAl//0UeBsT741Qo6zJY8V2WXVjczRLDqRn2
+	 N4/RwrcSeY3PA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E08CD37AD;
+	Fri,  8 May 2026 17:00:34 +0000 (UTC)
+From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Date: Fri, 08 May 2026 18:00:18 +0100
+Subject: [PATCH RFC v4 02/10] iio: core: support 64-bit register through
+ debugfs
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] hwmon: add AMD Promontory 21 xHCI temperature
- sensor support
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Guenter Roeck <linux@roeck-us.net>, Jihong Min <hurryman2212@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1778123510.git.hurryman2212@gmail.com>
- <0c35058bb088213397b42fca8d51e9ad0bba5169.1778123510.git.hurryman2212@gmail.com>
- <35c2436b-d172-4172-a684-a96c4a0dcabe@roeck-us.net>
- <16c4f7e5-e33d-4271-a7af-5d6c7fca0570@icloud.com>
- <6745fd21-2001-4e06-af41-96ae63154c02@roeck-us.net>
- <198ae20f-49c9-4f81-87e2-e16e81053f08@icloud.com>
- <70035490-eafb-4610-8889-9e04931c8b32@amd.com>
-Content-Language: en-US
-From: Jihong Min <hurryman2212@icloud.com>
-In-Reply-To: <70035490-eafb-4610-8889-9e04931c8b32@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authority-Info-Out: v=2.4 cv=NfzrFmD4 c=1 sm=1 tr=0 ts=69fe15b7
- cx=c_apl:c_pps:t_out a=2G65uMN5HjSv0sBfM2Yj2w==:117
- a=2G65uMN5HjSv0sBfM2Yj2w==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=c92rfblmAAAA:8 a=pGLkceISAAAA:8 a=NEAV23lmAAAA:8 a=jm6BaUM5yunLdwCpO_4A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=GvGzcOZaWPEFPQC_NcjD:22
- a=PgRulw5oR9JgysbTFEid:22 a=MienORt8HT0FiJ1vGQZ6:22
-X-Proofpoint-GUID: zLnn0M4GnOupoLmgccVWtpqh383ISKTu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDE2OSBTYWx0ZWRfX0oLtkKpTDFo8
- Q1C3S/9OJHt0gK558mbjbUH+xyYetB1TWRJq3wYHUstKW9SGieVCx64c1+yxTgUzCwao8ZQ7cM3
- WBLs05D7DOPnYPOyh63Lzf3G4CVkhHLN7OFA1rj5nh0zjLGft3IHygrOOMR8VEiIfGPU8s5SXYG
- Mc4yCWAhsQFsCE5wHu6bTzrBYSK/Dx5mJrDKarAwAreLC3uNH7DvvdZ0YBMkAe8Wp4C3FOcMpcS
- kfetB5gt5pLSjWgZFxjXJh9iQFgnVUxnQ2yjI8xqVCOyCoOEd/+jzs6eLyk0+ZuiIsTFVRNi1o4
- bmp7pUK5BZDHsvIEdSswUJ9sKxnrwm9fwHQHZV5sJqVB5cgWLSeTFJeB16zV1w=
-X-Proofpoint-ORIG-GUID: zLnn0M4GnOupoLmgccVWtpqh383ISKTu
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260508-ad9910-iio-driver-v4-2-d26bfd20ee3d@analog.com>
+References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
+In-Reply-To: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
+To: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-hardening@vger.kernel.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778259632; l=4625;
+ i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
+ bh=YRlk/iiq4eVXfrqmyO+o0NNkYu0tyVA5S+8lWtEXHes=;
+ b=0VV39g/Wnx+Ah8y4F3SqtMhm46W0xUme5DPPPwUnSzegUyZaFwwhGljivE9L2qlhtG3+Ojke2
+ J4FIBcPJvcjAEnLuYOBFDDpnYHjN/U/D69WiNtIOHXBWTRbLToDRpMi
+X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
+ pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
+X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
+ with auth_id=561
+X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Reply-To: rodrigo.alencar@analog.com
 
->
-> Another thing to mention is that you are going too fast between patch 
-> versions.  All your patches show up in a ton of people's inboxes.
->
-> It's great you've gotten feedback on them but I suggest you give it a 
-> few days or a week between versions to gather more feedback.
-Thanks for the guidance. I understand, and I agree that I have been sending
-new revisions too quickly.
+From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-I will slow down the revision cadence from now on and wait a few days, or
-until the review discussion settles, before sending the next version.
->
-> If you haven't already; you should take a look at what Sahiko finds on 
-> your patches too.  Be sure to look at the feedback critically and take 
-> it with a grain of salt; but it often finds a few nuggets that are 
-> worthwhile to consider.
->
-> Here is the Sahiko link for v4 you can review if you weren't already 
-> looking at it.
->
-> https://sashiko.dev/#/patchset/20260508143910.14673-1-hurryman2212%40gmail.com 
->
->
-I have been checking the Sashiko feedback and have been incorporating the
-actionable issues it found where they made sense. I will continue to review
-it critically before sending future revisions.
+Add debugfs_reg64_access function pointer field into iio_info and modify
+file operation callbacks to favor 64-bit variant when it is available.
 
-For reference only, and not as a substitute for the mailing-list 
-patches, I am
-keeping my current work-in-progress branch here:
+Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+---
+ drivers/iio/industrialio-core.c | 33 ++++++++++++++++++++++++---------
+ include/linux/iio/iio.h         |  4 ++++
+ 2 files changed, 28 insertions(+), 9 deletions(-)
 
-   https://github.com/hurryman2212/linux/tree/prom21_hwmon
+diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+index bd6f4f9f4533..cb4e2ade25c0 100644
+--- a/drivers/iio/industrialio-core.c
++++ b/drivers/iio/industrialio-core.c
+@@ -386,6 +386,7 @@ static ssize_t iio_debugfs_read_reg(struct file *file, char __user *userbuf,
+ 	struct iio_dev *indio_dev = file->private_data;
+ 	struct iio_dev_opaque *iio_dev_opaque = to_iio_dev_opaque(indio_dev);
+ 	unsigned int val = 0;
++	u64 val64 = 0;
+ 	int ret;
+ 
+ 	if (*ppos > 0)
+@@ -393,9 +394,17 @@ static ssize_t iio_debugfs_read_reg(struct file *file, char __user *userbuf,
+ 					       iio_dev_opaque->read_buf,
+ 					       iio_dev_opaque->read_buf_len);
+ 
+-	ret = indio_dev->info->debugfs_reg_access(indio_dev,
+-						  iio_dev_opaque->cached_reg_addr,
+-						  0, &val);
++	if (indio_dev->info->debugfs_reg64_access) {
++		ret = indio_dev->info->debugfs_reg64_access(indio_dev,
++							    iio_dev_opaque->cached_reg_addr,
++							    0, &val64);
++	} else {
++		ret = indio_dev->info->debugfs_reg_access(indio_dev,
++							  iio_dev_opaque->cached_reg_addr,
++							  0, &val);
++		val64 = val;
++	}
++
+ 	if (ret) {
+ 		dev_err(indio_dev->dev.parent, "%s: read failed\n", __func__);
+ 		return ret;
+@@ -403,7 +412,7 @@ static ssize_t iio_debugfs_read_reg(struct file *file, char __user *userbuf,
+ 
+ 	iio_dev_opaque->read_buf_len = snprintf(iio_dev_opaque->read_buf,
+ 						sizeof(iio_dev_opaque->read_buf),
+-						"0x%X\n", val);
++						"0x%llX", val64);
+ 
+ 	return simple_read_from_buffer(userbuf, count, ppos,
+ 				       iio_dev_opaque->read_buf,
+@@ -415,8 +424,9 @@ static ssize_t iio_debugfs_write_reg(struct file *file,
+ {
+ 	struct iio_dev *indio_dev = file->private_data;
+ 	struct iio_dev_opaque *iio_dev_opaque = to_iio_dev_opaque(indio_dev);
+-	unsigned int reg, val;
++	unsigned int reg;
+ 	char buf[80];
++	u64 val64;
+ 	int ret;
+ 
+ 	if (count >= sizeof(buf))
+@@ -429,7 +439,7 @@ static ssize_t iio_debugfs_write_reg(struct file *file,
+ 
+ 	buf[ret] = '\0';
+ 
+-	ret = sscanf(buf, "%i %i", &reg, &val);
++	ret = sscanf(buf, "%i %lli", &reg, &val64);
+ 
+ 	switch (ret) {
+ 	case 1:
+@@ -437,8 +447,12 @@ static ssize_t iio_debugfs_write_reg(struct file *file,
+ 		break;
+ 	case 2:
+ 		iio_dev_opaque->cached_reg_addr = reg;
+-		ret = indio_dev->info->debugfs_reg_access(indio_dev, reg,
+-							  val, NULL);
++		if (indio_dev->info->debugfs_reg64_access)
++			ret = indio_dev->info->debugfs_reg64_access(indio_dev, reg,
++								    val64, NULL);
++		else
++			ret = indio_dev->info->debugfs_reg_access(indio_dev, reg,
++								  val64, NULL);
+ 		if (ret) {
+ 			dev_err(indio_dev->dev.parent, "%s: write failed\n",
+ 				__func__);
+@@ -469,7 +483,8 @@ static void iio_device_register_debugfs(struct iio_dev *indio_dev)
+ {
+ 	struct iio_dev_opaque *iio_dev_opaque;
+ 
+-	if (indio_dev->info->debugfs_reg_access == NULL)
++	if (!indio_dev->info->debugfs_reg_access &&
++	    !indio_dev->info->debugfs_reg64_access)
+ 		return;
+ 
+ 	if (!iio_debugfs_dentry)
+diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+index 96b05c86c325..86d17ee69e05 100644
+--- a/include/linux/iio/iio.h
++++ b/include/linux/iio/iio.h
+@@ -484,6 +484,7 @@ struct iio_trigger; /* forward declaration */
+  * @update_scan_mode:	function to configure device and scan buffer when
+  *			channels have changed
+  * @debugfs_reg_access:	function to read or write register value of device
++ * @debugfs_reg64_access: function to read or write 64-bit register value of device
+  * @fwnode_xlate:	fwnode based function pointer to obtain channel specifier index.
+  * @hwfifo_set_watermark: function pointer to set the current hardware
+  *			fifo watermark level; see hwfifo_* entries in
+@@ -572,6 +573,9 @@ struct iio_info {
+ 	int (*debugfs_reg_access)(struct iio_dev *indio_dev,
+ 				  unsigned int reg, unsigned int writeval,
+ 				  unsigned int *readval);
++	int (*debugfs_reg64_access)(struct iio_dev *indio_dev,
++				    unsigned int reg, u64 writeval,
++				    u64 *readval);
+ 	int (*fwnode_xlate)(struct iio_dev *indio_dev,
+ 			    const struct fwnode_reference_args *iiospec);
+ 	int (*hwfifo_set_watermark)(struct iio_dev *indio_dev, unsigned int val);
 
-Sincerely,
-Jihong Min
+-- 
+2.43.0
+
+
