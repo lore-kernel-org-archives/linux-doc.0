@@ -1,178 +1,92 @@
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DC0384223
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 08:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778228451; cv=pass; b=OG+S6EJuzZHdE1CCvIDcaupn16wBx6xjZBVkay+jagt+buj+IerW50xK8tjs4C5WkqI0ZeXrf+maUM0M7fT+py0MxjNfRB+tP6shOJiAC0/ztpb43d5kz9DWpFtql3va8FQcJ9rXN5/Iovg31Q+v+WdHNEGBEgQCnW0acYuQ3Aw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778228451; c=relaxed/simple;
-	bh=lTkF7Xj1pPLGJApccu/V8Mry4PVrzP0dv5SU+hphSqo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jOwSPNCPBDmi156y1526+jwPtco6uzFMx8CCu15TLvcQZnZMxZaZdPC+BiBHZ3hZCEIcex5aySQLBPz35RZKAx7xV1ilOQcNRkNCtWzukrUCf2zhSpBqfOPc2wh7hXRFt0N4d7Tn42hUUkLxKt2tX15nwQZHBBmcWWaP3k+NEZ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ovy7WJKb; arc=pass smtp.client-ip=209.85.222.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CC6359A6B
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 08:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778230084; cv=none; b=RzqNTGvSwQMQsMumAqz1iFTqKaMDnRuQkyLZfz+32xpgkMeDzMeUbl/e4K9dy4hJIsrxcgUa2noIZ2DhaEaCL4vSt7RVeV5al+UyvUz4DVCVZwXgCbspaYav73noqwDEmV+3/D9JB1xRyZNdVWWned1z6GyzPFZSsuEYF/NT/eo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778230084; c=relaxed/simple;
+	bh=u46jUF8IirQf334VLi4gPJlkUEzkM7rjgtMj5KDnzvs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hlF4ZonWMafSa7QE24+vneI3EFFDXvSYjFoCwraXFCARIh6g0z1T5hQ3d+FBc2AfE0Win6IbIds/YItgMbspDalsU/XnpguzfpJJsJmMAAWHjPouvPxmH8DSmYpd5EVCuKgbRKLsTEg2HW1lLWggI3IR2fnnE569V6HYPraXtTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fxoriPy2; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ovy7WJKb"
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-94dd01deb53so505817241.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 01:20:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778228448; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jfoUGDcFF5QobTXqpH5moxTgwLkugrG3UlLbr2+QjsvOP/bogo4cqPuOcvNGhPu1HZ
-         uf05pUIhx50CKmM4g76FGMeLEszJztKXTdbR4Ojc18fXKq4St+q2eyexuRzzCu8pTRdF
-         cEeIPie4n5U/NR1UtQEUroPdngwLbFpCPetJDxFJTDMt1BPIwdzRYEA+NgQT6y0rg0sS
-         r1SFH8R3IyBKTy/e1Dq1pooFzRdR88kGgA3EQU5hy6c+/DxR/+gOgw3Q2NnJztAcbk7V
-         O04sj08DXSKj40zx/bsDCo1W/qv2l7Pv0lZ9mf0YfIXXk9mpVWXhtejjQUhdkiC691q6
-         DjVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=HHvqc5QQlNg6QfQkGnDzkz4AP6jx9Mcp6qm5SqdJ5gs=;
-        fh=jUfzAr6MaYnDa3HUeE1lTabd2G4OyIjN6s8fIqzsNcQ=;
-        b=ci54rty1QXMrJVu+9ZI0rY6+aA5JOAmh3vfz26H2vsespnsUoK5C1X7Nscx0WdL/ie
-         F0HFM6VnlsUco9ZiyYhLuCXN6F7NXEkIhCQU3vMP1NYzmIGkS59/i+sTiURdk85tAUOA
-         AI0Q2Pi2go8JR0tPYHX7GPoSF6U8GCFg9mS7iq5c/yvayLNsDF0XCjmYnwusJ5QNzoP0
-         /SiaRmEFi+6PJwtlp7WNiho6yJ4oNgwHpP9IG3D4ctQPTXICmw3d3rcOnEbdg/vaVUZ5
-         tu6SqBgBC0Ey8SwtLjMUiOKT1gbbT2fa88TM2nlCmUYuXHUCK1mIl7HiHdVD8sglUFol
-         5J9g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778228448; x=1778833248; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HHvqc5QQlNg6QfQkGnDzkz4AP6jx9Mcp6qm5SqdJ5gs=;
-        b=ovy7WJKbLUXUpfS9AK2nUoxnoJ9aJC6emEzi+YmThLXN3+ZEuEXrvBzJQGuVY42x+C
-         LrikbL6KCjLDmFV54CKsT+eLXen8f96b8TRh0qwRS6iuazJxpaZNiPO1+t8ZqeSG01/3
-         iKVptjKvNT8Ac62at3juk15Mcc/wEYp4PFs2E/Tg6YnohqQT5LrWCYWyLOir8aqkAtBu
-         1xHn1s36xFW+mmiaqKn7KH6MsGDm1rWMU2X+H9DUfZfP/4G+KgHqTsUiVi0q2TexHLqD
-         rvEigLzLkD5gXEU2j9fTz4cY8ohLJvXfyb/Z2FMKo1iZKvkd1sDYlOkbVki1Umxcskep
-         60+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778228448; x=1778833248;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HHvqc5QQlNg6QfQkGnDzkz4AP6jx9Mcp6qm5SqdJ5gs=;
-        b=FPCnbgHCdN4k3zUADTsPyq6utAVLGYhUMVEdr4id3YpOE+nf7wE6b51F87kus+ZBL0
-         Ef557EyuzGIrc7csH4vdoDnDy/CcYFpXBfCv7tJDVWgPr0MDXJly/o4CTV00G06wT/Uo
-         4y3S5EiMLbxCah/wcF8W0qJfK1ddKBVFvYh9CVpeGuOI2Hps919FfJMzHIIEx447M5CG
-         VzBhMyhlOSFNkOxGZQIo1K7O8s93mWF2EKKzIENU4H1IqdiWHtbkMQ6ZgInyRq1u3LDE
-         x9cLGWr6SjXgLfHjjP73SIZSPUitYAF0NsBOiwtJtTilidaCwhC22cUiL4BMhua9+9BM
-         PtPA==
-X-Forwarded-Encrypted: i=1; AFNElJ+8af+99EO8kVQHHcGPiiMZg7Z5+z/pSBnAnFLJ/Wijb/mmei4ybXhar/nz13gL21XvaLpq07k4jVA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwP4b2+DCK1qJK4l9DOh6JopnqkFlcSvbVvfbqm1o2fgjxZWH8k
-	fUU+3uN0et1F50t/xD6fB7Y/N5uneZT3LMXdEym+ItpBJ/NnqQHSE4Fbs6tVo7bl6HnowfBXKow
-	bKr4rWd0KyskwaeUseALBZ5SxKKxvDL4=
-X-Gm-Gg: Acq92OGFXFk3g14MVb2AluLG2UDigSyTPQPxZ5aN3e7ds4GYzRc3nKds1B9RwgX7l6r
-	Gd0/0no09EOR4mYjGgcAFEbpJmqPiGFfez/sv+rpkf+Fvd7MoaaRwnmd2yPROLietNBrdr32RVK
-	xLj3MDiNxlT4+G5RQ0aP2V/lXgaDRReZrA8Dhb2Fsf88wzABK4brzBPZSPR5NAaY+hC4qtFd1Dd
-	NlXSkTwYWdtsnKEFAzuaasO7MIcWpQyrcsakvz6/h6OiOZMQZd0Lqtc6tnpcjIrhnY42RjNXjZN
-	vDdOaha5vvHuBAs9
-X-Received: by 2002:a05:6102:26d1:b0:608:6b33:5bc2 with SMTP id
- ada2fe7eead31-630f8fc123emr6203272137.18.1778228448423; Fri, 08 May 2026
- 01:20:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fxoriPy2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778230082; x=1809766082;
+  h=date:from:to:cc:subject:message-id;
+  bh=u46jUF8IirQf334VLi4gPJlkUEzkM7rjgtMj5KDnzvs=;
+  b=fxoriPy2lYrl9qN9J6Ju1DdY//Kj20fuqRYv0Fl7MbagT8CSjNLSZTXP
+   UODhO2OM348cyZ90syPuRg9H53lT54/KTllhs39g0lfRzf9qPZ52EHclC
+   +BenrjkNtkapAc22zXg0rrmPY4WzW4Qtn80aoe1AGtNJ0VXXBin/MGp/N
+   Topwhpll59zpx8/+ZUn1TQepjjaqHRSAE/Vw1J5EStG/0HL/jXyQrt50S
+   CyIDOJDusiE2VLXxm0BxKqQyiOL8ZmLB+bzOxqC3MgnLkZzm/I+PNGLKL
+   z/ypbH1h3/1uTQrCSASzKns19ugZHsxJa4QYig/NyA//mVCXi2sf3xfGj
+   w==;
+X-CSE-ConnectionGUID: Nu8Ggpm9RN+Mtn/nsL1s8A==
+X-CSE-MsgGUID: w+1yp4eVQyWQgTMr3lYZYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="66721574"
+X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
+   d="scan'208";a="66721574"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 01:47:55 -0700
+X-CSE-ConnectionGUID: prb3mU/ATIS3+pMOfpUOZA==
+X-CSE-MsgGUID: 7FNM4tdDS0O0DlCss3EKhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
+   d="scan'208";a="274830074"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 08 May 2026 01:47:53 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wLGsA-0000000078D-3JV1;
+	Fri, 08 May 2026 08:47:50 +0000
+Date: Fri, 08 May 2026 10:47:32 +0200
+From: kernel test robot <lkp@intel.com>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, linux-doc@vger.kernel.org
+Subject: [alexs:docs-next 3/4] htmldocs: Warning:
+ Documentation/translations/zh_CN/how-to.rst references a file that doesn't
+ exist: Documentation/translations/zh_CN/xxx.rst
+Message-ID: <202605081019.xC04fpcw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260507-add-e50sn12051-v4-0-ff2b3768ac7e@gmail.com>
- <20260507-add-e50sn12051-v4-1-ff2b3768ac7e@gmail.com> <20260507-squealing-vanish-16fea3c114f5@spud>
-In-Reply-To: <20260507-squealing-vanish-16fea3c114f5@spud>
-From: Colin Huang <u8813345@gmail.com>
-Date: Fri, 8 May 2026 16:20:37 +0800
-X-Gm-Features: AVHnY4LY8-27TKesI70xHAUIFe9rb9_MdP2mFDNPu7z3TNgg0dnTs4zeU01pEIQ
-Message-ID: <CAPBH0A_D3siq+_CMM5Ouqemn56eJhU8U7KuL5gTC8h_tvL7kXQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: hwmon: pmbus: add Delta E50SN12051 binding
-To: Conor Dooley <conor@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Kevin Chang <kevin.chang2@amd.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Colin Huang <colin.huang2@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Conor Dooley <conor@kernel.org> =E6=96=BC 2026=E5=B9=B45=E6=9C=888=E6=97=A5=
-=E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=881:07=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On Thu, May 07, 2026 at 01:12:26PM +0800, Colin Huang via B4 Relay wrote:
-> > From: Colin Huang <u8813345@gmail.com>
-> >
-> > Add devicetree binding documentation for the Delta E50SN12051
-> > PMBus-compliant device.
-> >
-> > Signed-off-by: Colin Huang <u8813345@gmail.com>
-> > ---
-> >  .../bindings/hwmon/pmbus/delta,e50sn12051.yaml     | 42 ++++++++++++++=
-++++++++
-> >  1 file changed, 42 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/delta,e50sn1=
-2051.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/delta,e50sn12051.=
-yaml
-> > new file mode 100644
-> > index 000000000000..72aefe212d17
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/hwmon/pmbus/delta,e50sn12051.ya=
-ml
-> > @@ -0,0 +1,42 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/hwmon/pmbus/delta,e50sn12051.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Delta E50SN12051 PMBus Sensor
-> > +
-> > +maintainers:
-> > +  - Kevin Chang <kevin.chang2@amd.com>
-> > +
-> > +description: |
-> > +  Delta E50SN12051 is a non-isolated 1/8th brick DC-DC power module.
-> > +  It is a PMBus-compliant device accessible via an I2C/SMBus interface
-> > +  and provides standard telemetry such as voltage, current, and
-> > +  temperature measurements.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: delta,e50sn12051
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +    description: I2C bus address of the PMBus device
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
->
-> With only these two properties, shouldn't this be in trivial-devices?
-Thanks for your comment.
-I will remove this file, delta,e50sn12051.yaml,
-and add device into trivial-devices.yaml.
->
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    i2c {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        power-module@40 {
-> > +            compatible =3D "delta,e50sn12051";
-> > +            reg =3D <0x40>;
-> > +        };
-> > +    };
-> >
-> > --
-> > 2.34.1
-> >
-> >
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git docs-next
+head:   962820bece3c1b0b848d0cfd9b9b10002536a736
+commit: abf912ed5d786d4c4c66d8ffae229dc099f139c4 [3/4] docs/zh_CN: restructure how-to.rst patch submission workflow
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260508/202605081019.xC04fpcw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605081019.xC04fpcw-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/translations/zh_CN/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst references a file that doesn't exist: Documentation/filesystems/gfs2-glocks.rst
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst references a file that doesn't exist: Documentation/filesystems/gfs2-uevents.rst
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2.rst references a file that doesn't exist: Documentation/filesystems/gfs2.rst
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+>> Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/translations/zh_CN/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
