@@ -1,68 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F41820E702;
-	Fri,  8 May 2026 20:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47782225413;
+	Fri,  8 May 2026 21:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778273791; cv=none; b=qJFXQH1X7NP23mD+ZfACzGHAknelROoBl11aOdyMvVsf3p+CwQ0hCdfKvF3kRwawgmuFWhM6Uiov1wbi4IjEdlv/j8sxX42euHPEtQ5X/c3bh8qh9mTf0VnUIqE0vE2mwjIc0WF9kZODsVtrOMHUViaVw9jRWKTMtpzecf0KMIs=
+	t=1778274393; cv=none; b=iTnMbibu9ayS/aUKo9C40bAe3RSYj6gnEA1w6O09jebQy2OGQHE50y8pKfYtMr6c1sIZjXy9CWErE6oLILKEXoFjZwSQl5j8ltW8Fdcev6xl3hA2+05gToGpeBe6t/odxuML8VBTjxZDe70bhtoWehFF1k8b6pO6/olvdFAoujc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778273791; c=relaxed/simple;
-	bh=vqgkcRc8U7alNwsPEB7lDsO1XMutpjl4DV7jmdHc4Uo=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=Q3EWm959rRNRaXkeTM0L65+wHzco+ZtlfEq5ns4nDlhQ3nX2PV7H+1rAVkqhEGELNJG8ndbkNJRecaaCyYxA1DZU9TZ5D010nfBcIesqP49q63UETnLbBtsbVDG5TbGJhLsc89cx+5gS7OlZaVr3TelHHmPalBi31GF87blcWBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=cgwFrTjf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778274393; c=relaxed/simple;
+	bh=T0eWHYvoB32q4/LjWG9pTPZE5yTNYbilqq9QRe3btmk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q4vFWUzTpNSMQvJnSrfaMkf50EKz0Bn+YIDJTJqEN/qyNIa8Mg8NoHZUAXhfbu/WN4yhJGxcvxLZKuo97vB/VOSIIssUCtUNaNChho2zhxbLfsgC87NUmlxJxBal1+EqqxUOFjdqXxygqOMJfNxY5LtH1pbpi3yzgFkZKB8po8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=hZ6JYsCY; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="cgwFrTjf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96C6CC2BCB4;
-	Fri,  8 May 2026 20:56:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1778273790;
-	bh=vqgkcRc8U7alNwsPEB7lDsO1XMutpjl4DV7jmdHc4Uo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cgwFrTjfioL2PMSGvMZIGt9yJlQSzwoLTBOk+Od5Vln72dUiTeHE+ZkP8of5dAqRk
-	 JX4CQDjntIMq4S5DyaP3pAO68UmCsRThOCR4t8L6smbLopCTOnWnxiU4hDuhMHQXyj
-	 3CH0Mt1VuErJ3bCYd74w9JJTvfuYCaM1vXro7k9o=
-Date: Fri, 8 May 2026 13:56:30 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- gregkh@linuxfoundation.org
-Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
- primitive
-Message-Id: <20260508135630.a380e3c187b59e4c04e6f358@linux-foundation.org>
-In-Reply-To: <20260507070547.2268452-1-sashal@kernel.org>
-References: <20260507070547.2268452-1-sashal@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="hZ6JYsCY"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7680240E00C2;
+	Fri,  8 May 2026 21:06:28 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id hgMfzb9Q01z8; Fri,  8 May 2026 21:06:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1778274377; bh=THjyDfJHG7KW9npiqBHK3HlBg3FTqIowEJNRgPMlB/w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hZ6JYsCYHUgII6cO/Pj/xxaMkCexjTFlixqmNXNw918guUvdWQNt98LA2QtBpt8oh
+	 2G6VbNwCsf1GFoey3tSlMK+l2dB/3LEDfUOc6W7g7a0WEMxfy4oBTzFnWoa08TIvGM
+	 H/FeXQqiEkiH5Ac6wIly0j5pb8tqcXvWUYY9sF5P1NSiM/ijHl3gSbroqzXvr+MSxu
+	 tI3NpnfLfMmvZF1HmRuEYVqUye4oXpKPeO8hxkxTNUgIuCJ/Tpn3EBZ9qCX8frgC0w
+	 B1lIptOv7SA00tM6phu4KI6UahFQui8Ly0kNI+IriGaJAGO4qQhELbnGzoMv37xfKC
+	 B/AcsJTnS4HzUcG77+KdyUMG0maJZFvuI7xhlGLHbESKNSz8MFMXMR4l3OZFblsjZA
+	 0fN2qlB1egK7K2LAaqxPFw9pOSsiSkJ08ap0TzrcXha9IklHyx49UuhlbXz/J1N3hC
+	 kcwh8KR1xqkXVleNxkXmuA7FpWpZTkeUdqic8/Uwu9LBmwbW3ss2+Xn9d+RD0ya7ZA
+	 GqUcSfYtwystf/w7zBknjGt0ULLwYQcm1/cS2GkkqdxFA7GiR54QMv4zSjv3VUYnWP
+	 svxB3a4hPt8+UV52rUrfb71bKpwutQXDLkOL21b5q/EMV6wGTSk3kKjk+2eZL6LPNu
+	 EZLlRu8V3SW4Uupd9i5VmLZM=
+Received: from zn.tnic (pd953014d.dip0.t-ipconnect.de [217.83.1.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id E01BC40E014B;
+	Fri,  8 May 2026 21:05:34 +0000 (UTC)
+Date: Fri, 8 May 2026 23:05:27 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jason Baron <jbaron@akamai.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	Asit Mallick <asit.k.mallick@intel.com>,
+	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v11 02/12] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+Message-ID: <20260508210527.GFaf5QFz61RmSRBqKT@fat_crate.local>
+References: <20260422-vmscape-bhb-v11-0-b18e0cf32af4@linux.intel.com>
+ <20260422-vmscape-bhb-v11-2-b18e0cf32af4@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260422-vmscape-bhb-v11-2-b18e0cf32af4@linux.intel.com>
 
-On Thu,  7 May 2026 03:05:45 -0400 Sasha Levin <sashal@kernel.org> wrote:
-
-> When a (security) issue goes public, fleets stay exposed until a patched kernel
-> is built, distributed, and rebooted into.
+On Wed, Apr 22, 2026 at 11:15:15PM -0700, Pawan Gupta wrote:
+> As a mitigation for BHI, clear_bhb_loop() executes branches that overwrite
+> the Branch History Buffer (BHB). On Alder Lake and newer parts this
+> sequence is not sufficient because it doesn't clear enough entries. This
+> was not an issue because these CPUs use the BHI_DIS_S hardware mitigation
+> in the kernel.
 > 
-> For many such issues the simplest mitigation is to stop calling the buggy
-> function. Killswitch provides that. An admin writes:
+> Now with VMSCAPE (BHI variant) it is also required to isolate branch
+> history between guests and userspace. Since BHI_DIS_S only protects the
+> kernel, the newer CPUs also use IBPB.
 > 
->     echo "engage af_alg_sendmsg -1" \
->         > /sys/kernel/security/killswitch/control
+> A cheaper alternative to the current IBPB mitigation is clear_bhb_loop().
+> But it currently does not clear enough BHB entries to be effective on newer
+> CPUs with larger BHB. At boot, dynamically set the loop count of
+> clear_bhb_loop() such that it is effective on newer CPUs too.
+> 
+> Introduce global loop counts, initializing them with appropriate value
+> based on the hardware feature X86_FEATURE_BHI_CTRL.
+> 
+> Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> ---
+>  arch/x86/entry/entry_64.S            |  8 +++++---
+>  arch/x86/include/asm/nospec-branch.h |  2 ++
+>  arch/x86/kernel/cpu/bugs.c           | 13 +++++++++++++
+>  3 files changed, 20 insertions(+), 3 deletions(-)
 
-It certainly sounds useful, but what would I know.  How do we hunt down
-suitable operations people (aka "target audience") to find out how
-useful this is to them?
+Simple and clean - that's how I like 'em.
 
-Also,
+Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
 
-> 19 files changed, 1451 insertions(+), 1 deletion(-)
+-- 
+Regards/Gruss,
+    Boris.
 
-wowzers.  I'm looking at samples/livepatch/livepatch-sample.c wondering
-"why"?
-
+https://people.kernel.org/tglx/notes-about-netiquette
