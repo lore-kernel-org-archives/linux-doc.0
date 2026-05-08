@@ -1,84 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F48834D382
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 11:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E20334D382
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 11:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778238737; cv=none; b=vDIWJlMSAnrq2yrtwQYqFYPCGhow9p5LmIrllb5aAMvMYJ8GnGe70shXosFaAZpEiv2Zjuq/jOkNUuTWWELfULWuiHnnpVRc81rDq5QtXBThIraE8VINltXEvJgMkkJnJue9FmmYrVWJk76xCmck7epOE88Kl2Yk3R2XwRSwNw0=
+	t=1778238741; cv=none; b=L/bVBHNYAV8NaG7g0mKYtUkt1Re4te9nnwnh3mSXHbEmVHQhmhNIppQVAHgQ95d87Kw5mYAJi99a2lcgDGjP3z75H2QYRo3Q+YLb6DHpuFMTu+NhPkyzhty7WwZ5TgErjwy3a7SxUXfL4KMbru/9lgxIltxApUI5YAgcXUkoYUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778238737; c=relaxed/simple;
-	bh=9i4UXkiTi0qzlvvx1XqvxQArJ4VEq6Gv23WLkgfeHzI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uLaLGd9RLPEQbE0zkkE/PqpKoGK+EkmIPSKtNTYJ+C3pjEkf+8eTjA69U3+blR6RV4uH6SGH1ORg7vCSKEvOuCze3IHTKQWnPDMM0NvPcZcI6enTXrwaG4XMLZLrQCEeeWgQdiWC/Ogbzt1LhqKvUmRSYs6vI/ESOoTQwDFq6pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ubti8Old; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ubti8Old"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778238735; x=1809774735;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9i4UXkiTi0qzlvvx1XqvxQArJ4VEq6Gv23WLkgfeHzI=;
-  b=Ubti8Old5uR8mDb3Dk0+hMINzsiCzVpbfgwZCEn4FAAL7NC1w/vM3qGu
-   4w9WpSYs+qKnFEhbOgEcDs3iuRFPU5VTqQVadjhj896DWLKfDQ8eAmpp1
-   BNjFmciIE6ctDM+/52foFjiY6ozp7/fARYssne8Oqmsfnurz/ruq8mpRt
-   ss1rSJ6vC5Fu5WMabelBU3FUQH5raaw8hMvPXkg9vtjZADbiLsV2Oxxba
-   yyM2nw1EO1rGoCcU991i2Ohts+wHodPh660ZdCk++WCpEhoSINiCeSicu
-   eR1yy2dwCHyegtCBzuLqdf1MF95BTmpjHUhyDze8eWW7HTu8OU1UQ4snb
-   w==;
-X-CSE-ConnectionGUID: tNnxFqzoR7OOh8/KhpYlFg==
-X-CSE-MsgGUID: kRqg4M5NRiKy/5/kaGqnaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="79245737"
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="79245737"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 04:12:14 -0700
-X-CSE-ConnectionGUID: aj/9XFvpQyGBk0CnKExNvw==
-X-CSE-MsgGUID: iKDiAKcIRYWGNQ4TtDydQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="230341304"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.40])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 04:12:13 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org
-Cc: jani.nikula@intel.com
-Subject: [PATCH 0/3] Documentation/gpu: tables of contents cleanups and fixes
-Date: Fri,  8 May 2026 14:12:06 +0300
-Message-ID: <cover.1778238671.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1778238741; c=relaxed/simple;
+	bh=WQis/+eM7l1uAKIgv3HxViGZpt+nFeQRW+hLB5igYBA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lmwS/13B+phq94GApjJAaGUVisdYHDl7I1a0YLOxppgvf0DXd39rhDMTUHam2gpEgVlKApWAQravKMp1Y2dnaOLey8S8pia2/1cxJsSu5ZttUfG20o5VOdALRgSpqkipdfOuf9VE0PUqu2T+Wk/R8N7AXZ1jguGKddcjOg7sbBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+To: npache@redhat.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	aarcange@redhat.com,
+	akpm@linux-foundation.org,
+	anshuman.khandual@arm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	byungchul@sk.com,
+	catalin.marinas@arm.com,
+	cl@gentwo.org,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jackmanb@google.com,
+	jannh@google.com,
+	jglisse@google.com,
+	joshua.hahnjy@gmail.com,
+	kas@kernel.org,
+	lance.yang@linux.dev,
+	Liam.Howlett@oracle.com,
+	ljs@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	matthew.brost@intel.com,
+	mhiramat@kernel.org,
+	mhocko@suse.com,
+	peterx@redhat.com,
+	pfalcato@suse.de,
+	rakie.kim@sk.com,
+	raquini@redhat.com,
+	rdunlap@infradead.org,
+	richard.weiyang@gmail.com,
+	rientjes@google.com,
+	rostedt@goodmis.org,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shivankg@amd.com,
+	sunnanyong@huawei.com,
+	surenb@google.com,
+	thomas.hellstrom@linux.intel.com,
+	tiwai@suse.de,
+	usamaarif642@gmail.com,
+	vbabka@suse.cz,
+	vishal.moola@gmail.com,
+	wangkefeng.wang@huawei.com,
+	will@kernel.org,
+	willy@infradead.org,
+	yang@os.amperecomputing.com,
+	ying.huang@linux.alibaba.com,
+	ziy@nvidia.com,
+	zokeefe@google.com
+Subject: Re: [PATCH 7.2 v16 03/13] mm/khugepaged: rework max_ptes_* handling with helper functions
+Date: Fri,  8 May 2026 19:11:50 +0800
+Message-Id: <20260508111150.16625-1-lance.yang@linux.dev>
+In-Reply-To: <20260419185750.260784-4-npache@redhat.com>
+References: <20260419185750.260784-4-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Make the GPU documentation slightly easier to navigate.
 
-Jani Nikula (3):
-  Documentation/gpu: limit main toctree depth to 2
-  Documentation/gpu: add some tables of contents to large documents
-  Documentation/gpu/rfc: fix toctree
+On Sun, Apr 19, 2026 at 12:57:40PM -0600, Nico Pache wrote:
+>The following cleanup reworks all the max_ptes_* handling into helper
+>functions. This increases the code readability and will later be used to
+>implement the mTHP handling of these variables.
+>
+>With these changes we abstract all the madvise_collapse() special casing
+>(dont respect the sysctls) away from the functions that utilize them. And
+>will later in this series to cleanly restrict mTHP collapses behaviors.
+>
+>Suggested-by: David Hildenbrand <david@kernel.org>
+>Signed-off-by: Nico Pache <npache@redhat.com>
+>---
 
- Documentation/gpu/driver-uapi.rst     |  2 ++
- Documentation/gpu/drm-internals.rst   |  2 ++
- Documentation/gpu/drm-kms-helpers.rst |  2 ++
- Documentation/gpu/drm-kms.rst         |  2 ++
- Documentation/gpu/drm-mm.rst          |  2 ++
- Documentation/gpu/drm-ras.rst         |  2 ++
- Documentation/gpu/drm-uapi.rst        |  4 +++-
- Documentation/gpu/drm-usage-stats.rst |  2 ++
- Documentation/gpu/index.rst           |  1 +
- Documentation/gpu/introduction.rst    |  2 ++
- Documentation/gpu/rfc/index.rst       | 26 ++++++--------------------
- 11 files changed, 26 insertions(+), 21 deletions(-)
+Nice. It should all be an equivalence-preserving refactor.
 
--- 
-2.47.3
-
+With David's suggested changes:
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
