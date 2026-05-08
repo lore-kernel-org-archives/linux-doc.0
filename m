@@ -1,146 +1,91 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF31F301485
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 16:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E88A2F8EA6;
+	Fri,  8 May 2026 16:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778257207; cv=none; b=jFsHwFBpIvQPEbbUltOoMrT4EcW4UU5M5VLn/egkHTa+3W6CtZVepcu3TLIYmahm1CQib5MGCuyvScUAgP6B97JUgFQLPMbBRo64kuUoOak4CTf+9LdTKyuGAUG5nVBXk/Yg/Q4Cczk3OYt7hOa3UT9H7VMd4x/Tf38piA9bCwI=
+	t=1778257401; cv=none; b=WQ8QPvJ2V+kdROMdQAsEJoQgfEh1QqGYIR7jhRjwIM14y7IYjv/64932efX8XXoW2UQOnnNat8QC6pb8kR1qoC02CCJVa9B4OAlaKtX1TQR24kT8e0bUQ5w5NgWDI5UKWvQJKAfDurpyMl9JAG/l/dfKRCQiky/5QjQZ8GpFpq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778257207; c=relaxed/simple;
-	bh=v647WHHmXcdLQIFhGfoT7NEbJ1k0sAZWFnTY5EXnBc4=;
+	s=arc-20240116; t=1778257401; c=relaxed/simple;
+	bh=JoiUm5wh8Zs0sBuLuIL7ypMZIZSGxbxZQbaJk/2I4Cc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kg6QYG0Yxq0sMm9TSusnmICW5JAtU0ZIXYyNnbh2UO6KfTWCcwaHuuuXkU7zza7EMgz+Fe9zvakOvSYLID0nUXpFt4siirXL+hvusm0OoEfO9K6fEBV8Zn0RaEhoClLydOlOyA2CWu5mFDFhROpwZvzGPDfl/5nGoOH+EvuVH80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sPcdaAur; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=uWGZbBOfa/XSofd96nRDIacyR/HM5WJ5fbhjBT6WbSWwk0BRvHvKLRZvsBbuS8fVxL8qmpuo3tyNb8vyzoNSukuw9F88FZ88blxAJC8TSVJ5lDZnWoeW3zepRQvPCBLDx8MJ5v40b37ohGlJFUs+H4gJ6uPWqzX9PVU2QCkBbF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c7wrIHt9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sPcdaAur"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-50d880e6fbbso29166811cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 09:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778257205; x=1778862005; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VVIaSjloZ3+LpxQTNssmJQh6h7Rks2diPWr6o44EUDI=;
-        b=sPcdaAurUpMDi10Sft6uGMJ2a/3e3HI1R+WovtJHcva09XXrP9E3WDtnvB/z/oOHmb
-         JZSTVv5xHeIplTuYpGYcaB3CcmK8Qfep7o5JhM0Mw2FecYi+Z/q9Zj/1BQB85HZg1bfb
-         pQcDeHRLUpHK5PIaeWLaA/WQaXfBunzXYk7nUXVtF/bPFy6o6Suz9ZM1SxO6tAiYtNmp
-         VKUjjzZWuvwyc+2htS0wdWQTjHDGHxEsHylrMQNZ0TV3utkRg0vFVp3nOfKelE5L67XF
-         StDhjMlr1oYCKZ7QttpiNCGrMptZMWMInB0T+Az6ELSTpP+QY6/IxarVExCL7vHhJLlT
-         ir6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778257205; x=1778862005;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VVIaSjloZ3+LpxQTNssmJQh6h7Rks2diPWr6o44EUDI=;
-        b=HC9WDuuS2lh2xBGaF6xXeFyvgTpdCxYQWER4r1kiFI8TFPJgk1xxMs5Na1jiXP6TsX
-         EJgYYymVNK/XgR8PvgEGG7k+/4tHvkACB+jgJ27zqAGNJHOvLmsnLxAmXbiJc60Hs/Mc
-         Kbs1ePsDEFHKnhDbgMRmWa2Q+dEjgU0a3O0KyzgY5SP8V8icPKAyg+0eE26FwIKAVewB
-         XhbMCnqo3ndwtJrPra0nKJTs2MIypTGlj7N1AARwcrvCzVe6Ec5mdcERNp3m4txDjzvT
-         qA4FcNP2Vb5x5UNVvo0jarzxMRIe5MMxQge2URtdtbhr49gJlGRx4VlrR7nSDnlBaNHo
-         SWyw==
-X-Forwarded-Encrypted: i=1; AFNElJ9FH22BpCdmhZBQiLSWspBUXWzeTVp7kBZ7JjeYdWMmLkBDReLGYUGKza2IpWKLvErH7IJE6xecgVo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNW4xFHJuEvgsZatEZdzVTkN1s/zxePHMPZ5howo8vc0k0G2Wa
-	K4JuYr2FtQm8g6CRKBoperfE6puRPb83K2AZ6Qr4hvkXw/TOj6wXzZiD
-X-Gm-Gg: AeBDieueqdB5X/9ZLZzOb/yUYknDrqF1DBnKsjldY+Jxe3WWXk/VIbcbC6yShYGv2ko
-	7EbnpB4t6i6743irHwN8pD0hE1C6zrAxoGIhb5i6rmZJFfVI4imBZHM7UmdwuSU8ipiUulvsEGa
-	6Jp9+Sh3iCwJTXRQtgvfZZxAps2GDsc7v8PbFqzBBCJVMaHf6ggauJ06Ouc34ghXcA0FRZY1W/P
-	GDNaeqg/wFaUfyacq6bc0c253SzBalyCG/0cXUfKCeNakxNp367IjL9m43g7UnmocbQOCvRstJh
-	+E8Zo/SuKRC6L3PZm7BGcDDwYgfdiVWth/6LFGDoiV3/vdvWiinfX2llSPUaAItsUrJm1VI3NAa
-	BoiDhoALqejSzTw2DGrk1d1L45S+pEY+MV7zVHQ9aq5BDUPtaeil/3GRz0Vr1yPqPbFDQZQ/ITt
-	L+yMQic5FYuaa/UCZJ7u3tZE3S3nb74IyoIiX0Uyw0ZhcT1g==
-X-Received: by 2002:ac8:584d:0:b0:50f:ad91:8906 with SMTP id d75a77b69052e-51475c100cdmr95757961cf.20.1778257204178;
-        Fri, 08 May 2026 09:20:04 -0700 (PDT)
-Received: from devvm29614.prn0.facebook.com ([2a03:2880:f800:d::])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b53d35787esm238874416d6.44.2026.05.08.09.19.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 09:20:03 -0700 (PDT)
-Date: Fri, 8 May 2026 09:19:57 -0700
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Stanislav Fomichev <sdf.kernel@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Shuah Khan <shuah@kernel.org>, dw@davidwei.uk,
-	mohsin.bashr@gmail.com, willemb@google.com, jiang.kun2@zte.com.cn,
-	xu.xin16@zte.com.cn, wang.yaxin@zte.com.cn, netdev@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c7wrIHt9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFA30C2BCB0;
+	Fri,  8 May 2026 16:23:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778257401;
+	bh=JoiUm5wh8Zs0sBuLuIL7ypMZIZSGxbxZQbaJk/2I4Cc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c7wrIHt95fgux+bSYVElC7l8E4G3CgzagcRn5241VmCXGxKJBhR57Vnmb1jTxDb/Z
+	 AqnBvhqrIBjB8vQUq9fPRSsBS3lZ8AWUSFAqALcRQR8MNfYzWtZv4OED9bHkcaVyli
+	 qDF3dD4MUZswfP0tdaRVJykv10SSu6k6rksQJw22p1SHqumu4sSCCL6jYTo6pNoMfz
+	 71XZdn0ANaWWqlxu179XcjkQyasfyPUjwLuGwnLs3b2C1Ssf1MvgrH8/jF5PcF5tvK
+	 aqoQtnfKxW2aWarfCGlTrcYA0cVOi1Wsson+C61R96H2Ox01pDSPqILUhntMLtGnsp
+	 fwn8a26WPUUKQ==
+Date: Fri, 8 May 2026 12:23:19 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Joshua Peisach <jpeisach@ubuntu.com>, corbet@lwn.net,
+	akpm@linux-foundation.org, skhan@linuxfoundation.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Mina Almasry <almasrymina@google.com>,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v3 6/8] selftests: drv-net: refactor devmem
- command builders into lib module
-Message-ID: <af4NLRXDN3nzEDce@devvm29614.prn0.facebook.com>
-References: <20260507-tcp-dm-netkit-v3-0-52821445867c@meta.com>
- <20260507-tcp-dm-netkit-v3-6-52821445867c@meta.com>
- <af37Eoq2TLjhI7kx@devvm7509.cco0.facebook.com>
+	linux-kselftest@vger.kernel.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
+ primitive
+Message-ID: <af4N9_YOgDQziRCR@laps>
+References: <20260507070547.2268452-1-sashal@kernel.org>
+ <DIDEQIFQF1EW.11CESAK4JL4PR@ubuntu.com>
+ <af4Fwxndqv2knLov@localhost.localdomain>
+ <af4LvqtLu-yeor-v@laps>
+ <b14d54c0-0fe8-4d98-a2ea-2dd830cd5869@efficios.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
-In-Reply-To: <af37Eoq2TLjhI7kx@devvm7509.cco0.facebook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b14d54c0-0fe8-4d98-a2ea-2dd830cd5869@efficios.com>
 
-On Fri, May 08, 2026 at 08:03:11AM -0700, Stanislav Fomichev wrote:
-> On 05/07, Bobby Eshleman wrote:
-> > From: Bobby Eshleman <bobbyeshleman@meta.com>
-> > 
-> > Adding netkit-based devmem tests is a straight-forward copy of devmem
-> > test commands plus some args for the nk cases, so this patch breaks out
-> > these command builders into helpers used by both.
-> > 
-> > Though we tried to avoid libraries to avoid increasing the barrier of
-> > entry/complexity (see selftests/drivers/net/README.md, section "Avoid
-> > libraries and frameworks"), factoring out these functions seemed like
-> > the lesser of two evils in this case of using the same commands, just
-> > with slightly different args per environment.
-> > 
-> > I experimented with just having all of the tests in the same file to
-> > avoid having helpers in a library file, but because ksft_run() is
-> > limited to a single call per file, and the new tests will require
-> > different environments (NetDrvContEnv/NetDrvEpEnv), it would have been
-> > necessary to have each test set up its own environment instead of
-> > sharing one for the entire ksft_run() run. This came at the cost of
-> > ballooning the test time (from under 5s to 30s on my test system), so to
-> > strike a balance these tests were placed in separate files so they could
-> > keep a shared environment across a single ksft_run() run shared across
-> > all tests using the same env type (introduced in subsequent patches).
-> > 
-> > The helpers work transparently with both plain and netkit environments
-> > by inspecting cfg for netkit-specific attributes (netns, nk_queue,
-> > etc...).
-> > 
-> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
-> > ---
-> 
-> [..]
-> 
-> > Changes in v4:
-> 
-> This is a v3, but you already have changes for v4 :-p
+On Fri, May 08, 2026 at 12:18:28PM -0400, Mathieu Desnoyers wrote:
+>On 2026-05-08 12:13, Sasha Levin wrote:
+>[...]
+>>>One possible approach to prevent "footgun" type of killswitch use would
+>>>be to first apply a statistics collection killswitch handler that does
+>>>not change the behavior: it checks whether the target function is
+>>>invoked at all on the system for a given period of time. Then it applies
+>>>the killswitch if it was not invoked during that period. Overall
+>>>sequence:
+>>>
+>>>- pre-soak killswitch for e.g. 30s, checking whether the function is
+>>> invoked at all. (period would be user-configurable)
+>>>- if no calls were detected, engage killswitch, else report failure to
+>>> the user.
+>>>
+>>>This should prevent footguns such as trying to killswitch fork, malloc
+>>>or other core functions which are inherently required.
+>>
+>>Why not just use our good old tracing infra? Set tracepoints where ever you
+>>want, collect any data you might need, and engage the killswitch 
+>>when you're
+>>happy with the data you have?
+>>
+>>It feels a bit weird adding something like this into killswitch.
+>
+>It really depends on whether you want to include some basic safety nets
+>directly within killswitch, or leave that entirely to the end user.
+>
+>I don't have a strong opinion either way. I was just pointing out the
+>feasibility of a pre-soak sanity check before applying the killswitch.
 
-oops, will change on respin.
+What about doing this with some userspace tooling (maybe under scripts/) to
+facilitate this?
 
+-- 
 Thanks,
-Bobby
+Sasha
