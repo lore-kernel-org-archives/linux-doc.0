@@ -1,185 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D9A3C3C10;
-	Fri,  8 May 2026 09:44:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778233496; cv=none; b=VWgfu+nQTVrkkHFkgtpCKLhbzhUQS9NcZY1df3EX665lt6L1yiY1jkQL0y/AvIypJ+KPa9us/+NfidZJSupkp7ZQqCSvfSMrAGTCD/73frBv936xRmzQ7e26nDP2uhsamdDGZgxloZ+Quz+Wr0FHGmtLeYyUl+pIMrhElcuUIsQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778233496; c=relaxed/simple;
-	bh=ZG6EAt6QuyZEF5Q1C1YnthssCRpvs7iwMwqrX4o7QwQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lqF6Kvgq0tNfXIE1lfmhjJAriBzq4ihvdeRSr3Ps1M5w4v/TXkDYltVeaT3n1DvT4+ARlrd7LzCcON6WIiIqRkqKWfTpbfJq70U5egnndpTupbfGu/nCo28MpZGho53Ag1iR266ZrLcyjz7bKXavNBq+faEPMy8c2bE41jkIlm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jTYLnXQk; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30AA3C1996
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 09:46:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778233564; cv=pass; b=CdPRygMd5qstqtLQmDS/DPkctLRbc3G/ShVcchsBrTe7jhINvx60rRgHGwXsaSQGDvuT1ML8MjhalsEfenmpYGWbiWO299tZ+JEBnqwxm0jJUeFZ9zS/V2hrg7F1HWahpVbpKs/yge0i4WhJN9rPpe8n6ZdQmnx3JPThO39mNs8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778233564; c=relaxed/simple;
+	bh=Do+CokqU7oVirDwvR3ktQHdmO25HJGaXZRspoXy+32Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=K/8zAm9u+fHD6nRiFfh+kUb9uA/wbdSLuVJN/AJd324uy2QP80c/8qFIk6wMVJDOjqyZJ5RYLVWTH1dmBoBI8jywTZaMVdt9biflfdTbelCjzOUWK71N2i/oBTMwpFzIjZS2p574U/Nv2y9xB63EPqXi1QB32PmpHIo3Keo7PwI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y+eMUg4W; arc=pass smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jTYLnXQk"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7D490C2BCB8;
-	Fri,  8 May 2026 09:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778233495;
-	bh=ZG6EAt6QuyZEF5Q1C1YnthssCRpvs7iwMwqrX4o7QwQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=jTYLnXQklLo6Jo6z0Vp/9egJadeNsqqJHayXXtz4ObWiF45j/DrkpkLLSKCI3N5S6
-	 VuJDfxzZbI/i8MH4KFWF4dOAteGfi84ebiMufn6CfKRaBEJiehrqYnCAb+wqo0sBLH
-	 mOkHO3Cg5ClJfrAFi+jzzPy8/k+Z08KqzR/VbrxKhmnU9MLbSlT5oFM+KGcXx8a8cJ
-	 Ms5pWCv+XHVDl3YyqCyi9l/ACKeAShyHBNjux23p3xcboUe6w8sapHBXKGtKZ9N3dV
-	 //73tsnW6/S/BMcWTZ7IjATXKsxzY0Xo9eaWaMG82RNnTT20pyz52r+JRCcDL3iZNL
-	 0TvN1zwbhuiBw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F04DCD342F;
-	Fri,  8 May 2026 09:44:55 +0000 (UTC)
-From: Colin Huang via B4 Relay <devnull+u8813345.gmail.com@kernel.org>
-Date: Fri, 08 May 2026 17:44:29 +0800
-Subject: [PATCH v5 2/3] Documentation/hwmon: add Delta E50SN12051
- documentation
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y+eMUg4W"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12dc1c0b724so172878c88.1
+        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 02:46:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778233562; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dF+jbORaW9hzvUxmLlFmfoOdGUDYR1s85G1S3S6SHQHoaO4NDaN57iFZ7LAE2nQC00
+         8POdoURklqulyKbrioUhihv/NLwkr2QYOsafuvxDthxHxPUiLpN/+9SI6GoFUn/+75E/
+         0ff9jTMkSBdxiyAAn118GwUaIbHzVH2xvalETn94rfl1oyaa391PG04fizgDMdI0NnO/
+         P6orOGMEaPHh/q7n5kYDXkD0K2vunQJQIooSbspA2yDEaIYaIS7PhuaTDz701GWLmcFy
+         1KJ+hlbIvKTLHO/XgXu40+7BFmAhhm8k5CsWnN71IFgD5qErlU+FAwAicP5GMYXw7A2O
+         ucEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Iqeb3B6vsv0M4PL/Tp8/XaVQQLocfXwNH2ocP2BNO3M=;
+        fh=PdjSQXO0621XWUVjpj87iCMlsG3R/fSeayi84rAYAa0=;
+        b=j8UJi4KXI77QSdGFF3IdvOuOz6KxhG9qb6NolQrrpnCgw8mBu4EDpj7C6marFtUle0
+         KtNdPPBqxbsvssek6FPQxKwelJ5cABi2m3GK34NhjBURzWZyxf9C8zRWykj9hrSo+l4q
+         /btbzehnR/wwxHsuJLCVUtr5wtiHl0PKVih/oUGB3NbOulGv1QkMu4MXqZFtDE3Bcmv0
+         TJ89XmcJKX3sr6kwxlxjcjuMWhNDZ9VfaHmm5gYOAIxmfo0uBSHX/IpkvN74QiY56hwy
+         NslV7axsORebTcUeC8UuPlBQ1bqkJDDzs2/sDg6kcvjfBNbJW0LI06vt2FN0ypwC0stY
+         BCCQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778233562; x=1778838362; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Iqeb3B6vsv0M4PL/Tp8/XaVQQLocfXwNH2ocP2BNO3M=;
+        b=Y+eMUg4WvFddo4yZ6B0C9bdD3GZe0l31BmMtYZTrwUT0U0ZwUZyDiajPcInDuk0r9D
+         yV+owDx0qrp84WJpEteus/z0aTr2870Es3DYPR6OfXQCec3cU7e4uKr1Koaj93WX7D1D
+         jOJPBsvkM5Z8zi6pXhFweFRb8/FOPX1OEdwRP4XSlwx1M9DLTh1+1ZvjAzRKsXKJ5oiR
+         qt1hNLvUwFSAf4LZCSEtTclGqefX6iPiv4GIrT48zhhKGszvNHzd1tCod561w6khEbcr
+         m3xZU83wf3xfhnjL3IsONBACBeIG3kRRmfxVZ5j7pIdVO2c8WmC6URfNz05gYkQRTQml
+         ipEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778233562; x=1778838362;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Iqeb3B6vsv0M4PL/Tp8/XaVQQLocfXwNH2ocP2BNO3M=;
+        b=nvQNBeIBiysuCeKkoaI3UK2sWQMcgmUPd8RQEyMSrsa068NjXaeD1xq+owN3HDv6mo
+         5jUvbhzVEHQlxb1t9/7jroD9OLaQcEbw+HcnLmnVtLirT8E5TGN4jGddSIu8nW1/U1Lk
+         L9o/GpKeYh4SGuKYgMRW4SKXLhGGMNqLlmI2qe9tYEwv6wTP7bAqVx1YWnNMdjvriqKA
+         E59ZefpFiKS2tbscQ9AoNhYGANgzqK1cG8BljKDT5JIOMpY6ZQC98DZ24zqol8J8JiTm
+         ZlGQolUcCfWdKvHYeiLJ9kWoijP3UIZCyGkLOPYXvHl7PLFg3KXLqskxPYu7phnp9V3T
+         h0sQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8j/AYbbCga8itmeA0vCkfy7/WWQZlQ2F7iwXj7VFYZvGx2yHydRATAYiwIpBwEDYbfRXvTvOjpsZQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKjbHTx5PF5il0T2JBpDI/8dqrk72atMduFWaPqMV5dP/2D74N
+	tJESS5cUf38B04R6SEHoVH2WDuZURDTAO1fyETWPw790O17ahG7gsGhvORCTHJAnwZobaPbMG6E
+	+dgoHwoszkzFYsTFX+Ylo5zcGUqYmmlA=
+X-Gm-Gg: Acq92OFBPQDkDD2QNGuOlBU8wB3atBRfV0GPDL06asF5YJ/49/HOf5bJDrtMzZVX2rk
+	laC07rzMtSMYn8q44N3dVF1NJbtvsYEyH/4mi1NBfTZkoxQT8uhfSAxNLL+vT3TgGzVn9T3ZHI5
+	9jbwpU1e9S64pGp6n+2aLmr5xaxbdNUGNVn7fkSjtMe0NC9s0jPKq0bAtNEGprF6C9rk2mqXT+4
+	Ko8CtUwYBYV05LsfxpR/JLqRKP694z1O670ncC6h3WwkfpawL9LzppWYLUdLWdyrfvVewTnrAjy
+	cDABgAcAWmDX9Vvug21di/3C0SGnYgBNJjDyvOiGZlKQsSbTQQj1oxHYMJu9ZtaC44/1fVy0t/p
+	CHiYxFlq6v86EZLP5TmOBe+0=
+X-Received: by 2002:a05:7300:3b08:b0:2f3:3835:2010 with SMTP id
+ 5a478bee46e88-2f54c37e2eamr2604840eec.6.1778233561754; Fri, 08 May 2026
+ 02:46:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260508-add-e50sn12051-v5-2-abebdcc29665@gmail.com>
-References: <20260508-add-e50sn12051-v5-0-abebdcc29665@gmail.com>
-In-Reply-To: <20260508-add-e50sn12051-v5-0-abebdcc29665@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Kevin Chang <kevin.chang2@amd.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Colin Huang <colin.huang2@amd.com>, Colin Huang <u8813345@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778233493; l=3975;
- i=u8813345@gmail.com; s=20260202; h=from:subject:message-id;
- bh=AWrzobGEVmZ1wrQzAaH1cnIviz5MTfwrqcs9SVlqod0=;
- b=lOOD0P0q6aihz3wfzfJ6LXDlhPcrctSUcx9m0bvT3sa2V8R6rRtG0Obq0MC0aIOhuQNAFzQFn
- E8XMcP49ij7Ay9rdgrsEi6086CFQE9AGLZ1ZZUOIApAazf1mbE0Oga3
-X-Developer-Key: i=u8813345@gmail.com; a=ed25519;
- pk=Zlg0WqpCw4qbswOqamTBTXIchwR/3SnYZpy7rjaGMdQ=
-X-Endpoint-Received: by B4 Relay for u8813345@gmail.com/20260202 with
- auth_id=761
-X-Original-From: Colin Huang <u8813345@gmail.com>
-Reply-To: u8813345@gmail.com
+References: <cover.1777987027.git.mchehab+huawei@kernel.org>
+ <1bceee886b9027d66bbb48d9d6c8d1250ce8dbcb.1777987028.git.mchehab+huawei@kernel.org>
+ <DIASHBBEIHQW.3EQSDUML6G3SB@garyguo.net> <20260506084935.1cd4b794@foz.lan>
+ <CANiq72kN=2RsE0Wm_489Sc-VKO40A0uYinCj1McT=YMu=cM4aQ@mail.gmail.com> <20260508091644.420bd440@foz.lan>
+In-Reply-To: <20260508091644.420bd440@foz.lan>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 8 May 2026 11:45:48 +0200
+X-Gm-Features: AVHnY4KKhh7Pt3-mdebtWjweKJ1bQNmrwJr8n8fkbKGyuacXpWR9XWERelNi_jc
+Message-ID: <CANiq72=8nuD_OL5d8JF3zP-jRgnBORgHMNrGhQtxy6Jg8JVNRw@mail.gmail.com>
+Subject: Re: [PATCH v2 11/11] MAINTAINERS: use a URL for pin-init maintainer's
+ profile entry
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Benno Lossin <lossin@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Colin Huang <u8813345@gmail.com>
+On Fri, May 8, 2026 at 9:16=E2=80=AFAM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Just my two cents, but all license files that are applies to the Kernel
+> are already under LICENSES/ directory, and there is a document defining
+> how SPDX and LICENSES should be used:
+>
+>         Documentation/process/license-rules.rst.
 
-Document the hardware monitoring support for the Delta E50SN12051
-device.
+Yeah, we are aware, thank you; the files were annotated back then with
+SPDX identifiers for that reason, and the links were intended to point
+to the original files to show that they were indeed licensed that way.
 
-The documentation describes the supported sensors exposed via the
-hwmon subsystem, including voltage, current, and temperature measurements.
+> With regards to patch 11/11, I'll send a new version just changing
+> the "P" tag without dropping the .md file.
 
-Signed-off-by: Colin Huang <u8813345@gmail.com>
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
----
- Documentation/hwmon/e50sn12051.rst | 81 ++++++++++++++++++++++++++++++++++++++
- Documentation/hwmon/index.rst      |  1 +
- 2 files changed, 82 insertions(+)
+Thanks!
 
-diff --git a/Documentation/hwmon/e50sn12051.rst b/Documentation/hwmon/e50sn12051.rst
-new file mode 100644
-index 000000000000..cbbfa7895d82
---- /dev/null
-+++ b/Documentation/hwmon/e50sn12051.rst
-@@ -0,0 +1,81 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver e50sn12051
-+========================
-+
-+Supported chips:
-+
-+  * Delta E50SN12051
-+
-+    Prefix: 'e50sn12051'
-+
-+    Addresses scanned: -
-+
-+    Datasheet:
-+
-+      Provided by Delta upon request and NDA
-+
-+Description
-+-----------
-+
-+E50SN12051 is a 600W non-isolated 1/8th brick DC-DC power module.
-+
-+This driver supports the E50SN12051 PMBus compliant monitor device.
-+
-+The device provides measurements for:
-+
-+* Input voltage
-+* Output current
-+* Output voltage
-+* Temperature
-+
-+The driver is based on the PMBus core and exposes standard hwmon
-+sysfs attributes.
-+
-+Sysfs attributes
-+----------------
-+
-+======================= =======================================================
-+curr1_label             "iout1"
-+curr1_crit              Critical maximum current.
-+                        From IOUT_OC_FAULT_LIMIT register.
-+curr1_crit_alarm        Current critical high alarm.
-+                        From IOUT_OC_FAULT status.
-+curr1_input             Measured current.
-+                        From READ_IOUT register.
-+curr1_max               Maximum current.
-+                        From IOUT_OC_WARN_LIMIT register.
-+curr1_max_alarm         Current high alarm.
-+                        From IOUT_OC_WARN_LIMIT status.
-+
-+in1_label               "vin"
-+in1_alarm               Input voltage alarm.
-+in1_input               Measured voltage.
-+                        From READ_VIN register.
-+
-+in2_label               "vout1"
-+in2_crit                Critical maximum voltage.
-+                        From VOUT_OV_FAULT_LIMIT register.
-+in2_crit_alarm          Voltage critical high alarm.
-+                        From VOLTAGE_OV_FAULT status.
-+in2_input               Measured voltage.
-+                        From READ_VOUT register.
-+in2_max                 Maximum voltage.
-+                        From VOUT_OV_WARN_LIMIT register.
-+in2_max_alarm           Voltage high alarm.
-+                        From VOLTAGE_OV_WARNING status.
-+
-+temp1_crit              Critical high temperature.
-+                        From OT_FAULT_LIMIT register.
-+temp1_crit_alarm        Module temperature critical high alarm.
-+                        Set by comparing READ_TEMPERATURE_1 with OT_FAULT_LIMIT
-+                        if TEMP_OT_FAULT status is set.
-+temp1_input             Measured module's hot spot temperature.
-+                        From READ_TEMPERATURE_1 register.
-+temp1_max               Maximum temperature.
-+                        From OT_WARN_LIMIT register.
-+temp1_max_alarm         Module temperature high alarm.
-+                        Set by comparing READ_TEMPERATURE_1 with OT_WARN_LIMIT if
-+                        TEMP_OT_WARNING status is set.
-+======================= =======================================================
-+
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 8b655e5d6b68..ba08655fc496 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -68,6 +68,7 @@ Hardware Monitoring Kernel Drivers
-    drivetemp
-    ds1621
-    ds620
-+   e50sn12051
-    emc1403
-    emc2103
-    emc2305
-
--- 
-2.34.1
-
-
+Cheers,
+Miguel
