@@ -1,63 +1,31 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.st.icloud.com (p-east2-cluster3-host7-snip4-4.eps.apple.com [57.103.77.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8093F20F3
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 17:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849F9410D23
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 17:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.77.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778261673; cv=none; b=XloVaMUA6ZdLuB7c3ayXi/A6yp/MY38ab3KqCvhb0xbkhAJFqGLahcIUsid46r9pAvcM72LIymg6LV4KNiDQ+CPpRKnezv75G7r0tHHJdSKTDz/+EnFaeBz9Z3LrqvD9QVXfXUHSeVRpH9wLSljJsqbiNUVjuvtpsp4fKC4XPs0=
+	t=1778261889; cv=none; b=BD8HQLPjNFHd8rfbO6I9DDLIc9Hl1FOgM4HKt9zq6Gvs5qRV32E97AphkuZlyOz9vEl2x6nQqACLY3TaCCrew9Ef8nDjGebfO6Y3rxBgQVfF7NfZbMLEeKsbA3rzlwaEl9iOubNlt+9dTdSIZx0MeHbxMlvYAZa9dfSZrXmV/qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778261673; c=relaxed/simple;
-	bh=JJfd9cxLRUeTUBsJ3P0x+fyPedQwJpF3lv9sFf8ZCgI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=AQPB0JC6LO7c6t34vypbuV8vfbtTseBIB8OKDU1JGn+13KL38tn06DmSE6RuduZTESbtxuQa4KknJ/cQPByoGgYsuwBmnP3He4fNmVHga+mI9XQmzuK7CM1i7CnptfrNIHLepuyIuurezbxuei9pjx6nqpdM9EPWXLPpQkFWVGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=L6iv0ubI; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1778261889; c=relaxed/simple;
+	bh=94R/QwsybbBzR1ekCC85MN/MnNhExX89pnlxdPMUFIQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hxa1NFNINIyJKSQBIPUBFfeYIQN6x0ZAx5As3n64neMUQLbqTcMEhP6Jc/NARgmp1muewQyMggjfLvPzbGMo7bUGel5d4ovXG0udbQojpFNrt0dTPliQaS3Tx81MX03o3Z3xebV8IEs61ZUWjXMhtKrPec3XRSjdBFuQm43SZlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=zW8G0XVJ; arc=none smtp.client-ip=57.103.77.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="L6iv0ubI"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7dbccf6a23dso1876198a34.2
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 10:34:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1778261671; x=1778866471; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tX74UZQVsaDLmSa4UUTu1J1Fadzzh5kKACjS54Lp3PU=;
-        b=L6iv0ubIQ2FAUIRvyPr57nwBRtYpplM2u32u8v7xtd27NKTCKEGph6hhjJxavRqON6
-         6A+XUPwwCyZ6QxdCtSHGK3Vi5QquNFNBHfPIPNCX9rrBi4KNsdGTxrnz81WgHZGsmSu7
-         YHVC2TN0OuUMU84WtTaLpsauSxhOQjxys4pcI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778261671; x=1778866471;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tX74UZQVsaDLmSa4UUTu1J1Fadzzh5kKACjS54Lp3PU=;
-        b=eCWN7zewfEeBe+jJMQkkh59k7hbmPcb187RdG6E3tOrC8kQL4a8dVP2UOtLyL70nxw
-         O7buTMunZzyiFDVEa6mWLGy4n8UPHJ1NRSn75gP8ZjQOx3uja7BvZdytjKCtDMbaQbIZ
-         choOygFaJzVbdAIzX+3aB8Xq+IgscSUWdfJq7PIfbIIE8qgm3asifTv/wfEn95v0o2dm
-         Q3KZelGu3YelZQLqucY98qu9HxBIoaH+5nFzzfhpLDsVvM425K+mgQnVH4H9ml1QnKzx
-         aEJbiNGZasfBKla3E1t5r4nyEhK4g5tXvY+aOp85HojgFAJyXa5VhleiMujTUuvq1SjF
-         dDMQ==
-X-Forwarded-Encrypted: i=1; AFNElJ999b7gpARdzX8tkEKlZ3qj102dAjAhXNCCq/mQ5NeyHiJBgcrkV3LbXn9cFV9hd6gL4DlnLZ73PLU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8pdaReCrWLBCczHfj/JtuJdEGGn0iMub8wTltOXfXFua+eO/q
-	mF23RuWK9Quc7knNeCjfsLhFqCPIL1YffI39eOv6jVxkGPFc8+Ovy1jtIlswHAlmpaw=
-X-Gm-Gg: AeBDievCZ6B49oEeJUvOnDF16xL0nQOb7rBTE4YsJv1M1UOjGkeJK6TGg8ycwbpalfQ
-	00HKXlHRCo7zvGQ+GKzaIWZL+cirFGRbTOlljd/oCERUStFUzCtEL7rW8vEvHGNR86RVco2uZzn
-	Fb7XNqInse8djo799Fz+tx13oNgYkpNkCx48FW+r+QO/pz2mARz6ABtibSc6PasJhsC22LUP1Jk
-	Na42MgTyPdbx3v/u09aoDMgoLHnRrCpgCYiRVxRAP0BIvNIrzXtGYIp3wZiPu+pw8Zwuit61UL9
-	WSR3znOiR2mBfVh39jPpxIPYcs6mnebO2XC1V6fudh/QFr3etU66eTPeEKvo8jHw9rliXLCBiDl
-	nhSbHIMAFMpGZU7U/DafMDX+sUVA+QagV6rphEJeDnLeRSNPqi4w+N4Uz4KFsIaPMJuT8Kz6MkQ
-	rSOX2sfDvJEwt9g6HhbMs3XE6rQCGmKqc=
-X-Received: by 2002:a05:6830:390e:b0:7dc:a256:5e2e with SMTP id 46e09a7af769-7e36615f5c5mr2435057a34.1.1778261670700;
-        Fri, 08 May 2026 10:34:30 -0700 (PDT)
-Received: from [192.168.1.14] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e367d8ffb7sm1525633a34.22.2026.05.08.10.34.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 10:34:30 -0700 (PDT)
-Message-ID: <cbee6599-a092-467d-bd98-b6ec8d909405@linuxfoundation.org>
-Date: Fri, 8 May 2026 11:34:29 -0600
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="zW8G0XVJ"
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-60-percent-3 (Postfix) with ESMTPS id 630251800644;
+	Fri, 08 May 2026 17:38:01 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJBkMDRQVJF0wBTVIPDxhMCkEUWgpcQgtJAS1eCF4fTBwdDlgGEhZdRVsYRRlLHVgWAV8GWXIZWhRcGFNFUR9UWEEOCloBUFEdXwIKBEcEWxdGA1NFQQQXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PGVoUXBhTRVEfVFheBFNWDkUNTlAIDlJWXQxNBwwaX1ZGDVVSXFENH0QLSFZVB1kCQAgZAy1eCF4fTBwdDlgGDFBNAUMICgJRHFYNVw==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778261885; x=1780853885; bh=2Gaxvl/4GCmdXsxMSVsMtj2eUIHFRsgIyPlEsCEOxsM=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=zW8G0XVJbCf/FlLxdOUv/OED4zzYr0FEw2Tat38Oqq3QPQHVctYCFi2BQuyMFV/raoouTsKb7EnADK/GzrHJm7uHeMzoUNk3Cw6ZAyZNHCfOmjl67iD8sNlAujrfW4fBWDSP5OomfZkoc4wasqUbLahbwoLR6aLWk7CA5XyvRVSpQnYqVo0qBpkCnSaXmp3vszZ2kz5cNkXXpIKZsYKU5FBe83SyrvWT7DDrf1Svqw0LBDJrB18M14lr49rOJxVWJaTkGuX+F+/SsqjdcWaZYlYTEQR+b7U7YXr9gT3V6EZ8J03yK0QxxR/jfmVw8fiWZNK6udcEsmV49YRRzXYYFw==
+Received: from [192.168.89.2] (unknown [17.42.251.67])
+	by p00-icloudmta-asmtp-us-east-1a-60-percent-3 (Postfix) with ESMTPSA id 7BCDD180161F;
+	Fri, 08 May 2026 17:37:57 +0000 (UTC)
+Message-ID: <546ce99d-554a-4d64-a1ff-420e802001a0@icloud.com>
+Date: Sat, 9 May 2026 02:37:54 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,57 +33,84 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] docs: fix repeated word 'at' in journalling.rst
-To: Adrien Reynard <reynard.adrien.08@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260508163807.16284-1-reynard.adrien.08@gmail.com>
+Subject: Re: [PATCH v4 2/2] hwmon: add AMD Promontory 21 xHCI temperature
+ sensor support
+To: Guenter Roeck <linux@roeck-us.net>, Jihong Min <hurryman2212@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260508143910.14673-1-hurryman2212@gmail.com>
+ <20260508143910.14673-3-hurryman2212@gmail.com>
+ <0269bf45-316b-4ba5-af0e-312f6c2bebdd@roeck-us.net>
 Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260508163807.16284-1-reynard.adrien.08@gmail.com>
+From: Jihong Min <hurryman2212@icloud.com>
+In-Reply-To: <0269bf45-316b-4ba5-af0e-312f6c2bebdd@roeck-us.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: rD_QwU-zS2IxD-YnjQpZCyhF2T3lsYc4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDE3NiBTYWx0ZWRfX4ZkxS6YcZIaj
+ O8O7cCFtCe8MOO/Wnq9S2NzTa/f7GEFsorYF0tthmi8aqRK5gjhPb/FytGKQJdgbddzRGXui/A6
+ 5DvuOTKSxubRxJ7imzJMQI7XttUwh6VwQ5ReFG914t5P5GYDeCtO+QlT1/KOtR7ifVmk59w29El
+ B9E7UYRbI3zpGEYTOl3rW7DLzaFnJgcSKkywkjCm6XrPo/2J4L67fCujHdkS+4pyrEMlkrtGoFn
+ K2uPGoQK36tuuCw89w3J/Qb5yHx7rkaCZYL/7JBMrw1xKoL+eFa8KpL1J7tuxkvcFt4fGeq9CfT
+ HuIvpRPj/SVEylgqHs5GJaY7qSWJsOBB0mYtOjQ8owJV8/I8zBVlMSbtZpy6Yo=
+X-Proofpoint-ORIG-GUID: rD_QwU-zS2IxD-YnjQpZCyhF2T3lsYc4
+X-Authority-Info-Out: v=2.4 cv=P7E3RyAu c=1 sm=1 tr=0 ts=69fe1f7b
+ cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
+ a=YrL12D//S6tul8v/L+6tKg==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=NEAV23lmAAAA:8 a=k_rWY7h1Oc5qVOcB2M4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=PgRulw5oR9JgysbTFEid:22 a=MienORt8HT0FiJ1vGQZ6:22
 
-On 5/8/26 10:38, Adrien Reynard wrote:
+ > I am sure I understand the reasoning here. What is the problem if it 
+is attached
+ > to the auxiliary device ? Other drivers do that, so I don't immediate 
+see why
+ > that would be a problem here.
 
-Missing change log
+I kept the hwmon device parented to the PCI function intentionally 
+because the
+temperature value is read from that PCI function's MMIO BAR, and systems may
+have more than one PROM21 xHCI PCI function.
 
-> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
-> ---
->   Documentation/filesystems/journalling.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/filesystems/journalling.rst b/Documentation/filesystems/journalling.rst
-> index 863e93e623f7..2825f6c030c2 100644
-> --- a/Documentation/filesystems/journalling.rst
-> +++ b/Documentation/filesystems/journalling.rst
-> @@ -93,7 +93,7 @@ easily as on jbd2_journal_start().
->   
->   Try to reserve the right number of blocks the first time. ;-). This will
->   be the maximum number of blocks you are going to touch in this
-> -transaction. I advise having a look at at least ext4_jbd.h to see the
+If the hwmon device is parented to the auxiliary device, userspace may 
+report it
+as a virtual adapter. Parenting it to the PCI function lets userspace 
+identify
+which PCI endpoint each reading belongs to, which is useful on systems with
+multiple PROM21 xHCI functions.
 
-I don't think there is an extra "at" here - the second one "at least"
-is in here to emphasize the need to look at ext4_jbd.h
+The auxiliary driver still owns the hwmon lifetime. Its remove path 
+unregisters
+the hwmon device before the PROM21 xHCI PCI glue tears down the HCD/MMIO
+mapping.
 
-It could be re-written as:
-"I advise understanding the basis on which ext4 uses to make these decisions
-which is detailed in ext4_jbd.h"
+ > +#include <linux/math.h>
+ >
+ > Is this needed ?
 
+Yes. It is used for DIV_ROUND_CLOSEST() in the raw-to-millicelsius 
+conversion.
 
-> +transaction. I advise having a look at least ext4_jbd.h to see the
+The other review comments have been addressed locally, including 
+dropping the
+extra mutex, removing the unnecessary channel checks, passing the MMIO 
+resource
+through platform data instead of looking at the parent's driver data, 
+removing
+the redundant hwmon ABI wording from the documentation, and the small style
+cleanups.
 
+Following Mario's advice from the v3 discussion, I will wait for the current
+review discussion to settle before sending v5. I am keeping the current
+work-in-progress branch here for reference only:
 
->   basis on which ext4 uses to make these decisions.
->   
->   Another wriggle to watch out for is your on-disk block allocation
+   https://github.com/hurryman2212/linux/tree/prom21_hwmon
 
-With these suggested changes made:
-
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-
-thanks,
--- Shuah
+Sincerely,
+Jihong Min
 
