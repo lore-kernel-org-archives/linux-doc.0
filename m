@@ -1,217 +1,165 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5213E0C52
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 13:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238DC3603EF;
+	Fri,  8 May 2026 14:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778248616; cv=none; b=RyJKTNqK3IebtpzF5v+YJ9fcGgJNtVBiD5b+v3YxVlUfBup7qbT07oqYPPuh9zVOlDSWtekA9JcZQkNSY7FmvJe+l/HFWAALosEGYWTXPK9jJ0x+mn99/gLlR/AvrHTF7m55ATkc6WbLQDMqrkMl0tG0mYM3LMter2FyT/TWT0k=
+	t=1778249149; cv=none; b=NDwRVMskwTBNUavCBLp2cc5qvioLTCUzvQl5PbeEC8fHhyFavyED3GNGcvKupGZ0Qy5ngsYySvC6BC5ahwGu4uZOv+vZOW1lvUOrmj7faDd6l2jWIImQbcE2+BiqpGmJeQ+3lt1OXeqFLdMsmkxUpiKtxY+v+42Vt16vJSzSeUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778248616; c=relaxed/simple;
-	bh=xXjW0rxTZttjfgbmU8PIEyO3kFbGR5H+YArkcEaeRB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bS/GQjWBTC7lAJDETQ00YBXhvJM7ITnaDr0qKn85tK4xUTJuOQ4HaiRRpq3B2CuGaKk+QGJ6xgzDYNqQPZUo78K01MxtC6pHzRJ2s+5gGWyjmrweRTi1TPnW/XnvrBL70xhfRXiN8EY7AE7PSlWQ47hjrjVyyGNjdWw4Q1YYdXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bUxaemXJ; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778249149; c=relaxed/simple;
+	bh=fLSWRhFbte/FoGtd3CLl6kuuzR05q0bVJXMtb8/dZoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u4mwC2jKK5s9xksZqW/Rm/sHBdecUUOo7scYaJR/X92Sra8rJyxbl1RsA7HeSPqm3/iZ6uHjlkQUx/3R3fftGJ1s8isYjC0GWkWH0VhuepAcmt2LtRsJQ0LunbyMdEKLm2+5SUi+WY5oDTKtwvCiCiWyV7n+bn+7zeURUnYFIrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=azCZp9bY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bUxaemXJ"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48e56c1bf5dso12789005e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 06:56:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778248612; x=1778853412; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+deEIU0l9TtgM3Ywz9NcRPLw/ihIQpBRtZF4kOZfpMk=;
-        b=bUxaemXJmz+KiajyjMreDfZ8JJUGUQD3kbQDq8bP4vNpV5OTAIZREqPuXHrZis66/4
-         VfUppwziFVpD/6IgX8N7zggKJOLcH01KLTXliT5hgdutnEmhEdP7QAFl/cs9W1xO1+Km
-         mAoTAMqvGz+Mi90av30Y+8ygaVg0Xx9AlLcpvqfYXreM33TtINvxZjjcKQ+UDM/5cVsp
-         IM61PQWqinnGBIN3SbngdB9lX1nE03TN6pNcJ1q0m9Xn0NgID4OgRchtCAzIpkCWlGKg
-         D6oJp/Bg60LWHNoXgscDYqA5nmZUmMTTiJuq4P8rJ6iHvqlq4Pjj8kLxnUFwO9g939R9
-         WjnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778248612; x=1778853412;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+deEIU0l9TtgM3Ywz9NcRPLw/ihIQpBRtZF4kOZfpMk=;
-        b=FU2+8/uO6TeIQWzPPGBP0ZmpQAXAcrg4kEMPfdxIQdMwyHnFXDr+W7qL3e4m1/3OWl
-         fsJXJhyv8BMSVUirRYzJyIWE11RL6LfTRhtWFDajIkXEwtGqhnXboS8j0d8oE63wVyBS
-         ph3ec1x8ycqf7y1xPhVqNmfSXjZZLnVJAvs9GM1ittv6XMq6GNPkoVUuGPL6h4AzAotZ
-         6FGfDW8xUsYHtTAajbUNJxKz4Zze3sn3T7iHCa7PHIX1OADnPvv7ZtgkfESiJwkWMz5F
-         1DLlPbFI8TTre8Dotw1BeZ50j16VuR42ZELfk/aJe3yTzzje/HoSzsaCpyua/BjppLxh
-         tFcw==
-X-Forwarded-Encrypted: i=1; AFNElJ/qkw/FpMcVjR+WIR4XZE7UoZUhjDRiT+8UA5UtELsvT4Fw6H0o43xBTBOyND1kaUtro3rTFw8qI+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxq/pid00+kuhkXurF4mJ+C0P5iEqak3U0vBgXPqgAiYybyBgGn
-	r0MjAYfzo9+qnlCBYTq1eAOSE1SHTE6gI+A+0WE1A22sJZ6mLYXDb82L
-X-Gm-Gg: AeBDieueJeozK0gMLYFIiH2p2B2MRUiaZ360BoVsKgJoy9E3laq377xbNdxMmykLuox
-	HI7xg7tNPjbIhbZaYLo2Bz3dSBsTJ6umEe6AyoHruEOB9I1UgGGysZvlaFyvP6PSSLJ/KAGiSur
-	TBZlS0UWuOxcxIIewdYwYzxj60ufhHUC/a/XgUhGPDJGUJNx7eM+QN+/WEo+Y9UWWQOFv6dqeGi
-	x5QQp3cCRo/nJhZbxNzCy8C8ewpv+dnfihXDtqheoJtDTMaJ04vPF6hwW5lBsNZnUiNWlGAGpOD
-	lE55w184ephRS/2mEwQp9IqKbb1LZAYmrP4JvI1o3SbjSVCdgUWSETfQl5NzqMJq4+6G1blduyN
-	YVRuYtaoHYeemynrDoakU5G7hXO4HMUXzDs0QJ174oszAyoVsHewW9o5rrIgoHZhB73DYHk1dx3
-	GuAjPp4XhtwWonasM=
-X-Received: by 2002:a05:600c:3e8d:b0:48a:6268:18a9 with SMTP id 5b1f17b1804b1-48e51f32797mr215577655e9.13.1778248611581;
-        Fri, 08 May 2026 06:56:51 -0700 (PDT)
-Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e68f43d1fsm45519335e9.10.2026.05.08.06.56.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 06:56:51 -0700 (PDT)
-Date: Fri, 8 May 2026 14:57:44 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Janani Sunil <janani.sunil@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>, 
-	rodrigo.alencar@analog.com
-Subject: Re: [PATCH v2 1/3] dt-bindings: iio: dac: Add AD5529R
-Message-ID: <af3o7l-dgOsz4Y1-@nsa>
-References: <20260508-ad5529r-driver-v2-0-e315441685d7@analog.com>
- <20260508-ad5529r-driver-v2-1-e315441685d7@analog.com>
- <20260508134843.7646c4f5@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="azCZp9bY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E422C2BCB0;
+	Fri,  8 May 2026 14:05:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778249148;
+	bh=fLSWRhFbte/FoGtd3CLl6kuuzR05q0bVJXMtb8/dZoQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=azCZp9bY7pIL0ZVlrNrdlWPTXcJv4fzF9Uk04rSH3jltcVSM+ccR6e/ow/l5kyVo3
+	 y468mDk1Zo30ojuwGUsq38OEQiyh+PP92U6wEgTcMRkAdObaeSb/c9NOYHTCID/5xv
+	 uAZL1s7VndRqTfTfIdVIxI3IEUD0O12zPgaQIuzxM6QDfrOoyYv22skmC4Cdy2/Ht2
+	 V6IhZOMrWMkeAMxfeu9RHeyWqkrHKkRI4dnFjh69j8LK3CEYPUfX8Q5GOaCBFMhkX2
+	 f2Ojgg6uXgvvBXMqB6ckowC8LrYsS9GqML1aTWS/KBd+sMEu68RegCFAfO+t7FwxHC
+	 1cI4uq/BeT/wQ==
+Date: Fri, 8 May 2026 15:05:33 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Bowman, Terry" <terry.bowman@amd.com>
+Cc: dave@stgolabs.net, dave.jiang@intel.com, alison.schofield@intel.com,
+ djbw@kernel.org, bhelgaas@google.com, shiju.jose@huawei.com,
+ ming.li@zohomail.com, Smita.KoralahalliChannabasappa@amd.com,
+ rrichter@amd.com, dan.carpenter@linaro.org,
+ PradeepVineshReddy.Kodamati@amd.com, lukas@wunner.de,
+ Benjamin.Cheatham@amd.com, sathyanarayanan.kuppuswamy@linux.intel.com,
+ vishal.l.verma@intel.com, alucerop@amd.com, ira.weiny@intel.com,
+ corbet@lwn.net, rafael@kernel.org, xueshuai@linux.alibaba.com,
+ linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v17 02/11] cxl/ras: Unify Endpoint and Port AER trace
+ events
+Message-ID: <20260508150533.04e19cf9@jic23-huawei>
+In-Reply-To: <8913c666-a343-4717-8ab2-0b8546d1bdfb@amd.com>
+References: <20260505173029.2718246-1-terry.bowman@amd.com>
+	<20260505173029.2718246-3-terry.bowman@amd.com>
+	<20260507190836.70197e24@jic23-huawei>
+	<8913c666-a343-4717-8ab2-0b8546d1bdfb@amd.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260508134843.7646c4f5@jic23-huawei>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 08, 2026 at 01:48:43PM +0100, Jonathan Cameron wrote:
-> On Fri, 8 May 2026 13:55:47 +0200
-> Janani Sunil <janani.sunil@analog.com> wrote:
-> 
-> > Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
-> > buffered voltage output digital-to-analog converter (DAC) with an
-> > integrated precision reference.
+On Thu, 7 May 2026 13:33:45 -0500
+"Bowman, Terry" <terry.bowman@amd.com> wrote:
+
+> On 5/7/2026 1:08 PM, Jonathan Cameron wrote:
+> > [Some people who received this message don't often get email from jic23@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
 > > 
-> > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> > ---
-> >  .../devicetree/bindings/iio/dac/adi,ad5529r.yaml   | 96 ++++++++++++++++++++++
-> >  MAINTAINERS                                        |  7 ++
-> >  2 files changed, 103 insertions(+)
+> > On Tue, 5 May 2026 12:30:20 -0500
+> > Terry Bowman <terry.bowman@amd.com> wrote:
+> >   
+> >> From: Dan Williams <djbw@kernel.org>  
 > > 
-> > diff --git a/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml b/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
-> > new file mode 100644
-> > index 000000000000..f531b4865b01
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
-> > @@ -0,0 +1,96 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/iio/dac/adi,ad5529r.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Analog Devices AD5529R 16-Channel 12/16-bit High Voltage DAC
+> > +CC Mauro - rasdaemon related - see below.
+> >   
+> >>
+> >> CXL protocol error logging uses two parallel sets of trace events. The
+> >> cxl_port_aer_correctable_error() and cxl_port_aer_uncorrectable_error()
+> >> events are used by CPER for CXL Port devices. The cxl_aer_correctable_error()
+> >> and cxl_aer_uncorrectable_error() events are used for CXL Endpoints. Update
+> >> the trace routines to use the latter for all CXL devices on both the CPER
+> >> and native AER paths.
+> >>
+> >> Generalize cxl_aer_correctable_error()/cxl_aer_uncorrectable_error to
+> >> take a struct device * and a u64 serial argument supplied by the caller.
+> >> cxl_handle_ras() and cxl_handle_cor_ras() gain the new u64 serial parameter,
+> >> sourced from pci_get_dsn().
+> >>
+> >> The CPER path keeps its existing Port-vs-Endpoint dispatch and passes the
+> >> new arguments to the unified trace events. The CPER path will be folded
+> >> together in a following patch.
+> >>
+> >> Remove the now-unused cxl_port_aer_correctable_error() and
+> >> cxl_port_aer_uncorrectable_error().
+> >>
+> >> **WARNING: ABI BREAK**
+> >> Rename the trace event field "memdev" to "device" so all CXL device types
+> >> (Ports and Endpoints) can be reported under a common field name. Note this
+> >> is an ABI break for userspace tools that key off the old "memdev" field.
+> >> Specifically, rasdaemon's ras-cxl-handler.c looks up "memdev" and bails on
+> >> NULL, so an unmodified rasdaemon will drop every CXL CE/UCE event once this
+> >> kernel ships. A rasdaemon update is needed in a separate series.
+> >>
+> >> The need for the field rename was discussed in v16 review [1].  
+> > 
+> > This concerns me (sorry I wasn't paying attention to the v16 thread).
+> > It is a userspace regression against code that is out in the wild and typically
+> > not updated in sync with the kernel.
+> > 
+> > If you are suggesting breaking ras-daemon at the very least +CC the maintainer.
+> > 
+> > To get to a unified tracepoint add a new one that does what you want, but
+> > maintain the existing ones as well.  Userspace can then migrate and maybe
+> > in 5+ years time we can delete the non unified ones.
+> > 
+> > No actually comments on the code, just left it all here for Mauro,
+> > 
+> > Thanks,
+> > 
+> > Jonathan
+> >   
 > 
-> How is one device bother 12 and 16-bit? That sometimes happens for
-> ADCs where it is really reflecting oversampling or for device with hardware
-> FIFOs where storage space is saved by using lower bit rate. I'm not sure either
-> applies here.
+> Dan was clear about using a single set of CE and UE handlers for all CXL RAS 
+> protocol errors. While I understand there may be concerns, please direct any 
+> objections to Dan and clarify what changes are required to avoid this 
+> repeatedly going back and forth.
 > 
-> > +
-> > +maintainers:
-> > +  - Janani Sunil <janani.sunil@analog.com>
-> > +
-> > +description: |
-> > +  The AD5529R is a 16-channel, 12-bit or 16-bit, high voltage, buffered voltage output
-> > +  digital-to-analog converter (DAC) with an integrated precision reference.
-> > +  The device operates from unipolar and bipolar supplies. It is guaranteed
-> > +  monotonic and has built-in rail-to-rail output buffers that can source or
-> > +  sink up to 25mA.
-> > +
-> > +  Specifications:
-> > +  * 16 independent 12-bit or 16-bit DAC channels
-> > +  * Independently programmable output ranges: 0V to 5V, 0V to 10V, 0V to 20V,
-> > +    0V to 40V, ±5V, ±10V, ±15V, and ±20V
-> > +  * The device supports SPI communication with Mode 0 and Mode 3.
-> > +  * 4.096V precision reference, 12ppm/°C maximum
-> > +  * Built-in function generation: Toggle, Sinusoidal Dither, and Ramp waveforms
-> 
-> Interesting - so this is a DDS, be it a simple one. +CC Rodrigo who has been
-> wrestling with one of those recently.  Rodrigo, can you take a look at this
-> driver and see if it fits in the ABI etc you've been hammering out? Thanks!
+> [1] https://lore.kernel.org/linux-cxl/69cb2d5ba3111_178904100b7@dwillia2-mobl4.notmuch/
 
-Yes, this also crossed my mind. I only briefly looked into the datasheet
-but this device seems to be similar to the ltc2688 for the toggle and
-dither modes. Naturally ramp is something new.
+Sure - Dan's on this thread so I'm sure he'll see it sooner or later.
 
-Not really sure this one is a DDS as that typically means things like
-NCOs. This device looks like a "plain" DAC.
+Perhaps I'm missing something that makes this less critical than it appears.
 
-So, devices like the one Rodrigo is working one combine DDS + DAC to do
-things like synthesizing waveforms (in a very fast way).
+You can have a single set of handlers, but at the point of spitting the actual
+tracepoints out we need to keep spitting the old ones (+ possibly a new unified
+one if you want to one day get rid of the separation.)  Bit fiddly but seems
+unlikely to be that bad.  e.g. put a wrapper where you currently have
+trace_cxl_aer_uncorrectable_error() and have that omit the new and old (based
+on device type) tracepoints.  Then when we eventually drop this after enough
+years that we can be sure the new one is in use, the code cleanup is all in
+one place.
 
-We would need to do some auditing but I guess we tend to put above
-devices in dac/ (because they do have a DAC internally) or even maybe in
-frequency/ but maybe worth thinking about a new directory for those.
+Note this issue isn't a "maybe" thing - we are talking userspace ABI breakage
+in an interface known to be in use in commonly used software that is not
+typically updated in time with the kernel cadence.  There have been arguments
+that some trace points are not 'stable' but that definitely isn't the case for
+the RAS ones which are the main interface from kernel to userspace tooling.
 
-Having said the above the ABI might still matter for both devices.
+In theory you could make such a change and maybe get away with it (on basis
+a regression only exists if anyone notices) but you'd need ALL the distros
+on board that ship rasdaemon + if you really don't want to end up reverting
+you'd have to work closely with the hyperscalers who might decide to throw a
+'regression + revert' request at the list which either means a scramble to
+put in place what I describe above, or this series being reverted.  Note there
+are downstream forks of rasdaemon to content with as well.
 
-- Nuno Sá
-> 
-> 
-> > +  * Multiplexer for output voltage, load current sense and die temperature
-> > +
-> > +  Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ad5529r.pdf
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: adi,ad5529r
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  spi-max-frequency:
-> > +    maximum: 50000000
-> > +
-> > +  reset-gpios:
-> > +    maxItems: 1
-> > +    description:
-> > +      GPIO connected to the RESET pin. Active low. When asserted low,
-> > +      performs a power-on reset and initializes the device to its default state.
-> > +
-> > +  vdd-supply:
-> > +    description: Digital power supply (typically 3.3V)
-> > +
-> > +  avdd-supply:
-> > +    description: Analog power supply (typically 5V)
-> > +
-> > +  hvdd-supply:
-> > +    description: High voltage positive supply (up to 40V for output range)
-> > +
-> > +  hvss-supply:
-> > +    description: High voltage negative supply (ground or negative voltage)
-> 
-> I don't mind doing it this way but in some similar cases where 0 is something that
-> can be considered the 'default' we've made the supply optional.  What was
-> your reasoning for requiring it in this case?
-> 
-> dt-bindings should be as complete as we can make them - with that in mind...
-> 
-> There are some more interesting corners on this device the binding doesn't
-> currently cover such as mux_out pin.  We'd normally do that by making the
-> driver potentially a client of an ADC
-> 
-> Easier though is !alarm which smells like an interrupt.
-> !clear probably a gpio. TG0-3 also GPIOs.
-> 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - vdd-supply
-> > +  - avdd-supply
-> > +  - hvdd-supply
-> > +  - hvss-supply
-> 
+That pain just isn't worth it.
+
+Mauro, any idea if any distros scan for RAS tracepoints for compatibility breakage?
+They probably should like they do of ioctls and similar but no idea if anyone
+actually does yet.  If they do we'd get the revert request pretty quickly...
+If not we get to wait for some one to hit it in a functional test 
+- thankfully RAS paths are definitely in those test sets but they tend to
+run later and hence when a revert / fix is more painful.
+
+Jonathan
+
