@@ -1,669 +1,836 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704023E0C75
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 13:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778245971; cv=none; b=iWBTZCL5MRpeYWhitPoxR922QIIW94QhKwbMdhEuH1TRgBccfaXEqUrJWPta0G4IikqexL50ElhLpCPW8Bj5Iru6VRMqsYu4uiRraY466aCUiqwwtg5lB+xU7XxSjoqEEK0wjlLU73xiHLMWJ/oJgFw46Ri0ZXKu2I6AJ99Rmmg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778245971; c=relaxed/simple;
-	bh=lCN0WUlTdniaIrkmkOjjxN2l9ymDOkuC4O8gikYxFdc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qEVlCGkCxsFj77Yn9QsgMtB34JWN7usGfDnHk+ws7Vj/f4Oqbg81Xbvxua0VCMnHOuigOWlS2Jygl4FEzxsJf6rK8OgD8f+13/0xN3AEahutghYnkp4pJXTg1WiVNK4/DZCdHc9bJ7Froyh0v4G4SKr3CtFslRTQdFqY8ODPeHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TTa3CNtW; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCF93E3177
+	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 13:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778246122; cv=fail; b=FeGwspcv+ONcxrJMrXdSqMwcxqI8Kovgy25eANPcSwby/01AZA2y0K2EzyuJaWJgotO/m67HGztdywQwnSZ6BhEaU2MQEuORryffZrCKdYicag2mguOzWZCHPAjnFNVkJPlZQeCPtEckQ+2JNeeqI+RJMSn4obbjXgfAV0MNq2A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778246122; c=relaxed/simple;
+	bh=FdJVVl6zSprHXwnKvw9vu+eLEOi3i/rUHsRMmMrVVVQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=h4aYoG3arum1bT0/UY0t7pFzWP1MeHStdZg1rkx3Lzb3891pAyvPhGF8u4EKbn2bF3R6Rg0i/ZpusmWBFhrR6ZUa5uZLs5kq29XYIrxEeh3k9z31wD42x+Ix+3GvGfzH4E8Z0w2yeaX8yIoZXhN7X9UJZkGnYR2VMnD4qyVoEVM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dDTjN9Ol; arc=fail smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TTa3CNtW"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ba0fc8b1f0so12826025ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 06:12:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778245969; x=1778850769; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=PFzlHQa62rnDCDfNm7Sg1yAUWMyaxvIeUIF/EGTrexE=;
-        b=TTa3CNtWFQpBln/9lj9EmoqIE0LTfF65tflWoOu+vQmi70DfQMqHMQ5JGi2X3rQlXt
-         4ZaP7GbPzO2W1Pnj7HwhlQQuKjGyDUa5EE1ngAxB/JZn61DAmhvD70vqlLX90jzgFrdc
-         zKDGE9mU38m5etCsuSHmJikMSyF7hm7kA25oWVuN2DPFpIcnAa+hr3vSofQ5dccRG1zb
-         LUwIlY+mILBCSeaybgIC8Ug+LQz4QBz/UyEN0bLPGvCd9VZIWmhBus54kjsC0OskMLED
-         1marsxslsws3EURcV0Rg0v9eu0dmLhMDU8nzRzmVFnn2tU6GAgVPK8YkCY7uFl6UafRT
-         ufIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778245969; x=1778850769;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PFzlHQa62rnDCDfNm7Sg1yAUWMyaxvIeUIF/EGTrexE=;
-        b=iga+kv1HqjgJZ5haIq5zWQqUbzAYAO5vhgjiKI84+EW+t16BOhRk2+OLQCB0/Iv4jA
-         Oo60O2Vk3xianI/mlNQDWfuf/1+lxGc9CuTd9HUqwYSIJRwnCDPRP5ycgMsz3jxDom3Q
-         ubSz7kViI1Vb6HDhxKUTCHNjVlbpAlCy77ZjWZdegHiHzQjjN5lqaZUvDhrjMpzN79yv
-         7Zn4Uy37vpC8Gj7FCZArGGzEi/Xqk5eyJ4DvWSgOWiHAEZyzkXQiOxp0Qv7TODnnCOow
-         2I+sjswhVrDecV/rYt9LT32d2tAw6AOOA8VwGPojlcC/1wABRdO9Q1WH/7TJcR0GrEVO
-         0JDA==
-X-Forwarded-Encrypted: i=1; AFNElJ83d/OWhnd4B2Dtv5qrsnMYvGIq7vYZDaIO7Ee0hiSjcjqyb48Osxu2ojGmJ95SfrMvjvFeX46IOkE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHJ8tc/WeIg+aEvWfrWm6L2TZkqycINi74MedUHrdJrK2DEzWr
-	uNHYxER8+SVft5AV97/rHQ7WvUwVx9jAg5TYwIg0mngsjvbJhXtlFO4m
-X-Gm-Gg: Acq92OGxvOYcv5PKc6jOjSFde6gq7F5H1f7Mn9eJ7zZROhiPb/TYQ5Y/EWgcV0bVb47
-	GrfU8guOJXj+Kk47PQRXRW6uvUP1tFC/hoeSBXTwAajUKp/wlx+iS4L69HdKBljELbkh8+XxiXR
-	Oz2xP5GHKIP2nHks7aHCF6IhLMu7Em89wM0uqBEVlIF+MvyY6L/USX9nUdT9L/Cw103mIeVeFj8
-	cNBqMvBhVcH+MCvfamEvKmRcHHvwhgvMmL6rzD8dYgbevHM1Z37YdBDESWTQbQRz3sLgqVpVuFN
-	D/YyRDRgMmLMdJ891k3tEstcyzqiAjXr9bUs6I4Gf5bebb62T/29EKhZuo8uKLQHU1vxioR0qYQ
-	WQ0CyZH0U4ExEQTd1sKQhGX8O06Sb4ti6kJB4NrQAT53w2HOnZU12PnSlm5NqaULGqz74jEPIB8
-	srPylpv5SBQM4jcLuJfuSASjkeGX6hYR9DuLdMzHdZpywAQjnLdP2t78LzXpuTXPYaZZLERfzyZ
-	xBpfDxmZdw=
-X-Received: by 2002:a17:902:ca85:b0:2ba:4086:ecb9 with SMTP id d9443c01a7336-2ba798d564cmr86134875ad.36.1778245968374;
-        Fri, 08 May 2026 06:12:48 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1d27242sm25574335ad.9.2026.05.08.06.12.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 06:12:47 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <6745fd21-2001-4e06-af41-96ae63154c02@roeck-us.net>
-Date: Fri, 8 May 2026 06:12:45 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dDTjN9Ol"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778246119; x=1809782119;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=FdJVVl6zSprHXwnKvw9vu+eLEOi3i/rUHsRMmMrVVVQ=;
+  b=dDTjN9OlgPlyCPRhhC1egyVex5e5E7WVFDh9Dlyt6aP8P+tBgRg3ROKj
+   ovesiQFdnJGhH6toYHv7Hr8RLxV3vamDy/2zladibWrW8FHYQNAOKX750
+   qNVFMOagqXs6ZyoKEw3Sv7Jt9d9IyzYP//Kl34XDmftOgz5CmBXRB0Jyl
+   /Z5piC0W7LBqL6TK5BUEhhIQJ+JRCyYJfr0G2gKlueCgAeKd2y2r2PZJN
+   LfvLCIjg0R9CY0lSjlHNrWenjTAWY73Q2acsVSCfUrh0b/Ff6jb59s/0v
+   AqjlPDMWEwUVbfOGBSdCjr8W6G/lpg5+3HcJjI/lTO6lEa6S/SVtfbFWv
+   Q==;
+X-CSE-ConnectionGUID: /MKC9y7tR0qgXhNey2Y+cg==
+X-CSE-MsgGUID: 9NYgc8kbTN6pXaxnJ4YPLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="79112610"
+X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
+   d="scan'208";a="79112610"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 06:15:18 -0700
+X-CSE-ConnectionGUID: oYqYySAvSu+AnZV1BS+dYg==
+X-CSE-MsgGUID: pyyArg/wTke3SKAZ/36x6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
+   d="scan'208";a="236885614"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 06:15:19 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 8 May 2026 06:15:17 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Fri, 8 May 2026 06:15:17 -0700
+Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.5) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 8 May 2026 06:15:17 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RpJkczB9T5n3hZaLS0Pnl1SbvYKxcezPooRtMpnIk6bZziNPl9akutfTpfiOkrd109FVeCLz9Xn3bmIbrdxXHdDNRcVr6mib9/+zf7wupcdGOGTzXbn6mIkykiAqGJXKkfC6QLDTulmXJNDdKs6vfj4n4TvQJioUT+RcMHZAX3j8aVFvR0vYAXzomXRgH0ZUviQRIpaMWwXdb/JvRemuMTe+iWw+sti+bDFyR2Scs0l5caQHzui6KmbksoKPZZyGwu3W/aiFKJvGDqqa0A/ToEcwQmYeZOyVHoDAv5AFX9RthKdi46BPBakBZECPbn+iAHTgs+xWC6dUBqCmzh7Omw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6yvJe9SKWev2sBBiUH6KTWFEPU4JC14aMmX7I8XYGUU=;
+ b=UP/qIQB68kcToyFHhTPXWiYkkmoMItZIFSPu3+drPf9kaP4IGzj1XY8A+IriG+cC9t81DtVdxn0IKE2HDYURjPqsB0pUObbWFpv4V32OsuqMwxLgb9i+G4IUe3quqsj0ROt2g01mqRoTMUbnu5oceW+d9M7i7m2sYZtN5QzsYfgGeWGeWxNvdi11mpttodTLCZPMjJ4crp+jRNaxV7PSELmzt1DOvx0k7c0OTrlolZ6A/4T4ZQXGxRFA393HHyfFDUd2fa3dKRx66KyFyNwWMlLU4mh/WlHeaVyJZMvUgIyVrrBybgsjS4Og21JPMaGBGdgIf9Q1bEMFtpF090EFHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by CO1PR11MB4914.namprd11.prod.outlook.com (2603:10b6:303:90::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.19; Fri, 8 May
+ 2026 13:15:10 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::1d86:a34:519a:3b0d]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::1d86:a34:519a:3b0d%5]) with mapi id 15.20.9891.008; Fri, 8 May 2026
+ 13:15:09 +0000
+Date: Fri, 8 May 2026 09:15:04 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>, Matthew Brost
+	<matthew.brost@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+	<thomas.hellstrom@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
+	<tursulin@ursulin.net>
+Subject: Re: [PATCH 1/3] Documentation/gpu: add dedicated documentation for
+ Intel display
+Message-ID: <af3h2IHUvrMD9cLJ@intel.com>
+References: <cover.1778235406.git.jani.nikula@intel.com>
+ <21bfa7777eb0926eadd309d4c6f5c9cf48405cf0.1778235406.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <21bfa7777eb0926eadd309d4c6f5c9cf48405cf0.1778235406.git.jani.nikula@intel.com>
+X-ClientProxiedBy: BYAPR06CA0014.namprd06.prod.outlook.com
+ (2603:10b6:a03:d4::27) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] hwmon: add AMD Promontory 21 xHCI temperature
- sensor support
-To: Jihong Min <hurryman2212@icloud.com>, Jihong Min <hurryman2212@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1778123510.git.hurryman2212@gmail.com>
- <0c35058bb088213397b42fca8d51e9ad0bba5169.1778123510.git.hurryman2212@gmail.com>
- <35c2436b-d172-4172-a684-a96c4a0dcabe@roeck-us.net>
- <16c4f7e5-e33d-4271-a7af-5d6c7fca0570@icloud.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <16c4f7e5-e33d-4271-a7af-5d6c7fca0570@icloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|CO1PR11MB4914:EE_
+X-MS-Office365-Filtering-Correlation-Id: 88ddf1b7-b898-4f78-a209-08dead03d455
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|18002099003|22082099003|56012099003|3023799003;
+X-Microsoft-Antispam-Message-Info: gqG0VbcDSQfQXo3rCtiyNLwxJsJgmMs9pXWjEIQ79RGN4jCbM/8kkUzKkVA1Pf7S6J2NnvNUUVYa1J2xgXXif73WIUsikQowXm1wHKt+K3tsDFJTgrvBWrEOSUh9BgliZcQijKfsyxE53lh3UIX7I3WJC0zMQOqOrRRhGgnZq26evvabCyL/1Wk/zgsIoLll/K398M6OvSwljJgO7q6142X1dm1AeQc9WvfQ4F7GlTCisamTBcDdKBE9hApr3MFAi6bVmZwGFQdvjbAeOT+Oj4CWPswKxz7TNx727UCsFsqeVh2pz/Dz3b28wbBwYJLehDLwe3Pti6eQVZswi5SqZL+rUfF7jn1osu1dyomPEZLhSO3pXw5uCOC6zMwyB19hUTbXe8eivnu185Gb7TEEgLTEPmSHVyenvvbnbjXfdkgbsriNXsFbia0v1nK5B2oI4QZz8YNWiA65lZXxMj0o0ixprJGj/1E7BSMSndpiqPP/ygZywd7pJJKsW6amLa/Wc9EQS18uNpT3MhoOgx4sfsHKSTTt5+SMv5PrOLn350zYpi8ij4VXRS9bwgJAwWlSWwe7PZ1Mk1Ae07XbnEeMwLXGOjsrxPqJ0Yw+e7zOZ3FHrRN1sfM1p7mZ8oKBxgbv/EpGIiowRdv3HbQ16UUWf0kyKZOtVSu9LzC1Y5l41AbQsXbBGYF4xrr3crd5UuwM
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR11MB8430.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(18002099003)(22082099003)(56012099003)(3023799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?XXo8UEO1j1B5eSFtIJpcrBpMX24cQnf8uXRLVz/u/5HsmS+Hmf2ZeqHgbk?=
+ =?iso-8859-1?Q?IIOFxir+SyjwbxV2vNZBIoQVFLtbIY4NMl7/vro5tZ356GWVaFbpMSeW5s?=
+ =?iso-8859-1?Q?pjqLB95GrwlZuDKQgWg3mw+43iOwLphvCENY5dpvC6++YTEr7Z1DCbSs3u?=
+ =?iso-8859-1?Q?0Kta4+fdf+46Q0X8499tvKJzYudzXWci4ZZO5cAbmRMNLAuEMI7Lv1jE5P?=
+ =?iso-8859-1?Q?wrBvY9UnX/CccQ/tO0qCzLgmHM5Di9HLLc21Lkb7pwX3wpNmCXQSAU7URH?=
+ =?iso-8859-1?Q?PA3jYfdgDAG0vTz/dFf4UhnSOoenEhtk40iuk1BH/G82+tdeEOQBrA8coY?=
+ =?iso-8859-1?Q?p4fNYI2xTjp9hOAIv5w4ZBsQr1RNjH4oTYUOAQ9vx94kItj7EhTjaj5hH9?=
+ =?iso-8859-1?Q?MriTm/EAGboRkyDZr67Ejw9LSis6IhuCWaggO819tPx/t+tV0Vpi0FS3l/?=
+ =?iso-8859-1?Q?x7FBaXskm8SSoNHHQnmYOJPoI3tVCrTp8jVYK2KjfaO5j3QmnP5DCrvxf0?=
+ =?iso-8859-1?Q?DF3cf5hmQw+KM+4oXC0r5DSISPPb2kvH6ZvKw7LQnsK5PA9N0cXv9CDzVA?=
+ =?iso-8859-1?Q?EI5kTk3bsDJq+KHLt/Y+g2Pjbn6+RwBVaTYMx0pHQZTxCEWvdqTIdrufzX?=
+ =?iso-8859-1?Q?L7uiyQE7Q7wmwK90fz5Zde30ONzCxpJJIT1jjjizsRA3GcxwrzF0vWcLpH?=
+ =?iso-8859-1?Q?p/1ilQ0ekK7VUxg30GUd9OS2hrx/YwQYksIfbsfLPFfaxgVReQyEKwyhEz?=
+ =?iso-8859-1?Q?ha8fAlLhkRzHppZGqPWF4RaN3601dqbixNMXgzNnlli1wCW3oAlLtRNFip?=
+ =?iso-8859-1?Q?64cgvBbF1qnr0cF19+etK0PynvSTOOL8mUqaPk/C0PPVKuD+gSq5DzcBqP?=
+ =?iso-8859-1?Q?u04+rh47dCAVBUNzknl4p3sSBV5HnCLeNE6ulZKhKkN6YQUWLlobErO92F?=
+ =?iso-8859-1?Q?ptB5GM4iI5UhbxmK9YXZzCy5KGLbGRee/vFikfRP4gNI3NwgggQ5XoaRoM?=
+ =?iso-8859-1?Q?8jniJKcvB2pNY4RANWtcncGURb/UP6WbeNZSWLpB4QanewfQPVNEtYiOta?=
+ =?iso-8859-1?Q?vGxibYalNVQOrANAHyykOn9kastwGDBdwebaySyHkzxOMmb9hTkrcUmCUm?=
+ =?iso-8859-1?Q?+MmNYlNL1UrS1VrqdpcMbPP0nLRNobLS45suPgXxVGIWZEfTOtnjRP0shp?=
+ =?iso-8859-1?Q?qowUGyqYgKeceDekKieEWuju35NkpYXfwsqLenJjQ+iN9dK19Zrs4Uqmos?=
+ =?iso-8859-1?Q?UDqpcFTOOjqZsEuLPP0S3AV0Gq4dxeYQk8ALgOxKxw+Hbgqew7cLXros1+?=
+ =?iso-8859-1?Q?jupPIcZWzZ70C7/SnV+4dwuCSkBohYCEfZrZkuPvA87TZjnlZUf62tl2DU?=
+ =?iso-8859-1?Q?t7ue3sG4MM3MNQ0kEQT1vMDRQv9Vkpi4mkYCalBlfS/4QRc6NkEe6JIsvu?=
+ =?iso-8859-1?Q?UQs5gcdvxm6cg7d0H4FrbhF3JT2ziPVn+76pS6ywi0GJRvX92N9yEMtcKQ?=
+ =?iso-8859-1?Q?sqczQP1Adk0EXmZuf4KPvGdroHtf5PVGpNQBRn9pb0FSc+fwqJag4XZsVF?=
+ =?iso-8859-1?Q?MSi/i9V97sRP75nZah9MolNsBjkJB/k9VdPPsdhsdX4KCoJVTa2WmNAYM0?=
+ =?iso-8859-1?Q?YwceNvcqIgwnjbfZdWXufKQEEykornHWsRFoO/9/Pd0IncD+12Omc9VJ8R?=
+ =?iso-8859-1?Q?60TkhV0dBErHb9ebmTgHhn9hnlXhOm7x5O77hBiab/dIwofEdk/OoX7x5+?=
+ =?iso-8859-1?Q?thpLGimKXuIQgOgztVsvHlYmWnVf9Wnrn98dn6MZDk1DJ/V4GttVyWayQb?=
+ =?iso-8859-1?Q?yPBtSHNL3A=3D=3D?=
+X-Exchange-RoutingPolicyChecked: fzFhUAhDzT53GP/+cVmCzfsyGqtrQignwv7kN2BStAi3sGchHhzUKCJwa9qnO+kt1yj0CCV44MH7j7nqoB/gnaha8UFA+p3ZD1SwtxH3JMRc/sEad5kQH7VsLgHcVhOLY+v13wkhoG2EW0Uy6XQwCpjO63CjSNZ/jGbdgybEC625r/ybvQPJddzgURcygkO1jGZUhCS5No8AcMMlee66LZZGXTZnEzyAkoZKwv4pa6C/t7KdpkmyFXEbIhN41dUH8B8B6Fo4Rz63qWXWAgQZLq+ZHD7c/MKwsiAkyA4CYJmc7AUQKh2V76wfh3f8mDl7QhFJPaCJUhCMetgxdOZRIg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88ddf1b7-b898-4f78-a209-08dead03d455
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 13:15:09.6217
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0jPfdK6XVAG3yocJQokHnl6rF1qNKWkRwpaxE8Q+or84b9F7AmM9AQTsHSXz5HKpy9nz2Jq7KJXttoTdJtKxrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4914
+X-OriginatorOrg: intel.com
 
-On 5/7/26 22:42, Jihong Min wrote:
-> I believe I have addressed the other review comments for v4, including the
-> remaining discussion from v2 2/2, your comments, and Mathias's suggestion to
-> move the PROM21-specific xHCI PCI handling into a separate glue driver.
+On Fri, May 08, 2026 at 01:20:47PM +0300, Jani Nikula wrote:
+> Nowadays, the display support for drm/i915 and drm/xe is shared between
+> the drivers, even though the code is located under drm/i915/display.
 > 
-> I agree that "prom21_hwmon" is not a good name.
+> The drm/i915 documentation has everything, including display topics, in
+> one huge page, while the drm/xe documentation is well-organized but
+> hardly mentions display. It's not great, to put it mildly.
 > 
-> I think just "prom21" may also be too broad, because Promontory 21 is a
-> chipset/IP block with multiple I/O functions. This driver monitors the
-> temperature value exposed through the PROM21 xHCI PCI function's MMIO BAR, so
-> the xHCI part should probably be visible in the hwmon naming.
+> Split out the Intel display documentation to a dedicated directory,
+> Documentation/gpu/intel-display. Also directly split the
+> functionality/feature documentation to dedicated pages to keep the main
+> index page high level and readable. We'll want to organize this further,
+> but just sort them alphabetically for starters.
 > 
-> I am considering:
+> Drop the boilerplate documentation sections that don't actually document
+> anything.
 > 
->    - drivers/hwmon/prom21-xhci.c
->    - CONFIG_SENSORS_PROM21_XHCI
->    - hwmon name: prom21_xhci
+> Cross-reference drm/i915, drm/xe, and intel-display.
 > 
-> while keeping the USB glue as xhci-pci-prom21.c.
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > 
-> Does that sound reasonable?
+> ---
 > 
+> Tip: 'git show --color-moved' conveniently highlights what gets moved
+> and what gets deleted.
+> ---
+>  Documentation/gpu/drivers.rst                 |   1 +
+>  Documentation/gpu/drm-kms.rst                 |   3 +
+>  Documentation/gpu/i915.rst                    | 202 +-----------------
+>  .../gpu/intel-display/async-flip.rst          |   8 +
+>  Documentation/gpu/intel-display/audio.rst     |  23 ++
+>  Documentation/gpu/intel-display/cdclk.rst     |  11 +
+>  Documentation/gpu/intel-display/dmc.rst       |  26 +++
+>  Documentation/gpu/intel-display/dpio.rst      |   8 +
+>  Documentation/gpu/intel-display/dpll.rst      |  14 ++
+>  Documentation/gpu/intel-display/drrs.rst      |  11 +
+>  Documentation/gpu/intel-display/dsb.rst       |  11 +
+>  Documentation/gpu/intel-display/fbc.rst       |  11 +
+>  .../gpu/intel-display/fifo-underrun.rst       |  11 +
+>  .../gpu/intel-display/frontbuffer.rst         |  14 ++
+>  Documentation/gpu/intel-display/hotplug.rst   |  11 +
+>  Documentation/gpu/intel-display/index.rst     |  40 ++++
+>  Documentation/gpu/intel-display/plane.rst     |  11 +
+>  Documentation/gpu/intel-display/psr.rst       |  11 +
+>  Documentation/gpu/intel-display/vbt.rst       |  14 ++
+>  Documentation/gpu/xe/index.rst                |   5 +
+>  20 files changed, 251 insertions(+), 195 deletions(-)
+>  create mode 100644 Documentation/gpu/intel-display/async-flip.rst
+>  create mode 100644 Documentation/gpu/intel-display/audio.rst
+>  create mode 100644 Documentation/gpu/intel-display/cdclk.rst
+>  create mode 100644 Documentation/gpu/intel-display/dmc.rst
+>  create mode 100644 Documentation/gpu/intel-display/dpio.rst
+>  create mode 100644 Documentation/gpu/intel-display/dpll.rst
+>  create mode 100644 Documentation/gpu/intel-display/drrs.rst
+>  create mode 100644 Documentation/gpu/intel-display/dsb.rst
+>  create mode 100644 Documentation/gpu/intel-display/fbc.rst
+>  create mode 100644 Documentation/gpu/intel-display/fifo-underrun.rst
+>  create mode 100644 Documentation/gpu/intel-display/frontbuffer.rst
+>  create mode 100644 Documentation/gpu/intel-display/hotplug.rst
+>  create mode 100644 Documentation/gpu/intel-display/index.rst
+>  create mode 100644 Documentation/gpu/intel-display/plane.rst
+>  create mode 100644 Documentation/gpu/intel-display/psr.rst
+>  create mode 100644 Documentation/gpu/intel-display/vbt.rst
+> 
+> diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+> index 2e13e0ad7e88..20d2c454aa1d 100644
+> --- a/Documentation/gpu/drivers.rst
+> +++ b/Documentation/gpu/drivers.rst
+> @@ -8,6 +8,7 @@ GPU Driver Documentation
+>     amdgpu/index
+>     i915
+>     imagination/index
+> +   intel-display/index
+>     mcde
+>     meson
+>     nouveau
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index fbe0583eb84c..a125052f46bc 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -1,3 +1,6 @@
+> +
+> +.. _drm-kms:
+> +
+>  =========================
+>  Kernel Mode Setting (KMS)
+>  =========================
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index eba09c3ddce4..0c9d68758533 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -1,3 +1,6 @@
+> +
+> +.. _drm/i915:
+> +
+>  ===========================
+>   drm/i915 Intel GFX Driver
+>  ===========================
+> @@ -7,6 +10,9 @@ models) integrated GFX chipsets with both Intel display and rendering
+>  blocks. This excludes a set of SoC platforms with an SGX rendering unit,
+>  those have basic support through the gma500 drm driver.
+>  
+> +The display, or :ref:`drm-kms`, support for drm/i915 is provided by
+> +:ref:`drm/intel-display`, and shared with :ref:`drm/xe <drm/xe>`.
+> +
+>  Core Driver Infrastructure
+>  ==========================
+>  
+> @@ -64,200 +70,6 @@ Workarounds
+>  .. kernel-doc:: drivers/gpu/drm/i915/gt/intel_workarounds.c
+>     :doc: Hardware workarounds
+>  
+> -Display Hardware Handling
+> -=========================
+> -
+> -This section covers everything related to the display hardware including
+> -the mode setting infrastructure, plane, sprite and cursor handling and
+> -display, output probing and related topics.
+> -
+> -Mode Setting Infrastructure
+> ----------------------------
+> -
+> -The i915 driver is thus far the only DRM driver which doesn't use the
+> -common DRM helper code to implement mode setting sequences. Thus it has
+> -its own tailor-made infrastructure for executing a display configuration
+> -change.
+> -
+> -Frontbuffer Tracking
+> ---------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_frontbuffer.c
+> -   :doc: frontbuffer tracking
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_frontbuffer.h
+> -   :internal:
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_frontbuffer.c
+> -   :internal:
+> -
+> -Display FIFO Underrun Reporting
+> --------------------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_fifo_underrun.c
+> -   :doc: fifo underrun handling
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_fifo_underrun.c
+> -   :internal:
+> -
+> -Plane Configuration
+> --------------------
+> -
+> -This section covers plane configuration and composition with the primary
+> -plane, sprites, cursors and overlays. This includes the infrastructure
+> -to do atomic vsync'ed updates of all this state and also tightly coupled
+> -topics like watermark setup and computation, framebuffer compression and
+> -panel self refresh.
+> -
+> -Atomic Plane Helpers
+> ---------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_plane.c
+> -   :doc: atomic plane helpers
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_plane.c
+> -   :internal:
+> -
+> -Asynchronous Page Flip
+> -----------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_display.c
+> -   :doc: asynchronous flip implementation
+> -
+> -Output Probing
+> ---------------
+> -
+> -This section covers output probing and related infrastructure like the
+> -hotplug interrupt storm detection and mitigation code. Note that the
+> -i915 driver still uses most of the common DRM helper code for output
+> -probing, so those sections fully apply.
+> -
+> -Hotplug
+> --------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_hotplug.c
+> -   :doc: Hotplug
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_hotplug.c
+> -   :internal:
+> -
+> -High Definition Audio
+> ----------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_audio.c
+> -   :doc: High Definition Audio over HDMI and Display Port
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_audio.c
+> -   :internal:
+> -
+> -.. kernel-doc:: include/drm/intel/i915_component.h
+> -   :internal:
+> -
+> -Intel HDMI LPE Audio Support
+> -----------------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_lpe_audio.c
+> -   :doc: LPE Audio integration for HDMI or DP playback
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_lpe_audio.c
+> -   :internal:
+> -
+> -Panel Self Refresh PSR (PSR/SRD)
+> ---------------------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_psr.c
+> -   :doc: Panel Self Refresh (PSR/SRD)
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_psr.c
+> -   :internal:
+> -
+> -Frame Buffer Compression (FBC)
+> -------------------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_fbc.c
+> -   :doc: Frame Buffer Compression (FBC)
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_fbc.c
+> -   :internal:
+> -
+> -Display Refresh Rate Switching (DRRS)
+> --------------------------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_drrs.c
+> -   :doc: Display Refresh Rate Switching (DRRS)
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_drrs.c
+> -   :internal:
+> -
+> -DPIO
+> -----
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dpio_phy.c
+> -   :doc: DPIO
+> -
+> -DMC Firmware Support
+> ---------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dmc.c
+> -   :doc: DMC Firmware Support
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dmc.c
+> -   :internal:
+> -
+> -DMC Flip Queue
+> ---------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_flipq.c
+> -   :doc: DMC Flip Queue
+> -
+> -DMC wakelock support
+> ---------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dmc_wl.c
+> -   :doc: DMC wakelock support
+> -
+> -Video BIOS Table (VBT)
+> -----------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_bios.c
+> -   :doc: Video BIOS Table (VBT)
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_bios.c
+> -   :internal:
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> -   :internal:
+> -
+> -Display clocks
+> ---------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_cdclk.c
+> -   :doc: CDCLK / RAWCLK
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_cdclk.c
+> -   :internal:
+> -
+> -Display PLLs
+> -------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> -   :doc: Display PLLs
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> -   :internal:
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dpll_mgr.h
+> -   :internal:
+> -
+> -Display State Buffer
+> ---------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dsb.c
+> -   :doc: DSB
+> -
+> -.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dsb.c
+> -   :internal:
+> -
+>  GT Programming
+>  ==============
+>  
+> @@ -568,7 +380,7 @@ The HuC FW layout is the same as the GuC one, see `GuC Firmware Layout`_
+>  
+>  DMC
+>  ---
+> -See `DMC Firmware Support`_
+> +See :ref:`drm/intel-display/dmc`.
+>  
+>  Tracing
+>  =======
+> diff --git a/Documentation/gpu/intel-display/async-flip.rst b/Documentation/gpu/intel-display/async-flip.rst
+> new file mode 100644
+> index 000000000000..e4ae4012efc5
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/async-flip.rst
+> @@ -0,0 +1,8 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Asynchronous Page Flip
+> +----------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_display.c
+> +   :doc: asynchronous flip implementation
+> diff --git a/Documentation/gpu/intel-display/audio.rst b/Documentation/gpu/intel-display/audio.rst
+> new file mode 100644
+> index 000000000000..7d3c1b514b0e
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/audio.rst
+> @@ -0,0 +1,23 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +High Definition Audio
+> +---------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_audio.c
+> +   :doc: High Definition Audio over HDMI and Display Port
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_audio.c
+> +   :internal:
+> +
+> +.. kernel-doc:: include/drm/intel/i915_component.h
+> +   :internal:
+> +
+> +Intel HDMI LPE Audio Support
+> +----------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_lpe_audio.c
+> +   :doc: LPE Audio integration for HDMI or DP playback
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_lpe_audio.c
+> +   :internal:
+> diff --git a/Documentation/gpu/intel-display/cdclk.rst b/Documentation/gpu/intel-display/cdclk.rst
+> new file mode 100644
+> index 000000000000..231b22a733e7
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/cdclk.rst
+> @@ -0,0 +1,11 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Display clocks
+> +--------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_cdclk.c
+> +   :doc: CDCLK / RAWCLK
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_cdclk.c
+> +   :internal:
+> diff --git a/Documentation/gpu/intel-display/dmc.rst b/Documentation/gpu/intel-display/dmc.rst
+> new file mode 100644
+> index 000000000000..2fcdbd457d79
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/dmc.rst
+> @@ -0,0 +1,26 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +.. _drm/intel-display/dmc:
+> +
+> +DMC Firmware Support
+> +--------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dmc.c
+> +   :doc: DMC Firmware Support
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dmc.c
+> +   :internal:
+> +
+> +
+> +DMC Flip Queue
+> +--------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_flipq.c
+> +   :doc: DMC Flip Queue
+> +
+> +DMC wakelock support
+> +--------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dmc_wl.c
+> +   :doc: DMC wakelock support
+> diff --git a/Documentation/gpu/intel-display/dpio.rst b/Documentation/gpu/intel-display/dpio.rst
+> new file mode 100644
+> index 000000000000..32e6f299f256
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/dpio.rst
+> @@ -0,0 +1,8 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +DPIO
+> +----
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dpio_phy.c
+> +   :doc: DPIO
+> diff --git a/Documentation/gpu/intel-display/dpll.rst b/Documentation/gpu/intel-display/dpll.rst
+> new file mode 100644
+> index 000000000000..35e8168ccfb9
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/dpll.rst
+> @@ -0,0 +1,14 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Display PLLs
+> +------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> +   :doc: Display PLLs
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> +   :internal:
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dpll_mgr.h
+> +   :internal:
+> diff --git a/Documentation/gpu/intel-display/drrs.rst b/Documentation/gpu/intel-display/drrs.rst
+> new file mode 100644
+> index 000000000000..adb413f300f1
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/drrs.rst
+> @@ -0,0 +1,11 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Display Refresh Rate Switching (DRRS)
+> +-------------------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_drrs.c
+> +   :doc: Display Refresh Rate Switching (DRRS)
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_drrs.c
+> +   :internal:
+> diff --git a/Documentation/gpu/intel-display/dsb.rst b/Documentation/gpu/intel-display/dsb.rst
+> new file mode 100644
+> index 000000000000..cbd40b0a4e7b
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/dsb.rst
+> @@ -0,0 +1,11 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Display State Buffer
+> +--------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dsb.c
+> +   :doc: DSB
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dsb.c
+> +   :internal:
+> diff --git a/Documentation/gpu/intel-display/fbc.rst b/Documentation/gpu/intel-display/fbc.rst
+> new file mode 100644
+> index 000000000000..40f9d16bdebd
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/fbc.rst
+> @@ -0,0 +1,11 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Frame Buffer Compression (FBC)
+> +------------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_fbc.c
+> +   :doc: Frame Buffer Compression (FBC)
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_fbc.c
+> +   :internal:
+> diff --git a/Documentation/gpu/intel-display/fifo-underrun.rst b/Documentation/gpu/intel-display/fifo-underrun.rst
+> new file mode 100644
+> index 000000000000..50731f3a1f03
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/fifo-underrun.rst
+> @@ -0,0 +1,11 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Display FIFO Underrun Reporting
+> +-------------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_fifo_underrun.c
+> +   :doc: fifo underrun handling
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_fifo_underrun.c
+> +   :internal:
+> diff --git a/Documentation/gpu/intel-display/frontbuffer.rst b/Documentation/gpu/intel-display/frontbuffer.rst
+> new file mode 100644
+> index 000000000000..2a1bc63ba6b4
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/frontbuffer.rst
+> @@ -0,0 +1,14 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Frontbuffer Tracking
+> +--------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_frontbuffer.c
+> +   :doc: frontbuffer tracking
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_frontbuffer.h
+> +   :internal:
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_frontbuffer.c
+> +   :internal:
+> diff --git a/Documentation/gpu/intel-display/hotplug.rst b/Documentation/gpu/intel-display/hotplug.rst
+> new file mode 100644
+> index 000000000000..4cd9dd5ac8fc
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/hotplug.rst
+> @@ -0,0 +1,11 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Hotplug
+> +-------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_hotplug.c
+> +   :doc: Hotplug
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_hotplug.c
+> +   :internal:
+> diff --git a/Documentation/gpu/intel-display/index.rst b/Documentation/gpu/intel-display/index.rst
+> new file mode 100644
+> index 000000000000..8d40363b8f90
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/index.rst
+> @@ -0,0 +1,40 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +.. _drm/intel-display:
+> +
+> +====================
+> +Intel Display Driver
+> +====================
+> +
+> +The Intel display driver provides the display, or :ref:`drm-kms`, support for
+> +both the :ref:`drm/xe <drm/xe>` and :ref:`drm/i915 <drm/i915>` Intel GPU
+> +drivers.
+> +
+> +The source code currently resides under ``drivers/gpu/drm/i915/display`` due to
+> +historical reasons, and it's compiled separately into both drm/xe and drm/i915
+> +kernel modules.
+> +
+> +The drm/xe and drm/i915 drivers are the "core" or "parent" drivers for display,
+> +as they initialize and own the drm device, and pass that on to the display
+> +driver. The display driver isn't an independent driver in that sense.
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +   :caption: Detailed display topics
+> +
+> +   async-flip
+> +   audio
+> +   cdclk
+> +   dmc
+> +   dpio
+> +   dpll
+> +   drrs
+> +   dsb
+> +   fbc
+> +   fifo-underrun
+> +   frontbuffer
+> +   hotplug
+> +   plane
+> +   psr
+> +   vbt
+> diff --git a/Documentation/gpu/intel-display/plane.rst b/Documentation/gpu/intel-display/plane.rst
+> new file mode 100644
+> index 000000000000..41cf6571aab0
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/plane.rst
+> @@ -0,0 +1,11 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Atomic Plane Helpers
+> +--------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_plane.c
+> +   :doc: atomic plane helpers
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_plane.c
+> +   :internal:
+> diff --git a/Documentation/gpu/intel-display/psr.rst b/Documentation/gpu/intel-display/psr.rst
+> new file mode 100644
+> index 000000000000..134c905f500e
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/psr.rst
+> @@ -0,0 +1,11 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Panel Self Refresh PSR (PSR/SRD)
+> +--------------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_psr.c
+> +   :doc: Panel Self Refresh (PSR/SRD)
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_psr.c
+> +   :internal:
+> diff --git a/Documentation/gpu/intel-display/vbt.rst b/Documentation/gpu/intel-display/vbt.rst
+> new file mode 100644
+> index 000000000000..bbc7ee183f1b
+> --- /dev/null
+> +++ b/Documentation/gpu/intel-display/vbt.rst
+> @@ -0,0 +1,14 @@
+> +.. SPDX-License-Identifier: MIT
+> +.. Copyright � 2026 Intel Corporation
+> +
+> +Video BIOS Table (VBT)
+> +----------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_bios.c
+> +   :doc: Video BIOS Table (VBT)
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_bios.c
+> +   :internal:
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> +   :internal:
+> diff --git a/Documentation/gpu/xe/index.rst b/Documentation/gpu/xe/index.rst
+> index 874ffcb6da3a..665c0e93601c 100644
+> --- a/Documentation/gpu/xe/index.rst
+> +++ b/Documentation/gpu/xe/index.rst
+> @@ -1,5 +1,7 @@
+>  .. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  
+> +.. _drm/xe:
+> +
+>  =======================
+>  drm/xe Intel GFX Driver
+>  =======================
+> @@ -8,6 +10,9 @@ The drm/xe driver supports some future GFX cards with rendering, display,
+>  compute and media. Support for currently available platforms like TGL, ADL,
+>  DG2, etc is provided to prototype the driver.
+>  
+> +The display, or :ref:`drm-kms`, support for drm/xe is provided by
+> +:ref:`drm/intel-display`, and shared with :ref:`drm/i915 <drm/i915>`.
 
-Yes.
+Great idea!
 
-Please note that you keep top-posting. I don't mind that much, but
-top-posting is (sometimes strongly) discouraged for linux kernel discussions.
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Thanks,
-Guenter
-
-> Sincerely,
-> Jihong Min
+> +
+>  .. toctree::
+>     :titlesonly:
+>  
+> -- 
+> 2.47.3
 > 
-> On 5/8/26 00:53, Guenter Roeck wrote:
->> On Thu, May 07, 2026 at 12:31:59PM +0900, Jihong Min wrote:
->>> PROM21 xHCI controllers expose an 8-bit temperature value through a
->>> vendor-specific index/data register pair in the xHCI PCI MMIO BAR
->>> region. Add an auxiliary hwmon driver for PROM21 controllers with PCI
->>> ID 1022:43fd.
->>>
->>> PROM21 is an AMD chipset IP used in single-chip or daisy-chained
->>> configurations to build AMD 6xx/8xx series chipsets.
->>>
->>> The vendor index register is at byte offset 0x3000 from the xHCI MMIO
->>> BAR base and the vendor data register is at byte offset 0x3008. The
->>> driver writes register selector 0x0001e520 to the index register, reads
->>> the raw temperature value from the low 8 bits of the data register, and
->>> restores the previous index before returning. Expose temp1_input and an
->>> xHCI label through hwmon.
->>>
->>> Register the hwmon device under the parent PCI function so userspace
->>> reports it as a PCI adapter, while the auxiliary driver still owns the
->>> hwmon lifetime and unregisters it from the auxiliary remove path.
->>>
->>> No public AMD reference is available for this value. The conversion
->>> formula is derived from observed temperature readings:
->>>
->>>    temp[C] = raw * 0.9066 - 78.624
->>>
->>> Testing showed that the temperature register does not return a valid
->>> value while the xHCI PCI function is runtime suspended. By default, the
->>> driver does not wake the parent PCI device from hwmon reads and returns
->>> -EPERM while the device is suspended.
->> Seriously ? Why would this be a permission issue ? Make it -ENODATA.
->>
->>> Document the supported device, register access, conversion formula,
->>> module parameter, sysfs attributes, and sysfs lookup method.
->>>
->>> Assisted-by: Codex:gpt-5.5
->>> Signed-off-by: Jihong Min <hurryman2212@gmail.com>
->>> ---
->>>   Documentation/hwmon/index.rst        |   1 +
->>>   Documentation/hwmon/prom21-hwmon.rst |  86 ++++++++
->>>   drivers/hwmon/Kconfig                |  11 +
->>>   drivers/hwmon/Makefile               |   1 +
->>>   drivers/hwmon/prom21-hwmon.c         | 293 +++++++++++++++++++++++++++
->>>   5 files changed, 392 insertions(+)
->>>   create mode 100644 Documentation/hwmon/prom21-hwmon.rst
->>>   create mode 100644 drivers/hwmon/prom21-hwmon.c
->>>
->>> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
->>> index 8b655e5d6b68..41072977f0ef 100644
->>> --- a/Documentation/hwmon/index.rst
->>> +++ b/Documentation/hwmon/index.rst
->>> @@ -216,6 +216,7 @@ Hardware Monitoring Kernel Drivers
->>>      pmbus
->>>      powerz
->>>      powr1220
->>> +   prom21-hwmon
->>>      pt5161l
->>>      pxe1610
->>>      pwm-fan
->>> diff --git a/Documentation/hwmon/prom21-hwmon.rst b/Documentation/hwmon/prom21-hwmon.rst
->>> new file mode 100644
->>> index 000000000000..0ba763e68ae9
->>> --- /dev/null
->>> +++ b/Documentation/hwmon/prom21-hwmon.rst
->>> @@ -0,0 +1,86 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +
->>> +Kernel driver prom21-hwmon
->>> +==========================
->>> +
->>> +Supported chips:
->>> +
->>> +  * AMD Promontory 21 (PROM21) xHCI
->>> +
->>> +    Prefix: 'prom21_hwmon'
->> The "hwmon" in this name is redundant. Yes, I know, others like it too,
->> but it is still redundant. I won't comment on it further, though.
->>
->>> +
->>> +    PCI ID: 1022:43fd
->>> +
->>> +Author:
->>> +
->>> +  - Jihong Min <hurryman2212@gmail.com>
->>> +
->>> +Description
->>> +-----------
->>> +
->>> +This driver exposes the temperature sensor in AMD PROM21 xHCI controllers.
->>> +
->>> +The driver binds to an auxiliary device created by the xHCI PCI driver for
->>> +supported controllers. The sensor value is accessed through a vendor-specific
->>> +index/data register pair in the controller's PCI MMIO BAR.
->>> +
->>> +PROM21 is an AMD chipset IP used in single-chip or daisy-chained configurations
->>> +to build AMD 6xx/8xx series chipsets. Since the xHCI controllers are
->>> +integrated in PROM21, this temperature can also be used as a monitor for a
->>> +temperature close to the AMD chipset temperature.
->>> +
->>> +Register access
->>> +---------------
->>> +
->>> +The temperature value is read through a vendor-specific index/data register
->>> +pair in the xHCI PCI MMIO BAR. The driver uses the following byte offsets from
->>> +the MMIO BAR base:
->>> +
->>> +======================= =====================================================
->>> +0x3000            Vendor index register
->>> +0x3008            Vendor data register
->>> +======================= =====================================================
->>> +
->>> +The driver saves the current vendor index register value, writes the
->>> +temperature selector ``0x0001e520`` to the vendor index register, reads the
->>> +vendor data register, and restores the previous vendor index value before
->>> +returning. The raw temperature value is the low 8 bits of the vendor data
->>> +register value.
->>> +
->>> +No public AMD reference is available for the raw value. The temperature
->>> +conversion formula is derived from observed PROM21 xHCI temperature readings:
->>> +
->>> +  temp[C] = raw * 0.9066 - 78.624
->>> +
->>> +Module parameters
->>> +-----------------
->>> +
->>> +pm: bool
->>> +  Allow runtime PM state changes for device memory access. This is disabled
->>> +  by default. If disabled, the driver does not wake the xHCI PCI device from
->>> +  a temperature read. It reads the temperature only when the device is active.
->>> +  A read from a suspended device returns ``-EPERM``.
->>> +
->>> +Sysfs entries
->>> +-------------
->>> +
->>> +======================= =====================================================
->>> +temp1_input        Temperature in millidegrees Celsius
->>> +temp1_label        "xHCI"
->> This is pointless and not the idea behind having a "label" attribute.
->> The driver name itself already associates the sensor with xhci.
->> Please drop.
->>
->>> +======================= =====================================================
->>> +
->>> +The hwmon device name is ``prom21_hwmon``. The sysfs path depends on the hwmon
->>> +device number assigned by the kernel. Userspace can locate the device by
->>> +matching the ``name`` attribute:
->>> +
->>> +.. code-block:: sh
->>> +
->>> +   for hwmon in /sys/class/hwmon/hwmon*; do
->>> +           [ "$(cat "$hwmon/name")" = "prom21_hwmon" ] || continue
->>> +           cat "$hwmon/temp1_label"
->>> +           cat "$hwmon/temp1_input"
->>> +   done
->>> +
->>> +``temp1_input`` reports millidegrees Celsius, so a value of ``50113`` means
->>> +50.113 degrees Celsius. If the raw register value is invalid, ``temp1_input``
->>> +returns ``-ENODATA``.
->>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
->>> index 14e4cea48acc..06d81cc29fec 100644
->>> --- a/drivers/hwmon/Kconfig
->>> +++ b/drivers/hwmon/Kconfig
->>> @@ -940,6 +940,17 @@ config SENSORS_POWERZ
->>>         This driver can also be built as a module. If so, the module
->>>         will be called powerz.
->>> +config SENSORS_PROM21
->>> +    tristate "AMD Promontory 21 xHCI temperature sensor"
->>> +    depends on USB_XHCI_PCI
->>> +    select USB_XHCI_PCI_AUXDEV
->>> +    help
->>> +      If you say yes here you get support for the AMD Promontory 21
->>> +      (PROM21) xHCI temperature sensor.
->>> +
->>> +      This driver can also be built as a module. If so, the module
->>> +      will be called prom21-hwmon.
->>> +
->>>   config SENSORS_POWR1220
->>>       tristate "Lattice POWR1220 Power Monitoring"
->>>       depends on I2C
->>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
->>> index 4788996aa137..7693ed3b3f72 100644
->>> --- a/drivers/hwmon/Makefile
->>> +++ b/drivers/hwmon/Makefile
->>> @@ -196,6 +196,7 @@ obj-$(CONFIG_SENSORS_PC87427)    += pc87427.o
->>>   obj-$(CONFIG_SENSORS_PCF8591)    += pcf8591.o
->>>   obj-$(CONFIG_SENSORS_POWERZ)    += powerz.o
->>>   obj-$(CONFIG_SENSORS_POWR1220)  += powr1220.o
->>> +obj-$(CONFIG_SENSORS_PROM21)    += prom21-hwmon.o
->>>   obj-$(CONFIG_SENSORS_PT5161L)    += pt5161l.o
->>>   obj-$(CONFIG_SENSORS_PWM_FAN)    += pwm-fan.o
->>>   obj-$(CONFIG_SENSORS_QNAP_MCU_HWMON)    += qnap-mcu-hwmon.o
->>> diff --git a/drivers/hwmon/prom21-hwmon.c b/drivers/hwmon/prom21-hwmon.c
->>> new file mode 100644
->>> index 000000000000..1c137304d65d
->>> --- /dev/null
->>> +++ b/drivers/hwmon/prom21-hwmon.c
->>> @@ -0,0 +1,293 @@
->>> +// SPDX-License-Identifier: GPL-2.0
->>> +/*
->>> + * AMD PROM21 xHCI Hwmon Implementation
->>> + * (only temperature monitoring is supported)
->>> + *
->>> + * This can be effectively used as the alternative chipset temperature monitor.
->>> + *
->>> + * Copyright (C) 2026 Jihong Min <hurryman2212@gmail.com>
->>> + */
->>> +
->>> +#include <linux/auxiliary_bus.h>
->>> +#include <linux/device.h>
->>> +#include <linux/err.h>
->>> +#include <linux/errno.h>
->>> +#include <linux/hwmon.h>
->>> +#include <linux/io.h>
->>> +#include <linux/math.h>
->>> +#include <linux/module.h>
->>> +#include <linux/mutex.h>
->>> +#include <linux/pci.h>
->>> +#include <linux/pm_runtime.h>
->>> +#include <linux/slab.h>
->>> +#include <linux/usb.h>
->>> +#include <linux/usb/hcd.h>
->>> +
->>> +#define PROM21_INDEX 0x3000
->>> +#define PROM21_DATA 0x3008
->>> +#define PROM21_TEMP_REG 0x0001e520
->>> +
->>> +#define PROM21_HWMON_NAME "prom21_hwmon"
->>> +#define PROM21_TEMP_LABEL "xHCI"
->>> +
->>> +struct prom21_hwmon {
->>> +    struct pci_dev *pdev;
->>> +    struct device *hwmon_dev;
->>> +    void __iomem *regs;
->>> +    bool removing;
->>> +    struct mutex lock; /* protects removing and the index/data registers */
->> It is difficult to believe that auxiliary device management is so unstable
->> that it needs all that complexity. This will require confirmation from
->> someone who knows how this is supposed to work, and a detailed explanation
->> in the driver explaining why it is necessary.
->>
->>> +};
->>> +
->>> +static bool pm;
->>> +module_param(pm, bool, 0444);
->>> +MODULE_PARM_DESC(pm, "Allow runtime PM state changes for device memory access");
->> No. Either enable it or don't, but please don't add such module parameters.
->> The pm complexity in the driver, as written, makes it all but impossible
->> to determine what is going on.
->>
->>> +
->>> +static void prom21_hwmon_invalidate(struct prom21_hwmon *hwmon)
->>> +{
->>> +    mutex_lock(&hwmon->lock);
->>> +    hwmon->removing = true;
->>> +    mutex_unlock(&hwmon->lock);
->>> +}
->>> +
->>> +static int prom21_hwmon_pm_get(struct prom21_hwmon *hwmon, bool *pm_ref)
->>> +{
->>> +    struct device *dev = &hwmon->pdev->dev;
->>> +    int ret;
->>> +
->>> +    *pm_ref = false;
->>> +
->>> +    /*
->>> +     * PROM21 temperature register access does not return a valid value while
->>> +     * the parent xHCI PCI function is suspended. By default, only read when
->>> +     * runtime PM reports the device as active, or when runtime PM is disabled
->>> +     * and the device is not marked as suspended. If pm=Y, allow runtime PM
->>> +     * state changes while accessing the temperature register.
->>> +     */
->>> +    if (pm) {
->>> +        ret = pm_runtime_resume_and_get(dev);
->>> +        if (ret < 0)
->>> +            return ret;
->>> +
->>> +        *pm_ref = true;
->>> +        return 0;
->>> +    }
->>> +
->>> +    ret = pm_runtime_get_if_active(dev);
->>> +    if (ret > 0) {
->>> +        *pm_ref = true;
->>> +        return 0;
->>> +    }
->>> +
->>> +    if (ret == -EINVAL && !pm_runtime_status_suspended(dev))
->>> +        return 0;
->>> +
->>> +    if (!ret || pm_runtime_status_suspended(dev))
->>> +        return -EPERM;
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +/*
->>> + * This is not a pure MMIO read. The PROM21 vendor data register is selected
->>> + * by temporarily writing PROM21_TEMP_REG to the vendor index register. Keep
->>> + * the sequence short and restore the previous index before returning.
->>> + */
->>> +static int prom21_hwmon_read_temp_raw_restore_index(struct prom21_hwmon *hwmon,
->>> +                            u8 *raw)
->>> +{
->>> +    struct device *dev = &hwmon->pdev->dev;
->>> +    bool pm_ref;
->>> +    u32 index;
->>> +    u32 data;
->>> +    int ret;
->>> +
->>> +    /*
->>> +     * The xHCI PCI remove path destroys the auxiliary device before HCD
->>> +     * teardown. Keep runtime PM and MMIO inside the critical section so a
->>> +     * sysfs read cannot use the vendor register pair after remove starts.
->>> +     */
->>> +    mutex_lock(&hwmon->lock);
->>> +    if (hwmon->removing) {
->>> +        mutex_unlock(&hwmon->lock);
->>> +        return -ENODEV;
->>> +    }
->>> +
->>> +    ret = prom21_hwmon_pm_get(hwmon, &pm_ref);
->>> +    if (ret) {
->>> +        mutex_unlock(&hwmon->lock);
->>> +        return ret;
->>> +    }
->>> +
->>> +    index = readl(hwmon->regs + PROM21_INDEX);
->>> +    /* Select the PROM21 temperature register through the vendor index. */
->>> +    writel(PROM21_TEMP_REG, hwmon->regs + PROM21_INDEX);
->>> +    data = readl(hwmon->regs + PROM21_DATA);
->>> +    /* Restore the previous vendor index register value. */
->>> +    writel(index, hwmon->regs + PROM21_INDEX);
->>> +    readl(hwmon->regs + PROM21_INDEX);
->>> +
->>> +    if (pm_ref) {
->>> +        /*
->>> +         * Use autosuspend so repeated sysfs reads do not suspend the
->>> +         * controller immediately after each successful register access.
->>> +         */
->>> +        pm_runtime_mark_last_busy(dev);
->>> +        pm_runtime_put_autosuspend(dev);
->>> +    }
->>> +    mutex_unlock(&hwmon->lock);
->>> +
->>> +    *raw = data & 0xff;
->>> +    if (!*raw || *raw == 0xff)
->>> +        return -ENODATA;
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static long prom21_hwmon_raw_to_millicelsius(u8 raw)
->>> +{
->>> +    /*
->>> +     * No public AMD reference is available for this value.
->>> +     * The scale was derived from observed PROM21 xHCI temperature readings:
->>> +     *  temp[C] = raw * 0.9066 - 78.624
->>> +     */
->>> +    return DIV_ROUND_CLOSEST(raw * 9066, 10) - 78624;
->>> +}
->>> +
->>> +static umode_t prom21_hwmon_is_visible(const void *drvdata,
->>> +                       enum hwmon_sensor_types type, u32 attr,
->>> +                       int channel)
->>> +{
->>> +    if (type != hwmon_temp || channel)
->>> +        return 0;
->>> +
->>> +    switch (attr) {
->>> +    case hwmon_temp_input:
->>> +    case hwmon_temp_label:
->>> +        return 0444;
->>> +    default:
->>> +        return 0;
->>> +    }
->>> +}
->>> +
->>> +static int prom21_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
->>> +                 u32 attr, int channel, long *val)
->>> +{
->>> +    struct prom21_hwmon *hwmon = dev_get_drvdata(dev);
->>> +    u8 raw;
->>> +    int ret;
->>> +
->>> +    if (type != hwmon_temp || attr != hwmon_temp_input || channel)
->>> +        return -EOPNOTSUPP;
->>> +
->>> +    ret = prom21_hwmon_read_temp_raw_restore_index(hwmon, &raw);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    *val = prom21_hwmon_raw_to_millicelsius(raw);
->>> +    return 0;
->>> +}
->>> +
->>> +static int prom21_hwmon_read_string(struct device *dev,
->>> +                    enum hwmon_sensor_types type, u32 attr,
->>> +                    int channel, const char **str)
->>> +{
->>> +    if (type != hwmon_temp || attr != hwmon_temp_label || channel)
->>> +        return -EOPNOTSUPP;
->>> +
->>> +    *str = PROM21_TEMP_LABEL;
->>> +    return 0;
->>> +}
->>> +
->>> +static const struct hwmon_ops prom21_hwmon_ops = {
->>> +    .is_visible = prom21_hwmon_is_visible,
->>> +    .read = prom21_hwmon_read,
->>> +    .read_string = prom21_hwmon_read_string,
->>> +};
->>> +
->>> +static const struct hwmon_channel_info *const prom21_hwmon_info[] = {
->>> +    HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_LABEL),
->>> +    NULL,
->>> +};
->>> +
->>> +static const struct hwmon_chip_info prom21_hwmon_chip_info = {
->>> +    .ops = &prom21_hwmon_ops,
->>> +    .info = prom21_hwmon_info,
->>> +};
->>> +
->>> +static int prom21_hwmon_probe(struct auxiliary_device *auxdev,
->>> +                  const struct auxiliary_device_id *id)
->>> +{
->>> +    struct device *dev = &auxdev->dev;
->>> +    struct device *parent = dev->parent;
->>> +    struct prom21_hwmon *hwmon;
->>> +    struct pci_dev *pdev;
->>> +    struct usb_hcd *hcd;
->>> +    int ret;
->>> +
->>> +    if (!parent || !dev_is_pci(parent))
->>> +        return -ENODEV;
->>> +
->>> +    pdev = to_pci_dev(parent);
->>> +    hcd = pci_get_drvdata(pdev);
->>> +    if (!hcd)
->>> +        return dev_err_probe(dev, -ENODEV,
->>> +                     "xHCI HCD data unavailable\n");
->>> +
->>> +    if (!hcd->regs || hcd->rsrc_len < PROM21_DATA + sizeof(u32))
->>> +        return dev_err_probe(dev, -ENODEV, "invalid MMIO resource\n");
->>> +
->>> +    hwmon = devm_kzalloc(dev, sizeof(*hwmon), GFP_KERNEL);
->>> +    if (!hwmon)
->>> +        return -ENOMEM;
->>> +
->>> +    ret = devm_mutex_init(dev, &hwmon->lock);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    hwmon->pdev = pdev;
->>> +    hwmon->regs = hcd->regs;
->>> +    auxiliary_set_drvdata(auxdev, hwmon);
->>> +
->>> +    /*
->>> +     * Use the PCI function as the hwmon parent so user space reports it as
->>> +     * a PCI adapter. Lifetime is still owned by this auxiliary driver;
->>> +     * remove() unregisters the hwmon device before xhci-pci tears down the
->>> +     * HCD.
->>> +     */
->>> +    hwmon->hwmon_dev =
->>> +        hwmon_device_register_with_info(&pdev->dev, PROM21_HWMON_NAME,
->>> +                        hwmon, &prom21_hwmon_chip_info,
->>> +                        NULL);
->>> +    if (IS_ERR(hwmon->hwmon_dev))
->>> +        return PTR_ERR(hwmon->hwmon_dev);
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static void prom21_hwmon_remove(struct auxiliary_device *auxdev)
->>> +{
->>> +    struct prom21_hwmon *hwmon = auxiliary_get_drvdata(auxdev);
->>> +
->>> +    if (hwmon) {
->>> +        prom21_hwmon_invalidate(hwmon);
->>> +        hwmon_device_unregister(hwmon->hwmon_dev);
->>> +    }
->>> +}
->>> +
->>> +static const struct auxiliary_device_id prom21_hwmon_id_table[] = {
->>> +    { .name = "xhci_pci." PROM21_HWMON_NAME },
->>> +    {}
->>> +};
->>> +MODULE_DEVICE_TABLE(auxiliary, prom21_hwmon_id_table);
->>> +
->>> +static struct auxiliary_driver prom21_hwmon_driver = {
->>> +    .name = "prom21-hwmon",
->>> +    .probe = prom21_hwmon_probe,
->>> +    .remove = prom21_hwmon_remove,
->>> +    .id_table = prom21_hwmon_id_table,
->>> +};
->>> +module_auxiliary_driver(prom21_hwmon_driver);
->>> +
->>> +MODULE_AUTHOR("Jihong Min <hurryman2212@gmail.com>");
->>> +MODULE_DESCRIPTION("AMD PROM21 xHCI hwmon driver");
->>> +MODULE_LICENSE("GPL");
-
