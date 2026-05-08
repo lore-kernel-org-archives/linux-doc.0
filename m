@@ -1,162 +1,146 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9C1322C6D
-	for <linux-doc@vger.kernel.org>; Fri,  8 May 2026 17:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A63E33AD9A;
+	Fri,  8 May 2026 17:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778261029; cv=none; b=Mg7awnCdGTysdPGpvDIXRBLq89PRB7+Pae+/GnNp3s1ldIwCQjXDJH6My9PWqA9VgpriZHL6mqBkQ8vMywKYAgSyjxy6aldfyn0X8jftNnLu9oIVD45pmI5IzPxvoDr+z9rQiaDzVrapzTtYX7+gY9bhOInpA9o24nmhFFVV8dw=
+	t=1778261257; cv=none; b=XOA5K1cwqvAUrZz8aCSs3uU6OrYE0TygqfxrZgDo7uePokPzfBKRD1gI3V0fa+0FinSu2OC5sNmONwAecC+9YmU40LcPqm49Fp28QIwyQrHvyoxYJUXrLFGSaOUI0TRNU6LZaYiZoSLEgK2jXwH+gRx3knMp8MMy66KHBKvjb5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778261029; c=relaxed/simple;
-	bh=WOyx8Z48htcxwyxmNQbyPqTjfn7K0keNSd9wlveroLI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=VqPp88EDDEVqEDF8+BQX51bMjPIPbTUbwYCfASDUlN1mCfiqeEgXXmZ9Pp/mrKCq7QkErVTLGchnYvKb4kZI4dpyQaD1dqEdICZKkIdKl1ou8zpHcyJ8Gd4wISXZShf+lDYOtPBlhwLUbBrHMBbiHTFy09RJTkpn/zsLSzUqE/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gvciuZH9; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1778261257; c=relaxed/simple;
+	bh=GVadrPaIpXvloCZ2qd0TqpTcfl5gklkUuZCeS18TOZ8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=TuQlVjHFjLSV3OtU9nXZHwpcr1BKC7/afpf9k8hs6gbBBnXIf12+O0gL1BPXVptcKtHZJVZIERFywElaPCFaQJ/lqk53H1+QZcIk4/88nXKYcFSI224orhKbjNNkTBoclKnsJHUsO2cLTrcT58MF7si2Ls2cstynro1H18bdFU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=FoabeDNM; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gvciuZH9"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7dca5f64e86so1914180a34.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 May 2026 10:23:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1778261026; x=1778865826; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1DP+JuCnIiM0V9Dxy5rK6Ns6ZckVWIlwW+CDaFwu9r8=;
-        b=gvciuZH9/GpAabeNj7v0/yjRAaqzwh3FodU+bWFch5mONSfYvY2Je6Y+UVgivqN/0Q
-         wrc4bUh7DlcuPQUwjYpf+od8DT07F7xlRYQ7c+0IF1kYiFeeXtKUuddZtzQgEwWy2x7L
-         6+TJ/kQDyJsZjcy+uKhN5oltUqLo4Ylsa6ANo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778261026; x=1778865826;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1DP+JuCnIiM0V9Dxy5rK6Ns6ZckVWIlwW+CDaFwu9r8=;
-        b=ovK66Rs0NInIHFQS+Wa3eF0zVUPMcfDxty9i6eIFeVMU79/kjXOTAZAumNWXlqjGny
-         MWxMAjDI8G3FPxAW2Xt20oNFdulXPdTAqMGs3sa9Q/xRKUh8FiyAb8wAFYpOn3HG3E2/
-         qo4HGHDkuuTjKlxtBAPGyevB7uT9Bhelv7T2Jsogfn+LA2jiF6mvbPofHHd0UuwLRbx3
-         0M/7ln5VM/AyPFvFduVBHM2Y+xALTWGnwEydY5WkzKzA5p0XQlg/Gf0Sr4wC60509o6x
-         RALv0L5/Nf2IU1ysEp8xgU6XuGDJLrcZZCzshFMFA5Z2GfGqQie1Z3aFRNhpQVeB3cBP
-         dmSg==
-X-Forwarded-Encrypted: i=1; AFNElJ9Rmq4nw6Ul4vAWYmJElsfUQud3KHT7+dfI67nN84S9X+dLymYLVRJh/VZOFJPBuhYbY5/l1NiU2oM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyc14GfVsLMPm3eVTRA3Nm/nua+9+ka+3ew34el31sLaSqEO2tA
-	D5Q9H68c269VNGwUV+whrvC+OqGavTFOsPL7LOxbeqIE30bI6FJRkflEM7H5bP23Xmc=
-X-Gm-Gg: AeBDievoNIU8ikrE9v1flzNzyEzG3KMwNG/Tvp7gZA6nnVHNcvz4/wVDjP+CenjonEe
-	3ZhUeejoAFtTExbv/QZ+cUg4xlS5Ci9XI7GsBFHzT9otjRazBrbQ2h/r90LwMaTZBrKjEkvVx5n
-	3tOJPJwhGNh81yH6ChLfCoxMGjOUw1O7iBCHZRr0E/3HjhBlDlUVwn/w7JR9rEjRzf9bKEn8wfk
-	T5L6stL0FJ0k2mGgD1/1fzEfnErD4cV48p6yfp0V9Hp2+9Ihg92quh6pv0SIebQ7jecL0KLAJ/+
-	R5HrU77IYDr/kPO5wfnTxK1njqiUopVyAbcAwb9HdgfMxMSW/FPjoGF96EYirqZqL7gDD3S+Gnc
-	Hll2+tcBl023DUJHNp3SL+NIdlBLypMHmYN5gdcOc+7TCkjUFagxUbjcQtLeRnFMwTko3Tr+9Zj
-	yefgazcrHMokRGBj0WtdlF7S5YYQRc0FI=
-X-Received: by 2002:a05:6820:178a:b0:696:982b:1c24 with SMTP id 006d021491bc7-69998d56a5cmr7340448eaf.57.1778261025735;
-        Fri, 08 May 2026 10:23:45 -0700 (PDT)
-Received: from [192.168.1.14] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69b25c1a58asm1448361eaf.1.2026.05.08.10.23.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 10:23:45 -0700 (PDT)
-Message-ID: <2b771350-0562-4cb1-b9b3-cc3ce59b1a63@linuxfoundation.org>
-Date: Fri, 8 May 2026 11:23:43 -0600
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="FoabeDNM"
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id E957027342;
+	Fri,  8 May 2026 19:27:31 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Mz1FdCaqy_UM; Fri,  8 May 2026 19:27:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1778261251; bh=GVadrPaIpXvloCZ2qd0TqpTcfl5gklkUuZCeS18TOZ8=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To;
+	b=FoabeDNM7Jyz+x0UDJK6XcQU51z7Kdd5xB/++yvjt5c/PUyu4oQ9/i/J5rLglEHBS
+	 dUWSemd3ufA1LqftJjHvOJNQeLILdkgigpTYXJ2yrYSK8CzS8Zzi9ToGYHbDyHqm9B
+	 Gk9TQM/GcPz1LwiGOY6WlKmC6O1dIYOr1g5tuKQYVKrhB1o8MFyt+g2p+0+wKo/ycy
+	 biOp8HFVlb6UorCJfanOu/hhaTi4DerBImFFRf22ONmJaaaQMFuBHxnbpRYLC7RhS+
+	 gCMGPYdj1nFOCgVNbRCX53LCTLIT52dQTXuQY8vrGE03YQSXwdKkpFADQXMVlAnouL
+	 6p6aVHxrv7Mfg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] docs: fix repeated prepositions across documentation
-To: Adrien Reynard <reynard.adrien.08@gmail.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- "open list:KASAN" <kasan-dev@googlegroups.com>,
- "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
- "open list:USER-MODE LINUX (UML)" <linux-um@lists.infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 08 May 2026 22:57:12 +0530
+Message-Id: <DIDGZWFXUX7H.WYJNRZR4BQ2P@disroot.org>
+Cc: "Pavel Machek" <pavel@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "MyungJoo Ham" <myungjoo.ham@samsung.com>, "Chanwoo
+ Choi" <cw00.choi@samsung.com>, "Sebastian Reichel" <sre@kernel.org>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
+ <andre.draszik@linaro.org>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, "Nam Tran" <trannamatk@gmail.com>,
+ =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>,
+ <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v5 08/11] leds: rgb: add support for Samsung S2M series
+ PMIC RGB LED device
+From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
+To: "Lee Jones" <lee@kernel.org>, "Kaustabh Chakraborty"
+ <kauschluss@disroot.org>
+References: <20260424-s2mu005-pmic-v5-0-fcbc9da5a004@disroot.org>
+ <20260424-s2mu005-pmic-v5-8-fcbc9da5a004@disroot.org>
+ <20260507190005.GT305027@google.com>
+In-Reply-To: <20260507190005.GT305027@google.com>
 
-On 5/8/26 10:38, Adrien Reynard wrote:
+On 2026-05-07 20:00 +01:00, Lee Jones wrote:
+> On Fri, 24 Apr 2026, Kaustabh Chakraborty wrote:
 
-Missing commit log
+[...]
 
-> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
-> ---
->   Documentation/dev-tools/kasan.rst                   | 2 +-
->   Documentation/networking/switchdev.rst              | 2 +-
->   Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index 4968b2aa60c8..3a8bd40ad905 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -392,7 +392,7 @@ reserved to tag freed memory regions.
->   If the hardware does not support MTE (pre ARMv8.5), Hardware Tag-Based KASAN
->   will not be enabled. In this case, all KASAN boot parameters are ignored.
->   
-> -Note that enabling CONFIG_KASAN_HW_TAGS always results in in-kernel TBI being
-> +Note that enabling CONFIG_KASAN_HW_TAGS always results in-kernel TBI being
+>> +
+>> +	switch (rgb->device_type) {
+>> +	case S2MU005:
+>> +		lut_ramp_up =3D s2mu005_rgb_lut_ramp;
+>> +		lut_ramp_up_len =3D ARRAY_SIZE(s2mu005_rgb_lut_ramp);
+>> +		lut_ramp_dn =3D s2mu005_rgb_lut_ramp;
+>> +		lut_ramp_dn_len =3D ARRAY_SIZE(s2mu005_rgb_lut_ramp);
+>> +		lut_stay_hi =3D s2mu005_rgb_lut_stay_hi;
+>> +		lut_stay_hi_len =3D ARRAY_SIZE(s2mu005_rgb_lut_stay_hi);
+>> +		lut_stay_lo =3D s2mu005_rgb_lut_stay_lo;
+>> +		lut_stay_lo_len =3D ARRAY_SIZE(s2mu005_rgb_lut_stay_lo);
+>> +		break;
+>> +	default:
+>> +		/* execution shouldn't reach here */
+>
+> Instead of a comment, perhaps a WARN_ON_ONCE(1); or similar would be
+> more robust here to catch unexpected device types?
+>
 
-This is correct the way it is - no need to change this. "results in in-kernel"
+[...]
 
->   enabled. Even when ``kasan.mode=off`` is provided or when the hardware does not
->   support MTE (but supports TBI).
->   
-> diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
-> index 2966b7122f05..948bce44ca9b 100644
-> --- a/Documentation/networking/switchdev.rst
-> +++ b/Documentation/networking/switchdev.rst
-> @@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
->   monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
->   bond will see its upper master change.  If that bond is moved into a bridge,
->   the bond's upper master will change.  And so on.  The driver will track such
-> -movements to know what position a port is in in the overall topology by
-> +movements to know what position a port is in the overall topology by
+>> +static int s2m_rgb_pattern_clear(struct led_classdev *cdev)
+>> +{
+>> +	struct s2m_rgb *rgb =3D to_s2m_rgb(to_s2m_mc(cdev));
+>> +	int ret =3D 0;
+>> +
+>> +	mutex_lock(&rgb->lock);
+>> +
+>> +	switch (rgb->device_type) {
+>> +	case S2MU005:
+>> +		ret =3D s2mu005_rgb_reset_params(rgb);
+>> +		break;
+>> +	default:
+>> +		/* execution shouldn't reach here */
+>> +		break;
+>
+> As above.
+>
+> And a single branch switch () makes little sense.
 
-This looks fine.
+Even with an `if`, since only one variant is supported we're sure that
+the control would never go to `else` anyway. I will flatten this block,
+and expect the switch to be added when another variant is added.
 
->   registering for netdevice events and acting on NETDEV_CHANGEUPPER.
->   
->   L2 Forwarding Offload
-> diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-> index c37e8e594d12..7b08738c30aa 100644
-> --- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-> +++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-> @@ -1092,7 +1092,7 @@ be formatted as plain text.
->   
->   Developing always goes hand in hand with debugging. First of all,
->   you can always run UML under gdb and there will be a whole section
-> -later on on how to do that. That, however, is not the only way to
-> +later on how to do that. That, however, is not the only way to
+>> +static struct mc_subled s2mu005_rgb_subled_info[] =3D {
+>
+> const?
 
-This change is not needed. If at all add a comma after "later" to make
-a distinction between the use two back to back "on"s
+No, this is fed to (struct led_classdev_mc)::subled_info, which is not a
+const pointer. Relevant snip is marked below.
 
-  "later on,"
+"Assigning to 'struct mc_subled *' from const struct mc_subled[3]
+discards qualifiers."
 
->   debug a Linux kernel. Quite often adding tracing statements and/or
->   using UML specific approaches such as ptracing the UML kernel process
->   are significantly more informative.
 
-With these changes:
+>> +	{ .channel =3D 0, .color_index =3D LED_COLOR_ID_BLUE },
+>> +	{ .channel =3D 1, .color_index =3D LED_COLOR_ID_GREEN },
+>> +	{ .channel =3D 2, .color_index =3D LED_COLOR_ID_RED },
+>> +};
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+[...]
 
-thanks,
--- Shuah
+>> +	switch (rgb->device_type) {
+>> +	case S2MU005:
+>> +		rgb->mc.subled_info =3D s2mu005_rgb_subled_info;
+
+Here.
+
+>> +		rgb->mc.num_colors =3D ARRAY_SIZE(s2mu005_rgb_subled_info);
+>> +		break;
+>> +	default:
+>> +		return dev_err_probe(dev, -ENODEV, "device type %d is not supported b=
+y driver\n",
+>> +				     pmic_drvdata->device_type);
