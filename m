@@ -1,410 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F7F37DEBC;
-	Sat,  9 May 2026 06:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452F537881F
+	for <linux-doc@vger.kernel.org>; Sat,  9 May 2026 07:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778309813; cv=none; b=MQSkjgoTPrO3GE0C47h6mzYbD54rgOjqULcFytCktDZrrOyim2DYNWAPQ4Nd2GLcMC+D4wsDpViryqXnsxV0rW4Mk34L1CScOtGD6AtxInEJWnRaVud123c7xZNH6M07tYKE8rvXnwxyHLCzJgMNWbkbyOwx8KXIFXVLkXCqsbY=
+	t=1778310094; cv=none; b=J9wwxpJIxOt/KQpvgZ5IuQLtP21J2ayDLFcWvhSqmLHEPrXRCVM0glPALMhUZs+TWgY2rJtR32M1Jfo8M6KpdtkssiKGw5ut+OWcO+VkHWWXAfspYgN7TxkW4PA2EzDkjBd1j8daaYS76UDBs6uCLbzu2/hahEnIOOltOTKzo9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778309813; c=relaxed/simple;
-	bh=xvcRgb9TiLjnGNqqDPmnVmMbvy8lkz8/SqQRrURabD0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LFgkgbyqeOiIJW9XdA1jjKvHVWdoangHLs/1RllgaK7VPeGUdRca8ApF+2i1DMcfvG7ddG7ZheeNSQya9WJJu3knuYNq0vTVwwtXAM2RXDYlfhQjB9au+mxbVddQqAHcdX8beNG/0DZaqelXMrrVcdXijWm4rmo6yTnX5EJIutc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WNYFA6x5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778310094; c=relaxed/simple;
+	bh=Fdkwzh7nzXXsRdR+lBF6ucGH+k2FBnutbxMgBG+r9aA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i33gnNWsLcHbWvWNYa1xV+MAjizMRPSF5eCF7rTjHPOrvV62jcX/ezvcmYnoi+Kmg7i12E1u8z7F7GdTJYXEXeNfUnZqJl1skPZlXDatYsV1gvdJIQkHvZuq0/NJEU+j56UDbb9ZeT2MjE9vZLfkawUwspejfS4mgLzn9pUCA1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=O39COjSE; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WNYFA6x5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C6CC4AF09;
-	Sat,  9 May 2026 06:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778309812;
-	bh=xvcRgb9TiLjnGNqqDPmnVmMbvy8lkz8/SqQRrURabD0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WNYFA6x5CGwrbt4w2kUGHrcQVwirvEqubT6jYOboNE9WSG4htrIjc/JiBeWgFqez2
-	 m+4b4PRJ8buRXQ5DIo90uiPEIhNxu0H4mDFqoIulwZeum4xsQ4qQCR5bd8Ut07dfcU
-	 dLqasB+xhUIaS7rLfS1xvFDmsO9sAiry6EeZa8lq0tlFZIpdn66e4QSTUvv6o7dyA3
-	 6pITClb+Q8K5nUlU9W4vmWASnrAEpmcIOkQUhm2zvv42kCHpLMcfFiqOfGHYz0dkTn
-	 Gd125wZhjnFhUEkPecCS0L+c6l3OkrgvyOs7VMHmwXdRs4fRdgbUtoVDnRB+tIArfQ
-	 AAQkke39gmv1w==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wLbcI-00000000GIf-2H3Q;
-	Sat, 09 May 2026 08:56:50 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v3 02/13] docs: maintainers_include: split state machine on multiple funcs
-Date: Sat,  9 May 2026 08:56:35 +0200
-Message-ID: <26376e92a5e31e5d285b8676ed443a247b42e4c5.1778309595.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1778309595.git.mchehab+huawei@kernel.org>
-References: <cover.1778309595.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="O39COjSE"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488b0046078so21661765e9.1
+        for <linux-doc@vger.kernel.org>; Sat, 09 May 2026 00:01:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1778310089; x=1778914889; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aBUb6rJkP5kcBQ6tIPVqou1ctCmL/sfkRVBGBAME9Sk=;
+        b=O39COjSETDTYb+Z7bD43p8tNEei8T9vTYSZjBbW2KOQQ9QIz9zAumYPYsJloJwh1l6
+         jz03kvFvqJ+3KyBKHCZwGes4EIylOUT9BoJs4/ym5MiBQZktSg0e+kis+Fz9Fyi3Gj3Y
+         17tENhANixFbAV0jyQQF9djR7/H3TwQC3wieMsl7J1yX6sZubNfzbq1Xya5SipjTiPs0
+         9MCEFwL70k9omeeYtgOQT18u5a6G9KY9qr3vE1h8gZo4Kdk1IULGpFZyRbJFkTR+rQDw
+         idAyG+3CTW4j5mFLUFbyGQgfx15FbUb1g9HNpa+pxDz2hFrEJknLRSEzcwGT7MC6atuD
+         LTcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778310089; x=1778914889;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aBUb6rJkP5kcBQ6tIPVqou1ctCmL/sfkRVBGBAME9Sk=;
+        b=eaoAIR91ohQCqlBCNApIO/XFv0HqvabinG9maFAqsK9/Kj+wr0oYQeAeZjao9q4Zg5
+         nmSJCGkvxe5Nlv4GFLdMIOkzKFbwVELdF64YqqXpurtR/K+CrAzws2VbJE6I9rNiW+A4
+         5fyUnmySL/bdI9UpFUUxYDBVcXOWGc5Bz0eZI9jBAQYbcdU8cTniG10AjlOCg9IVszbe
+         k9/E3rQVAh6VhATS1um33eZhHXC7MdzxJg5t1AJmyj9MQG7Nap7hGBEk9xshAySGMJFx
+         3jh9PNhJn/Q5lI5Ozo18/aRBff/GhnLNvCnaBelXwEc6TTQB8MpSZMV9YPbhqO7XTvGo
+         xrRQ==
+X-Forwarded-Encrypted: i=1; AFNElJ++H7OtMwwkxAe6wCIFmXpo9aWxRvkVq0SLkjxouaaTUpC72UgvF3MkdwkwLxkxMHDj1VQNZRXERyk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF/Ez+90DvVtTsJ3KmHsHCjjDI3/dK4Sa6uokYEpGwN1DmqToC
+	qmS1L9zQ9IziayJVt9qfhZ7GEKYXiF8inIbwLZIyQy9WrwQ7NXVsstEnjJcwjSNtUmw=
+X-Gm-Gg: AeBDievhkAHJqWkfVvZmAZ19fAInC6/yEceBpSbF+KVtR+W36PFjRHQEOjXtehK7YV7
+	kwH2zLgdtZcny4GrnKhu5XZD8lqMRvLYjPAKlzDrn5ydZehCsI0dGXDti5a2R/FfFM/GniEu4ge
+	0LpKtMRcHA6mA2aZQSsWXWabA06FLyeg9owtbHsaN9l8eVTo3ihmhJLzucjZ6DbPJI/UCoGkDCH
+	+sP+fwpNdPBxztjMrpqyAc/J17+Ai+0CofMHXfaR9nFe34S844XZPr8yN7x9ZfyHXd2rPOGoGHv
+	e+DIyMiP0z6M+j/eOa+SzVl5U4H1WmkHe6B17q6GnkdJSxrVjqbG7EKs7uwCGqTOxQe5oMJ/dMX
+	mZhsFa2BAQ3ZJMnxxOkiPgolVNC3jojQyyiPpKVWUjTFGU5a0gIZ8mpii3U+l34s0+5H9uvH93E
+	DvGF9o/aJtkH8e0JgT4HPO8vEe3rZ76BkcLkY=
+X-Received: by 2002:a05:600c:4e15:b0:489:1f04:96c3 with SMTP id 5b1f17b1804b1-48e70687e22mr20671555e9.2.1778310088900;
+        Sat, 09 May 2026 00:01:28 -0700 (PDT)
+Received: from FV6GYCPJ69 ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e7040a8ffsm49536725e9.10.2026.05.09.00.01.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 May 2026 00:01:27 -0700 (PDT)
+Date: Sat, 9 May 2026 09:01:23 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Mark Bloch <mbloch@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Randy Dunlap <rdunlap@infradead.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Christian Brauner <brauner@kernel.org>, 
+	Petr Mladek <pmladek@suse.com>, "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
+	Eric Biggers <ebiggers@kernel.org>, Li RongQing <lirongqing@baidu.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [RFC net-next 0/4] devlink: Add boot-time defaults
+Message-ID: <af7Y4AYv-XDCbK_8@FV6GYCPJ69>
+References: <20260506123739.1959770-1-mbloch@nvidia.com>
+ <aftaW-irGmkfA7FS@FV6GYCPJ69>
+ <3f9215c4-7c84-46d9-ba74-30dabe24db09@nvidia.com>
+ <afxvzOjqw-vxUAED@FV6GYCPJ69>
+ <b6a9b568-dd09-4414-be57-6b9cd282a43c@nvidia.com>
+ <af4lBIJdCuN5VKq_@FV6GYCPJ69>
+ <20260508175213.1952097f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260508175213.1952097f@kernel.org>
 
-Instead of one big __init__ code, split the MaintainersParser
-code in a way that the state machine remains on __init__, but
-the actual parser for descriptions and subsystems are moved
-to separate functions.
+Sat, May 09, 2026 at 02:52:13AM +0200, kuba@kernel.org wrote:
+>On Fri, 8 May 2026 20:07:44 +0200 Jiri Pirko wrote:
+>> >I don't think switchdev by default should mean CX4+ in general. If we get
+>> >there, I would expect it to be limited to the DPU/BlueField/ECPF case, where
+>> >the host PF probe path can depend on the ECPF reaching switchdev. Changing the
+>> >default for regular host NIC deployments feels like a much larger compatibility
+>> >change.  
+>> 
+>> We can't travel throught time, but if from CX5 onwards the default would
+>> be switchdev, nobody would feel broken in terms of compatibility. That
+>> is my point. Having "legacy" as default is simply wrong for never NIC
+>> generations. That is why it is called "legacy" and it should have been
+>> rotten through and out since CX4 times.
+>
+>legacy vs switchdev only describes the eswitch configuration.
+>As a non-SR-IOV user I really don't want to see the extra representors
+>hanging around my systems, confusing all daemons. IIRC mlx5 had some
+>limitations around the uplink representor. Maybe that's the disconnect.
+>But for a real, fully featured switchdev eswitches having the
+>PHY and PF representors on boot, always, will not make sense.
 
-To make parser easier, instead storing parsed results on a list,
-place them directly on a string.
+As "a non-SR-IOV user", what extra representors you talk about? When you
+have pfs only, you don't have anything extra. Just 1 netdev per-pf, one
+devlink port per-pf. What's extra about it? When you don't have VFs/SFs.
+Everyhing is the same:
 
-That granted 15% of performance increase(*) with Python 3.14 and
-made the logic simpler.
+c-220-136-220-218:~$ sudo devlink dev eswitch show pci/0000:08:00.0
+pci/0000:08:00.0: mode switchdev inline-mode none encap-mode basic
+c-220-136-220-218:~$ sudo devlink dev eswitch show pci/0000:08:00.1
+pci/0000:08:00.1: mode legacy inline-mode none encap-mode basic
+c-220-136-220-218:~$ devlink dev
+pci/0000:08:00.0: index 0
+  nested_devlink:
+    auxiliary/mlx5_core.eth.0
+devlink_index/1: index 1
+  nested_devlink:
+    pci/0000:08:00.0
+    pci/0000:08:00.1
+auxiliary/mlx5_core.eth.0: index 2
+pci/0000:08:00.1: index 3
+  nested_devlink:
+    auxiliary/mlx5_core.eth.1
+auxiliary/mlx5_core.eth.1: index 4
+c-220-136-220-218:~$ devlink port
+auxiliary/mlx5_core.eth.0/65535: type eth netdev eth2 flavour physical port 0 splittable false
+auxiliary/mlx5_core.eth.1/131071: type eth netdev eth3 flavour physical port 1 splittable false
+c-220-136-220-218:~$ ip link
+...
+4: eth2: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether b8:e9:24:f2:b7:6c brd ff:ff:ff:ff:ff:ff
+    altname enp8s0f0np0
+5: eth3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether b8:e9:24:f2:b7:6d brd ff:ff:ff:ff:ff:ff
+    altname enp8s0f1np1
 
-(*) measured by creating a new directory under Documentation/,
-    and placing justmaintainers.rst and an index file there,
-    building it via sphinx-build-wrapper.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Message-ID: <0b72530cf496ce5e2987ca784058a50f4dc814d2.1777987027.git.mchehab+huawei@kernel.org>
----
- Documentation/sphinx/maintainers_include.py | 297 +++++++++++---------
- 1 file changed, 158 insertions(+), 139 deletions(-)
+>
+>IOW it's not a question of the generation of the card but of
+>the deployment type / use case.
 
-diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
-index 694cdbdc4caf..6d47d55f5b73 100755
---- a/Documentation/sphinx/maintainers_include.py
-+++ b/Documentation/sphinx/maintainers_include.py
-@@ -47,167 +47,186 @@ class MaintainersParser:
-         self.profile_toc = set()
-         self.profile_entries = {}
- 
--        result = list()
--        result.append(".. _maintainers:")
--        result.append("")
-+        self.output = ".. _maintainers:\n\n"
- 
-         # Poor man's state machine.
--        descriptions = False
--        maintainers = False
--        subsystems = False
-+        self.descriptions = False
-+        self.maintainers = False
-+        self.subsystems = False
- 
-         # Field letter to field name mapping.
--        field_letter = None
--        fields = dict()
-+        self.field_letter = None
-+        self.fields = dict()
-+
-+        self.field_prev = ""
-+        self.field_content = ""
-+        self.subsystem_name = None
-+
-+        self.app_dir = app_dir
-+        self.base_dir, self.doc_dir, self.sphinx_dir = app_dir.partition("Documentation")
-+
-+        self.re_doc = re.compile(r'(Documentation/([^\s\?\*]*)\.rst)')
- 
-         prev = None
--        field_prev = ""
--        field_content = ""
--        subsystem_name = None
--
--        base_dir, doc_dir, sphinx_dir = app_dir.partition("Documentation")
--
-         for line in open(path):
--            # Have we reached the end of the preformatted Descriptions text?
--            if descriptions and line.startswith('Maintainers'):
--                descriptions = False
--                # Ensure a blank line following the last "|"-prefixed line.
--                result.append("")
--
--            # Start subsystem processing? This is to skip processing the text
--            # between the Maintainers heading and the first subsystem name.
--            if maintainers and not subsystems:
-+            if self.descriptions:
-+                self.parse_descriptions(line)
-+            elif self.maintainers and not self.subsystems:
-                 if re.search('^[A-Z0-9]', line):
--                    subsystems = True
--
--            # Drop needless input whitespace.
--            line = line.rstrip()
--
--            #
--            # Handle profile entries - either as files or as https refs
--            #
--            match = re.match(rf"P:\s*({doc_dir})(/\S+)\.rst", line)
--            if match:
--                name = "".join(match.groups())
--                entry = os.path.relpath(base_dir + name, app_dir)
--
--                full_name = os.path.join(base_dir, name)
--                path = os.path.relpath(full_name, app_dir)
--                #
--                # When SPHINXDIRS is used, it will try to reference files
--                # outside srctree, causing warnings. To avoid that, point
--                # to the latest official documentation
--                #
--                if path.startswith("../"):
--                    entry = KERNELDOC_URL + match.group(2) + ".html"
-+                    self.subsystems = True
-+                    self.parse_subsystems(line)
-                 else:
--                    entry = "/" + entry
--
--                if "*" in entry:
--                    for e in glob(entry):
--                        self.profile_toc.add(e)
--                        self.profile_entries[subsystem_name] = e
--                else:
--                    self.profile_toc.add(entry)
--                    self.profile_entries[subsystem_name] = entry
--            else:
--                match = re.match(r"P:\s*(https?://.*)", line)
--                if match:
--                    entry = match.group(1).strip()
--                    self.profile_entries[subsystem_name] = entry
--
--            # Linkify all non-wildcard refs to ReST files in Documentation/.
--            pat = r'(Documentation/([^\s\?\*]*)\.rst)'
--            m = re.search(pat, line)
--            if m:
--                # maintainers.rst is in a subdirectory, so include "../".
--                line = re.sub(pat, ':doc:`%s <../%s>`' % (m.group(2), m.group(2)), line)
--
--            # Check state machine for output rendering behavior.
--            output = None
--            if descriptions:
--                # Escape the escapes in preformatted text.
--                output = "| %s" % (line.replace("\\", "\\\\"))
--                # Look for and record field letter to field name mappings:
--                #   R: Designated *reviewer*: FullName <address@domain>
--                m = re.search(r"\s(\S):\s", line)
--                if m:
--                    field_letter = m.group(1)
--                if field_letter and not field_letter in fields:
--                    m = re.search(r"\*([^\*]+)\*", line)
--                    if m:
--                        fields[field_letter] = m.group(1)
--            elif subsystems:
--                # Skip empty lines: subsystem parser adds them as needed.
--                if len(line) == 0:
--                    continue
--                # Subsystem fields are batched into "field_content"
--                if line[1] != ':':
--                    # Render a subsystem entry as:
--                    #   SUBSYSTEM NAME
--                    #   ~~~~~~~~~~~~~~
--
--                    # Flush pending field content.
--                    output = field_content + "\n\n"
--                    field_content = ""
--
--                    subsystem_name = line.title()
--
--                    # Collapse whitespace in subsystem name.
--                    heading = re.sub(r"\s+", " ", line)
--                    output = output + "%s\n%s" % (heading, "~" * len(heading))
--                    field_prev = ""
--                else:
--                    # Render a subsystem field as:
--                    #   :Field: entry
--                    #           entry...
--                    field, details = line.split(':', 1)
--                    details = details.strip()
--
--                    # Mark paths (and regexes) as literal text for improved
--                    # readability and to escape any escapes.
--                    if field in ['F', 'N', 'X', 'K']:
--                        # But only if not already marked :)
--                        if not ':doc:' in details:
--                            details = '``%s``' % (details)
--
--                    # Comma separate email field continuations.
--                    if field == field_prev and field_prev in ['M', 'R', 'L']:
--                        field_content = field_content + ","
--
--                    # Do not repeat field names, so that field entries
--                    # will be collapsed together.
--                    if field != field_prev:
--                        output = field_content + "\n"
--                        field_content = ":%s:" % (fields.get(field, field))
--                    field_content = field_content + "\n\t%s" % (details)
--                    field_prev = field
-+                    self.output += line
-+            elif self.subsystems:
-+                self.parse_subsystems(line)
-             else:
--                output = line
--
--            # Re-split on any added newlines in any above parsing.
--            if output != None:
--                for separated in output.split('\n'):
--                    result.append(separated)
-+                self.output += line
- 
-             # Update the state machine when we find heading separators.
-             if line.startswith('----------'):
-                 if prev.startswith('Descriptions'):
--                    descriptions = True
-+                    self.descriptions = True
-                 if prev.startswith('Maintainers'):
--                    maintainers = True
-+                    self.maintainers = True
- 
-             # Retain previous line for state machine transitions.
-             prev = line
- 
-         # Flush pending field contents.
--        if field_content != "":
--            for separated in field_content.split('\n'):
--                result.append(separated)
-+        if self.field_content:
-+            self.output += self.field_content + "\n\n"
- 
--        self.output = "\n".join(result)
-+        self.output = self.output.rstrip()
-+
-+    def parse_descriptions(self, line):
-+        """Handle contents of the descriptions section."""
-+
-+        # Have we reached the end of the preformatted Descriptions text?
-+        if line.startswith('Maintainers'):
-+            self.descriptions = False
-+            self.output += "\n" + line
-+            return
-+
-+        # Linkify all non-wildcard refs to ReST files in Documentation/.
-+        m = self.re_doc.search(line)
-+        if m:
-+            # maintainers.rst is in a subdirectory, so include "../".
-+            line = self.re_doc.sub(':doc:`%s <../%s>`' % (m.group(2), m.group(2)), line)
-+
-+        # Escape the escapes in preformatted text.
-+        output = "| %s" % (line.replace("\\", "\\\\"))
-+
-+        # Look for and record field letter to field name mappings:
-+        #   R: Designated *reviewer*: FullName <address@domain>
-+        m = re.search(r"\s(\S):\s", line)
-+        if m:
-+            self.field_letter = m.group(1)
-+
-+        if self.field_letter and self.field_letter not in self.fields:
-+            m = re.search(r"\*([^\*]+)\*", line)
-+            if m:
-+                self.fields[self.field_letter] = m.group(1)
-+
-+        # Append parsed content to self.output
-+        self.output += output
-+
-+    def parse_subsystems(self, line):
-+        """Handle contents of the per-subsystem sections."""
-+
-+        # Drop needless input whitespace.
-+        line = line.rstrip()
-+
-+        #
-+        # Handle profile entries - either as files or as https refs
-+        #
-+        match = re.match(rf"P:\s*({self.doc_dir})(/\S+)\.rst", line)
-+        if match:
-+            name = "".join(match.groups())
-+            entry = os.path.relpath(self.base_dir + name, self.app_dir)
-+
-+            full_name = os.path.join(self.base_dir, name)
-+            path = os.path.relpath(full_name, self.app_dir)
-+            #
-+            # When SPHINXDIRS is used, it will try to reference files
-+            # outside srctree, causing warnings. To avoid that, point
-+            # to the latest official documentation
-+            #
-+            if path.startswith("../"):
-+                entry = KERNELDOC_URL + match.group(2) + ".html"
-+            else:
-+                entry = "/" + entry
-+
-+            if "*" in entry:
-+                for e in glob(entry):
-+                    self.profile_toc.add(e)
-+                    self.profile_entries[self.subsystem_name] = e
-+            else:
-+                self.profile_toc.add(entry)
-+                self.profile_entries[self.subsystem_name] = entry
-+        else:
-+            match = re.match(r"P:\s*(https?://.*)", line)
-+            if match:
-+                entry = match.group(1).strip()
-+                self.profile_entries[self.subsystem_name] = entry
-+
-+        # Linkify all non-wildcard refs to ReST files in Documentation/.
-+        m = self.re_doc.search(line)
-+        if m:
-+            # maintainers.rst is in a subdirectory, so include "../".
-+            line = self.re_doc.sub(':doc:`%s <../%s>`' % (m.group(2), m.group(2)), line)
-+
-+        # Check state machine for output rendering behavior.
-+        output = None
-+        if self.subsystems:
-+            # Skip empty lines: subsystem parser adds them as needed.
-+            if len(line) == 0:
-+                return
-+            # Subsystem fields are batched into "field_content"
-+            if line[1] != ':':
-+                # Render a subsystem entry as:
-+                #   SUBSYSTEM NAME
-+                #   ~~~~~~~~~~~~~~
-+                # Flush pending field content.
-+                output = self.field_content + "\n\n"
-+                self.field_content = ""
-+
-+                self.subsystem_name = line.title()
-+
-+                # Collapse whitespace in subsystem name.
-+                heading = re.sub(r"\s+", " ", line)
-+                output = output + "%s\n%s" % (heading, "~" * len(heading))
-+                self.field_prev = ""
-+            else:
-+                # Render a subsystem field as:
-+                #   :Field: entry
-+                #           entry...
-+                field, details = line.split(':', 1)
-+                details = details.strip()
-+
-+                # Mark paths (and regexes) as literal text for improved
-+                # readability and to escape any escapes.
-+                if field in ['F', 'N', 'X', 'K']:
-+                    # But only if not already marked :)
-+                    if not ':doc:' in details:
-+                        details = '``%s``' % (details)
-+
-+                # Comma separate email field continuations.
-+                if field == self.field_prev and self.field_prev in ['M', 'R', 'L']:
-+                    self.field_content = self.field_content + ","
-+
-+                # Do not repeat field names, so that field entries
-+                # will be collapsed together.
-+                if field != self.field_prev:
-+                    output = self.field_content + "\n"
-+                    self.field_content = ":%s:" % (self.fields.get(field, field))
-+                self.field_content = self.field_content + "\n\t%s" % (details)
-+                self.field_prev = field
-+        elif not self.descriptions:
-+            output = line
-+
-+        if output is not None:
-+            self.output += output + "\n"
- 
--        # Create a TOC class
- 
- class MaintainersInclude(Include):
-     """MaintainersInclude (``maintainers-include``) directive"""
--- 
-2.54.0
+I don't think so, not in the case of mlx5. The difference is only when
+you work with sr-iov, you either use legacy way (ip vf) or the new one.
+Same usecase.
 
+
+>
+>> >For the ASIC/NV bit: maybe technically possible, but it feels like the wrong
+>> >layer. This is boot/deployment policy, not a persistent hardware property, and
+>> >storing it in NV memory would make the state persist across kernels/hosts in a
+>> >surprising way.  
+>> 
+>> Well, as any other nv config, it persists across kernels/hosts. Think
+>> about it as "unbreak-my-not-legacy-device" bit.
+>
+>For most devices the switchdev mode does not change anything
+>substantial about the device. It's purely a kernel / driver config. 
+>It changes what objects and default rules kernel / driver installs. 
+>So I don't get why it would make sense to flash into the device
+>nvmem a Linux SW stack specific config.
+
+I look at it from the perspective that from some CX generation,
+switchdev mode should be default. So that is a device-based decision.
+I believe as such it can optionally be permanenty configured (nv config)
+on older device. Why not?
+
+[...]
