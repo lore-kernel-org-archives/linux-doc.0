@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168B037C935;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F7F37DEBC;
 	Sat,  9 May 2026 06:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778309813; cv=none; b=JkTCclr4iMUemI1Z8mAUfIWh+Z/fELYWCN39Gh1AfAqHYJrkiQCo3l6T8gjswxns+yeFzlOMIfCbQwwgaXGbD2I0Z/UEtOmCRyrfKjCv9uYBW9h/UGeKA4ZG3CNQl3rSmzXSqIpfLP9Yr5hSNcg+uuiaaGdJrRJMNUThSHpR7Uw=
+	t=1778309813; cv=none; b=MQSkjgoTPrO3GE0C47h6mzYbD54rgOjqULcFytCktDZrrOyim2DYNWAPQ4Nd2GLcMC+D4wsDpViryqXnsxV0rW4Mk34L1CScOtGD6AtxInEJWnRaVud123c7xZNH6M07tYKE8rvXnwxyHLCzJgMNWbkbyOwx8KXIFXVLkXCqsbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778309813; c=relaxed/simple;
-	bh=BYZw/6MTuax7OAtnTmgcyAUyW1L1i3w+/GoTm9mewYE=;
+	bh=xvcRgb9TiLjnGNqqDPmnVmMbvy8lkz8/SqQRrURabD0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nqBryBCT/SY4o0xS8g3Ry2HdE4wKa8CDmTEDUyeX5DBKKW5u4TqIbW0A2mN2vNfVo9Un38WLWC6SEhbHHi+5O5Cdxo1BQFJFadgV6UuaFfNTquKbYPowKHMLlfh9YPHINF08eh/cj0k7O0wJGSltd0dax1MLyXeL1ntqPIx06b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nR+ff6aA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=LFgkgbyqeOiIJW9XdA1jjKvHVWdoangHLs/1RllgaK7VPeGUdRca8ApF+2i1DMcfvG7ddG7ZheeNSQya9WJJu3knuYNq0vTVwwtXAM2RXDYlfhQjB9au+mxbVddQqAHcdX8beNG/0DZaqelXMrrVcdXijWm4rmo6yTnX5EJIutc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WNYFA6x5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nR+ff6aA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9388AC2BCFA;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WNYFA6x5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C6CC4AF09;
 	Sat,  9 May 2026 06:56:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1778309812;
-	bh=BYZw/6MTuax7OAtnTmgcyAUyW1L1i3w+/GoTm9mewYE=;
+	bh=xvcRgb9TiLjnGNqqDPmnVmMbvy8lkz8/SqQRrURabD0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nR+ff6aA818HX04TznAYDM7C/eLQ7EhiiA+Muqdyf+o1SOlo5I+HWH3YIdTQCVLQD
-	 mRwZg93O1YSIBFFrhQzlRImF8G1DK+CrSxZW6cofx0mnLlMlCKLE04aTaqXP3PSMmO
-	 9dvblG6XVc8QgSonhYj497T5IyO+C1QZdr7PZYpbAmo1D9h6Bsx6DMdqyEai5TkN83
-	 tZf0++C6/7u61WQru4nC4NJxsKcOrWJgbyF6x5V/ZBNRwhd4TT5vb+rfphvDFGWL2z
-	 /MK0KfFp+i06cRWxj7opmXrIZOs6hNfkN23P7hs8Wpd0xJe5yKksrSwNTP5D26GVtu
-	 tksPry7dD1mOg==
+	b=WNYFA6x5CGwrbt4w2kUGHrcQVwirvEqubT6jYOboNE9WSG4htrIjc/JiBeWgFqez2
+	 m+4b4PRJ8buRXQ5DIo90uiPEIhNxu0H4mDFqoIulwZeum4xsQ4qQCR5bd8Ut07dfcU
+	 dLqasB+xhUIaS7rLfS1xvFDmsO9sAiry6EeZa8lq0tlFZIpdn66e4QSTUvv6o7dyA3
+	 6pITClb+Q8K5nUlU9W4vmWASnrAEpmcIOkQUhm2zvv42kCHpLMcfFiqOfGHYz0dkTn
+	 Gd125wZhjnFhUEkPecCS0L+c6l3OkrgvyOs7VMHmwXdRs4fRdgbUtoVDnRB+tIArfQ
+	 AAQkke39gmv1w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wLbcI-00000000GIr-2cWe;
+	id 1wLbcI-00000000GIf-2H3Q;
 	Sat, 09 May 2026 08:56:50 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -38,9 +38,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	rust-for-linux@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v3 05/13] docs: maintainers_include: do some coding style cleanups
-Date: Sat,  9 May 2026 08:56:38 +0200
-Message-ID: <e041be77fcda3f1a54fdb428b3f8703bbce5d6ff.1778309595.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 02/13] docs: maintainers_include: split state machine on multiple funcs
+Date: Sat,  9 May 2026 08:56:35 +0200
+Message-ID: <26376e92a5e31e5d285b8676ed443a247b42e4c5.1778309595.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1778309595.git.mchehab+huawei@kernel.org>
 References: <cover.1778309595.git.mchehab+huawei@kernel.org>
@@ -54,230 +54,357 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Minor coding style adjustments to use the style most python
-doc scripts are following.
+Instead of one big __init__ code, split the MaintainersParser
+code in a way that the state machine remains on __init__, but
+the actual parser for descriptions and subsystems are moved
+to separate functions.
 
-No functional changes.
+To make parser easier, instead storing parsed results on a list,
+place them directly on a string.
 
-Assisted-by: pylint, black
+That granted 15% of performance increase(*) with Python 3.14 and
+made the logic simpler.
+
+(*) measured by creating a new directory under Documentation/,
+    and placing justmaintainers.rst and an index file there,
+    building it via sphinx-build-wrapper.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Message-ID: <460aabd0518f080b34e12fdc0beb7ec7685d5866.1777987027.git.mchehab+huawei@kernel.org>
+Message-ID: <0b72530cf496ce5e2987ca784058a50f4dc814d2.1777987027.git.mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/maintainers_include.py | 101 ++++++++++----------
- 1 file changed, 51 insertions(+), 50 deletions(-)
+ Documentation/sphinx/maintainers_include.py | 297 +++++++++++---------
+ 1 file changed, 158 insertions(+), 139 deletions(-)
 
 diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
-index d3ad01e5309e..345eb28804ff 100755
+index 694cdbdc4caf..6d47d55f5b73 100755
 --- a/Documentation/sphinx/maintainers_include.py
 +++ b/Documentation/sphinx/maintainers_include.py
-@@ -1,30 +1,25 @@
- #!/usr/bin/env python
- # SPDX-License-Identifier: GPL-2.0
- # -*- coding: utf-8; mode: python -*-
--# pylint: disable=R0903, C0330, R0914, R0912, E0401
-+# pylint: disable=C0209, C0301, E0401, R0022, R0902, R0903, R0912, R0914
+@@ -47,167 +47,186 @@ class MaintainersParser:
+         self.profile_toc = set()
+         self.profile_entries = {}
  
- """
--    maintainers-include
--    ~~~~~~~~~~~~~~~~~~~
-+Implementation of the ``maintainers-include`` reST-directive.
+-        result = list()
+-        result.append(".. _maintainers:")
+-        result.append("")
++        self.output = ".. _maintainers:\n\n"
  
--    Implementation of the ``maintainers-include`` reST-directive.
-+:copyright:  Copyright (C) 2019  Kees Cook <keescook@chromium.org>
-+:license:    GPL Version 2, June 1991 see linux/COPYING for details.
- 
--    :copyright:  Copyright (C) 2019  Kees Cook <keescook@chromium.org>
--    :license:    GPL Version 2, June 1991 see linux/COPYING for details.
--
--    The ``maintainers-include`` reST-directive performs extensive parsing
--    specific to the Linux kernel's standard "MAINTAINERS" file, in an
--    effort to avoid needing to heavily mark up the original plain text.
-+The ``maintainers-include`` reST-directive performs extensive parsing
-+specific to the Linux kernel's standard "MAINTAINERS" file, in an
-+effort to avoid needing to heavily mark up the original plain text.
- """
- 
--import sys
--import re
- import os.path
-+import re
- 
- from glob import glob
- 
- from docutils import statemachine
--from docutils.parsers.rst import Directive
- from docutils.parsers.rst.directives.misc import Include
- 
- #
-@@ -32,12 +27,14 @@ from docutils.parsers.rst.directives.misc import Include
- #
- KERNELDOC_URL = "https://docs.kernel.org/"
- 
--def ErrorString(exc):  # Shamelessly stolen from docutils
--    return f'{exc.__class__.__name}: {exc}'
-+__version__ = "1.0"
- 
--__version__  = '1.0'
-+maint_parser = None  # pylint: disable=C0103
- 
--maint_parser = None
-+
-+# Shamelessly stolen from docutils
-+def ErrorString(exc):  # pylint: disable=C0103, C0116
-+    return f"{exc.__class__.__name}: {exc}"  # pylint: disable=W0212
- 
- class MaintainersParser:
-     """Parse MAINTAINERS file(s) content"""
-@@ -52,7 +49,7 @@ class MaintainersParser:
+         # Poor man's state machine.
+-        descriptions = False
+-        maintainers = False
+-        subsystems = False
++        self.descriptions = False
++        self.maintainers = False
++        self.subsystems = False
  
          # Field letter to field name mapping.
-         self.field_letter = None
--        self.fields = dict()
-+        self.fields = {}
- 
-         self.field_prev = ""
-         self.field_content = ""
-@@ -71,29 +68,30 @@ class MaintainersParser:
-         self.output = ".. _maintainers:\n\n"
+-        field_letter = None
+-        fields = dict()
++        self.field_letter = None
++        self.fields = dict()
++
++        self.field_prev = ""
++        self.field_content = ""
++        self.subsystem_name = None
++
++        self.app_dir = app_dir
++        self.base_dir, self.doc_dir, self.sphinx_dir = app_dir.partition("Documentation")
++
++        self.re_doc = re.compile(r'(Documentation/([^\s\?\*]*)\.rst)')
  
          prev = None
--        for line in open(path):
--            if self.descriptions:
--                self.parse_descriptions(line)
--            elif self.maintainers and not self.subsystems:
--                if re.search('^[A-Z0-9]', line):
--                    self.subsystems = True
-+        with open(path, "r", encoding="utf-8") as fp:
-+            for line in fp:
-+                if self.descriptions:
-+                    self.parse_descriptions(line)
-+                elif self.maintainers and not self.subsystems:
-+                    if re.search('^[A-Z0-9]', line):
-+                        self.subsystems = True
-+                        self.parse_subsystems(line)
-+                    else:
-+                        self.output += line
-+                elif self.subsystems:
-                     self.parse_subsystems(line)
+-        field_prev = ""
+-        field_content = ""
+-        subsystem_name = None
+-
+-        base_dir, doc_dir, sphinx_dir = app_dir.partition("Documentation")
+-
+         for line in open(path):
+-            # Have we reached the end of the preformatted Descriptions text?
+-            if descriptions and line.startswith('Maintainers'):
+-                descriptions = False
+-                # Ensure a blank line following the last "|"-prefixed line.
+-                result.append("")
+-
+-            # Start subsystem processing? This is to skip processing the text
+-            # between the Maintainers heading and the first subsystem name.
+-            if maintainers and not subsystems:
++            if self.descriptions:
++                self.parse_descriptions(line)
++            elif self.maintainers and not self.subsystems:
+                 if re.search('^[A-Z0-9]', line):
+-                    subsystems = True
+-
+-            # Drop needless input whitespace.
+-            line = line.rstrip()
+-
+-            #
+-            # Handle profile entries - either as files or as https refs
+-            #
+-            match = re.match(rf"P:\s*({doc_dir})(/\S+)\.rst", line)
+-            if match:
+-                name = "".join(match.groups())
+-                entry = os.path.relpath(base_dir + name, app_dir)
+-
+-                full_name = os.path.join(base_dir, name)
+-                path = os.path.relpath(full_name, app_dir)
+-                #
+-                # When SPHINXDIRS is used, it will try to reference files
+-                # outside srctree, causing warnings. To avoid that, point
+-                # to the latest official documentation
+-                #
+-                if path.startswith("../"):
+-                    entry = KERNELDOC_URL + match.group(2) + ".html"
++                    self.subsystems = True
++                    self.parse_subsystems(line)
                  else:
-                     self.output += line
--            elif self.subsystems:
--                self.parse_subsystems(line)
+-                    entry = "/" + entry
+-
+-                if "*" in entry:
+-                    for e in glob(entry):
+-                        self.profile_toc.add(e)
+-                        self.profile_entries[subsystem_name] = e
+-                else:
+-                    self.profile_toc.add(entry)
+-                    self.profile_entries[subsystem_name] = entry
 -            else:
--                self.output += line
+-                match = re.match(r"P:\s*(https?://.*)", line)
+-                if match:
+-                    entry = match.group(1).strip()
+-                    self.profile_entries[subsystem_name] = entry
+-
+-            # Linkify all non-wildcard refs to ReST files in Documentation/.
+-            pat = r'(Documentation/([^\s\?\*]*)\.rst)'
+-            m = re.search(pat, line)
+-            if m:
+-                # maintainers.rst is in a subdirectory, so include "../".
+-                line = re.sub(pat, ':doc:`%s <../%s>`' % (m.group(2), m.group(2)), line)
+-
+-            # Check state machine for output rendering behavior.
+-            output = None
+-            if descriptions:
+-                # Escape the escapes in preformatted text.
+-                output = "| %s" % (line.replace("\\", "\\\\"))
+-                # Look for and record field letter to field name mappings:
+-                #   R: Designated *reviewer*: FullName <address@domain>
+-                m = re.search(r"\s(\S):\s", line)
+-                if m:
+-                    field_letter = m.group(1)
+-                if field_letter and not field_letter in fields:
+-                    m = re.search(r"\*([^\*]+)\*", line)
+-                    if m:
+-                        fields[field_letter] = m.group(1)
+-            elif subsystems:
+-                # Skip empty lines: subsystem parser adds them as needed.
+-                if len(line) == 0:
+-                    continue
+-                # Subsystem fields are batched into "field_content"
+-                if line[1] != ':':
+-                    # Render a subsystem entry as:
+-                    #   SUBSYSTEM NAME
+-                    #   ~~~~~~~~~~~~~~
+-
+-                    # Flush pending field content.
+-                    output = field_content + "\n\n"
+-                    field_content = ""
+-
+-                    subsystem_name = line.title()
+-
+-                    # Collapse whitespace in subsystem name.
+-                    heading = re.sub(r"\s+", " ", line)
+-                    output = output + "%s\n%s" % (heading, "~" * len(heading))
+-                    field_prev = ""
+-                else:
+-                    # Render a subsystem field as:
+-                    #   :Field: entry
+-                    #           entry...
+-                    field, details = line.split(':', 1)
+-                    details = details.strip()
+-
+-                    # Mark paths (and regexes) as literal text for improved
+-                    # readability and to escape any escapes.
+-                    if field in ['F', 'N', 'X', 'K']:
+-                        # But only if not already marked :)
+-                        if not ':doc:' in details:
+-                            details = '``%s``' % (details)
+-
+-                    # Comma separate email field continuations.
+-                    if field == field_prev and field_prev in ['M', 'R', 'L']:
+-                        field_content = field_content + ","
+-
+-                    # Do not repeat field names, so that field entries
+-                    # will be collapsed together.
+-                    if field != field_prev:
+-                        output = field_content + "\n"
+-                        field_content = ":%s:" % (fields.get(field, field))
+-                    field_content = field_content + "\n\t%s" % (details)
+-                    field_prev = field
++                    self.output += line
++            elif self.subsystems:
++                self.parse_subsystems(line)
+             else:
+-                output = line
+-
+-            # Re-split on any added newlines in any above parsing.
+-            if output != None:
+-                for separated in output.split('\n'):
+-                    result.append(separated)
++                self.output += line
  
--            # Update the state machine when we find heading separators.
--            if line.startswith('----------'):
--                if prev.startswith('Descriptions'):
--                    self.descriptions = True
--                if prev.startswith('Maintainers'):
--                    self.maintainers = True
-+                # Update the state machine when we find heading separators.
-+                if line.startswith("----------"):
-+                    if prev.startswith("Descriptions"):
-+                        self.descriptions = True
-+                    if prev.startswith("Maintainers"):
-+                        self.maintainers = True
+             # Update the state machine when we find heading separators.
+             if line.startswith('----------'):
+                 if prev.startswith('Descriptions'):
+-                    descriptions = True
++                    self.descriptions = True
+                 if prev.startswith('Maintainers'):
+-                    maintainers = True
++                    self.maintainers = True
  
--            # Retain previous line for state machine transitions.
--            prev = line
-+                # Retain previous line for state machine transitions.
-+                prev = line
+             # Retain previous line for state machine transitions.
+             prev = line
  
          # Flush pending field contents.
-         if self.field_content:
-@@ -130,7 +128,7 @@ class MaintainersParser:
-         """Handle contents of the descriptions section."""
+-        if field_content != "":
+-            for separated in field_content.split('\n'):
+-                result.append(separated)
++        if self.field_content:
++            self.output += self.field_content + "\n\n"
  
-         # Have we reached the end of the preformatted Descriptions text?
--        if line.startswith('Maintainers'):
-+        if line.startswith("Maintainers"):
-             self.descriptions = False
-             self.output += "\n" + line
-             return
-@@ -182,7 +180,7 @@ class MaintainersParser:
-         # Render a subsystem field as:
-         #   :Field: entry
-         #           entry...
--        field, details = line.split(':', 1)
-+        field, details = line.split(":", 1)
-         details = details.strip()
+-        self.output = "\n".join(result)
++        self.output = self.output.rstrip()
++
++    def parse_descriptions(self, line):
++        """Handle contents of the descriptions section."""
++
++        # Have we reached the end of the preformatted Descriptions text?
++        if line.startswith('Maintainers'):
++            self.descriptions = False
++            self.output += "\n" + line
++            return
++
++        # Linkify all non-wildcard refs to ReST files in Documentation/.
++        m = self.re_doc.search(line)
++        if m:
++            # maintainers.rst is in a subdirectory, so include "../".
++            line = self.re_doc.sub(':doc:`%s <../%s>`' % (m.group(2), m.group(2)), line)
++
++        # Escape the escapes in preformatted text.
++        output = "| %s" % (line.replace("\\", "\\\\"))
++
++        # Look for and record field letter to field name mappings:
++        #   R: Designated *reviewer*: FullName <address@domain>
++        m = re.search(r"\s(\S):\s", line)
++        if m:
++            self.field_letter = m.group(1)
++
++        if self.field_letter and self.field_letter not in self.fields:
++            m = re.search(r"\*([^\*]+)\*", line)
++            if m:
++                self.fields[self.field_letter] = m.group(1)
++
++        # Append parsed content to self.output
++        self.output += output
++
++    def parse_subsystems(self, line):
++        """Handle contents of the per-subsystem sections."""
++
++        # Drop needless input whitespace.
++        line = line.rstrip()
++
++        #
++        # Handle profile entries - either as files or as https refs
++        #
++        match = re.match(rf"P:\s*({self.doc_dir})(/\S+)\.rst", line)
++        if match:
++            name = "".join(match.groups())
++            entry = os.path.relpath(self.base_dir + name, self.app_dir)
++
++            full_name = os.path.join(self.base_dir, name)
++            path = os.path.relpath(full_name, self.app_dir)
++            #
++            # When SPHINXDIRS is used, it will try to reference files
++            # outside srctree, causing warnings. To avoid that, point
++            # to the latest official documentation
++            #
++            if path.startswith("../"):
++                entry = KERNELDOC_URL + match.group(2) + ".html"
++            else:
++                entry = "/" + entry
++
++            if "*" in entry:
++                for e in glob(entry):
++                    self.profile_toc.add(e)
++                    self.profile_entries[self.subsystem_name] = e
++            else:
++                self.profile_toc.add(entry)
++                self.profile_entries[self.subsystem_name] = entry
++        else:
++            match = re.match(r"P:\s*(https?://.*)", line)
++            if match:
++                entry = match.group(1).strip()
++                self.profile_entries[self.subsystem_name] = entry
++
++        # Linkify all non-wildcard refs to ReST files in Documentation/.
++        m = self.re_doc.search(line)
++        if m:
++            # maintainers.rst is in a subdirectory, so include "../".
++            line = self.re_doc.sub(':doc:`%s <../%s>`' % (m.group(2), m.group(2)), line)
++
++        # Check state machine for output rendering behavior.
++        output = None
++        if self.subsystems:
++            # Skip empty lines: subsystem parser adds them as needed.
++            if len(line) == 0:
++                return
++            # Subsystem fields are batched into "field_content"
++            if line[1] != ':':
++                # Render a subsystem entry as:
++                #   SUBSYSTEM NAME
++                #   ~~~~~~~~~~~~~~
++                # Flush pending field content.
++                output = self.field_content + "\n\n"
++                self.field_content = ""
++
++                self.subsystem_name = line.title()
++
++                # Collapse whitespace in subsystem name.
++                heading = re.sub(r"\s+", " ", line)
++                output = output + "%s\n%s" % (heading, "~" * len(heading))
++                self.field_prev = ""
++            else:
++                # Render a subsystem field as:
++                #   :Field: entry
++                #           entry...
++                field, details = line.split(':', 1)
++                details = details.strip()
++
++                # Mark paths (and regexes) as literal text for improved
++                # readability and to escape any escapes.
++                if field in ['F', 'N', 'X', 'K']:
++                    # But only if not already marked :)
++                    if not ':doc:' in details:
++                        details = '``%s``' % (details)
++
++                # Comma separate email field continuations.
++                if field == self.field_prev and self.field_prev in ['M', 'R', 'L']:
++                    self.field_content = self.field_content + ","
++
++                # Do not repeat field names, so that field entries
++                # will be collapsed together.
++                if field != self.field_prev:
++                    output = self.field_content + "\n"
++                    self.field_content = ":%s:" % (self.fields.get(field, field))
++                self.field_content = self.field_content + "\n\t%s" % (details)
++                self.field_prev = field
++        elif not self.descriptions:
++            output = line
++
++        if output is not None:
++            self.output += output + "\n"
  
-         #
-@@ -248,12 +246,11 @@ class MaintainersParser:
+-        # Create a TOC class
  
  class MaintainersInclude(Include):
      """MaintainersInclude (``maintainers-include``) directive"""
-+
-     required_arguments = 0
- 
-     def emit(self):
-         """Parse all the MAINTAINERS lines into ReST for human-readability"""
--        global maint_parser
--
-         path = maint_parser.path
-         output = maint_parser.output
- 
-@@ -269,20 +266,21 @@ class MaintainersInclude(Include):
-             raise self.warning('"%s" directive disabled.' % self.name)
- 
-         try:
--            lines = self.emit()
-+            self.emit()
-         except IOError as error:
-             raise self.severe('Problems with "%s" directive path:\n%s.' %
-                       (self.name, ErrorString(error)))
- 
-         return []
- 
-+
- class MaintainersProfile(Include):
-+    """Generate a list with all maintainer's profiles"""
-+
-     required_arguments = 0
- 
-     def emit(self):
-         """Parse all the MAINTAINERS lines looking for profile entries"""
--        global maint_parser
--
-         path = maint_parser.path
- 
-         #
-@@ -316,15 +314,17 @@ class MaintainersProfile(Include):
-             raise self.warning('"%s" directive disabled.' % self.name)
- 
-         try:
--            lines = self.emit()
-+            self.emit()
-         except IOError as error:
-             raise self.severe('Problems with "%s" directive path:\n%s.' %
-                       (self.name, ErrorString(error)))
- 
-         return []
- 
-+
- def setup(app):
--    global maint_parser
-+    """Setup Sphinx extension"""
-+    global maint_parser  # pylint: disable=W0603
- 
-     #
-     # NOTE: we're using os.fspath() here because of a Sphinx warning:
-@@ -338,8 +338,9 @@ def setup(app):
- 
-     app.add_directive("maintainers-include", MaintainersInclude)
-     app.add_directive("maintainers-profile-toc", MaintainersProfile)
--    return dict(
--        version = __version__,
--        parallel_read_safe = True,
--        parallel_write_safe = True
--    )
-+
-+    return {
-+        "version": __version__,
-+        "parallel_read_safe": True,
-+        "parallel_write_safe": True,
-+    }
 -- 
 2.54.0
 
