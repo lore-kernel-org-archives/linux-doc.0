@@ -1,104 +1,111 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F97382F0E
-	for <linux-doc@vger.kernel.org>; Sat,  9 May 2026 22:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A11D36DA00;
+	Sat,  9 May 2026 22:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778365870; cv=none; b=H1a9oP5mxLd51mZOZ9J7eGxhCD8P5sf6Bi+dSktY5JRpSp8MqHKaMDx7sF6rZeiYEWpcl0zrLVbHeccHOymogQB4Vc0JgHUYEJEMQ2FULKuxUEUg67VHxZG8Yc1RqU7LAmr+3DM/6RfVQFVeZvml9rGAikB00ZoW1U1CcQLl0Q0=
+	t=1778366929; cv=none; b=H1VRVHGlwpkZbZmeiMbtC6z4BAbwiSRPiXnMTvGuelISeAPbeA46w0mBzwnCAmB9gu2qNHvJ8ixkGA0x2lNVNWfRELoXLsGBMam/PJiTxNPLlQBny/lVSi0gRGn6XDeY9E7Gcd/2Jc7/gUIW/SPYbLCbnsDX3vF8/gXUYNIVqIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778365870; c=relaxed/simple;
-	bh=R8MHtyw3iUgVFaiy87HeuWdQOOUu7CPfgsXOVX8YVH8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nv7nIv68+/3eEtCPyQ1CVidiURcgq/RGM0S1AA/UuG+ef/wN6X7p1a5prqa6bO7bebaw7U777kZ7WeO7jwmVFq0odCRI9dGSKNTMo94Ouy5LhmzJFrwr6eMXvJ8lLWDTFdpTrFxqldQ+Yrf2dSc9Swaj2DmPMQexfqhnEV/FqAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=x4EOIbg0; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1778366929; c=relaxed/simple;
+	bh=nZGGnZrkBG71bIPOKbQtq+NJgXRCDUnr2A3hT2LiE3U=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gZK4k0AXcfczHSfrMuOGCJbfi/2j0DBTk9u+DNfNcfCQYhK2/WlZXMWGlTJhI9BBIlwFASb47Ij12kbRwEFsiiPBGjuUs/4o7nCoCmsrKaibx4ASw1Z9+vYa1NQKC0e1WdPudXcvnbQ21hmWCUePsWiiomSVO2PPTbtNP97UIoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BpdCMag+; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="x4EOIbg0"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7dcd17e19b6so1845580a34.1
-        for <linux-doc@vger.kernel.org>; Sat, 09 May 2026 15:31:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778365868; x=1778970668; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OOHQiWAMyC4vDuld0j5M/eJDZswBebyHXatCRNu2gCc=;
-        b=x4EOIbg0hMWcmd5dZM7MB96+L2rJ+gmreyufR2L+xnijpfI0JZS9i97HqzmtYC9XzP
-         dx/kYOPitMFrvKRH4948PeVhD/Ws7dhgYtMfwVZCWFN0KEuBFpE7U5NqvKU0Itdy0nnG
-         lnlkykjOu5WBDFXdatiY42qCYr/cHcvcSkJrCbKrvrCeimGp5ymLQmoZ93IUg3bMWAe2
-         R+fJDJWF8sWAPkgovsQk4IGBue5y2O8YJwDJsi4zY36q3E24t1sxTTk0elHfGm746ofx
-         ljxlKpwAUAPWxzqZGqc8CVadKc3v/YDuXYLFR4/x3LSbrqKpwzZFEivSGjHfJWhY/HPL
-         /Arg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778365868; x=1778970668;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OOHQiWAMyC4vDuld0j5M/eJDZswBebyHXatCRNu2gCc=;
-        b=XarmNOYrxxb7Z2cbN9CxUsKyrgUtuV0tGaU+DMYV8MDMD63QhBkxQFBosc/Faz0igx
-         GLUoKVeVMmPc8zzR2d636HuPqocW8oJ5NGi8SRWjVkvO23M+o8GJDtTb6GRPUmNQ2n95
-         Wc0csMXCCjeRTNQW1q0hGqfAFQlAX2ujH+/OKaZGOH18GrL7B/LfpTxeDi5c82LttniZ
-         Zy2LJZ47623qJ3Zub/tTYa+P4XsWNjwNwdr093XstOF7UteQNh3K4ueP7h4EWHDnegdj
-         x0BeLTSX0PAa9UzR/SnA5jp6KJsWcjSA89k8zTSiUg8st2zgINn8SzN//TrZhiEEG3l0
-         WgmA==
-X-Forwarded-Encrypted: i=1; AFNElJ/RQLJ1JN+i8WrBYG2QUKI1LNaR1pWIl750eqBlRdTuP9sah8WRAsn4NpobpOuTk7CDyrwZYiYxyJw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5aHaQg/Bxp84xVRtXBN40zoN3k5VsRGGvcbtIybDxG85D/EUZ
-	AdD+Y8g0sd9kSCnj3B+y6t6aJaXuPdpobXoPgO/b1+OVnyp/voGRmgMr0hdE+af5k+A=
-X-Gm-Gg: Acq92OEIp5oYivlkCtXwKtVKRVJaPI1Mx9GhQeOkYlZcVDazLiH+DnHILLsx2RC9F2r
-	zV5q+bXqJl/KajpxxMRhT1tke9INHVO8qT3mx6K4QoabkpFVY6nYEqh0tlFn8DlGdcU2Wto1EYs
-	e0ApWhbYQZKNWdPgRtWoY+3jfhm6dONdXL+H6iTpbQlmcFjZnDHNrWVIErdTZFFTJHFf0gQ01Su
-	YFGtHBwNKFhhUDo+hEA5TKc55+vC+6ChJN7VbIFr/gbfp+JYeuuqZykagk06yMZQss8zFfE8Rsh
-	zJBEZ797WLjfFWoh1tniSc7eFMl6sUPqbWXf+60TLwIP1CfxxcSFSrXp+c3HrSespztnLMPSLw6
-	6amgNzwnI/7t5DO5TvnMozUTJnyjUGIjjbp8nUsHR+mqMMraEQYG8g0KZxF9mMhzta893WGhSN0
-	Jht9TKTcs/Wy0xKsJyzSRf9LZV4ZccCFMWXzqKg6Duvuj4qkL0vsQx/mUA4wKQ3l/D7ytIDqA=
-X-Received: by 2002:a05:6820:2206:b0:699:b131:d589 with SMTP id 006d021491bc7-69b36ad3840mr2252792eaf.3.1778365867934;
-        Sat, 09 May 2026 15:31:07 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:12a0:9178:ab4:39cc? ([2600:8803:e7e4:500:12a0:9178:ab4:39cc])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69b25dc00acsm3226661eaf.10.2026.05.09.15.31.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 May 2026 15:31:06 -0700 (PDT)
-Message-ID: <f3bb9f64-a0ef-4862-afdd-74ee39d7bfc1@baylibre.com>
-Date: Sat, 9 May 2026 17:31:03 -0500
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BpdCMag+"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
+	Cc:Content-Type:Content-ID:Content-Description;
+	bh=Rlefrv035dE/A4ZfqxoNxpMximz7sVxUML4oSeehurg=; b=BpdCMag+qQeRQ5HUSztZ5825NR
+	CwsTyPlVzrIaUi3MD2Pgs7SkvujS/dAokWA6r0Uea/18K0TZbpMa+C1GC+RQlvY0ZYeA3V0RLgLyH
+	p84QoHNsDoHOem2wktR9d4GMZ4ZXX4ztZGHkA1B2w/VbuGQwNcW4Mp0D5Gi7Vhk5jbzcpmAiPdeOu
+	AxF8VicBNW8EGM7sV+t5BG+wftPQ6ysKcPuc12W/1jcsihSjGgIiHhma2EKG3q+C8LRMLwHtaGaiH
+	454cyuN/RcRhYiF83g1XnCoTGkyuFg3UanYe4rklrxhs9DBPoMmVvUToHOkIEJ/RUQMiq/LdRh6py
+	hcsFWZkw==;
+Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
+	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wLqTD-00000008wzB-0RLs;
+	Sat, 09 May 2026 22:48:28 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wLqTC-0000000DhHp-297o;
+	Sat, 09 May 2026 23:48:26 +0100
+From: David Woodhouse <dwmw2@infradead.org>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Paul Durrant <paul@xen.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Sascha Bischoff <Sascha.Bischoff@arm.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Jack Allister <jalliste@amazon.com>,
+	Dongli Zhang <dongli.zhang@oracle.com>,
+	joe.jin@oracle.com,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v4 09/30] KVM: x86: WARN if kvm_get_walltime_and_clockread() fails unexpectedly
+Date: Sat,  9 May 2026 23:46:35 +0100
+Message-ID: <20260509224824.3264567-10-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260509224824.3264567-1-dwmw2@infradead.org>
+References: <20260509224824.3264567-1-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v4 00/10] AD9910 Direct Digital Synthesizer
-To: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: David Woodhouse <dwmw2@infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
-On 5/8/26 12:00 PM, Rodrigo Alencar via B4 Relay wrote:
-> This patch series adds support for the Analog Devices AD9910 DDS.
-> This is a RFC so that we can agree/discuss on the design that follows:
-> 
-> This is a follow-up of the V3 discussion. For V1, we reached into
-> this channel composition agreement where physical channels may have
-> sub-channels. That adds the flexibility necessary for this design.
-> During V2, some feedback indicated that the ABI is too device-specific,
-> so DRG/RAM destination and operating modes are configured through
-> alternate paths and profile channels are created. In V3, there was
-> further discussion on the ABI and on mode priority debug.
-> 
-What happened with the idea of adding a new attribute to show the
-relationship of the sub-channels to the actual physical output
-channels?
+From: David Woodhouse <dwmw@amazon.co.uk>
+
+The master clock depends on the pvclock being based on TSC, so the only
+way kvm_get_walltime_and_clockread() can fail when use_master_clock is
+true is if the clocksource changed and use_master_clock is stale, in
+which case a seqcount retry should be pending.
+
+Add a WARN_ON_ONCE if the seqcount has not been invalidated, to catch
+any case where the failure is genuinely unexpected.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ arch/x86/kvm/x86.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 1e1834533e98..ccdfd3fa3402 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -3474,7 +3474,8 @@ uint64_t kvm_get_wall_clock_epoch(struct kvm *kvm)
+ 		local_tsc_khz = get_cpu_tsc_khz();
+ 
+ 		if (local_tsc_khz &&
+-		    !kvm_get_walltime_and_clockread(&ts, &host_tsc))
++		    !kvm_get_walltime_and_clockread(&ts, &host_tsc) &&
++		    WARN_ON_ONCE(!read_seqcount_retry(&ka->pvclock_sc, seq)))
+ 			local_tsc_khz = 0; /* Fall back to old method */
+ 
+ 		put_cpu();
+-- 
+2.51.0
 
