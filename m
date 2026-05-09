@@ -1,87 +1,224 @@
-Received: from outbound.st.icloud.com (p-east2-cluster4-host6-snip4-5.eps.apple.com [57.103.78.206])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E0E372EFF
-	for <linux-doc@vger.kernel.org>; Sat,  9 May 2026 06:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.78.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D089B325727;
+	Sat,  9 May 2026 06:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778309680; cv=none; b=UC/ljFg/kwZyWPAGhdfvjuqGuzYpGExnSSbvDIWI5hTwc2a2XEItKPi8XbPLlvjNW0jLlRuBYFH9dKvx5EeX6iOEnKSj0FtIUoA/STtPOR+GMzzo9YzNQeB6N+zc4+seTe9sVBEA1mcX2QTVKXLfBxSfQi7NabpCcs+ChESovsw=
+	t=1778309812; cv=none; b=sitilF6t6lbNfGP+Utj1Vr6tCHvgRAicRJQXKf9Zxev8atRWY3TRKwLlk6LVZOcCJNpVOjY5o0d4ruPdXbyfz3uirD/v2JPM0WcAzd4NOxJT88dyUoG9rSaEdSvRk67eNmyd6sfOGP4Gh+oAJtWI+SO0KqrhpjhQPHKodJBsDHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778309680; c=relaxed/simple;
-	bh=7SCitI/IKRgV/RD7FHgYtxomBF96XBJ+ngw6fZeM7l4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S+Ko1fHbfgQaDFz8z5tp+uMBTMKPcx3Uvzbx2lQXz5oCMtan5NRzauYgNQ2dKWBXL1+PVcFs6y5F1DphU5NPfJFchdYyTye+FIArK4btAvbZexvYQNndUbVw2WoIPvbblK7C9G7fFBFmqk+sm/Qq1kb7DdJbMe8prWFfnwSZ170=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=OsJDSYoq; arc=none smtp.client-ip=57.103.78.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1778309812; c=relaxed/simple;
+	bh=Ahut7zTu/U3hZrEkjrlS4vv3JRMDz0WHhByOcY8s0Ws=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=G6x4WvQFzSmQ/+XRab0O0BAsfDV2psi0h7FjyzpjjlY9BD7K3BHXNEDwxzJXDnvmAzNqw6250dtZvaP3qrE6a7NQFMKuQ8hiG8xMhKDnGpm7GUJXVPsrKiL2bL2y1Oez8zo9raaZ25dNkz3JNC2ma45MCkr5tTnDIj3CxIED4G8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rYkUbYhi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="OsJDSYoq"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-7 (Postfix) with ESMTPS id 22E521800184;
-	Sat, 09 May 2026 06:54:37 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJBkMDRQVJF0wBTVIPDxhMCkEUWgpcQgtJAS1eCF4fTBwdDlgGEhZdRVsYRRlLHVgWAV8GWXIZWhRcGFNFUR9UWEEOCloBUFEdXwIKBEcEWxdGA1NFQQQXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PGVoUXBhTRVEfVFheBFNWDkEOGQNYAVlWXVxLVw8aXwtDWlVRDA5YHxYBQQpaUVoERlpAUC1eCF4fTBwdDlgGDFBNAUMICgJRHFYNVw==
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778309677; x=1780901677; bh=7SCitI/IKRgV/RD7FHgYtxomBF96XBJ+ngw6fZeM7l4=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=OsJDSYoqykkNO89rAiJ5GTztmHrKOzdzmZPn+1L7U1IbhB6ucPwGIJsYLxYthr8FV0Lp1KiHpglrSgO8lDtbpb/SXd9xIXRDI7FXcq+x41SSS1aC9s6snHtIqXjTPjaH530P+uJ0jbYOazWtkuWYSfxmAhfNoFKYlqR9KXPlecedCnZGuYiiH+vkUo61aeAah9Dwn01hQC/KtsXkYZFQL0rsAqxYoAYOHUZtA1cQ8vsZmsqlzIajafF+o7coqoq17k/tOWPfV5nPIXNxDmj2fIgsrxTIFvr6BNY4tAJVuqfzfY263hhqaGCV2aVCNa1JZOgvGaR7XT5nOBZ6pWFt7g==
-Received: from [192.168.89.2] (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-7 (Postfix) with ESMTPSA id 1C1391800188;
-	Sat, 09 May 2026 06:54:33 +0000 (UTC)
-Message-ID: <17a0562d-e3db-493c-ba93-f8997f166c8c@icloud.com>
-Date: Sat, 9 May 2026 15:54:31 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rYkUbYhi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8297FC2BCF4;
+	Sat,  9 May 2026 06:56:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778309812;
+	bh=Ahut7zTu/U3hZrEkjrlS4vv3JRMDz0WHhByOcY8s0Ws=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=rYkUbYhitlbvvWaW1509ftEODdMGes0h+yqtNPsTYY5TuHlJOHtg/f+Aby3OXn1kF
+	 RuM5Bjx5asQ1obucE8rvBNspckVsSH+uZkv/eIsE532Kmyn6/NnwMWdBT8iu/D+/96
+	 O4U8CjNuxqBBXo0utgIPXmmxtfvsWIbdIrpu8a8jgnk4+Ym+OIGelqS7Kuz7pnmM+J
+	 mwM8D1IdvMdhVPYpT1tm04ACWMo455KqxOAfkAErNP4KOugyzOfQDHDleH6G5YgvkD
+	 OuXosmCWVZWEqV0cTifKK+8xFXhDBYKt/WwRJYFkuc77HYrF+taxWu9esUUmceUmsi
+	 8j9LMhRAwyhvw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1wLbcI-00000000GJF-3JBd;
+	Sat, 09 May 2026 08:56:50 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v3 11/13] docs: maintainers_include: better handle doc wildcards
+Date: Sat,  9 May 2026 08:56:44 +0200
+Message-ID: <eb575072d60c20243afee6f94ef71427ef7b2e79.1778309595.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1778309595.git.mchehab+huawei@kernel.org>
+References: <cover.1778309595.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Jihong Min <hurryman2212@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260508143910.14673-1-hurryman2212@gmail.com>
- <20260508143910.14673-2-hurryman2212@gmail.com>
- <ad41d70b-e9c0-446e-8bd0-4528de75b592@amd.com>
- <0d518d40-e239-4d93-8e71-0d2e140f00ca@icloud.com>
- <966c9e07-10e6-4abe-9cb5-77b974f31302@amd.com>
- <e8c5f5e0-e0d7-4231-8c46-be7a175941f5@icloud.com>
- <93c43962-6aee-45c8-97c0-a4fbf5124ce8@amd.com>
-Content-Language: en-US
-From: Jihong Min <hurryman2212@icloud.com>
-In-Reply-To: <93c43962-6aee-45c8-97c0-a4fbf5124ce8@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA5MDA3MCBTYWx0ZWRfXznzN/avUrUFG
- TBXqyQwcFpJLaybcCXXnJcANONt+o173+h/ivafcP7ulPkrpbqoLyk7lqwWV8Y9VH5z4LauOe0U
- QHKE9QweoV/bFYaGB3FbdZx+Sc5FLNKE6b7kBP89UMyJhNXyh0SQCG9ZBwSiG/KXAX8HStDY3cQ
- qKiLUvCv1bo4WR4Nrva5e2OziqnSHuTA2/FqORvsuExpqkRt4J9CFl0VmtqQSm0iFS/C2fe2sD/
- kon7vxOx6uzuaI//bKCLvVuk2vdT90EsFX9+aoMDR/vmyual6mzEwFu9cqq56cDQclKZV9x5SEG
- 6yGJDNpqy0e1/TE1DGB2xQTqa1cXR9eZiUSNHyuilJdKKE1IOk3V/xjAsb2VNI=
-X-Authority-Info-Out: v=2.4 cv=Sbb6t/Ru c=1 sm=1 tr=0 ts=69feda2d
- cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
- a=YrL12D//S6tul8v/L+6tKg==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=AGBWbnDlIYaA8OOaHYkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=PgRulw5oR9JgysbTFEid:22 a=oa2-kN79Xhin27rcel9q:22
-X-Proofpoint-GUID: ApNzMT8qMeyRJFiA37BvS_DBDxNsMqLZ
-X-Proofpoint-ORIG-GUID: ApNzMT8qMeyRJFiA37BvS_DBDxNsMqLZ
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+As warned by sashiko-bot, the new logic doesn't handle wildcards
+on Documentation/.
 
-On 5/9/26 14:52, Mario Limonciello wrote:
->
-> Fine by me either way.
->
-Thanks. I changed the current branch to:
+Change the logic to properly handle it, cleaning up the code
+to remove some code duplication.
 
-   depends on X86
-   default USB_XHCI_PCI
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/sphinx/maintainers_include.py | 103 ++++++++++----------
+ 1 file changed, 53 insertions(+), 50 deletions(-)
 
-and removed the CPU_SUP_AMD-specific help text.
-
-Sincerely,
-Jihong Min
+diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
+index 8c7b79721edd..be8e566e0363 100755
+--- a/Documentation/sphinx/maintainers_include.py
++++ b/Documentation/sphinx/maintainers_include.py
+@@ -95,7 +95,7 @@ class MaintainersParser:
+         self.base_dir = base_dir
+         self.app_dir = app_dir
+ 
+-        self.re_doc = re.compile(r'(Documentation/([^\s\?\*]*)\.rst)')
++        self.re_doc = re.compile(r'(Documentation/(\S*)\.rst)')
+ 
+         #
+         # Output variables with maintainers content to be stored
+@@ -132,29 +132,47 @@ class MaintainersParser:
+                 # Retain previous line for state machine transitions.
+                 prev = line
+ 
++    def get_entries(self, text):
++        """Generate refs to ReST files in Documentation/"""
++
++        if "Documentation/" not in text:
++            return None
++
++        if "*" in text or "?" in text:
++            m = self.re_doc.search(text)
++            if not m:
++                return None
++
++            doc_list = glob(m.group(1), root_dir=self.base_dir)
++        else:
++            doc_list = [text]
++
++        entries = {}
++        for doc in doc_list:
++            m = self.re_doc.search(doc)
++            if m:
++                fname = m.group(1)
++                ename = m.group(2)
++
++                entry = os.path.relpath(self.base_dir + fname, self.app_dir)
++                entry = entry.removesuffix(".rst")
++
++                if entry.startswith("../"):
++                    html = KERNELDOC_URL + ename + ".html"
++                    entries[entry] = f'`{ename} <{html}>`_'
++                else:
++                    entries[entry] = f':doc:`{ename} </{entry}>`'
++
++        return entries
++
+     def linkify(self, text):
+-        """Linkify all non-wildcard refs to ReST files in Documentation/"""
++        """Return a list of doc files converted to cross-references"""
+ 
+-        m = self.re_doc.search(text)
+-        if m:
+-            fname = m.group(1)
+-            ename = m.group(2)
++        entries = self.get_entries(text)
++        if not entries:
++            return text
+ 
+-            entry = os.path.relpath(self.base_dir + fname, self.app_dir)
+-            entry = entry.removesuffix(".rst")
+-
+-            #
+-            # When SPHINXDIRS is used, it will try to reference files
+-            # outside srctree, causing warnings. To avoid that, point
+-            # to the latest official documentation
+-            #
+-            if entry.startswith("../"):
+-                html = KERNELDOC_URL + ename + ".html"
+-                text = self.re_doc.sub(f'`{ename} <{html}>`_', text)
+-            else:
+-                text = self.re_doc.sub(f':doc:`{ename} </{entry}>`', text)
+-
+-        return text
++        return self.re_doc.sub(", ".join(entries.values()), text)
+ 
+     def parse_descriptions(self, line):
+         """Handle contents of the descriptions section."""
+@@ -206,35 +224,15 @@ class MaintainersParser:
+         # Handle profile entries - either as files or as https refs
+         #
+         if field == "P":
+-            match = self.re_doc.match(details)
+-            if match:
+-                fname = match.group(1)
+-                ename = match.group(2)
++            entries = self.get_entries(details)
++            if entries:
++                for e, link in entries.items():
++                    if "html" not in link:
++                        self.profile_toc.add(e)
+ 
+-                entry = os.path.relpath(self.base_dir + fname, self.app_dir)
+-                entry = entry.removesuffix(".rst")
+-                #
+-                # When SPHINXDIRS is used, it will try to reference files
+-                # outside srctree, causing warnings. To avoid that, point
+-                # to the latest official documentation
+-                #
++                    self.profile_entries[self.subsystem_name] = link
+ 
+-                if entry.startswith("../"):
+-                    entry = KERNELDOC_URL + ename + ".html"
+-                else:
+-                    entry = "/" + entry
+-
+-                if "*" in entry:
+-                    for e in glob(entry):
+-                        if "html" not in e:
+-                            self.profile_toc.add(e)
+-
+-                        self.profile_entries[self.subsystem_name] = e
+-                else:
+-                    if "html" not in entry:
+-                        self.profile_toc.add(entry)
+-
+-                    self.profile_entries[self.subsystem_name] = entry
++                details = ", ".join(entries.values())
+             else:
+                 match = re.match(r"(https?://.*)", details)
+                 if match:
+@@ -243,7 +241,9 @@ class MaintainersParser:
+                 else:
+                     self.profile_entries[self.subsystem_name] = f"``{details}``"
+ 
+-        details = self.linkify(details)
++                details = self.linkify(details)
++        else:
++            details = self.linkify(details)
+ 
+         #
+         # Mark paths (and regexes) as literal text for improved
+@@ -340,7 +340,7 @@ class MaintainersProfile(Include):
+                 output += f"- {name}: {entry}\n"
+                 self.warning(f"{profile}: Invalid 'P' tag: {entry}\n")
+             else:
+-                output += f"- :doc:`{name} <{entry}>`\n"
++                output += f"- {entry}\n"
+ 
+         #
+         # Create a hidden TOC table with all profiles. That allows adding
+@@ -356,6 +356,9 @@ class MaintainersProfile(Include):
+ 
+         output += "\n"
+ 
++        # For debugging the pre-rendered results...
++        #print(output, file=open("/tmp/profiles.rst", "w"))
++
+         self.state.document.settings.record_dependencies.add(path)
+         self.state_machine.insert_input(statemachine.string2lines(output), path)
+ 
+-- 
+2.54.0
 
