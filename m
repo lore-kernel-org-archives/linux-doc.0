@@ -1,113 +1,85 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D2A32720D
-	for <linux-doc@vger.kernel.org>; Sat,  9 May 2026 19:51:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501BC2BE65F
+	for <linux-doc@vger.kernel.org>; Sat,  9 May 2026 20:15:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778356300; cv=none; b=mDxN60JlgS40s2FOz2OcaTUm36f+Cu2nxNny+BXDYfZU2hGHebVc45qsaoqwakTFLpfVuhZVN8NrnLCysZ2tJqAt80s3O5j4+SVkEipK+sxkpPxf6w9uQpHT37Wp6GT2P//Usl8HKVcSXyoIq6EwgrVLHU7TpNoa6FSGd84OfxQ=
+	t=1778357730; cv=none; b=tnv6KV3zS0U62m+qgnrsAXqSdOtLY1CZM4oDVQJIcCjUpW5vJ0XeFq9q9bL6mAOSRJdg7s1QS9u8ipRNmEQMalvHip9X34FLLTIZXubWffPrQ25iE5SHwcIjicYKqg6wiZP67surNq0Eh5hZYj/IjUkHbhj6OGEkEvlRbtXPjmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778356300; c=relaxed/simple;
-	bh=WeeDw3T0vf2f1cVZ09Osp1Jr9x5HzriJwV3oiDr676Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uQIFhBY8dS4xhPmmgBGy3exwS40ncKe8MrEMO4mPcI1/tDjkUwjPLSWObuQAG3wpxdus7hAG+SneWPi8ZXvgP4OcyMhhE9qLgjxpEAIAnEZ64pjDeZCdWMCirGxS/Dvqer5QRR1Zn3tl9GoLMTP4U0+C24/3ENf+R2ULec4aeKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eHX4oH04; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1778357730; c=relaxed/simple;
+	bh=CGqdFpxc3Agn2wrRFQNhYMTUaSMEM3WMFEDnWX5de/E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gy5NUY2Q700K21tz18BfVbgkY/sEQXwKRKJvmJSPfF/ukz4dd2sc4FC7pEaBiqjTUvdFH0se2F99FsKVd1WC86fkZDZCyZESB1VzYkYpjK5koh/fZQGHt0seosXikOxYPdE1RXgsztt1iXXfhRM7m/+m4rEbI2caheJIXyW53T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WX1q4GMa; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eHX4oH04"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7e36bb16a92so768161a34.2
-        for <linux-doc@vger.kernel.org>; Sat, 09 May 2026 12:51:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1778356296; x=1778961096; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C15JMNsq1tgH3fZ4/mFGus9TyKubmrs5U3aY7mNquk0=;
-        b=eHX4oH04fKvrGn83OyT/CU0kku29TCf3f4UZ2zcLN0TP2sqoSwyvbczyawhTaYRFkt
-         Jkm3KN4a3D/YQOEuIs+nNkjRnb2GY5xjXv9Wl67st+MTSxL+hN3CMvT0M/0hhBIQpwV5
-         3oWfkSD0hW1Jz3u463Q0PTM+jCjAmIx12rj9E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778356296; x=1778961096;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C15JMNsq1tgH3fZ4/mFGus9TyKubmrs5U3aY7mNquk0=;
-        b=G+xRKh4K0kj6bgTrUC9dOdOS+QOqKav6D2m00b6+o0p72YcVz0QVTomkTCWtvtiQmy
-         D3V5Z2i4iaddy+01Pa/bNe3t+IgoMbxIdBDcLkyF/ylemxbQOLmz3C1aX7e6p9VZsKt+
-         BuNuNJw9QgWfh89bsTDeNgkg+/ZGislt4bLej2GthVzZ2SMlUkSE+WWJkoH/2w4nQiYX
-         O9ynfVxWItOkktf8+Tw/WZEmIAY2Jifdvv0ACOG32vyBlCbIfsrVko2qgSc0lfwTM3tn
-         eA7Ci3Pwm06yz3M6WtZ23Wkl0LcIyzT7m/TpjgciJaFeiXyCbXTlJ65XtWbAhXRqd9WT
-         nvTw==
-X-Forwarded-Encrypted: i=1; AFNElJ9PMYAHQjOJwn2JAB6PuIxgcw1Lk/vyaRHyUzTsXY5+dyPwWAz71SqfQtQZHLuWLHSbzYHpFqltEAQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzN4Jlk+fmVYtpd2z8AmIi9cfvc0CgyrQ/jqsEx53btAXFy0iw8
-	gitVFNmQy04IZVVwXbs37NPd9tt5LNkWXWoCzBqkzdxaHUQAfbS4EYiUClm1lPVqZTY=
-X-Gm-Gg: Acq92OFFGZ0whmgoKFcPadxzYRzNL3eSizt3Ou2DEfmiz0nDpn7CT6pYGTrjk3Ap8m9
-	PiC0mPrjEg4/0MrWGp+zgktHI+/dwipEHu+4G8A2TdhAn2ckxLR5QRyP6lzt/HKFUSZTUioWhuW
-	wUIq4zovPYzQUNwvnzdBYMMERO4Y+yfSowt2IXSSp85rJ1QzFomAA5NkDtDfNGkgYfvY91KcN9u
-	t3N8SX4vOv6nTf+egeQpuxPcSv0u1dFtar36OIoaK2v8CJQ5bItfjTG6tev2njPCYpJ5xcgnXwy
-	n8rdHnMh3EwrXD2XKimehcFGHYfq36mGVKMq6d7vc47TYrkIO76xscGi1v3L8IIa+rH84WdxJTO
-	T40hAhf5nBSZ8zIDYmrdKnybZfK48yQDeiQzVv050IGjXV4Yjpv8KlpMkYdsysY554CZ8cgeBTn
-	aqZgGEqS25pPQyWPm38W3/Zcl9u2cec2E=
-X-Received: by 2002:a05:6830:6d48:b0:7dc:d0cc:922 with SMTP id 46e09a7af769-7e1df194678mr10848577a34.27.1778356296654;
-        Sat, 09 May 2026 12:51:36 -0700 (PDT)
-Received: from [192.168.1.14] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43557109b67sm4987397fac.6.2026.05.09.12.51.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 May 2026 12:51:36 -0700 (PDT)
-Message-ID: <af11b090-37dd-4cea-ad84-5e29fcb3e8a3@linuxfoundation.org>
-Date: Sat, 9 May 2026 13:51:35 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WX1q4GMa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778357727; x=1809893727;
+  h=date:from:to:cc:subject:message-id;
+  bh=CGqdFpxc3Agn2wrRFQNhYMTUaSMEM3WMFEDnWX5de/E=;
+  b=WX1q4GMaQahrX3NhegGgjW80ovkX+4KJJdieQAMqfb1YWk+aARvH4kBv
+   4FlEZsovUNhN+bKTDhRTxwwFMZwGMQHceXtwvc8X7Dm9PPfUWya20F4ME
+   DMjAmCbtUzM8GqkkDMYE2rVIY6tHXGJztrNEyq/6zWP/K4AsrkaALigDm
+   A91Q9/6ByjQHalAPM+vcucle4fHnQnX9tUMw1pX1Gnnka89cerbjjjD9a
+   lLS0BAAXRy8x4njMhirRnMnSIsEDCObUpg/6HaH7I99420gu6VnXfBE0V
+   /uaU/RiH5tpdmKcQhA9Oi5XoGi5fcdnJAGt3SnPfENUE+XLgSz2CvEpvB
+   A==;
+X-CSE-ConnectionGUID: +P5j/OsGQfCPMtg7k4y4Tg==
+X-CSE-MsgGUID: bZdBCDfZQXCuRuZyTjnuow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="79486459"
+X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
+   d="scan'208";a="79486459"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 13:15:27 -0700
+X-CSE-ConnectionGUID: oCu8NPDrSMOEExZPq7Oo8g==
+X-CSE-MsgGUID: vqCJ9rSbToKS9LjANbuoGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
+   d="scan'208";a="237300198"
+Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 09 May 2026 13:15:26 -0700
+Received: from kbuild by 82327192134e with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wLo54-000000001Nh-3sa3;
+	Sat, 09 May 2026 20:15:22 +0000
+Date: Sun, 10 May 2026 04:14:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>,
+ linux-doc@vger.kernel.org
+Subject: [asahilinux:bits/090-spi-hid 12/19] Warning:
+ drivers/hid/hid-magicmouse.c:589 This comment starts with '/**', but isn't a
+ kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202605100448.8h4RezL1-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] Documentation: security-bugs: explain what is and
- is not a security bug
-To: Willy Tarreau <w@1wt.eu>, greg@kroah.com
-Cc: Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- security@kernel.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260509094755.2838-1-w@1wt.eu> <20260509094755.2838-3-w@1wt.eu>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260509094755.2838-3-w@1wt.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 5/9/26 03:47, Willy Tarreau wrote:
-> The use of automated tools to find bugs in random locations of the kernel
-> induces a raise of security reports even if most of them should just be
-> reported as regular bugs. This patch is an attempt at drawing a line
-> between what qualifies as a security bug and what does not, hoping to
-> improve the situation and ease decision on the reporter's side.
-> 
-> It defers the enumeration to a new file, threat-model.rst, that tries
-> to enumerate various classes of issues that are and are not security
-> bugs. This should permit to more easily update this file for various
-> subsystem-specific rules without having to revisit the security bug
-> reporting guide.
-> 
-> Cc: Greg KH <gregkh@linuxfoundation.org>
-> Cc: Leon Romanovsky <leon@kernel.org>
-> Suggested-by: Leon Romanovsky <leon@kernel.org>
-> Suggested-by: Greg KH <gregkh@linuxfoundation.org>
-> Reviewed-by: Leon Romanovsky <leon@kernel.org>
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> Signed-off-by: Willy Tarreau <w@1wt.eu>
-> ---
->   Documentation/process/index.rst         |   1 +
->   Documentation/process/security-bugs.rst |  38 +++-
->   Documentation/process/threat-model.rst  | 236 ++++++++++++++++++++++++
->   3 files changed, 274 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/process/threat-model.rst
-> 
+tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
+head:   7b3c6e8461f3035d025ece758919facbc1c6d854
+commit: 2a467e61d288146e8b5e748c8cef4979c399cedc [12/19] HID: magicmouse: Add MTP multi-touch device support
+config: s390-randconfig-001-20260509 (https://download.01.org/0day-ci/archive/20260510/202605100448.8h4RezL1-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260510/202605100448.8h4RezL1-lkp@intel.com/reproduce)
 
-Looks good to me.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605100448.8h4RezL1-lkp@intel.com/
 
-thanks,
--- Shuah
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/hid/hid-magicmouse.c:589 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * vendor trackpad report
+   Warning: drivers/hid/hid-magicmouse.c:603 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * standard HID mouse report
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
