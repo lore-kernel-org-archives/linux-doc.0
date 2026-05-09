@@ -1,49 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07E82D739B;
-	Sat,  9 May 2026 06:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6D337B409;
+	Sat,  9 May 2026 06:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778309812; cv=none; b=m8OFKcsY4/hIx65PLeI5XeViDO5l+xG/HxOse/x1kGTV1pSk7z+q878KGP3eVcZssVC7VtbY7y+QhKq+yf/Pewbk0hhOXKadjVbsddoYq19L9ONS5DCYqo3i3Hyn+A322a7mZA/QBtw5DYm7b08zi5CB+/Bwu/4fr4qyXoo5nsA=
+	t=1778309813; cv=none; b=GSkFraWDHOJRCym3Ul7CxB4/VfFbaNi6oHJrm635cNTS7W5qI5cXIcXvvk+YPiuJfPofqUzIrYFhoUt9Ogaah+8KR6m1bp+d2NP9+5mop/lEhEiV4AyU2qfU6G3c/hzFSVkFzvzudrDl7CaIBoq+4rJCQ/SRGNJYTjlq3sIX37c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778309812; c=relaxed/simple;
-	bh=vvbVKXiMZTQ7JhI4IceyRauJ2Kf7XejKUUzqts3ZkGA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=slikEW87SLYQqsk604J5VgqiQ6K7CyMTx/fgmthXZLT42KbEn8r0D9i3i6K3cczTb3ohEItAvQ6+ibLrjwtV5yy99GE5QBqMqcDvlXkFqhm76X8UPy+FgMww4xgRUMRB+kwDVLbuKd20FHqu49+EORIvCd5liUtzJ7izgE6+yjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f27OjLSX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778309813; c=relaxed/simple;
+	bh=xzBTelskQ422LIU+Nxl34a49fgjI/8vjJLK7P1doRVk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FnKI8awDqeymv3ygiSSpOFsvDfYzzgx4MjH2sNC8wnV0ugShRLqr1tTG0lbk8QiaD0aJFyTh9/tqxM63vF2JSuyXEWtasGBlRvZ4z+zqpQ/0VM8tQ478sa8eYJy1S2TSsl8YCqqRFrjjPzdtt+D/WyaaENK6wD8fUd74MH9SdMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ClUXLCQD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f27OjLSX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89AC7C2BCF6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ClUXLCQD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 876C4C2BCC4;
 	Sat,  9 May 2026 06:56:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1778309812;
-	bh=vvbVKXiMZTQ7JhI4IceyRauJ2Kf7XejKUUzqts3ZkGA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=f27OjLSXF10mDRzIxJRJi2kMEbu7v5FrW83uIzrOrsTHwKumnDL1ZCgksuGRtJVrw
-	 tzg8xxRMe/HpcdA/wJ7feWniqrGcArSEpLuKCp4Ec5/SRQ/+anBLcYLQix+K93mJSD
-	 tI59ixx5AYPSId2RKFaVfhJhBlWM33nmBracqbwODidNB+jdqG/mrFTCUND2HoX6SD
-	 PTzELDDkAI64fltlzu2vNM+6sZabfOHteGkrotpsiupO0nth4LoS03GMMH5y7aGwSG
-	 isB5ZRaK1/JjKmGKcNTEnDLEkqz/U603EoK2ogmJqcomvX52B1Y3D0mvMZrT4I38FP
-	 ll+hQcESUa75Q==
+	bh=xzBTelskQ422LIU+Nxl34a49fgjI/8vjJLK7P1doRVk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ClUXLCQDiscJFQdTA8+bV+hIT2He1fCIYews9gmHZo91UzYUJ0lZu/UZou42Ark1K
+	 /Ky0CvkP5wQ5rk7AcedxnMdgQmp+JDVMenFIyCSGzInR25i6CgYW+eLSWACKpmH4Ej
+	 2gdn5TzRRRQcJUA6DNZCamgqZ5lvMf43CsZzO14O10ISeWpTuQUiU9Ia24lwA1+blr
+	 DafjS+rIdpC5hYxPU0QhIEjqWaQRIWfEUz6XAWbPMEN4uVbf8Sb7wozNnb5x+AI7Um
+	 QCu253+50ltDtlT3U3HxMTDGxsYyWBV9KzqMceFcMQcinbDH3AA/Iw+wI1q9SCdePA
+	 74NWnUZVCemgw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wLbcI-00000000GIn-2VLm;
+	id 1wLbcI-00000000GIY-22Zu;
 	Sat, 09 May 2026 08:56:50 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	rust-for-linux@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v3 04/13] docs: maintainers_include: clean most SPHINXDIRS=process warnings
-Date: Sat,  9 May 2026 08:56:37 +0200
-Message-ID: <567200712771590d08e4da096b4def92bf729ffe.1778309595.git.mchehab+huawei@kernel.org>
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Benno Lossin <lossin@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	Joe Perches <joe@perches.com>,
+	Matteo Croce <technoboy85@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Trevor Gross <tmgross@umich.edu>
+Subject: [PATCH v3 00/13] Improve process/maintainers output
+Date: Sat,  9 May 2026 08:56:33 +0200
+Message-ID: <cover.1778309595.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1778309595.git.mchehab+huawei@kernel.org>
-References: <cover.1778309595.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,101 +63,65 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-building docs with SPHINXDIRS=process is too noisy, as it
-generates lots of undefined refs. Fixing it is easy: just let
-linkify generate html URLs for the broken links when SPHINXDIRS
-is used.
+Hi Jon,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Message-ID: <b57d83081c28aa52683b403f8836d098fcdd8530.1777987027.git.mchehab+huawei@kernel.org>
----
- Documentation/sphinx/maintainers_include.py | 44 +++++++++++++++------
- 1 file changed, 32 insertions(+), 12 deletions(-)
+This series improve the output at process/maintainers: instead of a
+pure enriched text, the maintainer's file content is now converted
+to a table, and has gained a javascript to allow filtering entries.
 
-diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
-index 615af227a8f8..d3ad01e5309e 100755
---- a/Documentation/sphinx/maintainers_include.py
-+++ b/Documentation/sphinx/maintainers_include.py
-@@ -58,8 +58,8 @@ class MaintainersParser:
-         self.field_content = ""
-         self.subsystem_name = None
- 
--        self.app_dir = app_dir
--        self.base_dir, self.doc_dir, self.sphinx_dir = app_dir.partition("Documentation")
-+        self.app_dir = os.path.abspath(app_dir)
-+        self.base_dir, _, self.sphinx_dir = self.app_dir.partition("Documentation")
- 
-         self.re_doc = re.compile(r'(Documentation/([^\s\?\*]*)\.rst)')
- 
-@@ -104,10 +104,25 @@ class MaintainersParser:
- 
-     def linkify(self, text):
-         """Linkify all non-wildcard refs to ReST files in Documentation/"""
-+
-         m = self.re_doc.search(text)
-         if m:
--            # maintainers.rst is in a subdirectory, so include "../".
--            text = self.re_doc.sub(':doc:`%s <../%s>`' % (m.group(2), m.group(2)), text)
-+            fname = m.group(1)
-+            ename = m.group(2)
-+
-+            entry = os.path.relpath(self.base_dir + fname, self.app_dir)
-+            entry = entry.removesuffix(".rst")
-+
-+            #
-+            # When SPHINXDIRS is used, it will try to reference files
-+            # outside srctree, causing warnings. To avoid that, point
-+            # to the latest official documentation
-+            #
-+            if entry.startswith("../"):
-+                html = KERNELDOC_URL + ename + ".html"
-+                text = self.re_doc.sub(f'`{ename} <{html}>`_', text)
-+            else:
-+                text = self.re_doc.sub(f':doc:`{ename} </{entry}>`', text)
- 
-         return text
- 
-@@ -176,27 +191,32 @@ class MaintainersParser:
-         if field == "P":
-             match = self.re_doc.match(details)
-             if match:
--                name = "".join(match.groups())
--                entry = os.path.relpath(self.base_dir + name, self.app_dir)
-+                fname = match.group(1)
-+                ename = match.group(2)
- 
--                full_name = os.path.join(self.base_dir, name)
--                path = os.path.relpath(full_name, self.app_dir)
-+                entry = os.path.relpath(self.base_dir + fname, self.app_dir)
-+                entry = entry.removesuffix(".rst")
-                 #
-                 # When SPHINXDIRS is used, it will try to reference files
-                 # outside srctree, causing warnings. To avoid that, point
-                 # to the latest official documentation
-                 #
--                if path.startswith("../"):
--                    entry = KERNELDOC_URL + "/" + match.group(2) + ".html"
-+
-+                if entry.startswith("../"):
-+                    entry = KERNELDOC_URL + ename + ".html"
-                 else:
-                     entry = "/" + entry
- 
-                 if "*" in entry:
-                     for e in glob(entry):
--                        self.profile_toc.add(e)
-+                        if "html" not in e:
-+                            self.profile_toc.add(e)
-+
-                         self.profile_entries[self.subsystem_name] = e
-                 else:
--                    self.profile_toc.add(entry)
-+                    if "html" not in entry:
-+                        self.profile_toc.add(entry)
-+
-                     self.profile_entries[self.subsystem_name] = entry
-             else:
-                 match = re.match(r"(https?://.*)", details)
+The initial patches change the logic to split parsing from
+output generation. Then, everything is stored into a dict at
+the parsing phase, and ona header description variable.
+
+This way, it is easier to adjust the output handler to produce
+a more structured document. Right now, the entries are sorted
+alphabetically, per subsystem's name(*).
+
+(*) Currently, MAINTAINERS file has several entries not sorted.
+    One has to run:
+
+	 scripts/parse-maintainers.pl --input MAINTAINERS --output MAINTAINERS.new
+
+    to sort it.
+
+-
+
+v3:
+  - don't remove rust/pin-init/CONTRIBUTING.md;
+  - added two extra patches due to sashiko-bot feedback, to better
+    handle wildcards and paths;
+  - fixed some issues related with O=DIRS;
+
+v2:
+  - now, entries are sorted internally, instead of trusting that
+    MAINTAINERS is already sorted;
+  - file fields inside the description are now showing as literals;
+  - Added a change in MAINTAINERS for rust-init profile;
+  - Make it clearer at MAINTAINERS description that "P" expects
+    a rst file;
+  - fixed several bugs related to using or not O=DOCS.
+
+
+
+Mauro Carvalho Chehab (13):
+  docs: maintainers_include: keep hidden TOC sorted
+  docs: maintainers_include: split state machine on multiple funcs
+  docs: maintainers_include: cleanup the code
+  docs: maintainers_include: clean most SPHINXDIRS=process warnings
+  docs: maintainers_include: do some coding style cleanups
+  docs: maintainers_include: store maintainers entries on a dict
+  docs: maintainers_include: properly handle file patterns
+  docs: maintainers_include: add a filtering javascript
+  docs: maintainers_include: don't ignore invalid profile entries
+  docs: maintainers_include: better handle directories
+  docs: maintainers_include: better handle doc wildcards
+  MAINTAINERS: make clearer about what's expected for "P" field
+  MAINTAINERS: use a URL for pin-init maintainer's profile entry
+
+ Documentation/sphinx/maintainers_include.py | 478 ++++++++++++--------
+ MAINTAINERS                                 |   8 +-
+ 2 files changed, 294 insertions(+), 192 deletions(-)
+
 -- 
 2.54.0
 
