@@ -1,123 +1,115 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA71739526F
-	for <linux-doc@vger.kernel.org>; Sat,  9 May 2026 14:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8A12580E1
+	for <linux-doc@vger.kernel.org>; Sat,  9 May 2026 15:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778337062; cv=none; b=izaj607/JY7nMOYVbN9AusvOcVJg/0+/LYeAv//+ZnDpzrqInyaGcO5ebiRXqwd0sIHVfXrr+dB/dfmGEivPvL/TG8yEmj0idh2Q01DxQgq4III2YplBSrd0oVwk1tNLWpTE5Od2sw4+5XX/F3X+0duYXl8KQaB1m9w9sFWxWCw=
+	t=1778341104; cv=none; b=p/1rTHManQE1YG4QLbsqCwqhhTSuaKfv3s/rONzND5q07WLA1iEtHk/i9yxH4HZcOQ7We4PLCXtCpshWDYSdWKShVPHMs7HXsnwr5v+FOKTxkfN/yzqoyIg3x9Tm8ofyunjekuUmoRUc7c8TKFay85t15HrVMw+rdhV4Ul/qnO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778337062; c=relaxed/simple;
-	bh=dx2JxeV7vQvitEulWp7fWkUxzfdkpHiEsS/seVIJvJM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZCurO91UDkipZv9+QWPKZQNggA/jXsYF3n6lA5XPKBFVO8bVcQNsdq+CBM+3Sk3dxpDf+BbTNPHQAI5mkmHD4KPQC0jGgH3p62XM2RAic/UQUp+WnZkca8NVMDhEYMulUcg+ovreU/nADmI8HetknMF8dkXMgmwGWr815kR2s30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=foTtg+P8; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1778341104; c=relaxed/simple;
+	bh=gLKSdOShGg2uo9akYAxRNmgFpbWG+H/A9yxY41Cj1Xc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bhB6wAktEI6IgVyTiiY27VmE5vPDXmS0rbnH5tvPGnUFC2InZ/iSVCQEQJfUW1AD+HQS1WQVuVxtnGngnot4H9dvMK+LX5T6OaUGWdlqwxt10MWovdi74I9YeTuYR5Q5vvWoOYcqkYejudUbNkVepydg8FN5GwzTpJaN9Vw/Iic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NzYYw0tm; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="foTtg+P8"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-44c350a5b87so1771031f8f.3
-        for <linux-doc@vger.kernel.org>; Sat, 09 May 2026 07:31:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NzYYw0tm"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-132830d8281so3478985c88.1
+        for <linux-doc@vger.kernel.org>; Sat, 09 May 2026 08:38:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778337059; x=1778941859; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4dPtx1yevnqJHAzxs2NE10Y367hCs7udQ6wgTVshHCU=;
-        b=foTtg+P8VA09gOtNzTluvnjMluY2is9v7ICczA4ibGT10SI2Yx4PdGl6OPqEVG6D/r
-         wNdBw647JyHbIoZ8KwpoGyxCBBBKVS3gDtiltE0a/KjKIhIfBEvac7cDpxLxh8l9L6E3
-         rtVhX2QqLWXGH+k8jayfcOOD9xhDDnH6V2DrAaPOBQsm00nJGpUX4TNOJFi2VugL2bMu
-         gNaq3/HzrgP1BsYb1kc/x4ok+tPfs9EgkPdPhyJpf9cB4BNidRG2uMCbbIuqx51zloqL
-         PvDkcKpuxMMnU8ejtkjVZqJylWGHZhCVnLFEh/tT/sLRG1lfp26AGSBUizfuPvAU3dIX
-         VDgA==
+        d=gmail.com; s=20251104; t=1778341101; x=1778945901; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KjmP2EjAZo0hE7GjYBWYjrfK9ueJxklnVjumEmxItLM=;
+        b=NzYYw0tmj8AKhcs2nzO4Q8L54dGP9P4u4luMqhJ6ROPPv2HllgtB05ILwNRiqHaMBO
+         yJ2miicFqOHtg99vsrYQiTHcKnKTIJ5KGEtlQBm+IDOjb+/6fpNfoFE7Qe1nYcNTWaw4
+         vEyT0r7q7V3fHFeBKT8ZA028cy/zse8N+islCm15CiWniqSuNnHiN9zLNyy0OpCbuG+Q
+         7v8nv/XTTnUnrwwA0D7ipwF6R51EvbrnP78JwFGDQ1YgsRplf4c+/jnkGMioUPNPJEWc
+         rMgY3Q4CcP1ogpAq6AVpN9yUK59jDz3x4XLpdc4QB5LoMoELX1ZUEvrYcJcti3RBQM2H
+         /2SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778337059; x=1778941859;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4dPtx1yevnqJHAzxs2NE10Y367hCs7udQ6wgTVshHCU=;
-        b=KZUBY1I+Fn90biMuEP+pmfwAFChRscxTXuUkUDq7762+LMxNNK+v0u9tVCI7TBhP2p
-         znKnoSAfa4icJLAMRYMN0ylFaoNGeHHgU73Az2/bnKK6uEIgHHXHy05DvgWXoxdKy+tF
-         H8ia3aexv4hy5Y6lFig+qimTJx7bfxa0Hgz+Tq69/OCIaO9uUb5Q6TEaK9lkAMAJ3Dgw
-         2C+9OxumfDr5dZHnkwsZMTJUO0caSxzkpmxjX3XNjk7Ex3uOFAq+QV8azVNpJGi5cVCn
-         3W8B2o500OkOT/EUtEXlJLkNxRljwtwdrY1p1lMgJfEPbJ5558hrsv2dR6+8K5icdcLI
-         U3wg==
-X-Forwarded-Encrypted: i=1; AFNElJ8xRmBlGS49q7YBvTC6aAOsh8w25yEb6T3mYfAWzTqF6+JEk6FYqaixbC/GDH/wMQV892nap2GkXSE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBO/lSOqXiRrDXYh0mgSv3kQXnOXf2wHRXA/VdMK13QuG8p/4N
-	yP2AXJwdFuwsD74itTNc2WeFiBDJFPMz2BgenuMEN8Hxv56TeZrnz4L03AWwtpOE
-X-Gm-Gg: Acq92OFjtOwT8em1M4bARmmSENgl//1NyXP46e3YPkXiJU1UUEEW9rKYxiJupfs/yuD
-	wLBAj9uxuin9UTCavHtXjidtuWs2DFVfUceePi9/kpzRFFZniZRuAxg9HPhtuNjc70ORQ6yvMH/
-	Fg9IS3O0acCN+ptSRNtsi4NQwHZnlo9KjS6i6uN3uE0SxOb5n0f0jyydjzBGhCsrZjnZeViir3A
-	JJSQ7hYDvIDcOfI0z/eaYic0J360iAMXiUKzkPDmIOz3QZu1vbJW079jnEBhUXAbIJW2O5M0DdW
-	X/ZH8QBmd37SmRantuWc51fMGhvnKkslkfWMmTVPvbRzeiavsjBy47496g4WTqJVCDpK8XrMMmJ
-	OPlS2imkJ7eWtphu2FefVW5xXJHlOUgdMvlJxMVsqLwKoSejf5gkQpB12e1pTmHRRePoMXaBFW4
-	zaJsNwh7FALi2Vbk1T34un6GEq4BiJXytxSz1ma1B/TFA1rmArRBxQH+MG/QI5SK1WD51Yyysqa
-	gmCGA==
-X-Received: by 2002:a05:6000:18a6:b0:43d:761d:5423 with SMTP id ffacd0b85a97d-4515ad767eamr29737566f8f.16.1778337058971;
-        Sat, 09 May 2026 07:30:58 -0700 (PDT)
-Received: from arey-arch ([2a02:1210:7298:ec00:73f0:d2e7:188c:1f61])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548e4bb87bsm11902201f8f.2.2026.05.09.07.30.58
+        d=1e100.net; s=20251104; t=1778341101; x=1778945901;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KjmP2EjAZo0hE7GjYBWYjrfK9ueJxklnVjumEmxItLM=;
+        b=FH1KGS0Nafsla6U90m8QjVQI+XAdRZptduohSlDTH8GtNjPd7MPKCpcJ3sbYGSMevu
+         bQfzDvIpT7g9Uy/uwarQt4fYl6Huqrc3zHNBoboNioDZRJRwHgPpbRytFP7o5S+vPq1g
+         /vOc4GjahVCpMfLyTP/+hvEvT1bb30WipB3qAeuBTjauSLRMd5ZBvRLu1RFK8TLXIUEU
+         GblQYJSFx393tyDKO1IDDJYQoFL60CrFrBqbxNQEt3zVHX5zm5W9SGwlnD/HFYZnnE1+
+         rSmHl7rZqubbjh3izS9aYUhVwOWrvLKRlYjjDolUAGIQ8YNxBkmrDiXt2Nn//CfBXotf
+         Zmog==
+X-Forwarded-Encrypted: i=1; AFNElJ+Zly+je5xdZchECeVjqF7WPtwDCVzjBX4brRlf67avlNNMB82YyYqrZlSEinXa+IItmsVq4AW/v7s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/MZVXHiat66vngC2dToWxzf1qTBPvWtmvmD9MF2+x8Wod+0LQ
+	XpvejahJdP+1YKMfA8WRnXtm0atgfiFMUvVBoGNgSA/OqcxwYm5x7eGq
+X-Gm-Gg: Acq92OELbOxClfh1YjDL1m1IE0u9zy40GUKLN1J1Cd82TbObD5a1NHuEEA4OZyqMOvI
+	OCBnEAsTeGUF9ZyB7r39+vwIxGUzEfxvf2N/EyeGGEmDTNj1IeECWAX8/u7R0K7chRGE3rFpsfr
+	E5DBYZDgkgzopi1uhp1Pqys+yBLRlvNI6cl8+kn94QcNJHUIRF2H5cvmk1KaeTgWnAF/N+wKs36
+	e4hcqKAl3pkJTH9vufE0sxPHjWchrvLeCnKJ+MknL+NZC7DaWK/IyNbWYNKruzOFgF7vV8Y5RWh
+	uyjsl87tCkaG2ci/XSkkLwajEkLHUmNzjgiFDBWfTz8z1amw2q3xgZiayUggkRecqEH7lLjIbdg
+	+liy2rBoDvi79YfbUOe23lMRum/zwARc/eLKwufofPmmOC5yYXe4GoFXBWbhbG34b9UPZpZGo3e
+	Pp5Bsk7pEL0noqr0Rqjo7K1AIDPhCAN7AcMh5j
+X-Received: by 2002:a05:693c:2b15:b0:2d9:6373:ad22 with SMTP id 5a478bee46e88-2f85c07f8bfmr3256312eec.12.1778341101337;
+        Sat, 09 May 2026 08:38:21 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f88924af95sm6551514eec.30.2026.05.09.08.38.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 May 2026 07:30:58 -0700 (PDT)
-From: Adrien Reynard <reynard.adrien.08@gmail.com>
-To: corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Adrien Reynard <reynard.adrien.08@gmail.com>
-Subject: [PATCH v2 3/4] docs: fix repeated word 'as' in dax-hv-api documentation
-Date: Sat,  9 May 2026 16:30:57 +0200
-Message-ID: <20260509143057.16512-1-reynard.adrien.08@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260508163802.16249-1-reynard.adrien.08@gmail.com>
-References: <20260508163802.16249-1-reynard.adrien.08@gmail.com>
+        Sat, 09 May 2026 08:38:20 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sat, 9 May 2026 08:38:19 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Colin Huang <u8813345@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kevin Chang <kevin.chang2@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Colin Huang <colin.huang2@amd.com>
+Subject: Re: [PATCH v5 1/3] dt-bindings: trivial-devices: Add Delta E50SN12051
+Message-ID: <cede86e8-8bee-4bb4-b6de-e9bc399d316b@roeck-us.net>
+References: <20260508-add-e50sn12051-v5-0-abebdcc29665@gmail.com>
+ <20260508-add-e50sn12051-v5-1-abebdcc29665@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260508-add-e50sn12051-v5-1-abebdcc29665@gmail.com>
 
-Remove duplicated word 'as' found in three places in
-arch/sparc/oradax/dax-hv-api.txt.
+On Fri, May 08, 2026 at 05:44:28PM +0800, Colin Huang wrote:
+> From: Colin Huang <u8813345@gmail.com>
+> 
+> Add 600W Non-isolated 1/8th Brick DC/DC Power Modules, E50SN12051.
+> 
+> Signed-off-by: Colin Huang <u8813345@gmail.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
----
- Documentation/arch/sparc/oradax/dax-hv-api.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Applied, after swapping the inserted lines below.
 
-diff --git a/Documentation/arch/sparc/oradax/dax-hv-api.txt b/Documentation/arch/sparc/oradax/dax-hv-api.txt
-index ef1a4c2bf08b..6dac2a778ccd 100644
---- a/Documentation/arch/sparc/oradax/dax-hv-api.txt
-+++ b/Documentation/arch/sparc/oradax/dax-hv-api.txt
-@@ -485,7 +485,7 @@ Offset   Size   Field Description
-                              the virtual machine to use when accessing this data stream
-                              (checking is only guaranteed to be performed when using API
-                              version 1.1 and later). If using a virtual address, this field will
--                             be used as as primary input address bits [59:56].
-+                             be used as the primary input address bits [59:56].
-                 [55:0]       Primary input address bits [55:0]. Address type is determined
-                              by CCB header.
- 24       8      Data Access Control
-@@ -576,7 +576,7 @@ Offset   Size   Field Description
-                                                      the virtual machine to use when accessing this data stream
-                                                      (checking is only guaranteed to be performed when using API
-                                                      version 1.1 and later). If using a virtual address, this field will
--                                                     be used as as symbol table address bits [59:56].
-+                                                     be used as symbol table address bits [59:56].
-                                         [55:4]       Symbol table address bits [55:4]. Address type is determined
-                                                      by CCB header.
-                                         [3:0]        Symbol table version
-@@ -815,7 +815,7 @@ Offset   Size   Field Description
-                              the virtual machine to use when accessing this data stream
-                              (checking is only guaranteed to be performed when using API
-                              version 1.1 and later). If using a virtual address, this field will
--                             be used as as bit table address bits [59:56]
-+                             be used as bit table address bits [59:56]
-                 [55:4]       Bit table address bits [55:4]. Address type is determined by
-                              CCB header. Address must be 64-byte aligned (CCB version
-                              0) or 16-byte aligned (CCB version 1).
--- 
-2.54.0
+Thanks,
+Guenter
 
+> ---
+>  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+> index 23fd4513933a..0f10368a1386 100644
+> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
+> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+> @@ -100,6 +100,8 @@ properties:
+>              # Delta Electronics DPS920AB 920W 54V Power Supply
+>            - delta,dps920ab
+>              # 1/4 Brick DC/DC Regulated Power Module
+> +          - delta,e50sn12051
+> +            # 600W Non-isolated 1/8th Brick DC/DC Power Modules
+>            - delta,q54sj108a2
+>              # 1300W 1/4 Brick DC/DC Regulated Power Module
+>            - delta,q54sn120a1
