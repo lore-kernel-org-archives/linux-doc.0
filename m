@@ -1,115 +1,138 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8FDDF59;
-	Sat,  9 May 2026 00:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2064F22CBE6;
+	Sat,  9 May 2026 00:52:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778287394; cv=none; b=qeInjR1zSL4bj4OX/BUuPTVaXfQr0IZDF5xXKLq7vBCl3qnhcvg6eFYvx1u8beAVRIH8R+VxOX0rHc21h36ed8BXkTJ4+6gVo1yCiDD7guB3YM1WHWlXD0cHk3FacyZYyKsjLohoaGQqIGyffkJq4HOg59D/UHkAWSXrQghORcQ=
+	t=1778287935; cv=none; b=dydOLh6etGrTl9eiVPSBF8tN9riTFUuCdhkAWJUj5gXkO+EW5kW/gCPmYE8NkF+pBuWKxFhyfYefV1KrkstBnoIs5Wl9VR6gSSeJkWhWqpBnYNdGFlLcg3MDOOZKWgQF9PHx7dRoZBkpwOgP55RW891258l5jo+JI342OZWx3Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778287394; c=relaxed/simple;
-	bh=HPCGeWyV6//s0b3Spt2whRmbIin4/wMGdnJC6EtPgXM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PVTKgBSEvt1AaOuvpWuAsNc53KEUXmfJWboZlXr45aS/XDZpPVVI9vXxg1Vk2/S/+8/rt5aq5yGXe1tccZoPXch5I/N1HFFR2J5PNlLZBAryvx3P39DElX81yfpuCOjublMDEn557A8w5B9SwImTzxggpspts2Lnx8r0Dn3rRak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZZjWqzNi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778287935; c=relaxed/simple;
+	bh=tzx7ZwgL4qb9E7LiEim00qbYgEtsXeRU7mCgbW19k6M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GjwB6afowpjeE+1vdgOiBgbig4/hkWTQkUuNMvr8EChzDinzFw2I5b3Y2iYcVGt29Qm0IID5ey0AYZ7STZf/iJNVi0CyErGJIPwfDAj6z4sPLbCnhYLNfyLAgwAYSemc5ku4tFc4u1FcTMYbQvrp65BP9Eci19ApURsbSj8hjlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cxbmyloE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZZjWqzNi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ACB7C2BCB0;
-	Sat,  9 May 2026 00:43:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cxbmyloE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6BC3C2BCB0;
+	Sat,  9 May 2026 00:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778287393;
-	bh=HPCGeWyV6//s0b3Spt2whRmbIin4/wMGdnJC6EtPgXM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZZjWqzNitIkSeOGo4WRNu/w9z+vgSqlbADIoSx7PDzKzecBFtpDT2JcKd0ksqbgls
-	 R6pqVA1CpIsVuP03HMl5zgg5fNJvr6rS8ikj2NjCc7F6WB0gSuWuBBYNPoNMvc7y8n
-	 yQhW9MYU56QproObHId9FHbepRnbHAmG99n6XgIwaPf24u3XrjOPJYHmeJXYZ0z9tK
-	 sEuFzD2xU+WR6i+be+TkWG14VpejDBfjXZnbv09SGEt658yidXez3la3b5tpJU8M5W
-	 TKAnGN0i9Q9K1M59XsqQFCsQytfyLxBf0CCgYBwOH306Vr9PN7iALYf6CG8VHmT+SV
-	 PKnA0Qm574Wrg==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 5B9BE1AC5896; Sat, 09 May 2026 01:43:11 +0100 (BST)
-Date: Sat, 9 May 2026 09:43:11 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v10 01/30] arm64/sysreg: Update SMIDR_EL1 to DDI0601
- 2025-06
-Message-ID: <af6DH_j7pyEm4HyI@sirena.co.uk>
-References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
- <20260306-kvm-arm64-sme-v10-1-43f7683a0fb7@kernel.org>
- <af4ZYVFsbYlEfdOu@J2N7QTR9R3>
+	s=k20201202; t=1778287935;
+	bh=tzx7ZwgL4qb9E7LiEim00qbYgEtsXeRU7mCgbW19k6M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=cxbmyloEO08k8n6A91Ub0EQs8QPp9FXDJCaF269871JqsS/tTFWF1ZAR1/IYmJmQJ
+	 WIAcvX75OsoH9C668Vyuga0z2wnL5ebyJudy2owBLJva0WrfsHvKCQYqUMs71671Mp
+	 /BcjaxY1Dy6fyLgVtvD3MdaVhxspItLv5A0IcbGmOhKd+JIHyfrKa1tJiI3uDn6TaM
+	 KtABzmVKJ6QaWVGn9nBQW+1M+zEfcPXyAFcOCablaxW+1/PneBfzyop5SRANApwTS0
+	 u3PubW9+JuPHP5rtT6Z1zVkFQPtfIjmj4VmNuizxrb3f/JBBSWsUv2g06+90KB9MRV
+	 i4fA4+V1ZaRgA==
+Date: Fri, 8 May 2026 17:52:13 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Mark Bloch <mbloch@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>,
+ Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Tariq Toukan <tariqt@nvidia.com>, Andrew Morton
+ <akpm@linux-foundation.org>, "Borislav Petkov (AMD)" <bp@alien8.de>, Randy
+ Dunlap <rdunlap@infradead.org>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Christian Brauner <brauner@kernel.org>, Petr Mladek <pmladek@suse.com>,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>, Thomas Gleixner
+ <tglx@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Dapeng
+ Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver
+ <elver@google.com>, Eric Biggers <ebiggers@kernel.org>, Li RongQing
+ <lirongqing@baidu.com>, "Paul E. McKenney" <paulmck@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [RFC net-next 0/4] devlink: Add boot-time defaults
+Message-ID: <20260508175213.1952097f@kernel.org>
+In-Reply-To: <af4lBIJdCuN5VKq_@FV6GYCPJ69>
+References: <20260506123739.1959770-1-mbloch@nvidia.com>
+	<aftaW-irGmkfA7FS@FV6GYCPJ69>
+	<3f9215c4-7c84-46d9-ba74-30dabe24db09@nvidia.com>
+	<afxvzOjqw-vxUAED@FV6GYCPJ69>
+	<b6a9b568-dd09-4414-be57-6b9cd282a43c@nvidia.com>
+	<af4lBIJdCuN5VKq_@FV6GYCPJ69>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QBKsP9LRgF0qgj1C"
-Content-Disposition: inline
-In-Reply-To: <af4ZYVFsbYlEfdOu@J2N7QTR9R3>
-X-Cookie: Truckers welcome.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri, 8 May 2026 20:07:44 +0200 Jiri Pirko wrote:
+> >I don't think switchdev by default should mean CX4+ in general. If we get
+> >there, I would expect it to be limited to the DPU/BlueField/ECPF case, where
+> >the host PF probe path can depend on the ECPF reaching switchdev. Changing the
+> >default for regular host NIC deployments feels like a much larger compatibility
+> >change.  
+> 
+> We can't travel throught time, but if from CX5 onwards the default would
+> be switchdev, nobody would feel broken in terms of compatibility. That
+> is my point. Having "legacy" as default is simply wrong for never NIC
+> generations. That is why it is called "legacy" and it should have been
+> rotten through and out since CX4 times.
 
---QBKsP9LRgF0qgj1C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+legacy vs switchdev only describes the eswitch configuration.
+As a non-SR-IOV user I really don't want to see the extra representors
+hanging around my systems, confusing all daemons. IIRC mlx5 had some
+limitations around the uplink representor. Maybe that's the disconnect.
+But for a real, fully featured switchdev eswitches having the
+PHY and PF representors on boot, always, will not make sense.
 
-On Fri, May 08, 2026 at 06:12:01PM +0100, Mark Rutland wrote:
-> On Fri, Mar 06, 2026 at 05:00:53PM +0000, Mark Brown wrote:
+IOW it's not a question of the generation of the card but of
+the deployment type / use case.
 
-> > Update the definition of SMIDR_EL1 in the sysreg definition to reflect the
-> > information in DD0601 2025-06. This includes somewhat more generic ways of
-> > describing the sharing of SMCUs, more information on supported priorities
-> > and provides additional resolution for describing affinity groups.
+> >For the ASIC/NV bit: maybe technically possible, but it feels like the wrong
+> >layer. This is boot/deployment policy, not a persistent hardware property, and
+> >storing it in NV memory would make the state persist across kernels/hosts in a
+> >surprising way.  
+> 
+> Well, as any other nv config, it persists across kernels/hosts. Think
+> about it as "unbreak-my-not-legacy-device" bit.
 
-> FWIW, these are all in ARM DDI 0487 M.b:
+For most devices the switchdev mode does not change anything
+substantial about the device. It's purely a kernel / driver config. 
+It changes what objects and default rules kernel / driver installs. 
+So I don't get why it would make sense to flash into the device
+nvmem a Linux SW stack specific config.
 
->   https://developer.arm.com/documentation/ddi0487/mb/
+> >I do agree the RFC probably went too far by making a generic devlink cmdline
+> >configuration language. Maybe the smaller thing to discuss is only:
+> >
+> >devlink=[pci/...]:esw:mode:{legacy|switchdev|switchdev_inactive}
+> >
+> >No runtime params, no ordering between different operations, just early eswitch
+> >mode for explicitly selected handles.  
 
-> Is anything later in the series going to depend on these fields, or
-> would everything behave correctly with the existing RES0 field
-> definitions?
+Yes, let's cut this down, AI went too far :) As I said we should just
+document how we envision the format growing but for now we can literally
+implement just the global "esw mode".
 
-We're exposing the affinity fields so there's a build time issue.
+One note on the formatting, you mentioned:
 
-> > +Field	55:52	HIP
+  devlink=[pci/0000:08:00.0,pci/0000:08:00.1]:param:flow_steering_mode:hmfs,[pci/0000:08:00.0,pci/0000:08:00.1]:esw:mode:switchdev
 
-> Reading the ARM ARM, HIP is arguably a backwards-incompatible change.
+TBH when I used the square brackets I meant that the field is optional.
+But I guess you used them like we use them for IPv6 addresses to
+separate the : signs, makes sense.
 
-Yes, I belive people are aware.
+Since AFAIU we only care about global default should we focus on
+supporting:
 
-> Do we expect to expose that to VMs, or just hide priorities entirely? I
-> suspect we probably want to require that the guest sees
-> SMIDR_EL1.SMPS==0, and not care about any of that.
+ devlink=*:esw:mode:switchdev
 
-Currently we're not exposing priority support to guests so we don't need
-to worry about it yet.
+meaning all devices default to switchdev?
 
---QBKsP9LRgF0qgj1C
-Content-Type: application/pgp-signature; name="signature.asc"
+> FWIW, I'm still against this.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn+gx4ACgkQJNaLcl1U
-h9DG9wf/atoXOD+Q4rBXZr/5pU35q0IY0RT80qYAD286LVTpuZzb4OEYmgficcC1
-5YV6dn24FMPHx6UaFRfPwUwmpCcaBuO178qwscXpiqYpstrydR+RidVwPsZQOkcg
-8Ywr4fiHu1gGJhcQnPiWsdBn1BUexLlPUTrQh6vImj72qKbY90oFWWOwNHsozRVi
-FCSgFQIAu+fadSMVPalMQ6oLvMAPgDOR1Ftf2tXqsT/mq1R4o8OVodUhvEDUPzAp
-XP1i04j7KwajjAa2KCzkFkQAP2s1fEtoA5TAIdsuZysuE0S7tCjG+/u8owxMM/cC
-nO2dCJ6SojWEo41t+pH9V5nD+k0P4w==
-=0S3n
------END PGP SIGNATURE-----
-
---QBKsP9LRgF0qgj1C--
+One more option, tho IDK if it actually is good enough for Mark,
+would be to let user space "pause" devlink probing. So that the
+systemd daemon can configure the device before it populates all
+the netdev stuff. Basically make the devices probe into the reload_down
+state, until user space configures them. IDK how much of the time
+is spent building and tearing down the legacy mode on mlx5 but
+the thinking is that we'd at least stave that wasted effort.
