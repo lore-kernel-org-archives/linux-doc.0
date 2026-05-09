@@ -1,112 +1,86 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A737213635E;
-	Sat,  9 May 2026 20:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EA234CFD0;
+	Sat,  9 May 2026 21:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778359299; cv=none; b=B/g6ne/LB7E2Y9geBCoIQ3PeNgPDvZpRNQiIiXGl/9z5+oRNyZgtY5Qm5o6BkJuKYj8E7LmxfDOciLzaJ4y0RKEsoivoyOdEbug9wHPxUCoOiIZ/eqWBwxlMKYBlsh/oxig6/0L33+3erUflyhXBK4jYQW+pAJJNY9gUDK4n614=
+	t=1778361173; cv=none; b=KBIbpgDFFFUsmt8lb8Mq++p1k8lKAV+8xETLUkCn9JEXesCIQj9r+pF53qiznBqP6Ij6o0C97z0oFQdyamMGFlbO4xDc+3bB8LbN/eHvH8S6e2dQrBtgp6GxfYdFwmvrIfZbmEOPYSaNtC/GqZInHdG4c8kNE/7b5Y7Hnvtr3IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778359299; c=relaxed/simple;
-	bh=IvbiowIyJzp/HWMWybhmqyEgvwDPaciIa/5gxI4tNzk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iWA598KG6fcJJlSw4ojHyl9nNm+i3C/PMdRI0eto+rsLdufs3sQRsq7syZE+MnXbbG9fMqI7w8Cfm6BHe69tJ4nfvDgyl94oV/QCHgG6RnFw5gSHK3Lzj+H3JTvnMo5PWAS9r6589Yn8y+0E/QTmdl+XEnnSzfJo/s5U6MUiF+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=0/fcOC0x; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1778361173; c=relaxed/simple;
+	bh=uBUThkzPq3bIh8exkMvvIMZ3xi0qvfWeGRDf4xCY3bA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Qz5NRseyG+dm9jXcSjsbU3PrJAV8900mTDI+oEYfD44ImMYVoEZr6RGcoGrxzjk4hfOK1cxyepTrnHRaUFH8OKshdwEKZ9wzQL45W05cNjYXQiw/ReQDkRCHQRQGstFVAiVZH60vcI4tZw1G6g2UyBp1QrAj0JII0eK6Z2r36jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Mjt5OQkl; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="0/fcOC0x"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8Ll9UzEIFrA/Y2cg4MLqHpnXwj68nPuPZz+mPcUm9t4=; b=0/fcOC0xnzptOC8GRNsT8GfFML
-	TkDvmgtlcMrnt76s8JV2j92mXn4OBEmAzTBIO8YZ0S1UuQPWwf4cb/yyRVt0fjaGJjySBHFqFlWB8
-	cUhjdhVm9N8HC8IZfwIizFSSFN1KQPeXU8mStMitD3pp+z9r+WPZUouA0UM7fu1l0oi7I6IEUnbPn
-	+stFVqmhBKWbRscWdfWMk94qnObTT9GlsTAQCJTQlptE+u7ifOPWCDKqvg+djKBRfdUwjd56fZD0q
-	7VsGmcVvUs8nYipfnyBE09xWL2LVI6qhTneI6OZ+M/Yc7aFuKKsbNwKxDQtZzzjz+MmLuEjGwEXk6
-	YzDJOwdg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wLoUJ-00000009dBh-1fcW;
-	Sat, 09 May 2026 20:41:27 +0000
-Message-ID: <5cc6c7e2-f870-47fd-8fcc-0e4c2b978f2e@infradead.org>
-Date: Sat, 9 May 2026 13:41:26 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Mjt5OQkl"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3DF4041084
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1778361166; bh=YBtbi7A9YrkmaUhKGVC2kX+uo3qrOmV8imEJ0JVJ4g4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Mjt5OQklw/q0tOxGnFv39kDSqfDkjS6mig9GI1AWkdAPa4cvTRNrNmfpymjESUFi6
+	 H/5FakCtFplnTQnl9nZRo/fnegO8vkIXQvGFIZm2hHkOPBIHdefRa3KJ4X+KSry3p0
+	 8dZISKSFgyrQYN/1LKrpJRLd7dka+/NZCfofGK1GocxfGMQTNvP92mAU6eWMM37PaK
+	 wHbR3WasqikofHbBUvC+f9BEkcUp3ZE5H0hzMpvzxk4qnLfaNcYFlnYQCX2XR46ys8
+	 5zJT8dwRorNdXw6bqCfO4cVxjbEkC8tbwufzeeduIu6LLSPsH2YJM0iOI7YEbkIEgh
+	 y7top2NlvevUw==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3DF4041084;
+	Sat,  9 May 2026 21:12:46 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Adrien Reynard <reynard.adrien.08@gmail.com>, paulmck@kernel.org,
+ gregkh@linuxfoundation.org, dhowells@redhat.com, mhiramat@kernel.org
+Cc: frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+ josh@joshtriplett.org, boqun@kernel.org, urezki@gmail.com,
+ rostedt@goodmis.org, skhan@linuxfoundation.org, rafael@kernel.org,
+ dakr@kernel.org, pc@manguebit.org, rcu@vger.kernel.org,
+ linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+ netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org, Adrien
+ Reynard <reynard.adrien.08@gmail.com>
+Subject: Re: [PATCH v2 2/4] docs: fix repeated word 'that' across documentation
+In-Reply-To: <20260509143050.16458-1-reynard.adrien.08@gmail.com>
+References: <20260508163759.16231-1-reynard.adrien.08@gmail.com>
+ <20260509143050.16458-1-reynard.adrien.08@gmail.com>
+Date: Sat, 09 May 2026 15:12:45 -0600
+Message-ID: <87wlxcz3qq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] docs: fix repeated prepositions across documentation
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Adrien Reynard <reynard.adrien.08@gmail.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- "open list:KASAN" <kasan-dev@googlegroups.com>,
- "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
- "open list:USER-MODE LINUX (UML)" <linux-um@lists.infradead.org>
-References: <20260508163804.16267-1-reynard.adrien.08@gmail.com>
- <2b771350-0562-4cb1-b9b3-cc3ce59b1a63@linuxfoundation.org>
- <3c6cde1a-9ce0-4d63-ba89-820c596cff3e@lunn.ch>
- <27c61395-f04f-420c-9a84-7e27773f2027@infradead.org>
- <3b4357a7-f70d-41b0-a75d-c30f9fb7dd98@lunn.ch>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <3b4357a7-f70d-41b0-a75d-c30f9fb7dd98@lunn.ch>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Adrien Reynard <reynard.adrien.08@gmail.com> writes:
 
+> Remove duplicated word 'that' found in RCU/rcu.rst,
+> driver-api/driver-model/overview.rst,
+> filesystems/netfs_library.rst, trace/histogram-design.rst
+> and trace/histogram.rst.
+>
+> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
+> ---
+>  Documentation/RCU/rcu.rst                          | 2 +-
+>  Documentation/driver-api/driver-model/overview.rst | 2 +-
+>  Documentation/filesystems/netfs_library.rst        | 2 +-
+>  Documentation/trace/histogram-design.rst           | 2 +-
+>  Documentation/trace/histogram.rst                  | 2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)
 
-On 5/9/26 12:39 PM, Andrew Lunn wrote:
->>> Can we get the tool changed to add a warning, something like:
->>>
->>>   WARNING: This tool uses very simple pattern matching to look for
->>>   repeated words. It does not understand the complexity of English,
->>>   and will often result in false positive reports. Please assume it is
->>>   wrong until proven otherwise.
->>
->> There was no commit log and no cover letter AFAIK.
->> Do we know what tool was used?
->>
->> Adrien, how did you discover these repeated words?
->>
->> (If it's my script from 2021, I'll gladly update it.)
+When you send an updated version of a patch, please:
 
-Adrien is not using my script -- they developed their own script.
+- Post it as its own thread, rather than as a response to a previous
+  version
 
-> Thinking about it some more, i think the warning might actually need
-> to be different.
-> 
-> If this tool has been around since 2021, all the real problems have
-> been solved, leaving only the false positives. So the warning probably
-> needs to be much stronger, saying that it probably only reports false
-> positives, unless the code is new.
+- Include a note after the "---" line explaining the changes from the
+  previous version.
 
-Makes some sense.
+Thanks,
 
-
-> Maybe we also want to extend the tool to have a list all the known
-> false positives?
-
-I'm not crazy about that one. And we have no evidence that I am aware
-of that my script is causing any of these patches.
-
-
--- 
-~Randy
-
+jon
