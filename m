@@ -1,137 +1,87 @@
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+Received: from outbound.st.icloud.com (p-east2-cluster4-host6-snip4-5.eps.apple.com [57.103.78.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E6D325706;
-	Sat,  9 May 2026 06:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E0E372EFF
+	for <linux-doc@vger.kernel.org>; Sat,  9 May 2026 06:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.78.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778308824; cv=none; b=jkVbvnyEV3ia6upwrnaIQcAQwJdKESYcG0rQzDUOWENxKfvt8S0KsLxCq9znhEaWuXMYS2KllwyN/vz2XB26yVkmHRBfBoPetna+sFCxxJRFjfOQ3OME+439al2I/+XHYVGoTebxVlJy9cHeAoVFRO3v5p7JprEPiXJo/d5KMxU=
+	t=1778309680; cv=none; b=UC/ljFg/kwZyWPAGhdfvjuqGuzYpGExnSSbvDIWI5hTwc2a2XEItKPi8XbPLlvjNW0jLlRuBYFH9dKvx5EeX6iOEnKSj0FtIUoA/STtPOR+GMzzo9YzNQeB6N+zc4+seTe9sVBEA1mcX2QTVKXLfBxSfQi7NabpCcs+ChESovsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778308824; c=relaxed/simple;
-	bh=HZE6cx6AgDJ4Gk3meylS1WJTRij4YRp1/5NZaN1Z0G4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sPIUGslkZ3G60WGN6z4Qq+qFbnDtQPz8He7ywSTRKQDTXzN0Xh1i9QNCuvJIFIUjTTBV797vU4R3cCHiUFnj4mwH2CtuxymVrmAVE1qj5voVom2f2lyY5+8nBXMtwAtva0sM6205QKgRr/+Fd6Lar/IeyFDHiU0qPGIOh3vpIPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=Vbk8qSOn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eYmz4fWZ; arc=none smtp.client-ip=202.12.124.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1778309680; c=relaxed/simple;
+	bh=7SCitI/IKRgV/RD7FHgYtxomBF96XBJ+ngw6fZeM7l4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S+Ko1fHbfgQaDFz8z5tp+uMBTMKPcx3Uvzbx2lQXz5oCMtan5NRzauYgNQ2dKWBXL1+PVcFs6y5F1DphU5NPfJFchdYyTye+FIArK4btAvbZexvYQNndUbVw2WoIPvbblK7C9G7fFBFmqk+sm/Qq1kb7DdJbMe8prWFfnwSZ170=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=OsJDSYoq; arc=none smtp.client-ip=57.103.78.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="Vbk8qSOn";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eYmz4fWZ"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 73BA97A0104;
-	Sat,  9 May 2026 02:40:20 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Sat, 09 May 2026 02:40:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1778308820; x=1778395220; bh=0L1SGs3VCj
-	8ORkcUab/cUMzAb9hXGi6BN9SzuK3T37w=; b=Vbk8qSOnWq03w3Pn6kMlIOgpUM
-	Nxag4I+rs1GoNtU6JrKMdMT4ko9ClkBUUabtJ/1qeiCsTcgRWMFGSY9Kqk7GOMjZ
-	aczWfV0PVrFigrH9wJk+esetyUuQTDYQfiZjWiBseQTd0nVIyweBV3S/sQF4e3IU
-	wHFMeMNRO15o+oj8L0HC26v0CacPat/qBm1vXg+j61XAim7mqHDtdeL0XomV0QJQ
-	4LlMu6NeUQqxk9ujNEDjf6DGVpUOC+ZD6fn94ITjDZcY4u7Y5yGQYofYZ29i2LSQ
-	nLu7nBtfgHDtYiW55FHT7Gt3mKD6dmY50w7BFHk4MzzgzgM+5E76QIaI6B9g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1778308820; x=1778395220; bh=0L1SGs3VCj8ORkcUab/cUMzAb9hXGi6BN9S
-	zuK3T37w=; b=eYmz4fWZ8aey1oQM3Q4CL7aiDOgBQnarqmQ4FUNhbHYLIJMlm46
-	JZjDpML3ousLFqrEXUyLFjgTrjB0azql2IG4PZPZUuaCC8lM5wawYD5nGmVX0ZcM
-	TPh0l0IpE5IToyeDT/SUBK7V4ajQ+6HrNVVPHxZVV9MdvTr6+nhDCVuNVlnNG+VD
-	VyiGBfVWRZT3MIy6AlFGHc6lc+0WRNVVYgWt/Sxa89zgREFVsstD6TUvhevW/sYG
-	iQ0ehtRIAvLdiX1RTQVtkilD+2C/fu5fzayashrWTMt7s/nQE3kLMdFkIy1x7Zrm
-	RsHaXQAZV3NPJx9KKgj9HFWG32irQij1hRA==
-X-ME-Sender: <xms:09b-aZqzOSYouRpb6E-5c2FIxubRmUp-ZYxPcR0EC9QXAvOHD-SQkg>
-    <xme:09b-aTmL3D_wgnKdAZErdD8_GCd_HXRe5_lSV56lH_HFx_skG5WYlX9ZEMq52LzEw
-    y7sPxVz43nKajIbWikA-icONGh_us_zY0Q6HDXDyNNwruTh6w>
-X-ME-Received: <xmr:09b-adaGLjIhdMp7UHOSnyQQhz2iE69QpacON8V2djZwcyo8gJ6FfIRdaxEEn7a7jsxZqQvy4kmCO_zjY7JOG9wVfg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduuddvheefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
-    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvdevvd
-    eljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhsthgv
-    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrd
-    gtohhmpdhnsggprhgtphhtthhopedukedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    ohepfiesudifthdrvghupdhrtghpthhtohepthhorhhvrghlughssehlihhnuhigfhhouh
-    hnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehsvggtuhhrihhthieskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptg
-    horhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhu
-    nhgurghtihhonhdrohhrghdprhgtphhtthhopeifohhrkhhflhhofihssehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghr
-    nhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvg
-    hrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:09b-abUKHyHJELAyTJ6kG2H_-L9ps75z7mCL0aw_6tTVL0J9N7ciRA>
-    <xmx:09b-aVB_oYQ9KDt1PESj_2DooWbdAHsEoMH-se3NvfBi2XSVTZ1bCw>
-    <xmx:09b-aSxNm3O4IzslDkXobDJtD0R2O_g7byxnA_5eytQ_QkcoA84kWQ>
-    <xmx:09b-aTZYZCc-sfh96mmoLJiSXh_wSgx91pJ3CfbIDByW00q8LE7Cpg>
-    <xmx:1Nb-aTPKn4oJ9sSbZSUrjd9OuQBQtyrJW_EMX4xy4bVMqLfwrMLNHpC5>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 9 May 2026 02:40:19 -0400 (EDT)
-Date: Sat, 9 May 2026 08:39:37 +0200
-From: Greg KH <greg@kroah.com>
-To: Willy Tarreau <w@1wt.eu>
-Cc: Linus Torvalds <torvalds@linuxfoundation.org>, leon@kernel.org,
-	security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	skhan@linuxfoundation.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
- is not a security bug
-Message-ID: <2026050929-hatred-underfoot-a32a@gregkh>
-References: <20260503113506.5710-1-w@1wt.eu>
- <20260503113506.5710-3-w@1wt.eu>
- <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
- <2026050801-semifinal-expulsion-9af6@gregkh>
- <af4IW_ycR2RpAjhy@1wt.eu>
- <af4RqzO_VHYAqcHf@1wt.eu>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="OsJDSYoq"
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-7 (Postfix) with ESMTPS id 22E521800184;
+	Sat, 09 May 2026 06:54:37 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJBkMDRQVJF0wBTVIPDxhMCkEUWgpcQgtJAS1eCF4fTBwdDlgGEhZdRVsYRRlLHVgWAV8GWXIZWhRcGFNFUR9UWEEOCloBUFEdXwIKBEcEWxdGA1NFQQQXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PGVoUXBhTRVEfVFheBFNWDkEOGQNYAVlWXVxLVw8aXwtDWlVRDA5YHxYBQQpaUVoERlpAUC1eCF4fTBwdDlgGDFBNAUMICgJRHFYNVw==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778309677; x=1780901677; bh=7SCitI/IKRgV/RD7FHgYtxomBF96XBJ+ngw6fZeM7l4=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=OsJDSYoqykkNO89rAiJ5GTztmHrKOzdzmZPn+1L7U1IbhB6ucPwGIJsYLxYthr8FV0Lp1KiHpglrSgO8lDtbpb/SXd9xIXRDI7FXcq+x41SSS1aC9s6snHtIqXjTPjaH530P+uJ0jbYOazWtkuWYSfxmAhfNoFKYlqR9KXPlecedCnZGuYiiH+vkUo61aeAah9Dwn01hQC/KtsXkYZFQL0rsAqxYoAYOHUZtA1cQ8vsZmsqlzIajafF+o7coqoq17k/tOWPfV5nPIXNxDmj2fIgsrxTIFvr6BNY4tAJVuqfzfY263hhqaGCV2aVCNa1JZOgvGaR7XT5nOBZ6pWFt7g==
+Received: from [192.168.89.2] (unknown [17.42.251.67])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-7 (Postfix) with ESMTPSA id 1C1391800188;
+	Sat, 09 May 2026 06:54:33 +0000 (UTC)
+Message-ID: <17a0562d-e3db-493c-ba93-f8997f166c8c@icloud.com>
+Date: Sat, 9 May 2026 15:54:31 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <af4RqzO_VHYAqcHf@1wt.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Jihong Min <hurryman2212@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260508143910.14673-1-hurryman2212@gmail.com>
+ <20260508143910.14673-2-hurryman2212@gmail.com>
+ <ad41d70b-e9c0-446e-8bd0-4528de75b592@amd.com>
+ <0d518d40-e239-4d93-8e71-0d2e140f00ca@icloud.com>
+ <966c9e07-10e6-4abe-9cb5-77b974f31302@amd.com>
+ <e8c5f5e0-e0d7-4231-8c46-be7a175941f5@icloud.com>
+ <93c43962-6aee-45c8-97c0-a4fbf5124ce8@amd.com>
+Content-Language: en-US
+From: Jihong Min <hurryman2212@icloud.com>
+In-Reply-To: <93c43962-6aee-45c8-97c0-a4fbf5124ce8@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA5MDA3MCBTYWx0ZWRfXznzN/avUrUFG
+ TBXqyQwcFpJLaybcCXXnJcANONt+o173+h/ivafcP7ulPkrpbqoLyk7lqwWV8Y9VH5z4LauOe0U
+ QHKE9QweoV/bFYaGB3FbdZx+Sc5FLNKE6b7kBP89UMyJhNXyh0SQCG9ZBwSiG/KXAX8HStDY3cQ
+ qKiLUvCv1bo4WR4Nrva5e2OziqnSHuTA2/FqORvsuExpqkRt4J9CFl0VmtqQSm0iFS/C2fe2sD/
+ kon7vxOx6uzuaI//bKCLvVuk2vdT90EsFX9+aoMDR/vmyual6mzEwFu9cqq56cDQclKZV9x5SEG
+ 6yGJDNpqy0e1/TE1DGB2xQTqa1cXR9eZiUSNHyuilJdKKE1IOk3V/xjAsb2VNI=
+X-Authority-Info-Out: v=2.4 cv=Sbb6t/Ru c=1 sm=1 tr=0 ts=69feda2d
+ cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
+ a=YrL12D//S6tul8v/L+6tKg==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=AGBWbnDlIYaA8OOaHYkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=PgRulw5oR9JgysbTFEid:22 a=oa2-kN79Xhin27rcel9q:22
+X-Proofpoint-GUID: ApNzMT8qMeyRJFiA37BvS_DBDxNsMqLZ
+X-Proofpoint-ORIG-GUID: ApNzMT8qMeyRJFiA37BvS_DBDxNsMqLZ
 
-On Fri, May 08, 2026 at 06:39:07PM +0200, Willy Tarreau wrote:
-> Greg,
-> 
-> does this addition on top of the current patch address your concerns ?
-> 
-> --- a/Documentation/process/security-bugs.rst
-> +++ b/Documentation/process/security-bugs.rst
-> @@ -88,6 +88,14 @@ can be easily exploited, representing an imminent threat to many users.  Before
->  reporting, consider whether the issue actually crosses a trust boundary on such
->  a system.
-> 
-> +**If you resorted to AI assistance to identify a bug, you must treat it as
-> +public**. While you may have valid reasons to believe it is not, the security
-> +team's experience shows that bugs discovered this way systematically surface
-> +simultaneously across multiple researchers, often on the same day. In this
-> +case, do not publicly share a reproducer, as this could cause unintended harm;
-> +just mention that one is available and maintainers might ask for it privately
-> +if they need it.
-> +
->  If you are unsure whether an issue qualifies, err on the side of reporting
->  privately: the security team would rather triage a borderline report than miss
->  a real vulnerability.  Reporting ordinary bugs to the security list, however,
-> @@ -102,7 +110,7 @@ affected subsystem's maintainers and Cc: the Linux kernel security team.  Do
->  not send it to a public list at this stage, unless you have good reasons to
->  consider the issue as being public or trivial to discover (e.g. result of a
->  widely available automated vulnerability scanning tool that can be repeated by
-> -anyone).
-> +anyone, or use of AI-based tools).
-> 
->  If you're sending a report for issues affecting multiple parts in the kernel,
->  even if they're fairly similar issues, please send individual messages (think
-> 
-> If so I can resend with it.
 
-Looks good to me, thanks!
+On 5/9/26 14:52, Mario Limonciello wrote:
+>
+> Fine by me either way.
+>
+Thanks. I changed the current branch to:
 
-greg k-h
+   depends on X86
+   default USB_XHCI_PCI
+
+and removed the CPU_SUP_AMD-specific help text.
+
+Sincerely,
+Jihong Min
+
