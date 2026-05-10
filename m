@@ -1,90 +1,73 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010005.outbound.protection.outlook.com [52.101.85.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic304-23.consmr.mail.ir2.yahoo.com (sonic304-23.consmr.mail.ir2.yahoo.com [77.238.179.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6E731E859;
-	Sun, 10 May 2026 18:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778439313; cv=fail; b=QNHnNNq//y5NE9KZdlqdzB5Gfshta+ymMExKT5dzXFtEhd5ASoXqgsNWhKCk6fCOZo1hrRF3CHlT27Tzb7LnKYapucH6GkTi4ABPwt1gBDiY2mZwGHT8qxSPsQa3CbwI0shfo6edCtcTY6O9Zutm0bHl6WSNuSaf7S1C/JyIh4k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778439313; c=relaxed/simple;
-	bh=D+WsKsyk8XmOltLR5OHwCZRe+S89PiZfPtheDxjwfGU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mIE0SaMIItq3rEixdjlINYbxZqxUmr+GOi+7wEp/DK4NmuD1GutbLxKA0WvKV5ckIy1K07ZeaX2Qv4LnsaNfbNNxdPqFRTCIMUS2S9b1XZLS3hp1662IEFNOFfcygB9tIpkPrrqezeVuiC0Gb49A0qkpSsGBl4ybj/Ocd2c/Rvg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DGhNkXO4; arc=fail smtp.client-ip=52.101.85.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EE731B10B
+	for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 19:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.179.148
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778442303; cv=none; b=GMKAwpzAmt5vae9+2yCC5ODWJUpK6t2QY9Vucmi3xbyhqbA1zfsDmCL91uEK4BjB1JH4LixXvb8hOH/6xQc+8iCj5E46oytVxFq9MZ2M+BxA7QcJz6xHB+QrwOThkxFlWC3LbT1VaCC21EATIeblyPbsZx9mwChfrIf7gI5myUw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778442303; c=relaxed/simple;
+	bh=4XpeV4lF/a3HLV4YD1Rv9ICiEsfHbHExdHPabgjl0nM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ixJd6zwM2BgDE2waPBTBZ13E3W1BdIkh51jKEa/Ni2+4k9yjDsooLx/rbSM4cgnR2+/kdW6J5RxmHZHXqN3gPQy16CLNVAKb87xQr2ourztJjpsT43xTRks4VyKssqGURvg+aRqc5uSPLJ5WXnGdNd0JnOM6w/IY+cNBjeIKa1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=SlTr9Vp7; arc=none smtp.client-ip=77.238.179.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DGhNkXO4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oLaPqGUrMl7W6lOw2r5jmJ77GI0fGs5/siYbfIrBv4JRkv+KgHzGdVyDGEpkSv6GRbN0ScA88W70v4KuX/GNNB6Eqhw+1g3aW0CApjfoa/GBUoGWTZfmE1X7mqbZjxwbTxepDVn88kLDE05NGjtiMj11SMZTnYNG9xprzmxg1ZLh7ikJIH7KKcOEkUxs0LaZbrpxye5Lrmm87J1aaVTOwrLVBxZDiKAyU4/9wEAky0lnj2x+wvcib63fQAApj6xOm86vnCf4pAAuPS2IGDVQrUiJWyIaftLJqImuRxFw6bXFoSvzGs8U9lGrw3GcQIp9uX3RQi5Ncf8//bdRhuqjWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wRTuKq/vTCnpn44AxnKOSdtAFiazSZwS925PTmR/WBc=;
- b=PPvK9F1k4bFNaD6guHK/t4KdvN5HQwqGVFupLkesXYRDpjv09JGqBfRO4Jbkxb40yHhHI5bugOT//M+EbctHS7MPWj1nGpFwS26Ulc/EE1h90RtB6KuWQeb305/nWRUyenon21Yim2BqgVX5AsvYReCpmseMfQHYpFPIOk0FtoGp8ZIBTDDjlflDnA3hAnKirK7qsn67G5PobV4jUvCmLRTrjCn2qTGe8IXjjO05ZaumPtmLpgV7hGdZhK7Dw6JVKFnLzjBuoMYsTYGZKyOX5vVkeUZc+zZg2nRxNLEiyf0CSvsPiCL59c49XkFbwc9TLYCi1QY33xQSQjdsHh3U3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wRTuKq/vTCnpn44AxnKOSdtAFiazSZwS925PTmR/WBc=;
- b=DGhNkXO4AxSyD8YypfELYmKeHjQ4Q+4H+CzZ5pKgmbXBmFV56wFyxNVrXfD+GK5TIK/9cjdkh3ct5oNxvkywyA9U/bFn9IR5Ut3HOmN38zQ50uFm4w6vH4AjhN4dc9+58i7GCaehc4wiJwJOFWzx2yc/0ntABAWIwOT5Uv4j/mTalvDnmDwqlwzWbTgvTuvTaDBEo4Dx30LUN9rR2o8wk8FyUZggUJ3PNrDEg6qWfKBX1UTwq0w4X+XR8gYjKmpBko18q9d6yHFtxz6+BNcdMl0GpSxNNd0Ea9tdeH1X2gMDcEXQBLK58Sm8YFJtitljk0mHapT0wHpMS+7xsdWHGA==
-Received: from BN0PR10CA0002.namprd10.prod.outlook.com (2603:10b6:408:143::16)
- by CH3PR12MB8186.namprd12.prod.outlook.com (2603:10b6:610:129::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.22; Sun, 10 May
- 2026 18:55:06 +0000
-Received: from BN2PEPF00004FC0.namprd04.prod.outlook.com
- (2603:10b6:408:143:cafe::3b) by BN0PR10CA0002.outlook.office365.com
- (2603:10b6:408:143::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.22 via Frontend Transport; Sun,
- 10 May 2026 18:55:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN2PEPF00004FC0.mail.protection.outlook.com (10.167.243.186) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.25.13 via Frontend Transport; Sun, 10 May 2026 18:55:06 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 10 May
- 2026 11:54:52 -0700
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 10 May
- 2026 11:54:50 -0700
-Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Sun, 10
- May 2026 11:54:43 -0700
-From: Mark Bloch <mbloch@nvidia.com>
-To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>, Jiri Pirko <jiri@resnulli.us>
-CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Simon Horman <horms@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
- Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
-	<mbloch@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, "Borislav
- Petkov (AMD)" <bp@alien8.de>, Randy Dunlap <rdunlap@infradead.org>, "Petr
- Mladek" <pmladek@suse.com>, "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-	Christian Brauner <brauner@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, "Marco
- Elver" <elver@google.com>, Li RongQing <lirongqing@baidu.com>, Eric Biggers
-	<ebiggers@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <linux-rdma@vger.kernel.org>
-Subject: [RFC V2 net-next 2/2] net/mlx5: Apply devlink boot defaults during init
-Date: Sun, 10 May 2026 21:54:24 +0300
-Message-ID: <20260510185424.2041415-3-mbloch@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260510185424.2041415-1-mbloch@nvidia.com>
-References: <20260510185424.2041415-1-mbloch@nvidia.com>
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="SlTr9Vp7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1778442300; bh=EEXchYaNLhNNKyHPk7lxnuJFOBFGN9beR+dureZixG4=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=SlTr9Vp7jm9fOlvXnD4iuGc2FLa6erFtGQlsS6H+bfHQ17GnxYlOa8dsfyC8p6YtPHmMP/itOyfRsEVrpiRZ3nqJT1Qmu9nlAIErjLp8IQYM7ZrExpr8CdzWCmZfoZWQAedxgT+vXJXK07AmTa/BUwm8nsnneaNxX/gsUc+WBN4NCabzi3FcaNDbMMkyztI4Jhx3FUTFHmlp4uDF6rRQWZUCG604YC/7gYxW/pQQd22/r2qk8AXNC/PO3Y0fc3IWrBffz5ozwkpxv7f6zrf0R4C18qvdBv0HPZszut/1YWMdh1z/vSqhaOa8jF2igaLeqQmQa3t+h4JaAGps/eHQAg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1778442300; bh=6r1HExe/blw7qR+iyvJOzfvMZQQCoVVm8D7/GOUrS85=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=tDqXJCnQJK0JTPkPsMytNiBiVXbzLPgcX8EqD/rDa1ZS+LCG+91Lczxt898vq+bizenyo/kzerQmChOwC/6O/k3Bf3p4JVjS/x2LmIXOVZiCXh1V28nEaj+3tD6q+Xbs60XEBfw/5i5NzaL2TlMQGLzBtyUYl1bMeE+LtHh/iK2gYJHV83QHyBkUewom6QzGGitZ2gUsIjadgL7i3UdTZH9yf/cQGm/mBdwWu/ILzkxyYwPQRYvQr2JnO03xvmhqTbTRNAqK8c2eYEeDn7Gro7SUZspBaE5ymLFUrPtPvJvc7Z6ge3EFN93vZ2Cg0a0h3UtyN2h3oCNzKSzsi0+AFA==
+X-YMail-OSG: FyYv4_wVM1ku7J63ZyubnD7NoBC8tWnae3gl0D2.juzkmrfyHKtjtBW6gnjZdR3
+ 6tKJXFxO3txhWSwP1o4Pzmcqcp8Z1rjEU8eq8Q6m1ZVemiJdvq1U83.wZFlVOcVgVw9I9c5HSkdo
+ GMa0Wlsm1Yu98Py2FoyoWrSncgid.9Zm6V4FKtzkIMs1x.FlLWni6FUlQ.O0KPhlVggMKngGFfsv
+ o4DOkqNuLRVu.QWJm8KU4q4aYkFH4Afg58fyjpxpGkMgRHiI2tS0m93My2Baqm39eEKIFPWWG_kh
+ S9DUJsgSoeytGtYyCgAaiETed_EcR6AYFJnqyIqIV9qwvZ1EzPMbFIePLtxTBY8PZnYDv7GqpbA7
+ O4VTlMSjHBIYh0neWz2uJt3VYIp1LoVwfcFi3XiDzu7ck94F72IhusidFOZQJxfm0sodsXEMQOoo
+ FPNbR5gKvJ45l3hnxPTx1DLcfwjNLmS3iC1Ufv5JXegkquSPc_4AavEvTERDczCNAnmyETStjwe_
+ eTUNdlaW5OsErERcTA6sACm7lH1VtqAWtxM8H7g0mUEDioAozNpQA8jO8JGFiSSdpsVbVJWXXt2O
+ BKmTflO1UImnjIdgwSOtS3LJQ0q2Vg7XuV4iho37UPzldO0jbu49xjfKHrRnFmmY7TC22PRvF.e0
+ es88EBla3GDrqDdD7sf346znjLVcTBGpopfJH2B1m1oa1Fg0pkuBSyeb9HM68yMJGWyNiWQ62Jbm
+ 7vJZuZXiuYuZNN.D2lHPZGvPT1ZrbfPkaXbe8W7A8JTCDolDuy44ZlZgeprhulsXkE7p6C_3WuMB
+ WXu1K.sDS3Sn5bK1qLIGzt3Qjco8GiLYsogSpOtlJdnzYGeGj5V_htsCJ00vavRaGOAm7q3LoD7T
+ GbRH9iSgpoDfA4mICeIjVqi295T9FG83vP1YpolaFK7v3IacntYRGfqyw4KMfMvr3z4chgp54nmm
+ daYU3HAWzkJM.3TbKRkfEKnXxyicpQXtSWE2yNZ6Lrzv0DeeDNZcatyWHzsL3Y1038Z6AqIXtNGg
+ ERtYKL4f6ZW9ACsWlN71oSHaBBRluFxTMGYv6GKO4.ev6Ek5HfL5EsU0RKcLKm7erdrSsP1a07j_
+ E_zwFGv0oE6kJ3oXLbFWy1sZkU1xSE0M5CTlanN4OTvxg.uLl20bUyDicHeUW2McfhAyAsuT2dkV
+ PkY.ln.PI7JzsMpjBiErtEhRBjQIXNJvL1n7B2FcTTcit4ctqgXiplXHoUeqOq6R35jyFBrgnCGW
+ x0TFJc2PV56F7LOVgikoc5nWTI3mclPS7dz93c49HQ0AkJe3XXnsRJ7XtjJLLJqNfuDz1f3t1bag
+ NbozMYG5T0pHHhoFzKEt8XeQ1WL_NL5KRVbZVLjYNXl_4TjlDqm1aR0eZCyLQutRxUjDj9f5s5Nx
+ uGYgGqOgsc1wC45cTaljPMGkxLyvzrQj0LcinLqLxujB4xel5ZxVZVfNdM981btoOylFsVqhErkJ
+ .5.5G_Sn1Eki4eswyTHY2dOV_jn4ENFnL1co7OPNn57511m3LFHqJMaSxyMSmfJ_baHNPuQ5OLJv
+ 0K07gFrxwLT4y0oaXTVZhhwREvfCliTNM2PjnxIgIn8iNnx.q3QGwdhIPrf4E3p5FKngaqN3B_TO
+ TLSxxUVPyDnX8msF4.8KMXNTKFlx0i0DqJNxaelyOuafaGB_7IgKzEsgO8weWl5o3SJrJA6HPUQl
+ 2vkxpjcdAYTDuZCC7Q59eeQjm_kUEAp6D1qDnM4SkOqO3.Kh9TCRpq03S_zvJdTjbvgDQfW04x05
+ yD6zTTiuwcnOT53iFEY17XHUVIQqmYW6XJbeRhNdu76BFhTXep8HfukbgA7pU1c9bzFmhtdojj0J
+ qPyCHr_uf46kAyEchrnbrfKEHe7S8ZArygAkchEnpSX0m0CoDguQE.9yHRZfhaEnfGQGLuBbsexT
+ Cj7Id1W_MmRVAxRNa2_eYsAnwNswRYdDp5g0TSA_9q.vZq8YxUm6Bu3eL509TiAthYJwQ4CaIjxT
+ 5VnJCahfHSwBLtxGuwlsP_Z9WG2RSRAe4ZdeIYlXoqegQiX6rab4QE3pSMe4MGju_cJBKsHdIl9f
+ cwlWilXf.p2..0xcR7mWPVPi8BiIsrIwd7MzfcMQdCHsnx8SpcH5Dk6NTwjI5CCBON.yn9TIIG8m
+ HdeyYVWP6rX5mPkF7YPgoT38z4jioZn3NBOt.Xgr75MPOV49UVM_V2oWCfP_2huj_k2KVFJIB61T
+ vucCVI9tUYuBcXTOV5aGRpP0aymhlYK3Uxrx2XCRJg.vPHScepCPwoWubL57f5ug_PIo-
+X-Sonic-MF: <nicobsc4@yahoo.com>
+X-Sonic-ID: 70ade669-a801-4f51-81e2-7672d7c61e27
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.ir2.yahoo.com with HTTP; Sun, 10 May 2026 19:45:00 +0000
+Received: by hermes--production-ir2-89844b765-p4qxl (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 0241877a80b841ba8e83704e7616a54a;
+          Sun, 10 May 2026 19:34:41 +0000 (UTC)
+From: NicoErdmann <nicobsc4@yahoo.com>
+To: linux-pm@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	NicoErdmann <nicobsc4@yahoo.com>
+Subject: [PATCH v2] cpufreq-stats: document limitations on modern cpufreq drivers
+Date: Sun, 10 May 2026 21:33:52 +0200
+Message-ID: <20260510193352.195181-1-nicobsc4@yahoo.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <b23cee4d-dd82-4828-9f38-72cfb05eff32@infradead.org>
+References: <b23cee4d-dd82-4828-9f38-72cfb05eff32@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -92,61 +75,39 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF00004FC0:EE_|CH3PR12MB8186:EE_
-X-MS-Office365-Filtering-Correlation-Id: d243ee91-aca7-4046-cfb5-08deaec5a6d3
-X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|36860700016|1800799024|82310400026|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	PQLc/7v28yEOTJSNhmqMnLFW2odbYTBkgAyGuakDoOUXFwekx/UQZ28NfgHMzhxixUDQsDwGZmmrV238oThDI1HwwaDth9UUVpj+VgruHtaCi9M+GZu4kBlI+CiE6Br6HHmjq/rRSR6PBgPK9ivJGGLPdY0+jKuB78DcLhuUBa+R6xE4mppz0iZYr1yC5+47g/axnFQg04EXN+xIPjB/5toMeWJW+ojUxjpzB04pGJkJ7wCYMEK1ncc7nR+ebSe8kRn8FPho//5hYjZ7G/q6AhR9pGE6PbNIPdnmfY0XiAib0NfARd16eWnwCuY/neCdiC320Os9R2EPJYDJfSYumB93esHLWAWVcE1FRLx5MrY3PvVkfd18S4+P2wKPcPu9Fwi1sYd8/kD4106mtSmN9m4rANfJ+u9sVNbOvfjmXLobrkd8E2dsPYANZa0QVClK1jrjwPcpmEnScUiBLPYrZ/IoyTYvhubBjRLg9/eIkWta5wpSTVt45qUzRK0iSnts0Exu+HuD6j4JgbhHBhf7FdU2Ms3+3jSna/GFKo1tlh6HNDj1HemrO7btXEEVBqI2yGQcNAGAXe05pJVt/9t0a8eVMUmoxQlIwbs6nzj1iKwOvJjqzIrL6Hg6ahxcSVcQDXSI7kDHX4e4VhOoXLXyvTtQvStSyDvAmlL5MsTAf3yAM/Wp05ERY9GVL8e6Qj717lopT1aBhzwL119XNUBkoDTZpDhWg8Q81ANsxxUw7v0=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700016)(1800799024)(82310400026)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	F9R9HWEm69IXvPeah1Zn/DzqcPpZ5RvssNNRP4B508nAWXyEy/orgl/CCSDcQAk+bVH07GzzcbEYlzDwzw+HpkHgrBpOk80bZJKNeVOV8kYB13uAeKhJeNgMTuHswYssanCva3DR22hCfQ0Ct8MPC+9oF2jpd0QDMvyhEq+OCZE92NSZG9RvkKuG6OWqFW2I+kOQ1bbVyuWm9NiiMuScoVUdigxt8rvCDHYFN11dZrmPKHnqipNOxVA9caoiaR7Yt9uQi+RzacmpUnZBT8wgmySwBF4NSX9HiYO276t4B1VNxJj0A20F04Uumn8I3Tejk5grvahFCENl7vWUaIhw32MMU+LuOxdus8CgQaqdK4VFwasS/Ybl4zwVdZYxI/rNZmmf21yj17biK4P9ft/lccs3bBrgrEfo0octbfRBnt0EN9HJTE8t+RuXJIhNjF8P
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2026 18:55:06.1904
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d243ee91-aca7-4046-cfb5-08deaec5a6d3
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF00004FC0.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8186
 
-Apply devlink boot defaults for mlx5 devices after successful device
-initialization while holding the devlink instance lock.
+Add a note clarifying that cpufreq-stats may not be present or may not provide meaningful statistics depending
+on the active CPU frequency scaling driver.
 
-At this point the devlink instance is registered and the mlx5 devlink
-operations are available, so eswitch mode defaults can be applied to
-the matching PCI devlink handle.
+In particular, drivers such as intel_pstate and amd_pstate may use alternative mechanisms for frequency scaling
+and accounting.
 
-Signed-off-by: Mark Bloch <mbloch@nvidia.com>
+v2:
+ - Add missing period at end of sentence (reported by Randy)
+
+Signed-off-by: NicoErdmann <nicobsc4@yahoo.com>
 ---
- drivers/net/ethernet/mellanox/mlx5/core/main.c | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/cpu-freq/cpufreq-stats.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
-index 296c5223cf61..deea7150084f 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
-@@ -1470,6 +1470,8 @@ int mlx5_init_one(struct mlx5_core_dev *dev)
- 	err = mlx5_init_one_devl_locked(dev);
- 	if (err)
- 		devl_unregister(devlink);
-+	else
-+		devl_apply_defaults(devlink);
- unlock:
- 	devl_unlock(devlink);
- 	return err;
+diff --git a/Documentation/cpu-freq/cpufreq-stats.rst b/Documentation/cpu-freq/cpufreq-stats.rst
+index 9ad695b1c7db..6ffa5a6a63c9 100644
+--- a/Documentation/cpu-freq/cpufreq-stats.rst
++++ b/Documentation/cpu-freq/cpufreq-stats.rst
+@@ -28,6 +28,13 @@ Various statistics will form read_only files under this directory.
+ This driver is designed to be independent of any particular cpufreq_driver
+ that may be running on your CPU. So, it will work with any cpufreq_driver.
+ 
++.. note::
++	
++   On some modern systems, this interface may not be available or may not
++   expose meaningful statistics depending on the active CPU frequency scaling driver.
++
++   In particular, drivers such as intel_pstate or amd_pstate may use alternative
++   mechanisms for frequency scaling and accounting.
+ 
+ 2. Statistics Provided (with example)
+ =====================================
 -- 
-2.34.1
+2.54.0
 
