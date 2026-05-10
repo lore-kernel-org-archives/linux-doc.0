@@ -1,41 +1,58 @@
-Received: from mail-m127213.xmail.ntesmail.com (mail-m127213.xmail.ntesmail.com [115.236.127.213])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB6F39A808;
-	Sun, 10 May 2026 14:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.213
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F5E839E17C
+	for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 14:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778423379; cv=none; b=D3eUHJVljGUGbNwxLvnawpYW1V+Mh6pm7W6TCewCzuGf4OQlsEa2cXTZMfnO8Bd0v9Vc6rvo28lL+AmTa17/BRKR/1EAxODMnGmxfN8E2Ck23fiY6uvvmoJH96WRdVqneqBDRA1Xata8QoXoVrSNTUeggjnM9635InEA8Pg08Z0=
+	t=1778424170; cv=none; b=gM2pxluwsO+EvTj+u4oxWo1QP+OuyKblx8+vHzagVC/AgxnBN5fd/emLw9RLdyBHJHN9/t2KSkWMaoSU3VAHcyda+WVeLBJdQvc3oJ6Yx9bgwKAh5hUE39mmnhg3JVfkAH3qTGGDjeDcS3vv58RgecRnJDR3BWNXKlsxfbxnDcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778423379; c=relaxed/simple;
-	bh=rAQy8hEHIWy8AlGh81p3m/bBThI9ya9vk0fC0w27gjo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qnGL0c7dcTJVGc12fjzALo4qDW71/bv2/h5Mxb7I9E4IqtBoF1YlKMf66m0oSqTirQ6lBtGL4gdtD0iUuDTG+C5qv7+Ace+mVzs0pYTYP2Us4Qu8/9QOGj0xgK+/dA3bnV7M7+kqkn1vR/pZpz+x3qmaQ8goFF1mTgXewcWhCHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=A1TdsSiW; arc=none smtp.client-ip=115.236.127.213
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	s=arc-20240116; t=1778424170; c=relaxed/simple;
+	bh=v5moWlDgWXyXpIDKc1xx5LnE/3kJjtazvHv6Bs6IHNE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eh3Qi4XKmJEKoP3w9BUR2EjKfMWS16Rkr8tExZ/SpXC72MF/QqggscKQSDeYyKasQfb3tlklXru0LHA9qeZ8piouzKBJhCruHUuOevgTtpNdfMywpezWj+2DDJuj2GUrxDCeSz3ZZz+lYgiLnVZDPvq4Sf0AwyirLmxuRC4/2Zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AKU9sa3m; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="A1TdsSiW"
-Received: from server001 (unknown [222.130.22.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 3dd2c700c;
-	Sun, 10 May 2026 21:53:56 +0800 (GMT+08:00)
-From: Kefan Bai <baikefan@leap-io-kernel.com>
-To: linux-usb@vger.kernel.org,
-	si.yanteng@linux.dev
-Cc: gregkh@linuxfoundation.org,
-	seakeel@gmail.com,
-	alexs@kernel.org,
-	dzm91@hust.edu.cn,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AKU9sa3m"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778424164;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XtLBmOnLto9xVpl00Lw1ozKRruIqiqHPeh0/9Zkfe0o=;
+	b=AKU9sa3mbc8Lf4eG+ZJ3/JPyUGJKV03Jh8cLX0X/7ND+D857JbKPc+nHzAbJNq0NxICQyJ
+	tuEnnY1xfi9aVuvTaoiMm5MIUYsDprNgZrpLHckKiL3NObxIgrQVHxDsVrEh+R13x24gjk
+	QCV7SLdc3MrI8Exwa9n0n1qX4E+Koq4=
+From: Lance Yang <lance.yang@linux.dev>
+To: leitao@debian.org
+Cc: david@kernel.org,
+	linmiaohe@huawei.com,
+	nao.horiguchi@gmail.com,
+	akpm@linux-foundation.org,
 	corbet@lwn.net,
 	skhan@linuxfoundation.org,
+	ljs@kernel.org,
+	Liam.Howlett@oracle.com,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	shuah@kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	doubled@leap-io-kernel.com
-Subject: [PATCH v6 8/8] docs/zh_CN: Add CREDITS translation
-Date: Sun, 10 May 2026 21:53:39 +0800
-Message-ID: <c1f15d06708eaf8d7237024239844511c2391223.1778415392.git.baikefan@leap-io-kernel.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1778415392.git.baikefan@leap-io-kernel.com>
-References: <cover.1778415392.git.baikefan@leap-io-kernel.com>
+	linux-kselftest@vger.kernel.org,
+	kernel-team@meta.com,
+	Lance Yang <lance.yang@linux.dev>
+Subject: Re: [PATCH v5 2/4] mm/memory-failure: add panic option for unrecoverable pages
+Date: Sun, 10 May 2026 22:42:20 +0800
+Message-Id: <20260510144220.92522-1-lance.yang@linux.dev>
+In-Reply-To: <aftnSfb15G92JON5@gmail.com>
+References: <aftnSfb15G92JON5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,197 +61,292 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e122a81d509d5kunm9f76e21d35e0a8
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZGRoZVh9OHkxNT0kZTktNSlYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSU
-	pCTkhIQ1VPVUpPS0JZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=A1TdsSiWr9yFvVbyR2NrDvClfKruNY1ZXKoL5+KGQBQdTpIr6SCf6BUUNzYLDilujraK02u1ziecw2ZEA3wJazuT+Rk1LxBcQk3Z4SelBwGINuwJvWnA/RUxnCeehoX2Noq6RmDp2tqF8DGmV7Xp/V/+erVjd9mFXrSfERofoqwgaC60RMiw9v+/jSVHz8EIRgf0PPL/5jOVxCWdfhcSAgp/eoX2o4uCYIXeJV1Bdw+Kx06lC4KGwXBPBVXMh6jIRy9udW1MDmY1MDwTRSNnS8UsffcMUFRhCb1bRHnBB1h9XD/mEWzWeY5UW6++5xRqvXyiUW5BGyz6SzneKzZyMA==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=aJmqUMY4Y6qfogtdf5N/6AfRAQ6frcuRNFAHdpKc+eI=;
-	h=date:mime-version:subject:message-id:from;
+X-Migadu-Flow: FLOW_OUT
 
-Translate .../usb/CREDITS into Chinese
 
-Update the translation through commit 7b2328c5a009
-("docs: Fix typo in usb/CREDITS")
+On Wed, May 06, 2026 at 09:18:12AM -0700, Breno Leitao wrote:
+>On Tue, Apr 28, 2026 at 11:07:21AM +0800, Lance Yang wrote:
+>> 
+>> On Mon, Apr 27, 2026 at 05:49:28PM +0200, David Hildenbrand (Arm) wrote:
+>> >> +	switch (type) {
+>> >> +	case MF_MSG_KERNEL:
+>> >> +	case MF_MSG_UNKNOWN:
+>> >> +		return true;
+>> >> +	case MF_MSG_KERNEL_HIGH_ORDER:
+>> >> +		/*
+>> >> +		 * Rule out a concurrent buddy allocation: give the
+>> >> +		 * allocator a moment to finish prep_new_page() and
+>> >> +		 * re-check. A genuine high-order kernel tail page stays
+>> >> +		 * unowned; an in-flight allocation will have bumped the
+>> >> +		 * refcount, attached a mapping, or placed the page on
+>> >> +		 * an LRU by now.
+>> >> +		 */
+>> >> +		p = pfn_to_online_page(pfn);
+>> >> +		if (!p)
+>> >> +			return true;
+>> >> +		/*
+>> >> +		 * Yield so a concurrent allocator on another CPU can
+>> >> +		 * finish prep_new_page() and have its writes become
+>> >> +		 * visible before we resample the page state.
+>> >> +		 */
+>> >> +		cpu_relax();
+>> >> +		return page_count(p) == 0 &&
+>> >> +		       !PageLRU(p) &&
+>> >> +		       !page_mapped(p) &&
+>> >> +		       !page_folio(p)->mapping &&
+>> >> +		       !is_free_buddy_page(p);
+>> >
+>> >I don't get what you are doing here. The right way to check for a tail page is
+>> >not by checking the refcount.
+>> >
+>> >Further, you are not holding a folio reference? If so, calling
+>> >page_mapped/folio_mapped is shaky. On concurrent folio split you can trigger a
+>> >VM_WARN_ON_FOLIO().
+>> >
+>> >
+>> >Maybe folio_snapshot() is what you are looking for, if you are in fact not
+>> >holding a reference?
+>> 
+>> Right! Maybe we should not try to make this decision in
+>> panic_on_unrecoverable_mf().
+>> 
+>> By the time we get here, we only know the final MF_MSG_* type. The
+>> real reason why get_hwpoison_page() failed is already lost.
+>> 
+>> Wonder if it would be better to split that earlier, around
+>> __get_unpoison_page()/get_any_page(). That code still knows why
+>> grabbing the page failed, either an unsupported kernel page or
+>> just a temporary race we cannot really trust :)
+>> 
+>> Then the later panic logic can be simple: panic for the stable
+>> unsupported kernel page case, and not for the temporary race case.
+>> 
+>> That would also avoid trying to guess MF_MSG_KERNEL_HIGH_ORDER here:)
+>
+>This is a very good feedback, and definitely what I wanted to do, but,
+>failed. Once we have the reason, we don't need this dance to guess the
+>reason.
+>
+>I've hacked a patch based on this approach. How does it sound?
 
-Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
-Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
+Yes. This direction makes sense to me, not an expert though :D
+
+I played with something similar (untested) on top of patch #01:
+
+---8<---
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index 432d5f996c64..a2799f063913 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -74,6 +74,8 @@ static int sysctl_memory_failure_recovery __read_mostly = 1;
+
+ static int sysctl_enable_soft_offline __read_mostly = 1;
+
++static int sysctl_panic_on_unrecoverable_mf __read_mostly;
++
+ atomic_long_t num_poisoned_pages __read_mostly = ATOMIC_LONG_INIT(0);
+
+ static bool hw_memory_failure __read_mostly = false;
+@@ -155,6 +157,15 @@ static const struct ctl_table memory_failure_table[] = {
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_ONE,
++	},
++	{
++		.procname	= "panic_on_unrecoverable_memory_failure",
++		.data		= &sysctl_panic_on_unrecoverable_mf,
++		.maxlen		= sizeof(sysctl_panic_on_unrecoverable_mf),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE,
+ 	}
+ };
+
+@@ -1281,6 +1292,18 @@ static void update_per_node_mf_stats(unsigned long pfn,
+ 	++mf_stats->total;
+ }
+
++static bool panic_on_unrecoverable_mf(enum mf_action_page_type type,
++				      enum mf_result result)
++{
++	if (!sysctl_panic_on_unrecoverable_mf || result != MF_IGNORED)
++		return false;
++
++	if (type == MF_MSG_KERNEL)
++		return true;
++
++	return false;
++}
++
+ /*
+  * "Dirty/Clean" indication is not 100% accurate due to the possibility of
+  * setting PG_dirty outside page lock. See also comment above set_page_dirty().
+@@ -1298,6 +1321,9 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
+ 	pr_err("%#lx: recovery action for %s: %s\n",
+ 		pfn, action_page_types[type], action_name[result]);
+
++	if (panic_on_unrecoverable_mf(type, result))
++		panic("Memory failure: %#lx: unrecoverable page", pfn);
++
+ 	return (result == MF_RECOVERED || result == MF_DELAYED) ? 0 : -EBUSY;
+ }
+
+@@ -1389,11 +1415,27 @@ static int __get_hwpoison_page(struct page *page, unsigned long flags)
+
+ #define GET_PAGE_MAX_RETRY_NUM 3
+
+-static int get_any_page(struct page *p, unsigned long flags)
++enum mf_get_page_status {
++	MF_GET_PAGE_OK = 0,
++	MF_GET_PAGE_RACE,
++	MF_GET_PAGE_UNHANDLABLE,
++};
++
++static void set_mf_get_page_status(enum mf_get_page_status *gp_status,
++				   enum mf_get_page_status value)
++{
++	if (gp_status)
++		*gp_status = value;
++}
++
++static int get_any_page(struct page *p, unsigned long flags,
++			enum mf_get_page_status *gp_status)
+ {
+ 	int ret = 0, pass = 0;
+ 	bool count_increased = false;
+
++	set_mf_get_page_status(gp_status, MF_GET_PAGE_OK);
++
+ 	if (flags & MF_COUNT_INCREASED)
+ 		count_increased = true;
+
+@@ -1406,11 +1448,13 @@ static int get_any_page(struct page *p, unsigned long flags)
+ 				if (pass++ < GET_PAGE_MAX_RETRY_NUM)
+ 					goto try_again;
+ 				ret = -EBUSY;
++				set_mf_get_page_status(gp_status, MF_GET_PAGE_RACE);
+ 			} else if (!PageHuge(p) && !is_free_buddy_page(p)) {
+ 				/* We raced with put_page, retry. */
+ 				if (pass++ < GET_PAGE_MAX_RETRY_NUM)
+ 					goto try_again;
+ 				ret = -EIO;
++				set_mf_get_page_status(gp_status, MF_GET_PAGE_RACE);
+ 			}
+ 			goto out;
+ 		} else if (ret == -EBUSY) {
+@@ -1423,6 +1467,7 @@ static int get_any_page(struct page *p, unsigned long flags)
+ 				goto try_again;
+ 			}
+ 			ret = -EIO;
++			set_mf_get_page_status(gp_status, MF_GET_PAGE_UNHANDLABLE);
+ 			goto out;
+ 		}
+ 	}
+@@ -1442,6 +1487,7 @@ static int get_any_page(struct page *p, unsigned long flags)
+ 		}
+ 		put_page(p);
+ 		ret = -EIO;
++		set_mf_get_page_status(gp_status, MF_GET_PAGE_UNHANDLABLE);
+ 	}
+ out:
+ 	if (ret == -EIO)
+@@ -1480,6 +1526,7 @@ static int __get_unpoison_page(struct page *page)
+  * get_hwpoison_page() - Get refcount for memory error handling
+  * @p:		Raw error page (hit by memory error)
+  * @flags:	Flags controlling behavior of error handling
++ * @gp_status:	Optional output for the reason get_any_page() failed
+  *
+  * get_hwpoison_page() takes a page refcount of an error page to handle memory
+  * error on it, after checking that the error page is in a well-defined state
+@@ -1503,7 +1550,8 @@ static int __get_unpoison_page(struct page *page)
+  *         operations like allocation and free,
+  *         -EHWPOISON when the page is hwpoisoned and taken off from buddy.
+  */
+-static int get_hwpoison_page(struct page *p, unsigned long flags)
++static int get_hwpoison_page(struct page *p, unsigned long flags,
++			     enum mf_get_page_status *gp_status)
+ {
+ 	int ret;
+
+@@ -1511,7 +1559,7 @@ static int get_hwpoison_page(struct page *p, unsigned long flags)
+ 	if (flags & MF_UNPOISON)
+ 		ret = __get_unpoison_page(p);
+ 	else
+-		ret = get_any_page(p, flags);
++		ret = get_any_page(p, flags, gp_status);
+ 	zone_pcp_enable(page_zone(p));
+
+ 	return ret;
+@@ -2341,6 +2389,7 @@ static int memory_failure_pfn(unsigned long pfn, int flags)
+  */
+ int memory_failure(unsigned long pfn, int flags)
+ {
++	enum mf_get_page_status gp_status = MF_GET_PAGE_OK;
+ 	struct page *p;
+ 	struct folio *folio;
+ 	struct dev_pagemap *pgmap;
+@@ -2413,7 +2462,7 @@ int memory_failure(unsigned long pfn, int flags)
+ 	 * that may make page_ref_freeze()/page_ref_unfreeze() mismatch.
+ 	 */
+ 	is_reserved = PageReserved(p);
+-	res = get_hwpoison_page(p, flags);
++	res = get_hwpoison_page(p, flags, &gp_status);
+ 	if (!res) {
+ 		if (is_free_buddy_page(p)) {
+ 			if (take_page_off_buddy(p)) {
+@@ -2437,9 +2486,13 @@ int memory_failure(unsigned long pfn, int flags)
+ 		/*
+ 		 * Pages with PG_reserved set are not currently managed by the
+ 		 * page allocator (memblock-reserved memory, driver reservations,
+-		 * etc.), so classify them as kernel-owned for reporting.
++		 * etc.), so classify them as kernel-owned for reporting. Do the
++		 * same for pages that get_any_page() still cannot handle after
++		 * retries: likely non-LRU/non-buddy pages such as slab, kernel
++		 * stack, page table or vmalloc-backed pages. Transient lifecycle
++		 * races stay as MF_MSG_GET_HWPOISON.
+ 		 */
+-		if (is_reserved)
++		if (is_reserved || gp_status == MF_GET_PAGE_UNHANDLABLE)
+ 			res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
+ 		else
+ 			res = action_result(pfn, MF_MSG_GET_HWPOISON,
+@@ -2744,7 +2797,7 @@ int unpoison_memory(unsigned long pfn)
+ 		goto unlock_mutex;
+ 	}
+
+-	ghp = get_hwpoison_page(p, MF_UNPOISON);
++	ghp = get_hwpoison_page(p, MF_UNPOISON, NULL);
+ 	if (!ghp) {
+ 		if (folio_test_hugetlb(folio)) {
+ 			huge = true;
+@@ -2951,7 +3004,7 @@ int soft_offline_page(unsigned long pfn, int flags)
+
+ retry:
+ 	get_online_mems();
+-	ret = get_hwpoison_page(page, flags | MF_SOFT_OFFLINE);
++	ret = get_hwpoison_page(page, flags | MF_SOFT_OFFLINE, NULL);
+ 	put_online_mems();
+
+ 	if (hwpoison_filter(page)) {
 ---
- Documentation/translations/zh_CN/usb/CREDITS | 162 +++++++++++++++++++
- 1 file changed, 162 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/usb/CREDITS
 
-diff --git a/Documentation/translations/zh_CN/usb/CREDITS b/Documentation/translations/zh_CN/usb/CREDITS
-new file mode 100644
-index 000000000000..9df5e311d211
---- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/CREDITS
-@@ -0,0 +1,162 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/usb/CREDITS
-+:翻译:
-+
-+ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
-+
-+:校译:
-+
-+
-+
-+简易 Linux USB 驱动的致谢名单：
-+
-+以下人员都为 Linux USB 驱动代码作出了贡献（按姓氏字母顺序排列）。
-+我相信这份名单本应更长一些，但确实不容易维护。
-+如需将自己加入名单，请提交补丁。
-+
-+  Georg Acher <acher@informatik.tu-muenchen.de>
-+  David Brownell <dbrownell@users.sourceforge.net>
-+  Alan Cox <alan@lxorguk.ukuu.org.uk>
-+  Randy Dunlap <randy.dunlap@intel.com>
-+  Johannes Erdfelt <johannes@erdfelt.com>
-+  Deti Fliegl <deti@fliegl.de>
-+  ham <ham@unsuave.com>
-+  Bradley M Keryan <keryan@andrew.cmu.edu>
-+  Greg Kroah-Hartman <greg@kroah.com>
-+  Pavel Machek <pavel@suse.cz>
-+  Paul Mackerras <paulus@cs.anu.edu.au>
-+  Petko Manlolov <petkan@dce.bg>
-+  David E. Nelson <dnelson@jump.net>
-+  Vojtech Pavlik <vojtech@suse.cz>
-+  Bill Ryder <bryder@sgi.com>
-+  Thomas Sailer <sailer@ife.ee.ethz.ch>
-+  Gregory P. Smith <greg@electricrain.com>
-+  Linus Torvalds <torvalds@linux-foundation.org>
-+  Roman Weissgaerber <weissg@vienna.at>
-+  <Kazuki.Yasumatsu@fujixerox.co.jp>
-+
-+特别感谢：
-+
-+  Inaky Perez Gonzalez <inaky@peloncho.fis.ucm.es>
-+  感谢他发起了 Linux USB 驱动开发工作，并编写了体量较大的 uusbd
-+  驱动中的大部分代码。我们从那项工作中学到了很多。
-+
-+  NetBSD 和 FreeBSD 的 USB 开发者们
-+  感谢他们加入 Linux USB 邮件列表，提供建议并分享实现经验。
-+
-+附加感谢：
-+  还要感谢以下公司与个人在硬件、支持、时间投入和开发方面提供的捐赠与帮助
-+  （摘自 Inaky 驱动原始的 THANKS 文件）：
-+
-+    以下公司曾帮助我们开发 Linux USB / UUSBD：
-+
-+        - 3Com GmbH 捐赠了一台 ISDN Pro TA，并在技术问题和测试设备方面为我
-+          提供支持。没想到能得到这么大的帮助。
-+
-+        - USAR Systems 向我们提供了他们出色的 USB 评估套件，
-+          使我们能够测试 Linux USB 驱动对最新 USB 规范的符合性。
-+          USAR Systems 认识到保持开放操作系统与时俱进的重要性，
-+          并以硬件支持这个项目。感谢！
-+
-+        - 感谢英特尔提供的宝贵帮助。
-+
-+        - 我们与 Cherry 合作，使 Linux 成为首个内置 USB 支持的操作系统。
-+          Cherry 是全球最大的键盘制造商之一。
-+
-+        - CMD Technology, Inc. 慷慨捐赠了一块 CSA-6700 PCI-to-USB
-+          控制卡，用于测试 OHCI 实现。
-+
-+        - 由于他们对我们的支持，Keytronic 可以放心，
-+          他们的键盘能卖给至少 300 万 Linux 用户中的一部分。
-+
-+        - ing büro h doran [http://www.ibhdoran.com]!
-+          在欧洲，想给主板买一个 PC 背板 USB 连接器几乎是不可能的
-+          （我自己做的那个相当糟糕 :)）。现在我知道该去哪里买漂亮的 USB
-+          配件了！
-+
-+        - Genius Germany 捐赠了一只 USB 鼠标，用于测试鼠标启动协议；
-+          他们还捐赠了 F-23 数字摇杆和 NetMouse Pro。感谢！
-+
-+        - AVM GmbH Berlin 支持我们开发 Linux 下的 AVM ISDN Controller B1 USB 驱动。
-+          AVM 是领先的 ISDN 控制器制造商，其主动式设计对包括 Linux 在内的
-+          所有操作系统平台开放。
-+
-+        - 非常感谢 Y-E Data, Inc 捐赠的 FlashBuster-U USB 软驱，
-+          使我们能够测试批量传输代码。
-+
-+        - 感谢 Logitech 捐赠了一只三轴 USB 鼠标。
-+
-+          Logitech 负责设计、制造并销售各种人机接口设备，
-+          在键盘、鼠标、轨迹球、摄像头、扬声器，以及面向游戏和专业用途的
-+          控制设备方面拥有悠久历史和丰富经验。
-+
-+          作为这些设备广为人知的供应商和销售商，他们捐赠了 USB 鼠标、
-+          摇杆和扫描仪，以表明 Linux 的重要性，也让 Logitech 的客户
-+          能在自己喜欢的操作系统上获得支持，并让所有 Linux 用户都能使用
-+          Logitech 以及其他 USB 硬件。
-+
-+          Logitech 也是 1999 年 2 月 11 日维也纳 Linux 大会的官方赞助商，
-+          我们将在会上展示 Linux USB 工作的最新进展。
-+
-+        - 感谢 CATC 提供 USB Inspector，帮助我们揭开 UHCI 内部实现中
-+          那些不为人知的角落。
-+
-+        - 感谢 Entrega 为开发工作提供 PCI 转 USB 卡、集线器和转换器产品。
-+
-+        - 感谢 ConnectTech 提供 WhiteHEAT USB 转串口转换器以及相关文档，
-+          让这个驱动得以写成。
-+
-+        - 感谢 ADMtek 提供 Pegasus 和 Pegasus II 评估板、规格说明，
-+          以及驱动开发过程中的宝贵建议。
-+
-+    另外还要感谢以下个人（嘿，顺序不分先后 :)）
-+
-+        - Oren Tirosh <orenti@hishome.net>,
-+          他非常耐心地听我唠叨各种 USB 疑问，还给了很多很酷的想法。
-+
-+        - Jochen Karrer <karrer@wpfd25.physik.uni-wuerzburg.de>,
-+          指出了致命 bug，并给出了宝贵建议。
-+
-+        - Edmund Humemberger <ed@atnet.at>，他在公共关系与项目管理方面
-+          为 Linux-USB 项目付出了巨大的努力。
-+
-+        - Alberto Menegazzi <flash@flash.iol.it> 正在着手编写 UUSBD 文档，加油！
-+
-+        - Ric Klaren <ia_ric@cs.utwente.nl> 编写了很好的入门文档，
-+          与 Alberto 的作品形成良性竞争：）。
-+
-+        - Christian Groessler <cpg@aladdin.de>，感谢他在那些棘手细节上的帮助。
-+
-+        - Paul MacKerras 改进了 OHCI 实现，推动了对 iMac 的支持，
-+          并提供了大量的改进意见。
-+
-+        - Fernando Herrera <fherrera@eurielec.etsit.upm.es>
-+          负责撰写、维护并不断补充那份期待已久、独一无二又精彩的
-+          UUSBD FAQ！太棒了！
-+
-+        - Rasca Gmelch <thron@gmx.de> 重新启用了 raw 驱动，
-+          指出了一些错误，并启动了 uusbd-utils 软件包。
-+
-+        - Peter Dettori <dettori@ozy.dec.com>，像疯了一样挖掘 bug，
-+          还提出了很多很酷的建议，太棒了！
-+
-+        - 自由软件与 Linux 社区的所有成员，包括 FSF、GNU 项目、
-+          MIT X 联盟、TeX 社区等等，谢谢你们！
-+
-+        - 特别感谢 Richard Stallman 创造了 Emacs！
-+
-+        - 感谢 linux-usb 邮件列表的所有成员，读了那么多邮件——不开玩笑了，
-+          感谢你们提出的所有建议！
-+
-+        - 感谢 USB Implementers Forum 成员们的帮助与支持。
-+
-+        - Nathan Myers <ncm@cantrip.org>，感谢他的建议！
-+          （希望你喜欢 Cibeles 的派对。）
-+
-+        - 感谢 Linus Torvalds 创建、开发并管理 Linux。
-+
-+        - Mike Smith、Craig Keithley、Thierry Giron 和 Janet Schank
-+          感谢他们让我认识到标准 USB 集线器其实也没那么“标准”，
-+          这有助于我们在标准集线器驱动中加入厂商特定的特殊处理。
---
-2.54.0
+I would leave MF_MSG_KERNEL_HIGH_ORDER out for now. That path still
+has the allocator race David pointed out, unless there is easy way to
+rule that out ...
 
+Also would leave MF_MSG_UNKNOWN out. We don't really know what it is no?
+So it's not good basis for a panic decision :)
+
+Maybe better to keep panic_on_unrecoverable_mf simple: classify the
+get_any_page() failure reason earlier, but only panic on MF_MSG_KERNEL.
+
+IMHO, making the knob too complicated for memory failures that should be
+rare does not seem worth it. Just covering MF_MSG_KERNEL should already
+help crash analysis a lot :)
+
+Feel free to pick up any bits that look useful :)
+
+Cheers, Lance
+
+[...]
