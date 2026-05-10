@@ -1,489 +1,231 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m127213.xmail.ntesmail.com (mail-m127213.xmail.ntesmail.com [115.236.127.213])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36E3381AEF
-	for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 15:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2F6286881;
+	Sun, 10 May 2026 16:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778428452; cv=none; b=Mu6vxXCMpUVabX72vjg1fBt2i3Q9fMQ0imZmldeO7frTnXtJYNITgm1UpVc5xZaf8dAP/VYqi2E+rltB9zKKZxfbC7gg8qRUdUtxvdMIEMAIIZHmVDWFcJ/ptr9qbgXXc9NJDa98YflFqF1mUtmGfWhrir+EXVuKEb8D0fgvTos=
+	t=1778429800; cv=none; b=KE8tzMg8LcFcCftE7PN5PG+etJ+IV/4Yuh7NLkUnt22rCorhQizo8UecFyjGeaOJ8oaa1ZZSNnVnskkHQ7WGXU26japrWSPKD+w+hzBq4lCswtUPCwYnDk30eFt8CPIB+5htSTATcpAzNuIK+aiuBHe2jy7gFKc5Llo2dxJudM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778428452; c=relaxed/simple;
-	bh=LO76TaPcJ68KpkKLpiKa9Z5MHTFAwbrAsnYL2+h0mJg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TW9RYuxT53ZsLsSGv8Ioi6VTTGhuyD10lZW7PV+36e8Wz9jsLVn5a8bhpRQUDbRBK+sq/8aToLUljU2Zpat1uqf7MQgo4pTdQd897kueeJc8+3yYs/2OkOPaK+EISf74A2+Rtb9qY//JmtHPTKR/X43fNMeRUCUXiLZ+HrzVjWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspirated.com; spf=pass smtp.mailfrom=inspirated.com; dkim=pass (2048-bit key) header.d=inspirated-com.20251104.gappssmtp.com header.i=@inspirated-com.20251104.gappssmtp.com header.b=jJq4KJ6Y; arc=none smtp.client-ip=209.85.215.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspirated.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspirated.com
+	s=arc-20240116; t=1778429800; c=relaxed/simple;
+	bh=W3MXckDeAjvDbMIgM0BJjQc+IfgrmWuYR/G1XRDq2Gc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C9szqkI71VJ5Y6rXi9lKPFRKrUcaQOedOaYh5ztacJU4Gkc0SKHu0zyGdUud2wNk9NSjCU5Q+nyWzrZUANO99UArFtd5q16p377+mI+BdF+Z7gbyELJCYEOvRSa3RTlYZAteUCOYDwz8pSInaF9yEmmQM8khnNxHlC+aL8x02TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=MZEv/C7C; arc=none smtp.client-ip=115.236.127.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inspirated-com.20251104.gappssmtp.com header.i=@inspirated-com.20251104.gappssmtp.com header.b="jJq4KJ6Y"
-Received: by mail-pg1-f193.google.com with SMTP id 41be03b00d2f7-c828daf83e2so79423a12.2
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 08:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=inspirated-com.20251104.gappssmtp.com; s=20251104; t=1778428449; x=1779033249; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0oE6y69M3xiqzAX/8jVmHNK46h9/q1JAe0RRlKSB0MU=;
-        b=jJq4KJ6Y9888cktD7MCWmzkxWrj+fcOOVIlTiUvOMN6L/l4d20+qne/w4MSqlqYbaY
-         t/YHMhSA4MimVD7aDkAespAcawkwE3bDQDOeKpmwynsQSyvGv+meZ5J7DuDj9007TxJz
-         MTtSISak3kCUrYVFsqFNel4NVhKehI2umNVCJk8VzM0kB/frl9aTkae6xQ02AlG6BohS
-         46I5jda8PlbIsQqJF8BfV576wed45O6IFnga10TMpK1j9yau+8OaOPGzakKOrjngO3RQ
-         3HUlEj2kYxA0CAJ3z6kVze3DQ6ciQqt5AFtKiVmDb+o+PG6H5O3t5+dzE0PxsaZo6Ue6
-         z4oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778428449; x=1779033249;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0oE6y69M3xiqzAX/8jVmHNK46h9/q1JAe0RRlKSB0MU=;
-        b=LObI2h1R2VWK3OSJr4TcyfMkMt+P1No6TTW/QUieT5VtenYy0V7kwQh/0AeVC71Zfw
-         utjftLti/vi49UiZWpKpcRtZWpVT9CstkL3DKOdLzt5o6lYCSeX7daSvQh1NS0yhuVcz
-         76k4cjJ8xlqVfFr1CbufmKkmVPs1a0rbqlZuC089ElMWJtHsceCE8nKcCs0Fdkzzs4Ed
-         quOyoYR/Sy/LMM7B2AlSUrCAbkzXbAKgIv9dI9n4MDHU/9tZwZMbhMFMcyY77h6bfo4Q
-         e0H2LPG53IiVXUQRzOMHRBtyiT4ewywPqUHiu38JDrt6HmzcOh2gojkh1C/Ej2L4irMx
-         HVWQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9Ia6I+l4769BYog9qRRV4QoDan6Dh1srORPl0h8dSPwNdZMWpRKMXnTCLCVnh6okR0GjT3UVxxHg8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNVxhy2p7TxrL5ooBkzSTR88JBe7wMQJNQSqro11mA2KiwRn84
-	PAiz4p08iH68YYxPLOvVWlFLVLnn/FXxhCZbP+iwxjWUF28Odq9WM9Uj5bnuUyLhgYw=
-X-Gm-Gg: Acq92OHJdIF1brIsp0QWBsXUBYBYfDpxB5SgHanuwjMve4lE8rXu+HtmUB2hmdqZhiL
-	sDiXSnmPO5aQ/1fMVy3I6aF7WQJu6xMZSOYlnMu9da6LxZtUyn44gEy8jBFkKc7DCi7HOYd5GFf
-	8nIN2zpfXZQDAu1Z130gVv2EARyhlMiAkmyv6Ww2BnYnhpggczQDzZXWUrzH+9VJ1pThN66Xmp6
-	Q7vSxkX4JZl4KaQ4NYzOvSJDPKxXkz3L3AC/pKbUd/HFfBaVnfkQrICq2FhjBg+oYWzw0OBgqsT
-	LJg/Z/q5z0IGU084gy8YkWvV99rQtAucM78+KZMdqL6VsOLCgYF5B0seG6P0K2C2tkmbsBQtINP
-	HGMtKw3EylY6GggkPoLCjg3Nm7jTdXXQi4Kia/d1XCLGkWa8w9VR5EcAvGPSfJfnFmp9nXhsEVl
-	IzLGnwwoerkCBBZl+0y+U8qfjZdzX90IFr+Jz/mnbt+q0EWZRMQCFoMUBYJP0KB2N/4Q==
-X-Received: by 2002:a17:903:1a8d:b0:2bc:a58d:329 with SMTP id d9443c01a7336-2bca58d0532mr31671035ad.40.1778428448790;
-        Sun, 10 May 2026 08:54:08 -0700 (PDT)
-Received: from [192.168.1.106] ([50.35.35.255])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e8df57sm79286785ad.64.2026.05.10.08.54.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 May 2026 08:54:08 -0700 (PDT)
-Message-ID: <0b8bba44-f6bb-4d69-b9d4-5787c276d41a@inspirated.com>
-Date: Sun, 10 May 2026 08:54:07 -0700
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="MZEv/C7C"
+Received: from server001 (unknown [222.130.22.242])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3dd2c7000;
+	Sun, 10 May 2026 21:53:47 +0800 (GMT+08:00)
+From: Kefan Bai <baikefan@leap-io-kernel.com>
+To: linux-usb@vger.kernel.org,
+	si.yanteng@linux.dev
+Cc: gregkh@linuxfoundation.org,
+	seakeel@gmail.com,
+	alexs@kernel.org,
+	dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	doubled@leap-io-kernel.com
+Subject: [PATCH v6 2/8] docs/zh_CN: Add acm.rst translation
+Date: Sun, 10 May 2026 21:53:33 +0800
+Message-ID: <0ab199e9eafc0f7e312008063059aec4af0c65bc.1778415392.git.baikefan@leap-io-kernel.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1778415392.git.baikefan@leap-io-kernel.com>
+References: <cover.1778415392.git.baikefan@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
-To: Jeff Barnes <jeffbarnes@linux.microsoft.com>,
- Andy Lutomirski <luto@amacapital.net>
-Cc: Eric Biggers <ebiggers@kernel.org>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <CALCETrVqG+1yErRJjkxvJrf=A+Vu84HTR4Bx1Pcd8G1C0PJcMA@mail.gmail.com>
- <14A441D8-5370-44BE-8732-99BF8107C3FD@getmailspring.com>
-Content-Language: en-US
-From: Kamran Khan <kz@inspirated.com>
-In-Reply-To: <14A441D8-5370-44BE-8732-99BF8107C3FD@getmailspring.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9e122a5e3609d5kunm9f76e21d35e090
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaHR5CVh1LGhgdGkkeTh9DGVYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSU
+	pCTkhIQ1VPVUpPS0JZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=MZEv/C7CB4JSH1RgcDVDI/wPt1zRWBzY163EoWXCZ41ZoTUe4fKmUVFI2SIBp8gJOR/onG0O+hqQDqNuMLiOn/ZmGQGInOw46yYcP6h8E5T2+6l/v4oM6/lGlIr1BYznhU/eJOTLlLdaUOKkbe+BffxfhCqh3D8YpnaxfkKSQk6B2x3q/ACVzvxv90jc8ZnDnN3zvCeyzopEF2q6F1Et1trnrZk1r3dJnUSTjc75gxc4VCJVHH4KwFpM8M1wc3qgSm7dLktXWW+FeRIW9eV/zf8PTbHWwDertZOPE8XLChmeczagi8O9SV2BtLFdSJUTNso6ZdcvPWpXNKLzLxUurg==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=z8Kz/UglXQNMseKL9snR729M/8TDJlt/oFofPDtWiQc=;
+	h=date:mime-version:subject:message-id:from;
 
-Hi,
+Translate .../usb/acm.rst into Chinese
 
-AF_ALG is useful not just for hardware-offloading, but also for memory 
-isolation so that applications only get oracle access to the crypto keys 
-and a memory-safety vulnerability in user applications would not 
-immediately put the secret key material at risk.
+Update the translation through commit ecefae6db042
+("docs: usb: rename files to .rst and add them to drivers-api")
 
-I understand and appreciate the concern with complex attack surface and 
-the increased frequency of attacks in this area. But I fear that 
-completely removing AF_ALG increases the risk for userspace applications 
-relying on it for memory isolation.
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
+Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
+---
+ Documentation/translations/zh_CN/usb/acm.rst  | 136 ++++++++++++++++++
+ .../translations/zh_CN/usb/index.rst          |   2 +-
+ 2 files changed, 137 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
 
-What alternatives do userspace applications have on Linux for ensuring 
-crypto keys are not exposed in user memory? That is, FreeBSD and NetBSD 
-natively provide /dev/crypto; removing AF_ALG would kill the only 
-equivalent option on the Linux side for kernel-delegated cryptography.
+diff --git a/Documentation/translations/zh_CN/usb/acm.rst b/Documentation/translations/zh_CN/usb/acm.rst
+new file mode 100644
+index 000000000000..25ec83afd25f
+--- /dev/null
++++ b/Documentation/translations/zh_CN/usb/acm.rst
+@@ -0,0 +1,136 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/usb/acm.rst
++
++:翻译:
++
++ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
++
++:校译:
++
++
++=======================
++Linux ACM 驱动 v0.16
++=======================
++
++版权所有 (c) 1999 Vojtech Pavlik <vojtech@suse.cz>
++
++由 SuSE 赞助
++
++0. 免责声明
++~~~~~~~~~~~~~
++本程序是自由软件；你可以在自由软件基金会发布的 GNU 通用公共许可证第 2 版，
++或者（按你的选择）任何后续版本的条款下重新发布和/或修改它。
++
++发布本程序是希望它能发挥作用，但它不附带任何担保；甚至不包括对适销性
++或特定用途适用性的默示担保。详情见 GNU 通用公共许可证。
++
++你应该已经随本程序收到了 GNU 通用公共许可证的副本；
++如果没有，请致信：Free Software Foundation, Inc., 59
++Temple Place, Suite 330, Boston, MA 02111-1307 USA。
++
++如需联系作者，可发送电子邮件至 vojtech@suse.cz，
++或邮寄至：
++Vojtech Pavlik, Ucitelska 1576, Prague 8, 182 00, Czech Republic。
++
++为方便起见，软件包中已附带 GNU 通用公共许可证第 2 版：见 COPYING 文件。
++
++1. 使用方法
++~~~~~~~~~~~~~
++``drivers/usb/class/cdc-acm.c`` 驱动可用于符合 USB 通信设备类抽象控制模型
++（USB CDC ACM）规范的 USB 调制解调器和 USB ISDN 终端适配器。
++
++许多调制解调器支持此驱动，以下是我所知道的一些型号：
++
++	- 3Com OfficeConnect 56k
++	- 3Com Voice FaxModem Pro
++	- 3Com Sportster
++	- MultiTech MultiModem 56k
++	- Zoom 2986L FaxModem
++	- Compaq 56k FaxModem
++	- ELSA Microlink 56k
++
++我知道有一款 ISDN 终端适配器可以与 ACM 驱动一起使用：
++
++	- 3Com USR ISDN Pro TA
++
++一些手机也可以通过 USB 连接。我知道以下机型可以正常工作：
++
++	- SonyEricsson K800i
++
++遗憾的是，许多调制解调器和大多数 ISDN TA 都使用专有接口，
++因此无法与此驱动配合工作。购买前请先确认设备是否符合 ACM 规范。
++
++要使用这些调制解调器，需要加载以下模块::
++
++	usbcore.ko
++	uhci-hcd.ko ohci-hcd.ko or ehci-hcd.ko
++	cdc-acm.ko
++
++之后就应该可以访问这些调制解调器了。
++应当可以使用 ``minicom``、``ppp`` 和 ``mgetty`` 与它们通信。
++
++2. 验证驱动是否正常工作
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++第一步是检查 ``/sys/kernel/debug/usb/devices``，其内容应该类似如下::
++
++  T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=12  MxCh= 2
++  B:  Alloc=  0/900 us ( 0%), #Int=  0, #Iso=  0
++  D:  Ver= 1.00 Cls=09(hub  ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
++  P:  Vendor=0000 ProdID=0000 Rev= 0.00
++  S:  Product=USB UHCI Root Hub
++  S:  SerialNumber=6800
++  C:* #Ifs= 1 Cfg#= 1 Atr=40 MxPwr=  0mA
++  I:  If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
++  E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=255ms
++  T:  Bus=01 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  2 Spd=12  MxCh= 0
++  D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
++  P:  Vendor=04c1 ProdID=008f Rev= 2.07
++  S:  Manufacturer=3Com Inc.
++  S:  Product=3Com U.S. Robotics Pro ISDN TA
++  S:  SerialNumber=UFT53A49BVT7
++  C:  #Ifs= 1 Cfg#= 1 Atr=60 MxPwr=  0mA
++  I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=acm
++  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
++  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
++  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
++  C:* #Ifs= 2 Cfg#= 2 Atr=60 MxPwr=  0mA
++  I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
++  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
++  I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
++  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
++  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
++
++这三行的存在很关键（以及 ``Cls=`` 字段里出现的 ``comm`` 和 ``data`` 类）；
++它说明这是一个 ACM 设备。``Driver=acm`` 表示该设备正在使用 acm 驱动。
++如果只看到 ``Cls=ff(vend.)``，那就无能为力了：这说明你手上的设备使用的是
++厂商专有接口::
++
++    D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
++    I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
++    I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
++
++在系统日志中应该可以看到::
++
++  usb.c: USB new device connect, assigned device number 2
++  usb.c: kmalloc IF c7691fa0, numif 1
++  usb.c: kmalloc IF c7b5f3e0, numif 2
++  usb.c: skipped 4 class/vendor specific interface descriptors
++  usb.c: new device strings: Mfr=1, Product=2, SerialNumber=3
++  usb.c: USB device number 2 default language ID 0x409
++  Manufacturer: 3Com Inc.
++  Product: 3Com U.S. Robotics Pro ISDN TA
++  SerialNumber: UFT53A49BVT7
++  acm.c: probing config 1
++  acm.c: probing config 2
++  ttyACM0: USB ACM device
++  acm.c: acm_control_msg: rq: 0x22 val: 0x0 len: 0x0 result: 0
++  acm.c: acm_control_msg: rq: 0x20 val: 0x0 len: 0x7 result: 7
++  usb.c: acm driver claimed interface c7b5f3e0
++  usb.c: acm driver claimed interface c7b5f3f8
++  usb.c: acm driver claimed interface c7691fa0
++
++如果以上都正常，请启动 ``minicom``，把它配置为连接 ``ttyACM`` 设备，
++然后尝试输入 ``at``。如果返回 ``OK``，说明一切工作正常。
+diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
+index 7cfe99a4dc0a..449e8ac2dff0 100644
+--- a/Documentation/translations/zh_CN/usb/index.rst
++++ b/Documentation/translations/zh_CN/usb/index.rst
+@@ -17,10 +17,10 @@ USB 支持
+ .. toctree::
+     :maxdepth: 1
 
-Thanks,
-Kamran.
++    acm
 
-On 5/6/26 7:42 AM, Jeff Barnes wrote:
-> Hi,
-> 
-> On May 5 2026, at 7:17 pm, Andy Lutomirski <luto@amacapital.net> wrote:
-> 
->>> On Apr 29, 2026, at 6:19 PM, Eric Biggers <ebiggers@kernel.org> wrote:
->>>   
->>> ﻿AF_ALG is almost completely unnecessary, and it exposes a massive attack
->>> surface that hasn't been standing up to modern vulnerability discovery
->>> tools.  The latest one even has its own website, providing a small
->>> Python script that reliably roots most Linux distros: https://copy.fail/
->>   
->> How about adding a configuration option, defaulted on, that requires
->> capable(CAP_SYS_ADMIN) to create the socket (and maybe also to bind /
->> connect it).  And a sysctl to allow the administrator to override this
->> in the unlikely event that it’s needed.
->>   
->> IIRC cryptsetup used to and maybe even still does require these
->> sockets sometimes and this would let it keep working.  And there's all
->> the FIPS stuff downthread.
-> 
-> Apologize in advance for the long-winded answer.
-> 
-> The "FIPS stuff" centers on using sha512hmac -> libkcapi -> AF_ALG for
-> verifying integrity. The early‑boot sha512hmac check that some
-> distributions use (typically from initramfs) sits at an awkward
-> intersection of multiple standards, and it may help to clarify where it
-> actually fits and where it doesn't.
-> 
->  From a standards perspective, FIPS 140‑3 requires a cryptographic module
-> to perform self‑integrity verification using an approved algorithm and
-> to prevent the module from entering an operational state on failure. In
-> the Linux kernel, the cryptographic module is the kernel crypto
-> subsystem, and these requirements are met by the kernel’s internal
-> power‑up self‑tests (KATs, etc.) on the crypto code and critical data as
-> loaded into memory.
-> 
-> FIPS 199 / SP 800‑53 (e.g., SI‑7) impose system‑level integrity
-> requirements (for Moderate impact systems), i.e., that unauthorized
-> modification of critical components is prevented or detected and that
-> failures result in a protective action. These controls are explicitly
-> technology‑agnostic and are not limited to cryptographic‑module self‑tests.
-> 
-> The sha512hmac check is not the FIPS 140‑3 cryptographic‑module
-> self‑integrity test. Instead, it has historically been used as a system
-> integrity control that provides auditors with assurance that the kernel
-> image containing the cryptographic module has not been modified prior to
-> execution, and that a failure will halt the boot.
-> 
-> Although FIPS 140‑3 does not mandate an HMAC over the kernel image, the
-> early‑boot HMAC became an accepted evidence pattern for satisfying
-> system‑integrity expectations (FIPS 199 / SI‑7) alongside a kernel
-> crypto validation. This is why it is often perceived as “required” for
-> FIPS submissions, even though it is not normatively required by
-> FIPS 140‑3 itself.
-> 
-> With the deprecation/removal of AF_ALG for this use case, there is no
-> longer a supported way to perform an early‑boot, userspace‑driven HMAC
-> using validated kernel crypto without introducing circular dependencies
-> (e.g., relying on userspace crypto before crypto self‑tests complete).
-> As a result, there is no drop‑in replacement for sha512hmac that
-> preserves all of its historical properties.
-> 
-> This is a new development that challenges a long‑standing assumption:
-> that system‑integrity evidence and cryptographic‑module self‑integrity
-> can be cleanly separated while still being demonstrated by a single
-> early‑boot mechanism. That assumption no longer holds given proposed
-> kernel interfaces.
-> 
-> A more accurate decomposition (and one that aligns with the intent of
-> the standards) is to separate integrity enforcement by system phase.
-> 
-> 1. Secure Boot (or equivalent platform verification) ensures that a
-> modified kernel image is not executed at all. This satisfies the
-> requirement that critical components are not loaded in a modified state
-> and that integrity failure results in a protective action (boot prevention).
-> 
-> 2. IMA (with appraisal and enforcement) ensures that modified
-> executables, modules, or firmware cannot be loaded or executed once the
-> kernel is running.
-> 
-> 3. Kernel crypto self‑tests continue to satisfy FIPS 140‑3
-> self‑integrity requirements independently of the above.
-> 
-> Taken together, Secure Boot + IMA provide continuous system‑integrity
-> enforcement without re‑introducing early‑boot HMACs or AF_ALG
-> dependencies, while keeping cryptographic‑module self‑integrity
-> correctly scoped to the kernel crypto subsystem.
-> 
-> The transition away from sha512hmac is therefore not a removal of
-> integrity enforcement, but a shift from a single, early‑boot mechanism
-> to a phased integrity model that better reflects the separation of
-> concerns already present in the standards — even though this separation
-> was previously masked by the hacky HMAC approach.
-> 
-> This change will require updated documentation and auditor education,
-> but it reflects the current technical reality and avoids perpetuating an
-> interface that no longer has a sustainable implementation path.
-> 
->>   
->>   
->>>   
->>> This isn't sustainable, especially as LLMs have accelerated the rate the
->>> vulnerabilities are coming in.  The effort that is being put into this
->>> thing is vastly disproportional to the few programs that actually use
->>> it, and those programs would be better served by userspace code anyway.
->>>   
->>> These issues have been noted in many mailing list discussions already.
->>> But until now they haven't been reflected in the documentation or
->>> kconfig menu itself, and the vulnerabilities are still coming in.
->>>   
->>> Let's go ahead and document the deprecation.
->>>   
->>> This isn't intended to change anything overnight.  After all, most Linux
->>> distros won't be able to disable the kconfig options quite yet, mainly
->>> because of iwd.  But this should create a bit more impetus for these
->>> userspace programs to be fixed, and the documentation update should also
->>> help prevent more users from appearing.
->>>   
->>> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
->>> ---
->>>   
->>> This patch is targeting crypto/master
->>>   
->>> Documentation/crypto/userspace-if.rst | 82 ++++++++++++++++++++-------
->>> crypto/Kconfig                        | 69 ++++++++++++++++------
->>> 2 files changed, 113 insertions(+), 38 deletions(-)
->>>   
->>> diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/crypto/userspace-if.rst
->>> index 021759198fe7..c39f5c79a5b7 100644
->>> --- a/Documentation/crypto/userspace-if.rst
->>> +++ b/Documentation/crypto/userspace-if.rst
->>> @@ -2,30 +2,72 @@ User Space Interface
->>> ====================
->>>   
->>> Introduction
->>> ------------
->>>   
->>> -The concepts of the kernel crypto API visible to kernel space is fully
->>> -applicable to the user space interface as well. Therefore, the kernel
->>> -crypto API high level discussion for the in-kernel use cases applies
->>> -here as well.
->>> -
->>> -The major difference, however, is that user space can only act as a
->>> -consumer and never as a provider of a transformation or cipher
->>> -algorithm.
->>> -
->>> -The following covers the user space interface exported by the kernel
->>> -crypto API. A working example of this description is libkcapi that can
->>> -be obtained from [1]. That library can be used by user space
->>> -applications that require cryptographic services from the kernel.
->>> -
->>> -Some details of the in-kernel kernel crypto API aspects do not apply to
->>> -user space, however. This includes the difference between synchronous
->>> -and asynchronous invocations. The user space API call is fully
->>> -synchronous.
->>> -
->>> -[1] https://www.chronox.de/libkcapi/index.html
->>> +AF_ALG provides unprivileged userspace programs access to arbitrary hash,
->>> +symmetric cipher, AEAD, and RNG algorithms that are implemented in kernel-mode
->>> +code.
->>> +
->>> +AF_ALG is insecure and is deprecated. Originally added to the kernel
->>> in 2010,
->>> +most kernel developers now consider it to be a mistake.
->>> +
->>> +AF_ALG continues to be supported only for backwards compatibility.
->>> On systems
->>> +where no programs using AF_ALG remain, the support for it should be
->>> disabled by
->>> +disabling ``CONFIG_CRYPTO_USER_API_*``.
->>> +
->>> +Deprecation
->>> +-----------
->>> +
->>> +AF_ALG was originally intended to provide userspace programs access
->>> to crypto
->>> +accelerators that they wouldn't otherwise have access to.
->>> +
->>> +However, that capability turned out to not be useful on very many
->>> systems. More
->>> +significantly, the actual implementation exposes a vastly greater
->>> amount of
->>> +functionality than that. It actually provides access to all software algorithms.
->>> +
->>> +This includes arbitrary compositions of different algorithms created
->>> via a
->>> +complex template system, as well as algorithms that only make sense
->>> as internal
->>> +implementation details of other algorithms. It also includes full zero-copy
->>> +support, which is difficult for the kernel to implement securely.
->>> +
->>> +Ultimately, these algorithms are just math computations. They use
->>> the same
->>> +instructions that userspace programs already have access to, just
->>> accessed in a
->>> +much more convoluted and less efficient way.
->>> +
->>> +Indeed, userspace code is nearly always what is being used anyway.
->>> These same
->>> +algorithms are widely implemented in userspace crypto libraries.
->>> +
->>> +Meanwhile, AF_ALG hasn't been withstanding modern vulnerability
->>> discovery tools
->>> +such as syzbot and large language models. It receives a steady
->>> stream of CVEs.
->>> +Some of the examples include:
->>> +
->>> +- CVE-2026-31677
->>> +- CVE-2026-31431 (https://copy.fail)
->>> +- CVE-2025-38079
->>> +- CVE-2025-37808
->>> +- CVE-2024-26824
->>> +- CVE-2022-48781
->>> +- CVE-2019-8912
->>> +- CVE-2018-14619
->>> +- CVE-2017-18075
->>> +- CVE-2017-17806
->>> +- CVE-2017-17805
->>> +- CVE-2016-10147
->>> +- CVE-2015-8970
->>> +- CVE-2015-3331
->>> +- CVE-2014-9644
->>> +- CVE-2013-7421
->>> +- CVE-2011-4081
->>> +
->>> +It is recommended that, whenever possible, userspace programs be
->>> migrated to
->>> +userspace crypto code (which again, is what is normally used anyway) and
->>> +``CONFIG_CRYPTO_USER_API_*`` be disabled.  On systems that use
->>> SELinux, SELinux
->>> +can also be used to restrict the use of AF_ALG to trusted programs.
->>> +
->>> +The remainder of this documentation provides the historical
->>> documentation for
->>> +the deprecated AF_ALG interface.
->>>   
->>> User Space API General Remarks
->>> ------------------------------
->>>   
->>> The kernel crypto API is accessible from user space. Currently, the
->>> diff --git a/crypto/Kconfig b/crypto/Kconfig
->>> index 103d1f58cb7c..6cd1c478d4be 100644
->>> --- a/crypto/Kconfig
->>> +++ b/crypto/Kconfig
->>> @@ -1278,48 +1278,72 @@ config CRYPTO_DF80090A
->>>     tristate
->>>     select CRYPTO_AES
->>>     select CRYPTO_CTR
->>>   
->>> endmenu
->>> -menu "Userspace interface"
->>> +menu "Userspace interface (deprecated)"
->>>   
->>> config CRYPTO_USER_API
->>>     tristate
->>>   
->>> config CRYPTO_USER_API_HASH
->>> -    tristate "Hash algorithms"
->>> +    tristate "Hash algorithms (deprecated)"
->>>     depends on NET
->>>     select CRYPTO_HASH
->>>     select CRYPTO_USER_API
->>>     help
->>> -      Enable the userspace interface for hash algorithms.
->>> +      Enable the AF_ALG userspace interface for hash algorithms.  This
->>> +      provides unprivileged userspace programs access to arbitrary hash
->>> +      algorithms implemented in the kernel's privileged execution context.
->>>   
->>> -      See Documentation/crypto/userspace-if.rst and
->>> -      https://www.chronox.de/libkcapi/html/index.html
->>> +      This interface is deprecated and is supported only for backwards
->>> +      compatibility.  It regularly has vulnerabilities, and the capabilities
->>> +      it provides are redundant with userspace crypto libraries.
->>> +
->>> +      Enable this only if needed for support for a program that
->>> hasn't yet
->>> +      been converted to userspace crypto, for example iwd.
->>> +
->>> +      See also Documentation/crypto/userspace-if.rst
->>>   
->>> config CRYPTO_USER_API_SKCIPHER
->>> -    tristate "Symmetric key cipher algorithms"
->>> +    tristate "Symmetric key cipher algorithms (deprecated)"
->>>     depends on NET
->>>     select CRYPTO_SKCIPHER
->>>     select CRYPTO_USER_API
->>>     help
->>> -      Enable the userspace interface for symmetric key cipher algorithms.
->>> +      Enable the AF_ALG userspace interface for symmetric key algorithms.
->>> +      This provides unprivileged userspace programs access to arbitrary
->>> +      symmetric key algorithms implemented in the kernel's privileged
->>> +      execution context.
->>> +
->>> +      This interface is deprecated and is supported only for backwards
->>> +      compatibility.  It regularly has vulnerabilities, and the capabilities
->>> +      it provides are redundant with userspace crypto libraries.
->>> +
->>> +      Enable this only if needed for support for a program that
->>> hasn't yet
->>> +      been converted to userspace crypto, for example iwd, or cryptsetup
->>> +      with certain algorithms.
->>>   
->>> -      See Documentation/crypto/userspace-if.rst and
->>> -      https://www.chronox.de/libkcapi/html/index.html
->>> +      See also Documentation/crypto/userspace-if.rst
->>>   
->>> config CRYPTO_USER_API_RNG
->>> -    tristate "RNG (random number generator) algorithms"
->>> +    tristate "Random number generation algorithms (deprecated)"
->>>     depends on NET
->>>     select CRYPTO_RNG
->>>     select CRYPTO_USER_API
->>>     help
->>> -      Enable the userspace interface for RNG (random number generator)
->>> -      algorithms.
->>> +      Enable the AF_ALG userspace interface for random number generation
->>> +      (RNG) algorithms.  This provides unprivileged userspace programs
->>> +      access to arbitrary RNG algorithms implemented in the kernel's
->>> +      privileged execution context.
->>>   
->>> -      See Documentation/crypto/userspace-if.rst and
->>> -      https://www.chronox.de/libkcapi/html/index.html
->>> +      This interface is deprecated and is supported only for backwards
->>> +      compatibility.  It regularly has vulnerabilities, and the capabilities
->>> +      it provides are redundant with userspace crypto libraries as
->>> well as
->>> +      the normal kernel RNG (e.g., /dev/urandom and getrandom(2)).
->>> +
->>> +      See also Documentation/crypto/userspace-if.rst
->>>   
->>> config CRYPTO_USER_API_RNG_CAVP
->>>     bool "Enable CAVP testing of DRBG"
->>>     depends on CRYPTO_USER_API_RNG && CRYPTO_DRBG
->>>     help
->>> @@ -1330,20 +1354,29 @@ config CRYPTO_USER_API_RNG_CAVP
->>>   
->>>       This should only be enabled for CAVP testing. You should say
->>>       no unless you know what this is.
->>>   
->>> config CRYPTO_USER_API_AEAD
->>> -    tristate "AEAD cipher algorithms"
->>> +    tristate "AEAD cipher algorithms (deprecated)"
->>>     depends on NET
->>>     select CRYPTO_AEAD
->>>     select CRYPTO_SKCIPHER
->>>     select CRYPTO_USER_API
->>>     help
->>> -      Enable the userspace interface for AEAD cipher algorithms.
->>> +      Enable the AF_ALG userspace interface for authenticated encryption
->>> +      with associated data (AEAD) algorithms.  This provides unprivileged
->>> +      userspace programs access to arbitrary AEAD algorithms
->>> implemented in
->>> +      the kernel's privileged execution context.
->>> +
->>> +      This interface is deprecated and is supported only for backwards
->>> +      compatibility.  It regularly has vulnerabilities, and the capabilities
->>> +      it provides are redundant with userspace crypto libraries.
->>> +
->>> +      Enable this only if needed for support for a program that
->>> hasn't yet
->>> +      been converted to userspace crypto, for example iwd.
->>>   
->>> -      See Documentation/crypto/userspace-if.rst and
->>> -      https://www.chronox.de/libkcapi/html/index.html
->>> +      See also Documentation/crypto/userspace-if.rst
->>>   
->>> config CRYPTO_USER_API_ENABLE_OBSOLETE
->>>     bool "Obsolete cryptographic algorithms"
->>>     depends on CRYPTO_USER_API
->>>     default y
->>>   
->>> base-commit: 57b8e2d666a31fa201432d58f5fe3469a0dd83ba
->>> --
->>> 2.54.0
->>>   
->>>   
->>
-> 
+ Todolist:
+
+-* acm
+ * authorization
+ * chipidea
+ * dwc3
+--
+2.54.0
 
