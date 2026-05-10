@@ -1,153 +1,94 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFD9257854
-	for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 09:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778406587; cv=pass; b=DKznK1uXirjbrolEYcPyihC175xSo3qw/ldxTDbOVuW43gArla2LgFMRIzp3lXPENWdEbLv/dC137NpDZ3wjBkFSRahC42gky+EydobBtHgm+ds0ph1nwzIyWIe9ejHZ8BkYqrU/xauVffDX5LHMdraFDXf03vI1HLxKkDt8a4k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778406587; c=relaxed/simple;
-	bh=lJQniN39MziSusnrSeOllIKVtVemIJd3P4RXjYACezk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K/FLEwV2TIvUAMFS2+mClo+hXgM+jbwpodpg+9Jm+AhkuoNSRjKjD2le13EgHIB0xU8G0322bhABB4SNXcCEsHVvpv7ovozgrTi3JQWRQ5PY8Y4l557JhvloT3FHIqIYb1/jMH8EwtVmt5f4AcTM3M5OBfFx+P7bYGTQ5C6TXsU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VeTCXj1q; arc=pass smtp.client-ip=74.125.82.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BB11EE01A;
+	Sun, 10 May 2026 10:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778407661; cv=none; b=SQNBFsCsXimA0bTdgExM9vUqJRfI/bE8yNpd/V3IrhmRgaZE9MmYhcW/ySdsbGzatnjv6MUB/aHESvKHiFxhpms4Lwbf9kvt+EP2daiHEHoGriRpHUcRlTcKWCo1FpBujHyzsqLpYj/RKg2OZAPshJjTVmTk3Ov/m2Sq7R/49/Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778407661; c=relaxed/simple;
+	bh=4tph0zy3cNEHlCYe18lSKwujBZx0a7J4karvXTYGrE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IC/T7N9DjmSFa82AJDWGx37woNF2idNGzf08n8wNe1Qb25gR+D8OrxWWHLZu1BJWsgRECMOYdrx6nqBpB9IK6UknECq1gpK5oCEudpMfiA5XMTc0835WD8JPEUnlIy2tiu5x++4irXHj3M50VxgaWlxopbOOE0IznZH+LIBdPYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e5RMGs0+; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VeTCXj1q"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2f6e6a0a215so249422eec.2
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 02:49:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778406585; cv=none;
-        d=google.com; s=arc-20240605;
-        b=EL6dsMKHV7Pm7hMLWZkX679qcLwlTmaMevjg+OOewMSL1oWIHUK/pQNu19Hb97m/Fc
-         iLCHT1hHUjlPGv3iaNTsven5IbOd3TtFKW0LOEd9rhhFt8o/oye7iPVdUXJTKWUM8+C2
-         bFVu9Jb+VRV195ExB0Mum4nrAgqJG5yoW95RbU2aaBu3WlqOTLlUrMA3R5Ocioxgm7Ta
-         ZFZcn3xwVyI1x6CwxTOcPlwOF9+WqpD9DqIRiLmLjaQwvkU6F6OX3G5ddQQ4UT5fgTHt
-         /ib6QyG8KGczPYrIKKeskDk8V3iTg8SYLTmFkri8n9H0KisjsOEoyU5nD6fneJ11uZ58
-         sqdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wLMtKHMfQwC2uO82mpxETiCYDm/FHV+08XCpd9Sqn5E=;
-        fh=FthiEDXsmfgy7WKS4kUHCSf0j3vLdFliFhLa+l6q1IU=;
-        b=BNX68P/pqsc9asMorZ2FUKNz0JkMCYuDDxEYfqxrBewiiMVtmRxg+XN9bA/Uhth1Bd
-         Hm4/1yENgzjEMs9N/V40fpr+YIGvAV0ifvIEZodssBapuHOvG8Zk8vqjTpsr5VAeN5WZ
-         najAfFA9jVjgihC5+lKfJMCIKIwVtotQEAKTTOJuMLmPCaO8FQwhyTXNlHWrWgaqdRJt
-         C7lxIvOBUJa6j4/xJlc0X2QpsbdoRKiBOmlLBXUcETxeRrkxLFUqj8lfWpMqWUxlLLNZ
-         +2cQguPL+L2etG/EMJ9GqFKaIA3KyHHryUlkrhLKllVYHmnDJ2mMm62CNpHxllPf/iZl
-         Jmlg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778406585; x=1779011385; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wLMtKHMfQwC2uO82mpxETiCYDm/FHV+08XCpd9Sqn5E=;
-        b=VeTCXj1qlRbFO7LmPcLoVI6ldZazYNphicwv/BaQTE+GH4MthQqUhTXxpYgP4YTK1J
-         AZWyB6uG2zSytTYmqje/1AgdRy5DeAHtkKeT1BbwxE6YtE4fZInYkGakV8JsqEqHEDRo
-         TXVCM46Iu4kuCoUhTQs3bfdgpnlJ3MB4eCgxJR5ce4a6xd7VE6U1u+/0XBQYxP4uuktF
-         M6G7aJtkFSXSLdQ+nVAB2PtQD74ZuuG9SB//j3yPxIVrJFvDwxb8QRJ3HMUlH9vV0Sev
-         4gi1BQtiaqawpx0jS1vjZGypefUn2OI9ZXL4abVGCHTYRk8RVTIM9AEwDO5agwlIvygn
-         i9zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778406585; x=1779011385;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wLMtKHMfQwC2uO82mpxETiCYDm/FHV+08XCpd9Sqn5E=;
-        b=blnLYT/oJqLYdVf1XL3/s72EX/KfGV9epuRd3Q/ykw8zALYmBpZlcrMospLp18iaVh
-         qCbz/XVctMd7QknaNn6Bk8oDK39KJd2LOwxxiWZLbSmwtBpGYjbA4jD5piiUVUWWRKoM
-         /vLejEwEq+//MkOw2d4twse9yUHFjVU138SwVpv2+wh6JxAZN8HMOh5l/qdgAgxRlLZH
-         fvU+1y11I++yMXmDScureXEkPlV+N1FLJEtP51QMcfA5GFo8g+sFT6vWajAOm4VuHlf8
-         MjFRSFDq4932UiqZXFz0GkGqG5b7r4HyFn8W2THnybviXYFlJXPP1loPR0nAR2QLJ4Ve
-         DFWQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8g6SeGm8dadUJMdMGMAuXq/V2gLE8mm1Z41jRz4LsQ/fCKB9huzZ33gJyhkmVPckmQ3cr+cc58Boc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNngOt1Z2+SqLVpKDfK3J3sEK/lAX0qzegf9X38p29rdl/G8oo
-	f2NBl5QRX5SFPtYSI+K2dLIfRzW+ZtrLxALckRXtcgd+5PEkE/VTJPmAKUcjhxpE8jxWhyHdSKd
-	Ios5mAsxZGYqVPMHEBwUyO+B6qPNZKMo=
-X-Gm-Gg: Acq92OGQutDScmmTSNOmmpYTVy2H8TqfQmHJiG/6D1yMRFrkRmnaxwSXd0eCRWy/aAU
-	n4WEoIczx+0BR6rm22j05uo5xq2AtbZkUBIq7uvMrV9tEHAhp/Y0CdisDpXdAcfBP4v9ovdHK+z
-	PqepvOMgIF80FsKiYe3858DsAQuQFgpwVF8n6ZbzWw8G8+QLheuFc2yulL+A0Z2o9sb+taGDWsd
-	DXZIYreEu9k8k/p6xsawF+kuQc40T2b+eTDYaS1Vm/nIFevgqnsy1utyY0p/T1rD/nmrsAPZuLR
-	n+Grtb9dafemsN0MZ3r7HQEAJYtKDeWEH6G+3Ys2IDhjsxlHbaixEcO/u9QcTfd6qjQUspdQawg
-	YijjUW3Bycj/aNba/19i+V4o27clyC1BDc9YjP9MGMUIl
-X-Received: by 2002:a05:7300:d511:b0:2ea:de28:f389 with SMTP id
- 5a478bee46e88-2f59fed19famr3955753eec.8.1778406584746; Sun, 10 May 2026
- 02:49:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e5RMGs0+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778407660; x=1809943660;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4tph0zy3cNEHlCYe18lSKwujBZx0a7J4karvXTYGrE8=;
+  b=e5RMGs0+3bWK6V26AckrwiGvF+WD6nLwLjsb6u/GM1YUY3h+MzHNQXzw
+   +g3tynYEkccdbw8KJpxFakBwIyLnSqqmnejgMTUnpgR901woOITIUl4WI
+   pc0E8PLmROjyJ2tHeKiMvyhJFAlP8ij0kmW8A8tru1JoEyHKC/bYr9XW1
+   myWF6qNtLYvOevWCJ48Sm1wibI189iIZZWQyCaD1n0vYhERcztWR6InBC
+   tOLYxu4PoT+BP+Jff2Qg0R9krdRQ0cWSK9SYk3H2ws9HjmoH1tYF1v6PG
+   sZRHdBKxf/YVuZrEDthoWqt+miYU92m1DRQg22R5KaVwiox9dmFgdjaPK
+   Q==;
+X-CSE-ConnectionGUID: 84pCywhOQy2jWBRNQ6r/jw==
+X-CSE-MsgGUID: /90UUjQRRc+bFVk7GCdgtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="96744709"
+X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
+   d="scan'208";a="96744709"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 03:07:39 -0700
+X-CSE-ConnectionGUID: 3OnfRC1yQxiv9c42gUcypg==
+X-CSE-MsgGUID: 5kbNoDiKSfi7LeB6WpsP1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
+   d="scan'208";a="237414075"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.244.171])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 03:07:35 -0700
+Date: Sun, 10 May 2026 13:07:32 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH RFC v4 02/10] iio: core: support 64-bit register through
+ debugfs
+Message-ID: <agBY5K4qN3jda2up@ashevche-desk.local>
+References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
+ <20260508-ad9910-iio-driver-v4-2-d26bfd20ee3d@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260509203808.1142311-1-julianbraha@gmail.com> <q02rn6o5-5pr6-1744-6os9-1052roro79s8@vanv.qr>
-In-Reply-To: <q02rn6o5-5pr6-1744-6os9-1052roro79s8@vanv.qr>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 10 May 2026 11:49:31 +0200
-X-Gm-Features: AVHnY4ISEl_kLYwIQZ64WmR4duBVOb0clDciE4kHT74zzm-QAgeyD8jr_6WPd14
-Message-ID: <CANiq72kUD=s7VkOUBNFLbcASvDoO_qFXHziOcSFdDqtg5NXoUw@mail.gmail.com>
-Subject: Re: [RFC v2 0/2] add kconfirm
-To: Jan Engelhardt <ej@inai.de>
-Cc: Julian Braha <julianbraha@gmail.com>, nathan@kernel.org, nsc@kernel.org, 
-	jani.nikula@linux.intel.com, akpm@linux-foundation.org, gary@garyguo.net, 
-	ljs@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org, 
-	masahiroy@kernel.org, ojeda@kernel.org, corbet@lwn.net, 
-	qingfang.deng@linux.dev, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260508-ad9910-iio-driver-v4-2-d26bfd20ee3d@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, May 10, 2026 at 7:06=E2=80=AFAM Jan Engelhardt <ej@inai.de> wrote:
->
-> Good lord, how is anyone supposed to review that amount =E2=80=93
-> or is it just getting rubberstamped anyway?
+On Fri, May 08, 2026 at 06:00:18PM +0100, Rodrigo Alencar via B4 Relay wrote:
 
-Yeah, if one really wants to statically vendor the files, then please
-follow the pattern we used for other vendoring: see the commits that
-introduced e.g. `rust/syn/`.
+> Add debugfs_reg64_access function pointer field into iio_info and modify
+> file operation callbacks to favor 64-bit variant when it is available.
 
-In particular, we try to cut down there the dependencies and the files
-within each dependency to those that are actually needed: no need to
-support vendor optional dependencies that aren't used (and if they are
-used, please try to see if they could be avoided), no need to support
-all platforms (e.g. why do we need FreeBSD files here?), no need to
-vendor the tests nor scripts, and so on.
+To write a value with bit 63 set it will require negative number, right?
+Isn't this  counter intuitive and may lead to rejection of the (correct)
+values?
 
-For instance, for `syn`, I modified it (minimally) to cut down one
-dependency. I also provided a script in the commit message to verify
-the files are 1:1 identical to the ones upstream (before adapting them
-with SPDX identifiers etc.).
 
-So, from a quick look, here I see files like:
+-- 
+With Best Regards,
+Andy Shevchenko
 
-  scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/=
-bin/freetype.dll
 
-Which I would be surprised if they are needed.
-
-In any case, when we discussed offline building in v1, that did not
-necessarily mean vendoring every dependency manually into the tree,
-but rather let the user set up the dependencies before (i.e.
-connecting is fine) so that then the actual `make` steps can proceed
-offline. For instance, using `cargo vendor`:
-
-  https://doc.rust-lang.org/cargo/commands/cargo-vendor.html
-
-In other words, one should be able to have users run a command or
-similar, and then use the dependencies that are already downloaded.
-
-By the way, another option for that may be using the distribution's
-registry (e.g. Debian and Fedora provide one through the package
-manager). That is even better (and we were requested to look into it
-back then for `syn`), but it does introduce complications even if one
-assumes Cargo is available (which we don't so far in the normal build
-path), e.g. the versions need to fit, one still needs to provide a way
-to do it for distributions that do not match, etc.
-
-I hope that helps!
-
-Cheers,
-Miguel
