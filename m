@@ -1,94 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BB11EE01A;
-	Sun, 10 May 2026 10:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778407661; cv=none; b=SQNBFsCsXimA0bTdgExM9vUqJRfI/bE8yNpd/V3IrhmRgaZE9MmYhcW/ySdsbGzatnjv6MUB/aHESvKHiFxhpms4Lwbf9kvt+EP2daiHEHoGriRpHUcRlTcKWCo1FpBujHyzsqLpYj/RKg2OZAPshJjTVmTk3Ov/m2Sq7R/49/Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778407661; c=relaxed/simple;
-	bh=4tph0zy3cNEHlCYe18lSKwujBZx0a7J4karvXTYGrE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IC/T7N9DjmSFa82AJDWGx37woNF2idNGzf08n8wNe1Qb25gR+D8OrxWWHLZu1BJWsgRECMOYdrx6nqBpB9IK6UknECq1gpK5oCEudpMfiA5XMTc0835WD8JPEUnlIy2tiu5x++4irXHj3M50VxgaWlxopbOOE0IznZH+LIBdPYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e5RMGs0+; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AC02749CF
+	for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 12:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778414581; cv=pass; b=uxzR8GrhxPGTI0iWfdPbmnbfgsnzSMgNrSdelOGe39LFhLATjh4a/DkGB1MTCEuEd1MR7CeqrlVaR9+DEHYcAYYmLEM3HjY55iPNYdFZ5IwvvxdpQDZgcIre7geaQy7LBB3FNStUgVTRYDF0/Zs1AyvihsxOpuvTOkIHXyDLy2Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778414581; c=relaxed/simple;
+	bh=bH+A1pcJNHbsEm31+G4EJAAN3LgMlSAJINOZTIByCpo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L6hB01BFQWpOurtcTts+PIn1qcCIaYNAA4O3qvGaz8YykNzlC0i0VSgq/eMCjb5lUQ9L+AgmBMGLKS0vCSpzHcY08goJfavajXzG6xI0vp0MGd+LNSH/8VdaxUEMgHrOY7lTQdVE4vLPCw6ng123WUIpzqXCEVsXY2ZHtbxKOGw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fO0pJrO8; arc=pass smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e5RMGs0+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778407660; x=1809943660;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4tph0zy3cNEHlCYe18lSKwujBZx0a7J4karvXTYGrE8=;
-  b=e5RMGs0+3bWK6V26AckrwiGvF+WD6nLwLjsb6u/GM1YUY3h+MzHNQXzw
-   +g3tynYEkccdbw8KJpxFakBwIyLnSqqmnejgMTUnpgR901woOITIUl4WI
-   pc0E8PLmROjyJ2tHeKiMvyhJFAlP8ij0kmW8A8tru1JoEyHKC/bYr9XW1
-   myWF6qNtLYvOevWCJ48Sm1wibI189iIZZWQyCaD1n0vYhERcztWR6InBC
-   tOLYxu4PoT+BP+Jff2Qg0R9krdRQ0cWSK9SYk3H2ws9HjmoH1tYF1v6PG
-   sZRHdBKxf/YVuZrEDthoWqt+miYU92m1DRQg22R5KaVwiox9dmFgdjaPK
-   Q==;
-X-CSE-ConnectionGUID: 84pCywhOQy2jWBRNQ6r/jw==
-X-CSE-MsgGUID: /90UUjQRRc+bFVk7GCdgtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="96744709"
-X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="96744709"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 03:07:39 -0700
-X-CSE-ConnectionGUID: 3OnfRC1yQxiv9c42gUcypg==
-X-CSE-MsgGUID: 5kbNoDiKSfi7LeB6WpsP1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="237414075"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.244.171])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 03:07:35 -0700
-Date: Sun, 10 May 2026 13:07:32 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: rodrigo.alencar@analog.com
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH RFC v4 02/10] iio: core: support 64-bit register through
- debugfs
-Message-ID: <agBY5K4qN3jda2up@ashevche-desk.local>
-References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
- <20260508-ad9910-iio-driver-v4-2-d26bfd20ee3d@analog.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fO0pJrO8"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-67e9e343b22so3573051a12.0
+        for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 05:02:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778414578; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TIandWw0YCCY/cQPRd6KVvw2x5An5AVHaZNhgpdnYjMkCbnGWe0bqzYbQ6uJVrBdWO
+         SDJbglgBMuqarABRRM4YNDNvGL4ZFvZ92edSc5u07DeIxoFOY1VcePiBFwfvkYXdkzOG
+         gyZmI/O8rr7ed/PX09SOxfXNGsuwoLhbOC5NcsaLduovuYxzogxJEjWtQsB2u2Etk/Iu
+         Ab1G9OGZQQvFt68LFuXEj36ttAyftHcobbhT7no4TxDWhawNBfnkF1Lvj9zZLFUrw8Qj
+         2JOao/6phleHi+//HtT9Bf+8sg+a//pRIu3Blt9JWkZ/D3sASLVxXo/LAq2ljLHKL0T6
+         oqpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Vmli1MjJU1iPg6tCzc8RsiqsXAYEqteoIsuCG5nm0hc=;
+        fh=9nfQhqeooNAwWpfLBOi6c7Tfiic25DLDz1PeU5MKigY=;
+        b=AiM2ZGS2IpquoQiPPMJqqroV6lgMbLE77u/tbu9Ib/wKwMj4VwRmHeHzf7ig94DIR+
+         sD/saND+rcUtA2G3Q0kZmD+ioADCaocETNA7IaxNl68h2LwwTka+4Z+A6Ww75lWE6nMS
+         U1XF0UAHjgoXIuz7MYHSO8RuE5URIld6qMexoafx7rwK7BhDgByI5gpKagYkkJG8T8j9
+         q0i7j/TS9DSjghmpe19icfLYMAr0fo4u4rwX90pfo7UE4uIyqF1PZNomvrWyJgCMqQac
+         FKDhqoTyuZadTTyVlZW9bMraBFOzDmWw7OfdJx2Lqb9/rnXak/hMWtdxN1RcIWQGjI6g
+         uNAw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778414578; x=1779019378; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vmli1MjJU1iPg6tCzc8RsiqsXAYEqteoIsuCG5nm0hc=;
+        b=fO0pJrO8ujKdOeYAdQyNU3+8Vm0rnTWHF7763Kct16qI84G4j3Xzo+XVwJpN7NKMrf
+         TO6g7oBiNUrXU8H7Se7tTM+BqJOXbOjlXEqZNun8vGKTwQ81pbfnbptOYIzsFbzGBnZw
+         9Zv+wa8pOf7abXoV7MVJBpuZUvzyZ5FiuAzUmfoLJP4/d1vePAl/P8PzPOz8ZE558CSy
+         XJpeM1BY8r/J/GELM8VoXH+PCF+iXh2sU2AfRAdaoYkrfqMNFTKQvZLsCfFk2uTbVm6H
+         FBBg+mkzWMzvkt/QD8YWa/Wlnccoc5A9xc8cUXVirru3X7G/0uydm7yWkQPGz0WfmTvm
+         Wyiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778414578; x=1779019378;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vmli1MjJU1iPg6tCzc8RsiqsXAYEqteoIsuCG5nm0hc=;
+        b=kWhFs1qr5Eu9evscJ1cmZ5dO86I8pXwjTQCNHP+JAQ6yjzcnZkwOpffBctjoiShsmq
+         f7n9g5K5YZVEMCRKNJQhaJXTXMHffEmSSlpN/mlCCjbpsmQ5+pO/SnLnaH/QO3XXhM8j
+         EC4qVIFZTT+hsxVO7NQC+E5WFmZSmfFgiGqsnssYRjD8zKElbX5EuW83B5p9wiqm2WMf
+         u94JDju061spzZHuFsqKI7D6uwhyWgv1XJz9IIPF835Ocl+Q4CFQD0UrxtLKIwGUOrom
+         L4i2F7/FxL77MFEH0ozjskzJEWwKXbWoEyODpJyD3O0NhFJHd5XHABzrezkAFdxe1lZv
+         dbzA==
+X-Forwarded-Encrypted: i=1; AFNElJ8OOQbLZCa6bztRNe0O8vqk++tjs5z0mvmiBJkX70XTQ0tMZt6dh47W68J1qS7uvd5vn33DK+l88Bw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEEMBqsM1X3eQbCQw+Ke2k1+oI9KLrTUFq8ODQWZQs8mYCIWS6
+	rekl0w3xaDA1BUvWsv+EFbE/QbY7gnyBVKuRaDlUHROT36tQDYpG7MpaKztPV9sJReV7Xqy3+M5
+	mQCAdzAgOrCaoS3zS/1omPE2ckItFwt8=
+X-Gm-Gg: Acq92OH0pAao85xeJYRF1tsOQeScYOmSB0a39GnvlA3ZkL2jj/P6X3KzT6ovinnFq0z
+	I4Vlix2OuZDF2PJTA8Pk1bKrQE3ueJarFZmnuQasHc2eKwGhYM9L0KCO1HYaJiZ7EeU5ZLOzprI
+	2qhpLxDc4HVmSbumUNrtSySltxmHi1/W3IsVbUywjwoDph47qZ97Zg7aCNCUNkUJ5CVL/y+ZGCq
+	WTtWX8HET5i6dhmX53qvo5KxdN6zwGlE22lrY1ar8EkypUMIajCqxxFmwk36M0qpX7x5fzPcwsh
+	OLlmsgYTS7xDHjCenNwx3R0PffRcjcK/4HBR5jCW/A==
+X-Received: by 2002:a17:906:eec6:b0:bc3:ae9a:15 with SMTP id
+ a640c23a62f3a-bc56b94225bmr1059279966b.9.1778414578150; Sun, 10 May 2026
+ 05:02:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508-ad9910-iio-driver-v4-2-d26bfd20ee3d@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com>
+ <20260504163915.4a8b028e@kernel.org> <CAGCJULP83NnaX6HAqwb3umDXsxN8LH48_gPpJ_3gG8_xA96QNQ@mail.gmail.com>
+ <20260504182833.344d7b33@kernel.org> <20260508033210.5149db4fc3977d33937e6942@uniroma2.it>
+ <CAGCJULP_dTSjXQqyOYXckkmtd-HAPo4UT2V0WQofOZaJYLgENw@mail.gmail.com>
+In-Reply-To: <CAGCJULP_dTSjXQqyOYXckkmtd-HAPo4UT2V0WQofOZaJYLgENw@mail.gmail.com>
+From: Yuya Kusakabe <yuya.kusakabe@gmail.com>
+Date: Sun, 10 May 2026 21:02:46 +0900
+X-Gm-Features: AVHnY4IcF3vmMhSO8SdPuE7-fCfzpzAXRJRVY1ZnbUg0Ri8QL_dBkXa2fNxxouU
+Message-ID: <CAGCJULMSMrcWmQUZ-RoWB8uAivZ2DZdefED7nShMpUNBzPBLFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] seg6: add SRv6 Mobile User Plane (RFC 9433) behaviors
+To: Andrea Mayer <andrea.mayer@uniroma2.it>
+Cc: Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Justin Iurman <justin.iurman@gmail.com>, 
+	stefano.salsano@uniroma2.it
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 08, 2026 at 06:00:18PM +0100, Rodrigo Alencar via B4 Relay wrote:
+On Fri, May 8, 2026 at 10:32 AM Andrea Mayer <andrea.mayer@uniroma2.it> wrote:
+> just a heads-up: I am going through the series (kernel and iproute2)
+> and will send detailed comments within the next few days. It is a
+> substantial addition so I want to take the time to review it properly.
 
-> Add debugfs_reg64_access function pointer field into iio_info and modify
-> file operation callbacks to favor 64-bit variant when it is available.
+Quick note from my side before you spend more time on patch 4/7:
 
-To write a value with bit 63 set it will require negative number, right?
-Isn't this  counter intuitive and may lead to rejection of the (correct)
-values?
+While preparing v3 I noticed that v2's patch 4/7 ("End.M.GTP6.D")
+implements RFC 9433 Section 6.4 (D.Di) by mistake -- it shares the
+SRH-augmenting builder with patch 5/7 and preserves the original
+outer DA in segments[0].  Per Section 6.3 it should push the SR
+Policy verbatim and write Args.Mob.Session into segments[0].
+Already fixed in the local v3 branch.
 
+Feel free to skip the End.M.GTP6.D-specific comments on v2 patch
+4/7; patch 5/7 (D.Di) is unaffected.  Per Jakub's guidance I will
+hold the v3 repost until your review lands.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Yuya
