@@ -1,352 +1,102 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic306-20.consmr.mail.ir2.yahoo.com (sonic306-20.consmr.mail.ir2.yahoo.com [77.238.176.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F5E839E17C
-	for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 14:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CF0378D7D
+	for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 15:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.176.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778424170; cv=none; b=gM2pxluwsO+EvTj+u4oxWo1QP+OuyKblx8+vHzagVC/AgxnBN5fd/emLw9RLdyBHJHN9/t2KSkWMaoSU3VAHcyda+WVeLBJdQvc3oJ6Yx9bgwKAh5hUE39mmnhg3JVfkAH3qTGGDjeDcS3vv58RgecRnJDR3BWNXKlsxfbxnDcM=
+	t=1778425486; cv=none; b=fHdnooZuDXxtU0DDHa3vXYacvqBXmzPoQl1EJDEHAnCvupHt7CQA7/+LPUKPeRCmP1+233fJSzQjMpYcxJTt2JbMpoylPPu7w5Ta++ugBlIoCAG6Qp4wcr6Nnh8LUchjHfixvCHfPa/R+67p4t+Uxz1hVUCA+22ETk5ym/82CyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778424170; c=relaxed/simple;
-	bh=v5moWlDgWXyXpIDKc1xx5LnE/3kJjtazvHv6Bs6IHNE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eh3Qi4XKmJEKoP3w9BUR2EjKfMWS16Rkr8tExZ/SpXC72MF/QqggscKQSDeYyKasQfb3tlklXru0LHA9qeZ8piouzKBJhCruHUuOevgTtpNdfMywpezWj+2DDJuj2GUrxDCeSz3ZZz+lYgiLnVZDPvq4Sf0AwyirLmxuRC4/2Zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AKU9sa3m; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1778425486; c=relaxed/simple;
+	bh=k4vrdSdqTYKtlpA2IBcDPZn6DPODy3ZPA/tWBDDOKsE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=GttSwREWwU1IPonwq3Fpvt7IssZU+E/ZiE4nupPmm88DwDlfPWaTyFAjgHMjhTVfMvtGb0MIXB3iR2oziPzPF6JkFyz7YK3wngQs46sg6fdS7E5cvIHOmFIyufYK46JPAtf99K7DOuZIv1dmBWj2qU5EaoUs7tDiSj2DKPd13uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=sF9P+sMz; arc=none smtp.client-ip=77.238.176.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AKU9sa3m"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778424164;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XtLBmOnLto9xVpl00Lw1ozKRruIqiqHPeh0/9Zkfe0o=;
-	b=AKU9sa3mbc8Lf4eG+ZJ3/JPyUGJKV03Jh8cLX0X/7ND+D857JbKPc+nHzAbJNq0NxICQyJ
-	tuEnnY1xfi9aVuvTaoiMm5MIUYsDprNgZrpLHckKiL3NObxIgrQVHxDsVrEh+R13x24gjk
-	QCV7SLdc3MrI8Exwa9n0n1qX4E+Koq4=
-From: Lance Yang <lance.yang@linux.dev>
-To: leitao@debian.org
-Cc: david@kernel.org,
-	linmiaohe@huawei.com,
-	nao.horiguchi@gmail.com,
-	akpm@linux-foundation.org,
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="sF9P+sMz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1778425482; bh=yhzNK1MxXhWyKER6B16J+oTKxIWa+vvZ+vg1sOhzKfc=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=sF9P+sMzDYI+gHCb6fD85kdHOLsAv0EVmLPfdFJowALy0B1FCjmzP3lG95Md0gm32H43ZooQ4+syK1paNRhznC6VQtgDKkGy0s58jAY1LAt3A1Lawftcs9NpsdSl2XDHgRVeEE0CvLpI2SkJk0T8RxoBiDiqgOLOPm2OW93vupbjfWxLjREFCJPWCcof+Y9r6BqBGH/+dQA9uqeJ78lDQw/298hniz0aEhAPRZwyRHmdhPxtYh7F1cCM7aX0ky1zAfIhUYxXebg+QJ3+T7N7BFGg9q9SaQb+Yzrh+xYtVM+iEv87amBd3LA+O8v/5hEk7qYpmfSkY5/jedR7CCLHfA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1778425482; bh=3mopf3wkLalCyx7ODJTrv+ZbqtoVSK8FrldMU7dInuf=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=gtBFWYvMcLxwZh9kiEsEHl7SinAHRNwUdUs0jyDUcrTJRkYcgn6xwUAxoPU8LNBEv64B1O0DFvZ8u3Fry0UyBwVchyvV+4SJAaZxqeF2zgl/etRfZPUslK4afaXvn9cQns2sGSVRXg1kf3iyyUvNZFxIVhPkaIGH0QMWJNsro82gY6lnjHQf8CUNf/k82/2ZeeEB/AgKTaB6OlCjZpNZr2JgGWsqCx7wtLN7zTc2LpDN5bO1pvEWXdDg3f/ol+S03VUl18watV06n3+mg3g8Tc47YPqAxWfqCR2Kq/WtbV0n6PkUiFeBjYP9e79DMPFO08tLWYBVgq601JbaJ61new==
+X-YMail-OSG: LlHhvqEVM1lNCZ.JIjqOcpjJTUU04M6yKmfO34BA7SBoIjFfDrNQB65qDBeum70
+ BbD.NcuEZi0xCHWZt9bkYFwfrYPfJRTiCWnXx78rL.nMskrfaDY7ri3lT560GB5CV8FDmzLIele9
+ ta_yB2GN3Enwy7YPvDVQWqCGESoJHaA4diwL305SJ.GOqV1XGCoi7quZvI6UD0PNWlrPd.U4JG8c
+ 1lxdM35gd3Vfdi_nABvrqZh3OdSJRHQbe_FPXDZejzYfIB0gCN5Hfaahy7deY_RcvX3uc8O6btm9
+ k0mx65QZW7cZUouqCplU11zx_rM79MXF3jGFmarmKsrhtH5RqcW9xEtdaxnjObLRiWInBYlFVuHF
+ d6LbzqhBfKYzz9uwr.wiBIUq2c.lPcXLB59uv08eNe4cJp55aLu0rzQbhvsacdtBIb7OGVxlkM1D
+ Rwz0KlTFV.FoixyN2KnphB1giN444rteBvm4oFZLy164r0XrC3OJttfi_XhxNzPucANPOtudzZEQ
+ HdYXQTu0pClmjxkH2OJBUwLlSRzrq1KmrZQJldu8Z2CzovMGJyDSWcj4e9Tuag_KeFyrHKaEHH5V
+ XHKey71F1rq6.dWy1gbp7Wsksd1NE.4cprkz7inlM8B6Ge1xuxgxEd62wjvULmvi2eKmGOPTrH0.
+ KT5MrH1pcjRB7NGTzseOFuA6Gma86C.U2ALDiffFeZCBqf6hbGDJQyro8MrvgCCBaTsiR.uUl80n
+ 8H6zRNwtTYLbsbiERnWMcJ5MWlypMC6duSx5LadLmp53kiaX5CnZjJnPd_s_c5fMWnd6_hrSP39x
+ rVR.9zTAqIa4PnrjPNcx_FQUaw.38goJsBMU9n.pVvp0XxFD4kRW9fG0nPpMDk9zvveow0rnuu6L
+ 9IyM045Rmsa_6G9MYhc8ayy9I8l8JbZw3bb3yVjhUbGLIk3S72yFcYsjzaBjk51awote69HpBOQT
+ CwmxFf2AZFSFPVHW3wXkjs7WaA1Yho3E5ooOc6dNeZSICpMd9iOdc2Ev8QHHwE7Odqoh9dU4RH7q
+ Q51NblRVzTIq.qcHOCywrUFWnOG6hezFouJ2PhI7U6SVksOPP9fhvCrUrjxRpB9qdgZ4AK39XohV
+ vV99mLI5Ywx5NgouiqQVZ.yB_S7i8oaa1ir1CiL8Qx8U7S3_t_rabDJCYZR3On2CTY6vM8.Iqn2P
+ 88bRtAtXGWU3ouIURMBvdW2KSuwXJ_w_OP2x8sXZaUaBdgm.lmxq_TsJExRJzVEdrFfig6PV20I1
+ m3klIAJkPhKckzJ1QrGyuNRjKWluB4aE9voqoa0OOYvM0tXVkF1DhJBk_p9ftKtLePayfqw1SwD3
+ B8_PGZVZ8Kw2WviwjR1vbu5xK3aEr.RvDe1NVbzeco5TA4q8HiDxYMik3XUiyn_H7H1xUIYrdqmJ
+ RqV_KNKwsuaBuxqTgKxgqmkqjoLUGS7mnAJkgfzCtqg0IfDMAVX6RjpbTbEDSOREF1hQ.eZEd8lz
+ HvUawYTg7wrFVCNtMrfPR7OwUu74Twm.IFAPG9FvG7TFHx4XpleDJ4OGkBb42rqrm9Y_HNvntWhR
+ LcTKPChEB.tphGVoeUQQkOTvnqDP7VOR7DR5CC._h13zUUNXKqkgMIt6ovftmRaaaekEXh1zHNdl
+ Ez44Eu.teK9JLGUtYvtsFWuzcNg14TICXNux0tJdJq3uTzNbmjvlNZNUlexUCD.aAQ61_d33nXNV
+ _NMuofGj5XdZq3UJwNsyEzEz.bnqL_R.d3bF0Ga0IlPb0NkGutoKIdxbieEoPxjdaB5og7RU4rGw
+ x2tSMRYTmfOGYam_tYZLQZY0PaIx8nSrtkcvyfzvHyKoW3RzpHOQqyno5VgMJu3TOjXtTOvuVnrE
+ 3PugZl0ACuJ2yA1FjlhWJio9uA5N9fedSEbpnVJTTEdQU2tcWJO5bImu7R2uO9amyNAJzs_pncb0
+ 6rQBFg2A_yO1M_EZi5lt.eqKjGn2Vx8f0Jy.dSbkCJ1vyW1uu.ZPhmUaer2yBOmPw59twdtli3Sc
+ IB4zCe_g9PRFcoduIiqaXGLEBnt2yJzGkeXMNxNtAOD_tlY0ZLjJaHCJan6aql6VvY4w_t3e.rPu
+ XuGqrLWSMMpmD7QRomEmQRbBIjIjGOPBl_aASNzvvrxJGCGH9ZS9XH_zmtnL_QAdFsVn10fE4oLo
+ TKAH1yPuVgp9Ed6676Sh4I4l6bPtTpvgfX525RarQT9liorj43Ar_3GNGVkJVath0.rqWDIJ_GFQ
+ fjZSo55fPaL7YEluV4Q4HIVlP1aTXZcIoaKw3VO4YCr2D8N5PPfdSU1dQXxk-
+X-Sonic-MF: <nicobsc4@yahoo.com>
+X-Sonic-ID: 8edaed84-9363-45fc-8b94-d1167729b603
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.ir2.yahoo.com with HTTP; Sun, 10 May 2026 15:04:42 +0000
+Received: by hermes--production-ir2-89844b765-82cnf (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID ce718115184f3a1163bd756cced3f7a1;
+          Sun, 10 May 2026 14:33:20 +0000 (UTC)
+From: NicoErdmann <nicobsc4@yahoo.com>
+To: linux-pm@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org,
 	corbet@lwn.net,
 	skhan@linuxfoundation.org,
-	ljs@kernel.org,
-	Liam.Howlett@oracle.com,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	shuah@kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com,
-	Lance Yang <lance.yang@linux.dev>
-Subject: Re: [PATCH v5 2/4] mm/memory-failure: add panic option for unrecoverable pages
-Date: Sun, 10 May 2026 22:42:20 +0800
-Message-Id: <20260510144220.92522-1-lance.yang@linux.dev>
-In-Reply-To: <aftnSfb15G92JON5@gmail.com>
-References: <aftnSfb15G92JON5@gmail.com>
+	NicoErdmann <nicobsc4@yahoo.com>
+Subject: [PATCH] cpufreq-stats: document limitations on modern cpufreq drivers
+Date: Sun, 10 May 2026 16:33:03 +0200
+Message-ID: <20260510143303.120863-1-nicobsc4@yahoo.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260510143303.120863-1-nicobsc4.ref@yahoo.com>
 
-
-On Wed, May 06, 2026 at 09:18:12AM -0700, Breno Leitao wrote:
->On Tue, Apr 28, 2026 at 11:07:21AM +0800, Lance Yang wrote:
->> 
->> On Mon, Apr 27, 2026 at 05:49:28PM +0200, David Hildenbrand (Arm) wrote:
->> >> +	switch (type) {
->> >> +	case MF_MSG_KERNEL:
->> >> +	case MF_MSG_UNKNOWN:
->> >> +		return true;
->> >> +	case MF_MSG_KERNEL_HIGH_ORDER:
->> >> +		/*
->> >> +		 * Rule out a concurrent buddy allocation: give the
->> >> +		 * allocator a moment to finish prep_new_page() and
->> >> +		 * re-check. A genuine high-order kernel tail page stays
->> >> +		 * unowned; an in-flight allocation will have bumped the
->> >> +		 * refcount, attached a mapping, or placed the page on
->> >> +		 * an LRU by now.
->> >> +		 */
->> >> +		p = pfn_to_online_page(pfn);
->> >> +		if (!p)
->> >> +			return true;
->> >> +		/*
->> >> +		 * Yield so a concurrent allocator on another CPU can
->> >> +		 * finish prep_new_page() and have its writes become
->> >> +		 * visible before we resample the page state.
->> >> +		 */
->> >> +		cpu_relax();
->> >> +		return page_count(p) == 0 &&
->> >> +		       !PageLRU(p) &&
->> >> +		       !page_mapped(p) &&
->> >> +		       !page_folio(p)->mapping &&
->> >> +		       !is_free_buddy_page(p);
->> >
->> >I don't get what you are doing here. The right way to check for a tail page is
->> >not by checking the refcount.
->> >
->> >Further, you are not holding a folio reference? If so, calling
->> >page_mapped/folio_mapped is shaky. On concurrent folio split you can trigger a
->> >VM_WARN_ON_FOLIO().
->> >
->> >
->> >Maybe folio_snapshot() is what you are looking for, if you are in fact not
->> >holding a reference?
->> 
->> Right! Maybe we should not try to make this decision in
->> panic_on_unrecoverable_mf().
->> 
->> By the time we get here, we only know the final MF_MSG_* type. The
->> real reason why get_hwpoison_page() failed is already lost.
->> 
->> Wonder if it would be better to split that earlier, around
->> __get_unpoison_page()/get_any_page(). That code still knows why
->> grabbing the page failed, either an unsupported kernel page or
->> just a temporary race we cannot really trust :)
->> 
->> Then the later panic logic can be simple: panic for the stable
->> unsupported kernel page case, and not for the temporary race case.
->> 
->> That would also avoid trying to guess MF_MSG_KERNEL_HIGH_ORDER here:)
->
->This is a very good feedback, and definitely what I wanted to do, but,
->failed. Once we have the reason, we don't need this dance to guess the
->reason.
->
->I've hacked a patch based on this approach. How does it sound?
-
-Yes. This direction makes sense to me, not an expert though :D
-
-I played with something similar (untested) on top of patch #01:
-
----8<---
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index 432d5f996c64..a2799f063913 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -74,6 +74,8 @@ static int sysctl_memory_failure_recovery __read_mostly = 1;
-
- static int sysctl_enable_soft_offline __read_mostly = 1;
-
-+static int sysctl_panic_on_unrecoverable_mf __read_mostly;
-+
- atomic_long_t num_poisoned_pages __read_mostly = ATOMIC_LONG_INIT(0);
-
- static bool hw_memory_failure __read_mostly = false;
-@@ -155,6 +157,15 @@ static const struct ctl_table memory_failure_table[] = {
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-+	},
-+	{
-+		.procname	= "panic_on_unrecoverable_memory_failure",
-+		.data		= &sysctl_panic_on_unrecoverable_mf,
-+		.maxlen		= sizeof(sysctl_panic_on_unrecoverable_mf),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE,
- 	}
- };
-
-@@ -1281,6 +1292,18 @@ static void update_per_node_mf_stats(unsigned long pfn,
- 	++mf_stats->total;
- }
-
-+static bool panic_on_unrecoverable_mf(enum mf_action_page_type type,
-+				      enum mf_result result)
-+{
-+	if (!sysctl_panic_on_unrecoverable_mf || result != MF_IGNORED)
-+		return false;
-+
-+	if (type == MF_MSG_KERNEL)
-+		return true;
-+
-+	return false;
-+}
-+
- /*
-  * "Dirty/Clean" indication is not 100% accurate due to the possibility of
-  * setting PG_dirty outside page lock. See also comment above set_page_dirty().
-@@ -1298,6 +1321,9 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
- 	pr_err("%#lx: recovery action for %s: %s\n",
- 		pfn, action_page_types[type], action_name[result]);
-
-+	if (panic_on_unrecoverable_mf(type, result))
-+		panic("Memory failure: %#lx: unrecoverable page", pfn);
-+
- 	return (result == MF_RECOVERED || result == MF_DELAYED) ? 0 : -EBUSY;
- }
-
-@@ -1389,11 +1415,27 @@ static int __get_hwpoison_page(struct page *page, unsigned long flags)
-
- #define GET_PAGE_MAX_RETRY_NUM 3
-
--static int get_any_page(struct page *p, unsigned long flags)
-+enum mf_get_page_status {
-+	MF_GET_PAGE_OK = 0,
-+	MF_GET_PAGE_RACE,
-+	MF_GET_PAGE_UNHANDLABLE,
-+};
-+
-+static void set_mf_get_page_status(enum mf_get_page_status *gp_status,
-+				   enum mf_get_page_status value)
-+{
-+	if (gp_status)
-+		*gp_status = value;
-+}
-+
-+static int get_any_page(struct page *p, unsigned long flags,
-+			enum mf_get_page_status *gp_status)
- {
- 	int ret = 0, pass = 0;
- 	bool count_increased = false;
-
-+	set_mf_get_page_status(gp_status, MF_GET_PAGE_OK);
-+
- 	if (flags & MF_COUNT_INCREASED)
- 		count_increased = true;
-
-@@ -1406,11 +1448,13 @@ static int get_any_page(struct page *p, unsigned long flags)
- 				if (pass++ < GET_PAGE_MAX_RETRY_NUM)
- 					goto try_again;
- 				ret = -EBUSY;
-+				set_mf_get_page_status(gp_status, MF_GET_PAGE_RACE);
- 			} else if (!PageHuge(p) && !is_free_buddy_page(p)) {
- 				/* We raced with put_page, retry. */
- 				if (pass++ < GET_PAGE_MAX_RETRY_NUM)
- 					goto try_again;
- 				ret = -EIO;
-+				set_mf_get_page_status(gp_status, MF_GET_PAGE_RACE);
- 			}
- 			goto out;
- 		} else if (ret == -EBUSY) {
-@@ -1423,6 +1467,7 @@ static int get_any_page(struct page *p, unsigned long flags)
- 				goto try_again;
- 			}
- 			ret = -EIO;
-+			set_mf_get_page_status(gp_status, MF_GET_PAGE_UNHANDLABLE);
- 			goto out;
- 		}
- 	}
-@@ -1442,6 +1487,7 @@ static int get_any_page(struct page *p, unsigned long flags)
- 		}
- 		put_page(p);
- 		ret = -EIO;
-+		set_mf_get_page_status(gp_status, MF_GET_PAGE_UNHANDLABLE);
- 	}
- out:
- 	if (ret == -EIO)
-@@ -1480,6 +1526,7 @@ static int __get_unpoison_page(struct page *page)
-  * get_hwpoison_page() - Get refcount for memory error handling
-  * @p:		Raw error page (hit by memory error)
-  * @flags:	Flags controlling behavior of error handling
-+ * @gp_status:	Optional output for the reason get_any_page() failed
-  *
-  * get_hwpoison_page() takes a page refcount of an error page to handle memory
-  * error on it, after checking that the error page is in a well-defined state
-@@ -1503,7 +1550,8 @@ static int __get_unpoison_page(struct page *page)
-  *         operations like allocation and free,
-  *         -EHWPOISON when the page is hwpoisoned and taken off from buddy.
-  */
--static int get_hwpoison_page(struct page *p, unsigned long flags)
-+static int get_hwpoison_page(struct page *p, unsigned long flags,
-+			     enum mf_get_page_status *gp_status)
- {
- 	int ret;
-
-@@ -1511,7 +1559,7 @@ static int get_hwpoison_page(struct page *p, unsigned long flags)
- 	if (flags & MF_UNPOISON)
- 		ret = __get_unpoison_page(p);
- 	else
--		ret = get_any_page(p, flags);
-+		ret = get_any_page(p, flags, gp_status);
- 	zone_pcp_enable(page_zone(p));
-
- 	return ret;
-@@ -2341,6 +2389,7 @@ static int memory_failure_pfn(unsigned long pfn, int flags)
-  */
- int memory_failure(unsigned long pfn, int flags)
- {
-+	enum mf_get_page_status gp_status = MF_GET_PAGE_OK;
- 	struct page *p;
- 	struct folio *folio;
- 	struct dev_pagemap *pgmap;
-@@ -2413,7 +2462,7 @@ int memory_failure(unsigned long pfn, int flags)
- 	 * that may make page_ref_freeze()/page_ref_unfreeze() mismatch.
- 	 */
- 	is_reserved = PageReserved(p);
--	res = get_hwpoison_page(p, flags);
-+	res = get_hwpoison_page(p, flags, &gp_status);
- 	if (!res) {
- 		if (is_free_buddy_page(p)) {
- 			if (take_page_off_buddy(p)) {
-@@ -2437,9 +2486,13 @@ int memory_failure(unsigned long pfn, int flags)
- 		/*
- 		 * Pages with PG_reserved set are not currently managed by the
- 		 * page allocator (memblock-reserved memory, driver reservations,
--		 * etc.), so classify them as kernel-owned for reporting.
-+		 * etc.), so classify them as kernel-owned for reporting. Do the
-+		 * same for pages that get_any_page() still cannot handle after
-+		 * retries: likely non-LRU/non-buddy pages such as slab, kernel
-+		 * stack, page table or vmalloc-backed pages. Transient lifecycle
-+		 * races stay as MF_MSG_GET_HWPOISON.
- 		 */
--		if (is_reserved)
-+		if (is_reserved || gp_status == MF_GET_PAGE_UNHANDLABLE)
- 			res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
- 		else
- 			res = action_result(pfn, MF_MSG_GET_HWPOISON,
-@@ -2744,7 +2797,7 @@ int unpoison_memory(unsigned long pfn)
- 		goto unlock_mutex;
- 	}
-
--	ghp = get_hwpoison_page(p, MF_UNPOISON);
-+	ghp = get_hwpoison_page(p, MF_UNPOISON, NULL);
- 	if (!ghp) {
- 		if (folio_test_hugetlb(folio)) {
- 			huge = true;
-@@ -2951,7 +3004,7 @@ int soft_offline_page(unsigned long pfn, int flags)
-
- retry:
- 	get_online_mems();
--	ret = get_hwpoison_page(page, flags | MF_SOFT_OFFLINE);
-+	ret = get_hwpoison_page(page, flags | MF_SOFT_OFFLINE, NULL);
- 	put_online_mems();
-
- 	if (hwpoison_filter(page)) {
+Signed-off-by: NicoErdmann <nicobsc4@yahoo.com>
 ---
+ Documentation/cpu-freq/cpufreq-stats.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-I would leave MF_MSG_KERNEL_HIGH_ORDER out for now. That path still
-has the allocator race David pointed out, unless there is easy way to
-rule that out ...
+diff --git a/Documentation/cpu-freq/cpufreq-stats.rst b/Documentation/cpu-freq/cpufreq-stats.rst
+index 9ad695b1c7db..e8a8b3a85ad8 100644
+--- a/Documentation/cpu-freq/cpufreq-stats.rst
++++ b/Documentation/cpu-freq/cpufreq-stats.rst
+@@ -28,6 +28,13 @@ Various statistics will form read_only files under this directory.
+ This driver is designed to be independent of any particular cpufreq_driver
+ that may be running on your CPU. So, it will work with any cpufreq_driver.
+ 
++.. note::
++	
++   On some modern systems, this interface may not be available or may not
++   expose meaningful statistics depending on the active CPU frequency scaling driver.
++
++   In particular, drivers such as intel_pstate or amd_pstate may use alternative
++   mechanisms for frequency scaling and accounting
+ 
+ 2. Statistics Provided (with example)
+ =====================================
+-- 
+2.54.0
 
-Also would leave MF_MSG_UNKNOWN out. We don't really know what it is no?
-So it's not good basis for a panic decision :)
-
-Maybe better to keep panic_on_unrecoverable_mf simple: classify the
-get_any_page() failure reason earlier, but only panic on MF_MSG_KERNEL.
-
-IMHO, making the knob too complicated for memory failures that should be
-rare does not seem worth it. Just covering MF_MSG_KERNEL should already
-help crash analysis a lot :)
-
-Feel free to pick up any bits that look useful :)
-
-Cheers, Lance
-
-[...]
