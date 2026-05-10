@@ -1,124 +1,113 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C69255F2D
-	for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 18:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778436434; cv=pass; b=A9lJTQYntFQEZFKqxoApXpKDITAkCnM+HBZhLqG79qxsvhBJYVIhtoGqYKqTwxiZhe7UnO4mT0tpjQFEiN2gyYqk3IMJ2KG1XR0Sc40n+CyA3sZQIv8tZtOv9kdP/sPf6TWbmYxwTeXTvmifHpbsk+YNYQiCzQ6Q+kERo0A/wSI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778436434; c=relaxed/simple;
-	bh=B/9PkITJMR854+53j7XQJ2o4B0fxddCNlnNjJN0jwA8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hz7SKUEk7SyFgXaotuw0LlwP+30W9ip5zgb4ZpUhUhKAsM7yRWsfctspPvkaEY9BxNKntJuRWYQwldxwlr5MME87Wg6FarRWE1YS4M8o+Fuq+DZHH2FszQTJHYMCtpIz+VV5+5+lviKBvBtkbvdQaYh4MMEClM0HtYc+9bXZi5s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=xd2nxrE2; arc=pass smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0464B3009ED
+	for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 18:29:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778437762; cv=none; b=j7fR2XKdv1K7Epwz1+j/ogd4BxYko09zn1s6zmBx2SD71njpEyVRt/rbzRTVcwWd3U661W/68Utojc2ZixEf/eVxQM7c03+CaDy3NhosiDkf6D6Eu8rN+zjyiotur9NX+XjdnRxcyEAEHMK+Q21ZkGafXfa2KBXBwpyZ3AHFVbU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778437762; c=relaxed/simple;
+	bh=2t4BKL5zskePt+1AjmU14PUO6W6EBCK+AHcU3VCOQ94=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tvQdDmiy4i1uYnT2UZ5badQMO7/O7dE22bgul9Ewd9llseaDKyvbKo/LhRV1D3LbO39uGr4HbJCbsr3VJJgpMvjGW6eDrCiBNop+ahzt9qfk/w1GypPeZA6oAF88ZKFUiQ8YGpMlvP/b/eylRXKk54uFH+Q33kd9QrUgu6RDhE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ICp4d/NR; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="xd2nxrE2"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5a86c1fe573so3828863e87.3
-        for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 11:07:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778436431; cv=none;
-        d=google.com; s=arc-20240605;
-        b=IYAc7T28k/ph41Xf7qufjjR89R/r1DM3k1l4Iw0cRiJIW1hV8tAsMnQ8wHihmfiL6T
-         RGu+MQS6JCDNUvL1uhehv0dsrwAjBkqEZPd6krWdIrBJoOmtQTifNf6bhBNrkmWbBbHU
-         FP9bXX0remFQUfrrtE4664a/PJtHK9jtOfZazkR6O76Rk7qo0kfkLmdVZqrJ0aWniZTn
-         ncq6Prq+zV5AENYdhYNl3JoOZba1sH6Wt5JYpxl8QdyXBVFDdR4QGjWbU7cRul5Vjgx4
-         VDjEOWWASR8AjqyF42ILSBvQEOW/nMGMkZoCf4grcEevIFnSliXV2XRcDeZCyl7q4ITQ
-         g+EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mPI9RtUtwfMsUB1RLcg9XhbB2p1KI0Jg9PNs9S7CB20=;
-        fh=wHl9UKWkp738NARAhKguBUj4pZexdULV7OHG/KEAXws=;
-        b=NiPDKLQ7EOQBU6IUzGh3ne1I55qiEXax2heW0tSp2VrA/Uye9Q0YC/Nj0JBYwETpIL
-         oVjQxOSITdJuyZB13QWi+r3XS8zhg4npqaEV6Z7yLHemxBNDqLdJIZb9JScCmLRKoU0X
-         Pdr/QVesYcnJTMVpVrZV8e3Qojs4RLezL55vTK1Z/zLt6VbNY7vTH1RRx66lLjXqvdgZ
-         bLitu7eQtB3BzcShPqCAHOHGz+zF7l9U2rqrJhbj8Him5HGlHZ7BhHdzwdy7oV7mXwDW
-         DGNtA3AimkbZbR08ueYpRlPxZMlaUeSPnfIxD502K6IRv6N//X9haSNT3juH6iqwcKCS
-         1VKA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ICp4d/NR"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8354461da74so1644960b3a.1
+        for <linux-doc@vger.kernel.org>; Sun, 10 May 2026 11:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1778436431; x=1779041231; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mPI9RtUtwfMsUB1RLcg9XhbB2p1KI0Jg9PNs9S7CB20=;
-        b=xd2nxrE2rwAT9XPROHji45Y7YpK9Lj8wqqYVwjTqgaMJz/T1a0pi3r14co3QbcC+DB
-         1/4Y3nhJBc0pDjz4bJ5G0wRQXnFdGh+e1UV32hu9+18QbspbZI9ZtapjgRmcIkYmN8/A
-         s5i2sZWZaL/7qTGe3cYymFLJtdPu27BfAb9pRJ/kW1s6bvKOSKkPnyd2ENQyI/E2Uxos
-         Kb5P+sJVgC8pCMhXtMlV3JppbqSy+KqJa5FFCmFTcYHk9ic8b4HcwLQRQ4JPzTHCVfbx
-         i+GCaAWpzUEjVYQU5DwBa3Lb8upX9MEia51MmdOlPKXUUobvN8LcCMrj957XJu6cRCp8
-         TXyA==
+        d=gmail.com; s=20251104; t=1778437759; x=1779042559; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MnjDtWjU+iUFnsNgB4AwO0xgeo8XnzRB7bbhA44EF8o=;
+        b=ICp4d/NRkHttYbQXaCt62xOumATU14WnRWE/TKMFGM/4WHMipqkaV95qkBPH5VyIxd
+         xSxCV6bqmwPvFyhBADuQY6yCE0Q2Ipzc8MBAMMSETaJd2PsPgb9LPOHW3AtoPr9aS0tF
+         ajDVH2YNEKQdd1v/5EEKoON0gFtxb8Pw83cKXSKQzCVf8tkBiQlI/broQSNPeaF+nsUQ
+         lDKPuZ9JWyfc7VlP0N59TmtPynSwBuXx1miaosxY2QFzP+0rhXx4mfEdLtF7SuCzSbNd
+         sNnEYNCoIlmBg7p52iSpeGwrkuTJ3X6YUdqTKyrEIQmFrot2wiIL+sCNT7g2zNh25HeB
+         wulQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778436431; x=1779041231;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mPI9RtUtwfMsUB1RLcg9XhbB2p1KI0Jg9PNs9S7CB20=;
-        b=HhqN8q0P5mxnoSRuYDDBxfkC+vGs1YBToUwWP/JQo2PIjAUsOqDcHAOdIz3zGsiWFo
-         YZXYi31GTvYNFrMKuS+sqZyiv0zqtDl2mdKrtbZag18sdj/z0A1Rk9jG7SvCBXK4vZib
-         0GEwldttTeM2U5XRAG/SOQooU0Un8jwKBCdt+0d2X+FbFOBdqkCsI1fW5N9Q0t2QYuKQ
-         PsQbdRHCcR0/EwhR5jiCnPEmNv5QYC15J8kFvABg0nff9cbMnNp6sG0zZklyAr9f2ea3
-         ahUMnWcI9bNh+eFN73+SiiqaLIQQaRwITOU2UVN6K3xxIEXughPSmLbojGpDKNZNXmkx
-         Tmsw==
-X-Forwarded-Encrypted: i=1; AFNElJ/vQSVXOeSNaaE2+16sb4eFehXRfjQT1vvzlXycJO/xSO6ewqO1Mkq45Hs4q6AuKJ8nHiGB29EkJXw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFTWMPH/qOUsFDgSPSEr8bsdmQ5bsayl2ESPaRgKTnMlDBDp6P
-	7wlutcagwvZ/n25GcZH2wRT9h3fbRm+hOo64LFzRPECwFxV/NxAw4kUgjxM5NByHhmYIiIjZyiW
-	pK6N8NJa70OtOQZI4ntjXYv95uHU1Jt5mmOV35KmEA+VslEnZHN0=
-X-Gm-Gg: Acq92OF5G+GJDS/8l9L1qChbCIOipLsFbRF4qGqxSBCWHife75fBAQYkD41KzESH4L7
-	fzKPQOUBupHtCtIYe6ymmySL02Ood1bD3ie/bF6ErOx4PdMUxr7vpPUgNfnCV1+uFfaftWuzpQE
-	1ce/PWsq8LuBjv8JugRryvKQLBzaOrpTcWf3PR8TaOvqHruIUuy8PMaz64uCOtq/mxcOnazBTQM
-	X3eXu/Iunw/SGwvJ27sw9VJrItFu8Y1EZXVQ2A4vJtQi04p3SuHY5n+vhN7fju+rVwmvtyTZxEi
-	MSV9YQLfwbUlAwA=
-X-Received: by 2002:a05:6512:3e14:b0:5a7:4699:d851 with SMTP id
- 2adb3069b0e04-5a8b6c9c530mr1787120e87.7.1778436430400; Sun, 10 May 2026
- 11:07:10 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778437759; x=1779042559;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MnjDtWjU+iUFnsNgB4AwO0xgeo8XnzRB7bbhA44EF8o=;
+        b=jQYL2EKRounaRO7gzFK7vC6LdY2PZRY0EoB1on/8a85BcnBFDBm4n+k+a7KPHwpty+
+         ySm6v+VZ0yQ7jHcKttmo3z9UYG7za9ZHaa8cvxlc8jYMucc1yN9gyoIQpIg6hrPEnvWe
+         3Lh0gctuuhoGVl4LINAGrNeB3vABWgnXJ1J6Wb51LDWE2eq3Tt00E5TjnH3cCJ4dc3rh
+         jVePt8afefZwdselCz8uc8pw8w5XLtwiQ/PEMP6ST2oBGZLvOZ786kpI/qSED9pJc1Ik
+         3ojmc2sXvRRvnydBpNSGT5wEBIOHrHvPysrYpxwvhzkcruZVd9dFQVvbNALDUsgsyxZx
+         cZdQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8Q4hmSKkaUtLq9jKIzagm5+WET6eOtrEoCD7PQbVZq1vLtGh89VEX1fea7BoXE4cQbrgPxo1yineE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJEHbR0N6fmjnjzcESkm9K+PI8aH2nIFbucLGuHRJZ/iXjWxNn
+	Pkx7+gafg+heZX/wf5RkDkaM9pT1leeGstwuRe9MJ7oXJ6N71XdUTp+K
+X-Gm-Gg: Acq92OFfNOtlFpdbUGgT1sYUCgBO+7YhgaXLtV98BxKPbCUluXNQWzskWA+34Blyxlo
+	5JvYdD4pLFwXwXCaNQm9g/DEddrqPrK5SuBrcXrGmFU+JWE2w0KM6SwqUOTInbmrUQF8EM78zw9
+	IBMVX+tfqEp9OKOv58qYxXbP+xblZ9OMrm9SSBAgSHMgzBP2CFzk3So5isg2xilcBNG+7UyQosu
+	Rj/bfr4+CL+GbMjJvWFocbj34P5aUMzWoCFz1/cG8GYej7BO3oBOYlaNnX8SI0cBsIPOLTFjIqp
+	t1hp/NcxOlNY2YU8CeDb/0S62VxzIaSnsts5nE616HYvNfBrLhQHl7B+4KosQpWktKAglSvIzXF
+	ieP7benuVh/pv3dIWcIp8ilxRYdmpNdEVJKrmUz2j7QpDtSg3euwm82yrKOxwi0mEl6u7Q/SWrs
+	6Td37NCzwu2bD8lve+Qf8QWEjl6lfwH2XJrqA=
+X-Received: by 2002:a05:6a00:4ac4:b0:835:7c0e:b529 with SMTP id d2e1a72fcca58-83e39c33441mr6531203b3a.12.1778437759341;
+        Sun, 10 May 2026 11:29:19 -0700 (PDT)
+Received: from fedora ([157.119.204.215])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839682a272asm18132388b3a.54.2026.05.10.11.29.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 May 2026 11:29:18 -0700 (PDT)
+From: Aayush Patil <aayushpatilsch@gmail.com>
+To: ericvh@kernel.org,
+	lucho@ionkov.net,
+	asmadeus@codewreck.org
+Cc: linux_oss@crudebyte.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	v9fs@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Aayush Patil <aayushpatilsch@gmail.com>
+Subject: [PATCH] docs/filesystems/9p: fix broken external links
+Date: Sun, 10 May 2026 23:58:56 +0530
+Message-ID: <20260510182856.17569-1-aayushpatilsch@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CALCETrVqG+1yErRJjkxvJrf=A+Vu84HTR4Bx1Pcd8G1C0PJcMA@mail.gmail.com>
- <14A441D8-5370-44BE-8732-99BF8107C3FD@getmailspring.com> <0b8bba44-f6bb-4d69-b9d4-5787c276d41a@inspirated.com>
- <20260510163204.GA2279@sol>
-In-Reply-To: <20260510163204.GA2279@sol>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Sun, 10 May 2026 11:06:57 -0700
-X-Gm-Features: AVHnY4Ksn57e9ZSnowz7i8VDuqmEeyTqf3rUkaTOYFnl29-9oyrpMeTvEmcHBgg
-Message-ID: <CALCETrVLsFyo71Jk7pZ+VDSR+cX-tu_mD+RdpDe-q1sVw4wisg@mail.gmail.com>
-Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Kamran Khan <kz@inspirated.com>, Jeff Barnes <jeffbarnes@linux.microsoft.com>, 
-	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 10, 2026 at 9:33=E2=80=AFAM Eric Biggers <ebiggers@kernel.org> =
-wrote:
+The xcpu.org links for xcpu-talk, kvmfs, and cellfs-talk are dead
+with no archived snapshots available on the Wayback Machine, so
+remove them. The PROSE I/O link redirects to a dead server; replace
+it with an archived version from web.archive.org.S
 
-> In any case, any hypothetical security benefit provided by AF_ALG would
-> have to be *very high* to outweigh the continuous stream of
-> vulnerabilities in it.  I understand that people using AF_ALG might not
-> be familiar with that continuous stream of vulnerabilities, but it would
-> be worth spending some time researching what has been going on.
+Signed-off-by: Aayush Patil <aayushpatilsch@gmail.com>
+---
+ Documentation/filesystems/9p.rst | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
+diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
+index be3504ca034a..65809a1dad21 100644
+--- a/Documentation/filesystems/9p.rst
++++ b/Documentation/filesystems/9p.rst
+@@ -23,13 +23,10 @@ the 9p client is available in the form of a USENIX paper:
+ Other applications are described in the following papers:
+ 
+ 	* XCPU & Clustering
+-	  http://xcpu.org/papers/xcpu-talk.pdf
+ 	* KVMFS: control file system for KVM
+-	  http://xcpu.org/papers/kvmfs.pdf
+ 	* CellFS: A New Programming Model for the Cell BE
+-	  http://xcpu.org/papers/cellfs-talk.pdf
+ 	* PROSE I/O: Using 9p to enable Application Partitions
+-	  http://plan9.escet.urjc.es/iwp9/cready/PROSE_iwp9_2006.pdf
++	  http://web.archive.org/web/20110101152020/http://plan9.escet.urjc.es/iwp9/cready/PROSE_iwp9_2006.pdf
+ 	* VirtFS: A Virtualization Aware File System pass-through
+ 	  https://kernel.org/doc/ols/2010/ols2010-pages-109-120.pdf
+ 
+-- 
+2.53.0
 
-It would not be completely crazy to have a simple, straightforward
-interface by which user code could ask the kernel to do a
-cryptographic operation.  Think:
-
-int compute_keyed_hash(int key_fd, const void *data, size_t len);
-
-where key_fd encodes both the key and the hash type (HMAC-SHA256 or
-whatever), and there is a very, very small menu of hashes to choose
-from.
-
-But this is not really obviously worth the hassle.  And AF_ALG is
-definitely not the right interface.
