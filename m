@@ -1,64 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3993A3B47C1;
-	Mon, 11 May 2026 08:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9A83BAD84
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 08:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778488808; cv=none; b=giMu/j1xlsZjX+qrTdORK4reMaBZMM+WelzKXqqARVIJE/g/pWrJMJc9D3ybhfkmHX/FghVbJVNo5414+brq0f0ixgkxrONuEkHAcDSqGxEyuERih9tbKxxxbPtrHPCAEuIWcnb9+E9iHaV73N2O4dBR3xid9Ek7wOk4ENTh/OY=
+	t=1778488988; cv=none; b=d9NYe0Jw9ML559uQCUce1UtVqsBMx8IE4J6i+A2D52vpfpXZ+VbvApgJIlWmke+JbucCsANb/ftDgTz9o428JQFwNEZOfdwgeyE13SxW+km3185aOQAiEaBt8ULdLFjVmwtzuNmCRPWASdOYWZ1BEb/1FhBfa070r6IVczsLgKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778488808; c=relaxed/simple;
-	bh=FjxoFU/iuph2uKQuJYPBP/jRCiI5H4PriSYE3OFrGPU=;
+	s=arc-20240116; t=1778488988; c=relaxed/simple;
+	bh=rnqKyqAfu/h9721iDp30KUlFrz/MOVxVgrsZpGVGphE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bdl2Je0DjZuJDfD+NnqL604bSFaVFQHnjzVB2nrOcZ4kfJ7PAHv5eHraJCmeA8ezsOGHkrFRTJcN21L/GowhZNXtQE7q1G14/tukyPRxv5wnsUwyjumw5b8bT9xST52lTaVcxbPP6drdrLvvl4LR12XdTJFisX5nSaDmLvAwGHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/n3iLxu; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sFWdWGX+HVF7qntaBxjtKQL6PniFmNt01ekDywytKprXl0l3SvT+2w+dY5oabrt5hIM6n/kO5wBmvuUtE37JWxGAfZL8mNGXq/0i1U5PSV37jU8npmLEgosCdyKC2rUafcBR8O5WCjs+VCKl8A6sBNfYbvECLvzjpyWA5ete/MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=ktiQUxXR; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/n3iLxu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778488804; x=1810024804;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FjxoFU/iuph2uKQuJYPBP/jRCiI5H4PriSYE3OFrGPU=;
-  b=f/n3iLxuwGUTbtq0oOWCAFOSPLJfP1GbktnwPO8ixufKVPnxi/C0I0e5
-   RIwOcU+NlCzRv6LeGZQLkfkS6o+ZSywNRlo3l46HGWlQm94XS95/zFvfc
-   c+LrbHfLL4j18BlX9vff3zf+ZqI5BSvQjHp/A7Tyl584FwNkzPMi54FWZ
-   O0YovAx7QUeO/l6WOqT3oeot1W7g1IcG0LN12+pWhtSr8eciJPqWo+fwf
-   6SA7gKpr4mq3OFHbDoE7gOTx+3OMY58+td5MEhJQELqmh6Fm0xmKx8Wlc
-   AQ4E/BVDElXqywWzLogabJ6BN1IPFO68YCkjqvAQDxndL4mhzm1wtzWu7
-   A==;
-X-CSE-ConnectionGUID: al0l63/YTDSoKdLbPRMVCg==
-X-CSE-MsgGUID: 7JJSl520TZKJ81gDRozSqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="82981395"
-X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="82981395"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 01:39:59 -0700
-X-CSE-ConnectionGUID: 8umqLdDHQJyo1nUXtxdk0Q==
-X-CSE-MsgGUID: gn3R5xLYTm+H4pTe+HNCFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="242380856"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 11 May 2026 01:39:56 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wMMB7-000000007v7-2d8S;
-	Mon, 11 May 2026 08:39:53 +0000
-Date: Mon, 11 May 2026 10:39:44 +0200
-From: kernel test robot <lkp@intel.com>
-To: Yan Zhu <zhuyan2015@qq.com>, corbet@lwn.net, alexs@kernel.org,
-	si.yanteng@linux.dev, kees@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
-	dzm91@hust.edu.cn, tony.luck@intel.com, gpiccoli@igalia.com,
-	frederic@kernel.org, jani.nikula@intel.com, longman@redhat.com,
-	mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Yan Zhu <zhuyan2015@qq.com>
-Subject: Re: [PATCH] docs/zh_CN: update admin-guide/index.rst translation
-Message-ID: <202605111009.hlpiVkT6-lkp@intel.com>
-References: <tencent_7ADF2D1EBD8EAD2028BC93BA7858EA655D0A@qq.com>
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="ktiQUxXR"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so36082475e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 01:43:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1778488982; x=1779093782; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GrxhiHcULhrhQbh8qYDGvqX3AewbZL83TjIxu3B31co=;
+        b=ktiQUxXRaQMwJkSJ9yOuhOtr4p1E49ifu9C3Umkch59rYB+jcqNMi8UUpsR/e6J6G8
+         GnAMhiS+fHtuRwwmVgjqu8/U408Wa3GQrLtNGsYdcT5A7ieA3KIWhsjmRaLrsRgfW53D
+         +4gNO5+xIPlDZqKCUje6LcmNdafPMVezR9Kruxh5x3gKN1HwL3CG92mGNe11LNctPk5H
+         hatc0zIGab7+4DOl0JlzGcvzmQ+h7FBY0LqSYB76WqSt65x6D8OOWj+0/xTqhT/rFsmj
+         IulikLBtb2mXjYHLOIluxf576rn4LywXYGZYVeK3SowfbId2BNjs6EKbM5PJIwIX4dKj
+         K63Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778488982; x=1779093782;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GrxhiHcULhrhQbh8qYDGvqX3AewbZL83TjIxu3B31co=;
+        b=e+Ofgd7xdhGVUiCby0lGJfJz8EbfQqyCAnHbi20OaTQepZpqutcytVvbnriRHneNpP
+         kdbFDAeYVyPwXxQ9J+A5xd3fZyxsjMuGYsCIMrUCGLpFZfso2dZp6jmqBcfhqH+1LXHx
+         e01O31w3xSuHGUOl9dLT88IGGFzrohfRuzyJeEDtvh5dFnJMfUjeDNW3Jmu01QBXPUay
+         Vgsk6fU7Da6ouQsjE5B+5/DcjiQJV2ggaFV6Arb/pjZQ2fnL4la3mZCkuN642XH4WYus
+         ZRz8cHWXj/6OBL+9Ih6Sx5yBf0ixV1rLG48thmys9vEWFGnyWUhrwgdr6/3s6zlO1TK5
+         kz6A==
+X-Forwarded-Encrypted: i=1; AFNElJ+PSvh+NBMnMA9GPpxP2AOgsEb7QqSTxA3v/6bb5ZzP4TVxWAD/Od8g62CaVy/E+DKOp05xtYEiunE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZicY9v8AaOVk7pZGbLrBdmC3OQBYCxtjP0hDze9q9EMolKMe+
+	CNDmMmSLRk6X3MziavHIhKJDPzFYYhWPMSQBeJMscSUASKlWQWHOpfUvUupA83M9t40=
+X-Gm-Gg: Acq92OEkS8uvwimolWbqH8ylt3LKksS9/A1xJKCI+1buBy78qNGKRO5JwWsshDBdG4r
+	VfMMJcH17E+BuhdEdatPGy9AOx+76G8jVlBM+sjVRXZmcus/UXafZD5DRd7qNa/Wn09MjZA8PCs
+	uhPDgqFFuNvgmKIcKo05w/3mcUa8HyU+BJSI75Qj6UMzjgCdUlTNLQXV+UQu7lzVsgo9ym5j7n4
+	FuDpNnglUZtuIkjU7yzw3U8w0UhgQ/GS3vXoKGXluSKmK7doFO+1C27Q0fgNgtit+ikatbOZoQb
+	fOIF0FtU4FdcLS+xTiBIuvkXoT2iByZ852zAdP9zR4zTQb2k7rWlJCQKNvs9Sl09JcPdh9JwJ3a
+	H3A193IV1WW8RaN2xM5loxpbkgAPzBaVdVStiPXq/RZV1wofggE1bmDrgTQaD18dDhGA19wc013
+	IvDeoJIVP/v3+6TOLFiMto4Aj4uSGmWah/uzE=
+X-Received: by 2002:a05:600c:3548:b0:488:c40b:c8a4 with SMTP id 5b1f17b1804b1-48e51e097a2mr361132135e9.1.1778488981777;
+        Mon, 11 May 2026 01:43:01 -0700 (PDT)
+Received: from FV6GYCPJ69 ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6d8f6fa0sm59170405e9.16.2026.05.11.01.42.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 01:43:01 -0700 (PDT)
+Date: Mon, 11 May 2026 10:42:56 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Mark Bloch <mbloch@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Randy Dunlap <rdunlap@infradead.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Christian Brauner <brauner@kernel.org>, 
+	Petr Mladek <pmladek@suse.com>, "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
+	Eric Biggers <ebiggers@kernel.org>, Li RongQing <lirongqing@baidu.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [RFC net-next 0/4] devlink: Add boot-time defaults
+Message-ID: <agGOeqeNwJGJ_-2A@FV6GYCPJ69>
+References: <20260506123739.1959770-1-mbloch@nvidia.com>
+ <aftaW-irGmkfA7FS@FV6GYCPJ69>
+ <3f9215c4-7c84-46d9-ba74-30dabe24db09@nvidia.com>
+ <afxvzOjqw-vxUAED@FV6GYCPJ69>
+ <b6a9b568-dd09-4414-be57-6b9cd282a43c@nvidia.com>
+ <af4lBIJdCuN5VKq_@FV6GYCPJ69>
+ <20260508175213.1952097f@kernel.org>
+ <af7Y4AYv-XDCbK_8@FV6GYCPJ69>
+ <20260510093732.6ba47e54@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,55 +93,74 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_7ADF2D1EBD8EAD2028BC93BA7858EA655D0A@qq.com>
+In-Reply-To: <20260510093732.6ba47e54@kernel.org>
 
-Hi Yan,
+Sun, May 10, 2026 at 06:37:32PM +0200, kuba@kernel.org wrote:
+>On Sat, 9 May 2026 09:01:23 +0200 Jiri Pirko wrote:
+>> Sat, May 09, 2026 at 02:52:13AM +0200, kuba@kernel.org wrote:
+>> >On Fri, 8 May 2026 20:07:44 +0200 Jiri Pirko wrote:  
+>> >legacy vs switchdev only describes the eswitch configuration.
+>> >As a non-SR-IOV user I really don't want to see the extra representors
+>> >hanging around my systems, confusing all daemons. IIRC mlx5 had some
+>> >limitations around the uplink representor. Maybe that's the disconnect.
+>> >But for a real, fully featured switchdev eswitches having the
+>> >PHY and PF representors on boot, always, will not make sense.  
+>> 
+>> As "a non-SR-IOV user", what extra representors you talk about? When you
+>> have pfs only, you don't have anything extra. Just 1 netdev per-pf, one
+>> devlink port per-pf. What's extra about it? When you don't have VFs/SFs.
+>> Everyhing is the same:
+>
+>Some devices have separate uplink ports and PF representors.
+>As I said, what you're proposing isn't going to work for all drivers.
 
-kernel test robot noticed the following build warnings:
+Well, the point is, mlx5 appears to the the one needing this, not other
+drivers. What I'm trying to point at, mlx5 should not need this.
+It makes things compicated, adding a ugly knob for no good reason.
+Legacy/switchdev mode, in both, the non-sriov/eswitch user should not
+see different behaviour. The mode is an eswitch attribute.
 
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+   devlink dev eswitch set - sets devlink device eswitch attributes
+       mode { legacy | switchdev }
+              Set eswitch mode
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhu/docs-zh_CN-update-admin-guide-index-rst-translation/20260511-102406
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/tencent_7ADF2D1EBD8EAD2028BC93BA7858EA655D0A%40qq.com
-patch subject: [PATCH] docs/zh_CN: update admin-guide/index.rst translation
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260511/202605111009.hlpiVkT6-lkp@intel.com/reproduce)
+              legacy - Legacy SRIOV
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605111009.hlpiVkT6-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Checksumming on output with GSO
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
-   MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
->> Documentation/translations/zh_CN/admin-guide/index.rst:114: WARNING: toctree contains reference to nonexisting document 'translations/zh_CN/admin-guide/module-signing' [toc.not_readable]
-   Documentation/userspace-api/landlock:504: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
+              switchdev - SRIOV switchdev offloads
 
 
-vim +114 Documentation/translations/zh_CN/admin-guide/index.rst
+Briefly looking over other drivers, looks like ice, bnxt, octeon, sfc,
+there is no new entity created in case of switching to switchdev mode.
+The only driver that creates separate pf entities seems to be nfp,
+but the mode seems to be determined by the app being run (loaded
+firmware).
 
-   113	
- > 114	.. toctree::
-   115	   :maxdepth: 1
-   116	
-   117	   cpu-load
-   118	   mm/index
-   119	   module-signing
-   120	   numastat
-   121	
-   122	
-   123	Todolist:
-   124	
+Am I missing something?
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+>
+>> >> Well, as any other nv config, it persists across kernels/hosts.
+>> >> Think about it as "unbreak-my-not-legacy-device" bit.  
+>> >
+>> >For most devices the switchdev mode does not change anything
+>> >substantial about the device. It's purely a kernel / driver config. 
+>> >It changes what objects and default rules kernel / driver installs. 
+>> >So I don't get why it would make sense to flash into the device
+>> >nvmem a Linux SW stack specific config.  
+>> 
+>> I look at it from the perspective that from some CX generation,
+>> switchdev mode should be default. So that is a device-based decision.
+>> I believe as such it can optionally be permanenty configured (nv config)
+>> on older device. Why not?
+>
+>Feels a bit arbitrary and won't cover all cases. The question should be
+
+What cases it does not cover? I don't follow.
+
+
+>why you are nacking a more reasonable solution. Keeping Linux config in
+>Linux params.
+
+What's reasonable about adding basically a module option (kernel cmdline
+is pretty much the same) for no reason?
+
