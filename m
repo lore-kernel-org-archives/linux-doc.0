@@ -1,92 +1,160 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EB444E040;
-	Mon, 11 May 2026 18:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D18247884E;
+	Mon, 11 May 2026 18:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778522622; cv=none; b=VpE6lWxSpQqT5kXGOfazcvvkUTwU9pNBH/HZ9+rwjMxbMdQ8rpBV/hL3CGkVffGvbM90RG7qJU9qfxlpXFyfyeaI8SOzmiWiKtXS9uTElGPymxKOCMWZ/9zPPFcKM0pSZHLLf3L/IJjNXm4V4GecvVS+lNqLgKncXFy5SyWcF+8=
+	t=1778522987; cv=none; b=jU7Lmx3zaXcToBLBnIYFnuabYgXX9ADzLg63z9op1IN+pOcMpPnovynihMeMYGR2oGxv5/SWITyOQjnxaN5wsRwuoiqxFESqOjsO+gahqo1/FPn4OfuvtvIARHgyzBR4Jmr70BXe5Uwsp1Xz4dWp6bGHBi8DCUQvAu9nrzE6hCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778522622; c=relaxed/simple;
-	bh=6CkTUVRQcz+BVjYoiylUCr1aQYzD7nVYT2gLQlwwNz0=;
+	s=arc-20240116; t=1778522987; c=relaxed/simple;
+	bh=n6e+PmZVSR5bhRNfnAYiSruj3Fg+dvFavJ2iy712Q+8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fhBI20VYeJYOzRp3UHNeIYQ3RUbaFw34VJYZPDeaOH9vAy0jN0+j5Ji1Og9xmC8YIUR6+Hnci6rYmLeLTW1xCVhQ7jFqDl7d+GqYUJy4nZHYkUrVB/IE3Odk4Yag5bSmbW3WwgkbfI8OGRkH48ptVhdTAcJYDGRBceA2u00CLOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=kMDAKMHD; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	 Content-Type:Content-Disposition:In-Reply-To; b=f7tCNH+FlM5R48ua8wiH7nhKNq8DJIGuryHZCuXpqI++TroXlmJMDCQTr2Wgl1fT82zx0M9f+KRWQoqyj4PGwCgwT7DXlZ4bYi36mlnMCOK3auKFUCHjFB4c4AvN+I9mEBFAKTTMwEpChlJ5Xb1Loh23xYkID3iLe2PH0MbGxT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNFK8H38; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="kMDAKMHD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1778522611; bh=tl4LqQHOdh7skXgAUyFfCSkKXDOXIcnx3HeXLIv/328=;
-	h=From:Message-ID:From;
-	b=kMDAKMHDq/B/qaFaAkQNjDME9jH7/tPzGqDQO2ZABOZ1zusXsQMFQR+uIOC7i3JvY
-	 /1T4zU+nnsjsIYOql85TrboSwxo6DKaTqapGYrtYZwZw+s4Lre9UMKtm4YoBVsHI0t
-	 MeItvTDgY/CslDcTCTHRuA4Ecgyee0gSVsuumfiY=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id B6029C0A37;
-	Mon, 11 May 2026 20:03:31 +0200 (CEST)
-Date: Mon, 11 May 2026 20:03:31 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Greg KH <greg@kroah.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        skhan@linuxfoundation.org, security@kernel.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] Documentation: security-bugs: explain what is and
- is not a security bug
-Message-ID: <agIZ8zeg3m0xE3yL@1wt.eu>
-References: <20260509094755.2838-1-w@1wt.eu>
- <20260509094755.2838-3-w@1wt.eu>
- <2026051124-afar-renewal-795c@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNFK8H38"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0626FC2BCF5;
+	Mon, 11 May 2026 18:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778522987;
+	bh=n6e+PmZVSR5bhRNfnAYiSruj3Fg+dvFavJ2iy712Q+8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eNFK8H38aFLYaReWqtEPcdko+4inpVwcknl+8Zovts1NkJPF1b0tNFF/TWgihTZnv
+	 txWQynlmEJGV9JUuAgO4RlguJlgzvEZsVpy2nMC1zJAJU89jC0zKgGqAcdLYAEX8z1
+	 TE289mAgg4jshxQUUEpJfCO2XoR0nj21GkdmVmD1sBac9eLE+3KA6EIWPRTbWl+s7+
+	 mUnFmHmLgPnegH4uw+5sh8nMKperGP/aHZovEWUaW3ZRkGMSG+hKKGX/7C9hyYMTAx
+	 WKaDwSu0vx2DlsHJYlV0Wd9q9DJEA0LhvyjnSfeDF2vbpxP45gvj9WYJNr2NbPt8pF
+	 UAJWgeRuCUXAA==
+Date: Mon, 11 May 2026 14:09:45 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Michal Hocko <mhocko@suse.com>
+Cc: Breno Leitao <leitao@debian.org>,
+	Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	gregkh@linuxfoundation.org, akinobu.mita@gmail.com,
+	live-patching@vger.kernel.org
+Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
+ primitive
+Message-ID: <agIbaeBQAr-RkqYc@laps>
+References: <agG_PZ3qcl6TwLnL@gmail.com>
+ <agHUp8ulaWJ75WU5@tiehlicka>
+ <agHcFCRVSn5ra5Kc@laps>
+ <agHeZPA3eHhJHIsQ@tiehlicka>
+ <agHgDgwu8H9Opzpl@laps>
+ <agHm9Vj7bPPCRS1g@tiehlicka>
+ <agH7_QBPLWKTZucB@laps>
+ <agH_bGUTvWm2h5g4@tiehlicka>
+ <agIHsN9tiIHnVTeV@laps>
+ <agINlnNN4ubZgyiN@tiehlicka>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <2026051124-afar-renewal-795c@gregkh>
+In-Reply-To: <agINlnNN4ubZgyiN@tiehlicka>
 
-On Mon, May 11, 2026 at 07:28:57PM +0200, Greg KH wrote:
-> On Sat, May 09, 2026 at 11:47:54AM +0200, Willy Tarreau wrote:
-> > The use of automated tools to find bugs in random locations of the kernel
-> > induces a raise of security reports even if most of them should just be
-> > reported as regular bugs. This patch is an attempt at drawing a line
-> > between what qualifies as a security bug and what does not, hoping to
-> > improve the situation and ease decision on the reporter's side.
-> > 
-> > It defers the enumeration to a new file, threat-model.rst, that tries
-> > to enumerate various classes of issues that are and are not security
-> > bugs. This should permit to more easily update this file for various
-> > subsystem-specific rules without having to revisit the security bug
-> > reporting guide.
-> > 
-> > Cc: Greg KH <gregkh@linuxfoundation.org>
-> > Cc: Leon Romanovsky <leon@kernel.org>
-> > Suggested-by: Leon Romanovsky <leon@kernel.org>
-> > Suggested-by: Greg KH <gregkh@linuxfoundation.org>
-> > Reviewed-by: Leon Romanovsky <leon@kernel.org>
-> > Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> > Signed-off-by: Willy Tarreau <w@1wt.eu>
-> > ---
-> >  Documentation/process/index.rst         |   1 +
-> >  Documentation/process/security-bugs.rst |  38 +++-
-> >  Documentation/process/threat-model.rst  | 236 ++++++++++++++++++++++++
-> >  3 files changed, 274 insertions(+), 1 deletion(-)
-> >  create mode 100644 Documentation/process/threat-model.rst
-> 
-> Looks great, thank you!
-> 
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> Want me to take it through one of my trees now to get it to Linus this
-> week, or should it go through the documentation tree?  Either is fine
-> with me.
+On Mon, May 11, 2026 at 07:10:46PM +0200, Michal Hocko wrote:
+>On Mon 11-05-26 12:45:36, Sasha Levin wrote:
+>> Could you describe an existing infrastructure I can use here?
+>
+>I think it would help to CC maintainers of subsystems that provide
+>kernel modification functionality. They will surely have a better
+>insight than me.
+>
+>> Let's look at
+>> this recent "Copy Fail" thing as an example.
+>>
+>> I can obviously build my own kernel and enroll my own key, but 99.9% of our
+>> users won't be doing that.
+>> Livepatching, or manually building a module that just injects a kprobe is out
+>> of the question as we previously agreed.
+>
+>Onless I am mistaken you can enroll your own key through MOK. But you
+>are right that this is an additional step. But the real question is
+>whether this is a major road block for users of this specific feature.
 
-Yes, please take it as usual, it's simpler for me and it will likely
-allow it to be published ealier, which ultimately should help us
-faster ;-)
+The roadblock here is that then I need to start owning the kernel package: I
+need to pull updates, rebuild, reinstall, etc. I lose the support I might be
+getting from the distro vendor.
 
-Thanks!
-Willy
+I see "users of this particular feature" as the other 99.9% of folks who don't
+build their own kernel, who follow security updates from their distro vendor
+and could apply the simple workaround that those vendors could now provide.
+
+>> systemtap falls into the same bucket as building my own module.
+>>
+>> BPF doesn't help because bpf_override_return() requires the target to be on the
+>> same within_error_injection_list() whitelist as fault injection, and the CVE
+>> targets never are. Some of our fleet doesn't even have BPF enabled either, but
+>> that's the smaller objection.
+>>
+>> I can't use fault injection because:
+>>
+>>  a. It's almost never built in production/distro kernels, and I suspect this
+>> won't change.
+>>  b. The functions I need are not whitelisted.
+>>  c. Even if (a) and (b) were addressed, fault injection would still need a
+>> securityfs front-end, a cmdline parser, a module-unload notifier, a taint flag,
+>> and audit on engage and disengage. By the time those land in fail_function and
+>> tie into/refactor the fault injection code, the net diff is bigger than this
+>> proposal.
+>
+>I cannot comment on fault injection imeplementation details of course
+>but I have to say that the whitelist nature is something that makes its
+>use very limited. Maybe this is a good opportunity to change the
+>approach.
+
+Possibly, but IMO the bigger hurdle is the refactoring we'll need to do so
+seperate fail_function out of the fault injection umbrella.
+
+One approach would be to abstract the kprobe logic out of fail_function into a
+common lib that killswitch could also use, but from a brief look the benefit
+will be minimal.
+
+>> In my case I can remove the module, but not if I run a distro that shipped with
+>> CONFIG_CRYPTO_USER_API_AEAD=y (like RHEL/SUSE).
+>
+>If you look at copy fail[2], IIRC algif_aead, esp[46] and rxrcp are all
+>modules that could be blacklisted.
+
+On some distros sure, on some others, not:
+https://gitlab.com/redhat/centos-stream/src/kernel/centos-stream-10/-/raw/main/redhat/configs/common/generic/CONFIG_CRYPTO_USER_API_AEAD
+
+Even if it is a module, what if I can't just unload it because I have something
+that actually uses it?
+
+Look at the ESP issue for example. I can mitigate it by simply doing:
+
+   echo "engage xfrm4_udp_encap_rcv 0" > /sys/kernel/security/killswitch/control
+   echo "engage xfrm6_udp_encap_rcv 0" > /sys/kernel/security/killswitch/control
+
+which only kills ESP encapsulated in UDP. The remaining functionality will keep
+working just fine.
+
+>> I can use "initcall_blacklist=" hack and reboot, but as things stand today,
+>> I'll need to be rebooting few times a day.
+>
+>with your just disable some functions in the kernel you might need to
+>reboot even more. But more seriously...
+>
+>> Even if I'm okay with rebooting that often (and I really really would prefer
+>> not to), this doesn't solve the issues of a larger fleet of servers that can't
+>> just reboot that often.
+>>
+>> What am I missing?
+>
+>For one, you are missing more maintainers of code modification infrastructures.
+
+Happy to add more, but I don't want to be too spammy. I'll add in the
+livepatching ML and the fault injection maintainer (I couldn't find a list).
+Please add any other folks/lists who you think might want to contribute to this
+discussion. 
+
+-- 
+Thanks,
+Sasha
