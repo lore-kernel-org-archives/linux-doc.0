@@ -1,49 +1,67 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D30D371049
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 12:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9166537B018;
+	Mon, 11 May 2026 12:19:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778501678; cv=none; b=AOZm9pUVkg7XzMLXRbqwGZacXPw3QISKuDa+je0h7AVe+jLQwVK14ekG6htm2Z//tbwS1x8aUC/HrFUGX+DFvs9ApilKpVBWynWUMyHfFbKB5t1Qn8Yx/HFLWrWKS/64YFKCIbyQGlRauGlyIoXEVwHisx341HuC+s2ZUD13a3w=
+	t=1778501951; cv=none; b=aFieJp4kLWtiLtXSk4HwwbndXFxbxEE34MxhGDkgoksYrF4p9XalFOMJmmDTr5pxX8YShguWePig/Cly+zriPM3EInLUCYTlQBks5lpeOyXGhfzwWJkOM94kUBz/++Yb8Fcl563zEMdUK/lFrF6kzXk3NrRdUac1np9+gzqfEDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778501678; c=relaxed/simple;
-	bh=pb7ALZUZXOQlcKiG6O7I7STmbleVFJX3QQzMnVbbQI8=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Qut6X0Gacj7u4799UFmMUW27ebngXcrMdDNzQ8zXIfQ6cT0yHE0XsJ8e3cpVLZI7rhoyqmlyUHWlycGLIS+otKTN2ljAU0RHjU1sQ/QBvOz0s2gZP7Nj18NDVNG5wJSU+DoCJKnwQR17Cm2ldAZklIoeYsC1Wa9tiT6a4A6cCSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Io79iC5+; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1778501951; c=relaxed/simple;
+	bh=tLmLnG7NtRDvNzoHFnnr7G7EPjQ98zaD83MXtS3QGaY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=D4H1DYQk8FAUBgwz3ni5PdCGGNThRTy6p9EUhZfmjbqo04TslhvAT87PAKRgC5qrWOlMhxWXaISKoQwKO+ULr9Eezw/wXaTQ7ianrIB0/+YhTCM2vQ2rau6kibNcDLx8bUCH/MthI/Ug0kpVP/APJ1NWH1djVOTEYiPpqG7hnlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NE8Iccbh; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Io79iC5+"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6C0F5410B5
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NE8Iccbh"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B1B3C410B5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1778501676; bh=04eLlvx/pZh/pgfhzlxjTsKybP+rISrltG/8U1AFLoI=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=Io79iC5+6DYLG4ji1PeaYkSLp3UayBLYIPW+N9+bquywMCfki2JFHiG8eXDoorJDh
-	 dEGcUkNrP74zz2mqmGWrPpUQjplN/xWftgHso71cF7m/6JIcbjSQdzbFJsLr+Dxqj7
-	 dqnJ3C89cqsFxC1xUQbqnv8aX12wJi9xWbXwIyDmiBzrkPRbORgc0pcDNBoJCXbyM4
-	 eioui6Ye17h6u9AJiIA+wUz9jrBK4XgtqScYk6O8EmSEX/hPVANF0BF+tB/sY2xXTp
-	 isYim1HfifeBm9HIXZ2WOFRWb1irDApKap3dW2TWcyVakVDWJYgFRwpXpfWZhcuodX
-	 L4ljznhdkoAmQ==
+	t=1778501949; bh=Zd6JYObStql70QlOFbbXZc/nE8PPz1FUhOYeRsnw8R0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=NE8Iccbhlop5kx/SHt52Rf/geOduMGW0s25QzxYTEUHbOkhdbPL75cGB5nCBgnUio
+	 1pSNbwEElvVuv2NeKLxoVtFifIe4xEigRVkh48eplDHFyEsqhWGLAKSd1uQsFnnlWk
+	 hWMnXO1LkRUlwCipZJeOAMpBuWCtuwX/eVO/7We249wxaKgEsrDn+VsCrzq3Zt/BJi
+	 YfslED0S1ywKWCAqGSGB+63OAvyGLWcK4ttKvxUJ1uXeHan8VURu5zqR8s5MtHpuhQ
+	 vkWlLjWBWQ4m/IYIg3bPaOcYEatIgwvk/RaLkbxDF8DLgll1PeFdXk4yjxFYTbZeDE
+	 V8grkQeZtgilw==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6C0F5410B5;
-	Mon, 11 May 2026 12:14:36 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id B1B3C410B5;
+	Mon, 11 May 2026 12:19:09 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, Maxime
- Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH 0/3] Documentation/gpu: tables of contents cleanups and
- fixes
-In-Reply-To: <ad1be55a146a3680ad920588a7cfdbc154b8a4fc@intel.com>
-References: <cover.1778238671.git.jani.nikula@intel.com>
- <ad1be55a146a3680ad920588a7cfdbc154b8a4fc@intel.com>
-Date: Mon, 11 May 2026 06:14:35 -0600
-Message-ID: <875x4uw3bo.fsf@trenco.lwn.net>
+To: Marco Elver <elver@google.com>, "Vlastimil Babka (SUSE)"
+ <vbabka@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor
+ <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Dennis Zhou
+ <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter
+ <cl@gentwo.org>, Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
+ David Rientjes <rientjes@google.com>, Roman Gushchin
+ <roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>, "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>, David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, Suren
+ Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Alexander Potapenko <glider@google.com>, Dmitry Vyukov
+ <dvyukov@google.com>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com,
+ llvm@lists.linux.dev, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 2/2] slab: fix kernel-docs for mm-api
+In-Reply-To: <afi0nQ84k1oz5RyH@elver.google.com>
+References: <20260424132427.2703076-1-elver@google.com>
+ <20260424132427.2703076-2-elver@google.com>
+ <9c321184-9080-4d5c-bd1a-a16cd0bbaed3@kernel.org>
+ <CANpmjNN_=g31Eoa+w1NrFALfp1dDBi5oHEZdr_bA_48-tS2M=Q@mail.gmail.com>
+ <afi0nQ84k1oz5RyH@elver.google.com>
+Date: Mon, 11 May 2026 06:19:08 -0600
+Message-ID: <871pfiw343.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,19 +70,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Jani Nikula <jani.nikula@intel.com> writes:
+Marco Elver <elver@google.com> writes:
 
-> On Fri, 08 May 2026, Jani Nikula <jani.nikula@intel.com> wrote:
->> Make the GPU documentation slightly easier to navigate.
->
-> Maxime, Thomas, Maarten, Jon -
->
-> Any preferences which tree to merge this through? I'm thinking either
-> drm-misc-next or docs-next.
+> How about the below, i.e. adding type decls that only the kernel-doc
+> parser sees? One complication is also DECL_KMALLOC_PARAMS, and adding
+> kernel-doc parser hacks for that looks pretty awful, so this is a lot
+> cleaner.
 
-Usually I stand back from DRM docs, expecting them to go through the DRM
-tree.  I can certainly pick up this set if that's best, but I wasn't
-expecting to.
+I'm going to be a while catching up with things, so this is just a first
+take.  I strongly suspect that the people who object so strongly to
+documentation markup in general would be less than fully thrilled by the
+addition of this kind of workaround.  I'd like to ponder a bit and see
+if I can some up with something better...but again, it won't happen
+right away.
 
 Thanks,
 
