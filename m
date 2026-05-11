@@ -1,607 +1,864 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012031.outbound.protection.outlook.com [52.101.48.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62633B5302;
-	Mon, 11 May 2026 21:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778533482; cv=none; b=CkwBUZ/s8nGbczeIIXU8PKK9SqWIxgoU951XsITvkZsEGHNJSZryMyXipyMuSqAU+wSaqwdyvTrs9Klis9wCtOEJ6ObYh+gtmrtnnn2xAn0lN0viUO7WjKkYF99Tpxi5HW5dGrhTGJ36PZ9sP2PMVQabG9Ic4F3Zeuuv2GUqn9o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778533482; c=relaxed/simple;
-	bh=Vz8sfjIZyexmCXOFva8KkOYGJXssUjTt9qoZfn0Kr0g=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=OYL2IPmQVxj/O1URd6X+hhavWzBAGMyULUVl9rlsMvgWIXkBZ1VuUDyLBz5lcgCl2g4q5GylnKWDtjTmzAbEkmkkshM54N1GxZqjt8AJoB2UczCDUrk4UQE6pv07jsEQRsmsHUFg+zYyAqcNIfLvm6Evp0mFHRiMNePJmGDLX6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=hZ7iGlg9; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEF94D90B2;
+	Mon, 11 May 2026 21:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778535358; cv=fail; b=mVvbsuLp9nU7N9H/Ms0Ew9DvnXYGNfy8bY7LZH+TCRuY0P5mqsL8K1DQquY4+nhcV66dhRy4rx9vd6Ywo5sSQh7Z2mYw0sjh03XrwN8tUVaBAwXQAMOwUw9loIe20n4AD7+zFsKIn/K2rpc2AjTrnbx82wd662xrxIfr/LHJ2Zo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778535358; c=relaxed/simple;
+	bh=3dnMpTTl8VAbOaV6gU8dsOZtBdv6ZLb5WR38CZE/SEk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=jXfCWKT/qbdhEDwqsTfqp2qvwIF180QXSHXTypcqnvG5kGVmnR7qBCNelrtjBEWhIBP4+ecFoVMjHV01ojilhkz138ldqZn+Vd0p6XiVI47Dbd2KRm+ubnOrW4MTingzYY4i/jiLBdg8QnoJZy4He4fXu4IAg2ZVSJnkfdDPqlg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=V+cLrSUC; arc=fail smtp.client-ip=52.101.48.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="hZ7iGlg9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99007C2BCB0;
-	Mon, 11 May 2026 21:04:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1778533482;
-	bh=Vz8sfjIZyexmCXOFva8KkOYGJXssUjTt9qoZfn0Kr0g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hZ7iGlg9nP7t3RQWbYXON9En367yGxeWtYIvKjI3igZRzzkkrdgLmxURdi8Fx1J8y
-	 kxoJZ/15N+fSX20WF0oQEQptFHbAlAM/dCw2PTHivO85cyvItzGX2divIz6DBu+SKx
-	 hW9lTcvHs3gI2qtVudDFm1PZsQNEGHqLF5WYyS9E=
-Date: Mon, 11 May 2026 14:04:40 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
- aarcange@redhat.com, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
- catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
- dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
- gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz,
- jackmanb@google.com, jannh@google.com, jglisse@google.com,
- joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
- liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com,
- matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
- peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
- rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
- rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com,
- shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com,
- thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com,
- vbabka@suse.cz, vishal.moola@gmail.com, wangkefeng.wang@huawei.com,
- will@kernel.org, willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v17 00/14] khugepaged: mTHP support
-Message-Id: <20260511140440.d8a71b4774d13537b3977d19@linux-foundation.org>
-In-Reply-To: <20260511185817.686831-1-npache@redhat.com>
-References: <20260511185817.686831-1-npache@redhat.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="V+cLrSUC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VzljeZfxa01+NDaIXelIgEKZ/EAVyJZs2H7X2joYC1usRbKKntlU7ciHYBPioB1BLfey7qRAGaIp3iQbTfJ7yZdMDUPmy8SD4SgMy2K9Aooal5exXexsaPsqiBarHcklpOvEcVBI73XL23sDZUdh2snol+4/w4SgdUu5RHj7Y2DGP4Ff9Yi56jKru4OjuH//aFAgRIQQE3ncyqxDzg7864Q1mMc4yVTSmvQTLb5hkQh8lCqfUThqOFPbyrtwfE0ZfGbNCXehYsUDUabCJCOGN8igtZmdKAbPw6g+7+Sqkt05B0ByYaMqcGPYDoL4dBs9cIimtvUdTzygY4cveX17MA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xDGADdAtsnxLu6MxP+qjs/hhRt2jMIWCveSJeSKP54Q=;
+ b=bptfIZCyr+mSX67nRxth9VuCYOa9LEKeDcob/CI/UEIGOZUh5FNEbiCs/4yADNbliSNsmad1z8I1BMwufn+TV1oDdUQesdQ9rGzRiAjJVoMKUaABrY6135UMsjD/8PxXKq0r9KYYEajWlBCg244DGM5OwcGUmQXH/thuGJt7rC0Ch9GhlXCLZHbuNUpm+DpPas2iNhOtpM+wqwsTb8iAO0pQ8bDmAGL6OX4feyHFN2TdH3jxvabvdUEdKNpiWhH1CzsMLQ1jx+fl+aFX8CCUX8SzfUn9bezrR/IZrzW9m6XQuOZoiYAVF1/OgoXEQQ5X6IYCCbDEGsYe235+AzAnUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xDGADdAtsnxLu6MxP+qjs/hhRt2jMIWCveSJeSKP54Q=;
+ b=V+cLrSUCB4otgTSgp+4bL6LAlxgWT3lF0ujETQZ7kH0Kik5hdWyenFrME1DYsEBRIVMZ6WBUkL+EI9U1t7taPVqrnu1+Ve6AQ9XW2ZMZRGGmikza0eUuspQXF0oUmZqQcTTA0AiS2ERLkwhMOZ/Vsuptg8aZfi26isD2oqHi8go=
+Received: from PH8P221CA0048.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:346::29)
+ by BL3PR12MB6547.namprd12.prod.outlook.com (2603:10b6:208:38e::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
+ 2026 21:35:48 +0000
+Received: from SN1PEPF00036F3F.namprd05.prod.outlook.com
+ (2603:10b6:510:346:cafe::c8) by PH8P221CA0048.outlook.office365.com
+ (2603:10b6:510:346::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.23 via Frontend Transport; Mon,
+ 11 May 2026 21:35:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SN1PEPF00036F3F.mail.protection.outlook.com (10.167.248.23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.25.13 via Frontend Transport; Mon, 11 May 2026 21:35:47 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Mon, 11 May
+ 2026 16:35:47 -0500
+Received: from [172.31.11.23] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
+ Transport; Mon, 11 May 2026 16:35:45 -0500
+Message-ID: <ae5cfa0f-e929-4abb-b27b-8eb27586d183@amd.com>
+Date: Mon, 11 May 2026 16:35:46 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Reply-To: <tanmay.shah@amd.com>
+Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+To: Mathieu Poirier <mathieu.poirier@linaro.org>, <tanmay.shah@amd.com>
+CC: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, Beleswar Prasad Padhi
+	<b-padhi@ti.com>, Shenwei Wang <shenwei.wang@nxp.com>, Andrew Lunn
+	<andrew@lunn.ch>, Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski
+	<brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Frank Li
+	<frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan
+	<skhan@linuxfoundation.org>, "linux-gpio@vger.kernel.org"
+	<linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Pengutronix Kernel Team
+	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan
+	<peng.fan@nxp.com>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
+	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
+	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+References: <20260422212849.1240591-1-shenwei.wang@nxp.com>
+ <PAXPR04MB9185009A17DFDF3D6C8B44E789362@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <6e01e114-e336-4744-b6b4-563ec42e321b@lunn.ch>
+ <PAXPR04MB9185A098D894B6A6EBCC13F889372@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <afImuoeHolxGgw3H@p14s>
+ <PAXPR04MB9185F2F6DDB55AC56C92D63B89342@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <CANLsYkwvL0Z3+12MD=J+Dc2yAU2T8ypizyG=6AhYoWOh55odHA@mail.gmail.com>
+ <472f85bd-42c2-40c6-abfd-b76924797069@ti.com>
+ <CANLsYkzt9xUczxSU28u-TfZAAjr0ufZKXAj8Eqfq=45gufXW3w@mail.gmail.com>
+ <f7ef3417-eb84-4467-ac72-a9bc8b0c81e8@foss.st.com>
+ <21de8440-adf7-454b-acfc-06e50882e075@ti.com>
+ <4c526816-b127-43e7-86e9-eee4dc1152bc@foss.st.com>
+ <c6f68ab5-271a-41ed-b285-75b739f1edd6@amd.com>
+ <87850f70-5275-4393-941f-d01146a9cffc@foss.st.com>
+ <da3b79b7-9dad-48cb-b552-cf6df445899f@amd.com>
+ <08c815f5-ccbe-404a-95a1-a549aac8a55d@amd.com>
+ <CANLsYkz8HpM_8eS7DjN_jmYs4T7P9xY0jYmdiAx5WO=_1zvFpQ@mail.gmail.com>
+Content-Language: en-US
+From: "Shah, Tanmay" <tanmays@amd.com>
+In-Reply-To: <CANLsYkz8HpM_8eS7DjN_jmYs4T7P9xY0jYmdiAx5WO=_1zvFpQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-
-On Mon, 11 May 2026 12:58:00 -0600 Nico Pache <npache@redhat.com> wrote:
-
-> The following series provides khugepaged with the capability to collapse
-> anonymous memory regions to mTHPs.
-
-Thanks, I've updated mm.git's mm-new branch to this version.
-
-> V17 Changes:
-> - Added Acks/RB
-> - New patch(5): split the mmap_read_unlock() locking contract change out of
->   "generalize collapse_huge_page" into its own patch; add a comment
->   documenting the enter/exit-with-lock-dropped contract (Usama, David)
-> - [patch 03] Add const to max_ptes_none/shared/swap variables; improve the
->   three helper docstrings; replace the paragraphs with inline comments;
->   note that sysctl values are now snapshotted once per scan (Usama, David)
-> - [patch 04] Add SCAN_INVALID_PTES_NONE result code and return it instead
->   of SCAN_FAIL when collapse_max_ptes_none() returns -EINVAL (Usama);
->   snapshot khugepaged_max_ptes_none into a local variable to fix race on
->   the two comparisons (Usama); clean up mTHP docstring paragraphs into
->   inline comments; fix commit message wording (David)
-> - [patch 06] Remove /* PMD collapse */ and /* mTHP collapse */ comments
->   (David); move const declarations to top of variable list (David); add
->   comment explaining that map_anon_folio_pte_nopf() calls set_ptes under
->   pmd_ptl and is safe because PMD is expected to be none (Usama)
-> - [patch 08] Shorten sysfs counter documentation for
->   collapse_exceed_swap/shared_pte to concise one-liners; trim
->   collapse_exceed_none_pte description; fix "dont" → "do not" (David)
-> - [patch 10] Keep vm_flags parameter in khugepaged_enter_vma() and
->   collapse_allowable_orders() rather than dropping it and reading
->   vma->vm_flags internally; pass vm_flags explicitly at all three
->   collapse_allowable_orders() call sites (David, sashskio)
-> - [patch 11] Fix MTHP_STACK_SIZE: was exponential (~128); correct formula
->   is (height + 1) for a DFS on a binary tree rewrite comment to explain
->   the DFS sizing (sashskio)
-> - [patch 12] Replace SCAN_PAGE_LRU with SCAN_PAGE_LAZYFREE in the
->   "goto next_order" early-bail cases; non-LRU page failures cannot be
->   recovered at any order and belong in the default (return) path
-> - [patch 13] Use tva_flags == TVA_KHUGEPAGED (strict equality) instead of
->   tva_flags & TVA_KHUGEPAGED; flatten nested if into single condition;
->   retain vm_flags parameter; pass vm_flags to collapse_allowable_orders()
-
-Here's how v17 altered mm.git:
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF00036F3F:EE_|BL3PR12MB6547:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92d26852-97e1-4a2a-4c02-08deafa54410
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|7416014|1800799024|82310400026|13003099007|56012099003|3023799003|18002099003|22082099003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	NWw+AST4dL8NaHfkEKuI7eEjXVCGrQvA3rnr/LICh9HdxIvr+GQ32dH+FlWp4VuErDzhHgRPuRo0w+4ohtWcsCaiWcbOcxNh+xksiIUhQ6OP3b6ANG2+DBJesQD5hijozXw3JDz7RQEdLJ8IvQZ8Hak4gbUgiOhft3wi1pXip/hW+JdCswiQvRChErfZHumB1WI47sFj/JvrFfsUk0lY7PyLgkMBMSUEBlKGuiS7WscOQgUhEKkHm2AEGA4fvv3PEu6q+c1oGW5efeyoKc0usPilZKgvtBH3fGAYeN/U0ku2I4CKzp2T0RfMJfeR2gRdx1kXRgy0X2fD7f0kTvaNw5x3hBPqyPoTLULoqGrprP6Qsni3n8UVl55hgVZtxVjMgScKbLyy9o16K3U+xvXg9IxtILq64+ygbbWQOH+ZiE7qKGaY/fBLORbjEehnkNm5UNtM4mQfkuvBn0xG9R13aXG6JuVDr32Qi7qhxJOBct4okuHdPbqfRMEmmVYaBPvjacgBTMR9MdMG1UqHDnIZW5zbrWlcIMyJCOzuaqThd4N5xQW6A1i6Mp0PNPwyOnswmZ9qYxS/OokJ1EkUq3rrR+6AZsOMQ9+cDiRLWzPERZRo9+/rI+QsSuSwyliieTR5pIYIbzTgarSBoVbMD2xO9GnZaKIaf/2bTPGMWYgt9PLW4cvhBlMZpkDXh1HlY9/pTGs3/MeVtKItSaqRKh2nhGpEB1kHKsQFe3conUidPX8=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(7416014)(1800799024)(82310400026)(13003099007)(56012099003)(3023799003)(18002099003)(22082099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	UMg8CHmhdnsn7il2hLEZ2gVH7Va0/LIg/wblqaHuzS+ENCMFPlPfnPOCqS4xlvcb05/mVVZuKtDVkRcfmrKleaeF+Utszfh0fDomuHAng2sSF6uz9nVakyCYrRWI4oT0RIyVqKVscaOweSAP8X+AQCyOZAc21NmqDd441k0W/jfNu3beXfT5V/XP+kHlbjFC2WAzqRA0Ddm4lRrmVmKBnfr8zgGZTpc0tQM5cD6VRnuma6fyXJK7EvOV7kFfBrkR9Qwk48tlVQJ60ANIyP7yM64xAGvnacadY/AvyUIX55fU0JEsZTIsqmDkUwr52AZ9y/m23UnOqgkBZTIfKtQFICj76mznkP7LUSgC1wPP0jKrc1J0rEOKXC9yDjctOMX37DpQ0GFiOQDt3Ll+6d321yua6SgUbrDYsP6TaEZQziR0alPWzAU2whla3ZaNGBx0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 21:35:47.8826
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92d26852-97e1-4a2a-4c02-08deafa54410
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF00036F3F.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6547
 
 
- Documentation/admin-guide/mm/transhuge.rst |   24 ---
- include/linux/khugepaged.h                 |    6 
- include/trace/events/huge_memory.h         |    3 
- mm/huge_memory.c                           |    2 
- mm/khugepaged.c                            |  152 ++++++++++---------
- mm/vma.c                                   |    6 
- tools/testing/vma/include/stubs.h          |    3 
- 7 files changed, 99 insertions(+), 97 deletions(-)
 
---- a/Documentation/admin-guide/mm/transhuge.rst~b
-+++ a/Documentation/admin-guide/mm/transhuge.rst
-@@ -725,27 +725,17 @@ nr_anon_partially_mapped
- 
- collapse_exceed_none_pte
-        The number of collapse attempts that failed due to exceeding the
--       max_ptes_none threshold. For mTHP collapse, Currently only max_ptes_none
--       values of 0 and (HPAGE_PMD_NR - 1) are supported. Any other value will
--       emit a warning and no mTHP collapse will be attempted. khugepaged will
--       try to collapse to the largest enabled (m)THP size; if it fails, it will
--       try the next lower enabled mTHP size. This counter records the number of
--       times a collapse attempt was skipped for exceeding the max_ptes_none
--       threshold, and khugepaged will move on to the next available mTHP size.
-+       max_ptes_none threshold.
- 
- collapse_exceed_swap_pte
--       The number of anonymous mTHP PTE ranges which were unable to collapse due
--       to containing at least one swap PTE. Currently khugepaged does not
--       support collapsing mTHP regions that contain a swap PTE. This counter can
--       be used to monitor the number of khugepaged mTHP collapses that failed
--       due to the presence of a swap PTE.
-+       The number of collapse attempts that failed due to exceeding the
-+       max_ptes_swap threshold. For non-PMD orders this occurs if a mTHP range
-+       contains at least one swap PTE.
- 
- collapse_exceed_shared_pte
--       The number of anonymous mTHP PTE ranges which were unable to collapse due
--       to containing at least one shared PTE. Currently khugepaged does not
--       support collapsing mTHP PTE ranges that contain a shared PTE. This
--       counter can be used to monitor the number of khugepaged mTHP collapses
--       that failed due to the presence of a shared PTE.
-+       The number of collapse attempts that failed due to exceeding the
-+       max_ptes_shared threshold. For non-PMD orders this occurs if a mTHP range
-+       contains at least one shared PTE.
- 
- As the system ages, allocating huge pages may be expensive as the
- system uses memory compaction to copy data around memory to free a
---- a/include/linux/khugepaged.h~b
-+++ a/include/linux/khugepaged.h
-@@ -13,7 +13,8 @@ extern void khugepaged_destroy(void);
- extern int start_stop_khugepaged(void);
- extern void __khugepaged_enter(struct mm_struct *mm);
- extern void __khugepaged_exit(struct mm_struct *mm);
--extern void khugepaged_enter_vma(struct vm_area_struct *vma);
-+extern void khugepaged_enter_vma(struct vm_area_struct *vma,
-+				 vm_flags_t vm_flags);
- extern void khugepaged_min_free_kbytes_update(void);
- extern bool current_is_khugepaged(void);
- void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr,
-@@ -37,7 +38,8 @@ static inline void khugepaged_fork(struc
- static inline void khugepaged_exit(struct mm_struct *mm)
- {
- }
--static inline void khugepaged_enter_vma(struct vm_area_struct *vma)
-+static inline void khugepaged_enter_vma(struct vm_area_struct *vma,
-+					vm_flags_t vm_flags)
- {
- }
- static inline void collapse_pte_mapped_thp(struct mm_struct *mm,
---- a/include/trace/events/huge_memory.h~b
-+++ a/include/trace/events/huge_memory.h
-@@ -39,7 +39,8 @@
- 	EM( SCAN_STORE_FAILED,		"store_failed")			\
- 	EM( SCAN_COPY_MC,		"copy_poisoned_page")		\
- 	EM( SCAN_PAGE_FILLED,		"page_filled")			\
--	EMe(SCAN_PAGE_DIRTY_OR_WRITEBACK, "page_dirty_or_writeback")
-+	EM(SCAN_PAGE_DIRTY_OR_WRITEBACK, "page_dirty_or_writeback")	\
-+	EMe(SCAN_INVALID_PTES_NONE,	"invalid_ptes_none")
- 
- #undef EM
- #undef EMe
---- a/mm/huge_memory.c~b
-+++ a/mm/huge_memory.c
-@@ -1571,7 +1571,7 @@ vm_fault_t do_huge_pmd_anonymous_page(st
- 	ret = vmf_anon_prepare(vmf);
- 	if (ret)
- 		return ret;
--	khugepaged_enter_vma(vma);
-+	khugepaged_enter_vma(vma, vma->vm_flags);
- 
- 	if (!(vmf->flags & FAULT_FLAG_WRITE) &&
- 			!mm_forbids_zeropage(vma->vm_mm) &&
---- a/mm/khugepaged.c~b
-+++ a/mm/khugepaged.c
-@@ -61,6 +61,7 @@ enum scan_result {
- 	SCAN_COPY_MC,
- 	SCAN_PAGE_FILLED,
- 	SCAN_PAGE_DIRTY_OR_WRITEBACK,
-+	SCAN_INVALID_PTES_NONE,
- };
- 
- #define CREATE_TRACE_POINTS
-@@ -101,16 +102,15 @@ static struct kmem_cache *mm_slot_cache
- 
- #define KHUGEPAGED_MIN_MTHP_ORDER	2
- /*
-- * The maximum number of mTHP ranges that can be stored on the stack.
-- * This is calculated based on the number of PTE entries in a PTE page table
-- * and the minimum mTHP order.
-+ * mthp_collapse() does an iterative DFS over a binary tree, from
-+ * HPAGE_PMD_ORDER down to KHUGEPAGED_MIN_MTHP_ORDER. The max stack
-+ * size needed for a DFS on a binary tree is height + 1, where
-+ * height = HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER.
-  *
-- * ilog2 is needed in place of HPAGE_PMD_ORDER due to some architectures
-- * (ie ppc64le) not defining HPAGE_PMD_ORDER until after build time.
-- *
-- * At most there will be 1 << (PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER) mTHP ranges
-+ * ilog2 is used in place of HPAGE_PMD_ORDER because some architectures
-+ * (e.g. ppc64le) do not define HPAGE_PMD_ORDER until after build time.
-  */
--#define MTHP_STACK_SIZE	(1UL << (ilog2(MAX_PTRS_PER_PTE) - KHUGEPAGED_MIN_MTHP_ORDER))
-+#define MTHP_STACK_SIZE	(ilog2(MAX_PTRS_PER_PTE) - KHUGEPAGED_MIN_MTHP_ORDER + 1)
- 
- /*
-  * Defines a range of PTE entries in a PTE page table which are being
-@@ -380,89 +380,87 @@ static bool pte_none_or_zero(pte_t pte)
- }
- 
- /**
-- * collapse_max_ptes_none - Calculate maximum allowed empty PTEs for collapse
-+ * collapse_max_ptes_none - Calculate maximum allowed none-page or zero-page
-+ * PTEs for the given collapse operation.
-  * @cc: The collapse control struct
-  * @vma: The vma to check for userfaultfd
-  * @order: The folio order being collapsed to
-  *
-- * If we are not in khugepaged mode use HPAGE_PMD_NR to allow any
-- * empty page. For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the
-- * configured khugepaged_max_ptes_none value.
-- *
-- * For mTHP collapses, we currently only support khugepaged_max_pte_none values
-- * of 0 or (KHUGEPAGED_MAX_PTES_LIMIT). Any other value will emit a warning and
-- * no mTHP collapse will be attempted
-- *
-- * Return: Maximum number of empty PTEs allowed for the collapse operation
-+ * Return: Maximum number of none-page or zero-page PTEs allowed for the
-+ * collapse operation.
-  */
- static int collapse_max_ptes_none(struct collapse_control *cc,
- 		struct vm_area_struct *vma, unsigned int order)
- {
-+	unsigned int max_ptes_none = khugepaged_max_ptes_none;
-+	// If the vma is userfaultfd-armed, allow no none-page or zero-page PTEs.
- 	if (vma && userfaultfd_armed(vma))
- 		return 0;
-+	// for MADV_COLLAPSE, allow any none-page or zero-page PTEs.
- 	if (!cc->is_khugepaged)
- 		return HPAGE_PMD_NR;
-+	// for PMD collapse, respect the user defined maximum.
- 	if (is_pmd_order(order))
--		return khugepaged_max_ptes_none;
-+		return max_ptes_none;
- 	/* Zero/non-present collapse disabled. */
--	if (!khugepaged_max_ptes_none)
-+	if (!max_ptes_none)
- 		return 0;
--	if (khugepaged_max_ptes_none == KHUGEPAGED_MAX_PTES_LIMIT)
-+	// for mTHP collapse with the sysctl value set to KHUGEPAGED_MAX_PTES_LIMIT,
-+	// scale the maximum number of PTEs to the order of the collapse.
-+	if (max_ptes_none == KHUGEPAGED_MAX_PTES_LIMIT)
- 		return (1 << order) - 1;
- 
-+	// We currently only support max_ptes_none values of 0 or KHUGEPAGED_MAX_PTES_LIMIT.
-+	// Emit a warning and return -EINVAL.
- 	pr_warn_once("mTHP collapse only supports max_ptes_none values of 0 or %u\n",
- 		      KHUGEPAGED_MAX_PTES_LIMIT);
- 	return -EINVAL;
- }
- 
- /**
-- * collapse_max_ptes_shared - Calculate maximum allowed shared PTEs for collapse
-+ * collapse_max_ptes_shared - Calculate maximum allowed PTEs that map shared
-+ * anonymous pages for the given collapse operation.
-  * @cc: The collapse control struct
-  * @order: The folio order being collapsed to
-  *
-- * If we are not in khugepaged mode use HPAGE_PMD_NR to allow any
-- * shared page.
-- *
-- * For mTHP collapses, we currently dont support collapsing memory with
-- * shared memory.
-- *
-- * Return: Maximum number of shared PTEs allowed for the collapse operation
-+ * Return: Maximum number of PTEs that map shared anonymous pages for the
-+ * collapse operation
-  */
- static unsigned int collapse_max_ptes_shared(struct collapse_control *cc,
- 		unsigned int order)
- {
-+	// for MADV_COLLAPSE, do not restrict the number of PTEs that map shared
-+	// anonymous pages.
- 	if (!cc->is_khugepaged)
- 		return HPAGE_PMD_NR;
-+	// for mTHP collapse do not allow collapsing anonymous memory pages that
-+	// are shared between processes.
- 	if (!is_pmd_order(order))
- 		return 0;
--
-+	// for PMD collapse, respect the user defined maximum.
- 	return khugepaged_max_ptes_shared;
- }
- 
- /**
-- * collapse_max_ptes_swap - Calculate maximum allowed swap PTEs for collapse
-+ * collapse_max_ptes_swap - Calculate the maximum allowed non-present PTEs or the
-+ * maximum allowed non-present pagecache entries for the given collapse operation.
-  * @cc: The collapse control struct
-  * @order: The folio order being collapsed to
-  *
-- * If we are not in khugepaged mode use HPAGE_PMD_NR to allow any
-- * swap page.
-- *
-- * For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the configured
-- * khugepaged_max_ptes_swap value.
-- *
-- * For mTHP collapses, we currently dont support collapsing memory with
-- * swapped out memory.
-- *
-- * Return: Maximum number of swap PTEs allowed for the collapse operation
-+ * Return: Maximum number of non-present PTEs or the maximum allowed non-present
-+ * pagecache entries for the collapse operation.
-  */
- static unsigned int collapse_max_ptes_swap(struct collapse_control *cc,
- 		unsigned int order)
- {
-+	// for MADV_COLLAPSE, do not restrict the number PTEs entries or
-+	// pagecache entries that are non-present.
- 	if (!cc->is_khugepaged)
- 		return HPAGE_PMD_NR;
-+	// for mTHP collapse do not allow any non-present PTEs or pagecache entries.
- 	if (!is_pmd_order(order))
- 		return 0;
--
-+	// for PMD collapse, respect the user defined maximum.
- 	return khugepaged_max_ptes_swap;
- }
- 
-@@ -478,7 +476,7 @@ int hugepage_madvise(struct vm_area_stru
- 		 * register it here without waiting a page fault that
- 		 * may not happen any time soon.
- 		 */
--		khugepaged_enter_vma(vma);
-+		khugepaged_enter_vma(vma, *vm_flags);
- 		break;
- 	case MADV_NOHUGEPAGE:
- 		*vm_flags &= ~VM_HUGEPAGE;
-@@ -579,26 +577,26 @@ void __khugepaged_enter(struct mm_struct
- 
- /* Check what orders are allowed based on the vma and collapse type */
- static unsigned long collapse_allowable_orders(struct vm_area_struct *vma,
--		enum tva_type tva_flags)
-+		vm_flags_t vm_flags, enum tva_type tva_flags)
- {
- 	unsigned long orders;
- 
- 	/* If khugepaged is scanning an anonymous vma, allow mTHP collapse */
--	if ((tva_flags & TVA_KHUGEPAGED) && vma_is_anonymous(vma))
-+	if ((tva_flags == TVA_KHUGEPAGED) && vma_is_anonymous(vma))
- 		orders = THP_ORDERS_ALL_ANON;
- 	else
- 		orders = BIT(HPAGE_PMD_ORDER);
- 
--	return thp_vma_allowable_orders(vma, vma->vm_flags, tva_flags, orders);
-+	return thp_vma_allowable_orders(vma, vm_flags, tva_flags, orders);
- }
- 
--void khugepaged_enter_vma(struct vm_area_struct *vma)
-+void khugepaged_enter_vma(struct vm_area_struct *vma,
-+			  vm_flags_t vm_flags)
- {
- 	if (!mm_flags_test(MMF_VM_HUGEPAGE, vma->vm_mm) &&
--	    hugepage_enabled()) {
--		if (collapse_allowable_orders(vma, TVA_KHUGEPAGED))
--			__khugepaged_enter(vma->vm_mm);
--	}
-+	    collapse_allowable_orders(vma, vm_flags, TVA_KHUGEPAGED) &&
-+	    hugepage_enabled())
-+		__khugepaged_enter(vma->vm_mm);
- }
- 
- void __khugepaged_exit(struct mm_struct *mm)
-@@ -683,7 +681,7 @@ static enum scan_result __collapse_huge_
- 	unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, order);
- 
- 	if (max_ptes_none < 0)
--		return result;
-+		return SCAN_INVALID_PTES_NONE;
- 
- 	for (_pte = pte; _pte < pte + nr_pages;
- 	     _pte++, addr += PAGE_SIZE) {
-@@ -905,6 +903,7 @@ static void __collapse_huge_page_copy_fa
- {
- 	const unsigned long nr_pages = 1UL << order;
- 	spinlock_t *pmd_ptl;
-+
- 	/*
- 	 * Re-establish the PMD to point to the original page table
- 	 * entry. Restoring PMD needs to be done prior to releasing
-@@ -944,6 +943,7 @@ static enum scan_result __collapse_huge_
- 	const unsigned long nr_pages = 1UL << order;
- 	unsigned int i;
- 	enum scan_result result = SCAN_SUCCEED;
-+
- 	/*
- 	 * Copying pages' contents is subject to memory poison at any iteration.
- 	 */
-@@ -1263,10 +1263,20 @@ static enum scan_result alloc_charge_fol
- 	return SCAN_SUCCEED;
- }
- 
-+/*
-+ * collapse_huge_page expects the mmap_read_lock to be dropped before
-+ * entering this function. The function will also always return with the lock
-+ * dropped. The function starts by allocation a folio, which can potentially
-+ * take a long time if it involves sync compaction, and we do not need to hold
-+ * the mmap_lock during that. We must recheck the vma after taking it again in
-+ * write mode.
-+ */
- static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long start_addr,
- 		int referenced, int unmapped, struct collapse_control *cc,
- 		unsigned int order)
- {
-+	const unsigned long pmd_addr = start_addr & HPAGE_PMD_MASK;
-+	const unsigned long end_addr = start_addr + (PAGE_SIZE << order);
- 	LIST_HEAD(compound_pagelist);
- 	pmd_t *pmd, _pmd;
- 	pte_t *pte = NULL;
-@@ -1277,8 +1287,6 @@ static enum scan_result collapse_huge_pa
- 	struct vm_area_struct *vma;
- 	struct mmu_notifier_range range;
- 	bool anon_vma_locked = false;
--	const unsigned long pmd_addr = start_addr & HPAGE_PMD_MASK;
--	const unsigned long end_addr = start_addr + (PAGE_SIZE << order);
- 
- 	result = alloc_charge_folio(&folio, mm, cc, order);
- 	if (result != SCAN_SUCCEED)
-@@ -1399,11 +1407,16 @@ static enum scan_result collapse_huge_pa
- 	__folio_mark_uptodate(folio);
- 	spin_lock(pmd_ptl);
- 	WARN_ON_ONCE(!pmd_none(*pmd));
--	if (is_pmd_order(order)) { /* PMD collapse */
-+	if (is_pmd_order(order)) {
- 		pgtable = pmd_pgtable(_pmd);
- 		pgtable_trans_huge_deposit(mm, pmd, pgtable);
- 		map_anon_folio_pmd_nopf(folio, pmd, vma, pmd_addr);
--	} else { /* mTHP collapse */
-+	} else {
-+		/*
-+		 * set_ptes is called in map_anon_folio_pte_nopf with the
-+		 * pmd_ptl lock still held; this is safe as the PMD is expected
-+		 * to be none. The pmd entry is then repopulated below.
-+		 */
- 		map_anon_folio_pte_nopf(folio, pte, vma, start_addr, /*uffd_wp=*/ false);
- 		smp_wmb(); /* make PTEs visible before PMD. See pmd_install() */
- 		pmd_populate(mm, pmd, pmd_pgtable(_pmd));
-@@ -1538,12 +1551,12 @@ static int mthp_collapse(struct mm_struc
- 			case SCAN_EXCEED_SHARED_PTE:
- 			case SCAN_PAGE_LOCK:
- 			case SCAN_PAGE_COUNT:
--			case SCAN_PAGE_LRU:
- 			case SCAN_PAGE_NULL:
- 			case SCAN_DEL_PAGE_LRU:
- 			case SCAN_PTE_NON_PRESENT:
- 			case SCAN_PTE_UFFD_WP:
- 			case SCAN_ALLOC_HUGE_PAGE_FAIL:
-+			case SCAN_PAGE_LAZYFREE:
- 				goto next_order;
- 			/* Cases where no further collapse is possible */
- 			default:
-@@ -1569,6 +1582,10 @@ static enum scan_result collapse_scan_pm
- 		struct vm_area_struct *vma, unsigned long start_addr,
- 		bool *lock_dropped, struct collapse_control *cc)
- {
-+	int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
-+	const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER);
-+	const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
-+	enum tva_type tva_flags = cc->is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
- 	pmd_t *pmd;
- 	pte_t *pte, *_pte, pteval;
- 	int i;
-@@ -1580,10 +1597,6 @@ static enum scan_result collapse_scan_pm
- 	unsigned long enabled_orders;
- 	spinlock_t *ptl;
- 	int node = NUMA_NO_NODE, unmapped = 0;
--	int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
--	unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER);
--	unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
--	enum tva_type tva_flags = cc->is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
- 
- 	VM_BUG_ON(start_addr & ~HPAGE_PMD_MASK);
- 
-@@ -1597,7 +1610,7 @@ static enum scan_result collapse_scan_pm
- 	memset(cc->node_load, 0, sizeof(cc->node_load));
- 	nodes_clear(cc->alloc_nmask);
- 
--	enabled_orders = collapse_allowable_orders(vma, tva_flags);
-+	enabled_orders = collapse_allowable_orders(vma, vma->vm_flags, tva_flags);
- 
- 	/*
- 	 * If PMD is the only enabled order, enforce max_ptes_none, otherwise
-@@ -1757,12 +1770,7 @@ static enum scan_result collapse_scan_pm
- out_unmap:
- 	pte_unmap_unlock(pte, ptl);
- 	if (result == SCAN_SUCCEED) {
--		/*
--		 * Before allocating the hugepage, release the mmap_lock read lock.
--		 * The allocation can take potentially a long time if it involves
--		 * sync compaction, and we do not need to hold the mmap_lock during
--		 * that. We will recheck the vma after taking it again in write mode.
--		 */
-+		/* collapse_huge_page expects the lock to be dropped before calling */
- 		mmap_read_unlock(mm);
- 		nr_collapsed = mthp_collapse(mm, start_addr, referenced, unmapped,
- 					      cc, enabled_orders);
-@@ -2657,14 +2665,14 @@ static enum scan_result collapse_scan_fi
- 		unsigned long addr, struct file *file, pgoff_t start,
- 		struct collapse_control *cc)
- {
-+	const int max_ptes_none = collapse_max_ptes_none(cc, NULL, HPAGE_PMD_ORDER);
-+	const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
- 	struct folio *folio = NULL;
- 	struct address_space *mapping = file->f_mapping;
- 	XA_STATE(xas, &mapping->i_pages, start);
- 	int present, swap;
- 	int node = NUMA_NO_NODE;
- 	enum scan_result result = SCAN_SUCCEED;
--	int max_ptes_none = collapse_max_ptes_none(cc, NULL, HPAGE_PMD_ORDER);
--	unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
- 
- 	present = 0;
- 	swap = 0;
-@@ -2867,7 +2875,7 @@ static void collapse_scan_mm_slot(unsign
- 			cc->progress++;
- 			break;
- 		}
--		if (!collapse_allowable_orders(vma, TVA_KHUGEPAGED)) {
-+		if (!collapse_allowable_orders(vma, vma->vm_flags, TVA_KHUGEPAGED)) {
- 			cc->progress++;
- 			continue;
- 		}
-@@ -3177,7 +3185,7 @@ int madvise_collapse(struct vm_area_stru
- 	BUG_ON(vma->vm_start > start);
- 	BUG_ON(vma->vm_end < end);
- 
--	if (!collapse_allowable_orders(vma, TVA_FORCED_COLLAPSE))
-+	if (!collapse_allowable_orders(vma, vma->vm_flags, TVA_FORCED_COLLAPSE))
- 		return -EINVAL;
- 
- 	cc = kmalloc_obj(*cc);
---- a/mm/vma.c~b
-+++ a/mm/vma.c
-@@ -989,7 +989,7 @@ static __must_check struct vm_area_struc
- 		goto abort;
- 
- 	vma_set_flags_mask(vmg->target, sticky_flags);
--	khugepaged_enter_vma(vmg->target);
-+	khugepaged_enter_vma(vmg->target, vmg->vm_flags);
- 	vmg->state = VMA_MERGE_SUCCESS;
- 	return vmg->target;
- 
-@@ -1110,7 +1110,7 @@ struct vm_area_struct *vma_merge_new_ran
- 	 * following VMA if we have VMAs on both sides.
- 	 */
- 	if (vmg->target && !vma_expand(vmg)) {
--		khugepaged_enter_vma(vmg->target);
-+		khugepaged_enter_vma(vmg->target, vmg->vm_flags);
- 		vmg->state = VMA_MERGE_SUCCESS;
- 		return vmg->target;
- 	}
-@@ -2589,7 +2589,7 @@ static int __mmap_new_vma(struct mmap_st
- 	 * call covers the non-merge case.
- 	 */
- 	if (!vma_is_anonymous(vma))
--		khugepaged_enter_vma(vma);
-+		khugepaged_enter_vma(vma, map->vm_flags);
- 	*vmap = vma;
- 	return 0;
- 
---- a/tools/testing/vma/include/stubs.h~b
-+++ a/tools/testing/vma/include/stubs.h
-@@ -183,7 +183,8 @@ static inline bool mpol_equal(struct mem
- 	return true;
- }
- 
--static inline void khugepaged_enter_vma(struct vm_area_struct *vma)
-+static inline void khugepaged_enter_vma(struct vm_area_struct *vma,
-+			  vm_flags_t vm_flags)
- {
- }
- 
-_
+On 5/11/2026 12:58 PM, Mathieu Poirier wrote:
+> On Mon, 11 May 2026 at 10:47, Shah, Tanmay <tanmays@amd.com> wrote:
+>>
+>>
+>>
+>> On 5/5/2026 10:52 AM, Shah, Tanmay wrote:
+>>>
+>>>
+>>> On 5/5/2026 4:28 AM, Arnaud POULIQUEN wrote:
+>>>> Hi Tanmay,
+>>>>
+>>>> On 5/4/26 21:19, Shah, Tanmay wrote:
+>>>>>
+>>>>> Hello all,
+>>>>>
+>>>>> I have started reviewing this work as well.
+>>>>> Thanks Shenwei for this work.
+>>>>>
+>>>>> I have gone through only the current revision, and would like to provide
+>>>>> idea on how to achieve GPIO number multiplexing with the RPMsg protocol.
+>>>>> Also, have some bindings related question.
+>>>>>
+>>>>> Please see below:
+>>>>>
+>>>>> On 4/30/2026 11:40 AM, Arnaud POULIQUEN wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 4/30/26 14:56, Beleswar Prasad Padhi wrote:
+>>>>>>> Hello Arnaud,
+>>>>>>>
+>>>>>>> On 30/04/26 13:05, Arnaud POULIQUEN wrote:
+>>>>>>>> Hello,
+>>>>>>>>
+>>>>>>>> On 4/29/26 21:20, Mathieu Poirier wrote:
+>>>>>>>>> On Wed, 29 Apr 2026 at 12:07, Padhi, Beleswar <b-padhi@ti.com> wrote:
+>>>>>>>>>>
+>>>>>>>>>> Hi Mathieu,
+>>>>>>>>>>
+>>>>>>>>>> On 4/29/2026 11:03 PM, Mathieu Poirier wrote:
+>>>>>>>>>>> On Wed, 29 Apr 2026 at 10:53, Shenwei Wang <shenwei.wang@nxp.com>
+>>>>>>>>>>> wrote:
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>> -----Original Message-----
+>>>>>>>>>>>>> From: Mathieu Poirier <mathieu.poirier@linaro.org>
+>>>>>>>>>>>>> Sent: Wednesday, April 29, 2026 10:42 AM
+>>>>>>>>>>>>> To: Shenwei Wang <shenwei.wang@nxp.com>
+>>>>>>>>>>>>> Cc: Andrew Lunn <andrew@lunn.ch>; Padhi, Beleswar <b-
+>>>>>>>>>>>>> padhi@ti.com>; Linus
+>>>>>>>>>>>>> Walleij <linusw@kernel.org>; Bartosz Golaszewski
+>>>>>>>>>>>>> <brgl@kernel.org>; Jonathan
+>>>>>>>>>>>>> Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
+>>>>>>>>>>>>> Krzysztof Kozlowski
+>>>>>>>>>>>>> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn
+>>>>>>>>>>>>> Andersson
+>>>>>>>>>>>>> <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
+>>>>>>>>>>>>> <s.hauer@pengutronix.de>; Shuah Khan
+>>>>>>>>>>>>> <skhan@linuxfoundation.org>; linux-
+>>>>>>>>>>>>> gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-
+>>>>>>>>>>>>> kernel@vger.kernel.org;
+>>>>>>>>>>>>> Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+>>>>>>>>>>>>> <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
+>>>>>>>>>>>>> devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
+>>>>>>>>>>>>> imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org; dl-
+>>>>>>>>>>>>> linux-imx <linux-
+>>>>>>>>>>>>> imx@nxp.com>; Bartosz Golaszewski <brgl@bgdev.pl>
+>>>>>>>>>>>>> Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic
+>>>>>>>>>>>>> rpmsg GPIO driver
+>>>>>>>>>>>>> On Tue, Apr 28, 2026 at 03:24:59PM +0000, Shenwei Wang wrote:
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> -----Original Message-----
+>>>>>>>>>>>>>>> From: Andrew Lunn <andrew@lunn.ch>
+>>>>>>>>>>>>>>> Sent: Monday, April 27, 2026 3:49 PM
+>>>>>>>>>>>>>>> To: Shenwei Wang <shenwei.wang@nxp.com>
+>>>>>>>>>>>>>>> Cc: Padhi, Beleswar <b-padhi@ti.com>; Linus Walleij
+>>>>>>>>>>>>>>> <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>;
+>>>>>>>>>>>>>>> Jonathan
+>>>>>>>>>>>>>>> Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
+>>>>>>>>>>>>>>> Krzysztof
+>>>>>>>>>>>>>>> Kozlowski <krzk+dt@kernel.org>; Conor Dooley
+>>>>>>>>>>>>>>> <conor+dt@kernel.org>;
+>>>>>>>>>>>>>>> Bjorn Andersson <andersson@kernel.org>; Mathieu Poirier
+>>>>>>>>>>>>>>> <mathieu.poirier@linaro.org>; Frank Li <frank.li@nxp.com>;
+>>>>>>>>>>>>>>> Sascha
+>>>>>>>>>>>>>>> Hauer <s.hauer@pengutronix.de>; Shuah Khan
+>>>>>>>>>>>>>>> <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
+>>>>>>>>>>>>>>> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix
+>>>>>>>>>>>>>>> Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+>>>>>>>>>>>>>>> <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
+>>>>>>>>>>>>>>> devicetree@vger.kernel.org; linux- remoteproc@vger.kernel.org;
+>>>>>>>>>>>>>>> imx@lists.linux.dev; linux-arm- kernel@lists.infradead.org;
+>>>>>>>>>>>>>>> dl-linux-imx <linux-imx@nxp.com>; Bartosz Golaszewski
+>>>>>>>>>>>>>>> <brgl@bgdev.pl>
+>>>>>>>>>>>>>>> Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic
+>>>>>>>>>>>>>>> rpmsg
+>>>>>>>>>>>>>>> GPIO driver
+>>>>>>>>>>>>>>>>> struct virtio_gpio_response {
+>>>>>>>>>>>>>>>>>             __u8 status;
+>>>>>>>>>>>>>>>>>             __u8 value;
+>>>>>>>>>>>>>>>>> };
+>>>>>>>>>>>>>>>> It is the same message format. Please see the message
+>>>>>>>>>>>>>>>> definition
+>>>>>>>>>>>>>>> (GET_DIRECTION) below:
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> +   +-----+-----+-----+-----+-----+----+
+>>>>>>>>>>>>>>>> +   |0x00 |0x01 |0x02 |0x03 |0x04 |0x05|
+>>>>>>>>>>>>>>>> +   | 1   | 2   |port |line | err | dir|
+>>>>>>>>>>>>>>>> +   +-----+-----+-----+-----+-----+----+
+>>>>>>>>>>>>>>> Sorry, but i don't see how two u8 vs six u8 are the same
+>>>>>>>>>>>>>>> message format.
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Some changes to the message format are necessary.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Virtio uses two communication channels (virtqueues): one for
+>>>>>>>>>>>>>> requests and
+>>>>>>>>>>>>> replies, and a second one for events.
+>>>>>>>>>>>>>> In contrast, rpmsg provides only a single communication
+>>>>>>>>>>>>>> channel, so a
+>>>>>>>>>>>>>> type field is required to distinguish between different kinds
+>>>>>>>>>>>>>> of messages.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Since rpmsg replies and events share the same message format,
+>>>>>>>>>>>>>> an additional
+>>>>>>>>>>>>> line is introduced to handle both cases.
+>>>>>>>>>>>>>> Finally, rpmsg supports multiple GPIO controllers, so a port
+>>>>>>>>>>>>>> field is added to
+>>>>>>>>>>>>> uniquely identify the target controller.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> I have commented on this before - RPMSG is already providing
+>>>>>>>>>>>>> multiplexing
+>>>>>>>>>>>>> capability by way of endpoints.  There is no need for a port
+>>>>>>>>>>>>> field.  One endpoint,
+>>>>>>>>>>>>> one GPIO controller.
+>>>>>>>>>>>>>
+>>>>>>>>>>>> You still need a way to let the remote side know which port the
+>>>>>>>>>>>> endpoint maps to, either
+>>>>>>>>>>>> by embedding the port information in the message (the current
+>>>>>>>>>>>> way), or by sending it
+>>>>>>>>>>>> separately.
+>>>>>>>>>>>>
+>>>>>>>>>>> An endpoint is created with every namespace request.  There
+>>>>>>>>>>> should be
+>>>>>>>>>>> one namespace request for every GPIO controller, which yields a
+>>>>>>>>>>> unique
+>>>>>>>>>>> endpoint for each controller and eliminates the need for an extra
+>>>>>>>>>>> field to identify them.
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Right, but this can still be done by just having one namespace
+>>>>>>>>>> request.
+>>>>>>>>>> We can create new endpoints bound to an existing namespace/
+>>>>>>>>>> channel by
+>>>>>>>>>> invoking rpmsg_create_ept(). This is what I suggested here too:
+>>>>>>>>>> https://lore.kernel.org/all/29485742-6e49-482e-
+>>>>>>>>>> b73d-228295daaeec@ti.com/
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> I will look at your suggestion (i.e link above) later this week or
+>>>>>>>>> next week.
+>>>>>>>>>
+>>>>>>>>>> My mental model looks like this for the complete picture:
+>>>>>>>>>>
+>>>>>>>>>> 1. namespace/channel#1 = rpmsg-io
+>>>>>>>>>>        a. ept1 -> gpio-controller@1
+>>>>>>>>>>        b. ept2 -> gpio-controller@2
+>>>>>>>>>>
+>>>>>
+>>>>> If my understanding of what gpio-controller is right, than this won't
+>>>>> work. We need one rpmsg channel per gpio-controller, and in most cases
+>>>>> there will be only one GPIO-controller on the remote side. If there are
+>>>>> multiple or multiple instances of same controller, than we need separate
+>>>>> channel name for that controller just like we would have separate device
+>>>>> on the Linux.
+>>>>
+>>>> As done in ehe rpmsg_tty driver it could be instantiated several times with
+>>>> the same channel/service name. This would imply a specific rpmsg to
+>>>> retreive
+>>>> the gpio controller index from the remote side.
+>>>>>
+>>>>>>>>>
+>>>>>>>>> I've asked for one endpoint per GPIO controller since the very
+>>>>>>>>> beginning.  I don't yet have a strong opinion on whether to use one
+>>>>>>>>> namespace request per GPIO controller or a single request that spins
+>>>>>>>>> off multiple endpoints.  I'll have to look at your link and
+>>>>>>>>> reflect on
+>>>>>>>>> that.  Regardless of how we proceed on that front, multiplexing needs
+>>>>>>>>> to happen at the endpoint level rather than the packet level.
+>>>>>>>>> This is
+>>>>>>>>> the only way this work can move forward.
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> I would be more in favor of Mathieu’s proposal: “An endpoint is
+>>>>>>>> created with every namespace request.”
+>>>>>>>>
+>>>>>>>> If the endpoint is created only on the Linux side, how do we match
+>>>>>>>> the Linux endpoint address with the local port field on the remote
+>>>>>>>> side?
+>>>>>>>
+>>>>>>>
+>>>>>>> Simply by sending a message to the remote containing the newly created
+>>>>>>> endpoint and the port idx. Note that is this done just one time, after
+>>>>>>> this
+>>>>>>> Linux need not have the port field in the message everytime its sending
+>>>>>>> a message.
+>>>>>>>
+>>>>>>>>
+>>>>>>>> With a multi-namespace approach, the namespace could be rpmsg-io-
+>>>>>>>> [addr], where [addr] corresponds to the GPIO controller address in
+>>>>>>>> the DT. This would:
+>>>>>>>
+>>>>>>>
+>>>>>>> You will face the same problem in this case also that you asked above:
+>>>>>>> "how do we match the Linux endpoint address with the local port field
+>>>>>>> on the remote side?"
+>>>>>>
+>>>>>> Sorry I probably introduced confusion here
+>>>>>> my sentence should be;
+>>>>>>   With a multi-namespace approach, the namespace could be rpmsg-io-
+>>>>>> [port],
+>>>>>>   where [port] corresponds to the GPIO controller port in the DT.
+>>>>>>
+>>>>>>
+>>>>>> For instance:
+>>>>>>
+>>>>>>        rpmsg {
+>>>>>>          rpmsg-io {
+>>>>>>            #address-cells = <1>;
+>>>>>>            #size-cells = <0>;
+>>>>>>
+>>>>>>            gpio@25 {
+>>>>>>              compatible = "rpmsg-gpio";
+>>>>>>              reg = <25>;
+>>>>>>              gpio-controller;
+>>>>>>              #gpio-cells = <2>;
+>>>>>>              #interrupt-cells = <2>;
+>>>>>>              interrupt-controller;
+>>>>>>            };
+>>>>>>
+>>>>>>            gpio@32 {
+>>>>>>              compatible = "rpmsg-gpio";
+>>>>>>              reg = <32>;
+>>>>>>              gpio-controller;
+>>>>>>              #gpio-cells = <2>;
+>>>>>>              #interrupt-cells = <2>;
+>>>>>>              interrupt-controller;
+>>>>>>            };
+>>>>>>          };
+>>>>>>        };
+>>>>>>
+>>>>>>   rpmsg-io-25  would match with gpio@25
+>>>>>>   rpmsg-io-32  would match with gpio@32
+>>>>>>
+>>>>>
+>>>>> The problem with this approach is, we will endup creating way too many
+>>>>> RPMsg devices/channels. i.e. one channel per one GPIO. That limits how
+>>>>> many GPIOs can be handled by remote from memory perspective. At
+>>>>> somepoint we might just run-out of number ept & channels created by the
+>>>>> remote. As of now, open-amp library supports 128 epts I think.
+>>>>
+>>>> Right, I proposed a solution in my previous answer to Beleswar who has
+>>>> the same concern.
+>>>>
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> Because the endpoint that is created on a namespace request is also
+>>>>>>> dynamic in nature. How will the remote know which endpoint addr
+>>>>>>> Linux allocated for a namespace that it announced?
+>>>>>>>
+>>>>>>> As an example/PoC, I created a firmware example which announces
+>>>>>>> 2 name services to Linux, one is the standard "rpmsg_chrdev" and
+>>>>>>> the other is a TI specific name service "ti.ipc4.ping-pong". You can
+>>>>>>> see it created 2 different addresses (0x400 and 0x401) for each of
+>>>>>>> the name service request from the same firmware:
+>>>>>>>
+>>>>>>> root@j784s4-evm:~# dmesg | grep virtio0 | grep -i channel
+>>>>>>> [    9.290275] virtio_rpmsg_bus virtio0: creating channel
+>>>>>>> ti.ipc4.ping-pong addr 0xd
+>>>>>>> [    9.311230] virtio_rpmsg_bus virtio0: creating channel rpmsg_chrdev
+>>>>>>> addr 0xe
+>>>>>>> [    9.496645] rpmsg_chrdev virtio0.rpmsg_chrdev.-1.14: DEBUG: Channel
+>>>>>>> formed from src = 0x400 to dst = 0xe
+>>>>>>> [    9.707255] rpmsg_client_sample virtio0.ti.ipc4.ping-pong.-1.13:
+>>>>>>> new channel: 0x401 -> 0xd!
+>>>>>>>
+>>>>>>> So in this case, rpmsg-io-1 can have different ept addr than rpmsg-io-2
+>>>>>>> Back to same problem. Simple solution is to reply to remote with the
+>>>>>>> created ept addr and the index.
+>>>>>>
+>>>>>> That why I would like to suggest to use the name service field to
+>>>>>> identify the port/controller, instead of the endpoint address.
+>>>>>>>
+>>>>>>>>
+>>>>>>>> - match the RPMsg probe with the DT,
+>>>>>>>
+>>>>>>>
+>>>>>>> We can probe from all controllers with a single name service
+>>>>>>> announcement too.
+>>>>>>>
+>>>>>>>> - provide a simple mapping between the port and the endpoint on both
+>>>>>>>> sides,
+>>>>>>>
+>>>>>>>
+>>>>>>> We are trying to get rid of this mapping from Linux side to adapt
+>>>>>>> the gpio-virtio design.
+>>>>>>>
+>>>>>>>> - allow multiple endpoints on the remote side,
+>>>>>>>
+>>>>>>>
+>>>>>>> We can support this as well with single nameservice model.
+>>>>>>> There is no limitation. Remote has to send a message with
+>>>>>>> its newly created ept that's all.
+>>>>>>>
+>>>>>>>> - provide a simple discovery mechanism for remote capabilities.
+>>>>>>>
+>>>>>>>
+>>>>>>> A single announcement: "rpmsg-io" is also discovery mechanism.
+>>>>>>>
+>>>>>>> Feel free to let me know if you have concerns with any of the
+>>>>>>> suggestions!
+>>>>>>
+>>>>>> My only concern, whatever the solution, is that we find a smart
+>>>>>> solution to associate the correct endpoint with the correct GPIO
+>>>>>> port/controller defined in the DT.
+>>>>>>
+>>>>>> I may have misunderstood your solution. Could you please help me
+>>>>>> understand your proposal by explaining how you would handle three
+>>>>>> GPIO ports defined in the DT, considering that the endpoint
+>>>>>> addresses on the Linux side can be random?
+>>>>>> If I assume there is a unique endpoint on the remote side,
+>>>>>> I do not understand how you can match, on the firmware side,
+>>>>>> the Linux endpoint address to the GPIO port.
+>>>>>>
+>>>>>> Thanks and Regards,Arnaud
+>>>>>>
+>>>>>>>
+>>>>>>> Thanks,
+>>>>>>> Beleswar
+>>>>>>>
+>>>>>>>>
+>>>>>>>> Regards,
+>>>>>>>> Arnaud
+>>>>>>>>
+>>>>>>>>>> 2. namespace/channel#2 = rpmsg-i2c
+>>>>>>>>>>        a. ept1 -> i2c@1
+>>>>>>>>>>        b. ept2 -> i2c@2
+>>>>>>>>>>        c. ept3 -> i2c@3
+>>>>>>>>>>
+>>>>>>>>>> etc...
+>>>>>>>>>>
+>>>>>
+>>>>> Just want to clear-up few terms before I jump to the solution:
+>>>>>
+>>>>> **RPMsg channel/device**:
+>>>>>    - These are devices announced by the remote processor, and created by
+>>>>> linux. They are created at: /sys/bus/rpmsg/devices
+>>>>>    - The channel format: <name>.<src ept>.<dst ept>
+>>>>>
+>>>>> **RPMsg endpoint**:
+>>>>>    - Endpoint is differnt than channel. Single channel can have multiple
+>>>>> endpoints, and represented in the linux with: /dev/rpmsg? devices.
+>>>>>
+>>>>> To create endpoint device, we have rpmsg_create_ept API, which takes
+>>>>> channel information as input, which has src-ept, dst-ept.
+>>>>>
+>>>>> Following is proposed solution:
+>>>>>
+>>>>> 1) Assign RPMsg channel/device per rpmsg-gpio controller (Not per GPIO
+>>>>> pin/port).
+>>>>>    - In our case that would be, single rpmsg-io node. (That makes me
+>>>>> question if bindings are correct or not).
+>>>>>
+>>>>> 2) Assign GPIO number as src ept.
+>>>>>
+>>>>> i.e. *rpmsg-io.<GPIO number>.<dst ept>*. Do not randomly assign src
+>>>>> endpoint.
+>>>>>
+>>>>> Now, RPMSG channel by spec reserves first 1024 endpoints [1], so we can
+>>>>> add 1024 offset to the GPIO number:
+>>>>>
+>>>>> so, when calling rpmsg_create_ept() API, we assing src_endpoint as:
+>>>>> (GPIO_NUMBER + RPMSG_RESERVED_ADDRESSES)
+>>>>>
+>>>>> Now on the remote side, there is single channel and only single-endpoint
+>>>>> is needed that is mapped to the rpmsg-io channel callback.
+>>>>>
+>>>>> That callback will receive all the payloads from the Linux, which will
+>>>>> have src-ept i.e. (RPMSG_RESERVED_ADDRESSES + GPIO_NUMBER).
+>>>>
+>>>>
+>>>> Interesting approach. I also tried to find a similar solution.
+>>>>
+>>>> The question here is: how can we guarantee continuous addresses? Given
+>>>> the static and dynamic allocation of endpoint addresses that are
+>>>> implemented, my conclusion was that it is not reliable enough.
+>>>>
+>>>> but perhaps I missed something...
+>>>>
+>>>>>
+>>>>> It can retrieve GPIO_NUMBER easily, and convert to appropriate pin based
+>>>>> on platform specific logic.
+>>>>>
+>>>>> This doesn't need PORT information at all. Also it makes sure that
+>>>>> remote is using only single-endpoint so not much memory is used.
+>>>>>
+>>>>> *Example*:
+>>>>> If only rpmsg-gpio channel is created by the remote side, than following
+>>>>> is the representation of the devices when GPIO 25, 26, 27 is assigned to
+>>>>> the rpmsg-io controller:
+>>>>>
+>>>>> Linux                                                      Remote
+>>>>>
+>>>>> rpmsg-channel: rpmsg-gpio.0x400.0x400
+>>>>>
+>>>>> /dev/rpmsg0 - GPIO25 ept (rpmsg-gpio.0x419.0x400)-|
+>>>>>                                                    |
+>>>>> /dev/rpmsg1 - GPIO26 ept (rpmsg-gpio.0x41a.0x400)-|-> rpmsg-gpio.*.0x400
+>>>>>                                                    |
+>>>>> /dev/rpmsg2 - GPIO27 ept (rpmsg-gpio.0x41b.0x400)-|  0x400 ept callback.
+>>>>>
+>>>>>
+>>>>> *On remote side*:
+>>>>>
+>>>>> ept_0x400_callback(..., int src_ept, ...,)
+>>>>> {
+>>>>>     int gpio_num = src_ept - RPMSG_RESERVED_ADDRESSES;
+>>>>>     // platform specific logic to convert gpio num to proper pin,
+>>>>>     // just like you would convert gpio num to pin on a linux gpio
+>>>>> controller.
+>>>>> }
+>>>>>
+>>>>> My question on the binding:
+>>>>>
+>>>>> Why each GPIO is represented with the separate node? I think rpmsg-gpio
+>>>>> can be represented just any other GPIO controller? Please let me know if
+>>>>> I am missing something. So rpmsg channel/rpmsg device is not created per
+>>>>> GPIO, but per controller. GPIO number multiplexing should be done with
+>>>>> rpmsg src ept, that removes the need of having each GPIO as a separate
+>>>>> node.
+>>>>>
+>>>>>
+>>>>> rpmsg_gpio: rpmsg-gpio@0 {
+>>>>>         compatible = "rpmsg-gpio";
+>>>>>         reg = <0>;
+>>>>>         gpio-controller;
+>>>>>         #gpio-cells = <2>;
+>>>>>         #interrupt-cells = <2>;
+>>>>>         interrupt-controller;
+>>>>>     };
+>>>>>
+>>>>> Then in DT, use like regular GPIO, but with the rpmsg-gpio controller:
+>>>>>
+>>>>> rpmsg-gpios = <&rpmsg_gpio (GPIO NUM) (flags)>;
+>>>>>
+>>>>> If the intent to create separate gpio nodes was only for the channel
+>>>>> creation, then it's not really needed.
+>>>>>
+>>>>> [1]
+>>>>> https://github.com/torvalds/linux/
+>>>>> blob/6d35786de28116ecf78797a62b84e6bf3c45aa5a/drivers/rpmsg/
+>>>>> virtio_rpmsg_bus.c#L136
+>>>>>
+>>>>
+>>>> It is already the case. bindings declare GPIO controllers, not directly
+>>>> GPIOs in:
+>>>>
+>>>> [PATCH v13 2/4] dt-bindings: remoteproc: imx_rproc: Add "rpmsg" subnode
+>>>> support
+>>>>
+>>>> The discussion is around having an unique RPmsg endpoint for all
+>>>> GPIO controller or one RPmsg endpoint per GPIO controller.
+>>>>
+>>>
+>>> Endpoint where remote side or linux side?
+>>>
+>>> If unique endpoint on remote side per gpio controller then it makes sense.
+>>>
+>>> Unique endpoint on linux side doesn't make sense. Instead, unique
+>>> channel per gpio controller makes sense, and each channel will have
+>>> multiple endpoints on linux side. As I replied to Beleswar on the other
+>>> email, I will copy past my answer here too:
+>>>
+>>>
+>>> To be more specific:
+>>>
+>>> Linux:                               remote:
+>>>
+>>> ch1: rpmsg-gpio.-1.1024 ->     gpio-controller@1024
+>>>     - gpio-line ept1
+>>>     - gpio-line ept2    ->     They all map to same callback_ept_1024.
+>>>     - gpio-line ept3
+>>>
+>>> ch2: rpmsg-gpio.-1.1025 ->     gpio-controller@1025
+>>>     - gpio-line ept1
+>>>     - gpio-line ept2    ->     They all map to same callback_ept_1025.
+>>>     - gpio-line ept3
+>>>
+>>
+>>
+>> Hi Mathieu,
+>>
+>> So upon more brain storming in this approach I found limitation:
+>>
+>> This approach won't work if host OS is any other OS but Linux. For
+>> example, if the remote OS is zephyr/baremetal using open-amp, then Only
+>> Linux <-> zephyr combination will work, and we won't be able to re-use
+>> this approach for zephyr <-> zephyr use case. The concept of rpmsg
+>> channel/device exist only in the linux kernel implementation. This
+>> brings another question: Should the protocol we decide work on other use
+>> cases as well? Or Linux must be the Host OS for this protocol ?
+>>
+> 
+> Linux and Zephyr are very distinct OS, each with their own subsystems
+> and characteristics.  The design we choose here involves RPMSG and,
+> inherently, Linux.  We can't make decisions based on what may
+> potentially happen in Zephyr.
+> 
+>>
+>> I think your & Arnaud's proposed approach of single endpoint per
+>> gpio-controller on both side makes more sense, as it will work
+>> regardless of any OS on host or remote side.
+>>
+> 
+> Arnaud, Beleswar, Andrew and I are all advocating for one endpoint per
+> GPIO controller.  The remaining issue it about the best way to work
+> out source and destination addresses between Linux and the remote
+> processor.  I'm running out of time for today but I'll return to this
+> thread with a final analysis by the end of the week.
+> 
+
+Okay. Then that means multiple endpoints on Linux side can be considered.
+
+If we decide to go single-endpoint per device on both side, then for
+that here is the proposal to represent src ept and dst ept:
+
+When we represent any device under rpmsg bus node, I think it should be
+considered remote's view of the adddress space. So ideally we can
+convert it to Linux view of the address space, via 'ranges' property.
+
+So bindings should include 'ranges' property in the parent node. Then
+linux view of the start address becomes src ept, and remote view of the
+start address becomes dest ept. The remote view of the start address is
+expected to be the static src endpoint on the remote side.
+
+Following representation of the rpmsg devices (gpio, i2c, spi or any other):
+
+rpmsg {
+  #address-cells = <1>;
+  #size-cells = <1>;
+
+  rpmsg-io {
+    compatible = "rpmsg-io-bus";
+    ranges = <remote_view_addr(dst ept) linux_view_addr(src ept) size>;
+    #address-cells = <1>;
+    #size-cells = <1>;
+
+    gpio@remote_view_addr(or dst ept) {
+      compatible = "rpmsg-io";
+      reg = <remote_view_addr addr_space_size>;
+      gpio-controller;
+      #gpio-cells = <2>;
+      interrupt-controller;
+      #interrupt-cells = <2>;
+    };
+
+    ...
+
+  };
+
+};
+
+Example device-tree:
+
+rpmsg {
+  #address-cells = <1>;
+  #size-cells = <1>;
+
+  rpmsg-io {
+    compatible = "rpmsg-io-bus";
+    ranges = <0x10000 0x50000 0x1000>,
+             <0x20000 0x60000 0x1000>;
+    #address-cells = <1>;
+    #size-cells = <1>;
+
+    gpio@10000 {
+      compatible = "rpmsg-io";
+      reg = <0x10000 0x1000>;
+      gpio-controller;
+      #gpio-cells = <2>;
+      interrupt-controller;
+      #interrupt-cells = <2>;
+    };
+
+    gpio@20000 {
+      compatible = "rpmsg-io";
+      reg = <0x20000 0x1000>;
+      gpio-controller;
+      #gpio-cells = <2>;
+      interrupt-controller;
+      #interrupt-cells = <2>;
+    };
+
+  };
+
+};
+
+
+Thanks,
+Tanmay
+
+
+>> To be more specific this will look like following:
+>>
+>> Host (Linux)                       Remote (baremetal/RTOS)
+>>
+>> rpmsg ch/device 1:
+>>     - rpmsg ept 1   <------>     rpmsg ept 1 gpio-controller 0
+>>
+>> rpmsg ch/device 2:
+>>      - rpmsg ept 2   <------>     rpmsg ept 2 gpio-controller 1
+>>
+>>
+>> The question is, how to decide src ept, and dest ept on both sides?
+>> I still think it should be static endpoints.
+>>
+>> I will get back with more reasoning on that.
+>>
+>>> On the remote side, we have to hardcode Which rpmsg controller is mapped
+>>> to which endpoint.
+>>>
+>>>> Or did I misunderstand your questions?
+>>>>
+>>>> Thanks,
+>>>> Arnaud
+>>>>
+>>>
+>>>
+>>> I gave this patch more time yesterday, and I think the 'reg' property
+>>> should represent remote endpoint, instead of the gpio-controller index.
+>>>
+>>> So in this approach remote implementation is expected to provide
+>>> hard-coded (static) endpoints for each gpio-controller instance, and
+>>> that same number should be represented with the 'reg' property.
+>>>
+>>> On remote side:
+>>>
+>>> #define RPMSG_GPIO_0_CONTROLLER_EPT (RPMSG_RESERVED_ADDRESSES + 1) // 1024
+>>>
+>>> ept_1024_callback() {
+>>>
+>>>       // handle appropriate gpio port ()
+>>>
+>>> }
+>>>
+>>> On linux side:
+>>>
+>>> So new representation of controller:
+>>>
+>>>  rpmsg_gpio_0:   gpio@1024 {
+>>>              compatible = "rpmsg-gpio";
+>>>              reg = <1024>;
+>>>              gpio-controller;
+>>>              #gpio-cells = <2>;
+>>>              #interrupt-cells = <2>;
+>>>              interrupt-controller;
+>>>           };
+>>>
+>>>  rpmsg_gpio_1:   gpio@1025 {
+>>>              compatible = "rpmsg-gpio";
+>>>              reg = <1025>;
+>>>              gpio-controller;
+>>>              #gpio-cells = <2>;
+>>>              #interrupt-cells = <2>;
+>>>              interrupt-controller;
+>>>           };
+>>>
+>>> gpios = <&rpmsg_gpio_0 (GPIO NUM or PIN) flags>,
+>>>       <&rpmsg_gpio_1 (GPIO NUM or PIN) flags>;
+>>>
+>>> Now in the linux driver:
+>>>
+>>> You can easily retrieve destination endpoint when we want to send the
+>>> command to the gpio controller via device's "reg" property.
+>>>
+>>> This approach also provides built-in security as well. Because now
+>>> gpio-controller instance is hardcoded with the endpoint callback, it
+>>> can't be modified/addressed without changing the 'reg' property.
+>>>
+>>> Just like you wouldn't change device address for the instance of the
+>>> gpio-controller right?
+>>>
+>>> This approach can be easily adapted to all the other rpmsg controllers
+>>> as well.
+>>>
+>>> So, dynamic endpoint allocation doesn't make sense in this case. Dynamic
+>>> endpoint allocation makes more sense for user-space apps which don't
+>>> really care about endpoints and only payloads.
+>>>
+>>> But, here we are multiplexing device-addresses with endpoints, and so it
+>>> has to be fixed, and presented via 'reg' property. So, firmware can't
+>>> change device-address without Linux knowing it.
+>>>
+>>> Thanks,
+>>> Tanmay
+>>>
+>>>
+>>>>
+>>>>>>>>>> This way device groups are isolated with each channel/namespace, and
+>>>>>>>>>> instances within each device groups are also respected with specific
+>>>>>>>>>> endpoints.
+>>>>>>>>>>
+>>>>>>>>>> Thanks,
+>>>>>>>>>> Beleswar
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
 
