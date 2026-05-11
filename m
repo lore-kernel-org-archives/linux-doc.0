@@ -1,138 +1,183 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03793FE65C;
-	Mon, 11 May 2026 14:45:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7EC3FE642
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 14:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778510710; cv=none; b=ex/B4+guuEU+KL2nbVZ22ucuVuIQsv9WZwnCgOG7Z3oR3y1N8CJA7J/h2lsWyZzptQa3jqnwuV9NMO9iZOigbMQr4T4zi1myCR+FlWUZ+68i7dYJoy5TCq5I8eUUcuXwvK9H6M80ZPmJAwtRPHe/OkAZQjL6fNrojpJDEL13WDo=
+	t=1778510822; cv=none; b=FulH4z+LJ5U3vAYAUcgEdfVSU1dsRkdGEILhw1+Kr+WDBhbabYSy0rUwoM51M1b0XVOJ2Mk58Awjqaz2iZ/zjPM9BTyTdln9Ovk2UA/lk3qZxHvoKk0EtEEHbD5dYmQrcz2TkmtOUWjFM6gZnZiIAoF2bUCFlTi2eJmqqU8vHXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778510710; c=relaxed/simple;
-	bh=I58VxrthrFE2hsqt1f7n8z3Ftt+pNK/sskUmzPCZk1Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gRKMtSr2mpuMBAVFTjCOCEnmrCE1cAfCoC6Q4DUwvwhMxcTaQoeX68EFmiaUAdJPn6xEcB+dgAoCKI7K1qo/KgeA9HubfQy3LWlYvCM20jvxj1ltfERTi7JDuVO05wwXwAL/jaUQIZSO1rkghZ36Zk/TE9krogbfu5Doa91rX4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Mps5e0bE; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1778510822; c=relaxed/simple;
+	bh=SICTXImZa4mMy4Kgs5BlhwJ8zVJUierNkIzSeoAS2I8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Dxo23DCkwxzHXPnwz5/bzYCrBGGzCY6fSH7G3sETvTluS/ihoQgzGEG4b+AHSdbJdfDDs7NIazfmsK7CJ+3wiFRnADDj1FZgMqd5r7ijHSnX5M1c0y3g1ePO+8JKtePjgxccUrpasovvwy8hhBv/WZKe3GogI2an5XI/vMoWIBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=pUfBrgRJ; arc=none smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Mps5e0bE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=YzVPJqG/qdv32dfB2Pkj62g8vYaU78q3x/Fdun8yAf8=; b=Mps5e0bEcBN3c6hLG1mDHddHe8
-	T6BRb3fiN7sc5Hzeli/1STuk7ycdAKTgb3rjbAHWToMkD8PEXHy1Adc+wcl/+swdZUd008CTrfz2D
-	Upl9Ed0ruLyktChEP1lRgtR4Xnwbscv+0uNTyM1wNSIHtw/VYQ6Tzn/e4h2FJRzaRau6X2h2abohs
-	0MM1BMesq8alM58ecHo2ycyq5MMC4E2HvQH5HPC9wUKgD0ATYcWhjfchBkZno3qhULcOw2SnMRsHM
-	H5xS3flH0kgoZjn1mrEygDqpIZletQmtUDfUvJMNYVFdEAatMIpefdFfWfY4SQzmMLpdPqIc8NElc
-	631D6ItQ==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wMRsB-001fjV-1u;
-	Mon, 11 May 2026 14:44:43 +0000
-Date: Mon, 11 May 2026 07:44:37 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: david@kernel.org, linmiaohe@huawei.com, nao.horiguchi@gmail.com, 
-	akpm@linux-foundation.org, corbet@lwn.net, skhan@linuxfoundation.org, ljs@kernel.org, 
-	Liam.Howlett@oracle.com, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, shuah@kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 2/4] mm/memory-failure: add panic option for
- unrecoverable pages
-Message-ID: <agHp-wFHe3FjWAAV@gmail.com>
-References: <aftnSfb15G92JON5@gmail.com>
- <20260510144220.92522-1-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="pUfBrgRJ"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-47c941f7213so2661628b6e.1
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 07:47:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778510819; x=1779115619; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qEELPpISKPMY3OnOVJz/i6LMwFlmgDNP8fOvagl4Uf4=;
+        b=pUfBrgRJ+2elUdz0lvJ9Tads7hP5t9qy/4AVVBeZ7Z0meOn48JThSLiseM0PsfCno6
+         fD2VQQNCHA9Bxp5gZyRFoiNDrhxvcVUVbNucl7SrI1CmJ1VSnH3R1jWneZlTEkiO/t+k
+         KqijGSbF+EVBZEjQ+BURzFJnLfFBf8nseJ+pKVExSKeBxsPSElgt00AgzWnzgEigHrIA
+         KLoroSfK5abQMAbOfiu9LaGbBXOjweFxmjYfXAk+SPNMLBAvcZJV5Ouu6zJCFIiQ/F6x
+         QUfeBnb+qMh3T0UYCKL51QJFe2oJt8aebs8h/wZwJd2GF8zb/2gsjLJCqY6aD1rxW/6i
+         G0Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778510819; x=1779115619;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qEELPpISKPMY3OnOVJz/i6LMwFlmgDNP8fOvagl4Uf4=;
+        b=i0RfVU6P1b7b4Ea0HjAO1LJooP2+YHCd4/PUtTDYm3ukRf0tOK0L5O9piFOOBZ4iuy
+         y7DJ5KJYfurF4Rb9u30WoHZPhDxk/YVCQHmyFR938X6NmF8Z7sWS8n6G2TF4ZWsWMvc7
+         fzI7g5inBnWbvnn5l+QscyA0KQPuibVKw4R34GFSZtrHCGqOV0QNfg4dySoeytlBgRK3
+         JRuvwnmQNJR4FxdHZxqC257awkZ40L/UEh7oCEFcmxEQx4bPIlSy1HR47mF1czJf2eVl
+         xARMvnyOuyDCfdWbf/NnbNFpH+whR578jlqz3T+v++1l2Hjf+XdWLnV5mmH5NYAeQ0r6
+         a+LQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/1ZtqkMaTpOVhraqOFS6QGlq2kJXvsWdjtwGxYUXHxZ643RWW0btqW8i38fiYCRqWJYhhBhWoW74U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQk+ccWvjsI9x2/+B2lEVCNuDUgQkWPzSDL11yZlPvMZoa7zOe
+	BHPA9rK28wHmG4nhxXXJDll0FGmb/rv2Hjl35tYibJPCj9Q19aixFJy5XGk6OYIj1xg=
+X-Gm-Gg: Acq92OHkJrGuh571hKdPQzeToXB5EqnbKTb5nasRm5VywQpT4yt89Wb0kXSMbDCdjZ+
+	DR5XcJU+Wd4j4ypp2yvdSoD6Uy1AaQFoVC2NHrB8bv+5tYbPB089VN6APkSiGcOqgzURYj1Oc+B
+	cAFpiexYkNmDL0mMqXGcwQQwmjr/FGWSA5/Xvxy5ONceEHMWlQj6khn3EvrQ8wfcGXfsvM1bRQ0
+	MyzJQJ1POc9oIHGjQErKWi56M3qdm+9jCQf/zHlqaIsRylxOvu/rozFGW/BSU6VB8QO5KGfZGFR
+	/bD6/q8tR3iHySDHIxWuCEZBSkjRheaw8nVxuI9rEkZpEohYTTTjxkt21ypFCysxYtb1Gj6hjMT
+	/YX0SwBYo5Epg6+OwIKVx1rcKcaEMNwt0v8Sf53CwgTs55lNLDGtK9X0U+u3/ERGI2a5JtKyL23
+	kchIf5sIbyPqSvdmcXSgMpK8l1MP3poJu9xkdkK/9ePBqPLPSyCkP2T7U3TTkX7a+ZNc9LRXJI4
+	DZexD3DNA==
+X-Received: by 2002:a05:6808:e40a:b0:467:1212:46eb with SMTP id 5614622812f47-4804249c60dmr10483498b6e.35.1778510819130;
+        Mon, 11 May 2026 07:46:59 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:591:4577:3439:3a1e? ([2600:8803:e7e4:500:591:4577:3439:3a1e])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e367be2238sm6968520a34.6.2026.05.11.07.46.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 07:46:58 -0700 (PDT)
+Message-ID: <18c2eab9-c0c7-4e93-b4e8-73b18531e784@baylibre.com>
+Date: Mon, 11 May 2026 09:46:57 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260510144220.92522-1-lance.yang@linux.dev>
-X-Debian-User: leitao
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v4 10/10] docs: iio: add documentation for ad9910
+ driver
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
+ rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
+ <20260508-ad9910-iio-driver-v4-10-d26bfd20ee3d@analog.com>
+ <b8f9a174-f3d0-4cb8-a571-605be79165d6@baylibre.com>
+ <zvulxrrvg4sf7m5pjfpfucg7yssgallfu6zi6mcyblu2qy24hn@wdzs7h77vkoz>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <zvulxrrvg4sf7m5pjfpfucg7yssgallfu6zi6mcyblu2qy24hn@wdzs7h77vkoz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, May 10, 2026 at 10:42:20PM +0800, Lance Yang wrote:
+On 5/10/26 4:30 AM, Rodrigo Alencar wrote:
+> On 26/05/09 06:42PM, David Lechner wrote:
+>> On 5/8/26 12:00 PM, Rodrigo Alencar via B4 Relay wrote:
+>>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+>>>
+>>> Add documentation for the AD9910 DDS IIO driver, which describes channels,
+>>> DDS modes, attributes and ABI usage examples.
 > 
-> On Wed, May 06, 2026 at 09:18:12AM -0700, Breno Leitao wrote:
-> >On Tue, Apr 28, 2026 at 11:07:21AM +0800, Lance Yang wrote:
-> >> 
-> >> On Mon, Apr 27, 2026 at 05:49:28PM +0200, David Hildenbrand (Arm) wrote:
-> >> >> +	switch (type) {
-> >> >> +	case MF_MSG_KERNEL:
-> >> >> +	case MF_MSG_UNKNOWN:
-> >> >> +		return true;
-> >> >> +	case MF_MSG_KERNEL_HIGH_ORDER:
-> >> >> +		/*
-> >> >> +		 * Rule out a concurrent buddy allocation: give the
-> >> >> +		 * allocator a moment to finish prep_new_page() and
-> >> >> +		 * re-check. A genuine high-order kernel tail page stays
-> >> >> +		 * unowned; an in-flight allocation will have bumped the
-> >> >> +		 * refcount, attached a mapping, or placed the page on
-> >> >> +		 * an LRU by now.
-> >> >> +		 */
-> >> >> +		p = pfn_to_online_page(pfn);
-> >> >> +		if (!p)
-> >> >> +			return true;
-> >> >> +		/*
-> >> >> +		 * Yield so a concurrent allocator on another CPU can
-> >> >> +		 * finish prep_new_page() and have its writes become
-> >> >> +		 * visible before we resample the page state.
-> >> >> +		 */
-> >> >> +		cpu_relax();
-> >> >> +		return page_count(p) == 0 &&
-> >> >> +		       !PageLRU(p) &&
-> >> >> +		       !page_mapped(p) &&
-> >> >> +		       !page_folio(p)->mapping &&
-> >> >> +		       !is_free_buddy_page(p);
-> >> >
-> >> >I don't get what you are doing here. The right way to check for a tail page is
-> >> >not by checking the refcount.
-> >> >
-> >> >Further, you are not holding a folio reference? If so, calling
-> >> >page_mapped/folio_mapped is shaky. On concurrent folio split you can trigger a
-> >> >VM_WARN_ON_FOLIO().
-> >> >
-> >> >
-> >> >Maybe folio_snapshot() is what you are looking for, if you are in fact not
-> >> >holding a reference?
-> >> 
-> >> Right! Maybe we should not try to make this decision in
-> >> panic_on_unrecoverable_mf().
-> >> 
-> >> By the time we get here, we only know the final MF_MSG_* type. The
-> >> real reason why get_hwpoison_page() failed is already lost.
-> >> 
-> >> Wonder if it would be better to split that earlier, around
-> >> __get_unpoison_page()/get_any_page(). That code still knows why
-> >> grabbing the page failed, either an unsupported kernel page or
-> >> just a temporary race we cannot really trust :)
-> >> 
-> >> Then the later panic logic can be simple: panic for the stable
-> >> unsupported kernel page case, and not for the temporary race case.
-> >> 
-> >> That would also avoid trying to guess MF_MSG_KERNEL_HIGH_ORDER here:)
-> >
-> >This is a very good feedback, and definitely what I wanted to do, but,
-> >failed. Once we have the reason, we don't need this dance to guess the
-> >reason.
-> >
-> >I've hacked a patch based on this approach. How does it sound?
+> ...
 > 
-> Yes. This direction makes sense to me, not an expert though :D
+>>> +       must be a power of 2.
+>>> +
+>>> +   * - ``frequency_offset``
+>>> +     - Hz
+>>> +     - Base FTW to which scaled parallel data is added. Range :math:`[0, f_{SYSCLK}/2)`.
+>>> +
+>>> +   * - ``phase_offset``
+>>> +     - rad
+>>> +     - Base phase for polar modulation. Lower 8 bits of POW register.
+>>> +       Range :math:`[0, 2\pi/256)`.
+>>> +
+>>> +   * - ``scale_offset``
+>>> +     - fractional
+>>> +     - Base amplitude for polar modulation. Lower 6 bits of ASF register.
+>>> +       Range :math:`[0, 1/256)`.
+>>> +
+>>
+>> I guess there was some discussion on these attributes. I see some of these in the
+>> ad9832 driver in staging, but I'm guessing they are new ABI. It isn't clear to
+>> me from the documentation here what they actually do though. I guess they are
+>> just basic transformations on the input signal?
 > 
-> I played with something similar (untested) on top of patch #01:
+> Not sure how the ABI is not clear:
+> 
+> 	For a channel that allows amplitude control through buffers, this
+> 	represents the value for a base amplitude scale. The actual output
+> 	amplitude scale is a result with the sum of this value.
+> 
+> So yes, it is a basic transformation.
 
-Thanks!
+I didn't have time to read the ABI docs yet. For scale_offset though,
+how is that different from the existing offset attribute?
 
-I'll prepare a new series addressing all the feedback from both
-reviewers and AI analysis. I will resend soon and we can catch up
-on the next revision,
+> 
+>>
+>> And a practical note, they should be "frequencyscale". I don't like that it is
+>> harder to read, but it is easier for a machine to parse.
+> 
+> Parsers like the ones in libiio is not having problems with that.
+> 
+>>> +Usage examples
+>>> +^^^^^^^^^^^^^^
+>>> +
+>>> +Set parallel port frequency modulation with a scale of 16 and a 50 MHz
+>>> +offset:
+>>> +
+>>> +.. code-block:: bash
+>>> +
+>>> +  echo 16 > /sys/bus/iio/devices/iio:device0/out_altvoltage113_frequency_scale
+>>> +  echo 50000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage113_frequency_offset
+>>> +
+>>> +Digital ramp generator (DRG)
+>>> +----------------------------
+>>> +
+>>> +The DRG produces linear frequency, phase or amplitude sweeps using dedicated
+>>> +hardware. It is controlled through three channels: a parent control channel
+>>> +(``digital_ramp_generator``) and two child ramp channels
+>>> +(``digital_ramp_up``, ``digital_ramp_down``). DRG destination is set when
+>>> +ramp attributes are written, i.e. writing to ``frequency`` or ``frequency_roc``
+>>> +sets the destination to frequency.
+>>
+>> Would it be better to say that the destination is set when the the
+>> value is non-zero? Otherwise, how would one change the destination
+>> once set?
+> 
+> Destination is only one, so you just need to write phase or phase_roc, if you want
+> to target phase then. Does that not sound intuitive?
 
-Thanks for the review,
---breno
+I was thinking about if you needed to change the configuration.
+If you set it to phase, then want to change it to frequency, how
+could you do that if 0 is a valid value for phase?
+
+Also how could you know which is selected by reading back the
+values if 0 is a valid value?
+
+> 
+> Zero is a valid value to be written.
+> 
+>>
