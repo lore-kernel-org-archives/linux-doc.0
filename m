@@ -1,74 +1,99 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B929437C914;
-	Mon, 11 May 2026 20:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9230A47DD50
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 21:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778532137; cv=none; b=U+bbVTX140cTUyjdY1gZJKHOrw+Fe/0iDDVwWFiQr3c4pa58zzQ9nPixD9Obge6ud+NpMsQ0MjJXxkGlLKpGjGFDujn0bb7Vy9FniD/OCds76UnbU5+FYDXHuD+JgAMObs8OraEx3oeIaISJWLOgHj5gQmG3ARIjXL0bRygkvPM=
+	t=1778533218; cv=none; b=Bkf8RrQ3J6mX7XY+HOcDHf9+B1uL9lyPACTqNFvnYKzY1wa962uRYPE2vYXb2lEYHdofANrXuVK7Cms4dZvDNkai7ybHdpszmI4g7zXYz0rl1hWV5uX+cElvQ6kpEeWwmPbKjOwDYQyRn/l1mo5kNPgs/p05lt/1zFam53cjZLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778532137; c=relaxed/simple;
-	bh=TNek+Vy0SPPGQeL6lJycHd2bHVq/8XtZApMP43e3w8Y=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Vum/rHYZtjmqxGUg8itayjY9abpx848tBIokroBL3YlAiVXDHEwsnSynTFxGWo0jFSsn/MfaYQScssxFrHoNIKwX/v7cxDRJ4geJvpanbWBEixkeaJdWUdo2aoG0CxmP4Kn4IaWcT0HS0Nm17ynVMREhhXp+ClB+X8AlaPXr8Lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hCqSjoUF; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1778533218; c=relaxed/simple;
+	bh=yS7ruAQxbGeCMVhGAp45xrL+3L/lSXnmz9oOCXUHpT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=qEjaXjLPEwZx3ofQIANw7XJn/MGSryEprfSO+BrTCAXRmDY6/Q+OpnebHOzGA7Qn83t+dSxJkL8L62qKqHSdvficp5r90R+H/mzg7iotQdwQ+r/QMjWUN0Iv7Z0j1Y5Jb/XvN9x0alz+FJgFDHzjHZzIS42uQDsR4GHYGyo8GMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myFTBniO; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hCqSjoUF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D76DB40C7C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1778532135; bh=bjEirsDdfpedPl8hqqxa10zJ87UyMtd7EoLdj/YUP4U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hCqSjoUFOIzzBlQA+3wvrK0IG9bIDeBfvLu71QL5vtNtNAmKOkDMdLM0QdgsrPw4z
-	 7/m7RUBRbwzshHZpmO+K2vb6npoCstc6kHmLO/n6hdppkhzQJpFbVAzxVz6v+5lfYo
-	 opOnF40UygM7z/cL0Px9XzjG/Q9nafK6J31CzlKqMQxPgGiBx2JCKpuSvAbo+k2Q7q
-	 aLi6ZlLQTgdXNc6J60V7pkna6tl9AaQaIMyzTbtZC/Ri5lFlc0ezgQQkCB25774ShQ
-	 1nTlxhxjD1S0Jz0KNBNuiEj2gPXk7F+9IJ6SXp433zhd/3lRJAKzm8Guw2Wswel4k4
-	 oo61+A7crwWqQ==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D76DB40C7C;
-	Mon, 11 May 2026 20:42:14 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Willy Tarreau <w@1wt.eu>
-Cc: Greg KH <greg@kroah.com>, Leon Romanovsky <leon@kernel.org>,
- skhan@linuxfoundation.org, security@kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] Documentation: security-bugs: explain what is
- and is not a security bug
-In-Reply-To: <agI7XogSmfN_Pm4t@1wt.eu>
-References: <20260509094755.2838-1-w@1wt.eu>
- <20260509094755.2838-3-w@1wt.eu> <2026051124-afar-renewal-795c@gregkh>
- <agIZ8zeg3m0xE3yL@1wt.eu> <878q9pvlif.fsf@trenco.lwn.net>
- <agI7XogSmfN_Pm4t@1wt.eu>
-Date: Mon, 11 May 2026 14:42:14 -0600
-Message-ID: <87a4u5u195.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myFTBniO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778533217; x=1810069217;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yS7ruAQxbGeCMVhGAp45xrL+3L/lSXnmz9oOCXUHpT0=;
+  b=myFTBniOJxw8glBEDuQbULU71vG2e+6x/ASKortJNDEPEkvvqUdA4qZK
+   wIYgo6MMRZmmfjw5T1/3A5U9yAlG8+093luXgeYGGC9i0cHGz8DD5Nbmw
+   gzelpsqkthx3Advjv1RIq8rCeZmjfRlh/nHdzFvCdwQZ+ukAHwDpK7HqX
+   I85CF/5h323B6IFHxaYvXn5umSVjbvBAG9pH4KF/cT+X06kE52/IZLldr
+   jxwcx6DKyhiq7TxjnTQCSPGcDhrcPlfhglOhGtDN+8vANHsVFPttH9Hog
+   DpgoR4AyW57pZQ3i1XUZebNWJYt/mkZsilv1ys4IzulJgOvTMNPfCRNiG
+   A==;
+X-CSE-ConnectionGUID: vpUha9OBRxSDeCcJuF8oNA==
+X-CSE-MsgGUID: sA47vYMYTfazHBhQAKkLhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="83305958"
+X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
+   d="scan'208";a="83305958"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 14:00:17 -0700
+X-CSE-ConnectionGUID: z/quadhvTmmd9FwlEwkfTA==
+X-CSE-MsgGUID: ij7X6pkDTNmEkrYQ95o9lg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
+   d="scan'208";a="261058715"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 11 May 2026 14:00:13 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wMXjX-0000000082f-2drQ;
+	Mon, 11 May 2026 21:00:11 +0000
+Date: Mon, 11 May 2026 22:59:27 +0200
+From: kernel test robot <lkp@intel.com>
+To: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "Ilpo =?utf-8?Q?J=C3=A4rvinen"?= <ilpo.jarvinen@linux.intel.com>,
+ Maya Matuszczyk <maccraft123mc@gmail.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Anvesh Jain P <anvesh.p@oss.qualcomm.com>, linux-doc@vger.kernel.org
+Subject: [pdx86-platform-drivers-x86:review-ilpo-next 21/30]
+ htmldocs: Warning: MAINTAINERS references a file that doesn't exist:
+ Documentation/devicetree/bindings/embedded-controller/qcom,hamoa-crd-ec.yaml
+Message-ID: <202605112207.TL7dR71j-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
 
-Willy Tarreau <w@1wt.eu> writes:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
+head:   165e81354eefd5551358112773f24027aac59d5a
+commit: 5c44f48e91deefdd42e567a2779d331937c97cd0 [21/30] platform: arm64: Add driver for EC found on Qualcomm reference devices
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260511/202605112207.TL7dR71j-lkp@intel.com/reproduce)
 
->> I can ship stuff Linusward quickly too... :)  But it's fine if Greg
->> takes it, of course.
->
-> Oh that's fine then. I thought you only delivered such updates into next
-> releases. I'm fine with either way of course! Let's pick the path of
-> least effort for each.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605112207.TL7dR71j-lkp@intel.com/
 
-That's my normal procedure, since there are few docs changes that have
-greater urgency, but I do have a "fixes" branch.
+All warnings (new ones prefixed by >>):
 
-Greg, what's your preference?  Unless I hear otherwise, I guess I'll
-apply it shortly.
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/embedded-controller/qcom,hamoa-crd-ec.yaml
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
 
-Thanks,
-
-jon
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
