@@ -1,204 +1,156 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FA04418FC
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 17:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B600643637C
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 17:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778518897; cv=none; b=DCqrB0clfvuJ+0X+XlwdlY+8ltZer3KgiO4NRRAgFbumtptf0Zg1tc19HcfBOrhLeKeDcv1cQutPy+aj4CJ+Sl25wRPaKQH8zLFn3A5TYYaJUoXViCmXhTmjvEul8vTDL4w5AGmpX9l7nOU7j5sbCbSc3mZPQF3gItVe0rWES8I=
+	t=1778519451; cv=none; b=B2NhGlX6neJEZt7Ay181uGFM8D4lclxndOBbR+nNLEA7eKSNZgUu29SZBU0HIQeofOFEx8rCsrtwIQpbNn07TuXsT67chzg3bGAnlLbHQSKvUdm403JZp4GK3nUXIq5X99/H+EgR43XACzO8CS5kOITW/2GzyN6po0QijD4dx8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778518897; c=relaxed/simple;
-	bh=PE7CfPDlkT2wusrx9oi+uBa5B29abPzYTNGdV9PEKc8=;
+	s=arc-20240116; t=1778519451; c=relaxed/simple;
+	bh=xEf0DcTeuh8O7q7xkn5lS+B/P1HAUfQRMFjpy4xw5iQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l5dKnteaIyqiabdouHQ/lLrVE8BEIaG8NELF/Vx/zj/RK/oJr1QqhtMcpK6nF5kMl8YNM4oqJZzJ+czaXTBSvSUInsK00FWQS9r/uCEvkMN/FbAe/sPKPlFz1MR9q7NsBKm1AZUXvMJVoSKNYFdCSdsfC8F2+Hg8zhZjaUHQypA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bob49sCb; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ufDOGUprlh329tJ9H2SzRY5khG6vVl5xqupLXS5cnUFuRPl7bCBSWbwFexzkqWOH+AZYngkXSc7YUjW6FNB8gzvKF4VcN3kadgqAwjDSLVLOSZsC2V5CrqNJ5j0N4X0tA0KfI52bcg8OQTguEtfxHiPneP1CbgSCaf6EhuiRTOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=T4kf8jSe; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bob49sCb"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7b4ee3a88e1so45525187b3.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 10:01:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="T4kf8jSe"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-44a044cb827so3607091f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 10:10:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778518894; x=1779123694; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=xawfXJfKqmeoHeOoXubh3qn/e0+i/yH0+NUj7NVoCTE=;
-        b=Bob49sCbsvWdsGg5Bo0V+IiPmAZiZXom4ahxqCPEjCxWuTBugBnA/d7dnO89SvIAZE
-         XE63XQYfKmnSaTB2jQLDvD9F2QkP1qBT4NIvddpVZ3vqoMIfuCkhyqt5rzRuAcUMQRqB
-         5Eg4aBn3G2Vt4/StQffospDOP3HzyKAaBAYhvlDKRvDcZJMiuhhMDv2XnleLIYPqB2yD
-         10b4bwArDx73qG5NmxFYv0SQdPrQFRlZPmucCRjlD7LNZplTqWjhlDsBfKSGspd5Auvl
-         d1fjhxQUffsK1y/D0WXwSMvgUIItrRlqV9IdR8Q5jncDIFxekDh7lqchNXhK44HYuJkN
-         ebWQ==
+        d=suse.com; s=google; t=1778519448; x=1779124248; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4WseMM2s1lBw35z6Gvcd4yWHkkkXHH2E0/2CJvqDOO4=;
+        b=T4kf8jSeOB6D1KH4+hz17L8PlZJvkCcLExTX6fIa3So+FxmRGa4ATaLAVDI6tLpw7G
+         Rl9rdWd9+QTz3OPYpx1XD4GLjTTj8gl43dhMFgAeddowgyy6TX2HhsKBzwgFF9Tme4UC
+         AkBz1IuOF+jSnHtpcdl25bSI+8+aWLlziCiPbMuz1Y/pFDiFMFIOaOvsAoT+FC1X1+FZ
+         gdlnJuMHpgWlo/rZyHtvLb+eWRhyHu/3Kx33HgER2+YuJGQ3Ty+2waY5fqTwgaSBONcL
+         uvEoy9bD6ZVRW1Mx/JrHTWsRD1llv7x/I+eMMr2sRdoVE+71UHzuSuv1HFmx3f3RXE6P
+         uHfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778518894; x=1779123694;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xawfXJfKqmeoHeOoXubh3qn/e0+i/yH0+NUj7NVoCTE=;
-        b=BpIpQ2G+cz4ZGvKu5ATgBEq/5OcjSEPIaY1y0fOMGJBPRWUes+q93lbTqdZozKJ+f0
-         IGOEPQ2/H1DdwlXYoA8Hf3JhIMIxGvkNmTHzFuquIlt7/+RsbxV9VQfirXvEtWhetBCV
-         2q4HSkYHnDJZoGrS6NYBIbl8q1gzS4kZ543R9GjZpyorN/+D8CrZZm0Smdb5ZsdkCiBi
-         PwQV5OQcyaV/CrwPXg+13neMfZdiFIMjNA6ktEIxXoPnp4dRlqWc2nZscg7UQrkrxSwD
-         OeRM1lx9EQR6eqLec/50jPa7hFxikdHEE7hCTa6rkxNLn/+Fp4NDX4YCuF8fKgMgmCBQ
-         h1fg==
-X-Forwarded-Encrypted: i=1; AFNElJ+nYhLf/7Yt2+O7S3EDBLfgmdcuoQ1jOhTCEvt15+ORJp8RbGj0WxnU+Ey+Eip/qIaN2M7ed7v50wU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YygB8ZsvW1tn14zKfyxBhoYu/XksxMvoQpsXffmaRpDL/P16uHd
-	w/GlDhoi0PDQAGwP5iQhW3npaAMFT2em/bVXmnZNWfwOmugt2h7m0stv
-X-Gm-Gg: Acq92OEdLPxtbCNa6x5hr01ficlFBrFroIXkbZK7uLnpQqyxi7tmPuIpkjWUQfZKXzO
-	A3b5gbaVgvejailQmtBKbIOLKOrMnKGLeODX2hG9p3dQ4ImiOaVNPWZQbQJ0WCv8xiuhE7/hXJn
-	N6LTt/i5vSoKf/1Ql/EvUAUBivy2pVIjwNRN/ZBYqD6M08QALzBzKH1uBzFOoIpZxw4u0V12TEQ
-	JSJDtGaosCv+qX6N1BzZfNdX50NjgtqagQZFXQptYSwMnVc5Hkegu7Fg+fJjULXpfia9CfAHPgk
-	svcNkIrrlGPKnOm3fcaOFvdXk2uGCEXGPPbkYuTFAPMd1V5Ps/eq/LO7Mo33okOWP1H2ASkIWsz
-	izkJ2R1cXuLoRC/5ItD9jE/AhbvBKll6/M+3JMYqt39OTDKNc0v3GyY3tfAZtg5MbrrVx6UtxPh
-	JQ1Z0A/ra5YedS0XYB1SUZ5ZtV9tb0w6zW7Uws6qZH3ghAeWk=
-X-Received: by 2002:a05:690c:e3c8:b0:7ba:eefe:9fa1 with SMTP id 00721157ae682-7bdf5db6952mr267368157b3.6.1778518893760;
-        Mon, 11 May 2026 10:01:33 -0700 (PDT)
-Received: from devvm29614.prn0.facebook.com ([2a03:2880:f806:11::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bd66019105sm151829677b3.0.2026.05.11.10.01.29
+        d=1e100.net; s=20251104; t=1778519448; x=1779124248;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4WseMM2s1lBw35z6Gvcd4yWHkkkXHH2E0/2CJvqDOO4=;
+        b=m9AS616obpPW3EQveFyPd73+1/uZHvFar7nPLJyrz3G8/jyrEqSUfukpj+YxPkHBAn
+         rIj47um5RZ2+2qWPCu03BNT1Ex7UqFm3CjfV/6/Ww2RV/pxlK+Glqp1040VLBFdPFkit
+         C2LPAyO/O+P3HhFHarIeYtKOq26Dpa1NTyifTYdBzQ33mgXYaVOLQ2pbJoyHnnOsZ8uL
+         iNO/cerEx4Wja8ZV9OfBAg2zZp2psfMmmo6dNZ97p1xrRhLbTaTa5Q7koyTuRuWyvuvd
+         p6zEAcBokqMfoBWGlMeSKKPPqX+zkERozoVWjUlv2HdSH9fJw2zoc22xJ0pMnEurjYkK
+         fmaQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9Y3Pn8oZaL2y3dhbSJoUxONJ8qkWh2EKhEOnHEQkzW1v2NDK55YDGdogRGt90/GBYoZGgRmW0Kr2A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDWk0H3Skpo1T2K4GeWGyjpfOub8xysjsvIEpquS8VFIgsrzmC
+	l48KUDkPwGokKGsDXiGOX5W4pH/XK+UZm6GAMIrs9JG0kEeLH7ZMf6FqI0w+kwNakRB8BRWsMok
+	/PXm6g7A=
+X-Gm-Gg: Acq92OHDU40ff5K3VyOEr+b2pOk3ttX6kXuDKN8+PsyOaNzpzb6a49MlcfmYfTPu5bJ
+	FFq5L3Ja9fCbMa9P5UCMkKELZiSmG9dGf/3msuch/sEozG4OSr8LBkMBGtUGCs3Esz1BdMkpzpB
+	aiXP8gnCD1dITIeYp1PonM1Ggkh1M4Wc67XxoJQ7rKA1coq33IOr6mm2sCOxKWXjbvIvDCBkPfA
+	aSb1RwsPmBHrZcE8BVTNzUSJg6ezKUndTKX1YwkC1TxPwcfGLKS/ri6XGNZNcNwJ/xhcuPObGoN
+	SowGjP5S+trBx0vJa9ye/IV7lieLyopfRBcNpL+z4geoZVJTcNb1XqgjUJOgg00b2F2qqgXepHq
+	bdINjGGA/+KwXVYwxGVoy+dpGxA1m6SyiKXqW+RXE5hDjBzNsYAKogJ/Vh/1b4DJ0ySGeTyHvSR
+	dSNO08eUBYSOzcrrPvCX4FnRhZhnVm0OhNyaou
+X-Received: by 2002:a05:6000:230e:b0:45a:c0e1:37b with SMTP id ffacd0b85a97d-45ac0e103bemr696373f8f.32.1778519448144;
+        Mon, 11 May 2026 10:10:48 -0700 (PDT)
+Received: from localhost (109-81-87-110.rct.o2.cz. [109.81.87.110])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491bae13csm26175978f8f.29.2026.05.11.10.10.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 10:01:33 -0700 (PDT)
-Date: Mon, 11 May 2026 10:01:25 -0700
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Zhu Yanjun <yanjun.zhu@linux.dev>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Shuah Khan <shuah@kernel.org>, dw@davidwei.uk, sdf.kernel@gmail.com,
-	mohsin.bashr@gmail.com, willemb@google.com, jiang.kun2@zte.com.cn,
-	xu.xin16@zte.com.cn, wang.yaxin@zte.com.cn, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Mina Almasry <almasrymina@google.com>,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v3 0/8] net: devmem: support devmem with netkit
- devices
-Message-ID: <agILZaYTrRBlL+Dt@devvm29614.prn0.facebook.com>
-References: <20260507-tcp-dm-netkit-v3-0-52821445867c@meta.com>
- <d7de2f17-af2d-4b6a-be65-f009d78e3d20@linux.dev>
+        Mon, 11 May 2026 10:10:47 -0700 (PDT)
+Date: Mon, 11 May 2026 19:10:46 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Breno Leitao <leitao@debian.org>,
+	Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
+ primitive
+Message-ID: <agINlnNN4ubZgyiN@tiehlicka>
+References: <af5Z2IvtS5pVorSl@laps>
+ <agG_PZ3qcl6TwLnL@gmail.com>
+ <agHUp8ulaWJ75WU5@tiehlicka>
+ <agHcFCRVSn5ra5Kc@laps>
+ <agHeZPA3eHhJHIsQ@tiehlicka>
+ <agHgDgwu8H9Opzpl@laps>
+ <agHm9Vj7bPPCRS1g@tiehlicka>
+ <agH7_QBPLWKTZucB@laps>
+ <agH_bGUTvWm2h5g4@tiehlicka>
+ <agIHsN9tiIHnVTeV@laps>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d7de2f17-af2d-4b6a-be65-f009d78e3d20@linux.dev>
+In-Reply-To: <agIHsN9tiIHnVTeV@laps>
 
-On Sun, May 10, 2026 at 01:33:18PM -0700, Zhu Yanjun wrote:
-> 在 2026/5/7 19:27, Bobby Eshleman 写道:
-> > This series enables TCP devmem TX through netkit devices.
-> > 
-> > Netkit now supports queue leasing. A physical NIC's RX queue can be
-> > leased to a netkit guest interface inside a container namespace. This
-> > gives the container a devmem-capable data path on the RX side (bind-rx,
-> > etc...). On the TX side, the container process binds to its netkit guest
-> > interface and sends traffic that netkit redirects (via BPF or ip
-> > forwarding) to the physical NIC for DMA.
-> > 
-> > Two things in the existing devmem TX path prevent this from working:
-> > 
-> > 1. validate_xmit_unreadable_skb() requires dev->netmem_tx before it will
-> >     forward a dmabuf-backed (unreadable) skb. This protects skbs from
-> >     landing on devices that don't have the IOMMU mappings for the backing
-> >     dmabuf or that don't speak netmem. Netkit, however, does not support
-> >     DMA, doesn't attempt to read unreadable skb pages and so doesn't
-> >     break netmem (it is pure skb routing and redirection). It is
-> >     functionally capable of routing unreadable skbs, but there is no way
-> >     for the TX validation pathway to distinguish between a device that
-> >     will actually attempt DMA-ing the skb and another device
-> >     (like netkit) that does not DMA but also does not break
-> >     netmem.
-> > 
-> > 2. bind_tx_doit uses the bound device as the DMA device.  When the user
-> >     binds devmem TX to the netkit guest, the bind handler attempts to
-> >     create DMA mappings against netkit, which has no DMA capability and
-> >     no IOMMU mappings.
-> > 
-> > This series solves these problems as follows:
-> > 
-> > 1. Extend netmem_tx to two bits, assigned to one of three values:
-> > 
-> >     NETMEM_TX_NONE   - netmem not supported
-> >     NETMEM_TX_DMA    - netmem supported and performs DMA
-> >     NETMEM_TX_NO_DMA - netmem supported, but does not DMA
-> > 
-> >     With these bits, phys devices can set NETMEM_TX_DMA and devices like
-> >     netkit set NETMEM_TX_NO_DMA. The validation TX path ensures that any
-> >     DMA-capable netdev exactly matches the bound device, guaranteeing the
-> >     correct mapping of the bound dmabuf. The validation TX path also
-> >     allows devices with NETMEM_TX_NO_DMA to pass, knowing these devices
-> >     will not misuse netmem or run into IOMMU faults. After redirection or
-> >     routing and the skb finally makes its way through the stack to a
-> >     physical device's TX path, the above NETMEM_TX_DMA check is performed
-> >     again to guarantee the device has the appropriate binding/mappings.
-> > 
-> > 2. On TX bind, the bind handler recognizes NETMEM_TX_NO_DMA devices and
-> >     finds the phys TX device and binds to that instead. For the netkit
-> >     case, if it has been leased a queue from a DMA-capable device
-> >     already, then the bind action is performed on the DMA-capable device
-> >     instead and the dmabuf is mapped correctly.
-> > 
-> > ---
-> > Changes in v3:
-> > - Fix validate_xmit_unreadable_skb() logic for non-devmem
-> >    unreadable niovs (should not be dropped) (Sashiko)
-> > - Simplify lock handling in bind_tx, no premature release (Jakub)
-> > - split NO_DMA changes into separate patch (Jakub)
-> > - fixed some pylint issues, one required an additional patch ("selftests:
-> >    drv-net: make attr _nk_guest_ifname public") to rename a variable from
-> >    private to public
-> > - see per-patch changelist for more detailed changes
-> > - Link to v2: https://lore.kernel.org/r/20260504-tcp-dm-netkit-v2-0-56d52ac72fd4@meta.com
-> > 
-> > Changes in v2:
-> > - Squash driver conversion patches (2-5) into patch 1 (Jakub)
-> > - In validate_xmit_unreadable_skb() to check netmem_tx mode before inspecting
-> >    frags (Jakub)
-> > - Lock bind_dev around netdev_queue_get_dma_dev() when bind_dev != netdev to
-> >    fix lockdep (Sashiko)
-> > - Move require_devmem() into individual test functions so KsftSkipEx goes up to
-> >    ksft_run() (Sashiko)
-> > - Add nk_devmem.py to TEST_PROGS in Makefile (Sashiko)
-> > - Link to v1:
-> >    https://lore.kernel.org/all/20260428-tcp-dm-netkit-v1-0-719280eba4d2@meta.com/
-> > 
-> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
-> > 
-> > ---
-> > Bobby Eshleman (8):
-> >        net: convert netmem_tx flag to enum
-> >        net: netkit: declare NETMEM_TX_NO_DMA mode
-> >        net: devmem: support TX over NETMEM_TX_NO_DMA devices
-> 
-> I applied this patchset in my local kernel tree and built a new kernel
-> image. I loaded this new kernel image in my test environment. It seems that
-> all the testcases can pass.
-> 
-> I think that this patchset would not cause any regression problem in my test
-> environment.
-> 
-> Zhu Yanjun
+On Mon 11-05-26 12:45:36, Sasha Levin wrote:
+> Could you describe an existing infrastructure I can use here?
 
-Thanks for testing!
+I think it would help to CC maintainers of subsystems that provide
+kernel modification functionality. They will surely have a better
+insight than me.
 
-Best,
-Bobby
+> Let's look at
+> this recent "Copy Fail" thing as an example.
+> 
+> I can obviously build my own kernel and enroll my own key, but 99.9% of our
+> users won't be doing that.
+> Livepatching, or manually building a module that just injects a kprobe is out
+> of the question as we previously agreed.
+
+Onless I am mistaken you can enroll your own key through MOK. But you
+are right that this is an additional step. But the real question is
+whether this is a major road block for users of this specific feature.
+
+> systemtap falls into the same bucket as building my own module.
+> 
+> BPF doesn't help because bpf_override_return() requires the target to be on the
+> same within_error_injection_list() whitelist as fault injection, and the CVE
+> targets never are. Some of our fleet doesn't even have BPF enabled either, but
+> that's the smaller objection.
+> 
+> I can't use fault injection because:
+> 
+>  a. It's almost never built in production/distro kernels, and I suspect this
+> won't change.
+>  b. The functions I need are not whitelisted.
+>  c. Even if (a) and (b) were addressed, fault injection would still need a
+> securityfs front-end, a cmdline parser, a module-unload notifier, a taint flag,
+> and audit on engage and disengage. By the time those land in fail_function and
+> tie into/refactor the fault injection code, the net diff is bigger than this
+> proposal.
+
+I cannot comment on fault injection imeplementation details of course
+but I have to say that the whitelist nature is something that makes its
+use very limited. Maybe this is a good opportunity to change the
+approach.
+
+> 
+> In my case I can remove the module, but not if I run a distro that shipped with
+> CONFIG_CRYPTO_USER_API_AEAD=y (like RHEL/SUSE).
+
+If you look at copy fail[2], IIRC algif_aead, esp[46] and rxrcp are all
+modules that could be blacklisted.
+
+> I can use "initcall_blacklist=" hack and reboot, but as things stand today,
+> I'll need to be rebooting few times a day.
+
+with your just disable some functions in the kernel you might need to
+reboot even more. But more seriously...
+
+> Even if I'm okay with rebooting that often (and I really really would prefer
+> not to), this doesn't solve the issues of a larger fleet of servers that can't
+> just reboot that often.
+> 
+> What am I missing?
+
+For one, you are missing more maintainers of code modification infrastructures. 
+-- 
+Michal Hocko
+SUSE Labs
