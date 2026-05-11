@@ -1,99 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9230A47DD50
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 21:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991BF22D7B9
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 21:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778533218; cv=none; b=Bkf8RrQ3J6mX7XY+HOcDHf9+B1uL9lyPACTqNFvnYKzY1wa962uRYPE2vYXb2lEYHdofANrXuVK7Cms4dZvDNkai7ybHdpszmI4g7zXYz0rl1hWV5uX+cElvQ6kpEeWwmPbKjOwDYQyRn/l1mo5kNPgs/p05lt/1zFam53cjZLY=
+	t=1778533407; cv=none; b=k5AuxtZi5mr1rTR5oqLvYb35tgiT3IchG9rgmnoMKYUZQ36sEB8hZfaJZkSYkwcb7WZCLF68jHlnptBscinMuJuKF3i/oE8n2y/bmhNDClIehU0cWzj4AGfMtkW4UcQ8/plgz8BSYUmST8LRRDgRpFRO0amnyXVaCUQVbVA3JQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778533218; c=relaxed/simple;
-	bh=yS7ruAQxbGeCMVhGAp45xrL+3L/lSXnmz9oOCXUHpT0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=qEjaXjLPEwZx3ofQIANw7XJn/MGSryEprfSO+BrTCAXRmDY6/Q+OpnebHOzGA7Qn83t+dSxJkL8L62qKqHSdvficp5r90R+H/mzg7iotQdwQ+r/QMjWUN0Iv7Z0j1Y5Jb/XvN9x0alz+FJgFDHzjHZzIS42uQDsR4GHYGyo8GMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myFTBniO; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myFTBniO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778533217; x=1810069217;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yS7ruAQxbGeCMVhGAp45xrL+3L/lSXnmz9oOCXUHpT0=;
-  b=myFTBniOJxw8glBEDuQbULU71vG2e+6x/ASKortJNDEPEkvvqUdA4qZK
-   wIYgo6MMRZmmfjw5T1/3A5U9yAlG8+093luXgeYGGC9i0cHGz8DD5Nbmw
-   gzelpsqkthx3Advjv1RIq8rCeZmjfRlh/nHdzFvCdwQZ+ukAHwDpK7HqX
-   I85CF/5h323B6IFHxaYvXn5umSVjbvBAG9pH4KF/cT+X06kE52/IZLldr
-   jxwcx6DKyhiq7TxjnTQCSPGcDhrcPlfhglOhGtDN+8vANHsVFPttH9Hog
-   DpgoR4AyW57pZQ3i1XUZebNWJYt/mkZsilv1ys4IzulJgOvTMNPfCRNiG
-   A==;
-X-CSE-ConnectionGUID: vpUha9OBRxSDeCcJuF8oNA==
-X-CSE-MsgGUID: sA47vYMYTfazHBhQAKkLhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="83305958"
-X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="83305958"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 14:00:17 -0700
-X-CSE-ConnectionGUID: z/quadhvTmmd9FwlEwkfTA==
-X-CSE-MsgGUID: ij7X6pkDTNmEkrYQ95o9lg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="261058715"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 11 May 2026 14:00:13 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wMXjX-0000000082f-2drQ;
-	Mon, 11 May 2026 21:00:11 +0000
-Date: Mon, 11 May 2026 22:59:27 +0200
-From: kernel test robot <lkp@intel.com>
-To: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Hans de Goede <hdegoede@redhat.com>,
- "Ilpo =?utf-8?Q?J=C3=A4rvinen"?= <ilpo.jarvinen@linux.intel.com>,
- Maya Matuszczyk <maccraft123mc@gmail.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Anvesh Jain P <anvesh.p@oss.qualcomm.com>, linux-doc@vger.kernel.org
-Subject: [pdx86-platform-drivers-x86:review-ilpo-next 21/30]
- htmldocs: Warning: MAINTAINERS references a file that doesn't exist:
- Documentation/devicetree/bindings/embedded-controller/qcom,hamoa-crd-ec.yaml
-Message-ID: <202605112207.TL7dR71j-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1778533407; c=relaxed/simple;
+	bh=+NPExyxgo8HU6B6S+16brBkL/23BFRjYZRCRMSCRDlY=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Kb+u4Q9MAd4iCYFcR3wkfLZmP12yA8SO1/oGlGWTxT/Xe5Qj9HKsQ4FwLSStn1fCjhfMlPUcvXzMhsDt47Km8Wxxhhu22m4A2Tcxuuxz9XJjidcSRmkLjKAprdIFYmtvasHw8X2KJsJpt7iM78JWXDdx8gGcrDJnlD7pcwkxwBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.win; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.win
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488a14c31eeso33245455e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 14:03:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778533404; x=1779138204;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jz3M0PDIssZI97ILfGYCglTutVrokgfI2vbgfWrvds4=;
+        b=LIeEDfJ5xqDn2bK9N8QQTSC21D2SLt2jz29YqTC5rQtgyQadYGLTUyIRX8miCCjHZR
+         yeB8HL3RwuhzZfS2xGU8P+x6bE2MmTWEnERyddv2LBHfqsSdRHSBaGXRFkJEaKmwXqoa
+         QUoilo3R44lCwFiqyw7KCCRcaMY6o+CIJwnobcBGVIz2rkzR4HSdtUoIPFpVUPyCa0np
+         AlUEQjFhdY8KdWBsUx2QCRX1a3SsXEC/QWtZqHCzFD/Ka0MyQZ9PaJZ3JF6x0HHjWg7j
+         Jlk0w2tzY/j6ujgd+MIY2JZynFjNl0lMObnI+0dCT13Qh35z3rDypHBXIDmT0AjHULDR
+         +n2w==
+X-Forwarded-Encrypted: i=1; AFNElJ8nbmq9hE8IEhV83+ar6tPkk5RnWJM2OwYc/JnT2RCW5QZNpmrQiII7mmXyYOImbKc1pGdl/KAamq8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoC5d9/rOT/h/+cmIPfvMrRigmTOZlxaut8rD7svVXoEZx2UV/
+	bjhTExsR/XhT/JDbDkOJBVQdyCZJgM+CBvfJQlrO3Bxo+JX9ElYIzv3QCJP12rUZYC0=
+X-Gm-Gg: Acq92OHuE8agJFyR4V4asZIu/Gq2r2hX6rf6MyAkaMjGK7CpCn83Jv4um1W9tzIc/Vu
+	I0S3ENe5xk8vqw0rUs31pbA+/1NBBimsQPbtMGL+4AW7u4+HwwU1ag0iOi4eVV9VWO0bxRPybNr
+	GiyT7OXlekvfkctIrqNxmDGBLWTN35F4TKDy68jqLELhHASWsh5MzqMB+dlyGi2VEFnpHZu3Xiy
+	C4MuDCiBLVjy+NnPZY8pmzwt+PJKEFsxcSg3AXj5ip8AAJuW+T0ARUYqLZnTANAUeFVOt5PandS
+	Cd7Rf9MxCkpVkwLty8frMDgWtdH2ymsmzXoK8DiH/m+xsS5ZdSif/LI/duE+bvGiuBmVL12ppmR
+	4bQGCuYMDhEdf9/2+Y4RrUT8S7NERz5an6v0dV46mPPxKHUV6YbbbjlsRQXTX/COJEB1kaLMpTU
+	Ag+0egeOVzHBzVgmnGZnlF2fZhjUe5Nx9XXSC/N6Hf73nuzTCK7KY7Bd02lOzw0iWRM7kuHa0+m
+	Fo=
+X-Received: by 2002:a05:600c:8b62:b0:47e:e2eb:bc22 with SMTP id 5b1f17b1804b1-48e6748afe8mr234131845e9.5.1778533403812;
+        Mon, 11 May 2026 14:03:23 -0700 (PDT)
+Received: from ?IPV6:2a0a:ef40:96b:a101:6f5c:d416:bfa6:dfbd? ([2a0a:ef40:96b:a101:6f5c:d416:bfa6:dfbd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e8f4389a6sm2225605e9.22.2026.05.11.14.03.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 14:03:23 -0700 (PDT)
+Message-ID: <3bfcf406-fdde-4303-9bd6-0d8d21ddba37@linux.win>
+Date: Mon, 11 May 2026 22:03:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla Thunderbird
+From: Ignat Korchagin <ignat@linux.win>
+Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+To: Eric Biggers <ebiggers@kernel.org>, Kamran Khan <kz@inspirated.com>
+Cc: Jeff Barnes <jeffbarnes@linux.microsoft.com>,
+ Andy Lutomirski <luto@amacapital.net>,
+ "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <CALCETrVqG+1yErRJjkxvJrf=A+Vu84HTR4Bx1Pcd8G1C0PJcMA@mail.gmail.com>
+ <14A441D8-5370-44BE-8732-99BF8107C3FD@getmailspring.com>
+ <0b8bba44-f6bb-4d69-b9d4-5787c276d41a@inspirated.com>
+ <20260510163204.GA2279@sol>
+Content-Language: en-GB
+In-Reply-To: <20260510163204.GA2279@sol>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
-head:   165e81354eefd5551358112773f24027aac59d5a
-commit: 5c44f48e91deefdd42e567a2779d331937c97cd0 [21/30] platform: arm64: Add driver for EC found on Qualcomm reference devices
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260511/202605112207.TL7dR71j-lkp@intel.com/reproduce)
+On 10/05/2026 17:32, Eric Biggers wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605112207.TL7dR71j-lkp@intel.com/
+> On Sun, May 10, 2026 at 08:54:07AM -0700, Kamran Khan wrote:
+>> Hi,
+>>
+>> AF_ALG is useful not just for hardware-offloading, but also for memory
+>> isolation so that applications only get oracle access to the crypto keys and
+>> a memory-safety vulnerability in user applications would not immediately put
+>> the secret key material at risk.
+> Note that if that memory-safety vulnerability leads to code execution in
+> the application, then it doesn't matter that it "only" has oracle
+> access.  It can still decrypt any data encrypted by that key.
 
-All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/embedded-controller/qcom,hamoa-crd-ec.yaml
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
+I don't think fully discounting hardware offloading is beneficial here. 
+HW accelerators will be produced and without a common interface vendors 
+would start implementing their own "bespoke" drivers with bespoke 
+userspace interfaces (we already had such proposals), which in turn may 
+introduce more attack surface. Yes, AF_ALG needs substantial 
+improvement, but at least it can be a standardisation point.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+> The relevant threat model would be arbitrary reads, not any
+> "memory-safety vulnerability".
+>
+>> I understand and appreciate the concern with complex attack surface and the
+>> increased frequency of attacks in this area. But I fear that completely
+>> removing AF_ALG increases the risk for userspace applications relying on it
+>> for memory isolation.
+>>
+>> What alternatives do userspace applications have on Linux for ensuring
+>> crypto keys are not exposed in user memory? That is, FreeBSD and NetBSD
+>> natively provide /dev/crypto; removing AF_ALG would kill the only equivalent
+>> option on the Linux side for kernel-delegated cryptography.
+> The standard solution is simply to use an isolated userspace process
+> like ssh-agent.  Yes, the keys will be in "user memory".  But "not
+> exposed in user memory" is *not* a correct statement of the problem.
+>
+> (Also note that protecting not-actively-in-use data from arbitrary read
+> primitives doesn't require cryptography at all.  That can be done simply
+> by using mprotect() to remove read permission from the memory, then
+> temporarily adding it back when it needs to be accessed.)
+>
+> In any case, any hypothetical security benefit provided by AF_ALG would
+> have to be *very high* to outweigh the continuous stream of
+> vulnerabilities in it.  I understand that people using AF_ALG might not
+> be familiar with that continuous stream of vulnerabilities, but it would
+
+
+Is it actually that much compared to other features/subsystems, like 
+eBPF or user namespaces? But we don't rush to deprecate those - instead 
+trying to harden them and come up with better design.
+
+
+> be worth spending some time researching what has been going on.
+>
+> - Eric
+
+
+Ignat
+
