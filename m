@@ -1,220 +1,205 @@
-Received: from flow-a4-smtp.messagingengine.com (flow-a4-smtp.messagingengine.com [103.168.172.139])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB7838F25F;
-	Mon, 11 May 2026 12:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172793C5DB6;
+	Mon, 11 May 2026 13:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778504262; cv=none; b=M0oGt5RKcsorw0314GBsNmAfdjqUsazoCXfGe/FV83dY0zs8urDAPfwQFATechpTKzEFDbaC4f/Ibx6g3CQulkkK6I8dAL3R3g54eFZj/mncn1v8J65pRGbMJ0KSBXF09iob+uHie/xfmsl3BkO87eqeHDF8tLOFb2pAMM0ESss=
+	t=1778504599; cv=none; b=TUj4297aV9y4rmrktK9JWg1lSTvaFMnZlh/QDBw4Tc039kbQmaDu1mwOwREcqmzLhJCBpnWPtLBTj+hmLc8b6rJ97j33t8tRaxl1Yyh18D0tXz1em4hRpT0NSs2g/cNb1FvMxauBEahuGLf0R52Io9c8fs31/VsdK+4jkZ5CObg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778504262; c=relaxed/simple;
-	bh=T+zncbAmIN2Y8Xk2STET9vNGfkNEwsoAfL1FFMPW80E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kOVDD+QQ+qWsdgFi0hPzek9gZoW1Y8CLHchsk5KyEpez2nCu5ZGVOGy/VJF7xPLbPgKVtTNFeEkne3Zn+ItMcsm2R7oE5x53oKcKWt0y3DGZTFpcbC1751FrC0JvmbY2zKq7NoUNBk5YuE0+eyib6Si++s7A6vXxSFWcNSAD14Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=UHfU/ReE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RFwEd2rv; arc=none smtp.client-ip=103.168.172.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1778504599; c=relaxed/simple;
+	bh=kQwSfNCCLbUhti9udnSk7pt8oY35FAkzLyI7ofDZFwg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R8dSdc9snEGoPKrreOr+enNjxboo5Wy1adlOskAxHYNvbHmY6jVKtVbODriTnkwD7HdTeKl3ER+3uAxGBxWSBMHc05IOFjmGlp8zm6qI0HZPE5SeIVZha0nMWeNciKpyE+qk50RmLlGM2d2iMD8p7R9dNzDVKoanV5Ata+DKmrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uMdWgIVZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="UHfU/ReE";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RFwEd2rv"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailflow.phl.internal (Postfix) with ESMTP id 6C2A91380432;
-	Mon, 11 May 2026 08:57:37 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Mon, 11 May 2026 08:57:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1778504257; x=
-	1778511457; bh=9ZylBAjhvDw36cIdH/cZimW58y/qeCfbSIMHarjSv/E=; b=U
-	HfU/ReE0eGF0atBgOVUXv4OilVhWJfQhktDLokRaQ55xfUQ5nXHW8ABWP1v1700i
-	WPmjNbrZbuP9U685Q7Hzn+Jqkpe41FauBl+EauqDf0TkWtJfJJsf/bSUl08hUXgQ
-	f1cuNj9EBiy8zG7mzbGaJlckDqlbCu6WPfeXcN2VV1ifggZmUfB0Tl92ZyeBp9EK
-	VyWBxzaNQ6Eo2p3ogMz9XBTb/F8PzGVq6ItuCOhWKPSaBS1fL+BPiO/eFt5UnHRJ
-	s+TOEQ6TN5BR0QvS3GWbEBifHZHXTVt/HzANrpVeBnnEXr3eA7O4GCi95kTl2mDy
-	NKI3nmMSceAp3X2ZWkxcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1778504257; x=1778511457; bh=9ZylBAjhvDw36cIdH/cZimW58y/qeCfbSIM
-	HarjSv/E=; b=RFwEd2rvJl4W6cfGdJlaHfoXglNAWuooBpTU6Bv0s2AeZ765qZ3
-	QDX8aHiO1lXER05/ccuGIqrULUU167isaAzKCmRBNHVLVxTp5dK82m+jvKiSdSfL
-	IZXdsNcgNxUWTFt7ZuNq5WZn9083cVlHqR8VTNEb4TFswc1Qk0nTOdr8mfcwDxAx
-	DwPUzMX8aThwC9LOljcna9LX0RocZkLfv46cvr8hFlA2m7kqIYMVuVMMDXNyGvWz
-	UlOB4uCnpSm2A+ed6I1fq5HdvH+dzgUDf4Vc9yzLpnn0Zd0nOkMzgn2ktwib1g9D
-	98jc4eETMWkqtagCTL9IKTm9SgQkqXf4emA==
-X-ME-Sender: <xms:P9IBaiIa6ok3fBrwWxfukwjcaK6AvNR5gI2o8Yl-x308N_W-hwU_oA>
-    <xme:P9IBaryzSLU6j_74eOGxkvKt2V_9t2LYKPmgkI6z8KeK8MLCKKhEvsESfx0v5rAE0
-    aC-sl9Zd7gBQBMSvcTHQgQxZkjriVrNoYHxlcD5uxC_QSxKQesAzA-A>
-X-ME-Received: <xmr:P9IBamxUgaFvD4OQe44zdJz1waE1axIN3-ae8cyVxjf1XbJq6yQ5h2tnpt0Iq3LJE49fvkgvIBawLDx_0kVgksU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudekleelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
-    rgcuffhusghrohgtrgcuoehsugesqhhuvggrshihshhnrghilhdrnhgvtheqnecuggftrf
-    grthhtvghrnhepuefhhfffgfffhfefueeiudegtdefhfekgeetheegheeifffguedvueff
-    fefgudffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgusehquhgvrghshihsnhgrihhlrdhnvghtpdhnsggprhgtphhtthhopedvvddpmhho
-    uggvpehsmhhtphhouhhtpdhrtghpthhtoheprghnthhonhihrdgrnhhtohhnhiesshgvtg
-    hunhgvthdrtghomhdprhgtphhtthhopehsthgvfhhfvghnrdhklhgrshhsvghrthesshgv
-    tghunhgvthdrtghomhdprhgtphhtthhopehhvghrsggvrhhtsehgohhnughorhdrrghprg
-    hnrgdrohhrghdrrghupdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgv
-    thdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtoh
-    epkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggsvghnihesrhgvughh
-    rghtrdgtohhmpdhrtghpthhtohephhhorhhmsheskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepughsrghhvghrnheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:P9IBat2gizePE2hTqULqNwpw4FauESLg4RYoOOrJb0cJf_xFpje1XQ>
-    <xmx:P9IBaoWosNg2YqzmWXKxrQ7V58Q7Gfk8x2aCUpq18PO3e6VjAeD-Fw>
-    <xmx:P9IBahcyjK0jrzMydfaJDtMXvCoyPhdI8DUZCizgg92rT5b5P63CvQ>
-    <xmx:P9IBap8OElGSCzktMKVkdzF4otyYXnVwr6nGm_P0qbEfJMu7I-RbUQ>
-    <xmx:QdIBaouFlNyjobY9-si-kDTjl4P1jCpiO77iw-tT3vbL-0Xt00NPbteL>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 May 2026 08:57:35 -0400 (EDT)
-Date: Mon, 11 May 2026 14:57:33 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Antony Antony <antony.antony@secunet.com>
-Cc: Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, David Ahern <dsahern@kernel.org>,
-	Masahide NAKAMURA <nakam@linux-ipv6.org>,
-	Paul Moore <paul@paul-moore.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, selinux@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Chiachang Wang <chiachangwang@google.com>,
-	Yan Yan <evitayan@google.com>, devel@linux-ipsec.org
-Subject: Re: [PATCH ipsec-next v8 14/14] xfrm: add documentation for
- XFRM_MSG_MIGRATE_STATE
-Message-ID: <agHSPUBZg0tHezM-@krikkit>
-References: <migrate-state-v8-0-4578fb016965@secunet.com>
- <migrate-state-v8-14-4578fb016965@secunet.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uMdWgIVZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 830B2C2BCF7;
+	Mon, 11 May 2026 13:03:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778504598;
+	bh=kQwSfNCCLbUhti9udnSk7pt8oY35FAkzLyI7ofDZFwg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uMdWgIVZkHHB8pLI8a6wy8l2UtNjohCfS4udur4TYvZI+6hgM/SCtu3TMmbt8W1Oq
+	 9/7BqjCUhPdbLlhv9AZIL8bcTT0c0lJgQkjCmHghkh6p7C5lrFp84dFqA7tLaqVyrC
+	 II41nrIt02dHlHV9sOsvZHjRsMWz97TpDCVOIMRsdkOOpqgaVeeCSTUK2YUsOIBEnh
+	 CbpQkdTELCzO4rdWW5Vn3+7jOiKiaLqiyjskP3xRe5+chEhnqFiYBsey5tvNGscfZa
+	 uzIAtCR5mJoeV3TVdj2Yo0mHwpJDSq8kYREQso4SIsMHQTACS+z1TqLsMKBp48llkS
+	 AqktpPLfYjMAg==
+Message-ID: <24edd9d6-99f2-4d3d-83eb-69b406f4a9a0@kernel.org>
+Date: Mon, 11 May 2026 15:03:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <migrate-state-v8-14-4578fb016965@secunet.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 4/5] mm: swap: fall back to order-0 after large swapin
+ races
+To: fujunjie <fujunjie1@qq.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>,
+ Yosry Ahmed <yosry@kernel.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chengming Zhou <chengming.zhou@linux.dev>, Baoquan He <bhe@redhat.com>,
+ Lorenzo Stoakes <ljs@kernel.org>
+References: <tencent_8B437BE4F586C162950BF71954316C1EDB05@qq.com>
+ <tencent_CD11FE9B4A0B362E95E776C5F679598FAA07@qq.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <tencent_CD11FE9B4A0B362E95E776C5F679598FAA07@qq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Overall a very document, thanks. Some comments:
-
-2026-05-05, 06:34:55 +0200, Antony Antony wrote:
-> +    struct xfrm_user_migrate_state {
-> +        struct xfrm_usersa_id  id;       /* spi, daddr, proto, family */
-> +        xfrm_address_t         new_daddr;
-> +        xfrm_address_t         new_saddr;
-> +        struct xfrm_mark       old_mark; /* SA lookup: key = v & m */
-> +        struct xfrm_selector   new_sel;  /* new selector (see Flags) */
-> +        __u32                  new_reqid;
-> +        __u32                  flags;    /* XFRM_MIGRATE_STATE_* */
-> +        __u16                  new_family;
-> +        __u16                  reserved;
-> +    };
-
-Thinking about the UAPI a bit more, maybe this would be a good time to
-start introducing a "proper" netlink API for XFRM? Instead of having
-the main properties in a fixed struct, and a few attributes as an
-afterthought, use attributes as the main way to exchange information?
-
-Then we can start adding the attributes as alternative to the fixed
-headers in some other ops, and later start deprecating the current
-API?
-
-(for some reason this thought only popped up when I had the html
-rendering in front of me, sorry it's so late in the process)
-
-[...]
-> +Flags
-> +=====
+On 5/8/26 22:20, fujunjie wrote:
+> swapin_folio() documents that a large folio insertion race returns NULL
+> so the caller can fall back to order-0 swapin. do_swap_page() currently
+> turns that NULL into VM_FAULT_OOM if the PTE is unchanged, which is
+> harsher than necessary and gets in the way of rejecting large folio
+> ranges for backend reasons.
+> 
+> Move the synchronous swapin sequence into a helper and retry with an
+> order-0 folio when a large folio cannot be inserted into the swap cache.
+> Count the event as an mTHP swapin fallback before dropping the failed
+> large allocation.
+> 
+> Signed-off-by: fujunjie <fujunjie1@qq.com>
+> ---
+>  mm/memory.c | 50 +++++++++++++++++++++++++++++++++++++++-----------
+>  1 file changed, 39 insertions(+), 11 deletions(-)
+> 
+> diff --git a/mm/memory.c b/mm/memory.c
+> index ea6568571131..84e3b77b8293 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -4757,6 +4757,44 @@ static struct folio *alloc_swap_folio(struct vm_fault *vmf)
+>  }
+>  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+>  
+> +static struct folio *swapin_synchronous_folio(swp_entry_t entry,
+> +					      struct vm_fault *vmf)
+> +{
+> +	struct folio *swapcache, *folio;
+> +	bool large;
+> +	int order;
 > +
-> +The ``flags`` field in ``xfrm_user_migrate_state`` controls optional
-> +migration behaviour. Unknown flag bits are ignored.
-
-Maybe better to reject unknown flag bits (as well as unknown
-attributes beyond XFRMA_MAX), so that we can fully control their
-behavior, and not risk incorrectly migrating an SA if a "too-recent"
-userspace passes attributes we don't know (then if we fail to handle
-them in the kernel, the SA may not handle the traffic).
-
-(Steffen and you will have a much better understanding of the security
-risks here than me)
-
-
-
-> +Migration Steps
-> +===============
-
-maybe add:
-
-Userspace is expected to:
-
-> +#. Install a block policy to drop traffic on the affected selector.
-> +#. Remove the old policy.
-> +#. Call ``XFRM_MSG_MIGRATE_STATE`` for each SA.
-> +#. Reinstall the policies.
-> +#. Remove the block policy.
+> +	folio = alloc_swap_folio(vmf);
+> +	if (!folio)
+> +		return NULL;
 > +
-> +Block Policy and IV Safety
-> +--------------------------
+> +	large = folio_test_large(folio);
+> +	order = folio_order(folio);
 > +
-> +Installing a block policy before migration is required to prevent
-> +traffic leaks and IV reuse in counter mode.
+> +	/*
+> +	 * folio is charged, so swapin can only fail due to raced swapin and
+> +	 * return NULL.
+> +	 */
+> +	swapcache = swapin_folio(entry, folio);
+> +	if (swapcache == folio)
+> +		return folio;
 > +
-> +AES-GCM IV uniqueness is critical: reusing a (key, IV) pair allows
-> +an attacker to recover the authentication subkey and forge
-> +authentication tags, breaking both confidentiality and integrity.
+> +	if (!swapcache && large)
+> +		count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK);
+> +	folio_put(folio);
+> +	if (swapcache || !large)
+> +		return swapcache;
 > +
-> +``XFRM_MSG_MIGRATE_STATE`` atomically copies the sequence number and
-> +replay window from the old SA to the new SA and deletes the old SA.
-> +The block policy ensures no outgoing packets are sent in the migration
-> +window, preventing IV reuse under the same key.
-
-Does it matter that the copy is done atomically if we expect userspace
-to install a block policy? (without the block, I'll have to recheck to
-convince myself whether it would be safe, and TBH I'm still a bit
-confused by patch 8)
-
-> +Feature Detection
-> +=================
+> +	folio = __alloc_swap_folio(vmf);
+> +	if (!folio)
+> +		return NULL;
 > +
-> +Userspace can probe for kernel support by sending a minimal
-> +``XFRM_MSG_MIGRATE_STATE`` message with a non-existent SPI:
+> +	swapcache = swapin_folio(entry, folio);
+> +	if (swapcache != folio)
+> +		folio_put(folio);
+> +	return swapcache;
+> +}
 > +
-> +- ``-ENOPROTOOPT``: not supported (``CONFIG_XFRM_MIGRATE`` not enabled)
-> +- any other error: supported
+>  /* Sanity check that a folio is fully exclusive */
+>  static void check_swap_exclusive(struct folio *folio, swp_entry_t entry,
+>  				 unsigned int nr_pages)
+> @@ -4860,17 +4898,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+>  		swap_update_readahead(folio, vma, vmf->address);
+>  	if (!folio) {
+>  		if (data_race(si->flags & SWP_SYNCHRONOUS_IO)) {
+> -			folio = alloc_swap_folio(vmf);
+> -			if (folio) {
+> -				/*
+> -				 * folio is charged, so swapin can only fail due
+> -				 * to raced swapin and return NULL.
+> -				 */
+> -				swapcache = swapin_folio(entry, folio);
+> -				if (swapcache != folio)
+> -					folio_put(folio);
+> -				folio = swapcache;
+> -			}
+> +			folio = swapin_synchronous_folio(entry, vmf);
+>  		} else {
+>  			folio = swapin_readahead(entry, GFP_HIGHUSER_MOVABLE, vmf);
+>  		}
+
+There are some upcoming changes with:
+
+https://lore.kernel.org/r/20260421-swap-table-p4-v3-5-2f23759a76bc@tencent.com
 
 
-xfrm_user_rcv_msg
+All the of that logic you have in swapin_synchronous_folio() should ideally not
+go into memory.c, but into some swap specific code.
 
-if (type > XFRM_MSG_MAX)
-        return -EINVAL;
+But
 
+https://lore.kernel.org/r/20260421-swap-table-p4-v3-0-2f23759a76bc@tencent.com
 
-Userspace will hit that on a kernel that may have migrate but not
-XFRM_MSG_MIGRATE_STATE, no?
-
-
-[...]
-> +Error Handling
-> +==============
-> +
-> +If the target SA tuple (daddr, SPI, proto, family) is occupied by an existing
-> +unrelated SA, the operation returns ``-EEXIST``.
-
-All this happens under xfrm_cfg_mutex, so if we did an initial lookup
-for the new SA before starting the operation, we could ensure there's
-no dupe, and the mutex would guarantee no insertion. No?
+Already changes a lot of that.
 
 -- 
-Sabrina
+Cheers,
+
+David
