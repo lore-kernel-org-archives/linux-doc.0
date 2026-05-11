@@ -1,67 +1,66 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7EC3FE642
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 14:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168D03FF8B8
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 14:47:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778510822; cv=none; b=FulH4z+LJ5U3vAYAUcgEdfVSU1dsRkdGEILhw1+Kr+WDBhbabYSy0rUwoM51M1b0XVOJ2Mk58Awjqaz2iZ/zjPM9BTyTdln9Ovk2UA/lk3qZxHvoKk0EtEEHbD5dYmQrcz2TkmtOUWjFM6gZnZiIAoF2bUCFlTi2eJmqqU8vHXQ=
+	t=1778510880; cv=none; b=ZWflHJcsreU9DB5EfwfCMR/iHahO55FsCcVUxJZwW8sb6jyzatcmu50kmSDnliqhSev0IZMgFyAr5b91nGWZlEyE2u2rTxh2UZPxuvqz+tiVGZm0z/v381WxsPdfJkVT4z8qud5N9z9iVp/nCiscGNfk92lLiwckkwmAXR+RISM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778510822; c=relaxed/simple;
-	bh=SICTXImZa4mMy4Kgs5BlhwJ8zVJUierNkIzSeoAS2I8=;
+	s=arc-20240116; t=1778510880; c=relaxed/simple;
+	bh=iKF8FSLbp1eeIBdEg7i1+8WB8ugyhMDzVMP2Z+x3cvU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dxo23DCkwxzHXPnwz5/bzYCrBGGzCY6fSH7G3sETvTluS/ihoQgzGEG4b+AHSdbJdfDDs7NIazfmsK7CJ+3wiFRnADDj1FZgMqd5r7ijHSnX5M1c0y3g1ePO+8JKtePjgxccUrpasovvwy8hhBv/WZKe3GogI2an5XI/vMoWIBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=pUfBrgRJ; arc=none smtp.client-ip=209.85.167.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 In-Reply-To:Content-Type; b=foZRYTRtTXhGf3qQjCSIuOlUynUxjRPPmTxCZhn/xL7AvPykMZM4L+8ULHWbIR0hoqv0Joj09a6dPUT0u1grEDK9lc8CqOSveuZcJ7vTMPq35pZ3u7RCTgS3aA5MAHoRMqU9MY8ifdZCWGP91YMe2orsbrSYgBmmYlc82WgdM7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I3nzTDZM; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="pUfBrgRJ"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-47c941f7213so2661628b6e.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 07:47:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I3nzTDZM"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43d73352cf2so3618293f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 07:47:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778510819; x=1779115619; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1778510877; x=1779115677; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qEELPpISKPMY3OnOVJz/i6LMwFlmgDNP8fOvagl4Uf4=;
-        b=pUfBrgRJ+2elUdz0lvJ9Tads7hP5t9qy/4AVVBeZ7Z0meOn48JThSLiseM0PsfCno6
-         fD2VQQNCHA9Bxp5gZyRFoiNDrhxvcVUVbNucl7SrI1CmJ1VSnH3R1jWneZlTEkiO/t+k
-         KqijGSbF+EVBZEjQ+BURzFJnLfFBf8nseJ+pKVExSKeBxsPSElgt00AgzWnzgEigHrIA
-         KLoroSfK5abQMAbOfiu9LaGbBXOjweFxmjYfXAk+SPNMLBAvcZJV5Ouu6zJCFIiQ/F6x
-         QUfeBnb+qMh3T0UYCKL51QJFe2oJt8aebs8h/wZwJd2GF8zb/2gsjLJCqY6aD1rxW/6i
-         G0Yw==
+        bh=iaxiXYaFYeaH8Qp4J3ioh2j1XsATKbSVhM9o5LlP7fw=;
+        b=I3nzTDZMC8S2vFjW7pWeKWwY2BN1aYsrT+UaZXS8L66mVzzuTVJXvKr9ZTpLetccxz
+         czN6ZZ6y04Fo+gDpwNzYeYWSsQbDIXx8LUEFIB39SvViv/v7aRfk1COZ4sR9pvZD0D3D
+         v8U9C3v2Icher8p52wUOa/ah7XE05PwdcsA5xRqpqCrR7tNqYSr8aRbtP3SsZ/4lTzQG
+         R4xb+cvkBLJozHYoX97n8IDp19uvswB4GGGofNloHOHYlCfxDxdCnwFKexwPltVwJE7F
+         b84w+BmRhfod3y2hDT44dANWULDPvJHtSMsoFb0JPUPmzwd1KnO2PtZriuhRzSEX9Yym
+         ywmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778510819; x=1779115619;
+        d=1e100.net; s=20251104; t=1778510877; x=1779115677;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qEELPpISKPMY3OnOVJz/i6LMwFlmgDNP8fOvagl4Uf4=;
-        b=i0RfVU6P1b7b4Ea0HjAO1LJooP2+YHCd4/PUtTDYm3ukRf0tOK0L5O9piFOOBZ4iuy
-         y7DJ5KJYfurF4Rb9u30WoHZPhDxk/YVCQHmyFR938X6NmF8Z7sWS8n6G2TF4ZWsWMvc7
-         fzI7g5inBnWbvnn5l+QscyA0KQPuibVKw4R34GFSZtrHCGqOV0QNfg4dySoeytlBgRK3
-         JRuvwnmQNJR4FxdHZxqC257awkZ40L/UEh7oCEFcmxEQx4bPIlSy1HR47mF1czJf2eVl
-         xARMvnyOuyDCfdWbf/NnbNFpH+whR578jlqz3T+v++1l2Hjf+XdWLnV5mmH5NYAeQ0r6
-         a+LQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/1ZtqkMaTpOVhraqOFS6QGlq2kJXvsWdjtwGxYUXHxZ643RWW0btqW8i38fiYCRqWJYhhBhWoW74U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQk+ccWvjsI9x2/+B2lEVCNuDUgQkWPzSDL11yZlPvMZoa7zOe
-	BHPA9rK28wHmG4nhxXXJDll0FGmb/rv2Hjl35tYibJPCj9Q19aixFJy5XGk6OYIj1xg=
-X-Gm-Gg: Acq92OHkJrGuh571hKdPQzeToXB5EqnbKTb5nasRm5VywQpT4yt89Wb0kXSMbDCdjZ+
-	DR5XcJU+Wd4j4ypp2yvdSoD6Uy1AaQFoVC2NHrB8bv+5tYbPB089VN6APkSiGcOqgzURYj1Oc+B
-	cAFpiexYkNmDL0mMqXGcwQQwmjr/FGWSA5/Xvxy5ONceEHMWlQj6khn3EvrQ8wfcGXfsvM1bRQ0
-	MyzJQJ1POc9oIHGjQErKWi56M3qdm+9jCQf/zHlqaIsRylxOvu/rozFGW/BSU6VB8QO5KGfZGFR
-	/bD6/q8tR3iHySDHIxWuCEZBSkjRheaw8nVxuI9rEkZpEohYTTTjxkt21ypFCysxYtb1Gj6hjMT
-	/YX0SwBYo5Epg6+OwIKVx1rcKcaEMNwt0v8Sf53CwgTs55lNLDGtK9X0U+u3/ERGI2a5JtKyL23
-	kchIf5sIbyPqSvdmcXSgMpK8l1MP3poJu9xkdkK/9ePBqPLPSyCkP2T7U3TTkX7a+ZNc9LRXJI4
-	DZexD3DNA==
-X-Received: by 2002:a05:6808:e40a:b0:467:1212:46eb with SMTP id 5614622812f47-4804249c60dmr10483498b6e.35.1778510819130;
-        Mon, 11 May 2026 07:46:59 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:591:4577:3439:3a1e? ([2600:8803:e7e4:500:591:4577:3439:3a1e])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e367be2238sm6968520a34.6.2026.05.11.07.46.58
+        bh=iaxiXYaFYeaH8Qp4J3ioh2j1XsATKbSVhM9o5LlP7fw=;
+        b=LJSI5396JaAE0VeRSaieQpqcs3O1ZEggVV3HHtYCFazW02/VxtYtqPeolP9G17vz+z
+         kYQPODyjg0DuF26W9q97qcHPoR3WQsIJ1BuyIttAqlnHoDE8/gUtaHeqs7lr/wJYTeVY
+         bqpFOv8USA9Fs3Ln+ohmunjSjXOs46yDFvlkhaZF4lAkRL3xlF4AiIlGXozEfLUMRPDN
+         85sfxM5JQFOFEHyREMGNPkEFiotjYD9TKsvaZrbQPhI0Fgl/onvkSy4QqpMXacURXeoH
+         kS43ntCBifi7/P5mjZPNHjRJ4PsBfHy2hZcfOdikSk4vONskF2Fr2q0vZGJgUkN5OJEm
+         n7Rw==
+X-Forwarded-Encrypted: i=1; AFNElJ+rC9+Stfj0KLUASFsbDdznSktqa31s04NAp4Jf7tIPQeGAFUG/i+Mj0wXKLpTr4zhhqxXWymoaP8k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMD7tDBge3qLjhQk2GZ1TMHngR3gDVUptzQgrYKVR0l3iItZeI
+	E3Zz+2nV7XnD4lwgnjoy9oBwVWC4IOS45XP8gnmLaKinOWBPpfR/+6mXotyw6S7Ljmo=
+X-Gm-Gg: Acq92OHTtoTIxn2ySOeQeXgHhK+KKlDofh7TzgdYfVjewa+GSGcYsy/WxqkWBaX/Pbf
+	KVOqu6Su8UP+zhpFqor05jCjv/KbM2Bnj01EvftROSASL+4QEifVumGdIH5XqSRCW4bmjMtyS3R
+	ycUoCVMxIIMyC9sxFJP7RsEqzMmdtDxl7ZBdQIgtX5ffTKq2CYgrRKN0egKxhsYNcvclaWPoFkv
+	hAJCJhsIze9JdD4rQxAgNgxfS5AIKPoytIUhK5os32RnF1a24HwEkNZhDfY/S9xGio71qQVE+bw
+	09W39fjo08ECLbMgIa9y4aVRWQkD810yQlrVRNnfMMfOPS/BBNgllUNvqLRVoAX+lC+wJF0oy5/
+	dfyxjbVhB2OIE8n5g7y/EUReaXnlUu/O2NbePRonpq1euA0zF7JWtLOhCgcVl3Qha5xPWVY5J94
+	CrkpCE8FDjJfXDIn8TQQfQVjRJDWLydclRG9nV3AZ2z3Vw0lMduA==
+X-Received: by 2002:a05:6000:543:b0:456:e591:4b84 with SMTP id ffacd0b85a97d-456e5914b94mr9935298f8f.3.1778510876575;
+        Mon, 11 May 2026 07:47:56 -0700 (PDT)
+Received: from [192.168.1.3] ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548e6a5b65sm27064913f8f.8.2026.05.11.07.47.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2026 07:46:58 -0700 (PDT)
-Message-ID: <18c2eab9-c0c7-4e93-b4e8-73b18531e784@baylibre.com>
-Date: Mon, 11 May 2026 09:46:57 -0500
+        Mon, 11 May 2026 07:47:56 -0700 (PDT)
+Message-ID: <e2a7679d-e61a-43ac-a1d7-72f7e815c400@linaro.org>
+Date: Mon, 11 May 2026 15:47:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,115 +68,165 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v4 10/10] docs: iio: add documentation for ad9910
- driver
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
- rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
- <20260508-ad9910-iio-driver-v4-10-d26bfd20ee3d@analog.com>
- <b8f9a174-f3d0-4cb8-a571-605be79165d6@baylibre.com>
- <zvulxrrvg4sf7m5pjfpfucg7yssgallfu6zi6mcyblu2qy24hn@wdzs7h77vkoz>
+Subject: Re: [PATCH v7 13/20] KVM: arm64: Apply dynamic guest counter
+ reservations
+To: Colton Lewis <coltonlewis@google.com>
+Cc: Alexandru Elisei <alexandru.elisei@arm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
+ <yuzenghui@huawei.com>, Mark Rutland <mark.rutland@arm.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kvm@vger.kernel.org
+References: <20260504211813.1804997-1-coltonlewis@google.com>
+ <20260504211813.1804997-14-coltonlewis@google.com>
 Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <zvulxrrvg4sf7m5pjfpfucg7yssgallfu6zi6mcyblu2qy24hn@wdzs7h77vkoz>
-Content-Type: text/plain; charset=UTF-8
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260504211813.1804997-14-coltonlewis@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 5/10/26 4:30 AM, Rodrigo Alencar wrote:
-> On 26/05/09 06:42PM, David Lechner wrote:
->> On 5/8/26 12:00 PM, Rodrigo Alencar via B4 Relay wrote:
->>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
->>>
->>> Add documentation for the AD9910 DDS IIO driver, which describes channels,
->>> DDS modes, attributes and ABI usage examples.
-> 
-> ...
-> 
->>> +       must be a power of 2.
->>> +
->>> +   * - ``frequency_offset``
->>> +     - Hz
->>> +     - Base FTW to which scaled parallel data is added. Range :math:`[0, f_{SYSCLK}/2)`.
->>> +
->>> +   * - ``phase_offset``
->>> +     - rad
->>> +     - Base phase for polar modulation. Lower 8 bits of POW register.
->>> +       Range :math:`[0, 2\pi/256)`.
->>> +
->>> +   * - ``scale_offset``
->>> +     - fractional
->>> +     - Base amplitude for polar modulation. Lower 6 bits of ASF register.
->>> +       Range :math:`[0, 1/256)`.
->>> +
->>
->> I guess there was some discussion on these attributes. I see some of these in the
->> ad9832 driver in staging, but I'm guessing they are new ABI. It isn't clear to
->> me from the documentation here what they actually do though. I guess they are
->> just basic transformations on the input signal?
-> 
-> Not sure how the ABI is not clear:
-> 
-> 	For a channel that allows amplitude control through buffers, this
-> 	represents the value for a base amplitude scale. The actual output
-> 	amplitude scale is a result with the sum of this value.
-> 
-> So yes, it is a basic transformation.
 
-I didn't have time to read the ABI docs yet. For scale_offset though,
-how is that different from the existing offset attribute?
 
+On 04/05/2026 10:18 pm, Colton Lewis wrote:
+> Apply dynamic guest counter reservations by checking if the requested
+> guest mask collides with any events the host has scheduled and calling
+> pmu_perf_resched_update() with a hook that updates the mask of
+> available counters in between schedule out and schedule in.
 > 
->>
->> And a practical note, they should be "frequencyscale". I don't like that it is
->> harder to read, but it is easier for a machine to parse.
+> Signed-off-by: Colton Lewis <coltonlewis@google.com>
+> ---
+>   arch/arm64/kvm/pmu-direct.c  | 69 ++++++++++++++++++++++++++++++++++++
+>   include/linux/perf/arm_pmu.h |  1 +
+>   2 files changed, 70 insertions(+)
 > 
-> Parsers like the ones in libiio is not having problems with that.
-> 
->>> +Usage examples
->>> +^^^^^^^^^^^^^^
->>> +
->>> +Set parallel port frequency modulation with a scale of 16 and a 50 MHz
->>> +offset:
->>> +
->>> +.. code-block:: bash
->>> +
->>> +  echo 16 > /sys/bus/iio/devices/iio:device0/out_altvoltage113_frequency_scale
->>> +  echo 50000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage113_frequency_offset
->>> +
->>> +Digital ramp generator (DRG)
->>> +----------------------------
->>> +
->>> +The DRG produces linear frequency, phase or amplitude sweeps using dedicated
->>> +hardware. It is controlled through three channels: a parent control channel
->>> +(``digital_ramp_generator``) and two child ramp channels
->>> +(``digital_ramp_up``, ``digital_ramp_down``). DRG destination is set when
->>> +ramp attributes are written, i.e. writing to ``frequency`` or ``frequency_roc``
->>> +sets the destination to frequency.
->>
->> Would it be better to say that the destination is set when the the
->> value is non-zero? Otherwise, how would one change the destination
->> once set?
-> 
-> Destination is only one, so you just need to write phase or phase_roc, if you want
-> to target phase then. Does that not sound intuitive?
+> diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
+> index 2252d3b905db9..14cc419dbafad 100644
+> --- a/arch/arm64/kvm/pmu-direct.c
+> +++ b/arch/arm64/kvm/pmu-direct.c
+> @@ -100,6 +100,73 @@ u8 kvm_pmu_hpmn(struct kvm_vcpu *vcpu)
+>   	return *host_data_ptr(nr_event_counters);
+>   }
+>   
+> +/* Callback to update counter mask between perf scheduling */
+> +static void kvm_pmu_update_mask(struct pmu *pmu, void *data)
+> +{
+> +	struct arm_pmu *arm_pmu = to_arm_pmu(pmu);
+> +	unsigned long *new_mask = data;
+> +
+> +	bitmap_copy(arm_pmu->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
+> +}
+> +
+> +/**
+> + * kvm_pmu_set_guest_counters() - Handle dynamic counter reservations
+> + * @cpu_pmu: struct arm_pmu to potentially modify
+> + * @guest_mask: new guest mask for the pmu
+> + *
+> + * Check if guest counters will interfere with current host events and
+> + * call into perf_pmu_resched_update if a reschedule is required.
+> + */
+> +static void kvm_pmu_set_guest_counters(struct arm_pmu *cpu_pmu, u64 guest_mask)
+> +{
+> +	struct pmu_hw_events *cpuc = this_cpu_ptr(cpu_pmu->hw_events);
+> +	DECLARE_BITMAP(guest_bitmap, ARMPMU_MAX_HWEVENTS);
+> +	DECLARE_BITMAP(new_mask, ARMPMU_MAX_HWEVENTS);
+> +	bool need_resched = false;
+> +
+> +	bitmap_from_arr64(guest_bitmap, &guest_mask, ARMPMU_MAX_HWEVENTS);
+> +	bitmap_copy(new_mask, cpu_pmu->hw_cntr_mask, ARMPMU_MAX_HWEVENTS);
+> +
+> +	if (guest_mask) {
+> +		/* Subtract guest counters from available host mask */
+> +		bitmap_andnot(new_mask, new_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS);
+> +
+> +		/* Did we collide with an active host event? */
+> +		if (bitmap_intersects(cpuc->used_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS)) {
+> +			int idx;
+> +
+> +			need_resched = true;
+> +			cpuc->host_squeezed = true;
+> +
+> +			/* Look for pinned events that are about to be preempted */
+> +			for_each_set_bit(idx, guest_bitmap, ARMPMU_MAX_HWEVENTS) {
+> +				if (test_bit(idx, cpuc->used_mask) && cpuc->events[idx] &&
+> +				    cpuc->events[idx]->attr.pinned) {
+> +					pr_warn_ratelimited("perf: Pinned host event squeezed out by KVM guest PMU partition\n");
 
-I was thinking about if you needed to change the configuration.
-If you set it to phase, then want to change it to frequency, how
-could you do that if 0 is a valid value for phase?
+Hi Colton,
 
-Also how could you know which is selected by reading back the
-values if 0 is a valid value?
+I get "perf: Pinned host event squeezed out by KVM guest PMU partition" 
+even with arm_pmuv3.reserved_host_counters=3 for example. I would have 
+expected any non zero value to stop the warning.
 
-> 
-> Zero is a valid value to be written.
-> 
->>
+I think armv8pmu_get_single_idx() needs to be changed to allocate from 
+the high end host counters first. A more complicated option would be 
+checking to see if there are any non-pinned counters in the host 
+reserved half when a new pinned counter is opened, then swapping the 
+places of the new pinned and existing non-pinned counters so pinned 
+always prefer being put into the host half. But it's probably not worth 
+doing that.
+
+James
+
+> +					break;
+> +				}
+> +			}
+> +		}
+> +	} else {
+> +		/*
+> +		 * Restoring to hw_cntr_mask.
+> +		 * Only resched if we previously squeezed an event.
+> +		 */
+> +		if (cpuc->host_squeezed) {
+> +			need_resched = true;
+> +			cpuc->host_squeezed = false;
+> +		}
+> +	}
+> +
+> +	if (need_resched) {
+> +		/* Collision: run full perf reschedule */
+> +		perf_pmu_resched_update(&cpu_pmu->pmu, kvm_pmu_update_mask, new_mask);
+> +	} else {
+> +		/* Host was never using guest counters anyway */
+> +		bitmap_copy(cpu_pmu->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
+> +	}
+> +}
+> +
+>   /**
+>    * kvm_pmu_host_counter_mask() - Compute bitmask of host-reserved counters
+>    * @pmu: Pointer to arm_pmu struct
+> @@ -218,6 +285,7 @@ void kvm_pmu_load(struct kvm_vcpu *vcpu)
+>   
+>   	pmu = vcpu->kvm->arch.arm_pmu;
+>   	guest_counters = kvm_pmu_guest_counter_mask(pmu);
+> +	kvm_pmu_set_guest_counters(pmu, guest_counters);
+>   	kvm_pmu_apply_event_filter(vcpu);
+>   
+>   	for_each_set_bit(i, &guest_counters, ARMPMU_MAX_HWEVENTS) {
+> @@ -319,5 +387,6 @@ void kvm_pmu_put(struct kvm_vcpu *vcpu)
+>   	val = read_sysreg(pmintenset_el1);
+>   	__vcpu_assign_sys_reg(vcpu, PMINTENSET_EL1, val & mask);
+>   
+> +	kvm_pmu_set_guest_counters(pmu, 0);
+>   	preempt_enable();
+>   }
+> diff --git a/include/linux/perf/arm_pmu.h b/include/linux/perf/arm_pmu.h
+> index f7b000bb3eca8..63f88fec5e80f 100644
+> --- a/include/linux/perf/arm_pmu.h
+> +++ b/include/linux/perf/arm_pmu.h
+> @@ -75,6 +75,7 @@ struct pmu_hw_events {
+>   
+>   	/* Active events requesting branch records */
+>   	unsigned int		branch_users;
+> +	bool host_squeezed;
+>   };
+>   
+>   enum armpmu_attr_groups {
+
