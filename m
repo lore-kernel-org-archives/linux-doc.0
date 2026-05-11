@@ -1,49 +1,67 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FA630B508
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 15:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770C82EB5A6
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 15:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778512503; cv=none; b=t8ufFG4dkSqQlt5/kRRYs3xHykuP6hB/Ppn/2KVxv/hx2z0EuBynym02Kq3/qA7+Zltv/KXU5QFdvqRndaH2DLysQL+axBKGvU9XutOm5WwMkKuK5tAt7uAP2LLDk4Dj55b6MFwoRpl6jsUBhX/RUi3rPf4DH06tI1ojkFgu700=
+	t=1778513020; cv=none; b=JFkIT0UOtWmXtNJE17ZbXNCRX4udsPOl2wqMzssi84Ya7swpEkG5GN9I44aMwgWHkgMtDViVlTzCqepP4441TUD6qWGgbz7dSQOdoUIOCWUtj9XOQZeI0fd6KybNzhCO8fqU1HzoxKpozbCVVWJwyEBxhNQvo6eUmTWaVgn//qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778512503; c=relaxed/simple;
-	bh=hzDHO2geL5UT1GbX8y8vqoSOsjXy+ECCYRicoP1YYUk=;
+	s=arc-20240116; t=1778513020; c=relaxed/simple;
+	bh=Pkufvs/dVtNcEylnyG+zMMbsZpzFf1lMi69cqrzAAnM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iYyf6mLqiaA35cxOLn5sW8k/8FvFUcfsgWlItTwx6+6Yus93ZSxk86Dr0x1ygJQHc5swgULKh0bWDn2UYZFrS1O84mpLlPyIOkFV5Xw0WCFxH2DJvj7asKEaCs0GNiKyZecCUGbKw1IvQ/nTOkgtCTztr/u5/eOKFxpJEdQYf+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T512F1mh; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=ur7RUGwAAyYMKnlNWROADMpzpoMkqyEyAtZ8u7ybB5oNQPASAJ+Er4jANrlI1hT+5Gv3WmEUpUBED0Ke6UZCryNJlDqlLKgqWZ8lkiq3wuxVR9YWUQ5aELDzCzcF3mZu3P9+w0973DQEY6T4qWZVtHVVhQnwa70SuhQWvZxSWug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=j4xWwH0l; arc=none smtp.client-ip=209.85.160.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T512F1mh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778512501;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=bHbDw2kQDVt9bJG46JUREywkjRHfZCqW19vv3OS9bjw=;
-	b=T512F1mhtyjNzYLIl5msvqb1Fat1cYJYou0wiKkJNi93uNniihquQPTEBPrYYAo7DR1lNR
-	VRu98JhvrD5ix2/XEyLpNbdG5UP/hf7oJcUvJMatb/KbY/gJlfA/ZkzsOyzQvj/TH9/FUs
-	9/1J+2d8SSnBTp4NvymIIDPaDLH1OU8=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-689-AdPGODgCPFCfv-AnQdUCAw-1; Mon,
- 11 May 2026 11:14:56 -0400
-X-MC-Unique: AdPGODgCPFCfv-AnQdUCAw-1
-X-Mimecast-MFC-AGG-ID: AdPGODgCPFCfv-AnQdUCAw_1778512493
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CE1291955EB1;
-	Mon, 11 May 2026 15:14:51 +0000 (UTC)
-Received: from [10.44.34.38] (unknown [10.44.34.38])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 50A331800286;
-	Mon, 11 May 2026 15:14:43 +0000 (UTC)
-Message-ID: <6afc4b95-3c15-4d71-877d-19b84e91ce05@redhat.com>
-Date: Mon, 11 May 2026 17:14:42 +0200
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="j4xWwH0l"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-4042fe53946so1682244fac.3
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 08:23:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778513017; x=1779117817; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tE2qWdGKWkMukIUo028+cIjsIhIq5QNqnckPQG0zARQ=;
+        b=j4xWwH0lLuw4hLTDHFs2BRPaX0SdIvFK8GT4k4b6lZbnPU9f6IrFVw04eXCiltn3ms
+         LasfZnhQevnUjqegJjYbDjb8WN5HcnbO0s0mNGrC+KWbgYCLO5Bk2cFyocNjiuB0/e3d
+         9QUwyKh+aFPkpCgBED2p5GSVR5wMCq2hqPOtogmKPGGaivCegkv8F+u8mvUk6ZvcLARm
+         0YXtt256lYDJ64sx0kHcrxYf7iIOBpYf0L1my1iXUmpVvAshNA/gRgC6+hqHU6vog8/A
+         BSTsfpPoA5PPjW0HFIiZu8sqfcNHq1ka+TjV19s83KRexwUeMMsHnwWX0Q31cgWqetsV
+         idrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778513017; x=1779117817;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tE2qWdGKWkMukIUo028+cIjsIhIq5QNqnckPQG0zARQ=;
+        b=g9SCxjzt4hYO4CKLxvlszaEXqwwd7mB/XXbNRiyuWCrrH9fVtQ/jVtW7af5PjpRSUV
+         2tK+IkqKrkUjF8W43B8AMwnjTTPiKRb4Dk1rQ9+4Vh9vBsUW6QQfE9O+5pjAfl1Tsvuf
+         pl0SEGXxJW0paLFwkbMCv8kr0bTQN+X+VDotyjtuhO1jQ8xZHMzOJZgkL908sH0JxBwe
+         eFShUVcnVx2Kpi33uL2zAZba9GuBPn6rkzo8Ic0y71J1JZLvlYoEcmmwtfUHGuzyK6Wf
+         hT6u9efnL2JKLRpfPkioi7/d3fOOw7YGL3PZhn6hcab4nqJLzx67skZ2OhBKfNFoseat
+         L8qA==
+X-Forwarded-Encrypted: i=1; AFNElJ+KQLKN3+4mQJ+0jvajKZYKXwL1j8WQQ5PBiy1MG+XaE5ac0ZIMgee9f/JcTxCLkJvOkFuAFgJqE9A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJZKPWlN2uzYF4megVb6Wgg4hvgqAby02q8PNxNn4qyEyPc296
+	CIIaW3s1wEMXZdIb8/ioXCkTG2n+dOvV58kP1UGBsrmv9qX7xqszMDOD3MK+1ZAInHY=
+X-Gm-Gg: Acq92OE18Im0q+BaDO0edv26rr8cNtO4jd5f3CtYwkmDhXtdzJCkJOKm1Qu/f2vwjug
+	NZ2d2PFwz4hdP+lXsUov64a014OmKa0j3RWiRbj47a9rtOh6NaLfTp9nopjkiq4eGn2bcxtJve2
+	JwPK++RN9u/0YMsahSEIyvTeodBb54sVZsDB2kZJq7kcyZC2BhJhLJjUQe4Lmli5HRx87FzHUSf
+	csTer0i3AgrKdV49lR6NXuoVD438zQa+6g8Ep5+K41LFILLaxbDeSUXqnl2XPFbMGECCRHqN4Th
+	HcmEWQpcZJ9L/YjJZbpbHUujRHNGBF17Pqcn8+q1sd7Ao4RxDPbO2tkeawMYrbVd0yaABJXecBe
+	eN0HQcoX0ri5qqzdL/RSdr/8gxnXVlYwwTg9W9M70XvLM/HBItYKLMReGvbFDxFJdpLvTHTYSiU
+	v5SJ3/lksOxK9EPiSEPTlyC9Orx00540hhin0y8JglDPCb4UxTW6bVhU/i5EK+7P30wKrzvpX4j
+	bRb2LiCvQ==
+X-Received: by 2002:a05:6870:9113:b0:42c:259c:6c8c with SMTP id 586e51a60fabf-434f5674cd9mr17270731fac.3.1778513017221;
+        Mon, 11 May 2026 08:23:37 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:591:4577:3439:3a1e? ([2600:8803:e7e4:500:591:4577:3439:3a1e])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4355736f517sm10164009fac.12.2026.05.11.08.23.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 08:23:36 -0700 (PDT)
+Message-ID: <5bce7868-feca-4c54-a14d-ad4bf4072c29@baylibre.com>
+Date: Mon, 11 May 2026 10:23:35 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,168 +69,158 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: KVM: Document guest-visible compatibility
- expectations
-To: David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Sean Christopherson <seanjc@google.com>, Jim Mattson <jmattson@google.com>
-Cc: Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
- <yuzenghui@huawei.com>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>,
- Eric Auger <eric.auger@redhat.com>, Kees Cook <kees@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
- linux-kselftest@vger.kernel.org
-References: <6856b269d2af706eae397e0cf9c1231f89d9a932.camel@infradead.org>
+Subject: Re: [PATCH RFC v4 10/10] docs: iio: add documentation for ad9910
+ driver
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
+ rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
+ <20260508-ad9910-iio-driver-v4-10-d26bfd20ee3d@analog.com>
+ <b8f9a174-f3d0-4cb8-a571-605be79165d6@baylibre.com>
+ <zvulxrrvg4sf7m5pjfpfucg7yssgallfu6zi6mcyblu2qy24hn@wdzs7h77vkoz>
+ <18c2eab9-c0c7-4e93-b4e8-73b18531e784@baylibre.com>
+ <uphcx5zr4lmukuom75g66hp4agurty7yq6mo6ri6otrsscqfek@tn3u5jjszaoy>
 Content-Language: en-US
-From: Paolo Bonzini <pbonzini@redhat.com>
-Autocrypt: addr=pbonzini@redhat.com; keydata=
- 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
-In-Reply-To: <6856b269d2af706eae397e0cf9c1231f89d9a932.camel@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <uphcx5zr4lmukuom75g66hp4agurty7yq6mo6ri6otrsscqfek@tn3u5jjszaoy>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On 5/11/26 10:57, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
+On 5/11/26 10:02 AM, Rodrigo Alencar wrote:
+> On 26/05/11 09:46AM, David Lechner wrote:
+>> On 5/10/26 4:30 AM, Rodrigo Alencar wrote:
+>>> On 26/05/09 06:42PM, David Lechner wrote:
+>>>> On 5/8/26 12:00 PM, Rodrigo Alencar via B4 Relay wrote:
+>>>>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+>>>>>
+>>>>> Add documentation for the AD9910 DDS IIO driver, which describes channels,
+>>>>> DDS modes, attributes and ABI usage examples.
+>>>
+>>> ...
+>>>
+>>>>> +       must be a power of 2.
+>>>>> +
+>>>>> +   * - ``frequency_offset``
+>>>>> +     - Hz
+>>>>> +     - Base FTW to which scaled parallel data is added. Range :math:`[0, f_{SYSCLK}/2)`.
+>>>>> +
+>>>>> +   * - ``phase_offset``
+>>>>> +     - rad
+>>>>> +     - Base phase for polar modulation. Lower 8 bits of POW register.
+>>>>> +       Range :math:`[0, 2\pi/256)`.
+>>>>> +
+>>>>> +   * - ``scale_offset``
+>>>>> +     - fractional
+>>>>> +     - Base amplitude for polar modulation. Lower 6 bits of ASF register.
+>>>>> +       Range :math:`[0, 1/256)`.
+>>>>> +
+>>>>
+>>>> I guess there was some discussion on these attributes. I see some of these in the
+>>>> ad9832 driver in staging, but I'm guessing they are new ABI. It isn't clear to
+>>>> me from the documentation here what they actually do though. I guess they are
+>>>> just basic transformations on the input signal?
+>>>
+>>> Not sure how the ABI is not clear:
+>>>
+>>> 	For a channel that allows amplitude control through buffers, this
+>>> 	represents the value for a base amplitude scale. The actual output
+>>> 	amplitude scale is a result with the sum of this value.
+>>>
+>>> So yes, it is a basic transformation.
+>>
+>> I didn't have time to read the ABI docs yet. For scale_offset though,
+>> how is that different from the existing offset attribute?
 > 
-> Document the expectation that KVM maintains guest-visible compatibility
-> across host kernel upgrades and rollbacks.  Specifically:
-> 
->   - State saved/restored via KVM ioctls must be sufficient for live
->     migration (and live update) between kernel versions.
-> 
->   - Where a new kernel introduces a guest-visible change, it provides a
->     mechanism for userspace to select the previous behaviour.
-> 
->   - This allows both forward migration (upgrade) and backward migration
->     (rollback) of guests.
-> 
-> These expectations have been implicitly required on x86 but were not
-> explicitly documented. Harmonise the expectations across all of KVM.
+> I suppose that existing offset ABI is applied to (raw * scale), mostly for
+> voltage channels, here the scale_offset is an offset to the scale itself.
 
-One big part of achieving this on x86 is the handling of CPUID.  Despite 
-all the mess that KVM_SET_CPUID2 is (and sometimes the underlying 
-architecture too, as Jim Mattson would certainly agree), KVM is 
-generally able to provide a consistent view of its configuration to the 
-guest.  This doesn't quite extend to compatibility across vendors, but 
-it does work across processor generations from either Intel or AMD.
 
-I understand that Arm traditionally had much more trouble than x86 with 
-vendor-specified behavior that goes beyond the set of architectural 
-features, so we may need to tune the expectations.  However, I agree 
-with David that this is needed at least as long as the host CPU does not 
-change.
+Ah, so a very general case would be (raw * (scale + scale_offset)) + offset
 
-Thanks,
+when the scale can change as a function of time and comes from an external
+source.
 
-Paolo
-
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   Documentation/virt/kvm/api.rst              | 14 ++++++++++++++
->   Documentation/virt/kvm/review-checklist.rst | 20 ++++++++++++++------
->   2 files changed, 28 insertions(+), 6 deletions(-)
+>  
+>>>
+>>>>
+>>>> And a practical note, they should be "frequencyscale". I don't like that it is
+>>>> harder to read, but it is easier for a machine to parse.
+>>>
+>>> Parsers like the ones in libiio is not having problems with that.
+>>>
+>>>>> +Usage examples
+>>>>> +^^^^^^^^^^^^^^
+>>>>> +
+>>>>> +Set parallel port frequency modulation with a scale of 16 and a 50 MHz
+>>>>> +offset:
+>>>>> +
+>>>>> +.. code-block:: bash
+>>>>> +
+>>>>> +  echo 16 > /sys/bus/iio/devices/iio:device0/out_altvoltage113_frequency_scale
+>>>>> +  echo 50000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage113_frequency_offset
+>>>>> +
+>>>>> +Digital ramp generator (DRG)
+>>>>> +----------------------------
+>>>>> +
+>>>>> +The DRG produces linear frequency, phase or amplitude sweeps using dedicated
+>>>>> +hardware. It is controlled through three channels: a parent control channel
+>>>>> +(``digital_ramp_generator``) and two child ramp channels
+>>>>> +(``digital_ramp_up``, ``digital_ramp_down``). DRG destination is set when
+>>>>> +ramp attributes are written, i.e. writing to ``frequency`` or ``frequency_roc``
+>>>>> +sets the destination to frequency.
+>>>>
+>>>> Would it be better to say that the destination is set when the the
+>>>> value is non-zero? Otherwise, how would one change the destination
+>>>> once set?
+>>>
+>>> Destination is only one, so you just need to write phase or phase_roc, if you want
+>>> to target phase then. Does that not sound intuitive?
+>>
+>> I was thinking about if you needed to change the configuration.
+>> If you set it to phase, then want to change it to frequency, how
+>> could you do that if 0 is a valid value for phase?
+>>
+>> Also how could you know which is selected by reading back the
+>> values if 0 is a valid value?
 > 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 269970221797..864f3daa7acb 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -97,6 +97,20 @@ Instead, kvm defines extension identifiers and a facility to query
->   whether a particular extension identifier is available.  If it is, a
->   set of ioctls is available for application use.
->   
-> +KVM will ensure that the state that can be saved and restored via the
-> +KVM ioctls is sufficient to allow migration of a running guest between
-> +host kernels while maintaining full compatibility of the guest-visible
-> +device model.  This includes migration to newer kernels (upgrade) and
-> +to older kernels (rollback), provided that the older kernel supports
-> +the set of features exposed to the guest.  Where a new kernel version
-> +introduces a guest-visible change, it will provide a mechanism (such
-> +as a capability or a device attribute) that allows userspace to select
-> +the previous behaviour.  This serves two purposes: guests migrated
-> +from an older kernel can continue to run with their original
-> +observable environment, and new guests launched on the newer kernel
-> +can be configured to match the feature set of the older kernel, so
-> +that they remain migratable to the older kernel in case of rollback.
-> +
->   
->   4. API description
->   ==================
-> diff --git a/Documentation/virt/kvm/review-checklist.rst b/Documentation/virt/kvm/review-checklist.rst
-> index 053f00c50d66..f0fbe1577a90 100644
-> --- a/Documentation/virt/kvm/review-checklist.rst
-> +++ b/Documentation/virt/kvm/review-checklist.rst
-> @@ -18,22 +18,30 @@ Review checklist for kvm patches
->   5.  New features must default to off (userspace should explicitly request them).
->       Performance improvements can and should default to on.
->   
-> -6.  New cpu features should be exposed via KVM_GET_SUPPORTED_CPUID2,
-> +6.  Guest-visible changes must not break migration compatibility.  A guest
-> +    migrated from an older kernel must be able to run with its original
-> +    observable environment, and a guest launched on a newer kernel must be
-> +    configurable to match the older kernel's feature set for rollback.
-> +    Where a change alters guest-visible behaviour, provide a mechanism
-> +    (capability, device attribute, etc.) for userspace to select the
-> +    previous behaviour.
-> +
-> +7.  New cpu features should be exposed via KVM_GET_SUPPORTED_CPUID2,
->       or its equivalent for non-x86 architectures
->   
-> -7.  The feature should be testable (see below).
-> +8.  The feature should be testable (see below).
->   
-> -8.  Changes should be vendor neutral when possible.  Changes to common code
-> +9.  Changes should be vendor neutral when possible.  Changes to common code
->       are better than duplicating changes to vendor code.
->   
-> -9.  Similarly, prefer changes to arch independent code than to arch dependent
-> +10. Similarly, prefer changes to arch independent code than to arch dependent
->       code.
->   
-> -10. User/kernel interfaces and guest/host interfaces must be 64-bit clean
-> +11. User/kernel interfaces and guest/host interfaces must be 64-bit clean
->       (all variables and sizes naturally aligned on 64-bit; use specific types
->       only - u64 rather than ulong).
->   
-> -11. New guest visible features must either be documented in a hardware manual
-> +12. New guest visible features must either be documented in a hardware manual
->       or be accompanied by documentation.
->   
->   Testing of KVM code
+> This is where Jonathan raised some concerns, so it is a good oportunity for you
+> to provide your inputs! Right now, I am returning -EBUSY on read of an attribute
+> where its destination is not selected. As pointed out, the destination selection
+> is happening when writting to the attribute. In the previous patch, Jonathan
+> suggested frequency_active, phase_active and scale_active to track mode priority,
+> and It could be leveraged here for DRG destination selection. I havent gone for
+> that because I was not willing to add that to all the channels given that it is
+> mostly used for debugging, so I added frequency_source, phase_source and
+> amplitude_source to debugfs instead.
+
+The "last write wins" with the others changing to EBUSY makes more sense to
+me now. If the docs said that, I missed it. Otherwise, that would be a helpful
+thing to add to the docs here.
+
+> 
+> Destination selection for RAM mode is firmware based at this point.
+
+Seems reasonable.
+
+> Destination selection for Parallel mode is still not clear... could use
+> those *_active attributes or separate channels.
+
+Since there are _offset attributes proposed for parallel input already,
+could we just make it the same where you have to write one of those
+attributes?
+
+> 
+>>>
+>>> Zero is a valid value to be written.
+>>>
+>>>>
+> 
 
