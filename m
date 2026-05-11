@@ -1,226 +1,204 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500434014B4
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 15:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778511602; cv=pass; b=oGC10obBgCpmRuXK2QwAumGmrlAutzkgDhKL0KUcHGAh7gchoefmkRcfOnpr4h+Zb9QAw6N7csHCJMtBIZdhdfYKc+fmlfK9gKlNrFanhQMbtbIllSydejN0t4JIe+KqUYd5vY0hp0eNXUG0konXlmm1tX57sp0Yw2vGa8O0hdc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778511602; c=relaxed/simple;
-	bh=Tw/jTaTfevuD4j6kevhXiivmx/RspoclXlT/LcAGcBY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uHG10w35uIkkGINYMr403q/Tcdx3NnNi7uKkAbglVQqKeRIQIbw2z+cDLjg3RM7hZMPY3aOO/ok/H5b/s61QG/NscRPCi40bk4j17ZLMD1Ag0CjTWO0j+i2PEB7Uktpe+K+94buQL8C8ct1QrQZ8zxug3/TCcWiVMdtSGOKNZvU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=awalTV4+; arc=pass smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F192690F9
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 15:02:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778511750; cv=none; b=e+lOYcbdYrhtt0mSMs0SnqB1oViQxdjrYlzIo1eNQQxrNeA5wAUP4sZWkwTEeuvcBRHyX9r9fQFHiG/Q8yuz19O/k+lPaLFpMu/wnQUj2MDq/BDzODpbdEaldFTWPmugDRm5ci53TvSo2t/Vb/wCIXI5T/aMEF498AY6VpnL3I4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778511750; c=relaxed/simple;
+	bh=23abfp/kQLWOThSLbZNmpJ7myKHG6217mw5s0gzaDUc=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WxjROryicikLo6FsMQLs/uo7p1ccl3iuOl+5kFVuv4wjeDmD48R9KLOXY2S0aUbfxm2tSNMT3wWxE4SzzawRds1z+dB62Y+CNJ4ApnN275pY3156TWTpYFKGsgvtIDZzOTic89HmhVZROGvar77SUUQSSktWL7fJeKUMgvO7WVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TS/Q7Au1; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="awalTV4+"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-67bc6098640so7003301a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 08:00:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778511600; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AxE74WK/+ZhOt/+OP4LVzkAjo1/q6HinHNycbnHy3vZPNrOX40wJY86o90LzlFfhZ6
-         OU9DAi+lqJ01VVIk2U/CQ3+85GBASKAsZ4T014/t4ggHH3vrzD0lhIiG3wFptj8cMeug
-         PPQtGbctiPlA/3QLicm9h29R0axJHUe4FXhSHds897u7Za4Je85d++s+VGK/pshWeEtB
-         +hlXAh8DTIHbzaRaizy/4sjSnZI/qB1kteKw4W4KYip1XOYUe6F6ad1BIUsqAQxsNlHv
-         H1py8bBXDbSg0PO3yeVEv8TFxQL8YBAY6fGuB5mAECX5W9Xp+ci6793EBB8uNwvmiJ9u
-         TKwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=HXK9Qgle7Puv113jAKFz7L/yq22PTO27vhn58OjsUZg=;
-        fh=2rsZZkC2cznOuemoT0m/Otvz8a7oADzfg/84GpNiVUo=;
-        b=aRJdHk6tWB5xm8c297xL50Lu9YEzpxGnW9TlBrMdeEwtO82ooR/+ZhN4ustf2WTe2P
-         jaEI8n/U7PPEE1FV3eVEwoxqZrOyA/yllaArVgzKUWRWJatrijKMDa5xm1hJIvoWShUT
-         iW3HWp/1gSBbBVVzvnAgLSC8O5wWQB+XpLoEP7TJv/tc4gSGgIX94eETWXJ9XcYZI9n0
-         fSK+T5JvGGEDKe1jASBmTaJL5R5BvPGUjOIMVlDPK9tRDt0bZeQWNz6biFBVJHcwl0/X
-         SC9XDeq7Hc1Pl9UnaVfGnjQ+2k5q03UkJ6ssfuCWA8xcBCTTKCUJDJlnyvME2vikkSR6
-         uLDg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TS/Q7Au1"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so43915135e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 08:02:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778511600; x=1779116400; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HXK9Qgle7Puv113jAKFz7L/yq22PTO27vhn58OjsUZg=;
-        b=awalTV4+p6TSt25v2RvNXo9jfpO2kD8Jc852NOUVXBOW32kAHGmQmyWdmEgfRlOlPW
-         s+si6KNB30TxPZBR/B8YlbHbc6+BXWFdaO18BVC+hJTftCT7yitQh+ey55IhwD0QjbqK
-         VhEQy6jopBh4rUDM397UCxBxjV7SEATrJUfgqgvOvEXcLCc5h82ZhD74lUeBDdWLatuP
-         KoTylRaA1/Ct2dFylssLzQ3mLOlxi+9AYqtNnhdNDQ7ZmLrELu5Ljunhul4lG6cP4BRa
-         z7sciF4onkU28iGyBIbrVn9G8XjlPruckIHSfK/CCR8uesYWH4ju6gyaqyZo31QEsiIT
-         Dugg==
+        d=gmail.com; s=20251104; t=1778511747; x=1779116547; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aCmbe1kO5+YvroNi7fjha0Os5YK4UGBrRWar9TXwCx8=;
+        b=TS/Q7Au1hDn/SijSFcLQD1eMNbgJnpADC4DgYXiM73exrQTqz3tJl3Z+KZdpC9MSkD
+         oNS41MkFej2QfdN4f2nLhoPEgWzuEEENhB/NgGhkQSZvR/Z113Y8OP63mh0z5ly0W9Po
+         7Pw7PYav2XTqlyn4nYxvoGEpBL0TxeU7+uYxvRvgAKFW6KcTaOoDU8XTm+WoyIOJLreW
+         B1reVBU4yuYqH6Xpk7vINMMYgUzIMaXas//hnDfBqx2QSv5z3TpIeTIWrVe3kh559w8+
+         OCCx5ESUDgRL52eZSm15V97JvFjI4OaUkt0RlmCHASYXDj64qvxWtuyHMDAEC4Bw4Qyf
+         zO+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778511600; x=1779116400;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HXK9Qgle7Puv113jAKFz7L/yq22PTO27vhn58OjsUZg=;
-        b=c+0wWSsijGo+RC9SKJ/lKuNO9g6z/HXjr6mZmO9PSxfPO57pjHpkyv6pC9NefTzFTq
-         nMuMFr+9dmdbD1vggToifmUY9lFwh1xxuwCErMSR6NdW5LLr7og8Hx/WWvPCD9AZgSUk
-         YEbc14H9sP9LljTpUN5rIElUcQIFk6S4VbkKfENrapOvpprfMXtGSgT4aITf1uOD0TTe
-         jbbB386a98KBvn3jz8Xl6bJvDo6ql12+dbNrH7thwe6e6SC0jY9Jr8BvkgZzxg17TQ1p
-         y+cA0tWtb5gGr/Ar7Cs8aB+szU7gVyZ5fBdhw0YFcz0c1+sWUHb3VijmWlThaz0pc4p3
-         sv7Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9oSJMXF1FEe6N2xBd9OgFrip2v6nMI6dJAhhznKblu+L325RuOvap9YpDgb6il57dYWTLcphweLps=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgWUqYvmaH9ZPaBvE8e5lnwa5HU1A0eYqvDmI5e3pxPlnrERm+
-	QU4pD74VTNFCtB6M+n1eKDUC6oEc2K/xxMyboigZsLkk3kL0gfLu7Lq+a7I5Bjzhq65p8dj2Plf
-	4GZo60Nuatd0qIN4vQg3FeBcmKz8F0yY=
-X-Gm-Gg: Acq92OG5Gwu1PcfjmLdk7MXqmyyAy/ZZKjg2bA+yE+Omk+MjL3b4Of0uOrCXCx99aE/
-	a0+i02RQg/bJgB68zYBRPk5SnLid1SJKck9XyGsLQJ1o0VAe9gy2To4NtCw2IMZLZZMI2KUpmkr
-	+rzg68wRal0pEYoNGgRNqrej/JS7WaNj9B+szFiUkzZnnzyTsn6hiNyRDCCWfm+ZlX0QBSoKcOg
-	i/YbqElRjmH6gCtmZAOMw4xI3tBRz9nc2OBGfdtPXUS//MJSIKyGfyoYSqHx42vU9UiBYxkmhdC
-	oCaDHlsNrhtOaJQoIbf3kqIpNL7AKwqlfiYvCoqn
-X-Received: by 2002:a05:6402:a587:10b0:66b:f527:c69d with SMTP id
- 4fb4d7f45d1cf-67d63d8b66emr9561584a12.8.1778511599490; Mon, 11 May 2026
- 07:59:59 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778511747; x=1779116547;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aCmbe1kO5+YvroNi7fjha0Os5YK4UGBrRWar9TXwCx8=;
+        b=srBn+h73636TEOi6C8rFbjz4wGXFbwxhyXRmaeJv9nn+iC6wBQD1lgKDCsZ07AT+Jx
+         aDVeyLkHNzdaM6HxDxaIOJPYUT9aO5Bs6X7t67HqxoHcHgMd4HYr9y+nOy8kXFI2lMNz
+         GW9LoeCQRaJb5pffZAH1RAkUCeOQE0sGyMaW92TlPZN6vBiV/es13cVlUdZDHnu/1SUf
+         8Tf46Ax4xhmT3HUL53ZbBcCnX2s8f0cLdpe2cG41V+s3OSn5KownGW1iUe5xnzy9TgPP
+         yBNfLXNP1gL7oTgoDRlMNXWrHEnIEY99dCNqMhBxcBhlnpJbVQEXlUfPsM+7UGSd5e5x
+         nQAQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/NjEstbe+RKYcwgQE++XTu5cnyr7Sr7uMY1nvkD64flxHQJs0EmFehxe6J1h7lNuKJcAhr38zeNOg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsPIJKHfd0vDX02v5Opq3c7oA//epM+alM7mSNkd7jwSzYTKyp
+	Gx/IhNYq0gPS9abjbSjrQvXInpXCZ+gQOm53RfOE1nh8P3qyn7kTTmzr
+X-Gm-Gg: Acq92OEgG6cVyrnxjCUMyw7AoDxTqS91L3/EiQDVZJuIDsuG4nLROuuJ0TQTb9O/ItH
+	8Kf10tA7Kk1+gek1MH6ClZtMYaAFlyN2kkDu+2BcGdzYq/0fKOX5dP42/cIMrsIOFXbBn0LS0qR
+	4hEufzoiIMpIKPOBvylOca2hpT+e59AZXolpudLze2WozQqxmgREsGmesHdh36j96EMFZus3HyO
+	SuTRv/JTJVOOu3JwUZMmIH8uorXYntVI/0qQZdRzyd6wiLZQ6FLisp/jSxCZhdgcf+JyhJDtscG
+	HMYSqxFybpYx/IWdVMf6EsSM8/oA7iQjXr7RQsrMioY+3mDQ/i1JnS10urMKnEg0+e01/zNaAl/
+	vZg28oYoRu7BdRQVBHiTe22ryduL6okP9qNfZeppXnDOL24xq/1SXd0/P2vctibvC+C8kZ4txia
+	sAkISWwBHK5+xoQEeeMgjC7REUxariVb051OQwKo93jRukl1YP7h+/S7VYnATJFWFTXh9lq82sF
+	KrpNny07tqlTzrTro2R+Zl15fW5TbkzO8XUGRu1H66mKbERB1ugITILLTDr+FIAYPUNUv4=
+X-Received: by 2002:a05:600c:c096:b0:48a:f18:ece4 with SMTP id 5b1f17b1804b1-48e51f50982mr304018185e9.24.1778511746893;
+        Mon, 11 May 2026 08:02:26 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6db189d3sm65376065e9.32.2026.05.11.08.02.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 08:02:26 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 11 May 2026 16:02:20 +0100
+To: David Lechner <dlechner@baylibre.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hardening@vger.kernel.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH RFC v4 10/10] docs: iio: add documentation for ad9910
+ driver
+Message-ID: <uphcx5zr4lmukuom75g66hp4agurty7yq6mo6ri6otrsscqfek@tn3u5jjszaoy>
+References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
+ <20260508-ad9910-iio-driver-v4-10-d26bfd20ee3d@analog.com>
+ <b8f9a174-f3d0-4cb8-a571-605be79165d6@baylibre.com>
+ <zvulxrrvg4sf7m5pjfpfucg7yssgallfu6zi6mcyblu2qy24hn@wdzs7h77vkoz>
+ <18c2eab9-c0c7-4e93-b4e8-73b18531e784@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <tencent_8B437BE4F586C162950BF71954316C1EDB05@qq.com>
- <tencent_CD11FE9B4A0B362E95E776C5F679598FAA07@qq.com> <24edd9d6-99f2-4d3d-83eb-69b406f4a9a0@kernel.org>
-In-Reply-To: <24edd9d6-99f2-4d3d-83eb-69b406f4a9a0@kernel.org>
-From: Kairui Song <ryncsn@gmail.com>
-Date: Mon, 11 May 2026 22:59:22 +0800
-X-Gm-Features: AVHnY4JN-XJcvjTgr_FM1HBFd_31lstixyAZ5EE20tY16YbXFrjdSuhpS5x5o2A
-Message-ID: <CAMgjq7Cokjb4-F9=cvwKmWR0q4==Vd61FHnjKbRdSHKH57erxw@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/5] mm: swap: fall back to order-0 after large swapin races
-To: fujunjie <fujunjie1@qq.com>, "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, Yosry Ahmed <yosry@kernel.org>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	Baoquan He <bhe@redhat.com>, Lorenzo Stoakes <ljs@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <18c2eab9-c0c7-4e93-b4e8-73b18531e784@baylibre.com>
 
-On Mon, May 11, 2026 at 9:14=E2=80=AFPM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 5/8/26 22:20, fujunjie wrote:
-> > swapin_folio() documents that a large folio insertion race returns NULL
-> > so the caller can fall back to order-0 swapin. do_swap_page() currently
-> > turns that NULL into VM_FAULT_OOM if the PTE is unchanged, which is
-> > harsher than necessary and gets in the way of rejecting large folio
-> > ranges for backend reasons.
-> >
-> > Move the synchronous swapin sequence into a helper and retry with an
-> > order-0 folio when a large folio cannot be inserted into the swap cache=
-.
-> > Count the event as an mTHP swapin fallback before dropping the failed
-> > large allocation.
-> >
-> > Signed-off-by: fujunjie <fujunjie1@qq.com>
-> > ---
-> >  mm/memory.c | 50 +++++++++++++++++++++++++++++++++++++++-----------
-> >  1 file changed, 39 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/mm/memory.c b/mm/memory.c
-> > index ea6568571131..84e3b77b8293 100644
-> > --- a/mm/memory.c
-> > +++ b/mm/memory.c
-> > @@ -4757,6 +4757,44 @@ static struct folio *alloc_swap_folio(struct vm_=
-fault *vmf)
-> >  }
-> >  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-> >
-> > +static struct folio *swapin_synchronous_folio(swp_entry_t entry,
-> > +                                           struct vm_fault *vmf)
-> > +{
-> > +     struct folio *swapcache, *folio;
-> > +     bool large;
-> > +     int order;
-> > +
-> > +     folio =3D alloc_swap_folio(vmf);
-> > +     if (!folio)
-> > +             return NULL;
-> > +
-> > +     large =3D folio_test_large(folio);
-> > +     order =3D folio_order(folio);
-> > +
-> > +     /*
-> > +      * folio is charged, so swapin can only fail due to raced swapin =
-and
-> > +      * return NULL.
-> > +      */
-> > +     swapcache =3D swapin_folio(entry, folio);
-> > +     if (swapcache =3D=3D folio)
-> > +             return folio;
-> > +
-> > +     if (!swapcache && large)
-> > +             count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK);
-> > +     folio_put(folio);
-> > +     if (swapcache || !large)
-> > +             return swapcache;
-> > +
-> > +     folio =3D __alloc_swap_folio(vmf);
-> > +     if (!folio)
-> > +             return NULL;
-> > +
-> > +     swapcache =3D swapin_folio(entry, folio);
-> > +     if (swapcache !=3D folio)
-> > +             folio_put(folio);
-> > +     return swapcache;
-> > +}
-> > +
-> >  /* Sanity check that a folio is fully exclusive */
-> >  static void check_swap_exclusive(struct folio *folio, swp_entry_t entr=
-y,
-> >                                unsigned int nr_pages)
-> > @@ -4860,17 +4898,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
-> >               swap_update_readahead(folio, vma, vmf->address);
-> >       if (!folio) {
-> >               if (data_race(si->flags & SWP_SYNCHRONOUS_IO)) {
-> > -                     folio =3D alloc_swap_folio(vmf);
-> > -                     if (folio) {
-> > -                             /*
-> > -                              * folio is charged, so swapin can only f=
-ail due
-> > -                              * to raced swapin and return NULL.
-> > -                              */
-> > -                             swapcache =3D swapin_folio(entry, folio);
-> > -                             if (swapcache !=3D folio)
-> > -                                     folio_put(folio);
-> > -                             folio =3D swapcache;
-> > -                     }
-> > +                     folio =3D swapin_synchronous_folio(entry, vmf);
-> >               } else {
-> >                       folio =3D swapin_readahead(entry, GFP_HIGHUSER_MO=
-VABLE, vmf);
-> >               }
->
-> There are some upcoming changes with:
->
-> https://lore.kernel.org/r/20260421-swap-table-p4-v3-5-2f23759a76bc@tencen=
-t.com
->
->
-> All the of that logic you have in swapin_synchronous_folio() should ideal=
-ly not
-> go into memory.c, but into some swap specific code.
->
-> But
->
-> https://lore.kernel.org/r/20260421-swap-table-p4-v3-0-2f23759a76bc@tencen=
-t.com
+On 26/05/11 09:46AM, David Lechner wrote:
+> On 5/10/26 4:30 AM, Rodrigo Alencar wrote:
+> > On 26/05/09 06:42PM, David Lechner wrote:
+> >> On 5/8/26 12:00 PM, Rodrigo Alencar via B4 Relay wrote:
+> >>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> >>>
+> >>> Add documentation for the AD9910 DDS IIO driver, which describes channels,
+> >>> DDS modes, attributes and ABI usage examples.
+> > 
+> > ...
+> > 
+> >>> +       must be a power of 2.
+> >>> +
+> >>> +   * - ``frequency_offset``
+> >>> +     - Hz
+> >>> +     - Base FTW to which scaled parallel data is added. Range :math:`[0, f_{SYSCLK}/2)`.
+> >>> +
+> >>> +   * - ``phase_offset``
+> >>> +     - rad
+> >>> +     - Base phase for polar modulation. Lower 8 bits of POW register.
+> >>> +       Range :math:`[0, 2\pi/256)`.
+> >>> +
+> >>> +   * - ``scale_offset``
+> >>> +     - fractional
+> >>> +     - Base amplitude for polar modulation. Lower 6 bits of ASF register.
+> >>> +       Range :math:`[0, 1/256)`.
+> >>> +
+> >>
+> >> I guess there was some discussion on these attributes. I see some of these in the
+> >> ad9832 driver in staging, but I'm guessing they are new ABI. It isn't clear to
+> >> me from the documentation here what they actually do though. I guess they are
+> >> just basic transformations on the input signal?
+> > 
+> > Not sure how the ABI is not clear:
+> > 
+> > 	For a channel that allows amplitude control through buffers, this
+> > 	represents the value for a base amplitude scale. The actual output
+> > 	amplitude scale is a result with the sum of this value.
+> > 
+> > So yes, it is a basic transformation.
+> 
+> I didn't have time to read the ABI docs yet. For scale_offset though,
+> how is that different from the existing offset attribute?
 
-Thanks for mentioning this!
+I suppose that existing offset ABI is applied to (raw * scale), mostly for
+voltage channels, here the scale_offset is an offset to the scale itself.
+ 
+> > 
+> >>
+> >> And a practical note, they should be "frequencyscale". I don't like that it is
+> >> harder to read, but it is easier for a machine to parse.
+> > 
+> > Parsers like the ones in libiio is not having problems with that.
+> > 
+> >>> +Usage examples
+> >>> +^^^^^^^^^^^^^^
+> >>> +
+> >>> +Set parallel port frequency modulation with a scale of 16 and a 50 MHz
+> >>> +offset:
+> >>> +
+> >>> +.. code-block:: bash
+> >>> +
+> >>> +  echo 16 > /sys/bus/iio/devices/iio:device0/out_altvoltage113_frequency_scale
+> >>> +  echo 50000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage113_frequency_offset
+> >>> +
+> >>> +Digital ramp generator (DRG)
+> >>> +----------------------------
+> >>> +
+> >>> +The DRG produces linear frequency, phase or amplitude sweeps using dedicated
+> >>> +hardware. It is controlled through three channels: a parent control channel
+> >>> +(``digital_ramp_generator``) and two child ramp channels
+> >>> +(``digital_ramp_up``, ``digital_ramp_down``). DRG destination is set when
+> >>> +ramp attributes are written, i.e. writing to ``frequency`` or ``frequency_roc``
+> >>> +sets the destination to frequency.
+> >>
+> >> Would it be better to say that the destination is set when the the
+> >> value is non-zero? Otherwise, how would one change the destination
+> >> once set?
+> > 
+> > Destination is only one, so you just need to write phase or phase_roc, if you want
+> > to target phase then. Does that not sound intuitive?
+> 
+> I was thinking about if you needed to change the configuration.
+> If you set it to phase, then want to change it to frequency, how
+> could you do that if 0 is a valid value for phase?
+> 
+> Also how could you know which is selected by reading back the
+> values if 0 is a valid value?
 
-I think Junjie's change fits better after that change indeed. And I
-checked the code, it should fits easily too.
+This is where Jonathan raised some concerns, so it is a good oportunity for you
+to provide your inputs! Right now, I am returning -EBUSY on read of an attribute
+where its destination is not selected. As pointed out, the destination selection
+is happening when writting to the attribute. In the previous patch, Jonathan
+suggested frequency_active, phase_active and scale_active to track mode priority,
+and It could be leveraged here for DRG destination selection. I havent gone for
+that because I was not willing to add that to all the channels given that it is
+mostly used for debugging, so I added frequency_source, phase_source and
+amplitude_source to debugfs instead.
 
-It's already strange enough that THP swapin is bundled with
-synchronous swapin, we better not make it more divergent here, and add
-more bits into memory.c.
+Destination selection for RAM mode is firmware based at this point.
+Destination selection for Parallel mode is still not clear... could use
+those *_active attributes or separate channels.
 
-And this commit will limit it to anon, no shmem, which is another
-strange detail. Or we'll have to repeat everything and copy these code
-to shmem.c...
+> > 
+> > Zero is a valid value to be written.
+> > 
+> >>
 
-Once all swap-ins uses basically the same path as in that series, all
-swap-ins will be able to have similar THP and zswap THP support too.
+-- 
+Kind regards,
+
+Rodrigo Alencar
