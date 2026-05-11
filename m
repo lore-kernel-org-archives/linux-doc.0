@@ -1,40 +1,67 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013006.outbound.protection.outlook.com [40.107.159.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216D62727F3;
-	Mon, 11 May 2026 06:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778480275; cv=none; b=vADkmiw8me7wBGov+uL2dcEgmvTAdrgDaSpsIg1L+Nf+LgdL8EXHQ78ThjDlV8ABOje2l0/TDPlJSKmQ3X/OAfJ+aTb0pibwPyBspQIQRuqkKY/UF8mvtMOOAa123y+gFBM5DqlnOan/67vuYh+8lXyK4iVOdRRLvBwTgdyoXxI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778480275; c=relaxed/simple;
-	bh=aV2L4OqWcARzbAf8U3qv6EXLlyObHFpzuN20mpGcuZ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=AM3e1ISeY8UMhsNLwJTMGwkKc2PAnlcWLqAW/XW7G8GzcnkXlnzwkiz1zSbgS1dPwmPospCJlpg9mKHpmn58GuRawWKrZdsHDKux2lW40jdWiLDeYjXRKyx9oYMh4KQIlBwPwCGbJaex2lr7I4vfpeNSTulWQQeLRdDEEMEXQsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=vkCWZNm+; arc=none smtp.client-ip=113.46.200.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720BE3101C8;
+	Mon, 11 May 2026 07:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778483442; cv=fail; b=ot0g/YApjEWPDjhG1lNwFjyZxmx4mfA6K/Bwk+YWbaWdN/2oTpRVrrc8QdDrDdmyM61pIA8IFu/I/Or+Uepn65CgXqI0w0lKwQKK0Eq1PiSSOrCCy40mPhLmj0+kl0KfckvzzkCr9fnh5rL7kNL8lY/2PewNAjmyI9cnZPimk9c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778483442; c=relaxed/simple;
+	bh=aH4VaXSpQtbvj5w1mWiqm6uzS7rrt2wOc0NpIuUxhxk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=iiV1GWIJONAbBXo71jIgHw4OOdxntDynJc1QxtAntbqxbW5LqL7f13mqyqUCZf0x5ALAzsFsacTMJasESW3VyrSiZlXjEUoY0e6sy1Z3lrSEvjdJLduYQHmkrGPC+eIOg/ACBWCUM9IzPy+SLRWJLb1My6i4QMkYwPJCGTNp/bA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=KQ87JDpB; arc=fail smtp.client-ip=40.107.159.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="vkCWZNm+"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=np+ARTjgA1bL6y/BsjDkZjVFrHrr3tuq6B1vzrJgeSI=;
-	b=vkCWZNm+0ckIAvYiUx4kG2HndOxd0/rmJMyuW4xaGIPEPRzRrGpswwlnUVoefd5DUweMpH9Sc
-	DXW+/oY5S/FKioyTaBP3XtKZ0XEErkQeZ0nnLI1ulZIAnLhLEpz+GKk1YCNtISf050ExxX7oR6H
-	y/FUvmE7fxdy3V4i1jkYzSM=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4gDTqb22mNzpStP;
-	Mon, 11 May 2026 14:10:51 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0450840537;
-	Mon, 11 May 2026 14:17:49 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 11 May 2026 14:17:47 +0800
-Message-ID: <bf8f55b7-1e0a-4b24-b11b-c92f7129eb82@huawei.com>
-Date: Mon, 11 May 2026 14:17:47 +0800
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="KQ87JDpB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JFBtDJ0Ljqgt86eGFAqtxv6xODcU0/OLzM69PtMp5kYcHSkHYL0Pfp/CROwAOqjbOtMmoz4dyhTxY7ihR2qLsxAzNbRrs52Cjw52kznUZKLOjUIbuzimLIUzDFJ7qmrAa/6AT12QwHzCBgOz86D713OLgftIaq+AIzztqxNd6QEiP+/ECdQ1mCQNc9EBQm1g+V54hqHwGkBBjJElsvz9ehT0BBzTsRXrKq9Pc/OYkKqptWS2Z8vXDI6skb5OJPmwa6A++Si51wSnORBGFsahXI5Nda72khv9wL50WCTLlKm/Wh5Bhq4nLDaB8BeExAROAwwNWqT3QpeWEAeC3tZS8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/xjdu3VxtYZ28io8DBLRvX9kig463+mEoghwQHa88to=;
+ b=s+7ZNUhphPnL3VZDAVReBUYjOnqwzMOSkgA+A2ciFPWv0Bdpq6f0OhZLB0ZYdbjATWPZLZ8t0JwCQ6F4hW+fOd6v92wyeGTZHXe6JaJFexId9ZgEfJS5KoaygU1QhT2Z0JEqoQ+jgDndJEkZZpt22k3JJhXTXyqdWvXYDKqkS/QFMse+G7d+iDP7nbizbnvYqTy1+zyw/pmh6MF6x5YUAMRxa9E5SRwGtsNoyCW1P/xxVcEaJF23cQTUhnNVaMt4w3gIV/HUr15OORCdo+6+yWcPv/051n6GHZASPYcUT30AxGa8nsVnQoYDNLcU2UIA+6/HWEO1cW4rVG4Zt7Tgxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.59) smtp.rcpttodomain=linaro.org smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/xjdu3VxtYZ28io8DBLRvX9kig463+mEoghwQHa88to=;
+ b=KQ87JDpBN4SIaEkf4XUqAeQiJuOJcvYZeKZpf/XSEqJqM1rBgLJiTkWJI5z/GDMiio8ArDnjuDxObZb+i26nz4/x+cYCFQ+LIl6V1QDGAKOQFryFm8NVq91wWSZCd4LHbFVtA4sw41feA2WMMa6MtedZvnXK5fMehjCiOtj+aOMV1Wp84QX3A6qBrhrd2PtOPIdccbvWiK7KijT8kqqNgohj6kOsJIImy0h8ytIgeBK128qzCRF3rU7yCXB9rxVcqasF6p8BHzflf/UVKoL0wb5gVC8z4MAIKPDnIuOPjgiAnieM4eCFtvbcyFUqY+whIB2zCfujV/ZNGeXwTarsOA==
+Received: from CWLP123CA0197.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:19c::20)
+ by GVXPR10MB8664.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:1de::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
+ 2026 07:10:33 +0000
+Received: from AMS1EPF00000041.eurprd04.prod.outlook.com
+ (2603:10a6:400:19c:cafe::9c) by CWLP123CA0197.outlook.office365.com
+ (2603:10a6:400:19c::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.23 via Frontend Transport; Mon,
+ 11 May 2026 07:10:32 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.59; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.59) by
+ AMS1EPF00000041.mail.protection.outlook.com (10.167.16.38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.25.13 via Frontend Transport; Mon, 11 May 2026 07:10:32 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
+ (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Mon, 11 May
+ 2026 09:14:19 +0200
+Received: from [10.48.87.127] (10.48.87.127) by STKDAG1NODE2.st.com
+ (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Mon, 11 May
+ 2026 09:10:30 +0200
+Message-ID: <92a8e53e-412a-4475-89dc-62caf12e8c56@foss.st.com>
+Date: Mon, 11 May 2026 09:10:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,57 +69,126 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: Update nosmt support for arm64
-To: <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<akpm@linux-foundation.org>, <bp@alien8.de>, <rdunlap@infradead.org>,
-	<pmladek@suse.com>, <pawan.kumar.gupta@linux.intel.com>,
-	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
-	<kees@kernel.org>, <elver@google.com>, <paulmck@kernel.org>,
-	<lirongqing@baidu.com>, <safinaskar@gmail.com>, <bhelgaas@google.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<skelley@nvidia.com>
-References: <20260417032540.3720627-1-ruanjinjie@huawei.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20260417032540.3720627-1-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+CC: Beleswar Prasad Padhi <b-padhi@ti.com>, Shenwei Wang
+	<shenwei.wang@nxp.com>, Andrew Lunn <andrew@lunn.ch>, Linus Walleij
+	<linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
+	<andersson@kernel.org>, Frank Li <frank.li@nxp.com>, Sascha Hauer
+	<s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+	"Peng Fan" <peng.fan@nxp.com>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
+	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
+	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+References: <CANLsYkwvL0Z3+12MD=J+Dc2yAU2T8ypizyG=6AhYoWOh55odHA@mail.gmail.com>
+ <472f85bd-42c2-40c6-abfd-b76924797069@ti.com>
+ <CANLsYkzt9xUczxSU28u-TfZAAjr0ufZKXAj8Eqfq=45gufXW3w@mail.gmail.com>
+ <f7ef3417-eb84-4467-ac72-a9bc8b0c81e8@foss.st.com>
+ <21de8440-adf7-454b-acfc-06e50882e075@ti.com>
+ <4c526816-b127-43e7-86e9-eee4dc1152bc@foss.st.com>
+ <268f8e00-91bc-43ea-ba95-077cf859e7f3@ti.com>
+ <9e2492d3-8753-46c7-8db6-5f1a80b4f2e9@foss.st.com>
+ <db4c18be-1c8d-4227-9fcc-1d25cec50e37@ti.com>
+ <6917e3d7-8c6c-4e63-8eca-5308621ec3e8@foss.st.com> <afzIABSh1xtMEGbf@p14s>
+Content-Language: en-US
+From: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+In-Reply-To: <afzIABSh1xtMEGbf@p14s>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMS1EPF00000041:EE_|GVXPR10MB8664:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9319f76a-efdb-4a3d-2e98-08deaf2c6433
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|36860700016|376014|1800799024|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	FjCfTf7bUzXnw4vuucvFnShpiDyo8qKnLED625/sW2VP2untk+ftSF2pV/9hFpLuRVd84j92lYBQyzZA4gf0tL/XYu42JNNbpF6t2jmZkIRQ93moFyPrBa0197/qdMg8FXtBOaw6EZj8//0blwJ122HJ7awnS2VFnBewygBMB6BjExZRoS3F6w3EhCIsiubQTyruAHyrQBslxsJu86MwYeUe6nO2/Se2aOhdugav3Eh3DYqLMoqZR+2b+ZUiSYAY+p5oLv5ZG6wjUsuMAFnemSZ+GXLYQKa74Ulsli188Y2FjlEmTx73tj9xM/FGarbUmLYD1gXKxOd+fNXg/Wvo2pKkzVsDL3hazSvjGLk3o4vyp8bSbkVLIDWQxnVQQWx78ZqgLvrmfMyEnL+roh8O2eUX0WEikFi4ac7dz9OgP6zQrqxJB7OVcrFmyj4zHEUi+sYnhWZFi1CliljUbIQtX3Gn3W+6ayU0G2G3i9Wox8DKjSlgy/luEN3//Ay0MvGAvXsGklCYF/kYi79km0Oy8hR7PqfVEwCOyMD5jJvOziatJEDpQB78VFzBQ6WnuRfvf0xC0jdKD1NUofI+k3kOjB+isUUHKUKMjUWPqQVR9nLV9F2a6fgE1w6ctFwfap0m1yW9tvvM/or5DlImb+nwf0l9n3IZr+LTnoRbiqGNWvolcxxa8gxlJOM/gQxL0zjVvwm7qbhT61cMJItX74/jD6U2Yg6EW8G5edjIIp6zU2g=
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(36860700016)(376014)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	2ag6a8+a2dCUMeGxPVIFyf8qRS8Si7BYvPj9A3w7oq7Mg1M5WVUHy0oKUMALYR6uQIsdaiaQrfrRv0TNKOQTaEahq5ok3atJdSrqnF6mR+dHc/fIRIMZEFKwIEwmRaYpDAY+GdsP35KEuhTZQbwVAuAF2F0fe54jBwfuB/hP36n0vailt5MyD/OYOTrigD4d1Gz3Zx9UxswEvkjOsO585hWVDIW6VEMteFB0L+aae0urTipKH/y9mYU7sE9UilpBIgwukeB9QN3+SJSIakxRg+PI+lt+SWYwAeSuyfNQrlIQw/ZqwZdH77YowZ+iK9ocJPXbGIn6alL84aeCIeoZDl+517ther3HuiBP6oPxREQzNEhHyyP5YZY5XOlTVQMQnXcGPM/nGQgSEEvK53o1JWSn3Z/Ba8/Rl0xom0ujCCSZbaBC3xQPAfsNkxLyB4gR
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 07:10:32.6847
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9319f76a-efdb-4a3d-2e98-08deaf2c6433
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AMS1EPF00000041.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR10MB8664
 
-Gentle ping.
+Hello Mathieu,
 
-On 4/17/2026 11:25 AM, Jinjie Ruan wrote:
-> commit eed4583bcf9a6 ("arm64: Kconfig: Enable HOTPLUG_SMT") enable
-> HOTPLUG_SMT for SMT control for arm64, but the documentation was
-> not updated accordingly to reflect that ARM64 now supports control SMT
-> via boot parameter and sysfs knobs:
+[...]
+>>
+>> A third option would be a combination of both approaches: instantiate the
+>> device using the same name service from the remote side, as done in
+>> rpmsg-tty. In that case, a get_config message, or a similar mechanism, would
+>> also be needed to retrieve the port information from the remote side.
+>>
 > 
-> 1. Boot parameters:
+> I'm not overly fond of a get_config message because it is one more thing we
+> have to define and maintain.
 > 
-> nosmt:          Disable SMT, can be enabled via sysfs knobs.
-> nosmt=force:    Disable SMT, cannot be enabled via sysfs knobs.
+> Arnaud: is there a get_config message already defined for rpmsg_tty?
+
+No there isn't.
+
+Regards,
+Arnaud
+
 > 
-> 2. Runtime sysfs controls:
-> 
-> Write "on", "off", "forceoff" or the number of SMT threads (1, 2, ...)
-> to /sys/devices/system/cpu/smt/control.
-> 
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index cb850e5290c2..6a73eb5abae9 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -4661,7 +4661,7 @@ Kernel parameters
->  	nosmt		[KNL,MIPS,PPC,EARLY] Disable symmetric multithreading (SMT).
->  			Equivalent to smt=1.
->  
-> -			[KNL,LOONGARCH,X86,PPC,S390] Disable symmetric multithreading (SMT).
-> +			[KNL,LOONGARCH,X86,ARM64,PPC,S390] Disable symmetric multithreading (SMT).
->  			nosmt=force: Force disable SMT, cannot be undone
->  				     via the sysfs control file.
->  
+> Beleswar: Can you provide a link to a virtio device that would use a get_config
+> message?
+>   
+>> Tanmaya also proposed another alternative based on reserved addresses.
+>>
+>> At this point, I suggest letting Mathieu review the discussion and recommend
+>> the most suitable approach.
+>>
+>> Thanks,
+>> Arnaud
+>>
+>>>>
+>>>> At the end, whatever solution is implemented, my main concern is that the
+>>>> Linux driver design should, if possible, avoid adding unnecessary complexity
+>>>> or limitations on the remote side (for instance in openAMP project).
+>>>
+>>>
+>>> Yes definitely, I want the same. Feel free to let me know if this does
+>>> not suit with the OpenAMP project.
+>>>
+>>> Thanks,
+>>> Beleswar
+>>>
+>>>>
+>>>> Thanks,
+>>>> Arnaud
+>>>>
+>>>>
+>>>>> So Linux does not need to send the port idx everytime while sending a
+>>>>> gpio message anymore.
+>>>>>
+>>>>> Thanks,
+>>>>> Beleswar
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>
+>>
 
