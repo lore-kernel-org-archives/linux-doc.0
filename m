@@ -1,95 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A488C37F00B
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 19:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FBB37F756;
+	Mon, 11 May 2026 20:08:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778529489; cv=none; b=G75W97T6EZy1SBUolW0tBCpgKolDo4MXFpQhYAHJDt9nvEWPBF23W59zGxKZVFYGhF3qZRva2bIUF65V0r0xflGHKyKChD1KZpX5Bwn9tLa81JfiMAkXzSVKzFVUUiITC8vnzXSLYmB+E9EqvBe4iPBV8Png+SuHnsp2FYCWrFk=
+	t=1778530126; cv=none; b=piAz9YtmCWqmg/P4xpX+WsoMng12udMKVBUtlcvHpBIiG1CGj8/aNol+6F4k6ttYhzrQ7NzjiQMvZCDY3bzr92PG3dI+njKKaMhbA/5uVf1uxQDkrH9URHKJUaCAHszk3REHih8K4/3fNC6YqQXn3CTKzw8TQhjR2v/pMT0Fv20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778529489; c=relaxed/simple;
-	bh=Ro69MQ9EqEnNINtduiTATSKngAU7AoF+/0O7Kz5FFSM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LVjT/3+ChDUSfY1zxeFPY2MObh/RPIxxVYmGEvYnXZ6SUs+rVY/Hz0+ayF0AYiXTKFMIReOSJHQ9ar70uzYFRCgLxnugLjEmEbEgviTSYJlGw/RMjXC2Dhj72JLAbIBw3Wndk52ycKx5B2qo9yaQwOnh2ryKXQDw+eAgBQW6plQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I2u7SNV5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778530126; c=relaxed/simple;
+	bh=DWrxPvlJ5hkzAcFJ2xL7k/KJZ1lNdyZVHYKmVbdsOHY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ChvVv5duXLT2z1kNzI8IrYJNuFSl8OKQ6nmvqleJscuUZesOZBbd093u0NgJe3X5XJD6mvxYiCbRgmLXBA3BC+MRWHIhLuF44fyTckNjHjk3MRD1jHZoeAftHPIqOye9h6/oSk6hYW9Fm8iTgKeON3NZkhoNm8EFMGAS7erPuI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gVEiUbho; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I2u7SNV5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B956C2BCFC
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 19:58:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVEiUbho"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DE96C2BCB0;
+	Mon, 11 May 2026 20:08:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778529489;
-	bh=Ro69MQ9EqEnNINtduiTATSKngAU7AoF+/0O7Kz5FFSM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=I2u7SNV5bs8OJ2W+gFAiVWIJPqIsMJnrUmeXEiOXiN+Awh/+AoZHWsawFt82eGQP1
-	 iYvFkHu/cjhJwN6v1C9Zln9xKKrSAykZybOV6uAn1zckKzd3+wi6S+G0bpo0yge9T8
-	 sHydtMPo/jgHIG33SEzoc4lv848LeRzUnkRJTHd/YTMjPeRsQS1HtNLbx31345j2VR
-	 CMp1/J7A91nx2fZ376nBGthXZo1JpZ7xTpNwtu1nBA7nCpqm+UILkIIrvyXcnqpZXb
-	 sDgndDgUZwi6rfZe4myIVrtoLQUsRh/KJeKbEUjaYGZKTr7T2Sg/nKDXrDYQ1AcsFX
-	 H7LxvjP4NJ2nQ==
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-bd01481e592so168521766b.2
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 12:58:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/09FSmomRST339dqze2DZ3LSfjCiN/2/LUAPQcrEVKlbvuK4Jed3744nrxdux1kXn1SrUzu0NwRcU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOn1RFqvX9DAe2BhoPyvZ4VFMdjJGt2Wn0dML4rVEfjOX8TxyF
-	BVxfiy3CnJauwrJ2/v2zyqxT4ZOcinuF03OBB0z0COFBaaOuP6FVnrGS7f2g5w+QQ3FXvN55FlR
-	QhI2syNM7NHraMn3QcijbB8PpVcmSmJw=
-X-Received: by 2002:a17:907:9412:b0:b97:1d24:c004 with SMTP id
- a640c23a62f3a-bc56de100damr1640546966b.21.1778529488205; Mon, 11 May 2026
- 12:58:08 -0700 (PDT)
+	s=k20201202; t=1778530126;
+	bh=DWrxPvlJ5hkzAcFJ2xL7k/KJZ1lNdyZVHYKmVbdsOHY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gVEiUbhojNJ+RQjmfCnjap+RcuaGENRIOH6OHWn9gh+iiqDH76jq8P+FNT63CZBNu
+	 uTK0nwsCPrsw871JY61zGVmGtvk+YgSVeXWBafd/I4zVtypuRHefmVmbta4WYwJTI7
+	 kFJihP9OmW4VssAWv+2v/8VZvqo4qA+e/9DD6WXcPO3dEMrQKDfrsplYOxk69MLdxe
+	 FA6vfJXpqC8hvr/oYnwIiBOOL4FDkItAC2xxGGK106JwPkEao5oBjJWVhic28MChg+
+	 oIpI+NKw8QEZpGiE7heIgoVxB7bISqGqbW1YbdqSNEErqN82Q+HeexV1wLXWVbpsWz
+	 fvdpmVoZC78WQ==
+Date: Mon, 11 May 2026 13:08:46 -0700
+From: Kees Cook <kees@kernel.org>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org, peter.griffin@linaro.org,
+	andre.draszik@linaro.org, willmcvicker@google.com,
+	jyescas@google.com, krzk@kernel.org, kernel-team@android.com
+Subject: Re: [PATCH] docs: kernel-doc: python: strip __counted_by_ptr macro
+Message-ID: <202605111308.52C4CA6@keescook>
+References: <20260506-kdoc-__counted_by_ptr-v1-1-70763486871f@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511105149.75584-1-jiahao.kernel@gmail.com>
- <20260511105149.75584-3-jiahao.kernel@gmail.com> <CAKEwX=PLFRkfUvZyaYfwBv0QJ-8KAktvZvGA02Hod04H-RsS-Q@mail.gmail.com>
-In-Reply-To: <CAKEwX=PLFRkfUvZyaYfwBv0QJ-8KAktvZvGA02Hod04H-RsS-Q@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Mon, 11 May 2026 12:57:56 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zNOPdpJuTmccvQ6ZAVS+tXxp-_ofA765DbnfaUZOPPO-g@mail.gmail.com>
-X-Gm-Features: AVHnY4JggveioK6wHYDCMPwvJ0NzLIt9APWEOL57HCcrUJO5sRIVBp_Ljdyoras
-Message-ID: <CAO9r8zNOPdpJuTmccvQ6ZAVS+tXxp-_ofA765DbnfaUZOPPO-g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mm/zswap: Implement proactive writeback
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Hao Jia <jiahao.kernel@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
-	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org, 
-	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260506-kdoc-__counted_by_ptr-v1-1-70763486871f@linaro.org>
 
-On Mon, May 11, 2026 at 12:49=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrot=
-e:
->
-> On Mon, May 11, 2026 at 3:52=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com>=
- wrote:
-> >
-> > From: Hao Jia <jiahao1@lixiang.com>
-> >
-> > Zswap currently writes back pages to backing swap devices reactively,
-> > triggered either by memory pressure via the shrinker or by the pool
-> > reaching its size limit. This reactive approach offers no precise
-> > control over when writeback happens, which can disturb latency-sensitiv=
-e
-> > workloads, and it cannot direct writeback at a specific memory cgroup.
-> > However, there are scenarios where users might want to proactively
-> > write back cold pages from zswap to the backing swap device, for
-> > example, to free up memory for other applications or to prepare for
-> > upcoming memory-intensive workloads.
-> >
-> > Therefore, implement a proactive writeback mechanism for zswap by
-> > adding a new cgroup interface file memory.zswap.proactive_writeback
-> > within the memory controller.
->
->
-> We already have memory.reclaim, no? Would that not work to create
-> headroom generally for your use case? Is there a reason why we are
-> treating zswap memory as special here?
+On Wed, May 06, 2026 at 11:04:12AM +0000, Tudor Ambarus wrote:
+> The `__counted_by_ptr` macro was recently introduced [1] to extend
+> bounds checking semantics to standard dynamically allocated pointers.
+> 
+> However, the new Python implementation of kernel-doc does not currently
+> recognize it as a compiler attribute. When kernel-doc encounters a
+> struct member annotated with this macro, it fails to parse the variable
+> name correctly, resulting in false-positive warnings like:
+> 
+>   Warning: ... struct member '__counted_by_ptr(cmdcnt' not described
+> 
+> Add `__counted_by_ptr` to the `struct_xforms` regex list so it gets
+> safely stripped out during the parsing phase, mirroring the existing
+> behavior for `__counted_by`. Update the corresponding unit tests.
+> 
+> Link: https://git.kernel.org/torvalds/c/150a04d817d8 [1]
+> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
 
-+1, why do we need to specifically proactively reclaim the compressed memor=
-y?
+Reviewed-by: Kees Cook <kees@kernel.org>
 
-Also, if we do need to minimize the compressed memory and force higher
-writeback rates, we can do so with memory.zswap.max, right?
+-- 
+Kees Cook
