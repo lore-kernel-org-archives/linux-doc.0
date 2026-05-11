@@ -1,84 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B729038332B;
-	Mon, 11 May 2026 22:46:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A35347BC1
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 23:01:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778539591; cv=none; b=t/YgP8hlMVzsWNGtWHi8LS/mkteFiCQ5ZtfKDMkpwzv79hK0RmOOAMfbl09U9ETX0oA8JSbdTw6onL8P4XEHLsJsTt19nH9oWz///dsMV0ejcriCUjnaihbuP8VBRmRcEzftT1JaZHP3e1hxYGUvjVdql2RNwFRoMGpVgn4OPYo=
+	t=1778540490; cv=none; b=C3irWc4qHbUwP+SR9Ro8uao45MUeNF98IXLKSoYZiMQ44qNXn2Mok5w+l3r12PTRtJ1pppfI6/RS5Fh3WPuL3ZnBWvzcfC2SNuJgHVwgVX7ebLGPVeT7MbOTU0yyl6UYAtfi797IQcKK3UsfkrJduQLAGXqLFJxO9lIN1XUJNFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778539591; c=relaxed/simple;
-	bh=ZSi/5KocwBQnf1OnFPbhDuhQNcsMBXqvZzwUmu60IHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pOaYvgRwPymPJAySQE/gYnRlbFkN92BzF2ZOuKf9tGVAkZN72TlbFatbBIPfOe39vxjmICnkoZJz8VgcHPxif6u/gf0BU6a2mtlJUPlf+vDHs7M40zi17bcDphwYwnanwHMcey623oG6owtbKqCD+FTkDAQ5qNbVNOwZlIyIgDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r2laXtpN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778540490; c=relaxed/simple;
+	bh=DXpupB38s8rYIfqpywvuLMoOemBuRPH1ZKJ/GnBLssg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Eoc7RcscrvTflvCq6cXa9scj50bSYdP4zot53vZ/v/EUu6hjpP4l1oWWS2R6d45wMBnPJpxBHlpU7wLJ1XyUxNjKvFCj9PJFFR6IbZruEZWroymsXtEDKWgLP1R9nd/xsm4ieaRuadgguBomHvpjJt4/34KjjGWZwyw3LWl5xvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rb2OmWHD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r2laXtpN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91BF2C2BCB0;
-	Mon, 11 May 2026 22:46:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rb2OmWHD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CFAFC2BCFD
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 23:01:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778539591;
-	bh=ZSi/5KocwBQnf1OnFPbhDuhQNcsMBXqvZzwUmu60IHE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r2laXtpN2/+dlTE6cZ37R2GPzqKnLW8SO4fJywCOcZ4LZ5qaLvahducW4aXC4jzKj
-	 rH0SCuEV4+ishUl4E7JlREPWZwH1OESXTQHYQgv96VFzohw+PMXYim3HIVD0xD4E9G
-	 Wg8U2HzDDgVXd0dUyIX/6Gb01qDzstIBfHQ5UevZcl/DdS+q6wXoTBLzGXhRn5+H45
-	 hiRWlsNW2nwB8kaXTlA2X4CiklVSUZZpopI102dNT+xxRAcJQbCZIkUCWSCTPm5Mi/
-	 kdGFr2gKO+Q3YdQq/iLMXtJi7pTISjEV6+wXxcf6+7GoMXcB8XRmSM5Ddx8+V8/k4b
-	 ukccLcDtgUgUA==
-Date: Mon, 11 May 2026 22:46:28 +0000
-From: Yosry Ahmed <yosry@kernel.org>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: kasong@tencent.com, Liam.Howlett@oracle.com, akpm@linux-foundation.org, 
-	apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
-	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
-	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
-	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
-	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org, 
-	peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org, 
-	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
-	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, tglx@kernel.org, 
-	vbabka@suse.cz, weixugc@google.com, ying.huang@linux.alibaba.com, 
-	yosry.ahmed@linux.dev, yuanchu@google.com, zhengqi.arch@bytedance.com, ziy@nvidia.com, 
-	kernel-team@meta.com, riel@surriel.com, haowenchao22@gmail.com
-Subject: Re: [PATCH v6 01/22] mm/swap: decouple swap cache from physical swap
- infrastructure
-Message-ID: <agJcCZuLqWwU_sSR@google.com>
-References: <20260505153854.1612033-1-nphamcs@gmail.com>
- <20260505153854.1612033-2-nphamcs@gmail.com>
+	s=k20201202; t=1778540490;
+	bh=DXpupB38s8rYIfqpywvuLMoOemBuRPH1ZKJ/GnBLssg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Rb2OmWHDj9SAVGkP+qQPWRIS5gERO67XAaT7nKJyb1GSaDF7Rhz3bkkKZcnynFN2O
+	 BpESD5DULHm1WABkQktZbaj1Xxl0T2Hh/JLoudPpRfOVr8lwvbtsIltKRZzf4zc/8P
+	 RDcPfK+ONsysVkx20hQmchwWN1c/1MdUjEjyE18LZLY5NXbQhkm4WzP+M8+d95af+I
+	 +bE9dqM3T2496fLAcZTRdVUwOOK/t7h3wP5vaHdg3S+ABfUxF/wrTSUXB2y06+oNJG
+	 etmd2i99gveuKTYWERQ3m5+zS404phapSqWg45zSgy2au9SWzJds1tWazOL49X+xno
+	 I8T+1gcefTmMA==
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8ef45a6d9dfso530554485a.0
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 16:01:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9JfP7rO+/nZ7Cwl+0i40t8im5HISAlW6UVnrC9WMZtzuWgxi7WYphOrlGk//CLJANer1q8lxkX0Ow=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjFNuWoIKHI3iXsqUxmOj2XRmN9Tno+6zQ9VLPcuqsQoIVp6Iu
+	3aKz1LFRe684bIiSKb7UdlTjrqXFwzDVVQb8MveAY4BWYDg2Xb39BT5ZA0FYP1JYiUcSjZavNjD
+	/3qBBG0Mv6LpViWwZfkb6cK/UPYbCE+Q=
+X-Received: by 2002:a05:6214:428a:b0:8bd:4bc7:e19 with SMTP id
+ 6a1803df08f44-8c664729988mr12314026d6.47.1778540489517; Mon, 11 May 2026
+ 16:01:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260505153854.1612033-2-nphamcs@gmail.com>
+References: <20260507070547.2268452-1-sashal@kernel.org> <20260508135630.a380e3c187b59e4c04e6f358@linux-foundation.org>
+ <af5Z2IvtS5pVorSl@laps> <agG_PZ3qcl6TwLnL@gmail.com> <agHUp8ulaWJ75WU5@tiehlicka>
+ <20260511153158.bad58633e2c8d247322ebb4b@linux-foundation.org>
+In-Reply-To: <20260511153158.bad58633e2c8d247322ebb4b@linux-foundation.org>
+From: Song Liu <song@kernel.org>
+Date: Mon, 11 May 2026 16:01:17 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW6u-CfDx57V_zdcHVJz44WZiRmOEJkgmLyLW+YXFX+3Cg@mail.gmail.com>
+X-Gm-Features: AVHnY4L8RY7B827_Xq4DgRCtr71u_nXflg9xzhpHiseLEZLbF5KQq_ceoLBicF4
+Message-ID: <CAPhsuW6u-CfDx57V_zdcHVJz44WZiRmOEJkgmLyLW+YXFX+3Cg@mail.gmail.com>
+Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation primitive
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Hocko <mhocko@suse.com>, Breno Leitao <leitao@debian.org>, Sasha Levin <sashal@kernel.org>, 
+	corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 05, 2026 at 08:38:30AM -0700, Nhat Pham wrote:
-> When we virtualize the swap space, we will manage swap cache at the
-> virtual swap layer. To prepare for this, decouple swap cache from
-> physical swap infrastructure.
-> 
-> We will also remove all the swap cache related helpers of swap table. We
-> will keep the rest of the swap table infrastructure, which will be
-> repurposed to serve as the rmap (physical -> virtual swap mapping)
-> later.
+On Mon, May 11, 2026 at 3:32=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
+>
+> On Mon, 11 May 2026 15:07:51 +0200 Michal Hocko <mhocko@suse.com> wrote:
+>
+> > > 2) It's common to run hundreds of different kernel versions across a
+> > >    fleet. Since livepatch is kernel-specific, a single CVE suddenly
+> > >    requires building and deploying hundreds of individual livepatches=
+=E2=80=94
+> > >    far less practical than a simple sysfs write.
+> >
+> > LP is certainly a more laborous solution.
+>
+> <another please-educate-akpm email>
+>
+> Does a livepatch *have* to be distributed as a ready-to-load kernel
+> module?
 
-I didn't look through the entire series, but let me ask the same
-high-level question I asked before. Instead of moving things out of the
-swap table, why not reuse the swap table as the representation of the
-virtual swap space? Seems like most/all metadata is already moved there
-in a nice concise format.
+As of today, livepatch is loaded to the kernel as a module. It requires
+kernel config CONFIG_LIVEPATCH. If CONFIG_LIVEPATCH is not
+set in the running kernel, livepatch module won't work.
 
-> 
-> Note that with this patch, we will move to a single global lock to
-> synchronize swap cache accesses. This is temporarily, as the swap cache
-> will be re-partitioned in to (virtual) swap clusters once we move the
-> swap cache to the soon-to-be-introduced virtual swap layer.
-> 
-> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> Is it not possible to distribute a "livepatch" to the fleet as a single
+> string?  Send out "make function some_bad_function() return -EINVAL"
+> and let scripting on each machine figure out how to locally write,
+> build, sign and install such a livepatch?
+
+With CONFIG_LIVEPATCH, and with proper toolchain and keys,
+this is surely possible. But I guess this comes with some security
+concerns (sharing the keys, etc.).
+
+> That would require that each machine locally contains enough data for
+> it to be able to build a kernel for the currently-running kernel, and
+> that each machine contains a build environment.
+>
+> I *think* this is feasible on distro-based machines?  But perhaps not
+> on stripped-down hyperscalar boxen?
+
+Do most distro machines have CONFIG_LIVEPATCH enabled?
+AFAICT, Ubuntu 26.04 does have it enabled.
+
+Thanks,
+Song
