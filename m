@@ -1,132 +1,102 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6230336C0C3;
-	Mon, 11 May 2026 12:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96BCB13B58A;
+	Mon, 11 May 2026 12:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778502763; cv=none; b=I+/9h330eSvvVDZFHJCXrferwJnd0bhlsBg1G6tlMo9DOoImmrug9sndJ2gh2wlEkCUk+f1s5qk+z7eE1dFheM4HopTjd4Jg+fM8UBlvIDHY4wSTHgShwzolpY026pINfEgkDh/jlel/5Rx0ATd7ICVF+ZhfWzk6LZQSVDosYZU=
+	t=1778503359; cv=none; b=mUxFXwoKctENBnsKeZ6rdCQpGgdbGJQAC1b/UepV8lM2bW3GP7/MRPWMXetWQj/V2xFXvpLHu6ft5Z/UcydJgRn6yGBY92+ETo9kZxUbuBpG/qN5hZGmCquP4+dudhGQtkxmu+z6aT1wSs53PRhdI0B1SDCoO2pT8MyTBdWhGl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778502763; c=relaxed/simple;
-	bh=D0bqzM0WGixnwP3PSygyYipjRd7+m1+aNPilBTviGDE=;
+	s=arc-20240116; t=1778503359; c=relaxed/simple;
+	bh=pYD09DsDxe/u4ilOmhS2skYVkR2myP8qJ3xnhphSpY8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TUoNFxuODdggASoFa34gcxY5sUv24pw5w/JHyyDTQNUzy0rtCSjDchjMDkX9Qm1H2XANjyezjgqCx6qmVYOvixrNoPhQy6NShfsUNhCqXxr2PQsvgFGc/411HL9mzfFiKrBsmTXog+CXCNRnGqF+gQeAMpvw7M+W3n6PabP4CWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=XmiFKakl; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=f17GgS+EK9pKr01EfzjaiqFcoYh6MuGAnwhVqnXxXULFlZartKEiS5kcb6Mc5Y3mTc4hRa7W8QvJOJ2zmW/+F7KX0UYRSzGlaTSqFZ5ceViv9GMu1NwmyoQPN2b6XPLM4fluHLoytlJiA0eYtzzSt/GxM6Qi1l02+7qJ2OiMrFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HMzeD+F0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="XmiFKakl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=M8lmcQvjJ5LUpDA4EmGDDTnt8GNDhiFnrJNCJhkuZWM=; b=XmiFKaklZ3QQYtH8/ygJpRi6/c
-	cJ9m6w27ps4ZkaQs+L3zmaULdxP92hxNU3mBsUHkvC5gV/Gr2OWyX7UNQwKGJQMGSIgDGnMR05nSr
-	6Hz3vsI22lcNtQs/VMzI48fbeiQc3TW5qrsNxcffxftFa5xlDo5LQ3kJ7Q0m2F5+M5D8c3G+2BDUt
-	Wr7OwYwQSZNfs/cIihoRG+30TDa9XqeX3dKysWM/Sidq9OVS27lVgnLamFYvGQfr7bsghipMWPyrI
-	mYwBzzTjZXPAId0EF/iDyo+lUuvmMRF8iddzWl4iCApO3hINgAD4OJDf0mLBEMdj/gGrp5p3Xx6ka
-	a7gITkwQ==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wMPmt-001bCJ-0c;
-	Mon, 11 May 2026 12:31:07 +0000
-Date: Mon, 11 May 2026 05:30:54 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com, 
-	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com, 
-	mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org, pjw@kernel.org, 
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, tglx@kernel.org, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, 
-	robh@kernel.org, saravanak@kernel.org, akpm@linux-foundation.org, bhe@redhat.com, 
-	rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org, 
-	ruirui.yang@linux.dev, rdunlap@infradead.org, pmladek@suse.com, 
-	dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com, kuba@kernel.org, 
-	ebiggers@kernel.org, lirongqing@baidu.com, paulmck@kernel.org, 
-	sourabhjain@linux.ibm.com, coxu@redhat.com, jbohac@suse.cz, ryan.roberts@arm.com, 
-	osandov@fb.com, cfsworks@gmail.com, tangyouling@kylinos.cn, 
-	ritesh.list@gmail.com, adityag@linux.ibm.com, guoren@kernel.org, 
-	songshuaishuai@tinylab.org, kevin.brodsky@arm.com, vishal.moola@gmail.com, 
-	junhui.liu@pigmoral.tech, wangruikang@iscas.ac.cn, namcao@linutronix.de, 
-	chao.gao@intel.com, seanjc@google.com, fuqiang.wang@easystack.cn, ardb@kernel.org, 
-	chenjiahao16@huawei.com, hbathini@linux.ibm.com, takahiro.akashi@linaro.org, 
-	james.morse@arm.com, lizhengyu3@huawei.com, x86@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	kexec@lists.infradead.org
-Subject: Re: [PATCH v13 04/15] arm64: kexec_file: Fix potential buffer
- overflow in prepare_elf_headers()
-Message-ID: <agHL1zzC5bzgoCiJ@gmail.com>
-References: <20260511030454.1730881-1-ruanjinjie@huawei.com>
- <20260511030454.1730881-5-ruanjinjie@huawei.com>
- <agGkvrg06KNDNfDi@gmail.com>
- <79c14bee-b1f5-4d70-8345-6582d6cf0128@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HMzeD+F0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16463C2BCB0;
+	Mon, 11 May 2026 12:42:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778503359;
+	bh=pYD09DsDxe/u4ilOmhS2skYVkR2myP8qJ3xnhphSpY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HMzeD+F0LmEMwTQFrhGfdrsCKn7booeRX+vlAVri2V2f1V76IeHzz7BG5DWjlKuZ0
+	 eSjJkgMpPpwmwAMME13LOZwUH6jrKtJPa+UcsUh5muV7bnkRdiOA7SzHRjM6p+6BvR
+	 M9AnGxDOZIpUs5Vq+n8Tvozcad7h5hkJKqCWufFSdA9qoLdhy/OeFJ5T05eHTwDqLm
+	 3aTaWWQqIMZX7dlXuRsdLYoZDGO1nzl9JT8V1/PKw3uAWx5b2OXAE+g64TuOysxHa0
+	 chlfaziVpuZGn4QmcVFFCiRbVOS04PpKxosmBJAO6qkAZLHmQwB/qePt9ltyN9lF+M
+	 3cEJb51enKcuA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id EA5DB1AC58A9; Mon, 11 May 2026 13:42:36 +0100 (BST)
+Date: Mon, 11 May 2026 21:42:36 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v10 04/30] arm64/fpsimd: Determine maximum virtualisable
+ SME vector length
+Message-ID: <agHOvFiI1e3y_ur4@sirena.co.uk>
+References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
+ <20260306-kvm-arm64-sme-v10-4-43f7683a0fb7@kernel.org>
+ <agGwWE2hcj9O4EGu@J2N7QTR9R3.cambridge.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8I5lQUED2RQSZNsg"
+Content-Disposition: inline
+In-Reply-To: <agGwWE2hcj9O4EGu@J2N7QTR9R3.cambridge.arm.com>
+X-Cookie: Truckers welcome.
+
+
+--8I5lQUED2RQSZNsg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <79c14bee-b1f5-4d70-8345-6582d6cf0128@huawei.com>
-X-Debian-User: leitao
 
-On Mon, May 11, 2026 at 07:30:44PM +0800, Jinjie Ruan wrote:
-> 
-> 
-> On 5/11/2026 5:46 PM, Breno Leitao wrote:
-> > On Mon, May 11, 2026 at 11:04:43AM +0800, Jinjie Ruan wrote:
-> >> There is a race condition between the kexec_load() system call
-> >> (crash kernel loading path) and memory hotplug operations that can
-> >> lead to buffer overflow and potential kernel crash.
-> >>
-> >> During prepare_elf_headers(), the following steps occur:
-> >> 1. The first for_each_mem_range() queries current System RAM memory ranges
-> >> 2. Allocates buffer based on queried count
-> >> 3. The 2st for_each_mem_range() populates ranges from memblock
-> >>
-> >> If memory hotplug occurs between step 1 and step 3, the number of ranges
-> >> can increase, causing out-of-bounds write when populating cmem->ranges[].
-> >>
-> >> This happens because kexec_load() uses kexec_trylock (atomic_t) while
-> >> memory hotplug uses device_hotplug_lock (mutex), so they don't serialize
-> >> with each other.
-> >>
-> >> Add the explicit bounds checking to prevent out-of-bounds access.
-> > 
-> > It seems you have a TOCTOU type of issue, and this seems to be shrinking
-> > the window, but not fully solving it?
-> 
-> Hi Breno,
-> 
-> Thanks for your comments regarding the TOCTOU issue.
-> 
-> You are correct that the current bounds checking only "shrinks the
-> window" and prevents a kernel crash, but doesn't fully guarantee header
-> consistency if a race occurs.
-> 
-> In my local environment, this race is extremely difficult to reproduce,
-> but it is theoretically possible.
-> 
-> To address this properly for arm64, I am considering two steps:
-> 
-> - For this patch: I will change the return value to -EAGAIN and keep the
-> bounds check. This ensures that even if a race happens, the kernel
-> remains safe (no OOB access), and user-space is notified to retry.
-> 
-> - Long-term solution: A better way to solve this is to implement ARM64
-> CRASH_HOTPLUG support (similar to x86). With crash hotplug, the kernel
-> will automatically re-generate the crash headers whenever a memory
-> hotplug event occurs. This makes the TOCTOU during the initial
-> kexec_load less critical, as any transient inconsistency will be
-> immediately corrected by the subsequent hotplug handler.
-> 
-> Does it make sense to you to use this patch as a safety guard first, and
-> then I (or someone else) follow up with the full CRASH_HOTPLUG support
-> for arm64 as [1]?
+On Mon, May 11, 2026 at 11:32:56AM +0100, Mark Rutland wrote:
+> On Fri, Mar 06, 2026 at 05:00:56PM +0000, Mark Brown wrote:
 
-It would be OK for me, but, make it explict that there is a TOCTOU
-issue, that depends on CRASH_HOTPLUG.
+> > +#define SME_VQ_INVALID	(SME_VQ_MAX + 1)
+
+> Does using (SME_VQ_MAX + 1) for this make something easier than if we
+> used 0?
+
+There were checks for VLs less than $THING which were causing annoyance
+IIRC but it should be workable since we shouldn't offer SME to guests if
+the invalid VL comes up.  I'll look again when I'm back from holiday.
+
+> To solve all of the above, I think what we actually want to do is find
+> the largest uniformly implemented VL which is smaller than the smallest
+> partially implemented VL.
+
+Yes, that's what we're going for.
+
+--8I5lQUED2RQSZNsg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoBzrwACgkQJNaLcl1U
+h9BD+Af+InI7f6CgI/Kl7rjYPDy/01C1QRQjXjxrG9nJHf2fp57ZuQPJO32v1e+8
+54g+pxbwOJMMyR87wxnj8tTcQbJQqtIAiInLxPlIs06Wxs4/hV20mhOD9fDIPDq+
+0DK2xWI2URuTWI8xvkWN7v8Nzi9uWmJ9AIuunvFYrz9GPUZIICEiu7+/sm4bD8fd
+9RjnDI1/gmn6NjVlFh81aWDaBFFqomK1WGMwa1NVnpDTj6sv++fyeh0/0AdgpJMv
+haYVOScpgtqOh/V0+Ryxf+zlYjFf37AIOTPvweJ7zWYtcHPqXmQLgXe7VUseb2Xe
+IpiAILfnTKYKlw8vN0jO1Wcdzjwt4w==
+=5P29
+-----END PGP SIGNATURE-----
+
+--8I5lQUED2RQSZNsg--
