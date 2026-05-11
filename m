@@ -1,100 +1,99 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEFC3E5ED5
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83876284682
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:19:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778505540; cv=none; b=a4SFTUQnVJNia7zYpY+dURS0enyHMf8Pi4KfqA8KZxSgAxETN+9hr7R4WhhyvFepLtYAOQ1xL3DwCKxs9zH8swnrvH0whEGgy+e/5uAmgVZ3kTxmUDOlHWiVKkQ3t4ywKvcEST4oMF/3StUJLifOBlgiJX/Ct4DwRi3MYCk4zEQ=
+	t=1778505595; cv=none; b=FVHvw0gY1CtMgIFR2uuHHjXMX8eh+Dm3u9ZmobLUycYeoLBRCMCf6zDgoZmvglyB6m87DNsaseeYIWL08p7O+QNNDiR9UeRBhgk+hPR59YOTzgYXa3RxOn8PECws47hv3i/i+qLiwG02eHLCsnmCU5lNWV/Vm5YYW7UbeDMDdkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778505540; c=relaxed/simple;
-	bh=aFKpLXhtgadBepER+jv213UmH+cx7dVrSbjQrlKsbLQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pXz5tqX2+0TLo70qHFWFG+xYMgGmkH3kw3GJOdCC6niDzsqpa0VZHuZRdqzi3GxaDGacd/WOGSI2owtdXyvRFLQfgEB61TWghLGrcb1nf04/soL9hvXQtO677BjYnug6tHMVlRcYzVfRkmcJPxcWEOoOk2MyqOA96QtfNB0jz/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCPmQUpf; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778505595; c=relaxed/simple;
+	bh=d7UugrGvTHVZ5x6A2v3kOZ5TDSHieQcjxA5S4lHpomY=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AWc/SlWSDN66/7SwT3/i1ySOHgqYsWPoqLTLtpWdqQh1eKThLzag0C8HhFCUoljiSlJSovxYfKJtdfjZuydJ73kQNauM9mNrb2luUFr0G/WSztTqjY8/GwF8NQXIXpcfE1lxpDgt0dRlIzXYyw1izRQXtSQLtKpEl0jPQjdtBjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fEigcHFw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCPmQUpf"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-488af96f6b2so50881925e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 06:18:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778505537; x=1779110337; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=g/gsIqss6ka1gkZNbEHINXe4X7NBBNbHnrb2ir7Oq5U=;
-        b=cCPmQUpfxONz5lgCLItoo6WlxwgkWI5ljm9u/5FSEzSFqgp+wSBUZS6Kz7hmMiONiv
-         Q8g+RWMd2dt8+Bgqc24H7aSt3ST25KwwBsfPxdN6S29TKRJRGGMR4VpYqoQik0EhNKe3
-         6M3Lk0bN+ucyrzFdi2v8/iTkuNKmRfTQ7oAwrOcGeGgRM1G69qWjWOAm8GAYVpM0sqkw
-         GExThRNxDAccoGa/SF0Fa8apM+j9CCpOpiCJRWolk2iqHLTeZcRhgR0XrhJD1FXKbdGV
-         HfoOFHHmocpUJ8AcKctOG3lPwr1TIWohwFgtw8mqQZP5GS8wrlN7n693ekByuPYRyWWR
-         EDmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778505537; x=1779110337;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g/gsIqss6ka1gkZNbEHINXe4X7NBBNbHnrb2ir7Oq5U=;
-        b=PbcLK0FyAsF53Klc5vcN0R6hBou0OQTEJhvwGZ+aFM3C6J4mGZBBCorRY0t8nTiHjs
-         q3OfyzLbPoKcoQOVPsveeThruM2tgUN49G1K8l7rSkhZQ+pG+eAsHN/rh1s56idVIYwc
-         I28l5U0WiT9jNe5TShqE4uJp7Y4U9nWi234WSdQ17hT1PiX8sW7JgHF0grMeCRvpVPjY
-         fMr6rNMsRpsRQbDw4wqiXJ63qYyC04sUSyuUC8fyBNBpDtyMkiAiE4t08OyfSfQHh30U
-         Lc7pqLur3WMrWdIapJY8D6ZoHvke5Fft4aCGjuz6NjTMfljrXVoWPfKcR/yRHYeHWPRF
-         8ziA==
-X-Forwarded-Encrypted: i=1; AFNElJ8uaBZY5072NGM5zj3jeYj3eAkTj352S18G7cihzvWuKtzaSLK5ZALDR6/aRn7SLQ9dek4UYO47kmQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb1IeFflxSw//rnt/KodEn087yXmtut7Q5d70u9Q/q9Rmm2alY
-	VMTBQGmb10NoOV927RrTTRov0X7V2aftsLiFp8Uthym3lfFUq5/lkLo2
-X-Gm-Gg: Acq92OGFDotgNH0lNqCB6J1f+TzjY8ovPSHkDzaRbJKb+yCiP6px9iwkuo8iEEINO44
-	FJj/Hprr+PYhDlEP6FcPezhL9MIAYp9rqwVTdJQGwgl2Z321zLO8CbbqWOVTDyXhHB1vjflenzO
-	ujOLk65OQFC3Qdy3ex5eE3vuKDtwQaI7Vf5kIVCDaLsVA0PUkwQ+7Rf7u8zsPuhmzeLnHgnQg2L
-	ZtVmbDZQp9346Yum3Z45xn8UB3+KXq+Hv80/MuX+Hgb6AsinlSdRiFkZ87Gy73EkAZxN/5je2u+
-	ptRB2pf6HzBg8DjmjjckFZCjAxeQ9/AluuC6fBE5V45LGO5Yc232DdlAngkR82OJ68zNkpV3rDG
-	eLH6u6uvXwACqycV0jb512qS1UNqy2YOrMhVZMMF02Aih1BmwNgDrFkkWB8wDPzMK3FrhQSMkEn
-	RZJQudXMrUJme42MKOfkqldfkg+KkIzCfw7JFnoEq06p5f3EjeVlnQodi5f30csOx3LKehyQ==
-X-Received: by 2002:a05:600c:5306:b0:48e:526e:101a with SMTP id 5b1f17b1804b1-48e706c781emr158001255e9.12.1778505536621;
-        Mon, 11 May 2026 06:18:56 -0700 (PDT)
-Received: from [10.128.10.158] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e702ec426sm178326055e9.10.2026.05.11.06.18.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2026 06:18:56 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <0f65dcac-7c5c-4bbf-be2c-b1cd68c7697a@gmail.com>
-Date: Mon, 11 May 2026 14:18:54 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fEigcHFw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65E7FC2BCF7
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:19:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778505595;
+	bh=d7UugrGvTHVZ5x6A2v3kOZ5TDSHieQcjxA5S4lHpomY=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=fEigcHFwvp/W7VaOeOtrsCWYWEAItK5KUJW1mqEVDBlK9Is2mMkBPl5N928Raj/B9
+	 JZbo4YE4XdXMts7oqoBnCO5EAUdMaLPSGtOUPyyLNPOxHjiIB/v5KGyFuHWt/JgBLP
+	 TzJHd9Fb0ieCaf/n9WK3wX9t1oTVL/fEnzRQUG3J2B9BmC4avLeqXrXr9g5tfn51Gw
+	 ADrnFtvzgVGJ4oYDYPtUnFRo67cCMEmEbLx/drUVimXOIiZd3jowr6WISYxrDHHkKo
+	 +P4xqBJ3HRHinzaFkhpCO3X9Jl/5TFdRNaGekp/tt14HWbSjg1bNx6QMH+la7hdKh4
+	 eCd7Xl7X7rU3Q==
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-12e332315a8so9586722c88.0
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 06:19:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9p4JuuBYKo5cLvTbvsRh+ZAgBmM73+GWt/WMDY1B6QubKbYEueW+4LDUFhXjhCmbX9x21LKn9OwSs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtTeM2bu7h3CsLNzaCl/loi5B4HWEZsnG2jm98a9LqOzBiDvwz
+	Rn5J2+ZMYwT6DohSJRq4xgfvkQnvnhJsE/yVTxV5Si3daqUg/Zixkuo6G5au0h8S9RrYK6nOyuu
+	q47docUCOysdYW4+Z3E6PLa3XjMUX7gZKuBQKlmmPMg==
+X-Received: by 2002:a05:7022:2508:b0:127:33e0:ea44 with SMTP id
+ a92af1059eb24-132a82ddb67mr4949446c88.29.1778505594800; Mon, 11 May 2026
+ 06:19:54 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 May 2026 06:19:52 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 May 2026 06:19:52 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260508115309.GA9254@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/2] scripts: add kconfirm
-To: Jani Nikula <jani.nikula@linux.intel.com>, nathan@kernel.org,
- nsc@kernel.org
-Cc: akpm@linux-foundation.org, gary@garyguo.net, ljs@kernel.org,
- arnd@arndb.de, gregkh@linuxfoundation.org, masahiroy@kernel.org,
- ojeda@kernel.org, corbet@lwn.net, qingfang.deng@linux.dev,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20260509203808.1142311-1-julianbraha@gmail.com>
- <20260509203808.1142311-2-julianbraha@gmail.com>
- <4579a61db0975b967e8063661be77bb439283fd7@intel.com>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <4579a61db0975b967e8063661be77bb439283fd7@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260508105448.31799-1-tzungbi@kernel.org> <20260508105448.31799-9-tzungbi@kernel.org>
+ <20260508115309.GA9254@nvidia.com>
+Date: Mon, 11 May 2026 06:19:52 -0700
+X-Gmail-Original-Message-ID: <CAMRc=Mfks9HAGHedQhZY+3UgRJwg_RF9cVOyA3jGh7oiNqDn-w@mail.gmail.com>
+X-Gm-Features: AVHnY4KJ3daWyTdJHgf81o2MnLKt19plZceoNb1ciLx1gSE_TrwC8qpPQuR4MX0
+Message-ID: <CAMRc=Mfks9HAGHedQhZY+3UgRJwg_RF9cVOyA3jGh7oiNqDn-w@mail.gmail.com>
+Subject: Re: [PATCH v10 8/9] platform/chrome: Protect cros_ec_device lifecycle
+ with revocable
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Linus Walleij <linusw@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Johan Hovold <johan@kernel.org>, 
+	"Paul E . McKenney" <paulmck@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 5/11/26 10:57, Jani Nikula wrote:
->>  scripts/kconfirm/LICENSE                      | 339 +++++++++
-> Why?
-> 
-> See LICENSES/preferred/GPL-2.0.
+On Fri, 8 May 2026 13:53:09 +0200, Jason Gunthorpe <jgg@nvidia.com> said:
+> On Fri, May 08, 2026 at 06:54:47PM +0800, Tzung-Bi Shih wrote:
+>>  struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
+>> @@ -47,6 +49,15 @@ struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
+>>  	if (!ec_dev)
+>>  		return NULL;
+>>
+>> +	ec_dev->its_rev = revocable_alloc(ec_dev);
+>> +	if (!ec_dev->its_rev)
+>> +		return NULL;
+>> +	/*
+>> +	 * Drop the extra reference for the caller as the caller is the
+>> +	 * resource provider.
+>> +	 */
+>> +	revocable_put(ec_dev->its_rev);
+>> +
+>>  	ec_dev->din_size = sizeof(struct ec_host_response) +
+>>  			   sizeof(struct ec_response_get_protocol_info) +
+>>  			   EC_MAX_RESPONSE_OVERHEAD;
+>
+> FWIW I am still very much against seeing any revokable concept used
+> *between two drivers*. That will turn the kernel's lifetime model into
+> spaghetti code.
+>
 
-Sorry, that's an accidental artifact of the tool's current setup as an
-open source repo on GitHub. The tool code itself has the expected SPDX
-identifiers. I think I need to write a small script for preparing these
-patch set submissions. Thanks for your attention on these RFCs.
+I gave my R-b under the API definition and I'm fine with the GPIO changes.
+Just for the record: I don't have an opinion on using it in this driver and
+don't know if it's a good idea or not.
 
-- Julian Braha
+Bart
