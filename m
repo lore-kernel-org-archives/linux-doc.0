@@ -1,434 +1,202 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78AF423A8E
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 15:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6724043D4FE
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 16:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778515134; cv=none; b=jG2CXhujIFRkZndLx+7msHwzojKrHOpjC7I2wyoKLqRergfD76S2r/tjzBiFtGhXhpLSVtJATwW7VcUZZZZn1lTKEX/DNfiofn1jPukeH4XpYq7Ds34307pBnYbRGja3/qX3CbQrTv59uae/v6c8haYeVyN3nMESJt5wnDXwziw=
+	t=1778515281; cv=none; b=jjPmU3xiRuv1klrpZ05IAhw775JrWz0Th1AG3FONBQbicjoap5VEpF3AYvEnLsJ7rFaWBfRwKKldfVvansIv+mtf0Q95DRj6wiLh541ks/Y2SNrbY8DmjY1lwAlCnnNx4/cXb6ASoa2NhwksCb4JwFoekq0C7HwrDDf8xrsVfPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778515134; c=relaxed/simple;
-	bh=d7NiOqL0JYgq+eTxqbAb19TqzAiD742Oi9sqPVqXg+4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Cuere08X2hV0ibj9c83QQbN77NJie6QriMesVJHjDc9o8aXaeqW3fb8leTPoYImB8de8PQhGxpQjAiBQhglc4NMN4Xds8vB8c2AkY2jMUhl48Cxfj5A2AtvJHXAJrkUrNunTWfK4rG5YmcKaVJ/B0VxoIP6RcQnmLpCgdAR+3p8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FrnzXOu4; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1778515281; c=relaxed/simple;
+	bh=nl++y2pvb//UUvo8RmKvBN/IlF4N9wSAx9HwCsTdjHU=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r+YFSssLFtxQHXmbORPi4RFsSrn4jKdii5nS9FkPgFRl0wpw7D4SlS2+cknp1d82X9jIBd6oI+nu2H+U7ADqUhqqG0GO8D7eFev7ehrmCJfjThB+rQhr7bbhQJNNPNSbiaDWc18ELZwiIwlfw5++hh2oI3Ys7/3GX8ylQvd+SSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mI7Ck2eF; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FrnzXOu4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778515130;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ajsXSGyEMVNFuLVtvsFtUWqPdb8Shxw1fvVzqdO6+wc=;
-	b=FrnzXOu4lAzyLGrrspvNCdHMp+1ue6l4KLy6qP9yIIJNUMuRPOk2eqIcBkVesTLE8vcGZs
-	bYBsRycydPnlJIXP+PAuq22CrF95SSh5ru2cPYphYWDYS794evNh3RXF33bp1QdbX8ITp1
-	K6CGI09irYV4uR2u/mY8nHAPZDt2jnI=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-711-jIyd5QK2NVezNVs2LCSMDg-1; Mon,
- 11 May 2026 11:58:46 -0400
-X-MC-Unique: jIyd5QK2NVezNVs2LCSMDg-1
-X-Mimecast-MFC-AGG-ID: jIyd5QK2NVezNVs2LCSMDg_1778515120
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1113A195609F;
-	Mon, 11 May 2026 15:58:40 +0000 (UTC)
-Received: from p16v.redhat.com (unknown [10.44.49.148])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2ED671800591;
-	Mon, 11 May 2026 15:58:32 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Petr Oros <poros@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Leon Romanovsky <leon@kernel.org>,
-	Mark Bloch <mbloch@nvidia.com>,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Pasi Vaananen <pvaanane@redhat.com>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Simon Horman <horms@kernel.org>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Subject: [PATCH net-next v4 2/2] dpll: zl3073x: report FFO as DPLL vs input reference offset
-Date: Mon, 11 May 2026 17:58:16 +0200
-Message-ID: <20260511155816.99936-3-ivecera@redhat.com>
-In-Reply-To: <20260511155816.99936-1-ivecera@redhat.com>
-References: <20260511155816.99936-1-ivecera@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mI7Ck2eF"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-67e9b3037dcso6138001a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 09:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778515278; x=1779120078; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dDajMNhsK8ctloggkRH1qn8pJypaS73T3qG8KCV509o=;
+        b=mI7Ck2eFuKqIokesZQpxGdC3/YVzNPIFFDEKF9JifAUxMlYGSzTDubbC5opCyesQbZ
+         LQTjMJyrJGkkbuRFWlj5FPXl+WaQ9NKhZnkLxfO+REylhwkCGxrGuXw5eB9TSABEAJzH
+         6G40s4qCGeCShozL6SeRi7yH2HEHaa+lq9apsEp1pWC4s48v3bK7JSSRnI4bfnr9mt6U
+         FXppzIAxNqwv86xAJ20wy/78WOAhgQYgsu3ezzGSWJPYshbYKIO++f709JJxkVngn0Pp
+         KIPobvpk1OYeamTv2adie1Dau4mOAkdqAX8PQSq/h2iKIqPBIoO8h7apjUr2zpLsNjs5
+         4gMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778515278; x=1779120078;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dDajMNhsK8ctloggkRH1qn8pJypaS73T3qG8KCV509o=;
+        b=MUQ0ObubkzgY6D5Beozw7zOnvbaDaETkGvkiibnNBQC6pMoycm1tETagAAvPpwt/op
+         1wRQ97svUd0hRo3pv/w5qt4jrLz/8+dzrtzPQLfanyUxMxTuJOk2JqQA2oSKFE2kXne8
+         Nq/wdJaHKTdTmYifR01tsulCVsgu31rsn6+9YZySpIYHPqMMDpkdLuIUSgM70/NyseKn
+         vnSG9yU1Chk/TFbnzfTNU2nCC/iEc9b4YBJTr02Q4YBp1B5NIRgEilfBOMI/5ISnFQEB
+         HFT8hs140h608bfkrEyWx6H44GOA/XUqpsaWEmo2yRGSL2p0myiBxn7iSaGY4zw8fZ1e
+         FuVg==
+X-Forwarded-Encrypted: i=1; AFNElJ+J9TilfoEiJcldCWN7Zs5JDZdwdlkWAXCE4dNesVGn15QIrrRWBqUGLJZyPUgLN1J6d1QrB4tpMT8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3YoplFD1r/yOHzVFNTGNBFYmlZ0CVWIAx2UEPoyg8XJFokp8m
+	plHw/UejEXS9e+PcV7Io6FeMAXjOLf2ku6K3VLATBF/DXR0KCDkfx+VI
+X-Gm-Gg: Acq92OE6JlMlJyZwdDl/5KLiBM+S1zdG1I1d9qSQ7Q6uhq2aG4Cjyi5vYnU3WR+LQ55
+	Oy6OmJCsDfR4UtYVuT/G0oFiXuAsHfzCxjCBaFsOh3pRVp0tHBcxkvbFfmjmsE+46cMzRU6Wn2r
+	0961XKliX+lu/yXzZPi4DARoBMzKiqOTz7gx19yGJhOKZNhbXouE0atgkXkpGBXpMGq6x/2/HBo
+	M0bNd6nwU/XJSfYWEPYBdkYlzWBSPwHd74NPD3iMr39ywzyoBU8C+Lnbyaem8rlBVfzt+TfDlSi
+	cXoAyKObHsFoJoWsjvCFGHv91hsGcdeQWwIM2p9ptmIiAfs5Jnjdv6YlvPURF/+PS+l+XKgt7PU
+	okYbEHuMrqOfhKYa6v0pnVFVNFS3pRD6rnN8LTHD4xaSnzyso52b9f4jYgMaVZrFO99+Ttz4omW
+	SVWGSost8uKuIX9ITLvqovLSt0iJarPKPhtj5x1CBytS2wuBxn/OH2mmkUOzP4/cId9ZqIprDjY
+	EcxasYTN4PFMJNKOgaA3vN2qVd/o3xSI6ZSLrbmjtqplCzYZA==
+X-Received: by 2002:a17:907:849:b0:bab:1839:cc61 with SMTP id a640c23a62f3a-bcaacf2b3a8mr762286466b.40.1778515274081;
+        Mon, 11 May 2026 09:01:14 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcd3cc282d3sm315940466b.4.2026.05.11.09.01.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 09:01:13 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 11 May 2026 17:01:05 +0100
+To: David Lechner <dlechner@baylibre.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hardening@vger.kernel.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH RFC v4 10/10] docs: iio: add documentation for ad9910
+ driver
+Message-ID: <wpoiyqezs6lus5o7smlibbxrxqudvijgqh3gwgft2xjpiirwa4@xtdwe3kzleku>
+References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
+ <20260508-ad9910-iio-driver-v4-10-d26bfd20ee3d@analog.com>
+ <b8f9a174-f3d0-4cb8-a571-605be79165d6@baylibre.com>
+ <zvulxrrvg4sf7m5pjfpfucg7yssgallfu6zi6mcyblu2qy24hn@wdzs7h77vkoz>
+ <18c2eab9-c0c7-4e93-b4e8-73b18531e784@baylibre.com>
+ <uphcx5zr4lmukuom75g66hp4agurty7yq6mo6ri6otrsscqfek@tn3u5jjszaoy>
+ <5bce7868-feca-4c54-a14d-ad4bf4072c29@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5bce7868-feca-4c54-a14d-ad4bf4072c29@baylibre.com>
 
-Replace the per-reference frequency offset measurement (which was
-redundant with measured-frequency) with a direct read of the DPLL's
-delta frequency offset vs its tracked input reference.
+On 26/05/11 10:23AM, David Lechner wrote:
+> On 5/11/26 10:02 AM, Rodrigo Alencar wrote:
+> > On 26/05/11 09:46AM, David Lechner wrote:
+> >> On 5/10/26 4:30 AM, Rodrigo Alencar wrote:
+> >>> On 26/05/09 06:42PM, David Lechner wrote:
+> >>>> On 5/8/26 12:00 PM, Rodrigo Alencar via B4 Relay wrote:
+> >>>>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> >>>>>
+> >>>>> Add documentation for the AD9910 DDS IIO driver, which describes channels,
+> >>>>> DDS modes, attributes and ABI usage examples.
 
-The new implementation uses the dpll_df_offset_x register with
-ref_ofst=1 via the dpll_df_read_x semaphore mechanism. This
-provides 2^-48 resolution (~3.5 fE) and reports the actual
-frequency difference between the DPLL and its active input.
+...
 
-Switch supported_ffo from DPLL_FFO_PORT_RXTX_RATE to
-DPLL_FFO_PIN_DEVICE so FFO is reported only in the per-parent
-context for the active input pin.
+> >>>> And a practical note, they should be "frequencyscale". I don't like that it is
+> >>>> harder to read, but it is easier for a machine to parse.
+> >>>
+> >>> Parsers like the ones in libiio is not having problems with that.
+> >>>
+> >>>>> +Usage examples
+> >>>>> +^^^^^^^^^^^^^^
+> >>>>> +
+> >>>>> +Set parallel port frequency modulation with a scale of 16 and a 50 MHz
+> >>>>> +offset:
+> >>>>> +
+> >>>>> +.. code-block:: bash
+> >>>>> +
+> >>>>> +  echo 16 > /sys/bus/iio/devices/iio:device0/out_altvoltage113_frequency_scale
+> >>>>> +  echo 50000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage113_frequency_offset
+> >>>>> +
+> >>>>> +Digital ramp generator (DRG)
+> >>>>> +----------------------------
+> >>>>> +
+> >>>>> +The DRG produces linear frequency, phase or amplitude sweeps using dedicated
+> >>>>> +hardware. It is controlled through three channels: a parent control channel
+> >>>>> +(``digital_ramp_generator``) and two child ramp channels
+> >>>>> +(``digital_ramp_up``, ``digital_ramp_down``). DRG destination is set when
+> >>>>> +ramp attributes are written, i.e. writing to ``frequency`` or ``frequency_roc``
+> >>>>> +sets the destination to frequency.
+> >>>>
+> >>>> Would it be better to say that the destination is set when the the
+> >>>> value is non-zero? Otherwise, how would one change the destination
+> >>>> once set?
+> >>>
+> >>> Destination is only one, so you just need to write phase or phase_roc, if you want
+> >>> to target phase then. Does that not sound intuitive?
+> >>
+> >> I was thinking about if you needed to change the configuration.
+> >> If you set it to phase, then want to change it to frequency, how
+> >> could you do that if 0 is a valid value for phase?
+> >>
+> >> Also how could you know which is selected by reading back the
+> >> values if 0 is a valid value?
+> > 
+> > This is where Jonathan raised some concerns, so it is a good oportunity for you
+> > to provide your inputs! Right now, I am returning -EBUSY on read of an attribute
+> > where its destination is not selected. As pointed out, the destination selection
+> > is happening when writting to the attribute. In the previous patch, Jonathan
+> > suggested frequency_active, phase_active and scale_active to track mode priority,
+> > and It could be leveraged here for DRG destination selection. I havent gone for
+> > that because I was not willing to add that to all the channels given that it is
+> > mostly used for debugging, so I added frequency_source, phase_source and
+> > amplitude_source to debugfs instead.
+> 
+> The "last write wins" with the others changing to EBUSY makes more sense to
+> me now. If the docs said that, I missed it. Otherwise, that would be a helpful
+> thing to add to the docs here.
+> 
+> > 
+> > Destination selection for RAM mode is firmware based at this point.
+> 
+> Seems reasonable.
+> 
+> > Destination selection for Parallel mode is still not clear... could use
+> > those *_active attributes or separate channels.
+> 
+> Since there are _offset attributes proposed for parallel input already,
+> could we just make it the same where you have to write one of those
+> attributes?
 
-Use atomic64_t for freq_offset to prevent torn reads on 32-bit
-architectures between the periodic worker and netlink callbacks.
+Different from the DRG, both RAM and Parallel mode has this extra polar
+destination, which targets both amplitude and phase at the same time.
 
-Rewrite ffo_check to compare the cached df_offset converted to PPT
-instead of using the old per-reference measurement. Remove the
-ref_ffo_update periodic measurement and the ref ffo field since
-they are no longer needed.
+For parallel mode I have the attributes:
+- frequency_scale: applied when destination is frequency
+- frequency_offset: applied when destination is frequency
+- scale_offset: applied when destination is polar
+- phase_offset: applied when destination is polar
 
-Changes v3 -> v4:
-- Switch to DPLL_FFO_PIN_DEVICE, remove dpll=NULL guard
-- Use atomic64_t for freq_offset (torn read on 32-bit)
+In parallel mode, there aren't knobs like those for amplitude and phase
+destinations. With the *_active thing or similar, polar can be both
+phase_active and scale_active enabled at the same time. However, this
+would not behave the same way Jonathan suggested, i.e. to be used for
+mode priority indication... it would be used for destination configuration
+instead.
 
-Reviewed-by: Petr Oros <poros@redhat.com>
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
----
- drivers/dpll/zl3073x/chan.c | 31 +++++++++++++++++++++++--
- drivers/dpll/zl3073x/chan.h | 14 ++++++++++++
- drivers/dpll/zl3073x/core.c | 45 -------------------------------------
- drivers/dpll/zl3073x/dpll.c | 38 ++++++++++++++-----------------
- drivers/dpll/zl3073x/ref.h  | 14 ------------
- drivers/dpll/zl3073x/regs.h | 15 +++++++++++++
- 6 files changed, 75 insertions(+), 82 deletions(-)
+> 
+> > 
+> >>>
+> >>> Zero is a valid value to be written.
+> >>>
+> >>>>
+> > 
+> 
 
-diff --git a/drivers/dpll/zl3073x/chan.c b/drivers/dpll/zl3073x/chan.c
-index 2f48ca2391494..2fe3c3da84bb5 100644
---- a/drivers/dpll/zl3073x/chan.c
-+++ b/drivers/dpll/zl3073x/chan.c
-@@ -18,6 +18,7 @@
- int zl3073x_chan_state_update(struct zl3073x_dev *zldev, u8 index)
- {
- 	struct zl3073x_chan *chan = &zldev->chan[index];
-+	u64 val;
- 	int rc;
- 
- 	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MON_STATUS(index),
-@@ -25,8 +26,34 @@ int zl3073x_chan_state_update(struct zl3073x_dev *zldev, u8 index)
- 	if (rc)
- 		return rc;
- 
--	return zl3073x_read_u8(zldev, ZL_REG_DPLL_REFSEL_STATUS(index),
--			       &chan->refsel_status);
-+	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_REFSEL_STATUS(index),
-+			     &chan->refsel_status);
-+	if (rc)
-+		return rc;
-+
-+	/* Read df_offset vs tracked reference */
-+	rc = zl3073x_poll_zero_u8(zldev, ZL_REG_DPLL_DF_READ(index),
-+				  ZL_DPLL_DF_READ_SEM);
-+	if (rc)
-+		return rc;
-+
-+	rc = zl3073x_write_u8(zldev, ZL_REG_DPLL_DF_READ(index),
-+			      ZL_DPLL_DF_READ_SEM | ZL_DPLL_DF_READ_REF_OFST);
-+	if (rc)
-+		return rc;
-+
-+	rc = zl3073x_poll_zero_u8(zldev, ZL_REG_DPLL_DF_READ(index),
-+				  ZL_DPLL_DF_READ_SEM);
-+	if (rc)
-+		return rc;
-+
-+	rc = zl3073x_read_u48(zldev, ZL_REG_DPLL_DF_OFFSET(index), &val);
-+	if (rc)
-+		return rc;
-+
-+	chan->df_offset = sign_extend64(val, 47);
-+
-+	return 0;
- }
- 
- /**
-diff --git a/drivers/dpll/zl3073x/chan.h b/drivers/dpll/zl3073x/chan.h
-index 481da2133202b..4353809c69122 100644
---- a/drivers/dpll/zl3073x/chan.h
-+++ b/drivers/dpll/zl3073x/chan.h
-@@ -17,6 +17,7 @@ struct zl3073x_dev;
-  * @ref_prio: reference priority registers (4 bits per ref, P/N packed)
-  * @mon_status: monitor status register value
-  * @refsel_status: reference selection status register value
-+ * @df_offset: frequency offset vs tracked reference in 2^-48 steps
-  */
- struct zl3073x_chan {
- 	struct_group(cfg,
-@@ -26,6 +27,7 @@ struct zl3073x_chan {
- 	struct_group(stat,
- 		u8	mon_status;
- 		u8	refsel_status;
-+		s64	df_offset;
- 	);
- };
- 
-@@ -37,6 +39,18 @@ int zl3073x_chan_state_set(struct zl3073x_dev *zldev, u8 index,
- 
- int zl3073x_chan_state_update(struct zl3073x_dev *zldev, u8 index);
- 
-+/**
-+ * zl3073x_chan_df_offset_get - get cached df_offset vs tracked reference
-+ * @chan: pointer to channel state
-+ *
-+ * Return: frequency offset in 2^-48 steps
-+ */
-+static inline s64
-+zl3073x_chan_df_offset_get(const struct zl3073x_chan *chan)
-+{
-+	return chan->df_offset;
-+}
-+
- /**
-  * zl3073x_chan_mode_get - get DPLL channel operating mode
-  * @chan: pointer to channel state
-diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
-index 5f1e70f3e40a0..b3345060490db 100644
---- a/drivers/dpll/zl3073x/core.c
-+++ b/drivers/dpll/zl3073x/core.c
-@@ -704,44 +704,6 @@ zl3073x_ref_freq_meas_update(struct zl3073x_dev *zldev)
- 	return 0;
- }
- 
--/**
-- * zl3073x_ref_ffo_update - update reference fractional frequency offsets
-- * @zldev: pointer to zl3073x_dev structure
-- *
-- * The function asks device to latch the latest measured fractional
-- * frequency offset values, reads and stores them into the ref state.
-- *
-- * Return: 0 on success, <0 on error
-- */
--static int
--zl3073x_ref_ffo_update(struct zl3073x_dev *zldev)
--{
--	int i, rc;
--
--	rc = zl3073x_ref_freq_meas_latch(zldev,
--					 ZL_REF_FREQ_MEAS_CTRL_REF_FREQ_OFF);
--	if (rc)
--		return rc;
--
--	/* Read DPLL-to-REFx frequency offset measurements */
--	for (i = 0; i < ZL3073X_NUM_REFS; i++) {
--		s32 value;
--
--		/* Read value stored in units of 2^-32 signed */
--		rc = zl3073x_read_u32(zldev, ZL_REG_REF_FREQ(i), &value);
--		if (rc)
--			return rc;
--
--		/* Convert to ppt
--		 * ffo = (10^12 * value) / 2^32
--		 * ffo = ( 5^12 * value) / 2^20
--		 */
--		zldev->ref[i].ffo = mul_s64_u64_shr(value, 244140625, 20);
--	}
--
--	return 0;
--}
--
- static void
- zl3073x_dev_periodic_work(struct kthread_work *work)
- {
-@@ -776,13 +738,6 @@ zl3073x_dev_periodic_work(struct kthread_work *work)
- 		}
- 	}
- 
--	/* Update references' fractional frequency offsets */
--	rc = zl3073x_ref_ffo_update(zldev);
--	if (rc)
--		dev_warn(zldev->dev,
--			 "Failed to update fractional frequency offsets: %pe\n",
--			 ERR_PTR(rc));
--
- 	list_for_each_entry(zldpll, &zldev->dplls, list)
- 		zl3073x_dpll_changes_check(zldpll);
- 
-diff --git a/drivers/dpll/zl3073x/dpll.c b/drivers/dpll/zl3073x/dpll.c
-index 05e63661bf074..cff85cdb9d0e5 100644
---- a/drivers/dpll/zl3073x/dpll.c
-+++ b/drivers/dpll/zl3073x/dpll.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- 
-+#include <linux/atomic.h>
- #include <linux/bits.h>
- #include <linux/bitfield.h>
- #include <linux/bug.h>
-@@ -57,7 +58,7 @@ struct zl3073x_dpll_pin {
- 	s32			phase_gran;
- 	enum dpll_pin_operstate	operstate;
- 	s64			phase_offset;
--	s64			freq_offset;
-+	atomic64_t		freq_offset;
- 	u32			measured_freq;
- };
- 
-@@ -300,7 +301,10 @@ zl3073x_dpll_input_pin_ffo_get(const struct dpll_pin *dpll_pin, void *pin_priv,
- {
- 	struct zl3073x_dpll_pin *pin = pin_priv;
- 
--	ffo->ffo = pin->freq_offset;
-+	if (pin->operstate != DPLL_PIN_OPERSTATE_ACTIVE)
-+		return -ENODATA;
-+
-+	ffo->ffo = atomic64_read(&pin->freq_offset);
- 
- 	return 0;
- }
-@@ -1275,7 +1279,7 @@ zl3073x_dpll_freq_monitor_set(const struct dpll_device *dpll,
- }
- 
- static const struct dpll_pin_ops zl3073x_dpll_input_pin_ops = {
--	.supported_ffo = BIT(DPLL_FFO_PORT_RXTX_RATE),
-+	.supported_ffo = BIT(DPLL_FFO_PIN_DEVICE),
- 	.direction_get = zl3073x_dpll_pin_direction_get,
- 	.esync_get = zl3073x_dpll_input_pin_esync_get,
- 	.esync_set = zl3073x_dpll_input_pin_esync_set,
-@@ -1731,37 +1735,29 @@ zl3073x_dpll_pin_phase_offset_check(struct zl3073x_dpll_pin *pin)
- }
- 
- /**
-- * zl3073x_dpll_pin_ffo_check - check for pin fractional frequency offset change
-+ * zl3073x_dpll_pin_ffo_check - check for FFO change on active pin
-  * @pin: pin to check
-  *
-- * Check for the given pin's fractional frequency change.
-- *
-- * Return: true on fractional frequency offset change, false otherwise
-+ * Return: true on change, false otherwise
-  */
- static bool
- zl3073x_dpll_pin_ffo_check(struct zl3073x_dpll_pin *pin)
- {
- 	struct zl3073x_dpll *zldpll = pin->dpll;
- 	struct zl3073x_dev *zldev = zldpll->dev;
--	const struct zl3073x_ref *ref;
--	u8 ref_id;
-+	const struct zl3073x_chan *chan;
- 	s64 ffo;
- 
--	/* Get reference monitor status */
--	ref_id = zl3073x_input_pin_ref_get(pin->id);
--	ref = zl3073x_ref_state_get(zldev, ref_id);
--
--	/* Do not report ffo changes if the reference monitor report errors */
--	if (!zl3073x_ref_is_status_ok(ref))
-+	if (pin->operstate != DPLL_PIN_OPERSTATE_ACTIVE)
- 		return false;
- 
--	/* Compare with previous value */
--	ffo = zl3073x_ref_ffo_get(ref);
--	if (pin->freq_offset != ffo) {
--		dev_dbg(zldev->dev, "%s freq offset changed: %lld -> %lld\n",
--			pin->label, pin->freq_offset, ffo);
--		pin->freq_offset = ffo;
-+	chan = zl3073x_chan_state_get(zldpll->dev, zldpll->id);
-+	ffo = mul_s64_u64_shr(zl3073x_chan_df_offset_get(chan),
-+			      244140625, 36);
- 
-+	if (atomic64_xchg(&pin->freq_offset, ffo) != ffo) {
-+		dev_dbg(zldev->dev, "%s freq offset changed to: %lld\n",
-+			pin->label, ffo);
- 		return true;
- 	}
- 
-diff --git a/drivers/dpll/zl3073x/ref.h b/drivers/dpll/zl3073x/ref.h
-index 55e80e4f08734..e140ca3ea17dc 100644
---- a/drivers/dpll/zl3073x/ref.h
-+++ b/drivers/dpll/zl3073x/ref.h
-@@ -22,7 +22,6 @@ struct zl3073x_dev;
-  * @freq_ratio_n: FEC mode divisor
-  * @sync_ctrl: reference sync control
-  * @config: reference config
-- * @ffo: current fractional frequency offset
-  * @meas_freq: measured input frequency in Hz
-  * @mon_status: reference monitor status
-  */
-@@ -40,7 +39,6 @@ struct zl3073x_ref {
- 		u8	config;
- 	);
- 	struct_group(stat, /* Status */
--		s64	ffo;
- 		u32	meas_freq;
- 		u8	mon_status;
- 	);
-@@ -58,18 +56,6 @@ int zl3073x_ref_state_update(struct zl3073x_dev *zldev, u8 index);
- 
- int zl3073x_ref_freq_factorize(u32 freq, u16 *base, u16 *mult);
- 
--/**
-- * zl3073x_ref_ffo_get - get current fractional frequency offset
-- * @ref: pointer to ref state
-- *
-- * Return: the latest measured fractional frequency offset
-- */
--static inline s64
--zl3073x_ref_ffo_get(const struct zl3073x_ref *ref)
--{
--	return ref->ffo;
--}
--
- /**
-  * zl3073x_ref_meas_freq_get - get measured input frequency
-  * @ref: pointer to ref state
-diff --git a/drivers/dpll/zl3073x/regs.h b/drivers/dpll/zl3073x/regs.h
-index 8015808bdf548..9578f00095282 100644
---- a/drivers/dpll/zl3073x/regs.h
-+++ b/drivers/dpll/zl3073x/regs.h
-@@ -164,6 +164,11 @@
- #define ZL_DPLL_MODE_REFSEL_MODE_NCO		4
- #define ZL_DPLL_MODE_REFSEL_REF			GENMASK(7, 4)
- 
-+#define ZL_REG_DPLL_DF_READ(_idx)					\
-+	ZL_REG_IDX(_idx, 5, 0x28, 1, ZL3073X_MAX_CHANNELS, 1)
-+#define ZL_DPLL_DF_READ_SEM			BIT(4)
-+#define ZL_DPLL_DF_READ_REF_OFST		BIT(3)
-+
- #define ZL_REG_DPLL_MEAS_CTRL			ZL_REG(5, 0x50, 1)
- #define ZL_DPLL_MEAS_CTRL_EN			BIT(0)
- #define ZL_DPLL_MEAS_CTRL_AVG_FACTOR		GENMASK(7, 4)
-@@ -176,6 +181,16 @@
- #define ZL_REG_DPLL_PHASE_ERR_DATA(_idx)				\
- 	ZL_REG_IDX(_idx, 5, 0x55, 6, ZL3073X_MAX_CHANNELS, 6)
- 
-+/*******************************
-+ * Register Pages 6-7, DPLL Data
-+ *******************************/
-+
-+#define ZL_REG_DPLL_DF_OFFSET_03(_idx)					\
-+	ZL_REG_IDX(_idx, 6, 0x00, 6, 4, 0x20)
-+#define ZL_REG_DPLL_DF_OFFSET_4		ZL_REG(7, 0x00, 6)
-+#define ZL_REG_DPLL_DF_OFFSET(_idx)					\
-+	((_idx) < 4 ? ZL_REG_DPLL_DF_OFFSET_03(_idx) : ZL_REG_DPLL_DF_OFFSET_4)
-+
- /***********************************
-  * Register Page 9, Synth and Output
-  ***********************************/
 -- 
-2.53.0
+Kind regards,
 
+Rodrigo Alencar
