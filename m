@@ -1,168 +1,137 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92C6379EDF;
-	Mon, 11 May 2026 11:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D60374E6C
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 11:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778499377; cv=none; b=ZmA6uhqnbfLK/3aLbuKpqTVeBZOMNkC8+a/9wp4YHZ2dqmtHoCqw5kHHxR/yeJ/skHFvhe5zcxySTsRvIbiWCczpREjVFV3KMKcXnD5/5jRf0ckfM+v3cME/76znNjlt1CJ5lDKQjNvDB55v0166cZlF2aIG4ttqjQVgj3gUzhk=
+	t=1778499594; cv=none; b=D/SWGfjaXkA6HWQZkdhcSp3eijmeIjhXTJKkbsd6qu0CDjWSGfXiZPp+gpM7eyJdM0gHm337vYrV1RCVG/ES9PdlO+z6HPaixETuJdMLgROWuLIfQd0ocCV7q7pgCOcywSqKphpjxjeLNKK3KeBuzBr2djRT9lLRRSztNC9po1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778499377; c=relaxed/simple;
-	bh=DegH9MkiFeBJE4SexquMCZk24MzaVK8LsfzEy+mui64=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ulCHJkODvcFJ9IEw9rHNTay1L+9YxpUt2UDwbTGmYPdpxK4AGIeHzY9cRbdGj5bOPfWOuWNQyAAinhwTcluxJwNE3tXeDQjG9QRsUfE9s0pAElWnzJSmDaApWzimxZSnbwc69x0mL+KdKNHC8S8ZVNJE36lV7tCfMqo+OGvocw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BLRc22X8; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+	s=arc-20240116; t=1778499594; c=relaxed/simple;
+	bh=JXwoxY9aO+DdJZo6FW5QgM56rkq1xPTTIDZwqNN6ABM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B78Y7BxOdZMI8dj4EDzS+YzcSE/33QP6RhCaBb2y7s1ShFPuYqYZolR1qsGxFjkzNrQDcYY+1d61a7HemQKEp4DnCoQ0ax90rptcZqgIc9t2JwXi6orMkC/EKcVwSD1AcCxNFyUk9SSgB+JRF3LTFI1rQaEizBpifHEwFbUNUoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=awtrweLH; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BLRc22X8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=wvcz1NQ1762dWyW3ikY0T2Hu3cBKQuR9OWUU0jS07tQ=; b=BLRc22X8JobnVWQx1+w28cGjTs
-	P1+3b1A6VDdwLivNi/8y4wi33PZq9BlyUH+hxqjqPGRkD5bEskzLCIUva597dRmJJf5ENwTtNMGhM
-	e48FcpfH11lIXmG1/+gDixtEVjCkZDP8c3db+s67jZA07VRzP4Ahdbo3oqnhMCLajZnmFDfz1hHB2
-	Ufw3J1fc/Quz5MlvlRJ2niZ4vCb8MOmiv+268PXylNSqQQ6IfTJsWcqJdXY7O1RIZ3wBfiyL3I6eK
-	+73Go0bqEsS5w3Uewv1iSXLdk+aoicmZywLC6nqN9jVAs3EnKUyjyBjEV+pCNm+AutV0hTkrFZI8Y
-	ktN2IYBQ==;
-Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMOvZ-0000000BUT9-285J;
-	Mon, 11 May 2026 11:36:02 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wMOvY-0000000Dx0c-14Kk;
-	Mon, 11 May 2026 12:36:00 +0100
-From: David Woodhouse <dwmw2@infradead.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Sascha Bischoff <Sascha.Bischoff@arm.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Maxim Levitsky <mlevitsk@redhat.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Kees Cook <kees@kernel.org>,
-	Timothy Hayes <timothy.hayes@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v3 3/4] KVM: arm64: vgic: Remove v2_groups_user_writable and use IIDR revision directly
-Date: Mon, 11 May 2026 12:30:45 +0100
-Message-ID: <20260511113558.3325004-4-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260511113558.3325004-1-dwmw2@infradead.org>
-References: <20260511113558.3325004-1-dwmw2@infradead.org>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="awtrweLH"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48d146705b4so52473165e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 04:39:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1778499591; x=1779104391; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JXwoxY9aO+DdJZo6FW5QgM56rkq1xPTTIDZwqNN6ABM=;
+        b=awtrweLHbVfJ+6Bw9y4sECp2qtc+IrEupfd3CpIoOpE0Z3Z0sUOd+m/G+/IKQL713l
+         rozCh97r0ERbJZI5AMmUiU7wg9ugEJyDfHOc7QeOzEGlhvlp3li7annLpI5vDiRZRWXi
+         zRwUgc2o4pO6DRu/H3+Vl847g7KCc7CHRafUXphKNcDne6tQGRc0Re5fAv4bBFcSt0Jq
+         LFuDRKryDDeydy3/fQOhOXv0r5WI3wuPbN+lHaFGpxBJqZUzf9jZzHa9B5wjEFKcwc1M
+         ZW/+h7abq5nxSyYLoHJ3Ths2IUdjnA3ZzlZeziRjGMQygDdjQUcLRzBIor4DKvDFH5U5
+         TmAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778499591; x=1779104391;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JXwoxY9aO+DdJZo6FW5QgM56rkq1xPTTIDZwqNN6ABM=;
+        b=dS+XZGf6IoZdd2xJSHCn/tfz1H7dbEovMmPgP5+jUqigCRyX0LqAOa02isuaZJVQpj
+         KKFE20414fl2d1BUHKNuu4cGsR4qSnMpbSFn56hJv7YmsVIsAm+0HXbJN3dw/6mY/iA3
+         K6Dn6R/5xYLv2gH/gDWoFT3fDNph/JGjmuvOdR9Fab6pu9389IOZozJZzMER36M+fxqP
+         ZehiCOpaEsSttXmGa0+UaYHCx6d3lmf0oNzJdVJjfj+CJI4uMF8ynOdMWwZf9Pd81nDG
+         1beBFn2uEwhYlk/jpZALwQiU7MIdN0f5/9xwLng2qsuDvu0BitGe/2BVVCIGCDFGa+1x
+         fY5Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+zK9Re0vS8oKJtoiFBBwT8uAUR/kJXqVeMLHVDTaZEf9xtCLi/I17gyZcjokKOcUbX/kuE7tuAl8k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw70dQtLX1w4xmud4/DQqLeE3l2dX0OupejLc5Xu6TArfTKx0xS
+	7+1C+W4pQK/EUygsZ+aP/Fdzb9PjJTEYk/EtBFkbV8Kr54Kiv1jsXGwpIL5N1p7ppRo=
+X-Gm-Gg: Acq92OFuD6vgrmamE+qo/eAEo6AF6N3Ncv137IXncPftinvwAwnyQTOmZhpO/yzmaiu
+	5MBeY85ASbFjXmAzCq/Qr2sih4I1McdxLpFByJ5Uv45jTVIxzJ9x2FcE7TeEJoGkgcj4jTSgB7j
+	Vfoeb40HIiZz+G/kIc1SaaAVkk6WXXWaPTfa/o6rd77zCfJ5guIXAg6oqbXFPuir9e+SBefo/tJ
+	xACA8NGRFVeL+IX651grO+5p0kcx/dlAaQqkWJssM4yr/UgBcd+ZRJ/qzHJPOGTSV6OUqhYsUlT
+	yukl3RtKIpHsaC0ypdkDqhjXHIcTmIStjmXKERSQp1aplWbiuaZLYPFtAbuHBDZghFp/GtB35pl
+	aE+4tehVAUhcVOqjg/Q4M5F0wlYvX7BvErUiOi2aWSZFlB/bW8qS7CQKoR760dXZpzm41dyo9Bo
+	3E0x+NqJx5vhmtGWwP6B0dKX2w5jR8lbhXoA/oL3lF2ivgrZwj
+X-Received: by 2002:a05:600c:83c5:b0:488:c683:be89 with SMTP id 5b1f17b1804b1-48e51f2a759mr342964415e9.9.1778499591165;
+        Mon, 11 May 2026 04:39:51 -0700 (PDT)
+Received: from localhost.localdomain (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6db0b08asm83235955e9.8.2026.05.11.04.39.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 04:39:50 -0700 (PDT)
+Date: Mon, 11 May 2026 13:39:48 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, yosry@kernel.org, nphamcs@gmail.com, 
+	chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev, 
+	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
+Subject: Re: [PATCH 0/3] mm/zswap: Implement per-cgroup proactive writeback
+Message-ID: <agG-gNEclOVf-9WA@localhost.localdomain>
+References: <20260511105149.75584-1-jiahao.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="o3jizhh4qfyisfpc"
+Content-Disposition: inline
+In-Reply-To: <20260511105149.75584-1-jiahao.kernel@gmail.com>
 
-From: David Woodhouse <dwmw@amazon.co.uk>
 
-The v2_groups_user_writable flag was introduced to gate GICv2 userspace
-IGROUPR writes until userspace explicitly wrote the IIDR, signalling
-awareness of the group semantics. However, the guest write path through
-vgic_mmio_write_group() was never gated by this flag, allowing a GICv2
-guest to modify interrupt groups regardless of whether userspace had
-opted in.
+--o3jizhh4qfyisfpc
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/3] mm/zswap: Implement per-cgroup proactive writeback
+MIME-Version: 1.0
 
-Rather than adding the same flag check to the guest path, remove the
-flag entirely and make both guest and userspace IGROUPR writability
-follow the IIDR implementation revision directly. Groups are writable
-when the revision is >= 2, which is the case when userspace explicitly
-sets the IIDR to revision 2 or 3. When userspace does not write the
-IIDR, vgic_init() defaults to KVM_VGIC_IMP_REV_LATEST (currently 3),
-so the behaviour is unchanged for userspace that doesn't set the IIDR.
+On Mon, May 11, 2026 at 06:51:46PM +0800, Hao Jia <jiahao.kernel@gmail.com>=
+ wrote:
+> From: Hao Jia <jiahao1@lixiang.com>
+>=20
+> Zswap currently writes back pages to backing swap devices reactively,
+> triggered either by memory pressure via the shrinker or by the pool
+> reaching its size limit. However, this reactive approach makes writeback
+> timing indeterminate and can disrupt latency-sensitive workloads when
+> eviction happens to coincide with a critical execution window.
+>=20
+> Furthermore, in certain scenarios, it is desirable to trigger writeback
+> in advance to free up memory. For example, users may want to prepare for
+> an upcoming memory-intensive workload by flushing cold memory to the
+> backing storage when the system is relatively idle.
 
-This also fixes the inconsistency where GICv2 userspace could not write
-IGROUPR at the default revision, even though the guest could.
+I can imagine the zswap writeout can come at the least possible
+moment...
 
-As far as I can tell, QEMU commit eb8b9530b0c ("hw/intc/arm_gic_kvm.c:
-Save and restore GICD_IGROUPRn state") made QEMU attempt to save/restore
-the GICD_IGROUPR registers (which, again, are guest-writable but not
-userspace-writable by default) without ever actually setting GICD_IIDR.
+> To address these issues, this patch series introduces a per-cgroup
+> interface that allows users to proactively write back cold compressed
+> pages from zswap to the backing swap device.
 
-Fixes: 32f8777ed92d ("KVM: arm/arm64: vgic: Let userspace opt-in to writable v2 IGROUPR")
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
- arch/arm64/kvm/vgic/vgic-mmio-v2.c | 16 +++++-----------
- include/kvm/arm_vgic.h             |  3 ---
- 2 files changed, 5 insertions(+), 14 deletions(-)
+=2E..but I see this series is not only per-cgroup proactive reclaim but
+it's also age-based reclaim.
 
-diff --git a/arch/arm64/kvm/vgic/vgic-mmio-v2.c b/arch/arm64/kvm/vgic/vgic-mmio-v2.c
-index e5714f7fd2ec..e5fc673a1ea9 100644
---- a/arch/arm64/kvm/vgic/vgic-mmio-v2.c
-+++ b/arch/arm64/kvm/vgic/vgic-mmio-v2.c
-@@ -84,21 +84,15 @@ static int vgic_mmio_uaccess_write_v2_misc(struct kvm_vcpu *vcpu,
- 			return -EINVAL;
- 
- 		/*
--		 * If we observe a write to GICD_IIDR we know that userspace
--		 * has been updated and has had a chance to cope with older
--		 * kernels (VGICv2 IIDR.Revision == 0) incorrectly reporting
--		 * interrupts as group 1, and therefore we now allow groups to
--		 * be user writable.  Doing this by default would break
--		 * migration from old kernels to new kernels with legacy
--		 * userspace.
-+		 * Allow userspace to select the GICv2 IIDR revision.
-+		 * Group writability follows the revision directly:
-+		 * groups are guest/user writable for revision >= 2.
- 		 */
- 		reg = FIELD_GET(GICD_IIDR_REVISION_MASK, val);
- 		switch (reg) {
-+		case KVM_VGIC_IMP_REV_1:
- 		case KVM_VGIC_IMP_REV_2:
- 		case KVM_VGIC_IMP_REV_3:
--			vcpu->kvm->arch.vgic.v2_groups_user_writable = true;
--			fallthrough;
--		case KVM_VGIC_IMP_REV_1:
- 			dist->implementation_rev = reg;
- 			return 0;
- 		default:
-@@ -114,7 +108,7 @@ static int vgic_mmio_uaccess_write_v2_group(struct kvm_vcpu *vcpu,
- 					    gpa_t addr, unsigned int len,
- 					    unsigned long val)
- {
--	if (vcpu->kvm->arch.vgic.v2_groups_user_writable)
-+	if (vgic_get_implementation_rev(vcpu) >= KVM_VGIC_IMP_REV_2)
- 		vgic_mmio_write_group(vcpu, addr, len, val);
- 
- 	return 0;
-diff --git a/include/kvm/arm_vgic.h b/include/kvm/arm_vgic.h
-index 16811ec03d54..a9490e43d98d 100644
---- a/include/kvm/arm_vgic.h
-+++ b/include/kvm/arm_vgic.h
-@@ -377,9 +377,6 @@ struct vgic_dist {
- #define KVM_VGIC_IMP_REV_3	3 /* GICv3 GICR_CTLR.{IW,CES,RWP} */
- #define KVM_VGIC_IMP_REV_LATEST	KVM_VGIC_IMP_REV_3
- 
--	/* Userspace can write to GICv2 IGROUPR */
--	bool			v2_groups_user_writable;
--
- 	/* Do injected MSIs require an additional device ID? */
- 	bool			msis_require_devid;
- 
--- 
-2.51.0
+The per-cg consumption and limits (and regular memory reclaim) are all
+measured in sizes. This age-based invocations don't seem commensurable
+(e.g. how would users in practice determine what is the desired input to
+here).
 
+Could you explain more reasoning behind this design?
+
+Thanks,
+Michal
+
+--o3jizhh4qfyisfpc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCagHAARsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+AisVgEAue3WyVVGY7GBg1v3Zt8e
+eeD5pIl0nLnXPUEjlLTIJNUA/2WZU04Y/56uL4zU3y+755L6om2vsL3DmWWaCGB9
+0zoN
+=7Raz
+-----END PGP SIGNATURE-----
+
+--o3jizhh4qfyisfpc--
