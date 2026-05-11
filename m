@@ -1,136 +1,146 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09D23A452D
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DE81B87C0
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778504876; cv=none; b=CGoutpKymGGbzHkgKXEeYaeDNRr2b0dJouqFjWJpxcHCoLzT3ehlLyDI+cIIO40tTKlr9sMb9RJBzXM82djBG8nkLkxKAR077LXJNDuIUYHVOV18j1WqpQ0ljaoh437mtxMEcl72Wanek5h08XJAdCVawQec7SbsopkoWCoLTo8=
+	t=1778505035; cv=none; b=HvhkgR+gYrNIwaJ4xIFULJxuWaebTwho4J3YyCskziUklE+jLtLSSMV5MDNreSsgArbJZe1DzVOigkC1ijxNtVfq5SqvUO7k4GCj7OZYSeEERQ+VV8mfrQUjdjuM1NieE02O4sGeMLcgUFCAq/X14KzA0MLzcX7tlqN6yHithu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778504876; c=relaxed/simple;
-	bh=Ve14qOZB6IijyDTsiUWPeGOsSOLkx/bw4m6bBMVawZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hn2PWCLUUQKixiOcGdNo+f48yF9ObcfME49HNMM//XTTUwOhnig0GqbfLSQgJLEnwc2woTekPVrtrj5ANDWkiXg3shoOUf6AFOScNCCgYobfJQJjMWFyAicX7EZB5+Q++Z4rQeBQp2sAPVn+g6cNWvm2QA38nWARhTRd7vKp9+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Sgx4Hd7t; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1778505035; c=relaxed/simple;
+	bh=RJmAU8Xm5a8eeec1e82BQsegJUkIaJkwUrllB2D/02Q=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ICJj6XXiYOCGz7WczpeYNUjRRBr1Po2Y4Nb/iSphDwtGngVmE41K4mXx3w5/ANsY58ij8psABb+UtoVGI7ZL4PwDD4m0PaUAzQhSwSy75IzG/wjX6A5sAshScYMsvEI+nH3paP5D4cC+x8pEurEhTtnxg9q5G9qV+0IWWWWUU5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ab9Hpr10; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Sgx4Hd7t"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4891e86fabeso50927705e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 06:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1778504873; x=1779109673; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dy6auEdvCgEB/rpn78rKFNSXFt4boyLgJAQZRyoszRY=;
-        b=Sgx4Hd7t/RaHjeot9to0FZJbg69DzCtbk3E4JQijbOL6WRKzProjRkyTJvxfdyLrA0
-         MNndxcNIIvFHpnVEdiGykqkcLf4TUrFD8D6haDgQVgTvcuJM2EZE6FvVSI/OKrpCFeoP
-         fkvdfGJmgR/xakZVyXfJ9D3ujIqir2k9ATayT2ATTHzm/42Q/glhPo5Yok0k0N3tYz4T
-         jnPnB0Z0Ro1JhL8Ho0lmTpMa6hrpKv1XN0CCIddQv335vKPmDYtx97yMt5PYuniTRns3
-         C//lwPmsm9N5RcBi5PXTso/FhhwcvrJa+eOZAvT6N9TdHl4qEOg+IgNV500RroAz4EIS
-         n1CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778504873; x=1779109673;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dy6auEdvCgEB/rpn78rKFNSXFt4boyLgJAQZRyoszRY=;
-        b=Ar1c8CREA881zug3fxpJ75pMcMtUrWJ1wtgywDue/sFaFVcA42M963RG/LMLzKs2dK
-         zQiLZTV4raTyVcSMyCeWbydvmCGcYw5RE52d/4s1/Wa7YXjqFsbxMGdZIhkjm54mdGHY
-         ppcxOIw2ETlkl2dUJbn0mjusqR6J/70khhjup+yKAm+x3FvL3WfSgi4wu8YltqGwnKDT
-         dgwe5lbkYzWB07MkpWXJiYvjqpdr8myuB8/3kmFlILkO4Zhh5Vm5UTxSLp8nOnQUQPGe
-         eaijWj6OdU2g8En5CCo0sw2itN3sfMYnrHlcyy2BFWFrKrFvLjg8QfiJEvftI5SROTEV
-         /KqQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8TBjDhnScgnkNl6BsGv91dq0QJz8JGiyP5LKGgl2f4RDvegAv8ltg0HmlWPDSAM5M4w8nGkOTNMdo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwswLCjO8ouS2aNkfu+wx3359qzJlwGtZi/GjJ2wvjFB3S7vsDg
-	jm9EjmQ8lrH+0pqOb1md3Qfrd2APv8jgSYn0yIzSWRNdJ4ejw3fX7L+BOCTaTJ6sXhU=
-X-Gm-Gg: Acq92OE+cvBQqTt+pjEp3pL8n4rraULL6K+lfVMTnHyyeq1uaQR5Sv0nXzAcfUuw9bi
-	ip7QdMw6D2UpiAACYLfrRY1bD2iJku3yPTgx/NpiRXiHlHTG+6yOdqhnMGeijnJ0MPb8zHHBQHs
-	w4oWrkOJLQt0BBA9qdtcbmidhH58uXsQY20DYWImCE0lUtD3K/fUGMS2xx1RxrfGIHptZ8T2FgP
-	QpzKKaBG+zYgMy1FFzKHON28eMPQjw8RfZ1iLqmWt7b2SrsOKwYHgvqldo0+zpkZeXci/VUL8JO
-	eybR8vku+EvPWSZ5fvfM3Fv8sLgSYy4MSQseU2LLYf+b4/jp1xeOjv+W9Rd2qQE5HSNvDf9tOQ7
-	AWgPzIFiySR/64kXUsN7+LZWDuq9/VxcRd0arRJOwtctu2NZ9N2bqpAp+/aaLTJFazlFwUWEb84
-	RPcVUEG7s/vD8bCPHJIue6Iw5kHVwCcy1kFQvp
-X-Received: by 2002:a05:600c:4512:b0:489:284:44ab with SMTP id 5b1f17b1804b1-48e51e1deedmr377040195e9.12.1778504873215;
-        Mon, 11 May 2026 06:07:53 -0700 (PDT)
-Received: from localhost (109-81-87-110.rct.o2.cz. [109.81.87.110])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e7040a9a9sm321328475e9.9.2026.05.11.06.07.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 06:07:52 -0700 (PDT)
-Date: Mon, 11 May 2026 15:07:51 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: Sasha Levin <sashal@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
- primitive
-Message-ID: <agHUp8ulaWJ75WU5@tiehlicka>
-References: <20260507070547.2268452-1-sashal@kernel.org>
- <20260508135630.a380e3c187b59e4c04e6f358@linux-foundation.org>
- <af5Z2IvtS5pVorSl@laps>
- <agG_PZ3qcl6TwLnL@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ab9Hpr10"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FBBCC2BCF7
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:10:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778505035;
+	bh=RJmAU8Xm5a8eeec1e82BQsegJUkIaJkwUrllB2D/02Q=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=Ab9Hpr103rovvA8//n/aB6bbKLkL9ZvZz03H7gaJEtxiCDpRs0nmuJSCCviPhBxLY
+	 MQgSmb0+Vn21Sg7a5oejZqWsP7GUoA41BzxXKcl2H/6hKTqW2UjQysxm0nBnDth+bR
+	 zsVMtheLXi0X57Ds1NXGSwuOt8YLwhncQ/FVilnaffXjRAcgXIzWs4ZykT1WxNl+VN
+	 RWahbpwc0VR40PoHkyv0u8i4yt0KKJ6NIqefZn8BTgIhhgciVc5xfPgaBrgfSm509a
+	 IrolISyKdRGDg/v7KDRRrSsg38PNt688ZH7EzWB5z6yuS5YuDYSKpn8/GcgJ4Dd/s1
+	 xaK+IcJiiEu4w==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-393a49d2e5eso36282351fa.2
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 06:10:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8q0V7qHssKQFrkEWQW835NayxVO8x+uMXJHkAlCaAySzbgO7GQUwShWUMaZf5X/Ic0biOPJGwwOKA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcPhEFCKzVBbXRD150nhVt73sGHTGAWJzGCdSNj70CQf56pKZs
+	36lhBAplL9bx19aTEWDLovJuC//0xgAiKIzw76yPzCD5qppH9C1tJ6HWqkBiXRtj6v0aWKSr/XR
+	0z+JwbVF487xtMAugy7GO6C5YbZsgQXiu3RVoYXRBmw==
+X-Received: by 2002:a2e:3a05:0:b0:38e:2aa7:3984 with SMTP id
+ 38308e7fff4ca-393c4126752mr63885091fa.11.1778505033770; Mon, 11 May 2026
+ 06:10:33 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 May 2026 06:10:32 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 May 2026 06:10:32 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260508105448.31799-3-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <agG_PZ3qcl6TwLnL@gmail.com>
+References: <20260508105448.31799-1-tzungbi@kernel.org> <20260508105448.31799-3-tzungbi@kernel.org>
+Date: Mon, 11 May 2026 06:10:32 -0700
+X-Gmail-Original-Message-ID: <CAMRc=McPez6Ver5NgrDPnM9YDb7cPonWE7BBsS_5AnY9tGf3xQ@mail.gmail.com>
+X-Gm-Features: AVHnY4IhmzoJd3wLNYsrAs66xOTMErOgy7HuqiZ7uCrCAjxL0Y1y70L8YCPCxdU
+Message-ID: <CAMRc=McPez6Ver5NgrDPnM9YDb7cPonWE7BBsS_5AnY9tGf3xQ@mail.gmail.com>
+Subject: Re: [PATCH v10 2/9] revocable: Add KUnit test cases
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Johan Hovold <johan@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon 11-05-26 04:41:38, Breno Leitao wrote:
-> On Fri, May 08, 2026 at 05:47:04PM -0400, Sasha Levin wrote:
-> > On Fri, May 08, 2026 at 01:56:30PM -0700, Andrew Morton wrote:
-> > > On Thu,  7 May 2026 03:05:45 -0400 Sasha Levin <sashal@kernel.org> wrote:
-> > >
-> > > > When a (security) issue goes public, fleets stay exposed until a patched kernel
-> > > > is built, distributed, and rebooted into.
-> > > >
-> > > > For many such issues the simplest mitigation is to stop calling the buggy
-> > > > function. Killswitch provides that. An admin writes:
-> > > >
-> > > >     echo "engage af_alg_sendmsg -1" \
-> > > >         > /sys/kernel/security/killswitch/control
-> > >
-> > > It certainly sounds useful, but what would I know.  How do we hunt down
-> > > suitable operations people (aka "target audience") to find out how
-> > > useful this is to them?
-> >
-> > I'm not entierly sure here... If folks have suggestions on folks to loop in,
-> > that'll be great!
-> 
-> I work with these issues at Meta, and this approach would address a real
-> need we have.
-> 
-> While livepatch could theoretically solve this problem, it's less suited
-> for rapid mitigation for a couple of reasons:
-> 
-> 1) Livepatch rollout is inherently slower due to the blast radius if a
->    bug exists in the livepatch mechanism itself.
-> 
-> 2) It's common to run hundreds of different kernel versions across a
->    fleet. Since livepatch is kernel-specific, a single CVE suddenly
->    requires building and deploying hundreds of individual livepatches—
->    far less practical than a simple sysfs write.
+On Fri, 8 May 2026 12:54:41 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
+> Add KUnit test cases for the revocable API.
+>
+> The test cases cover the following scenarios:
+>
+> - Basic: Verifies that a consumer can successfully access the resource.
+> - Revocation: Verifies that after the provider revokes the resource,
+>   the consumer correctly receives a NULL pointer on a subsequent access.
+> - Try Access Macro: Same as "Revocation" but uses the macro level
+>   helpers.
+> - Concurrent Access: Verifies multiple threads can access the resource.
+>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
 
-LP is certainly a more laborous solution. I guess this is quite clear.
-It is also much safer option as it deals with all implementation details
-like consistency. All that is not done for fun. I am really wondering
-how admins are expected to a) know which kernel functions are ok/safe to
-disable and b) when it is safe to do so without introducing unsafe
-kernel state or introduce an outright bug that way.
+...
 
-Thiking about this I can see how waiting for an official LP can be time
-consuming and sometimes creating those is far from trivial. But would it
-make sense to have automated LP creation tooling available that would
-allow to return early from a function and relly on the existing
-infrastructure to do the right thing?
--- 
-Michal Hocko
-SUSE Labs
+> +
+> +config REVOCABLE_KUNIT_TEST
+> +	tristate "KUnit tests for revocable" if !KUNIT_ALL_TESTS
+> +	depends on KUNIT
+> +	default KUNIT_ALL_TESTS
+> diff --git a/drivers/base/Makefile b/drivers/base/Makefile
+> index bdf854694e39..5fd19abbc83e 100644
+> --- a/drivers/base/Makefile
+> +++ b/drivers/base/Makefile
+> @@ -35,3 +35,6 @@ ccflags-$(CONFIG_DEBUG_DRIVER) := -DDEBUG
+>  # define_trace.h needs to know how to find our header
+>  CFLAGS_trace.o		:= -I$(src)
+>  obj-$(CONFIG_TRACING)	+= trace.o
+> +
+> +# KUnit test cases
+> +obj-$(CONFIG_REVOCABLE_KUNIT_TEST)	+= revocable_test.o
+> diff --git a/drivers/base/revocable_test.c b/drivers/base/revocable_test.c
+
+Please move this under drivers/base/tests/ where the rest of kunit modules
+live and name it revocable-test.c for consistency with the existing ones.
+
+> new file mode 100644
+> index 000000000000..bb776a747ff7
+> --- /dev/null
+> +++ b/drivers/base/revocable_test.c
+> @@ -0,0 +1,405 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright 2026 Google LLC
+> + *
+> + * KUnit tests for the revocable API.
+> + *
+> + * The test cases cover the following scenarios:
+> + *
+> + * - Basic: Verifies that a consumer can successfully access the resource.
+> + *
+> + * - Revocation: Verifies that after the provider revokes the resource,
+> + *   the consumer correctly receives a NULL pointer on a subsequent access.
+> + *
+> + * - Try Access Macro: Same as "Revocation" but uses the macro level
+> + *   helpers.
+> + *
+> + * - Concurrent Access: Verifies multiple threads can access the resource.
+> + */
+> +
+> +#include <kunit/test.h>
+
+Add a newline here as do other kunit modules.
+
+> +#include <linux/completion.h>
+> +#include <linux/delay.h>
+> +#include <linux/kthread.h>
+> +#include <linux/refcount.h>
+> +#include <linux/revocable.h>
+> +
+
+Otherwise looks good, with the above:
+
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
+Thanks,
+Bartosz
