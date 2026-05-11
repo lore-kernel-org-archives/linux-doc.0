@@ -1,178 +1,138 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DAB13FE371
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 14:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03793FE65C;
+	Mon, 11 May 2026 14:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778509561; cv=none; b=QB93ieE5B93TQGGGPIDh+96f31vERYqg5b0beK1YjpwkO5qkclYHJXqsF8b71NcE2l08RtM9avFCSdQ5Iqr+/LFAfyCvudHXouEQpRrvPpaFEvCWFbkYeHdk6fYPxM2F0ch/AECRWp20yaNrcXxdEoqaFA+HDdsfX/vCHOqBIJM=
+	t=1778510710; cv=none; b=ex/B4+guuEU+KL2nbVZ22ucuVuIQsv9WZwnCgOG7Z3oR3y1N8CJA7J/h2lsWyZzptQa3jqnwuV9NMO9iZOigbMQr4T4zi1myCR+FlWUZ+68i7dYJoy5TCq5I8eUUcuXwvK9H6M80ZPmJAwtRPHe/OkAZQjL6fNrojpJDEL13WDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778509561; c=relaxed/simple;
-	bh=y6mI/aBQdIS45CPgRMSXGRkAKq89vLEbgo3SgmuJbgk=;
+	s=arc-20240116; t=1778510710; c=relaxed/simple;
+	bh=I58VxrthrFE2hsqt1f7n8z3Ftt+pNK/sskUmzPCZk1Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DhdGfswdZOqLnHspIARfBeebG6kXPozUbQ7C/R6DmV1jX0xXCCIjQboCAHLOn7RoXAA8Yp6bFCTU6naio3tHk3SxRrqIuh1R+TMck6AbVovG4yqGUfxt+n3UEYvbyusprvI0801Xeu7q4nPlm/Yv/TKgmWAk17ChxalLtmo6NNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=RInAvzG/; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gRKMtSr2mpuMBAVFTjCOCEnmrCE1cAfCoC6Q4DUwvwhMxcTaQoeX68EFmiaUAdJPn6xEcB+dgAoCKI7K1qo/KgeA9HubfQy3LWlYvCM20jvxj1ltfERTi7JDuVO05wwXwAL/jaUQIZSO1rkghZ36Zk/TE9krogbfu5Doa91rX4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Mps5e0bE; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="RInAvzG/"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4891b0786beso28871045e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 07:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1778509558; x=1779114358; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=A1FsOK16n6jAh/hhIjwyhyeD9jcnIwHzJmEfMcLD+mE=;
-        b=RInAvzG/m8eTo2zDpf+r+T50TEG2S44D6jkRSr2l1M001E8b+W7fkkZp1pIA7LHD9e
-         RSblEGU/sWf9fXz6BZZFmuH6InHh0kOA1215Su/giYecKL5rAm+2ikVbL2LQhbE8M3/Y
-         jmMLx/DK0Bus5UqbrLA/kkfvh18fZF0Z/i84QK39bKTi/ex4CS6O/4RX+Y7KFA6BMGrH
-         w6y3Ag+aDSVZwzFWbRCW2wGW25fFZuR6Vj389p+o9dIzCv0LD/L7oQ+lu4A5t+eNVjI+
-         mmofHq6pMkfzftHaPacG0zRbfFJFJrfQeXVbIv+CdC7v/h7ua1ZN1D9WpSOr43bj7Tex
-         Jzfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778509558; x=1779114358;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A1FsOK16n6jAh/hhIjwyhyeD9jcnIwHzJmEfMcLD+mE=;
-        b=OkUM6PoLb/3mNYj4vOr4xLokc+VPO8eayBthnHoy+cYxlOkdW9i/kkFud9ioBBY0W6
-         lgTz50tgCngoyTfAtv7yx/nJl77G9payVXz+rh1e3Ij/mrXQYbxU+KdMuof+qkCH1NtC
-         MMtGnGW91Essn6yMHEXRVN8bg3Z47gnPzVrWd1oKBd8lPYAvPUy8P0rPhOYPIYiPmaYW
-         2X94tFh7Qon3A+qSL7LPDsf4QI5ROJBwDQlOZVVZj63iAvle7UmZSGToXOmcYe2ZO+x5
-         PRP7GCs2VSYnpkzSHb8AO0/jHEzYvHH/6gKYxvCW7f0HMUrUzRLoIvnFkU8Cnu8GuUPP
-         NJWA==
-X-Forwarded-Encrypted: i=1; AFNElJ+88OHM4zT0PHgO2D+UKYeDQ0cRu/d3ydxhS/tyy9ujAJACLykHJ6SOwllMt3goIQEr6Rd9dxZa+Fc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTAG9/YeW7zL/I3Frc1xTQDQWcQdwv7bl6ytn8GHxo8wa69IsE
-	78ylwhazfRsIh9nqCscuZinab6kQ3HdlefUUtmCJea9WqpLfnwtbDwGx/kYXsRYLYPY=
-X-Gm-Gg: Acq92OHV/cPuCCFsovlA6pp0wA8w8T4GRPqvlczL8TjDQ3rEj8SwxDYP78MBTHUo33R
-	nMtpNDjZIKXO0UGWfbUxu2i1eLZiqdgvT8DonHVVQzTtScvhULkpSmAPV7XVgiu2vgvfNPH7dsy
-	xjizSlIOxpHxWLcPiftfHCXMN67ArBqNYYkbl6Os+J4B+1izUrgfHOetnSfUj2CGoJizg79jK0T
-	A5Ok1N3TsTNBe5zBv6Tosn+KbZVw0g1JNhNmn0Lu9H+IDof3339lphp1D6oucvwsLuiPLXfiATm
-	BvE4x5twOUDhG7LGxXRm3IcyOFIOu6LI7yE8KRrk+TFeGZrrp+wLH402hgMSU8pYhTFG007ciDE
-	XK9ug7xeBX/mlOXcOiobU3hHA6yBkgl5NUbzlYisFg8teanYY/sR0jRi7OuyLe7PhaLZmv4Cr4K
-	JzfYpm0zpFKZ5LpcHc1YCAod7gBWihyq6HytGJ
-X-Received: by 2002:a05:600c:3b0f:b0:48a:7965:b943 with SMTP id 5b1f17b1804b1-48e51f4e9admr397103525e9.29.1778509558540;
-        Mon, 11 May 2026 07:25:58 -0700 (PDT)
-Received: from localhost (109-81-87-110.rct.o2.cz. [109.81.87.110])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491f8d4c3sm25413486f8f.34.2026.05.11.07.25.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 07:25:58 -0700 (PDT)
-Date: Mon, 11 May 2026 16:25:57 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Breno Leitao <leitao@debian.org>,
-	Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
- primitive
-Message-ID: <agHm9Vj7bPPCRS1g@tiehlicka>
-References: <20260507070547.2268452-1-sashal@kernel.org>
- <20260508135630.a380e3c187b59e4c04e6f358@linux-foundation.org>
- <af5Z2IvtS5pVorSl@laps>
- <agG_PZ3qcl6TwLnL@gmail.com>
- <agHUp8ulaWJ75WU5@tiehlicka>
- <agHcFCRVSn5ra5Kc@laps>
- <agHeZPA3eHhJHIsQ@tiehlicka>
- <agHgDgwu8H9Opzpl@laps>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Mps5e0bE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=YzVPJqG/qdv32dfB2Pkj62g8vYaU78q3x/Fdun8yAf8=; b=Mps5e0bEcBN3c6hLG1mDHddHe8
+	T6BRb3fiN7sc5Hzeli/1STuk7ycdAKTgb3rjbAHWToMkD8PEXHy1Adc+wcl/+swdZUd008CTrfz2D
+	Upl9Ed0ruLyktChEP1lRgtR4Xnwbscv+0uNTyM1wNSIHtw/VYQ6Tzn/e4h2FJRzaRau6X2h2abohs
+	0MM1BMesq8alM58ecHo2ycyq5MMC4E2HvQH5HPC9wUKgD0ATYcWhjfchBkZno3qhULcOw2SnMRsHM
+	H5xS3flH0kgoZjn1mrEygDqpIZletQmtUDfUvJMNYVFdEAatMIpefdFfWfY4SQzmMLpdPqIc8NElc
+	631D6ItQ==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wMRsB-001fjV-1u;
+	Mon, 11 May 2026 14:44:43 +0000
+Date: Mon, 11 May 2026 07:44:37 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Lance Yang <lance.yang@linux.dev>
+Cc: david@kernel.org, linmiaohe@huawei.com, nao.horiguchi@gmail.com, 
+	akpm@linux-foundation.org, corbet@lwn.net, skhan@linuxfoundation.org, ljs@kernel.org, 
+	Liam.Howlett@oracle.com, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, shuah@kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 2/4] mm/memory-failure: add panic option for
+ unrecoverable pages
+Message-ID: <agHp-wFHe3FjWAAV@gmail.com>
+References: <aftnSfb15G92JON5@gmail.com>
+ <20260510144220.92522-1-lance.yang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <agHgDgwu8H9Opzpl@laps>
+In-Reply-To: <20260510144220.92522-1-lance.yang@linux.dev>
+X-Debian-User: leitao
 
-On Mon 11-05-26 09:56:30, Sasha Levin wrote:
-> On Mon, May 11, 2026 at 03:49:24PM +0200, Michal Hocko wrote:
-> > On Mon 11-05-26 09:39:32, Sasha Levin wrote:
-> > > On Mon, May 11, 2026 at 03:07:51PM +0200, Michal Hocko wrote:
-> > > > On Mon 11-05-26 04:41:38, Breno Leitao wrote:
-> > > > > On Fri, May 08, 2026 at 05:47:04PM -0400, Sasha Levin wrote:
-> > > > > > On Fri, May 08, 2026 at 01:56:30PM -0700, Andrew Morton wrote:
-> > > > > > > On Thu,  7 May 2026 03:05:45 -0400 Sasha Levin <sashal@kernel.org> wrote:
-> > > > > > >
-> > > > > > > > When a (security) issue goes public, fleets stay exposed until a patched kernel
-> > > > > > > > is built, distributed, and rebooted into.
-> > > > > > > >
-> > > > > > > > For many such issues the simplest mitigation is to stop calling the buggy
-> > > > > > > > function. Killswitch provides that. An admin writes:
-> > > > > > > >
-> > > > > > > >     echo "engage af_alg_sendmsg -1" \
-> > > > > > > >         > /sys/kernel/security/killswitch/control
-> > > > > > >
-> > > > > > > It certainly sounds useful, but what would I know.  How do we hunt down
-> > > > > > > suitable operations people (aka "target audience") to find out how
-> > > > > > > useful this is to them?
-> > > > > >
-> > > > > > I'm not entierly sure here... If folks have suggestions on folks to loop in,
-> > > > > > that'll be great!
-> > > > >
-> > > > > I work with these issues at Meta, and this approach would address a real
-> > > > > need we have.
-> > > 
-> > > Thanks for the feedback!
-> > > 
-> > > > > While livepatch could theoretically solve this problem, it's less suited
-> > > > > for rapid mitigation for a couple of reasons:
-> > > > >
-> > > > > 1) Livepatch rollout is inherently slower due to the blast radius if a
-> > > > >    bug exists in the livepatch mechanism itself.
-> > > > >
-> > > > > 2) It's common to run hundreds of different kernel versions across a
-> > > > >    fleet. Since livepatch is kernel-specific, a single CVE suddenly
-> > > > >    requires building and deploying hundreds of individual livepatches—
-> > > > >    far less practical than a simple sysfs write.
-> > > >
-> > > > LP is certainly a more laborous solution. I guess this is quite clear.
-> > > > It is also much safer option as it deals with all implementation details
-> > > > like consistency. All that is not done for fun. I am really wondering
-> > > > how admins are expected to a) know which kernel functions are ok/safe to
-> > > > disable and b) when it is safe to do so without introducing unsafe
-> > > > kernel state or introduce an outright bug that way.
-> > > 
-> > > In a similar way to how they would know if a given livepatch is safe to apply -
-> > > ideally it would be communicated by the vendor/distro/kernel team.
-> > 
-> > You have missed my point. KLP takes an extra steps to make sure patching
-> > a particular function is safe to modify or to put the change into the
-> > effect.
+On Sun, May 10, 2026 at 10:42:20PM +0800, Lance Yang wrote:
 > 
-> Safety checks like making sure the patched function is on the stack, or did you
-> mean something else?
-
-Yes, exactly what LP infrastructure already provides.
-
-> > > "On Debian XX.YY, use the following command to mitigate CVE-AAAA-BBBB:
-> > > 
-> > >  echo "engage woops -1" > /sys/kernel/security/killswitch/control"
-> > > 
-> > > > Thiking about this I can see how waiting for an official LP can be time
-> > > > consuming and sometimes creating those is far from trivial. But would it
-> > > > make sense to have automated LP creation tooling available that would
-> > > > allow to return early from a function and relly on the existing
-> > > > infrastructure to do the right thing?
-> > > 
-> > > This would definitely help (and in light of how the last couple of weeks played
-> > > out, the case for livepatches definitely increased), but not all
-> > > vendors/distros provide livepatches.
-> > 
-> > The point I've tried to make is that you (as an admin) shouldn't depend
-> > on your vendor to provide you with an official LP just to disable a
-> > certain function(ality). That is/should be a trivial case where the LP
-> > should be ideally generated automagically if you have a tooling
-> > available. I might be wrong and overlook some complexity here.
+> On Wed, May 06, 2026 at 09:18:12AM -0700, Breno Leitao wrote:
+> >On Tue, Apr 28, 2026 at 11:07:21AM +0800, Lance Yang wrote:
+> >> 
+> >> On Mon, Apr 27, 2026 at 05:49:28PM +0200, David Hildenbrand (Arm) wrote:
+> >> >> +	switch (type) {
+> >> >> +	case MF_MSG_KERNEL:
+> >> >> +	case MF_MSG_UNKNOWN:
+> >> >> +		return true;
+> >> >> +	case MF_MSG_KERNEL_HIGH_ORDER:
+> >> >> +		/*
+> >> >> +		 * Rule out a concurrent buddy allocation: give the
+> >> >> +		 * allocator a moment to finish prep_new_page() and
+> >> >> +		 * re-check. A genuine high-order kernel tail page stays
+> >> >> +		 * unowned; an in-flight allocation will have bumped the
+> >> >> +		 * refcount, attached a mapping, or placed the page on
+> >> >> +		 * an LRU by now.
+> >> >> +		 */
+> >> >> +		p = pfn_to_online_page(pfn);
+> >> >> +		if (!p)
+> >> >> +			return true;
+> >> >> +		/*
+> >> >> +		 * Yield so a concurrent allocator on another CPU can
+> >> >> +		 * finish prep_new_page() and have its writes become
+> >> >> +		 * visible before we resample the page state.
+> >> >> +		 */
+> >> >> +		cpu_relax();
+> >> >> +		return page_count(p) == 0 &&
+> >> >> +		       !PageLRU(p) &&
+> >> >> +		       !page_mapped(p) &&
+> >> >> +		       !page_folio(p)->mapping &&
+> >> >> +		       !is_free_buddy_page(p);
+> >> >
+> >> >I don't get what you are doing here. The right way to check for a tail page is
+> >> >not by checking the refcount.
+> >> >
+> >> >Further, you are not holding a folio reference? If so, calling
+> >> >page_mapped/folio_mapped is shaky. On concurrent folio split you can trigger a
+> >> >VM_WARN_ON_FOLIO().
+> >> >
+> >> >
+> >> >Maybe folio_snapshot() is what you are looking for, if you are in fact not
+> >> >holding a reference?
+> >> 
+> >> Right! Maybe we should not try to make this decision in
+> >> panic_on_unrecoverable_mf().
+> >> 
+> >> By the time we get here, we only know the final MF_MSG_* type. The
+> >> real reason why get_hwpoison_page() failed is already lost.
+> >> 
+> >> Wonder if it would be better to split that earlier, around
+> >> __get_unpoison_page()/get_any_page(). That code still knows why
+> >> grabbing the page failed, either an unsupported kernel page or
+> >> just a temporary race we cannot really trust :)
+> >> 
+> >> Then the later panic logic can be simple: panic for the stable
+> >> unsupported kernel page case, and not for the temporary race case.
+> >> 
+> >> That would also avoid trying to guess MF_MSG_KERNEL_HIGH_ORDER here:)
+> >
+> >This is a very good feedback, and definitely what I wanted to do, but,
+> >failed. Once we have the reason, we don't need this dance to guess the
+> >reason.
+> >
+> >I've hacked a patch based on this approach. How does it sound?
 > 
-> Module signing is what stops that approach for me.
+> Yes. This direction makes sense to me, not an expert though :D
+> 
+> I played with something similar (untested) on top of patch #01:
 
-OK, so the actual constrain here is that you cannot load your own
-modules. That was not really clear from your description. I assume you
-cannot enroll your own key and sign?
--- 
-Michal Hocko
-SUSE Labs
+Thanks!
+
+I'll prepare a new series addressing all the feedback from both
+reviewers and AI analysis. I will resend soon and we can catch up
+on the next revision,
+
+Thanks for the review,
+--breno
