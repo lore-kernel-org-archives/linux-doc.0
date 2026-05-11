@@ -1,100 +1,226 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98240402444;
-	Mon, 11 May 2026 14:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778511554; cv=none; b=co2qbMB5yuhAalkvaiKZYV0ZxhPpo+ddNaSw7nVZAkWpsiOYAZH5A6cLuAodS5CW16Jux/wy7MEpYZJje+HM7pM0A58kwkQAd/Nm3bm/H+eDaAQ0dEt50UCIQ4jYCsDNFGSN0CakpZkdOv7CyjPZhBBV6vpFtfZia1ieY4rFbm8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778511554; c=relaxed/simple;
-	bh=RVzl5euHWlrFeYWaPgVmNtPOGAoszfCB1xdHEgvKugY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dc7BUiIbTWEHMb8amR/v0BBu1NE8GBQOBaYVtLesxquRrVmV/SExgFMSEWtGlOxbmJZ/ClHyZCT4+kpbQFx+X+4TE7fkFkR/gnNsztuKhr3i1ZSBK6IF/P43oso2XJbvH2YuepfVL4rdjborer4OXSvGSL0z4BLsNi4j1a1ijXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=O40GmaiQ; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500434014B4
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 15:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778511602; cv=pass; b=oGC10obBgCpmRuXK2QwAumGmrlAutzkgDhKL0KUcHGAh7gchoefmkRcfOnpr4h+Zb9QAw6N7csHCJMtBIZdhdfYKc+fmlfK9gKlNrFanhQMbtbIllSydejN0t4JIe+KqUYd5vY0hp0eNXUG0konXlmm1tX57sp0Yw2vGa8O0hdc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778511602; c=relaxed/simple;
+	bh=Tw/jTaTfevuD4j6kevhXiivmx/RspoclXlT/LcAGcBY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uHG10w35uIkkGINYMr403q/Tcdx3NnNi7uKkAbglVQqKeRIQIbw2z+cDLjg3RM7hZMPY3aOO/ok/H5b/s61QG/NscRPCi40bk4j17ZLMD1Ag0CjTWO0j+i2PEB7Uktpe+K+94buQL8C8ct1QrQZ8zxug3/TCcWiVMdtSGOKNZvU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=awalTV4+; arc=pass smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="O40GmaiQ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=BVxqP+WZYYmuf+JZcJQLw0/ZVaGLASkbs+ai8cu7+xI=; b=O40GmaiQg0doxpFVgahy4FlehJ
-	c63QN8OMSCwe9GiwwoBmvi3xvqBNc9ZmMVDwpj+eYPHsMZDus8iCPT5PRd0x2ECTjqdSuWsxQ6a1a
-	77g2UkpvLAKJKkcKv7JX1KgXOx2GQ8KYlppQ3b/Dt+FB0Q/N5gd8xxmTD2qcLU10Z0Fk9CXcjaS95
-	Am8dNdzPKcKrk6rmOI0Th4mlZWNgK3A3FkTTBsMRtw1K6LINbUgvcoV63lPUefqTA51irCubKOPhW
-	CItElULogaLm1uu8yLEZ4Ym+v6rqq/5AX6etASQm56nF2UHYm918NMrsxxi7eq5pqRH0CVYyb5QWC
-	rcn7sklw==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wMS67-001gE2-0S;
-	Mon, 11 May 2026 14:59:07 +0000
-Date: Mon, 11 May 2026 07:59:02 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, akpm@linux-foundation.org, skhan@linuxfoundation.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2] killswitch: add per-function short-circuit mitigation
- primitive
-Message-ID: <agHrzsQzBw2yJZp-@gmail.com>
-References: <20260508195749.1885522-1-sashal@kernel.org>
- <agHSFo0yqypa9vk9@gmail.com>
- <agHcc4s-xj83dzty@laps>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="awalTV4+"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-67bc6098640so7003301a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 08:00:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778511600; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AxE74WK/+ZhOt/+OP4LVzkAjo1/q6HinHNycbnHy3vZPNrOX40wJY86o90LzlFfhZ6
+         OU9DAi+lqJ01VVIk2U/CQ3+85GBASKAsZ4T014/t4ggHH3vrzD0lhIiG3wFptj8cMeug
+         PPQtGbctiPlA/3QLicm9h29R0axJHUe4FXhSHds897u7Za4Je85d++s+VGK/pshWeEtB
+         +hlXAh8DTIHbzaRaizy/4sjSnZI/qB1kteKw4W4KYip1XOYUe6F6ad1BIUsqAQxsNlHv
+         H1py8bBXDbSg0PO3yeVEv8TFxQL8YBAY6fGuB5mAECX5W9Xp+ci6793EBB8uNwvmiJ9u
+         TKwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HXK9Qgle7Puv113jAKFz7L/yq22PTO27vhn58OjsUZg=;
+        fh=2rsZZkC2cznOuemoT0m/Otvz8a7oADzfg/84GpNiVUo=;
+        b=aRJdHk6tWB5xm8c297xL50Lu9YEzpxGnW9TlBrMdeEwtO82ooR/+ZhN4ustf2WTe2P
+         jaEI8n/U7PPEE1FV3eVEwoxqZrOyA/yllaArVgzKUWRWJatrijKMDa5xm1hJIvoWShUT
+         iW3HWp/1gSBbBVVzvnAgLSC8O5wWQB+XpLoEP7TJv/tc4gSGgIX94eETWXJ9XcYZI9n0
+         fSK+T5JvGGEDKe1jASBmTaJL5R5BvPGUjOIMVlDPK9tRDt0bZeQWNz6biFBVJHcwl0/X
+         SC9XDeq7Hc1Pl9UnaVfGnjQ+2k5q03UkJ6ssfuCWA8xcBCTTKCUJDJlnyvME2vikkSR6
+         uLDg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778511600; x=1779116400; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HXK9Qgle7Puv113jAKFz7L/yq22PTO27vhn58OjsUZg=;
+        b=awalTV4+p6TSt25v2RvNXo9jfpO2kD8Jc852NOUVXBOW32kAHGmQmyWdmEgfRlOlPW
+         s+si6KNB30TxPZBR/B8YlbHbc6+BXWFdaO18BVC+hJTftCT7yitQh+ey55IhwD0QjbqK
+         VhEQy6jopBh4rUDM397UCxBxjV7SEATrJUfgqgvOvEXcLCc5h82ZhD74lUeBDdWLatuP
+         KoTylRaA1/Ct2dFylssLzQ3mLOlxi+9AYqtNnhdNDQ7ZmLrELu5Ljunhul4lG6cP4BRa
+         z7sciF4onkU28iGyBIbrVn9G8XjlPruckIHSfK/CCR8uesYWH4ju6gyaqyZo31QEsiIT
+         Dugg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778511600; x=1779116400;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HXK9Qgle7Puv113jAKFz7L/yq22PTO27vhn58OjsUZg=;
+        b=c+0wWSsijGo+RC9SKJ/lKuNO9g6z/HXjr6mZmO9PSxfPO57pjHpkyv6pC9NefTzFTq
+         nMuMFr+9dmdbD1vggToifmUY9lFwh1xxuwCErMSR6NdW5LLr7og8Hx/WWvPCD9AZgSUk
+         YEbc14H9sP9LljTpUN5rIElUcQIFk6S4VbkKfENrapOvpprfMXtGSgT4aITf1uOD0TTe
+         jbbB386a98KBvn3jz8Xl6bJvDo6ql12+dbNrH7thwe6e6SC0jY9Jr8BvkgZzxg17TQ1p
+         y+cA0tWtb5gGr/Ar7Cs8aB+szU7gVyZ5fBdhw0YFcz0c1+sWUHb3VijmWlThaz0pc4p3
+         sv7Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9oSJMXF1FEe6N2xBd9OgFrip2v6nMI6dJAhhznKblu+L325RuOvap9YpDgb6il57dYWTLcphweLps=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgWUqYvmaH9ZPaBvE8e5lnwa5HU1A0eYqvDmI5e3pxPlnrERm+
+	QU4pD74VTNFCtB6M+n1eKDUC6oEc2K/xxMyboigZsLkk3kL0gfLu7Lq+a7I5Bjzhq65p8dj2Plf
+	4GZo60Nuatd0qIN4vQg3FeBcmKz8F0yY=
+X-Gm-Gg: Acq92OG5Gwu1PcfjmLdk7MXqmyyAy/ZZKjg2bA+yE+Omk+MjL3b4Of0uOrCXCx99aE/
+	a0+i02RQg/bJgB68zYBRPk5SnLid1SJKck9XyGsLQJ1o0VAe9gy2To4NtCw2IMZLZZMI2KUpmkr
+	+rzg68wRal0pEYoNGgRNqrej/JS7WaNj9B+szFiUkzZnnzyTsn6hiNyRDCCWfm+ZlX0QBSoKcOg
+	i/YbqElRjmH6gCtmZAOMw4xI3tBRz9nc2OBGfdtPXUS//MJSIKyGfyoYSqHx42vU9UiBYxkmhdC
+	oCaDHlsNrhtOaJQoIbf3kqIpNL7AKwqlfiYvCoqn
+X-Received: by 2002:a05:6402:a587:10b0:66b:f527:c69d with SMTP id
+ 4fb4d7f45d1cf-67d63d8b66emr9561584a12.8.1778511599490; Mon, 11 May 2026
+ 07:59:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <agHcc4s-xj83dzty@laps>
-X-Debian-User: leitao
+References: <tencent_8B437BE4F586C162950BF71954316C1EDB05@qq.com>
+ <tencent_CD11FE9B4A0B362E95E776C5F679598FAA07@qq.com> <24edd9d6-99f2-4d3d-83eb-69b406f4a9a0@kernel.org>
+In-Reply-To: <24edd9d6-99f2-4d3d-83eb-69b406f4a9a0@kernel.org>
+From: Kairui Song <ryncsn@gmail.com>
+Date: Mon, 11 May 2026 22:59:22 +0800
+X-Gm-Features: AVHnY4JN-XJcvjTgr_FM1HBFd_31lstixyAZ5EE20tY16YbXFrjdSuhpS5x5o2A
+Message-ID: <CAMgjq7Cokjb4-F9=cvwKmWR0q4==Vd61FHnjKbRdSHKH57erxw@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/5] mm: swap: fall back to order-0 after large swapin races
+To: fujunjie <fujunjie1@qq.com>, "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, Yosry Ahmed <yosry@kernel.org>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Baoquan He <bhe@redhat.com>, Lorenzo Stoakes <ljs@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 11, 2026 at 09:41:07AM -0400, Sasha Levin wrote:
-> On Mon, May 11, 2026 at 06:14:27AM -0700, Breno Leitao wrote:
-> > helo Sasha,
-> >
-> > First of all, Thanks for this feature, this is useful to me, and I am
-> > interested in it. Feel free to copy me and I can test the next revisions
-> >
-> > On Fri, May 08, 2026 at 03:57:48PM -0400, Sasha Levin wrote:
-> >
-> > > +config KILLSWITCH
-> > > +	bool "Killswitch: short-circuit a kernel function as a CVE mitigation"
-> > > +	depends on SECURITYFS
-> > > +	depends on KPROBES && HAVE_KPROBES_ON_FTRACE
-> > > +	depends on HAVE_FUNCTION_ERROR_INJECTION
-> > > +	select FUNCTION_ERROR_INJECTION
-> > > +	help
-> > > +	  Provide an admin-facing mechanism to make a chosen kernel function
-> > > +	  return a fixed value without executing its body, as a temporary
-> > > +	  mitigation for a security bug before a real fix is available.
-> > > +
-> > > +	  Operators write "engage <symbol> <retval> [reason]" to
-> >
-> > Should [reason] be shown at "engaged" ? I was expecting it, and in fact find it
-> > very useful, but I don't see it.
-> >
-> > 	# echo "engage __x64_sys_getuid 12 CVE-2026-99999-INCIDENT-4242" > /sys/kernel/security/killswitch/control
-> > 	# cat /sys/kernel/security/killswitch/engaged
-> > 	__x64_sys_getuid retval=12 hits=12
+On Mon, May 11, 2026 at 9:14=E2=80=AFPM David Hildenbrand (Arm)
+<david@kernel.org> wrote:
 >
-> This was a woopsie on my end: originally I planned to have a reason field, but
-> then decided to drop it to keep the patch simple. However, I forgot to fix up
-> the kconfig help text :(
+> On 5/8/26 22:20, fujunjie wrote:
+> > swapin_folio() documents that a large folio insertion race returns NULL
+> > so the caller can fall back to order-0 swapin. do_swap_page() currently
+> > turns that NULL into VM_FAULT_OOM if the PTE is unchanged, which is
+> > harsher than necessary and gets in the way of rejecting large folio
+> > ranges for backend reasons.
+> >
+> > Move the synchronous swapin sequence into a helper and retry with an
+> > order-0 folio when a large folio cannot be inserted into the swap cache=
+.
+> > Count the event as an mTHP swapin fallback before dropping the failed
+> > large allocation.
+> >
+> > Signed-off-by: fujunjie <fujunjie1@qq.com>
+> > ---
+> >  mm/memory.c | 50 +++++++++++++++++++++++++++++++++++++++-----------
+> >  1 file changed, 39 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/mm/memory.c b/mm/memory.c
+> > index ea6568571131..84e3b77b8293 100644
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
+> > @@ -4757,6 +4757,44 @@ static struct folio *alloc_swap_folio(struct vm_=
+fault *vmf)
+> >  }
+> >  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+> >
+> > +static struct folio *swapin_synchronous_folio(swp_entry_t entry,
+> > +                                           struct vm_fault *vmf)
+> > +{
+> > +     struct folio *swapcache, *folio;
+> > +     bool large;
+> > +     int order;
+> > +
+> > +     folio =3D alloc_swap_folio(vmf);
+> > +     if (!folio)
+> > +             return NULL;
+> > +
+> > +     large =3D folio_test_large(folio);
+> > +     order =3D folio_order(folio);
+> > +
+> > +     /*
+> > +      * folio is charged, so swapin can only fail due to raced swapin =
+and
+> > +      * return NULL.
+> > +      */
+> > +     swapcache =3D swapin_folio(entry, folio);
+> > +     if (swapcache =3D=3D folio)
+> > +             return folio;
+> > +
+> > +     if (!swapcache && large)
+> > +             count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK);
+> > +     folio_put(folio);
+> > +     if (swapcache || !large)
+> > +             return swapcache;
+> > +
+> > +     folio =3D __alloc_swap_folio(vmf);
+> > +     if (!folio)
+> > +             return NULL;
+> > +
+> > +     swapcache =3D swapin_folio(entry, folio);
+> > +     if (swapcache !=3D folio)
+> > +             folio_put(folio);
+> > +     return swapcache;
+> > +}
+> > +
+> >  /* Sanity check that a folio is fully exclusive */
+> >  static void check_swap_exclusive(struct folio *folio, swp_entry_t entr=
+y,
+> >                                unsigned int nr_pages)
+> > @@ -4860,17 +4898,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+> >               swap_update_readahead(folio, vma, vmf->address);
+> >       if (!folio) {
+> >               if (data_race(si->flags & SWP_SYNCHRONOUS_IO)) {
+> > -                     folio =3D alloc_swap_folio(vmf);
+> > -                     if (folio) {
+> > -                             /*
+> > -                              * folio is charged, so swapin can only f=
+ail due
+> > -                              * to raced swapin and return NULL.
+> > -                              */
+> > -                             swapcache =3D swapin_folio(entry, folio);
+> > -                             if (swapcache !=3D folio)
+> > -                                     folio_put(folio);
+> > -                             folio =3D swapcache;
+> > -                     }
+> > +                     folio =3D swapin_synchronous_folio(entry, vmf);
+> >               } else {
+> >                       folio =3D swapin_readahead(entry, GFP_HIGHUSER_MO=
+VABLE, vmf);
+> >               }
 >
-> If you think it'll be useful, I'm happy to add it back.
+> There are some upcoming changes with:
+>
+> https://lore.kernel.org/r/20260421-swap-table-p4-v3-5-2f23759a76bc@tencen=
+t.com
+>
+>
+> All the of that logic you have in swapin_synchronous_folio() should ideal=
+ly not
+> go into memory.c, but into some swap specific code.
+>
+> But
+>
+> https://lore.kernel.org/r/20260421-swap-table-p4-v3-0-2f23759a76bc@tencen=
+t.com
 
-I see the value in having a reason field, but at the same time this is
-just a small detail in the grand scheme here. That said, starting with
-a simpler implementation and adding it later—once the feature sees
-production use seems like a reasonable approach.
+Thanks for mentioning this!
 
-Thanks,
---breno
+I think Junjie's change fits better after that change indeed. And I
+checked the code, it should fits easily too.
+
+It's already strange enough that THP swapin is bundled with
+synchronous swapin, we better not make it more divergent here, and add
+more bits into memory.c.
+
+And this commit will limit it to anon, no shmem, which is another
+strange detail. Or we'll have to repeat everything and copy these code
+to shmem.c...
+
+Once all swap-ins uses basically the same path as in that series, all
+swap-ins will be able to have similar THP and zswap THP support too.
