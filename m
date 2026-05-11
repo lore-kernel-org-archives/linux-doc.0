@@ -1,108 +1,144 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36993C5544
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 10:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C712C344DBD
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 10:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778496434; cv=none; b=dk+uXisXZ5Dm53biKjdmctANQ0lH+cD/okExra9BnG9drexRjxU3buLqYXBqsMXzT1zpXMLJyvQx82XbwW+95wz8LTo9wVpjtSj+eowAnMRfkVKpjRYN4cGpEL2uqvVFLibFKlaFf5NKzsKh6vRf8Mj9PfaydrBvT9fTN3uM6tU=
+	t=1778496725; cv=none; b=bXuvy6KntE02xTQKDNhrDK/kuKdSecNYGtpP9Z+7MNiIm4+xK7QLh8VI/8lFNY2HVNS8u1tOf0P/esFX1cdQH3pDwopX0Mcn4O6sWvk5drHobF0o+zqkbjrlijLz9BuW0R5CXivpY4p5Tyd2xQg95dcCy0+Ov4HrSxM17mAI7Dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778496434; c=relaxed/simple;
-	bh=y8ANxseZcjXB0D/a9PMQdY4ylscTf10eyL70cW6tP+w=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FN3UYwe+BC3iERm2C5BCYOCt3f8kpMKzqn15MMkBvRZV8qXYjdbc1CLajNsWPptydEEDNaObAGnXTPFT5SEhxIt542MknoQir+sBAAlkOzNYh+ajTshxqbCty4V0ybcZ7wyvXJhxW1W3oDSSlfrwt8Io+fJCjhBpKsT/wkpv248=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OTAt0m1d; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1778496725; c=relaxed/simple;
+	bh=XnB/2JOHyehUPoJKRScL1gkzyR01b6jxo9UdjDLCTJE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P2c6Eaxba2THfIOtfZrN/zZ+h7u/6N+SDnGsfLAfpZEXSYS28H9V5H93CulG3RvWnil8S4vYxSDuUOFaAiGEo+iuyULHlhq6QA6oaqdy3qrrohEYQmmKT91AXqYjecQHjEMGkF2/R3c2TtDrdbWSsP0oezZ9bLb6lhb7TxyJfiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YFdoS2Ly; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OTAt0m1d"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48896199cbaso38058955e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 03:47:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YFdoS2Ly"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ba3e3c4f87so37792825ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 03:52:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778496431; x=1779101231; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=e96lh8A8aYVtvEFVfiS50ol4K/XN4qkYpcoofOpmoIE=;
-        b=OTAt0m1dbZtZfk4M4u/Atrtex9+xcXgOp0eyOkk5xGNlVJc1ezPa+pv8kaP+r14D//
-         mYIQfHCUcjQk/2B3+lfbBKBb8y8JKk5pGMdhb7z4hIrNYht2SHFmjivcmVeJbNbDleRp
-         ncq8nqifNNu+EcuJpIgDtTrAQyqChRfcI/bNEPNYSmdK0bkpkhxWBkKdy6V6DudIyqCz
-         qexVsUnB1onGwBS35VKgSUi99J/ZA/rpj9J8k36sjamMDIawlYracknQBYNeySFf0Ocs
-         mhSvU3yvxq1VJlf1IAPv2xQXO7rHRbHN7GmUYV7fxeQ8V7Pha+DaV9xBrDIrqO3Hcfoi
-         FH/w==
+        d=gmail.com; s=20251104; t=1778496722; x=1779101522; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qg9BoGIRQX9a4/FMAbkw8BJqSowvqCXDuFdaccaN4l4=;
+        b=YFdoS2Ly+orE5uvjoFsHg9X1qIWh7dNOZ+nRO9bhhJ/XSMLlf3PZY9/RbXvSxjEL71
+         hdA+cjmL8fa2mmcDlmaPVeZfxeBYzfBFC8AdIaG1Lzmj7e3W28j91OBVAv3Ub5b+sitj
+         6XcLAEqKoMuot10kqVYwBcXJm80EMDQyhXngb/1lXcoaGPITrzaglUibiQzeJYsoM8RJ
+         UWCqI7rf9WG0VgL246pQEMX+71ge2Te5nThkky0O9i4baS1pRdGvldtjwD+zAAwnkIHI
+         PKrwPrYCEl8Q8mqCeXuC4fYfA1Ij7SOuPaTG4CvwKbD0C+I2CeHzg6/DgfFlBFjSX8Uw
+         2tGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778496431; x=1779101231;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e96lh8A8aYVtvEFVfiS50ol4K/XN4qkYpcoofOpmoIE=;
-        b=NKHCYkimZ1pzXtHPcRaTvvDvjf3bIORnO2y73SHkJWDRljqplFQzjCcQNIXu6taPRj
-         uHp42ajZy9+tqctVutIEsHk2qHJfRGchrspzdXhAQDz2p3aWNRre1AbL1FsjbIwZk6gf
-         wMEyISMFCTjjZyAa8oIF5DPG+4sT3hDKvTllw7j67IVKOLZZGJRBuWx+tJc6IGhxk9jm
-         5cUY/842+qAMv3lGlwv0MGSYmhmHIxaLbA1kYtBY+LjAJUfvfy5rsmPUD6dKG72p/5cW
-         m0zIgVCQIXVKUM5LD3umiz1bk/+R7NnQyRzmZEaOl0LSjKzWEWwAGMslKjEUsHtM3N0r
-         /Blg==
-X-Forwarded-Encrypted: i=1; AFNElJ/NBjO0u0A4Jw2r2ECs2qEvhC4lGrxD6gy+sDzsNqyqWedhsK470Lvq4OVRuxSW9SnWdoHqk5fDvTk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHIrbUIuqa1pejD+wPi513qldrY05IfIS3ffuOguivIRbldGSK
-	3n40e//i7A70O+Q5j7T7tGRrNKe9FX7GvoyMcubz+au+nuGaihNdqQ8n
-X-Gm-Gg: Acq92OGVInvzMr/FymUMM6mfvGiYmXZoH0zY+lEhuCnbKzwazd8ke8TQa41eWHQqYtK
-	WGgzT3Tz5lyH8bR1v1DgHtuksGsJD1O9I3WhGnrzqnQXtBKcfLkDu0+lrzoA66nN6p4XRlg+OqT
-	PjaSMy2uE6v3G+TvHHgx3crMTNAahlJDICORdLNoGVgp/dnXjs393iWdNExy54Y+eBt2RhmRrc9
-	SQmANUbg2M1yPIIuT0+185augCOuS1IvVVK3vrXHZ9tTLOdQW52VBbap34hNpKW9v16S/fPHNa9
-	oxO82t519nJXQLz01l/ua6DWcUwGHxWa4eokWVc5ofM7oLQYoMrxd9X8ORkvEiSStU3hpkfKz+Y
-	6Dzvwx9JOcHrEb6k6Z62JHX2NLbWPgsqhEBst7CEM1H3OfIMfrbNvSZNOh0CS38DBp7DMi7m6tV
-	ac41Dc4L55ddJLdIIl2yfUjv04eOmrrSZbiRqCajNsXp/8G5+cCG++NY8PaVCA73bAGCqBGDyh+
-	2B15KUUd6jKHDiH5hGBQMxM1/dDWE1Va/oheLQtD+tGioAV4g==
-X-Received: by 2002:a05:600c:3b96:b0:48a:66a8:9981 with SMTP id 5b1f17b1804b1-48e51f55272mr391731065e9.27.1778496431033;
-        Mon, 11 May 2026 03:47:11 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6dafa61esm78368735e9.4.2026.05.11.03.47.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 03:47:10 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Mon, 11 May 2026 11:47:05 +0100
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	rodrigo.alencar@analog.com
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH RFC v4 02/10] iio: core: support 64-bit register through
- debugfs
-Message-ID: <4lljp4qxuxqpanjnacteto3pqasjytjp3jysbgntv2jsuzlbsk@2fnit3aiecnv>
-References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
- <20260508-ad9910-iio-driver-v4-2-d26bfd20ee3d@analog.com>
- <agBY5K4qN3jda2up@ashevche-desk.local>
+        d=1e100.net; s=20251104; t=1778496722; x=1779101522;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qg9BoGIRQX9a4/FMAbkw8BJqSowvqCXDuFdaccaN4l4=;
+        b=regzEjftY4blxa+RNecr8IusbIeTftXnYcX/r3vTMVmp4glyfpigej2mVFoiHFqlkC
+         iIHvSlxDWEFIkJE4afc5S49mGhdLpUQHTDU7mJP27J1zYoZMnnXZgTXRUNwmTCmF+tzP
+         3Z0ydhZOePv/10G/iGcfENLyv3YCyBw5gHE6B18WUTUUlFlcaeG6UjsO9cTCTEpo6w7p
+         zQMvI6XNlV0Bliu/vXczwMaX3EDl1T6P8PY0AgT+iWpDGX3pwaN8xxQSL/IrU0QYdFIy
+         atp9AV+Y7lHHlLNWsOum3US/XdlJe+0ejaXYiungDOWYorAMuAGMMTDU9B4rx2rVlnn2
+         PDeg==
+X-Forwarded-Encrypted: i=1; AFNElJ+vYZKfI3sLCLknCr6xW0xHBeLDOhReJTEovgs2s0LygO8K1R8DeplmlppQ9yhtkav6o1q9PpuB1AU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywo3bIcM3SPZSlUxE23Rbca3T2y4/f/AdtxHlVu33fd/c1yvGmg
+	dBIi5oICzGYONvv+dtG6+zRj0lJJMB474xml71CRFnWhMzbgVZWwH9Ig
+X-Gm-Gg: Acq92OF+VUsO9gluagR8dOXystvP/ylAwm4WA3nSzdytWtiOmhprgQHywXHdfWsRwPJ
+	tjJ1s0jd2fwHEPRRoTm5/ta6ctrUHUb/Fxa2qXJtP24c33OjKs4juslUoh4hPxGiVXmR8rAPFku
+	UF/NPW9ZcSxWjiqZLTj9NEdnkBBwuc9ATTi9ibyTeneOHjqoeQ7EXZE/1BxXIpatqKbtuPYAajv
+	80Vb/rWGgwbb/pvM0ft/ZbGRkMo/BGQdlr3TM/X6ii8WqfqZ1SoPCLYuV2SH4Urm2MJvP1k3283
+	kuWqhd8tEifnYdeoKuA927eDVP2Ekz2plRPR0VYMfPGMcqiYWxtgGZSs4I9GsRTM1r34p3eFXdw
+	TO1KGbyddfyESAtBylUP0vylDfKqfuBJrdm5WDS1dm6faUblHznosrxokuBkvouceAnyyUvqSTl
+	IUYPdQvlD++InbSynrTxnVmajYP8eXf6+36CgpES0RNdHXXrF1hkGlSiR4W4o0Fw==
+X-Received: by 2002:a17:903:1ad0:b0:2b0:6e60:9586 with SMTP id d9443c01a7336-2ba792a0c08mr266735895ad.17.1778496722209;
+        Mon, 11 May 2026 03:52:02 -0700 (PDT)
+Received: from localhost.localdomain ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1d409eesm98571745ad.32.2026.05.11.03.51.55
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 11 May 2026 03:52:01 -0700 (PDT)
+From: Hao Jia <jiahao.kernel@gmail.com>
+To: akpm@linux-foundation.org,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	shakeel.butt@linux.dev,
+	mhocko@kernel.org,
+	yosry@kernel.org,
+	mkoutny@suse.com,
+	nphamcs@gmail.com,
+	chengming.zhou@linux.dev,
+	muchun.song@linux.dev,
+	roman.gushchin@linux.dev
+Cc: cgroups@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Hao Jia <jiahao1@lixiang.com>
+Subject: [PATCH 0/3] mm/zswap: Implement per-cgroup proactive writeback
+Date: Mon, 11 May 2026 18:51:46 +0800
+Message-Id: <20260511105149.75584-1-jiahao.kernel@gmail.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agBY5K4qN3jda2up@ashevche-desk.local>
+Content-Transfer-Encoding: 8bit
 
-On 26/05/10 01:07PM, Andy Shevchenko wrote:
-> On Fri, May 08, 2026 at 06:00:18PM +0100, Rodrigo Alencar via B4 Relay wrote:
-> 
-> > Add debugfs_reg64_access function pointer field into iio_info and modify
-> > file operation callbacks to favor 64-bit variant when it is available.
-> 
-> To write a value with bit 63 set it will require negative number, right?
-> Isn't this  counter intuitive and may lead to rejection of the (correct)
-> values?
+From: Hao Jia <jiahao1@lixiang.com>
 
-In two's complement systems it works in practice, but it might be UB.
-However scanf with %i accepts hex and octal, which is desirable for register
-addresses and values.
- 
--- 
-Kind regards,
+Zswap currently writes back pages to backing swap devices reactively,
+triggered either by memory pressure via the shrinker or by the pool
+reaching its size limit. However, this reactive approach makes writeback
+timing indeterminate and can disrupt latency-sensitive workloads when
+eviction happens to coincide with a critical execution window.
 
-Rodrigo Alencar
+Furthermore, in certain scenarios, it is desirable to trigger writeback
+in advance to free up memory. For example, users may want to prepare for
+an upcoming memory-intensive workload by flushing cold memory to the
+backing storage when the system is relatively idle.
+
+To address these issues, this patch series introduces a per-cgroup
+interface that allows users to proactively write back cold compressed
+pages from zswap to the backing swap device.
+
+Users can trigger writeback by writing to this interface with the following
+parameters:
+
+- "max=<bytes>" : Optional. The maximum amount of data to write back.
+    (default: unlimited).
+- "<age>" : Required. The minimum age of the pages to write back
+    (in seconds). Only pages that have been in the zswap pool for at
+    least this amount of time will be written back.
+
+Example usage:
+  # Write back pages older than 1 hour (3600 seconds), max 10MB
+  echo "max=10M 3600" > memory.zswap.proactive_writeback
+
+Patch 1: Move the global zswap shrink cursor into struct mem_cgroup as a
+  per-memcg zswap_wb_iter, so patch 2 can scope writeback to a given memcg
+  and make forward progress across its subtree on repeated invocations.
+
+Patch 2: Add the memory.zswap.proactive_writeback cgroupv2 interface,
+  allowing users to trigger writeback with optional size limit and
+  age threshold.
+
+Patch 3: Add a zswpwb_proactive counter to memory.stat and /proc/vmstat
+  to track the number of writebacks triggered by proactive writeback.
+
+Hao Jia (3):
+  mm/zswap: Make shrink_worker writeback cursor per-memcg
+  mm/zswap: Implement proactive writeback
+  mm/zswap: Add per-memcg stat for proactive writeback
+
+ Documentation/admin-guide/cgroup-v2.rst |  28 +++
+ include/linux/memcontrol.h              |   6 +
+ include/linux/vm_event_item.h           |   1 +
+ include/linux/zswap.h                   |  17 ++
+ mm/memcontrol.c                         |  80 +++++++
+ mm/vmstat.c                             |   1 +
+ mm/zswap.c                              | 303 ++++++++++++++++++++----
+ 7 files changed, 390 insertions(+), 46 deletions(-)
+
+--
+2.34.1
