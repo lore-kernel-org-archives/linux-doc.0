@@ -1,135 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6B438D6A9
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 07:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08413988FF
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 07:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778485123; cv=none; b=HyQ9LmQ8Ht+vHuWQs4CmesdVjtJAK5B7kQKsYsYHBtJgY4JaPyaAgq55jeQ+6Opsz688vjZo2ktjUxipZQOjHisgtB3yssgQw37lJuZRmtd+WRdc6moi/gFq0vSyWjI87ynjOc0/2SBCLs9RTFeSHpAHL4nb21slKga8dcWL0cQ=
+	t=1778485301; cv=none; b=H0+eOnwDbv0HWi9b/9a7PB+Y40ie63Wchg68xRWVDdBxnvA1jeDXahMUTXuwbIGBd+PV40K0U/eTv3VEQ+Bl8qtF5ruJQC1LUHMM3O4CRBtziP6dT7f7hwSucKR51z/LhWmzQY2ab0eEGUKcAIIg2AXCMm+zejXFyLHREjLrbK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778485123; c=relaxed/simple;
-	bh=oKWbOxAiXPYVDwgg9WjzqUlR8fPwmHv5+VQjFfr5yI0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GR5EJ2TOs5a0QsWZuHozT4QWRytLVgTA3ZVGYJxV6DswxYF4MhXS0yQMYM/wGXGl5S+M+Z9q6QNYwoAAp+fPwnjlyfq3cSnHL3GHWIjPJaOura1VGBD8nsUYfQxwfBv/C4mXKOV2Rjo8kpg7AzQHMskRK7yLqJ1aYlbqDxy/DMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WjLwr3MP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778485301; c=relaxed/simple;
+	bh=zBwSDzpx7xxdzAFVKY6dfHL9FRIKu6BdJZx+3y0v5sQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Hmic5TbYGO7TohmABeLgRTf6unm+UU+2hST7wlyEGy3+WZ4Tph1x5zSqWnbDVT3kZG+2sVU/yoceZ+LjAg/nLMqZlMYilUF1rMpym4YFP0ZsNHBa17bB7aGXMCu0yfNMoIi29w0+X3we/N4KhAOcS2TYj/76zHyyiQ0H3EA38Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWbzM6vl; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WjLwr3MP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCEADC2BD04
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 07:38:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778485122;
-	bh=oKWbOxAiXPYVDwgg9WjzqUlR8fPwmHv5+VQjFfr5yI0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=WjLwr3MPJNAiC9kWB+V/4OLn47GVE1CPqQa1BWWpbxKiybzSl3mJfD+9GYPdDjDQ4
-	 1LDjS76dhu64DFS+BSubz3rPJRN93CMzZDp28LXdGR7jsvLmabxE7StGHBptsjHoxb
-	 4WEOHj8m7sHMYyg27OKdoeqwxUk58SonMzR/Nd+Kksc/fnQ2aYgmHQkvexbFFKf+0S
-	 ygFoHlwEzyS+qdVAGVDi3fPR1VSfgrV2JGKUHZj3YGIJdDiVDpf99D4Ua4p1HReohe
-	 reYM+ArzQ5ChM7T0OVUm07/YbXeaMnlQ3QR3V0rDVWGH9hf2TG7RyltL5aTknwFMLS
-	 t4VWRJYK+GFnA==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3922b35e69cso32508241fa.0
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 00:38:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/KvgmSwmRqgvWR5Xm6aUENe5mS9t87k1M0F4RUjOEr+9/DtN2iVrKYdFODfJSWC0iabcScLozUKQA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzR8y80bHEAJj/N+fWpQaT6NPqfkzXYhl84pYo6Fn8nCEIDwBUR
-	XQID1JF5seNb3x/zOAf/khXdl5ZbDspELBf5+s+1jd1b8c5gtowdWq7VNKsIv6aIS7ZlKuGXSnK
-	McWYZqbKFsaWHpwvWxha+hmcHnkpNg+DRCaBQmmqhsQ==
-X-Received: by 2002:a2e:9853:0:b0:38e:4810:4f36 with SMTP id
- 38308e7fff4ca-393c40fd736mr63972081fa.9.1778485121444; Mon, 11 May 2026
- 00:38:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWbzM6vl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778485294; x=1810021294;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=zBwSDzpx7xxdzAFVKY6dfHL9FRIKu6BdJZx+3y0v5sQ=;
+  b=QWbzM6vlwrHmlrzfDAFeAo9KLZIm4XUcz1kI1n2uDfxGzOA7FwagoBsF
+   BRKXcxeT4Tgnl+V7hsi27VsjUTYfoYqf1Xp2KO+rBi4QE/qKuju72kb75
+   6t+eYwJdfpSx7y+qJSUpv9xZijoLZ74neMx7+i9xoQoiumAxIF3WYWOCq
+   d1WQ69/5z6Uas5yesDhyy2dlrnft/8RoNjBs0buCjTjbCMl7KNfPuC4wJ
+   IS5TqOf2Sk1zeZ6TEzJKjwiqf0IQ9MxiiDufqg0WJj0xwhoXP/v0S7ct6
+   SMoDqa3QKarvb/fSUT86tLB+tpyHry2buoTAsYJjWHISuaT/GaxcmHC0n
+   Q==;
+X-CSE-ConnectionGUID: MVJK46GrSKyhV8kC779q8w==
+X-CSE-MsgGUID: Xv/fnnKPRqCX3paMm0At8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="90741910"
+X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
+   d="scan'208";a="90741910"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 00:41:14 -0700
+X-CSE-ConnectionGUID: dtEGvvG2SWC5TM1ceTz6vQ==
+X-CSE-MsgGUID: L9VBZbOPTPSQmmanZOoxkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
+   d="scan'208";a="237332137"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.253])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 00:41:10 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+Cc: rodrigo.vivi@intel.com, Matthew Brost <matthew.brost@intel.com>, Thomas
+ =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net
+Subject: Re: [PATCH 1/3] Documentation/gpu: add dedicated documentation for
+ Intel display
+In-Reply-To: <4aba5b5e-75a5-4800-bedb-8f7cc673c7f7@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <cover.1778235406.git.jani.nikula@intel.com>
+ <21bfa7777eb0926eadd309d4c6f5c9cf48405cf0.1778235406.git.jani.nikula@intel.com>
+ <4aba5b5e-75a5-4800-bedb-8f7cc673c7f7@infradead.org>
+Date: Mon, 11 May 2026 10:41:06 +0300
+Message-ID: <6c6e0124df2b5f13661d3d8f4f1a9b7f1fcaca85@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260427-qcom-qce-cmd-descr-v16-0-945fd1cafbbc@oss.qualcomm.com> <ditrkd5jcxlx7onykxh6n3qhyoclfngmpp277y4t4qwc4vswoo@5os4o5lumidn>
-In-Reply-To: <ditrkd5jcxlx7onykxh6n3qhyoclfngmpp277y4t4qwc4vswoo@5os4o5lumidn>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 11 May 2026 09:38:29 +0200
-X-Gmail-Original-Message-ID: <CAMRc=Mf4q7med1_hpzFevBb8uUi_dat_Q9JD5a2ou+d+ZbgYbA@mail.gmail.com>
-X-Gm-Features: AVHnY4J_9uo20Had1fL2AwvuspbaVqC_LSQpt6q0tyhkVlN13cDmk8AlgDDAB5U
-Message-ID: <CAMRc=Mf4q7med1_hpzFevBb8uUi_dat_Q9JD5a2ou+d+ZbgYbA@mail.gmail.com>
-Subject: Re: [PATCH v16 00/12] crypto/dmaengine: qce: introduce BAM locking
- and use DMA for register I/O
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
-	Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Manivannan Sadhasivam <mani@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 7, 2026 at 11:55=E2=80=AFAM Manivannan Sadhasivam <mani@kernel.=
-org> wrote:
+On Fri, 08 May 2026, Randy Dunlap <rdunlap@infradead.org> wrote:
+> On 5/8/26 3:20 AM, Jani Nikula wrote:
+>> diff --git a/Documentation/gpu/intel-display/index.rst b/Documentation/g=
+pu/intel-display/index.rst
+>> new file mode 100644
+>> index 000000000000..8d40363b8f90
+>> --- /dev/null
+>> +++ b/Documentation/gpu/intel-display/index.rst
+>> @@ -0,0 +1,40 @@
+>> +.. SPDX-License-Identifier: MIT
+>> +.. Copyright =C2=A9 2026 Intel Corporation
+>> +
+>> +.. _drm/intel-display:
+>> +
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +Intel Display Driver
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +The Intel display driver provides the display, or :ref:`drm-kms`, suppo=
+rt for
+>> +both the :ref:`drm/xe <drm/xe>` and :ref:`drm/i915 <drm/i915>` Intel GPU
+>> +drivers.
+>> +
+>> +The source code currently resides under ``drivers/gpu/drm/i915/display`=
+` due to
+>> +historical reasons, and it's compiled separately into both drm/xe and d=
+rm/i915
+>> +kernel modules.
+>> +
+>> +The drm/xe and drm/i915 drivers are the "core" or "parent" drivers for =
+display,
+>> +as they initialize and own the drm device, and pass that on to the disp=
+lay
+>> +driver. The display driver isn't an independent driver in that sense.
+>> +
+>> +.. toctree::
+>> +   :maxdepth: 1
+>> +   :caption: Detailed display topics
+>> +
+>> +   async-flip
+>> +   audio
+>> +   cdclk
+>> +   dmc
+>> +   dpio
+>> +   dpll
+>> +   drrs
+>> +   dsb
+>> +   fbc
+>> +   fifo-underrun
+>> +   frontbuffer
+>> +   hotplug
+>> +   plane
+>> +   psr
+>> +   vbt
 >
-> On Mon, Apr 27, 2026 at 11:15:33AM +0200, Bartosz Golaszewski wrote:
-> > This missed the v7.1 cycle so let's try to get it in for v7.2.
-> >
-> > Merging strategy: there are build-time dependencies between the crypto
-> > and DMA patches so the best approach is for Vinod to create an immutabl=
-e
-> > branch with the DMA part pulled in by the crypto tree.
-> >
-> > This iteration continues to build on top of v12 but uses the BAM's NWD
-> > bit on data descriptors as suggested by Stephan. To that end, there are
-> > some more changes like reversing the order of command and data
-> > descriptors queuedy by the QCE driver.
-> >
-> > Currently the QCE crypto driver accesses the crypto engine registers
-> > directly via CPU. Trust Zone may perform crypto operations simultaneous=
-ly
-> > resulting in a race condition. To remedy that, let's introduce support
-> > for BAM locking/unlocking to the driver. The BAM driver will now wrap
-> > any existing issued descriptor chains with additional descriptors
-> > performing the locking when the client starts the transaction
-> > (dmaengine_issue_pending()). The client wanting to profit from locking
-> > needs to switch to performing register I/O over DMA and communicate the
-> > address to which to perform the dummy writes via a call to
-> > dmaengine_desc_attach_metadata().
-> >
-> > In the specific case of the BAM DMA this translates to sending command
-> > descriptors performing dummy writes with the relevant flags set. The BA=
-M
-> > will then lock all other pipes not related to the current pipe group, a=
-nd
-> > keep handling the current pipe only until it sees the the unlock bit.
-> >
-> > In order for the locking to work correctly, we also need to switch to
-> > using DMA for all register I/O.
-> >
-> > On top of this, the series contains some additional tweaks and
-> > refactoring.
-> >
-> > The goal of this is not to improve the performance but to prepare the
-> > driver for supporting decryption into secure buffers in the future.
-> >
-> > Tested with tcrypt.ko, kcapi and cryptsetup.
-> >
-> > Shout out to Daniel and Udit from Qualcomm for helping me out with some
-> > DMA issues we encountered.
-> >
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
-m>
->
-> For the whole series,
->
-> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
->
-> Thanks for incorporating all the comments, Bart!
->
-> - Mani
->
+> Is this in almost-alphabetical order or just random?  :)
 
-Vinod: Can you please queue patches 1-5 on an immutable branch for
-v7.2 and provide it to Herbert to queue the following crypto patches?
+The above list is alphabetical, but the generated output does seem to be
+more random due to the headings. This is in need of better organization
+anyway, and this is just a step in the right direction, so I'll roll
+with this.
 
-Thanks,
-Bartosz
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks for the reviews and acks and testing, pushed to drm-intel-next.
+
+BR,
+Jani.
+
+
+--=20
+Jani Nikula, Intel
