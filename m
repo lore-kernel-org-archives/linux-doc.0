@@ -1,77 +1,77 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBE83B19AA
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58D734E744
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778506014; cv=none; b=HGVIwW4UwEw78B6yZmNUnAmncnxjEaIttVGTU2JadCzRCBw+JtfkJyOYvsPJkIvNXH1bUpqRp8Z+pxTAIwgxvUdTi4H6akZ9huEEH8A0Y6EGNuZk2rxiApxci4TiFZMXe5+0ejyRc7KtrZ2yMNBHOu1Zk2OsSx86+kDEJgJ25Vo=
+	t=1778506070; cv=none; b=qgBsoQp2GMsR3WCTFEwkNhdsCHlIWkeidGgxUg5Vrndn4c3vjc75al65pyGiHkler/FQTzTazEODd6JukNXdWQV5OArO+uIjYDZ3g/c4qz3WKHGnDu0q6zJoXOAZZvHqr4g/WM40uoVqy1FpyNOVLI9CE5zZiw6ZQn4akUXFX0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778506014; c=relaxed/simple;
-	bh=z1hwDVt92XOAnihS7s6RxQLFhGGvzqHcP+pj4GoLieI=;
+	s=arc-20240116; t=1778506070; c=relaxed/simple;
+	bh=lJECCfxqTC84+TRfNfK1WjSKb5OBfQHZ4y7RrlS2S04=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m7p4j7DPboww/6Or7o+LiBu0yrvb9UHOfIWSWNVggGM5COAxTx5IIW4Qo0dm3mWrscxSe10D5H7EvJSX2//eMSGz+unNFe1ljgSrQ5XB0rTEZoXIkRxGbSYsZ89I2O0rbOOfBv44gXUvKvEBU1D4tsCmMopppWNCUZKiQL6H3xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U9xQ3b8d; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version:Content-Type; b=AXiP5V/MjfZuUs/IOKb5WC9cAr4fERL6vNb3qj9ZwOH9MSFpBtnUWelLpTMnffyN8FcCErYfEfWM1cnW8w4x84DlzSZgD8OlycgEOpHXnQ7wiUajCWw/WfOFp0FUwfoj1sqs6OUi8En2XLF1rrZ6AljQ7ykbaBoVYp+cklcgxpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MflJn9us; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U9xQ3b8d"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso39662315e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 06:26:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MflJn9us"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so24809945e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 06:27:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778506011; x=1779110811; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778506067; x=1779110867; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2mzrS4VJwJCC0yKNEXMEo8xy6/BimLXjTtOtcr2CuV4=;
-        b=U9xQ3b8dehb4HpbBamWXYPXXriLPmK0wxf9ygRRaBUbwoP7HwrvB665GfnY+gbFkY7
-         bZTjeT4cQiz+8rN3lcosfc5JrqznAOytUemSR6eatB1VSMnnP35rwYxX6qgZAac0JNok
-         stjFTTK8K56xhLmJBiNjtbdgWgfP17mF0bgi4+Lhpg6JGODIVL22kmwXje+Y/yhavl+M
-         85PoO18U7hupM1SS3EYvG0vXl4s+IpBSVHj7pdL6n7tzgKLr/OM6ZzWMhPSZQjQkNgRf
-         lBO5Rvip4sp6UQGmp4Qk2fmpb6mTAeMa4nfSNlxGAipe1kBSDhe52aE4qvA9X1gxYCY5
-         7LEQ==
+        bh=iIqj3PJ8IFkl3jV3tX7I8ABRXAJUOvr2KgrwJ/yHDUM=;
+        b=MflJn9us+kizAim1TVv7ZqnuDf4OEjp13+NZvSHomJTLL/hYWZLJKn9khobOSLPKxZ
+         ya/uy2fWwtue4LDEk9jtQCIsvpl713Z5A3zdE0jBmUSjD2JxMf6E4UubKj87ApWL8p0C
+         qjNIgdzZ2TISGb/cIehD3afKcf5cGbhP+efi5SRImgwPovGbjUCnkTImBFKjUVzOTmEm
+         8Uk/anzY34+GQFl10Z8Wi/gre5LBxYm3BkCowpSMOIwAYzkVn/MecnUnNVAlk3wpgv1p
+         mac8ZaAzjG+/ItMFDVuSX4kdLu7WPVrLiqtaAjuwXHyHxMlnf+DoY5PFhg84GJvYITJ2
+         Facw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778506011; x=1779110811;
+        d=1e100.net; s=20251104; t=1778506067; x=1779110867;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=2mzrS4VJwJCC0yKNEXMEo8xy6/BimLXjTtOtcr2CuV4=;
-        b=IXgJpup86yYBmRjceAD6/4KePnm0dQe6sghvSVXkNH6NFbtN4rR2L+MkzyqnsAwUBT
-         0P7DHqmaH2tI2PKwyMia5Nd8E2WH5eU9KmtwZo6jyCvhw70H/VmJmCdJ76z8L8TueM4u
-         z1KQ1v8AAvgxsks1ftGALsXjJ81BsYvfrDh7hN05Zys1/IgZTlI3KB2sYnS8UP3YNIXA
-         5PwbXG1RgHbAtTNDeMYySPK4S1HPtrwkNRkEahiuFZ7Em8pq2eVN36Nj2To+dmPYquFO
-         nDuQXsqmlYr6AR6CEd8Qjwlbg5TvAkLAVxqGwr86uc8SFk9l0rgBdnUw7LEj3eZ8F62X
-         LTxQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8S11Vgah/xy+yKp6speZYf/A0umVa21yTQZ+Xi6iw8apSCs0uPtW9q2C8YiZvh3GwPjHNf6ei39hc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKPfpRp2Luixhy9ondX7RUZI1MJ759cF9u+wymIzNDBVHW7pd2
-	VstmnoNrmF92XDOj2kBPSO9qiu5ilYtOZZebvPS+jUGMBCVm5wXesUXZ
-X-Gm-Gg: Acq92OEeMjAZW4BidIOKGQ6X+A9/3yhdGLDaSUIAuMMpIjD5Tu11YMqy2x4wyj1zojC
-	kDrkXzeDD183mphcsjQWUl+RdIk6QyGuL4vgEPyZ0MNKi7Ztlo4ttLimseXeSeQbjufmMaaBciV
-	28b/EU8xA0eECtk+pSWf9gMjNSqYsRSZwyW9llcdvfSAAvotScPfbYaKpD2LrWnC3Ml1e96/0NW
-	B1cKCGSGPlXBEaSG/e3WvGNa5zOu0gxTKSmAZjONYkYX/bKaml+zfdl7PBmsWpzgDlACZRVI8kr
-	kb6AN5aviv/fI5M8CSccPvggJzQuXfXpt7MYyxW4KVBF2GfPVNurDDbTRJfM2FO82clS24oiiSG
-	ieS2TKJ13AyjgjKeLuF4/oAo8JoImnfeRec9gSEELFvPuA6pczAYndX9gjDvSEsFlUAutKwIsuk
-	RtTeT6AMYjxybWPjKRt7QiSvBG+oTkqM1mIrtMpVnR72cRat1OOJvWPZRMtSDL
-X-Received: by 2002:a05:600c:c094:b0:488:b14f:b8ed with SMTP id 5b1f17b1804b1-48e51dd89ffmr280640045e9.0.1778506010795;
-        Mon, 11 May 2026 06:26:50 -0700 (PDT)
+        bh=iIqj3PJ8IFkl3jV3tX7I8ABRXAJUOvr2KgrwJ/yHDUM=;
+        b=F1w8D4uUk/uBVbzvpxj+3U9oEJLJEoCKFVklUXJgcWdr0e0AtOfsCRKlJHELo0Bbp+
+         9Hjd3KQzQQcCmY6XRmGAyrSn7GQHzO87lydLq9jpeVh7oOFvFEyZ39V0HZCYFFGy92pQ
+         nkeVrFQUzR+GBxe+AXH1X5mS5qWlprUugxGRVKhzlgbfCThT1IQz/i0SVOpjnP427uVw
+         XoPYe9/swGg4GAnRPq+6GmyeBbJTguMoGYb6YYYG893QYM/vzMLepkDCP8DwkO5YFLh6
+         kwFT5hNxbxW8vFpcrTYuW2Hd5//KcotQBjurLuuoPB2kHy8LiWNMrVD+nDwA5XduOsqy
+         T48w==
+X-Forwarded-Encrypted: i=1; AFNElJ97uExpwk/ZXTHA0tr2xfTZkor4g6DKhsye+zUJw3R2PQ1Uj+RxvIctvNHGUASa4OZbRFC9hQgtkEI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMqZX7bQS8feSIBoKJ1u5sb7EzTSDrYNXTWb5RHLnnZBaZ+Xc7
+	2w2nKgma629SivvbeChbafyHnlcnMKinPfE+oeaB49MGEKtf8cjjPJSf
+X-Gm-Gg: Acq92OHHbi/VVY1KdP5qfjMvIISq3yaAHiGLpeTJT9DRlQ7k3DOBaWSUZWS4IZ+XWTL
+	OVDxlGF9H+IKMZTBQKu0U8zsrnWrPNiejsdn8MRNz6gOrjy6+BqMMrPlYXGEtn9n09dLtHCF8BQ
+	1TkoZafRXt+DDHtn1f8M+I6waWCaCPnEzcbSTjsN/gjaHG3faZNWzxL+KW5b4u0xnXLJFi4ljq9
+	RZ4GFl6WWSlKkg3O/jC9QX6JWfR+HlVc1HcBMBBmwMIiB9TBovpbu07CGjJcCIVS4AQjtGx7ATv
+	FFphyhtVLRo7BdnhjaOOt52ket+mf7U5JzU6uMPeT/3HwSN0JR3p7xoOGucuAuSb1iqcnTQ+413
+	JL2w3w13mxlFlHNMw6P6O+ZFSiMnjB7ztMEA0EgCx3GBNU2pLGLQCf0ZASPuWW8rui+24gNgb92
+	TrxUQeN0mCt+YNQ54WgSt+cd576wLebI/P+zF3t1a3mVkB6m/phbdQJOrQCj/k
+X-Received: by 2002:a05:600c:17d8:b0:488:a797:f0ac with SMTP id 5b1f17b1804b1-48e51f46abemr229099115e9.28.1778506066819;
+        Mon, 11 May 2026 06:27:46 -0700 (PDT)
 Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6f9fbf12sm200982065e9.0.2026.05.11.06.26.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548e6a6470sm22087839f8f.7.2026.05.11.06.27.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 06:26:50 -0700 (PDT)
-Date: Mon, 11 May 2026 14:26:49 +0100
+        Mon, 11 May 2026 06:27:46 -0700 (PDT)
+Date: Mon, 11 May 2026 14:27:45 +0100
 From: David Laight <david.laight.linux@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Jonathan Corbet <corbet@lwn.net>
 Cc: Manuel Ebner <manuelebner@mailbox.org>, andy.shevchenko@gmail.com,
- apw@canonical.com, corbet@lwn.net, dwaipayanray1@gmail.com,
- joe@perches.com, kees@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, lukas.bulwahn@gmail.com,
- skhan@linuxfoundation.org, workflows@vger.kernel.org
-Subject: Re: [PATCH 1/2] [PATCH 1/2] Doc: deprecated.rst: add strlcat()
-Message-ID: <20260511142649.463c3ea5@pumpkin>
-In-Reply-To: <CAMuHMdWchXXcMyShiMZrhFTrHoB-TcKQEBcRoCTJFpwJsxxdhg@mail.gmail.com>
+ apw@canonical.com, dwaipayanray1@gmail.com, joe@perches.com,
+ kees@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ lukas.bulwahn@gmail.com, skhan@linuxfoundation.org,
+ workflows@vger.kernel.org
+Subject: Re: [PATCH 2/2] scripts: checkpatch.pl: add warning for strlcat()
+Message-ID: <20260511142745.7757b1b2@pumpkin>
+In-Reply-To: <87a4u6w3ez.fsf@trenco.lwn.net>
 References: <20260510164907.57176-2-manuelebner@mailbox.org>
-	<20260510165159.57457-2-manuelebner@mailbox.org>
-	<CAMuHMdWchXXcMyShiMZrhFTrHoB-TcKQEBcRoCTJFpwJsxxdhg@mail.gmail.com>
+	<20260510165649.57880-2-manuelebner@mailbox.org>
+	<87a4u6w3ez.fsf@trenco.lwn.net>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -82,58 +82,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 11 May 2026 13:40:55 +0200
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Mon, 11 May 2026 06:12:36 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> Hi Manuel,
+> Manuel Ebner <manuelebner@mailbox.org> writes:
 > 
-> On Sun, 10 May 2026 at 18:52, Manuel Ebner <manuelebner@mailbox.org> wrote:
-> > add strlcat and alternatives  
-> 
-> Thanks for your patch!
-> 
-> > --- a/Documentation/process/deprecated.rst
-> > +++ b/Documentation/process/deprecated.rst
-> > @@ -162,6 +162,12 @@ if a source string is not NUL-terminated. The safe replacement is strscpy(),
-> >  though care must be given to any cases where the return value of strlcpy()
-> >  is used, since strscpy() will return negative errno values when it truncates.
+> > add a warning for strlcat()
 > >
-> > +strlcat()
-> > +---------
-> > +strlcat() must re-scan the destination string from the beginning on each
-> > +call (O(n^2) behavior). Alternatives are seq_buf_puts(), seq_buf_printf(),
-> > +snprintf() and scnprintf()  
+> > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> > ---
+> >  scripts/checkpatch.pl | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > index 0492d6afc9a1..ca1a8e67d529 100755
+> > --- a/scripts/checkpatch.pl
+> > +++ b/scripts/checkpatch.pl
+> > @@ -7085,6 +7085,12 @@ sub process {
+> >  			     "Prefer strscpy over strlcpy - see: https://github.com/KSPP/linux/issues/89\n" . $herecurr);
+> >  		}
+> >  
+> > +# strlcat uses that should likely be
+> > +		if ($line =~ /\bstrlcat\s*\(/ && !is_userspace($realfile)) {
+> > +			WARN("STRLCAT",
+> > +			     "Prefer seq_buf_printf() over strlcat - see: https://github.com/KSPP/linux/issues/370\n" . $herecurr);
+> > +		}  
 > 
-> The last two not only require the caller to keep track of the offset
-> in the buffer, but also using "%s" when storing passed strings.
+> Using seq_buf_printf() requires switching over to the seq_buf API in
+> general, it is not just a simple substitution, so this advice may prove
+> unhelpful to many.
 
-Which also means they are significantly slower.
-Mind you, some code has:
-	strlcat(buf, "\n", SIZE);
-	return strlen(buf);
-which carefully scans the string twice.
-Since the '\0' isn't always needed (eg 'show' functions), this can be:
-	len = strlen(buf);
-	buf[len] ='\n';
-	return len + 1;
-Of course, the code could often easily get the length by other means.
-
--- David
+And I'm not sure the external url is a good idea.
 
 > 
-> I hope we won't see mindless conversions lacking the "%s",
-> introducing new security issues:
-> 
->     -strlcat(buf, s, size);
->     +scnprintf(buf + off, size - off, s);
-> 
-> > +
-> >  %p format specifier
-> >  -------------------
-> >  Traditionally, using "%p" in format strings would lead to regular address  
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
+> jon
 > 
 
