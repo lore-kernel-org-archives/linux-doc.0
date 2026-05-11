@@ -1,91 +1,189 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.151.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A31747B437;
-	Mon, 11 May 2026 18:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3431647A0CB
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 18:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.151.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778523525; cv=none; b=PGkfn0C6wVr6ihmZcMcTJJKhXkWywrRYkfq2AXYqZfBdLrYeaAlMoiUSJSwOWD1L6XT++3HfY4xp/0Kv5eDAFqu3S1qFL3h5+DYTSWvuUMRV8HCMH5ofEzik3R2BlMSpRvnDRa21ZMJxfHsY3KEwqezdLkCY1CIAvhksPUptNXw=
+	t=1778523603; cv=none; b=OpTV+LboQbxg9a6NPs3GsShYQnY3gNBSXuHJ6Amqn15PrSxTjHHEP2ZtSU8XP43BBKEy3DUo8uhnbj+vc47aCKYUmKvEkLe+J/LsFmwTKgTXIFOnMof0VbcOJl1tmshe5M83u1Ea/860hQfSiBLU9HS8fmJdfoLp4y8DI9wY/jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778523525; c=relaxed/simple;
-	bh=LZoS+OqiDeEnrp9ZwW8sxybQzfDi32QlNvb6QTQaf/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pYajYcZngd0bpLbAcIh6d8Uk0Gq5bGyX2mpjKLKfIb1s3r81f/xcfnH/pUHDS6VbNS6pM10u/9L63VizkJMFANfmYyyw3EoeIq/0Z0C2rhtRq3HMVk3GRCkOmaGhkAmx9g2l8XjIoDLndp8RQFvqjfGkGDH3HtHpoQoic+tH9C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Svt1i7E7; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1778523603; c=relaxed/simple;
+	bh=4Jlh0q6dhDwc8J/hrXz/mwM4Ej/QFg4A/p/vSVf054U=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WSiNN0tw0YgBCoJvAglSs21xt628yDPO6PmWjCnIQzcCF21t6MmQ5WLxl6e0yGX3wdDzjTPIUCkTZRK4c83iWVH2aovpiDoGfEy5jn6AHoIb3ldKTm/e00aHrwQh0lfO4ZUmsgv822fMc4ubQuYl5qnL6fvQQBs5eJQognL8Zl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=KzmFVi0j; arc=none smtp.client-ip=170.10.151.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Svt1i7E7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=UzghNUT8txexFJCdbHTb6EbJJDc5OYiK3uW8TFQuhMM=; b=Svt1i7E7y0/08/Z+DzdyOhPsu3
-	cjCGgikyfsBuQ78H8BQsgU6RWNsRiDoyUHNMSa7aqhb2LyfNOcsinu+3i/qoj43i6bx8XBo64xfEf
-	MCj3PsNwnWHh5s1uZcp+s04ZWd82kZSLNO5s/bs9SsI8xPE5tHHQdySpiQU1zJx4IT2Q=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wMVD2-002QBE-6n; Mon, 11 May 2026 20:18:28 +0200
-Date: Mon, 11 May 2026 20:18:28 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: tanmay.shah@amd.com, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
-	Beleswar Prasad Padhi <b-padhi@ti.com>,
-	Shenwei Wang <shenwei.wang@nxp.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="KzmFVi0j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
+	s=mimecast20250127; t=1778523602;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=IIgViTn4VQzK1uotweearTFzgXkK6LA+cxx2nfd4ogE=;
+	b=KzmFVi0j1A4XILFLLXrFfpN645bQo1kW+OXBm0niCjC+T7heZhn+FaxdAHrBu3mHJDJ38h
+	MiHhCKwOKA0NSzKounNvmDtm6sOzuidWqJ+5XsFFV5ereZ5n564ZOfjBLoFrQclQPUSdKi
+	cLV/MoDc+Wef9Z/UBVnwwoFishOBHJJm4IAgOqCFR9PWHgTWV9CquGsdTUdvPLK6Y8N7vm
+	KdS1yjiscgwKa00Zbv1RJ7OAm4ivVEUouCeFxAynYEzkpiVtxdo+SWs781aTo1uZah3LxR
+	QBlqsTQ2pTYooVLFgrL45jRAqoG8+IMMpEmswa8l0d3nbIO8SvRRrsp0EDezhQ==
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012069.outbound.protection.outlook.com [52.101.53.69]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id usb-mta-23-Zav4VZQXOM-r6nfXP4XzUg-2; Mon,
+ 11 May 2026 11:19:57 -0700
+X-MC-Unique: Zav4VZQXOM-r6nfXP4XzUg-2
+X-Mimecast-MFC-AGG-ID: Zav4VZQXOM-r6nfXP4XzUg_1778523593
+Received: from CY8PR02MB9249.namprd02.prod.outlook.com (2603:10b6:930:9c::17)
+ by CO6PR02MB8786.namprd02.prod.outlook.com (2603:10b6:303:141::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
+ 2026 18:19:49 +0000
+Received: from CY8PR02MB9249.namprd02.prod.outlook.com
+ ([fe80::e437:4ba8:6506:4cda]) by CY8PR02MB9249.namprd02.prod.outlook.com
+ ([fe80::e437:4ba8:6506:4cda%3]) with mapi id 15.20.9891.021; Mon, 11 May 2026
+ 18:19:49 +0000
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+To: Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
+	"parthiban.veerasooran@microchip.com" <parthiban.veerasooran@microchip.com>,
+	"davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
+	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "horms@kernel.org"
+	<horms@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
 	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <4ae35920-2539-4b12-8dea-efd407b8aaeb@lunn.ch>
-References: <472f85bd-42c2-40c6-abfd-b76924797069@ti.com>
- <CANLsYkzt9xUczxSU28u-TfZAAjr0ufZKXAj8Eqfq=45gufXW3w@mail.gmail.com>
- <f7ef3417-eb84-4467-ac72-a9bc8b0c81e8@foss.st.com>
- <21de8440-adf7-454b-acfc-06e50882e075@ti.com>
- <4c526816-b127-43e7-86e9-eee4dc1152bc@foss.st.com>
- <c6f68ab5-271a-41ed-b285-75b739f1edd6@amd.com>
- <87850f70-5275-4393-941f-d01146a9cffc@foss.st.com>
- <da3b79b7-9dad-48cb-b552-cf6df445899f@amd.com>
- <08c815f5-ccbe-404a-95a1-a549aac8a55d@amd.com>
- <CANLsYkz8HpM_8eS7DjN_jmYs4T7P9xY0jYmdiAx5WO=_1zvFpQ@mail.gmail.com>
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH net-next v2 9/9] Documentation: networking: add OPEN Alliance
+ 10BASE-T1x MAC-PHY serial interface
+Thread-Topic: [PATCH net-next v2 9/9] Documentation: networking: add OPEN
+ Alliance 10BASE-T1x MAC-PHY serial interface
+Thread-Index: Adzhcd9OIUVog21RSwSOjZ/4phJ/6g==
+Date: Mon, 11 May 2026 18:19:49 +0000
+Message-ID: <CY8PR02MB92499FC3FF6D1CA5A0DC2E4183382@CY8PR02MB9249.namprd02.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY8PR02MB9249:EE_|CO6PR02MB8786:EE_
+x-ms-office365-filtering-correlation-id: c476ad2a-1025-4d86-af52-08deaf89e36c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|56012099003|18002099003|921020|38070700021|11063799003
+x-microsoft-antispam-message-info: 0sU8E3KgnUfYOyUd6/Lu6akhQN75i7ergGbNexHph8BEDKtWaWB1MNQqkrB9+JgWuwcYKs5l/AR3GVup8i9dkW/szv+9emsKgki64net1xuYOcxLOExDp9spqnjEyIfWBjxUP1YxpFqUnieNC7LUZOn9Qcdwv8/q8lU3F+L6AvYAmGI+00i1u5YfIwBZCqqSbkxfLXlyQU5mz98tK64pSjwuzknjhfHfPNPvq2dBAImWWx+QlLKuVeLl8RdTuycYGXJZeznla+sXZkEi/IZUzOSJGvqoIz614k7OGZ/eMpRfqWgH7L4pSSApX9j1uh1lvw26yFSGBjuFmH+8pxOS1tzciOM+WUmBaOKPanmlUzMcC+6RAORqNUlrJP4elkiVx/AIesvIXN1tRWXOjRohJ7F0v+E+3nZAj9/pmS/exEGzoGVVgovWqItd/DslIC4J71TA3srtfTXF1QjQCnJFxpViw8VyCwaMnnC+HZyH1SpampK+91PKr4pYLYlERkt8iANo3HscUucDD2swQxIYrPn9YR0fBiXfSMvRO3y09y7lGZrJibL+E9SEvm4EWzuPq/4D5IX0tiSReg8sFvbeYoCRa5RtuC/J6QF+I5rCc3sAnOBjxfHuMoBunlXw11TKei4hwFOflon/4OCoh4fdezmtSsvG6ZqPzREFJZk2QIF5cvrNsPVVxNHc029dt3z0H1ynT6WQycrLi5boc4hJGmQH6Sd/yxp1UXLyppnpJm3Q1rQATx8qsl3ngfnqt1YcdY8fUv/MhCValqsNHxKLRQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR02MB9249.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(56012099003)(18002099003)(921020)(38070700021)(11063799003);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?jZdTGEcDXkMgkO1D6RYQIhiQCk2KzDqbVx4c0I9VqH/If8TEU0wRD0JKDWck?=
+ =?us-ascii?Q?efzZNEXWu+A4XDDMTN9qqqoRJuK6OBAM5EdE1iRNaZZx62sXQNfnR/yHMY6Z?=
+ =?us-ascii?Q?mBMCSIzvKeEIS8lqAiwLBg1thkyLii+DBINpqsRfnmYKFiQxCyiurzKISPRC?=
+ =?us-ascii?Q?xZCluI7cFR+tMhF9sHQ0sKCy4xT9OHBJooH2TwQWDjGA5SLcIYth478L8Vfy?=
+ =?us-ascii?Q?XY3owyQu1JgQ8RT8U79DH2bj+RXNXpdMhyviTZic0gv2K87TSrZ1egt2NmGk?=
+ =?us-ascii?Q?JAqtUSQxqJZGtYlD3Fo0HVVXr/DjLyM1AsaZs5zDgCKCyFYg4Q44LixG0ePZ?=
+ =?us-ascii?Q?FhSQOZoRD7KG4K7fUIkqJrF4mSwDnB7tmt/PNNT46Et5IkGJaOlPnZR8bW9v?=
+ =?us-ascii?Q?UK6p2Ur7DKYib8OvBogcb8nZTjQvMb+eG+B5Z4pAGDrqbJ71ww3u48uMx9uo?=
+ =?us-ascii?Q?7VSvx7MFDYS0oE7r9/hGvJOXgEE+P5gE4OBdf+dN8tJR5ZEn7fhTN5wlXeYt?=
+ =?us-ascii?Q?pbmUVAspyQyqtF6JPVtLTtwJn95L9Li1ttskZBqRjCeDhMJa5dAKCYrbKTBf?=
+ =?us-ascii?Q?c8kIdi+fZNn5P9giz5YPP05c+CQ2lxmw1niuC3JlFBUtNekjrTY9GPSDIqbY?=
+ =?us-ascii?Q?wzA71gxCWKtpypRmf69Mi0vQ0bSsCv3f6ORStGLmSWR+VIDSpE1WnRIorfRW?=
+ =?us-ascii?Q?ETuGWKaOD83x12e6A8uuXDl0Xsa04p3FhojjsExCDJskCDxDS6luaU07tH6I?=
+ =?us-ascii?Q?gH/+qBN4nvx27SkVOWWEsJSfhqnHLPijA6FZenG0i4dZfFUfddfdWpvh6yaO?=
+ =?us-ascii?Q?P2jvVPgnNl0SC51YHbvx9AIFVrBI6hnDCFY/qupu2NkMSOt0xsQYqd0vOy9o?=
+ =?us-ascii?Q?DKrZeT8UXB3dBTt/a/jh/HdrMjA2qfy9TSM96DQqnXyeG0zOTWcN0dpeEP9a?=
+ =?us-ascii?Q?xb8uZghW4eKRbQwhlmlCu7EhxFQnaeTLgTSs97WL5rBAe28uIk2kuv+5mFSH?=
+ =?us-ascii?Q?rFQUhFl0D5P2snUheDof5By2do5/jux5dP30l7+a+c6/KmBh3zb2bKhYazt4?=
+ =?us-ascii?Q?DEjhwPi2buzRVkk2BOF6nsdZxYOydK/92rRtCjiYq45Jag9zkjwzuXQYow98?=
+ =?us-ascii?Q?gII0YW90LESdo/SaDX9+gCCcOhkCTBO6r2ukMbp5e6AxF0EBZypOlV1ns/B9?=
+ =?us-ascii?Q?8E0WWFfpNDXQpd+8Co7hU8FIE8319e0xm5QrYWKy58bjo+4Q7Ayg6yHZxb/S?=
+ =?us-ascii?Q?zZNeSRgTeuv7Gk7UPsiecfRLtYG6Gacr1ymR3TE6ACHR0WXTQYTVoXXPSVSr?=
+ =?us-ascii?Q?8UXIkhQiQaqK2ekwwB9lsBmyBTB1Y7GKlwkhKjcMUM21YDvs6P9xMnbwEPij?=
+ =?us-ascii?Q?jFg3Ac1QhUINfQEambiLgKacsASR8EbcLxAcr64jRZJW43qXYhA7dmfBwsPX?=
+ =?us-ascii?Q?pcuFNwRwam4Pn96bVuDpd3pJNu8ZnmswUlZycwempCg4su1o7BTTQfb9FKmc?=
+ =?us-ascii?Q?eh6jgMbIDQ8I4JRmnThnMRiwLULYloQKz2OCuIVxIbxcv/AopcRZBpPRVSyM?=
+ =?us-ascii?Q?0kRNvBPgfFdGq5GbFPEtZ6m3ofAKqy3G4opjJbuabdW/s97BZSIY7B0ay6oE?=
+ =?us-ascii?Q?xA/OFPvkbwQvf/ou3l9Ty1tkOn0iEhJa2kCk8XqCpJ5vkKM2B/KZsIGUsRjw?=
+ =?us-ascii?Q?oPDSDkexewXJj69ukHeAiMuzNns78HvihOD797DlCPW8UmI/pr8/hCJFDycQ?=
+ =?us-ascii?Q?t85+0COMN9ioAU6rhI+gF6APgNTFCYg=3D?=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANLsYkz8HpM_8eS7DjN_jmYs4T7P9xY0jYmdiAx5WO=_1zvFpQ@mail.gmail.com>
+X-Exchange-RoutingPolicyChecked: MTL2GjNVoH+u2R2hd2/QL8VuqVZ6mJPdBf0GZU+PMnm/3BHwRUbIJoZzj6FQes1nPuadyDdjcl5soongUYp5FV5mjTSxyIEf+HVhWVLnBahhzy3iwPCD0BhUbtqSqGDJzN/sSp4MVKuY8k46VkY7+9UmSS37FtlX+OX6rx+zWUMCPHm7LWXmsul1eVGGAGMBEJUDMGH5fp2ChUG+t4evBjUM8+ij2aQK8lOk19Ob8ZCmLTK+3Hpznc2lfKsf/g4jzCc1YPzc66QtcpxMJ513HhhT/zLzMv8ApNhjDDlYDEd4w4JHHbopPy88TDUYHHOOKGj6MRRwSRdAWx8BapsOPA==
+X-OriginatorOrg: onsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR02MB9249.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c476ad2a-1025-4d86-af52-08deaf89e36c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2026 18:19:49.3996
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Eb+wt8BIleQlkdzB00rvPB1XZGTu0nj2LJNYzEl411zWEsZVBHajpPK9Rs2Yy9993ye+ydd6TN2YWRgAkfqszy+YxkMhzk9FArRabqyfIKw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR02MB8786
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: yrUbT6kDTyd5o45DCNfBFEaX3ioCyCmYUXavBbxXtuw_1778523593
+X-Mimecast-Originator: onsemi.com
+Content-Language: en-US
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 
-> Arnaud, Beleswar, Andrew and I are all advocating for one endpoint per
-> GPIO controller.  The remaining issue it about the best way to work
-> out source and destination addresses between Linux and the remote
-> processor.  I'm running out of time for today but I'll return to this
-> thread with a final analysis by the end of the week.
+Added an API to support setting vendor specific MMS and
+new APIs introduced to support hardware timestamp.
 
-How many of the participants here will be in Minneapolis next week for
-the Embedded Linux Conference? There is even a talk about this:
+Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+---
+ Documentation/networking/oa-tc6-framework.rst | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-https://osselcna2026.sched.com/event/2JQpx/building-virtual-drivers-with-rpmsg-key-design-principles-challenges-trade-offs-beleswar-prasad-padhi-texas-instruments?iframe=yes&w=100%&sidebar=yes&bg=no
+diff --git a/Documentation/networking/oa-tc6-framework.rst b/Documentation/=
+networking/oa-tc6-framework.rst
+index fe2aabde9..b0c220a54 100644
+--- a/Documentation/networking/oa-tc6-framework.rst
++++ b/Documentation/networking/oa-tc6-framework.rst
+@@ -153,6 +153,9 @@ OPEN Alliance TC6 Framework
+ - Forwards the received Ethernet frame from 10Base-T1x MAC-PHY to n/w
+   subsystem.
+=20
++- Update hardware timestamp in skb, when indicated by one of the three
++  timestamp capture registers through TSC fields of the header.
++
+ Data Transaction
+ ~~~~~~~~~~~~~~~~
+=20
+@@ -495,3 +498,26 @@ the MAC-PHY.
+ Zero align receive frame feature can be enabled to align all receive ether=
+net
+ frames data to start at the beginning of any receive data chunk payload wi=
+th a
+ start word offset (SWO) of zero.
++
++.. c:function:: int oa_tc6_hwtstamp_ioctl(struct oa_tc6 *tc6, \
++                                          struct ifreq *rq, int cmd)
++Legacy ioctl interface for supporting hardware timestmp.
++
++frames data to start at the beginning of any receive data chunk payload wi=
+th a
++
++.. c:function:: int oa_tc6_hwtstamp_set(struct oa_tc6 *tc6, \
++                                        struct kernel_hwtstamp_config *cfg=
+)
++
++Interface to set hardware timestmp configuration through ndo_hwtstamp_set.
++This API is used by legacy ioctl interface as well.
++
++.. c:function:: void oa_tc6_hwtstamp_get(struct oa_tc6 *tc6, \
++                                         struct kernel_hwtstamp_config *cf=
+g)
++
++Interface to get the hardware timestmp configuration through ndo_hwtstamp_=
+get.
++This API is used by legacy ioctl interface as well.
++
++.. c:function:: void oa_tc6_set_vend1_mms(struct oa_tc6 *tc6, int mms)
++
++Interfaces that gives a vendor, an ability to map VEND1 MDIO device number=
+ to
++vendor specific MMS (Memory Map Selector)
+--=20
+2.43.0
 
-Maybe we can get together and decide on the final design after the
-session.
-
-	Andrew
