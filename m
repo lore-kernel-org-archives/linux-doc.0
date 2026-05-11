@@ -1,177 +1,112 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6CB3423A6B;
-	Mon, 11 May 2026 17:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00FDC4611CC
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 17:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778520568; cv=none; b=VSqGk/CMLnM09sLdfKkAI7t13p690q0HTI1BRh7eNTlKU3xXXa2ez6dATCvniVSoojcPqXicBzL1jYOD+O7RzGPay7TJOSV5VEOiBLwvRuY/1cPZfSWX6nd89tlyscjjbVDgnqCizWJhCLtrzc/x4cU3u5xpAvMdAozUBTPgMIQ=
+	t=1778521397; cv=none; b=gldp+oc4pHobcSLH7Xy9C2ssuLimbHNlhr6KE9REHNYxprg+gXVmuPf9iuTSVDtF1GhMDFLnhTY31HdLFlJE37f5B/NmYXABllr1GA298nM2yckLdZGYkZVntf1GApYkzfE2duqVSENoc6VO8snN04/ghM1iNLlXYr23D1xoEmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778520568; c=relaxed/simple;
-	bh=yMWBpNUT5aNuw3V9XIZoorQgUxmjks1iackgkJ/snl8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BDXc7WUA/UWNvGzD8L2LbaZlpW51BJjm2JvKWkox+j9flsln4yphfFkP1PJDw+SDb7BNaMutvC/Ag51NpFEi7Du1/iv8x+9BOqxneXdxPYMansWERtYpk7WgxHVfijx6rgkFUsqWsXtFXlCLw6hcqeB8/kyjPBJfuZBQm+/SAAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qPr3GfIA; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1778521397; c=relaxed/simple;
+	bh=CArFcwjTin5095cozOfSePPZOWMOInw10+50zRtmwNQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HbN/S6Dv36OgAJ7CzSg2YdvkxeHi2vcDOVK/yFFBq2Z5HxEQNTFYeBYg2Be/dVUN263DNq22Lac6YBeWRBV+Cwo/pQuVNQoh0r8c0uyPCfBAe7Xp+wgb3Qs8Xn8xqoiN8LN+crizftNbomBU+ngCMRxbcqj9tY82OxuKx6KRCsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mxb5qkSI; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qPr3GfIA"
-Received: from [10.2.212.4] (unknown [131.107.8.4])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0EC9B20B7166;
-	Mon, 11 May 2026 10:29:24 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0EC9B20B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1778520564;
-	bh=EY/LhrL3JM0ElRC6pWR4zlZABquSUEPTVPGME7ilfAE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qPr3GfIAExhTrBx+vW6z04VEtwuHufnzKC2Cuobqhgi+jXK8B5WJn5U/8AuY4IuR1
-	 gctDJYqvaGxDiuM3sdUmiMnyj8eQav91qWB47p3T2RM2WYl1MYeUYAcqhOAWOjKQ64
-	 3wnHZX/hx0hhTM8+aGFGvVBJXMR24gFYj+iX5v54=
-Message-ID: <aaed52cf-26e1-4c40-812d-3788024ce5b5@linux.microsoft.com>
-Date: Mon, 11 May 2026 10:29:23 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mxb5qkSI"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-82f9fdfc965so1984277b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 10:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778521395; x=1779126195; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PJ7LCTa9KTtIJAgxRtdGfVpbgkOkteisYlLfo08fBPc=;
+        b=mxb5qkSIZBTkEhv28t/mHoiD4GnXLitDpTdurT0hCKNi2KncCgtqfRunabTfoZNBHR
+         AN4/XXFLBwSt5do81ANgVvEWdKmPhQRSNlJ4djKe9Ce3SH3jVvBwnqRkuXz6sFqXeBmN
+         6BpVl7BdXIc4MZtsTYdSUZIjjcQAQe0JMec1g/1EnADbz9GJAIub1Kp261qtyMrZ3uG0
+         IuIh/TwLDhFOmARbpEmDLEaO/j1sH2CZ2wR7iByf1Ll0xD7SM9f92QQiW1VvVCsHfeUb
+         ZjiKkYoBWNpNhfgALMBiDGmjCmKQT4ongrh4BJHzOQWEJlK7gLX8b+PzXt0BOZVwMzpF
+         C1LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778521395; x=1779126195;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PJ7LCTa9KTtIJAgxRtdGfVpbgkOkteisYlLfo08fBPc=;
+        b=iHCbvWhz+0ls1TnfAFmcOWjUACcw/nqYiVQy724xnmwPaxr/3DlTDxhaMGuvsl8Mjr
+         0zAi1AZ8hvBN/6WgS9biHFUYCZowXgfcfFOZ2N5ykpqk6Bk09zK4aDc1n9Tu5v3hTGME
+         FP3qcxEHYMFgu8TmRmNrgjpYX2DGpLM+XK67IkOIa2hl8puo+sdxoW1mZ4uj6BRxHXy/
+         eAHomaeI6n+NwLFe8Nh+Ynetzmq7xeDqDA04AQlK7mxmAvN8ZZ1PTiV7oS38zXHb/tNP
+         RL95FE7wW6xUR5K5oOkZ6MI2Zf2pZuZBolDZUZatl6jKh22gHiZI+6hTRcFaKUnPLQ65
+         yKcA==
+X-Forwarded-Encrypted: i=1; AFNElJ8Ly4xtWPZ85fMkXEw6zxlDzqwSMH0A9Gsed9wyL7wOniSD1Iso5cCo2m8FRpEWbs4Ym4Dyezy9ct0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxK3Tm+iNYFibFvVZpv3f26moQyejU2r+s9knnsvyDOU3uBefVv
+	9eP0BZaXVW88eJvJKDNCwwAkcNVdqRP5EKOafPsR0c7WLL13p9+nR90K
+X-Gm-Gg: Acq92OFQQAdKTck218f6UjsUXmTupefHU44hK+8bivg0+zMoHOZkioXPScTw22JoE11
+	uEbp/NvN163+iK0CTcotKVyD82UkygXGIkuGXOupB23OVAKlXdzkY54Aoh5JJz7AlG451EYiHmM
+	ztDtllwVsrItv9CBiJoxWBHpfZFuGwFfujkU4As/XRVgw4BVp3v3bFar5UwSSpfaAM9PO3Gl6Gv
+	umFONeuO1D7k+sgCTWrq9lO+g3g0kNifLsOfB74Qu88n1TzVG7DT34A5Zo4uO+a7rxhtZL0QXCO
+	YTQqu4WWnxn2q9+CnK8fx8RMOaFRbi5Cft0Im499mQY7Yq+zE7OSU6aAq+uG3Un6llnOfzVXjdG
+	BPaAZ1v1S4KxDEmyqWTZ5qaksqxs049PFCEkv1Shw1X+f34ib/Wr/bT2zq0QLGxy0EUqqcpzxjd
+	2uuGpsUl39wuIx75ZrGoEioSAxDD1/BOMqmN52mH62dmQTqiwAMUUoVYt5/QHtCAAY2u2E8vvFm
+	+QXO2k=
+X-Received: by 2002:a05:6a00:1f13:b0:835:a682:a6d7 with SMTP id d2e1a72fcca58-83cf4f75f4amr14356959b3a.4.1778521395343;
+        Mon, 11 May 2026 10:43:15 -0700 (PDT)
+Received: from fedora ([103.181.54.97])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83965d34872sm21398723b3a.22.2026.05.11.10.43.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 10:43:14 -0700 (PDT)
+From: Ninad Naik <ninadnaik07@gmail.com>
+To: pbonzini@redhat.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	seanjc@google.com,
+	michael.roth@amd.com,
+	liam.merwick@oracle.com,
+	vannapurve@google.com
+Cc: kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	me@brighamcampbell.com,
+	linux-kernel-mentees@lists.linux.dev,
+	Ninad Naik <ninadnaik07@gmail.com>
+Subject: [PATCH] Documentation: kvm: update links in the references section of AMD Memory Encryption
+Date: Mon, 11 May 2026 23:13:02 +0530
+Message-ID: <20260511174302.811918-1-ninadnaik07@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/13] ima: Introduce staging mechanism
-To: steven chen <chenste@linux.microsoft.com>,
- Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
- skhan@linuxfoundation.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
- serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- gregorylumen@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
-References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
- <99c30be6-8b0f-486a-890c-cf74c5930726@linux.microsoft.com>
-Content-Language: en-US
-From: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
-In-Reply-To: <99c30be6-8b0f-486a-890c-cf74c5930726@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Replace non-working links in the reference section with the working ones.
 
-On 5/7/2026 9:47 AM, steven chen wrote:
->>
->> Usage
->> =====
->>
->> The IMA staging mechanism can be enabled from the kernel configuration
->> with the CONFIG_IMA_STAGING option.
->>
->> If it is enabled, IMA duplicates the current measurements interfaces
->> (both binary and ASCII), by adding the _staged file suffix. Both the
->> original and the staging interfaces gain the write permission for the
->> root user and group, but require the process to have CAP_SYS_ADMIN set.
->>
->> The staging mechanism supports two flavors.
->>
->> Staging with prompt
->> ~~~~~~~~~~~~~~~~~~~
->>
->> The current measurements list is moved to a temporary staging area, and
->> staged measurements are deleted upon confirmation.
->>
->> This staging process is achieved with the following steps.
->>
->>    1.  echo A > <original interface>: the user requests IMA to stage the
->>        entire measurements list;
->>    2.  cat <_staged interface>: the user reads the staged measurements;
->>    3.  echo D > <_staged interface>: the user requests IMA to delete
->>        staged measurements.
->>
->> Staging and deleting
->> ~~~~~~~~~~~~~~~~~~~~
->>
->> N measurements are staged to a temporary staging area, and immediately
->> deleted without further confirmation.
->>
->> This staging process is achieved with the following steps.
->>
->>    1.  cat <original interface>: the user reads the current measurements
->>        list and determines what the value N for staging should be;
->>    2.  echo N > <original interface>: the user requests IMA to delete N
->>        measurements from the current measurements list.
-> 
-> This submission proposes two ways for log trimming:
-> 
-> *Flavor 1:* Staging with prompt
-> *Flavor 2:* stage and delete N
-> 
-> Functionally, both approaches address the same problem, but *Favour 2 
-> *is the
-> stronger design and should be preferred. There is no good reason to keep 
-> *Flavor 1.*
-> 
->  From a kernel implementation perspective, *Flavor 2 *is more efficient 
-> because it
-> minimizes the time spent holding the list lock (can’t be shorter). It 
-> also substantially
-> reduces the amount of kernel-side logic, removing nearly half of the 
-> code required
-> by the alternative approach.
-> 
->  From a user-space perspective, *Flavor 2 *results in a much cleaner 
-> model. It avoids
-> the need to track and reconcile both old and staged lists in user space 
-> as well as
-> two lists (cur and staged) in the kernel space, which simplifies log 
-> trimming logic
-> and reduces maintenance overhead. In addition, it preserves the existing 
-> external
-> behavior by not exposing any staged list to user space.
-> 
-> Overall, *Flavor 2 *provides the same functional result with lower 
-> kernel complexity,
-> shorter kernel list lock hold time, and a simpler user-space interface. 
-> For those
-> reasons, it is the preferable approach and *Favour 1* does not appear to 
-> offer sufficient
-> justification to keep both implementations.
-> 
-> Steven
+Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+---
+ Documentation/virt/kvm/x86/amd-memory-encryption.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Roberto, Mimi:
-
-I want to add on to the point Steven has brought up.
-
-With "Stage and Delete N" approach, we have the following sequence of 
-tasks for trimming the IMA log:
-
-	1. User mode locks the IMA measurement list through the "write interface".
-		a. While this prevents any other user mode process from updating the 
-IMA log, kernel can still add new IMA events to the measurement log
-	2. User mode reads the TPM Quote and the IMA measurement events and 
-sends it to the remote attestation service
-	3. Once the remote service has successfully processed the IMA events, 
-the user mode determines the number of IMA events "N" to be removed from 
-the measurement list maintained in the kernel
-	4. User mode provides the value "N" to the kernel
-	5. Kernel now determines the point at which to snap the IMA measurement 
-list using "N" - without holding a lock
-	6. Then, the kernel lock is held and the list is snapped at the point 
-determined in the previous step thus keeping the kernel lock time to the 
-minimum.
-	7. Now, user mode removes the "write" lock on the IMA measurement list
-
-With the above, we believe "Stage and Delete N" alone is sufficient to 
-trim IMA log.
-
-  -lakshmi
-
->>   .../admin-guide/kernel-parameters.txt         |   4 +
->>   Documentation/security/IMA-staging.rst        | 163 +++++++++
->>   Documentation/security/index.rst              |   1 +
->>   MAINTAINERS                                   |   2 +
->>   security/integrity/ima/Kconfig                |  16 +
->>   security/integrity/ima/ima.h                  |  32 +-
->>   security/integrity/ima/ima_api.c              |   2 +-
->>   security/integrity/ima/ima_fs.c               | 315 ++++++++++++++++--
->>   security/integrity/ima/ima_init.c             |   5 +
->>   security/integrity/ima/ima_kexec.c            |  53 ++-
->>   security/integrity/ima/ima_queue.c            | 283 ++++++++++++++--
->>   11 files changed, 803 insertions(+), 73 deletions(-)
->>   create mode 100644 Documentation/security/IMA-staging.rst
->>
+diff --git a/Documentation/virt/kvm/x86/amd-memory-encryption.rst b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+index b2395dd4769d..bd04a908a8db 100644
+--- a/Documentation/virt/kvm/x86/amd-memory-encryption.rst
++++ b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+@@ -656,8 +656,8 @@ References
+ See [white-paper]_, [api-spec]_, [amd-apm]_, [kvm-forum]_, and [snp-fw-abi]_
+ for more info.
+ 
+-.. [white-paper] https://developer.amd.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
+-.. [api-spec] https://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
+-.. [amd-apm] https://support.amd.com/TechDocs/24593.pdf (section 15.34)
++.. [white-paper] https://docs.amd.com/v/u/en-US/memory-encryption-white-paper
++.. [api-spec] https://docs.amd.com/v/u/en-US/55766_PUB_3.24_SEV_API
++.. [amd-apm] https://docs.amd.com/v/u/en-US/24593_3.44_APM_Vol2 (section 15.34)
+ .. [kvm-forum]  https://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
+-.. [snp-fw-abi] https://www.amd.com/system/files/TechDocs/56860.pdf
++.. [snp-fw-abi] https://www.amd.com/content/dam/amd/en/documents/developer/56860.pdf
+-- 
+2.54.0
 
