@@ -1,124 +1,196 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972C232ED39;
-	Mon, 11 May 2026 23:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9382D47F1;
+	Mon, 11 May 2026 23:28:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778540731; cv=none; b=HZyfx6mqg1YdkmoKT0LbL/9eD6i795gunhU1DSDF78nfeqtFnSF8rq4Qzeqv++zZdfrdwNJsx/KkO//GKNDKldcF0u0JUeJ3DRJwLfC2D0GTyIMmMs5pop0vybL5S55iiHd2ePWsWQIevxB7WqjXjORCPiQ0DeIjy8xZEMfuCcc=
+	t=1778542133; cv=none; b=oPWnXGOFrjty8qBl9De+TO5xo5rfUSEhNYmcp0Q2VUDi4+e75J5BKZLGJ+HCIJJURID5lvVF4KWM5Wl9tkGJm9TodBbsSGNxIhjpd7BCO2i/cDUpE2EkBWQzdEsSxYJRzOJVSWiCL5/0EtsGeBJaC3gPZBesS2NBqr0SkFUhpBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778540731; c=relaxed/simple;
-	bh=+l510pdwI65ZDgx4CQXjs9UT5TqtHgZZI0OYYCMKkrs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nj/iEtfz7QU9w9jXO6/6xDuj70P2VASgv9wWi11HDp4tgY4DV90X9KerfJinQXTlnDOodNwzELYBiBJ6/fEBACZsQgBFkfH9CWvhV56vbb5iyYXwlkoeMgOiYfQbBuvwdwafxf768nYa3RQWZ+NiMwKjrMWv4hCkFKetTKXNyzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ouORcNyp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778542133; c=relaxed/simple;
+	bh=aADp7DgVuAPyaGlpb+SO4KZbRsMSVdrHhsP3kBXCfLw=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=XZKAwcAfXxSVBvFuwqCzR1LXAVBtAWuFYs+wmtGL7yPHxef7jz7gROz0+a+kOs8s9hjnjXq3pQ1LK1GCEnPFM/N0IOAJ7uqfJdDfsXooMDrRJTaw6zBG1B2WAR4LNu2n6Uiwz18JQBknq+nDGcgtyZH4DCdtWCgd4kwiuAA6SCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VKnAaPhY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ouORcNyp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15CCBC2BCB0;
-	Mon, 11 May 2026 23:05:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VKnAaPhY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53E11C2BCF5;
+	Mon, 11 May 2026 23:28:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778540731;
-	bh=+l510pdwI65ZDgx4CQXjs9UT5TqtHgZZI0OYYCMKkrs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ouORcNypVstVyxpqipW8XXcIZWcPpHDLCv5XkMYblogIEBgcjqTvbHWIXFMdmuDIN
-	 cJHnUeBvvLJgr80O1X5X044ZHCZY8jAntZy9CeeNhp/Zj0YKclxtPeLka003PlzRMe
-	 2qUX6UlORlk0dgPXHnFvvd5wQnxd+dBNizBAtlht9HVg7bGhSp4EQ2JJqBJPZe3nal
-	 c5YVFCkG1EtjEDzbeNh5cEZWE61qxVl+Rjrbr6eooIiX5X68fh+3kdEuOMNbxAeqRC
-	 FBI+wr94iSwPhAXVFvG6Q33wxGrSv+y0zhAngEdtZ8UTyg7dHqNyD8HX70EkhAH/Td
-	 c4dC8Cu5oUy3Q==
-Date: Mon, 11 May 2026 19:05:29 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Michal Hocko <mhocko@suse.com>, Breno Leitao <leitao@debian.org>,
-	corbet@lwn.net, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
- primitive
-Message-ID: <agJguTdMd95_rNGp@laps>
-References: <20260507070547.2268452-1-sashal@kernel.org>
- <20260508135630.a380e3c187b59e4c04e6f358@linux-foundation.org>
- <af5Z2IvtS5pVorSl@laps>
- <agG_PZ3qcl6TwLnL@gmail.com>
- <agHUp8ulaWJ75WU5@tiehlicka>
- <20260511153158.bad58633e2c8d247322ebb4b@linux-foundation.org>
+	s=k20201202; t=1778542133;
+	bh=aADp7DgVuAPyaGlpb+SO4KZbRsMSVdrHhsP3kBXCfLw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=VKnAaPhYkMjXtNYBBpR+2rAoWThQGtiVYS0cvvCDMVWbZRVYbRy3R2a6Y7E0q7csH
+	 6MUQbAEo6sj2tW+YaiBaqK5Hrsac9zUd4kpCOT3RLz05zSkwSJOPzkOL7RMz7UDZRL
+	 AdcqDrpFllD4sG+JIgRgHV5Tg8Da6xoWM3ViLZjBcL+XgVSlhD0GvY30gG/ZWOE4l2
+	 lHYZiPfFVDQxyKBTAjM2qtCsoae5G0MWvTnrRghRLYM1rbsbt/qQLwLPP1KlLVkBex
+	 m4nmDCTq7Fm3lVw+mIqwmhIGcqCMYxNmEPyPQRuPE/H9Ed/PJxn3BtVezk/WJvf2yW
+	 ZA51GmYvWsOfQ==
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 75475F40069;
+	Mon, 11 May 2026 19:28:51 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Mon, 11 May 2026 19:28:51 -0400
+X-ME-Sender: <xms:M2YCamdbFM64ymqngWj5O329txdA3O7T--Vb61oKSNUrTeG5TrjH6w>
+    <xme:M2YCap34CBrDTBhQ4CwEYsKD_WHBOjjBPVinCH1bfp0TMjzxS8cY-WSx_y8bnVfJX
+    _6UIJWcnqhBIScn9pXo5JZyjrr9QExFUunM2kLonFsjCqab7Cwd>
+X-ME-Received: <xmr:M2YCaq9QUKhUqMN3glWylDp-vYyKfjBZZqt0UAu2djEQy34H5HKJfncVZE7FnfwiiFOyXEqlidVQMhTeP5rCIkbUMyHqqrUVRgI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvddtvdehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevkfgjfhfugggtgfesthejredttddtjeenucfhrhhomhepfdffrghnucgh
+    ihhllhhirghmshculdhnvhhiughirgdmfdcuoegujhgsfieskhgvrhhnvghlrdhorhhgqe
+    enucggtffrrghtthgvrhhnpedtkeelkefgtdegudeiiedttdfgueegieekjeffueffueet
+    jeffkeevtefflefhheenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepughjsgifodhmvghsmhht
+    phgruhhthhhpvghrshhonhgrlhhithihqddujeejvdeftdegheehqdeffeefleegtdegje
+    dqughjsgifpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrghilhdrtghomhdpnhgspghr
+    tghpthhtohepvdekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehtvghrrhihrd
+    gsohifmhgrnhesrghmugdrtghomhdprhgtphhtthhopegujhgsfieskhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtohepjhhitgdvfeeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepug
+    grvhgvsehsthhgohhlrggsshdrnhgvthdprhgtphhtthhopegurghvvgdrjhhirghnghes
+    ihhnthgvlhdrtghomhdprhgtphhtthhopegrlhhishhonhdrshgthhhofhhivghlugesih
+    hnthgvlhdrtghomhdprhgtphhtthhopegshhgvlhhgrggrshesghhoohhglhgvrdgtohhm
+    pdhrtghpthhtohepshhhihhjuhdrjhhoshgvsehhuhgrfigvihdrtghomhdprhgtphhtth
+    hopehmihhnghdrlhhiseiiohhhohhmrghilhdrtghomh
+X-ME-Proxy: <xmx:M2YCaq10C2R19tgRVDbetC1eA6Y1ve7S_ozN2VQ7W1imQnHn_6TZOQ>
+    <xmx:M2YCat15BnSUZfq7j-azLAw0GkgNrJHlGVux7mFHPicElCdwRnFuAg>
+    <xmx:M2YCamuw78kLXFUdqy2k4BpVPSkoHDrbVM-y-kmY0lgntnoCAYi8rw>
+    <xmx:M2YCatbtSxrQ8fMcUmYP5btnJLC6pfsG6Hk_Pd4Rgoi6Cx4hIGcrDw>
+    <xmx:M2YCasJ70O4NK3-xFJ790GKeQhUzcgUhDb6l4YD4PXRCj_guGD2Ixa-A>
+Feedback-ID: i67ae4b3e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 11 May 2026 19:28:50 -0400 (EDT)
+Date: Mon, 11 May 2026 16:28:49 -0700
+From: "Dan Williams (nvidia)" <djbw@kernel.org>
+To: "Bowman, Terry" <terry.bowman@amd.com>, 
+ "Dan Williams (nvidia)" <djbw@kernel.org>, 
+ Jonathan Cameron <jic23@kernel.org>
+Cc: dave@stgolabs.net, 
+ dave.jiang@intel.com, 
+ alison.schofield@intel.com, 
+ bhelgaas@google.com, 
+ shiju.jose@huawei.com, 
+ ming.li@zohomail.com, 
+ Smita.KoralahalliChannabasappa@amd.com, 
+ rrichter@amd.com, 
+ dan.carpenter@linaro.org, 
+ PradeepVineshReddy.Kodamati@amd.com, 
+ lukas@wunner.de, 
+ Benjamin.Cheatham@amd.com, 
+ sathyanarayanan.kuppuswamy@linux.intel.com, 
+ vishal.l.verma@intel.com, 
+ alucerop@amd.com, 
+ ira.weiny@intel.com, 
+ corbet@lwn.net, 
+ rafael@kernel.org, 
+ xueshuai@linux.alibaba.com, 
+ linux-cxl@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ linux-pci@vger.kernel.org, 
+ linux-acpi@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Message-ID: <6a026631b4f86_1b86a100d7@djbw-dev.notmuch>
+In-Reply-To: <09796934-e093-44e6-b6e2-2d0dd5a29673@amd.com>
+References: <20260505173029.2718246-1-terry.bowman@amd.com>
+ <20260505173029.2718246-3-terry.bowman@amd.com>
+ <20260507190836.70197e24@jic23-huawei>
+ <8913c666-a343-4717-8ab2-0b8546d1bdfb@amd.com>
+ <20260508150533.04e19cf9@jic23-huawei>
+ <69feaebd471c3_1b86a100b@djbw-dev.notmuch>
+ <09796934-e093-44e6-b6e2-2d0dd5a29673@amd.com>
+Subject: Re: [PATCH v17 02/11] cxl/ras: Unify Endpoint and Port AER trace
+ events
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260511153158.bad58633e2c8d247322ebb4b@linux-foundation.org>
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 11, 2026 at 03:31:58PM -0700, Andrew Morton wrote:
->On Mon, 11 May 2026 15:07:51 +0200 Michal Hocko <mhocko@suse.com> wrote:
->
->> > 2) It's common to run hundreds of different kernel versions across a
->> >    fleet. Since livepatch is kernel-specific, a single CVE suddenly
->> >    requires building and deploying hundreds of individual livepatches—
->> >    far less practical than a simple sysfs write.
->>
->> LP is certainly a more laborous solution.
->
-><another please-educate-akpm email>
->
->Does a livepatch *have* to be distributed as a ready-to-load kernel
->module?
->
->Is it not possible to distribute a "livepatch" to the fleet as a single
->string?  Send out "make function some_bad_function() return -EINVAL"
->and let scripting on each machine figure out how to locally write,
->build, sign and install such a livepatch?
->
->That would require that each machine locally contains enough data for
->it to be able to build a kernel for the currently-running kernel, and
->that each machine contains a build environment.
+Bowman, Terry wrote:
+> On 5/8/2026 10:49 PM, Dan Williams (nvidia) wrote:
+> > Jonathan Cameron wrote:
+> >> On Thu, 7 May 2026 13:33:45 -0500
+> >> "Bowman, Terry" <terry.bowman@amd.com> wrote:
+> > [..]
+> >>>> This concerns me (sorry I wasn't paying attention to the v16 thread).
+> >>>> It is a userspace regression against code that is out in the wild and typically
+> >>>> not updated in sync with the kernel.
+> >>>>
+> >>>> If you are suggesting breaking ras-daemon at the very least +CC the maintainer.
+> > 
+> > Sorry, that was not the intent, see below.
+> > 
+> >>>>
+> >>>> To get to a unified tracepoint add a new one that does what you want, but
+> >>>> maintain the existing ones as well.  Userspace can then migrate and maybe
+> >>>> in 5+ years time we can delete the non unified ones.
+> >>>>
+> >>>> No actually comments on the code, just left it all here for Mauro,
+> >>>>
+> >>>> Thanks,
+> >>>>
+> >>>> Jonathan
+> >>>>   
+> >>>
+> >>> Dan was clear about using a single set of CE and UE handlers for all CXL RAS 
+> >>> protocol errors. While I understand there may be concerns, please direct any 
+> >>> objections to Dan and clarify what changes are required to avoid this 
+> >>> repeatedly going back and forth.
+> >>>
+> >>> [1] https://lore.kernel.org/linux-cxl/69cb2d5ba3111_178904100b7@dwillia2-mobl4.notmuch/
+> >>
+> >> Sure - Dan's on this thread so I'm sure he'll see it sooner or later.
+> >>
+> >> Perhaps I'm missing something that makes this less critical than it appears.
+> > 
+> > No, it is breakage and a thinko on my part on the advice to Terry on the
+> > backwards compatibility rules for tracepoints. At the time I was only
+> > tracking data type and order of the payload. I.e. string at same
+> > position. However, the name of the argument is ABI.
+> > 
+> > Something like this incremental fixup I think gets this back on track.
+> > It keeps legacy ABI support for "memdev" field in the payload. It
+> > incrementally lets updated userspace understand "port" and "dport"
+> > events. It stops us from growing a new set of events just to update the
+> > arguments. It enhances the CPER events to now handle switch ports in
+> > addition to endpoint ports.
+> > 
+> > The bulk of the change is passing @port and @dport to the CXL trace
+> > events instead of a plain @dev.
+> > 
+> 
+> Thanks Dan and Jonathan,
+> 
+> I have a few questions.
+> 
+> Does this miss logging the Upstream SwitchPort device errors? Add another 
+> entry "uport=$"?
+> 
+> How does the user know which of the devices (memdev, port, or dport) is the 
+> erroring device? Do the traces need another string variable inidicating which 
+> device triggered the error?
 
-So we'll need to have a kernel build env, the sources for the current kernel,
-debug info, and some sort of a semantic patch (.cocci?) to make the
-transformation. I think we could even script all of that per-distro, yes.
+I expect that can be determined from what values get populated.
 
->I *think* this is feasible on distro-based machines?  But perhaps not
->on stripped-down hyperscalar boxen?
+Endpoint:
+memdev=memX port=endpointY dport= host=parent(memX)
 
-Few concerns:
+Downstream:
+memdev= port=portX dport=dport_dev(dportY) host=uport_dev(portX)
 
-1. Tiny/embedded machines that will have a really hard time building a kernel
-either because of storage, CPU power, etc... Consider something like your home
-router running OpenWRT.
+Upstream:
+memdev= port=portX dport= host=uport_dev(portX)
 
-Actually, this is a good example for a killswitch too I think. I went digging
-for issues that would affect OpenWRT routers, and
-https://www.cve.org/CVERecord?id=CVE-2024-1086 is a good example: OpenWRT
-supports user namespaces to allow containers to run on the router, so any
-container could then compromise the router.
+If dport= is populated, that is the device that triggered the error,
+otherwise it is the host= value.
 
-There's no way to build kernel modules on the router - no toolchain nor storage.
+> And, I need to confirm: the Endpoint is NULL unless the CXL Port is an Endpoint 
+> Port?
 
-With killswitch, you could simply do something like:
-
-   echo "engage nft_verdict_init -1" > /sys/kernel/security/killswitch/control
-
-Which, if I understand the code correctly, would disable us from adding any new
-netfilter rules, but existing rules would keep working (and on most routers the
-rules are fairly static).
-
-2. Having to install a build env is not only wasteful but also not secure. For
-example, a certain hyperscaler we both know does not allow compilers on
-production machines. It's probably a good practice for regular distro based
-machines too.
-
-3. With secure boot a user can't load their own unsigned modules, so the user
-will need to spin their own kernel and enroll their keys. Having to turn off
-secure boot is a really bad solution too.
-
-4. Nightmare as far as reproducibility goes: think of all the odd
-compiler/toolchain/etc combos you'll encounter. No way to track what went
-wrong, where, and how.
-
--- 
-Thanks,
-Sasha
+You mean memdev is empty, right? 
