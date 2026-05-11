@@ -1,99 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83876284682
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBE83B19AA
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778505595; cv=none; b=FVHvw0gY1CtMgIFR2uuHHjXMX8eh+Dm3u9ZmobLUycYeoLBRCMCf6zDgoZmvglyB6m87DNsaseeYIWL08p7O+QNNDiR9UeRBhgk+hPR59YOTzgYXa3RxOn8PECws47hv3i/i+qLiwG02eHLCsnmCU5lNWV/Vm5YYW7UbeDMDdkI=
+	t=1778506014; cv=none; b=HGVIwW4UwEw78B6yZmNUnAmncnxjEaIttVGTU2JadCzRCBw+JtfkJyOYvsPJkIvNXH1bUpqRp8Z+pxTAIwgxvUdTi4H6akZ9huEEH8A0Y6EGNuZk2rxiApxci4TiFZMXe5+0ejyRc7KtrZ2yMNBHOu1Zk2OsSx86+kDEJgJ25Vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778505595; c=relaxed/simple;
-	bh=d7UugrGvTHVZ5x6A2v3kOZ5TDSHieQcjxA5S4lHpomY=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AWc/SlWSDN66/7SwT3/i1ySOHgqYsWPoqLTLtpWdqQh1eKThLzag0C8HhFCUoljiSlJSovxYfKJtdfjZuydJ73kQNauM9mNrb2luUFr0G/WSztTqjY8/GwF8NQXIXpcfE1lxpDgt0dRlIzXYyw1izRQXtSQLtKpEl0jPQjdtBjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fEigcHFw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778506014; c=relaxed/simple;
+	bh=z1hwDVt92XOAnihS7s6RxQLFhGGvzqHcP+pj4GoLieI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=m7p4j7DPboww/6Or7o+LiBu0yrvb9UHOfIWSWNVggGM5COAxTx5IIW4Qo0dm3mWrscxSe10D5H7EvJSX2//eMSGz+unNFe1ljgSrQ5XB0rTEZoXIkRxGbSYsZ89I2O0rbOOfBv44gXUvKvEBU1D4tsCmMopppWNCUZKiQL6H3xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U9xQ3b8d; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fEigcHFw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65E7FC2BCF7
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:19:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778505595;
-	bh=d7UugrGvTHVZ5x6A2v3kOZ5TDSHieQcjxA5S4lHpomY=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=fEigcHFwvp/W7VaOeOtrsCWYWEAItK5KUJW1mqEVDBlK9Is2mMkBPl5N928Raj/B9
-	 JZbo4YE4XdXMts7oqoBnCO5EAUdMaLPSGtOUPyyLNPOxHjiIB/v5KGyFuHWt/JgBLP
-	 TzJHd9Fb0ieCaf/n9WK3wX9t1oTVL/fEnzRQUG3J2B9BmC4avLeqXrXr9g5tfn51Gw
-	 ADrnFtvzgVGJ4oYDYPtUnFRo67cCMEmEbLx/drUVimXOIiZd3jowr6WISYxrDHHkKo
-	 +P4xqBJ3HRHinzaFkhpCO3X9Jl/5TFdRNaGekp/tt14HWbSjg1bNx6QMH+la7hdKh4
-	 eCd7Xl7X7rU3Q==
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-12e332315a8so9586722c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 06:19:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9p4JuuBYKo5cLvTbvsRh+ZAgBmM73+GWt/WMDY1B6QubKbYEueW+4LDUFhXjhCmbX9x21LKn9OwSs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtTeM2bu7h3CsLNzaCl/loi5B4HWEZsnG2jm98a9LqOzBiDvwz
-	Rn5J2+ZMYwT6DohSJRq4xgfvkQnvnhJsE/yVTxV5Si3daqUg/Zixkuo6G5au0h8S9RrYK6nOyuu
-	q47docUCOysdYW4+Z3E6PLa3XjMUX7gZKuBQKlmmPMg==
-X-Received: by 2002:a05:7022:2508:b0:127:33e0:ea44 with SMTP id
- a92af1059eb24-132a82ddb67mr4949446c88.29.1778505594800; Mon, 11 May 2026
- 06:19:54 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 11 May 2026 06:19:52 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 11 May 2026 06:19:52 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260508115309.GA9254@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U9xQ3b8d"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso39662315e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 06:26:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778506011; x=1779110811; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2mzrS4VJwJCC0yKNEXMEo8xy6/BimLXjTtOtcr2CuV4=;
+        b=U9xQ3b8dehb4HpbBamWXYPXXriLPmK0wxf9ygRRaBUbwoP7HwrvB665GfnY+gbFkY7
+         bZTjeT4cQiz+8rN3lcosfc5JrqznAOytUemSR6eatB1VSMnnP35rwYxX6qgZAac0JNok
+         stjFTTK8K56xhLmJBiNjtbdgWgfP17mF0bgi4+Lhpg6JGODIVL22kmwXje+Y/yhavl+M
+         85PoO18U7hupM1SS3EYvG0vXl4s+IpBSVHj7pdL6n7tzgKLr/OM6ZzWMhPSZQjQkNgRf
+         lBO5Rvip4sp6UQGmp4Qk2fmpb6mTAeMa4nfSNlxGAipe1kBSDhe52aE4qvA9X1gxYCY5
+         7LEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778506011; x=1779110811;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2mzrS4VJwJCC0yKNEXMEo8xy6/BimLXjTtOtcr2CuV4=;
+        b=IXgJpup86yYBmRjceAD6/4KePnm0dQe6sghvSVXkNH6NFbtN4rR2L+MkzyqnsAwUBT
+         0P7DHqmaH2tI2PKwyMia5Nd8E2WH5eU9KmtwZo6jyCvhw70H/VmJmCdJ76z8L8TueM4u
+         z1KQ1v8AAvgxsks1ftGALsXjJ81BsYvfrDh7hN05Zys1/IgZTlI3KB2sYnS8UP3YNIXA
+         5PwbXG1RgHbAtTNDeMYySPK4S1HPtrwkNRkEahiuFZ7Em8pq2eVN36Nj2To+dmPYquFO
+         nDuQXsqmlYr6AR6CEd8Qjwlbg5TvAkLAVxqGwr86uc8SFk9l0rgBdnUw7LEj3eZ8F62X
+         LTxQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8S11Vgah/xy+yKp6speZYf/A0umVa21yTQZ+Xi6iw8apSCs0uPtW9q2C8YiZvh3GwPjHNf6ei39hc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKPfpRp2Luixhy9ondX7RUZI1MJ759cF9u+wymIzNDBVHW7pd2
+	VstmnoNrmF92XDOj2kBPSO9qiu5ilYtOZZebvPS+jUGMBCVm5wXesUXZ
+X-Gm-Gg: Acq92OEeMjAZW4BidIOKGQ6X+A9/3yhdGLDaSUIAuMMpIjD5Tu11YMqy2x4wyj1zojC
+	kDrkXzeDD183mphcsjQWUl+RdIk6QyGuL4vgEPyZ0MNKi7Ztlo4ttLimseXeSeQbjufmMaaBciV
+	28b/EU8xA0eECtk+pSWf9gMjNSqYsRSZwyW9llcdvfSAAvotScPfbYaKpD2LrWnC3Ml1e96/0NW
+	B1cKCGSGPlXBEaSG/e3WvGNa5zOu0gxTKSmAZjONYkYX/bKaml+zfdl7PBmsWpzgDlACZRVI8kr
+	kb6AN5aviv/fI5M8CSccPvggJzQuXfXpt7MYyxW4KVBF2GfPVNurDDbTRJfM2FO82clS24oiiSG
+	ieS2TKJ13AyjgjKeLuF4/oAo8JoImnfeRec9gSEELFvPuA6pczAYndX9gjDvSEsFlUAutKwIsuk
+	RtTeT6AMYjxybWPjKRt7QiSvBG+oTkqM1mIrtMpVnR72cRat1OOJvWPZRMtSDL
+X-Received: by 2002:a05:600c:c094:b0:488:b14f:b8ed with SMTP id 5b1f17b1804b1-48e51dd89ffmr280640045e9.0.1778506010795;
+        Mon, 11 May 2026 06:26:50 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6f9fbf12sm200982065e9.0.2026.05.11.06.26.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 06:26:50 -0700 (PDT)
+Date: Mon, 11 May 2026 14:26:49 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Manuel Ebner <manuelebner@mailbox.org>, andy.shevchenko@gmail.com,
+ apw@canonical.com, corbet@lwn.net, dwaipayanray1@gmail.com,
+ joe@perches.com, kees@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, lukas.bulwahn@gmail.com,
+ skhan@linuxfoundation.org, workflows@vger.kernel.org
+Subject: Re: [PATCH 1/2] [PATCH 1/2] Doc: deprecated.rst: add strlcat()
+Message-ID: <20260511142649.463c3ea5@pumpkin>
+In-Reply-To: <CAMuHMdWchXXcMyShiMZrhFTrHoB-TcKQEBcRoCTJFpwJsxxdhg@mail.gmail.com>
+References: <20260510164907.57176-2-manuelebner@mailbox.org>
+	<20260510165159.57457-2-manuelebner@mailbox.org>
+	<CAMuHMdWchXXcMyShiMZrhFTrHoB-TcKQEBcRoCTJFpwJsxxdhg@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260508105448.31799-1-tzungbi@kernel.org> <20260508105448.31799-9-tzungbi@kernel.org>
- <20260508115309.GA9254@nvidia.com>
-Date: Mon, 11 May 2026 06:19:52 -0700
-X-Gmail-Original-Message-ID: <CAMRc=Mfks9HAGHedQhZY+3UgRJwg_RF9cVOyA3jGh7oiNqDn-w@mail.gmail.com>
-X-Gm-Features: AVHnY4KJ3daWyTdJHgf81o2MnLKt19plZceoNb1ciLx1gSE_TrwC8qpPQuR4MX0
-Message-ID: <CAMRc=Mfks9HAGHedQhZY+3UgRJwg_RF9cVOyA3jGh7oiNqDn-w@mail.gmail.com>
-Subject: Re: [PATCH v10 8/9] platform/chrome: Protect cros_ec_device lifecycle
- with revocable
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Linus Walleij <linusw@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Johan Hovold <johan@kernel.org>, 
-	"Paul E . McKenney" <paulmck@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, 8 May 2026 13:53:09 +0200, Jason Gunthorpe <jgg@nvidia.com> said:
-> On Fri, May 08, 2026 at 06:54:47PM +0800, Tzung-Bi Shih wrote:
->>  struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
->> @@ -47,6 +49,15 @@ struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
->>  	if (!ec_dev)
->>  		return NULL;
->>
->> +	ec_dev->its_rev = revocable_alloc(ec_dev);
->> +	if (!ec_dev->its_rev)
->> +		return NULL;
->> +	/*
->> +	 * Drop the extra reference for the caller as the caller is the
->> +	 * resource provider.
->> +	 */
->> +	revocable_put(ec_dev->its_rev);
->> +
->>  	ec_dev->din_size = sizeof(struct ec_host_response) +
->>  			   sizeof(struct ec_response_get_protocol_info) +
->>  			   EC_MAX_RESPONSE_OVERHEAD;
->
-> FWIW I am still very much against seeing any revokable concept used
-> *between two drivers*. That will turn the kernel's lifetime model into
-> spaghetti code.
->
+On Mon, 11 May 2026 13:40:55 +0200
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-I gave my R-b under the API definition and I'm fine with the GPIO changes.
-Just for the record: I don't have an opinion on using it in this driver and
-don't know if it's a good idea or not.
+> Hi Manuel,
+> 
+> On Sun, 10 May 2026 at 18:52, Manuel Ebner <manuelebner@mailbox.org> wrote:
+> > add strlcat and alternatives  
+> 
+> Thanks for your patch!
+> 
+> > --- a/Documentation/process/deprecated.rst
+> > +++ b/Documentation/process/deprecated.rst
+> > @@ -162,6 +162,12 @@ if a source string is not NUL-terminated. The safe replacement is strscpy(),
+> >  though care must be given to any cases where the return value of strlcpy()
+> >  is used, since strscpy() will return negative errno values when it truncates.
+> >
+> > +strlcat()
+> > +---------
+> > +strlcat() must re-scan the destination string from the beginning on each
+> > +call (O(n^2) behavior). Alternatives are seq_buf_puts(), seq_buf_printf(),
+> > +snprintf() and scnprintf()  
+> 
+> The last two not only require the caller to keep track of the offset
+> in the buffer, but also using "%s" when storing passed strings.
 
-Bart
+Which also means they are significantly slower.
+Mind you, some code has:
+	strlcat(buf, "\n", SIZE);
+	return strlen(buf);
+which carefully scans the string twice.
+Since the '\0' isn't always needed (eg 'show' functions), this can be:
+	len = strlen(buf);
+	buf[len] ='\n';
+	return len + 1;
+Of course, the code could often easily get the length by other means.
+
+-- David
+
+> 
+> I hope we won't see mindless conversions lacking the "%s",
+> introducing new security issues:
+> 
+>     -strlcat(buf, s, size);
+>     +scnprintf(buf + off, size - off, s);
+> 
+> > +
+> >  %p format specifier
+> >  -------------------
+> >  Traditionally, using "%p" in format strings would lead to regular address  
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+
