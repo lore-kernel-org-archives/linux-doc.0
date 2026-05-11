@@ -1,166 +1,99 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9A83BAD84
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 08:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867A62D9ECA
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 08:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778488988; cv=none; b=d9NYe0Jw9ML559uQCUce1UtVqsBMx8IE4J6i+A2D52vpfpXZ+VbvApgJIlWmke+JbucCsANb/ftDgTz9o428JQFwNEZOfdwgeyE13SxW+km3185aOQAiEaBt8ULdLFjVmwtzuNmCRPWASdOYWZ1BEb/1FhBfa070r6IVczsLgKE=
+	t=1778489418; cv=none; b=NjMyhlzVztLDCxM+JbHqqVZaJC6Mn/ztc+AZCQnzwfwgQaAKgWS3uFW8CSkPi0vdP9l6e8KJNit+zekNY2o2hxU9K2KFbZUZ1k7OGAfX9KQDFvLfNSZajaRUQljr1h9BqsGQ8vpkxl+4xiSceqmdpKbSPe8XOKlFV0Q4cnoPNEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778488988; c=relaxed/simple;
-	bh=rnqKyqAfu/h9721iDp30KUlFrz/MOVxVgrsZpGVGphE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sFWdWGX+HVF7qntaBxjtKQL6PniFmNt01ekDywytKprXl0l3SvT+2w+dY5oabrt5hIM6n/kO5wBmvuUtE37JWxGAfZL8mNGXq/0i1U5PSV37jU8npmLEgosCdyKC2rUafcBR8O5WCjs+VCKl8A6sBNfYbvECLvzjpyWA5ete/MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=ktiQUxXR; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1778489418; c=relaxed/simple;
+	bh=fS5kzIbAQ+ymmFxAoyMAv9UFw60UVlFc1Gyh16nYy+c=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=mGtRwHK2qNcP2jf822Vz66gGfyrq9lYT1n+4oXCCC4iFhWoxuDvv/SMU2ETGPYhpMSNGC1IoZL+hrSh4RlOM00t2d709Si+YHcEbuKnXEQ3YME4doTy8LN+UGdcP5jLL7yEOpEf0OXm88qGMrCLT4TV3FBc71YJQOfnE3hsspWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q/ChRIto; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="ktiQUxXR"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so36082475e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 01:43:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1778488982; x=1779093782; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GrxhiHcULhrhQbh8qYDGvqX3AewbZL83TjIxu3B31co=;
-        b=ktiQUxXRaQMwJkSJ9yOuhOtr4p1E49ifu9C3Umkch59rYB+jcqNMi8UUpsR/e6J6G8
-         GnAMhiS+fHtuRwwmVgjqu8/U408Wa3GQrLtNGsYdcT5A7ieA3KIWhsjmRaLrsRgfW53D
-         +4gNO5+xIPlDZqKCUje6LcmNdafPMVezR9Kruxh5x3gKN1HwL3CG92mGNe11LNctPk5H
-         hatc0zIGab7+4DOl0JlzGcvzmQ+h7FBY0LqSYB76WqSt65x6D8OOWj+0/xTqhT/rFsmj
-         IulikLBtb2mXjYHLOIluxf576rn4LywXYGZYVeK3SowfbId2BNjs6EKbM5PJIwIX4dKj
-         K63Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778488982; x=1779093782;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GrxhiHcULhrhQbh8qYDGvqX3AewbZL83TjIxu3B31co=;
-        b=e+Ofgd7xdhGVUiCby0lGJfJz8EbfQqyCAnHbi20OaTQepZpqutcytVvbnriRHneNpP
-         kdbFDAeYVyPwXxQ9J+A5xd3fZyxsjMuGYsCIMrUCGLpFZfso2dZp6jmqBcfhqH+1LXHx
-         e01O31w3xSuHGUOl9dLT88IGGFzrohfRuzyJeEDtvh5dFnJMfUjeDNW3Jmu01QBXPUay
-         Vgsk6fU7Da6ouQsjE5B+5/DcjiQJV2ggaFV6Arb/pjZQ2fnL4la3mZCkuN642XH4WYus
-         ZRz8cHWXj/6OBL+9Ih6Sx5yBf0ixV1rLG48thmys9vEWFGnyWUhrwgdr6/3s6zlO1TK5
-         kz6A==
-X-Forwarded-Encrypted: i=1; AFNElJ+PSvh+NBMnMA9GPpxP2AOgsEb7QqSTxA3v/6bb5ZzP4TVxWAD/Od8g62CaVy/E+DKOp05xtYEiunE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZicY9v8AaOVk7pZGbLrBdmC3OQBYCxtjP0hDze9q9EMolKMe+
-	CNDmMmSLRk6X3MziavHIhKJDPzFYYhWPMSQBeJMscSUASKlWQWHOpfUvUupA83M9t40=
-X-Gm-Gg: Acq92OEkS8uvwimolWbqH8ylt3LKksS9/A1xJKCI+1buBy78qNGKRO5JwWsshDBdG4r
-	VfMMJcH17E+BuhdEdatPGy9AOx+76G8jVlBM+sjVRXZmcus/UXafZD5DRd7qNa/Wn09MjZA8PCs
-	uhPDgqFFuNvgmKIcKo05w/3mcUa8HyU+BJSI75Qj6UMzjgCdUlTNLQXV+UQu7lzVsgo9ym5j7n4
-	FuDpNnglUZtuIkjU7yzw3U8w0UhgQ/GS3vXoKGXluSKmK7doFO+1C27Q0fgNgtit+ikatbOZoQb
-	fOIF0FtU4FdcLS+xTiBIuvkXoT2iByZ852zAdP9zR4zTQb2k7rWlJCQKNvs9Sl09JcPdh9JwJ3a
-	H3A193IV1WW8RaN2xM5loxpbkgAPzBaVdVStiPXq/RZV1wofggE1bmDrgTQaD18dDhGA19wc013
-	IvDeoJIVP/v3+6TOLFiMto4Aj4uSGmWah/uzE=
-X-Received: by 2002:a05:600c:3548:b0:488:c40b:c8a4 with SMTP id 5b1f17b1804b1-48e51e097a2mr361132135e9.1.1778488981777;
-        Mon, 11 May 2026 01:43:01 -0700 (PDT)
-Received: from FV6GYCPJ69 ([140.209.217.212])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6d8f6fa0sm59170405e9.16.2026.05.11.01.42.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 01:43:01 -0700 (PDT)
-Date: Mon, 11 May 2026 10:42:56 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Mark Bloch <mbloch@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	Tariq Toukan <tariqt@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Borislav Petkov (AMD)" <bp@alien8.de>, Randy Dunlap <rdunlap@infradead.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Christian Brauner <brauner@kernel.org>, 
-	Petr Mladek <pmladek@suse.com>, "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
-	Eric Biggers <ebiggers@kernel.org>, Li RongQing <lirongqing@baidu.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org
-Subject: Re: [RFC net-next 0/4] devlink: Add boot-time defaults
-Message-ID: <agGOeqeNwJGJ_-2A@FV6GYCPJ69>
-References: <20260506123739.1959770-1-mbloch@nvidia.com>
- <aftaW-irGmkfA7FS@FV6GYCPJ69>
- <3f9215c4-7c84-46d9-ba74-30dabe24db09@nvidia.com>
- <afxvzOjqw-vxUAED@FV6GYCPJ69>
- <b6a9b568-dd09-4414-be57-6b9cd282a43c@nvidia.com>
- <af4lBIJdCuN5VKq_@FV6GYCPJ69>
- <20260508175213.1952097f@kernel.org>
- <af7Y4AYv-XDCbK_8@FV6GYCPJ69>
- <20260510093732.6ba47e54@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q/ChRIto"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778489418; x=1810025418;
+  h=from:to:subject:in-reply-to:references:date:message-id:
+   mime-version;
+  bh=fS5kzIbAQ+ymmFxAoyMAv9UFw60UVlFc1Gyh16nYy+c=;
+  b=Q/ChRItoI7NDc3vLnfa98jTUkeizMPW7BFzdcP9wiPP/3iezgr/pJoTM
+   seYiFRuxfeNlztnYwAsTafNOBkkzNe7WNBKSY420yw1OjWklG+UG+XtZE
+   0D5t0wgr1hxuw3dC7EmFyunvy+QyJ2cyKjEs7ElM2qWdM0AX44koJnG8l
+   s/hUQ7MffJHR/6S1FbCjaY7Mq86OXw4humAiRZ/728cwe7EHGBYnKYBnT
+   05cu6QZvvwzsVOCkGNWahUEQ/01D0y3FnBUfy/FEMBqrMkEonFkcKrLP7
+   9OkJH1kggtNafVK8qFeOgHQS7pPrdbO1LO/6kwGJEsuU1szeXv4gdrw9E
+   g==;
+X-CSE-ConnectionGUID: iZnX6v3tS5KiqTykP8LwFg==
+X-CSE-MsgGUID: wLLccrHCSXa/zLEdfezhDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="79552370"
+X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
+   d="scan'208";a="79552370"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 01:50:17 -0700
+X-CSE-ConnectionGUID: bLWumq/MRgSrDqk7ENBISg==
+X-CSE-MsgGUID: Cnl7q39JSbaCD9ts6KBMnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
+   d="scan'208";a="236536697"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.253])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 01:50:14 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Maxime
+ Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Jonathan Corbet
+ <corbet@lwn.net>
+Subject: Re: [PATCH 0/3] Documentation/gpu: tables of contents cleanups and
+ fixes
+In-Reply-To: <cover.1778238671.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <cover.1778238671.git.jani.nikula@intel.com>
+Date: Mon, 11 May 2026 11:50:11 +0300
+Message-ID: <ad1be55a146a3680ad920588a7cfdbc154b8a4fc@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260510093732.6ba47e54@kernel.org>
+Content-Type: text/plain
 
-Sun, May 10, 2026 at 06:37:32PM +0200, kuba@kernel.org wrote:
->On Sat, 9 May 2026 09:01:23 +0200 Jiri Pirko wrote:
->> Sat, May 09, 2026 at 02:52:13AM +0200, kuba@kernel.org wrote:
->> >On Fri, 8 May 2026 20:07:44 +0200 Jiri Pirko wrote:  
->> >legacy vs switchdev only describes the eswitch configuration.
->> >As a non-SR-IOV user I really don't want to see the extra representors
->> >hanging around my systems, confusing all daemons. IIRC mlx5 had some
->> >limitations around the uplink representor. Maybe that's the disconnect.
->> >But for a real, fully featured switchdev eswitches having the
->> >PHY and PF representors on boot, always, will not make sense.  
->> 
->> As "a non-SR-IOV user", what extra representors you talk about? When you
->> have pfs only, you don't have anything extra. Just 1 netdev per-pf, one
->> devlink port per-pf. What's extra about it? When you don't have VFs/SFs.
->> Everyhing is the same:
->
->Some devices have separate uplink ports and PF representors.
->As I said, what you're proposing isn't going to work for all drivers.
+On Fri, 08 May 2026, Jani Nikula <jani.nikula@intel.com> wrote:
+> Make the GPU documentation slightly easier to navigate.
 
-Well, the point is, mlx5 appears to the the one needing this, not other
-drivers. What I'm trying to point at, mlx5 should not need this.
-It makes things compicated, adding a ugly knob for no good reason.
-Legacy/switchdev mode, in both, the non-sriov/eswitch user should not
-see different behaviour. The mode is an eswitch attribute.
+Maxime, Thomas, Maarten, Jon -
 
-   devlink dev eswitch set - sets devlink device eswitch attributes
-       mode { legacy | switchdev }
-              Set eswitch mode
+Any preferences which tree to merge this through? I'm thinking either
+drm-misc-next or docs-next.
 
-              legacy - Legacy SRIOV
-
-              switchdev - SRIOV switchdev offloads
-
-
-Briefly looking over other drivers, looks like ice, bnxt, octeon, sfc,
-there is no new entity created in case of switching to switchdev mode.
-The only driver that creates separate pf entities seems to be nfp,
-but the mode seems to be determined by the app being run (loaded
-firmware).
-
-Am I missing something?
+BR,
+Jani.
 
 
 >
->> >> Well, as any other nv config, it persists across kernels/hosts.
->> >> Think about it as "unbreak-my-not-legacy-device" bit.  
->> >
->> >For most devices the switchdev mode does not change anything
->> >substantial about the device. It's purely a kernel / driver config. 
->> >It changes what objects and default rules kernel / driver installs. 
->> >So I don't get why it would make sense to flash into the device
->> >nvmem a Linux SW stack specific config.  
->> 
->> I look at it from the perspective that from some CX generation,
->> switchdev mode should be default. So that is a device-based decision.
->> I believe as such it can optionally be permanenty configured (nv config)
->> on older device. Why not?
+> Jani Nikula (3):
+>   Documentation/gpu: limit main toctree depth to 2
+>   Documentation/gpu: add some tables of contents to large documents
+>   Documentation/gpu/rfc: fix toctree
 >
->Feels a bit arbitrary and won't cover all cases. The question should be
+>  Documentation/gpu/driver-uapi.rst     |  2 ++
+>  Documentation/gpu/drm-internals.rst   |  2 ++
+>  Documentation/gpu/drm-kms-helpers.rst |  2 ++
+>  Documentation/gpu/drm-kms.rst         |  2 ++
+>  Documentation/gpu/drm-mm.rst          |  2 ++
+>  Documentation/gpu/drm-ras.rst         |  2 ++
+>  Documentation/gpu/drm-uapi.rst        |  4 +++-
+>  Documentation/gpu/drm-usage-stats.rst |  2 ++
+>  Documentation/gpu/index.rst           |  1 +
+>  Documentation/gpu/introduction.rst    |  2 ++
+>  Documentation/gpu/rfc/index.rst       | 26 ++++++--------------------
+>  11 files changed, 26 insertions(+), 21 deletions(-)
 
-What cases it does not cover? I don't follow.
-
-
->why you are nacking a more reasonable solution. Keeping Linux config in
->Linux params.
-
-What's reasonable about adding basically a module option (kernel cmdline
-is pretty much the same) for no reason?
-
+-- 
+Jani Nikula, Intel
