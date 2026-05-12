@@ -1,83 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC8A175A68;
-	Tue, 12 May 2026 18:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2912D97B7
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 18:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778610701; cv=none; b=oodCen8ZZzFJlSA+qTW7s1tz+k87/WIYPGV1TgKwTxGOSBGHGcpNtJHr7lacgs26R83Aw7psAbXt9vQiY0WkMByQFzCEo7elN+D8QVZopd2gnFNIsf7BCi9448Un3+onvv8Pt8B6nZuWgNcEcdfylQzKGbtrqR1ld5zvI7gw+oY=
+	t=1778610917; cv=none; b=VOM7L/1kqHCqH7VAeOvlyEiZpimqsc73I+WY47umM6D09tp26F9VATlUuGDBUfbRgAefcZI5rFLilyRXC/Oxp67wO/WXHlPsDb7JbGITh2kDHKK9PTbSngZjFFZHHpUE/KvGLuImqEuvzGPxqwTV8Y/igr6zVN5cwm/3RzIqUgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778610701; c=relaxed/simple;
-	bh=9l9QZTn3VGCPwjw6uCXUYbXBEV1oYKl//ROhoakHyKw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dLI5QAhLUTfZPep/XpJ69XS534K1BjCFnGY2f90aXwrATB+tIxFCiR51U+okJ92U/AMUpgmFwW+8oF3v2BdasIHlTYn5I5L0Mwy22hQpWq/yKXEwXcRwycWa6+K6NoyWxy49aejVxOSYU+nx1d4TligpZVKq43rHSrIIgKfkuoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oaOIArJ7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778610917; c=relaxed/simple;
+	bh=tpx/Mo33YZRPuGNo2ZG79570yOSTf76m9zQ3fljpeBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EWIgYhZeyZn8MdcIKNpyvDrZYfPrHobXyvUlAKiGjstqU9iE4JRsEWQhIayUvhZGDx9ZYYzxEinbnJ6bOGIhWWLPN9CZsgl6K28rKMC7+kcCj6U57ytYrwSLDMIeoS3a3ete9Lnvz7S93/alTz9cvdE6Y/LXRy2i7TU6v6n8kPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=w+APLFvZ; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oaOIArJ7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B236C2BCB0;
-	Tue, 12 May 2026 18:31:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778610701;
-	bh=9l9QZTn3VGCPwjw6uCXUYbXBEV1oYKl//ROhoakHyKw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=oaOIArJ7NjzNm1c4UpAV7daAETkQnGLe7Y9AuriJATPRHn1hjrUuA9+CH0WTqGbEL
-	 q80I1TkMlCiOetx+H7eQOY/wt3LWoqbjPx0Mg+Rwbmmky1lMu+TEuwkqAwCuCal/5+
-	 jkucbA0KQYWXDUkimt6kf4qfIRus9n3E+ZAC9HQ3aI43boEI14XiRBDf13FoR5WIXv
-	 pasFsE5bk75a0fU4HhLhu/ZANtgRDPQRZwkDMluZW0sLlqlj7FzQnZ/4RgaQBu8/1K
-	 g97zcC0KVUd/xXujkNbhxPbLEvyI0qP3Ew+Bvu3l5g/5iJVGH6ZRH7Tl29tSjvqQqf
-	 60i/nnf9zHzQw==
-Date: Tue, 12 May 2026 19:31:29 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH RFC v4 01/10] dt-bindings: iio: frequency: add ad9910
-Message-ID: <20260512193129.777d62a8@jic23-huawei>
-In-Reply-To: <20260508-ad9910-iio-driver-v4-1-d26bfd20ee3d@analog.com>
-References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
-	<20260508-ad9910-iio-driver-v4-1-d26bfd20ee3d@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="w+APLFvZ"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48909558b3aso59978505e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 11:35:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1778610914; x=1779215714; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=448c9IXFWf3BzecYkP3HsCZJTYpIC1o7jRhCi9pch8w=;
+        b=w+APLFvZXBkz+9eaCLuLAF2s7qu2uwT7EaiEA3Jc2pFzGocciws+4cxdOi7tJUoWyJ
+         FLBku92a27xkhkMHmN6K98vSiFwnotvTxBu/kq4ll9ygGVlxk7Nnwb6UMdcTJW8giI0F
+         yUUV2NdGZP6Bk0paRNpDyaPs7ukA1yMjdS/sBbWLoduNLcAMeazIKy7BHrh9Sxfes84I
+         JVPO6ghXwGa7OC9pRJSI9CCGJ68tefBQpRch+M3j9dmmwY5kvdD8unYhr7MPI4afFZK+
+         1PPw7CQnJ/kOWZZIEs7Djo9oRYYAvmTqwJEbPTeqbr2GPV7CX92Lhxb7SHKWxsQXevk0
+         HKmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778610914; x=1779215714;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=448c9IXFWf3BzecYkP3HsCZJTYpIC1o7jRhCi9pch8w=;
+        b=Uf7RR/6U1DRz2OIwCF2uRlu03fzIDxacy6rtKVLk/y3t/Q0qHgYxK6bih1/GPNOFIL
+         XXKVi4GzzjLRNi/EBzU0RbSaD7QiGhOl3jBt/uR+7QSVvyWPLaSA0xukMZlRhSUETnf+
+         Y1WtEkqvzZrU7KiknYvdnjUkOwih2iPbMBtpYmOmYobGAMQhPxyeECJpehCW7DO7UojO
+         5ZlkL+HdMSL77dZTVjRm9GErsmi7XkiqrY0/ueCMAGG7LR+0CXasjUWWvRCWK7lV/eTA
+         qcoXP0XfH9WwknfmWlO8sHKih8zjm2dghj5rsXz0tCQvsjabDNhLPVV2fi5yLqugOgCA
+         Ugow==
+X-Forwarded-Encrypted: i=1; AFNElJ96UB8tUTaQpYuMMLTKMSlGOoO7smLDaxqOIlHTh9oAnlt3xf5iqN8O8jKCd3UvECkYCYRwamvaiiY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGywRT5rBP7erOFvMwnd+MMH8N9KFdDSYUwJQ3DLZzTDzx8UAP
+	HMPNRuGYA/yLioG/wEecjtqeKTNUGfb8Su1UuC+tbBswGXXObhkDNDL7GgWq2GUvmN4=
+X-Gm-Gg: Acq92OGl40Iz0H1cJNt8ts430C0cUVdEJvSf4JX+72Rhc6caBQB7Ph7MwjXAvQJX3t6
+	xUtHS2IMSZKIpv6oJoyIcxBnDvgQF+sIwdzTCSK2qkB2vXjJxPGPeNSjlANICJuu4HTVzg5CxB3
+	TqrsMsRpi5vXaREQ+0XcQ9loAc3pkQASPpSO4vYoihUwS+1tWhUAGxp4WaugcvH4lKSHIC3b+Qt
+	rvqoN9lKgnA7DyY9gPvpueYHT9ssKgwYrri20csf2xddPukooC0JGPDBY5YsPOXAdl6Mxis+3KN
+	JJ4JASuPArlZxi7mIfmL40JgHhDVKjVzd5V+YcUWXayRdkLnyC462ao21S4gkna5Gdnhs8FoCZt
+	pssmR386WAOPugz3N48bfyfolBK99NQ9wuDxe8GnHNnuAZGPcWVutOZKLaI/deKMjWZ/ncc6MXp
+	U1v3cH3AeNCY9Y/66jo1QLkFQ6/IoezOcS9g==
+X-Received: by 2002:a05:600c:8b41:b0:488:acbc:b2e with SMTP id 5b1f17b1804b1-48fc9a33179mr1144555e9.17.1778610914207;
+        Tue, 12 May 2026 11:35:14 -0700 (PDT)
+Received: from FV6GYCPJ69 ([140.209.211.203])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fc8d21c72sm13265985e9.7.2026.05.12.11.35.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 11:35:13 -0700 (PDT)
+Date: Tue, 12 May 2026 20:35:09 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Parav Pandit <parav@nvidia.com>
+Cc: Mark Bloch <mbloch@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simon Horman <horms@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Petr Mladek <pmladek@suse.com>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
+	Marco Elver <elver@google.com>, Eric Biggers <ebiggers@kernel.org>,
+	"NBU-Contact-Li Rongqing (EXTERNAL)" <lirongqing@baidu.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+Subject: Re: [RFC net-next 0/4] devlink: Add boot-time defaults
+Message-ID: <agNy3RF9WCHBPev5@FV6GYCPJ69>
+References: <b6a9b568-dd09-4414-be57-6b9cd282a43c@nvidia.com>
+ <af4lBIJdCuN5VKq_@FV6GYCPJ69>
+ <20260508175213.1952097f@kernel.org>
+ <af7Y4AYv-XDCbK_8@FV6GYCPJ69>
+ <580a774b-ba9e-4523-b43a-476f75dd5b12@nvidia.com>
+ <SJ0PR12MB68068C50EE9776A3D9060635DC382@SJ0PR12MB6806.namprd12.prod.outlook.com>
+ <agLoeZtsSizR-R24@FV6GYCPJ69>
+ <SJ0PR12MB68061C61AA2BF5D81005984FDC392@SJ0PR12MB6806.namprd12.prod.outlook.com>
+ <agM0DsiaAH8-Ox7N@FV6GYCPJ69>
+ <SJ0PR12MB6806D8ADF943B30AD3B479CCDC392@SJ0PR12MB6806.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SJ0PR12MB6806D8ADF943B30AD3B479CCDC392@SJ0PR12MB6806.namprd12.prod.outlook.com>
 
-On Fri, 08 May 2026 18:00:17 +0100
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+Tue, May 12, 2026 at 05:25:21PM CEST, parav@nvidia.com wrote:
+>
+>
+>> From: Jiri Pirko <jiri@resnulli.us>
+>> Sent: 12 May 2026 07:37 PM
+>> 
+>> Tue, May 12, 2026 at 03:48:32PM CEST, parav@nvidia.com wrote:
+>> >
+>> >> From: Jiri Pirko <jiri@resnulli.us>
+>> >> Sent: 12 May 2026 02:16 PM
+>> >>
+>> >> Mon, May 11, 2026 at 08:21:37PM +0200, parav@nvidia.com wrote:
+>> >> >
+>> >> >> From: Mark Bloch <mbloch@nvidia.com>
+>> >> >> Sent: 10 May 2026 06:02 PM
+>> >> >>
+>> >> >
+>> >> >[..]
+>> >> >
+>> >> >> > I look at it from the perspective that from some CX generation,
+>> >> >> > switchdev mode should be default. So that is a device-based decision.
+>> >> >> > I believe as such it can optionally be permanenty configured (nv config)
+>> >> >> > on older device. Why not?
+>> >> >>
+>> >> >Because sometimes switchdev_inactive is needed and sometimes not.
+>> >> >Such knob is not device decision.
+>> >>
+>> >> That is what I would call corner case. In that, user can use userspace
+>> >> configuration to change the mode in runtime.
+>> >>
+>> >Corner vs common depends on users one talks to. :)
+>> >If fw has switchdev(active) as default, and then
+>> >And user needs to run switchdev_inactive, it will actually break their switching applications.
+>> 
+>> Can you describe the actutal breakage please?
+>> 
+>Driver default was switchdev so all the traffic is forwarded to the switch,
+>and user didn't have chance to setup the fdb rules.
+>So packets are dropped but user didn't expect the traffic to be forwarded.
 
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> 
-> DT-bindings for AD9910, a 1 GSPS DDS with 14-bit DAC. It includes
-> configurations for clocks, DAC current, reset and basic GPIO control.
+User may switch mode to switchdev_inactive early on, before any of the
+representors are created. What's the issue then?
 
-I think this is getting close enough now that for next version you should
-drop the RFC (which is probably gating DT binding folk giving it
-a detailed review!)
 
-> 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+>
+>With this RFC, the device would start in the switchdev_inactive.
+>And user's goal is achieved.
+>
+>> >
+>> >So, one needs to invent switchdev_inactive in the FW.
+>> >
+>> >Jakub's suggestion in this RFC is covering both the scenarios uniformly without above problems.
+>> >Single uapi for all the cases, so looks good to me.
+>> >
+>> >Moreover, do not understand how alternative solves such problems.
+>> >i.e. user is unable to configure the fw because driver is not yet loaded/up.
+>> 
+>> See my other reply in this thread. I don't think there is a need to
+>> configure anything in FW. If we fix the behaviour in switchdev mode for
+>> non-sriov user and change the default, no fw knob needed. What am I
+>> missing?
+>> 
+>If I understood your suggestion right, is it the devlinkd based solution?
 
-> +
-> +  adi,dac-output-current-microamp:
-> +    minimum: 8640
-> +    maximum: 31590
-> +    default: 20070
-> +    description:
-> +      DAC full-scale output current in microamps.
-> +
-Can we use generic dac.yaml defined output-range-microamp? The base will be 0 always but
-that shouldn't matter.
+The suggestion is to use "switchdev" as default with user configuration
+no matter if it is devlinkd or something else.
 
+
+>
+>If yes, then Mark explained that it has the issue of all drivers to be loaded, followed by user space to start.
