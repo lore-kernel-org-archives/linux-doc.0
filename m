@@ -1,160 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238F74A3408;
-	Tue, 12 May 2026 08:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7214B8DC7
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 08:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778575341; cv=none; b=Q+qJv9VOkKyb+yrwel0GTptbd4b2K4HtiSaO9U5zA+swF2O18C+qlGOKPTmaLLRCD08JTc1JHzpqdD3P1JQ5ek8BA4lCCcfLTXkgJxJpEZEmqpp6ASXIQQwAbysC1cuDMyJqEesbnt87cyWFSpW9neXRXjXOsNvKDHs/FMfNc2Q=
+	t=1778575357; cv=none; b=aW5mnS4S1yOBh4cr0Qrrgi4FtfT9ddbvJL3JGzfphRLjl93eJXCEnvSB5kIyokoA1/YHKqwi8yH773hTxcRzMRESTb0nYSpyRLKJh5Fkz02T/Hu72Ufs6GUt+XP2FdMk9PFM6Efg7h4fr81E2mLD1UeUu5kUXhno1mlwZAzTBPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778575341; c=relaxed/simple;
-	bh=ljMVN0mSJd0KTMjrcegOkqI698VOfIwxmfgsHJ7qRXc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MnrTzu8tNxezML67KSJsFbaqlITBdjHXwO6S6IBK5oUcKtvRlQ2SuQWA2CLU40ssKmMAVxP/W/oAvVUHMFms5ft26Poau8P1mH2DqSvZQDsfxmx72kN2m0QNJ+PNHNJxpii80I0wS73Se3b/6J6bcByUBXnCjxdFeUftROVgsgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aXarLmuQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778575357; c=relaxed/simple;
+	bh=YsbKMtLsF8n757WsDejnc9PnHwNnAlr9Ml5HzNjnAY4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hytaeWswoqTeB7+9mirzKWaFZ8Yd7qiJ5jL9EtGjlzuKX5G5g9jBt2ymJ+3ecy/Q/Ns+xpYOnen+jHDO9TbNZIborg/DmR2GEBX9+winP8bXZtI/3vPJ7K21RumSVSS6TG3/cD3yi6+9cKOnGD8VgKbE+tfg4jcXMWyb+tOoKgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=sY20+c4Q; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aXarLmuQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0AD5C2BCB0;
-	Tue, 12 May 2026 08:42:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778575340;
-	bh=ljMVN0mSJd0KTMjrcegOkqI698VOfIwxmfgsHJ7qRXc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aXarLmuQ5ZFeOPSU6FhyRT4yq+oRCm5H7/kGva7h7c7LxWbIU9kmR6BUDWhapDUzH
-	 FDOPx1WtzILPuT68FbOg95T+Le8esLE8B4CuCGLvXh7IUSCWolvsrnNIdEVCNUA3GS
-	 HmGFWvPQw4rtOPuWuuvejg41lAKu/JAP65G+JcK9ufm6scgCxP+KCoTAwOIMgtiEx4
-	 E7ijKwL9qJTTVpAnq7cTeyd4VqVa2xoJPEZuclth0mKK/EViKcX7Ek9Ds5LzGKisO7
-	 JqO3VwtI/KRB75BnyN1Lrure/YkgfeeHIeAC75tZP64qgkpEivZLjyA7WNLweI4LmH
-	 9aX3zDFYIbKeQ==
-Message-ID: <563bb216-c270-4711-adda-b91484af40dc@kernel.org>
-Date: Tue, 12 May 2026 10:42:14 +0200
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="sY20+c4Q"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso48007525e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 01:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1778575345; x=1779180145; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=22yyk03jobS7/yf02FbmawWzo9rxTI9n393P7VL0W2c=;
+        b=sY20+c4Q7FYmUxNrxfwNltQGQG/Q2Ncwgj7CINFni1jYq3boPZrA154ZIy9YKMR6BD
+         9tur3ntpLTCkxlDpPHiu4PRO5F9BedG/cGipgnQdOl1L7uN5QCTyuvcmdOojeWLZvnX9
+         8o+TDscy3ReFabiawRcyBWqnlI8ecwA/E7I5P3cw90Mu/ro6sYEK8V9sXadSH4TMTHfR
+         h7KhyTNgWTUvSPWsXygY+zeFGoimXrTMHq1GTynXwheC34ru7XjVUnf3B0lnnsRgKr1D
+         S48ktP3gapZNRMFSm23KLt40kHH78/7NdKWkFIQBuP/XTWMPYwqOfpaTJaeWuhevgaEa
+         RIgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778575345; x=1779180145;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=22yyk03jobS7/yf02FbmawWzo9rxTI9n393P7VL0W2c=;
+        b=R+z3K7h0S1Twsclbj9uN65CTFowZfWC9YH2s9SL0cnuamkOhRAizKP8uOX/2AxVECx
+         JWoTTY0RwaKsvw2sRjU68F2x/Og9LK5fj5sPeQv7mfqQjk1TLfHPPhR24QQaY+bqxs7A
+         QAJnwznlXvoUNi+p0LZ7dE+P9KsjOhpFKjXG3g04G1a0Ad7u3f1GHQgDCqi+LR/z2r9D
+         1nJule7ioVuBHJ18PetAyKUly8WVDt7Bm1f/kRvsO/Fzmsbvq+n34tBvpjuXg2VkX0uG
+         UIXtnbLIBYOtIYPHxMRCVb2tpjdwRQlCMAKf4cR63IBBNVMyPGc3132fIfJDVqZSyBO5
+         TmTQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/LFPeOohuy5TfiqS+ctJv9HyFhRNyzttZr0tXTAiTOFqfYJaDE3/XuQ+/iZOEUj1pbyi8rOKHYoBM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxjw9hyWBoOjiWvOJff3B8asYOAb6aIXVjIsgrH6QF5s2YxNuw+
+	MN2tiXIS0uKiXVzBcZOgHmY3Q1RV4hPAewQoXTmbA1oBf+YgHX78s8rM1ptHBJP9nKA=
+X-Gm-Gg: Acq92OFIMMl0yaLMYPR0rm0tXYAGzw31xelJruyBP3lM9GLCtp6tv9gmA/bHTwQ761D
+	CdaPl0CNTtP6UckFCnUel02PlGzhPcHZD6F6MGfuQHhHvVyNrUKlFIN/7ZYRLOALKDtcY27wOqN
+	9/vJdpWJj/Sa/gYwVHWel4/iouzic1MoH3Srz0kdokk8RupFap/0oO0qHbv9x3syo6msopI0LS7
+	coTvWf5RXe5LBuJWgLPNnh7japN1geuniy0fhRXQe5n3cct/UuyZVdZjQsoG/CZ4rEd9TWQV4ju
+	cBYf9vndNy11PNo52E9PhjBbx7aA7fCrVggzeAlVNXinGFlUvZvlh/D0hfvSbiNrXbQGlloOxVB
+	sa6EgayZrPW4xXxigQI8KRXzHUg5Th6aq5dVNXw6v3KknvQ8LOiZgvRk1YbBYh1lhm14g3wzrf8
+	estS4Q297OYkD6o+dkm3hN9NUDP+OyuhPrfutuaCeePQvpnQ==
+X-Received: by 2002:a05:600c:6299:b0:489:1f97:6b1d with SMTP id 5b1f17b1804b1-48e706edd0dmr212584825e9.28.1778575344445;
+        Tue, 12 May 2026 01:42:24 -0700 (PDT)
+Received: from FV6GYCPJ69 ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491cab9c2sm32800055f8f.31.2026.05.12.01.42.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 01:42:23 -0700 (PDT)
+Date: Tue, 12 May 2026 10:42:20 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Mark Bloch <mbloch@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Randy Dunlap <rdunlap@infradead.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Christian Brauner <brauner@kernel.org>, 
+	Petr Mladek <pmladek@suse.com>, "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
+	Eric Biggers <ebiggers@kernel.org>, Li RongQing <lirongqing@baidu.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [RFC net-next 0/4] devlink: Add boot-time defaults
+Message-ID: <agLlIAX7EuYNuSNk@FV6GYCPJ69>
+References: <aftaW-irGmkfA7FS@FV6GYCPJ69>
+ <3f9215c4-7c84-46d9-ba74-30dabe24db09@nvidia.com>
+ <afxvzOjqw-vxUAED@FV6GYCPJ69>
+ <b6a9b568-dd09-4414-be57-6b9cd282a43c@nvidia.com>
+ <af4lBIJdCuN5VKq_@FV6GYCPJ69>
+ <20260508175213.1952097f@kernel.org>
+ <af7Y4AYv-XDCbK_8@FV6GYCPJ69>
+ <20260510093732.6ba47e54@kernel.org>
+ <agGOeqeNwJGJ_-2A@FV6GYCPJ69>
+ <20260511164132.2df9c5a1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] mm/hmm: Add hmm_range_fault_unlockable() for mmap
- lock-drop support
-To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
- kys@microsoft.com, Liam.Howlett@oracle.com, akpm@linux-foundation.org,
- decui@microsoft.com, haiyangz@microsoft.com, jgg@ziepe.ca, corbet@lwn.net,
- leon@kernel.org, longli@microsoft.com, ljs@kernel.org, mhocko@suse.com,
- rppt@kernel.org, shuah@kernel.org, skhan@linuxfoundation.org,
- surenb@google.com, vbabka@kernel.org, wei.liu@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org
-References: <177759835313.221039.2807391868456411507.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
- <177759840859.221039.13065406062747296947.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <177759840859.221039.13065406062747296947.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260511164132.2df9c5a1@kernel.org>
+
+Tue, May 12, 2026 at 01:41:32AM +0200, kuba@kernel.org wrote:
+>On Mon, 11 May 2026 10:42:56 +0200 Jiri Pirko wrote:
+>> Sun, May 10, 2026 at 06:37:32PM +0200, kuba@kernel.org wrote:
+>> >On Sat, 9 May 2026 09:01:23 +0200 Jiri Pirko wrote:  
+>> >> Sat, May 09, 2026 at 02:52:13AM +0200, kuba@kernel.org wrote:  
+>> >> As "a non-SR-IOV user", what extra representors you talk about? When you
+>> >> have pfs only, you don't have anything extra. Just 1 netdev per-pf, one
+>> >> devlink port per-pf. What's extra about it? When you don't have VFs/SFs.
+>> >> Everyhing is the same:  
+>> >
+>> >Some devices have separate uplink ports and PF representors.
+>> >As I said, what you're proposing isn't going to work for all drivers.  
+>> 
+>> Well, the point is, mlx5 appears to the the one needing this, not other
+>> drivers. What I'm trying to point at, mlx5 should not need this.
+>> It makes things compicated, adding a ugly knob for no good reason.
+>> Legacy/switchdev mode, in both, the non-sriov/eswitch user should not
+>> see different behaviour. The mode is an eswitch attribute.
+>> 
+>>    devlink dev eswitch set - sets devlink device eswitch attributes
+>>        mode { legacy | switchdev }
+>>               Set eswitch mode
+>> 
+>>               legacy - Legacy SRIOV
+>> 
+>>               switchdev - SRIOV switchdev offloads
+>> 
+>> 
+>> Briefly looking over other drivers, looks like ice, bnxt, octeon, sfc,
+>> there is no new entity created in case of switching to switchdev mode.
+>> The only driver that creates separate pf entities seems to be nfp,
+>> but the mode seems to be determined by the app being run (loaded
+>> firmware).
+>> 
+>> Am I missing something?
+>
+>Hm. Okay, I wasn't aware that mlx5 was the only driver that did
+>heavy-duty reinit for switching modes.
+>
+>> >> I look at it from the perspective that from some CX generation,
+>> >> switchdev mode should be default. So that is a device-based decision.
+>> >> I believe as such it can optionally be permanenty configured (nv config)
+>> >> on older device. Why not?  
+>> >
+>> >Feels a bit arbitrary and won't cover all cases. The question should be  
+>> 
+>> What cases it does not cover? I don't follow.
+>
+>Other FW and HW versions. People are still using EOL devices (CX4/CX5),
+>IIUC the nvmem config path would require FW upgrade.
+
+If user wants to have a new feature (a bit odd to call this feature,
+but ok), he is obliged to upgrade FW. What's wrong about it?
+
+But, even without nvconfig knob, what's stopping us from fixing the
+behaviour (/bugs) and just make "switchdev" mode default in net-next for
+all in mlx5 driver? Again, perhaps I'm missing something.
 
 
-> +	for (; addr < end; addr += PAGE_SIZE) {
-> +		vm_fault_t ret;
-> +
-> +		ret = handle_mm_fault(vma, addr, fault_flags, NULL);
-> +
-> +		if (ret & (VM_FAULT_RETRY | VM_FAULT_COMPLETED)) {
-> +			/*
-> +			 * The mmap lock has been dropped by the fault handler.
-> +			 * Record the failing address and signal lock-drop to
-> +			 * the caller.
-> +			 */
-> +			*hmm_vma_walk->locked = 0;
-> +			hmm_vma_walk->last = addr;
-> +			return -EAGAIN;
+
+>
+>> >why you are nacking a more reasonable solution. Keeping Linux config in
+>> >Linux params.  
+>> 
+>> What's reasonable about adding basically a module option (kernel cmdline
+>> is pretty much the same) for no reason?
+>
+>The initial patch as posted added this to a mlx5-specific module param.
+>If we need a module param IMO generic one is much better.
+>Doesn't matter if other drivers take no time to reinit into switchdev
+>mode, having to switch mlx5 with a module param and all the rest in
+>runtime is not the best user experience?
+
+I still believe we don't need either, not module param, not cmdline
+devlink option. We just need to fix bugs and have proper defaults. The
+rest is shortcut.
 
 
-Okay, so we'll return straight from hmm_vma_fault() to
-hmm_vma_handle_pte()/hmm_vma_walk_pmd() -> walk_page_range() machinery.
-
-Hopefully we don't refer to the MM/VMA on any path there? It would be nicer if
-the hmm_vma_fault() could be called by the caller of walk_page_range(), but
-that's tricky I guess, as hmm_vma_fault() consumes the walk structure and
-requires the vma in there.
-
-
-Note: am I wrong, or is hmm_vma_fault() really always called with
-required_fault=true?
-
-> +		}
-> +
-> +		if (ret & VM_FAULT_ERROR)
->  			return -EFAULT;
-> +	}
->  	return -EBUSY;
->  }
->  
-> @@ -566,6 +585,17 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned long hmask,
->  	if (required_fault) {
->  		int ret;
->  
-> +		/*
-> +		 * Faulting hugetlb pages on the unlockable path is not
-> +		 * supported. The walk framework holds hugetlb_vma_lock_read
-> +		 * which must be dropped before handle_mm_fault, but if the
-> +		 * mmap lock is also dropped (VM_FAULT_RETRY), the vma may
-> +		 * be freed and the walk framework's unconditional unlock
-> +		 * becomes a use-after-free.
-> +		 */
-> +		if (hmm_vma_walk->locked)
-> +			return -EFAULT;
-
-Just because it's unlockable doesn't mean that you must unlock. Can't this be
-kept working as is, just simulating here as if it would not be unlockable?
-
-
--- 
-Cheers,
-
-David
