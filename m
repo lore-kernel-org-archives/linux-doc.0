@@ -1,279 +1,214 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5165C368D53
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 19:39:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778614771; cv=none; b=r2S/NEkDf8CCa36w3Iy1pnvrBh7LwHVPyx5KLdgKAkkjOzo1QZUX9vq4oqpLrelkFjICcZYK43CJcPV9ASO41wgsed0pta3M6iIL2mlvzEQ4Hih0poooU51SVPmRfNB9FLs5TN7UjmMsCOucLVCQUxOqCY/6gcTfsbL1aEECBUI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778614771; c=relaxed/simple;
-	bh=T+ZRIQYrbXkQ/sm2qmUSVp9AR5K0XHoSwQMgsySNrUo=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n36290OiIKje7xsU4nQvRZGFPZPShj9HClHvsQDJHbJJ5x91dUH6eMqan5c9ikHhaZZgaQnKINiyRrM6JUWkkkvmgWH0WHOhsS0m/p63NI39/I+ZVKBer32RkfwHiHFQ0Pq3s2GuvbpN8kc07sX+O1NGuSqGNLJuF2OeWvYq6j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hB4e7fAR; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5033338BF92
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 19:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778615916; cv=pass; b=li/uQIMpzSQDQD/fadH3L09FZqpqYr1R5MSHK8aOk9opH0SAXzeOCdNJe80yjbcwITagucHBwqvwZnO4fN3a7mB+Ziq23H4RZK6RW36UDr2AFtQu2q2jRJ1Ar8dYaPTX26f8mNqdU1l+wuCVLbjW5f/b+aFTZezVqkMK74AAvlY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778615916; c=relaxed/simple;
+	bh=2ZhacnruZi81vEfvvBZsGee6NoPNbhQQU7a3Yf/yhss=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ks013w+O3NmNqtFmfXPR+PCi5pWwJsFIe0YUJC3TOIrMMT3RqQKWkh+3o6enI5cV5lU0SDFzAb1t9Apx4XZZmhvdRbxVZ8D+jLWwkP5EIz3tB5Cbu6qlIeEZhVF6fUo3dyoqwOMa0WoINWFKv02Onpet/ZHRvrM/pIgXZKSKKZY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dsEDQhuz; arc=pass smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hB4e7fAR"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so100546715e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 12:39:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dsEDQhuz"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-671588ab0cfso303a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 12:58:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778615914; cv=none;
+        d=google.com; s=arc-20240605;
+        b=aDxoc08wRKtgRgA2ayXq8uvT2ohazs1HHgJUD132m/9uwzgrSkWpfW0WPPut2RUQYf
+         UgUbwPJBwReUD64t64/Pz360MmKhWxMqHs4KNGL0YnyPc1yYLDMIle0qDwe9XaGtt0UN
+         5EL0SDKma4BhfytRfIffbbMBysqgzE/iej4gjBMVVMDc+v6BUAxF290wEZbCFhLuktde
+         j9LX8spB2iufoM9qqMrXujIxRkgHZq67EDCLO8UveKhDKsdL2cXjYo0LveSgEQBXEgJv
+         SZBcb6ydTBUTOlJ5zpKGddzHUa1D8bAY8Wfzn/H//1kUJbUKXKXL8zYTbMdLmceNm9MO
+         aGXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5m6NJ/GUzSXfukEznvlNg7F/rj3o2Ed2/fJnLfv3lGI=;
+        fh=PrSQg7P+SnjNLTanE7dgivaR94rpwjKFqKWb4zsj+T8=;
+        b=Iv3UNoBgvkaMAVIczrsGB3Vk9CAV3SELoeJ5OhjRM2ZqfLmoNMW7hAZHVjinu+vwAm
+         Q6LnM/n8aq5zWJNGCAE9nKYmHnDps6i0Obphc/RCBA6J53ldJNuqnm4SWNpbbwPzzPKZ
+         Ms5PXchb7BM/htyD9RslCyk5uNjCbH6+75z9L7LYHbcy/pFqboN6kHj/AT+AmtP1gPtU
+         eTyixCxfKWW4I0Kme7Emtj/hYjOf7zboxFWMOcPMeKLTLUEXsdUX6g0BMpmP8lI6Wv4X
+         y8hP35BsnUlNs725YBLB2UUBhlCCh4SYxLFjXnDST1CN+u9oVEv6OtkT6Nv084HfD0An
+         nzmQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778614768; x=1779219568; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rv3Bnr19Yd7wGTXMGRn2NrXtfHL27Vg73vChMHhkHKc=;
-        b=hB4e7fARLxI+BTR2PfWyLrxjhtywbqIKZ9jeriGaYQr0r8+369CoEIxFKtSkesc5C5
-         vZUPcaBfl9NTjr8vZt9N6kE/r8rUxhhe7Ki4f8S6/JSnPVvOKkgqLb6PHrJ8yBgPBn1C
-         n/NZhZETUJSwiFyp+OYHPg+w/4ScR9O14MY3d1XGfLe5d9Rfbtkj4rWLOuCzRuVq9zKZ
-         tIL3lkRxkDKBt8b7e3XJDlapD8b5vN6chSVNt2v9hYH6b/6+6WelUDuh4JIJtoMVVqnS
-         qzurqUNzAr6fEU065YkI0NlCPBUypfkGlYGLIwMta0xMnwWAWMZPs8wT27fC1vSaTpXJ
-         FpEw==
+        d=google.com; s=20251104; t=1778615914; x=1779220714; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5m6NJ/GUzSXfukEznvlNg7F/rj3o2Ed2/fJnLfv3lGI=;
+        b=dsEDQhuzJaSKVV5kpKY1pPbtORW4TWb4X3QHhH/k5W8b74HmjKsNW/Wt6cVVlfQprs
+         v6nobaCOwx04ODUgDjJD1Lktfiq1RTluwDR3SLGxA5z18ue2FMJmkOz/XBmXMDd714pU
+         7Fa2cNOBRaJzCa7YoUfx+3XSc/XNjs/2GNroC7A4+u7sJHraOdQbvJ63xObQuZqf+Ocj
+         oux4+mQrVmhZ1y9JZ1pHemh1IcPYoAAuEWKa8//kNk/xVggJvqmoFnKaqfcWxQJ977Ub
+         IkfsZEYDhojpOANSMeCBPeqFzSD8YQ5v7E7LG91WB0xd/e28OwzG5hhuc3/phQ0HaUe0
+         Enwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778614768; x=1779219568;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rv3Bnr19Yd7wGTXMGRn2NrXtfHL27Vg73vChMHhkHKc=;
-        b=O+GCqzQ59lK9dxKd36EyVtLRJuu6mFb8xji7yQVJ/C9Imfd+MDHGeaKQMMNrzbt1hW
-         LR9848k/gxVqk1SVhSxuOUaFa1+PCoqGQmJ6F6vTvrO0Q55OfnkodRHZf+HV53oekGVy
-         RPcWPykes1e58q4mLauBBbUTh2ul5VEkriwa4e8x0CJcaUt4jiFcjM9ciDYXSgEMveB8
-         NCYdTmSdR/JZtsjxuZ0osfbZAMaLs7JZUZGi7S3D3FblGzx+A8YziOnEdFKZRly3SnOE
-         AmHswoUzTSQMa9R/hRpgiETlka06KWhBZZpKqna2LVts4srT9oHhB8bf/Uxj8QJv+XFc
-         crtA==
-X-Forwarded-Encrypted: i=1; AFNElJ+RCK8FP3SqvkKPdV4DC1Z7QVkPa9QElHZ9R2ERka2Gx3RXu6xzlukB8DWeHR99fq3E2GU2vrPZ1fA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/XyC/wU60e4vMxvtkjOGvWFMxX65L577exKu6SLsTyK6Now4U
-	Huy+aHda9glSJVvSQReNcEkeikmsRyxyKdqFbaBPdqoAhNojDNEGj85R
-X-Gm-Gg: Acq92OE7SqZGJt1M2Ckf1E3hXGF6we6THmXkxgILvPCKrlzK75SjddQiiMpDvKGlihs
-	7Zsec3Ng0wODyeR5edkzLLsupn7dp+Yij5r3XhlcVQVifXFkT3zARQWtTiX7Qf0j+vVKdrmaeht
-	qipbbTMj/O93QR9b3kAEIuYogBFHALNECSGZiEdQi9vnamvvM9Rs+/p12CkQdKZILcXMOAcoOEe
-	nNP/Bgx64DLCxLKv6/ftSaxSbegVLFBI/J+jCGOg/OTsFie1XIUaVg1gvPyu0S7inAmznLyoVor
-	eDhRnhyqDm9J8xN9MomoPKEKoeUA8R/UAHRNd6i0dZOMvaRgx0GxhjriiKTjLaGcEmEY4jJjRr8
-	HvnpfKTUQ1xTBOFdGXLe5gJfgTiOUD/vq12yvL+iFxQgq3aRQJubtrqXXLeszU26K3Hi+P7CwoA
-	6EX8WFh+xsbCuY8gCS2ZXHzqQrJG/cSIGikR5ep414XVQ6E5wx2ELyd24lcp6jd7PGJkAK+k2qo
-	6oo4b1wbU6pb5OhCYKYLA4QjuGgLah8zFFm7t2NYaB4ylJNxA==
-X-Received: by 2002:a05:600c:4f93:b0:485:4eaf:eb53 with SMTP id 5b1f17b1804b1-48fc9a3c76amr3588085e9.19.1778614767606;
-        Tue, 12 May 2026 12:39:27 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fc8d19974sm16882915e9.2.2026.05.12.12.39.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 12:39:26 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Tue, 12 May 2026 20:39:21 +0100
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	David Laight <david.laight.linux@gmail.com>
-Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
- kstrtodec64()
-Message-ID: <hvwyrb7g3ar7hzesj32zoxzqvjmdtwybamy4zxepqdbu37qvog@xnmgqhfya34f>
-References: <dxjg2sdyxb7ieb4abmeyyye7qok6cczrxabpsjyjhcbehwoec3@sbbqoo4wmzre>
- <agM8pWrM6j_XksvN@ashevche-desk.local>
- <ur6brs3yjzyb4mtelabmcglxjltddqvjxtgl3lkdkmbjlkmnsq@bwd6rz7gided>
- <CAHp75VeoH3yVfp8NWjKfc_df0VRLkyf_SK4e==-wJOEodVjW_A@mail.gmail.com>
- <q4rmlkgecvztnvjg7b7wtqyvhdy7uxgaouvhae2mlsxaasasbf@dfakp4m5l5sl>
- <agNfqiZpGZAM-x_H@ashevche-desk.local>
- <ru2h3ip7qf6j54dlrij54nwp45uyq6m2e6zspt6v6eynpsagqq@eo5v3yparuhh>
- <agNnfWZa9_NyLoWq@ashevche-desk.local>
- <bc7mqfgll34vyaxdtvfssgypkhyx233wd4hxfzu32rddxnolaq@rd6c3z6yu6aq>
- <agN6onIAwG1yn5p6@ashevche-desk.local>
+        d=1e100.net; s=20251104; t=1778615914; x=1779220714;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5m6NJ/GUzSXfukEznvlNg7F/rj3o2Ed2/fJnLfv3lGI=;
+        b=IQoU638sSQ4wIpOb604mBo2/D+D9y3o17hDa0X9GodxrXw28h2UaEPgciloeXukzlS
+         /kqeGlNzrlOUBy4wKM9L+rC+gLQnk8CxFVMyniP2ubVp/oZe1/JkbP2QPUkZI7KZLJc/
+         vGZdaZyrBXwMxuMSU6h7oKU/F4UBScI6s/EG/aqcGNMFriLhxJLuteilRRFT2tF11Y3a
+         jsOl0fczFyFuQpKV+pb0WI/N9L0TK/pygya/qLiglJMz/Lu9pplPmJ1BouKQ/2q+G/Wl
+         +LZReNWewSImzyTzruJ/zCo3B3kcY4+/rl+bsHiz4FMsTMWy6cPxfInwL9UMtfkQFAdu
+         VFdw==
+X-Forwarded-Encrypted: i=1; AFNElJ8ufcQRVoxGg/ln4bkuqfc27kIbi7e+7Qtg0gWDl1hzxwRwVeOFoukAJn3uJewmNVT5HuxdEpYzZ9Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfXoXHBoCq+2DW1s67RxbQXlN2oVG1mYebukXU9EZul+DGeQ09
+	Eu9BWpB2xHKfDCJA4235avnKuY/WkylEDRpK2WIKDh0FcaPOryhE74ort3B6aJk+0t4XjmiHG71
+	SfE+FK4AIXTl6gAX/N34lNapYH7w8Ec0Kctqx14O5
+X-Gm-Gg: Acq92OEiD1FaKVQ7PDTHGQBJiqjcDOFKmIwQn5O6AZ0t0wWh/ywJ+mbD9vnHNnA6xG3
+	5cTPpIG3TGds8hvj4HbN9cPxfzl/dLS7QHsAZtd/kTTt1R454hwd8MQ5fSscbY4KDA97EKs3uYD
+	Jtre4Cb5KY4K8MBeiB8iwj+Ik6RYoL7XM7ZbEhtiRI0w9/3SAs2smu9xE72JHsV8zNMZqK3AzzC
+	zS40FTf/Jgz6JVFyBuYfm/ENxWVGfXCwtopjoGe7Jl6bksufLXk9abKUgEOt3p/6lwlkaCfJZij
+	dgBWfhDVy2IhltS2kN866x8iANWSsNt+vvcz9avy0+RBNVx1
+X-Received: by 2002:aa7:d987:0:b0:670:2007:668c with SMTP id
+ 4fb4d7f45d1cf-682143aeccfmr17629a12.4.1778615913243; Tue, 12 May 2026
+ 12:58:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <agN6onIAwG1yn5p6@ashevche-desk.local>
+References: <cover.1777936301.git.abhishekbapat@google.com> <9bff01a8-eb97-4d09-81a4-f4dbf9b59b73@linux.dev>
+In-Reply-To: <9bff01a8-eb97-4d09-81a4-f4dbf9b59b73@linux.dev>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 12 May 2026 12:58:18 -0700
+X-Gm-Features: AVHnY4K4mgRxMzZXs9TbGliBXSUNhj5QutdOEj_iYOol2xOCgNXTxL2QFRb81Ko
+Message-ID: <CAJuCfpE9_Njy7Tm4DnNin9HEVoqqfKzTRgxYkEEyzm+OCc49sw@mail.gmail.com>
+Subject: Re: [PATCH 0/6] alloc_tag: introduce IOCTL-based filtering for MAP
+To: Hao Ge <hao.ge@linux.dev>
+Cc: Abhishek Bapat <abhishekbapat@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, Sourav Panda <souravpanda@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Kent Overstreet <kent.overstreet@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26/05/12 10:08PM, Andy Shevchenko wrote:
-> On Tue, May 12, 2026 at 07:15:17PM +0100, Rodrigo Alencar wrote:
-> > On 26/05/12 08:46PM, Andy Shevchenko wrote:
-> > > On Tue, May 12, 2026 at 06:26:12PM +0100, Rodrigo Alencar wrote:
-> > > > On 26/05/12 08:13PM, Andy Shevchenko wrote:
-> > > > > On Tue, May 12, 2026 at 05:35:59PM +0100, Rodrigo Alencar wrote:
-> > > > > > On 26/05/12 06:21PM, Andy Shevchenko wrote:
-> > > > > > > On Tue, May 12, 2026 at 6:11 PM Rodrigo Alencar
-> > > > > > > <455.rodrigo.alencar@gmail.com> wrote:
-> > > > > > > > On 26/05/12 05:43PM, Andy Shevchenko wrote:
-> > > > > > > > > On Tue, May 12, 2026 at 03:12:24PM +0100, Rodrigo Alencar wrote:
-> > > > > > > > > > On 26/05/12 04:48PM, Andy Shevchenko wrote:
-> > > > > > > > > > > On Tue, May 12, 2026 at 02:21:14PM +0100, Rodrigo Alencar wrote:
-> > > > > > > > > > > > On 26/05/12 04:12PM, Andy Shevchenko wrote:
-> > > > > > > > > > > > > On Tue, May 12, 2026 at 12:39:53PM +0100, Jonathan Cameron wrote:
-> > > > > > > > > > > > > > On Sun, 10 May 2026 13:42:20 +0100
-> > > > > > > > > > > > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
-> > > > > > > > > > > > > > > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
-> > > > > > > > > > > > > > > precision). After the decimal point, digits beyond the specified scale
-> > > > > > > > > > > > > > > are ignored.
-> 
-> ...
-> 
-> > > > > > > > I think we are going in circles here and we could look at the code instead:
-> > > > > > > > - integer parsing with _parse_integer()
-> > > > > > > >         - overflow check and validation of the return value
-> > > > > > > > - fractional parsing with _parse_integer_limit()
-> > > > > > > >         - overflow check and validation of the return value
-> > > > > > > 
-> > > > > > > No, this is not fully true. That's what my whole point is about. The
-> > > > > > > max_chars parameter limits the input check, then it skips an arbitrary
-> > > > > > > number of digits and only *then* it checks for \n and \0. What will be
-> > > > > > > the result of the
-> > > > > > > 0.00000000000000000000000000000000423 in your case? Whatever scale you
-> > > > > > > gave it will return 0 without checking on how many digits were
-> > > > > > > supplied.
-> > > > > > 
-> > > > > > I suppose that is a valid input and 0 is the expected result there.
-> > > > > > 
-> > > > > > > All the same for 0.9999999999999999999999999999999000423. My
-> > > > > > > point is that we should limit this by 19 digits.
-> > > > > > 
-> > > > > > why we need to limit by 19? Digits beyond the scale carry no value...
-> > > > > 
-> > > > > ...only if they are all 0:s.
-> > > > 
-> > > > I thought your concern was on input length.
-> > > 
-> > > One of, since I think you rose the topic of leading 0:s for integers and
-> > > I agreed with that which makes sense to have mirrored in fractional part.
-> > > 
-> > > > > > just like leading zeros to the integer part (which is also accepted by
-> > > > > > kstrtoull() when parsing with base 10). Not sure why this is invalid input.
-> > > > > 
-> > > > > See above. I agree on truncating trailing 0:s as it's done for leading ones
-> > > > > in integer part, but if any of the digit behind 19th is not 0, it's an overflow
-> > > > > condition (or bad input, depending how strict the rules are).
-> > > > 
-> > > > stating in the documentation that digits beyond the scale are ignored is not
-> > > > enough?
-> > > 
-> > > It's in case we are not for kstrto*() family. My understanding that kstrto*()
-> > > use strict rules on the input in overflow check.
-> > > 
-> > > > > > > On top of that, what about -0.9(19 times) ? the fraction should be u64
-> > > > > > > in this case and it's fine. The sign applies to the combined value.
-> > > > > > 
-> > > > > > yes, range for signed values are verified later.
-> > > > > 
-> > > > > > > >         - extra scaling and truncation happening outside if needed.
-> > > > > > > 
-> > > > > > > Right, but the given input may be way too long and still needs more validation.
-> > > > > > 
-> > > > > > What is the problem with a long input of digits?
-> > > > > > C compiler does not complain about this when parsing a float value,
-> > > > > > python does not
-> > > > > > complain about this when parsing floats or decimals either.
-> > > > > 
-> > > > > Because there is an exponent limit and for double it's something like 1e307
-> > > > > IIRC, meaning, try 1024 digits to be sure.
-> > > > > 
-> > > > > Python most likely uses the library for big numbers, you can't compare it at all with this.
-> > > > 
-> > > > You would be fine if the truncation loop:
-> > > > 
-> > > > while (isdigit(*s)) /* truncate */
-> > > > 	s++;
-> > > > 
-> > > > is bounded by (19-scale) iteration count? or it should keep iterating if those are zero?
-> > > 
-> > > Ideally both.
-> > > 
-> > > We don't care about the digits in the range of 19-scale and skip all 0:s after
-> > > that.
-> > > 
-> > > 	/* truncate unrequired digits within type limit, i.e. 19 decimal digits */
-> > > 	while (isdigit(*s) && "(s - pos_of_dot) is less than 19")
-> > > 		s++;
-> > > 	while (s == '0') /* truncate trailing 0:s, it's not a bad input nor overflow */
-> > > 		s++;
-> > 
-> > We could have agreed on something like that since the beginning!
-> 
-> Yes, but who knew that we go to have this agreement?
-> 
-> > And I think that changing the logic to something like this would not change a
-> > thing on the kind of inputs we expect, it will just complicate the code.
-> > I suppose that kind of kstrto*() rules were never stated anywhere.
-> > 
-> >                            |> 20th digit 
-> > Also, 0.00000000000000000001 still sounds like a valid decimal number to me, even
-> > though it is going to be parsed as 0!
-> 
-> Hmm... It would mean that testing for 19th/20th digits is not enough... :-(
-> 
-> > > 
-> > > 	// Now if it's not \0 nor \n and
-> > > 	//	a) still a digit consider either overflow or bad input,
-> > > 	//	b) if not a digit, consider as bad input.
-> > > 
-> > > In a) I tend to be on par with the other k*() and consider that as overflow.
-> > > 
-> > > > is that the only concern? Again, the usage of _parse_integer_limit(s, 10, &_frac, scale)
-> > > > avoids a 64-bit division when checking the rv.
-> > > 
-> > > I'm not against usage of _parse_integer_limit(), I'm for stricter rules on the input.
-> > > With the above addressed, I have no more concerns.
-> > 
-> > Thanks! I will proceed with the requested adjustments.
-> 
-> But it seems it's not enough as you pointed out!
-> 
-> So the biggest fraction we may consume in 64-bit (unsigned) value is
-> 0.18446744073709551615. If we go with one digit less, the whole value
-> can be
-> 
-> In [3]: hex(9999999999999999999)
-> Out[3]: '0x8ac7230489e7ffff'
-> 
-> So, I don't know how we are supposed to represent values between
-> -0.9223372036854775808
-> -0.9999999999999999999
-> in a signed type as they have bit 63 set.
-> 
-> The easiest way out is to limit scale to 18 (but still accept 19th digit, and
-> with check for overflow even 20th up to 0.18446744073709551615). This will need
-> to run _parse_integer_limit() twice (with given scale and with 20).
-> 
-> Can you add the respective test cases and see what is currently going on with
-> them?
+On Wed, May 6, 2026 at 1:45=E2=80=AFAM Hao Ge <hao.ge@linux.dev> wrote:
+>
+> Hi Abhishek and Suren
+>
+>
+> On 2026/5/5 07:36, Abhishek Bapat wrote:
+> > Currently, memory allocation profiling data is primarily exposed throug=
+h
+> > /proc/allocinfo. While useful for manual inspection, this text-based
+> > interface poses challenges for production monitoring and large-scale
+> > analysis:
+> >
+> > 1. Userspace must parse large amounts of text to extract specific
+> > fields.
+> > 2. To find specific tags, userspace must read the entire dataset,
+> > requiring many context switches and high data copying.
+> > 3. The kernel currently aggregates per-CPU counters for every allocatio=
+n
+> > size, even those the user intends to filter out immediately.
+> >
+> > This series introduces a new IOCTL-based binary interface for allocinfo
+> > that supports kernel-side filtering. By allowing the user to specify a
+> > filter mask, we significantly reduce the work performed in-kernel and
+> > the amount of data transferred to userspace.
+> >
+> > Performance measurements were conducted on an Intel Xeon Platinum 8481C
+> > (224 CPUs) with caches dropped before each run.
+> >
+> > The IOCTL mechanism shows a ~20x performance improvement for
+> > filtered queries. The kernel avoids the expensive per-CPU counter
+> > aggregation (alloc_tag_read) for any tags that fail the initial string
+> > or location filters.
+> >
+> > Scenario 1: Specific File Filtering (arch/x86/events/rapl.c)
+> > 1. Traditional (cat /proc/allocinfo | grep): 22ms (sys)
+> > 2. IOCTL Interface: 1ms (sys)
+> >
+> > Scenario 2: Compound Filtering (Filename + Size)
+> > 1. Traditional: (cat ... | grep | awk): 21ms (sys)
+> > 2. IOCTL Interface: 1ms (sys)
+> >
+> > Scenario 3: Size-Based Filtering (min_size =3D 1MB)
+> > 1. Traditional: (cat ... | awk): 21ms (sys)
+> > 2. IOCTL Interface: 14ms (sys)
+>
+> What a coincidence! I was just about to send an email to Suren
+>
+> asking about plans for upstreaming a filtering tool for /proc/allocinfo,
+>
+> and then I came across this patchset.
+>
+> I have been following and using memory allocation profiling since
+>
+> it was first introduced. It has been very helpful for our memory
+>
+> analysis by providing clear visibility into allocation data. However,
+>
+> we have always wanted a tool to efficiently filter this data to get
+>
+> exactly what we need, so I previously developed a userspace tool [1]
+>
+> to help with that.
+>
+> [1] https://lore.kernel.org/all/20250106112103.25401-1-hao.ge@linux.dev/
+>
+> So this patchset provides efficient filtering of allocinfo data via ioctl=
+.
+>
+> Would the next step be to develop a general-purpose tool under
+>
+> tools/mm that leverages these ioctls instead of parsing /proc/allocinfo
+> text output?
 
-I can add test cases, but for the signed case the situation is:
+Hi Hao,
+Sorry for the delay, I was travelling for LSFMM and missed a bunch of email=
+s.
+Yes, we are planning to upstream alloctop tool
+(https://android-review.googlesource.com/c/platform/system/memory/libmeminf=
+o/+/3431860)
+and now with ioctl support it becomes more relevant. Once this
+patchset is merged, we will prepare the tool and post the patch.
+Thanks,
+Suren.
 
-scale = 0
-	max = 9223372036854775807, min = -9223372036854775808
-scale = 1
-	max = 922337203685477580.7, min = -922337203685477580.8
-scale = 2
-	max = 92233720368547758.07, min = -92233720368547758.08
-...
-scale = 18
-	max = 9.223372036854775807, min = -9.223372036854775808
-scake = 19
-	max = 0.9223372036854775807, min = -0.9223372036854775808
 
-anything outside those ranges will give you -ERANGE. Then it depends on the scale used.
-
-I am not representing -0.9999999999999999999 as is. The desired scale will have this
-truncated. It may be -0.9999 or -0.999999 or -0.9. And this is practical for a
-reasonable scale value... for pico and femto precision you still get a decent range.
-
--- 
-Kind regards,
-
-Rodrigo Alencar
+>
+> Thanks
+>
+> Best Regards
+>
+> Hao
+>
+> > Abhishek Bapat (5):
+> >    alloc_tag: add ioctl filters to /proc/allocinfo
+> >    alloc_tag: add size-based filtering to ioctl
+> >    alloc_tag: add accuracy based filtering to ioctl
+> >    kselftest: alloc_tag: add kselftest for ioctl interface
+> >    kselftest: alloc_tag: extend the allocinfo ioctl kselftest
+> >
+> > Suren Baghdasaryan (1):
+> >    alloc_tag: add ioctl to /proc/allocinfo
+> >
+> >   .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+> >   include/linux/codetag.h                       |   1 +
+> >   include/uapi/linux/alloc_tag.h                |  87 +++
+> >   lib/alloc_tag.c                               | 249 ++++++++-
+> >   lib/codetag.c                                 |  11 +
+> >   tools/testing/selftests/alloc_tag/Makefile    |   9 +
+> >   .../alloc_tag/allocinfo_ioctl_test.c          | 508 +++++++++++++++++=
++
+> >   7 files changed, 865 insertions(+), 2 deletions(-)
+> >   create mode 100644 include/uapi/linux/alloc_tag.h
+> >   create mode 100644 tools/testing/selftests/alloc_tag/Makefile
+> >   create mode 100644 tools/testing/selftests/alloc_tag/allocinfo_ioctl_=
+test.c
+> >
