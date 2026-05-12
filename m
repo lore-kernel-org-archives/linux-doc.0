@@ -1,95 +1,183 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9B83CC316;
-	Tue, 12 May 2026 16:13:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C163A2E7631;
+	Tue, 12 May 2026 16:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778602390; cv=none; b=YQ/TaaOK+OC+zA0+ku19LB2ku0I3tqOzVIR8qtX3AJ+zqHO2J0jmgZDwMc8Rmxzm5AKxJ7nSyZIm1SbLRNnnkK/QNwzHaawhLTJuE7kZKrIPt9M9/zTGgpiT/GSSqLmRLqinyHNFY7jXPl4GEPwUhS7Th/2eQ4CkVy/TvQ/rqDI=
+	t=1778602455; cv=none; b=GsWS4tlcfOTd6WmEf+SCRHYRo+MERQd706y4XZ8wFBJRdyKRmF1V9mXhyxpRvZg+Nv4y67IqB6v7EhEd1rvxaWgiV49KOv2QxoHvt2ZfQlmHzTaKOptd1UkDy5oovmKDYI00EWUJEH9bGBUMEtGu4NvzDQVwkv9F8G9i+kcQGSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778602390; c=relaxed/simple;
-	bh=aW7ED6qTn/z0l8eu4OvO0G5sEE4weAz9OFO+rdRexK8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=bC/EKoF31iR1zpJT1Rqu4EW1sKE3VQkbBR7wrMyAPddq8sopAJRi+EevB817C/yKPV1RHGDh+7f7bmxl1m8d+oTgxl1eoRb82QlcBQR6xr3e7eoPkS3VwdDdc9gb70flWlTOpjtfoVcCMCgBYc1v3wIzg0NK4b7pER2iAVN8NNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lmXCyWMQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778602455; c=relaxed/simple;
+	bh=IUNQoj40BBpUNJf0ajtJqYtGemiYL8A1ke06SM7+b4E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TT4CwthdPK2f4KCeKhXs0d6UfLQNQIAzw7+mmlHz7yfT7nJsW7j8pc/7NPj5HCR7n/19i2OP3Ct95L63un+mYIkctWOUtmumsus8+lKsdmVJpZJQeq3SjHjhj8A+CgQp0dhXgsZpGjg+ZFqRvVYOrEYxRW6KxlSBElYMajILoQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/S/PcOS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lmXCyWMQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D91BC2BCC7;
-	Tue, 12 May 2026 16:13:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/S/PcOS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 646AEC2BCFA;
+	Tue, 12 May 2026 16:14:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778602388;
-	bh=aW7ED6qTn/z0l8eu4OvO0G5sEE4weAz9OFO+rdRexK8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=lmXCyWMQDPWkvmG/q09a1kdw3z9hRJmi1VdEo6oClUBrP14YXCV3nuUp+koxIGJxo
-	 TBwzZJCw4vX6zp0QJhwOEylUi7T1Priz8aNpwMEl30e+pREjtJN7KgXVFOp8XZIFc0
-	 tP8rD3/Hk2zZI5tkHjuvNnPqJGmSWtatHjYKtRWQKhsNRrK4i4G5uEYert7wPe6sqq
-	 J7TtQ9hWYLdNLZVb616PnEtQi9dYzJwsq06t+8NneKvK8sHC0nPpGrQfiIGKp/U9Wk
-	 kKaJSdr73nXBRdh/gQfL7C25V/QImfhXPDjPtWer4cu//sHudfmp2T91mhbxQ0NbQc
-	 lIJeYK13GnzyA==
-Date: Tue, 12 May 2026 18:13:06 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>
-cc: Benjamin Tissoires <bentiss@kernel.org>, 
-    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
-    Denis Benato <denis.benato@linux.dev>, 
-    Zhouwang Huang <honjow311@gmail.com>, linux-input@vger.kernel.org, 
-    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] Add MSI Claw HID Configuration Driver
-In-Reply-To: <20260510043510.442807-1-derekjohn.clark@gmail.com>
-Message-ID: <n533qs94-7o4r-p5r0-04p1-68q1398n5785@xreary.bet>
-References: <20260510043510.442807-1-derekjohn.clark@gmail.com>
+	s=k20201202; t=1778602455;
+	bh=IUNQoj40BBpUNJf0ajtJqYtGemiYL8A1ke06SM7+b4E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J/S/PcOS1XPcZV7Syc+JlqArxkXZ/hbxBjwDT1oINHHwBvkhhEWP9INmRvwBy5uMs
+	 IQ7LRTkDcpdEEKM0Tw08keNfDow4yaHa7b0CVm3jBd1tISNFLljNv2sMqAGoS/qtXU
+	 kvv4bupqJjw57mXwLGv3YQYnlWf91aYSUfKamfSgWAYibwIdHaKI2hKtoE8SnMjl/r
+	 yss2iKimG4E33ynm2qH/k2CFu5aRhuOAM/21vTLClYeYWVJ5nzDy2SveAFpZ27Z4QK
+	 HnDMLSECA8B5Mln82mBvnzgxuWuoXQxgVvLQ2dQycDnG6am4VL4o8Rvgtxso9ns8vD
+	 fQ/KjPYMec+yg==
+Date: Tue, 12 May 2026 09:14:14 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, David Sterba <dsterba@suse.com>,
+	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>, Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org
+Subject: Re: [PATCH 01/12] swap: remove the maxpages variable in sys_swapon
+Message-ID: <20260512161414.GB9555@frogsfrogsfrogs>
+References: <20260512053625.2950900-1-hch@lst.de>
+ <20260512053625.2950900-2-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260512053625.2950900-2-hch@lst.de>
 
-On Sun, 10 May 2026, Derek J. Clark wrote:
+On Tue, May 12, 2026 at 07:35:17AM +0200, Christoph Hellwig wrote:
+> Always use si->max which is updated setup_swap_extents instead of copying
 
-> This series adds and HID Configuration driver for the MSI Claw line of
-> Handheld Gaming PC's. The MSI Claw HID interface provides multiple
-> features, such as the ability to switch between xinput, dinput, and a
-> desktop mode, RGB control, rumble intensity, and mapping of the rear "M"
-> keys. There are additional gamepad modes that are not included in this
-> driver as they appear to be used in assembly line testing or are
-> incomplete in the firmware. During my testing I found them to be unstable.
+"...updated in setup_swap_extents..."
+
+> into and out of maxpages.
 > 
-> The initial version of this driver was written by Denis Benato, which
-> contained the initial reverse-engineering and implementation for the
-> gamepad mode switching. This work was later expanded by Zhouwang Huang
-> to include more gamepad modes and additional features. Finally, I
-> refactored the entire driver, fixed multiple bugs, and refined the overall
-> format to conform to kernel driver best practices and style guide.
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+But yes, it's much harder to track the data flows if we keep copying the
+value in and out of local variables.
+
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+
+--D
+
+> ---
+>  mm/swapfile.c | 27 +++++++++++----------------
+>  1 file changed, 11 insertions(+), 16 deletions(-)
 > 
-> Claude was used initially by Zhouwang Huang to quickly parse HID captures
-> during the reverse-engineering of some of the features. Since Claude had
-> already been used, as a test of its capabilities I had it implement the
-> rumble intensity attribute after I had already rewritten most of the
-> driver, which I then manually edited to fix some mistakes. I also used
-> Claude to review the driver and these patches for any mistakes and bugs.
+> diff --git a/mm/swapfile.c b/mm/swapfile.c
+> index 9174f1eeffb0..f7ebd97e28a3 100644
+> --- a/mm/swapfile.c
+> +++ b/mm/swapfile.c
+> @@ -3350,10 +3350,9 @@ static unsigned long read_swap_header(struct swap_info_struct *si,
+>  }
+>  
+>  static int setup_swap_clusters_info(struct swap_info_struct *si,
+> -				    union swap_header *swap_header,
+> -				    unsigned long maxpages)
+> +				    union swap_header *swap_header)
+>  {
+> -	unsigned long nr_clusters = DIV_ROUND_UP(maxpages, SWAPFILE_CLUSTER);
+> +	unsigned long nr_clusters = DIV_ROUND_UP(si->max, SWAPFILE_CLUSTER);
+>  	struct swap_cluster_info *cluster_info;
+>  	int err = -ENOMEM;
+>  	unsigned long i;
+> @@ -3395,7 +3394,7 @@ static int setup_swap_clusters_info(struct swap_info_struct *si,
+>  		if (err)
+>  			goto err;
+>  	}
+> -	for (i = maxpages; i < round_up(maxpages, SWAPFILE_CLUSTER); i++) {
+> +	for (i = si->max; i < round_up(si->max, SWAPFILE_CLUSTER); i++) {
+>  		err = swap_cluster_setup_bad_slot(si, cluster_info, i, true);
+>  		if (err)
+>  			goto err;
+> @@ -3425,7 +3424,7 @@ static int setup_swap_clusters_info(struct swap_info_struct *si,
+>  	si->cluster_info = cluster_info;
+>  	return 0;
+>  err:
+> -	free_swap_cluster_info(cluster_info, maxpages);
+> +	free_swap_cluster_info(cluster_info, si->max);
+>  	return err;
+>  }
+>  
+> @@ -3440,7 +3439,6 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+>  	union swap_header *swap_header;
+>  	int nr_extents;
+>  	sector_t span;
+> -	unsigned long maxpages;
+>  	struct folio *folio = NULL;
+>  	struct inode *inode = NULL;
+>  	bool inced_nr_rotate_swap = false;
+> @@ -3512,14 +3510,13 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+>  	}
+>  	swap_header = kmap_local_folio(folio, 0);
+>  
+> -	maxpages = read_swap_header(si, swap_header, inode);
+> -	if (unlikely(!maxpages)) {
+> +	si->max = read_swap_header(si, swap_header, inode);
+> +	if (unlikely(!si->max)) {
+>  		error = -EINVAL;
+>  		goto bad_swap_unlock_inode;
+>  	}
+>  
+> -	si->max = maxpages;
+> -	si->pages = maxpages - 1;
+> +	si->pages = si->max - 1;
+>  	nr_extents = setup_swap_extents(si, swap_file, &span);
+>  	if (nr_extents < 0) {
+>  		error = nr_extents;
+> @@ -3531,14 +3528,12 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+>  		goto bad_swap_unlock_inode;
+>  	}
+>  
+> -	maxpages = si->max;
+> -
+>  	/* Set up the swap cluster info */
+> -	error = setup_swap_clusters_info(si, swap_header, maxpages);
+> +	error = setup_swap_clusters_info(si, swap_header);
+>  	if (error)
+>  		goto bad_swap_unlock_inode;
+>  
+> -	error = swap_cgroup_swapon(si->type, maxpages);
+> +	error = swap_cgroup_swapon(si->type, si->max);
+>  	if (error)
+>  		goto bad_swap_unlock_inode;
+>  
+> @@ -3546,7 +3541,7 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+>  	 * Use kvmalloc_array instead of bitmap_zalloc as the allocation order might
+>  	 * be above MAX_PAGE_ORDER incase of a large swap file.
+>  	 */
+> -	si->zeromap = kvmalloc_array(BITS_TO_LONGS(maxpages), sizeof(long),
+> +	si->zeromap = kvmalloc_array(BITS_TO_LONGS(si->max), sizeof(long),
+>  				     GFP_KERNEL | __GFP_ZERO);
+>  	if (!si->zeromap) {
+>  		error = -ENOMEM;
+> @@ -3597,7 +3592,7 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+>  		}
+>  	}
+>  
+> -	error = zswap_swapon(si->type, maxpages);
+> +	error = zswap_swapon(si->type, si->max);
+>  	if (error)
+>  		goto bad_swap_unlock_inode;
+>  
+> -- 
+> 2.53.0
 > 
-> Assisted-by: Claude:claude-sonnet-4-6
-> Co-developed-by: Denis Benato <denis.benato@linux.dev>
-> Signed-off-by: Denis Benato <denis.benato@linux.dev>
-> Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
-> Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
-> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 > 
-> Derek J. Clark (4):
->   HID: hid-msi-claw: Add MSI Claw configuration driver
->   HID: hid-msi-claw: Add M-key mapping attributes
->   HID: hid-msi-claw: Add RGB control interface
->   HID: hid-msi-claw: Add Rumble Intensity Attributes
-
-The driver looks reasonable, I'd just like to propose that we name it just 
-hid-msi to follow the usual HID subsystem driver naming standards, so that 
-it can later be extended with supporting other MSI devices.
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
