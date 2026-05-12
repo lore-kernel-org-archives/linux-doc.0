@@ -1,204 +1,312 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029B83B5F67;
-	Tue, 12 May 2026 14:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274303B8127;
+	Tue, 12 May 2026 14:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778596548; cv=none; b=ZvxOXJ5wbZ8FCEt7iJLS8vtxova6BLG1muweicDbmFCRcSp0B3fURWZR+LpHxI3z2kx4FKgBFxSqzhc8ucXuXzMNtU+fRrQ9fErvzzcu0WTCBChe+gjzHv9K3MTWykGR0EKpkPIGN0UPcj6pt431CZEanHcjeRxyLPKcph3qhdk=
+	t=1778596618; cv=none; b=CMAzcgYVD+WLLtLLnMFC/9Kr+VaJTKt1rAh0ASOLubZ4xekopucZMLbccTb6m/AZ+riyKZS/lXezMhyRAaj9vgQMlRHFGtrk+ptuO1ho9/TIJcQ1g2dJgd3NGUtTLQ4ejYyicBzP9HNLaoOigz9+wJUd4rYYQcib6mIumxt7ifg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778596548; c=relaxed/simple;
-	bh=hvdPz87c7qZdxSSSB7hzjsR9y4UsH//SdDzMvwF4jfU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cNHvrV7uxD3Kin0Rs8RR/ZuNuOSunHknD2jfxcv0pa0YiQPxep+IQR8bEzS53D/FGir8tMK0n31VMPpT7qqY27sLbol+Xs+1qtbMGGBtOgzGnAJuiRv4dvcq7zm/zVMTwY2jyNWKTUhZqRbu3f3RYZ5Z/vMpTpQN82RsQmIonTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jF6bMc+a; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778596618; c=relaxed/simple;
+	bh=7F/ryfTUPbE5rEOVFUA4IxCF/HI6Imw6cG75twUciDM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IvLfjJ0RRSGys5SMiI+X5LGYkbfIEmj58QZZgkwrLVK5nbpS5DsXXBDWBkRr51RfVGqswA0qQw3MZlQZeX/RB1Tnh/L4S15Y+oJopx0frC6UBoTft5uMRdOm/nJOqXmPsXambi+KK25AK82UhPKUYJKTOkuSjS4izI6UpqMyo8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZBfBTbeu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jF6bMc+a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778596547; x=1810132547;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hvdPz87c7qZdxSSSB7hzjsR9y4UsH//SdDzMvwF4jfU=;
-  b=jF6bMc+aVwcfoHa33xoV7jX8K9/qEyuH+2q/MStT827nxjq3bsa3RGDO
-   +Y3YGALp7LpM45kPSBsq4Zy6IpxkkpksWeqfLgwtIKdIOzMxiORkpkHen
-   SdvDzOMBRYHb2F2rbQ68fY9kJI2/Riud3jNcTlKQQ553I4dQ/c04CWXUm
-   Tj4uDOvkfWHUHZvugObCbKDa1jL99BdFnvZ9/YZeanqW9FM+YNeThoQNe
-   Jp6A7Pg2t/H4AtRmiNGrNahkKKtUaXBY+s2XX6yRuqR4h7Nrb38JjwyNn
-   Q6XAmJYjJitw4LM6LfAlwKMggFjP7lYJtmPdoq4CKYPJxAJv8b5dEfo2d
-   Q==;
-X-CSE-ConnectionGUID: J/a35NSITu2vWO8IaMPhrg==
-X-CSE-MsgGUID: +1qvTorISRGRkqS/Hv81Zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79526492"
-X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="79526492"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 07:35:46 -0700
-X-CSE-ConnectionGUID: 2PVtN+CoTQSucEDvtijdtw==
-X-CSE-MsgGUID: BmHGMPevQn2s7NEwtqpRdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="231380705"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.112])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 07:35:41 -0700
-Date: Tue, 12 May 2026 17:35:39 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: rodrigo.alencar@analog.com
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZBfBTbeu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38AEDC2BCF5;
+	Tue, 12 May 2026 14:36:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778596618;
+	bh=7F/ryfTUPbE5rEOVFUA4IxCF/HI6Imw6cG75twUciDM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZBfBTbeuXnIp4I2KxsJIxAxQ65BRZxJ2GW4rk4f3SsRM6qBaMLvqCSGx+Uy0/nAJk
+	 86DWoHjTJlFIxzZlUmjLqWwWIkvv4KYxkagmTeMuksri8oWMp1pOodCfAkxa6CbGau
+	 7mAnx5i7ZBzf0VNexxUx9KLpFXMsCChr+FjbkVW2b3WKbJDXepQIigxz6VZ8bp/oh/
+	 xwSzDHmcIeqoRDPoqsjWSs3CMM++hzfrnZ6QK4iNDHCuC/sGH75ysOnW7bD2nCuCCs
+	 eS5NCX5MUFOQEKmJ8+ZxArxL4k0PDQXox4gkyRnCmDDukSyP+C2HOvmCO8myzi+Psq
+	 wSUO3AwGS5tCQ==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Petr Mladek <pmladek@suse.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v12 05/11] iio: core: add decimal value formatting into
- 64-bit value
-Message-ID: <agM6uzhdn7o8g9v5@ashevche-desk.local>
-References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
- <20260510-adf41513-iio-driver-v12-5-34af2ed2779f@analog.com>
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: [RFC PATCH v2 00/28] mm/damon: introduce data attributes monitoring
+Date: Tue, 12 May 2026 07:36:15 -0700
+Message-ID: <20260512143645.113201-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260510-adf41513-iio-driver-v12-5-34af2ed2779f@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 10, 2026 at 01:42:23PM +0100, Rodrigo Alencar via B4 Relay wrote:
+TL; DR
+======
 
-> Create new format types for iio values (IIO_VAL_DECIMAL64_*), which
-> defines the representation of fixed decimal point values into a single
-> 64-bit number. This new format increases the range of represented values,
-> allowing for integer parts greater than 2^32, as bits are not "wasted"
-> in the fractional part, which can be seen in IIO_VAL_INT_PLUS_MICRO and
-> IIO_VAL_INT_PLUS_NANO. Helpers are created to compose and decompose 64-bit
-> decimals into integer values used in IIO formatting interfaces, which
-> creates consistency and avoid error-prone manual assignments when using
-> wordpart macros. When doing the parsing, kstrtodec64() is used with the
-> scale defined by the specific decimal format type.
+Extend DAMON for monitoring general data attributes other than accesses.
+The short term motivation is lightweight page type (e.g., belonging
+cgroup) aware monitoring.  In long term, this will help extending DAMON
+for multiple access events capture primitives (e.g., page faults and
+PMU) and eventually pivotting DAMON to a "Data Attributes Monitoring and
+Operations eNgine" in long term.
 
-...
+Background: High Cost of Page Level Properties Monitoring
+=========================================================
 
-> +	case IIO_VAL_DECIMAL64_MILLI:
-> +	case IIO_VAL_DECIMAL64_MICRO:
-> +	case IIO_VAL_DECIMAL64_NANO:
-> +	case IIO_VAL_DECIMAL64_PICO:
-> +	{
-> +		s64 frac;
-> +		unsigned int scale = type - IIO_VAL_DECIMAL64_BASE;
+DAMON is initially introduced as a Data Access MONitor.  It has been
+extended for not only access monitoring but also data access-aware
+system operations (DAMOS).  But still the monitoring part is only for
+data accesses.
 
-Can we stick with reversed xmas tree order?
+Data access patterns is good information, but some users need more
+holistic views.  Particularly, users want to show the access pattern
+information together with the types of the memory.  For example, users
+who work for making huge pages efficiently want to know how much of
+DAMON-found hot/cold regions are backed by huge pages.  Users who run
+multiple workloads with different cgroups want to know how much of
+DAMON-found hot/cold regions belong to specific cgroups.
 
-> +		tmp2 = div64_s64_rem(iio_val_s64_from_array(vals),
-> +				     int_pow(10, scale), &frac);
-> +		if (tmp2 == 0 && frac < 0)
-> +			return sysfs_emit_at(buf, offset, "-0.%0*lld", scale,
-> +					     abs(frac));
-> +		else
-> +			return sysfs_emit_at(buf, offset, "%lld.%0*lld", tmp2,
-> +					     scale, abs(frac));
-> +	}
+For the user demand, we developed a DAMOS extension for page level
+properties based monitoring [1], which has landed on 6.14.  Using the
+feature, users can inform the page level data properties that they are
+interested in, in a flexible format that uses DAMOS filters.  Then,
+DAMON applies the filters to each folio of the entire DAMON region and
+lets users know how many bytes of memory in each DAMON region passed the
+given filters.
 
-What about
+This gives page level detailed and deterministic information to users.
+But, because the operation is done at page level, the overhead is
+proportional to the memory size.  It was useful for test or debugging
+purposes on a small number of machines.  But it was obviously too heavy
+to be enabled always on all machines running the real user workloads.
+For real world workloads, it was recommended to use the feature with
+user-space controlled sampling approaches.  For example, users could do
+the page level monitoring only once per hour, on randomly selected one
+percent of machines of their fleet.  If the runtime and the  size of the
+fleet is long and big enough, it should provide statistically meaningful
+data.
 
-		/* Print a leading '-' for negative fractions */
-		if (tmp2 == 0 && frac < 0)
-			offset += sysfs_emit_at(buf, offset, "-");
+But users are too busy to implement such controls on their own.
 
-		return sysfs_emit_at(buf, offset, "%lld.%0*lld", tmp2, scale, abs(frac));
+Data Attributes Monitoring
+==========================
 
-Also note this won't work with the frac that are == S64_MIN. It's UB (undefined
-behaviour), see the comment at abs() implementation. Maybe a time to add abs()
-corner case tests...
+Extend DAMON to monitor not only data accesses, but also general data
+attributes.  Do the extension while keeping the main promise of DAMON,
+the bounded and best-effort minimum overhead.
 
-...
+Allow users to specify what data attributes in addition to the data
+access they want to monitor.  Users can install one 'data probe' per
+data attribute of their interest for this purpose.  The 'data probe'
+should be able to be applied to any memory, and determine if the given
+memory has the appropriate data attribute.  E.g., if memory of physical
+address 42 belongs to cgroup A.  Each 'data probe' is configured with
+filters that are very similar to the DAMOS filters.
 
->  	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
->  	struct iio_dev_attr *this_attr = to_iio_dev_attr(attr);
-> -	int ret, fract_mult = 100000;
-> +	int type, ret, fract_mult = 100000, dec_scale = 0;
+When DAMON checks if each sampling address memory of each region is
+accessed since the last check, it applies data probes if registered.
+Same to the number of access check-positive samples accounting
+(nr_accesses), it accounts the number of each data probe-positive
+samples in another per-region counters array, namely 'probe_hits'. When
+DAMON resets nr_accesses every aggregation interval, it resets
+'probe_hits' together.
 
-I wouldn't mix ret here and put it...
+Users can read 'probe_hits' just before the values are reset.  In this
+way, users can know how many hot/cold memory regions have data
+attributes of their interest.  E.g., 30 percent of this system's hot
+memory is belonging to cgroup A, and 80 percent of the cgroup
+A-belonging hot memory is backed by huge pages.
 
->  	int integer, fract = 0;
->  	long long integer64;
->  	bool is_char = false;
+Patches Sequence
+================
 
-...as standalone here
+First eight patches implement the core feature, interface and the
+working support.  Patch 1 introduces data probe data structure, namely
+damon_probe.  Patch 2 extends damon_ctx for installing data probes.
+Patch 3 introduces another data structure for filters of each data
+probe, namely damon_filter.  Patch 4 updates damon_ctx commit function
+to handle the probes.  Patch 5 extends damon_region for the per-region
+per-probe positive samples counter, namely probe_hits.  Patch 6 extends
+damon_operations for applying probes on the underlying DAMON operations
+implementation.  Patch 7 updates kdamond_fn() to invoke the probes
+applying callback.  Patch 8 finally implements the probes support on
+paddr ops.
 
-	int ret;
+Ten changes for user interface (patches 9-18) come next.  Patches 9-13
+implements sysfs directories and files for setting data probes, namely
+probes directory, probe directory, filters directory, filter directory
+and filter directory internal files, respectively.  Patch 14 connects
+the user inputs that are made via the sysfs files to DAMON core.
+Following three patches (patches 15-17) implement sysfs directories and
+files for showing the probe_hits to users, namely probes directory,
+probe directory and hits files, respectively.  Patch 18 introduces a new
+tracepoint for showing the probe_hits via tracefs.
+
+Patch 19 adds a selftest for the sysfs files.
+
+Patches 20 and 21 documents the design and usage of the new feature,
+respectively.
+
+Seven additional patches (patches 22-28) for monitoring belonging memory
+cgroup follow.  Depending on the feedback, this part might be separated
+to another series in future.  Patch 22 defines the DAMON filter type for
+the new attribute, namely DAMON_FILTER_TYPE_MEMCG.  Patch 23 add the
+support on paddr ops.  Patch 24 updates the sysfs interface for setup of
+the target memcg.  Patch 25 move code for easy reuse of the filter
+target memcg setup.  Patch 26 connects the user input to the core layer.
+Finally, patches 27 and 28 update the design and usage documents for the
+memcg attribute monitoring support.
+
+Discussions
+===========
+
+This allows the page properties monitoring with overhead that is low
+enough to be enabled always on real world workloads.  Because the
+sampling time for access check is reused for data attributes check,  the
+upper-bounded and best-effort minimum overhead of DAMON is kept.
+Because the sampling memory for access check is reused for data
+attributes check, additional overhead is minimum.
+
+Still DAMOS-based page level properties monitoring should be useful,
+because it provides a deterministic page level information.  When in
+doubt of the sampling based information, running DAMOS-based one
+together and comparing the results would be useful, for debugging and
+tuning.
+
+Plan for Dropping RFC tag
+=========================
+
+I'm considering renaming the tracepoint for exposing probe_hits
+(damon_aggregated_v2).
+
+Making changes for feedback from myself, humans and Sashiko should be
+the major remaining work.
+
+I'm currently hoping to drop the RFC tag by 7.2-rc1.
+
+Future Works: Mid Term
+========================
+
+This version of implementation is limiting the maximum number of data
+probes to four.  I will try to find a way to remove the limit in future.
+I personally think it should be enough for common use cases, though, and
+therefore not giving high priority at the moment.
+
+Future Works: Long Term
+=======================
+
+There are user requests for extending DAMON with detailed access
+information, for example, per-CPUs/threads/read/writes monitoring.  For
+that, I was working [2] on extending DAMON to use page fault events as
+another access check primitives, and making the infrastructure flexible
+for future use of yet another access check primitive.  Actually there is
+another ongoing work [3] for extending DAMON with PMU events.  The
+motivation of the work is reducing the overhead, though.
+
+In my work [2], I was introducing a new interface for access sampling
+primitives control.  Now I think this data probe interface can be used
+for that, too.  That is, data access becomes just one type of data
+attribute.  Also, pg_idle-confirmed access, page fault-confirmed access,
+and PMU event-confirmed access will be different types of data
+attributes.
+
+The regions adjustment mechanism is currently working based on the
+access information.  That's because DAMON is designed for data access
+monitoring.  That is, data access information is the primary interest,
+and therefore DAMON adjusts regions in a way that can best-present the
+information.
+
+Once data access becomes just one of data attributes, there is no reason
+to think data access that special.  There might be some users not
+interested in access at all but want to know the location of memory of
+specific type.  Data probes interface will allow doing that.  Further,
+we could extend the interface to let users set any data attribute as the
+'primary' attribute.  Then, DAMON will split and merge regions in a way
+that can best-present the 'primary' attributes.
+
+DAMOS will also be extended, to specify targets based on not only the
+data access pattern, but all user-registered data attributes.  From this
+stage, we may be able to call DAMON as a "Data Attributes Monitoring and
+Operations eNgine".
+
+[1] https://lore.kernel.org/20250106193401.109161-1-sj@kernel.org
+[2] https://lore.kernel.org/20251208062943.68824-1-sj@kernel.org/
+[3] https://lore.kernel.org/20260423004211.7037-1-akinobu.mita@gmail.com
+
+Changes from RFC
+- rfc: https://lore.kernel.org/all/20260426205222.93895-1-sj@kernel.org/
+- Support memcg DAMON filter.
+- Use per-probe probe_hits sysfs file.
+- Use dynamic_array for probe_hits tracing.
+- Fix filter matching field.
+- Fix folio leaking in damon_pa_filter_pass().
+- Move nr_regions of damon_aggregated_v2 tracepoint after end.
+- Rename DAMON_TEST_TYPE_ANON to DAMON_FILTER_TYPE_ANON.
+
+SeongJae Park (28):
+  mm/damon/core: introduce struct damon_probe
+  mm/damon/core: embed damon_probe objects in damon_ctx
+  mm/damon/core: introduce damon_filter
+  mm/damon/core: commit probes
+  mm/damon/core: introduce damon_region->probe_hits
+  mm/damon/core: introduce damon_ops->apply_probes
+  mm/damon/core: do data attributes monitoring
+  mm/damon/paddr: support data attributes monitoring
+  mm/damon/sysfs: implement probes dir
+  mm/damon/sysfs: implement probe dir
+  mm/damon/sysfs: implement filters directory
+  mm/damon/sysfs: implement filter dir
+  mm/damon/sysfs: implement filter dir files
+  mm/damon/sysfs: setup probes on DAMON core API parameters
+  mm/damon/sysfs-schemes: implement tried_regions/<r>/probes/
+  mm/damon/sysfs-schemes: implement probe dir
+  mm/damon/sysfs-schemes: implement probe/hits file
+  mm/damon: trace probe_hits
+  selftests/damon/sysfs.sh: test probes dir
+  Docs/mm/damon/design: document data attributes monitoring
+  Docs/admin-guide/mm/damon/usage: document data attributes monitoring
+  mm/damon/core: introduce DAMON_FILTER_TYPE_MEMCG
+  mm/damon/paddr: support DAMON_FILTER_TYPE_MEMCG
+  mm/damon/sysfs: add filters/<F>/path file
+  mm/damon/sysfs-schemes: move memcg_path_to_id() to sysfs-common
+  mm/damon/sysfs: setup damon_filter->memcg_id from path
+  Docs/mm/damon/design: update for memcg damon filter
+  Docs/admin-guide/mm/damon/usage: update for memcg damon filter
+
+ Documentation/admin-guide/mm/damon/usage.rst |  48 +-
+ Documentation/mm/damon/design.rst            |  39 ++
+ include/linux/damon.h                        |  67 +++
+ include/trace/events/damon.h                 |  36 ++
+ mm/damon/core.c                              | 195 +++++++
+ mm/damon/paddr.c                             |  76 +++
+ mm/damon/sysfs-common.c                      |  41 ++
+ mm/damon/sysfs-common.h                      |   2 +
+ mm/damon/sysfs-schemes.c                     | 222 ++++++--
+ mm/damon/sysfs.c                             | 557 +++++++++++++++++++
+ tools/testing/selftests/damon/sysfs.sh       |  48 ++
+ 11 files changed, 1280 insertions(+), 51 deletions(-)
 
 
-...
-
-> +#include <linux/wordpart.h>
-
-+ blank line.
-
->  #include <uapi/linux/iio/types.h>
-
-...
-
->  #define IIO_VAL_FRACTIONAL_LOG2 11
->  #define IIO_VAL_CHAR 12
->  
-> +#define IIO_VAL_DECIMAL64_BASE		100
-
-Okay, but I would rather see something smaller like 32 or 64.
-
-...
-
-> +static inline s64 iio_val_s64_compose(int val0, int val1)
-
-Hmm... s64 composed form two int:s...
-
-> +{
-> +	return (s64)(((u64)val1 << 32) | (u32)val0);
-> +}
-> +
-> +static inline s64 iio_val_s64_from_array(const int *vals)
-
-When I see 'array' in the name, I think of real array and some index. Here is
-no index available. Perhaps
-
-static inline s64 iio_val_s64_from_s32s(const s32 *vals)
-
-> +{
-> +	return iio_val_s64_compose(vals[0], vals[1]);
-> +}
-> +
-> +static inline void iio_val_s64_decompose(s64 dec64, int *val0, int *val1)
-> +{
-> +	*val0 = lower_32_bits(dec64);
-> +	*val1 = upper_32_bits(dec64);
-> +}
-> +
-> +static inline void iio_val_s64_array_populate(s64 dec64, int *vals)
-
-_to_array() or _to_s32s()
-
-> +{
-> +	iio_val_s64_decompose(dec64, &vals[0], &vals[1]);
-> +}
-
+base-commit: 610724cfd93c1c413faf9e5bb63926fe54849887
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+2.47.3
