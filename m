@@ -1,66 +1,66 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DB0386571
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 10:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54E0349CDC
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 11:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778583575; cv=none; b=X4WPhuUtKoxejOTYJ+zwMbXicq0CxL6wEwyl1Z11icrJ1GbFiqWNPYw5hRONME8IPr+/nHMaD2c8HG/zMOtau63qzwAqFNDldQXI1BV8f0H8MFJ+7TnDYlu489EL+aRsE2mxPmvUJ0KKekg62XE0UhdFBC+uPvfWw50lViA14Kw=
+	t=1778583777; cv=none; b=QGFLo2apSXOyyU4VI85/n7pkXJMp8g+razHYwUtnJ/nJfida0DqERFn/OP5F0O354Mn1fArOOlGiOFhg5DU93444LxGX12+fdVhVFnfb6rS5bMkrBI0TmKRyr9uwK/7qAhEYAifQj5To+khYKv2GrYEo+vHvfrOmfjjtSlTHlew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778583575; c=relaxed/simple;
-	bh=2O6kMZeCfa2WzuVxLVjO6q02eX3L6eA7J+7iqPYMAV0=;
+	s=arc-20240116; t=1778583777; c=relaxed/simple;
+	bh=Ga5JPf6n1jpdDjVA+pd1zKMfPwv8abcvqFDXHuktbVA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tZCYnV3gQYMkokkGFXASxCuoJ7zV71ynV8XAd8Ymsnd0Y6PIZa6/9jatGmRssgllsOqBq8ycdKjfkCM2NA8pvCVcNLXR/bYFBumevQxWvqnJe4+8naWtjcTcgj+HR4Q/kfuCpu0btC5XdMjyzjjVJuaekHbNy58E1S6fGF+V4Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=htg5d6Cd; arc=none smtp.client-ip=209.85.128.51
+	 In-Reply-To:Content-Type; b=C5LiTRzaTWankdcfGlruSMAGfjsE2XU3qfwiglCFhUvyAj6frAlWRkRfJFqJnPv3LuWmdP7BHekkMSOuiXo2X760Gc8iiofi+n9oBt8u/UspOxjnfjkLnoOwjhgZ54ha0YQkJqA+y5gZvfb/tbMmjvFR2OmFTfI5Esi5gw4DPxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CMGI6aSI; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="htg5d6Cd"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488af96f6b2so64363325e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 03:59:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CMGI6aSI"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4891f625344so50486435e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 04:02:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778583571; x=1779188371; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778583773; x=1779188573; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=uhHS6zVrC9HlZ4w9H9Y7re+MM/8aX/6jJDkwDStDfFo=;
-        b=htg5d6Cdq6YZFukk5+nG+yX0wzoJ9Ss8Hi6w+Frzd5rNbk+/ZgcWNez/43uXtwSEze
-         h+2d0/0fHDqceJff76lQ0IYJOeY32NktATIyibop5TsxzTkPEpBiqhtalzE4O8ZMj2jj
-         xHiNGOar8P0og8mBB1tkuXSrlj7GJMTl/HJ82FqBgnkDymQkweYNEmMd50l6CKpXI/Ls
-         6GT2LLxdoA5FghfXUsQZxXbqd1W7ooRJvZoEgRa68fbZccb3tG3msU+OubN1rCA/UiLh
-         UW3vVG9kB9QZ2o5yWPSj+bmOyMAeJtCooL87mNSff/5okn2m4EHWbjvDfKiCJm3uxQYR
-         0BbA==
+        bh=FFGUETPgm26h9XFyqe9suVV5/326pTXPraqjVQBHotQ=;
+        b=CMGI6aSIa1QSUGEppO5DZE5bStYL/YvJxZ/qJsxprMZcqpr8jjcRldFTgDdmLikjRE
+         3BnhZVQ38O8BBjeXER+GjcK13KWR8cV5Tp/jEfXjg+EGafjTy4NmUt3qe2tSG2sLzdMt
+         +RWW76NNBeEe4ZR1P5NHKWyUaTlbPZDXLFkq6UEBFkThTiH6vzhf0zT6YtiUeAqvWzTe
+         yIA/lz68/8Xbwmz9hW7HA41UF/9xcIqS6nlFjjKXFZXPdZjXTSgTN0XaPpsO5IxOaqF6
+         u2ItGLIvsJhnqkeJN0wFNvCnY+cJGITxtre4L9T+lf6IN6JXzImjg4Cnpslix/VXYglj
+         Teow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778583571; x=1779188371;
+        d=1e100.net; s=20251104; t=1778583773; x=1779188573;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uhHS6zVrC9HlZ4w9H9Y7re+MM/8aX/6jJDkwDStDfFo=;
-        b=lO5hehTGWgrFuO45449XOVyh/DXUrr22yWzhNf5h37lFv6JGBlfKSDu4GmKkUUFZx9
-         pu64V61W0YmeUiulLTJPuAW0A+4z3JxFBgwA+ER3ynb45Rp5WgWdd+tawrpFDJjHHqOY
-         yFycv/RgT/RzsxVdcfuf04vFu0cwf/mwdfTpBSFg8LKwHu6szWPqp7iPuozoKmtmPuAX
-         IpjjC/aRyaw/tWFwK5tfWixuyKfjLgORAI4KkcnUg4jIp8VRt2iFxrf8be0RIDaBNJuK
-         llmXnRCtKVL3MFBO5z9zG6NclP763OmuY78X6grTcgswuujfMFtQcDG9H5WrzbEy12Hb
-         BFmA==
-X-Gm-Message-State: AOJu0YwxUJpYKFle2ffTdXdI2nlwgHSeYVFQE+fcFV2pHwqfwoi1ihMF
-	2kqfUrjBy6s1RKOra8idjR/C+Xfkm7fVxZ4sO0UKIM/sBPHEqRHT7GKT
-X-Gm-Gg: Acq92OFSFrJCIXyRVLZW867OBF5sgPAtJ9irEFtdyn6lfi6ARycDc1XzY8lAfX/Wm6Z
-	XeX9K93N6/kthnMgvSXhExL1jk9374GHgGTMIpGcrDCvIy9VX+KnjRjI5v02YRgpioTclmXA3iU
-	4XYhegJG1KrKZOsFtnkzwR3pSHRL55ATZuqnopzJ+NKXhelQjClSQHfOMJzKGMqBB+gtHIsYs3L
-	H0uoR0ltNsqOBD8qzwWIaxA/ERubxZm4Ao9sDWDQAP8NzZDRZ38BA1SnDsM+riRNNidNmwjGG6H
-	RfA5qg8Qw6opsFd2W7TOOS12jwDs/tsy4xbQcJC8vbHMq3gGn6DIa3QQkHYaapH3gJfbZASCF+y
-	ZpftXY6S6P4fOEshvZUnhck90CMyYiaPTSILFo5n5oNPb9Fc/g2T/T2yukuj+XV3o3lVa0Vg/4f
-	edQ4VPNas3cbrnKvV9hJJBJ+8yATUJ9HMz+6YBQb4P2P3fB6+Y9yR3qpffkzDRfpf8l7uHG4ibp
-	gyKnd90jinqgaqJUj2naVOcvr5zl5v4sJj/deE=
-X-Received: by 2002:a05:600c:45d0:b0:488:7ff6:1f75 with SMTP id 5b1f17b1804b1-48e707f821dmr219403715e9.21.1778583571615;
-        Tue, 12 May 2026 03:59:31 -0700 (PDT)
+        bh=FFGUETPgm26h9XFyqe9suVV5/326pTXPraqjVQBHotQ=;
+        b=DMXAJypo7UpiWRmEpcD0l1VROWQiflr04YZ0NgbzdQZ2H8yA5FEWRs6Jx85WJzbqYJ
+         OgMOfTCoie8lwu5/cOv5rBjcHldiUJ3h9P9qPib93GlyWeVRB8pNKJUTuB3qF5aiX6Cq
+         x6Ue/DWM7PUFu1kcX0J0rFenyQIFf7e8KY85ePoejwasF+BpwNAMVTO/2VnBEgiKJQtS
+         EzqIRRaUSQ2Ui2i+XIegk/87tlf/pkNNWezeAP/fmqfviXY0qBbKXswuP7CJ18CG1QPc
+         nw0+8HrA9WtZ9k1XZEkC2Cw1CqR4R8/FjeIxfGhrVYCkT+/4LB3QAUwyW2F7fOGZeW3G
+         FzXA==
+X-Gm-Message-State: AOJu0YwcTSWmo/0PMhZkwZmqL2aqP5Y0hNNXtYrJFGGJkuBgDuaPCpOB
+	qvr0XjGT0yUIIB1BbB9TS2fpmxYVeq1gPYnAK0ok85nPNKkoot9qCEsK
+X-Gm-Gg: Acq92OGCQwdEumL38P2zyiTKy4Rkzk7INQF6nfPhGQDdSnfiUjexZTd/s+u7lpg2m27
+	ppJAANmBU0kwKh3QeZcUM2ej0UfILEIuEfJpYmN/t2bg5I15TZvkooohqIYYj2AACYazFi36fy/
+	4xWbt59Sj79f2u01Cq/imVbSIZmMn2brcgmHBtuLbJY5iEH9ffiOTrwxz/BqrT7055o+euclCcc
+	JXgiHGLrxL7fEIYENMSEQ/H6VhVoQT2NlIJedB6VwmHycdYXVM3Ja8rc+eVoJsces5rRBBcDsjd
+	+/TU8gqUqmjD45S2jnnCcFPa792OuD54yrHZw0o1vOgTMYTrPazk6dmGO8V8Ew/SBKHJZQV6rpG
+	Tq+mnueyObOYR95ScokqgIe8PpVbVuDqzPTPu31/4dGiHf43oxzt5c6PaGwn7gX/37vaj39W73o
+	LXVMD/Fz6pW6WrBM3s8WKFkpysa0Dv/o/f0u2Wok7hvIoWaSHC3h3AzPnJm+x05sOZiY4km+Ijh
+	OF2BtxYO3vL/sZw1xm+TDKOKhX6i9U3sDck868=
+X-Received: by 2002:a05:600c:46d2:b0:48d:50a:6ef4 with SMTP id 5b1f17b1804b1-48e8e210753mr44805285e9.11.1778583772968;
+        Tue, 12 May 2026 04:02:52 -0700 (PDT)
 Received: from ?IPV6:2620:10d:c096:325::372? ([2620:10d:c092:600::1:8c90])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6b00fsm35042477f8f.11.2026.05.12.03.59.29
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e8f3e174fsm23962585e9.3.2026.05.12.04.02.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2026 03:59:30 -0700 (PDT)
-Message-ID: <1ae85366-de3e-4891-8581-bdfc6e605a23@gmail.com>
-Date: Tue, 12 May 2026 11:59:26 +0100
+        Tue, 12 May 2026 04:02:52 -0700 (PDT)
+Message-ID: <539e235a-2027-4bda-ae26-00200c53cbaa@gmail.com>
+Date: Tue, 12 May 2026 12:02:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] io_uring/zcrx: notify user when out of buffers
+Subject: Re: [PATCH 2/5] io_uring/zcrx: notify user on frag copy fallback
 To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@meta.com>,
  io-uring@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -76,34 +76,55 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
  Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Vishwanath Seshagiri <vishs@fb.com>,
- Vishwanath Seshagiri <vishs@meta.com>
+ Shuah Khan <skhan@linuxfoundation.org>, Vishwanath Seshagiri <vishs@fb.com>
 References: <20260422112522.3316660-1-cleger@meta.com>
- <20260422112522.3316660-2-cleger@meta.com>
+ <20260422112522.3316660-3-cleger@meta.com>
 Content-Language: en-US
 From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260422112522.3316660-2-cleger@meta.com>
+In-Reply-To: <20260422112522.3316660-3-cleger@meta.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 On 4/22/26 12:25, Clément Léger wrote:
-> From: Pavel Begunkov <asml.silence@gmail.com>
-...
-> +static void zcrx_notif_tw(struct io_tw_req tw_req, io_tw_token_t tw)
-> +{
-> +	struct io_kiocb *req = tw_req.req;
-> +	struct io_ring_ctx *ctx = req->ctx;
+> Add a ZCRX_NOTIF_COPY notification type to signal userspace when a
+> received fragment could not be delivered using zero-copy and was
+> instead copied into a buffer.
+> 
+> Signed-off-by: Clément Léger <cleger@meta.com>
+> ---
+>   include/uapi/linux/io_uring/zcrx.h | 1 +
+>   io_uring/zcrx.c                    | 7 ++++++-
+>   io_uring/zcrx.h                    | 3 ++-
+>   3 files changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/uapi/linux/io_uring/zcrx.h b/include/uapi/linux/io_uring/zcrx.h
+> index b8596d7d47b6..e0c0079626c8 100644
+> --- a/include/uapi/linux/io_uring/zcrx.h
+> +++ b/include/uapi/linux/io_uring/zcrx.h
+> @@ -70,6 +70,7 @@ enum zcrx_features {
+>   
+>   enum zcrx_notification_type {
+>   	ZCRX_NOTIF_NO_BUFFERS = 1 << 0,
+> +	ZCRX_NOTIF_COPY = 1 << 1
+>   };
+>   
+>   struct zcrx_notification_desc {
+> diff --git a/io_uring/zcrx.c b/io_uring/zcrx.c
+> index 35ca28cb6583..732e585aa13a 100644
+> --- a/io_uring/zcrx.c
+> +++ b/io_uring/zcrx.c
+> @@ -1510,8 +1510,13 @@ static int io_zcrx_copy_frag(struct io_kiocb *req, struct io_zcrx_ifq *ifq,
+>   			     const skb_frag_t *frag, int off, int len)
+>   {
+>   	struct page *page = skb_frag_page(frag);
+> +	int ret;
 > +
-> +	io_post_aux_cqe(ctx, req->cqe.user_data, req->cqe.res, 0);
-> +	percpu_ref_put(&ctx->refs);
-> +	kfree_rcu(req, rcu_head);
-> +}
+> +	ret = io_zcrx_copy_chunk(req, ifq, page, off + skb_frag_off(frag), len);
+> +	if (ret > 0)
+> +		zcrx_send_notif(ifq, ZCRX_NOTIF_COPY);
 
-Note to myself:
+We also copy the linear part if present, depends on the semantics
+would make sense adding it there as well.
 
-io_poison_req(req);
-kmem_cache_free(req_cachep, req);
-
--- 
 Pavel Begunkov
 
