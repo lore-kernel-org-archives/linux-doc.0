@@ -1,325 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769691E492D;
-	Tue, 12 May 2026 15:26:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 704BF1A6812
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 15:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778599572; cv=none; b=UENPXPv5mzTQTrIKoFyQ+KqLvsrgi6Dm4W2TXPQHkZfyGA6bwZPrDB9FJQPEIMto4LEV6ORBwr41bsOpNh8jTQMbOf/0jjqTIlAAuRSh1EBcFVk2sRgVuqSS7LLHbVlNSaS8c4OpPGx0ju0PCuMHH+4BQR9x7bkGoiI4MdkWnY8=
+	t=1778600335; cv=none; b=niOgWZwrn5WiHFZQbpZEcWH/XqCAkXyDu/F2zviEY7wIWqxCW2kUJFcYIDc9HWYPtXzNhojk9KCP12T+HAlK5jIY5SaFIwFIRCxH3pfAi4O6cL1Hw6AmXyin8KrJq5b+EPkHpo+aNtloMrBdG3x+CPajv83Y8xAT8iJOUB9KwZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778599572; c=relaxed/simple;
-	bh=bQJFkEtLqjdexrXMn601sYKTcRHWpk5xDsyl0OdHy/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SrHC1BEHFYA6bf1k/qX5Jj1fh5aDB4wmf8st+GUim0JY22+xS1ajmpO+UxIzY4vJKnjblREz2WQSQ3JrRAPD9YtKAqsBsDm9NEvYZi7i7RSJbfsLISUGmap5FemRxL/swsmqEPLfusXq0ydZ/6khQMdJVSjRIkcSrsqxJLpskOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EbeijzDr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778600335; c=relaxed/simple;
+	bh=bTW8PIkNq6aZUF6NF1FmasGVCIC4HDNHJXMvlerQOQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oFo5TGcY/zTEmJ6n3tQ1Y8QpUSxd28Us7XALA0jHlUeSd+HLhHoW1keUvmpeTeoBJGxPl50jto7hSAd6996wxIyrz538aYJTRBXE00ykrAYCBb7jyBGkRlvlK3Dh66An1ifLC3XHF7iazQd1lSF3zzGANpJ8S8pgpjhaehXr9rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=gEdcW1qy; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EbeijzDr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73177C2BCB0;
-	Tue, 12 May 2026 15:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778599572;
-	bh=bQJFkEtLqjdexrXMn601sYKTcRHWpk5xDsyl0OdHy/U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EbeijzDrzyXgBJmo5oj83m1ZIz7sf5LwfXKQTSA8HlaiRS02Mwhn9ZGkvi45bJ2D0
-	 upXM/EL0izFe9NZ/dKQuGdm4n+taoqrTMSFTQfQ+2TyfWbk1mWvQ0wyZO+d8op0alm
-	 MLpooCHG0wE4sHBq+bE/qApJcBBBC4WiINs1UjdzOuoqUzeh8Kx3c92VtlZgLTHu0H
-	 Lb4dkbTmz2bLwLM90EFt8eaZw/vRdOIQ2wgf72xLD4930C1ROGtdwV2Z9YD213PjX7
-	 RJ1XR0yZOU1wdO+f/W8Q0Jn58Tyvr08ynIvuVb1vTWCFlcbvaszCY4L048IIa0REYL
-	 wifuZULPEm4gQ==
-Date: Tue, 12 May 2026 16:25:58 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
-Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
- <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 2/6] iio: adc: ad4691: add initial driver for AD4691
- family
-Message-ID: <20260512162558.5bbbd464@jic23-huawei>
-In-Reply-To: <20260511-ad4692-multichannel-sar-adc-driver-v10-2-e1fbb1744e38@analog.com>
-References: <20260511-ad4692-multichannel-sar-adc-driver-v10-0-e1fbb1744e38@analog.com>
-	<20260511-ad4692-multichannel-sar-adc-driver-v10-2-e1fbb1744e38@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="gEdcW1qy"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0603D1A25
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 08:38:41 -0700 (PDT)
+Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 011CB3F85F
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 08:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778600326; bh=bTW8PIkNq6aZUF6NF1FmasGVCIC4HDNHJXMvlerQOQM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gEdcW1qyzxuUCuyN7FmWlWt2wv8a89BJ+UxdL1u1e9Qzl8nVsWSUrfjITfM3YlYBt
+	 eAOJpOtYjNOxyZi/iZqVPRjTxQvpGgCmpQ2nnBG5hSx3Kt1xjg3jvxdMDUyRpnmOtS
+	 92bu99ZlM2HZya7hG2jmI28aHHW6lHcd2f7ntZ4A=
+Date: Tue, 12 May 2026 16:38:18 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Marcin =?utf-8?Q?=C5=9Alusarz?= <marcin.slusarz@arm.com>,
+	Ketil Johnsen <ketil.johnsen@arm.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Steven Price <steven.price@arm.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Florent Tomasin <florent.tomasin@arm.com>, nd@arm.com
+Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
+ allocation in panthor
+Message-ID: <agNJasayW8VCHTiU@e142607>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+ <20260505140516.1372388-5-ketil.johnsen@arm.com>
+ <20260505181523.49a3d85c@fedora>
+ <afxVIuVVPisBQ9p_@e129842.arm.com>
+ <20260507135356.5428d50d@fedora>
+ <agMvb_jeRsO7tSS-@e142607>
+ <20260512161111.0cb7000e@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260512161111.0cb7000e@fedora>
 
-On Mon, 11 May 2026 14:54:14 +0300
-Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
-
-> From: Radu Sabau <radu.sabau@analog.com>
+On Tue, May 12, 2026 at 04:11:11PM +0200, Boris Brezillon wrote:
+> On Tue, 12 May 2026 14:47:27 +0100
+> Liviu Dudau <liviu.dudau@arm.com> wrote:
 > 
-> Add support for the Analog Devices AD4691 family of high-speed,
-> low-power multichannel SAR ADCs: AD4691 (16-ch, 500 kSPS),
-> AD4692 (16-ch, 1 MSPS), AD4693 (8-ch, 500 kSPS) and
-> AD4694 (8-ch, 1 MSPS).
+> > On Thu, May 07, 2026 at 01:53:56PM +0200, Boris Brezillon wrote:
+> > > On Thu, 7 May 2026 11:02:26 +0200
+> > > Marcin Ślusarz <marcin.slusarz@arm.com> wrote:
+> > >   
+> > > > On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon wrote:  
+> > > > > > @@ -277,9 +286,21 @@ int panthor_device_init(struct panthor_device *ptdev)
+> > > > > >  			return ret;
+> > > > > >  	}
+> > > > > >  
+> > > > > > +	/* If a protected heap name is specified but not found, defer the probe until created */
+> > > > > > +	if (protected_heap_name && strlen(protected_heap_name)) {    
+> > > > > 
+> > > > > Do we really need this strlen() > 0? Won't dma_heap_find() fail is the
+> > > > > name is "" already?    
+> > > > 
+> > > > If dma_heap_find() will fail, then the whole probe with fail too.
+> > > > This check prevents that.  
+> > > 
+> > > Yeah, that's also a questionable design choice. I mean, we can
+> > > currently probe and boot the FW even though we never setup the
+> > > protected FW sections, so why should we defer the probe here? Can't we
+> > > just retry the next time a group with the protected bit is created and
+> > > fail if we can find a protected heap?  
+> > 
+> > The problem we have with the current firmware is that it does a number of setup steps at "boot"
+> > time only. One of the steps is preparing its internal structures for when it enters protected
+> > mode and it stores them in the buffer passed in at firmware loading. We cannot later run the
+> > process when we have a group with protected mode set.
 > 
-> The driver implements a custom regmap layer over raw SPI to handle the
-> device's mixed 1/2/3/4-byte register widths and uses the standard IIO
-> read_raw/write_raw interface for single-channel reads.
-> 
-> The chip idles in Autonomous Mode so that single-shot read_raw can use
-> the internal oscillator without disturbing the hardware configuration.
-> 
-> Three voltage supply domains are managed: avdd (required), vio, and a
-> reference supply on either the REF pin (ref-supply, external buffer)
-> or the REFIN pin (refin-supply, uses the on-chip reference buffer;
-> REFBUF_EN is set accordingly). Hardware reset is performed via
-> the reset controller framework; a software reset through SPI_CONFIG_A
-> is used as fallback when no hardware reset is available.
-> 
-> Accumulator channel masking for single-shot reads uses ACC_MASK_REG via
-> an ADDR_DESCENDING SPI write, which covers both mask bytes in a single
-> 16-bit transfer.
-> 
-> IIO_CHAN_INFO_SAMP_FREQ is exposed as info_mask_shared_by_all because
-> the AD4691 family has a single internal oscillator whose frequency
-> register is shared across all channels. Writing sampling_frequency for
-> any one channel necessarily changes the conversion rate for every other
-> channel, so the shared annotation correctly reflects the hardware
-> behaviour.
+> No, but we can force a full/slow reset and have that thing
+> re-initialized, can't we? I mean, that's basically what we do when a
+> fast reset fails: we re-initialize all the sections and reset again, at
+> which point the FW should start from a fresh state, and be able to
+> properly initialize the protected-related stuff if protected sections
+> are populated. Am I missing something?
 
-Sashiko correctly points out that this last paragraph doesn't correspond to
-the driver. Needs an update.
-https://sashiko.dev/#/patchset/20260511-ad4692-multichannel-sar-adc-driver-v10-0-e1fbb1744e38%40analog.com
+Right, we can do that. For some reason I keep associating the reset with the
+error handling and not with "normal" operations.
 
-Otherwise just a few more sashiko things inline and my
-comments on whether they are true - I think they are in this case...
-
-> 
-> Reviewed-by: David Lechner <dlechner@baylibre.com>
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
-
-> diff --git a/drivers/iio/adc/ad4691.c b/drivers/iio/adc/ad4691.c
-> new file mode 100644
-> index 000000000000..5b72216bca80
-> --- /dev/null
-> +++ b/drivers/iio/adc/ad4691.c
-
-> +
-> +static int ad4691_reg_read(void *context, unsigned int reg, unsigned int *val)
-> +{
-> +	struct spi_device *spi = context;
-> +	u8 tx[2], rx[4];
-> +	int ret;
-> +
-> +	/* Set bit 15 to mark the operation as READ. */
-> +	put_unaligned_be16(0x8000 | reg, tx);
-> +
-> +	switch (reg) {
-> +	case 0 ... AD4691_OSC_FREQ_REG:
-> +	case AD4691_SPARE_CONTROL ... AD4691_ACC_MASK_REG - 1:
-> +	case AD4691_ACC_MASK_REG + 1 ... AD4691_ACC_SAT_OVR_REG(15):
-> +		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 1);
-> +		if (ret)
-> +			return ret;
-> +		*val = rx[0];
-> +		return 0;
-> +	case AD4691_ACC_MASK_REG:
-> +	case AD4691_STD_SEQ_CONFIG:
-> +	case AD4691_AVG_IN(0) ... AD4691_AVG_IN(15):
-> +		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 2);
-
-Just to check - (another sashiko one) is it a problem if via debugfs we
-read addresses that aren't the base ones of these bigger reads?
-
-> +		if (ret)
-> +			return ret;
-> +		*val = get_unaligned_be16(rx);
-> +		return 0;
-> +	case AD4691_AVG_STS_IN(0) ... AD4691_AVG_STS_IN(15):
-> +	case AD4691_ACC_IN(0) ... AD4691_ACC_IN(15):
-> +		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 3);
-> +		if (ret)
-> +			return ret;
-> +		*val = get_unaligned_be24(rx);
-> +		return 0;
-> +	case AD4691_ACC_STS_DATA(0) ... AD4691_ACC_STS_DATA(15):
-> +		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 4);
-> +		if (ret)
-> +			return ret;
-> +		*val = get_unaligned_be32(rx);
-> +		return 0;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-
-> +}
-> +
-> +static bool ad4691_volatile_reg(struct device *dev, unsigned int reg)
-> +{
-> +	switch (reg) {
-> +	case AD4691_STATUS_REG:
-> +	case AD4691_CLAMP_STATUS1_REG:
-> +	case AD4691_CLAMP_STATUS2_REG:
-> +	case AD4691_GPIO_READ:
-> +	case AD4691_ACC_STATUS_FULL1_REG ... AD4691_ACC_STATUS_SAT2_REG:
-> +	case AD4691_ACC_SAT_OVR_REG(0) ... AD4691_ACC_SAT_OVR_REG(15):
-> +	case AD4691_AVG_IN(0) ... AD4691_AVG_IN(15):
-> +	case AD4691_AVG_STS_IN(0) ... AD4691_AVG_STS_IN(15):
-> +	case AD4691_ACC_IN(0) ... AD4691_ACC_IN(15):
-> +	case AD4691_ACC_STS_DATA(0) ... AD4691_ACC_STS_DATA(15):
-> +		return true;
-> +	default:
-> +		return false;
-> +	}
-> +}
-> +
-> +static bool ad4691_readable_reg(struct device *dev, unsigned int reg)
-
-I think this will all end up easier to follow if you add some checks in
-this and the next one to exclude the latter parts of multi address registers.
-Neater to do it here than in the read and write calls themselves.
-
-> +{
-> +	switch (reg) {
-> +	case 0 ... AD4691_OSC_FREQ_REG:
-> +	case AD4691_SPARE_CONTROL ... AD4691_ACC_SAT_OVR_REG(15):
-> +	case AD4691_STD_SEQ_CONFIG:
-> +	case AD4691_AVG_IN(0) ... AD4691_AVG_IN(15):
-> +	case AD4691_AVG_STS_IN(0) ... AD4691_AVG_STS_IN(15):
-> +	case AD4691_ACC_IN(0) ... AD4691_ACC_IN(15):
-> +	case AD4691_ACC_STS_DATA(0) ... AD4691_ACC_STS_DATA(15):
-> +		return true;
-> +	default:
-> +		return false;
-> +	}
-> +}
-> +
-> +static bool ad4691_writeable_reg(struct device *dev, unsigned int reg)
-> +{
-> +	switch (reg) {
-> +	case 0 ... AD4691_OSC_FREQ_REG:
-> +	case AD4691_STD_SEQ_CONFIG:
-> +	case AD4691_SPARE_CONTROL ... AD4691_GPIO_MODE2_REG:
-> +		return true;
-> +	default:
-> +		return false;
-> +	}
-> +}
->
-> +
-> +static int ad4691_get_sampling_freq(struct ad4691_state *st, int *val)
-> +{
-> +	unsigned int reg_val;
-> +	int ret;
-> +
-I think sashiko's comment on locking here is a false positive because you'll
-always get the value from regcache. Maybe worth a comment on that though.
-
-Sashiko suggests the direct read goes away later anyway.
+Best regards,
+Liviu
 
 
-> +	ret = regmap_read(st->regmap, AD4691_OSC_FREQ_REG, &reg_val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	*val = ad4691_osc_freqs_Hz[FIELD_GET(AD4691_OSC_FREQ_MASK, reg_val)];
-> +	return IIO_VAL_INT;
-> +}
-
-
-> +static int ad4691_reg_access(struct iio_dev *indio_dev, unsigned int reg,
-> +			     unsigned int writeval, unsigned int *readval)
-> +{
-> +	struct ad4691_state *st = iio_priv(indio_dev);
-> +
-> +	guard(mutex)(&st->lock);
-> +
-> +	if (readval)
-> +		return regmap_read(st->regmap, reg, readval);
-> +
-> +	return regmap_write(st->regmap, reg, writeval);
-
-This is where we perhaps have too much freedom given the effective gaps
-in register addresses due for the larger 'registers'.
-
-Using those wrong addresses might not be a problem belong filling the
-regcache with garbage. If we can just screen them out in the readable
-writeable checks that would be better.
-
-> +}
-
-...
-
-
-> +static int ad4691_config(struct ad4691_state *st)
-> +{
-> +	struct device *dev = regmap_get_device(st->regmap);
-> +	enum ad4691_ref_ctrl ref_val;
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	switch (st->vref_uV) {
-> +	case AD4691_VREF_uV_MIN ... AD4691_VREF_2P5_uV_MAX:
-> +		ref_val = AD4691_VREF_2P5;
-> +		break;
-> +	case AD4691_VREF_2P5_uV_MAX + 1 ... AD4691_VREF_3P0_uV_MAX:
-> +		ref_val = AD4691_VREF_3P0;
-> +		break;
-> +	case AD4691_VREF_3P0_uV_MAX + 1 ... AD4691_VREF_3P3_uV_MAX:
-> +		ref_val = AD4691_VREF_3P3;
-> +		break;
-> +	case AD4691_VREF_3P3_uV_MAX + 1 ... AD4691_VREF_4P096_uV_MAX:
-> +		ref_val = AD4691_VREF_4P096;
-> +		break;
-> +	case AD4691_VREF_4P096_uV_MAX + 1 ... AD4691_VREF_uV_MAX:
-> +		ref_val = AD4691_VREF_5P0;
-> +		break;
-> +	default:
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "Unsupported vref voltage: %d uV\n",
-> +				     st->vref_uV);
-> +	}
-> +
-> +	val = FIELD_PREP(AD4691_REF_CTRL_MASK, ref_val);
-> +	if (st->refbuf_en)
-> +		val |= AD4691_REFBUF_EN;
-> +
-> +	ret = regmap_write(st->regmap, AD4691_REF_CTRL, val);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to write REF_CTRL\n");
-> +
-> +	ret = regmap_assign_bits(st->regmap, AD4691_DEVICE_SETUP,
-> +				 AD4691_LDO_EN, st->ldo_en);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to write DEVICE_SETUP\n");
-> +
-> +	/*
-> +	 * Set the internal oscillator to the highest rate this chip supports.
-> +	 * Index 0 (1 MHz) exceeds the 500 kHz max of AD4691/AD4693, so those
-> +	 * chips start at index 1 (500 kHz).
-> +	 */
-> +	ret = regmap_write(st->regmap, AD4691_OSC_FREQ_REG,
-
-As per the comment above - I think this is why we don't have a bug reading
-back the frequency during an ADC sampling sequence.  This ensures we have
-the value cached.
-
-> +			   ad4691_samp_freq_start(st->info));
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to write OSC_FREQ\n");
-> +
-> +	ret = regmap_update_bits(st->regmap, AD4691_ADC_SETUP,
-> +				 AD4691_ADC_MODE_MASK, AD4691_AUTONOMOUS_MODE);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to write ADC_SETUP\n");
-> +
-> +	return 0;
-> +}
-
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
