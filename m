@@ -1,354 +1,173 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB7D2D7DEA
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 01:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778550306; cv=none; b=RJqDGhuTnKXpBZulhY1p1iGIs8A2ero3B7Mb9A9JM5g0EI31wIsu9TMM1gCT/qCWUz+woxHuKFts8tEGUnBFR2fzefCb1x+F6Lsihp7CgsMIVT8qj+f9O3EH7fnyE3JQyk4ZXsVr4HR+O/3irXSKUxcMTB7G9XHx1r7bk7FrQF8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778550306; c=relaxed/simple;
-	bh=8GA+44Msk8RirdcVaycxf84DP7nx2pqE+keaYyNzzKA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Jv3idUdMCLJ2fvV9nOaMs8rw/BVmrQfyXLac2oiMDar1ipGa29ttIXxOHhoP89/FSMmu6RagqUHpkbgIKqmnCX+WNi1imSFohzGbx3OQasYQOK//yMNqpKq98polGPqzT1iUWFx7nrwQ5J6uyLLtGQ2TNUzNsMRPKXEvAXqkinQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=XxF2RQgc; arc=none smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFF027A907
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 01:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778550426; cv=pass; b=YOe4n+e4+8mIPCc3jb+EKxh9DO28LPNW62kfys2kXc5L76xXmUQwbC270q/yehR31oAFS4NeNgHDXLshCp8pjAKkEyhYBfmfdfwnmHfLZ+O2hrhIb2Qw8/pb6HpNa//OTfNMFtHNTWdmYyiA2yI0IEhDQryk3bSwtRNiFIdcNXU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778550426; c=relaxed/simple;
+	bh=+nyjZCDAwF0QjimVoTdB1F3e4hI9equawyVNGhNT8QA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MuiuEfBFqRlsleUT33733bLlM4qRz+7w8wMYfUAZCBfp6oJoyD3aK6lekoMujhdfYE6Tm61caZR4ZegEBpI4zqLCtwEMCTJ07h2TsRqVmw/jXJ9fT0nGoYgKnq6SaWCh3N4+qOq/u3LBeP2j50FWVNh3wpripZSUjPFtoZ4Alc8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H16FwQF5; arc=pass smtp.client-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="XxF2RQgc"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12c19d23b19so8401253c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 18:45:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H16FwQF5"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6530287803cso5053218d50.1
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 18:47:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778550424; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kLUeIG8hewbYzr83Kl1D3U9GzIkwM6qT5rKsUJc0iFJjNKChwANSpeLDN10Uu4oV05
+         4d/PUrKq6TDm6tlnU9Ly2+ZYLQvHWwUjSTHyoJiaBNUGegR6sh0H3rzQyS6H9giTg6KQ
+         U+/kg3kJnrcn/wcz3FoELJiWH6caoz8reLB4+3wznIh7I0wVd1WK4rt9SVZaGEqMKg3B
+         TVlSvW0BQ+sswTH9WwR/KoRk4hlciiAfCrjNSwfU+qpRd+yki76nDJCT0ISDsEex3Zeb
+         9fNMhGgKr7BmfeQB61sS8X+1Ql0yDbGAUkYVjoAXpW2hn2nqAK9FeVPxV07sqQ+sPTQD
+         pZag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FwpxFc9Afr8dUopKAPOlu3pFs1eNc9ld1yrbloSYHCM=;
+        fh=G7vXaNyQ4aCKZDWmkFO61EX8HuuCC4SAEY52r+6A0M0=;
+        b=b0yWr+JqkC2PuiPYLmmOpyDotffVat1QSlbbIuLyvvZQFaofooFJ++VXxYzPcdVq0t
+         lDiZ36Vmisl74OpYsBf20npIAt9lF6JGCR3T3zx5hJbwtRgxZHONfeqVunSs6RFX4p0O
+         8uDiD5j9J5RMD+w5iczzhTaC2CsZOl8U80dNmgnfQIPl6fLrKWeKM2Mb+IwC9gqvVhW/
+         FLOZWL2ESQiLfUa36I9OU2qZxUe/zhInFzNAVcV1tbDRjZ6P0OpQCJhHiCvc8NIvzl/Q
+         VMIVeNBCXUm6Qy0gaNliKOOEB0q5osSEcYNyt43Z7gk9SR8tPfcJ9ZRQzdzjAEMrCdQ7
+         nqbw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexthop.ai; s=google; t=1778550302; x=1779155102; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kexuGnZ7n87Q9HMmGJjCKYJSXcGHSGXz2FL5A1FkJjs=;
-        b=XxF2RQgcq4UuWRom88oejx1V8nicopFsxpvN1xlg132Iu/4DoTjsYtOij6LWmyg44g
-         wpKgPWYpoKkGdzsj/MWMcgzAxE12VY361m+Be3XheWYyN/LfdvUKLG5FVqqM0GRl73ut
-         mWVu8wJ6NS3e1V4C87SCStLrZQtWPmyxUkq9NKocmpuSbAlgVJnWMFTQRFFaYMn+GoTZ
-         THWZbbC6MBCd2lerR63MROYcd+B4nRlk+71ogD30hIOpFYetdZ1d3WUbsxRECGf179AN
-         dcZk/sDcIRi5S7K2EuWwfVJcEcaudqPWMA3+wpq43ks1G2jrnSJQsYcFf7LcpqWCoVvH
-         WDwA==
+        d=gmail.com; s=20251104; t=1778550424; x=1779155224; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FwpxFc9Afr8dUopKAPOlu3pFs1eNc9ld1yrbloSYHCM=;
+        b=H16FwQF5/9qm4FxsSHt8vYbmOGki8VjdKMzt/fPrXPqdo0iXF/EwOf+n6adI3xVORS
+         kZE3/a2sk2s7Bh42gw+6EhxPkCnwSOroFMZ1IrA7HU+1Bjv4ntahrpv/O6sPYa7HOKR3
+         s/PEcxDzFjPGxS4+wMc/Z2g+1YVEcyO5KOoEONglyTx1Go73M6i53eZGNC0peEQsgcKR
+         8lsMa6rvCSYRIOgRnm+PW32uEWljmFGmPP5XS6+X+xGI+AtymDsFDvMnJBGSKWAD6fHm
+         NbG7yhaegk9TJOzp1F+VSNYQ2jXY1eTRoPPysuo6lf6omEIZ6uZhhry4khnZQxm+JQqR
+         8Rxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778550302; x=1779155102;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kexuGnZ7n87Q9HMmGJjCKYJSXcGHSGXz2FL5A1FkJjs=;
-        b=T23fYNFfadVcY+9TmVmKV8L6JYu3TtUVTpLOX8yF2gIgafnU3aYuP9cwaOD3YOjh/Y
-         n5d9foog/6bkojBHmGnYX3m/T5D3EETRJAxsYUxoYNAx1QszdpbeCot2gVnbiHsDK16L
-         D6ePEWwhvFyyu6lI0YbeMkI2BCkoIqyO/CN2MUN3Aas68O5f0w8KKOJie+c2mxzwdc44
-         1uHfQj4LDZpd1jJQbJamjSLcV53sLjdI8uuiSGOq+k/5AXNWHsSnlleCDZH3ZPN9Qj2o
-         GL9johfToE1AvqLVFJ3drNXwCBX3o7ZStNQw5cycgt1OUPwexrRGnC5wrlwqwrc7E4MS
-         pUww==
-X-Forwarded-Encrypted: i=1; AFNElJ+fSZ1ULZ01VyOnGqgbaeHMZQ5oaQ5LRx47SVaA4x6Dqk0Wgu+qzkbPBDNehDIXqMRrpzy27W5V0yQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPANy5O78r0BBjeNpLyYKs4QxNbAhU43dTWVOr72NaI2glsIzs
-	KMEhHgvwyQGMMkMatQSURu9i1F3vPlMNgc76eAJilpV9+zBFUTw2bMafkh6WcigCWD8=
-X-Gm-Gg: Acq92OH0uf5bCw0fBJONHhJSfEbMHmGGwNPYeWjlo6wMcDhx0ffh7g1F88fxQvCaRF2
-	atTZcWzs/X3WEmt3B8kt6zYSzMTVXC9vCKBDguI8D4toZntGD/Y8de5w0QkcVY9+ryLj/Vuv4j5
-	usYeHCL5tyLBRwkMns8YbTs8dDijp5wQ2MCEEKT0owESmjZ+W3DLU1utyGPJRkpkOpYikJjKTlz
-	AVACUUL+F5t/WSAUWJ/4fNyRaCAOjR/OD8AU71rdNgDrHPPmHqdZn2CSfyQg0QuBRPxV0PKklDS
-	lhJ5KIL9TZ9sgfu/ISsxoEZFRG1X1lbPOR5SqG0OMffDxmH+7qpRuRQLolUPFpGQnGsrATTXvYh
-	6xyMenEQu3VuBr/cNECpelq7mwg8Sxd6lrTen8fog7LGxZTLN7JNtzU4m3OT+PbNDiLArLShJ1l
-	TD2mzyO3XsfzbBPzGyobyR32S6AtMkfU2Y+Y0S
-X-Received: by 2002:a05:7022:4182:b0:12c:3d3c:ac08 with SMTP id a92af1059eb24-131967d7b58mr12705209c88.4.1778550302351;
-        Mon, 11 May 2026 18:45:02 -0700 (PDT)
-Received: from [127.0.0.2] ([50.145.100.174])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f888e4016asm15815467eec.28.2026.05.11.18.45.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 18:45:01 -0700 (PDT)
-From: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-Date: Mon, 11 May 2026 18:44:28 -0700
-Subject: [PATCH 2/2] hwmon: (pmbus/d1u74t) Add Murata D1U74T PSU driver
+        d=1e100.net; s=20251104; t=1778550424; x=1779155224;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FwpxFc9Afr8dUopKAPOlu3pFs1eNc9ld1yrbloSYHCM=;
+        b=ewjUfzwyjzSmw5VPkBqUWxEbOf2Eo5es7LwN+X3EqkykUQ8+YFGW7F6XiP7qA/7Pxv
+         Va2MIXWZOxXPgdENJlEsjYVXAUUnxtDlxTX6boodUUVMKHcqiQSe7Dd6PZ7l3UnOXmxq
+         FHoO5uojvucO6yEpvSzyGQeo1eqj75hjkoZM+Bb3wLFHwhLmjwjK9f6pYK8Djqx9Wd0d
+         ALT69dC6+ri32B1uN0QLVGM/XEDxf9A+QdPZEsIhjfF2IzErM+/pbEgOqPsf27I1x9Ni
+         s0SuXcs8zyHZjvvUpBq4DvoVJGbzQXJfUYycLj9NzgG34SohNxltKMe26PrR9g1obspu
+         BIQw==
+X-Forwarded-Encrypted: i=1; AFNElJ9/vzWHPfKhpOM/WjbeAaqN8AkYUKg5GD4IatfolketnUdFQbuQHm3QIlOrH7Osdem53jVRWMiuP3k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzS1g8oZBCoGoGpFIOVS59DmXP+QD5Tk/LmkiqxOleIAxEpCjsb
+	23YNub1aHtuvrOTFrCPe1Xgj0sMyQzteJaIvFaUtrtYGKsDa21yaLvJlKoyxMoRKK1bLmGzhq+g
+	Kt6OkLcGQnbl5zbWo53fDx/+8ZW7eia0=
+X-Gm-Gg: Acq92OEPFmPQv65qgDRDpRMyCZb/0IZnPiTVVWhHzYv6y3ZEOITPxfwCMXtY+eml1X+
+	Il4B7Iws+Nu9Gj4DotGgel8IZgH+w9RwsTq0zl2HgCxw+kRHjmB13ksaLHy3fEdkCqfYeldCxDa
+	Fg4lT55Xf/k8KWCAptzRDELpKrcIIoCCwQXFZ5ozQeIpGlvieO+9ShTKh7GoN3IAeN01wA3hRIz
+	SgQ9x9ld1SOr17ol0b0d1wwGm/ilLQYzb2pWgW6rnHU6mzdjl2RhfdocrE9dIet6ATPYy6kyHaY
+	m1QST/K6
+X-Received: by 2002:a05:690e:d07:b0:65d:6eeb:cbfa with SMTP id
+ 956f58d0204a3-65da842b927mr11122281d50.27.1778550424368; Mon, 11 May 2026
+ 18:47:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260511-d1u74t-v1-2-623c2bc1532a@nexthop.ai>
-References: <20260511-d1u74t-v1-0-623c2bc1532a@nexthop.ai>
-In-Reply-To: <20260511-d1u74t-v1-0-623c2bc1532a@nexthop.ai>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Abdurrahman Hussain <abdurrahman@nexthop.ai>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778550299; l=8057;
- i=abdurrahman@nexthop.ai; s=20260510; h=from:subject:message-id;
- bh=8GA+44Msk8RirdcVaycxf84DP7nx2pqE+keaYyNzzKA=;
- b=UxvQKVD046/J9KK1fnfW0gRoNRK/36foCFIwEaQMsSinWPUuofZBGieYEj+mTgqO+JswwMIWE
- 32Xv1igd5DyAIaqSlHeYRiI9HQyZLri5JB24hDfn4AVlMYmTz0niJ6Z
-X-Developer-Key: i=abdurrahman@nexthop.ai; a=ed25519;
- pk=omTm9cCAbO0ZhS32aKfJDKue0W3sQGpG9ub5eYHif8I=
+References: <tencent_7ADF2D1EBD8EAD2028BC93BA7858EA655D0A@qq.com> <202605111009.hlpiVkT6-lkp@intel.com>
+In-Reply-To: <202605111009.hlpiVkT6-lkp@intel.com>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Tue, 12 May 2026 09:46:38 +0800
+X-Gm-Features: AVHnY4Jtlo9H5C7tKgKhoHGPG68VMovdXjvGsxYCqTw1nW1WDBGKDVoH7Bpz5ow
+Message-ID: <CAD-N9QU8e1tHoZ0Dsqpz0Vb6GYUu-7bDYYuz9rH52s=6pizXRw@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: update admin-guide/index.rst translation
+To: kernel test robot <lkp@intel.com>
+Cc: Yan Zhu <zhuyan2015@qq.com>, corbet@lwn.net, alexs@kernel.org, 
+	si.yanteng@linux.dev, kees@kernel.org, oe-kbuild-all@lists.linux.dev, 
+	skhan@linuxfoundation.org, dzm91@hust.edu.cn, tony.luck@intel.com, 
+	gpiccoli@igalia.com, frederic@kernel.org, jani.nikula@intel.com, 
+	longman@redhat.com, mchehab+huawei@kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add PMBUS driver for Murata D1U74T power supplies.
+On Mon, May 11, 2026 at 4:53=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Yan,
+>
 
-Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
----
- Documentation/hwmon/d1u74t.rst | 97 ++++++++++++++++++++++++++++++++++++++++++
- Documentation/hwmon/index.rst  |  1 +
- MAINTAINERS                    |  2 +
- drivers/hwmon/pmbus/Kconfig    |  9 ++++
- drivers/hwmon/pmbus/Makefile   |  1 +
- drivers/hwmon/pmbus/d1u74t.c   | 85 ++++++++++++++++++++++++++++++++++++
- 6 files changed, 195 insertions(+)
+Hi Yan,
 
-diff --git a/Documentation/hwmon/d1u74t.rst b/Documentation/hwmon/d1u74t.rst
-new file mode 100644
-index 000000000000..f7786ebba0b4
---- /dev/null
-+++ b/Documentation/hwmon/d1u74t.rst
-@@ -0,0 +1,97 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver d1u74t
-+==================
-+
-+Supported chips:
-+
-+  * Murata D1U74T
-+
-+    Prefix: 'd1u74t'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: Only available under NDA.
-+
-+Authors:
-+    Abdurrahman Hussain <abdurrahman@nexthop.ai>
-+
-+
-+Description
-+-----------
-+
-+This driver implements support for Murata D1U74T Power Supply with
-+PMBus support.
-+
-+The driver is a client driver to the core PMBus driver.
-+Please see Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
-+
-+
-+Usage Notes
-+-----------
-+
-+This driver does not auto-detect devices. You will have to instantiate the
-+devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
-+details.
-+
-+
-+Sysfs entries
-+-------------
-+
-+======================= ======================================================
-+curr1_label		"iin"
-+curr1_input		Measured input current
-+curr1_max		Maximum input current
-+curr1_max_alarm		Input maximum current high alarm
-+curr1_crit		Critical high input current
-+curr1_crit_alarm	Input critical current high alarm
-+curr1_rated_max		Maximum rated input current
-+
-+curr2_label		"iout1"
-+curr2_input		Measured output current
-+curr2_max		Maximum output current
-+curr2_max_alarm		Output maximum current high alarm
-+curr2_crit		Critical high output current
-+curr2_crit_alarm	Output critical current high alarm
-+curr2_rated_max		Maximum rated output current
-+
-+in1_label		"vin"
-+in1_input		Measured input voltage
-+in1_crit		Critical input over voltage
-+in1_crit_alarm		Critical input over voltage alarm
-+in1_max			Maximum input over voltage
-+in1_max_alarm		Maximum input over voltage alarm
-+in1_rated_min		Minimum rated input voltage
-+in1_rated_max		Maximum rated input voltage
-+
-+in2_label		"vout1"
-+in2_input		Measured input voltage
-+in2_crit		Critical input over voltage
-+in2_crit_alarm		Critical input over voltage alarm
-+in2_lcrit		Critical input under voltage fault
-+in2_lcrit_alarm		Critical input under voltage fault alarm
-+in2_max			Maximum input over voltage
-+in2_max_alarm		Maximum input over voltage alarm
-+in2_min			Minimum input under voltage warning
-+in2_min_alarm		Minimum input under voltage warning alarm
-+in2_rated_min		Minimum rated input voltage
-+in2_rated_max		Maximum rated input voltage
-+
-+power1_label		"pin"
-+power1_input		Measured input power
-+power1_alarm		Input power high alarm
-+power1_max  		Maximum input power
-+power1_rated_max	Maximum rated input power
-+
-+temp[1-3]_input		Measured temperature
-+temp[1-3]_crit 		Critical temperature
-+temp[1-3]_crit_alarm	Critical temperature alarm
-+temp[1-3]_max		Maximum temperature
-+temp[1-3]_max_alarm	Maximum temperature alarm
-+temp[1-3]_rated_max	Maximum rated temperature
-+
-+fan1_alarm		Fan 1 warning.
-+fan1_fault		Fan 1 fault.
-+fan1_input		Fan 1 speed in RPM.
-+fan1_target		Fan 1 target.
-+======================= ======================================================
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 8b655e5d6b68..97b1ef65b1c1 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -60,6 +60,7 @@ Hardware Monitoring Kernel Drivers
-    corsair-psu
-    cros_ec_hwmon
-    crps
-+   d1u74t
-    da9052
-    da9055
-    dell-smm-hwmon
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b6a055fbb870..8f443a2f0e45 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6808,6 +6808,8 @@ M:	Abdurrahman Hussain <abdurrahman@nexthop.ai>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/hwmon/pmbus/murata,d1u74t.yaml
-+F:	Documentation/hwmon/d1u74t.rst
-+F:	drivers/hwmon/pmbus/d1u74t.c
- 
- CRYPTO API
- M:	Herbert Xu <herbert@gondor.apana.org.au>
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 8f4bff375ecb..ee93b22d2887 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -113,6 +113,15 @@ config SENSORS_CRPS
- 	  This driver can also be built as a module. If so, the module will
- 	  be called crps.
- 
-+config SENSORS_D1U74T
-+	tristate "Murata D1U74T Power Supply"
-+	help
-+	  If you say yes here you get hardware monitoring support for the Murata
-+	  D1U74T Power Supply.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called d1u74t.
-+
- config SENSORS_DELTA_AHE50DC_FAN
- 	tristate "Delta AHE-50DC fan control module"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 7129b62bc00f..8cf7d3075371 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -76,3 +76,4 @@ obj-$(CONFIG_SENSORS_XDPE1A2G7B)	+= xdpe1a2g7b.o
- obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
- obj-$(CONFIG_SENSORS_PIM4328)	+= pim4328.o
- obj-$(CONFIG_SENSORS_CRPS)	+= crps.o
-+obj-$(CONFIG_SENSORS_D1U74T)	+= d1u74t.o
-diff --git a/drivers/hwmon/pmbus/d1u74t.c b/drivers/hwmon/pmbus/d1u74t.c
-new file mode 100644
-index 000000000000..3127e0e5a23d
---- /dev/null
-+++ b/drivers/hwmon/pmbus/d1u74t.c
-@@ -0,0 +1,85 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright 2026 Nexthop Systems.
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/of.h>
-+#include <linux/pmbus.h>
-+
-+#include "pmbus.h"
-+
-+static const struct i2c_device_id d1u74t_id[] = {
-+	{ "d1u74t" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(i2c, d1u74t_id);
-+
-+static struct pmbus_driver_info d1u74t_info = {
-+	.pages = 1,
-+	/* PSU uses default linear data format. */
-+	.func[0] = PMBUS_HAVE_PIN | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-+		   PMBUS_HAVE_IIN | PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT |
-+		   PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_TEMP |
-+		   PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3 |
-+		   PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_FAN12 |
-+		   PMBUS_HAVE_STATUS_FAN12,
-+};
-+
-+static int d1u74t_probe(struct i2c_client *client)
-+{
-+	char buf[I2C_SMBUS_BLOCK_MAX + 2] = { 0 };
-+	struct device *dev = &client->dev;
-+	int rc;
-+
-+	rc = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, buf);
-+	if (rc < 0)
-+		return dev_err_probe(dev, rc, "Failed to read PMBUS_MFR_ID\n");
-+
-+	if (rc != 9 || strncmp(buf, "Murata-PS", 9)) {
-+		buf[rc] = '\0';
-+		dev_err(dev, "Unsupported Manufacturer ID '%s'\n", buf);
-+		return -ENODEV;
-+	}
-+
-+	rc = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
-+	if (rc < 0)
-+		return dev_err_probe(dev, rc,
-+				     "Failed to read PMBUS_MFR_MODEL\n");
-+
-+	if (strncmp(buf, "D1U74T-W", 8)) {
-+		buf[rc] = '\0';
-+		return dev_err_probe(dev, -ENODEV, "Model '%s' not supported\n",
-+				     buf);
-+	}
-+
-+	rc = pmbus_do_probe(client, &d1u74t_info);
-+	if (rc)
-+		return dev_err_probe(dev, rc, "Failed to probe\n");
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id d1u74t_of_match[] = {
-+	{
-+		.compatible = "murata,d1u74t",
-+	},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, d1u74t_of_match);
-+
-+static struct i2c_driver d1u74t_driver = {
-+	.driver = {
-+		.name = "d1u74t",
-+		.of_match_table = d1u74t_of_match,
-+	},
-+	.probe = d1u74t_probe,
-+	.id_table = d1u74t_id,
-+};
-+
-+module_i2c_driver(d1u74t_driver);
-+
-+MODULE_AUTHOR("Abdurrahman Hussain");
-+MODULE_DESCRIPTION("PMBus driver for Murata D1U74T-W power supplies");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("PMBUS");
+Please take a look at this testing report and verify if it is correct
+or false alarm.
 
--- 
-2.53.0
+Dongliang Mu
 
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on lwn/docs-next]
+> [also build test WARNING on linus/master v7.1-rc3 next-20260508]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhu/docs-zh_CN=
+-update-admin-guide-index-rst-translation/20260511-102406
+> base:   git://git.lwn.net/linux.git docs-next
+> patch link:    https://lore.kernel.org/r/tencent_7ADF2D1EBD8EAD2028BC93BA=
+7858EA655D0A%40qq.com
+> patch subject: [PATCH] docs/zh_CN: update admin-guide/index.rst translati=
+on
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+> reproduce: (https://download.01.org/0day-ci/archive/20260511/202605111009=
+.hlpiVkT6-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605111009.hlpiVkT6-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    Checksumming on output with GSO
+>    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+>    MAINTAINERS:40: WARNING: Inline strong start-string without end-string=
+. [docutils]
+> >> Documentation/translations/zh_CN/admin-guide/index.rst:114: WARNING: t=
+octree contains reference to nonexisting document 'translations/zh_CN/admin=
+-guide/module-signing' [toc.not_readable]
+>    Documentation/userspace-api/landlock:504: ./security/landlock/errata/a=
+bi-4.h:5: ERROR: Unexpected section title.
+>
+>
+> vim +114 Documentation/translations/zh_CN/admin-guide/index.rst
+>
+>    113
+>  > 114  .. toctree::
+>    115     :maxdepth: 1
+>    116
+>    117     cpu-load
+>    118     mm/index
+>    119     module-signing
+>    120     numastat
+>    121
+>    122
+>    123  Todolist:
+>    124
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
