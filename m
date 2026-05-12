@@ -1,140 +1,146 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5911382F03
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 21:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1039D386575
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 21:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778621368; cv=none; b=H7cH0h6qNam86DclRoq+i22PdqHrLdpsugNbiYTB7f+bcte3+xwKs6eUrnIxBEq0sA0bJMYRkjDManIfthpAF8R84Wd976WMvu4G1G9JveNc75wAYZzS9B9S6qoQ5G/5TbNyAChbEZDxYw+R/MtD0hPjiKR0PgMPX5yQ4fVICGU=
+	t=1778622025; cv=none; b=q1XlM6DgYVrllOEVU06Ud3v1CwO/uUi1bFV9qb7FzzIZLjOUihCz4FDFngQp0fU8wsqXPMJ3UlwYFcJ8HI6J0Ct0M32UtW0Uq92pNiuLcozQqx6ARIfdsgpvybhHcco4iVx+RopwCRRziNGfjO3ZBu8mHk1P2HePtdssC6XKo3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778621368; c=relaxed/simple;
-	bh=PVEZ6lDsqfrkheYFwj2coqzGfYHxktZ0uXkER3yjEWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UhMB5XJgbxgVy/qJbeTcWHy3J7bcNasQRYPMwGZGqO67g4shGM38JEYwzdDW+jiFVpP/TsfSD2plRT878zWygCyDypDf78HkSsWUEKkOAmHikAp9WMZUoinFi4XGWJfLAUmJBE7E145NimqPeUFjlG9NNlSFkiLCTkvMCcPQ6H8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=O2TqEeYx; arc=none smtp.client-ip=74.125.82.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1778622025; c=relaxed/simple;
+	bh=sTJxJ/xasIqDRCeYM0JtmkGU7hXrTwpbCDass0bVHps=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Js/PE7V0+XFSSMenvFRqYpW5iLF1P4jN8s1N2pg16578FjVTE9BuhKplKtFaQkpTHY//pm4lbtkwGfYj/V6LhhD+5WVCxJdzc0y3K3tn7L924w55R0oqCC57ERrYPvfwXNjGxH/MdeSbkW0ifT7quGYH0OYOhqfFYcrn+cMKQew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OQWdnaij; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="O2TqEeYx"
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1336742714fso94c88.1
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 14:29:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OQWdnaij"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c8016d642b2so3306896a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 14:40:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778621366; x=1779226166; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9as17r1aSDL1/IjkeK3rxFdLzhg/o+IZ2HDHZMfPp0s=;
-        b=O2TqEeYxQ++uEzCuAjSrp9S4rZXfnp3qCMLVHPDxioCo48GoTxdEgkrstQufcqRGl2
-         5ugnERzU6ErV4dQjNB2XQbZVFCBoI62CIUqgsheQA3GuF8LNEuQIQHObJ48N1rW5bxBn
-         p1VUyj9oN/kW8j7kutMQ2q/PtDM1bSRSErzS5XBXPs/J3JALkHzf7dFwE59NTSfuZQZ8
-         BvDqmSJMaPdZ7+EqH+kSF0Q/I5Yuuc3X8tw4JhqU9w5umF1bPiJC8sq+Yxs10c8zEm/j
-         2HzL7yJ/A4DOrx2RS3k1dt1nwUg6KaO9RE10N46u7bVIHJmPnql+qBD8hqmRPrOBP8ZW
-         WHOw==
+        d=gmail.com; s=20251104; t=1778622022; x=1779226822; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LuJpPqhDcONg49vri+mgJGghvc2o/ilLGU2ZfssziEI=;
+        b=OQWdnaijZ1h7L8r1EP1KKJUSbtDYxqsiw2/0vKLvMvQLdrb9ZVGnOOp2Gbe+jUMvYP
+         PVCkgYSFZtaLFcaLWJxW4EL95IZznbDnPWDEsv845ZFoxjpn+JZSxi2ASVX/asrez5N3
+         C++ah2Bt+sYUOE4mVfIa3Hiovmzn8uVee1VKr8VwD2DQFKyJ9B/UAWk4wH7g121HrhSb
+         9EnoRB2tI4jdGbHrVW1IT0Q6ChG15TTtxdvMgF+15GAdv/tyoXrKB+reAvow7lj5cgx0
+         e9IzOSlonqDlYRfOaIVga0qdurXUtBxkpjQKvhUPhCp7xT82X3TCCo/X0gP7wMsORNae
+         mZlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778621366; x=1779226166;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9as17r1aSDL1/IjkeK3rxFdLzhg/o+IZ2HDHZMfPp0s=;
-        b=PWABn0XXkUewxwQPaHPFGE2Pc5rlj/uFvtssnPVDWGfL1p+EyvSo3Si1vRzMNVhTBu
-         evrNJ5WrgYFBO7AzssidUqwuyCyPadtMCO25MoZzPeXTC5niRJsoyoWgkVTqZUIqCwGZ
-         lZFG6QF91XtN0v7riyMHuE2iuMbqeHWxSBdnjxKtXAo/z5Dca5LljpP0vNpMwz/EfGli
-         SdQJ6xFTB9li7J1BjGliB5nXjgZTW4DCiUoOgKA2hbzEBKV1zVUoEfynDp8n+FEzZp+b
-         +z3OO2YHgCZi0/V1OD0pt6IyemIN52J+Qq4Y1hLxcbZbt27LfJ6NJ/Cb1AFQS60/3viw
-         Simg==
-X-Forwarded-Encrypted: i=1; AFNElJ+4YRic5DKg59jUU41QHz3tXdqf9xcAvMXtlujNC1SXUJs/Paep7wshEEnMtSyhoIuNIU3tTQDH+ps=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxa9MD7DzlHIhL4wUJ+gc8fARKLnxaTN26dC2Ah5goSHW7rPpP5
-	iuMLqgbYc0UEeFwt00CBlippr6Znk0XVSHGEU8RTAdJ5ewTwjLjPP6C8L15/iHiFHQ==
-X-Gm-Gg: Acq92OGlfhxR4ynTNdE1gIAi/cIW7QR/DFiMvCbBi9qGQRBg2a0EK/vHEZniCXoYpBT
-	+NSdRsmVXxSHzhs2fFcDX5IwVKjTbnui9pR9qo1wAXRtMxxrY9wHT5R8zv4rRtQjxk7xtwPW2Ir
-	kn2RKns8zQhyBnxK+3qsrL7F0H5fCYZVQW1PNIfcQUdpVWAvdFDkPMLQm4NSCCUpLFgP5+LsOg2
-	+y59bdcuPfBP/W88wvXUVGw9pYHOu0g5ulpD+Ob1g0E6shIuNAZG7fIOAxWfKz9TUp4ntg68iww
-	G1XJRbkCw5ixy7kdlzLRkgbgvgV2D6hjqCzNUpVnxynoq5uIuGzUxjZvOIWDENY5CUecyC+jrnv
-	56W3m+4Sfrnr0yTBwDIhw2caXvoUcKBSgk1mEduFABrI2RDkJxAI1bSW7lehrzxnpelMeNDFdjH
-	v8OE1/+uhbrmkC9ID0mgzKJf7/IQH3da4iXUcqHoXjrWg96AKSweVrANXq5CMP6l+iTIrXyGys
-X-Received: by 2002:a05:7022:699a:b0:132:1e01:2d6d with SMTP id a92af1059eb24-13401ba684emr108868c88.2.1778621364956;
-        Tue, 12 May 2026 14:29:24 -0700 (PDT)
-Received: from google.com (176.13.105.34.bc.googleusercontent.com. [34.105.13.176])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1327821fc59sm23087120c88.7.2026.05.12.14.29.23
+        d=1e100.net; s=20251104; t=1778622022; x=1779226822;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LuJpPqhDcONg49vri+mgJGghvc2o/ilLGU2ZfssziEI=;
+        b=mM92tL+h24XlgomBrLB/1FJkXbm1/y03lvNLvQu47UrYBfNCVkzWBRkFo2HvYKr18z
+         6uJnpxC13nYr4wCsAiQ+ZxvpoF7cOSXfbHVZYFQ61zYktu43uts8xCZzM6vr66UjvE5H
+         UZ7NsGVH7CPQe6YyJpJbo6W3Z/ObNpYfuQZIVBCplJd3tmiqbX8nddHooMXBtd+KRNrm
+         7FNSzGPu64CoQbQOw0qH3+iknCBnO4V6WQbGz3bNaRkV+uSgvzy4UzoQGOhsxewuPZuS
+         yp7pMWSWWOohGwmxs+ykWnIe0+xF7qKJPYujJNPLoXiPEaPe3cRbnWGXjgPbUl/quG/C
+         XLYg==
+X-Forwarded-Encrypted: i=1; AFNElJ/BtVJuWEJFkkNnfizPQA+Wd3hXBtySFs5b+Tp+uceCAzk7+J4Fk1Rl603Ruprd1wzLvuWOUmIZy7c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxgoulIahJtorSdLrRfqP1TTGkMSC83CV/uaBv3FJSdU3BHABL
+	P4FqyjwEYhK7bDzclcWvcAMT5FKQJ4t50q2pfswirTqFFxqjfuoadZrV
+X-Gm-Gg: Acq92OEV3cb2kYJuf4xfutQkO+iCgPMBkfzv3JOrCFb5TIdmNFUlSSwtPsyhfwangdf
+	9qs5Ms2oYeChOs/ivkmz7rEqubEG/LRruleOCSXkOpobq1GfQ9EJsRT993uZWzzEGsjWMAcvIWs
+	UPtKiZRb0NdX4+B7QHMZG5rKjgk0YKqdeNdsWAo1l5X8XL9kUo4ogQyvxwcZOvXnk/TqztxAlxt
+	djQxSE0ErtLTLCE6aKI9Az9Y9Rl1iqxZLkE3YXB2T7ffS98rC+JHNLDPwVA7Erp1mnrkSYrdl0g
+	JUd3KenILBwHqHvF8rtr9ZYsrcC4uFBqzYlWN68B/0sU8CHAtcRdux0mMcosohE/KT0Y2JhefQk
+	ICZQNcQ0sYJaBDa6J05PY4AA7Q2/cvKeHgjF0JZixHlASOhxyzegWl5Q6EOQtVFFt91xLcc+80h
+	BxjWWu86lyJ3hfX89qUbb6lwtJAqIjFLc=
+X-Received: by 2002:a17:903:3b8e:b0:2ba:7617:a755 with SMTP id d9443c01a7336-2bcfd48ace8mr55972255ad.25.1778622022203;
+        Tue, 12 May 2026 14:40:22 -0700 (PDT)
+Received: from mincom1 ([27.232.220.10])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1d409eesm143949895ad.32.2026.05.12.14.40.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 14:29:24 -0700 (PDT)
-Date: Tue, 12 May 2026 14:29:19 -0700
-From: Vipin Sharma <vipinsh@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-pci@vger.kernel.org, 
-	ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com, ankita@nvidia.com, 
-	apopple@nvidia.com, chrisl@kernel.org, corbet@lwn.net, graf@amazon.com, 
-	jacob.pan@linux.microsoft.com, jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, 
-	julianr@linux.ibm.com, kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com, 
-	lukas@wunner.de, michal.winiarski@intel.com, parav@nvidia.com, 
-	pasha.tatashin@soleen.com, praan@google.com, pratyush@kernel.org, rananta@google.com, 
-	rientjes@google.com, rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com, 
-	skhan@linuxfoundation.org, skhawaja@google.com, vivek.kasireddy@intel.com, witu@nvidia.com, 
-	yanjun.zhu@linux.dev, yi.l.liu@intel.com
-Subject: Re: [PATCH v4 02/16] vfio/pci: Preserve vfio-pci device files across
- Live Update
-Message-ID: <20260512211412.GA2819150.vipinsh@google.com>
-References: <20260511234802.2280368-1-vipinsh@google.com>
- <20260511234802.2280368-3-vipinsh@google.com>
- <CALzav=fR8c2tYj9jeOc_K=xoupxAfWMHmk0ipDniSXg6uGiFYA@mail.gmail.com>
+        Tue, 12 May 2026 14:40:21 -0700 (PDT)
+From: Jihong Min <hurryman2212@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mathias Nyman <mathias.nyman@intel.com>
+Cc: Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+	linux-usb@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jihong Min <hurryman2212@gmail.com>
+Subject: [PATCH v5 0/2] AMD Promontory 21 xHCI temperature sensor support
+Date: Wed, 13 May 2026 06:39:08 +0900
+Message-ID: <20260512213910.871859-1-hurryman2212@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALzav=fR8c2tYj9jeOc_K=xoupxAfWMHmk0ipDniSXg6uGiFYA@mail.gmail.com>
 
-On Tue, May 12, 2026 at 01:59:51PM -0700, David Matlack wrote:
-> On Mon, May 11, 2026 at 4:48 PM Vipin Sharma <vipinsh@google.com> wrote:
-> 
-> > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
-> > index c12d614fc6c4..019de053f116 100644
-> > --- a/drivers/vfio/pci/Kconfig
-> > +++ b/drivers/vfio/pci/Kconfig
-> > @@ -45,13 +45,15 @@ config VFIO_PCI_IGD
-> >
-> >  config VFIO_PCI_LIVEUPDATE
-> >         bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
-> > -       depends on PCI_LIVEUPDATE
-> > +       depends on PCI_LIVEUPDATE && VFIO_DEVICE_CDEV
-> >         help
-> >           Support for preserving devices bound to vfio-pci across a Live
-> >           Update. This option should only be enabled by developers working on
-> >           implementing this support. Once enough support has landed in the
-> >           kernel, this option will no longer be marked EXPERIMENTAL.
-> >
-> > +         Enabling this will disable support for VFIO PCI DMA buffer.
-> > +
-> >           If you don't know what to do here, say N.
-> >
-> >  endif
-> > @@ -68,7 +70,7 @@ config VFIO_PCI_ZDEV_KVM
-> >           To enable s390x KVM vfio-pci extensions, say Y.
-> >
-> >  config VFIO_PCI_DMABUF
-> > -       def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER
-> > +       def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER && !VFIO_PCI_LIVEUPDATE
-> 
-> Why does enabling VFIO_PCI_LIVEUPDATE require disabling
-> VFIO_PCI_DMABUF? I saw the cover letter says "to keep things simple",
-> but what specific problem does this solve or simplify?
+Hi,
 
-I should have provided more details there.
+This series adds temperature monitoring for AMD Promontory 21 (PROM21)
+xHCI PCI functions.
 
-When device is getting reset in vfio_pci_liveupdate_freeze(), we are
-zapping userspace mapped bars, we also need to use
-vfio_pci_dma_buf_move() to revoke dma buffer access or
-vfio_pci_dma_buf_cleanup() combination. Cleanup takes the memory lock
-which freeze already takes, and there are some refcounts which are
-managed in both of these APIs. This was causing complexities with code
-flow based on result of pci_load_saved_state(). All this was adding more
-refactoring than I wanted in the series.
+Patch 1 adds a small PROM21-specific xHCI PCI glue driver. USB host
+operation is delegated to the common xhci-pci code, while the PROM21 glue
+publishes an auxiliary device for optional sensor support.
 
-I decided to just drop the change and disable the support of DMA Buffer for
-now to keep number of patches less in the series. This will go away once
-we remove reset condition in freeze.
+Patch 2 adds an auxiliary-bus hwmon driver that binds to that auxiliary
+device and exposes the PROM21 xHCI temperature value as temp1_input.
+
+The hwmon driver reads the sensor through a vendor index/data register pair
+in the xHCI PCI MMIO BAR. It does not wake the parent PCI device for hwmon
+reads; if the parent is suspended, the read returns -ENODATA.
+
+Changes in v5:
+- Add support for AMD 1022:43fc PROM21 xHCI controllers and document the
+  new PCI ID.
+- Make USB_XHCI_PCI_PROM21 depend on X86 and default to USB_XHCI_PCI.
+- Keep the PROM21 PCI glue built-in-only when enabled, while allowing the
+  hwmon sensor driver to be built as a separate module.
+- Move PROM21 xHCI PCI device IDs to xhci-pci.h so xhci-pci.c and
+  xhci-pci-prom21.c use shared definitions.
+- Pass the parent PCI device, MMIO base, and resource length to the hwmon
+  driver through platform data defined in a common header, instead of
+  inspecting the parent driver's drvdata from the hwmon driver.
+- Remove the private hwmon mutex and rely on hwmon core serialization for
+  this driver's callbacks.
+- Clarify that the driver only serializes its own hwmon callbacks and does
+  not synchronize with firmware, SMM, ACPI AML, or other possible users of
+  the PROM21 vendor index/data register pair.
+- Use readb() for the temperature data register, validate the value before
+  writing the output pointer, and drop the 0xff invalid-value check.
+- Use pm_runtime_put() after successful reads with the parent device active
+  so the PM core can re-evaluate the parent device's idle state.
+- Simplify the documentation and use more precise terminology for the
+  supported device.
+
+Jihong Min (2):
+  usb: xhci-pci: add AMD Promontory 21 PCI glue
+  hwmon: add AMD Promontory 21 xHCI temperature sensor support
+
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/prom21-xhci.rst           | 101 ++++++++
+ drivers/hwmon/Kconfig                         |  10 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/prom21-xhci.c                   | 238 ++++++++++++++++++
+ drivers/usb/host/Kconfig                      |  20 ++
+ drivers/usb/host/Makefile                     |   1 +
+ drivers/usb/host/xhci-pci-prom21.c            | 123 +++++++++
+ drivers/usb/host/xhci-pci.c                   |  11 +
+ drivers/usb/host/xhci-pci.h                   |   3 +
+ include/linux/platform_data/usb-xhci-prom21.h |  22 ++
+ 11 files changed, 531 insertions(+)
+ create mode 100644 Documentation/hwmon/prom21-xhci.rst
+ create mode 100644 drivers/hwmon/prom21-xhci.c
+ create mode 100644 drivers/usb/host/xhci-pci-prom21.c
+ create mode 100644 include/linux/platform_data/usb-xhci-prom21.h
+
+-- 
+2.53.0
