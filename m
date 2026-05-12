@@ -1,160 +1,188 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35C7383325
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 15:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778598337; cv=pass; b=J5dsyKOMaFaaQaeRAVb2B0pLgf15ttfNXpXgDhm8Pcg41hoSrSXSCL01Md8edvA7b1wZUUWHTPsmVcBjo9jbBxIGJJHLSvGVPa38PxpbNOYILAlum85yPd50rJQ3NFdQi0ddoZSUgQNX/hi6Kwwcw1tASwdfBV79ItDNLYToM88=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778598337; c=relaxed/simple;
-	bh=Yc9da0wDU/GeX1+XjMTk9av+bBmiHdfCu0Hae/L1BKk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h2Yl5tA5aiP7lQ7obh/5CmeJ1YEP24stQ7rwVPwyNMKLM6FQ0aVoUDWnPkvYBVxsGWCVNmWTdloWjkoXV2PjMbiaA++37gCZRCr4Zqsy2jE2kPQRiRyr8IPVpE+lTcMZSVIiQfhYRLgntAGarfS3dTpDZXSTFXIGRBjU2i8LSQQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dFQs5Asb; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ewWkVXwP; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14ADF36A372
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 15:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778598673; cv=none; b=ta8MhFVb0dWxGCWCicyYQbOgKIpqpBgVPjdTeVQnIpXo39z5qDJAPrtMLj2SCmPvhJUUMrT8cEUsG6h2R/l5c8iyi32ls1p9ExxBfi6AlgwsUCf6JlVhswVW3p0LvQzpQGJr2xvCG3AwpeHFvCpyGI1aDMsT6+D2Yz94MsvvvCc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778598673; c=relaxed/simple;
+	bh=M/OlBy2UYV0O2v6kUD7jaAhw2kmLfUEuTpihKtR1EGM=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q8EqeiEgI9jsQgrjbm4lsYkooEnKlpzTqWWPHGgJ1P5ucsfyCQXdgrM5oGiwqTLXgU/fQkcqRhESjFfBCNh++llfWjYz2ubiuYmn2RVvxX/kCcQCqaZdthBJqWmtZpChaE5apr1g9gpIrXmzdvUgPTpegAmt6Gwycj1hjfijicU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q5njw/Nn; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dFQs5Asb";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ewWkVXwP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778598335;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W2eX0USmLShQsb/8DMQ63vXaSE/VT5r1TpahlVnwh5Y=;
-	b=dFQs5Asb0SssslNn4u2DaL0rTcfsVqwoUQCkyQDtfR5NcMMrmZPE/OBzjd1Tv2lLG8iYN6
-	KU/JohGE8OvOd9lq+QCP7dAvTG2NZphmgpUA8PALhS9x5w8z5WramV1CoUjN54lh3XKNcy
-	lJ3pLKcgXTXcjngu+QKtE5G1cflZMj8=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-42-asiRldSIMqe9BTwZNRz5dg-1; Tue, 12 May 2026 11:05:31 -0400
-X-MC-Unique: asiRldSIMqe9BTwZNRz5dg-1
-X-Mimecast-MFC-AGG-ID: asiRldSIMqe9BTwZNRz5dg_1778598331
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-7bd66ec877aso120837627b3.1
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 08:05:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778598331; cv=none;
-        d=google.com; s=arc-20240605;
-        b=S+PlPNB3V7xO1ipR+OFSnUvuUpPtFsj/HsX+K+bNSdvoKRfvEEklMnKDBQPG9hcaw3
-         pVb44mVFSkg9HuDE9Iu4aLuwPU4rq/RyZ/r9zK2ARncM0iVENoV3qf3+mwxencKGH0QZ
-         wOFdFv5660GADFEFfrpLIYIlplDc3d8GcmNQBCLeRAMHM/lIX+b4s1Mi0jMxlhbCjyPj
-         +IUJNRPqyEqwYhTjafJuzIzUCqxSOJwn7epNNfEiMiS70kFsqykmuMnkpXRChrCC7fK6
-         HuJtTOBkdVAD5ZZk/EARE7QHRSysV9ts311eM7ArXEQoruFiAmfzE+CUE4eRMLCTVS5V
-         /x8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=W2eX0USmLShQsb/8DMQ63vXaSE/VT5r1TpahlVnwh5Y=;
-        fh=l77dgniWMY7AHkgQVGnnkOutNFdyLw+Dcz7DnxQlnE8=;
-        b=FujESNGvK1lm6aN//VRVwefU1dveyVeH/cjrysAlaofH9FsO3AkxvBULGa3qu+QP/t
-         BEtlvOtIG6wFLGiF7fbZWGJiBF89kChkoTJR435XA93yB49cRg4+IWiNX3wFKf7gxNbG
-         w136HmtjHN+rjtacoHq7c20zSexWHi0WQrcZaXinI98lu3p4jxPDJd9CsLojxikGiOZT
-         v1IZhyicuOTWhfGyHfGCYaFQH3GRgLlHPldrWNODzzZYIvyC3JAje68scar7/Ch5/16b
-         eC18K5vUynYQ+k+Lsh7ZYbk9+ChXllbwaXluLk54z8z/1gEsqZDtpp66xDmpv3q4amvJ
-         JBcw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q5njw/Nn"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48909558b3aso58220085e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 08:11:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1778598331; x=1779203131; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W2eX0USmLShQsb/8DMQ63vXaSE/VT5r1TpahlVnwh5Y=;
-        b=ewWkVXwPkmCZ4XFrslMbpJ7dm1h7H9AlNeXjD4q9j5CcOAw5wxZyAyQiiUl/6HUkyb
-         5CAx7JBrlIfZf/BGNlQfXZ+al6czoIK0sCFwoDp1QosILvQ4UsGQ5jk9kRs7n2U6b2a2
-         H7DcviGDXUwq1RZS7elQU8cY6hiQkzUEmTOVHHDZUoUrAOPh9cKZnq5QHYOxbVLHmlOy
-         V8J/jTHds/l5BMAcgyySDS2G6RBmE26ROVALfA155CQw9Dg4q2cbBvWvpVI3mTVW5v3a
-         IyOJjoTjj9dtYQirRqZdbSICf5wc+NphKTtAOxyB3O1OUi33HaBsdZuMQpj/dV3DobBG
-         CQxA==
+        d=gmail.com; s=20251104; t=1778598670; x=1779203470; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UrqeEwK16SbblcIoUInFb1Z7JZt5ZrtLnMUbnKHgFh8=;
+        b=Q5njw/NnlA5G/sXqqLMuTYRrslCdTtVBrO1pg+SAiC4c+f6rM0EuNfWBxEY8bp7J3k
+         3dPR0A1sF6VfMw0i5XXydbo5F7gGB9S47oxkN092GOFPa1RJqzXaPU2VjMSnhDN5wMNM
+         Y9cdDWBuBRCcl+zQlhV9v3zYGoKMhHsmcB6REfANtX1iRaozcQkFbuYcJ6WgorA1FPnL
+         pE6tSfC/DcUyLYsW1m+RYDTASIYi/JRU+Jzwh5TBImQiiHKxUr+qyeFTAUvosAlj3/hk
+         qUTgvRQj4nDIdIBqIde8s7MOzL6KKtbYSQOPv1uKZ8YuFja6SY+qBziDNwwEXilmw/sm
+         5Qmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778598331; x=1779203131;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=W2eX0USmLShQsb/8DMQ63vXaSE/VT5r1TpahlVnwh5Y=;
-        b=ejG13M87J5008+pG4iUoBKlPZVZOa4ylwDmNDEAPT97Jz9BdAUHGPSwRgk4HuPiA+I
-         vVrc9092f5U371AGN8tlsCVMAcLsevE8r5QF9VG2pqiEGLFUDK3NLd1AzYks6i3GfjyP
-         AHAbJ348n3Hm+d6oNPDiV3sT+qrhDk1722JQy3Luastc/zPHiR7ksJzSnhhTYLJNiPxo
-         HR8WFEU5daKy0jaIsEAVytxWiMOHSgtQS/3OadH0r08ahPbbE8q9fwC5xksjOnhCtPAR
-         qigz+GGkVCh+J9AJExYEV3MRhVgIYg6IaECRwJsMbNWeQgCwdB6UHpQWmqIINLkSqO1u
-         +RLw==
-X-Forwarded-Encrypted: i=1; AFNElJ9rKqtD2UNXG/z3KuT6n95aTRw/eI0trppYq8EjSp1h5ZE1Yf7frAOwHXqDucHrHjeVcZsZ6gSiWOA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQ4voWuIz8cVedkhiF1KdwWnbAjp97FaHzA3RB86wG73O13eCh
-	rwmYAFJn7Kja+FnU+/j6++RB/vsQnpJokB13sIqiFq9aC+DRQZNoiiXr075ZUwDU8VhG5pPN1Bu
-	KCAVt/aUluCiBw9H5B+Mjhbuyh93uaS8wtlulRiL96FIkmaucbb5+CqZciVGdChcrcVAKDux1Cv
-	Rgb6NHgTT4vKGZa/5v+G/5qYWuyWzob/CGSL3t
-X-Gm-Gg: Acq92OEGQzczXfuEnrrP5utXxuAUvKavcZ5Ry8owHelDo8Vtghsr/PhvVIjs7FbaGsq
-	r/4nL8FZVVHgw4g9axz7vuDe6iHf3y0bM5ha2FwrxIAkaYjecAhfNcefZKyiFliknhIzYZfkYSk
-	A7UnUVLbozXM7JMpnqAgmAJ2GRjmiok0M6YZq/tq2bzOn21QOAn2Krmu2LzdXIT+jwAGT6R0BOd
-	LdlPQ==
-X-Received: by 2002:a05:690c:34c9:b0:7bd:6a98:58d3 with SMTP id 00721157ae682-7c50f7cdf32mr36554567b3.18.1778598331006;
-        Tue, 12 May 2026 08:05:31 -0700 (PDT)
-X-Received: by 2002:a05:690c:34c9:b0:7bd:6a98:58d3 with SMTP id
- 00721157ae682-7c50f7cdf32mr36553547b3.18.1778598330230; Tue, 12 May 2026
- 08:05:30 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778598670; x=1779203470;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UrqeEwK16SbblcIoUInFb1Z7JZt5ZrtLnMUbnKHgFh8=;
+        b=mB9ugNg7kva7wHdEkfKkCwpqH+KPXGw6UeLI3rk0LT6XG7RKIomMoSaK4pFiW6isDA
+         ifqewgxEUldjNzlAjHJTjZ+kyBaSodF5ozt0ea8IeSoYHQPjt/78eR4skX7grACPhqgu
+         +QX99mwuljka1sS+zA2cJQnU6TBDtHJX1lQRp3AQIgxUe4y/W+1uSeaLvFoVDNTFZd6B
+         6Ozamf+vvZUNzDbv8lOtOXC6MORbgx6LfemnJ96QLIdgvKbyFwhBWks7/7nA4F9oIFfU
+         4HfuIh/q22HxlKuOEIS1Ui34nVwL0X1Y1eueNVE9DjLnY/xy/QVae5rH2o6a8WZG5YVh
+         vdwQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/XSxH3zNFI7dYjCmOI9ktFLkPQoWWbB3ainPaEHXpPT+6KH/eLwGMOGhCg76crM+DtEUcuJ6r5R30=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiJntVWgXRQw9zTWtX4FTkHDKDUm33EO6tQkfcvGQ0m7V8mfYB
+	49pRY5pugFSAqsddbi+iJjNb78qcUxH/eISe6B/4ow7Hr5vIxBJjn3Jh
+X-Gm-Gg: Acq92OFKTAJedzNC76S/yitwGnW8OB4hkR34F8o5AXAXP4yWYIW3qMgjU70r/t8tW8c
+	HF7WH4lo/pIuMElNkcJiLH8Rwg7Ymy+IJuO1VWiy8No9Q+KKoKXKOiEYPWD/NT/CRYNevmiWpRE
+	af8cOcO3EtlVKJVrPLx86Y08jSbYJ6X73EXmCeMZxlKzKm2tZDsm03oH5l6igZrFUpSRGjLqx6g
+	oQul6XDymbSTit0MfvMYKnZgtSUyfr3NAFtWAXOBmHRm8U6YoYtR+2nrZ8ghzeGlFiK9D1/VKjA
+	N30KCDhq6XQfgaCOn+0w5Pyones7duim8iOmC/qDeSFBwYGu6Oj9jEDMTM7XXWapbxU69F7Tpa+
+	j2Q+f1xE7kw/PDJl7CxjTT4upFDAI3Y3in1n3IeIhzGnp9ZnHydlH8A8ZjRC3kSlG+HyrBeS1lJ
+	xeol5Ezp2iCW7IusBawytyOgAuxIPG351lbUQ9T/R0ik8zwUKxBMIc7fpeBjF3utnh2fPvCtfWF
+	muILcpbLjIDNRHCXtn5Bk3yKvAuG7v7fDkqeGQpTme9nGc6ZA==
+X-Received: by 2002:a05:600c:4ba6:b0:488:a882:c7 with SMTP id 5b1f17b1804b1-48e51f4bab4mr273241975e9.25.1778598670135;
+        Tue, 12 May 2026 08:11:10 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fc8d19974sm3567075e9.2.2026.05.12.08.11.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 08:11:09 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 12 May 2026 16:11:07 +0100
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	David Laight <david.laight.linux@gmail.com>
+Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
+ kstrtodec64()
+Message-ID: <ur6brs3yjzyb4mtelabmcglxjltddqvjxtgl3lkdkmbjlkmnsq@bwd6rz7gided>
+References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
+ <20260510-adf41513-iio-driver-v12-2-34af2ed2779f@analog.com>
+ <20260512123953.40d80bc9@jic23-huawei>
+ <agMnWzMjW1LwCSyT@ashevche-desk.local>
+ <sj6cpjhakyfvv6rgox6cnhl2u2tgaecugcok6fw2l7zgku5wtc@aqx3ul72vgca>
+ <agMvlS3-0wvGmBwh@ashevche-desk.local>
+ <dxjg2sdyxb7ieb4abmeyyye7qok6cczrxabpsjyjhcbehwoec3@sbbqoo4wmzre>
+ <agM8pWrM6j_XksvN@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260508-kunit_add_support-v9-0-99df7aa880f6@redhat.com> <20260508165203.1cd1b27e664754d18dbea899@linux-foundation.org>
-In-Reply-To: <20260508165203.1cd1b27e664754d18dbea899@linux-foundation.org>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Tue, 12 May 2026 17:05:18 +0200
-X-Gm-Features: AVHnY4IjDWzPTwv7Lf1EJ-4smElfrpc1pe5LEGC8untQsvEPzH-woMO9H8PAPck
-Message-ID: <CADSE00LNoc8KgVWR=7Va-Phb2U9sDzS9wntWckDFm66Uz89bnQ@mail.gmail.com>
-Subject: Re: [PATCH v9 0/4] kunit: Add support for suppressing warning backtraces
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
-	peterz@infradead.org, Alessandro Carminati <acarmina@redhat.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Kees Cook <kees@kernel.org>, 
-	Linux Kernel Functional Testing <lkft@linaro.org>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
-	Dan Carpenter <error27@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <agM8pWrM6j_XksvN@ashevche-desk.local>
 
-On Sat, May 9, 2026 at 1:52=E2=80=AFAM Andrew Morton <akpm@linux-foundation=
-.org> wrote:
->
-> On Fri, 08 May 2026 17:02:44 +0200 Albert Esteve <aesteve@redhat.com> wro=
-te:
->
-> > Some unit tests intentionally trigger warning backtraces by passing bad
-> > parameters to kernel API functions. Such unit tests typically check the
-> > return value from such calls, not the existence of the warning backtrac=
-e.
-> >
-> > ...
-> >
-> > Solve the problem by providing a means to suppress warning backtraces
-> > originating from the current kthread while executing test code.
-> > Since each KUnit test runs in its own kthread, this effectively scopes
-> > suppression to the test that enabled it, without requiring any
-> > architecture-specific code.
->
-> Thanks.  AI review has a bunch of questions:
->         https://sashiko.dev/#/patchset/20260508-kunit_add_support-v9-0-99=
-df7aa880f6@redhat.com
->
+On 26/05/12 05:43PM, Andy Shevchenko wrote:
+> On Tue, May 12, 2026 at 03:12:24PM +0100, Rodrigo Alencar wrote:
+> > On 26/05/12 04:48PM, Andy Shevchenko wrote:
+> > > On Tue, May 12, 2026 at 02:21:14PM +0100, Rodrigo Alencar wrote:
+> > > > On 26/05/12 04:12PM, Andy Shevchenko wrote:
+> > > > > On Tue, May 12, 2026 at 12:39:53PM +0100, Jonathan Cameron wrote:
+> > > > > > On Sun, 10 May 2026 13:42:20 +0100
+> > > > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> > > > > > 
+> > > > > > > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
+> > > > > > > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
+> > > > > > > precision). After the decimal point, digits beyond the specified scale
+> > > > > > > are ignored.
+> > > > > > 
+> > > > > > Whilst Rodrigo has already replied to say there will be another version
+> > > > > > I'd like to request final feedback from those who were involved in the parser
+> > > > > > discussions.  
+> > > > > > 
+> > > > > > They got very involved and I'm far from an expert in the right way to do
+> > > > > > this stuff.  
+> > > > > > 
+> > > > > > I don't think David Laight was +CC so I've added that.
+> > > > > > David, Andy - I think you two were most involved in that discussion:
+> > > > > > Any objections to the end result? 
+> > > > > 
+> > > > > I already said a few times about the naming. I do not like the kstrto*()
+> > > > > be semantically different on how they treat the input. Second point is
+> > > > > to avoid code duplication, but this one is less of a concern since the
+> > > > > new code is in the library close to the other potentially duplicate code
+> > > > > piece and hence can be addressed later.
+> > > > 
+> > > > I suppose I reached into kstrtodec64() and kstrtoudec64() because it aligns
+> > > > with your expectations for kstrto*() semantics, no? Those include:
+> > > >  - overflow check;
+> > > >  - extensive input validation;
+> > > >  - optional '\n' in the end;
+> > > >  - mandatory nul-termination.
+> > > > 
+> > > > am I missing anything?
+> > > 
+> > > When we add scale we basically make that not true. Moreover the code in this
+> > > patch makes scale == number_of_characters which I think a bit fragile, however
+> > > it's about the fractional part when the amount of digits is equal to scale.
+> > 
+> > That is not really the case. It is being set as a limit, so it does check for
+> > truncation and zero-padding.
+> 
+> I do not see it happens in _parse_integer_limit(). It doesn't try to parse more
+> characters than it's requested in max_chars. It doesn't check if there are more
+> character nor their converted values.
+> 
+> > > To make this work as expected we need to add an additional call like
+> > > kstrtoull() (and perhaps drop that \n and NUL-terminator checks) and see
+> > > if that overflows or not. Since it's a fractional part it must have less
+> > > than 20 (decimal) digits there, so we check the rv (or how many digits
+> > > were parsed successfully) and compare to 20. If it's more, we got too many
+> > > decimal digits.
+> > 
+> > For overflow it checks the KSTRTOX_OVERFLOW flag and leverages check_mul_overflow()
+> > and check_add_overflow() when combining fractional and integer parts. The amount
+> > of characters is not really important there. The scale cannot be bigger than 19 and
+> > that makes sure that int_pow() does not overflow. The code uses _parse_integer_limit()
+> > due to the nature of input and to avoid 64-bit division, kstrtoull() at any point
+> > (parsing integer or fractional parts) does not make much sense.
+> 
+> Under 'like kstrotoull()' I meant something that repeats needed functionality.
+> I believe it's parse_integer() (without limit).
 
-Hi! Most look like valid concerns/issues. I will send a new version
-addressing them then, and monitor sashiko to ensure I clear
-everything.
+I think we are going in circles here and we could look at the code instead:
+- integer parsing with _parse_integer()
+	- overflow check and validation of the return value
+- fractional parsing with _parse_integer_limit()
+	- overflow check and validation of the return value
+	- extra scaling and truncation happening outside if needed.
+- check for input termination
+- combination of integer and fractional parts with check_mul_overflow() and check_add_overflow() 
 
-Thanks for the link.
+> > > Maybe I'm missing these checks already performed?
+> > > 
+> > > > > Having the test cases is a big benefit, and that part I like the most.
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
 
-BR,
-Albert.
+-- 
+Kind regards,
 
+Rodrigo Alencar
