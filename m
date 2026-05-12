@@ -1,56 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D130E3D5C05;
-	Tue, 12 May 2026 17:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DF53D5C05
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 17:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778605325; cv=none; b=Wq9Q4kDZmK5kwZQqxCAaLYa3G4FxKUfTQSHsKm4hROgv12VDfwegJHQb7WykVhnOUyMnMrgrbBb99Fr8PnD6Gbc/Vhc7lFxFk3rqpk17cJBXY12NZOkTzhTT/qO3Zb0O8w0aly0IgyIU779BLts2Av1skhpQuunGeNI07n7Zp4s=
+	t=1778605352; cv=none; b=vBd4BjSA3DaOurHUJAq0PGGjH/KetpNmTSpoK8YVthYpvk3YONQegJOmRyd0Z8OVLuZHmJ61og5O+gHLyIEFZKIo0UGpZeKt2CpiTw+PmuAzdgSfFnEQOWmG7on8rld1+uRsszDrJxlwNHtDeWHAOLM0E/ZiwtAaiA5ibcICK+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778605325; c=relaxed/simple;
-	bh=3w1awZ3eeZyi0jyriVIT/nzrxciCz6a3fg6BE8QtIlg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G5uslSr+tSmuo0d6F51f0tPRdKogqVtXMZCSxCTsHwtfQSsgHC6M+pEYzL1LWEUos7mAmBEaEySZK6tmXHFvLq89RMDAQTqX1J8GUpudprL9qVCJhdtKNfQvQa+2I6EMqs0VjoxOyS3d7fb3HZqE8Q3hRZeE0ACmwl059ef00rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TjMYk2vR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778605352; c=relaxed/simple;
+	bh=6zAnmJplbRJHrEYL7JhzTrhZXo7V5OFYFINtTtoTZ2w=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LhxEWwlz2QGXcIcdsnsp4qS09p+AARbPgBoTjB72oYHkVhfMq39JqmfaME9shrZ2LHRy7A/kd3AMRn13pLlNCTihFxdt+/H5IXREiUr2bOwCM+04Epj6x0275V1qvDvVhcuv4l31ZHidClc5By4A9yROHc8FYPfSEpIH2RwFkhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k50ouChZ; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TjMYk2vR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F11FC2BCC7;
-	Tue, 12 May 2026 17:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778605325;
-	bh=3w1awZ3eeZyi0jyriVIT/nzrxciCz6a3fg6BE8QtIlg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TjMYk2vRoty2a4xDF+mPNkwg088Su/Dx1Sz86vsQ2QZG6kbz61WB0pPzkcCZAxjYq
-	 kJY3nMshWUg7KGRx6BsutKaT+vu8mwemfJijbJapF//T7rUIbic7QUSCSMCINj9Vnm
-	 utITe5nMhhEVSeINgpaCBTozVPfIZ/os3th5Ms0aJgOfThlG42fWDsASqq13Ot1T5b
-	 Wg1VYUEw8U21QanLlWxGkEH80h/yjschij/vN+NnHNHX+S7Sb+2OzYIZUb7Q97/fHl
-	 QCDzO30QikF4V6NHzRaXJaxzSG3Ei3fZ/Pa/6QN0mk9zIzYYmmkf0fXA4YRksP43ne
-	 w2Gji8z2LDbZA==
-Date: Tue, 12 May 2026 10:02:04 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, David Sterba <dsterba@suse.com>,
-	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>, Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, linux-block@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org
-Subject: Re: [PATCH 08/12] swap,iomap: simplify iomap_swapfile_iter
-Message-ID: <20260512170204.GI9555@frogsfrogsfrogs>
-References: <20260512053625.2950900-1-hch@lst.de>
- <20260512053625.2950900-9-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k50ouChZ"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a8704dc3a8so5887568e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 10:02:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778605349; x=1779210149; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9km9X8WvuELTJi7qj+7+Noq5bB5jqawSJ9nshPfD98o=;
+        b=k50ouChZSvxTZed6wqPYwc0Tt64X94W0HloH1IwzsbXRbaZCLuun2KmzIg1sMwBH+O
+         QYgElNqdnQouiay3CWhPpChyGxdJQ5JfwbVOFV+vqwQ9duakW6TAf63q8lF3zQHj7Jrj
+         LCkDjfzxZw4P4V3fygTPDuDbMci2mo8aaK3wCL9UWBamPbyx0P/AVlxrNYHY5DYTcJAK
+         PfQe/NpnaEQD2OodCfFryrOcCMcjR/P5zgFAUlMY+mSh5Sb9LQhDNQMuXFgkA5oLWGrk
+         dhCZZ1xUKwiJsJ1flAuLYZICQhaicQINrXFCgxPpCWRS02XhzA0UgyonX/vJrNFqVMvC
+         CPlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778605349; x=1779210149;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9km9X8WvuELTJi7qj+7+Noq5bB5jqawSJ9nshPfD98o=;
+        b=hki+bDeRjlUU74kLl2VfEtoYmqw+4PKKLmMI6Xdt6ZLhPFjwdkJzVpDe0AN8HJD/iC
+         m+jPoueuhEnRDfhAK46e/50Vd2CoWWTaStZ38qFAL/I/pFGIuZEve0huSJX8eBAD9J/R
+         L/Mm7YIylxuP1DmXWx+L3WVwfduKQoeifJayJRxm2fxlmZxZYQ8ZjBhDS/cNumSeQAj0
+         Z7RiPj66E2lkxTll28/g/GStPPTqaprzZ91pns9vLKLyMDlQtDpfYhG1oTpIAI+FODZB
+         XCD+Sdsqygc1jpW9f4Yj3eGbO8i2auko7RNMePsdaPl3Lmlr/8P3YaFtOxrocS07IvWI
+         Z6jw==
+X-Forwarded-Encrypted: i=1; AFNElJ/hh3lsHR/wjg8QXPdI0lgTlf5O6LLiQRkpM8KQBFoXYEcMCsLqPPVW4NrI/bDBKPsiEGge6nd50uw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeiYFTGfsH9fLmnmEDl5jBBFIV+F8mKMp6G1RoQpIe54n/PHQX
+	1mjiC+VUXFTb3YW3WUaEal8pNDFtRK9YvqY4jUVLvpCyuvTZ6sjf8KeB
+X-Gm-Gg: Acq92OEOgyu6S9kDMH6VvGnuzjIrf6ptStk+dzgFz/2vuiThGJDBvyDHiNwooyhAQWj
+	DXnGUYoNFaqX83FXtn4UGjHwcGG3lG995xyxIWm1XuN/6Bf+r0M+j+2B5RrEQUdo4fLJ01dD9ZC
+	WOoppOnoQ3MLl8/F2/BQUIzSNhjDfMsKrlO78PzjVyF2WvawToqTM0PFbZqPucAo0imXi6Ht/OJ
+	E+LmO2qBq9QLVh3eFMRz/c60v7WPLwhF/gFExU6Pq0k77MSB21WahTgyUCNvZL7ZZyMBTFFnyq7
+	M4PujMGOWzPECf0GX2jylAfbuv22SahquJKg47T6iFy2i5X9bkOoD6wWhiltzfaJh3k4N6qWquW
+	rKCBL0tBb5QCB06xZgwXf5eJW0GJuEPX/+p7AYxHrQcayYuJnz6Bw7mZZUJHap1SW6n8a9MX8Wh
+	/JCgyqFgt2drkW4SYbjtGBA0pv3VtwUkXVaqnGOW9c3/LaLdKR+1SKKxGrmQaXHPiUTPSmdRdEw
+	BrnRwNW0n4bPXk3Ix8XV6L/BoejLo4hKR4XDYQqfihcWHeI6EN9ShvvXlAQ
+X-Received: by 2002:a05:6512:31c3:b0:5a8:84a6:2e34 with SMTP id 2adb3069b0e04-5a8e30d13e6mr1353520e87.14.1778605348704;
+        Tue, 12 May 2026 10:02:28 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-454913049ecsm33071212f8f.19.2026.05.12.10.02.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 10:02:28 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 12 May 2026 18:02:22 +0100
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v12 06/11] iio: test: iio-test-format: add test case for
+ decimal format
+Message-ID: <zugkmatjsacla7l7nguekmclfdkzsshr3gs434a3liccgokxb4@xg77y5tkts5c>
+References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
+ <20260510-adf41513-iio-driver-v12-6-34af2ed2779f@analog.com>
+ <agM7CT4RjzwliKmb@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,209 +86,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260512053625.2950900-9-hch@lst.de>
+In-Reply-To: <agM7CT4RjzwliKmb@ashevche-desk.local>
 
-On Tue, May 12, 2026 at 07:35:24AM +0200, Christoph Hellwig wrote:
-> add_swap_extent already coalesces multiple extents, no need to duplicate
-> that in the caller.
+On 26/05/12 05:36PM, Andy Shevchenko wrote:
+> On Sun, May 10, 2026 at 01:42:24PM +0100, Rodrigo Alencar via B4 Relay wrote:
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-/me wishes he'd either noticed that add_swap_extent already had the
-coalescing code or had documented why he implemented his own.
-
-OH.  Now I remember why -- it's to handle contiguous mixed mappings
-better.
-
-Let's say that you have a 1k fsblock filesystem and 4k base pages.  You
-fallocate an 8G swap file and then mkswap it.  The first mapping is a 1k
-written mapping at offset 0 for the swap header, followed by an 8388607k
-unwritten mapping at offset 3k.
-
-The PAGE_SIZE rounding code in iomap_swapfile_add_extent will round the
-end of that first mapping down to zero and ignore it.  The second
-mapping will be treated as if it were a 8388604k mapping starting at
-offset 4096.  Now the page counts are wrong and the swapon fails.
-
-A more generic solution to this would be to change add_swap_extent to
-take sector_t addr and length values and use them to construct a bitmap
-representing contiguous physical space on the bdev, accounting of course
-for PAGE_SIZE alignment.  Except for the swap header page, every other
-contiguously set page-aligned region in the bitmap gets added to the
-swap extent map.
-
-You could then maximize the number of pages participating in swap even
-for files with layouts that are truly egregiously bad.  But I elected
-not to go there because the common case is fallocate getting contiguous
-space.
-
-But still, I'm not sure we want to drop the iomap accumulator in
-fs/iomap/swapfile.c.
-
---D
-
-> ---
->  fs/iomap/swapfile.c | 104 +++++++++++++-------------------------------
->  1 file changed, 31 insertions(+), 73 deletions(-)
+> > Add iio_test_iio_format_value_decimal_64() kunit test case for decimal
+> > value formatting, exploring different scales types. Also, the same
+> > iio_val_s64_array_populate() macro used to populate local array is used in
+> > iio_test_iio_format_value_integer_64().
 > 
-> diff --git a/fs/iomap/swapfile.c b/fs/iomap/swapfile.c
-> index cf354fdfb7c3..a4e0ca462cc4 100644
-> --- a/fs/iomap/swapfile.c
-> +++ b/fs/iomap/swapfile.c
-> @@ -6,57 +6,32 @@
->  #include <linux/iomap.h>
->  #include <linux/swap.h>
->  
-> -/* Swapfile activation */
-> -
-> -struct iomap_swapfile_info {
-> -	struct iomap iomap;		/* accumulated iomap */
-> -	struct swap_info_struct *sis;
-> -	unsigned long nr_pages;		/* number of pages collected */
-> -	struct file *file;
-> -};
-> -
-> -/*
-> - * Collect physical extents for this swap file.  Physical extents reported to
-> - * the swap code must be trimmed to align to a page boundary.  The logical
-> - * offset within the file is irrelevant since the swapfile code maps logical
-> - * page numbers of the swap device to the physical page-aligned extents.
-> - */
-> -static int iomap_swapfile_add_extent(struct iomap_swapfile_info *isi)
-> -{
-> -	struct iomap *iomap = &isi->iomap;
-> -	uint64_t first_ppage;
-> -	uint64_t next_ppage;
-> -
-> -	/*
-> -	 * Round the start up and the end down so that the physical
-> -	 * extent aligns to a page boundary.
-> -	 */
-> -	first_ppage = ALIGN(iomap->addr, PAGE_SIZE) >> PAGE_SHIFT;
-> -	next_ppage = ALIGN_DOWN(iomap->addr + iomap->length, PAGE_SIZE) >>
-> -			PAGE_SHIFT;
-> -	return add_swap_extent(isi->sis, next_ppage - first_ppage, first_ppage);
-> -}
-> -
-> -static int iomap_swapfile_fail(struct iomap_swapfile_info *isi, const char *str)
-> +static int iomap_swapfile_fail(struct file *file, const char *str)
->  {
->  	char *buf, *p = ERR_PTR(-ENOMEM);
->  
->  	buf = kmalloc(PATH_MAX, GFP_KERNEL);
->  	if (buf)
-> -		p = file_path(isi->file, buf, PATH_MAX);
-> +		p = file_path(file, buf, PATH_MAX);
->  	pr_err("swapon: file %s %s\n", IS_ERR(p) ? "<unknown>" : p, str);
->  	kfree(buf);
->  	return -EINVAL;
->  }
->  
->  /*
-> - * Accumulate iomaps for this swap file.  We have to accumulate iomaps because
-> - * swap only cares about contiguous page-aligned physical extents and makes no
-> - * distinction between written and unwritten extents.
-> + * Report physical extents for this swap file.  Physical extents reported to the
-> + * swap code must be trimmed to align to a page boundary.  The logical offset
-> + * within the file is irrelevant since the swapfile code maps logical page
-> + * numbers of the swap device to the physical page-aligned extents.
->   */
-> -static int iomap_swapfile_iter(struct iomap_iter *iter,
-> -		struct iomap *iomap, struct iomap_swapfile_info *isi)
-> +static int iomap_swapfile_iter(struct iomap_iter *iter, struct file *file,
-> +		struct swap_info_struct *sis)
->  {
-> +	struct iomap *iomap = &iter->iomap;
-> +	uint64_t first_ppage;
-> +	uint64_t next_ppage;
-> +	int error;
-> +
->  	switch (iomap->type) {
->  	case IOMAP_MAPPED:
->  	case IOMAP_UNWRITTEN:
-> @@ -64,35 +39,31 @@ static int iomap_swapfile_iter(struct iomap_iter *iter,
->  		break;
->  	case IOMAP_INLINE:
->  		/* No inline data. */
-> -		return iomap_swapfile_fail(isi, "is inline");
-> +		return iomap_swapfile_fail(file, "is inline");
->  	default:
-> -		return iomap_swapfile_fail(isi, "has unallocated extents");
-> +		return iomap_swapfile_fail(file, "has unallocated extents");
->  	}
->  
->  	/* No uncommitted metadata or shared blocks. */
->  	if (iomap->flags & IOMAP_F_DIRTY)
-> -		return iomap_swapfile_fail(isi, "is not committed");
-> +		return iomap_swapfile_fail(file, "is not committed");
->  	if (iomap->flags & IOMAP_F_SHARED)
-> -		return iomap_swapfile_fail(isi, "has shared extents");
-> +		return iomap_swapfile_fail(file, "has shared extents");
->  
->  	/* Only one bdev per swap file. */
-> -	if (iomap->bdev != isi->sis->bdev)
-> -		return iomap_swapfile_fail(isi, "outside the main device");
-> -
-> -	if (isi->iomap.length == 0) {
-> -		/* No accumulated extent, so just store it. */
-> -		memcpy(&isi->iomap, iomap, sizeof(isi->iomap));
-> -	} else if (isi->iomap.addr + isi->iomap.length == iomap->addr) {
-> -		/* Append this to the accumulated extent. */
-> -		isi->iomap.length += iomap->length;
-> -	} else {
-> -		/* Otherwise, add the retained iomap and store this one. */
-> -		int error = iomap_swapfile_add_extent(isi);
-> -		if (error)
-> -			return error;
-> -		memcpy(&isi->iomap, iomap, sizeof(isi->iomap));
-> -	}
-> +	if (iomap->bdev != sis->bdev)
-> +		return iomap_swapfile_fail(file, "outside the main device");
->  
-> +	/*
-> +	 * Round the start up and the end down so that the physical extent
-> +	 * aligns to a page boundary.
-> +	 */
-> +	first_ppage = ALIGN(iomap->addr, PAGE_SIZE) >> PAGE_SHIFT;
-> +	next_ppage = ALIGN_DOWN(iomap->addr + iomap->length, PAGE_SIZE) >>
-> +			PAGE_SHIFT;
-> +	error = add_swap_extent(sis, next_ppage - first_ppage, first_ppage);
-> +	if (error)
-> +		return error;
->  	return iomap_iter_advance_full(iter);
->  }
->  
-> @@ -110,10 +81,6 @@ int iomap_swap_activate(struct file *file, struct swap_info_struct *sis,
->  		.len	= ALIGN_DOWN(i_size_read(inode), PAGE_SIZE),
->  		.flags	= IOMAP_REPORT,
->  	};
-> -	struct iomap_swapfile_info isi = {
-> -		.sis = sis,
-> -		.file = file,
-> -	};
->  	int ret;
->  
->  	/*
-> @@ -125,16 +92,7 @@ int iomap_swap_activate(struct file *file, struct swap_info_struct *sis,
->  		return ret;
->  
->  	while ((ret = iomap_iter(&iter, ops)) > 0)
-> -		iter.status = iomap_swapfile_iter(&iter, &iter.iomap, &isi);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	if (isi.iomap.length) {
-> -		ret = iomap_swapfile_add_extent(&isi);
-> -		if (ret)
-> -			return ret;
-> -	}
-> -
-> -	return 0;
-> +		iter.status = iomap_swapfile_iter(&iter, file, sis);
-> +	return ret;
->  }
->  EXPORT_SYMBOL_GPL(iomap_swap_activate);
-> -- 
-> 2.53.0
+> ...
 > 
+> > +	iio_val_s64_array_populate(24, values);
 > 
+> You want to test this first...
+> I think the previous patch needs new test cases.
+
+This is no complex stuff.. those functions are straightforward and
+goes into accordance with what the format function does... which is
+the opposite, before populating the buffer. The assertion on the buffer
+content accounts for that behavior.
+ 
+-- 
+Kind regards,
+
+Rodrigo Alencar
