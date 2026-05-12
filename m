@@ -1,368 +1,392 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1FF3CC7F3
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 15:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C973C5850;
+	Tue, 12 May 2026 15:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778600678; cv=none; b=fAtZOm0UF76sm5P8vMQElfB6Cyqd20ukVRPGEEUbzZTyERajdVGkInYwqYlOwEXLdOJDmBKgt8mlIgnfDteLyCugPt7R4XsKHNIcSa9VFcrpaZbZ25T8sOVcZJ+jDxBMAlWfBfF/eTP+qUBAza17fGSXXQM158Lt+uZcTDqxEO0=
+	t=1778600724; cv=none; b=GMc6xlePA5LygJMcngAj6m1N1si4RodCFu3YZ4cbZYG7yLT4BR6DNiZmEgUtpN2tS5gKWPPQt5f5HrZBwtPGLI/YZbqp0yDkhO/NdeTrc2jMlqxi08EpefHkRU1KoHgL0HaohQEei+ZZxkC/YqKF6W4F5SvtAJuDu1TH59dS9rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778600678; c=relaxed/simple;
-	bh=3DcpGCU9K6911shPV50gRl5M+deS3kNBx+fYBsUdgPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l/QfjlIIdv2pnLFsiElRtqIhVf183WA72TZUZTERqhG5iJOks4CVOt271fdHF4M7mwRDI/Qx4dxu1Ez+JuJK7SpSvu1/rD/i43ZeH4Kmw/3n68xLlTOnXL83SNv6tHOHLilcMHUznb4WlkOIQcENnx6vE2OWGsvglQhuHIAw2/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HEv8x2VE; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778600724; c=relaxed/simple;
+	bh=UPTsSXVqrpNioAawmeVwwn89Z4hceuaoH7R8YMg6KAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=M8MmHhoT20SlP6fITEXSJiGZn7o4L/+05JJ0lOE3eplq+YS5SpIUdbMe3wdLA5gvBrxCcWa88ZStxFIOFfAuSh5THQ7+ZssjAcaZW16o9AbsFLiFWOOD85Y8FAk1qhQYsVK4H23RVeJmy0gLdpw/wjGqFjVAb/8NBJI3QQHiais=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=moMZGQZb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HEv8x2VE"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b79f8f7ea43so886103666b.2
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 08:44:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778600673; x=1779205473; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Nv4qmA+sqyfYzE92vZNdsUTE214TmpdPKsUH6wG5Qt4=;
-        b=HEv8x2VEh4Y3972hEATwBSj0usLVbIDgsrrMb2pypfcoIjSLmtrgpzQlO1JowF2D8L
-         wzINJAwzmoOk6QIlwOJbf9UzZuTxn5JeTElYBoP7sgXINSnM7JsuSyt9UMEIoiXyv+gn
-         40mfZpdhrdBBgE6MIdzqMg8RHieUgnOWQoLhnYGR3ZPvdL37EPVqUCDePBbQX4fyGbpx
-         sDaoqSrjEFdyBlYOHnSIgbvHAcM+jUsSEPt7cv8xGbrSYM0Y492dFQcm4C1jH1wn2wCS
-         3BqmW8ed5944CyKD0eGAbJtr1yHbqZM8ZcYaredmQHO9VgXw+dsJDo5bLqGEYL0EBOxa
-         2fug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778600673; x=1779205473;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nv4qmA+sqyfYzE92vZNdsUTE214TmpdPKsUH6wG5Qt4=;
-        b=n8pO7oJ5YR7dTh09mdYqjNBcfaFg9J17gXgAejQ5EJEoZEA84eymx1LPfwpYl9IbCZ
-         /1C9Yw6eYZasQeInCbqdmbgXEqEE6aH/c4UjWtiuLLUJf5dH51ZLzlbV4KUcBSJuv598
-         HV6J5xg6bKG1C4o1GzSvkaAcmMoJDu0F9cX+hmnNkR9apWGvJiunViYF4FpRaBLcQe6J
-         AKF1K2NEzMpHHorV1rpRYWA8sbn+G6pplULWqGD6cv9dyArCX2nY3QVxCPkD2tgAIyXR
-         4Mf5uLs7vS+BURumzZ50xJAM24gMDnlw0KSxgk5Lqtg1MYxzexDBHT/9rYiNU+8UICKM
-         olVA==
-X-Gm-Message-State: AOJu0Yza197ceM/Kja5WOU3w0fcLkAVMzOYc8dON7Ytzr5WC4aMQAymB
-	dhsqKi01idxnFsoVtW7ANM/k20i5ePqeR1SmEYB8JLbv49iU5ULbDw26OK35zqMt
-X-Gm-Gg: Acq92OFFcPdPAbEtG12HhKRgD1HkIjm1bNA3Lfx5CpBWAAYt6wYKynl4MsM4GDspXxH
-	B4DnRSMvMuB4IjkSloYPXLVD9uuEJ5JnK/lISJSRnrtwcCnpPXmVW4Iu7EhojwOIs1W3KPlXfkv
-	5Q8HgmH4fRp2EAUN6QLSHJj+eC5nOeBacsNCNrVDlrhKt2OwvxzH07X2qFZKkCsdrYY/bfaG3pj
-	RroWq4Epo1j0ggdjsD2yqcOhz3jMfJBQFGdUpTdZi6cfON93lBStaK61RGJiuzmYYod38LvBrEk
-	SDXNTMXzlxZ/+LOOvaFbywzAwCSqSCtu6GqKLEx9dbwRy36mUqUjkBttPcK/osNagsXV9pEpCoG
-	x9uhOyc7dX6+VKaoGnNeheumhAwlDp5RaPi0ICg7LwY/sXMGoPXiNAuBqicZRlWSKOPfoGM11rF
-	cRUHIxAzUu6p6KLtttRf0B+w==
-X-Received: by 2002:a17:907:1c0d:b0:bd2:ed0:90f9 with SMTP id a640c23a62f3a-bd20ed09163mr410838466b.30.1778600672517;
-        Tue, 12 May 2026 08:44:32 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcac11b7084sm687780766b.28.2026.05.12.08.44.31
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 12 May 2026 08:44:32 -0700 (PDT)
-Date: Tue, 12 May 2026 15:44:31 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
-	aarcange@redhat.com, akpm@linux-foundation.org,
-	anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org,
-	baolin.wang@linux.alibaba.com, byungchul@sk.com,
-	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
-	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com,
-	jack@suse.cz, jackmanb@google.com, jannh@google.com,
-	jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org,
-	lance.yang@linux.dev, liam@infradead.org, ljs@kernel.org,
-	mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
-	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com,
-	pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
-	rdunlap@infradead.org, richard.weiyang@gmail.com,
-	rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org,
-	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com,
-	surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de,
-	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com,
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org,
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com,
-	ziy@nvidia.com, zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v17 11/14] mm/khugepaged: Introduce mTHP
- collapse support
-Message-ID: <20260512154431.jxcs632mqqatqtsw@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20260511185817.686831-1-npache@redhat.com>
- <20260511185817.686831-12-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="moMZGQZb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCCF3C2BCB0;
+	Tue, 12 May 2026 15:45:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778600724;
+	bh=UPTsSXVqrpNioAawmeVwwn89Z4hceuaoH7R8YMg6KAY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=moMZGQZb9IvwY7Hp94T6nwhBLqFjxmHjmSvRQ0esPijeXKCHpLdJAwHMptFit6xsP
+	 HcZdIr2u6RdslL8cfu6AUTmrNeBoT3A4JV8mu5iGHQlfHUOO18ST83n4WqVQKmBmwB
+	 YZ6IBFAImb1TgXHL0WDKdLurRL+RpbHWhz4BZZp/dNffX4Nidu/dMM+O5GmZIHhat/
+	 hqm+8gk/WJ06U/SNY17Y+b7FuSoLDfXtldF5RkTNZwESL4p/+pvtpIDcB7mbStJAS1
+	 G/d92PnU7FjhBsWumrMZ9kzqg+2iBtJmp4uXRMUtrV6gBr2kNv9g5zQRSRHT0G7a6l
+	 nzlVImAYVAWzg==
+Date: Tue, 12 May 2026 16:45:14 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
+ <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v10 3/6] iio: adc: ad4691: add triggered buffer support
+Message-ID: <20260512164514.38bbfd4c@jic23-huawei>
+In-Reply-To: <20260511-ad4692-multichannel-sar-adc-driver-v10-3-e1fbb1744e38@analog.com>
+References: <20260511-ad4692-multichannel-sar-adc-driver-v10-0-e1fbb1744e38@analog.com>
+	<20260511-ad4692-multichannel-sar-adc-driver-v10-3-e1fbb1744e38@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511185817.686831-12-npache@redhat.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 11, 2026 at 12:58:11PM -0600, Nico Pache wrote:
->Enable khugepaged to collapse to mTHP orders. This patch implements the
->main scanning logic using a bitmap to track occupied pages and a stack
->structure that allows us to find optimal collapse sizes.
->
->Previous to this patch, PMD collapse had 3 main phases, a light weight
->scanning phase (mmap_read_lock) that determines a potential PMD
->collapse, an alloc phase (mmap unlocked), then finally heavier collapse
->phase (mmap_write_lock).
->
->To enabled mTHP collapse we make the following changes:
->
->During PMD scan phase, track occupied pages in a bitmap. When mTHP
->orders are enabled, we remove the restriction of max_ptes_none during the
->scan phase to avoid missing potential mTHP collapse candidates. Once we
->have scanned the full PMD range and updated the bitmap to track occupied
->pages, we use the bitmap to find the optimal mTHP size.
->
->Implement collapse_scan_bitmap() to perform binary recursion on the bitmap
->and determine the best eligible order for the collapse. A stack structure
->is used instead of traditional recursion to manage the search. This also
->prevents a traditional recursive approach when the kernel stack struct is
->limited. The algorithm recursively splits the bitmap into smaller chunks to
->find the highest order mTHPs that satisfy the collapse criteria. We start
->by attempting the PMD order, then moved on the consecutively lower orders
->(mTHP collapse). The stack maintains a pair of variables (offset, order),
->indicating the number of PTEs from the start of the PMD, and the order of
->the potential collapse candidate.
->
->The algorithm for consuming the bitmap works as such:
->    1) push (0, HPAGE_PMD_ORDER) onto the stack
->    2) pop the stack
->    3) check if the number of set bits in that (offset,order) pair
->       statisfy the max_ptes_none threshold for that order
->    4) if yes, attempt collapse
->    5) if no (or collapse fails), push two new stack items representing
->       the left and right halves of the current bitmap range, at the
->       next lower order
->    6) repeat at step (2) until stack is empty.
->
->Below is a diagram representing the algorithm and stack items:
->
->                            offset   mid_offset
->                            |        |
->                            |        |
->                            v        v
->          ____________________________________
->         |          PTE Page Table            |
->         --------------------------------------
->			    <-------><------->
->                             order-1  order-1
->
->mTHP collapses reject regions containing swapped out or shared pages.
->This is because adding new entries can lead to new none pages, and these
->may lead to constant promotion into a higher order mTHP. A similar
->issue can occur with "max_ptes_none > HPAGE_PMD_NR/2" due to a collapse
->introducing at least 2x the number of pages, and on a future scan will
->satisfy the promotion condition once again. This issue is prevented via
->the collapse_max_ptes_none() function which imposes the max_ptes_none
->restrictions above.
->
->We currently only support mTHP collapse for max_ptes_none values of 0
->and HPAGE_PMD_NR - 1. resulting in the following behavior:
->
->    - max_ptes_none=0: Never introduce new empty pages during collapse
->    - max_ptes_none=HPAGE_PMD_NR-1: Always try collapse to the highest
->      available mTHP order
->
->Any other max_ptes_none value will emit a warning and skip mTHP collapse
->attempts. There should be no behavior change for PMD collapse.
->
->Once we determine what mTHP sizes fits best in that PMD range a collapse
->is attempted. A minimum collapse order of 2 is used as this is the lowest
->order supported by anon memory as defined by THP_ORDERS_ALL_ANON.
->
->Currently madv_collapse is not supported and will only attempt PMD
->collapse.
->
->We can also remove the check for is_khugepaged inside the PMD scan as
->the collapse_max_ptes_none() function handles this logic now.
->
->Signed-off-by: Nico Pache <npache@redhat.com>
+On Mon, 11 May 2026 14:54:15 +0300
+Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
 
-[...]
+> From: Radu Sabau <radu.sabau@analog.com>
+>=20
+> Add buffered capture support using the IIO triggered buffer framework.
+>=20
+> CNV Burst Mode: the GP pin identified by interrupt-names in the device
+> tree is configured as DATA_READY output. The IRQ handler stops
+> conversions and fires the IIO trigger; the trigger handler executes a
+> pre-built SPI message that reads all active channels from the AVG_IN
+> accumulator registers and then resets accumulator state and restarts
+> conversions for the next cycle.
+>=20
+> Manual Mode: CNV is tied to SPI CS so each transfer simultaneously
+> reads the previous result and starts the next conversion (pipelined
+> N+1 scheme). At preenable time a pre-built, optimised SPI message of
+> N+1 transfers is constructed (N channel reads plus one NOOP to drain
+> the pipeline). The trigger handler executes the message in a single
+> spi_sync() call and collects the results. An external trigger (e.g.
+> iio-trig-hrtimer) is required to drive the trigger at the desired
+> sample rate.
+>=20
+> Both modes share the same trigger handler and push a complete scan =E2=80=
+=94
+> one u16 slot per active channel, densely paccked in scan_index order,
+> followed by a timestamp.
+>=20
+> The CNV Burst Mode sampling frequency (PWM period) is exposed as a
+> buffer-level attribute via IIO_DEVICE_ATTR.
+>=20
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
 
->+static int mthp_collapse(struct mm_struct *mm, unsigned long address,
->+		int referenced, int unmapped, struct collapse_control *cc,
->+		unsigned long enabled_orders)
->+{
->+	unsigned int nr_occupied_ptes, nr_ptes;
->+	int max_ptes_none, collapsed = 0, stack_size = 0;
->+	unsigned long collapse_address;
->+	struct mthp_range range;
->+	u16 offset;
->+	u8 order;
->+
->+	collapse_mthp_stack_push(cc, &stack_size, 0, HPAGE_PMD_ORDER);
->+
->+	while (stack_size) {
->+		range = collapse_mthp_stack_pop(cc, &stack_size);
->+		order = range.order;
->+		offset = range.offset;
->+		nr_ptes = 1UL << order;
->+
->+		if (!test_bit(order, &enabled_orders))
->+			goto next_order;
->+
->+		max_ptes_none = collapse_max_ptes_none(cc, NULL, order);
+Sashiko pointed out you have a buffer that is big endian but
+chan_spec doesn't reflect that.  That should have generated obvious
+garbage output (unless you are actually testing on a be machine!)
 
-I am thinking whether there is a behavioral change for userfaultfd_armed(vma).
+Various other things came up, some of which I thought were in previous
+reviews - but maybe I'm confusing drivers.
 
-collapse_single_pmd()
-    collapse_scan_pmd
-        max_ptes_none = collapse_max_ptes_none(cc, vma)
-        max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT                --- (1)
-        mthp_collapse
-            max_ptes_none = collapse_max_ptes_none(cc, NULL)     --- (2)
-            collapse_huge_page(mm)
-                hugepage_vma_revalidate(&vma)
-                __collapse_huge_page_isolate(vma)
-                    max_ptes_none = collapse_max_ptes_none(cc, vma)
+Thanks
 
-Before mthp_collapse() introduced, userfaultfd_armed(vma) is skipped if there
-is any pte_none_or_zero() in collapse_scan_pmd().
+Jonathan
 
-But now, max_ptes_none could be set to KHUGEPAGED_MAX_PTES_LIMIT at (1), so
-that we can scan all the pte to get the bitmap. This means
-userfaultfd_armed(vma) could continue even with pte_none_or_zero().
+> @@ -204,7 +230,14 @@ static const struct ad4691_chip_info ad4694_chip_inf=
+o =3D {
+>  struct ad4691_state {
+>  	const struct ad4691_chip_info *info;
+>  	struct regmap *regmap;
+> +	struct spi_device *spi;
+> +
+> +	struct pwm_device *conv_trigger;
+> +	int irq;
+>  	int vref_uV;
+> +	u32 cnv_period_ns;
+> +
+> +	bool manual_mode;
+>  	bool refbuf_en;
+>  	bool ldo_en;
+>  	/*
+> @@ -212,8 +245,56 @@ struct ad4691_state {
+>  	 * atomicity of consecutive SPI operations.
+>  	 */
+>  	struct mutex lock;
+> +	/*
+> +	 * Per-buffer-enable lifetime resources:
+> +	 * Manual Mode - a pre-built SPI message that clocks out N+1
+> +	 *		 transfers in one go.
+> +	 * CNV Burst Mode - a pre-built SPI message that clocks out 2*N
+> +	 *		    transfers in one go.
+> +	 */
+> +	struct spi_message scan_msg;
+> +	/*
+> +	 * max 16 + 1 NOOP (manual) or 2*16 + 1 state-reset (CNV burst).
+> +	 */
+> +	struct spi_transfer scan_xfers[34];
+> +	/*
+> +	 * CNV burst: 16 AVG_IN addresses =3D 16.  Manual: 16 channel cmds +
+> +	 * 1 NOOP =3D 17.  Stored as native u16; put_unaligned_be16() fills each
+> +	 * slot so the SPI controller (bits_per_word=3D8) sends bytes MSB-first.
+> +	 */
+> +	u16 scan_tx[17] __aligned(IIO_DMA_MINALIGN);
+> +	/*
+> +	 * CNV burst state-reset: 4-byte write [addr_hi, addr_lo,
+> +	 * STATE_RESET_ALL, OSC_EN=3D1]. CS is asserted throughout, so
+> +	 * ADDR_DESCENDING writes byte[3]=3D1 to OSC_EN_REG (0x180) as a
+> +	 * deliberate side-write, keeping the oscillator enabled. Shared
+> +	 * with the offload path (mutually exclusive at probe).
+> +	 */
+> +	u8 scan_tx_reset[4] __aligned(IIO_DMA_MINALIGN);
+> +	/*
+> +	 * Scan buffer: one BE16 slot per active channel, plus timestamp.
+> +	 * DMA-aligned because scan_xfers point rx_buf directly into vals[].
+> +	 */
+> +	IIO_DECLARE_DMA_BUFFER_WITH_TS(__be16, vals, 16);
+As per comments elsewhere: If it is big endian why is the channel not marked
+as such in the iio_chan_spec?
 
-Then in mthp_collapse(), collapse_max_ptes_none() at (2) ignores
-userfaultfd_armed(vma), which means it will continue to collapse a
-userfaultfd_armed(vma) when there is pte_none_or_zero(). 
+>  };
 
-The good news is we will stop at __collapse_huge_page_isolate(), where we
-get collapse_max_ptes_none() with vma. But we already did a lot of work.
+> +
+> +static int ad4691_cnv_burst_buffer_preenable(struct iio_dev *indio_dev)
+> +{
+> +	struct ad4691_state *st =3D iio_priv(indio_dev);
+> +	unsigned int acc_mask;
+> +	unsigned int k, i;
+> +	int ret;
+> +
+> +	memset(st->scan_xfers, 0, sizeof(st->scan_xfers));
+> +	memset(st->scan_tx, 0, sizeof(st->scan_tx));
+> +
+> +	spi_message_init(&st->scan_msg);
+> +
+> +	/*
+> +	 * Each AVG_IN read needs two transfers: a 2-byte address write phase
+> +	 * followed by a 2-byte data read phase. CS toggles between channels
+> +	 * (cs_change=3D1 on the read phase of all but the last channel).
+> +	 */
+> +	k =3D 0;
+> +	iio_for_each_active_channel(indio_dev, i) {
+> +		put_unaligned_be16(0x8000 | AD4691_AVG_IN(i), &st->scan_tx[k]);
+> +		st->scan_xfers[2 * k].tx_buf =3D &st->scan_tx[k];
+> +		st->scan_xfers[2 * k].len =3D sizeof(st->scan_tx[k]);
+> +		spi_message_add_tail(&st->scan_xfers[2 * k], &st->scan_msg);
+> +		st->scan_xfers[2 * k + 1].rx_buf =3D &st->vals[k];
+> +		st->scan_xfers[2 * k + 1].len =3D sizeof(st->scan_tx[k]);
+> +		st->scan_xfers[2 * k + 1].cs_change =3D 1;
+> +		spi_message_add_tail(&st->scan_xfers[2 * k + 1], &st->scan_msg);
+> +		k++;
+> +	}
+> +
+> +	/*
+> +	 * Append a 4-byte state-reset transfer [addr_hi, addr_lo,
+> +	 * STATE_RESET_ALL, OSC_EN=3D1]. CS is asserted throughout, so
+> +	 * ADDR_DESCENDING writes byte[3]=3D1 to OSC_EN_REG (0x180) as a
+> +	 * deliberate side-write, keeping the oscillator enabled.
+> +	 */
+> +	put_unaligned_be16(AD4691_STATE_RESET_REG, st->scan_tx_reset);
+> +	st->scan_tx_reset[2] =3D AD4691_STATE_RESET_ALL;
+> +	st->scan_tx_reset[3] =3D 1;
+> +	st->scan_xfers[2 * k].tx_buf =3D st->scan_tx_reset;
+> +	st->scan_xfers[2 * k].len =3D sizeof(st->scan_tx_reset);
+> +	st->scan_xfers[2 * k].cs_change =3D 1;
 
-Not sure if I missed something.
+Our old friend - cs_change =3D 1 is very rarely the right thing to do on a
+final message.  I thought this came up in an earlier version.
 
->+
->+		if (max_ptes_none < 0)
->+			return collapsed;
->+
->+		nr_occupied_ptes = collapse_mthp_count_present(cc, offset,
->+							       nr_ptes);
->+
->+		if (nr_occupied_ptes >= nr_ptes - max_ptes_none) {
->+			int ret;
->+
->+			collapse_address = address + offset * PAGE_SIZE;
->+			ret = collapse_huge_page(mm, collapse_address, referenced,
->+						 unmapped, cc, order);
->+			if (ret == SCAN_SUCCEED) {
->+				collapsed += nr_ptes;
->+				continue;
->+			}
->+		}
->+
->+next_order:
->+		if (order > KHUGEPAGED_MIN_MTHP_ORDER) {
->+			const u8 next_order = order - 1;
->+			const u16 mid_offset = offset + (nr_ptes / 2);
->+
->+			collapse_mthp_stack_push(cc, &stack_size, mid_offset,
->+						 next_order);
->+			collapse_mthp_stack_push(cc, &stack_size, offset,
->+						 next_order);
->+		}
->+	}
->+	return collapsed;
->+}
->+
-> static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
-> 		struct vm_area_struct *vma, unsigned long start_addr,
-> 		bool *lock_dropped, struct collapse_control *cc)
-> {
->-	const int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
->+	int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
-> 	const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER);
-> 	const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
->+	enum tva_type tva_flags = cc->is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
-> 	pmd_t *pmd;
->-	pte_t *pte, *_pte;
->-	int none_or_zero = 0, shared = 0, referenced = 0;
->+	pte_t *pte, *_pte, pteval;
->+	int i;
->+	int none_or_zero = 0, shared = 0, nr_collapsed = 0, referenced = 0;
-> 	enum scan_result result = SCAN_FAIL;
-> 	struct page *page = NULL;
-> 	struct folio *folio = NULL;
-> 	unsigned long addr;
->+	unsigned long enabled_orders;
-> 	spinlock_t *ptl;
-> 	int node = NUMA_NO_NODE, unmapped = 0;
-> 
->@@ -1429,8 +1579,19 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
-> 		goto out;
-> 	}
-> 
->+	bitmap_zero(cc->mthp_bitmap, MAX_PTRS_PER_PTE);
-> 	memset(cc->node_load, 0, sizeof(cc->node_load));
-> 	nodes_clear(cc->alloc_nmask);
->+
->+	enabled_orders = collapse_allowable_orders(vma, vma->vm_flags, tva_flags);
+> +	spi_message_add_tail(&st->scan_xfers[2 * k], &st->scan_msg);
+> +
+> +	ret =3D spi_optimize_message(st->spi, &st->scan_msg);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret =3D regmap_write(st->regmap, AD4691_STD_SEQ_CONFIG,
+> +			   bitmap_read(indio_dev->active_scan_mask, 0,
+> +				       iio_get_masklength(indio_dev)));
+> +	if (ret)
+> +		goto err_unoptimize;
+> +
+> +	acc_mask =3D ~bitmap_read(indio_dev->active_scan_mask, 0,
+> +				iio_get_masklength(indio_dev)) & GENMASK(15, 0);
+> +	ret =3D regmap_write(st->regmap, AD4691_ACC_MASK_REG, acc_mask);
+> +	if (ret)
+> +		goto err_unoptimize;
+> +
+> +	ret =3D ad4691_enter_conversion_mode(st);
+> +	if (ret)
+> +		goto err_unoptimize;
+> +
+> +	return 0;
+> +
+> +err_unoptimize:
+> +	spi_unoptimize_message(&st->scan_msg);
+> +	return ret;
+> +}
 
-Would it be 0 at this point?
 
->+
->+	/*
->+	 * If PMD is the only enabled order, enforce max_ptes_none, otherwise
->+	 * scan all pages to populate the bitmap for mTHP collapse.
->+	 */
->+	if (enabled_orders != BIT(HPAGE_PMD_ORDER))
->+		max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT;
->+
-> 	pte = pte_offset_map_lock(mm, pmd, start_addr, &ptl);
-> 	if (!pte) {
-> 		cc->progress++;
->@@ -1438,11 +1599,13 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
-> 		goto out;
-> 	}
-> 
->-	for (addr = start_addr, _pte = pte; _pte < pte + HPAGE_PMD_NR;
->-	     _pte++, addr += PAGE_SIZE) {
->+	for (i = 0; i < HPAGE_PMD_NR; i++) {
->+		_pte = pte + i;
->+		addr = start_addr + i * PAGE_SIZE;
->+		pteval = ptep_get(_pte);
->+
-> 		cc->progress++;
-> 
->-		pte_t pteval = ptep_get(_pte);
-> 		if (pte_none_or_zero(pteval)) {
-> 			if (++none_or_zero > max_ptes_none) {
-> 				result = SCAN_EXCEED_NONE_PTE;
->@@ -1522,6 +1685,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
-> 			}
-> 		}
-> 
->+		/* Set bit for occupied pages */
->+		__set_bit(i, cc->mthp_bitmap);
-> 		/*
-> 		 * Record which node the original page is from and save this
-> 		 * information to cc->node_load[].
->@@ -1580,10 +1745,11 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
-> 	if (result == SCAN_SUCCEED) {
-> 		/* collapse_huge_page expects the lock to be dropped before calling */
-> 		mmap_read_unlock(mm);
->-		result = collapse_huge_page(mm, start_addr, referenced,
->-					    unmapped, cc, HPAGE_PMD_ORDER);
->+		nr_collapsed = mthp_collapse(mm, start_addr, referenced, unmapped,
->+					      cc, enabled_orders);
-> 		/* collapse_huge_page will return with the mmap_lock released */
+> +
+> +static const struct iio_trigger_ops ad4691_trigger_ops =3D {
+> +	.validate_device =3D iio_trigger_validate_own_device,
+Same thing about manual mode as mentioned below.
 
-collapse_huge_page will return with mmap_lock released, but mthp_collapse()
-may not?
+> +};
 
-> 		*lock_dropped = true;
->+		result = nr_collapsed ? SCAN_SUCCEED : SCAN_FAIL;
-> 	}
-> out:
-> 	trace_mm_khugepaged_scan_pmd(mm, folio, referenced,
->-- 
->2.54.0
+> +
+> +static irqreturn_t ad4691_trigger_handler(int irq, void *p)
+> +{
+> +	struct iio_poll_func *pf =3D p;
+> +	struct iio_dev *indio_dev =3D pf->indio_dev;
+> +	struct ad4691_state *st =3D iio_priv(indio_dev);
+> +
+> +	ad4691_read_scan(indio_dev, pf->timestamp);
+> +	if (!st->manual_mode)
+> +		enable_irq(st->irq);
 
--- 
-Wei Yang
-Help you, Help me
+Maybe it was a different driver but I thought I commented on this before.
+There are a bunch of races if you reenable this here - needs to be
+in the trigger reenable callback.
+(Sashiko is pointing this out as well with more detail on what those
+races are)  The short story is that you can race and have a trigger between
+the enable and the notify_done which will be dropped on the floor meaning
+we never get in here again - IIRC there is (rather convoluted) code to hand=
+le that
+corner case in via the reenable callback and a work item.
+
+> +	iio_trigger_notify_done(indio_dev->trig);
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static const struct iio_info ad4691_info =3D {
+>  	.read_raw =3D &ad4691_read_raw,
+>  	.write_raw =3D &ad4691_write_raw,
+>  	.read_avail =3D &ad4691_read_avail,
+>  	.debugfs_reg_access =3D &ad4691_reg_access,
+> +	.validate_trigger =3D iio_validate_own_trigger,
+
+Sashiko noted that this seems odd. If we only support our own
+trigger how does manual mode work given it isn't registering one?
+
+You will need to do something more clever to handle that.
+Either pick between info structures or use custom validation callbacks.
+
+>  };
+
+...
+
+> @@ -651,6 +1119,75 @@ static int ad4691_config(struct ad4691_state *st)
+>  	return 0;
+>  }
+> =20
+> +static int ad4691_setup_triggered_buffer(struct iio_dev *indio_dev,
+> +					 struct ad4691_state *st)
+> +{
+> +	struct device *dev =3D regmap_get_device(st->regmap);
+> +	struct iio_trigger *trig;
+> +	unsigned int i;
+> +	int irq, ret;
+> +
+> +	trig =3D devm_iio_trigger_alloc(dev, "%s-dev%d", indio_dev->name,
+> +				      iio_device_id(indio_dev));
+> +	if (!trig)
+> +		return -ENOMEM;
+> +
+> +	trig->ops =3D &ad4691_trigger_ops;
+> +	iio_trigger_set_drvdata(trig, st);
+> +
+> +	ret =3D devm_iio_trigger_register(dev, trig);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "IIO trigger register failed\n");
+> +
+> +	indio_dev->trig =3D iio_trigger_get(trig);
+
+Sashiko correctly points out the general bug we have right now about leaking
+trigger context on any error.
+Need to solve that for all drivers though so don't worry about it here.
+It did give more complex reasoning than normal however!
+
+> +
+> +	if (st->manual_mode)
+> +		return devm_iio_triggered_buffer_setup(dev, indio_dev,
+> +						       &iio_pollfunc_store_time,
+> +						       &ad4691_trigger_handler,
+> +						       &ad4691_manual_buffer_setup_ops);
+> +
+> +	/*
+> +	 * The GP pin named in interrupt-names asserts at end-of-conversion.
+> +	 * The IRQ handler stops conversions and fires the IIO trigger so
+> +	 * the trigger handler can read and push the sample to the buffer.
+> +	 * The IRQ is kept disabled until the buffer is enabled.
+> +	 */
+> +	irq =3D -ENXIO;
+> +	for (i =3D 0; i < ARRAY_SIZE(ad4691_gp_names); i++) {
+> +		irq =3D fwnode_irq_get_byname(dev_fwnode(dev),
+> +					    ad4691_gp_names[i]);
+> +		if (irq > 0 || irq =3D=3D -EPROBE_DEFER)
+> +			break;
+> +	}
+> +	if (irq < 0)
+> +		return dev_err_probe(dev, irq, "failed to get GP interrupt\n");
+> +
+> +	st->irq =3D irq;
+> +
+> +	ret =3D ad4691_gpio_setup(st, i);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * IRQ is kept disabled until the buffer is enabled to prevent
+> +	 * spurious DATA_READY events before the SPI message is set up.
+> +	 */
+> +	ret =3D devm_request_threaded_irq(dev, irq, NULL,
+> +					&ad4691_irq,
+> +					IRQF_ONESHOT | IRQF_NO_AUTOEN,
+> +					indio_dev->name, indio_dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return devm_iio_triggered_buffer_setup_ext(dev, indio_dev,
+> +						   &iio_pollfunc_store_time,
+> +						   &ad4691_trigger_handler,
+> +						   IIO_BUFFER_DIRECTION_IN,
+> +						   &ad4691_cnv_burst_buffer_setup_ops,
+> +						   ad4691_buffer_attrs);
+> +}
+> +
+>  static int ad4691_probe(struct spi_device *spi)
+>  {
+>  	struct device *dev =3D &spi->dev;
+> @@ -663,6 +1200,7 @@ static int ad4691_probe(struct spi_device *spi)
+>  		return -ENOMEM;
+> =20
+>  	st =3D iio_priv(indio_dev);
+> +	st->spi =3D spi;
+>  	st->info =3D spi_get_device_match_data(spi);
+>  	if (!st->info)
+>  		return -ENODEV;
+> @@ -692,8 +1230,9 @@ static int ad4691_probe(struct spi_device *spi)
+>  	indio_dev->info =3D &ad4691_info;
+>  	indio_dev->modes =3D INDIO_DIRECT_MODE;
+> =20
+> -	indio_dev->channels =3D st->info->sw_info->channels;
+> -	indio_dev->num_channels =3D st->info->sw_info->num_channels;
+
+You've lost me here. Where are these now set?
+
+> +	ret =3D ad4691_setup_triggered_buffer(indio_dev, st);
+> +	if (ret)
+> +		return ret;
+> =20
+>  	return devm_iio_device_register(dev, indio_dev);
+>  }
+>=20
+
