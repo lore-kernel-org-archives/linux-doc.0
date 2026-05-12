@@ -1,180 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD233B1020;
-	Tue, 12 May 2026 14:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1F03B102B
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 14:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778595569; cv=none; b=Yvg5PqFOrVFFGKmn7w9ttYKqTwS4HOtWEdyozHSX0kCvMwfbxAgpMVgDOIsvOi1pA73iH2+LaW/WW29JRsQdYq3zQDaAKJJiUjlypLYTIbgc1O74VwqDYqqAmwBKJum22uPOtZutDeiUw+YwRgYYdUtds3QeRNnsczAPJ5NT/L8=
+	t=1778595607; cv=none; b=gsdXgw7JcoixuL6k6W4VTjnD/O5jVjqPHkjwAsmWMe24bthPXxW/0+2xDpDsUktPQFGutoewCVvgHzbfVj9N8T0lArshR8bksokzyJ4DbkKFExiBJQK+c8TK9Hhfw5iRuLko4NxutIjjIHMbu0p4+dMI3UVBmVqa6u/xM1crR8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778595569; c=relaxed/simple;
-	bh=PNZ/3cndYwK5qYRqVndM22pticPFw2T6YxzS/qmSwlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q7ZbNoxE9ufiux7/Qu0DNDT9OnLQxJHAkx+OhY4aeL2Ri2tiZgsqnBmB/Dvm04Fphhjju4FPYVt8bCKTGwUAGgrGIQiA6uQbmkMvhx/i3qFxI6JZ6tLbYYBql+HVmtDu5uBYmMp8eDIosruA2GBzbl7R5F3cxbLjrWVU22SbXGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWQn5fVo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778595607; c=relaxed/simple;
+	bh=vqr1rgjf6u/HCJT7JLU1CD3nThlktkS40ND0tlqkrMM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bkEN0DruN1TEbhhhHHtdHrzpgK2niC4U6feX1bhBz6MKwqPntvkvlpxtREeHKUp6PM0FFTsLjOWDPUZX6sbV9aaeKQV8rcQ/XD1cdwrka5AE1yi7Hd+ww09cayToTD0/2X4wAvDlqmHZEQkyoYC9H8pumNh4lzFKMSZCA0l9hic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=t81N7W/N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1ZnWSPCT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MetrSyzq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sOo4epfI; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWQn5fVo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A58AC2BCFD;
-	Tue, 12 May 2026 14:19:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778595569;
-	bh=PNZ/3cndYwK5qYRqVndM22pticPFw2T6YxzS/qmSwlY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UWQn5fVoxLB/KAH4EURrhpqBaLzBb5p8rV6dSUVS9VPOwdklqeVM9M7jVOo70vURZ
-	 Gc3iF7tqhIHwZ112zXGqvbhvu2H9TXMCpWcdZG7P/i2icIFaCUyO4xtWpKeFokBoNI
-	 n7OKlJ8EXUC6TZw6mZH7NDeK3vW6FWEvqmRmJTnux7Tux6bKkgwss0u1fyFQZ6Ps9s
-	 5HUity/IMzbvd5Og20saJ5uICn2otZgE4I7BtbWrOm8A2NoJkfr5BiNhv5LgjnrgoR
-	 2VLQtfebQXDldsEorU4QtYQgrDOoBbesmelRs4LLsxoB88f1efPKX3WawZLuRaGlnA
-	 1hEJofu32VB0w==
-Date: Tue, 12 May 2026 19:49:21 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Kishore Batta <kishore.batta@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
-	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	mhi@lists.linux.dev
-Subject: Re: [PATCH v5 7/7] bus: mhi: Expose DDR training data via controller
- sysfs
-Message-ID: <x732txb6wf2giiv22xw66sqrnkjluaua5kbsmjugv4rbvpjqrw@ro2wbv2olzbd>
-References: <20260416-sahara_protocol_new_v2-v5-0-6aebf005e4ba@oss.qualcomm.com>
- <20260416-sahara_protocol_new_v2-v5-7-6aebf005e4ba@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="t81N7W/N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1ZnWSPCT";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MetrSyzq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sOo4epfI"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B75F775BB5;
+	Tue, 12 May 2026 14:20:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778595603; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3EP1faBGLN+no503thLo6n9CBiSdMnrRO0eLXY2Tv7I=;
+	b=t81N7W/Nv8v0rvD1jUc+ze0GLTAUr0+ebiCY8NRvyVD072ReKjkvloxx4U7OkdRoEQ0zGK
+	Uc1ZQoWjOazikndFHR4w84zAYGpdIYqD2+eV4s+n1TqFD38nflnVI+RTZcChEX0At55gfC
+	drLcL8V43UizQAqY91hs8iAHs+42vQE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778595603;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3EP1faBGLN+no503thLo6n9CBiSdMnrRO0eLXY2Tv7I=;
+	b=1ZnWSPCTE0ulbttJ5D5p1MT6QIrRfxF+4EzTeliV+7nqcWGcE93xfXPHMDBdnKLG6O+ysa
+	OgeIRotsLjQzS7Dg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MetrSyzq;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sOo4epfI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778595602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3EP1faBGLN+no503thLo6n9CBiSdMnrRO0eLXY2Tv7I=;
+	b=MetrSyzqzRmF15ALI99x0FOfYG+LVv5NSyeKSsp1fmVsUQXBlW9EZpI6M5rWr2BlMe4NqM
+	XV3Ubxo8H+0dPDEzfCCeuasu2JDdIi1kXn46oumn1eRCuL0kaUEk9mAwHLd+iD0XHpWU4m
+	91I+1jdBGn8ji5W9GYx7LHTsH8Lt3Jg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778595602;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3EP1faBGLN+no503thLo6n9CBiSdMnrRO0eLXY2Tv7I=;
+	b=sOo4epfI7bN0V03WcMMc0+0wvwYdvLRapy8n5DXXujoyRA6nGGMcyk1otyobCC0j3AD1f2
+	gYwqBRX7+8vmctCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A3313593A9;
+	Tue, 12 May 2026 14:20:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cFX6JBE3A2rMCgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 12 May 2026 14:20:01 +0000
+Message-ID: <816ac704-4f46-4f00-8e84-aed892d93187@suse.de>
+Date: Tue, 12 May 2026 16:19:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/12] swap: remove the maxpages variable in sys_swapon
+To: Christoph Hellwig <hch@lst.de>, Andrew Morton
+ <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+ "Darrick J . Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
+ Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>,
+ Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>,
+ Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>,
+ Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-mm@kvack.org, linux-block@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
+ linux-cifs@vger.kernel.org
+References: <20260512053625.2950900-1-hch@lst.de>
+ <20260512053625.2950900-2-hch@lst.de>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260512053625.2950900-2-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260416-sahara_protocol_new_v2-v5-7-6aebf005e4ba@oss.qualcomm.com>
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,kernel.dk,suse.com,mit.edu,gmail.com,samba.org,manguebit.org,wdc.com,vger.kernel.org,kvack.org,lists.sourceforge.net];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	R_RATELIMIT(0.00)[to_ip_from(RLps6cgtzy16baoy877g4cecjn)];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid]
+X-Rspamd-Queue-Id: B75F775BB5
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
 
-On Thu, Apr 16, 2026 at 07:39:48PM +0530, Kishore Batta wrote:
-> DDR training data captured during Sahara command mode needs to be
-> accessible to userspace so it can be persisted and reused on subsequent
-> boots. Currently, the training data is stored internally in the driver
-> but has no external visibility once the Sahara channel is torn down.
+On 5/12/26 07:35, Christoph Hellwig wrote:
+> Always use si->max which is updated setup_swap_extents instead of copying
+> into and out of maxpages.
 > 
-> Expose the captured DDR training data via a read-only binary sysfs
-> attribute on the MHI controller device:
-> 
-> /sys/bus/mhi/devices/<mhi_cntrl>/ddr_training_data
-> 
-> The sysfs read callback serves data directly from controller scoped storage
-> and protects access with the controller training data lock. The attribute
-> lifetime is tied to the controller device via devres, allowing the data to
-> remain readable after Sahara channel teardown and ensuring automatic
-> cleanup when controller device is removed.
-> 
-> Userspace flow:
-> 1. For each controller device, userspace reads the ddr_training_data sysfs
->    attribute.
-> 2. If the read returns non-zero data, userspace persists it using a
->    serial specific filename (for example, mdmddr_0x<serial_no>.mbn).
-> 3. On subsequent boots, the Sahara driver attempts to load this serial
->    specific DDR training image before falling back to the default
->    training image, restoring DDR calibration data and avoiding retraining.
-> 
-> Add ABI documentation for the DDR training data sysfs attribute exposed by
-> Sahara MHI driver.
-> 
-> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  .../ABI/testing/sysfs-bus-mhi-ddr_training_data    | 19 ++++++
->  drivers/bus/mhi/host/clients/sahara/sahara.c       | 69 ++++++++++++++++++++++
->  2 files changed, 88 insertions(+)
+>   mm/swapfile.c | 27 +++++++++++----------------
+>   1 file changed, 11 insertions(+), 16 deletions(-)
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..810b487b5a5fdba133d81255f9879844e3938a10
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-> @@ -0,0 +1,19 @@
-> +What:                   /sys/bus/mhi/devices/<mhi-cntrl>/ddr_training_data
-> +
-> +Date:                   March 2026
-> +
-> +Contact:                Kishore Batta <kishore.batta@oss.qualcomm.com>
-> +
-> +Description:            Contains the DDR training data for the Qualcomm device
-> +                        connected. MHI driver populates different controller
-> +                        nodes for each device. The DDR training data is exposed
-> +                        to userspace to read and save the training data file to
-> +                        the filesystem. In the subsequent boot up of the device,
-> +                        the training data is restored from host to device
-> +                        optimizing the boot up time of the device.
-> +
-> +Usage:                  Example for reading DDR training data:
-> +                        cat /sys/bus/mhi/devices/mhi0/ddr_training_data
-> +
-> +Permissions:            The file permissions are set to 0444 allowing read
-> +                        access.
-> diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
-> index 07bc743aa061dd2fa85638067d494562152474e3..fef5dc1d8884133397d204f23361584fd1d9b075 100644
-> --- a/drivers/bus/mhi/host/clients/sahara/sahara.c
-> +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
-> @@ -273,6 +273,73 @@ static struct sahara_cntrl_training_data *sahara_cntrl_training_get(struct devic
->  	return ct;
->  }
->  
-> +static ssize_t ddr_training_data_read(struct file *filp, struct kobject *kobj,
-> +				      const struct bin_attribute *attr, char *buf,
-> +				      loff_t offset, size_t count)
-> +{
-> +	struct device *dev = kobj_to_dev(kobj);
-> +	struct sahara_cntrl_training_data *ct;
-> +	size_t available;
-> +
-> +	ct = sahara_cntrl_training_get(dev);
-> +	if (!ct)
-> +		return -ENODEV;
-> +
-> +	mutex_lock(&ct->lock);
-> +
-> +	/* No data yet or offset past end */
-> +	if (!ct->data || offset >= ct->size) {
-> +		mutex_unlock(&ct->lock);
-> +		return 0;
-> +	}
-> +
-> +	available = ct->size - offset;
-> +	count = min(count, available);
-> +	memcpy(buf, (u8 *)ct->data + offset, count);
-> +
-> +	mutex_unlock(&ct->lock);
-> +
-> +	return count;
-> +}
-> +
-> +static const struct bin_attribute ddr_training_data_attr = {
-> +	.attr = {
-> +		.name = "ddr_training_data",
-> +		.mode = 0444,
-> +	},
-> +	.read = ddr_training_data_read,
-> +};
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-You can simplify the attribute creation with BIN_ATTR_RO().
+Cheers,
 
-> +
-> +static void sahara_sysfs_devres_release(struct device *dev, void *res)
-> +{
-> +	device_remove_bin_file(dev, &ddr_training_data_attr);
-> +}
-> +
-> +static void sahara_sysfs_create(struct mhi_device *mhi_dev)
-> +{
-> +	struct device *dev = &mhi_dev->mhi_cntrl->mhi_dev->dev;
-> +	void *cookie;
-> +	int ret;
-> +
-> +	if (devres_find(dev, sahara_sysfs_devres_release, NULL, NULL))
-> +		return;
-
-So you are expecting this helper to be called mutiple times without teardown?
-
-- Mani
-
+Hannes
 -- 
-மணிவண்ணன் சதாசிவம்
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
