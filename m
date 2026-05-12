@@ -1,167 +1,137 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4E7379C52
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 09:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20DD39E175
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 09:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778578615; cv=none; b=uAGeaGwWvqg2rQ1i9758kqzbhMSCqESTOfXmMFPqykQBRTP1kGxrPHwBGOGw1kUTwSH8adJf1lcU88kdJyJHgZ4jIrEsITqn6OOLB6QwP4wO3o3DgP3oV0HfPHtJXGruYtB5TeV00eWz3wciMqVKOTxOmdZfsGzVi5xS4nqpi4k=
+	t=1778578685; cv=none; b=T64qrTzRdrZhSVE7sdpsn+YpI+uqSz7GVkRNwOhWd5S4a6jfDgE3IRjd8/9eMhwQwSREycxs3FzJPWckJytYj9I9Dml4CJ3Hh8tvWQdGCG7yiE9DL1/DW0F+dWw4SBhbNmwhi3vyRX1TxHIBAL40I3NVoGGqxxM7M8h/u/cVMXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778578615; c=relaxed/simple;
-	bh=h1c7WlF0eO4XFsRi+bXuKWCQloLuvGFJm5M3Yr7QuFQ=;
+	s=arc-20240116; t=1778578685; c=relaxed/simple;
+	bh=Nwo2TbV0fD6EXTmH2rKIOWXWBs8OkYg2xWQR+3+MReg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ha9hjmUpDwpjiAV5J7euYzFZj75/Hf5ahQZAwT4FuiS6ksneV/g6RN0Q5id/H7HPRAOjmL7trVEmBioDvcPsK4xd0NZTAaoQE9eW7I6cjY0t62zWoClFdTC/8dp8NOjL2aXpX/Tt4W7JGeesDo8WxTocPQBTvOWlOjdZN5w0c8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=avQvWjHi; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=l1e/u0AMwwCPRivo0wNMGLS8Ns/9+2o5oIdHOOtLSgJGwkM2egoeDnL1ih4Dp5fP7GK+1r34IBEvNDxghO2ZJ9jcfb0xDqTOFxUzE4/Hxj3920u3jVAIPOKFFmuK39kOwwNJ6A7qTh2IgIaZtalmxCWNmt+pvi34Rv8ynTMW4XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bBcYMCav; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="avQvWjHi"
-Message-ID: <6cf003cb-f39c-4362-9b24-e479b988ecd3@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778578610;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T20NslB0IYADqB7NaB6OdKMLIjFa/Li1Y4ec0dAtHc4=;
-	b=avQvWjHigzU7HCJ8Pa09LGj+MI4xauLUbWi8dFaZc97TpLhA1cXTC2VwTRjLyqkvI1/6wV
-	ZMUkhZ/oKcP9HMcHl8naUkL2gD4JGSPnUbmBFgAoZ7eN+a1njaZ+l1m3Ijs/NIODAP4U36
-	Z6VOJraCL731kL6vV+Htq1duzAWoYYg=
-Date: Tue, 12 May 2026 17:36:07 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bBcYMCav"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ba3e3c4f87so48414985ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 02:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778578683; x=1779183483; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ioBXofrBTXsmAzkxz6qRlweS7q2Y0HlvIwdOsQxLTTs=;
+        b=bBcYMCavINxxQnvPURkUEZIPmrcMGnyF8t1ezJ6ZsLc27KaBj2AJW2y9bsQkCIh5p4
+         lzzrN7HsaGrt8gIUcynllKMHHhoHV1DkIV8EbciyKOSGcXFy23S1iHAErtJlDycJpnLQ
+         o2rV6qKC5eRFNQZdUF03jH5uiAxZEaoRJJ2Zysy5GuGQGlI+4lsYsSz31pOfjogEtqcH
+         /WQvmBviQHOJKcQ1JFbayT+kfuT+SV8mFxF5va5l+lf0dW0lrph+rn1fX7qPRYeyDO9N
+         80wus6sfZK6D8udtWm0c/qfx3qQhbDtone3CC5XnYvfzDlkMXs69rZa82i39N7FqLwVW
+         791A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778578683; x=1779183483;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ioBXofrBTXsmAzkxz6qRlweS7q2Y0HlvIwdOsQxLTTs=;
+        b=iYiDAHXECsjn+obEk768VtV/bqHKR4wU3Et0nBQ6b+tpA3aL9s1myIYwZQFRQ9/c9+
+         Ufp7jm58XzK1/i3yZiG7IKWSq3YBHLK8Bm8HArrMA4CO4OnbgjArzWWmAPQCWPSnYDSw
+         lKulbUHbALnLXH5fHlcKs4OThlOoFGssLUsmzEpb7w+cTQUdSeAgO+dxlNbFtOtaQbf+
+         n4Fw7YoX1+rtRPfq3bjvOzqtS5yYoSz20JGqOis1TWPGQ0bcNAjSfRG30VF+7jVwEmbH
+         +XYBXG6ZtVhmNSdj4MuzZmgXCE3td95Ma7D8IxyY3kbFM8N6vPyO7d7H2buyJu+RDhQQ
+         auPg==
+X-Forwarded-Encrypted: i=1; AFNElJ8nStd96oEU/GqWr2aLZUCZXpQbMcSvRhZm8LsB0qanOyP5Yd7KFOfOsr/qaPgF6Rdd4JN+6mpXRI8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwewMXwklpklrUZVPwTZw8o4e3N8VblIBTEBi6066I8+0brr2Ri
+	mClauDtPdZviDi1wYVbON606vUKWMM8eNlSZ9uAVTk4/sofKNKL1Q0sL
+X-Gm-Gg: Acq92OHb6x9zeWNEr/Pp/xflSCkViihMpUUGdcmvqe9/bb7kf/plkWj+vsziuA46DHi
+	CLrVUfR5zlfC2ZXqIqfKOxOPWTgowF6w5HuEvfRpMygJcfC2V+1WOGKk3ztY2m/QIChwcnMaaPy
+	+MZUOlqjbS3/wd/tlNe9X/b2G1+DLBdiiE7AgsPQFLk4Pgu2bq0m0AMBjMH0XkMPmCA+18EewvE
+	Lor7S2r+HbIDBnklHIHxbxKI7s/9PvgtRTmCB4Wn4HIEhTQDnpgpfrzdxvHkhsMVUKt2guO3Mxr
+	KMnaFHsf+M8TiNl9zIWvnLSnANKjor8AO9yrS1OK0oqcYTnTVvtivQc+vUG3CxlsbaZkWio9fLM
+	gaDbmqjofcmR6/0CDV03Vj+eBlVWmhmMAY7YAFXl2cO6Uiyl7/gs9A+c30lDQkP7wan/bzjapOW
+	8ly3yRwHZAxFB3u62Xx6Ngy6z+qv67sU7vNrbOSPxoFWfLZYpU8t1lqg==
+X-Received: by 2002:a17:903:94e:b0:2b2:3bb6:fbf8 with SMTP id d9443c01a7336-2bd0116e40emr24451505ad.16.1778578683270;
+        Tue, 12 May 2026 02:38:03 -0700 (PDT)
+Received: from [10.125.192.65] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1d52ef9sm129588795ad.35.2026.05.12.02.37.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 May 2026 02:38:02 -0700 (PDT)
+Message-ID: <46eb7e35-0f8e-e667-1f86-f518fe699378@gmail.com>
+Date: Tue, 12 May 2026 17:37:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH RESEND bpf-next v10 3/8] bpf: Introduce the bpf_list_del
- kfunc.
-To: bot+bpf-ci@kernel.org
-Cc: bpf@vger.kernel.org, ast@kernel.org, corbet@lwn.net,
- martin.lau@linux.dev, daniel@iogearbox.net, andrii@kernel.org,
- eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
- haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
- chengkaitao@kylinos.cn, skhan@linuxfoundation.org, memxor@gmail.com,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, vmalik@redhat.com,
- linux-kselftest@vger.kernel.org, martin.lau@kernel.org, clm@meta.com,
- ihor.solodrai@linux.dev
-References: <20260512055919.95716-4-kaitao.cheng@linux.dev>
- <297a19ac8fb5fc8ab279a932137bf39604f2f3637521ff6d7d4b39c364a52e07@mail.kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kaitao Cheng <kaitao.cheng@linux.dev>
-In-Reply-To: <297a19ac8fb5fc8ab279a932137bf39604f2f3637521ff6d7d4b39c364a52e07@mail.kernel.org>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH 2/3] mm/zswap: Implement proactive writeback
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
+ shakeel.butt@linux.dev, mhocko@kernel.org, yosry@kernel.org,
+ mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
+ roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Hao Jia <jiahao1@lixiang.com>
+References: <20260511105149.75584-1-jiahao.kernel@gmail.com>
+ <20260511105149.75584-3-jiahao.kernel@gmail.com>
+ <CAKEwX=PW2+EN41ANutv4cv+iM+JpwV5V+NSp5ukAt0M6fbHFLg@mail.gmail.com>
+From: Hao Jia <jiahao.kernel@gmail.com>
+In-Reply-To: <CAKEwX=PW2+EN41ANutv4cv+iM+JpwV5V+NSp5ukAt0M6fbHFLg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-I have clarified this issue in the [PATCH bpf-next v10 3/8] patch,
-with the link provided below:
 
-https://lore.kernel.org/bpf/0637c1ce-0e73-4505-8a0c-e77339f4aefb@linux.dev/
 
-在 2026/5/12 14:41, bot+bpf-ci@kernel.org 写道:
->> diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
->> index 1e8754877dd1..51b6ea4bb8cb 100644
->> --- a/kernel/bpf/helpers.c
->> +++ b/kernel/bpf/helpers.c
->> @@ -2593,6 +2593,15 @@ __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
->>  	return __bpf_list_del(head, h->prev);
->>  }
+On 2026/5/12 03:54, Nhat Pham wrote:
+> On Mon, May 11, 2026 at 3:52 AM Hao Jia <jiahao.kernel@gmail.com> wrote:
+>> diff --git a/mm/zswap.c b/mm/zswap.c
+>> index 19538d6f169a..1173ac6836fa 100644
+>> --- a/mm/zswap.c
+>> +++ b/mm/zswap.c
+>> @@ -36,6 +36,7 @@
+>>   #include <linux/workqueue.h>
+>>   #include <linux/list_lru.h>
+>>   #include <linux/zsmalloc.h>
+>> +#include <linux/timekeeping.h>
 >>
->> +__bpf_kfunc struct bpf_list_node *bpf_list_del(struct bpf_list_head *head,
->> +					       struct bpf_list_node *node)
->> +{
->> +	struct bpf_list_node_kern *kn = (void *)node;
->> +
->> +	/* verifier guarantees node is a list node rather than list head */
->> +	return __bpf_list_del(head, &kn->list_head);
->> +}
->> +
-> 
-> Looking at bpf_list_pop_front() and bpf_list_pop_back() in the same
-> file, both functions read from the list_head (h->next or h->prev)
-> before passing it to __bpf_list_del(). If the list is uninitialized,
-> they end up passing potentially invalid pointer values to __bpf_list_del(),
-> which then has to handle this by initializing the list and returning NULL.
-> 
-> While __bpf_list_del() handles this correctly, would it be clearer to
-> move the initialization check into the top-level kfuncs (like
-> bpf_list_pop_front/back) so that __bpf_list_del() always receives a
-> valid list_head pointer rather than potentially garbage values that
-> get ignored later?
-> 
-> Reference: https://lore.kernel.org/bpf/af50d188f6bc2de81fe3c321b26a645a9425ba9f2644cb6f8525d5bb637385f9@mail.kernel.org/
-> 
->> @@ -4725,6 +4734,7 @@ BTF_ID_FLAGS(func, bpf_list_push_back, KF_IMPLICIT_ARGS)
->>  BTF_ID_FLAGS(func, bpf_list_push_back_impl)
->>  BTF_ID_FLAGS(func, bpf_list_pop_front, KF_ACQUIRE | KF_RET_NULL)
->>  BTF_ID_FLAGS(func, bpf_list_pop_back, KF_ACQUIRE | KF_RET_NULL)
->> +BTF_ID_FLAGS(func, bpf_list_del, KF_ACQUIRE | KF_RET_NULL)
->>  BTF_ID_FLAGS(func, bpf_list_front, KF_RET_NULL)
->>  BTF_ID_FLAGS(func, bpf_list_back, KF_RET_NULL)
->>  BTF_ID_FLAGS(func, bpf_task_acquire, KF_ACQUIRE | KF_RCU | KF_RET_NULL)
-> 
-> [ ... ]
-> 
->> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
->> index 11054ad89c14..a6bcbe68cd72 100644
->> --- a/kernel/bpf/verifier.c
->> +++ b/kernel/bpf/verifier.c
->> @@ -10744,6 +10744,7 @@ enum special_kfunc_type {
->>  	KF_bpf_list_push_back,
->>  	KF_bpf_list_pop_front,
->>  	KF_bpf_list_pop_back,
->> +	KF_bpf_list_del,
->>  	KF_bpf_list_front,
->>  	KF_bpf_list_back,
->>  	KF_bpf_cast_to_kern_ctx,
-> 
-> [ ... ]
-> 
->> @@ -11456,7 +11459,8 @@ static bool check_kfunc_is_graph_node_api(struct bpf_verifier_env *env,
+>>   #include "swap.h"
+>>   #include "internal.h"
+>> @@ -160,6 +161,12 @@ struct zswap_pool {
+>>          char tfm_name[CRYPTO_MAX_ALG_NAME];
+>>   };
 >>
->>  	switch (node_field_type) {
->>  	case BPF_LIST_NODE:
->> -		ret = is_bpf_list_push_kfunc(kfunc_btf_id);
->> +		ret = is_bpf_list_push_kfunc(kfunc_btf_id) ||
->> +		      kfunc_btf_id == special_kfunc_list[KF_bpf_list_del];
->>  		break;
->>  	case BPF_RB_NODE:
->>  		ret = (is_bpf_rbtree_add_kfunc(kfunc_btf_id) ||
+>> +struct zswap_shrink_walk_arg {
+>> +       ktime_t cutoff_time;
+>> +       bool proactive;
+>> +       bool encountered_page_in_swapcache;
+>> +};
+>> +
+>>   /* Global LRU lists shared by all zswap pools. */
+>>   static struct list_lru zswap_list_lru;
+>>
+>> @@ -183,6 +190,7 @@ static struct shrinker *zswap_shrinker;
+>>    * handle - zsmalloc allocation handle that stores the compressed page data
+>>    * objcg - the obj_cgroup that the compressed memory is charged to
+>>    * lru - handle to the pool's lru used to evict pages.
+>> + * store_time - Time when the entry was stored, for proactive writeback.
+>>    */
+>>   struct zswap_entry {
+>>          swp_entry_t swpentry;
+>> @@ -192,6 +200,7 @@ struct zswap_entry {
+>>          unsigned long handle;
+>>          struct obj_cgroup *objcg;
+>>          struct list_head lru;
+>> +       ktime_t store_time;
 > 
-> Can bpf_list_del actually be called from BPF programs? Looking at the
-> verifier's handling of KF_ARG_PTR_TO_LIST_NODE arguments in
-> check_kfunc_args():
-> 
-> 	case KF_ARG_PTR_TO_LIST_NODE:
-> 		...
-> 		if (!reg->ref_obj_id) {
-> 			verbose(env, "allocated object must be referenced\n");
-> 			return -EINVAL;
-> 		}
-> 
-> This code path unconditionally requires an owning reference (ref_obj_id
-> must be non-zero). However, once a node is added to the list via
-> bpf_list_push_front/back, the owning reference is converted to a
-> non-owning reference (ref_obj_id becomes 0). This means bpf_list_del
-> cannot be called on nodes that are actually in the list.
-> 
-> The sister kfunc bpf_rbtree_remove handles this by having a special
-> branch in check_kfunc_args() that accepts non-owning references for
-> that specific kfunc. Does bpf_list_del need similar handling to allow
-> removing nodes that are actually in the list?
-> 
-> Reference: https://lore.kernel.org/bpf/294242698d576e4fedf243ab055c6f9a984e55033933a9bd09808f62a7018e9d@mail.kernel.org/
-> 
-> 
-> ---
-> AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-> 
-> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/25716874656
+> On the implementation side - will this blow up struct zswap_entry
+> memory footprint? If so, can you guard this behind a CONFIG option, if
+> we are to go this route?
 
--- 
-Thanks
-Kaitao Cheng
+Thanks for the review. I'll address this in v2.
 
+Thanks,
+Hao
