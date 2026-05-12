@@ -1,212 +1,203 @@
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBF247DD61;
-	Tue, 12 May 2026 07:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778572651; cv=none; b=seV/m4WOs5Zivp62AqrT73dREf0BjPvApTv2ZOTtjoGsAY37atuQj1lJYHc0SI861CmdUhzIMbU4pF5TLC+lb5a2QjWVgxpNJKKgS/1zhKQpu6XBXHX2XywvENww0EfK1NCPsrFJtp0uWE2hSlYmoBH31aCmhwFfppyDLPstbyI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778572651; c=relaxed/simple;
-	bh=6mC5wvUXl0wGNln//X3Glw9aLDSLXeB3Q54utVEBLe0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IVVtJwmNn3aFvIuqEzFu8y+rFmd492nwThtqzUHNIjWLmZLnmoh3BZlgipDGI2mP3eVc8LtVwgehJrqOEaikKwipX8PLpDBcBceZCFrqDlXvaSZvEuYOxGdArlj6xkd+79C0BDzibT/VdXQZrP38A2JYUgqCdTflDDCYA3vAGto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=khnEacOL; arc=none smtp.client-ip=43.163.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7DC477E58
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 07:59:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778572752; cv=pass; b=snApUnKKRk9r/yZtaTWClcv2gVgVQ6TgfqbE7QQEoBzkjcX61FORyliJ9AWlBkP5DyuPX8oY5OU+V24AD7Xwmkun+vAiNrNwMPGxF1244hKJ4/SxQkw/Lmj3/8nzW9mz6UNbb2S+VdsnPCh5B0/LL57EXv46S7EdfINH92YUiqU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778572752; c=relaxed/simple;
+	bh=30iutcuNkxA3MbU8ClPbF9XgC6/qeK2gA65ZZUzFKfE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oqpa0/PeDvsbNgncMRoWUXzBpOvWI9XdHFvH86g62MDoVhcVyhMqTOH2lUdZF47LFzdYR7lnVpqlkyjB2qTANtiOcWvSzaTcDFFhnt8UhrLalIpxCa+28T0RMrhWYXOiNr8MAifmV8EamUHZgqdyj6wB6jS7OS7oUoe7RfwtFFM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=la16prRE; arc=pass smtp.client-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="khnEacOL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1778572639; bh=18v/4uyxXIQTQZIdA2LvZajSRQjs5bWxtdt9Zd58gzE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=khnEacOLFQ88wMiptEgM6OKn8BgbyaNY+pcjm/fl0I0GW3q78nxOOIorLCLu+jebL
-	 B3gvdlRJDgYMFiyVfrlIcexZE4GZUBIuGj5Rp2dVPB8FqYT5uCJyhK0KbGiUgwOldo
-	 3t/Z/+BqbrR9L4y6F3UNelXo5ceij6mViEDvr1ZI=
-Received: from [10.46.141.45] ([36.112.3.68])
-	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
-	id E4F82C3A; Tue, 12 May 2026 15:57:15 +0800
-X-QQ-mid: xmsmtpt1778572635tz51ckzcx
-Message-ID: <tencent_FFCDE2856BFC5941B165FEC5837B44E72605@qq.com>
-X-QQ-XMAILINFO: NAOky/E1C/NcX06iziEZYctycAzJNqm69aygWL2QPFhVmT0l5oI4v6oiGQxpXW
-	 YdQOdmJbRNpfPu8LAEPPFWMQQPwy3pxVjagaLI7Z6NdBSO0uSn1wI5X/TDLNFlliuBrM1nNRaeP0
-	 xN5A+JIdAMS6Yz5AF/CPBlIhHH2IehgXZb3gz1x9R8eaSCLv0GOVQVWpkWfHpniLLDcuMMoO8ypr
-	 Cdjd9zzgk25KiWVBvS8bxVHNNiRy86eEz/kydqWv9AlcRx/90yq8aLYdjhnSBQW+XYddL9dozgNU
-	 smh3Jed3pizkoEQIQXJtht2hrdi5fVnC8uERrY9fygOdiFxvIMJ2j2qxvXiCLSc4tp3EUXW2VIy3
-	 5IUs6OcmcvKAEFq2PxMxq8AjDz5ok7Ycr/qJAAn3rPtrKDL/h5Gv4XPiwJADOXoA2+juwTivTB6B
-	 Z94/93xlIO4A3ozAygjLEviN2qMvkpi1LEQAnwd0TvjqfAQnnu3pgbE77Wuy86ENgrcfzgnCm8h3
-	 VQUBYf6rL7eRJaiig2tr3SyxZnVDuJGB7HCR+iWsDl1dnisFy66bv+16wOEMdfBMYiOalWO2CMWT
-	 hE3p8VNa9zWZ2bxXz64yAfs0i261dmF5YR/K3yTUlChk3HqOgLlEue76YHhh3q93PANFszVwE34S
-	 XsN4NNY0Idyp6qSeOkxMscX1CNvnPJ99hZUBlkAiaP+7G+Sngek0MKQTvqhr0MjRx2s9sMk0fkhP
-	 5ej/oPkzRYOL2wPvCMYkuw8A32Uqv/fYNjGWYbgmVD1Am/b/dnj1ILmUWFmAMUr0AOni0scpb1qo
-	 EmcVFnz859xS9q1PBsKAVeIfOiCloV1SyBfuvsAf60Eg0+h+M09tqiGKJc8YXOJagrlm97hnXHQX
-	 oZyG52+MG1rGTgniNc4XavD0VS67v9sA4TwF9df4kCY83r2fg5CV4zeicw4iDKopmL0YZh/lp2Yq
-	 p9blNnSLk9+nOvL/rjEjVRz8uNNcvKNhHhPSfMOjYYbE5zmerPemdGs/u6IB1vXS1sRWDVmi6n/X
-	 zVb1JHVd5L1vPywosaAbCLo6jKeaxEeGjFIzmo5HikNmXlsLaBCvStlZVwzSZwzBpVbyqzvA==
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-OQ-MSGID: <c761d333-d921-4b23-b099-af1cd0cdc977@qq.com>
-Date: Tue, 12 May 2026 15:57:15 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="la16prRE"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-43587e63a8eso1623279fac.0
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 00:59:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778572750; cv=none;
+        d=google.com; s=arc-20240605;
+        b=i0aLj3oABoXOkKvCxetZkwRxH5/nlsCZFFqanfTEr3McVeN8xNm7Z6XmY6MzSUr3TJ
+         NgA7Hh7O6LAsh5Owf+lQypOUnOBha/OIAth3ivzDoesdUdIGUU6rYX3BgO7DzAABK9/x
+         CLRq2lUGCkJ1uOiL35flRBK6O0uG9X0gWYuWmA5nIYACDxTfyPaKpzdbVYbh/cFFGecb
+         CET6uowZQ9gqHjDmIDc425W4w6YyZra4ngYnJJHzpnGan4/Hyl5jCcDuotrLAhWbCB0G
+         aQ+NDzJnKRgsa9JhG05q2ju8eJPQdgD628bCHYFM1KmIf/GQYhhFBKtYnFdC9mW3qsQL
+         ZAPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=GNxFi0i3Eh2p+y16pwvSqh55C8YjwWwX1e+4QDG9pEw=;
+        fh=TQLVu08zlnf/3YRz6y0jSSYMgGveb+II1sqZeOmir/g=;
+        b=TrdITLdp+7CasALY8qeq86zZeeJ/uQEwrvN3k19oDD0kMgKsHtgaFV2ALg3xrlteDD
+         QtOV2YqZYVNn41enPMAGjqPPqCoUdGDykOJXjw42GHHcv6UTnz39qoH9lDcXHWmUQLtU
+         QSMa4iT3Pa5wLVXVmFG2KSOvC1SKW5jZ8qnEjZtXm2xgkjPo6CtLooFbJPqaLkC70Oa/
+         fTYEcyNNY98JoFpXI4jPPaCsOp87bhthtj1TDccRy9FQHSloAAqentZVl0O1kb2j/M7w
+         HiKsb/cdg2d/NMR7mZcY5Ddx00+H/yWhQb/8qJbZBsHm7woM54EeKsbYdQ3OlXYRg4M3
+         nYmw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778572750; x=1779177550; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GNxFi0i3Eh2p+y16pwvSqh55C8YjwWwX1e+4QDG9pEw=;
+        b=la16prREOPQxt1NSM/azbfSZGedMqtjqeQOslYha2sMqERwz+2pOKVMBHPL8NLmAnP
+         snHXyZH8ur5dXoXByJpbjQZKxJzqLwg3cavHhV3LyNiltl6ehAf24m0kOq5ruBPZTgZn
+         t3EF6B+8D0YIIQP2lELxbeD85kR8IRSfKWqE293Anz90pR3O4aUsg8wZd1/7PgiInc7u
+         WYcpVHGqka6pXcvTYJvOWw5DqQwhBOMetRgD+HggRCjhUXfPML3Em2VaghVlI19dTm7F
+         61eFCvh4U24M04fvgb09kFyHqIA4svjc9uuJXPfhHH6L0rVNuglvq617CC7G8+NdNQMm
+         nitA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778572750; x=1779177550;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GNxFi0i3Eh2p+y16pwvSqh55C8YjwWwX1e+4QDG9pEw=;
+        b=iTd+qGIdheZ62ldrvTSG816VUJ6RTrZ4NMH239cYyCXuPms2EJ6Qd2t8gOIfGdhekv
+         5a5PwzURUHiXb67VzirDCO1rPJkRxQw41W+NW8R6FdQpCYT3YOgOC8PY6+MvXed+x0SA
+         zUcnXOcAzq1//xW0ZBtj2pBDy6d0eJ6hxcxyl+tksFNBXyTnBEol8tJKwGGSN72Du3cG
+         rGaA6VnuQ+s9M6Ru+f0ddwuYJ5D7OmxsFCynQsjjuztgjHxEWO3IUxJM2DoEMDUuf+Rw
+         uJcaduXOHKpXuHqbfBjLANm1BiGEZyX+0IaG9fCsUoAAbewmrieJMADzJOQLOtr3WyYZ
+         h6sw==
+X-Forwarded-Encrypted: i=1; AFNElJ/ILEX0DNmihJovvzAUpoqTbPcN7H/oRP0cLr8g+COFNfLBojb+RgWUnPdHbYaRUkm79Em8tch7gsM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpFoiB9Bk4YTw3ziG5di1PnmjDrOlcrzIf07MM2Opsm7C1HueQ
+	jxUNKlLMQxCmPhKCJYNDdBM7BlI4XXY6ZUKNmGciizcZHXywMjDzgpojEGvNBHox7EPEkeVCVvc
+	luaw8MqdS5FhCXoaXvYLutOB9vjerznk=
+X-Gm-Gg: Acq92OE7oD6n4udF3Kc30M7Aq+bS1mzVmoiv/87nJAbYGF5KEn7ggx3tES13FgCZmfm
+	Mh/Af1sNnWyjQhp/wflRah6QyjSCY/LPsOu6nCob1kQxikKnNpr1XnB+6jSY/d9G90fQ5PPhDUg
+	VTb5T4rDFT1WfFPolaDEqsk3q/ZFXk8ds3aLX9mMdiiUk/U9eUKaWBZ+laKWj6DEux5OpvGr8Wy
+	Y9a2olV9g94vQwmQVhqzaShwfoQdQmJqse3ELuhn+eVI3i4sc07xsM0MLVHQXZTuSa/xRgCx0Z1
+	aMqyzBuAUmUmS62kmqBljW8sZqmCHTmeuDSTRQ==
+X-Received: by 2002:a05:6871:3412:b0:42f:af81:2765 with SMTP id
+ 586e51a60fabf-434f69a0b03mr16855497fac.16.1778572750275; Tue, 12 May 2026
+ 00:59:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 4/5] mm: swap: fall back to order-0 after large swapin
- races
-To: Kairui Song <ryncsn@gmail.com>, "David Hildenbrand (Arm)"
- <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>,
- Yosry Ahmed <yosry@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Ryan Roberts <ryan.roberts@arm.com>,
- Barry Song <baohua@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chengming Zhou <chengming.zhou@linux.dev>, Baoquan He <bhe@redhat.com>,
- Lorenzo Stoakes <ljs@kernel.org>
-References: <tencent_8B437BE4F586C162950BF71954316C1EDB05@qq.com>
- <tencent_CD11FE9B4A0B362E95E776C5F679598FAA07@qq.com>
- <24edd9d6-99f2-4d3d-83eb-69b406f4a9a0@kernel.org>
- <CAMgjq7Cokjb4-F9=cvwKmWR0q4==Vd61FHnjKbRdSHKH57erxw@mail.gmail.com>
-From: Fujunjie <fujunjie1@qq.com>
-In-Reply-To: <CAMgjq7Cokjb4-F9=cvwKmWR0q4==Vd61FHnjKbRdSHKH57erxw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260512060627.3781329-1-danishanwar@ti.com> <20260512060627.3781329-2-danishanwar@ti.com>
+In-Reply-To: <20260512060627.3781329-2-danishanwar@ti.com>
+From: David CARLIER <devnexen@gmail.com>
+Date: Tue, 12 May 2026 08:58:59 +0100
+X-Gm-Features: AVHnY4KyYcOEEwQtm4OTa_bKSqp7vmL-5pqMaYZfRIc_VgOTVcf64VUdTb9yyXI
+Message-ID: <CA+XhMqykBWcMdk+iNnOtUxM4MX6jpDyUwfuAVZFbjAShO9_v7Q@mail.gmail.com>
+Subject: Re: [PATCH net-next 1/2] net: ti: icssg: Derive stats array lengths
+ from ARRAY_SIZE
+To: MD Danish Anwar <danishanwar@ti.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Roger Quadros <rogerq@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jacob Keller <jacob.e.keller@intel.com>, Meghana Malladi <m-malladi@ti.com>, 
+	Kevin Hao <haokexin@gmail.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, Vignesh Raghavendra <vigneshr@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi MD,
 
+On Tue, 12 May 2026 at 07:06, MD Danish Anwar <danishanwar@ti.com> wrote:
+>
+> Replace the manually maintained ICSSG_NUM_MIIG_STATS and
+> ICSSG_NUM_PA_STATS constants with ARRAY_SIZE() expressions derived
+> directly from the corresponding stat descriptor arrays, so that adding
+> new entries to icssg_all_miig_stats[] or icssg_all_pa_stats[] no longer
+> requires a separate update to a numeric constant.
+>
+> To make this self-contained, break the circular include dependency
+> between icssg_stats.h and icssg_prueth.h:
+>
+>   - icssg_stats.h previously included icssg_prueth.h (transitively
+>     pulling in icssg_switch_map.h and ETH_GSTRING_LEN).  Replace that
+>     with direct includes of <linux/ethtool.h>, <linux/kernel.h> and
+>     "icssg_switch_map.h".
+>
+>   - icssg_prueth.h now includes icssg_stats.h, giving it access to
+>     the ARRAY_SIZE-based ICSSG_NUM_MIIG_STATS and ICSSG_NUM_PA_STATS
+>     before they are used in the prueth_emac struct and ICSSG_NUM_STATS.
+>
+> Signed-off-by: MD Danish Anwar <danishanwar@ti.com>
+> ---
+>  drivers/net/ethernet/ti/icssg/icssg_prueth.h | 3 +--
+>  drivers/net/ethernet/ti/icssg/icssg_stats.h  | 7 ++++++-
+>  2 files changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.h b/drivers/net/e=
+thernet/ti/icssg/icssg_prueth.h
+> index df93d15c5b78..e2ccecb0a0dd 100644
+> --- a/drivers/net/ethernet/ti/icssg/icssg_prueth.h
+> +++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
+> @@ -43,6 +43,7 @@
+>
+>  #include "icssg_config.h"
+>  #include "icss_iep.h"
+> +#include "icssg_stats.h"
+>  #include "icssg_switch_map.h"
+>
+>  #define PRUETH_MAX_MTU          (2000 - ETH_HLEN - ETH_FCS_LEN)
+> @@ -57,8 +58,6 @@
+>
+>  #define ICSSG_MAX_RFLOWS       8       /* per slice */
+>
+> -#define ICSSG_NUM_PA_STATS     32
+> -#define ICSSG_NUM_MIIG_STATS   60
+>  /* Number of ICSSG related stats */
+>  #define ICSSG_NUM_STATS (ICSSG_NUM_MIIG_STATS + ICSSG_NUM_PA_STATS)
+>  #define ICSSG_NUM_STANDARD_STATS 31
+> diff --git a/drivers/net/ethernet/ti/icssg/icssg_stats.h b/drivers/net/et=
+hernet/ti/icssg/icssg_stats.h
+> index 5ec0b38e0c67..b854eb587c1e 100644
+> --- a/drivers/net/ethernet/ti/icssg/icssg_stats.h
+> +++ b/drivers/net/ethernet/ti/icssg/icssg_stats.h
+> @@ -8,10 +8,15 @@
+>  #ifndef __NET_TI_ICSSG_STATS_H
+>  #define __NET_TI_ICSSG_STATS_H
+>
+> -#include "icssg_prueth.h"
+> +#include <linux/ethtool.h>
+> +#include <linux/kernel.h>
+> +#include "icssg_switch_map.h"
+>
+>  #define STATS_TIME_LIMIT_1G_MS    25000    /* 25 seconds @ 1G */
+>
+> +#define ICSSG_NUM_MIIG_STATS   ARRAY_SIZE(icssg_all_miig_stats)
+> +#define ICSSG_NUM_PA_STATS     ARRAY_SIZE(icssg_all_pa_stats)
+> +
+>  struct miig_stats_regs {
+>         /* Rx */
+>         u32 rx_packets;
+> --
+> 2.34.1
+>
 
-On 5/11/2026 10:59 PM, Kairui Song wrote:
-> On Mon, May 11, 2026 at 9:14 PM David Hildenbrand (Arm)
-> <david@kernel.org> wrote:
->>
->> On 5/8/26 22:20, fujunjie wrote:
->>> swapin_folio() documents that a large folio insertion race returns NULL
->>> so the caller can fall back to order-0 swapin. do_swap_page() currently
->>> turns that NULL into VM_FAULT_OOM if the PTE is unchanged, which is
->>> harsher than necessary and gets in the way of rejecting large folio
->>> ranges for backend reasons.
->>>
->>> Move the synchronous swapin sequence into a helper and retry with an
->>> order-0 folio when a large folio cannot be inserted into the swap cache.
->>> Count the event as an mTHP swapin fallback before dropping the failed
->>> large allocation.
->>>
->>> Signed-off-by: fujunjie <fujunjie1@qq.com>
->>> ---
->>>  mm/memory.c | 50 +++++++++++++++++++++++++++++++++++++++-----------
->>>  1 file changed, 39 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/mm/memory.c b/mm/memory.c
->>> index ea6568571131..84e3b77b8293 100644
->>> --- a/mm/memory.c
->>> +++ b/mm/memory.c
->>> @@ -4757,6 +4757,44 @@ static struct folio *alloc_swap_folio(struct vm_fault *vmf)
->>>  }
->>>  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
->>>
->>> +static struct folio *swapin_synchronous_folio(swp_entry_t entry,
->>> +                                           struct vm_fault *vmf)
->>> +{
->>> +     struct folio *swapcache, *folio;
->>> +     bool large;
->>> +     int order;
->>> +
->>> +     folio = alloc_swap_folio(vmf);
->>> +     if (!folio)
->>> +             return NULL;
->>> +
->>> +     large = folio_test_large(folio);
->>> +     order = folio_order(folio);
->>> +
->>> +     /*
->>> +      * folio is charged, so swapin can only fail due to raced swapin and
->>> +      * return NULL.
->>> +      */
->>> +     swapcache = swapin_folio(entry, folio);
->>> +     if (swapcache == folio)
->>> +             return folio;
->>> +
->>> +     if (!swapcache && large)
->>> +             count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK);
->>> +     folio_put(folio);
->>> +     if (swapcache || !large)
->>> +             return swapcache;
->>> +
->>> +     folio = __alloc_swap_folio(vmf);
->>> +     if (!folio)
->>> +             return NULL;
->>> +
->>> +     swapcache = swapin_folio(entry, folio);
->>> +     if (swapcache != folio)
->>> +             folio_put(folio);
->>> +     return swapcache;
->>> +}
->>> +
->>>  /* Sanity check that a folio is fully exclusive */
->>>  static void check_swap_exclusive(struct folio *folio, swp_entry_t entry,
->>>                                unsigned int nr_pages)
->>> @@ -4860,17 +4898,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
->>>               swap_update_readahead(folio, vma, vmf->address);
->>>       if (!folio) {
->>>               if (data_race(si->flags & SWP_SYNCHRONOUS_IO)) {
->>> -                     folio = alloc_swap_folio(vmf);
->>> -                     if (folio) {
->>> -                             /*
->>> -                              * folio is charged, so swapin can only fail due
->>> -                              * to raced swapin and return NULL.
->>> -                              */
->>> -                             swapcache = swapin_folio(entry, folio);
->>> -                             if (swapcache != folio)
->>> -                                     folio_put(folio);
->>> -                             folio = swapcache;
->>> -                     }
->>> +                     folio = swapin_synchronous_folio(entry, vmf);
->>>               } else {
->>>                       folio = swapin_readahead(entry, GFP_HIGHUSER_MOVABLE, vmf);
->>>               }
->>
->> There are some upcoming changes with:
->>
->> https://lore.kernel.org/r/20260421-swap-table-p4-v3-5-2f23759a76bc@tencent.com
->>
->>
->> All the of that logic you have in swapin_synchronous_folio() should ideally not
->> go into memory.c, but into some swap specific code.
->>
->> But
->>
->> https://lore.kernel.org/r/20260421-swap-table-p4-v3-0-2f23759a76bc@tencent.com
-> 
-> Thanks for mentioning this!
-> 
-> I think Junjie's change fits better after that change indeed. And I
-> checked the code, it should fits easily too.
-> 
-> It's already strange enough that THP swapin is bundled with
-> synchronous swapin, we better not make it more divergent here, and add
-> more bits into memory.c.
-> 
-> And this commit will limit it to anon, no shmem, which is another
-> strange detail. Or we'll have to repeat everything and copy these code
-> to shmem.c...
-> 
-> Once all swap-ins uses basically the same path as in that series, all
-> swap-ins will be able to have similar THP and zswap THP support too.
+One thing that caught my eye: icssg_all_miig_stats[] and
+  icssg_all_pa_stats[] are 'static const' arrays in icssg_stats.h with
+  ETH_GSTRING_LEN name buffers per entry. Right now only icssg_stats.c
+  and icssg_ethtool.c pull them in. After this patch icssg_prueth.h
+  includes icssg_stats.h, so every .c in the driver (classifier,
+  common, config, mii_cfg, queues, switchdev, ...) ends up with its own
+  static-const copy of both tables.
 
-Thanks David and Kairui.
+  Would a static_assert() work for what you're after? Something like:
 
-That makes sense. The helper in memory.c was mainly added to demonstrate
-the fallback needed by this RFC, but I agree that growing more large-folio
-swapin logic in the anon synchronous swapin path is not the right
-direction.
+    static const struct icssg_miig_stats icssg_all_miig_stats[] =3D {
+        ...
+    };
+    static_assert(ARRAY_SIZE(icssg_all_miig_stats) =3D=3D ICSSG_NUM_MIIG_ST=
+ATS);
 
-I will not carry this patch forward in its current form. If I continue
-with this work, I will rebase it on top of Kairui's swap-table or unified
-swapin work and keep the allocation and fallback handling in the swap-specific
-common path.
+  next to each array, keeping the numeric #defines as-is. Then 2/2 fails
+  to build the moment a new entry is added without bumping the count,
+  which is the case you're guarding against =E2=80=94 without touching the
+  include graph.
 
-I also noticed Alexandre is already working on the large-folio swapin
-side, so I will follow that series to avoid duplicating work.
+What do you think ?
 
-Thanks for the pointers.
-
+Cheers.
