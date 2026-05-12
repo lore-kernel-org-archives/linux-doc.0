@@ -1,130 +1,109 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E1C385516;
-	Tue, 12 May 2026 10:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DB0386571
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 10:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778582647; cv=none; b=uzBo28WnCjvNfNd2GtPJke3r/ln4OTvoaRo4RP0ZePvMW5ltuCnuQhrPPfVfq4g6LTBTpYn2K0tMRL5srntsw4/LGFNr2zsg0NFxorcWITlx3EiBZaLk4yQMvrmZhok8EPvwFa4ODEWwIxPg2JER2wBz/ZYNx6Sa7DXrx1ypIAA=
+	t=1778583575; cv=none; b=X4WPhuUtKoxejOTYJ+zwMbXicq0CxL6wEwyl1Z11icrJ1GbFiqWNPYw5hRONME8IPr+/nHMaD2c8HG/zMOtau63qzwAqFNDldQXI1BV8f0H8MFJ+7TnDYlu489EL+aRsE2mxPmvUJ0KKekg62XE0UhdFBC+uPvfWw50lViA14Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778582647; c=relaxed/simple;
-	bh=HJU+wquNZZmfybCX/g3N7u13e5or//Qt35CyPaGuq6E=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bZlUV1oqNU6BdDOhZi584GqVNyi/lT1ZlOTqcsIgjCmu3vMJ3ynfo3ZI5M7S7+66UB+ABgNi8mRa5T8wAx1++An7ANrKkIUT77eJasecDZM7lra3IYlZLq+Jc9U5J+ElyCrkz2QD7M0AEPrEeqEAjG74z2VeCPYG19EIKQek8hE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=MeojXbMK; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1778583575; c=relaxed/simple;
+	bh=2O6kMZeCfa2WzuVxLVjO6q02eX3L6eA7J+7iqPYMAV0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tZCYnV3gQYMkokkGFXASxCuoJ7zV71ynV8XAd8Ymsnd0Y6PIZa6/9jatGmRssgllsOqBq8ycdKjfkCM2NA8pvCVcNLXR/bYFBumevQxWvqnJe4+8naWtjcTcgj+HR4Q/kfuCpu0btC5XdMjyzjjVJuaekHbNy58E1S6fGF+V4Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=htg5d6Cd; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="MeojXbMK"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gFCrJ4WHHz9sZZ;
-	Tue, 12 May 2026 12:44:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1778582640;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5+S2z17Ta0ChD7oo2sNSFDY0KUoUaTB5LxyZIH6WuPg=;
-	b=MeojXbMKQcBlBLN3I+MhSIB0zLgGOyiq32AonADp/xagV6YsGxXH1sypIOpPWjUr4DzVnk
-	NXrhe+82F0s4kBWvn00e1QCUVrVsAEqEQwOCUhx6dUpfMu21BF8IW4f8l8m5J3S4zVQ9bl
-	c80M8qDO3SRMRtqgJVQA67XP0op1MhErSoz/WknqgWQMdK8UEJm2lGVJlyF/vO/1bE1/71
-	FVoMLt7IeNNBGBr7aUxj6EDY/YUMyG43Ls82EBpC6umNnDtkz8pIPT0mCdFFK29pSxYOI1
-	iKzs01DKiz8NvVmiA6aXuMIjJCTHCpYacy0u0R3Z6aMtawsE/cEs6RD3puw57g==
-Message-ID: <46d8a5a8c8c77d3de9acfa1c55de2148fb2975c5.camel@mailbox.org>
-Subject: Re: [PATCH 1/2] Doc: deprecated.rst: add strlcat()
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: andy.shevchenko@gmail.com, apw@canonical.com, corbet@lwn.net, 
- dwaipayanray1@gmail.com, joe@perches.com, kees@kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- lukas.bulwahn@gmail.com,  skhan@linuxfoundation.org,
- workflows@vger.kernel.org
-Date: Tue, 12 May 2026 12:43:54 +0200
-In-Reply-To: <748c2c3d549740918e14f29aa25dd475b99c1313@intel.com>
-References: <20260510164907.57176-2-manuelebner@mailbox.org>
-	 <20260510165451.57674-2-manuelebner@mailbox.org>
-	 <748c2c3d549740918e14f29aa25dd475b99c1313@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="htg5d6Cd"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488af96f6b2so64363325e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 03:59:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778583571; x=1779188371; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uhHS6zVrC9HlZ4w9H9Y7re+MM/8aX/6jJDkwDStDfFo=;
+        b=htg5d6Cdq6YZFukk5+nG+yX0wzoJ9Ss8Hi6w+Frzd5rNbk+/ZgcWNez/43uXtwSEze
+         h+2d0/0fHDqceJff76lQ0IYJOeY32NktATIyibop5TsxzTkPEpBiqhtalzE4O8ZMj2jj
+         xHiNGOar8P0og8mBB1tkuXSrlj7GJMTl/HJ82FqBgnkDymQkweYNEmMd50l6CKpXI/Ls
+         6GT2LLxdoA5FghfXUsQZxXbqd1W7ooRJvZoEgRa68fbZccb3tG3msU+OubN1rCA/UiLh
+         UW3vVG9kB9QZ2o5yWPSj+bmOyMAeJtCooL87mNSff/5okn2m4EHWbjvDfKiCJm3uxQYR
+         0BbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778583571; x=1779188371;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uhHS6zVrC9HlZ4w9H9Y7re+MM/8aX/6jJDkwDStDfFo=;
+        b=lO5hehTGWgrFuO45449XOVyh/DXUrr22yWzhNf5h37lFv6JGBlfKSDu4GmKkUUFZx9
+         pu64V61W0YmeUiulLTJPuAW0A+4z3JxFBgwA+ER3ynb45Rp5WgWdd+tawrpFDJjHHqOY
+         yFycv/RgT/RzsxVdcfuf04vFu0cwf/mwdfTpBSFg8LKwHu6szWPqp7iPuozoKmtmPuAX
+         IpjjC/aRyaw/tWFwK5tfWixuyKfjLgORAI4KkcnUg4jIp8VRt2iFxrf8be0RIDaBNJuK
+         llmXnRCtKVL3MFBO5z9zG6NclP763OmuY78X6grTcgswuujfMFtQcDG9H5WrzbEy12Hb
+         BFmA==
+X-Gm-Message-State: AOJu0YwxUJpYKFle2ffTdXdI2nlwgHSeYVFQE+fcFV2pHwqfwoi1ihMF
+	2kqfUrjBy6s1RKOra8idjR/C+Xfkm7fVxZ4sO0UKIM/sBPHEqRHT7GKT
+X-Gm-Gg: Acq92OFSFrJCIXyRVLZW867OBF5sgPAtJ9irEFtdyn6lfi6ARycDc1XzY8lAfX/Wm6Z
+	XeX9K93N6/kthnMgvSXhExL1jk9374GHgGTMIpGcrDCvIy9VX+KnjRjI5v02YRgpioTclmXA3iU
+	4XYhegJG1KrKZOsFtnkzwR3pSHRL55ATZuqnopzJ+NKXhelQjClSQHfOMJzKGMqBB+gtHIsYs3L
+	H0uoR0ltNsqOBD8qzwWIaxA/ERubxZm4Ao9sDWDQAP8NzZDRZ38BA1SnDsM+riRNNidNmwjGG6H
+	RfA5qg8Qw6opsFd2W7TOOS12jwDs/tsy4xbQcJC8vbHMq3gGn6DIa3QQkHYaapH3gJfbZASCF+y
+	ZpftXY6S6P4fOEshvZUnhck90CMyYiaPTSILFo5n5oNPb9Fc/g2T/T2yukuj+XV3o3lVa0Vg/4f
+	edQ4VPNas3cbrnKvV9hJJBJ+8yATUJ9HMz+6YBQb4P2P3fB6+Y9yR3qpffkzDRfpf8l7uHG4ibp
+	gyKnd90jinqgaqJUj2naVOcvr5zl5v4sJj/deE=
+X-Received: by 2002:a05:600c:45d0:b0:488:7ff6:1f75 with SMTP id 5b1f17b1804b1-48e707f821dmr219403715e9.21.1778583571615;
+        Tue, 12 May 2026 03:59:31 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c096:325::372? ([2620:10d:c092:600::1:8c90])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6b00fsm35042477f8f.11.2026.05.12.03.59.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 May 2026 03:59:30 -0700 (PDT)
+Message-ID: <1ae85366-de3e-4891-8581-bdfc6e605a23@gmail.com>
+Date: Tue, 12 May 2026 11:59:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: p7boa6zmq5it3uzemwu86gwxfmuosnou
-X-MBO-RS-ID: 31e777d85cd5f3c3a16
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] io_uring/zcrx: notify user when out of buffers
+To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@meta.com>,
+ io-uring@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, netdev@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Vishwanath Seshagiri <vishs@fb.com>,
+ Vishwanath Seshagiri <vishs@meta.com>
+References: <20260422112522.3316660-1-cleger@meta.com>
+ <20260422112522.3316660-2-cleger@meta.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20260422112522.3316660-2-cleger@meta.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2026-05-12 at 11:52 +0300, Jani Nikula wrote:
-> On Sun, 10 May 2026, Manuel Ebner <manuelebner@mailbox.org> wrote:
-> > add strlcat and alternatives
->=20
-> You'd think it's the strlcat() definition that needs a comment above it
-> saying it's deprecated. I don't think folks really look at
-> deprecated.rst.
+On 4/22/26 12:25, Clément Léger wrote:
+> From: Pavel Begunkov <asml.silence@gmail.com>
+...
+> +static void zcrx_notif_tw(struct io_tw_req tw_req, io_tw_token_t tw)
+> +{
+> +	struct io_kiocb *req = tw_req.req;
+> +	struct io_ring_ctx *ctx = req->ctx;
+> +
+> +	io_post_aux_cqe(ctx, req->cqe.user_data, req->cqe.res, 0);
+> +	percpu_ref_put(&ctx->refs);
+> +	kfree_rcu(req, rcu_head);
+> +}
 
-arch/s390/lib/string.c
-lib/string.c
-and
-tools/include/nolibc/string.h
+Note to myself:
 
-do not mentions anything about obsolete.
+io_poison_req(req);
+kmem_cache_free(req_cachep, req);
 
-include/linux/fortify-string.h has=20
-
- /* Defined after fortified strlen() to reuse it. */
- extern size_t __real_strlcat(char *p, const char *q, size_t avail) __RENAM=
-E(strlcat);
- /**
-  * strlcat - Append a string to an existing string
-  * [...]
-  * Do not use this function. While FORTIFY_SOURCE tries to avoid
-  * read and write overflows, this is only possible when the sizes
-  * of @p and @q are known to the compiler. Prefer building the
-  * string with formatting, via scnprintf(), seq_buf, or similar.
-
-should i add this to the former three files?
-
-Manuel
-
->=20
-> BR,
-> Jani.
->=20
-> >=20
-> > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> > ---
-> > =C2=A0Documentation/process/deprecated.rst | 6 ++++++
-> > =C2=A01 file changed, 6 insertions(+)
-> >=20
-> > diff --git a/Documentation/process/deprecated.rst b/Documentation/proce=
-ss/deprecated.rst
-> > index fed56864d036..b8a65c19796c 100644
-> > --- a/Documentation/process/deprecated.rst
-> > +++ b/Documentation/process/deprecated.rst
-> > @@ -162,6 +162,12 @@ if a source string is not NUL-terminated. The safe=
- replacement is
-> > strscpy(),
-> > =C2=A0though care must be given to any cases where the return value of =
-strlcpy()
-> > =C2=A0is used, since strscpy() will return negative errno values when i=
-t truncates.
-> > =C2=A0
-> > +strlcat()
-> > +---------
-> > +strlcat() must re-scan the destination string from the beginning on ea=
-ch
-> > +call (O(n^2) behavior). Alternatives are seq_buf_puts(), seq_buf_print=
-f(),
-> > +snprintf() and scnprintf()
-> > +
-> > =C2=A0%p format specifier
-> > =C2=A0-------------------
-> > =C2=A0Traditionally, using "%p" in format strings would lead to regular=
- address
->=20
+-- 
+Pavel Begunkov
 
