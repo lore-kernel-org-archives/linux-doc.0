@@ -1,113 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADD743E4AC;
-	Tue, 12 May 2026 06:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5EE2368D50;
+	Tue, 12 May 2026 06:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778566811; cv=none; b=RXtPjXOEzNRUwRwF4K2aZcT78h/gSgiY00ROyEHXFo4H5QFbNH5WszCF4dmK4hpZDOEqSKlKozH7yv7AjHh7NYsc+lixm8FAwl0znnUaU2GUlTYm2xAt1rLWKrr4irPV2pVEPZpLKpCJGAVHsaTeJoJqKIDKjZ/NlC0tDjdUHwI=
+	t=1778568070; cv=none; b=eY3DEcqfkl8uR/2nzNadJPM/8EwF7tAHn8YuQ6F0CDBogtiNh0uASQHxlZiNfkyNj1GaRFc2USP8DBLQUCvsHp96GExaEZsGctVYsttwG6FNh/DtRYR/KMN9TAcd4AiypcoShjUkKqqK6LQcRUAPO3p8+693Gbw5OhEYvb0iALA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778566811; c=relaxed/simple;
-	bh=mdePbjeNsfhn1GjWkUJByHSc9WmgU55uX6g5q5krJDw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pUoqAm/tbqrndgrq3Ovcm/Phi8MjJtnaZhX7NLcZ0O+Xtb+UfOQE9IVBEuJAnY93snhE99qnK8bPWx0NyI8BKXbxVzWYWQIA17DBPXXNHZLf7awBd/zhBUlNM3effuDE4uPADjqeyFaKx3aVW5uftGccYKz+/bZYDla+D6Lkf68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iv9WhdFQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778568070; c=relaxed/simple;
+	bh=oxWVuXf2Q+qIDVnzvO9dtDJiy4wLIt3Faa3dDgXp9Lc=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=PerYpNYf8AC3HtBXA39yeNWw3UrK1CauAqzvEeKx+UirCdX/nBQfs2kYu7tf8lLQ23I5IiA66D7fuHHG2jDIiJU9loiUmxJOCwlwqlbsFbBp+zGmFGbdEDEMfUkNMCeAyE8vpzNn4Np4anpHeXcuSabCSe49ScxKx4xhzeyTsDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HlPKvL+n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iv9WhdFQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7631C2BCB0;
-	Tue, 12 May 2026 06:20:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HlPKvL+n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6B22C2BCB8;
+	Tue, 12 May 2026 06:41:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778566809;
-	bh=mdePbjeNsfhn1GjWkUJByHSc9WmgU55uX6g5q5krJDw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Iv9WhdFQCVyrp77Mkoz9OM2hiDo0iT2RKeHM5iUPqNvrHjEgusLl4WJ54q5apKQkG
-	 MpWPJWW3h0uS8XpPmnQJBPngamllwr36WT/bZpPHbt7xtzoo8PP07Q7ZIasKOP9oaI
-	 3Cs49iy0YeY/XtB7NETpaqm1y9s3mjUMH0Fk8Ebk/HZ6WYGu+mJ1as/5oE2t6eeZN9
-	 SBEWhh0v6LIQurjqDc1xL4qIEDB9bkQohd3X83f7GZ6Jpeo12KrabryqEW7wUUO/BK
-	 kFszctyXhERWNBy4LavKOM3cUsxHDDWENc45PR2OoRYuNdL6hfyqBQfoIR6+HTLdzP
-	 ZVqIjYiXckmKQ==
-Date: Tue, 12 May 2026 08:20:03 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-hardening@vger.kernel.org, peter.griffin@linaro.org,
- andre.draszik@linaro.org, willmcvicker@google.com, jyescas@google.com,
- krzk@kernel.org, kernel-team@android.com
-Subject: Re: [PATCH] docs: kernel-doc: python: strip __counted_by_ptr macro
-Message-ID: <20260512082003.4b36bdaf@foz.lan>
-In-Reply-To: <20260506-kdoc-__counted_by_ptr-v1-1-70763486871f@linaro.org>
-References: <20260506-kdoc-__counted_by_ptr-v1-1-70763486871f@linaro.org>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1778568068;
+	bh=oxWVuXf2Q+qIDVnzvO9dtDJiy4wLIt3Faa3dDgXp9Lc=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
+	b=HlPKvL+ni2sd4CBxgthfeQwrGo0IsRduiHzJ1nVZpmvwGVjn+c8qOFW2AbmWMplSQ
+	 ylDpgbcrBph9eQSIfNdxdXw82j4g1M39Xjmkb8r4w5kNyfPq4aBcwSMFhUWi0pbjqP
+	 GbFp2YHg+BurLz0hO/3LCx1zIF3z5nCPWQjScOzrku5mJdfKIgYjAxekiJG7dp7B6g
+	 vmmre1UfugJZO3Hfm/yxOlDNIRqfaHlwqy/19iCQRyuMY8HoHwHZpDWEbfT/4qMX3m
+	 3r/0OWhbkUUISS1PCBw+Biw4YjxX8zSlGnRENfOuyUacdiEwyLlkugw8RAMONuJyzX
+	 ot54VnjstABEQ==
+Content-Type: multipart/mixed; boundary="===============4948874120813433763=="
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Message-Id: <6eb07d559a41965a3a9b186b4c28c0942cf1bfb982d539b92c76c27b08db0b04@mail.kernel.org>
+In-Reply-To: <20260512055919.95716-2-kaitao.cheng@linux.dev>
+References: <20260512055919.95716-2-kaitao.cheng@linux.dev>
+Subject: Re: [PATCH RESEND bpf-next v10 1/8] bpf: refactor __bpf_list_del to take list node pointer
+From: bot+bpf-ci@kernel.org
+To: kaitao.cheng@linux.dev,ast@kernel.org,corbet@lwn.net,martin.lau@linux.dev,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,john.fastabend@gmail.com,kpsingh@kernel.org,sdf@fomichev.me,haoluo@google.com,jolsa@kernel.org,shuah@kernel.org,chengkaitao@kylinos.cn,skhan@linuxfoundation.org,memxor@gmail.com
+Cc: bpf@vger.kernel.org,linux-kernel@vger.kernel.org,linux-doc@vger.kernel.org,vmalik@redhat.com,linux-kselftest@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
+Date: Tue, 12 May 2026 06:41:06 +0000 (UTC)
+
+--===============4948874120813433763==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-On Wed, 06 May 2026 11:04:12 +0000
-Tudor Ambarus <tudor.ambarus@linaro.org> wrote:
+> diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
+> index baa12b24bb64..9cd7b028592c 100644
+> --- a/kernel/bpf/helpers.c
+> +++ b/kernel/bpf/helpers.c
+> @@ -2550,22 +2550,24 @@ __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
+>  	return bpf_list_push_back(head, node, meta__ign, off);
+>  }
+>
+> -static struct bpf_list_node *__bpf_list_del(struct bpf_list_head *head, bool tail)
+> +static struct bpf_list_node *__bpf_list_del(struct bpf_list_head *head,
+> +					    struct list_head *n)
+>  {
+> -	struct list_head *n, *h = (void *)head;
+> +	struct list_head *h = (void *)head;
+>  	struct bpf_list_node_kern *node;
+>
+>  	/* If list_head was 0-initialized by map, bpf_obj_init_field wasn't
+>  	 * called on its fields, so init here
+>  	 */
+> -	if (unlikely(!h->next))
+> +	if (unlikely(!h->next)) {
+>  		INIT_LIST_HEAD(h);
+> +		return NULL;
+> +	}
+>  	if (list_empty(h))
+>  		return NULL;
+>
+> -	n = tail ? h->prev : h->next;
+>  	node = container_of(n, struct bpf_list_node_kern, list_head);
+> -	if (WARN_ON_ONCE(READ_ONCE(node->owner) != head))
+> +	if (unlikely(READ_ONCE(node->owner) != head))
+>  		return NULL;
+>
+>  	list_del_init(n);
+> @@ -2575,12 +2577,16 @@ static struct bpf_list_node *__bpf_list_del(struct bpf_list_head *head, bool tai
+>
+>  __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
+>  {
+> -	return __bpf_list_del(head, false);
+> +	struct list_head *h = (void *)head;
+> +
+> +	return __bpf_list_del(head, h->next);
+>  }
 
-> The `__counted_by_ptr` macro was recently introduced [1] to extend
-> bounds checking semantics to standard dynamically allocated pointers.
-> 
-> However, the new Python implementation of kernel-doc does not currently
-> recognize it as a compiler attribute. When kernel-doc encounters a
-> struct member annotated with this macro, it fails to parse the variable
-> name correctly, resulting in false-positive warnings like:
-> 
->   Warning: ... struct member '__counted_by_ptr(cmdcnt' not described
-> 
-> Add `__counted_by_ptr` to the `struct_xforms` regex list so it gets
-> safely stripped out during the parsing phase, mirroring the existing
-> behavior for `__counted_by`. Update the corresponding unit tests.
-> 
-> Link: https://git.kernel.org/torvalds/c/150a04d817d8 [1]
-> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+The new code reads h->next before __bpf_list_del checks if the list is
+initialized. If the list is uninitialized (h->next is NULL), a NULL pointer
+is passed to __bpf_list_del.
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+While __bpf_list_del eventually initializes the list and returns NULL without
+dereferencing the NULL pointer, this is counterintuitive - passing a
+potentially garbage value that is later ignored.
 
-> ---
->  tools/lib/python/kdoc/xforms_lists.py | 1 +
->  tools/unittests/test_cmatch.py        | 1 +
->  2 files changed, 2 insertions(+)
-> 
-> diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-> index f6ea9efb11ae..118156ea8cd2 100644
-> --- a/tools/lib/python/kdoc/xforms_lists.py
-> +++ b/tools/lib/python/kdoc/xforms_lists.py
-> @@ -29,6 +29,7 @@ class CTransforms:
->          (CMatch("__aligned"), ""),
->          (CMatch("__counted_by"), ""),
->          (CMatch("__counted_by_(le|be)"), ""),
-> +        (CMatch("__counted_by_ptr"), ""),
->          (CMatch("__guarded_by"), ""),
->          (CMatch("__pt_guarded_by"), ""),
->          (CMatch("__packed"), ""),
-> diff --git a/tools/unittests/test_cmatch.py b/tools/unittests/test_cmatch.py
-> index 7b996f83784d..109141cd2ab8 100755
-> --- a/tools/unittests/test_cmatch.py
-> +++ b/tools/unittests/test_cmatch.py
-> @@ -320,6 +320,7 @@ class TestSubWithLocalXforms(TestCaseDiff):
->          (CMatch('__aligned'), ' '),
->          (CMatch('__counted_by'), ' '),
->          (CMatch('__counted_by_(le|be)'), ' '),
-> +        (CMatch('__counted_by_ptr'), ' '),
->          (CMatch('__guarded_by'), ' '),
->          (CMatch('__pt_guarded_by'), ' '),
->  
-> 
-> ---
-> base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
-> change-id: 20260506-kdoc-__counted_by_ptr-1e206f3f1dc1
-> 
-> Best regards,
+Can you move the initialization check into the top-level kfuncs
+(bpf_list_pop_front and bpf_list_pop_back) to ensure the list_head passed to
+__bpf_list_del is always valid? You could initialize the list and return NULL
+in that case - we know it's empty.
+
+This concern was raised by Emil Tsalapatis in v8:
+https://lore.kernel.org/bpf/DH6W7K2SLPYB.PCO7FQ6CR1YZ@etsalapatis.com/
+
+>
+>  __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
+>  {
+> -	return __bpf_list_del(head, true);
+> +	struct list_head *h = (void *)head;
+> +
+> +	return __bpf_list_del(head, h->prev);
+>  }
 
 
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-Thanks,
-Mauro
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/25716874656
+--===============4948874120813433763==--
