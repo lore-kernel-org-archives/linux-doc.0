@@ -1,392 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out203-205-221-221.mail.qq.com (out203-205-221-221.mail.qq.com [203.205.221.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C973C5850;
-	Tue, 12 May 2026 15:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9E43C4B75;
+	Tue, 12 May 2026 15:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778600724; cv=none; b=GMc6xlePA5LygJMcngAj6m1N1si4RodCFu3YZ4cbZYG7yLT4BR6DNiZmEgUtpN2tS5gKWPPQt5f5HrZBwtPGLI/YZbqp0yDkhO/NdeTrc2jMlqxi08EpefHkRU1KoHgL0HaohQEei+ZZxkC/YqKF6W4F5SvtAJuDu1TH59dS9rw=
+	t=1778600796; cv=none; b=Lwk2Sa2Pyy8tTMbSO+syJZf9wYiyTt0KwBgBndb6TMm7F3Av+m9vPNrRMJ13k/P0q9lgYHiLCRaRX1OM0HybM2yQpHMz4umzCOhE+PmlzLm/gj2LpavSY5LVNa9fjWwzNN4dnuaNY/fIAOCRGQXiGd4v8XgWkPCFTZQ3Oqlt448=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778600724; c=relaxed/simple;
-	bh=UPTsSXVqrpNioAawmeVwwn89Z4hceuaoH7R8YMg6KAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M8MmHhoT20SlP6fITEXSJiGZn7o4L/+05JJ0lOE3eplq+YS5SpIUdbMe3wdLA5gvBrxCcWa88ZStxFIOFfAuSh5THQ7+ZssjAcaZW16o9AbsFLiFWOOD85Y8FAk1qhQYsVK4H23RVeJmy0gLdpw/wjGqFjVAb/8NBJI3QQHiais=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=moMZGQZb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778600796; c=relaxed/simple;
+	bh=F3Zv0JOKesguZ6mhZPtk7Bxo1cTD1wvwqglFXShDibk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hlhXg6klpEovQkAq3E0lALpEGg5L7yKUR3SkcLQ5X78SJD+xA08icU8egt0fB2nhDhwWmtZzfZUvlYJCo5/M734kyN8N1z/8HDrgQkzF3Tj1VyuRUJqVkxBGfxhcp5BPt6sHOUwUvSiCSAMA3xhq1BP8D61utYqzU129jcCC7WM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=XbmfckGv; arc=none smtp.client-ip=203.205.221.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="moMZGQZb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCCF3C2BCB0;
-	Tue, 12 May 2026 15:45:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778600724;
-	bh=UPTsSXVqrpNioAawmeVwwn89Z4hceuaoH7R8YMg6KAY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=moMZGQZb9IvwY7Hp94T6nwhBLqFjxmHjmSvRQ0esPijeXKCHpLdJAwHMptFit6xsP
-	 HcZdIr2u6RdslL8cfu6AUTmrNeBoT3A4JV8mu5iGHQlfHUOO18ST83n4WqVQKmBmwB
-	 YZ6IBFAImb1TgXHL0WDKdLurRL+RpbHWhz4BZZp/dNffX4Nidu/dMM+O5GmZIHhat/
-	 hqm+8gk/WJ06U/SNY17Y+b7FuSoLDfXtldF5RkTNZwESL4p/+pvtpIDcB7mbStJAS1
-	 G/d92PnU7FjhBsWumrMZ9kzqg+2iBtJmp4uXRMUtrV6gBr2kNv9g5zQRSRHT0G7a6l
-	 nzlVImAYVAWzg==
-Date: Tue, 12 May 2026 16:45:14 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
-Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
- <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 3/6] iio: adc: ad4691: add triggered buffer support
-Message-ID: <20260512164514.38bbfd4c@jic23-huawei>
-In-Reply-To: <20260511-ad4692-multichannel-sar-adc-driver-v10-3-e1fbb1744e38@analog.com>
-References: <20260511-ad4692-multichannel-sar-adc-driver-v10-0-e1fbb1744e38@analog.com>
-	<20260511-ad4692-multichannel-sar-adc-driver-v10-3-e1fbb1744e38@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="XbmfckGv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1778600789; bh=PaMGqz0yXQud2fUYhL55qTFHjZOzYISIsf1SBK7STfU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XbmfckGvzcsHdU+UB0IlLBwYz9EScvSXrzGN/0+jG55hyHp3YWazy8SPFpGzRINqP
+	 csuiKCJg9oejnseq1zoIetvqJqY0abPbiwds1E7ogS973qQjlTZmzMF3/vtJX9bCvP
+	 xQCEQNbBRT54kVT4/dqyMhvTOUCOTLNd2sZu08uc=
+Received: from [192.168.1.9] ([163.125.219.25])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id B99B08E3; Tue, 12 May 2026 23:46:25 +0800
+X-QQ-mid: xmsmtpt1778600785tygo1jak2
+Message-ID: <tencent_A4DCA5C6722BCBE54EE188648C04E1EF9D05@qq.com>
+X-QQ-XMAILINFO: NmRjDopJZVxOTAKLsNw0LLOXTd45SkTyOnrqbQtvq0ZsHNUVyw2XOX82gpvEq7
+	 Z6P4y4uF/Qj6DS6cmYj2Lk1MxFmlg7IMR9ns/aUeG/LRVAD6QTNOCHhbu4IlK+IJUu/4mHOhlrjy
+	 f5CzBqFx825RSGmbXIrFwpIRPrs37b8BqDhuA3XXocb7qYLOwlx8sc37Vxupe5qhZVQeVEel0Qk/
+	 2f9iWLIetidIFTtahJ5n1rfan8N7osuXy2jFWG0kTqxIrO3O1TdGX3/s1lRFasA+5ONDLbMKy0ic
+	 FUKMs8NZcXzE3YbyGoO9/3YbVt7zB4l+ls8Y25iOSkgb3FSQyYhCmGDH6ZFeZPY5N9KB+wyOcrWZ
+	 X8vC0tQK41Mdk/IjH+9K74fKAR8vbppWdy0wKIITZKaoOuOgEgOrInd4BYMBCasrNtmKhruA0qjF
+	 q9OhQ+jbAvZeeWMwoHgSdzuSCK0cLzQNU8CaRMfWyVJ2ni3pNvSVGR0r3TS87mMlKaHi0RDMigOc
+	 MKT8niY7Xn8U0wzM3usktFMQ4DQSfKEXHxDRzEh+iw6VddstcC3FlJ0OtMm6jet+KMuMzfObhHAE
+	 pCSPi/HhwfCNOmkJoKYcRC90GCA2vLHVPw7RCNxaPr9jyT+JFwFfUC60FoBtURbwoIwSGFzyO5V9
+	 iFWs6N+d6iojl/lXuenlX3ITbsjtQZ0wptZJSjVvNV9N6LCK3ljP9OnwukIJu1Ss3BjjuTfWJT0y
+	 xoJ2Kow8Icb6g4z4lkXJ/dPDJunrHTno9fVRerkrEGz5dVE4JxfGPfaHSAJqvd6ltdIhE7+8VSsb
+	 V+GdlbBrDdoYuyg4vUIoBGlEoUbGWcuZKX0lzonxS4dlh/G+ntxXtiJb17xx9Msz+ktypOg2OKmr
+	 YXv1iUx5+9g89c7O1hzqjJGkudJbaUQbO/77udKQbQjv5fyKuRJHRy1Np51Y/UXp2IQYke4MN0Gy
+	 ZtDJCIukHKq5EqUIkE8UEij9jPTZ1PIuz6voVL/AD2xH1vjycAW9SaRB9uaveMmh4LI7UtN12Qn6
+	 sJ5SBrAAf+GRifoQNU9UUXgAlLJ1SL90Ztsmd3vj5A1e8TYorBWg9iw+o3nXDKKiG9cPFbIg==
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+X-OQ-MSGID: <c0e09968-4c60-495a-b03a-0dde22b444a0@qq.com>
+Date: Tue, 12 May 2026 23:46:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: update admin-guide/index.rst translation
+To: kernel test robot <lkp@intel.com>, corbet@lwn.net, alexs@kernel.org,
+ si.yanteng@linux.dev, kees@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
+ dzm91@hust.edu.cn, tony.luck@intel.com, gpiccoli@igalia.com,
+ frederic@kernel.org, jani.nikula@intel.com, longman@redhat.com,
+ mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <tencent_7ADF2D1EBD8EAD2028BC93BA7858EA655D0A@qq.com>
+ <202605111009.hlpiVkT6-lkp@intel.com>
+From: Yan Zhu <zhuyan2015@qq.com>
+In-Reply-To: <202605111009.hlpiVkT6-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, 11 May 2026 14:54:15 +0300
-Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
+Hi,
 
-> From: Radu Sabau <radu.sabau@analog.com>
->=20
-> Add buffered capture support using the IIO triggered buffer framework.
->=20
-> CNV Burst Mode: the GP pin identified by interrupt-names in the device
-> tree is configured as DATA_READY output. The IRQ handler stops
-> conversions and fires the IIO trigger; the trigger handler executes a
-> pre-built SPI message that reads all active channels from the AVG_IN
-> accumulator registers and then resets accumulator state and restarts
-> conversions for the next cycle.
->=20
-> Manual Mode: CNV is tied to SPI CS so each transfer simultaneously
-> reads the previous result and starts the next conversion (pipelined
-> N+1 scheme). At preenable time a pre-built, optimised SPI message of
-> N+1 transfers is constructed (N channel reads plus one NOOP to drain
-> the pipeline). The trigger handler executes the message in a single
-> spi_sync() call and collects the results. An external trigger (e.g.
-> iio-trig-hrtimer) is required to drive the trigger at the desired
-> sample rate.
->=20
-> Both modes share the same trigger handler and push a complete scan =E2=80=
-=94
-> one u16 slot per active channel, densely paccked in scan_index order,
-> followed by a timestamp.
->=20
-> The CNV Burst Mode sampling frequency (PWM period) is exposed as a
-> buffer-level attribute via IIO_DEVICE_ATTR.
->=20
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+On 5/11/2026 4:39 PM, kernel test robot wrote:
+> Hi Yan,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on lwn/docs-next]
+> [also build test WARNING on linus/master v7.1-rc3 next-20260508]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhu/docs-zh_CN-update-admin-guide-index-rst-translation/20260511-102406
+> base:   git://git.lwn.net/linux.git docs-next
+> patch link:    https://lore.kernel.org/r/tencent_7ADF2D1EBD8EAD2028BC93BA7858EA655D0A%40qq.com
+> patch subject: [PATCH] docs/zh_CN: update admin-guide/index.rst translation
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+> reproduce: (https://download.01.org/0day-ci/archive/20260511/202605111009.hlpiVkT6-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605111009.hlpiVkT6-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>     Checksumming on output with GSO
+>     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+>     MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
+>>> Documentation/translations/zh_CN/admin-guide/index.rst:114: WARNING: toctree contains reference to nonexisting document 'translations/zh_CN/admin-guide/module-signing' [toc.not_readable]
+>     Documentation/userspace-api/landlock:504: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
+> 
 
-Sashiko pointed out you have a buffer that is big endian but
-chan_spec doesn't reflect that.  That should have generated obvious
-garbage output (unless you are actually testing on a be machine!)
+This is a false alarm. I generated a patch based on the following 
+warehouse. It exists in the module-signing document:
+base：git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git 
+docs-next
 
-Various other things came up, some of which I thought were in previous
-reviews - but maybe I'm confusing drivers.
+Thanks for your attention.
+Yan Zhu
+> 
+> vim +114 Documentation/translations/zh_CN/admin-guide/index.rst
+> 
+>     113	
+>   > 114	.. toctree::
+>     115	   :maxdepth: 1
+>     116	
+>     117	   cpu-load
+>     118	   mm/index
+>     119	   module-signing
+>     120	   numastat
+>     121	
+>     122	
+>     123	Todolist:
+>     124	
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-Thanks
-
-Jonathan
-
-> @@ -204,7 +230,14 @@ static const struct ad4691_chip_info ad4694_chip_inf=
-o =3D {
->  struct ad4691_state {
->  	const struct ad4691_chip_info *info;
->  	struct regmap *regmap;
-> +	struct spi_device *spi;
-> +
-> +	struct pwm_device *conv_trigger;
-> +	int irq;
->  	int vref_uV;
-> +	u32 cnv_period_ns;
-> +
-> +	bool manual_mode;
->  	bool refbuf_en;
->  	bool ldo_en;
->  	/*
-> @@ -212,8 +245,56 @@ struct ad4691_state {
->  	 * atomicity of consecutive SPI operations.
->  	 */
->  	struct mutex lock;
-> +	/*
-> +	 * Per-buffer-enable lifetime resources:
-> +	 * Manual Mode - a pre-built SPI message that clocks out N+1
-> +	 *		 transfers in one go.
-> +	 * CNV Burst Mode - a pre-built SPI message that clocks out 2*N
-> +	 *		    transfers in one go.
-> +	 */
-> +	struct spi_message scan_msg;
-> +	/*
-> +	 * max 16 + 1 NOOP (manual) or 2*16 + 1 state-reset (CNV burst).
-> +	 */
-> +	struct spi_transfer scan_xfers[34];
-> +	/*
-> +	 * CNV burst: 16 AVG_IN addresses =3D 16.  Manual: 16 channel cmds +
-> +	 * 1 NOOP =3D 17.  Stored as native u16; put_unaligned_be16() fills each
-> +	 * slot so the SPI controller (bits_per_word=3D8) sends bytes MSB-first.
-> +	 */
-> +	u16 scan_tx[17] __aligned(IIO_DMA_MINALIGN);
-> +	/*
-> +	 * CNV burst state-reset: 4-byte write [addr_hi, addr_lo,
-> +	 * STATE_RESET_ALL, OSC_EN=3D1]. CS is asserted throughout, so
-> +	 * ADDR_DESCENDING writes byte[3]=3D1 to OSC_EN_REG (0x180) as a
-> +	 * deliberate side-write, keeping the oscillator enabled. Shared
-> +	 * with the offload path (mutually exclusive at probe).
-> +	 */
-> +	u8 scan_tx_reset[4] __aligned(IIO_DMA_MINALIGN);
-> +	/*
-> +	 * Scan buffer: one BE16 slot per active channel, plus timestamp.
-> +	 * DMA-aligned because scan_xfers point rx_buf directly into vals[].
-> +	 */
-> +	IIO_DECLARE_DMA_BUFFER_WITH_TS(__be16, vals, 16);
-As per comments elsewhere: If it is big endian why is the channel not marked
-as such in the iio_chan_spec?
-
->  };
-
-> +
-> +static int ad4691_cnv_burst_buffer_preenable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4691_state *st =3D iio_priv(indio_dev);
-> +	unsigned int acc_mask;
-> +	unsigned int k, i;
-> +	int ret;
-> +
-> +	memset(st->scan_xfers, 0, sizeof(st->scan_xfers));
-> +	memset(st->scan_tx, 0, sizeof(st->scan_tx));
-> +
-> +	spi_message_init(&st->scan_msg);
-> +
-> +	/*
-> +	 * Each AVG_IN read needs two transfers: a 2-byte address write phase
-> +	 * followed by a 2-byte data read phase. CS toggles between channels
-> +	 * (cs_change=3D1 on the read phase of all but the last channel).
-> +	 */
-> +	k =3D 0;
-> +	iio_for_each_active_channel(indio_dev, i) {
-> +		put_unaligned_be16(0x8000 | AD4691_AVG_IN(i), &st->scan_tx[k]);
-> +		st->scan_xfers[2 * k].tx_buf =3D &st->scan_tx[k];
-> +		st->scan_xfers[2 * k].len =3D sizeof(st->scan_tx[k]);
-> +		spi_message_add_tail(&st->scan_xfers[2 * k], &st->scan_msg);
-> +		st->scan_xfers[2 * k + 1].rx_buf =3D &st->vals[k];
-> +		st->scan_xfers[2 * k + 1].len =3D sizeof(st->scan_tx[k]);
-> +		st->scan_xfers[2 * k + 1].cs_change =3D 1;
-> +		spi_message_add_tail(&st->scan_xfers[2 * k + 1], &st->scan_msg);
-> +		k++;
-> +	}
-> +
-> +	/*
-> +	 * Append a 4-byte state-reset transfer [addr_hi, addr_lo,
-> +	 * STATE_RESET_ALL, OSC_EN=3D1]. CS is asserted throughout, so
-> +	 * ADDR_DESCENDING writes byte[3]=3D1 to OSC_EN_REG (0x180) as a
-> +	 * deliberate side-write, keeping the oscillator enabled.
-> +	 */
-> +	put_unaligned_be16(AD4691_STATE_RESET_REG, st->scan_tx_reset);
-> +	st->scan_tx_reset[2] =3D AD4691_STATE_RESET_ALL;
-> +	st->scan_tx_reset[3] =3D 1;
-> +	st->scan_xfers[2 * k].tx_buf =3D st->scan_tx_reset;
-> +	st->scan_xfers[2 * k].len =3D sizeof(st->scan_tx_reset);
-> +	st->scan_xfers[2 * k].cs_change =3D 1;
-
-Our old friend - cs_change =3D 1 is very rarely the right thing to do on a
-final message.  I thought this came up in an earlier version.
-
-> +	spi_message_add_tail(&st->scan_xfers[2 * k], &st->scan_msg);
-> +
-> +	ret =3D spi_optimize_message(st->spi, &st->scan_msg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D regmap_write(st->regmap, AD4691_STD_SEQ_CONFIG,
-> +			   bitmap_read(indio_dev->active_scan_mask, 0,
-> +				       iio_get_masklength(indio_dev)));
-> +	if (ret)
-> +		goto err_unoptimize;
-> +
-> +	acc_mask =3D ~bitmap_read(indio_dev->active_scan_mask, 0,
-> +				iio_get_masklength(indio_dev)) & GENMASK(15, 0);
-> +	ret =3D regmap_write(st->regmap, AD4691_ACC_MASK_REG, acc_mask);
-> +	if (ret)
-> +		goto err_unoptimize;
-> +
-> +	ret =3D ad4691_enter_conversion_mode(st);
-> +	if (ret)
-> +		goto err_unoptimize;
-> +
-> +	return 0;
-> +
-> +err_unoptimize:
-> +	spi_unoptimize_message(&st->scan_msg);
-> +	return ret;
-> +}
-
-
-> +
-> +static const struct iio_trigger_ops ad4691_trigger_ops =3D {
-> +	.validate_device =3D iio_trigger_validate_own_device,
-Same thing about manual mode as mentioned below.
-
-> +};
-
-> +
-> +static irqreturn_t ad4691_trigger_handler(int irq, void *p)
-> +{
-> +	struct iio_poll_func *pf =3D p;
-> +	struct iio_dev *indio_dev =3D pf->indio_dev;
-> +	struct ad4691_state *st =3D iio_priv(indio_dev);
-> +
-> +	ad4691_read_scan(indio_dev, pf->timestamp);
-> +	if (!st->manual_mode)
-> +		enable_irq(st->irq);
-
-Maybe it was a different driver but I thought I commented on this before.
-There are a bunch of races if you reenable this here - needs to be
-in the trigger reenable callback.
-(Sashiko is pointing this out as well with more detail on what those
-races are)  The short story is that you can race and have a trigger between
-the enable and the notify_done which will be dropped on the floor meaning
-we never get in here again - IIRC there is (rather convoluted) code to hand=
-le that
-corner case in via the reenable callback and a work item.
-
-> +	iio_trigger_notify_done(indio_dev->trig);
-> +	return IRQ_HANDLED;
-> +}
-> +
->  static const struct iio_info ad4691_info =3D {
->  	.read_raw =3D &ad4691_read_raw,
->  	.write_raw =3D &ad4691_write_raw,
->  	.read_avail =3D &ad4691_read_avail,
->  	.debugfs_reg_access =3D &ad4691_reg_access,
-> +	.validate_trigger =3D iio_validate_own_trigger,
-
-Sashiko noted that this seems odd. If we only support our own
-trigger how does manual mode work given it isn't registering one?
-
-You will need to do something more clever to handle that.
-Either pick between info structures or use custom validation callbacks.
-
->  };
-
-...
-
-> @@ -651,6 +1119,75 @@ static int ad4691_config(struct ad4691_state *st)
->  	return 0;
->  }
-> =20
-> +static int ad4691_setup_triggered_buffer(struct iio_dev *indio_dev,
-> +					 struct ad4691_state *st)
-> +{
-> +	struct device *dev =3D regmap_get_device(st->regmap);
-> +	struct iio_trigger *trig;
-> +	unsigned int i;
-> +	int irq, ret;
-> +
-> +	trig =3D devm_iio_trigger_alloc(dev, "%s-dev%d", indio_dev->name,
-> +				      iio_device_id(indio_dev));
-> +	if (!trig)
-> +		return -ENOMEM;
-> +
-> +	trig->ops =3D &ad4691_trigger_ops;
-> +	iio_trigger_set_drvdata(trig, st);
-> +
-> +	ret =3D devm_iio_trigger_register(dev, trig);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "IIO trigger register failed\n");
-> +
-> +	indio_dev->trig =3D iio_trigger_get(trig);
-
-Sashiko correctly points out the general bug we have right now about leaking
-trigger context on any error.
-Need to solve that for all drivers though so don't worry about it here.
-It did give more complex reasoning than normal however!
-
-> +
-> +	if (st->manual_mode)
-> +		return devm_iio_triggered_buffer_setup(dev, indio_dev,
-> +						       &iio_pollfunc_store_time,
-> +						       &ad4691_trigger_handler,
-> +						       &ad4691_manual_buffer_setup_ops);
-> +
-> +	/*
-> +	 * The GP pin named in interrupt-names asserts at end-of-conversion.
-> +	 * The IRQ handler stops conversions and fires the IIO trigger so
-> +	 * the trigger handler can read and push the sample to the buffer.
-> +	 * The IRQ is kept disabled until the buffer is enabled.
-> +	 */
-> +	irq =3D -ENXIO;
-> +	for (i =3D 0; i < ARRAY_SIZE(ad4691_gp_names); i++) {
-> +		irq =3D fwnode_irq_get_byname(dev_fwnode(dev),
-> +					    ad4691_gp_names[i]);
-> +		if (irq > 0 || irq =3D=3D -EPROBE_DEFER)
-> +			break;
-> +	}
-> +	if (irq < 0)
-> +		return dev_err_probe(dev, irq, "failed to get GP interrupt\n");
-> +
-> +	st->irq =3D irq;
-> +
-> +	ret =3D ad4691_gpio_setup(st, i);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * IRQ is kept disabled until the buffer is enabled to prevent
-> +	 * spurious DATA_READY events before the SPI message is set up.
-> +	 */
-> +	ret =3D devm_request_threaded_irq(dev, irq, NULL,
-> +					&ad4691_irq,
-> +					IRQF_ONESHOT | IRQF_NO_AUTOEN,
-> +					indio_dev->name, indio_dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return devm_iio_triggered_buffer_setup_ext(dev, indio_dev,
-> +						   &iio_pollfunc_store_time,
-> +						   &ad4691_trigger_handler,
-> +						   IIO_BUFFER_DIRECTION_IN,
-> +						   &ad4691_cnv_burst_buffer_setup_ops,
-> +						   ad4691_buffer_attrs);
-> +}
-> +
->  static int ad4691_probe(struct spi_device *spi)
->  {
->  	struct device *dev =3D &spi->dev;
-> @@ -663,6 +1200,7 @@ static int ad4691_probe(struct spi_device *spi)
->  		return -ENOMEM;
-> =20
->  	st =3D iio_priv(indio_dev);
-> +	st->spi =3D spi;
->  	st->info =3D spi_get_device_match_data(spi);
->  	if (!st->info)
->  		return -ENODEV;
-> @@ -692,8 +1230,9 @@ static int ad4691_probe(struct spi_device *spi)
->  	indio_dev->info =3D &ad4691_info;
->  	indio_dev->modes =3D INDIO_DIRECT_MODE;
-> =20
-> -	indio_dev->channels =3D st->info->sw_info->channels;
-> -	indio_dev->num_channels =3D st->info->sw_info->num_channels;
-
-You've lost me here. Where are these now set?
-
-> +	ret =3D ad4691_setup_triggered_buffer(indio_dev, st);
-> +	if (ret)
-> +		return ret;
-> =20
->  	return devm_iio_device_register(dev, indio_dev);
->  }
->=20
+-- 
+Yan Zhu
 
