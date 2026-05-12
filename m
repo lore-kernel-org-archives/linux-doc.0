@@ -1,170 +1,174 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B090B39EB75
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 13:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF863A8388
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 14:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778594258; cv=none; b=QTdfSGDipQlXVKYu/AHCkN1WtI+niceJiycgbdoPvxfziEGAgiyVB75kv0pxPC4BTo65zXOJ7gtdjn7WiUZ9W321G+Sxm1FDBt39z+V4luAj6tFuHicPr0gcq4LuD/n0pNa2JKmEkyrUUEV7WZejPdLNk9emq4Flaq1fWo5DfdM=
+	t=1778594838; cv=none; b=iQYSPfYujhOLfP5CFKxPAn5w2t4kYMoTBBaYxMm8k0TWrq2HUnJMxH9H6rqxRCesaDJx0kKkSXB+tdAuj464iZEQdT2v0A1Cj7mX1odauEm44vR5XPxdNf1k3cFK8zLQdGTGf8qpBqmKzm9MTlP46WiHg1W98wnJKcQWlxx7v1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778594258; c=relaxed/simple;
-	bh=QhqNiNx0nAYxUJW5pLIDGxQUge2MtVuhGc+aHl9E/QU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AIE2w0Ka5BUZEPvj91mKxfTU9xvcpo2v+3GDQ8i2oQRHWDmSDYw9QNbdYY/YZ8lZH69p3bKTdy+nvBww08FxXp3zNMdid7wmEuLVPC5EBQOa7AUqHRVmMV6X9LeHFWmckyKTrZA200rRzzZhVV8DgbCEzDVP4DTFkoPbdJAhMbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bbYe1lGJ; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778594838; c=relaxed/simple;
+	bh=bgBCtNkJnsiY/BqSw+6iZ38DMKEEFC29v57mwpmfH+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i8Gxt09LS8neQPTgTOLijfTW7GPGwKDdkb+1ZoLbUftrxIEgTOxiDj1cFzZczcvjjeEtU9/+Bsxr+v5DMYjvZS458Ru++XpAGYEtVGbpAkHdV772rrzRcKGAyIajqr1srIlITYNkOMpsiQaOiYqRoZ1c9H/3TALm0sZ+RmTjFkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=a1AKBlkb; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bbYe1lGJ"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488ad135063so45176145e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 06:57:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="a1AKBlkb"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so94741905e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 07:07:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778594255; x=1779199055; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wzwQXL37XaAqn+iPqE1nX2tix7mVBICKQADxuQHuFrw=;
-        b=bbYe1lGJE4n0kP46zyKNIM3w6zQW+hT2oo0N7E4Ogs+Z5tsw+3KhdGaYiESbtpgm+G
-         BhZ/a9PXqyVzncBYbPTUOb3iyZcJ0JyaQdb4Ejf8zFKKU/Gq+GawmLEc5rTCyX4UYPNo
-         +czmpQLKYpuIPIjVWLMzMHqN+TOQHHgEu6cUz5cwouWeSPbpAThYos/pG+Z+CnArsMxr
-         LOmN+kRcgkD3jDJqx6dy++jEkfVraioVc400XyLDcX4uav2rgeVc5AXXg4ZGrXKKkAY1
-         z4BUrAzUALGWOn37v6Wmkpt+nGCLcifRtFpDhrNDdrHyL7aDXlbvvUXGj/Ii8QDn8o8P
-         jnDQ==
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1778594834; x=1779199634; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vEuT8mU5zwj23z5tjg7/0cCroKq2YLlwPoM85Ob95Js=;
+        b=a1AKBlkb+zbjKzr07CAkgRAWlSxhhCfxvhMVUJtl54NRRR3SzBFMSHkFXqxZ0CvFH0
+         iykelWeVpz5jqx2sWOMkX1zpUKUqmUlJumpneggyJocP76N5ObtIS9wLFaMZLQnSKl8k
+         zJmnek8cMvX7V0a3vUCT5uJvmpMYaN59HhNaRy7kNyoV0MPtM7nUss9WAw10rjZrmLRE
+         3r0PYgcK320mAkTBC9fQHgzs+zijdiSji4Zus1qJNscR2/NJKgnQEEkQ29WeXLoVUpeC
+         ufbYJLvUIrXy+hXWSW8pOTc3Ss5xLcJLKC3A+e6iw3AMoIesVhAWwOgTbTmE/vMR97gq
+         anSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778594255; x=1779199055;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wzwQXL37XaAqn+iPqE1nX2tix7mVBICKQADxuQHuFrw=;
-        b=biiP3onmh4qZGydB/9D5vkgoUC+2np71lmeKDkz9Jsq8tvTOFbaqBv9lcEMcpLJnd1
-         f9EGlbUJcdkvNmrC6/MalD2nE4+osbgiPwhttj6cci6O960SvzSRsX+ljFW0BUlE9Yvi
-         czB3xuG/BtPDHJ0/wEUllMF8SXCGYz8u6inoDEV6nXpBoKWG4lxGXJeIvTYIhLJNIzWe
-         ypmOYpKwvnFlmTNQ9HFnnIfHFH40fiYIRYcgUgn02lF0RkXiG8rebXXUPfsQdMGviUSY
-         LXChcxB4rBL2WZQTnIIj+mweIU03h+4bgXQVXpOLQmHaJASiSC6eE3YBCidNKH1SfmSj
-         O+jA==
-X-Forwarded-Encrypted: i=1; AFNElJ9QBIsAzU4IsGlJX9Eawcz+TY2qVq3xaqsqqKsZo4npgVmM/YtGnMg1CrnYhu8mTJ2EKMXw4nLhedc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsVNF/iyEHkV6AH8wFzQb8nF+do1PYBapQpbvgDntzfmVJSk3I
-	Va1er7K0AGFtG6biX6M53CQ/pkzhj9Vw+5mBPEvspB8Id5zaJMUGU2CH
-X-Gm-Gg: Acq92OHDBBGPj4wh/99z5yVrevhDafPd6XRmSpKJUzCcKCsaikiA6FRPThRo7PeaxXg
-	TAotwxO+VSpTDtx1Evl9d0+YR852q7BU72ylG7yAZlb51Uzo2DiYcKG9q0fn2UEyzIMuBJt3o0P
-	tWw8yw1FiRd0F01xhlfB/3y/Gl2EYKl+M1x2q/pui1sQ8uSguHsavswqlCfdkDduo0rkHNpnDp+
-	65Zi820U+1hIKcIRMfx3Ud3qS+YuJHnwa8x84iwEw/hAYlRKdKT6GunOr3GIbLCDvqAIY4C2XYz
-	2wUqDojSfhG4A672aQAEM2AK/jKG1AIyAlOFB290Ijfz9DqaLgXE9zRJDq3veL0EWHAHyPd1gXS
-	28n6ZON75GpaxnjapAdonhd0QIFml1HS6bYUgFutE1ZYChP1vjWxInLBip+3Bt8CSqGORHCkytN
-	cHKyWUwomvaelPz6PSghg5NizsB97bzDcXBVuZNwpwl7W61Htx1PWaUNc+EEre
-X-Received: by 2002:a05:600c:4194:b0:48a:7965:b92a with SMTP id 5b1f17b1804b1-48e51f53980mr305784955e9.26.1778594255062;
-        Tue, 12 May 2026 06:57:35 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548bb51d40sm31965523f8f.0.2026.05.12.06.57.34
+        d=1e100.net; s=20251104; t=1778594834; x=1779199634;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vEuT8mU5zwj23z5tjg7/0cCroKq2YLlwPoM85Ob95Js=;
+        b=digJNeOMoi08ab1zrm1Q+rkBCCNl3rfVE/iD6X/cEJLpsIPs7M7yWNdS3TRXK3tA8/
+         fUBMKfLXK0AP1TEkE0fYOIkokWOLP2Fb2QTVTeN7miGrAW8V7MZiqMVM5SmGDYv52psI
+         ehx8V2Bw08IMMjABBikPdN5SZUpFUAy0V9htn6qiarmFtWqqGQby3cZ1dGQEviODMyX3
+         I8U7cWNvEkuAO9mGDq26tbWiOtOqLySlsZzsJCgrcWqul6iRrBxccywYdnIxzjXzbq2a
+         ehrfQNQIf6AouA6JU6CI1Qx5O3qaANh4bw7ENMBe9WHjMnOEbzzJsB1XlsLjHf0K4pBh
+         o9Uw==
+X-Forwarded-Encrypted: i=1; AFNElJ+znCE0832jsm3z0Al2uwNV0wh33NDRYu/XehoGhK4FKpJJsslUdtsC2ocmwe5UH4YaRdus7t9bhpA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjounhEcKpMW5QZHnHQZGx5UR6655i+QLjYLx1d/WqWf2sdNEq
+	CKUGAqfYMdklYk7XfBq9V/d8Jk71e7pE89o2nqMdYRMcPgIb3q7O3pWn23jUjBA2whc=
+X-Gm-Gg: Acq92OGK62EpWuNqveiAEnEJH/O5Yrt5HCj9r9t5mtbzAVquLTpLE21dgeUhw3Lh20T
+	LLOmaSa9MlRdgFrVxiUi2heQ3gNLpCXNpE3g/YfVULsY7YJlBu9syRVjmGNCEINamQsLj99InCN
+	rjHs/rvyTYeandYABCjyWvjzMG5bgf1fSrqnay0SQYectU3tnj/KZw51l4POLyIXyhN/UcyRktG
+	/Lwa34aVmeDcPwhbUvnwjOOylZ4TbOEExyEpW5fM0SZt0W8ayZ1c60RDLpMhgImC4pNtCO/OOmp
+	IQaU0UImybF+Ml/7Eox2Kkh7+C5wuXJMoqzh3hGtYpY/InWGJDObaO0bp0qPKozZZf/QFV8gskZ
+	v0c92dLX2YNUMOr91h0cRE989FPz+WaOYy9qHCNZ4Kfou9AMWeKy+xlVeYqKVNcTkLR0VR6vIMx
+	dd/D9eEHADs3IuiBgj92rhsMaKajKCK+rRdfk=
+X-Received: by 2002:a05:600c:8115:b0:48a:9540:1a3a with SMTP id 5b1f17b1804b1-48e51e196f9mr466793535e9.8.1778594834461;
+        Tue, 12 May 2026 07:07:14 -0700 (PDT)
+Received: from FV6GYCPJ69 ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fc8d19854sm520285e9.1.2026.05.12.07.07.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 06:57:34 -0700 (PDT)
-Date: Tue, 12 May 2026 14:57:33 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Manuel Ebner <manuelebner@mailbox.org>
-Cc: Jani Nikula <jani.nikula@intel.com>, andy.shevchenko@gmail.com,
- apw@canonical.com, corbet@lwn.net, dwaipayanray1@gmail.com,
- joe@perches.com, kees@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, lukas.bulwahn@gmail.com,
- skhan@linuxfoundation.org, workflows@vger.kernel.org
-Subject: Re: [PATCH 1/2] Doc: deprecated.rst: add strlcat()
-Message-ID: <20260512145733.0b561c7a@pumpkin>
-In-Reply-To: <46d8a5a8c8c77d3de9acfa1c55de2148fb2975c5.camel@mailbox.org>
-References: <20260510164907.57176-2-manuelebner@mailbox.org>
-	<20260510165451.57674-2-manuelebner@mailbox.org>
-	<748c2c3d549740918e14f29aa25dd475b99c1313@intel.com>
-	<46d8a5a8c8c77d3de9acfa1c55de2148fb2975c5.camel@mailbox.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Tue, 12 May 2026 07:07:13 -0700 (PDT)
+Date: Tue, 12 May 2026 16:07:10 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Parav Pandit <parav@nvidia.com>
+Cc: Mark Bloch <mbloch@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simon Horman <horms@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Petr Mladek <pmladek@suse.com>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
+	Marco Elver <elver@google.com>, Eric Biggers <ebiggers@kernel.org>,
+	"NBU-Contact-Li Rongqing (EXTERNAL)" <lirongqing@baidu.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+Subject: Re: [RFC net-next 0/4] devlink: Add boot-time defaults
+Message-ID: <agM0DsiaAH8-Ox7N@FV6GYCPJ69>
+References: <3f9215c4-7c84-46d9-ba74-30dabe24db09@nvidia.com>
+ <afxvzOjqw-vxUAED@FV6GYCPJ69>
+ <b6a9b568-dd09-4414-be57-6b9cd282a43c@nvidia.com>
+ <af4lBIJdCuN5VKq_@FV6GYCPJ69>
+ <20260508175213.1952097f@kernel.org>
+ <af7Y4AYv-XDCbK_8@FV6GYCPJ69>
+ <580a774b-ba9e-4523-b43a-476f75dd5b12@nvidia.com>
+ <SJ0PR12MB68068C50EE9776A3D9060635DC382@SJ0PR12MB6806.namprd12.prod.outlook.com>
+ <agLoeZtsSizR-R24@FV6GYCPJ69>
+ <SJ0PR12MB68061C61AA2BF5D81005984FDC392@SJ0PR12MB6806.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SJ0PR12MB68061C61AA2BF5D81005984FDC392@SJ0PR12MB6806.namprd12.prod.outlook.com>
 
-On Tue, 12 May 2026 12:43:54 +0200
-Manuel Ebner <manuelebner@mailbox.org> wrote:
+Tue, May 12, 2026 at 03:48:32PM CEST, parav@nvidia.com wrote:
+>
+>> From: Jiri Pirko <jiri@resnulli.us>
+>> Sent: 12 May 2026 02:16 PM
+>> 
+>> Mon, May 11, 2026 at 08:21:37PM +0200, parav@nvidia.com wrote:
+>> >
+>> >> From: Mark Bloch <mbloch@nvidia.com>
+>> >> Sent: 10 May 2026 06:02 PM
+>> >>
+>> >
+>> >[..]
+>> >
+>> >> > I look at it from the perspective that from some CX generation,
+>> >> > switchdev mode should be default. So that is a device-based decision.
+>> >> > I believe as such it can optionally be permanenty configured (nv config)
+>> >> > on older device. Why not?
+>> >>
+>> >Because sometimes switchdev_inactive is needed and sometimes not.
+>> >Such knob is not device decision.
+>> 
+>> That is what I would call corner case. In that, user can use userspace
+>> configuration to change the mode in runtime.
+>> 
+>Corner vs common depends on users one talks to. :)
+>If fw has switchdev(active) as default, and then 
+>And user needs to run switchdev_inactive, it will actually break their switching applications.
 
-> On Tue, 2026-05-12 at 11:52 +0300, Jani Nikula wrote:
-> > On Sun, 10 May 2026, Manuel Ebner <manuelebner@mailbox.org> wrote: =20
-> > > add strlcat and alternatives =20
-> >=20
-> > You'd think it's the strlcat() definition that needs a comment above it
-> > saying it's deprecated. I don't think folks really look at
-> > deprecated.rst. =20
->=20
-> arch/s390/lib/string.c
-> lib/string.c
-> and
-> tools/include/nolibc/string.h
->=20
-> do not mentions anything about obsolete.
->=20
-> include/linux/fortify-string.h has=20
->=20
->  /* Defined after fortified strlen() to reuse it. */
->  extern size_t __real_strlcat(char *p, const char *q, size_t avail) __REN=
-AME(strlcat);
->  /**
->   * strlcat - Append a string to an existing string
->   * [...]
->   * Do not use this function. While FORTIFY_SOURCE tries to avoid
->   * read and write overflows, this is only possible when the sizes
->   * of @p and @q are known to the compiler. Prefer building the
->   * string with formatting, via scnprintf(), seq_buf, or similar.
+Can you describe the actutal breakage please?
 
-I'm not that advice is really that good.
-The other schemes (esp scnprintf) are just as dangerous.
-If the code has just done 'buf =3D kmalloc(size)' then strlcat(,,size)
-is fine - from an overflow point of view.
+>
+>So, one needs to invent switchdev_inactive in the FW.
+>
+>Jakub's suggestion in this RFC is covering both the scenarios uniformly without above problems.
+>Single uapi for all the cases, so looks good to me.
+>
+>Moreover, do not understand how alternative solves such problems.
+>i.e. user is unable to configure the fw because driver is not yet loaded/up.
 
-strlcat() isn't really any worse than memcpy().
-(unlike strncat() which was just an accident waiting to happen)
+See my other reply in this thread. I don't think there is a need to
+configure anything in FW. If we fix the behaviour in switchdev mode for
+non-sriov user and change the default, no fw knob needed. What am I
+missing?
 
--- David
 
->=20
-> should i add this to the former three files?
->=20
-> Manuel
->=20
-> >=20
-> > BR,
-> > Jani.
-> >  =20
-> > >=20
-> > > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> > > ---
-> > > =C2=A0Documentation/process/deprecated.rst | 6 ++++++
-> > > =C2=A01 file changed, 6 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/process/deprecated.rst b/Documentation/pro=
-cess/deprecated.rst
-> > > index fed56864d036..b8a65c19796c 100644
-> > > --- a/Documentation/process/deprecated.rst
-> > > +++ b/Documentation/process/deprecated.rst
-> > > @@ -162,6 +162,12 @@ if a source string is not NUL-terminated. The sa=
-fe replacement is
-> > > strscpy(),
-> > > =C2=A0though care must be given to any cases where the return value o=
-f strlcpy()
-> > > =C2=A0is used, since strscpy() will return negative errno values when=
- it truncates.
-> > > =C2=A0
-> > > +strlcat()
-> > > +---------
-> > > +strlcat() must re-scan the destination string from the beginning on =
-each
-> > > +call (O(n^2) behavior). Alternatives are seq_buf_puts(), seq_buf_pri=
-ntf(),
-> > > +snprintf() and scnprintf()
-> > > +
-> > > =C2=A0%p format specifier
-> > > =C2=A0-------------------
-> > > =C2=A0Traditionally, using "%p" in format strings would lead to regul=
-ar address =20
-> >  =20
->=20
->=20
-
+>
+>> 
+>> >If it is placed in the device, orchestration needs to yet use additional vendor tool to configure in the device.
+>> >And that theoretical tool cannot even run yet because driver is not yet loaded.
+>> >
+>> >That sort of defeats the purpose.
+>> >
+>> >> This is a deployment policy decision, not a permanent property of the card.
+>> >+1
+>> >
+>> >> The same adapter can be used in a regular host/RDMA setup or in a
+>> >> switchdev/offload setup. If we store this in NVM, that Linux switchdev policy
+>> >> follows the device across hosts, kernels and use cases, and can surprise the
+>> >> next deployment that just expects a normal NIC.
+>> >>
+>> >> I'll send another RFC v2 with support limited to:
+>> >> devlink=[...]:esw:mode:{ switchdev | switchdev_inactive | legacy }
+>> >> and let's see where we land with that.
+>> >>
+>> >This looks elegant to me as well covering all eswitch modes and still sw is in control.
