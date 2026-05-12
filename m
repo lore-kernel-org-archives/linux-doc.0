@@ -1,277 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC81274652;
-	Tue, 12 May 2026 20:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD0B3C09FF
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 20:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778617014; cv=none; b=A3VyD6Lyad+knN0RJvlYf1WFHyzH9IdELzP7keTSlFYTmjp9h+qCWp1lUFZwCuYBBzcJMfNp6XzjGHgX1VJ0tfe2KI3OBizp5vVt3fUdwq6Hc1c3OgxK+yqDxvzdW7hrWEIO2GpANWKHAg1pwOcOQwG74j9AA1zeAf0Y21bQBzQ=
+	t=1778617615; cv=none; b=ukjzVnhwFFepiUYAoJxIvE2ohPQtz4ShiYS5vpYNtMBQ85uX6uUbGPFZEiwTF9ko37RYqBRRm2nHEcpPkvxm5ePg3LilT7fvHJab84JgGWcHlcrkO4VzLQhnbRlGh8i6n83wlbhx+vrBybDxsr40ovmMYdHunGU05YBBfmS5yPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778617014; c=relaxed/simple;
-	bh=RT2NwAYbxnLXBPcxy0wu3RqnGUBLKP8VG7ARlQi7UDU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cHAfg34GAlYKCXKtIqo+ueBfsP8NKsT6KdtqzWiV4AYkT7uCdlUfIuG4+mPQxm0KzRbG++PZsNNh2VMp00QFS/QXzOYmgjsHujvzlcZkrxUPFPgvz8ZwRKCVq4KBi1cG84ijm/MbzqpcIE7wNsgVwMt85zKSPxEddkRZQU0TpII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CuExYTyf; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778617615; c=relaxed/simple;
+	bh=ZkAqUSLBLLghmuczFbLlmEifeuByeu9FETpip9wySoE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qaHc7fKx86BQO0Ac1UFaYUtOqObiVMi+ZvmA+DVJv4zVCdw3B7zqb3tjCLA0wXXvt4e1VEGTR5bc2tarZcUb7FV7yoXWedj4z1ySTFpUkfADXm9G9JYVcUYTt+QEk2p6lgva3I2B6MwhYAot4Iv1yucMKTKXVR0R7gMmN2z/wKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Go9fCmh/; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CuExYTyf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778617012; x=1810153012;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=RT2NwAYbxnLXBPcxy0wu3RqnGUBLKP8VG7ARlQi7UDU=;
-  b=CuExYTyfQwGYyeivs5M6SWyMsLhMdTQbrXY/j+5kOexreJgqaSOZ2Taf
-   QJ+QzpAQg4akClWmujSvrd5jv51fL+hVVF8rWnlvwtPxmsrwV5FzkylIX
-   9LCe2mGn0qN3BIOWRvjCLtyvcU3PvicladiAePt23n60e38uYXW10R9tl
-   oWhFmXxpmu0poQ+XV5LvdBcEXWmuvhUguRBP9XF/gEc2A98XxAICTzYel
-   IQsEni5tNsiXgTAv+Hu4RdCqOsWDhcuYBZ6AuNQO2uFozWHCX4C2qMmY7
-   xF85/Oq5j0PxaT5aY1QMyQ/YHVvuttZ7PXcgJvqIQcRMRTS+STszG/Etq
-   g==;
-X-CSE-ConnectionGUID: btPrho6TSe6idbtPbzevvQ==
-X-CSE-MsgGUID: H0cd+AIqRCCGlAkmgKvLDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="90236234"
-X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="90236234"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 13:16:51 -0700
-X-CSE-ConnectionGUID: Kq1jwXMYRBiFytywUSpx0w==
-X-CSE-MsgGUID: PPqQM23dSNa0mQer5n3lYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="234816551"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.244])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 13:16:46 -0700
-Date: Tue, 12 May 2026 23:16:43 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>,
-	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	David Laight <david.laight.linux@gmail.com>
-Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
- kstrtodec64()
-Message-ID: <agOKq0iH2CHQ3TIg@ashevche-desk.local>
-References: <agM8pWrM6j_XksvN@ashevche-desk.local>
- <ur6brs3yjzyb4mtelabmcglxjltddqvjxtgl3lkdkmbjlkmnsq@bwd6rz7gided>
- <CAHp75VeoH3yVfp8NWjKfc_df0VRLkyf_SK4e==-wJOEodVjW_A@mail.gmail.com>
- <q4rmlkgecvztnvjg7b7wtqyvhdy7uxgaouvhae2mlsxaasasbf@dfakp4m5l5sl>
- <agNfqiZpGZAM-x_H@ashevche-desk.local>
- <ru2h3ip7qf6j54dlrij54nwp45uyq6m2e6zspt6v6eynpsagqq@eo5v3yparuhh>
- <agNnfWZa9_NyLoWq@ashevche-desk.local>
- <bc7mqfgll34vyaxdtvfssgypkhyx233wd4hxfzu32rddxnolaq@rd6c3z6yu6aq>
- <agN6onIAwG1yn5p6@ashevche-desk.local>
- <hvwyrb7g3ar7hzesj32zoxzqvjmdtwybamy4zxepqdbu37qvog@xnmgqhfya34f>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Go9fCmh/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778617613;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=PeaPwxj6CE2jWtwEguCT34VqbzG7tuL668TllqlmsLQ=;
+	b=Go9fCmh/i6M8fF0LavYR2U7WMY34glL3s2MGWwKu57/gtkJcg9wJbko1gJpR9XJ+WMeiQH
+	xc0P+K7GMBVXmBmzgg+80oXkkJ7upV7AQ9y8fWptLeHsnB17e2EV4lXAY2GMWt5SEn7OLF
+	qeRuI7UTu7JMHLZrg8G06+URgljlD9Y=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-529-gJ2ljXNJOdWsrddMWfyePQ-1; Tue,
+ 12 May 2026 16:26:48 -0400
+X-MC-Unique: gJ2ljXNJOdWsrddMWfyePQ-1
+X-Mimecast-MFC-AGG-ID: gJ2ljXNJOdWsrddMWfyePQ_1778617606
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 25C2B180044D;
+	Tue, 12 May 2026 20:26:46 +0000 (UTC)
+Received: from [10.44.48.5] (unknown [10.44.48.5])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1A6781955D84;
+	Tue, 12 May 2026 20:26:41 +0000 (UTC)
+Message-ID: <3e819925-b83f-4c2f-a67b-03d534016558@redhat.com>
+Date: Tue, 12 May 2026 22:26:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <hvwyrb7g3ar7hzesj32zoxzqvjmdtwybamy4zxepqdbu37qvog@xnmgqhfya34f>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: kvm: update links in the references
+ section of AMD Memory Encryption
+To: Ninad Naik <ninadnaik07@gmail.com>, corbet@lwn.net,
+ skhan@linuxfoundation.org, seanjc@google.com, michael.roth@amd.com,
+ liam.merwick@oracle.com, vannapurve@google.com
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, me@brighamcampbell.com,
+ linux-kernel-mentees@lists.linux.dev
+References: <20260511174302.811918-1-ninadnaik07@gmail.com>
+Content-Language: en-US
+From: Paolo Bonzini <pbonzini@redhat.com>
+Autocrypt: addr=pbonzini@redhat.com; keydata=
+ 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
+In-Reply-To: <20260511174302.811918-1-ninadnaik07@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Tue, May 12, 2026 at 08:39:21PM +0100, Rodrigo Alencar wrote:
-> On 26/05/12 10:08PM, Andy Shevchenko wrote:
-> > On Tue, May 12, 2026 at 07:15:17PM +0100, Rodrigo Alencar wrote:
-> > > On 26/05/12 08:46PM, Andy Shevchenko wrote:
-> > > > On Tue, May 12, 2026 at 06:26:12PM +0100, Rodrigo Alencar wrote:
-> > > > > On 26/05/12 08:13PM, Andy Shevchenko wrote:
-> > > > > > On Tue, May 12, 2026 at 05:35:59PM +0100, Rodrigo Alencar wrote:
-> > > > > > > On 26/05/12 06:21PM, Andy Shevchenko wrote:
-> > > > > > > > On Tue, May 12, 2026 at 6:11 PM Rodrigo Alencar
-> > > > > > > > <455.rodrigo.alencar@gmail.com> wrote:
-> > > > > > > > > On 26/05/12 05:43PM, Andy Shevchenko wrote:
-> > > > > > > > > > On Tue, May 12, 2026 at 03:12:24PM +0100, Rodrigo Alencar wrote:
-> > > > > > > > > > > On 26/05/12 04:48PM, Andy Shevchenko wrote:
-> > > > > > > > > > > > On Tue, May 12, 2026 at 02:21:14PM +0100, Rodrigo Alencar wrote:
-> > > > > > > > > > > > > On 26/05/12 04:12PM, Andy Shevchenko wrote:
-> > > > > > > > > > > > > > On Tue, May 12, 2026 at 12:39:53PM +0100, Jonathan Cameron wrote:
-> > > > > > > > > > > > > > > On Sun, 10 May 2026 13:42:20 +0100
-> > > > > > > > > > > > > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
-> > > > > > > > > > > > > > > > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
-> > > > > > > > > > > > > > > > precision). After the decimal point, digits beyond the specified scale
-> > > > > > > > > > > > > > > > are ignored.
-
-...
-
-> > > > > > > > > I think we are going in circles here and we could look at the code instead:
-> > > > > > > > > - integer parsing with _parse_integer()
-> > > > > > > > >         - overflow check and validation of the return value
-> > > > > > > > > - fractional parsing with _parse_integer_limit()
-> > > > > > > > >         - overflow check and validation of the return value
-> > > > > > > > 
-> > > > > > > > No, this is not fully true. That's what my whole point is about. The
-> > > > > > > > max_chars parameter limits the input check, then it skips an arbitrary
-> > > > > > > > number of digits and only *then* it checks for \n and \0. What will be
-> > > > > > > > the result of the
-> > > > > > > > 0.00000000000000000000000000000000423 in your case? Whatever scale you
-> > > > > > > > gave it will return 0 without checking on how many digits were
-> > > > > > > > supplied.
-> > > > > > > 
-> > > > > > > I suppose that is a valid input and 0 is the expected result there.
-> > > > > > > 
-> > > > > > > > All the same for 0.9999999999999999999999999999999000423. My
-> > > > > > > > point is that we should limit this by 19 digits.
-> > > > > > > 
-> > > > > > > why we need to limit by 19? Digits beyond the scale carry no value...
-> > > > > > 
-> > > > > > ...only if they are all 0:s.
-> > > > > 
-> > > > > I thought your concern was on input length.
-> > > > 
-> > > > One of, since I think you rose the topic of leading 0:s for integers and
-> > > > I agreed with that which makes sense to have mirrored in fractional part.
-> > > > 
-> > > > > > > just like leading zeros to the integer part (which is also accepted by
-> > > > > > > kstrtoull() when parsing with base 10). Not sure why this is invalid input.
-> > > > > > 
-> > > > > > See above. I agree on truncating trailing 0:s as it's done for leading ones
-> > > > > > in integer part, but if any of the digit behind 19th is not 0, it's an overflow
-> > > > > > condition (or bad input, depending how strict the rules are).
-> > > > > 
-> > > > > stating in the documentation that digits beyond the scale are ignored is not
-> > > > > enough?
-> > > > 
-> > > > It's in case we are not for kstrto*() family. My understanding that kstrto*()
-> > > > use strict rules on the input in overflow check.
-> > > > 
-> > > > > > > > On top of that, what about -0.9(19 times) ? the fraction should be u64
-> > > > > > > > in this case and it's fine. The sign applies to the combined value.
-> > > > > > > 
-> > > > > > > yes, range for signed values are verified later.
-> > > > > > 
-> > > > > > > > >         - extra scaling and truncation happening outside if needed.
-> > > > > > > > 
-> > > > > > > > Right, but the given input may be way too long and still needs more validation.
-> > > > > > > 
-> > > > > > > What is the problem with a long input of digits?
-> > > > > > > C compiler does not complain about this when parsing a float value,
-> > > > > > > python does not
-> > > > > > > complain about this when parsing floats or decimals either.
-> > > > > > 
-> > > > > > Because there is an exponent limit and for double it's something like 1e307
-> > > > > > IIRC, meaning, try 1024 digits to be sure.
-> > > > > > 
-> > > > > > Python most likely uses the library for big numbers, you can't compare it at all with this.
-> > > > > 
-> > > > > You would be fine if the truncation loop:
-> > > > > 
-> > > > > while (isdigit(*s)) /* truncate */
-> > > > > 	s++;
-> > > > > 
-> > > > > is bounded by (19-scale) iteration count? or it should keep iterating if those are zero?
-> > > > 
-> > > > Ideally both.
-> > > > 
-> > > > We don't care about the digits in the range of 19-scale and skip all 0:s after
-> > > > that.
-> > > > 
-> > > > 	/* truncate unrequired digits within type limit, i.e. 19 decimal digits */
-> > > > 	while (isdigit(*s) && "(s - pos_of_dot) is less than 19")
-> > > > 		s++;
-> > > > 	while (s == '0') /* truncate trailing 0:s, it's not a bad input nor overflow */
-> > > > 		s++;
-> > > 
-> > > We could have agreed on something like that since the beginning!
-> > 
-> > Yes, but who knew that we go to have this agreement?
-> > 
-> > > And I think that changing the logic to something like this would not change a
-> > > thing on the kind of inputs we expect, it will just complicate the code.
-> > > I suppose that kind of kstrto*() rules were never stated anywhere.
-> > > 
-> > >                            |> 20th digit 
-> > > Also, 0.00000000000000000001 still sounds like a valid decimal number to me, even
-> > > though it is going to be parsed as 0!
-> > 
-> > Hmm... It would mean that testing for 19th/20th digits is not enough... :-(
-> > 
-> > > > 
-> > > > 	// Now if it's not \0 nor \n and
-> > > > 	//	a) still a digit consider either overflow or bad input,
-> > > > 	//	b) if not a digit, consider as bad input.
-> > > > 
-> > > > In a) I tend to be on par with the other k*() and consider that as overflow.
-> > > > 
-> > > > > is that the only concern? Again, the usage of _parse_integer_limit(s, 10, &_frac, scale)
-> > > > > avoids a 64-bit division when checking the rv.
-> > > > 
-> > > > I'm not against usage of _parse_integer_limit(), I'm for stricter rules on the input.
-> > > > With the above addressed, I have no more concerns.
-> > > 
-> > > Thanks! I will proceed with the requested adjustments.
-> > 
-> > But it seems it's not enough as you pointed out!
-> > 
-> > So the biggest fraction we may consume in 64-bit (unsigned) value is
-> > 0.18446744073709551615. If we go with one digit less, the whole value
-> > can be
-> > 
-> > In [3]: hex(9999999999999999999)
-> > Out[3]: '0x8ac7230489e7ffff'
-> > 
-> > So, I don't know how we are supposed to represent values between
-> > -0.9223372036854775808
-> > -0.9999999999999999999
-> > in a signed type as they have bit 63 set.
-> > 
-> > The easiest way out is to limit scale to 18 (but still accept 19th digit, and
-> > with check for overflow even 20th up to 0.18446744073709551615). This will need
-> > to run _parse_integer_limit() twice (with given scale and with 20).
-> > 
-> > Can you add the respective test cases and see what is currently going on with
-> > them?
+On 5/11/26 19:43, Ninad Naik wrote:
+> Replace non-working links in the reference section with the working ones.
 > 
-> I can add test cases, but for the signed case the situation is:
+> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+
+Applied, thanks.
+
+Paolo
+
+> ---
+>   Documentation/virt/kvm/x86/amd-memory-encryption.rst | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> scale = 0
-> 	max = 9223372036854775807, min = -9223372036854775808
-> scale = 1
-> 	max = 922337203685477580.7, min = -922337203685477580.8
-> scale = 2
-> 	max = 92233720368547758.07, min = -92233720368547758.08
-> ...
-> scale = 18
-> 	max = 9.223372036854775807, min = -9.223372036854775808
-> scake = 19
-> 	max = 0.9223372036854775807, min = -0.9223372036854775808
-> 
-> anything outside those ranges will give you -ERANGE. Then it depends on the scale used.
-
-Oh, I only now realised that this is sliding window for a single 64-bit signed value!
-I was under impression that you wanted implementation that covers 128-bit signed value
-(with 64 + 64)...
-
-> I am not representing -0.9999999999999999999 as is. The desired scale will have this
-> truncated. It may be -0.9999 or -0.999999 or -0.9. And this is practical for a
-> reasonable scale value... for pico and femto precision you still get a decent range.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> diff --git a/Documentation/virt/kvm/x86/amd-memory-encryption.rst b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+> index b2395dd4769d..bd04a908a8db 100644
+> --- a/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+> +++ b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+> @@ -656,8 +656,8 @@ References
+>   See [white-paper]_, [api-spec]_, [amd-apm]_, [kvm-forum]_, and [snp-fw-abi]_
+>   for more info.
+>   
+> -.. [white-paper] https://developer.amd.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
+> -.. [api-spec] https://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
+> -.. [amd-apm] https://support.amd.com/TechDocs/24593.pdf (section 15.34)
+> +.. [white-paper] https://docs.amd.com/v/u/en-US/memory-encryption-white-paper
+> +.. [api-spec] https://docs.amd.com/v/u/en-US/55766_PUB_3.24_SEV_API
+> +.. [amd-apm] https://docs.amd.com/v/u/en-US/24593_3.44_APM_Vol2 (section 15.34)
+>   .. [kvm-forum]  https://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
+> -.. [snp-fw-abi] https://www.amd.com/system/files/TechDocs/56860.pdf
+> +.. [snp-fw-abi] https://www.amd.com/content/dam/amd/en/documents/developer/56860.pdf
 
