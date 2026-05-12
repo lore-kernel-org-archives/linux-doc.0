@@ -1,204 +1,221 @@
-Received: from outbound.st.icloud.com (p-east2-cluster4-host12-snip4-10.eps.apple.com [57.103.78.191])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983F0386C16
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 21:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.78.191
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778622600; cv=none; b=VxJksaY1dchrcrV1vDH8XfGKTXTdJce48Gwe4KTJta1BHblXYPL5n165F7f8UCl4aIJ/aMVLvfJxFdCbx32Rjpb65C/dVIvB8ffe5BZvPDIwvFfYPbyUaOsYmqDlzV2p+4IRwBEmkeDNcvM8pNfg3y0nAZdhAoi8/pOQnOuEGCg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778622600; c=relaxed/simple;
-	bh=LpIMpr0LF4SB+v0flh0pN80bH90pV+XyRBRxCoqwfYg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JRjwyw1PkwoOYfxRtymb/RWcIckrA7KFA+b4b1UykcJznH2SZ8E61Lph5Ydvw6FV64zVQ+SfiFlaYH66gRa5ftduGLc0CRxUqPcIqAQGZ51EGMDYZeS+z01Rr/wQZK//kgPMFo3jUWuNKrXplKLZ0YyL4INFr0u+ijVgDDHwLtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=OjTBGWk5; arc=none smtp.client-ip=57.103.78.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA173A3E99
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 22:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778625029; cv=pass; b=ikdZu137tbwvQBuyWCQfEWjK54cfg+UPK4Z8w58BRRtbkvhzxlYNkoDb7RJhzqLVyIG6etL+hQyH55+OC2Zpy99BNi+Ph/gK9myLIBCGxtwjLv/5teWQ/WxurXtrnbA0hJdVTW73HFcQDywvzBHaN0vmhEKkso2M5zMid2xbTUQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778625029; c=relaxed/simple;
+	bh=ctAmtD5i9O0zXAJdPtZK0rAgm3gUJsIsE1gDEZWd5XA=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hBwS2Q3LMGW3hZuFWt+K4X2ms5b+3Wx52oXWc6Oi8bNnsfUf8FGXSu2v5tjfsQRkB/dY7B2JVRwB4vqQxgQHwRO2lng3A/tyoIXln8EhjLpbJWnCIsk6ehCRmzy8E5cYQJhE8VDz9ePrG7rAr3/gnci+WMw5D1uRZS5LSS7zHpk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Z3P+1mkz; arc=pass smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="OjTBGWk5"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-3 (Postfix) with ESMTPS id AC82D1800FD3;
-	Tue, 12 May 2026 21:49:53 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQtPHV8EWRxCC0gdXAdLVxQEEEYfRRJfEVdKAVwFK1sTVRdGCRkIXR0ZHldQXx5AAkAVUgMFWQNCeRFQAVgeVl5aF15NRQgPQQpYWwhbBA8fTAxRAkIFVl5KDB0EVAddBV1WUAJaS0IES0VoXAVcHEAXSB1faktWFAQRUAFYHlZeWhdeTVoCVk0FHQJbAlMHSV1VCghTCR9EDB4KQA9cUEQUTgpaAA0LRABNBFRVK1sTVRdGCRkIXR0HWEcURw4PGVoUXBhT
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778622596; x=1781214596; bh=Kppyk8UEPsrLyrcDoqcp3aNUHPA1vxN2Oz1CPm1YMKs=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=OjTBGWk5pnfPfi/OnGwNrVf36r09bBwk2pEKVGtD05ziHLzyqhesxRmxzNO6ohh7+sRlHpo6nec7Vdsj1n5MP8SQXSsusyKbV6uIVWxE8q18ko3QlUDCbYJy4Jk8ypSQ3bQUL3paZZJ5yVb8r/TQyEO7kR6VjCaKj4l9oEVArXVX6Q3kumBuNPojZbE8fgI0g7cYMal9aDQuFHkFkVXcC0X0G6lu+i5YiHNlfKxqHAnYFYADdTwiBfaoYnsepSElK+EtYfOQjGVPyGa4U75SqsP9FnPrnEqVLNwqUT71/opxl2JlLX0SxZnQdxqmI1VvB/JGGvdWD9yQfLG7Pjp45w==
-Received: from [192.168.89.2] (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-3 (Postfix) with ESMTPSA id 0B2DA1800106;
-	Tue, 12 May 2026 21:49:49 +0000 (UTC)
-Message-ID: <e165859d-9edb-45f9-87b4-6977f949579b@icloud.com>
-Date: Wed, 13 May 2026 06:49:47 +0900
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z3P+1mkz"
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-95ce0cf2d4bso3542930241.0
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 15:30:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778625026; cv=none;
+        d=google.com; s=arc-20240605;
+        b=OKQ8QgDl1sNBgv0RSVnJ/26L7Y2cJwZSSEG2/enxxaXjjuBCKr4DGYRYc0jeTcJ5aF
+         IBtJopftK0D9pvRO2nJyEXlUswTO8fhrcXYyfYKvVBNjEE2uWtsV9PxiYNoGiQj3enZe
+         Ea+XLmh6s+LOUt5d4PyFJ/J4/++Ep1irgmQaZcgMSNO07uj2rKRFBGeTIPn8qAvfI/DV
+         J10pPlMBSTQX8Xpjdb84wX4OWUxj2C8DRh6Qk8yzpSwDcsl0QByhWQLB52JeqdD647Tf
+         zq9HmMih0hI56uVg5cdwoGEhMX2QPmZvfapfHXFXIOKCY03wwbb+prC0dbaXfBYtG/0P
+         TjZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date
+         :mime-version:references:in-reply-to:from:dkim-signature;
+        bh=7TPT8725vjJaWzYD56fEvXZ06oMkvP85Hz1/t121+lc=;
+        fh=rDtIYkJ5EH/iBOtSStqQ+jCuhwr1OyICyRz7ZCx4DUI=;
+        b=GiX27RqFkQ+5fjVUFS5s5lrLdEIYJTSCJdcvnPru9oKUclzUBu/d+tJCH7y9bqnbWa
+         sE+HUUKYOwtBvZbIe7zcHNSi+aDEsfm1liX+zQAcDtWAQx8o+LDk4qYM0owJO0wbBGvX
+         nZpFy5/2lcHNewoY3F+tIWrzquRp3RcG2do1Ih//OCJNGSrcMS52v9FV5LcOXaEyrdpd
+         MgmtMCWRuW/IgPRRSMhmdAsuGavYNRDh+S6nSL+cOhuhqG4wNRSlYvvL1KTsrvL3Oitl
+         BCufNbPNStWHcpdAe5e3e8Pr4M78ONDMCtbvzebznM9vVhuXVychfTC1CHT62AgIu4f3
+         grGw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778625026; x=1779229826; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date
+         :mime-version:references:in-reply-to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7TPT8725vjJaWzYD56fEvXZ06oMkvP85Hz1/t121+lc=;
+        b=Z3P+1mkzpj8h4Ny2fRAwAu8+rBE8RmY/hqTESjapBAiEuZat4VHSRDf/jOos2uaYkS
+         VieRx0q/g0gGq2sQW4x4U/jX3graJAZbntlqD1wSsROXwdHc70mRKKtYEOrOfGw4zssZ
+         zfatOl88ZcEA+Bw+ZJR1JaW4a3CQR8E1uCy1Gv5nd+MD4fJLj54BN9xxXLD67vhRIOlV
+         r7T+Lf0eC/M3qQrsBJQsJR1KeTBc5TsP5AzTGh/QLkC+KIo4rn8BYvrUlGprsuaf+54N
+         +5rdI9/+eSyZCXoP7wCwcOvjjjR8b+C6rbemjMgDYsFjoTrTStrU0XaTwOv63HW47jJc
+         pSpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778625026; x=1779229826;
+        h=content-transfer-encoding:cc:to:subject:message-id:date
+         :mime-version:references:in-reply-to:from:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7TPT8725vjJaWzYD56fEvXZ06oMkvP85Hz1/t121+lc=;
+        b=eyuc1vC6DmEPPLAMSy6GKcgDvUlaGJAgVlVIG9GIprTCCPrjQowjM2PgikiCsVoHbr
+         QIlBRENNidNGh/HEBVVEjhJqcKnRPwGilRmV9iLkX7gqJB+zpy4GDmaAEO9MTIRfV1yK
+         RvpYKrvxIGtq8OEAMEyb3ba/p2GhUlhlrOlCfB1hxW2PBHQc7DuZTqzTgJ2KNWXvNXXv
+         wCByOjfqoCqAUiqXvtjHUgy2bx0/Mie7R9WnHxR+D9pxrX8GKsplnSMkU1qLDd4bCtgc
+         77M6PxVtLIjRyNJacpwhPI3z9Dbn7fYafPA28KTtH6prqd6RLL3Ld2CeoerIpvzFGYN9
+         rD5w==
+X-Forwarded-Encrypted: i=1; AFNElJ8EzQTrXHFE5ZNuycmt409i1JpEVnV+iEboO4uxOPnND7bDWhToMkJdv7r+BvJH7Mrt2dAJzpsuNXQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yztes+ntVU08LIedcWQyX0udypA9iprkApdjInPivW/qRteRGE0
+	xpCv8YPuwOJXMaNAfs+AokAYZ3c8tGHwsulaUTJK/lehLcXETMq0jXtY7kGoHqclpilYidZ4Whp
+	Hu+UFNO26qViUouCb+YwujAlQam9o2k8JLI1uPhGp
+X-Gm-Gg: Acq92OHavh13vWnYC/aK9JXnASjATp6hPqVmo5PM3Y/xOURJspR8LtP1DTf2+LPeyBK
+	uN1mrpc6q6x50DDwQMH0ieJuf+NL7Hq120iImeXVoc+N7vp0CIozEBK7+kQUW3c+8D3iHaMVxiH
+	uuUH8dpltu90pHl00Kkx37q8/k/aVPZ3+nF11jIVLetjYicGyetPaeiU9cdP2XkwujiGZASPw2J
+	gdXEr5OwALo73ESb9whcG389ul9ZsDoh3HAYc2QCK1kXHuf6ZQjTiFitwQMCHmPFARtMZlo1JSt
+	YqrFVgD1iXohRsiHQ3sjIU3q06IzqJIr2uyt4pAQU9OtbDLyfmmFkCTId5gnY30FcRJiV5ApVov
+	fRYNs
+X-Received: by 2002:a05:6102:442a:b0:632:3bd5:d57c with SMTP id
+ ada2fe7eead31-635ced54981mr2555380137.3.1778625025472; Tue, 12 May 2026
+ 15:30:25 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 12 May 2026 15:30:24 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 12 May 2026 15:30:24 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <1DAB05E2-7F30-45D7-B155-B66C59D31AFF@infradead.org>
+References: <20260428-gmem-inplace-conversion-v5-0-d8608ccfca22@google.com>
+ <20260428-gmem-inplace-conversion-v5-10-d8608ccfca22@google.com>
+ <n5ce32wumzeiqqyqutom4apy2kqfetbvusc6j4k2xarsska5mw@klp5bmy7qhfm>
+ <CAEvNRgF9+Gr7UVEq-E2SQEb_XOQQMOXy9F_A2tA=DbNV_fJ0EQ@mail.gmail.com> <1DAB05E2-7F30-45D7-B155-B66C59D31AFF@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/2] AMD Promontory 21 xHCI temperature sensor support
-To: Jihong Min <hurryman2212@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260512213910.871859-1-hurryman2212@gmail.com>
-Content-Language: en-US
-From: Jihong Min <hurryman2212@icloud.com>
-In-Reply-To: <20260512213910.871859-1-hurryman2212@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDIyNCBTYWx0ZWRfX9r+w2S4MTOg6
- QS94keHT0GwyMXxQcrK52R66hUWbm6hQ/uogWpE+2GQ1CmX93gMwT7Xwh24OwZ0sMtwbzr7PSTN
- e60OKQZ7wzNv4lAyyqjLDvgUSqq58XvI03tu0k902fh6M4LIbDdow1bf8i15/hq0cia70SgUfDN
- TsiCWFeBO6rIWDMg8sOSXVZt5B/v5umvdzXqPrfPX4bY9wRKtl0Wv8p6l2dx1zOMeqsYeatMQu2
- L+dWt0qVTxlune3li7Ulxd2iwXBWFe3qlfE1feR2HVVi/vJQRqa9zeX9l4FFHSZ5T6g88p69GO7
- PYIRDM7eU0n10JGX9JjsHlUonh2wysg2wpQ+xUHtWZaD3accSkU0lWAJKnZDUg=
-X-Authority-Info-Out: v=2.4 cv=aKv9aL9m c=1 sm=1 tr=0 ts=6a03a083
- cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
- a=YrL12D//S6tul8v/L+6tKg==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=ueiO3zYk3rD1nXv0G94A:9 a=QEXdDO2ut3YA:10 a=PgRulw5oR9JgysbTFEid:22
- a=a4GWJDV2amYnlPsuj24T:22
-X-Proofpoint-GUID: LQyB5dHg36abhvxfwI6_XNREqIBEcBcA
-X-Proofpoint-ORIG-GUID: LQyB5dHg36abhvxfwI6_XNREqIBEcBcA
+Date: Tue, 12 May 2026 15:30:24 -0700
+X-Gm-Features: AVHnY4Lh8UobS4TfgaX3AzC6MvTUmkcUL18qAWSQRch3a7T6C4hmHCpmi3zo20A
+Message-ID: <CAEvNRgGgggCPKRzd0=r5jV7stxFJVGzj3as_awGytonx9qdfLw@mail.gmail.com>
+Subject: Re: [PATCH RFC v5 10/53] KVM: guest_memfd: Add basic support for KVM_SET_MEMORY_ATTRIBUTES2
+To: "Liam R. Howlett" <liam@infradead.org>
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-One additional note about AI assistance and authorship:
+"Liam R. Howlett" <liam@infradead.org> writes:
 
-I am adding this note because this series has been mentioned in some online
-discussions as a newly written Linux driver carrying an AI assistance 
-tag. I do
-not want this to create confusion about authorship or responsibility, so 
-I would
-like to clarify the scope of the AI assistance.
-
-The initial hardware investigation was my work. My starting assumption 
-was that
-the value was exposed through MMIO. I identified the paired MMIO 
-registers, and
-the empirical conversion formula was derived from my own testing, 
-starting from
-the assumption that the raw value could be mapped with a simple linear 
-formula.
-AI assistance was used for writing and refining test scripts around my own
-probing library and existing tools such as pciutils, but the probing 
-approach,
-comparison with an existing tool (HWiNFO64), and interpretation of the 
-results
-were mine.
-
-The first hwmon implementation, including the MMIO access sequence, was my
-work. I used AI assistance while figuring out how to integrate the 
-driver with
-the existing xhci-pci infrastructure, especially around managed resource
-handling and lifetime management.
-
-After review feedback, the design moved toward an auxiliary-device 
-model. That
-direction came from the reviewers. Since I did not have prior experience 
-with
-the auxiliary bus, I used AI assistance extensively while implementing and
-iterating on that part. I reviewed and tested the resulting code myself, and
-also used AI-assisted review passes to look for mistakes.
-
-In later revisions, the PROM21-specific PCI glue driver and the 
-platform-data
-handoff between the PCI glue and the hwmon auxiliary driver were implemented
-based on reviewer feedback and my own PCIe driver experience. The runtime PM
-policy was initially chosen by me and later refined through review feedback
-from multiple reviewers. The implementation was structured by me based 
-on that
-feedback, with AI assistance used for additional code review and 
-implementation
-checks.
-
-Runtime testing and validation were done by me, using the methods 
-described in
-the driver documentation. The decisions about which reviewer suggestions to
-accept and how to revise the design were mine.
-
-I am disclosing this because I want to follow the kernel project's 
-guidance on
-AI-assisted work and be transparent about the process. The Signed-off-by 
-tag is
-mine. I understand that this means I am responsible for the submitted 
-code, the
-design choices, the testing claims, and any mistakes in the patch series.
-
-AI assistance was also used to review and polish some of my English email
-replies and documentation wording. I reviewed those texts myself before 
-sending
-them.
-
-
-
-P.S. Thanks to Yaroslav Isakov for testing the series on a B850 system and
-reporting the additional 1022:43fc PCI ID variant.
-
-
-Sincerely,
-Jihong Min
-
-
-On 5/13/26 06:39, Jihong Min wrote:
-> Hi,
 >
-> This series adds temperature monitoring for AMD Promontory 21 (PROM21)
-> xHCI PCI functions.
+> [...snip...]
 >
-> Patch 1 adds a small PROM21-specific xHCI PCI glue driver. USB host
-> operation is delegated to the common xhci-pci code, while the PROM21 glue
-> publishes an auxiliary device for optional sensor support.
+>>
+>>The invariant in this maple tree is that contiguous ranges with the same
+>>attribute are stored as a single range.
+>>
+>>The goal of this first part is to get the entry at the index just after
+>>the requested range, and see what the attribute there is. If that
+>>attribute is what we're about to set, extend the requested range for
+>>storing to the end of that range.
+>>
+>>If there is another range higher than end + 1, with the invariant
+>>maintained, that attribute has to be different than the attribute stored
+>>at end. Hence, we only want to extend this requested range up till end.
+>>
 >
-> Patch 2 adds an auxiliary-bus hwmon driver that binds to that auxiliary
-> device and exposes the PROM21 xHCI temperature value as temp1_input.
+> mas_find() will look for an entry at the given address for the first sear=
+ch, and if it is not found it will continue to search upwards.  Since you l=
+imit the search to end, it will work as you want and there isn't a bug as I=
+ was thinking in my sleep deprived state.
 >
-> The hwmon driver reads the sensor through a vendor index/data register pair
-> in the xHCI PCI MMIO BAR. It does not wake the parent PCI device for hwmon
-> reads; if the parent is suspended, the read returns -ENODATA.
+> Since you are searching for exactly one address (end), it might serve you=
+ better to walk there.  Maybe walking is a better API for what you are doin=
+g here?
 >
-> Changes in v5:
-> - Add support for AMD 1022:43fc PROM21 xHCI controllers and document the
->    new PCI ID.
-> - Make USB_XHCI_PCI_PROM21 depend on X86 and default to USB_XHCI_PCI.
-> - Keep the PROM21 PCI glue built-in-only when enabled, while allowing the
->    hwmon sensor driver to be built as a separate module.
-> - Move PROM21 xHCI PCI device IDs to xhci-pci.h so xhci-pci.c and
->    xhci-pci-prom21.c use shared definitions.
-> - Pass the parent PCI device, MMIO base, and resource length to the hwmon
->    driver through platform data defined in a common header, instead of
->    inspecting the parent driver's drvdata from the hwmon driver.
-> - Remove the private hwmon mutex and rely on hwmon core serialization for
->    this driver's callbacks.
-> - Clarify that the driver only serializes its own hwmon callbacks and does
->    not synchronize with firmware, SMM, ACPI AML, or other possible users of
->    the PROM21 vendor index/data register pair.
-> - Use readb() for the temperature data register, validate the value before
->    writing the output pointer, and drop the 0xff invalid-value check.
-> - Use pm_runtime_put() after successful reads with the parent device active
->    so the PM core can re-evaluate the parent device's idle state.
-> - Simplify the documentation and use more precise terminology for the
->    supported device.
+
+Thanks again for this tip! I'll try the walk API in the next revision
+after v6 [1]
+
+[1] https://lore.kernel.org/all/20260507-gmem-inplace-conversion-v6-0-91ab5=
+a8b19a4@google.com/T/
+
 >
-> Jihong Min (2):
->    usb: xhci-pci: add AMD Promontory 21 PCI glue
->    hwmon: add AMD Promontory 21 xHCI temperature sensor support
+>>> Do you have testing of these functions somewhere?
+>>>
+>>
+>>GMEM_CONVERSION_MULTIPAGE_TEST_INIT_SHARED(indexing, 4) tests setting
+>>attributes in ranges. If test_page is 2,
+>>
+>>1. [0, 4) starts off shared (4 is the number of pages in the guest_memfd)
+>>2. [2, 3) is converted to private
+>>    =3D> so the ranges should now be [0, 2), [2, 3), [3, 4)
+>>3. [2, 3) is converted back to shared
+>>    =3D> so the ranges should now be [0, 4)
+>>
+>>I verified this by inserting some trace_printk()s and inspecting manually=
+.
+>>
 >
->   Documentation/hwmon/index.rst                 |   1 +
->   Documentation/hwmon/prom21-xhci.rst           | 101 ++++++++
->   drivers/hwmon/Kconfig                         |  10 +
->   drivers/hwmon/Makefile                        |   1 +
->   drivers/hwmon/prom21-xhci.c                   | 238 ++++++++++++++++++
->   drivers/usb/host/Kconfig                      |  20 ++
->   drivers/usb/host/Makefile                     |   1 +
->   drivers/usb/host/xhci-pci-prom21.c            | 123 +++++++++
->   drivers/usb/host/xhci-pci.c                   |  11 +
->   drivers/usb/host/xhci-pci.h                   |   3 +
->   include/linux/platform_data/usb-xhci-prom21.h |  22 ++
->   11 files changed, 531 insertions(+)
->   create mode 100644 Documentation/hwmon/prom21-xhci.rst
->   create mode 100644 drivers/hwmon/prom21-xhci.c
->   create mode 100644 drivers/usb/host/xhci-pci-prom21.c
->   create mode 100644 include/linux/platform_data/usb-xhci-prom21.h
+> Thanks.  I find the exclusive ranges a bit odd to think about in the mapl=
+e tree context, but this test case makes sense.  This is especially odd to =
+look at a single index entry, at least for me.
 >
+> I generally have a set of test cases and append any bug reproduces to tha=
+t list so they are unlikely to reoccur.  My testing is certainly different =
+from what you'll be doing, but this method has done well with the quality o=
+f code improving over time, and limited (if any) regressions.
+>
+
+I've not worked directly with the maple tree tests but the xarray tests
+(similarly set up, I believe) are a joy to work with.
+
+> I actually insist that any fix has a test before I accept them.  There ar=
+e two reasons for this: 1. Avoiding the regression. 2. People really unders=
+tand the bug if they can create a reproducer.
+>
+> I hope this helps.
+>
+>
+
+The maple tree tests are set up to directly test maple tree code, but
+KVM selftests test from the userspace interface, and it's hard to test
+this invariant from userspace.
+
+>>>> +	if (entry && xa_to_value(entry) =3D=3D attributes)
+>>>> +		last =3D mas->last;
+>>>> +
+>>>> +	if (start > 0) {
+>>>> +		mas_set_range(mas, start - 1, start - 1);
+>>>> +		entry =3D mas_find(mas, start - 1);
+>>>> +		if (entry && xa_to_value(entry) =3D=3D attributes)
+>>>> +			start =3D mas->index;
+>>>> +	}
+>>>> +
+>>>> +	mas_set_range(mas, start, last);
+>>>> +	return mas_preallocate(mas, xa_mk_value(attributes), GFP_KERNEL);
+>>>> +}
+>>>> +
+>>>>
+>>>> [...snip...]
+>>>>
