@@ -1,168 +1,145 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FD23AD506;
-	Tue, 12 May 2026 20:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778619049; cv=none; b=umd2JvfST0qxx6JeHMapMepc6o+2OF3hDiwqJFZs1o/pLRHLhhGQ6arxUA3WMKNGuWNkU4/trBhQYBoVykEe/Fjm0OL/Q2CANT15Up4C3Cb5q749M9Ly+O4MKa/r6gR7/Hq65PZMq7jFMoU0i44jwbyWAlzYT/a4rfISPnAv7bM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778619049; c=relaxed/simple;
-	bh=J1+BBsxHIE+HrjehY8LHoqBtJpYy2NaNIQ0f/pZVtbg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sondxTpc6MrFpqnIyjCEIigeysb15Z/nwVurxI8ZlSY7A8eua7hd6/1q5IY/NuWPJfBYgqcX9zsJsW/AA7hBcNMbnwd9iFvjUutnikvTR3dq6TA1KUlDsDesx+akYXI4pA3brLGKYW62+bWYv8fQdaxnyCAkZSHeJ9RBGYhXSk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MqXXv57B; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9DF3C6A56
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 21:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778619622; cv=pass; b=eay4p81P5iCqiCZZjv/2RBIxnXfvfp5o3h9eQ9nTsICGIxgR2fVupJtfHOm37v5r2IuP9xvCBBCl94EbtasZVw87A0yU/5KnzSOQjSJetCG1iRkOXKbkSbcn0jkxgu8z8prrFRch0AA0nSn2dPot7SDTqkHIyl7fLB4u2mbTXW8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778619622; c=relaxed/simple;
+	bh=yjcYpwM0bNWA8F+oMBSlbnJX7nZ+1khq657ozFenk1Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GsJ+4NTerVhrmgVx77mW/rHm9XWWj+feZzp+aZVjpm5O2Wm9sbGUUdiD4ecl7fNMXjkkF0PmpE738LMUUyfyY/zqUwEYfQquMHmgtYiiT1ggoSInTZ1DluZIr+MeSWNGriDl45OJHZq8+mlOJO9Y9jtYDq3ISxE5A1d4wYzc8lE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KYU5vNgn; arc=pass smtp.client-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MqXXv57B"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=EWStSEwgzx60kVon+5J/IIIjCujBnqO9UfUs8RrKRaw=; b=MqXXv57BUFTs0Lc7VnWZ4gN3aJ
-	KkLgMSwbveGvop/smi29ccAw+P8gcmimJ3t0ApUBAOgkV4vGk4kbuGQJHynvlj0cf1B1OXjOOCeai
-	El+LLjfNmtVG2p/i15tSBh3ihmehDCDnNfjBKHntMLVAYW26/q2B5PTBoODj2vTR30KWHgjM/Ka4e
-	AZKbYahRnuH4JgQfHZOMfYCwlcJlQCV4B9c6PJDJVvb9A7aAhG9Doww/l0yJQF1BtKY6TL1AAEhkD
-	8DB941zsS6xIo7XUaMqv+eH8XsuH/2xshdjq6j6VuVNzMuq/8mhAuO3uO3x1p9+Jm2rjS0pizRAHb
-	KENrQTDw==;
-Received: from [38.23.173.23] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMu3v-00000000OE5-1sSh;
-	Tue, 12 May 2026 20:50:43 +0000
-Date: Tue, 12 May 2026 16:50:36 -0400
-From: "Liam R. Howlett" <liam@infradead.org>
-To: Wei-Lin Chang <weilin.chang@arm.com>
-Cc: maple-tree@lists.infradead.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Andrew Ballance <andrewjballance@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 2/2] Documentation: maple_tree: Clarify behavior when
- using reserved values
-Message-ID: <kkunuk6hph3uwljo26qqgskczsodydsxvbadycube6n2rldjba@rz6of4335slj>
-References: <20260504165746.1422057-1-weilin.chang@arm.com>
- <20260504165746.1422057-3-weilin.chang@arm.com>
- <5qnwgdcxqat2zo5qe7qy63xm5awo5l4lkdkf4umbj3sl2ct5sj@v5c3szzdbbq3>
- <q2dtphja7i45kknjk3bs4hn2bpictyoaideyjfbdh4sz4pxllo@xtsyvo3eztdb>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KYU5vNgn"
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-130c9dcbd25so5675097c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 14:00:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778619619; cv=none;
+        d=google.com; s=arc-20240605;
+        b=O9pavv8U86vN7vF8cZ94bahTLC5pP1He5XkcDebR6BjylUsuE3l98c2dxssZv+gFAv
+         3F4B6BmWcWLnqrrwfGLmhlZlEgr1O8nonNvtQkYWAJhILrd+k8BiVZk9LCwMeyhyQnLH
+         dtwJeth6TJio0LfLelew3tR0lKbIPvALSqVUz5u3kQVrDrv4csmOg4CbLdEzU6ZnoFT3
+         Vd0aJ7aauIMbvC6ujX09bIPXEua8Zgm1lyrtzzu9uNMXR2XXd32FAXBVu+M/0JXuTdpk
+         IwMcKHjNZqTi3fn9y7FKrbe0q/cQa4WH4IsKoKIGlBo3ua087PqwgD1IO/tsvbdKmnJT
+         wWYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9t69VAH4Nc1O0MVDyKt+JQMOR1DA7dJ94HBiu06W+HM=;
+        fh=s+3hogeIk3MwbzH2Bqy2Gn6iZp6+VisdynxRdLkFvSk=;
+        b=GZ2h2KPNm4tywlQHiINtd9BhRuhpwwz1BE90whBdkt4RNlcmWixZ5USIen6/dGT5pP
+         AqH87wcnN/1FbObj2oQx1VBS0DrXehHR2/y7bLT5Bj/qq98kpwDIZW1UehkV4UGViGap
+         YNOMlLbpqjbm/blOxtwi5v/6Pa7qd/upjC35AZr2+1c8hW90mFRCJzJmhLE4DkDsKziU
+         X5XcXff65VwApIQoeYvOvowIhZeKMQ5mQj3LZR40QSIwQIQgE8kIPfQKeXhsGQrDIWR5
+         gdIRcswFsHGLYrjwdPDWmTcwvVkcSb5PquV4SXq339z7fcBYRY5FiVT3vwhfHkQVbqKR
+         mNJg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778619619; x=1779224419; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9t69VAH4Nc1O0MVDyKt+JQMOR1DA7dJ94HBiu06W+HM=;
+        b=KYU5vNgnDBBJPuWlxf7lFR91IHbrV8OkzR3trOdGVz4KIMAWskUuH1oyFcJQNd0DRu
+         w9wrP8xMj0EL1TuFo8QxPIdL2PJ17f1TJ6tlpbG9ibsue1EWsKm6FER6163MD3rEZQ6S
+         iJAACQAzV1vdNBgf3Jy/7BRVoaRtfrELpuEeQpbRdfEAi6Bf8w0RhPg4jSA+Nna7c7Ap
+         ighJ8xRz8+xXr1/s0ERILzp1adkUgDz/0kgugFZc1kLMlPBW9FYVRTeGm3CoBPJDynEV
+         3orwTuARevjTMKC6XyOm4eEemo8WIm4W6GukN+crwCdqN3ZWdkD9/9216JtUvUvbSv2f
+         oZXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778619619; x=1779224419;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9t69VAH4Nc1O0MVDyKt+JQMOR1DA7dJ94HBiu06W+HM=;
+        b=Qvla21YFqTt2eQhpCkOFe4cHtsVOvfmNjjyFJwDd1wcAHe4jf1u/WD9xCf4XMi2E5v
+         zuqKFC2Qb/SQbtyiuN0M3Kaq9IoEWvL9TLIFuJ/tOfSAk8HeW5bA8pK7lm0dihW1iLXQ
+         rc+K0LsKJOJJAbYjTWYuSR6jQLbdqAUP/02wQ0P/bbBRacPw8OxudOkFt3WwmwN3HVrp
+         Tq89LQgQfrY53amghPvXPti1UvvHoftPXYKocpD1Mjpfx+gIBmn2C0wAqNNe+yqqTQpk
+         m9dfXIazBPB4fNSIwS1+rO1AMSHMw+yQJ04QB8pD/cDlKHccr1DSe2hoOvlWQEw2jnJu
+         Q6lQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9hPr+TVZ1WsPRzeFNxzTy7WdWbv+ZJgF1eq5Ms1+57BzC8twesNAptjSLBUyZS+Yx5+eOS+Ig5DG0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlkUS0Q/JUggLuJYzEXDrvDnP/UwqiKVP+TEPv2vEFmyQ3tnyF
+	Wzk4aISuuWpyJLWmt93CPkxiFeCl43fi9ECndB1e7vtNid23niU/4fx2H6JQbhYynPBX7vLpv8H
+	Zfy2GX9aCnQEZ+ea4dsQ/B0wWsYnzhT8eFBF5Vy1F
+X-Gm-Gg: Acq92OEUBxzJkO/+bWBeD0kUPN3LQzBfreuii9GJ+fD7FHNFuPImIRZAtYDKOsSNUbd
+	den7q5wmx5z9S4MGrqyjQe7+iN7RfcsarlEBc04eIbtBWyNm564EaGYYU/lOsXc6ecSn6dnHknw
+	Kjxi142ub7HTQBwPLkZZUU9n/7GUc7kOlOahZcaPq+1gM6Pg7m/HKIxoyBWCkZKeT2FlFnz7+V4
+	dI54Lk5Nsgz1FnQFEAfDsLZS0R90kdL6JphBA5HKD1bkb8AIOP0U8VK9eJLmy09KRn0nUgE7IzD
+	zZy1e9pY1WkasTpslUU=
+X-Received: by 2002:a05:7022:2394:b0:11a:fb0a:ceca with SMTP id
+ a92af1059eb24-1333b2d9c6bmr3134966c88.16.1778619618598; Tue, 12 May 2026
+ 14:00:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <q2dtphja7i45kknjk3bs4hn2bpictyoaideyjfbdh4sz4pxllo@xtsyvo3eztdb>
+References: <20260511234802.2280368-1-vipinsh@google.com> <20260511234802.2280368-3-vipinsh@google.com>
+In-Reply-To: <20260511234802.2280368-3-vipinsh@google.com>
+From: David Matlack <dmatlack@google.com>
+Date: Tue, 12 May 2026 13:59:51 -0700
+X-Gm-Features: AVHnY4KwNtssIpJT8BgW9ND1vjmOC-DKwSQu-Dn5zwJb7fp396v17OflLbojuVc
+Message-ID: <CALzav=fR8c2tYj9jeOc_K=xoupxAfWMHmk0ipDniSXg6uGiFYA@mail.gmail.com>
+Subject: Re: [PATCH v4 02/16] vfio/pci: Preserve vfio-pci device files across
+ Live Update
+To: Vipin Sharma <vipinsh@google.com>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-pci@vger.kernel.org, ajayachandra@nvidia.com, alex@shazbot.org, 
+	amastro@fb.com, ankita@nvidia.com, apopple@nvidia.com, chrisl@kernel.org, 
+	corbet@lwn.net, graf@amazon.com, jacob.pan@linux.microsoft.com, 
+	jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, julianr@linux.ibm.com, 
+	kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com, lukas@wunner.de, 
+	michal.winiarski@intel.com, parav@nvidia.com, pasha.tatashin@soleen.com, 
+	praan@google.com, pratyush@kernel.org, rananta@google.com, 
+	rientjes@google.com, rodrigo.vivi@intel.com, rppt@kernel.org, 
+	saeedm@nvidia.com, skhan@linuxfoundation.org, skhawaja@google.com, 
+	vivek.kasireddy@intel.com, witu@nvidia.com, yanjun.zhu@linux.dev, 
+	yi.l.liu@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26/05/07 11:09PM, Wei-Lin Chang wrote:
-> On Thu, May 07, 2026 at 05:24:11AM +0200, Liam R. Howlett wrote:
-> > On 26/05/04 05:57PM, Wei-Lin Chang wrote:
-> > > It doesn't matter whether the normal or the advanced API is used if the
-> > > user uses xa_{mk, to}_value when storing and retrieving the values. Just
-> > > specify that the normal API blocks usages of reserved values while the
-> > > advanced API does not.
-> > 
-> > Your comment above is incorrect.
-> > 
-> > The normal API will filter out reserved values on return while the
-> > advanced API will return whatever is stored there regardless of the
-> > value.
-> > 
-> > Meaning, if you store a reserved value with the advanced API, it will
-> > not be returned by the normal API.
-> 
-> This is valuable information, thanks for explaining.
+On Mon, May 11, 2026 at 4:48=E2=80=AFPM Vipin Sharma <vipinsh@google.com> w=
+rote:
 
-Hmm, maybe I answered too quickly here.  We filter out XA_ZERO_ENTRY on
-normal API searches, which is in the reserved range.
+> diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
+> index c12d614fc6c4..019de053f116 100644
+> --- a/drivers/vfio/pci/Kconfig
+> +++ b/drivers/vfio/pci/Kconfig
+> @@ -45,13 +45,15 @@ config VFIO_PCI_IGD
+>
+>  config VFIO_PCI_LIVEUPDATE
+>         bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
+> -       depends on PCI_LIVEUPDATE
+> +       depends on PCI_LIVEUPDATE && VFIO_DEVICE_CDEV
+>         help
+>           Support for preserving devices bound to vfio-pci across a Live
+>           Update. This option should only be enabled by developers workin=
+g on
+>           implementing this support. Once enough support has landed in th=
+e
+>           kernel, this option will no longer be marked EXPERIMENTAL.
+>
+> +         Enabling this will disable support for VFIO PCI DMA buffer.
+> +
+>           If you don't know what to do here, say N.
+>
+>  endif
+> @@ -68,7 +70,7 @@ config VFIO_PCI_ZDEV_KVM
+>           To enable s390x KVM vfio-pci extensions, say Y.
+>
+>  config VFIO_PCI_DMABUF
+> -       def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER
+> +       def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER &&=
+ !VFIO_PCI_LIVEUPDATE
 
-> However, I'm confused how this shows my comment incorrect?
-
-It matters if you use the xa_(mk, to}_value since the top bit will be
-lost.  Re-reading your comment, you don't specifically say that though,
-you said 'if the user uses..', so I was confused by your wording of what
-you were saying.
-
-> 
-> From the original doc:
-> 
-> <quote>
-> If the user needs to use a reserved value, then the user can convert the
-> value when using the :ref:`maple-tree-advanced-api`, but are blocked by
-> the normal API.
-> </quote>
-> 
-> To me this is conveying the following points:
-> 
-> 1. User can convert the value with xa_{mk, to}_value() when using the
->    advanced API if reserved values are being stored. This works because
->    those functions transform the reserved values into non-reserved ones.
-> 2. User can not use reserved values with or without xa_{mk, to}_value()
->    with the normal API.
-> 3. What happens when reserved values are stored is not clearly stated,
->    but the normal API will block it.
-> 
-> In my understanding 2. is incorrect because if xa_{mk, to}_value() are
-> deployed, it doesn't matter whether the normal or advanced API is used,
-> they both work since the values stored aren't reserved.
-> 
-> Please do you mind pointing out what I am getting wrong here?
-
-I think you are missing the part where the top bit may be lost?
-
-I also don't think the reserved values will matter if you use the
-advanced API exclusively.  You would have to filter the special cases or
-whatever you want - that is, if you mix the interfaces then you may see
-odd behaviour in regards to the special cases in the normal API while
-the advanced API would return the reserved items and need to be filtered
-at a higher level than the maple tree code.
-
-> 
-> I was genuinely confused when I was reading the doc and trying to use
-> this data structure.
-
-Then we need to rework the wording somehow.  Thanks.
-
-> 
-> > 
-> > > 
-> > > Signed-off-by: Wei-Lin Chang <weilin.chang@arm.com>
-> > > ---
-> > >  Documentation/core-api/maple_tree.rst | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/Documentation/core-api/maple_tree.rst b/Documentation/core-api/maple_tree.rst
-> > > index 87020a30ba69..e5ccafb84804 100644
-> > > --- a/Documentation/core-api/maple_tree.rst
-> > > +++ b/Documentation/core-api/maple_tree.rst
-> > > @@ -30,9 +30,9 @@ Tree reserves values with the bottom two bits set to '10' which are below 4096
-> > >  (ie 2, 6, 10 .. 4094) for internal use.  If the entries may use reserved
-> > >  entries then the users can convert the entries using xa_mk_value() and convert
-> > >  them back by calling xa_to_value().  Note that xa_{mk, to}_value() bit shifts
-> > > -the given data, so the top bit will be lost.  If the user needs to use a
-> > > -reserved value, then the user can convert the value when using the
-> > > -:ref:`maple-tree-advanced-api`, but are blocked by the normal API.
-> > > +the given data, so the top bit will be lost.  Usage of reserved values is
-> > > +blocked by the normal API, and will cause undefined behavior if used with the
-> > > +:ref:`maple-tree-advanced-api`.
-> > 
-> > Which behaviour is undefined?
-> 
-> I originally thought storing reserved values could break the tree
-> because of its internal use (see 3. above).
-
-You can't break the tree by storing reserved values.  The normal API
-will outright not allow storing it while the advanced API will store and
-return it.
-
-The issue comes from when you mix and match - if you store a reserved
-value using the advanced api and then iterate through with the normal
-api, some values may be lost.  Today, that's XA_ZERO_ENTRY only, but we
-reserve the right to change that if it is necessary for some tree
-version.
-
-Does that make sense?
-
-Thanks,
-Liam
+Why does enabling VFIO_PCI_LIVEUPDATE require disabling
+VFIO_PCI_DMABUF? I saw the cover letter says "to keep things simple",
+but what specific problem does this solve or simplify?
