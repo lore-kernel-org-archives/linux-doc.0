@@ -1,230 +1,116 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0383C4164
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 15:48:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778600885; cv=pass; b=Gk4LS9HrJax+KcQojwV6f1ET32Hgo/X5JSN6Yv+bMdeqeNDGl42BpwDa4PoGR0wqZM1ilI8BltUaMosyTDs+9G1rG+vTy1FrKLLbmkgs7udNdHEzP6PszOpMK/1tMnc6dcH2kWJrNLWdL/FfGJPAxTDy8Ol8UbrNaQZm4h5kZ7U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778600885; c=relaxed/simple;
-	bh=B6amhBSyF7iVuaDtigX7s8Kmefjc7nih3jCvVr8zMNI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eHZeKWHlq2k+LHNCP1onbYx0QaWeDRYNlBQ0hZxIYRN7KJnUthom5/STYks/kJeAOdxmwCP4aZyqC9ShZuOvy33e8e5WZp4/+XlJKUKxBNMevBzAvVI5s2yoB7nHNINxkVIRqg+jVSlUWzdWbPMWLXkVm9VKkwEv6zQ2wkSUkDQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eriWQtJY; arc=pass smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547A735F5E0;
+	Tue, 12 May 2026 15:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778600996; cv=none; b=oEjaQMW6RolA6k2WiqYAz5tHUtt6hbzsKdDehkO9AAOMNhAEbv3GcUNPpnrYmRbsd1SbbBHQsbHCsoQirovf8kahnqYgjt0zgwYcAqwovj+qNyqHU7KRIrodV+6mJ1764HStP1o8fLZPqsuUi+LsG/2hn69UmY+a+fEmBMNKEHg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778600996; c=relaxed/simple;
+	bh=xT04KsS3vdFr5U9rnS1OIQVoQ8mPOcKNw2Vjgn0vL8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W0EBCjkHGW2H9mE8pG8HhiOkXoCtONKtvmKWrcnfJC2CP7a5Z2g11pdKhUDuAIAHluP7CEEMEhpLIx7qAFd+AzcuhQvdGy1BWWGuF0CqPMf6ASPN9KiCABfKQvRgsZtLwPB3YSMFNXOpzmoDUfomq/FmZStyyTdISXGcFOUel30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bqe+MtoJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eriWQtJY"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so51762295e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 08:48:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778600880; cv=none;
-        d=google.com; s=arc-20240605;
-        b=L3RYX6aoxT2d4N66ilikPuWr5pyxQGPEY/W4in62ynYhid0v6x6MOqbKmyTczGsB+a
-         LKmBZZogAcgpnWccClexWrR0aX9qK6GngNzCpZMCoslkgYioQtqlykhdtoUZ46+h5t4w
-         N1pN1NzELDCOXjmEHxm57v6KoPkoWa/yK3g0VurHXdiXJCH6g3JH8Qd0ex6UFo9ekF0Y
-         +bmgPd7x/yQpUeqASyxeaCfHcX4uhuYg7OChK+uBMtGUGX8qdpcoexNvdohZDNq2xtGY
-         LZE1OcaaQ7Abf32RusihoMEQguAy5G/oFuDiGKL6d95XucGu+btS191v4c8bU0O4CmYq
-         aQ9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=HvUvOiFnKHM0REYpmaWk5d+F2+5GIifwAyYSC+4XUic=;
-        fh=FrBBwW2GjyOQ/9v3XiF404I2X4tq3W04iFal5aWIzsg=;
-        b=YzbJyYmtsY6wr1aztQvFhR60d4PpFY0aTNmgeVjWgRkNkjLbZ1/uJvL343jdJuKnJJ
-         TCu0kx8n4w6Dfoqr7KemOInbSHA3mkeGEexVo1I9YLrdcOOF2WDgpklF+oApSt/vRqyS
-         NZkBv7wCW81rR0DVn/kNEbxEuNJ/tDMfa6z6FZbifTmqcMNuK/lTb8F2w/jFJ+bIdFoy
-         52LyfOJmVRWRmTXnEkQ4/ZCRXqE9J7qK8X3GKAI8PCEKdgKUbB20UmE8Pie60LbQQAzs
-         K8TQp7QCParq71XEo+kkaJ2ZHsC5vq1DMpVpfQtX0OHuq/V+I7z1S/XUvUIqEE9gBjRw
-         bvyA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778600880; x=1779205680; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HvUvOiFnKHM0REYpmaWk5d+F2+5GIifwAyYSC+4XUic=;
-        b=eriWQtJYL7/aTBCvW0VRXFTefI0roq6fsreKMn7E2uFXWreXSb7v27ELgolV5AlR/u
-         CPNmbOh2KOu/d5ZHI3FS3lMIQV21aHt7m50Uiojy2gepasbkoOilQZ4+bj4KKyYdBF6Y
-         1hkkTIyLKfBAIb0X9Ub7qGIOFwTye0GmhcI/WyY8ozx/lzMNLnezhsDsj6lrEGXTT8nJ
-         kcJ+wovv/EwokIpWX3wrdNt+kyi9mr9xfHV/yyU0LAWQUXDD3w8t4oflU3BLSqJ2SJgo
-         9+1mohZeGaelpwZiHWuAXsZssk7KdhM/kRqSnMC9tkzaGKqvTrPAsY0q1oQCeQhHv3Sd
-         5ODw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778600880; x=1779205680;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HvUvOiFnKHM0REYpmaWk5d+F2+5GIifwAyYSC+4XUic=;
-        b=M9sjni+Q/30a2/GQx2QKOpDzY42a5bGMPw5xb5zQwnEB7XSSF+H4vPu03/0yyEVo0J
-         TzCTR+PvN4fB3nzS7M/Pr1sdTy17Kcgpz50E2qUrFe+31DDOTQ9KkifXr1wNpubCrDzi
-         yN1pRlDJamiFD2b3ecEY2aqh2P5VSwBBnN/Teai47HlTispFSCoJz/nngmwBoCoGN3um
-         sYy4TqxBwuxqbE+iD0zLUFwrXNIt9Yc1/zYd+qPqb+vm/nrjZMt7bF4KrOq2REfPcE8y
-         4zBG1yYHSnFgBsqVKCT23cdxbmyft1qnisvB8YbI1A6hvZ5ibNiioKMBcDhKh+AciuNx
-         WkGQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/xuFTlM5NHsxE/Q/IqaU2Z0wa8YJwY/wG7n8t9ffNeVSTxhA7JB+ZMabuJMnSgq63nzy9yk4S40Lc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPRMdHALRCOKICKX+SxZ6d30a4ezevrQXhQtA8sWDlqhBkxWiI
-	jgDalXNwEjgii1te9Bwszccw7JaSK4yHYHRiE/t2mGHjl5lusrOXs9C8QZbVQrKucHlOpjbT4XZ
-	5ld9oW/L0D/WbsY55h/ibjayPVb0RE8c=
-X-Gm-Gg: Acq92OEGbfcYSQ8T0ewBhnjeQF0uDzjnXGrfZ94JsbFEW1EtuZOrNiHjYKy9nvXorLN
-	pqok4jn+fWjwZU7DKn6ANwbgH2hUp6GmNTSoEpgHzCfMXGQlDUNBWbAaZJB73V+KrOdrMfF8/a6
-	dUY5QSIKNl+db/WckvevLxmeFyIU9kyUNoj0+rNONHA0pOFCoseBOinnPQkddmMxDQTOCuliYdg
-	SCP+0AtTLmPA56StZ/eg9gaqfodgrCH9S0dUIEj7RRSMS/7z7CsolKHg6VnPVfOjvWx11k6CP0M
-	RIRTQrBLHT61dgDAw4IWqhBL+gf/QdkSOv/xfHo=
-X-Received: by 2002:a05:600c:3e19:b0:48a:5546:61a1 with SMTP id
- 5b1f17b1804b1-48e8fe721afmr50364255e9.15.1778600879485; Tue, 12 May 2026
- 08:47:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bqe+MtoJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9D79C2BCB0;
+	Tue, 12 May 2026 15:49:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778600996;
+	bh=xT04KsS3vdFr5U9rnS1OIQVoQ8mPOcKNw2Vjgn0vL8o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bqe+MtoJUKckxiSp8SbZEmLkoM0jygdg7+XXnLKdgCwg1KIV1Nj/wxMBj5dqlHWsX
+	 Bldeh+G56RqSmhFyUa9n/T1inPZLhq5zSpFCCB91toQamYQm3p1RF+lO43zAmEe+4L
+	 R6VLmWQiq76CQAKXvKAPKEiIEToLW04NIEdjqD6DCoszNgKWrU+91AJfmIgnO49Xoo
+	 4cy4mvnNPM3SjoiZdvDjbMPnpzfV06cvdahdkeSqyOwfa9N5n52q+/qiED3AHeOqFU
+	 Eer19JGdk+JVGp/rsFfyV3Btesq2riF7mMaJ15mdymmKL4/ACEVDBMNOPQvp2iPlFS
+	 Z6ArnMfFy13Tw==
+Date: Tue, 12 May 2026 16:49:42 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
+ <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v10 4/6] iio: adc: ad4691: add SPI offload support
+Message-ID: <20260512164942.6ef07ee9@jic23-huawei>
+In-Reply-To: <20260511-ad4692-multichannel-sar-adc-driver-v10-4-e1fbb1744e38@analog.com>
+References: <20260511-ad4692-multichannel-sar-adc-driver-v10-0-e1fbb1744e38@analog.com>
+	<20260511-ad4692-multichannel-sar-adc-driver-v10-4-e1fbb1744e38@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511105149.75584-1-jiahao.kernel@gmail.com>
- <20260511105149.75584-3-jiahao.kernel@gmail.com> <CAKEwX=PLFRkfUvZyaYfwBv0QJ-8KAktvZvGA02Hod04H-RsS-Q@mail.gmail.com>
- <CAO9r8zNOPdpJuTmccvQ6ZAVS+tXxp-_ofA765DbnfaUZOPPO-g@mail.gmail.com> <12e4784e-2add-d849-7e54-bde8abfa6e78@gmail.com>
-In-Reply-To: <12e4784e-2add-d849-7e54-bde8abfa6e78@gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 12 May 2026 08:47:47 -0700
-X-Gm-Features: AVHnY4JskTf23tSbnnLn2V95OlEo1bjSAHzhtTqVEIKfyAdTp_H0_7MV48nFSA8
-Message-ID: <CAKEwX=MOixJAUGiwUcMQa0Stvg-mR-MvpDRD8WA4YMtRvnUYTg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mm/zswap: Implement proactive writeback
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: Yosry Ahmed <yosry@kernel.org>, akpm@linux-foundation.org, tj@kernel.org, 
-	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org, 
-	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>, Alexandre Ghiti <alex@ghiti.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 12, 2026 at 2:32=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> w=
-rote:
->
->
->
-> On 2026/5/12 03:57, Yosry Ahmed wrote:
-> > On Mon, May 11, 2026 at 12:49=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> =
-wrote:
-> >>
-> >> On Mon, May 11, 2026 at 3:52=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.c=
-om> wrote:
-> >>>
-> >>> From: Hao Jia <jiahao1@lixiang.com>
-> >>>
-> >>> Zswap currently writes back pages to backing swap devices reactively,
-> >>> triggered either by memory pressure via the shrinker or by the pool
-> >>> reaching its size limit. This reactive approach offers no precise
-> >>> control over when writeback happens, which can disturb latency-sensit=
-ive
-> >>> workloads, and it cannot direct writeback at a specific memory cgroup=
-.
-> >>> However, there are scenarios where users might want to proactively
-> >>> write back cold pages from zswap to the backing swap device, for
-> >>> example, to free up memory for other applications or to prepare for
-> >>> upcoming memory-intensive workloads.
-> >>>
-> >>> Therefore, implement a proactive writeback mechanism for zswap by
-> >>> adding a new cgroup interface file memory.zswap.proactive_writeback
-> >>> within the memory controller.
-> >>
->
-> Thanks Nhat, Yosry =E2=80=94 let me address both comments together.
->
-> >>
-> >> We already have memory.reclaim, no? Would that not work to create
-> >> headroom generally for your use case? Is there a reason why we are
-> >> treating zswap memory as special here?
-> >
->
-> Apologies for the lack of detailed explanation in the patch description,
-> which led to the confusion.
->
-> While we are already utilizing memory.reclaim, it does not fully address
-> our requirements.
->
-> Our deployment runs a userspace proactive reclaimer that drives
-> memory.reclaim based on the system's runtime state (memory/CPU/IO
-> pressure, refault rate, ...) and workload-specific
-> policy. That first stage compresses cold anon pages into zswap. Entries
-> that then remain in zswap past a policy-defined age threshold are
-> considered "twice cold", and the reclaimer wants
-> to write them back to the backing swap device at a moment of its own
-> choosing, to further reclaim the DRAM still held by the compressed data.
->
-> This is the "second-level offloading" pattern described in Meta's TMO
-> paper [1]. zswap proactive writeback is what this series introduces to
-> address that second-level offloading stage.
->
-> [1] https://www.pdl.cmu.edu/ftp/NVM/tmo_asplos22.pdf
+On Mon, 11 May 2026 14:54:16 +0300
+Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
 
-Yeah that's what we've been trying to work on as well :) We are
-working on a couple of improvements to the mechanism side of this path
-(cc Alex) - hopefully it will help your use case too!
+> From: Radu Sabau <radu.sabau@analog.com>
+> 
+> Add SPI offload support to enable DMA-based, CPU-independent data
+> acquisition using the SPI Engine offload framework.
+> 
+> When an SPI offload is available (devm_spi_offload_get() succeeds),
+> the driver registers a DMA engine IIO buffer and uses dedicated buffer
+> setup operations. If no offload is available the existing software
+> triggered buffer path is used unchanged.
+> 
+> Both CNV Burst Mode and Manual Mode support offload, but use different
+> trigger mechanisms:
+> 
+> CNV Burst Mode: the SPI Engine is triggered by the ADC's DATA_READY
+> signal on the GP pin specified by the trigger-source consumer reference
+> in the device tree (one cell = GP pin number 0-3). For this mode the
+> driver acts as both an SPI offload consumer (DMA RX stream, message
+> optimization) and a trigger source provider: it registers the
+> GP/DATA_READY output via devm_spi_offload_trigger_register() so the
+> offload framework can match the '#trigger-source-cells' phandle and
+> automatically fire the SPI Engine DMA transfer at end-of-conversion.
+> 
+> Manual Mode: the SPI Engine is triggered by a periodic trigger at
+> the configured sampling frequency. The pre-built SPI message uses
+> the pipelined CNV-on-CS protocol: N+1 16-bit transfers are issued
+> for N active channels (the first result is discarded as garbage from
+> the pipeline flush) and the remaining N results are captured by DMA.
+> 
+> All offload transfers use 16-bit frames (bits_per_word=16, len=2).
+> The channel scan_type (storagebits=16, shift=0) is shared between the
+> software triggered-buffer and offload paths; no separate scan_type or
+> channel array is needed for the offload case at this stage. Oversampling
+> support and mode-specific channel array distinctions are introduced in
+> the following commit.
+> 
+> IIO_BUFFER_DMAENGINE is selected because the offload path uses
+> devm_iio_dmaengine_buffer_setup_with_handle() to allocate and
+> attach the DMA RX buffer to the IIO device.
 
-Anyway, back to my original inquiry: I understand your use case. It's
-pretty similar to our goal. What I'm not getting is why is
-memory.reclaim (which you already use) not sufficient for zswap ->
-disk swap offloading too?
+More stuff from sashiko - it also not noticed the BE marking is
+in a later patch - but given you are doing 16bit words here likely
+the chan spec needs to be different.
 
-Zswap objects are organized into LRU and exposed to the shrinker
-interface. Echo-ing to memory.reclaim should also offload some zswap
-entries, correct? Are there still cold zswap entries that escape this,
-somehow?
+Hohum. It then seems to have timed out.  Maybe that should be a new
+rule - if your patch set is too big for sashiko it's too big and
+complex for reviewers too ;)
 
-Furthermore, we already have a way to detect the "twice cold" entries
-you mentioned: the referenced bit. This is analogous to the way we
-treat uncompressed pages.
+> 
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
 
->
->
-> > +1, why do we need to specifically proactively reclaim the compressed m=
-emory?
-> >
-> > Also, if we do need to minimize the compressed memory and force higher
-> > writeback rates, we can do so with memory.zswap.max, right?
->
-> Here are a few reasons why memory.zswap.max is not enough:
->
-> 1. Writing memory.zswap.max itself does not trigger any writeback
-> immediately. For a memcg that has reached steady state (on which the
-> userspace reclaimer is no longer invoking
-> memory.reclaim), after enough time has passed, the reclaimer has no good
-> way to trigger proactive writeback for second-level offloading by
-> lowering memory.zswap.max, because in steady
-> state nothing drives the zswap_store() -> shrink_memcg() path. The
-> userspace reclaimer still has no control over when proactive writeback
-> happens.
->
-> 2. memory.zswap.max currently triggers zswap writeback via zswap_store()
-> -> shrink_memcg(), and each over-limit event can write back at most
-> NR_NODES entries. If zswap residency is far
-> above memory.zswap.max, converging to the target size requires at least
-> O(over-limit pages / NR_NODES) zswap_store() events, with no batching =E2=
-=80=94
-> proactive writeback therefore has
-> significant latency.
->
-> 3. memory.zswap.max is a stateful interface. If the userspace reclaimer
-> crashes for any reason mid-operation, it may leave memory.zswap.max at
-> some set value, putting the application in a
->   persistently throttled bad state.
->
-> 4. Once the userspace reclaimer has lowered memory.zswap.max, if the
-> workload is rapidly expanding and triggers memory reclaim via
-> memory.high / kswapd / etc., the actual amount written
-> back can exceed what was intended.
+I didn't really spot anything myself on this pass so just a question
+of analysing the bot output and groaning at what I missed :(
 
-One more reason: IIRC, when you set memory.zswap.max to a value other
-than 0 max, every zswap store incurs a pretty expensive check
-(obj_cgroup_may_zswap), which does a force flush
-(__mem_cgroup_flush_stats). That was pretty expensive last time some
-of our internal services played with it. So yeah, it's not ideal...
-
-(if you're using this, might wanna profile this as well).
-
->
-> Thanks,
-> Hao
+Jonathan
