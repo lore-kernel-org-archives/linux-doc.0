@@ -1,102 +1,91 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8253EDE59;
-	Tue, 12 May 2026 18:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857283EDE4A;
+	Tue, 12 May 2026 18:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778609056; cv=none; b=B0h1kCwXuIXc5iu/+mzghTv+oShCc3pfuEFfnSd3wq4LDPMryrdrC8FZ32xnUMhiDYGevr2AyYgIJub205v5OX49A74cBOsiqlbP2d2jERuLscCsYjojE1jiV11ZvJeaDTHk0Bv56nLCMjLrP6rdl5w+I5PGxRPNHf1RPwLU/XE=
+	t=1778609160; cv=none; b=ZA0a+WTWMffYefekgKvcXSdCNbb/rRoZKS+LeRYYRIqErqPe4fgZ8FSqBBYeZ1evv/3Jn5zbrUMWOyRLH5DuDt9YsNHYWdrA5dSyeV/5M8TUbo5OO0cmToD5OII2oQ5XKHQ1Rsm3udgedRx5j8ImXYeyfDUI/rKMi8492TYA0Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778609056; c=relaxed/simple;
-	bh=4wTiUWk+kXDfsSDTUkqMRFg521OYTDMxR3952/wrLf8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ka/Z5mJ4vT/NV6Rct/IsM7ZNRAC1+4NmzXMZCk5Ssk++6aXuF6CbQhB77Wh9vRXAvmMLP9kjPVH8nbeqJWstyYt/bcOHNQVqTigM5yVkRblPtoU0Dg3XyCZG9xijR2t5omZ05eYXnSPAqOo3yyMVSk86eoDZQcD1lo96O1s1e2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nPiVuNxX; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1778609160; c=relaxed/simple;
+	bh=AYu98W2noPGRCAXmjPXNfD4nbNYQUNSkC3qget5y6aM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TaP/KNKu6V26vz+t1aC+B6gqHGrE11LUuxDsi2LR5Mu9x89xYptF4MBG1qtYNjNR/egN+yKZRG2JoeKOmC7CQFSBFnm8u6XroxOUH3FB7jg+zId5lxzwfs6hkvJD5y+0hwUIqsjLiCKOlbz8YzjUMnW3Y3SG4UZa0Hsf51ITvcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D2hOsi3q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nPiVuNxX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=Jv9iEDDVJEBKZBfKo5BN0Msjy+MqMxFpvywOcjoM8zU=; b=nPiVuNxXKrbFE3zHF60q6sRYtp
-	VF6WxC/lJ5YR5Y5iCGh8H3dEgpiB6P+D0nSFScg2rAHlVwKHTDfpyvWnl+G+D98CjOObQICGen8xs
-	XwQamf6wIry9FFLv7HS9UQrDvsVT9XmHVTpIf6IsOMBzaIO6TAEKPhwSTERNA8YuG6GWUOGpUDZGT
-	K3kOGX5RRxZ7q4Y3T2dTwEX2azvevDw2a/oaSo1tRP+e77wE4IOMAClrL+C/gW7Kgu7cmJcJ+8gkD
-	0fGd/yRLpPUNZuGsKsKC6r7kDqGXBqW5WZN3x1YybgRdOmxhOiPM4E+LQgfCD1tAiVV76aNk6KXeU
-	yZFHnARw==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMrSk-000000002hu-34qZ;
-	Tue, 12 May 2026 18:04:10 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Linlin Zhang <linlin.zhang@oss.qualcomm.com>,
-	Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	dm-devel@lists.linux.dev,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] dm: fix dm-inlinecrypt docs warnings
-Date: Tue, 12 May 2026 11:04:09 -0700
-Message-ID: <20260512180409.1193504-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D2hOsi3q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F1B2C2BCB0;
+	Tue, 12 May 2026 18:05:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778609160;
+	bh=AYu98W2noPGRCAXmjPXNfD4nbNYQUNSkC3qget5y6aM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D2hOsi3q4965f7axog9kWMtNo0/m+PWVhj0F4F7Uasmfkhj891Xl17nrDooQtvb2Z
+	 UV71TvtXUrVJHe98zWTjvueoEwao2vuZvuw03uwWIgtXjQR4gHoyuI14DMx0M2ZC9J
+	 h2V1tuyqApv45WHiQ2P9ow2rELQ05Bs0eSdAZuvQg587efpiPHqMmmkUXFwRcxfYYp
+	 oyoFO5nAFOJdQr3XO2ghNQsWl4Qu9S8v9nnM9kIaZFCkGKRBnn/P0CtSLal4n1zO56
+	 zRYnmM0m+SReIJSpESAz5KORlu2zmbD6ppHNcz8SJoZ2bTBlff1kpqetZa2vkMjXvO
+	 LWCUubSAx5Dkg==
+Date: Tue, 12 May 2026 21:05:49 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Cc: akpm@linux-foundation.org, peterx@redhat.com, david@kernel.org,
+	ljs@kernel.org, surenb@google.com, vbabka@kernel.org,
+	Liam.Howlett@oracle.com, ziy@nvidia.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, seanjc@google.com, pbonzini@redhat.com,
+	jthoughton@google.com, aarcange@redhat.com, sj@kernel.org,
+	usama.arif@linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kvm@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v2 11/14] userfaultfd: add UFFD_FEATURE_RWP_ASYNC for
+ async fault resolution
+Message-ID: <agNr_cS0DygX9ksq@kernel.org>
+References: <cover.1778254670.git.kas@kernel.org>
+ <65492c7b535080c7e85e90cb7ca962a52871e8b9.1778254670.git.kas@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <65492c7b535080c7e85e90cb7ca962a52871e8b9.1778254670.git.kas@kernel.org>
 
-Add this file to the index and use a longer heading overline string
-to eliminate warnings:
+On Fri, May 08, 2026 at 04:55:23PM +0100, Kiryl Shutsemau (Meta) wrote:
+> Sync RWP delivers a message and blocks the faulting thread until the
+> handler resolves the fault. For working-set tracking the VMM does not
+> need the message: it just needs to know, at scan time, which pages
+> were touched. Async RWP serves that use case — the kernel restores
+> access in-place and the faulting thread continues without blocking.
+> 
+> The VMM reconstructs the access pattern after the fact via
+> PAGEMAP_SCAN: pages whose uffd bit is still set (inverted
+> PAGE_IS_ACCESSED) were not re-accessed since the last RWP cycle.
+> 
+> Worth calling out: async resolution upgrades writable private anon
+> PTEs via pte_mkwrite() when can_change_pte_writable() allows, mirroring
+> do_numa_page(). Without it, every re-access of an RWP'd writable page
+> would COW-fault a second time.
+> 
+> UFFD_FEATURE_RWP_ASYNC requires UFFD_FEATURE_RWP.
+> 
+> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> Assisted-by: Claude:claude-opus-4-6
 
-Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst:1: WARNING: Title overline too short.
-========
-dm-inlinecrypt
-========
-Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst: WARNING: document isn't included in any toctree [toc.not_included]
+Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-Fixes: b4a0774bd7fd ("dm: add documentation for dm-inlinecrypt target")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Linlin Zhang <linlin.zhang@oss.qualcomm.com>
-Cc: Alasdair Kergon <agk@redhat.com>
-Cc: Mike Snitzer <snitzer@kernel.org>
-Cc: Mikulas Patocka <mpatocka@redhat.com>
-Cc: Benjamin Marzinski <bmarzins@redhat.com>
-Cc: dm-devel@lists.linux.dev
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
+> ---
+>  fs/userfaultfd.c                 | 19 ++++++++++++++++++-
+>  include/linux/userfaultfd_k.h    |  6 ++++++
+>  include/uapi/linux/userfaultfd.h | 11 ++++++++++-
+>  mm/huge_memory.c                 | 25 ++++++++++++++++++++++++-
+>  mm/hugetlb.c                     | 32 +++++++++++++++++++++++++++++++-
+>  mm/memory.c                      | 27 +++++++++++++++++++++++++--
+>  6 files changed, 114 insertions(+), 6 deletions(-)
 
- Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst |    4 ++--
- Documentation/admin-guide/device-mapper/index.rst          |    1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
---- linux-next-20260508.orig/Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst
-+++ linux-next-20260508/Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst
-@@ -1,6 +1,6 @@
--========
-+==============
- dm-inlinecrypt
--========
-+==============
- 
- Device-Mapper's "inlinecrypt" target provides transparent encryption of block devices
- using the inline encryption hardware.
---- linux-next-20260508.orig/Documentation/admin-guide/device-mapper/index.rst
-+++ linux-next-20260508/Documentation/admin-guide/device-mapper/index.rst
-@@ -15,6 +15,7 @@ Device Mapper
-     dm-flakey
-     dm-ima
-     dm-init
-+    dm-inlinecrypt
-     dm-integrity
-     dm-io
-     dm-log
+-- 
+Sincerely yours,
+Mike.
