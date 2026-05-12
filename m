@@ -1,134 +1,180 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2AA36F8FC;
-	Tue, 12 May 2026 06:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A4E357D08;
+	Tue, 12 May 2026 07:08:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778568085; cv=none; b=e8Fu735zKobc9VYGpTCtmHfxxbccHpS88XGQzGVhbm9gTAgRk1USGeAY0wf2LK69jZ/49s+Amj2XhPopgCKK8B87o8dRjOgZv8rRegyIRMymYD1/i2HbMLHxXiLNX1pfOZr7QHci7gKKkFzSz+J03HEGEO/r/SkVKmEoJsjYx8g=
+	t=1778569722; cv=none; b=ZacpkcsJD/F3dELlzrPe8rrb0XbUq3+VehYSBxgHLHxyPrLhm8h1DVTFkKx4vTJ8TGUa6nM1zYNwJzXKMkGrFhIEGUkST6kktVBFLtzSdZkJCpfiblZP+JzP5Z6vKBQ9H5GYmuAl2JNs7UU5DzMhdnmiimNZ3/iJ+eK/VuDjRZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778568085; c=relaxed/simple;
-	bh=OmqLAzovAsaSAx2HdYYu7HBEbGsJQMUnMcjJAZxyhFQ=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=JfwUXjazL+pwBu+Q2fD/afCOl9UoQMxre30NfmzViLTPg4+SgRIr331ZKD2/iH28pTtVkMAKLu6l4R2GubzTNp0SgD/XjaP0UZE5z0TEDaWqrT50/b61/VvGfSTgsju/b2g5fgCDQc2Rzg3FObxTBi45I+E9aZJLnRNGdja1/n0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q89Bm9Vx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778569722; c=relaxed/simple;
+	bh=5R+EGY533uqCmLzbRat4246szQJrvxiGXh+zrcNZP8Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qZ/tT+5p2sM4JWHzRLZkPhbZC1yih/gvOJK9nyvA5tVfDW6cvm+Jgvfoy7SevddRJlhhJzGd+WDLpw+TPbpvVvg7LIvcRew3rbikdnLLn5s37GpyGC+PB8Ta6Tmi3H4MAhlusbVHNfD8Jj4bXbiubTFZoOdhU6+BBoIf4vizWlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AZVW7Qui; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q89Bm9Vx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6694AC2BCB0;
-	Tue, 12 May 2026 06:41:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AZVW7Qui"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E6A5C2BCFD;
+	Tue, 12 May 2026 07:08:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778568084;
-	bh=OmqLAzovAsaSAx2HdYYu7HBEbGsJQMUnMcjJAZxyhFQ=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
-	b=Q89Bm9VxjC8vs96rOOE6U/H+6bC5f25PtJtxvPnqQjO6QgnPFPhwDNKSix9JgdWwd
-	 jIiAmdhetCUVnXkBQTW8DUC56pjxMGB1THiDPjHcYKoz78Tmqp1KdaWb9FKJYn4eVV
-	 t6HS0A8Y9LqiX/naG8sv2S8TCIFCoPNNj04LwiOMftRfwLxEjUGg+D0RBfpvBCtRNY
-	 rZRsD1+jjp0mtAwW/RpG3KBkbxH7Yo/vRFuofvexM/CmvOVgSGmwaVHUDv7QXCp8Sb
-	 vqC4bCpiKeVSMx3BrLYjZ11rPQZbJBdq+REAcmckH39YVV39jiwAbz2Pw7jHncYf5F
-	 p6dYErvqI3Jsw==
-Content-Type: multipart/mixed; boundary="===============0226668782142828443=="
+	s=k20201202; t=1778569721;
+	bh=5R+EGY533uqCmLzbRat4246szQJrvxiGXh+zrcNZP8Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AZVW7Qui1CP12PCsES+DAfGefhgG6ZsGG+IPd29OfkaPW+1CkthidE8AZJwY75U0C
+	 4rNrhnRBljNrhbvZDbEiEgSRDdXMcjdraEcCwuiJdxsOXLKnGqhSVmrr/6hhPR2x9L
+	 5vwiYRzb+7Elk2tmObpq81hcArgCm9ZegwZDJEAkv9M9iicfMeRn5NaRYpNZWqfPOE
+	 2HWszZ/4Gxf/5HGNX9W/seayQBqvEPgMe4Hs7m6wvAkzGhJbO9TvFDGMPWP3Yn5FY9
+	 SZ27OhjGJ/CoGsGG5mf9JCFTzQ3uplWm0vr4OAI+NqYEiilCS2Y4tpjuYjp3Qie9BH
+	 /RQBnxU6ladzQ==
+Message-ID: <03dddf72-8755-4ebf-ba79-456377f0f25d@kernel.org>
+Date: Tue, 12 May 2026 16:08:35 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <f573f7e0a5140fe6254d2ddfd3f69add455fa25c67c020c0312e2c2ceeca7c69@mail.kernel.org>
-In-Reply-To: <20260512055919.95716-6-kaitao.cheng@linux.dev>
-References: <20260512055919.95716-6-kaitao.cheng@linux.dev>
-Subject: Re: [PATCH RESEND bpf-next v10 5/8] bpf: Add bpf_list_add to insert node after a given list node
-From: bot+bpf-ci@kernel.org
-To: kaitao.cheng@linux.dev,ast@kernel.org,corbet@lwn.net,martin.lau@linux.dev,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,john.fastabend@gmail.com,kpsingh@kernel.org,sdf@fomichev.me,haoluo@google.com,jolsa@kernel.org,shuah@kernel.org,chengkaitao@kylinos.cn,skhan@linuxfoundation.org,memxor@gmail.com
-Cc: bpf@vger.kernel.org,linux-kernel@vger.kernel.org,linux-doc@vger.kernel.org,vmalik@redhat.com,linux-kselftest@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Tue, 12 May 2026 06:41:22 +0000 (UTC)
-
---===============0226668782142828443==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/12] swap: remove the maxpages variable in sys_swapon
+To: Christoph Hellwig <hch@lst.de>, Andrew Morton
+ <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+ "Darrick J . Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
+ Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>,
+ Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>,
+ Carlos Maiolino <cem@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>,
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-block@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
+ linux-cifs@vger.kernel.org
+References: <20260512053625.2950900-1-hch@lst.de>
+ <20260512053625.2950900-2-hch@lst.de>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20260512053625.2950900-2-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-> diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
-> --- a/kernel/bpf/helpers.c
-> +++ b/kernel/bpf/helpers.c
-> @@ -2570,6 +2570,16 @@ __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
->  	return bpf_list_push_back(head, node, meta__ign, off);
+On 5/12/26 14:35, Christoph Hellwig wrote:
+> Always use si->max which is updated setup_swap_extents instead of copying
+> into and out of maxpages.
+
+Checking mm/swapfile.c, I see s->max being set only in swapon(). Is this a typo
+or am I misunderstanding this sentence ?
+
+Looks good otherwise, but it would be nice to rename ->max to ->maxpages to make
+it clear what this is counting.
+
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  mm/swapfile.c | 27 +++++++++++----------------
+>  1 file changed, 11 insertions(+), 16 deletions(-)
+> 
+> diff --git a/mm/swapfile.c b/mm/swapfile.c
+> index 9174f1eeffb0..f7ebd97e28a3 100644
+> --- a/mm/swapfile.c
+> +++ b/mm/swapfile.c
+> @@ -3350,10 +3350,9 @@ static unsigned long read_swap_header(struct swap_info_struct *si,
 >  }
->
-> +__bpf_kfunc int bpf_list_add(struct bpf_list_head *head, struct bpf_list_node *new,
-> +			     struct bpf_list_node *prev, struct btf_struct_meta *meta,
-> +			     u64 off)
-
-The commit message states that 'prev' must already be in the list. How can a
-BPF program obtain such a reference and pass it to this kfunc?
-
-A node already in the list is tracked by the verifier as a non-owning
-reference (PTR_TO_BTF_ID | MEM_ALLOC | NON_OWN_REF with ref_obj_id == 0).
-The typical way to obtain this is via bpf_list_front() or bpf_list_back(),
-which return non-owning references.
-
-However, check_kfunc_args() in kernel/bpf/verifier.c handles
-KF_ARG_PTR_TO_LIST_NODE by requiring owning references and rejects non-owning
-references.
-
-Without a similar distinction for KF_ARG_PTR_TO_LIST_NODE (as exists for
-KF_ARG_PTR_TO_RB_NODE), is there any valid BPF register state that satisfies
-both the verifier check and the runtime semantics stated in the commit
-message?
-
-The BPF CI bot reported this issue in v10. The author responded that this was
-fixed in [PATCH bpf-next v10 7/8], which introduces the __nonown_allowed
-annotation and corresponding verifier logic. However, patch 7/8 is not
-present in this commit (feed006fb969), so the parameter lacks the
-__nonown_allowed suffix and the verifier lacks the is_kfunc_arg_nonown_allowed()
-check.
-
-Reference: https://lore.kernel.org/bpf/cb7368c6062232b6ad5f9ab1c6a97bc8530566a8b3db5c4deefdd5ea63d31538@mail.kernel.org/
-
-> +{
-> +	struct bpf_list_node_kern *n = (void *)new, *p = (void *)prev;
-> +	struct list_head *prev_ptr = &p->list_head;
-> +
-> +	return __bpf_list_add(n, head, &prev_ptr, meta ? meta->record : NULL, off);
-> +}
-> +
-
-[ ... ]
-
-> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-> --- a/kernel/bpf/verifier.c
-> +++ b/kernel/bpf/verifier.c
-
-[ ... ]
-
-> @@ -19235,8 +19238,11 @@ struct bpf_insn addr[2] = { BPF_LD_IMM64(BPF_REG_2, (long)kptr_struct_meta) };
->  		int struct_meta_reg = BPF_REG_3;
->  		int node_offset_reg = BPF_REG_4;
->
-> -		/* rbtree_add has extra 'less' arg, so args-to-fixup are in diff regs */
-> -		if (is_bpf_rbtree_add_kfunc(desc->func_id)) {
-> +		/* list_add/rbtree_add have an extra arg (prev/less),
-> +		 * so args-to-fixup are in diff regs.
-> +		 */
-
-This isn't a bug, but the multi-line comment format doesn't follow the BPF
-subsystem style. The preferred form in kernel/bpf/ has the opening /* on its
-own line:
-
-    /*
-     * list_add/rbtree_add have an extra arg (prev/less),
-     * so args-to-fixup are in diff regs.
-     */
-
-> +		if (desc->func_id == special_kfunc_list[KF_bpf_list_add] ||
-> +		    is_bpf_rbtree_add_kfunc(desc->func_id)) {
->  			struct_meta_reg = BPF_REG_4;
->  			node_offset_reg = BPF_REG_5;
+>  
+>  static int setup_swap_clusters_info(struct swap_info_struct *si,
+> -				    union swap_header *swap_header,
+> -				    unsigned long maxpages)
+> +				    union swap_header *swap_header)
+>  {
+> -	unsigned long nr_clusters = DIV_ROUND_UP(maxpages, SWAPFILE_CLUSTER);
+> +	unsigned long nr_clusters = DIV_ROUND_UP(si->max, SWAPFILE_CLUSTER);
+>  	struct swap_cluster_info *cluster_info;
+>  	int err = -ENOMEM;
+>  	unsigned long i;
+> @@ -3395,7 +3394,7 @@ static int setup_swap_clusters_info(struct swap_info_struct *si,
+>  		if (err)
+>  			goto err;
+>  	}
+> -	for (i = maxpages; i < round_up(maxpages, SWAPFILE_CLUSTER); i++) {
+> +	for (i = si->max; i < round_up(si->max, SWAPFILE_CLUSTER); i++) {
+>  		err = swap_cluster_setup_bad_slot(si, cluster_info, i, true);
+>  		if (err)
+>  			goto err;
+> @@ -3425,7 +3424,7 @@ static int setup_swap_clusters_info(struct swap_info_struct *si,
+>  	si->cluster_info = cluster_info;
+>  	return 0;
+>  err:
+> -	free_swap_cluster_info(cluster_info, maxpages);
+> +	free_swap_cluster_info(cluster_info, si->max);
+>  	return err;
+>  }
+>  
+> @@ -3440,7 +3439,6 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+>  	union swap_header *swap_header;
+>  	int nr_extents;
+>  	sector_t span;
+> -	unsigned long maxpages;
+>  	struct folio *folio = NULL;
+>  	struct inode *inode = NULL;
+>  	bool inced_nr_rotate_swap = false;
+> @@ -3512,14 +3510,13 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+>  	}
+>  	swap_header = kmap_local_folio(folio, 0);
+>  
+> -	maxpages = read_swap_header(si, swap_header, inode);
+> -	if (unlikely(!maxpages)) {
+> +	si->max = read_swap_header(si, swap_header, inode);
+> +	if (unlikely(!si->max)) {
+>  		error = -EINVAL;
+>  		goto bad_swap_unlock_inode;
+>  	}
+>  
+> -	si->max = maxpages;
+> -	si->pages = maxpages - 1;
+> +	si->pages = si->max - 1;
+>  	nr_extents = setup_swap_extents(si, swap_file, &span);
+>  	if (nr_extents < 0) {
+>  		error = nr_extents;
+> @@ -3531,14 +3528,12 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+>  		goto bad_swap_unlock_inode;
+>  	}
+>  
+> -	maxpages = si->max;
+> -
+>  	/* Set up the swap cluster info */
+> -	error = setup_swap_clusters_info(si, swap_header, maxpages);
+> +	error = setup_swap_clusters_info(si, swap_header);
+>  	if (error)
+>  		goto bad_swap_unlock_inode;
+>  
+> -	error = swap_cgroup_swapon(si->type, maxpages);
+> +	error = swap_cgroup_swapon(si->type, si->max);
+>  	if (error)
+>  		goto bad_swap_unlock_inode;
+>  
+> @@ -3546,7 +3541,7 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+>  	 * Use kvmalloc_array instead of bitmap_zalloc as the allocation order might
+>  	 * be above MAX_PAGE_ORDER incase of a large swap file.
+>  	 */
+> -	si->zeromap = kvmalloc_array(BITS_TO_LONGS(maxpages), sizeof(long),
+> +	si->zeromap = kvmalloc_array(BITS_TO_LONGS(si->max), sizeof(long),
+>  				     GFP_KERNEL | __GFP_ZERO);
+>  	if (!si->zeromap) {
+>  		error = -ENOMEM;
+> @@ -3597,7 +3592,7 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
 >  		}
+>  	}
+>  
+> -	error = zswap_swapon(si->type, maxpages);
+> +	error = zswap_swapon(si->type, si->max);
+>  	if (error)
+>  		goto bad_swap_unlock_inode;
+>  
 
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/25716874656
---===============0226668782142828443==--
+-- 
+Damien Le Moal
+Western Digital Research
