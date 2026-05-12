@@ -1,94 +1,223 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF0E1FC101
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 03:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF86282F2A
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 04:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778555243; cv=none; b=dl0AWqWzNvQ0hBsDcim9m6sJidqRanHBzgYVxQ0YWS94sm09/k9DYm+XHkmmv+CmJWg/c0ll/7pmAryguG1GceC9M02Hr1ZAwXlN/gf4YiFKfPlswo7wh50h6lT/NSPqaCjcpCLEymwGN0lcysxlkKf6agCCisOKam0VQ/QetBo=
+	t=1778561102; cv=none; b=phiNIRs4E8danmDuKOzvIkJEGqQwf444LtWSkWmnMfKZUbopLBV1jZ15Sn007qc4ZhLgeZG85XP2o333aAenkS7BHihQPXP23uUEmFbMVUlx8/+gFA0ydvZRk7cfpiDKQQN9AGauCdKqOSuhnj47z46qocofgwLOuBIfzRpEahg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778555243; c=relaxed/simple;
-	bh=LRWx2JQVql+AX+f6W8dWjEqtWQ2V3U4UdaHr69UtEs8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gWF45NjWazF1XnTcQgg1Y8k+3FV/+yCfUBCobW85RSGFNuIX879B8kUYRKfmjVCrNWqhFyHB0c4cgkUluvrgdgpkNZRxiEKB8O16b2/QVvGh9gDfo+sTTcLkPhcfSCvwEe/rUE+u4hc0Cku9GYzBASXoabTZVJkcNMXQ6F/3udM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K5Ls7/vl; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778561102; c=relaxed/simple;
+	bh=nTjBBouXxbsK5tE23oLCYyGFMpN52UWYf/GWtqGZ2mY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZNIR4FfckamIcE/Kt4X8EV02q7PeQyov0+1jC44YPtd3sHOw0pz3jJ4cEohBvm9Vhzm1IqdVRS/HNL2MaNex16tSwuPVgC4BosVTK05KdRDVbbeL0ZrJUmnE14ph246L5xeXGCWH02H6bguPkvE/wBCX4NGczYkPski+6YZy2Dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rPymqSEB; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K5Ls7/vl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778555241; x=1810091241;
-  h=date:from:to:cc:subject:message-id;
-  bh=LRWx2JQVql+AX+f6W8dWjEqtWQ2V3U4UdaHr69UtEs8=;
-  b=K5Ls7/vlXcKbGG2gztjsEiB23jbpYtTIA2Dg7O9t9zhQLGy+VKalbJgZ
-   g6xyPs4d9NyZjk/AswFgacba+w60eOLV7V3PsqtsPy0MNDsuGHvGcEkEh
-   usBLPRyoX+Uxc57BO+x5r9ZVqBT++BR3oGoPKOHEgerCvSJfvH1+PKpu0
-   CrMOiba6u2GICJ4SYfWqnBOf4MBBTXTVNX04SjrSQsvWXqVtUQkaP+4E3
-   ubkbSQVFkXBllDsPBXriTmA1dwHJX0LJVIMiLwk3fllrm5anX/IMwMtWd
-   jzYx8eiSk8/mC8o9/YcqGKL9Ksy5MqXoq/N6maH3NGIrEicFa121KwaGr
-   A==;
-X-CSE-ConnectionGUID: BDg+E8EYQ1eUM4j9G3fACA==
-X-CSE-MsgGUID: AeNvMXixRt2Tm5g6mlHbng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="79173130"
-X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="79173130"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 20:07:20 -0700
-X-CSE-ConnectionGUID: i6rSdgJCTeazaJ+vuX0xSw==
-X-CSE-MsgGUID: ypPCDMBoR+2S/kRDBPbE+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="234969868"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 11 May 2026 20:07:19 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wMdSn-0000000088p-0UjZ;
-	Tue, 12 May 2026 03:07:17 +0000
-Date: Tue, 12 May 2026 05:06:30 +0200
-From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <kees@kernel.org>,
- linux-doc@vger.kernel.org
-Subject: [kees:for-next/hardening 1/1] htmldocs:
- Documentation/driver-api/basics:127: ./include/linux/stddef.h:110: WARNING:
- Definition list ends without a blank line; unexpected unindent. [docutils]
-Message-ID: <202605120507.9iQRMgKR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rPymqSEB"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778561096;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VLBqEVqOtA0L9B/FBEFQZHxIvKYLTaOc7iFirBA8GiM=;
+	b=rPymqSEB7ksQeLp2kXClF6xGrRcrtPRC6k7yv726vYMSQEmkKfG8uwEcPDk5G6OqXp5d53
+	0h73lztm/ioh6KuUgtZJh4V8ofHz9eJyrpXqZAKKLiX66KAeLK7i0ZIGOjp7gBm/Mh8c/r
+	/29FxCR53BgaL0mjYeUHQiJntl+h1wo=
+From: Lance Yang <lance.yang@linux.dev>
+To: npache@redhat.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	aarcange@redhat.com,
+	akpm@linux-foundation.org,
+	anshuman.khandual@arm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	byungchul@sk.com,
+	catalin.marinas@arm.com,
+	cl@gentwo.org,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jackmanb@google.com,
+	jannh@google.com,
+	jglisse@google.com,
+	joshua.hahnjy@gmail.com,
+	kas@kernel.org,
+	lance.yang@linux.dev,
+	liam@infradead.org,
+	ljs@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	matthew.brost@intel.com,
+	mhiramat@kernel.org,
+	mhocko@suse.com,
+	peterx@redhat.com,
+	pfalcato@suse.de,
+	rakie.kim@sk.com,
+	raquini@redhat.com,
+	rdunlap@infradead.org,
+	richard.weiyang@gmail.com,
+	rientjes@google.com,
+	rostedt@goodmis.org,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shivankg@amd.com,
+	sunnanyong@huawei.com,
+	surenb@google.com,
+	thomas.hellstrom@linux.intel.com,
+	tiwai@suse.de,
+	usamaarif642@gmail.com,
+	vbabka@suse.cz,
+	vishal.moola@gmail.com,
+	wangkefeng.wang@huawei.com,
+	will@kernel.org,
+	willy@infradead.org,
+	yang@os.amperecomputing.com,
+	ying.huang@linux.alibaba.com,
+	ziy@nvidia.com,
+	zokeefe@google.com,
+	usama.arif@linux.dev
+Subject: Re: [PATCH mm-unstable v17 03/14] mm/khugepaged: rework max_ptes_* handling with helper functions
+Date: Tue, 12 May 2026 12:44:44 +0800
+Message-Id: <20260512044444.71798-1-lance.yang@linux.dev>
+In-Reply-To: <20260511185817.686831-4-npache@redhat.com>
+References: <20260511185817.686831-4-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
-head:   3c74955937520e6aabc0ec921b1bfe01734c6abc
-commit: 3c74955937520e6aabc0ec921b1bfe01734c6abc [1/1] stddef: Document designated initializer semantics for __TRAILING_OVERLAP()
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260512/202605120507.9iQRMgKR-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605120507.9iQRMgKR-lkp@intel.com/
+On Mon, May 11, 2026 at 12:58:03PM -0600, Nico Pache wrote:
+>The following cleanup reworks all the max_ptes_* handling into helper
+>functions. This increases the code readability and will later be used to
+>implement the mTHP handling of these variables.
+>
+>With these changes we abstract all the madvise_collapse() special casing
+>(dont respect the sysctls) away from the functions that utilize them. And
 
-All warnings (new ones prefixed by >>):
+Nit: s/dont/do not/
 
-   --------------------------------------------------------------------------------------------^
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:370: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
-   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:393: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
-   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
->> Documentation/driver-api/basics:127: ./include/linux/stddef.h:110: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:127: ./include/linux/stddef.h:115: ERROR: Unexpected indentation. [docutils]
->> Documentation/driver-api/basics:127: ./include/linux/stddef.h:116: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:127: ./include/linux/stddef.h:117: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:127: ./include/linux/stddef.h:122: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:127: ./include/linux/stddef.h:124: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:127: ./include/linux/stddef.h:139: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:127: ./include/linux/stddef.h:140: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+>will be used later in this series to cleanly restrict the mTHP collapse
+>behavior.
+>
+>No functional change is intended; however, we are now only reading the
+>sysfs variables once per scan, whereas before these variables were being
+>read on each loop iteration.
+>
+>Suggested-by: David Hildenbrand <david@kernel.org>
+>Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+>Acked-by: Usama Arif <usama.arif@linux.dev>
+>Signed-off-by: Nico Pache <npache@redhat.com>
+>---
+> mm/khugepaged.c | 118 +++++++++++++++++++++++++++++++++---------------
+> 1 file changed, 82 insertions(+), 36 deletions(-)
+>
+>diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>index f0e29d5c7b1f..f68853b3caa7 100644
+>--- a/mm/khugepaged.c
+>+++ b/mm/khugepaged.c
+>@@ -348,6 +348,62 @@ static bool pte_none_or_zero(pte_t pte)
+> 	return pte_present(pte) && is_zero_pfn(pte_pfn(pte));
+> }
+> 
+>+/**
+>+ * collapse_max_ptes_none - Calculate maximum allowed none-page or zero-page
+>+ * PTEs for the given collapse operation.
+>+ * @cc: The collapse control struct
+>+ * @vma: The vma to check for userfaultfd
+>+ *
+>+ * Return: Maximum number of none-page or zero-page PTEs allowed for the
+>+ * collapse operation.
+>+ */
+>+static unsigned int collapse_max_ptes_none(struct collapse_control *cc,
+>+		struct vm_area_struct *vma)
+>+{
+>+	// If the vma is userfaultfd-armed, allow no none-page or zero-page PTEs.
+>+	if (vma && userfaultfd_armed(vma))
+>+		return 0;
+>+	// for MADV_COLLAPSE, allow any none-page or zero-page PTEs.
+>+	if (!cc->is_khugepaged)
+>+		return HPAGE_PMD_NR;
+>+	// For all other cases repect the user defined maximum.
+>+	return khugepaged_max_ptes_none;
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Nit: kernel code usually uses C-style comments. This could be:
+
+/* For all other cases, respect the user-defined maximum. */
+
+Also, s/repect/respect/.
+
+>+}
+>+
+>+/**
+>+ * collapse_max_ptes_shared - Calculate maximum allowed PTEs that map shared
+>+ * anonymous pages for the given collapse operation.
+>+ * @cc: The collapse control struct
+>+ *
+>+ * Return: Maximum number of PTEs that map shared anonymous pages for the
+>+ * collapse operation
+>+ */
+>+static unsigned int collapse_max_ptes_shared(struct collapse_control *cc)
+>+{
+>+	// for MADV_COLLAPSE, do not restrict the number of PTEs that map shared
+>+	// anonymous pages.
+
+Ditto.
+
+>+	if (!cc->is_khugepaged)
+>+		return HPAGE_PMD_NR;
+>+	return khugepaged_max_ptes_shared;
+>+}
+>+
+>+/**
+>+ * collapse_max_ptes_swap - Calculate the maximum allowed non-present PTEs or the
+>+ * maximum allowed non-present pagecache entries for the given collapse operation.
+>+ * @cc: The collapse control struct
+>+ *
+>+ * Return: Maximum number of non-present PTEs or the maximum allowed non-present
+>+ * pagecache entries for the collapse operation.
+>+ */
+>+static unsigned int collapse_max_ptes_swap(struct collapse_control *cc)
+>+{
+>+	// for MADV_COLLAPSE, do not restrict the number PTEs entries or
+>+	// pagecache entries that are non-present.
+
+Same here.
+
+>+	if (!cc->is_khugepaged)
+>+		return HPAGE_PMD_NR;
+>+	return khugepaged_max_ptes_swap;
+>+}
+>+
+> int hugepage_madvise(struct vm_area_struct *vma,
+> 		     vm_flags_t *vm_flags, int advice)
+> {
+>@@ -546,21 +602,19 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+> 	pte_t *_pte;
+> 	int none_or_zero = 0, shared = 0, referenced = 0;
+> 	enum scan_result result = SCAN_FAIL;
+>+	unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma);
+>+	unsigned int max_ptes_shared = collapse_max_ptes_shared(cc);
+
+Nit: could these be const, as David suggested earlier?
+
+Nothing else jumped out at me. LGTM!
+
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
