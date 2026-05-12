@@ -1,108 +1,158 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BC3360EEA
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 13:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523ED3812C8;
+	Tue, 12 May 2026 13:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778592742; cv=none; b=VlyNdDsS+mrmEwW4xl+ec03KM8PrBnTTrLfWCZouBeLbe4FAtlNsRBRftsbgR/7AaCGJU1MYbffSJa1xxSEtmqLT0Rx03MJmrV/GkGNzbtYQcLMejAf/Sa4iu00iCMmxr+/R+rqovYOql1HW99eIvOaDBjw/YOxZfqODBVsH/0M=
+	t=1778592855; cv=none; b=TTWugu5SNW9YwtnkxfYPZp4HyWd4FlhrO3lyGgwcyUphEGyuknw8w2T89/aEzBegp5B01MEkKO3MByRaz6kvrKys3uEEZFXIvOXWvPfqU12c/c13tjtvWTxQL6he6FsrEncL7diunBNbV51P+FvxertS9kBP2KaeFj//jHB1MkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778592742; c=relaxed/simple;
-	bh=Cgpsbn2DkZpZS3BgaGqMF6WQ8CYCubeafRvaZv0Nr5U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XTzkb1hyc6Fjxm+ItyuPPkYvmXibq3GXqFgUEAEpqFy+dUL8UsxTYsr/IYEknI2cJXhRskBUwE5ctYD9h6ZeiqK0IyAhNPw6QB1bPPtUkm4FKVvfGd18zPT/WZzdcXP89p9QGU5RYoMUsG0AWSDWtEL9XkEjYAKYd+e7ZrYJA3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n9G/dVSK; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778592855; c=relaxed/simple;
+	bh=n1r1R/3grt+L5tmK8Q8JI5N6N+PYMNzn5ZWqv6i29BM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OElY6faQfi4kwK6kZ3kyXLY8Z7mQmj2ynGrc7sxthpahZo1i6Af6C6S7Y5ej2FfeNhyTuil/bmJlm/Hb/QFrc/ly545U7RA0xHBBkKvPXUM2+Q+jJ4HJ6D7FYekinF1V6f0rdl0lDfAYY7QrkaGKgtr6o2Wk26vBAYxptKyMWV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=DOX6gKst; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n9G/dVSK"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-83d31ac4017so1984886b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 06:32:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778592741; x=1779197541; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+G1CpOAyOxANA+SPh/GOBsJg+6uFI1md7kNT04Z6aes=;
-        b=n9G/dVSKQkvqYYaWPYb4ypU0wiuStGS8nWlby5RPv7rBVTJ/5nTsVNR9Bjsaaj5NF8
-         bqStEq81p5cz9rINxJPRIB0vWx97P6EL12M/ZHyqEWJZf2fA5K4yHeJ3HrlE7LPACReJ
-         eCYYdJgLVq+Hwzlyy8Xx1GZIhsmwuaGyRcgAjwKs8zSOnK82a5AX3asH8k19iKOK0Jn1
-         P9JrfFZtuw1hpZA47GXC8ZV84DAoxG5YuhR3M7RaTbZB6iBYJDxBpR6Kc+El5IZuYP6L
-         M1l/LaHWOUjU/L0CtKqbOVwyeNG8+1FVx19woZnkU76exMTZ64Dqq7t0+ACv5meZ0HrX
-         cq3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778592741; x=1779197541;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+G1CpOAyOxANA+SPh/GOBsJg+6uFI1md7kNT04Z6aes=;
-        b=baoolJ84jI1bqherwoVBhCcf7i4F6RyUkDi2MvP7McLrDO/fGxmXyY42PLSWhswcWa
-         M43PvNu5sNgFzji60mjiB1jdBtKq4oD4ndpEB7GU1XTGMt82ZlbXSuBMPLMSBan0s845
-         RMqoIYlJbKUNBbsmu0oM1Uxt3XL0Gi3b6Y+OOKT0Nc+MFauvQ0jdo35zosuJvw/95CQ1
-         0yPqXcmBpcASPd7qLrjd9DBxdUvqM3H48WqTjvs05xNXJwUFNzhZxrJnQLa3JZjz40XK
-         d1x5ekgeDH0T0agnGmnCfslRkVFqPT3I6q+/MEI+oPQrlKhjradOA7+Jc1uHNKJt5nBP
-         8BbA==
-X-Forwarded-Encrypted: i=1; AFNElJ/A/Beaqzu/iqkmHqADpuT32YQjDtFYiwNir8owTXvSm6xkfwbYMMtKl1+m4Nzoj0JR9IdC4gwv6c0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhOl5tpXAyHnlNKBIROL5y762taUYOSYJgFm2bwzBCw5jpZ2vu
-	AoN157Dp6z/33WXaBOVce1s0415GgLx9GMeDktTnJY1Hk7PSt2QX8QHl
-X-Gm-Gg: Acq92OHGgXO7CdlNIx+NfQIm2EDls3aTMkachps+I3iStNhCoJKzNHoEueKe9vcS3CT
-	ZGRL1317hFeF4kLUlF05W511RSLxVvreSCpCMxMSApZPnc3dmbCAq0Aof55+LCWA0oaU35+r5gY
-	c9dqjjSM2Y1yVIcbgqofUHb3Y4Uu7WH6/X2vbYmcIKXlZ2J+7Md6KIs8+UyxmhKonD9jUNb5xpS
-	IrBi8UoS9DeyB5LJubgpsY8otZOiJgWA/iJ6rsYzZdAu0r0876PNWvrOObcLRtLHus01bSGrX66
-	+LWHdk90EMehfTgnAWPrPSGJGt0oVP3qH/Zi1SkqQN29vgdX8Dm8IwQI3uxPOhpWLysptFdet6x
-	GR5m/10uQYmres6NWLjOJCB9wSaHoTNF3YgtiYQXozntC1HbFsEVoJE44edxe5lnkohIzaT60y/
-	JbocATOmp8KHAungjTeeNXRVJgSMrySZPb4QmfVnh1UhQ04OSmafuW6LX9rhtFWw==
-X-Received: by 2002:a05:6a00:b48:b0:835:351c:f236 with SMTP id d2e1a72fcca58-83a5d09a78dmr28663707b3a.29.1778592740983;
-        Tue, 12 May 2026 06:32:20 -0700 (PDT)
-Received: from r912.lan.4v1.in ([182.70.116.80])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8396563f38fsm22849934b3a.8.2026.05.12.06.32.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 06:32:20 -0700 (PDT)
-From: Avinash Duduskar <avinash.duduskar@gmail.com>
-To: netdev@vger.kernel.org
-Cc: davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	jiri@resnulli.us,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com,
-	linux-doc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next] Documentation: networking: devlink: stmmac: fix typo in phc_coarse_adj
-Date: Tue, 12 May 2026 19:02:14 +0530
-Message-ID: <20260512133214.1773502-1-avinash.duduskar@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="DOX6gKst"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=7WkcVadBrY1XKpqeX0xMjVFVAlCVexI4mnyeEkffHUE=; b=DOX6gKstXwYkD/1QVtjEgDYhjg
+	xMQ/0N8TErdX0WA4LFweELRgU+9lEIJbdD5IJkkFgbNULe7AGsD1U+vCIP+QXYJqeh8sZ0KuqZilG
+	0xt82S9d0KoknAVHlrKCDRnHgiWf3I+qy08pIXKogB1L3P64bAtXSoQX33nPD0Y8+PXNcLGsS6s12
+	2vlSK+O5cFSCjPFYUiKYQXaFMW05cG5TldGW3RPlF9DJbXe/UnxiijRdkKOHeR+q9xoJAsJ++awON
+	OEc856Y6OErMCUcydm8uArBRUaxKx4FKJ4TSnSHzZ6STcEzROb12BnNonw4bnjMCpM/syN9MJLQ18
+	E5i00zbQ==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wMnF6-002PSz-1Y;
+	Tue, 12 May 2026 13:33:48 +0000
+Date: Tue, 12 May 2026 06:33:41 -0700
+From: Breno Leitao <leitao@debian.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Liam R. Howlett" <liam@infradead.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com, Lance Yang <lance.yang@linux.dev>
+Subject: Re: [PATCH v6 2/4] mm/memory-failure: classify get_any_page()
+ failures by reason
+Message-ID: <agMpqhpgmezqnaA_@gmail.com>
+References: <20260511-ecc_panic-v6-0-183012ba7d4b@debian.org>
+ <20260511-ecc_panic-v6-2-183012ba7d4b@debian.org>
+ <28b01c14-3d87-4cab-b695-5b9015578785@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <28b01c14-3d87-4cab-b695-5b9015578785@kernel.org>
+X-Debian-User: leitao
 
-"Functionnal" should be "Functional".
+On Tue, May 12, 2026 at 10:21:50AM +0200, David Hildenbrand (Arm) wrote:
+> 
+> >  		}
+> >  		goto unlock_mutex;
+> >  	} else if (res < 0) {
+> > -		if (is_reserved)
+> > +		/*
+> > +		 * Promote a stable unhandlable kernel page diagnosed by
+> > +		 * get_hwpoison_page() to MF_MSG_KERNEL alongside reserved
+> > +		 * pages; transient lifecycle races stay as MF_MSG_GET_HWPOISON.
+> > +		 */
+> > +		if (is_reserved || gp_status == MF_GET_PAGE_UNHANDLABLE)
+> >  			res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
+> 
+> 
+> It's all a bit of a mess. get_hwpoison_page() should just indicate that a page
+> is unhandable if it is PG_reserved?
 
-Signed-off-by: Avinash Duduskar <avinash.duduskar@gmail.com>
----
- Documentation/networking/devlink/stmmac.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Are you saying that we should identify if the page is PG_reserved in
+get_hwpoison_page() instead of in memory_failure(), as done in the
+previous patch ("mm/memory-failure: report MF_MSG_KERNEL for reserved
+pages") ?
 
-diff --git a/Documentation/networking/devlink/stmmac.rst b/Documentation/networking/devlink/stmmac.rst
-index 47e3ff10bc08..fbaa81ea782d 100644
---- a/Documentation/networking/devlink/stmmac.rst
-+++ b/Documentation/networking/devlink/stmmac.rst
-@@ -24,7 +24,7 @@ The ``stmmac`` driver implements the following driver-specific parameters.
-      - runtime
-      - Enable the Coarse timestamping mode, as defined in the DWMAC TRM.
-        A detailed explanation of this timestamping mode can be found in the
--       Socfpga Functionnal Description [1].
-+       Socfpga Functional Description [1].
+> Why can't we just return a special error code from  get_hwpoison_page()? We ahve
+> plenty of errno values to chose from.
+
+Something like:
+
+
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index 866c4428ac7ef..0a6d83575833e 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -878,7 +878,7 @@ static const char *action_name[] = {
+ };
  
-        In Coarse mode, the ptp clock is expected to be fed by a high-precision
-        clock that is externally adjusted, and the subsecond increment used for
--- 
-2.54.0
+ static const char * const action_page_types[] = {
+-	[MF_MSG_KERNEL]			= "reserved kernel page",
++	[MF_MSG_KERNEL]			= "unrecoverable kernel page",
+ 	[MF_MSG_KERNEL_HIGH_ORDER]	= "high-order kernel page",
+ 	[MF_MSG_HUGE]			= "huge page",
+ 	[MF_MSG_FREE_HUGE]		= "free huge page",
+@@ -1394,6 +1394,21 @@ static int get_any_page(struct page *p, unsigned long flags)
+ 	int ret = 0, pass = 0;
+ 	bool count_increased = false;
 
++	if (PageReserved(p)) {
++		ret = -ENOTRECOVERABLE;
++		goto out;
++	}
++
+ 	if (flags & MF_COUNT_INCREASED)
+ 		count_increased = true;
+ 
+@@ -1422,7 +1437,7 @@ static int get_any_page(struct page *p, unsigned long flags)
+ 				shake_page(p);
+ 				goto try_again;
+ 			}
+-			ret = -EIO;
++			ret = -ENOTRECOVERABLE;
+ 			goto out;
+ 		}
+ 	}
+@@ -1441,10 +1456,10 @@ static int get_any_page(struct page *p, unsigned long flags)
+ 			goto try_again;
+ 		}
+ 		put_page(p);
+-		ret = -EIO;
++		ret = -ENOTRECOVERABLE;
+ 	}
+ out:
+-	if (ret == -EIO)
++	if (ret == -EIO || ret == -ENOTRECOVERABLE)
+ 		pr_err("%#lx: unhandlable page.\n", page_to_pfn(p));
+ 
+ 	return ret;
+@@ -2431,6 +2448,9 @@ int memory_failure(unsigned long pfn, int flags)
+ 			res = action_result(pfn, MF_MSG_KERNEL_HIGH_ORDER, MF_IGNORED);
+ 		}
+ 		goto unlock_mutex;
++	} else if (res == -ENOTRECOVERABLE) {
++		res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
++		goto unlock_mutex;
+ 	} else if (res < 0) {
+ 		res = action_result(pfn, MF_MSG_GET_HWPOISON, MF_IGNORED);
+ 		goto unlock_mutex;
+
+
+If that is what you are suggestion, maybe we can create another
+MF_MSG_RESERVED? and another return value for get_any_page() to track
+the reserve pages ?
+
+Thanks for the review and suggestions,
+--breno
