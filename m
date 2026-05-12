@@ -1,53 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547A735F5E0;
-	Tue, 12 May 2026 15:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16813A59BC;
+	Tue, 12 May 2026 15:56:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778600996; cv=none; b=oEjaQMW6RolA6k2WiqYAz5tHUtt6hbzsKdDehkO9AAOMNhAEbv3GcUNPpnrYmRbsd1SbbBHQsbHCsoQirovf8kahnqYgjt0zgwYcAqwovj+qNyqHU7KRIrodV+6mJ1764HStP1o8fLZPqsuUi+LsG/2hn69UmY+a+fEmBMNKEHg=
+	t=1778601381; cv=none; b=YtGKlvOyMyLhOBEmR+QqMXn5OhjCCG+Glzjqo5ihbd+H+gI0Ca9IAowhFiA/OsV0rS1ihZFxMpfa6uD81AdUpWbuk4H+jxchLO/ZGXQ5sz8haEvxZatWSwmOJnDPGfo45Pgf+CAWQC7HweMs2MbG60OjxYVegZ/bst43wTFgIDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778600996; c=relaxed/simple;
-	bh=xT04KsS3vdFr5U9rnS1OIQVoQ8mPOcKNw2Vjgn0vL8o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W0EBCjkHGW2H9mE8pG8HhiOkXoCtONKtvmKWrcnfJC2CP7a5Z2g11pdKhUDuAIAHluP7CEEMEhpLIx7qAFd+AzcuhQvdGy1BWWGuF0CqPMf6ASPN9KiCABfKQvRgsZtLwPB3YSMFNXOpzmoDUfomq/FmZStyyTdISXGcFOUel30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bqe+MtoJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778601381; c=relaxed/simple;
+	bh=xrgY/J5okTxRzQTtXO4kQ7NHE93ddpEZa77GDFwT26w=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=GDR0UTxXJMU/jbuZl0afliZa8ncbBHPoY6AeALe1ZeIaCzLKhEgOGeIiz5KFRTWtQvpGJFJhOGS19FvZMBy5SJy9ui9Ms4B15QibiWp92EayarD5dVQ+CGV7yMeJUfPzkGTQXWCyvtc/9qtcRL/75Z390uDmCDEqwfcp77p20r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PFFkJpEz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bqe+MtoJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9D79C2BCB0;
-	Tue, 12 May 2026 15:49:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFFkJpEz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79253C2BCC7;
+	Tue, 12 May 2026 15:56:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778600996;
-	bh=xT04KsS3vdFr5U9rnS1OIQVoQ8mPOcKNw2Vjgn0vL8o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bqe+MtoJUKckxiSp8SbZEmLkoM0jygdg7+XXnLKdgCwg1KIV1Nj/wxMBj5dqlHWsX
-	 Bldeh+G56RqSmhFyUa9n/T1inPZLhq5zSpFCCB91toQamYQm3p1RF+lO43zAmEe+4L
-	 R6VLmWQiq76CQAKXvKAPKEiIEToLW04NIEdjqD6DCoszNgKWrU+91AJfmIgnO49Xoo
-	 4cy4mvnNPM3SjoiZdvDjbMPnpzfV06cvdahdkeSqyOwfa9N5n52q+/qiED3AHeOqFU
-	 Eer19JGdk+JVGp/rsFfyV3Btesq2riF7mMaJ15mdymmKL4/ACEVDBMNOPQvp2iPlFS
-	 Z6ArnMfFy13Tw==
-Date: Tue, 12 May 2026 16:49:42 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
-Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
- <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 4/6] iio: adc: ad4691: add SPI offload support
-Message-ID: <20260512164942.6ef07ee9@jic23-huawei>
-In-Reply-To: <20260511-ad4692-multichannel-sar-adc-driver-v10-4-e1fbb1744e38@analog.com>
-References: <20260511-ad4692-multichannel-sar-adc-driver-v10-0-e1fbb1744e38@analog.com>
-	<20260511-ad4692-multichannel-sar-adc-driver-v10-4-e1fbb1744e38@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20201202; t=1778601380;
+	bh=xrgY/J5okTxRzQTtXO4kQ7NHE93ddpEZa77GDFwT26w=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=PFFkJpEzbLADv2hkXMSDR+GZ/2TvVvJ5/HrDZcF+1J9AuTYNSTliU9JP1Ll5p049a
+	 cgNIyaFt1t4kXmkjB7kvKyJapR6+fsaCnPAsFcz3TyAM6Ra7ti0Uc/ikEKHjeUBs/b
+	 ukf8k1snIFYdQzt9d6VUVIs0WhM65LcXlA8ZNHo7SoyDYAOBIAMhVd18nUpXNcTXh1
+	 oCofxQYIzn6/rgxENXl+JIRimPL7MlzWE0Sr7JTmUYIf+npv0rYPVSrp7KLyuonkGz
+	 fwhllDv1kz8STdH41jMculb2i9uYbuRhPwKLzK/q3qdclwIAaKRfYLIiAYcyMcbsjf
+	 j5jYjTUGgXRPw==
+Date: Tue, 12 May 2026 17:56:18 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+cc: Benjamin Tissoires <bentiss@kernel.org>, 
+    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+    Lambert Fan <fanzhaoming@anopc.com>, Zhouwang Huang <honjow311@gmail.com>, 
+    linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/5] Add OneXPlayer Configuration HID Driver
+In-Reply-To: <20260419042624.625746-1-derekjohn.clark@gmail.com>
+Message-ID: <q2nop225-7433-72qr-s720-939sr6s00p1p@xreary.bet>
+References: <20260419042624.625746-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,62 +45,49 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 11 May 2026 14:54:16 +0300
-Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
+On Sat, 18 Apr 2026, Derek J. Clark wrote:
 
-> From: Radu Sabau <radu.sabau@analog.com>
+> Adds an HID driver for OneXPlayer HID configuration devices. There are
+> currently 2 generations of OneXPlayer HID protocol. The first (OneXPlayer
+> F1 series) only provides an RGB control interface over HID. The Second
+> (X1 mini series, G1 series, AOKZOE A1X) also includes a hardware level
+> button mapping interface, vibration intensity settings, and the ability
+> to switch output between xinput and a debug mode that can be used to debug
+> the button mapping. Some devices (G1 Series, APEX) use a hybrid of Gen1
+> RGB control and Gen 2 controller settings. To ensure there is no conflicts
+> when the driver is loaded, we skip creating the RGB interface for Gen 2
+> devices if there is a DMI match.
 > 
-> Add SPI offload support to enable DMA-based, CPU-independent data
-> acquisition using the SPI Engine offload framework.
+> I'll also add a note that Gen 1 devices also have an interface for
+> setting the key map and debug mode, but that is done entirely over a
+> serial TTY device so it is not able to be added to this driver. There
+> are also some "Gen 0" devices (OneXPlayer 2 Series) also use it, but
+> the TTY interface also handles the RGB control so no support is
+> provided by this driver for those interfaces.
 > 
-> When an SPI offload is available (devm_spi_offload_get() succeeds),
-> the driver registers a DMA engine IIO buffer and uses dedicated buffer
-> setup operations. If no offload is available the existing software
-> triggered buffer path is used unchanged.
+> Signed-off-by: Derel J. Clark <derekjohn.clark@gmail.com>
+> ---
+> v4:
+>   - Make all delayed work part of drvdata & ensure they are canceled
+>     during remove.
 > 
-> Both CNV Burst Mode and Manual Mode support offload, but use different
-> trigger mechanisms:
+> v3: https://lore.kernel.org/linux-input/20260412213444.2231505-1-derekjohn.clark@gmail.com/
+>   - Ensure default button map is properly init during probe.
 > 
-> CNV Burst Mode: the SPI Engine is triggered by the ADC's DATA_READY
-> signal on the GP pin specified by the trigger-source consumer reference
-> in the device tree (one cell = GP pin number 0-3). For this mode the
-> driver acts as both an SPI offload consumer (DMA RX stream, message
-> optimization) and a trigger source provider: it registers the
-> GP/DATA_READY output via devm_spi_offload_trigger_register() so the
-> offload framework can match the '#trigger-source-cells' phandle and
-> automatically fire the SPI Engine DMA transfer at end-of-conversion.
+> v2: https://lore.kernel.org/linux-input/20260407041354.2283201-1-derekjohn.clark@gmail.com/
+>   - Add DMI quirks for certain devices that ship with both GEN1 and GEN2
+>     MCU to avoid clashing when initializing the RGB interface.
+>   - Add left & right vibration intensity attributes.
+>   - Add additional mappings for keyboard inputs.
+>   - Add a delayed work trigger to re-apply settings after the MCU
+>     completes initializing after a suspend/resume cycle.
 > 
-> Manual Mode: the SPI Engine is triggered by a periodic trigger at
-> the configured sampling frequency. The pre-built SPI message uses
-> the pipelined CNV-on-CS protocol: N+1 16-bit transfers are issued
-> for N active channels (the first result is discarded as garbage from
-> the pipeline flush) and the remaining N results are captured by DMA.
-> 
-> All offload transfers use 16-bit frames (bits_per_word=16, len=2).
-> The channel scan_type (storagebits=16, shift=0) is shared between the
-> software triggered-buffer and offload paths; no separate scan_type or
-> channel array is needed for the offload case at this stage. Oversampling
-> support and mode-specific channel array distinctions are introduced in
-> the following commit.
-> 
-> IIO_BUFFER_DMAENGINE is selected because the offload path uses
-> devm_iio_dmaengine_buffer_setup_with_handle() to allocate and
-> attach the DMA RX buffer to the IIO device.
+> v1: https://lore.kernel.org/linux-input/20260322031615.1524307-1-derekjohn.clark@gmail.com/
 
-More stuff from sashiko - it also not noticed the BE marking is
-in a later patch - but given you are doing 16bit words here likely
-the chan spec needs to be different.
+Now in hid.git#for-7.2/oxp, thanks.
 
-Hohum. It then seems to have timed out.  Maybe that should be a new
-rule - if your patch set is too big for sashiko it's too big and
-complex for reviewers too ;)
+-- 
+Jiri Kosina
+SUSE Labs
 
-> 
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
-
-I didn't really spot anything myself on this pass so just a question
-of analysing the bot output and groaning at what I missed :(
-
-Jonathan
