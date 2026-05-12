@@ -1,283 +1,147 @@
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.43])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6035F46AF0A;
-	Tue, 12 May 2026 08:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4B646AF0A
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 08:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778573117; cv=none; b=MSLhhMrl9TrkG7WJYwQXm//N3/r0oCYoRwMnhIDroXoU+T+Sl9RLNzqwAXYHquxZ8czMFdnHZT0/hVnuiDqjHpasDUubz7K5NvQ7f1gKVY70UJm4dOLumgdlLEEJhpJTk13S5ZnTn4OWcfgETc92AxF+b83RnKTwN4vnaI+TpTE=
+	t=1778573292; cv=none; b=qlIQ3DUYUY6ksDP/5f/YHIqUN4kRLfSRqq1EHwP36Q4PvrnnzdlbIz+jLr2N+Hzjs8aFmd7cJaogKf9/xOYsU7VXCpIirI5gaEx4Rr7w4hihqgafGp+HOmaMU5FBLC4HW7rfiXLieFJRWw0B7woN2AoDkxep0/otlZSzq8PEzbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778573117; c=relaxed/simple;
-	bh=IGLaL3EGrdKsMqdbHStXp28AOIkf5rJb99tWx7Ew3Io=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tMm9fqY6psTk/AfEN8UJ1HKoV6RibGlKejAVo6x953Vgs4EdPSQ31enuk/gKP/Dfphxi8GoB7I9cBSLrgA5+UhTU9mYKiY9S+hI4WZuFB14qIBoGSiAt7Llp7pe5e2n89KM6VlScMyavHNzWcfve0IkjPAQhQywYLP4H9nMrpjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=sYozq4I/; arc=none smtp.client-ip=43.163.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1778573292; c=relaxed/simple;
+	bh=bHMK2zAI0onE3iHCpBUlZg0ZrWaVRgI7Yw3TkkZ52Ts=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=LmpU0tTafNktESQ3KUPlysRFGg7cr7gdScLWLP6EfjQbZffGC6V0EJYPZ7hG7PPzLiPkMvB55A4w6vBoOVeH4qDmjrQSLpsaLg2gT+ocDKo7RTAVvMQpD+5yPWA/aNQdySjUJELbL8c/gcR7zHDQvZtglTPEkk/mdFwc4zlXM14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=I8JKNjVT; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="sYozq4I/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1778573112; bh=KcpIvgZUbFNoS8r0GW4szT56n0Mg9GCZ0+fOzZnZjyY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=sYozq4I/OykM5Txm/gNOKpKPOF43vgcysco0nxTTzN2S07QfGdLdSjThEhfmVEdDV
-	 TkhmyJWz9cMvbPBuAFpfbPZhQ8rAWVM7mq2X1Sq3vI55FKrHfUWms2b6vhhXW/E/iu
-	 lf4zfivbtv1+mNdcG4koIHiyyWUFPkYJd+Qm5XJg=
-Received: from [10.46.141.45] ([36.112.3.68])
-	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
-	id 14893C62; Tue, 12 May 2026 16:05:08 +0800
-X-QQ-mid: xmsmtpt1778573108tfenon2c7
-Message-ID: <tencent_FBED118A1B0D8B472EF76729C5A8F9458F07@qq.com>
-X-QQ-XMAILINFO: NmRjDopJZVxOXHPVtWVa8/KAWV9Eqko2dJ6n40ru9JaaP4LMkEDuJ8JO4f0HHF
-	 Dn/q35+n57AcS9hh98vAEvU/EDAUbFjFzR2RwYPgv4GkCCvK/wwzyXwTI7OLfYcKzXQ3IynoMm4G
-	 yN2+xh6prQePMxFpgiNBeCa/ILPTppvNgR7z1ab1pcoPNKlC91xNGodPeHcw5gXmdWYwgmchxTCT
-	 IffzfpPXOhhwxtlLOeBxwL9gxJTmRxoitJryU3P/XS38yMT7XYjgys2rbXtg1yS8/LIkjdIPWanT
-	 8t4jmlhFN7MwdKv/8+GeaWltm7huBjnYZwxoA50eTa8fsBjgiQZDDel7W+jLTykcdEx8zN4zh6CN
-	 l2Y7ycvvOhdBiSNM/yYEIs+WQ/YwlCD8ZF0s+fgCpKahGQC4b9Cyho51iYnqA31gfBcv5KPLp9Br
-	 EYbk77cJ6G9MxDBlL6WSjTuyvS+wWJUjpSyuNJ09t7wNUFWbqJQMglkPrcwfTkFkvHmxTqkzSzdS
-	 WW8gIU8ZgkDF+Aij/doQpZFH0TD+fFZGCp2yGbEHAx9/m7dRGKFeUSljx1U/rYPslMgWgfN98Y73
-	 DGCnuTwYSQSCIe687AE/cq+x+k85B71ei5wNLxbY4YK/fJnzxKg2kKl+qe3MbGgAtzCad0I4aSJb
-	 RFDtePz8qaGHFq7Ah3Iyz39dHrD/Pf3kDIwg6kmIY/SB/VnutDBMSFKKO+KJGShLVe1/3aWdiSEh
-	 9bYqv6/8rzp7cZnqNaiJEq1jKOM2ldMul1+S2aDyCGF1EbqrEDdQ7BT7XbldMIbDh9PSinjb2IVw
-	 6IcBypFNuMSKm3tE9RixOSbbJvGvtkHuQcv/5TtgbZTzrDOqpH38um6jlnW+p+6hVM5pFY0VDp80
-	 vRlKvcyOSDqOWLU6nHbWoGmB3ovBiMFokH3vMur5THl4xv0yp2Ch9pNteakIuHcsQUPVdPI6yS9+
-	 kuHrdlW7fs/6inslTDBL0bL5/riwS1zIA5uaZzI1N0kLNmaAcYoMd/4Tdhbc6y/DAULOMu98/AQA
-	 YBJPLjkjQUD/8AoNwy9EukRXW7VA8UngiNMSejgIM6VrMDD4Ne+1eBbFYuoak=
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-X-OQ-MSGID: <a93db167-64c2-4588-8290-4f32a212a9dd@qq.com>
-Date: Tue, 12 May 2026 16:05:08 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="I8JKNjVT"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 3/5] mm: zswap: load fully stored large folios
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Nhat Pham <nphamcs@gmail.com>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>,
- Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chengming Zhou <chengming.zhou@linux.dev>, Baoquan He <bhe@redhat.com>,
- Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>
-References: <tencent_8B437BE4F586C162950BF71954316C1EDB05@qq.com>
- <tencent_69E7E93D1E47766E922D48B9EA9FD1140D09@qq.com>
- <agJV-73LaAzMqDBg@google.com>
-From: Fujunjie <fujunjie1@qq.com>
-In-Reply-To: <agJV-73LaAzMqDBg@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778573287;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lKNL5maF/I0Pm4ZAQ6helpwXJ2VW5r0EqqzQSfJ4dak=;
+	b=I8JKNjVTKj8sf4L7F+vbykCznvS8P0KepcxZoVZXJtG9h79Mrzz6U3hKaxeUQTgssgXuat
+	zARR5ZX4xNAvn1wfr3qvPCdV7uq1X7BNvItgducUHfzxdwNiVodcxZJWIPJRL6SMdgRoc+
+	gds6umfbFxRDjm7MLfjhjrPsY/WVNfk=
+Date: Tue, 12 May 2026 08:08:05 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Kunwu Chan" <kunwu.chan@linux.dev>
+Message-ID: <58a46a64bb4445cd7657732fddf3b2020b306c8d@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH] docs: Document panic_on_rcu_stall default behavior
+To: paulmck@kernel.org
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, gustavold@gmail.com, "Kunwu Chan"
+ <kunwu.chan@gmail.com>
+In-Reply-To: <8134f801-1494-47e1-84b1-7245616231ba@paulmck-laptop>
+References: <20260509091214.1679194-1-kunwu.chan@linux.dev>
+ <8134f801-1494-47e1-84b1-7245616231ba@paulmck-laptop>
+X-Migadu-Flow: FLOW_OUT
+
+May 11, 2026 at 3:54 AM, "Paul E. McKenney" <paulmck@kernel.org mailto:pa=
+ulmck@kernel.org?to=3D%22Paul%20E.%20McKenney%22%20%3Cpaulmck%40kernel.or=
+g%3E > wrote:
 
 
+>=20
+>=20On Sat, May 09, 2026 at 05:12:14PM +0800, Kunwu Chan wrote:
+>=20
+>=20>=20
+>=20> From: Kunwu Chan <kunwu.chan@gmail.com>
+> >=20=20
+>=20>  Commit ab875b3e179f ("rcu: Add BOOTPARAM_RCU_STALL_PANIC
+> >  Kconfig option") made the default value of
+> >  kernel.panic_on_rcu_stall depend on
+> >  CONFIG_BOOTPARAM_RCU_STALL_PANIC.
+> >=20=20
+>=20>  Document this in kernel.rst
+> >=20=20
+>=20>  Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
+> >=20
+>=20This commit depends on the commit you call out above, which, given Li=
+nus
+> Torvalds's reaction, is unlikely to make it into mainline. :-(
+>=20
+>=20A likely workaround is to use the existing sysctl kernel boot paramet=
+er,
+> as in: "sysctl.kernel.panic_on_rcu_stall=3D1".
+>=20
+>=20This can also be embedded into the kernel image using the bootconfig
+> facility. To do this, build your kernel with the following Kconfig
+> options:
+>=20
+>=20 CONFIG_BOOT_CONFIG=3Dy
+>  CONFIG_BOOT_CONFIG_FORCE=3Dy
+>  CONFIG_BOOT_CONFIG_EMBED=3Dy
+>  CONFIG_BOOT_CONFIG_EMBED_FILE=3D".bootconfig"
+>=20
+Hi=20Paul,
 
-On 5/12/2026 6:38 AM, Yosry Ahmed wrote:
-> On Fri, May 08, 2026 at 08:20:31PM +0000, fujunjie wrote:
->> zswap_store() already stores every base page of a large folio as a
->> separate zswap entry and tears the whole folio back down on store
->> failure. The load side still rejects any large folio, which forces the
->> swapin path to avoid mTHP swapin once zswap has ever been enabled.
->>
->> Use zswap_entry_batch() to distinguish three cases: the whole range is
->> absent from zswap and should fall through to the disk backend, the whole
->> range is present and can be decompressed one base page at a time, or the
->> range is mixed and must be treated as an invalid large-folio backend
->> selection.
->>
->> After all entries decompress successfully, mark the folio uptodate and
->> dirty, account the mTHP swpin stat once for the folio, account one ZSWPIN
->> event per base page, and invalidate each zswap entry because the
->> swapcache folio becomes authoritative.
->>
->> Signed-off-by: fujunjie <fujunjie1@qq.com>
->> ---
->>  Documentation/admin-guide/mm/transhuge.rst |  4 +-
->>  mm/zswap.c                                 | 65 ++++++++++++++--------
->>  2 files changed, 45 insertions(+), 24 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
->> index 5fbc3d89bb07..05456906aff6 100644
->> --- a/Documentation/admin-guide/mm/transhuge.rst
->> +++ b/Documentation/admin-guide/mm/transhuge.rst
->> @@ -644,8 +644,8 @@ zswpout
->>  	piece without splitting.
->>  
->>  swpin
->> -	is incremented every time a huge page is swapped in from a non-zswap
->> -	swap device in one piece.
->> +	is incremented every time a huge page is swapped in from swap I/O or
->> +	zswap in one piece.
->>  
->>  swpin_fallback
->>  	is incremented if swapin fails to allocate or charge a huge page
->> diff --git a/mm/zswap.c b/mm/zswap.c
->> index 27c14b8edd15..863ca1e896ed 100644
->> --- a/mm/zswap.c
->> +++ b/mm/zswap.c
->> @@ -28,6 +28,7 @@
->>  #include <crypto/acompress.h>
->>  #include <crypto/scatterwalk.h>
->>  #include <linux/zswap.h>
->> +#include <linux/huge_mm.h>
->>  #include <linux/mm_types.h>
->>  #include <linux/page-flags.h>
->>  #include <linux/swapops.h>
->> @@ -1614,20 +1615,23 @@ bool zswap_store(struct folio *folio)
->>   *  NOT marked up-to-date, so that an IO error is emitted (e.g. do_swap_page()
->>   *  will SIGBUS).
->>   *
->> - *  -EINVAL: if the swapped out content was in zswap, but the page belongs
->> - *  to a large folio, which is not supported by zswap. The folio is unlocked,
->> - *  but NOT marked up-to-date, so that an IO error is emitted (e.g.
->> - *  do_swap_page() will SIGBUS).
->> + *  -EINVAL: if the folio spans a mix of zswap and non-zswap entries. The
->> + *  folio is unlocked, but NOT marked up-to-date, so that an IO error is
->> + *  emitted (e.g. do_swap_page() will SIGBUS). Large folio swapin should
->> + *  reject such ranges before calling zswap_load().
->>   *
->> - *  -ENOENT: if the swapped out content was not in zswap. The folio remains
->> + *  -ENOENT: if the swapped out content was not in zswap. For a large folio,
->> + *  this means the whole folio range was not in zswap. The folio remains
->>   *  locked on return.
->>   */
->>  int zswap_load(struct folio *folio)
->>  {
->>  	swp_entry_t swp = folio->swap;
->>  	pgoff_t offset = swp_offset(swp);
->> -	struct xarray *tree = swap_zswap_tree(swp);
->>  	struct zswap_entry *entry;
->> +	int nr_pages = folio_nr_pages(folio);
->> +	bool is_zswap;
->> +	int index;
->>  
->>  	VM_WARN_ON_ONCE(!folio_test_locked(folio));
->>  	VM_WARN_ON_ONCE(!folio_test_swapcache(folio));
->> @@ -1635,30 +1639,36 @@ int zswap_load(struct folio *folio)
->>  	if (zswap_never_enabled())
->>  		return -ENOENT;
->>  
->> -	/*
->> -	 * Large folios should not be swapped in while zswap is being used, as
->> -	 * they are not properly handled. Zswap does not properly load large
->> -	 * folios, and a large folio may only be partially in zswap.
->> -	 */
->> -	if (WARN_ON_ONCE(folio_test_large(folio))) {
->> +	if (zswap_entry_batch(swp, nr_pages, &is_zswap) != nr_pages) {
->> +		WARN_ON_ONCE(folio_test_large(folio));
-> 
-> IIUC the condition can only be true for large folios, so I think just
-> WARN_ON_ONCE() in the if statement itself?
-> 
-> Taking a step back, this is doing xa_load() lookups that are repeated
-> again below. Maybe we should drop this check here and integrate the
-> check into the loop below (either all entries exist or don't)?
-> 
-> We might end up with a case where we decompress some parts of the folio
-> then return a failure, but this possibility already exists (e.g.
-> decompression failures).
-> 
->>  		folio_unlock(folio);
->>  		return -EINVAL;
->>  	}
->>  
->> -	entry = xa_load(tree, offset);
->> -	if (!entry)
->> +	if (!is_zswap)
->>  		return -ENOENT;
->>  
->> -	if (!zswap_decompress(entry, folio, 0)) {
->> -		folio_unlock(folio);
->> -		return -EIO;
->> +	for (index = 0; index < nr_pages; index++) {
->> +		swp_entry_t entry_swp = swp_entry(swp_type(swp),
->> +						  offset + index);
->> +		struct xarray *tree = swap_zswap_tree(entry_swp);
->> +
->> +		entry = xa_load(tree, offset + index);
->> +		if (WARN_ON_ONCE(!entry)) {
->> +			folio_unlock(folio);
->> +			return -EINVAL;
->> +		}
->> +
->> +		if (!zswap_decompress(entry, folio, index)) {
->> +			folio_unlock(folio);
->> +			return -EIO;
->> +		}
->>  	}
->>  
->>  	folio_mark_uptodate(folio);
->>  
->> -	count_vm_event(ZSWPIN);
->> -	if (entry->objcg)
->> -		count_objcg_events(entry->objcg, ZSWPIN, 1);
->> +	count_mthp_stat(folio_order(folio), MTHP_STAT_SWPIN);
-> 
-> Not a problem with this patch, but I wonder why different swapin
-> implementations are making this call instead of putting it in a
-> higher-level (e.g. alloc_swap_folio()).
-> 
->> +	count_vm_events(ZSWPIN, nr_pages);
->>  
->>  	/*
->>  	 * We are reading into the swapcache, invalidate zswap entry.
->> @@ -1668,8 +1678,19 @@ int zswap_load(struct folio *folio)
->>  	 * compression work.
->>  	 */
->>  	folio_mark_dirty(folio);
->> -	xa_erase(tree, offset);
->> -	zswap_entry_free(entry);
->> +
->> +	for (index = 0; index < nr_pages; index++) {
->> +		swp_entry_t entry_swp = swp_entry(swp_type(swp),
->> +						  offset + index);
->> +		struct xarray *tree = swap_zswap_tree(entry_swp);
->> +
->> +		entry = xa_erase(tree, offset + index);
->> +		if (WARN_ON_ONCE(!entry))
->> +			continue;
->> +		if (entry->objcg)
->> +			count_objcg_events(entry->objcg, ZSWPIN, 1);
-> 
-> Hmm I was wondering how the stat update should be handled here. It is
-> possible that a folio was swapped out from one memcg and is being
-> swapped in by a process in a different memcg. For order-0 folios, the
-> folio gets charged to the swapout memcg.
-> 
-> However, looking at alloc_swap_folio() ->
-> mem_cgroup_swapin_charge_folio(), it seems like we charge mTHP folios to
-> the swapout memcg of the first swap entry. This seems a bit arbitrary.
-> 
-> Focusing at the code here, seems like we'll count the swapin against the
-> swapout memcg, which is good in terms of keeping ZSWPIN and ZSWPOUT
-> balanced. However, it seems like it's possible that the folio is being
-> charged to a different memcg here than the swapout memcg, so we may end
-> up counting ZSWPIN in one memcg but charging the folio in another.
-> 
-> I am not sure if this is practically a problem, but something doesn't
-> sound right. Johannes (and other memcg folks), were these the intended
-> charging semantics for mTHP swapin? Is it reasonable to count ZSWPIN in
-> one memcg and charge the folio in another?
-> 
->> +		zswap_entry_free(entry);
->> +	}
->>  
->>  	folio_unlock(folio);
->>  	return 0;
->> -- 
->> 2.34.1
->>
->>
+Thank you for the detailed explanation and the alternative solutions.
+I wasn't aware of the feedback from Linus regarding the dependency commit=
+.=20
+Since=20it's unlikely to be merged into mainline, :-(
+it makes sense to drop this documentation patch as well.
 
-Agreed on the duplicated xa_load() lookups; that should be folded into
-the load loop if this is picked up again.
+> Then create your ".bootconfig" file in the top-level directory of your
+> Linux-kernel source tree:
+>=20
+>=20 kernel {
+>  sysctl.kernel.panic_on_rcu_stall=3D1
+>  }
+>=20
+>=20You can also pass parameters to the "init" process by adding an "init=
+"
+> stanza to your .bootconfig file. See the Linux-kernel bootconfig
+> documentation for more information:
+>=20
+>=20 Documentation/admin-guide/bootconfig.rst
+>=20
+I=20will look into the bootconfig and sysctl approaches you suggested.=20
+Thanks=20again for pointing me in the right direction!
 
-The MTHP_STAT_SWPIN and memcg accounting points also make sense. I will
-avoid defining those semantics in this RFC and revisit them if there is a
-future version based on the common swapin path.
+>  Thanx, Paul
+>=20
 
-Thanks.
-
+Best=20regards,
+Kunwu Chan
+> >=20
+>=20> ---
+> >  Documentation/admin-guide/sysctl/kernel.rst | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >=20=20
+>=20>  diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documen=
+tation/admin-guide/sysctl/kernel.rst
+> >  index c6994e55d141..99598a83f830 100644
+> >  --- a/Documentation/admin-guide/sysctl/kernel.rst
+> >  +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> >  @@ -948,6 +948,10 @@ panic_on_rcu_stall
+> >  When set to 1, calls panic() after RCU stall detection messages. Thi=
+s
+> >  is useful to define the root cause of RCU stalls using a vmcore.
+> >=20=20
+>=20>  +The default value can be configured at build time via
+> >  +``CONFIG_BOOTPARAM_RCU_STALL_PANIC``. Runtime updates to this sysct=
+l
+> >  +always override the built-in default.
+> >  +
+> >  =3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >  0 Do not panic() when RCU stall takes place, default behavior.
+> >  1 panic() after printing RCU stall messages.
+> >  --=20
+>=20>  2.43.0
+> >
+>
