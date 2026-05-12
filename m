@@ -1,147 +1,279 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8C935F16C;
-	Tue, 12 May 2026 19:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5165C368D53
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 19:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778614487; cv=none; b=leORlqfp9tlfYxMoSKSbm+Li/54ApmUskeN9jbYZibXucLDaCPt/0nm7l4bPuXYBvGgFLw7zb7em4vTDoXEZPRyAX2ltczEgrzovvVPIxkbL2t1E4k1iWuaI7UTM4WSQqGZ8efT4WheaMuVm5h/XJqyvPToDAzYvbI1HqgiW7ZE=
+	t=1778614771; cv=none; b=r2S/NEkDf8CCa36w3Iy1pnvrBh7LwHVPyx5KLdgKAkkjOzo1QZUX9vq4oqpLrelkFjICcZYK43CJcPV9ASO41wgsed0pta3M6iIL2mlvzEQ4Hih0poooU51SVPmRfNB9FLs5TN7UjmMsCOucLVCQUxOqCY/6gcTfsbL1aEECBUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778614487; c=relaxed/simple;
-	bh=H0PKcI+X1azySWejCpjBgaF8b2QXNjA36BQg8U+kBWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oX/OaL2ysjzTsP68ROPeooGZnFLA577edUZU9kv//guUcsdkbUwDVZqEe521m/cx3ScWZ+CXVQDCjnjksZP2I/9801vKmOmDwt1Bd8xXWnVqLbL5HiX7yMeoUUbtrP+jvvf9TAPDB5L2jOKXwlkRhXboADxpmJqaTxXHP1pEmrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oxuzV8ie; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778614771; c=relaxed/simple;
+	bh=T+ZRIQYrbXkQ/sm2qmUSVp9AR5K0XHoSwQMgsySNrUo=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n36290OiIKje7xsU4nQvRZGFPZPShj9HClHvsQDJHbJJ5x91dUH6eMqan5c9ikHhaZZgaQnKINiyRrM6JUWkkkvmgWH0WHOhsS0m/p63NI39/I+ZVKBer32RkfwHiHFQ0Pq3s2GuvbpN8kc07sX+O1NGuSqGNLJuF2OeWvYq6j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hB4e7fAR; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oxuzV8ie"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C90FC2BCB0;
-	Tue, 12 May 2026 19:34:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778614486;
-	bh=H0PKcI+X1azySWejCpjBgaF8b2QXNjA36BQg8U+kBWQ=;
-	h=Date:From:To:Cc:Subject:From;
-	b=oxuzV8ierG9it+dELhKJXdyxDsKCBWTzNuKFjuS3zdyoid7MSKwrdDjwNRwO7VjvG
-	 F1Cy9qFzs5ddlYD6coohgZaxCEtFKJjrFIYfNDCRn8x3FqQCVsUFPp73dQfhmIEmO2
-	 i5NhgdHDmxuTouNF6yvAMfnF2Dz5q8ZogKeKue03fabaQZ4kYPKPhHT18ziLUL/8K5
-	 8bk+sOKk8+YAVvAf2FwxHpEkgw1NuddiY8Ac1YtG3L4qFyJv72k5JBfaMRKMduK7+F
-	 rSmqSNZXxFAQbGiPbKob/nVFTTU17fcV5NrdVK+B7H20vLBl3fvvZ2Cs0kdHb0RzNl
-	 J/CyAeWR5CXHw==
-Date: Tue, 12 May 2026 13:34:44 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH][next] stddef: Fix kernel-doc/Sphinx warnings for
- __TRAILING_OVERLAP()
-Message-ID: <agOA1PDX2h3PNhl2@kspp>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hB4e7fAR"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so100546715e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 12:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778614768; x=1779219568; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rv3Bnr19Yd7wGTXMGRn2NrXtfHL27Vg73vChMHhkHKc=;
+        b=hB4e7fARLxI+BTR2PfWyLrxjhtywbqIKZ9jeriGaYQr0r8+369CoEIxFKtSkesc5C5
+         vZUPcaBfl9NTjr8vZt9N6kE/r8rUxhhe7Ki4f8S6/JSnPVvOKkgqLb6PHrJ8yBgPBn1C
+         n/NZhZETUJSwiFyp+OYHPg+w/4ScR9O14MY3d1XGfLe5d9Rfbtkj4rWLOuCzRuVq9zKZ
+         tIL3lkRxkDKBt8b7e3XJDlapD8b5vN6chSVNt2v9hYH6b/6+6WelUDuh4JIJtoMVVqnS
+         qzurqUNzAr6fEU065YkI0NlCPBUypfkGlYGLIwMta0xMnwWAWMZPs8wT27fC1vSaTpXJ
+         FpEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778614768; x=1779219568;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rv3Bnr19Yd7wGTXMGRn2NrXtfHL27Vg73vChMHhkHKc=;
+        b=O+GCqzQ59lK9dxKd36EyVtLRJuu6mFb8xji7yQVJ/C9Imfd+MDHGeaKQMMNrzbt1hW
+         LR9848k/gxVqk1SVhSxuOUaFa1+PCoqGQmJ6F6vTvrO0Q55OfnkodRHZf+HV53oekGVy
+         RPcWPykes1e58q4mLauBBbUTh2ul5VEkriwa4e8x0CJcaUt4jiFcjM9ciDYXSgEMveB8
+         NCYdTmSdR/JZtsjxuZ0osfbZAMaLs7JZUZGi7S3D3FblGzx+A8YziOnEdFKZRly3SnOE
+         AmHswoUzTSQMa9R/hRpgiETlka06KWhBZZpKqna2LVts4srT9oHhB8bf/Uxj8QJv+XFc
+         crtA==
+X-Forwarded-Encrypted: i=1; AFNElJ+RCK8FP3SqvkKPdV4DC1Z7QVkPa9QElHZ9R2ERka2Gx3RXu6xzlukB8DWeHR99fq3E2GU2vrPZ1fA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/XyC/wU60e4vMxvtkjOGvWFMxX65L577exKu6SLsTyK6Now4U
+	Huy+aHda9glSJVvSQReNcEkeikmsRyxyKdqFbaBPdqoAhNojDNEGj85R
+X-Gm-Gg: Acq92OE7SqZGJt1M2Ckf1E3hXGF6we6THmXkxgILvPCKrlzK75SjddQiiMpDvKGlihs
+	7Zsec3Ng0wODyeR5edkzLLsupn7dp+Yij5r3XhlcVQVifXFkT3zARQWtTiX7Qf0j+vVKdrmaeht
+	qipbbTMj/O93QR9b3kAEIuYogBFHALNECSGZiEdQi9vnamvvM9Rs+/p12CkQdKZILcXMOAcoOEe
+	nNP/Bgx64DLCxLKv6/ftSaxSbegVLFBI/J+jCGOg/OTsFie1XIUaVg1gvPyu0S7inAmznLyoVor
+	eDhRnhyqDm9J8xN9MomoPKEKoeUA8R/UAHRNd6i0dZOMvaRgx0GxhjriiKTjLaGcEmEY4jJjRr8
+	HvnpfKTUQ1xTBOFdGXLe5gJfgTiOUD/vq12yvL+iFxQgq3aRQJubtrqXXLeszU26K3Hi+P7CwoA
+	6EX8WFh+xsbCuY8gCS2ZXHzqQrJG/cSIGikR5ep414XVQ6E5wx2ELyd24lcp6jd7PGJkAK+k2qo
+	6oo4b1wbU6pb5OhCYKYLA4QjuGgLah8zFFm7t2NYaB4ylJNxA==
+X-Received: by 2002:a05:600c:4f93:b0:485:4eaf:eb53 with SMTP id 5b1f17b1804b1-48fc9a3c76amr3588085e9.19.1778614767606;
+        Tue, 12 May 2026 12:39:27 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fc8d19974sm16882915e9.2.2026.05.12.12.39.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 12:39:26 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 12 May 2026 20:39:21 +0100
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	David Laight <david.laight.linux@gmail.com>
+Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
+ kstrtodec64()
+Message-ID: <hvwyrb7g3ar7hzesj32zoxzqvjmdtwybamy4zxepqdbu37qvog@xnmgqhfya34f>
+References: <dxjg2sdyxb7ieb4abmeyyye7qok6cczrxabpsjyjhcbehwoec3@sbbqoo4wmzre>
+ <agM8pWrM6j_XksvN@ashevche-desk.local>
+ <ur6brs3yjzyb4mtelabmcglxjltddqvjxtgl3lkdkmbjlkmnsq@bwd6rz7gided>
+ <CAHp75VeoH3yVfp8NWjKfc_df0VRLkyf_SK4e==-wJOEodVjW_A@mail.gmail.com>
+ <q4rmlkgecvztnvjg7b7wtqyvhdy7uxgaouvhae2mlsxaasasbf@dfakp4m5l5sl>
+ <agNfqiZpGZAM-x_H@ashevche-desk.local>
+ <ru2h3ip7qf6j54dlrij54nwp45uyq6m2e6zspt6v6eynpsagqq@eo5v3yparuhh>
+ <agNnfWZa9_NyLoWq@ashevche-desk.local>
+ <bc7mqfgll34vyaxdtvfssgypkhyx233wd4hxfzu32rddxnolaq@rd6c3z6yu6aq>
+ <agN6onIAwG1yn5p6@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <agN6onIAwG1yn5p6@ashevche-desk.local>
 
-Fix the following kdoc warnings:
+On 26/05/12 10:08PM, Andy Shevchenko wrote:
+> On Tue, May 12, 2026 at 07:15:17PM +0100, Rodrigo Alencar wrote:
+> > On 26/05/12 08:46PM, Andy Shevchenko wrote:
+> > > On Tue, May 12, 2026 at 06:26:12PM +0100, Rodrigo Alencar wrote:
+> > > > On 26/05/12 08:13PM, Andy Shevchenko wrote:
+> > > > > On Tue, May 12, 2026 at 05:35:59PM +0100, Rodrigo Alencar wrote:
+> > > > > > On 26/05/12 06:21PM, Andy Shevchenko wrote:
+> > > > > > > On Tue, May 12, 2026 at 6:11 PM Rodrigo Alencar
+> > > > > > > <455.rodrigo.alencar@gmail.com> wrote:
+> > > > > > > > On 26/05/12 05:43PM, Andy Shevchenko wrote:
+> > > > > > > > > On Tue, May 12, 2026 at 03:12:24PM +0100, Rodrigo Alencar wrote:
+> > > > > > > > > > On 26/05/12 04:48PM, Andy Shevchenko wrote:
+> > > > > > > > > > > On Tue, May 12, 2026 at 02:21:14PM +0100, Rodrigo Alencar wrote:
+> > > > > > > > > > > > On 26/05/12 04:12PM, Andy Shevchenko wrote:
+> > > > > > > > > > > > > On Tue, May 12, 2026 at 12:39:53PM +0100, Jonathan Cameron wrote:
+> > > > > > > > > > > > > > On Sun, 10 May 2026 13:42:20 +0100
+> > > > > > > > > > > > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
+> > > > > > > > > > > > > > > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
+> > > > > > > > > > > > > > > precision). After the decimal point, digits beyond the specified scale
+> > > > > > > > > > > > > > > are ignored.
+> 
+> ...
+> 
+> > > > > > > > I think we are going in circles here and we could look at the code instead:
+> > > > > > > > - integer parsing with _parse_integer()
+> > > > > > > >         - overflow check and validation of the return value
+> > > > > > > > - fractional parsing with _parse_integer_limit()
+> > > > > > > >         - overflow check and validation of the return value
+> > > > > > > 
+> > > > > > > No, this is not fully true. That's what my whole point is about. The
+> > > > > > > max_chars parameter limits the input check, then it skips an arbitrary
+> > > > > > > number of digits and only *then* it checks for \n and \0. What will be
+> > > > > > > the result of the
+> > > > > > > 0.00000000000000000000000000000000423 in your case? Whatever scale you
+> > > > > > > gave it will return 0 without checking on how many digits were
+> > > > > > > supplied.
+> > > > > > 
+> > > > > > I suppose that is a valid input and 0 is the expected result there.
+> > > > > > 
+> > > > > > > All the same for 0.9999999999999999999999999999999000423. My
+> > > > > > > point is that we should limit this by 19 digits.
+> > > > > > 
+> > > > > > why we need to limit by 19? Digits beyond the scale carry no value...
+> > > > > 
+> > > > > ...only if they are all 0:s.
+> > > > 
+> > > > I thought your concern was on input length.
+> > > 
+> > > One of, since I think you rose the topic of leading 0:s for integers and
+> > > I agreed with that which makes sense to have mirrored in fractional part.
+> > > 
+> > > > > > just like leading zeros to the integer part (which is also accepted by
+> > > > > > kstrtoull() when parsing with base 10). Not sure why this is invalid input.
+> > > > > 
+> > > > > See above. I agree on truncating trailing 0:s as it's done for leading ones
+> > > > > in integer part, but if any of the digit behind 19th is not 0, it's an overflow
+> > > > > condition (or bad input, depending how strict the rules are).
+> > > > 
+> > > > stating in the documentation that digits beyond the scale are ignored is not
+> > > > enough?
+> > > 
+> > > It's in case we are not for kstrto*() family. My understanding that kstrto*()
+> > > use strict rules on the input in overflow check.
+> > > 
+> > > > > > > On top of that, what about -0.9(19 times) ? the fraction should be u64
+> > > > > > > in this case and it's fine. The sign applies to the combined value.
+> > > > > > 
+> > > > > > yes, range for signed values are verified later.
+> > > > > 
+> > > > > > > >         - extra scaling and truncation happening outside if needed.
+> > > > > > > 
+> > > > > > > Right, but the given input may be way too long and still needs more validation.
+> > > > > > 
+> > > > > > What is the problem with a long input of digits?
+> > > > > > C compiler does not complain about this when parsing a float value,
+> > > > > > python does not
+> > > > > > complain about this when parsing floats or decimals either.
+> > > > > 
+> > > > > Because there is an exponent limit and for double it's something like 1e307
+> > > > > IIRC, meaning, try 1024 digits to be sure.
+> > > > > 
+> > > > > Python most likely uses the library for big numbers, you can't compare it at all with this.
+> > > > 
+> > > > You would be fine if the truncation loop:
+> > > > 
+> > > > while (isdigit(*s)) /* truncate */
+> > > > 	s++;
+> > > > 
+> > > > is bounded by (19-scale) iteration count? or it should keep iterating if those are zero?
+> > > 
+> > > Ideally both.
+> > > 
+> > > We don't care about the digits in the range of 19-scale and skip all 0:s after
+> > > that.
+> > > 
+> > > 	/* truncate unrequired digits within type limit, i.e. 19 decimal digits */
+> > > 	while (isdigit(*s) && "(s - pos_of_dot) is less than 19")
+> > > 		s++;
+> > > 	while (s == '0') /* truncate trailing 0:s, it's not a bad input nor overflow */
+> > > 		s++;
+> > 
+> > We could have agreed on something like that since the beginning!
+> 
+> Yes, but who knew that we go to have this agreement?
+> 
+> > And I think that changing the logic to something like this would not change a
+> > thing on the kind of inputs we expect, it will just complicate the code.
+> > I suppose that kind of kstrto*() rules were never stated anywhere.
+> > 
+> >                            |> 20th digit 
+> > Also, 0.00000000000000000001 still sounds like a valid decimal number to me, even
+> > though it is going to be parsed as 0!
+> 
+> Hmm... It would mean that testing for 19th/20th digits is not enough... :-(
+> 
+> > > 
+> > > 	// Now if it's not \0 nor \n and
+> > > 	//	a) still a digit consider either overflow or bad input,
+> > > 	//	b) if not a digit, consider as bad input.
+> > > 
+> > > In a) I tend to be on par with the other k*() and consider that as overflow.
+> > > 
+> > > > is that the only concern? Again, the usage of _parse_integer_limit(s, 10, &_frac, scale)
+> > > > avoids a 64-bit division when checking the rv.
+> > > 
+> > > I'm not against usage of _parse_integer_limit(), I'm for stricter rules on the input.
+> > > With the above addressed, I have no more concerns.
+> > 
+> > Thanks! I will proceed with the requested adjustments.
+> 
+> But it seems it's not enough as you pointed out!
+> 
+> So the biggest fraction we may consume in 64-bit (unsigned) value is
+> 0.18446744073709551615. If we go with one digit less, the whole value
+> can be
+> 
+> In [3]: hex(9999999999999999999)
+> Out[3]: '0x8ac7230489e7ffff'
+> 
+> So, I don't know how we are supposed to represent values between
+> -0.9223372036854775808
+> -0.9999999999999999999
+> in a signed type as they have bit 63 set.
+> 
+> The easiest way out is to limit scale to 18 (but still accept 19th digit, and
+> with check for overflow even 20th up to 0.18446744073709551615). This will need
+> to run _parse_integer_limit() twice (with given scale and with 20).
+> 
+> Can you add the respective test cases and see what is currently going on with
+> them?
 
-Documentation/driver-api/basics:127: ./include/linux/stddef.h:110: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/driver-api/basics:127: ./include/linux/stddef.h:115: ERROR: Unexpected indentation. [docutils]
-Documentation/driver-api/basics:127: ./include/linux/stddef.h:116: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-Documentation/driver-api/basics:127: ./include/linux/stddef.h:117: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/driver-api/basics:127: ./include/linux/stddef.h:122: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/driver-api/basics:127: ./include/linux/stddef.h:124: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/driver-api/basics:127: ./include/linux/stddef.h:139: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/driver-api/basics:127: ./include/linux/stddef.h:140: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+I can add test cases, but for the signed case the situation is:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202605120507.9iQRMgKR-lkp@intel.com/
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- include/linux/stddef.h | 48 +++++++++++++++++++++---------------------
- 1 file changed, 24 insertions(+), 24 deletions(-)
+scale = 0
+	max = 9223372036854775807, min = -9223372036854775808
+scale = 1
+	max = 922337203685477580.7, min = -922337203685477580.8
+scale = 2
+	max = 92233720368547758.07, min = -92233720368547758.08
+...
+scale = 18
+	max = 9.223372036854775807, min = -9.223372036854775808
+scake = 19
+	max = 0.9223372036854775807, min = -0.9223372036854775808
 
-diff --git a/include/linux/stddef.h b/include/linux/stddef.h
-index 665d7a68cd98..f666ced2a9e7 100644
---- a/include/linux/stddef.h
-+++ b/include/linux/stddef.h
-@@ -104,26 +104,26 @@ enum {
-  * union, designated initializers for MEMBERS may overwrite portions
-  * previously initialized through NAME.
-  *
-- * For example:
-- *
-- * struct flex {
-- *	size_t count;
-- *	u8 fam[];
-- * };
-- *
-- * struct composite {
-- *	...
-- *	__TRAILING_OVERLAP(struct flex, flex, fam, __packed,
-- *		u8 data;
-- *	);
-- * } __packed;
-- *
-- * static struct composite comp = {
-- *	.flex = {
-- *		.count = 1,
-- *	},
-- *	.data = 2,
-- * };
-+ * For example::
-+ *
-+ *	struct flex {
-+ *		size_t count;
-+ *		u8 fam[];
-+ *	};
-+ *
-+ *	struct composite {
-+ *		...
-+ *		__TRAILING_OVERLAP(struct flex, flex, fam, __packed,
-+ *			u8 data;
-+ *		);
-+ *	} __packed;
-+ *
-+ *	static struct composite comp = {
-+ *		.flex = {
-+ *			.count = 1,
-+ *		},
-+ *		.data = 2,
-+ *	};
-  *
-  * In the example above, .flex and .data initialize different views of the same
-  * union storage. Since .data is initialized last, it _may_ overwrite portions
-@@ -133,7 +133,7 @@ enum {
-  * A couple of alternatives are shown below.
-  *
-  * a) Initialize only one view of the overlapped storage and assign the rest
-- *    at runtime:
-+ *    at runtime::
-  *
-  *	static struct composite comp = {
-  *		.flex = {
-@@ -147,9 +147,7 @@ enum {
-  *		...
-  *	}
-  *
-- *	(Compiler Explorer test code: https://godbolt.org/z/zz4K1Ejvf)
-- *
-- * b) Alternatively, replace designated initializers with runtime assignments.
-+ * b) Alternatively, replace designated initializers with runtime assignments::
-  *
-  *	static void foo(void)
-  *	{
-@@ -160,6 +158,8 @@ enum {
-  *		...
-  *	}
-  *
-+ * Compiler Explorer test code: https://godbolt.org/z/zz4K1Ejvf
-+ *
-  * For another example of the above see commit 5e54510a9389 ("acpi: nfit:
-  * intel: avoid multiple -Wflex-array-member-not-at-end warnings")
-  *
+anything outside those ranges will give you -ERANGE. Then it depends on the scale used.
+
+I am not representing -0.9999999999999999999 as is. The desired scale will have this
+truncated. It may be -0.9999 or -0.999999 or -0.9. And this is practical for a
+reasonable scale value... for pico and femto precision you still get a decent range.
+
 -- 
-2.51.0
+Kind regards,
 
+Rodrigo Alencar
