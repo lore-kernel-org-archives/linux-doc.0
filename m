@@ -1,88 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA1F397B08;
-	Tue, 12 May 2026 13:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E8033905E6
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 13:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778593545; cv=none; b=hI6DGAX0R7Z+4EjgFG+v3iRTz+1uAtX4PVDqGamuBP0Yc2R02DZD34Rgyoih+VuKXOjESxtpxFz/oU1VRW1R+V8YY7hwoLixtse2EKdCyZbyr/JDLKBlGckgbe5X++fkI4gzTypEnD8ectD9nONXgQjOciaWCzNfGIhnpq9hBmk=
+	t=1778593673; cv=none; b=SncbegZNfzUGh03dC13bEBdjAKp1KdDl0v9KKEoBRgkLELcvK4xbhBzGzw1E9zbLP177HUCYjKpgl0MKD7c6y/c4XvJ8143kgVPfJGWqEzvdiC5NJXz1zDWeotxjQO0/daqaklJMkp76D7Qel0LW0LXNOUt351fgLekcAYJ/nuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778593545; c=relaxed/simple;
-	bh=HfpR7Lg+TxySR9F/nG8/aNLHRsyiPEjAeogvOILEcVs=;
+	s=arc-20240116; t=1778593673; c=relaxed/simple;
+	bh=AHvaIjAEownr1UuDMvzjOHmJ1x9P7IhUK8cJvIHHPdU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ibU8iIe4eJ6b7izBqsMMlq1si8zD8yVrD5YXoUMvZrkFsUg2oyFUMRT+f7YEHBsNLwW8DhoCaH58YT9GwuVKcatGZvI8yNJdRjNqC6WtM5u9qH5L0wfKit7aTi5oUnV3hJriIY9o/hwQo4tSuDUREFZVK0MEMNG1kA54B9aUqig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vw1RxebF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=XTGU4U8JmaUT3rPXjvxaE0NjYefo5CaWiPCIkZNPExdMTPYEVw7GsdMsSFEUiCPVp6akp5KKwkc7pK3s2MGUBqbD+eYk7Rp1D1r/hv2KFBAwIHkP/Nl4tdunZL4Y0R0B0aO47JDVuEHrfAsw3+j64lMfnoeMq6hTEvxTUSvz40I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=PllI7iZP; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vw1RxebF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 948CBC2BCF5;
-	Tue, 12 May 2026 13:45:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778593544;
-	bh=HfpR7Lg+TxySR9F/nG8/aNLHRsyiPEjAeogvOILEcVs=;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="PllI7iZP"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C0D0A1655
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 06:47:45 -0700 (PDT)
+Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B147C3F85F
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 06:47:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778593670; bh=AHvaIjAEownr1UuDMvzjOHmJ1x9P7IhUK8cJvIHHPdU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vw1RxebFKUBHRY3SX7b0fato7ilJgCagkpY07ahGDxfNAgH7vBOKWxyKV8Y1yi5xH
-	 FYmuye8YvIKJ2cD7oTH28LBkictnO28FIkRMWM81TruLj/y1xLYJze4vJ4DcnXGP7e
-	 7IgLRWXgpiOt3o4Hjdd8CYbrN9FbGhtr8tH84AozusvCdYahLJuTbkbwGb3DOrFKgN
-	 g0jyMUaIjGlAdpWdELjjTHhY00s9Hk+0ORKHcYd6xOXZOKHNAZT1dmZYlqnKr8FRDN
-	 Pjm5VX0hDlxzxorRJG+PNA8NxExqOfE0SqximNaNhN4QcHGy1sFd2oqjaDvGfR4JG5
-	 tv9l/J/CDAsDA==
-Date: Tue, 12 May 2026 15:45:42 +0200
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Ingo Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, Phil Auld <pauld@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Waiman Long <longman@redhat.com>,
-	linux-doc@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
+	b=PllI7iZPE0ks8BtlOuIQOU0IdOSZqfe5UQSu2sb9d3lScI+IRM2RtpnN932sIHSrR
+	 VZYQTuJKlEhZ6ye/gNHqjUTIr5FRd+I3gR2a7KZ8HG0SK8Dh/sdT5WNSFmwoiHgJBA
+	 k3mtO/WZlklOnQicwNcAOvtMLAWz3szHv3O1mgPE=
+Date: Tue, 12 May 2026 14:47:27 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Marcin =?utf-8?Q?=C5=9Alusarz?= <marcin.slusarz@arm.com>,
+	Ketil Johnsen <ketil.johnsen@arm.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: Re: [PATCH] Documentation/kernel-parameters: Remove "Deprecated"
- from isolcpus=
-Message-ID: <agMvBj4V-XLVaa0_@localhost.localdomain>
-References: <20260427150739.bwVmmkj2@linutronix.de>
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Steven Price <steven.price@arm.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Florent Tomasin <florent.tomasin@arm.com>, nd@arm.com
+Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
+ allocation in panthor
+Message-ID: <agMvb_jeRsO7tSS-@e142607>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+ <20260505140516.1372388-5-ketil.johnsen@arm.com>
+ <20260505181523.49a3d85c@fedora>
+ <afxVIuVVPisBQ9p_@e129842.arm.com>
+ <20260507135356.5428d50d@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260427150739.bwVmmkj2@linutronix.de>
+In-Reply-To: <20260507135356.5428d50d@fedora>
 
-Le Mon, Apr 27, 2026 at 05:07:39PM +0200, Sebastian Andrzej Siewior a �crit :
-> The isolcpus= option has been marked as deprecated in 2017. Back then it
-> was desired for the domain sub option to be configured dynamically at
-> runtime instead using this boot command line which provides a static
-> configuration. In the meantime this option was extended by other sub
-> options which don't have runtime counterpart or it does not make sense
-> to provide one.
+On Thu, May 07, 2026 at 01:53:56PM +0200, Boris Brezillon wrote:
+> On Thu, 7 May 2026 11:02:26 +0200
+> Marcin Ślusarz <marcin.slusarz@arm.com> wrote:
 > 
-> The deprecated part always referred to the default `domain' sub option
-> but it was not obvious. Also the reasoning behind the deprecation is
-> sort of dubious: There is nothing wrong with a static configuration if
-> there is no desired to reconfigure. This is useful on systems which
-> have one purpose and the CPU partition configuration is not changed for
-> the entire lifetime.
+> > On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon wrote:
+> > > > @@ -277,9 +286,21 @@ int panthor_device_init(struct panthor_device *ptdev)
+> > > >  			return ret;
+> > > >  	}
+> > > >  
+> > > > +	/* If a protected heap name is specified but not found, defer the probe until created */
+> > > > +	if (protected_heap_name && strlen(protected_heap_name)) {  
+> > > 
+> > > Do we really need this strlen() > 0? Won't dma_heap_find() fail is the
+> > > name is "" already?  
+> > 
+> > If dma_heap_find() will fail, then the whole probe with fail too.
+> > This check prevents that.
 > 
-> Remove the "Deprecated" note. Remove the part of the description which
-> suggest to use cpuset.sched_load_balance and instead point to the
-> documentation file which explains how to use cpusets to configure this
-> at runtime.
-> 
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Yeah, that's also a questionable design choice. I mean, we can
+> currently probe and boot the FW even though we never setup the
+> protected FW sections, so why should we defer the probe here? Can't we
+> just retry the next time a group with the protected bit is created and
+> fail if we can find a protected heap?
 
-Acked-by: Frederic Weisbecker <frederic@kernel.org>
+The problem we have with the current firmware is that it does a number of setup steps at "boot"
+time only. One of the steps is preparing its internal structures for when it enters protected
+mode and it stores them in the buffer passed in at firmware loading. We cannot later run the
+process when we have a group with protected mode set.
+
+So unfortunately adding support for protected mode where the heap name is provided means we
+have to try our best to set it up at boot time, or otherwise disable protected mode support.
+
+Best regards,
+Liviu
+
+> 
+> > I'm not sure why it's needed at all, but if
+> > it is really needed, then s/strlen(protected_heap_name)/protected_heap_name[0]/
+> > would simplify this.
+> 
+> It's not so much about how you do the test, and more about the case
+> you're trying to protect against. I guess here you assume that
+> panthor.protected_heap_name="" means "I don't have a protected heap for
+> you". If it's deemed acceptable, this should most certainly be
+> described somewhere.
+> 
+> > 
+> > > > +		ptdev->protm.heap = dma_heap_find(protected_heap_name);
+> > > > +		if (!ptdev->protm.heap) {
+> > > > +			drm_warn(&ptdev->base,
+> > > > +				 "Protected heap \'%s\' not (yet) available - deferring probe",
+> > > > +				 protected_heap_name);
+> > > > +			ret = -EPROBE_DEFER;
+> > > > +			goto err_rpm_put;  
+> > > 
+> > > If you move the heap retrieval before the rpm enablement, you can get
+> > > rid of this goto err_rpm_put.
+> > >   
+> > > > +		}
+> > > > +	}
+> > > > +
+> > > >  	ret = panthor_hw_init(ptdev);
+> > > >  	if (ret)
+> > > > -		goto err_rpm_put;
+> > > > +		goto err_dma_heap_put;
+> > > >  
+> > > >  	ret = panthor_pwr_init(ptdev);
+> > > >  	if (ret)  
+> 
 
 -- 
-Frederic Weisbecker
-SUSE Labs
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
