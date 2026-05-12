@@ -1,114 +1,362 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DF53D5C05
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 17:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7265E385D6B;
+	Tue, 12 May 2026 17:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778605352; cv=none; b=vBd4BjSA3DaOurHUJAq0PGGjH/KetpNmTSpoK8YVthYpvk3YONQegJOmRyd0Z8OVLuZHmJ61og5O+gHLyIEFZKIo0UGpZeKt2CpiTw+PmuAzdgSfFnEQOWmG7on8rld1+uRsszDrJxlwNHtDeWHAOLM0E/ZiwtAaiA5ibcICK+U=
+	t=1778605727; cv=none; b=D6btiJTcVpqa4RM485fLsX6tt7YpGug/b0ib6skXrNxnz9N8hG6HKkw21X3gsS7/40G43TstQvUelOjL/5GL/4OWHGwkZp/kSVukZuTEFenBQSge5slQt+cjnkB8MARqiLt9cVAZS+9OkoscYj9DSv3eAl49PQg93V3EsarORqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778605352; c=relaxed/simple;
-	bh=6zAnmJplbRJHrEYL7JhzTrhZXo7V5OFYFINtTtoTZ2w=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LhxEWwlz2QGXcIcdsnsp4qS09p+AARbPgBoTjB72oYHkVhfMq39JqmfaME9shrZ2LHRy7A/kd3AMRn13pLlNCTihFxdt+/H5IXREiUr2bOwCM+04Epj6x0275V1qvDvVhcuv4l31ZHidClc5By4A9yROHc8FYPfSEpIH2RwFkhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k50ouChZ; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778605727; c=relaxed/simple;
+	bh=sVVODp3FlRWZt0085AhF6/0c9Y54VioUFXOyMcpSdl8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dGergE4kAbYBHICkCJEHrnjbX80Dov/72BJglNdGSmY84lkS9TUK8afUdGuEECv5tU/UcJ4euwBOhcawaQ6dkpIt6lG56dnOiEpIXIc76c5rV1EzRl+/zZrijm0pzaDHqML+MPHbqDQwx/NdSttLZGuxsqeTI+ZPrKj20z85QSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UJflnRm6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k50ouChZ"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a8704dc3a8so5887568e87.3
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 10:02:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778605349; x=1779210149; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9km9X8WvuELTJi7qj+7+Noq5bB5jqawSJ9nshPfD98o=;
-        b=k50ouChZSvxTZed6wqPYwc0Tt64X94W0HloH1IwzsbXRbaZCLuun2KmzIg1sMwBH+O
-         QYgElNqdnQouiay3CWhPpChyGxdJQ5JfwbVOFV+vqwQ9duakW6TAf63q8lF3zQHj7Jrj
-         LCkDjfzxZw4P4V3fygTPDuDbMci2mo8aaK3wCL9UWBamPbyx0P/AVlxrNYHY5DYTcJAK
-         PfQe/NpnaEQD2OodCfFryrOcCMcjR/P5zgFAUlMY+mSh5Sb9LQhDNQMuXFgkA5oLWGrk
-         dhCZZ1xUKwiJsJ1flAuLYZICQhaicQINrXFCgxPpCWRS02XhzA0UgyonX/vJrNFqVMvC
-         CPlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778605349; x=1779210149;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9km9X8WvuELTJi7qj+7+Noq5bB5jqawSJ9nshPfD98o=;
-        b=hki+bDeRjlUU74kLl2VfEtoYmqw+4PKKLmMI6Xdt6ZLhPFjwdkJzVpDe0AN8HJD/iC
-         m+jPoueuhEnRDfhAK46e/50Vd2CoWWTaStZ38qFAL/I/pFGIuZEve0huSJX8eBAD9J/R
-         L/Mm7YIylxuP1DmXWx+L3WVwfduKQoeifJayJRxm2fxlmZxZYQ8ZjBhDS/cNumSeQAj0
-         Z7RiPj66E2lkxTll28/g/GStPPTqaprzZ91pns9vLKLyMDlQtDpfYhG1oTpIAI+FODZB
-         XCD+Sdsqygc1jpW9f4Yj3eGbO8i2auko7RNMePsdaPl3Lmlr/8P3YaFtOxrocS07IvWI
-         Z6jw==
-X-Forwarded-Encrypted: i=1; AFNElJ/hh3lsHR/wjg8QXPdI0lgTlf5O6LLiQRkpM8KQBFoXYEcMCsLqPPVW4NrI/bDBKPsiEGge6nd50uw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeiYFTGfsH9fLmnmEDl5jBBFIV+F8mKMp6G1RoQpIe54n/PHQX
-	1mjiC+VUXFTb3YW3WUaEal8pNDFtRK9YvqY4jUVLvpCyuvTZ6sjf8KeB
-X-Gm-Gg: Acq92OEOgyu6S9kDMH6VvGnuzjIrf6ptStk+dzgFz/2vuiThGJDBvyDHiNwooyhAQWj
-	DXnGUYoNFaqX83FXtn4UGjHwcGG3lG995xyxIWm1XuN/6Bf+r0M+j+2B5RrEQUdo4fLJ01dD9ZC
-	WOoppOnoQ3MLl8/F2/BQUIzSNhjDfMsKrlO78PzjVyF2WvawToqTM0PFbZqPucAo0imXi6Ht/OJ
-	E+LmO2qBq9QLVh3eFMRz/c60v7WPLwhF/gFExU6Pq0k77MSB21WahTgyUCNvZL7ZZyMBTFFnyq7
-	M4PujMGOWzPECf0GX2jylAfbuv22SahquJKg47T6iFy2i5X9bkOoD6wWhiltzfaJh3k4N6qWquW
-	rKCBL0tBb5QCB06xZgwXf5eJW0GJuEPX/+p7AYxHrQcayYuJnz6Bw7mZZUJHap1SW6n8a9MX8Wh
-	/JCgyqFgt2drkW4SYbjtGBA0pv3VtwUkXVaqnGOW9c3/LaLdKR+1SKKxGrmQaXHPiUTPSmdRdEw
-	BrnRwNW0n4bPXk3Ix8XV6L/BoejLo4hKR4XDYQqfihcWHeI6EN9ShvvXlAQ
-X-Received: by 2002:a05:6512:31c3:b0:5a8:84a6:2e34 with SMTP id 2adb3069b0e04-5a8e30d13e6mr1353520e87.14.1778605348704;
-        Tue, 12 May 2026 10:02:28 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-454913049ecsm33071212f8f.19.2026.05.12.10.02.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 10:02:28 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Tue, 12 May 2026 18:02:22 +0100
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	rodrigo.alencar@analog.com
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v12 06/11] iio: test: iio-test-format: add test case for
- decimal format
-Message-ID: <zugkmatjsacla7l7nguekmclfdkzsshr3gs434a3liccgokxb4@xg77y5tkts5c>
-References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
- <20260510-adf41513-iio-driver-v12-6-34af2ed2779f@analog.com>
- <agM7CT4RjzwliKmb@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UJflnRm6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0488AC2BCB0;
+	Tue, 12 May 2026 17:08:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778605727;
+	bh=sVVODp3FlRWZt0085AhF6/0c9Y54VioUFXOyMcpSdl8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UJflnRm6SyyebasilDKjjTMaTpzMjJu1nDkjFBw12Q8ys93lS4T5SkwVsmql5u44E
+	 9COiwostSmZp93nnSioVTeUSZy1eDPwytqhDSbQrtz+KgPT9bD7YFnS+McUwXeV1h8
+	 LgzDS7wt9P4VVHHXphzL/JOZ+tuiP5KIbfbPapYnHT62iaaCCTD455/6iIs8kZi83N
+	 GJ2sLX5BXvjivClIj4FM/J5OxJ75G9ZqWZ6HC+NlCyEGiL0kJvSMH9znL+vWnh7oAu
+	 Rw2xMqdTg1sKp20gQW6iHYZGVSH1uI8KL+IWc0hoZUOeogME2oEp9O9rCZkTKCKG5j
+	 OrtX03iel0R+w==
+Date: Tue, 12 May 2026 10:08:46 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, David Sterba <dsterba@suse.com>,
+	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>, Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org
+Subject: Re: [PATCH 09/12] swap: push down setting sis->bdev into
+ ->swap_activate
+Message-ID: <20260512170846.GJ9555@frogsfrogsfrogs>
+References: <20260512053625.2950900-1-hch@lst.de>
+ <20260512053625.2950900-10-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <agM7CT4RjzwliKmb@ashevche-desk.local>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260512053625.2950900-10-hch@lst.de>
 
-On 26/05/12 05:36PM, Andy Shevchenko wrote:
-> On Sun, May 10, 2026 at 01:42:24PM +0100, Rodrigo Alencar via B4 Relay wrote:
+On Tue, May 12, 2026 at 07:35:25AM +0200, Christoph Hellwig wrote:
+> Only the file operation method knows what block device we'll swap
+> to.  So move down setting sis->bdev and the special blockdev flag
+> into ->swap_activate.
 > 
-> > Add iio_test_iio_format_value_decimal_64() kunit test case for decimal
-> > value formatting, exploring different scales types. Also, the same
-> > iio_val_s64_array_populate() macro used to populate local array is used in
-> > iio_test_iio_format_value_integer_64().
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  block/fops.c         |  9 ++++++++-
+>  fs/btrfs/inode.c     |  7 ++++---
+>  fs/f2fs/data.c       |  3 ++-
+>  fs/iomap/swapfile.c  |  7 ++-----
+>  fs/nfs/file.c        |  2 +-
+>  fs/smb/client/file.c |  2 +-
+>  fs/xfs/xfs_file.c    |  6 ------
+>  include/linux/swap.h |  4 ++--
+>  mm/page_io.c         |  3 +--
+>  mm/swapfile.c        | 38 ++++++++++++--------------------------
+>  10 files changed, 33 insertions(+), 48 deletions(-)
 > 
-> ...
-> 
-> > +	iio_val_s64_array_populate(24, values);
-> 
-> You want to test this first...
-> I think the previous patch needs new test cases.
+> diff --git a/block/fops.c b/block/fops.c
+> index 067e46299666..da09ce3f072f 100644
+> --- a/block/fops.c
+> +++ b/block/fops.c
+> @@ -951,9 +951,16 @@ static int blkdev_mmap_prepare(struct vm_area_desc *desc)
+>  
+>  static int blkdev_swap_activate(struct file *file, struct swap_info_struct *sis)
+>  {
+> +	struct block_device *bdev = I_BDEV(file->f_mapping->host);
+>  	loff_t isize = i_size_read(bdev_file_inode(file));
+>  
+> -	return add_swap_extent(sis, div_u64(isize, PAGE_SIZE), 0);
+> +	/*
+> +	 * The swap code performs arbitrary overwrites, which are not supported
+> +	 * on zones with sequential write constraints.
+> +	 */
+> +	if (bdev_is_zoned(bdev))
+> +		return -EINVAL;
+> +	return add_swap_extent(sis, div_u64(isize, PAGE_SIZE), bdev, 0);
+>  }
+>  
+>  const struct file_operations def_blk_fops = {
+> diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
+> index ee0a7947706a..84003c520530 100644
+> --- a/fs/btrfs/inode.c
+> +++ b/fs/btrfs/inode.c
+> @@ -10201,6 +10201,7 @@ static void btrfs_free_swapfile_pins(struct inode *inode)
+>  }
+>  
+>  struct btrfs_swap_info {
+> +	struct btrfs_device *device;
+>  	u64 start;
+>  	u64 block_start;
+>  	u64 block_len;
+> @@ -10214,7 +10215,8 @@ static int btrfs_add_swap_extent(struct swap_info_struct *sis,
+>  	first_ppage = PAGE_ALIGN(bsi->block_start) >> PAGE_SHIFT;
+>  	next_ppage = PAGE_ALIGN_DOWN(bsi->block_start + bsi->block_len) >> PAGE_SHIFT;
+>  
+> -	return add_swap_extent(sis, next_ppage - first_ppage, first_ppage);
+> +	return add_swap_extent(sis, next_ppage - first_ppage, bsi->device->bdev,
+> +			first_ppage);
+>  }
+>  
+>  void btrfs_swap_deactivate(struct file *file)
+> @@ -10503,6 +10505,7 @@ int btrfs_swap_activate(struct file *file, struct swap_info_struct *sis)
+>  			bsi.start = key.offset;
+>  			bsi.block_start = physical_block_start;
+>  			bsi.block_len = len;
+> +			bsi.device = device;
+>  		}
+>  
+>  		if (fatal_signal_pending(current)) {
+> @@ -10533,8 +10536,6 @@ int btrfs_swap_activate(struct file *file, struct swap_info_struct *sis)
+>  	up_write(&BTRFS_I(inode)->i_mmap_lock);
+>  	btrfs_free_backref_share_ctx(backref_ctx);
+>  	btrfs_free_path(path);
+> -	if (!ret && device)
+> -		sis->bdev = device->bdev;
+>  	return ret;
+>  }
+>  #endif
+> diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
+> index 8bcf630df557..8d116ff517c9 100644
+> --- a/fs/f2fs/data.c
+> +++ b/fs/f2fs/data.c
+> @@ -4326,7 +4326,8 @@ static int check_swap_activate(struct swap_info_struct *sis,
+>  		/*
+>  		 * We found a PAGE_SIZE-length, PAGE_SIZE-aligned run of blocks
+>  		 */
+> -		ret = add_swap_extent(sis, nr_pblocks, pblock);
+> +		ret = add_swap_extent(sis, nr_pblocks, inode->i_sb->s_bdev,
+> +				pblock);
+>  		if (ret < 0)
+>  			goto out;
+>  		cur_lblock += nr_pblocks;
+> diff --git a/fs/iomap/swapfile.c b/fs/iomap/swapfile.c
+> index a4e0ca462cc4..862b4c02a8bd 100644
+> --- a/fs/iomap/swapfile.c
+> +++ b/fs/iomap/swapfile.c
+> @@ -50,10 +50,6 @@ static int iomap_swapfile_iter(struct iomap_iter *iter, struct file *file,
+>  	if (iomap->flags & IOMAP_F_SHARED)
+>  		return iomap_swapfile_fail(file, "has shared extents");
+>  
+> -	/* Only one bdev per swap file. */
+> -	if (iomap->bdev != sis->bdev)
+> -		return iomap_swapfile_fail(file, "outside the main device");
+> -
+>  	/*
+>  	 * Round the start up and the end down so that the physical extent
+>  	 * aligns to a page boundary.
+> @@ -61,7 +57,8 @@ static int iomap_swapfile_iter(struct iomap_iter *iter, struct file *file,
+>  	first_ppage = ALIGN(iomap->addr, PAGE_SIZE) >> PAGE_SHIFT;
+>  	next_ppage = ALIGN_DOWN(iomap->addr + iomap->length, PAGE_SIZE) >>
+>  			PAGE_SHIFT;
+> -	error = add_swap_extent(sis, next_ppage - first_ppage, first_ppage);
+> +	error = add_swap_extent(sis, next_ppage - first_ppage, iomap->bdev,
+> +			first_ppage);
+>  	if (error)
+>  		return error;
+>  	return iomap_iter_advance_full(iter);
+> diff --git a/fs/nfs/file.c b/fs/nfs/file.c
+> index 2bc55d9d71e1..10ab2a923835 100644
+> --- a/fs/nfs/file.c
+> +++ b/fs/nfs/file.c
+> @@ -588,7 +588,7 @@ int nfs_swap_activate(struct file *file, struct swap_info_struct *sis)
+>  	ret = rpc_clnt_swap_activate(clnt);
+>  	if (ret)
+>  		return ret;
+> -	ret = add_swap_extent(sis, sis->max, 0);
+> +	ret = add_swap_extent(sis, sis->max, NULL, 0);
+>  	if (ret < 0) {
+>  		rpc_clnt_swap_deactivate(clnt);
+>  		return ret;
+> diff --git a/fs/smb/client/file.c b/fs/smb/client/file.c
+> index 84459f87907e..e1bbc65ce7f3 100644
+> --- a/fs/smb/client/file.c
+> +++ b/fs/smb/client/file.c
+> @@ -3327,7 +3327,7 @@ int cifs_swap_activate(struct file *swap_file, struct swap_info_struct *sis)
+>  	 */
+>  
+>  	sis->flags |= SWP_FS_OPS;
+> -	return add_swap_extent(sis, sis->max, 0);
+> +	return add_swap_extent(sis, sis->max, NULL, 0);
+>  }
+>  
+>  void cifs_swap_deactivate(struct file *file)
+> diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+> index 41f7e19bd31f..74128ebf7161 100644
+> --- a/fs/xfs/xfs_file.c
+> +++ b/fs/xfs/xfs_file.c
+> @@ -2116,12 +2116,6 @@ xfs_file_swap_activate(
+>  	 */
+>  	xfs_inodegc_flush(ip->i_mount);
+>  
+> -	/*
+> -	 * Direct the swap code to the correct block device when this file
+> -	 * sits on the RT device.
+> -	 */
+> -	sis->bdev = xfs_inode_buftarg(ip)->bt_bdev;
+> -
+>  	return iomap_swap_activate(file, sis, &xfs_read_iomap_ops);
+>  }
+>  
+> diff --git a/include/linux/swap.h b/include/linux/swap.h
+> index 657779485ae4..b1cbb67ddd8e 100644
+> --- a/include/linux/swap.h
+> +++ b/include/linux/swap.h
+> @@ -404,7 +404,7 @@ extern void __meminit kswapd_stop(int nid);
+>  #ifdef CONFIG_SWAP
+>  
+>  int add_swap_extent(struct swap_info_struct *sis, unsigned long nr_pages,
+> -		sector_t start_block);
+> +		struct block_device *bdev, sector_t start_block);
+>  int generic_swap_activate(struct file *swap_file, struct swap_info_struct *sis);
+>  
+>  static inline unsigned long total_swapcache_pages(void)
+> @@ -528,7 +528,7 @@ static inline bool folio_free_swap(struct folio *folio)
+>  
+>  static inline int add_swap_extent(struct swap_info_struct *sis,
+>  		unsigned long start_page, unsigned long nr_pages,
+> -		sector_t start_block)
+> +		struct block_device *bdev, sector_t start_block)
+>  {
+>  	return -EINVAL;
+>  }
+> diff --git a/mm/page_io.c b/mm/page_io.c
+> index 3e1c12649448..2ab8994ed1c2 100644
+> --- a/mm/page_io.c
+> +++ b/mm/page_io.c
+> @@ -132,7 +132,7 @@ int generic_swap_activate(struct file *swap_file, struct swap_info_struct *sis)
+>  		/*
+>  		 * We found a PAGE_SIZE-length, PAGE_SIZE-aligned run of blocks
+>  		 */
+> -		ret = add_swap_extent(sis, 1,
+> +		ret = add_swap_extent(sis, 1, inode->i_sb->s_bdev,
+>  				first_block >> (PAGE_SHIFT - blkbits));
+>  		if (ret < 0)
+>  			return ret;
+> @@ -141,7 +141,6 @@ int generic_swap_activate(struct file *swap_file, struct swap_info_struct *sis)
+>  		continue;
+>  	}
+>  	return 0;
+> -
+>  bad_bmap:
+>  	pr_err("swapon: swapfile has holes\n");
+>  	return -EINVAL;
+> diff --git a/mm/swapfile.c b/mm/swapfile.c
+> index fbf11c8c5c69..2c9d2af736c4 100644
+> --- a/mm/swapfile.c
+> +++ b/mm/swapfile.c
+> @@ -2707,7 +2707,7 @@ static void destroy_swap_extents(struct swap_info_struct *sis,
+>   */
+>  int
+>  add_swap_extent(struct swap_info_struct *sis, unsigned long nr_pages,
+> -		sector_t start_block)
+> +		struct block_device *bdev, sector_t start_block)
+>  {
+>  	struct rb_node **link = &sis->swap_extent_root.rb_node, *parent = NULL;
+>  	struct swap_extent *se;
+> @@ -2718,6 +2718,12 @@ add_swap_extent(struct swap_info_struct *sis, unsigned long nr_pages,
+>  		return 0;
+>  	nr_pages = min(nr_pages, sis->max - sis->pages);
+>  
+> +	/* Only one bdev per swap file for now. */
+> +	if (!sis->bdev)
+> +		sis->bdev = bdev;
+> +	else if (bdev != sis->bdev)
+> +		return -EINVAL;
 
-This is no complex stuff.. those functions are straightforward and
-goes into accordance with what the format function does... which is
-the opposite, before populating the buffer. The assertion on the buffer
-content accounts for that behavior.
- 
--- 
-Kind regards,
+Should this return error if the bdev is zoned?  AFAICT XFS and zonefs
+already guard against this, but other fses might be more naïve.
 
-Rodrigo Alencar
+--D
+
+> +
+>  	/*
+>  	 * place the new node at the right most since the
+>  	 * function is called in ascending page order.
+> @@ -2793,6 +2799,8 @@ static int setup_swap_extents(struct swap_info_struct *sis,
+>  	sis->flags |= SWP_ACTIVATED;
+>  	if (sis->flags & SWP_FS_OPS)
+>  		error = sio_pool_init();
+> +	else if (WARN_ON_ONCE(!sis->bdev))
+> +		error = -EINVAL;
+>  	if (error)
+>  		destroy_swap_extents(sis, swap_file);
+>  	return error;
+> @@ -3224,26 +3232,6 @@ static struct swap_info_struct *alloc_swap_info(void)
+>  	return p;
+>  }
+>  
+> -static int claim_swapfile(struct swap_info_struct *si, struct inode *inode)
+> -{
+> -	if (S_ISBLK(inode->i_mode)) {
+> -		si->bdev = I_BDEV(inode);
+> -		/*
+> -		 * Zoned block devices contain zones that have a sequential
+> -		 * write only restriction.  Hence zoned block devices are not
+> -		 * suitable for swapping.  Disallow them here.
+> -		 */
+> -		if (bdev_is_zoned(si->bdev))
+> -			return -EINVAL;
+> -		si->flags |= SWP_BLKDEV;
+> -	} else if (S_ISREG(inode->i_mode)) {
+> -		si->bdev = inode->i_sb->s_bdev;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+> -
+>  /*
+>   * Find out how many pages are allowed for a single swap device. There
+>   * are two limiting factors:
+> @@ -3500,16 +3488,14 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+>  	dentry = swap_file->f_path.dentry;
+>  	inode = mapping->host;
+>  
+> -	error = claim_swapfile(si, inode);
+> -	if (unlikely(error))
+> -		goto bad_swap;
+> -
+>  	inode_lock(inode);
+>  	if (d_unlinked(dentry) || cant_mount(dentry)) {
+>  		error = -ENOENT;
+>  		goto bad_swap_unlock_inode;
+>  	}
+> -	if (!S_ISBLK(inode->i_mode) && !S_ISREG(inode->i_mode)) {
+> +	if (S_ISBLK(inode->i_mode)) {
+> +		si->flags |= SWP_BLKDEV;
+> +	} else if (!S_ISREG(inode->i_mode)) {
+>  		error = -EINVAL;
+>  		goto bad_swap_unlock_inode;
+>  	}
+> -- 
+> 2.53.0
+> 
+> 
