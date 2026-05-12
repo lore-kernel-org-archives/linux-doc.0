@@ -1,120 +1,192 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58D734E744
-	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0023ECBD5
+	for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 13:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778506070; cv=none; b=qgBsoQp2GMsR3WCTFEwkNhdsCHlIWkeidGgxUg5Vrndn4c3vjc75al65pyGiHkler/FQTzTazEODd6JukNXdWQV5OArO+uIjYDZ3g/c4qz3WKHGnDu0q6zJoXOAZZvHqr4g/WM40uoVqy1FpyNOVLI9CE5zZiw6ZQn4akUXFX0Y=
+	t=1778506588; cv=none; b=FWWggNWqYBqxtiHtYUufaUyc0QPi1Fihi9TNpAjuGWrBw9ZGphUJHNQk+S0UBJCIqt9fW3EXCXfhlfaFXP+dG8KU94xBxAVQt5LNpnUh/3HTehjjB6IOTwsxtCfQ0s1DoE9EnE6klSx7KhL5zybrQQWJ0rgMg4pomWjxkYCOuQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778506070; c=relaxed/simple;
-	bh=lJECCfxqTC84+TRfNfK1WjSKb5OBfQHZ4y7RrlS2S04=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AXiP5V/MjfZuUs/IOKb5WC9cAr4fERL6vNb3qj9ZwOH9MSFpBtnUWelLpTMnffyN8FcCErYfEfWM1cnW8w4x84DlzSZgD8OlycgEOpHXnQ7wiUajCWw/WfOFp0FUwfoj1sqs6OUi8En2XLF1rrZ6AljQ7ykbaBoVYp+cklcgxpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MflJn9us; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778506588; c=relaxed/simple;
+	bh=AI7+PC+wO6PLDRtpdw2bXlws667UYCRwcBeEHIMSovA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YsZoBJChYvqyeEptlQtBp3aN3Q3GxvYP1a0cC64jWXTw8EbosRn2xnm/j90jD9qccWH8Eb44WR34LqUh6fYP8ZrADkf1G1bc9AmvzarwVwbGm790IaZ1JFyTQ2GV1WAoNSEmtLF3xLv8Y6ff0cqp827OfKn1hyet4UAapXHa8IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b=HrC2uyz6; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MflJn9us"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so24809945e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 06:27:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b="HrC2uyz6"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-365eecc5885so4205603a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 06:36:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778506067; x=1779110867; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iIqj3PJ8IFkl3jV3tX7I8ABRXAJUOvr2KgrwJ/yHDUM=;
-        b=MflJn9us+kizAim1TVv7ZqnuDf4OEjp13+NZvSHomJTLL/hYWZLJKn9khobOSLPKxZ
-         ya/uy2fWwtue4LDEk9jtQCIsvpl713Z5A3zdE0jBmUSjD2JxMf6E4UubKj87ApWL8p0C
-         qjNIgdzZ2TISGb/cIehD3afKcf5cGbhP+efi5SRImgwPovGbjUCnkTImBFKjUVzOTmEm
-         8Uk/anzY34+GQFl10Z8Wi/gre5LBxYm3BkCowpSMOIwAYzkVn/MecnUnNVAlk3wpgv1p
-         mac8ZaAzjG+/ItMFDVuSX4kdLu7WPVrLiqtaAjuwXHyHxMlnf+DoY5PFhg84GJvYITJ2
-         Facw==
+        d=riscstar-com.20251104.gappssmtp.com; s=20251104; t=1778506583; x=1779111383; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Z29fhkBQbknShosTsnNNQxT5IXOqOhrJTIx7eoQ358=;
+        b=HrC2uyz6M4ftAjkf3RaKqtm7xosMoYcaRoNSA2Ho/WQidy9vLT3CPQw2it2gjR2uc2
+         LqLrJvSkFR9CsDOGytE0aufchCTsU84CnR/jC7xJhDyfMD1i0JIdxpnvhNWm+B6TjzD/
+         39do8w+h6ovm6IbH9noFsTZeW2da6+T6xFZETmcFioOV7TYb0PtkBIv8KBD0T7uTuKgA
+         SVJ/eFWbDUB/q3lLS/FbafH2yU+b0F+bhRCJao8aMaLmPT3sniMYVD/SLDso/dRh39rR
+         IZndLAbNyysk9zecUv+PQg1XDld21I5ebLhXyDQJ0V+UimRdnLTxna/i0OCQVxTSU6cY
+         T2BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778506067; x=1779110867;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iIqj3PJ8IFkl3jV3tX7I8ABRXAJUOvr2KgrwJ/yHDUM=;
-        b=F1w8D4uUk/uBVbzvpxj+3U9oEJLJEoCKFVklUXJgcWdr0e0AtOfsCRKlJHELo0Bbp+
-         9Hjd3KQzQQcCmY6XRmGAyrSn7GQHzO87lydLq9jpeVh7oOFvFEyZ39V0HZCYFFGy92pQ
-         nkeVrFQUzR+GBxe+AXH1X5mS5qWlprUugxGRVKhzlgbfCThT1IQz/i0SVOpjnP427uVw
-         XoPYe9/swGg4GAnRPq+6GmyeBbJTguMoGYb6YYYG893QYM/vzMLepkDCP8DwkO5YFLh6
-         kwFT5hNxbxW8vFpcrTYuW2Hd5//KcotQBjurLuuoPB2kHy8LiWNMrVD+nDwA5XduOsqy
-         T48w==
-X-Forwarded-Encrypted: i=1; AFNElJ97uExpwk/ZXTHA0tr2xfTZkor4g6DKhsye+zUJw3R2PQ1Uj+RxvIctvNHGUASa4OZbRFC9hQgtkEI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMqZX7bQS8feSIBoKJ1u5sb7EzTSDrYNXTWb5RHLnnZBaZ+Xc7
-	2w2nKgma629SivvbeChbafyHnlcnMKinPfE+oeaB49MGEKtf8cjjPJSf
-X-Gm-Gg: Acq92OHHbi/VVY1KdP5qfjMvIISq3yaAHiGLpeTJT9DRlQ7k3DOBaWSUZWS4IZ+XWTL
-	OVDxlGF9H+IKMZTBQKu0U8zsrnWrPNiejsdn8MRNz6gOrjy6+BqMMrPlYXGEtn9n09dLtHCF8BQ
-	1TkoZafRXt+DDHtn1f8M+I6waWCaCPnEzcbSTjsN/gjaHG3faZNWzxL+KW5b4u0xnXLJFi4ljq9
-	RZ4GFl6WWSlKkg3O/jC9QX6JWfR+HlVc1HcBMBBmwMIiB9TBovpbu07CGjJcCIVS4AQjtGx7ATv
-	FFphyhtVLRo7BdnhjaOOt52ket+mf7U5JzU6uMPeT/3HwSN0JR3p7xoOGucuAuSb1iqcnTQ+413
-	JL2w3w13mxlFlHNMw6P6O+ZFSiMnjB7ztMEA0EgCx3GBNU2pLGLQCf0ZASPuWW8rui+24gNgb92
-	TrxUQeN0mCt+YNQ54WgSt+cd576wLebI/P+zF3t1a3mVkB6m/phbdQJOrQCj/k
-X-Received: by 2002:a05:600c:17d8:b0:488:a797:f0ac with SMTP id 5b1f17b1804b1-48e51f46abemr229099115e9.28.1778506066819;
-        Mon, 11 May 2026 06:27:46 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548e6a6470sm22087839f8f.7.2026.05.11.06.27.46
+        d=1e100.net; s=20251104; t=1778506583; x=1779111383;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+Z29fhkBQbknShosTsnNNQxT5IXOqOhrJTIx7eoQ358=;
+        b=ScS80h9dg8Ep6YUearjNGDkBWIjHuJYsB1IqvLF/WGZ5W/7Cu5jmP+p1EOo4VpyPEv
+         TCB38x36VtQkUmrzyNiNmtAU56CXfeRuQsHOlKByXrW3TSTzU+2FIBcZVaYNIdpKFEr2
+         lGG6HATxxdcNxuYLI/YMq0eCxQ0+nEWBhBqCSAfeqBC3epTWYvZksze0QEfxvsLHk+MY
+         AhgbMPiYeDdW2s6U/RSvML6ITBDWu1fp6MrxvmTuExtk3prXUwS4cuV0xAZndmfaE09I
+         Swm6b1gljn8B08k+1D2f4TKL2DffPtMkj+OX6abE5xkNses9xqznEUpv8lHlARYkf+O4
+         nQZg==
+X-Forwarded-Encrypted: i=1; AFNElJ8zeOFILuDvXZmt8I/BxECmMHDg8AU0EO6PUOubSR3dKx8x8Mgmw9KWm4rANEVpy4QZX8CeGOygKQ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2KX8L7B7y2SEovBASct62sGF2Ju991ub6OAyLgipJ443KbBb7
+	e856lr9TCpOAsY3+VUimYbzob8+vrBOpbfTuun9+QjzLh3ApDygc9HwznXZiZKyAeP8=
+X-Gm-Gg: Acq92OHbqSCSLc35HdexjoXsbIhVpuAgwHOhd0v1fphBHc8tnpenQKnixHKZE7FGT5Q
+	YicQtJElFrMxx7tpFd7nFlp2qHFuygSs0dRGHP907pTc4hjMHXrCINH+4TvhfrHnhrZt23Nv1d9
+	cPpzSYjZ94OjFe8V1+2Y+uI7GVOgj/W+oNig4p1+oFbHl/0II2ayMArRVJ24Qvodg7CnykZBCti
+	mx3KOYttZdPpCPaJqHXWSfdwEAzomvIpD/tExgzN6HKDbLXhQwD7xyPj9S7P/ed7dLnVYHdhHvY
+	L5osixR1bu7D3CnF+QhvFmJmakpATKAKyHlzOFmx2H1TyWKI/UMSr1CRnnxLX4lKh1UjcyMsUA6
+	l6T899Zsas4fp8j7pDiVVtO38ZCtplvk+0OXiHdUrmVsGhv/9D5896OHBOewCT22B4SIcTF4QT4
+	jFkyV27QgEWtqg3BLxGXTb5xbkRnLRKnqHUYZqz7shoBA=
+X-Received: by 2002:a17:90b:2648:b0:366:479c:59e8 with SMTP id 98e67ed59e1d1-367d46b8be5mr9758495a91.8.1778506583435;
+        Mon, 11 May 2026 06:36:23 -0700 (PDT)
+Received: from [127.0.1.1] ([2a12:a305:4::30f3])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-367be3daafesm3034326a91.8.2026.05.11.06.36.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 06:27:46 -0700 (PDT)
-Date: Mon, 11 May 2026 14:27:45 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Manuel Ebner <manuelebner@mailbox.org>, andy.shevchenko@gmail.com,
- apw@canonical.com, dwaipayanray1@gmail.com, joe@perches.com,
- kees@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- lukas.bulwahn@gmail.com, skhan@linuxfoundation.org,
- workflows@vger.kernel.org
-Subject: Re: [PATCH 2/2] scripts: checkpatch.pl: add warning for strlcat()
-Message-ID: <20260511142745.7757b1b2@pumpkin>
-In-Reply-To: <87a4u6w3ez.fsf@trenco.lwn.net>
-References: <20260510164907.57176-2-manuelebner@mailbox.org>
-	<20260510165649.57880-2-manuelebner@mailbox.org>
-	<87a4u6w3ez.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Mon, 11 May 2026 06:36:23 -0700 (PDT)
+From: Guodong Xu <guodong@riscstar.com>
+Subject: [PATCH v2 00/10] riscv: hwprobe: Expose RVA23U64 base behavior
+Date: Mon, 11 May 2026 21:34:45 -0400
+Message-Id: <20260511-rva23u64-hwprobe-v2-v2-0-21c5a544f1dc@riscstar.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALaDAmoC/yXMPQ6DMAxA4asgz1hKzW+5StWBBAPuAMiBtBLi7
+ qQwfsN7O3hWYQ9NsoNyEC/zFEFpAm5sp4FRumggQ6UpTI0aWsq2Msfxu+hsGQPhoyNTZU9nbc0
+ Qy0W5l991fb1v+81+2K3/FRzHCXxjjPl3AAAA
+X-Change-ID: 20260508-rva23u64-hwprobe-v2-1d20739cbb8e
+To: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Shuah Khan <shuah@kernel.org>, Anup Patel <anup@brainfault.org>, 
+ Atish Patra <atish.patra@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Deepak Gupta <debug@rivosinc.com>, Zong Li <zong.li@sifive.com>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: Andrew Jones <andrew.jones@oss.qualcomm.com>, 
+ Charlie Jenkins <charlie@rivosinc.com>, 
+ Samuel Holland <samuel.holland@sifive.com>, linux-doc@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
+ kvm-riscv@lists.infradead.org, Guodong Xu <guodong@riscstar.com>, 
+ Charlie Jenkins <thecharlesjenkins@gmail.com>, 
+ Jesse Taube <jesse@rivosinc.com>, Andy Chiu <andybnac@gmail.com>
+X-Mailer: b4 0.15.1
 
-On Mon, 11 May 2026 06:12:36 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
+This series builds on Andrew Jones's earlier RFC [1]. It lets
+userspace check for RVA23U64 conformance in one call, instead of
+walking hwprobe + prctl across every mandatory extension.
 
-> Manuel Ebner <manuelebner@mailbox.org> writes:
-> 
-> > add a warning for strlcat()
-> >
-> > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> > ---
-> >  scripts/checkpatch.pl | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> > index 0492d6afc9a1..ca1a8e67d529 100755
-> > --- a/scripts/checkpatch.pl
-> > +++ b/scripts/checkpatch.pl
-> > @@ -7085,6 +7085,12 @@ sub process {
-> >  			     "Prefer strscpy over strlcpy - see: https://github.com/KSPP/linux/issues/89\n" . $herecurr);
-> >  		}
-> >  
-> > +# strlcat uses that should likely be
-> > +		if ($line =~ /\bstrlcat\s*\(/ && !is_userspace($realfile)) {
-> > +			WARN("STRLCAT",
-> > +			     "Prefer seq_buf_printf() over strlcat - see: https://github.com/KSPP/linux/issues/370\n" . $herecurr);
-> > +		}  
-> 
-> Using seq_buf_printf() requires switching over to the seq_buf API in
-> general, it is not just a simple substitution, so this advice may prove
-> unhelpful to many.
+The series adds a small framework that resolves profile-class
+bases (IMA and RVA23U64) from the kernel's ISA extension bitmap at
+init time, and surfaces the result through both /proc/cpuinfo and
+hwprobe. Later patches can add RVA23S64, and backward RVA22 / RVA20
+detection, to riscv_set_isa_bases() without changes to the
+surrounding code.
 
-And I'm not sure the external url is a good idea.
+To detect RVA23U64 the kernel first has to recognise every extension
+it mandates, so patches 4-6 bring Zicclsm; Ziccamoa, Ziccif,
+Ziccrse, Za64rs; and B into the cpufeature parser. The framework
+then reads the resulting bitmap, and the final patch exposes the
+RVA23U64 bit through RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64.
 
-> 
-> jon
-> 
+Series outline:
+
+  1-3. hwprobe.rst clean-ups: document EXT_ZICFISS, normalize
+       indentation, and standardize extension capitalization.
+
+   4.  Zicclsm: cpufeature parsing + hwprobe export.
+   5.  Ziccamoa, Ziccif, Ziccrse, Za64rs: cpufeature parsing + hwprobe
+       export, with cpufeature dependency validation for
+       Ziccamoa->Zaamo and Za64rs->Zalrsc.
+   6.  B (hwcap + hwprobe), as the Zba/Zbb/Zbs set.
+
+   7.  riscv_have_user_pmlen(): arch-level accessor for user
+       pointer-masking PMLEN support, used by RVA23U64 detection.
+
+   8.  cpufeature: per-hart and host-wide isa_bases bitmaps,
+       populated at init time. IMA and RVA23U64 detection lives
+       here; /proc/cpuinfo and hwprobe both read from these bitmaps.
+
+   9.  /proc/cpuinfo: print "isa bases" / "hart isa bases" lines
+       sourced from the cached bitmaps.
+
+  10.  hwprobe: expose RVA23U64 via
+       RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64.
+
+Tested on qemu booted with -cpu rva23s64,sv39=on,pmp=on:
+  - /proc/cpuinfo reports "isa bases : rv64ima rva23u64" on both the
+    aggregated and per-hart lines.
+  - hwprobe RISCV_HWPROBE_KEY_BASE_BEHAVIOR returns
+    BASE_BEHAVIOR_IMA | BASE_BEHAVIOR_RVA23U64.
+
+Based on v7.2-rc2; happy to rebase onto another tree if needed.
+
+Link: https://lore.kernel.org/linux-riscv/20260206002349.96740-1-andrew.jones@oss.qualcomm.com/ [1]
+
+BR,
+Guodong Xu
+
+Signed-off-by: Guodong Xu <guodong@riscstar.com>
+---
+Andrew Jones (4):
+      riscv: hwprobe.rst: Replace tabs with spaces
+      riscv: Add Ziccamoa, Ziccif, Ziccrse, and Za64rs to cpufeature and hwprobe
+      riscv: Add B to hwcap and hwprobe
+      riscv: Add a getter for user PMLEN support
+
+Charlie Jenkins (1):
+      riscv: Standardize extension capitalization
+
+Guodong Xu (4):
+      riscv: hwprobe.rst: Document EXT_ZICFISS
+      riscv: cpufeature: Introduce ISA bases bitmap and rva23u64 detection
+      riscv: cpu: Output isa bases lines in cpuinfo
+      riscv: hwprobe: Introduce rva23u64 base behavior
+
+Jesse Taube (1):
+      riscv: Add Zicclsm to cpufeature and hwprobe
+
+ Documentation/arch/riscv/hwprobe.rst               |  46 +++++-
+ arch/riscv/include/asm/cpufeature.h                |  14 ++
+ arch/riscv/include/asm/hwcap.h                     |  23 +--
+ arch/riscv/include/asm/processor.h                 |   4 +
+ arch/riscv/include/asm/switch_to.h                 |   4 +-
+ arch/riscv/include/uapi/asm/hwcap.h                |   1 +
+ arch/riscv/include/uapi/asm/hwprobe.h              |   9 +-
+ arch/riscv/kernel/cpu.c                            |  26 ++++
+ arch/riscv/kernel/cpufeature.c                     | 154 ++++++++++++++++++---
+ arch/riscv/kernel/process.c                        |  12 ++
+ arch/riscv/kernel/sys_hwprobe.c                    |  33 +++--
+ arch/riscv/kvm/isa.c                               |  16 +--
+ arch/riscv/kvm/main.c                              |   2 +-
+ arch/riscv/kvm/vcpu_fp.c                           |  20 +--
+ arch/riscv/kvm/vcpu_onereg.c                       |   6 +-
+ arch/riscv/kvm/vcpu_vector.c                       |  10 +-
+ tools/testing/selftests/riscv/hwprobe/which-cpus.c |   2 +-
+ 17 files changed, 312 insertions(+), 70 deletions(-)
+---
+base-commit: 7fd2df204f342fc17d1a0bfcd474b24232fb0f32
+change-id: 20260508-rva23u64-hwprobe-v2-1d20739cbb8e
+
+Best regards,
+--  
+Guodong Xu <guodong@riscstar.com>
 
