@@ -1,135 +1,90 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD0B3C09FF
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 20:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742C63C455F
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 20:32:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778617615; cv=none; b=ukjzVnhwFFepiUYAoJxIvE2ohPQtz4ShiYS5vpYNtMBQ85uX6uUbGPFZEiwTF9ko37RYqBRRm2nHEcpPkvxm5ePg3LilT7fvHJab84JgGWcHlcrkO4VzLQhnbRlGh8i6n83wlbhx+vrBybDxsr40ovmMYdHunGU05YBBfmS5yPo=
+	t=1778617952; cv=none; b=Ljn0HHCtXDYuhlAL6dnYMYfWqHmTFMU0Kk3+wnuVkX+naFkBFNLidUrVhs08xbkyaX+LdIoMSxGuIKYhRq6InJooavjwz9lG9vtY5uxvk9JPWztmUmRtDO6zFR43hrRg5ll53zkAxQG0fus/Y+MPK7+hh8H7ucQPa5+Vjh1gtmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778617615; c=relaxed/simple;
-	bh=ZkAqUSLBLLghmuczFbLlmEifeuByeu9FETpip9wySoE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qaHc7fKx86BQO0Ac1UFaYUtOqObiVMi+ZvmA+DVJv4zVCdw3B7zqb3tjCLA0wXXvt4e1VEGTR5bc2tarZcUb7FV7yoXWedj4z1ySTFpUkfADXm9G9JYVcUYTt+QEk2p6lgva3I2B6MwhYAot4Iv1yucMKTKXVR0R7gMmN2z/wKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Go9fCmh/; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1778617952; c=relaxed/simple;
+	bh=2TfJYRSUBWb34dzI1RPJPgUHc/PrTpuumoNXGd8FW6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lV8SgEerD04F7YjwsmTXFdEQ0Y+T7SH1HkA719Wcn6XTgERzhryXZhhysbSgLh413QVnOKYKOItyyRJWrKk8F19UGLAj2c5156mqOsPYlpUoNSFOR9ktFdcYfEVH/+yL9seXg5hEfO80NqSUujASfaCZmIXGL2+7FemYy/mNPj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DM9O9BQM; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Go9fCmh/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778617613;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=PeaPwxj6CE2jWtwEguCT34VqbzG7tuL668TllqlmsLQ=;
-	b=Go9fCmh/i6M8fF0LavYR2U7WMY34glL3s2MGWwKu57/gtkJcg9wJbko1gJpR9XJ+WMeiQH
-	xc0P+K7GMBVXmBmzgg+80oXkkJ7upV7AQ9y8fWptLeHsnB17e2EV4lXAY2GMWt5SEn7OLF
-	qeRuI7UTu7JMHLZrg8G06+URgljlD9Y=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-529-gJ2ljXNJOdWsrddMWfyePQ-1; Tue,
- 12 May 2026 16:26:48 -0400
-X-MC-Unique: gJ2ljXNJOdWsrddMWfyePQ-1
-X-Mimecast-MFC-AGG-ID: gJ2ljXNJOdWsrddMWfyePQ_1778617606
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 25C2B180044D;
-	Tue, 12 May 2026 20:26:46 +0000 (UTC)
-Received: from [10.44.48.5] (unknown [10.44.48.5])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1A6781955D84;
-	Tue, 12 May 2026 20:26:41 +0000 (UTC)
-Message-ID: <3e819925-b83f-4c2f-a67b-03d534016558@redhat.com>
-Date: Tue, 12 May 2026 22:26:40 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DM9O9BQM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778617951; x=1810153951;
+  h=date:from:to:cc:subject:message-id;
+  bh=2TfJYRSUBWb34dzI1RPJPgUHc/PrTpuumoNXGd8FW6Q=;
+  b=DM9O9BQM/GRROixzJQjjj1TxRcVRf45sV49N9GJJWjPTwtBI6PhU81wf
+   l6zCDCw9ARfh5f3zajfTx4soQnsvzcBhefHgiukZMSz8bU5oj8nCJ4hrf
+   2HGFs2yPbVQXgNlvIllh47AWEZbCDKLthfEeEp4zWiA9WS5c11nKzoYGX
+   3wuVASEwEoyDqEnm9RgO7X9sKffkhGssf6j6noVesGDvYAXGf6XrTDzms
+   djtbJ1/d6+Eor87JSCoqHeOklIYpAxi3DNmO2Vm1rpflCliGDNiObXvL+
+   AnWpjmxvx7pQ6PBKs3XfH2w/11ByPGugs7MLVCtpL9dfT3iHDIkTkGUOK
+   A==;
+X-CSE-ConnectionGUID: OZzPJy/rTk2BO6IdV4eLJQ==
+X-CSE-MsgGUID: goXRpsrlRfmTwreeA/s3zQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79520528"
+X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
+   d="scan'208";a="79520528"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 13:32:31 -0700
+X-CSE-ConnectionGUID: XrbsR1+GT+ChTjcpyUTjHA==
+X-CSE-MsgGUID: bYCYevTTRwqXta6/ypgDdA==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 12 May 2026 13:32:30 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wMtmF-000000008Kv-3Rs5;
+	Tue, 12 May 2026 20:32:27 +0000
+Date: Tue, 12 May 2026 22:31:55 +0200
+From: kernel test robot <lkp@intel.com>
+To: Abdurrahman Hussain <abdurrahman@nexthop.ai>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/hwmon/d1u74t.rst:4: WARNING: Title
+ underline too short.
+Message-ID: <202605122253.zInzmUeX-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: kvm: update links in the references
- section of AMD Memory Encryption
-To: Ninad Naik <ninadnaik07@gmail.com>, corbet@lwn.net,
- skhan@linuxfoundation.org, seanjc@google.com, michael.roth@amd.com,
- liam.merwick@oracle.com, vannapurve@google.com
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, me@brighamcampbell.com,
- linux-kernel-mentees@lists.linux.dev
-References: <20260511174302.811918-1-ninadnaik07@gmail.com>
-Content-Language: en-US
-From: Paolo Bonzini <pbonzini@redhat.com>
-Autocrypt: addr=pbonzini@redhat.com; keydata=
- xsEhBFRCcBIBDqDGsz4K0zZun3jh+U6Z9wNGLKQ0kSFyjN38gMqU1SfP+TUNQepFHb/Gc0E2
- CxXPkIBTvYY+ZPkoTh5xF9oS1jqI8iRLzouzF8yXs3QjQIZ2SfuCxSVwlV65jotcjD2FTN04
- hVopm9llFijNZpVIOGUTqzM4U55sdsCcZUluWM6x4HSOdw5F5Utxfp1wOjD/v92Lrax0hjiX
- DResHSt48q+8FrZzY+AUbkUS+Jm34qjswdrgsC5uxeVcLkBgWLmov2kMaMROT0YmFY6A3m1S
- P/kXmHDXxhe23gKb3dgwxUTpENDBGcfEzrzilWueOeUWiOcWuFOed/C3SyijBx3Av/lbCsHU
- Vx6pMycNTdzU1BuAroB+Y3mNEuW56Yd44jlInzG2UOwt9XjjdKkJZ1g0P9dwptwLEgTEd3Fo
- UdhAQyRXGYO8oROiuh+RZ1lXp6AQ4ZjoyH8WLfTLf5g1EKCTc4C1sy1vQSdzIRu3rBIjAvnC
- tGZADei1IExLqB3uzXKzZ1BZ+Z8hnt2og9hb7H0y8diYfEk2w3R7wEr+Ehk5NQsT2MPI2QBd
- wEv1/Aj1DgUHZAHzG1QN9S8wNWQ6K9DqHZTBnI1hUlkp22zCSHK/6FwUCuYp1zcAEQEAAc0j
- UGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0LmNvbT7CwU0EEwECACMFAlRCcBICGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRB+FRAMzTZpsbceDp9IIN6BIA0Ol7MoB15E
- 11kRz/ewzryFY54tQlMnd4xxfH8MTQ/mm9I482YoSwPMdcWFAKnUX6Yo30tbLiNB8hzaHeRj
- jx12K+ptqYbg+cevgOtbLAlL9kNgLLcsGqC2829jBCUTVeMSZDrzS97ole/YEez2qFpPnTV0
- VrRWClWVfYh+JfzpXmgyhbkuwUxNFk421s4Ajp3d8nPPFUGgBG5HOxzkAm7xb1cjAuJ+oi/K
- CHfkuN+fLZl/u3E/fw7vvOESApLU5o0icVXeakfSz0LsygEnekDbxPnE5af/9FEkXJD5EoYG
- SEahaEtgNrR4qsyxyAGYgZlS70vkSSYJ+iT2rrwEiDlo31MzRo6Ba2FfHBSJ7lcYdPT7bbk9
- AO3hlNMhNdUhoQv7M5HsnqZ6unvSHOKmReNaS9egAGdRN0/GPDWr9wroyJ65ZNQsHl9nXBqE
- AukZNr5oJO5vxrYiAuuTSd6UI/xFkjtkzltG3mw5ao2bBpk/V/YuePrJsnPFHG7NhizrxttB
- nTuOSCMo45pfHQ+XYd5K1+Cv/NzZFNWscm5htJ0HznY+oOsZvHTyGz3v91pn51dkRYN0otqr
- bQ4tlFFuVjArBZcapSIe6NV8C4cEiSTOwE0EVEJx7gEIAMeHcVzuv2bp9HlWDp6+RkZe+vtl
- KwAHplb/WH59j2wyG8V6i33+6MlSSJMOFnYUCCL77bucx9uImI5nX24PIlqT+zasVEEVGSRF
- m8dgkcJDB7Tps0IkNrUi4yof3B3shR+vMY3i3Ip0e41zKx0CvlAhMOo6otaHmcxr35sWq1Jk
- tLkbn3wG+fPQCVudJJECvVQ//UAthSSEklA50QtD2sBkmQ14ZryEyTHQ+E42K3j2IUmOLriF
- dNr9NvE1QGmGyIcbw2NIVEBOK/GWxkS5+dmxM2iD4Jdaf2nSn3jlHjEXoPwpMs0KZsgdU0pP
- JQzMUMwmB1wM8JxovFlPYrhNT9MAEQEAAcLBMwQYAQIACQUCVEJx7gIbDAAKCRB+FRAMzTZp
- sadRDqCctLmYICZu4GSnie4lKXl+HqlLanpVMOoFNnWs9oRP47MbE2wv8OaYh5pNR9VVgyhD
- OG0AU7oidG36OeUlrFDTfnPYYSF/mPCxHttosyt8O5kabxnIPv2URuAxDByz+iVbL+RjKaGM
- GDph56ZTswlx75nZVtIukqzLAQ5fa8OALSGum0cFi4ptZUOhDNz1onz61klD6z3MODi0sBZN
- Aj6guB2L/+2ZwElZEeRBERRd/uommlYuToAXfNRdUwrwl9gRMiA0WSyTb190zneRRDfpSK5d
- usXnM/O+kr3Dm+Ui+UioPf6wgbn3T0o6I5BhVhs4h4hWmIW7iNhPjX1iybXfmb1gAFfjtHfL
- xRUr64svXpyfJMScIQtBAm0ihWPltXkyITA92ngCmPdHa6M1hMh4RDX+Jf1fiWubzp1voAg0
- JBrdmNZSQDz0iKmSrx8xkoXYfA3bgtFN8WJH2xgFL28XnqY4M6dLhJwV3z08tPSRqYFm4NMP
- dRsn0/7oymhneL8RthIvjDDQ5ktUjMe8LtHr70OZE/TT88qvEdhiIVUogHdo4qBrk41+gGQh
- b906Dudw5YhTJFU3nC6bbF2nrLlB4C/XSiH76ZvqzV0Z/cAMBo5NF/w=
-In-Reply-To: <20260511174302.811918-1-ninadnaik07@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On 5/11/26 19:43, Ninad Naik wrote:
-> Replace non-working links in the reference section with the working ones.
-> 
-> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+tree:   https://github.com/intel-lab-lkp/linux/commits/Abdurrahman-Hussain/dt-bindings-hwmon-pmbus-Add-Murata-D1U74T-PSU/20260512-185756
+head:   0fa96a515da810b1526b58447f677f4096e601c7
+commit: 0fa96a515da810b1526b58447f677f4096e601c7 hwmon: (pmbus/d1u74t) Add Murata D1U74T PSU driver
+date:   9 hours ago
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260512/202605122253.zInzmUeX-lkp@intel.com/reproduce)
 
-Applied, thanks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605122253.zInzmUeX-lkp@intel.com/
 
-Paolo
+All warnings (new ones prefixed by >>):
 
-> ---
->   Documentation/virt/kvm/x86/amd-memory-encryption.rst | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/virt/kvm/x86/amd-memory-encryption.rst b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-> index b2395dd4769d..bd04a908a8db 100644
-> --- a/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-> +++ b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-> @@ -656,8 +656,8 @@ References
->   See [white-paper]_, [api-spec]_, [amd-apm]_, [kvm-forum]_, and [snp-fw-abi]_
->   for more info.
->   
-> -.. [white-paper] https://developer.amd.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
-> -.. [api-spec] https://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
-> -.. [amd-apm] https://support.amd.com/TechDocs/24593.pdf (section 15.34)
-> +.. [white-paper] https://docs.amd.com/v/u/en-US/memory-encryption-white-paper
-> +.. [api-spec] https://docs.amd.com/v/u/en-US/55766_PUB_3.24_SEV_API
-> +.. [amd-apm] https://docs.amd.com/v/u/en-US/24593_3.44_APM_Vol2 (section 15.34)
->   .. [kvm-forum]  https://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
-> -.. [snp-fw-abi] https://www.amd.com/system/files/TechDocs/56860.pdf
-> +.. [snp-fw-abi] https://www.amd.com/content/dam/amd/en/documents/developer/56860.pdf
+   Runtime Survivability
+   ===================== [docutils]
+>> Documentation/hwmon/d1u74t.rst:4: WARNING: Title underline too short.
 
+
+vim +4 Documentation/hwmon/d1u74t.rst
+
+     2	
+     3	Kernel driver d1u74t
+   > 4	==================
+     5	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
