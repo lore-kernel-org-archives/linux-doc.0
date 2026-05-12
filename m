@@ -1,115 +1,160 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97CD345752
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 15:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778598298; cv=none; b=HydAIdwy7Nv0s36O6dHdmJ6Pz/uDre0hp20JdbAlDGjQqE+9TE8HdzHdvnvycYI/wzMjzZkp6grqlSFIM2qoFCyp7wzncWHxHSxLHA2BHrZMlHZ0IX6WAaIxBg7NRaLCJYF+pF7Te4hszRJdTsswmIrJN1UHvUaz0tvUHyOn1LA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778598298; c=relaxed/simple;
-	bh=CQhe1Z5eog9pjB7wZf6ZBWCksLQQgSGbOD8itm/tSAI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GUxrY+mNc++Z6lhqy2gOxJyTgNVDMwfTBrTZpaDkTbGNt1skBi5Jy3rzNY0HwaiRKDOfbzdqa8A60NSvidYEW79GJsKVo1841cWIOrQjWQLMnXAGBU/S+knKoHAs8+4jY5/9ae1pIsjwDTk7ZIX+OeIvKLVO0uEXps7cshArVao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UB2PMZSh; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35C7383325
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 15:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778598337; cv=pass; b=J5dsyKOMaFaaQaeRAVb2B0pLgf15ttfNXpXgDhm8Pcg41hoSrSXSCL01Md8edvA7b1wZUUWHTPsmVcBjo9jbBxIGJJHLSvGVPa38PxpbNOYILAlum85yPd50rJQ3NFdQi0ddoZSUgQNX/hi6Kwwcw1tASwdfBV79ItDNLYToM88=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778598337; c=relaxed/simple;
+	bh=Yc9da0wDU/GeX1+XjMTk9av+bBmiHdfCu0Hae/L1BKk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h2Yl5tA5aiP7lQ7obh/5CmeJ1YEP24stQ7rwVPwyNMKLM6FQ0aVoUDWnPkvYBVxsGWCVNmWTdloWjkoXV2PjMbiaA++37gCZRCr4Zqsy2jE2kPQRiRyr8IPVpE+lTcMZSVIiQfhYRLgntAGarfS3dTpDZXSTFXIGRBjU2i8LSQQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dFQs5Asb; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ewWkVXwP; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UB2PMZSh"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-835386ff122so5267646b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 08:04:56 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dFQs5Asb";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ewWkVXwP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778598335;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W2eX0USmLShQsb/8DMQ63vXaSE/VT5r1TpahlVnwh5Y=;
+	b=dFQs5Asb0SssslNn4u2DaL0rTcfsVqwoUQCkyQDtfR5NcMMrmZPE/OBzjd1Tv2lLG8iYN6
+	KU/JohGE8OvOd9lq+QCP7dAvTG2NZphmgpUA8PALhS9x5w8z5WramV1CoUjN54lh3XKNcy
+	lJ3pLKcgXTXcjngu+QKtE5G1cflZMj8=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-42-asiRldSIMqe9BTwZNRz5dg-1; Tue, 12 May 2026 11:05:31 -0400
+X-MC-Unique: asiRldSIMqe9BTwZNRz5dg-1
+X-Mimecast-MFC-AGG-ID: asiRldSIMqe9BTwZNRz5dg_1778598331
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-7bd66ec877aso120837627b3.1
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 08:05:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778598331; cv=none;
+        d=google.com; s=arc-20240605;
+        b=S+PlPNB3V7xO1ipR+OFSnUvuUpPtFsj/HsX+K+bNSdvoKRfvEEklMnKDBQPG9hcaw3
+         pVb44mVFSkg9HuDE9Iu4aLuwPU4rq/RyZ/r9zK2ARncM0iVENoV3qf3+mwxencKGH0QZ
+         wOFdFv5660GADFEFfrpLIYIlplDc3d8GcmNQBCLeRAMHM/lIX+b4s1Mi0jMxlhbCjyPj
+         +IUJNRPqyEqwYhTjafJuzIzUCqxSOJwn7epNNfEiMiS70kFsqykmuMnkpXRChrCC7fK6
+         HuJtTOBkdVAD5ZZk/EARE7QHRSysV9ts311eM7ArXEQoruFiAmfzE+CUE4eRMLCTVS5V
+         /x8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=W2eX0USmLShQsb/8DMQ63vXaSE/VT5r1TpahlVnwh5Y=;
+        fh=l77dgniWMY7AHkgQVGnnkOutNFdyLw+Dcz7DnxQlnE8=;
+        b=FujESNGvK1lm6aN//VRVwefU1dveyVeH/cjrysAlaofH9FsO3AkxvBULGa3qu+QP/t
+         BEtlvOtIG6wFLGiF7fbZWGJiBF89kChkoTJR435XA93yB49cRg4+IWiNX3wFKf7gxNbG
+         w136HmtjHN+rjtacoHq7c20zSexWHi0WQrcZaXinI98lu3p4jxPDJd9CsLojxikGiOZT
+         v1IZhyicuOTWhfGyHfGCYaFQH3GRgLlHPldrWNODzzZYIvyC3JAje68scar7/Ch5/16b
+         eC18K5vUynYQ+k+Lsh7ZYbk9+ChXllbwaXluLk54z8z/1gEsqZDtpp66xDmpv3q4amvJ
+         JBcw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778598296; x=1779203096; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MRoRA1fygScadNd1UCEGzKs7mo1XTA2DV7l11WRYwAk=;
-        b=UB2PMZSh5fDhMVqkORHfxyzp44Xj9b+jqNVIjwKL/jKwauzsT8Ab4LrUKuwfmpmuan
-         BlYjNjslK+hjLCWnpzco3qSBomheGesIx+B++diSU5n0S43LzZGzdc6AYIwUuSw7GR+6
-         2nNgbciRrwUw9c7qE5anoNINa7YqlNtjfoauSryQnX46j3IHTVs0cjB9kSlpVPmbMkeC
-         XXHAIAnVdTi2u5r7S6lMR7TH+Ye9GmBqFT5N574ZlzFRieMmi0/wHXJVPKWOMUwON3Ng
-         jgcKYJHlyblog6lb9vBCzdBwaVvq8uTh+l5p4pMFx7mX/j7jbXUzKTYdfr+k/mAkQPrR
-         PNfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778598296; x=1779203096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=redhat.com; s=google; t=1778598331; x=1779203131; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MRoRA1fygScadNd1UCEGzKs7mo1XTA2DV7l11WRYwAk=;
-        b=IBaSPTrv5UtnEcsfoX+7mNUCxXEk/MYdj847RfobHtW2HJ9OQToWSoM9+DsA/aQ0Hi
-         6HEmTc3utCNuQD2dk9Sg7qYrIF4ng7T16nkaEy0mQ48hFmTS/fMOnZkwIElAL/J2HETs
-         4QpCShppcnVyI97bRC0S9y2ARqgOzfxiW/Cdg4Ymd92zaMMG98mCRuKS4gSEjAWVpIVu
-         z6qp7OizFb7uaWl+pMD1flVcPb6vZC1tKtJ9Wh6zRnmGgc9nJ3FF+4ckcMC5WbutY0kJ
-         Pin4UByGRsQZouJ8aMVoX37WgshZ9JeIjPSzlGxKo/VnYFuPFnkd8+sjDP3YymktRpyJ
-         8A+w==
-X-Forwarded-Encrypted: i=1; AFNElJ/0lB9mpmwiAsXysCwF46p9SrKyUZIsDZMXFj92AyvFaHVvyL4uvrVwhPG0bzODTmSpuvqoRCUJ84M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGkgLKiOWSp2joyfttEYEnZJpZmcpuUFl4yqGlveTzcAFiUeEy
-	DMTUQKL8gNbTCcCCRYQCP4o69nBcePyy27IUveK/dw9TWKtSzN8s0kfX
-X-Gm-Gg: Acq92OE5HKU2FHXgu05UV6MBs5YtBK15PmML+eq3X7BYWP9b8iEgMOLSo4EayKt9RCp
-	n6/JRUij+qoUDtqiy43TykvzTAEUI+DJGWetCuC8jcs1HD9zKsij8hOnzHULwk6XDRCCjOZ5Sg2
-	Q3nDHR/iahujPzO3eNVabfBL11He8xPXl3d75N+C0XTRj4NYuaK9hdpqEvVRSyDkdsw4y+B6N7b
-	HY2CG1coaDMX5ZokVq1zkJYbpb8wmLjOrLNEmQ/xxS3VhWiYkF7WGib+1nnB83f44/KJtJe6+yl
-	4GPOxyuEWoumfFPws2aX0igSnLFbJW/v3JFKt2TzT2tvA2F4q/VLT4/xVrqMt70n7eSTScUpmjy
-	1QDmQvhX7NLWtbR4aLAK7tS+lt9pYdEWltOfUt8uQMqron10wDGB5PTAcsvD9r5yTrwOqTBiePp
-	pO+2VpdLebYZX9LLZ2xI78zD9gGafb28LuCBSp+Ekd/qsOdos8ZF1PFVSWpBgVzEnZtpR6e6+bU
-	FfxtLYyv2NcrwdAxCp9SeqL9Mq4g27L7+rr5hJrK2jUqvLZfQzh3IfAV+OPD5Ve/gUfCzc6ahrR
-X-Received: by 2002:a05:6a00:3905:b0:835:cc47:6ff7 with SMTP id d2e1a72fcca58-83eebfcd8a9mr3536583b3a.50.1778598295731;
-        Tue, 12 May 2026 08:04:55 -0700 (PDT)
-Received: from ERIC039ERIC.localdomain (1-170-163-225.dynamic-ip.hinet.net. [1.170.163.225])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839682aba01sm23748865b3a.55.2026.05.12.08.04.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 08:04:55 -0700 (PDT)
-From: Chen-Shi-Hong <eric039eric@gmail.com>
-To: linux@leemhuis.info
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen-Shi-Hong <eric039eric@gmail.com>
-Subject: [PATCH] docs: reporting-issues: clarify advice wording
-Date: Tue, 12 May 2026 23:04:06 +0800
-Message-ID: <20260512150431.894-1-eric039eric@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=W2eX0USmLShQsb/8DMQ63vXaSE/VT5r1TpahlVnwh5Y=;
+        b=ewWkVXwPkmCZ4XFrslMbpJ7dm1h7H9AlNeXjD4q9j5CcOAw5wxZyAyQiiUl/6HUkyb
+         5CAx7JBrlIfZf/BGNlQfXZ+al6czoIK0sCFwoDp1QosILvQ4UsGQ5jk9kRs7n2U6b2a2
+         H7DcviGDXUwq1RZS7elQU8cY6hiQkzUEmTOVHHDZUoUrAOPh9cKZnq5QHYOxbVLHmlOy
+         V8J/jTHds/l5BMAcgyySDS2G6RBmE26ROVALfA155CQw9Dg4q2cbBvWvpVI3mTVW5v3a
+         IyOJjoTjj9dtYQirRqZdbSICf5wc+NphKTtAOxyB3O1OUi33HaBsdZuMQpj/dV3DobBG
+         CQxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778598331; x=1779203131;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=W2eX0USmLShQsb/8DMQ63vXaSE/VT5r1TpahlVnwh5Y=;
+        b=ejG13M87J5008+pG4iUoBKlPZVZOa4ylwDmNDEAPT97Jz9BdAUHGPSwRgk4HuPiA+I
+         vVrc9092f5U371AGN8tlsCVMAcLsevE8r5QF9VG2pqiEGLFUDK3NLd1AzYks6i3GfjyP
+         AHAbJ348n3Hm+d6oNPDiV3sT+qrhDk1722JQy3Luastc/zPHiR7ksJzSnhhTYLJNiPxo
+         HR8WFEU5daKy0jaIsEAVytxWiMOHSgtQS/3OadH0r08ahPbbE8q9fwC5xksjOnhCtPAR
+         qigz+GGkVCh+J9AJExYEV3MRhVgIYg6IaECRwJsMbNWeQgCwdB6UHpQWmqIINLkSqO1u
+         +RLw==
+X-Forwarded-Encrypted: i=1; AFNElJ9rKqtD2UNXG/z3KuT6n95aTRw/eI0trppYq8EjSp1h5ZE1Yf7frAOwHXqDucHrHjeVcZsZ6gSiWOA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQ4voWuIz8cVedkhiF1KdwWnbAjp97FaHzA3RB86wG73O13eCh
+	rwmYAFJn7Kja+FnU+/j6++RB/vsQnpJokB13sIqiFq9aC+DRQZNoiiXr075ZUwDU8VhG5pPN1Bu
+	KCAVt/aUluCiBw9H5B+Mjhbuyh93uaS8wtlulRiL96FIkmaucbb5+CqZciVGdChcrcVAKDux1Cv
+	Rgb6NHgTT4vKGZa/5v+G/5qYWuyWzob/CGSL3t
+X-Gm-Gg: Acq92OEGQzczXfuEnrrP5utXxuAUvKavcZ5Ry8owHelDo8Vtghsr/PhvVIjs7FbaGsq
+	r/4nL8FZVVHgw4g9axz7vuDe6iHf3y0bM5ha2FwrxIAkaYjecAhfNcefZKyiFliknhIzYZfkYSk
+	A7UnUVLbozXM7JMpnqAgmAJ2GRjmiok0M6YZq/tq2bzOn21QOAn2Krmu2LzdXIT+jwAGT6R0BOd
+	LdlPQ==
+X-Received: by 2002:a05:690c:34c9:b0:7bd:6a98:58d3 with SMTP id 00721157ae682-7c50f7cdf32mr36554567b3.18.1778598331006;
+        Tue, 12 May 2026 08:05:31 -0700 (PDT)
+X-Received: by 2002:a05:690c:34c9:b0:7bd:6a98:58d3 with SMTP id
+ 00721157ae682-7c50f7cdf32mr36553547b3.18.1778598330230; Tue, 12 May 2026
+ 08:05:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260508-kunit_add_support-v9-0-99df7aa880f6@redhat.com> <20260508165203.1cd1b27e664754d18dbea899@linux-foundation.org>
+In-Reply-To: <20260508165203.1cd1b27e664754d18dbea899@linux-foundation.org>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Tue, 12 May 2026 17:05:18 +0200
+X-Gm-Features: AVHnY4IjDWzPTwv7Lf1EJ-4smElfrpc1pe5LEGC8untQsvEPzH-woMO9H8PAPck
+Message-ID: <CADSE00LNoc8KgVWR=7Va-Phb2U9sDzS9wntWckDFm66Uz89bnQ@mail.gmail.com>
+Subject: Re: [PATCH v9 0/4] kunit: Add support for suppressing warning backtraces
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
+	peterz@infradead.org, Alessandro Carminati <acarmina@redhat.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Kees Cook <kees@kernel.org>, 
+	Linux Kernel Functional Testing <lkft@linaro.org>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+	Dan Carpenter <error27@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-A previous change replaced "these advices" with "this advice", but that
-wording can be read too narrowly and may seem to refer only to a single
-recommendation.
+On Sat, May 9, 2026 at 1:52=E2=80=AFAM Andrew Morton <akpm@linux-foundation=
+.org> wrote:
+>
+> On Fri, 08 May 2026 17:02:44 +0200 Albert Esteve <aesteve@redhat.com> wro=
+te:
+>
+> > Some unit tests intentionally trigger warning backtraces by passing bad
+> > parameters to kernel API functions. Such unit tests typically check the
+> > return value from such calls, not the existence of the warning backtrac=
+e.
+> >
+> > ...
+> >
+> > Solve the problem by providing a means to suppress warning backtraces
+> > originating from the current kthread while executing test code.
+> > Since each KUnit test runs in its own kthread, this effectively scopes
+> > suppression to the test that enabled it, without requiring any
+> > architecture-specific code.
+>
+> Thanks.  AI review has a bunch of questions:
+>         https://sashiko.dev/#/patchset/20260508-kunit_add_support-v9-0-99=
+df7aa880f6@redhat.com
+>
 
-Use "all of this advice" instead to make it clearer that the sentence
-refers to the broader set of recommendations in the paragraph.
+Hi! Most look like valid concerns/issues. I will send a new version
+addressing them then, and monitor sashiko to ensure I clear
+everything.
 
-Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
----
- Documentation/admin-guide/reporting-issues.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks for the link.
 
-diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-index 731865b5e8ff..87dd874fffcf 100644
---- a/Documentation/admin-guide/reporting-issues.rst
-+++ b/Documentation/admin-guide/reporting-issues.rst
-@@ -129,7 +129,7 @@ After these preparations you'll now enter the main part:
-    situations; during the merge window that actually might be even the best
-    approach, but in that development phase it can be an even better idea to
-    suspend your efforts for a few days anyway. Whatever version you choose,
--   ideally use a 'vanilla' build. Ignoring this advice will dramatically
-+   ideally use a 'vanilla' build. Ignoring all of this advice will dramatically
-    increase the risk your report will be rejected or ignored.
- 
-  * Ensure the kernel you just installed does not 'taint' itself when
-@@ -795,7 +795,7 @@ Install a fresh kernel for testing
-     situations; during the merge window that actually might be even the best
-     approach, but in that development phase it can be an even better idea to
-     suspend your efforts for a few days anyway. Whatever version you choose,
--    ideally use a 'vanilla' built. Ignoring this advice will dramatically
-+    ideally use a 'vanilla' built. Ignoring all of this advice will dramatically
-     increase the risk your report will be rejected or ignored.*
- 
- As mentioned in the detailed explanation for the first step already: Like most
--- 
-2.53.0
+BR,
+Albert.
 
