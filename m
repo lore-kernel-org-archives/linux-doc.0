@@ -1,103 +1,88 @@
-Received: from outbound.qs.icloud.com (qs-2007f-snip4-7.eps.apple.com [57.103.84.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C932E11C7
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 10:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.84.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90A53839AB
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 10:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778581884; cv=none; b=cuwonwLRPtSFe/0cuc5gl4/z1yRH0mlxApWoy//rNnfH38QfCsg0q0v70RhA2n4rumwE7FQW0oEIeHQeAJzwWR0xglPxcKWO1oDmXOzirwLJj3oaoLJau/0SiVOzpn8H09l9lkp7qxkEFdRlAsOOAmIhg9nVRi9vbqRMSfLZBHE=
+	t=1778582481; cv=none; b=OTRttsqqoauyZHb/bv1FXY+/M6nAdzjkszX3a+b8d4cBfa45bTT5cm+0ue6LPn0xxZl3cvnNcfko1/DOYIRSgZXosWgYc7ByWJfxIwBmmMD7t1lslvI1xolEunvIg8DElboZ7D/IQnW3oDxJNKfLmiAR2+C2W6P8kF03/UurLSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778581884; c=relaxed/simple;
-	bh=PLsBuyVUT1+9K3ZI+4TzkYnlpJGN+OjGY1s5cTT6hxY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=higopWLA0coI9YmJTVh+g6cMDjcoZtN/GFa77FqkcVYkwtY6jz8GK0y947qxHzgYXpXYvOk5F9IJ1hsAQB6JeYayt5nVfu7aNcVmfQeMp4ns2jd1ufgIDL7exjzdxWu/nh5+b2HGKZuqoQcWr3anxuHnGTYngoK+Q1Fq7KtP4z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etehtsea.me; spf=pass smtp.mailfrom=etehtsea.me; dkim=pass (2048-bit key) header.d=etehtsea.me header.i=@etehtsea.me header.b=ZK8m8et+; arc=none smtp.client-ip=57.103.84.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etehtsea.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etehtsea.me
+	s=arc-20240116; t=1778582481; c=relaxed/simple;
+	bh=6rn6swVEd4vz3eMIfj5QGTwkv7LO3sqUKZ5oWnbq0/E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oo1JCtcv/XQ1Uxk39QviTM3ehA5KAgvOkFhjGv0dpQywkHPClwv02eZHYAQsq+MEpKwy2HSw2nmZujuFXo6KtNeyq6PSay6IB+pH/3ad88ZWK0WDMKZEZ+Pe60xAQP+HsrQq9BSgmkr7LRMYPU5JyGjCSnJ9ehQQtXsQqY0Z9PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vLVMFPIQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=etehtsea.me header.i=@etehtsea.me header.b="ZK8m8et+"
-Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-2d-100-percent-2 (Postfix) with ESMTPS id 1A89B1800159;
-	Tue, 12 May 2026 10:31:17 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQ5AHVwDWxxBAFYHXxcOVk1UGVoBdw5GFVEMQAhWRV8VGR5XUFoKWxx5HUcIXx9BFVhWXggXGVFNCEkTBVIHXU1WDUcPWB5cFBcJQENeCF4fTBwdDlgGEgBNCg42BlkFXglWA0MFNhIUXUVWGVIDRgNcGR0AUktfGV1FD18HWQRADEkBXAdYA0AIVgJdAF0DRwpVAkBaClsceR1HCF8fQRVYVl4ICUtGCUkdDg5CGEYfVCdXAloKWx4=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=etehtsea.me; s=sig1; t=1778581881; x=1781173881; bh=LBAQC4Sn+2TwAckVef00JukmOky6tMRvYvv/CRHAIMY=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=ZK8m8et+ycglmE+lh00qy+ONQcKUq+16kI+MAtp/bq+mBUgUlCU8/PgnMUxHWRONP0J5VmAH/W2GpIVwN4SLY1+sDxZRQbYvHvfdNxBsHHHVTTqDMyWlh34LG6ub8bZCe5dDiX/xY9vxakVL7xrh6PlPlehvqLz5QhPyYIX+gPgbJ5GLo6F5A6LEhMRSK9NMhdcmOx/ZmwBFGA+f/zanTzdkL6H0BK+GrV5hu3/xwLdCNeCsmhX1E5wEjhY4oRKVcv2wxb3TH+u9OO/AZVk7VHqS4SGhvXavk6PlUeqUi8fhcihCEB/MW63ZLrc6kY+b+HTMAzMg63x717V6o0qRQQ==
-mail-alias-created-date: 1634905887181
-Received: from localhost (unknown [17.57.155.37])
-	by p00-icloudmta-asmtp-us-east-2d-100-percent-2 (Postfix) with ESMTPSA id 9D0701800134;
-	Tue, 12 May 2026 10:31:16 +0000 (UTC)
-From: Konstantin Shabanov <mail@etehtsea.me>
-To: linux-doc@vger.kernel.org
-Cc: Konstantin Shabanov <mail@etehtsea.me>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: netlink: Correct buffer sizing info
-Date: Tue, 12 May 2026 17:30:53 +0700
-Message-ID: <20260512103101.1076173-1-mail@etehtsea.me>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vLVMFPIQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DCBCC2BCB0
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 10:41:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778582481;
+	bh=6rn6swVEd4vz3eMIfj5QGTwkv7LO3sqUKZ5oWnbq0/E=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=vLVMFPIQHRfktrDv7ivdZCnIqnoPrUXJqHgOCVjidd8uxP583CNT0W4Y/jZv8812X
+	 WBw4FvFy9NLfpZcXshrU+OwV9yDOt4Ks2gPWHDvgyIKeMhHLU3S8vGnvwKhvBmlCmd
+	 YCO9QEsKF4kxLbRP0+LVexkT5KOQ8hk7uMO4dU0nBevOC9fFvrMA7JFePlwL2aAqAD
+	 YKxEiJ0hpxHkOI1f5kgJ7nHyE2QedZS7zQrX/KwzpXbR7tGraF3THasj0iANSK/4Rn
+	 9AhKC0HFMZKWnc8LEOi+ShUALvGtac8qmbz8DpqQomPQsv3mdrB/+cpbuKzoAQzLT6
+	 fp1ctjlPMfhgg==
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-393d07e8938so49576601fa.2
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 03:41:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/aqeyfHja++nBBckUsONaODoVepBHz7AGnVcXEiL5BZUP/5+TDY23ll/LeBL1YRzG5TIk4I/Ns/gs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZyIv9JX+Pe5NSHHVB/7ryiWxPYf7NWqB5KDWUEUSIkQr+2fNu
+	2laJDcJpxYqZj6lQaDQLLF5Rir6xkI926qI76Z7A1eWqvFRca56+gW+U2yHbf107nX8ZjDmYkRZ
+	V25MVyZDZ8quIZsw7sPAqc/YLmySoKNV2jJbvvqfVhQ==
+X-Received: by 2002:a05:651c:1510:b0:394:2b4:ca36 with SMTP id
+ 38308e7fff4ca-39402b50876mr51082121fa.30.1778582480236; Tue, 12 May 2026
+ 03:41:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Info-Out: v=2.4 cv=aKX9aL9m c=1 sm=1 tr=0 ts=6a030177
- cx=c_apl:c_pps:t_out a=bsP7O+dXZ5uKcj+dsLqiMw==:117
- a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=MKtGQD3n3ToA:10 a=1oJP67jkp3AA:10
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8
- a=ghC8wwoHDixrMWJZ6csA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDEwOCBTYWx0ZWRfX9jxyYVDwt3iz
- BeKq2Sjv3CN0Sh7FwcTBKnmgdUd6T2qMYzmgPHEwMJ/0ulyogUyCgFSVUjtEeBVr26gmF+axtr5
- alcxa6eXdmN/GAzNSmB6VEIFqmPfBcEAj81YcLH77abuRseuHXNLjXYzgBSjZR6JjGFGRW258cM
- 9+Zh0Xylb449iZIkfnUVnQ1PIbH8z7OwQ+Ww3KFYKzIC4/OYnjs4w12c69gspBSz8FCAtyMVMqr
- sD2xeamwa0PgCQQHSVeeH0/tHBuHaLt1+sSdmS7orCo5AFVnDuiPbYiPE4uJBg/pk6iSOCNLDi2
- coVbvCxPpqOdGqH9K8d6uoTuJkL151n1rgqsCZ/YgORchu40F7o65AlGN7lGrQ=
-X-Proofpoint-ORIG-GUID: yxi057uWUid0oBFw4GkAAHDbB15BQrkh
-X-Proofpoint-GUID: yxi057uWUid0oBFw4GkAAHDbB15BQrkh
+References: <20260508105448.31799-1-tzungbi@kernel.org> <20260508105448.31799-8-tzungbi@kernel.org>
+ <CAMRc=MfZL2ZEmNEdVd6NeZJDjTzh_MbDy2kU+AYi-CmgRnWZmw@mail.gmail.com> <agLhMUtdCPqLb736@google.com>
+In-Reply-To: <agLhMUtdCPqLb736@google.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Tue, 12 May 2026 12:41:07 +0200
+X-Gmail-Original-Message-ID: <CAMRc=Mexm1dCrPXWnn2u_1m5DWgUq0oe2g-kxPLYdZAoqGfscw@mail.gmail.com>
+X-Gm-Features: AVHnY4Le85TmEBOcRzfa3PaLA6tGozvfWg_wHD7L_EU0Rpneaj3lVgF7-u0sNmM
+Message-ID: <CAMRc=Mexm1dCrPXWnn2u_1m5DWgUq0oe2g-kxPLYdZAoqGfscw@mail.gmail.com>
+Subject: Re: [PATCH v10 7/9] gpio: Remove unused `chip` and `srcu` in struct gpio_device
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Johan Hovold <johan@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij <linusw@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update the docs to match the code (include/linux/netlink.h):
+On Tue, May 12, 2026 at 10:13=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org>=
+ wrote:
+>
+> On Mon, May 11, 2026 at 06:18:21AM -0700, Bartosz Golaszewski wrote:
+> > On Fri, 8 May 2026 12:54:46 +0200, Tzung-Bi Shih <tzungbi@kernel.org> s=
+aid:
+> > > `chip` and `srcu` in struct gpio_device are unused as their usages ar=
+e
+> > > replaced to use revocable.  Remove them.
+> > >
+> > > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> > > ---
+> >
+> > I'm thinking that all the GPIO patches could actually be squashed into =
+one. Is
+> > there any technical reason for the split or is it just for easier revie=
+w?
+>
+> Correct, they are separated only for easier review.  Would you prefer I
+> squash the 5 patches into a single patch?
 
-  /*
-   *	skb should fit one page. This choice is good for headerless malloc.
-   *	But we should limit to 8K so that userspace does not have to
-   *	use enormous buffer sizes on recvmsg() calls just to avoid
-   *	MSG_TRUNC when PAGE_SIZE is very large.
-  */
-  #if PAGE_SIZE < 8192UL
-  #define NLMSG_GOODSIZE	SKB_WITH_OVERHEAD(PAGE_SIZE)
-  #else
-  #define NLMSG_GOODSIZE	SKB_WITH_OVERHEAD(8192UL)
-  #endif
+Yes, I think it's less churn that way.
 
-Link: https://lore.kernel.org/all/20220819200221.422801-2-kuba@kernel.org/
-Signed-off-by: Konstantin Shabanov <mail@etehtsea.me>
----
- Documentation/userspace-api/netlink/intro.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/userspace-api/netlink/intro.rst b/Documentation/userspace-api/netlink/intro.rst
-index aacffade8f84..ca60abe94e3d 100644
---- a/Documentation/userspace-api/netlink/intro.rst
-+++ b/Documentation/userspace-api/netlink/intro.rst
-@@ -526,8 +526,8 @@ of the recvmsg() system call, *not* a Netlink header).
- 
- Upon truncation the remaining part of the message is discarded.
- 
--Netlink expects that the user buffer will be at least 8kB or a page
--size of the CPU architecture, whichever is bigger. Particular Netlink
-+Netlink expects that the user buffer will be at most 8kB or a page
-+size of the CPU architecture, whichever is smaller. Particular Netlink
- families may, however, require a larger buffer. 32kB buffer is recommended
- for most efficient handling of dumps (larger buffer fits more dumped
- objects and therefore fewer recvmsg() calls are needed).
-
-base-commit: 917719c412c48687d4a176965d1fa35320ec457c
--- 
-2.53.0
-
+Bartosz
