@@ -1,86 +1,200 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438553E170C;
-	Tue, 12 May 2026 13:05:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F5D3998B1;
+	Tue, 12 May 2026 13:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778591148; cv=none; b=tDWObDKQHWY8C5ei6MXCquZr9EM6enGsLJEz998ylvjCpy9upZdRECLo2YoTjjsBuRk+AHjXeYpoK0Gwk9pw1GSpbGar7DRnqUSvHpwtk7sKEU8ruN/f1FMJYuDkXf0wgWn3dZ4Htp2tn4h3/I6zeZAU7iACc2fh31o+TRryKV8=
+	t=1778591174; cv=none; b=HJAM+WZGpXs2rKMX9eMnNm5suuZCQfS5ygBXdM8rdpqKtOY/F7x5z1kF1KZV+o8/AeIX2BLmm2hBXDRkWlvoyhZyyacB5cD/WjZduL0WhEX+OZ5aH8ieMQVkW0CL8BfJJFj5Hng33+alB4dE3YnMmwoX6YtZT4ek7awUZzryVjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778591148; c=relaxed/simple;
-	bh=n8gaZFTUvxz2GlSH8if4QoMEk3XrJLJ4wMVxRfHKC3k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AXlfBf7LAydGXhxJ6Wrx8oqFwryWydjD6dWFJLuf58L2xi0iRWjhEWlUeo0HQVB9x3x9M8AF7uTauBKcw902DFzMpU6sK/FGtSMhB1LtgVwAyQO/3CjtUfmMyrQ4f85TREgbOMnDLiqGz3ZslfsF6yrPGtATKrCh2tzyatLkUCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=TbbFtDMD; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1778591174; c=relaxed/simple;
+	bh=mxkddz9BDuQCHvOCbUUJ90eg8pjGZVnjyCNE9GmxaFA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=LWAPrduq8R3ympD02oSvmdGrCBUleAPo0Nc4cV8daDESDWPVkjqmXkv0hEFgzNDsOGRjvw6JSMbBQzirSlmNQ/8TaFP04TlAfvxTA1m6XlA3BbT7qw1dR+s+XPZRa3ViFXzmbr++PuYplcfgbt2xAkaKDC2FiECCnEFU3txzSjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A3G7WWRW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="TbbFtDMD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=kX9NKZc878QSw9T/nFa6vS4SRnKB4jXUSRuipp9+zYg=; b=TbbFtDMDVxiioURi9D9kuOtmSW
-	cETUFLucu9DUzw9+DFDImtEfVW+HvJknB/Dq48RIfpjP4PQlqAg9JFBMhrVoToz8+GTLWlAASsAXn
-	ECD4xyOtJEmCmJUBNAgqD3vjN7uWz0KWGF0kz1WFu8d/z7UnCdqN6TBK1JVMjREfUBDl9GG/CHRca
-	2rkx13nLibDxOjebq7bdpGIKLvXmYE5AFJuia/D3KYSUaC4bCBYFYytHaUM9AVGOo2AkGGGrsngHC
-	3nKTh5Rz9hHXUsdXjzh35vu3bmCu4vZ4jl4+z378xsCu174PkJk5KB95Jb+zJBe/eweGM5wskKdCM
-	PxVEDF6Q==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wMmnj-002ObZ-1U;
-	Tue, 12 May 2026 13:05:31 +0000
-Date: Tue, 12 May 2026 06:05:25 -0700
-From: Breno Leitao <leitao@debian.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Liam R. Howlett" <liam@infradead.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v6 3/4] mm/memory-failure: add panic option for
- unrecoverable pages
-Message-ID: <agMlebHmui2quDBr@gmail.com>
-References: <20260511-ecc_panic-v6-0-183012ba7d4b@debian.org>
- <20260511-ecc_panic-v6-3-183012ba7d4b@debian.org>
- <8d4940bc-d8c4-4e7f-a35d-979e6a781966@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A3G7WWRW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 129ECC2BCF6;
+	Tue, 12 May 2026 13:06:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778591174;
+	bh=mxkddz9BDuQCHvOCbUUJ90eg8pjGZVnjyCNE9GmxaFA=;
+	h=From:Subject:Date:To:Cc:From;
+	b=A3G7WWRWS4rMEE3kgvcztzYc4Vp0UwFUvGZuWuuBEL2U90x/52C786k9rldo6PuIm
+	 OeO9JsWgkXiP5kf1qb88sPJfzb/Zinr+6PMcGTJL04eIGFI7OHWciyqfxLk+wvZ1Vs
+	 YqA8s/Gq5r/4d8cdTyoUobaYwPRGhryzG6V/zcahueM6Q54YCNbpJWpT1eftT65Uxe
+	 gZX91C5wEygAJTd5eMI0ERK3YQM0R/6RAPkF9GRHYJCYHuET91NpsAFTWLEunJ1DRV
+	 8kyRi6eNuodqdRW4pUXJRNsse931/+cRWYHlRsrzvCIEhgOFdhbEBmIeit8gfdq3Yg
+	 ZWv8uSKTtfEpQ==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v4 00/20] drm/atomic: Rework initial state allocation
+Date: Tue, 12 May 2026 15:05:58 +0200
+Message-Id: <20260512-drm-mode-config-init-v4-0-591dfdcc1bf9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8d4940bc-d8c4-4e7f-a35d-979e6a781966@kernel.org>
-X-Debian-User: leitao
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33OTW7DIBAF4KtYrEvFn22SVe9RdRFgcEapIQVqp
+ Yp89xKySKoqWb4ZvW/mTDIkhEy23ZkkWDBjDDWol47Y/S5MQNHVTAQTA5OcUZdmOkcH1MbgcaI
+ YsFAO3PfCjKp3jNTqMYHHU2PfP645wdd31ct1SMwuX4h5xrLtApwKbRd6psmlsMdcYvppby28N
+ Z5/sHBaNzDKzWg1cOvfDpACfL7GNDVxEXeKeKSIqthBes6lgnGw/xR5U5RQDxRZFW0G7TbOMKf
+ NH2Vd119lfOmOdgEAAA==
+X-Change-ID: 20260310-drm-mode-config-init-1e1f52b745d0
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>, 
+ Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>, 
+ Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5534; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=mxkddz9BDuQCHvOCbUUJ90eg8pjGZVnjyCNE9GmxaFA=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFnMqjvXLZf6dyeu1XHP/u9HBWbVRZtfjGu+6rvorGIN9
+ 4HbT29odkxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJ2K5nrI/Or+nKbkyvvMLX
+ 5DWlY4Ga9c7kmUs3fi0wTKyd5hP1OPy+l+qnPF6n/nv7bkv2xngcYazh3FwsuI8v/dxi/i0r3Za
+ eF99arPP1j7ZmWlFQ05cvS9Wmh2bFSSh08T1iZq+buetWmTcA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-On Tue, May 12, 2026 at 10:22:38AM +0200, David Hildenbrand (Arm) wrote:
-> 
-> > @@ -1281,6 +1292,18 @@ static void update_per_node_mf_stats(unsigned long pfn,
-> >  	++mf_stats->total;
-> >  }
-> >  
-> > +static bool panic_on_unrecoverable_mf(enum mf_action_page_type type,
-> > +				      enum mf_result result)
-> > +{
-> > +	if (!sysctl_panic_on_unrecoverable_mf || result != MF_IGNORED)
-> > +		return false;
-> > +
-> > +	if (type == MF_MSG_KERNEL)
-> > +		return true;
-> > +
-> > +	return false;
-> 
-> return type == MF_MSG_KERNEL;
-> 
-> might be simpler.
+Hi,
 
-Ack, I will update once we decide about the other pendencies.
+This series started from my work on the hardware state readout[1], and
+more specifically a discussion with Thomas[2].
+
+This series expands the work that has been merged recently to make
+drm_private_obj and drm_private_state allocation a bit more consistent
+and ended up creating a new atomic_create_state callback to allocate a
+new state with no side effect.
+
+The first patches document the existing behaviour and fix a few
+cleanups and typos.
+
+Then, __drm_*_state_reset() helpers are renamed to
+__drm_*_state_init() to clarify that they initialize rather than
+reset state, and we add the new atomic_create_state callback to
+every other DRM object (planes, CRTCs, connectors, colorops).
+
+Next, we leverage those new callbacks to create a new helper,
+drm_mode_config_create_initial_state(), to create the initial state
+for all the objects of a driver, and update the driver skeleton to
+recommend it.
+
+Finally, we convert the tidss driver and the bridge_connector to the
+new pattern.
+
+This was tested on a TI SK-AM62, with the tidss driver.
+
+Let me know what you think,
+Maxime
+
+1: https://lore.kernel.org/dri-devel/20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org/
+2: https://lore.kernel.org/dri-devel/5920ffe5-b6b1-484b-b320-332b9eb9db82@suse.de/
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v4:
+- Rebased on current drm-misc-next
+- Update drm_atomic_state to drm_atomic_commit
+- Various doc impromvements
+- Don't call drm_crtc_vblank_reset in create_state
+- Prevent mem leak if states already have a state when
+  drm_mode_config_reset or _create_initial_state are called
+- Link to v3: https://lore.kernel.org/r/20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org
+
+Changes in v3:
+- Reintroduce state documentation that was dropped by accident
+- Change name to drm_mode_config_create_initial_state()
+- Don't call drm_mode_config_create_initial_state() in drm_dev_register
+  anymore
+- Drop __drm_atomic_helper_*_create_state
+- Improve documentation and commit messages where necessary
+- Collected tags
+- Link to v2: https://lore.kernel.org/r/20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org
+
+Changes in v2:
+- Change the _state_reset function names to _state_init
+- Change the colorop too
+- Various doc improvements
+- Link to v1: https://lore.kernel.org/r/20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org
+
+---
+Maxime Ripard (20):
+      drm/atomic: Document atomic commit lifetime
+      drm/colorop: Fix typos in the doc
+      drm/atomic: Drop drm_private_obj.state assignment from create_state
+      drm/atomic: Expand atomic_create_state expectations for drm_private_obj
+      drm/mode-config: Document drm_private_obj exclusion from drm_mode_config_reset()
+      drm/colorop: Rename __drm_colorop_state_reset()
+      drm/colorop: Create drm_atomic_helper_colorop_create_state()
+      drm/atomic-state-helper: Fix __drm_atomic_helper_plane_reset() doc typo
+      drm/atomic-state-helper: Rename __drm_atomic_helper_plane_state_reset()
+      drm/plane: Add new atomic_create_state callback
+      drm/atomic-state-helper: Rename __drm_atomic_helper_crtc_state_reset()
+      drm/crtc: Add new atomic_create_state callback
+      drm/atomic-state-helper: Rename __drm_atomic_helper_connector_state_reset()
+      drm/hdmi: Rename __drm_atomic_helper_connector_hdmi_reset()
+      drm/connector: Add new atomic_create_state callback
+      drm/mode-config: Create drm_mode_config_create_initial_state()
+      drm/drv: Switch skeleton to drm_mode_config_create_initial_state()
+      drm/tidss: Switch to drm_mode_config_create_initial_state()
+      drm/tidss: Convert to atomic_create_state
+      drm/bridge_connector: Convert to atomic_create_state
+
+ Documentation/gpu/drm-kms.rst                      |   6 +
+ drivers/gpu/drm/display/drm_bridge_connector.c     |  17 +-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  15 +-
+ drivers/gpu/drm/drm_atomic.c                       |  66 ++++++++
+ drivers/gpu/drm/drm_atomic_state_helper.c          | 114 ++++++++++---
+ drivers/gpu/drm/drm_colorop.c                      |  41 ++++-
+ drivers/gpu/drm/drm_drv.c                          |   4 +-
+ drivers/gpu/drm/drm_mode_config.c                  | 187 ++++++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_crtc.c          |   2 +-
+ drivers/gpu/drm/i915/display/intel_plane.c         |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |   2 +-
+ drivers/gpu/drm/tidss/tidss_crtc.c                 |  17 +-
+ drivers/gpu/drm/tidss/tidss_drv.c                  |   6 +-
+ drivers/gpu/drm/tidss/tidss_plane.c                |   2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |   2 +-
+ include/drm/display/drm_hdmi_state_helper.h        |   4 +-
+ include/drm/drm_atomic.h                           |   5 +-
+ include/drm/drm_atomic_state_helper.h              |  12 +-
+ include/drm/drm_colorop.h                          |   2 +
+ include/drm/drm_connector.h                        |  16 ++
+ include/drm/drm_crtc.h                             |  16 ++
+ include/drm/drm_mode_config.h                      |   1 +
+ include/drm/drm_plane.h                            |  16 ++
+ 24 files changed, 489 insertions(+), 68 deletions(-)
+---
+base-commit: b462608de92a7cac450781f9d8d4c7cf3ccf82db
+change-id: 20260310-drm-mode-config-init-1e1f52b745d0
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
+
