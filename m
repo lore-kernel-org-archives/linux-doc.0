@@ -1,282 +1,152 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2418A389454
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 11:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666F93CB2FD
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 12:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778586757; cv=none; b=V1sCz6GNS9qt7LFfy1FgQh3aQ/aF0gxasFphYefhNDn2OG3Dws2795IPr00pxwl4HpCyykXVEtBqIblkqZz66qPI6Guj76Y6pZTVPhgp8zaadQwY3CczEOJIC/iddfTX6gWJPb030LuAVUmG9ZJ6NbZpvg6xCrE/2DYCQk3YugI=
+	t=1778587591; cv=none; b=et3qmUM/AdNHzMK7TxSaaypqCjihAXqfMapVxzdPQkMWE7FGIggZW8BIGdiii+cwN1jayTRs8TxU8wBo6MnxmQ9hSLjsuXQNXpMicsJLtYMl9x+KQQUT1HX5i0e2uy0BUMekBbTViHveL87bRPMzukHGoz2Ztn0AtN5Axphh/d4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778586757; c=relaxed/simple;
-	bh=q0toXFtdCq3Gd+N6IgETwyG7TGJD8jNf6JYTpn7lJtI=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cxhfr5V0KSJeIrSq53vzbJkmmwr9sRtkdObMWz9cnhRWkNN2aAwi5BTq4YOIyJ5WacfOVnSZhG3mYhDzHFYoykDDhgfgFWEScy4gJWnqA2PEpSngPcmlVpdvaw5XrtbYN23s/Cp5/XrQtqvTWmFc3xy0J54nvhmzfZeIX9zr0Nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=icLlewEA; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778587591; c=relaxed/simple;
+	bh=p/tHk3Ki7ukILe77/bmVvcIMX8dUCZhWCuNG0mGDJjY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Osornl3prkLc57nR8ig3zU/nhK1OOD7/r5QdyhUOsPFkt3zGlTk/8XozrmnKVlbaOfmWX4/cgxC3O1vwUOI3+SGguwYMrwb3BAlDtgudWqSDkkCwWi6eRIw1o0XlC+E3fw4GETG31thVgfnwaouYxLVZxfNbU/VSVUX83YZrv4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=I+M8YmPX; arc=none smtp.client-ip=95.215.58.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="icLlewEA"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48896199cbaso48948395e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 04:52:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778586753; x=1779191553; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xiotYhVrHRnwS6rwT87KZq6Tjp1oH1i2jknlxHPxVk0=;
-        b=icLlewEApWrjhDb7l1QbIfjfj97emDKwPEDz8PQuWPsO3Luw42gifpz+WZ/an2n0OK
-         Cqs4nCT/Ntv8kVr4fXQr1HYwmSl0YXkF813l286yTQBsbfXWievHgJA3tM+QDc2e2WFf
-         p9GY+14Sa8SOrWzJjq2XaeVqTtQsqM5Vz155RUmvrYFVHyvGo6xPdp15b0TWAwEO1pbK
-         wW2ZGm2Lbr5HleDT/To24q89YUOe/S5FZxPNCXNN5YCXCbAhPnIGVTAOjoqQeJJXxsP8
-         FBpyEpWutcxr/+N5tJC7Z1aPw9sCNIYDEVbXROu4UT7OaQo4/Af16pVolqlD3Gg/S7mO
-         EF+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778586753; x=1779191553;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xiotYhVrHRnwS6rwT87KZq6Tjp1oH1i2jknlxHPxVk0=;
-        b=PR8VJauUaV4dKtsen3OaI1HsOjXdYtFnYn1aH1z8PbkgQVLv/oXwfc57mk+pDCs83X
-         0dS0/cQfhd+QgjSWa5gFVTjLVe2uQctNRz5ZXmguzPHUi5dKOsqbd7ElTAy0gyUR/uVj
-         +JhdaFvj8izhqHpWKMkzdJ7djxFfNm790hiEZHeQa7ItujeVV/w1+z0bUGpJrn/sm0oi
-         in2HmqvME3DtGrH2EdIICtSvbNXv+wB7pWTYhX1QVgxWcO2RvDi89M0udGy/xgN6/xyF
-         jjoipPAVLVrZ7q06w0vxFRdHyljmmQYewqRDD6ZtEnlDtPFFlT7qPzuZ4m2ePbafg+pp
-         UJKw==
-X-Forwarded-Encrypted: i=1; AFNElJ/lYl+HZt5+eJhG+iHUa/ExR9fcMOT9QM9jwkruItjArhqYEPDvxnrjlgvDCVxkTOjqOFAExc1JtoY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVVE3wIpavHs9AspvhuWbubi6/Fzu+Jqgl9MG0PksUWa69WlBb
-	SxSdqjhE1Dpya6qx4pe5eNr4RQ13mIwPXzMLxZJawR0eM5tIJMLK1yRd
-X-Gm-Gg: Acq92OF+ooHKO1ihtTPLoNaePSw9bxyadkXwODUaeSbIj49c8DzHby7uiZDbhbsckIs
-	3U6Z4EFN5Ysqq3TQiQ5XwiQCh6gLoIcbkT7+2haf1WvT+63NlR+mbJ2yLBXDIeJNnvY3czgdIue
-	A2y5LkJKSxXj5d8ni3ZBiBBwQAM7DSC6PYh9QNNkIRgayauxgmQgXLTnHm5zwjpkqm4mp4GS8vc
-	RdQ/SG+WI+2XI1XaldbukEOMG6MNwEEY0mySh3j8LEtYq8Y2EWSawJjZOoHFk2cJwrulwnmocwY
-	bBoDFXIY5bpEh8qAVAmzRroBLbcUIETWtOcAnLrwTp3Ibdmq/eyBNfIkpllNAv+rsFoRSc5Ye+k
-	TkEwMe0e8sjEvF0bUkN42xN3nfuSItb5TtO1vlRbIws9vQA1I0oAN4f29ctjlfpZ8Zn4vmL1eYl
-	KVMMsJw0PGulPE+pv5NqNUJctZkvjJzHcAgh6DzqDTCqZT3MJGcH8ePmBEXiFB4JoZ2lM1C7LoT
-	IGQkVDLZKI3/HSBfl385BkY2bedjCYBY4tu6L5XdwJCvFcWkA==
-X-Received: by 2002:a05:600c:8b57:b0:48e:706b:53e3 with SMTP id 5b1f17b1804b1-48e8fe4b07dmr43967305e9.1.1778586753200;
-        Tue, 12 May 2026 04:52:33 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e906ae8b5sm71070485e9.6.2026.05.12.04.52.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 04:52:32 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Tue, 12 May 2026 12:52:28 +0100
-To: Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, David Laight <david.laight.linux@gmail.com>
-Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
- kstrtodec64()
-Message-ID: <aldsbu5etakdgrg2qjpcnaehyvr7n352j5huv6ipyjrmnqtvxa@2rkypkhor4mi>
-References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
- <20260510-adf41513-iio-driver-v12-2-34af2ed2779f@analog.com>
- <20260512123953.40d80bc9@jic23-huawei>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="I+M8YmPX"
+Message-ID: <1e3e5461-76cb-4e69-81f8-fb2220bf797c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778587577;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ap2nfY1WZm6T5NE1j7FvcA+Rbuv0o1NHLF2th8iyNUI=;
+	b=I+M8YmPXQjQDW/l4DymajI9lHONPQvH/p43t4tlzHtFeU9DBE5bi0PJBgeo3tVXpo2Xvwz
+	3PvQKsUX01TNh9+d6MawmNdT2f+P83j3QgbFOsKIOYLE3UH3kJ3SmlKEc6ZLXeWhtIK7rv
+	2F6A2S2YBrcbnM8zP8J+n8o0Nlm0z58=
+Date: Tue, 12 May 2026 20:05:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260512123953.40d80bc9@jic23-huawei>
+Subject: Re: [PATCH RESEND bpf-next v10 5/8] bpf: Add bpf_list_add to insert
+ node after a given list node
+To: bot+bpf-ci@kernel.org
+Cc: bpf@vger.kernel.org, ast@kernel.org, corbet@lwn.net,
+ martin.lau@linux.dev, daniel@iogearbox.net, andrii@kernel.org,
+ eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
+ haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
+ chengkaitao@kylinos.cn, skhan@linuxfoundation.org, memxor@gmail.com,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, vmalik@redhat.com,
+ linux-kselftest@vger.kernel.org, martin.lau@kernel.org, clm@meta.com,
+ ihor.solodrai@linux.dev
+References: <20260512055919.95716-6-kaitao.cheng@linux.dev>
+ <f573f7e0a5140fe6254d2ddfd3f69add455fa25c67c020c0312e2c2ceeca7c69@mail.kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kaitao Cheng <kaitao.cheng@linux.dev>
+In-Reply-To: <f573f7e0a5140fe6254d2ddfd3f69add455fa25c67c020c0312e2c2ceeca7c69@mail.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 26/05/12 12:39PM, Jonathan Cameron wrote:
-> On Sun, 10 May 2026 13:42:20 +0100
-> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> 
-> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > 
-> > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
-> > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
-> > precision). After the decimal point, digits beyond the specified scale
-> > are ignored.
-> > 
-> > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> 
-> Whilst Rodrigo has already replied to say there will be another version
-> I'd like to request final feedback from those who were involved in the parser
-> discussions.  
-> 
-> They got very involved and I'm far from an expert in the right way to do
-> this stuff.  
-> 
-> I don't think David Laight was +CC so I've added that.
-> David, Andy - I think you two were most involved in that discussion:
-> Any objections to the end result? 
 
-I am evaluating on taking sashiko's feedback here too, so it is a good
-time to check this again indeed.
 
-> Thanks,
+在 2026/5/12 14:41, bot+bpf-ci@kernel.org 写道:
+>> diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
+>> --- a/kernel/bpf/helpers.c
+>> +++ b/kernel/bpf/helpers.c
+>> @@ -2570,6 +2570,16 @@ __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
+>>  	return bpf_list_push_back(head, node, meta__ign, off);
+>>  }
+>>
+>> +__bpf_kfunc int bpf_list_add(struct bpf_list_head *head, struct bpf_list_node *new,
+>> +			     struct bpf_list_node *prev, struct btf_struct_meta *meta,
+>> +			     u64 off)
 > 
-> Jonathan
+> The commit message states that 'prev' must already be in the list. How can a
+> BPF program obtain such a reference and pass it to this kfunc?
 > 
+> A node already in the list is tracked by the verifier as a non-owning
+> reference (PTR_TO_BTF_ID | MEM_ALLOC | NON_OWN_REF with ref_obj_id == 0).
+> The typical way to obtain this is via bpf_list_front() or bpf_list_back(),
+> which return non-owning references.
 > 
-> > ---
-> >  include/linux/kstrtox.h |   3 ++
-> >  lib/kstrtox.c           | 107 ++++++++++++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 110 insertions(+)
-> > 
-> > diff --git a/include/linux/kstrtox.h b/include/linux/kstrtox.h
-> > index 6ea897222af1..bec2fc17bde0 100644
-> > --- a/include/linux/kstrtox.h
-> > +++ b/include/linux/kstrtox.h
-> > @@ -97,6 +97,9 @@ int __must_check kstrtou8(const char *s, unsigned int base, u8 *res);
-> >  int __must_check kstrtos8(const char *s, unsigned int base, s8 *res);
-> >  int __must_check kstrtobool(const char *s, bool *res);
-> >  
-> > +int __must_check kstrtoudec64(const char *s, unsigned int scale, u64 *res);
-> > +int __must_check kstrtodec64(const char *s, unsigned int scale, s64 *res);
-> > +
-> >  int __must_check kstrtoull_from_user(const char __user *s, size_t count, unsigned int base, unsigned long long *res);
-> >  int __must_check kstrtoll_from_user(const char __user *s, size_t count, unsigned int base, long long *res);
-> >  int __must_check kstrtoul_from_user(const char __user *s, size_t count, unsigned int base, unsigned long *res);
-> > diff --git a/lib/kstrtox.c b/lib/kstrtox.c
-> > index 97be2a39f537..da7b5f83a3c5 100644
-> > --- a/lib/kstrtox.c
-> > +++ b/lib/kstrtox.c
-> > @@ -17,6 +17,7 @@
-> >  #include <linux/export.h>
-> >  #include <linux/kstrtox.h>
-> >  #include <linux/math64.h>
-> > +#include <linux/overflow.h>
-> >  #include <linux/types.h>
-> >  #include <linux/uaccess.h>
-> >  
-> > @@ -392,6 +393,112 @@ int kstrtobool(const char *s, bool *res)
-> >  }
-> >  EXPORT_SYMBOL(kstrtobool);
-> >  
-> > +static int _kstrtoudec64(const char *s, unsigned int scale, u64 *res)
-> > +{
-> > +	u64 _res = 0, _frac = 0;
-> > +	unsigned int rv;
-> > +
-> > +	if (scale > 19) /* log10(2^64) = 19.26 */
-> > +		return -EINVAL;
-> > +
-> > +	if (*s != '.') {
-> > +		rv = _parse_integer(s, 10, &_res);
-> > +		if (rv & KSTRTOX_OVERFLOW)
-> > +			return -ERANGE;
-> > +		if (rv == 0)
-> > +			return -EINVAL;
-> > +		s += rv;
-> > +	}
-> > +
-> > +	if (*s == '.' && scale) {
+> However, check_kfunc_args() in kernel/bpf/verifier.c handles
+> KF_ARG_PTR_TO_LIST_NODE by requiring owning references and rejects non-owning
+> references.
+> 
+> Without a similar distinction for KF_ARG_PTR_TO_LIST_NODE (as exists for
+> KF_ARG_PTR_TO_RB_NODE), is there any valid BPF register state that satisfies
+> both the verifier check and the runtime semantics stated in the commit
+> message?
+> 
+> The BPF CI bot reported this issue in v10. The author responded that this was
+> fixed in [PATCH bpf-next v10 7/8], which introduces the __nonown_allowed
+> annotation and corresponding verifier logic. However, patch 7/8 is not
+> present in this commit (feed006fb969), so the parameter lacks the
+> __nonown_allowed suffix and the verifier lacks the is_kfunc_arg_nonown_allowed()
+> check.
 
-I havent really considered the scale == 0 case, I suppose that
-one could rely on kstrtoull() instead. But as sashiko points
-out, it deviates from the documented behavior. Also, I will
-consider accepting "123." as a valid input, I see that others
-parsers do that and should not be a problem. So I will add a
-small change here. Also will make sure the test cases are ok.
+If this is an issue that must be fixed, I will move [PATCH bpf-next v10 7/8]
+earlier in the next version.
 
-> > +		s++; /* skip decimal point */
-> > +		rv = _parse_integer_limit(s, 10, &_frac, scale);
-> > +		if (rv & KSTRTOX_OVERFLOW)
-> > +			return -ERANGE;
-> > +		if (rv == 0)
-> > +			return -EINVAL;
-> > +		s += rv;
-> > +		if (rv < scale)
-> > +			_frac *= int_pow(10, scale - rv);
-> > +		while (isdigit(*s)) /* truncate */
-> > +			s++;
-> > +	}
-> > +
-> > +	if (*s == '\n')
-> > +		s++;
-> > +	if (*s)
-> > +		return -EINVAL;
-> > +
-> > +	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
-> > +	    check_add_overflow(_res, _frac, &_res))
-> > +		return -ERANGE;
-> > +
-> > +	*res = _res;
-> > +	return 0;
-> > +}
-> > +
-> > +/**
-> > + * kstrtoudec64() - Convert a string to an unsigned 64-bit value that represents
-> > + *		    a scaled decimal number.
-> > + * @s: The start of the string. The string must be null-terminated, and may also
-> > + *  include a single newline before its terminating null. The first character
-> > + *  may also be a plus sign, but not a minus sign. Digits beyond the specified
-> > + *  scale are ignored.
-> > + * @scale: The number of digits to the right of the decimal point. For example,
-> > + *  a scale of 2 would mean the number is represented with two decimal places,
-> > + *  so "123.45" would be represented as 12345.
-> > + * @res: Where to write the result of the conversion on success.
-> > + *
-> > + * Return: 0 on success, -ERANGE on overflow and -EINVAL on parsing error.
-> > + */
-> > +noinline
-> > +int kstrtoudec64(const char *s, unsigned int scale, u64 *res)
-> > +{
-> > +	if (s[0] == '+')
-> > +		s++;
-> > +	return _kstrtoudec64(s, scale, res);
-> > +}
-> > +EXPORT_SYMBOL(kstrtoudec64);
-> > +
-> > +/**
-> > + * kstrtodec64() - Convert a string to a signed 64-bit value that represents a
-> > + *		   scaled decimal number.
-> > + * @s: The start of the string. The string must be null-terminated, and may also
-> > + *  include a single newline before its terminating null. The first character
-> > + *  may also be a plus sign or a minus sign. Digits beyond the specified
-> > + *  scale are ignored.
-> > + * @scale: The number of digits to the right of the decimal point. For example,
-> > + *  a scale of 5 would mean the number is represented with five decimal places,
-> > + *  so "-3.141592" would be represented as -314159.
-> > + * @res: Where to write the result of the conversion on success.
-> > + *
-> > + * Return: 0 on success, -ERANGE on overflow and -EINVAL on parsing error.
-> > + */
-> > +noinline
-> > +int kstrtodec64(const char *s, unsigned int scale, s64 *res)
-> > +{
-> > +	u64 tmp;
-> > +	int rv;
-> > +
-> > +	if (s[0] == '-') {
-> > +		rv = _kstrtoudec64(s + 1, scale, &tmp);
-> > +		if (rv < 0)
-> > +			return rv;
-> > +		if ((s64)-tmp > 0)
-> > +			return -ERANGE;
-> > +		*res = -tmp;
-> > +	} else {
-> > +		rv = kstrtoudec64(s, scale, &tmp);
-> > +		if (rv < 0)
-> > +			return rv;
-> > +		if ((s64)tmp < 0)
-> > +			return -ERANGE;
-> > +		*res = tmp;
-> > +	}
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL(kstrtodec64);
-> > +
-> >  /*
-> >   * Since "base" would be a nonsense argument, this open-codes the
-> >   * _from_user helper instead of using the helper macro below.
-> > 
+> Reference: https://lore.kernel.org/bpf/cb7368c6062232b6ad5f9ab1c6a97bc8530566a8b3db5c4deefdd5ea63d31538@mail.kernel.org/
 > 
+>> +{
+>> +	struct bpf_list_node_kern *n = (void *)new, *p = (void *)prev;
+>> +	struct list_head *prev_ptr = &p->list_head;
+>> +
+>> +	return __bpf_list_add(n, head, &prev_ptr, meta ? meta->record : NULL, off);
+>> +}
+>> +
+> 
+> [ ... ]
+> 
+>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+>> --- a/kernel/bpf/verifier.c
+>> +++ b/kernel/bpf/verifier.c
+> 
+> [ ... ]
+> 
+>> @@ -19235,8 +19238,11 @@ struct bpf_insn addr[2] = { BPF_LD_IMM64(BPF_REG_2, (long)kptr_struct_meta) };
+>>  		int struct_meta_reg = BPF_REG_3;
+>>  		int node_offset_reg = BPF_REG_4;
+>>
+>> -		/* rbtree_add has extra 'less' arg, so args-to-fixup are in diff regs */
+>> -		if (is_bpf_rbtree_add_kfunc(desc->func_id)) {
+>> +		/* list_add/rbtree_add have an extra arg (prev/less),
+>> +		 * so args-to-fixup are in diff regs.
+>> +		 */
+> 
+> This isn't a bug, but the multi-line comment format doesn't follow the BPF
+> subsystem style. The preferred form in kernel/bpf/ has the opening /* on its
+> own line:
+> 
+>     /*
+>      * list_add/rbtree_add have an extra arg (prev/less),
+>      * so args-to-fixup are in diff regs.
+>      */
+> 
+>> +		if (desc->func_id == special_kfunc_list[KF_bpf_list_add] ||
+>> +		    is_bpf_rbtree_add_kfunc(desc->func_id)) {
+>>  			struct_meta_reg = BPF_REG_4;
+>>  			node_offset_reg = BPF_REG_5;
+>>  		}
+> 
+> 
+> ---
+> AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+> 
+> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/25716874656
 
 -- 
-Kind regards,
+Thanks
+Kaitao Cheng
 
-Rodrigo Alencar
