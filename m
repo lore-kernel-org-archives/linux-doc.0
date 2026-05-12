@@ -1,186 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outbound.qs.icloud.com (qs-2007f-snip4-7.eps.apple.com [57.103.84.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5192349CDE;
-	Tue, 12 May 2026 10:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C932E11C7
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 10:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.84.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778581017; cv=none; b=ucQJv9Y5M9xJojcK7xsN0j0OfWjgfVknU1zWl9FUtiVXaN4AIch6/hwUnAmsDM2YtvSDFMVczmYePpeB1qxkliIkJWr7MyhahzMF9LXoQcUGmPKGUvC8dyAegnkEhAG2XbOD82ijhLBBLO0qQ25BXjvC2xTyI4XW1rgiab0seVQ=
+	t=1778581884; cv=none; b=cuwonwLRPtSFe/0cuc5gl4/z1yRH0mlxApWoy//rNnfH38QfCsg0q0v70RhA2n4rumwE7FQW0oEIeHQeAJzwWR0xglPxcKWO1oDmXOzirwLJj3oaoLJau/0SiVOzpn8H09l9lkp7qxkEFdRlAsOOAmIhg9nVRi9vbqRMSfLZBHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778581017; c=relaxed/simple;
-	bh=w6hATkZRGSRSJowaFjN45EX2kl/oM+c7ccdVW67Eh3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=legOGLqlgG3TUo4qGAXAmhULKxxaz2AzcsQVOeFtJjrL15Y7c2pKqfFZnRi/tgsFUOJ3bdeYWCaCZBGNwbMeAFl2J7mQ0iyKsCFFGv2NbcZY2jd885MRptWj+zfTq9Mgr5S264ZksXFw5tlutdGWzIM34pH5MDXgYqmZvHK1V5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iyynMxhK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778581884; c=relaxed/simple;
+	bh=PLsBuyVUT1+9K3ZI+4TzkYnlpJGN+OjGY1s5cTT6hxY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=higopWLA0coI9YmJTVh+g6cMDjcoZtN/GFa77FqkcVYkwtY6jz8GK0y947qxHzgYXpXYvOk5F9IJ1hsAQB6JeYayt5nVfu7aNcVmfQeMp4ns2jd1ufgIDL7exjzdxWu/nh5+b2HGKZuqoQcWr3anxuHnGTYngoK+Q1Fq7KtP4z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etehtsea.me; spf=pass smtp.mailfrom=etehtsea.me; dkim=pass (2048-bit key) header.d=etehtsea.me header.i=@etehtsea.me header.b=ZK8m8et+; arc=none smtp.client-ip=57.103.84.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etehtsea.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etehtsea.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iyynMxhK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BB70C2BCB0;
-	Tue, 12 May 2026 10:16:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778581016;
-	bh=w6hATkZRGSRSJowaFjN45EX2kl/oM+c7ccdVW67Eh3s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iyynMxhKI/8Jg0jAf3zt9NS9aZuPuBUsWGBl6pjep56D0BX7ArOWIvumJnsk4Hxuq
-	 mnnaRaFvBV5mkvEsDlbtbvUSCRvLWYdvCMf4sNeM7vNilIbeePN5AkWfwxvjAQev7g
-	 /0A4u2buvc8ZFh87pXWIBdFrJFLxqXQwPpvDqOdq1iuaVD2hhWsouG5CMcWCdCXTZv
-	 ifyJNn5+17bVPbWwPFuyMigi7nZbU+5QYcAqZqfLOaUQjlplaxZPW1O+AKlvC2/zNq
-	 0oO5sua9onBYaQGmy1JTt0SnaAYmCKIZGFkBl54L+OfZD1RfSStH8Oms9Ts4XPZzEe
-	 eFQvD4RfZWaYw==
-Date: Tue, 12 May 2026 12:16:53 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Jyri Sarha <jyri.sarha@iki.fi>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Simon Ser <contact@emersion.fr>, 
-	Harry Wentland <harry.wentland@amd.com>, Melissa Wen <mwen@igalia.com>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, Alex Hung <alex.hung@amd.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 12/20] drm/crtc: Add new atomic_create_state callback
-Message-ID: <20260512-unbiased-apricot-jaguar-a63eba@houat>
-References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
- <20260424-drm-mode-config-init-v3-12-8b68d9db0d8b@kernel.org>
- <20260504172858.GO1344263@killaraus.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=etehtsea.me header.i=@etehtsea.me header.b="ZK8m8et+"
+Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-2d-100-percent-2 (Postfix) with ESMTPS id 1A89B1800159;
+	Tue, 12 May 2026 10:31:17 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQ5AHVwDWxxBAFYHXxcOVk1UGVoBdw5GFVEMQAhWRV8VGR5XUFoKWxx5HUcIXx9BFVhWXggXGVFNCEkTBVIHXU1WDUcPWB5cFBcJQENeCF4fTBwdDlgGEgBNCg42BlkFXglWA0MFNhIUXUVWGVIDRgNcGR0AUktfGV1FD18HWQRADEkBXAdYA0AIVgJdAF0DRwpVAkBaClsceR1HCF8fQRVYVl4ICUtGCUkdDg5CGEYfVCdXAloKWx4=
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=etehtsea.me; s=sig1; t=1778581881; x=1781173881; bh=LBAQC4Sn+2TwAckVef00JukmOky6tMRvYvv/CRHAIMY=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=ZK8m8et+ycglmE+lh00qy+ONQcKUq+16kI+MAtp/bq+mBUgUlCU8/PgnMUxHWRONP0J5VmAH/W2GpIVwN4SLY1+sDxZRQbYvHvfdNxBsHHHVTTqDMyWlh34LG6ub8bZCe5dDiX/xY9vxakVL7xrh6PlPlehvqLz5QhPyYIX+gPgbJ5GLo6F5A6LEhMRSK9NMhdcmOx/ZmwBFGA+f/zanTzdkL6H0BK+GrV5hu3/xwLdCNeCsmhX1E5wEjhY4oRKVcv2wxb3TH+u9OO/AZVk7VHqS4SGhvXavk6PlUeqUi8fhcihCEB/MW63ZLrc6kY+b+HTMAzMg63x717V6o0qRQQ==
+mail-alias-created-date: 1634905887181
+Received: from localhost (unknown [17.57.155.37])
+	by p00-icloudmta-asmtp-us-east-2d-100-percent-2 (Postfix) with ESMTPSA id 9D0701800134;
+	Tue, 12 May 2026 10:31:16 +0000 (UTC)
+From: Konstantin Shabanov <mail@etehtsea.me>
+To: linux-doc@vger.kernel.org
+Cc: Konstantin Shabanov <mail@etehtsea.me>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: netlink: Correct buffer sizing info
+Date: Tue, 12 May 2026 17:30:53 +0700
+Message-ID: <20260512103101.1076173-1-mail@etehtsea.me>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="xucbq2efeno5xzls"
-Content-Disposition: inline
-In-Reply-To: <20260504172858.GO1344263@killaraus.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+X-Authority-Info-Out: v=2.4 cv=aKX9aL9m c=1 sm=1 tr=0 ts=6a030177
+ cx=c_apl:c_pps:t_out a=bsP7O+dXZ5uKcj+dsLqiMw==:117
+ a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=MKtGQD3n3ToA:10 a=1oJP67jkp3AA:10
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8
+ a=ghC8wwoHDixrMWJZ6csA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDEwOCBTYWx0ZWRfX9jxyYVDwt3iz
+ BeKq2Sjv3CN0Sh7FwcTBKnmgdUd6T2qMYzmgPHEwMJ/0ulyogUyCgFSVUjtEeBVr26gmF+axtr5
+ alcxa6eXdmN/GAzNSmB6VEIFqmPfBcEAj81YcLH77abuRseuHXNLjXYzgBSjZR6JjGFGRW258cM
+ 9+Zh0Xylb449iZIkfnUVnQ1PIbH8z7OwQ+Ww3KFYKzIC4/OYnjs4w12c69gspBSz8FCAtyMVMqr
+ sD2xeamwa0PgCQQHSVeeH0/tHBuHaLt1+sSdmS7orCo5AFVnDuiPbYiPE4uJBg/pk6iSOCNLDi2
+ coVbvCxPpqOdGqH9K8d6uoTuJkL151n1rgqsCZ/YgORchu40F7o65AlGN7lGrQ=
+X-Proofpoint-ORIG-GUID: yxi057uWUid0oBFw4GkAAHDbB15BQrkh
+X-Proofpoint-GUID: yxi057uWUid0oBFw4GkAAHDbB15BQrkh
 
+Update the docs to match the code (include/linux/netlink.h):
 
---xucbq2efeno5xzls
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 12/20] drm/crtc: Add new atomic_create_state callback
-MIME-Version: 1.0
+  /*
+   *	skb should fit one page. This choice is good for headerless malloc.
+   *	But we should limit to 8K so that userspace does not have to
+   *	use enormous buffer sizes on recvmsg() calls just to avoid
+   *	MSG_TRUNC when PAGE_SIZE is very large.
+  */
+  #if PAGE_SIZE < 8192UL
+  #define NLMSG_GOODSIZE	SKB_WITH_OVERHEAD(PAGE_SIZE)
+  #else
+  #define NLMSG_GOODSIZE	SKB_WITH_OVERHEAD(8192UL)
+  #endif
 
-Hi,
+Link: https://lore.kernel.org/all/20220819200221.422801-2-kuba@kernel.org/
+Signed-off-by: Konstantin Shabanov <mail@etehtsea.me>
+---
+ Documentation/userspace-api/netlink/intro.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Mon, May 04, 2026 at 08:28:58PM +0300, Laurent Pinchart wrote:
-> On Fri, Apr 24, 2026 at 12:18:52PM +0200, Maxime Ripard wrote:
-> > Commit 47b5ac7daa46 ("drm/atomic: Add new atomic_create_state callback
-> > to drm_private_obj") introduced a new pattern for allocating drm object
-> > states.
-> >=20
-> > Instead of relying on the reset() callback, it created a new
-> > atomic_create_state hook. This is helpful because reset is a bit
-> > overloaded: it's used to create the initial software state, reset it,
-> > but also reset the hardware.
-> >=20
-> > It can also be used either at probe time, to create the initial state
-> > and possibly reset the hardware to an expected default, but also during
-> > suspend/resume.
-> >=20
-> > Both these cases come with different expectations too: during the
-> > initialization, we want to initialize all states, but during
-> > suspend/resume, drm_private_states for example are expected to be kept
-> > around.
-> >=20
-> > reset() also isn't fallible, which makes it harder to handle
-> > initialization errors properly. This is only really relevant for some
-> > drivers though, since all the helpers for reset only create a new
-> > state, and don't touch the hardware at all.
-> >=20
-> > It was thus decided to create a new hook that would allocate and
-> > initialize a pristine state without any side effect:
-> > atomic_create_state to untangle a bit some of it, and to separate the
-> > initialization with the actual reset one might need during a
-> > suspend/resume.
-> >=20
-> > Continue the transition to the new pattern with CRTCs.
-> >=20
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  drivers/gpu/drm/drm_atomic_state_helper.c | 47 +++++++++++++++++++++++=
-++++++++
-> >  drivers/gpu/drm/drm_mode_config.c         | 21 +++++++++++++-
-> >  include/drm/drm_atomic_state_helper.h     |  4 +++
-> >  include/drm/drm_crtc.h                    | 16 +++++++++++
-> >  4 files changed, 87 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/dr=
-m/drm_atomic_state_helper.c
-> > index 9cd8550cabb7..b7da134c8c50 100644
-> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > @@ -103,10 +103,32 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *c=
-rtc,
-> > =20
-> >  	crtc->state =3D crtc_state;
-> >  }
-> >  EXPORT_SYMBOL(__drm_atomic_helper_crtc_reset);
-> > =20
-> > +/**
-> > + * __drm_atomic_helper_crtc_create_state - initializes crtc state
->=20
-> "Initialize a CRTC state"
+diff --git a/Documentation/userspace-api/netlink/intro.rst b/Documentation/userspace-api/netlink/intro.rst
+index aacffade8f84..ca60abe94e3d 100644
+--- a/Documentation/userspace-api/netlink/intro.rst
++++ b/Documentation/userspace-api/netlink/intro.rst
+@@ -526,8 +526,8 @@ of the recvmsg() system call, *not* a Netlink header).
+ 
+ Upon truncation the remaining part of the message is discarded.
+ 
+-Netlink expects that the user buffer will be at least 8kB or a page
+-size of the CPU architecture, whichever is bigger. Particular Netlink
++Netlink expects that the user buffer will be at most 8kB or a page
++size of the CPU architecture, whichever is smaller. Particular Netlink
+ families may, however, require a larger buffer. 32kB buffer is recommended
+ for most efficient handling of dumps (larger buffer fits more dumped
+ objects and therefore fewer recvmsg() calls are needed).
 
-Good catch, thanks.
+base-commit: 917719c412c48687d4a176965d1fa35320ec457c
+-- 
+2.53.0
 
-> The name of the function is misleading ("*_create_*" while you state it
-> performs initialization).
->
-> > + * @crtc: crtc object
-> > + * @state: new state to initialize
-> > + *
-> > + * Initializes the newly allocated @state, usually required when
-> > + * initializing the drivers.
-> > + *
-> > + * @state is assumed to be zeroed.
-> > + *
-> > + * This is useful for drivers that subclass @drm_crtc_state.
-> > + */
-> > +void __drm_atomic_helper_crtc_create_state(struct drm_crtc *crtc,
-> > +					   struct drm_crtc_state *state)
-> > +{
-> > +	__drm_atomic_helper_crtc_state_init(state, crtc);
-> > +
-> > +	if (drm_dev_has_vblank(crtc->dev))
-> > +		drm_crtc_vblank_reset(crtc);
->=20
-> This is confusing to me (at least before reading the rest of the
-> series), and itn't mentioned in the function documentation or in the
-> commit message.
->
-> Furthermore, __drm_atomic_helper_crtc_create_state() is later used in
-> tidss_crtc_create_state(), which is the
-> drm_crtc_funcs.atomic_create_state() implementation of the tidss driver.
-> The atomic_create_state documentation states that "This callback must
-> have no side effect", and drm_crtc_vblank_reset() has side effects.
-
-That's a good point. I've dropped that function entirely and moved the
-drm_crtc_vblank_reset() call in drm_mode_config_crtc_create_state().
-
-Maxime
-
---xucbq2efeno5xzls
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCagL+FQAKCRAnX84Zoj2+
-dnNzAX0fzjsGevsyIM+1eS7aSdqPXqaWO2e4vKxwlm1t0+VWLC1LChDXcVfr74JX
-gfLRKAABgLDj6dDvAIYO++YmRFrG/pDTCiRABTfTFmqA3MNWXLLdVzFuX/WVI0ll
-s+ZfkvI9qg==
-=NbJq
------END PGP SIGNATURE-----
-
---xucbq2efeno5xzls--
