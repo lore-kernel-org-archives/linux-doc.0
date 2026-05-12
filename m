@@ -1,32 +1,32 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5172040DFC5
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 05:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9945B3F9F41
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 05:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778565604; cv=none; b=YINrggJCIYZQ29FuchEXnT0FSsOCFuTs7wvQhbRU23JUs0915Bj0MyURRz9ieWrHBdQqaJPOGCJANfMgHJuGwwc9fBYHd3j/d/MLWm+qXj0rBgtcE8sEKxe3lUMXyk+EWKIStGDE5eHnWMD9S58X6hrHwbm4pkvCnLXnUzyMGEY=
+	t=1778565604; cv=none; b=jLojjqIAQp55VpfQrfbwdSb1SY7hzRERzYOLDIUSI4BKpp7mqLqDkuASRkHkKH57rBCixAHfV1BHK4Xh3nYQ0X1dnpTUXpZ8p9s0nulBIdTgrjvJFVs87pXm1g8S66zPFjy2ykv/aHqmzv4m+5owzPyyYv4ljHvvbxl7619Oro8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778565604; c=relaxed/simple;
-	bh=whicB2ftr5oTRrTNIW+rmCW4aEeQ9SHLQFsgKCkj210=;
+	bh=MOXXlwv5+jPHoFenwU0Df/VSUFEVmpOCvtOJ2sq+C0A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nGI0FIeD762d1Hoo3hBPaqhA5HjB6iqR/p3eO0HsYQPLDr/nTOkvO3IG+ofdZtZqsH9VvEDps6cGSRzOCePE4ey6tDr7ta/rxq6RiR3HLOHskIdEaXS+XtHGKjicvqa5SMJq0s8/ZjXdIIe6B44EC1wO0uBvBaBEBgg23pRNFYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fP1J/eXX; arc=none smtp.client-ip=91.218.175.179
+	 MIME-Version; b=N+37se0hG+nhs7m9BS/rTt9xHRYvmeCR0u7Q8boaxkwiIgCdtqlaEK97jba/QSo5eIwSx5Fc7R/xBwnpfAJxpYnsJOV50S6xdL29aFjWW/8f4P5G5ZKFFTKc6L5LEGXKI1jutNYrc0HqpzZHZGRJkpvu53A3t9S1R14RDcopA+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=D6Atz+E7; arc=none smtp.client-ip=91.218.175.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fP1J/eXX"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="D6Atz+E7"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778565582;
+	t=1778565586;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2Svt+4NlaIIFnDXWH/eCk2Ml80i80lObraw1UrKQl8Y=;
-	b=fP1J/eXX7t3frf+lw1lGF9VPcd7W83eIvpJZtOzIWiFqwY6ifpnzw/PJTlU+1Y1vC2Yzg+
-	IVABDCmQoFBStd4nbWOnHfrPwzhAfow/75wEg0B1VudH3xMKBMfGF1z3EZTacOSLVCoy6f
-	qMgjTlwcuLPRLCHG4uWnneVYsOndxzM=
+	bh=pCpRvT4uR2xbcKg4iuq0VJjzAy9PY+FmlCoNRTQS6mc=;
+	b=D6Atz+E72y/TXC6e0lOQNHzZwA2GKySFNMXqOoxxsTalmaRRb0Ebs3KjT+0Zl/44bS4YSh
+	u81afk/E93ByxiZPD1PtcG25NheEezEMAo9mbG4EN0dRESz3IeAjIYSoB4Y0G5481LEjn4
+	Tf/ebBXaRcxFGUHeSh8AQduJilv+s8k=
 From: Kaitao cheng <kaitao.cheng@linux.dev>
 To: ast@kernel.org,
 	corbet@lwn.net,
@@ -50,9 +50,9 @@ Cc: bpf@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	vmalik@redhat.com,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH RESEND bpf-next v10 1/8] bpf: refactor __bpf_list_del to take list node pointer
-Date: Tue, 12 May 2026 13:59:12 +0800
-Message-ID: <20260512055919.95716-2-kaitao.cheng@linux.dev>
+Subject: [PATCH RESEND bpf-next v10 2/8] bpf: clear list node owner and unlink before drop
+Date: Tue, 12 May 2026 13:59:13 +0800
+Message-ID: <20260512055919.95716-3-kaitao.cheng@linux.dev>
 In-Reply-To: <20260512055919.95716-1-kaitao.cheng@linux.dev>
 References: <20260512055919.95716-1-kaitao.cheng@linux.dev>
 Precedence: bulk
@@ -66,71 +66,67 @@ X-Migadu-Flow: FLOW_OUT
 
 From: Kaitao Cheng <chengkaitao@kylinos.cn>
 
-Refactor __bpf_list_del to accept (head, struct list_head *n) instead of
-(head, bool tail). The caller now passes the specific node to remove:
-bpf_list_pop_front passes h->next, bpf_list_pop_back passes h->prev.
+When draining a BPF list_head, clear each node's owner pointer while still
+holding the spinlock, so concurrent readers always see a consistent owner.
 
-Prepares for introducing bpf_list_del(head, node) kfunc to remove an
-arbitrary node when the user holds ownership.
+Delink each node with list_del_init() before calling __bpf_obj_drop_impl(),
+preventing subsequent users who hold a reference count to the node from
+acquiring an invalid next node.
 
 Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
 ---
- kernel/bpf/helpers.c | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ kernel/bpf/helpers.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
 diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
-index baa12b24bb64..9cd7b028592c 100644
+index 9cd7b028592c..1e8754877dd1 100644
 --- a/kernel/bpf/helpers.c
 +++ b/kernel/bpf/helpers.c
-@@ -2550,22 +2550,24 @@ __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
- 	return bpf_list_push_back(head, node, meta__ign, off);
- }
- 
--static struct bpf_list_node *__bpf_list_del(struct bpf_list_head *head, bool tail)
-+static struct bpf_list_node *__bpf_list_del(struct bpf_list_head *head,
-+					    struct list_head *n)
+@@ -2247,10 +2247,11 @@ EXPORT_SYMBOL_GPL(bpf_base_func_proto);
+ void bpf_list_head_free(const struct btf_field *field, void *list_head,
+ 			struct bpf_spin_lock *spin_lock)
  {
--	struct list_head *n, *h = (void *)head;
-+	struct list_head *h = (void *)head;
- 	struct bpf_list_node_kern *node;
+-	struct list_head *head = list_head, *orig_head = list_head;
++	struct list_head *head = list_head, drain, *pos, *n;
  
- 	/* If list_head was 0-initialized by map, bpf_obj_init_field wasn't
- 	 * called on its fields, so init here
- 	 */
--	if (unlikely(!h->next))
-+	if (unlikely(!h->next)) {
- 		INIT_LIST_HEAD(h);
-+		return NULL;
+ 	BUILD_BUG_ON(sizeof(struct list_head) > sizeof(struct bpf_list_head));
+ 	BUILD_BUG_ON(__alignof__(struct list_head) > __alignof__(struct bpf_list_head));
++	INIT_LIST_HEAD(&drain);
+ 
+ 	/* Do the actual list draining outside the lock to not hold the lock for
+ 	 * too long, and also prevent deadlocks if tracing programs end up
+@@ -2261,20 +2262,23 @@ void bpf_list_head_free(const struct btf_field *field, void *list_head,
+ 	__bpf_spin_lock_irqsave(spin_lock);
+ 	if (!head->next || list_empty(head))
+ 		goto unlock;
+-	head = head->next;
++	list_for_each_safe(pos, n, head) {
++		WRITE_ONCE(container_of(pos,
++			struct bpf_list_node_kern, list_head)->owner, NULL);
++		list_move_tail(pos, &drain);
 +	}
- 	if (list_empty(h))
- 		return NULL;
+ unlock:
+-	INIT_LIST_HEAD(orig_head);
++	INIT_LIST_HEAD(head);
+ 	__bpf_spin_unlock_irqrestore(spin_lock);
  
--	n = tail ? h->prev : h->next;
- 	node = container_of(n, struct bpf_list_node_kern, list_head);
--	if (WARN_ON_ONCE(READ_ONCE(node->owner) != head))
-+	if (unlikely(READ_ONCE(node->owner) != head))
- 		return NULL;
- 
- 	list_del_init(n);
-@@ -2575,12 +2577,16 @@ static struct bpf_list_node *__bpf_list_del(struct bpf_list_head *head, bool tai
- 
- __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
- {
--	return __bpf_list_del(head, false);
-+	struct list_head *h = (void *)head;
-+
-+	return __bpf_list_del(head, h->next);
+-	while (head != orig_head) {
+-		void *obj = head;
+-
+-		obj -= field->graph_root.node_offset;
+-		head = head->next;
++	while (!list_empty(&drain)) {
++		pos = drain.next;
++		list_del_init(pos);
+ 		/* The contained type can also have resources, including a
+ 		 * bpf_list_head which needs to be freed.
+ 		 */
+-		__bpf_obj_drop_impl(obj, field->graph_root.value_rec, false);
++		__bpf_obj_drop_impl((char *)pos - field->graph_root.node_offset,
++				    field->graph_root.value_rec, false);
+ 	}
  }
  
- __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
- {
--	return __bpf_list_del(head, true);
-+	struct list_head *h = (void *)head;
-+
-+	return __bpf_list_del(head, h->prev);
- }
- 
- __bpf_kfunc struct bpf_list_node *bpf_list_front(struct bpf_list_head *head)
 -- 
 2.50.1 (Apple Git-155)
 
