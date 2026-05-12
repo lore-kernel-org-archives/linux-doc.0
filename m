@@ -1,85 +1,66 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8862749DF
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 01:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BAF29BDBF
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 01:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778549749; cv=none; b=UTXxP1AV+0izvw/Jady73aF4Kj8oi6sf9wdoatwznOAtFaNlp8XzbLZICRkJ2obHln1IRrY8wFcp2inPE0W+F/zyEF46I/EEouGDPE3Q6ZXRHFZjBrvD2eeEqIQ8qgNPE8Rgh5btbwe3phgGw5sH0UZyutdQf73AZyfXRfLmoeU=
+	t=1778550304; cv=none; b=XBCJu7EM76TvPwEc46FWH57+aObDkv6zh+WZUTyIbw32TlApER40CojCmeNtevfREZaoVmE/B0OjZGTPWml9zieCL+As+O2ii8i5PBZNHQBe3m4bP7L0fFDX7CYyNK2E21Aa+ELzrlFoqOYjAv1ocsaxyqFjUEmIxNJ4QaaLOlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778549749; c=relaxed/simple;
-	bh=g+j2MFkZRvRsBFDhiFAG6DyUYIOKWDt1Nt42ezFjD6s=;
+	s=arc-20240116; t=1778550304; c=relaxed/simple;
+	bh=Q3ioFudllYCjZyXshtVqqzDy5SHdDU7yOLr7dIoMnmU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gQ2nolM7fy0RyFQwFg+fqhXLKVP78nlFehHzIi5YK1ZgtfAUwf0wFvg55nXWFnA/ri9DBEzPZhPuh8njcX+wzP46s3jH2kwB0SSOl4orxHcDc2o5/Iy4n8PgaU6V6AHV5NudsUz97UvzLoPXqtF6V+85nTT0enyA36AbBlut/rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OHyBA6YG; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=m/k57CBu; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:To:Cc; b=m+OIoDDecoMuSdSrpWYxwyGh65r4SHhElDWIw9vm1Ad5uwcbd/rUf5JvymH1zmREcWmTYpxYoUYCtMtSwHEWqpmLhgZztj1gfK0HRSWCriAVH2Og06OrbIC8R3YsXox1uHscPmTwo9VNxj1rZV1ySnciojj/hY3Uo6aSFJ81quI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=HHMPEMJP; arc=none smtp.client-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OHyBA6YG";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="m/k57CBu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778549744;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UxuGTicMxGGHlkwI+vY7fNgMYqkX8pEUM+UIKSypDBg=;
-	b=OHyBA6YGyc3/tpiTE3ZpV8ogKf8aFtU/a6u8h597amQ1BJVWuTCDJ9Guer6cVTX5mpFTiJ
-	waeuRqH4rKoBfG9/OZJs2AvSrcoPk46K/r6UtdPekOiE/2lfdA8gix5Nlh2z5gw2lRQh6t
-	lJq4qhIPiv9Hz0l4t1aIzNCoh4VZ8k8=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-472-sXxUaJkqOr2bXniJWp-OEg-1; Mon, 11 May 2026 21:35:42 -0400
-X-MC-Unique: sXxUaJkqOr2bXniJWp-OEg-1
-X-Mimecast-MFC-AGG-ID: sXxUaJkqOr2bXniJWp-OEg_1778549742
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8aca29dcd69so123530496d6.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 18:35:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="HHMPEMJP"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2f7020a928eso6924150eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 18:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1778549742; x=1779154542; darn=vger.kernel.org;
+        d=nexthop.ai; s=google; t=1778550301; x=1779155101; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UxuGTicMxGGHlkwI+vY7fNgMYqkX8pEUM+UIKSypDBg=;
-        b=m/k57CBuxSjiINzG1D0RhbPmuoFU91HCWPop4N8iIVZM+4u55N02hv9zxB8eJS00gp
-         YEBriSZTeqSJR1Xg4eISVuQurZNm85UDypMlog17FFc5XMUsimrvK92ISV20RgFuMpoV
-         I5zKg/jLKoaLJtyCuXNUa94zoomIss8N78pWuowCOoTBkpkPhd2lK44BgkfwL3bNW4XV
-         gPv85evbx4aXMHTVFyoj3/N/mMLoXvloNkR6OqzMRd7g4VJyE4LP2qwHu4sb36mb390r
-         VI9p3i0oSJ54Cwrw+829TUVovO4xQ/QDuKr3FJN/Cz05XN9aFnk8NTlN0sdkBAV7Ox7P
-         YMkA==
+        bh=bQV4tzp3OFnBfvXl/boH92Xo54D5tVzuUnIAeuN4lII=;
+        b=HHMPEMJPvPGevYMrRR8nuUTuQfE4p4zTXvYyExeub+thoYZbUy4Z48lUZH7V/ZgTrK
+         RyFNMp7mCEX7rSR/zy4DYFQuvzgZ3tghCWgFf74bf6pZhhdczgDRPYbYfzHhhRsc4X93
+         FBMnAVeaIjzngcH34yrUYnguxgOvyAEB0LzblsGa0fMbJ9aTiTnCBNkWvoY6UMMVxznN
+         fWtdiLkjOmJPaZ/H48t9p7/EJb1G/L9g7wxrz+3Q/g/vewtoka1B8v4lOOWbxuoE+ri0
+         kNSzahMWljZw/I6iaYkIoIEbcWNRMFumXYHCJL6L3vUqz7HhDwhQJ/d6fwyUDgTkHr8j
+         aMwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778549742; x=1779154542;
+        d=1e100.net; s=20251104; t=1778550301; x=1779155101;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=UxuGTicMxGGHlkwI+vY7fNgMYqkX8pEUM+UIKSypDBg=;
-        b=bqAZnqPBcKFtj7Arooa9si3FzP1hMCbHDPqs5gcvH5uoR/Zc+jZDS9ij6c4hGH8MWg
-         bZDg2uCRyNiW1SbPSNuPZynkrtO116OC73rUzsjxuSl3nkZ+C1bX0SL/QTm0JyUozsAy
-         SJ+bvG4+NX6pOdNzl4xMt3AaZESj9hW8KLvcKsWv1cunz7KZMeMU6RN7PbXSQDIx6WFz
-         S95kx3NFBP+s4KrEuHeIV12guuuxim4PETKAMRo1un+NMCurj4A77CiUPDbn+4Umqa0f
-         y5BGycNLgv9+Ltz1CoKDcFy26Y02B9kys97b9KsdjYW1GySe4yxpekGrJ5NAtrBQSvJV
-         FhTw==
-X-Forwarded-Encrypted: i=1; AFNElJ+KuD3CvLaOyx5MfY0IFMYHT+NJWtiI6c5A5C9n2Cm67KFOEVBii/blrL+FpI5robeL0wzzPeY29/c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywp5xiHN4lSIK4OxrXukyKj8Hgm19xpkont5nmZZEaJb9Pwj65R
-	lUZoYMWFqv6FbG00KrrsceYI8Sj8N1t7p+NgA0gJCfWTtf3fYHjaWIxl3mgGnDSOVbPYeuyzjpQ
-	s6H0HAhH9zLaZSvoe5N5DFI38pGrJAvausbldq98Z6XYKd2lgaeCp7khZvwZxjA==
-X-Gm-Gg: Acq92OFD5aa2/ykL9fSrUgcYS2gqhrsMB4iZCN1zsnybzVlPva84QagYmHT6ASyI1vk
-	LyFFUKYnEpLJQxRNg5yIkohdZy8Pkw1m27W9YwTeubvggN/Mrn7EovDMOFt3DHRci+fKbqDN5i5
-	s0MQO9/F+toAaP82TLr4B/H//TNvw1HDrcAaEV1UezPPKrxL055hydwHKoIgBUlW1uNKkEXTQxX
-	V5nI2+uv67gHmCtigzOAhwavFqveZvU7W7VEj2D7SzPLZK7PahZ9ISZoG3xE1RAJogcZHnOTmCN
-	3ge3+stVrBZfH1VkYQ3pM9bDznPpY+KcUZXqYUTjKHu82CK+CkEhln8psx3QAX9BOSyzWYb+dGB
-	IeCtpMuSG00FtJ6w5x8r6qAXU3R73eiUDTcJvA5hJNLT69K2UgYmuRJngpw18Xw==
-X-Received: by 2002:a05:6214:478f:b0:8ae:6282:df2e with SMTP id 6a1803df08f44-8c1b0192344mr173898156d6.44.1778549742328;
-        Mon, 11 May 2026 18:35:42 -0700 (PDT)
-X-Received: by 2002:a05:6214:478f:b0:8ae:6282:df2e with SMTP id 6a1803df08f44-8c1b0192344mr173897886d6.44.1778549741856;
-        Mon, 11 May 2026 18:35:41 -0700 (PDT)
-Received: from [192.168.1.15] (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8bf39c7e2e5sm109704006d6.34.2026.05.11.18.35.40
+        bh=bQV4tzp3OFnBfvXl/boH92Xo54D5tVzuUnIAeuN4lII=;
+        b=Lqvpt/9wncTbAwvgDWIUQfpZq9HL0drBsX9LPN0pc/wfk2cbLm2NCLpdFM4f1mrec/
+         BrrMlvPu2YUC9di18XyyYdf+7IFd6l/nxHvxELuyUTbCkMIkW0c9JoDsLVp4rSrV3Rnl
+         FAMf+zyYzUxhUy+mWfrLFplSl5efN46mKn3FU10G7sb+lrx1xkZ8vsueDweLOxzOJkWm
+         DRRXgew96Bq/RzHYXNrQFuWhgNk/EITA37j/wsXIcLmJR+3p52pp0sZRVuIfdhpLLrA/
+         3Yz/AmLFWO7s+0/p0HGF3GjGeugVgIdf4VJYYy8ULlZR98qNoiU6sfGwBYHSl6kFxg9b
+         pUcw==
+X-Forwarded-Encrypted: i=1; AFNElJ/aAz0P8GOCUYXmbRR/l4ciyfJC1bmQ0CpOELiZuEDhqzT6PZUb1zyPued9izL9AcKHtWTr8odh94I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+KLVu0e7BbXrGOhO1OJdOxm6ZxhMt6u6bm16D6MsME1Pu+MqT
+	LDJ4s3JeEmA/QqTnapWlVpgYVtbP9Lh15/GtnypP7ylSwBWDlr0iS+DO/LgFyl7r58w=
+X-Gm-Gg: Acq92OG+NXrMtSDNxhKbocEUDpXSgrD6saW3QQ0r4L0M5MRUbTWL/XG5hndpO1ZTDjp
+	p4Y3E3B2plhUksQEAPuJviDQ8wBcAStCSCl9zeeFmqM9j3bHFc/1xpXbrwKw4ghfCvspoaC8pOg
+	qyBYt00EwHaSa2hljH+ooBpLD3ijHkJ5ToDLjWWrxkU3aZlxn8r2r++lWuaqo9XlligYjD5N0nz
+	vHYHCcDk1dghR/QY/87M49vf1OXQQftn1sRYO9yWoWaW232GuoHKiIOUJ+Hhm2zsRy6rrWeToGO
+	8soDy39pN238Z5I2T9V1oLZW7/gTe+Qt70LbQ0iLt3APqHXf7oRRDIQmJ30bc+aWn4UE/gVF1aF
+	GajXeiHJ0YjAJ/jA5ho+znLPCMt30WCs40tPhRiFw+ONChHNEBu0p/a98+xNWeg853LEeFgvtY/
+	+rmzgSbul3X2ViqfLtcoU/ZDMP9k6XXrkZFnKu
+X-Received: by 2002:a05:7301:605:b0:2c5:50fe:c78f with SMTP id 5a478bee46e88-2ffd5cbbc42mr636806eec.12.1778550301253;
+        Mon, 11 May 2026 18:45:01 -0700 (PDT)
+Received: from [127.0.0.2] ([50.145.100.174])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f888e4016asm15815467eec.28.2026.05.11.18.45.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 18:35:41 -0700 (PDT)
-From: Brian Masney <bmasney@redhat.com>
-Date: Mon, 11 May 2026 21:35:07 -0400
-Subject: [PATCH v3 4/4] clk: test: convert constants to use HZ_PER_MHZ
+        Mon, 11 May 2026 18:45:00 -0700 (PDT)
+From: Abdurrahman Hussain <abdurrahman@nexthop.ai>
+Date: Mon, 11 May 2026 18:44:27 -0700
+Subject: [PATCH 1/2] dt-bindings: hwmon: pmbus: Add Murata D1U74T PSU
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,58 +69,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260511-clk-docs-v3-4-ed67e1065809@redhat.com>
-References: <20260511-clk-docs-v3-0-ed67e1065809@redhat.com>
-In-Reply-To: <20260511-clk-docs-v3-0-ed67e1065809@redhat.com>
-To: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Brian Masney <bmasney@redhat.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1009; i=bmasney@redhat.com;
- s=20250903; h=from:subject:message-id;
- bh=g+j2MFkZRvRsBFDhiFAG6DyUYIOKWDt1Nt42ezFjD6s=;
- b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGLKYmp+99HIpuHBYUXEXd+pW23U7/SaFLio0uFp27k+Hv
- +k7toyvHaUsDGJcDLJiiixLco0KIlJX2d67o8kCM4eVCWQIAxenAExkmwPDX7mJ26axOMeurTNj
- 2Xz6+m77C399buwNFGKYw1a0JKZZrJeR4VnV6nMn/b3MTIL1trk+/Tz5+vrO/b15fX+2Wz2K/Py
- ZjxMA
-X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
- fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
+Message-Id: <20260511-d1u74t-v1-1-623c2bc1532a@nexthop.ai>
+References: <20260511-d1u74t-v1-0-623c2bc1532a@nexthop.ai>
+In-Reply-To: <20260511-d1u74t-v1-0-623c2bc1532a@nexthop.ai>
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Abdurrahman Hussain <abdurrahman@nexthop.ai>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778550299; l=2107;
+ i=abdurrahman@nexthop.ai; s=20260510; h=from:subject:message-id;
+ bh=Q3ioFudllYCjZyXshtVqqzDy5SHdDU7yOLr7dIoMnmU=;
+ b=35AdbhgGng4Ulx3Ss3OCrz7wF3UFRyzqexR8UATlBNaLsknkS0nPGKnLYVM+hmSFe4jmZSelK
+ ScItKVyPVOEAhm9o60+3O/zeAdMpUjB42uygtdbjA6moKf8+qij4/8g
+X-Developer-Key: i=abdurrahman@nexthop.ai; a=ed25519;
+ pk=omTm9cCAbO0ZhS32aKfJDKue0W3sQGpG9ub5eYHif8I=
 
-Convert the DUMMY_CLOCK_* constants over to use HZ_PER_MHZ.
+Add devicetree binding for the Murata D1U74T-W PMBus power supply
+unit.
 
-Signed-off-by: Brian Masney <bmasney@redhat.com>
+Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
 ---
- drivers/clk/clk_test.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ .../bindings/hwmon/pmbus/murata,d1u74t.yaml        | 41 ++++++++++++++++++++++
+ MAINTAINERS                                        |  6 ++++
+ 2 files changed, 47 insertions(+)
 
-diff --git a/drivers/clk/clk_test.c b/drivers/clk/clk_test.c
-index b1961daac5e2..497db4e54d03 100644
---- a/drivers/clk/clk_test.c
-+++ b/drivers/clk/clk_test.c
-@@ -7,6 +7,7 @@
- #include <linux/clk/clk-conf.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-+#include <linux/units.h>
+diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/murata,d1u74t.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/murata,d1u74t.yaml
+new file mode 100644
+index 000000000000..ef080283bf79
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/pmbus/murata,d1u74t.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/pmbus/murata,d1u74t.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Murata D1U74T-W power supply unit
++
++maintainers:
++  - Abdurrahman Hussain <abdurrahman@nexthop.ai>
++
++description:
++  The Murata D1U74T-W is a PMBus-compliant AC/DC power supply unit that
++  exposes input/output voltage, current and power telemetry, three
++  temperature sensors and dual fan monitoring over an I2C interface.
++
++properties:
++  compatible:
++    enum:
++      - murata,d1u74t
++
++  reg:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        psu@58 {
++            compatible = "murata,d1u74t";
++            reg = <0x58>;
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b2040011a386..b6a055fbb870 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6803,6 +6803,12 @@ S:	Maintained
+ F:	Documentation/hwmon/crps.rst
+ F:	drivers/hwmon/pmbus/crps.c
  
- /* Needed for clk_hw_get_clk() */
- #include "clk.h"
-@@ -21,9 +22,9 @@
- 
- static const struct clk_ops empty_clk_ops = { };
- 
--#define DUMMY_CLOCK_INIT_RATE	(42 * 1000 * 1000)
--#define DUMMY_CLOCK_RATE_1	(142 * 1000 * 1000)
--#define DUMMY_CLOCK_RATE_2	(242 * 1000 * 1000)
-+#define DUMMY_CLOCK_INIT_RATE		(42 * HZ_PER_MHZ)
-+#define DUMMY_CLOCK_RATE_1		(142 * HZ_PER_MHZ)
-+#define DUMMY_CLOCK_RATE_2		(242 * HZ_PER_MHZ)
- 
- struct clk_dummy_context {
- 	struct clk_hw hw;
++MURATA D1U74T PSU DRIVER
++M:	Abdurrahman Hussain <abdurrahman@nexthop.ai>
++L:	linux-hwmon@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/hwmon/pmbus/murata,d1u74t.yaml
++
+ CRYPTO API
+ M:	Herbert Xu <herbert@gondor.apana.org.au>
+ M:	"David S. Miller" <davem@davemloft.net>
 
 -- 
-2.54.0
+2.53.0
 
