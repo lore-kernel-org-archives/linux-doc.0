@@ -1,74 +1,177 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19B63A71B1;
-	Tue, 12 May 2026 12:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB2E37205B
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 12:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778589358; cv=none; b=MoKejCVNEYTCBsme42AZhRKmGAHpJlxxWnDqiIU7AbbwpQvw0OP2q1qbEOxY13vg/fReeLB3KA7GBNN5FLX/hYB0nh3EONqTJqDkX8DCLW1Pq6DhnQg3TlWiF+o6bOj64oiOQi4oVSZiSxF0P6oKOxiMpGsQUWsMCk4LAvFADIw=
+	t=1778590166; cv=none; b=Ub+rGDOisYjTOX2R0oRKU+87bC06gBDKHXxLlIpUKURmDuEpaMnjJPpxic8c4BCPxOdOQOpzFRQSPmZqrdnaH41PqIEQ61Vr3xmvuS1drqk0/3jaJ/u4pNT5bdmzrzerb+gwK8erpMLKVE7N9EiKh8JDm6gANywVJgQNbBBK6Fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778589358; c=relaxed/simple;
-	bh=BmGVZItobAjgJyPYiVCdUrAyC6N4OuGTopNkz3FiWTE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=iaBWTPlpEEzvsaeWS2DzgdxVXGKUcYfrmjgbK+n+tYmH6DKHp9+rAjXse31q9BqrwqgBKioK+RAHkKcmF0I+Ts69RDwn3BlS64VNY+U6Gw/k68npanUQV5c+zg2MwpY+xL2p8yx1rnM//gVS+ZUybGGJ0pMwzt1RVBBs48hP4EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Pdv8mc9i; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1778590166; c=relaxed/simple;
+	bh=SBvm6+jP+U2l7uMXSXFQ1WvZtFjwHb3u2Q8u1wUCpO0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gjg1tUKflnq0Y4y4EWqWQgcPyQvykzw2yR/KYTcmoibq+8WpBzC9UAbHJkttwJ8b6fWFF1ZwRNrPl2T96zoURQF7ovIyFWCBuatELCxQATlvvS2srCh+TO0FwBjrPVzfxyEH/Q8d0WBxkFrAC+nDo3ZM9sVxdERn9BIeWI4jZZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Y0UNX/fZ; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Pdv8mc9i"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D7103410B5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1778589340; bh=EWyclGFz8pzIOxZnmO3PLCb093L3qCVV0LGewMBfVts=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Pdv8mc9i7zmb9MBPfvcutWFzqKWDRicRjjImHqG43s8qPICWHPVBDf44LLT85PFoF
-	 mIryf+pwEmwtvEmaFwHxiCIRgW9KV8N7Ic0YVCENqKdO4hyEF2pTnAqiKnxgFTqHqo
-	 BSCFZT1y6pOqIVDnLjsHzj/am/RIWUzWEDU5VynNO1p4HhEk67g2E+eTqE0h27F5lK
-	 9+5pwzf5HSM7sokPEsoH8GbEooY63G1PFmpj0QW2z2j5LVYkq/p5uZRWEpWcVi0Cn6
-	 Ancqc7sq+EghglQWe9SUP0s1sUROzNGnKzYCttnKI+pwUSoD6U5MyNgPvG+EjDF+oC
-	 AfNWIhIK8uWJQ==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D7103410B5;
-	Tue, 12 May 2026 12:35:39 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>, Chen-Shi-Hong
- <eric039eric@gmail.com>
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: reporting-issues: fix advice wording
-In-Reply-To: <1e7f2b9c-7c04-45d7-83e4-dd13267ae910@leemhuis.info>
-References: <20260512015146.4081-1-eric039eric@gmail.com>
- <1e7f2b9c-7c04-45d7-83e4-dd13267ae910@leemhuis.info>
-Date: Tue, 12 May 2026 06:35:38 -0600
-Message-ID: <87wlx8st45.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Y0UNX/fZ"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778590150;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mk7t5MkLo6XzuMHVqU+2InNqpcc/cRZVM5/ZDanGOMU=;
+	b=Y0UNX/fZohdD2/O+ae5TCK7pk3M3M0epqtEBV1l66A576fgZVKcBPMZWjonXh9hxeMayja
+	Ff7SKFC1E9eA17pAEV26oVIAVy3HLg+MRUwuSDMY67Ykn6RMPBwvWKgfa3r2iozKrlyl/d
+	eCHC5MpBah/awdxD7pDcdmucX/Gy/KU=
+From: Lance Yang <lance.yang@linux.dev>
+To: david@kernel.org
+Cc: leitao@debian.org,
+	linmiaohe@huawei.com,
+	nao.horiguchi@gmail.com,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	ljs@kernel.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	shuah@kernel.org,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	liam@infradead.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	kernel-team@meta.com,
+	lance.yang@linux.dev
+Subject: Re: [PATCH v6 1/4] mm/memory-failure: report MF_MSG_KERNEL for reserved pages
+Date: Tue, 12 May 2026 20:48:37 +0800
+Message-Id: <20260512124837.38883-1-lance.yang@linux.dev>
+In-Reply-To: <9504c193-8c01-4d03-8f62-c50fd7fbdbc0@kernel.org>
+References: <9504c193-8c01-4d03-8f62-c50fd7fbdbc0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-> On 5/12/26 03:51, Chen-Shi-Hong wrote:
->> Replace "these advices" with "this advice" in
->> Documentation/admin-guide/reporting-issues.rst.
+On Tue, May 12, 2026 at 10:17:00AM +0200, David Hildenbrand (Arm) wrote:
+>On 5/11/26 17:38, Breno Leitao wrote:
+>> When get_hwpoison_page() returns a negative value, distinguish
+>> reserved pages from other failure cases by reporting MF_MSG_KERNEL
+>> instead of MF_MSG_GET_HWPOISON. Reserved pages belong to the kernel
+>> and should be classified accordingly for proper handling.
+>> 
+>> Sample PG_reserved before the get_hwpoison_page() call. In the
+>> MF_COUNT_INCREASED path get_any_page() can drop the caller's
+>> reference before returning -EIO, after which the underlying page may
+>> have been freed and reallocated with page->flags reset; reading
+>> PageReserved(p) at that point would observe stale or unrelated state.
+>> The pre-call snapshot reflects what the page actually was at the
+>> time of the failure event.
+>> 
+>> Acked-by: Miaohe Lin <linmiaohe@huawei.com>
+>> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+>> Signed-off-by: Breno Leitao <leitao@debian.org>
+>> ---
+>>  mm/memory-failure.c | 19 ++++++++++++++++++-
+>>  1 file changed, 18 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+>> index 866c4428ac7ef..f112fb27a8ff6 100644
+>> --- a/mm/memory-failure.c
+>> +++ b/mm/memory-failure.c
+>> @@ -2348,6 +2348,7 @@ int memory_failure(unsigned long pfn, int flags)
+>>  	unsigned long page_flags;
+>>  	bool retry = true;
+>>  	int hugetlb = 0;
+>> +	bool is_reserved;
+>>  
+>>  	if (!sysctl_memory_failure_recovery)
+>>  		panic("Memory failure on page %lx", pfn);
+>> @@ -2411,6 +2412,18 @@ int memory_failure(unsigned long pfn, int flags)
+>>  	 * In fact it's dangerous to directly bump up page count from 0,
+>>  	 * that may make page_ref_freeze()/page_ref_unfreeze() mismatch.
+>>  	 */
+>> +	/*
+>> +	 * Pages with PG_reserved set are not currently managed by the
+>> +	 * page allocator (memblock-reserved memory, driver reservations,
+>> +	 * etc.), so classify them as kernel-owned for reporting.
+>> +	 *
+>> +	 * Sample the flag before get_hwpoison_page(): in the
+>> +	 * MF_COUNT_INCREASED path, get_any_page() can drop the caller's
+>> +	 * reference before returning -EIO, after which page->flags may
+>> +	 * have been reset by the allocator.
+>> +	 */
+>> +	is_reserved = PageReserved(p);
+>> +
+>>  	res = get_hwpoison_page(p, flags);
+>>  	if (!res) {
+>>  		if (is_free_buddy_page(p)) {
+>> @@ -2432,7 +2445,11 @@ int memory_failure(unsigned long pfn, int flags)
+>>  		}
+>>  		goto unlock_mutex;
+>>  	} else if (res < 0) {
+>> -		res = action_result(pfn, MF_MSG_GET_HWPOISON, MF_IGNORED);
+>> +		if (is_reserved)
+>> +			res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
+>> +		else
+>> +			res = action_result(pfn, MF_MSG_GET_HWPOISON,
+>> +					    MF_IGNORED);
+>>  		goto unlock_mutex;
+>>  	}
+>>  
+>> 
 >
-> Thx for this, fixing this is a good idea. It nevertheless makes me go
-> "hmmm...", as the wrongly executed and maybe not obvious enough original
-> intention of the author (disclaimer: me) was to make it a bit clearer
-> that "this advice" does not only mean the one advice right before it,
-> but all the pieces of advice in the paragraph. It would be great to
-> cover that while fixing it. "pieces of advice" maybe? Not sure. Maybe
-> somebody has a better idea. And maybe just ignore my nitpicking, guess
-> "this advice" just feels too easy to misinterpret from my point of view
-> as someone to whom English is a second language.
+>It's a bit odd that we need this handling when we already have handling for
+>reserved pages in error_states[].
+>
+>HWPoisonHandlable() would always essentially reject PG_reserved pages. So
+>__get_hwpoison_page() ... would always fail? Making
+>get_hwpoison_page()->get_any_page() always fail?
+>
+>But then, we never call identify_page_state()? And never call me_kernel()?
 
-"Advice" is an uncountable thing, so the suggested fix certainly
-encompasses the meaning you want.  It could be "all of this advice" or
-some such if you want to make its coverage explicitly larger.
+Looks like we never get that far ...
 
-jon
+>This all looks very odd.
+>
+>Why would you even want to call get_hwpoison_page() in the first place if you
+>find PageReserved?
+
+Ah, I see :)
+
+For a PG_reserved page, I would not expect PageLRU to be set, nor would
+I expect it to be in the buddy allocator.
+
+include/linux/page-flags.h also says:
+
+"
+Once (if ever) freed, PG_reserved is cleared and they will be given to
+the page allocator.
+"
+
+So maybe special-case PageReserved() before get_hwpoison_page()?
+Something like:
+
+	if (PageReserved(p)){
+		res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
+		goto unlock_mutex; 	
+	}
+
+	res = get_hwpoison_page(p, flags, &gp_status);
+
+Cheers, Lance
