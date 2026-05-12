@@ -1,83 +1,85 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1B3258EDA
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 01:35:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8092765C4
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 01:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778549741; cv=none; b=tPGm4haP5VvItMyxdYbr/xswqxapP3vf3v/v3/hzhDxj9Kx50/a4d+4ou2Y35PpWv9XlUBXwTKwyIDHPw8TBv6r53y6eH+gASbeopzBqun+nabYCe7c5BbJ42NXO/hGAhLs0CFXiBsb5vDo/BQzsjsL2JPcRDUWsPeXQMNhGcBY=
+	t=1778549742; cv=none; b=WTkG8pd0l6mwGEAl/Ed9tMq7Ej3YedmJ9FdhzyXNCymnnhRM/7TQH4RLcsIPflT25VO0+iKQ0j5vCo6JeROL1WkccclVPatZTG1b1105HqRKt7vApqMUqyVFGRtNvbtEmBcQvRA/mrKMsBBPOdlAuUjcjxXYrZ0+9IejwU/F2IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778549741; c=relaxed/simple;
-	bh=OXLbc8oa7LK5j+UoK7PYojQxNt6tMdSaWmLDVwmy6fY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Wf7+V/3B4m8LtW9bj9OMRA0Ji5IQ+aqXuJjSWR+zUTKB95pWRW5mbJR1IFXA29t6VX9aIIgSRInsxIeVjSFWuHlWA09Tmcm4ZjTdUwkCl+gUQkdoxc9IkPC7eOl1oh9loeNPSF3x9iJGDaYGkPGPsWJ1W1kAT7xmCl66O3evG4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PK7Vk9Nc; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=bua3LGJ/; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1778549742; c=relaxed/simple;
+	bh=JcS0PBiexjUmxANNsma/LGKNMCI48CNd8j71XULK4UQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=BI+xmitnFyG/LC+o9Op6890v3B0gLU+7Z28Nzh0SiKqy5irVfuU9NJlH1xW00U19zlApP+22zxDPaNc6wUsujgu+BHjiasC2X4uR7pQStsddS82V3HvXG220cOwOtqjb27GssDT0gz+UhymPBLy+pfLmXKqLqW4kQt8MJGXaWP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=I9+kn49/; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=eJkjWyYz; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PK7Vk9Nc";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="bua3LGJ/"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="I9+kn49/";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="eJkjWyYz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778549739;
+	s=mimecast20190719; t=1778549740;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=hDM81GL78FREZS+LEcr682BVOat2yXDAdlE/kgG+9Ak=;
-	b=PK7Vk9NcWSMhOUP9X3AD7zupfg92pvC83rxAimQiQzL3BxaEDtiI0hA3PX2ORO/UVdAvp/
-	KCxQgWhBmjy0hHnd/6tvj6W5C4iEQZaald6hQe4rx4I8i2fuEpcj1NxGVdKNk/+V1kvjZl
-	edrzVK8LURV2yxEqhkPyWjjfjTMDKZA=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oV/kQDo/wRMnIi8Dylb19q8LjihJ2zEmf7whdFoofyU=;
+	b=I9+kn49/80/UJq9eaPDFn9FDiUTULAAvKOu2jaHIG2T/kjGfT9+wWJfTxp4kwNeJ2ULzoK
+	8uqRj8xkFjjk/HkP1xIZjB0ztq0OePcxuroQWHHd2BMFmAbSTp+gbHG4D1j4NiFWHQtYFc
+	8Fm6boi7OcJX50JQOTceJPSay9yO13o=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-198-tLxbhP-nPUutmkAElookmQ-1; Mon, 11 May 2026 21:35:37 -0400
-X-MC-Unique: tLxbhP-nPUutmkAElookmQ-1
-X-Mimecast-MFC-AGG-ID: tLxbhP-nPUutmkAElookmQ_1778549737
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-514ae0edeb6so55448611cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 18:35:37 -0700 (PDT)
+ us-mta-633-IrCbj4EpP72jLV9R7ZkXVg-1; Mon, 11 May 2026 21:35:38 -0400
+X-MC-Unique: IrCbj4EpP72jLV9R7ZkXVg-1
+X-Mimecast-MFC-AGG-ID: IrCbj4EpP72jLV9R7ZkXVg_1778549738
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50ff0bef198so103316391cf.2
+        for <linux-doc@vger.kernel.org>; Mon, 11 May 2026 18:35:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1778549737; x=1779154537; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hDM81GL78FREZS+LEcr682BVOat2yXDAdlE/kgG+9Ak=;
-        b=bua3LGJ/G0JvzPn44dIDD1bltMl6WOGtAzek+ypdj19WcKhhE9qVdYJKh8G9NU7ZTU
-         2wpL/cQubpcRCvMPNadHttQ+TkmMg7kv9MTLeE+4IpfAIbtof1BxacX6BgAXhkE/pg1y
-         Bli+BVrl/T3wrO/yBO80Z1nijkSP9wq/rJD94j9B1m5hDnEQCFfWW2m6QJUMEhU7oFfQ
-         uEZQpz/HvMIEVDSBAtjGO9mDrrHQye5xZZ7pLKp1KcqD3UADxQ1bnralIK1HqBrtQLY3
-         GwXvsGG6HJ3MgkF9KWwEMguK/aOJEtOHRY1gd0bCYP4cV8u6VizqFbDN3bltmFJBZwk/
-         UPSg==
+        d=redhat.com; s=google; t=1778549738; x=1779154538; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oV/kQDo/wRMnIi8Dylb19q8LjihJ2zEmf7whdFoofyU=;
+        b=eJkjWyYzWU03gOzdlya56VnA5vsoeJvfsYPaL9GNi7eY98z6jmjtVCZC1V6n3egKiR
+         PARQyAAYdiOvevMkv6cRpl4jSFaITt+4ZbsDYHp8OfF2kBoleSHr28QxD7mcAq/oCuXH
+         HP/QA4Y7yNcFQaQOg2KBe/aSrkEIhRGOGLqxYXXqC58W2828ddmZvtsLOYcb5O99+qVM
+         uq7J7geTFjmodBnqAlytnu0aXUTbiiGN5QC3cdQJMsu57ZvJbvvLNnQinspasqIb9LkV
+         CRsozwBorweoEhGcRNzBXvETJPfXh1Ky3wFY8Rqo02AL6sZhJhq0jQPMqiw3AJjL77MT
+         iaCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778549737; x=1779154537;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hDM81GL78FREZS+LEcr682BVOat2yXDAdlE/kgG+9Ak=;
-        b=XZQi5UmoNoSCqAmAHG/ljRysPUE75pTTOLttyo/4PNhQSwYObWC34bpfBui3B4Fu+7
-         eqGFZVBqmQRPedfvrHZejN90ow7aNrsBuE/0hYKDJ1v2Q+J+NVDPeKM8odYhphmbKEbB
-         93QGVIWBGWjm8NZOwXjvTKvuJnzQtdT59qbzbhXU/uRBzaWseauld8HR9z49qjgOXwv/
-         DYnpYgxEls3XZaFhbluM6iXnSwhos68qSFoC0/ir/qEhDWvSnf34ML8tJEG2NGu7NSA2
-         XQTzEbILIm8N+WI/EiZTZnre9HQDaKoBvxiXyJPc1t/D3Z2P8dxYbpq9LpGoV1h1dAjP
-         zDDw==
-X-Forwarded-Encrypted: i=1; AFNElJ8bYSh19W9Y38EmsLph/1jgaMt/LvVZULnCpbOBLgjvfmQF+jIN2MyqrDwLw1vxTkEHHHiX2tcugPI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8SBJmjDsaYJ9EYPgWEzTMvAYIPa1Ryh9M+tMNXH3KkR2XA+m9
-	jcReERuAerKReU/bj2CY3J1f9j9A663QkeViw6mL8aiGHQkOlC3PqhIdnbLlOFj8WmYdGi4UoUJ
-	T5JDhKbXkDHgDnrGoNVVUNhNjVb8vozY8F7uHNy4QB5BfQuMXumXhGf/dvb6K4Q==
-X-Gm-Gg: Acq92OGOlK4xjYN5Tg+E4NRYBhDCy1rIseSiR7BJD4doGRj3KEwArgHi/Z18PMcjd3e
-	EBSQykChmxAGfpw5LFwaWjqV+p0ExlsGp97Cm7dIdlgyU+ilEj/eR7CGm8cmaK10P/zzCON9eaC
-	Y4SrA91Zwup/pozvdJ0f2zn1VLLBHM6wkG1qI+DHKFqPD7prPvJknWBYthcKML/YlBcuNa5a+WO
-	wwLiLxWcuA/MAiRe9mjLMhXNR5CuGHQ/1W1zshh8YXInBqDF1qqcIWU1nHLQiKxxa6DGfSOAbFf
-	WALvrqkFZ/3a93bydSUWg9jeYT/Og0cQ6/hJwX6O/VBHo400CFE5hYX0j7pWG7knHKMr8G68Dmu
-	4Y7nJ3bhVfJwMroppzZlYkoXFb0+/+b/CRdtCQK0+KS8U7+Ly/y3j15dj2ZFDmg==
-X-Received: by 2002:a05:622a:1a85:b0:50d:af03:c9ca with SMTP id d75a77b69052e-514cf02bcabmr26355901cf.38.1778549736889;
-        Mon, 11 May 2026 18:35:36 -0700 (PDT)
-X-Received: by 2002:a05:622a:1a85:b0:50d:af03:c9ca with SMTP id d75a77b69052e-514cf02bcabmr26355501cf.38.1778549736403;
-        Mon, 11 May 2026 18:35:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778549738; x=1779154538;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=oV/kQDo/wRMnIi8Dylb19q8LjihJ2zEmf7whdFoofyU=;
+        b=ORZSrlddlYYYWOAtGEyfBLk6DRBGVpH95UnEuANtD7ZZHFlzD1+hE2Dqd45KqcmpgL
+         FBELMuwvBdMVLcXOXcbmTkhpbsd7WxPAOhnd2uE7q0HQjFHu1mbgx85gFdSHfdChsdCH
+         Wj6u/nJFiIJrzGfKE00OhEWR8mbf8L5maw3Ms8bzKtCgRgAnIj291imFogfYfNxVFW02
+         n+DHPtchAvUNN8CbKR2sVJbRkjpXJK7sNM0CH/2EaXgJi8pcM+VYDs+je3L97DLPlojr
+         031vn9cztsgc6FgSUUV1IbBD8J+kgffzHIK9OVYMCim/Pd13lscU1Bjsn7bGDK7V2CCC
+         B//A==
+X-Forwarded-Encrypted: i=1; AFNElJ+ahMdB0cypTnYgpuLsGRt7L95CXqxkk9eJqOA0gBpeS1YR8Aw34VEw4iYRUTdzfkrM9RgRK9mm7Aw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YymEhasWov9lT1DtefO+faaN19Kq6wA0bqU4i/0a5HAhSbDkyOx
+	Tqk/JdC/K/6ZQ18/Iap6iSgkHKgovDAi7j1IF8LnLL/ggDBZvwkIPKMk01SiLUd1Osh39dt70hp
+	XjB9HNyaEIlPyyZofaUGkyaWLHBIY2gMpCArwqPVKOQ0mlyA47Kwc5BOVG+TYiA==
+X-Gm-Gg: Acq92OFf0HN7xBXIfl+iKDIKA6D2T+bgxLdz/R9ZbQGHCCGjR2uhkMinbBNg188BHby
+	9SLktqIvr0Pm9UWzslCrq30Qy4kXyaK7XtFFpa+FvDQnLjtWJzgVr/4c1X61JhwSJuefAacL6kC
+	lGAaFFQHlLwsxLYUoY0B6nqCDCwmk+CfkSjH8Phk1W6kd1DF3lC1jKCHrkO3uSWOK0+D4xByTzz
+	xfYjkSgcwl0ABxWJViKVFo8XgiwbH+Ugr3w1QtOfOLBspC460ICb+sGoJyXeVoy29DsR4ZDMNbB
+	UeBdnu8EYmgSwXcYe2Tk73rwdfynXuChFucRl785YyJbUJ554znU6UFJFnxMaSFbVQh1h9KsgKB
+	CrTY39Fwi0v7tpA6CfLA6BBuKuFCLA3CWW9FhgVXDtSGnBkRWQGa+AbUXEcHEHQ==
+X-Received: by 2002:a05:622a:24e:b0:50d:a8f5:d51f with SMTP id d75a77b69052e-514a0b6f2c1mr166887991cf.45.1778549738321;
+        Mon, 11 May 2026 18:35:38 -0700 (PDT)
+X-Received: by 2002:a05:622a:24e:b0:50d:a8f5:d51f with SMTP id d75a77b69052e-514a0b6f2c1mr166887761cf.45.1778549737851;
+        Mon, 11 May 2026 18:35:37 -0700 (PDT)
 Received: from [192.168.1.15] (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8bf39c7e2e5sm109704006d6.34.2026.05.11.18.35.35
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8bf39c7e2e5sm109704006d6.34.2026.05.11.18.35.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 18:35:35 -0700 (PDT)
+        Mon, 11 May 2026 18:35:37 -0700 (PDT)
 From: Brian Masney <bmasney@redhat.com>
-Subject: [PATCH v3 0/4] clk: update kernel docs
-Date: Mon, 11 May 2026 21:35:03 -0400
-Message-Id: <20260511-clk-docs-v3-0-ed67e1065809@redhat.com>
+Date: Mon, 11 May 2026 21:35:04 -0400
+Subject: [PATCH v3 1/4] clk: add kernel docs for the core flags
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,75 +88,100 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22MwQ6CMBAFf4Xs2ZptgQqc/A/jgbZbaVRqWtJoC
- P9u4YSJx3l5MzNECo4idMUMgZKLzo8ZykMBeujHGzFnMoNAIbHEiunHnRmvI0NVnxpbCS4RId9
- fgax7b6nLNfPg4uTDZysnvq5/IokzZJaoko1RbWv5OZAZ+umo/RPWShI7U9Q7U2RTaSslEtek6
- h9zWZYv+RLjKdsAAAA=
-X-Change-ID: 20260304-clk-docs-0b578f421600
+Message-Id: <20260511-clk-docs-v3-1-ed67e1065809@redhat.com>
+References: <20260511-clk-docs-v3-0-ed67e1065809@redhat.com>
+In-Reply-To: <20260511-clk-docs-v3-0-ed67e1065809@redhat.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
  Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
  Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
 Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2106; i=bmasney@redhat.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3542; i=bmasney@redhat.com;
  s=20250903; h=from:subject:message-id;
- bh=OXLbc8oa7LK5j+UoK7PYojQxNt6tMdSaWmLDVwmy6fY=;
- b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGLKYmu+WFLxrO7vqtcvkBi2RG01afCGq38pVMv6ZCszgk
- 97y6ceWjlIWBjEuBlkxRZYluUYFEamrbO/d0WSBmcPKBDKEgYtTACayIo2R4fXh5W+V6nnDlwr/
- c2W2Dszku5le0Hc+7Ivnw/reosAzoQz/TPUiAnZ8EmSMjnn0fG/W3rK80LfOHHsO9Liz6rzOvtf
- JBgA=
+ bh=JcS0PBiexjUmxANNsma/LGKNMCI48CNd8j71XULK4UQ=;
+ b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGLKYmh+zd52Rc1gdL8btY34lkOWp7Lame5LJvjvjppstz
+ VbvN4/sKGVhEONikBVTZFmSa1QQkbrK9t4dTRaYOaxMIEMYuDgFYCKNfIwMb96KrAw7ENk9Ye/y
+ sOyHBTYTf7nKPXXzUmjcYv7V7mf6C4b/qR/iXbUNN7VdrQm+9nFf4jPH11d/PjbzLVKp+bGR6yI
+ PMwA=
 X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
  fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
 
-Here's a small series that updates the kernel documentation for struct
-clk_core, adds a doc block for the clk flags, and updates the clk kunit
-test to use HZ_PER_MHZ.
+Let's add a DOC section for the clk core flags, and move the
+documentation for each flag into the doc header so that it can
+be easily referenced in the generated kernel documentation.
 
-Since I've been doing a lot of work in the clk subsystem lately, I would
-like to add some more documentation about this subsystem in the future
-as I have time. There's a lot of other things that I know can be done
-now, and I'd like to just start with these small changes merged.
-
-I tested this by running 'make htmldocs' and opened
-Documentation/output/driver-api/clk.html in my browser to ensure that
-it was rendered as expected.
-
-Changes in v3:
-- Remove clk flags enum and replaced with a doc block.
-- Add separate header for the flags in the rst file.
-- Rebased onto next-20260508.
-- Link to v2: https://lore.kernel.org/r/20260325-clk-docs-v2-0-bcf660e1ceb5@redhat.com
-
-Changes in v2:
-- Add clk_core_flags enum, and kernel doc for this.
-- Update descriptions in clk_core based on feedback from Stephen.
-- Update clk kernel docs to show some of the new API documentation.
-- Link to v1: https://lore.kernel.org/r/20260304-clk-docs-v1-0-fee468db99f1@redhat.com
-
-Merge Strategy
---------------
-Given the new doc block, and cross tree dependency, it would be easiest
-of all of this was merged together in Stephen's tree.
+Note: The comment about "Please update clk_flags..." is included as a
+separate comment so it doesn't show up in the generated documents.
 
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
-Brian Masney (4):
-      clk: add kernel docs for the core flags
-      clk: add kernel docs for struct clk_core
-      docs: clk: include some identifiers to keep documentation up to date
-      clk: test: convert constants to use HZ_PER_MHZ
+ include/linux/clk-provider.h | 46 ++++++++++++++++++++++++++++----------------
+ 1 file changed, 29 insertions(+), 17 deletions(-)
 
- Documentation/driver-api/clk.rst | 58 +++++++++-------------------------------
- drivers/clk/clk.c                | 51 +++++++++++++++++++++++++++++++++++
- drivers/clk/clk_test.c           |  7 ++---
- include/linux/clk-provider.h     | 46 +++++++++++++++++++------------
- 4 files changed, 96 insertions(+), 66 deletions(-)
----
-base-commit: e98d21c170b01ddef366f023bbfcf6b31509fa83
-change-id: 20260304-clk-docs-0b578f421600
+diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+index b01a38fef8cf..151ebdc20a29 100644
+--- a/include/linux/clk-provider.h
++++ b/include/linux/clk-provider.h
+@@ -9,28 +9,40 @@
+ #include <linux/of.h>
+ #include <linux/of_clk.h>
+ 
+-/*
+- * flags used across common struct clk.  these flags should only affect the
+- * top-level framework.  custom flags for dealing with hardware specifics
+- * belong in struct clk_foo
++/**
++ * DOC: clk framework flags
+  *
+- * Please update clk_flags[] in drivers/clk/clk.c when making changes here!
++ * Flags used across common struct clk. These flags should only affect the
++ * top-level framework. Custom flags for dealing with hardware specifics
++ * belong in struct clk_foo.
++ *
++ * * CLK_SET_RATE_GATE - must be gated across rate change
++ * * CLK_SET_PARENT_GATE - must be gated across re-parent
++ * * CLK_SET_RATE_PARENT - propagate rate change up one level
++ * * CLK_IGNORE_UNUSED - do not gate even if unused
++ * * CLK_GET_RATE_NOCACHE - do not use the cached clk rate
++ * * CLK_SET_RATE_NO_REPARENT - don't re-parent on rate change
++ * * CLK_GET_ACCURACY_NOCACHE - do not use the cached clk accuracy
++ * * CLK_RECALC_NEW_RATES - recalc rates after notifications
++ * * CLK_SET_RATE_UNGATE - clock needs to run to set rate
++ * * CLK_IS_CRITICAL - do not gate, ever
++ * * CLK_OPS_PARENT_ENABLE - parents need enable during gate/ungate, set rate and re-parent
++ * * CLK_DUTY_CYCLE_PARENT - duty cycle call may be forwarded to the parent clock
+  */
+-#define CLK_SET_RATE_GATE	BIT(0) /* must be gated across rate change */
+-#define CLK_SET_PARENT_GATE	BIT(1) /* must be gated across re-parent */
+-#define CLK_SET_RATE_PARENT	BIT(2) /* propagate rate change up one level */
+-#define CLK_IGNORE_UNUSED	BIT(3) /* do not gate even if unused */
++/* Please update clk_flags[] in drivers/clk/clk.c when making changes here! */
++#define CLK_SET_RATE_GATE	BIT(0)
++#define CLK_SET_PARENT_GATE	BIT(1)
++#define CLK_SET_RATE_PARENT	BIT(2)
++#define CLK_IGNORE_UNUSED	BIT(3)
+ 				/* unused */
+ 				/* unused */
+-#define CLK_GET_RATE_NOCACHE	BIT(6) /* do not use the cached clk rate */
+-#define CLK_SET_RATE_NO_REPARENT BIT(7) /* don't re-parent on rate change */
+-#define CLK_GET_ACCURACY_NOCACHE BIT(8) /* do not use the cached clk accuracy */
+-#define CLK_RECALC_NEW_RATES	BIT(9) /* recalc rates after notifications */
+-#define CLK_SET_RATE_UNGATE	BIT(10) /* clock needs to run to set rate */
+-#define CLK_IS_CRITICAL		BIT(11) /* do not gate, ever */
+-/* parents need enable during gate/ungate, set rate and re-parent */
++#define CLK_GET_RATE_NOCACHE	BIT(6)
++#define CLK_SET_RATE_NO_REPARENT BIT(7)
++#define CLK_GET_ACCURACY_NOCACHE BIT(8)
++#define CLK_RECALC_NEW_RATES	BIT(9)
++#define CLK_SET_RATE_UNGATE	BIT(10)
++#define CLK_IS_CRITICAL		BIT(11)
+ #define CLK_OPS_PARENT_ENABLE	BIT(12)
+-/* duty cycle call may be forwarded to the parent clock */
+ #define CLK_DUTY_CYCLE_PARENT	BIT(13)
+ 
+ struct clk;
 
-Best regards,
 -- 
-Brian Masney <bmasney@redhat.com>
+2.54.0
 
