@@ -1,137 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B0A3BFACE;
-	Tue, 12 May 2026 13:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7053A5994;
+	Tue, 12 May 2026 13:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778591232; cv=none; b=tJ0EOeiNI5ymKnF2BXPMCtgSrZD60njdrdmKnzBBdFj0EnJICu+P51GdqE3tkRn3k93uCnmOR3e+elzMQ72b+AjZcvJgABvYOI1gV7Oth9z1V4m2A4BDDwifZ6xMaFR05WlpBSbs4jgns9sEFbZSoM30B0GQ0YpL2TOz6jojhvI=
+	t=1778591588; cv=none; b=de4VC14D9zBwHbX0reYysUBkRX/D9/t+mxJR8RrKtK4X+UQWja0wq0N0xcE0v9KNdwROtLu8rSmYV8McpKd3ALeUxkBtCzeQXuZCsxW0asEwGp1qb2pGvyScQqgpBZNDHzSIpC0n50o90wTYc9CkYNFjZ2CCFPWl7PgCXRlvOb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778591232; c=relaxed/simple;
-	bh=n4eohByrrLdrAD3Xh6iy0bQauhz8JMCGndNHIg0F7dc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Gq8is2tL1Q2Z1gGFVxi9MNC/fIYRE1Y//rwWOwREI9iy24ZHzUy+KwlMwgHWhcDIs+8gfzdCXxbLCl0g+YqkAXibtK1Qlu6wHgbUuMNeSAGSNvRJazsCWDVQep6Nio6T8tOCUtX9bs6MphnBWf+P8XAK6Ltsoev8aw+mmo9LE2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZfJpeag; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778591588; c=relaxed/simple;
+	bh=wJT4v6gWN2FDSAFVtjbMcwPyBY13R3xdWR2y1oTEGXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AQtS+pHlK45fapE+Q966OxfWQ4yLl4PnZTH4RSP6uzRm4Ftjp3xj14Ak7oKnfdkvz8UVzoaocyMWIfRml1fVMB2loiWAmmx3gqcsy2GkutEvDlsXKKAa1jakDROBM2OVuvq8WsPY30xDb1MBOY2pfEkWzEZvFHlXdAB5trjNx8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S/DCWe4D; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZfJpeag"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBA9C2BD05;
-	Tue, 12 May 2026 13:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778591231;
-	bh=n4eohByrrLdrAD3Xh6iy0bQauhz8JMCGndNHIg0F7dc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=aZfJpeagASMSt93SGtgNPNFiIKv0sh5rePucN3m7DE4JKFFBrN5YlHVtWXGZR6SLj
-	 BEm8ZgWwkKkCdzUj86dqxN2ZdllsnkQx8d0BU0dagu6MI8Ud2z4h8c7CAoV+6W3Tqs
-	 rhMmsHRam00BhFm9jzImcyuYcG5NiAowfHeL/iQtZlqHG5EE7OIlKYYXBFRxBVN/Nh
-	 /Q10EZZkBhRRSe0WoHbdBRA3d+Zd8+uS6IZFKLJlwgm98N5xwORj66O1phNOwgyaFM
-	 yjh/7zdswAcg43SJ7MQ4sEQHn8DqfQF+9PDTMCAZjRuGkY1/TV9DxqpyJxU49SFXLR
-	 bAU8JQXLhAbQw==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 12 May 2026 15:06:18 +0200
-Subject: [PATCH v4 20/20] drm/bridge_connector: Convert to
- atomic_create_state
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S/DCWe4D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778591586; x=1810127586;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wJT4v6gWN2FDSAFVtjbMcwPyBY13R3xdWR2y1oTEGXA=;
+  b=S/DCWe4DJxnbyYmrWiNSMixJmuz+MvPZIWKLKzDPx0ft/HQHvGpj5Xsl
+   6fZZAp474qqiGfo3VRMWBdbUY7ZDoimRRTFnnTJNjiJNwAz59tzqE2mmJ
+   /IEGHQ5X79+JinCYnXBh+ogtG8t78Y/Gno7iMew7J/X7/kqRo2TmDXCnb
+   07Uey1EMFRSYekSMhOn5tsZ4wqWpjvmKbVIkHstfJrh5OLuveqvbQmO0+
+   FuuZNXfUyFKBRJi7Jo7BTeSzbE3JFedH3/eJInGRw9m9DE8J8RgCittWI
+   YXQkdgLLX8m5zog/eEo/sYfPY+xmN1noVB1hdoSTdbVsiKDIgxDd6t7st
+   g==;
+X-CSE-ConnectionGUID: CvypfPS5Q/y4z+54KySMkw==
+X-CSE-MsgGUID: ZPNwYf1kSXKRwhXiXd4wHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="79215682"
+X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
+   d="scan'208";a="79215682"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 06:13:06 -0700
+X-CSE-ConnectionGUID: oLZvXZ8xRpemZGu9n9+HJA==
+X-CSE-MsgGUID: P8ynEVxDR/KGECxazKp+mQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
+   d="scan'208";a="234702732"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.112])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 06:13:01 -0700
+Date: Tue, 12 May 2026 16:12:59 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>,
+	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	David Laight <david.laight.linux@gmail.com>
+Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
+ kstrtodec64()
+Message-ID: <agMnWzMjW1LwCSyT@ashevche-desk.local>
+References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
+ <20260510-adf41513-iio-driver-v12-2-34af2ed2779f@analog.com>
+ <20260512123953.40d80bc9@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260512-drm-mode-config-init-v4-20-591dfdcc1bf9@kernel.org>
-References: <20260512-drm-mode-config-init-v4-0-591dfdcc1bf9@kernel.org>
-In-Reply-To: <20260512-drm-mode-config-init-v4-0-591dfdcc1bf9@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>, 
- Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>, 
- Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Maxime Ripard <mripard@kernel.org>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2233; i=mripard@kernel.org;
- h=from:subject:message-id; bh=n4eohByrrLdrAD3Xh6iy0bQauhz8JMCGndNHIg0F7dc=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFnMqofX7m//V/ko0eeLjvieiynXfOyL5kYH71h544hi9
- 9aImScudUxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJKAYyNvyT6Qkx5bJZJs7K
- VHQj1rhjduaE+uctAd4fn/NdbPl9LvLzEs6XR2YG8Qkttj7yu6IgnrHh0JnCA+kqdjM732oV/NJ
- alfLqm805P9mOXUfqrziee9248rOc3d15rDc/GGl8THhRI1sGAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260512123953.40d80bc9@jic23-huawei>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-The connector created by drm_bridge_connector only initializes a
-pristine state in reset, which is equivalent to what
-atomic_create_state would expect. Convert to it.
+On Tue, May 12, 2026 at 12:39:53PM +0100, Jonathan Cameron wrote:
+> On Sun, 10 May 2026 13:42:20 +0100
+> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> 
+> > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
+> > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
+> > precision). After the decimal point, digits beyond the specified scale
+> > are ignored.
+> 
+> Whilst Rodrigo has already replied to say there will be another version
+> I'd like to request final feedback from those who were involved in the parser
+> discussions.  
+> 
+> They got very involved and I'm far from an expert in the right way to do
+> this stuff.  
+> 
+> I don't think David Laight was +CC so I've added that.
+> David, Andy - I think you two were most involved in that discussion:
+> Any objections to the end result? 
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/display/drm_bridge_connector.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+I already said a few times about the naming. I do not like the kstrto*()
+be semantically different on how they treat the input. Second point is
+to avoid code duplication, but this one is less of a concern since the
+new code is in the library close to the other potentially duplicate code
+piece and hence can be addressed later.
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 50408af746d8..cafa498c3848 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -263,26 +263,33 @@ static void drm_bridge_connector_debugfs_init(struct drm_connector *connector,
- 		if (bridge->funcs->debugfs_init)
- 			bridge->funcs->debugfs_init(bridge, root);
- 	}
- }
- 
--static void drm_bridge_connector_reset(struct drm_connector *connector)
-+static struct drm_connector_state *
-+drm_bridge_connector_create_state(struct drm_connector *connector)
- {
- 	struct drm_bridge_connector *bridge_connector =
- 		to_drm_bridge_connector(connector);
-+	struct drm_connector_state *conn_state;
-+
-+	conn_state = drm_atomic_helper_connector_create_state(connector);
-+	if (IS_ERR(conn_state))
-+		return conn_state;
- 
--	drm_atomic_helper_connector_reset(connector);
- 	if (bridge_connector->bridge_hdmi)
- 		__drm_atomic_helper_connector_hdmi_state_init(connector,
--							      connector->state);
-+							      conn_state);
-+
-+	return conn_state;
- }
- 
- static const struct drm_connector_funcs drm_bridge_connector_funcs = {
--	.reset = drm_bridge_connector_reset,
- 	.detect = drm_bridge_connector_detect,
- 	.force = drm_bridge_connector_force,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.atomic_create_state = drm_bridge_connector_create_state,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- 	.debugfs_init = drm_bridge_connector_debugfs_init,
- 	.oob_hotplug_event = drm_bridge_connector_oob_hotplug_event,
- };
+Having the test cases is a big benefit, and that part I like the most.
 
 -- 
-2.54.0
+With Best Regards,
+Andy Shevchenko
+
 
