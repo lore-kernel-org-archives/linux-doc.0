@@ -1,251 +1,215 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011010.outbound.protection.outlook.com [52.101.57.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8DF37E2E0
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 15:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749DA388876;
+	Tue, 12 May 2026 15:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.10
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778599346; cv=pass; b=L8CJnFPPipoJtbk4wHXRza7+nzzCcXCb1pLp3oseHQhRcE0bYX/SsO8N33DE7NE96I8vfBdLJ1CTGnsusQLedV1t7ONYFU08p9yQ1PW+LhR0DSaJT33FtUh5buyCkMFIcb7uEou+FSxrzooflQga8iYDt/KS+JG23LgCdKRYzPY=
+	t=1778599535; cv=fail; b=Yq0hbJkgDUr7U0glh6rX0IDbdxur9ooy8mrtXOpM+8LtPWFH29hXXClRyWwoacdPUPsOiZqGlXcD3rsQEvT65o0jrPggqpIZZD33FmQ6bOI9cf7pZ7lWkCphjPxncsueHhFJ7kI3ttWcsMYuUPhQCUD5mblDZBtjrG4LDjrDouk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778599346; c=relaxed/simple;
-	bh=GMqAJJvoKZAxTYL3ppmWAG2jFmXFtUvCYSYB89m0cuQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l1iTt7vB0yFs2Y3XDS7ak/l2sjiVKYMU2gaUMlurqX/BlUKdoF/XJ3od/ThWQOUHOjTrI+iVLklQfZhjtfy6AiYbRVAXxqFtquO/pp05TD0HVoLCofzTITb4esBoOShgaqr2PCJ6hlF4lHaax6unrorA55gPmY7gUX3wm89pgHQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WwUVAJn6; arc=pass smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778599535; c=relaxed/simple;
+	bh=utyAMgVXUUR2lAnvuVZFog3DH1RPJlXrx7I6hsWoquI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ld080Frg9clSLnPyVOIzvffIPS7tNik+dPAX/wJcrr9qR1slO9aHVOm2HbzzqOER6PeW76VDE7V5orCV2+GNTX32k9VGpfxYFK6KHKMJ/M/NX/8KJDwNML73tQNXBoLwgsoX5ProSyTCoNiAF50FEFCAIxuh7M4axMBi6p/hdQQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jlOb/4vP; arc=fail smtp.client-ip=52.101.57.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WwUVAJn6"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-393925cb1baso58255081fa.0
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 08:22:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778599343; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GT+94TKL86XkeH1SYa1184rFhkHKwHrpSLxhWZ0zP0+LSWDCjwWO+XbMx4qPBKt76b
-         YXaYK3UnBOSmvZtkL4Hdrq9FbvA0MUyR9BvmW5YhRqdTtqeHKchBR1Z3EDJ3Voz84Da8
-         5lwdgalhXWTXDdDTxpX/W4k6IMShlVj+OU//n6OmG8SvayDOPAgBOeFr7zyJOzZGKrTJ
-         dHM8tzLxpV40vVU5dHKI4+4B2UYvhgVSgHtTXswywBoG3FQwu7SPldMkJrm7Bpy4+6yW
-         CttMfdqp9vPda8JR1EKcOkC9CwuCDfUuwWWq8a7czm7wr827iVU6c34H8ORp10BKeMyL
-         DTSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tsL/9p+qUWLijfBeysWK9OThhTiEfsjo8MZi7vGSKvg=;
-        fh=nf7YusJmlxFyWFFJV/3/fFQRnfFTeZenygYeaLg3BrU=;
-        b=auiAI4kBDWgbeafU9aR1B6kkmrj0xQH+r+CsYo68HbRYk0zm/qQhos7R6xjdpP7R6f
-         SWbRCRq2HCCs7vys9AJiwX8ahz57OpKs9gbSQb/Ul+3wJ2oWvVyjiXzxcfz++hqU9Qpy
-         S0hTF++RuRwn4VovAAjqFsJGJ7MX+BdgWhcLj+JNL+RVYJIKFbGy6PruwVBHLSM/ZiUE
-         ZEhHByhb9pLTEHCvK7wMGko4iORZ8DgECbkIb6gRJPpfuuxTQKIZqb30cibXsWI/NL6j
-         1u8ggF7SLnvZzJf5DFcyEf3dfyuRZDZpz09rU2fcosilfo8A8xAp22izAMtMRg6mih4x
-         HLBQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778599343; x=1779204143; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tsL/9p+qUWLijfBeysWK9OThhTiEfsjo8MZi7vGSKvg=;
-        b=WwUVAJn6TU0n1lhjNkg83Am9aNZjarCevbakj6oeB+Tvu+0J8GiUdLRXdietxAtfKx
-         3H0tZWr8Cz99iH0jZQQEXB7v+238cE0JFtUoNGTsVKwgkjm8CHmQ5a85uhpG4boU1uCZ
-         e4kt9wJQt8coalk9svMaCv1RvBwF/u0ngiooU0aTm4CYFdChG7rn9irw55njL90FtPBM
-         L6R44fcVtWsEn8t6oOSV6qKUzNy2DrpdSTjQYUDYekV48KuTasWB5/Onr0pNoPGBpuxg
-         ulk5WO4E6JWsGI5JCb2lDRhzFIRn5VdvYWMfQIVD1gH+9mM55eSQNqjYG1mVHfiFilUr
-         HqZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778599343; x=1779204143;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tsL/9p+qUWLijfBeysWK9OThhTiEfsjo8MZi7vGSKvg=;
-        b=OdPGYKgtpt0XixdhYrLxcLgEP+bbbEmYzyWIrmk4ojdn7yViSXkwi/qw0/Hz5bFruJ
-         Z/NBW9qpPtN2PNwppVmSEttf41fgCxzZ9Ene/SbQBzMu1PMnUG+pYgZNQ/3vVlOGSLyJ
-         NDc1RozDZAROh+ukfus6B/Afov9jWeKpJfKGsgS5ajjd7yJ88kXh5TrG3yMz4TE+ZCqP
-         2sEr4Bv5gUnmGiq3NUPp0KEHdwkgLLiewBXhMOpCWGy2MLsUFWi5SHkcLvJ6aJTFDOIV
-         Ckrr1pLwKaCpg+U+KZ5H9xp0QyZnRtBf1ol6oli0pmq3FnkEFTPLFyEVYkrz+9meUGLh
-         3+NA==
-X-Forwarded-Encrypted: i=1; AFNElJ/BaJuYboXqqFpUymhJVG1RvRPlR4hU/EgSC44pA1hFaDeuDerQqh7sC3O4ibah/HbvOMdw8I701AE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUpePRHtsPgqW9AaMQBSv9CllQ3xTTeBeAiVIAouLDGUBrkIye
-	gOb863Jem/uWq7Y7EtDAdjDOjZfLTyvCMEtbOx3IcEAvKRR3pjkdlpzSFLHRR0bPJB60VW4IJb8
-	OpQ9qduytE3HKquUCetMuaFGOuEbDy9E=
-X-Gm-Gg: Acq92OEVMMFnmwZTfv/ShiwETuw4igobo1JqGshTO44JRsjBIX0SZQdZny4H2yYv7gV
-	sqaBswb627cyLk9t20cZ+11Yrgy66OjXl5ak9UoPThjByzyt7PPYzxbyN9MnlVDJ1YDHP0r7Mp/
-	u72p2ADNIYKdLawYChyFiQHHArjYhOcNXfAUu9ZGenaUlg3ixhvYy2C19mWfJqVI9GVgvynzqsC
-	+i0O1fqBJ2UPDe4/9V0c6jtXZ9IdT0pNTJSd0HGhBVnWbrP2Af54bKnAPk1L7VWwK69dPXFsd7Y
-	Nz+OvlPwrkErdh8ostvmfvkYBvinAfCToyDkTRb0VV1tO4c5xw76E8hHH2fafGBdEglX7s4snM7
-	iOJQz64yL1clP3DUN8g==
-X-Received: by 2002:a05:6512:3b97:b0:5a8:837b:3d62 with SMTP id
- 2adb3069b0e04-5a887ae201amr8896955e87.9.1778599342529; Tue, 12 May 2026
- 08:22:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jlOb/4vP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cdqe4YK2UxDU7x04MpRS5eX2pSKHJZEtcwaJPObyYh4t1ocOQF3dK9aKc/i4gTwq8CZlPknZBWU1LgS6WFTyc2byWb4wR2t1FPuckoN46tLgzddt6yhJRvp4bGOoeQ1lBSJB8y7xXqof8xlMfKPDXTDs6fsS13Na2SEBdfOTG378cNkWsTddtUZMyR0lraGIrQPCL8MYaSgqWqmegUrQRzl/wGAUPXrV1z7GHMPvw4yesjlMcer6U+YYsP9ltdGb1KyQEKPounNJFVoH0c7gK7M2jIEYJM+iG/t4vwk1su0ZXJcaXSMycuUl33SyhOL0den/WlkrlzgsIlXSPT7C1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=utyAMgVXUUR2lAnvuVZFog3DH1RPJlXrx7I6hsWoquI=;
+ b=HSr4o/kaNXRP87FpUeOjTjD4nQ2cz8nIN7A6Vuu4fYtgy4/rkaciJwmdWXn0UNWkzkeqDxPcp/btWfhooI1CyDx968wNpBud2mKZraqUi6Wicf8aplEyt/5fxqEkubmAj87/CLev3+82NQMxSWuenX4cXJlxBYpJKauwhWtgRpo/2WUr+hB2EsruQzumlMYyklUrh0/xXm/RjrkooDuEoGvtpswzBpdG9hEwlhoquEZma0gsybp9iejJ8XqDJQ+AyioTcT85znezv3lMgo5EvVIY45Wb7liV3GYE1IDdLl3LqYL/T8DcoTEFe3gXYh+7q+c+JP34Ll//EcviCs5POQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=utyAMgVXUUR2lAnvuVZFog3DH1RPJlXrx7I6hsWoquI=;
+ b=jlOb/4vPuWQSAyrbTJRebeJ1ydcXeG3PjPOO2w9DQS2ub261k8KurnYuiWUsEW3u0ydgykmFbNrpHfVr5xxgTMhWftejvr/e6gtvG8VOGcoVQc6aNIJoQra+Vq+ForYFN5w08CTOM00sgUHDGfuzg2s+TEHOkZAGaVUMvDtgSBvmQQy/UHCSrnMQHroM2ZnyGeGakv/C+pliRu4V5bHIf0EXNRw7y5TZQy/m0iljrLkgrj2wfIT7Lo+4XTsqnXwIVauKcHiU1JrzbR+aLavybZgRLv6Nso1bGZLuK3z+vqwc/QUvgn4xVMi5g+VUQOAbCe14yNr8l24HQx3ciKYe+A==
+Received: from SJ0PR12MB6806.namprd12.prod.outlook.com (2603:10b6:a03:478::7)
+ by DM4PR12MB5937.namprd12.prod.outlook.com (2603:10b6:8:68::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Tue, 12 May
+ 2026 15:25:21 +0000
+Received: from SJ0PR12MB6806.namprd12.prod.outlook.com
+ ([fe80::3981:4d43:82f5:adf6]) by SJ0PR12MB6806.namprd12.prod.outlook.com
+ ([fe80::3981:4d43:82f5:adf6%6]) with mapi id 15.20.9891.021; Tue, 12 May 2026
+ 15:25:21 +0000
+From: Parav Pandit <parav@nvidia.com>
+To: Jiri Pirko <jiri@resnulli.us>
+CC: Mark Bloch <mbloch@nvidia.com>, Jakub Kicinski <kuba@kernel.org>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Simon Horman
+	<horms@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky
+	<leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Andrew Morton
+	<akpm@linux-foundation.org>, "Borislav Petkov (AMD)" <bp@alien8.de>, Randy
+ Dunlap <rdunlap@infradead.org>, Dave Hansen <dave.hansen@linux.intel.com>,
+	Christian Brauner <brauner@kernel.org>, Petr Mladek <pmladek@suse.com>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Thomas Gleixner
+	<tglx@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Dapeng Mi
+	<dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver
+	<elver@google.com>, Eric Biggers <ebiggers@kernel.org>, "NBU-Contact-Li
+ Rongqing (EXTERNAL)" <lirongqing@baidu.com>, "Paul E. McKenney"
+	<paulmck@kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>
+Subject: RE: [RFC net-next 0/4] devlink: Add boot-time defaults
+Thread-Topic: [RFC net-next 0/4] devlink: Add boot-time defaults
+Thread-Index:
+ AQHc3VU8tJbglNPDbUazXOkyKNlt8rYBHYOAgAAlMgCAASTMAIACBosAgAACbACAAHEDgIAAZySAgAHul4CAAfKGAIAA8vkAgABSBzCAAAfYAIAAE+mg
+Date: Tue, 12 May 2026 15:25:21 +0000
+Message-ID:
+ <SJ0PR12MB6806D8ADF943B30AD3B479CCDC392@SJ0PR12MB6806.namprd12.prod.outlook.com>
+References: <3f9215c4-7c84-46d9-ba74-30dabe24db09@nvidia.com>
+ <afxvzOjqw-vxUAED@FV6GYCPJ69>
+ <b6a9b568-dd09-4414-be57-6b9cd282a43c@nvidia.com>
+ <af4lBIJdCuN5VKq_@FV6GYCPJ69> <20260508175213.1952097f@kernel.org>
+ <af7Y4AYv-XDCbK_8@FV6GYCPJ69>
+ <580a774b-ba9e-4523-b43a-476f75dd5b12@nvidia.com>
+ <SJ0PR12MB68068C50EE9776A3D9060635DC382@SJ0PR12MB6806.namprd12.prod.outlook.com>
+ <agLoeZtsSizR-R24@FV6GYCPJ69>
+ <SJ0PR12MB68061C61AA2BF5D81005984FDC392@SJ0PR12MB6806.namprd12.prod.outlook.com>
+ <agM0DsiaAH8-Ox7N@FV6GYCPJ69>
+In-Reply-To: <agM0DsiaAH8-Ox7N@FV6GYCPJ69>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ0PR12MB6806:EE_|DM4PR12MB5937:EE_
+x-ms-office365-filtering-correlation-id: a7a3bf3d-3cd6-4471-6ad1-08deb03aae62
+x-ld-processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700021|11063799003|56012099003|18002099003|22082099003;
+x-microsoft-antispam-message-info:
+ G0mUkDWQwyiQNOtdOXNJsJk+GH7ERpLI4uJfaXM1BrO/KGsKSTPUaW1BE8ZsupdA3jNkJFLNQZJfN3eiCCFjrzQUdMKR074D+sKtYq0jfENhH7HXIusn/kT9mPMgavmAeMJgGO7aZ/p47cRIFhQxioxCFq5+Vu3sC1enGAozhJfxXYRh6ZO+dgVvaw5WHuZ7D09ZDODAtVTndmlKBWVify7exs1LCyrtZOv87Duo96oYko9Bwc8BcEalqHCfTcrvHjFInfg5Qm6vijh/gP4K3RXNWlSYfbO07ip1pgtuy/i3uf9snyGYGw6Trm1ci/jtWXxKy/xg23PoGN5Q4dzb9ZFFd0vyM4jECP7ilEO9sm42vYinIF5mkUTtt6oAzMBo96toI93lNFZhis3jooO30PYb+LK4yCumrD56yKnBoXzHWzTg1fVnxlgRZ46ziAOyCEYvf23Lj3jhWqsX3rLtpVSAgZt9qGJVe57jkilpFhu30i+jwSBibdR5BOjxFm3DLPXt5dkDpK6hNp5xdhGVtXmpJpKl2d8RNwtqbeNRu3SOTubYPZd4u+7mx32aGKqUEX5NAmrk0LjV551EydoR4hHA7p4FQXxMjC/lXUbA2w4ZFoyHNgzauKrhQoPRbL43K2hs0iEt3wWNg6w9umW0BXUbkNz45NnlAChA0tq4Rlmv1uzDAMez6NYuBhkcL+G/mKTzL/7ooZiP7ndEDhVLZ61lsitp287i92Wio9ItvCtlVAQ0Xfm6rOezhLt8iP61
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR12MB6806.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021)(11063799003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?MeUoOilwjPlq1OGJCiux4IUQWtU7WkuiiaDPhqGvsEyEbngR798xMMqFwRTX?=
+ =?us-ascii?Q?0j+5VrDi3rS0M8j0kw5+CMabT1yxQQEfAyk0zdlH9r2gT4FgBEIKv70FiLyl?=
+ =?us-ascii?Q?jHOoXEo5TWVsGyG1ukUHT/JtRGr7pQ2YM3AYdDgwKkWQj7E/7om7pU6SETfu?=
+ =?us-ascii?Q?x8tCgRm8v0e7dATT7QuvKtXgfcCPRCq+H6e7lH/nP2sz5NXqHWc8w/sqYL5Q?=
+ =?us-ascii?Q?Kq5hcID5B/SW3dQ7+NODEvdTVp/YT57+I8FgVquvg3V3Divh6gJpR6IQP04/?=
+ =?us-ascii?Q?YAHU78TKQBgyEdmm1x36bdVgulw8HRlA0PsRkzElVPwReYVLUYEvYdhFz3TD?=
+ =?us-ascii?Q?nGW99ROuyZRAVw/hkdMcPmN+JM5FUNlzDyaLCAxNPyCY1VweFmCF5laeUOWI?=
+ =?us-ascii?Q?w+2/14MR1gxFG5dj9r8oVGSBggaUD3Y0mos1wrOEUqs2pkiOq0sbSdylzhbC?=
+ =?us-ascii?Q?KxnJ4TKZinOtIP0oU21IUJvLbFOjFRovOc2I753T06D21fd+JoFbxc0hLp0P?=
+ =?us-ascii?Q?uI4uqF9iNhBUndbo9aro/3LOPKCMynvIUHd4B+gra5Cd/ROCinpaqi8b7b+m?=
+ =?us-ascii?Q?jl6YBy+D1IarJgcowfleImftxGkRIfCFttOxHBbG36IZ0Tv4SjJXUF+xjzat?=
+ =?us-ascii?Q?khXYSXwnkJhkk5T72lp43Hz6a0Jq8w687PuPSVSKlZ5hLLSI4rTPWqXcrpXF?=
+ =?us-ascii?Q?xmDjlP/L3TpRkGnr3V3FmrTlxuG+lpIefL0pgraIcX2ojsRME4knkr8d71W+?=
+ =?us-ascii?Q?2eWWb0rGN3mIw7vvB9KU1lhakwvrYe81rccjEWDHRVym/Hiax0zqdx1l9aZZ?=
+ =?us-ascii?Q?FURUlBxlsgdVDK6RFZ/ZE7ok+Gaw1aKjQSb0rndD99UxcuofQMSjHSaBIEjt?=
+ =?us-ascii?Q?ymKKI8/891MTqxJBB+neSYAk/XKiEvInuwSIP3XUA2suA1Xo27wWjBAHqSca?=
+ =?us-ascii?Q?AOu3YV2rQHj22nz+stNXwHUoUomGzhii0Lfz17P8SEHSE/x+6Ffw/OpBmad8?=
+ =?us-ascii?Q?QrVNodYmGH1xxdsaQq43ZBNIg+Jy0HqdhfHC8TBtKSfN2+To0f591pBHXrdM?=
+ =?us-ascii?Q?oVKiFOgRbqXTSpFKuYVECOaoZG4YMfB1rRWJqVf8V367BkPmDuzAnL475bQ+?=
+ =?us-ascii?Q?LENp2tNfNCI0HjJqE/RdOWE+zxUHjQKz0FsQ+JL/BUs/mbykc7OKSk1j8j0F?=
+ =?us-ascii?Q?3aFqRvf7zFTWcVoVRKzQjLcQFVOqcfhIGepVGvXsvdbiqpjlH/3dfzt8mgMz?=
+ =?us-ascii?Q?H8xzvkDJQriye7V1sp8kywOXo7fSVdzQ6oc+3elXfI36nJgZjjs2JFoOd+5B?=
+ =?us-ascii?Q?WvDce/ZORSyTmuo35UjX90Y5FNWHBtcl/dRG0lcj4rlqajfrMJqLdzDOElki?=
+ =?us-ascii?Q?ung+OObDYQO3hujyRTaPMvmmpIncR+6j8y2BTacy/v48R6zsTdGzFshSi06U?=
+ =?us-ascii?Q?b0IPp47662vCpDY9JcvZE3ttZVMak6BQoodoFdRXcqi8B7NnwJq3tnKY5Olh?=
+ =?us-ascii?Q?OJgSTCV2jndsJ4iZ+eLo3x3/EOa69+Elna0mYXZ9+3sOlU7OqDU25KJKyX05?=
+ =?us-ascii?Q?Kmn2cgpYeq3IbE/tXhIgAZhEdMMZt/CiL5vKLLCjN+ndRc8SEfZOqRQHxAfi?=
+ =?us-ascii?Q?4tOM25NsoDj3Ekcx6QklF0Ke2tj4ZhN9UPx8SzZdbybt+GsPRsFcmAXBCo+F?=
+ =?us-ascii?Q?ADjXHBm6re+ArgNWjMxhtIRZA8kks5KqYk52Pxpk0SPwi+HV?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
- <20260510-adf41513-iio-driver-v12-2-34af2ed2779f@analog.com>
- <20260512123953.40d80bc9@jic23-huawei> <agMnWzMjW1LwCSyT@ashevche-desk.local>
- <sj6cpjhakyfvv6rgox6cnhl2u2tgaecugcok6fw2l7zgku5wtc@aqx3ul72vgca>
- <agMvlS3-0wvGmBwh@ashevche-desk.local> <dxjg2sdyxb7ieb4abmeyyye7qok6cczrxabpsjyjhcbehwoec3@sbbqoo4wmzre>
- <agM8pWrM6j_XksvN@ashevche-desk.local> <ur6brs3yjzyb4mtelabmcglxjltddqvjxtgl3lkdkmbjlkmnsq@bwd6rz7gided>
-In-Reply-To: <ur6brs3yjzyb4mtelabmcglxjltddqvjxtgl3lkdkmbjlkmnsq@bwd6rz7gided>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 12 May 2026 18:21:44 +0300
-X-Gm-Features: AVHnY4IJuef2B-0A9_3FnyNbZ_uaS-SA2cTNaTffveNp5l_4SxlZqwsSXVNYeR4
-Message-ID: <CAHp75VeoH3yVfp8NWjKfc_df0VRLkyf_SK4e==-wJOEodVjW_A@mail.gmail.com>
-Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and kstrtodec64()
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, 
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, David Laight <david.laight.linux@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB6806.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7a3bf3d-3cd6-4471-6ad1-08deb03aae62
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 May 2026 15:25:21.3408
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BaFY+XLGivcFBrhr8Zpvv6XR0OaKtoAwqEHd//HDtVuR5usYhMGYaU7CViEUEnpkfyR8G5/JujJFec5+8B/T7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5937
 
-On Tue, May 12, 2026 at 6:11=E2=80=AFPM Rodrigo Alencar
-<455.rodrigo.alencar@gmail.com> wrote:
-> On 26/05/12 05:43PM, Andy Shevchenko wrote:
-> > On Tue, May 12, 2026 at 03:12:24PM +0100, Rodrigo Alencar wrote:
-> > > On 26/05/12 04:48PM, Andy Shevchenko wrote:
-> > > > On Tue, May 12, 2026 at 02:21:14PM +0100, Rodrigo Alencar wrote:
-> > > > > On 26/05/12 04:12PM, Andy Shevchenko wrote:
-> > > > > > On Tue, May 12, 2026 at 12:39:53PM +0100, Jonathan Cameron wrot=
-e:
-> > > > > > > On Sun, 10 May 2026 13:42:20 +0100
-> > > > > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.=
-com@kernel.org> wrote:
-> > > > > > >
-> > > > > > > > Add helpers that parses decimal numbers into 64-bit number,=
- i.e., decimal
-> > > > > > > > point numbers with pre-defined scale are parsed into a 64-b=
-it value (fixed
-> > > > > > > > precision). After the decimal point, digits beyond the spec=
-ified scale
-> > > > > > > > are ignored.
-> > > > > > >
-> > > > > > > Whilst Rodrigo has already replied to say there will be anoth=
-er version
-> > > > > > > I'd like to request final feedback from those who were involv=
-ed in the parser
-> > > > > > > discussions.
-> > > > > > >
-> > > > > > > They got very involved and I'm far from an expert in the righ=
-t way to do
-> > > > > > > this stuff.
-> > > > > > >
-> > > > > > > I don't think David Laight was +CC so I've added that.
-> > > > > > > David, Andy - I think you two were most involved in that disc=
-ussion:
-> > > > > > > Any objections to the end result?
-> > > > > >
-> > > > > > I already said a few times about the naming. I do not like the =
-kstrto*()
-> > > > > > be semantically different on how they treat the input. Second p=
-oint is
-> > > > > > to avoid code duplication, but this one is less of a concern si=
-nce the
-> > > > > > new code is in the library close to the other potentially dupli=
-cate code
-> > > > > > piece and hence can be addressed later.
-> > > > >
-> > > > > I suppose I reached into kstrtodec64() and kstrtoudec64() because=
- it aligns
-> > > > > with your expectations for kstrto*() semantics, no? Those include=
-:
-> > > > >  - overflow check;
-> > > > >  - extensive input validation;
-> > > > >  - optional '\n' in the end;
-> > > > >  - mandatory nul-termination.
-> > > > >
-> > > > > am I missing anything?
-> > > >
-> > > > When we add scale we basically make that not true. Moreover the cod=
-e in this
-> > > > patch makes scale =3D=3D number_of_characters which I think a bit f=
-ragile, however
-> > > > it's about the fractional part when the amount of digits is equal t=
-o scale.
-> > >
-> > > That is not really the case. It is being set as a limit, so it does c=
-heck for
-> > > truncation and zero-padding.
+
+
+> From: Jiri Pirko <jiri@resnulli.us>
+> Sent: 12 May 2026 07:37 PM
+>=20
+> Tue, May 12, 2026 at 03:48:32PM CEST, parav@nvidia.com wrote:
 > >
-> > I do not see it happens in _parse_integer_limit(). It doesn't try to pa=
-rse more
-> > characters than it's requested in max_chars. It doesn't check if there =
-are more
-> > character nor their converted values.
-> >
-> > > > To make this work as expected we need to add an additional call lik=
-e
-> > > > kstrtoull() (and perhaps drop that \n and NUL-terminator checks) an=
-d see
-> > > > if that overflows or not. Since it's a fractional part it must have=
- less
-> > > > than 20 (decimal) digits there, so we check the rv (or how many dig=
-its
-> > > > were parsed successfully) and compare to 20. If it's more, we got t=
-oo many
-> > > > decimal digits.
-> > >
-> > > For overflow it checks the KSTRTOX_OVERFLOW flag and leverages check_=
-mul_overflow()
-> > > and check_add_overflow() when combining fractional and integer parts.=
- The amount
-> > > of characters is not really important there. The scale cannot be bigg=
-er than 19 and
-> > > that makes sure that int_pow() does not overflow. The code uses _pars=
-e_integer_limit()
-> > > due to the nature of input and to avoid 64-bit division, kstrtoull() =
-at any point
-> > > (parsing integer or fractional parts) does not make much sense.
-> >
-> > Under 'like kstrotoull()' I meant something that repeats needed functio=
-nality.
-> > I believe it's parse_integer() (without limit).
->
-> I think we are going in circles here and we could look at the code instea=
-d:
-> - integer parsing with _parse_integer()
->         - overflow check and validation of the return value
-> - fractional parsing with _parse_integer_limit()
->         - overflow check and validation of the return value
-
-No, this is not fully true. That's what my whole point is about. The
-max_chars parameter limits the input check, then it skips an arbitrary
-number of digits and only *then* it checks for \n and \0. What will be
-the result of the
-0.00000000000000000000000000000000423 in your case? Whatever scale you
-gave it will return 0 without checking on how many digits were
-supplied. All the same for 0.9999999999999999999999999999999000423. My
-point is that we should limit this by 19 digits.
-
-On top of that, what about -0.9(19 times) ? the fraction should be u64
-in this case and it's fine. The sign applies to the combined value.
-
->         - extra scaling and truncation happening outside if needed.
-
-Right, but the given input may be way too long and still needs more validat=
+> >> From: Jiri Pirko <jiri@resnulli.us>
+> >> Sent: 12 May 2026 02:16 PM
+> >>
+> >> Mon, May 11, 2026 at 08:21:37PM +0200, parav@nvidia.com wrote:
+> >> >
+> >> >> From: Mark Bloch <mbloch@nvidia.com>
+> >> >> Sent: 10 May 2026 06:02 PM
+> >> >>
+> >> >
+> >> >[..]
+> >> >
+> >> >> > I look at it from the perspective that from some CX generation,
+> >> >> > switchdev mode should be default. So that is a device-based decis=
 ion.
+> >> >> > I believe as such it can optionally be permanenty configured (nv =
+config)
+> >> >> > on older device. Why not?
+> >> >>
+> >> >Because sometimes switchdev_inactive is needed and sometimes not.
+> >> >Such knob is not device decision.
+> >>
+> >> That is what I would call corner case. In that, user can use userspace
+> >> configuration to change the mode in runtime.
+> >>
+> >Corner vs common depends on users one talks to. :)
+> >If fw has switchdev(active) as default, and then
+> >And user needs to run switchdev_inactive, it will actually break their s=
+witching applications.
+>=20
+> Can you describe the actutal breakage please?
+>=20
+Driver default was switchdev so all the traffic is forwarded to the switch,
+and user didn't have chance to setup the fdb rules.
+So packets are dropped but user didn't expect the traffic to be forwarded.
 
-> - check for input termination
-> - combination of integer and fractional parts with check_mul_overflow() a=
-nd check_add_overflow()
->
-> > > > Maybe I'm missing these checks already performed?
-> > > >
-> > > > > > Having the test cases is a big benefit, and that part I like th=
-e most.
+With this RFC, the device would start in the switchdev_inactive.
+And user's goal is achieved.
 
+> >
+> >So, one needs to invent switchdev_inactive in the FW.
+> >
+> >Jakub's suggestion in this RFC is covering both the scenarios uniformly =
+without above problems.
+> >Single uapi for all the cases, so looks good to me.
+> >
+> >Moreover, do not understand how alternative solves such problems.
+> >i.e. user is unable to configure the fw because driver is not yet loaded=
+/up.
+>=20
+> See my other reply in this thread. I don't think there is a need to
+> configure anything in FW. If we fix the behaviour in switchdev mode for
+> non-sriov user and change the default, no fw knob needed. What am I
+> missing?
+>=20
+If I understood your suggestion right, is it the devlinkd based solution?
 
-
---=20
-With Best Regards,
-Andy Shevchenko
+If yes, then Mark explained that it has the issue of all drivers to be load=
+ed, followed by user space to start.
