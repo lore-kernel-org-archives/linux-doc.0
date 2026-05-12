@@ -1,169 +1,180 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8A73AA9E8
-	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 14:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD233B1020;
+	Tue, 12 May 2026 14:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778595156; cv=none; b=Fz/C4nn+xR+9+cozkdWBpeem3Eim5P+49RpgJXH9pHS7jCGwUawZJJlyi4vTQR8fOJgKRwieYK8TNmVUrdbMdoQDEAQJel4a7aV6o7nTTmWPv4ExfcWLD53PAwZOu3AGx2PNnwlI9KmlrSsJ6KrQvD8nAFv2ZAn3AnSxx7Q+19U=
+	t=1778595569; cv=none; b=Yvg5PqFOrVFFGKmn7w9ttYKqTwS4HOtWEdyozHSX0kCvMwfbxAgpMVgDOIsvOi1pA73iH2+LaW/WW29JRsQdYq3zQDaAKJJiUjlypLYTIbgc1O74VwqDYqqAmwBKJum22uPOtZutDeiUw+YwRgYYdUtds3QeRNnsczAPJ5NT/L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778595156; c=relaxed/simple;
-	bh=Q41Oo0zRbrO8B/Db3XFSemV5+e5K2mKQ+CxGfpoCaKE=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tJxKSTMn/Ls6zOZITuhFyOTxcJPx2I5spiJYkuJDlOPGnirA2tvZB2VyAy1Dn9GjFVsOAlidog4SKE8TMF5qLNfFTadSJaqOABuGRQpls5jx2gm9UQji6Gcz8SjrGaUuEyCjuVm2fOJFThe/N+XbNKe1zPjypX2wXvPVSaktyfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FfG3zEAH; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778595569; c=relaxed/simple;
+	bh=PNZ/3cndYwK5qYRqVndM22pticPFw2T6YxzS/qmSwlY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q7ZbNoxE9ufiux7/Qu0DNDT9OnLQxJHAkx+OhY4aeL2Ri2tiZgsqnBmB/Dvm04Fphhjju4FPYVt8bCKTGwUAGgrGIQiA6uQbmkMvhx/i3qFxI6JZ6tLbYYBql+HVmtDu5uBYmMp8eDIosruA2GBzbl7R5F3cxbLjrWVU22SbXGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWQn5fVo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FfG3zEAH"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-672645dbfeaso5675095a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 07:12:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778595152; x=1779199952; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RF50yWKLYOkstrjwnDzYRTiCpEdjsFZwr52Zl8yZOCY=;
-        b=FfG3zEAHF8hTgHUZVrUnXltviGM4Q4osSwBDz4eUGoQFcxOlS4i1fY0pLIF+XllPfw
-         ryY8NkT6dsFCSA/yav4VJBnENgdXI6UezVUaFFv2qZsOpGwpaFxXf5aPaRDkLx3AM5yF
-         5WSiWQ5QYO/uO62OIESAQUTHQOxXcv4ddYxuuNFUIPu1jFzLie08qmXe4WHx3FxY2f9z
-         kp64eDFvn82rZse8tRx371LxTB5JfNxWBcEvyLbUDoJI8ShoUbkdqulhKssITfNeysiK
-         j2beEOAvkSKjBXCWsdahP4A1WJncIRopykNISGwkwLYd5X9sTjGXON2aJgupcKqMXcZ+
-         PXLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778595152; x=1779199952;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RF50yWKLYOkstrjwnDzYRTiCpEdjsFZwr52Zl8yZOCY=;
-        b=nx6fPuVTxhuh+endDn9F5879wOD+gpc8eQOypciy7AxF+rInG2nCIkT5Jd8jeRKWE+
-         +abGPRL3W9K/9TvxV96WfuWfYvmUTCfeV/gY6rqBFdmPFC1r/Qlwr/nfOMC6aDTGUNT0
-         Qj6lXMEYKBbSEZBGd2B3R+ZQ49NjoihobtI8ea+ojj9bQG2KoF2pCp1Zn3h9hsPJiP6d
-         TTcOY8KFmyDa2fEmPi2GEJfQdycXLnpLwO4/J9Yv7bl35gEijHs6mi7LmbvptGD2X+Mj
-         afU/iO2tHno42kteSeCr6gGkKAFoCJOC+IVPRHguqe1Ro76hGVxZ9CseJUf7mP0Y1Nxl
-         Qkow==
-X-Forwarded-Encrypted: i=1; AFNElJ89mQR6r/N9P1Llz/GtaDhHE6VszsbZsVr7MqjBaq0tIz+4XDiX5o7Erg413wdOIehZuwjEuRAEnzA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9TCfpJ4jyVPvJHIHIkLEHk8VYL/wdJIe76lYgdlv08DOCN/h6
-	QXt7FElgrA5tX1Fx5Im3JRHrIMfovcxSjwX1MI3nDnQew/A55C3irQTt
-X-Gm-Gg: Acq92OFBXYGuPmw5oIKLZn6TXlneBEb3xHjl3Rv/DuXclOrBMwqssttpdOMuqx72kgP
-	oWzjogH1DbpAp76AA1RuA6nf3d6YPLV9DkGYjzWarQIHS6Lb0uB6qpPOMWBUY7M0ny+L/w4lvYj
-	w9xttYb62rvZj5nKCeJhfk1zFpNM4JSnwFnYYtybPv1kwcdNq+/6/VU41ZAA+Z9dF7e0/NXxSn7
-	2nvpT0fe8CHDSlL+0xnGdS/bi+i9ZdGO8Muz0BOUn/ekGuXr03CbOwDIBcAYVwwf6ThN0WFHdQG
-	s0kuzhD7KuePiLp8G4TkQVIEGQSHZQVInmBOARS2ml4o9GtnbIsJZ8e+M3x6T94ywNJEz6A3e6W
-	ddT7JY2pHR3N99bjbD+SoJjQynCF18qhzYOo3J34wmA9CWgsks/80a3M52WlRS6BHXto0jk/liw
-	G3YrIl2+vreKEN2jTw331FQH5Gi5pZRNecVZCg87kb+MyRpCu7GUQhxgaY1k8qz34AFuTr5esw5
-	2SCg9KiEKymgzBXQXwSHNgvPRQdaRLorVSGFIhHT9gVqBlFsOTErqxQmKX5
-X-Received: by 2002:a17:907:8992:b0:bd3:7c7c:b817 with SMTP id a640c23a62f3a-bd37c7cbcd3mr1081866b.1.1778595151498;
-        Tue, 12 May 2026 07:12:31 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcfb7b17d1fsm344049566b.41.2026.05.12.07.12.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 07:12:30 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Tue, 12 May 2026 15:12:24 +0100
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	David Laight <david.laight.linux@gmail.com>
-Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
- kstrtodec64()
-Message-ID: <dxjg2sdyxb7ieb4abmeyyye7qok6cczrxabpsjyjhcbehwoec3@sbbqoo4wmzre>
-References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
- <20260510-adf41513-iio-driver-v12-2-34af2ed2779f@analog.com>
- <20260512123953.40d80bc9@jic23-huawei>
- <agMnWzMjW1LwCSyT@ashevche-desk.local>
- <sj6cpjhakyfvv6rgox6cnhl2u2tgaecugcok6fw2l7zgku5wtc@aqx3ul72vgca>
- <agMvlS3-0wvGmBwh@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWQn5fVo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A58AC2BCFD;
+	Tue, 12 May 2026 14:19:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778595569;
+	bh=PNZ/3cndYwK5qYRqVndM22pticPFw2T6YxzS/qmSwlY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UWQn5fVoxLB/KAH4EURrhpqBaLzBb5p8rV6dSUVS9VPOwdklqeVM9M7jVOo70vURZ
+	 Gc3iF7tqhIHwZ112zXGqvbhvu2H9TXMCpWcdZG7P/i2icIFaCUyO4xtWpKeFokBoNI
+	 n7OKlJ8EXUC6TZw6mZH7NDeK3vW6FWEvqmRmJTnux7Tux6bKkgwss0u1fyFQZ6Ps9s
+	 5HUity/IMzbvd5Og20saJ5uICn2otZgE4I7BtbWrOm8A2NoJkfr5BiNhv5LgjnrgoR
+	 2VLQtfebQXDldsEorU4QtYQgrDOoBbesmelRs4LLsxoB88f1efPKX3WawZLuRaGlnA
+	 1hEJofu32VB0w==
+Date: Tue, 12 May 2026 19:49:21 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Kishore Batta <kishore.batta@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v5 7/7] bus: mhi: Expose DDR training data via controller
+ sysfs
+Message-ID: <x732txb6wf2giiv22xw66sqrnkjluaua5kbsmjugv4rbvpjqrw@ro2wbv2olzbd>
+References: <20260416-sahara_protocol_new_v2-v5-0-6aebf005e4ba@oss.qualcomm.com>
+ <20260416-sahara_protocol_new_v2-v5-7-6aebf005e4ba@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <agMvlS3-0wvGmBwh@ashevche-desk.local>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260416-sahara_protocol_new_v2-v5-7-6aebf005e4ba@oss.qualcomm.com>
 
-On 26/05/12 04:48PM, Andy Shevchenko wrote:
-> On Tue, May 12, 2026 at 02:21:14PM +0100, Rodrigo Alencar wrote:
-> > On 26/05/12 04:12PM, Andy Shevchenko wrote:
-> > > On Tue, May 12, 2026 at 12:39:53PM +0100, Jonathan Cameron wrote:
-> > > > On Sun, 10 May 2026 13:42:20 +0100
-> > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> > > > 
-> > > > > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
-> > > > > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
-> > > > > precision). After the decimal point, digits beyond the specified scale
-> > > > > are ignored.
-> > > > 
-> > > > Whilst Rodrigo has already replied to say there will be another version
-> > > > I'd like to request final feedback from those who were involved in the parser
-> > > > discussions.  
-> > > > 
-> > > > They got very involved and I'm far from an expert in the right way to do
-> > > > this stuff.  
-> > > > 
-> > > > I don't think David Laight was +CC so I've added that.
-> > > > David, Andy - I think you two were most involved in that discussion:
-> > > > Any objections to the end result? 
-> > > 
-> > > I already said a few times about the naming. I do not like the kstrto*()
-> > > be semantically different on how they treat the input. Second point is
-> > > to avoid code duplication, but this one is less of a concern since the
-> > > new code is in the library close to the other potentially duplicate code
-> > > piece and hence can be addressed later.
-> > 
-> > I suppose I reached into kstrtodec64() and kstrtoudec64() because it aligns
-> > with your expectations for kstrto*() semantics, no? Those include:
-> >  - overflow check;
-> >  - extensive input validation;
-> >  - optional '\n' in the end;
-> >  - mandatory nul-termination.
-> > 
-> > am I missing anything?
+On Thu, Apr 16, 2026 at 07:39:48PM +0530, Kishore Batta wrote:
+> DDR training data captured during Sahara command mode needs to be
+> accessible to userspace so it can be persisted and reused on subsequent
+> boots. Currently, the training data is stored internally in the driver
+> but has no external visibility once the Sahara channel is torn down.
 > 
-> When we add scale we basically make that not true. Moreover the code in this
-> patch makes scale == number_of_characters which I think a bit fragile, however
-> it's about the fractional part when the amount of digits is equal to scale.
+> Expose the captured DDR training data via a read-only binary sysfs
+> attribute on the MHI controller device:
+> 
+> /sys/bus/mhi/devices/<mhi_cntrl>/ddr_training_data
+> 
+> The sysfs read callback serves data directly from controller scoped storage
+> and protects access with the controller training data lock. The attribute
+> lifetime is tied to the controller device via devres, allowing the data to
+> remain readable after Sahara channel teardown and ensuring automatic
+> cleanup when controller device is removed.
+> 
+> Userspace flow:
+> 1. For each controller device, userspace reads the ddr_training_data sysfs
+>    attribute.
+> 2. If the read returns non-zero data, userspace persists it using a
+>    serial specific filename (for example, mdmddr_0x<serial_no>.mbn).
+> 3. On subsequent boots, the Sahara driver attempts to load this serial
+>    specific DDR training image before falling back to the default
+>    training image, restoring DDR calibration data and avoiding retraining.
+> 
+> Add ABI documentation for the DDR training data sysfs attribute exposed by
+> Sahara MHI driver.
+> 
+> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
+> ---
+>  .../ABI/testing/sysfs-bus-mhi-ddr_training_data    | 19 ++++++
+>  drivers/bus/mhi/host/clients/sahara/sahara.c       | 69 ++++++++++++++++++++++
+>  2 files changed, 88 insertions(+)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..810b487b5a5fdba133d81255f9879844e3938a10
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
+> @@ -0,0 +1,19 @@
+> +What:                   /sys/bus/mhi/devices/<mhi-cntrl>/ddr_training_data
+> +
+> +Date:                   March 2026
+> +
+> +Contact:                Kishore Batta <kishore.batta@oss.qualcomm.com>
+> +
+> +Description:            Contains the DDR training data for the Qualcomm device
+> +                        connected. MHI driver populates different controller
+> +                        nodes for each device. The DDR training data is exposed
+> +                        to userspace to read and save the training data file to
+> +                        the filesystem. In the subsequent boot up of the device,
+> +                        the training data is restored from host to device
+> +                        optimizing the boot up time of the device.
+> +
+> +Usage:                  Example for reading DDR training data:
+> +                        cat /sys/bus/mhi/devices/mhi0/ddr_training_data
+> +
+> +Permissions:            The file permissions are set to 0444 allowing read
+> +                        access.
+> diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> index 07bc743aa061dd2fa85638067d494562152474e3..fef5dc1d8884133397d204f23361584fd1d9b075 100644
+> --- a/drivers/bus/mhi/host/clients/sahara/sahara.c
+> +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> @@ -273,6 +273,73 @@ static struct sahara_cntrl_training_data *sahara_cntrl_training_get(struct devic
+>  	return ct;
+>  }
+>  
+> +static ssize_t ddr_training_data_read(struct file *filp, struct kobject *kobj,
+> +				      const struct bin_attribute *attr, char *buf,
+> +				      loff_t offset, size_t count)
+> +{
+> +	struct device *dev = kobj_to_dev(kobj);
+> +	struct sahara_cntrl_training_data *ct;
+> +	size_t available;
+> +
+> +	ct = sahara_cntrl_training_get(dev);
+> +	if (!ct)
+> +		return -ENODEV;
+> +
+> +	mutex_lock(&ct->lock);
+> +
+> +	/* No data yet or offset past end */
+> +	if (!ct->data || offset >= ct->size) {
+> +		mutex_unlock(&ct->lock);
+> +		return 0;
+> +	}
+> +
+> +	available = ct->size - offset;
+> +	count = min(count, available);
+> +	memcpy(buf, (u8 *)ct->data + offset, count);
+> +
+> +	mutex_unlock(&ct->lock);
+> +
+> +	return count;
+> +}
+> +
+> +static const struct bin_attribute ddr_training_data_attr = {
+> +	.attr = {
+> +		.name = "ddr_training_data",
+> +		.mode = 0444,
+> +	},
+> +	.read = ddr_training_data_read,
+> +};
 
-That is not really the case. It is being set as a limit, so it does check for
-truncation and zero-padding.
+You can simplify the attribute creation with BIN_ATTR_RO().
 
-> To make this work as expected we need to add an additional call like
-> kstrtoull() (and perhaps drop that \n and NUL-terminator checks) and see
-> if that overflows or not. Since it's a fractional part it must have less
-> than 20 (decimal) digits there, so we check the rv (or how many digits
-> were parsed successfully) and compare to 20. If it's more, we got too many
-> decimal digits.
+> +
+> +static void sahara_sysfs_devres_release(struct device *dev, void *res)
+> +{
+> +	device_remove_bin_file(dev, &ddr_training_data_attr);
+> +}
+> +
+> +static void sahara_sysfs_create(struct mhi_device *mhi_dev)
+> +{
+> +	struct device *dev = &mhi_dev->mhi_cntrl->mhi_dev->dev;
+> +	void *cookie;
+> +	int ret;
+> +
+> +	if (devres_find(dev, sahara_sysfs_devres_release, NULL, NULL))
+> +		return;
 
-For overflow it checks the KSTRTOX_OVERFLOW flag and leverages check_mul_overflow()
-and check_add_overflow() when combining fractional and integer parts. The amount
-of characters is not really important there. The scale cannot be bigger than 19 and
-that makes sure that int_pow() does not overflow. The code uses _parse_integer_limit()
-due to the nature of input and to avoid 64-bit division, kstrtoull() at any point
-(parsing integer or fractional parts) does not make much sense.
+So you are expecting this helper to be called mutiple times without teardown?
 
-> 
-> Maybe I'm missing these checks already performed?
-> 
-> > > Having the test cases is a big benefit, and that part I like the most.
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+- Mani
 
 -- 
-Kind regards,
-
-Rodrigo Alencar
+மணிவண்ணன் சதாசிவம்
