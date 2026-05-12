@@ -1,183 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C163A2E7631;
-	Tue, 12 May 2026 16:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB2F3CC7EA
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 16:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778602455; cv=none; b=GsWS4tlcfOTd6WmEf+SCRHYRo+MERQd706y4XZ8wFBJRdyKRmF1V9mXhyxpRvZg+Nv4y67IqB6v7EhEd1rvxaWgiV49KOv2QxoHvt2ZfQlmHzTaKOptd1UkDy5oovmKDYI00EWUJEH9bGBUMEtGu4NvzDQVwkv9F8G9i+kcQGSk=
+	t=1778602700; cv=none; b=RlmSx42hAXG9IkjHmiVhKMRINLizuukE6M64VsKrSJpcBzFI6hdHhubvag7WQ1XDZvQ9pfE/Bm+XfTSQSesad0KwjkpQASOjJD3Q5TZ/DVNgC6/9Jiao+pdL+SBtX7Fo1eSiXYUs/E1yhY+QA4t2F3a6/qXTOomDnQBt1QyHV6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778602455; c=relaxed/simple;
-	bh=IUNQoj40BBpUNJf0ajtJqYtGemiYL8A1ke06SM7+b4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TT4CwthdPK2f4KCeKhXs0d6UfLQNQIAzw7+mmlHz7yfT7nJsW7j8pc/7NPj5HCR7n/19i2OP3Ct95L63un+mYIkctWOUtmumsus8+lKsdmVJpZJQeq3SjHjhj8A+CgQp0dhXgsZpGjg+ZFqRvVYOrEYxRW6KxlSBElYMajILoQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/S/PcOS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778602700; c=relaxed/simple;
+	bh=AtvxZEfNK52qh8Sntbt6SqFzqSBGmvWLF/8w119Z9Us=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mDEimW6Pr4IrW93EmjVD1FA50zbmUExPjoREdJYnZ+ujEL2LLiUX4IKkMqr8imT/w7YuGEQmih3t66+olsJ3kjXNbatqK3Kv+yI+z7pO8EqOLq0NfYjZUbqaC+EMeok1JYffNNtV9gUM/t/TFTsCUu69QvZU+xu8+AWu26EL+/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DRYzF1sF; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/S/PcOS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 646AEC2BCFA;
-	Tue, 12 May 2026 16:14:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778602455;
-	bh=IUNQoj40BBpUNJf0ajtJqYtGemiYL8A1ke06SM7+b4E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J/S/PcOS1XPcZV7Syc+JlqArxkXZ/hbxBjwDT1oINHHwBvkhhEWP9INmRvwBy5uMs
-	 IQ7LRTkDcpdEEKM0Tw08keNfDow4yaHa7b0CVm3jBd1tISNFLljNv2sMqAGoS/qtXU
-	 kvv4bupqJjw57mXwLGv3YQYnlWf91aYSUfKamfSgWAYibwIdHaKI2hKtoE8SnMjl/r
-	 yss2iKimG4E33ynm2qH/k2CFu5aRhuOAM/21vTLClYeYWVJ5nzDy2SveAFpZ27Z4QK
-	 HnDMLSECA8B5Mln82mBvnzgxuWuoXQxgVvLQ2dQycDnG6am4VL4o8Rvgtxso9ns8vD
-	 fQ/KjPYMec+yg==
-Date: Tue, 12 May 2026 09:14:14 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, David Sterba <dsterba@suse.com>,
-	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>, Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, linux-block@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org
-Subject: Re: [PATCH 01/12] swap: remove the maxpages variable in sys_swapon
-Message-ID: <20260512161414.GB9555@frogsfrogsfrogs>
-References: <20260512053625.2950900-1-hch@lst.de>
- <20260512053625.2950900-2-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DRYzF1sF"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43eb05b1875so3423273f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 09:18:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778602697; x=1779207497; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LLDhRrsYYAieX5MKmnLKzaUv/WL8O+rmn/hVKUTlz+0=;
+        b=DRYzF1sFFkDifTiZl8MxVfreVi3OJ9c8ENougW5kmP1lmpZJ3qCAySvVWMyzWMgq0V
+         tupJ1ysCcidUX6DHiPfHukN+Poukp8+qX7f9clPGEyJB6lFqHbdnQt0aWcL6Y0hBfdzR
+         YjTh91NhBWF5BddPhz5piv22gpUfmvgpmpZFV766NVNo+mD6HVwHz8g9b82jolZxlrMW
+         xjou541h6eiBvrziplYmhOUNPlN9M+7sqm/VB5yl5S04LN3s+LlnH8wqhJ5WLMuO/cdN
+         t1gC/v85D2jfJ1+KGzVZcW6p9JYQpYwK2VhLg6UWMebPUsVJXlAjpD7Kfxp0uTQp0N2J
+         /zEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778602697; x=1779207497;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LLDhRrsYYAieX5MKmnLKzaUv/WL8O+rmn/hVKUTlz+0=;
+        b=I7Sw5j6qBiGrGylBJKHcOwMJG4dWAHmC6GgczbVb3ryK19py7Fup99ugXL2pWaEtRc
+         fEi5YodvYbW0ivMLLDrBEpBjvWv0RiXc2q6vLu7/5pwSEkb3SkRniu8Bi+1VlaTfLPfH
+         3ELV+LG6N9s+qR1FSSuaGCEYqS1EZ6yNDtLXr0zMcBHJVbhljqD9eVbmMuqdS+CI+qyc
+         RDnM/QT0I6G1iDWiy9BaeXBnsjPJljpRkrbl7i/QhSjaOi/svxjxGHRY1exjm29cSMcj
+         TmLO8/zUoCWiOhIM9n4dmAicU6aG6H6V9FmFoNnKQL2N1eW7244jnaRRFWdPjyqEpZIy
+         2WNg==
+X-Forwarded-Encrypted: i=1; AFNElJ+Y/oaAp6fmoO5gX2G+z2PVvNeNeL/VTnLsB67Gqd+NxneFb/FKv81NjUVbCPFAxRfA/Y1xTqA0Dmc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoVljQw/EuxT08C9f8hcqPj51Ay8BJk3KB4tw0+kTNdh0oOycm
+	1xw97LVLmCiuXTZo2bxRmiSNSpSTZsFVyp/vHjk9b+pL4NiRxT3eUrFE
+X-Gm-Gg: Acq92OGy4/jigmU5FtLnB+kUQ4oOhLv4gVJnt+rYAbYgAOOAK1/wIljaOG0fh7b2jqI
+	hbsOKbw0/BRTfWx10iKYXg8CdBUNlY7beRi7C4IdvRpiun3PaY3Lp9Dx8t/P63WbwsaZZc5ugFS
+	SdM1X1shG8+Xi7etwKEd2jYW5YLjAJb42AOvwDwrqlLxPgCvK4dLx2gba755BWnf3zamCHnEOe9
+	0UFauV67P7WGFM8kdGQENymAZwQn9ldUnkCgoNfO4PphyxqEY1ctPjdLl3g22CpI/dWKwPSt+es
+	ZNPWTmMsjT/bWCXoNkX8CVd9dM+JcSi41HNV+a1EKtH7ifelqQRle15ujjnBRarvNfss60t37aC
+	9JjzfNcLRK09EB1CCXJPweBQKR1UMkk/+41nzNKuRDEyhi72uCh2CZBOm7tHBWwO69cQcF+JCHs
+	Ajkxr+Mh8wDXjqmX7lHGtzVG7d3a8Z6oD2EMRnUhLe1MSqQYo9KNM4Ve+pFe0x
+X-Received: by 2002:adf:e9d2:0:b0:456:b23d:e57 with SMTP id ffacd0b85a97d-456b23d0edcmr16115850f8f.0.1778602696592;
+        Tue, 12 May 2026 09:18:16 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6b071sm33302475f8f.14.2026.05.12.09.18.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 09:18:16 -0700 (PDT)
+Date: Tue, 12 May 2026 17:18:14 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Jonathan Cameron <jic23@kernel.org>,
+ Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>,
+ rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Andy
+ Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
+ <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
+ <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey
+ Senozhatsky <senozhatsky@chromium.org>, Shuah Khan
+ <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
+ kstrtodec64()
+Message-ID: <20260512171814.1934aeb4@pumpkin>
+In-Reply-To: <CAHp75VeoH3yVfp8NWjKfc_df0VRLkyf_SK4e==-wJOEodVjW_A@mail.gmail.com>
+References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
+	<20260510-adf41513-iio-driver-v12-2-34af2ed2779f@analog.com>
+	<20260512123953.40d80bc9@jic23-huawei>
+	<agMnWzMjW1LwCSyT@ashevche-desk.local>
+	<sj6cpjhakyfvv6rgox6cnhl2u2tgaecugcok6fw2l7zgku5wtc@aqx3ul72vgca>
+	<agMvlS3-0wvGmBwh@ashevche-desk.local>
+	<dxjg2sdyxb7ieb4abmeyyye7qok6cczrxabpsjyjhcbehwoec3@sbbqoo4wmzre>
+	<agM8pWrM6j_XksvN@ashevche-desk.local>
+	<ur6brs3yjzyb4mtelabmcglxjltddqvjxtgl3lkdkmbjlkmnsq@bwd6rz7gided>
+	<CAHp75VeoH3yVfp8NWjKfc_df0VRLkyf_SK4e==-wJOEodVjW_A@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260512053625.2950900-2-hch@lst.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 12, 2026 at 07:35:17AM +0200, Christoph Hellwig wrote:
-> Always use si->max which is updated setup_swap_extents instead of copying
+On Tue, 12 May 2026 18:21:44 +0300
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-"...updated in setup_swap_extents..."
-
-> into and out of maxpages.
+...
+> > I think we are going in circles here and we could look at the code instead:
+> > - integer parsing with _parse_integer()
+> >         - overflow check and validation of the return value
+> > - fractional parsing with _parse_integer_limit()
+> >         - overflow check and validation of the return value  
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> No, this is not fully true. That's what my whole point is about. The
+> max_chars parameter limits the input check, then it skips an arbitrary
+> number of digits and only *then* it checks for \n and \0. What will be
+> the result of the
+> 0.00000000000000000000000000000000423 in your case? Whatever scale you
+> gave it will return 0 without checking on how many digits were
+> supplied. All the same for 0.9999999999999999999999999999999000423. My
+> point is that we should limit this by 19 digits.
 
-But yes, it's much harder to track the data flows if we keep copying the
-value in and out of local variables.
+Don't forget about 000000000.123
+And that you also need to worry about leading spaces affecting the length.
 
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+To me, the easy way to parse it is to know how many digits are valid
+after the '.' and just carry on parsing digits after a '.' until the
+limit is hit.
+If you really want one function, pass zero to indicate that '.' is invalid.
 
---D
-
-> ---
->  mm/swapfile.c | 27 +++++++++++----------------
->  1 file changed, 11 insertions(+), 16 deletions(-)
 > 
-> diff --git a/mm/swapfile.c b/mm/swapfile.c
-> index 9174f1eeffb0..f7ebd97e28a3 100644
-> --- a/mm/swapfile.c
-> +++ b/mm/swapfile.c
-> @@ -3350,10 +3350,9 @@ static unsigned long read_swap_header(struct swap_info_struct *si,
->  }
->  
->  static int setup_swap_clusters_info(struct swap_info_struct *si,
-> -				    union swap_header *swap_header,
-> -				    unsigned long maxpages)
-> +				    union swap_header *swap_header)
->  {
-> -	unsigned long nr_clusters = DIV_ROUND_UP(maxpages, SWAPFILE_CLUSTER);
-> +	unsigned long nr_clusters = DIV_ROUND_UP(si->max, SWAPFILE_CLUSTER);
->  	struct swap_cluster_info *cluster_info;
->  	int err = -ENOMEM;
->  	unsigned long i;
-> @@ -3395,7 +3394,7 @@ static int setup_swap_clusters_info(struct swap_info_struct *si,
->  		if (err)
->  			goto err;
->  	}
-> -	for (i = maxpages; i < round_up(maxpages, SWAPFILE_CLUSTER); i++) {
-> +	for (i = si->max; i < round_up(si->max, SWAPFILE_CLUSTER); i++) {
->  		err = swap_cluster_setup_bad_slot(si, cluster_info, i, true);
->  		if (err)
->  			goto err;
-> @@ -3425,7 +3424,7 @@ static int setup_swap_clusters_info(struct swap_info_struct *si,
->  	si->cluster_info = cluster_info;
->  	return 0;
->  err:
-> -	free_swap_cluster_info(cluster_info, maxpages);
-> +	free_swap_cluster_info(cluster_info, si->max);
->  	return err;
->  }
->  
-> @@ -3440,7 +3439,6 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
->  	union swap_header *swap_header;
->  	int nr_extents;
->  	sector_t span;
-> -	unsigned long maxpages;
->  	struct folio *folio = NULL;
->  	struct inode *inode = NULL;
->  	bool inced_nr_rotate_swap = false;
-> @@ -3512,14 +3510,13 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
->  	}
->  	swap_header = kmap_local_folio(folio, 0);
->  
-> -	maxpages = read_swap_header(si, swap_header, inode);
-> -	if (unlikely(!maxpages)) {
-> +	si->max = read_swap_header(si, swap_header, inode);
-> +	if (unlikely(!si->max)) {
->  		error = -EINVAL;
->  		goto bad_swap_unlock_inode;
->  	}
->  
-> -	si->max = maxpages;
-> -	si->pages = maxpages - 1;
-> +	si->pages = si->max - 1;
->  	nr_extents = setup_swap_extents(si, swap_file, &span);
->  	if (nr_extents < 0) {
->  		error = nr_extents;
-> @@ -3531,14 +3528,12 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
->  		goto bad_swap_unlock_inode;
->  	}
->  
-> -	maxpages = si->max;
-> -
->  	/* Set up the swap cluster info */
-> -	error = setup_swap_clusters_info(si, swap_header, maxpages);
-> +	error = setup_swap_clusters_info(si, swap_header);
->  	if (error)
->  		goto bad_swap_unlock_inode;
->  
-> -	error = swap_cgroup_swapon(si->type, maxpages);
-> +	error = swap_cgroup_swapon(si->type, si->max);
->  	if (error)
->  		goto bad_swap_unlock_inode;
->  
-> @@ -3546,7 +3541,7 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
->  	 * Use kvmalloc_array instead of bitmap_zalloc as the allocation order might
->  	 * be above MAX_PAGE_ORDER incase of a large swap file.
->  	 */
-> -	si->zeromap = kvmalloc_array(BITS_TO_LONGS(maxpages), sizeof(long),
-> +	si->zeromap = kvmalloc_array(BITS_TO_LONGS(si->max), sizeof(long),
->  				     GFP_KERNEL | __GFP_ZERO);
->  	if (!si->zeromap) {
->  		error = -ENOMEM;
-> @@ -3597,7 +3592,7 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
->  		}
->  	}
->  
-> -	error = zswap_swapon(si->type, maxpages);
-> +	error = zswap_swapon(si->type, si->max);
->  	if (error)
->  		goto bad_swap_unlock_inode;
->  
-> -- 
-> 2.53.0
+> On top of that, what about -0.9(19 times) ? the fraction should be u64
+> in this case and it's fine. The sign applies to the combined value.
+> 
+> >         - extra scaling and truncation happening outside if needed.  
+> 
+> Right, but the given input may be way too long and still needs more validation.
+> 
+> > - check for input termination
+> > - combination of integer and fractional parts with check_mul_overflow() and check_add_overflow()
+
+A lot of the time overflow can be ignored because the digit string is short.
+The check_mul_overflow() code is likely to measurably slow things down.
+(Especially on 32bit where even a compare against 2**64/10 isn't cheap.)
+
+-- David
+
+> >  
+> > > > > Maybe I'm missing these checks already performed?
+> > > > >  
+> > > > > > > Having the test cases is a big benefit, and that part I like the most.  
 > 
 > 
+> 
+
