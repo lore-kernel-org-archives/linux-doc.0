@@ -1,93 +1,233 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12626FC5;
-	Tue, 12 May 2026 18:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D7A352C2B
+	for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 18:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778609528; cv=none; b=GyN8t8FRngLb8JMefGWO/IqNnlPgsRL2T6RT/YzJ4e4yddCOe5Acs4L6FZnvXF6jKwGN4dLXdl94LM/JRGH8K04ROtG9Tc/XyD/t89A3dsMMpgP+4YEhU0ly1MdOnQmICcU3sUa+HzxjVZN1dFSD/cqd7GaWqFiOPX/jUYWKK1U=
+	t=1778609727; cv=none; b=TBpGyrWPfrU4S/zboD4xbXCznv2eZBbGD/KRmzmkUX5tsbDTBaD5K89etv29a8jiJcs+jGXFnAICQvY74DVefwfwzK6CE8aWL0T+yIf0UK75teiFJI4MCmqgDZqUj0OvHH8XZuPBcBnLOPCo0oJlzWtLr6h+0gVmbErFimM/KlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778609528; c=relaxed/simple;
-	bh=Tav04tYNGpLRuW3FuZzh0z5AH7SKPdJxNU7pq9Nvsqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YGM14iurA+nfUP1VE25h6q/g65GSsvb4e/il9JKl/jEh9m6QE5qD8LFmSPw76vpdBo7YHflg+pHKIwPL8RiM52LWgR1cI8c9TwKO0er/A+3dUeQgV52amyECtTPxu7h13ouydi6W9m+d0fDg/IZaAtWrNqFw6YuHkb+YfaZ2wTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SAD/Vfth; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778609727; c=relaxed/simple;
+	bh=63ez6bpn0ee3Y9/Yx0MNF9bW3sCplxPbJxRgRV1/aGI=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n6nMkZ8SC4AMeHonlvxaNNxTC/S7M3aHVIsszbuHeSP20/bUzqlVJW+h6XAUkFBitdpl0gQEgT1uPrk7Gqq9bset0lqZmv0uOcWe+dKUcq3jgOBMBR1dnTmq1jf7z+empeGcr+PczE6xq3/bhBhjJ3tgYH2/BUazerbP2sX/LX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U3PWQ3M0; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SAD/Vfth"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE923C2BCB0;
-	Tue, 12 May 2026 18:12:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778609528;
-	bh=Tav04tYNGpLRuW3FuZzh0z5AH7SKPdJxNU7pq9Nvsqw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SAD/VfthTEM5OhJ5Be3jlSsW1RggYEqzlvT658DwOHjZSe+6wKiOsCPxUsj7kTOCJ
-	 KKhiawiX8vXx4V2Rtm3GHd/dqAzI5GHL6CIrMCWKIoFnooNZGDl4zWpbRLZoSKSUkF
-	 N0S861bSfOP84WiZwOh0t2teptBA7WyvhTf6c/t0ZJlMxfaJNCZWiAgTKnbf/I37Lc
-	 HfRIIvfsWseBeVaZxoPlgQJ5XOvhvTVgd4RSTAy21FdTDg0nrV8uTaMyQZArInyS3g
-	 0pW9GLSQjKxWBZGzVTy2RQoBztzaRL61wgt6oTc+nPmriRvGo9VBfZ2lMA88cBOwKL
-	 M3Pa/EAJN9ECQ==
-Date: Tue, 12 May 2026 21:11:58 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: akpm@linux-foundation.org, peterx@redhat.com, david@kernel.org,
-	ljs@kernel.org, surenb@google.com, vbabka@kernel.org,
-	Liam.Howlett@oracle.com, ziy@nvidia.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, seanjc@google.com, pbonzini@redhat.com,
-	jthoughton@google.com, aarcange@redhat.com, sj@kernel.org,
-	usama.arif@linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kvm@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v2 12/14] userfaultfd: add UFFDIO_SET_MODE for runtime
- sync/async toggle
-Message-ID: <agNtbg6wv_kjQlb7@kernel.org>
-References: <cover.1778254670.git.kas@kernel.org>
- <e8f142c530b715c6d45475230c4e35a1cfd8dbd4.1778254670.git.kas@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U3PWQ3M0"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43d73422431so4478258f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 11:15:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778609724; x=1779214524; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1PlXVJGMds0w8If8yiULPSHXGhEffCD4GRx6tHPD/s0=;
+        b=U3PWQ3M02G1EHCwCnLlZzjPkSDIN6enBMApl3yI3oZhYEr3OxB1bB2Myw/0pdFSREp
+         QvXEs9A/dOoSBK1wFkHSzQf82kLPXYepAMG6Z0nPTtG/xo+zG2v09lEsPlN9V7KyBR9l
+         1LDAh52WmK2BzaUv7a8uhQluNSATg3bHJOXem6Kweda0q95TjUlR7Sva75Bl7osG7SAJ
+         yu0ALGh0bruMBMVcnoTDJiVAll+HVA66EIZJlBXvFzF89xoCesWxBBTseZ1rjXNoLsdV
+         wAvMT9ULrn0GzRcupzzxAkbQ93/r5Ko2WfzRZgbZNK2YhmOsCueIdun+/60AkaxxOify
+         A19Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778609724; x=1779214524;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1PlXVJGMds0w8If8yiULPSHXGhEffCD4GRx6tHPD/s0=;
+        b=EBo00VoZMWePO8B/gQv4tlcHgmEruz1OLX5yRQwMr6slxig/87Wx8lh/qN6uFcL8j0
+         dTCxn7kcGyy1ZuTbA1edfc8djnh1NjzbDffY8m3tZ9U6nzLo25jqS73qL7nxsehrIVvH
+         k4F1Tnyi/2d3mJZxwN2/964vQJ4fFE3wibGym4x4LRrzz/Ttcf9To/HdmWWt8zbaABDs
+         PZ+u8sJsi0lGvEf8u2XLqiybrNhULFFfR8HJmlXSrFPqk6goONOWu/vD4aPTbWqGIz2g
+         ON8O5cBXTkSxHhluHaKuPym7JgVW5EU2Px2vl0KW3zgFPzIqxreVWKirs/Vhp6AgOH68
+         5ZrA==
+X-Forwarded-Encrypted: i=1; AFNElJ81ScEs2xfn2H6t6Rrw9x9ZRhQ/kehHMQ4FT84dQQfQTT66/Xhx0g1kZAKiJAwmpjiUqsvj18Ls2hE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7uhHLQFxVpOAUq8oeXvG2/3ymou9rYAAedNjj7UgPY2gZmrRp
+	titWyVJ0Glrcv24bJkVpSq6zJelAS87FESY5rAjgB+Ez1ZcKFV8CMDfa
+X-Gm-Gg: Acq92OGx+dr5IO9UZJUlNVU/Cj6V/ZfjZNN9LGo4fvAvmPzfmNNRdP4bB5c5pqXZSSo
+	rx1JXqTuXpEIeIS2oUoD6AFidisGpa3pCYCoZv0j27+TGeAR8Tp/fCvaT0FddjuMwj3I/IH+wTy
+	CbL+QKXAKgSGAfVVGr2P5pExMu2Z5TkXpuu94iBjfYoYO9xnwWTg3SGl03w3eM+37SlLF1LZbKc
+	YE0LH4DmmF1MPPIMwn4RY+Y5Q+LS+ZuPglDHDyLT70ytTKR3kjob54fphyL0xjnmJnFRNOsXo08
+	YEJJ9I3Q1UFPs5Xtl5OEfIqtZ4UWOpaq0w7EuIiW9SDeWqo5BPvhxbkKvvUXMYhJR7uhxcKpnv/
+	Zk70fhYrT3QlVUxHrO7cBcQ+GCO4yiUnQPDWWsm8l9sHGNVywY89FAGom5dsiPMUSL5cjHzM/Tf
+	KTCLYwz5uOloCAy8h/EyXEZ3OuJr3gNV1eTqXb13k+bOPT1Vl11R9yWnyQD/Otjcrs1Dhb0xESk
+	qv/FdTury2wfHwM7v1l5BpWknWdnIxg/PX6OIE7bOzyH6i0xQ==
+X-Received: by 2002:a05:6000:2082:b0:43d:7a97:78af with SMTP id ffacd0b85a97d-4515da963d1mr45637709f8f.42.1778609723889;
+        Tue, 12 May 2026 11:15:23 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-454913049ecsm33448626f8f.19.2026.05.12.11.15.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 11:15:23 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 12 May 2026 19:15:17 +0100
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	David Laight <david.laight.linux@gmail.com>
+Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
+ kstrtodec64()
+Message-ID: <bc7mqfgll34vyaxdtvfssgypkhyx233wd4hxfzu32rddxnolaq@rd6c3z6yu6aq>
+References: <sj6cpjhakyfvv6rgox6cnhl2u2tgaecugcok6fw2l7zgku5wtc@aqx3ul72vgca>
+ <agMvlS3-0wvGmBwh@ashevche-desk.local>
+ <dxjg2sdyxb7ieb4abmeyyye7qok6cczrxabpsjyjhcbehwoec3@sbbqoo4wmzre>
+ <agM8pWrM6j_XksvN@ashevche-desk.local>
+ <ur6brs3yjzyb4mtelabmcglxjltddqvjxtgl3lkdkmbjlkmnsq@bwd6rz7gided>
+ <CAHp75VeoH3yVfp8NWjKfc_df0VRLkyf_SK4e==-wJOEodVjW_A@mail.gmail.com>
+ <q4rmlkgecvztnvjg7b7wtqyvhdy7uxgaouvhae2mlsxaasasbf@dfakp4m5l5sl>
+ <agNfqiZpGZAM-x_H@ashevche-desk.local>
+ <ru2h3ip7qf6j54dlrij54nwp45uyq6m2e6zspt6v6eynpsagqq@eo5v3yparuhh>
+ <agNnfWZa9_NyLoWq@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e8f142c530b715c6d45475230c4e35a1cfd8dbd4.1778254670.git.kas@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <agNnfWZa9_NyLoWq@ashevche-desk.local>
 
-On Fri, May 08, 2026 at 04:55:24PM +0100, Kiryl Shutsemau (Meta) wrote:
-> Add an ioctl to toggle async mode at runtime without re-registering
-> the userfaultfd. This allows a VMM to switch between sync and async
-> RWP modes on-the-fly -- for example, starting in async mode for
-> working set scanning, then switching to sync mode to intercept faults
-> during page eviction.
-> 
-> UFFDIO_SET_MODE takes an enable/disable bitmask of UFFD_FEATURE_*
-> flags. Only UFFD_FEATURE_RWP_ASYNC is toggleable today; the ioctl
-> rejects any other bit with -EINVAL. Enabling RWP_ASYNC also requires
-> RWP to have been negotiated at UFFDIO_API time, mirroring the
-> UFFDIO_API invariant.
-> 
-> Fault-path readers of ctx->features run under mmap_read_lock or a
-> per-VMA lock; the RMW takes mmap_write_lock and calls
-> vma_start_write() on every UFFD-armed VMA, so those readers are fully
-> excluded. userfaultfd_show_fdinfo(), however, reads ctx->features
-> without any lock, so the RMW is written as a single WRITE_ONCE and
-> fdinfo reads it with READ_ONCE. That keeps the lockless observer from
-> seeing a mid-RMW intermediate and removes the audit burden when new
-> toggleable bits are added later.
-> 
-> When switching to async, pending sync waiters are woken so they retry
-> and auto-resolve under the new mode.
-> 
-> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> Assisted-by: Claude:claude-opus-4-6
+On 26/05/12 08:46PM, Andy Shevchenko wrote:
+> On Tue, May 12, 2026 at 06:26:12PM +0100, Rodrigo Alencar wrote:
+> > On 26/05/12 08:13PM, Andy Shevchenko wrote:
+> > > On Tue, May 12, 2026 at 05:35:59PM +0100, Rodrigo Alencar wrote:
+> > > > On 26/05/12 06:21PM, Andy Shevchenko wrote:
+> > > > > On Tue, May 12, 2026 at 6:11 PM Rodrigo Alencar
+> > > > > <455.rodrigo.alencar@gmail.com> wrote:
+> > > > > > On 26/05/12 05:43PM, Andy Shevchenko wrote:
+> > > > > > > On Tue, May 12, 2026 at 03:12:24PM +0100, Rodrigo Alencar wrote:
+> > > > > > > > On 26/05/12 04:48PM, Andy Shevchenko wrote:
+> > > > > > > > > On Tue, May 12, 2026 at 02:21:14PM +0100, Rodrigo Alencar wrote:
+> > > > > > > > > > On 26/05/12 04:12PM, Andy Shevchenko wrote:
+> > > > > > > > > > > On Tue, May 12, 2026 at 12:39:53PM +0100, Jonathan Cameron wrote:
+> > > > > > > > > > > > On Sun, 10 May 2026 13:42:20 +0100
+> > > > > > > > > > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> > > > > > > > > > > >
+> > > > > > > > > > > > > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
+> > > > > > > > > > > > > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
+> > > > > > > > > > > > > precision). After the decimal point, digits beyond the specified scale
+> > > > > > > > > > > > > are ignored.
 
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+...
 
-> ---
->  fs/userfaultfd.c                 | 150 +++++++++++++++++++++++++------
->  include/uapi/linux/userfaultfd.h |  14 +++
->  2 files changed, 136 insertions(+), 28 deletions(-)
+> > > > > > I think we are going in circles here and we could look at the code instead:
+> > > > > > - integer parsing with _parse_integer()
+> > > > > >         - overflow check and validation of the return value
+> > > > > > - fractional parsing with _parse_integer_limit()
+> > > > > >         - overflow check and validation of the return value
+> > > > > 
+> > > > > No, this is not fully true. That's what my whole point is about. The
+> > > > > max_chars parameter limits the input check, then it skips an arbitrary
+> > > > > number of digits and only *then* it checks for \n and \0. What will be
+> > > > > the result of the
+> > > > > 0.00000000000000000000000000000000423 in your case? Whatever scale you
+> > > > > gave it will return 0 without checking on how many digits were
+> > > > > supplied.
+> > > > 
+> > > > I suppose that is a valid input and 0 is the expected result there.
+> > > > 
+> > > > > All the same for 0.9999999999999999999999999999999000423. My
+> > > > > point is that we should limit this by 19 digits.
+> > > > 
+> > > > why we need to limit by 19? Digits beyond the scale carry no value...
+> > > 
+> > > ...only if they are all 0:s.
+> > 
+> > I thought your concern was on input length.
+> 
+> One of, since I think you rose the topic of leading 0:s for integers and
+> I agreed with that which makes sense to have mirrored in fractional part.
+> 
+> > > > just like leading zeros to the integer part (which is also accepted by
+> > > > kstrtoull() when parsing with base 10). Not sure why this is invalid input.
+> > > 
+> > > See above. I agree on truncating trailing 0:s as it's done for leading ones
+> > > in integer part, but if any of the digit behind 19th is not 0, it's an overflow
+> > > condition (or bad input, depending how strict the rules are).
+> > 
+> > stating in the documentation that digits beyond the scale are ignored is not
+> > enough?
+> 
+> It's in case we are not for kstrto*() family. My understanding that kstrto*()
+> use strict rules on the input in overflow check.
+> 
+> > > > > On top of that, what about -0.9(19 times) ? the fraction should be u64
+> > > > > in this case and it's fine. The sign applies to the combined value.
+> > > > 
+> > > > yes, range for signed values are verified later.
+> > > 
+> > > > > >         - extra scaling and truncation happening outside if needed.
+> > > > > 
+> > > > > Right, but the given input may be way too long and still needs more validation.
+> > > > 
+> > > > What is the problem with a long input of digits?
+> > > > C compiler does not complain about this when parsing a float value,
+> > > > python does not
+> > > > complain about this when parsing floats or decimals either.
+> > > 
+> > > Because there is an exponent limit and for double it's something like 1e307
+> > > IIRC, meaning, try 1024 digits to be sure.
+> > > 
+> > > Python most likely uses the library for big numbers, you can't compare it at all with this.
+> > 
+> > You would be fine if the truncation loop:
+> > 
+> > while (isdigit(*s)) /* truncate */
+> > 	s++;
+> > 
+> > is bounded by (19-scale) iteration count? or it should keep iterating if those are zero?
+> 
+> Ideally both.
+> 
+> We don't care about the digits in the range of 19-scale and skip all 0:s after
+> that.
+> 
+> 	/* truncate unrequired digits within type limit, i.e. 19 decimal digits */
+> 	while (isdigit(*s) && "(s - pos_of_dot) is less than 19")
+> 		s++;
+> 	while (s == '0') /* truncate trailing 0:s, it's not a bad input nor overflow */
+> 		s++;
+
+We could have agreed on something like that since the beginning!
+And I think that changing the logic to something like this would not change a
+thing on the kind of inputs we expect, it will just complicate the code.
+I suppose that kind of kstrto*() rules were never stated anywhere.
+
+                           |> 20th digit 
+Also, 0.00000000000000000001 still sounds like a valid decimal number to me, even
+though it is going to be parsed as 0!
+
+> 
+> 	// Now if it's not \0 nor \n and
+> 	//	a) still a digit consider either overflow or bad input,
+> 	//	b) if not a digit, consider as bad input.
+> 
+> In a) I tend to be on par with the other k*() and consider that as overflow.
+> 
+> > is that the only concern? Again, the usage of _parse_integer_limit(s, 10, &_frac, scale)
+> > avoids a 64-bit division when checking the rv.
+> 
+> I'm not against usage of _parse_integer_limit(), I'm for stricter rules on the input.
+> With the above addressed, I have no more concerns.
+
+Thanks! I will proceed with the requested adjustments.
+
+...
 
 -- 
-Sincerely yours,
-Mike.
+Kind regards,
+
+Rodrigo Alencar
