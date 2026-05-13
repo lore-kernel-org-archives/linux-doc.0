@@ -1,344 +1,309 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013013.outbound.protection.outlook.com [40.107.201.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8037838F24F;
-	Wed, 13 May 2026 06:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778653589; cv=none; b=qJVoTf7zcnXwjqomvGDO+iBV4Y+vbEZjcGg+T2NPkiqNGGFooSZYgbKGkRxUjG0jANDYMrfs0EtkXOMQkKbTn8QdeznsDwkQQwpluU7FDTkU0yKzezsm9HDxHLjVvmtAL+JxTajJjrNPaVVtIYmYslavkBsMrybLAVa5YNNjvOI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778653589; c=relaxed/simple;
-	bh=WRpCesEyBqP6szFtxr6if4BD3NBtaZqRj0HEyWLq85g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dGVgxSllZt041ZcUdwuBFGknka3Iz8fwygpSb7BqFLlMzSRNXBP5fgIrc0lmCM4g/9xs/cAdjxe1xDg2SqSDkbgOcal7jGmYxtS/FCVfCyedSigav5ahtj4CZtufGNi+Ek2NAMgzL0K1XTTuPpaIOMKQnG9O+bVy/klN/t7TfB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u9OLqzUv; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1494E1DE3B7;
+	Wed, 13 May 2026 06:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778653780; cv=fail; b=XInQVaqI3BG4UwtNI3M+R1xb1/4M17Ml+7t4/gn6V097yz6uu+dqJapHAVnSzU+tDgrfcEW90ANvHCIJJzBfVPSNOH/ftMEA68tKJ/j8klCTDSaW6QTMcdimdOZZ1LDNMki/GG2RGc1lMfw79tqVXj+zLtN8CjAErlwW0Ber0Uk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778653780; c=relaxed/simple;
+	bh=ybI7+ArlZCnNDCSeW6fClhy46C2TaQTHKTY0L4DsUXk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=WrUA6er0Ki14WmZJ+HORuaFKFf1pHDw2WA71YGwPTZkQBqC+lZmkMrHHCzqY537hRqyr52aUOrFu0VH3duTM+MLWqd1pJwhrB47Ju5eNuw8E3ndIZGoetSgM2ZxovEyTlrXCB6lzgj5OyXj/NH8MpWZc2gyNpbDGE5EjPNuFB/s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=paBcauau; arc=fail smtp.client-ip=40.107.201.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u9OLqzUv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D003BC2BCB7;
-	Wed, 13 May 2026 06:26:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778653589;
-	bh=WRpCesEyBqP6szFtxr6if4BD3NBtaZqRj0HEyWLq85g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u9OLqzUvX0tw1qb7cvP+RqpcTbSFYfOSwUQiPhtM0FCh7ggToRkJ9KWVECh6QyNrr
-	 AwVlLbA3L1dgMhtpsln6j89GeOYCbyMi7f/NWCtnPi90igPZCjiXIJjJubmupOzJj8
-	 5Us6DZSWTSnjpruKgHgYMmOEBYj8OPzb4mUVdzrex2pDJ1/MCpF9r6b1VEXJZ7VMgs
-	 t3885zHJ2kuf3YV1NkAUx5VC7gKNY/FaPF2bXUKnyKz0iYlkq+QnNHjvBTx0Vgyw9T
-	 HZ1N5Y8/TuYzDKqsRAhxLegJK8V9P59kh+yp0HCH2Iqx23aP/iszLHhioMJKNlBpsE
-	 06hF/4v5TjSZQ==
-Date: Wed, 13 May 2026 09:26:17 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: akpm@linux-foundation.org, peterx@redhat.com, david@kernel.org,
-	ljs@kernel.org, surenb@google.com, vbabka@kernel.org,
-	Liam.Howlett@oracle.com, ziy@nvidia.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, seanjc@google.com, pbonzini@redhat.com,
-	jthoughton@google.com, aarcange@redhat.com, sj@kernel.org,
-	usama.arif@linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kvm@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v2 14/14] Documentation/userfaultfd: document RWP working
- set tracking
-Message-ID: <agQZiTUQNviaGIim@kernel.org>
-References: <cover.1778254670.git.kas@kernel.org>
- <0b6f87fd4809245f9eebee73f34e2fb14230330c.1778254670.git.kas@kernel.org>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="paBcauau"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yde0CNsSl6+vnyew8p0llU0Eek+xYRTHZNhbZdIvXjpR/na62GZ45nBxyqdchkFLOhxVgxpnC6mRCYHzdhvaDjJeEC1Zv5c/Uvl11FLCl6dxsSzStmqpmke6WkYYAyx7iky1H51YIyWmgkBEjOi6uOdvrl7xPEBIL16mYma2Nmeh6r4Df90aCteuPgOW+dsJQRsnoWS+g9D8KRs0KO/0DZ/iuw0zod1LOjfnWNWiqtqfSaVP6prRcUfiE9pwbk5w5JPxK6iPljtA/1ko44VZq1R4pGTmYULf3GXxX5xmJX8gNi2Q65SE9MGoTyo0SUzCaCpaPFbdINR+RPHLmfESbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rTkGtLaOp1Dk7UbUbREO9PsNtfreYaVK6p335C3wknI=;
+ b=Tnre0iyCezVkjaptmPofx2rzSdncTRo0HNfsLqLveGj1G+hS1sHsosBHn7x4na1OTVtGb0EZBJzCYuFrtRY47zeFFdnrcsM8ZW8uMUSKt3IQjOvlk5niWBfuELXlthCqyqfq+GuCKBXMHpO2KqmJf5yRDoK8xdCUbzQGGkXaZ1DLB3/9+IiB+khXFgjVx6BOANJ9O91CLgTz+NNja28kEhcgor1BU+IAUA6XQmCKmqUn971WULSulp58u7gTh7L/SfRktHxBzFVXxeKsN2qNjlJVQhslV990xra2dfDvLe7+Cdm2DE6SemNQgEh9+o7gVlf8WFGMAZV5Dg4Nj7xg1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rTkGtLaOp1Dk7UbUbREO9PsNtfreYaVK6p335C3wknI=;
+ b=paBcauauJM3AvJWaKIBehs52VqdRd2m/sAMFZZdp9g6hT/sCuR2UXyKERypztjv5xuTNK0DcqmzZmkF6Pkd8hrF74xbxO0e71uf1JIbcwufAmsMNvbhyPu9zXinSnMCv1mRiRPs8iLfLIdRD0qW5JIbDRpu9mVX3YyKn/48mLac=
+Received: from CH0PR03CA0425.namprd03.prod.outlook.com (2603:10b6:610:10e::27)
+ by DS0PR10MB7429.namprd10.prod.outlook.com (2603:10b6:8:15d::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Wed, 13 May
+ 2026 06:29:31 +0000
+Received: from CH1PEPF0000A34A.namprd04.prod.outlook.com
+ (2603:10b6:610:10e:cafe::69) by CH0PR03CA0425.outlook.office365.com
+ (2603:10b6:610:10e::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.12 via Frontend Transport; Wed,
+ 13 May 2026 06:29:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ CH1PEPF0000A34A.mail.protection.outlook.com (10.167.244.5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.25.13 via Frontend Transport; Wed, 13 May 2026 06:29:30 +0000
+Received: from DFLE200.ent.ti.com (10.64.6.58) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 13 May
+ 2026 01:29:10 -0500
+Received: from DFLE208.ent.ti.com (10.64.6.66) by DFLE200.ent.ti.com
+ (10.64.6.58) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 13 May
+ 2026 01:29:10 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE208.ent.ti.com
+ (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
+ Transport; Wed, 13 May 2026 01:29:10 -0500
+Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 64D6T4lA3474869;
+	Wed, 13 May 2026 01:29:05 -0500
+Message-ID: <54fae7f6-fcb9-4520-a79a-569426ab96f1@ti.com>
+Date: Wed, 13 May 2026 11:59:03 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/2] net: ti: icssg: Derive stats array lengths
+ from ARRAY_SIZE
+To: David CARLIER <devnexen@gmail.com>
+CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Roger Quadros
+	<rogerq@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Jacob Keller
+	<jacob.e.keller@intel.com>, Meghana Malladi <m-malladi@ti.com>, Kevin Hao
+	<haokexin@gmail.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	<netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>
+References: <20260512060627.3781329-1-danishanwar@ti.com>
+ <20260512060627.3781329-2-danishanwar@ti.com>
+ <CA+XhMqykBWcMdk+iNnOtUxM4MX6jpDyUwfuAVZFbjAShO9_v7Q@mail.gmail.com>
+ <6a1f411c-d7ed-463b-abf1-277d8cc0c184@ti.com>
+ <CA+XhMqzx9CUX5H7q1UqL=heGWLFjZVfyiTx6b45VW=E9t13Fow@mail.gmail.com>
+Content-Language: en-US
+From: MD Danish Anwar <danishanwar@ti.com>
+In-Reply-To: <CA+XhMqzx9CUX5H7q1UqL=heGWLFjZVfyiTx6b45VW=E9t13Fow@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0b6f87fd4809245f9eebee73f34e2fb14230330c.1778254670.git.kas@kernel.org>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000A34A:EE_|DS0PR10MB7429:EE_
+X-MS-Office365-Filtering-Correlation-Id: a6daf508-ebe1-4427-1fa7-08deb0b8fd38
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|1800799024|36860700016|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	ZKR+LKNtrIhLwPKC71ZjMgo4kBUUb0p98FGzE0BZ4lsQ0/03nBjUMEC4h0PGy/l9XxL3FIO19Zh++IgScnd3WkSgYmqTaey6OJI4Q5WFQuLq4Ycv023QpRVSGSUf11+LcOOYnON7YU15s1+4XJyoB6rz+MBZGd0W5l2RNg+btf4zu+mC1hhq4nuu2I+MTfijomto4JW5nw0Zywe975Ly2p1XAthRlPz4QgPmp7zXEVOx9uNytfnyBJONfpECAM03ESU8mQowmcmPZqk76uBsqW9Oozc7CLGMWuLtsZtNLt+3rprSCjem5P23VoRuHVQMeC6vdSsw0LMcMzDPw35HS8a7DPkYQPsygj27hCbwQOziOPPugpDgsUD/eGu/3MnFKO5BIk5gWkHSdmcnQaW1j9pPQHkpYfnWiRcgDdh7wUOEFotFOG8PrkJix2K7p4QKyzVmEpHZTVvC6EfagU5XtgUx1fp0hUeSB948jbT1zzYyqYhZtJ2qXoEtc+WWcJngzHHctiMGcinCjcXrxFu3he6iYetxiqg3SR3xT0Fv+CZeXn1sRb7QLfhEEhTXC3v/hPKjnqsDdGXfJWnIiPgqWhrwXDk4qF3YAgLdNqEIgJMs6TK+6nCESpt324Df/DhwbXCiPXjg9mybpxqIt61ytoAKQITEE0aMHXpA1fqPAFmd8lAO/wMPbSvZWBVfT3tN
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(1800799024)(36860700016)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	nCiuDAnJcC4Z6IEKNY6lM0R2JjZw+NEY9+ayI6bHWNm0pKRJOp+/THOOpS0zxPSX9nm6i8y+ilvJQk5K37ZjbL0hq+qrsrevvF+aUSIuOGZgR8gjhxSGp1HSFWUbqGu7D4aBrAx4Ga9rJiBhh6sNQwLWibFFRZq3OvRmsDGpcmpK1JD+5SpH/igtrKpLL9cuX/sFwzhoazgFQc+rr/Ux/T0J9bhQTw9FYHCqvvo+PDVvlU7tdmgiJndS3JOeF4cU+/eYG76J4LLWPbq4oKvtPlfmM/rEsckGuFhDt/jy89G3GzVQoz2CHvd1/JYVkBImiaLWcVMf54Qv/aBWZObTDfYtmOYauB2p0aRRROgEJT9ACLUZv4ykscGSWf2ax2KeMxgSuFX9gW9SMvSxMYYDLBp05XvWL35S41nXR4NhLXexS1gjnqBAruiEQ57n2WlV
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 06:29:30.1063
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6daf508-ebe1-4427-1fa7-08deb0b8fd38
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000A34A.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7429
 
-On Fri, May 08, 2026 at 04:55:26PM +0100, Kiryl Shutsemau (Meta) wrote:
-> Add an admin-guide section covering UFFDIO_REGISTER_MODE_RWP:
+Hi David
+
+On 12/05/26 3:33 pm, David CARLIER wrote:
+> Hi Danish,
 > 
->   - sync and async fault models;
->   - UFFDIO_RWPROTECT semantics;
->   - UFFD_FEATURE_RWP_ASYNC;
->   - UFFDIO_SET_MODE runtime mode flips.
 > 
-> It also covers typical VMM working-set-tracking workflow from detection
-> loop through sync-mode eviction and back to async.
-
-We'd also need man page update at some point :)
- 
-> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> Assisted-by: Claude:claude-opus-4-6
-> ---
->  Documentation/admin-guide/mm/userfaultfd.rst | 226 ++++++++++++++++++-
->  1 file changed, 220 insertions(+), 6 deletions(-)
+> On Tue, 12 May 2026 at 10:40, MD Danish Anwar <danishanwar@ti.com> wrote:
+>>
+>> Hi David,
+>>
+>> On 12/05/26 1:28 pm, David CARLIER wrote:
+>>> Hi MD,
+>>>
+>>> On Tue, 12 May 2026 at 07:06, MD Danish Anwar <danishanwar@ti.com> wrote:
+>>>>
+>>>> Replace the manually maintained ICSSG_NUM_MIIG_STATS and
+>>>> ICSSG_NUM_PA_STATS constants with ARRAY_SIZE() expressions derived
+>>>> directly from the corresponding stat descriptor arrays, so that adding
+>>>> new entries to icssg_all_miig_stats[] or icssg_all_pa_stats[] no longer
+>>>> requires a separate update to a numeric constant.
+>>>>
+>>>> To make this self-contained, break the circular include dependency
+>>>> between icssg_stats.h and icssg_prueth.h:
+>>>>
+>>>>   - icssg_stats.h previously included icssg_prueth.h (transitively
+>>>>     pulling in icssg_switch_map.h and ETH_GSTRING_LEN).  Replace that
+>>>>     with direct includes of <linux/ethtool.h>, <linux/kernel.h> and
+>>>>     "icssg_switch_map.h".
+>>>>
+>>>>   - icssg_prueth.h now includes icssg_stats.h, giving it access to
+>>>>     the ARRAY_SIZE-based ICSSG_NUM_MIIG_STATS and ICSSG_NUM_PA_STATS
+>>>>     before they are used in the prueth_emac struct and ICSSG_NUM_STATS.
+>>>>
+>>>> Signed-off-by: MD Danish Anwar <danishanwar@ti.com>
+>>>> ---
+>>>>  drivers/net/ethernet/ti/icssg/icssg_prueth.h | 3 +--
+>>>>  drivers/net/ethernet/ti/icssg/icssg_stats.h  | 7 ++++++-
+>>>>  2 files changed, 7 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.h b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
+>>>> index df93d15c5b78..e2ccecb0a0dd 100644
+>>>> --- a/drivers/net/ethernet/ti/icssg/icssg_prueth.h
+>>>> +++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
+>>>> @@ -43,6 +43,7 @@
+>>>>
+>>>>  #include "icssg_config.h"
+>>>>  #include "icss_iep.h"
+>>>> +#include "icssg_stats.h"
+>>>>  #include "icssg_switch_map.h"
+>>>>
+>>>>  #define PRUETH_MAX_MTU          (2000 - ETH_HLEN - ETH_FCS_LEN)
+>>>> @@ -57,8 +58,6 @@
+>>>>
+>>>>  #define ICSSG_MAX_RFLOWS       8       /* per slice */
+>>>>
+>>>> -#define ICSSG_NUM_PA_STATS     32
+>>>> -#define ICSSG_NUM_MIIG_STATS   60
+>>>>  /* Number of ICSSG related stats */
+>>>>  #define ICSSG_NUM_STATS (ICSSG_NUM_MIIG_STATS + ICSSG_NUM_PA_STATS)
+>>>>  #define ICSSG_NUM_STANDARD_STATS 31
+>>>> diff --git a/drivers/net/ethernet/ti/icssg/icssg_stats.h b/drivers/net/ethernet/ti/icssg/icssg_stats.h
+>>>> index 5ec0b38e0c67..b854eb587c1e 100644
+>>>> --- a/drivers/net/ethernet/ti/icssg/icssg_stats.h
+>>>> +++ b/drivers/net/ethernet/ti/icssg/icssg_stats.h
+>>>> @@ -8,10 +8,15 @@
+>>>>  #ifndef __NET_TI_ICSSG_STATS_H
+>>>>  #define __NET_TI_ICSSG_STATS_H
+>>>>
+>>>> -#include "icssg_prueth.h"
+>>>> +#include <linux/ethtool.h>
+>>>> +#include <linux/kernel.h>
+>>>> +#include "icssg_switch_map.h"
+>>>>
+>>>>  #define STATS_TIME_LIMIT_1G_MS    25000    /* 25 seconds @ 1G */
+>>>>
+>>>> +#define ICSSG_NUM_MIIG_STATS   ARRAY_SIZE(icssg_all_miig_stats)
+>>>> +#define ICSSG_NUM_PA_STATS     ARRAY_SIZE(icssg_all_pa_stats)
+>>>> +
+>>>>  struct miig_stats_regs {
+>>>>         /* Rx */
+>>>>         u32 rx_packets;
+>>>> --
+>>>> 2.34.1
+>>>>
+>>>
+>>> One thing that caught my eye: icssg_all_miig_stats[] and
+>>>   icssg_all_pa_stats[] are 'static const' arrays in icssg_stats.h with
+>>>   ETH_GSTRING_LEN name buffers per entry. Right now only icssg_stats.c
+>>>   and icssg_ethtool.c pull them in. After this patch icssg_prueth.h
+>>>   includes icssg_stats.h, so every .c in the driver (classifier,
+>>>   common, config, mii_cfg, queues, switchdev, ...) ends up with its own
+>>>   static-const copy of both tables.
+>>>
+>>>   Would a static_assert() work for what you're after? Something like:
+>>>
+>>
+>> While adding more stats manually, The ARRAY_SIZE() approach was
+>> explicitly requested by maintainer [1]:
+>>
+>> This patch is a direct response to that feedback. static_assert() would
+>> still require updating the numeric constant on every array change. The
+>> goal here is to eliminate the need of manually incrementing stats count
+>> whenever new stats are added
+>>
+>> Your concern about multiple copies of table is noted and valid. Could
+>> you advise on the preferred way to reconcile these two requirements? I
+>> am happy to restructure if there is an approach that satisfies both.
+>>
+>> [1]
+>> https://lore.kernel.org/all/20260112181436.4s5ceywwembn674r@skbuf/#:~:text=Can%27t%20this%20be%20expressed%20as%20ARRAY_SIZE(icssg_all_pa_stats)%3F%20It%20is%20very%0Afragile%20to%20have%20to%20count%20and%20update%20this%20manually.
+>>
+>>
+>>>     static const struct icssg_miig_stats icssg_all_miig_stats[] = {
+>>>         ...
+>>>     };
+>>>     static_assert(ARRAY_SIZE(icssg_all_miig_stats) == ICSSG_NUM_MIIG_STATS);
+>>>
+>>>   next to each array, keeping the numeric #defines as-is. Then 2/2 fails
+>>>   to build the moment a new entry is added without bumping the count,
+>>>   which is the case you're guarding against — without touching the
+>>>   include graph.
+>>>
+>>> What do you think ?
+>>>
+>>> Cheers.
+>>
+>> --
+>> Thanks and Regards,
+>> Danish
+>>
 > 
-> diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
-> index 1e533639fd50..5ac4ae3dff1b 100644
-> --- a/Documentation/admin-guide/mm/userfaultfd.rst
-> +++ b/Documentation/admin-guide/mm/userfaultfd.rst
-> @@ -275,16 +275,16 @@ tracking and it can be different in a few ways:
->    - Dirty information will not get lost if the pte was zapped due to
->      various reasons (e.g. during split of a shmem transparent huge page).
->  
-> -  - Due to a reverted meaning of soft-dirty (page clean when uffd-wp bit
-> -    set; dirty when uffd-wp bit cleared), it has different semantics on
-> -    some of the memory operations.  For example: ``MADV_DONTNEED`` on
-> +  - Due to a reverted meaning of soft-dirty (page clean when the uffd bit
-> +    is set; dirty when the uffd bit is cleared), it has different semantics
-> +    on some of the memory operations.  For example: ``MADV_DONTNEED`` on
->      anonymous (or ``MADV_REMOVE`` on a file mapping) will be treated as
-> -    dirtying of memory by dropping uffd-wp bit during the procedure.
-> +    dirtying of memory by dropping the uffd bit during the procedure.
->  
->  The user app can collect the "written/dirty" status by looking up the
-> -uffd-wp bit for the pages being interested in /proc/pagemap.
-> +uffd bit for the pages being interested in /proc/pagemap.
->  
-> -The page will not be under track of uffd-wp async mode until the page is
-> +The page will not be under track of userfaultfd-wp async mode until the page is
->  explicitly write-protected by ``ioctl(UFFDIO_WRITEPROTECT)`` with the mode
->  flag ``UFFDIO_WRITEPROTECT_MODE_WP`` set.  Trying to resolve a page fault
->  that was tracked by async mode userfaultfd-wp is invalid.
-> @@ -307,6 +307,220 @@ transparent to the guest, we want that same address range to act as if it was
->  still poisoned, even though it's on a new physical host which ostensibly
->  doesn't have a memory error in the exact same spot.
->  
-> +Read-Write Protection
-> +---------------------
-> +
-> +``UFFDIO_REGISTER_MODE_RWP`` enables read-write protection tracking on a
-> +memory range. It is similar to (but faster than) ``mprotect(PROT_NONE)``
-> +combined with a signal handler; unlike ``mprotect(PROT_NONE)``, RWP only
-> +traps accesses to *present* PTEs, so accesses to unpopulated addresses in a
-> +protected range fall through to the normal missing-page path. It uses the
-> +PROT_NONE hinting mechanism (same as NUMA balancing) to make pages
-> +inaccessible while keeping them resident in memory. Works on anonymous,
-> +shmem, and hugetlbfs memory.
-> +
-> +This is designed for VM memory managers that need to track the working set
-
-This feature? Or RWP mode?
-
-> +of guest memory for cold page eviction to tiered or remote storage.
-> +
-> +**Setup:**
-> +
-> +1. Open a userfaultfd and enable ``UFFD_FEATURE_RWP`` via ``UFFDIO_API``.
-> +   Optionally request ``UFFD_FEATURE_RWP_ASYNC`` as well — it requires
-> +   ``UFFD_FEATURE_RWP`` to be set in the same ``UFFDIO_API`` call.
-> +
-> +2. Register the guest memory range with ``UFFDIO_REGISTER_MODE_RWP``
-> +   (and ``UFFDIO_REGISTER_MODE_MISSING`` if evicted pages will need to be
-> +   fetched back from storage).
-> +
-> +**Feature availability:**
-> +
-> +RWP is built on top of two kernel primitives: a spare PTE bit owned by
-> +userfaultfd (``CONFIG_HAVE_ARCH_USERFAULTFD_WP``) and arch support for
-
-Please spell out architecture.
-
-> +present-but-inaccessible PTEs (``CONFIG_ARCH_HAS_PTE_PROTNONE``). When both
-> +are available on a 64-bit kernel, the build selects
-> +``CONFIG_USERFAULTFD_RWP=y`` and the ``VM_UFFD_RWP`` VMA flag becomes
-> +available.
-> +
-> +``UFFD_FEATURE_RWP`` and ``UFFD_FEATURE_RWP_ASYNC`` are masked out of the
-> +features returned by ``UFFDIO_API`` when the running kernel or architecture
-> +cannot support them — for example 32-bit kernels (where ``VM_UFFD_RWP`` is
-> +unavailable), kernels built without ``CONFIG_USERFAULTFD_RWP``, and
-> +architectures whose ptes cannot carry the uffd bit at runtime (e.g. riscv
-> +without the ``SVRSW60T59B`` extension). ``UFFDIO_API`` does not fail;
-> +unsupported bits are simply absent from ``uffdio_api.features`` on return.
-> +VMMs should inspect the returned ``features`` after ``UFFDIO_API`` and fall
-
-Lets s/VMM/Callers/.
-Although RWP is designed for VMMs, it's not limited to them and I expect
-other use-cases will be coming along.
-
-> +back to another tracking method when RWP is unavailable.
-> +
-> +**Protecting and Unprotecting:**
-> +
-> +Use ``UFFDIO_RWPROTECT`` to protect or unprotect a range, mirroring the
-> +``UFFDIO_WRITEPROTECT`` interface::
-> +
-> +    struct uffdio_rwprotect rwp = {
-> +        .range = { .start = addr, .len = len },
-> +        .mode = UFFDIO_RWPROTECT_MODE_RWP,  /* protect */
-> +    };
-> +    ioctl(uffd, UFFDIO_RWPROTECT, &rwp);
-> +
-> +Setting ``UFFDIO_RWPROTECT_MODE_RWP`` sets PROT_NONE on present PTEs in the
-> +range. Pages stay resident and their physical frames are preserved — only
-> +access permissions are removed.
-> +
-> +Clearing ``UFFDIO_RWPROTECT_MODE_RWP`` restores normal VMA permissions and
-> +wakes any faulting threads (unless ``UFFDIO_RWPROTECT_MODE_DONTWAKE`` is set).
-> +
-> +**Scope of protection:**
-> +
-> +RWP protection is a property of *present* PTEs. ``UFFDIO_RWPROTECT`` only
-> +affects entries that are already populated. Unpopulated addresses within
-> +the range remain unpopulated; when first accessed they fault through the
-> +normal missing path (``do_anonymous_page()``, ``do_swap_page()``,
-> +``finish_fault()``) and the resulting PTE is not RWP-protected. To observe
-> +the population itself, co-register the range with
-> +``UFFDIO_REGISTER_MODE_MISSING``.
-> +
-> +Protection is preserved across page reclaim: a page swapped out while
-> +RWP-protected carries the marker on its swap entry, and swap-in restores
-> +the PROT_NONE state so the first access after swap-in still faults. The
-> +same applies to pages temporarily replaced by migration entries.
-> +
-> +Operations that drop the PTE entirely — ``MADV_DONTNEED`` on anonymous
-> +memory, hole-punch on shmem, truncation of a file mapping — also drop the
-> +RWP marker: the next access re-populates the range without protection.
-> +Unlike WP (which persists via ``PTE_MARKER_UFFD_WP``), there is no
-> +persistent RWP marker today. The VMM needs to re-arm the range with
-
-s/VMM/User/
-
-> +``UFFDIO_RWPROTECT`` after any operation that explicitly frees PTEs.
-> +
-> +**Fault Handling:**
-> +
-> +When a protected page is accessed:
-> +
-> +- **Sync mode** (default): The faulting thread blocks and a
-> +  ``UFFD_PAGEFAULT_FLAG_RWP`` message is delivered to the userfaultfd
-> +  handler. The handler resolves the fault with ``UFFDIO_RWPROTECT``
-> +  (clearing ``MODE_RWP``), which restores the PTE permissions and wakes
-> +  the faulting thread.
-> +
-> +- **Async mode** (``UFFD_FEATURE_RWP_ASYNC``): The kernel automatically
-> +  restores PTE permissions and the thread continues without blocking. No
-> +  message is delivered to the handler.
-> +
-> +**Runtime Mode Switching:**
-> +
-> +``UFFDIO_SET_MODE`` toggles ``UFFD_FEATURE_RWP_ASYNC`` at runtime, allowing
-> +the VMM to switch between lightweight async detection and safe sync
-> +eviction without re-registering. The toggle takes ``mmap_write_lock()`` to
-> +ensure all in-flight faults complete before the mode change takes effect.
-> +
-> +**Cold Page Detection with PAGEMAP_SCAN:**
-> +
-> +RWP-protected PTEs carry the uffd PTE bit; the fault-resolution path
-> +clears it. ``PAGEMAP_SCAN`` reports ``PAGE_IS_ACCESSED`` once the bit is
-> +clear on a ``VM_UFFD_RWP`` VMA, so inverting it efficiently reports the
-> +still-protected (cold) pages::
-> +
-> +    struct pm_scan_arg arg = {
-> +        .size = sizeof(arg),
-> +        .start = guest_mem_start,
-> +        .end = guest_mem_end,
-> +        .vec = (uint64_t)regions,
-> +        .vec_len = regions_len,
-> +        .category_mask = PAGE_IS_ACCESSED,
-> +        .category_inverted = PAGE_IS_ACCESSED,
-> +        .return_mask = PAGE_IS_ACCESSED,
-> +    };
-> +    long n = ioctl(pagemap_fd, PAGEMAP_SCAN, &arg);
-> +
-> +The returned ``page_region`` array contains contiguous cold ranges that can
-> +then be evicted.
-> +
-> +**Cleanup:**
-> +
-> +When the userfaultfd is closed or the range is unregistered, all PROT_NONE
-> +PTEs are automatically restored to their normal VMA permissions. This
-> +prevents pages from becoming permanently inaccessible.
-> +
-> +**VMM Working Set Tracking Workflow:**
-> +
-> +A typical VMM lifecycle for cold page eviction to tiered storage. Two
-> +mappings of the same shmem (or hugetlbfs) file are used: ``guest_mem`` is
-> +the RWP-registered mapping that vCPUs access through, and ``io_mem`` is a
-> +private mapping for VMM-side I/O. Reading ``io_mem`` does not go through
-> +the RWP-protected PTEs of ``guest_mem``, so the VMM's own ``pwrite()``
-> +never traps on its own ::
-> +
-> +    /* One-time setup */
-> +    fd = memfd_create("guest", MFD_CLOEXEC);
-> +    ftruncate(fd, guest_size);
-> +    guest_mem = mmap(NULL, guest_size, PROT_READ | PROT_WRITE,
-> +                     MAP_SHARED, fd, 0);  /* vCPU view, RWP-registered */
-> +    io_mem    = mmap(NULL, guest_size, PROT_READ | PROT_WRITE,
-> +                     MAP_SHARED, fd, 0);  /* VMM I/O view, unprotected */
-> +
-> +    uffd = userfaultfd(O_CLOEXEC | O_NONBLOCK);
-> +    ioctl(uffd, UFFDIO_API, &(struct uffdio_api){
-> +        .api = UFFD_API,
-> +        .features = UFFD_FEATURE_RWP | UFFD_FEATURE_RWP_ASYNC,
-> +    });
-> +    ioctl(uffd, UFFDIO_REGISTER, &(struct uffdio_register){
-> +        .range = { guest_mem, guest_size },
-> +        .mode = UFFDIO_REGISTER_MODE_RWP |
-> +                UFFDIO_REGISTER_MODE_MISSING,
-> +    });
-> +
-> +    /* Tracking loop */
-> +    while (vm_running) {
-> +        /* 1. Detection phase (async — no vCPU stalls) */
-> +        ioctl(uffd, UFFDIO_RWPROTECT, &(struct uffdio_rwprotect){
-> +            .range = full_range,
-> +            .mode = UFFDIO_RWPROTECT_MODE_RWP });
-> +        sleep(tracking_interval);
-> +
-> +        /* 2. Find cold pages (uffd bit still set) */
-> +        ioctl(pagemap_fd, PAGEMAP_SCAN, &(struct pm_scan_arg){
-> +            .category_mask = PAGE_IS_ACCESSED,
-> +            .category_inverted = PAGE_IS_ACCESSED,
-> +            .return_mask = PAGE_IS_ACCESSED,
-> +            ...
-> +        });
-> +
-> +        /* 3. Switch to sync for safe eviction */
-> +        ioctl(uffd, UFFDIO_SET_MODE,
-> +              &(struct uffdio_set_mode){
-> +                  .disable = UFFD_FEATURE_RWP_ASYNC });
-> +
-> +        /* 4. Evict cold pages (vCPU faults block on guest_mem) */
-> +        for each cold range:
-> +            /* Read from io_mem -- bypasses RWP, no fault. */
-> +            pwrite(storage_fd, io_mem + cold_offset, len, offset);
-> +            /* Drop the page from the shared file. */
-> +            fallocate(fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
-> +                      cold_offset, len);
-> +            /*
-> +             * Wake any vCPU blocked on the RWP fault for this range:
-> +             * fallocate() does not iterate ctx->fault_pending_wqh.
-> +             */
-> +            ioctl(uffd, UFFDIO_WAKE, &(struct uffdio_range){
-> +                .start = (uintptr_t)guest_mem + cold_offset,
-> +                .len = len });
-> +
-> +        /* 5. Resume async tracking */
-> +        ioctl(uffd, UFFDIO_SET_MODE,
-> +              &(struct uffdio_set_mode){
-> +                  .enable = UFFD_FEATURE_RWP_ASYNC });
-> +    }
-> +
-> +During step 4, a vCPU that accesses ``guest_mem + cold_offset`` blocks
-> +with a ``UFFD_PAGEFAULT_FLAG_RWP`` fault while the eviction is in
-> +progress. After ``fallocate()`` punches the page out and ``UFFDIO_WAKE``
-> +fires, the vCPU retries the access, faults as ``MISSING``, and the
-> +handler resolves it with ``UFFDIO_COPY`` from storage.
-> +
-> +This workflow targets shmem and hugetlbfs (both support a private
-> +``io_mem`` mapping over the same fd). Anonymous-memory backings need a
-> +different inner-loop strategy because the VMM has no way to read the
-> +page without going through the RWP-protected mapping.
-> +
->  QEMU/KVM
->  ========
->  
-> -- 
-> 2.51.2
 > 
+>   Thanks for digging up the context — fair point, I'd missed Vladimir's
+>   earlier ask. Reading it again though, what he calls fragile is the
+>   silent miscount, not the keystroke of typing a number. A static_assert
+>   turns "forgot to bump" into a build error, which I think gets you
+>   there.
+> 
+
+Thank you for the suggestion. I think your previous suggestion fits 	
+better. I believe keeping the arrays in icssg_stats.h is preferable to
+moving them to icssg_stats.c. Here is my reasoning:
+
+
+Your binary-bloat concern was about icssg_prueth.h including
+icssg_stats.h, which would drag the static const tables into every .c
+that includes icssg_prueth.h (~11 translation units). That concern is
+valid, but it is specific to the include direction of the previous
+patch. If we simply revert to the original include graph —
+icssg_stats.h includes icssg_prueth.h, not the other way around —
+only the two files that have always included icssg_stats.h directly
+(icssg_stats.c and icssg_ethtool.c) get a copy of the arrays. No
+regression in binary size compared to the baseline.
+
+>   What about moving the two arrays into icssg_stats.c, declaring them
+>   extern in the header, and dropping a static_assert next to each
+>   definition? Numeric #defines stay where they are, icssg_prueth.h
+>   doesn't need to know about icssg_stats.h, and the tables live in one
+>   TU instead of every .o in the driver. If the count and the array
+>   disagree, you get a compile error on the spot.
+> 
+
+Moving the arrays to icssg_stats.c (approach #2) adds extern
+declarations, splits the definition from the static_assert, and is a
+larger restructuring for the same safety guarantee. Keeping the arrays
+in the header with a static_assert immediately after each one is a
+2-line diff and leaves the code easy to read in one place.
+
+Please let me know if this sounds okay to you. I will send out a v2 soon
+if this approach is fine with you.
+
+>   Probably worth keeping Vladimir on Cc for v2 in case he had something
+>   else in mind.
+> 
+
+I will CC Vladimir in v2.
 
 -- 
-Sincerely yours,
-Mike.
+Thanks and Regards,
+Danish
+
