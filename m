@@ -1,275 +1,316 @@
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84E6265606;
-	Wed, 13 May 2026 14:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5DD306746
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 14:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.172
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778681109; cv=pass; b=fFor5+I/e0IP53ZGAKw5PT2ZqlWlL/fPA/3zYbEWVRmnZoF/sLZbuuSrbzjH9eSxy4WFmP6uFykM2JijAAvE4Wlg8+8gogFB0hkr5i+kG1Z8VNIpowL2VYjb1kEVeiXkKi2qortZvA54CJKXyAd0YiXWmrg5oSN5to8tifY0rQM=
+	t=1778681255; cv=pass; b=btDw7x4qNGYTHLAmvnl6yv1/umfnJmId2XMUfRh3du1PNpE798zTEkp9ayAyUZwSGbJ0SZrr5ippCjhaKnPjtMHv8GDXu9vMdVONE8U2vzY3CTs4vL2aLIKNSPRB7ewWYXrNkG03c9xorhbwpgGFHVRiChncfcCEGa7w3Gh+sWc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778681109; c=relaxed/simple;
-	bh=p8n5UJrp835Gg9QvlWjnZWVKufEUJgp0tcNk8oMctUQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XeX6L2R6yzfLKjjsKWdmVaq1oQPeonIfnbhNdEtQvf9i7dB1xNeIA2oHBxZLA6kBpzvOw3Jh9XEX9DjV0iKtnryoJ/iav3johMM8hojUdKHqYFagWvjY60w0i2cpSJHqcTDY3rcfTLqOB10ZZoXUzmCDLy1So5P5/i68bqJH25Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=iFwTgJpC; arc=pass smtp.client-ip=222.228.43.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	s=arc-20240116; t=1778681255; c=relaxed/simple;
+	bh=KiH2cSs7szjoDYOPZZilL+L5FtBiKHccI1nnv3wLlLc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n4IsEYnkBIM17434OUi/zuhW6dkh/eyv3zfNmzDccKh1eRmF3zj9/mXOFg2DI+3JynQMPQlRO8MHNu8DPHI6CFUZdnCn1e/itLXpDMaGSk7Fxk6A5BFod7vxW5Sk81r59sYCMbo57fs8UXiN1GSyajHbLGQ0p2V07iD8aS5ni8U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n/MY+Hot; arc=pass smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="iFwTgJpC"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 46BF2109D57F6;
-	Wed, 13 May 2026 22:11:21 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id VgO_fjtAqS1H; Wed, 13 May 2026 22:11:13 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
-	t=1778677873;
-	b=Z9O/5BaKMjIowL5rc4/byvK4Dc/hFDsDFGiRFnASkf17K2SCYz/eXekusaxoPO7ctrTa
-	 9QSyGXVFo0ZruUUY0rl8Ne8PRMhixHYqGlR9urxTpJZbW0xvoiqhGYXEQ9p9Oqfjs9bdn
-	 Ex1Mxzq657YSH67qHSXqb6cSbNHnLOWdJs=
-ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
-	c=relaxed/relaxed; t=1778677873;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ICx9aXyzEN50HidMh//KSRxlNl87rw4HbADx5D6rT0g=;
-	b=Xd998CfIZwrsBjvWwhbkaYwcgHNjPQnFNYVqwHxV6i9LlS4n4de1G/mPK1w41laQotYb
-	 smxy+G5Go5GTO2vAC0KlBcpXBOM0JjGKSrhajSzcfuE3U3GCE+avtxw2XNBcE+57JkcCH
-	 AhUM6qB3V7sgUUkmln/MRHqNSZM40OoOXw=
-ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 36917109F2894; Wed, 13 May 2026 22:11:13 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 36917109F2894
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1778677873;
-	bh=ICx9aXyzEN50HidMh//KSRxlNl87rw4HbADx5D6rT0g=;
-	h=From:To:Cc:Subject:Date:From;
-	b=iFwTgJpCyqVnu6JEYBmTRJQbvfnE5R7FjLNH60WgB/O4ztI+s7mcyk6hP+Dzw64cX
-	 NaXv18Oan5DKZISI5p0RYNG++Nhn9Niz4sl9bBCWRmirSuFUGnIdqOfZ4tob5tBYDL
-	 mY1ERIvmpWVfCFLzpKY7AuUaf5etUgp7iMYSFGKw=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	akiyks@gmail.com,
-	Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH v2] docs/ja_JP: translate more of submitting-patches.rst (no-mime)
-Date: Wed, 13 May 2026 22:11:11 +0900
-Message-ID: <20260513131111.432772-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n/MY+Hot"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4824b15c19eso3441557b6e.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 07:07:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778681253; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ET6NNwZGW0F59enjE0Ms1RrGhRzX8JicK3vlU3kAkbq+Pcao3/ISkL+dArdsRtZ2Ot
+         aC6ujbvyl22OyeYc0Csmv9kzh7fw8Ea3pXDZSEUKqie3e6Om9/pt7kpnvwfFX7dy6JLe
+         prGVHNnKgMdGTYSCW8Qsm8mJUlcJGQP7p6Wlae59USzqgDIVyobKPcW9htAoPWSaMjct
+         5GZ97E0Oqv47cI15wy4yXdKQEztyTEyPQ7mVlXXZvzArq8+cH7sog5aiOJ5l3EjNC3N1
+         5hhHj4vzUlaMVAzeQmQV3ulPwK7PbCU+g/ddy4pf/5p+mjk7zdtdG5pWd/mPPBPwftyS
+         HxEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=IZUQuQQdqf/p8+tvLlpf7lmWMBB33o/duQyQpfVvrpo=;
+        fh=aLRC+hP1CttZVp2X9plF/LEe9zFOhFRfQrcls6cTG2M=;
+        b=D1u4HmM6B9/owpx8di+1SvOHInzpwomE51ZNEZfZBsGYs10hnZMeBvr8P5orCg0A7o
+         ba2GPmlB6EHupjR0b1whSpnyCjVC14sAjbxuZZK38FnYat8poycJc64K4SoAK7FZh06n
+         1wb8KgDIl2t0TFglkELd3AlXhFZMm2z2CACvn96WecRoKb7TQRNe7Ad/14iLGN1nT2Xk
+         iCCRXfH64ANKcFv0Z/JeNm1XmXloMmH1Du+HDH/wJz6bxhSjnJKGBPVhtqTV0iwqHVS/
+         64AaN+bppNkIcwdl4cicsk2ykMKbAEcrmSmM/QjTbZQCX4XrL1xPXlPyTZPuWR8oSxKt
+         cpIA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778681253; x=1779286053; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IZUQuQQdqf/p8+tvLlpf7lmWMBB33o/duQyQpfVvrpo=;
+        b=n/MY+Hot6QcQahm6sTGwqfW+DQUvljYiFEt/uPYn16hXh+BlPa9Z4AEYqYINeMbytU
+         eGcuZE+6p6jxgNcQceWzojHqNBpBBnSzIc5Jxcke5DGAhAHmrhOoelHLZmr+vlUS337l
+         TVkJuUnuK0/j9xa0jjepsvEDxgwF4MdDdnpgFjNCDCrRzfxqPHd7mg4wZR+ghv8MJYc1
+         ke0Rtn6+rtAAVZWPqvVeI9cDABuKWiXo05ifUP/+YvVuayEJ2yfYiCPo6fDS8G/i1nW6
+         9FzsSKAnNxbUN4FrxS3qgzGuMNQ6Eska/JiHQecftDRXbxefNwahTitdBD5lUIozq+Bx
+         OnKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778681253; x=1779286053;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IZUQuQQdqf/p8+tvLlpf7lmWMBB33o/duQyQpfVvrpo=;
+        b=KigDEmgEZalBKZR34LacJ8ndwSybKsvbmURKE630wvB+bQKLjY5lFDAT09YEdNns9V
+         m9wCxfJytBImFTykRM/IHoK/sVAstxTO65PYjfbAec6vDlRX3l1EdbQhmoqdUbiP/bPR
+         9UUJZeAJ/oqX7+OwLFXAbLu6dsmy8XAskISJVkf85jKixukfQiEqaMh4toKAdnWqxooX
+         tPo4/bxRcwk24B5CCyhcZL19Wgfi/6+JD/Wa8W30HAIjoqcUvuFtn1teP9HXG7pM9UOg
+         3zu1m0AnI0x8hFAVff+EZcYQk2OUqUyIbRYrZmZiSqwASDzmDN+1ZhKwn6reVeLFI6mg
+         u5qA==
+X-Forwarded-Encrypted: i=1; AFNElJ+1VjTO/bDgGD5CWfsgVug2Wqw8tXAkK+af3e3FSYXn78JK891f/YasCD2rve6RCzW3+d00NcZ1nFQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzL42WE8pQafYxodjUBZuvhM/NajpIz/NNswfTRXl221VpS/m1w
+	lSN5ABr8iK4nkIU3+C/oPCU5/SYtIhTTbYNPso52bRiAujM9GjbE2ggvRtnZMMA2jtEsHme8Yhw
+	yw/MGC2MKNibzUkSftTYDZ/Q8Qk06us0=
+X-Gm-Gg: Acq92OGfd2DHKIgSozzgkh00Zncck0ApS1Ic6oITKqnuH0ll93jzBJO80045NZaVpxo
+	2RRmMjSjbB1rSAHjfJ7poCtt/Ymq0HWd4D+74EMDmNesK6+dno/h7Cm722r6CKDW3thYcTEf+3T
+	yDzU/SHaIMQdPI3d/INGBmQ3/TRgjuViDjKlVdX4by0W1M30L8IpbESIe3dmBnm223XfmJjYdqY
+	S2iRXE9AM7HJ6uUCPZ+No9cZWnx7lFWSlKECW+8LjXdIVjxNIlUuNRlSUcxblMdL+Dqb2YpfAaE
+	BdbooLaL77XT5RUThSiNZ/NgbFCTbWuE9yJQMA==
+X-Received: by 2002:a05:6808:6f95:b0:482:52f6:b688 with SMTP id
+ 5614622812f47-482b2dc22aemr2347906b6e.45.1778681252569; Wed, 13 May 2026
+ 07:07:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20260512060627.3781329-1-danishanwar@ti.com> <20260512060627.3781329-2-danishanwar@ti.com>
+ <CA+XhMqykBWcMdk+iNnOtUxM4MX6jpDyUwfuAVZFbjAShO9_v7Q@mail.gmail.com>
+ <6a1f411c-d7ed-463b-abf1-277d8cc0c184@ti.com> <CA+XhMqzx9CUX5H7q1UqL=heGWLFjZVfyiTx6b45VW=E9t13Fow@mail.gmail.com>
+ <54fae7f6-fcb9-4520-a79a-569426ab96f1@ti.com>
+In-Reply-To: <54fae7f6-fcb9-4520-a79a-569426ab96f1@ti.com>
+From: David CARLIER <devnexen@gmail.com>
+Date: Wed, 13 May 2026 15:07:21 +0100
+X-Gm-Features: AVHnY4Imr3ifI6YaYwnvbYhsd7iy4zZNn_0tDZdtLYE2rwmadFPIDaEPiFNCvU0
+Message-ID: <CA+XhMqxoFZskFmjtxWXkdUbzBR2LzexaLohRKkCKxFJrmJetfg@mail.gmail.com>
+Subject: Re: [PATCH net-next 1/2] net: ti: icssg: Derive stats array lengths
+ from ARRAY_SIZE
+To: MD Danish Anwar <danishanwar@ti.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Roger Quadros <rogerq@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jacob Keller <jacob.e.keller@intel.com>, Meghana Malladi <m-malladi@ti.com>, 
+	Kevin Hao <haokexin@gmail.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, Vignesh Raghavendra <vigneshr@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Translate the "No MIME, no links, no compression, no attachments.
-Just plain text" and "Respond to review comments" sections in
-Documentation/translations/ja_JP/process/submitting-patches.rst.
+On Wed, 13 May 2026 at 07:29, MD Danish Anwar <danishanwar@ti.com> wrote:
+>
+> Hi David
+>
+> On 12/05/26 3:33 pm, David CARLIER wrote:
+> > Hi Danish,
+> >
+> >
+> > On Tue, 12 May 2026 at 10:40, MD Danish Anwar <danishanwar@ti.com> wrot=
+e:
+> >>
+> >> Hi David,
+> >>
+> >> On 12/05/26 1:28 pm, David CARLIER wrote:
+> >>> Hi MD,
+> >>>
+> >>> On Tue, 12 May 2026 at 07:06, MD Danish Anwar <danishanwar@ti.com> wr=
+ote:
+> >>>>
+> >>>> Replace the manually maintained ICSSG_NUM_MIIG_STATS and
+> >>>> ICSSG_NUM_PA_STATS constants with ARRAY_SIZE() expressions derived
+> >>>> directly from the corresponding stat descriptor arrays, so that addi=
+ng
+> >>>> new entries to icssg_all_miig_stats[] or icssg_all_pa_stats[] no lon=
+ger
+> >>>> requires a separate update to a numeric constant.
+> >>>>
+> >>>> To make this self-contained, break the circular include dependency
+> >>>> between icssg_stats.h and icssg_prueth.h:
+> >>>>
+> >>>>   - icssg_stats.h previously included icssg_prueth.h (transitively
+> >>>>     pulling in icssg_switch_map.h and ETH_GSTRING_LEN).  Replace tha=
+t
+> >>>>     with direct includes of <linux/ethtool.h>, <linux/kernel.h> and
+> >>>>     "icssg_switch_map.h".
+> >>>>
+> >>>>   - icssg_prueth.h now includes icssg_stats.h, giving it access to
+> >>>>     the ARRAY_SIZE-based ICSSG_NUM_MIIG_STATS and ICSSG_NUM_PA_STATS
+> >>>>     before they are used in the prueth_emac struct and ICSSG_NUM_STA=
+TS.
+> >>>>
+> >>>> Signed-off-by: MD Danish Anwar <danishanwar@ti.com>
+> >>>> ---
+> >>>>  drivers/net/ethernet/ti/icssg/icssg_prueth.h | 3 +--
+> >>>>  drivers/net/ethernet/ti/icssg/icssg_stats.h  | 7 ++++++-
+> >>>>  2 files changed, 7 insertions(+), 3 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.h b/drivers/=
+net/ethernet/ti/icssg/icssg_prueth.h
+> >>>> index df93d15c5b78..e2ccecb0a0dd 100644
+> >>>> --- a/drivers/net/ethernet/ti/icssg/icssg_prueth.h
+> >>>> +++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
+> >>>> @@ -43,6 +43,7 @@
+> >>>>
+> >>>>  #include "icssg_config.h"
+> >>>>  #include "icss_iep.h"
+> >>>> +#include "icssg_stats.h"
+> >>>>  #include "icssg_switch_map.h"
+> >>>>
+> >>>>  #define PRUETH_MAX_MTU          (2000 - ETH_HLEN - ETH_FCS_LEN)
+> >>>> @@ -57,8 +58,6 @@
+> >>>>
+> >>>>  #define ICSSG_MAX_RFLOWS       8       /* per slice */
+> >>>>
+> >>>> -#define ICSSG_NUM_PA_STATS     32
+> >>>> -#define ICSSG_NUM_MIIG_STATS   60
+> >>>>  /* Number of ICSSG related stats */
+> >>>>  #define ICSSG_NUM_STATS (ICSSG_NUM_MIIG_STATS + ICSSG_NUM_PA_STATS)
+> >>>>  #define ICSSG_NUM_STANDARD_STATS 31
+> >>>> diff --git a/drivers/net/ethernet/ti/icssg/icssg_stats.h b/drivers/n=
+et/ethernet/ti/icssg/icssg_stats.h
+> >>>> index 5ec0b38e0c67..b854eb587c1e 100644
+> >>>> --- a/drivers/net/ethernet/ti/icssg/icssg_stats.h
+> >>>> +++ b/drivers/net/ethernet/ti/icssg/icssg_stats.h
+> >>>> @@ -8,10 +8,15 @@
+> >>>>  #ifndef __NET_TI_ICSSG_STATS_H
+> >>>>  #define __NET_TI_ICSSG_STATS_H
+> >>>>
+> >>>> -#include "icssg_prueth.h"
+> >>>> +#include <linux/ethtool.h>
+> >>>> +#include <linux/kernel.h>
+> >>>> +#include "icssg_switch_map.h"
+> >>>>
+> >>>>  #define STATS_TIME_LIMIT_1G_MS    25000    /* 25 seconds @ 1G */
+> >>>>
+> >>>> +#define ICSSG_NUM_MIIG_STATS   ARRAY_SIZE(icssg_all_miig_stats)
+> >>>> +#define ICSSG_NUM_PA_STATS     ARRAY_SIZE(icssg_all_pa_stats)
+> >>>> +
+> >>>>  struct miig_stats_regs {
+> >>>>         /* Rx */
+> >>>>         u32 rx_packets;
+> >>>> --
+> >>>> 2.34.1
+> >>>>
+> >>>
+> >>> One thing that caught my eye: icssg_all_miig_stats[] and
+> >>>   icssg_all_pa_stats[] are 'static const' arrays in icssg_stats.h wit=
+h
+> >>>   ETH_GSTRING_LEN name buffers per entry. Right now only icssg_stats.=
+c
+> >>>   and icssg_ethtool.c pull them in. After this patch icssg_prueth.h
+> >>>   includes icssg_stats.h, so every .c in the driver (classifier,
+> >>>   common, config, mii_cfg, queues, switchdev, ...) ends up with its o=
+wn
+> >>>   static-const copy of both tables.
+> >>>
+> >>>   Would a static_assert() work for what you're after? Something like:
+> >>>
+> >>
+> >> While adding more stats manually, The ARRAY_SIZE() approach was
+> >> explicitly requested by maintainer [1]:
+> >>
+> >> This patch is a direct response to that feedback. static_assert() woul=
+d
+> >> still require updating the numeric constant on every array change. The
+> >> goal here is to eliminate the need of manually incrementing stats coun=
+t
+> >> whenever new stats are added
+> >>
+> >> Your concern about multiple copies of table is noted and valid. Could
+> >> you advise on the preferred way to reconcile these two requirements? I
+> >> am happy to restructure if there is an approach that satisfies both.
+> >>
+> >> [1]
+> >> https://lore.kernel.org/all/20260112181436.4s5ceywwembn674r@skbuf/#:~:=
+text=3DCan%27t%20this%20be%20expressed%20as%20ARRAY_SIZE(icssg_all_pa_stats=
+)%3F%20It%20is%20very%0Afragile%20to%20have%20to%20count%20and%20update%20t=
+his%20manually.
+> >>
+> >>
+> >>>     static const struct icssg_miig_stats icssg_all_miig_stats[] =3D {
+> >>>         ...
+> >>>     };
+> >>>     static_assert(ARRAY_SIZE(icssg_all_miig_stats) =3D=3D ICSSG_NUM_M=
+IIG_STATS);
+> >>>
+> >>>   next to each array, keeping the numeric #defines as-is. Then 2/2 fa=
+ils
+> >>>   to build the moment a new entry is added without bumping the count,
+> >>>   which is the case you're guarding against =E2=80=94 without touchin=
+g the
+> >>>   include graph.
+> >>>
+> >>> What do you think ?
+> >>>
+> >>> Cheers.
+> >>
+> >> --
+> >> Thanks and Regards,
+> >> Danish
+> >>
+> >
+> >
+> >   Thanks for digging up the context =E2=80=94 fair point, I'd missed Vl=
+adimir's
+> >   earlier ask. Reading it again though, what he calls fragile is the
+> >   silent miscount, not the keystroke of typing a number. A static_asser=
+t
+> >   turns "forgot to bump" into a build error, which I think gets you
+> >   there.
+> >
+>
+> Thank you for the suggestion. I think your previous suggestion fits
+> better. I believe keeping the arrays in icssg_stats.h is preferable to
+> moving them to icssg_stats.c. Here is my reasoning:
+>
+>
+> Your binary-bloat concern was about icssg_prueth.h including
+> icssg_stats.h, which would drag the static const tables into every .c
+> that includes icssg_prueth.h (~11 translation units). That concern is
+> valid, but it is specific to the include direction of the previous
+> patch. If we simply revert to the original include graph =E2=80=94
+> icssg_stats.h includes icssg_prueth.h, not the other way around =E2=80=94
+> only the two files that have always included icssg_stats.h directly
+> (icssg_stats.c and icssg_ethtool.c) get a copy of the arrays. No
+> regression in binary size compared to the baseline.
+>
+> >   What about moving the two arrays into icssg_stats.c, declaring them
+> >   extern in the header, and dropping a static_assert next to each
+> >   definition? Numeric #defines stay where they are, icssg_prueth.h
+> >   doesn't need to know about icssg_stats.h, and the tables live in one
+> >   TU instead of every .o in the driver. If the count and the array
+> >   disagree, you get a compile error on the spot.
+> >
+>
+> Moving the arrays to icssg_stats.c (approach #2) adds extern
+> declarations, splits the definition from the static_assert, and is a
+> larger restructuring for the same safety guarantee. Keeping the arrays
+> in the header with a static_assert immediately after each one is a
+> 2-line diff and leaves the code easy to read in one place.
+>
+> Please let me know if this sounds okay to you. I will send out a v2 soon
+> if this approach is fine with you.
 
-Keep the wording close to the English text and wrap lines to match
-the style used in the surrounding Japanese translation.
+Sounds fine by me, note that I am not a maintainer ;  I was just "chiming i=
+n" ;)
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
-v2:
-- Make the subject unique.
-- Reword the no-MIME section title.
-- Refer to the untranslated "The canonical patch format" section by name wi=
-th a TODO.
+Cheers !
 
- .../ja_JP/process/submitting-patches.rst      | 63 +++++++++++++++++++
- 1 file changed, 63 insertions(+)
-
-diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
-t b/Documentation/translations/ja_JP/process/submitting-patches.rst
-index 928e38a8d34d..165cb3ed94ec 100644
---- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-+++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-@@ -292,3 +292,66 @@ MAINTAINERS =E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=
-=AB=E8=A8=98=E8=BC=89=E3=81=95=E3=82=8C=E3=81=A6=E3=81=84=E3=82=8B MAN-PAGE=
-S =E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=AB
- man-pages =E3=83=91=E3=83=83=E3=83=81=E3=80=81=E5=B0=91=E3=81=AA=E3=81=8F=
-=E3=81=A8=E3=82=82=E5=A4=89=E6=9B=B4=E3=81=AE=E9=80=9A=E7=9F=A5=E3=82=92=E9=
-=80=81=E3=81=A3=E3=81=A6=E3=80=81=E6=83=85=E5=A0=B1=E3=81=8C
- =E3=83=9E=E3=83=8B=E3=83=A5=E3=82=A2=E3=83=AB=E3=83=9A=E3=83=BC=E3=82=B8=
-=E3=81=AB=E5=8F=8D=E6=98=A0=E3=81=95=E3=82=8C=E3=82=8B=E3=82=88=E3=81=86=E3=
-=81=AB=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=83=
-=A6=E3=83=BC=E3=82=B6=E3=83=BC=E7=A9=BA=E9=96=93 API =E3=81=AE
- =E5=A4=89=E6=9B=B4=E3=81=AF=E3=80=81linux-api@vger.kernel.org =E3=81=AB=E3=
-=82=82 Cc =E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+MIME=E3=83=BB=E3=83=AA=E3=83=B3=E3=82=AF=E3=83=BB=E5=9C=A7=E7=B8=AE=E3=83=
-=BB=E6=B7=BB=E4=BB=98=E3=81=AA=E3=81=97=E3=80=81=E3=83=97=E3=83=AC=E3=83=BC=
-=E3=83=B3=E3=83=86=E3=82=AD=E3=82=B9=E3=83=88=E3=81=AE=E3=81=BF
-+----------------------------------------------------
-+
-+Linus =E3=82=84=E4=BB=96=E3=81=AE=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E9=
-=96=8B=E7=99=BA=E8=80=85=E3=81=AF=E3=80=81=E3=81=82=E3=81=AA=E3=81=9F=E3=81=
-=8C=E6=8A=95=E7=A8=BF=E3=81=99=E3=82=8B=E5=A4=89=E6=9B=B4=E3=82=92=E8=AA=AD=
-=E3=81=BF=E3=80=81
-+=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E3=81=A7=E3=81=8D=E3=82=8B=E5=BF=85=
-=E8=A6=81=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E3=82=AB=E3=
-=83=BC=E3=83=8D=E3=83=AB=E9=96=8B=E7=99=BA=E8=80=85=E3=81=8C=E6=A8=99=E6=BA=
-=96=E7=9A=84=E3=81=AA
-+=E3=83=A1=E3=83=BC=E3=83=AB=E3=83=84=E3=83=BC=E3=83=AB=E3=82=92=E4=BD=BF=
-=E3=81=A3=E3=81=A6=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E5=A4=89=E6=9B=B4=E3=
-=82=92=E3=80=8C=E5=BC=95=E7=94=A8=E3=80=8D=E3=81=97=E3=80=81=E3=82=B3=E3=83=
-=BC=E3=83=89=E3=81=AE=E7=89=B9=E5=AE=9A=E3=81=AE
-+=E7=AE=87=E6=89=80=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=82=B3=E3=83=A1=
-=E3=83=B3=E3=83=88=E3=81=A7=E3=81=8D=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E9=
-=87=8D=E8=A6=81=E3=81=A7=E3=81=99=E3=80=82
-+
-+=E3=81=93=E3=81=AE=E3=81=9F=E3=82=81=E3=80=81=E3=81=99=E3=81=B9=E3=81=A6=
-=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AF=E3=83=A1=E3=83=BC=E3=83=AB=E6=
-=9C=AC=E6=96=87=E4=B8=AD=E3=81=AB ``inline`` =E3=81=A7=E6=8A=95=E7=A8=BF=E3=
-=81=99=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=99=E3=80=82
-+=E3=81=93=E3=82=8C=E3=82=92=E8=A1=8C=E3=81=86=E6=9C=80=E3=82=82=E7=B0=A1=
-=E5=8D=98=E3=81=AA=E6=96=B9=E6=B3=95=E3=81=AF ``git send-email`` =E3=82=92=
-=E4=BD=BF=E3=81=86=E3=81=93=E3=81=A8=E3=81=A7=E3=81=82=E3=82=8A=E3=80=81
-+=E5=BC=B7=E3=81=8F=E6=8E=A8=E5=A5=A8=E3=81=95=E3=82=8C=E3=81=BE=E3=81=99=
-=E3=80=82``git send-email`` =E3=81=AE=E5=AF=BE=E8=A9=B1=E5=9E=8B=E3=83=81=
-=E3=83=A5=E3=83=BC=E3=83=88=E3=83=AA=E3=82=A2=E3=83=AB=E3=81=AF
-+https://git-send-email.io =E3=81=A7=E5=88=A9=E7=94=A8=E3=81=A7=E3=81=8D=E3=
-=81=BE=E3=81=99=E3=80=82
-+
-+``git send-email`` =E3=82=92=E4=BD=BF=E3=82=8F=E3=81=AA=E3=81=84=E3=81=93=
-=E3=81=A8=E3=82=92=E9=81=B8=E3=81=B6=E5=A0=B4=E5=90=88:
-+
-+.. warning::
-+
-+  =E3=83=91=E3=83=83=E3=83=81=E3=82=92=E3=82=B3=E3=83=94=E3=83=BC=EF=BC=86=
-=E3=83=9A=E3=83=BC=E3=82=B9=E3=83=88=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88=E3=
-=81=AF=E3=80=81=E3=82=A8=E3=83=87=E3=82=A3=E3=82=BF=E3=81=AE word-wrap =E3=
-=81=AB=E3=82=88=E3=81=A3=E3=81=A6
-+  =E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E5=A3=8A=E3=82=8C=E3=81=AA=E3=81=84=
-=E3=82=88=E3=81=86=E6=B3=A8=E6=84=8F=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=
-=81=95=E3=81=84=E3=80=82
-+
-+=E5=9C=A7=E7=B8=AE=E3=81=AE=E6=9C=89=E7=84=A1=E3=81=AB=E3=81=8B=E3=81=8B=
-=E3=82=8F=E3=82=89=E3=81=9A=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=82=92 MI=
-ME =E6=B7=BB=E4=BB=98=E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=A8=E3=81=97=
-=E3=81=A6=E6=B7=BB=E4=BB=98=E3=81=97=E3=81=A6=E3=81=AF
-+=E3=81=84=E3=81=91=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82=E5=A4=9A=E3=81=8F=
-=E3=81=AE=E4=B8=80=E8=88=AC=E7=9A=84=E3=81=AA=E3=83=A1=E3=83=BC=E3=83=AB=E3=
-=82=A2=E3=83=97=E3=83=AA=E3=82=B1=E3=83=BC=E3=82=B7=E3=83=A7=E3=83=B3=E3=81=
-=AF=E3=80=81MIME =E6=B7=BB=E4=BB=98
-+=E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=82=92=E5=B8=B8=E3=81=AB=E3=83=97=
-=E3=83=AC=E3=83=BC=E3=83=B3=E3=83=86=E3=82=AD=E3=82=B9=E3=83=88=E3=81=A8=E3=
-=81=97=E3=81=A6=E9=80=81=E4=BF=A1=E3=81=99=E3=82=8B=E3=81=A8=E3=81=AF=E9=99=
-=90=E3=82=89=E3=81=9A=E3=80=81=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE
-+=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AB=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=
-=E3=81=A7=E3=81=8D=E3=81=AA=E3=81=8F=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=99=E3=
-=80=82MIME =E6=B7=BB=E4=BB=98=E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=AF =
-Linus =E3=81=8C
-+=E5=87=A6=E7=90=86=E3=81=99=E3=82=8B=E3=81=AE=E3=81=AB=E3=82=82=E5=B0=91=
-=E3=81=97=E4=BD=99=E5=88=86=E3=81=AA=E6=99=82=E9=96=93=E3=81=8C=E3=81=8B=E3=
-=81=8B=E3=82=8B=E3=81=9F=E3=82=81=E3=80=81MIME =E6=B7=BB=E4=BB=98=E3=81=95=
-=E3=82=8C=E3=81=9F=E5=A4=89=E6=9B=B4=E3=81=8C
-+=E5=8F=97=E3=81=91=E5=85=A5=E3=82=8C=E3=82=89=E3=82=8C=E3=82=8B=E5=8F=AF=
-=E8=83=BD=E6=80=A7=E3=82=92=E4=B8=8B=E3=81=92=E3=81=BE=E3=81=99=E3=80=82
-+
-+=E4=BE=8B=E5=A4=96:  =E3=83=A1=E3=83=BC=E3=83=A9=E3=81=8C=E3=83=91=E3=83=
-=83=E3=83=81=E3=82=92=E5=A3=8A=E3=81=97=E3=81=A6=E3=81=97=E3=81=BE=E3=81=86=
-=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=E8=AA=B0=E3=81=8B=E3=81=8B=E3=82=89 MI=
-ME =E3=82=92=E4=BD=BF=E3=81=A3=E3=81=A6
-+=E5=86=8D=E9=80=81=E3=81=99=E3=82=8B=E3=82=88=E3=81=86=E6=B1=82=E3=82=81=
-=E3=82=89=E3=82=8C=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E3=81=82=E3=82=8A=E3=
-=81=BE=E3=81=99=E3=80=82
-+
-+=E3=83=91=E3=83=83=E3=83=81=E3=82=92=E5=A4=89=E6=9B=B4=E3=81=9B=E3=81=9A=
-=E3=81=AB=E9=80=81=E4=BF=A1=E3=81=99=E3=82=8B=E3=82=88=E3=81=86=E3=83=A1=E3=
-=83=BC=E3=83=AB=E3=82=AF=E3=83=A9=E3=82=A4=E3=82=A2=E3=83=B3=E3=83=88=E3=82=
-=92=E8=A8=AD=E5=AE=9A=E3=81=99=E3=82=8B=E3=81=9F=E3=82=81=E3=81=AE
-+=E3=83=92=E3=83=B3=E3=83=88=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=AF=
-=E3=80=81Documentation/process/email-clients.rst =E3=82=92=E5=8F=82=E7=85=
-=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+
-+=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=
-=E3=81=AB=E8=BF=94=E7=AD=94=E3=81=99=E3=82=8B
-+--------------------------
-+
-+=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=
-=E3=81=AF=E3=80=81=E3=81=BB=E3=81=BC=E7=A2=BA=E5=AE=9F=E3=81=AB=E3=80=81=E3=
-=83=91=E3=83=83=E3=83=81=E3=82=92=E6=94=B9=E5=96=84=E3=81=99=E3=82=8B=E6=96=
-=B9=E6=B3=95=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6
-+=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=8B=E3=82=89=E3=82=B3=
-=E3=83=A1=E3=83=B3=E3=83=88=E3=81=8C=E4=BB=98=E3=81=8D=E3=81=BE=E3=81=99=E3=
-=80=82=E3=81=9D=E3=82=8C=E3=81=AF=E3=80=81=E3=81=82=E3=81=AA=E3=81=9F=E3=81=
-=AE=E3=83=A1=E3=83=BC=E3=83=AB=E3=81=B8=E3=81=AE=E8=BF=94=E4=BF=A1=E3=81=A8=
-=E3=81=84=E3=81=86
-+=E5=BD=A2=E3=81=A7=E5=B1=8A=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82=E3=81=9D=
-=E3=82=8C=E3=82=89=E3=81=AE=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E3=81=AB=E3=
-=81=AF=E5=BF=85=E3=81=9A=E8=BF=94=E7=AD=94=E3=81=97=E3=81=A6=E3=81=8F=E3=81=
-=A0=E3=81=95=E3=81=84=E3=80=82=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=A2=
-=E3=82=92
-+=E7=84=A1=E8=A6=96=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=81=AF=E3=80=81=
-=E3=81=93=E3=81=A1=E3=82=89=E3=82=82=E7=84=A1=E8=A6=96=E3=81=95=E3=82=8C=E3=
-=82=8B=E3=81=9F=E3=82=81=E3=81=AE=E3=82=88=E3=81=84=E6=96=B9=E6=B3=95=E3=81=
-=A7=E3=81=99=E3=80=82=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E3=81=AB
-+=E7=AD=94=E3=81=88=E3=82=8B=E3=81=AB=E3=81=AF=E3=80=81=E5=8D=98=E3=81=AB=
-=E3=81=9D=E3=81=AE=E3=83=A1=E3=83=BC=E3=83=AB=E3=81=B8=E8=BF=94=E4=BF=A1=E3=
-=81=99=E3=82=8C=E3=81=B0=E6=A7=8B=E3=81=84=E3=81=BE=E3=81=9B=E3=82=93=E3=80=
-=82=E3=82=B3=E3=83=BC=E3=83=89=E5=A4=89=E6=9B=B4=E3=81=AB
-+=E3=81=A4=E3=81=AA=E3=81=8C=E3=82=89=E3=81=AA=E3=81=84=E3=83=AC=E3=83=93=
-=E3=83=A5=E3=83=BC=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E3=82=84=E8=B3=AA=E5=
-=95=8F=E3=81=A7=E3=81=82=E3=81=A3=E3=81=A6=E3=82=82=E3=80=81=E6=AC=A1=E3=81=
-=AE=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=8C=E7=8A=B6=E6=B3=81=
-=E3=82=92
-+=E3=82=88=E3=82=8A=E3=82=88=E3=81=8F=E7=90=86=E8=A7=A3=E3=81=A7=E3=81=8D=
-=E3=82=8B=E3=82=88=E3=81=86=E3=81=AB=E3=80=81=E3=81=BB=E3=81=BC=E7=A2=BA=E5=
-=AE=9F=E3=81=AB=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E3=81=BE=E3=81=9F=E3=81=
-=AF changelog =E3=82=A8=E3=83=B3=E3=83=88=E3=83=AA=E3=81=AB
-+=E5=8F=8D=E6=98=A0=E3=81=99=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=99=E3=80=82
-+
-+=E3=81=A9=E3=81=AE=E3=82=88=E3=81=86=E3=81=AA=E5=A4=89=E6=9B=B4=E3=82=92=
-=E8=A1=8C=E3=81=86=E3=81=AE=E3=81=8B=E3=82=92=E3=83=AC=E3=83=93=E3=83=A5=E3=
-=83=BC=E3=82=A2=E3=81=AB=E5=BF=85=E3=81=9A=E4=BC=9D=E3=81=88=E3=80=81=E6=99=
-=82=E9=96=93=E3=82=92=E5=89=B2=E3=81=84=E3=81=A6=E3=81=8F=E3=82=8C=E3=81=9F
-+=E3=81=93=E3=81=A8=E3=81=AB=E6=84=9F=E8=AC=9D=E3=81=97=E3=81=A6=E3=81=8F=
-=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=82=B3=E3=83=BC=E3=83=89=E3=83=AC=E3=
-=83=93=E3=83=A5=E3=83=BC=E3=81=AF=E7=96=B2=E3=82=8C=E3=82=8B=E3=80=81=E6=99=
-=82=E9=96=93=E3=81=AE=E3=81=8B=E3=81=8B=E3=82=8B=E4=BD=9C=E6=A5=AD=E3=81=A7=
-=E3=81=82=E3=82=8A=E3=80=81
-+=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=8C=E4=B8=8D=E6=A9=9F=
-=E5=AB=8C=E3=81=AB=E3=81=AA=E3=82=8B=E3=81=93=E3=81=A8=E3=82=82=E3=81=82=E3=
-=82=8A=E3=81=BE=E3=81=99=E3=80=82=E3=81=9D=E3=81=AE=E3=82=88=E3=81=86=E3=81=
-=AA=E5=A0=B4=E5=90=88=E3=81=A7=E3=81=82=E3=81=A3=E3=81=A6=E3=82=82=E3=80=81
-+=E4=B8=81=E5=AF=A7=E3=81=AB=E8=BF=94=E7=AD=94=E3=81=97=E3=80=81=E6=8C=87=
-=E6=91=98=E3=81=95=E3=82=8C=E3=81=9F=E5=95=8F=E9=A1=8C=E3=81=AB=E5=AF=BE=E5=
-=BF=9C=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E6=AC=
-=A1=E3=81=AE=E7=89=88=E3=82=92=E9=80=81=E3=82=8B=E3=81=A8=E3=81=8D=E3=81=AF=
-=E3=80=81
-+cover letter =E3=81=BE=E3=81=9F=E3=81=AF=E5=80=8B=E3=80=85=E3=81=AE=E3=83=
-=91=E3=83=83=E3=83=81=E3=81=AB ``patch changelog`` =E3=82=92=E8=BF=BD=E5=8A=
-=A0=E3=81=97=E3=80=81=E5=89=8D=E5=9B=9E=E3=81=AE
-+=E6=8A=95=E7=A8=BF=E3=81=A8=E3=81=AE=E5=B7=AE=E5=88=86=E3=82=92=E8=AA=AC=
-=E6=98=8E=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E8=
-=A9=B3=E7=B4=B0=E3=81=AF=E5=8E=9F=E6=96=87=E3=81=AE=E8=A9=B2=E5=BD=93=E7=AF=
-=80
-+("The canonical patch format") =E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=
-=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+.. TODO: Convert to file-local cross-reference when the destination is
-+   translated.
-+
-+=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=
-=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E3=81=97=E3=81=9F=E4=BA=BA=E3=81=AB=E3=
-=81=AF=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=AE Cc =E3=83=AA=E3=82=B9=
-=E3=83=88=E3=81=AB=E8=BF=BD=E5=8A=A0=E3=81=97=E3=81=A6=E3=80=81
-+=E6=96=B0=E3=81=97=E3=81=84=E7=89=88=E3=82=92=E7=9F=A5=E3=82=89=E3=81=9B=
-=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E3=83=A1=E3=83=BC=E3=83=AB=E3=82=AF=E3=83=A9=E3=82=A4=E3=82=A2=E3=83=B3=
-=E3=83=88=E3=81=A8=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=
-=82=B9=E3=83=88=E3=81=A7=E3=81=AE=E4=BD=9C=E6=B3=95=E3=81=AB=E3=81=A4=E3=81=
-=84=E3=81=A6=E3=81=AE=E6=8E=A8=E5=A5=A8=E4=BA=8B=E9=A0=85=E3=81=AF=E3=80=81
-+Documentation/process/email-clients.rst =E3=82=92=E5=8F=82=E7=85=A7=E3=81=
-=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
---=20
-2.47.3
-
+>
+> >   Probably worth keeping Vladimir on Cc for v2 in case he had something
+> >   else in mind.
+> >
+>
+> I will CC Vladimir in v2.
+>
+> --
+> Thanks and Regards,
+> Danish
+>
