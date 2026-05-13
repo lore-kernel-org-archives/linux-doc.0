@@ -1,167 +1,139 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD14C1C5F13
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 20:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778705599; cv=pass; b=Fx7zzSzRhBCbZgpILujlZ33o2lnkdQ2/sDInRFCmmgzYuStF1snJGcETp1eY4yfLZ1FHQwRQM1QRJvEQ0GJmhntmFrcyBN7NZrpmlZ12Wn4xpZW3CYlnMd6wso+tnnDZ89DWBAIOQmQuS5kCFKVMwfyggp6d6oM6sSxL6fJUSkU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778705599; c=relaxed/simple;
-	bh=X/DDsGtZ0cVyzetyiZE3huiuNEguykSuxbVV06c2O7A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fp/a9Jk3z9QwBGZEwZljJE5eM3K7MLDWQZ13mTXckiiThC3aIsUjTEM7xrBBZ+3im94XV5JHP7HRU+bz3u8QZKUNyhH8HG3TWMM+ClaD8OOlgwUbjTRoiVk9pfaQzlGDpU0lnhS/386GK9LKFKCfDoKAAm3UBmgYEkNg4RSn860=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U7zBPfOl; arc=pass smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947D025B090;
+	Wed, 13 May 2026 21:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778706132; cv=none; b=cfbrm9sAaaz3NY7SZxsAnIhsKqwvmaQSGXYgXW7lF+D3/1Lz7H0jXMV4k+wQMJnc70VKuMTDN/Io5p0WIaU+mtXqgSw/m+ZZAlP/7UtsQhs18COB7kHvxYOlTF5hUkG5KLvDUt/TZK+tnOfMBz88I9GNdWQ+SF5ryzLLR80sYCo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778706132; c=relaxed/simple;
+	bh=TbkfPc8h9Yg2Y+A1hZpT5WLyg3Z/a6kJE+PemykFAuQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=eTjUt5+lV59nYG7pX6KiCH2izwDyXEZkc6zoMuEyVwYh3hzOn7pieTWY0mR2d3d5UBS0+1jT3RVwNhcapUMlpUlrVaYnh1HuE/kxB/uMYL7TGOgYkL7gnXT2pmIUWh0cKBa2LL9d1QpxHKx5jgHkBk4gk5EmL7DHLySfo0cLeLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pSV2QSNG; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U7zBPfOl"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-449d6c68ed8so6263105f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 13:53:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778705596; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cQrzXs03ARllmCF1HPjvmtFEzhmyB+YRDbqfQ6QFJfYTje+DVh31h7p08lkMtIZeJu
-         teed254zz1tRFgMADqpqFc8bGLvXDe/c0FWXsje6Vk8wlONwHiImqxawIOIvXCCUJONh
-         5TlKbWGvHYX4s2OfyELwtHTahpk8aj3m2EpY6mPjm4Lz0rvdIBz03J2HhNaYGD2jwrU+
-         Wfs5ve9XOG8XNttorIfdDcXXVNP7abUEu3BHQegxOhCxZFZh0yAl809O5O2JgIz3b9Os
-         TgGEMgl9YPkuUoi8jNX7WCSIclwaEomuNJkBgCAvA5QlzUcFSGZ83SMaVak9XcrrPpGB
-         rMhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=X/DDsGtZ0cVyzetyiZE3huiuNEguykSuxbVV06c2O7A=;
-        fh=n0USw6ECaOL1RfdUGquQn2Eb4BCPMxM0DhAR2chPJXk=;
-        b=DKa/m/XPWEeO5ujhvKRO9e29i13iw6nnAx3qrczoUK/yzsxG+i2nG9CmyLBRa6dz3u
-         95oApWRWevyiD65o3afW++doo6mgSPzxWhO+cbCeU41PKoF9l+kDmVYrIhk2NawqgeAe
-         nzRt8QqU5sUlC5sGKQd9rh9MmyWHhGr19scHsSRHDI+KsWOMh1AxxahDrkcCZ2xR8wrF
-         5z6oF8cDz5AOY2ctEO86wsM32cP0z7LmO3GbY5i2iMabvNcQBvDXIBnJZalISQAoEEE3
-         GPOBZFtxii0iLwAeZssSDljMEWTD5TuxriL3BphKrROKr6cMoyzsPNweqZ4lb/ZL2Hf3
-         ijeQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778705596; x=1779310396; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X/DDsGtZ0cVyzetyiZE3huiuNEguykSuxbVV06c2O7A=;
-        b=U7zBPfOlzIlVig4kMwRnutsvLYrDV5ksZN2I1v4EmUHsHO/beXMRB2SrBdx2lV+pAW
-         QXnIuXQ40RguAWxsmqEqiGHbAMCDdPPY3WnboscD7crzIeL7KgWgVu3/0qBLpdRGjO3y
-         6zrl5vvhL20Emg3u3sxXPxCyEdm2fcjmPGpV8L5faOCBI+G253PRKYDs5oiZDKpHUKFL
-         KQPKZM+sy5h5Df96HmUVo9usFLDc609+8dbPXIUSvq1eYDMqvCOBgm+3YgkwOHV63rE5
-         e/kdUHwtO5oBNc5/N6TOHLa3SksnOWB0L4rwM2tUZo2/4hZS/5IWy+Lr8xQFI6XoZNcN
-         FRqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778705596; x=1779310396;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=X/DDsGtZ0cVyzetyiZE3huiuNEguykSuxbVV06c2O7A=;
-        b=URTzRwDiHjO+m7ZvPFkZM3NYCL452d3GNAMk6U9CA7AUu+HP850FSzPTzTxxDYLsnW
-         3SrC6iQJw43q1K5K8CW2WLgD6jy/Yjfinoyi5WGo7K7u00I3LobdMJBC8eUZH4qk4OXP
-         KqQu3YFVljzWh9FKAFGkaNhel6O2S+IJnwcdawy7K8QrQDe/NhyJX/O/WKYQI9UrzOk5
-         I5VW8jKa2zs6uiRaQmT0xYm1IpodDhRj1rNyiIorwMvSQXd2p8bOrC4NsS7htKQvuKja
-         7fkL7fFxwZsUV9wvYQukZ7OODG1jb33PD95ROVk3rIyzfojmazSVh9758Hu8nxqHgDTY
-         c2IQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9e3Je6KJ+F5w/2vZLu5n1bYT8ue/uMxiw2aoCM762gNquDJKTc3c7sZJoZByowml7jNglj2q62qY8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx55rxlyIvB31xdui9U8P2/rPqQTyJvpOb8ESdhNaXQtinftEbh
-	qXYxt76smuvUtQG7bBRkFrM0daedIZe6pN1QoLa2aLJLNShNYW7h/xTqWYvpJU+boWMFfUeoB/O
-	uJlzBCs+g41wL+DxHm9MbsGVSgHQ9MG0=
-X-Gm-Gg: Acq92OHyFCbpFlQbhyXPP1V7gaAsMLti2fFjN/BDTfbkOpwJ6l2WDr7jioc5Fbs7cUi
-	aOT1/CuTGprS1RdrLVm/gpFzHtBPT+qBCa/VDsrnA0pxGVIJ3daVKgx09PsDya4kaLld2ERur9h
-	XXW5DaJVzSpalrHDNz52IRCQJ2Qhls0qETquQrGy40j54UOlVMVgUgt5QXT6marb0Du44trAFNt
-	e1O67olI7vstQ+bH6/PR9Yatqp/QlBhINYuODfKBpOZLrzt1QCTuVnVUk96Bb4eLG19b1qq63gg
-	DmbxlwG7zKGWo3ir/f02PANqSVC6i6dNIbfhvkI=
-X-Received: by 2002:a05:6000:26c3:b0:43d:773d:78ff with SMTP id
- ffacd0b85a97d-45c59bd694dmr7681297f8f.27.1778705595867; Wed, 13 May 2026
- 13:53:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pSV2QSNG"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B1293410B5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1778706129; bh=dTCLX34NNtsHVUB3KTt0hv/TciN7kdQPR191K7i/u/c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=pSV2QSNGIXoYcVCjh2DBP4E8cOAPfrKXRDzQvzbuRXPQPmezZuML4u0DAvTrF5GXQ
+	 PhDTDM/P0exezDUNMcyLzm7rcDg3OY+hHje/fZouQ29sRvxSgU9Sqo7dX1Cdyu8KWL
+	 AXypaEy7BwJfjNSv8Rq6iV2N5u7W/F1P4Qjwf+3oXB8iFEbGnP2Jhdos+15Vx4uwdb
+	 nQI0M4v/AVeBn4BFaV/aUXWvPvdJFcRMBVul/toYhP08kJF80VMVyqzYeu394weAL+
+	 BU3TrEYe0uy8oUVNhSZoDKewFS0WeZ44D42DbGskkLtX0JHNtNPesqgOdB9Ob78+YL
+	 CcpseXb2bKCHg==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id B1293410B5;
+	Wed, 13 May 2026 21:02:09 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Willy Tarreau <w@1wt.eu>, Greg KH <greg@kroah.com>
+Cc: Leon Romanovsky <leon@kernel.org>, skhan@linuxfoundation.org,
+ security@kernel.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] Documentation: security-bugs: clarify
+ requirements for AI-assisted reports
+In-Reply-To: <87a4u3mpxk.fsf@trenco.lwn.net>
+References: <20260509094755.2838-1-w@1wt.eu>
+ <20260509094755.2838-4-w@1wt.eu> <87se7wo861.fsf@trenco.lwn.net>
+ <2026051353-apricot-kleenex-fa57@gregkh> <agRfXQvN7ZDTNGQG@1wt.eu>
+ <87a4u3mpxk.fsf@trenco.lwn.net>
+Date: Wed, 13 May 2026 15:02:08 -0600
+Message-ID: <87ik8r6n1r.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511105149.75584-1-jiahao.kernel@gmail.com>
- <20260511105149.75584-3-jiahao.kernel@gmail.com> <CAKEwX=PLFRkfUvZyaYfwBv0QJ-8KAktvZvGA02Hod04H-RsS-Q@mail.gmail.com>
- <CAO9r8zNOPdpJuTmccvQ6ZAVS+tXxp-_ofA765DbnfaUZOPPO-g@mail.gmail.com>
- <12e4784e-2add-d849-7e54-bde8abfa6e78@gmail.com> <CAKEwX=MOixJAUGiwUcMQa0Stvg-mR-MvpDRD8WA4YMtRvnUYTg@mail.gmail.com>
- <6fc7fdf0-368c-5129-038e-623f9db2aa88@gmail.com> <CAO9r8zPvgB-MG2ufmdn4HoS+QEPBAehU9u7fQmYs+47NF-C9aw@mail.gmail.com>
-In-Reply-To: <CAO9r8zPvgB-MG2ufmdn4HoS+QEPBAehU9u7fQmYs+47NF-C9aw@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 13 May 2026 13:53:04 -0700
-X-Gm-Features: AVHnY4LrLAgY72ojshBcIFy9xP1PEcHOYQ9m7UQfpzDmpcDw6jERR_OF5Wq4Pko
-Message-ID: <CAKEwX=OY_nws-vf3VgnD54G205TK2YjkoAwRCyB9jvW=Oz3PpQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mm/zswap: Implement proactive writeback
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Hao Jia <jiahao.kernel@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
-	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org, 
-	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>, Alexandre Ghiti <alex@ghiti.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, May 13, 2026 at 11:55=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wro=
-te:
->
-> > > Zswap objects are organized into LRU and exposed to the shrinker
-> > > interface. Echo-ing to memory.reclaim should also offload some zswap
-> > > entries, correct? Are there still cold zswap entries that escape this=
-,
-> > > somehow?
-> > >
-> >
-> > Yes, the memory.reclaim path does drive some zswap writeback, but
-> > it is not enough for our case.
-> >
-> > 1. For a memcg that has reached steady state (a common case being
-> > when memory.current is below the policy target), the userspace
-> > reclaimer may not invoke memory.reclaim on it for a long time,
-> > and so no second-level offloading happens through
-> > memory.reclaim. In this state we want
-> > memory.zswap.proactive_writeback to write back entries that
-> > have sat in zswap past an age threshold, to further reclaim
-> > the DRAM still held by the compressed data.
-> >
-> > 2. Even when memory.reclaim is running, the fraction of zswap
-> > residency that ends up reaching the backing swap device is
-> > still very small for many of our workloads, and the userspace
-> > reclaimer has no way to participate in or control the
-> > granularity of zswap writeback. So in our deployment we prefer
-> > to leave the zswap shrinker disabled, decouple LRU -> zswap
-> > from zswap -> swap, and use a dedicated proactive-writeback
-> > interface that lifts the writeback policy into userspace where
-> > it can evolve independently of the kernel.
->
-> To be honest I see the point of proactively reclaiming compressed
-> memory in zswap. If you use memory.reclaim, you are also reclaiming
-> hotter memory in the process, and you are not necessarily getting as
-> much writeback as you want. The memory in zswap is a more conservative
-> choice for proactive reclaim because it's memory that's guaranteed to
-> be cold(ish) and not being accessed.
->
-> That being said, the interface is not great any way you cut it :/
->
-> I don't like the 'memory.zswap.proactive_writeback' name, maybe we can
-> stay consistent by doing 'memory.zswap.reclaim', but that just as
-> easily reads as "reclaim using zswap". Maybe
-> 'memory.zswap.do_writeback' or something, idk.
->
-> I also don't like having two proactive reclaim interfaces, so a voice
-> in my head wants to tie this into 'memory.reclaim' somehow, but that
-> includes adding a pretty specific argument (e.g. 'memory.reclaim
-> zswap_writeback_only=3D1'.
->
-> I don't like any of these options, and we also need to consider what
-> the memcg maintainers think. I see the use case of proactive writeback
-> but I am struggling to come up with a clean interface.
->
-> I also think we should take the 'age' aspect out of the conversation
-> for now, it can be a separate discussion. Well, unless we decide to
-> tie it to memory.reclaim. If memory.reclaim broadly supports age-based
-> reclaim then zswap writeback can be a natural part of that without
-> requiring a specific interface.
+Jonathan Corbet <corbet@lwn.net> writes:
 
-Yeah perhaps extending memory.reclaim is best... Sort of analogous to
-the way we have swappiness to balance file v.s anon....
+> Willy Tarreau <w@1wt.eu> writes:
+>
+>> On Wed, May 13, 2026 at 12:30:10PM +0200, Greg KH wrote:
+>>> > One nit:
+>>> > 
+>>> > > +  * **Impact Evaluation**: Many AI-generated reports lack an understanding of
+>>> > > +    the kernel's threat model and go to great lengths inventing theoretical
+>>> > > +    consequences.
+>>> > 
+>>> > If only we had a shiny new document describing that threat model that we
+>>> > could reference here... :)
+>>> 
+>>> Ah yes, a link to that would make things better, but don't we have that
+>>> elsewhere in this series?
+>>
+>> It's in the same patch, I think Jon was sarcastic here. I thought I had
+>> addressed that one but apparently I was wrong :-/
+>
+> I'm just saying that this particular text should link to that document,
+> don't make readers go searching for it.  I can certainly add a patch
+> doing that if you like.
+
+I was thinking something like this.
+
+jon
+
+From 3f02a3c190bab6b54e2a250ead0c7408af1a3c51 Mon Sep 17 00:00:00 2001
+From: Jonathan Corbet <corbet@lwn.net>
+Date: Wed, 13 May 2026 14:51:29 -0600
+Subject: [PATCH 1/2] docs: security-bugs: add a link to the threat-model
+ documentation
+
+Rather than make readers search for this document, just a link to it where
+it is referenced.
+
+(While I was at it, I removed the unused and unneeded _threatmodel label
+from the top of threat-model.rst).
+
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/process/security-bugs.rst | 13 +++++++------
+ Documentation/process/threat-model.rst  |  2 --
+ 2 files changed, 7 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index f85c65f31f12f..3c51ddde31dd9 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -191,12 +191,13 @@ handle:
+     Please **always convert your report to plain text** without any formatting
+     decorations before sending it.
+ 
+-  * **Impact Evaluation**: Many AI-generated reports lack an understanding of
+-    the kernel's threat model and go to great lengths inventing theoretical
+-    consequences. This adds noise and complicates triage. Please stick to
+-    verifiable facts (e.g., "this bug permits any user to gain CAP_NET_ADMIN")
+-    without enumerating speculative implications. Have your tool read this
+-    documentation as part of the evaluation process.
++  * **Impact Evaluation**: Many AI-generated reports lack an understanding
++    of the kernel's threat model (see Documentation/process/threat-model.rst)
++    and go to great lengths inventing theoretical consequences. This adds
++    noise and complicates triage. Please stick to verifiable facts (e.g.,
++    "this bug permits any user to gain CAP_NET_ADMIN") without enumerating
++    speculative implications. Have your tool read this documentation as
++    part of the evaluation process.
+ 
+   * **Reproducer**: AI-based tools are often capable of generating reproducers.
+     Please always ensure your tool provides one and **test it thoroughly**. If
+diff --git a/Documentation/process/threat-model.rst b/Documentation/process/threat-model.rst
+index ecb432390e792..91da52f7114fd 100644
+--- a/Documentation/process/threat-model.rst
++++ b/Documentation/process/threat-model.rst
+@@ -1,5 +1,3 @@
+-.. _threatmodel:
+-
+ The Linux Kernel threat model
+ =============================
+ 
+-- 
+2.53.0
+
