@@ -1,155 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69274CA287;
-	Wed, 13 May 2026 15:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907AF481AA3;
+	Wed, 13 May 2026 15:13:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778685125; cv=none; b=i2DU/MKwEGZA532t1uG4m05Qo+Q4p+KIjHrLFKr3VbuiS+yGd2GxkkJEvqZZUeTzJR/HzEkHpK75s2lRcQI8O5Mb9XHy6rjDAog9KCwJ9MSxzM3UvUH8ut2stMze77eLnAW6sxs50sqrn++Jyn8CxopLa5MKW9kkoRktXZtorrI=
+	t=1778685219; cv=none; b=BDnQw0H1k5qUFIQLdekmfz02gmERp4N10lJWAQhR//7Kmw4WZ2EwBlqA1v3R0YcDmPh8m70zgVrPzbb2Wse0X+X/Fhwaytr/NzuGXCxIPFbymR5rcyc/MxepCqJ7FeOKwasWEHl3iW4cgIbf+YPboRfbCGs/mv7JDGoiIBL/YQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778685125; c=relaxed/simple;
-	bh=g7DBKzISsVeAPEr5fRf6vFci06L9JPnHLfj1n6CF7wg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HJgoJ8QkqoMlAZ1PyjCEa/d+u5Tj0UuwRyRLQ/93sTbFsgDf9qFCo7lL6VBLmiYvO9VM6e+xIxvBdo08us7vXAPQD2tPhZPJYI4/00UiKfQmH3xDvUZEq7bDmt/jW7/2xyZsClKrIfcW3e1Mp/xQqO+eAghOq8rUV+FiQLVSWyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ePpBJbLT; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ePpBJbLT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778685124; x=1810221124;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=g7DBKzISsVeAPEr5fRf6vFci06L9JPnHLfj1n6CF7wg=;
-  b=ePpBJbLTJ+t/0cGMMe9aNv4M4mwkO9NiunZj2re+4bru6G/P+rF51is9
-   2huSSPLOIuZip9k+tO2b5WGyxYxt4BVYo6g2L/X02uQBSlvlLj6+RAGDM
-   CA6Uj/ZJihZbNeY69TecuYxGSTP7e4SFGCpi2ryEWTN7NC4C/VTz5I/Id
-   ZwPPIMcsBJUUVnFCjKGjNIwgN6DUjKgKbD+9/vWL+Qg2yEPuADqdIbKy2
-   s4NJ3Kuep2c7x5FJ4sEEP7Tlblufmil7A7n33/YUwO5zcESEaMW5u5kCi
-   T5Y+g3DC9GSNDCfwPScK3xM7j+CaxNRZJdTDb8DnhTRa2oXa/VPl7SnmL
-   w==;
-X-CSE-ConnectionGUID: YNMzsG2pQ1CsfjChsnRDmQ==
-X-CSE-MsgGUID: JU8csZH3Ru2yWe88fWqMgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="89921830"
-X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="89921830"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 08:12:02 -0700
-X-CSE-ConnectionGUID: gA4HYUfQQd62goYNWsZYTg==
-X-CSE-MsgGUID: 1fW5cWnpS/eV6H0ihhBZvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="231716934"
-Received: from 984fee019967.jf.intel.com ([10.23.153.244])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 08:12:01 -0700
-From: Chao Gao <chao.gao@intel.com>
-To: kvm@vger.kernel.org,
-	linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: binbin.wu@linux.intel.com,
-	dave.hansen@linux.intel.com,
-	djbw@kernel.org,
-	ira.weiny@intel.com,
-	kai.huang@intel.com,
-	kas@kernel.org,
-	nik.borisov@suse.com,
-	paulmck@kernel.org,
-	pbonzini@redhat.com,
-	reinette.chatre@intel.com,
-	rick.p.edgecombe@intel.com,
-	sagis@google.com,
-	seanjc@google.com,
-	tony.lindgren@linux.intel.com,
-	vannapurve@google.com,
-	vishal.l.verma@intel.com,
-	yilun.xu@linux.intel.com,
-	xiaoyao.li@intel.com,
-	yan.y.zhao@intel.com,
-	Chao Gao <chao.gao@intel.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v9 23/23] x86/virt/tdx: Document TDX module update
-Date: Wed, 13 May 2026 08:10:06 -0700
-Message-ID: <20260513151045.1420990-24-chao.gao@intel.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260513151045.1420990-1-chao.gao@intel.com>
-References: <20260513151045.1420990-1-chao.gao@intel.com>
+	s=arc-20240116; t=1778685219; c=relaxed/simple;
+	bh=UndeeBAudNcgPiHmWG9NCNOwnjQQo6sIys/fSPjKAPA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K6Xty1h9zPve4i7WvgGP7xlkaB2oYNhSJcprmATcf2WmSj6w0/5Ii0UleQWQKaJcfMaeNqUD4Hksshiio+zlIwnjWO47jzRBtCOQ9M/Kdm41EmJ16QPIMzpNxaXzFXIshXsg/cZof5Zwn+bG9TwDKPdeK5qsW6vzgLrktxNTerE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf16.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id E10DB1401C6;
+	Wed, 13 May 2026 15:13:33 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf16.hostedemail.com (Postfix) with ESMTPA id 5BE272000E;
+	Wed, 13 May 2026 15:13:28 +0000 (UTC)
+Date: Wed, 13 May 2026 11:13:31 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
+ Song Liu <song@kernel.org>, KP Singh <kpsingh@kernel.org>, Matt Bobrowski
+ <mattbobrowski@google.com>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Jiri Olsa <jolsa@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Yonghong Song <yonghong.song@linux.dev>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Randy Dunlap
+ <rdunlap@infradead.org>, neelx@suse.com, sean@ashe.io, chjohnst@gmail.com,
+ steve@abita.co, mproche@gmail.com, nick.lange@gmail.com, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML
+ <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+ linux-trace-kernel <linux-trace-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH v3] bpf: introduce TAINT_UNSAFE_BPF for mutating
+ helpers
+Message-ID: <20260513111331.7bede512@gandalf.local.home>
+In-Reply-To: <CAADnVQJ5fatNF4auH+a8E39zWMfja3rm4BM_xGcTnLX8uuCQ9Q@mail.gmail.com>
+References: <20260503164700.548164-1-atomlin@atomlin.com>
+	<CAADnVQJ5fatNF4auH+a8E39zWMfja3rm4BM_xGcTnLX8uuCQ9Q@mail.gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: 18geb9x55ru3chwt6uafjionag3oe1yt
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: 5BE272000E
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+7R7zxbXBV6rlQFQ0Ye5/tl281iYTF8WE=
+X-HE-Tag: 1778685208-537794
+X-HE-Meta: U2FsdGVkX1+x7ra4uXHhLxM0a25M9aCoPDW3ZqIlq9S7q9SyTpMscF+XaALiXSKTKjK1qSM1kG4P3XpZr8H4FvLc54S2rZuV7N1O6V0ZE0ZbNsHPIpDzkkRsm1nml/Kq1e+4eoF9XM7lAI4b/ftkikplSw/Wr18s5nUlvMA+GofiF/4Cb67OMC14P6ChPMM0ULN7I/YHU4w1ujDAv/TFSo3WdGlpF3BIz6USQ981Ff+FiT9Z/pNq1BONSXhstcCK72Q6TfXDqCuOaC/udV30tqSjEaBES4PnYCvud839jgU+Yig5WrieniekGkTWX9NmRneIS+uPG6xvy0iQo8NWWJL+Lr+PIXk0
 
-Document TDX module update as a subsection of "TDX Host Kernel Support" to
-provide background information and cover key points that developers and
-users may need to know, for example:
+On Sun, 3 May 2026 21:51:49 +0200
+Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
 
- - update is done in stop_machine() context
- - update instructions and results
- - update policy and tooling
+> Nack.
+> 
+> Please stop this spam.
+> We're not doing it. These helpers have been around for a long time.
+> There was no need to taint then. There is no need to taint now.
 
-Signed-off-by: Chao Gao <chao.gao@intel.com>
-Reviewed-by: Kai Huang <kai.huang@intel.com>
-Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-Reviewed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
----
- Documentation/arch/x86/tdx.rst | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+Hi Alexei,
 
-diff --git a/Documentation/arch/x86/tdx.rst b/Documentation/arch/x86/tdx.rst
-index 1a3b5bac1021..9d2b7db166b5 100644
---- a/Documentation/arch/x86/tdx.rst
-+++ b/Documentation/arch/x86/tdx.rst
-@@ -73,6 +73,40 @@ initialize::
- 
-   [..] virt/tdx: TDX-Module initialization failed ...
- 
-+TDX module Runtime Update
-+-------------------------
-+
-+The TDX architecture includes a persistent SEAM loader (P-SEAMLDR) that
-+runs in SEAM mode separately from the TDX module. The kernel can
-+communicate with P-SEAMLDR to perform runtime updates of the TDX module.
-+
-+During updates, the TDX module becomes unresponsive to other TDX
-+operations. To prevent components using TDX (such as KVM) from
-+experiencing unexpected errors during updates, updates are performed in
-+stop_machine() context.
-+
-+TDX module updates have complex compatibility requirements; the new module
-+must be compatible with the current CPU, P-SEAMLDR, and running TDX module.
-+Rather than implementing complex module selection and policy enforcement
-+logic in the kernel, userspace is responsible for auditing and selecting
-+appropriate updates.
-+
-+Updates use the standard firmware upload interface. See
-+Documentation/driver-api/firmware/fw_upload.rst for detailed instructions.
-+
-+If updates failed, running TDs may be killed and further TDX operations may
-+not be possible until reboot. For detailed error information, see
-+Documentation/ABI/testing/sysfs-devices-faux-tdx-host.
-+
-+Given the risk of losing existing TDs, userspace should verify that the
-+update is compatible with the current system and properly validated before
-+applying it.
-+
-+A reference userspace tool that implements necessary checks is available
-+at:
-+
-+  https://github.com/intel/tdx-module-binaries
-+
- TDX Interaction to Other Kernel Components
- ------------------------------------------
- 
--- 
-2.52.0
+I'm wondering if there's a way to see what modifications BPF programs are
+doing to the kernel? I try to make it easy to see what modifications ftrace
+has done (like the enabled_functions file), because I like to know how my
+kernel is modified since boot up.
 
+Thus, it would be nice to know if BPF is modifying anything in user space
+or just what BPF programs are loaded.
+
+Note, I'm agnostic to this change, it just brought up a previous concern of
+mine when I read it.
+
+Thanks,
+
+-- Steve
