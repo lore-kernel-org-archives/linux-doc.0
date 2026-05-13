@@ -1,231 +1,133 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB022701B6
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 13:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7669925B094;
+	Wed, 13 May 2026 13:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778677463; cv=none; b=nIc3TySsJu4uLmg8G9FdHQ0NhgBIo1vwnlCQ1X6vwD/AtIsphPdd/vpOu+9xev4TmSnz6dnB/+P2f0TGVMo4Ii1VHIYwfY4Vn9/F2cg1mjfSyRLvO5bRXY+tznTP8+VjURDGcEnWPRenK87H+eVZPLmnajaTGZH2uP5aHdS/SVg=
+	t=1778677478; cv=none; b=ZnXhbKtPenqi8aJSpt0GetKmMoN+Jqu0CWMvOqEMj9CLei5MavoceTI/2WRizZWt7O48gUQ4UTDqP8+FUv0t6WjcxdNJr4StTxnGSC/ltgUJ+WgqBBulbRxoFEpxM35AlwfmNq5ZpJMBIRgCpx/rBMyiZAoe3BzjFTDI3euisjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778677463; c=relaxed/simple;
-	bh=+FxJG4kW9NjfhAdfAskdR39uG7HKd/rVabJUuHsVcDQ=;
+	s=arc-20240116; t=1778677478; c=relaxed/simple;
+	bh=6LEu9DtzugsPgS9zY7ikDk3PNAySaXFJrErwGthAkfU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YlH8D1gvP4YLKJUMuUgqyaQDecouGPCOFG92qoovIBYaQb09qpeBjLHrjahID/YZjWceQ5jc+t2NPu9L4uLvJNHq42MSUuA44bDmB7kpp73cg18hfehYwrEG7n88a6IDakVUxPJziHX/sqkCwN2q/SPYC4vfSEPUiwsd4ELZ5IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=E4R50bF1; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=cDgAuUuuooH4DASttJopd8bADXLyLqxvHBVPZyLYTq2nrja9qkfhzuwy6fXnN6ps821Z+IAaER5vOCYTGmRy7SkIEdT1DlD/Qs5Fe7oetWSG9oD39/CE1OBDK3eTCKMmIigojT7zwfKeX0nb9oFBIGpgkiib9AfabTHsMdix9OA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lGsDWVW2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="E4R50bF1"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43fe3e22e33so4091735f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 06:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1778677460; x=1779282260; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=a38+h9bWp3RlleTL1QjZzeIbioOA+x/4L20QS9dVRSE=;
-        b=E4R50bF1Q1tFaCx6QoqPodIJXqeKf04/OZn58X388yZ5DB8bE64xkVJUCQOPoSmZ1f
-         HvYjCmytizHWYeHs2uu5Rsy9u4F3A1yd0Dizc2sLtUAtJ75riGeIvQqZnr1B2hIpuyot
-         TKO3QvPSb5Y6sgtU4zrGYDn/Gz5FSkpAZ9vyuFSxd6N22f7uIaEhJtN6QOxK42uT8DRA
-         F82et/cSwIkdAQUF4XTf4L9q8ztEhMbeBsih9aKoqEzQ6PFeyTPom+bUZ/u3amxRGZDE
-         oWZwUjoWB6gl8r8TJadguW6l0nk++3NCB6eT39PXPoQTL7UA5uI99Wxl1KdDrQp1AMA6
-         BC3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778677460; x=1779282260;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a38+h9bWp3RlleTL1QjZzeIbioOA+x/4L20QS9dVRSE=;
-        b=YqL3RY/X0YrIw9PY6U6+5wRGoEmG91ePoYs7AW8K8hsu2Fe5rN+YN4LsoITQFYDq3T
-         9n7IZE3n/VQqzd9Cmx05K8Zf23nBY/2vaDsV0ZQPAJPlEDaWTpqOor6bDnJLxQgQsVwD
-         GuFQmI1n2xSrlb1Y2lKe/fGSscquzVMmQBzVRhUB5UDhc4huczktEVPkUeOVUI9VVFXv
-         P+bltxnffRQyTgVAYQXq9QddBoFCeDlqtVAuDzfiYQOz5llOTOnkPtfCKefNXYnnAzNJ
-         uRhb2V/r2QN1/E1I1nqhO70fPm7xQ9UCsuhhB2HiOnHapNSYgLgUdrCaAgNpvmilif2T
-         gxIA==
-X-Forwarded-Encrypted: i=1; AFNElJ8sQeahzZT6ka8lKGj4t35MMapsgVr+zAHhY+yGhuZ7UIbXeGe26pAXqQipsC+BpIYmJ61YIAdkENg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8kkzyQHEcVFUSIh9uW7NhFgIlp+sOGIDxdJTftUJgODpYv5RA
-	yez+AQk4pHxAxsz9wJ2h1pHF6kKZHXjgeso9AXqq2bkJKEOZOi37dDSma0NJ7h2Bxw8=
-X-Gm-Gg: Acq92OGEO1JZGckZdVbqYeZbmWoJARZnEQ+Wn5guF8wnAO15VE3CArH49FGCk1MhXxD
-	4sQXzDg8cXP+b5oFULrRwpV98u6UNarcHCHG+gpIfl+Qh0Ao/DC4NvjqBZqSHfB6LnNgixchLXF
-	5QualCkdTLdZpG9ZL7YNy2f4TRQkwheUhU97cP4Rj2xXzO6EhAhNgb0pEVyK0HUAJpqaX1pSbQj
-	E2vugALdvxDCK5b0FR8ROofTEZKQn01L6dwpaddagWQNzTzSukCupJ8osUfYOU4DVg9qX7cnH3V
-	ZpDcyw4m7Nf3TxS4MZItLHj8KTKzziB9hwtp8aJICDm0aEnhxKzJ7Z1+mYt9deR5euPbxv0fCEF
-	1+LYHGX+60tpa3jL+h1G6PTac3BWX3fInRzrfqDvcjKRYOlnCpWvAfP2XKa9NSoHJVVTDlMexs/
-	devODGkXL7JOjH+VP9Z3gbJz7E02ALwWho85E/
-X-Received: by 2002:a05:6000:1acc:b0:43d:7e11:1b72 with SMTP id ffacd0b85a97d-45c57de9e7emr5052075f8f.9.1778677459533;
-        Wed, 13 May 2026 06:04:19 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ba2aaec3asm11115693f8f.15.2026.05.13.06.04.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 06:04:18 -0700 (PDT)
-Date: Wed, 13 May 2026 15:04:15 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc: Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lGsDWVW2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F9F9C2BCC7;
+	Wed, 13 May 2026 13:04:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778677478;
+	bh=6LEu9DtzugsPgS9zY7ikDk3PNAySaXFJrErwGthAkfU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lGsDWVW2oR08PACx9KcRC8YMpUuN6oYYOvoOWllZtScTRbHp7+islHrOswbDz0e1U
+	 Rd/2lD7xK6tofxdt3rjsHrXixgEE2cEIam/CmgAPO+rVJ0EqqFFymekAQgAVcROykG
+	 /N7UobOXD+QLpx6gmP6NTOmHQYOBi0pny/Bp5nb7yAfX2fzkn+nP5WBB8+35vCpLep
+	 jh4Y8TgC1kC/ozfdDPxCBHLqgSPMWYg5w/mYxRbWDqfzsPeOwoBvd1TnZH2MG/F2uI
+	 pbR8JRRzktjhwXI6yger0M0d/hUI8h3I7h6ajlUBWmNi8Qu54RVQUXSLuoGBn6Z7hf
+	 kXJB84AOZ4pfg==
+Date: Wed, 13 May 2026 15:04:35 +0200
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, Guenter Roeck <linux@roeck-us.net>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Clark Williams <clrkwllms@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH RFC] printk: remove BOOT_PRINTK_DELAY
-Message-ID: <agR2z4r5sJvAjm1a@pathway.suse.cz>
-References: <20260505-printk_delay-v1-1-5dba51d7f17c@thegoodpenguin.co.uk>
- <afn-H1EQJxnDs0BZ@pathway.suse.cz>
- <CALqELGxhXO=kzh9bpztd9=Ug9ykPL2NALo9Apq3=Oj6aeiEcKg@mail.gmail.com>
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	Chen Ridong <chenridong@huaweicloud.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, rcu@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Costa Shulyupin <cshulyup@redhat.com>,
+	Qiliang Yuan <realwujing@gmail.com>
+Subject: Re: [PATCH 04/23] tick/nohz: Allow runtime changes in full dynticks
+ CPUs
+Message-ID: <agR241twxk9UdRrg@localhost.localdomain>
+References: <20260421030351.281436-1-longman@redhat.com>
+ <20260421030351.281436-5-longman@redhat.com>
+ <87340od7ev.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CALqELGxhXO=kzh9bpztd9=Ug9ykPL2NALo9Apq3=Oj6aeiEcKg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87340od7ev.ffs@tglx>
 
-On Wed 2026-05-06 23:37:01, Andrew Murray wrote:
-> On Tue, 5 May 2026 at 15:26, Petr Mladek <pmladek@suse.com> wrote:
-> >
-> > On Tue 2026-05-05 14:45:00, Andrew Murray wrote:
-> > > The CONFIG_BOOT_PRINTK_DELAY option enables support for the boot_delay
-> > > kernel parameter, this allows for a configurable delay to be added before
-> > > each and every printk is emitted. This is DEBUG_KERNEL option that is
-> > > helpful for debugging as kernel output can be slowed down during boot
-> > > allowing messages to be seen before scrolling off the screen, or to
-> > > correlate timing between some physical event and console output.
-> > >
-> > > However, since the introduction of nbcon and the legacy printer thread for
-> > > PREEMPT_RT kernels, printk records are now emited to the console
-> > > asynchronously to the caller of printk and its boot_delay. The delay added
-> > > by boot_delay continues to slow down the calling process, but may not have
-> > > any impact to the rate in which records are emited to the console. For
-> > > example, if delay_use is set to 100ms, and the printer thread has a
-> > > backlog of more than 100ms, perhaps due to a slow serial console, then the
-> > > records will appear to be printed without any delay between them.
-> > >
-> > > It would be unhelpful to add a delay to the printer thread, and it would
-> > > not be possible to disallow selection of CONFIG_BOOT_PRINTK_DELAY at build
-> > > time as it's not possible to detect which consoles are nbcon enabled at
-> > > build time. Therefore, let's remove this feature.
-> >
-> > Heh, Randy proposed to remove "boot_delay" few days ago.
-> > This RFC goes even further and remove both "boot_delay" and
-> > "printk_delay".
+Le Tue, Apr 21, 2026 at 10:50:00AM +0200, Thomas Gleixner a écrit :
+> On Mon, Apr 20 2026 at 23:03, Waiman Long wrote:
+> > +	/*
+> > +	 * To properly enable/disable nohz_full dynticks for the affected CPUs,
+> > +	 * the new nohz_full CPUs have to be copied to tick_nohz_full_mask and
+> > +	 * ct_cpu_track_user/ct_cpu_untrack_user() will have to be called
+> > +	 * for those CPUs that have their states changed. Those CPUs should be
+> > +	 * in an offline state.
+> > +	 */
+> > +	for_each_cpu_andnot(cpu, cpumask, tick_nohz_full_mask) {
+> > +		WARN_ON_ONCE(cpu_online(cpu));
+> > +		ct_cpu_track_user(cpu);
+> > +		cpumask_set_cpu(cpu, tick_nohz_full_mask);
+> > +	}
+> > +
+> > +	for_each_cpu_andnot(cpu, tick_nohz_full_mask, cpumask) {
+> > +		WARN_ON_ONCE(cpu_online(cpu));
+> > +		ct_cpu_untrack_user(cpu);
+> > +		cpumask_clear_cpu(cpu, tick_nohz_full_mask);
+> > +	}
+> > +}
 > 
-> Apologies, I didn't see this. I'll co-ordinate with Randy.
+> So this writes to tick_nohz_full_mask while other CPUs can access
+> it. That's just wrong and I'm not at all interested in the resulting
+> KCSAN warnings.
+> 
+> tick_nohz_full_mask needs to become a RCU protected pointer, which is
+> updated once the new mask is established in a separately allocated one.
 
-No need to apologize.
+How about just dropping tick_nohz_full_mask that is just
+ ~housekeeping_cpumask(HK_TYPE_KERNEL_NOISE) which itself is becoming RCU
+protected in this patchset?
 
-> > Honestly, I do not feel comfortable by this. The delay seems to
-> > be handy when there is only graphical console. I would suggest
-> > to do:
-> >
-> >    1. Obsolete "boot_delay" with "printk_delay" as
-> >       proposed in Randy's thread, see
-> >       https://lore.kernel.org/all/afn2sYKKsqG4QBVX@pathway.suse.cz/
-> 
-> Your suggestion was:
-> 
-> " 1. Add "printk_delay" early_param() which would allow
->      to set "printk_delay_msec" via command line."
-> 
-> And I assume the intent is to replicate the functionality of
-> boot_delay, by allowing printk_delay to be used to introduce delays
-> from early_param time? Thus deprecating delay_use.
-
-Exactly.
+Thanks.
 
 > 
-> "  2. Modify boot_delay_setup() to set "printk_delay_msec" as well.
->      In addition, it might print a message that it has been
->      obsoleted by "printk_delay" and will be removed."
+> Thanks,
 > 
-> Given the intent may be to deprecate boot_delay, I'm not sure that
-> setting printk_delay_msec as well would be beneficial, as this would
-> extend its functionality to add delays beyond SYSTEM_RUNNING which is
-> where boot_delay stops. Unless you mean to use boot_delay as an alias
-> to an early_param hook for printk_delay?
-
-I do not think that this is a big problem. As you write below, it is
-a debug feature. IMHO, people debugging boot problems won't mind when
-the delay continues beyond SYSTEM_RUNNING. And if anyone complains
-than we would at least know that there are people using this feature ;-)
-
-> It seems that there are also differences in behavior between
-> printk_delay and boot_use, with printk_delay unconditionally adding
-> delays to all printks, and delay_use which considers the loglevel.
-
-The unconditional delay does not make much sense. I consider it a bug.
-
-> >
-> >    2. Move printk_delay() from vprintk_emit() to
-> >       console_emit_next_record() and nbcon_emit_next_record().
-> >
-> >       For nbcon console, even better would be to use a sleeping
-> >       wait in nbcon_kthread_func(). But it would need some
-> >       changes to call it only when a record was really emitted.
-> >       Also we would need to use the busy wait in
-> >       __nbcon_atomic_flush_pending_con().
+>         tglx
 > 
-> This makes sense.
 > 
-> If the use case (in a post kthread printk thread world), is only
-> relevant for graphical consoles, then I do wonder if printk_delay and
-> boot_delay can be replaced with a more specific solution? Now that we
-> have printk threads, the time in which a printk is presented to the
-> user may not relate to when it was created, and I fear people may
-> continue to debug issues that rely on that assumption.
-> 
-> I think the most pragmatic solution for now is:
-> - Move the printk delay to the point where the printk is actually
-> printed (e.g. console_flush_one_record and descendants)
-> - Add an early_param to allow for printk_delay_msec to be set
-> - Deprecate boot_delay, by using it as an alias for setting
- > printk_delay_msec, and include a user mesage that it is being
-> deprecated and that it now extends to beyond boot (which could impact
-> performance on non PREEMPT_RT and non nbcon systems)
 
-Sounds good.
-
-> - Update printk_delay function to use the appropiate mechanism to
-> delay based on stage of boot and using printk_delay_msec instead of
-> boot_delay.
-
-Good point! I thought that mdelay() can be used even for the early
-messages because parse_early_param() is called right before
-parse_args() in start_kernel() in init/main.c.
-
-But parse_early_param() might be called even earlier, for example,
-by setup_arch in arch/x86/kernel/setup.c. And it is called before
-
-  + tsc_early_init()
-    + tsc_enable_sched_clock()
-      + loops_per_jiffy = get_loops_per_jiffy()
-
-which seems to be used by
-
-  + mdelay()
-    + udelay()
-      + __const_udelay()
-
-Anyway, it has to be done before printk_delay_msec() can be set
-via an early parameter.
-
-> If that makes sense I can fashion a patchset.
-
-That would be great.
-
-Best Regards,
-Petr
-
-PS: Note that I am traveling the following week so my review might
-    get delayed.
+-- 
+Frederic Weisbecker
+SUSE Labs
