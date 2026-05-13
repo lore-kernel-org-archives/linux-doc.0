@@ -1,67 +1,67 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC78F37F748
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 22:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470EA3845DA
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 22:33:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778711456; cv=none; b=lPHxgnf07j0Z+MU+UCEUH549PaRz81giPAT/QrHiNr5neYu7txFSC0w5dm6P/uCUbpzzV+Wz4Ho4FzEpLQkGJ3f7Mryzkl1rbQJgXWzjLqAkZU31SVXtsNsROrR0rxQt/5LYSDi1ypDYyAJWvL0vXQYUedm/8zo7Kn24dEqLKDM=
+	t=1778711582; cv=none; b=m4ntusyu06fVs3/BRClq5FlXOpeU7aBDdbIGFCX7ur2Qn23ph3ebajLUmtKIQFA/R8ww1LUusvoUc72y5PDWvNIu5k+5gbRFgTU65aOrbrSue6QTShiRvwS7Z3MFiM8Jzkw+9iPEQajFmME8L6ffU1jHad+lE5sTjRqrETsLv0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778711456; c=relaxed/simple;
-	bh=BdzeFnM94A7uHGNdIfZzoHy38lcfwYKhB0qbIcZ+fXU=;
+	s=arc-20240116; t=1778711582; c=relaxed/simple;
+	bh=/i4iQVVYgZcyZkahqB/Yq4izkN3VKOXSgDTz3AsYNTA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=knQX8GVDj7CFWXXiISaGzye+z0i4xnpEqo4wSxSZcrhSu1cooWKVBMdw7yybi9UIi/JNDIwoFcnj889Gsv3zjCAsdRGM0L7Hy6c1yDZcy62bKWMVGIMRLaabw+WNrpyArRJf+TsuUSMHOoQkB89WX/mvBrlZ48Ldb+80HJzkUSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bfe8pbjd; arc=none smtp.client-ip=74.125.82.47
+	 Content-Type:MIME-Version; b=fMzrqcqa6mJMGY+LPEFGQ7IJcctfMg8fSvPKzIIhUxi58viIL0b8vvm6zz6AzOqF0KCeTZLWN1B+OdDwEIV5OeWZmOFejk8tSbTQeDpxRPUUAvhJmAXNKzHwrREBmbaJB2rK7SulmQKhwDkyI50NT7XXYQQT6ePfjXAIXEF3Umo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D7WQ2Zns; arc=none smtp.client-ip=74.125.82.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bfe8pbjd"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-132c338a537so3243707c88.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 15:30:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D7WQ2Zns"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2f0ad52830cso10826926eec.1
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 15:33:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778711454; x=1779316254; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778711580; x=1779316380; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=BdzeFnM94A7uHGNdIfZzoHy38lcfwYKhB0qbIcZ+fXU=;
-        b=bfe8pbjdwGpPsFP/YbR9x7OV4+uaG07u4svh8xJxDLAJUS2cxfJC15ZO17zAp8fIS+
-         RXFR3vaeB1GGA99jy8+Tx98iGZNkS5xeJx98nVyw/tvAdzJEl9DFIHj2dlqspo7k7OBj
-         Hc7MPMwmaJU6fm/ToWKUrOkykmlOQ0GCt+qPz76Nwejw+HL34wZLBSJu94AK9DT+boW3
-         HjP+w7Yq+hkPb0JVMD0oPu638TTNpNpIfmrIHVDib+t3DRVN9VD4jMQtThr8OuJegbVa
-         qd9S8or9rPFMb0sjPDdYb4R4tf+jtX7a0BVRx7PSw05tjMt88Vzld/jn3MvqFLiMamIg
-         qzYQ==
+        bh=uSoqkJU8a2VQZhervRKHGXNqeNUvIdC6OMh7SCfL6fk=;
+        b=D7WQ2ZnsIVpUZ5yfP4dzrtkImYWkjU7xeCJZva4XgAt4pQmhJzWKHWXDDTK0F78mgl
+         w3limhtQyrpjuOHpNLmj0wWhI67/0LNVn6oTlmKu3ArZ5yrnAp3112wR2wPpt//p0KxE
+         bjaCRFicA8WoD0YPXQgN5dkNzf9JDYGxqd7ToxR5iVp6uFC3bFiVEK4Gor1oFYVnxLwo
+         fBcR0pcyL2EdxTcR3OmILng3wJWzURBsJkah6POuuKjbiJZpdZ0ZoEI66Kyrem2MGmC1
+         jW9B9uIpd3O9Wyd8d4tHH/J2Z0cM318cPhJo/j7v7teXtVHg9lNccgZq0D/3Unxf9Ihk
+         l7jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778711454; x=1779316254;
+        d=1e100.net; s=20251104; t=1778711580; x=1779316380;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BdzeFnM94A7uHGNdIfZzoHy38lcfwYKhB0qbIcZ+fXU=;
-        b=Z53b2oKgj8GGyRMoAHuD4J55QVNIO0MGJ0FLKXdBj5pI67GoB2FzGGECM+VDrWRkBQ
-         u8+B+Fcj++ZObv2owZxSpYg5IzYF0FB6jNpMv3cfs+zYcjtavZzpHQYICnA5ads283z0
-         U3ZG8Vyc6MiyZSpJF1fVNXeK6EH8KmF/iMOUc/htSw2xaVOWMkY2n4KU1bJcIoIgq21v
-         3fXb+Y3EvZlFrnBz9i1Of3ciJdFT9onrSkfdvJHW5c1IZ8LaT4dexXxQ4WjIZXuj7/ct
-         iILMbCyqrrlasXMaEyoSyYeMAiQ1fKhtV6d8leP4WdkQN10jTBDIr0qyCbEUTaPtWZp7
-         ikrA==
-X-Forwarded-Encrypted: i=1; AFNElJ8Iy3rOMaG1ZLaG2MzwKSJJj7ybIyg4p7MrnhifYqTYGEym7bYAf5P+WXn5/7PNCeMsI3prbh7TUp0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLndjxZDXgra3r451guRKN+/esdZBvKLe71rx7MGfvVxFdQEe6
-	hqUyr2A2QA17DFa9a4LpPKF6sZD5RNCXOZWlsrR+G7WyPePav6ho3UGM0CrCC4Kj
-X-Gm-Gg: Acq92OHbnoUD/LZ7qA0v1t/nPZYREimPtvk8B7u8HZr+YjYKDp6QI9KsebzEITxDBhF
-	5C0NRtrhY0x9PcRvpYLHMLySnO1B0orPTPJ1+XXRoW8E2AVe3PWB18DvJGuwlFntrkG+NFV696Y
-	PveCPWyD2CgbxQ8z6dExQHdb4QqBU6g699CrmwOL30xkEenWtP9rR9YLak6ew4IQnM6rqTePSbE
-	I7Hq9OZcIcy4uef2D422WhFzr+eCVq/h97Z89aF6fDbeuv06JxQ4670xRgpaqoy30mlBA5W42b6
-	DAEWlRmjEUZHSZCFzj7AixNjdLNiUkzOh6DWlOoQSlW3hTEpz3hTvEI2d5nIHmDpiXsw0bSfCtu
-	JPXDcKZ5vmtPp0LvwBi0tyBrrI3NvQJne9MmA+VkfSHuq0gVMnzutNmqsx61c/B7k9O/i72Gonm
-	ZaaZ3dHScBr08JL58yhYcnk7NkuuDPmQYsbIXj2ZQxD3aXQEVDVPyZsxkfUauxH9m10Aj/2kkFQ
-	JL5J7U=
-X-Received: by 2002:a05:7022:608b:b0:133:52ca:7dcb with SMTP id a92af1059eb24-134c8b337e3mr793467c88.10.1778711453723;
-        Wed, 13 May 2026 15:30:53 -0700 (PDT)
+        bh=uSoqkJU8a2VQZhervRKHGXNqeNUvIdC6OMh7SCfL6fk=;
+        b=WWb5r197a36iaPtQjmCmouPbqhpFy+0ArEuvUEnts+FSV6EOVTY3iwi08WCh0cahLC
+         j1iNqUWzd0NTJKRKi38cvpWRIpeOFP9QRJA/ZlUhuspJY9J8I94E7IcvTQpw5rgDo9hS
+         XWiVy7OOiN0g3bqhtva+Ls23MeoyO4CBmPguOxCUoclseSN9YBwiQuzEZ/UY7wQ247hy
+         /W6DReQTs5HX36JXT4uD+3fiK37ptS+h/bfdbNV0a9qpFjcRn61PXPmkS0FmYMMStENP
+         Bwp1PyrcP+iOYeRsHlUt9zQgAKmhNUwRf7n+4DpZbeZTRE7ym0XmLuDJ2vPPLetlc+Ej
+         QCPg==
+X-Forwarded-Encrypted: i=1; AFNElJ+bXvJJC1cw2t/O2kbSNUDjhpE3q6Zsofx6s2X6TFxrRCmn7cdd/qQehmDIDUL79JGMGul7a7DWNJw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/ck6o21lYdb+2YGPX9zMKG4110jEMZJq0GY5XmZqAQhKf4BLB
+	aYJUH32/50GnPq7joEGxrj1nDG9MVp50bmApTZtG4qvRvcMHA7pASFDy
+X-Gm-Gg: Acq92OHptXWsYR/OJjPPugnEZpLM2nJdrDG6HkSeBG65Ou3ZpzYfd3eu82pZKSE4eWA
+	7EU9JRy1xoIcIEcJlLScuMhaafT14FY8A+qkOoT1QQqNIttLxN0Eho1D1WRkRcXloWNOqqGd+91
+	xa3IDWTW1OfOE9ahiF9rZKYrUpI/+GiNPjdNGoEicStxnbWcZIH+qZy0ML2A6DbfHukA2Db4BJW
+	HITRuzzF6Fq95MUJB0eRpc4b29jOCk+gyU1HMLKv8DhZlty+4/Zh+o1IVJxc/SZnLhn2AuR29I6
+	OvjcpLltGeNr46rVrjxlnLb+OrHVfRl2Vy2BNw3V1M+G+5X/98Nh+ahEgQhG1Syx8CSc2eKIOIK
+	AoDWwfKFLXQgtp+/5rnNIpPqCELJIwGlcDPnInovoDnThmMh8gJ9f28XIoulR5y8q7se0WryCMK
+	+sBnzyXBG4JBbn7yey6cDScqrki1Ck9BZPim/P1+XBU3Pb6adlDkJ0Kwm3SVCpzUqMu7wHHx/E2
+	X7i/SI=
+X-Received: by 2002:a05:7301:1011:b0:2be:833c:149d with SMTP id 5a478bee46e88-30119f71457mr2928472eec.28.1778711580223;
+        Wed, 13 May 2026 15:33:00 -0700 (PDT)
 Received: from ?IPv6:2a03:83e0:115c:1:5152:641f:f5ef:6c7b? ([2620:10d:c090:500::2:8a9])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cc33a618sm1177799c88.12.2026.05.13.15.30.51
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30294adddaasm761840eec.13.2026.05.13.15.32.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 15:30:53 -0700 (PDT)
-Message-ID: <38185cd5ac2c6103ec5af41347c5a76239bc670e.camel@gmail.com>
-Subject: Re: [PATCH RESEND bpf-next v10 1/8] bpf: refactor __bpf_list_del to
- take list node pointer
+        Wed, 13 May 2026 15:32:59 -0700 (PDT)
+Message-ID: <ca14a6fd8a1f3ce1e64c70b6d9ea2baf8df913ae.camel@gmail.com>
+Subject: Re: [PATCH RESEND bpf-next v10 3/8] bpf: Introduce the bpf_list_del
+ kfunc.
 From: Eduard Zingerman <eddyz87@gmail.com>
 To: Kaitao cheng <kaitao.cheng@linux.dev>, ast@kernel.org, corbet@lwn.net, 
 	martin.lau@linux.dev, daniel@iogearbox.net, andrii@kernel.org,
@@ -72,10 +72,10 @@ To: Kaitao cheng <kaitao.cheng@linux.dev>, ast@kernel.org, corbet@lwn.net,
 Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-doc@vger.kernel.org, vmalik@redhat.com,
  linux-kselftest@vger.kernel.org
-Date: Wed, 13 May 2026 15:30:50 -0700
-In-Reply-To: <20260512055919.95716-2-kaitao.cheng@linux.dev>
+Date: Wed, 13 May 2026 15:32:57 -0700
+In-Reply-To: <20260512055919.95716-4-kaitao.cheng@linux.dev>
 References: <20260512055919.95716-1-kaitao.cheng@linux.dev>
-	 <20260512055919.95716-2-kaitao.cheng@linux.dev>
+	 <20260512055919.95716-4-kaitao.cheng@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
@@ -89,12 +89,11 @@ MIME-Version: 1.0
 On Tue, 2026-05-12 at 13:59 +0800, Kaitao cheng wrote:
 > From: Kaitao Cheng <chengkaitao@kylinos.cn>
 >=20
-> Refactor __bpf_list_del to accept (head, struct list_head *n) instead of
-> (head, bool tail). The caller now passes the specific node to remove:
-> bpf_list_pop_front passes h->next, bpf_list_pop_back passes h->prev.
+> Allow users to remove any node from a linked list.
 >=20
-> Prepares for introducing bpf_list_del(head, node) kfunc to remove an
-> arbitrary node when the user holds ownership.
+> We have added an additional parameter bpf_list_head *head to
+> bpf_list_del, as the verifier requires the head parameter to
+> check whether the lock is being held.
 >=20
 > Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
 > ---
@@ -102,3 +101,19 @@ On Tue, 2026-05-12 at 13:59 +0800, Kaitao cheng wrote:
 Reviewed-by: Eduard Zingerman <eddyz87@gmail.com>
 
 [...]
+
+> @@ -11456,7 +11459,8 @@ static bool check_kfunc_is_graph_node_api(struct =
+bpf_verifier_env *env,
+> =20
+>  	switch (node_field_type) {
+>  	case BPF_LIST_NODE:
+> -		ret =3D is_bpf_list_push_kfunc(kfunc_btf_id);
+> +		ret =3D is_bpf_list_push_kfunc(kfunc_btf_id) ||
+> +		      kfunc_btf_id =3D=3D special_kfunc_list[KF_bpf_list_del];
+
+Nit: to keep everything in the same style, maybe add a is_bpf_list_del_kfun=
+c() helper?
+
+>  		break;
+>  	case BPF_RB_NODE:
+>  		ret =3D (is_bpf_rbtree_add_kfunc(kfunc_btf_id) ||
