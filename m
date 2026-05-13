@@ -1,218 +1,128 @@
-Received: from mail-oi1-f201.google.com (mail-oi1-f201.google.com [209.85.167.201])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAB6345734
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 16:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282BB4968E2
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 17:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778690760; cv=none; b=ZFFJY+EhW98RVOmf4I1FZOlw7/rzCkKNSVlCpqTVlI2iegeV7a9pL4TaDasiUySSIyHMw0FUu7B1q0IoO21jYJ5EY4xvRG7p2v/Nitkt2UD9VgvADdnJCsDglCz79ziBCeDJlzovSIlEXbLWdeNFgvOr8ugDgPZBOPPfrGqSzWA=
+	t=1778694025; cv=none; b=MUaaVlC8RcHXCmhADz602288O7OZpmGYufRiu28vPPmaPdsB5oHJh7FCAMbFp52hC9TMBCUEyIK37o+MYDmnPz1aVZUmc3kO4CH+slHb8bX4Oqa4GnLw1K4eVdlmjpOwVbMxDesuKGrBO0P/s+a8XmdencD3A936ExfrVlYigA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778690760; c=relaxed/simple;
-	bh=DlqmTumaylv3bvg7/UQlSYJC7l+houNcv4Gm+3/w3ps=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=ogctPHZ+CyQlcQPyBtbQfWOu2ijYAvZjXXrjKU4WqA/Qz+OAeOPgvRXjP95MkTwW4WDqT7GxVVxnPNHx+5iPwItC3LarpDEjhFnFvd2ezo4cfPcogi76cVahUMxIA183RGMZcOjkCyRBmok13BXYhs1IMffmZmeoJBNi8s/dnAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aoxgs6gv; arc=none smtp.client-ip=209.85.167.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1778694025; c=relaxed/simple;
+	bh=3MoAmXx4klLcFBlzRztxDrU9XSZMQVB9clxB1R5Fglk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=N6KyYcIk+ZTW2ZvxlPe7gd4sbew/U99ZhOf6ISHT2cJ1iv2NX1azYJ/z5q7vzY7GG5B0Woj+5jSIYEDbvubBleieXPUjNMQMpPxlCY4pOFjZqXljQe9yrifHHC8rzN8+v6xfe///pUzFANVplR6hNIqq0UsrZpfoinbQPSpRpPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YWmTYJuO; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aoxgs6gv"
-Received: by mail-oi1-f201.google.com with SMTP id 5614622812f47-4825b3a39c3so3232311b6e.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 09:45:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YWmTYJuO"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c8026aa4d53so5041581a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 10:40:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778690758; x=1779295558; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aW/nYEiFxMS2z4I6C0K281BV66W1OxrZ+NF6ey1g5Rg=;
-        b=aoxgs6gvKs1RbOgz0yN2UTq99fHyTq1CcdpccRYrBzCfb2IG+ptK0oyMOxdKoqkjzA
-         EqXPC+YvjcPgUF+b4JjzE7XNuFRkrA6Wbn/NPWJKXPcqEtqqmANFGsilN7hKf+xepqmk
-         V+7y2UrrOsi0PfO7RBUVMReThDPHFBrHso85Td9ziQqrtlCxZfPKJ7wtf1gmZ6mazBOW
-         O0A78cKUHMxPWVMH7n0PzR1oZKfg9qDT7coy4oBfJM9rv48dGACL6QiddvjhOAWej7vb
-         1WVj/tO5L3cBUTRn2dK8pWx7V/0Qrp/2iwxia4tjzHvd9Nvro4jqw3K5TQ7VpSG4Eepe
-         3v1A==
+        d=gmail.com; s=20251104; t=1778694023; x=1779298823; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GzHqT7+bqReU2IN8b9Y/GQTKGYkCfbW6mkEkF6IdFM4=;
+        b=YWmTYJuOjsf3k5lUiVY9uHDz7sC9z5G0Ryce7BE+B+VGxIB3114SyRMGwvbAXB68gT
+         8Bv1kLWv3Ww6C3ZAFl7UTMavdfZRS0ul+5dAU0NBah8pMdk1LZmF5JGMmIqXvBttb5D/
+         QfUQv4H1O86kcvw9EcXsplxPvTmfF+28y8CEzo6BcyDGmtlFgWkZglFKAVFu2msNTJUQ
+         8R7Zj6gJ7LpXhbQKe4oJxxCxg6XyjRXceVpFsnaCbzouZkCztpO4NYhwmhvniyvJLZTj
+         m21fgordd6rlgcrdFq1sSYcAzNtEPCfLhMUwaUOx9loE7ja4q1x5pEfwHJ5GcbSsXX4q
+         yOWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778690758; x=1779295558;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aW/nYEiFxMS2z4I6C0K281BV66W1OxrZ+NF6ey1g5Rg=;
-        b=qLhID8yP8/RqUVK7CY5xOiEPx7EsdkdxnOjOSuxDDPYJnO32Yaxgrz3NhekAkbrhVw
-         g9CGlWRoq0Att7tkQ+ODOS4UF7ylxKtjZ7kuua8dvK0ylvS4BZR4I72PX/khycBrimeK
-         Sv2b2oOLmlF614q6ziF/3LqbbnS6eBJMiQvIqVglIVchjFH2NbgzUWkaOhVxkrGNeJ3A
-         Cl+ANRnqZVLmHgk49cVaRDkn58naiQ2RR0iBvX7PronWkGdWjSrJ9Exdl2Hip/LU+rAX
-         I2Fvnz1oA9KTrVtIYn681c+ohCI1J4rUFYLBzMhShjDygffOwoqQEsWap+ukPGXvp2UJ
-         XM8w==
-X-Forwarded-Encrypted: i=1; AFNElJ9i/E94iqorWBm767wJjdP3bfxaWvfcJIOcN4eSJ7xc7Wb48wjSoipJKEAOoCJP0yTcQEKsVHObRHY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzou6WKMY++ZY4qXK+ejvFqgmF/wHQnYR/9UOU/JoUI/eroiZPa
-	uD8/gjLmoH8VvjmRQn5oC1SJt23SauLOc83FMAsqrRY9tsLm2e8CnHMFmqn2Td1OIlYjCY93Lfc
-	zPcR89hd8XEaljnPlDE0+KfAEIQ==
-X-Received: from jabfq5.prod.google.com ([2002:a05:6638:6505:b0:5de:63f7:b7f9])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6820:2113:b0:696:6440:9e2a with SMTP id 006d021491bc7-69b78dd2cf7mr2147234eaf.29.1778690757861;
- Wed, 13 May 2026 09:45:57 -0700 (PDT)
-Date: Wed, 13 May 2026 16:45:57 +0000
-In-Reply-To: <e2a7679d-e61a-43ac-a1d7-72f7e815c400@linaro.org> (message from
- James Clark on Mon, 11 May 2026 15:47:54 +0100)
+        d=1e100.net; s=20251104; t=1778694023; x=1779298823;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GzHqT7+bqReU2IN8b9Y/GQTKGYkCfbW6mkEkF6IdFM4=;
+        b=KZYrvfiN9vNRTIzX9OPsY1CUjo5Ioy8nDy/Itu1kFRhcwDDRuX01YsmGmJwtolInJM
+         mwzrAh52vLrIGGjIpcuFZpQvINlYVs2xaRkOJ+5JDcAPhC6wFiDraZxECETXu43u8Lkn
+         dbkFvWxlOJrFeEizDP/459LYNIWbcyr+r+XG14+ao2PiK24jvUV11MQ9CqLy9dfnuODj
+         E9dHyx9U9rfZVHiHPUCgkHfL/AUr51iHOyhtKdWjIMxFaBWJjl/JfpuZ0NdQ5T+GP0wD
+         HDIwUTey7Jmlwc17lSRaiWHaDfV4qHR2K7klcmpSDXZaVbtEoL9+boEsM92idUKdkaRY
+         6/cw==
+X-Forwarded-Encrypted: i=1; AFNElJ8tWN/ropqOPHB0qfMW6jk87JQa0vzG0ezcR2dig2/+IoI6CqWZBg0arzH33Sqj5CfIizPzHo56Fsw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YydPYmRMNTnnGeVWcG3qq0pp68ij+wj3sYSwqrwOm34Ng2/xavT
+	GxW6a49JUb2+UQ0Byq95gBfeWIQfBRJcigtMkhTNaT555rQOJtsj6/dq
+X-Gm-Gg: Acq92OFD5b+LcCnvhE4BuGAG/+Bj7ofNovw+ZzYmTDcmPAJ4wpGvZgeoMNSiWwzYK62
+	ofTEMXC8XmtbeunN18H+pQiKfSQdsQuwKbWkfLWc1jjWa7TmQwyMWTTxU/PmFpUz93m3LdcAY2r
+	ro5bLLNmMxKvgcZZ+zRuY4zUjmv4bxJNUaEQveK3Af+9cdnHFQOLol5uiT+LdeDdR55kqVv9XN/
+	/ZySxJh4JqDJh/zoXgtSSuz/Czf9I3SegyC2w9u/UigbxjRDVxozkdI84PdbgXfHZ1YOt2snO7k
+	trenCpREMarhswA9bdskIqOeGzANAQURaQ6HudNKfxpIg55aFcstRl73Pot+3sbWZQvwYfbMaxx
+	jeOXThRerJPPgg62Ns1kGQ6rx7nFAqyjXXR18+/6Xd94267QWJN5QK6/VN/NTrOiQz5JHQftrC3
+	VDxmuwLkS339XuX1zsS62B8+CFA8JX52ls/NZ06AyKICpvDTSgeIOG/BL0Yi7GEo9fCM4gP3MAz
+	F4he/A2ZvSJJ7DWUWL6bWRntWPecuYBNyH5aDQ96xAoaMEdf96kXV21UQIpdMcre0OXa1U0SBvh
+X-Received: by 2002:a05:6a21:9982:b0:3a3:e2d6:2e71 with SMTP id adf61e73a8af0-3af83289859mr4611942637.42.1778694023167;
+        Wed, 13 May 2026 10:40:23 -0700 (PDT)
+Received: from ERIC039ERIC.localdomain (1-170-163-225.dynamic-ip.hinet.net. [1.170.163.225])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8267696787sm15703920a12.13.2026.05.13.10.40.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2026 10:40:22 -0700 (PDT)
+From: Chen-Shi-Hong <eric039eric@gmail.com>
+To: linux@leemhuis.info
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen-Shi-Hong <eric039eric@gmail.com>
+Subject: [PATCH v3] docs: reporting-issues: replace "these advices" with "all of this advice"
+Date: Thu, 14 May 2026 01:39:44 +0800
+Message-ID: <20260513174009.1260-1-eric039eric@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260512150431.894-1-eric039eric@gmail.com>
+References: <20260512150431.894-1-eric039eric@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsntzf23b6m2.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v7 13/20] KVM: arm64: Apply dynamic guest counter reservations
-From: Colton Lewis <coltonlewis@google.com>
-To: James Clark <james.clark@linaro.org>
-Cc: alexandru.elisei@arm.com, pbonzini@redhat.com, corbet@lwn.net, 
-	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
-	maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kvm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-James Clark <james.clark@linaro.org> writes:
+"Advice" is an uncountable noun, so "these advices" is grammatically
+incorrect.
 
-> On 04/05/2026 10:18 pm, Colton Lewis wrote:
->> Apply dynamic guest counter reservations by checking if the requested
->> guest mask collides with any events the host has scheduled and calling
->> pmu_perf_resched_update() with a hook that updates the mask of
->> available counters in between schedule out and schedule in.
+Replace it with "all of this advice" instead, which keeps the sentence
+grammatical while also making it clear that it refers to the full set of
+recommendations in the paragraph.
 
->> Signed-off-by: Colton Lewis <coltonlewis@google.com>
->> ---
->>    arch/arm64/kvm/pmu-direct.c  | 69 ++++++++++++++++++++++++++++++++++++
->>    include/linux/perf/arm_pmu.h |  1 +
->>    2 files changed, 70 insertions(+)
+Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
 
->> diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
->> index 2252d3b905db9..14cc419dbafad 100644
->> --- a/arch/arm64/kvm/pmu-direct.c
->> +++ b/arch/arm64/kvm/pmu-direct.c
->> @@ -100,6 +100,73 @@ u8 kvm_pmu_hpmn(struct kvm_vcpu *vcpu)
->>    	return *host_data_ptr(nr_event_counters);
->>    }
+v3:
+- resend against the original base as requested
+- replace "these advices" directly with "all of this advice"
 
->> +/* Callback to update counter mask between perf scheduling */
->> +static void kvm_pmu_update_mask(struct pmu *pmu, void *data)
->> +{
->> +	struct arm_pmu *arm_pmu = to_arm_pmu(pmu);
->> +	unsigned long *new_mask = data;
->> +
->> +	bitmap_copy(arm_pmu->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
->> +}
->> +
->> +/**
->> + * kvm_pmu_set_guest_counters() - Handle dynamic counter reservations
->> + * @cpu_pmu: struct arm_pmu to potentially modify
->> + * @guest_mask: new guest mask for the pmu
->> + *
->> + * Check if guest counters will interfere with current host events and
->> + * call into perf_pmu_resched_update if a reschedule is required.
->> + */
->> +static void kvm_pmu_set_guest_counters(struct arm_pmu *cpu_pmu, u64  
->> guest_mask)
->> +{
->> +	struct pmu_hw_events *cpuc = this_cpu_ptr(cpu_pmu->hw_events);
->> +	DECLARE_BITMAP(guest_bitmap, ARMPMU_MAX_HWEVENTS);
->> +	DECLARE_BITMAP(new_mask, ARMPMU_MAX_HWEVENTS);
->> +	bool need_resched = false;
->> +
->> +	bitmap_from_arr64(guest_bitmap, &guest_mask, ARMPMU_MAX_HWEVENTS);
->> +	bitmap_copy(new_mask, cpu_pmu->hw_cntr_mask, ARMPMU_MAX_HWEVENTS);
->> +
->> +	if (guest_mask) {
->> +		/* Subtract guest counters from available host mask */
->> +		bitmap_andnot(new_mask, new_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS);
->> +
->> +		/* Did we collide with an active host event? */
->> +		if (bitmap_intersects(cpuc->used_mask, guest_bitmap,  
->> ARMPMU_MAX_HWEVENTS)) {
->> +			int idx;
->> +
->> +			need_resched = true;
->> +			cpuc->host_squeezed = true;
->> +
->> +			/* Look for pinned events that are about to be preempted */
->> +			for_each_set_bit(idx, guest_bitmap, ARMPMU_MAX_HWEVENTS) {
->> +				if (test_bit(idx, cpuc->used_mask) && cpuc->events[idx] &&
->> +				    cpuc->events[idx]->attr.pinned) {
->> +					pr_warn_ratelimited("perf: Pinned host event squeezed out by KVM  
->> guest PMU partition\n");
+v2:
+- use "all of this advice" based on review feedback
 
-> Hi Colton,
+---
+ Documentation/admin-guide/reporting-issues.rst | 4 ++--
 
-> I get "perf: Pinned host event squeezed out by KVM guest PMU partition"
-> even with arm_pmuv3.reserved_host_counters=3 for example. I would have
-> expected any non zero value to stop the warning.
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> I think armv8pmu_get_single_idx() needs to be changed to allocate from
-> the high end host counters first. A more complicated option would be
-> checking to see if there are any non-pinned counters in the host
-> reserved half when a new pinned counter is opened, then swapping the
-> places of the new pinned and existing non-pinned counters so pinned
-> always prefer being put into the host half. But it's probably not worth
-> doing that.
+diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+index 16a66a1f1975..87dd874fffcf 100644
+--- a/Documentation/admin-guide/reporting-issues.rst
++++ b/Documentation/admin-guide/reporting-issues.rst
+@@ -129,7 +129,7 @@ After these preparations you'll now enter the main part:
+    situations; during the merge window that actually might be even the best
+    approach, but in that development phase it can be an even better idea to
+    suspend your efforts for a few days anyway. Whatever version you choose,
+-   ideally use a 'vanilla' build. Ignoring these advices will dramatically
++   ideally use a 'vanilla' build. Ignoring all of this advice will dramatically
+    increase the risk your report will be rejected or ignored.
+ 
+  * Ensure the kernel you just installed does not 'taint' itself when
+@@ -795,7 +795,7 @@ Install a fresh kernel for testing
+     situations; during the merge window that actually might be even the best
+     approach, but in that development phase it can be an even better idea to
+     suspend your efforts for a few days anyway. Whatever version you choose,
+-    ideally use a 'vanilla' built. Ignoring these advices will dramatically
++    ideally use a 'vanilla' built. Ignoring all of this advice will dramatically
+     increase the risk your report will be rejected or ignored.*
+ 
+ As mentioned in the detailed explanation for the first step already: Like most
+-- 
+2.53.0
 
-> James
-
-
-I agree it makes the most sense to allocate from the top, but I'm happy
-the basic idea works.
-
->> +					break;
->> +				}
->> +			}
->> +		}
->> +	} else {
->> +		/*
->> +		 * Restoring to hw_cntr_mask.
->> +		 * Only resched if we previously squeezed an event.
->> +		 */
->> +		if (cpuc->host_squeezed) {
->> +			need_resched = true;
->> +			cpuc->host_squeezed = false;
->> +		}
->> +	}
->> +
->> +	if (need_resched) {
->> +		/* Collision: run full perf reschedule */
->> +		perf_pmu_resched_update(&cpu_pmu->pmu, kvm_pmu_update_mask, new_mask);
->> +	} else {
->> +		/* Host was never using guest counters anyway */
->> +		bitmap_copy(cpu_pmu->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
->> +	}
->> +}
->> +
->>    /**
->>     * kvm_pmu_host_counter_mask() - Compute bitmask of host-reserved  
->> counters
->>     * @pmu: Pointer to arm_pmu struct
->> @@ -218,6 +285,7 @@ void kvm_pmu_load(struct kvm_vcpu *vcpu)
-
->>    	pmu = vcpu->kvm->arch.arm_pmu;
->>    	guest_counters = kvm_pmu_guest_counter_mask(pmu);
->> +	kvm_pmu_set_guest_counters(pmu, guest_counters);
->>    	kvm_pmu_apply_event_filter(vcpu);
-
->>    	for_each_set_bit(i, &guest_counters, ARMPMU_MAX_HWEVENTS) {
->> @@ -319,5 +387,6 @@ void kvm_pmu_put(struct kvm_vcpu *vcpu)
->>    	val = read_sysreg(pmintenset_el1);
->>    	__vcpu_assign_sys_reg(vcpu, PMINTENSET_EL1, val & mask);
-
->> +	kvm_pmu_set_guest_counters(pmu, 0);
->>    	preempt_enable();
->>    }
->> diff --git a/include/linux/perf/arm_pmu.h b/include/linux/perf/arm_pmu.h
->> index f7b000bb3eca8..63f88fec5e80f 100644
->> --- a/include/linux/perf/arm_pmu.h
->> +++ b/include/linux/perf/arm_pmu.h
->> @@ -75,6 +75,7 @@ struct pmu_hw_events {
-
->>    	/* Active events requesting branch records */
->>    	unsigned int		branch_users;
->> +	bool host_squeezed;
->>    };
-
->>    enum armpmu_attr_groups {
