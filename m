@@ -1,126 +1,271 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFA438655A;
-	Wed, 13 May 2026 14:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363C434252C
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 15:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778684361; cv=none; b=iTK1QhfmhcdYbhmyQoPdM4VrW7HzWoI3PtTB101iNjpQXqUEouYHpZk1olqfT4B6LFqCTRT5yRrHRnekBCrOC5b8ONsdLjVCul4tZP9p1DGGaA2oL6sHF3Tyd3Jo/xSZBrkajesE/xWKD5KrbKXeOJJj9bq5NgrI/WxMgGf0Cjo=
+	t=1778684624; cv=none; b=a1nV+KNuGljURytJ/0WO8wIhrWuYqjUbYfmriicjnysGC7RCIf5rOw+ZekTzARHNHke7YSIGpm6ux8TmdC5POlVW5UJi7ZrJ7lPJf/ydpnYlEC8sO+1HXydSetsTYLe58MXHO6UAz1IXh75U3NbCsX17ZCmAoSPzmsOMIFscUHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778684361; c=relaxed/simple;
-	bh=zbNHyyDRYAeGo6U86F5ea4LHa32zJh59lyteWOe4KGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZhMrupf3fZ6ls6FVHJp880rovHBrIpAxXmr8lnULIEhJPSrZiYAzG1/w8BjXXkWF/YlY651QuhNX2j5B0SV0hm4xGTDZ21uo84LwcqRDo7Umyj2OVhM7le6YNRunOLF4FBm+8lkkdyqRsJLIWqZH3UgwwtbbnGAmzRD9RgyiUzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iIhYEKx5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778684624; c=relaxed/simple;
+	bh=7X+UObE12Sn+4xoSEm9MUagPY4OTrNYE+EcPWjiNXUY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dMpykCQldgEd0QxulJopb/Hw86gfbC/U2n5sNAWu1M6XVjI9IcofRrtp9RBGOJ1WFQeFcFpRTPElNzn6rx7+YEzldWTN7RX4e9xmkGLfaTHhsjnt3GDUWMekz9wDuTXEHYSovN4AqNHkiMmxLdUKgPogOo8L9BW/kZppyK+gY1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TKhuGsS4; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iIhYEKx5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D47CC2BCB3;
-	Wed, 13 May 2026 14:59:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778684360;
-	bh=zbNHyyDRYAeGo6U86F5ea4LHa32zJh59lyteWOe4KGw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iIhYEKx51XcVXCXizSytP4ZvhZtiBJmIPf+6O8Mktq3AJeEzUzkfq9zJFMxWWOQN/
-	 aoWFZ5To1myUEqEdw7VallkySu/iGPAldgKZg0gl6xnLSnuloIhSu3lBTLqysfs1I0
-	 Skg4f9BktAuE18yvvQRJ70VrpwY5SAV36hi26w0P9GMsQkbf7JD+SNU9HxSde3AnHu
-	 bo3a4ZV9/09phwV+AioQvcuqmfuB2eTSN/4uxVBmpiaTeWdd95EFcAzHk3DTbz/8je
-	 v+mVMmUJ6OM8tMNlaOTQXwFxTd7uJskcOql+wcSZWQ2REyC0QM0b5EqoBwpRfC7ETk
-	 FtuJsAzYKU1jA==
-Date: Wed, 13 May 2026 07:59:19 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, David Sterba <dsterba@suse.com>,
-	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>, Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, linux-block@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org
-Subject: Re: [PATCH 08/12] swap,iomap: simplify iomap_swapfile_iter
-Message-ID: <20260513145919.GP9555@frogsfrogsfrogs>
-References: <20260512053625.2950900-1-hch@lst.de>
- <20260512053625.2950900-9-hch@lst.de>
- <20260512170204.GI9555@frogsfrogsfrogs>
- <20260513065608.GA2250@lst.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TKhuGsS4"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-bd01481e592so471189366b.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 08:03:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778684621; x=1779289421; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vVht3nvRKg7Tx3cTpSoG3suIJkNk3ic/dNcJ5A2+mDw=;
+        b=TKhuGsS4sBI167Hqr/kDTUpr0ea9pxoAnG14IOGUeoxvDi1jYhk8bDZRHYHbH/PIr7
+         Fuk1h118vGYIwxTRQOxFKx2G3Wn3ES9SZapOJzN48OJ/dGE9dkNDezseN+5eViUI0q8z
+         WmATYOv3yP2GcUEJ+kOKvwcmenmLg2uvPcHkBl7duaHuO8mTOPLtmI1YUcseyF3rhFka
+         15xg3Kt/dyKo9M49HEUsMAqtW6VmLaO9+A0zQ/szZIbMSNu9H/Pjtwr7kFgAYKlqPydz
+         cGDhFVsjq0JufCajYI3Q9olNb7wyn8MfyKcK+/CHqlQyN4Hskg4umBmsys0Wg2pcSBwe
+         tIvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778684621; x=1779289421;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vVht3nvRKg7Tx3cTpSoG3suIJkNk3ic/dNcJ5A2+mDw=;
+        b=D1yZ4jsNO57NSyEu9X7TljUJm3WuklYtkjcpQdP2dTozWZxcZ28hWWsBiwGyTZKM+9
+         tsDKPAwGu2SnuB1Himjdg/pC0+MuUqKK8k1Y0hcHPqXcy6mf+D5oD1BANjE55NN/2Mg1
+         QoTk7axwoHXXYVrFEiedI3SlxGbLdK8OOyWKisIQLl3QMbCH28EmHL4ikusG4uCw8KmV
+         AWpwVhmXFPV8HYft6aPn2gu8v+t7U0+wS15/kwgwIhfvhB2PDpBC9b1OXntXlmUeftfm
+         JmisqeYK07NfqQ/BKPQOidgNYMQIqnpfynS0EeZTWeRQIjwkdJOBwgEYEzP7/gJbEBHl
+         sFwA==
+X-Forwarded-Encrypted: i=1; AFNElJ97Ovki86t2n6xvsdx+5nVSJK4S9IFvE0WZFNUNgBiBd0sD1WjROqpVsFkD2nA6WcAkOZiZ57pHS7w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfIgfDhjyarkWrZB/iGS/r8+5udmSfCRFVOGjOKrCscNzv+Ygj
+	Vp2dQdv00URwVnze8ox2pD+0xMzAfKg3yTOQ9aDyJDcz8ZZpT3Hs3Pgj
+X-Gm-Gg: Acq92OETNL/sEwoJ9ntUdNOuguL3ueDdK7cJj3sBNud1CN1oWyQqYK94KKTaw77rRXa
+	0cnZeVnOTaXE9MZ4UI4KT5u32sDqBdmerO9nkYUgOPk7y3uuWUYip9t01JI0DG4EXSs731mdMBa
+	qbm1S2hdeYn0EEZjkkThxbBNyT/bN/hW9ESvNP/pFblLArFd4uGkOklKZ1KOTZ1wftPRJJZ6D2g
+	EHJ/YU1koTHNMDs70A9kFt4I1W3RKX0lJjBTX2XGgxPfIBt7wbhazQs3ysTpg3hF3LE4hk4gXGc
+	y3GCELTfr3Mag5PRNB7X5n3mMazwC/sQIxrujfN14ngwZS90Tm1FNxPR3VjS1AVoyht1Htyht6E
+	ZcItOsImsEQ57jpqHdqPu+DTnGkTj8NMFdpR9LFLpmQPKDX1JdNFmZyT4XxwVG9qdUudAymqTjZ
+	Hv0F8m1jKKtbpUYrHQOGXSIA==
+X-Received: by 2002:a17:907:746:b0:ba8:8094:f7af with SMTP id a640c23a62f3a-bd3e0c3415amr226191666b.18.1778684620998;
+        Wed, 13 May 2026 08:03:40 -0700 (PDT)
+Received: from [10.51.4.117] ([149.11.192.252])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcac11b7084sm832636466b.28.2026.05.13.08.03.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 May 2026 08:03:40 -0700 (PDT)
+Message-ID: <bf468ab5-2f62-408c-889f-2f99a599d190@gmail.com>
+Date: Wed, 13 May 2026 17:03:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260513065608.GA2250@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/8] docs/zh_CN: Add acm.rst translation
+To: Kefan Bai <baikefan@leap-io-kernel.com>, linux-usb@vger.kernel.org,
+ si.yanteng@linux.dev
+Cc: gregkh@linuxfoundation.org, alexs@kernel.org, dzm91@hust.edu.cn,
+ corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ doubled@leap-io-kernel.com
+References: <cover.1778415392.git.baikefan@leap-io-kernel.com>
+ <0ab199e9eafc0f7e312008063059aec4af0c65bc.1778415392.git.baikefan@leap-io-kernel.com>
+From: Alex Shi <seakeel@gmail.com>
+Content-Language: en-US
+In-Reply-To: <0ab199e9eafc0f7e312008063059aec4af0c65bc.1778415392.git.baikefan@leap-io-kernel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 13, 2026 at 08:56:08AM +0200, Christoph Hellwig wrote:
-> On Tue, May 12, 2026 at 10:02:04AM -0700, Darrick J. Wong wrote:
-> > OH.  Now I remember why -- it's to handle contiguous mixed mappings
-> > better.
-> > 
-> > Let's say that you have a 1k fsblock filesystem and 4k base pages.  You
-> > fallocate an 8G swap file and then mkswap it.  The first mapping is a 1k
-> > written mapping at offset 0 for the swap header, followed by an 8388607k
-> > unwritten mapping at offset 3k.
-> > 
-> > The PAGE_SIZE rounding code in iomap_swapfile_add_extent will round the
-> > end of that first mapping down to zero and ignore it.  The second
-> > mapping will be treated as if it were a 8388604k mapping starting at
-> > offset 4096.  Now the page counts are wrong and the swapon fails.
+
+
+On 2026/5/10 15:53, Kefan Bai wrote:
+> Translate .../usb/acm.rst into Chinese
 > 
-> Do we care about this use case?  I guess you did as you implemented
-> his, but still?
-
-We do, because mkswap -F uses fallocate nowadays:
-
-$ mkswap -s 4194304 -F a
-Setting up swapspace version 1, size = 4 MiB (4190208 bytes)
-no label, UUID=bc9746bf-e200-4944-927c-80d83872f1cb
-$ filefrag -v a
-Filesystem type is: 58465342
-File size of a is 4194304 (1024 blocks of 4096 bytes)
- ext:     logical_offset:        physical_offset: length:   expected: flags:
-   0:        0..       0:  411383552.. 411383552:      1:            
-   1:        1..    1023:  411383553.. 411384575:   1023:             last,unwritten,eof
-a: 1 extent found
-
-> > A more generic solution to this would be to change add_swap_extent to
-> > take sector_t addr and length values and use them to construct a bitmap
-> > representing contiguous physical space on the bdev, accounting of course
-> > for PAGE_SIZE alignment.  Except for the swap header page, every other
-> > contiguously set page-aligned region in the bitmap gets added to the
-> > swap extent map.
+> Update the translation through commit ecefae6db042
+> ("docs: usb: rename files to .rst and add them to drivers-api")
 > 
-> You don't even need a bitmap, just do basically the same checks as
-> the iomap code when moving to a new swap extent after moving to use
-> the sector_t.  And it really should anyway, as the current abuse of
-> sector_t to store a disk offset in PAGE_SIZE units is pretty gross.
+> Reviewed-by: Yanteng Si<siyanteng@cqsoftware.com.cn>
+> Signed-off-by: Kefan Bai<baikefan@leap-io-kernel.com>
+> ---
+>   Documentation/translations/zh_CN/usb/acm.rst  | 136 ++++++++++++++++++
+>   .../translations/zh_CN/usb/index.rst          |   2 +-
+>   2 files changed, 137 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/usb/acm.rst b/Documentation/translations/zh_CN/usb/acm.rst
+> new file mode 100644
+> index 000000000000..25ec83afd25f
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/usb/acm.rst
+> @@ -0,0 +1,136 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/usb/acm.rst
+> +
+> +:翻译:
+> +
+> + 白钶凡 Kefan Bai<baikefan@leap-io-kernel.com>
+> +
+> +:校译:
+> +
+> +
+> +=======================
+> +Linux ACM 驱动 v0.16
+> +=======================
+> +
+> +版权所有 (c) 1999 Vojtech Pavlik<vojtech@suse.cz>
+> +
+> +由 SuSE 赞助
+> +
+> +0. 免责声明
+> +~~~~~~~~~~~~~
+> +本程序是自由软件；你可以在自由软件基金会发布的 GNU 通用公共许可证第 2 版，
+> +或者（按你的选择）任何后续版本的条款下重新发布和/或修改它。
+> +
+> +发布本程序是希望它能发挥作用，但它不附带任何担保；甚至不包括对适销性
+> +或特定用途适用性的默示担保。详情见 GNU 通用公共许可证。
+> +
+Hi Kefan,
 
-Oh, I meant this to handle the particularly gross case where the fsblock
-size is smaller than a base page, but there are a very large number of
-file mappings that point to a physically contiguous extent but are not
-in logical order:
+Please align the lines above to make them look a bit cleaner. They don't 
+need to be aligned perfectly, but the current formatting could be 
+improved. Please apply this same standard to all patches.
 
-{.offset=0, .length=1k, .addr=7},
-{.offset=1, .length=1k, .addr=6},
-{.offset=2, .length=1k, .addr=5},
-{.offset=3, .length=1k, .addr=4},
-{.offset=4, .length=1k, .addr=3},
-{.offset=5, .length=1k, .addr=2},
-{.offset=6, .length=1k, .addr=1},
-{.offset=7, .length=1k, .addr=0},
+Thanks
+Alex
 
-That's two pages of swapfile, but with the current layout accumulation
-code we "cannot" find either.
+> +你应该已经随本程序收到了 GNU 通用公共许可证的副本；
+> +如果没有，请致信：Free Software Foundation, Inc., 59
+> +Temple Place, Suite 330, Boston, MA 02111-1307 USA。
+> +
+> +如需联系作者，可发送电子邮件至vojtech@suse.cz，
+> +或邮寄至：
+> +Vojtech Pavlik, Ucitelska 1576, Prague 8, 182 00, Czech Republic。
+> +
+> +为方便起见，软件包中已附带 GNU 通用公共许可证第 2 版：见 COPYING 文件。
+> +
+> +1. 使用方法
+> +~~~~~~~~~~~~~
+> +``drivers/usb/class/cdc-acm.c`` 驱动可用于符合 USB 通信设备类抽象控制模型
+> +（USB CDC ACM）规范的 USB 调制解调器和 USB ISDN 终端适配器。
+> +
+> +许多调制解调器支持此驱动，以下是我所知道的一些型号：
+> +
+> +	- 3Com OfficeConnect 56k
+> +	- 3Com Voice FaxModem Pro
+> +	- 3Com Sportster
+> +	- MultiTech MultiModem 56k
+> +	- Zoom 2986L FaxModem
+> +	- Compaq 56k FaxModem
+> +	- ELSA Microlink 56k
+> +
+> +我知道有一款 ISDN 终端适配器可以与 ACM 驱动一起使用：
+> +
+> +	- 3Com USR ISDN Pro TA
+> +
+> +一些手机也可以通过 USB 连接。我知道以下机型可以正常工作：
+> +
+> +	- SonyEricsson K800i
+> +
+> +遗憾的是，许多调制解调器和大多数 ISDN TA 都使用专有接口，
+> +因此无法与此驱动配合工作。购买前请先确认设备是否符合 ACM 规范。
+> +
+> +要使用这些调制解调器，需要加载以下模块::
+> +
+> +	usbcore.ko
+> +	uhci-hcd.ko ohci-hcd.ko or ehci-hcd.ko
+> +	cdc-acm.ko
+> +
+> +之后就应该可以访问这些调制解调器了。
+> +应当可以使用 ``minicom``、``ppp`` 和 ``mgetty`` 与它们通信。
+> +
+> +2. 验证驱动是否正常工作
+> +~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +第一步是检查 ``/sys/kernel/debug/usb/devices``，其内容应该类似如下::
+> +
+> +  T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=12  MxCh= 2
+> +  B:  Alloc=  0/900 us ( 0%), #Int=  0, #Iso=  0
+> +  D:  Ver= 1.00 Cls=09(hub  ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
+> +  P:  Vendor=0000 ProdID=0000 Rev= 0.00
+> +  S:  Product=USB UHCI Root Hub
+> +  S:  SerialNumber=6800
+> +C:* #Ifs= 1 Cfg#= 1 Atr=40 MxPwr=  0mA
+> +  I:  If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
+> +  E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=255ms
+> +  T:  Bus=01 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  2 Spd=12  MxCh= 0
+> +  D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
+> +  P:  Vendor=04c1 ProdID=008f Rev= 2.07
+> +  S:  Manufacturer=3Com Inc.
+> +  S:  Product=3Com U.S. Robotics Pro ISDN TA
+> +  S:  SerialNumber=UFT53A49BVT7
+> +  C:  #Ifs= 1 Cfg#= 1 Atr=60 MxPwr=  0mA
+> +  I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=acm
+> +  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
+> +  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
+> +  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
+> +C:* #Ifs= 2 Cfg#= 2 Atr=60 MxPwr=  0mA
+> +  I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
+> +  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
+> +  I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
+> +  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
+> +  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
+> +
+> +这三行的存在很关键（以及 ``Cls=`` 字段里出现的 ``comm`` 和 ``data`` 类）；
+> +它说明这是一个 ACM 设备。``Driver=acm`` 表示该设备正在使用 acm 驱动。
+> +如果只看到 ``Cls=ff(vend.)``，那就无能为力了：这说明你手上的设备使用的是
+> +厂商专有接口::
+> +
+> +    D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
+> +    I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
+> +    I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
+> +
+> +在系统日志中应该可以看到::
+> +
+> +  usb.c: USB new device connect, assigned device number 2
+> +  usb.c: kmalloc IF c7691fa0, numif 1
+> +  usb.c: kmalloc IF c7b5f3e0, numif 2
+> +  usb.c: skipped 4 class/vendor specific interface descriptors
+> +  usb.c: new device strings: Mfr=1, Product=2, SerialNumber=3
+> +  usb.c: USB device number 2 default language ID 0x409
+> +  Manufacturer: 3Com Inc.
+> +  Product: 3Com U.S. Robotics Pro ISDN TA
+> +  SerialNumber: UFT53A49BVT7
+> +  acm.c: probing config 1
+> +  acm.c: probing config 2
+> +  ttyACM0: USB ACM device
+> +  acm.c: acm_control_msg: rq: 0x22 val: 0x0 len: 0x0 result: 0
+> +  acm.c: acm_control_msg: rq: 0x20 val: 0x0 len: 0x7 result: 7
+> +  usb.c: acm driver claimed interface c7b5f3e0
+> +  usb.c: acm driver claimed interface c7b5f3f8
+> +  usb.c: acm driver claimed interface c7691fa0
+> +
+> +如果以上都正常，请启动 ``minicom``，把它配置为连接 ``ttyACM`` 设备，
+> +然后尝试输入 ``at``。如果返回 ``OK``，说明一切工作正常。
+> diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
+> index 7cfe99a4dc0a..449e8ac2dff0 100644
+> --- a/Documentation/translations/zh_CN/usb/index.rst
+> +++ b/Documentation/translations/zh_CN/usb/index.rst
+> @@ -17,10 +17,10 @@ USB 支持
+>   .. toctree::
+>       :maxdepth: 1
+> 
+> +    acm
+> 
+>   Todolist:
+> 
+> -* acm
+>   * authorization
+>   * chipidea
+>   * dwc3
+> --
+> 2.54.0
+> 
 
---D
