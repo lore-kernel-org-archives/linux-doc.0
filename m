@@ -1,127 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AA720010A;
-	Wed, 13 May 2026 14:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFA438655A;
+	Wed, 13 May 2026 14:59:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778683702; cv=none; b=AWP0FkMnLRwyE74o4Ul7kkCLztZsQqJzN1hDHs7v0MZPKcPEReX3/aS+Wgu9fIAh3G5uM3RNAuVw15z674OliBF+WWYMhseMRMoqN4Op6/BzQQBS9QELhXA4NJwAwg1Po5P5pl2XJplTj2QqPQfbktLxk0EKfDDMKIUDibL3fow=
+	t=1778684361; cv=none; b=iTK1QhfmhcdYbhmyQoPdM4VrW7HzWoI3PtTB101iNjpQXqUEouYHpZk1olqfT4B6LFqCTRT5yRrHRnekBCrOC5b8ONsdLjVCul4tZP9p1DGGaA2oL6sHF3Tyd3Jo/xSZBrkajesE/xWKD5KrbKXeOJJj9bq5NgrI/WxMgGf0Cjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778683702; c=relaxed/simple;
-	bh=nEmiCF6b5LfZ2kHKUKhThiK1MHbozn7yi/GBKke71jQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zf97vQGICdXNrsV9h7MoMNUyD7Tko+K6Nrf5XhnixckkxSjaDwjy/UwmQt2M3D0V4KXPVU3urcX90J3UbzYeuOOWeL3TRwkdIKGFD+oPwGJD1gcokT3LcfEvFWLrBsQaJj0B9OHK9kxygCSQCSS5SV6cwNdnS0sdJxfBeqeLFAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cM/nbQZn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778684361; c=relaxed/simple;
+	bh=zbNHyyDRYAeGo6U86F5ea4LHa32zJh59lyteWOe4KGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZhMrupf3fZ6ls6FVHJp880rovHBrIpAxXmr8lnULIEhJPSrZiYAzG1/w8BjXXkWF/YlY651QuhNX2j5B0SV0hm4xGTDZ21uo84LwcqRDo7Umyj2OVhM7le6YNRunOLF4FBm+8lkkdyqRsJLIWqZH3UgwwtbbnGAmzRD9RgyiUzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iIhYEKx5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cM/nbQZn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0142CC19425;
-	Wed, 13 May 2026 14:48:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iIhYEKx5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D47CC2BCB3;
+	Wed, 13 May 2026 14:59:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778683701;
-	bh=nEmiCF6b5LfZ2kHKUKhThiK1MHbozn7yi/GBKke71jQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cM/nbQZnxhoUBvxlr1XOcfgS13OwM6T6zV6y5h9LOS52MIjJvsxz1bkELetuRrynP
-	 buoOLf9sCIXeM7onQX+aEzf/vZwhofMcQopZR/mfuH6cvmGhkd0DVzC/eKAklpRJe5
-	 y24RrLjap7NeSbZuh7yJR8OgDejSZ2/JrGvgVE9Ekr6hjJCNxRX9G9upIpBjJFVJ6k
-	 xzLrMfpTPM8duhRB2qjAuuV0WsJOh74R40c+i5/nlxaFb1a/4P3NHOsKFKFRRjX5Fh
-	 E9fD1sKAzyNFqrdNv/kpCF4gxaKT41u5c8jEQtJzDx/C7Tylt9vwHO9+zjvSPnoR+O
-	 M5Fur968h7POA==
-Message-ID: <c94e9352-91e3-4bc0-bb29-f522c78b03ab@kernel.org>
-Date: Wed, 13 May 2026 09:48:19 -0500
+	s=k20201202; t=1778684360;
+	bh=zbNHyyDRYAeGo6U86F5ea4LHa32zJh59lyteWOe4KGw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iIhYEKx51XcVXCXizSytP4ZvhZtiBJmIPf+6O8Mktq3AJeEzUzkfq9zJFMxWWOQN/
+	 aoWFZ5To1myUEqEdw7VallkySu/iGPAldgKZg0gl6xnLSnuloIhSu3lBTLqysfs1I0
+	 Skg4f9BktAuE18yvvQRJ70VrpwY5SAV36hi26w0P9GMsQkbf7JD+SNU9HxSde3AnHu
+	 bo3a4ZV9/09phwV+AioQvcuqmfuB2eTSN/4uxVBmpiaTeWdd95EFcAzHk3DTbz/8je
+	 v+mVMmUJ6OM8tMNlaOTQXwFxTd7uJskcOql+wcSZWQ2REyC0QM0b5EqoBwpRfC7ETk
+	 FtuJsAzYKU1jA==
+Date: Wed, 13 May 2026 07:59:19 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, David Sterba <dsterba@suse.com>,
+	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>, Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org
+Subject: Re: [PATCH 08/12] swap,iomap: simplify iomap_swapfile_iter
+Message-ID: <20260513145919.GP9555@frogsfrogsfrogs>
+References: <20260512053625.2950900-1-hch@lst.de>
+ <20260512053625.2950900-9-hch@lst.de>
+ <20260512170204.GI9555@frogsfrogsfrogs>
+ <20260513065608.GA2250@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/2] AMD Promontory 21 xHCI temperature sensor support
-Content-Language: en-US
-To: Jihong Min <hurryman2212@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260512213910.871859-1-hurryman2212@gmail.com>
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20260512213910.871859-1-hurryman2212@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260513065608.GA2250@lst.de>
 
+On Wed, May 13, 2026 at 08:56:08AM +0200, Christoph Hellwig wrote:
+> On Tue, May 12, 2026 at 10:02:04AM -0700, Darrick J. Wong wrote:
+> > OH.  Now I remember why -- it's to handle contiguous mixed mappings
+> > better.
+> > 
+> > Let's say that you have a 1k fsblock filesystem and 4k base pages.  You
+> > fallocate an 8G swap file and then mkswap it.  The first mapping is a 1k
+> > written mapping at offset 0 for the swap header, followed by an 8388607k
+> > unwritten mapping at offset 3k.
+> > 
+> > The PAGE_SIZE rounding code in iomap_swapfile_add_extent will round the
+> > end of that first mapping down to zero and ignore it.  The second
+> > mapping will be treated as if it were a 8388604k mapping starting at
+> > offset 4096.  Now the page counts are wrong and the swapon fails.
+> 
+> Do we care about this use case?  I guess you did as you implemented
+> his, but still?
 
+We do, because mkswap -F uses fallocate nowadays:
 
-On 5/12/26 16:39, Jihong Min wrote:
-> Hi,
-> 
-> This series adds temperature monitoring for AMD Promontory 21 (PROM21)
-> xHCI PCI functions.
-> 
-> Patch 1 adds a small PROM21-specific xHCI PCI glue driver. USB host
-> operation is delegated to the common xhci-pci code, while the PROM21 glue
-> publishes an auxiliary device for optional sensor support.
-> 
-> Patch 2 adds an auxiliary-bus hwmon driver that binds to that auxiliary
-> device and exposes the PROM21 xHCI temperature value as temp1_input.
-> 
-> The hwmon driver reads the sensor through a vendor index/data register pair
-> in the xHCI PCI MMIO BAR. It does not wake the parent PCI device for hwmon
-> reads; if the parent is suspended, the read returns -ENODATA.
-> 
-> Changes in v5:
-> - Add support for AMD 1022:43fc PROM21 xHCI controllers and document the
->    new PCI ID.
-> - Make USB_XHCI_PCI_PROM21 depend on X86 and default to USB_XHCI_PCI.
-> - Keep the PROM21 PCI glue built-in-only when enabled, while allowing the
->    hwmon sensor driver to be built as a separate module.
-> - Move PROM21 xHCI PCI device IDs to xhci-pci.h so xhci-pci.c and
->    xhci-pci-prom21.c use shared definitions.
-> - Pass the parent PCI device, MMIO base, and resource length to the hwmon
->    driver through platform data defined in a common header, instead of
->    inspecting the parent driver's drvdata from the hwmon driver.
-> - Remove the private hwmon mutex and rely on hwmon core serialization for
->    this driver's callbacks.
-> - Clarify that the driver only serializes its own hwmon callbacks and does
->    not synchronize with firmware, SMM, ACPI AML, or other possible users of
->    the PROM21 vendor index/data register pair.
-> - Use readb() for the temperature data register, validate the value before
->    writing the output pointer, and drop the 0xff invalid-value check.
-> - Use pm_runtime_put() after successful reads with the parent device active
->    so the PM core can re-evaluate the parent device's idle state.
-> - Simplify the documentation and use more precise terminology for the
->    supported device.
-> 
-> Jihong Min (2):
->    usb: xhci-pci: add AMD Promontory 21 PCI glue
->    hwmon: add AMD Promontory 21 xHCI temperature sensor support
-> 
->   Documentation/hwmon/index.rst                 |   1 +
->   Documentation/hwmon/prom21-xhci.rst           | 101 ++++++++
->   drivers/hwmon/Kconfig                         |  10 +
->   drivers/hwmon/Makefile                        |   1 +
->   drivers/hwmon/prom21-xhci.c                   | 238 ++++++++++++++++++
->   drivers/usb/host/Kconfig                      |  20 ++
->   drivers/usb/host/Makefile                     |   1 +
->   drivers/usb/host/xhci-pci-prom21.c            | 123 +++++++++
->   drivers/usb/host/xhci-pci.c                   |  11 +
->   drivers/usb/host/xhci-pci.h                   |   3 +
->   include/linux/platform_data/usb-xhci-prom21.h |  22 ++
->   11 files changed, 531 insertions(+)
->   create mode 100644 Documentation/hwmon/prom21-xhci.rst
->   create mode 100644 drivers/hwmon/prom21-xhci.c
->   create mode 100644 drivers/usb/host/xhci-pci-prom21.c
->   create mode 100644 include/linux/platform_data/usb-xhci-prom21.h
-> 
+$ mkswap -s 4194304 -F a
+Setting up swapspace version 1, size = 4 MiB (4190208 bytes)
+no label, UUID=bc9746bf-e200-4944-927c-80d83872f1cb
+$ filefrag -v a
+Filesystem type is: 58465342
+File size of a is 4194304 (1024 blocks of 4096 bytes)
+ ext:     logical_offset:        physical_offset: length:   expected: flags:
+   0:        0..       0:  411383552.. 411383552:      1:            
+   1:        1..    1023:  411383553.. 411384575:   1023:             last,unwritten,eof
+a: 1 extent found
 
-Thanks for the driver.  I think this looks good now, and thank you 
-especially for documenting your reverse engineering efforts that led to 
-it.  If there are problems in the future I'm supposing it's going to be 
-based upon the calculations with the magic values to scale numbers.
+> > A more generic solution to this would be to change add_swap_extent to
+> > take sector_t addr and length values and use them to construct a bitmap
+> > representing contiguous physical space on the bdev, accounting of course
+> > for PAGE_SIZE alignment.  Except for the swap header page, every other
+> > contiguously set page-aligned region in the bitmap gets added to the
+> > swap extent map.
+> 
+> You don't even need a bitmap, just do basically the same checks as
+> the iomap code when moving to a new swap extent after moving to use
+> the sector_t.  And it really should anyway, as the current abuse of
+> sector_t to store a disk offset in PAGE_SIZE units is pretty gross.
 
-There isn't a lot that can be done in the event that BIOS is accessing 
-the same register pairs, but since you identified that this is exactly 
-how Windows HWInfo64 does it too; this is 'probably' low risk.
+Oh, I meant this to handle the particularly gross case where the fsblock
+size is smaller than a base page, but there are a very large number of
+file mappings that point to a physically contiguous extent but are not
+in logical order:
 
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+{.offset=0, .length=1k, .addr=7},
+{.offset=1, .length=1k, .addr=6},
+{.offset=2, .length=1k, .addr=5},
+{.offset=3, .length=1k, .addr=4},
+{.offset=4, .length=1k, .addr=3},
+{.offset=5, .length=1k, .addr=2},
+{.offset=6, .length=1k, .addr=1},
+{.offset=7, .length=1k, .addr=0},
+
+That's two pages of swapfile, but with the current layout accumulation
+code we "cannot" find either.
+
+--D
