@@ -1,113 +1,159 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35BE313547
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 14:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA66B27FB2E;
+	Wed, 13 May 2026 14:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778681548; cv=none; b=lXSNL+UrHvXnb7qHHDHOATck4ZjLN2NLgI/ORyrmjJeFC0FixlCxBZB7/4tt4FtZMXHwVmcTGkW+V6ZEQSOXkmaZ0rdkhH7cffghHIIw2jiZWZvHKKP/GRnU2vTue/gCcRoHV2UR0G0DalZ+VcMwkp7eRM/VxtR8o/NOLRPUlbM=
+	t=1778682592; cv=none; b=pUgNH4SkAng8gE6j0ojlpxQ3Y0adGXMV226D1OYmDs10pT4KM22B0/yBozYohnTNpv24a5OzV0VWr3f4FnfaWbbAjSdmY7xSnPmgfB1fQKvwIX+kaMPn37aiF30JUUD5dTKgctCy7D/9VDbof4+NXQ++ngzTGPkUuhKcG+xYYUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778681548; c=relaxed/simple;
-	bh=2GSMSTVsvoiuKafVkMeyFQjkSNsMir3nwpaEsBs4jsE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=HAuD3me9owCUx+6GJKWUoKyi/BSa0g+5FK78xfRzoRbEiTPrstTRRqoAfTNY4K3WkEeAQRiLa4gibVkaYHqV3zGnud7Y93y0cJx/Z+PNog+7uFNF0MsvQkJwv5/RNTJ7ONPHfmxlV5Kn1fXFuI2dDaTpV9XOaqwpb5O8WvedYKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fSExdNpB; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778682592; c=relaxed/simple;
+	bh=Q2HJgZxARD1A17cdhd0ukskQlCZlw3cCWkjA/E7sjHs=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type:Content-Disposition; b=HW9nrBqRY1aJuq6R6CQ2Uv6LXfZrF/Oq12evddRj5/jHX9VKnrrpXH/LXaTUSs+KWRij1GPXDZBq8/QPV3i+xj7DPLMmjBmqBYGvREE018IkHCoJosMlFwJJVPqhCwXHSatwyn+N/3lgweM6maAEdFaCU9JvUzJC7HKsU/ME0IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=NuHA1dvN; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fSExdNpB"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48e8132c6d0so30517035e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 07:12:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778681544; x=1779286344; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5AeU3RZqIRpK42nZO4mlXlJq7d3NeAbzn97432tCirg=;
-        b=fSExdNpBKW4MsrXYeUeYrqIAusXAxrVytIqg89XIeWT4ZYIh8X6e7qKaR17cQXK79+
-         jOyD7zrRLs6CnSEYaHzn68gM2sxJLqduqWTuvlfi9vOmwAWspvSb0HXpqwJDfIkVTom1
-         00ySdCCnhezu8O40Zeo4D+840G1dEg4pL676MMOy32+NsWxlj0J41/uYv4VgSp7bFU6Z
-         YVKI7LchjbGj8gAvC/OXRzXgDUlgSxQnwVYoMM1iWzQTL2o+c5hGbixFPyo3hzVLsBBa
-         DrqiQT6Yap9OkY5KtjhcbHR7ab5KLi9bG0T5BIF4zOI6GmdesomsXfWiEzJY3ww/Yn1g
-         kdmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778681544; x=1779286344;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5AeU3RZqIRpK42nZO4mlXlJq7d3NeAbzn97432tCirg=;
-        b=n98FLftjp/Utw20WkXooEv3zlgNoS8JwbBhssXeiEfrLTnpnRg5/f6I2k0SeY6B5b/
-         l1/64xodX+4cwTq/4X98p5UMNAg6fm0h+G10ghO83EgqMBCwOoa9spHz2odVqBTxEkRF
-         bJQTgJYInm1HMZr6nuhp3OWEDCLbpcEEhXVkYlPWKGMZbmWM4o6Z4S/FE4jQNIpskOHE
-         I4QqF47hLAiQ5WDvVL179KDfP38+v2yiYBh2CbIdGiwRY2MRVnmn+FrUcuCGeroNJCa9
-         qdce1Mbl31uVy/E0/FOG1AMrwxmQ1AyzxujlnC3WFqUuyufGQsN/SCGIQAu/Qz1SFN0H
-         1xsw==
-X-Forwarded-Encrypted: i=1; AFNElJ9zC4lp2rcOCwJ0QzSxMtuD4qVh3ntPXm1DO7jkrDxIB6esWaBDyHWgztl74zvzjQg9l0Bq1w6nN4g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyH6o6aiBt+1s7HkCRdCPy3RpLR9EYzkybxjAlaH3t6lLf2Ksul
-	7YJdT48UGdCZGOAcdbE9fVRTmZS+9kGMrnjZRtLjB7NM0pq3IVihsQoM
-X-Gm-Gg: Acq92OF+GMHmXBhZ4/efdpQGjPelY4qLKX7eN/oO6cly0DZfmIvgV7XeZPF3xIQI78l
-	Hmi7dw5IkrnNfKZc5y+XO7tpIPcFA/avyEF3dOGqHv2wtqEp4FfyRINkjEeM/VXw4zFUMpaHMOz
-	0dIA2KTM/BD4fvt7iwQ9EobTXkS1b6LTNcGZENpB39SssAwRphi9JDs9m3VStdJQIwVPCDEXn3/
-	fLiGRjBW9xL+Xkv8smeKf+ZFdmpicGnc6ku0AIUGksm/PQkNMHHKoP0b2T4DVsZJVrVKbpMoqcn
-	jKj5byY6BafypFyOBGaK2aA8X8oBEmHI9L2o90s32z6sGzsbLhlpBKPOemPfKtHXV9+m5mAtW89
-	tHUTBI0sSMLqi42f0WGfwoPtIl3JuzR0t7lWyypprqSzoBqlLAdtA5r4SYbr+NrEAGqwqzSdQx1
-	8xMwJtIcLKS3uHZ450N3m5BBDZ8TWSzOIhdKe9eBvknnUZJNByqK4KC+Jku20=
-X-Received: by 2002:a05:600c:524d:b0:487:2671:fb8f with SMTP id 5b1f17b1804b1-48fce9c0965mr46195725e9.8.1778681544302;
-        Wed, 13 May 2026 07:12:24 -0700 (PDT)
-Received: from [10.128.10.158] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fce37b18dsm52486725e9.11.2026.05.13.07.12.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 May 2026 07:12:23 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <6aa2f745-aea2-4d10-9565-65e2722beba9@gmail.com>
-Date: Wed, 13 May 2026 15:12:22 +0100
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NuHA1dvN"
+Received: from jeffbarnes-ThinkPad-P14s-Gen-2i (unknown [52.177.6.131])
+	by linux.microsoft.com (Postfix) with ESMTPSA id CA1E220B7167;
+	Wed, 13 May 2026 07:29:45 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CA1E220B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1778682587;
+	bh=eZUWYylCZ6/qLuaWw0TNaPlDo9Vps8c+zZrYEZIahBI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=NuHA1dvNsJW6xH4Usgxh7/uhFA6MBaY2RPcQJKvrC11Vr2cEKeAWOaRfxbnUR6UFB
+	 oiBmXSLXNdiNcWXGKcvbHKFQpA1okMHlruWzycMXJMU40BncG0GrjZSQjwF1Yq9/bf
+	 piOc9Fnm3JSaKCImUERP723aMBRnMkarncJ+c4lM=
+Date: Wed, 13 May 2026 10:29:46 -0400
+From: Jeff Barnes <jeffbarnes@linux.microsoft.com>
+To: Ignat Korchagin <ignat@linux.win>
+Cc: Eric Biggers <ebiggers@kernel.org>, Kamran Khan <kz@inspirated.com>, 
+ Andy Lutomirski <luto@amacapital.net>, 
+ "=?utf-8?Q?linux-crypto=40vger.kernel.org?="
+ <linux-crypto@vger.kernel.org>, Herbert Xu
+ <herbert@gondor.apana.org.au>, "=?utf-8?Q?linux-doc=40vger.kernel.org?="
+ <linux-doc@vger.kernel.org>, "=?utf-8?Q?linux-api=40vger.kernel.org?="
+ <linux-api@vger.kernel.org>, 
+ "=?utf-8?Q?linux-kernel=40vger.kernel.org?="
+ <linux-kernel@vger.kernel.org>, "=?utf-8?Q?netdev=40vger.kernel.org?="
+ <netdev@vger.kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+Message-ID: <C4F28324-E357-483B-B5BF-DA2D00A4D272@getmailspring.com>
+In-Reply-To: <CAOs+rJUA+bz6Y2GKioHnFGFKX_uAP+4LaPRs=ZDgRQoUi4mWkg@mail.gmail.com>
+References: <CAOs+rJUA+bz6Y2GKioHnFGFKX_uAP+4LaPRs=ZDgRQoUi4mWkg@mail.gmail.com>
+Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+X-Mailer: Mailspring
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 0/2] add kconfirm
-From: Julian Braha <julianbraha@gmail.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Jan Engelhardt <ej@inai.de>
-Cc: nathan@kernel.org, nsc@kernel.org, jani.nikula@linux.intel.com,
- akpm@linux-foundation.org, gary@garyguo.net, ljs@kernel.org, arnd@arndb.de,
- gregkh@linuxfoundation.org, masahiroy@kernel.org, ojeda@kernel.org,
- corbet@lwn.net, qingfang.deng@linux.dev, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-References: <20260509203808.1142311-1-julianbraha@gmail.com>
- <q02rn6o5-5pr6-1744-6os9-1052roro79s8@vanv.qr>
- <CANiq72kUD=s7VkOUBNFLbcASvDoO_qFXHziOcSFdDqtg5NXoUw@mail.gmail.com>
- <851ccd3c-d86a-409e-bd73-f0ef10b85879@gmail.com>
-Content-Language: en-US
-In-Reply-To: <851ccd3c-d86a-409e-bd73-f0ef10b85879@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-On 5/11/26 00:06, Julian Braha wrote:
->> By the way, another option for that may be using the distribution's
->> registry (e.g. Debian and Fedora provide one through the package
->> manager).
-> Unfortunately, it seems that there's no built-in way to fall back for
-> other distros:
-> https://github.com/rust-lang/cargo/issues/3066
-> 
-> The workaround could be to create various Cargo config.toml files, and
-> instruct users that, for example, if they want to use the debian
-> packages, they can download their dependencies using:
-> `cargo vendor --config debian.toml`
-> But I need to test this and confirm first since I don't use any of these
-> distros.
 
-As I started testing this approach with debian, I discovered that
-the parser crate, nom-kconfig, isn't available in the debian registry. I
-will bring this up with the developer of that library. However, it may
-take some time to be packaged and made available to users, so I will
-soon submit RFC v3 using crates.io for dependency download, but outside
-of make, as previously discussed.
 
-- Julian Braha
+On May 12 2026, at 5:18 pm, Ignat Korchagin <ignat=40linux.win> wrote:
+
+> On Mon, May 11, 2026 at 10:38=E2=80=AFPM Eric Biggers <ebiggers=40kerne=
+l.org> wrote:
+>> =20
+>> On Mon, May 11, 2026 at 10:03:21PM +0100, Ignat Korchagin wrote:
+>> > I don't think fully discounting hardware offloading is beneficial
+>> here. HW
+>> > accelerators will be produced and without a common interface
+>> vendors would
+>> > start implementing their own =22bespoke=22 drivers with bespoke user=
+space
+>> > interfaces (we already had such proposals), which in turn may
+>> introduce more
+>> > attack surface. Yes, A=46=5FALG needs substantial improvement, but a=
+t
+>> least it
+>> > can be a standardisation point.
+>> =20
+>> That isn't the best way to accelerate symmetric crypto anymore though,=
+
+>> if it ever was.  This has been known for a long time.
+>> =20
+>> > > In any case, any hypothetical security benefit provided by A=46=5F=
+ALG would
+>> > > have to be *very high* to outweigh the continuous stream of
+>> > > vulnerabilities in it.  I understand that people using A=46=5FALG
+>> might not
+>> > > be familiar with that continuous stream of vulnerabilities, but
+>> it would
+>> >
+>> >
+>> > Is it actually that much compared to other features/subsystems,
+>> like eBP=46 or
+>> > user namespaces=3F But we don't rush to deprecate those - instead
+>> trying to
+>> > harden them and come up with better design.
+>> =20
+>> There are plenty of other kernel features with a large attack surface,=
+
+>> of course.  But they tend to be much more useful than A=46=5FALG.  It'=
+s all
+>> about weighing benefits vs. risks.
+> =20
+> If divide number of CVEs in such systems on imaginary units of
+> usefulness, I think the ratio is similar.
+> =20
+>> When we get the point where a large number of Linux users *had* to
+>> disable A=46=5FALG as an emergency vulnerability response, and at the =
+same
+>> time their systems weren't even using A=46=5FALG so nothing even broke=
+ and
+>> they could have just done that to begin with, I think we get a very
+> =20
+> Well, there were: cryptsetup, RHEL fips check, so there are some...
+
+cryptsetup does not have a hard dependency on A=46=5FALG.
+It is a potential consumer via A=46=5FALG.
+
+A=46=5FALG provides a broad, hard-to-control interface
+cryptsetup (and similar tools) are not blockers
+
+A=46=5FALG removal does not necessarily break cryptsetup usage. Removal d=
+oes
+improve =46IPS boundary clarity.
+
+
+> =20
+>> clear idea of which side is heavier for A=46=5FALG in the real world.
+> =20
+> Same thing could be said for unprivileged user namespaces - distros
+> even put a custom sysctl to restrict it and no-one noticed.
+> =20
+>> The main relevance of A=46=5FALG to the Linux community is that it all=
+ows
+>> their systems to be exploited.
+> =20
+> To be clear I'm not arguing for the current A=46=5FALG implementation. =
+I
+> agree, the splice zero-copy is... suboptimal (to be soft) and is
+> actually not-so-zero copy. But I think it was just added before we had
+> more modern approaches like io=5Furing (have their own can of worms, bu=
+t
+> hey - people adopt it fast).
+> =20
+> But I advocate for the usefulness of the concept itself - kernel/OS
+> providing crypto services to userspace. As mentioned in other threads,
+> other operating systems have it and Linux lags behind. There are use
+> cases: common interface for HW accelerators, embedded systems, which
+> don't have the space to bring a userspace lib etc. Even non-technical:
+> there are environments that just don't want to rely on third-party
+> userspace libraries like OpenSSL purely for licensing reasons. And I
+> agree, that it is hard to do it right, but we can piggy-back on other
+> subsystems (such as io=5Furing mentioned or other ideas).
+> =20
+>> - Eric
+>> =20
+> =20
+> Ignat
+> =20
+Jeff
