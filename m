@@ -1,67 +1,67 @@
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452D3390990
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 22:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAA6390990
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 22:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778711750; cv=none; b=bLsisBRhS6d7sZYFhYTvTR//W371OkDQGE85BpEcYJ9FFVg1oUaJsd8yZC+lb59Zza3Q7f5utXf4NbrtLVUTIIj0OCHO9q2BitBlhlrzzrHB0Z22xNGKDaQA1UMjIt1HZzwzf4mqiJKRKLlXRI2poeXZjxE/XjVxgNPkBCKR6qo=
+	t=1778711852; cv=none; b=RX5Mm+do0LjT/tVJVxjsCX1lz4oulG2p53q0MsDJH5lOhWyrwYzHsFeNDQYfCkViPKSEZ/ZNh0aRkKnWPfUwplVYGeIle/j02h7Y4KgNyqxX/+IndTNhwguw9SflDzSYRT9PdolzLpy7Le9gZlMSfeocIonUf3aIgYbzHiIXlTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778711750; c=relaxed/simple;
-	bh=gUrd+2r+CJ3+MIRtHvFv8bVXhWR3+Vlfirm5NflKs/I=;
+	s=arc-20240116; t=1778711852; c=relaxed/simple;
+	bh=Xgg9HNCjyRGX23AO/sCUh+nwGgu/rEK41LJrspiAXD4=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JKfeBsm6D7QQh+0TooCZ/qUZXFdFRfzSzuMsNP+ddY17Gx28Q0YoMkJuf1+KgYQZ1f7lNeslMABOlUDGtAHZFPxsiVbggIkv1XrHAN2Fclfk4o6sCJgTruDG5inN+SMf0FbdUlz3+cGLJZS+JimqaF+MS5AWKHdnuRRiYc9TLZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c1W/x9tk; arc=none smtp.client-ip=74.125.82.44
+	 Content-Type:MIME-Version; b=jPVomTA/qJYRmswx+aE4Q0znNFPbAg5UnB1wLlI0H5w/6IEcz1XSF2zfBdhLkEBOZQuSgGETeFzZBEJTrl/t7LYD7UE5eAm6C2Ro3rTpItnsR2K0x/dN/1UmnZxB5Kz8VildlZbvsOu2qISjUfDGVx9bVSl4deZDwb1OFhwcH0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PR/FSUa3; arc=none smtp.client-ip=74.125.82.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c1W/x9tk"
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-133466cf955so1118961c88.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 15:35:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PR/FSUa3"
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1334825de43so2893063c88.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 15:37:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778711748; x=1779316548; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778711849; x=1779316649; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=gUrd+2r+CJ3+MIRtHvFv8bVXhWR3+Vlfirm5NflKs/I=;
-        b=c1W/x9tkJXXj98dkUCkQpcbm8AOT1+681olav2PXe7F14Sp/82tzsA5eOJhRBiSxT9
-         1c5NGZyNAbhVtt1xAGmLHK1dmJGjel5NLYeJbYSxyUGQxsz875l35/mw7hb1JDtyVByh
-         L+1G4MhEcfQsxglyRX1S4ZW/x9ZKPJExHubcPlal88hfUBJV16Pc2IlMYgGhT7P0j37q
-         Madw4ZPj5JaaA9w3vGAMPC+jP0LDpWyYXEhaNKD5tL5La4YZ5RzjZAygPILSRLyv/tZh
-         e3G4DwVSBvXoM7HeGq48S5JO4YU2U2f2sGdkAvMaXggJyqsJjW+o9pM/V7P97FL1WZf4
-         sOXQ==
+        bh=EjgurmqF9AmDhw7t4esTINtqU6esw5454d78bG00bqQ=;
+        b=PR/FSUa3c6vRnSXWzhuis1p7TFcWMstQ71/cTTvgss9ZgDSlz+ui30EClob2//MXba
+         wNLCubb4Adat6EjJqCpOJ4grOMJPV92iJkF/KQJ1rg5MXzeh3WOEosCwaPOMMix993gc
+         SjD3F8MxhBmmnwA8ys3NDCN+N+OdM3TLmNbouKUpaJeK3gc6L3sRZFQHQ0P1+mz6Iop8
+         U6ZXIqlEbh8qi8+LkFkPuFyYYP41J/WXtlwMUGhPU8SHu2fpkhjtC2RHJiK8K5vIwyHg
+         JNoOqqgijTKzwR7qhMpyoGegUkpgh92tCKjm8+bSJy2kF7wZeEYlIom60Tj1xZxIlMNW
+         insQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778711748; x=1779316548;
+        d=1e100.net; s=20251104; t=1778711849; x=1779316649;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gUrd+2r+CJ3+MIRtHvFv8bVXhWR3+Vlfirm5NflKs/I=;
-        b=tD1xjvK7MxM/kHm94Twr2sIOahFusvCa11wBpNo+5RK9gxMic6NzI1jg84IImfyjjp
-         tQ2lBQ2KbQdp8yly/zA/Fay06gJ1qYGt0SUpgZYKfd90LfG9jw4s49Ma+we60k5eVVaI
-         5t7fMNf8kiYnDPoeoOwnu3owLk0/evr38nNNDyNco6PE8JLeMmUhCWt2S0L6r/Gh3Msf
-         FyLhkxTvEPV9kB5hIsPAgtq9lE7qA8EHx4OPP44b94Ckp+NTYmL72xGaXhMD0EYWjpcd
-         6yS356uTP6xIQFC9clYKfbn8Xlw30VctBDZIjf3RCVkGb5eE5Ex79CnJifPo43Qrm5PP
-         bpEA==
-X-Forwarded-Encrypted: i=1; AFNElJ8jsYI7bL29GWkdFhBMA0rc7Gsa/BRKFOgz0Z0soY7fq+ZNz1llSrmgFQhl84m7jL7HywW3yH5M/w4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPegvv82nW6/+13Zh44QP17IlqYPhRO+kZtz01mkNHWRbWR6Bx
-	B/NC90vGYMBi5h00cd6v8nw+e4cJ9ewzIiix04Gt5kwAe+/sQNxZPS8E
-X-Gm-Gg: Acq92OHpJeepCC+NGUpCbCJH32d6R7Y9ZyOztiFRxSnTWQ39Cxrb1cG4Ky/6IsD8+9C
-	OzfTt10LH3fuiNMj71ZvGmx0qqAyy/shou/FUdzkP9ztHVuiFH+YkUfRRvgYXdvzPg3zpv/Uqu4
-	uy5EAtHG6icxGg2aykLH00SzCgw8qGfwaIZT6IC7Ns2mytGqxh9EFUT6c57zZdKwzgfMn+45kZh
-	qVxClndD/jrUp0URO6fk5sU5JU1NRLOOIubNnFWutaM4Zr2EKUq/5nZnbq3IOAYYVzDiABsDSVt
-	6/F0J3T5SnwpkrvbeHXqzv2dsZDuStwvuhLl36c8Cw7o01FBNI4eHCbRLbeDAEkGvLyKlV+SNJV
-	b5lg8a16uLWNCtQzs/TG38b8Dy9OHGgj5uZX6czgcmUcixgBQBw+/5GzLSPjBLno3tDbUKYekht
-	la1YZB3QIUWghNeldpx+iY97bxuEhsdUYjUoHdJVR4Dwwfv2B/h8BJ+NMqg/wBPm8k8cN3Hhzjz
-	2VKZ0w=
-X-Received: by 2002:a05:7022:4582:b0:128:d51a:5161 with SMTP id a92af1059eb24-1343699b60dmr3654904c88.27.1778711748302;
-        Wed, 13 May 2026 15:35:48 -0700 (PDT)
+        bh=EjgurmqF9AmDhw7t4esTINtqU6esw5454d78bG00bqQ=;
+        b=VoR7uUhVJQpYg1rZjX0Dy6QYzodueHroktqq5lsdDW5uPf+JFpgS2bjeF6b3n09pfD
+         9zNtEng8DDa63Pk1gcjcNmB9R6XYWsLLppTQa3qictg99K7oJUFnK8yOGKLTdl2HKM03
+         N/ubuloskI78RLU/cmuEnJSyrx5ZQeAP4WQtQNEikZelp0/24gLH4fw9OrgPfoKlMZiS
+         FKBLpvSUUhVaWLxw/yAIEzp/iTwl2dcZXfzNg77M9M0W5G6Peid8QfEZQ9y5/CF+pqBk
+         jBha4GS5IVYHt+hCfgcgDYiyW8ntZ1zaEQgO5vj/FfYF5s5wdV2ztyMsM60XiV0Doa/o
+         cf7Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+w0hPEMbYTaBHilWNw4KV5JmLRtWpq/wqCWAcWa/ryxFUfGreZKcWSQ+wOy/u3zOV7jZg7Eugw8ps=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyYvMNps74nKZpGOm/Vb/bbidBYfQsh1dCgieM9GPnZqlYorXA
+	QPCA7IsXyprpDQj5MpOLG/DxxwPAf+z2CGTuYv+p+8FVpGGm5BLcz6qS
+X-Gm-Gg: Acq92OFMLwQRPmOWxHhmWDBLXcDST07JC0jcJdZBGi4Fz94beEki6HoDQkgVpucUOyv
+	mOTzyCaXpqVuRYv3qQXOWVTVI4J/47lkwbB2Oz6ZueH0uGnmh2jJ95clOjwgcohqhTSAP282Nmh
+	u0cG5wtYDYApXvtpzd9Ryz7zTtUle9ZW/Csc13I/QpWjYQTvZ4Nvvp5gs+B2AXmy3vfmnMoonLx
+	nSPoEbez0ry+mViE2e2mhVSi9WmyASsCCJ9dr9q2Tugxfkl1mUZEvejaqEjHSvX9aGrwBVjvSes
+	DWmtb4MbvFl1x5EkzMSDMFAZVjQawr2byLHwaY9Isz6DYVGIHL9iM6SWp4K3NaiH4uofl5kM7nI
+	yHpHk/w9uogJvcZAO7EOwqsnFy9jkvW0ZHxciW/uU117u66lkYwZOVbhhE0tsIqmEtIMWA05b31
+	W8SqficnGfvPgeM3lPAgwFRcj6Wp1z2NiOwzvgPqCv5KYBwRBFd6zJhqnf9mXfgLPAQd430NJKx
+	H0Xrm7Iqfm7fSZBsw==
+X-Received: by 2002:a05:7022:2513:b0:12d:b654:8176 with SMTP id a92af1059eb24-1342ee48a6fmr2921477c88.1.1778711848861;
+        Wed, 13 May 2026 15:37:28 -0700 (PDT)
 Received: from ?IPv6:2a03:83e0:115c:1:5152:641f:f5ef:6c7b? ([2620:10d:c090:500::2:8a9])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cbcb93f3sm1371607c88.3.2026.05.13.15.35.46
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-302977a9474sm739335eec.25.2026.05.13.15.37.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 15:35:48 -0700 (PDT)
-Message-ID: <f75e2c732e5ddf34863b1376722d9b727525fd1b.camel@gmail.com>
-Subject: Re: [PATCH RESEND bpf-next v10 6/8] bpf: add
- bpf_list_is_first/last/empty kfuncs
+        Wed, 13 May 2026 15:37:28 -0700 (PDT)
+Message-ID: <0419643c9a04bf0824066742e52e3f197b43909b.camel@gmail.com>
+Subject: Re: [PATCH RESEND bpf-next v10 7/8] bpf: allow non-owning list-node
+ args via __nonown_allowed
 From: Eduard Zingerman <eddyz87@gmail.com>
 To: Kaitao cheng <kaitao.cheng@linux.dev>, ast@kernel.org, corbet@lwn.net, 
 	martin.lau@linux.dev, daniel@iogearbox.net, andrii@kernel.org,
@@ -71,11 +71,11 @@ To: Kaitao cheng <kaitao.cheng@linux.dev>, ast@kernel.org, corbet@lwn.net,
  memxor@gmail.com
 Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-doc@vger.kernel.org, vmalik@redhat.com,
- linux-kselftest@vger.kernel.org,  Emil Tsalapatis <emil@etsalapatis.com>
-Date: Wed, 13 May 2026 15:35:45 -0700
-In-Reply-To: <20260512055919.95716-7-kaitao.cheng@linux.dev>
+ linux-kselftest@vger.kernel.org
+Date: Wed, 13 May 2026 15:37:25 -0700
+In-Reply-To: <20260512055919.95716-8-kaitao.cheng@linux.dev>
 References: <20260512055919.95716-1-kaitao.cheng@linux.dev>
-	 <20260512055919.95716-7-kaitao.cheng@linux.dev>
+	 <20260512055919.95716-8-kaitao.cheng@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
@@ -89,25 +89,47 @@ MIME-Version: 1.0
 On Tue, 2026-05-12 at 13:59 +0800, Kaitao cheng wrote:
 > From: Kaitao Cheng <chengkaitao@kylinos.cn>
 >=20
-> Add three kfuncs for BPF linked list queries:
-> - bpf_list_is_first(head, node): true if node is the first in the list.
-> - bpf_list_is_last(head, node): true if node is the last in the list.
-> - bpf_list_empty(head): true if the list has no entries.
+> KF_ARG_PTR_TO_LIST_NODE normally requires an owning reference
+> (PTR_TO_BTF_ID | MEM_ALLOC with ref_obj_id). Introduce and use
+> the __nonown_allowed annotation on selected list-node arguments
+> so non-owning references with ref_obj_id=3D=3D0 are accepted as well.
 >=20
-> Currently, without these kfuncs, to implement the above functionality
-> it is necessary to first call bpf_list_pop_front/back to retrieve the
-> first or last node before checking whether the passed-in node was the
-> first or last one. After the check, the node had to be pushed back into
-> the list using bpf_list_push_front/back, which was very inefficient.
+> This enables passing bpf_list_front() / bpf_list_back() results to:
 >=20
-> Now, with the bpf_list_is_first/last/empty kfuncs, we can directly
-> check whether a node is the first, last, or whether the list is empty,
-> without having to first retrieve the node.
+> bpf_list_add() as insertion point (prev)
+> bpf_list_del() as deletion target (node)
+> bpf_list_is_first/last() as query target (node)
+>=20
+> Verifier keeps existing owning-ref checks by default; only arguments
+> annotated with __nonown_allowed bypass MEM_ALLOC/ref_obj_id checks
+> and then follow the same list-node validation path.
 >=20
 > Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
-> Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
 > ---
 
 Reviewed-by: Eduard Zingerman <eddyz87@gmail.com>
+
+[...]
+
+> @@ -12017,6 +12022,13 @@ static int check_kfunc_args(struct bpf_verifier_=
+env *env, struct bpf_kfunc_call_
+>  				return ret;
+>  			break;
+>  		case KF_ARG_PTR_TO_LIST_NODE:
+> +			if (is_kfunc_arg_nonown_allowed(btf, &args[i]) &&
+> +			    type_is_non_owning_ref(reg->type) && !reg->ref_obj_id) {
+                                                                 ^^^^^^^^^^=
+^^^^^^
+                           Nit: I think this check is redundant, type_is_no=
+n_owning_ref() should suffice.
+
+> +				/* Allow bpf_list_front/back return value for
+> +				 * __nonown_allowed list-node arguments.
+> +				 */
+> +				goto check_ok;
+> +			}
+>  			if (reg->type !=3D (PTR_TO_BTF_ID | MEM_ALLOC)) {
+>  				verbose(env, "%s expected pointer to allocated object\n",
+>  					reg_arg_name(env, argno));
 
 [...]
