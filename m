@@ -1,155 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D473D88F2;
-	Wed, 13 May 2026 08:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370C93DD864
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 08:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778661761; cv=none; b=N2Ij63777qvXLBJjN0VCNLY6zVeAJQez72KQ4PSEmKDQDoj6uaVaUa51rlTkKs5e1YRNOpKTQhC81oyMpBpwy/NLWF7G5oAMjBaoQ0rbXuhIgJSWSnPvf54U9rUQ2PvJPKVmnQQWEhkPqrMt5HfWQdlbTOptmUhjFjXWPjISvzs=
+	t=1778662465; cv=none; b=Rtu1cvkt9RCLLp/ZECZP82y8mFBh6BAhFd8LnMBHA7Y1xc+29B7YaHg7aZAshgR6hUYnS3c9wWctlyHHr1/KTVh1RexdgrXSbtdV0L9yjzRyE1eX1GaxQcOLTyzBAagg+ZzPIOkqi7oiglDDNb2a9w/okProB5fLHoy2FDRbrCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778661761; c=relaxed/simple;
-	bh=wFcKZ8r+riP6MbTu1qKedhOQzdDog9eWtDtPnYzMQ3M=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f23OkHI8J4/OGbFtunfG2XFa9RjZXNjUFgvFP/Ob6imDdWEMdjQAYPz9ADyYwwvmmOIM8UPl7QRwbQwOVc5nwodxDI3uY6oQ3sG6ULsFmmoORCN+Ped1VkoJA4GXkCzi/epVPP0oEag13+9Wnm256SWk49TV2PfjJ7XrRLwXZEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dL+mOThU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778662465; c=relaxed/simple;
+	bh=H7HWUHoseLPrw8dqrwgrKZol2dROZXK1l0q1E9z5qVE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nc6NoACmCfPP+bVdv19SII+txJSXjavHwnYpzYTOCcPcBiMEBrEDb/a8vUiKy0sWhq95wpRRxCM/8Wl3Az8Kv46raw1OL1q8muq/+aT4/Ii+2nOQsRXl7Ik3L1zYVZ6Li6aWuC5MVFD+AlfstnSAcJv8siyqM/uREhBLHJz/Yts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=QWV6Uy7c; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=QWV6Uy7c; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dL+mOThU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84068C2BCB7;
-	Wed, 13 May 2026 08:42:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778661759;
-	bh=wFcKZ8r+riP6MbTu1qKedhOQzdDog9eWtDtPnYzMQ3M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dL+mOThUrXXyro0zysDBR2vEzgp8njYPG1rem/bvEEarfzI4iharQP8kiFEIKGWaO
-	 BHC2NCndirUymlaSj6KAce8B5EZxGXgzcfRa+OZ31J5WQ/9sdMZj04KRg8N/0hViDM
-	 BiYRDaGtS7PSjr/2AZSYl1pbysNuRImlxZmCLm/iJygUT75bszXrPh40/kbhpG2xVg
-	 W/4pZTcI3aTR2oNvh9IMHpKk8dcE9XaDVTHHiiEzHR/szG1HNqvxTIUKl8GRm38PrK
-	 vhLQTJINE+wstMdsHbuNTyEGAUSqg+6yLOHCDFGOo/AKESMMycUcs2RijMsMGULODX
-	 nIVCQR0pSPbpg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wN5Ar-00000001tMH-0Xjc;
-	Wed, 13 May 2026 08:42:37 +0000
-Date: Wed, 13 May 2026 09:42:36 +0100
-Message-ID: <86h5obya2r.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: David Woodhouse <dwmw2@infradead.org>,
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="QWV6Uy7c";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="QWV6Uy7c"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A60725CB1B;
+	Wed, 13 May 2026 08:54:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1778662461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2HM+x/YUJX65NP1C1oSb9+keP7Dk18O21bC3L8pDhTY=;
+	b=QWV6Uy7cxRhC2148IzXx0RZKcXE6Ch7dn+WT8wNBruVOz3bHiOqOsD/s86eqw3Ple952rK
+	mBIqsJ6uRn3Y8N01tsnSKocudOMlph9/UTJGS1TFTFBBqaqf4i/NKRtSsHpDCuYqPLY3Sz
+	LWNU4xS5tXnpFje+P8x9aStbYXRJvUs=
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1778662461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2HM+x/YUJX65NP1C1oSb9+keP7Dk18O21bC3L8pDhTY=;
+	b=QWV6Uy7cxRhC2148IzXx0RZKcXE6Ch7dn+WT8wNBruVOz3bHiOqOsD/s86eqw3Ple952rK
+	mBIqsJ6uRn3Y8N01tsnSKocudOMlph9/UTJGS1TFTFBBqaqf4i/NKRtSsHpDCuYqPLY3Sz
+	LWNU4xS5tXnpFje+P8x9aStbYXRJvUs=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C860593A9;
+	Wed, 13 May 2026 08:54:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WLTuHT08BGpERwAAD6G6ig
+	(envelope-from <neelx@suse.com>); Wed, 13 May 2026 08:54:21 +0000
+From: Daniel Vacek <neelx@suse.com>
+To: Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	David Sterba <dsterba@suse.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-block@vger.kernel.org,
+	Daniel Vacek <neelx@suse.com>,
+	linux-fscrypt@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Sean Christopherson <seanjc@google.com>,
-	Jim Mattson <jmattson@google.com>,
-	Oliver Upton <oupton@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu
- <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH] Documentation: KVM: Document guest-visible compatibility expectations
-In-Reply-To: <baff82ca-6321-4b16-aa61-b2d6d60b6535@redhat.com>
-References: <6856b269d2af706eae397e0cf9c1231f89d9a932.camel@infradead.org>
-	<6afc4b95-3c15-4d71-877d-19b84e91ce05@redhat.com>
-	<57bc082f4824d6114d3156744c25986effc29aca.camel@infradead.org>
-	<baff82ca-6321-4b16-aa61-b2d6d60b6535@redhat.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	linux-doc@vger.kernel.org
+Subject: [PATCH v7 08/43] fscrypt: add documentation about extent encryption
+Date: Wed, 13 May 2026 10:52:42 +0200
+Message-ID: <20260513085340.3673127-9-neelx@suse.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260513085340.3673127-1-neelx@suse.com>
+References: <20260513085340.3673127-1-neelx@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: pbonzini@redhat.com, dwmw2@infradead.org, corbet@lwn.net, skhan@linuxfoundation.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, seanjc@google.com, jmattson@google.com, oupton@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, rananta@google.com, eric.auger@redhat.com, kees@kernel.org, arnd@arndb.de, nathan@kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -6.80
+X-Spamd-Result: default: False [-6.80 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.com:mid,imap1.dmz-prg2.suse.org:helo];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	R_RATELIMIT(0.00)[to_ip_from(RLdafymbgddseoxkryad1wgu8n)];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Level: 
 
-On Mon, 11 May 2026 17:56:15 +0100,
-Paolo Bonzini <pbonzini@redhat.com> wrote:
->=20
-> On 5/11/26 18:38, David Woodhouse wrote:
-> > Not *everything* is in CPUID; one recent exception that comes to mind
-> > is the SUPPRESS_EOI_BROADCAST quirk. But on x86 we preserve the
-> > existing behaviour of older kernels =E2=80=94 even when that behaviour =
-doesn't
-> > make much sense, as with SUPPRESS_EOI_BROADCAST where older KVM would
-> > *advertise* the feature, but not actually *implement* it. Nevertheless,
-> > that remains the default behaviour of future kernels unless userspace
-> > explicitly opts in to fully enable (or disable) the feature.
-> >=20
-> > But this documentation update isn't even asking for that compatible-by-
-> > default behaviour, even though that is the right thing to do. It's only
-> > asking that it be *possible* to reinstate the old behaviour, for
-> > userspace that *knows* about the change and explicitly wants to go back
-> > to the old way to remain compatible.
->=20
-> Yep, these are the "quirks"---if it's too early for Arm to commit to
-> that, I guess it's fine.
+From: Josef Bacik <josef@toxicpanda.com>
 
-Compatible by default means nothing, because userspace needs to
-discover the combined capabilities of the host and KVM. This is not a
-"CPU model" architecture.
+Add a couple of sections to the fscrypt documentation about per-extent
+encryption.
 
-If userspace is not a total joke, it will read all the ID registers,
-and configure what it wants to see, assuming it is a feature that can
-be configured (not everything can, because the architecture itself is
-not fully backward compatible).
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+Signed-off-by: Daniel Vacek <neelx@suse.com>
+---
 
-Yes, this is buggy at times, because the combinatorial explosion of
-CPU capabilities and supported features makes it pretty hard to test
-(and really nobody actually does). But overall, it works, and QEMU is
-growing an infrastructure to manage it in a "user friendly" way.
+v7 changes:
+ * Fix spelling and typos.
+No changes in v6.
+v5: https://lore.kernel.org/linux-btrfs/7b2cc4dd423c3930e51b1ef5dd209164ff11c05a.1706116485.git.josef@toxicpanda.com/
+---
+ Documentation/filesystems/fscrypt.rst | 41 +++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-But really, this isn't what David is asking. He's demanding "bug for
-bug" compatibility. For that, we have two possible cases:
+diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
+index c0dd35f1af12..a1b0b50da869 100644
+--- a/Documentation/filesystems/fscrypt.rst
++++ b/Documentation/filesystems/fscrypt.rst
+@@ -283,6 +283,21 @@ alternative master keys or to support rotating master keys.  Instead,
+ the master keys may be wrapped in userspace, e.g. as is done by the
+ `fscrypt <https://github.com/google/fscrypt>`_ tool.
+ 
++Per-extent encryption keys
++--------------------------
++
++For certain file systems, such as btrfs, it's desired to derive a
++per-extent encryption key.  This is to enable features such as snapshots
++and reflink, where you could have different inodes pointing at the same
++extent.  When a new extent is created fscrypt randomly generates a
++16-byte nonce and the file system stores it alongside the extent.
++Then, it uses a KDF (as described in `Key derivation function`_) to
++derive the extent's key from the master key and nonce.
++
++Currently the inode's master key and encryption policy must match the
++extent, so you cannot share extents between inodes that were encrypted
++differently.
++
+ DIRECT_KEY policies
+ -------------------
+ 
+@@ -1483,6 +1498,27 @@ by the kernel and is used as KDF input or as a tweak to cause
+ different files to be encrypted differently; see `Per-file encryption
+ keys`_ and `DIRECT_KEY policies`_.
+ 
++Extent encryption context
++-------------------------
++
++The extent encryption context mirrors the important parts of the above
++`Encryption context`_, with a few omissions.  The struct is defined as
++follows::
++
++        struct fscrypt_extent_context {
++                u8 version;
++                u8 encryption_mode;
++                u8 master_key_identifier[FSCRYPT_KEY_IDENTIFIER_SIZE];
++                u8 nonce[FSCRYPT_FILE_NONCE_SIZE];
++        };
++
++Currently all fields much match the containing inode's encryption
++context, with the exception of the nonce.
++
++Additionally extent encryption is only supported with
++FSCRYPT_EXTENT_CONTEXT_V2 using the standard policy; all other policies
++are disallowed.
++
+ Data path changes
+ -----------------
+ 
+@@ -1506,6 +1542,11 @@ buffer.  Some filesystems, such as UBIFS, already use temporary
+ buffers regardless of encryption.  Other filesystems, such as ext4 and
+ F2FS, have to allocate bounce pages specially for encryption.
+ 
++Inline encryption is not optional for extent encryption based file
++systems; the amount of objects required to be kept around is too much.
++Inline encryption handles the object lifetime details which results in a
++cleaner implementation.
++
+ Filename hashing and encoding
+ -----------------------------
+ 
+-- 
+2.53.0
 
-- this is a behaviour that, while undesirable, is allowed by the
-  architecture: fine, we preserve the behaviour and add another way to
-  expose the one we really want. it is ugly, but we manage.
-
-- this is a behaviour that is not allowed by the architecture: we fix
-  it for good. We do that on every release. Some minor, some much more
-  visible. And there is no way we will add this sort of "bring the
-  bugs back" type of behaviours. Specially when it is really obvious
-  that no SW can make any reasonable use of the defect. We allow
-  userspace to keep behaving as before, but the guest will not see a
-  non-compliant behaviour.
-
-That being said, there is a way out of that: convince people in charge
-of the architecture that the non-compliant KVM behaviour is actually
-valuable, and deserves to be tolerated. This has happened before (VHE
-only and NV2 only, just to name two recent changes).
-
-Other terrible hacks (such as GICv3's GICD_TYPER.num_LPIs which KVM
-doesn't support) were added at the request of cloud vendors that David
-might be familiar with, so it isn't like it is a brand new process.
-
-And once it is in the architecture, it becomes a behaviour that is
-allowed to be exposed to a guest, for better or worse.
-
-These are the rules we have followed since we started KVM/arm, and I
-intend to stick to them.
-
-Thanks,
-
-	M.
-
---=20
-Without deviation from the norm, progress is not possible.
