@@ -1,159 +1,127 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA66B27FB2E;
-	Wed, 13 May 2026 14:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AA720010A;
+	Wed, 13 May 2026 14:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778682592; cv=none; b=pUgNH4SkAng8gE6j0ojlpxQ3Y0adGXMV226D1OYmDs10pT4KM22B0/yBozYohnTNpv24a5OzV0VWr3f4FnfaWbbAjSdmY7xSnPmgfB1fQKvwIX+kaMPn37aiF30JUUD5dTKgctCy7D/9VDbof4+NXQ++ngzTGPkUuhKcG+xYYUA=
+	t=1778683702; cv=none; b=AWP0FkMnLRwyE74o4Ul7kkCLztZsQqJzN1hDHs7v0MZPKcPEReX3/aS+Wgu9fIAh3G5uM3RNAuVw15z674OliBF+WWYMhseMRMoqN4Op6/BzQQBS9QELhXA4NJwAwg1Po5P5pl2XJplTj2QqPQfbktLxk0EKfDDMKIUDibL3fow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778682592; c=relaxed/simple;
-	bh=Q2HJgZxARD1A17cdhd0ukskQlCZlw3cCWkjA/E7sjHs=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type:Content-Disposition; b=HW9nrBqRY1aJuq6R6CQ2Uv6LXfZrF/Oq12evddRj5/jHX9VKnrrpXH/LXaTUSs+KWRij1GPXDZBq8/QPV3i+xj7DPLMmjBmqBYGvREE018IkHCoJosMlFwJJVPqhCwXHSatwyn+N/3lgweM6maAEdFaCU9JvUzJC7HKsU/ME0IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=NuHA1dvN; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1778683702; c=relaxed/simple;
+	bh=nEmiCF6b5LfZ2kHKUKhThiK1MHbozn7yi/GBKke71jQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Zf97vQGICdXNrsV9h7MoMNUyD7Tko+K6Nrf5XhnixckkxSjaDwjy/UwmQt2M3D0V4KXPVU3urcX90J3UbzYeuOOWeL3TRwkdIKGFD+oPwGJD1gcokT3LcfEvFWLrBsQaJj0B9OHK9kxygCSQCSS5SV6cwNdnS0sdJxfBeqeLFAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cM/nbQZn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NuHA1dvN"
-Received: from jeffbarnes-ThinkPad-P14s-Gen-2i (unknown [52.177.6.131])
-	by linux.microsoft.com (Postfix) with ESMTPSA id CA1E220B7167;
-	Wed, 13 May 2026 07:29:45 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CA1E220B7167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1778682587;
-	bh=eZUWYylCZ6/qLuaWw0TNaPlDo9Vps8c+zZrYEZIahBI=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=NuHA1dvNsJW6xH4Usgxh7/uhFA6MBaY2RPcQJKvrC11Vr2cEKeAWOaRfxbnUR6UFB
-	 oiBmXSLXNdiNcWXGKcvbHKFQpA1okMHlruWzycMXJMU40BncG0GrjZSQjwF1Yq9/bf
-	 piOc9Fnm3JSaKCImUERP723aMBRnMkarncJ+c4lM=
-Date: Wed, 13 May 2026 10:29:46 -0400
-From: Jeff Barnes <jeffbarnes@linux.microsoft.com>
-To: Ignat Korchagin <ignat@linux.win>
-Cc: Eric Biggers <ebiggers@kernel.org>, Kamran Khan <kz@inspirated.com>, 
- Andy Lutomirski <luto@amacapital.net>, 
- "=?utf-8?Q?linux-crypto=40vger.kernel.org?="
- <linux-crypto@vger.kernel.org>, Herbert Xu
- <herbert@gondor.apana.org.au>, "=?utf-8?Q?linux-doc=40vger.kernel.org?="
- <linux-doc@vger.kernel.org>, "=?utf-8?Q?linux-api=40vger.kernel.org?="
- <linux-api@vger.kernel.org>, 
- "=?utf-8?Q?linux-kernel=40vger.kernel.org?="
- <linux-kernel@vger.kernel.org>, "=?utf-8?Q?netdev=40vger.kernel.org?="
- <netdev@vger.kernel.org>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Message-ID: <C4F28324-E357-483B-B5BF-DA2D00A4D272@getmailspring.com>
-In-Reply-To: <CAOs+rJUA+bz6Y2GKioHnFGFKX_uAP+4LaPRs=ZDgRQoUi4mWkg@mail.gmail.com>
-References: <CAOs+rJUA+bz6Y2GKioHnFGFKX_uAP+4LaPRs=ZDgRQoUi4mWkg@mail.gmail.com>
-Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
-X-Mailer: Mailspring
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cM/nbQZn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0142CC19425;
+	Wed, 13 May 2026 14:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778683701;
+	bh=nEmiCF6b5LfZ2kHKUKhThiK1MHbozn7yi/GBKke71jQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cM/nbQZnxhoUBvxlr1XOcfgS13OwM6T6zV6y5h9LOS52MIjJvsxz1bkELetuRrynP
+	 buoOLf9sCIXeM7onQX+aEzf/vZwhofMcQopZR/mfuH6cvmGhkd0DVzC/eKAklpRJe5
+	 y24RrLjap7NeSbZuh7yJR8OgDejSZ2/JrGvgVE9Ekr6hjJCNxRX9G9upIpBjJFVJ6k
+	 xzLrMfpTPM8duhRB2qjAuuV0WsJOh74R40c+i5/nlxaFb1a/4P3NHOsKFKFRRjX5Fh
+	 E9fD1sKAzyNFqrdNv/kpCF4gxaKT41u5c8jEQtJzDx/C7Tylt9vwHO9+zjvSPnoR+O
+	 M5Fur968h7POA==
+Message-ID: <c94e9352-91e3-4bc0-bb29-f522c78b03ab@kernel.org>
+Date: Wed, 13 May 2026 09:48:19 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/2] AMD Promontory 21 xHCI temperature sensor support
+Content-Language: en-US
+To: Jihong Min <hurryman2212@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260512213910.871859-1-hurryman2212@gmail.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20260512213910.871859-1-hurryman2212@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
-On May 12 2026, at 5:18 pm, Ignat Korchagin <ignat=40linux.win> wrote:
+On 5/12/26 16:39, Jihong Min wrote:
+> Hi,
+> 
+> This series adds temperature monitoring for AMD Promontory 21 (PROM21)
+> xHCI PCI functions.
+> 
+> Patch 1 adds a small PROM21-specific xHCI PCI glue driver. USB host
+> operation is delegated to the common xhci-pci code, while the PROM21 glue
+> publishes an auxiliary device for optional sensor support.
+> 
+> Patch 2 adds an auxiliary-bus hwmon driver that binds to that auxiliary
+> device and exposes the PROM21 xHCI temperature value as temp1_input.
+> 
+> The hwmon driver reads the sensor through a vendor index/data register pair
+> in the xHCI PCI MMIO BAR. It does not wake the parent PCI device for hwmon
+> reads; if the parent is suspended, the read returns -ENODATA.
+> 
+> Changes in v5:
+> - Add support for AMD 1022:43fc PROM21 xHCI controllers and document the
+>    new PCI ID.
+> - Make USB_XHCI_PCI_PROM21 depend on X86 and default to USB_XHCI_PCI.
+> - Keep the PROM21 PCI glue built-in-only when enabled, while allowing the
+>    hwmon sensor driver to be built as a separate module.
+> - Move PROM21 xHCI PCI device IDs to xhci-pci.h so xhci-pci.c and
+>    xhci-pci-prom21.c use shared definitions.
+> - Pass the parent PCI device, MMIO base, and resource length to the hwmon
+>    driver through platform data defined in a common header, instead of
+>    inspecting the parent driver's drvdata from the hwmon driver.
+> - Remove the private hwmon mutex and rely on hwmon core serialization for
+>    this driver's callbacks.
+> - Clarify that the driver only serializes its own hwmon callbacks and does
+>    not synchronize with firmware, SMM, ACPI AML, or other possible users of
+>    the PROM21 vendor index/data register pair.
+> - Use readb() for the temperature data register, validate the value before
+>    writing the output pointer, and drop the 0xff invalid-value check.
+> - Use pm_runtime_put() after successful reads with the parent device active
+>    so the PM core can re-evaluate the parent device's idle state.
+> - Simplify the documentation and use more precise terminology for the
+>    supported device.
+> 
+> Jihong Min (2):
+>    usb: xhci-pci: add AMD Promontory 21 PCI glue
+>    hwmon: add AMD Promontory 21 xHCI temperature sensor support
+> 
+>   Documentation/hwmon/index.rst                 |   1 +
+>   Documentation/hwmon/prom21-xhci.rst           | 101 ++++++++
+>   drivers/hwmon/Kconfig                         |  10 +
+>   drivers/hwmon/Makefile                        |   1 +
+>   drivers/hwmon/prom21-xhci.c                   | 238 ++++++++++++++++++
+>   drivers/usb/host/Kconfig                      |  20 ++
+>   drivers/usb/host/Makefile                     |   1 +
+>   drivers/usb/host/xhci-pci-prom21.c            | 123 +++++++++
+>   drivers/usb/host/xhci-pci.c                   |  11 +
+>   drivers/usb/host/xhci-pci.h                   |   3 +
+>   include/linux/platform_data/usb-xhci-prom21.h |  22 ++
+>   11 files changed, 531 insertions(+)
+>   create mode 100644 Documentation/hwmon/prom21-xhci.rst
+>   create mode 100644 drivers/hwmon/prom21-xhci.c
+>   create mode 100644 drivers/usb/host/xhci-pci-prom21.c
+>   create mode 100644 include/linux/platform_data/usb-xhci-prom21.h
+> 
 
-> On Mon, May 11, 2026 at 10:38=E2=80=AFPM Eric Biggers <ebiggers=40kerne=
-l.org> wrote:
->> =20
->> On Mon, May 11, 2026 at 10:03:21PM +0100, Ignat Korchagin wrote:
->> > I don't think fully discounting hardware offloading is beneficial
->> here. HW
->> > accelerators will be produced and without a common interface
->> vendors would
->> > start implementing their own =22bespoke=22 drivers with bespoke user=
-space
->> > interfaces (we already had such proposals), which in turn may
->> introduce more
->> > attack surface. Yes, A=46=5FALG needs substantial improvement, but a=
-t
->> least it
->> > can be a standardisation point.
->> =20
->> That isn't the best way to accelerate symmetric crypto anymore though,=
+Thanks for the driver.  I think this looks good now, and thank you 
+especially for documenting your reverse engineering efforts that led to 
+it.  If there are problems in the future I'm supposing it's going to be 
+based upon the calculations with the magic values to scale numbers.
 
->> if it ever was.  This has been known for a long time.
->> =20
->> > > In any case, any hypothetical security benefit provided by A=46=5F=
-ALG would
->> > > have to be *very high* to outweigh the continuous stream of
->> > > vulnerabilities in it.  I understand that people using A=46=5FALG
->> might not
->> > > be familiar with that continuous stream of vulnerabilities, but
->> it would
->> >
->> >
->> > Is it actually that much compared to other features/subsystems,
->> like eBP=46 or
->> > user namespaces=3F But we don't rush to deprecate those - instead
->> trying to
->> > harden them and come up with better design.
->> =20
->> There are plenty of other kernel features with a large attack surface,=
+There isn't a lot that can be done in the event that BIOS is accessing 
+the same register pairs, but since you identified that this is exactly 
+how Windows HWInfo64 does it too; this is 'probably' low risk.
 
->> of course.  But they tend to be much more useful than A=46=5FALG.  It'=
-s all
->> about weighing benefits vs. risks.
-> =20
-> If divide number of CVEs in such systems on imaginary units of
-> usefulness, I think the ratio is similar.
-> =20
->> When we get the point where a large number of Linux users *had* to
->> disable A=46=5FALG as an emergency vulnerability response, and at the =
-same
->> time their systems weren't even using A=46=5FALG so nothing even broke=
- and
->> they could have just done that to begin with, I think we get a very
-> =20
-> Well, there were: cryptsetup, RHEL fips check, so there are some...
-
-cryptsetup does not have a hard dependency on A=46=5FALG.
-It is a potential consumer via A=46=5FALG.
-
-A=46=5FALG provides a broad, hard-to-control interface
-cryptsetup (and similar tools) are not blockers
-
-A=46=5FALG removal does not necessarily break cryptsetup usage. Removal d=
-oes
-improve =46IPS boundary clarity.
-
-
-> =20
->> clear idea of which side is heavier for A=46=5FALG in the real world.
-> =20
-> Same thing could be said for unprivileged user namespaces - distros
-> even put a custom sysctl to restrict it and no-one noticed.
-> =20
->> The main relevance of A=46=5FALG to the Linux community is that it all=
-ows
->> their systems to be exploited.
-> =20
-> To be clear I'm not arguing for the current A=46=5FALG implementation. =
-I
-> agree, the splice zero-copy is... suboptimal (to be soft) and is
-> actually not-so-zero copy. But I think it was just added before we had
-> more modern approaches like io=5Furing (have their own can of worms, bu=
-t
-> hey - people adopt it fast).
-> =20
-> But I advocate for the usefulness of the concept itself - kernel/OS
-> providing crypto services to userspace. As mentioned in other threads,
-> other operating systems have it and Linux lags behind. There are use
-> cases: common interface for HW accelerators, embedded systems, which
-> don't have the space to bring a userspace lib etc. Even non-technical:
-> there are environments that just don't want to rely on third-party
-> userspace libraries like OpenSSL purely for licensing reasons. And I
-> agree, that it is hard to do it right, but we can piggy-back on other
-> subsystems (such as io=5Furing mentioned or other ideas).
-> =20
->> - Eric
->> =20
-> =20
-> Ignat
-> =20
-Jeff
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
