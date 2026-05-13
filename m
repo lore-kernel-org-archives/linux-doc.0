@@ -1,58 +1,82 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864A938E12B;
-	Wed, 13 May 2026 15:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A1447A0AB
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 15:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778684870; cv=none; b=s437odAUUDT7uZWn02o/ik0qaz2l41a11jx0T19MoIXTJGZ92F8kRLfkaDJ44zm/LUn4qAi8IgYSnQnn79tRMyxWT4XZHNXmSJsQuXh2/HMOprmRw/t323XYgHA+qjwWEtyNy1ArnCoJHMhxw5lrQhKCkKnHm5WjP/alDuaoC+8=
+	t=1778684974; cv=none; b=plZpGhaFsRTzwokL9OXksyVnWLcO4NuHp6+NHI0Ki9I8OjVScT7QutZDNgKPKDNBIqCXngu1phDlXL2CWedGdJi3fBf/xz4jZA7y9u4l0iBlZCzJ45C2t5NaqFQ22sI3ZjiPFuKmbX0wP7HrBCBnOZg+VtFaBD+bFc104Xjyhbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778684870; c=relaxed/simple;
-	bh=ve1w5x6201cymLk1w3BH7b3L4LNYqn5VW9sa3pVEAsY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qCooxzyPg1ZdKDDX38po1ju2QgfVdJ5Kq0rTsblqdtcqkZgPEm4ZqvGardQHi2uCUwr6qtnGi1wVO9pkvsoTwwaoSyWICJiI+d5SxPHTu/lbIucb9lvnqERfK4hiGJpli6/SnqbcRuBWsjfbJIXASIepAeU8e/14t35WcCAaWYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=nUa8RY6v; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1778684974; c=relaxed/simple;
+	bh=6xl1OZ39wivS4tq4DwCHKYc6atV3f69XK8Y07bvYulk=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B60ZS1eQvr0IwUyxLp6avFp7GBQMLkIkcxWLKJJXcYLR5UXxudOp85XvdnfoGbv2kZvUEjwJ9QXIL2/cHsgYRrGBqUe7Y4HSmMPIuKPJ95XMsa+hfxRThZnBeqvJOgFRX4KAodZ6FyLBQ2JB+JWYOwX4sHGoHg5KdmpmbdBdUA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UKTY2ck6; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="nUa8RY6v"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=evfqGNz0nsVJ8plAAlmr0vtrg9gduvV5egVZ+mMRUWQ=; b=nUa8RY6vasN4F1beCxc71NJLPV
-	GS/zA+0YNRUxQM+w9SsSOrQ4QibOxolEwvp1R1Yf8/kY7VGz8l/3oPDDcXdSIX7iw8mOyIgwve8ra
-	/QLSmFWd8l9W04J+aHO6EXdQ3oZSa05prFU6udPm6LlI75vao77xp7en1FspKqvYXwqlNeITlV+FP
-	bHao4TiyuK78pJsh2fHe/WhEK+4g46JcdHvK8Ug0zDbuOW/BCDLX+H6qpuOKQevy7oIIGHz2KELZ/
-	4wVkJnFrU4cIVS3TSuMtptbLaNJPTomYWewUTpFI4YiyfOjCXC64xLdd9ktVyBMZUyRFDq5LHe/wl
-	2CtrCBng==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wNBB5-003FHA-1W;
-	Wed, 13 May 2026 15:07:15 +0000
-Date: Wed, 13 May 2026 08:07:08 -0700
-From: Breno Leitao <leitao@debian.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Liam R. Howlett" <liam@infradead.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com, Lance Yang <lance.yang@linux.dev>
-Subject: Re: [PATCH v6 2/4] mm/memory-failure: classify get_any_page()
- failures by reason
-Message-ID: <agSR4oLjz_B40koq@gmail.com>
-References: <20260511-ecc_panic-v6-0-183012ba7d4b@debian.org>
- <20260511-ecc_panic-v6-2-183012ba7d4b@debian.org>
- <28b01c14-3d87-4cab-b695-5b9015578785@kernel.org>
- <agMpqhpgmezqnaA_@gmail.com>
- <3e5e8fb8-6957-46b7-9777-0ed1bff1d0fb@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UKTY2ck6"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-444826c16ffso5897275f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 08:09:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778684971; x=1779289771; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=90qdZzTNiTsSE1LEeRcQYoXszr3HSv7vr/Z4t6wMOgk=;
+        b=UKTY2ck6pXR6CIazO9ViC2GBc8u7VlKlZELwDr4XBON+z8O34h4T8RJfuyqqLJkTcE
+         5TGtLNllxjZcgjeg/Pn1/z9l42mWqCjd0iTYJHtkhn6k0QY/TyRvxWlWrBdk8ZgSfDnl
+         Yc5B8aBaQpyRTi1LThoiuOZu47gkgQCrjvNKplqx4M2jFq9wq1H2TcuE9xbejlXqqaRm
+         IIgOSuPdVj1pew/ap8JQ4lM+cVgxfBpDJL/Cn4XpgGkyv13ZLgBN8Y3eYVz/0mlfs6jV
+         Mqv0VXQ1ydsNh6N/NY7QPNojx8WVA1So4nzcZfvk0juT5oVcnJu5JFnHVtRFuRytQwcU
+         hPxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778684971; x=1779289771;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=90qdZzTNiTsSE1LEeRcQYoXszr3HSv7vr/Z4t6wMOgk=;
+        b=b/A+m+u/5wyAEDoF2xsb/XI0QZS1vVrUItHrI6SqCxuwodgr/po1vkxqJcMurPfOMD
+         /QYN+U+I1V4RhAyDpJQisaSoV2SKsuDs/If2S/HVn9d2PASk7N5iAQvbp5/WrAPAbqsM
+         ZdCoQizQJT7GebIO+Z+U02BDxbrArj9VX45uYbJhdqalrFrYxgwjLz3lFnuelrSBXdKa
+         HdxvcaDmBGv/QQMIsJJ3HK2s7pVDBBYXQwsborwXNgCcUqYDS0d3K1IBv312qdZGajbp
+         y720H5O3c78wpEwVM4H5ia1hvDsr+Gq8PjNlxmkN0jhx2elqjD9oQeszBIFpXcueblQ/
+         Ysfw==
+X-Forwarded-Encrypted: i=1; AFNElJ+xGP/q/kHqT4pa23D1td1D59UOI2dHd6RIvehYruPU54Ufr4UUK5Ob6915FsSOOOcORRsMLS7sBZI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqOeh8sx87k0uHSUIUYeIvKrXUxJTNaCLjAAsOzFckNIzC1FrG
+	lnp4MHhBx3UhpY4CxE+je6Ae52aLvQ0kbPG5xUzq6U34b9LaarmNUn9M
+X-Gm-Gg: Acq92OFGlGMPb65R2Vn1MN+e3yJhoBIQijsovA3ejhp+sRmlgfEFpqSkIcipIEjvITM
+	AQYF6DFa+pq3hvE+npFq20QYE2LnLgh3B4rPwcKySahtM1ALkTnjgO9dMy06qytv9DQVzyKwNIZ
+	cXN5Le2ix+it40xQWtdal/oqeGH8hBEGGcNQPDKcRsmyScJlHezmQ2R624Cak9B0qiCSS9/iLMW
+	JpyY3ktOnvIBt5o67DcNYyGfb4aCOvgoAHZfGr/N/tltRcevTNa82ncK6pzx5WFJwhjXQ+lIMAM
+	KC1pvBob/HeoTiO0f0YZqf8IHhH37rNhOuTuAm7fILBll9XBpK2mwl4ZGf0f0mzQkfyNbXDpQec
+	gR2dbzSvgf5lOJXUEYAOCQQFtqEzgwMT8mNF14T8zloTqBxoNmWj9465zhmijoU2Gm95m972e0D
+	rmV+Phq1YgVDleWY+tXbEmrFIV5thOiC0pdKcOKbw5nv2bbhTXwiyNdFPVp6NbCRP/HW9U05J0K
+	ILT95mzxpID4PqAl0JtSXgDRHo+Bj+d2BnLAI+6AVMwQXfgUyPl/CZUh+4s
+X-Received: by 2002:adf:e30c:0:b0:45d:4688:2571 with SMTP id ffacd0b85a97d-45d468825c6mr1533975f8f.41.1778684971053;
+        Wed, 13 May 2026 08:09:31 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548e4bb87bsm39821178f8f.2.2026.05.13.08.09.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2026 08:09:30 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Wed, 13 May 2026 16:09:24 +0100
+To: Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH RFC v4 01/10] dt-bindings: iio: frequency: add ad9910
+Message-ID: <vklczsi4vk3sqf53zifslhp5pysdmj3gfyhvdgrwo4bg3wdkxj@lnbftaf5jcbf>
+References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
+ <20260508-ad9910-iio-driver-v4-1-d26bfd20ee3d@analog.com>
+ <20260512193129.777d62a8@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,59 +85,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3e5e8fb8-6957-46b7-9777-0ed1bff1d0fb@kernel.org>
-X-Debian-User: leitao
+In-Reply-To: <20260512193129.777d62a8@jic23-huawei>
 
-On Wed, May 13, 2026 at 01:48:11PM +0200, David Hildenbrand (Arm) wrote:
-> > @@ -1441,10 +1456,10 @@ static int get_any_page(struct page *p, unsigned long flags)
-> >  			goto try_again;
-> >  		}
-> >  		put_page(p);
-> > -		ret = -EIO;
-> > +		ret = -ENOTRECOVERABLE;
-> >  	}
-> >  out:
-> > -	if (ret == -EIO)
-> > +	if (ret == -EIO || ret == -ENOTRECOVERABLE)
-> >  		pr_err("%#lx: unhandlable page.\n", page_to_pfn(p));
-> >  
-> >  	return ret;
-> > @@ -2431,6 +2448,9 @@ int memory_failure(unsigned long pfn, int flags)
-> >  			res = action_result(pfn, MF_MSG_KERNEL_HIGH_ORDER, MF_IGNORED);
-> >  		}
-> >  		goto unlock_mutex;
-> > +	} else if (res == -ENOTRECOVERABLE) {
-> > +		res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
-> > +		goto unlock_mutex;
-> >  	} else if (res < 0) {
-> >  		res = action_result(pfn, MF_MSG_GET_HWPOISON, MF_IGNORED);
-> >  		goto unlock_mutex;
+On 26/05/12 07:31PM, Jonathan Cameron wrote:
+> On Fri, 08 May 2026 18:00:17 +0100
+> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
 > 
-> That might probably read nicer as
+> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > 
+> > DT-bindings for AD9910, a 1 GSPS DDS with 14-bit DAC. It includes
+> > configurations for clocks, DAC current, reset and basic GPIO control.
 > 
-> switch (res) {
-> case 0: ...
-> case 1: ...
-> case -ENOTRECOVERABLE:  ...
-> case ...
-> default:
-> }
+> I think this is getting close enough now that for next version you should
+> drop the RFC (which is probably gating DT binding folk giving it
+> a detailed review!)
 > 
 > > 
-> > 
-> > If that is what you are suggestion, maybe we can create another
-> > MF_MSG_RESERVED? and another return value for get_any_page() to track
-> > the reserve pages ?
+> > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 > 
-> I guess "reserved" is really just like most other kernel pages. So I wouldn't
-> special-case them here.
-> 
-> Or would there be a good reason?
+> > +
+> > +  adi,dac-output-current-microamp:
+> > +    minimum: 8640
+> > +    maximum: 31590
+> > +    default: 20070
+> > +    description:
+> > +      DAC full-scale output current in microamps.
+> > +
+> Can we use generic dac.yaml defined output-range-microamp? The base will be 0 always but
+> that shouldn't matter.
+>
 
-Not really, treating them as MF_MSG_KERNEL is sufficient for my use
-case.
+would that be fine even if we do not have those child channel nodes in the device-tree node? 
 
-Thank you for the review. I'm digesting all the feedback and will send
-out a new revision shortly, where we can continue the discussion.
+-- 
+Kind regards,
 
---breno
+Rodrigo Alencar
