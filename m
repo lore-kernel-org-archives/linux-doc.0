@@ -1,231 +1,189 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012063.outbound.protection.outlook.com [40.107.75.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C604C3C276F
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 09:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778665271; cv=none; b=VDUCHuBBzQ5J01xR/sCIf2mxG8nghuzxm3d/Zdl/waS9ikIoQcCW5RU44cRhVQ1+VuciUTcQOX8PBaApjx7t2fKC1FCS9/L1oQJjokChOJUdTWWPbs2AxN778VY7Jgrm7f68c6Zo5w2buQDGqFbX1tgUaUxD5Q0QpYETl7UCCps=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778665271; c=relaxed/simple;
-	bh=PAU2R/mmEAtckT1JPUyhTUH7nnNckQQzn5lSj4Tw6o8=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SGEaqF3CeDUQwRMxYqPWwtLoe9b3sZNX+70X4voGthqr6qQAd8cEcPv8w3MukIcWJbo6Qvmhgrnhj5FmjeS6knzg23/SwCuZWjKlnPcFVR0VhebNDVdvXMPcRcObICQlq29mM/7bZDoF+GimI5LVNeP4Fokcku078JcpFeAwAvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=asahv3DL; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350B43859E9;
+	Wed, 13 May 2026 10:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778666692; cv=fail; b=gOrCQQvBLw8bfeiFpcnGiNWU2vWOe9i8yfSdIEAigo9vUlpB5iJnsMkvRTgkDwvJ/Jg5aCeSumQK/iq19xSiUJPg/U6qEknF1O9P+NusT9VwVSrljVA+Eqfqmrvc64v/nNUBc7WiyKfg9WxH/K+t03GST40ahPt9+sbTVWEUIso=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778666692; c=relaxed/simple;
+	bh=iXzTMucpuDL+JvBQI2EEhp1lMo/eZOj65ACPqg8VMuk=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=WQzu+Nd0f9Ip6/Zo9CTlW4PqMElMd3phkuj9bZQADbp9vX62lajL1D0PNLQ3WfAuqzG+umKovGldOreUOLVJItExSBWRuOiN6cwxFW//0uuIL9aK4FQgsCbHvr5iBK6TthLEZaSVwMMSD0Jel7hCbs3DSVOzRNxSFjjl9CQOmEs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=EimOGjRC; arc=fail smtp.client-ip=40.107.75.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="asahv3DL"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43fe608cb92so4126497f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 02:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778665268; x=1779270068; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OxLUoJngBn+Ee9sp6PTsXdvWew0l0KazwAtq9GZfxlQ=;
-        b=asahv3DLvkanN8Eldv+07C5jRWKy9/AsEDUgRNjAbuC/q3tqv8KtIaOFGyMB0VHDEQ
-         L0kHKf4s/MCt7ztelNFAxsscH8gghhSsJqTFmVfXpSWA+1Uw64K3TLhjctT1EaFCS5M4
-         yoxf7ccJbSYEflDN7o1JJBQs8CO3v8UmQfVK79zTx5nrmKcxXCZcqMp0fsvbCJaH9pRo
-         I9OqYJDSQJSQAa8KQfvU9l9iltYVcKn1m6RDeVUYwPwTu1ZHERdb13G901YleB1E2oJh
-         Tln2WRsshpxaqCMG4W0EdgtjbAZO3NaOQtpkLWlZk8946QauPbhvVwlU60p6HlmA+XXT
-         H6TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778665268; x=1779270068;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OxLUoJngBn+Ee9sp6PTsXdvWew0l0KazwAtq9GZfxlQ=;
-        b=JJsIwKie9A5uYn3UQOT/UluZ5yGf2smeafNTSLVCIklVermNm1OxP8pF3ycS7ewGch
-         RuNMeL9+iiXPYg2kqFQhAv0oNAH++M8qazF/PWhULl6ilLV2uwx6Zydaw4NJ27v0pWtg
-         B9rBiNvTWxNAKx217jfcEQga00M5T0h+oPkmxZaHS2tAnPzC5xlL3oyNn5GFY6sjfJGF
-         3/nmqnQ3tb9ZgzRJ2PAcE/MHOmaVViUvr7rIo+p4EktuCJdeIsr2C9ozK1GyI7/zCBWD
-         eN3m2ACa3+mewRYOYHs81gufWkRS6UdnhWGdWMnQ9MzvGKnF1n0vpeFbGYnGGUYHzC3x
-         4c8Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8cYgF0/va7pY9ESp1pBLv8sHvLMcN2e1tP38PW5U6nxjOUJx9TibnQrHHTc0gMIJH18Q3mMGvO1Fo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywfz5OnXr3ue4FppMumNkTBBHXnYxkQc5Qbm4wxCphoP+chFdrW
-	6frveNgL9EEviLo7RW17HkF6wNR1xcSsg/+s1PXiv1DbF2FrJbfeP0md
-X-Gm-Gg: Acq92OGVp6zly31pjJVlO19JRyG2iqcGLt/I7E2oZq1v3FZK9pfbPHebiNTBWL8VZiB
-	pJgYVkG9SRVA//vSnTuWlAHFkU5ap+kNtkBmN0P7xuxGxZi0XuEiG7xIq1crBUeE2DfHquxS078
-	/pMdX728mEFjfSqCJixnULwKk1Y5Smef7JCHpegJmBkl45M7ABVSWrGVvipTkhaDcaq6C89bDjL
-	bFGKPeNlZFLkkKAxp47XL6gZ8HOfbUCd1o7kNRwuVPPPFkhAI145sW7coRR+YUmNxcKTpAXWK9C
-	Jcr7Ihxh8GMeNAkE7dhHJP2/dc5eBqDC5punXRFT0Owg7fWppafGTNEGvqaLzU3yfy7LGme1c33
-	EdhJrFy+pM8fhhWOW8H61awfhalo8NaEujvTxBEGsLMnj7JeEbs2Zm87aPLXS1HK2WpD2osdFSw
-	MhjYQuaROeO4K1tQlV8/u4t3glJ8EB+JxnPIZhmKvjdPBHwstd6FWB3gFs9PZNZaedwmnnnoZFI
-	gfaLOlSpmxMlkBX0+dT4lQ+Wx5tvbD9OqOaPAm+8dx2UjxsLw==
-X-Received: by 2002:a05:6000:144c:b0:44b:cd2f:a3c8 with SMTP id ffacd0b85a97d-45c580ce3abmr3330603f8f.4.1778665268082;
-        Wed, 13 May 2026 02:41:08 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491bae13csm37966733f8f.29.2026.05.13.02.41.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 02:41:07 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Wed, 13 May 2026 10:41:01 +0100
-To: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
- kstrtodec64()
-Message-ID: <kwjoyikbygik4futknqpua2tlzokradms25n2dmfa5czyj2uts@4rdfl6zlul2q>
-References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
- <20260510-adf41513-iio-driver-v12-2-34af2ed2779f@analog.com>
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="EimOGjRC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=APF6lA0hjUtImtXJatFHAHPCgKygBvv4Xp7RB0A8sgoooQDfrqCJgKMqu469nqehAQWhXJPIuu45VYs7sz5hNBBZtJ5FRq8AT+pceZHS8TpVHmetKPwSg+f6OOrdS2uTJf+W15KPvqJV7GIr2dg8LDs1uZLzfIw1cJDpFLqeQ0OvfdnHeL6k4uFezlWdEiWLKhWojvgpKOLtp2bZSyUYZfJdWA65PI5wBe08bNHTf2I7uhpzCIxEvKj7sVVC+9P3Vs6z7Q5smSeZFil7wV17hI6HuWVPROegaposo5wrLKYVbRIgY7nGW3UvzEajvph8R5GxZZZy3apMLkt7xANZ+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EfgLXHdcpZsz3Mfp7svLEyc2zEQGQ9Lvjes6ICsyHC4=;
+ b=FEM6ag+lgEAXfj+XN2QZgfndEgiPA3k4rLJ6OFUgSGSQ+rVyYDmy4BGvLuOWZwNl+AVVBLr4SHIDHh8uXxn8R93oodaKztHYjxoo5pRn8VwDdcMRvznoaCzzbhbg06FyLSrrqIJnt0ZXq/DXp5NmQPrD5rTPq3uaS4dRwjCoxk9Ss7lKVds0Mqj/gmUkIoKmX5pd5fVbpYgiAflaUVRs3OLEpi9p0vM537Lj9Gfm3H0zjNzAo+HhwcTQi+FbJbam/Uj07ujzum4VMouCvKyKMPHusTvf50Zxz0DEYfF/hoOlRj6sALDsR4PhfLj+KD9a9w5IsFM2dfrqUfuyVyIA0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EfgLXHdcpZsz3Mfp7svLEyc2zEQGQ9Lvjes6ICsyHC4=;
+ b=EimOGjRCTeaORQU8PYxAQie15oebA2uEIZlQ9hcZiIskp5Lg4eUllUuKNAio8tiVKG8B3AZR/FdHzsyKZr5Q3ASAJUczcSDQdkemjGSTYDxM2kXR6W9G3Ju7bVMah0TfrtKxDsjhGtF9L2HCzqe01+cwuDvJVExeQKgVoG3dm0A6FuyTwR0h9q3w5hqMmC9wpjQfvz940ClJOohH2xtDMNvT4PCS/VS4V8YnPcPR0HytHEl5UafXYNnjqkihv0acGP4AQ3nh9XBrP+3/I0iQ7jA7ha+mS5tgYhG6iv+Tf7gwqTtWVba9j/Krmy8U5k1qC3MGw6jqyLxRegjI5o2DMA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5576.apcprd06.prod.outlook.com (2603:1096:101:c9::14)
+ by KL1PR06MB5884.apcprd06.prod.outlook.com (2603:1096:820:dd::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Wed, 13 May
+ 2026 10:04:43 +0000
+Received: from SEZPR06MB5576.apcprd06.prod.outlook.com
+ ([fe80::24bc:5613:3ffa:cb96]) by SEZPR06MB5576.apcprd06.prod.outlook.com
+ ([fe80::24bc:5613:3ffa:cb96%6]) with mapi id 15.20.9913.009; Wed, 13 May 2026
+ 10:04:43 +0000
+From: LiaoYuanhong-vivo <liaoyuanhong@vivo.com>
+To: Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	linux-f2fs-devel@lists.sourceforge.net (open list:F2FS FILE SYSTEM),
+	linux-kernel@vger.kernel.org (open list),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-fscrypt@vger.kernel.org (open list:FSCRYPT: FILE SYSTEM LEVEL ENCRYPTION SUPPORT)
+Cc: Liao Yuanhong <liaoyuanhong@vivo.com>
+Subject: [PATCH 0/3] f2fs: support encrypted inline data
+Date: Wed, 13 May 2026 18:04:27 +0800
+Message-Id: <20260513100431.299904-1-liaoyuanhong@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TP0P295CA0031.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:910:4::12) To SEZPR06MB5576.apcprd06.prod.outlook.com
+ (2603:1096:101:c9::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260510-adf41513-iio-driver-v12-2-34af2ed2779f@analog.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5576:EE_|KL1PR06MB5884:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62f40f44-8edf-4f2d-36ed-08deb0d70e0a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|52116014|7416014|376014|18002099003|11063799003|56012099003|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	W+Sw+Gpnf/RZB1scd1qqKj6KbrpFNgKcc4k7agNEuTuIMRvg74hJwHe61gLCbPK8pnxQf2QF7jug65LJJy9od6/jAWCXSwqQlP8pEVp22cZhMfLsMDc+pdP7yYrEk9oqATrqCr4S0Oq7/e54L2qPFnc6GZmZ78HIon8I1sa8QkucCwiaWCCPexrPIczlAmfg4aRK2qt8EX0joX+uyof1xNXlSaGkon7sf1GDR/Ae18WyKm/mp/cNcpSvUXkLdxQPT9w9rJrdLeE6emL2uIxvc30rQElg5TIyflRd6M6MrhYPaOUD0/EaqYLqlEuBS7qsllatPL0Bg5T7tD66WwjiOp5Jp82siXNwVSXK+8MDTs8ETyHjrwBFxhIGfooLs7TRuWcBpVuFPJhbPotlygqM1auVNSrHLRJ5B8WQMzKJBaGqEKogeqUM0RE7Hf6JxIepjpopqo/HMf3AC36Ui5xqAHmlqC4wQ3YnMScJJpMsxLs4zkP18sG2K5qZvnEMFKK+bvTpF3zJMh+8HHa7qSu8LBzwUTGmSKCpF2KE483Bdlpa+d/PZOrXVWHT1/DxVOVLJfEDA1NreYUGo0zNsIYjeUxL53XAzV65mhul3gm6cQK/zd0C06J00q5TYILGJPgEKiTSm3ceMQI84O/D9cWfGruJpgB1QDXVdvOtFN0Ayl2YyOsmTTGg0VyLKkRJBEsfJT5Hi36i127g8W+PrrT2FRJ9i0oYVqe2mm/YYqfCVDVbY5prko9B2Pg8zi3YmBgSb2WwNqcKEU6AoEWppLSXlA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5576.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(7416014)(376014)(18002099003)(11063799003)(56012099003)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?RMbQy9kayRVkk4Neg3UvjdVKuTy0pfHlp+z4RvI+AHAkhGVvZfN4a+9g3ImT?=
+ =?us-ascii?Q?rCjoLfINY51p3RiG5EnWR5IfXX1mbSWX0eg5UOZ+RwJQHCMPEkC4ZvX0RbqW?=
+ =?us-ascii?Q?ZDv1VDy5U3x26ZCQ6P1lFIJ6kas6S8rjtpuotGL43QwV/7NKKNwt71JdN/+w?=
+ =?us-ascii?Q?nXnDEja/Y9TVBMeBGkj2DPTtSyKWXgrqpszyO12e7lBT+vJzvwdEKvjYDpQR?=
+ =?us-ascii?Q?p9bhRH6mQHoI0LWSrGlMWBFvCeSsZn977uUu7qGVXmW4B2XlPM+nWzDXjQw8?=
+ =?us-ascii?Q?h0oLC2zsbHr6lm35WteCE/wudh/BJYBYa4eAaWQj82II3n0mb+5Wa5sXyQ1d?=
+ =?us-ascii?Q?drK4MAXYgmV2GdhttsPgMwrJRSim2x34VZgLXLhd29nB9pMlyNCn7plkVVJh?=
+ =?us-ascii?Q?t/WbIRIPnNM+3MRS3bmgcQ8dQjkO8CDcpStR+lUSbVT1j6krkXT+MP8E+aY0?=
+ =?us-ascii?Q?q2fNItCs+iHKOgFePFqbmw1ml2rLRYIUZ24PfS6HqHQ2tdC0MZd8FbGLFL+7?=
+ =?us-ascii?Q?U9KDJVIdfQMFqMrX+4Gyf+e5phAN4M9+KL/WFj5FzwJv03cJ9Lh24rwBUwO9?=
+ =?us-ascii?Q?GjWTBBLkxGK6f4pjCGB5y5orssndB3FqiA0Kp+FVV5qPy442uHmQ+zSrzx10?=
+ =?us-ascii?Q?DvOpD81ImvJYrBR4noSobS9ln+svY7w2tftqKYxTDj25MmbvW1BK4BjjrPMk?=
+ =?us-ascii?Q?xcPqbIefYqtNdFns5G2eV9t0HNqIfZRh/8rlfE9wSot5jzcINMgr5P3wZvLi?=
+ =?us-ascii?Q?/OPPQ7NExrOW3TtRjr0hxmG8dw50oor6wIdedDssmxSQX4OqUIab/ERgrwYq?=
+ =?us-ascii?Q?j9AZiQMwiD9bD8YDew62pynJLnR3IykCGhR+ANfAp3mOszKe4anGT8T5ZxaM?=
+ =?us-ascii?Q?mSInnOHGAS66cGkPuahG4DpmhmPwKuReke3QuW/omgIjzA7qV8ouE92DGPwx?=
+ =?us-ascii?Q?ivsJCPJiJqaWLNCML4IABRCVJyWhmlXSqahmcWCPT4obOA2YWws5zxtDmNnS?=
+ =?us-ascii?Q?OyimS0ggdUgaI3cI4iA5w9pN/IDF+HHDec6DkdLSeK+L4yEm+EmOHUyexpZz?=
+ =?us-ascii?Q?UdYG0P7hZLNa6g3okuAY2BsTe324T0jz+x4xHlNIbqV9GU+PnwYZn21fpZyW?=
+ =?us-ascii?Q?W9FapYAiuKBrdb1NtoBo79geZVdaLPXx+OQzUZ+kYJotoC3gGjdvX61Ohjrm?=
+ =?us-ascii?Q?ANNWz5m/VCjYmHY/bjB+sO4zB8RwcDSo1zEB5SJArNsLmQr8F+LQR6N66lJj?=
+ =?us-ascii?Q?kVgXXWXtuoQ99LKBbfgETLFAUQ2wo+nSlSm89LN12vD/IS5ssWoY0T8+fBD6?=
+ =?us-ascii?Q?WmsgR4yTls28+PrgOAUcbDrLXzZzbWYkAdHVn3J34KWEc9KXc9c1zZ6P0vA1?=
+ =?us-ascii?Q?zx4AqboP+gU5w46JWy6nPvoubsqOg7+bU5iLDzz2N6OWCrEf73VoX83mBl1x?=
+ =?us-ascii?Q?sTzln4SB+EsSf7nNpECFzU89+jnYFFzsixUeN74iyZMgv0ySyiXL2oaYTSda?=
+ =?us-ascii?Q?Rz7+KiP6XKW0+24l9srIZcIWHjC1gH+G2/JWU1BElks6tgLBc/N+xv1f+a8P?=
+ =?us-ascii?Q?L2mmufnBgkkPA1lhd/oM7Yy1xz/jFQ5J3Aiinyz7gCWnCmcvsolX2bX5Gs7w?=
+ =?us-ascii?Q?cwn7H/rgAC3lOUpCZqkQZouBQxCQZLkbgbiEixBUOGACgqpkm5tK8NrbD48s?=
+ =?us-ascii?Q?4lfRB/PRIVgtK/bmIhVYmTayBeLg82qIxFOVtpTxypyyWuLDNN+Lk5jC6/oe?=
+ =?us-ascii?Q?9ooJQDHBlQ=3D=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62f40f44-8edf-4f2d-36ed-08deb0d70e0a
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5576.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 10:04:43.5145
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oE6evvToBBIWGicIFqisk0qobIHTwN68dxv2JK1qdkASByv4ccaCYtjVltbBtDWCtpv/ol9kkp3+TQdIW+JBXw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB5884
 
-On 26/05/10 01:42PM, Rodrigo Alencar via B4 Relay wrote:
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> 
-> Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
-> point numbers with pre-defined scale are parsed into a 64-bit value (fixed
-> precision). After the decimal point, digits beyond the specified scale
-> are ignored.
+From: Liao Yuanhong <liaoyuanhong@vivo.com>
 
-Hi Andy,
+F2FS currently avoids inline data for encrypted regular files.  This is
+because inline data is stored in the inode block, outside the regular
+bio-based data path where fscrypt and blk-crypto normally operate.
+As a result, devices that enable blk-crypto for encrypted file contents
+cannot use F2FS inline data for encrypted regular files, which wastes
+space for small files.
 
-I am starting over here, the other conversation is getting hard to follow.
-This is my new proposal...
+This series adds support for keeping small encrypted regular-file
+contents as inline data.  The f2fs side defines a new on-disk feature,
+encrypted_inline_data, under which inline payloads of encrypted regular
+files are interpreted as ciphertext.  The payload is encrypted before
+being stored in the inode block and decrypted back into page-cache
+plaintext on read.
 
-...
+The fscrypt side prepares a software contents-key transform even when
+normal file contents use blk-crypto, so filesystems can encrypt
+filesystem-managed data regions that do not go through bio submission.
+The new fscrypt helper operates on fscrypt data units and leaves the
+filesystem responsible for deciding which filesystem-managed byte ranges
+need this treatment.
 
-> +static int _kstrtoudec64(const char *s, unsigned int scale, u64 *res)
-> +{
-> +	u64 _res = 0, _frac = 0;
-> +	unsigned int rv;
-> +
-> +	if (scale > 19) /* log10(2^64) = 19.26 */
-> +		return -EINVAL;
-> +
-> +	if (*s != '.') {
-> +		rv = _parse_integer(s, 10, &_res);
-> +		if (rv & KSTRTOX_OVERFLOW)
-> +			return -ERANGE;
-> +		if (rv == 0)
-> +			return -EINVAL;
-> +		s += rv;
-> +	}
-> +
-> +	if (*s == '.' && scale) {
-> +		s++; /* skip decimal point */
-> +		rv = _parse_integer_limit(s, 10, &_frac, scale);
-> +		if (rv & KSTRTOX_OVERFLOW)
-> +			return -ERANGE;
-> +		if (rv == 0)
-> +			return -EINVAL;
-> +		s += rv;
-> +		if (rv < scale)
-> +			_frac *= int_pow(10, scale - rv);
-> +		while (isdigit(*s)) /* truncate */
-> +			s++;
-> +	}
-> +
-> +	if (*s == '\n')
-> +		s++;
-> +	if (*s)
-> +		return -EINVAL;
-> +
-> +	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
-> +	    check_add_overflow(_res, _frac, &_res))
-> +		return -ERANGE;
-> +
-> +	*res = _res;
-> +	return 0;
-> +}
+The software crypto operation is limited to the inline payload.  Since
+these files are small enough to remain inline, the expected read/write
+performance difference between hardware and software crypto is small,
+while the space saving from keeping the data inline is significant.
 
-This function now becomes:
+The feature is guarded by CONFIG_F2FS_FS_ENCRYPTED_INLINE_DATA and by the
+F2FS encrypted_inline_data on-disk feature bit.  Filesystems with this
+feature set are rejected if the kernel lacks the config option.
 
-	static int _kstrtoudec64(const char *s, unsigned int scale, u64 *res)
-	{
-		u64 _res = 0;
-		unsigned int rv_int, rv_frac;
+Hardware-wrapped keys are not supported by this initial version. I would
+like to discuss whether this feature should remain disabled for
+hardware-wrapped keys, or whether there is an acceptable way to support the
+combination in the future.
 
-		rv_int = _parse_integer(s, 10, &_res);
-		if (rv_int & KSTRTOX_OVERFLOW)
-			return -ERANGE;
-		s += rv_int;
+The f2fs-tools support for formatting filesystems with this feature will be
+submitted separately.
 
-		if (*s == '.')
-			s++; /* skip decimal point */
+Basic testing passed.  Encrypted small files can be kept as inline data,
+and read/write verification succeeded.
 
-		rv_frac = _parse_integer_limit_init(s, 10, _res, &_res, scale);
-		if (rv_frac & KSTRTOX_OVERFLOW)
-			return -ERANGE;
-		s += rv_frac;
+Liao Yuanhong (3):
+  fscrypt: prepare software keys for filesystem-managed data units
+  f2fs: support encrypted inline data
+  Documentation: f2fs: document encrypted inline data
 
-		if (!rv_int && !rv_frac && !isdigit(*s))
-			return -EINVAL; /* no digits at all */
-
-		while (isdigit(*s)) /* truncate digits */
-			s++;
-
-		if (*s == '\n')
-			s++;
-		if (*s)
-			return -EINVAL;
-
-		if (_res && (scale > (19 + rv_frac) || /* log10(2^64) = 19.26 */
-		    check_mul_overflow(_res, int_pow(10, scale - rv_frac), &_res)))
-			return -ERANGE;
-
-		*res = _res;
-		return 0;
-	}
-
-The new thing here is _parse_integer_limit_init(), which is a local modified
-helper that accepts an init value, so _parse_integer_limit() becomes:
-
-	unsigned int _parse_integer_limit(const char *s, unsigned int base,
-					  unsigned long long *p, size_t max_chars)
-	{
-		return _parse_integer_limit_init(s, base, 0, p, max_chars);
-	}
-
-with init = 0:
-
-	static unsigned int _parse_integer_limit_init(const char *s, unsigned int base,
-						      unsigned long long init,
-						      unsigned long long *p,
-						      size_t max_chars)
-	{
-		unsigned long long res;
-		unsigned int rv;
-
-		res = init;
-		/* ...
-		 * the rest is the same implementation as _parse_integer_limit()
-		 * ...
-		 */
-		return rv;
-	}
-
-That allows to accumulate the final value into the same variable, which makes
-things simpler and decreases the amount of overflow checks.
-
-The scale can now be a bigger value, like 0.00000000000000000000000000000000423
-can be parsed with scale = 35, resulting into 423.
-
-The truncation loop is still there... I think this implementation is better,
-and I am not sure what is the input limit that you would consider ok to allow
-non-zero digits to be truncated once the scale can now be something bigger than 19.
-As long as the output fits into a u64 variable, the parser still works.
-
-I am also adding new test cases for that!
+ Documentation/ABI/testing/sysfs-fs-f2fs |   5 +-
+ Documentation/filesystems/f2fs.rst      |  27 ++++++
+ fs/crypto/crypto.c                      |  63 +++++++++++++
+ fs/crypto/fscrypt_private.h             |   3 +-
+ fs/crypto/keysetup.c                    |  59 +++++++++---
+ fs/f2fs/Kconfig                         |  14 +++
+ fs/f2fs/data.c                          |   8 +-
+ fs/f2fs/f2fs.h                          |  37 +++++++-
+ fs/f2fs/file.c                          |  24 ++++-
+ fs/f2fs/inline.c                        | 119 +++++++++++++++++++++---
+ fs/f2fs/super.c                         |  12 +++
+ fs/f2fs/sysfs.c                         |   8 ++
+ include/linux/fscrypt.h                 |  28 ++++++
+ 13 files changed, 370 insertions(+), 37 deletions(-)
 
 -- 
-Kind regards,
-
-Rodrigo Alencar
+2.34.1
