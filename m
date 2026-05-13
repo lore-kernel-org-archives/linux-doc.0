@@ -1,323 +1,92 @@
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33ECC3CC7EC
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 23:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC333890E8
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 23:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778714094; cv=none; b=QUj8u7Fe3HVqev5vyfcEsVqbb5XTSIP9JwGIyxzisudi5Nx2o8toQWQiE1qRn96BFyFc4Wyz0AdNHRAbN/RJaIQeaVS/Nz5WlgNAjQFaQY5jKhuVaDIvtVMB9U/kM1+e9QwCjVezDNv2ylYdrpVzoY7cUJcU+45KcZLZ66V0ZOg=
+	t=1778715953; cv=none; b=h5ZJElLh4X30OxkJfkRIgopwhAfF2GzZjosOU5qKpJGUyYhcNpnDOIML9MVPJtFct0ZaraJVDxf3t4bJr/580Gi/zfEyqBz/ENORPxatqUbGsQoQtdLPJdHpAtwbH871zxXcZNUafw3LkiD/b47nt5TWwATLwdUAWR7pQUnioe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778714094; c=relaxed/simple;
-	bh=SHihGLXgYmsJaW9i6CKwl9JKAO4sf3kSHa49mlcZ5BE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q35ON0+k5Uu1oVaabOVK2GH6DDOd8PLpa8FJz6o9Zcc+ZAgbQrECmtnMAdp/qiEs3VFWMyGEVkv/0oxLEpIaf1RKJvqcY3QS5kNOZBm/IUC0eZ2ytUWpMMkiElw2Dk8gRqPgaZ3pHFE/XJQeKvqw6n1uTrWk4eg2J8McM6Y6rV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=phGsSa4N; arc=none smtp.client-ip=74.125.82.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778715953; c=relaxed/simple;
+	bh=jtX/uLxJlh6WWkzSUAVrcYE8V6Ii+sW+2Vb2dybzlvI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Q5yAGzRM8cLkMxxbNlkAN5IlEBByB7XXnAXioLhW6EfFPrMsDQ8j9l9s3WIviUiyqPByvJebeBGY9PQuaNN+C3iKYUxTEmZsXGe8yXCCvW5TpoiQXdASUnEat3McJDCddT/09OoawJDmB3bvo/D8Hw1ghcgNn96dMfhCfFxH9ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ygb3KGGM; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="phGsSa4N"
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-132c338a537so3267707c88.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 16:14:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778714091; x=1779318891; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1jmRXpj4cHFfB9YL53UH4jX2G42efHj1Df9QupG0QTs=;
-        b=phGsSa4NHUNNJ7kPT4tAa2A7SgX0EAOBOXiQmXqoxgx216cIpV+iSbMmFi7u8ReN13
-         OrLU1bIsUmoD/hAbiZm0FIBM6UYJyofaaH8SV6rmRE5MTg2F/zMd3MoNbnbC7ncJNOcv
-         qIUZH4f6CYGht/KYWMtkm5HOyi6mGjf7yxI4f7NT2DUh2D/hSP+Bv/D3bEYAfNZqGKoS
-         E6uaOOIyB7pC6rJfnzpdIjCwGaOPj/lBJ8JGvNyLVbniot1SyNjdzSLs9rtgErIf8QM8
-         yqSDI9GXh6IhkGXlSr4mhp1FhDPEJe6CZDnLFem1laCCpU3TLsMLH8uVkk/tHMpjjpYk
-         cWBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778714091; x=1779318891;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1jmRXpj4cHFfB9YL53UH4jX2G42efHj1Df9QupG0QTs=;
-        b=AvBOd7Dzu3Sd0e1EV0cUeYUCk0zaa6xfrwCSZWJm+n5n2xhfOLWqPjj54Lq5IAy/Aa
-         ALxMLYH+zmDwAWZoAb2f7iCi8SQyQg1Rp6VbnICAe4LyMDws7fnhpClyqGL9gEdQRH6x
-         TAyBHVxRt0HzId9CbcvZ6DYTJpd+uh0slP+y63RfzMeW2J8L7r5GlB01n1pUtvdKpdyA
-         7w+VTBOUyMTp91HDhyXiFFmAuLa+t2CinGlN/LywTGv4dcKNlFevdHh3btD9jxxZ9Ho3
-         0cCdOeRFXpt9KxeJu0i5xRfga1ixQQskdNt0S9EJObNU9ABe1yd4NY8CZm6o2f3u8DS4
-         QMWw==
-X-Forwarded-Encrypted: i=1; AFNElJ+nLnw1By1971RzDf0AhE36xP0U2gFZD0pkVmECcqw99t5BvKPmBAgsdqLuCfG+yegnwgQqgBMgQVI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1ixI3Po9UpDAemJAlrQmdEZ9D8/BC5DSJ2/uHnKG/iBSkAo+p
-	y4d4kDCXvTR3VLeLgCuw8oT+4r47+LCcYU4kjUQAUMUAOioc7/NZMHQL
-X-Gm-Gg: Acq92OFuOsw+T5Wp/TDAwacPEmTc/QkE4Zb84X0FCU6vX5w/e52t68+yVx7IyjhTlWD
-	kgx+lKvYxZlQVEvH1Y2OJ28gdSoLdcbCdSK+OVO1lzCX6PrWmTqRNorriRNePNCTfPXxxDEgI7t
-	6423+WCSMRIzSR4HwrEHrDf61KuUVcqFvIOe09lNZ5N3vEKI5SZ/qeAOCftoojM7VYthQ58vmlJ
-	1KN0Swr/1XUy7ReHpaaECJSbU4yqgWoE06AfxzBoK/XaV1p/quPh/vsMTX0UrqEztfpmQ+OAGi5
-	g4bJ63zY1y8HJ06fzfS5N/D70URfqD8EecYkFyAubWP3m/735IaYKxiLKJiH/9e2hyN2Wq2LE14
-	5rkBL6vAYYR6RcjzBnyW8NhRpwrLuvvu20AW+QapKlFUdc3flP4fIERslYwNuQVbNuekyHewIrd
-	33EUzUkkXusJHyqtBdg53SVOhZ2cM62HsbgCiTQw/07SfNrknbmNJ8YHpXP8PS6e1+vu3+nNK8C
-	F+z
-X-Received: by 2002:a05:7022:90e:b0:123:3c24:b15 with SMTP id a92af1059eb24-134c8d41a3emr840976c88.19.1778714091128;
-        Wed, 13 May 2026 16:14:51 -0700 (PDT)
-Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cc2352f2sm1379258c88.10.2026.05.13.16.14.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 16:14:50 -0700 (PDT)
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-	Denis Benato <denis.benato@linux.dev>,
-	Zhouwang Huang <honjow311@gmail.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] HID: hid-msi: Add Rumble Intensity Attributes
-Date: Wed, 13 May 2026 23:14:45 +0000
-Message-ID: <20260513231445.3213501-5-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260513231445.3213501-1-derekjohn.clark@gmail.com>
-References: <20260513231445.3213501-1-derekjohn.clark@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ygb3KGGM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778715951; x=1810251951;
+  h=date:from:to:cc:subject:message-id;
+  bh=jtX/uLxJlh6WWkzSUAVrcYE8V6Ii+sW+2Vb2dybzlvI=;
+  b=Ygb3KGGM4Ze9szDOMSxHNKPvqS4DPhzklvQCKGlrxUOdK/fhGIjxiUA6
+   9bbSDsDV6b36LG/yFJNB51o/brjV4XRpTfRUpUMVagZ8+xjoAMD1SwBh4
+   lJ4Q+sJlTqEhzYWFWbmdhBmQEfB93vY6gKOP+1xBD2U3yK5nRgpRlBi69
+   3eBBavgRE7Iu07F+yOoClQ1OxzMnux4u6jVFA6I7d+8PYhJwWR3ZfAT0L
+   +x7uI4QB5vSmEDy0tpbj+eyBTkgIn6f3/wZmzNrAfGa7I0agQmb/jhZGe
+   KGhRQ+ibHYS2MEZ+O8mx+/RfuUMlVwnwAgzVt94UoiXjClTbtA8Fn3TO6
+   g==;
+X-CSE-ConnectionGUID: IWrlbw99Q7GFCM6nfjgmcg==
+X-CSE-MsgGUID: /X2Et3UZRjiCTlW6zIOhVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="97081270"
+X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
+   d="scan'208";a="97081270"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 16:45:51 -0700
+X-CSE-ConnectionGUID: iImDLczRSeSLrEiHIz6oug==
+X-CSE-MsgGUID: 0vyXOAWNQmO7g8OlifDa7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
+   d="scan'208";a="261975394"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 13 May 2026 16:45:48 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wNJGs-000000008fZ-2tZV;
+	Wed, 13 May 2026 23:45:46 +0000
+Date: Thu, 14 May 2026 01:45:28 +0200
+From: kernel test robot <lkp@intel.com>
+To: Arun Muthusamy <arun.muthusamy@gaisler.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ Rob Herring <robh@kernel.org>, linux-doc@vger.kernel.org
+Subject: htmldocs: Warning: drivers/net/can/grcan.c references a file
+ that doesn't exist: Documentation/devicetree/bindings/net/can/grcan.txt
+Message-ID: <202605140136.sOIQXON8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Adds intensity adjustment for the left and right rumble motors.
+tree:   https://github.com/intel-lab-lkp/linux/commits/Arun-Muthusamy/dt-bindings-Add-vendor-prefix-for-Frontgrade-Gaisler-AB/20260513-205730
+head:   31312b375f2dafa975c5a345fa15faf7109be4e0
+commit: 1013cce6a71c91fcc54e6896393aee8d6b22de0c dt-bindings: net: can: gaisler,grcan: Convert to DT schema
+date:   11 hours ago
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260514/202605140136.sOIQXON8-lkp@intel.com/reproduce)
 
-Claude was used during the reverse-engineering data gathering for this
-feature done by Zhouwang Huang. As the code had already been affected,
-I used Claude to create the initial framing for the feature, then did
-manual cleanup of the _show and _store functions afterwards to fix bugs
-and keep the coding style consistent. Claude was also used as an initial
-reviewer of this patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605140136.sOIQXON8-lkp@intel.com/
 
-Assisted-by: Claude:claude-sonnet-4-6
-Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
-Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
----
-v2:
-  - Use pending_profile and sync to rom mutexes.
----
- drivers/hid/hid-msi.c | 147 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 147 insertions(+)
+All warnings (new ones prefixed by >>):
 
-diff --git a/drivers/hid/hid-msi.c b/drivers/hid/hid-msi.c
-index a628b77bfb7b5..cffd6ed253ec9 100644
---- a/drivers/hid/hid-msi.c
-+++ b/drivers/hid/hid-msi.c
-@@ -76,6 +76,8 @@ enum claw_profile_ack_pending {
- 	CLAW_M1_PENDING,
- 	CLAW_M2_PENDING,
- 	CLAW_RGB_PENDING,
-+	CLAW_RUMBLE_LEFT_PENDING,
-+	CLAW_RUMBLE_RIGHT_PENDING,
- };
- 
- enum claw_key_index {
-@@ -262,6 +264,11 @@ static const u16 button_mapping_addr_new[] = {
- static const u16 rgb_addr_old = 0x01fa;
- static const u16 rgb_addr_new = 0x024a;
- 
-+static const u16 rumble_addr[] = {
-+	0x0022,  /* left  */
-+	0x0023,  /* right */
-+};
-+
- struct claw_command_report {
- 	u8 report_id;
- 	u8 padding[2];
-@@ -310,7 +317,10 @@ struct claw_drvdata {
- 	enum claw_gamepad_mode_index gamepad_mode;
- 	u8 m1_codes[CLAW_KEYS_MAX];
- 	u8 m2_codes[CLAW_KEYS_MAX];
-+	u8 rumble_intensity_right;
-+	u8 rumble_intensity_left;
- 	const u16 *bmap_addr;
-+	bool rumble_support;
- 	bool bmap_support;
- 
- 	/* RGB Variables */
-@@ -402,6 +412,12 @@ static int claw_profile_event(struct claw_drvdata *drvdata, struct claw_command_
- 		memcpy(&drvdata->rgb_frames[f_idx], &frame->zone_data,
- 		       sizeof(struct rgb_frame));
- 
-+		break;
-+	case CLAW_RUMBLE_LEFT_PENDING:
-+		drvdata->rumble_intensity_left = cmd_rep->data[4];
-+		break;
-+	case CLAW_RUMBLE_RIGHT_PENDING:
-+		drvdata->rumble_intensity_right = cmd_rep->data[4];
- 		break;
- 	default:
- 		dev_warn(&drvdata->hdev->dev,
-@@ -815,6 +831,126 @@ static ssize_t button_mapping_options_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(button_mapping_options);
- 
-+static ssize_t rumble_intensity_left_store(struct device *dev,
-+					   struct device_attribute *attr,
-+					   const char *buf, size_t count)
-+{
-+	u8 data[] = { 0x01, (rumble_addr[0] >> 8) & 0xff, rumble_addr[0] & 0xff, 0x01, 0x00 };
-+	struct hid_device *hdev = to_hid_device(dev);
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+	u8 val;
-+	int ret;
-+
-+	ret = kstrtou8(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val > 100)
-+		return -EINVAL;
-+
-+	data[4] = val;
-+
-+	guard(mutex)(&drvdata->rom_mutex);
-+	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_WRITE_PROFILE_DATA,
-+				    data, ARRAY_SIZE(data), 8);
-+	if (ret)
-+		return ret;
-+
-+	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_SYNC_TO_ROM, NULL, 0, 8);
-+	if (ret)
-+		return ret;
-+
-+	drvdata->rumble_intensity_left = val;
-+
-+	return count;
-+}
-+
-+static ssize_t rumble_intensity_left_show(struct device *dev,
-+					  struct device_attribute *attr,
-+					  char *buf)
-+{
-+	u8 data[4] = { 0x01, (rumble_addr[0] >> 8) & 0xff, rumble_addr[0] & 0xff, 0x01 };
-+	struct hid_device *hdev = to_hid_device(dev);
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+	int ret;
-+
-+	guard(mutex)(&drvdata->profile_mutex);
-+	drvdata->profile_pending = CLAW_RUMBLE_LEFT_PENDING;
-+	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_READ_PROFILE, data,
-+				    ARRAY_SIZE(data), 8);
-+	if (ret) {
-+		drvdata->profile_pending = CLAW_NO_PENDING;
-+		return ret;
-+	}
-+
-+	return sysfs_emit(buf, "%u\n", drvdata->rumble_intensity_left);
-+}
-+static DEVICE_ATTR_RW(rumble_intensity_left);
-+
-+static ssize_t rumble_intensity_right_store(struct device *dev,
-+					    struct device_attribute *attr,
-+					    const char *buf, size_t count)
-+{
-+	u8 data[] = { 0x01, (rumble_addr[1] >> 8) & 0xff, rumble_addr[1] & 0xff, 0x01, 0x00 };
-+	struct hid_device *hdev = to_hid_device(dev);
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+	u8 val;
-+	int ret;
-+
-+	ret = kstrtou8(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val > 100)
-+		return -EINVAL;
-+
-+	data[4] = val;
-+
-+	guard(mutex)(&drvdata->rom_mutex);
-+	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_WRITE_PROFILE_DATA,
-+				    data, ARRAY_SIZE(data), 8);
-+	if (ret)
-+		return ret;
-+
-+	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_SYNC_TO_ROM, NULL, 0, 8);
-+	if (ret)
-+		return ret;
-+
-+	drvdata->rumble_intensity_right = val;
-+
-+	return count;
-+}
-+
-+static ssize_t rumble_intensity_right_show(struct device *dev,
-+					   struct device_attribute *attr,
-+					   char *buf)
-+{
-+	u8 data[4] = { 0x01, (rumble_addr[1] >> 8) & 0xff, rumble_addr[1] & 0xff, 0x01 };
-+	struct hid_device *hdev = to_hid_device(dev);
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+	int ret;
-+
-+	guard(mutex)(&drvdata->profile_mutex);
-+	drvdata->profile_pending = CLAW_RUMBLE_RIGHT_PENDING;
-+	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_READ_PROFILE, data,
-+				    ARRAY_SIZE(data), 8);
-+	if (ret) {
-+		drvdata->profile_pending = CLAW_NO_PENDING;
-+		return ret;
-+	}
-+
-+	return sysfs_emit(buf, "%u\n", drvdata->rumble_intensity_right);
-+}
-+static DEVICE_ATTR_RW(rumble_intensity_right);
-+
-+static ssize_t rumble_intensity_range_show(struct device *dev,
-+					   struct device_attribute *attr,
-+					   char *buf)
-+{
-+	return sysfs_emit(buf, "0-100\n");
-+}
-+static DEVICE_ATTR_RO(rumble_intensity_range);
-+
- static umode_t claw_gamepad_attr_is_visible(struct kobject *kobj, struct attribute *attr,
- 					    int n)
- {
-@@ -835,6 +971,12 @@ static umode_t claw_gamepad_attr_is_visible(struct kobject *kobj, struct attribu
- 	    attr == &dev_attr_reset.attr)
- 		return attr->mode;
- 
-+	/* Hide rumble attrs if not supported */
-+	if (attr == &dev_attr_rumble_intensity_left.attr ||
-+	    attr == &dev_attr_rumble_intensity_right.attr ||
-+	    attr == &dev_attr_rumble_intensity_range.attr)
-+		return drvdata->rumble_support ? attr->mode : 0;
-+
- 	/* Hide button mapping attrs if it isn't supported */
- 	return drvdata->bmap_support ? attr->mode : 0;
- }
-@@ -848,6 +990,9 @@ static struct attribute *claw_gamepad_attrs[] = {
- 	&dev_attr_mkeys_function.attr,
- 	&dev_attr_mkeys_function_index.attr,
- 	&dev_attr_reset.attr,
-+	&dev_attr_rumble_intensity_left.attr,
-+	&dev_attr_rumble_intensity_right.attr,
-+	&dev_attr_rumble_intensity_range.attr,
- 	NULL,
- };
- 
-@@ -1312,6 +1457,7 @@ static void claw_features_supported(struct claw_drvdata *drvdata)
- 		drvdata->bmap_support = true;
- 		if (minor >= 0x66) {
- 			drvdata->bmap_addr = button_mapping_addr_new;
-+			drvdata->rumble_support = true;
- 			drvdata->rgb_addr = rgb_addr_new;
- 		} else {
- 			drvdata->bmap_addr = button_mapping_addr_old;
-@@ -1323,6 +1469,7 @@ static void claw_features_supported(struct claw_drvdata *drvdata)
- 	if ((major == 0x02 && minor >= 0x17) || major >= 0x03) {
- 		drvdata->bmap_support = true;
- 		drvdata->bmap_addr = button_mapping_addr_new;
-+		drvdata->rumble_support = true;
- 		drvdata->rgb_addr = rgb_addr_new;
- 		return;
- 	}
--- 
-2.53.0
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+>> Warning: drivers/net/can/grcan.c references a file that doesn't exist: Documentation/devicetree/bindings/net/can/grcan.txt
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
