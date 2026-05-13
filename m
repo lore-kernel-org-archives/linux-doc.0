@@ -1,255 +1,137 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012057.outbound.protection.outlook.com [40.93.195.57])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D26630674C;
-	Wed, 13 May 2026 05:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778651603; cv=fail; b=kEYf/dcq/3umy0dRUPbdgzFuWYuVVGr2hBylHxdOx5e/OSEO8QUQa7DCq71orM+u306DPQngm+nRhQ7+qpybd6oUoohklJLc7osI+yqXIbW+KRZwSdfVxuhnyNUyKSj3nDRG2WGWNM+y4gKtRTqSLd0UPQIDoyuQ+FLJpNjDbCw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778651603; c=relaxed/simple;
-	bh=c4l7vgsCiPlwjDlojixYZ8BNCfKDCHUK130X6DBEVF8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=XjG91rQuE8Ggh2rHP0qdt3TFyCPWnaPhDF3r+/oZSvcEfDot/DFKdpAN+rxfq7NAcvnESTO95Gs+bNODoPGn2vK1es+jDmv338j0spucOMhoHzlprCqV9PcY6FZXieTE4wZKvKC+i3tTuYyGUk5vlNF7CvupJVKQDqQbTarNg6w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Z+Qnn0/O; arc=fail smtp.client-ip=40.93.195.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0080D1DE3B7;
+	Wed, 13 May 2026 05:54:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778651659; cv=none; b=GwQbDlzZ3DoiGRHPndNiye+rziZahWqIPfsLUHQ0phhc7oek55QnLJM2AR3ruDA+e7XinMHFFPGvbFm7gnt0MWjBY4oCZxxh1KYKBoSVn0YtVzR+k5vRdJ/YkQowR8H4imOojw2hIo69Xc4pKO2Fr4GTx50ROVyfGKYtvYejTVY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778651659; c=relaxed/simple;
+	bh=1csDsp318lIzbzvyQ4H6vhO/sPc9KJFEMhl94CMjapc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ui91GExf1RgtI7NWSlRJ3ZfusX/KjN8LWLJt7aC6AC05hdwpuBi+58jZGbnmfHZ1XbPjBnz7UqXuaeGrC9lH2JWscbhJYuSgy+GbGqzD0IKKrdzknv8tQv1o+niMdaZ0bFixkpHCk2aahWDPgb5jcpb2xTerVhEM0QQppifx4+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=atENdrC7; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Z+Qnn0/O"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fio4+Q0PSh6nEc1seZu43HnFwgTR2bjJU1EU5Tr6ccZ9Umj5/gfKu8ULma4RyPdcLXBvrHOJUbWDpQAgqMoAQk4mjQNJyPcAu+ATcHc4HXIUUErCGhxn1eOpCtvbo5Y6Z7d1Hb93YhH0CNQCkskuvBbOXqPzMyeISwFaYIguEiES19A8R+x1SMP2AT9iBDZhYZKjM2Z6xNNxusExsUIq49eJ1WosbZ7q/TAk3NVsM5vQnI96IFBu0YSXEqrNuZolkr1IRULutFc397bvDLMt7CBV8OEg3hmy/DjaHWMDpdajaGu+AVJE9fBzUWXjWuhU9jQwmsfyxpbmgge5XAU0lg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MsAksY8tKgJAL5UqMjvC8UuFH5j3UO2xnpntrtBDrwY=;
- b=CeVZe/VVqEyRPeLgxMDHdlw0VW0PlhFtbU0PhU0eVPbIq40F9FfQHe94jE133hV4buKgZDh/7u517DmKzc70/U1Mzy8KN/bFAwbtGGoV7wTrmc0oUQ2vtcrJyiIjayFdOLqGnJIEgerjAPE89pW/X7Rn+nKJaFospsFViwcWnYWZkVdpsswnYZeRZGpxR7FpdF6ICj3cqQ6t8BifrsoANJcMhvCOOP1iIBNu4Z/OTkEnKCF+yE+3jdtLp/pkcP3/ElGbEbb6b40IxM78/GzGn0un+F5Tke/+a8cLleOi4mW/yEuYLKjJurnolqpGlZ8hix+45FeP6yPbKuFq6Hl/LQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MsAksY8tKgJAL5UqMjvC8UuFH5j3UO2xnpntrtBDrwY=;
- b=Z+Qnn0/OHE8OVqfSo+VyFKFkVpzCNswaw61WmKltlXqZtUoh79wGdkqYdJ1iaXr2wurUwJP2si5IZAcX9+ANMGAkwn90YMXJdEk5pyT2qE1bCQJec1OApUQLrhNtYYG82zbSIgDyPQ1OYsbNfSHoWzy4+fPPZVMA9m7LQyn+69rftC3qRjhECmgsRB3XelrhO8VAAzaXxgASwrqrEBstqdbk5SpgqLTXOCKEt/u9NkDrqfIce2nvdCQyJrFnNOdpY0QiKN2DiQxakKZqT7g4EKI7DdJy3I7vn7aN7o5jP0EBg8HgrMKfwGmaxT/W/ijBSDiUA77/70godMRaZ+gdTA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
- by DM4PR12MB7766.namprd12.prod.outlook.com (2603:10b6:8:101::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Wed, 13 May
- 2026 05:53:13 +0000
-Received: from CH3PR12MB7548.namprd12.prod.outlook.com
- ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
- ([fe80::b710:d6a1:ab16:76de%6]) with mapi id 15.20.9913.009; Wed, 13 May 2026
- 05:53:13 +0000
-Message-ID: <29868c1b-5751-421a-9f2b-2ac0f3324904@nvidia.com>
-Date: Wed, 13 May 2026 08:53:05 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC net-next 0/4] devlink: Add boot-time defaults
-To: Jiri Pirko <jiri@resnulli.us>, Parav Pandit <parav@nvidia.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>,
- Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- Tariq Toukan <tariqt@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Borislav Petkov (AMD)" <bp@alien8.de>, Randy Dunlap
- <rdunlap@infradead.org>, Dave Hansen <dave.hansen@linux.intel.com>,
- Christian Brauner <brauner@kernel.org>, Petr Mladek <pmladek@suse.com>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>,
- Thomas Gleixner <tglx@kernel.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
- Marco Elver <elver@google.com>, Eric Biggers <ebiggers@kernel.org>,
- "NBU-Contact-Li Rongqing (EXTERNAL)" <lirongqing@baidu.com>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
-References: <b6a9b568-dd09-4414-be57-6b9cd282a43c@nvidia.com>
- <af4lBIJdCuN5VKq_@FV6GYCPJ69> <20260508175213.1952097f@kernel.org>
- <af7Y4AYv-XDCbK_8@FV6GYCPJ69>
- <580a774b-ba9e-4523-b43a-476f75dd5b12@nvidia.com>
- <SJ0PR12MB68068C50EE9776A3D9060635DC382@SJ0PR12MB6806.namprd12.prod.outlook.com>
- <agLoeZtsSizR-R24@FV6GYCPJ69>
- <SJ0PR12MB68061C61AA2BF5D81005984FDC392@SJ0PR12MB6806.namprd12.prod.outlook.com>
- <agM0DsiaAH8-Ox7N@FV6GYCPJ69>
- <SJ0PR12MB6806D8ADF943B30AD3B479CCDC392@SJ0PR12MB6806.namprd12.prod.outlook.com>
- <agNy3RF9WCHBPev5@FV6GYCPJ69>
-Content-Language: en-US
-From: Mark Bloch <mbloch@nvidia.com>
-In-Reply-To: <agNy3RF9WCHBPev5@FV6GYCPJ69>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FRYP281CA0015.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::25)
- To CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="atENdrC7"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64D3Ec4B3179791;
+	Wed, 13 May 2026 05:53:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=fnuufqYYLtE0fFDfYwC2wP+HbgXlrj
+	00l8SFUOeSnOA=; b=atENdrC75nKm/3jmpD5vlyuXXOC+RtAZmoRfgFGQXt0LuD
+	KVK3yueUhMbFULBaocjqPGD3c/o6y5aT99Cj8ThSD/k/w2H0OaolTZlEOx1Nth3X
+	ladFjKtEU/FqmrRMIgVzXVTrI0v0y50FoDPlwjnPEcHTnQC4KvpEJzmCUQb0f1CJ
+	aksJJAisJUNlvpoKmKgEvRES+vNptlcR2XiSwxvFSDH6BqE8rEls4stUgDFDCz+F
+	8duh0brQrJfbjcmUsichuytyOxoJ4xIAaKxgEv2CJ8icSIvTtSBzsFzftYTJiD2W
+	PiVaQcAY5xwLlOFZwMrVBFPZHhycQdUh7rBLDt6w==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e3nv6nyp2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 May 2026 05:53:55 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64D5dOmU002130;
+	Wed, 13 May 2026 05:53:55 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e3nfgpe10-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 May 2026 05:53:55 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64D5rrNt57278854
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 13 May 2026 05:53:53 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 27D082004B;
+	Wed, 13 May 2026 05:53:53 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E422B20040;
+	Wed, 13 May 2026 05:53:52 +0000 (GMT)
+Received: from osiris (unknown [9.52.214.206])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 13 May 2026 05:53:52 +0000 (GMT)
+Date: Wed, 13 May 2026 07:53:51 +0200
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Manuel Ebner <manuelebner@mailbox.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, andy.shevchenko@gmail.com,
+        apw@canonical.com, corbet@lwn.net, dwaipayanray1@gmail.com,
+        joe@perches.com, kees@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lukas.bulwahn@gmail.com,
+        skhan@linuxfoundation.org, workflows@vger.kernel.org
+Subject: Re: [PATCH 1/2] Doc: deprecated.rst: add strlcat()
+Message-ID: <20260513055351.10375B84-hca@linux.ibm.com>
+References: <20260510164907.57176-2-manuelebner@mailbox.org>
+ <20260510165451.57674-2-manuelebner@mailbox.org>
+ <748c2c3d549740918e14f29aa25dd475b99c1313@intel.com>
+ <46d8a5a8c8c77d3de9acfa1c55de2148fb2975c5.camel@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|DM4PR12MB7766:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad1fae0d-1b73-4d3a-2dcf-08deb0b3eb82
-X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|11063799003|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	fP9mLpNjb2tLF42igPqA0H59RwqB5ZlikmkKfxB/1e5t4FSncl0mpOCHSm8eTtpx+/7lnWuKEUNRBjatFmOxYOyBLxDP9haDQ76hGpn+7ZhBQPw/R9jm58NLZyzL4AMmJa7/PiQvetrYyjXpJD84M05gUDVKB1+4JetFZxsSnvONvNN4l9Ifzx7/8/x//p6xdlXviBokRwIaZ44jk6LoFKqV68tqQkf7+ne6C0A8pdGH/R/htL1vrB8s/jucbw8rhIepr7/KEZMYqWomw330/7lmVLGheYhGNFjSr4Dnyoa18xA5bqQXr1yZHdccwN3NWa4Mng1a+u5pm5jYBnLiuriuYo8ZWYa+Q9NiCqHIt9B7t0jxkPXwSA1A1pAX6XsIOTHmIDo+gEjTmijepNbbWlrZmIo+adou+jT3BwSGlMIQc/r+hwVzUiexJDvbLG33qN4OU+GnsyxE7IQfvew1UHVj+Mmvr6IPABqkSjznfc4tvwNrEhDMSgWs5t3ch04NNHptpeSqxHe5PiSF3WjlF1IjxGJ3jXZuR2glqQz4gCnjTVr4EtJ0OPu2ZVyGzULBpD/XDfOSGIsXh5f9EzF6DUhGZt4VydVAzQ4T37sF2MXcujh5mSoanXkS0gppWJWCnw0vhmWrcgQC3Bwh1pY8YJVjWtilb6/hI8sarHk7dVt6/VgksJz8W2T6poDM9OTm
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7548.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(11063799003)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Nkx5MG1hQ3JBaGFHem1NUVJycGVYODBKbVg0VU5CcEE5aHNzT3NyUWNOSGti?=
- =?utf-8?B?M20wNnJpemZReDhWQnEycUgrRHNNT2RXZzRwdCtzOUgwTHNydWxqakNNWmFR?=
- =?utf-8?B?K1NaZ1RjUyswaFgwdTRpRThpanVUMHRjTU1NNnJWemtHWitTUHFDZUt4b2Rp?=
- =?utf-8?B?Z2h1QkdkVEhVOFgrR2RCR053SWZiTXN6cjlSUURWK3lwYmNjeG83MTBRTS9i?=
- =?utf-8?B?aFFmUnFySS9PdVBVMXI0a0ZMUzB3dkc4TEVFcmgzNXdyUUZrOWROMjFVYkVZ?=
- =?utf-8?B?VVFyRUdSTWJaUnNud3hxWnIzOWxERGFISzdORmhuVGNMQk92U3IrZGFoYzZy?=
- =?utf-8?B?YjNYbFhvQXl3dmhmMzJMRnJuK0REWlEvL2xmbThTQ0h2NWJXb2w0UWFVVStH?=
- =?utf-8?B?bU1PdmczNlZSeFI2SVEwYlBQSXU2VGo0Y3dwMEZUSklTSzllbWdBdHY4V1hM?=
- =?utf-8?B?ZXY0TTVBQm85R040c0JBcU9JNldFbFZmT3BycXNHZ2dHKy83czVtcE1XRGNn?=
- =?utf-8?B?Q0owK0JvbEliZzhIYnEwSU5xRW1XVUlNSHQwdTF1MEVKczdycnpGMUNZYmkz?=
- =?utf-8?B?NzFEZ3A1YjNVOVJMb2VRNUJKS0NvdFNNc21lZEpJVVR0UVZEWFdIVVZlQXI2?=
- =?utf-8?B?bDZvei9qcXpWNTdWSmFSVjdjcCtadjFzbnI4SjVKV21nNVRyY2ZNNXphNzkv?=
- =?utf-8?B?TEY0b0doU2RyckFEUGJ5ek1aTExpeUM1enhjQmM1OXZGb0FYMjY0ZE1jOFNC?=
- =?utf-8?B?a3pwSXhzWkdWdlVhcWZ1SXdQWWozdGN5Wk1BVE83N0wrcGVpTUFucFdTVHh4?=
- =?utf-8?B?Q0VNK1R0MVVuQVA5SWxIUSthaHFMbW0yOGJxT0ZFNWhQdXVSTTNDR1h3YmE0?=
- =?utf-8?B?U1dFYnR3NjNhSGZpQy9qWm5EWnhra1plZ1pkYkptOXljSjZFMEpNa04yN3RE?=
- =?utf-8?B?czR5cnF6WHZleUt4aWx5SEVVV09jNVR1NDZ5dkVBTnJPT1NYOGs3WVZjS1Uz?=
- =?utf-8?B?THlWdVlzR3ZvRmp5QkswNTNvOFVuVlB1VlJIbG93aFY0WGZEVXJDRE5Fb3Iz?=
- =?utf-8?B?Z05yQXhXaEJEd3d1SlUya1BNdWtXT0xzOVdKNXlVVUZ1THpsbVd5b3dUanhW?=
- =?utf-8?B?THhxdEpVRWtUeS9WcTBTa2pXMWJnV3ZDT1FKTnpqOWROQ0F0TmVQK2drUDk5?=
- =?utf-8?B?WExZcUxpeXlBc2dlVzVISlg2VnZHZGdHdkY5eE1aMWt0R3lnRVZMcm1XcU9y?=
- =?utf-8?B?STJycXJ1eVpDQlYwOWFaSTRod25sTS9IUkhkZ29abHVKTmwzWmFJbjZ6U2Vy?=
- =?utf-8?B?ajlOanNwL0RtZ1k5ZTRnNUJyWkxFblR0KzRWWUhlODN1WExvbTcveTVNeWdU?=
- =?utf-8?B?b09VN1ppYUt3NTlvUnRKQjhqb1I1a2tBVWh3VzcvZzIvaDlZV3lLUXlOUTZ1?=
- =?utf-8?B?SUxuWTJEYytwanhGWjBhcmh5TENOMVdTcTNTZTdUNC9jRWR1RzFLa0I3eERJ?=
- =?utf-8?B?ZHgzeWhDRlBsc0dGNnNOa1VEV1NJdzdVTVJJYTdQK2p5UFBERUJKZnJXalFH?=
- =?utf-8?B?SWlSdncxVE96QWEvNE5zQlpqVUtERDJGOU5mWTE1MWRSUVdTTm0zNjRrdXdC?=
- =?utf-8?B?MFBlRk1WQ2hpVTBkUnlEa05EZGZJSStiYTJKd3dwVzArQ1NuSnAzcmo4bE0x?=
- =?utf-8?B?b3hIZ0orN3NyN0dZVWI1QURzSm5FcHNBdzFMV3BwQk9Jem84R04zTGo2Q2ti?=
- =?utf-8?B?ZThjUFdKMU9BVFNLL1hIMjRpZzVmbjdmNU0yYVI1U1dTR05rcm1lUHhNVGFV?=
- =?utf-8?B?L1ZmTStpOTBqQlVOWW5Vb1NjTDcrZ1kyRm9TTGttYXJzSThGdzB5cDVIaHBj?=
- =?utf-8?B?ZUprcEY3QVd2ZTYvS284MitMUWs5TFgzeU5iOGRLRDRjeHlUZEZjUlhub3BJ?=
- =?utf-8?B?NDBxMk5NUkJadG1Ed084RCtRbVlBTlBzZFdVMmFWQ0FYWFgwb0RhNWlIbHZn?=
- =?utf-8?B?YjNtNWlwNmxOdGFDMnNKTElXcE5pQUhVVTdrWXRVK0R1L3VzTTBFWE91T0du?=
- =?utf-8?B?TDZYdEdTMHB1c2VkY3NEVW9VZUtTbE1YMHorN29rMGJvMUdnY3R0cVJXUWtJ?=
- =?utf-8?B?ak5jdTE0b0huMFUyTmVvT2orOUt0MWphZW9Cd2JkOHlETkN1OXZsblQvN1ds?=
- =?utf-8?B?a1A5bjJSMzlVT2M0RVk3QWhCZjhxV2RuU1JrSWcvTlJ5RnBCb3hFd1lmTGFO?=
- =?utf-8?B?dnNlZUo2dXdoalgzNUF6cEJQQnNKUUdESFhLb2dCemp2ZmFVUnZsTVB1VHpv?=
- =?utf-8?B?RHlrQXVmZktIMjRvSmkxUEpHOVEwOVJWVzhRL0wxNzZuTVp1d2oxQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad1fae0d-1b73-4d3a-2dcf-08deb0b3eb82
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 05:53:13.4846
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cx5awP+9XrVhLnkAziBSI/YrSSDU3mpSa2nUmo/iboJiXwIqdwCu2T28vY6r6M348q61/lZrToJgvbNm0hVLpg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7766
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <46d8a5a8c8c77d3de9acfa1c55de2148fb2975c5.camel@mailbox.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=Us1T8ewB c=1 sm=1 tr=0 ts=6a0411f4 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=b3CbU_ItAAAA:8
+ a=grwZSnOX14fL6JIfArEA:9 a=CjuIK1q_8ugA:10 a=Rv2g8BkzVjQTVhhssdqe:22
+X-Proofpoint-GUID: wuipSwtJrVif0VqMFr0IeB0K1BguVDYJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDA1NCBTYWx0ZWRfX3FD6y17D8btS
+ Pd03lTwhZJcOvMQAkOENttTPuZjMEaldPaf6usk0nsZhkS/Oa8ngX6n+sHrBf2zPpqtZ0f4vZYL
+ J6wZ/c89LszfuHFwdtZtnrOrpTmteQM3sQs1CTm5KeyFwQ3cQ7pcM1ROzqn2pUOZNNS1R72Wc9R
+ 21jyEHTlc0bZ1w0XsWnm3FSUUqN/7DzGoBAHq30HnT0DqFt4s3RmIb+OK3NMlAVC34mvfoY2eoP
+ R6EbKAOksfwIDvyhcvDoDBw03gD5vwfM1fY/mhTow7goPLUi8KNZcSmi/Wq5HHg263Y8bOaW6Mi
+ XOGur0XPamZnfx6XJh/AtS6QCZV+VPgpb8XfFLmKhQ9PzwrI4w29ElQijAXGOMbJ79brGCCxwv1
+ xMebotz18EvKbZ6mLKBinQ+VILb07e1FFymunwaSrIwAUmjvjSFlAbuIx73Tqy4e0YrQjxmgpnW
+ PekAVURC8Ze42sejY8g==
+X-Proofpoint-ORIG-GUID: s-BR4kWFiM2qSDy_DfrtMJIxymWzwus6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 spamscore=0 malwarescore=0 clxscore=1011
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
+ definitions=main-2605130054
 
-
-
-On 12/05/2026 21:35, Jiri Pirko wrote:
-> Tue, May 12, 2026 at 05:25:21PM CEST, parav@nvidia.com wrote:
->>
->>
->>> From: Jiri Pirko <jiri@resnulli.us>
->>> Sent: 12 May 2026 07:37 PM
->>>
->>> Tue, May 12, 2026 at 03:48:32PM CEST, parav@nvidia.com wrote:
->>>>
->>>>> From: Jiri Pirko <jiri@resnulli.us>
->>>>> Sent: 12 May 2026 02:16 PM
->>>>>
->>>>> Mon, May 11, 2026 at 08:21:37PM +0200, parav@nvidia.com wrote:
->>>>>>
->>>>>>> From: Mark Bloch <mbloch@nvidia.com>
->>>>>>> Sent: 10 May 2026 06:02 PM
->>>>>>>
->>>>>>
->>>>>> [..]
->>>>>>
->>>>>>>> I look at it from the perspective that from some CX generation,
->>>>>>>> switchdev mode should be default. So that is a device-based decision.
->>>>>>>> I believe as such it can optionally be permanenty configured (nv config)
->>>>>>>> on older device. Why not?
->>>>>>>
->>>>>> Because sometimes switchdev_inactive is needed and sometimes not.
->>>>>> Such knob is not device decision.
->>>>>
->>>>> That is what I would call corner case. In that, user can use userspace
->>>>> configuration to change the mode in runtime.
->>>>>
->>>> Corner vs common depends on users one talks to. :)
->>>> If fw has switchdev(active) as default, and then
->>>> And user needs to run switchdev_inactive, it will actually break their switching applications.
->>>
->>> Can you describe the actutal breakage please?
->>>
->> Driver default was switchdev so all the traffic is forwarded to the switch,
->> and user didn't have chance to setup the fdb rules.
->> So packets are dropped but user didn't expect the traffic to be forwarded.
+On Tue, May 12, 2026 at 12:43:54PM +0200, Manuel Ebner wrote:
+> On Tue, 2026-05-12 at 11:52 +0300, Jani Nikula wrote:
+> > On Sun, 10 May 2026, Manuel Ebner <manuelebner@mailbox.org> wrote:
+> > > add strlcat and alternatives
+> > 
+> > You'd think it's the strlcat() definition that needs a comment above it
+> > saying it's deprecated. I don't think folks really look at
+> > deprecated.rst.
 > 
-> User may switch mode to switchdev_inactive early on, before any of the
-> representors are created. What's the issue then?
-
-That is the ordering problem I am trying to solve.
-
-On a DPU, the host PF cannot finish loading until the ECPF moves the eswitch to
-switchdev/switchdev_inactive. So we need to do that transition during ECPF
-driver init, as early as possible. Waiting for userspace means the host PF stays
-blocked until userspace is up and has the right logic.
-
-That is not always true in practice, the driver may be built in, loaded from an
-initramfs, or the initramfs may simply not contain the devlink policy we need.
-
-Also, after talking with Parav, my understanding is that we need to support both
-switchdev and switchdev_inactive, since different customers want different boot
-behavior. Once we do the transition, the host PF can load and may start sending
-packets. At that point the initial mode already matters: in switchdev_inactive
-packets are dropped until userspace programs the pipeline; in switchdev they may
-reach the FDB before the pipeline is ready.
-
-So I do not think an early userspace transition is equivalent here. The initial
-mode needs to be known by the kernel before userspace runs, which is why I am
-proposing the devlink= command line default.
-
-Mark
-
+> arch/s390/lib/string.c
+> lib/string.c
+> and
+> tools/include/nolibc/string.h
 > 
+> do not mentions anything about obsolete.
 > 
->>
->> With this RFC, the device would start in the switchdev_inactive.
->> And user's goal is achieved.
->>
->>>>
->>>> So, one needs to invent switchdev_inactive in the FW.
->>>>
->>>> Jakub's suggestion in this RFC is covering both the scenarios uniformly without above problems.
->>>> Single uapi for all the cases, so looks good to me.
->>>>
->>>> Moreover, do not understand how alternative solves such problems.
->>>> i.e. user is unable to configure the fw because driver is not yet loaded/up.
->>>
->>> See my other reply in this thread. I don't think there is a need to
->>> configure anything in FW. If we fix the behaviour in switchdev mode for
->>> non-sriov user and change the default, no fw knob needed. What am I
->>> missing?
->>>
->> If I understood your suggestion right, is it the devlinkd based solution?
+> include/linux/fortify-string.h has 
 > 
-> The suggestion is to use "switchdev" as default with user configuration
-> no matter if it is devlinkd or something else.
+>  /* Defined after fortified strlen() to reuse it. */
+>  extern size_t __real_strlcat(char *p, const char *q, size_t avail) __RENAME(strlcat);
+>  /**
+>   * strlcat - Append a string to an existing string
+>   * [...]
+>   * Do not use this function. While FORTIFY_SOURCE tries to avoid
+>   * read and write overflows, this is only possible when the sizes
+>   * of @p and @q are known to the compiler. Prefer building the
+>   * string with formatting, via scnprintf(), seq_buf, or similar.
 > 
-> 
->>
->> If yes, then Mark explained that it has the issue of all drivers to be loaded, followed by user space to start.
+> should i add this to the former three files?
 
+I'm going to remove s390's implementation of strlcat(), and convert the only
+two users of strlcat() in s390 code to something else. No reason to add a
+comment there.
