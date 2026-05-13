@@ -1,120 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0F23AEF4B
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 18:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE32918E025;
+	Wed, 13 May 2026 18:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778698500; cv=none; b=RfsDj+Vg00/FE17VE6QubdzdrDBW7FIbdztEk36aRqxtoGdr4YWr78e0QtAzMzCZI16SX1wyslIbPj5P+n5VEoZKvhuqXt2XKeEGLzB8QvMVRsiK4mAQfl9mYEwLbRFQcRrZDmocrlpK1VgHwONkJ4sZznlny3TjOfusZp5/F2k=
+	t=1778698746; cv=none; b=YWlmSnWT2j/C5dteucOXI3V7/O+01dDfpgeOZMYzz929ji5rLhiqgZRanoNjK0fPq+PoM9beypH0k0Q79VhD5pQQ5a/5NqCQ1N5S7R4yfh4vA8zC5HMidwiwBf1pkSYPqQs8B33gR3c2lNR9CU4E36yKEeHhKUoggBy24VwOrwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778698500; c=relaxed/simple;
-	bh=oy48rSFgn/Urnek9HoSvpEF/u10r5XtDsuRkhJs2+R0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o5GaODRpNuI4MvpWw6C4uOBGnksGbX58D/vLf+eAtRxsBT2+ZqXDH5DGvYWlD/6+RBY5aWzQ+zhRXFIOp1x11JXORUkT9txvCM9O1kcjiUyVMxa0s6E3yVeT+Shd5FI71CkQSrMa33Vnf8HSCaAAD+s9UZgC6qr7HZy49BCPfLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LDWMEh+2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778698746; c=relaxed/simple;
+	bh=tla75cfkTRlC9T7SUkt5Cuky8it/PEoRF7zOfP/TpWU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=E9mZQcieSdabFRX39vvIt5uxDJBi8czMPx9tICEoXeJZCf3XF5uEO4ilR5dqVoTJZz2/hKey/H97QDn5+9WGVPOzaGfpNys8Fqu86RySt6/9seXIwWj3IVjIEE7DZXgZiqM0qD7Gvur3WenYc5aKL6LY9vPA+E4DxGywxlzVrKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=orlkbFi+; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LDWMEh+2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F89DC2BCF5
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 18:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778698500;
-	bh=oy48rSFgn/Urnek9HoSvpEF/u10r5XtDsuRkhJs2+R0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=LDWMEh+2qLNLseuxA7u9PZiJrS7UJ995evm7L/D696Qwxo0ZjKQEGE/RFTjLDMM1K
-	 lGCnPsySEh6nsjfqHIQN6bxN4ckE4lRX0mWjbBwKj7xFkmwZWD58ocq4J7NWnrmsvX
-	 x32rdYJ1W5uKsuZGYA63Fvsn+AF0es+pD/VzZ8ftNzfGPsH8a8NjOAO3M3rebSKaKh
-	 bqNQ1sA8Hni390pTaPHLv+x+T7twymy+0+vUdIYgRAlSO3SzQzw+fnJ07J/t1QRgNH
-	 1lkm9W8U9OVJ9QWlmPPs+NGNP6KnJaDaO+Uznev9F8tOEs0o8E92LYrhBMpoCWq651
-	 WPjpbtB5w2veg==
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b8f97c626aaso353244266b.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 11:55:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9Mr8k7XrzWNYDe6j6S3DqSNcRUhIarzqILUG3FBx9AgYKeLBNVSumbN0XaSEUiBdfKEwSm9hEDLqI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXajwL4QPkC7jV7lzCwluX+2GDI3+wo6wWuPW/CqzS//pdrMhD
-	jC4drrRY9LqJTgaAZIbrFwv51uP40U3JrkllmYFOthUDYqxI3G/5GWwrkl6NbgkISb1ZMpLCRr6
-	NYZQR+C/8JiGSkbLN8gdwtHLrmNl6kRE=
-X-Received: by 2002:a17:907:a808:b0:bad:f032:fc78 with SMTP id
- a640c23a62f3a-bd3bf5810admr316310866b.1.1778698499361; Wed, 13 May 2026
- 11:54:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="orlkbFi+"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=hLDHDw6L2XoumT6hL0NwUBbydY/pK2g/zR84qPtzVV8=; b=orlkbFi+CfrTOJx71uAU8+bYfM
+	JPsP2pe1y/uO1CMN/16vVmCBmOctgZMP/PYiEHuF/djxfy2oaokqktP2wIOEzcls7T/9pt55+cflz
+	gPV893jmQDhGrvkXpAxwfYGrhIJMjKLg2Jhjg5BUbRqxrtzmpisDMD7e6jJyGT6XcRw49Zrto3YtX
+	600LJNkANS23l9ZpCnUe4Gesh5dtELWtWmSDON2GF4JvMmkf6FqvdxHaChDrkA5jMkKbV+yebaq8X
+	ZPqKodOldA9vSDAM99OdORWiw7dtcUM/cGjC+QJPEN8ngToe4mb1rXD6JgexBHYbpUYgCbKnLKdDI
+	WndYMfwQ==;
+Received: from 179-125-79-241-dinamico.pombonet.net.br ([179.125.79.241] helo=[127.0.0.1])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wNEn4-00A6HS-Qv; Wed, 13 May 2026 20:58:43 +0200
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Date: Wed, 13 May 2026 15:58:16 -0300
+Subject: [PATCH v2] cgroup/dmem: introduce a peak file
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511105149.75584-1-jiahao.kernel@gmail.com>
- <20260511105149.75584-3-jiahao.kernel@gmail.com> <CAKEwX=PLFRkfUvZyaYfwBv0QJ-8KAktvZvGA02Hod04H-RsS-Q@mail.gmail.com>
- <CAO9r8zNOPdpJuTmccvQ6ZAVS+tXxp-_ofA765DbnfaUZOPPO-g@mail.gmail.com>
- <12e4784e-2add-d849-7e54-bde8abfa6e78@gmail.com> <CAKEwX=MOixJAUGiwUcMQa0Stvg-mR-MvpDRD8WA4YMtRvnUYTg@mail.gmail.com>
- <6fc7fdf0-368c-5129-038e-623f9db2aa88@gmail.com>
-In-Reply-To: <6fc7fdf0-368c-5129-038e-623f9db2aa88@gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Wed, 13 May 2026 11:54:46 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zPvgB-MG2ufmdn4HoS+QEPBAehU9u7fQmYs+47NF-C9aw@mail.gmail.com>
-X-Gm-Features: AVHnY4LWBpgK05hIM_DR0y0RJ9IQwojHb2pGG4Y0yyBRaatpgBUHNNyaBPv-4Bg
-Message-ID: <CAO9r8zPvgB-MG2ufmdn4HoS+QEPBAehU9u7fQmYs+47NF-C9aw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mm/zswap: Implement proactive writeback
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
-	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org, 
-	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>, Alexandre Ghiti <alex@ghiti.fr>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260513-dmem_peak-v2-1-dac06999db9e@igalia.com>
+X-B4-Tracking: v=1; b=H4sIAMjJBGoC/03Myw6CMBCF4Vchs7ZmKBcpK9/DENPLCBMtkNYQD
+ eHdrbhx+Z+cfCtECkwR2myFQAtHnsYU8pCBHfTYk2CXGiTKGktUwnny15n0XRTa2NyQqvAkIf3
+ nQDd+7dalSz1wfE7hvdNL/l1/SoX1n7LkAkXjGizIFGWp7Jl7/WB9tJOHbtu2D8g3jGWjAAAA
+X-Change-ID: 20260409-dmem_peak-3abc1be95072
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
+ Natalie Vock <natalie.vock@gmx.de>, 
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+X-Mailer: b4 0.16-dev-62088
 
-> > Zswap objects are organized into LRU and exposed to the shrinker
-> > interface. Echo-ing to memory.reclaim should also offload some zswap
-> > entries, correct? Are there still cold zswap entries that escape this,
-> > somehow?
-> >
->
-> Yes, the memory.reclaim path does drive some zswap writeback, but
-> it is not enough for our case.
->
-> 1. For a memcg that has reached steady state (a common case being
-> when memory.current is below the policy target), the userspace
-> reclaimer may not invoke memory.reclaim on it for a long time,
-> and so no second-level offloading happens through
-> memory.reclaim. In this state we want
-> memory.zswap.proactive_writeback to write back entries that
-> have sat in zswap past an age threshold, to further reclaim
-> the DRAM still held by the compressed data.
->
-> 2. Even when memory.reclaim is running, the fraction of zswap
-> residency that ends up reaching the backing swap device is
-> still very small for many of our workloads, and the userspace
-> reclaimer has no way to participate in or control the
-> granularity of zswap writeback. So in our deployment we prefer
-> to leave the zswap shrinker disabled, decouple LRU -> zswap
-> from zswap -> swap, and use a dedicated proactive-writeback
-> interface that lifts the writeback policy into userspace where
-> it can evolve independently of the kernel.
+Just like we have memory.peak, introduce a dmem.peak, which uses the
+page_counter support for that.
 
-To be honest I see the point of proactively reclaiming compressed
-memory in zswap. If you use memory.reclaim, you are also reclaiming
-hotter memory in the process, and you are not necessarily getting as
-much writeback as you want. The memory in zswap is a more conservative
-choice for proactive reclaim because it's memory that's guaranteed to
-be cold(ish) and not being accessed.
+For now, make it read-only.
 
-That being said, the interface is not great any way you cut it :/
+Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+---
+Changes in v2:
+- Make it read-only for now and adjust documentation accordingly.
+- Link to v1: https://patch.msgid.link/20260506-dmem_peak-v1-0-8d803eb3449c@igalia.com
+---
+ Documentation/admin-guide/cgroup-v2.rst |  6 ++++++
+ kernel/cgroup/dmem.c                    | 15 +++++++++++++++
+ 2 files changed, 21 insertions(+)
 
-I don't like the 'memory.zswap.proactive_writeback' name, maybe we can
-stay consistent by doing 'memory.zswap.reclaim', but that just as
-easily reads as "reclaim using zswap". Maybe
-'memory.zswap.do_writeback' or something, idk.
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 6efd0095ed99..d103623b2be4 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2808,6 +2808,12 @@ DMEM Interface Files
+ 	The semantics are the same as for the memory cgroup controller, and are
+ 	calculated in the same way.
+ 
++  dmem.peak
++	A read-only nested-keyed file that exists on non-root cgroups.
++
++	The max device memory usage recorded for the cgroup and its
++	descendants since the creation of the cgroup for each region.
++
+   dmem.capacity
+ 	A read-only file that describes maximum region capacity.
+ 	It only exists on the root cgroup. Not all memory can be
+diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
+index 4753a67d0f0f..6430c7ce1e03 100644
+--- a/kernel/cgroup/dmem.c
++++ b/kernel/cgroup/dmem.c
+@@ -182,6 +182,11 @@ static u64 get_resource_current(struct dmem_cgroup_pool_state *pool)
+ 	return pool ? page_counter_read(&pool->cnt) : 0;
+ }
+ 
++static u64 get_resource_peak(struct dmem_cgroup_pool_state *pool)
++{
++	return pool ? READ_ONCE(pool->cnt.watermark) : 0;
++}
++
+ static void reset_all_resource_limits(struct dmem_cgroup_pool_state *rpool)
+ {
+ 	set_resource_min(rpool, 0);
+@@ -808,6 +813,11 @@ static int dmemcg_limit_show(struct seq_file *sf, void *v,
+ 	return 0;
+ }
+ 
++static int dmem_cgroup_region_peak_show(struct seq_file *sf, void *v)
++{
++	return dmemcg_limit_show(sf, v, get_resource_peak);
++}
++
+ static int dmem_cgroup_region_current_show(struct seq_file *sf, void *v)
+ {
+ 	return dmemcg_limit_show(sf, v, get_resource_current);
+@@ -856,6 +866,11 @@ static struct cftype files[] = {
+ 		.name = "current",
+ 		.seq_show = dmem_cgroup_region_current_show,
+ 	},
++	{
++		.name = "peak",
++		.seq_show = dmem_cgroup_region_peak_show,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
+ 	{
+ 		.name = "min",
+ 		.write = dmem_cgroup_region_min_write,
 
-I also don't like having two proactive reclaim interfaces, so a voice
-in my head wants to tie this into 'memory.reclaim' somehow, but that
-includes adding a pretty specific argument (e.g. 'memory.reclaim
-zswap_writeback_only=1'.
+---
+base-commit: d3b0a7f21119f5a66cb76aa28fb8cc13206aaf7d
+change-id: 20260409-dmem_peak-3abc1be95072
 
-I don't like any of these options, and we also need to consider what
-the memcg maintainers think. I see the use case of proactive writeback
-but I am struggling to come up with a clean interface.
+Best regards,
+--  
+Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
 
-I also think we should take the 'age' aspect out of the conversation
-for now, it can be a separate discussion. Well, unless we decide to
-tie it to memory.reclaim. If memory.reclaim broadly supports age-based
-reclaim then zswap writeback can be a natural part of that without
-requiring a specific interface.
