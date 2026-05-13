@@ -1,284 +1,225 @@
-Received: from mail.runxiyu.org (runxiyu.org [155.138.132.239])
+Received: from out28-123.mail.aliyun.com (out28-123.mail.aliyun.com [115.124.28.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4B62BD5BF;
-	Wed, 13 May 2026 00:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=155.138.132.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BB614F112;
+	Wed, 13 May 2026 01:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778633739; cv=none; b=JvX80wVptfv9XLq3NBdPnGxebjxLNqJ3JAG4ufDHpkn3Fv2aRrPBHKuiwm6qWEn/gJf8Fx9x5kN8/clqboD6zzZJhAg1fkGhd9aR2u0wAo2MSZ1zJSeIfa2ngm06Q8pvVcGR0sK1K9RiEqBxFXSH5VCUpW8FDBNEOKFVyf36wic=
+	t=1778635029; cv=none; b=S0pOXbLh/LsgqZPmU/GEWXZ+miyQyW9NEmozuKbG8qkUvmHjHbDnXYBY+0TfASZIyNlLyybgLgap1WrSqc07fnC0ElkUe/bya67pkotpY5DsyTCQPlqJmvJ7kZVKsghW8QLMjqkwIdCVGQgeXbd6xmy1isCsmViAhcsMbR6cO4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778633739; c=relaxed/simple;
-	bh=fyqNfB/kX/KEmDPcm4j4Z7DRD9zGr+wqSRnGbiKGZyM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oFWRsd6nZUrtPeQ1kyafe25Z5K5iE/nsb6cD8znAjarIvBgEYv1CpULhMgL95IXd5CQgGklJvO3oD6mKFCHANOk4tUuVpqH6E5hSKqW/jneuyZpTyjwRetWvH3fXKY936XTFBf576kE8pJ+HiZLPBRJfoB38BD5cg6hrAKZ6q6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=runxiyu.org; spf=pass smtp.mailfrom=runxiyu.org; dkim=pass (2048-bit key) header.d=runxiyu.org header.i=@runxiyu.org header.b=FmBXka44; arc=none smtp.client-ip=155.138.132.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=runxiyu.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runxiyu.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runxiyu.org header.i=@runxiyu.org header.b="FmBXka44"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=runxiyu.org; s=mail;
-	t=1778633194; bh=fyqNfB/kX/KEmDPcm4j4Z7DRD9zGr+wqSRnGbiKGZyM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FmBXka44yCaE4eMGHcwJLFtc0HcBz2/vX3nfuUqfg2FmRKmZxOO48i9okolXoIAMk
-	 l1KineMzN8pIb4BXZxIRmYorOyzW/8CgI246kfbQLGKJmIsWeziThC7A3rCaI9ydYM
-	 +9god3c/VNv5C3lwoZw89YVJS+z2Mk/PKqi6m0ZDjfSfa9GuOpnK7w80c+iAZ6h45+
-	 sZyLU0O687LwU6QSLDi6mmdKzQOjOTqLHITvTX6cjIMgRLlkECLCeJJP/civAicq9w
-	 kmWSX1p1bAcjuj+A4pe8nWfmYIXt4ef+lhVJbTBU64vNxfulhirpR2yizd0zYV+gUj
-	 JEjg+My7yAzPA==
-From: Runxi Yu <me@runxiyu.org>
-To: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Runxi Yu <runxiyu@umich.edu>
-Subject: [PATCH linux] README: Don't organize the README by arbitrary "roles"
-Date: Wed, 13 May 2026 00:45:59 +0000
-Message-ID: <20260513004616.2877-1-me@runxiyu.org>
-X-Mailer: git-send-email 2.54.0
+	s=arc-20240116; t=1778635029; c=relaxed/simple;
+	bh=7QBz5nef/qYoyQ01Pm/juPSzXIPSBzy7JW6tbj/d3OA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pKWn+qsLM61W2j91fyy7QoEBKQqrfy+huSV/XJHIf4nO3cdhpIlt7Wckv6H4MeL972DH5THvBoJGbK6wFt0492ARRf+zWlO3NQxVkaZPk5RveiJBGtoCFIJH6Eogg6dMPT8hjOTHW3KzJ+cPJPAo6MraA1mejzx0F2LnxF4AsLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.4282047|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.114224-0.0105365-0.87524;FP=5076114080096851506|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037017159;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=18;RT=18;SR=0;TI=SMTPD_---.hVp4DEE_1778635011;
+Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.hVp4DEE_1778635011 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Wed, 13 May 2026 09:16:52 +0800
+From: "illusion.wang" <illusion.wang@nebula-matrix.com>
+To: dimon.zhao@nebula-matrix.com,
+	illusion.wang@nebula-matrix.com,
+	alvin.wang@nebula-matrix.com,
+	sam.chen@nebula-matrix.com,
+	netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch,
+	corbet@lwn.net,
+	kuba@kernel.org,
+	horms@kernel.org,
+	linux-doc@vger.kernel.org,
+	pabeni@redhat.com,
+	vadim.fedorenko@linux.dev,
+	lukas.bulwahn@redhat.com,
+	edumazet@google.com,
+	enelsonmoore@gmail.com,
+	skhan@linuxfoundation.org,
+	hkallweit1@gmail.com,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v14 net-next 00/11] nbl driver for Nebulamatrix NICs
+Date: Wed, 13 May 2026 09:16:33 +0800
+Message-ID: <20260513011649.4404-1-illusion.wang@nebula-matrix.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Runxi Yu <runxiyu@umich.edu>
+This patch series represents the first phase. We plan to integrate it in
+two phases: the first phase covers mailbox and chip configuration,
+while the second phase involves net dev configuration.
+Together, they will provide basic PF-based Ethernet port transmission and
+reception capabilities.
 
-* Removes the basic introduction to what Linux is. It's reasonable
-  assumed knowledge for someone with this repository.
-* Consolidate the IRC, bugzilla, building, and mailing lists from across
-  the front and back, to the front only.
-* Remove the "Who Are You?" section that consists solely of role names
-  and an one line gloss each.
-* Remove the concept of different contributor "roles" (since there
-  really aren't such distinct roles); instead phrase them based on the
-  class of action. The "New Kernel Developer" archetype was mostly
-  alright, but "Academic Researcher" was essentially a list of
-  subsystems that applies for almost any kernel developer. "Security
-  Expert" sounded a bit like corporate marketing language, and really,
-  developers/admin that don't focus on security could still learn a lot
-  from these sections. Backport/maintenance/ sysadmin/maintainer mostly
-  stays as is with slight changes in firm; "Hardware Vendor" becomes
-  "Driver Development" because as much as we'd like vendors to
-  assist/guide/lead driver development, many independent driver
-  developers still exist.
-* Of note, "Researcher Guidelines" did appear to genuinely belong to
-  Academic Researcher; the rest basically goes into Common Subsystems,
-  but the "Researcher Guidelines" entry I just moved into Getting
-  Started.
-* I kept the LLM/AI-agent stuff in tact, although I promoted it to be
-  underlined with "="s as it's not really in parallel with the
-  documentation index sections. I don't really have comments on this
-  part.
+After that, we will consider other features, such as ethtool support,
+flow management, adminq messaging, VF support, debugfs support, etc.
 
-More broadly though, I'm a little skeptical in whether the README is the
-proper place to put extensive links to different subsystems/parts of the
-documentation. Sphinx has the ability to generate table of contents, and
-we could also improve the index over there, with the TOC/whatever that
-it could generate. I don't think we should be duplicating this into the
-README, but if that ship has sailed, this patch might still be useful.
+changes v13->v14
+Link to v13:https://lore.kernel.org/netdev/20260428114910.2616-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v12->v13
+Link to v12:https://lore.kernel.org/netdev/20260415033608.2438-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v11->v12
+Link to v11:https://lore.kernel.org/netdev/20260408093739.56001-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v10->v11
+Link to v10:https://lore.kernel.org/netdev/20260401022318.28550-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Mohsin
+2.AI review issues
+changes v9->v10
+Link to v9:https://lore.kernel.org/netdev/20260325040048.2313-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Jakub
+2.AI review issue
+changes v8->v9
+Link to v8:https://lore.kernel.org/netdev/20260317034533.5600-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Jakub
+2.AI review issue
+Changes v7→v8
+Link to v7:https://lore.kernel.org/netdev/20260310120959.22015-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Paolo
+Changes v6->v7
+Link to v6:https://lore.kernel.org/netdev/20260306033451.5196-1-illusion.wang@nebula-matrix.com/
+1.Issue found by Jakub
+2.AI review issue
+Changes v5->v6
+Link to V5:https://lore.kernel.org/netdev/20260226073840.3222-1-illusion.wang@nebula-matrix.com/
+1.put all standard linux includes files the .c file which needs it & others
+--Andrew
+2.AI review issue
+Changes v4->v5
+Link to V4:https://lore.kernel.org/netdev/20260206021608.85381-1-illusion.wang@nebula-matrix.com/
+1.change nbl_core to nbl & change ** pointers to *pointers & others
+--Andrew
+2.AI review issue
+Changes v3->v4
+Link to v3: https://lore.kernel.org/netdev/20260123011804.31263-1-illusion.wang@nebula-matrix.com
+1.cut down to part of a mini driver(mailbox and chip init)
+--Jakub Kicinski Simon Horman(some sort of staged approached)
+2.modify issues found by ai.
+3. Reverse Christmas tree/nbl_err/devm_kfree/remove some macros/
+void type to real type/others
+--Andrew Lunn
+4.change deprecated pci_enable_msix_range to pci_alloc_irq_vectors
+5.delete service layer
+6.the style of kconfig---Randy Dunlap
+7.add to Documentation/networking/device_drivers/ethernet/index.rst
+--Simon Horman
+Changes v2 →v3
+Link to v2: https://lore.kernel.org/netdev/20260109100146.63569-1-illusion.wang@nebula-matrix.com/
+1.cut down to a mini driver:
+    delete vf support
+    use promisc mode to cut down flow management
+    drop patch15 in v2
+    delete adminq msg
+    delete abnormal handling
+    delete some unimportant interfaces
+2.modify issues found by ai review
+Changes v1->v2
+Link to v1: https://lore.kernel.org/netdev/20251223035113.31122-1-illusion.wang@nebula-matrix.com/
+1.Format Issues and Compilation Issues
+- Paolo Abeni
+2.add sysfs patch and drop coexisting patch
+- Andrew Lunn
+3.delete some unimportant ndo operations
+4.add machine generated headers patch
+5.Modify the issues found in patch1-2 and apply the same fixes to other
+patches
+6.modify issues found by nipa
 
-Signed-off-by: Runxi Yu <runxiyu@umich.edu>
----
-This commit message will obviously not be the final version. Feel free
-to suggest (or bikeshed) the contents and the message as much as you
-wish, but I hope I've communicated my idea clearly, and I do strongly
-believe that the current README is not at all satisfactory. And
-apologies for my first patch to the list be a giant README change.
+illusion.wang (11):
+  net/nebula-matrix: add minimum nbl build framework
+  net/nebula-matrix: add our driver architecture
+  net/nebula-matrix: add chip related definitions
+  net/nebula-matrix: channel msg value and msg struct
+  net/nebula-matrix: add channel layer
+  net/nebula-matrix: add common resource implementation
+  net/nebula-matrix: add intr resource implementation
+  net/nebula-matrix: add vsi resource implementation
+  net/nebula-matrix: add Dispatch layer implementation
+  net/nebula-matrix: add common/ctrl dev init/reinit operation
+  net/nebula-matrix: add common dev start/stop operation
 
-Upon feedback, I'll be iterating on this at
-https://git.runxiyu.org/runxiyu/linux.git// (the double slash at the
-end is in fact required and canonical for this origin). I'll admit I
-didn't spend much time on the Web UI.
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../ethernet/nebula-matrix/nbl.rst            |   27 +
+ MAINTAINERS                                   |   10 +
+ drivers/net/ethernet/Kconfig                  |    1 +
+ drivers/net/ethernet/Makefile                 |    1 +
+ drivers/net/ethernet/nebula-matrix/Kconfig    |   34 +
+ drivers/net/ethernet/nebula-matrix/Makefile   |    6 +
+ .../net/ethernet/nebula-matrix/nbl/Makefile   |   16 +
+ .../nbl/nbl_channel/nbl_channel.c             |  919 ++++++
+ .../nbl/nbl_channel/nbl_channel.h             |  176 +
+ .../nebula-matrix/nbl/nbl_common/nbl_common.c |  212 ++
+ .../nebula-matrix/nbl/nbl_common/nbl_common.h |   33 +
+ .../net/ethernet/nebula-matrix/nbl/nbl_core.h |   59 +
+ .../nebula-matrix/nbl/nbl_core/nbl_dev.c      |  448 +++
+ .../nebula-matrix/nbl/nbl_core/nbl_dev.h      |   58 +
+ .../nebula-matrix/nbl/nbl_core/nbl_dispatch.c |  500 +++
+ .../nebula-matrix/nbl/nbl_core/nbl_dispatch.h |   56 +
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  |  843 +++++
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h  |  548 ++++
+ .../nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.c | 2888 +++++++++++++++++
+ .../nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.h |   11 +
+ .../nbl_hw_leonis/nbl_resource_leonis.c       |  257 ++
+ .../nbl_hw_leonis/nbl_resource_leonis.h       |   12 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h     |   67 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.c  |  252 ++
+ .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.h  |   21 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_resource.c   |  137 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_resource.h   |  110 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_vsi.c        |   26 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_vsi.h        |   12 +
+ .../nbl/nbl_include/nbl_def_channel.h         |  365 +++
+ .../nbl/nbl_include/nbl_def_common.h          |   80 +
+ .../nbl/nbl_include/nbl_def_dev.h             |   16 +
+ .../nbl/nbl_include/nbl_def_dispatch.h        |   42 +
+ .../nbl/nbl_include/nbl_def_hw.h              |   55 +
+ .../nbl/nbl_include/nbl_def_resource.h        |   37 +
+ .../nbl/nbl_include/nbl_include.h             |   79 +
+ .../nbl/nbl_include/nbl_product_base.h        |   19 +
+ .../net/ethernet/nebula-matrix/nbl/nbl_main.c |  330 ++
+ 39 files changed, 8764 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
+ create mode 100644 drivers/net/ethernet/nebula-matrix/Kconfig
+ create mode 100644 drivers/net/ethernet/nebula-matrix/Makefile
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/Makefile
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dev.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
 
-Thanks!
-
-Best regards,
-
-Runxi Yu (they/them)
-runxiyu@umich.edu
-me@runxiyu.org
-
-
- README | 99 ++++++++++++++++------------------------------------------
- 1 file changed, 27 insertions(+), 72 deletions(-)
-
-diff --git a/README b/README
-index e6549b2a7aac..41fbc957dd06 100644
---- a/README
-+++ b/README
-@@ -1,16 +1,13 @@
- Linux kernel
- ============
- 
--The Linux kernel is the core of any Linux operating system. It manages hardware,
--system resources, and provides the fundamental services for all other software.
--
--Quick Start
-------------
--
--* Report a bug: See Documentation/admin-guide/reporting-issues.rst
--* Get the latest kernel: https://kernel.org
--* Build the kernel: See Documentation/admin-guide/quickly-build-trimmed-linux.rst
--* Join the community: https://lore.kernel.org/
-+* Get latest: https://kernel.org
-+* IRC: #kernelnewbies on irc.oftc.net
-+* Reporting bugs: Documentation/admin-guide/reporting-issues.rst
-+* Bug tracker: https://bugzilla.kernel.org/
-+* Building: Documentation/admin-guide/quickly-build-trimmed-linux.rst
-+* Mailing list index: https://subspace.kernel.org/vger.kernel.org.html
-+* Mailing list archives: https://lore.kernel.org/
- 
- Essential Documentation
- -----------------------
-@@ -25,44 +22,24 @@ Documentation can be built with make htmldocs or viewed online at:
- https://www.kernel.org/doc/html/latest/
- 
- 
--Who Are You?
--============
-+Navigating the documentation
-+============================
- 
--Find your role below:
-+Getting started
-+---------------
- 
--* New Kernel Developer - Getting started with kernel development
--* Academic Researcher - Studying kernel internals and architecture
--* Security Expert - Hardening and vulnerability analysis
--* Backport/Maintenance Engineer - Maintaining stable kernels
--* System Administrator - Configuring and troubleshooting
--* Maintainer - Leading subsystems and reviewing patches
--* Hardware Vendor - Writing drivers for new hardware
--* Distribution Maintainer - Packaging kernels for distros
--* AI Coding Assistant - LLMs and AI-powered development tools
--
--
--For Specific Users
--==================
--
--New Kernel Developer
----------------------
--
--Welcome! Start your kernel development journey here:
--
--* Getting Started: Documentation/process/development-process.rst
-+* Development Process: Documentation/process/development-process.rst
- * Your First Patch: Documentation/process/submitting-patches.rst
- * Coding Style: Documentation/process/coding-style.rst
- * Build System: Documentation/kbuild/index.rst
- * Development Tools: Documentation/dev-tools/index.rst
- * Kernel Hacking Guide: Documentation/kernel-hacking/hacking.rst
--* Core APIs: Documentation/core-api/index.rst
--
--Academic Researcher
---------------------
--
--Explore the kernel's architecture and internals:
--
- * Researcher Guidelines: Documentation/process/researcher-guidelines.rst
-+
-+Common Subsystems
-+-----------------
-+
-+* Core APIs: Documentation/core-api/index.rst
- * Memory Management: Documentation/mm/index.rst
- * Scheduler: Documentation/scheduler/index.rst
- * Networking Stack: Documentation/networking/index.rst
-@@ -71,10 +48,8 @@ Explore the kernel's architecture and internals:
- * Locking Primitives: Documentation/locking/index.rst
- * Power Management: Documentation/power/index.rst
- 
--Security Expert
-----------------
--
--Security documentation and hardening guides:
-+Security
-+--------
- 
- * Security Documentation: Documentation/security/index.rst
- * LSM Development: Documentation/security/lsm-development.rst
-@@ -84,10 +59,8 @@ Security documentation and hardening guides:
- * Embargoed Hardware Issues: Documentation/process/embargoed-hardware-issues.rst
- * Security Features: Documentation/userspace-api/seccomp_filter.rst
- 
--Backport/Maintenance Engineer
-------------------------------
--
--Maintain and stabilize kernel versions:
-+Backport/Maintenance
-+--------------------
- 
- * Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
- * Backporting Guide: Documentation/process/backporting.rst
-@@ -95,10 +68,8 @@ Maintain and stabilize kernel versions:
- * Subsystem Profile: Documentation/maintainer/maintainer-entry-profile.rst
- * Git for Maintainers: Documentation/maintainer/configure-git.rst
- 
--System Administrator
----------------------
--
--Configure, tune, and troubleshoot Linux systems:
-+System Administration
-+---------------------
- 
- * Admin Guide: Documentation/admin-guide/index.rst
- * Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
-@@ -110,8 +81,6 @@ Configure, tune, and troubleshoot Linux systems:
- Maintainer
- ----------
- 
--Lead kernel subsystems and manage contributions:
--
- * Maintainer Handbook: Documentation/maintainer/index.rst
- * Pull Requests: Documentation/maintainer/pull-requests.rst
- * Managing Patches: Documentation/maintainer/modifying-patches.rst
-@@ -120,10 +89,8 @@ Lead kernel subsystems and manage contributions:
- * Maintainer Entry Profile: Documentation/maintainer/maintainer-entry-profile.rst
- * Git Configuration: Documentation/maintainer/configure-git.rst
- 
--Hardware Vendor
-----------------
--
--Write drivers and support new hardware:
-+Drivers Development
-+-------------------
- 
- * Driver API Guide: Documentation/driver-api/index.rst
- * Driver Model: Documentation/driver-api/driver-model/driver.rst
-@@ -136,8 +103,6 @@ Write drivers and support new hardware:
- Distribution Maintainer
- -----------------------
- 
--Package and distribute the kernel:
--
- * Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
- * ABI Documentation: Documentation/ABI/README
- * Kernel Configuration: Documentation/kbuild/kconfig.rst
-@@ -145,8 +110,8 @@ Package and distribute the kernel:
- * Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
- * Tainted Kernels: Documentation/admin-guide/tainted-kernels.rst
- 
--AI Coding Assistant
---------------------
-+Notice to AI Coding Assistants
-+==============================
- 
- CRITICAL: If you are an LLM or AI-powered coding assistant, you MUST read and
- follow the AI coding assistants documentation before contributing to the Linux
-@@ -156,13 +121,3 @@ kernel:
- 
- This documentation contains essential requirements about licensing, attribution,
- and the Developer Certificate of Origin that all AI tools must comply with.
--
--
--Communication and Support
--=========================
--
--* Mailing Lists: https://lore.kernel.org/
--* IRC: #kernelnewbies on irc.oftc.net
--* Bugzilla: https://bugzilla.kernel.org/
--* MAINTAINERS file: Lists subsystem maintainers and mailing lists
--* Email Clients: Documentation/process/email-clients.rst
 -- 
-2.54.0
+2.47.3
 
