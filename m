@@ -1,316 +1,113 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5DD306746
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 14:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778681255; cv=pass; b=btDw7x4qNGYTHLAmvnl6yv1/umfnJmId2XMUfRh3du1PNpE798zTEkp9ayAyUZwSGbJ0SZrr5ippCjhaKnPjtMHv8GDXu9vMdVONE8U2vzY3CTs4vL2aLIKNSPRB7ewWYXrNkG03c9xorhbwpgGFHVRiChncfcCEGa7w3Gh+sWc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778681255; c=relaxed/simple;
-	bh=KiH2cSs7szjoDYOPZZilL+L5FtBiKHccI1nnv3wLlLc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n4IsEYnkBIM17434OUi/zuhW6dkh/eyv3zfNmzDccKh1eRmF3zj9/mXOFg2DI+3JynQMPQlRO8MHNu8DPHI6CFUZdnCn1e/itLXpDMaGSk7Fxk6A5BFod7vxW5Sk81r59sYCMbo57fs8UXiN1GSyajHbLGQ0p2V07iD8aS5ni8U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n/MY+Hot; arc=pass smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35BE313547
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 14:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778681548; cv=none; b=lXSNL+UrHvXnb7qHHDHOATck4ZjLN2NLgI/ORyrmjJeFC0FixlCxBZB7/4tt4FtZMXHwVmcTGkW+V6ZEQSOXkmaZ0rdkhH7cffghHIIw2jiZWZvHKKP/GRnU2vTue/gCcRoHV2UR0G0DalZ+VcMwkp7eRM/VxtR8o/NOLRPUlbM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778681548; c=relaxed/simple;
+	bh=2GSMSTVsvoiuKafVkMeyFQjkSNsMir3nwpaEsBs4jsE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=HAuD3me9owCUx+6GJKWUoKyi/BSa0g+5FK78xfRzoRbEiTPrstTRRqoAfTNY4K3WkEeAQRiLa4gibVkaYHqV3zGnud7Y93y0cJx/Z+PNog+7uFNF0MsvQkJwv5/RNTJ7ONPHfmxlV5Kn1fXFuI2dDaTpV9XOaqwpb5O8WvedYKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fSExdNpB; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n/MY+Hot"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4824b15c19eso3441557b6e.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 07:07:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778681253; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ET6NNwZGW0F59enjE0Ms1RrGhRzX8JicK3vlU3kAkbq+Pcao3/ISkL+dArdsRtZ2Ot
-         aC6ujbvyl22OyeYc0Csmv9kzh7fw8Ea3pXDZSEUKqie3e6Om9/pt7kpnvwfFX7dy6JLe
-         prGVHNnKgMdGTYSCW8Qsm8mJUlcJGQP7p6Wlae59USzqgDIVyobKPcW9htAoPWSaMjct
-         5GZ97E0Oqv47cI15wy4yXdKQEztyTEyPQ7mVlXXZvzArq8+cH7sog5aiOJ5l3EjNC3N1
-         5hhHj4vzUlaMVAzeQmQV3ulPwK7PbCU+g/ddy4pf/5p+mjk7zdtdG5pWd/mPPBPwftyS
-         HxEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IZUQuQQdqf/p8+tvLlpf7lmWMBB33o/duQyQpfVvrpo=;
-        fh=aLRC+hP1CttZVp2X9plF/LEe9zFOhFRfQrcls6cTG2M=;
-        b=D1u4HmM6B9/owpx8di+1SvOHInzpwomE51ZNEZfZBsGYs10hnZMeBvr8P5orCg0A7o
-         ba2GPmlB6EHupjR0b1whSpnyCjVC14sAjbxuZZK38FnYat8poycJc64K4SoAK7FZh06n
-         1wb8KgDIl2t0TFglkELd3AlXhFZMm2z2CACvn96WecRoKb7TQRNe7Ad/14iLGN1nT2Xk
-         iCCRXfH64ANKcFv0Z/JeNm1XmXloMmH1Du+HDH/wJz6bxhSjnJKGBPVhtqTV0iwqHVS/
-         64AaN+bppNkIcwdl4cicsk2ykMKbAEcrmSmM/QjTbZQCX4XrL1xPXlPyTZPuWR8oSxKt
-         cpIA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fSExdNpB"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48e8132c6d0so30517035e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 07:12:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778681253; x=1779286053; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IZUQuQQdqf/p8+tvLlpf7lmWMBB33o/duQyQpfVvrpo=;
-        b=n/MY+Hot6QcQahm6sTGwqfW+DQUvljYiFEt/uPYn16hXh+BlPa9Z4AEYqYINeMbytU
-         eGcuZE+6p6jxgNcQceWzojHqNBpBBnSzIc5Jxcke5DGAhAHmrhOoelHLZmr+vlUS337l
-         TVkJuUnuK0/j9xa0jjepsvEDxgwF4MdDdnpgFjNCDCrRzfxqPHd7mg4wZR+ghv8MJYc1
-         ke0Rtn6+rtAAVZWPqvVeI9cDABuKWiXo05ifUP/+YvVuayEJ2yfYiCPo6fDS8G/i1nW6
-         9FzsSKAnNxbUN4FrxS3qgzGuMNQ6Eska/JiHQecftDRXbxefNwahTitdBD5lUIozq+Bx
-         OnKA==
+        d=gmail.com; s=20251104; t=1778681544; x=1779286344; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5AeU3RZqIRpK42nZO4mlXlJq7d3NeAbzn97432tCirg=;
+        b=fSExdNpBKW4MsrXYeUeYrqIAusXAxrVytIqg89XIeWT4ZYIh8X6e7qKaR17cQXK79+
+         jOyD7zrRLs6CnSEYaHzn68gM2sxJLqduqWTuvlfi9vOmwAWspvSb0HXpqwJDfIkVTom1
+         00ySdCCnhezu8O40Zeo4D+840G1dEg4pL676MMOy32+NsWxlj0J41/uYv4VgSp7bFU6Z
+         YVKI7LchjbGj8gAvC/OXRzXgDUlgSxQnwVYoMM1iWzQTL2o+c5hGbixFPyo3hzVLsBBa
+         DrqiQT6Yap9OkY5KtjhcbHR7ab5KLi9bG0T5BIF4zOI6GmdesomsXfWiEzJY3ww/Yn1g
+         kdmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778681253; x=1779286053;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IZUQuQQdqf/p8+tvLlpf7lmWMBB33o/duQyQpfVvrpo=;
-        b=KigDEmgEZalBKZR34LacJ8ndwSybKsvbmURKE630wvB+bQKLjY5lFDAT09YEdNns9V
-         m9wCxfJytBImFTykRM/IHoK/sVAstxTO65PYjfbAec6vDlRX3l1EdbQhmoqdUbiP/bPR
-         9UUJZeAJ/oqX7+OwLFXAbLu6dsmy8XAskISJVkf85jKixukfQiEqaMh4toKAdnWqxooX
-         tPo4/bxRcwk24B5CCyhcZL19Wgfi/6+JD/Wa8W30HAIjoqcUvuFtn1teP9HXG7pM9UOg
-         3zu1m0AnI0x8hFAVff+EZcYQk2OUqUyIbRYrZmZiSqwASDzmDN+1ZhKwn6reVeLFI6mg
-         u5qA==
-X-Forwarded-Encrypted: i=1; AFNElJ+1VjTO/bDgGD5CWfsgVug2Wqw8tXAkK+af3e3FSYXn78JK891f/YasCD2rve6RCzW3+d00NcZ1nFQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzL42WE8pQafYxodjUBZuvhM/NajpIz/NNswfTRXl221VpS/m1w
-	lSN5ABr8iK4nkIU3+C/oPCU5/SYtIhTTbYNPso52bRiAujM9GjbE2ggvRtnZMMA2jtEsHme8Yhw
-	yw/MGC2MKNibzUkSftTYDZ/Q8Qk06us0=
-X-Gm-Gg: Acq92OGfd2DHKIgSozzgkh00Zncck0ApS1Ic6oITKqnuH0ll93jzBJO80045NZaVpxo
-	2RRmMjSjbB1rSAHjfJ7poCtt/Ymq0HWd4D+74EMDmNesK6+dno/h7Cm722r6CKDW3thYcTEf+3T
-	yDzU/SHaIMQdPI3d/INGBmQ3/TRgjuViDjKlVdX4by0W1M30L8IpbESIe3dmBnm223XfmJjYdqY
-	S2iRXE9AM7HJ6uUCPZ+No9cZWnx7lFWSlKECW+8LjXdIVjxNIlUuNRlSUcxblMdL+Dqb2YpfAaE
-	BdbooLaL77XT5RUThSiNZ/NgbFCTbWuE9yJQMA==
-X-Received: by 2002:a05:6808:6f95:b0:482:52f6:b688 with SMTP id
- 5614622812f47-482b2dc22aemr2347906b6e.45.1778681252569; Wed, 13 May 2026
- 07:07:32 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778681544; x=1779286344;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5AeU3RZqIRpK42nZO4mlXlJq7d3NeAbzn97432tCirg=;
+        b=n98FLftjp/Utw20WkXooEv3zlgNoS8JwbBhssXeiEfrLTnpnRg5/f6I2k0SeY6B5b/
+         l1/64xodX+4cwTq/4X98p5UMNAg6fm0h+G10ghO83EgqMBCwOoa9spHz2odVqBTxEkRF
+         bJQTgJYInm1HMZr6nuhp3OWEDCLbpcEEhXVkYlPWKGMZbmWM4o6Z4S/FE4jQNIpskOHE
+         I4QqF47hLAiQ5WDvVL179KDfP38+v2yiYBh2CbIdGiwRY2MRVnmn+FrUcuCGeroNJCa9
+         qdce1Mbl31uVy/E0/FOG1AMrwxmQ1AyzxujlnC3WFqUuyufGQsN/SCGIQAu/Qz1SFN0H
+         1xsw==
+X-Forwarded-Encrypted: i=1; AFNElJ9zC4lp2rcOCwJ0QzSxMtuD4qVh3ntPXm1DO7jkrDxIB6esWaBDyHWgztl74zvzjQg9l0Bq1w6nN4g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyH6o6aiBt+1s7HkCRdCPy3RpLR9EYzkybxjAlaH3t6lLf2Ksul
+	7YJdT48UGdCZGOAcdbE9fVRTmZS+9kGMrnjZRtLjB7NM0pq3IVihsQoM
+X-Gm-Gg: Acq92OF+GMHmXBhZ4/efdpQGjPelY4qLKX7eN/oO6cly0DZfmIvgV7XeZPF3xIQI78l
+	Hmi7dw5IkrnNfKZc5y+XO7tpIPcFA/avyEF3dOGqHv2wtqEp4FfyRINkjEeM/VXw4zFUMpaHMOz
+	0dIA2KTM/BD4fvt7iwQ9EobTXkS1b6LTNcGZENpB39SssAwRphi9JDs9m3VStdJQIwVPCDEXn3/
+	fLiGRjBW9xL+Xkv8smeKf+ZFdmpicGnc6ku0AIUGksm/PQkNMHHKoP0b2T4DVsZJVrVKbpMoqcn
+	jKj5byY6BafypFyOBGaK2aA8X8oBEmHI9L2o90s32z6sGzsbLhlpBKPOemPfKtHXV9+m5mAtW89
+	tHUTBI0sSMLqi42f0WGfwoPtIl3JuzR0t7lWyypprqSzoBqlLAdtA5r4SYbr+NrEAGqwqzSdQx1
+	8xMwJtIcLKS3uHZ450N3m5BBDZ8TWSzOIhdKe9eBvknnUZJNByqK4KC+Jku20=
+X-Received: by 2002:a05:600c:524d:b0:487:2671:fb8f with SMTP id 5b1f17b1804b1-48fce9c0965mr46195725e9.8.1778681544302;
+        Wed, 13 May 2026 07:12:24 -0700 (PDT)
+Received: from [10.128.10.158] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fce37b18dsm52486725e9.11.2026.05.13.07.12.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 May 2026 07:12:23 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <6aa2f745-aea2-4d10-9565-65e2722beba9@gmail.com>
+Date: Wed, 13 May 2026 15:12:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512060627.3781329-1-danishanwar@ti.com> <20260512060627.3781329-2-danishanwar@ti.com>
- <CA+XhMqykBWcMdk+iNnOtUxM4MX6jpDyUwfuAVZFbjAShO9_v7Q@mail.gmail.com>
- <6a1f411c-d7ed-463b-abf1-277d8cc0c184@ti.com> <CA+XhMqzx9CUX5H7q1UqL=heGWLFjZVfyiTx6b45VW=E9t13Fow@mail.gmail.com>
- <54fae7f6-fcb9-4520-a79a-569426ab96f1@ti.com>
-In-Reply-To: <54fae7f6-fcb9-4520-a79a-569426ab96f1@ti.com>
-From: David CARLIER <devnexen@gmail.com>
-Date: Wed, 13 May 2026 15:07:21 +0100
-X-Gm-Features: AVHnY4Imr3ifI6YaYwnvbYhsd7iy4zZNn_0tDZdtLYE2rwmadFPIDaEPiFNCvU0
-Message-ID: <CA+XhMqxoFZskFmjtxWXkdUbzBR2LzexaLohRKkCKxFJrmJetfg@mail.gmail.com>
-Subject: Re: [PATCH net-next 1/2] net: ti: icssg: Derive stats array lengths
- from ARRAY_SIZE
-To: MD Danish Anwar <danishanwar@ti.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Roger Quadros <rogerq@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jacob Keller <jacob.e.keller@intel.com>, Meghana Malladi <m-malladi@ti.com>, 
-	Kevin Hao <haokexin@gmail.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Vignesh Raghavendra <vigneshr@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v2 0/2] add kconfirm
+From: Julian Braha <julianbraha@gmail.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Jan Engelhardt <ej@inai.de>
+Cc: nathan@kernel.org, nsc@kernel.org, jani.nikula@linux.intel.com,
+ akpm@linux-foundation.org, gary@garyguo.net, ljs@kernel.org, arnd@arndb.de,
+ gregkh@linuxfoundation.org, masahiroy@kernel.org, ojeda@kernel.org,
+ corbet@lwn.net, qingfang.deng@linux.dev, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org
+References: <20260509203808.1142311-1-julianbraha@gmail.com>
+ <q02rn6o5-5pr6-1744-6os9-1052roro79s8@vanv.qr>
+ <CANiq72kUD=s7VkOUBNFLbcASvDoO_qFXHziOcSFdDqtg5NXoUw@mail.gmail.com>
+ <851ccd3c-d86a-409e-bd73-f0ef10b85879@gmail.com>
+Content-Language: en-US
+In-Reply-To: <851ccd3c-d86a-409e-bd73-f0ef10b85879@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 13 May 2026 at 07:29, MD Danish Anwar <danishanwar@ti.com> wrote:
->
-> Hi David
->
-> On 12/05/26 3:33 pm, David CARLIER wrote:
-> > Hi Danish,
-> >
-> >
-> > On Tue, 12 May 2026 at 10:40, MD Danish Anwar <danishanwar@ti.com> wrot=
-e:
-> >>
-> >> Hi David,
-> >>
-> >> On 12/05/26 1:28 pm, David CARLIER wrote:
-> >>> Hi MD,
-> >>>
-> >>> On Tue, 12 May 2026 at 07:06, MD Danish Anwar <danishanwar@ti.com> wr=
-ote:
-> >>>>
-> >>>> Replace the manually maintained ICSSG_NUM_MIIG_STATS and
-> >>>> ICSSG_NUM_PA_STATS constants with ARRAY_SIZE() expressions derived
-> >>>> directly from the corresponding stat descriptor arrays, so that addi=
-ng
-> >>>> new entries to icssg_all_miig_stats[] or icssg_all_pa_stats[] no lon=
-ger
-> >>>> requires a separate update to a numeric constant.
-> >>>>
-> >>>> To make this self-contained, break the circular include dependency
-> >>>> between icssg_stats.h and icssg_prueth.h:
-> >>>>
-> >>>>   - icssg_stats.h previously included icssg_prueth.h (transitively
-> >>>>     pulling in icssg_switch_map.h and ETH_GSTRING_LEN).  Replace tha=
-t
-> >>>>     with direct includes of <linux/ethtool.h>, <linux/kernel.h> and
-> >>>>     "icssg_switch_map.h".
-> >>>>
-> >>>>   - icssg_prueth.h now includes icssg_stats.h, giving it access to
-> >>>>     the ARRAY_SIZE-based ICSSG_NUM_MIIG_STATS and ICSSG_NUM_PA_STATS
-> >>>>     before they are used in the prueth_emac struct and ICSSG_NUM_STA=
-TS.
-> >>>>
-> >>>> Signed-off-by: MD Danish Anwar <danishanwar@ti.com>
-> >>>> ---
-> >>>>  drivers/net/ethernet/ti/icssg/icssg_prueth.h | 3 +--
-> >>>>  drivers/net/ethernet/ti/icssg/icssg_stats.h  | 7 ++++++-
-> >>>>  2 files changed, 7 insertions(+), 3 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.h b/drivers/=
-net/ethernet/ti/icssg/icssg_prueth.h
-> >>>> index df93d15c5b78..e2ccecb0a0dd 100644
-> >>>> --- a/drivers/net/ethernet/ti/icssg/icssg_prueth.h
-> >>>> +++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
-> >>>> @@ -43,6 +43,7 @@
-> >>>>
-> >>>>  #include "icssg_config.h"
-> >>>>  #include "icss_iep.h"
-> >>>> +#include "icssg_stats.h"
-> >>>>  #include "icssg_switch_map.h"
-> >>>>
-> >>>>  #define PRUETH_MAX_MTU          (2000 - ETH_HLEN - ETH_FCS_LEN)
-> >>>> @@ -57,8 +58,6 @@
-> >>>>
-> >>>>  #define ICSSG_MAX_RFLOWS       8       /* per slice */
-> >>>>
-> >>>> -#define ICSSG_NUM_PA_STATS     32
-> >>>> -#define ICSSG_NUM_MIIG_STATS   60
-> >>>>  /* Number of ICSSG related stats */
-> >>>>  #define ICSSG_NUM_STATS (ICSSG_NUM_MIIG_STATS + ICSSG_NUM_PA_STATS)
-> >>>>  #define ICSSG_NUM_STANDARD_STATS 31
-> >>>> diff --git a/drivers/net/ethernet/ti/icssg/icssg_stats.h b/drivers/n=
-et/ethernet/ti/icssg/icssg_stats.h
-> >>>> index 5ec0b38e0c67..b854eb587c1e 100644
-> >>>> --- a/drivers/net/ethernet/ti/icssg/icssg_stats.h
-> >>>> +++ b/drivers/net/ethernet/ti/icssg/icssg_stats.h
-> >>>> @@ -8,10 +8,15 @@
-> >>>>  #ifndef __NET_TI_ICSSG_STATS_H
-> >>>>  #define __NET_TI_ICSSG_STATS_H
-> >>>>
-> >>>> -#include "icssg_prueth.h"
-> >>>> +#include <linux/ethtool.h>
-> >>>> +#include <linux/kernel.h>
-> >>>> +#include "icssg_switch_map.h"
-> >>>>
-> >>>>  #define STATS_TIME_LIMIT_1G_MS    25000    /* 25 seconds @ 1G */
-> >>>>
-> >>>> +#define ICSSG_NUM_MIIG_STATS   ARRAY_SIZE(icssg_all_miig_stats)
-> >>>> +#define ICSSG_NUM_PA_STATS     ARRAY_SIZE(icssg_all_pa_stats)
-> >>>> +
-> >>>>  struct miig_stats_regs {
-> >>>>         /* Rx */
-> >>>>         u32 rx_packets;
-> >>>> --
-> >>>> 2.34.1
-> >>>>
-> >>>
-> >>> One thing that caught my eye: icssg_all_miig_stats[] and
-> >>>   icssg_all_pa_stats[] are 'static const' arrays in icssg_stats.h wit=
-h
-> >>>   ETH_GSTRING_LEN name buffers per entry. Right now only icssg_stats.=
-c
-> >>>   and icssg_ethtool.c pull them in. After this patch icssg_prueth.h
-> >>>   includes icssg_stats.h, so every .c in the driver (classifier,
-> >>>   common, config, mii_cfg, queues, switchdev, ...) ends up with its o=
-wn
-> >>>   static-const copy of both tables.
-> >>>
-> >>>   Would a static_assert() work for what you're after? Something like:
-> >>>
-> >>
-> >> While adding more stats manually, The ARRAY_SIZE() approach was
-> >> explicitly requested by maintainer [1]:
-> >>
-> >> This patch is a direct response to that feedback. static_assert() woul=
-d
-> >> still require updating the numeric constant on every array change. The
-> >> goal here is to eliminate the need of manually incrementing stats coun=
-t
-> >> whenever new stats are added
-> >>
-> >> Your concern about multiple copies of table is noted and valid. Could
-> >> you advise on the preferred way to reconcile these two requirements? I
-> >> am happy to restructure if there is an approach that satisfies both.
-> >>
-> >> [1]
-> >> https://lore.kernel.org/all/20260112181436.4s5ceywwembn674r@skbuf/#:~:=
-text=3DCan%27t%20this%20be%20expressed%20as%20ARRAY_SIZE(icssg_all_pa_stats=
-)%3F%20It%20is%20very%0Afragile%20to%20have%20to%20count%20and%20update%20t=
-his%20manually.
-> >>
-> >>
-> >>>     static const struct icssg_miig_stats icssg_all_miig_stats[] =3D {
-> >>>         ...
-> >>>     };
-> >>>     static_assert(ARRAY_SIZE(icssg_all_miig_stats) =3D=3D ICSSG_NUM_M=
-IIG_STATS);
-> >>>
-> >>>   next to each array, keeping the numeric #defines as-is. Then 2/2 fa=
-ils
-> >>>   to build the moment a new entry is added without bumping the count,
-> >>>   which is the case you're guarding against =E2=80=94 without touchin=
-g the
-> >>>   include graph.
-> >>>
-> >>> What do you think ?
-> >>>
-> >>> Cheers.
-> >>
-> >> --
-> >> Thanks and Regards,
-> >> Danish
-> >>
-> >
-> >
-> >   Thanks for digging up the context =E2=80=94 fair point, I'd missed Vl=
-adimir's
-> >   earlier ask. Reading it again though, what he calls fragile is the
-> >   silent miscount, not the keystroke of typing a number. A static_asser=
-t
-> >   turns "forgot to bump" into a build error, which I think gets you
-> >   there.
-> >
->
-> Thank you for the suggestion. I think your previous suggestion fits
-> better. I believe keeping the arrays in icssg_stats.h is preferable to
-> moving them to icssg_stats.c. Here is my reasoning:
->
->
-> Your binary-bloat concern was about icssg_prueth.h including
-> icssg_stats.h, which would drag the static const tables into every .c
-> that includes icssg_prueth.h (~11 translation units). That concern is
-> valid, but it is specific to the include direction of the previous
-> patch. If we simply revert to the original include graph =E2=80=94
-> icssg_stats.h includes icssg_prueth.h, not the other way around =E2=80=94
-> only the two files that have always included icssg_stats.h directly
-> (icssg_stats.c and icssg_ethtool.c) get a copy of the arrays. No
-> regression in binary size compared to the baseline.
->
-> >   What about moving the two arrays into icssg_stats.c, declaring them
-> >   extern in the header, and dropping a static_assert next to each
-> >   definition? Numeric #defines stay where they are, icssg_prueth.h
-> >   doesn't need to know about icssg_stats.h, and the tables live in one
-> >   TU instead of every .o in the driver. If the count and the array
-> >   disagree, you get a compile error on the spot.
-> >
->
-> Moving the arrays to icssg_stats.c (approach #2) adds extern
-> declarations, splits the definition from the static_assert, and is a
-> larger restructuring for the same safety guarantee. Keeping the arrays
-> in the header with a static_assert immediately after each one is a
-> 2-line diff and leaves the code easy to read in one place.
->
-> Please let me know if this sounds okay to you. I will send out a v2 soon
-> if this approach is fine with you.
+On 5/11/26 00:06, Julian Braha wrote:
+>> By the way, another option for that may be using the distribution's
+>> registry (e.g. Debian and Fedora provide one through the package
+>> manager).
+> Unfortunately, it seems that there's no built-in way to fall back for
+> other distros:
+> https://github.com/rust-lang/cargo/issues/3066
+> 
+> The workaround could be to create various Cargo config.toml files, and
+> instruct users that, for example, if they want to use the debian
+> packages, they can download their dependencies using:
+> `cargo vendor --config debian.toml`
+> But I need to test this and confirm first since I don't use any of these
+> distros.
 
-Sounds fine by me, note that I am not a maintainer ;  I was just "chiming i=
-n" ;)
+As I started testing this approach with debian, I discovered that
+the parser crate, nom-kconfig, isn't available in the debian registry. I
+will bring this up with the developer of that library. However, it may
+take some time to be packaged and made available to users, so I will
+soon submit RFC v3 using crates.io for dependency download, but outside
+of make, as previously discussed.
 
-Cheers !
-
->
-> >   Probably worth keeping Vladimir on Cc for v2 in case he had something
-> >   else in mind.
-> >
->
-> I will CC Vladimir in v2.
->
-> --
-> Thanks and Regards,
-> Danish
->
+- Julian Braha
