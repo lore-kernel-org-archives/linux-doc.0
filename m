@@ -1,80 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7669925B094;
-	Wed, 13 May 2026 13:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49CF1DD525;
+	Wed, 13 May 2026 13:45:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778677478; cv=none; b=ZnXhbKtPenqi8aJSpt0GetKmMoN+Jqu0CWMvOqEMj9CLei5MavoceTI/2WRizZWt7O48gUQ4UTDqP8+FUv0t6WjcxdNJr4StTxnGSC/ltgUJ+WgqBBulbRxoFEpxM35AlwfmNq5ZpJMBIRgCpx/rBMyiZAoe3BzjFTDI3euisjE=
+	t=1778679910; cv=none; b=k0WJ0pdu+9QNtViEyV/P1rrCV+/ZMsNyFYW00s1ZvWBT4ROzckGVgEyk+0Qo3ZspWjE1NKan51OHzHWy3MXBjTX2F+/5H1I4+DTRao+qDGxe9DnDDcIOtT7ZPs9M4Mu57hW6TzPrmHscF+JM7tXYotXFt/+PcA6UdD1CRjfJj0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778677478; c=relaxed/simple;
-	bh=6LEu9DtzugsPgS9zY7ikDk3PNAySaXFJrErwGthAkfU=;
+	s=arc-20240116; t=1778679910; c=relaxed/simple;
+	bh=/2Zi2HXOozPMYlO4SRd+BwhuqjEe95AV6PaRkPBbc+0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cDgAuUuuooH4DASttJopd8bADXLyLqxvHBVPZyLYTq2nrja9qkfhzuwy6fXnN6ps821Z+IAaER5vOCYTGmRy7SkIEdT1DlD/Qs5Fe7oetWSG9oD39/CE1OBDK3eTCKMmIigojT7zwfKeX0nb9oFBIGpgkiib9AfabTHsMdix9OA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lGsDWVW2; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KjaHyp6tZHoXYH9aPGkRWaRI9VG323Tm/ZYhKdQyXV94rtQhUxtDNEBUNdO5M+caDljZwOb5UngToMW7KgU3c+Nn1gEajvWXBz6kTxtK7otxfELTdoPD29bb5meXOKfzKxDCJWFKPuX+snuN33K5FUNnnwfYaThu95cP2JbVsPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gbKZUt/S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lGsDWVW2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F9F9C2BCC7;
-	Wed, 13 May 2026 13:04:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gbKZUt/S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B16D8C2BCB7;
+	Wed, 13 May 2026 13:45:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778677478;
-	bh=6LEu9DtzugsPgS9zY7ikDk3PNAySaXFJrErwGthAkfU=;
+	s=k20201202; t=1778679910;
+	bh=/2Zi2HXOozPMYlO4SRd+BwhuqjEe95AV6PaRkPBbc+0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lGsDWVW2oR08PACx9KcRC8YMpUuN6oYYOvoOWllZtScTRbHp7+islHrOswbDz0e1U
-	 Rd/2lD7xK6tofxdt3rjsHrXixgEE2cEIam/CmgAPO+rVJ0EqqFFymekAQgAVcROykG
-	 /N7UobOXD+QLpx6gmP6NTOmHQYOBi0pny/Bp5nb7yAfX2fzkn+nP5WBB8+35vCpLep
-	 jh4Y8TgC1kC/ozfdDPxCBHLqgSPMWYg5w/mYxRbWDqfzsPeOwoBvd1TnZH2MG/F2uI
-	 pbR8JRRzktjhwXI6yger0M0d/hUI8h3I7h6ajlUBWmNi8Qu54RVQUXSLuoGBn6Z7hf
-	 kXJB84AOZ4pfg==
-Date: Wed, 13 May 2026 15:04:35 +0200
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>, Guenter Roeck <linux@roeck-us.net>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Chen Ridong <chenridong@huaweicloud.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, rcu@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Costa Shulyupin <cshulyup@redhat.com>,
-	Qiliang Yuan <realwujing@gmail.com>
-Subject: Re: [PATCH 04/23] tick/nohz: Allow runtime changes in full dynticks
- CPUs
-Message-ID: <agR241twxk9UdRrg@localhost.localdomain>
-References: <20260421030351.281436-1-longman@redhat.com>
- <20260421030351.281436-5-longman@redhat.com>
- <87340od7ev.ffs@tglx>
+	b=gbKZUt/St34aLV1gd/IUWs2xzL9X7M41tgSf6MAvLy32IvYBNvwx6h5YZqPXXONdc
+	 TcNfjY+BsNOsg8/ydy2zXUvh5yy9cbUrCnFqaYTdeDpshioacGPhb5sKCyaz+b5AcF
+	 WkgRbpNcacRNTZnfujIZEv7ZbaNe7odv/29/qSp8cgo4QbsbX8p5n+P33JnQN+xmit
+	 sPou6fMg84lXNJznmWYtVYGLaWa/3pM3yWeEnbfmQhxior4AqAFX1iHdyh0eW0r9b8
+	 vWMXpb0p5nXcBBaVr+4ycmilx1oZ/JGufYy7dNNdtYXRKxYdVo4FFVNrEwM+DdA82s
+	 L12vEPuX1MzCw==
+Date: Wed, 13 May 2026 14:45:05 +0100
+From: Lee Jones <lee@kernel.org>
+To: =?iso-8859-1?Q?Bj=F6rn?= Persson <Bjorn@xn--rombobjrn-67a.se>
+Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-leds@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: leds: uleds: Make the documentation match the code.
+Message-ID: <20260513134505.GZ305027@google.com>
+References: <20260402220811.4804DD8F722@tag.xn--rombobjrn-67a.se>
+ <20260423152655.GF170138@google.com>
+ <20260424194714.71de0ef6@tag.xn--rombobjrn-67a.se>
+ <20260507131128.GM305027@google.com>
+ <20260510214308.09652225@tag.xn--rombobjrn-67a.se>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,50 +48,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87340od7ev.ffs@tglx>
+In-Reply-To: <20260510214308.09652225@tag.xn--rombobjrn-67a.se>
 
-Le Tue, Apr 21, 2026 at 10:50:00AM +0200, Thomas Gleixner a écrit :
-> On Mon, Apr 20 2026 at 23:03, Waiman Long wrote:
-> > +	/*
-> > +	 * To properly enable/disable nohz_full dynticks for the affected CPUs,
-> > +	 * the new nohz_full CPUs have to be copied to tick_nohz_full_mask and
-> > +	 * ct_cpu_track_user/ct_cpu_untrack_user() will have to be called
-> > +	 * for those CPUs that have their states changed. Those CPUs should be
-> > +	 * in an offline state.
-> > +	 */
-> > +	for_each_cpu_andnot(cpu, cpumask, tick_nohz_full_mask) {
-> > +		WARN_ON_ONCE(cpu_online(cpu));
-> > +		ct_cpu_track_user(cpu);
-> > +		cpumask_set_cpu(cpu, tick_nohz_full_mask);
-> > +	}
-> > +
-> > +	for_each_cpu_andnot(cpu, tick_nohz_full_mask, cpumask) {
-> > +		WARN_ON_ONCE(cpu_online(cpu));
-> > +		ct_cpu_untrack_user(cpu);
-> > +		cpumask_clear_cpu(cpu, tick_nohz_full_mask);
-> > +	}
-> > +}
-> 
-> So this writes to tick_nohz_full_mask while other CPUs can access
-> it. That's just wrong and I'm not at all interested in the resulting
-> KCSAN warnings.
-> 
-> tick_nohz_full_mask needs to become a RCU protected pointer, which is
-> updated once the new mask is established in a separately allocated one.
+On Sun, 10 May 2026, Björn Persson wrote:
 
-How about just dropping tick_nohz_full_mask that is just
- ~housekeeping_cpumask(HK_TYPE_KERNEL_NOISE) which itself is becoming RCU
-protected in this patchset?
+> Lee Jones wrote:
+> > On Fri, 24 Apr 2026, Björn Persson wrote:
+> > 
+> > > Lee Jones wrote:  
+> > > > On Thu, 02 Apr 2026, Björn Persson wrote:
+> > > >   
+> > > > > +The current brightness is found by reading a whole int from the character    
+> > > > 
+> > > > Try not to shorten names in documentation "integer".  
+> > > 
+> > > The type is named "int" in C. There are many integer types, but it would
+> > > be wrong to try to read a uint16_t or a size_t or any other integer
+> > > type. The document needs to use the actual type name to make it clear to
+> > > the reader that they must read sizeof(int) bytes.  
+> > 
+> > Right, but you're not writing in C.
+> 
+> That's technically true, as I wrote my program in C++. It's far from my
+> favorite, but I had to use a language that can include C header files
+> and use C types, because /dev/uleds is a very C-centric interface.
+> 
+> If API documentation isn't allowed to name a type, then I withdraw the
+> patch. It's pointless to continue. The next programmer will also have to
+> read the code to find out what the true API is, like I did.
 
-Thanks.
+It's not that it's "not allowed".  90% of my review comments are
+suggestions.  These ones are for simply for the sake of readability.
 
-> 
-> Thanks,
-> 
->         tglx
-> 
-> 
+Equally, I'm also not coming up for blackmail or hissy fits.  If you
+don't want to continue with the review process, no one is going to beg
+you.
 
 -- 
-Frederic Weisbecker
-SUSE Labs
+Lee Jones
