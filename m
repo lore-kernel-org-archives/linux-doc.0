@@ -1,144 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-106113.protonmail.ch (mail-106113.protonmail.ch [79.135.106.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823C63C276F;
-	Wed, 13 May 2026 09:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77433E8688
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 09:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778663888; cv=none; b=KwDtgy9OB2Ta2EoxELBslMPeQ68ydh8wUgjp9sfZKgyeXKdViopXihL2zIlHBr37AOugQCAuKMbgH5XvTlIbJxfuUD5qpjYL2naSQ5PhRF00UWDUQj78CD/YvhG2xGO+AGsRQ2XOikOj16qH5Iq9ZAAjfluX0j9T3whO+4u9WlM=
+	t=1778664045; cv=none; b=pJxsRT5LwFhJE/jdHtBjWjD9oQ9zuXsdNvFP8Xf7JfKqNThtzc+96uz7aX2wHLoHiTa2Aw93g/9j3u/JLBVffwR69Sgq0uCgPhOzyhS8WVgj3tjIgygh02t6O1WYu2zrkU4WW4th/fAZ4EnwSLy+PKm+s1S3TTH1K82RfHxYCGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778663888; c=relaxed/simple;
-	bh=tK30HCaThkEdQqkifcwhGwd2vRsand6ahOgGAzNGZsk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RW9q1p3l2eCMEy8nCBRfvgtu4pPCNFAevIPW+KdL5i2U1ucSP6+Ir6ApK+oPkM2OAc4RSMlpAxx7nIlUS7oj5R3enZ7Ln2SMIOb7qnLe7mmR1CC/2joFMt+V/JwODy/HmOEVTcI3BSP4VBGEMTJ7L01Y3ezE1gp1BOkNpqhsb+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E32QtEsJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778664045; c=relaxed/simple;
+	bh=Sv+JR1aGeL7VpxBUYQEz5vjPDK9PnJNOBpxT62UZ348=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=X3yuOA0CWdHqDuMecAcX6NOeFy9Xm7NQPJKRc0Wfc2GWRgAYDsNctSKTKNzgG8NsUkJpLO+TwtaCqOcupZef/8cK5LsPCb6823qSAOlTSRwgSjHiF4tjfmeXvIDhljhklVf/5OEAfzMWHTLxFPOEjAYw8i9wVtsN+tYUdfJgkFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=G4nyD1Pr; arc=none smtp.client-ip=79.135.106.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E32QtEsJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCA97C2BCB7;
-	Wed, 13 May 2026 09:18:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778663888;
-	bh=tK30HCaThkEdQqkifcwhGwd2vRsand6ahOgGAzNGZsk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E32QtEsJ0lDRBSHnWJPUJHAeQ/WB4fwv2ObrZbpQs6suTi2LH2OvMZAvetLDjeT8Y
-	 uI+UqkwPnQlmCI51uG8zoJdreaUqda5hR2v6tMtUhlX8dPKF3+QmuMq5afa8vWScXv
-	 PHwrZ85CYCJTY363j7w5o5d4TPEqeLDs7YoLsoV0lwIiwS7TvuGo0r99p4iC8c2pH9
-	 c3s0xhCNDco03N7MGmRnY0/NpC0PXPtxfGjvDVE0qK2O6uNCsqBh+sO1x6OzT0IMTe
-	 y7kFrwgRKtDlOHW1w/s81n9+Ry8lLR2nmu8mc2PK1yEuogWAXtcQP79SgvnT1Q0Qel
-	 riO6VF9SH9ZUQ==
-Date: Wed, 13 May 2026 02:18:06 -0700
-From: Oliver Upton <oupton@kernel.org>
-To: Colton Lewis <coltonlewis@google.com>
-Cc: kvm@vger.kernel.org, Alexandru Elisei <alexandru.elisei@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>, Shuah Khan <shuah@kernel.org>,
-	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
-	James Clark <james.clark@linaro.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v7 10/20] KVM: arm64: Context swap Partitioned PMU guest
- registers
-Message-ID: <agRBzkVcR-qZZdx2@kernel.org>
-References: <20260504211813.1804997-1-coltonlewis@google.com>
- <20260504211813.1804997-11-coltonlewis@google.com>
+	dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="G4nyD1Pr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+	s=protonmail; t=1778664029; x=1778923229;
+	bh=htjBDdNwXVb9k8aZRwnrOHi8Qta6rmdeLjangmCfvHU=;
+	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=G4nyD1PrVwh+zwkXiOhHwJUyJEAvpuu2XNSJhyo82TjvEmMBjgcI57JcWauGkRD1W
+	 3ysCsbRJfPs2CTeyj2dGnIGHZaDS+gxu3LSljsx1zVnuK7lqL54C+nnDPkZ/qANd25
+	 XYEGYvapO15SYWliqh5HYM1MDAKbCdgn2waRpdUMNlYvJ43apIPGSC6vNbft7EUsJT
+	 K13GopyvUKG00lJ6LSUdnBMQnZVm7lSAITog+R18QYxYMuJcT+EUSYjbVR3mHLJCEg
+	 XFU1lSYtKEmbTwEUUt0IhwSuIMRvLCULZ3pE5idTqKCqBFPsR1shNCahKWhcPU8G/o
+	 GmKVhc/GiJryg==
+X-Pm-Submission-Id: 4gFnxH0Fl3z2Scsm
+From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+To: rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	aliceryhl@google.com,
+	tmgross@umich.edu,
+	dakr@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	alexs@kernel.org,
+	si.yanteng@linux.dev,
+	dzm91@hust.edu.cn,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+Subject: [PATCH] docs: update rust-analyzer command
+Date: Wed, 13 May 2026 12:19:53 +0300
+Message-ID: <20260513092017.265269-1-work@onurozkan.dev>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260504211813.1804997-11-coltonlewis@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 04, 2026 at 09:18:03PM +0000, Colton Lewis wrote:
-> +
-> +/**
-> + * kvm_pmu_host_counter_mask() - Compute bitmask of host-reserved counters
-> + * @pmu: Pointer to arm_pmu struct
-> + *
-> + * Compute the bitmask that selects the host-reserved counters in the
-> + * {PMCNTEN,PMINTEN,PMOVS}{SET,CLR} registers. These are the counters
-> + * in HPMN..N
-> + *
-> + * Return: Bitmask
-> + */
-> +u64 kvm_pmu_host_counter_mask(struct arm_pmu *pmu)
-> +{
-> +	u8 nr_counters = *host_data_ptr(nr_event_counters);
-> +
-> +	if (kvm_pmu_is_partitioned(pmu))
-> +		return GENMASK(nr_counters - 1, pmu->max_guest_counters);
-> +
-> +	return ARMV8_PMU_CNT_MASK_ALL;
-> +}
-> +
-> +/**
-> + * kvm_pmu_guest_counter_mask() - Compute bitmask of guest-reserved counters
-> + * @pmu: Pointer to arm_pmu struct
-> + *
-> + * Compute the bitmask that selects the guest-reserved counters in the
-> + * {PMCNTEN,PMINTEN,PMOVS}{SET,CLR} registers. These are the counters
-> + * in 0..HPMN and the cycle and instruction counters.
-> + *
-> + * Return: Bitmask
-> + */
-> +u64 kvm_pmu_guest_counter_mask(struct arm_pmu *pmu)
-> +{
-> +	if (kvm_pmu_is_partitioned(pmu))
-> +		return ARMV8_PMU_CNT_MASK_C | GENMASK(pmu->max_guest_counters - 1, 0);
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * kvm_pmu_load() - Load untrapped PMU registers
-> + * @vcpu: Pointer to struct kvm_vcpu
-> + *
-> + * Load all untrapped PMU registers from the VCPU into the PCPU. Mask
-> + * to only bits belonging to guest-reserved counters and leave
-> + * host-reserved counters alone in bitmask registers.
-> + */
-> +void kvm_pmu_load(struct kvm_vcpu *vcpu)
-> +{
-> +	struct arm_pmu *pmu;
-> +	unsigned long guest_counters;
-> +	u64 mask;
-> +	u8 i;
-> +	u64 val;
-> +
-> +	/*
-> +	 * If we aren't guest-owned then we know the guest isn't using
-> +	 * the PMU anyway, so no need to bother with the swap.
-> +	 */
-> +	if (!kvm_vcpu_pmu_is_partitioned(vcpu))
-> +		return;
-> +
-> +	preempt_disable();
-> +
-> +	pmu = vcpu->kvm->arch.arm_pmu;
-> +	guest_counters = kvm_pmu_guest_counter_mask(pmu);
-> +
-> +	for_each_set_bit(i, &guest_counters, ARMPMU_MAX_HWEVENTS) {
-> +		val = __vcpu_sys_reg(vcpu, PMEVCNTR0_EL0 + i);
-> +
-> +		if (i == ARMV8_PMU_CYCLE_IDX) {
-> +			write_sysreg(val, pmccntr_el0);
-> +		} else {
-> +			write_sysreg(i, pmselr_el0);
-> +			write_sysreg(val, pmxevcntr_el0);
+On a fresh checkout, generating rust-project.json alone is not enough
+for rust-analyzer to work reliably. The issue only becomes apparent
+later when the LSP fails on a proc macro or binding types/functions.
 
-This is wrong, you would need an intervening ISB. It'd be better to
-avoid the ISB altogether and just use {read,write}_pmevcntrn().
+Recommend running prepare together with the rust-analyzer target so the
+generated files expected by rust-analyzer are available from the start.
 
-Thanks,
-Oliver
+Link: https://rust-for-linux.zulipchat.com/#narrow/channel/597064-rust-analyzer
+Signed-off-by: Onur Özkan <work@onurozkan.dev>
+---
+ Documentation/rust/quick-start.rst                    | 2 +-
+ Documentation/translations/zh_CN/rust/quick-start.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+index a6ec3fa94d33..df5b54b51deb 100644
+--- a/Documentation/rust/quick-start.rst
++++ b/Documentation/rust/quick-start.rst
+@@ -314,7 +314,7 @@ definition, and other features.
+ ``rust-analyzer`` needs a configuration file, ``rust-project.json``, which
+ can be generated by the ``rust-analyzer`` Make target::
+ 
+-	make LLVM=1 rust-analyzer
++	make LLVM=1 prepare rust-analyzer
+ 
+ 
+ Configuration
+diff --git a/Documentation/translations/zh_CN/rust/quick-start.rst b/Documentation/translations/zh_CN/rust/quick-start.rst
+index 5f0ece6411f5..3f7efd3a63ad 100644
+--- a/Documentation/translations/zh_CN/rust/quick-start.rst
++++ b/Documentation/translations/zh_CN/rust/quick-start.rst
+@@ -291,7 +291,7 @@ rust-analyzer
+ ``rust-analyzer`` 需要一个配置文件， ``rust-project.json``, 它可以由 ``rust-analyzer``
+ Make 目标生成::
+ 
+-       make LLVM=1 rust-analyzer
++       make LLVM=1 prepare rust-analyzer
+ 
+ 
+ 配置
+-- 
+2.51.2
+
