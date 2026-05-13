@@ -1,205 +1,109 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A919535DA55;
-	Wed, 13 May 2026 02:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778640180; cv=none; b=RYJsDYINwyapTZhyhJbSt0aJQB747HsNEtGKiaq0zbCF5Iq94RtamwpSFLpedplRWhW/o9tlnZPFWH4V6GnaqCv5rRcshfRI8GgYp6wOpJp9ejxC6GP986OlGr6jd1+d/IuGgamtoHm96xt+YKrTF9/XgtNTZuwNGs0z2OdhQVg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778640180; c=relaxed/simple;
-	bh=ed+O/pR5mC2MCbGf9lHYynglGGitK0qWZf14W3ovHvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t9OKG4zIjo3H9s0RC/2s/V7+iLKR71HhTFjvsm3s3vUAKZX4Hy1lO6/OH4x/Zbm2/UO5Cxwo7C3laFEa84/A7lpBe1rL0BIhc7AgoNRHVr003Cq+fZXVLlRDUJijvu7+7DXzv9rsdP1I0uZcDCNL1YSD67h0aOE3h12VqHgLxqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=UMFVeOs7; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8603191A5
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 02:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778640243; cv=pass; b=pGU8pfhmm1UAJAjQ3Yjl+h8o0YXsQAy0O+SpR/R1Zw8BBTesZ94efmjkd7gSjGKQYoZNNpOQb2hYTKiKGj6G469yryKRp0mt9xe3iZikvvKClYUZe2nbUBIkfPCAXaDyDfJLaUAfbc+VfD6Va5OfZGBvJxcSOU/LrYIT62IrOpE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778640243; c=relaxed/simple;
+	bh=fwmzkwTR65le1oWpZKenLp57NZAftj8wUZBjcBgmHHY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Uj44wcGnPtB4tpWTKepPGNT8rhYTHYheWWOqG83y8O9yvxaxNdlZPbzS6hv10vuD3jWMDM8L292feUI7PggmMKV/l0Z/j4jXqoEP5Mf9oeqmUtWR70tUhuJvHYM93XZs+L+1aqrG3DVh/j+01cTJexQzbZPcugxIiSaoBBdcLgY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu; spf=pass smtp.mailfrom=umich.edu; dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b=F0nlF6Ft; arc=pass smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=umich.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="UMFVeOs7"
-Received: from skinsburskii.localdomain (unknown [52.148.140.42])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0EBE420B7166;
-	Tue, 12 May 2026 19:42:56 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0EBE420B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1778640176;
-	bh=HDotFo7yQkt3tGus6/l1hCvSHXQW8pdq+LRsiO9XGls=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UMFVeOs7jhHizUoZTF3rLV2fW2H7+kCxsG+j5RVqvZRaYJO8AXfta9wqL4aMgODOg
-	 J3qPV4D2PtHGW6IjCCwtKABwk4UA468vwFN9VGwCfbgXSjEomN1K9YREsOaurc60cL
-	 8SMTLGI1FKlt5aHKMDLY/c6dwmfueyb1aeDwXOKs=
-Date: Tue, 12 May 2026 19:42:57 -0700
-From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: kys@microsoft.com, Liam.Howlett@oracle.com, akpm@linux-foundation.org,
-	decui@microsoft.com, haiyangz@microsoft.com, jgg@ziepe.ca,
-	corbet@lwn.net, leon@kernel.org, longli@microsoft.com,
-	ljs@kernel.org, mhocko@suse.com, rppt@kernel.org, shuah@kernel.org,
-	skhan@linuxfoundation.org, surenb@google.com, vbabka@kernel.org,
-	wei.liu@kernel.org, linux-doc@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 1/3] mm/hmm: Add hmm_range_fault_unlockable() for mmap
- lock-drop support
-Message-ID: <agPlMYFCrdD2WKYZ@skinsburskii.localdomain>
-References: <177759835313.221039.2807391868456411507.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
- <177759840859.221039.13065406062747296947.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
- <563bb216-c270-4711-adda-b91484af40dc@kernel.org>
- <agNS4llNtAHBkMA2@skinsburskii.localdomain>
- <f073a8d7-5761-4f7b-a5e5-c6aeae5fdc72@kernel.org>
+	dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b="F0nlF6Ft"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-67c2b4809baso12319658a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 12 May 2026 19:44:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778640239; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Bt1dlcVFftw+K7SlFT1WGjlFplgXWdlRsT7iP78OGnRnKaWJUvm1B8KEC0WEZ4H1XZ
+         jfi+K0dJjB+lg/wO/NVrLWV+U0ZWYOLZvn6XVw3XVa/mcTqAZ2LT1TGaWQqN5SU9oPKB
+         bHxs+QjN9jV22uzSngboFHRA4Bo/OKYLNcqBVxyEyEeoV4DNcHCun8Vd1AAlDqtebLR4
+         8X4iTXn/eyevD/u6LgayohO1Gg/HPYFMS9flbx8Awn2QBPBZdgyraEJJMrkHYchf8Tf2
+         TjIvl5FsrVscPvDtW1alWcnQI31JBZ+sNaN8euqnPS9EC9RYZKQzLwrZ2VyxM0UhJ2U6
+         QPgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=fwmzkwTR65le1oWpZKenLp57NZAftj8wUZBjcBgmHHY=;
+        fh=fLHE7pahJUAyKIPGPIuneQ3ReQkrGDVBFYcHTse94WE=;
+        b=ktNuYpnShBMaQ3Ucm8Cq7M6dFH9tHE4OsuM+FSoQPw6D/ojaE63Tc8ZhfCiW5tvncz
+         Jj7RBIv89jEb3N3qW1KSYcNGoRy/iDRwFSbqqQMW5Xo5ai4ZHnkEFrfXzQlBpFrxTLRb
+         2ub6MOFubEKFvbSvVX33vrmDZeJnOpBEvjFxUX7v7huXh5/3impeGi8U+2SBtcaCmpub
+         bz9YREAHNECk+Fp60cjyJ9PBKEVJPKZfLNorKj2ylaHYUTbbekgY+2bN5eAzIGRr3EVk
+         F1BW21oG8kG2D0QtBLg0utf7k47uOnwudxzsulClYM3j2UtEERpGufV3n/yfHcTLxh/A
+         pdJQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umich.edu; s=google-2016-06-03; t=1778640239; x=1779245039; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fwmzkwTR65le1oWpZKenLp57NZAftj8wUZBjcBgmHHY=;
+        b=F0nlF6Ft8AEpK1AGl37zc3bqGf6cTAo+7bwL9FKBZQ8b2tKrJfQx0CovJEvN+Rvbna
+         JzDQlLkrS12WZI3rRkjwEDiPUHHjE5448j765QfJvA5Pr1gnKuAw0IRXnd4VilmMQWB7
+         UPs2Z1tt9R4nntGoYY8B6BFzjaYlC2aNF2HxBX1jnjC9OUupJOoFV9dQPW4MUL7supdi
+         sS7ancMZLAS691jCD2tUxN+sfklAV59bCiJzF3FzkPoA1ituB8snn/Lt77WL3B5cq/i+
+         TN3Jxjt8QMR8tJ+IK17HcoowIW36YbBic3GFZRCmp3Fl83dqNx1NDcH+zAkTzzUtLGN0
+         wq4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778640239; x=1779245039;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fwmzkwTR65le1oWpZKenLp57NZAftj8wUZBjcBgmHHY=;
+        b=WTVfjsnbvTnZ3uYMaM3zB/qllIN+QGj1JyoAYvPbImZedRwo99B7spZXyVNQOtCQ+L
+         X/kjnu2BlMEsElZiMXJ4Uoka8sSXoSkPvfQEUjnBwp8adeyRIRG2G5bgHbY+KNNy/dqW
+         wPN3ZQGimvI0R4MYSHinOKOKG7+ebHn/gWVP99mPEma2j8Q+LXExvWtA87as9yXE4cTk
+         xom6ik3YI3Yz3vcZsTw9BCSBOfrkWoaKagEV3/g+cFH/yxrmMQu700gCxPP8l+/32qZu
+         hOq170WqdYXGWwkf/oMlEAV5c6a0vc9mVQ24vUIZykcTps1BTX2IwbvCzDFjFgXS1rvj
+         +i3g==
+X-Forwarded-Encrypted: i=1; AFNElJ8WDYM9jdlSjv6/8rJrKwGONqaSNpjAnkca2U6S7V4mJx14qU61IAUfPVYw+Yy3Edn/MMBg2eJAkZo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw80lAia/PyUnYUqgvTr6CXtEVTK6D3W0QDw1eewu1BuTWKB+3Q
+	lrAEKrZ0kdYT4SAcVx0q9oFZFALICckwE+tqtNEm8XaZ61JLlU2Hsg3Wt3ohqve67AZUHdyXF9d
+	w3uA6POyp4Oj/8cwobiHA34i8iPFYr3UlM8ImX+9vEw==
+X-Gm-Gg: Acq92OFTF9EyXFQ/yo/qSFHJ6CFau8uGeUBOHnfvFdg9QVUb9byuZOHZk40q4nO/ghV
+	2+OqfzQD5iJmVVXdwRxHn/dsT/IQtFQyo4tIQ9Txfs29qVZIBAl892lUA3A7rYqkeWu85xsdLWl
+	KUzPZdep4dfZ+s/hffNy3/MT6lShKTh2PJOjYxYAw2oXCuIjyATvbqXNGIiCTEcAmOLJpyl2gMJ
+	9xmWmzcuGmVQgulZhI9gScsKklVcbUVEpwalSM9PxC81ln4Kn1iYjjSCg+at1N1PHX41J2D9pMS
+	VYM8hbvuvMo1/Z+sUeKRTCMtdK23jwdjS1IkSxAft4HcEbINc7cmSDHgJx5xqM0/ZXU7hJLBrEx
+	vNxBmqb6oE9RJIV80Aw==
+X-Received: by 2002:a17:907:94d6:b0:bce:1ad6:65bd with SMTP id
+ a640c23a62f3a-bd3e2114e21mr49348266b.24.1778640239178; Tue, 12 May 2026
+ 19:43:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f073a8d7-5761-4f7b-a5e5-c6aeae5fdc72@kernel.org>
+References: <20260513004616.2877-1-me@runxiyu.org>
+In-Reply-To: <20260513004616.2877-1-me@runxiyu.org>
+From: Runxi Yu <runxiyu@umich.edu>
+Date: Wed, 13 May 2026 02:43:47 +0000
+X-Gm-Features: AVHnY4JFEyrezQNzggVRiTtUkNxHees2vEqFLOyaB_9H0Ggpdr3CUxqb7Tp3Z2Q
+Message-ID: <CALLBc2PeCABO3QwoCraK+Ras7r_z7CkJBYrStGuCuu786i-hBg@mail.gmail.com>
+Subject: Re: [PATCH linux] README: Don't organize the README by arbitrary "roles"
+To: Runxi Yu <me@runxiyu.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 12, 2026 at 09:18:11PM +0200, David Hildenbrand (Arm) wrote:
-> On 5/12/26 18:18, Stanislav Kinsburskii wrote:
-> > On Tue, May 12, 2026 at 10:42:14AM +0200, David Hildenbrand (Arm) wrote:
-> >>
-> >>> +	for (; addr < end; addr += PAGE_SIZE) {
-> >>> +		vm_fault_t ret;
-> >>> +
-> >>> +		ret = handle_mm_fault(vma, addr, fault_flags, NULL);
-> >>> +
-> >>> +		if (ret & (VM_FAULT_RETRY | VM_FAULT_COMPLETED)) {
-> >>> +			/*
-> >>> +			 * The mmap lock has been dropped by the fault handler.
-> >>> +			 * Record the failing address and signal lock-drop to
-> >>> +			 * the caller.
-> >>> +			 */
-> >>> +			*hmm_vma_walk->locked = 0;
-> >>> +			hmm_vma_walk->last = addr;
-> >>> +			return -EAGAIN;
-> >>
-> >>
-> >> Okay, so we'll return straight from hmm_vma_fault() to
-> >> hmm_vma_handle_pte()/hmm_vma_walk_pmd() -> walk_page_range() machinery.
-> >>
-> >> Hopefully we don't refer to the MM/VMA on any path there? It would be nicer if
-> >> the hmm_vma_fault() could be called by the caller of walk_page_range(), but
-> >> that's tricky I guess, as hmm_vma_fault() consumes the walk structure and
-> >> requires the vma in there.
-> >>
-> > 
-> > It looks like a caller can provide a post_vma callback in mm_walk_ops. I
-> > missed that case here. This callback cannot be supported by this change.
-> > I will update the patch.
-> > 
-> >>
-> >> Note: am I wrong, or is hmm_vma_fault() really always called with
-> >> required_fault=true?
-> >>
-> > 
-> > No, hmm_pte_need_fault can return false.
-> 
-> That's not what I mean. Looks like all paths leading to hmm_vma_fault() have
-> required_fault = true;
-> 
-> IOW, there is always a "if (required_fault)" before it one way or the other.
-> 
-> Ah, and there even is a "WARN_ON_ONCE(!required_fault)" in the function. What an
-> odd thing to do :)
-> 
-> > 
-> >>> +		}
-> >>> +
-> >>> +		if (ret & VM_FAULT_ERROR)
-> >>>  			return -EFAULT;
-> >>> +	}
-> >>>  	return -EBUSY;
-> >>>  }
-> >>>  
-> >>> @@ -566,6 +585,17 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned long hmask,
-> >>>  	if (required_fault) {
-> >>>  		int ret;
-> >>>  
-> >>> +		/*
-> >>> +		 * Faulting hugetlb pages on the unlockable path is not
-> >>> +		 * supported. The walk framework holds hugetlb_vma_lock_read
-> >>> +		 * which must be dropped before handle_mm_fault, but if the
-> >>> +		 * mmap lock is also dropped (VM_FAULT_RETRY), the vma may
-> >>> +		 * be freed and the walk framework's unconditional unlock
-> >>> +		 * becomes a use-after-free.
-> >>> +		 */
-> >>> +		if (hmm_vma_walk->locked)
-> >>> +			return -EFAULT;
-> >>
-> >> Just because it's unlockable doesn't mean that you must unlock. Can't this be
-> >> kept working as is, just simulating here as if it would not be unlockable?
-> >>
-> > 
-> > I’m not sure how to implement this. The walk_page_range code expects the
-> > hugetlb VMA to still be read-locked when we return from
-> > hmm_vma_walk_hugetlb_entry. How can we guarantee that if the VMA might
-> > be gone?
-> > 
-> > I added a note in the docs. Whoever tackles this will likely need to
-> > either rework `walk_page_range` to handle the case where the VMA is
-> > gone, or use a different approach.
-> > 
-> > Do you have any other suggestions on how to implement it?
-> 
-> You just want hmm_vma_fault() to not set
-> "FAULT_FLAG_ALLOW_RETRY·|·FAULT_FLAG_KILLABLE".
-> 
-> The hacky way could be:
-> 
-> diff --git a/mm/hmm.c b/mm/hmm.c
-> index 5955f2f0c83d..83dba990e10a 100644
-> --- a/mm/hmm.c
-> +++ b/mm/hmm.c
-> @@ -564,6 +564,7 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned
-> long hmask,
->         required_fault =
->                 hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, cpu_flags);
->         if (required_fault) {
-> +               int *saved_locked = hmm_vma_walk->locked;
->                 int ret;
-> 
->                 spin_unlock(ptl);
-> @@ -576,7 +577,9 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned
-> long hmask,
->                  * use here of either pte or ptl after dropping the vma
->                  * lock.
->                  */
-> +               hmm_vma_walk->locked = NULL;
->                 ret = hmm_vma_fault(addr, end, required_fault, walk);
-> +               hmm_vma_walk->locked = saved_locked;
->                 hugetlb_vma_lock_read(vma);
->                 return ret;
->         }
-> 
+Hi,
 
-I see. AFAIU the outcome would be the same.
+After doing a bit more research on the archives, I found that
+https://lore.kernel.org/all/20251121180009.2634393-1-sashal@kernel.org/
+and previous threads did not really address the structure of the README
+during review. It focused almost entirely on whether to include the AI
+coding assistants section (which has since been split out and merged
+seaparately). So the "Who Are You?" and what do do as these different
+personas stuff did not receive substantive review, which is, well, what
+my patch is trying to address on the merits.
 
-> But really, I think we should just try to get uffd support working properly, not
-> excluding hugetlb.
-> 
-> GUP achieves it properly by performing the fault handling outside of page table
-> walking context ... essentially what I described in my first comment above:
-> return the information to the caller and let it just trigger the fault.
-> 
-> The issue here is that we trigger a fault out of walk_hugetlb_range() where we
-> still hold locks, resulting in this questionable hugetlb_vma_unlock_read +
-> hugetlb_vma_lock_read pattern.
-> 
+I'm not particularly into the discussion on whether the README should
+be prompting LLMs and whatnot, so I'm leaving that as-is.
 
-Fair enough.
-
-> The fault should just be triggered from a place where we don't have to play with
-> hugetlb vma locks or be afraid that dropping the mmap lock causes other problems.
-> 
-
-I reworked this part. Please take a look at v2.
-
-Thanks,
-Stanislav
-
-> 
-> -- 
-> Cheers,
-> 
-> David
+Thanks!
