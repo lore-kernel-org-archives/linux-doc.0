@@ -1,66 +1,65 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DF22E719C
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 18:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199CB3AEB37
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 18:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778697377; cv=none; b=dWNn4faMqUyxDbqXRVu6zfjjd0vnhLNe4ees1gtMg3zaTBICQxWbkdLz01Uk78yYzJnXU9BqRq8hseVYKMX6GaR92Mx2gvekSqxiX3NJMU6R5IfDRUD7miuALxveOq97gczWZ/3gl4cOgZI9Etk+ZDFiQYDpP/muSVYJA4xLAr0=
+	t=1778697379; cv=none; b=jrat84qIa1A7Vr5+OYQApdB+nAMipYScyovkcG2SQBHNCfgiJ8fbkODRDmFmpgeejeXDBBFU+wZi4C0p5S+OaQ12tMOgifcUh38ie8bFGPLE+wuLJa4z2usSI7JK+AfSalQj9inPbW9wt+kvImHVCL06WBB13YM+ezo9Hyy9RhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778697377; c=relaxed/simple;
-	bh=rO3h1Z0IMdUe40XbniH7Syeq4c4URoeuKQNA3ehrqjo=;
+	s=arc-20240116; t=1778697379; c=relaxed/simple;
+	bh=EGzWceiAVeeSBnRWldnrtoBTzG8f5fZR6iZziGoTu4A=;
 	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Subject:
-	 References:In-Reply-To; b=FFhX+IhkZef9ouPUIJEkbkOKiNjch4aHSuZUTlJ5J7sZxJ8oMaxV6bK8EGQeV1U7UTmtMBqucN4yegywZj0ptNXf7jm7221tsaiazRXr8kIDiydibzld+738BKLahKjy9pRAoh8NLLGuhbU1KhtmKj+9NavnCAgU3uNCzeh4HOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=L+JVn93l; arc=none smtp.client-ip=209.85.160.182
+	 References:In-Reply-To; b=WpcF6CC6ETF2O9cdv2DyNOtefGf41TCL/gw74M2AksfdNmibMb9SOuJTl2dJ6z9bMAPJ8GnoLJqsD5vD/BAOp6VoKBFG5JcKOiDeZbWAGerNs4V3se6tgG9wfCGYjiDwR5EWsny21FkJ7WQ0vXt/bkFoJCn6MxHHpuVtewm44f0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Ynx7Z4Lj; arc=none smtp.client-ip=209.85.219.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="L+JVn93l"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-50e5c7eb565so68834771cf.3
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 11:36:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Ynx7Z4Lj"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8b3d6b215cfso108338826d6.3
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 11:36:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1778697373; x=1779302173; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1778697376; x=1779302176; darn=vger.kernel.org;
         h=in-reply-to:references:subject:to:from:content-transfer-encoding
          :mime-version:message-id:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=P2T1YkP403+tJ+X3WhxlPcahyNJiY7q6QXlcKSX4nKU=;
-        b=L+JVn93ljCggkMDRrMmIQOy+ciQrWxjROtkJXOeNISU2XT6bdwnTLW9cnFpAOCb3qW
-         hj7l6kus1Tg5JCyvFnieHdneRhoG0MZZiR8Gg6MYf6IUkX+C1oI7ex3/+pl6lwYz762+
-         0dZ29t1CW5vj79bKQsDAn96DY9FuVB0+jfEh696a39fkEwg1Q1Gd6kGZ2LwZrSX5ZjT9
-         YEbdx8lvyMeF8EtQer+i20Xj4UYzmDU59TcYoOCR1y693DT9Vy0Hsw2jGIPh5ZRR1gNG
-         V+Xdy8dBcmPk9EYc6uZL73a38kbvOgELR9YtJrKFI1hs8qF+b+mDxrjAepdXSbimsOmX
-         Cw0g==
+        bh=6Lovk2GB7TQrI5ucvuQmmBzaE8ASoKYdV2IJHUjIv4o=;
+        b=Ynx7Z4Ljie1JEomghn7GlULS7IhGgd2OagVENW1wPLCvZRScYzUpNdeVLtI24noRpc
+         WNIj+KqksgMw40fBxE6gveV8VEplGokq04TM1GTe9/7whTW+hB7R/M1FEcy46QJ1nIUh
+         7ac2mnOYCxaG1x6/okZLQ8zAoySoCBIkRnRw0efKl3ZevCt6uU1U0impaQkdQ9nXO/3c
+         Oxm+hWns60n8b95RQrnkijukTwnCiTdfkrJSboyzP6VrCr8kmb6L1sFwrQSAD1GsN6PI
+         xkZ4g11sk2AwYC8Nrbi+mp7aTaC2WnA7KeFNhXVKaU/I13NZj0gK5IIKTSPCTfvNlOKh
+         rxyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778697373; x=1779302173;
+        d=1e100.net; s=20251104; t=1778697376; x=1779302176;
         h=in-reply-to:references:subject:to:from:content-transfer-encoding
          :mime-version:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=P2T1YkP403+tJ+X3WhxlPcahyNJiY7q6QXlcKSX4nKU=;
-        b=k5Ig+xki1Qosn2H0RZIVpsP3ubsUiJdXoT071gVyfvQZBmx5Y+qDVja6E26Dxuihla
-         seqgrl3R0hhnrmVdqfxx7+hlSLMR+gESfZOe3YLIzALhYkpFBNGMDo9NWJHux/ivORc+
-         IiCCEoMoHSqIjJngxI3xpHV/pOUuQL5FA3EBhcUrzESvoYcVunm9dT6n7aKxsJJ64UA2
-         2hmaxne/CGt5wUFh0/ILYxb++eGKmXABzVX5WwJcyHaElokqGMW2LvOssiL7nscGgc51
-         XPKqvK+xeyRjR2q5gzJKQJTO0JUAICltK91nkvC20sSwT13MR5JwVnwV/wTbKaGhcs55
-         27kg==
-X-Forwarded-Encrypted: i=1; AFNElJ+9cYcQW28Dz94OfWd4lC5PH/wYX+5irCDEoBVp5OnMIQi1nG+87qsl8hEYT5GEdk8dncfzaU7stAQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+4fyqP5fbzImM65ReYTHKoIXHEc/0YOGBFORL3AD8ny5y3vwR
-	Q170b1yhZL9cuukqFMIXarTNV5eTE05DNNk7HM0mfs7Ksn6lJZB6aoZZpgUTX7R5tw==
-X-Gm-Gg: Acq92OEaGxSNeX7mdHtkVUdD/WCv5rihjxjYtpsYi6/4qhrz1EdqSLp4NLTpL5zFuzG
-	sXspFrI4uiQ5Ipos2lms+IkypQqq2iGLiUX+5/DHlFfBfuv1paTT69M+GCU7RCcN6tyIMzED/1/
-	RgBumCEUrYNLdxkTJ0PevBMIOfmrSZ1Sw7wBfBnpAYtsFIKpRAkPXIgKUeovU6WgtsAxxdmsN2m
-	cyhEJPnvP/EKRPUiVHFQ0oShjgxlyRdpwrF0zbN2V+6FZdiWKobG9gJ1GI07Ty42UoqmKUGEVi/
-	bMsxfm5FejyACeRnLHVYPIq6Y5xC1b4ZloV2jNuDb7ACqc4RDTsmRu8G91gP+rEKRRBY7+s02cJ
-	9Rt7OjNPE/Fu3yqiSFiDw6LuhiM11H7OmiRPycVXrUdGpuUnKwwUP/kP7vHxzToXqJ/8ShHNEI4
-	FzlD0mPXS38P9bXRFF95JsdimwC8EgqfBu4JJZ/yIU5fp+W/nLjPFssWLgqPgrWKF3hxEz5hTrE
-	ayIijo=
-X-Received: by 2002:a05:622a:6d06:20b0:516:3183:c1fc with SMTP id d75a77b69052e-5163183cb11mr38795191cf.50.1778697373350;
-        Wed, 13 May 2026 11:36:13 -0700 (PDT)
+        bh=6Lovk2GB7TQrI5ucvuQmmBzaE8ASoKYdV2IJHUjIv4o=;
+        b=MoqqjbFvJfzIhonNVSyeYU3/d3QIwjwy2S9fJQhcz8VBR32Id15LeVFhMOrVP0ZSuT
+         8O4HUF/29sN7MRQ1tv5HyokKKOyevBFlRhR9cJLShdrHRFk/PStqrXlr3zA/GkP4eqQd
+         N1XuGnJYaEKOS7osG4XD44U6q+dRnqhlYmmP+2hcEiqU+VLiwfHD5bcit+mJmbu9r0ys
+         Pj9xdVgmtdqsdyj/1Ehi064a2+/oX3e4cwpaFzhXnhJlzwHJ4QLsOEMVP/TQPB4mtwyf
+         6wMoIW6GyR4BzXppnyloLlrQrBt7Bt6HgLKkiBj1T4HX10sLNcdlOpAjMiX/M46PZjBq
+         sh2Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+ZqpyscLV+KZ66PqnwF0hCUAgyt3uaB/IUWdDL7j+2CkinIhT80QMCuOONTHuVl99qG/dhjF4E6V0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkJAHutmsWAMSFHj3hsQ5ZQbHXV7daSlGHUL6QXJlM65eGRmRI
+	nG/F2aw3zilrtQa50Ze22ZvYIKAJWX/fa524bc8DNtS2U8tyXwsXFE9MgevC5ffaIA==
+X-Gm-Gg: Acq92OEUrE733dduO9p6jEzfBrzKxRxACj0Er8oeYCydK2/hJhdoyWhgUeN2g9ZRcKS
+	8Zq4yQtMAVJKe/Gz0xlUk0thZKab+aYkUPEfe8W3hjA56MulX7PrDRxZfebOTVQXC9sJRBgGeJe
+	qJlrdw9dByGnCINcpy0xDZVAziMWbRDveQ/di0HR2NbzJrkg4vqaXtKMPKl3IT/CQSNd4dcoC1j
+	pNfQmYqrT9p0I8WSYWjZdiRGe42NFKUOhdxNB/ytR46gWQlzBn7znkSN9e+MagynnGNXXoAqhWv
+	OE5plhNMJiwMTp6IeWwbFP9yNvqRdd+/FfmhS3aEC6oWcySiEKHS/Tb9KHDPFvyThjPSXzWmu02
+	batrCxJNbZSwKsILAjihKP6FgVPGtweSRFsO7qZIh7boR4j7oMWvN2/40VVfgKGNIMEOnqfQcz4
+	r5jSokEJDVq1q2UDZR+IiWCrsFacMGtzaC/npQ976jQwNxl3IjLwflspJOowqZ9ImqP7Ko
+X-Received: by 2002:a05:6214:469d:b0:89c:cacd:244a with SMTP id 6a1803df08f44-8c7b9e6573bmr74418346d6.5.1778697376105;
+        Wed, 13 May 2026 11:36:16 -0700 (PDT)
 Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8c90bb82a7asm2888936d6.37.2026.05.13.11.36.10
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8c90bb8241dsm2941076d6.34.2026.05.13.11.36.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 11:36:10 -0700 (PDT)
-Date: Wed, 13 May 2026 14:36:09 -0400
-Message-ID: <f367fe9b2695df27e47f4836d0f51fbf@paul-moore.com>
+        Wed, 13 May 2026 11:36:14 -0700 (PDT)
+Date: Wed, 13 May 2026 14:36:13 -0400
+Message-ID: <426bd02f7870a8af23035d506a50de78@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,23 +71,47 @@ Content-Transfer-Encoding: 8bit
 X-Mailer: pstg-pwork:20260512_1604/pstg-lib:20260513_1343/pstg-pwork:20260512_1604
 From: Paul Moore <paul@paul-moore.com>
 To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, "Blaise Boscaccy" <bboscaccy@linux.microsoft.com>, "Jonathan Corbet" <corbet@lwn.net>, "" , "James Morris" <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>, =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, "Andrew Morton" <akpm@linux-foundation.org>, James.Bottomley@HansenPartnership.com, dhowells@redhat.com, "Fan Wu" <wufan@kernel.org>, "Ryan Foster" <foster.ryan.r@gmail.com>, "Randy Dunlap" <rdunlap@infradead.org>, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, "Song Liu" <song@kernel.org>
-Subject: Re: [PATCH v7 5/10] lsm: security: Add additional enum values for bpf  integrity checks
-References: <20260507191416.2984054-6-bboscaccy@linux.microsoft.com>
-In-Reply-To: <20260507191416.2984054-6-bboscaccy@linux.microsoft.com>
+Subject: Re: [PATCH v7 6/10] security: Hornet LSM
+References: <20260507191416.2984054-7-bboscaccy@linux.microsoft.com>
+In-Reply-To: <20260507191416.2984054-7-bboscaccy@linux.microsoft.com>
 
 On May  7, 2026 Blaise Boscaccy <bboscaccy@linux.microsoft.com> wrote:
 > 
-> First add a generic LSM_INT_VERDICT_FAULT value to indicate a system
-> failure during checking. Second, add a LSM_INT_VERDICT_UNKNOWNKEY to
-> signal that the payload was signed with a key other than one that
-> exists in the secondary keyring. And finally add an
-> LSM_INT_VERDICT_UNEXPECTED enum value to indicate that a unexpected
-> hash value was encountered at some stage of verification.
+> This adds the Hornet Linux Security Module which provides enhanced
+> signature verification and data validation for eBPF programs. This
+> allows users to continue to maintain an invariant that all code
+> running inside of the kernel has actually been signed and verified, by
+> the kernel.
+> 
+> This effort builds upon the currently excepted upstream solution. It
+> further hardens it by providing deterministic, in-kernel checking of
+> map hashes to solidify auditing along with preventing TOCTOU attacks
+> against lskel map hashes.
+> 
+> Target map hashes are passed in via PKCS#7 signed attributes. Hornet
+> determines the extent which the eBFP program is signed and defers to
+> other LSMs for policy decisions.
 > 
 > Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+> Nacked-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
 > ---
->  include/linux/security.h | 3 +++
->  1 file changed, 3 insertions(+)
+>  Documentation/admin-guide/LSM/Hornet.rst | 323 +++++++++++++++++++++
+>  Documentation/admin-guide/LSM/index.rst  |   1 +
+>  MAINTAINERS                              |   9 +
+>  include/linux/oid_registry.h             |   3 +
+>  include/uapi/linux/lsm.h                 |   1 +
+>  security/Kconfig                         |   3 +-
+>  security/Makefile                        |   1 +
+>  security/hornet/Kconfig                  |  13 +
+>  security/hornet/Makefile                 |   7 +
+>  security/hornet/hornet.asn1              |  12 +
+>  security/hornet/hornet_lsm.c             | 352 +++++++++++++++++++++++
+>  11 files changed, 724 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
+>  create mode 100644 security/hornet/Kconfig
+>  create mode 100644 security/hornet/Makefile
+>  create mode 100644 security/hornet/hornet.asn1
+>  create mode 100644 security/hornet/hornet_lsm.c
 
 Merged into lsm/dev, thanks.
 
