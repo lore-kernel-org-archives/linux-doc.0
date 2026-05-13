@@ -1,309 +1,310 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3278D3D47A8
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 07:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C522FDC27
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 07:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778656475; cv=none; b=rCwCYyFEQwnKTJCgwV3qxy5nzwANPfgIlKqd+9o+kK+rZ/zMEpHR7Am2kBb2FZQm2zS92kmR28Y/7S1ChhBho3nvVVc7CknDWokUJ1VwdpxsQYgBoq2HLrUVG1qVCAo+TiqMiWa13ZqqsXN+VBCyuon34kLD1WSI9cZVoYRoR5o=
+	t=1778657483; cv=none; b=cJpkrVZHVim99P2bT1clRWxt+jvO92ubc+SinnceYAOL0JQhRNOdqhpEeefPzdumOsTU9hgQGEgrAkJPuDRDxA/XOrUqr5L3oTRdsywa8StGTW5PBVNR+mJv+5v87G5Ou1k+a7eFJ5Z5t3lzz1SXBlGP5I9uC+hzwnNbN1yS9T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778656475; c=relaxed/simple;
-	bh=+KAyrj5pZaRQoU8tMWX0lEiQZTTWM6S0ZOvKPD9rVHU=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iSx+m31HFTjERQg00TgqSXlXZHWbwQ2wrQ+ZYDJnzhybKqKx87rJtxByfLq8BUfKiY9kxakbQqzElQ4AGgOLHkO678gHmNwCfDu4sDd3f8jIO6i26QbV013jMW2xcyTE9DPFUlb8+aG2g9Xk+LMvZbW0rAv7JOeMCTch6Rx/PPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqqcKymA; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778657483; c=relaxed/simple;
+	bh=L5Yg5uVqrkobj7bmXCB6WQm8iYeZIrVy6jTHOY+8NLc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=u7jPvBstvvqCGLIG/QAsS4JqpQXxnwOSPB/1g0Lmo6cafFTTgmyg1evv98mUqTCXDMtfEfW1z2LwTG+occSjEUHZXTBXuNKcDTlSYYLzgOgwZEOo5SOaNacfmSKahxfhDSgNjf1wKCyAWPyTs15ae/We8nurP1/1OseUOzRJkqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GRzK3ieB; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqqcKymA"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4891e86fabeso73152745e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 00:14:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778656473; x=1779261273; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=72Am0oAZ5sGrMf2UhBZL+Kd1HleH7FvAarcQKJcP09s=;
-        b=GqqcKymAAiURZRJduqIaxIlwU4/MDJtDhhB9cy8st7EhRMrbOsFOpkDF2xyKFACsCS
-         utzcN3eKfesB0Uv77e/+VUk3It9NcIIxqYPdimoCg9eRW+4fwVgadAKBpade6KNhkZ6P
-         t4H7ONHRDPWnOlU4Ul6smVVZlaJ06wXyvhGBq6ZOvE/wZfp/ZlrAKwRcEEAH07F3zYUC
-         kJbobM6m7v+bLkXUaJoDbqcSQjKcLSpvVjgzwDIWRiHOCpxNGQWytzfRZmHU0WnS3DDv
-         x/us05SM9UNwO+x77YythGxSK8OPrgpGlVgub+Q0p64uVvBZnaOEL6QDlNKjAaZ+hQWI
-         LrJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778656473; x=1779261273;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=72Am0oAZ5sGrMf2UhBZL+Kd1HleH7FvAarcQKJcP09s=;
-        b=U0EF9LwVFBY+wRS9zfbU3ZAY8q/lZp+4sfHSBXA+8hSEQS9um+w2w4v7eYJ/5gn7y2
-         VhGnylLPWxvslJAVTrHX/VH+kZ82U/W1JwCRxJKyCNDbL+XTISAS0CPuo1lNtiIVrU/c
-         dUTY3lMK6zpIhTn1zdWxAgYyZPAdvOA6Nv1b1ibe79SlNeiHPsaSj2qKNh3I+b6pXnl1
-         cdGhkKUlPQx5rHHSRSthXG75jnHrP5EiDOe9DMOAr6434ol+W7nPmcta6UszoG1kAAEW
-         Rvvi0q4fezRfpF0DHFHH59OVP3lmU1HIddColDAdLrNkIIqipzzlD81uEYKAl7Mx7N8j
-         /+aw==
-X-Forwarded-Encrypted: i=1; AFNElJ/RPhc5AKbTwI7TrVomg1hzFdgWtLYZwoTzofUYx12aJ+2PuQiYdqDMEnTkDJwszVVEhpxCdxx0ndM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5tQiLXc9wRKBEYj0BXrDEPnjyv0s0wCGavmJGQUus2zsvERhr
-	Qs8wlre8mjY+s9VF8G95CBSlYsQ4W2eI9gU9KPqNdJHcG+ERUMYSfQkn
-X-Gm-Gg: Acq92OFg0+aCAokEbXwwy6aVZ+gCOJV6l8HrHnF2OybEV0Yh1dKaX1ABxF/wBkI/3v9
-	Fy99OjNC1FrUHFzwQVNBy28Gs6EVAwBNryxmHoh6F6nQ+01V6aUVAqGdERohvvSbNtUmj2sW76a
-	iosQIXPwYqkMT1sF66EmOYTiFwxShqElxSkpx1LYKUgoQIQN1koyDWV2Wmg+K4tL6LhkLNkxpXD
-	4iLRexpwKbqA/lwq/Fr18nL3zICvgOEGSszWdAm0BOD4JhLmcdzqRDfXy8zeVTy7obfJI/MpjtQ
-	52Lv+g8U6sXEOlP8+Lyk0eNLXCLgg7bWcVQzY5PwyJ1bQaxJJjOEru82S/ARy4n5LfpJixgwPTg
-	CeCbyc2ly6HiO0N5Mp5xZKPxqxVCLfsMzFhXX2m3WdNmXlYqUzMDxPC9GBIxFnUQ8KvQw4NdAvB
-	M6piz/rMzP6i+7M6bNQFUhH2cm9HwkRdFxeG6yOJPk2OgoJT+Kj4FnfREGIi9DIwNIYaRM7ZC7P
-	uF4tgbbBoqoCcfql29Bo5phopsL0zF7Tv26onADtn/3og7FNQ==
-X-Received: by 2002:a05:600c:19cd:b0:48f:be94:d82c with SMTP id 5b1f17b1804b1-48fce9e1a34mr20092615e9.19.1778656472387;
-        Wed, 13 May 2026 00:14:32 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e8e566bc8sm55188335e9.0.2026.05.13.00.14.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 00:14:30 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Wed, 13 May 2026 08:14:28 +0100
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	David Laight <david.laight.linux@gmail.com>
-Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
- kstrtodec64()
-Message-ID: <sqt72hd4xdu6rj3zecvcpo3bbfsxlh7u4bi76enbq64hpgjm3t@vksuk4cuo76x>
-References: <ur6brs3yjzyb4mtelabmcglxjltddqvjxtgl3lkdkmbjlkmnsq@bwd6rz7gided>
- <CAHp75VeoH3yVfp8NWjKfc_df0VRLkyf_SK4e==-wJOEodVjW_A@mail.gmail.com>
- <q4rmlkgecvztnvjg7b7wtqyvhdy7uxgaouvhae2mlsxaasasbf@dfakp4m5l5sl>
- <agNfqiZpGZAM-x_H@ashevche-desk.local>
- <ru2h3ip7qf6j54dlrij54nwp45uyq6m2e6zspt6v6eynpsagqq@eo5v3yparuhh>
- <agNnfWZa9_NyLoWq@ashevche-desk.local>
- <bc7mqfgll34vyaxdtvfssgypkhyx233wd4hxfzu32rddxnolaq@rd6c3z6yu6aq>
- <agN6onIAwG1yn5p6@ashevche-desk.local>
- <hvwyrb7g3ar7hzesj32zoxzqvjmdtwybamy4zxepqdbu37qvog@xnmgqhfya34f>
- <agOKq0iH2CHQ3TIg@ashevche-desk.local>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GRzK3ieB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778657480;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jKqEdpwEL44n322oM5dzYdh/fnpCSr+Dp2MnzVEGH7E=;
+	b=GRzK3ieBD6PwIQHOwOntCyTdhYq3MxROgfHa9k9MhmtfxxakzLN+/S5PGZBc/sqUktMkXE
+	p+3iD9VFnLBFuIoo4UL8rrBqS7wrCNZJOJ+67S2Xhs3HjYkNHyhEjbQ2s5kRqYqroXRpiT
+	2zsaIR79PdEybJkK2hCwPZi//1TwXJs=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-31-DPwmEbudOqCZ0DsZ6xBCTQ-1; Wed,
+ 13 May 2026 03:31:16 -0400
+X-MC-Unique: DPwmEbudOqCZ0DsZ6xBCTQ-1
+X-Mimecast-MFC-AGG-ID: DPwmEbudOqCZ0DsZ6xBCTQ_1778657471
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6B01B1956089;
+	Wed, 13 May 2026 07:31:09 +0000 (UTC)
+Received: from [192.168.1.153] (headnet01.pony-001.prod.iad2.dc.redhat.com [10.2.32.101])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7C8B618004A3;
+	Wed, 13 May 2026 07:30:59 +0000 (UTC)
+From: Albert Esteve <aesteve@redhat.com>
+Subject: [PATCH v10 0/4] kunit: Add support for suppressing warning
+ backtraces
+Date: Wed, 13 May 2026 09:30:50 +0200
+Message-Id: <20260513-kunit_add_support-v10-0-e379d206c8cd@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <agOKq0iH2CHQ3TIg@ashevche-desk.local>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23Oy2rDMBCF4VcJWldhJEW3rPoeJQTZM6pF8QXZM
+ SnB7145EJISL8/AfPw3NlJONLLj7sYyzWlMfVeGgI8dq5vQfRNPWA5MgjSghOQ/ly5N54B4Hi/
+ D0OeJy6i0A1MJj8jK35Appusd/TqVHXPf8qnJFB6SBi2NUNJqvRfGCA1c8FCH3KYufGbCJkz7u
+ m9XrUnj1Offe+FsVvPRYjdaZsOBI0oZqFKRNL5qa8xsn8RBwhZhC0Guqg1BtID0RrgnoeGwRbh
+ CKNJe27rEKP1G+FfCbRG+EN5jtCE4B9H8I5Zl+QOenrtpuwEAAA==
+X-Change-ID: 20260312-kunit_add_support-2f35806b19dd
+To: Arnd Bergmann <arnd@arndb.de>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+ Rae Moar <raemoar63@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
+ peterz@infradead.org, Alessandro Carminati <acarmina@redhat.com>, 
+ Guenter Roeck <linux@roeck-us.net>, Kees Cook <kees@kernel.org>, 
+ Albert Esteve <aesteve@redhat.com>, 
+ Linux Kernel Functional Testing <lkft@linaro.org>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Dan Carpenter <error27@gmail.com>, Kees Cook <kees@kernel.org>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778657458; l=9933;
+ i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
+ bh=L5Yg5uVqrkobj7bmXCB6WQm8iYeZIrVy6jTHOY+8NLc=;
+ b=o5eNnkqZLZkFTzUigTvAZt6LJyE7V61s14nT3qQcdkFHBwZW4RelppieMjiHpLDlrmV3syVSN
+ obfW5Fc9iGnA38sJNEdMiOTdrD+2vCbEufQuVH1qDVDuc0wGaeHeCqb
+X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
+ pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On 26/05/12 11:16PM, Andy Shevchenko wrote:
-> On Tue, May 12, 2026 at 08:39:21PM +0100, Rodrigo Alencar wrote:
-> > On 26/05/12 10:08PM, Andy Shevchenko wrote:
-> > > On Tue, May 12, 2026 at 07:15:17PM +0100, Rodrigo Alencar wrote:
-> > > > On 26/05/12 08:46PM, Andy Shevchenko wrote:
-> > > > > On Tue, May 12, 2026 at 06:26:12PM +0100, Rodrigo Alencar wrote:
-> > > > > > On 26/05/12 08:13PM, Andy Shevchenko wrote:
-> > > > > > > On Tue, May 12, 2026 at 05:35:59PM +0100, Rodrigo Alencar wrote:
-> > > > > > > > On 26/05/12 06:21PM, Andy Shevchenko wrote:
-> > > > > > > > > On Tue, May 12, 2026 at 6:11 PM Rodrigo Alencar
-> > > > > > > > > <455.rodrigo.alencar@gmail.com> wrote:
-> > > > > > > > > > On 26/05/12 05:43PM, Andy Shevchenko wrote:
-> > > > > > > > > > > On Tue, May 12, 2026 at 03:12:24PM +0100, Rodrigo Alencar wrote:
-> > > > > > > > > > > > On 26/05/12 04:48PM, Andy Shevchenko wrote:
-> > > > > > > > > > > > > On Tue, May 12, 2026 at 02:21:14PM +0100, Rodrigo Alencar wrote:
-> > > > > > > > > > > > > > On 26/05/12 04:12PM, Andy Shevchenko wrote:
-> > > > > > > > > > > > > > > On Tue, May 12, 2026 at 12:39:53PM +0100, Jonathan Cameron wrote:
-> > > > > > > > > > > > > > > > On Sun, 10 May 2026 13:42:20 +0100
-> > > > > > > > > > > > > > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
-> > > > > > > > > > > > > > > > > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
-> > > > > > > > > > > > > > > > > precision). After the decimal point, digits beyond the specified scale
-> > > > > > > > > > > > > > > > > are ignored.
-> 
-> ...
-> 
-> > > > > > > > > > I think we are going in circles here and we could look at the code instead:
-> > > > > > > > > > - integer parsing with _parse_integer()
-> > > > > > > > > >         - overflow check and validation of the return value
-> > > > > > > > > > - fractional parsing with _parse_integer_limit()
-> > > > > > > > > >         - overflow check and validation of the return value
-> > > > > > > > > 
-> > > > > > > > > No, this is not fully true. That's what my whole point is about. The
-> > > > > > > > > max_chars parameter limits the input check, then it skips an arbitrary
-> > > > > > > > > number of digits and only *then* it checks for \n and \0. What will be
-> > > > > > > > > the result of the
-> > > > > > > > > 0.00000000000000000000000000000000423 in your case? Whatever scale you
-> > > > > > > > > gave it will return 0 without checking on how many digits were
-> > > > > > > > > supplied.
-> > > > > > > > 
-> > > > > > > > I suppose that is a valid input and 0 is the expected result there.
-> > > > > > > > 
-> > > > > > > > > All the same for 0.9999999999999999999999999999999000423. My
-> > > > > > > > > point is that we should limit this by 19 digits.
-> > > > > > > > 
-> > > > > > > > why we need to limit by 19? Digits beyond the scale carry no value...
-> > > > > > > 
-> > > > > > > ...only if they are all 0:s.
-> > > > > > 
-> > > > > > I thought your concern was on input length.
-> > > > > 
-> > > > > One of, since I think you rose the topic of leading 0:s for integers and
-> > > > > I agreed with that which makes sense to have mirrored in fractional part.
-> > > > > 
-> > > > > > > > just like leading zeros to the integer part (which is also accepted by
-> > > > > > > > kstrtoull() when parsing with base 10). Not sure why this is invalid input.
-> > > > > > > 
-> > > > > > > See above. I agree on truncating trailing 0:s as it's done for leading ones
-> > > > > > > in integer part, but if any of the digit behind 19th is not 0, it's an overflow
-> > > > > > > condition (or bad input, depending how strict the rules are).
-> > > > > > 
-> > > > > > stating in the documentation that digits beyond the scale are ignored is not
-> > > > > > enough?
-> > > > > 
-> > > > > It's in case we are not for kstrto*() family. My understanding that kstrto*()
-> > > > > use strict rules on the input in overflow check.
-> > > > > 
-> > > > > > > > > On top of that, what about -0.9(19 times) ? the fraction should be u64
-> > > > > > > > > in this case and it's fine. The sign applies to the combined value.
-> > > > > > > > 
-> > > > > > > > yes, range for signed values are verified later.
-> > > > > > > 
-> > > > > > > > > >         - extra scaling and truncation happening outside if needed.
-> > > > > > > > > 
-> > > > > > > > > Right, but the given input may be way too long and still needs more validation.
-> > > > > > > > 
-> > > > > > > > What is the problem with a long input of digits?
-> > > > > > > > C compiler does not complain about this when parsing a float value,
-> > > > > > > > python does not
-> > > > > > > > complain about this when parsing floats or decimals either.
-> > > > > > > 
-> > > > > > > Because there is an exponent limit and for double it's something like 1e307
-> > > > > > > IIRC, meaning, try 1024 digits to be sure.
-> > > > > > > 
-> > > > > > > Python most likely uses the library for big numbers, you can't compare it at all with this.
-> > > > > > 
-> > > > > > You would be fine if the truncation loop:
-> > > > > > 
-> > > > > > while (isdigit(*s)) /* truncate */
-> > > > > > 	s++;
-> > > > > > 
-> > > > > > is bounded by (19-scale) iteration count? or it should keep iterating if those are zero?
-> > > > > 
-> > > > > Ideally both.
-> > > > > 
-> > > > > We don't care about the digits in the range of 19-scale and skip all 0:s after
-> > > > > that.
-> > > > > 
-> > > > > 	/* truncate unrequired digits within type limit, i.e. 19 decimal digits */
-> > > > > 	while (isdigit(*s) && "(s - pos_of_dot) is less than 19")
-> > > > > 		s++;
-> > > > > 	while (s == '0') /* truncate trailing 0:s, it's not a bad input nor overflow */
-> > > > > 		s++;
-> > > > 
-> > > > We could have agreed on something like that since the beginning!
-> > > 
-> > > Yes, but who knew that we go to have this agreement?
-> > > 
-> > > > And I think that changing the logic to something like this would not change a
-> > > > thing on the kind of inputs we expect, it will just complicate the code.
-> > > > I suppose that kind of kstrto*() rules were never stated anywhere.
-> > > > 
-> > > >                            |> 20th digit 
-> > > > Also, 0.00000000000000000001 still sounds like a valid decimal number to me, even
-> > > > though it is going to be parsed as 0!
-> > > 
-> > > Hmm... It would mean that testing for 19th/20th digits is not enough... :-(
-> > > 
-> > > > > 
-> > > > > 	// Now if it's not \0 nor \n and
-> > > > > 	//	a) still a digit consider either overflow or bad input,
-> > > > > 	//	b) if not a digit, consider as bad input.
-> > > > > 
-> > > > > In a) I tend to be on par with the other k*() and consider that as overflow.
-> > > > > 
-> > > > > > is that the only concern? Again, the usage of _parse_integer_limit(s, 10, &_frac, scale)
-> > > > > > avoids a 64-bit division when checking the rv.
-> > > > > 
-> > > > > I'm not against usage of _parse_integer_limit(), I'm for stricter rules on the input.
-> > > > > With the above addressed, I have no more concerns.
-> > > > 
-> > > > Thanks! I will proceed with the requested adjustments.
-> > > 
-> > > But it seems it's not enough as you pointed out!
-> > > 
-> > > So the biggest fraction we may consume in 64-bit (unsigned) value is
-> > > 0.18446744073709551615. If we go with one digit less, the whole value
-> > > can be
-> > > 
-> > > In [3]: hex(9999999999999999999)
-> > > Out[3]: '0x8ac7230489e7ffff'
-> > > 
-> > > So, I don't know how we are supposed to represent values between
-> > > -0.9223372036854775808
-> > > -0.9999999999999999999
-> > > in a signed type as they have bit 63 set.
-> > > 
-> > > The easiest way out is to limit scale to 18 (but still accept 19th digit, and
-> > > with check for overflow even 20th up to 0.18446744073709551615). This will need
-> > > to run _parse_integer_limit() twice (with given scale and with 20).
-> > > 
-> > > Can you add the respective test cases and see what is currently going on with
-> > > them?
-> > 
-> > I can add test cases, but for the signed case the situation is:
-> > 
-> > scale = 0
-> > 	max = 9223372036854775807, min = -9223372036854775808
-> > scale = 1
-> > 	max = 922337203685477580.7, min = -922337203685477580.8
-> > scale = 2
-> > 	max = 92233720368547758.07, min = -92233720368547758.08
-> > ...
-> > scale = 18
-> > 	max = 9.223372036854775807, min = -9.223372036854775808
-> > scake = 19
-> > 	max = 0.9223372036854775807, min = -0.9223372036854775808
-> > 
-> > anything outside those ranges will give you -ERANGE. Then it depends on the scale used.
-> 
-> Oh, I only now realised that this is sliding window for a single 64-bit signed value!
-> I was under impression that you wanted implementation that covers 128-bit signed value
-> (with 64 + 64)...
+Some unit tests intentionally trigger warning backtraces by passing bad
+parameters to kernel API functions. Such unit tests typically check the
+return value from such calls, not the existence of the warning backtrace.
 
-So that was the initial approach with strntoull() with integer and fractional parts
-combined in iio core. At that time I realized that we ended up combining them anyways
-with:
+Such intentionally generated warning backtraces are neither desirable
+nor useful for a number of reasons:
+- They can result in overlooked real problems.
+- A warning that suddenly starts to show up in unit tests needs to be
+  investigated and has to be marked to be ignored, for example by
+  adjusting filter scripts. Such filters are ad hoc because there is
+  no real standard format for warnings. On top of that, such filter
+  scripts would require constant maintenance.
 
-	val64 = (u64)val * MICRO + val2
+One option to address the problem would be to add messages such as
+"expected warning backtraces start/end here" to the kernel log.
+However, that would again require filter scripts, might result in
+missing real problematic warning backtraces triggered while the test
+is running, and the irrelevant backtrace(s) would still clog the
+kernel log.
 
-so why not have val64 already! And all this made me realise that once leading 0s are ok,
-scale can be even bigger, e.g.
+Solve the problem by providing a means to suppress warning backtraces
+originating from the current kthread while executing test code.
+Since each KUnit test runs in its own kthread, this effectively scopes
+suppression to the test that enabled it, without requiring any
+architecture-specific code.
 
-scale = 20
-	max = 0.09223372036854775807, min = -0.09223372036854775808
-scale = 21
-	max = 0.009223372036854775807, min = -0.009223372036854775808
+Overview:
+Patch#1 Introduces the suppression infrastructure integrated into
+        KUnit's hook mechanism.
+Patch#2 Adds selftests to validate the functionality.
+Patch#3 Demonstrates real-world usage in the DRM subsystem.
+Patch#4 Documents the new API and usage guidelines.
 
-It might be a sliding window of 19 digits, but here we trade range for scale, precision
-is still fixed at 64-bit. I have a new idea to make thing simpler, actually
-it would go back to what David pointed out in the past. Let me put this together...
+Design Notes:
+Suppression is integrated into the existing KUnit hooks infrastructure,
+reusing the kunit_running static branch for zero overhead
+when no tests are running. The implementation lives entirely in the
+kunit module; only a static-inline wrapper and a function pointer
+slot are added to built-in code.
 
-> > I am not representing -0.9999999999999999999 as is. The desired scale will have this
-> > truncated. It may be -0.9999 or -0.999999 or -0.9. And this is practical for a
-> > reasonable scale value... for pico and femto precision you still get a decent range.
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+Suppression is checked at three points in the warning path:
+- In `warn_slowpath_fmt()` (kernel/panic.c), for architectures without
+  __WARN_FLAGS. The check runs before any output, fully suppressing
+  both message and backtrace.
+- In `__warn_printk()` (kernel/panic.c), for architectures that define
+  __WARN_FLAGS but not their own __WARN_printf (arm64, loongarch,
+  parisc, powerpc, riscv, sh). The check suppresses the warning message
+  text that is printed before the trap enters __report_bug().
+- In `__report_bug()` (lib/bug.c), for architectures that define
+  __WARN_FLAGS. The check runs before `__warn()` is called, suppressing
+  the backtrace and stack dump. 
 
+To avoid double-counting on architectures where both `__warn_printk()`
+and `__report_bug()` run for the same warning, the hook takes a bool
+parameter: true to increment the suppression counter, false to suppress
+without counting.
+
+The suppression state is dynamically allocated via kunit_kzalloc() and
+tied to the KUnit test lifecycle via `kunit_add_action()`, ensuring
+automatic cleanup at test exit. Writer-side access to the global
+suppression list is serialized with a spinlock; readers use RCU.
+
+Two API forms are provided:
+- kunit_warning_suppress(test) { ... }: scoped blocks with automatic
+  cleanup. The suppression handle is not accessible outside the block,
+  so warning counts (if needed) must be checked inside. Multiple
+  suppression blocks are allowed.
+- kunit_start/end_suppress_warning(test): direct functions that return
+  an explicit handle. Use when the handle needs to be retained, or passed
+  across helpers. Multiple suppression blocks are allowed.
+
+This series is based on the RFC patch and subsequent discussion at
+https://patchwork.kernel.org/project/linux-kselftest/patch/02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain/
+and offers a more comprehensive solution of the problem discussed there.
+
+Changes since RFC:
+- Introduced CONFIG_KUNIT_SUPPRESS_BACKTRACE
+- Minor cleanups and bug fixes
+- Added support for all affected architectures
+- Added support for counting suppressed warnings
+- Added unit tests using those counters
+- Added patch to suppress warning backtraces in dev_addr_lists tests
+
+Changes since v1:
+- Rebased to v6.9-rc1
+- Added Tested-by:, Acked-by:, and Reviewed-by: tags
+  [I retained those tags since there have been no functional changes]
+- Introduced KUNIT_SUPPRESS_BACKTRACE configuration option, enabled by
+  default.
+
+Changes since v2:
+- Rebased to v6.9-rc2
+- Added comments to drm warning suppression explaining why it is needed.
+- Added patch to move conditional code in arch/sh/include/asm/bug.h
+  to avoid kerneldoc warning
+- Added architecture maintainers to Cc: for architecture specific patches
+- No functional changes
+
+Changes since v3:
+- Rebased to v6.14-rc6
+- Dropped net: "kunit: Suppress lock warning noise at end of dev_addr_lists tests"
+  since 3db3b62955cd6d73afde05a17d7e8e106695c3b9
+- Added __kunit_ and KUNIT_ prefixes.
+- Tested on interessed architectures.
+
+Changes since v4:
+- Rebased to v6.15-rc7
+- Dropped all code in __report_bug()
+- Moved all checks in WARN*() macros.
+- Dropped all architecture specific code.
+- Made __kunit_is_suppressed_warning nice to noinstr functions.
+
+Changes since v5:
+- Rebased to v7.0-rc3
+- Added RCU protection for the suppressed warnings list.
+- Added static key and branching optimization.
+- Removed custom `strcmp` implementation and reworked
+  __kunit_is_suppressed_warning() entrypoint function.
+
+Changes since v6:
+- Moved suppression checks from WARN*() macros to warn_slowpath_fmt()
+  and __report_bug().
+- Replaced stack-allocated suppression struct with kunit_kzalloc() heap
+  allocation tied to the KUnit test lifecycle.
+- Changed suppression strategy from function-name matching to task-scoped:
+  all warnings on the current task are suppressed between START and END,
+  rather than only warnings originating from a specific named function.
+- Simplified macro API: removed KUNIT_DECLARE_SUPPRESSED_WARNING(),
+  the START macro now takes (test) and handles allocation internally.
+- Removed static key and branching optiomization, as by the time it
+  was executed, callers are already in warn slowpaths.
+- Link to v6: https://lore.kernel.org/r/20260317-kunit_add_support-v6-0-dd22aeb3fe5d@redhat.com
+
+Changes since v7:
+- Integrated suppression into existing KUnit hooks infrastructure
+- Removed CONFIG_KUNIT_SUPPRESS_BACKTRACE
+- Added suppression check in __warn_printk()
+- Added spinlock for writer-side RCU protection
+- Replaced explicit rcu_read_lock/unlock with guard(rcu)()
+- Added scoped API (kunit_warning_suppress) using __cleanup attribute
+- Updated DRM patch to use scoped API
+- Expanded self-tests: incremental counting, cross-kthread isolation
+- Rewrote documentation covering all three API forms with examples
+- Link to v7: https://lore.kernel.org/r/20260420-kunit_add_support-v7-0-e8bc6e0f70de@redhat.com
+
+Changes since v8:
+- Rebased to v7.1-rc2
+- Remove KUNIT_START/END_SUPPRESSED_WARNING() macros
+- Add KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT checks to drm tests
+- Link to v8: https://lore.kernel.org/r/20260504-kunit_add_support-v8-0-3e5957cdd235@redhat.com
+
+Changes since v9:
+- Fix silent false-pass when kunit_start_suppress_warning() returns NULL
+- Fix RCU lockdep splat for kunit_is_suppressed_warning() calls
+- Move disable_trace_on_warning() in __report_bug()
+- Make suppress counter atomic
+- Mark helper warn functions in selftest as noinline
+- Add kunit_skip() for CONFIG_BUG=n in selftests
+- Fix potentially uninitialized data.was_active in kthread seltest
+- Add kthread_stop() in kthread selftest early exit
+- Initialize scaling_factor to INT_MIN in DRM scaling tests
+- Add include for bool in test-bug.h to fix CONFIG_KUNIT=n case
+- Link to v9: https://lore.kernel.org/r/20260508-kunit_add_support-v9-0-99df7aa880f6@redhat.com
+
+--
+2.34.1
+
+---
+To: Brendan Higgins <brendan.higgins@linux.dev>
+To: David Gow <david@davidgow.net>
+To: Rae Moar <raemoar63@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+To: Paul Walmsley <pjw@kernel.org>
+To: Palmer Dabbelt <palmer@dabbelt.com>
+To: Albert Ou <aou@eecs.berkeley.edu>
+To: Alexandre Ghiti <alex@ghiti.fr>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Cc: kunit-dev@googlegroups.com
+Cc: linux-riscv@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: workflows@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+
+---
+Alessandro Carminati (1):
+      bug/kunit: Core support for suppressing warning backtraces
+
+Guenter Roeck (3):
+      kunit: Add backtrace suppression self-tests
+      drm: Suppress intentional warning backtraces in scaling unit tests
+      kunit: Add documentation for warning backtrace suppression API
+
+ Documentation/dev-tools/kunit/usage.rst |  46 +++++++-
+ drivers/gpu/drm/tests/drm_rect_test.c   |  32 +++++-
+ include/kunit/test-bug.h                |  26 +++++
+ include/kunit/test.h                    |  98 ++++++++++++++++
+ kernel/panic.c                          |  11 ++
+ lib/bug.c                               |  14 ++-
+ lib/kunit/Makefile                      |   4 +-
+ lib/kunit/backtrace-suppression-test.c  | 196 ++++++++++++++++++++++++++++++++
+ lib/kunit/bug.c                         | 119 +++++++++++++++++++
+ lib/kunit/hooks-impl.h                  |   2 +
+ 10 files changed, 538 insertions(+), 10 deletions(-)
+---
+base-commit: 74fe02ce122a6103f207d29fafc8b3a53de6abaf
+change-id: 20260312-kunit_add_support-2f35806b19dd
+
+Best regards,
 -- 
-Kind regards,
+Albert Esteve <aesteve@redhat.com>
 
-Rodrigo Alencar
