@@ -1,148 +1,104 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007183B1034
-	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 21:21:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778707315; cv=pass; b=R1PeZ0OQp5HD8LrjKe2q7QCKwCWJeEH73tslVKqNfuXviQ60gXdSAB+XO+g6269FN4GzFELB9TWx7/vdkcFpJWymxa7Fn00d1+UxvBdKbAovzKEkmrn6FLWuuHXc0pthRLGN30SGK+Gez1UTEMwCwrRiQG7s2eomLguqSwtDxqM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778707315; c=relaxed/simple;
-	bh=GwWTZ9wHU1c1tiJoXgTKyaUHGEkH2A3iGOiUNEu61bQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eEs3Cvh++mYox0j35KvpI+iM702iLhpZ1pjVDOtTa0ecEpjXtk7yOoXFJj6IU3FQ+NGiCdpgg3dijhPw6UHJGwQlsQzIyZ7vTN53iG2DmLvWqVVpy0GMQZv5/cxROHHV83a6GTy2e607bnAhyjY/vcOord4TFHVrqZNH2Ibb+Q8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cbudxygw; arc=pass smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC78F37F748
+	for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 22:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778711456; cv=none; b=lPHxgnf07j0Z+MU+UCEUH549PaRz81giPAT/QrHiNr5neYu7txFSC0w5dm6P/uCUbpzzV+Wz4Ho4FzEpLQkGJ3f7Mryzkl1rbQJgXWzjLqAkZU31SVXtsNsROrR0rxQt/5LYSDi1ypDYyAJWvL0vXQYUedm/8zo7Kn24dEqLKDM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778711456; c=relaxed/simple;
+	bh=BdzeFnM94A7uHGNdIfZzoHy38lcfwYKhB0qbIcZ+fXU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=knQX8GVDj7CFWXXiISaGzye+z0i4xnpEqo4wSxSZcrhSu1cooWKVBMdw7yybi9UIi/JNDIwoFcnj889Gsv3zjCAsdRGM0L7Hy6c1yDZcy62bKWMVGIMRLaabw+WNrpyArRJf+TsuUSMHOoQkB89WX/mvBrlZ48Ldb+80HJzkUSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bfe8pbjd; arc=none smtp.client-ip=74.125.82.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cbudxygw"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4891c00e7aeso61422305e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 14:21:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778707312; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FK+YAJSzx3ZaBxaQyIGjuZlcklCA6/YUzAR9wdA4w2eoNqjIAnecK9HT1TGSz+SGRg
-         dLAUK3005gdxMCkmaqmaHpzW5TZPAzZQg+scY4MLpVBSuAdMDL6UMDOhXis+BzLalhXv
-         06M+ZewQrlMUgu3r4ATvOyks+0/NWfk36R8Kmv74Fs2Yto6uyCoGlXRKQE/qp1FjOtFE
-         LuOgSVdVU6jRat4ttfAWXffWrYRPxz7mLQFJ3MDEVuHTvpIri4gP+Gi1NgIlsSynjTCW
-         etNRL+SfkBgnwXlyy1QdxKPE8/AotK4r51Gaa9f4iYJVVRQG27pM3g8AZfGclbawKMNG
-         RtLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2LiBJ0GST8n1XIAy51r++M8mb131NJHPjLOoQNAGYF8=;
-        fh=zbrFiJ/+1vAFqDUvcSOoEQUOCuaZeGCBQSr6+DY+AUY=;
-        b=GJzaQbCtZobtLAirEZ2W9OwRZbFqQbtDdd8XWj1Xroo8THugmu+Wchuu03NKmF1rwZ
-         zEZSKh8s/Cnj3Bz2U0mA/imJ7CRUTmeIFTJCQCA6gtnI+tTeQHg+Osx7i8H8U3dGgg5R
-         duzxFBJ/BVqhCr8TFMNbcWlB12upGrLvF2/UnwNw6XRA4yDOozbupWGwmUj8qdQUqH2H
-         xUWmO64nxBTG2+Vi8xeTePMbfo9y6MUmqd1G2jP3dvBuCKLT9CO6LHvjsT4fF1rmgsb8
-         2TNgfZ0rtFI1PS0G/OYnebm/cbkgYzyyyhPqNrn2ZrLbOLbhaY0a5uWPePS6ZmMlowx9
-         c35w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bfe8pbjd"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-132c338a537so3243707c88.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 15:30:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778707312; x=1779312112; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2LiBJ0GST8n1XIAy51r++M8mb131NJHPjLOoQNAGYF8=;
-        b=Cbudxygwui6or2FS4/nAAP0+l0ghpe+tRnVxJ4IrpdgxmZ4JNwZYXPloMU8k8S3zjN
-         JDm899AasKPQ+jtBm91pA7RQNSHIgsHS7yQKORH9615AzUtOhhVGIghcPaB5pW4VuM+D
-         U9v1gTW9p//UWhke1XkIqFLfqmlGbsLfONNc4wAH7JcGW2vh0oZgldE8mE89wRpu0Rbk
-         prGi3zY+Ohe8zM9wkabfHCsjWu7QSmQBg+09kgJHYXqZwsJbrvXxYGQyqw/NAZJBfGGD
-         E6Iza6JMAGwHodUTZaO0pUp1h3R8T2RvfbVWPHGNkIQXNMT6wKTocRe4pMrTF3B7+t8C
-         aJYA==
+        d=gmail.com; s=20251104; t=1778711454; x=1779316254; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=BdzeFnM94A7uHGNdIfZzoHy38lcfwYKhB0qbIcZ+fXU=;
+        b=bfe8pbjdwGpPsFP/YbR9x7OV4+uaG07u4svh8xJxDLAJUS2cxfJC15ZO17zAp8fIS+
+         RXFR3vaeB1GGA99jy8+Tx98iGZNkS5xeJx98nVyw/tvAdzJEl9DFIHj2dlqspo7k7OBj
+         Hc7MPMwmaJU6fm/ToWKUrOkykmlOQ0GCt+qPz76Nwejw+HL34wZLBSJu94AK9DT+boW3
+         HjP+w7Yq+hkPb0JVMD0oPu638TTNpNpIfmrIHVDib+t3DRVN9VD4jMQtThr8OuJegbVa
+         qd9S8or9rPFMb0sjPDdYb4R4tf+jtX7a0BVRx7PSw05tjMt88Vzld/jn3MvqFLiMamIg
+         qzYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778707312; x=1779312112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2LiBJ0GST8n1XIAy51r++M8mb131NJHPjLOoQNAGYF8=;
-        b=U0oOKmc1HDi7sNOj4bxLOfGY7XqnWEZMVdkAxhtj9BOvL7pUqUhH2x4I3jFs8eGG9g
-         ZKMNGaLU+jGX+4z/qeQeP2hFzuE6bfimNp4Z/LRgqyt7uojF/rIt4PEGNzx0+N0Q7LU/
-         vCtaZPkburmKef7goD24E2qBOJTYAx/9ftDyVWXYPTCDp/i+qEMaSr567/vZJWzTaYT7
-         6aXbB13fvDqmkrLqrZf6y9GRZFviAV34Q7vHpOUmuLAQ5nb9j9rf3W1fkHSSwD6PKBF6
-         oTahJHMKocdz3Q0De9UZunlwwrR48F+p9indSxxbxdi0xgjUs7rBgftAfzSn2e/50zPu
-         u4qQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+RCZwAVq8nPcH8+l7NYSY47PcRPEOgwBtsGCfc1Hb8DGnM3f4CWNTIDFPctYMvOqJHReKKHSk+dzI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLlb28lnxiUdsbulgmFWiYAtSUeuWDeeaE2ZrB1VhLYGb7QMZ3
-	ygd+Up82efV9kpZHJiBH2xPM6BL0owB+l9PRipGZa+gEZZMS0chuGwn0zKQJvxZBJYtLvQsIxF3
-	ayFS0njuY/vZOAG8Ek8s6bEglngeNvA/NUAp5z/w=
-X-Gm-Gg: Acq92OFRMS8IGtfQGWGRaik45HsIIx1U0dt+/bB28cxrYgxAga1YMXo8825FTzs3KYI
-	JEMc9hWo4FssFBoKegt2Y4e0IkX7HF68oifTo0nBrJ8eXU6jNrOXXUf2UX1FQ/LlpA0SocoujA9
-	8Xhl5GCaDzpNWPHqSwSPlD3hK7n+R9TBuwktAsOIKq8O5WZV4XN0Odl71G9NBgOV3dyag9bLTnn
-	O7+85eEAKhWlOkDHIcqcVmtd4GKI1J3tZ9tsHfwZqEdhjoJ0Jfq/9M+RDmMVnwZ+YTeiB/hqS8I
-	T4vl6Cjrt6DV4levkWD6Gtk8jG2feZIR3IwtoSo=
-X-Received: by 2002:a05:600c:828d:b0:489:201c:dc46 with SMTP id
- 5b1f17b1804b1-48fc9a0eda5mr74529125e9.12.1778707312397; Wed, 13 May 2026
- 14:21:52 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778711454; x=1779316254;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BdzeFnM94A7uHGNdIfZzoHy38lcfwYKhB0qbIcZ+fXU=;
+        b=Z53b2oKgj8GGyRMoAHuD4J55QVNIO0MGJ0FLKXdBj5pI67GoB2FzGGECM+VDrWRkBQ
+         u8+B+Fcj++ZObv2owZxSpYg5IzYF0FB6jNpMv3cfs+zYcjtavZzpHQYICnA5ads283z0
+         U3ZG8Vyc6MiyZSpJF1fVNXeK6EH8KmF/iMOUc/htSw2xaVOWMkY2n4KU1bJcIoIgq21v
+         3fXb+Y3EvZlFrnBz9i1Of3ciJdFT9onrSkfdvJHW5c1IZ8LaT4dexXxQ4WjIZXuj7/ct
+         iILMbCyqrrlasXMaEyoSyYeMAiQ1fKhtV6d8leP4WdkQN10jTBDIr0qyCbEUTaPtWZp7
+         ikrA==
+X-Forwarded-Encrypted: i=1; AFNElJ8Iy3rOMaG1ZLaG2MzwKSJJj7ybIyg4p7MrnhifYqTYGEym7bYAf5P+WXn5/7PNCeMsI3prbh7TUp0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLndjxZDXgra3r451guRKN+/esdZBvKLe71rx7MGfvVxFdQEe6
+	hqUyr2A2QA17DFa9a4LpPKF6sZD5RNCXOZWlsrR+G7WyPePav6ho3UGM0CrCC4Kj
+X-Gm-Gg: Acq92OHbnoUD/LZ7qA0v1t/nPZYREimPtvk8B7u8HZr+YjYKDp6QI9KsebzEITxDBhF
+	5C0NRtrhY0x9PcRvpYLHMLySnO1B0orPTPJ1+XXRoW8E2AVe3PWB18DvJGuwlFntrkG+NFV696Y
+	PveCPWyD2CgbxQ8z6dExQHdb4QqBU6g699CrmwOL30xkEenWtP9rR9YLak6ew4IQnM6rqTePSbE
+	I7Hq9OZcIcy4uef2D422WhFzr+eCVq/h97Z89aF6fDbeuv06JxQ4670xRgpaqoy30mlBA5W42b6
+	DAEWlRmjEUZHSZCFzj7AixNjdLNiUkzOh6DWlOoQSlW3hTEpz3hTvEI2d5nIHmDpiXsw0bSfCtu
+	JPXDcKZ5vmtPp0LvwBi0tyBrrI3NvQJne9MmA+VkfSHuq0gVMnzutNmqsx61c/B7k9O/i72Gonm
+	ZaaZ3dHScBr08JL58yhYcnk7NkuuDPmQYsbIXj2ZQxD3aXQEVDVPyZsxkfUauxH9m10Aj/2kkFQ
+	JL5J7U=
+X-Received: by 2002:a05:7022:608b:b0:133:52ca:7dcb with SMTP id a92af1059eb24-134c8b337e3mr793467c88.10.1778711453723;
+        Wed, 13 May 2026 15:30:53 -0700 (PDT)
+Received: from ?IPv6:2a03:83e0:115c:1:5152:641f:f5ef:6c7b? ([2620:10d:c090:500::2:8a9])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cc33a618sm1177799c88.12.2026.05.13.15.30.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2026 15:30:53 -0700 (PDT)
+Message-ID: <38185cd5ac2c6103ec5af41347c5a76239bc670e.camel@gmail.com>
+Subject: Re: [PATCH RESEND bpf-next v10 1/8] bpf: refactor __bpf_list_del to
+ take list node pointer
+From: Eduard Zingerman <eddyz87@gmail.com>
+To: Kaitao cheng <kaitao.cheng@linux.dev>, ast@kernel.org, corbet@lwn.net, 
+	martin.lau@linux.dev, daniel@iogearbox.net, andrii@kernel.org,
+ song@kernel.org, 	yonghong.song@linux.dev, john.fastabend@gmail.com,
+ kpsingh@kernel.org, 	sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org,
+ shuah@kernel.org, 	chengkaitao@kylinos.cn, skhan@linuxfoundation.org,
+ memxor@gmail.com
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, vmalik@redhat.com,
+ linux-kselftest@vger.kernel.org
+Date: Wed, 13 May 2026 15:30:50 -0700
+In-Reply-To: <20260512055919.95716-2-kaitao.cheng@linux.dev>
+References: <20260512055919.95716-1-kaitao.cheng@linux.dev>
+	 <20260512055919.95716-2-kaitao.cheng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511105149.75584-1-jiahao.kernel@gmail.com> <20260511105149.75584-4-jiahao.kernel@gmail.com>
-In-Reply-To: <20260511105149.75584-4-jiahao.kernel@gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 13 May 2026 14:21:40 -0700
-X-Gm-Features: AVHnY4LlrQC7Ry6VArRSJYRPvyqB23MBm6HpLrXk9Drx2Jq6lQCY_hsRAA8ZZgo
-Message-ID: <CAKEwX=OigngmcNo1OU-apCFG2hebt5yZwXQxZQHqgC7SwH_HAQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] mm/zswap: Add per-memcg stat for proactive writeback
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
-	shakeel.butt@linux.dev, mhocko@kernel.org, yosry@kernel.org, mkoutny@suse.com, 
-	chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev, 
-	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 11, 2026 at 3:52=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> w=
-rote:
->
-> From: Hao Jia <jiahao1@lixiang.com>
->
-> Currently, zswap writeback can be triggered by either the pool limit
-> being hit or by the proactive writeback mechanism. However, the
-> existing 'zswpwb' metric in memory.stat and /proc/vmstat counts all
-> written back pages, making it difficult to distinguish between pages
-> written back due to the pool limit and those written back proactively.
->
-> Add a new statistic 'zswpwb_proactive' to memory.stat and /proc/vmstat.
-> This counter tracks the number of pages written back due to proactive
-> writeback. This allows users to better monitor and tune the proactive
-> writeback mechanism.
->
-> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
+On Tue, 2026-05-12 at 13:59 +0800, Kaitao cheng wrote:
+> From: Kaitao Cheng <chengkaitao@kylinos.cn>
+>=20
+> Refactor __bpf_list_del to accept (head, struct list_head *n) instead of
+> (head, bool tail). The caller now passes the specific node to remove:
+> bpf_list_pop_front passes h->next, bpf_list_pop_back passes h->prev.
+>=20
+> Prepares for introducing bpf_list_del(head, node) kfunc to remove an
+> arbitrary node when the user holds ownership.
+>=20
+> Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
 > ---
->  Documentation/admin-guide/cgroup-v2.rst |  4 ++++
->  include/linux/vm_event_item.h           |  1 +
->  mm/memcontrol.c                         |  1 +
->  mm/vmstat.c                             |  1 +
->  mm/zswap.c                              | 11 +++++++++--
->  5 files changed, 16 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
-n-guide/cgroup-v2.rst
-> index 05b664b3b3e8..29a189b18efc 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1734,6 +1734,10 @@ The following nested keys are defined.
->           zswpwb
->                 Number of pages written from zswap to swap.
->
-> +         zswpwb_proactive
-> +               Number of pages written from zswap to swap by proactive
-> +               writeback. This is a subset of zswpwb.
-> +
->           zswap_incomp
->                 Number of incompressible pages currently stored in zswap
->                 without compression. These pages could not be compressed =
-to
 
-nit: once we have reached consensus on an interface, can you add
-documentation for the new knob in cgroup v2 doc and zswap doc too, and
-how it interacts with the other interface (memory.zswap.writeback,
-shrinker_enabled sysfs knob).
+Reviewed-by: Eduard Zingerman <eddyz87@gmail.com>
 
-A kselftest would be very much appreciated too :)
+[...]
