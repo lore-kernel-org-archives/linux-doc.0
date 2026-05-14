@@ -1,168 +1,65 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5B63C0A10
-	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 11:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20C53AFAFF;
+	Thu, 14 May 2026 11:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778756873; cv=none; b=P0HD7BSQzOlOaXya/IVqPVGLzn2ve5rqC0Ox7USdTwd9YqGzmN10a9dICaoUh8tes7/Cx8N+o9VTX9jqWi1v973j2T9jjwx4DZYwHQNtNyNUs6LHlz7QwLcL1/In4fk7we1kpt+9ixifYcxv8HQrLkbk2qH6s//CYYG7rC88tKA=
+	t=1778759004; cv=none; b=CltZaqrLRZlmjXV4IKaLb20MiHPIiEDbCXZAevjhUOlhA2CBMRc7LU0oaBoSZR/OUzu59M4M6Csj1ACkiz9PZtlakb7rfbmVbzHJzEgHsprRR2AzVhxXF94afiRBOfvuXejxZxPo/XsVXv2FHGPWqA5ePR+t5jlN+rUHRyU7lf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778756873; c=relaxed/simple;
-	bh=95rnVbuPoEqYoOgOEmXgRRLmt/DgdbJJ5HiCjeQHGDU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=raWt2G0sihvB4lXkPr9WNtv1isngpS0e8bfVyxFMI9gdx+WVuWGlYbboxtzp2D+uEvtF+Tquc9tCi0mJx5p2aduv9YlDkb4LKEIHZPOpjHiC1yTSdy+/lNEeFr6tNDq3MNZtT7lnzERFHhC3CpfVevV7OvJZEgFXgHn2QM3kowY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f95p6boN; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1778759004; c=relaxed/simple;
+	bh=8uvHL9zd/W4MzaGePykxvJrwfNXRylh/wVLnkJKzd7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EfNy9CgZyEFHP+gCABmVkmJtfx/+H/8f5kyLtbcOYL7QkMeh8FrMBggy6WzlFhW/gyph3pnjSIu64XmCxeSlEvmVA2vGWsR2IrFtDtbBdlsoryuz464/fzPdlGn+9U64aY4gBziGEmXNz3tCzX3ereGskoA7CXhSJpK84N7nis0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=faHWajg1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f95p6boN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778756866;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mmxOVGUrnxS/H09zubyapT22aA5Jy+w6JF95xU/Ftgg=;
-	b=f95p6boNQvMtjkUE2lnEr/IiOHV27/IsYTFJo6UlJikUHmiM/OFy4BgiQMKGX/TeJaKMYI
-	HwiL/N9YHnzLcBLm87W0R1p3EBOQ/2HbNGZOHm77ZOlfO9nZ86OsEfxWl3g7NU4YQXj4lE
-	3Pj3/F+r9/l7jlehsJHkshLMhiLv+Cg=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-240-vZArWm47OuSkAV24NUg0SA-1; Thu,
- 14 May 2026 07:07:45 -0400
-X-MC-Unique: vZArWm47OuSkAV24NUg0SA-1
-X-Mimecast-MFC-AGG-ID: vZArWm47OuSkAV24NUg0SA_1778756861
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 588591800611;
-	Thu, 14 May 2026 11:07:41 +0000 (UTC)
-Received: from [192.168.1.153] (headnet01.pony-001.prod.iad2.dc.redhat.com [10.2.32.101])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 41EBE19560A2;
-	Thu, 14 May 2026 11:07:34 +0000 (UTC)
-From: Albert Esteve <aesteve@redhat.com>
-Date: Thu, 14 May 2026 13:06:40 +0200
-Subject: [PATCH v11 4/4] kunit: Add documentation for warning backtrace
- suppression API
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="faHWajg1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2B4FC2BCB3;
+	Thu, 14 May 2026 11:43:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778759003;
+	bh=8uvHL9zd/W4MzaGePykxvJrwfNXRylh/wVLnkJKzd7E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=faHWajg1RinoZINo2zzw/9LYhaBpCAO/WjniBeVywbskviXc90WOjIgzqclFC/aI+
+	 99AeFcPs33YWa+cGZgNI3dtza9vSrNN6mMPk8F60CeYfXMXbel+24P77oWLOGHCzX3
+	 5afJRDMXWTLXEQOl2iuzExQ1HaAlj9/f87CAAAoANqoU260Tb/TBlmi/1gtLGQHAIs
+	 YGn5u5Qot9sFHOCXYBtSiQBCXyrzOt3sUi2Q4jnioPE2ztJWRkvlR+Sa2nTVtHwVA3
+	 Z7B7iwQTQr/BQYijqwo04L95gaThQ05dOGIbr0/vTEshL02soTccdt4y336+ODOgJA
+	 nUYG05ef2ywGg==
+Date: Thu, 14 May 2026 13:43:21 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Abdurrahman Hussain <abdurrahman@nexthop.ai>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: trivial-devices: Add Murata D1U74T
+ PSU
+Message-ID: <20260514-dazzling-ethereal-bumblebee-d9b69e@quoll>
+References: <20260513-d1u74t-v3-0-27bcd6852c45@nexthop.ai>
+ <20260513-d1u74t-v3-1-27bcd6852c45@nexthop.ai>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260514-kunit_add_support-v11-4-b36a530a6d8f@redhat.com>
-References: <20260514-kunit_add_support-v11-0-b36a530a6d8f@redhat.com>
-In-Reply-To: <20260514-kunit_add_support-v11-0-b36a530a6d8f@redhat.com>
-To: Arnd Bergmann <arnd@arndb.de>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
- Rae Moar <raemoar63@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Paul Walmsley <pjw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
- peterz@infradead.org, Guenter Roeck <linux@roeck-us.net>, 
- Linux Kernel Functional Testing <lkft@linaro.org>, 
- Alessandro Carminati <acarmina@redhat.com>, 
- Albert Esteve <aesteve@redhat.com>, Dan Carpenter <error27@gmail.com>, 
- Kees Cook <kees@kernel.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778756819; l=2728;
- i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
- bh=YX7AMC4Z3qCvd9o2GGoQ6LMsoUJS/dulVvDsXv5Qzg4=;
- b=UCVRctm1Cbo6eZtFp+7OFgg3RKq19as80DJZzBTZLnrct+Fr9AO008Ob+YqtH/4TgueyVolOH
- JxVmzFZHMagDclzSc852PEcOuL7d5KEuMDrtZY+XHoufMeROYCCbMYv
-X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
- pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260513-d1u74t-v3-1-27bcd6852c45@nexthop.ai>
 
-From: Guenter Roeck <linux@roeck-us.net>
+On Wed, May 13, 2026 at 03:33:02AM -0700, Abdurrahman Hussain wrote:
+> The Murata D1U74T-W is a PMBus-compliant AC/DC power supply unit. The
+> binding only declares the compatible string and i2c reg, with no
 
-Document API functions for suppressing warning backtraces.
+Describe the hardware, not binding. What does the hardware have?
+Supplies? Pins? Clocks? Interrupts?
 
-Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
-Reviewed-by: David Gow <david@davidgow.net>
-Signed-off-by: Albert Esteve <aesteve@redhat.com>
----
- Documentation/dev-tools/kunit/usage.rst | 46 ++++++++++++++++++++++++++++++++-
- 1 file changed, 45 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index ebd06f5ea4550..1c78dfff94e8a 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -157,6 +157,50 @@ Alternatively, one can take full control over the error message by using
- 	if (some_setup_function())
- 		KUNIT_FAIL(test, "Failed to setup thing for testing");
- 
-+Suppressing warning backtraces
-+------------------------------
-+
-+Some unit tests trigger warning backtraces either intentionally or as a side
-+effect. Such backtraces are normally undesirable since they distract from
-+the actual test and may result in the impression that there is a problem.
-+
-+Backtraces can be suppressed with **task-scoped suppression**: while
-+suppression is active on the current task, the backtrace and stack dump from
-+``WARN*()``, ``WARN_ON*()``, and related macros on that task are suppressed.
-+Two API forms are available.
-+
-+- Scoped suppression is the simplest form. Wrap the code that triggers
-+  warnings in a ``kunit_warning_suppress()`` block:
-+
-+.. code-block:: c
-+
-+	static void some_test(struct kunit *test)
-+	{
-+		kunit_warning_suppress(test) {
-+			trigger_backtrace();
-+			KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
-+		}
-+	}
-+
-+.. note::
-+   The warning count must be checked inside the block; the suppression handle
-+   is not accessible after the block exits.
-+
-+- Direct functions return an explicit handle pointer. Use them when the handle
-+  needs to be retained or passed across helper functions:
-+
-+.. code-block:: c
-+
-+	static void some_test(struct kunit *test)
-+	{
-+		struct kunit_suppressed_warning *w;
-+
-+		w = kunit_start_suppress_warning(test);
-+		trigger_backtrace();
-+		kunit_end_suppress_warning(test, w);
-+
-+		KUNIT_EXPECT_EQ(test, kunit_suppressed_warning_count(w), 1);
-+	}
- 
- Test Suites
- ~~~~~~~~~~~
-@@ -1211,4 +1255,4 @@ For example:
- 		dev_managed_string = devm_kstrdup(fake_device, "Hello, World!");
- 
- 		// Everything is cleaned up automatically when the test ends.
--	}
-\ No newline at end of file
-+	}
+> additional properties (no regulators, no supplies), so add it to
+> trivial-devices.yaml rather than carrying a standalone binding file.
 
--- 
-2.53.0
+Best regards,
+Krzysztof
 
