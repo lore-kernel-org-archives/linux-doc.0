@@ -1,94 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8442A423148;
-	Thu, 14 May 2026 14:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9283C3A961B
+	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 14:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778767769; cv=none; b=CpaO3LaBa5JAodGvZaJ8JvZqM0cSIhqVeRIzMqsBNzJucTCAQjrfrly3Cqs+dL9dXLK5aBgZWBLJ2hl2KXvM/G1++rBNDXfTfUvSiBDa8a/27cNupSVM3JW5BAhK9lVGLymnBQiwlF74T66i7pONfCWyVbe7cG13sRp0bqLoDVo=
+	t=1778769320; cv=none; b=P4D1BQ5z3ZSNDwLM3tlx0TNtLoSd16J1eXqTpTrLph1385CoftiWY5KjSS10/1kSIMnddlB8Lx8aMVaCBXOhrqtTNfiTwYnFHc6IDQbGLKrT6nJIcCQHAL+aAFAiUvye0c5OWOMBPR0GDPhzeapIn+Ntm060TZLH0j12dM8Nk6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778767769; c=relaxed/simple;
-	bh=QiZyClLpM+jtGeAv4uUzZ2zYrmnjLH6QxsmmjjG7o5M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VrM6ZTW05Hl6cn8xmBKMpbkkI9qZA3c3q4GZDmBjnaJ0KSeFHjM7lrsZonr5gj8HKBU8U67UrQxVFWSODqkqk/iEJBFS/S+M4Y56RfZtWfTBtqd11hoO5UbXY3ZiiUjGCLn+7aUWggA/mDGQQtnzS05ouxLTlS7wC3BZG0mQ3yU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sDBNJdUJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778769320; c=relaxed/simple;
+	bh=XFku5yzYOiAWkNshlk1RONi26wOOTtlVdHy89dww+pw=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tKgWRetFHA+N4HTZgcmvU5UspQHab+CrOh3o6ZOdQizeVbpp82gOc2rdTI7JATOTJ/zkIIB25K0h01Dx8f2zuT7AlBamVudF0go95IJT2hDxDZ+4Iq7j3B0MflI/otqemfpjeWrc9+xnH/xxPJI0ThQauoH5ZdLFM26mNCb5zgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EbCH9f7V; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sDBNJdUJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A461BC2BCC7;
-	Thu, 14 May 2026 14:09:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778767769;
-	bh=QiZyClLpM+jtGeAv4uUzZ2zYrmnjLH6QxsmmjjG7o5M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sDBNJdUJQvuDbJbFCDy15+8/UKoJbIsU7vPDhbY3Fan+17yfUQNE3SkOIxk38e9J1
-	 0kxRuOXNwUuyXoHJFmVxzw/zDQXVT1d3oESt1vgWRRIpyn9Y3/3byNxcIDwyKM2x+b
-	 hgHAtDk6fY6uJceFx0Bob5PC9ltFeYH6wyXMff+dX0OyuNC4Igq8IvtyNcE827V+n2
-	 dvPi9uGHpKfW48z49oaOdccZ3kgtMCbod7LsEfpJ4UKHJK2pkR+YDzRzZ2GApTV/Xp
-	 ZWsyvWKBkpOTarFi6qF3TEyvJp0KS6qo2hACH4t59BqpBo4WYQo2Fw0pMs294Fj2hF
-	 W4Gr2ZuuJzAPw==
-From: SeongJae Park <sj@kernel.org>
-To: 
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH v2.1 28/28] Docs/admin-guide/mm/damon/usage: update for memcg damon filter
-Date: Thu, 14 May 2026 07:09:01 -0700
-Message-ID: <20260514140904.119781-29-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260514140904.119781-1-sj@kernel.org>
-References: <20260514140904.119781-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EbCH9f7V"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-453903ee4adso6943476f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 07:35:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778769318; x=1779374118; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s/Z4/+H7H1VVZuahgNCo5Gog19+W4f6AXOwm3rTI+q0=;
+        b=EbCH9f7VXhl4iMUnJhrh4wHgMJ3qIumD8DgKlFca+XaCTqZNQeGFu78onpDkbWxcmd
+         L/JYhdp0EhYSLqPhlraBZfLrUjTAhJ+P6OeE2esjOh/Vgwie4XH/Fr6F8DabbH6c+dHZ
+         4tn7qbXi3LTQg60/BphAJRfJ13uAB3jkc47uKEtEvCGZUlH8q/X+AylcW8uUihIExvb7
+         0+FeFiBnVHjWrstRvshoCqSJQCTQJ/F80wMejS/GBvTWY5Oi3jcNRiqjNy8E1ukSpFgf
+         PIxpCRlFHwqf9RLpVPh/OPZyIxJzLTtcG/P0htmJJEFtX3HvFRL1U0lRTGG6HEj3QP3B
+         97cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778769318; x=1779374118;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s/Z4/+H7H1VVZuahgNCo5Gog19+W4f6AXOwm3rTI+q0=;
+        b=ZZkIp5llrgokeFN2wsp0ZNgT3+58kcDTilC7pyD3rF17QOeJDPw/yzL8mk8t1SB+r6
+         sLpCPkjzeUVQS4t4sLRkmu4z5YgWg37upyruATijDdyIBp3dqyo/WzW3oVXtg5t9maEg
+         bMTkQ3ACDalZomDchWuPUywKHTLpksAHgp/BH7HeajZA+cxsxmso0LoK3LDa+THrZ4yR
+         AOfSpWySrY+Yvl3ecGLoHMjBCR7BZTqe2RE0Xz5L/mi7BkquKSX8RDiPXmhXwR9wGkeE
+         4h4obMEhx/onWcl+67DuI6LuFbLgb7rdSAQ7FUObEiQVestv4y4ckC2/DCN7R1vxYqi7
+         Efdw==
+X-Forwarded-Encrypted: i=1; AFNElJ82CsymE57xXEdXdj9r2GWI4+wkyhwhQlDceDKrzmi/zJJF3QFLcLl2ZmEiFkdxpvjh9y2ZsEO4TBc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbRPY76BkpOvh9ikfVnr+DznBXTv0Ks1OLTc2Dybd4J7wA3zud
+	r7MOuLKtLxb/MZnmwTj5ekSSHt3UtftgwSRKsoBKhAhhdPSq/Jy9ZzIk
+X-Gm-Gg: Acq92OEGZ9X0t9AhwvKeNlUo0BQvNPEgod8oBx5pK8yzxdOiYoiyM7KTO7vqHj127Iq
+	VDwVmDX6zVc6WwanFKUoXx6kdCk390D0LuT65xRzNZri+fV7ys90fZt6o9sJ9TyoTjAzDModKsC
+	VA8pDAL4NQl/vJr60MNigab/V5IbhtYapoYgsT+3BgrIi9Zt75tEjaaAE0I00BI/g/R4yJ+CBk7
+	Mg5zQ3OkL75SSB6xUwAgbvX5BJ+VzFdT6KMsCRSRfqe2g1o7c0SKjyehDXJv+xU+jHlRv9k3lbC
+	jx5X6V4+yQp2/mj4sb+IbynsSyO+MszZ5+rdsIjueffkgPAuqkpuK3MB85nTfrQ7IUL1ktHx3AE
+	cVKq+RsU+QrjpdVsQ2/zhFxzldDBFR3JlzRtwbhhuA1GP5YZTnGEd+Ik92k6ZMQzQO1QpONI9I7
+	Ju7RaFgURPDZRovP53I4q3kvTHpasqmdYqHL1H
+X-Received: by 2002:a05:600c:46d2:b0:48f:c903:955f with SMTP id 5b1f17b1804b1-48fc9a4c78dmr120777745e9.23.1778769317918;
+        Thu, 14 May 2026 07:35:17 -0700 (PDT)
+Received: from krava ([2a02:8308:a00c:e200:b655:ff13:e355:16a3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe46d8daesm1231655e9.9.2026.05.14.07.35.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 07:35:17 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Thu, 14 May 2026 16:35:15 +0200
+To: Sasha Levin <sashal@kernel.org>
+Cc: Michal Hocko <mhocko@suse.com>, Breno Leitao <leitao@debian.org>,
+	Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	gregkh@linuxfoundation.org, akinobu.mita@gmail.com,
+	live-patching@vger.kernel.org
+Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
+ primitive
+Message-ID: <agXdowd63K8j43xi@krava>
+References: <agHUp8ulaWJ75WU5@tiehlicka>
+ <agHcFCRVSn5ra5Kc@laps>
+ <agHeZPA3eHhJHIsQ@tiehlicka>
+ <agHgDgwu8H9Opzpl@laps>
+ <agHm9Vj7bPPCRS1g@tiehlicka>
+ <agH7_QBPLWKTZucB@laps>
+ <agH_bGUTvWm2h5g4@tiehlicka>
+ <agIHsN9tiIHnVTeV@laps>
+ <agINlnNN4ubZgyiN@tiehlicka>
+ <agIbaeBQAr-RkqYc@laps>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <agIbaeBQAr-RkqYc@laps>
 
-Update DAMON usage document for the newly added belonging memory cgroup
-attribute monitoring feature.
+On Mon, May 11, 2026 at 02:09:45PM -0400, Sasha Levin wrote:
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+SNIP
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 465bcdf89b182..84741b4cd1877 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -74,7 +74,7 @@ comma (",").
-     │ │ │ │ │ │ nr_regions/min,max
-     │ │ │ │ │ │ :ref:`probes <damon_usage_sysfs_probes>`/nr_probes
-     │ │ │ │ │ │ │ 0/filters/nr_filters
--    │ │ │ │ │ │ │ │ │ 0/type,matching,allow
-+    │ │ │ │ │ │ │ │ │ 0/type,matching,allow,path
-     │ │ │ │ │ │ │ │ │ ...
-     │ │ │ │ │ │ │ │ ...
-     │ │ │ │ │ :ref:`targets <sysfs_targets>`/nr_targets
-@@ -289,7 +289,9 @@ the data attribute for the probe.
- In the beginning, ``filters`` directory has only one file, ``nr_filters``.
- Writing a number (``N``) to the file creates the number of child directories
- named ``0`` to ``N-1``.  Each directory represents each filter and work in a
--way similar to that for :ref:`DAMOS filter <sysfs_filters>`.
-+way similar to that for :ref:`DAMOS filter <sysfs_filters>`.  When the filter
-+``type`` is ``memcg``, ``path`` file works the role of ``memcg_path`` for
-+:ref:`DAMOS filter <sysfs_filters>`.
- 
- .. _sysfs_targets:
- 
--- 
-2.47.3
+> > > Even if I'm okay with rebooting that often (and I really really would prefer
+> > > not to), this doesn't solve the issues of a larger fleet of servers that can't
+> > > just reboot that often.
+> > > 
+> > > What am I missing?
+> > 
+> > For one, you are missing more maintainers of code modification infrastructures.
+> 
+> Happy to add more, but I don't want to be too spammy. I'll add in the
+> livepatching ML and the fault injection maintainer (I couldn't find a list).
+> Please add any other folks/lists who you think might want to contribute to this
+> discussion.
+
+hi,
+could you please add bpf (bpf@vger.kernel.org) to the loop?
+
+thanks,
+jirka
