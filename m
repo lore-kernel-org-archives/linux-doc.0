@@ -1,33 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from relay1-l.mailbaby.net (relay1-l.mailbaby.net [206.72.200.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F689379C32;
-	Thu, 14 May 2026 09:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778749296; cv=none; b=NtOq++rmNtj/SqQ3D/nhoVPBm+B/Sn5bH4QWzBKBfyHgkITvXBGGdUFy6KqlOxJbWC9Azbryq7f59fvFRLFgoBd4uWkiT1KX85Qd5qXOcofD4A/9c0GS/8IsEaFZm77Xxz6wpGTshKzS/NA9dynj1wqGqVg0srIORTHNGliPgZI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778749296; c=relaxed/simple;
-	bh=9qrd7DZRswnShjHayhkqvrhofgKn4ZIB2zVBnchimsI=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702E73793BF
+	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 09:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=206.72.200.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778749348; cv=pass; b=h6ESQC3MhCFNG/UybwMNeNiKtBoYcXHO0a8VLhD0heww8EJk2vXX+6mJi5grofCF2vXDzAV7bC12TGPU00bs9uTczcymV64QlOVKK3gcjcL19LZUkxKR0ZuP1Gqj1OWsj8rbynCm3E6N8w66FkzP7QbIkn41VhfXcMXy0vlfvTs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778749348; c=relaxed/simple;
+	bh=OM331luqtzgzD0Pa/1i7KFTOJiaVKtWAYKURZzb4dds=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BE0IZb4I/eVeR2YrpGvZvLsRhcA4OVz1/3s635hbvGVocxNfa6jZezXRXhNq/KAwOHgy+HFTCIBhwMqlwGXCXv0p4UcC6eqBffz7nWQTYtrVi9CdPjpbuzWLXGc/HhPE8inFYF6QJ3qL0GRPjIPnerNze6Afzx3YWm9yujJDvJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G2BkCcFN; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=FcwqL08MgcUP8iblukRRUVfE58Lpctjcg++yaTMUUPliTgbo6AWNXXTk1TJzsKEaw+Cmgv3Yg9nijfRs7foe4ZWMFqmwCwKvvgHhLgAXJ1xLVTKwblT4ZAHq1rGVOT7JAz4/PriweUGZ/DO1qHF2jv9OyyUQp3YX/pxtk1gZTfI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b=e5Duhywj; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=OzyV6/GH; arc=pass smtp.client-ip=206.72.200.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aosc.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G2BkCcFN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B715C2BCC6;
-	Thu, 14 May 2026 09:01:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778749295;
-	bh=9qrd7DZRswnShjHayhkqvrhofgKn4ZIB2zVBnchimsI=;
+	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b="e5Duhywj";
+	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="OzyV6/GH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
+ q=dns/txt; s=bambino; bh=InLGDIT8AG1PYX/0ChWYqK4BET1HU2I+aXVqffTU8pA=;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:content-transfer-encoding:in-reply-to:references:feedback-id;
+ b=e5Duhywjy3a1GDinyg3Va1YqJdD+8ZGpsJGV7gqSi7jgkS1fF1tSILC5QlNtJVl3azaLndC9E
+ uef9iP/WdYZGDRRXBMkux+E4KMzybhOm7SNa5zuImh0K/V2rTRc+mt487+URGQQtPb48+fRf5pM
+ JW40C5QIEaNqNUZ3qe/auM8=
+Received: from mb-nj-kvm1.internal (mb-nj-kvm1.internal [10.10.2.10])
+ (Authenticated sender: mb86144)
+ by relay1-l.mailbaby.net (MailBabyMTA) with ESMTPSA id 19e25b4070a000e4a6.001
+ for <linux-doc@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Thu, 14 May 2026 08:56:55 +0000
+X-Zone-Loop: fa1844efbf7f81ef2c8dc4dcb1708f0253c800150d68
+ARC-Authentication-Results: i=1;	rspamd6.mailbaby.net;	auth=pass
+ smtp.auth=mb86144 smtp.mailfrom=wangyuli@aosc.io
+ARC-Seal: i=1; a=rsa-sha256; d=mailbaby.net; s=detka; cv=none;
+ t=1778749016;
+	b=K6hJpeIzwTNl9HOotvuNW05qsTsA9uoF3LRu9/xcywVhcVkJWJiMQ0cJw958lojdi8W3JU
+	fDImRIUIqWlvCYC8KAkbOuCXnDA6PkmDJH2r/ywpGwmN2hdsGEi4D08r6wAvLktrEZol6J
+	tvM7ZUeX19ZoK+ZTZnnh03zLSXvtVlR061wDdK/BXrlOnJpC51ydUqUjXh6e5XSHDiKwkr
+	gtGlTQRFnDd4DhxsGL7Cph9Iw+waKs9v0glL4U3e1fLISJYQnvAV2gLSlMKc73I1TIJuS5
+	AKgn17NRadFzy8ZkVm/AYnvjsucXHAHRq921v0BQbKTz/h0MiGKGgEAeoVDjGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailbaby.net;	s=detka; t=1778749016;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=InLGDIT8AG1PYX/0ChWYqK4BET1HU2I+aXVqffTU8pA=;
+	b=l8DU+yiwf2EkFC2Qi2rfEP86qXGRawACJg7zVSkgxdtYz89n8li0xxpbvJPzuTWI8ipiz9
+	wK2VBliPximvDRvHVi9A/dcVfbZydNdLEJkrUY9E1aQXU6DCmrhhoBxrqxeIVhwzWxQeZ9
+	3jPZFDaL2vSDaUl/o9QN+jCy3njp9pXQcXLL4GduWRvntFONgPzrV03+cB9Db3LSOx/n/k
+	OJ9tcpg2GRjX8hU7WESv7sXy2ewGGsC0h3gMwmSY/maCOAmTChGOVhmUvUyJq6iuENZwUv
+	2JC5Eu/Vm+Jiy2ZBaDvHsPmM6GQFhhu3da+J56rdjwnT5LvOVEC4ruLzHSPwqg==
+X-MB-ID: mb86144
+X-SPF: pass
+Feedback-ID: mb86144:19e25b:587f4d465843594778405947455d:mbaby
+X-MAILBABY-ORIGIN: PASS
+Received: from relay2.mymailcheap.com (relay2.mymailcheap.com [217.182.113.132])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id 0BF90207A2;
+	Thu, 14 May 2026 08:56:46 +0000 (UTC)
+Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
+	by relay2.mymailcheap.com (Postfix) with ESMTPS id 901183EB97;
+	Thu, 14 May 2026 08:56:37 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 51632400D5;
+	Thu, 14 May 2026 08:56:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1778748997; bh=OM331luqtzgzD0Pa/1i7KFTOJiaVKtWAYKURZzb4dds=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=G2BkCcFNIRRps5PTJarrPld2ITBu3MEnYEXg11mhnE12D+VJRwwayBQfS5aUku6Jb
-	 GXY+k0+bMYEQte2Ba2sZBCfpZ2pE29oY3Sw4HJsnFUxwH7lke/wvijUh3uCpXurIuK
-	 DlnckljG5ZQxBM+omlZP1Vjg7PIs641+rCM4lh8uuv0PKiiJ3ktkbxJZPoKcTdoKFy
-	 2XJfB1OFdJl9GaXOCKD6hBOWKZlrz490Wtmw9lnKJmbQ2Nn+4aDO2Uh8XBNd/n6D40
-	 l+2nIpCyOVcnw6ERQlbyTVQxJWZ7gtGqzcNekaxoeepcMWR2F6R0Wc++MSOvjaq3xU
-	 MiY/qECmkhCFA==
-Message-ID: <560a84ed-7daf-4a78-a314-b867c73bce22@kernel.org>
-Date: Thu, 14 May 2026 11:01:26 +0200
+	b=OzyV6/GH4HZdjIxOtXKvg6XyP3ftPRpjtoCEPUhHPRt3R1r8OkxtQTyTTLrqeKTn/
+	 16vodbbgb9uLE3Q1bO+/Gql77TTl0lehKCnguI5/aEDCAKoICvXu02tr0lewfsckKK
+	 MhdLVlJ3WN37nIGtkunY+pdC1v0lqgL6Swr3RKkc=
+Received: from [10.148.84.248] (unknown [223.160.130.158])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 03226410A6;
+	Thu, 14 May 2026 08:56:33 +0000 (UTC)
+Message-ID: <e2cced37-58ea-4678-a586-97f9a6db7e9d@aosc.io>
+Date: Thu, 14 May 2026 16:56:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,176 +85,156 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] slab: support for compiler-assisted type-based
- slab cache partitioning
+Subject: Re: [PATCH v4] docs: reporting-issues: replace "these advices" with
+ "all of this advice"
+To: Chen-Shi-Hong <eric039eric@gmail.com>, linux@leemhuis.info
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260514082808.655-1-eric039eric@gmail.com>
 Content-Language: en-US
-To: Marco Elver <elver@google.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Bill Wendling <morbo@google.com>,
- David Hildenbrand <david@kernel.org>, David Rientjes <rientjes@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
- Justin Stitt <justinstitt@google.com>, KP Singh <kpsingh@kernel.org>,
- Kees Cook <kees@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Matteo Rizzo <matteorizzo@google.com>, Michal Hocko <mhocko@suse.com>,
- Mike Rapoport <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Suren Baghdasaryan <surenb@google.com>, linux-hardening@vger.kernel.org,
- Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
- Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
- "Liam R. Howlett" <liam@infradead.org>,
- Alexander Potapenko <glider@google.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, kasan-dev@googlegroups.com, llvm@lists.linux.dev,
- GONG Ruiqi <gongruiqi1@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20260511200136.3201646-1-elver@google.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <20260511200136.3201646-1-elver@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: WangYuli <wangyuli@aosc.io>
+In-Reply-To: <20260514082808.655-1-eric039eric@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.30 / 10.00];
+	R_SPF_ALLOW(-0.10)[+mx];
+	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.10)[aosc.io:s=default];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_ONE(0.00)[1];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[aosc.io,quarantine];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,leemhuis.info];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	LOCAL_OUTBOUND(0.00)[];
+	DKIM_TRACE(0.00)[aosc.io:+]
+X-Rspamd-Queue-Id: 51632400D5
+X-Rspamd-Server: nf1.mymailcheap.com
+X-Rspamd-Action: no action
 
-On 5/11/26 22:00, Marco Elver wrote:
-> Rework the general infrastructure around RANDOM_KMALLOC_CACHES into more
-> flexible KMALLOC_PARTITION_CACHES, with the former being a partitioning
-> mode of the latter.
-> 
-> Introduce a new mode, KMALLOC_PARTITION_TYPED, which leverages a feature
-> available in Clang 22 and later, called "allocation tokens" via
-> __builtin_infer_alloc_token() [1]. Unlike KMALLOC_PARTITION_RANDOM
-> (formerly RANDOM_KMALLOC_CACHES), this mode deterministically assigns a
-> slab cache to an allocation of type T, regardless of allocation site.
-> 
-> The builtin __builtin_infer_alloc_token(<malloc-args>, ...) instructs
-> the compiler to infer an allocation type from arguments commonly passed
-> to memory-allocating functions and returns a type-derived token ID. The
-> implementation passes kmalloc-args to the builtin: the compiler performs
-> best-effort type inference, and then recognizes common patterns such as
-> `kmalloc(sizeof(T), ...)`, `kmalloc(sizeof(T) * n, ...)`, but also
-> `(T *)kmalloc(...)`. Where the compiler fails to infer a type the
-> fallback token (default: 0) is chosen.
-> 
-> Note: kmalloc_obj(..) APIs fix the pattern how size and result type are
-> expressed, and therefore ensures there's not much drift in which
-> patterns the compiler needs to recognize. Specifically, kmalloc_obj()
-> and friends expand to `(TYPE *)KMALLOC(__obj_size, GFP)`, which the
-> compiler recognizes via the cast to TYPE*.
-> 
-> Clang's default token ID calculation is described as [1]:
-> 
->    typehashpointersplit: This mode assigns a token ID based on the hash
->    of the allocated type's name, where the top half ID-space is reserved
->    for types that contain pointers and the bottom half for types that do
->    not contain pointers.
-> 
-> Separating pointer-containing objects from pointerless objects and data
-> allocations can help mitigate certain classes of memory corruption
-> exploits [2]: attackers who gains a buffer overflow on a primitive
-> buffer cannot use it to directly corrupt pointers or other critical
-> metadata in an object residing in a different, isolated heap region.
-> 
-> It is important to note that heap isolation strategies offer a
-> best-effort approach, and do not provide a 100% security guarantee,
-> albeit achievable at relatively low performance cost. Note that this
-> also does not prevent cross-cache attacks: while waiting for future
-> features like SLAB_VIRTUAL [3] to provide physical page isolation, this
-> feature should be deployed alongside SHUFFLE_PAGE_ALLOCATOR and
-> init_on_free=1 to mitigate cross-cache attacks and page-reuse attacks as
-> much as possible today.
-> 
-> With all that, my kernel (x86 defconfig) shows me a histogram of slab
-> cache object distribution per /proc/slabinfo (after boot):
-> 
->   <slab cache>      <objs> <hist>
->   kmalloc-part-15    1465  ++++++++++++++
->   kmalloc-part-14    2988  +++++++++++++++++++++++++++++
->   kmalloc-part-13    1656  ++++++++++++++++
->   kmalloc-part-12    1045  ++++++++++
->   kmalloc-part-11    1697  ++++++++++++++++
->   kmalloc-part-10    1489  ++++++++++++++
->   kmalloc-part-09     965  +++++++++
->   kmalloc-part-08     710  +++++++
->   kmalloc-part-07     100  +
->   kmalloc-part-06     217  ++
->   kmalloc-part-05     105  +
->   kmalloc-part-04    4047  ++++++++++++++++++++++++++++++++++++++++
->   kmalloc-part-03     183  +
->   kmalloc-part-02     283  ++
->   kmalloc-part-01     316  +++
->   kmalloc            1422  ++++++++++++++
-> 
-> The above /proc/slabinfo snapshot shows me there are 6673 allocated
-> objects (slabs 00 - 07) that the compiler claims contain no pointers or
-> it was unable to infer the type of, and 12015 objects that contain
-> pointers (slabs 08 - 15). On a whole, this looks relatively sane.
-> 
-> Additionally, when I compile my kernel with -Rpass=alloc-token, which
-> provides diagnostics where (after dead-code elimination) type inference
-> failed, I see 186 allocation sites where the compiler failed to identify
-> a type (down from 966 when I sent the RFC [4]). Some initial review
-> confirms these are mostly variable sized buffers, but also include
-> structs with trailing flexible length arrays.
-> 
-> Link: https://clang.llvm.org/docs/AllocToken.html [1]
-> Link: https://blog.dfsec.com/ios/2025/05/30/blasting-past-ios-18/ [2]
-> Link: https://lwn.net/Articles/944647/ [3]
-> Link: https://lore.kernel.org/all/20250825154505.1558444-1-elver@google.com/ [4]
-> Link: https://discourse.llvm.org/t/rfc-a-framework-for-allocator-partitioning-hints/87434
-> Acked-by: GONG Ruiqi <gongruiqi1@huawei.com>
-> Co-developed-by: Harry Yoo (Oracle) <harry@kernel.org>
-> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
-> Signed-off-by: Marco Elver <elver@google.com>
+Hi Chen-Shi-Hong,
 
-Applied [1] to slab/for-next, thanks. That means including the kernel-doc
-workarounds in patch 3. I know Jon said someone might hate it, but maybe it
-will motivate them for creating a proper fix :) It seems better than leaving
-doc generation broken or not applying this series at all.
+On 2026/5/14 16:27, Chen-Shi-Hong wrote:
+> "Advice" is an uncountable noun, so "these advices" is grammatically
+> incorrect.
+>
+> Replace it with "all of this advice" instead, which keeps the sentence
+> grammatical while also making it clear that it refers to the full set of
+> recommendations in the paragraph.
+>
+> Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
+> ---
+> v4:
+> - move version changelog below the "---"
+> - send as a separate thread
+>
+> v3:
+> - resend against the original base as requested
+> - replace "these advices" directly with "all of this advice"
+>
+> v2:
+> - use "all of this advice" based on review feedback
+>   Documentation/admin-guide/reporting-issues.rst | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+> index 16a66a1f1975..87dd874fffcf 100644
+> --- a/Documentation/admin-guide/reporting-issues.rst
+> +++ b/Documentation/admin-guide/reporting-issues.rst
+> @@ -129,7 +129,7 @@ After these preparations you'll now enter the main part:
+>      situations; during the merge window that actually might be even the best
+>      approach, but in that development phase it can be an even better idea to
+>      suspend your efforts for a few days anyway. Whatever version you choose,
+> -   ideally use a 'vanilla' build. Ignoring these advices will dramatically
+> +   ideally use a 'vanilla' build. Ignoring all of this advice will dramatically
+>      increase the risk your report will be rejected or ignored.
+>   
+>    * Ensure the kernel you just installed does not 'taint' itself when
+> @@ -795,7 +795,7 @@ Install a fresh kernel for testing
+>       situations; during the merge window that actually might be even the best
+>       approach, but in that development phase it can be an even better idea to
+>       suspend your efforts for a few days anyway. Whatever version you choose,
+> -    ideally use a 'vanilla' built. Ignoring these advices will dramatically
+> +    ideally use a 'vanilla' built. Ignoring all of this advice will dramatically
+>       increase the risk your report will be rejected or ignored.*
+>   
+>   As mentioned in the detailed explanation for the first step already: Like most
 
-https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git/log/?h=slab/for-7.2/alloc_token
+Reviewed-by: WangYuli <wangyl5933@chinaunicom.cn>
 
-I did the following fixup to remove passing an unnecessary NULL argument for
-__kmalloc_nolock() with buckets enabled. Made bloat-o-meter happier a bit.
+I searched the kernel tree for the misspelling "advices" (the word
+"advice" is uncountable) and found the following occurrences:
 
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index c232f8a10af6..795455256329 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -894,7 +894,7 @@ unsigned int kmem_cache_sheaf_size(struct slab_sheaf *sheaf);
-  * with the exception of kunit tests
-  */
- 
--void *__kmalloc_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags)
-+void *__kmalloc_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t flags)
- 				__assume_kmalloc_alignment __alloc_size(1);
- 
- void *__kmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags, int node)
-@@ -981,7 +981,7 @@ static __always_inline __alloc_size(1) void *_kmalloc_noprof(size_t size, gfp_t
- 				kmalloc_caches[kmalloc_type(flags, token)][index],
- 				flags, size);
- 	}
--	return __kmalloc_noprof(PASS_KMALLOC_PARAMS(size, NULL, token), flags);
-+	return __kmalloc_noprof(PASS_TOKEN_PARAMS(size, token), flags);
- }
- #define kmalloc_noprof(...)			_kmalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
- #define kmalloc(...)				alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-diff --git a/mm/slub.c b/mm/slub.c
-index a6e9015601d6..74652bbdd591 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -5303,10 +5303,10 @@ void *__kmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags, in
- }
- EXPORT_SYMBOL(__kmalloc_node_noprof);
- 
--void *__kmalloc_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags)
-+void *__kmalloc_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t flags)
- {
--	return __do_kmalloc_node(size, PASS_BUCKET_PARAM(b), flags,
--				 NUMA_NO_NODE, _RET_IP_, PASS_TOKEN_PARAM(token));
-+	return __do_kmalloc_node(size, NULL, flags,  NUMA_NO_NODE, _RET_IP_,
-+				 PASS_TOKEN_PARAM(token));
- }
- EXPORT_SYMBOL(__kmalloc_noprof);
- 
+"
+
+   >rg-i "advices"
+
+tools/perf/trace/beauty/mmap.c
+   68:       static DEFINE_STRARRAY(madvise_advices, "MADV_");
+   70:       if (behavior < strarray__madvise_advices.nr_entries && 
+strarray__madvise_advices.entries[behavior] != NULL)
+   71:               return scnprintf(bf, size, "MADV_%s", 
+strarray__madvise_advices.entries[behavior]);
+
+tools/perf/trace/beauty/madvise_behavior.sh
+   6:printf "static const char *madvise_advices[] = {\n"
+
+tools/perf/trace/beauty/fadvise.sh
+   6:printf "static const char *fadvise_advices[] = {\n"
+
+tools/include/uapi/README
+   26:  static const char *fadvise_advices[] = {
+
+tools/testing/selftests/mm/process_madv.c
+   125: * on a remote process, other advicesare difficult to verify 
+reliably.
+
+tools/testing/selftests/mm/pfnmap.c
+   175:int advices[] = {
+   187:/* All these advicesmust be rejected. */
+   188:for (i = 0; i < ARRAY_SIZE(advices); i++) {
+   189:EXPECT_LT(madvise(self->addr1, self->pagesize, advices[i]), 0);
+
+drivers/ata/pata_sis.c
+   13: * Daniela Engert: for initial ATA100 advicesand numerous others.
+
+drivers/md/dm-vdo/message-stats.c
+   234:write_u64("dedupeAdviceStale : ", stats->dedupe_advice_stale, ", 
+", buf, maxlen);
+
+Documentation/admin-guide/reporting-issues.rst
+   132:   ideally use a 'vanilla' build. Ignoring these adviceswill 
+dramatically
+   798:    ideally use a 'vanilla' built. Ignoring these adviceswill 
+dramatically
+
+Documentation/usb/CREDITS
+   118:  evaluation boards, specs and valuable advicesduring
+
+Documentation/scsi/ChangeLog.sym53c8xx
+   415:  my questions and for his interesting advicesand comments about
+"
+
+If you intend to fix this misspelling, please consider sending a
+single patchset that corrects all of these instances across the tree
+and adds "advices" to scripts/spelling.txt.
+
+That waycheckpatch.pl <https://checkpatch.pl/> can catch it in the future.
+
+Thanks,
+
+---
+
+WangYuli
+
+
+
 
