@@ -1,290 +1,157 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22FF3947AE
-	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 17:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA09391E64;
+	Thu, 14 May 2026 17:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778780117; cv=none; b=hOG4MUJMlncUeEdmAnBBzYScc19xDx8msXzN8L7EzAimuwM90POQqH+rmuWwtdcSknsfz20IEKX3/JPM3OWzJyOmo1URSSRPlEiXa6DXx0YMC3XpoKtR4H9JtJOsd+iIuo/0fR9eb8mNSExA9rWzqJOChu4nRhWmi9YDpNBTw/Y=
+	t=1778780221; cv=none; b=lWQ60k4VovPyxsuDVavPpyd86KXwdJnhenoi+FJ49If914HxGT7/0XrdqNKCXNCFEjaF1ZPOq4+u/ripRODT/75KLu9WFhzRhvGsR3qk5yY40rOhDrV23r/2z8qJMIJaEtz+HlJWn3sk+QMHUlYieEaSreBhp/h8l8EsXoEIpPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778780117; c=relaxed/simple;
-	bh=csxAARw7TMe4p9kUCeBN9DmScREv2ZSHrFWQS2btBrI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kr4ubhnRAUrLR9PxC0rnNgzza7SBFe1u3L2jOIE8vApxW3heMEHLQ5OblpkV7bDajPF6SsuJwbzBMWIppK0fgfT2xHIqpxjkxHnhagppqr2f0TcwoQwNR0bfI9vlHBMNU5LZjoUAZyvm0kPZGr+mXO9y7LzqT7IPzK15MfNn45s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WIyUK0xp; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1778780221; c=relaxed/simple;
+	bh=7HohLcAzsKGZ5rIceGtsELpREYzhOEuYqHkzWH5kjcs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=cYcKrJrOhiojv4F4X8CPHJHu3SUU3TLcJbTicMcgoLbAEiMAK/ymEw5SS1fjuPrwhyjQJu+O0B2Zg+ZE/QbXcyaAlHRylRscMsOukbr2hy8lCkS/Ynsv071tTltghAxaGzg9PPiE/b+bX0+u+jmWPDrmmWauFpHTst9a2T75B3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=O+9A/8aK; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WIyUK0xp"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-83945063f70so57118b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 10:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1778780112; x=1779384912; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JC+WHcUhpCEgLv+z/dz5uJKI5jcxrqy0Eu1amoyfn8U=;
-        b=WIyUK0xpwJjitfqZkL4ciFH0O1UeUmNjyy+6Z8DeOIHkCMX0kg/sttsqFq8LcoV5Wp
-         WP7XyM7xTxDLVe0/qpUvBcYj/3weEzGpKg/6IaPo68KgCvRwVQaiEUNsbDYWE6UHaXso
-         Tb0dbsopqHRtWE6ZRVBzzvAKeV6CO2/DCYTUQekX8EOppnNbz6FmiLiwXpJ+RBGtvh8m
-         yrysH+YuF2gGGSyFCnG0hEC4EUgjBl1C6gkYo2qjV+mYdLk0zd/RM+PV3C+fO0xGGRFI
-         yC+iHEeOvVy8FaLGnvIrjkLLRG7RNbOtuLzjdit+RP79/seDhyydaxhrc+z/3A6oybFU
-         G6Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778780112; x=1779384912;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JC+WHcUhpCEgLv+z/dz5uJKI5jcxrqy0Eu1amoyfn8U=;
-        b=pReswAzGithxw78/MTDo86UnFfCLaLfUID1vV+tXHluh325PP33NGVjJozeU+dchth
-         b8dbQ7jHoJyw6GOaqbxRHfc12OJ9o4LFGix1a72T+BGH3v28cK3QpINinhKE8QSQceV2
-         TkuZelVQAm5R0Ke+2B9rXsKg4y2N+a/iPXL3dNfTjrtfaVAfO0HPpIeH3KgmmYdNFtHH
-         SPui5bWp4w4ShQnqBvQUTeInzizrgyrN+HjDjm6Qoe0vJBBZCyYN42kkBth3WbgKjCEb
-         THGwPwN5Ll7fcRQoPH7coxFGplcPB+tynMhKOAtPkQxdfix3kM2NLfXz8e/eigY2ZJY1
-         SazQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9jP0qjp8I7afd/zXbVvktOu47U2fjQZw465PJMgD7shWKt41IicqotdHUa4WcsU4nxCX3TJca1mwg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYGQCOoP7yPVwu/5FckFr1m+K8vKn6u08IafmtbW2Ud+MFFRSC
-	ooCbGIqE1tTAobMDQJKqu+HaP7x72+/gDI81lyRg5AVoMirZzXEJXJ5JPmlnmfJnFik=
-X-Gm-Gg: Acq92OH3GbkgpISy5WocezX/bxEnQRx5/uAHbCC7AtKolhm+TfakkOnjAt00xp9CPMp
-	UJGh+qwRKrsNX6fg8v1gwc6JdHLaXR12BJ3WOLAbfcKBNy8ARzZHZShT0dTD283Z/Np522VHyUa
-	5i/Wkj6uCcsQzqdN6YsVOBHrLHoS6XJjQcMRsW58N9FWejh4aWcn1Jbo++SwSNuLjRN9j5kiilM
-	VMxekle8hYBFZk5CmrZwriFt1UOv9F3Blrc+VFAOYXIRl1NvffEk5pj3iJCfsGw3tdgIcn7Eqh6
-	jnVRYslRHfV3kD7dXZp7Op4CTYFQLtFav1OeHrU8+VDjG+gFRklbfN7r6CP1p/2Y+nuVgOKL63t
-	EzWPAhpKJHhxDBYLGJRopWECIRmnE1YkCU8sdafJL8Y3n5k1eaeauGsnVmX/p0WiF3X74+TQHU9
-	qkj4M17lWy1YY41SylAs+qaio8K8A=
-X-Received: by 2002:a05:6a00:909a:b0:837:6bb9:acc1 with SMTP id d2e1a72fcca58-83f18dbabc2mr4476063b3a.13.1778780112051;
-        Thu, 14 May 2026 10:35:12 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:30c0:f7f8:e305:407f])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19c7ed3fsm3281092b3a.45.2026.05.14.10.35.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 10:35:11 -0700 (PDT)
-Date: Thu, 14 May 2026 11:35:08 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
-	Beleswar Prasad Padhi <b-padhi@ti.com>,
-	Andrew Lunn <andrew@lunn.ch>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <agYHzH-nJLl1HFIn@p14s>
-References: <CANLsYkzt9xUczxSU28u-TfZAAjr0ufZKXAj8Eqfq=45gufXW3w@mail.gmail.com>
- <f7ef3417-eb84-4467-ac72-a9bc8b0c81e8@foss.st.com>
- <21de8440-adf7-454b-acfc-06e50882e075@ti.com>
- <4c526816-b127-43e7-86e9-eee4dc1152bc@foss.st.com>
- <268f8e00-91bc-43ea-ba95-077cf859e7f3@ti.com>
- <9e2492d3-8753-46c7-8db6-5f1a80b4f2e9@foss.st.com>
- <db4c18be-1c8d-4227-9fcc-1d25cec50e37@ti.com>
- <6917e3d7-8c6c-4e63-8eca-5308621ec3e8@foss.st.com>
- <afzIABSh1xtMEGbf@p14s>
- <PAXPR04MB9185BFA6E7375FAD0B15B021893C2@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="O+9A/8aK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=GwwUeKFsKyVyc2+pTaKswdPzG1/YgpdUqtqHsE9uC3c=; b=O+9A/8aKWex7YSsZulUvCRbT22
+	LS39rgmpP6xjmZFVNSpkoI67QDvh3fbOJvgPayTkCWw4Rn0Na3KxjTkUHhGZVFZUIOn6MzsutEncE
+	33O19MnrHYpx3Yt3NhNYfz/KFLz3k3iGqycn2laA6IryKLQuX+gX6RbuosFqCnXFxv9S95+U4q+K6
+	wgb5OguCJO6p55H62aR/LmtJbiJjCVVKRa1tFq31rv3Z0Xa0PVPZpFF4PBjqRJQKs2fg3GZ8VwkvI
+	1gFMAIHQVUyMe7l+/NHpi5c4xogIy1NDC+zPejjuTuP+NhD8tEk4ft1FY7g5WJn9gWPNCO+31zjnf
+	x9aARObA==;
+Received: from 179-125-79-241-dinamico.pombonet.net.br ([179.125.79.241] helo=[127.0.0.1])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wNZz8-000Aig-0e; Thu, 14 May 2026 19:36:34 +0200
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Date: Thu, 14 May 2026 14:36:08 -0300
+Subject: [PATCH v3] cgroup/dmem: introduce a peak file
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR04MB9185BFA6E7375FAD0B15B021893C2@PAXPR04MB9185.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260514-dmem_peak-v3-1-b64ce5d3ac38@igalia.com>
+X-B4-Tracking: v=1; b=H4sIAAgIBmoC/1WMyw6CMBBFf8V0bc20BaSu/A9jTB8jTJRHWtNoC
+ P9uwQ0uz809Z2IRA2Fkp93EAiaKNPQZ1H7HXGv6Bjn5zEyCrKAAzX2H3W1E8+DKWCcs6hKOkuX
+ /GPBO77V1uWZuKb6G8FnTSSzrr1JCtakkwYHXvgaFVhWFdmdqzJPMwQ0dWzJJblShtqrkgnvjo
+ NJae6vxT53n+QtDElqX3gAAAA==
+X-Change-ID: 20260409-dmem_peak-3abc1be95072
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
+ Natalie Vock <natalie.vock@gmx.de>, 
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+X-Mailer: b4 0.16-dev-62088
 
-On Thu, May 07, 2026 at 07:43:33PM +0000, Shenwei Wang wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > Sent: Thursday, May 7, 2026 12:13 PM
-> > To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-> > Cc: Beleswar Prasad Padhi <b-padhi@ti.com>; Shenwei Wang
-> > <shenwei.wang@nxp.com>; Andrew Lunn <andrew@lunn.ch>; Linus Walleij
-> > <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corbet
-> > <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
-> > <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
-> > <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
-> > <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
-> > gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
-> > <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
-> > devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
-> > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org; dl-linux-imx <linux-
-> > imx@nxp.com>; Bartosz Golaszewski <brgl@bgdev.pl>
-> > Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-> > > > >  From my perspective, based on your proposal:
-> > > > >   1) Linux should send a get_config message to the remote proc (0x405 ->
-> > 0xD). 2) The remote processor would respond with the list of ports, associated
-> > > > >      with an remote endpoint addresses.
-> > > >
-> > > >
-> > > > Agreed, we can scale it for multiple remote endpoints like this.
-> > > >
-> > > > >   3) Linux would parse the response, compare it with the DT, enable the
-> > GPIO
-> > > > >      ports accordingly, creating it local endpoint and associating it with
-> > > > >      the remote endpoint.
-> > > > > Using name service to identify the ports should avoid step 1 & 2 ...
-> > > >
-> > > >
-> > > > Yes, but won't that make a lot of hard-codings in the driver?
-> > > >
-> > > > +static struct rpmsg_device_id rpmsg_gpio_channel_id_table[] = {
-> > > > +    { .name = "rpmsg-io-25" },
-> > > > +    { .name = "rpmsg-io-32" },
-> > > > +    { .name = "rpmsg-io-35" },
-> > > > +    { },
-> > > > +};
-> > > >
-> > > > What if tomorrow another vendor decides to add more remoteproc
-> > > > controlled GPIO ports to Linux, they would have to update this
-> > > > struct in the driver everytime. And the port indexes (25/32/35)
-> > > > could also differ between vendors. We should make the driver dynamic
-> > > > i.e. vendor agnostic.
-> > > >
-> > > > I think querying the remote firmware at runtime (step 1 & 2 above)
-> > > > is a common design pattern and makes the driver vendor agnostic. But
-> > > > feel free to correct me.
-> > > >
-> > >
-> > > You are right. My proposal would require a patch in rpmsg-core. The
-> > > idea of allowing a postfix in the compatible string has been discussed
-> > > before, but, if I remember correctly, it was not concluded.
-> > >
-> > 
-> > I also remember discussing this.  I even reviewed one of Arnaud's patch and
-> > submitted one myself.  This must have been in 2020 and the reason why it wasn't
-> > merged has escaped my memory.
-> > 
-> > > /* rpmsg devices and drivers are matched using the service name */
-> > > static inline int rpmsg_id_match(const struct rpmsg_device *rpdev,
-> > >                                 const struct rpmsg_device_id *id) {
-> > >       size_t len;
-> > >
-> > > +     len = strnlen(id->name, RPMSG_NAME_SIZE);
-> > > +     if (len && id->name[len - 1] == '*')
-> > > +             return !strncmp(id->name, rpdev->id.name, len - 1);
-> > >
-> > >       return strncmp(id->name, rpdev->id.name, RPMSG_NAME_SIZE) == 0;
-> > > }
-> > >
-> > > Then, in rpmsg-gpio, and possibly in other drivers such as rpmsg-tty
-> > > and a future rpmsg-i2c, we could use:
-> > > static struct rpmsg_device_id rpmsg_gpio_channel_id_table[] = {
-> > >     { .name = "rpmsg-io" },
-> > >     { .name = "rpmsg-io-*" },
-> > >     { },
-> > > };
-> > 
-> > That was my initial approach.  We don't even need an additional "rpmsg-io-*" in
-> > rpmsg_gpio_channel_id_table[].  All we need is:
-> > 
-> > /* rpmsg devices and drivers are matched using the service name */ static inline
-> > int rpmsg_id_match(const struct rpmsg_device *rpdev,
-> >                                  const struct rpmsg_device_id *id) {
-> >  +     size_t len = strnlen(id->name, RPMSG_NAME_SIZE);
-> > 
-> >  -     return strncmp(id->name, rpdev->id.name, RPMSG_NAME_SIZE) == 0;
-> >  +     return strncmp(id->name, rpdev->id.name, len) == 0;
-> > }
-> > 
-> 
-> If we encode the port index directly into ept->src, for example:
-> 
->     ept->src = (baseaddr << 8) | port_index;
->
+Just like we have memory.peak, introduce a dmem.peak, which uses the
+page_counter support for that.
 
-There is no rpmsg_endpoint::src.  You likely meant ept->addr.  This would work
-but not optimal on two front:
+For now, make it read-only.
 
-(1) rpms_endpoint::addr is a u32 and idr_alloc() returns an 'int'.  As such
-there is a possibility of conflict.  I concede the possibility is marginal, but
-it still exists.
+This allows for memory usage monitoring without polling dmem.current when
+the information needed is the maximum device memory used. That can be used
+for capacity planning, such that dmem.max can be properly setup for a given
+workload. It can also be used for debugging to determine whether a given
+workload would have caused eviction or system memory use.
 
-(2) By proceeding this way, the kernel exposes the GPIO controller it knows
-about.  It is preferrable to have the remote processor tell the kernel about the
-GPIO controller it wants.
+Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+---
+Changes in v3:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v2: https://patch.msgid.link/20260513-dmem_peak-v2-1-dac06999db9e@igalia.com
 
-I am done reviewing this revision.  Given the amount of refactoring needed, I
-will not look at the code.  Please refer to this reply [1] for what I am
-expecting in the next revision. 
+Changes in v2:
+- Make it read-only for now and adjust documentation accordingly.
+- Link to v1: https://patch.msgid.link/20260506-dmem_peak-v1-0-8d803eb3449c@igalia.com
+---
+ Documentation/admin-guide/cgroup-v2.rst |  6 ++++++
+ kernel/cgroup/dmem.c                    | 15 +++++++++++++++
+ 2 files changed, 21 insertions(+)
 
-[1]. https://lwn.net/ml/all/CANLsYkwBk0KbN-k9ce+5=oT+scdZ3nU5AOr3Fz4zT=0AFzghDA@mail.gmail.com/
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 6efd0095ed99..d103623b2be4 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2808,6 +2808,12 @@ DMEM Interface Files
+ 	The semantics are the same as for the memory cgroup controller, and are
+ 	calculated in the same way.
  
-> where baseaddr can be derived from the channel address, we can avoid the possible address conflict.
-> 
-> With this approach, the patch to rpmsg-core would no longer be necessary.
-> 
-> Thanks,
-> Shenwei
-> 
-> > And let the rpmsg-virtio-gpio driver parse @rpdev->id.name to match with a
-> > GPIO controller in the DT.
-> > 
-> > >
-> > > If exact name matching is strongly required, then this proposal would
-> > > not be suitablea.
-> > >
-> > > A third option would be a combination of both approaches: instantiate
-> > > the device using the same name service from the remote side, as done
-> > > in rpmsg-tty. In that case, a get_config message, or a similar
-> > > mechanism, would also be needed to retrieve the port information from the
-> > remote side.
-> > >
-> > 
-> > I'm not overly fond of a get_config message because it is one more thing we have
-> > to define and maintain.
-> > 
-> > Arnaud: is there a get_config message already defined for rpmsg_tty?
-> > 
-> > Beleswar: Can you provide a link to a virtio device that would use a get_config
-> > message?
-> > 
-> > > Tanmaya also proposed another alternative based on reserved addresses.
-> > >
-> > > At this point, I suggest letting Mathieu review the discussion and
-> > > recommend the most suitable approach.
-> > >
-> > > Thanks,
-> > > Arnaud
-> > >
-> > > > >
-> > > > > At the end, whatever solution is implemented, my main concern is
-> > > > > that the Linux driver design should, if possible, avoid adding
-> > > > > unnecessary complexity or limitations on the remote side (for instance in
-> > openAMP project).
-> > > >
-> > > >
-> > > > Yes definitely, I want the same. Feel free to let me know if this
-> > > > does not suit with the OpenAMP project.
-> > > >
-> > > > Thanks,
-> > > > Beleswar
-> > > >
-> > > > >
-> > > > > Thanks,
-> > > > > Arnaud
-> > > > >
-> > > > >
-> > > > > > So Linux does not need to send the port idx everytime while
-> > > > > > sending a gpio message anymore.
-> > > > > >
-> > > > > > Thanks,
-> > > > > > Beleswar
-> > > > > >
-> > > > > > [...]
-> > > > > >
-> > > > >
-> > >
++  dmem.peak
++	A read-only nested-keyed file that exists on non-root cgroups.
++
++	The max device memory usage recorded for the cgroup and its
++	descendants since the creation of the cgroup for each region.
++
+   dmem.capacity
+ 	A read-only file that describes maximum region capacity.
+ 	It only exists on the root cgroup. Not all memory can be
+diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
+index 4753a67d0f0f..6430c7ce1e03 100644
+--- a/kernel/cgroup/dmem.c
++++ b/kernel/cgroup/dmem.c
+@@ -182,6 +182,11 @@ static u64 get_resource_current(struct dmem_cgroup_pool_state *pool)
+ 	return pool ? page_counter_read(&pool->cnt) : 0;
+ }
+ 
++static u64 get_resource_peak(struct dmem_cgroup_pool_state *pool)
++{
++	return pool ? READ_ONCE(pool->cnt.watermark) : 0;
++}
++
+ static void reset_all_resource_limits(struct dmem_cgroup_pool_state *rpool)
+ {
+ 	set_resource_min(rpool, 0);
+@@ -808,6 +813,11 @@ static int dmemcg_limit_show(struct seq_file *sf, void *v,
+ 	return 0;
+ }
+ 
++static int dmem_cgroup_region_peak_show(struct seq_file *sf, void *v)
++{
++	return dmemcg_limit_show(sf, v, get_resource_peak);
++}
++
+ static int dmem_cgroup_region_current_show(struct seq_file *sf, void *v)
+ {
+ 	return dmemcg_limit_show(sf, v, get_resource_current);
+@@ -856,6 +866,11 @@ static struct cftype files[] = {
+ 		.name = "current",
+ 		.seq_show = dmem_cgroup_region_current_show,
+ 	},
++	{
++		.name = "peak",
++		.seq_show = dmem_cgroup_region_peak_show,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
+ 	{
+ 		.name = "min",
+ 		.write = dmem_cgroup_region_min_write,
+
+---
+base-commit: d3b0a7f21119f5a66cb76aa28fb8cc13206aaf7d
+change-id: 20260409-dmem_peak-3abc1be95072
+
+Best regards,
+--  
+Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+
