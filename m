@@ -1,107 +1,151 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010008.outbound.protection.outlook.com [52.101.193.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5213130BB91
-	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 15:41:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778773288; cv=none; b=K2er6kNEfZxgkuDUToQsCRQSNToA/Ple80j0yVwv3mhWmuQ9fNgUlifov0T/xlTn76GtoiaA88wZaDc7nR5awL+mC9jeoU8YGWH9pbcqBZyIXwoFvLsyHM2WEcVV4iCDGbXCOhHnZfGYPeMNxDkeS3pe2iXgK9JpF3sNQqIn4IU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778773288; c=relaxed/simple;
-	bh=LqWHZ889FfjSUsJJDSnXMSZ2jEN+n2I+ZNi6tiS8o0k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fs5xicp4S8Q08YK3lHmB+qt829EILMcnf1aJDGOC3HUPb7owahIjnsqqogL+0WeLaDNz0xeBq/Pbko7DOpAp2C4czGEI/TiJwfufUaCjxmLGgkn+SGnDHc5iZIsPqcuUfJcufoj9wKHZdM7zFer8j7LPRT5WyhaSHOfbo/KhhoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sey3l20T; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8406431E853;
+	Thu, 14 May 2026 16:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778774452; cv=fail; b=Tw21pmjmZjRiBIKWb0EP5Frp8A2GU6M3Dn5rkHu0k32CcekwgaHheOeoszOMC5Ai0DqyRMB7aj+GFSs45sG0KtvecG2e2KO5tP8St0lIH9Y2PTmvK46Z0sCce3624Ywv9yhquVeepUYGMUnxmS+m7BrR0tNyvOPbNtsZWA+Zu70=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778774452; c=relaxed/simple;
+	bh=9mAvxMGi/PRWKGVza1iy5dgEjIiaYryQHeFe8Q3LuGo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=jIC3wfYk8iU64/mzGmwec8llWxSPa52FvQJjdfhIovVfmdPD47Vpgh22HuqrDU8R1+VZPi728jhZIgzDscA7NvVfeFzhTobKnKkVXz64Gq0qegYPP+5js/aEsSP1zZQBllrkfsG6SuMt0vKKEnCsJhNkiDnuGVv+GynLxktQ3ss=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=cf4v8iGz; arc=fail smtp.client-ip=52.101.193.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sey3l20T"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-365eecc5885so8071251a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 08:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778773286; x=1779378086; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aGhCi4yyqYpXjwh9zUcoDYb6CxobDy3aAgcw86g1Gxg=;
-        b=Sey3l20TjQtCr5hjE4GJMA8p+IlJZHoPPxekbkSEqo2myBv4QSdYwLdlnQeKYBcmwi
-         lmqixjwczKgBX/skSsFyw0qngDBEnkvNxsUlnlnQMVY6b88DifDHqPWm99J5z6N+xO2M
-         FLaKtmlc/xaxfprkVs1U2EQDpN2zXfMA1Gs3IhJPbiGXdHSgr0VQAcL/+TJgrw9bEYDs
-         a8VPwdpLBayhLFKUcJRsPZUwjR8lPcmXJRKSxKKF91J6YVU42/D8YLc1SFjkdfZAGlrv
-         djkswI/+OP6RKtyF2NBjt5uoJzWaRA+OKnwM85WEs/Xko1Gw0Kc8NvW3/Rs9pMbiHZve
-         NRmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778773286; x=1779378086;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aGhCi4yyqYpXjwh9zUcoDYb6CxobDy3aAgcw86g1Gxg=;
-        b=L9+GWwlS+m7aEhdej4bDCODyXk9sqSufKSdifTF1+mv4fd0VardtqFedM8vrtjgnXH
-         5s35kJwG54E8Z96VUhMJZIGXEn13NHryVU6m+6nuhvL5w05QiNw4vnRiLc4qOnaEaNyv
-         wIeUcf41TwlRGw6KgU+FbEz137r1oUaeKPvmwShojhCiwFVRwJO1ChvRwjLOmdCrN/74
-         g2jsTQwnuCascpBHHJTfRsWNiLOrrHM4Eg5fY5kFchd7ap2be8LURRFwJWFv+ebGJ9LJ
-         d6KlFSqR4nI1CCUj3wnhtrW+59Kxas0/7Z7DrckFBv+z03S80H61TgRIi//pAghztKrf
-         zo+A==
-X-Forwarded-Encrypted: i=1; AFNElJ+szW5pjaag9DRHqfiFCo2YNOcF9o8zlKFJ1w8Ei6EkLJuRICa790t7PYZEx98rWXQZXTTsSNzSyCg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyi9HuirpTdMRsFPsrhAOm96ppER9YImGfBQRbzN7zresFHcgsW
-	DJpAIyTSm5KrVfc5JYPZt3YSP1DnRbdQtRws3OIBsi36DUQkTggaJoK1llSJ60P2LGk=
-X-Gm-Gg: Acq92OFNw9NIHiUo43763HP3Ty+G+9l/8nQdCo5Z8sM2jKR1/p2tPEAfbDZB1v0l7uQ
-	eRa9hgxU8FgbWZZmnPCDOFm+iSXWKrrVy7SSoYm3oSnZcyFhDZn2fmZSXB0kNeOR/u2kn4EQ2Ao
-	e+K9KQrKkUwEsl2wxpBKDxzi3Cz0A9G8Run8Za2mrbN2czDsDgl474aAGF60GJlB3oh1fxM5pmS
-	UUi6aHRG8Tj7QPgnqXZAGodG8WBoNO5RDxT6EH4li+UDt8zjHeCnVRbE27ptZC7lH1dWYzw3zd7
-	ikIvHCJZEoueIeDRupPPOVbG8CrlalrP2Zx8k3/ZIJJtBJTmzoj62nMj7iM6mRgSx05agUwzLzU
-	qMTdFSZjPayIONjSHxOcPsp7FfG0SdREV0Oiv5XXeEVgcAOmEB1rea5r/Q8lMW2wQN/w6aO5GCP
-	qX1us9/mzGD2KRam/IpVkF427a19o/mWhrWvKkymFDbBVXqw/Ar0H1YEfJ5zfLzBJdS0utkM++J
-	aF/GMCY76xNL2njDkZTEhGftZXrbN08HzIOpKv4nwJhj5DqTAwh5NNXkxclKHqWkQ==
-X-Received: by 2002:a17:90a:a81:b0:369:1dff:6bd5 with SMTP id 98e67ed59e1d1-3691dff76dcmr3620471a91.17.1778773286539;
-        Thu, 14 May 2026 08:41:26 -0700 (PDT)
-Received: from ERIC039ERIC.localdomain (1-170-163-225.dynamic-ip.hinet.net. [1.170.163.225])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d23044csm28385315ad.78.2026.05.14.08.41.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 08:41:26 -0700 (PDT)
-From: Chen-Shi-Hong <eric039eric@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen-Shi-Hong <eric039eric@gmail.com>
-Subject: [PATCH] docs: hwmon: sy7636a: fix temperature sysfs attribute name
-Date: Thu, 14 May 2026 23:39:13 +0800
-Message-ID: <20260514154108.1937-1-eric039eric@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="cf4v8iGz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VZzwq3qOX8/pqiWbWmemFUMyh+21oATtgJBY1caK7ycVIn2FfO/ClK519f6AC65QaWeuA0K1CiwusCWo5qpfiyUGSdpH3OPwSeXvRWF5gT80j3UTIsJeDmgqsKMoo5XjyDPZoRUuT5s/Sc5uLgX0aBOXf4SSQxv4jQ0bJYVkMiqMkChXC/GA4BaSUW/JFq2Po8C6HXEx5yEY94oprwXZ+5te+ZT83J2qGYmnmwapN6wbutmCFDEGgKEjFpqKVfMKGNRNR8QzlRXYsPoembBBXlbm80eUxEGeUqljHaiJwrqwcPFsvEyn6hkaPsNUij6Z7FjwNeufmlkzEruTsA81ZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9mAvxMGi/PRWKGVza1iy5dgEjIiaYryQHeFe8Q3LuGo=;
+ b=OmfxS2mQGkVfile8opr1rmyUqOblNvbNOar43D0nSBpBtmg9psbcb0c5rg0iJWUDRUCtgz8oinwoMfUDZF9mJds5+CSZ+w7KmZHiiJhjsGl6E+RwMUe2K/RHo0xbpC+PSQJ2V5SMpBUQ25DF+RiKMhscvnpzGAo1W6GmZbMos1Bxdjn1xAL6lmBgyeN+Se6/dK7Vvc6gynCoj8PThzBvSoGitdTAp3oXKAB7vuNx5riuGc3h5BxJq2bgALHJXUUvf+gaphNyZ8zJ9eochWIA/z0rEotgG0jL3r5nw31z9tcjC9WLuZZOKM/ypZf8kKAfHzlaYttiOXry3NvBR46ChA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9mAvxMGi/PRWKGVza1iy5dgEjIiaYryQHeFe8Q3LuGo=;
+ b=cf4v8iGzJHf88lViktd9C2mnM+iOdWnjXs+Ax61al1qgo1toPdQEkS8jqq7awXw0gqJamJwENT7HTmQpHzP2llpLpGFRgB1k8DmQ6w61y+tyQt3WcEVhHAj7PoURN+e8qoEgjQQxjnv90m6Ib0kHEvr1ssOkf5he6XlQpHyy9tnMz8FyE3wB6b7UnOv2VK0agtfmDoHkg9yFahEDvvhBMTYH6vsdl0HG0qmuMPgDQR85dAPVSKSFYMZxF9XHc9I0eESdThf48qQQzlbc6v/WIUgndwga5yNev7zXf9M+hl/bP27gJhY3BlzxZDcCfDgQiM7DVblWp/1OS3e6/jWqTg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by DM4PR12MB8474.namprd12.prod.outlook.com (2603:10b6:8:181::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Thu, 14 May
+ 2026 16:00:45 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.21.0025.012; Thu, 14 May 2026
+ 16:00:45 +0000
+Date: Thu, 14 May 2026 13:00:43 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Johan Hovold <johan@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v11 4/5] platform/chrome: Protect cros_ec_device
+ lifecycle with revocable
+Message-ID: <20260514160043.GG787748@nvidia.com>
+References: <20260513091043.6766-1-tzungbi@kernel.org>
+ <20260513091043.6766-5-tzungbi@kernel.org>
+ <20260513115102.GF7655@nvidia.com>
+ <agVCtBbqT6aZL0mx@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <agVCtBbqT6aZL0mx@google.com>
+X-ClientProxiedBy: MN2PR03CA0029.namprd03.prod.outlook.com
+ (2603:10b6:208:23a::34) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DM4PR12MB8474:EE_
+X-MS-Office365-Filtering-Correlation-Id: 547f3974-7d62-4c07-2c56-08deb1d1f50f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|4143699003|18002099003|56012099003|22082099003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	l5rUoUuxpERc65wKy8DcsPAA0V5OvdXZfSR4q2EpPAaSh53U91c0+JSBN77XfhUvqy56jDICcVW6e+ZsycxXUwQLI3EFrHEMhr87UhX5tKsvOx8xlURJ07fffXpQnMcz8+xsEu4YlsMf224xa1FJk/FDwekqSYf8t8LYpIoAtxb/XaiF4FeyoaZTekvxQefjxcwH+8dEwTzo0H+WL+6+FWIRzRZ5jchIVTA1NBZDjgevS4x+dwaij+XxO0Hts/yam/ZmTBM5DvIA+zZiOBCR3k4dDpQM6/psxCkrw18/aFZB8KvYdRKC1EmE6xIWGWKzVrfVG0ar2XohtPsVBDVuIir2L24ofFmQLbW6qEvCXuO0Bug/1rWXYHmxJdZLThLlVmG9Kg871dK1MU+b+ZnPJsB8YndbEUsQewEM8mgwWs512bkBiDo59O+5cbQXfGmsqVUQ+gobzdfGAnXq0p7lsUgE+KKJgXju57oMtYiF/yUthYyVPBYEVpITl0Fya5QWUvEczcXlTW2zNcvlw2uyfzUYbkicMtYZxZUkFSGciUyApMvd1JKODbtB+UrZ9sZa0wsqB0LBuuMq5bNq3Hdcxr7xmU0NeTUHotb4WA0oxIss5F4p8xZ4En96EBnNXqesFt5WWwoi/ml1cYTA9Ar+3CZl8doXxkb4h4Viu60XSDgBm795RLUXEYGsM/2RGIMT
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(4143699003)(18002099003)(56012099003)(22082099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?2w7Z3nNgQFkeMzvBmpW1jzyJBgFltsKnT8KsNHPqAUWxnEXd3gKXsQM+tZV9?=
+ =?us-ascii?Q?VZySS2RzV5WHtzfZCXKNPUSFC9g/h5LrBOAfdeBUn6bkjf8JlDrz9zrlS1Dj?=
+ =?us-ascii?Q?ZKXjxYsJ/m/Vukj6lPcmOA91JS2FD8rOPS6v5+H+XwwZwLSVfcLqpN/Qi/8Y?=
+ =?us-ascii?Q?7bHDzQ/wJ6sPWS+/H51eSH+mOWGtIK+01DLxgzrLFwHU/EFAvGdUk967mzj4?=
+ =?us-ascii?Q?IwsaQUSuCdAzsSntEjjCpls7DCGAlOVKxmuLdby6OHPu/ssh0HOVgXPtvQkm?=
+ =?us-ascii?Q?+xMIV0IqLj3172GQCO5GPcuuXNfaTmxBfesprlG2COYEEGKkFDkqhvp5FChO?=
+ =?us-ascii?Q?zeBqcXC4or3O+o57l3kZXn52LrNOi8qO4be6EHLDCX04s/8vxo/4FRrifvah?=
+ =?us-ascii?Q?YH6IR795RiCJhE3p7GSBq/JFJeVBN187JKPWs0cIUOlCHco+8RG3KUv113BO?=
+ =?us-ascii?Q?QE2/BXX9QvNVYyat3rfu5GOg6UGYg5wcV7/H73jfHpRQn1hgunF2kHgF2Gim?=
+ =?us-ascii?Q?fOw+jKs7IInvDn2oF6ShlSWGpd0wapWnYuJpaqTLPAq2V2SmOB3+pvfy+Oe1?=
+ =?us-ascii?Q?ZxqzXVIwvPM/K05aUKjr1mueO8XrRHhzAZA0exhtEmsUifC08mspI64aXktA?=
+ =?us-ascii?Q?erv5Ryqu44DyWhblTzgUmBfv3O5eOABcDNo1q3Mb8Yx7Y8S0ZsqzzuO/6wRL?=
+ =?us-ascii?Q?3ZCFAotdCihzmXv0kk0j5EABDxIuGGhmSk6D0mWWktjmArp2nkrgOY/01or7?=
+ =?us-ascii?Q?Qtu3aYg/QLo8lGF1A+Vc3pr1X4+44jDcfwQlWtUhAGpiQpA664lH6TsuiIRL?=
+ =?us-ascii?Q?tl2qefXr+46W6RrIjT54zoWAGyB6Iv7jC9HXdMxh8uphEjb4QqGdNX5E+Y71?=
+ =?us-ascii?Q?lP7ZoYmzN+rK3eIlIjLVtlN8K7h7EVFIa9U1VEVu1wqcK60DlvWVS7jsOsBU?=
+ =?us-ascii?Q?27DBvH5HWYECoCLPugkZCTQ27I2ilfAzu1CqBium34mOFE4hReFFD9lOGBAn?=
+ =?us-ascii?Q?jAmBy2hEAPPY+A3mFQKuZAsUQZ28EWVaWqN6PYuTr5/B7eHKMa93CCH8DspJ?=
+ =?us-ascii?Q?jXf/pH1ZifZ055hgpiRhVFTfmdwgnMZ10obsS65QPrQbfaFp8AwHaZ6Z6TSr?=
+ =?us-ascii?Q?DuPX5grD/ySMPuXtYL23FR4bg8ucZdq+a2Khg4RZ2LznXODYXsuQBwzphcUA?=
+ =?us-ascii?Q?eNLfftfqnboTzPcLJd1rGFa11MAoycXOuXYoqtHbtxO6hZN1cwqC2jEPXimS?=
+ =?us-ascii?Q?qNvbv75yw03+9kW8zihRUEWCNsPTOugPOZ2F9DMn0JsIMIVvD6SuMJakxEOC?=
+ =?us-ascii?Q?m/us+k6VPSRoTIAI+W5IVC83CfJqsn88NiPsq4927i/8XnW3Spa5ywBlUyCn?=
+ =?us-ascii?Q?zmHXCW3GCSra36/PdMKg07Qoz3kSNeEmSRZJI3dX9FFnN2vi8FOw8pW5Ypjh?=
+ =?us-ascii?Q?SyY2d1gvZu2k1O0ZqnK03Rak2g/H0BHrD1cmNPv7ZWYffb7KDDfj/wIyabmR?=
+ =?us-ascii?Q?hFryiptv7xY6DSRcih8U6APirbMY97F2TANVGFlPFT0vSX9v2wPKwK9d5IVA?=
+ =?us-ascii?Q?aeGtWg0R5ClqqSPJ91ehUmsQrRsG/dUJjgeHBgbI0n8HPUifR35mm+Qf+h0u?=
+ =?us-ascii?Q?j2W+vpMJp7xNPA2ORMvfeGWLW/XP1iJG3CG+BGc4odZZwABBqrcHWNzYuhvJ?=
+ =?us-ascii?Q?OvU3hojpe7M8NJguHb+ipSG5MstKd7EDwm8tK0D7x1LLZQxa?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 547f3974-7d62-4c07-2c56-08deb1d1f50f
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2026 16:00:45.3766
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BwD9CrhSRKj6A6fQ6M9DBLzcV2hskiKGstpklMmXucvDJDmsDo4HSS8t/x+vT4vd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8474
 
-The hwmon sysfs naming convention uses
-temp[1-*]_input for temperature channels.
+On Thu, May 14, 2026 at 03:34:12AM +0000, Tzung-Bi Shih wrote:
 
-Documentation/hwmon/sy7636a-hwmon.rst currently documents
-temp0_input, while the driver uses the standard hwmon
-temperature channel interface.
+> To help me understand, could you elaborate on why the revocable mechanism
+> isn't suitable here?
 
-Update the documentation to use temp1_input.
+Stay within one driver. Create the revokable is probe, consume it
+within that drivers fops/etc, destroy it on remove. Do not randomly
+pass it to other drivers.
 
-Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
----
- Documentation/hwmon/sy7636a-hwmon.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> I'm wondering because if this piece of code were to transition to
+> Rust in the future, would the concerns you have also apply to using
+> Revocable[1] in the Rust context for this driver?
 
-diff --git a/Documentation/hwmon/sy7636a-hwmon.rst b/Documentation/hwmon/sy7636a-hwmon.rst
-index 0143ce0e5db7..03d866aba6e8 100644
---- a/Documentation/hwmon/sy7636a-hwmon.rst
-+++ b/Documentation/hwmon/sy7636a-hwmon.rst
-@@ -22,5 +22,5 @@ The following sensors are supported
- sysfs-Interface
- ---------------
- 
--temp0_input
-+temp1_input
- 	- Temperature of external NTC (milli-degree C)
--- 
-2.53.0
+Yes, even in rust driver local revocable objects should not be
+spaghetti coded through different layers.
 
+Jason
