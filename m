@@ -1,130 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F423E1CE6;
-	Thu, 14 May 2026 15:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5213130BB91
+	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 15:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778772294; cv=none; b=IVNAcWNuHuAAX/sPZnw6/OxJxDy/ODGxa7p6O6BqNCFkzAlpmEHv5uY/lBMLBi/NFKEOIWo7J002wS1swh5LsTOnSoYulq8HKelBm+/DkHfuO8WNFZTcxntAxAEOfCci/CEBf8pdvlQlS5afHwV5H91MyfIzU8/rwWWHS2D+VN4=
+	t=1778773288; cv=none; b=K2er6kNEfZxgkuDUToQsCRQSNToA/Ple80j0yVwv3mhWmuQ9fNgUlifov0T/xlTn76GtoiaA88wZaDc7nR5awL+mC9jeoU8YGWH9pbcqBZyIXwoFvLsyHM2WEcVV4iCDGbXCOhHnZfGYPeMNxDkeS3pe2iXgK9JpF3sNQqIn4IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778772294; c=relaxed/simple;
-	bh=pp56e/DCHOxZ+Eut9lk+188HvenrbqBoOLsSg2cmQrA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ie48xO3Sj9ThQNnW2lXqflut6yPWZ2Ld28F4zn7ZNjsZ6XKp6YEdJuxETfbXg4IxLTfS1tJxCYmtW/UaGmzuLonQSt6Yzwk4CVFKfmSocTX2LQ9YC0vp9vbxqqiaTmDAg5rkUMjGRu4kGt00SwoE0DUVy040KoLAHvXCsHNMW8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I7CpSyu+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778773288; c=relaxed/simple;
+	bh=LqWHZ889FfjSUsJJDSnXMSZ2jEN+n2I+ZNi6tiS8o0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fs5xicp4S8Q08YK3lHmB+qt829EILMcnf1aJDGOC3HUPb7owahIjnsqqogL+0WeLaDNz0xeBq/Pbko7DOpAp2C4czGEI/TiJwfufUaCjxmLGgkn+SGnDHc5iZIsPqcuUfJcufoj9wKHZdM7zFer8j7LPRT5WyhaSHOfbo/KhhoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sey3l20T; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I7CpSyu+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A92DC2BCB3;
-	Thu, 14 May 2026 15:24:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778772294;
-	bh=pp56e/DCHOxZ+Eut9lk+188HvenrbqBoOLsSg2cmQrA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=I7CpSyu+P0Xv1f+CwVAtXHqRkk2+3kFBG1SJBrfAI4kfjGfXc0ZsrbSOdmQaoRfIf
-	 8XA+X02uEBJTAtt85EtEM1LP7exZNpI46fEhlfsFlbhxKP57S5AO+yHTHn6EM9XTTF
-	 xeffW52S7EUxnBn2bLlQvLYkCSalCLmKdOOgVI6nVJ0Ft8H7xq0eq0fotAQbr3r2l2
-	 QyTkHkLoqw/l2Sly+MXmK1JxNcCtWWhMrX15qzkPJ022tHz5pC2n8DJ+Aq9aZ8CDmh
-	 QK/1gbinOmpMPrPyaHwXyyfaQm9G9/sqjtmARkjbuFTXpefsA3ctOPOY406Vdx5L0Z
-	 S3+DSW+jrw8ZA==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Samiullah Khawaja <skhawaja@google.com>
-Cc: Vipin Sharma <vipinsh@google.com>,  David Matlack <dmatlack@google.com>,
-  kvm@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org,
-  linux-pci@vger.kernel.org,  ajayachandra@nvidia.com,  alex@shazbot.org,
-  amastro@fb.com,  ankita@nvidia.com,  apopple@nvidia.com,
-  chrisl@kernel.org,  corbet@lwn.net,  graf@amazon.com,
-  jacob.pan@linux.microsoft.com,  jgg@nvidia.com,  jgg@ziepe.ca,
-  jrhilke@google.com,  julianr@linux.ibm.com,  kevin.tian@intel.com,
-  leon@kernel.org,  leonro@nvidia.com,  lukas@wunner.de,
-  michal.winiarski@intel.com,  parav@nvidia.com,
-  pasha.tatashin@soleen.com,  praan@google.com,  pratyush@kernel.org,
-  rananta@google.com,  rientjes@google.com,  rodrigo.vivi@intel.com,
-  rppt@kernel.org,  saeedm@nvidia.com,  skhan@linuxfoundation.org,
-  vivek.kasireddy@intel.com,  witu@nvidia.com,  yanjun.zhu@linux.dev,
-  yi.l.liu@intel.com
-Subject: Re: [PATCH v4 02/16] vfio/pci: Preserve vfio-pci device files
- across Live Update
-In-Reply-To: <agT9bYpXskVwW0E_@google.com> (Samiullah Khawaja's message of
-	"Wed, 13 May 2026 22:42:56 +0000")
-References: <20260511234802.2280368-1-vipinsh@google.com>
-	<20260511234802.2280368-3-vipinsh@google.com>
-	<CALzav=fR8c2tYj9jeOc_K=xoupxAfWMHmk0ipDniSXg6uGiFYA@mail.gmail.com>
-	<20260512211412.GA2819150.vipinsh@google.com>
-	<agT9bYpXskVwW0E_@google.com>
-Date: Thu, 14 May 2026 17:24:46 +0200
-Message-ID: <2vxzcxyy9fpd.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sey3l20T"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-365eecc5885so8071251a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 08:41:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778773286; x=1779378086; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aGhCi4yyqYpXjwh9zUcoDYb6CxobDy3aAgcw86g1Gxg=;
+        b=Sey3l20TjQtCr5hjE4GJMA8p+IlJZHoPPxekbkSEqo2myBv4QSdYwLdlnQeKYBcmwi
+         lmqixjwczKgBX/skSsFyw0qngDBEnkvNxsUlnlnQMVY6b88DifDHqPWm99J5z6N+xO2M
+         FLaKtmlc/xaxfprkVs1U2EQDpN2zXfMA1Gs3IhJPbiGXdHSgr0VQAcL/+TJgrw9bEYDs
+         a8VPwdpLBayhLFKUcJRsPZUwjR8lPcmXJRKSxKKF91J6YVU42/D8YLc1SFjkdfZAGlrv
+         djkswI/+OP6RKtyF2NBjt5uoJzWaRA+OKnwM85WEs/Xko1Gw0Kc8NvW3/Rs9pMbiHZve
+         NRmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778773286; x=1779378086;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aGhCi4yyqYpXjwh9zUcoDYb6CxobDy3aAgcw86g1Gxg=;
+        b=L9+GWwlS+m7aEhdej4bDCODyXk9sqSufKSdifTF1+mv4fd0VardtqFedM8vrtjgnXH
+         5s35kJwG54E8Z96VUhMJZIGXEn13NHryVU6m+6nuhvL5w05QiNw4vnRiLc4qOnaEaNyv
+         wIeUcf41TwlRGw6KgU+FbEz137r1oUaeKPvmwShojhCiwFVRwJO1ChvRwjLOmdCrN/74
+         g2jsTQwnuCascpBHHJTfRsWNiLOrrHM4Eg5fY5kFchd7ap2be8LURRFwJWFv+ebGJ9LJ
+         d6KlFSqR4nI1CCUj3wnhtrW+59Kxas0/7Z7DrckFBv+z03S80H61TgRIi//pAghztKrf
+         zo+A==
+X-Forwarded-Encrypted: i=1; AFNElJ+szW5pjaag9DRHqfiFCo2YNOcF9o8zlKFJ1w8Ei6EkLJuRICa790t7PYZEx98rWXQZXTTsSNzSyCg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyi9HuirpTdMRsFPsrhAOm96ppER9YImGfBQRbzN7zresFHcgsW
+	DJpAIyTSm5KrVfc5JYPZt3YSP1DnRbdQtRws3OIBsi36DUQkTggaJoK1llSJ60P2LGk=
+X-Gm-Gg: Acq92OFNw9NIHiUo43763HP3Ty+G+9l/8nQdCo5Z8sM2jKR1/p2tPEAfbDZB1v0l7uQ
+	eRa9hgxU8FgbWZZmnPCDOFm+iSXWKrrVy7SSoYm3oSnZcyFhDZn2fmZSXB0kNeOR/u2kn4EQ2Ao
+	e+K9KQrKkUwEsl2wxpBKDxzi3Cz0A9G8Run8Za2mrbN2czDsDgl474aAGF60GJlB3oh1fxM5pmS
+	UUi6aHRG8Tj7QPgnqXZAGodG8WBoNO5RDxT6EH4li+UDt8zjHeCnVRbE27ptZC7lH1dWYzw3zd7
+	ikIvHCJZEoueIeDRupPPOVbG8CrlalrP2Zx8k3/ZIJJtBJTmzoj62nMj7iM6mRgSx05agUwzLzU
+	qMTdFSZjPayIONjSHxOcPsp7FfG0SdREV0Oiv5XXeEVgcAOmEB1rea5r/Q8lMW2wQN/w6aO5GCP
+	qX1us9/mzGD2KRam/IpVkF427a19o/mWhrWvKkymFDbBVXqw/Ar0H1YEfJ5zfLzBJdS0utkM++J
+	aF/GMCY76xNL2njDkZTEhGftZXrbN08HzIOpKv4nwJhj5DqTAwh5NNXkxclKHqWkQ==
+X-Received: by 2002:a17:90a:a81:b0:369:1dff:6bd5 with SMTP id 98e67ed59e1d1-3691dff76dcmr3620471a91.17.1778773286539;
+        Thu, 14 May 2026 08:41:26 -0700 (PDT)
+Received: from ERIC039ERIC.localdomain (1-170-163-225.dynamic-ip.hinet.net. [1.170.163.225])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d23044csm28385315ad.78.2026.05.14.08.41.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 08:41:26 -0700 (PDT)
+From: Chen-Shi-Hong <eric039eric@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen-Shi-Hong <eric039eric@gmail.com>
+Subject: [PATCH] docs: hwmon: sy7636a: fix temperature sysfs attribute name
+Date: Thu, 14 May 2026 23:39:13 +0800
+Message-ID: <20260514154108.1937-1-eric039eric@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 13 2026, Samiullah Khawaja wrote:
+The hwmon sysfs naming convention uses
+temp[1-*]_input for temperature channels.
 
-> On Tue, May 12, 2026 at 02:29:19PM -0700, Vipin Sharma wrote:
->>On Tue, May 12, 2026 at 01:59:51PM -0700, David Matlack wrote:
->>> On Mon, May 11, 2026 at 4:48=E2=80=AFPM Vipin Sharma <vipinsh@google.co=
-m> wrote:
->>>
->>> > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
->>> > index c12d614fc6c4..019de053f116 100644
->>> > --- a/drivers/vfio/pci/Kconfig
->>> > +++ b/drivers/vfio/pci/Kconfig
->>> > @@ -45,13 +45,15 @@ config VFIO_PCI_IGD
->>> >
->>> >  config VFIO_PCI_LIVEUPDATE
->>> >         bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
->>> > -       depends on PCI_LIVEUPDATE
->>> > +       depends on PCI_LIVEUPDATE && VFIO_DEVICE_CDEV
->>> >         help
->>> >           Support for preserving devices bound to vfio-pci across a L=
-ive
->>> >           Update. This option should only be enabled by developers wo=
-rking on
->>> >           implementing this support. Once enough support has landed i=
-n the
->>> >           kernel, this option will no longer be marked EXPERIMENTAL.
->>> >
->>> > +         Enabling this will disable support for VFIO PCI DMA buffer.
->>> > +
->>> >           If you don't know what to do here, say N.
->>> >
->>> >  endif
->>> > @@ -68,7 +70,7 @@ config VFIO_PCI_ZDEV_KVM
->>> >           To enable s390x KVM vfio-pci extensions, say Y.
->>> >
->>> >  config VFIO_PCI_DMABUF
->>> > -       def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER
->>> > +       def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFE=
-R && !VFIO_PCI_LIVEUPDATE
->>>
->>> Why does enabling VFIO_PCI_LIVEUPDATE require disabling
->>> VFIO_PCI_DMABUF? I saw the cover letter says "to keep things simple",
->>> but what specific problem does this solve or simplify?
->>
->>I should have provided more details there.
->>
->>When device is getting reset in vfio_pci_liveupdate_freeze(), we are
->>zapping userspace mapped bars, we also need to use
->>vfio_pci_dma_buf_move() to revoke dma buffer access or
->>vfio_pci_dma_buf_cleanup() combination. Cleanup takes the memory lock
->>which freeze already takes, and there are some refcounts which are
->>managed in both of these APIs. This was causing complexities with code
->>flow based on result of pci_load_saved_state(). All this was adding more
->>refactoring than I wanted in the series.
->
-> Maybe we can return -EOPNOTSUPP if any dmabufs for this vfio cdev are
-> exported during preserve?
+Documentation/hwmon/sy7636a-hwmon.rst currently documents
+temp0_input, while the driver uses the standard hwmon
+temperature channel interface.
 
-Whichever way you go with, a TODO/comment would be nice to have so
-someone (including future you) looking at this code knows why this
-restriction exists.
+Update the documentation to use temp1_input.
 
---=20
-Regards,
-Pratyush Yadav
+Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
+---
+ Documentation/hwmon/sy7636a-hwmon.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/hwmon/sy7636a-hwmon.rst b/Documentation/hwmon/sy7636a-hwmon.rst
+index 0143ce0e5db7..03d866aba6e8 100644
+--- a/Documentation/hwmon/sy7636a-hwmon.rst
++++ b/Documentation/hwmon/sy7636a-hwmon.rst
+@@ -22,5 +22,5 @@ The following sensors are supported
+ sysfs-Interface
+ ---------------
+ 
+-temp0_input
++temp1_input
+ 	- Temperature of external NTC (milli-degree C)
+-- 
+2.53.0
+
