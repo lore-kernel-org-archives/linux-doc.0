@@ -1,229 +1,219 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8CE3A961B;
-	Thu, 14 May 2026 14:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778769486; cv=none; b=dc8nseX3Wboa91jhiDBh+sKcxqFJ3ilhg0FcgPwg+O9Y38Co/ZQ8r/KDOo8tzihk+WBr0JHC1gtKm7Y+u/PKUj3PKh+z0fIpU2zeb7uj/oibRVai9bcGJUZKl8cnOnUItlnllWpEpdVkDOB7oROGc3VzM7DcXhiP19+glCOnboc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778769486; c=relaxed/simple;
-	bh=mXwHDIqGXSheuVmXkz3Nu+rxuQ4jB4Ts4ly5uFc02Ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u2JcyqQX7YPKTI64ZqOka/h2dWy+fVT5LUII+v8hFX9xRarFc18V54D5iW4bZalMn4RbYIxRCLq/rZ9RHevvIuZQUKejisxCXEEoapu38x/8xO6b9dTiqrJUFb9ngJekpZaGvmjdISfF3IYRkyeJtwit2MZ85bwUPfiQK8NEl0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=eWNCk7mE; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905993FD13D
+	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 15:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778771361; cv=pass; b=NouVymgpbGS6/t6Hx2KLJL/D5L+gWCx39pI3e2HD9YXqBosCnOKfeSN8lVrxdWRQgp3UaKcsDD0F3vzL5Vhj7dRVMXmjcDWJhSWpTFk4emgmfrc9BWjDuiMUKgopqw7o7UCOrnSn1LxtFfWE3s7n9dqDzoSJ1i1uR6ycWhcqUuo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778771361; c=relaxed/simple;
+	bh=9VWkUyUAPDFo9IHMN2LN9rQ2SLm6OqvalmrrIvc1kBU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Au+Rm3xS/PlcDZWLsXeQ72DN3MCKF1uWNfHJngZ873YH84BAYavctUKah7uI/vn+8+3ns3alADu7ylpGBnhjLQfWTdacZvZaIwCCBPk7otQbnGJCK1+GGavpo4IH9k4HPaQjO3+ZYw8y5eDqF6IU5tH/Ktkg1ZfWKRG4+KZj0tU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VLDXNifw; arc=pass smtp.client-ip=209.85.161.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="eWNCk7mE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=ooEeB1JEjvZHDYLPx2r/tMVM+A1Ro3YEzIkX/3MTpcI=; b=eWNCk7mEeueoc/qlWYm2CtsNSp
-	e9ixqbIP3UGcVD8XXg+KLsajvk3gwBxUAw0WRae/WqTeh1R7HwofikWBRsMF9ibNKTE43oDhMkK2n
-	W93XSKq2J0EyCRaFjdrWi5Aaao3bqV7zpHAo4YNe7sTZSd2YBdbUqWf39Z57l8uJYqR6nCTQ8U7EP
-	+AQLwVtjplJ0IzeZWmc7q7DxMG7HqR5Z5UYd5hgCVSBe6DB+kLhS2ppGBOP5HKMogGn4CCO66NMAZ
-	PL2z7dOlWxBX373QY4FckVVBzcW6KqZOmUXEpOf1S05p5etYrDKUfcfiCR6AwqYxagXX0vnBc7EgL
-	ERp0APyw==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wNXBi-0040e9-2w;
-	Thu, 14 May 2026 14:37:23 +0000
-Date: Thu, 14 May 2026 07:37:14 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: linmiaohe@huawei.com, akpm@linux-foundation.org, david@kernel.org, 
-	ljs@kernel.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, shuah@kernel.org, nao.horiguchi@gmail.com, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, liam@infradead.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v7 2/6] mm/memory-failure: surface unhandlable kernel
- pages as -ENOTRECOVERABLE
-Message-ID: <agXcPleVC9LGVCmj@gmail.com>
-References: <20260513-ecc_panic-v7-2-be2e578e61da@debian.org>
- <20260514132830.25622-1-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VLDXNifw"
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-6949e5171acso392869eaf.2
+        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 08:09:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778771356; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UcdbPiykY6hauMe+j43/Go+bQd509mz2gdzjG3AUVrxjIzm4SynsPJGvnikPrUKyK+
+         bRt1+SqplRl5UhytD8EpfON76rHZnrruTH3tUtJwl2Nb4h5aYyOvKlGI8hvocwdGQWX+
+         is3n6ubzqIHhZrzq3hKsUaCDECZrDSrUYBuqzH6sepUKu2f7m5MuEULFoISvp1kBEK6n
+         tdj7gw44hNiA561FDfjyZmIkvP/NBX5fTfpTCLhQ4E5AVjdKaIhWyCOJY82CDyY3M5cL
+         eG9GncKb+n2dx8MKMkH4z3hR1TnOw8fpcBWLSdNAnBg4U3eG6+0MmpNp2SO43mJNz+xy
+         uZXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ESax1I69XZe2pTasflsIowumfd1TUPTULL6KM+u28lk=;
+        fh=j50IIaQNXs5U3Aa9IdmSsGMAP4BZ+AZKBD9kiekIO2g=;
+        b=UfMl6vXWeEtN1tUPVFW0hCNjf49RWKNDw1GUR7nQHyhrmofxIGBO9v6yvRMLvcyrCi
+         l6/eWO0u2LgphQ6heHjh+3+pOJM/p0BwapKJ+W5nxbGw+v4V86Wr9l+VjlESy+i6PVua
+         kwkRhjsbu0g2hP2LX+qltpL31qxey8+6/wFO0JVit/It2MOpG5UIBK9wzUWx1PwLNBse
+         NSi0ifq1DU0pjeVh3dcVrrr3YzHik9/I50qmCnvFk2BLne1FTvLKh8BjE5Sr/fDu0+UO
+         Ei1HilaPqHtrCNjhGVkisvOU9kuUcICUjyB+7Gj7u3iVz3MOCYJ3UGc68oiO5j5Wy5Zu
+         DPlg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778771356; x=1779376156; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ESax1I69XZe2pTasflsIowumfd1TUPTULL6KM+u28lk=;
+        b=VLDXNifwsMc5/mMekoJ//T+3WJCaZdjKoCkJx5NmxWmIBBmNllyQuJL4EhocCbj5dR
+         1nWKA/W/eMhGB0zPN+urRi3E4jkomT8b29gr/FRPEbOvpd584AV3m5pNOoDVTtr9nvce
+         K7ikz5zD5g8evV55F3jLFdwCXUu2GSsq7e6xS5XJcXAUtA+bkhKFexoS20esMq6TCZfe
+         C6fbxfmYr4+UBSEl59nzZpc6bKrMiD/W9+OK8jGLfN1p4lFBu/rh+pxfzoglpzQbOkAH
+         AShoPm9ZXNahDbfSEEoC+7cwWjl2WRlsHNwzzJk+heg804RU0FyqAhHDqyiMHQV/jXxV
+         a0MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778771356; x=1779376156;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ESax1I69XZe2pTasflsIowumfd1TUPTULL6KM+u28lk=;
+        b=Tq29xv1AEMOnaSO+yQYG8FMK2jQJrw7k+FeyPjJ/bIIRrVL+kZlMSlhGwffSpLoNhI
+         KRBXCRvdhdPZclQIZfMinTTBxK/SSRR/YE6gr+kfJlyjtuo4LktXn6+tvr5aJU3Aoomn
+         izZEF3hk5OyFDiXL19+SaEZWaHh5cy9pfDYa5OCQnyKEeuLxvWX5SDdmna9aR2QWrb65
+         w1UieE6RNelC7yVuSgZKW5ts8Km2jIlPpw4IQfcZRKGUfKzsi6qXi9tDb6pJdeGdJmop
+         sUvKN009AEniymY9eZtB952URZKlmB8R4GlXINj3hDusaRyHZIgSygB027sx92E2texw
+         pqzg==
+X-Forwarded-Encrypted: i=1; AFNElJ8DVAAg5h3ATUsp6Oci0z11fJe1DIIJ/8GUfLPyymXUad9/jBZROlXsZxvPESJzrMWCMN5pEO85ZjI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEp5YU5zJIg2IZhVeDrp1zBskAdmDDiS68Ajg++cp4m9AEo0KL
+	wyOZJw/zyAiGvetyb/jufou24h/74NfUEKcD1b3RgSg7XHyZLmTcdaR+CVXJvE+cVq4Wr2cf6O1
+	016i1ul9iWwKeHT8jw4B+gYh9QNvboAs=
+X-Gm-Gg: Acq92OEc7dYshVm2YO+UI/fIThXdYdyS0p41ilCSvVnLk8QsqNEAqTOjApO0OexNzf/
+	TbXGUskN3433RBvcCOOwnf6WqbqpdeiWmsokBFl48HfXb/9OTBprbt8Ljc7/16GeViPtLxIuJYW
+	AbBvb00FOVQJYE8535CbZP5+UaKGLcbdT1r/9OdRgDZLgHD0MLCfT1272cRgmp6YQPjhHJwbr+P
+	lP+maAaML53uo3zGPq/x2tdv8a3GTVsUiZ4PjZkal696J5bvxWCYa5aZATtrA9etzmwde7198Y7
+	rFSC9XbCo69HekiGBU0=
+X-Received: by 2002:a05:6808:1641:b0:467:53b0:b44d with SMTP id
+ 5614622812f47-482b2d31b1bmr3042378b6e.5.1778771356079; Thu, 14 May 2026
+ 08:09:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260514132830.25622-1-lance.yang@linux.dev>
-X-Debian-User: leitao
+References: <20260514094955.76305-1-jianlv@ebay.com> <2026051443-exuberant-important-534f@gregkh>
+ <CAFA-uR93Wf2ALpYnnU79kruv7XO=uFePqioaEXNNEfrUtRw2xQ@mail.gmail.com> <2026051406-corridor-equation-c50e@gregkh>
+In-Reply-To: <2026051406-corridor-equation-c50e@gregkh>
+From: Jianlin Lv <iecedge@gmail.com>
+Date: Thu, 14 May 2026 23:09:03 +0800
+X-Gm-Features: AVHnY4J2dkhFy6eGlghPANY01Lmp0sHVjJRnqMskvc_iSu6OzpshOwPJLL8rs3c
+Message-ID: <CAFA-uR9=rHPbiVFYgDBAdRHCoujKjqtTxsMVupEwGhGmXoLw8w@mail.gmail.com>
+Subject: Re: [PATCH] driver core: Add cmdline option to force probe type
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rafael@kernel.org, 
+	dakr@kernel.org, jianlv@ebay.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 14, 2026 at 09:28:30PM +0800, Lance Yang wrote:
-> 
-> On Wed, May 13, 2026 at 08:39:33AM -0700, Breno Leitao wrote:
-> >get_any_page() collapses three different failure modes into a single
-> >-EIO return:
-> >
-> >  * the put_page race in the !count_increased path;
-> >  * the HWPoisonHandlable() rejection that bounces out of
-> >    __get_hwpoison_page() with -EBUSY and exhausts shake_page() retries;
-> >  * the HWPoisonHandlable() rejection that goes through the
-> >    count_increased / put_page / shake_page retry loop.
-> >
-> >The first is transient (the page is racing with the allocator).  The
-> >second can be either transient (a userspace folio briefly off LRU
-> >during migration/compaction) or stable (slab/vmalloc/page-table/
-> >kernel-stack pages).  The third describes a stable kernel-owned page
-> >that the count_increased=true caller already held a reference on.
-> >
-> >Distinguish them on the return path: keep -EIO for both the put_page
-> >race and the -EBUSY-after-retries branch (shake_page() cannot drag a
-> >folio back from active migration, so we cannot prove the page is
-> >permanently kernel-owned from there), keep -EBUSY for the allocation
-> >race (unchanged), and return -ENOTRECOVERABLE only from the
-> >count_increased-true HWPoisonHandlable() rejection that exhausts its
-> >retries -- the caller's reference is structural evidence that the
-> >page is owned by the kernel.
-> >
-> >Extend the unhandlable-page pr_err() to fire for either errno and
-> >update the get_hwpoison_page() kerneldoc.
-> >
-> >memory_failure() still folds every negative return into
-> >MF_MSG_GET_HWPOISON via its existing "else if (res < 0)" branch, so
-> >this patch is a no-op for users of memory_failure() and only changes
-> >the errno that soft_offline_page() can propagate to its callers.  A
-> >follow-up wires the new return code through memory_failure() and
-> >reports MF_MSG_KERNEL for the unrecoverable cases.
-> >
-> >Suggested-by: David Hildenbrand <david@kernel.org>
-> >Signed-off-by: Breno Leitao <leitao@debian.org>
-> >---
-> > mm/memory-failure.c | 18 +++++++++++++++---
-> > 1 file changed, 15 insertions(+), 3 deletions(-)
-> >
-> >diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> >index 49bcfbd04d213..bae883df3ccb2 100644
-> >--- a/mm/memory-failure.c
-> >+++ b/mm/memory-failure.c
-> >@@ -1408,6 +1408,15 @@ static int get_any_page(struct page *p, unsigned long flags)
-> > 				shake_page(p);
-> > 				goto try_again;
-> > 			}
-> >+			/*
-> >+			 * Return -EIO rather than -ENOTRECOVERABLE: this
-> >+			 * branch is also reached for pages that are merely
-> >+			 * off-LRU transiently (e.g. a folio in the middle
-> >+			 * of migration or compaction), which shake_page()
-> >+			 * cannot drag back.  The caller cannot prove the
-> >+			 * page is permanently kernel-owned from here, so
-> >+			 * keep it on the recoverable errno.
-> >+			 */
-> > 			ret = -EIO;
-> > 			goto out;
-> > 		}
-> >@@ -1427,10 +1436,10 @@ static int get_any_page(struct page *p, unsigned long flags)
-> > 			goto try_again;
-> > 		}
-> > 		put_page(p);
-> >-		ret = -EIO;
-> >+		ret = -ENOTRECOVERABLE;
-> > 	}
-> > out:
-> >-	if (ret == -EIO)
-> >+	if (ret == -EIO || ret == -ENOTRECOVERABLE)
-> > 		pr_err("%#lx: unhandlable page.\n", page_to_pfn(p));
-> > 
-> > 	return ret;
-> >@@ -1487,7 +1496,10 @@ static int __get_unpoison_page(struct page *page)
-> >  *         -EIO for pages on which we can not handle memory errors,
-> >  *         -EBUSY when get_hwpoison_page() has raced with page lifecycle
-> >  *         operations like allocation and free,
-> >- *         -EHWPOISON when the page is hwpoisoned and taken off from buddy.
-> >+ *         -EHWPOISON when the page is hwpoisoned and taken off from buddy,
-> >+ *         -ENOTRECOVERABLE for stable kernel-owned pages the handler
-> >+ *         cannot recover (PG_reserved, slab, vmalloc, page tables,
-> >+ *         kernel stacks, and similar non-LRU/non-buddy pages).
-> 
-> Did you test this patch series? I don't see how we ever get to
-> -ENOTRECOVERABLE there ...
+On Thu, May 14, 2026 at 9:49=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Thu, May 14, 2026 at 09:35:08PM +0800, Jianlin Lv wrote:
+> > On Thu, May 14, 2026 at 6:16=E2=80=AFPM Greg KH <gregkh@linuxfoundation=
+.org> wrote:
+> > >
+> > > On Thu, May 14, 2026 at 05:49:55PM +0800, Jianlin Lv wrote:
+> > > > From: Jianlin Lv <iecedge@gmail.com>
+> > > >
+> > > > Device drivers that use asynchronous probing can cause non-determin=
+istic
+> > > > device ordering and naming across reboots. A typical example is sto=
+rage
+> > > > drivers (like sd/nvme): asynchronous probing can lead to inconsiste=
+nt disk
+> > > > logical names after reboot. In scenarios where disk naming consiste=
+ncy is
+> > > > critical, the probe type should be set to synchronous.
+> > > >
+> > > > This patch introduces a driver_probe kernel parameter that override=
+s any
+> > > > driver's hard-coded probe type settings and allows runtime control =
+without
+> > > > requiring kernel recompilation:
+> > > >
+> > > >   driver_probe=3DPROBE_TYPE_SYNC,nvme,sd      # Force specific driv=
+ers sync
+> > > >   driver_probe=3DPROBE_TYPE_ASYNC,*,usb       # Force all async exc=
+ept usb
+> > > >   driver_probe=3DPROBE_TYPE_SYNC,*            # Force all drivers s=
+ynchronous
+> > > >
+> > > > The implementation replaces the limited driver_async_probe paramete=
+r with
+> > > > a more flexible interface that can force either synchronous or asyn=
+chronous
+> > > > probing as needed.
+> > > >
+> > > > Signed-off-by: Jianlin Lv <iecedge@gmail.com>
+> > > > ---
+> > > >  .../admin-guide/kernel-parameters.txt         | 27 +++++--
+> > > >  drivers/base/dd.c                             | 71 ++++++++++++++-=
+----
+> > > >  2 files changed, 74 insertions(+), 24 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Docu=
+mentation/admin-guide/kernel-parameters.txt
+> > > > index 4d0f545fb3ec..b43a8bd20356 100644
+> > > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > > @@ -1377,12 +1377,27 @@ Kernel parameters
+> > > >                       it becomes active and is searched during sign=
+ature
+> > > >                       verification.
+> > > >
+> > > > -     driver_async_probe=3D  [KNL]
+> > > > -                     List of driver names to be probed asynchronou=
+sly. *
+> > > > -                     matches with all driver names. If * is specif=
+ied, the
+> > > > -                     rest of the listed driver names are those tha=
+t will NOT
+> > > > -                     match the *.
+> > > > -                     Format: <driver_name1>,<driver_name2>...
+> > >
+> > > You can not remove an existing user/kernel api, sorry, that is not
+> > > allowed as you just broke all systems that were relying on this :(
+> > >
+> > Could you provide more suggestions on how to improve this patch?
+>
+> Not really, sorry, I don't think this is a change that should be done at
+> all.  disk naming is a long-solved issue, to think that you can fix that
+> by doing sync/async device probing is not understanding both the issues
+> involved, and how we solved it already :)
 
-Yes, I did. I am using the following test case:
+Do you mean referencing disks via by-path/by-id? In our production env
+they can also be unstable; this is an example I encountered before:
+https://lore.kernel.org/all/CAFA-uR_jk6jCmf9DTebSVBRwtoLuXuyvf1Biq+OObqRVAO=
+ZbBw@mail.gmail.com/
 
-https://github.com/leitao/linux/commit/cfebe84ddeab5ac34ed456331db980d57e7025dc
+I understand that device naming in the kernel can change at any time. Howev=
+er,
+Is it necessary to provide an interface that allows users to choose
+the probe mode themselves?
+Currently, driver_async_probe has lower priority than the drivers=E2=80=99
+hard-coded probe_type settings.
+Could we adjust the code as follows so that driver_async_probe has the
+highest priority?
 
-	# RUN_DESTRUCTIVE=1 tools/testing/selftests/mm/hwpoison-panic.sh
-	# enabling /proc/sys/vm/panic_on_unrecoverable_memory_failure
-	# injecting hwpoison at phys 0x2a00000 (Kernel rodata)
-	# expecting kernel panic: 'Memory failure: <pfn>: unrecoverable page'
-	[  501.113256] Memory failure: 0x2a00: recovery action for reserved kernel page: Ignored
-	[  501.113956] Kernel panic - not syncing: Memory failure: 0x2a00: unrecoverable page
+ static bool driver_allows_async_probing(const struct device_driver *drv)
+ {
++       if (cmdline_requested_async_probing(drv->name))
++                        return true;
++
+        switch (drv->probe_type) {
+        case PROBE_PREFER_ASYNCHRONOUS:
+                return true;
+@@ -876,9 +879,6 @@ static bool driver_allows_async_probing(const
+struct device_driver *drv)
+                return false;
 
+        default:
+-               if (cmdline_requested_async_probing(drv->name))
+-                       return true;
+-
+                if (module_requested_async_probing(drv->owner))
 
-> Even with MF_COUNT_INCREASED, the first pass does:
-> 
-> 	if (flags & MF_COUNT_INCREASED)
-> 		count_increased = true;
-> 
-> 	[...]
-> 
-> 	if (PageHuge(p) || HWPoisonHandlable(p, flags)) {
-> 		ret = 1;
-> 	} else {
-> 		if (pass++ < GET_PAGE_MAX_RETRY_NUM) { <-
-> 			put_page(p);
-> 			shake_page(p);
-> 			count_increased = false;
-> 			goto try_again; <-
-> 		}
-> 		put_page(p);
-> 		ret = -ENOTRECOVERABLE;
-> 	}
-> 
-> Then we come back with count_increased=false:
-> 
-> try_again:
-> 	if (!count_increased) {
-> 		ret = __get_hwpoison_page(p, flags); <-
-> 		if (!ret) {
-> 		[...]
-> 		} else if (ret == -EBUSY) { <-
-> 		[...]
-> 			ret = -EIO;
-> 			goto out; <-
-> 		}
-> 	}
-> 
-> For slab/vmalloc/page-table pages, __get_hwpoison_page() returns -EBUSY:
-> 
-> 	if (!HWPoisonHandlable(&folio->page, flags))
-> 		return -EBUSY;
-> 
-> so they still seem to end up as -EIO ... Am I missing something?
+Jianlin
 
-You are not, and thanks for catching this. I traced it again and the
--ENOTRECOVERABLE branch is unreachable for slab/vmalloc/page-table pages
-exactly as you described. The __get_hwpoison_page() → -EBUSY → shake → retry
-loop catches them first and they exit as -EIO.
-
-The selftest I am using (link above) only validated the PageReserved
-short-circuit added in patch 3, which lives in memory_failure() and never
-reaches get_any_page().
-
-I even thought about this code path, and I was not convinced we should return
--ENOTRECOVERABLE, thus I documented the following (as in this current patch)
-
-	@@ -1408,6 +1408,15 @@ static int get_any_page(struct page *p, unsigned long flags)
-			shake_page(p);
-			goto try_again;
-		}
-	+            /*
-	+             * Return -EIO rather than -ENOTRECOVERABLE: this
-	+             * branch is also reached for pages that are merely
-	+             * off-LRU transiently (e.g. a folio in the middle
-	+             * of migration or compaction), which shake_page()
-	+             * cannot drag back.  The caller cannot prove the
-	+             * page is permanently kernel-owned from here, so
-	+             * keep it on the recoverable errno.
-	+             */
-		ret = -EIO;
+>
+> Hint, never count on block device, or any device, names to be the same
+> across reboots.  That has NEVER been guaranteed on systems built in the
+> past 20+ years.
+>
+> Please, just use the existing solutions, no new command line option
+> should ever be needed here.
+>
+> thanks,
+>
+> greg k-h
