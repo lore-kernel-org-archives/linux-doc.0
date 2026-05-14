@@ -1,93 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9315B1DF748;
-	Thu, 14 May 2026 07:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39283D7D7C
+	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 07:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778743478; cv=none; b=UfF3y1l+tSOv5A2NXWcGQZoBlJboI9LXmX8kOGymkbcjOwAQI6hrxtov2bleAhNR5u2ZZoiA0JoxFMDlPZSbYyxa+orgUA4EBoXkYKpPZUQHCz2bp4jkZhJ0qmMREuZwe/4NDWdFuD9hhDTw2PiMz8QX0x8frZVNPExJgkaoHsU=
+	t=1778743592; cv=none; b=VFtz8Sa3zG6//2xpHRATdje2vt0x44GzNy7LEKI7vAbY0U7twH+hm01Kq2K/2OVG1rUZtFlWnc7vUkzAyqaIuQUzFDz57N+Wh2lLp966cfwXMfc3SlJmkGI/oIdmIGL1Nas2C+uo/9rLWKvpRBivcolJSW4wD3F81OrdJ7L1PKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778743478; c=relaxed/simple;
-	bh=qyBgmyKnXrQV6qm83BCHmNVHAslYtlyBrnJabep9YJY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GJBskK20R0s/CruQxg7D422U09BD1hMTsea0E+dUkXt5cDtB+JUwbrNc5Hc4Za/dSSYWxRWXv36lMMY6tcEnzac8pmbd/eDKGEB0Ga1y9baXntfmcYga01/velIoTjv1SJhkbTe5HCocxG4Pbe6F8/yuGZnmAG5nCYceVMBNySI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE61FC2BCB7;
-	Thu, 14 May 2026 07:24:37 +0000 (UTC)
-Date: Thu, 14 May 2026 09:23:53 +0200
-From: Greg KH <greg@kroah.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Willy Tarreau <w@1wt.eu>, Leon Romanovsky <leon@kernel.org>,
-	skhan@linuxfoundation.org, security@kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] Documentation: security-bugs: clarify
- requirements for AI-assisted reports
-Message-ID: <2026051439-reorder-flight-5a14@gregkh>
-References: <20260509094755.2838-1-w@1wt.eu>
- <20260509094755.2838-4-w@1wt.eu>
- <87se7wo861.fsf@trenco.lwn.net>
- <2026051353-apricot-kleenex-fa57@gregkh>
- <agRfXQvN7ZDTNGQG@1wt.eu>
- <87a4u3mpxk.fsf@trenco.lwn.net>
- <87ik8r6n1r.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1778743592; c=relaxed/simple;
+	bh=4ryslff3M7sEG6C/nTOICEM81m4Sqfxcyh7IfMc9gnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tmD0qFy4DxIvFpIXnb7t9yYZaiKzP/4+8K0Qd00oUU15v1xT2izPO2R02dekyljI4+q9sxZ5KOcGSYm3AvqGfoJp7RqV2nPGZXOqg+Jaraf2jm7LMT1y18I+PPo2HTNeZ9XGfKRSRAjapGVWeP/aDT7vHlnROKRImh58VoqkK7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R1pphvjv; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1pphvjv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778743591; x=1810279591;
+  h=date:from:to:cc:subject:message-id;
+  bh=4ryslff3M7sEG6C/nTOICEM81m4Sqfxcyh7IfMc9gnQ=;
+  b=R1pphvjvuLevc+8wetvHzGp0WNLKbDporDVJf3DD5GVMU0qsNOp6izzK
+   wOlQ4NBqJ47Y2qFrr56N4BYanqLlVzvYwa1cOnH2IYykFMeLksEP8uZQt
+   lwBQ1p5xnIIgiyfJAEYV//qmB1PGd2Ei+vtDp1uW2whaVOBT4DjquKo5r
+   TdXOH8+OT0AcWpxmiSPOSk7bSoNXxQUVkT0hFkOpuTj+3s5h5fn0Il7yl
+   eAR3rq0b4KhRa7SexpWrJKk2gvQJ8InEmKaE8cjNOba1s9WHcz5Z6AJm3
+   5bYKpL7tTusw/y3dmHHs5niVJlfR1wAEBhLEpqbAGNfHI47TRaKJVyC2M
+   Q==;
+X-CSE-ConnectionGUID: G6ALteR7QBqhh8iWWJaITg==
+X-CSE-MsgGUID: 6WHMK70/TzyCHmUNcXqYrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79798537"
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="79798537"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 00:25:56 -0700
+X-CSE-ConnectionGUID: ief3MeVGTIWjVqU6aZmIyA==
+X-CSE-MsgGUID: 40Jy0vRwQOm3OvxNpXOMLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="242307671"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 14 May 2026 00:25:55 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wNQS8-000000008m5-3PpA;
+	Thu, 14 May 2026 07:25:52 +0000
+Date: Thu, 14 May 2026 09:24:55 +0200
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/driver-api/media/v4l2-subdev:644:
+ ./include/media/v4l2-subdev.h:1815: WARNING: Inline emphasis start-string
+ without end-string. [docutils]
+Message-ID: <202605140920.76HXOESS-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ik8r6n1r.fsf@trenco.lwn.net>
 
-On Wed, May 13, 2026 at 03:02:08PM -0600, Jonathan Corbet wrote:
-> Jonathan Corbet <corbet@lwn.net> writes:
-> 
-> > Willy Tarreau <w@1wt.eu> writes:
-> >
-> >> On Wed, May 13, 2026 at 12:30:10PM +0200, Greg KH wrote:
-> >>> > One nit:
-> >>> > 
-> >>> > > +  * **Impact Evaluation**: Many AI-generated reports lack an understanding of
-> >>> > > +    the kernel's threat model and go to great lengths inventing theoretical
-> >>> > > +    consequences.
-> >>> > 
-> >>> > If only we had a shiny new document describing that threat model that we
-> >>> > could reference here... :)
-> >>> 
-> >>> Ah yes, a link to that would make things better, but don't we have that
-> >>> elsewhere in this series?
-> >>
-> >> It's in the same patch, I think Jon was sarcastic here. I thought I had
-> >> addressed that one but apparently I was wrong :-/
-> >
-> > I'm just saying that this particular text should link to that document,
-> > don't make readers go searching for it.  I can certainly add a patch
-> > doing that if you like.
-> 
-> I was thinking something like this.
-> 
-> jon
-> 
-> >From 3f02a3c190bab6b54e2a250ead0c7408af1a3c51 Mon Sep 17 00:00:00 2001
-> From: Jonathan Corbet <corbet@lwn.net>
-> Date: Wed, 13 May 2026 14:51:29 -0600
-> Subject: [PATCH 1/2] docs: security-bugs: add a link to the threat-model
->  documentation
-> 
-> Rather than make readers search for this document, just a link to it where
-> it is referenced.
-> 
-> (While I was at it, I removed the unused and unneeded _threatmodel label
-> from the top of threat-model.rst).
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/process/security-bugs.rst | 13 +++++++------
->  Documentation/process/threat-model.rst  |  2 --
->  2 files changed, 7 insertions(+), 8 deletions(-)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l2-common-Add-mipi_csi2_dt_for_mbus/20260514-071037
+head:   34918de37a97a5dc1db4f52558076912af6adcea
+commit: a3067ab49d683ccd82af48d0fad7349b7724537d media: v4l2-subdev: Provide a cleanup-friendly get_frame_desc
+date:   8 hours ago
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260514/202605140920.76HXOESS-lkp@intel.com/reproduce)
 
-Looks good, thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605140920.76HXOESS-lkp@intel.com/
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+All warnings (new ones prefixed by >>):
+
+   --------------------------------------------------------------------------------------------^
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:370: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
+   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:393: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
+   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
+>> Documentation/driver-api/media/v4l2-subdev:644: ./include/media/v4l2-subdev.h:1815: WARNING: Inline emphasis start-string without end-string. [docutils]
+   Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: ERROR: Unexpected section title.
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
