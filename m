@@ -1,141 +1,246 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F00D316189;
-	Thu, 14 May 2026 16:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778776343; cv=none; b=ZkTgWgWxCm2Sm2liUK6BOsNkjCN975xHAlyZRkLdOdRKHJK84vWgMIO0ZjGeKDK9qnnyK1JibhUZr0tx06w6JxgmsdLWu315pIygRK9Fk6I5fih7fUXzuXsPIa1SH32Ms26V2z1Z9NbHxAPGcl/1QFQ2vAdr3O54vKpAkqVZzzA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778776343; c=relaxed/simple;
-	bh=szoEGNrlBJ1LmQeDYolT3AAJQsNm38AgeFz4jvHb5/4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A/EEcPMcxTOXqrKBv358pQytTNayLdyF16Qh5aUHRdWw1qqaXlljK40O6k1SDIUA73MEGuzJAxGl9It80pACOs9u5IZF/xNtkbidnR2e9BSIKLK9K8KVelyAebgV5oUHDpFWpxZNpYWQGMjL/gzWjA6Ndpaev+wZGqcDyUIqCUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VMWQCvYK; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tTbnCPqi; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3443016F5;
+	Thu, 14 May 2026 16:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778776748; cv=fail; b=evuqpwXUTenqBsFAAPlxhX8bWVTqLgHzkgYn5mHvkwbcLOU62MR8jmw6zNvgsFdQ2HUWp59vmU+fVAtJ6nkOHHakK2r/9y9KdfCkRoP4pexnqpI3KqLq0B9Msm3SojkMh0QJ8rq865HqpyMpo8DFape6GiJjwQH36Bslqxp4sH4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778776748; c=relaxed/simple;
+	bh=cls7IPinDAJ4b3PTL8XCcu0rl21Ew6Pr39r4QM3qoI0=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=PEIKyEzVpD7Is5q4/inT35imf8wRm0Ef8n+yQFgsbPPihxnVh03z6DOx/BUf6az+IZyQLvyu0Yc5uPKl73QgpggbyOPcbUZBty2X5xFUuNh0kaY+XdMcDKF2Az1iD2igFFWH0vYoYPCDafwwWsoor2hoVLm6BF15VoqKfSe0ov4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=la5j9l5a; arc=fail smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VMWQCvYK";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tTbnCPqi"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gGbTJ1N4gz9vDd;
-	Thu, 14 May 2026 18:32:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1778776340;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oSTZX/Nl4yJO2d5YuuigYg8EBLAOIxbQfoWFH41gpEE=;
-	b=VMWQCvYKG3Wv51ppxm8fHLU3KZD/hjsQB2k9xTbHHITAU+J2p28gg9Q1/vgTyZwZxSjwLr
-	GKs9MiStYjYkmileJx0X0CNO9/2+X5kjV+ItiA5TWB7onfxsuPwps41g1PZQJgAF4TiBgp
-	Bl87maHptHSuyQFFR99sEMVmmLwvxDyVbtlO8Q1V29pp5360xyNHd/cvmVOL/JaChIHYiX
-	FBWXA8wKb+Yq0xmuYpkiDaTo900XyTsZEZqmsdFQQ1kkxlUOc1dGzynx32vppVOvXk/4Tv
-	6FUwf/4Y2Bakqe8GSC0PU3iyEco5Xk8KJhmM9AnIC0tzLeDmFUiOtGpOGkMi/A==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=tTbnCPqi;
-	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1778776338;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oSTZX/Nl4yJO2d5YuuigYg8EBLAOIxbQfoWFH41gpEE=;
-	b=tTbnCPqirFTqHrrBjR0Zt1etM9peSjaDGnDfNoKHS6TF8ySRa9ETc/7bN5cuB9goNNKviC
-	4Kr27n6Y8tFAJChaLfwagLd0gjnK+hEy1H4c/jMip8LysK92VAm8SIdwLA7wmkwnrAOKps
-	rQwtH3XflfgKstoXEY83SCSYNYSMHYAmTVG0/NogM/pLbtaKNSYnxsTKHNQYvEx9u0z8QP
-	4RRQYx91y4vgoIkV3E8PpY7Ija0m5STgtvpRFCpf8gnqn+Qdbifa4dezdem/7XJqmgErpF
-	iH4NTNaHiYN3U2T51gpzirqc2q/egInJGWkbCAzEJn+pBlRcmSX2zWtwR0v/xA==
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andy Whitcroft <apw@canonical.com>,
-	Joe Perches <joe@perches.com>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH v2 3/3] drivers: add deprecated remarks to strlcat()
-Date: Thu, 14 May 2026 18:30:34 +0200
-Message-ID: <20260514163033.108009-2-manuelebner@mailbox.org>
-In-Reply-To: <20260514160719.105084-3-manuelebner@mailbox.org>
-References: <20260514160719.105084-3-manuelebner@mailbox.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="la5j9l5a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778776746; x=1810312746;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=cls7IPinDAJ4b3PTL8XCcu0rl21Ew6Pr39r4QM3qoI0=;
+  b=la5j9l5a8qzu49LYQCjOO/u5HJev850+9fAg0XtsgvY/yxMspeywBUce
+   nnZ/W9IxCmqs9VbC1mibfSnzdPOAKaFyFznQ3Zf7pAyxY0qXKvo+SAetu
+   uoB51lAiDMbgTopwf2cJuAz+JNbx/02xzYI1EfDqh2VcWkrObWzFevmc2
+   NXJaX4EqfFgj6OiRaZy5LSgsZTBU13smsHFIX1vOHLSJlROMJuK1JCjuV
+   YBpkBrg4oBPBOUmmYNpwGzOXiE2SKXXB5/FPpxzxF+7+6w7NiMbLalHGB
+   kbtRhQhUsq8/UWM06J6suN9pjhM/PATmVx/fXiMffeJcr6d+s0pbkL3Oh
+   w==;
+X-CSE-ConnectionGUID: bcMsaw/ASnivNtRy0/qWCg==
+X-CSE-MsgGUID: S+XkDeTTS0O0uScO+rWxDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="97297730"
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="97297730"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 09:39:05 -0700
+X-CSE-ConnectionGUID: 8cq09PghQLGn8tLqRF0WUw==
+X-CSE-MsgGUID: EX+UGtKNR82rsN4eDF7OAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="233995058"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 09:39:05 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 14 May 2026 09:39:04 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 14 May 2026 09:39:04 -0700
+Received: from BN8PR05CU002.outbound.protection.outlook.com (52.101.57.3) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 14 May 2026 09:39:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dTaTZ5aTGK/1W6pJvPDMWiIoottPNbKnB8i7DVHgZrHCBPVWFSqCMIFnXXN/6Mv47o0g2cHCNExqVpoSfM0wHU4vE43+DKoN7X4dtISNk570JXBOiydGHzxyeFe337+LIehKFFTPLx9PgvmABdkMr+c1knYeRA/6ZiRRdWey0xIGqrVEF1erSf+3Qu6MY9NXrSBnVxto4hPV2N1xCzFti4FCLeIahn7ooRO5mR4x5Eo7jIuqfyOeXM4QWwmnhQ1Faw+MHHvj0o/alWq4oczEdJ4g1uEYiHQdmxlFttgkITu3YZVwnb1Nmfpqxt5FKTs9AIvOXLnTJrcfjYPlAVGyqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S5IPGtMTr36U0PQ9/cgM7SuFHGMjQUvHJU9qcrF7GzM=;
+ b=S5kW4StPj7peBoUMZtOQbtNjMjAndrQl5vxELrR+H11mIn/y9UJw6fZ3bdZHNs3tbBv95TFQpYfKfpg8nNXaqF3nDc0F79FJLsJF9xVYai97j6uc5n/PpClYYms7IOENCH4Y1afUJrwhKfh7wHPhbODoZ2ltN03RwcCiGV0ACPonBCzSZWDhWAs5XqW8f1uSj/e7cHUfkJc4kYssY98yKtFh8WzDgDgvMYxVHrH7WtD+QCNLlGZXOCqrV5YaOqlXXvY6AH8yH5IRh8d3t0T7FNbowyQhzplJDnSAxVBj/EWkcD94lnSBwWWMhx0Xv8OxX8KebGKQ52ZI9YSeVVuqxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB7592.namprd11.prod.outlook.com (2603:10b6:806:343::16)
+ by SAVPR11MB9549.namprd11.prod.outlook.com (2603:10b6:806:4e9::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Thu, 14 May
+ 2026 16:39:01 +0000
+Received: from SN7PR11MB7592.namprd11.prod.outlook.com
+ ([fe80::3e09:8700:df72:37b6]) by SN7PR11MB7592.namprd11.prod.outlook.com
+ ([fe80::3e09:8700:df72:37b6%6]) with mapi id 15.20.9913.012; Thu, 14 May 2026
+ 16:39:00 +0000
+Message-ID: <c579daa4-2144-4524-b107-6322281f5209@intel.com>
+Date: Thu, 14 May 2026 09:38:57 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/2] net: ti: icssg: Derive stats array lengths
+ from ARRAY_SIZE
+To: MD Danish Anwar <danishanwar@ti.com>, David CARLIER <devnexen@gmail.com>
+CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Roger Quadros
+	<rogerq@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Meghana Malladi
+	<m-malladi@ti.com>, Kevin Hao <haokexin@gmail.com>, Vadim Fedorenko
+	<vadim.fedorenko@linux.dev>, <netdev@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, Vignesh Raghavendra <vigneshr@ti.com>
+References: <20260512060627.3781329-1-danishanwar@ti.com>
+ <20260512060627.3781329-2-danishanwar@ti.com>
+ <CA+XhMqykBWcMdk+iNnOtUxM4MX6jpDyUwfuAVZFbjAShO9_v7Q@mail.gmail.com>
+ <6a1f411c-d7ed-463b-abf1-277d8cc0c184@ti.com>
+ <9fbf6682-b521-4b7e-b5b6-af91694ed051@intel.com>
+ <e28d2931-004e-4935-a0b5-d554ece76fb2@ti.com>
+Content-Language: en-US
+From: Jacob Keller <jacob.e.keller@intel.com>
+In-Reply-To: <e28d2931-004e-4935-a0b5-d554ece76fb2@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4P221CA0006.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:303:8b::11) To SN7PR11MB7592.namprd11.prod.outlook.com
+ (2603:10b6:806:343::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 69646e659f84f55dfa2
-X-MBO-RS-META: 8zocm5d1yzxojme1h5f5m63crjw9u7m1
-X-Rspamd-Queue-Id: 4gGbTJ1N4gz9vDd
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB7592:EE_|SAVPR11MB9549:EE_
+X-MS-Office365-Filtering-Correlation-Id: f2476586-d0f0-4103-c36e-08deb1d74cd9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|11063799003|4143699003|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info: NjQG7c4amekimMB5id5Lml/UV0xfD8M3uPz9LcI6s2xEq+gZ79payMybkJTpeCdtfZoERY2wOMo+y6Bj+4mvm9YAaoX17M5M3IqIdLguO/tbdd2NeJ0Uxp8JTvg9+gsqSSv7Pw17A5ntJx2S7fcEoZCN8sHzmUpQdkmjHXnJcenP7Qw8UqdL11SwwCmigfGiKa2JHIT3Hsnry0KBMTEk8zgJ+NSrVaXtdk9aluM2B1QxPaQ2NgLF7nSjfrmh+IQ5SMZpvqP2IQa0tCqgwRglLUpjfmqy2+6NGEv+E3s6d83Emvj6FbF5bmDoFbgbaWR9Fpal7pXQ9r9OVdRYFOO76DXgflFpL2uD9SLYi3H1wv3lh+bww71Wi+HhWNIhFRn3648jwO+yR9z9MvRF40AOFm8hGYYIEDKenpJT4ng4vmj5DKKb03r8mDfU1oi5lnkEWbsBGD7lQ4f9hqHFKGTKl+2ZxQPJpBui6fPryKHYki5ARKwSLudSz1ImN9Uw3JfC2cXkdJwA+MPu3PYlQ0DevaN7b0oyan5BW3LdfcZXfGkKopMWoAXNJawZSvJeersP0fEydms6rqtKPcvsi0mkIO3WswfkxiCDkafClFZdze01pMY+EYiS07Ddou5F/uqCldJODrTIcLFQYaqjJEG6yB3MiDG+4DCMRM/aXPn/EY7Tz29FwvtrThXBDjCaXYIY
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7592.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(11063799003)(4143699003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QjRHdTdjYjhML0FWNVNFQ1g0c3BLcTVEY1R6bzFnQ0VyTFFSY3FiZWcxVHBu?=
+ =?utf-8?B?Z3JVWXJYajlmSEhIK0hTRkMySHFLcEwwNGJybGxOR1pqMVlRR0JXS3BGdVNo?=
+ =?utf-8?B?ekg5cWlydnpENGliS0hMWWUzOFh6b2VXb00zWnEwU0UrTnFEOVhzM3RoSmpQ?=
+ =?utf-8?B?QTJSSTg1VTlibGV6SVg1YXNFYlpoTUZHS0txT3c3UkNZeXV2UVpFQVNTYW9k?=
+ =?utf-8?B?dFdjWnI0RThvT0gvR3Z0NkUzeDlJQzhXUFlQeXJIYU1oRTQyZWNHaEk0aTR1?=
+ =?utf-8?B?ZzdJaG93ci82dW14ZWE4ZDkvYUVhbG82M0RFeXZ4amxWenFHL0dzekVzcDUy?=
+ =?utf-8?B?SDFJcXpjSVRnbHZlSTgwSnM1UDh1MTZlYkFQRjIxWWE2akhkRHV3dU5Zb1JU?=
+ =?utf-8?B?enFnTllrc0prNFcvZEkvb2dhQTF2akNkZm13cGNQbG51V0hTM1hQcENWRmh3?=
+ =?utf-8?B?NkV1czQ3VUtKY0oxTHhMNElLT012eW16QW9UdHBDOEE1YWpONjQ4Z0VDbmNK?=
+ =?utf-8?B?eUorczE1b0VIbTFiUjd0UDhIWXlRWVhHeEZvMXMxeFB3UFRCMTNEeWdBWm5V?=
+ =?utf-8?B?L1dnaTNxUVZ3d3V1QmxhcDlTVEhtYTZ4MWtYRUJkVnppNXMwek9mWm9PaXd4?=
+ =?utf-8?B?ZFYrT1NmcUZybXpLN1g0cGx4dVFuSFpQeFNITmVISGNWM1EyK2FBQUpCNWpl?=
+ =?utf-8?B?MnpvZGJxRGJQVWUrOE4zUzVuYW1XNmxsVDM1VE1MYTY2TUk4VXQ0YjNEb25P?=
+ =?utf-8?B?NlMyaDVIc05kQ2NUN2pCaHZ2N01Fa2ZJUDNKbEY0T1VYNXBDeW1KQmdTNXdY?=
+ =?utf-8?B?aHBkbVIzbm9nczdxNjRSMXg1Ni9KcjMxM3B6akk1c05PMUVpS2liOG1oMUFC?=
+ =?utf-8?B?Um8vQ3hwOEJoYXNNbUtkTzFUd2Q1b0RLYWU3V1ZhUlVYTzhqaWNtVFNsSEZI?=
+ =?utf-8?B?Q0gzZHRHWlY4dk1yRnVyeFdSMmNjQ3hxR3lMVm4xV09FRHFKT3BnbTFzNEkv?=
+ =?utf-8?B?Yi95SEFLVnNtZ0RXQTZYckpISGFzKytxblMrdG4vRVlYZFBFSzJKaUFoUUxp?=
+ =?utf-8?B?R2RtTFU1bHkrQUNFOG13TENCZm1Sa2xYcHorYW9YUWJoQVU4TEVtbG1YZlF1?=
+ =?utf-8?B?eDlDaWRLaVE0UEpPbUQrTHhic0xwRGFHb0ZpdG05MlliOEZBakhkUWY5T0tP?=
+ =?utf-8?B?OTJHYjFJWmxZSTNrSDJlSEM2enkrNW9ZOUlTaVk0STdoV3FnVlBxb0w5WTJQ?=
+ =?utf-8?B?SDRpVCtXZGhrZDhhb3J0RzhJUSt5MlNpY2lBZ0NOVWd5TFF6Ri8ya3d4Viti?=
+ =?utf-8?B?N0Y0VGY2K0ZhNCtKN3JNdEgxQTFSbE1UV0djVEdiVUxySXRYTVhjaGUxQWt5?=
+ =?utf-8?B?ZGliMDVPcHZvZFZBdENrdld3WFpDK3BRZXFmTzVpd1BMdnVpYzFZNEhkS0tp?=
+ =?utf-8?B?Y1RRZUJwWkNiOER3RUQ5NTBhMDlPSTMrNmpqbjVYYnlQQXV1QTZhUFdrcElZ?=
+ =?utf-8?B?clhiMXJybUJ5SFc0UDRBbExJc3luS1NuWjNyRVBya0RObTg4YURiYVNqSzdF?=
+ =?utf-8?B?NzBaNUhCNHBlRjVTMlRERUhNT2xnVlhVRHlpRUk1aXRhQysrY0psb1FKRzVz?=
+ =?utf-8?B?aS9OQVRvenBHU0NYSFRidkxTbjlPUWtPNmtTUmp2SHlTUit0d0xWRXhvQ2x3?=
+ =?utf-8?B?Q3FIUzJxQnorU254aXQ0anZJMVhpVkxXWlVwUXg4V2R4M0pBYndUWmNuT0Jx?=
+ =?utf-8?B?RXRsM0hpdHVsdmlwdGNZbkhoZENVdkp4d29iRyt6TUU2RVhoajR2QkVBVHE2?=
+ =?utf-8?B?Mm9DRVN0OXNKRVZrWWRRcmxHQnZnakdydDJvcHdyT01vL0RQMjYvZGJuR2No?=
+ =?utf-8?B?NGErMWhhTk4zM2p0a3pMOER3YVR5TmRIa1dTRjlXdlFPdzBNbm41a0pxL3Jk?=
+ =?utf-8?B?R3p1eTU2dHJBa1VuL0U1TFFSb3ZoSFg1T1F1dWdUeEhLZEZxRXc5Y2lqdlhz?=
+ =?utf-8?B?Zmhod3l1ZjNPSTJreVV6ZUxxMG40V3ZUSjMxenlpMWxpbjNIMFcwaUZoajR4?=
+ =?utf-8?B?U0QxNlo4OTNVYlVKOTB1RUpiRHJ4cFZ1L3lXakp4R0dpYnVLb01WdTlaZUN5?=
+ =?utf-8?B?ZkdvVTdVTzBodGhuSno2d3ArZ3lNWTFhVkE2MC9LZlU2UGNzS2dSMnphQUFV?=
+ =?utf-8?B?RW04dFpkZ096Tk9YclM2eVlvWHZxNFNjWFJZM1JtR1orMThFOTVobkFRK2hk?=
+ =?utf-8?B?bUtyVUIwcEtGR3pmQ2pzeDZkeHowUFN3Y2R1emNvT1duQ0xGTFZnbnFWSmtq?=
+ =?utf-8?B?aGhmb3dBOW84b1dzR1NGMFpyTVRmcWRQNVlYdXVBWiszd2pnVDJxbjMreTBz?=
+ =?utf-8?Q?p5OxOf+KDI8q9UHI=3D?=
+X-Exchange-RoutingPolicyChecked: WUJWzRFfB6AJInA9yr3gGeQrsJXH8/voLDA2EMP8W0MkTqohZSi/KVE3t2Ej248zJ5VNK3UEP5klaimAkoDLSriHGnfvhc1j33PZnDOO6STuQUDnS1wbH3uizH42qEYAH+vcXFGvFk/SZGbafjeAL5uR7L05hTFDhzorfI5GTFH+Hjxva94inneajiKgAYATayfFlSf5h42HdX6Qbu4SAaTDsFVrWyK+7GHNVe38M58hqCVeWdxu18dZSPTl6tV24Gkgr6CZAJdkXYYcYFwkuCWc30b6K77PzXLWUxp3TWt33zmiN49qUnzeDQvHBcnBuHQA3iawRfzk3mrXX/nmYQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2476586-d0f0-4103-c36e-08deb1d74cd9
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7592.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2026 16:39:00.1749
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BYHtrteL/b46R+5vL/CrwXQ5ZPfJ2VwTLq6VKq3O9tmKS+I8jUa0flHs6XZnQavtS0d10JAxpNfxcQCd9opgSfoHntTnbWm/LAkK05lS2DY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAVPR11MB9549
+X-OriginatorOrg: intel.com
 
-add kernel-doc comment to strlcat() function definitions
+On 5/13/2026 9:56 PM, MD Danish Anwar wrote:
+> Hi Jacob,
+> 
+> On 14/05/26 1:30 am, Jacob Keller wrote:
+>> The way we solved this in the Intel drivers is to use a single array
+>> which contains both the stat name as well as the offset from the
+>> structure where the stat resides.
+>>
+>> The stat string code just iterates over the stat list for the strings,
+>> while the stat value code iterates the array and computes the stat
+>> address from the offset and size and base structure pointer. Each object
+>> that has stats has its own stat array structure.
+>>
+>> This is probably overkill, but the advantage is that the strings and
+>> their values are stored together and adding a new stat is as simple as
+>> adding a new entry to that list.
+>>
+>> I.e.
+>>
+>> struct ice_stats {
+>>         char stat_string[ETH_GSTRING_LEN];
+>>         int sizeof_stat;
+>>         int stat_offset;
+>> };
+>>
+>> #define ICE_STAT(_type, _name, _stat) { \
+>>         .stat_string = _name, \
+>>         .sizeof_stat = sizeof_field(_type, _stat), \
+>>         .stat_offset = offsetof(_type, _stat) \
+>> }
+>>
+>> #define ICE_VSI_STAT(_name, _stat) \
+>>                 ICE_STAT(struct ice_vsi, _name, _stat)
+>> #define ICE_PF_STAT(_name, _stat) \
+>>                 ICE_STAT(struct ice_pf, _name, _stat)
+>>
+>>
+>> Then the stats for the individial arrays are defined like this:
+>>
+>> static const struct ice_stats ice_gstrings_vsi_stats[] = {
+>>         ICE_VSI_STAT(ICE_RX_UNICAST, eth_stats.rx_unicast),
+>>         ICE_VSI_STAT(ICE_TX_UNICAST, eth_stats.tx_unicast),
+>>         ICE_VSI_STAT(ICE_RX_MULTICAST, eth_stats.rx_multicast),
+>>         ICE_VSI_STAT(ICE_TX_MULTICAST, eth_stats.tx_multicast),
+>>         ICE_VSI_STAT(ICE_RX_BROADCAST, eth_stats.rx_broadcast),
+>>         ICE_VSI_STAT(ICE_TX_BROADCAST, eth_stats.tx_broadcast),
+>> 	...
+>> };
+>>
+>> (Note, ICE_RX_UNICAST is a macro that defines the string value.. I don't
+>> recall who changed this to macros or why vs just having the strings be
+>> directly in the definition...)
+>>
+> 
+> Thanks for sharing the ice driver pattern — that's a clean design.
+> 
+>> This is probably a lot bigger refactor to make work, and may not be
+>> exactly suitable for your driver. I've considered "upgrading" these data
+> 
+> Yes, I need to see if refactoring is applicable to ICSSG or not. I will
+> look into this and send a separate patch / series in future if
+> applicable. For this series I will stick with what David Carlier suggested.
+> 
+Makes sense. No need to bloat this by more work immediately. I just
+wanted to point it out.
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- lib/string.c                  | 11 +++++++++++
- tools/include/nolibc/string.h | 11 +++++++++++
- 2 files changed, 22 insertions(+)
-
-diff --git a/lib/string.c b/lib/string.c
-index b632c71df1a5..0a44ca5ca7e6 100644
---- a/lib/string.c
-+++ b/lib/string.c
-@@ -249,6 +249,17 @@ EXPORT_SYMBOL(strncat);
- #endif
- 
- #ifndef __HAVE_ARCH_STRLCAT
-+/**
-+ * strlcat - Append a string to an existing string
-+ *
-+ * @dest: pointer to %NUL-terminated string to append to
-+ * @src: pointer to %NUL-terminated string to append from
-+ * @count: Maximum bytes available in @dest
-+ *
-+ * Do not use this function. Prefer building the string with
-+ * formatting, via scnprintf(), seq_buf, or similar.
-+ *
-+ */
- size_t strlcat(char *dest, const char *src, size_t count)
- {
- 	size_t dsize = strlen(dest);
-diff --git a/tools/include/nolibc/string.h b/tools/include/nolibc/string.h
-index 4000926f44ac..1a4b51135705 100644
---- a/tools/include/nolibc/string.h
-+++ b/tools/include/nolibc/string.h
-@@ -208,6 +208,17 @@ char *strndup(const char *str, size_t maxlen)
- }
- 
- static __attribute__((unused))
-+/**
-+ * strlcat - Append a string to an existing string
-+ *
-+ * @dst: pointer to %NUL-terminated string to append to
-+ * @src: pointer to %NUL-terminated string to append from
-+ * @size: Maximum bytes available in @dst
-+ *
-+ * Do not use this function. Prefer building the string with
-+ * formatting, via scnprintf(), seq_buf, or similar.
-+ *
-+ */
- size_t strlcat(char *dst, const char *src, size_t size)
- {
- 	size_t len = strnlen(dst, size);
--- 
-2.54.0
-
+I'd like to uplift this infrastructure into core helpers so that other
+drivers can more easily benefit without duplicating the scaffolding, but
+its always been a low priority task especially since the private driver
+stats are somewhat of a legacy/deprecated interface. (Maintainers don't
+generally like driver developers making up their own statistics...)
