@@ -1,224 +1,290 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2C3391E5C
-	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 17:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22FF3947AE
+	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 17:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778779383; cv=none; b=X/DJrjW2EeHpKUTV6goG0ZGM6dZjgWWUKv1HpObaEM24E9ygc8u4L9klvHNjnq5NeB7h8QtuzJHfw26Ol+paAXQ9PGMbaEwGyrZGxXPPRLptuqmzIpX+y6Pm/UT1wbOZT71elOrV39PY1CHr8/0rnxC43nx9o25Om1qrHVbHB0w=
+	t=1778780117; cv=none; b=hOG4MUJMlncUeEdmAnBBzYScc19xDx8msXzN8L7EzAimuwM90POQqH+rmuWwtdcSknsfz20IEKX3/JPM3OWzJyOmo1URSSRPlEiXa6DXx0YMC3XpoKtR4H9JtJOsd+iIuo/0fR9eb8mNSExA9rWzqJOChu4nRhWmi9YDpNBTw/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778779383; c=relaxed/simple;
-	bh=EDyBqkyN5bDm600u/I66EqsZzueKCojlerqIBUvyphs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ao65cPZ8oeCcFNpWLDtyvKop21ynHucF04ehvVZK4id3/NcUDkJNPDrOWp+H5tmfK1NRE+I6zJiN7AiMS9Cm9M4lzLXLqpXnQNQGsGn2/6k2T3O1jycolAOfZALKo191W4Ow0qML3I4uUJDxn2hqzwMj2G0Dd6OVtOzW+9Qh+lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EbNE0fqG; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778780117; c=relaxed/simple;
+	bh=csxAARw7TMe4p9kUCeBN9DmScREv2ZSHrFWQS2btBrI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kr4ubhnRAUrLR9PxC0rnNgzza7SBFe1u3L2jOIE8vApxW3heMEHLQ5OblpkV7bDajPF6SsuJwbzBMWIppK0fgfT2xHIqpxjkxHnhagppqr2f0TcwoQwNR0bfI9vlHBMNU5LZjoUAZyvm0kPZGr+mXO9y7LzqT7IPzK15MfNn45s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WIyUK0xp; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EbNE0fqG"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7de7dc85b74so6733610a34.2
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 10:23:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WIyUK0xp"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-83945063f70so57118b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 10:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778779379; x=1779384179; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fK6Hgo3Ntm+Mk5vI9D7ReSoIcT5DoQh4kA5KdiywL8c=;
-        b=EbNE0fqGgztfEhlDW8IO7XoiGkpsuYndZ6xw/l+/6KOaeGXducdM7IGPNHTwgx9Uyc
-         IOnE3akvzeLJ/calq8q0VCT9+GIrxnoigU88AI5AqSKI7DkJOIyRAC0dym5wt8gQkuLn
-         vYvkpL8oPwe1alB7ptzJD6B+WPBFT3G0ThHplSa7rZAHgkmGdWx1HWlx5ct6s+a6Pb+f
-         pWBeolusN/C7fbIYzE/OrN10SjNljgi6j9FcGmD/zGXOxpDi2n41GKGXD5jrLoaGy6A8
-         IDc21bQ3Rlh6YVmQ5Q8ytHLLq3jU2NLB/rFJ645f9dpU9cEpvvVP5lbyj+fPvBiJ9DSb
-         NHrQ==
+        d=linaro.org; s=google; t=1778780112; x=1779384912; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JC+WHcUhpCEgLv+z/dz5uJKI5jcxrqy0Eu1amoyfn8U=;
+        b=WIyUK0xpwJjitfqZkL4ciFH0O1UeUmNjyy+6Z8DeOIHkCMX0kg/sttsqFq8LcoV5Wp
+         WP7XyM7xTxDLVe0/qpUvBcYj/3weEzGpKg/6IaPo68KgCvRwVQaiEUNsbDYWE6UHaXso
+         Tb0dbsopqHRtWE6ZRVBzzvAKeV6CO2/DCYTUQekX8EOppnNbz6FmiLiwXpJ+RBGtvh8m
+         yrysH+YuF2gGGSyFCnG0hEC4EUgjBl1C6gkYo2qjV+mYdLk0zd/RM+PV3C+fO0xGGRFI
+         yC+iHEeOvVy8FaLGnvIrjkLLRG7RNbOtuLzjdit+RP79/seDhyydaxhrc+z/3A6oybFU
+         G6Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778779379; x=1779384179;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fK6Hgo3Ntm+Mk5vI9D7ReSoIcT5DoQh4kA5KdiywL8c=;
-        b=DoMPbfEKPu25/5EDeDFKj5Ens3BZ3ELYtyOfh1lWma0QckoKO60GG5+LIHt8sg7TKm
-         Ys+WVtsaK41Obvohpda+/vbFitekipfMaR6EXfr+CgN0Zy8rT5SfvOSyqmCIr+iXdvJx
-         Xz7WCv3CFe1K4RRp3hxR25FAmgXCRnOzKMRJxvdR2DNhXSVZXYZ6UgHtIkgtxEiGk459
-         FHjqyw2Q54o18mPb8Gmqu6FRNEiVaZmucNKvq/FaTpJT5aiRx5eINENWjothcKxMHqHt
-         S+1k6gY9APH+3d5VTZBIqUzPn65PJndKAMKUanRwRfjwgt73g1kSlhBm9zHaxlCCdaeo
-         ZHgg==
-X-Forwarded-Encrypted: i=1; AFNElJ+i8EPeMoXu5va8jQM10afXI3qvMQBSED9MfLUXrrBkgBoBDly/TlFW80phJk3WuitjQjQjhIatFh8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHvQ5gz5g2kmCLEpqb4SGLHvcKR6UXJ0DA+cdBSksFrKGcv6Gt
-	Y160reCbDcNZawneV4Ss+m3VxWaaYU61skP8irWD4UpGqgxuQkGmjM99
-X-Gm-Gg: Acq92OGjLFCkcHzZXccPbki2a0Vgl31MbLZot/gQWl8sNtsd+2g/B8DyFvPenFN4PDm
-	n/QR5NdrV2VlZ07WIjSxkpNVGJAAbAYFNw6a9RhrCuTHI+xHREIEdsp3cHHH2d+e1cqe5jL4UCi
-	JqMCCIQyo4tNcMntG/sndMr/qLnLuB6VBLT0L+seh92ewC1SfytlQTLMl6v1/E5awvq5TSFv8Yz
-	S0B+7dswqpqLsk0gWN4265rg5Y26Tw/SkEQh2/ID3WtwZKoQiWE/LBsOA5opdjEYuIVgbGibEvz
-	NSKEVn2GVwx7V9y6viETHB3ulIhAzC30ZrsIemzaK1G9ViQhvaaM+aX7aEQ+JPoP6yIQgYH+XeQ
-	nGI8fB8oRHYcdlcmbD4d1QnaZFq4gvdXyu5u1bDY1yCCfDDKIE4vP0ielIjifD1HSEXzNlsFNIw
-	l5mc/BE9Z5NDEcfFYDs2Ij+Q==
-X-Received: by 2002:a05:6820:81c7:b0:69b:8c73:e921 with SMTP id 006d021491bc7-69c942ef1femr249405eaf.20.1778779379501;
-        Thu, 14 May 2026 10:22:59 -0700 (PDT)
-Received: from localhost ([2a03:2880:f812:6b::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-439fc1e7bc7sm2229037fac.7.2026.05.14.10.22.59
+        d=1e100.net; s=20251104; t=1778780112; x=1779384912;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JC+WHcUhpCEgLv+z/dz5uJKI5jcxrqy0Eu1amoyfn8U=;
+        b=pReswAzGithxw78/MTDo86UnFfCLaLfUID1vV+tXHluh325PP33NGVjJozeU+dchth
+         b8dbQ7jHoJyw6GOaqbxRHfc12OJ9o4LFGix1a72T+BGH3v28cK3QpINinhKE8QSQceV2
+         TkuZelVQAm5R0Ke+2B9rXsKg4y2N+a/iPXL3dNfTjrtfaVAfO0HPpIeH3KgmmYdNFtHH
+         SPui5bWp4w4ShQnqBvQUTeInzizrgyrN+HjDjm6Qoe0vJBBZCyYN42kkBth3WbgKjCEb
+         THGwPwN5Ll7fcRQoPH7coxFGplcPB+tynMhKOAtPkQxdfix3kM2NLfXz8e/eigY2ZJY1
+         SazQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9jP0qjp8I7afd/zXbVvktOu47U2fjQZw465PJMgD7shWKt41IicqotdHUa4WcsU4nxCX3TJca1mwg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYGQCOoP7yPVwu/5FckFr1m+K8vKn6u08IafmtbW2Ud+MFFRSC
+	ooCbGIqE1tTAobMDQJKqu+HaP7x72+/gDI81lyRg5AVoMirZzXEJXJ5JPmlnmfJnFik=
+X-Gm-Gg: Acq92OH3GbkgpISy5WocezX/bxEnQRx5/uAHbCC7AtKolhm+TfakkOnjAt00xp9CPMp
+	UJGh+qwRKrsNX6fg8v1gwc6JdHLaXR12BJ3WOLAbfcKBNy8ARzZHZShT0dTD283Z/Np522VHyUa
+	5i/Wkj6uCcsQzqdN6YsVOBHrLHoS6XJjQcMRsW58N9FWejh4aWcn1Jbo++SwSNuLjRN9j5kiilM
+	VMxekle8hYBFZk5CmrZwriFt1UOv9F3Blrc+VFAOYXIRl1NvffEk5pj3iJCfsGw3tdgIcn7Eqh6
+	jnVRYslRHfV3kD7dXZp7Op4CTYFQLtFav1OeHrU8+VDjG+gFRklbfN7r6CP1p/2Y+nuVgOKL63t
+	EzWPAhpKJHhxDBYLGJRopWECIRmnE1YkCU8sdafJL8Y3n5k1eaeauGsnVmX/p0WiF3X74+TQHU9
+	qkj4M17lWy1YY41SylAs+qaio8K8A=
+X-Received: by 2002:a05:6a00:909a:b0:837:6bb9:acc1 with SMTP id d2e1a72fcca58-83f18dbabc2mr4476063b3a.13.1778780112051;
+        Thu, 14 May 2026 10:35:12 -0700 (PDT)
+Received: from p14s ([2604:3d09:148c:c800:30c0:f7f8:e305:407f])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19c7ed3fsm3281092b3a.45.2026.05.14.10.35.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 10:22:59 -0700 (PDT)
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Thu, 14 May 2026 10:22:35 -0700
-Subject: [PATCH net-next v5 8/8] selftests: drv-net: add netkit devmem
- tests
+        Thu, 14 May 2026 10:35:11 -0700 (PDT)
+Date: Thu, 14 May 2026 11:35:08 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
+	Beleswar Prasad Padhi <b-padhi@ti.com>,
+	Andrew Lunn <andrew@lunn.ch>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	dl-linux-imx <linux-imx@nxp.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Message-ID: <agYHzH-nJLl1HFIn@p14s>
+References: <CANLsYkzt9xUczxSU28u-TfZAAjr0ufZKXAj8Eqfq=45gufXW3w@mail.gmail.com>
+ <f7ef3417-eb84-4467-ac72-a9bc8b0c81e8@foss.st.com>
+ <21de8440-adf7-454b-acfc-06e50882e075@ti.com>
+ <4c526816-b127-43e7-86e9-eee4dc1152bc@foss.st.com>
+ <268f8e00-91bc-43ea-ba95-077cf859e7f3@ti.com>
+ <9e2492d3-8753-46c7-8db6-5f1a80b4f2e9@foss.st.com>
+ <db4c18be-1c8d-4227-9fcc-1d25cec50e37@ti.com>
+ <6917e3d7-8c6c-4e63-8eca-5308621ec3e8@foss.st.com>
+ <afzIABSh1xtMEGbf@p14s>
+ <PAXPR04MB9185BFA6E7375FAD0B15B021893C2@PAXPR04MB9185.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260514-tcp-dm-netkit-v5-8-408c59b91e66@meta.com>
-References: <20260514-tcp-dm-netkit-v5-0-408c59b91e66@meta.com>
-In-Reply-To: <20260514-tcp-dm-netkit-v5-0-408c59b91e66@meta.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
- Michael Chan <michael.chan@broadcom.com>, 
- Pavan Chebbi <pavan.chebbi@broadcom.com>, 
- Joshua Washington <joshwash@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>, 
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
- Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
- Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- Nikolay Aleksandrov <razor@blackwall.org>, Shuah Khan <shuah@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
- Michael Chan <michael.chan@broadcom.com>, 
- Pavan Chebbi <pavan.chebbi@broadcom.com>, 
- Joshua Washington <joshwash@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>, 
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
- Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
- Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- Nikolay Aleksandrov <razor@blackwall.org>, Shuah Khan <shuah@kernel.org>
-Cc: dw@davidwei.uk, sdf.kernel@gmail.com, mohsin.bashr@gmail.com, 
- willemb@google.com, jiang.kun2@zte.com.cn, xu.xin16@zte.com.cn, 
- wang.yaxin@zte.com.cn, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Stanislav Fomichev <sdf@fomichev.me>, Mina Almasry <almasrymina@google.com>, 
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Bobby Eshleman <bobbyeshleman@meta.com>
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PAXPR04MB9185BFA6E7375FAD0B15B021893C2@PAXPR04MB9185.eurprd04.prod.outlook.com>
 
-From: Bobby Eshleman <bobbyeshleman@meta.com>
+On Thu, May 07, 2026 at 07:43:33PM +0000, Shenwei Wang wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > Sent: Thursday, May 7, 2026 12:13 PM
+> > To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+> > Cc: Beleswar Prasad Padhi <b-padhi@ti.com>; Shenwei Wang
+> > <shenwei.wang@nxp.com>; Andrew Lunn <andrew@lunn.ch>; Linus Walleij
+> > <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corbet
+> > <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> > <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
+> > <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
+> > <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
+> > gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> > Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> > <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
+> > devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
+> > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org; dl-linux-imx <linux-
+> > imx@nxp.com>; Bartosz Golaszewski <brgl@bgdev.pl>
+> > Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+> > > > >  From my perspective, based on your proposal:
+> > > > >   1) Linux should send a get_config message to the remote proc (0x405 ->
+> > 0xD). 2) The remote processor would respond with the list of ports, associated
+> > > > >      with an remote endpoint addresses.
+> > > >
+> > > >
+> > > > Agreed, we can scale it for multiple remote endpoints like this.
+> > > >
+> > > > >   3) Linux would parse the response, compare it with the DT, enable the
+> > GPIO
+> > > > >      ports accordingly, creating it local endpoint and associating it with
+> > > > >      the remote endpoint.
+> > > > > Using name service to identify the ports should avoid step 1 & 2 ...
+> > > >
+> > > >
+> > > > Yes, but won't that make a lot of hard-codings in the driver?
+> > > >
+> > > > +static struct rpmsg_device_id rpmsg_gpio_channel_id_table[] = {
+> > > > +    { .name = "rpmsg-io-25" },
+> > > > +    { .name = "rpmsg-io-32" },
+> > > > +    { .name = "rpmsg-io-35" },
+> > > > +    { },
+> > > > +};
+> > > >
+> > > > What if tomorrow another vendor decides to add more remoteproc
+> > > > controlled GPIO ports to Linux, they would have to update this
+> > > > struct in the driver everytime. And the port indexes (25/32/35)
+> > > > could also differ between vendors. We should make the driver dynamic
+> > > > i.e. vendor agnostic.
+> > > >
+> > > > I think querying the remote firmware at runtime (step 1 & 2 above)
+> > > > is a common design pattern and makes the driver vendor agnostic. But
+> > > > feel free to correct me.
+> > > >
+> > >
+> > > You are right. My proposal would require a patch in rpmsg-core. The
+> > > idea of allowing a postfix in the compatible string has been discussed
+> > > before, but, if I remember correctly, it was not concluded.
+> > >
+> > 
+> > I also remember discussing this.  I even reviewed one of Arnaud's patch and
+> > submitted one myself.  This must have been in 2020 and the reason why it wasn't
+> > merged has escaped my memory.
+> > 
+> > > /* rpmsg devices and drivers are matched using the service name */
+> > > static inline int rpmsg_id_match(const struct rpmsg_device *rpdev,
+> > >                                 const struct rpmsg_device_id *id) {
+> > >       size_t len;
+> > >
+> > > +     len = strnlen(id->name, RPMSG_NAME_SIZE);
+> > > +     if (len && id->name[len - 1] == '*')
+> > > +             return !strncmp(id->name, rpdev->id.name, len - 1);
+> > >
+> > >       return strncmp(id->name, rpdev->id.name, RPMSG_NAME_SIZE) == 0;
+> > > }
+> > >
+> > > Then, in rpmsg-gpio, and possibly in other drivers such as rpmsg-tty
+> > > and a future rpmsg-i2c, we could use:
+> > > static struct rpmsg_device_id rpmsg_gpio_channel_id_table[] = {
+> > >     { .name = "rpmsg-io" },
+> > >     { .name = "rpmsg-io-*" },
+> > >     { },
+> > > };
+> > 
+> > That was my initial approach.  We don't even need an additional "rpmsg-io-*" in
+> > rpmsg_gpio_channel_id_table[].  All we need is:
+> > 
+> > /* rpmsg devices and drivers are matched using the service name */ static inline
+> > int rpmsg_id_match(const struct rpmsg_device *rpdev,
+> >                                  const struct rpmsg_device_id *id) {
+> >  +     size_t len = strnlen(id->name, RPMSG_NAME_SIZE);
+> > 
+> >  -     return strncmp(id->name, rpdev->id.name, RPMSG_NAME_SIZE) == 0;
+> >  +     return strncmp(id->name, rpdev->id.name, len) == 0;
+> > }
+> > 
+> 
+> If we encode the port index directly into ept->src, for example:
+> 
+>     ept->src = (baseaddr << 8) | port_index;
+>
 
-Add nk_devmem.py with four tests for TCP devmem through a netkit device.
+There is no rpmsg_endpoint::src.  You likely meant ept->addr.  This would work
+but not optimal on two front:
 
-These tests are just duplicates of the original devmem tests, with some
-adjusted parameters such as telling ncdevmem to avoid device setup
-(since it only has access to netkit, not a phys device).
+(1) rpms_endpoint::addr is a u32 and idr_alloc() returns an 'int'.  As such
+there is a possibility of conflict.  I concede the possibility is marginal, but
+it still exists.
 
-Each test uses NetDrvContEnv with primary_rx_redirect=True to set up the
-BPF redirect program on the primary netkit interface, then calls a
-shared run_*() helper which probes for devmem support and configures
-the NIC (HDS, RSS, queue lease) before driving the test. NIC state is
-restored per-test via defer() callbacks registered inside the helper.
+(2) By proceeding this way, the kernel exposes the GPIO controller it knows
+about.  It is preferrable to have the remote processor tell the kernel about the
+GPIO controller it wants.
 
-Acked-by: Stanislav Fomichev <sdf@fomichev.me>
-Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
----
-Changes in v5:
-- Move require_devmem() inside test functions so ksft_run() reports it
-  as a SKIP (Sashiko).
-- Drop the inaccurate "mirroring the nk_qlease.py pattern" claim from
-  v4 (Sashiko).
+I am done reviewing this revision.  Given the amount of refactoring needed, I
+will not look at the code.  Please refer to this reply [1] for what I am
+expecting in the next revision. 
 
-Changes in v4:
-- Call configure_nic()/cleanup_nic() once around ksft_run() rather than
-  relying on per-test configuration inside the run_* helpers.
-
-Changes in v3:
-- Reorder os.path expressions
-- Drop @ksft_disruptive from check_nk_rx_hds to mirror the original
-  check_rx_hds in devmem.py
-
-Changes in v2:
-- Add nk_devmem.py to TEST_PROGS in Makefile (Sashiko)
----
- tools/testing/selftests/drivers/net/hw/Makefile    |  1 +
- .../testing/selftests/drivers/net/hw/nk_devmem.py  | 46 ++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
-
-diff --git a/tools/testing/selftests/drivers/net/hw/Makefile b/tools/testing/selftests/drivers/net/hw/Makefile
-index 5e49d7bffced..c7a1206880ea 100644
---- a/tools/testing/selftests/drivers/net/hw/Makefile
-+++ b/tools/testing/selftests/drivers/net/hw/Makefile
-@@ -35,6 +35,7 @@ TEST_PROGS = \
- 	irq.py \
- 	loopback.sh \
- 	nic_timestamp.py \
-+	nk_devmem.py \
- 	nk_netns.py \
- 	nk_qlease.py \
- 	ntuple.py \
-diff --git a/tools/testing/selftests/drivers/net/hw/nk_devmem.py b/tools/testing/selftests/drivers/net/hw/nk_devmem.py
-new file mode 100755
-index 000000000000..300ed2a70ab4
---- /dev/null
-+++ b/tools/testing/selftests/drivers/net/hw/nk_devmem.py
-@@ -0,0 +1,46 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+"""Test devmem TCP with netkit."""
-+
-+import os
-+from devmem_lib import setup_test, run_rx, run_tx, run_tx_chunks, run_rx_hds
-+from lib.py import ksft_run, ksft_exit, ksft_disruptive
-+from lib.py import NetDrvContEnv
-+
-+
-+@ksft_disruptive
-+def check_nk_rx(cfg) -> None:
-+    """Run the devmem RX test through netkit."""
-+    run_rx(cfg)
-+
-+
-+@ksft_disruptive
-+def check_nk_tx(cfg) -> None:
-+    """Run the devmem TX test through netkit."""
-+    run_tx(cfg)
-+
-+
-+@ksft_disruptive
-+def check_nk_tx_chunks(cfg) -> None:
-+    """Run the devmem TX chunking test through netkit."""
-+    run_tx_chunks(cfg)
-+
-+
-+def check_nk_rx_hds(cfg) -> None:
-+    """Run the HDS test through netkit."""
-+    run_rx_hds(cfg)
-+
-+
-+def main() -> None:
-+    """Run the netkit devmem test cases."""
-+    with NetDrvContEnv(__file__, rxqueues=2, primary_rx_redirect=True) as cfg:
-+        setup_test(cfg,
-+                   os.path.join(os.path.dirname(os.path.abspath(__file__)),
-+                                "ncdevmem"))
-+        ksft_run([check_nk_rx, check_nk_tx, check_nk_tx_chunks,
-+                  check_nk_rx_hds], args=(cfg,))
-+    ksft_exit()
-+
-+
-+if __name__ == "__main__":
-+    main()
-
--- 
-2.53.0-Meta
-
+[1]. https://lwn.net/ml/all/CANLsYkwBk0KbN-k9ce+5=oT+scdZ3nU5AOr3Fz4zT=0AFzghDA@mail.gmail.com/
+ 
+> where baseaddr can be derived from the channel address, we can avoid the possible address conflict.
+> 
+> With this approach, the patch to rpmsg-core would no longer be necessary.
+> 
+> Thanks,
+> Shenwei
+> 
+> > And let the rpmsg-virtio-gpio driver parse @rpdev->id.name to match with a
+> > GPIO controller in the DT.
+> > 
+> > >
+> > > If exact name matching is strongly required, then this proposal would
+> > > not be suitablea.
+> > >
+> > > A third option would be a combination of both approaches: instantiate
+> > > the device using the same name service from the remote side, as done
+> > > in rpmsg-tty. In that case, a get_config message, or a similar
+> > > mechanism, would also be needed to retrieve the port information from the
+> > remote side.
+> > >
+> > 
+> > I'm not overly fond of a get_config message because it is one more thing we have
+> > to define and maintain.
+> > 
+> > Arnaud: is there a get_config message already defined for rpmsg_tty?
+> > 
+> > Beleswar: Can you provide a link to a virtio device that would use a get_config
+> > message?
+> > 
+> > > Tanmaya also proposed another alternative based on reserved addresses.
+> > >
+> > > At this point, I suggest letting Mathieu review the discussion and
+> > > recommend the most suitable approach.
+> > >
+> > > Thanks,
+> > > Arnaud
+> > >
+> > > > >
+> > > > > At the end, whatever solution is implemented, my main concern is
+> > > > > that the Linux driver design should, if possible, avoid adding
+> > > > > unnecessary complexity or limitations on the remote side (for instance in
+> > openAMP project).
+> > > >
+> > > >
+> > > > Yes definitely, I want the same. Feel free to let me know if this
+> > > > does not suit with the OpenAMP project.
+> > > >
+> > > > Thanks,
+> > > > Beleswar
+> > > >
+> > > > >
+> > > > > Thanks,
+> > > > > Arnaud
+> > > > >
+> > > > >
+> > > > > > So Linux does not need to send the port idx everytime while
+> > > > > > sending a gpio message anymore.
+> > > > > >
+> > > > > > Thanks,
+> > > > > > Beleswar
+> > > > > >
+> > > > > > [...]
+> > > > > >
+> > > > >
+> > >
