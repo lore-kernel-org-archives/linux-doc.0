@@ -1,66 +1,66 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6AA33F5BF
-	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 17:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CEE391E45
+	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 17:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778779365; cv=none; b=Bjqyb5QeB5/pDi9rParoiLDvUmdOhLtNLeiepCO3oiv5c+VyNRDY79xATrQKXaI9S/qrWzlBJ8c7CANmkN36poqlqFNDQtInjAQzhi8+w2WlxHpmTTPwmaLUBnrntoQMTAhZCQqTt8xx8JFCE3ll7KZDmC0BFSKC7QuZYP8H0TE=
+	t=1778779369; cv=none; b=qKHXXGQGdkxGF/BHmoM5oE9l6MNDTT+/+ka9Pk3OnTJI9sTrmI8ANHWnELVWDBQ09eqtnad8aw0qmjyVMrNFBNj1+mGh38+G4EYHBAPaW0lPQJTAKo4ycrImYPVJDj+kJOSYDK6nir8U8GMraEbOs37puTTS0iq99h89+hIpVCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778779365; c=relaxed/simple;
-	bh=Axn+PNJbdQIKENviBaH16X9CGQ2qXERThK3Y3nrH0mw=;
+	s=arc-20240116; t=1778779369; c=relaxed/simple;
+	bh=AUkEXZ9shK/AEw9rish8lLHvzIx+b3il3PP8PxYF4lk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pPjBmYIABOi4/bGtgVA1GW5hO47qWPeE4adbbugcFelcVIccL1NrtP6z9g1A8Lx6GSMBCRlvDVOBPkeqxN596eCY6VpGd6KQpZ1OzB/TTAN1U+5Re3eErLIiie+X6r0is0wMs98pZyr07kTT/WIUm77TMoz1ds848hPHq5ya7n0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JWjQQI6V; arc=none smtp.client-ip=74.125.224.45
+	 In-Reply-To:To:Cc; b=u6/c2av+u+yQXuqFuux0SYXby8DvMM+VRPwn/4bzvkUSxq+TtqRdsfBdsTfFDFKYzZx8sFYlzdKqOLmy9uC+31TtXVG4KQjQuIvLY01Ko0Ec1L6MzmycuhoKrz8mvy6615+PIRA3EW5OlHNlBAtOhG1+jwVu/VyFLt+hhqCRC80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hhC9n54V; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JWjQQI6V"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-6587cee8b57so10215187d50.2
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 10:22:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hhC9n54V"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ba856db1c0so56027135ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 10:22:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778779361; x=1779384161; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778779366; x=1779384166; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eYjurhmeiuV8Nqd+zpLe/ERTdzqtmQMlSYyDiJ3WcRE=;
-        b=JWjQQI6V5hwGZZbg4VB9y1teFLjXB8IT/LPZ6fAsm8/kKChhRsLXEdZvKktEqUkUd7
-         rdWd0G+8NlueDBPbL5CktiOrh1wOKGE/D4tcv9OfpBqZkFIFJ5tDL1YX5C0CTAy4f5m1
-         3cWmtGgXzmY2CmGVG+3eEHtTeuAE0wfMBnZwWakP1U4WCl2K+V8D2GzUttOucAPiRCE/
-         NZOBHtaWxuBMr1TguS4dH5PEGrylNJJAuYxe387xSJ+N4hIA0oyjKBklHGNosPMXtJpi
-         8BSsXk6o6+4eCGj0VkH9GkuDBK9MIotx/oiA3LABouEMku6/FBGrabNkXcgcDRBkCQTn
-         us0w==
+        bh=7yopC/9MxA39yKranAJ5Os3jyJpUN93ONWaDD2qEA7s=;
+        b=hhC9n54VZ84cvwcMzJlpSU1MH0hA1f/oYJpnYy/Q1Bz8o2YAC4g4b1KRCIJFj7jbcG
+         17MbTa+7oIHCkTa3U7ukQjglNo2cP4KYEHgqt7DbWkjppbSR2O1yagSEEwfrjbBOq+Gz
+         GFg+70CFvzzzzVT48L9ooA+aipUvQwOe7Pnu8GEVIka24yUbXA5Y4pTkCX5s17E9jXd7
+         uQif0SqOsAPWI3KFa5IE3rHZW1rgBxNJEHltQ20cCMwkVvA/Kvw1Wd+IvnJQOpF6vNrJ
+         t++uC3Eehj9/it/gXWn/eN8FvV9UfvrTgOQz7bPJJ11kXFagMzCIf6BbT8iyr/kniXPU
+         tlPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778779361; x=1779384161;
+        d=1e100.net; s=20251104; t=1778779366; x=1779384166;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=eYjurhmeiuV8Nqd+zpLe/ERTdzqtmQMlSYyDiJ3WcRE=;
-        b=gkpUQoRgdRaFiNAViKFBjv/G8odF/DRMuTvvua4ekBqCEnAHnFnNm/IyvRxfH9Wq8H
-         a3mtvolPrmtliHYqvUYKKWadORXaG9TxYOreAAYY58xnWXNP05n/fhGE1Rct4G18zSmV
-         GdS+6DvgZU94BuQZKbrlQslHPT9l+SgokQqiTI32Pn91ZVtDJioZ8wPgVkE2l4UGwOh3
-         Jcgjf9LtaE4UGnKuWN9tXcEpAK3sjflNmhgnNBsZSnIW1lu3Kfm1WbEQnx1Jt5qa89M5
-         +AULB1gU0RaXXpjE/nLBptdcdk/jPrBZGnYDC24q9Ew5vQxywyvyv9fCSByzx80SKPQ7
-         Pozw==
-X-Forwarded-Encrypted: i=1; AFNElJ9DPe0C3bToXhDVG/65ih9ZQ1cQQDALpBJJHXhVmUP37tncR/rAro5kUQi/F6Ivy9+txXp5GZQ++tM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmCd6QxrkXbPEbGH14C1xFrAUcSCdBFLfftmwjKwXjpg6tt1J6
-	MDtps26CHr2y6YG6SSAVtgmzOY+txkTVitVPTYC7HrESH54K9z1WD1A8
-X-Gm-Gg: Acq92OGY8z9bcB/nbNEa6zfsxv3GMEWMAvYDUQRJYZF5XVPAZDmOAWCVciLlZiwJW32
-	otv1R45OxmgYJUeFTUuAzf6Z2zTSrSkYA2/BPrhD/Ea5zGSSmF0PJgAG1zKH4Q4kW8rtp3AD5RO
-	Sh1s+Z2sW+0spAXe6svxzi5drOMcvuu9ytot9nCxh7Fs+EhVVNkt+6iW0HSxJxMs30jUJ1AuYg3
-	eLafvq8oun06QbaiXUzxL91TVZ4wZRR6tK7A8G+/Z1ktpqtnHE6ZXmFK8TCESqzQVQj/5l+ma7s
-	l47h/iEb4COo26FZye+XI5bJGLiDv+J8saa5PUxr8zl9orAhd1X9gZbUuqfSvZAXdeZ5RcMRTJe
-	15mYAh9kPffnWKm5lSwcwK9Bw6+jJ4xCBF5akhYmLLID6r66IyAjMSv5VesDYKbUKiISSPs2r9M
-	teV+WRe8G2QjCv/7axaewhBw==
-X-Received: by 2002:a05:690c:6e86:b0:7bd:8d1b:b2d9 with SMTP id 00721157ae682-7c95c5ef58dmr2296487b3.47.1778779361418;
-        Thu, 14 May 2026 10:22:41 -0700 (PDT)
-Received: from localhost ([2a03:2880:f806:3b::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7c7f2ba567csm16544767b3.18.2026.05.14.10.22.41
+        bh=7yopC/9MxA39yKranAJ5Os3jyJpUN93ONWaDD2qEA7s=;
+        b=i2a3Jv+7HGgGD3D2zPSBouQwSHqzDtZsBNUb0s0cBlsQ+soDV2ZsbBKUYQJGGQ0b9i
+         0SuRnlAmLNZXpxtcmf6PBRQnywYWEDnGDuw3qg8tcgx1d+ZU8JZeaRWXrlhk6BNWpkMj
+         /EJdjFhlsXF9ixTIp0uz8oH46fgUxKeaF8xoJGER4Q0+/fb+vs7EXHXGsmy+SoGiy80g
+         UdP25cpDUdlW5gNZeZlOjHmSLLdZS+kkHaeNm8dU/h1OEoJ0vSpRHeVCvhtB3gj2dl5A
+         a2Q9zNBXsM0F8QMT26t4TrzvSDDBZ3hpSSRhloNFMhSiW4LgbvZk3yMV4UuqPSXMKp8i
+         YMLA==
+X-Forwarded-Encrypted: i=1; AFNElJ/Ubv/G+9V//azV0FZhFwiqWy5CAIuo9uLRbgPTsRW9peKtWF/f06HmK7HyL50Oo+Fz6YzS7R2Cy4k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxqbq/wLAkK3GYktxTrFtqjXKkWb9gCQiP3j234y/Q/82t9jFsl
+	ktiGcASHpFV5ayuLE8d1dzRvcKH+w7y80nyYOetDWAdJQim1Y88BT46t
+X-Gm-Gg: Acq92OE5hhr83t9SPTzQX2ii4DDMGFrZ4TDNgQYr+lihsxzzXRkTcf5Go3mkoy75Pl4
+	1gvI70g77fKKQNv4fdK5gq1yAfd/RlikjycbPJsJ6KA0CD6EztC3epdTqQNTkZjU+p+MEHPz3JF
+	AwuRpXPunEtS0/LILTTlt18GVnZRssEX9KGvX3Nv8q1rPhWJoeX9er+uv5Gl/UAZVOI1wYSvDhB
+	qpNr5o7X11Sl3dI/lQL0IgGdaO3xDPr3Ye76eVmP6ErB4YGNnBJSv3FO7r0TO88d1q+ol7nJVFR
+	iOdk2urqnpHxxfen1xCK7+tHFA96Tgc5c8LFpxO3pD0jD8dQ7Zeqh9wJOZBil8nXFuFjjoSPwgF
+	cCDYf13EJbigstsjuVagZaIdjnsaalCJmDsXxxCnjyq+ISqEucxy0YZIss4jzNZi8iDgyPubxKX
+	V0Atab73dNsdlduuFMns/0
+X-Received: by 2002:a17:903:46d0:b0:2bd:657f:3a1a with SMTP id d9443c01a7336-2bd7e77ab65mr5300005ad.8.1778779366071;
+        Thu, 14 May 2026 10:22:46 -0700 (PDT)
+Received: from localhost ([2a03:2880:f80c:1::])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d0fcb10sm32152215ad.60.2026.05.14.10.22.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 10:22:41 -0700 (PDT)
+        Thu, 14 May 2026 10:22:45 -0700 (PDT)
 From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Thu, 14 May 2026 10:22:28 -0700
-Subject: [PATCH net-next v5 1/8] net: convert netmem_tx flag to enum
+Date: Thu, 14 May 2026 10:22:29 -0700
+Subject: [PATCH net-next v5 2/8] net: netkit: declare NETMEM_TX_NO_DMA mode
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260514-tcp-dm-netkit-v5-1-408c59b91e66@meta.com>
+Message-Id: <20260514-tcp-dm-netkit-v5-2-408c59b91e66@meta.com>
 References: <20260514-tcp-dm-netkit-v5-0-408c59b91e66@meta.com>
 In-Reply-To: <20260514-tcp-dm-netkit-v5-0-408c59b91e66@meta.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -116,177 +116,107 @@ X-Mailer: b4 0.13.0
 
 From: Bobby Eshleman <bobbyeshleman@meta.com>
 
-Devices that support netmem TX previously set dev->netmem_tx = true.
-This was checked in validate_xmit_unreadable_skb() to drop unreadable
-skbs (skbs with dmabuf-backed frags) before they reach drivers that
-would mishandle them or devices that would not have the iommu mappings
-for them.
+Some virtual devices like netkit (or ifb) never DMA and never touch frag
+contents, they just forward the skb to another device. They are unable
+to forward unreadable skbs, however, because they fail to pass TX
+validation checks on dev->netmem_tx. The existing two-state
+NETMEM_TX_NONE / NETMEM_TX_DMA doesn't give the TX validator enough
+information to differentiate devices that will attempt DMA on the
+unreadable skb from those that will simply route it untouched.
 
-A subsequent patch will introduce a third state for virtual devices
-that forward unreadable skbs without ever performing DMA on them. To
-prepare for that, convert the boolean dev->netmem_tx into an enum:
+Add a third mode to the enum so drivers can indicate 1) if they have
+netmem TX support, and 2) if they do, whether they are DMA-capable:
 
-NETMEM_TX_NONE   - no netmem TX support (drop unreadable skbs)
-NETMEM_TX_DMA    - full support, device does DMA
+NETMEM_TX_NO_DMA - pass-through, device never DMAs
 
-Update the existing NIC drivers (bnxt, gve, mlx5, fbnic) and the
-validators in net/core to use the new enum. No functional change.
+Widen dev->netmem_tx from a 1-bit field to 2 bits to fit the new value,
+and declare netkit as NETMEM_TX_NO_DMA. Devmem TX support over these
+devices comes in a follow-up patch.
 
-Acked-by: Harshitha Ramamurthy <hramamurthy@google.com>
 Acked-by: Stanislav Fomichev <sdf@fomichev.me>
 Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 ---
-Changes in v4:
-- netdevice.h: netmem_tx enum list -> only "device netmem TX mode" in
-  comment (Stan)
-
 Changes in v3:
-- Split NO_DMA changes into subsequent commit (Jakub)
-- Move !netdev->netmem_tx -> netdev->netmem_tx ==
-  NETMEM_TX_NONE conversions to this patch (Jakub)
-
-Changes in v2:
-- Squash driver conversion patches (2-5) into patch 1 (Jakub)
+- net_cachelines/net_device.rst: align the netmem_tx row's type column
+  with the rest of the table by using "unsigned_long:2" instead of
+  "unsigned long:2"
+- Split this into a distinct patch (Jakub)
 ---
- Documentation/networking/netmem.rst                    | 5 ++++-
- Documentation/translations/zh_CN/networking/netmem.rst | 4 +++-
- drivers/net/ethernet/broadcom/bnxt/bnxt.c              | 2 +-
- drivers/net/ethernet/google/gve/gve_main.c             | 2 +-
- drivers/net/ethernet/mellanox/mlx5/core/en_main.c      | 2 +-
- drivers/net/ethernet/meta/fbnic/fbnic_netdev.c         | 2 +-
- include/linux/netdevice.h                              | 7 ++++++-
- net/core/dev.c                                         | 2 +-
- net/core/netdev-genl.c                                 | 2 +-
- 9 files changed, 19 insertions(+), 9 deletions(-)
+ Documentation/networking/net_cachelines/net_device.rst | 2 +-
+ Documentation/networking/netmem.rst                    | 3 +++
+ Documentation/translations/zh_CN/networking/netmem.rst | 3 +++
+ drivers/net/netkit.c                                   | 1 +
+ include/linux/netdevice.h                              | 3 ++-
+ 5 files changed, 10 insertions(+), 2 deletions(-)
 
+diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
+index 1c19bb7705df..7b3392553fd6 100644
+--- a/Documentation/networking/net_cachelines/net_device.rst
++++ b/Documentation/networking/net_cachelines/net_device.rst
+@@ -10,7 +10,7 @@ Type                                Name                        fastpath_tx_acce
+ =================================== =========================== =================== =================== ===================================================================================
+ unsigned_long:32                    priv_flags                  read_mostly                             __dev_queue_xmit(tx)
+ unsigned_long:1                     lltx                        read_mostly                             HARD_TX_LOCK,HARD_TX_TRYLOCK,HARD_TX_UNLOCK(tx)
+-unsigned long:1                     netmem_tx:1;                read_mostly
++unsigned_long:2                     netmem_tx:2;                read_mostly
+ char                                name[16]
+ struct netdev_name_node*            name_node
+ struct dev_ifalias*                 ifalias
 diff --git a/Documentation/networking/netmem.rst b/Documentation/networking/netmem.rst
-index b63aded46337..5ccadba4f373 100644
+index 5ccadba4f373..217869d1108d 100644
 --- a/Documentation/networking/netmem.rst
 +++ b/Documentation/networking/netmem.rst
-@@ -95,4 +95,7 @@ Driver TX Requirements
-    netdev@, or reach out to the maintainers and/or almasrymina@google.com for
-    help adding the netmem API.
+@@ -99,3 +99,6 @@ Driver TX Requirements
+    appropriate mode:
  
--2. Driver should declare support by setting `netdev->netmem_tx = true`
-+2. Driver should declare support by setting `netdev->netmem_tx` to the
-+   appropriate mode:
+    - `NETMEM_TX_DMA`: for physical devices that perform DMA.
 +
-+   - `NETMEM_TX_DMA`: for physical devices that perform DMA.
++   - `NETMEM_TX_NO_DMA`: for virtual or passthrough devices that do
++     not DMA, but still support handling of netmem-backed skbs.
 diff --git a/Documentation/translations/zh_CN/networking/netmem.rst b/Documentation/translations/zh_CN/networking/netmem.rst
-index fe351a240f02..9c84423b7528 100644
+index 9c84423b7528..320f3eacf51b 100644
 --- a/Documentation/translations/zh_CN/networking/netmem.rst
 +++ b/Documentation/translations/zh_CN/networking/netmem.rst
-@@ -89,4 +89,6 @@ dma-mapping API 去处理。
- 使用某个还不存在的 netmem API，你可以自行添加并提交到 netdev@，也可以联系维护
- 人员或者发送邮件至 almasrymina@google.com 寻求帮助。
+@@ -92,3 +92,6 @@ dma-mapping API 去处理。
+ 2. 驱动程序应将 `netdev->netmem_tx` 设置为适当的模式：
  
--2. 驱动程序应通过设置 netdev->netmem_tx = true 来表明自身支持 netmem 功能。
-+2. 驱动程序应将 `netdev->netmem_tx` 设置为适当的模式：
+    - `NETMEM_TX_DMA`：适用于执行 DMA 的物理设备。
 +
-+   - `NETMEM_TX_DMA`：适用于执行 DMA 的物理设备。
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-index 945a86696f2f..d4f93e62f583 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-@@ -17123,7 +17123,7 @@ static int bnxt_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	dev->queue_mgmt_ops = &bnxt_queue_mgmt_ops_unsupp;
- 	if (BNXT_SUPPORTS_QUEUE_API(bp))
- 		dev->queue_mgmt_ops = &bnxt_queue_mgmt_ops;
--	dev->netmem_tx = true;
-+	dev->netmem_tx = NETMEM_TX_DMA;
++   - `NETMEM_TX_NO_DMA`：适用于不执行 DMA 的虚拟或透传设备，但仍支持
++     处理 netmem 支持的 skb。
+diff --git a/drivers/net/netkit.c b/drivers/net/netkit.c
+index 5e2eecc3165d..0ad6a806d7d5 100644
+--- a/drivers/net/netkit.c
++++ b/drivers/net/netkit.c
+@@ -466,6 +466,7 @@ static void netkit_setup(struct net_device *dev)
+ 	dev->priv_flags |= IFF_NO_QUEUE;
+ 	dev->priv_flags |= IFF_DISABLE_NETPOLL;
+ 	dev->lltx = true;
++	dev->netmem_tx = NETMEM_TX_NO_DMA;
  
- 	rc = register_netdev(dev);
- 	if (rc)
-diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/ethernet/google/gve/gve_main.c
-index 00750643e614..e4d78ae52daf 100644
---- a/drivers/net/ethernet/google/gve/gve_main.c
-+++ b/drivers/net/ethernet/google/gve/gve_main.c
-@@ -2894,7 +2894,7 @@ static int gve_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 		goto abort_with_wq;
- 
- 	if (!gve_is_gqi(priv) && !gve_is_qpl(priv))
--		dev->netmem_tx = true;
-+		dev->netmem_tx = NETMEM_TX_DMA;
- 
- 	err = register_netdev(dev);
- 	if (err)
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-index 85b1ccbd351f..90d2979f1a4f 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-@@ -5966,7 +5966,7 @@ static void mlx5e_build_nic_netdev(struct net_device *netdev)
- 
- 	netdev->priv_flags       |= IFF_UNICAST_FLT;
- 
--	netdev->netmem_tx = true;
-+	netdev->netmem_tx = NETMEM_TX_DMA;
- 
- 	netif_set_tso_max_size(netdev, GSO_MAX_SIZE);
- 	mlx5e_set_xdp_feature(priv);
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-index 4dea2bb58d2f..f99ca551c1ce 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-@@ -752,7 +752,7 @@ struct net_device *fbnic_netdev_alloc(struct fbnic_dev *fbd)
- 	netdev->netdev_ops = &fbnic_netdev_ops;
- 	netdev->stat_ops = &fbnic_stat_ops;
- 	netdev->queue_mgmt_ops = &fbnic_queue_mgmt_ops;
--	netdev->netmem_tx = true;
-+	netdev->netmem_tx = NETMEM_TX_DMA;
- 
- 	fbnic_set_ethtool_ops(netdev);
- 
+ 	dev->netdev_ops     = &netkit_netdev_ops;
+ 	dev->ethtool_ops    = &netkit_ethtool_ops;
 diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index e7af71491a47..b7a4503f7cdb 100644
+index b7a4503f7cdb..bf3dd9b2c1a7 100644
 --- a/include/linux/netdevice.h
 +++ b/include/linux/netdevice.h
-@@ -1794,6 +1794,11 @@ enum netdev_stat_type {
- 	NETDEV_PCPU_STAT_DSTATS, /* struct pcpu_dstats */
+@@ -1797,6 +1797,7 @@ enum netdev_stat_type {
+ enum netmem_tx_mode {
+ 	NETMEM_TX_NONE,		/* no netmem TX support */
+ 	NETMEM_TX_DMA,		/* DMA-capable netmem TX (real HW) */
++	NETMEM_TX_NO_DMA,	/* no DMA, e.g. passthrough for virtual devs */
  };
  
-+enum netmem_tx_mode {
-+	NETMEM_TX_NONE,		/* no netmem TX support */
-+	NETMEM_TX_DMA,		/* DMA-capable netmem TX (real HW) */
-+};
-+
  enum netdev_reg_state {
- 	NETREG_UNINITIALIZED = 0,
- 	NETREG_REGISTERED,	/* completed register_netdevice */
-@@ -1815,7 +1820,7 @@ enum netdev_reg_state {
-  *	@lltx:		device supports lockless Tx. Deprecated for real HW
-  *			drivers. Mainly used by logical interfaces, such as
-  *			bonding and tunnels
-- *	@netmem_tx:	device support netmem_tx.
-+ *	@netmem_tx:	device netmem TX mode
-  *
-  *	@name:	This is the first field of the "visible" part of this structure
-  *		(i.e. as seen by users in the "Space.c" file).  It is the name
-diff --git a/net/core/dev.c b/net/core/dev.c
-index b0691e03dd6b..2da2688fe490 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -3996,7 +3996,7 @@ static struct sk_buff *validate_xmit_unreadable_skb(struct sk_buff *skb,
- 	if (likely(skb_frags_readable(skb)))
- 		goto out;
- 
--	if (!dev->netmem_tx)
-+	if (dev->netmem_tx == NETMEM_TX_NONE)
- 		goto out_free;
- 
- 	shinfo = skb_shinfo(skb);
-diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
-index b8f6076d8007..4d2c49371cdb 100644
---- a/net/core/netdev-genl.c
-+++ b/net/core/netdev-genl.c
-@@ -1164,7 +1164,7 @@ int netdev_nl_bind_tx_doit(struct sk_buff *skb, struct genl_info *info)
- 		goto err_unlock_netdev;
- 	}
- 
--	if (!netdev->netmem_tx) {
-+	if (netdev->netmem_tx == NETMEM_TX_NONE) {
- 		err = -EOPNOTSUPP;
- 		NL_SET_ERR_MSG(info->extack,
- 			       "Driver does not support netmem TX");
+@@ -2143,7 +2144,7 @@ struct net_device {
+ 	struct_group(priv_flags_fast,
+ 		unsigned long		priv_flags:32;
+ 		unsigned long		lltx:1;
+-		unsigned long		netmem_tx:1;
++		unsigned long		netmem_tx:2;
+ 	);
+ 	const struct net_device_ops *netdev_ops;
+ 	const struct header_ops *header_ops;
 
 -- 
 2.53.0-Meta
