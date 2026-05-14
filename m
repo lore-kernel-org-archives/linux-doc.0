@@ -1,157 +1,172 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f74.google.com (mail-oa1-f74.google.com [209.85.160.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA09391E64;
-	Thu, 14 May 2026 17:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78712BE05E
+	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 17:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778780221; cv=none; b=lWQ60k4VovPyxsuDVavPpyd86KXwdJnhenoi+FJ49If914HxGT7/0XrdqNKCXNCFEjaF1ZPOq4+u/ripRODT/75KLu9WFhzRhvGsR3qk5yY40rOhDrV23r/2z8qJMIJaEtz+HlJWn3sk+QMHUlYieEaSreBhp/h8l8EsXoEIpPM=
+	t=1778780946; cv=none; b=P/ULuhnHjH0su0V2N5hNrY5mOxzpaqU1C5O/pwubQezwZ79G+iyt3ahlZy0+2NkdQQAhDOSqQHY15GH4oj8lp1vieVGgwwWDbpT+BqZxN64mMUrt6hze8AuSsjKAgR9CyRSk2+4hXd1xgFlI00X6GlVQjIRl4Gu+UN4qO2194gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778780221; c=relaxed/simple;
-	bh=7HohLcAzsKGZ5rIceGtsELpREYzhOEuYqHkzWH5kjcs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=cYcKrJrOhiojv4F4X8CPHJHu3SUU3TLcJbTicMcgoLbAEiMAK/ymEw5SS1fjuPrwhyjQJu+O0B2Zg+ZE/QbXcyaAlHRylRscMsOukbr2hy8lCkS/Ynsv071tTltghAxaGzg9PPiE/b+bX0+u+jmWPDrmmWauFpHTst9a2T75B3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=O+9A/8aK; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1778780946; c=relaxed/simple;
+	bh=GoRDUmjwts98H2GxjEyrtGopYG2FlUX43PGMqIqINsM=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=F/R5XcEPjfij4Wz38tOCHkdlZ6pTsx/oYZfQV361ImjPHnSYPZqZptwC1dek08aA0My/u8C2jKg6q0nsJr4XWQvc2ERyaHJ7buUqEguS0LfeF0viOq+vrp8zpzurFem7Sw+n9ZT3zQLe8At+EkvhxRyaWT7iG241sURLtvVCceg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fyhzYkEA; arc=none smtp.client-ip=209.85.160.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="O+9A/8aK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=GwwUeKFsKyVyc2+pTaKswdPzG1/YgpdUqtqHsE9uC3c=; b=O+9A/8aKWex7YSsZulUvCRbT22
-	LS39rgmpP6xjmZFVNSpkoI67QDvh3fbOJvgPayTkCWw4Rn0Na3KxjTkUHhGZVFZUIOn6MzsutEncE
-	33O19MnrHYpx3Yt3NhNYfz/KFLz3k3iGqycn2laA6IryKLQuX+gX6RbuosFqCnXFxv9S95+U4q+K6
-	wgb5OguCJO6p55H62aR/LmtJbiJjCVVKRa1tFq31rv3Z0Xa0PVPZpFF4PBjqRJQKs2fg3GZ8VwkvI
-	1gFMAIHQVUyMe7l+/NHpi5c4xogIy1NDC+zPejjuTuP+NhD8tEk4ft1FY7g5WJn9gWPNCO+31zjnf
-	x9aARObA==;
-Received: from 179-125-79-241-dinamico.pombonet.net.br ([179.125.79.241] helo=[127.0.0.1])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wNZz8-000Aig-0e; Thu, 14 May 2026 19:36:34 +0200
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Date: Thu, 14 May 2026 14:36:08 -0300
-Subject: [PATCH v3] cgroup/dmem: introduce a peak file
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fyhzYkEA"
+Received: by mail-oa1-f74.google.com with SMTP id 586e51a60fabf-439d6202259so3470790fac.1
+        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 10:49:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778780944; x=1779385744; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lvf58REysbafuiio+PHgzYPPOXJAU2S7yZkdP1X1Ak4=;
+        b=fyhzYkEAbiuipPqf7gx5+RdaCXwMfqmpjczIhbMY7cBnUFd+IALqIrwDlL+CkfOy8R
+         POeCtYJ2bwwX21dIaWHEIoGEC7/PqWd/riNRFOHYVtq6YMSjTzRC3Tk2Fn765Y945gVa
+         rvuJ+BzJH9Zml+P0kNSQYCFbq5ELx6g/fPtmJOd6y1MpZxuoA+oSsdBKBv7jOT7weB5K
+         wUzPs2RbvNHqK8/Ip8vQY1twzb1P7xV8fVyqGMC3pZRMqYQ3e9YxWW5XxlHL0aZhcq6B
+         88+ZKGsu1+ejYtPjxrj6uLGDISrx4Bvy4E6ZAc5I44MpgeuTxoFepMV8Fn1DofCbarXq
+         nqvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778780944; x=1779385744;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lvf58REysbafuiio+PHgzYPPOXJAU2S7yZkdP1X1Ak4=;
+        b=OU5grEw2NuOS6TFiVG6azxkw8cbp2MEbhUMRs9la5ObFXQscnmba9jOdXekZDFuQ3h
+         IbWwzjVDftIJMi+EWNQZoVEGnVYaEU5sMQfGGAQtsoGMYz9EYXWQk+DGT+c7bHvV/Fcn
+         5PvjdLqo7Ze2Uiw1qqsMRcD29jkp1zhSyTGR5tB2HnBt1Dg3lkLWhoE86zusI5uNWZRr
+         lygF0e9a8yUqWuUxV84IDg7vUiejfCnYovSNPei/0Mf4WAWi4qQpoqbwwFFGZgppeFMq
+         mlpJ1xepwqKB8cYLP2/+pnHHAqe4D30indRigZXzymEhA3RR4JtpRPZp5TN/cpLdlaJ0
+         VE7g==
+X-Forwarded-Encrypted: i=1; AFNElJ9mMyA27qc9IYl5SDx1Oi4rbNB47bNNdxyCUdX42MXur4PgPi3J4ExWNJLcseKbimwr4SmPIGLKUVk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0QBOuwo+hx5k2k+AbbBT//bPB8g+iDfDnmmWsum4ZSi9BFNZV
+	vUPovozztsmX4n8dT3ztZ2/x3jaWSyEyirfyLIuR6fbaHp3K/fe9GbpZOAHksXwxdEmThXsE6QP
+	mzwvAFVZ4e9ue0ZVJYgBH/8IJzw==
+X-Received: from oaao19.prod.google.com ([2002:a05:6870:f013:b0:43a:1a0e:c45b])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6870:a793:b0:434:efa3:9bd5 with SMTP id 586e51a60fabf-43a2ddcfbbamr377060fac.27.1778780943565;
+ Thu, 14 May 2026 10:49:03 -0700 (PDT)
+Date: Thu, 14 May 2026 17:49:02 +0000
+In-Reply-To: <agQpbiD8Fi6fzomf@kernel.org> (message from Oliver Upton on Wed,
+ 13 May 2026 00:34:06 -0700)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260514-dmem_peak-v3-1-b64ce5d3ac38@igalia.com>
-X-B4-Tracking: v=1; b=H4sIAAgIBmoC/1WMyw6CMBBFf8V0bc20BaSu/A9jTB8jTJRHWtNoC
- P9uwQ0uz809Z2IRA2Fkp93EAiaKNPQZ1H7HXGv6Bjn5zEyCrKAAzX2H3W1E8+DKWCcs6hKOkuX
- /GPBO77V1uWZuKb6G8FnTSSzrr1JCtakkwYHXvgaFVhWFdmdqzJPMwQ0dWzJJblShtqrkgnvjo
- NJae6vxT53n+QtDElqX3gAAAA==
-X-Change-ID: 20260409-dmem_peak-3abc1be95072
-To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
- =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
- Natalie Vock <natalie.vock@gmx.de>, 
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, linux-doc@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-X-Mailer: b4 0.16-dev-62088
+Mime-Version: 1.0
+Message-ID: <gsntwlx5c25t.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH v7 07/20] KVM: arm64: Set up FGT for Partitioned PMU
+From: Colton Lewis <coltonlewis@google.com>
+To: Oliver Upton <oupton@kernel.org>
+Cc: kvm@vger.kernel.org, alexandru.elisei@arm.com, pbonzini@redhat.com, 
+	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
+	will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, 
+	james.clark@linaro.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-Just like we have memory.peak, introduce a dmem.peak, which uses the
-page_counter support for that.
+Hi Oliver. Thanks for the review.
 
-For now, make it read-only.
+Oliver Upton <oupton@kernel.org> writes:
 
-This allows for memory usage monitoring without polling dmem.current when
-the information needed is the maximum device memory used. That can be used
-for capacity planning, such that dmem.max can be properly setup for a given
-workload. It can also be used for debugging to determine whether a given
-workload would have caused eviction or system memory use.
+> On Mon, May 04, 2026 at 09:18:00PM +0000, Colton Lewis wrote:
+>> +static void __compute_hdfgrtr(struct kvm_vcpu *vcpu)
+>> +{
+>> +	__compute_fgt(vcpu, HDFGRTR_EL2);
+>> +
+>> +	*vcpu_fgt(vcpu, HDFGRTR_EL2) |=
+>> +		HDFGRTR_EL2_PMOVS
+>> +		| HDFGRTR_EL2_PMCCFILTR_EL0
+>> +		| HDFGRTR_EL2_PMEVTYPERn_EL0
+>> +		| HDFGRTR_EL2_PMCEIDn_EL0
+>> +		| HDFGRTR_EL2_PMMIR_EL1;
+>> +}
+>> +
 
-Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
----
-Changes in v3:
-- EDITME: describe what is new in this series revision.
-- EDITME: use bulletpoints and terse descriptions.
-- Link to v2: https://patch.msgid.link/20260513-dmem_peak-v2-1-dac06999db9e@igalia.com
+> I've given this feedback at least twice already...
 
-Changes in v2:
-- Make it read-only for now and adjust documentation accordingly.
-- Link to v1: https://patch.msgid.link/20260506-dmem_peak-v1-0-8d803eb3449c@igalia.com
----
- Documentation/admin-guide/cgroup-v2.rst |  6 ++++++
- kernel/cgroup/dmem.c                    | 15 +++++++++++++++
- 2 files changed, 21 insertions(+)
+> Operators go on the preceding line in the case of line continuations.
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 6efd0095ed99..d103623b2be4 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2808,6 +2808,12 @@ DMEM Interface Files
- 	The semantics are the same as for the memory cgroup controller, and are
- 	calculated in the same way.
- 
-+  dmem.peak
-+	A read-only nested-keyed file that exists on non-root cgroups.
-+
-+	The max device memory usage recorded for the cgroup and its
-+	descendants since the creation of the cgroup for each region.
-+
-   dmem.capacity
- 	A read-only file that describes maximum region capacity.
- 	It only exists on the root cgroup. Not all memory can be
-diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
-index 4753a67d0f0f..6430c7ce1e03 100644
---- a/kernel/cgroup/dmem.c
-+++ b/kernel/cgroup/dmem.c
-@@ -182,6 +182,11 @@ static u64 get_resource_current(struct dmem_cgroup_pool_state *pool)
- 	return pool ? page_counter_read(&pool->cnt) : 0;
- }
- 
-+static u64 get_resource_peak(struct dmem_cgroup_pool_state *pool)
-+{
-+	return pool ? READ_ONCE(pool->cnt.watermark) : 0;
-+}
-+
- static void reset_all_resource_limits(struct dmem_cgroup_pool_state *rpool)
- {
- 	set_resource_min(rpool, 0);
-@@ -808,6 +813,11 @@ static int dmemcg_limit_show(struct seq_file *sf, void *v,
- 	return 0;
- }
- 
-+static int dmem_cgroup_region_peak_show(struct seq_file *sf, void *v)
-+{
-+	return dmemcg_limit_show(sf, v, get_resource_peak);
-+}
-+
- static int dmem_cgroup_region_current_show(struct seq_file *sf, void *v)
- {
- 	return dmemcg_limit_show(sf, v, get_resource_current);
-@@ -856,6 +866,11 @@ static struct cftype files[] = {
- 		.name = "current",
- 		.seq_show = dmem_cgroup_region_current_show,
- 	},
-+	{
-+		.name = "peak",
-+		.seq_show = dmem_cgroup_region_peak_show,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
- 	{
- 		.name = "min",
- 		.write = dmem_cgroup_region_min_write,
+I apologize for letting that slip through again.
 
----
-base-commit: d3b0a7f21119f5a66cb76aa28fb8cc13206aaf7d
-change-id: 20260409-dmem_peak-3abc1be95072
+>> +
+>> +/**
+>> + * kvm_pmu_is_partitioned() - Determine if given PMU is partitioned
+>> + * @pmu: Pointer to arm_pmu struct
+>> + *
+>> + * Determine if given PMU is partitioned by looking at hpmn field. The
+>> + * PMU is partitioned if this field is less than the number of
+>> + * counters in the system.
+>> + *
+>> + * Return: True if the PMU is partitioned, false otherwise
+>> + */
+>> +bool kvm_pmu_is_partitioned(struct arm_pmu *pmu)
+>> +{
+>> +	if (!pmu)
+>> +		return false;
+>> +
+>> +	return pmu->max_guest_counters >= 0 &&
+>> +		pmu->max_guest_counters <= *host_data_ptr(nr_event_counters);
+>> +}
+>> +
+>> +/**
+>> + * kvm_vcpu_pmu_is_partitioned() - Determine if given VCPU has a  
+>> partitioned PMU
+>> + * @vcpu: Pointer to kvm_vcpu struct
+>> + *
+>> + * Determine if given VCPU has a partitioned PMU by extracting that
+>> + * field and passing it to :c:func:`kvm_pmu_is_partitioned`
+>> + *
+>> + * Return: True if the VCPU PMU is partitioned, false otherwise
+>> + */
+>> +bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu)
+>> +{
+>> +	return kvm_pmu_is_partitioned(vcpu->kvm->arch.arm_pmu) &&
+>> +		false;
+>> +}
 
-Best regards,
---  
-Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> Ok, I'm thoroughly confused about these predicates.
 
+> Whether or not a vCPU is using a partitioned PMU is a per-VM property.
+> This is separate from whether or not the backing arm_pmu has a range of
+> available counters for the guest to use.
+
+> It is entirely possible that a VM *isn't* using the partitioned PMU
+> feature (i.e. backed with perf events) yet the supporting arm_pmu has a
+> guest counter range.
+
+Yes and I add that to this predicate in a later patch when I introduce
+the flag. I can always reorder to introduce the flag before (or along
+with) this predicate.
+
+>> +#if !defined(__KVM_NVHE_HYPERVISOR__)
+>> +bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu);
+>> +bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu);
+>> +#else
+>> +static inline bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu)
+>> +{
+>> +	return false;
+>> +}
+>> +
+>> +static inline bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu)
+>> +{
+>> +	return false;
+>> +}
+>> +#endif
+>> +
+
+> Don't use ifdeffery for this. Aim to have a single definition and rely
+> on has_vhe() to do the rest of the work.
+
+Will do.
+
+
+> Thanks,
+> Oliver
