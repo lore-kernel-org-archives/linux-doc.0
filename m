@@ -1,66 +1,68 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED2230ACE3
-	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 01:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0233033FC
+	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 01:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778721092; cv=none; b=dhjrBdRrN+gcCGub3jzMrYvHXERWXMUW2ObVcrIaY0KGdfWWZvNaa4U+vJQ99hFH7OxQB58hpSBFxfVE3Og5Imv25a6oqqcRg5X4rB44FaWo4p6PNLKAntnUOv1korGco2En27ewyEZdfwbWgFu0W9VLiC1gCCUsjtKdTWyGjNA=
+	t=1778721993; cv=none; b=E4MlMfMKyjNqJz6wmOaOkRTNFLl/qoJhAQTPs/HEsAErCfUWiwjyGwRIXoWfe8b9ilFYe9+LPMjWZb9Tn35p63aSXjOdyA6pOU62Q6b0Asj6C5NNqqe7anIqy/JopR1q6I8fF8tma45EBO9OEbRrOVqzB6QZHpYZZxU7d6NiFzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778721092; c=relaxed/simple;
-	bh=ztkBsso23UpsXKr+O3LFaui6uvG8T0h+LZPrqrbSnbA=;
+	s=arc-20240116; t=1778721993; c=relaxed/simple;
+	bh=J9t7Y3dCSOWjzc2KZXw6OyJ0fX4LV/SSR6k3ZSG8cP4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EzGjPWhAdVK5jW+KsWyX5Uaa8+hhH5mq8IBM7SjrSlhNM/AxEA0W7D8LmAXKLfZyngYZqTTFQeTLC/HVBcbpGTzSpLgOFv6lxYntcgPriGH3EHVG9VTTxwpbMdrWnQUJOlvRHWLyxDru5+DfExTOPmjfj7KOVNtbw3pZJw9sy48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gnjmvanl; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 In-Reply-To:Content-Type; b=rNWCseTPVD+TvxIeZ43kss0axIU6t4KMvxPJIZErbmnLE3HRabFRd75EIAx/Zl1/hdTzBfdCaLwa8DzXE6WGxHeZYHfiexSQ9OjX7/8y3TZJJ2kfcIMp8pSWxrp3j8EZOESPeKH/fo+XP80Q4EqARR4cnR+ABRsFXNTdF6nhw+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bmuCmMnR; arc=none smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gnjmvanl"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-394413a63d3so19131741fa.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 18:11:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bmuCmMnR"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2f36da5c8fbso7349746eec.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 May 2026 18:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778721089; x=1779325889; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gPLC8u0hvKKYM/8QgR5AdV8zrX0b253adiqGeSRKT8I=;
-        b=Gnjmvanl+YFBDEZ2g4JNRLlCz3BMG+T8JlQ7GmIJctJCtbuQ45NI0Xfp7m2iOO4Cxv
-         6kdJ2/6xFJR6//jlgwnESZyknd1mcU3OTUTh3Lnl9F3ajuHcpI5U7LMgTS9Hh++pQj9Z
-         OW5zD1RE+xzKCbtlxAZBowidVmH5RZDJHZZL9SLQGpuhK9lKpHNt3U+n5knUOztlnopY
-         FqI1XYqLteGyN1ImwhFe8ddsVfml0TVY9A51UsbjTkdv8bqldYWzLouf/LI840H16hAJ
-         aTot2ioSJTXTdZ7xWYHouBVS6EzyUShg5lal2HMxVLP0iT9UGlI6NVFbydB4V9zSbySd
-         D3Rg==
+        d=gmail.com; s=20251104; t=1778721991; x=1779326791; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ow0R4jeXxEVO1Et6duyD4OCmVuya7nxVLjLxDugc27w=;
+        b=bmuCmMnRCXsXCzTsUXubTkLmwO6IPgoPx6FKXObYiqcbmIU+alwIetyAUNv8Xyz7HL
+         dLx5kgPeW24m2bsnMkdbIdxsbR88IqqWXN22MHNtGAUaRZzhxouqHjGYgLrKBmEtYGh4
+         dKvThpsERR55kDN9Yg84Y1zGbEcoEAfjXe5QqWMWHsNO9lwqDMKHTUb/GSZdSskVBCgT
+         bB0fgzImxmTuV3Q2qbc0Y3Ahnr1B1omfNjKEfhsEM1QNAkvRJxv1K42xAyYJi50zNk2N
+         HFp5P7w03QK4aovo9zDu6zrvKRcCSPIDBCqy7cgKiReNQaceSVzqE3/SSh7+m7oYRCNP
+         +/VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778721089; x=1779325889;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gPLC8u0hvKKYM/8QgR5AdV8zrX0b253adiqGeSRKT8I=;
-        b=ZTUTdkkrhsq2ZnnA9grmSsZn1nzdFmksuD4erntHsixGXm/UAk0r4cPWTRPvAROUcZ
-         1iFm43JdlvxraaEq8hYH4MGcvRWY/JVwdGaYbx7MdCZP5/cJD9EI4Q8SUaOAJQWHbSKT
-         p79QSKMNwM2dWngqGzzaGzLR+kZO3f7l0KTsez2v71FP5IR+4SHjpY26B/baQdm0TsGO
-         QKYKpkC0X2XDNBUk7L/qxNPGYRW5NRq8QPKuZmJd9xGomFmK87/mJYUlj4b2o4lTMgqD
-         K3NgIIgfLSYuR3VuYXHSF5j5dI6/dhJ8UH2DRvqmTvL65yZyBBVSfXDuuC1KFgF3CzAR
-         6VyQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9entAh6AgK4mTjpIX9EtZL986G7y552UxJ13Je1SLB8Kp6GxQDe4GvVdHb2k1HcoCRURjoY/bI0Ck=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+zhpyXkFU0RJVHYJbK50XpP2brOEB3MBO3QsScrg1HrNst1xv
-	TfQMB44iKL9Xku6q6y7kLpvXG/otWchXTe0CBs5FLKpVVglTErexIWz0
-X-Gm-Gg: Acq92OEp0FA32pUDt3to8qqlIRfkClvCRl4gDmUhWANQJXvkjUCa99CRwFYMra8oK5H
-	CJ7RCJPYfhE7PXUo9RsDcxpomVN2zIwPYF7n4Xlt1iqTw3iab491eH3ZgSsxjqq3NMfgGoTcAge
-	mNzReralEcChJyRAQ+f02B9h/gfzztVFzvkCgZacvG3edxzlbfbBjAdQH0o4MZSFxBs00IA/J09
-	UD6KQ1Fiesk828dKC2NbzD5LkSwpy54B2OB0FzXw/1if1qLIpGX+8MofEN0riJxO3o/WCygv6jb
-	Z8L0WDCS81TXas9XmEB0CX1D0VVKZZgOlq+kL3SVZz6mET9EP4QLD3LgZ43CBNYdCN6gx6HTB0D
-	AEAR/5peIM70ZHZcxk8JKp0TYex+K+PzGaIZJaT6bocGZ+LOYzH0M5OuvcX2O3Fqsbvaxw1Hu80
-	Z9XsQvmAB1naXrVQk1twnZUSLPLM++eqMBrGNaCg==
-X-Received: by 2002:a05:651c:198e:b0:38d:fca1:4a6c with SMTP id 38308e7fff4ca-3944e9ceea9mr18879511fa.17.1778721088536;
-        Wed, 13 May 2026 18:11:28 -0700 (PDT)
-Received: from localhost ([2001:863:36e:5104:a331:7451:88e0:34ca])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3945cab2976sm2330881fa.20.2026.05.13.18.11.25
+        d=1e100.net; s=20251104; t=1778721991; x=1779326791;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ow0R4jeXxEVO1Et6duyD4OCmVuya7nxVLjLxDugc27w=;
+        b=EoiaZKR+61x7u1DK6mb+llmaBLqk+wxK3gG21UUWqPZ7JvMkZ3hjxSypKOhrFaDY9W
+         FN5a8q3Jwszrt31VGV2uZbGxdqMJ0tXmeL3DCfh/QZ5sN7JS1RNbFFUzZQ80kf7ReR57
+         29zsHv0UTITYg5H1STbBxw3LLhm214ts6+EaCGthKXHQJSD/69w2+ycdCjUuVekKoj+5
+         VLJ3N5MCA332tMhHgEJwECb9FEnNdIN4WWWzwGis+LxKIMfmhX6IQXv4jeEbU6I53dsw
+         CcftwYILGCVjxOrNiUChgURvJPW0Ptu/ap0a16CTAwgKCNDzYJm2uzRmw2+On7ywKJIT
+         0NyA==
+X-Forwarded-Encrypted: i=1; AFNElJ/rA43LjkWF6Gih+80PaOCJEfscuR5e9Yp/r1y4jfyQBUnuvAfphA1w0mew6gec14KbkNAoFuvHJb0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywo8DVkn8FvLWW++FKYff4B5yQhk2uo4utdjQsi7sZS534y0683
+	+zI8th2eVaKdG7Uznz9Vs17Xo6TpsQ98DMJrKZafUnLaVCIGpyN2JROc
+X-Gm-Gg: Acq92OGLqK9CrIxDRXBQy48iYsDFyrNH5WF+170JiidCWsgTAGB1+BxH26FRl/GVyOT
+	bXuKVEMKcVAoCIkjexzJPZglI91mKrTcwJm91je6L3VYYa1Q2uZU80UNkvFF39t7vwE4v6FZ0wp
+	0uz1Ck6DrYXvgiYt87MIZhEZZavf8DeISOyQAym0uamO/wTS7+ouYxNuOw9mEbKmI2GgZxUhvUE
+	9GFxYzDJxsdxvGD74BFUOzoBjkSi3TI4amYnxmjiwRA+vrdXEn65hE8EzrDxuVc9RyREmGaVSbe
+	Edqh75V6NbH3OVOx6CCIcpR/o1D2ZsXGQPACIwG/v8XnQ9IcTCnDN/iqAoFMeAVtbMtGh9PMjUo
+	Fz3YYkL8pPMi6SWpsWCnKJi1DNr/2apOxMEWIqijA1/52bbqnhv3J9Nl2Vbe+4QnT5X5DsN8aAr
+	wIlH++sxXa1snxEJ3rZbupj5eR8M/uTQ936wklqRTjSh7H1vesFW7mvz7xUfuKyLiq6plxId97e
+	ta3lvHcqjs=
+X-Received: by 2002:a05:7300:e78d:b0:2fc:9aa8:83da with SMTP id 5a478bee46e88-3011a369aa2mr3335097eec.29.1778721991110;
+        Wed, 13 May 2026 18:26:31 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-302973bcd0csm1239878eec.24.2026.05.13.18.26.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 May 2026 18:11:28 -0700 (PDT)
-Message-ID: <4e757864-c062-4467-83b4-1e0d08b68b2d@gmail.com>
-Date: Thu, 14 May 2026 03:11:24 +0200
+        Wed, 13 May 2026 18:26:30 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <ab7c7a3a-332a-4316-93de-c6e9b5ca6c62@roeck-us.net>
+Date: Wed, 13 May 2026 18:26:29 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/2] scsi: mpt3sas: add hwmon support
-To: Guenter Roeck <linux@roeck-us.net>,
+To: Louis Sautier <sautier.louis@gmail.com>,
  "Martin K. Petersen" <martin.petersen@oracle.com>,
  "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
  Sathya Prakash <sathya.prakash@broadcom.com>,
@@ -83,31 +85,81 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
 References: <20260512214703.655633-1-sautier.louis@gmail.com>
  <20260512214703.655633-3-sautier.louis@gmail.com>
  <934b475d-1d77-4670-af10-4f3f2ddad61d@roeck-us.net>
-Content-Language: en-US-large
-From: Louis Sautier <sautier.louis@gmail.com>
-In-Reply-To: <934b475d-1d77-4670-af10-4f3f2ddad61d@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
+ <4e757864-c062-4467-83b4-1e0d08b68b2d@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <4e757864-c062-4467-83b4-1e0d08b68b2d@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 13/05/2026 05:57, Guenter Roeck wrote:
->>   Documentation/hwmon/index.rst        |   1 +
->>   Documentation/hwmon/mpt3sas.rst      |  57 ++++++++
+On 5/13/26 18:11, Louis Sautier wrote:
+> On 13/05/2026 05:57, Guenter Roeck wrote:
+>>>    Documentation/hwmon/index.rst        |   1 +
+>>>    Documentation/hwmon/mpt3sas.rst      |  57 ++++++++
+>>
+>> This is not appropriate. The description is wrong and misleading.
+>> mpt3sas is _not_ a hwmon driver. It is a chip access driver which
+>> happens to support hardware monitoring.
+>>
+>> If this is part of the mpt3sas code and not a separate driver,
+>> please keep it there.
+>>
+>> Thanks,
+>> Guenter
 > 
-> This is not appropriate. The description is wrong and misleading.
-> mpt3sas is _not_ a hwmon driver. It is a chip access driver which
-> happens to support hardware monitoring.
+> Hi,
 > 
-> If this is part of the mpt3sas code and not a separate driver,
-> please keep it there.
+> Sorry about that, I had assumed this directory was also meant to contain
+> documentation for chip drivers that support hardware monitoring.
 > 
-> Thanks,
-> Guenter
 
-Hi,
+My recommendation is to implement drivers such as this one as auxiliary drivers.
+Most people don't want to do that. I accept that, but then I don't want to carry
+the documentation either.
 
-Sorry about that, I had assumed this directory was also meant to contain
-documentation for chip drivers that support hardware monitoring.
-
-I will remove the documentation from v2 since there is currently no existing
-mpt3sas page under Documentation/scsi/.
+Thanks,
+Guenter
 
