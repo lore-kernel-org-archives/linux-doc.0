@@ -1,469 +1,299 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011045.outbound.protection.outlook.com [40.93.194.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6296329408
-	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 04:38:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778733519; cv=none; b=C7OqHOBItjJwMhESQVQtcy/nBetBx/jHpAxl1jJEhcNz+j6RLL7PWFR3vgacSF9sqDcEznKf6pkyYuWF3j+2dunTgYvU9lto7sKIPA7pza0cGu6C6YuEYZqo1XqnGJAwlYZQT4xLmdMRy1FOBmM0oBYXzEK1pFWSpl32kE5x4g8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778733519; c=relaxed/simple;
-	bh=L/lSeF7WmUf28X+CMiGVZtGvuWoEUcJdiav40dNIjKY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xy4FoxAkQnKBwHMq2XWwdLRaOZ6QmRBWHbOxCYzc8I3Zo5Y9yZQBOEawAKCjl3F6J1GcPZEzBs/Cvmu55AoNxvoPc1tvI1OEtbs2ky+mi3Tph41M5zgQHGir22JLEIcF3gWf0I1cKRQvTQIa90gu4lbJTctFH/t6/jbVHBFcfts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bokvcCsF; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEEC42BB1D;
+	Thu, 14 May 2026 04:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778734612; cv=fail; b=BP0/3dxkij649GAWFAOtS5IgI5BKYk6X9bwP5GNG2rTbogVADH+WoMWMuG9/bNQLHtGg8/3qE3dq/+Dkkrzc97RgrSiotCpHxo2fuf7dNXxem8LXKNUZYaWjsKAMT3aCd8G5R4MEDKrItUwppRDo63SXGwiazKO0EwYr6wKC8Fs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778734612; c=relaxed/simple;
+	bh=zB3dSlcmojT+51awrmcViFe4PKgz/8pt60fFI0a+4tY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=jgotjO3kyAyoW6acDtd+oTQ/8YSKCBczwwjCBQgsubrQ8FkSX1jJgqwY8DZKV8xfOguFlKCtmzv3sBkU9rqQKS5Tb77iuV/gGq8020ucSNGGzXrDdVRqffjV0lk5yJSfYBxjvBLz6mDKtVRu4/bGBPRMZejQooEEoPLiP+mO5zQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=G3nlmlLW; arc=fail smtp.client-ip=40.93.194.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bokvcCsF"
-Message-ID: <2f546525-8ff6-4bbe-86ae-6f474f7cefe3@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778733513;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EWNhhBT8Z0IhLnSUQk0yXuRYGsrjvO9GHYLlwg3Do9Q=;
-	b=bokvcCsFWi+j1ORUOuyiXHXuYUcjMDLXSW7ByB4SLr6jV08jf4ZYZSM4/QHEKpwWKaobkH
-	w32++mQEH9AkoorDLbhgHrkjsxmRAIsURlswJXp460Eux8M32nlV/2mpqNNMCmJ5oOy5iP
-	HgzntiGnP44bFbnUvaUInZS/oVDRgGM=
-Date: Thu, 14 May 2026 12:37:42 +0800
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="G3nlmlLW"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HBfUIFalWRtYFyIKHk7G/ISyhwKd9bke4aNcEG5mqudXK8jv8BP8MSJsczXDakKnpmqPfTetaBCVYGzKFZawvw7/KY8OxXHVzok107RaS5B5tzyHHeAcpsrfdnbMzQM6BC80GPMdSNU4HmUpkgMPSi8JOleqWX1ZxjG0Cap8Yo5fsf0iEinF07KU11IGtzkExWTKOoZyIvMcQiY3wTwYZAiNxkEze6qpnkzplD1EeVRhrpX6R/XTl64kIvC+HVdxEb5skOaB0MPP6i8LdaIfQJL2v1pbgZCCFEglLS1KC5x6VfztzPvAAhj/3C6Ql/zAPIFFihA8OjiFR4+Tb+sgKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j9AkB3HTQ5eeJHv0ulhyPaK6DEM+pi6U8U60+RmwISE=;
+ b=GIYGHGEhBt3rJxBUbIpi8h0ZQn8Ndq1/65a8U2Wpx8FhpJnapU07dfOdmaDvpQWPRh3BhDvGvdgLLerxgKCy67r005xJgh5ynyLMSA12w2V/aWcQFsDCRCNaxTeAViB+CiXGMOwb9CglUQiFsTZ3BKSTdrdv5oVE8/MMzZX6xDfD4qtFSjHhkcP0tYUz/NfjQ16dnQQlW+crTw1RPpRMnpgzVRuFXKa1yhZWwvby0CPdk/VnktPxsl4n5GSL9opDRxsZH47fcnQr5GXCNKAMxxQcFZTiVDx/osyJwJpzcINuQKlM/Gg94cNDmGgv7EoYP6NGT0IqHO/Tz8fl1dKZTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j9AkB3HTQ5eeJHv0ulhyPaK6DEM+pi6U8U60+RmwISE=;
+ b=G3nlmlLWSikgHQO1tED7dQrUEUiJ8D+NuqbSvPJNSu6Ee1pCbv/h+e3Sbhk09KQfBFUuqTHSUodGZFIwYcAyzpbXy0px7W6fv6pSKjYGZKVTakyWUO9rcqqZ0yjGQkVQNXdpngmQZ3eOjZE7MBxcY+uQhlJ1IpV8UbhMPRdLcV8=
+Received: from MN2PR19CA0010.namprd19.prod.outlook.com (2603:10b6:208:178::23)
+ by DS7PR10MB5039.namprd10.prod.outlook.com (2603:10b6:5:3a6::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Thu, 14 May
+ 2026 04:56:46 +0000
+Received: from BL02EPF0002992A.namprd02.prod.outlook.com
+ (2603:10b6:208:178:cafe::1c) by MN2PR19CA0010.outlook.office365.com
+ (2603:10b6:208:178::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.12 via Frontend Transport; Thu,
+ 14 May 2026 04:56:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ BL02EPF0002992A.mail.protection.outlook.com (10.167.249.55) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.25.13 via Frontend Transport; Thu, 14 May 2026 04:56:44 +0000
+Received: from DFLE209.ent.ti.com (10.64.6.67) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 13 May
+ 2026 23:56:44 -0500
+Received: from DFLE211.ent.ti.com (10.64.6.69) by DFLE209.ent.ti.com
+ (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 13 May
+ 2026 23:56:43 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE211.ent.ti.com
+ (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
+ Transport; Wed, 13 May 2026 23:56:43 -0500
+Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 64E4ubrp1324074;
+	Wed, 13 May 2026 23:56:38 -0500
+Message-ID: <e28d2931-004e-4935-a0b5-d554ece76fb2@ti.com>
+Date: Thu, 14 May 2026 10:26:37 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/6] alloc_tag: add ioctl to /proc/allocinfo
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Sourav Panda <souravpanda@google.com>,
- Abhishek Bapat <abhishekbapat@google.com>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>
-References: <cover.1777936301.git.abhishekbapat@google.com>
- <d064a1a8de127c0e321f675a9966e533a0917e7e.1777936301.git.abhishekbapat@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/2] net: ti: icssg: Derive stats array lengths
+ from ARRAY_SIZE
+To: Jacob Keller <jacob.e.keller@intel.com>, David CARLIER
+	<devnexen@gmail.com>
+CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Roger Quadros
+	<rogerq@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Meghana Malladi
+	<m-malladi@ti.com>, Kevin Hao <haokexin@gmail.com>, Vadim Fedorenko
+	<vadim.fedorenko@linux.dev>, <netdev@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, Vignesh Raghavendra <vigneshr@ti.com>
+References: <20260512060627.3781329-1-danishanwar@ti.com>
+ <20260512060627.3781329-2-danishanwar@ti.com>
+ <CA+XhMqykBWcMdk+iNnOtUxM4MX6jpDyUwfuAVZFbjAShO9_v7Q@mail.gmail.com>
+ <6a1f411c-d7ed-463b-abf1-277d8cc0c184@ti.com>
+ <9fbf6682-b521-4b7e-b5b6-af91694ed051@intel.com>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <d064a1a8de127c0e321f675a9966e533a0917e7e.1777936301.git.abhishekbapat@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: MD Danish Anwar <danishanwar@ti.com>
+In-Reply-To: <9fbf6682-b521-4b7e-b5b6-af91694ed051@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0002992A:EE_|DS7PR10MB5039:EE_
+X-MS-Office365-Filtering-Correlation-Id: ab92c710-df13-47c9-62be-08deb175324a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|1800799024|7416014|82310400026|4143699003|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	kdIoP8eySbRw+UYdKGdqZd14bX3pCma90ZOtpkX44ExC2aoLmFgYiakk+5PKCxMsCgyTv9BKcf+EXiUhcBbbful0IO6FbcbQfMvReDtYdjXYsgf9v0t5aQqYeqFdrISG8XUhyNV2aSWb04OGgj02fW+BnpqjXnbJPCLyHdPRKGa7mu+jssTq/Sz7u92rdBwSFgGSZ/Ei7C2Kxqkfzabv2K22O1sRRAK9gIIGSJ1gI0p5jlMfzSa/KuwVjkNvTZ5ZWSheYrFnor0fYbmOaBJNTJAaNpYrugAii5WM1ezfNGQEW9C/NbfJWzxm2RDzC5nrkirVwK/l5J9BlWnR/aiY6YZUjBYLzUXojgvgUbMIiDxb7ZePaCWDOqW0ogkS9ZA5EQStnE5pLz0cnd5aF+ClUhmUCaNRPzcKXLDvDOgPPHADvbtXCMJ7mWr/wdQeONN0sxEXxUhQdG/iLmC+3P4gD9oTu5XCIo0O+GMR0UQoaTPI2Olg2dhoNvvs4l3qVcSuU2qPLeZs0LhUQKMufaB2FCLI2nzNR9febJF+2XbCIrpW+t0jxaj91DAl0UQCXxRkqry7lZMjIzEQXIILtt9/GHHb9IXtCTfhcItViL2jR9hsCGu6RrPCfZz5qL93r8/BHRlaB+MFIAW7phDJTKPnHeRDXf4Y8U7pzJo3e8LJIHLH4dAqYr4EFC1q8FyNE607RKkNOF5tELWsvdn3nQdyoqpxTFq2KIwpT9cG1A7XmNs=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700016)(376014)(1800799024)(7416014)(82310400026)(4143699003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	KfLJPr2XVouiuaBvxEq2Hhjprp4DuZxl/1rQGG2ZSp7mKoWA7z5DCRQRp4EIUjCsUIy9Xym8o1VvfcR6O95s2oN+7mJjun6RTp9GdNNdV7S0A8jtyhSWRKZTjzdWcKjK2KQHNT4LzZhDFKBbNey6ShQv3G5hLz8t8SkYMuLJA1RigcEh3e1YC1SYTxR1aNlIqICkyekJDqmRQCNhvEouqJVu1V9gtPzoCxR4OdIV0BdH478RbQNm13tFGAuCshpKz0WLV4SKnj459QpxYCh9OuSl70sJJsJBLVGc15e2zI2MMUvCVXxYpqcs+3oenPk93eI5S+6RbCEDP9w25+tDpxyUDg6L1dumUPceX39O9vx5Yw7Ih1A5foNuZCbu+IkmErcDLfqUZDGN2uCbJs3v8mI3JRxZRyfw4O6xOjVhEP2W6j6eP6u4w4tt9GMKIvPU
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2026 04:56:44.5018
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab92c710-df13-47c9-62be-08deb175324a
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0002992A.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5039
 
-Hi Suren and Abhishek
+Hi Jacob,
 
+On 14/05/26 1:30 am, Jacob Keller wrote:
+> On 5/12/2026 2:40 AM, MD Danish Anwar wrote:
+>> Hi David,
+>>
+>> On 12/05/26 1:28 pm, David CARLIER wrote:
+>>> Hi MD,
+>>>
+>>> On Tue, 12 May 2026 at 07:06, MD Danish Anwar <danishanwar@ti.com> wrote:
+>>>>
+>>>> Replace the manually maintained ICSSG_NUM_MIIG_STATS and
+>>>> ICSSG_NUM_PA_STATS constants with ARRAY_SIZE() expressions derived
+>>>> directly from the corresponding stat descriptor arrays, so that adding
+>>>> new entries to icssg_all_miig_stats[] or icssg_all_pa_stats[] no longer
+>>>> requires a separate update to a numeric constant.
+>>>>
+>>>> To make this self-contained, break the circular include dependency
+>>>> between icssg_stats.h and icssg_prueth.h:
+>>>>
+>>>>   - icssg_stats.h previously included icssg_prueth.h (transitively
+>>>>     pulling in icssg_switch_map.h and ETH_GSTRING_LEN).  Replace that
+>>>>     with direct includes of <linux/ethtool.h>, <linux/kernel.h> and
+>>>>     "icssg_switch_map.h".
+>>>>
+>>>>   - icssg_prueth.h now includes icssg_stats.h, giving it access to
+>>>>     the ARRAY_SIZE-based ICSSG_NUM_MIIG_STATS and ICSSG_NUM_PA_STATS
+>>>>     before they are used in the prueth_emac struct and ICSSG_NUM_STATS.
+>>>>
+>>>> Signed-off-by: MD Danish Anwar <danishanwar@ti.com>
+>>>> ---
+>>>>  drivers/net/ethernet/ti/icssg/icssg_prueth.h | 3 +--
+>>>>  drivers/net/ethernet/ti/icssg/icssg_stats.h  | 7 ++++++-
+>>>>  2 files changed, 7 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.h b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
+>>>> index df93d15c5b78..e2ccecb0a0dd 100644
+>>>> --- a/drivers/net/ethernet/ti/icssg/icssg_prueth.h
+>>>> +++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
+>>>> @@ -43,6 +43,7 @@
+>>>>
+>>>>  #include "icssg_config.h"
+>>>>  #include "icss_iep.h"
+>>>> +#include "icssg_stats.h"
+>>>>  #include "icssg_switch_map.h"
+>>>>
+>>>>  #define PRUETH_MAX_MTU          (2000 - ETH_HLEN - ETH_FCS_LEN)
+>>>> @@ -57,8 +58,6 @@
+>>>>
+>>>>  #define ICSSG_MAX_RFLOWS       8       /* per slice */
+>>>>
+>>>> -#define ICSSG_NUM_PA_STATS     32
+>>>> -#define ICSSG_NUM_MIIG_STATS   60
+>>>>  /* Number of ICSSG related stats */
+>>>>  #define ICSSG_NUM_STATS (ICSSG_NUM_MIIG_STATS + ICSSG_NUM_PA_STATS)
+>>>>  #define ICSSG_NUM_STANDARD_STATS 31
+>>>> diff --git a/drivers/net/ethernet/ti/icssg/icssg_stats.h b/drivers/net/ethernet/ti/icssg/icssg_stats.h
+>>>> index 5ec0b38e0c67..b854eb587c1e 100644
+>>>> --- a/drivers/net/ethernet/ti/icssg/icssg_stats.h
+>>>> +++ b/drivers/net/ethernet/ti/icssg/icssg_stats.h
+>>>> @@ -8,10 +8,15 @@
+>>>>  #ifndef __NET_TI_ICSSG_STATS_H
+>>>>  #define __NET_TI_ICSSG_STATS_H
+>>>>
+>>>> -#include "icssg_prueth.h"
+>>>> +#include <linux/ethtool.h>
+>>>> +#include <linux/kernel.h>
+>>>> +#include "icssg_switch_map.h"
+>>>>
+>>>>  #define STATS_TIME_LIMIT_1G_MS    25000    /* 25 seconds @ 1G */
+>>>>
+>>>> +#define ICSSG_NUM_MIIG_STATS   ARRAY_SIZE(icssg_all_miig_stats)
+>>>> +#define ICSSG_NUM_PA_STATS     ARRAY_SIZE(icssg_all_pa_stats)
+>>>> +
+>>>>  struct miig_stats_regs {
+>>>>         /* Rx */
+>>>>         u32 rx_packets;
+>>>> --
+>>>> 2.34.1
+>>>>
+>>>
+>>> One thing that caught my eye: icssg_all_miig_stats[] and
+>>>   icssg_all_pa_stats[] are 'static const' arrays in icssg_stats.h with
+>>>   ETH_GSTRING_LEN name buffers per entry. Right now only icssg_stats.c
+>>>   and icssg_ethtool.c pull them in. After this patch icssg_prueth.h
+>>>   includes icssg_stats.h, so every .c in the driver (classifier,
+>>>   common, config, mii_cfg, queues, switchdev, ...) ends up with its own
+>>>   static-const copy of both tables.
+>>>
+>>>   Would a static_assert() work for what you're after? Something like:
+>>>
+>>
+>> While adding more stats manually, The ARRAY_SIZE() approach was
+>> explicitly requested by maintainer [1]:
+>>
+>> This patch is a direct response to that feedback. static_assert() would
+>> still require updating the numeric constant on every array change. The
+>> goal here is to eliminate the need of manually incrementing stats count
+>> whenever new stats are added
+>>
+>> Your concern about multiple copies of table is noted and valid. Could
+>> you advise on the preferred way to reconcile these two requirements? I
+>> am happy to restructure if there is an approach that satisfies both.
+>>
+> The way we solved this in the Intel drivers is to use a single array
+> which contains both the stat name as well as the offset from the
+> structure where the stat resides.
+> 
+> The stat string code just iterates over the stat list for the strings,
+> while the stat value code iterates the array and computes the stat
+> address from the offset and size and base structure pointer. Each object
+> that has stats has its own stat array structure.
+> 
+> This is probably overkill, but the advantage is that the strings and
+> their values are stored together and adding a new stat is as simple as
+> adding a new entry to that list.
+> 
+> I.e.
+> 
+> struct ice_stats {
+>         char stat_string[ETH_GSTRING_LEN];
+>         int sizeof_stat;
+>         int stat_offset;
+> };
+> 
+> #define ICE_STAT(_type, _name, _stat) { \
+>         .stat_string = _name, \
+>         .sizeof_stat = sizeof_field(_type, _stat), \
+>         .stat_offset = offsetof(_type, _stat) \
+> }
+> 
+> #define ICE_VSI_STAT(_name, _stat) \
+>                 ICE_STAT(struct ice_vsi, _name, _stat)
+> #define ICE_PF_STAT(_name, _stat) \
+>                 ICE_STAT(struct ice_pf, _name, _stat)
+> 
+> 
+> Then the stats for the individial arrays are defined like this:
+> 
+> static const struct ice_stats ice_gstrings_vsi_stats[] = {
+>         ICE_VSI_STAT(ICE_RX_UNICAST, eth_stats.rx_unicast),
+>         ICE_VSI_STAT(ICE_TX_UNICAST, eth_stats.tx_unicast),
+>         ICE_VSI_STAT(ICE_RX_MULTICAST, eth_stats.rx_multicast),
+>         ICE_VSI_STAT(ICE_TX_MULTICAST, eth_stats.tx_multicast),
+>         ICE_VSI_STAT(ICE_RX_BROADCAST, eth_stats.rx_broadcast),
+>         ICE_VSI_STAT(ICE_TX_BROADCAST, eth_stats.tx_broadcast),
+> 	...
+> };
+> 
+> (Note, ICE_RX_UNICAST is a macro that defines the string value.. I don't
+> recall who changed this to macros or why vs just having the strings be
+> directly in the definition...)
+> 
 
-Thanks for the patch! A couple of minor comments below.
+Thanks for sharing the ice driver pattern — that's a clean design.
 
+> This is probably a lot bigger refactor to make work, and may not be
+> exactly suitable for your driver. I've considered "upgrading" these data
 
-On 2026/5/5 07:36, Abhishek Bapat wrote:
-> From: Suren Baghdasaryan <surenb@google.com>
->
-> Add the following ioctl commands for /proc/allocinfo file:
->
-> ALLOCINFO_IOC_CONTENT_ID - gets content identifier which can be used
-> to check whether the file content has changed specifically due to module
-> load/unload. Every time a module is loaded / unloaded, the returned
-> value will be different. By comparing the identifier value at the
-> beginning and at the end of the content retrieval operation, users can
-> validate retrieved information for consistency.
->
-> ALLOCINFO_IOC_GET_AT - gets the record at the specified position. This
-> is the position of a record in /proc/allocinfo.
->
-> ALLOCINFO_IOC_GET_NEXT - gets the record next to the last retrieved
-> one. If no records were previously retrieved, returns the first
-> record.
->
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
-> ---
->   .../userspace-api/ioctl/ioctl-number.rst      |   2 +
->   include/linux/codetag.h                       |   1 +
->   include/uapi/linux/alloc_tag.h                |  54 ++++++
->   lib/alloc_tag.c                               | 178 +++++++++++++++++-
->   lib/codetag.c                                 |  11 ++
->   5 files changed, 244 insertions(+), 2 deletions(-)
->   create mode 100644 include/uapi/linux/alloc_tag.h
->
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 331223761fff..84f6808a8578 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -349,6 +349,8 @@ Code  Seq#    Include File                                             Comments
->                                                                          <mailto:luzmaximilian@gmail.com>
->   0xA5  20-2F  linux/surface_aggregator/dtx.h                            Microsoft Surface DTX driver
->                                                                          <mailto:luzmaximilian@gmail.com>
-> +0xA6  00-0F  uapi/linux/alloc_tag.h                                    Memory allocation profiling
-> +                                                                       <mailto:surenb@google.com>
->   0xAA  00-3F  linux/uapi/linux/userfaultfd.h
->   0xAB  00-1F  linux/nbd.h
->   0xAC  00-1F  linux/raw.h
-> diff --git a/include/linux/codetag.h b/include/linux/codetag.h
-> index 8ea2a5f7c98a..2bcd4e7c809e 100644
-> --- a/include/linux/codetag.h
-> +++ b/include/linux/codetag.h
-> @@ -76,6 +76,7 @@ struct codetag_iterator {
->   
->   void codetag_lock_module_list(struct codetag_type *cttype, bool lock);
->   bool codetag_trylock_module_list(struct codetag_type *cttype);
-> +unsigned long codetag_get_content_id(struct codetag_type *cttype);
->   struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype);
->   struct codetag *codetag_next_ct(struct codetag_iterator *iter);
->   
-> diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_tag.h
-> new file mode 100644
-> index 000000000000..e9a5b55fcc7a
-> --- /dev/null
-> +++ b/include/uapi/linux/alloc_tag.h
-> @@ -0,0 +1,54 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +/*
-> + *  include/linux/alloc_tag.h
-> + */
-> +
-> +#ifndef _UAPI_ALLOC_TAG_H
-> +#define _UAPI_ALLOC_TAG_H
-> +
-> +#include <linux/types.h>
-> +
-> +#define ALLOCINFO_STR_SIZE	64
-> +
-> +struct allocinfo_content_id {
-> +	__u64 id;
-> +};
-> +
-> +struct allocinfo_tag {
-> +	/* Longer names are trimmed */
-> +	char modname[ALLOCINFO_STR_SIZE];
-> +	char function[ALLOCINFO_STR_SIZE];
-> +	char filename[ALLOCINFO_STR_SIZE];
-> +	__u64 lineno;
-> +};
-> +
-> +struct allocinfo_counter {
-> +	__u64 bytes;
-> +	__u64 calls;
-> +	__u8 accurate;
-> +	__u8 pad[7]; /* Add alignment to not break the 32-bit compatible interface */
-> +};
-> +
-> +struct allocinfo_tag_data {
-> +	struct allocinfo_tag tag;
-> +	struct allocinfo_counter counter;
-> +};
-> +
-> +struct allocinfo_get_at {
-> +	__u64 pos;	/* input */
-> +	struct allocinfo_tag_data data;
-> +};
-> +
-> +#define _ALLOCINFO_IOC_CONTENT_ID	0
-> +#define _ALLOCINFO_IOC_GET_AT		1
-> +#define _ALLOCINFO_IOC_GET_NEXT		2
-> +
-> +#define ALLOCINFO_IOC_BASE		0xA6
-> +#define ALLOCINFO_IOC_CONTENT_ID	_IOR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_CONTENT_ID,	\
-> +					     struct allocinfo_content_id)
-> +#define ALLOCINFO_IOC_GET_AT		_IOWR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_GET_AT,	\
-> +					      struct allocinfo_get_at)
-> +#define ALLOCINFO_IOC_GET_NEXT		_IOR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_GET_NEXT,	\
-> +					     struct allocinfo_tag_data)
-> +
-> +#endif /* _UAPI_ALLOC_TAG_H */
-> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-> index ed1bdcf1f8ab..5c24d2f954d4 100644
-> --- a/lib/alloc_tag.c
-> +++ b/lib/alloc_tag.c
-> @@ -14,6 +14,7 @@
->   #include <linux/string_choices.h>
->   #include <linux/vmalloc.h>
->   #include <linux/kmemleak.h>
-> +#include <uapi/linux/alloc_tag.h>
->   
->   #define ALLOCINFO_FILE_NAME		"allocinfo"
->   #define MODULE_ALLOC_TAG_VMAP_SIZE	(100000UL * sizeof(struct alloc_tag))
-> @@ -46,6 +47,9 @@ int alloc_tag_ref_offs;
->   struct allocinfo_private {
->   	struct codetag_iterator iter;
->   	bool print_header;
-> +	/* ioctl uses a separate iterator not to interfere with reads */
-> +	struct codetag_iterator ioctl_iter;
-> +	bool positioned; /* seq_open_private() sets to 0 */
->   };
->   
->   static void *allocinfo_start(struct seq_file *m, loff_t *pos)
-> @@ -125,6 +129,177 @@ static const struct seq_operations allocinfo_seq_op = {
->   	.show	= allocinfo_show,
->   };
->   
-> +static int allocinfo_open(struct inode *inode, struct file *file)
-> +{
-> +	return seq_open_private(file, &allocinfo_seq_op,
-> +				sizeof(struct allocinfo_private));
-> +}
-> +
-> +static int allocinfo_release(struct inode *inode, struct file *file)
-> +{
-> +	return seq_release_private(inode, file);
-> +}
-> +
-> +static const char *allocinfo_str(const char *str)
-> +{
-> +	size_t len = strlen(str);
-> +
-> +	/* Keep an extra space for the trailing NULL. */
-> +	if (len >= ALLOCINFO_STR_SIZE)
-> +		str += (len - ALLOCINFO_STR_SIZE) + 1;
-> +	return str;
-> +}
-> +
-> +/* Copy a string and trim from the beginning if it's too long */
-> +static void allocinfo_copy_str(char *dest, const char *src)
-> +{
-> +	strscpy(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE);
-> +}
-> +
-> +static void allocinfo_to_params(struct codetag *ct,
-> +				struct allocinfo_tag_data *data)
-> +{
-> +	struct alloc_tag *tag = ct_to_alloc_tag(ct);
-> +	struct alloc_tag_counters counter = alloc_tag_read(tag);
-> +
-> +	if (ct->modname)
-> +		allocinfo_copy_str(data->tag.modname, ct->modname);
-> +	else
-> +		data->tag.modname[0] = '\0';
+Yes, I need to see if refactoring is applicable to ICSSG or not. I will
+look into this and send a separate patch / series in future if
+applicable. For this series I will stick with what David Carlier suggested.
 
-Minor nit about allocinfo_to_params():
-
-When modname is NULL (built-in kernel code), the current code sets it
-
-to an empty string:
-
-     if (ct->modname)
-
-         allocinfo_copy_str(data->tag.modname, ct->modname);
-
-     else
-
-         data->tag.modname[0] = '\0';
-
-This is of course workable in userspace by checking for an empty
-
-string, but I was wondering if it would be cleaner to use "vmlinux"
-
-as a default:
-
-else
-
-           allocinfo_copy_str(data->tag.modname, "vmlinux");
+> structures and logic as helpers to the core ethtool code (or perhaps
+> now, to libeth) but never got around to it.
 
 
-For some context, in our memory analysis workflow we often group
+-- 
+Thanks and Regards,
+Danish
 
-allocations by module to get a quick overview of where memory goes,
-
-for example:
-
-vmlinux:    2.1 GB    (kernel core)
-
-nvidia:     1.2 GB    (GPU driver)
-
-iwlwifi:    800 MB    (WiFi driver)
-
-ext4:       500 MB    (filesystem)
-
-Having a consistent identifier for kernel built-in allocations would
-
-avoid each userspace tool needing to handle the empty string as a
-
-special case. Totally fine if this is intentional though.
-
-> +	allocinfo_copy_str(data->tag.function, ct->function);
-> +	allocinfo_copy_str(data->tag.filename, ct->filename);
-> +	data->tag.lineno = ct->lineno;
-> +	data->counter.bytes = counter.bytes;
-> +	data->counter.calls = counter.calls;
-> +	data->counter.accurate = !alloc_tag_is_inaccurate(tag);
-> +}
-> +
-> +static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __user *arg)
-> +{
-> +	struct allocinfo_content_id params;
-> +
-> +	codetag_lock_module_list(alloc_tag_cttype, true);
-> +	params.id = codetag_get_content_id(alloc_tag_cttype);
-> +	codetag_lock_module_list(alloc_tag_cttype, false);
-> +	if (copy_to_user(arg, &params, sizeof(params)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
-> +static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
-> +{
-> +	struct allocinfo_private *priv;
-> +	struct codetag *ct;
-> +	__u64 pos;
-> +	struct allocinfo_get_at params = {0};
-> +
-> +	if (copy_from_user(&params, arg, sizeof(params)))
-> +		return -EFAULT;
-> +
-> +	priv = (struct allocinfo_private *)m->private;
-> +	pos = params.pos;
-> +
-> +	codetag_lock_module_list(alloc_tag_cttype, true);
-> +
-> +	/* Find the codetag */
-> +	priv->ioctl_iter = codetag_get_ct_iter(alloc_tag_cttype);
-> +	ct = codetag_next_ct(&priv->ioctl_iter);
-> +	while (ct && pos--)
-> +		ct = codetag_next_ct(&priv->ioctl_iter);
-
-I noticed that codetag_next_ct(&priv->ioctl_iter) and
-
-priv->positioned are accessed without serialization in the ioctl
-
-path. Concurrent ioctl calls on the same fd could race on these
-
-fields. Just something I spotted while reading the code.
-
-
-Thanks
-
-Best Regards
-
-Hao
-
-> +	if (ct) {
-> +		allocinfo_to_params(ct, &params.data);
-> +		priv->positioned = true;
-> +	}
-> +
-> +	codetag_lock_module_list(alloc_tag_cttype, false);
-> +
-> +	if (!ct)
-> +		return -ENOENT;
-> +
-> +	if (copy_to_user(arg, &params, sizeof(params)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
-> +static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
-> +{
-> +	struct allocinfo_private *priv;
-> +	struct codetag *ct;
-> +	struct allocinfo_tag_data params = {0};
-> +	int ret = 0;
-> +
-> +	priv = (struct allocinfo_private *)m->private;
-> +
-> +	codetag_lock_module_list(alloc_tag_cttype, true);
-> +
-> +	if (!priv->positioned) {
-> +		priv->ioctl_iter = codetag_get_ct_iter(alloc_tag_cttype);
-> +		priv->positioned = true;
-> +	}
-> +
-> +	ct = codetag_next_ct(&priv->ioctl_iter);
-> +	if (ct)
-> +		allocinfo_to_params(ct, &params);
-> +
-> +	if (!ct) {
-> +		priv->positioned = false;
-> +		ret = -ENOENT;
-> +	}
-> +	codetag_lock_module_list(alloc_tag_cttype, false);
-> +
-> +	if (ret == 0) {
-> +		if (copy_to_user(arg, &params, sizeof(params)))
-> +			return -EFAULT;
-> +	}
-> +	return ret;
-> +}
-> +
-> +static long allocinfo_ioctl(struct file *file, unsigned int cmd,
-> +			    unsigned long __arg)
-> +{
-> +	void __user *arg = (void __user *)__arg;
-> +	int ret;
-> +
-> +	switch (cmd) {
-> +	case ALLOCINFO_IOC_CONTENT_ID:
-> +		ret = allocinfo_ioctl_get_content_id(file->private_data, arg);
-> +		break;
-> +	case ALLOCINFO_IOC_GET_AT:
-> +		ret = allocinfo_ioctl_get_at(file->private_data, arg);
-> +		break;
-> +	case ALLOCINFO_IOC_GET_NEXT:
-> +		ret = allocinfo_ioctl_get_next(file->private_data, arg);
-> +		break;
-> +	default:
-> +		ret = -ENOIOCTLCMD;
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +#ifdef CONFIG_COMPAT
-> +static long allocinfo_compat_ioctl(struct file *file, unsigned int cmd,
-> +				   unsigned long arg)
-> +{
-> +	return allocinfo_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-> +}
-> +#endif
-> +
-> +static const struct proc_ops allocinfo_proc_ops = {
-> +	.proc_open		= allocinfo_open,
-> +	.proc_read_iter		= seq_read_iter,
-> +	.proc_lseek		= seq_lseek,
-> +	.proc_release		= allocinfo_release,
-> +	.proc_ioctl		= allocinfo_ioctl,
-> +#ifdef CONFIG_COMPAT
-> +	.proc_compat_ioctl	= allocinfo_compat_ioctl,
-> +#endif
-> +
-> +};
-> +
->   size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sleep)
->   {
->   	struct codetag_iterator iter;
-> @@ -946,8 +1121,7 @@ static int __init alloc_tag_init(void)
->   		return 0;
->   	}
->   
-> -	if (!proc_create_seq_private(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_seq_op,
-> -				     sizeof(struct allocinfo_private), NULL)) {
-> +	if (!proc_create(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_proc_ops)) {
->   		pr_err("Failed to create %s file\n", ALLOCINFO_FILE_NAME);
->   		shutdown_mem_profiling(false);
->   		return -ENOMEM;
-> diff --git a/lib/codetag.c b/lib/codetag.c
-> index 304667897ad4..93aa30991563 100644
-> --- a/lib/codetag.c
-> +++ b/lib/codetag.c
-> @@ -48,6 +48,17 @@ bool codetag_trylock_module_list(struct codetag_type *cttype)
->   	return down_read_trylock(&cttype->mod_lock) != 0;
->   }
->   
-> +unsigned long codetag_get_content_id(struct codetag_type *cttype)
-> +{
-> +	lockdep_assert_held(&cttype->mod_lock);
-> +
-> +	/*
-> +	 * next_mod_seq is updated on every load, so can be used to identify
-> +	 * content changes.
-> +	 */
-> +	return cttype->next_mod_seq;
-> +}
-> +
->   struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype)
->   {
->   	struct codetag_iterator iter = {
