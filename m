@@ -1,82 +1,56 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7E638AC8C;
-	Thu, 14 May 2026 10:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C35357D1F;
+	Thu, 14 May 2026 10:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778753132; cv=none; b=rsR3FCoSBKg2nPgIDzNoFmNcy5ItqGk/pcjCfcSl1njSB4ZJsv8HX7yPsfyLiL1c0qnV4AFhLPUPknKfrjv5dijNlv7khysGp/ROQjlTAGusZauNXafFRvOj0svPjsobfS8Ga1r5tG3rWdWCYLgTpdHqlJS6PAYhT3gyi3k7Pfg=
+	t=1778753615; cv=none; b=B6Ak4NmpJWH6PvTiZiNE9rX+NRPiyMfYTMtj7ePjxcxzWFxkDRCVSxgznxkT7DFJ6ZDxwlzYVHhS0NXloYHxS/eba7A97jCFIv9ETybwzva34iqedKlUbbaDh1PtEEM03MDDef4VFqp+QaK9A69ZR3qS1BdCPNpabUSke+qRiXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778753132; c=relaxed/simple;
-	bh=9s4U+9gD84rWu/S2Cv3hs/0JRx2/rylUGgBRuH4NEas=;
+	s=arc-20240116; t=1778753615; c=relaxed/simple;
+	bh=pyFB4ur/KVLGcKl/yLNGIfGo7BXMPQnbBHd8aTS1kt0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j2JcUypHVD0obgq/HNVBFIYdfpFq+DlCqmlPSbqCA3T40i9usDok+DK80fz83Pndx4CFt8XGkoCNkNg8YpOG01rr4X8QDQ6TPnQ7JVXS2OpevPftRMFSVIqX+AWO1hkZVtgYEpiooOMYLMJhetZlVVHDNEDublM/mgz0LA213gQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=TRwJYUiR; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=kcyBow3IBiEXO/NwysvtGv7Gd4RJVM77paNXMvT3L6uIGDDiwCdtbDq8g6yR7RHXiInLEE+RK1jht0ONCth5LXYSVyOHy6Ucp+qH5ClTurpXqqXaVC2ETHMSvUNIWnhj3br8xFsOjUgoeAooo5e3XKPwUW57eICe/ZVO9DWd/N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VNOUZxJy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="TRwJYUiR"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64E6bNxr3773759;
-	Thu, 14 May 2026 10:05:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=Af/BdJqD45t8qNOLx315vRMVFrP03J
-	VrShiBq1i949A=; b=TRwJYUiRt883EuwdI2JIPQrLychxHyIoCjmifxevnrR9Om
-	1qPj9pTDCIJc2vFS3Op28hz4O7DDcoDgY3Yp29ggv9RcC76TsNMrluR6rL+QBGTP
-	egpC9CTHfLFjbmQcuS+n9q2goqvZLJNkdJbinXo20+efUeYFYS6YjwjIC5+YSI7O
-	BmfGJCH5E0kgruJ4PX3Du5C63loVZX0BXGSYq2yyTpMLJZLWV49RMITTcEgRdCw+
-	YClY8i/N/4DkH9gtljpPafAjdpT4wIAnsemoHznDHGXaR0oibdc3aeUp2Jucm3uG
-	7Y6RvNavxhbD+iucYzN13lHRbYLP1lJMa/42R9GA==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e3nv6ubr7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 May 2026 10:05:12 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64E9safm006877;
-	Thu, 14 May 2026 10:05:11 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e3nfh3w5j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 May 2026 10:05:11 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64EA57gC49021370
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 14 May 2026 10:05:07 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A4F7020067;
-	Thu, 14 May 2026 10:05:07 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C34B920063;
-	Thu, 14 May 2026 10:05:03 +0000 (GMT)
-Received: from mac.bl1-in.ibm.com (unknown [9.124.209.153])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Thu, 14 May 2026 10:05:03 +0000 (GMT)
-Date: Thu, 14 May 2026 15:34:58 +0530
-From: Amit Machhiwal <amachhiw@linux.ibm.com>
-To: Ritesh Harjani <ritesh.list@gmail.com>
-Cc: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] KVM: PPC: Handle CPU compatibility mode for
- nested guests
-Message-ID: <20260514151719.b7ea3fdd-9b-amachhiw@linux.ibm.com>
-Mail-Followup-To: Ritesh Harjani <ritesh.list@gmail.com>, 
-	linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Vaibhav Jain <vaibhav@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-References: <20260513100755.83215-1-amachhiw@linux.ibm.com>
- <o6iir82o.ritesh.list@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VNOUZxJy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C0C1C2BCB8;
+	Thu, 14 May 2026 10:13:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778753614;
+	bh=pyFB4ur/KVLGcKl/yLNGIfGo7BXMPQnbBHd8aTS1kt0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VNOUZxJyCkN4NYFp1NdTxIviv6fdawFQatfOjrTjzUFG5RC8e2NCC0DV935mjzNBQ
+	 TZei+awNzZKo3nMD8AykyxLwChCts8nwLKZedeUXLi9EWZLSYbqrVDRGEQL//xDNUg
+	 M7PAyBJcV26zRYDU2OnWw+KdiSR14zuT1u7e1qLuWWZIRwSqo/1lUYf1xSVMs08VAI
+	 qyP+RI/VF8ZJCPwSf/SO5cYTH+LIA1jHr90zhyMz+RG+khuUUCf3nmJ5B2JNQa89jd
+	 b3LmwFwsbOnim/OouN+nFUdEVHG5o71G9ay1tAkaE1Kk6pEkGuU3m4oZ1d3YG5fx7F
+	 bsazcJySO0Uyg==
+Date: Thu, 14 May 2026 19:13:30 +0900
+From: "Harry Yoo (Oracle)" <harry@kernel.org>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Marco Elver <elver@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Bill Wendling <morbo@google.com>, David Hildenbrand <david@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
+	Justin Stitt <justinstitt@google.com>, KP Singh <kpsingh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Matteo Rizzo <matteorizzo@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Suren Baghdasaryan <surenb@google.com>, 
+	linux-hardening@vger.kernel.org, Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>, 
+	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, Hao Li <hao.li@linux.dev>, 
+	"Liam R. Howlett" <liam@infradead.org>, Alexander Potapenko <glider@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, kasan-dev@googlegroups.com, llvm@lists.linux.dev, 
+	GONG Ruiqi <gongruiqi1@huawei.com>, Jonathan Corbet <corbet@lwn.net>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 1/3] slab: support for compiler-assisted type-based
+ slab cache partitioning
+Message-ID: <gmzc5ul56yvsdgha4ly53zckhmhnbylak2rcxwxlerhkt2d5lm@gellfjmlzmr3>
+References: <20260511200136.3201646-1-elver@google.com>
+ <560a84ed-7daf-4a78-a314-b867c73bce22@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,142 +59,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <o6iir82o.ritesh.list@gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=KbvidwYD c=1 sm=1 tr=0 ts=6a059e58 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8
- a=i22HGULVa775TzVH9QoA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE0MDA5NSBTYWx0ZWRfX918kfqsQK0XT
- fQqlTF2/LIFYk8ExLBawLpcm4t4wXs8AkLFlxbdlNQEcBD7eCWVT1lgUhhUqxoX4NwZIew2uQuS
- W+D6qCdBSjUv8X8mViguKluejCRHqzqP/2gs1E5OX1vpgadmDmNZLtViLobZH9GGF3o0wiszLCk
- esYh6An9EccbFhjN2neQQpaTarwIdaUq93aM2KEedj7mNoGBgCrVnVDXy7WXs9DGMSecmR+5ZaB
- +ICQL9T3qnpHEteApyH9ZhLHBQzJK3RtO70/fm0DaLqEKK2bKBLWVtKRNIxEnhHUvgFrQEWNd6C
- QT2cykrqq81znxY+h2mA28TZzlRRzNU8HZRaFP3Vn26sJfWh7YN9nVDC6BdpSG3jsF7EIxuef0b
- +/RPvFA/npwBqg3Ico5x2w6gqNmwNR6QJgLH5djXZ181GadCbcyfcZ7Au6Uuq8dLe0fo5v9zBY5
- wV4AFBbbm9fJW42Rz2g==
-X-Proofpoint-GUID: mWigg6i4TIUXe3RphRc177hdpIWcF7QH
-X-Proofpoint-ORIG-GUID: OCds5ZSKTFOuOWVRRk572-yCfhIyWWJg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-14_02,2026-05-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 impostorscore=0 malwarescore=0
- lowpriorityscore=0 phishscore=0 spamscore=0 suspectscore=0 clxscore=1015
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
- definitions=main-2605140095
+In-Reply-To: <560a84ed-7daf-4a78-a314-b867c73bce22@kernel.org>
 
-Hi Ritesh,
-
-Thanks for taking a look at this series. Please find my comment inline below:
-
-On 2026/05/14 08:49 AM, Ritesh Harjani wrote:
+On Thu, May 14, 2026 at 11:01:26AM +0200, Vlastimil Babka (SUSE) wrote:
+> Applied [1] to slab/for-next, thanks. That means including the kernel-doc
+> workarounds in patch 3. I know Jon said someone might hate it, but maybe it
+> will motivate them for creating a proper fix :) It seems better than leaving
+> doc generation broken or not applying this series at all.
 > 
-> Hi Amit,
+> https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git/log/?h=slab/for-7.2/alloc_token
 > 
-> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
-> 
-> > On POWER systems, newer processor generations can operate in compatibility
-> > modes corresponding to earlier generations (e.g., a Power11 system running
-> > in Power10 compatibility mode). In such cases, the effective CPU level
-> > exposed to guests differs from the physical processor generation.
-> >
-> > This creates a problem for nested virtualization. When booting a nested KVM
-> > guest (L2) inside a host KVM guest (L1) running in a compatibility mode,
-> > userspace (e.g., QEMU) may derive the CPU model from the raw hardware PVR
-> > and attempt to configure the nested guest accordingly. However, the L1
-> > partition is constrained by the compatibility level negotiated with the
-> > hypervisor (L0), and requests exceeding that level are rejected, leading to
-> > guest boot failures such as:
-> >
-> >   KVM-NESTEDv2: couldn't set guest wide elements
-> >
-> > This series addresses the issue in two steps:
-> >
-> > 1. Detect and reject invalid compatibility requests early in KVM to avoid
-> >    late failures.
-> >
-> > 2. Provide a mechanism for userspace to query the effective CPU
-> >    compatibility modes supported by the host, so it can select an
-> >    appropriate CPU model for nested guests.
-> >
->
-> Do we really need to add a uapi change for this? Tools like Qemu can
-> read the device tree info of the host, isn't it?
+> I did the following fixup to remove passing an unnecessary NULL argument for
+> __kmalloc_nolock() with buckets enabled. Made bloat-o-meter happier a bit.
 
-While cpu-version is available in /proc/device-tree/cpus/<cpu#>/cpu-version on
-both L1 booted on PowerNV and PowerVM LPARs, I believe the UAPI change is still
-preferable for several reasons:
+[...]
 
-1. We would want to rely on the capabilities negotiated with pHYP (L0) in KVM on
-   PowerVM case instead of device tree property. Also, the cpu-version property
-   only depicts the current compat mode host (L1) is booted in but doesn't
-   really point to what all compat modes are supported for the nested guest
-   (L2).
+Looks reasonable to me, thanks!
 
-2. procfs dependency: Not all systems run with procfs enabled (CONFIG_PROC_FS is
-   optional). For example, minimal configurations (like buildroot) might disable
-   it. The KVM ioctl works regardless of procfs availability since it accesses
-   kernel data structures directly.
-
-3. Kernel validation: The kernel validates and normalizes the compatibility
-   information. For example, patch 1 adds validation logic that rejects invalid
-   compatibility requests early. The ioctl ensures userspace gets validated,
-   consistent data.
-
-4. Abstraction & stability: While /proc/device-tree works today, it's an
-   implementation detail. The UAPI provides a stable interface that won't break
-   if the underlying mechanism changes.
-
-5. Semantic clarity: KVM_PPC_GET_COMPAT_CAPS clearly expresses what
-   compatibility modes can I use for KVM guests vs. parsing device tree which
-   requires understanding the semantic meaning of cpu-version.
-
->
-> > To achieve this, the series introduces a new KVM capability and ioctl
-> > (KVM_CAP_PPC_COMPAT_CAPS / KVM_PPC_GET_COMPAT_CAPS) that expose the
-> > compatibility modes supported by the host.
-> >
-> > The implementation supports both:
-> >
-> >   - PowerVM (nested API v2), where compatibility information is obtained
-> >     via the H_GUEST_GET_CAPABILITIES hypercall.
-> >   - PowerNV (nested API v1), where compatibility is derived from the device
-> >     tree ("cpu-version") representing the effective processor compatibility
-> >     level.
-> 
-> See there you go, for PowerNV if this info is provided in the device
-> tree, then Qemu could as well just read that info, no?
->
-> ... yup, kvmppc_read_int_dt() can do that I guess.
-> 
-> So, my request is, can we look into this to see, if there is a possible
-> alternative to this? maybe we already have a mechanism which Qemu could
-> use to get this info already?
-
-You're right that QEMU could read the device tree from procfs. We had discussed
-this approach internally as well. However, we believe the UAPI approach offers
-additional benefits and looks more robust and future proof as outlined above.
-
-> 
-> btw - I haven't given a full read of the patch series, but reading the
-> cover letter, I felt  we should atleast add this info to the cover
-> letter on, why a uapi change is really needed here, why can't the
-> existing alternatives work for us.
-
-I have described above why we did the UAPI change for the approach followed in
-this series. Could you please suggest what else can be added?
-
-Thanks,
-Amit
-
-> -ritesh
-> 
-> >
-> > This allows userspace (e.g., QEMU) to select a CPU model consistent with
-> > the host compatibility mode, avoiding mismatches and enabling successful
-> > nested guest boot.
-> >
+-- 
+Cheers,
+Harry / Hyeonggon
