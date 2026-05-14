@@ -1,246 +1,253 @@
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9547834404F
-	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 16:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778777125; cv=pass; b=UV3RuxeV7TFaH7/g2q+kd/pqkW/AFomck/dBsO6GZ8QDRWwKf8IezhNimKUQU7x9SCBTgL+HPo0UA2YXBjY65W9myDU+fTETrOWxowSRDlRsXyu6Ipr/s3ebaE9YrN71hAcL92844hg67fagDqGqP+dGXhypr6JJxfiG5eCAcBI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778777125; c=relaxed/simple;
-	bh=PmAIcppCWJmcGf0UnWT1GlVwFgygixvvwcZwvNaEkWE=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mpto/vFDUCXGMgu3aC/ERz2WWqwiI93qMMQY1kZfEfoHQKi2awNCOqj5BgPznCp/JRl+yXzwb5+4WsLlW3cXBvj6EkNI35PyZBvAUG47sleS/VfW4zE5nJGL6Cb9TbbpMBmz+W+LSf+N1CtB9aWCHWqHgnM7MYZwLw3yS7FL4Dw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VFtvQD1R; arc=pass smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07D938AC61
+	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 17:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778779364; cv=none; b=CE6rQ3Mhmy+5USgBM+CsrLB4TjMwbo0B8GodO6SuQca/3b/S0PUwvYQYcn5OM2AbL+8qkm/VxvXfFSKStf+kMDzxflsVxidaHQPuIipvHT3D3Tuon1RlPUVzthN+AlsiO9uEveq3EEbtFAsCU4yQYduZmMYjhsd4znfpY32MQJ8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778779364; c=relaxed/simple;
+	bh=WaURA/DNPPwOj8kBu247T1AUk4Ywg+Oqa+t268ORM8E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=f4X+WcQYqiqNIUrNpckCaPen1xX10NG7sXQ9Llf50ex5y5DWxdR91lBMtss40KyQnbO4DCToKl0A2ZmFKcRXAk3cspOq+63BFHk5uehG3utwFwxMet+FdEaVKu0+0uLibvBmVFEr1b4bBP7K1yKSbCrG04Ji/2peqf1M8HTdHek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h7XA7KV9; arc=none smtp.client-ip=209.85.210.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VFtvQD1R"
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-56a8e0ea02aso7290765e0c.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 09:45:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778777122; cv=none;
-        d=google.com; s=arc-20240605;
-        b=KL5K/RtUZ6foDBuWSMwu87zTSzYymecaQfmd9yDYbHavfzAhKWJrI3+WdqB5GZjRPD
-         e7xXMeP6T16QBCclK8CwvnFAj0H9okSpewSDFIEJIFwj+3RL+LcZnzUZgdlo8t9kunZZ
-         It3SbAyuwlyGdX4HDlnfPwHkWQ2uH5MBz3QKN/OvA83N2Y7btfXSMcdX59xvLYQDg/MW
-         XmpnZcl/1KLSEm09M+0zeoO5LCb2+ojc6gBTPXGfEZ54L2CtZvpvKRHbjkomGC8DiGaj
-         BOIVrb9Usqa8HluGN5o2mcfoJuAjKuNpXKdZPaT3uUA8M4QIFNPQI6vOdwLqdrG6Smkj
-         FQug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date
-         :mime-version:references:in-reply-to:from:dkim-signature;
-        bh=os0eHsZVJX0chVl1RmCC7RjaweXl8YpOUWjuIOShXWI=;
-        fh=TFCreCAN+RrjOmF1d2GwrtpOQ/h4GDGYiaoiwRNY38c=;
-        b=Z/sYRDXt0U1hF4tHQuMlHwQSo2W6bECfzOBejrH8kBFP6MG36np8BmQu99i4wxz5Pb
-         znXhOiL8jxIB/MPASHEoCbqnopL9Ng8yhzcrHSrVu95+MIuKNbruOnayZh+D274A7+K4
-         cAmf1GT4KjixG1NDVAjhFv67eoRaFIHWK/Er1Rh+wGsl5gJX9m6txwGZ52Ar7PHJ4rwq
-         RIl7EdYd6k5KgjvvHljraG3GwK3UCiSRviuyOf5/Bkw9gOckv0oc5eq5QFWaRCyUHXsW
-         6ZVA7b+1JxBD/7W1NrQ3P7YpLfTJP4Ymx0hcE6YsSKdxV3j5gxlCJCpi0OkcOpftQEfU
-         4rkA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h7XA7KV9"
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7e363c6141dso5916989a34.2
+        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 10:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778777122; x=1779381922; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date
-         :mime-version:references:in-reply-to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=os0eHsZVJX0chVl1RmCC7RjaweXl8YpOUWjuIOShXWI=;
-        b=VFtvQD1RTdgqWEX8R7rJ5E+lG6jtu3YV71KQieo9tFcPnVu8X9ckwARGLw2zVJUmRv
-         4QnKB8BzYAXDs9qtMf8+fVr5c5p4LaTpFMbopxQuEUAbBz8WjxBGCFaJEeQUTFzqVaur
-         UvDfEH9PsiCLOC++9gsqSYnngByVIIggErBVF/tG3vYFcPIzvcw0H1fill+TMfu0EpA/
-         Z7CoXdN1wcK6GMibXBW5zW2q1rznvEEYPUBHmt1sT8DF/5UMSq8tNiNC+dKvATeBFRON
-         iAttSBSTPdQXLV1iwmET0wtHGCPj3tcDp1ikzcx9+oKlzGhMAXUazhajmAQG4TnppxAe
-         4iBw==
+        d=gmail.com; s=20251104; t=1778779360; x=1779384160; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wcw+cHjZfdX91JnE70m1FMdTq5GVKmXsz1C+2FwOHb0=;
+        b=h7XA7KV9BUu6UKpiANcUa7EKP34ZIQ3q+4AwXs9czWyBKUGGKOVjuYNhtE+aIwXpwX
+         XmhJsYjenqeHfW9kni63j4HW3inQB2r+I3eNMyHZhkKhSP9nl55r6jYAHczujanVr0xA
+         auyB0JSGrhoMRucnQL87bThIvFuZJf1vE7tBLRTs3MpsYOyfdm5T9/HYt2OZmb9aSM6T
+         b+hQhxdclxmW79ilHM9bUfh1l10wQ1YoO1gAGaNdt1YAr8PpVIx7KSauF1l5/z1u+Rmo
+         nnBZNC71QD9P/123j9oWOJO/JTjvRzJveTLCB/RrQf/UbLX342L/DNepg1c4FhiH1+NO
+         f36A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778777122; x=1779381922;
-        h=content-transfer-encoding:cc:to:subject:message-id:date
-         :mime-version:references:in-reply-to:from:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=os0eHsZVJX0chVl1RmCC7RjaweXl8YpOUWjuIOShXWI=;
-        b=NK7qMuZoXSun/QKIedZUtTq4yon96ifXMbqDPasKZ/gNpTQyKYMMpUWmNylI10tOL2
-         fUMgoAxrRAlWVckecsiD0bV6uh/t6otvGp1Sd7TEURL+8Ptq269/RSmq8l8HFnFVmX1i
-         Eyc+FIGJgcNKiyfkYFrpclMYR21yDBfW6SIce1qLmX7W58QZ0tpGbEr39fFGEyS2qErx
-         0NpgfU5MykvANp74IFo9v2tzAw3mVE+foBDsvMy4oIws24BbLx3GJFIxQNsuhDvEkjPX
-         BLLr+3VnbxOEen7HTjiASmTyfcj49ey4jMOmbgH4x2+xZe9Ss7Tg84P6JtD4EoRDHsTh
-         0YIw==
-X-Forwarded-Encrypted: i=1; AFNElJ9AXEtR5uTgZcTZ6Ybq6gKVkgzt0xub3xBvQi/PAA6a0ao3JMzzmKepsLv6jh6LZs4zV99cPhrQiAA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBuj/FlRxEGnhGYkUiVuL0vZSksYEDNjoYD1WUuIQuYV1agFIf
-	8epKrK4iBz9jI3QQO2HJZk2K0tyFFOvwOdVefV2Yi9BHZUZabyRRd/yWOW3fSCNnRxv/E6/6/sH
-	hetZVbnO/Zbwp/QJR5LnqkHjwQbCVu/3g/mu93woe
-X-Gm-Gg: Acq92OHoVLjGGet7uuBeJ1k5in3XZJbVxf/+Ta91TBez3t8ElqZlbOqFAQxBQKnKFFJ
-	RRfiTdiXk7xlHVVufyCwEc2Proaz4GWY6USWSWK8GExJ+tPVIk8/FJ59FndS9VfbVaakvjEUbnq
-	sYzNahPz/SMUifiSyYlmI8NGua802dw0f7TK6i4XXoP9TwYrItoSycoKNUqaBaPVylfkoz3qpNc
-	y7SwpsO1uBW9QIBloSvThczfd4whh1qMFHVctN+f+Ypg6fxPYv1cwrqYOlxCVTZ5sSPFZF6rUpc
-	y9OKnu7NJS5cmFuEFQi4SBDoQ3KbGs8wkWiYvuZUqNsY/DlTKo6D8d749muH9I1FMbdnyQ8ko0h
-	3rXIx
-X-Received: by 2002:a05:6122:1814:b0:575:178f:62d2 with SMTP id
- 71dfb90a1353d-5760c092d3cmr165926e0c.14.1778777121451; Thu, 14 May 2026
- 09:45:21 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 14 May 2026 09:45:20 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 14 May 2026 09:45:19 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20260508081812.12345-1-itazur@amazon.com>
-References: <CAPTztWb67XZvfcMVnbegDNNW0LJa9UsaTGx3M898xJUJrekk0w@mail.gmail.com>
- <20260508081812.12345-1-itazur@amazon.com>
+        d=1e100.net; s=20251104; t=1778779360; x=1779384160;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wcw+cHjZfdX91JnE70m1FMdTq5GVKmXsz1C+2FwOHb0=;
+        b=O7oWQT1b+HKbiJUxHRjDAYxYNTeHwmQ525Y55lFVPq6ar0hf4uVzi87LMxXztsrcpV
+         h2vA5gxsfWAmoI/ptbVheEaemiWZbXeBrYFDrbHGRJi1GNnAIY1edWseffB7lEtBcVNw
+         oPJteV0wZfBi7at/p/7jJOtyffrzBTgy0ZanVdlwkdOi9ioLV1pWAxjdqAaThY4Rfvow
+         sHts7aYdyeb6p0Tw5sokln8Ta2dl8iGwPY3YHIP7QIQX3OyssSlQkTXM8PxwpYT/5OBh
+         0cIYJyOnb0iq0MpD5AfPaTk0zCQR9bBeoA0tDYPCVbXz1QtLFD/NaygQtFDlafYcqKb3
+         f7Kg==
+X-Forwarded-Encrypted: i=1; AFNElJ8ElexeW3QPsXfDQhtr+xfnbnU/AXxyMLfYtBHb0FF7w6746xxPfbtxYc0WoaURQz32lh9Y0KohQs0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+v77adpaiMPs/O9Sf4Xs6aHsR0lYEV7CGKHEDgmsbQ4c/LxdV
+	5oSzw9Kx0EJ8V7favUdyN7od/Z0ZTbfCxeami6gJ8J+zK4RReRtWx+2m
+X-Gm-Gg: Acq92OFDuTFzJmfNJgbO1RhAha8gV1fpqpM43/ljpKPy7ugxo55j2iKGJSJi0ZaPuTL
+	41TH0q+/fTDsoFK1FJ49Txv3cpNKhXMq9WL1t9pQLpbHEwIMjf9GxH0l/L1VLz1MNEjdybL4d2j
+	PaypEb/dfsUlClA+3F5EREDGbuTxtTARguCrwoW0Lwrsf6RS0/4Zw6EBPrN5Y2bsn4R8sjgXmC6
+	tJjxvfcZUcBdjPdEivTpAI0Bmc1qDNgV84SFA5o2ckeyo+LT46BYWkMO9pTsroBtpGPYeoACElU
+	PJGYGPCO7QRrRkbgGQoqrSZj3LCkS/7ERjGsXGtuYtgOakK88EMg3Ve1kP0scqWEG+UsibQWRqr
+	GPHSlZ1AfdwsSxm4t7gCDuXozAx1xjgqr/STIqYdtRit4xQIjLTVSOYYHabAbtY2XCLMi+jxZrt
+	Yu7wCzMrEEWDxsXfTyB0rCBg==
+X-Received: by 2002:a05:6820:8185:b0:685:7678:b53c with SMTP id 006d021491bc7-69c9bfb085cmr188329eaf.46.1778779359904;
+        Thu, 14 May 2026 10:22:39 -0700 (PDT)
+Received: from localhost ([2a03:2880:f812:12::])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69b8c7e0140sm1483053eaf.3.2026.05.14.10.22.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 10:22:39 -0700 (PDT)
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+Subject: [PATCH net-next v5 0/8] net: devmem: support devmem with netkit
+ devices
+Date: Thu, 14 May 2026 10:22:27 -0700
+Message-Id: <20260514-tcp-dm-netkit-v5-0-408c59b91e66@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 14 May 2026 09:45:19 -0700
-X-Gm-Features: AVHnY4JqumP2VJstFZ-DobQ0sDmpWwtOhYCl663Ih2m9TKxeTUM0glktONR3Yps
-Message-ID: <CAEvNRgG07EMrx-SpMaO3gHmdGVwOb75XNy7_RARBo0chidn7Yg@mail.gmail.com>
-Subject: Re: [PATCH v12 10/16] KVM: guest_memfd: Add flag to remove from
- direct map
-To: Takahiro Itazuri <itazur@amazon.com>, fvdl@google.com, seanjc@google.com, ljs@kernel.org
-Cc: Liam.Howlett@oracle.com, agordeev@linux.ibm.com, ajones@ventanamicro.com, 
-	akpm@linux-foundation.org, alex@ghiti.fr, andrii@kernel.org, 
-	aou@eecs.berkeley.edu, ast@kernel.org, baolu.lu@linux.intel.com, 
-	borntraeger@linux.ibm.com, bp@alien8.de, bpf@vger.kernel.org, 
-	catalin.marinas@arm.com, chenhuacai@kernel.org, corbet@lwn.net, 
-	coxu@redhat.com, daniel@iogearbox.net, dave.hansen@linux.intel.com, 
-	david@kernel.org, derekmn@amazon.com, dev.jain@arm.com, eddyz87@gmail.com, 
-	gerald.schaefer@linux.ibm.com, gor@linux.ibm.com, haoluo@google.com, 
-	hca@linux.ibm.com, hpa@zytor.com, itazur@amazon.co.uk, jackabt@amazon.co.uk, 
-	jackmanb@google.com, jannh@google.com, jgg@ziepe.ca, jgross@suse.com, 
-	jhubbard@nvidia.com, jiayuan.chen@shopee.com, jmattson@google.com, 
-	joey.gouly@arm.com, john.fastabend@gmail.com, jolsa@kernel.org, 
-	jthoughton@google.com, kalyazin@amazon.co.uk, kas@kernel.org, 
-	kernel@xen0n.name, kpsingh@kernel.org, kvm@vger.kernel.org, 
-	kvmarm@lists.linux.dev, lenb@kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, loongarch@lists.linux.dev, 
-	lorenzo.stoakes@oracle.com, luto@kernel.org, maobibo@loongson.cn, 
-	martin.lau@linux.dev, maz@kernel.org, mhocko@suse.com, mingo@redhat.com, 
-	mlevitsk@redhat.com, nikita.kalyazin@linux.dev, oupton@kernel.org, 
-	palmer@dabbelt.com, patrick.roy@linux.dev, pavel@kernel.org, 
-	pbonzini@redhat.com, peterx@redhat.com, peterz@infradead.org, 
-	pfalcato@suse.de, pjw@kernel.org, prsampat@amd.com, rafael@kernel.org, 
-	riel@surriel.com, rppt@kernel.org, ryan.roberts@arm.com, sdf@fomichev.me, 
-	shijie@os.amperecomputing.com, skhan@linuxfoundation.org, song@kernel.org, 
-	surenb@google.com, suzuki.poulose@arm.com, svens@linux.ibm.com, 
-	tabba@google.com, tglx@kernel.org, thuth@redhat.com, urezki@gmail.com, 
-	vannapurve@google.com, vbabka@kernel.org, will@kernel.org, 
-	willy@infradead.org, wu.fei9@sanechips.com.cn, x86@kernel.org, 
-	yang@os.amperecomputing.com, yangyicong@hisilicon.com, 
-	yonghong.song@linux.dev, yosry@kernel.org, yu-cheng.yu@intel.com, 
-	yuzenghui@huawei.com, zhengqi.arch@bytedance.com, zulinx86@gmai.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANQEBmoC/12PywrDIBBFf6W4rsWMz3TV/yhdJGoaKXmgIikh/
+ 17rKri83DnnMjsK1jsb0P2yI2+TC26Zc+DXC9JjN78tdiZnBAQEYUBx1Cs2E55t/LiIoTdS9YI
+ qQwnKzOrt4Lbie6J8k++2iF65GV2Ii/+WoQSlL05OWOVMgAnmwnDotITBsMdkY3fTy1REiZ5hW
+ cP0D4OChjGuhNQVzE5w09Qwy7BiTZ9/alsjz8vHcfwAOFy6kS0BAAA=
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+ Michael Chan <michael.chan@broadcom.com>, 
+ Pavan Chebbi <pavan.chebbi@broadcom.com>, 
+ Joshua Washington <joshwash@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
+ Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+ Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Nikolay Aleksandrov <razor@blackwall.org>, Shuah Khan <shuah@kernel.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+ Michael Chan <michael.chan@broadcom.com>, 
+ Pavan Chebbi <pavan.chebbi@broadcom.com>, 
+ Joshua Washington <joshwash@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
+ Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+ Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Nikolay Aleksandrov <razor@blackwall.org>, Shuah Khan <shuah@kernel.org>
+Cc: dw@davidwei.uk, sdf.kernel@gmail.com, mohsin.bashr@gmail.com, 
+ willemb@google.com, jiang.kun2@zte.com.cn, xu.xin16@zte.com.cn, 
+ wang.yaxin@zte.com.cn, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Stanislav Fomichev <sdf@fomichev.me>, Mina Almasry <almasrymina@google.com>, 
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Bobby Eshleman <bobbyeshleman@meta.com>
+X-Mailer: b4 0.13.0
 
-Takahiro Itazuri <itazur@amazon.com> writes:
+This series enables TCP devmem TX through netkit devices.
 
->
-> [...snip...]
->
+Netkit now supports queue leasing. A physical NIC's RX queue can be
+leased to a netkit guest interface inside a container namespace. This
+gives the container a devmem-capable data path on the RX side (bind-rx,
+etc...). On the TX side, the container process binds to its netkit guest
+interface and sends traffic that netkit redirects (via BPF or ip
+forwarding) to the physical NIC for DMA.
 
-Brought this topic up on the guest_memfd biweekly today!
+Two things in the existing devmem TX path prevent this from working:
 
->
-> Agreed with both of you.  I'll adopt the filemap-level approach:
->
-> - Move the zap/restore hooks from guest_memfd into filemap_add_folio()
->   / filemap_remove_folio().
-> - Tighten AS_NO_DIRECT_MAP semantics so that, for folios in such a
->   mapping, the direct map is invalid for the entire time the folio
->   resides in the page cache.
-> - Drop the per-folio KVM_GMEM_FOLIO_NO_DIRECT_MAP bookkeeping in
->   folio->private, since the existence of the folio in the mapping is
->   itself the state.
->
-> On each guest memory population path,
->
-> - memcpy-based population from userspace goes through the userspace
->   mapping of guest_memfd, not through the kernel direct map, so the
->   filemap-level invariant doesn't affect it.  But this is slow, which
->   is what motivated the write() syscall support.
->
-> - write(): meant to speed up the userspace-memcpy case above by doing
->   the copy in the kernel.  I believe Brendan's __GFP_UNMAPPED/mermap
->   work [1] would give us a low-overhead way to get temporary kernel
->   access to an AS_NO_DIRECT_MAP.  Landing mermap may take a while, but
->   this series does not introduce the write() path, so mermap is not a
->   blocker for now.
->
-> - kvm_gmem_populate(): this is a TDX/SNP-only path, and NO_DIRECT_MAP
->   is not available on those VM types =E2=80=94
->   kvm_arch_gmem_supports_no_direct_map() returns false for
->   KVM_X86_TDX_VM and KVM_X86_SNP_VM, which are its only callers
->   today.  So it doesn't interact with the filemap invariant IIUC.
->
+1. validate_xmit_unreadable_skb() requires dev->netmem_tx before it will
+   forward a dmabuf-backed (unreadable) skb. This protects skbs from
+   landing on devices that don't have the IOMMU mappings for the backing
+   dmabuf or that don't speak netmem. Netkit, however, does not support
+   DMA, doesn't attempt to read unreadable skb pages and so doesn't
+   break netmem (it is pure skb routing and redirection). It is
+   functionally capable of routing unreadable skbs, but there is no way
+   for the TX validation pathway to distinguish between a device that
+   will actually attempt DMA-ing the skb and another device
+   (like netkit) that does not DMA but also does not break
+   netmem.
 
-I'm a little bit uncomfortable this statement since it seems to say TDX
-and SNP aren't taken care of. Would just like to discuss (for
-a line of sight to SNP and TDX support):
+2. bind_tx_doit uses the bound device as the DMA device.  When the user
+   binds devmem TX to the netkit guest, the bind handler attempts to
+   create DMA mappings against netkit, which has no DMA capability and
+   no IOMMU mappings.
 
-For non-in-place population where the source physical page is different
-from the destination physical page,
+This series solves these problems as follows:
 
-+ TDX: the TDX module does the population and works with physical
-  addresses, so no issue with populate? Other parts of TDX may have
-  trouble though, but that can be handled later.
-+ SNP: sev_gmem_post_populate() does a memcpy() after using
-  kmap_local_page()
+1. Extend netmem_tx to two bits, assigned to one of three values:
 
-Would mermap be a drop in replacement for kmap_local_page() here? Would
-guest_memfd need to force a TLB flush after mermap+memcpy?
+   NETMEM_TX_NONE   - netmem not supported
+   NETMEM_TX_DMA    - netmem supported and performs DMA
+   NETMEM_TX_NO_DMA - netmem supported, but does not DMA
 
-> So, unless I'm missing any path, adopting the filemap-level approach in
-> this series should be fine.
->
->
-> I'd like to consult with you folks on how to proceed in advance.  In a
-> separate reply on the cover letter thread [2], Lorenzo and Sean
-> suggested that the mm pieces should go through the mm subsystem:
->
-> On Tue, Apr 21, 2026 at 04:36:00PM +0000, Sean Christopherson wrote:
->> Yeah, when the time comes, the mm pieces definitely need to go through t=
-he mm
->> tree.  Ideally, I think this would be merged in two separate parts, with=
- all mm
->> changes going through the mm tree, and then the KVM changes through the =
-KVM tree
->> using a stable topic branch/tag from Andrew.
->
-> I see two reasonable paths to get there, and would appreciate your
-> input on which you prefer:
->
-> Path A =E2=80=94 validate on KVM side first, then split:
->   - Post v13 as a single series on the KVM list, gather feedback and
->     make sure the design is acceptable to KVM reviewers.
->   - Once v13 looks good ("the time comes"), do the MM/KVM split,
->     rebase the MM part onto the appropriate MM branch, and post the
->     MM part to linux-mm to build consensus with MM maintainers.
->
-> Path B =E2=80=94 split early and seek MM consensus in parallel:
->   - With the filemap rework already in place, do the MM/KVM split
->     now and post the MM part to linux-mm directly.  The KVM part follows
->     on top of a stable topic from MM.
->
-> Which of the two would you rather see?  Happy to go either way.
->
+   With these bits, phys devices can set NETMEM_TX_DMA and devices like
+   netkit set NETMEM_TX_NO_DMA. The validation TX path ensures that any
+   DMA-capable netdev exactly matches the bound device, guaranteeing the
+   correct mapping of the bound dmabuf. The validation TX path also
+   allows devices with NETMEM_TX_NO_DMA to pass, knowing these devices
+   will not misuse netmem or run into IOMMU faults. After redirection or
+   routing and the skb finally makes its way through the stack to a
+   physical device's TX path, the above NETMEM_TX_DMA check is performed
+   again to guarantee the device has the appropriate binding/mappings.
 
-Vlastimil pointed out that there's a temporary limitation now that the
-mm-tree cannot do stable branches shared between trees now.
+2. On TX bind, the bind handler recognizes NETMEM_TX_NO_DMA devices and
+   finds the phys TX device and binds to that instead. For the netkit
+   case, if it has been leased a queue from a DMA-capable device
+   already, then the bind action is performed on the DMA-capable device
+   instead and the dmabuf is mapped correctly.
 
-I think it depends on how quickly you plan to refresh this series, but
-Path A wouldn't be blocked by the temporary limitation.
+---
+Changes in v5:
+- configure_nic(): register cleanup via defer() and drop the separate
+  cleanup_nic() helper, this avoids leaking resources init'd during
+  setup. (Sashiko)
+- Use sys.byteorder when packing phys_ifindex into the BPF .bss map (Sashiko).
+- fix unhandle KsftSkip in tests (Sashiko).
+- see per-patch changes for more details
+- Link to v4: https://lore.kernel.org/r/20260511-tcp-dm-netkit-v4-0-841b78b99d74@meta.com
 
-My opinion would be to go ahead with a new revision (Path A) to fully
-address comments before splitting the series. Any Reviewed-bys can be
-carried over to the split series anyway :)
+Changes in v4:
+- remove enum list from netmem_tx comment (Stan)
+- fold NETMEM_TX_NO_DMA check in validate_xmit_unreadable_skb() into
+  skb_frags_readable check (Stan, Jakub)
+- change binding->vdev to void ptr cookie with comment (Jakub)
+- Fixed the bad change list version number (Stan)
+- Link to v3: https://lore.kernel.org/r/20260507-tcp-dm-netkit-v3-0-52821445867c@meta.com
 
-Alternatively you could wait till conversion lands :P Either one of us
-will need to do more work for conversion wrt direct map removal.
+Changes in v3:
+- Fix validate_xmit_unreadable_skb() logic for non-devmem
+  unreadable niovs (should not be dropped) (Sashiko)
+- Simplify lock handling in bind_tx, no premature release (Jakub)
+- split NO_DMA changes into separate patch (Jakub)
+- fixed some pylint issues, one required an additional patch ("selftests:
+  drv-net: make attr _nk_guest_ifname public") to rename a variable from
+  private to public
+- see per-patch changelist for more detailed changes
+- Link to v2: https://lore.kernel.org/r/20260504-tcp-dm-netkit-v2-0-56d52ac72fd4@meta.com
 
->
-> [1] https://lore.kernel.org/all/20260320-page_alloc-unmapped-v2-0-28bf1bd=
-54f41@google.com/
-> [2] https://lore.kernel.org/all/20260506080753.14517-1-itazur@amazon.com/
->
-> Takahiro
+Changes in v2:
+- Squash driver conversion patches (2-5) into patch 1 (Jakub)
+- In validate_xmit_unreadable_skb() to check netmem_tx mode before inspecting
+  frags (Jakub)
+- Lock bind_dev around netdev_queue_get_dma_dev() when bind_dev != netdev to
+  fix lockdep (Sashiko)
+- Move require_devmem() into individual test functions so KsftSkipEx goes up to
+  ksft_run() (Sashiko)
+- Add nk_devmem.py to TEST_PROGS in Makefile (Sashiko)
+- Link to v1:
+  https://lore.kernel.org/all/20260428-tcp-dm-netkit-v1-0-719280eba4d2@meta.com/
+
+Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+
+---
+Bobby Eshleman (8):
+      net: convert netmem_tx flag to enum
+      net: netkit: declare NETMEM_TX_NO_DMA mode
+      net: devmem: support TX over NETMEM_TX_NO_DMA devices
+      selftests: drv-net: ncdevmem: add -n flag to skip NIC configuration
+      selftests: drv-net: make attr _nk_guest_ifname public
+      selftests: drv-net: refactor devmem command builders into lib module
+      selftests: drv-net: add primary_rx_redirect support to NetDrvContEnv
+      selftests: drv-net: add netkit devmem tests
+
+ .../networking/net_cachelines/net_device.rst       |   2 +-
+ Documentation/networking/netmem.rst                |   8 +-
+ .../translations/zh_CN/networking/netmem.rst       |   7 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c          |   2 +-
+ drivers/net/ethernet/google/gve/gve_main.c         |   2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en_main.c  |   2 +-
+ drivers/net/ethernet/meta/fbnic/fbnic_netdev.c     |   2 +-
+ drivers/net/netkit.c                               |   1 +
+ include/linux/netdevice.h                          |  10 +-
+ net/core/dev.c                                     |   5 +-
+ net/core/devmem.c                                  |   6 +-
+ net/core/devmem.h                                  |  10 +-
+ net/core/netdev-genl.c                             |  65 +++++-
+ tools/testing/selftests/drivers/net/hw/Makefile    |   2 +
+ tools/testing/selftests/drivers/net/hw/devmem.py   |  77 ++-----
+ .../testing/selftests/drivers/net/hw/devmem_lib.py | 222 +++++++++++++++++++++
+ tools/testing/selftests/drivers/net/hw/ncdevmem.c  |  58 +++---
+ .../testing/selftests/drivers/net/hw/nk_devmem.py  |  46 +++++
+ .../drivers/net/hw/nk_primary_rx_redirect.bpf.c    |  39 ++++
+ .../testing/selftests/drivers/net/hw/nk_qlease.py  |   8 +-
+ tools/testing/selftests/drivers/net/lib/py/env.py  | 110 +++++++---
+ 21 files changed, 545 insertions(+), 139 deletions(-)
+---
+base-commit: 8ebd24a7822cbae25beeafba49b2159d6a68a5f2
+change-id: 20260423-tcp-dm-netkit-2bd78b638d30
+
+Best regards,
+-- 
+Bobby Eshleman <bobbyeshleman@meta.com>
+
