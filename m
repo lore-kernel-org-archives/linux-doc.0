@@ -1,143 +1,83 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC843625;
-	Thu, 14 May 2026 02:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DA81E8826;
+	Thu, 14 May 2026 02:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778724385; cv=none; b=lewVrVfEtLFsymAKL9Kf0zYbI+eEqvDT/TYES1BW6qNA6h1Hv3pqjL/2FrDT2EHUxo7binX+Wo0yjV/rFW+DeGO7t6eRKFi2XhvNZziWZeijNU+SrNlnu0iCoILPC+TZjS9AKqgrGw7HjA5nHMU9KlxR8CUQSu/ieCz7XWgRAuc=
+	t=1778725296; cv=none; b=pTg4fCuRM4RtCq/U6ug3+g1JP7mDszvu7P0dvY0wggf4uqFxonm79Ph80dhxP/dV0uXbzKZerM/Q2+cUibGOWAPLodLdHe35osQxNYccxrym7WUzuFgRYS978jFTp4E9dbPAWc1SiwTl7w9NI4JgHH0Nue6Sf9+uJtdNKiW63xY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778724385; c=relaxed/simple;
-	bh=ZQF7neJbiHMnHThZXGemUYK10kTVVZf41ejnQ0Xn0cU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sPnoC/jpgJUitxseyuNwt9HCPGbEX+1v4p/ziOAcmS/z7ye/sT9Fmu27NVo7r9/p+zyL0d48fw+cS29wbW4lURKvS2q5sb7QwXYqMnvUeetCBfBKvCxSf0QOlkp/93/VhSHOddqAQt5VEq+MujHEnlZP3JrFRpvNYu6aSQxWNwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tANEEKSk; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1778725296; c=relaxed/simple;
+	bh=hx+tymloAIZP4K3mSk6uylZJeFOgFon7qjf1v0Tiguk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j9xJ+cpT6lNE6qg2cQ95vSQ/Kn97zAwlyu0IYzhnW18WXGgGRI59VYzdyuu8wkDjPEgNibc5LkiJMQOTUTKR81CS7saYMCm3S7FuktL8AH5JuQT8ZzV6O58XNjS3VcDKlARoXUuqTEnHbNuA89fCJibeWqIAr57d0GKiWkwcz7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LpdT/4sY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tANEEKSk"
-Message-ID: <e5db0262-7ee8-4a9f-bfb2-c66a86b9ac7b@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778724381;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NgwK++d+KiHykF7iybtMJFLF9OtaIvcBvOsHU3SZwak=;
-	b=tANEEKSkUFW8wAQHH0N22iPB/YMbs9ZotHhr54v0cPKFMGgF43vUDYkbaTxSQV0qIxRLOg
-	d1XAADKMuK6hqc8M9Gxvsmp2YfbBLF5IxZcAtWUYfl2GgW7FHV+2PxR+1y3O2BC36ic+r9
-	QAAcpDAt04+6g1MSOcUQ8gdPpTR0gc0=
-Date: Thu, 14 May 2026 10:05:39 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LpdT/4sY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2099EC19425;
+	Thu, 14 May 2026 02:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778725296;
+	bh=hx+tymloAIZP4K3mSk6uylZJeFOgFon7qjf1v0Tiguk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LpdT/4sYf4W5sJwtPHPsmS1gYgte/QoafDoR9rthPNQ0qfGDxUaqDC7gqbDYlTsSs
+	 HLDVybZtXf4HM59aE5+pAed+O4XjPavi/2XremwM/XukiFH1AiO2qNrWkcsrbfxpkq
+	 aYkuo+JXRhS7seBZQBaMSlQc5U1Aghl2zhIlA4oOUCDwH/xryfZQbHi87d9KN6scLO
+	 pYhtGYoeGqVKk45s9coTfeBIU4b5ptBjqAbUNniEiqmsZPPRolVNoYg25jrATRjvfE
+	 ZxixagliJqw1Jvoaag2tqHPQzrQhq8A32g68Ws/Q0rm8QCyDtvnmsfutt8uJa7WVD1
+	 66+88xEsUI/GA==
+Date: Wed, 13 May 2026 19:21:33 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Alex Shi
+ <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu
+ <dzm91@hust.edu.cn>, Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi
+ <pavan.chebbi@broadcom.com>, Joshua Washington <joshwash@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, Saeed Mahameed
+ <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
+ <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Alexander Duyck
+ <alexanderduyck@fb.com>, kernel-team@meta.com, Daniel Borkmann
+ <daniel@iogearbox.net>, Nikolay Aleksandrov <razor@blackwall.org>, Shuah
+ Khan <shuah@kernel.org>, dw@davidwei.uk, sdf.kernel@gmail.com,
+ mohsin.bashr@gmail.com, willemb@google.com, jiang.kun2@zte.com.cn,
+ xu.xin16@zte.com.cn, wang.yaxin@zte.com.cn, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Stanislav Fomichev <sdf@fomichev.me>, Mina
+ Almasry <almasrymina@google.com>, Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v4 6/8] selftests: drv-net: refactor devmem
+ command builders into lib module
+Message-ID: <20260513192133.60a82598@kernel.org>
+In-Reply-To: <20260511-tcp-dm-netkit-v4-6-841b78b99d74@meta.com>
+References: <20260511-tcp-dm-netkit-v4-0-841b78b99d74@meta.com>
+	<20260511-tcp-dm-netkit-v4-6-841b78b99d74@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/6] alloc_tag: introduce IOCTL-based filtering for MAP
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Abhishek Bapat <abhishekbapat@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Sourav Panda <souravpanda@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Kent Overstreet <kent.overstreet@linux.dev>
-References: <cover.1777936301.git.abhishekbapat@google.com>
- <9bff01a8-eb97-4d09-81a4-f4dbf9b59b73@linux.dev>
- <CAJuCfpE9_Njy7Tm4DnNin9HEVoqqfKzTRgxYkEEyzm+OCc49sw@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <CAJuCfpE9_Njy7Tm4DnNin9HEVoqqfKzTRgxYkEEyzm+OCc49sw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon, 11 May 2026 18:18:00 -0700 Bobby Eshleman wrote:
+>  tools/testing/selftests/drivers/net/hw/devmem.py   |  77 ++------
+>  .../selftests/drivers/net/hw/lib/py/devmem.py      | 218 +++++++++++++++++++++
 
-On 2026/5/13 03:58, Suren Baghdasaryan wrote:
-> On Wed, May 6, 2026 at 1:45 AM Hao Ge<hao.ge@linux.dev>  wrote:
->> Hi Abhishek and Suren
->>
->>
->> On 2026/5/5 07:36, Abhishek Bapat wrote:
->>> Currently, memory allocation profiling data is primarily exposed through
->>> /proc/allocinfo. While useful for manual inspection, this text-based
->>> interface poses challenges for production monitoring and large-scale
->>> analysis:
->>>
->>> 1. Userspace must parse large amounts of text to extract specific
->>> fields.
->>> 2. To find specific tags, userspace must read the entire dataset,
->>> requiring many context switches and high data copying.
->>> 3. The kernel currently aggregates per-CPU counters for every allocation
->>> size, even those the user intends to filter out immediately.
->>>
->>> This series introduces a new IOCTL-based binary interface for allocinfo
->>> that supports kernel-side filtering. By allowing the user to specify a
->>> filter mask, we significantly reduce the work performed in-kernel and
->>> the amount of data transferred to userspace.
->>>
->>> Performance measurements were conducted on an Intel Xeon Platinum 8481C
->>> (224 CPUs) with caches dropped before each run.
->>>
->>> The IOCTL mechanism shows a ~20x performance improvement for
->>> filtered queries. The kernel avoids the expensive per-CPU counter
->>> aggregation (alloc_tag_read) for any tags that fail the initial string
->>> or location filters.
->>>
->>> Scenario 1: Specific File Filtering (arch/x86/events/rapl.c)
->>> 1. Traditional (cat /proc/allocinfo | grep): 22ms (sys)
->>> 2. IOCTL Interface: 1ms (sys)
->>>
->>> Scenario 2: Compound Filtering (Filename + Size)
->>> 1. Traditional: (cat ... | grep | awk): 21ms (sys)
->>> 2. IOCTL Interface: 1ms (sys)
->>>
->>> Scenario 3: Size-Based Filtering (min_size = 1MB)
->>> 1. Traditional: (cat ... | awk): 21ms (sys)
->>> 2. IOCTL Interface: 14ms (sys)
->> What a coincidence! I was just about to send an email to Suren
->>
->> asking about plans for upstreaming a filtering tool for /proc/allocinfo,
->>
->> and then I came across this patchset.
->>
->> I have been following and using memory allocation profiling since
->>
->> it was first introduced. It has been very helpful for our memory
->>
->> analysis by providing clear visibility into allocation data. However,
->>
->> we have always wanted a tool to efficiently filter this data to get
->>
->> exactly what we need, so I previously developed a userspace tool [1]
->>
->> to help with that.
->>
->> [1]https://lore.kernel.org/all/20250106112103.25401-1-hao.ge@linux.dev/
->>
->> So this patchset provides efficient filtering of allocinfo data via ioctl.
->>
->> Would the next step be to develop a general-purpose tool under
->>
->> tools/mm that leverages these ioctls instead of parsing /proc/allocinfo
->> text output?
-> Hi Hao,
-> Sorry for the delay, I was travelling for LSFMM and missed a bunch of emails.
-> Yes, we are planning to upstream alloctop tool
-> (https://android-review.googlesource.com/c/platform/system/memory/libmeminfo/+/3431860)
-> and now with ioctl support it becomes more relevant. Once this
-> patchset is merged, we will prepare the tool and post the patch.
-> Thanks,
-> Suren.
+If the reuse is in the same dir I think you can create
 
-Hi Suren
+tools/testing/selftests/drivers/net/hw/devmem_lib.py
 
-Thanks for the info! The alloctop tool looks great, looking forward to it.
+and import:
 
-I'd be happy to help review or test it once it's posted.
+from devmem_lib import bla
 
-Best Regards
+I _think_ that should "just work" ?
 
-Hao
+The lib/ is meant for things shared between targets.
 
+Also I think you missed adding the new file to Makefiles ?
+It needs to be under TEST_FILES for building tarballs
