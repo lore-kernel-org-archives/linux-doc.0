@@ -1,56 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C35357D1F;
-	Thu, 14 May 2026 10:13:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C96390219;
+	Thu, 14 May 2026 10:16:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778753615; cv=none; b=B6Ak4NmpJWH6PvTiZiNE9rX+NRPiyMfYTMtj7ePjxcxzWFxkDRCVSxgznxkT7DFJ6ZDxwlzYVHhS0NXloYHxS/eba7A97jCFIv9ETybwzva34iqedKlUbbaDh1PtEEM03MDDef4VFqp+QaK9A69ZR3qS1BdCPNpabUSke+qRiXg=
+	t=1778753804; cv=none; b=BuslCaV+fPPkSDFm65WSBphx+GO0tdeGkq6UMkv49EVMcqRBCDe/itqHrCon48HFwpr/c1V9HYdukkN8ikxMszdvxelrPPI8xtGOGPExoO3zP1IGkFQdlaJQH9twQJNS0J6wVSh7K1AKqusNojhJvlSRccjZqsO97UPJcfx0IGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778753615; c=relaxed/simple;
-	bh=pyFB4ur/KVLGcKl/yLNGIfGo7BXMPQnbBHd8aTS1kt0=;
+	s=arc-20240116; t=1778753804; c=relaxed/simple;
+	bh=3xrLp236XQGoz49u8uCprVRlNKE6+kM1ULNPYfoql+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kcyBow3IBiEXO/NwysvtGv7Gd4RJVM77paNXMvT3L6uIGDDiwCdtbDq8g6yR7RHXiInLEE+RK1jht0ONCth5LXYSVyOHy6Ucp+qH5ClTurpXqqXaVC2ETHMSvUNIWnhj3br8xFsOjUgoeAooo5e3XKPwUW57eICe/ZVO9DWd/N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VNOUZxJy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MpsHlAKlJbFVmZgitBhew00Fc3XPQ6fkIKn4hy3EjnhkCQpSrnPOq9VHAH+XnCNiLk9Z+GT9AfgckvpztcrRjxG0PXt0g2JmBqVgtmq86tVF57HHnqku1zhPgpjgDT2s+yXjSRSh1j6pGEgyk8wL1ozrpbrlD4r0fQ+sP9Zjc/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lMYdSMym; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VNOUZxJy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C0C1C2BCB8;
-	Thu, 14 May 2026 10:13:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778753614;
-	bh=pyFB4ur/KVLGcKl/yLNGIfGo7BXMPQnbBHd8aTS1kt0=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lMYdSMym"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4515DC2BCB3;
+	Thu, 14 May 2026 10:16:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1778753803;
+	bh=3xrLp236XQGoz49u8uCprVRlNKE6+kM1ULNPYfoql+U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VNOUZxJyCkN4NYFp1NdTxIviv6fdawFQatfOjrTjzUFG5RC8e2NCC0DV935mjzNBQ
-	 TZei+awNzZKo3nMD8AykyxLwChCts8nwLKZedeUXLi9EWZLSYbqrVDRGEQL//xDNUg
-	 M7PAyBJcV26zRYDU2OnWw+KdiSR14zuT1u7e1qLuWWZIRwSqo/1lUYf1xSVMs08VAI
-	 qyP+RI/VF8ZJCPwSf/SO5cYTH+LIA1jHr90zhyMz+RG+khuUUCf3nmJ5B2JNQa89jd
-	 b3LmwFwsbOnim/OouN+nFUdEVHG5o71G9ay1tAkaE1Kk6pEkGuU3m4oZ1d3YG5fx7F
-	 bsazcJySO0Uyg==
-Date: Thu, 14 May 2026 19:13:30 +0900
-From: "Harry Yoo (Oracle)" <harry@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Marco Elver <elver@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Bill Wendling <morbo@google.com>, David Hildenbrand <david@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
-	Justin Stitt <justinstitt@google.com>, KP Singh <kpsingh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Matteo Rizzo <matteorizzo@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Suren Baghdasaryan <surenb@google.com>, 
-	linux-hardening@vger.kernel.org, Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>, 
-	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, Hao Li <hao.li@linux.dev>, 
-	"Liam R. Howlett" <liam@infradead.org>, Alexander Potapenko <glider@google.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, kasan-dev@googlegroups.com, llvm@lists.linux.dev, 
-	GONG Ruiqi <gongruiqi1@huawei.com>, Jonathan Corbet <corbet@lwn.net>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v4 1/3] slab: support for compiler-assisted type-based
- slab cache partitioning
-Message-ID: <gmzc5ul56yvsdgha4ly53zckhmhnbylak2rcxwxlerhkt2d5lm@gellfjmlzmr3>
-References: <20260511200136.3201646-1-elver@google.com>
- <560a84ed-7daf-4a78-a314-b867c73bce22@kernel.org>
+	b=lMYdSMymthkPfomjmUqehGXi82PqxU0g4S9rSs7m/t/EQAblvxuep3lMks9m6nRdj
+	 LRcbSgxfno0FsyYjmbwdh4AJSJ3/N64izDlpSPkQ2DkakbEKCMNvb3RrLCfQo0+Jv2
+	 Rl9j1eYt2uffbhTXqTvZTXWEVctfhUa3JASfMBRw=
+Date: Thu, 14 May 2026 12:16:48 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jianlin Lv <iecedge@gmail.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rafael@kernel.org,
+	dakr@kernel.org, jianlv@ebay.com, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev
+Subject: Re: [PATCH] driver core: Add cmdline option to force probe type
+Message-ID: <2026051443-exuberant-important-534f@gregkh>
+References: <20260514094955.76305-1-jianlv@ebay.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,23 +40,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <560a84ed-7daf-4a78-a314-b867c73bce22@kernel.org>
+In-Reply-To: <20260514094955.76305-1-jianlv@ebay.com>
 
-On Thu, May 14, 2026 at 11:01:26AM +0200, Vlastimil Babka (SUSE) wrote:
-> Applied [1] to slab/for-next, thanks. That means including the kernel-doc
-> workarounds in patch 3. I know Jon said someone might hate it, but maybe it
-> will motivate them for creating a proper fix :) It seems better than leaving
-> doc generation broken or not applying this series at all.
+On Thu, May 14, 2026 at 05:49:55PM +0800, Jianlin Lv wrote:
+> From: Jianlin Lv <iecedge@gmail.com>
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git/log/?h=slab/for-7.2/alloc_token
+> Device drivers that use asynchronous probing can cause non-deterministic
+> device ordering and naming across reboots. A typical example is storage
+> drivers (like sd/nvme): asynchronous probing can lead to inconsistent disk
+> logical names after reboot. In scenarios where disk naming consistency is
+> critical, the probe type should be set to synchronous.
 > 
-> I did the following fixup to remove passing an unnecessary NULL argument for
-> __kmalloc_nolock() with buckets enabled. Made bloat-o-meter happier a bit.
+> This patch introduces a driver_probe kernel parameter that overrides any
+> driver's hard-coded probe type settings and allows runtime control without
+> requiring kernel recompilation:
+> 
+>   driver_probe=PROBE_TYPE_SYNC,nvme,sd      # Force specific drivers sync
+>   driver_probe=PROBE_TYPE_ASYNC,*,usb       # Force all async except usb
+>   driver_probe=PROBE_TYPE_SYNC,*            # Force all drivers synchronous
+> 
+> The implementation replaces the limited driver_async_probe parameter with
+> a more flexible interface that can force either synchronous or asynchronous
+> probing as needed.
+> 
+> Signed-off-by: Jianlin Lv <iecedge@gmail.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 27 +++++--
+>  drivers/base/dd.c                             | 71 ++++++++++++++-----
+>  2 files changed, 74 insertions(+), 24 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 4d0f545fb3ec..b43a8bd20356 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1377,12 +1377,27 @@ Kernel parameters
+>  			it becomes active and is searched during signature
+>  			verification.
+>  
+> -	driver_async_probe=  [KNL]
+> -			List of driver names to be probed asynchronously. *
+> -			matches with all driver names. If * is specified, the
+> -			rest of the listed driver names are those that will NOT
+> -			match the *.
+> -			Format: <driver_name1>,<driver_name2>...
 
-[...]
+You can not remove an existing user/kernel api, sorry, that is not
+allowed as you just broke all systems that were relying on this :(
 
-Looks reasonable to me, thanks!
+thanks,
 
--- 
-Cheers,
-Harry / Hyeonggon
+greg k-h
