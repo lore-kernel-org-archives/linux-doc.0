@@ -1,172 +1,110 @@
-Received: from mail-oa1-f74.google.com (mail-oa1-f74.google.com [209.85.160.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78712BE05E
-	for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 17:49:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E573A3939A3;
+	Thu, 14 May 2026 17:51:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778780946; cv=none; b=P/ULuhnHjH0su0V2N5hNrY5mOxzpaqU1C5O/pwubQezwZ79G+iyt3ahlZy0+2NkdQQAhDOSqQHY15GH4oj8lp1vieVGgwwWDbpT+BqZxN64mMUrt6hze8AuSsjKAgR9CyRSk2+4hXd1xgFlI00X6GlVQjIRl4Gu+UN4qO2194gQ=
+	t=1778781094; cv=none; b=gyvKJhmDUNRkyS+bglU/zrtLiKIcWtjOrMJasXYdnpaduZa3taf3D8mpJIj4+cpB4ClP/ZkxhC2wgqA6PElzAKH/fgT8CbHpEYbWED5N8H4pNXEFTQaLe59EHq+94N8JVphaUx55Kyj5F8QmMwojU/sL2Z22v22EAob37cHhANA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778780946; c=relaxed/simple;
-	bh=GoRDUmjwts98H2GxjEyrtGopYG2FlUX43PGMqIqINsM=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=F/R5XcEPjfij4Wz38tOCHkdlZ6pTsx/oYZfQV361ImjPHnSYPZqZptwC1dek08aA0My/u8C2jKg6q0nsJr4XWQvc2ERyaHJ7buUqEguS0LfeF0viOq+vrp8zpzurFem7Sw+n9ZT3zQLe8At+EkvhxRyaWT7iG241sURLtvVCceg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fyhzYkEA; arc=none smtp.client-ip=209.85.160.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1778781094; c=relaxed/simple;
+	bh=upBY8nFB/QOOMdEBSeJUBWEbZV90IfFndhXk1eIBCRA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MkuvtLIG983U1CNE+4zBfAumMt2xMTUpNYNS4fn0tbZcQOFgek57/h50C9Lj3ivXPX8Gquke092rce/5x52wi2JhA/puzVsB3ON99hKJbAMYrszOe/Rt65qZHR4G9neUOG44Z3t8smKytwmX3Xb8aFnjP9dvy0B3iR5AQhwkKHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BAO2gM7k; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fyhzYkEA"
-Received: by mail-oa1-f74.google.com with SMTP id 586e51a60fabf-439d6202259so3470790fac.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 10:49:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778780944; x=1779385744; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lvf58REysbafuiio+PHgzYPPOXJAU2S7yZkdP1X1Ak4=;
-        b=fyhzYkEAbiuipPqf7gx5+RdaCXwMfqmpjczIhbMY7cBnUFd+IALqIrwDlL+CkfOy8R
-         POeCtYJ2bwwX21dIaWHEIoGEC7/PqWd/riNRFOHYVtq6YMSjTzRC3Tk2Fn765Y945gVa
-         rvuJ+BzJH9Zml+P0kNSQYCFbq5ELx6g/fPtmJOd6y1MpZxuoA+oSsdBKBv7jOT7weB5K
-         wUzPs2RbvNHqK8/Ip8vQY1twzb1P7xV8fVyqGMC3pZRMqYQ3e9YxWW5XxlHL0aZhcq6B
-         88+ZKGsu1+ejYtPjxrj6uLGDISrx4Bvy4E6ZAc5I44MpgeuTxoFepMV8Fn1DofCbarXq
-         nqvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778780944; x=1779385744;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lvf58REysbafuiio+PHgzYPPOXJAU2S7yZkdP1X1Ak4=;
-        b=OU5grEw2NuOS6TFiVG6azxkw8cbp2MEbhUMRs9la5ObFXQscnmba9jOdXekZDFuQ3h
-         IbWwzjVDftIJMi+EWNQZoVEGnVYaEU5sMQfGGAQtsoGMYz9EYXWQk+DGT+c7bHvV/Fcn
-         5PvjdLqo7Ze2Uiw1qqsMRcD29jkp1zhSyTGR5tB2HnBt1Dg3lkLWhoE86zusI5uNWZRr
-         lygF0e9a8yUqWuUxV84IDg7vUiejfCnYovSNPei/0Mf4WAWi4qQpoqbwwFFGZgppeFMq
-         mlpJ1xepwqKB8cYLP2/+pnHHAqe4D30indRigZXzymEhA3RR4JtpRPZp5TN/cpLdlaJ0
-         VE7g==
-X-Forwarded-Encrypted: i=1; AFNElJ9mMyA27qc9IYl5SDx1Oi4rbNB47bNNdxyCUdX42MXur4PgPi3J4ExWNJLcseKbimwr4SmPIGLKUVk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0QBOuwo+hx5k2k+AbbBT//bPB8g+iDfDnmmWsum4ZSi9BFNZV
-	vUPovozztsmX4n8dT3ztZ2/x3jaWSyEyirfyLIuR6fbaHp3K/fe9GbpZOAHksXwxdEmThXsE6QP
-	mzwvAFVZ4e9ue0ZVJYgBH/8IJzw==
-X-Received: from oaao19.prod.google.com ([2002:a05:6870:f013:b0:43a:1a0e:c45b])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6870:a793:b0:434:efa3:9bd5 with SMTP id 586e51a60fabf-43a2ddcfbbamr377060fac.27.1778780943565;
- Thu, 14 May 2026 10:49:03 -0700 (PDT)
-Date: Thu, 14 May 2026 17:49:02 +0000
-In-Reply-To: <agQpbiD8Fi6fzomf@kernel.org> (message from Oliver Upton on Wed,
- 13 May 2026 00:34:06 -0700)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BAO2gM7k"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=6zBo/4kUU64zyjiKhhX9l0fvv0Ag1b29EGM7ylNMm34=; b=BAO2gM7kOpbxPTgKDZ9Z0TGcW/
+	3uSHb+PpWGMh0GD3FIVpKOzgyOavqE+dMMjBEPCdCYBuEKXQHm3Svpq0snZNn8suj1BsUDp5Mcl4e
+	lYwPJegJYpvFEjoV6VBGfL1G6YGycF9NHuAjb6golTzmKlGTgAZd6IL9DN1hxV5bSgME0/0aMnUCq
+	TKIOzSDsYtzz5nE2zZ2QYJlO6z3tvKO5aIbc4zW0ux1kT53w34ozYdA2ERJWQMeGPhDNQf46uynmI
+	66eLzsAi/57RvafuHq83Hv8bwQ3qxaoTvMTJtrF0YMDmmv//K4YaFgu36Rc4LAD4YPM71x8uYsdCj
+	y2axgZiw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wNaDM-00000006FQn-1OH1;
+	Thu, 14 May 2026 17:51:16 +0000
+Message-ID: <eb03a056-374b-4cce-b32d-c1b81f12e549@infradead.org>
+Date: Thu, 14 May 2026 10:51:14 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsntwlx5c25t.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v7 07/20] KVM: arm64: Set up FGT for Partitioned PMU
-From: Colton Lewis <coltonlewis@google.com>
-To: Oliver Upton <oupton@kernel.org>
-Cc: kvm@vger.kernel.org, alexandru.elisei@arm.com, pbonzini@redhat.com, 
-	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
-	will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, 
-	james.clark@linaro.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] Doc: deprecated.rst: add strlcat()
+To: Kees Cook <kees@kernel.org>, Manuel Ebner <manuelebner@mailbox.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+ Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ David Laight <david.laight.linux@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, Heiko Carstens <hca@linux.ibm.com>,
+ "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20260514160719.105084-3-manuelebner@mailbox.org>
+ <20260514162652.107714-2-manuelebner@mailbox.org>
+ <202605140931.913048A68B@keescook>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202605140931.913048A68B@keescook>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Oliver. Thanks for the review.
 
-Oliver Upton <oupton@kernel.org> writes:
 
-> On Mon, May 04, 2026 at 09:18:00PM +0000, Colton Lewis wrote:
->> +static void __compute_hdfgrtr(struct kvm_vcpu *vcpu)
->> +{
->> +	__compute_fgt(vcpu, HDFGRTR_EL2);
+On 5/14/26 9:31 AM, Kees Cook wrote:
+> On Thu, May 14, 2026 at 06:26:53PM +0200, Manuel Ebner wrote:
+>> add strlcat and alternatives
+>>
+>> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+>> ---
+>>  Documentation/process/deprecated.rst | 7 +++++++
+>>  1 file changed, 7 insertions(+)
+>>
+>> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+>> index fed56864d036..06e802f4bbfd 100644
+>> --- a/Documentation/process/deprecated.rst
+>> +++ b/Documentation/process/deprecated.rst
+>> @@ -153,6 +153,13 @@ used, and the destinations should be marked with the `__nonstring
+>>  attribute to avoid future compiler warnings. For cases still needing
+>>  NUL-padding, strtomem_pad() can be used.
+>>  
+>> +strlcat()
+>> +---------
+>> +strlcat() must re-scan the destination string from the beginning on each
+>> +call (O(n^2) behavior). Alternatives are seq_buf_puts() and seq_buf_printf().
+>> +snprintf(), scnprintf() and sysfs_emit() are possible aswell, but the adoption
+>> +of the arguments needs to be taken care off.
 >> +
->> +	*vcpu_fgt(vcpu, HDFGRTR_EL2) |=
->> +		HDFGRTR_EL2_PMOVS
->> +		| HDFGRTR_EL2_PMCCFILTR_EL0
->> +		| HDFGRTR_EL2_PMEVTYPERn_EL0
->> +		| HDFGRTR_EL2_PMCEIDn_EL0
->> +		| HDFGRTR_EL2_PMMIR_EL1;
->> +}
->> +
+> 
+> How about just:
+> 
+> strlcat() must re-scan the destination string from the beginning on each
+> call (O(n^2) behavior). Use the seq_buf API or similar instead.
+> 
 
-> I've given this feedback at least twice already...
+Yeah, that avoids the "aswell" (should be "as well").
 
-> Operators go on the preceding line in the case of line continuations.
+> 
+>>  strlcpy()
+>>  ---------
+>>  strlcpy() reads the entire source buffer first (since the return value
+>> -- 
+>> 2.54.0
+>>
+> 
 
-I apologize for letting that slip through again.
+-- 
+~Randy
 
->> +
->> +/**
->> + * kvm_pmu_is_partitioned() - Determine if given PMU is partitioned
->> + * @pmu: Pointer to arm_pmu struct
->> + *
->> + * Determine if given PMU is partitioned by looking at hpmn field. The
->> + * PMU is partitioned if this field is less than the number of
->> + * counters in the system.
->> + *
->> + * Return: True if the PMU is partitioned, false otherwise
->> + */
->> +bool kvm_pmu_is_partitioned(struct arm_pmu *pmu)
->> +{
->> +	if (!pmu)
->> +		return false;
->> +
->> +	return pmu->max_guest_counters >= 0 &&
->> +		pmu->max_guest_counters <= *host_data_ptr(nr_event_counters);
->> +}
->> +
->> +/**
->> + * kvm_vcpu_pmu_is_partitioned() - Determine if given VCPU has a  
->> partitioned PMU
->> + * @vcpu: Pointer to kvm_vcpu struct
->> + *
->> + * Determine if given VCPU has a partitioned PMU by extracting that
->> + * field and passing it to :c:func:`kvm_pmu_is_partitioned`
->> + *
->> + * Return: True if the VCPU PMU is partitioned, false otherwise
->> + */
->> +bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu)
->> +{
->> +	return kvm_pmu_is_partitioned(vcpu->kvm->arch.arm_pmu) &&
->> +		false;
->> +}
-
-> Ok, I'm thoroughly confused about these predicates.
-
-> Whether or not a vCPU is using a partitioned PMU is a per-VM property.
-> This is separate from whether or not the backing arm_pmu has a range of
-> available counters for the guest to use.
-
-> It is entirely possible that a VM *isn't* using the partitioned PMU
-> feature (i.e. backed with perf events) yet the supporting arm_pmu has a
-> guest counter range.
-
-Yes and I add that to this predicate in a later patch when I introduce
-the flag. I can always reorder to introduce the flag before (or along
-with) this predicate.
-
->> +#if !defined(__KVM_NVHE_HYPERVISOR__)
->> +bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu);
->> +bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu);
->> +#else
->> +static inline bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu)
->> +{
->> +	return false;
->> +}
->> +
->> +static inline bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu)
->> +{
->> +	return false;
->> +}
->> +#endif
->> +
-
-> Don't use ifdeffery for this. Aim to have a single definition and rely
-> on has_vhe() to do the rest of the work.
-
-Will do.
-
-
-> Thanks,
-> Oliver
