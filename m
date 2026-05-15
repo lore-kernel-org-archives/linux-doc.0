@@ -1,227 +1,260 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8784A311C2C;
-	Fri, 15 May 2026 13:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778850889; cv=none; b=tDprRJpNYyDqu5I26A6i4uJf7cA1WhkMIO+5tdBNAr5qS2uEZjYeC0E43ot6rAYqBg23ca0gTJ/RVYoWXfPMV601mNknUdVK10CsUQ1SzxN0Zu6XI07kFJ47xPMo/Np9HZUQb12W/3Knnopf5x7SGcrOZH6qoDYbBqk8tZ+/N/E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778850889; c=relaxed/simple;
-	bh=4DW1KFLKdY0r9Kt85uXfYMWGPLMqHEQnYtena6SVqwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u8Yw8vnoxwxdv/CtuBaj5xZZ4pXwqknObLVC0Lmfscuvby4b6oqV2wTjV0Rwsbo7sKXQnKcgg48Ez+s3RC536hOkwe4Wktrg/aZQxi0qvRnWVQvDQfGPjH3FtPKINboAVTUUagBCQX6YPzQoOVSGOifULOZUwGnGo9zNtZ6SXVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=YO6HHuhT; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D84B385D60
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 13:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778851499; cv=pass; b=sGIpMC1fyYAB1afkW9lt5VdUfwEtE5PzRc39zJqOD1YDoHMOsgcu+c5w1ti/0bOmmfgYk/GrZ3CcujwaEmEt84saCZnH0Yi0wXVfczczNRHe9uWwl3UgE1zcokaJfPlldRAecnN4VyFV1iE4SOEMIT7ZdZ9RcbEx+4OZxl6sJ5Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778851499; c=relaxed/simple;
+	bh=9S/wyijREW7prxTs0cpddfr7+xTXmq79rJi7zvdyiio=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BmqA7OcqdGBEO1NMbK6k2n9N4kFD7qJNgH3AH1eefrtFDSUQ6KZV/iGZ+Ar6Ty19talOnbB2DBo1m95QwMQlqaN6qwH4a/gxaLN/H75BlPnlbKaOE1pKCFJY/BtjQI/LcfTnF0kMHxVR+cpSf5/kPxevXINXrKS49ghAgB9fkQo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s4kOdYLl; arc=pass smtp.client-ip=74.125.82.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="YO6HHuhT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=Pmx2rneBBjmIsZbvqyQI5Qj38w0M3wSqScjqM675SPE=; b=YO6HHuhTFg9PhNc1fOrsmCg0l2
-	coFCfL/HXWdkEJQ/NNKVRj19rXWjjJl5HBw6M88KuaCjeYzYEPxkD/PkxEoOUOEpDSXao2gSZ5fNV
-	y2r2DTZTvmnVMIM7EDLOTJKm80si4Z51/LIYtXbCGrLWy68gBkSfDd3begZfr1Tl9UpTgOTCJY8k3
-	larcZFhBbwn6Ob9lxog2bbdoGpydWJoRKteQBRuuG59KTjRkgsoB1omyQ2EO0LFmGAFwi8y4O91SP
-	UuCvmx/NcPNmSfXVwpJq08KpkIpKycDMtaozxfkO3MZka5q8HtenV+xPq1+8eNV+rO49xWD9L4NcB
-	YfFZfRSg==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wNsMf-004kzr-03;
-	Fri, 15 May 2026 13:14:05 +0000
-Date: Fri, 15 May 2026 06:13:58 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: linmiaohe@huawei.com, akpm@linux-foundation.org, david@kernel.org, 
-	ljs@kernel.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, shuah@kernel.org, nao.horiguchi@gmail.com, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, liam@infradead.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v7 2/6] mm/memory-failure: surface unhandlable kernel
- pages as -ENOTRECOVERABLE
-Message-ID: <agcbfLHT5ZWnNeN0@gmail.com>
-References: <agXcPleVC9LGVCmj@gmail.com>
- <20260515070353.87244-1-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s4kOdYLl"
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1309f4ee97fso11552738c88.1
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 06:24:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778851494; cv=none;
+        d=google.com; s=arc-20240605;
+        b=lLD2mJRBNMiBsH4gIdzT77xJz/oBw97k+R05yYQDC6cht31PHNjUd7jypxVIF3dcnO
+         iDTPnDnVSRMC1ALnbR/tsOd3hLBTq+PsxFvnJA1g/1mNa80dV58FbFkWBhY+1acJGThL
+         8skhnqUBuJTqcvimSFgOTUDOzDNUAU4LlSp5mboayT9+J8pHR2jFu++ltBuXeyhAP6pb
+         b/TU5IFdODhovyNWviotYBSseatrcNNOqSxB4Cx+/Aya+jwTClV7S2F9uyZWpfeDZ5nh
+         S+iSNjqEX/MbKJk9G/zRVZTU3wYnd2KMjwvOOvogVyCWpKSw15vGYbE5eUJqqkd3yMe5
+         tTYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=kJkIJ9MSSyAx7AMR5IamH1iN68B4UTFJP9CxVTr4bw8=;
+        fh=yGqYOJDjMHgys+/2v6lNgG64dPdzDA6A2L7kppKaYmg=;
+        b=BHbHOnqUUeVtOuqfGdyPz3a38Muv7nGDzCb9X/ppmwIbBzaLzdcghRZNx4wJ3r9sig
+         ySMjhzP9JgITueFJy7CITiie3riIqeGEhuToOcc7DOEbrLymk4wfapGmKCgLzrlUquR7
+         CCtwx8y56sFQXzv2gwfS+x+SDNe8TCR34HNgdPlfZr3ZEtOctYc13kkHKXNTRjda9VSH
+         5lKkbKluGA+KMG2SqyEyQ7pauuxK1b9iiB0ms1p6Ojn3gaFOOIBdyyn78IsCx2aPDuNc
+         jQmISf4bXoGaMnLPWfJCq0pA3RO8jUFStdHcEkxliKLHl57KqmzERTZTnTo8PtH9wBUj
+         DQkA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778851494; x=1779456294; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kJkIJ9MSSyAx7AMR5IamH1iN68B4UTFJP9CxVTr4bw8=;
+        b=s4kOdYLl+H/jtAnbqbvOEB+dbYZp7Repr3O/lj/BO58Ty493AoK2/dmP8jzC0OnQhA
+         lknsCDwovXEvLM5NM7I28D7thoVsrpyH3YKXxh78fBybR7DQcs27zq1m/mCLT1m+tJzJ
+         JKOQ2Njjrmv5n2/5l3iMLrOl3+LHxwD4n6ab/ES59MLGWdlRKpAQ4nv9HR+OzE4vGm0s
+         RIWP6tJs63VCihku14pdJ5eAp1zDPxsRxO4DrARLWMQqLUSyAbgKtyrPGd5B+/xu+Eta
+         FW5TyW3w0PfMLVUCb9hu3Tzja86RsBuif4pWoC7p4LDSmyvh6kMTu5+RDJxmcaaXfe/x
+         xexQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778851494; x=1779456294;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kJkIJ9MSSyAx7AMR5IamH1iN68B4UTFJP9CxVTr4bw8=;
+        b=VQ6IPPRnhvo1qlODWwvHGpwGalx+S39X/UE9cSik+kNRzhED1ErPzbcKhSirK9zXaE
+         GuzZyMG//XTRxOSFAGFa9OBLjlJ3Ze/IoR75Vve7E6+GYu6VcBo2Re37/uOcMo3xT6SW
+         pXrlDAOb7i6ye6D6w/wECfczWW0jOKNNbygfgKAtElcqiR/uJee5wdAollIKvlSvSed5
+         2WLOjk/7LvHvlV+Dggm5VLbaezU1FWsAg99omF8oKfQ9Qx2dzKnVed9cQiJiInoQHLjA
+         wgv0ElEdwJRgf7Xg2Twtx4OqrWsbTSIqM/7zo4WrjeKyO+EZwrqd2RchqnpBJ7bAlIpk
+         ZkVg==
+X-Forwarded-Encrypted: i=1; AFNElJ/j9DnsfV7Lapn90gF1jePipM3RMk47sB4y1kLkp8HfEZR/q2jVMAwOCux514dYNsQ6n8adeMFH5sw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFVTImWEMCmm9zCfdJV85CXnx66qJvxyw9nk/GbZkeYWvi8MIw
+	SAmr5Lj+lCMJ0BR+uvdXoDytO/RggehCUmKULawCvhglBVmY7O+Pc9MztjbteS1Yo/heOsB/c8F
+	i/oeAhY1r8+bMpfRHvHj5JKcuyJ6+dmscgNlCt/iD
+X-Gm-Gg: Acq92OGvI6i8gSZGA0+B7Ve7GMsyE1mM3oQfNNhZHvcPsDLTuHriNl6JauLxrvjT3Ib
+	tPcXUULYwu0D/g3c5VOGd1F4BN3eazsXMPPYvqr+rLnF9z1MkK31kWVI1t26e6qP9RfdzKsBwZb
+	wwLJUsS5nX3Jmjt2WsSqTaILpjAeBWLly9vvsGH9m1kdbGV5L8LWOdZCe6wA0kQ8PpGxN7YK0AL
+	NWTQ/dNTxE6BTL++mWxWCSJkknIslRgyjSSOv5yCTgQxrQQXFRb+15Irs//TXxhFbK7s8VZ9u46
+	k6xbIO5jylKNsHqFJouZ4ZkVWQeHn/HtFoMyWU6vErkREmvV
+X-Received: by 2002:a05:7022:62aa:b0:12a:72af:83d2 with SMTP id
+ a92af1059eb24-1350441d7ccmr1656610c88.14.1778851492906; Fri, 15 May 2026
+ 06:24:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260515070353.87244-1-lance.yang@linux.dev>
-X-Debian-User: leitao
+References: <20260511200136.3201646-1-elver@google.com> <560a84ed-7daf-4a78-a314-b867c73bce22@kernel.org>
+In-Reply-To: <560a84ed-7daf-4a78-a314-b867c73bce22@kernel.org>
+From: Marco Elver <elver@google.com>
+Date: Fri, 15 May 2026 15:24:16 +0200
+X-Gm-Features: AVHnY4IK86MdHMyPl5dB4zdZDdnYGN0oaLGQAymJ1xrwo4kBW5Idcq4vVdQ8Oeg
+Message-ID: <CANpmjNNHXvv8ruFGHzvom5V0mwmaoBoBenvt=ZLnEDmEy8dYeA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] slab: support for compiler-assisted type-based
+ slab cache partitioning
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Bill Wendling <morbo@google.com>, 
+	David Hildenbrand <david@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
+	Justin Stitt <justinstitt@google.com>, KP Singh <kpsingh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Matteo Rizzo <matteorizzo@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Mike Rapoport <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Suren Baghdasaryan <surenb@google.com>, linux-hardening@vger.kernel.org, 
+	Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@gentwo.org>, Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>, 
+	"Liam R. Howlett" <liam@infradead.org>, Alexander Potapenko <glider@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, kasan-dev@googlegroups.com, llvm@lists.linux.dev, 
+	GONG Ruiqi <gongruiqi1@huawei.com>, Jonathan Corbet <corbet@lwn.net>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 15, 2026 at 03:03:53PM +0800, Lance Yang wrote:
-> 
-> On Thu, May 14, 2026 at 07:37:14AM -0700, Breno Leitao wrote:
-> >On Thu, May 14, 2026 at 09:28:30PM +0800, Lance Yang wrote:
-> >> 
-> >> On Wed, May 13, 2026 at 08:39:33AM -0700, Breno Leitao wrote:
-> >> >get_any_page() collapses three different failure modes into a single
-> >> >-EIO return:
-> >> >
-> >> >  * the put_page race in the !count_increased path;
-> >> >  * the HWPoisonHandlable() rejection that bounces out of
-> >> >    __get_hwpoison_page() with -EBUSY and exhausts shake_page() retries;
-> >> >  * the HWPoisonHandlable() rejection that goes through the
-> >> >    count_increased / put_page / shake_page retry loop.
-> >> >
-> >> >The first is transient (the page is racing with the allocator).  The
-> >> >second can be either transient (a userspace folio briefly off LRU
-> >> >during migration/compaction) or stable (slab/vmalloc/page-table/
-> >> >kernel-stack pages).  The third describes a stable kernel-owned page
-> >> >that the count_increased=true caller already held a reference on.
-> >> >
-> >> >Distinguish them on the return path: keep -EIO for both the put_page
-> >> >race and the -EBUSY-after-retries branch (shake_page() cannot drag a
-> >> >folio back from active migration, so we cannot prove the page is
-> >> >permanently kernel-owned from there), keep -EBUSY for the allocation
-> >> >race (unchanged), and return -ENOTRECOVERABLE only from the
-> >> >count_increased-true HWPoisonHandlable() rejection that exhausts its
-> >> >retries -- the caller's reference is structural evidence that the
-> >> >page is owned by the kernel.
-> >> >
-> >> >Extend the unhandlable-page pr_err() to fire for either errno and
-> >> >update the get_hwpoison_page() kerneldoc.
-> >> >
-> >> >memory_failure() still folds every negative return into
-> >> >MF_MSG_GET_HWPOISON via its existing "else if (res < 0)" branch, so
-> >> >this patch is a no-op for users of memory_failure() and only changes
-> >> >the errno that soft_offline_page() can propagate to its callers.  A
-> >> >follow-up wires the new return code through memory_failure() and
-> >> >reports MF_MSG_KERNEL for the unrecoverable cases.
-> >> >
-> >> >Suggested-by: David Hildenbrand <david@kernel.org>
-> >> >Signed-off-by: Breno Leitao <leitao@debian.org>
-> >> >---
-> >> > mm/memory-failure.c | 18 +++++++++++++++---
-> >> > 1 file changed, 15 insertions(+), 3 deletions(-)
-> >> >
-> >> >diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> >> >index 49bcfbd04d213..bae883df3ccb2 100644
-> >> >--- a/mm/memory-failure.c
-> >> >+++ b/mm/memory-failure.c
-> >> >@@ -1408,6 +1408,15 @@ static int get_any_page(struct page *p, unsigned long flags)
-> >> > 				shake_page(p);
-> >> > 				goto try_again;
-> >> > 			}
-> >> >+			/*
-> >> >+			 * Return -EIO rather than -ENOTRECOVERABLE: this
-> >> >+			 * branch is also reached for pages that are merely
-> >> >+			 * off-LRU transiently (e.g. a folio in the middle
-> >> >+			 * of migration or compaction), which shake_page()
-> >> >+			 * cannot drag back.  The caller cannot prove the
-> >> >+			 * page is permanently kernel-owned from here, so
-> >> >+			 * keep it on the recoverable errno.
-> >> >+			 */
-> >> > 			ret = -EIO;
-> >> > 			goto out;
-> >> > 		}
-> >> >@@ -1427,10 +1436,10 @@ static int get_any_page(struct page *p, unsigned long flags)
-> >> > 			goto try_again;
-> >> > 		}
-> >> > 		put_page(p);
-> >> >-		ret = -EIO;
-> >> >+		ret = -ENOTRECOVERABLE;
-> >> > 	}
-> >> > out:
-> >> >-	if (ret == -EIO)
-> >> >+	if (ret == -EIO || ret == -ENOTRECOVERABLE)
-> >> > 		pr_err("%#lx: unhandlable page.\n", page_to_pfn(p));
-> >> > 
-> >> > 	return ret;
-> >> >@@ -1487,7 +1496,10 @@ static int __get_unpoison_page(struct page *page)
-> >> >  *         -EIO for pages on which we can not handle memory errors,
-> >> >  *         -EBUSY when get_hwpoison_page() has raced with page lifecycle
-> >> >  *         operations like allocation and free,
-> >> >- *         -EHWPOISON when the page is hwpoisoned and taken off from buddy.
-> >> >+ *         -EHWPOISON when the page is hwpoisoned and taken off from buddy,
-> >> >+ *         -ENOTRECOVERABLE for stable kernel-owned pages the handler
-> >> >+ *         cannot recover (PG_reserved, slab, vmalloc, page tables,
-> >> >+ *         kernel stacks, and similar non-LRU/non-buddy pages).
-> >> 
-> >> Did you test this patch series? I don't see how we ever get to
-> >> -ENOTRECOVERABLE there ...
+On Thu, 14 May 2026 at 11:01, Vlastimil Babka (SUSE) <vbabka@kernel.org> wrote:
+>
+> On 5/11/26 22:00, Marco Elver wrote:
+> > Rework the general infrastructure around RANDOM_KMALLOC_CACHES into more
+> > flexible KMALLOC_PARTITION_CACHES, with the former being a partitioning
+> > mode of the latter.
 > >
-> >Yes, I did. I am using the following test case:
-> 
-> Okay.
-> 
-> >https://github.com/leitao/linux/commit/cfebe84ddeab5ac34ed456331db980d57e7025dc
+> > Introduce a new mode, KMALLOC_PARTITION_TYPED, which leverages a feature
+> > available in Clang 22 and later, called "allocation tokens" via
+> > __builtin_infer_alloc_token() [1]. Unlike KMALLOC_PARTITION_RANDOM
+> > (formerly RANDOM_KMALLOC_CACHES), this mode deterministically assigns a
+> > slab cache to an allocation of type T, regardless of allocation site.
 > >
-> >	# RUN_DESTRUCTIVE=1 tools/testing/selftests/mm/hwpoison-panic.sh
-> >	# enabling /proc/sys/vm/panic_on_unrecoverable_memory_failure
-> >	# injecting hwpoison at phys 0x2a00000 (Kernel rodata)
-> >	# expecting kernel panic: 'Memory failure: <pfn>: unrecoverable page'
-> >	[  501.113256] Memory failure: 0x2a00: recovery action for reserved kernel page: Ignored
-> >	[  501.113956] Kernel panic - not syncing: Memory failure: 0x2a00: unrecoverable page
+> > The builtin __builtin_infer_alloc_token(<malloc-args>, ...) instructs
+> > the compiler to infer an allocation type from arguments commonly passed
+> > to memory-allocating functions and returns a type-derived token ID. The
+> > implementation passes kmalloc-args to the builtin: the compiler performs
+> > best-effort type inference, and then recognizes common patterns such as
+> > `kmalloc(sizeof(T), ...)`, `kmalloc(sizeof(T) * n, ...)`, but also
+> > `(T *)kmalloc(...)`. Where the compiler fails to infer a type the
+> > fallback token (default: 0) is chosen.
 > >
+> > Note: kmalloc_obj(..) APIs fix the pattern how size and result type are
+> > expressed, and therefore ensures there's not much drift in which
+> > patterns the compiler needs to recognize. Specifically, kmalloc_obj()
+> > and friends expand to `(TYPE *)KMALLOC(__obj_size, GFP)`, which the
+> > compiler recognizes via the cast to TYPE*.
 > >
-> >> Even with MF_COUNT_INCREASED, the first pass does:
-> >> 
-> >> 	if (flags & MF_COUNT_INCREASED)
-> >> 		count_increased = true;
-> >> 
-> >> 	[...]
-> >> 
-> >> 	if (PageHuge(p) || HWPoisonHandlable(p, flags)) {
-> >> 		ret = 1;
-> >> 	} else {
-> >> 		if (pass++ < GET_PAGE_MAX_RETRY_NUM) { <-
-> >> 			put_page(p);
-> >> 			shake_page(p);
-> >> 			count_increased = false;
-> >> 			goto try_again; <-
-> >> 		}
-> >> 		put_page(p);
-> >> 		ret = -ENOTRECOVERABLE;
-> >> 	}
-> >> 
-> >> Then we come back with count_increased=false:
-> >> 
-> >> try_again:
-> >> 	if (!count_increased) {
-> >> 		ret = __get_hwpoison_page(p, flags); <-
-> >> 		if (!ret) {
-> >> 		[...]
-> >> 		} else if (ret == -EBUSY) { <-
-> >> 		[...]
-> >> 			ret = -EIO;
-> >> 			goto out; <-
-> >> 		}
-> >> 	}
-> >> 
-> >> For slab/vmalloc/page-table pages, __get_hwpoison_page() returns -EBUSY:
-> >> 
-> >> 	if (!HWPoisonHandlable(&folio->page, flags))
-> >> 		return -EBUSY;
-> >> 
-> >> so they still seem to end up as -EIO ... Am I missing something?
+> > Clang's default token ID calculation is described as [1]:
 > >
-> >You are not, and thanks for catching this. I traced it again and the
-> >-ENOTRECOVERABLE branch is unreachable for slab/vmalloc/page-table pages
-> >exactly as you described. The __get_hwpoison_page() → -EBUSY → shake → retry
-> >loop catches them first and they exit as -EIO.
-> 
-> Wonder if it would be simpler to just do a positive check near the top
-> of get_any_page() instead. Something like:
-> 
-> static bool hwpoison_unrecoverable_kernel_page(struct page *page,
-> 						unsigned long flags)
+> >    typehashpointersplit: This mode assigns a token ID based on the hash
+> >    of the allocated type's name, where the top half ID-space is reserved
+> >    for types that contain pointers and the bottom half for types that do
+> >    not contain pointers.
+> >
+> > Separating pointer-containing objects from pointerless objects and data
+> > allocations can help mitigate certain classes of memory corruption
+> > exploits [2]: attackers who gains a buffer overflow on a primitive
+> > buffer cannot use it to directly corrupt pointers or other critical
+> > metadata in an object residing in a different, isolated heap region.
+> >
+> > It is important to note that heap isolation strategies offer a
+> > best-effort approach, and do not provide a 100% security guarantee,
+> > albeit achievable at relatively low performance cost. Note that this
+> > also does not prevent cross-cache attacks: while waiting for future
+> > features like SLAB_VIRTUAL [3] to provide physical page isolation, this
+> > feature should be deployed alongside SHUFFLE_PAGE_ALLOCATOR and
+> > init_on_free=1 to mitigate cross-cache attacks and page-reuse attacks as
+> > much as possible today.
+> >
+> > With all that, my kernel (x86 defconfig) shows me a histogram of slab
+> > cache object distribution per /proc/slabinfo (after boot):
+> >
+> >   <slab cache>      <objs> <hist>
+> >   kmalloc-part-15    1465  ++++++++++++++
+> >   kmalloc-part-14    2988  +++++++++++++++++++++++++++++
+> >   kmalloc-part-13    1656  ++++++++++++++++
+> >   kmalloc-part-12    1045  ++++++++++
+> >   kmalloc-part-11    1697  ++++++++++++++++
+> >   kmalloc-part-10    1489  ++++++++++++++
+> >   kmalloc-part-09     965  +++++++++
+> >   kmalloc-part-08     710  +++++++
+> >   kmalloc-part-07     100  +
+> >   kmalloc-part-06     217  ++
+> >   kmalloc-part-05     105  +
+> >   kmalloc-part-04    4047  ++++++++++++++++++++++++++++++++++++++++
+> >   kmalloc-part-03     183  +
+> >   kmalloc-part-02     283  ++
+> >   kmalloc-part-01     316  +++
+> >   kmalloc            1422  ++++++++++++++
+> >
+> > The above /proc/slabinfo snapshot shows me there are 6673 allocated
+> > objects (slabs 00 - 07) that the compiler claims contain no pointers or
+> > it was unable to infer the type of, and 12015 objects that contain
+> > pointers (slabs 08 - 15). On a whole, this looks relatively sane.
+> >
+> > Additionally, when I compile my kernel with -Rpass=alloc-token, which
+> > provides diagnostics where (after dead-code elimination) type inference
+> > failed, I see 186 allocation sites where the compiler failed to identify
+> > a type (down from 966 when I sent the RFC [4]). Some initial review
+> > confirms these are mostly variable sized buffers, but also include
+> > structs with trailing flexible length arrays.
+> >
+> > Link: https://clang.llvm.org/docs/AllocToken.html [1]
+> > Link: https://blog.dfsec.com/ios/2025/05/30/blasting-past-ios-18/ [2]
+> > Link: https://lwn.net/Articles/944647/ [3]
+> > Link: https://lore.kernel.org/all/20250825154505.1558444-1-elver@google.com/ [4]
+> > Link: https://discourse.llvm.org/t/rfc-a-framework-for-allocator-partitioning-hints/87434
+> > Acked-by: GONG Ruiqi <gongruiqi1@huawei.com>
+> > Co-developed-by: Harry Yoo (Oracle) <harry@kernel.org>
+> > Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+> > Signed-off-by: Marco Elver <elver@google.com>
+>
+> Applied [1] to slab/for-next, thanks. That means including the kernel-doc
+> workarounds in patch 3. I know Jon said someone might hate it, but maybe it
+> will motivate them for creating a proper fix :) It seems better than leaving
+> doc generation broken or not applying this series at all.
 
-Ack. We probably want to call it something like HWPoisonKernelOwned() to
-follow the same naming sematics of these helpers, such as HWPoisonHandlable()
+Thanks!
 
-By the way, I will re-include the self test back to this patch series,
-In case they are not useful, we do not merge it.
+> https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git/log/?h=slab/for-7.2/alloc_token
+>
+> I did the following fixup to remove passing an unnecessary NULL argument for
+> __kmalloc_nolock() with buckets enabled. Made bloat-o-meter happier a bit.
 
-Thanks for the review,
---breno
+Good.
+
+> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> index c232f8a10af6..795455256329 100644
+> --- a/include/linux/slab.h
+> +++ b/include/linux/slab.h
+> @@ -894,7 +894,7 @@ unsigned int kmem_cache_sheaf_size(struct slab_sheaf *sheaf);
+>   * with the exception of kunit tests
+>   */
+>
+> -void *__kmalloc_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags)
+> +void *__kmalloc_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t flags)
+>                                 __assume_kmalloc_alignment __alloc_size(1);
+>
+>  void *__kmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags, int node)
+> @@ -981,7 +981,7 @@ static __always_inline __alloc_size(1) void *_kmalloc_noprof(size_t size, gfp_t
+>                                 kmalloc_caches[kmalloc_type(flags, token)][index],
+>                                 flags, size);
+>         }
+> -       return __kmalloc_noprof(PASS_KMALLOC_PARAMS(size, NULL, token), flags);
+> +       return __kmalloc_noprof(PASS_TOKEN_PARAMS(size, token), flags);
+>  }
+>  #define kmalloc_noprof(...)                    _kmalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
+>  #define kmalloc(...)                           alloc_hooks(kmalloc_noprof(__VA_ARGS__))
+> diff --git a/mm/slub.c b/mm/slub.c
+> index a6e9015601d6..74652bbdd591 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -5303,10 +5303,10 @@ void *__kmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags, in
+>  }
+>  EXPORT_SYMBOL(__kmalloc_node_noprof);
+>
+> -void *__kmalloc_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags)
+> +void *__kmalloc_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t flags)
+>  {
+> -       return __do_kmalloc_node(size, PASS_BUCKET_PARAM(b), flags,
+> -                                NUMA_NO_NODE, _RET_IP_, PASS_TOKEN_PARAM(token));
+> +       return __do_kmalloc_node(size, NULL, flags,  NUMA_NO_NODE, _RET_IP_,
+> +                                PASS_TOKEN_PARAM(token));
+>  }
+>  EXPORT_SYMBOL(__kmalloc_noprof);
+
+Reviewed-by: Marco Elver <elver@google.com>
+
+Thanks!
