@@ -1,242 +1,222 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870593EFFD8
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 16:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778861113; cv=none; b=RfHs6e9j5jTfhFSVtq0EkiK2vTBIk0p26Y5kXXrGG84nDvFvCjKjPNmylDbAXdRe/oZVHVbv/T4wT3a8PZAGq/DIDabajCOOFTwNR+LrW2lFGf/bj4ZCPYfkwoOHXJ3LG/6uJMfjBikj+jTV+IJtSLCrANdnSArhiLh1WWg3OKI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778861113; c=relaxed/simple;
-	bh=b5pd97Ki+/XAUp6J5p3HNpRMAnmllhdnuVwxI2OEYhs=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h/8Ty5ILciheAxI4imlg7tSgkGgeEap0eT6t3UWxBYYxaOqwihYGVMFOKoH73TDajsgbOUQaZHOEyCYN8fB6iyzI2ip6VlaIe1vkMTTxiBEljx4gKhmNRSh9Q7Gf37Fcz+0E34NLyAVbG2GRqNf4YgKOyTbDDp3wTYA/6Aj8LQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hp4DJTo9; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254B13FF1D8;
+	Fri, 15 May 2026 16:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778862936; cv=fail; b=NgpRzfDn1JxcUCadYhPorUHj+OVkd+zROpYnLja5RDh/4GbW3J0VsXFqJYTCZcaYM0pQLyAQQJroCT0wkUX3pGe5GVal3K9ewUL9iw0MOOHt/Bo3+k2aLyTPY3/BRKqwPUZQh0Q239+n7WD5Xv3JFiLNzctqhUiMczKOKANbJts=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778862936; c=relaxed/simple;
+	bh=QibKg2L+rZ+CEYl7+AVPx2YCvVBQrWjP8Q+sMFKYt3U=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RwBEVIbqsGHQARZ+jXTWFbG24esHnD0YPD9PirExsJZrRMzn6uh8EPqLYDnjie3l0XgOKM8Vu42njTBawl9HFC1U9aKw6fcwhBLA081tc7O/i52gycUyrUeMM72zTa2AuDu+7SGFAY5JjE6dtPD65lh58PcKobOqSUYyRsfN2eQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCv0k/bD; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hp4DJTo9"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48374014a77so81134325e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 09:05:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778861110; x=1779465910; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QJEHw+NfjmamzJ6e+wpSFeRm2Y9ZjDhLNyEd/6LMzgY=;
-        b=Hp4DJTo9/dal9rKDfqruemL6qWUHBIxzK+15BqFeM+cHOaTO7tTP4IUgkmaqys+1Xi
-         aJCK4+0GNKj+cyXtrMq0lW5tGV2QfcQDPABZ5pFmSDZUD0Mw10f5HdB5/s0QkCFf4TfK
-         qNNlhGG6hU3AeRW+5KrpkRbYDeW3nuhV5RFGI8F8Tb1ijyCDBgOMsqpjfcoGPxqkaguw
-         Vocbee+LUBXPhkPd2g52aQr1HxytgMpikYSWUPKRBzTQKXn3/xNv7wrhiN9yREhq3qLY
-         kqfRgzyOfjSnlhIXW7YAFV4Ly+qGrv81faAiMGugle5QPVWArhlzlr9YJV+AV5sIdCpl
-         QuHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778861110; x=1779465910;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QJEHw+NfjmamzJ6e+wpSFeRm2Y9ZjDhLNyEd/6LMzgY=;
-        b=CNr0bgUvmy493X+nwpvW61gH7ufDifMafQdcXHn1CJdgmNoPdYswu/oHFhRiKjVfHp
-         uTa2RkBfBhCw7a2YJWXkntiFrRINVDMrZbWpzf6ggL7NCaeiClL7ZcuUiYIElYis5NOX
-         L6rPUnVRdRvP1ZUhahFJaOKSv29SBenReWrOZ9xIrJZMz2pqhfljGmWnwxRV22JxF3Ku
-         W7AHKL4+bRS0HiUId/g6ebRLMMVGFrL2Lx6NcpQcraI2wz5u+xZpDJ7thk/tFQu1QObL
-         UkyODmJNP4gW9gMKLJIvLCQQ/EHHXm9S2lLfMaEKYNm5ghQLvv3wVUy+24uyxSKQI4tP
-         124g==
-X-Forwarded-Encrypted: i=1; AFNElJ8sIqDQa0esM/uSII1yBgyMPYhjSot3yv/5G75Qi78tnRvUfCKeh1OraRisLfKSILiaMInVnocDHac=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPKZQHRLlAk/gji5KBMvOSPmDVbjF2lRZz7E1RDE8NJoQxaLZ3
-	a7mUc3RIgStePoWtg8qlBZK/cyL+VLUAqby6+mLLMcZit92hwcrqYZvU
-X-Gm-Gg: Acq92OEbOKNmC53NOh7jxNlzbEz0QjqrCo0tuCfdXxsTpW3bpcwbZ8fDnISt51SCbTa
-	4IS7GN1wBgKTGw1Xs7CU4JH4+0BmHV/NmKRDf/AR5U9+wcD2ZE8UUsPFazvyyM3o4LLNd3vr9wx
-	x5+oxXPEQ6nZzlOiVRRYZlwrY426h27G/ZpsrEQbVOP3012vhFlTO9+Me0Mo4OFHbI5HaiUPS3X
-	gQ0f9H7gva0HEHyAll/wM8NAKIlqBD1JO+gUH7AuVgzgq3m7gbQr0urXIF1dilRIICm/npD3Ovb
-	o+IhH5VIBzoZ202WLMlSAK6RI+OK7nv9yEnxtyBh0aBUF/GhGt7rCrE1NQIUWaG42Y96suMftkR
-	LtcDDH0oqNpR2y8DGBsgbPYAkW61+keYCy+hslsBoCNeAcas2GpRVw2C3+yglAxadTWEWVzH4G1
-	nkRKcnJ/MHGZ0rkybRYFx9eb1cjCeyCuGukFlyK9Wb8/5lUsWOSdDbzMYvcNsypjPy1nOAyekKO
-	UMQwAj8+8i9uvXO1ndNck45D0uFu4uMRsojYumdldlJreTRhw==
-X-Received: by 2002:a05:600c:8184:b0:489:1c1f:35f1 with SMTP id 5b1f17b1804b1-48fe60e1451mr65158195e9.4.1778861109715;
-        Fri, 15 May 2026 09:05:09 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febe67688sm21102505e9.5.2026.05.15.09.05.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 09:05:09 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Fri, 15 May 2026 17:05:06 +0100
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
-	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, David Laight <david.laight.linux@gmail.com>
-Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
- kstrtodec64()
-Message-ID: <ex6p5qpgsfvm5wzalpwo7whcj4m4uxzscpzxvb5ihfu2prx3fj@7skhmz3cbshw>
-References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
- <20260510-adf41513-iio-driver-v12-2-34af2ed2779f@analog.com>
- <kwjoyikbygik4futknqpua2tlzokradms25n2dmfa5czyj2uts@4rdfl6zlul2q>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCv0k/bD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778862934; x=1810398934;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=QibKg2L+rZ+CEYl7+AVPx2YCvVBQrWjP8Q+sMFKYt3U=;
+  b=SCv0k/bDhp41t2+n3ClJ9huWNK7b4XAQ6JWrKF0MdKhr3YfrjUP44myu
+   IPInl5pVgbkA6jaaUryXiWZcpzcY9dQl3BGC4Rvjzu1PSAnC0MKlqQWlv
+   3fm/dUYJoQQBRuFdeWIow8ZflkG0iZEhR11Q+VFSaaBseX5pXwmugqfsW
+   TAhNQQThMK08s3j1j+Bz844WAF9XvXFv/f+ch0yoDEhqwMlMi6vFzbcm2
+   12WO6CD7U4/JMY1GiKrt3X6MaW+9zxCKAtfzPWbYRtyZGnWNGZxAGs6hm
+   6+Jsz8Tc4UpnG69/GkiiBs1SgoXbkTurwHdtZ0MvPIBQb1LE78RTLRt9T
+   Q==;
+X-CSE-ConnectionGUID: HcaKGJDdSKWkxtQ3KOeptw==
+X-CSE-MsgGUID: gdSLnz8WQYeuzWCM4dc9zQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="91206638"
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="91206638"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 09:35:33 -0700
+X-CSE-ConnectionGUID: Ys+UWimsQoas2NxpMWkkvw==
+X-CSE-MsgGUID: VTYFt0qTROybT0KkDSn5dw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="232336269"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 09:35:32 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 15 May 2026 09:35:32 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Fri, 15 May 2026 09:35:32 -0700
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.7) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 15 May 2026 09:35:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jBWDNhMINfn3b7YXnE1eE9UNv/rmoBj53RMScccri5mq8jmtOYQ8+P3AUHzVgmGS1gEhnuI6Z9pQcw13EHTlkOw7fKgwKGwC1TYd4wjlL+WvT8i04pHg7br38B+nYrv9XLwZCeg/P1N0dVLxGUtFpPxJ/xXP6RiGEjwtQXPAO0J9Yk1ukDDdzzaa5gkZlMsP7zpgh0dJ+MxHjZOS/NkcN+2E55NyKt6edNvcUOfwPg9KyOPT0/JZKr5mj44SHTWbbosud7aomzTy8ufs5lbyf7K3RDHrVcH8JKe6PJ0TFmkVH9ExwJ0GP4r/NM9OnsiRHkN5bI7iFDv2wIxROXhhCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EtozhwmppTXoxLAzeIXE1foeVIdwrkfR5EMxCC6n2rs=;
+ b=SC7LShKxqj856E0M0ByPyhcq/xGUIVwQbn719WEB0WycESz+OmwATmtx0yKmvfttQdETqsMkxyHLFqs+d7PdwIqTE6OYICJWTDoUXo3ecVl7AyWOvHcmko4ibi8vr0tRJ5WSN969Ph3xBQ1uOBvDRlCvPd2DzUfSM7GRxkQU9xcbXePxFHnaZlvhjr8/OJGVLYiY9oJGa2hNCmRVJiAR+i40dckFixq27H4+JdeMLE9AbXCD7ymSyhrIXi9gt1bh4sMEaR/nxhFhcwQoQgwWlbWoXDDVXcb/1LmdtE8g48H528tmzT4bWQrIz0RGhZ1pobXlQekrC2WL+z06hnkxMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
+ by SA2PR11MB5052.namprd11.prod.outlook.com (2603:10b6:806:fa::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.12; Fri, 15 May
+ 2026 16:35:27 +0000
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc%4]) with mapi id 15.20.9891.021; Fri, 15 May 2026
+ 16:35:26 +0000
+Message-ID: <f92d0db9-1d6d-43fe-8a8d-893aee75b389@intel.com>
+Date: Fri, 15 May 2026 09:35:22 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] x86/resctrl: Support for AMD Global (Slow) Memory
+ Bandwidth Allocation
+To: "Moger, Babu" <bmoger@amd.com>, Babu Moger <babu.moger@amd.com>,
+	<corbet@lwn.net>, <tony.luck@intel.com>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<rdunlap@infradead.org>, <dapeng1.mi@linux.intel.com>, <kees@kernel.org>,
+	<elver@google.com>, <lirongqing@baidu.com>, <ebiggers@kernel.org>,
+	<paulmck@kernel.org>, <seanjc@google.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <nikunj@amd.com>,
+	<yazen.ghannam@amd.com>, <peterz@infradead.org>, <chang.seok.bae@intel.com>,
+	<kim.phillips@amd.com>, <thomas.lendacky@amd.com>, <naveen@kernel.org>,
+	<elena.reshetova@intel.com>, <xin@zytor.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
+	<peternewman@google.com>
+References: <cover.1776980182.git.babu.moger@amd.com>
+ <cb8272dc-4419-45a9-8cb4-110c803e62ee@intel.com>
+ <797e863c-211b-46b8-b404-de53f8453527@amd.com>
+ <8939476b-1e1b-4aed-88a3-5b8764a63030@intel.com>
+ <3bc59b3e-4506-4489-a424-6e7f91232af1@amd.com>
+ <67782399-2d96-4207-8ee6-815bd0c4104b@amd.com>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <67782399-2d96-4207-8ee6-815bd0c4104b@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW3PR06CA0021.namprd06.prod.outlook.com
+ (2603:10b6:303:2a::26) To SJ2PR11MB8370.namprd11.prod.outlook.com
+ (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <kwjoyikbygik4futknqpua2tlzokradms25n2dmfa5czyj2uts@4rdfl6zlul2q>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|SA2PR11MB5052:EE_
+X-MS-Office365-Filtering-Correlation-Id: a2069efc-667d-4b7b-4e77-08deb29ff7a1
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|11063799003|56012099003|18002099003|22082099003|3023799003|4143699003;
+X-Microsoft-Antispam-Message-Info: 5pdiaFpxVYaHoAsHl3WgK14m8HJjRdNev/8i6HH0QVEoSzGblemwROh2lVkbRxPO3qhzxP9L4b8tr3MZTSCHa5nWaptBUad8xL7bsj5VfEEuC3FEKq0SmB/RWr2myQB+gIsL8aaOdT2Gh0RYKsNiDii8JQAOAGlAxoWQFlNGaSeQ6DDAeudmJ1fBrzE0EanxfE+KL82CAotlWd9Iq2WBOH9fuNPtKV84M0+RHvd2yH5BrT/jNLaC27IMxD26KC/4yHpnYC8nC+y1Jmzl1pVLDMD5LgKcyBmE0UUug976lV7+eybQB2z4rWdqUQCMX5AQni8sk3RPaCKSpfUOGdyGo5p3axiMDZG4gDp+S/+hCIF/Pw5xOJSiPAIcG6I1CQP7Wxhymf/TF496/690hFfOiJJn/URo1CDELIawSemGUQOyop3nH4kGXu9DW50l+HlUZN1jAFSTvMr5v4RdEiYVwhBeVLaKEfeXYoqT9dIFwj/DAFjE2XLjS6spEMYXCIfouP1SC7cj4J873r+iznu2PmAuiKI3HzCCmTwR4E2X51MOLbQPBCqD2J3szTBODweoza7qf7tkyKZQ8ce++Gk5ljg0nAzMiIpj6tLGsqoNY79S9dnHJdyu8mlDvwsOCFsuV5Lise2hD8d3jtsnHi7Rh2aWYg57wfmvfnUhB2AYDt0cDKjzQL8pzEK4BgvFzIskJSmMXCgjVECju6Qpam3/hA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(11063799003)(56012099003)(18002099003)(22082099003)(3023799003)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eGZyMCs4MFpmb0t3MURzVHVwdnd5dGZIL3g3S0hqQk1HeWVVM2EvUTdSazRv?=
+ =?utf-8?B?OUtKSVArUzdDUVdCQisyNWpSdzBsWWNLeXNtY3JIQjBHdnVibHQyeTNsdmlh?=
+ =?utf-8?B?ZWNNc0lqQzl2d3MzaDBiSzFsQXZ5Zm5yQ1hvVCswdUZQZVlrZCtlYkkyVmtN?=
+ =?utf-8?B?d2tLMXkzOVA0YklIRDFQcjV5NEl1N2loSXd5QlJEV3VDSHVzM2hWV0lPNnR0?=
+ =?utf-8?B?aExsaXZaZ2J4V3Uvc2lXSXVOUXUzdjJvQkIzZG4vZTNHOUFENHk4QVdaOVdh?=
+ =?utf-8?B?VEIraGRPek1sakNLR1ZqWWQyUWNjZ29EcTE3SDF6aXBmN296OHk0TDdjaUdm?=
+ =?utf-8?B?bWhadFVPV0ZkMzEzOEo2a1lGbitocjFSZ3NnOXpwaHdoOWl4Y1VETFZrdjlV?=
+ =?utf-8?B?TTgweU1KWGxvZGU5a0tCTzY1ek1ueWhIb2JiaHBaR21RZnVQdHRGQUVPVmFC?=
+ =?utf-8?B?NEgrSEhUekExRUJCVDZGNExEalBJdTY5MEJvT05yT05TVVhCRGpWZEpuNTUx?=
+ =?utf-8?B?eU9yaGgxU3RxcjdwbFNwaUl3ZHlVNUd1eWZIaXJQT2V4Y2VYVXh6T0pSUWR2?=
+ =?utf-8?B?UEgxeGtNUFpEV0lZWFEwUCttWHhnbHNnSDRKTDl2SHFWRjJZUEYzVjBHUVdI?=
+ =?utf-8?B?RlllQ3ZjWkhJTk94N0RvNWZVcmpFN3FZdzIrVXJ4aC81Y29uQ01pc0NxdXVj?=
+ =?utf-8?B?WmR5Rk5uZUw5Y0NvYUZLOUl3VXp4cDAvQTFrTTFVdkdaZmRhWWpUMXluRnZJ?=
+ =?utf-8?B?SmRnQzJzY1ZKSzRhTnJTRTBkZUdxbVJQWWJPdzdIakN6clpndVZVZm1GNnoy?=
+ =?utf-8?B?SVgvbHZza2Fvd0daTlA1MmFJRktTWXRjN2gxdXliODA0SEdrcjhDbXBRTmVQ?=
+ =?utf-8?B?V1dPWVFnOTlFY3VyaVJ2RDBDQW5DYTdnVEloUUZ2WXdXc0FVdmNPUDYyWjFB?=
+ =?utf-8?B?Um1Yb2FmcHJ6bnFWMXJVT2dPU3pLdlN4YThEMDU0QWw4NWVvZTVsSitQeWVY?=
+ =?utf-8?B?ZUZiTUdGa29kTE9ZbjMrUnpIRVNsdnhwYk80V0t2Y0NrTVdhYkcxVGtVSzdy?=
+ =?utf-8?B?V3JNY1g4Q0s4SFVuQUxFeHAxMHFtazhlWjhwem9jM0syUkJYTEJNdERaZGFy?=
+ =?utf-8?B?M0dTWmg1VXdaYXNNM2RrcUlhcnRGeDhkaVlJSXNLOTBsWGdRUGpVcytNQjgv?=
+ =?utf-8?B?aVdhcEF0R09qaHVyU2xjaUI4S0R5OTdkOUVtRXhFREVLR01VZDFIVXJHbHZw?=
+ =?utf-8?B?anp1OUJNUW9jekVJVTRBcE0xUDcxa1I2TlBpck5ndzRVUFZjakRiUGVrb0xu?=
+ =?utf-8?B?aS9IR1BObHIvQTZ3cmdCUkVtN0tndjMrSXpOMjc5a2FzOEhSai9HdHYyNk9N?=
+ =?utf-8?B?Q1Q5YjEvQlZXYmkvYVdqcXhtbU05cmVVdWlYaG9PZnNtTGJJeGo2dVpHV3B3?=
+ =?utf-8?B?dFBWZzFDOE10SXVBWDlway81YjBjVTZyQ2VnVHNIM2Y4V3ZRN0hpaGpWNXd2?=
+ =?utf-8?B?dGxBUUVOZzJPY0padlNQYXZnWDhvUnZlWGYwQklxajNQaWJoVHNUQ2lrR3hU?=
+ =?utf-8?B?SlM1aWVSTFNpdjZBNnFhVktDTnNHMWczNERwTENqQkh2VDdXQkZlQjQxbGpQ?=
+ =?utf-8?B?L2lZMG5HYWw0bUZkMFRVd3NXSkpQbmszR0JlWGZVOTZsMnMzMzl1SWlBVFFy?=
+ =?utf-8?B?U0FEUHZGZFJhRi9GVjBlZjJjdFZCczI2RWQvYVRjQWVxQytpZ0QrZVR6dHVE?=
+ =?utf-8?B?cjVQc3FES1RkLzFBQlByQTlpejlkbitvL0JKV2J2K1cvc2U2YkZsOE5EeDFh?=
+ =?utf-8?B?KzgvV3dpbFZTWTFTVjM3OVdQVXJDSWJsenA0Qmh5K0g0WlRNazhxc2tiWS9Q?=
+ =?utf-8?B?TWRJd0xDRDM5OURKc05XZk1kQ3JwVmNGOERJU1l0cWFxNDRYMlErcnhQMEg5?=
+ =?utf-8?B?OGsyWjVqVzYydFcybVpYdkt0bUN3dkd6MzIwRitMZWV5aGpQditVemhwQmp3?=
+ =?utf-8?B?VDZZYU5oa2tyb21scnJsVkViVWV5d2U4d2h4bDVGaTZUMmdyejJnZ3paODFw?=
+ =?utf-8?B?c1ZhdHRja3hVMm1CQVBxTTRpZ2g2VENKUTVpcTZxcHJheXpneDdZUlRPUlU5?=
+ =?utf-8?B?QnRxTWR4TE5mLzNMd3dPZjdJVnZsdGlKMElQZ3RRMExOcXhVVnE4ZXRpUWFY?=
+ =?utf-8?B?aUlEaWFNeEdRVGhuZlZGKzBxVXk3ZTYrZWhTWGI2YzFLM1ZWOE95QVJuK1Ay?=
+ =?utf-8?B?TnlYRXYwb0FJYndJWkUyMUpSSEJsZUJsY0dFV1hCdmJzbzJ6aFptZk5penA5?=
+ =?utf-8?B?UHROSjNwQ0IzWko2R2k5NGQ5a3k4OGQ2dHlERGxMYXRObEYrYjl5SXFPSVlK?=
+ =?utf-8?Q?KpLqPz2SS2YeC5cI=3D?=
+X-Exchange-RoutingPolicyChecked: kgNVyHsxVY4onAPdPGxp40nZvMlkdN9rVNx5zDg3HbfndrxFxbwHkFCScOZvXS37/eUXGI2+Ir24N0T/uStGM9TzAeeTC6rV0WO0zMwpFdQR08ie1gNb6bU2vRE4QZKX1Q5uA66y+Wq8zkAQQOSs5BxwBD7pzOTQy8CKt1wg5wxZR8nAp/UFBDZfMRnFFgzrrOo0x9KTrzc3pmtj6FbMtbj6qeYhZgFWQwPGy+HcmV1xLtumQqhkxo3176FUIASI/w1r6RxM0kZj6J6v3LWlV//lNl3+dX76FH7u4rnYP7Jf2wPXfAmnBlOVKxW/XXR8zv7DKbJr+2M2LBKQhWTVcA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2069efc-667d-4b7b-4e77-08deb29ff7a1
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2026 16:35:25.9996
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vBG9GY3fTspOCvSgdOyU+xAAkgILmbJGgBrNKre6q0t6M4L5CF0iDea2lXB7m0O0h/7WGkYgBbTIbQNq4zB3euYXgUHrPKNzjcaHXx4etJs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5052
+X-OriginatorOrg: intel.com
 
-On 26/05/13 10:41AM, Rodrigo Alencar wrote:
-> On 26/05/10 01:42PM, Rodrigo Alencar via B4 Relay wrote:
-> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > 
-> > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
-> > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
-> > precision). After the decimal point, digits beyond the specified scale
-> > are ignored.
-> 
-> Hi Andy,
-> 
-> I am starting over here, the other conversation is getting hard to follow.
-> This is my new proposal...
+Hi Babu,
 
-+cc David
+On 5/15/26 8:31 AM, Moger, Babu wrote:
+> On 5/1/2026 9:38 AM, Moger, Babu wrote:
+>> On 4/30/2026 6:40 PM, Reinette Chatre wrote:
+
+>>>>> Since there are so many dependencies on the new schema format support I am prioritizing this
+>>>>> and created a PoC that I am currently refining and hope to share soon. We can collaborate on this
+>>>>> to ensure that it provides a good foundation for the GMBA and GSMBA support.
+
+Above is comment from me indicating plans to share the PoC and goal to have it provide a foundation
+for GMBA and GSMBA.
+
+>>>>
+>>>> That is good to know. Let me know when you are ready.
+>>>>
+>>>> Could you please share which parts of the feature (e.g., Part 1, Part 2, etc.) you are planning to cover in your PoC?
+>>>
+>>> All three parts mentioned in https://lore.kernel.org/lkml/06a237bd- c370-4d3f-99de-124e8c50e711@intel.com/
+>>>
+>>> This does not address all the features discussed, for example it does not support emulated controls,
+>>> but I hope it is enough of a foundation to build on.
+>>
+>> Please share your code when you are ready. I can build GMB and GSMBA on top of your patches. Hopefully, I can reuse some of the code from this series.
+> 
+> I didn’t see your acknowledgment on my previous note, so I wanted to follow up to ensure we’re aligned.
+
+I did not think a response was necessary since it essentially rephrased my earlier comment and did not contain
+a question.
  
-> ...
-> 
-> > +static int _kstrtoudec64(const char *s, unsigned int scale, u64 *res)
-> > +{
-> > +	u64 _res = 0, _frac = 0;
-> > +	unsigned int rv;
-> > +
-> > +	if (scale > 19) /* log10(2^64) = 19.26 */
-> > +		return -EINVAL;
-> > +
-> > +	if (*s != '.') {
-> > +		rv = _parse_integer(s, 10, &_res);
-> > +		if (rv & KSTRTOX_OVERFLOW)
-> > +			return -ERANGE;
-> > +		if (rv == 0)
-> > +			return -EINVAL;
-> > +		s += rv;
-> > +	}
-> > +
-> > +	if (*s == '.' && scale) {
-> > +		s++; /* skip decimal point */
-> > +		rv = _parse_integer_limit(s, 10, &_frac, scale);
-> > +		if (rv & KSTRTOX_OVERFLOW)
-> > +			return -ERANGE;
-> > +		if (rv == 0)
-> > +			return -EINVAL;
-> > +		s += rv;
-> > +		if (rv < scale)
-> > +			_frac *= int_pow(10, scale - rv);
-> > +		while (isdigit(*s)) /* truncate */
-> > +			s++;
-> > +	}
-> > +
-> > +	if (*s == '\n')
-> > +		s++;
-> > +	if (*s)
-> > +		return -EINVAL;
-> > +
-> > +	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
-> > +	    check_add_overflow(_res, _frac, &_res))
-> > +		return -ERANGE;
-> > +
-> > +	*res = _res;
-> > +	return 0;
-> > +}
-> 
-> This function now becomes:
-> 
-> 	static int _kstrtoudec64(const char *s, unsigned int scale, u64 *res)
-> 	{
-> 		u64 _res = 0;
-> 		unsigned int rv_int, rv_frac;
-> 
-> 		rv_int = _parse_integer(s, 10, &_res);
-> 		if (rv_int & KSTRTOX_OVERFLOW)
-> 			return -ERANGE;
-> 		s += rv_int;
-> 
-> 		if (*s == '.')
-> 			s++; /* skip decimal point */
-> 
-> 		rv_frac = _parse_integer_limit_init(s, 10, _res, &_res, scale);
-> 		if (rv_frac & KSTRTOX_OVERFLOW)
-> 			return -ERANGE;
-> 		s += rv_frac;
-> 
-> 		if (!rv_int && !rv_frac && !isdigit(*s))
-> 			return -EINVAL; /* no digits at all */
-> 
-> 		while (isdigit(*s)) /* truncate digits */
-> 			s++;
-> 
-> 		if (*s == '\n')
-> 			s++;
-> 		if (*s)
-> 			return -EINVAL;
-> 
-> 		if (_res && (scale > (19 + rv_frac) || /* log10(2^64) = 19.26 */
-> 		    check_mul_overflow(_res, int_pow(10, scale - rv_frac), &_res)))
-> 			return -ERANGE;
-> 
-> 		*res = _res;
-> 		return 0;
-> 	}
-> 
-> The new thing here is _parse_integer_limit_init(), which is a local modified
-> helper that accepts an init value, so _parse_integer_limit() becomes:
-> 
-> 	unsigned int _parse_integer_limit(const char *s, unsigned int base,
-> 					  unsigned long long *p, size_t max_chars)
-> 	{
-> 		return _parse_integer_limit_init(s, base, 0, p, max_chars);
-> 	}
-> 
-> with init = 0:
-> 
-> 	static unsigned int _parse_integer_limit_init(const char *s, unsigned int base,
-> 						      unsigned long long init,
-> 						      unsigned long long *p,
-> 						      size_t max_chars)
-> 	{
-> 		unsigned long long res;
-> 		unsigned int rv;
-> 
-> 		res = init;
-> 		/* ...
-> 		 * the rest is the same implementation as _parse_integer_limit()
-> 		 * ...
-> 		 */
-> 		return rv;
-> 	}
-> 
-> That allows to accumulate the final value into the same variable, which makes
-> things simpler and decreases the amount of overflow checks.
-> 
-> The scale can now be a bigger value, like 0.00000000000000000000000000000000423
-> can be parsed with scale = 35, resulting into 423.
-> 
-> The truncation loop is still there... I think this implementation is better,
-> and I am not sure what is the input limit that you would consider ok to allow
-> non-zero digits to be truncated once the scale can now be something bigger than 19.
-> As long as the output fits into a u64 variable, the parser still works.
+> Just to confirm—are you planning to share your PoC?
 
-The truncation loop is at least stricting the input on digits!
-Any comments on that?
+Yes. The fixes needed in existing resctrl code are taking higher priority though.
 
 > 
-> I am also adding new test cases for that!
+> My understanding is that I would build GMB/GSMBA on top of your patches. Please let me know if that’s correct.
 
-I have a v13 ready with this. I'll give it a go soon...
+That is my understanding also.
 
--- 
-Kind regards,
-
-Rodrigo Alencar
+> 
+> There’s no urgency on the patches at this point; I mainly wanted to get some clarity on the plan.
+Reinette
