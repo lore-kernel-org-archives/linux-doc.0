@@ -1,63 +1,63 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B674404890
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 21:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C934048B3
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 21:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778879731; cv=none; b=plX7q7FEQ9c+1ET+myo6TI2BbMOjQZCyrLneWp7ech9Nx8SJ71rHQZn4azKclRdhBidAZQVaLUa56/RRfPXuzmP/dj4/ejVj5VEQedM599LgCP4wcpissljuWaLgmTKRwB5GyRK59bLWDaL2IwEXacrNR1SM0sGdY14y2DQqfyE=
+	t=1778879734; cv=none; b=Fn+4F1wKl17TAqwZ5rktXp0csDMLg0R86qduF7MTaQX53r3tHYy/H1zRDAfmYyLuohPf8M6D7JQ/FBXzo941rmDdBUo5V6MC3jo+yq6Qq0v3C+/ea14eECXDupZ5JCtPo4WqYdHZgbTTF1xYEl1Naae5rB9aA4plLGWormjfc6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778879731; c=relaxed/simple;
-	bh=kbvK6cuaNQpZn6Q9g72Q+TOpf/2ROUnAJihI0oZoubo=;
+	s=arc-20240116; t=1778879734; c=relaxed/simple;
+	bh=ILT1qaKW78nRQkC/CMCLSzr2h8dTPOcGoDMHkPnSKzE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YXxa+lL76pvLTsaTrYRbqID4PSBUfaxVoVEj/+GjlTWDm6w2lRtz+jESTT6WI/6QB7+ZbLV/9Xz0r/4AUpqlcOk0hUlTT72ZbSdbgYJ38BqoDdSVDNx6sWF27hdMqkEUc+qz21kLmT2y4DE3WhwRanw6ux6IlxrYRwrwt95nGls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o9OputCr; arc=none smtp.client-ip=74.125.82.170
+	 MIME-Version; b=Z9OyhjR63ixrI5ybHRrtV0Ggo9oh5A5dMo2O4d7TF8rkhfFqJMURybQ9Y/Ym0pQVnUhT380FJjQ1vo0NoHGTU+mdrONsL+q5KicYxCwGuE3XRcNRtTr6dhWoKPuCv+eONr6jRQMKGfZNipJtgzROeuaOiiyHhRBL7RA+ZBAY+Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IYL3YWM0; arc=none smtp.client-ip=74.125.82.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o9OputCr"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2c156c4a9efso374983eec.1
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 14:15:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IYL3YWM0"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12db2e415a7so135546c88.1
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 14:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778879729; x=1779484529; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778879732; x=1779484532; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6v1a1pQ4RntgauZdGQ/AgmAZlKsDK24ag7JDuVxfuOw=;
-        b=o9OputCrmArK0qB9XWlHF/QKy9zlHBWFInzZrLIt4PpmYMpSYUW/atSgYmLlgUM3f3
-         XQigHp+a4Zv2AXXBarW6f+KVLGlpORIk3Lz9XpkEPVhgevaX3pNxUgtWBbvcp0bd2SOT
-         bXAHdAnn35Nia+1dkLc0jWevh3S7Wpl0bpu8juF223uNnqlu6TjcLkJ29SE3/imlzEsJ
-         qrQ0p/s8SbX3PesAM/CSUB23lxUVz/gXlmeAStw17Jra8vDv4spFo+sgBeCI+aTcdrG5
-         4KPpFb8pNCMi68b71RFVGuY1sy7Y+uTy06kpVfSsgaeC6RLXeGW1CiQT8dg76RfN0yjZ
-         jzvg==
+        bh=aF0BH6dZpM5RACWLo6N4NcvxHw87HpE9a7jatFY2Xnk=;
+        b=IYL3YWM0K72+PKBjUIotlkyudmp1jTzkcWSk+FsrFVXzSnegkXpcBDTHvkmgtyv013
+         1Fz+1cDxxzxpwH2cjTMD3XcK8OrL3KyPSBFqH8USMoVoBphH/PDfMppdjjf5WM9Uu+zw
+         zdblTDDlg3ILJFwS88bKz+DpkkC4R874roDAz+B70ThKNQTz3lnAY6Vm18brrdmeKYlL
+         nrRDow22yM9/5xyVwtbnB/WqwizcqZ8UTLFg96EIfVlIoQZejH3ZXpbdDCcTFwuaBYDe
+         SBIe7CCRHOt+kHRuouqHqrJpRS0HE1SBm0toraK+5jwMRSnRo9h+dKmUj5IEOAw9IoLh
+         DUQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778879729; x=1779484529;
+        d=1e100.net; s=20251104; t=1778879732; x=1779484532;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=6v1a1pQ4RntgauZdGQ/AgmAZlKsDK24ag7JDuVxfuOw=;
-        b=BmpU+WEnBRlHWIASNvBM1Bq9BvforVVWpL5XIYXkl4RPGiy29jtiKA463aypx26xn5
-         gkrUA2qlOleJ+1u6sMeIFCvBvzwSm/+stLPNarASfPLPz+LAi58q2+RzwQXJiY2GFUeW
-         cyG8fRe1ZB3PEZ4bxg3Bq/fbOlBUFhXkqqIQM4T7DV9m61tifN/BXimiIL+zB1sHI6Ls
-         o6QPYeGwjRH3etXEzr80SYsxDTaoUZBhxmuEYLEzBiEfyMDgjCCW5j9ICBHkF0tC1c4a
-         tn81KpJ8ed43QCtutTAqrQ24YKXO+SgPN3/Vr8K2ezCTa/4SWNIm307s4OR2VVb8XSkS
-         7jtQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+r1S/Q81vV1yJtG6iTFwOHHw8pfMKt6ZsiHxq5GRT3U9fHLcCHVWLrLcBj8DJerIOMpN/8z4z8Has=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywfebyd8EG94QXL3l57HtPU39o0YwhsuC6zPObKWAP+WNMo2QJk
-	0CdTuNQcv1NjH5tSHNkNgRJzGefm7Jb9q9lk7B5zJJIKfQkJlfNB4EFv
-X-Gm-Gg: Acq92OEsn9OX4ElgFG0QVaDoJWzpPwfn6dkEvlLtHiHGoaXxYBRv9zKH9pP8gZsQd46
-	s2JvMum3KWhqDPVrRaycd5ltSpe5PlSYYTKK0xmCydX5DW55Q/TR8Ml6VJnHzO+VK/UUoOIFnGy
-	Rrrti+ggeDJToNKNQzair8lrTzqeeT9VF5cCmSduPUxLkbPFlSXEQHS3y2VSoDxwIPXaWiOo308
-	fu0akFwHYFswzU3uNPdY+6DZCjCchi3q8ZSGKXq93tZlbK/Y5k3Y4Uq3w9hrrE/ghlsGOju/Mno
-	w0E6jcVGHkO06uC6MiwR3+Ee6q8srnby23tOeuBfaSau9PKo4+393Pi709tdNkUDd5O2rbDm7fJ
-	Y94bDMgCyjLICoWxlevcj0oeRWRsLg8kvLyb9ZkQr3pvn0uyApPu4/cVtA8SrBOIcyHapQSvrGI
-	dX4db3zpr9QCOHaaKxzxPVfG+Q/M9DZRs=
-X-Received: by 2002:a05:7300:818b:b0:2be:7885:31df with SMTP id 5a478bee46e88-30398618b3fmr3091136eec.17.1778879729276;
-        Fri, 15 May 2026 14:15:29 -0700 (PDT)
+        bh=aF0BH6dZpM5RACWLo6N4NcvxHw87HpE9a7jatFY2Xnk=;
+        b=GDfXCFUCqnChAS0KJPbgzV3TPD7unKcccjPs4pHDQ5de+4oPapVcLq3eKLuPdNEcWS
+         OtGVwPPBwpsx/HOn0JhPXriuWfdxw9+pUI4rmpMdyWKoMOtVUSGba4iSUn3akOkb83l+
+         n17st/LltNOKPmXMoKty5ttjKIDjS6HbGEFTBcROe7zbuO+a88KAwodiNTyV4o1yGI25
+         DkMNm6EDzO3X9gmh9wesj+FoHLq6mxsdFnHLIUFyuf9mM4pP8rZTAu16ZYRMuKWpEsp2
+         sp4+LLJzpT+ldcbcZdB7rxCeto9Wiz1JpE591vpke3+qKnDIZzWIoYF5rbijUkc5no3Y
+         xmig==
+X-Forwarded-Encrypted: i=1; AFNElJ+vGgjfqtbR78PSon/Iq/Dyq1mTxD9+g+/7hcFtEycFvzQf+MoHpiro721IJ8RPoP/P0k8dTWAw7jg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YymZebpCOVhFCo8AeTDS8qhAwjlHAd4BmPcsdwQbVy6AyOEskUc
+	SIE1100Q0+geLd/nGF0rVVHk4NgFbp8/dNCvgDo0JG4MOZrIeLnCmFsr
+X-Gm-Gg: Acq92OGpFBTRvuREV6+4FxTO7Gr5VTBk6hSLQ+SWtwZiVOqLFMq+MhJj/TYy9yLXP06
+	dHyQqFe+qD/THDuCXRcGXDrQySviO3vGHQkfFdNbrwk53S3bczi6lBmPcYxLnF87en9YiArAMOe
+	Ln79PjnwBRrcHUeazJ6lDA4HjwcpqrWQc6oVB71arlSuzuLGxi+jcA33Owa7dPlQMyDPlvLY57P
+	MCN1NJAjLn4+DzqyBM9eNG6O8oFcmPf2pvURwWeeRzTb9ShA+xfmWj0DZzx4IpDIllJ9ZCyKT5c
+	P6Ozq+rrfVH/AU/aDHp5afHBYQnrF2xgjbvljOuIYaYtB/wRsySv1L7QyXzRmWdNfO1Eu1IpF3X
+	34yjwNsussYiOjGgYuPVNXEww4pj65Ya1y0s/Bl+4fmX62iLdgR6+jPYiYfcCdjUt1W99QG8Aae
+	p0naUJHTP20EZ28F6AEJsdRBUyuoBuyRvxsrlhKg62qA==
+X-Received: by 2002:a05:7022:6621:b0:134:a710:d908 with SMTP id a92af1059eb24-1350451887emr2398095c88.13.1778879732067;
+        Fri, 15 May 2026 14:15:32 -0700 (PDT)
 Received: from mimas.lan ([2603:8000:df01:38f7:a6bb:6dff:fecf:e71a])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30293e2ea6dsm8268038eec.4.2026.05.15.14.15.28
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cc33a618sm11245224c88.12.2026.05.15.14.15.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 14:15:29 -0700 (PDT)
+        Fri, 15 May 2026 14:15:31 -0700 (PDT)
 From: Ross Philipson <ross.philipson@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	x86@kernel.org,
@@ -92,9 +92,9 @@ Cc: ross.philipson@gmail.com,
 	daniel.kiper@oracle.com,
 	andrew.cooper3@citrix.com,
 	trenchboot-devel@googlegroups.com
-Subject: [PATCH v16 27/38] x86: Add early SHA-256 support for Secure Launch early measurements
-Date: Fri, 15 May 2026 14:13:59 -0700
-Message-ID: <20260515211410.31440-28-ross.philipson@gmail.com>
+Subject: [PATCH v16 28/38] x86: Add early SHA-384/512 support for Secure Launch early measurements
+Date: Fri, 15 May 2026 14:14:00 -0700
+Message-ID: <20260515211410.31440-29-ross.philipson@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260515211410.31440-1-ross.philipson@gmail.com>
 References: <20260515211410.31440-1-ross.philipson@gmail.com>
@@ -108,43 +108,45 @@ Content-Transfer-Encoding: 8bit
 
 From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
 
-The SHA-256 algorithm is necessary to measure configuration information
-into the TPM as early as possible before using the values. This
-implementation uses the established approach of #including the SHA-256
-library directly in the early boot code.
+On newer TPM 2 implementations, SHA 384 and 512 banks may be available
+for use. If these banks are enabled in firmware, they will be used for
+the Dynamic Launch. The DLME will also use these algorithms to measure
+configuration information into the TPM as early as possible before using
+the values. This implementation uses the established approach of #including
+the SHA-512 library directly in the early boot code.
 
 Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
 Signed-off-by: Ross Philipson <ross.philipson@gmail.com>
 ---
  arch/x86/boot/startup/Makefile     | 1 +
- arch/x86/boot/startup/lib-sha256.c | 6 ++++++
+ arch/x86/boot/startup/lib-sha512.c | 6 ++++++
  2 files changed, 7 insertions(+)
- create mode 100644 arch/x86/boot/startup/lib-sha256.c
+ create mode 100644 arch/x86/boot/startup/lib-sha512.c
 
 diff --git a/arch/x86/boot/startup/Makefile b/arch/x86/boot/startup/Makefile
-index e283ee4c1f45..071a90f23ae0 100644
+index 071a90f23ae0..527cba7e4560 100644
 --- a/arch/x86/boot/startup/Makefile
 +++ b/arch/x86/boot/startup/Makefile
-@@ -22,6 +22,7 @@ obj-$(CONFIG_X86_64)		+= gdt_idt.o map_kernel.o
- obj-$(CONFIG_AMD_MEM_ENCRYPT)	+= sme.o sev-startup.o
+@@ -23,6 +23,7 @@ obj-$(CONFIG_AMD_MEM_ENCRYPT)	+= sme.o sev-startup.o
  
  slaunch-objs			+= lib-sha1.o
-+slaunch-objs			+= lib-sha256.o
+ slaunch-objs			+= lib-sha256.o
++slaunch-objs			+= lib-sha512.o
  obj-$(CONFIG_SECURE_LAUNCH)	+= $(slaunch-objs)
  
  pi-objs				:= $(patsubst %.o,$(obj)/%.o,$(obj-y))
-diff --git a/arch/x86/boot/startup/lib-sha256.c b/arch/x86/boot/startup/lib-sha256.c
+diff --git a/arch/x86/boot/startup/lib-sha512.c b/arch/x86/boot/startup/lib-sha512.c
 new file mode 100644
-index 000000000000..f60df97f9244
+index 000000000000..2afd5c5935cd
 --- /dev/null
-+++ b/arch/x86/boot/startup/lib-sha256.c
++++ b/arch/x86/boot/startup/lib-sha512.c
 @@ -0,0 +1,6 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (c) 2026 Apertus Solutions, LLC
 + */
 +
-+#include "../../../../lib/crypto/sha256.c"
++#include "../../../../lib/crypto/sha512.c"
 -- 
 2.47.3
 
