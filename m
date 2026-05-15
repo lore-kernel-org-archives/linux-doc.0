@@ -1,63 +1,63 @@
 Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FE73F5BC4
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 21:15:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D44C3F5BF8
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 21:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778879722; cv=none; b=UUWkMzBMAyu4NyfNcjUwh1WwM03Q98h49Bd/V4mC/5glBtCYYSbQdoO/BiqkWvTiWpCFvZPlIfQy0TDa2Wt1s9vp1Xy6EPOmFBqpsboJfAxqsnaWgpw8TiDDIX8k2kxXncwsLuz6WgHNC6+ZW93PkiUQkP04Oh4DGB1QN8iPJx8=
+	t=1778879726; cv=none; b=UljC9HCE7zZ/FfBdaUKGVYlLC/kmwLmO9+rMH40S9V8+7WEBtJ1+cHQhxy5PeDUcSg75OJDct73Pqgdp2/fgk378m/0a2p0F3IsmypA4nNAGbX7JhRvjUJG4UNsiyipyP8KP5AexMhO5/dJ+q60rNQdm0esVtZwfHiIlh3QES5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778879722; c=relaxed/simple;
-	bh=EYoiytDPHAwrp//ZCSS8x2mbpMMq39lmGS1yWEcEk0Q=;
+	s=arc-20240116; t=1778879726; c=relaxed/simple;
+	bh=DULLarGA3N2WbmTOoIAH6Z6cAJNNwTwfc+oSbMTDbH8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a4ZteSkf4XrWP+zGTS0wLWYs5vs/ZKi2RhN6PkD9WFJ5mYvCSKtCfInULxWhMRBdk5O0x5AreH5/1p7i2mnIljvO/2VDlt0rPzRR6NDbiQ4RtmsNuhidzfVobdPwrgoCGSQARfmx7RGKdrX/OUei2C7mPRsRycKlXcxBqIJD1pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F1qUkByA; arc=none smtp.client-ip=74.125.82.178
+	 MIME-Version; b=ADWLd8wGDrkEFjdQMcA1+/gqXHukfs5qDG9K2el6NshuM6gZAfa32NCVZoMq43VK/EigCuMRhm80trM4TMU6NNtGrXkC8/7g38QEnNHwPuyX7UF0NGoideY3pJI/Hlx2lX+7w1D9EXu52kI1mN0QV+nfXh7R6Wg4mPP3aSNqJN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GfxRkan2; arc=none smtp.client-ip=74.125.82.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F1qUkByA"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2f00a567cfaso833247eec.0
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 14:15:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GfxRkan2"
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-30246cfd41aso1513782eec.1
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 14:15:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778879721; x=1779484521; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778879723; x=1779484523; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bjgxy9jrMUn+tA5MZsUkk9qLfIPrTHgv6m9jj+0YWR4=;
-        b=F1qUkByArkNhkX8Vb784ExX/rl6QJS4DBW18WWjmqir3frGenB8qERsSXnGvklGLAv
-         P95lUGWZ/GjM5Y8NDhtwk+h7BAZdVVuhvyz3q5hRMQNdOwOddJhcvGUoFa/vXVClvFKe
-         wqjcw/pK5nDmkWn+eoT576g/DS1UOQF6lw1/oFI5+Mv5RZ6s3bdSJPul7HgcuiSoNehY
-         aqCyhEYdbq1d7DY9fGbSDrwyFgxPSFLNb2nXjUjBvJQ/+WY7nO+CLHiKS8na6SFKYbbN
-         kICn8lsE/ST/LYMxnVpC+KaX+OIkFBQXRIJmARETvIikWBupy+rK2Nc8yIpJ4zTTneK/
-         i97Q==
+        bh=ER4IWQsMKw/HNZSo0sHiz6UgahZlpRSMvCUCrr/URAk=;
+        b=GfxRkan2jXb/hDtBDF0b2sCZ9HhiKP1Jj/yCjehZ+FkCiZlTYroSSQI6ZCBGNx/FBH
+         nB/APZdgfAjcUw2LfZ3ELWjaOwm/EVaIrw6+uWbd46OCgIH2/r/rsmi8lFGVmYlCYmz5
+         iihILkrwP8lqd2Dn4bjCqFt+vijLcekhje43yv4KJ8blEx7Jga1xd2AM5HfyT9v3Etfa
+         aBW7LDioHVaE1M7oNwRvB5TxwC+2TRLlsekBab0tgxFWaCbgvF+FxIoX0AAFL6kw9CJV
+         rm/gWOxfdEdyOeJakpFiJ9XLMAElhxeMRQzo54xa/6YGBaLUk0AH3FHDfgIQiVMNwZMb
+         i+RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778879721; x=1779484521;
+        d=1e100.net; s=20251104; t=1778879723; x=1779484523;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=bjgxy9jrMUn+tA5MZsUkk9qLfIPrTHgv6m9jj+0YWR4=;
-        b=i+RsChVqINvOONYPKELeyE3hjpl/WQxvi29cCAw3uDxoAR0wbXAfdoxdYq9yPyEOwI
-         gLmBiorNcI5391jtfFKHUZJBHhvQJlAm5bw6cflrM94T737HEPHuqn1p+G8gKr28qfbK
-         K7sx1UntWW2DjI8zGnNBlaqQA+U50+f9bnAqLUihxPNrXFMwJ1fgsH9BEnorXvfKkHPU
-         MaS+zcPEQP6fXa3TE816oJ1R5miFfKADBAzScpHczlCkIcVCKhI1z2cZN7yZU/x0AYQt
-         7yrXIpZlgGx4b47pN6yMRY57FYk1gOvwJJ0cci6W/puJctv+y6j2eHc3K8X+iQKj6qts
-         YQ3g==
-X-Forwarded-Encrypted: i=1; AFNElJ+hv7YFOjlXFTU/P4m0bpf7XRjwZjlBAOK9236OWMG3RkNhZYHdZ/uNXhKTBc6UA/xfM701tz2BtLI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7Rhn6AoSxknD0bl+iJTPMlr1zSxz96fgVf7uLz1VB9ROhOEP+
-	tqa38h2xd+7hvlmigDdKBk8u6vNq6DCbRokClaE2LBmEbufWgG6fpWtX
-X-Gm-Gg: Acq92OEEvFaW9PWdqtnLhJ+eNTdQ0hXJU5Q8a4ywjB0tv5pfaYmiOVKcwztzELjlLEz
-	JkZYCnuFjgQZuCAccJjDOA5o0aD54tBOCqSVR/0ZKKv10CBrswrMIR1uDLPbGSgrgBxA9O183X9
-	0DCU5z0KYgSDFNgcOK3jP8zAZvQ9YlbjcVAN4FEiU7GDa11JxjLryHwN1BXJWT4C1zN4Fl5Dk08
-	qHLEO+nZUJLxa31yX7kS0HLy7IQsJS2JkMB9t3HNmBxueMIeTep+Z+GVGP4MXlfgeyj1r6sa8cA
-	7dLtcnH7q4ifwD4ydfaqQqzlYbfRCrMppjO1MgWrP0JwqbNpmMQQCtml0at7bF2lxYNgPeBGqh2
-	cUep7MNloq2jhsyx4te84nRDbODhTsIDTqKK/aXi+eUBAumDOoZ5OgUnwo7s5ktJQRANeFTR8iO
-	e3gtm8oga+oljzaJnxU4veE2HJDsfOVtc=
-X-Received: by 2002:a05:7300:2316:b0:2f3:5d44:eeba with SMTP id 5a478bee46e88-3025fa54325mr4525827eec.6.1778879720563;
-        Fri, 15 May 2026 14:15:20 -0700 (PDT)
+        bh=ER4IWQsMKw/HNZSo0sHiz6UgahZlpRSMvCUCrr/URAk=;
+        b=H+4NR8zc2XeV+0uaLPwVwXwzsNN4lW1LoBxi3c4uLXyPksxcuJM/RfoISK173jlBKq
+         V1ddcRo9xiKT2azkLCd2bm37lymISi0UNlIY1NZcKMo9yvxq2Fm2PnIRS7husDCvL3Oy
+         eHONZdl9ro6nz++HuK5FZlvhod4Jm+SCHl7S1GBxXVSC5GwAQNuopwIm+CkVGrDC0x9c
+         khKEroCeJY1x+INSifrYKoJL0wP3j+UQlpOAeiVaVm//nxStrbKJpYpQb3yNfeRjQzgA
+         pzhfOvS8Xwjau/BgERMcUIvKy8SlmOA/U9BjQuMx5mPCiz6IhOtqHAUyoIkZBRtOOoXc
+         bMRQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+Y6vUWYHhGBzLSxRZkohjAgpQfSsvPx/4ZjK9zE0z6EA3n/nALVpmIdnbDA+2Q52y6RVPt19xrlUc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzS7VsQYbig6pz+Lo/BEG+yE2kwyUqo7hQnp0/XnniIzjpks6eT
+	cKszvqX2T/hrQn4wBAUkJNGuHh/S8V4VCYFY+3UungPW5P2Ahcei+Boi
+X-Gm-Gg: Acq92OEX5LrBIZPiIAiwxMgzKxuddGFEk/LYn0XlwTM//6UeuN/3LbhgHlmDT9iJbNG
+	7Zl8zOYpfIehwiUWT0Z6TsXH0mtNboJKzD7DLfKgBoyywhzXoosTCCMenVgWdPfqRmg3Ss3Oyou
+	anoPxwUmYDFTFxOVm/URNZ8cxP26LNeazCSYkOqCyKCMmdFBdSqZJq/gwVe3M1pSL9jOdD5uABx
+	QGSDudbEmykKBRWGzZz6/Cucnh7ogKfKIsazbQjYcL2R7RNj0weTCfwHPEONrSenh56u9wWkjdu
+	HwNCUoPL3drKqqAe6Hy4qR8hSvTFPV0fyBLO6Jsab9nJwD90vGnJ2U9UQF2SpEyTCk1EXMyTCfG
+	BNwE440AQ97JrXGAuC905EWBmU4F3Gzj5DZTArtg+/lxDc8duUOGUMq6jI5/qfCiNwMU1j3poEs
+	Lv5CDIMrPAe+KeC5RwUqiAgUWobSnMUJ8JDRG/jM0Ryw==
+X-Received: by 2002:a05:7301:4184:b0:2f4:3a9c:818c with SMTP id 5a478bee46e88-303986b1521mr2959973eec.29.1778879723496;
+        Fri, 15 May 2026 14:15:23 -0700 (PDT)
 Received: from mimas.lan ([2603:8000:df01:38f7:a6bb:6dff:fecf:e71a])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30293e2e3c0sm9975127eec.3.2026.05.15.14.15.19
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cbcb9ef5sm10736508c88.2.2026.05.15.14.15.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 14:15:20 -0700 (PDT)
+        Fri, 15 May 2026 14:15:23 -0700 (PDT)
 From: Ross Philipson <ross.philipson@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	x86@kernel.org,
@@ -92,9 +92,9 @@ Cc: ross.philipson@gmail.com,
 	daniel.kiper@oracle.com,
 	andrew.cooper3@citrix.com,
 	trenchboot-devel@googlegroups.com
-Subject: [PATCH v16 24/38] x86/msr: Add variable MTRR base/mask and x2apic ID registers
-Date: Fri, 15 May 2026 14:13:56 -0700
-Message-ID: <20260515211410.31440-25-ross.philipson@gmail.com>
+Subject: [PATCH v16 25/38] x86/boot: Slight refactor of the 5 level paging logic
+Date: Fri, 15 May 2026 14:13:57 -0700
+Message-ID: <20260515211410.31440-26-ross.philipson@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260515211410.31440-1-ross.philipson@gmail.com>
 References: <20260515211410.31440-1-ross.philipson@gmail.com>
@@ -106,38 +106,57 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the MSR values required by Secure Launch to locate particular CPU cores
-during application processor (AP) startup, and restore the MTRR state after
-an Intel TXT launch.
+From: Ard Biesheuvel <ardb@kernel.org>
 
+In preparation for adding Secure Launch support, which will require that
+the number of paging levels remains untouched, tweak the logic slightly
+so that the slaunch check can be inserted easily.
+
+No functional change intended.
+
+Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 Signed-off-by: Ross Philipson <ross.philipson@gmail.com>
 ---
- arch/x86/include/asm/msr-index.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/x86/boot/compressed/pgtable_64.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index 6673601246b3..2a95e3389622 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -408,6 +408,9 @@
- #define MSR_IA32_RTIT_OUTPUT_BASE	0x00000560
- #define MSR_IA32_RTIT_OUTPUT_MASK	0x00000561
+diff --git a/arch/x86/boot/compressed/pgtable_64.c b/arch/x86/boot/compressed/pgtable_64.c
+index 0e89e197e112..3e9d651da73e 100644
+--- a/arch/x86/boot/compressed/pgtable_64.c
++++ b/arch/x86/boot/compressed/pgtable_64.c
+@@ -102,6 +102,7 @@ static unsigned long find_trampoline_placement(void)
  
-+#define MSR_MTRRphysBase0		0x00000200
-+#define MSR_MTRRphysMask0		0x00000201
+ asmlinkage void configure_5level_paging(struct boot_params *bp, void *pgtable)
+ {
++	bool l5_enabled = native_read_cr4() & X86_CR4_LA57;
+ 	void (*toggle_la57)(void *cr3);
+ 	bool l5_required = false;
+ 
+@@ -118,10 +119,12 @@ asmlinkage void configure_5level_paging(struct boot_params *bp, void *pgtable)
+ 	 *     + CPUID leaf 7 is supported
+ 	 *     + the leaf has the feature bit set
+ 	 */
+-	if (!cmdline_find_option_bool("no5lvl") &&
+-	    native_cpuid_eax(0) >= 7 && (native_cpuid_ecx(7) & BIT(16))) {
+-		l5_required = true;
++	if (native_cpuid_eax(0) < 7 || !(native_cpuid_ecx(7) & BIT(16)))
++		return;
 +
- #define MSR_MTRRfix64K_00000		0x00000250
- #define MSR_MTRRfix16K_80000		0x00000258
- #define MSR_MTRRfix16K_A0000		0x00000259
-@@ -960,6 +963,8 @@
- #define MSR_IA32_APICBASE_ENABLE	(1<<11)
- #define MSR_IA32_APICBASE_BASE		(0xfffff<<12)
++	l5_required = !cmdline_find_option_bool("no5lvl");
  
-+#define MSR_IA32_X2APIC_APICID		0x00000802
-+
- #define MSR_IA32_UCODE_WRITE		0x00000079
++	if (l5_required) {
+ 		/* Initialize variables for 5-level paging */
+ 		__pgtable_l5_enabled = 1;
+ 		pgdir_shift = 48;
+@@ -132,7 +135,7 @@ asmlinkage void configure_5level_paging(struct boot_params *bp, void *pgtable)
+ 	 * The trampoline will not be used if the paging mode is already set to
+ 	 * the desired one.
+ 	 */
+-	if (l5_required == !!(native_read_cr4() & X86_CR4_LA57))
++	if (l5_required == l5_enabled)
+ 		return;
  
- #define MSR_IA32_MCU_ENUMERATION	0x0000007b
+ 	trampoline_32bit = (unsigned long *)find_trampoline_placement();
 -- 
 2.47.3
 
