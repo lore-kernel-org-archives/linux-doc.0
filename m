@@ -1,88 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6C939E184
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 22:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B003F5BCD
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 22:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778883739; cv=none; b=ehwYAthsCn0eXMYAWBd3pKvK2wfOtbbHfDmfk34DBpoIypWpQkULAJNHOrEvpKuGxjkFJ6SVG4Pf+y2I51JM0ToEZ8jVgRXyNW+/zSYRhiOh8oAqpAghxmqabwsP3bbVWRlXDU5K5HLf0QC7TL9DHdte+249paFOnZqBfptKWgs=
+	t=1778883869; cv=none; b=V694Vv6+PzvT6XAWmMLzdvIQakFUIglFl5A0uGCbIEgPM8T4HNjQPKz6FTyc1wmSL1ABXilmEiuTH8jtNsS2woSO9cmZ37a9rlr0rfA3VIBkM4fNx7fQL/qoIpVvM3l4ZOyI2Xmlz+4c9MajJXu3tF0eljMd9MRoEwoU0zqr6JA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778883739; c=relaxed/simple;
-	bh=5ZfaTQTgw3dt9FklhP4KRY4P9m022q9n1DA67WrzGH0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Xy8p5Ucd0oEKIZKenUlz8SMHQc21Rbg9b6ddYV5ZLcSJhYXiSI7ccil1sMQfIcinlB2t0iLvqakQ0KwLO612IT7dh9qKtUz/Olca6kfO7GiB6eWJGAyIYRIrTb6wuTyTPG5BORUD8xFucmwhbWtJv63S1vQZnr/tvIiLm5rPaTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CYYkY4yi; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778883869; c=relaxed/simple;
+	bh=CQjBHE398jfmQc9Nk7uTNv+8vscqO8uzAxJfVr6TjOw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LCs/aEzTqKX4X8//82s0X0vMctfP+Zwj4r0Uuwyk1puWothmYxrz1JiHmf34rEddmzoblF0nok8fa0WvkXO8vSTbBWPZexptdINpuvRCMxO7r7J4+3WA0gEetfxrUX10hvki5sQcS3WgWAcT9dwdyq8/vqFtGJpFjFHnTymLBTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I75LpWDr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CYYkY4yi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778883738; x=1810419738;
-  h=date:from:to:cc:subject:message-id;
-  bh=5ZfaTQTgw3dt9FklhP4KRY4P9m022q9n1DA67WrzGH0=;
-  b=CYYkY4yizYP+IBZtNluhhHlx45gmsM25kP5VzZW2VpungTs4Nu1A3asB
-   LSLi0n9LWa00iC0y8V0BEBByW8Zea/Cn87EwT99dFnjd/ayR6Am1KI2P9
-   PZC5KJ3DF+ywh+2E8qqlcWsLXGcasfbLqImXSV9MDdMHwK/FRbCfFfGSF
-   zRjtPVxNQIh5BhbARBUqRTtyEp7B00OgahJ48PSEYZX6+SPgECL+TeBVg
-   npVFOuZRthyMjlOgfakhtS/Cr29jVj0nLaov2sNaZBqEfKvd/PPFau4we
-   S2IeG/fM18BeX05xh7RsE5s/Sfga5FkgQoLavrIdAIqG0fPmTz7MhBGLS
-   Q==;
-X-CSE-ConnectionGUID: T9P+KkROQreJRxtCoOSRjw==
-X-CSE-MsgGUID: WtomtZCOQF29a185WTiQiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="79885818"
-X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="79885818"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 15:22:18 -0700
-X-CSE-ConnectionGUID: ppw3iXtvQ1O4lmdEq/f+mg==
-X-CSE-MsgGUID: eqvhWeKYRFqtq687LtaSZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="243143368"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 15 May 2026 15:22:17 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wO0v8-00000000977-2ms0;
-	Fri, 15 May 2026 22:22:14 +0000
-Date: Sat, 16 May 2026 00:22:12 +0200
-From: kernel test robot <lkp@intel.com>
-To: Pengfei Li <lipengfei28@xiaomi.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/trace/ftrace-stackmap.rst: WARNING:
- document isn't included in any toctree [toc.not_included]
-Message-ID: <202605160010.fakzGVVq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I75LpWDr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B18C2BCF5
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 22:24:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778883868;
+	bh=CQjBHE398jfmQc9Nk7uTNv+8vscqO8uzAxJfVr6TjOw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=I75LpWDrE4HspM1Nom8QNNiBxvvPPC1Z/wA25yBCJ/4enl3WTmrgj8AZMjhk2O/xG
+	 yshsfHF9WvD9zWHVLpX9AeHo3Ri3ddj1aGewMbBUU8ZueR0ecjlr9Q0zOirV60mTuL
+	 Blg8dz0+peaFU83cqwIw+GtehBIoilyr1JVfpLfi/1DhIwPgar4tiP57UNiR2Z6RXb
+	 jJG0DtJ2+JgFoQLnfeXEZOoydPFpzXHXPWSjEyaxuisnvQztS1Uw/mSHrNECrgkznS
+	 jVFyqqaY/Np9buMNHRC3bZWYDATHC2YK2s+ERM+sBFNsc5fqz/AcPMBEuFWjFE7Hyy
+	 AhPRursx/3ldg==
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-654672a6d68so720728d50.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 15:24:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/qvpWVnHMdap58fO6H7qBI6VHhudMVspF/fQ8+Si68RbBVa5sL2MPhSU3U1vd7nfS1jjxPmNdxeXw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxY1xzoo28Th+eaEW6EykIzbxboGHJipDbC5v1iznO9Q6cooi6q
+	6fdhBOti5RPYXTnnIiWQwVgqQWOxVf+AYswIBrl1UV2dYJXQ4j5DD9kjkOmgdctFxChXcxeViZ7
+	ZZb2d/TApJuHuldSPDo2pOjJmmHVxqQ1rW8RunCh6EQ==
+X-Received: by 2002:a05:690c:c504:b0:7b8:926e:3ef4 with SMTP id
+ 00721157ae682-7c9599a3c98mr72668207b3.17.1778883868040; Fri, 15 May 2026
+ 15:24:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260512053625.2950900-1-hch@lst.de> <20260512053625.2950900-4-hch@lst.de>
+In-Reply-To: <20260512053625.2950900-4-hch@lst.de>
+From: Chris Li <chrisl@kernel.org>
+Date: Fri, 15 May 2026 15:24:16 -0700
+X-Gmail-Original-Message-ID: <CACePvbVmxUVVZLd=hUnzjRLtt3hBWRxemR_YQZCVSYYNadiAUw@mail.gmail.com>
+X-Gm-Features: AVHnY4K8odfW_w5Sv5zxMaAGvoOSmdsLHmORiA0lm6BrpYzORI9rYZ53g2APvuQ
+Message-ID: <CACePvbVmxUVVZLd=hUnzjRLtt3hBWRxemR_YQZCVSYYNadiAUw@mail.gmail.com>
+Subject: Re: [PATCH 03/12] swap,fs: move swapfile operations to struct file_operations
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Kairui Song <kasong@tencent.com>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	David Sterba <dsterba@suse.com>, "Theodore Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
+	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>, 
+	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, Carlos Maiolino <cem@kernel.org>, 
+	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Li-Pengfei/trace-add-lock-free-stackmap-for-stack-trace-deduplication/20260515-165924
-head:   b6694be533bbb2c164894843039c4156d2992e34
-commit: b6694be533bbb2c164894843039c4156d2992e34 trace: add documentation, selftest and tooling for stackmap
-date:   13 hours ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260516/202605160010.fakzGVVq-lkp@intel.com/reproduce)
+On Mon, May 11, 2026 at 10:37=E2=80=AFPM Christoph Hellwig <hch@lst.de> wro=
+te:
+>
+> The swap operations have nothing to do with the address_space, which is
+> used for pagecache operations.  Move them to struct file_operations
+> instead.  This will allow moving the block device special cases into
+> block/fops.c subsequently.
+>
+> Pass struct file first to ->swap_activate as file operations typically
+> get the file or iocb as first argument and use swap_activate instead of
+> swapfile_activate in all names to be consistent.
+>
+> Note that while the trivial iomap wrappers are moved to a new file when
+> applicable to keep them local to the file operation instances, complex
+> implementation are kept in their existing place.  It might be worth to
+> move them in follow-on patches if the maintainers desire so.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605160010.fakzGVVq-lkp@intel.com/
+That makes sense to me. I ack for the core swap part of the code.
 
-All warnings (new ones prefixed by >>):
+Acked-by: Chris Li <chrisl@kernel.org>
 
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/trace/ftrace-stackmap.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Chris
