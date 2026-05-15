@@ -1,117 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CE43DB633;
-	Fri, 15 May 2026 17:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1B0E403148;
+	Fri, 15 May 2026 17:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778866111; cv=none; b=SJJSIduqsV9jzFPfDWULgn+Z+kP/jhpVJP3sWX6ZU2aA2LiRiB9/hiR22Q0e40pQiPhlOoHImpReR8xMuSt9xTlxxwNzNvcm8qtNLRyZEY+o0kk9dF6PPy0a1GbG4DIN2G+kqj8/fju7jVzzpjnVOjHHMme37wGk7lDJyAyPebU=
+	t=1778866634; cv=none; b=FaotPi94CTDftdhWFtbKgYRFb3xvawbcaYTX5qKNuD7qU/wbIjjmHsQ0e+eGf3AVecxL7g7LmoZ3ENMoHVRNKKUQBXnCcHVId61qinyBPI+yEg0ed6I4ltCJro9uQizkqu5al+jIB63jdw7dPXG6o/R/pS0cGGm/0ceouitIBgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778866111; c=relaxed/simple;
-	bh=PvUD325b83v1aoZjyXLETyi/+y+Vj2YZBqPuYxgSsog=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hq8Vx5zhnpA+cpjeMx2rrYhd5Z4+cEgJZ5xl+S+fGBV+QXA6cQRCze+Aa6nskwiRrksb4Ri2nW2amGFDtqbOJyyIQBNtdcHjajzOr9tJo5SBrNHs4gFZ1hnbaa05qxGfnONyW/cPeULJeaOOak4KeUIBk3TUbxYq3jSmjjk/3Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o4S5BGfG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778866634; c=relaxed/simple;
+	bh=+Ls0F6w9VURXI4GEcetLzbFzanKRu8yo3W8wxOnalcg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EhfYyzdHbZGwOuy+6T4N+VHbOKh2zw4eF0WlU8InWGeaKgzxA859EYCIYPxflO6Pykwm1RNTy4jXx9vEzOwSEh0pKK9owrE/JAUO2muGKC4b28jfDomchqK5zOsFrx9IuxBcJQZQevadRW+OG4T2XcUDht1Jsyoe6HhsMUiQImc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ja2IcddK; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o4S5BGfG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B301C2BCB3;
-	Fri, 15 May 2026 17:28:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778866111;
-	bh=PvUD325b83v1aoZjyXLETyi/+y+Vj2YZBqPuYxgSsog=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=o4S5BGfGV7mF3EIDJqFVfk94MakVX0AwugNb0q3/oGoth3vtcR7pWTRYVgx3d0yP9
-	 5M4Frvkz0unHa+uXgYucqPkKEqQI6I4clyT74STQYalT2HH9rB2URJssdCGbGfkIaK
-	 1bUvTduab+MPdMMd1ledWI9GjvhlmIHyqf/c8/c6z87ie+pFMQH0RlGMHAwTEhccV9
-	 0Cgw0KXczy8aSYYR4Fov/HbjEfaOF0eGw+cnxPlaUrCRFtkTX7+Y6LBf8DKDjlJWNy
-	 fns+LrexF1eJQ9Ua8H0R6QpTQh0xxHhPApx1OYVEdElP4mGrE5XH+IVjYwEdDYV51k
-	 b72j2nuombsxg==
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Calum Mackay <calum.mackay@oracle.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-nfs@vger.kernel.org
-Subject: Re: (subset) [PATCH v3 00/28] vfs/nfsd: add support for CB_NOTIFY callbacks in directory delegations
-Date: Fri, 15 May 2026 19:26:19 +0200
-Message-ID: <20260515-weltschmerz-folgen-68ca0db1ef84@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
-References: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ja2IcddK"
+Received: from [10.2.212.4] (unknown [131.107.8.4])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5354C20B7166;
+	Fri, 15 May 2026 10:37:08 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5354C20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1778866628;
+	bh=B8AsH74VMVc9O2e3pFp8lTxUXERC0+x7JLz81ESDZ/U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ja2IcddKHdNxZqi0t5OjkqZUuFkClB9lzzBaxQ5gu0njqloyL3B1onhHBIhbtYE9Z
+	 5FaYSfFJszfyl4IcA6f0FQq/0Nir/zy0hUna+QFjzQkcX4VQ9P5sErp2DaOql6Jvhq
+	 n+vjZ836QKRuddVqrCgSPDDVw2eEcy6fUudpqlYU=
+Message-ID: <8db443f1-d2f3-47ce-9116-18985ed0b290@linux.microsoft.com>
+Date: Fri, 15 May 2026 10:37:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2210; i=brauner@kernel.org; h=from:subject:message-id; bh=PvUD325b83v1aoZjyXLETyi/+y+Vj2YZBqPuYxgSsog=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSxh2/rvV30XP8k/4WyL9XyVztMAzhc1rn5ab7aEnxde XXB46XaHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOZ9Z+R4f2SI19eTWPu+PQo ++pV5uNMG5PynwtxFX4OPTf/HlOkjw3D/wJ3sxAx1bfnbLikdqjf57MInRG8OC0kZl2e+rRD2aH M3AA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/13] ima: Introduce staging mechanism
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>,
+ steven chen <chenste@linux.microsoft.com>, corbet@lwn.net,
+ skhan@linuxfoundation.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
+ eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
+ serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ gregorylumen@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
+References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
+ <99c30be6-8b0f-486a-890c-cf74c5930726@linux.microsoft.com>
+ <aaed52cf-26e1-4c40-812d-3788024ce5b5@linux.microsoft.com>
+ <2302296a13b847960dbdbab3cf5518b275938838.camel@huaweicloud.com>
+Content-Language: en-US
+From: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
+In-Reply-To: <2302296a13b847960dbdbab3cf5518b275938838.camel@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 28 Apr 2026 08:09:44 +0100, Jeff Layton wrote:
-> Re-posting the set per Christian's request. The only difference in this
-> version is a small error handling fix in alloc_init_dir_deleg(). The old
-> version could crash since release_pages() can't handle an array with
-> NULL pointers in it.
+Thanks for the response Roberto.
+
+On 5/12/2026 1:17 AM, Roberto Sassu wrote:
+
+>>>
+>>> This submission proposes two ways for log trimming:
+>>>
+>>> *Flavor 1:* Staging With Prompt
+>>> *Flavor 2:* Stage and Delete N
+>>>
 > 
-> ---------------------------------8<------------------------------------
+> I'm happy to support your trimming method. Just does not fit with my
+> use case. I would like to keep both.
 > 
-> [...]
 
-@Chuck, @Jeff, I've only merged the vfs specific changes into a stable branch.
-You can pull it I won't touch it again. You can pull the nfsd work in in
-whatever form you like. Same procedure I use with io_uring et al.
+If "Flavor 1: Staging With Prompt" would be beneficial to the Linux 
+kernel customers, in general, we should continue to review the change 
+and merge it eventually.
 
-Let me know if that work for you.
+My request, then, would be to split this patch set into 2 parts:
 
----
+	Part 1: Implements "Staging With Prompt"
 
-Applied to the vfs-7.2.directory.delegations branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.directory.delegations branch should appear in linux-next soon.
+	Part 2: Implements "Stage and Delete N"
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+I think that would make it easier for reviewing the code, test\validate, 
+and merge.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+Thanks,
+  -lakshmi
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.directory.delegations
-
-[01/28] filelock: pass current blocking lease to trace_break_lease_block() rather than "new_fl"
-        https://git.kernel.org/vfs/vfs/c/89330d3a60f7
-[02/28] filelock: add support for ignoring deleg breaks for dir change events
-        https://git.kernel.org/vfs/vfs/c/24cbf43337f4
-[03/28] filelock: add a tracepoint to start of break_lease()
-        https://git.kernel.org/vfs/vfs/c/e39026a86b48
-[04/28] filelock: add an inode_lease_ignore_mask helper
-        https://git.kernel.org/vfs/vfs/c/95825fdcc0b0
-[05/28] fsnotify: new tracepoint in fsnotify()
-        https://git.kernel.org/vfs/vfs/c/ad4489dcd08d
-[06/28] fsnotify: add fsnotify_modify_mark_mask()
-        https://git.kernel.org/vfs/vfs/c/12ffbb117b64
-[07/28] fsnotify: add FSNOTIFY_EVENT_RENAME data type
-        https://git.kernel.org/vfs/vfs/c/010043003c0c
