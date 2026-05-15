@@ -1,78 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A18F3F5BE8
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 22:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6C939E184
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 22:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778883584; cv=none; b=e9aYAd5OKfKJpkNqtqWqGQosnEbI9WFwTzpawC0MBAAci+XZ1kNgoUvREF2JuuhE9onZ/FcYRaG28ywemf9QM30FoVUNHmqi6rGaN1ySmT3DtOSK4LAKdAINdIMhjFvqh8t04wB3T9xm4JafvxWjqahUUvNhsS+5oxjgq0aA1vc=
+	t=1778883739; cv=none; b=ehwYAthsCn0eXMYAWBd3pKvK2wfOtbbHfDmfk34DBpoIypWpQkULAJNHOrEvpKuGxjkFJ6SVG4Pf+y2I51JM0ToEZ8jVgRXyNW+/zSYRhiOh8oAqpAghxmqabwsP3bbVWRlXDU5K5HLf0QC7TL9DHdte+249paFOnZqBfptKWgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778883584; c=relaxed/simple;
-	bh=W0dCpwZODJFKPu2SY6eKQzfEttHd/2HhQ48IKdHDqaI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fG3ZFMJ1zo205wzf5yW5X45n/EIz5JD6LvZ5Irld/807yHFXXGTDov2xS3M/sj9NaYN5aXzz+hGJDgIQ9xgo9kzMn43FUvzxmlK/f4rT82NKHIB6rKgCQ4rPIH5XjGi2X5Sn75gVcSHV8zBWO8M3XMt7OZzv9B5Eg/4TlUN1BYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qPLUzIqe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778883739; c=relaxed/simple;
+	bh=5ZfaTQTgw3dt9FklhP4KRY4P9m022q9n1DA67WrzGH0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Xy8p5Ucd0oEKIZKenUlz8SMHQc21Rbg9b6ddYV5ZLcSJhYXiSI7ccil1sMQfIcinlB2t0iLvqakQ0KwLO612IT7dh9qKtUz/Olca6kfO7GiB6eWJGAyIYRIrTb6wuTyTPG5BORUD8xFucmwhbWtJv63S1vQZnr/tvIiLm5rPaTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CYYkY4yi; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qPLUzIqe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45660C2BCFD
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 22:19:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778883583;
-	bh=W0dCpwZODJFKPu2SY6eKQzfEttHd/2HhQ48IKdHDqaI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qPLUzIqe+TD/Ajtl2DCP1cDvkOJuqKO9ysrycysQpsE+m+xWszTfV+rlfwO2rVKqE
-	 9F9C5+WMgR58Dq4JWhybLmVz6E2Gq1ppksYTWnpZZFoGIO2vmeRi1n5dNTZU0lZZUM
-	 LHgpphCcyo4hniv1oCFJL/7skvnp5MyvMD82drSl7iHg2CdK9SgPMcT1eji4QEntu+
-	 bKqWwOLzI8aqSyUq6S+qUu1FZ0TsUcs+G7zeRfwLEDUj7EhUwoZcp6lrZ+yJD0TAga
-	 Y0BGiekqxRPhNJJkDIYjraBHPn27CGWMSn4nt6BcPAwp/tcUOYNTNfVjYZTGnNn7yX
-	 yQrUAd2V5+gzA==
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-65c6a2158d3so469868d50.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 15:19:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8SyJhKRA3B7YnuwjXLuhzmWvsiPskBgqzL4aGxRZTtQ0u5ZFupG3V4zht+SIKW55fIAMm70XjG3ZE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywrmi0aW3JUQh6qMfy6P3T+okdgzX2i0yozSypZtVYPAcoF+6yt
-	GXZbGGnmWNIL8yPHhrEhk5tu7FDpX1p45EMSlUx5g5VFYI7G/nyVa43xtrDzwi4ydGaCUaBeqv/
-	k5WWG4NKD8d+em4vJqfSrNb879o/drqMIQKV+eNVHwg==
-X-Received: by 2002:a05:690e:4381:b0:651:c264:dd61 with SMTP id
- 956f58d0204a3-65e226f5107mr4855343d50.7.1778883582591; Fri, 15 May 2026
- 15:19:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CYYkY4yi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778883738; x=1810419738;
+  h=date:from:to:cc:subject:message-id;
+  bh=5ZfaTQTgw3dt9FklhP4KRY4P9m022q9n1DA67WrzGH0=;
+  b=CYYkY4yizYP+IBZtNluhhHlx45gmsM25kP5VzZW2VpungTs4Nu1A3asB
+   LSLi0n9LWa00iC0y8V0BEBByW8Zea/Cn87EwT99dFnjd/ayR6Am1KI2P9
+   PZC5KJ3DF+ywh+2E8qqlcWsLXGcasfbLqImXSV9MDdMHwK/FRbCfFfGSF
+   zRjtPVxNQIh5BhbARBUqRTtyEp7B00OgahJ48PSEYZX6+SPgECL+TeBVg
+   npVFOuZRthyMjlOgfakhtS/Cr29jVj0nLaov2sNaZBqEfKvd/PPFau4we
+   S2IeG/fM18BeX05xh7RsE5s/Sfga5FkgQoLavrIdAIqG0fPmTz7MhBGLS
+   Q==;
+X-CSE-ConnectionGUID: T9P+KkROQreJRxtCoOSRjw==
+X-CSE-MsgGUID: WtomtZCOQF29a185WTiQiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="79885818"
+X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
+   d="scan'208";a="79885818"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 15:22:18 -0700
+X-CSE-ConnectionGUID: ppw3iXtvQ1O4lmdEq/f+mg==
+X-CSE-MsgGUID: eqvhWeKYRFqtq687LtaSZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
+   d="scan'208";a="243143368"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 15 May 2026 15:22:17 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wO0v8-00000000977-2ms0;
+	Fri, 15 May 2026 22:22:14 +0000
+Date: Sat, 16 May 2026 00:22:12 +0200
+From: kernel test robot <lkp@intel.com>
+To: Pengfei Li <lipengfei28@xiaomi.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/trace/ftrace-stackmap.rst: WARNING:
+ document isn't included in any toctree [toc.not_included]
+Message-ID: <202605160010.fakzGVVq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260512053625.2950900-1-hch@lst.de> <20260512053625.2950900-5-hch@lst.de>
-In-Reply-To: <20260512053625.2950900-5-hch@lst.de>
-From: Chris Li <chrisl@kernel.org>
-Date: Fri, 15 May 2026 15:19:31 -0700
-X-Gmail-Original-Message-ID: <CACePvbUgHmSuo_r9WDSD+oMnQeW0537OziTPMt-sRHx96ihg3Q@mail.gmail.com>
-X-Gm-Features: AVHnY4JAgCglMa8_5PLakfMWnAw05abJthdzcE1NPle548GazZ3X3WKDUpcNb-c
-Message-ID: <CACePvbUgHmSuo_r9WDSD+oMnQeW0537OziTPMt-sRHx96ihg3Q@mail.gmail.com>
-Subject: Re: [PATCH 04/12] swap: restrict to regular files or block devices
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Kairui Song <kasong@tencent.com>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	David Sterba <dsterba@suse.com>, "Theodore Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>, 
-	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, Carlos Maiolino <cem@kernel.org>, 
-	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 11, 2026 at 10:37=E2=80=AFPM Christoph Hellwig <hch@lst.de> wro=
-te:
->
-> Various swap code assumes it runs either on a block device or on a
-> regular file.  Make this restriction explicit using checks right
-> after opening the file.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+tree:   https://github.com/intel-lab-lkp/linux/commits/Li-Pengfei/trace-add-lock-free-stackmap-for-stack-trace-deduplication/20260515-165924
+head:   b6694be533bbb2c164894843039c4156d2992e34
+commit: b6694be533bbb2c164894843039c4156d2992e34 trace: add documentation, selftest and tooling for stackmap
+date:   13 hours ago
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260516/202605160010.fakzGVVq-lkp@intel.com/reproduce)
 
-Acked-by: Chris Li <chrisl@kernel.org>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605160010.fakzGVVq-lkp@intel.com/
 
-Chris
+All warnings (new ones prefixed by >>):
+
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/trace/ftrace-stackmap.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
