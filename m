@@ -1,119 +1,210 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA2F3E5A15
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 10:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE0844BC93;
+	Fri, 15 May 2026 10:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778840787; cv=none; b=M6tSoB5Tjr8BWd4F5apZf/WKPPsUIFwkLr0liPiphX4CrVQfWn//ITiavTbEZgkSX34b9RrepZk5Hcq7DOqgydS5wXimCOTh1kpGTup+BcLChffaQen2Xj0kS1/h0SkRd4hV7jSnwqHbS5HXajDvv4fDcu4us30TbcFpgAcRSK0=
+	t=1778841564; cv=none; b=q6OFUFT2UCqnfepVWKejN8uVftPJfC3vFboLCwWGw1ENIGawLDpzhDUvDP5deQP3UDuZjnoNhIh58T7bcJKb66HcWjHFl0CuLOjajU2Kf8PE7HH6QGTlcrdi4U5d+2/xf6GhnL1Fx8oQWiaHW2RyDVI/BXnlYLDjCnfkqumUz5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778840787; c=relaxed/simple;
-	bh=n6/8XoyOcyWPTIe28ELVeszjm9hAAv6mm4s2tszqSTE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mu4a/mEmCRo8OuYRdSWjoJq0DvPVKGDhOi2Wts7xePkCW0hEq04fFltwSYiNPTrkhVf4Rrkcvx8EBz/8RyW3PVjT9nsnhWZ6bG8ut5jGvzREYBEpgNfowIGQpONdlCMEcs7NFU+RtJvEwXwiVhs5e0GOPTQhC/yrf1JhI8hPAA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bL/Ss4/f; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778841564; c=relaxed/simple;
+	bh=xqJosKum8u3HfaS4s7QBFPoBoRkyRsgBlwzVgVbWZZQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jgb58ymvvTQxPNAgPYvCxyI+W/kv8WZpR5bGRXLVlkLuL/cla5LP0OpmWlYiakrOOAzn2xqW9vTZXiEAD/szBca8f9ZwD4OQTE6s/CSxYg3852e258F7zUPSbw4LwBm//5IHFxAIsAm1crNq13BmSoTADHaPLwS9BYAhjO3+6ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=NSUsCuvn; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bL/Ss4/f"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48d102471a4so88166355e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 03:26:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778840784; x=1779445584; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m8javZePBSomMzDxRk4JOXFkifBGHMbX/5UYzJMP8uo=;
-        b=bL/Ss4/fi2wuAEq6gu8KB/BY6SkHIqMeOlOpNGxCJywHG4CY04waiCNaePT+VfEAbf
-         syeVpHDuy4pRy/UvU3OLclME0o0jkab8irQLYXWcIWcPguieJhmIpCFdzuzAMz2kxnoe
-         6HOVNSdHcK8PluZorhVtshQZC0HB0J9XWKb/8+YVbfI5+pJ4pFH1DAc6E4ouxbdSg8Nc
-         HvEJbMBivEOhkf3NNiIq0BxHVHG7ksdIyfbkiw3MNptlldqgEe7robZ+kdo4W7pwGI5b
-         4apCGRBY74bhYAUsBtLV0c77pYjCDOeCUj7Bn8SJOqzlut/qAbHkRpWXPlxdmIeArN9C
-         KWOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778840784; x=1779445584;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m8javZePBSomMzDxRk4JOXFkifBGHMbX/5UYzJMP8uo=;
-        b=n5nW9ewXPQE1edMnPx//JOmyy5yRE9mBMHfZbKtct7jad5v2aAMjBex0XtRAgsScs8
-         5LzT61s03bfYJwXVC/Waq7GBDpJ69Mh1MYEnEN6tUIECpwZgaXx3nvH0vVhOw+LLfElo
-         jfkUGJ447XICYg2Z1XfCN21UdMIMD366+Zgr3F6n/8b0JvV5DcZIL6qUk5IMsPgXpZIv
-         tBMO2iQsm2PjpYfcAXA6qCtiICs+CQZBqEXGVnTz5PPvNyFDj0qoB5bENA/nw9Ttm1Ob
-         Pd3KnTWiKveL5V1fgCTvWEqV+QbeqyD8GCZSO8ZodIUTwDzXdZaf0Zd2v7H4zLNRTqa3
-         ZmMQ==
-X-Gm-Message-State: AOJu0YxHWuDvicS6kYJZZ10uqRcTj9S1qFj5YtqEXTRsADpLyarDoQ1u
-	xN2v0Kcmfk7ZrPkMSXpJ0Wskss5NroIS08gnGLrPKU+OH/0Fa7OFavj1
-X-Gm-Gg: Acq92OFKCADfBglOrJhSaZ3DcPSa3mMPQPDM4BEAi/jEG2UiQz5ZzYu+miqvoyk9UQ8
-	AgHa/hn+Kv+OL7LQuJdM7v7d0j8NBmb28HuHGaCo1mDujUzH1oJC6rUgBnHlW0EeQOMrYok0trT
-	zy2cpstGduz31OFRF8zeHo+5c/OvMipHE3NPs55dP0T4YB9JVFPxOpKYhmtNslOTTcxHla266rl
-	8BNlmRFawbt+wG7Vm9XrzBn7T9C9TT1aw/QNOL1n5oizgqHVv/E+QZVSd+ZvS1yHoUx3/GIEdij
-	1stWv6uppo2oqb4FLsek4yLFrDhxmzE3i2PT9HJU42zsjfSG4wouPLVjE/nCG1TJeRrzUcqGqm3
-	gK4gZ4/EUipMjuYy65VT+cbTYXVZv+H/6IIug1FKja9YZsliAjxcHFBX9MQk/TO5XYR4PIl7ox/
-	GXhcEE/fVsP1KgG6xQ4FBEfoW1K/u0zFwWFkrmhC1B9IS0spS4ROlUBqO+5WmX1V6bKtNq7iWLp
-	J2rO/KUxEPiKSyg+B6qYzbVAcHfPAEjaYqjRXPXYjlPRP2hajTQ07ONARM=
-X-Received: by 2002:a05:600c:2d09:b0:48f:e1ac:c96d with SMTP id 5b1f17b1804b1-48fe61f2bcemr24840585e9.20.1778840784159;
-        Fri, 15 May 2026 03:26:24 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:5f66])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febe6b60csm14137405e9.6.2026.05.15.03.26.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 May 2026 03:26:23 -0700 (PDT)
-Message-ID: <9732fdae-5e0d-4373-90a6-251d270eae16@gmail.com>
-Date: Fri, 15 May 2026 11:26:05 +0100
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="NSUsCuvn"
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id EDAD8270D2;
+	Fri, 15 May 2026 12:39:20 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id nitB1vRL07iJ; Fri, 15 May 2026 12:39:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1778841560; bh=xqJosKum8u3HfaS4s7QBFPoBoRkyRsgBlwzVgVbWZZQ=;
+	h=From:Subject:Date:To:Cc;
+	b=NSUsCuvn9Hk64UQi5BXEvj2kJV376hVGDOyGiZQJXq+eLhE3Y06LdENJto7rmWPg1
+	 c9W2KuAr4jEQp4Pg6CEdYgLIhbmNi6f+bRy3hXsnhSngHkwVfL2rMXT7ywjFs5BW7q
+	 s9utDh4Ysc0mTfHNlrDvVJBs9kmENlDJ+kGHUEVh19sG3HAfVn3Fw02FXF96matvbh
+	 d8cHLhlj7AKFYVdqII42TO64CFZKgH9nkNrB0McM6JcMb5F8E33ojgtuBrZYnuHuA7
+	 xanlu0ALGlj4iUonamZ9j6/X4RIgCm9+MZ0t/mYcqzFaw7Qhx5+5g+SUqkg+lZUoyN
+	 t1kM/xGMSHvGg==
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: [PATCH v6 00/11] Support for Samsung S2MU005 PMIC and its
+ sub-devices
+Date: Fri, 15 May 2026 16:08:56 +0530
+Message-Id: <20260515-s2mu005-pmic-v6-0-1979106992d4@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] io_uring/zcrx: notify user when out of buffers
-To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@meta.com>,
- io-uring@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, netdev@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Vishwanath Seshagiri <vishs@fb.com>,
- Vishwanath Seshagiri <vishs@meta.com>
-References: <20260422112522.3316660-1-cleger@meta.com>
- <20260422112522.3316660-2-cleger@meta.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260422112522.3316660-2-cleger@meta.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMH3BmoC/2XOQW7DIBCF4atErEs1DAPYWfUeVRcYDwmLhAhSq
+ 1XkuxdHitLYy4f0/cNNVC6Jq9jvbqLwlGrK5zbs206Eoz8fWKaxbYGARimFsuLpG8DIyykFCcG
+ 66O3ggw6ikUvhmH7uuc+vto+pXnP5vdcntbw+QvQampQE2bNWHY3aQ+g/xlRLztf3XA5iSU344
+ BYU2hXHxl0XlXcmGnJ+y/WTI5oV140P5CNzT86C3nJ6ctp8npbrkR11YJxju+XmH8c1N43HMIR
+ +9MYD0Cuf5/kPAcWbmKYBAAA=
+X-Change-ID: 20251112-s2mu005-pmic-0c67fa6bac3c
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Nam Tran <trannamatk@gmail.com>, 
+ =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>, 
+ Conor Dooley <conor.dooley@microchip.com>
 
-On 4/22/26 12:25, Clément Léger wrote:
-> From: Pavel Begunkov <asml.silence@gmail.com>
-...>   static inline struct page *io_zcrx_iov_page(const struct net_iov *niov)
->   {
->   	struct io_zcrx_area *area = io_zcrx_iov_to_area(niov);
-> @@ -531,6 +541,7 @@ static struct io_zcrx_ifq *io_zcrx_ifq_alloc(struct io_ring_ctx *ctx)
->   
->   	ifq->if_rxq = -1;
->   	spin_lock_init(&ifq->rq.lock);
-> +	spin_lock_init(&ifq->ctx_lock);
->   	mutex_init(&ifq->pp_lock);
->   	refcount_set(&ifq->refs, 1);
->   	refcount_set(&ifq->user_refs, 1);
-> @@ -585,6 +596,11 @@ static void io_zcrx_ifq_free(struct io_zcrx_ifq *ifq)
->   	if (ifq->dev)
->   		put_device(ifq->dev);
->   
-> +	scoped_guard(spinlock_bh, &ifq->ctx_lock) {
-> +		if (ifq->master_ctx)
-> +			percpu_ref_put(&ifq->master_ctx->refs);
-> +	}
-> +
+S2MU005 is an MFD chip manufactured by Samsung Electronics. This is
+found in various devices manufactured by Samsung and others, including
+all Exynos 7870 devices. It is known to have the following features:
 
-Something very odd happened here. It's not my patch but rather an edited
-squash of two other patches. This particular hunk creates a circular
-dependency, i.e. io_uring waits for this reference to be put down before
-destroying the zcrx instance that triggers io_zcrx_ifq_free.
+1. Two LED channels with adjustable brightness for use as a torch, or a
+   flash strobe.
+2. An RGB LED with 8-bit channels. Usually programmed as a notification
+   indicator.
+3. An MUIC, which works with USB micro-B (and USB-C?). For the micro-B
+   variant though, it measures the ID-GND resistance using an internal
+   ADC.
+4. A charger device, which reports if charger is online, voltage,
+   resistance, etc.
 
--- 
-Pavel Begunkov
+This patch series implements a lot of these features. Naturally, this
+series touches upon a lot of subsystems. The 'parent' is the MFD driver,
+so the subsystems have some form of dependency to the MFD driver, so
+they are not separable.
+
+Here are the subsystems corresponding to the patch numbers:
+dt-bindings - 01, 02, 03
+mfd         - 03, 04, 05, 06
+led         - 01, 07, 08, 09
+extcon      - 02, 10
+power       - 11
+
+Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+---
+Changes in v6:
+- Fix build, UAF, and functional errors with
+  CONFIG_V4L2_FLASH_LED_CLASS=m (Lee Jones)
+- Remove (ret < 0) wherever redundant (Lee Jones)
+- Remove extra conditionals for supporting multiple variants (Lee Jones)
+- Fix OOB condition in initailizing flash LED channels (Lee Jones)
+- declare i inside for, like: for (int i = 0; ...) (Lee Jones)
+- Rewrite and simplify closest timing function for clarity (Lee Jones)
+- Link to v5: https://lore.kernel.org/r/20260424-s2mu005-pmic-v5-0-fcbc9da5a004@disroot.org
+
+Changes in v5:
+- Drop port property from charger dt binding (Krzysztof Kozlowski)
+- Create separate dt binding for S2MU005 MFD (Krzysztof Kozlowski)
+- Move RGB LED and charger schema to parent schema (Rob Herring)
+- Fix error of using invalid revision mask
+- Link to v4: https://lore.kernel.org/r/20260414-s2mu005-pmic-v4-0-7fe7480577e6@disroot.org
+
+Changes in v4:
+- Use OF graph to connect charger with MUIC in device tree
+- Move DMA coherent mask to all MFD PMICs (André Draszik)
+- Modify pointer names for flash/RGB drivers (Lee Jones)
+- Use 100-char line wrap for flash/RGB drivers (Lee Jones)
+- Revamp LED device initialization in flash driver (Lee Jones)
+- Add proper USB 2.0 support in charger driver (Łukasz Lebiedziński)
+- Link to v3: https://lore.kernel.org/r/20260225-s2mu005-pmic-v3-0-b4afee947603@disroot.org
+
+Changes in v3:
+- Remove "extcon" text from dt-bindings documentation (Rob Herring)
+- Add connector for MUIC node
+- Fix dt binding errors reported by robh's bot
+- Fix kernel test robot const errors 
+- Remove FIELD_PREP() values in register header file (André Draszik)
+- Add max_register, volatile_reg, cache_type (André Draszik)
+- Redo [v2 07/12] to NOT store the PMIC revision (André Draszik)
+- Add a commit to fix DMA coherent mask in I2C PMICs
+- Implement various flow changes in flash LED driver (André Draszik)
+- Use device_for_each_child_node_scoped() (André Draszik)
+- Fix CFI panic in devm_add_action_or_reset()
+- Link to v2: https://lore.kernel.org/r/20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org
+
+Changes in v2:
+- Drop [v1 06/13], instead use regmap_irq_chip::get_irq_regs() 
+- Remove references to driver in devicetree commits (Conor Dooley)
+- Propagate errors of sec_pmic_store_rev() (André Draszik)
+- Fix documentation language errors (Randy Dunlap)
+- Link to v1: https://lore.kernel.org/r/20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org
+
+To: Lee Jones <lee@kernel.org>
+To: Pavel Machek <pavel@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+To: MyungJoo Ham <myungjoo.ham@samsung.com>
+To: Chanwoo Choi <cw00.choi@samsung.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+To: André Draszik <andre.draszik@linaro.org>
+To: Nam Tran <trannamatk@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Sebastian Reichel <sre@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+
+---
+Kaustabh Chakraborty (11):
+      dt-bindings: leds: document Samsung S2M series PMIC flash LED device
+      dt-bindings: extcon: document Samsung S2M series PMIC extcon device
+      dt-bindings: mfd: add documentation for S2MU005 PMIC
+      mfd: sec: add support for S2MU005 PMIC
+      mfd: sec: set DMA coherent mask
+      mfd: sec: resolve PMIC revision in S2MU005
+      leds: flash: add support for Samsung S2M series PMIC flash LED device
+      leds: rgb: add support for Samsung S2M series PMIC RGB LED device
+      Documentation: leds: document pattern behavior of Samsung S2M series PMIC RGB LEDs
+      extcon: add support for Samsung S2M series PMIC extcon devices
+      power: supply: add support for Samsung S2M series PMIC charger device
+
+ .../bindings/extcon/samsung,s2mu005-muic.yaml      |  40 ++
+ .../bindings/leds/samsung,s2mu005-flash.yaml       |  52 +++
+ .../bindings/mfd/samsung,s2mu005-pmic.yaml         | 120 ++++++
+ Documentation/leds/index.rst                       |   1 +
+ Documentation/leds/leds-s2m-rgb.rst                |  60 +++
+ drivers/extcon/Kconfig                             |  10 +
+ drivers/extcon/Makefile                            |   1 +
+ drivers/extcon/extcon-s2m.c                        | 345 +++++++++++++++++
+ drivers/leds/flash/Kconfig                         |  12 +
+ drivers/leds/flash/Makefile                        |   1 +
+ drivers/leds/flash/leds-s2m-flash.c                | 352 +++++++++++++++++
+ drivers/leds/rgb/Kconfig                           |  11 +
+ drivers/leds/rgb/Makefile                          |   1 +
+ drivers/leds/rgb/leds-s2m-rgb.c                    | 416 +++++++++++++++++++++
+ drivers/mfd/sec-common.c                           |  37 +-
+ drivers/mfd/sec-i2c.c                              |  29 ++
+ drivers/mfd/sec-irq.c                              |  74 ++++
+ drivers/power/supply/Kconfig                       |  11 +
+ drivers/power/supply/Makefile                      |   1 +
+ drivers/power/supply/s2m-charger.c                 | 299 +++++++++++++++
+ include/linux/mfd/samsung/core.h                   |   1 +
+ include/linux/mfd/samsung/irq.h                    |  66 ++++
+ include/linux/mfd/samsung/s2mu005.h                | 332 ++++++++++++++++
+ 23 files changed, 2266 insertions(+), 6 deletions(-)
+---
+base-commit: e98d21c170b01ddef366f023bbfcf6b31509fa83
+change-id: 20251112-s2mu005-pmic-0c67fa6bac3c
+
+Best regards,
+--  
+Kaustabh Chakraborty <kauschluss@disroot.org>
 
