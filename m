@@ -1,347 +1,168 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BBF3CAE8D
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 03:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFA93C4563;
+	Fri, 15 May 2026 03:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778814215; cv=none; b=OVZzwuGlqVsVcBIlbzt332re/onoJDyIHYUX3+b0x6mGyeI6D/CZo22aG6fg+f3umbJFVOqcIDL29uoPa5kyn6/raPlruEy38aJ+bk9P7LgnKb0FKs2I6WKNi6OjW6wMsxAGckQ+CSC815v1YTNjZZON04ZCkbE86T8k9Xi0vWE=
+	t=1778814249; cv=none; b=ShIYN8VBH2Wnsl2sgQBj0mAzrIs4vd5WXb23AwL/+boEfdApvQ49gTOZHBx34cs053+/F6XEVscRPJw/F62MH0JPIoIc4KNTISMrhkMvLn7kraKObLVZj7TPWrF613fBZhg4HEBuvw4I/w0yl7G879wK6Wz9/dvhgFdIngXWelM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778814215; c=relaxed/simple;
-	bh=jt1pcuf39jTjOp/CprE2VknkJYWSRf1cDSthp+6L81c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SfsjdTJl8x5AJHeAVl/G1GooXTHJgzknru0rNu1WR4dUsYd43MwVeM7ibNbWT7zKyDBTXsRPV8gO7eWRimfc9A4xpjY29mKKLpFyIu950qblIesZ3GFOKqsOizM7XCBDMtQ3S76Geen+eoD+8x6HCIcaF3NAqHBkEOS8yrcjFBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=bfWvznq6; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
+	s=arc-20240116; t=1778814249; c=relaxed/simple;
+	bh=XhcnxjnUYRKbBkL4zobZN3AAxaA0Z1eO6uo2G/8yYC0=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=jV/xRowhQd+96vFcNM4a2JF/65Ywp90Kx2Zx9JhxyhUith3Fz+aw7zp2qCrzUMo9fTuvIyaFZ5u+Fs3qknWSTEnJVoMpT7sVlYj6I3XSug2J6vRDPk8+PCXRb6/MPuAtIHNL3GR8EvEnMfKu8pqIMNBygj4JqPFn+Tbj8O8q2Nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=zrNDrXNs; arc=none smtp.client-ip=113.46.200.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="bfWvznq6"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2ee990e8597so14726610eec.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 20:03:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexthop.ai; s=google; t=1778814212; x=1779419012; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RSmQiZH+KFPr73qb2DgqirdV6BoUGNU/diBKQVP+P04=;
-        b=bfWvznq6JWxrDtYAQEHy3uFGgClWpDny0M1Kb3QcnAvNndS6GBPpEEjeCMr7qKN78h
-         efdCnlHWGYWGwQdYOO6LThZCTBrWWgo3kdQckF/U20mae1TaJUd31HkJjFD+/buF6j8X
-         LdLoAc1VSN3OcWtagYv086fpdn4Cmym95dcf61KZjhRlxMzwrBWc9LLQKat6QHBOr973
-         kDlkhlQOwAU715VPrZwC3bKBTzUdq40vK75BnJE+Zsrjxqsar30UHu60hlHeJmi0B9IB
-         Mr5oXkKibhqGtCOZzQ+zh0/bVb2kAgPxGMtOYxVC1HfZHHvesm9pZ8+iTxU4/+PhwMMO
-         A9kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778814212; x=1779419012;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RSmQiZH+KFPr73qb2DgqirdV6BoUGNU/diBKQVP+P04=;
-        b=jmxhBw+/zrkLPs+niCQ+c8ALl7u+oUta2ACaEMpq3h0ivSdUeaj3viqtf4kRukvrUd
-         H19gt0nElILZ9jXT853wAfw1Kc0/2rpvzAI6s3PBsQTPeECjecUFsws8m5HgPLqGcpxW
-         EVhHl6l62ovxLX9/TGU0MuLc7y/36HSAymefT2P/hbmtfx8U7SNbSwdZ4IJjMNwsFxUU
-         +dfqUQsgUz8dJkVnV1bQMZ1Te3r1s2s37Q4hf49pwK6Q+J1dAXHiRYxYWWOHA3rOR8Iv
-         LKIlEfyDa5L3AeTdvX4/YCXUxbMfP7UNnoorMpWmwvhOddCJNiR1fsb8tj5fZ7gdazuZ
-         WP8w==
-X-Forwarded-Encrypted: i=1; AFNElJ+fHFQGuvF+YTHi37Wz8E6u75Dex31t9pc5KJh/swS6TdUWqdfW+H4aCDuU5w2LwMQkT+BLFixjNlI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIE7MNWQ6LHakOuuH/dUJZJK8nMGN9btpmAYTBuxhItd7eqBO/
-	mR9cRHan3bOiMhJ3FPOPxT+alq8s3Q3oQHaFnenFU50QzXHYYlaVuAFD+FE4iz2GvsM=
-X-Gm-Gg: Acq92OHgKZKMDVpBziwcF+OR6ogUFCHcfmh7iCWLnt7zG//e36YTFi2ylY+eLFyLBpU
-	NaF2s7Iq/82/XvhROYelQruf8Me6pUmuVQ0BJlEnWmrLn4ZuXkNfwJiPXFuYIC6R/ST5MRCTTX8
-	rnam1X536UNyUSL8yV3frmhZ+A0YtpFDMJ9oCyh7YFYtLtmMKlb0JPItMW9RYy/PsOkjyP4Zb1O
-	6X5Z6UD2PrWNxxW/NIrI9kdGHfGuE2ORakDbZq6lFGhRr7MCP3Rrj8/j6fWLxHZtEQWid+4kVsT
-	gZfapq7+VpZawv/o8LMta7oatwX30XlZaoJ+rk/yaz6WR1mefde+XrVqjQBv650xmxnTv/Lq8CP
-	iOobaoOflXYaacfRvX0OyKs3ICfAf0kJH/JHmaUJ/Tk+mC7E6UofxvkYdKGlMR9IuEYLXOF1V/d
-	vR4oVQWA2W7FO0JbQ2k3RUOd01igfy89xU5aft
-X-Received: by 2002:a05:7301:2901:b0:2c0:e404:8b08 with SMTP id 5a478bee46e88-303986b4529mr1054564eec.29.1778814212159;
-        Thu, 14 May 2026 20:03:32 -0700 (PDT)
-Received: from [127.0.0.2] ([50.145.100.174])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30296dcb6f6sm6347011eec.17.2026.05.14.20.03.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 20:03:31 -0700 (PDT)
-From: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-Date: Thu, 14 May 2026 20:03:26 -0700
-Subject: [PATCH v4 2/2] hwmon: (pmbus/d1u74t) Add Murata D1U74T PSU driver
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="zrNDrXNs"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=c1kImyxqEbaAy8kSJvIICJ2cSXsdXwlWP4COYny/KSg=;
+	b=zrNDrXNsSOpvDcQyNoICT4sJcco3E5Wsi/O9iHpDKfEX9XEWUf/G4XkITj7GNXEmCI/idJPfP
+	P4UGl/4Oun+rHqHdIN28evtQ5auEfY+bkcrQEAnCVTqBcNINbAhTUGsW0k0T2fek/MYR3cF4Ai1
+	3WMtGlCqyQAslPSg+eDFPV4=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gGsL46BLFznTZY;
+	Fri, 15 May 2026 10:57:00 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id A0C4240539;
+	Fri, 15 May 2026 11:04:02 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 15 May 2026 11:04:02 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 15 May 2026 11:04:01 +0800
+Subject: Re: [PATCH v7 2/6] mm/memory-failure: surface unhandlable kernel
+ pages as -ENOTRECOVERABLE
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Andrew Morton
+	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, "Lorenzo
+ Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, "Masami
+ Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>
+References: <20260513-ecc_panic-v7-0-be2e578e61da@debian.org>
+ <20260513-ecc_panic-v7-2-be2e578e61da@debian.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <5cbb6038-72e3-9eda-7d1a-464f879fabb9@huawei.com>
+Date: Fri, 15 May 2026 11:04:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <20260513-ecc_panic-v7-2-be2e578e61da@debian.org>
 Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260514-d1u74t-v4-2-1f1ee7b002ec@nexthop.ai>
-References: <20260514-d1u74t-v4-0-1f1ee7b002ec@nexthop.ai>
-In-Reply-To: <20260514-d1u74t-v4-0-1f1ee7b002ec@nexthop.ai>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Abdurrahman Hussain <abdurrahman@nexthop.ai>, 
- kernel test robot <lkp@intel.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778814209; l=7535;
- i=abdurrahman@nexthop.ai; s=20260510; h=from:subject:message-id;
- bh=jt1pcuf39jTjOp/CprE2VknkJYWSRf1cDSthp+6L81c=;
- b=r9wkpVc0tUwEPWbAgpAvW/1MJ2aTHq753sL24j8d9WAUIcKGHbaIV3r+xL01qn8q31/RCdDWI
- Fgjr76WHUuND/XASwKf8suLejsNLxYD1uye7YQ97x4F7Ppg+D/H5COK
-X-Developer-Key: i=abdurrahman@nexthop.ai; a=ed25519;
- pk=omTm9cCAbO0ZhS32aKfJDKue0W3sQGpG9ub5eYHif8I=
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-Add PMBUS driver for Murata D1U74T power supplies.
+On 2026/5/13 23:39, Breno Leitao wrote:
+> get_any_page() collapses three different failure modes into a single
+> -EIO return:
+> 
+>   * the put_page race in the !count_increased path;
+>   * the HWPoisonHandlable() rejection that bounces out of
+>     __get_hwpoison_page() with -EBUSY and exhausts shake_page() retries;
+>   * the HWPoisonHandlable() rejection that goes through the
+>     count_increased / put_page / shake_page retry loop.
+> 
+> The first is transient (the page is racing with the allocator).  The
+> second can be either transient (a userspace folio briefly off LRU
+> during migration/compaction) or stable (slab/vmalloc/page-table/
+> kernel-stack pages).  The third describes a stable kernel-owned page
+> that the count_increased=true caller already held a reference on.
+> 
+> Distinguish them on the return path: keep -EIO for both the put_page
+> race and the -EBUSY-after-retries branch (shake_page() cannot drag a
+> folio back from active migration, so we cannot prove the page is
+> permanently kernel-owned from there), keep -EBUSY for the allocation
+> race (unchanged), and return -ENOTRECOVERABLE only from the
+> count_increased-true HWPoisonHandlable() rejection that exhausts its
+> retries -- the caller's reference is structural evidence that the
+> page is owned by the kernel.
+> 
+> Extend the unhandlable-page pr_err() to fire for either errno and
+> update the get_hwpoison_page() kerneldoc.
+> 
+> memory_failure() still folds every negative return into
+> MF_MSG_GET_HWPOISON via its existing "else if (res < 0)" branch, so
+> this patch is a no-op for users of memory_failure() and only changes
+> the errno that soft_offline_page() can propagate to its callers.  A
+> follow-up wires the new return code through memory_failure() and
+> reports MF_MSG_KERNEL for the unrecoverable cases.
+> 
+> Suggested-by: David Hildenbrand <david@kernel.org>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
+>  mm/memory-failure.c | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index 49bcfbd04d213..bae883df3ccb2 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -1408,6 +1408,15 @@ static int get_any_page(struct page *p, unsigned long flags)
+>  				shake_page(p);
+>  				goto try_again;
+>  			}
+> +			/*
+> +			 * Return -EIO rather than -ENOTRECOVERABLE: this
+> +			 * branch is also reached for pages that are merely
+> +			 * off-LRU transiently (e.g. a folio in the middle
+> +			 * of migration or compaction), which shake_page()
+> +			 * cannot drag back.  The caller cannot prove the
+> +			 * page is permanently kernel-owned from here, so
+> +			 * keep it on the recoverable errno.
+> +			 */
+>  			ret = -EIO;
+>  			goto out;
+>  		}
+> @@ -1427,10 +1436,10 @@ static int get_any_page(struct page *p, unsigned long flags)
+>  			goto try_again;
+>  		}
+>  		put_page(p);
+> -		ret = -EIO;
+> +		ret = -ENOTRECOVERABLE;
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202605122253.zInzmUeX-lkp@intel.com/
-Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
----
- Documentation/hwmon/d1u74t.rst | 81 +++++++++++++++++++++++++++++++++++++++
- Documentation/hwmon/index.rst  |  1 +
- MAINTAINERS                    |  7 ++++
- drivers/hwmon/pmbus/Kconfig    |  9 +++++
- drivers/hwmon/pmbus/Makefile   |  1 +
- drivers/hwmon/pmbus/d1u74t.c   | 86 ++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 185 insertions(+)
+Theoretically, pages that are merely off-LRU transiently as you commented above could
+reach here too? Or am I miss something?
 
-diff --git a/Documentation/hwmon/d1u74t.rst b/Documentation/hwmon/d1u74t.rst
-new file mode 100644
-index 000000000000..3a9eedbda483
---- /dev/null
-+++ b/Documentation/hwmon/d1u74t.rst
-@@ -0,0 +1,81 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver d1u74t
-+====================
-+
-+Supported chips:
-+
-+  * Murata D1U74T
-+
-+    Prefix: 'd1u74t'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: Publicly available at the Murata website
-+
-+Authors:
-+    Abdurrahman Hussain <abdurrahman@nexthop.ai>
-+
-+
-+Description
-+-----------
-+
-+This driver implements support for Murata D1U74T Power Supply with
-+PMBus support.
-+
-+The driver is a client driver to the core PMBus driver.
-+Please see Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
-+
-+
-+Usage Notes
-+-----------
-+
-+This driver does not auto-detect devices. You will have to instantiate the
-+devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
-+details.
-+
-+
-+Sysfs entries
-+-------------
-+
-+======================= ======================================================
-+curr1_label		"iin"
-+curr1_input		Measured input current
-+curr1_alarm		Input current alarm
-+curr1_rated_max		Maximum rated input current
-+
-+curr2_label		"iout1"
-+curr2_input		Measured output current
-+curr2_max		Maximum output current
-+curr2_max_alarm		Output current high alarm
-+curr2_crit		Critical high output current
-+curr2_crit_alarm	Output current critical high alarm
-+curr2_rated_max		Maximum rated output current
-+
-+in1_label		"vin"
-+in1_input		Measured input voltage
-+in1_alarm		Input voltage alarm
-+in1_rated_min		Minimum rated input voltage
-+in1_rated_max		Maximum rated input voltage
-+
-+in2_label		"vout1"
-+in2_input		Measured output voltage
-+in2_alarm		Output voltage alarm
-+in2_rated_min		Minimum rated output voltage
-+in2_rated_max		Maximum rated output voltage
-+
-+power1_label		"pin"
-+power1_input		Measured input power
-+power1_alarm		Input power alarm
-+power1_rated_max	Maximum rated input power
-+
-+temp[1-3]_input		Measured temperature
-+temp[1-3]_max		Maximum temperature
-+temp[1-3]_max_alarm	Maximum temperature alarm
-+temp[1-3]_rated_max	Maximum rated temperature
-+
-+fan1_alarm		Fan 1 warning
-+fan1_fault		Fan 1 fault
-+fan1_input		Fan 1 speed in RPM
-+fan1_target		Fan 1 target
-+======================= ======================================================
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 8b655e5d6b68..97b1ef65b1c1 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -60,6 +60,7 @@ Hardware Monitoring Kernel Drivers
-    corsair-psu
-    cros_ec_hwmon
-    crps
-+   d1u74t
-    da9052
-    da9055
-    dell-smm-hwmon
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b2040011a386..3106cf725dfc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18249,6 +18249,13 @@ F:	drivers/mux/
- F:	include/dt-bindings/mux/
- F:	include/linux/mux/
- 
-+MURATA D1U74T PSU DRIVER
-+M:	Abdurrahman Hussain <abdurrahman@nexthop.ai>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/d1u74t.rst
-+F:	drivers/hwmon/pmbus/d1u74t.c
-+
- MUSB MULTIPOINT HIGH SPEED DUAL-ROLE CONTROLLER
- M:	Bin Liu <b-liu@ti.com>
- L:	linux-usb@vger.kernel.org
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 8f4bff375ecb..ee93b22d2887 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -113,6 +113,15 @@ config SENSORS_CRPS
- 	  This driver can also be built as a module. If so, the module will
- 	  be called crps.
- 
-+config SENSORS_D1U74T
-+	tristate "Murata D1U74T Power Supply"
-+	help
-+	  If you say yes here you get hardware monitoring support for the Murata
-+	  D1U74T Power Supply.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called d1u74t.
-+
- config SENSORS_DELTA_AHE50DC_FAN
- 	tristate "Delta AHE-50DC fan control module"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 7129b62bc00f..8cf7d3075371 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -76,3 +76,4 @@ obj-$(CONFIG_SENSORS_XDPE1A2G7B)	+= xdpe1a2g7b.o
- obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
- obj-$(CONFIG_SENSORS_PIM4328)	+= pim4328.o
- obj-$(CONFIG_SENSORS_CRPS)	+= crps.o
-+obj-$(CONFIG_SENSORS_D1U74T)	+= d1u74t.o
-diff --git a/drivers/hwmon/pmbus/d1u74t.c b/drivers/hwmon/pmbus/d1u74t.c
-new file mode 100644
-index 000000000000..286ba492e336
---- /dev/null
-+++ b/drivers/hwmon/pmbus/d1u74t.c
-@@ -0,0 +1,86 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright 2026 Nexthop Systems.
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/of.h>
-+#include <linux/pmbus.h>
-+
-+#include "pmbus.h"
-+
-+static const struct i2c_device_id d1u74t_id[] = {
-+	{ "d1u74t" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(i2c, d1u74t_id);
-+
-+static struct pmbus_driver_info d1u74t_info = {
-+	.pages = 1,
-+	/* PSU uses default linear data format. */
-+	.func[0] = PMBUS_HAVE_PIN | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-+		   PMBUS_HAVE_IIN | PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT |
-+		   PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_TEMP |
-+		   PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3 |
-+		   PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_FAN12 |
-+		   PMBUS_HAVE_STATUS_FAN12,
-+};
-+
-+static int d1u74t_probe(struct i2c_client *client)
-+{
-+	char buf[I2C_SMBUS_BLOCK_MAX + 2] = { 0 };
-+	struct device *dev = &client->dev;
-+	int rc;
-+
-+	rc = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, buf);
-+	if (rc < 0)
-+		return dev_err_probe(dev, rc, "Failed to read PMBUS_MFR_ID\n");
-+
-+	if (rc != 9 || strncmp(buf, "Murata-PS", 9)) {
-+		buf[rc] = '\0';
-+		return dev_err_probe(dev, -ENODEV,
-+				     "Unsupported Manufacturer ID '%s'\n",
-+				     buf);
-+	}
-+
-+	rc = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
-+	if (rc < 0)
-+		return dev_err_probe(dev, rc,
-+				     "Failed to read PMBUS_MFR_MODEL\n");
-+
-+	if (rc < 8 || strncmp(buf, "D1U74T-W", 8)) {
-+		buf[rc] = '\0';
-+		return dev_err_probe(dev, -ENODEV, "Model '%s' not supported\n",
-+				     buf);
-+	}
-+
-+	rc = pmbus_do_probe(client, &d1u74t_info);
-+	if (rc)
-+		return dev_err_probe(dev, rc, "Failed to probe\n");
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id d1u74t_of_match[] = {
-+	{
-+		.compatible = "murata,d1u74t",
-+	},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, d1u74t_of_match);
-+
-+static struct i2c_driver d1u74t_driver = {
-+	.driver = {
-+		.name = "d1u74t",
-+		.of_match_table = d1u74t_of_match,
-+	},
-+	.probe = d1u74t_probe,
-+	.id_table = d1u74t_id,
-+};
-+
-+module_i2c_driver(d1u74t_driver);
-+
-+MODULE_AUTHOR("Abdurrahman Hussain");
-+MODULE_DESCRIPTION("PMBus driver for Murata D1U74T-W power supplies");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("PMBUS");
+Thanks.
+.
 
--- 
-2.53.0
+>  	}
+>  out:
+> -	if (ret == -EIO)
+> +	if (ret == -EIO || ret == -ENOTRECOVERABLE)
+>  		pr_err("%#lx: unhandlable page.\n", page_to_pfn(p));
+>  
+>  	return ret;
+> @@ -1487,7 +1496,10 @@ static int __get_unpoison_page(struct page *page)
+>   *         -EIO for pages on which we can not handle memory errors,
+>   *         -EBUSY when get_hwpoison_page() has raced with page lifecycle
+>   *         operations like allocation and free,
+> - *         -EHWPOISON when the page is hwpoisoned and taken off from buddy.
+> + *         -EHWPOISON when the page is hwpoisoned and taken off from buddy,
+> + *         -ENOTRECOVERABLE for stable kernel-owned pages the handler
+> + *         cannot recover (PG_reserved, slab, vmalloc, page tables,
+> + *         kernel stacks, and similar non-LRU/non-buddy pages).
+>   */
+>  static int get_hwpoison_page(struct page *p, unsigned long flags)
+>  {
+> 
 
