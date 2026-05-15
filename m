@@ -1,101 +1,242 @@
-Received: from outbound.ci.icloud.com (ci-2002d-snip4-10.eps.apple.com [57.103.88.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5F83264EC
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 15:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.88.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870593EFFD8
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 16:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778860670; cv=none; b=paXX/n4tXhbrKkUvt+HgKHKLCJlXR6rsxNw4xVnH0NnJqC6L1hTEhSsYZ/XH0s9YePe9D/l0xbVsTabe9NKXLAScJa77GNiCtoEe8Ydf+nge2wWrral1NKrCkih6mkfw6zB+rRU4YgbxyQh2NPpt3u/ZOQX49Et/38jywdbtpfg=
+	t=1778861113; cv=none; b=RfHs6e9j5jTfhFSVtq0EkiK2vTBIk0p26Y5kXXrGG84nDvFvCjKjPNmylDbAXdRe/oZVHVbv/T4wT3a8PZAGq/DIDabajCOOFTwNR+LrW2lFGf/bj4ZCPYfkwoOHXJ3LG/6uJMfjBikj+jTV+IJtSLCrANdnSArhiLh1WWg3OKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778860670; c=relaxed/simple;
-	bh=VCz6Vzcxv7+HrW6MUnn7R0R4JcxjuaOFDj7RBZs1TrM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QiHQTtaYkOvbvQySq/RBxRhJbQ9ALvdCxycv9TkyC8l9GP2HqbQc1LCPkHgePwsA/62pkXQP6gc1wsEx2CthLDDelUN9xyuomZnarDf44YdBinD1NQX46NtfMaSFQe/23E5Pa/8V5R4IjVT0w+pQcFZ+Ze/j0gwWEK/ndUhyRdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etehtsea.me; spf=pass smtp.mailfrom=etehtsea.me; dkim=pass (2048-bit key) header.d=etehtsea.me header.i=@etehtsea.me header.b=BTYydRqg; arc=none smtp.client-ip=57.103.88.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etehtsea.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etehtsea.me
+	s=arc-20240116; t=1778861113; c=relaxed/simple;
+	bh=b5pd97Ki+/XAUp6J5p3HNpRMAnmllhdnuVwxI2OEYhs=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h/8Ty5ILciheAxI4imlg7tSgkGgeEap0eT6t3UWxBYYxaOqwihYGVMFOKoH73TDajsgbOUQaZHOEyCYN8fB6iyzI2ip6VlaIe1vkMTTxiBEljx4gKhmNRSh9Q7Gf37Fcz+0E34NLyAVbG2GRqNf4YgKOyTbDDp3wTYA/6Aj8LQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hp4DJTo9; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=etehtsea.me header.i=@etehtsea.me header.b="BTYydRqg"
-Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-central-1k-60-percent-11 (Postfix) with ESMTPS id 55F011800097;
-	Fri, 15 May 2026 15:57:46 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQ5AHVwDWxxBAFYHXxcOVk1UGVoBdw5GFVEMQAhWRV8VGR5XUFoKWxx5HUcIXx9BFVhWXggXGVFNCEkTBVIHXU1WDUcPWB5cFBcbWkNeCF4fTBwdDlgGEgBNCg42BlkFXglWA0MFNhIUXUVWGVIDRgNcGR0AUktfGV1FD18HWQRADEkGXAJeBUQIVgFYB1MAXQhVXgxeB3IVTR1bGUQOU15UHQ1NQxJCFQQbRh5DBF8vXRdeDF4F
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=etehtsea.me; s=sig1; t=1778860668; x=1781452668; bh=DuQegn9fkCMACsPY0TAXb1FFSz4/Ugl6CDVsxtvsXcM=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=BTYydRqgcIlRgyauh1SL5vYC76n5FVBUdjGDDdnIZP5eE685UFKpDKizQ7bAOSxH+B0qPGYz+FGSAxE9DflSY4p/6efglR9XWKYbuNYn5jS7sIzu/4dsAX1ATpHgJC1BKVSK3VXdtmV/dqZYBc5qAwZgnWUOTUhmLiv/fmBHhi59PMNXeJL+YlRQ0PN8mdGBrmteGNdF1kyXbpVED23aN4sKu3ficofL2FT3x6hcp0URwr8wqClgXd9ZBNb+46yEDT2btyXGVrX17u9LwWERR9Kzc87hRNWM6a6guPNvLgPCzXk0ohwapX7BxfthyuqfcZC5LoAFxgABjFyKxIm/Kw==
-mail-alias-created-date: 1634905887181
-Received: from localhost (unknown [17.57.156.36])
-	by p00-icloudmta-asmtp-us-central-1k-60-percent-11 (Postfix) with ESMTPSA id 4910918009BD;
-	Fri, 15 May 2026 15:57:45 +0000 (UTC)
-From: Konstantin Shabanov <mail@etehtsea.me>
-To: kuba@kernel.org
-Cc: corbet@lwn.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	horms@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mail@etehtsea.me,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH] docs: netlink: Correct buffer sizing info
-Date: Fri, 15 May 2026 22:57:41 +0700
-Message-ID: <20260515155741.25082-1-mail@etehtsea.me>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260512172757.10c43c86@kernel.org>
-References: <20260512172757.10c43c86@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hp4DJTo9"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48374014a77so81134325e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 09:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778861110; x=1779465910; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QJEHw+NfjmamzJ6e+wpSFeRm2Y9ZjDhLNyEd/6LMzgY=;
+        b=Hp4DJTo9/dal9rKDfqruemL6qWUHBIxzK+15BqFeM+cHOaTO7tTP4IUgkmaqys+1Xi
+         aJCK4+0GNKj+cyXtrMq0lW5tGV2QfcQDPABZ5pFmSDZUD0Mw10f5HdB5/s0QkCFf4TfK
+         qNNlhGG6hU3AeRW+5KrpkRbYDeW3nuhV5RFGI8F8Tb1ijyCDBgOMsqpjfcoGPxqkaguw
+         Vocbee+LUBXPhkPd2g52aQr1HxytgMpikYSWUPKRBzTQKXn3/xNv7wrhiN9yREhq3qLY
+         kqfRgzyOfjSnlhIXW7YAFV4Ly+qGrv81faAiMGugle5QPVWArhlzlr9YJV+AV5sIdCpl
+         QuHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778861110; x=1779465910;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QJEHw+NfjmamzJ6e+wpSFeRm2Y9ZjDhLNyEd/6LMzgY=;
+        b=CNr0bgUvmy493X+nwpvW61gH7ufDifMafQdcXHn1CJdgmNoPdYswu/oHFhRiKjVfHp
+         uTa2RkBfBhCw7a2YJWXkntiFrRINVDMrZbWpzf6ggL7NCaeiClL7ZcuUiYIElYis5NOX
+         L6rPUnVRdRvP1ZUhahFJaOKSv29SBenReWrOZ9xIrJZMz2pqhfljGmWnwxRV22JxF3Ku
+         W7AHKL4+bRS0HiUId/g6ebRLMMVGFrL2Lx6NcpQcraI2wz5u+xZpDJ7thk/tFQu1QObL
+         UkyODmJNP4gW9gMKLJIvLCQQ/EHHXm9S2lLfMaEKYNm5ghQLvv3wVUy+24uyxSKQI4tP
+         124g==
+X-Forwarded-Encrypted: i=1; AFNElJ8sIqDQa0esM/uSII1yBgyMPYhjSot3yv/5G75Qi78tnRvUfCKeh1OraRisLfKSILiaMInVnocDHac=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPKZQHRLlAk/gji5KBMvOSPmDVbjF2lRZz7E1RDE8NJoQxaLZ3
+	a7mUc3RIgStePoWtg8qlBZK/cyL+VLUAqby6+mLLMcZit92hwcrqYZvU
+X-Gm-Gg: Acq92OEbOKNmC53NOh7jxNlzbEz0QjqrCo0tuCfdXxsTpW3bpcwbZ8fDnISt51SCbTa
+	4IS7GN1wBgKTGw1Xs7CU4JH4+0BmHV/NmKRDf/AR5U9+wcD2ZE8UUsPFazvyyM3o4LLNd3vr9wx
+	x5+oxXPEQ6nZzlOiVRRYZlwrY426h27G/ZpsrEQbVOP3012vhFlTO9+Me0Mo4OFHbI5HaiUPS3X
+	gQ0f9H7gva0HEHyAll/wM8NAKIlqBD1JO+gUH7AuVgzgq3m7gbQr0urXIF1dilRIICm/npD3Ovb
+	o+IhH5VIBzoZ202WLMlSAK6RI+OK7nv9yEnxtyBh0aBUF/GhGt7rCrE1NQIUWaG42Y96suMftkR
+	LtcDDH0oqNpR2y8DGBsgbPYAkW61+keYCy+hslsBoCNeAcas2GpRVw2C3+yglAxadTWEWVzH4G1
+	nkRKcnJ/MHGZ0rkybRYFx9eb1cjCeyCuGukFlyK9Wb8/5lUsWOSdDbzMYvcNsypjPy1nOAyekKO
+	UMQwAj8+8i9uvXO1ndNck45D0uFu4uMRsojYumdldlJreTRhw==
+X-Received: by 2002:a05:600c:8184:b0:489:1c1f:35f1 with SMTP id 5b1f17b1804b1-48fe60e1451mr65158195e9.4.1778861109715;
+        Fri, 15 May 2026 09:05:09 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febe67688sm21102505e9.5.2026.05.15.09.05.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 09:05:09 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Fri, 15 May 2026 17:05:06 +0100
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
+	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, David Laight <david.laight.linux@gmail.com>
+Subject: Re: [PATCH v12 02/11] lib: kstrtox: add kstrtoudec64() and
+ kstrtodec64()
+Message-ID: <ex6p5qpgsfvm5wzalpwo7whcj4m4uxzscpzxvb5ihfu2prx3fj@7skhmz3cbshw>
+References: <20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com>
+ <20260510-adf41513-iio-driver-v12-2-34af2ed2779f@analog.com>
+ <kwjoyikbygik4futknqpua2tlzokradms25n2dmfa5czyj2uts@4rdfl6zlul2q>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: MBeYi7hRfafsSMgW6tgjcPjp87ci0_31
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE1MDE2MyBTYWx0ZWRfX9u2+/58yK04i
- ED6wxzBp2PRTy+TwSw8sHnM9SWblGZIgyuFUeY1XYnhcSuSoWbeQqDsXukWSNKwwLXAnWyqLKE3
- ngnfDvfqN0Ns3qBlwXRfL/FJOHqjEzvblP2Ige+ckq5PzwW93+sVh1H60axPgH6F6lgMKdQjr+k
- Qjwe/nqM+WiFkyf1tptA3TJhuUavBxYDX/vL97dEViZ7/v8NKo1u9b07hQNrrYZrOZpFxW3PhU/
- Bz+Y0fcJgbdXDhRWL2DEjRGhOraeHxJe7ptlkdQBHDyOqSVrXl+OzvG8Byjjv730hINzPKQTBLd
- 8ukX8le5Om+TIzph/z30sW1GYBeVfJ6FmcOjdpFosnR3eGsX/6r+Sie8ZgErIo=
-X-Proofpoint-GUID: MBeYi7hRfafsSMgW6tgjcPjp87ci0_31
-X-Authority-Info-Out: v=2.4 cv=J46nLQnS c=1 sm=1 tr=0 ts=6a07427a
- cx=c_apl:c_pps:t_out a=2G65uMN5HjSv0sBfM2Yj2w==:117
- a=2G65uMN5HjSv0sBfM2Yj2w==:17 a=MKtGQD3n3ToA:10 a=1oJP67jkp3AA:10
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=3HDBlxybAAAA:8 a=UGG5zPGqAAAA:8
- a=TJPJEJdEWgVQhX8sVwQA:9 a=laEoCiVfU_Unz3mSdgXN:22 a=17ibUXfGiVyGqR_YBevW:22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <kwjoyikbygik4futknqpua2tlzokradms25n2dmfa5czyj2uts@4rdfl6zlul2q>
 
-On Tue, 12 May 2026 17:27:57 -0700 Jakub Kicinski wrote:
-> On Tue, 12 May 2026 17:30:53 +0700 Konstantin Shabanov wrote:
-> > Update the docs to match the code (include/linux/netlink.h):
-> >
-> >   /*
-> >    *	skb should fit one page. This choice is good for headerless malloc.
-> >    *	But we should limit to 8K so that userspace does not have to
-> >    *	use enormous buffer sizes on recvmsg() calls just to avoid
-> >    *	MSG_TRUNC when PAGE_SIZE is very large.
-> >   */
-> >   #if PAGE_SIZE < 8192UL
-> >   #define NLMSG_GOODSIZE	SKB_WITH_OVERHEAD(PAGE_SIZE)
-> >   #else
-> >   #define NLMSG_GOODSIZE	SKB_WITH_OVERHEAD(8192UL)
-> >   #endif
->
-> You should explain what you think the problem is in the commit message.
-> Maybe if you did you'd realize you're comparing kernel header comment
-> to user space guidance which are (obviously?) the inverse of each
-> other..
+On 26/05/13 10:41AM, Rodrigo Alencar wrote:
+> On 26/05/10 01:42PM, Rodrigo Alencar via B4 Relay wrote:
+> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > 
+> > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
+> > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
+> > precision). After the decimal point, digits beyond the specified scale
+> > are ignored.
+> 
+> Hi Andy,
+> 
+> I am starting over here, the other conversation is getting hard to follow.
+> This is my new proposal...
 
-I thought that the comment is self-explaining:
++cc David
+ 
+> ...
+> 
+> > +static int _kstrtoudec64(const char *s, unsigned int scale, u64 *res)
+> > +{
+> > +	u64 _res = 0, _frac = 0;
+> > +	unsigned int rv;
+> > +
+> > +	if (scale > 19) /* log10(2^64) = 19.26 */
+> > +		return -EINVAL;
+> > +
+> > +	if (*s != '.') {
+> > +		rv = _parse_integer(s, 10, &_res);
+> > +		if (rv & KSTRTOX_OVERFLOW)
+> > +			return -ERANGE;
+> > +		if (rv == 0)
+> > +			return -EINVAL;
+> > +		s += rv;
+> > +	}
+> > +
+> > +	if (*s == '.' && scale) {
+> > +		s++; /* skip decimal point */
+> > +		rv = _parse_integer_limit(s, 10, &_frac, scale);
+> > +		if (rv & KSTRTOX_OVERFLOW)
+> > +			return -ERANGE;
+> > +		if (rv == 0)
+> > +			return -EINVAL;
+> > +		s += rv;
+> > +		if (rv < scale)
+> > +			_frac *= int_pow(10, scale - rv);
+> > +		while (isdigit(*s)) /* truncate */
+> > +			s++;
+> > +	}
+> > +
+> > +	if (*s == '\n')
+> > +		s++;
+> > +	if (*s)
+> > +		return -EINVAL;
+> > +
+> > +	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
+> > +	    check_add_overflow(_res, _frac, &_res))
+> > +		return -ERANGE;
+> > +
+> > +	*res = _res;
+> > +	return 0;
+> > +}
+> 
+> This function now becomes:
+> 
+> 	static int _kstrtoudec64(const char *s, unsigned int scale, u64 *res)
+> 	{
+> 		u64 _res = 0;
+> 		unsigned int rv_int, rv_frac;
+> 
+> 		rv_int = _parse_integer(s, 10, &_res);
+> 		if (rv_int & KSTRTOX_OVERFLOW)
+> 			return -ERANGE;
+> 		s += rv_int;
+> 
+> 		if (*s == '.')
+> 			s++; /* skip decimal point */
+> 
+> 		rv_frac = _parse_integer_limit_init(s, 10, _res, &_res, scale);
+> 		if (rv_frac & KSTRTOX_OVERFLOW)
+> 			return -ERANGE;
+> 		s += rv_frac;
+> 
+> 		if (!rv_int && !rv_frac && !isdigit(*s))
+> 			return -EINVAL; /* no digits at all */
+> 
+> 		while (isdigit(*s)) /* truncate digits */
+> 			s++;
+> 
+> 		if (*s == '\n')
+> 			s++;
+> 		if (*s)
+> 			return -EINVAL;
+> 
+> 		if (_res && (scale > (19 + rv_frac) || /* log10(2^64) = 19.26 */
+> 		    check_mul_overflow(_res, int_pow(10, scale - rv_frac), &_res)))
+> 			return -ERANGE;
+> 
+> 		*res = _res;
+> 		return 0;
+> 	}
+> 
+> The new thing here is _parse_integer_limit_init(), which is a local modified
+> helper that accepts an init value, so _parse_integer_limit() becomes:
+> 
+> 	unsigned int _parse_integer_limit(const char *s, unsigned int base,
+> 					  unsigned long long *p, size_t max_chars)
+> 	{
+> 		return _parse_integer_limit_init(s, base, 0, p, max_chars);
+> 	}
+> 
+> with init = 0:
+> 
+> 	static unsigned int _parse_integer_limit_init(const char *s, unsigned int base,
+> 						      unsigned long long init,
+> 						      unsigned long long *p,
+> 						      size_t max_chars)
+> 	{
+> 		unsigned long long res;
+> 		unsigned int rv;
+> 
+> 		res = init;
+> 		/* ...
+> 		 * the rest is the same implementation as _parse_integer_limit()
+> 		 * ...
+> 		 */
+> 		return rv;
+> 	}
+> 
+> That allows to accumulate the final value into the same variable, which makes
+> things simpler and decreases the amount of overflow checks.
+> 
+> The scale can now be a bigger value, like 0.00000000000000000000000000000000423
+> can be parsed with scale = 35, resulting into 423.
+> 
+> The truncation loop is still there... I think this implementation is better,
+> and I am not sure what is the input limit that you would consider ok to allow
+> non-zero digits to be truncated once the scale can now be something bigger than 19.
+> As long as the output fits into a u64 variable, the parser still works.
 
-  * But we should limit to 8K so that userspace does not have to
-  *	use enormous buffer sizes on recvmsg() calls just to avoid
-  *	MSG_TRUNC when PAGE_SIZE is very large.
+The truncation loop is at least stricting the input on digits!
+Any comments on that?
 
-The problem is that according to the comment, kernel isn't going to send
-more than 8K in a single reply and the documentation is currently recommends the opposite:
-to create _at least_ 8K buffer what looks excessive.
-Also, the logic in the comment is aligned with userspace libraries (libmnl [1]
-and wireguard-tools [2]).
+> 
+> I am also adding new test cases for that!
 
-[1]: https://git.netfilter.org/libmnl/tree/include/libmnl/libmnl.h?id=54dea548d796653534645c6e3c8577eaf7d77411#n20
-[2]: https://git.zx2c4.com/wireguard-tools/tree/src/netlink.h?id=a998407747005ea7e4e0258d96f105c97241e1d3#n70
+I have a v13 ready with this. I'll give it a go soon...
+
+-- 
+Kind regards,
+
+Rodrigo Alencar
