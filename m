@@ -1,416 +1,244 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874A74DB562
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 17:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778864828; cv=pass; b=BRPO5hY671RPkJUeCdrYq+97GKENwjF4IAMtpszzzLYwOqUdntifbeYmrKQySIuNwpg8h/FhC8uUzBHHb0753Np/tvMNiGZsu8PPDeMj++Z9O56F3TQ558Hu8kWGt4g/qjN5wxtzdy8jtC12/a3Mcbjbxe2ypf03azvtOlPHXZI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778864828; c=relaxed/simple;
-	bh=nfVVCWXzvqa1LUWfzx7loZHs3RrGdLWJRj9wkdFaNyg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T5QI0XCRaBxDrs952G4wt8JgUqQkd2ylRIlew7OCOYv5DkhAQTOUoMqG35CcPzDg7kddQZ4OBlH3GEXSFr1V8RUL2k/1WhdLxx9X0FCRtNaR8lhCThtqHP2rY1Qc3LQHi2/1tVf0g9I9V9HMhHvTOmf+Xu9C+3h/3ZYHvf1zhi8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=E0srMPLx; arc=pass smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A8E2F7EFD;
+	Fri, 15 May 2026 17:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778865292; cv=none; b=BL1LtRc4YBdxUY4lptuaZDobuSsl5BG0yx8A6OpL9g4ldftI6ranIghi2z08A3OsWTUes7nk5WrVUmwpVfBCRWL2cmPcq45P3jIYMShDKIxPeYUB7b2NzNLuEqcyFZ8N4nQ1sQ7KwvolI/0NIqjJzPElq/67W5HimAyQEDJ08WY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778865292; c=relaxed/simple;
+	bh=CtDfgDqnfSE+2T16bU11fTNtbRMQMBr75uetjnKvV+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=krKPEMyZQOm0wlexaNz610lP1SwPFOQMiNRVdpjWcmdIV3aM8U+EmUhxlpBHL3yTeMqGqxsZdtLDvBjKBcWECATVtkdxNPsAIXgPHDLuOEqt/N1mrFLOntOYjRz970IpfgrZZ9Hnwjel0KLzyBPHpAPYfQ2wvRX1kAG1BvSjP+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bg4qjdF5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E0srMPLx"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4891ca4ce02so2845e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 10:07:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778864824; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Kq0x+709DsMC4+d9Z0CRuaGEVWOjUa0/g+NDj/AnoGRGYMpkOidFndmQFcK9jXQYtb
-         i3wsZxwhTFnDCXkz+GR0yeU1sYMT9nmSZ2bTchY5/B86ciEsLLKBXf8D42CBUfJEuGly
-         zR0aCiEZHBkCcs4tjslazXpAYRduVF75kq7hGE4Qk7qIX0SyorqT+noRiQVEQd5qqng6
-         LU5h+P5KRuVP/CKWZq2BQo4Oqmwx+FBeqOaOgTdDz/fFdaulpckuYzGjvZS4D+uvTsKp
-         9PLDpiFZOCh4dRitlvdm/cmVpPiU5wx5mAwRECh4J+zsq07u++OzL5TjJO991MLq0wM/
-         9TEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LQnzcBlc7+y3xboPXu3CAuDhwWayfDkxWRZzNgig+eE=;
-        fh=miFz5i+IWaO9vGl5m/CcSJkeLz64lRC7tOwrvKSShys=;
-        b=FMBfFp7Gkq8O9xYwogJIYipz2/qZzMvcEFCWNkgJ3HTpXIst7S779MartzmTALXP7f
-         brqD0N6ctwFy4Hnswh7J/UQjuyUUFh5CcU6V1ABwVw8wSbbKG9A7IANNlOz65eln7vd2
-         /c2WyA8z7XDLT6cmHCXmbZyaPZvKg42izw2eLoUtV4FqlINLxssdvSmzKa9H28Y0Z5ob
-         fz16XAohHcsY5fCbLmhcpj6VWLx6IWXwizX7jYG64KLX4NjILTvqU1htd2fZPDt/XUFG
-         UiEUUqzJMWgUiVrHCb/9I/F4SyUWY9tme4Vxw+zJ6esIQCUzossfhNM+L6pWWA6O/9yc
-         RbAQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778864824; x=1779469624; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LQnzcBlc7+y3xboPXu3CAuDhwWayfDkxWRZzNgig+eE=;
-        b=E0srMPLxCnbv4KB+EQPF5rUjYvkR9PlBB7xN/JKyrfvX9MCkwGvTj5Wp6yUh6ELTX1
-         wLUDZbjN1jpwGP1SqsN3atkssUt11imLO3YwSPXCp6sHkOCVReBTSTDKcB5dJkOraJf0
-         kl7AbBgrxmSkdjNyF7qgTvydVY+uTkTaTpgUObzjQjZG0VVfHit2RPvQIOegafOIsU0R
-         vZn4OGzAGJlOnQtyG7YhI7QoDrpo6hGMsht4DjUGiCqgpgQRGrL44LZ53ijorf+4/zSa
-         bAdyZqGCp3GnpUfkC0io5hgmqbD1sbUrBEJM9TdQHeBKHiI7pxL7RycGbjfk3h5EtPdM
-         mLUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778864824; x=1779469624;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LQnzcBlc7+y3xboPXu3CAuDhwWayfDkxWRZzNgig+eE=;
-        b=nw1hWiqqhSqiWx0nP99wNNWHqKxQ7E3Q/kABQDvhOOMkd7wkQUJkqN4ED24ACNAj0V
-         riRw/AOFxPLZafAIiRGn7ZHJ4Pjz7ccVHZfFgFORHy2N1433bQ99ZUTaOL1G33LgCWJq
-         s8EQMpAnQ9KgiQbA+pouv9NIg0M93VSSeVrIOy/pXjM55kE8MvRGxVpXSDG5MwUhEU/P
-         7oAr52duyS62IQbPT+pYAIyaHUpPoWU2tTdbzsQ4lIG/FSIbmugxzyJczz80pEVSV0WY
-         71vd+bsTB30f6ykAc+Kilax4Ev2p2cQD2Sw6TP7gte+9fyH9K6nHDZrpcgK3dyeW9vqo
-         /KDg==
-X-Forwarded-Encrypted: i=1; AFNElJ8FtZZau8F6hkryfnhu5L7a0ov4YUeGLzWr7wrM82X4WV9GA/0aVV9brkeesMZHUF0NZCX2TCJSIIA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyo06nMgmf2xUJNjF2wOIlpoof/PWDB5r8CovCazCV3FxVHU/nB
-	88KhOLat4nhHKibyeB86HoJUqXJefgbbMp0aJCNtze2s/QaK9wqXmMr85jnKVZhScbd2oxF1gSP
-	TENCcs++9ZTORIeCMuqlvzG/uF6epxhUbjORWrWBB
-X-Gm-Gg: Acq92OHyZZ+lKEwuxgm3tRVb5XXpZ0M9EXVKEr/5aR1VJH1pScVcAujTtHSMPsLQn0b
-	IYeAAbegJai5zzguyxmAnXsj9tOrZXOEJe5jAjPnbHMfK4hHtkeRY3pY0/GopK7qTZA/idgTprV
-	4LZmlytKh+zkBOsa7jVf5VwrXTp2du7Tbl5vi4XCidRmcsZhvhDHid+hq2NhSp+2F39R+rJqceq
-	cK7wV6T1RrZ6Yvp0syoF0fGPbabhDhwGageGCQQejJccwfnw/sq2T88utZQ0NfWRTF3c1SF8xRg
-	i9driLeskS17bVBuYuxUI6l9I7Dd5jnke9wQI1Xr1BkzM/NU
-X-Received: by 2002:a05:600c:4999:b0:489:1adc:f017 with SMTP id
- 5b1f17b1804b1-48fe881e582mr645715e9.5.1778864823481; Fri, 15 May 2026
- 10:07:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bg4qjdF5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53F6BC2BCB0;
+	Fri, 15 May 2026 17:14:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778865291;
+	bh=CtDfgDqnfSE+2T16bU11fTNtbRMQMBr75uetjnKvV+s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Bg4qjdF5ocEF5GUSFUJ33VvqKPCY0vB5UZkWQSJzTTWpwwUnPh/62U2qYQATBWNXx
+	 IZBlUACG3Gh/ZcMuRouIZpdGthND4AjOKo45w889WFAPT8MeV/V14RhQkfTgEK1CBb
+	 14MOMJSKtsZ3fLUW46BV6IPJOfE81xXvrzm5FmdRiqUaxGO77Odgw0SQ1ZPgZ09WGS
+	 yJ34MhIA9Z5LzRgU3/mQa81lnOE/RnT+yof5qX+o4iT0s8X4nG5KsaSAw57daezUDJ
+	 JOzkZ0+qW2E01yyXa0ud9PAantD5m7Ms/BuND21fnbn4a8Sc9Z1cybQsrmpEwV7jGd
+	 BOQTJ3hraLQ2A==
+Date: Fri, 15 May 2026 18:14:45 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Nam Tran <trannamatk@gmail.com>,
+	=?utf-8?B?xYF1a2FzeiBMZWJpZWR6acWEc2tp?= <kernel@lvkasz.us>,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 03/11] dt-bindings: mfd: add documentation for S2MU005
+ PMIC
+Message-ID: <20260515-justly-recite-6028f4bfb24a@spud>
+References: <20260515-s2mu005-pmic-v6-0-1979106992d4@disroot.org>
+ <20260515-s2mu005-pmic-v6-3-1979106992d4@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com> <20260515-hinschauen-effizient-9e3a05a94f2e@brauner>
-In-Reply-To: <20260515-hinschauen-effizient-9e3a05a94f2e@brauner>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Fri, 15 May 2026 10:06:50 -0700
-X-Gm-Features: AVHnY4LllvNrEvKpMMJyjJvPlkuCoR7DSmB99jM3FHC68bpYwfg1MyASdUtT0JM
-Message-ID: <CABdmKX0d6Zsg+_TxXjB80UZR23ZvXzxYoWzORgwmx=ZiuE+Nzw@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
-To: Christian Brauner <brauner@kernel.org>
-Cc: Albert Esteve <aesteve@redhat.com>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, mripard@kernel.org, 
-	echanude@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BicabgsLIYBYKY7x"
+Content-Disposition: inline
+In-Reply-To: <20260515-s2mu005-pmic-v6-3-1979106992d4@disroot.org>
+
+
+--BicabgsLIYBYKY7x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 15, 2026 at 6:53=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> On Tue, May 12, 2026 at 11:10:44AM +0200, Albert Esteve wrote:
-> > On embedded platforms a central process often allocates dma-buf
-> > memory on behalf of client applications. Without a way to
-> > attribute the charge to the requesting client's cgroup, the
-> > cost lands on the allocator, making per-cgroup memory limits
-> > ineffective for the actual consumers.
-> >
-> > Add charge_pid_fd to struct dma_heap_allocation_data. When set to
->
-> Please be aware that pidfds come in two flavors:
->
-> thread-group pidfds and thread-specific pidfds. Make sure that your API
-> doesn't implicitly depend on this distinction not existing.
+On Fri, May 15, 2026 at 04:08:59PM +0530, Kaustabh Chakraborty wrote:
+> Samsung's S2MU005 PMIC includes subdevices for a charger, an MUIC (Micro
+> USB Interface Controller), and flash and RGB LED controllers.
+>=20
+> Add the compatible and documentation for the S2MU005 PMIC. Also, add an
+> example for nodes for supported sub-devices, i.e. MUIC, flash LEDs, and
+> RGB LEDs. Charger sub-device uses the node of the parent.
+>=20
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> ---
+>  .../bindings/mfd/samsung,s2mu005-pmic.yaml         | 120 +++++++++++++++=
+++++++
+>  1 file changed, 120 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.y=
+aml b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
+> new file mode 100644
+> index 0000000000000..0e6afb7d2017b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
+> @@ -0,0 +1,120 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/samsung,s2mu005-pmic.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung S2MU005 Power Management IC
+> +
+> +maintainers:
+> +  - Kaustabh Chakraborty <kauschluss@disroot.org>
+> +
+> +description: |
+> +  The S2MU005 is a companion power management IC which includes subdevic=
+es for
+> +  a charger controller, an MUIC (Micro USB Interface Controller), and fl=
+ash and
+> +  RGB LED controllers.
+> +
+> +allOf:
+> +  - $ref: /schemas/power/supply/power-supply.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: samsung,s2mu005-pmic
+> +
+> +  flash:
+> +    $ref: /schemas/leds/samsung,s2mu005-flash.yaml
+> +    description:
+> +      Child node describing flash LEDs.
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  muic:
+> +    $ref: /schemas/extcon/samsung,s2mu005-muic.yaml#
+> +    description:
+> +      Child node describing MUIC device.
+> +
+> +  multi-led:
+> +    type: object
+> +
+> +    allOf:
+> +      - $ref: /schemas/leds/leds-class-multicolor.yaml#
 
-Hi Christian,
+Does this need to be an allOf when the other refs are not?
 
-Memcg is not a controller that supports "thread mode" so all threads
-in a group should belong to the same memcg.
+> +
+> +    properties:
+> +      compatible:
+> +        const: samsung,s2mu005-rgb
+> +
+> +    required:
+> +      - compatible
+> +
+> +    unevaluatedProperties: false
+> +
+> +  reg:
+> +    maxItems: 1
 
-Checking the flags from pidfd_get_pid would be the best way for an
-explicit check of the pidfd type?
+Move this above the child nodes please.
 
-> > a valid pidfd, DMA_HEAP_IOCTL_ALLOC resolves the target task's
-> > memcg and charges the buffer there via mem_cgroup_charge_dmabuf()
-> > inside dma_heap_buffer_alloc(). Without charge_pid_fd, and with
-> > the mem_accounting module parameter enabled, the buffer is charged
-> > to the allocator's own cgroup.
-> >
-> > Additionally, commit 3c227be90659 ("dma-buf: system_heap: account for
-> > system heap allocation in memcg") adds __GFP_ACCOUNT to system-heap
-> > page allocations. Keeping __GFP_ACCOUNT would charge the same pages
-> > twice (once to kmem, once to MEMCG_DMABUF), thus remove it and route
-> > all accounting through a single MEMCG_DMABUF path.
-> >
-> > Usage examples:
-> >
-> >   1. Central allocator charging to a client at allocation time.
-> >      The allocator knows the client's PID (e.g., from binder's
-> >      sender_pid) and uses pidfd to attribute the charge:
-> >
-> >        pid_t client_pid =3D txn->sender_pid;
-> >        int pidfd =3D pidfd_open(client_pid, 0);
-> >
-> >        struct dma_heap_allocation_data alloc =3D {
-> >            .len             =3D buffer_size,
-> >            .fd_flags        =3D O_RDWR | O_CLOEXEC,
-> >            .charge_pid_fd   =3D pidfd,
-> >        };
-> >        ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &alloc);
-> >        close(pidfd);
-> >        /* alloc.fd is now charged to client's cgroup */
-> >
-> >   2. Default allocation (no pidfd, mem_accounting=3D1).
-> >      When charge_pid_fd is not set and the mem_accounting module
-> >      parameter is enabled, the buffer is charged to the allocator's
-> >      own cgroup:
-> >
-> >        struct dma_heap_allocation_data alloc =3D {
-> >            .len      =3D buffer_size,
-> >            .fd_flags =3D O_RDWR | O_CLOEXEC,
-> >        };
-> >        ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &alloc);
-> >        /* charged to current process's cgroup */
-> >
-> > Current limitations:
-> >
-> >  - Single-owner model: a dma-buf carries one memcg charge regardless of
-> >    how many processes share it. Means only the first owner (and exporte=
-r)
-> >    of the shared buffer bears the charge.
-> >  - Only memcg accounting supported. While this makes sense for system
-> >    heap buffers, other heaps (e.g., CMA heaps) will require selectively
-> >    charging also for the dmem controller.
-> >
-> > Signed-off-by: Albert Esteve <aesteve@redhat.com>
-> > ---
-> >  Documentation/admin-guide/cgroup-v2.rst |  5 ++--
-> >  drivers/dma-buf/dma-buf.c               | 16 ++++---------
-> >  drivers/dma-buf/dma-heap.c              | 42 +++++++++++++++++++++++++=
-+++++---
-> >  drivers/dma-buf/heaps/system_heap.c     |  2 --
-> >  include/uapi/linux/dma-heap.h           |  6 +++++
-> >  5 files changed, 53 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/ad=
-min-guide/cgroup-v2.rst
-> > index 8bdbc2e866430..824d269531eb1 100644
-> > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > @@ -1636,8 +1636,9 @@ The following nested keys are defined.
-> >               structures.
-> >
-> >         dmabuf (npn)
-> > -             Amount of memory used for exported DMA buffers allocated =
-by the cgroup.
-> > -             Stays with the allocating cgroup regardless of how the bu=
-ffer is shared.
-> > +             Amount of memory used for exported DMA buffers allocated =
-by or on
-> > +             behalf of the cgroup. Stays with the allocating cgroup re=
-gardless
-> > +             of how the buffer is shared.
-> >
-> >         workingset_refault_anon
-> >               Number of refaults of previously evicted anonymous pages.
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index ce02377f48908..23fb758b78297 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -181,8 +181,11 @@ static void dma_buf_release(struct dentry *dentry)
-> >        */
-> >       BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
-> >
-> > -     mem_cgroup_uncharge_dmabuf(dmabuf->memcg, PAGE_ALIGN(dmabuf->size=
-) / PAGE_SIZE);
-> > -     mem_cgroup_put(dmabuf->memcg);
-> > +     if (dmabuf->memcg) {
-> > +             mem_cgroup_uncharge_dmabuf(dmabuf->memcg,
-> > +                                       PAGE_ALIGN(dmabuf->size) / PAGE=
-_SIZE);
-> > +             mem_cgroup_put(dmabuf->memcg);
-> > +     }
-> >
-> >       dmabuf->ops->release(dmabuf);
-> >
-> > @@ -764,13 +767,6 @@ struct dma_buf *dma_buf_export(const struct dma_bu=
-f_export_info *exp_info)
-> >               dmabuf->resv =3D resv;
-> >       }
-> >
-> > -     dmabuf->memcg =3D get_mem_cgroup_from_mm(current->mm);
-> > -     if (!mem_cgroup_charge_dmabuf(dmabuf->memcg, PAGE_ALIGN(dmabuf->s=
-ize) / PAGE_SIZE,
-> > -                                   GFP_KERNEL)) {
-> > -             ret =3D -ENOMEM;
-> > -             goto err_memcg;
-> > -     }
-> > -
-> >       file->private_data =3D dmabuf;
-> >       file->f_path.dentry->d_fsdata =3D dmabuf;
-> >       dmabuf->file =3D file;
-> > @@ -781,8 +777,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
-_export_info *exp_info)
-> >
-> >       return dmabuf;
-> >
-> > -err_memcg:
-> > -     mem_cgroup_put(dmabuf->memcg);
-> >  err_file:
-> >       fput(file);
-> >  err_module:
-> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> > index ac5f8685a6494..ff6e259afcdc0 100644
-> > --- a/drivers/dma-buf/dma-heap.c
-> > +++ b/drivers/dma-buf/dma-heap.c
-> > @@ -7,13 +7,17 @@
-> >   */
-> >
-> >  #include <linux/cdev.h>
-> > +#include <linux/cgroup.h>
-> >  #include <linux/device.h>
-> >  #include <linux/dma-buf.h>
-> >  #include <linux/dma-heap.h>
-> > +#include <linux/memcontrol.h>
-> > +#include <linux/sched/mm.h>
-> >  #include <linux/err.h>
-> >  #include <linux/export.h>
-> >  #include <linux/list.h>
-> >  #include <linux/nospec.h>
-> > +#include <linux/pidfd.h>
-> >  #include <linux/syscalls.h>
-> >  #include <linux/uaccess.h>
-> >  #include <linux/xarray.h>
-> > @@ -55,10 +59,12 @@ MODULE_PARM_DESC(mem_accounting,
-> >                "Enable cgroup-based memory accounting for dma-buf heap =
-allocations (default=3Dfalse).");
-> >
-> >  static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
-> > -                              u32 fd_flags,
-> > -                              u64 heap_flags)
-> > +                              u32 fd_flags, u64 heap_flags,
-> > +                              struct mem_cgroup *charge_to)
-> >  {
-> >       struct dma_buf *dmabuf;
-> > +     unsigned int nr_pages;
-> > +     struct mem_cgroup *memcg =3D charge_to;
-> >       int fd;
-> >
-> >       /*
-> > @@ -73,6 +79,22 @@ static int dma_heap_buffer_alloc(struct dma_heap *he=
-ap, size_t len,
-> >       if (IS_ERR(dmabuf))
-> >               return PTR_ERR(dmabuf);
-> >
-> > +     nr_pages =3D len / PAGE_SIZE;
-> > +
-> > +     if (memcg)
-> > +             css_get(&memcg->css);
-> > +     else if (mem_accounting)
-> > +             memcg =3D get_mem_cgroup_from_mm(current->mm);
-> > +
-> > +     if (memcg) {
-> > +             if (!mem_cgroup_charge_dmabuf(memcg, nr_pages, GFP_KERNEL=
-)) {
-> > +                     mem_cgroup_put(memcg);
-> > +                     dma_buf_put(dmabuf);
-> > +                     return -ENOMEM;
-> > +             }
-> > +             dmabuf->memcg =3D memcg;
-> > +     }
-> > +
-> >       fd =3D dma_buf_fd(dmabuf, fd_flags);
-> >       if (fd < 0) {
-> >               dma_buf_put(dmabuf);
-> > @@ -102,6 +124,9 @@ static long dma_heap_ioctl_allocate(struct file *fi=
-le, void *data)
-> >  {
-> >       struct dma_heap_allocation_data *heap_allocation =3D data;
-> >       struct dma_heap *heap =3D file->private_data;
-> > +     struct mem_cgroup *memcg =3D NULL;
-> > +     struct task_struct *task;
-> > +     unsigned int pidfd_flags;
-> >       int fd;
-> >
-> >       if (heap_allocation->fd)
-> > @@ -113,9 +138,20 @@ static long dma_heap_ioctl_allocate(struct file *f=
-ile, void *data)
-> >       if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
-> >               return -EINVAL;
-> >
-> > +     if (heap_allocation->charge_pid_fd) {
-> > +             task =3D pidfd_get_task(heap_allocation->charge_pid_fd, &=
-pidfd_flags);
->
-> Will always get a thread-group leader pidfd and will fail if this is a
-> thread-specific pidfd. pidfd_open(1234, PIDFD_THREAD) can be used to
-> open a thread-specific pidfd.
->
-> > +             if (IS_ERR(task))
-> > +                     return PTR_ERR(task);
-> > +
-> > +             memcg =3D get_mem_cgroup_from_mm(task->mm);
-> > +             put_task_struct(task);
-> > +     }
-> > +
-> >       fd =3D dma_heap_buffer_alloc(heap, heap_allocation->len,
-> >                                  heap_allocation->fd_flags,
-> > -                                heap_allocation->heap_flags);
-> > +                                heap_allocation->heap_flags,
-> > +                                memcg);
-> > +     mem_cgroup_put(memcg);
-> >       if (fd < 0)
-> >               return fd;
-> >
-> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heap=
-s/system_heap.c
-> > index 03c2b87cb1112..95d7688167b93 100644
-> > --- a/drivers/dma-buf/heaps/system_heap.c
-> > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > @@ -385,8 +385,6 @@ static struct page *alloc_largest_available(unsigne=
-d long size,
-> >               if (max_order < orders[i])
-> >                       continue;
-> >               flags =3D order_flags[i];
-> > -             if (mem_accounting)
-> > -                     flags |=3D __GFP_ACCOUNT;
-> >               page =3D alloc_pages(flags, orders[i]);
-> >               if (!page)
-> >                       continue;
-> > diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-hea=
-p.h
-> > index a4cf716a49fa6..e02b0f8cbc6a1 100644
-> > --- a/include/uapi/linux/dma-heap.h
-> > +++ b/include/uapi/linux/dma-heap.h
-> > @@ -29,6 +29,10 @@
-> >   *                   handle to the allocated dma-buf
-> >   * @fd_flags:                file descriptor flags used when allocatin=
-g
-> >   * @heap_flags:              flags passed to heap
-> > + * @charge_pid_fd:   optional pidfd of the process whose cgroup should=
- be
-> > + *                   charged for this allocation; 0 means charge the c=
-alling
-> > + *                   process's cgroup
-> > + * @__padding:               reserved, must be zero
-> >   *
-> >   * Provided by userspace as an argument to the ioctl
-> >   */
-> > @@ -37,6 +41,8 @@ struct dma_heap_allocation_data {
-> >       __u32 fd;
-> >       __u32 fd_flags;
-> >       __u64 heap_flags;
-> > +     __u32 charge_pid_fd;
-> > +     __u32 __padding;
-> >  };
-> >
-> >  #define DMA_HEAP_IOC_MAGIC           'H'
-> >
-> > --
-> > 2.53.0
-> >
+Otherwise, I think this looks good.
+
+pw-bot: changes-requested
+
+Thanks,
+Conor.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        pmic@3d {
+> +            compatible =3D "samsung,s2mu005-pmic";
+> +            reg =3D <0x3d>;
+> +            interrupt-parent =3D <&gpa2>;
+> +            interrupts =3D <7 IRQ_TYPE_LEVEL_LOW>;
+> +
+> +            monitored-battery =3D <&battery>;
+> +
+> +            flash {
+> +                compatible =3D "samsung,s2mu005-flash";
+> +                #address-cells =3D <1>;
+> +                #size-cells =3D <0>;
+> +
+> +                led@0 {
+> +                    reg =3D <0>;
+> +                    color =3D <LED_COLOR_ID_WHITE>;
+> +                    function =3D LED_FUNCTION_FLASH;
+> +                };
+> +
+> +                led@1 {
+> +                    reg =3D <1>;
+> +                    color =3D <LED_COLOR_ID_WHITE>;
+> +                    function =3D LED_FUNCTION_FLASH;
+> +                    function-enumerator =3D <1>;
+> +                };
+> +            };
+> +
+> +            muic {
+> +                compatible =3D "samsung,s2mu005-muic";
+> +
+> +                connector {
+> +                    compatible =3D "usb-b-connector";
+> +                    label =3D "micro-USB";
+> +                    type =3D "micro";
+> +                };
+> +
+> +                port {
+> +                    muic_to_usb: endpoint {
+> +                        remote-endpoint =3D <&usb_to_muic>;
+> +                    };
+> +                };
+> +            };
+> +
+> +            multi-led {
+> +                compatible =3D "samsung,s2mu005-rgb";
+> +                color =3D <LED_COLOR_ID_RGB>;
+> +                function =3D LED_FUNCTION_INDICATOR;
+> +                linux,default-trigger =3D "pattern";
+> +            };
+> +        };
+> +    };
+>=20
+> --=20
+> 2.53.0
+>=20
+
+--BicabgsLIYBYKY7x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagdUhQAKCRB4tDGHoIJi
+0n5rAP967mHX7SEKc4HenoyiF+90zXGlTKi1jFFe8mJ5Mu7VNgD9GcMBGU4IFdCj
+uG66DaZrujqEElpBL/3tW71nwb4XvA8=
+=9VUh
+-----END PGP SIGNATURE-----
+
+--BicabgsLIYBYKY7x--
