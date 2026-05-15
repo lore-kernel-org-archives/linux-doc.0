@@ -1,437 +1,77 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06523EDACD;
-	Fri, 15 May 2026 21:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849EE3ED127
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 21:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778881250; cv=none; b=miHE+4ScJcbFviGBc6gIsb2iPDLjZNxdx7gIFfVGd12nVARAMHJXMZvgdcN+xckHMMYS2hJPeIH8dJvCRTrAE2YPI4s8Joj6W+9VcabMdvqIuMUaoV2tLIoSp0RtX3MksiMq9JftKjpVSrIJsf+yzLggjZVighG+WQTCALswskc=
+	t=1778882298; cv=none; b=O+P6CDyKQZHQKhzXAA0HsftsCqr++Q8AkDRSVsDO4VNXsAJvrtJvLcDP3kxs/4cVaqAZ3JHyoy6dYlb0mrlb8Q+S/Zih9v4MYG4NBqY53Il0w+xr6D6lzOTVpvDjkz2n/YTqXHGxSGMc74n+0Rs0l7Of7tG5EpI++Xfzos2yN7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778881250; c=relaxed/simple;
-	bh=8JrnFI7Vl3CJ1BNRgrQrlFdwognOikguFtI62Ej8OLM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=V9fN7O1XfASgnX3FveEl/CQdCQP3CHVWXjCBE7Jhy06nidJ2WniL2qN9DxjpnBqPlAbWnhVuce55zxy17+N3D9YlvX/+byWGJIZas8AiGakTUBzOW0bftPmcIqXXCHwujbvQ65VZxU0muBU6EifhA9/V2sYcHfau6ZJMtUbYTnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=jLvNQsk3; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1778882298; c=relaxed/simple;
+	bh=/mHSzbEHbunn4Gv+x6uYZkpcvkpdkTON/QAE5a6at5M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L3Y86Kn/wy+q8nW0hZCz1ilVGhNlX06O98OnjYma2FrhQoQtpQnOPgNCy+XC2ngXsrxhKEvxasq7YORQ7gRbmvEpEuRXZ68vets7egI5H3T8Zkkt2TY3Tl4eYXV6Tq+eKAPfFAEUQIryM1b6x1PMxhpt1x+NHOMhhV1+frVkgUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YrySnH00; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="jLvNQsk3"
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 855212686F;
-	Fri, 15 May 2026 23:40:47 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id jp5F3DuGfee1; Fri, 15 May 2026 23:40:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1778881246; bh=8JrnFI7Vl3CJ1BNRgrQrlFdwognOikguFtI62Ej8OLM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=jLvNQsk318F1A8UeneCSqL4VTlKpE+Z4ePdrK4QRQ/+OwqcGLVJeRvVcpDahZSXhG
-	 oE533eJ0Pac0cpQvebaKk7I8Wz46ZYKdvaOX4yoiGChAEXC9fDwp/mOo+tmwPIReWN
-	 Emrrmr4wAS5XcKYNOa5cAjJgRDcOzCg3jSKuv8tQTMzAgaxpnoLcQeh/EEOJ0w8efO
-	 +JOOOygqpOa2nkysGbfHbicztuKERhChAseEabbLtd9wX05WBUBkRozoJDkgOykcz9
-	 PchE7e1qvps1lQ8SyVJRJ51jFZaNO8wcKFLe5baXR1zZ0S4iwAOU+ie7O+lB9qlAmj
-	 /OcyM2fyfKkqQ==
-From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Sat, 16 May 2026 03:08:42 +0530
-Subject: [PATCH v7 10/10] power: supply: add support for Samsung S2M series
- PMIC charger device
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YrySnH00"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40658C2BCFC
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 21:58:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778882298;
+	bh=/mHSzbEHbunn4Gv+x6uYZkpcvkpdkTON/QAE5a6at5M=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=YrySnH00B0W1qq5Wp87dlgYi2suFfNd57N2Uuth/vkCX1DrZ3IvFyxISLW0xoIF69
+	 hRjENHlGB/3ONaZlglJOc4ukuB0ctST7O4dj+rUVrdlnm1YanBPd1V+Bn1UhoHLW4E
+	 JXQ/kS1/ER7ObuNKR8I2hcUCtTBptWdMJXaZCExsraRoFD2Gyjk7NySzzJmUpzQ5cR
+	 j5a0wZY7iA7GqaZgUjtc+Taku3bBD9oUOyoWapVjk+PBcCyiTk7K5qE2vYSk/R3eiH
+	 nSUWFrQFAEnpEsEBNYMpxB2+u1QHKALgTRITtHr4Lpl3a/9KiTwUTCsF3mm9EJCbKa
+	 NZO40x8BvCEDg==
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-65c21049dafso619411d50.2
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 14:58:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8BWUrRjF5qG3gyI+Jwiw6WrFRzPBSLvfWuyinTADMm34H95Tv4VI0BiZVLvQdapZmok45F01Ip50Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIgAZk4h7BN2U4lOf2tencbSLcsf2+CfhZK4GGf182f4e6zxn1
+	I3zpWeFv66IJw0+Dbz+C5ympjeoenzaQIAqTNAYt1LE8ojQmW8s16i0K0zxOa/ZLYQObE7Nawpd
+	LxGg/2YikuAfKud8e1K3MlZgBxqLHzSlMuRQuXy2lYA==
+X-Received: by 2002:a05:690e:1517:b0:65d:f308:b503 with SMTP id
+ 956f58d0204a3-65e22650c4amr5634144d50.1.1778882297534; Fri, 15 May 2026
+ 14:58:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260516-s2mu005-pmic-v7-10-73f9702fb461@disroot.org>
-References: <20260516-s2mu005-pmic-v7-0-73f9702fb461@disroot.org>
-In-Reply-To: <20260516-s2mu005-pmic-v7-0-73f9702fb461@disroot.org>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
- Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Nam Tran <trannamatk@gmail.com>, 
- =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>, 
- Yassine Oudjana <y.oudjana@protonmail.com>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
- linux-doc@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>
+References: <20260512053625.2950900-1-hch@lst.de> <20260512053625.2950900-13-hch@lst.de>
+In-Reply-To: <20260512053625.2950900-13-hch@lst.de>
+From: Chris Li <chrisl@kernel.org>
+Date: Fri, 15 May 2026 14:58:06 -0700
+X-Gmail-Original-Message-ID: <CACePvbXhMm0nzXdTqbF5j57AC_7qOH-hMZ5pB6z0cZFfAixH5Q@mail.gmail.com>
+X-Gm-Features: AVHnY4L_tQU_kPqgc-BeGp-d2068VNSoZvM02GkthxouKCr7BEGYMQdDLNaKcrQ
+Message-ID: <CACePvbXhMm0nzXdTqbF5j57AC_7qOH-hMZ5pB6z0cZFfAixH5Q@mail.gmail.com>
+Subject: Re: [PATCH 12/12] swap: move swap_info_struct to mm/swap.h
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Kairui Song <kasong@tencent.com>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	David Sterba <dsterba@suse.com>, "Theodore Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
+	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>, 
+	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, Carlos Maiolino <cem@kernel.org>, 
+	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a driver for charger controllers found in certain Samsung S2M series
-PMICs. The driver has very basic support for the device, with only
-charger online reporting working, and USB 2.0 device negotiations
-working.
+On Mon, May 11, 2026 at 10:38=E2=80=AFPM Christoph Hellwig <hch@lst.de> wro=
+te:
+>
+> swap_info_struct is now internal to the MM subsystem, so remove it from
+> the public header.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-The driver includes initial support for the S2MU005 PMIC charger.
+Acked-by: Chris Li <chrisl@kernel.org>
 
-Co-developed-by: Łukasz Lebiedziński <kernel@lvkasz.us>
-Signed-off-by: Łukasz Lebiedziński <kernel@lvkasz.us>
-Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
----
- drivers/power/supply/Kconfig       |  10 ++
- drivers/power/supply/Makefile      |   1 +
- drivers/power/supply/s2m-charger.c | 313 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 324 insertions(+)
-
-diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
-index 83392ed6a8da9..899c929f31620 100644
---- a/drivers/power/supply/Kconfig
-+++ b/drivers/power/supply/Kconfig
-@@ -856,6 +856,16 @@ config CHARGER_RK817
- 	help
- 	  Say Y to include support for Rockchip RK817 Battery Charger.
- 
-+config CHARGER_S2M
-+	tristate "Samsung S2M series PMIC battery charger support"
-+	depends on EXTCON_S2M
-+	depends on MFD_SEC_CORE
-+	help
-+	  This option enables support for charger devices found in
-+	  certain Samsung S2M series PMICs, such as the S2MU005. These
-+	  devices provide USB power supply information and also required
-+	  for USB OTG role switching.
-+
- config CHARGER_SMB347
- 	tristate "Summit Microelectronics SMB3XX Battery Charger"
- 	depends on I2C
-diff --git a/drivers/power/supply/Makefile b/drivers/power/supply/Makefile
-index 7ee839dca7f33..738814650ea0f 100644
---- a/drivers/power/supply/Makefile
-+++ b/drivers/power/supply/Makefile
-@@ -107,6 +107,7 @@ obj-$(CONFIG_CHARGER_BQ25890)	+= bq25890_charger.o
- obj-$(CONFIG_CHARGER_BQ25980)	+= bq25980_charger.o
- obj-$(CONFIG_CHARGER_BQ256XX)	+= bq256xx_charger.o
- obj-$(CONFIG_CHARGER_RK817)	+= rk817_charger.o
-+obj-$(CONFIG_CHARGER_S2M)	+= s2m-charger.o
- obj-$(CONFIG_CHARGER_SMB347)	+= smb347-charger.o
- obj-$(CONFIG_CHARGER_TPS65090)	+= tps65090-charger.o
- obj-$(CONFIG_CHARGER_TPS65217)	+= tps65217_charger.o
-diff --git a/drivers/power/supply/s2m-charger.c b/drivers/power/supply/s2m-charger.c
-new file mode 100644
-index 0000000000000..4d1f2c2c71446
---- /dev/null
-+++ b/drivers/power/supply/s2m-charger.c
-@@ -0,0 +1,313 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Battery Charger Driver for Samsung S2M series PMICs.
-+ *
-+ * Copyright (c) 2015 Samsung Electronics Co., Ltd
-+ * Copyright (c) 2026 Kaustabh Chakraborty <kauschluss@disroot.org>
-+ * Copyright (c) 2026 Łukasz Lebiedziński <kernel@lvkasz.us>
-+ */
-+
-+#include <linux/devm-helpers.h>
-+#include <linux/extcon.h>
-+#include <linux/mfd/samsung/core.h>
-+#include <linux/mfd/samsung/s2mu005.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_graph.h>
-+#include <linux/platform_device.h>
-+#include <linux/power_supply.h>
-+#include <linux/regmap.h>
-+
-+struct s2m_chgr {
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct power_supply *psy;
-+	struct extcon_dev *extcon;
-+	struct work_struct extcon_work;
-+	struct notifier_block extcon_nb;
-+};
-+
-+static int s2mu005_chgr_get_online(struct s2m_chgr *priv, int *value)
-+{
-+	u32 val;
-+	int ret;
-+
-+	ret = regmap_read(priv->regmap, S2MU005_REG_CHGR_STATUS0, &val);
-+	if (ret) {
-+		dev_err(priv->dev, "failed to read register (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	*value = !!(val & S2MU005_CHGR_CHG);
-+
-+	return 0;
-+}
-+
-+static void s2mu005_chgr_get_usb_type(struct s2m_chgr *priv, int *value)
-+{
-+	if (extcon_get_state(priv->extcon, EXTCON_CHG_USB_CDP) > 0)
-+		*value = POWER_SUPPLY_USB_TYPE_CDP;
-+	else if (extcon_get_state(priv->extcon, EXTCON_CHG_USB_SDP) > 0)
-+		*value = POWER_SUPPLY_USB_TYPE_SDP;
-+	else if (extcon_get_state(priv->extcon, EXTCON_CHG_USB_DCP) > 0)
-+		*value = POWER_SUPPLY_USB_TYPE_DCP;
-+	else
-+		*value = POWER_SUPPLY_USB_TYPE_UNKNOWN;
-+}
-+
-+static int s2mu005_chgr_get_property(struct power_supply *psy,
-+				     enum power_supply_property psp,
-+				     union power_supply_propval *val)
-+{
-+	struct s2m_chgr *priv = power_supply_get_drvdata(psy);
-+	int ret;
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_ONLINE:
-+		ret = s2mu005_chgr_get_online(priv, &val->intval);
-+		if (ret)
-+			return ret;
-+		break;
-+	case POWER_SUPPLY_PROP_USB_TYPE:
-+		s2mu005_chgr_get_usb_type(priv, &val->intval);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int s2mu005_chgr_mode_set_host(struct s2m_chgr *priv)
-+{
-+	int ret;
-+
-+	/* set mode to OTG */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL0,
-+				 S2MU005_CHGR_OP_MODE,
-+				 FIELD_PREP(S2MU005_CHGR_OP_MODE,
-+					    S2MU005_CHGR_OP_MODE_OTG));
-+	if (ret) {
-+		dev_err(priv->dev, "failed to set OTG mode (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* set boost frequency to 2MHz */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL11,
-+				 S2MU005_CHGR_OSC_BOOST,
-+				 FIELD_PREP(S2MU005_CHGR_OSC_BOOST,
-+					    S2MU005_CHGR_OSC_BOOST_2MHZ));
-+	if (ret) {
-+		dev_err(priv->dev, "failed to set boost frequency (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* set OTG current limit to 1.5 A */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL4,
-+				 S2MU005_CHGR_OTG_OCP,
-+				 FIELD_PREP(S2MU005_CHGR_OTG_OCP,
-+					    S2MU005_CHGR_OTG_OCP_1P5A));
-+	if (ret) {
-+		dev_err(priv->dev, "failed to set OTG current limit (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* VBUS switches are OFF when OTG over-current happens */
-+	ret = regmap_set_bits(priv->regmap, S2MU005_REG_CHGR_CTRL4,
-+			      S2MU005_CHGR_OTG_OCP_OFF);
-+	if (ret) {
-+		dev_err(priv->dev, "failed to set OTG OCP switch (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* set OTG voltage to 5.1 V */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL5,
-+				 S2MU005_CHGR_VMID_BOOST,
-+				 FIELD_PREP(S2MU005_CHGR_VMID_BOOST,
-+					    S2MU005_CHGR_VMID_BOOST_5P1V));
-+	if (ret) {
-+		dev_err(priv->dev, "failed to set OTG voltage (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* turn on OTG */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL15,
-+				 S2MU005_CHGR_OTG_EN,
-+				 FIELD_PREP(S2MU005_CHGR_OTG_EN,
-+					    S2MU005_CHGR_OTG_EN_ON));
-+	if (ret) {
-+		dev_err(priv->dev, "failed to turn on OTG (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int s2mu005_chgr_mode_set_charger(struct s2m_chgr *priv)
-+{
-+	int ret;
-+
-+	/* first reset to mode 0 */
-+	ret = regmap_clear_bits(priv->regmap, S2MU005_REG_CHGR_CTRL0,
-+				S2MU005_CHGR_OP_MODE);
-+	if (ret) {
-+		dev_err(priv->dev, "failed to reset opmode (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* wait for the charger to settle before switching to charging mode */
-+	msleep(50);
-+	/* then set to charging mode */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL0,
-+				 S2MU005_CHGR_OP_MODE,
-+				 FIELD_PREP(S2MU005_CHGR_OP_MODE,
-+					    S2MU005_CHGR_OP_MODE_CHG));
-+	if (ret) {
-+		dev_err(priv->dev, "failed to set opmode to charging (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int s2mu005_chgr_mode_unset(struct s2m_chgr *priv)
-+{
-+	int ret;
-+
-+	/* turn off OTG */
-+	ret = regmap_clear_bits(priv->regmap, S2MU005_REG_CHGR_CTRL15,
-+				S2MU005_CHGR_OTG_EN);
-+	if (ret) {
-+		dev_err(priv->dev, "failed to turn off OTG (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* reset operation mode */
-+	ret = regmap_clear_bits(priv->regmap, S2MU005_REG_CHGR_CTRL0,
-+				S2MU005_CHGR_OP_MODE);
-+	if (ret) {
-+		dev_err(priv->dev, "failed to reset opmode (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void s2mu005_chgr_extcon_work(struct work_struct *work)
-+{
-+	struct s2m_chgr *priv = container_of(work, struct s2m_chgr, extcon_work);
-+
-+	if (extcon_get_state(priv->extcon, EXTCON_USB_HOST) > 0)
-+		s2mu005_chgr_mode_set_host(priv);
-+	else if (extcon_get_state(priv->extcon, EXTCON_USB) > 0)
-+		s2mu005_chgr_mode_set_charger(priv);
-+	else
-+		s2mu005_chgr_mode_unset(priv);
-+
-+	power_supply_changed(priv->psy);
-+}
-+
-+static const enum power_supply_property s2mu005_chgr_properties[] = {
-+	POWER_SUPPLY_PROP_ONLINE,
-+	POWER_SUPPLY_PROP_USB_TYPE,
-+};
-+
-+static const struct power_supply_desc s2mu005_chgr_psy_desc = {
-+	.name = "s2mu005-charger",
-+	.type = POWER_SUPPLY_TYPE_USB,
-+	.properties = s2mu005_chgr_properties,
-+	.num_properties = ARRAY_SIZE(s2mu005_chgr_properties),
-+	.get_property = s2mu005_chgr_get_property,
-+	.usb_types = BIT(POWER_SUPPLY_USB_TYPE_CDP) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_SDP) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_DCP) |
-+		     BIT(POWER_SUPPLY_USB_TYPE_UNKNOWN),
-+};
-+
-+static int s2m_chgr_extcon_notifier(struct notifier_block *nb,
-+					unsigned long event, void *param)
-+{
-+	struct s2m_chgr *priv = container_of(nb, struct s2m_chgr, extcon_nb);
-+
-+	schedule_work(&priv->extcon_work);
-+
-+	return NOTIFY_OK;
-+}
-+
-+static int s2m_chgr_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct sec_pmic_dev *pmic_drvdata = dev_get_drvdata(dev->parent);
-+	struct s2m_chgr *priv;
-+	struct device_node *extcon_node __free(device_node) = NULL;
-+	struct power_supply_config psy_cfg = {};
-+	const struct power_supply_desc *psy_desc;
-+	work_func_t extcon_work_func;
-+	int ret;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, priv);
-+	priv->dev = dev;
-+	priv->regmap = pmic_drvdata->regmap_pmic;
-+
-+	switch (platform_get_device_id(pdev)->driver_data) {
-+	case S2MU005:
-+		psy_desc = &s2mu005_chgr_psy_desc;
-+		extcon_work_func = s2mu005_chgr_extcon_work;
-+		break;
-+	default:
-+		return dev_err_probe(dev, -ENODEV,
-+				     "device type %d is not supported by driver\n",
-+				     pmic_drvdata->device_type);
-+	}
-+
-+	/* MUIC is mandatory. If unavailable, request probe deferral */
-+	extcon_node = of_get_child_by_name(dev->parent->of_node, "muic");
-+	if (!extcon_node)
-+		return dev_err_probe(dev, -ENODEV, "MUIC node required but not found\n");
-+
-+	priv->extcon = extcon_find_edev_by_node(extcon_node);
-+	if (IS_ERR(priv->extcon))
-+		return -EPROBE_DEFER;
-+
-+	psy_cfg.drv_data = priv;
-+	psy_cfg.fwnode = dev_fwnode(dev->parent);
-+	priv->psy = devm_power_supply_register(dev, psy_desc, &psy_cfg);
-+	if (IS_ERR(priv->psy))
-+		return dev_err_probe(dev, PTR_ERR(priv->psy),
-+				     "failed to register power supply subsystem\n");
-+
-+	ret = devm_work_autocancel(dev, &priv->extcon_work, extcon_work_func);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to initialize extcon work\n");
-+
-+	priv->extcon_nb.notifier_call = s2m_chgr_extcon_notifier;
-+	ret = devm_extcon_register_notifier_all(dev, priv->extcon, &priv->extcon_nb);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to register extcon notifier\n");
-+
-+	return 0;
-+}
-+
-+static const struct platform_device_id s2m_chgr_id_table[] = {
-+	{ "s2mu005-charger", S2MU005 },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(platform, s2m_chgr_id_table);
-+
-+static struct platform_driver s2m_chgr_driver = {
-+	.driver = {
-+		.name = "s2m-charger",
-+	},
-+	.probe = s2m_chgr_probe,
-+	.id_table = s2m_chgr_id_table,
-+};
-+module_platform_driver(s2m_chgr_driver);
-+
-+MODULE_DESCRIPTION("Battery Charger Driver For Samsung S2M Series PMICs");
-+MODULE_AUTHOR("Kaustabh Chakraborty <kauschluss@disroot.org>");
-+MODULE_AUTHOR("Łukasz Lebiedziński <kernel@lvkasz.us>");
-+MODULE_LICENSE("GPL");
-
--- 
-2.53.0
-
+Chris
