@@ -1,214 +1,101 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.ci.icloud.com (ci-2002d-snip4-10.eps.apple.com [57.103.88.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CD13FF1AC
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 15:47:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5F83264EC
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 15:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.88.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778860043; cv=none; b=Bw9/3Ui0lk8FvVaqwOhRnXHq7iTu6bmdOXBQwKWpwebR+s//PajcL6YSN6DpXXmClOQQ47BqCx75zEM0QTV66pmoluqnYTZlxugX+i0/Wqmdn7b2prQktAuw+xWs+03yehwbwB9cmzePBfgWuoYBtyharT218mslN87Gyx9ty0w=
+	t=1778860670; cv=none; b=paXX/n4tXhbrKkUvt+HgKHKLCJlXR6rsxNw4xVnH0NnJqC6L1hTEhSsYZ/XH0s9YePe9D/l0xbVsTabe9NKXLAScJa77GNiCtoEe8Ydf+nge2wWrral1NKrCkih6mkfw6zB+rRU4YgbxyQh2NPpt3u/ZOQX49Et/38jywdbtpfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778860043; c=relaxed/simple;
-	bh=4x/tYI7wVE/dj5Xs9J1SD3ExCZzdqPFh+Ku4yirTTFs=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TBZAhUPWxYw+CqZ+olyVbwqBy8vrRwdvgp7l2N+NqiV6dYXYDz8SD0l4J3xXWpFgSvUApGbvXk0Wy1q8UJrbHsjgRO1fpXsk4wMDRmdHeoDtEB9QSL36+uhrWXMG35QEWW8wBK22nXrw3gT2W3yxk5eZ8m2FVZZTFXhFDfZt5NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OdROLOAb; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778860670; c=relaxed/simple;
+	bh=VCz6Vzcxv7+HrW6MUnn7R0R4JcxjuaOFDj7RBZs1TrM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QiHQTtaYkOvbvQySq/RBxRhJbQ9ALvdCxycv9TkyC8l9GP2HqbQc1LCPkHgePwsA/62pkXQP6gc1wsEx2CthLDDelUN9xyuomZnarDf44YdBinD1NQX46NtfMaSFQe/23E5Pa/8V5R4IjVT0w+pQcFZ+Ze/j0gwWEK/ndUhyRdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etehtsea.me; spf=pass smtp.mailfrom=etehtsea.me; dkim=pass (2048-bit key) header.d=etehtsea.me header.i=@etehtsea.me header.b=BTYydRqg; arc=none smtp.client-ip=57.103.88.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etehtsea.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etehtsea.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OdROLOAb"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488a14c31eeso63176555e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 08:47:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778860040; x=1779464840; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kCmxHgPSnL+/rrs2yz/09fkOkjHEfDbnI1nUCTxT6M4=;
-        b=OdROLOAbhQC1x2aKNagUXyKkcOUaeFt3dh6rfWFk+JhvEXNVfLuXYEB4LmvHKOtIl3
-         wHkiUugoUw6ZZUGVWFafFkgG41nxrXV00APqFBfGlHmfARrR4Ey9Cf0gWXEQ+xJfbAl/
-         PicH9caMxkqNTXpsX6gHnS0qgsp+ggrrgfGw3VZzoTaV3+OTpJOJbqXEDx5SNlQvb9Zl
-         EvNx0rNY3+PPGahRfqQKj3MiPOQFxlm302hupsC0Tn7iNhNtkxiY5TXjNT0CgCll4Czn
-         hpoipp/355oLTdLxUJyTwyniJ5EauGdxPvfga2wUNFGpWWFwZo1PMrCQvNUQaHeJ3UxZ
-         kfMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778860040; x=1779464840;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kCmxHgPSnL+/rrs2yz/09fkOkjHEfDbnI1nUCTxT6M4=;
-        b=QLZ3E6+nuEmKqS2Fvj7e0wB2GSf/9Y9lA1dcLMc8TGh+OUPqtpsc3aEwzg9ufRgETR
-         fFAPzXSwmcgbWMVYPjArw+TwHxwbmMb6wTotxMGTCHWzwB+LvhnZLq7XraNPhjhvKQ8T
-         KwLcqrkWZ+lSkZIrIsHeI1+iqkUB48mjbh2ELwO92Gr6+n8eNPnU+K8a6ILAM7Jmnl1G
-         ouYYr33PG82PnLO4OT3LM6XEojMht1Oo4qGeFVNoqECsCPpFXIcSme+RlB/TgJelnvtp
-         nqP2l+AbjKl5eB5WcYAE9ZVKaznP+hQlgWTGZhrF7TbmNhPgoI8uRXWDj/y52tEqZgqH
-         rYsg==
-X-Forwarded-Encrypted: i=1; AFNElJ+nPGjFquN4yylzahsC+cT8Pno//guWNqMjcjRgK5MWHZZVgtU7G1jugpZGEnfpPhzT5oblSyQvSXs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyS1X53KIb2KwQju9Guvs/xy63gEpfeMkusYLIyK3eDmOOcut2j
-	CreagzvW8I6oZGW885tpPCzlb+2wJt1zIdSAvW3byXYwXUA1ickR943s
-X-Gm-Gg: Acq92OEq3crC5oWUgQk/AhKpZGrDjFFuZMIERP+LL6dgklurZDGmyAyXOFY9dyoXpYY
-	8gEYa4KNEnIY4qezE2eL5ETEijB6/lZsyEuHBXs7Kq9Q7ROoLAixyCEkWXG/NvS19MhYkkyb/nL
-	gq91+L79JoBPCFXdE0dDSrs23Q0ib/IgUZ7L+L4PP/WvDFjWI8+vlqdZazPzb+t3A7kZ1C9dBRx
-	dUHRNpGtXLpPcO7QVzaqIAG1zZUi/aB8jtHiq8N3XEdTsct/2MOx8JcwdhNjRKui13S4aiGkccw
-	kUO8CfWmSbtONPup+wywQjhgyatLAtVgyeNspV67wiiH67Me76styqe400yQk2rBPdpbCi1aXbI
-	iHgOHJ9MEeUpL7xZszF4Ng7o4NtXWj2MDzrje8q1kjPekSwSI7ak9dGR8pQ7ZHrjDWCbfYt50zA
-	1IYhg2YXQQMSUFhPu2ALY1i0kjigCZPv05GSQiYUwgR6sfE0PyQ6hrL4YqsECBN4/LAUYWWh8Gd
-	mJQFd3TecZiGCyJhtt1btocYBTQ8IUqaXVqXGye2nRzlvc/Yg==
-X-Received: by 2002:a05:600c:3b28:b0:48f:e230:80a0 with SMTP id 5b1f17b1804b1-48fe63267bdmr65802875e9.30.1778860039835;
-        Fri, 15 May 2026 08:47:19 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe57944c1sm80081305e9.7.2026.05.15.08.47.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 08:47:18 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Fri, 15 May 2026 16:47:12 +0100
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
-	David Lechner <dlechner@baylibre.com>, rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hardening@vger.kernel.org
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH RFC v4 10/10] docs: iio: add documentation for ad9910
- driver
-Message-ID: <csqudninfd5g3vkrzu45mfsbunxygwymlycwijgwvvpfbqhatr@fzib4gvhqc4o>
-References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
- <20260508-ad9910-iio-driver-v4-10-d26bfd20ee3d@analog.com>
- <b8f9a174-f3d0-4cb8-a571-605be79165d6@baylibre.com>
- <zvulxrrvg4sf7m5pjfpfucg7yssgallfu6zi6mcyblu2qy24hn@wdzs7h77vkoz>
- <18c2eab9-c0c7-4e93-b4e8-73b18531e784@baylibre.com>
- <uphcx5zr4lmukuom75g66hp4agurty7yq6mo6ri6otrsscqfek@tn3u5jjszaoy>
- <5bce7868-feca-4c54-a14d-ad4bf4072c29@baylibre.com>
- <wpoiyqezs6lus5o7smlibbxrxqudvijgqh3gwgft2xjpiirwa4@xtdwe3kzleku>
+	dkim=pass (2048-bit key) header.d=etehtsea.me header.i=@etehtsea.me header.b="BTYydRqg"
+Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-central-1k-60-percent-11 (Postfix) with ESMTPS id 55F011800097;
+	Fri, 15 May 2026 15:57:46 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQ5AHVwDWxxBAFYHXxcOVk1UGVoBdw5GFVEMQAhWRV8VGR5XUFoKWxx5HUcIXx9BFVhWXggXGVFNCEkTBVIHXU1WDUcPWB5cFBcbWkNeCF4fTBwdDlgGEgBNCg42BlkFXglWA0MFNhIUXUVWGVIDRgNcGR0AUktfGV1FD18HWQRADEkGXAJeBUQIVgFYB1MAXQhVXgxeB3IVTR1bGUQOU15UHQ1NQxJCFQQbRh5DBF8vXRdeDF4F
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=etehtsea.me; s=sig1; t=1778860668; x=1781452668; bh=DuQegn9fkCMACsPY0TAXb1FFSz4/Ugl6CDVsxtvsXcM=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=BTYydRqgcIlRgyauh1SL5vYC76n5FVBUdjGDDdnIZP5eE685UFKpDKizQ7bAOSxH+B0qPGYz+FGSAxE9DflSY4p/6efglR9XWKYbuNYn5jS7sIzu/4dsAX1ATpHgJC1BKVSK3VXdtmV/dqZYBc5qAwZgnWUOTUhmLiv/fmBHhi59PMNXeJL+YlRQ0PN8mdGBrmteGNdF1kyXbpVED23aN4sKu3ficofL2FT3x6hcp0URwr8wqClgXd9ZBNb+46yEDT2btyXGVrX17u9LwWERR9Kzc87hRNWM6a6guPNvLgPCzXk0ohwapX7BxfthyuqfcZC5LoAFxgABjFyKxIm/Kw==
+mail-alias-created-date: 1634905887181
+Received: from localhost (unknown [17.57.156.36])
+	by p00-icloudmta-asmtp-us-central-1k-60-percent-11 (Postfix) with ESMTPSA id 4910918009BD;
+	Fri, 15 May 2026 15:57:45 +0000 (UTC)
+From: Konstantin Shabanov <mail@etehtsea.me>
+To: kuba@kernel.org
+Cc: corbet@lwn.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	horms@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mail@etehtsea.me,
+	netdev@vger.kernel.org,
+	pabeni@redhat.com,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH] docs: netlink: Correct buffer sizing info
+Date: Fri, 15 May 2026 22:57:41 +0700
+Message-ID: <20260515155741.25082-1-mail@etehtsea.me>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260512172757.10c43c86@kernel.org>
+References: <20260512172757.10c43c86@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <wpoiyqezs6lus5o7smlibbxrxqudvijgqh3gwgft2xjpiirwa4@xtdwe3kzleku>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: MBeYi7hRfafsSMgW6tgjcPjp87ci0_31
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE1MDE2MyBTYWx0ZWRfX9u2+/58yK04i
+ ED6wxzBp2PRTy+TwSw8sHnM9SWblGZIgyuFUeY1XYnhcSuSoWbeQqDsXukWSNKwwLXAnWyqLKE3
+ ngnfDvfqN0Ns3qBlwXRfL/FJOHqjEzvblP2Ige+ckq5PzwW93+sVh1H60axPgH6F6lgMKdQjr+k
+ Qjwe/nqM+WiFkyf1tptA3TJhuUavBxYDX/vL97dEViZ7/v8NKo1u9b07hQNrrYZrOZpFxW3PhU/
+ Bz+Y0fcJgbdXDhRWL2DEjRGhOraeHxJe7ptlkdQBHDyOqSVrXl+OzvG8Byjjv730hINzPKQTBLd
+ 8ukX8le5Om+TIzph/z30sW1GYBeVfJ6FmcOjdpFosnR3eGsX/6r+Sie8ZgErIo=
+X-Proofpoint-GUID: MBeYi7hRfafsSMgW6tgjcPjp87ci0_31
+X-Authority-Info-Out: v=2.4 cv=J46nLQnS c=1 sm=1 tr=0 ts=6a07427a
+ cx=c_apl:c_pps:t_out a=2G65uMN5HjSv0sBfM2Yj2w==:117
+ a=2G65uMN5HjSv0sBfM2Yj2w==:17 a=MKtGQD3n3ToA:10 a=1oJP67jkp3AA:10
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=3HDBlxybAAAA:8 a=UGG5zPGqAAAA:8
+ a=TJPJEJdEWgVQhX8sVwQA:9 a=laEoCiVfU_Unz3mSdgXN:22 a=17ibUXfGiVyGqR_YBevW:22
 
-On 26/05/11 05:01PM, Rodrigo Alencar wrote:
-> On 26/05/11 10:23AM, David Lechner wrote:
-> > On 5/11/26 10:02 AM, Rodrigo Alencar wrote:
-> > > On 26/05/11 09:46AM, David Lechner wrote:
-> > >> On 5/10/26 4:30 AM, Rodrigo Alencar wrote:
-> > >>> On 26/05/09 06:42PM, David Lechner wrote:
-> > >>>> On 5/8/26 12:00 PM, Rodrigo Alencar via B4 Relay wrote:
-> > >>>>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > >>>>>
-> > >>>>> Add documentation for the AD9910 DDS IIO driver, which describes channels,
-> > >>>>> DDS modes, attributes and ABI usage examples.
+On Tue, 12 May 2026 17:27:57 -0700 Jakub Kicinski wrote:
+> On Tue, 12 May 2026 17:30:53 +0700 Konstantin Shabanov wrote:
+> > Update the docs to match the code (include/linux/netlink.h):
+> >
+> >   /*
+> >    *	skb should fit one page. This choice is good for headerless malloc.
+> >    *	But we should limit to 8K so that userspace does not have to
+> >    *	use enormous buffer sizes on recvmsg() calls just to avoid
+> >    *	MSG_TRUNC when PAGE_SIZE is very large.
+> >   */
+> >   #if PAGE_SIZE < 8192UL
+> >   #define NLMSG_GOODSIZE	SKB_WITH_OVERHEAD(PAGE_SIZE)
+> >   #else
+> >   #define NLMSG_GOODSIZE	SKB_WITH_OVERHEAD(8192UL)
+> >   #endif
+>
+> You should explain what you think the problem is in the commit message.
+> Maybe if you did you'd realize you're comparing kernel header comment
+> to user space guidance which are (obviously?) the inverse of each
+> other..
 
-...
+I thought that the comment is self-explaining:
 
-> > >>>>> +Digital ramp generator (DRG)
-> > >>>>> +----------------------------
-> > >>>>> +
-> > >>>>> +The DRG produces linear frequency, phase or amplitude sweeps using dedicated
-> > >>>>> +hardware. It is controlled through three channels: a parent control channel
-> > >>>>> +(``digital_ramp_generator``) and two child ramp channels
-> > >>>>> +(``digital_ramp_up``, ``digital_ramp_down``). DRG destination is set when
-> > >>>>> +ramp attributes are written, i.e. writing to ``frequency`` or ``frequency_roc``
-> > >>>>> +sets the destination to frequency.
-> > >>>>
-> > >>>> Would it be better to say that the destination is set when the the
-> > >>>> value is non-zero? Otherwise, how would one change the destination
-> > >>>> once set?
-> > >>>
-> > >>> Destination is only one, so you just need to write phase or phase_roc, if you want
-> > >>> to target phase then. Does that not sound intuitive?
-> > >>
-> > >> I was thinking about if you needed to change the configuration.
-> > >> If you set it to phase, then want to change it to frequency, how
-> > >> could you do that if 0 is a valid value for phase?
-> > >>
-> > >> Also how could you know which is selected by reading back the
-> > >> values if 0 is a valid value?
-> > > 
-> > > This is where Jonathan raised some concerns, so it is a good oportunity for you
-> > > to provide your inputs! Right now, I am returning -EBUSY on read of an attribute
-> > > where its destination is not selected. As pointed out, the destination selection
-> > > is happening when writting to the attribute. In the previous patch, Jonathan
-> > > suggested frequency_active, phase_active and scale_active to track mode priority,
-> > > and It could be leveraged here for DRG destination selection. I havent gone for
-> > > that because I was not willing to add that to all the channels given that it is
-> > > mostly used for debugging, so I added frequency_source, phase_source and
-> > > amplitude_source to debugfs instead.
-> > 
-> > The "last write wins" with the others changing to EBUSY makes more sense to
-> > me now. If the docs said that, I missed it. Otherwise, that would be a helpful
-> > thing to add to the docs here.
-> > 
-> > > 
-> > > Destination selection for RAM mode is firmware based at this point.
-> > 
-> > Seems reasonable.
-> > 
-> > > Destination selection for Parallel mode is still not clear... could use
-> > > those *_active attributes or separate channels.
-> > 
-> > Since there are _offset attributes proposed for parallel input already,
-> > could we just make it the same where you have to write one of those
-> > attributes?
-> 
-> Different from the DRG, both RAM and Parallel mode has this extra polar
-> destination, which targets both amplitude and phase at the same time.
-> 
-> For parallel mode I have the attributes:
-> - frequency_scale: applied when destination is frequency
-> - frequency_offset: applied when destination is frequency
-> - scale_offset: applied when destination is polar
-> - phase_offset: applied when destination is polar
-> 
-> In parallel mode, there aren't knobs like those for amplitude and phase
-> destinations. With the *_active thing or similar, polar can be both
-> phase_active and scale_active enabled at the same time. However, this
-> would not behave the same way Jonathan suggested, i.e. to be used for
-> mode priority indication... it would be used for destination configuration
-> instead.
+  * But we should limit to 8K so that userspace does not have to
+  *	use enormous buffer sizes on recvmsg() calls just to avoid
+  *	MSG_TRUNC when PAGE_SIZE is very large.
 
-I was thinking, and it might be good to define this now because of the
-fact I might need to create other 3 channels for the parallel mode (Maybe
-that is fine and we can create them later if needed).
+The problem is that according to the comment, kernel isn't going to send
+more than 8K in a single reply and the documentation is currently recommends the opposite:
+to create _at least_ 8K buffer what looks excessive.
+Also, the logic in the comment is aligned with userspace libraries (libmnl [1]
+and wireguard-tools [2]).
 
-One thing to note is that in parallel mode, although the format pins (F0, F1)
-that defines the parallel destination are synchronized with PDCLK (parallel port
-clock), we cannot really send multiple formats in a single session, so we
-cannot interleave destinations. Then, if having separate channels we would need
-to contraint that (only one destination works at a time) with the available
-scan masks.
-
-Now, also related to the IIO backend support but for the DRG channel...
-Anticipating new ABI for the IIO backend, currently I have the following to
-expose ramp control from the FPGA IP:
-- toggle_en: To allow the backend to control DRCTL pin, toggling it in response
-	     to DROVER, according to the configured dwell modes.
-- ramp_delay: the delay between ramp sweeps in seconds
-- burst_count: amount of ramps in a burst of ramps
-- burst_delay: delay between bursts in seconds (valid when burst_count > 0)
-
-Would also be good if I can get a comment on those! Maybe toggle_en can be
-removed as the other ones only make sense when there is dwell and when this
-toggle is enabled. So toggle enabled can be set by default whenever we are
-not in bidirectional continuous, i.e., we are dwelling at either max or min
-limits (or both).
-
-Just to summarize the motivation for those attributes... the idea to create
-those ramp patterns is to allow a receiver that performs stretch processing
-to assemble a "radar data cube" of data, where FFT applied to each dimension
-gives different insights on the detected object: range, velocity and direction.
-Each ramp would give a row, a burst gives a matrix, and with multiple antennas
-one gets a 3D block of data.
-
-...
-
--- 
-Kind regards,
-
-Rodrigo Alencar
+[1]: https://git.netfilter.org/libmnl/tree/include/libmnl/libmnl.h?id=54dea548d796653534645c6e3c8577eaf7d77411#n20
+[2]: https://git.zx2c4.com/wireguard-tools/tree/src/netlink.h?id=a998407747005ea7e4e0258d96f105c97241e1d3#n70
