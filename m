@@ -1,51 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7643A961B;
-	Fri, 15 May 2026 14:15:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA7C379C2F;
+	Fri, 15 May 2026 14:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778854519; cv=none; b=Zz8JRPIYt8jXb8uQZC/+0T0iDf43Tpx0yenChD1HnlQ4d+KHxkxtf7Vhy/7Bxjv9EW34S3tB3J0/D3k9JV3dvaRS218KbcvcsKcxXQUeXdUJTuDbMM9dkp/PAuGobswl0XNH+5rjCQFIHilSOWQhG/SqzCsMs90rWjfOMx5C/go=
+	t=1778854803; cv=none; b=dicetUHgVnm3e7wko7g9ILMhseQHMiCl2Ye3ye/lvhH2Wyf+BmuuGeHREIVVNwSJs6zxTIyGEjOmQnZZg12buTw6vGw0cSI0Knt+BCPbFruIoXWWusZ7R+nlSSsbJ5mKkaH9r0lux6CASE7oCu6nXMLMHZbgfx6O5MEx9iudels=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778854519; c=relaxed/simple;
-	bh=q3ddQQ7Y/h8yP7ksmWTHC7sGDBsS3439/VlNrRezglo=;
+	s=arc-20240116; t=1778854803; c=relaxed/simple;
+	bh=uMceqlqzXRfw43iICLsAETRTDVV2kZXA7tfSMDH1QEA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HHgZpXDepViX7b8Pa/L+FNiipFFbvuHlAejhMeq5vrN23YJimwGesD1n6Le4pj6pL5QpU/ZX2kocxWV0bEeqlFU0bOs2GGzVOTNoJFupcOPAzELpZ1yIO2wrcq0hCevgiCrpivigXkB+Up7X2LfDda6fmfHkjek7KiFTd/u2R2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Qmz6vOf3; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=jhF+oIJt6CXSUKrK5HxOoQSD7ygzT/RCAgwzI3ia+5uLDLrZV6HbUX/a8uG35HkNS+gooCXjhsqFq0ZsAPakcUX/y9SDhMedhLwxjYNXrAz7jQLxB5Apc00+yGJUydnQ5+BMwQAJBhsviBalz/xLsTVgs02CKQnuAx+TC4GICIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gLawDrjR; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Qmz6vOf3"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6EB48410B5
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gLawDrjR"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BF075410B5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1778854517; bh=hhlVW1p0W18gTXBj78aOHGg/y0iUqQRc1l2EOM9d6wg=;
+	t=1778854801; bh=6EG6To5SzJcuaqVMx4a5b0561ufDvBSm2WycfWGusZM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Qmz6vOf3ByCXNMOoWjskT0XVJP09PKMACMQBlVgMRlCqvYt+BeNbWmF8bE0P4OmSe
-	 dzHj0L+xwXoiy25Es7a196GrHl1pgW19//mJwYoKNKuwUupBKbdf5WF2qpi3eqqdxs
-	 4SKqC6uwPe9dpsTpbI15OoYkVc6r9zMWFTouK2I1rh1TPkqLDmG3rxEWeGmT/NYG0F
-	 Q3Jxu5wp1bsknWKaZjSpapUgD+9ezcT6uBr9Hd2+55PYyqJ5ulcZod2JFg7V6I/Wuy
-	 MZm9MfD9vcxggYJB00+uBt1cc7QIHkgUdB1p/+lnHlfd1i7MQ8s0ywRkfXSouRRusP
-	 KOluXT3GVIhZQ==
+	b=gLawDrjRV7iKcTJpIiethGPjFQrqd1mKGp70oXutFxyaDQNaMDlkk9x3zg2VAY75O
+	 DBVM6OU1awoHTl/YVovW7W1siq9WL4KdAuPT4yiDBSv67rJy6Dfeg0k4UUn1WFSaPF
+	 wENNcJoRHc07/5Bmbbm8HH2djVOYCLgA4sZQ00AoQQa4674OT94JkVaWuvqMrFZAwH
+	 Cm3Uw35Wz6hawf18WUZIMn7h/51gQ6T6885em8wrW38w+DwjQwKt+wi0mpDDD0SdYO
+	 3Muf/HKMyQBf4BZmH8onUBJkpcVASTDrY6M/rLal5Hy36vg5UIiiS87OCk6Z6ch0t1
+	 NvKbMHjVLeGXw==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6EB48410B5;
-	Fri, 15 May 2026 14:15:17 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id BF075410B5;
+	Fri, 15 May 2026 14:20:01 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-hardening@vger.kernel.org, peter.griffin@linaro.org,
- andre.draszik@linaro.org, willmcvicker@google.com, jyescas@google.com,
- krzk@kernel.org, kernel-team@android.com, Tudor Ambarus
- <tudor.ambarus@linaro.org>
-Subject: Re: [PATCH] docs: kernel-doc: python: strip __counted_by_ptr macro
-In-Reply-To: <20260506-kdoc-__counted_by_ptr-v1-1-70763486871f@linaro.org>
-References: <20260506-kdoc-__counted_by_ptr-v1-1-70763486871f@linaro.org>
-Date: Fri, 15 May 2026 08:15:16 -0600
-Message-ID: <87qzncrc7f.fsf@trenco.lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, Mauro Carvalho
+ Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] kdoc: xforms: move context attrs to function_xforms list
+In-Reply-To: <20260505221548.163751-1-rdunlap@infradead.org>
+References: <20260505221548.163751-1-rdunlap@infradead.org>
+Date: Fri, 15 May 2026 08:20:00 -0600
+Message-ID: <87mry0rbzj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,28 +50,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Tudor Ambarus <tudor.ambarus@linaro.org> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> The `__counted_by_ptr` macro was recently introduced [1] to extend
-> bounds checking semantics to standard dynamically allocated pointers.
+> The context analysis macros are function attributes that should be
+> in the function_xforms list. Somewhere along the way they were
+> inserted into the struct_xforms list instead. This causes docs build
+> warnings to continue to be emitted for context macros.
 >
-> However, the new Python implementation of kernel-doc does not currently
-> recognize it as a compiler attribute. When kernel-doc encounters a
-> struct member annotated with this macro, it fails to parse the variable
-> name correctly, resulting in false-positive warnings like:
+> Move the context analysis macros to the function_xforms list where
+> they should be to eliminate these warnings.
 >
->   Warning: ... struct member '__counted_by_ptr(cmdcnt' not described
+> Documentation/core-api/kref:328: ../include/linux/kref.h:72: WARNING: Invalid C declaration: Expected end of definition. [error at 96]
+>   int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref), struct mutex *mutex) __cond_acquires(true# mutex)
+> Documentation/core-api/kref:328: ../include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
+>   int kref_put_lock (struct kref *kref, void (*release)(struct kref *kref), spinlock_t *lock) __cond_acquires(true# lock)
 >
-> Add `__counted_by_ptr` to the `struct_xforms` regex list so it gets
-> safely stripped out during the parsing phase, mirroring the existing
-> behavior for `__counted_by`. Update the corresponding unit tests.
->
-> Link: https://git.kernel.org/torvalds/c/150a04d817d8 [1]
-> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
->  tools/lib/python/kdoc/xforms_lists.py | 1 +
->  tools/unittests/test_cmatch.py        | 1 +
->  2 files changed, 2 insertions(+)
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>
+>  tools/lib/python/kdoc/xforms_lists.py |   20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 
 Applied, thanks.
 
