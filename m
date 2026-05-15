@@ -1,331 +1,331 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010052.outbound.protection.outlook.com [40.93.198.52])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8663AC0E4;
-	Fri, 15 May 2026 12:26:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778848021; cv=fail; b=lriYFz7v8qJRFxDnNzP9vxyxBDPl2EpJVIMoBZ6uoj5Kp0l1Rnyu/6YAqLtZE2C1e6EPas/jdsvKGJjYHgfBrpCEqfq7YtjqgVXsqbJEyW80ckF3ZHuIxrj/emC73dKdHhP1v3ao7A/t5fGHMc8QW8UToEEImtscuNEdbFXgCrA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778848021; c=relaxed/simple;
-	bh=HGKz8HqMN3T6rxhY893xEATqFUdfntiSi3uCHokNGkI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AsjmYbgE52KKyijGJ13ZTm72KiC2VU5f3qbFOung6Nz3mi9tu5+iRLsNoZ5Hnbx6l0ZjKG48rINTKtR3uXGkMESSgcHOhXa17bpAoH+QwG/t87KFp1XLWAckinslyc970/xJYpVqZmVxpV6oQWPC+VCnhL310D9KAG/GqA/Vqrc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ekvISr7I; arc=fail smtp.client-ip=40.93.198.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E601D47DFA9
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 12:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778848202; cv=none; b=KjDwiMsGnp6esQa1YqjXwwsH4PjEoXYmC63QgCDKm42LJHIHGeM+Zxvmmw6eVSYc0VpmF+HxLOTlU46Qsh3jlovpxHHrmadG3oETL3BM4LxfbaFxxeBoBrWt+OzVZtOfXcoWVvAJTTarnKtM9XAotqJTrgE1Dcxgd56xNmXPLUc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778848202; c=relaxed/simple;
+	bh=pogKRAS5tjZpvnT6klMUBvgRFeKcTJea9y1ccznZXfE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=vFO5nPFUifVcA/RzidHxDKQ66GM54nQ4pxOQl4NlW2skFIMzbHg7vZZ4xGPooP5fsrWAxxkCsKLHpUh91VLomIkjSY7tPuomYf1/K4bV7QOVEQ/MEa7wONtjuIms7USU0eLxI54JlN49ZQfjbTNGLu4G61iVY2E2sDhdC8E87tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Tn1fi9yb; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ekvISr7I"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LiHp/PoQHNTQZLw6K3vP2Jq7qhggjzSoVi2IHviaPVInz8KVnayr4iDbwOfImie65nKhm3pRjsjjb4z6DnirUV8ZHPFl4n+d30sGvHUdw1Clr36mhgWfKzlpnBEmAX49vYJ+1L0K3a0zrGSkeOFSlgOLpBy4+FDAr5umKA3X6vCV0Puah4xDd1LlBd8EmGCzrCFEyO83fjqYX1648k29lu1Iv6qDH5FCu5tZVZ+dDt+qEFvIkOyEhkUIUpbMTsAMWX1uiPAMPjOfDLoN+wx7gB5cSgZoi0I18qadcXU4tVFdeTmPcdo0XlLz4GAxpL3SipBebEh/+6vEqJc/KOk/kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=llTLiy+YxlEnDOO5CzBYgwuM46axnO7eEC2rYWJTwbA=;
- b=bQLF+/auRMEDaj/o+hlJM8ilhIN/UNWjgK2CmrEItqptsAD5itnIkIQG307BWwQtW+WFUgWWJc597I7HT/aZVjxyMjb//kvRkb04V4k+ecMqS3zcce3o0EIaI3KxXTnqK3B9YyJo/QpNV1PFgLeAMHg6dkmS/l/ZiIIjqjnYssuuxhjLeMGSXm3e/rEJ+3z8KqFfz6KY0xIjUwIggrG2vxi6IUAZNubWR6Qs3gWZXvxInuu9BoW15AdCkMKCKHh/vHq+/Gyg9TxOwb/KfISPPdj8dQfqWsGQdYvx6XeaBEaq7SFjxYuBRqNjzIdtvXYCHEHvlynGN3sN2jmbWwalhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=llTLiy+YxlEnDOO5CzBYgwuM46axnO7eEC2rYWJTwbA=;
- b=ekvISr7IVh7pEGPJs0U4nDRB+3xmoo9MwW8RU9wB+iZc34kannqRapaGW3vivr4Kmq5QnOztVlXuzyUYX+yeLrjdo/IbaHIzkvf8ukJ1t+4wqSk5Secbl1GKR0rzeDl/f50QZ87tb0d4++tioJ0Bf2fAXu5psPqpMzhVVhis46SFrnFjKmqzT+Q1LGKYMWALi2q9XkcrUlBi1RkBb934NEQewXgmx0iDJIO4A/ZfvenXqzGAlreObVDl721/ERJD0nJIDxt5PVs9vFQBmDh5cQmFtPjqXPjIR/UQY/Q353ULZXXuHjrbUes+bH3kVo8RcBSW7HT2jk1N8OgwxuQpDw==
-Received: from SJ0PR03CA0060.namprd03.prod.outlook.com (2603:10b6:a03:33e::35)
- by PH8PR12MB7304.namprd12.prod.outlook.com (2603:10b6:510:217::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.19; Fri, 15 May
- 2026 12:26:52 +0000
-Received: from SJ1PEPF00001CDF.namprd05.prod.outlook.com
- (2603:10b6:a03:33e:cafe::46) by SJ0PR03CA0060.outlook.office365.com
- (2603:10b6:a03:33e::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.14 via Frontend Transport; Fri,
- 15 May 2026 12:26:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- SJ1PEPF00001CDF.mail.protection.outlook.com (10.167.242.7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.25.13 via Frontend Transport; Fri, 15 May 2026 12:26:52 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 15 May
- 2026 05:26:49 -0700
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Fri, 15 May 2026 05:26:49 -0700
-Received: from sumitg-l4t.nvidia.com (10.127.8.14) by mail.nvidia.com
- (10.126.190.182) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Fri, 15 May 2026 05:26:43 -0700
-From: Sumit Gupta <sumitg@nvidia.com>
-To: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
-	<ionela.voinescu@arm.com>, <zhenglifeng1@huawei.com>,
-	<zhanjie9@hisilicon.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<rdunlap@infradead.org>, <mario.limonciello@amd.com>,
-	<linux-pm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
-	<sanjayc@nvidia.com>, <mochs@nvidia.com>, <bbasu@nvidia.com>,
-	<sumitg@nvidia.com>
-Subject: [PATCH v3 2/2] cpufreq: CPPC: add autonomous mode boot parameter support
-Date: Fri, 15 May 2026 17:56:24 +0530
-Message-ID: <20260515122624.1920637-3-sumitg@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260515122624.1920637-1-sumitg@nvidia.com>
-References: <20260515122624.1920637-1-sumitg@nvidia.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Tn1fi9yb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778848199;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zhZLgseD/699RP/fofmk2sQrBvpGDO1oYDvLvNpRtsU=;
+	b=Tn1fi9ybb/rghY8z0Jd3HNRAbUhyE6QyWiuMPLNoWUQiXcQLB0F3jrVaVHboh6apcFlHeg
+	7mBtSmftqK0pT7MPKcJCe9Bkj8J7C4KIy90WCgp9lwmaozwiNCR2cfmfE8qBvt6GbEEYAz
+	KaaqVynTav0dv2uwJsRu7LFjHTcH4I8=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-83-FfJie5FxMFCbmIFBSvXkMQ-1; Fri,
+ 15 May 2026 08:29:53 -0400
+X-MC-Unique: FfJie5FxMFCbmIFBSvXkMQ-1
+X-Mimecast-MFC-AGG-ID: FfJie5FxMFCbmIFBSvXkMQ_1778848189
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6863D180056E;
+	Fri, 15 May 2026 12:29:47 +0000 (UTC)
+Received: from [192.168.1.153] (headnet01.pony-001.prod.iad2.dc.redhat.com [10.2.32.101])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BB63C1956053;
+	Fri, 15 May 2026 12:29:37 +0000 (UTC)
+From: Albert Esteve <aesteve@redhat.com>
+Subject: [PATCH v13 0/4] kunit: Add support for suppressing warning
+ backtraces
+Date: Fri, 15 May 2026 14:29:31 +0200
+Message-Id: <20260515-kunit_add_support-v13-0-18ee42f96e7b@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CDF:EE_|PH8PR12MB7304:EE_
-X-MS-Office365-Filtering-Correlation-Id: 793ca7f1-e96f-4016-f1d3-08deb27d3e61
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|7416014|376014|1800799024|921020|13003099007|18002099003|22082099003|56012099003|3023799003|11063799003;
-X-Microsoft-Antispam-Message-Info:
-	Q1G7uK31WLDVBCk4T8isoVZRZ5MNVGctfaXsIdtVYI0KgR1SX04Zmze0fXvL5UXaCf0evLjwYeH4lecHDVHijEH2B/+jVUoEpTO0nZFi3mNkT4vQR97IDMukM4FlePZqsAx4caFaku3gih7/VT1/KDwViQevqgkn6bfayG3Wol8NklvBU9W/07kSIfWksJyYkRADYgzCrIBujyys4VoMy+BZT8WnzDab1kpoM0KVk+T5CqBbKHDIyLVkW1Z/ufqfLBMXe1i/a+X5LJZuqHgAGHMdKbhpLSwM20/Rzy0yqhwWcC/ou8H9K7Ats6aH5BQ/gC9qbAtg2W33nrZaWJs/47rlRIr1+vXRwN2Dp4uCVvg3t1NMIw6nGbMM4Fa8JqGfA2iMrkCa7Qchc7+wikuv+DxLM5KcPeCoIH+dh0Am9TeSGdXuU/ef34zzdeqiN6bOssbYc+NAiPNTBm7ykm2xn08Ff/DXj1PjXXMgD7EWH9TGD5srVWGieJa6alu0xen0FyJ+dyeui9D1ThNyDQHQGXwT92tvoUS6yO5ImBJwySr50dWhUs3/sO7XmXjvAtWlle2xRVHI0q5l+tRp+gH0pS0uZbsNCk1Ys88Bnu/ae3cVqCibkximPM19ztZnvJDmEQIN/9OqFEz374xDAOPS1cbVd4Gc9KT5Sw442OZHh5Bn3UbdfS7Twffrw1Wfp34PrswNjq3+w1nk2Sh0iuLc00D6Ez91p8geT1NKAdhGS4uZtt6nAYFY86j2jlu+wVSYh5Y1NUeFl94GSrZt/uC+Rn/79x2u0orW4QUWrWMZn1o=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(7416014)(376014)(1800799024)(921020)(13003099007)(18002099003)(22082099003)(56012099003)(3023799003)(11063799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	H5NcS1Y73jfx3KzvesXOH8hTgWTcWU+05BaRoZktOsZz+NHTgSCVgiFNVX0aHyAqE5ggz/5gVLT0lmkQVoRccr9Buu9KLodzo0HukKANpRrD4mijvEj8polXNrXhIY9JNjk436S1RiZbrra0AgwfkG6o1R/Vn53I0sn7IUQ/1HsHO8JnNbr9uZ5bS+QZCr469zmPdP1u5tVxyomy4+9aUZtu4rNp27zD//gB9Ydhexts6D5drx1yE0aeKqjLdd9NqVyys9iPjQTycrmVccQy3j60vaGHrMVSbwg4oXtvjfyVC6+vOxjb76WqAgv+FYzaoKo86IXnnGtDYw1+GpLVdppKuUwG+ka6ujHTJSxa8uBe+1HQWMqoo/kxXZoq5QJQu8+8hZdOXuWyx5brsS1v2+X3v3pV5Vi5wZ6Au0MIfLFnFd3FhDqlyIt70RlMsvNA
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2026 12:26:52.0221
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 793ca7f1-e96f-4016-f1d3-08deb27d3e61
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CDF.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7304
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23QS2rDMBCA4asEr6swM4peWfUepQRZj1qU2EF2T
+ EvI3SsHQlys5Qzo4x/dmjHkFMbmuLs1OcxpTENfBuRvu8Z1tv8KLPmyaAhIAkdi39c+TSfr/Wm
+ 8Xi5DnhhFLjTIFo33TXl3ySGmnwf68VnmmIczm7oc7FMSIEgiJyXEHqVEAQyZdTafU2/fc/Cdn
+ fZuOC9al8ZpyL+Pwlku5rNFVVpmyYB5T2RDy2MQfq0tMbN6EQeCGqEKEXTrZICowIcNoV+EgEO
+ N0IXgQRihXInhYkOYNaFrhCmEMT4qa7WGKDcEwspAXjMQllO4Mp5AOu22v4G4Rqq3IBak5dIKD
+ lZ6HbcIrRFRRaggllB6R6TboP8h9/v9DzeyRVmKAgAA
+X-Change-ID: 20260312-kunit_add_support-2f35806b19dd
+To: Arnd Bergmann <arnd@arndb.de>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+ Rae Moar <raemoar63@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
+ peterz@infradead.org, Alessandro Carminati <acarmina@redhat.com>, 
+ Guenter Roeck <linux@roeck-us.net>, Kees Cook <kees@kernel.org>, 
+ Albert Esteve <aesteve@redhat.com>, 
+ Linux Kernel Functional Testing <lkft@linaro.org>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Dan Carpenter <error27@gmail.com>, Kees Cook <kees@kernel.org>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778848177; l=10895;
+ i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
+ bh=pogKRAS5tjZpvnT6klMUBvgRFeKcTJea9y1ccznZXfE=;
+ b=7NgVwqlE5TOmhmYYbku9jy7liN4NgvgseZ2pYmWh8c3j6azSEKniioXB0ouvAbfezf1/aYwiV
+ BCTcKT0ufpMAQxS7/CAG4vuNyLWzwZ4Q1RGY+HEgByo7KjeOuWQ69kU
+X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
+ pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Add a kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
-CPPC autonomous performance selection on all CPUs at system startup.
-When autonomous mode is enabled, the hardware automatically adjusts
-CPU performance based on workload demands using Energy Performance
-Preference (EPP) hints.
+Some unit tests intentionally trigger warning backtraces by passing bad
+parameters to kernel API functions. Such unit tests typically check the
+return value from such calls, not the existence of the warning backtrace.
 
-When the parameter is set:
-- Configure all CPUs for autonomous operation on first init
-- Use HW min/max_perf when available; otherwise initialize from caps
-- Initialize desired_perf to max_perf as a starting hint
-- Hardware controls frequency instead of the OS governor
-- EPP behavior depends on parameter value:
-  - performance (or 1): override EPP to performance preference (0x0)
-  - default_epp (or 2): preserve EPP value programmed by BIOS/firmware
+Such intentionally generated warning backtraces are neither desirable
+nor useful for a number of reasons:
+- They can result in overlooked real problems.
+- A warning that suddenly starts to show up in unit tests needs to be
+  investigated and has to be marked to be ignored, for example by
+  adjusting filter scripts. Such filters are ad hoc because there is
+  no real standard format for warnings. On top of that, such filter
+  scripts would require constant maintenance.
 
-The boot parameter is applied only during first policy initialization.
-Skip applying it on CPU hotplug to preserve runtime sysfs configuration.
+One option to address the problem would be to add messages such as
+"expected warning backtraces start/end here" to the kernel log.
+However, that would again require filter scripts, might result in
+missing real problematic warning backtraces triggered while the test
+is running, and the irrelevant backtrace(s) would still clog the
+kernel log.
 
-This patch depends on patch series [1] ("cpufreq: Set policy->min and
-max as real QoS constraints") so that the policy->min/max set in
-cppc_cpufreq_cpu_init() are not overridden by cpufreq_set_policy()
-during init.
+Solve the problem by providing a means to suppress warning backtraces
+originating from the current kthread while executing test code.
+Since each KUnit test runs in its own kthread, this effectively scopes
+suppression to the test that enabled it, without requiring any
+architecture-specific code.
 
-Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
----
-[1] https://lore.kernel.org/lkml/20260511135538.522653-1-pierre.gondois@arm.com/
----
- .../admin-guide/kernel-parameters.txt         |  16 +++
- drivers/cpufreq/cppc_cpufreq.c                | 122 +++++++++++++++++-
- 2 files changed, 133 insertions(+), 5 deletions(-)
+Overview:
+Patch#1 Introduces the suppression infrastructure integrated into
+        KUnit's hook mechanism.
+Patch#2 Adds selftests to validate the functionality.
+Patch#3 Demonstrates real-world usage in the DRM subsystem.
+Patch#4 Documents the new API and usage guidelines.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0eb64aab3685..7e4b3a8fd76f 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1048,6 +1048,22 @@ Kernel parameters
- 			policy to use. This governor must be registered in the
- 			kernel before the cpufreq driver probes.
- 
-+	cppc_cpufreq.auto_sel_mode=
-+			[CPU_FREQ] Enable ACPI CPPC autonomous performance
-+			selection. When enabled, hardware automatically adjusts
-+			CPU frequency on all CPUs based on workload demands.
-+			In Autonomous mode, Energy Performance Preference (EPP)
-+			hints guide hardware toward performance (0x0) or energy
-+			efficiency (0xff).
-+			Requires ACPI CPPC autonomous selection register
-+			support.
-+			Accepts:
-+			  performance, 1: enable auto_sel + set EPP to
-+					  performance (0x0)
-+			  default_epp, 2: enable auto_sel, preserve EPP value
-+					  programmed by BIOS/firmware
-+			Unset: cpufreq governors are used (auto_sel disabled).
-+
- 	cpu_init_udelay=N
- 			[X86,EARLY] Delay for N microsec between assert and de-assert
- 			of APIC INIT to start processors.  This delay occurs
-diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-index 6b54427b52e1..5f4d735e7c7d 100644
---- a/drivers/cpufreq/cppc_cpufreq.c
-+++ b/drivers/cpufreq/cppc_cpufreq.c
-@@ -28,6 +28,43 @@
- 
- static struct cpufreq_driver cppc_cpufreq_driver;
- 
-+/* Autonomous Selection boot parameter modes */
-+enum {
-+	AUTO_SEL_PERFORMANCE = 1,
-+	AUTO_SEL_DEFAULT_EPP = 2,
-+};
-+
-+static int auto_sel_mode;
-+
-+static int auto_sel_mode_set(const char *val, const struct kernel_param *kp)
-+{
-+	if (sysfs_streq(val, "performance") || sysfs_streq(val, "1"))
-+		*(int *)kp->arg = AUTO_SEL_PERFORMANCE;
-+	else if (sysfs_streq(val, "default_epp") || sysfs_streq(val, "2"))
-+		*(int *)kp->arg = AUTO_SEL_DEFAULT_EPP;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int auto_sel_mode_get(char *buffer, const struct kernel_param *kp)
-+{
-+	switch (*(int *)kp->arg) {
-+	case AUTO_SEL_PERFORMANCE:
-+		return sysfs_emit(buffer, "performance\n");
-+	case AUTO_SEL_DEFAULT_EPP:
-+		return sysfs_emit(buffer, "default_epp\n");
-+	default:
-+		return sysfs_emit(buffer, "disabled\n");
-+	}
-+}
-+
-+static const struct kernel_param_ops auto_sel_mode_ops = {
-+	.set = auto_sel_mode_set,
-+	.get = auto_sel_mode_get,
-+};
-+
- #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
- static enum {
- 	FIE_UNSET = -1,
-@@ -715,11 +752,75 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
- 	policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
- 	cpu_data->perf_ctrls.desired_perf =  caps->highest_perf;
- 
--	ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
--	if (ret) {
--		pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
--			 caps->highest_perf, cpu, ret);
--		goto out;
-+	/*
-+	 * Enable autonomous mode on first init if boot param is set.
-+	 * Check last_governor to detect first init and skip if auto_sel
-+	 * is already enabled.
-+	 */
-+	if (auto_sel_mode && policy->last_governor[0] == '\0' &&
-+	    !cpu_data->perf_ctrls.auto_sel) {
-+		/* Init min/max_perf from caps if not already set by HW. */
-+		if (!cpu_data->perf_ctrls.min_perf)
-+			cpu_data->perf_ctrls.min_perf = caps->lowest_nonlinear_perf;
-+		if (!cpu_data->perf_ctrls.max_perf)
-+			cpu_data->perf_ctrls.max_perf = policy->boost_enabled ?
-+				caps->highest_perf : caps->nominal_perf;
-+
-+		/*
-+		 * In autonomous mode desired_perf is only a hint; EPP and
-+		 * the platform drive actual selection within [min, max].
-+		 * Initialize it to max_perf so HW starts at the upper bound.
-+		 */
-+		cpu_data->perf_ctrls.desired_perf = cpu_data->perf_ctrls.max_perf;
-+
-+		policy->cur = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.desired_perf);
-+
-+		/*
-+		 * Override EPP only in 'performance' mode; 'default_epp' mode
-+		 * preserves the BIOS/firmware programmed EPP value.
-+		 * EPP is optional - some platforms may not support it.
-+		 */
-+		if (auto_sel_mode == AUTO_SEL_PERFORMANCE) {
-+			ret = cppc_set_epp(cpu, CPPC_EPP_PERFORMANCE_PREF);
-+			if (ret && ret != -EOPNOTSUPP)
-+				pr_warn("Failed to set EPP for CPU%d (%d)\n", cpu, ret);
-+			else if (!ret)
-+				cpu_data->perf_ctrls.energy_perf = CPPC_EPP_PERFORMANCE_PREF;
-+		}
-+
-+		/* Program min/max/desired into CPPC regs (non-fatal on failure). */
-+		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-+		if (ret)
-+			pr_warn("set_perf failed CPU%d (%d); using HW values\n",
-+				cpu, ret);
-+
-+		ret = cppc_set_auto_sel(cpu, true);
-+		if (ret && ret != -EOPNOTSUPP)
-+			pr_warn("auto_sel CPU%d failed (%d); using OS mode\n",
-+				cpu, ret);
-+		else if (!ret)
-+			cpu_data->perf_ctrls.auto_sel = true;
-+	}
-+
-+	if (cpu_data->perf_ctrls.auto_sel) {
-+		/* Sync policy limits from HW when autonomous mode is active */
-+		policy->min = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.min_perf ?:
-+					       caps->lowest_nonlinear_perf);
-+		policy->max = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.max_perf ?:
-+					       (policy->boost_enabled ?
-+						caps->highest_perf :
-+						caps->nominal_perf));
-+	} else {
-+		/* Normal mode: governors control frequency */
-+		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-+		if (ret) {
-+			pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
-+				 caps->highest_perf, cpu, ret);
-+			goto out;
-+		}
- 	}
- 
- 	cppc_cpufreq_cpu_fie_init(policy);
-@@ -1079,10 +1180,21 @@ static int __init cppc_cpufreq_init(void)
- 
- static void __exit cppc_cpufreq_exit(void)
- {
-+	unsigned int cpu;
-+
-+	for_each_present_cpu(cpu)
-+		cppc_set_auto_sel(cpu, false);
-+
- 	cpufreq_unregister_driver(&cppc_cpufreq_driver);
- 	cppc_freq_invariance_exit();
- }
- 
-+module_param_cb(auto_sel_mode, &auto_sel_mode_ops, &auto_sel_mode, 0444);
-+MODULE_PARM_DESC(auto_sel_mode,
-+		 "Enable CPPC autonomous performance selection at boot: "
-+		 "performance or 1 (EPP=performance), "
-+		 "default_epp or 2 (preserve BIOS/firmware EPP)");
-+
- module_exit(cppc_cpufreq_exit);
- MODULE_AUTHOR("Ashwin Chaugule");
- MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+ spec");
--- 
+Design Notes:
+Suppression is integrated into the existing KUnit hooks infrastructure,
+reusing the kunit_running static branch for zero overhead
+when no tests are running. The implementation lives entirely in the
+kunit module; only a static-inline wrapper and a function pointer
+slot are added to built-in code.
+
+Suppression is checked at three points in the warning path:
+- In `warn_slowpath_fmt()` (kernel/panic.c), for architectures without
+  __WARN_FLAGS. The check runs before any output, fully suppressing
+  both message and backtrace.
+- In `__warn_printk()` (kernel/panic.c), for architectures that define
+  __WARN_FLAGS but not their own __WARN_printf (arm64, loongarch,
+  parisc, powerpc, riscv, sh). The check suppresses the warning message
+  text that is printed before the trap enters __report_bug().
+- In `__report_bug()` (lib/bug.c), for architectures that define
+  __WARN_FLAGS. The check runs before `__warn()` is called, suppressing
+  the backtrace and stack dump. 
+
+To avoid double-counting on architectures where both `__warn_printk()`
+and `__report_bug()` run for the same warning, the hook takes a bool
+parameter: true to increment the suppression counter, false to suppress
+without counting.
+
+The suppression state is dynamically allocated via kunit_kzalloc() and
+tied to the KUnit test lifecycle via `kunit_add_action()`, ensuring
+automatic cleanup at test exit. Writer-side access to the global
+suppression list is serialized with a spinlock; readers use RCU.
+
+Two API forms are provided:
+- kunit_warning_suppress(test) { ... }: scoped blocks with automatic
+  cleanup. The suppression handle is not accessible outside the block,
+  so warning counts (if needed) must be checked inside. Multiple
+  sequential suppression blocks are allowed.
+- kunit_start/end_suppress_warning(test): direct functions that return
+  an explicit handle. Use when the handle needs to be retained, or passed
+  across helpers. Multiple sequential suppression blocks are allowed.
+
+This series is based on the RFC patch and subsequent discussion at
+https://patchwork.kernel.org/project/linux-kselftest/patch/02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain/
+and offers a more comprehensive solution of the problem discussed there.
+
+Changes since RFC:
+- Introduced CONFIG_KUNIT_SUPPRESS_BACKTRACE
+- Minor cleanups and bug fixes
+- Added support for all affected architectures
+- Added support for counting suppressed warnings
+- Added unit tests using those counters
+- Added patch to suppress warning backtraces in dev_addr_lists tests
+
+Changes since v1:
+- Rebased to v6.9-rc1
+- Added Tested-by:, Acked-by:, and Reviewed-by: tags
+  [I retained those tags since there have been no functional changes]
+- Introduced KUNIT_SUPPRESS_BACKTRACE configuration option, enabled by
+  default.
+
+Changes since v2:
+- Rebased to v6.9-rc2
+- Added comments to drm warning suppression explaining why it is needed.
+- Added patch to move conditional code in arch/sh/include/asm/bug.h
+  to avoid kerneldoc warning
+- Added architecture maintainers to Cc: for architecture specific patches
+- No functional changes
+
+Changes since v3:
+- Rebased to v6.14-rc6
+- Dropped net: "kunit: Suppress lock warning noise at end of dev_addr_lists tests"
+  since 3db3b62955cd6d73afde05a17d7e8e106695c3b9
+- Added __kunit_ and KUNIT_ prefixes.
+- Tested on interessed architectures.
+
+Changes since v4:
+- Rebased to v6.15-rc7
+- Dropped all code in __report_bug()
+- Moved all checks in WARN*() macros.
+- Dropped all architecture specific code.
+- Made __kunit_is_suppressed_warning nice to noinstr functions.
+
+Changes since v5:
+- Rebased to v7.0-rc3
+- Added RCU protection for the suppressed warnings list.
+- Added static key and branching optimization.
+- Removed custom `strcmp` implementation and reworked
+  __kunit_is_suppressed_warning() entrypoint function.
+
+Changes since v6:
+- Moved suppression checks from WARN*() macros to warn_slowpath_fmt()
+  and __report_bug().
+- Replaced stack-allocated suppression struct with kunit_kzalloc() heap
+  allocation tied to the KUnit test lifecycle.
+- Changed suppression strategy from function-name matching to task-scoped:
+  all warnings on the current task are suppressed between START and END,
+  rather than only warnings originating from a specific named function.
+- Simplified macro API: removed KUNIT_DECLARE_SUPPRESSED_WARNING(),
+  the START macro now takes (test) and handles allocation internally.
+- Removed static key and branching optiomization, as by the time it
+  was executed, callers are already in warn slowpaths.
+- Link to v6: https://lore.kernel.org/r/20260317-kunit_add_support-v6-0-dd22aeb3fe5d@redhat.com
+
+Changes since v7:
+- Integrated suppression into existing KUnit hooks infrastructure
+- Removed CONFIG_KUNIT_SUPPRESS_BACKTRACE
+- Added suppression check in __warn_printk()
+- Added spinlock for writer-side RCU protection
+- Replaced explicit rcu_read_lock/unlock with guard(rcu)()
+- Added scoped API (kunit_warning_suppress) using __cleanup attribute
+- Updated DRM patch to use scoped API
+- Expanded self-tests: incremental counting, cross-kthread isolation
+- Rewrote documentation covering all three API forms with examples
+- Link to v7: https://lore.kernel.org/r/20260420-kunit_add_support-v7-0-e8bc6e0f70de@redhat.com
+
+Changes since v8:
+- Rebased to v7.1-rc2
+- Remove KUNIT_START/END_SUPPRESSED_WARNING() macros
+- Add KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT checks to drm tests
+- Link to v8: https://lore.kernel.org/r/20260504-kunit_add_support-v8-0-3e5957cdd235@redhat.com
+
+Changes since v9:
+- Fix silent false-pass when kunit_start_suppress_warning() returns NULL
+- Fix RCU lockdep splat for kunit_is_suppressed_warning() calls
+- Move disable_trace_on_warning() in __report_bug()
+- Make suppress counter atomic
+- Mark helper warn functions in selftest as noinline
+- Add kunit_skip() for CONFIG_BUG=n in selftests
+- Fix potentially uninitialized data.was_active in kthread seltest
+- Add kthread_stop() in kthread selftest early exit
+- Initialize scaling_factor to INT_MIN in DRM scaling tests
+- Add include for bool in test-bug.h to fix CONFIG_KUNIT=n case
+- Link to v9: https://lore.kernel.org/r/20260508-kunit_add_support-v9-0-99df7aa880f6@redhat.com
+
+Changes since v10:
+- Remove synchronize_rcu() to avoid sleeping in atomic context
+- Pin task_struct refcount to prevent ABA false-positive matches
+- Loop in suppression selftest to prevent use-after-free on kthread exit
+- Skip DRM rect tests on CONFIG_BUG=n
+- Link to v10: https://lore.kernel.org/r/20260513-kunit_add_support-v10-0-e379d206c8cd@redhat.com
+
+Changes since v11:
+- Use call_rcu() to defer free without blocking
+- Remove #ifdef CONFIG_KUNIT guard in lib/bug.c
+- Remove stale config checks from selftest
+- Replace skip on DRM rect tests with conditional expectation
+- Link to v11: https://lore.kernel.org/r/20260514-kunit_add_support-v11-0-b36a530a6d8f@redhat.com
+
+Changes since v12:
+- Reverted to the v9 synchronize_rcu() approach
+- Add in_task() check at the top of __kunit_is_suppressed_warning_impl()
+- Link to v12: https://lore.kernel.org/r/20260515-kunit_add_support-v12-0-a216dc228be8@redhat.com
+--
 2.34.1
+
+---
+To: Brendan Higgins <brendan.higgins@linux.dev>
+To: David Gow <david@davidgow.net>
+To: Rae Moar <raemoar63@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+To: Paul Walmsley <pjw@kernel.org>
+To: Palmer Dabbelt <palmer@dabbelt.com>
+To: Albert Ou <aou@eecs.berkeley.edu>
+To: Alexandre Ghiti <alex@ghiti.fr>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Cc: kunit-dev@googlegroups.com
+Cc: linux-riscv@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: workflows@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+
+---
+
+---
+Alessandro Carminati (1):
+      bug/kunit: Core support for suppressing warning backtraces
+
+Guenter Roeck (3):
+      kunit: Add backtrace suppression self-tests
+      drm: Suppress intentional warning backtraces in scaling unit tests
+      kunit: Add documentation for warning backtrace suppression API
+
+ Documentation/dev-tools/kunit/usage.rst |  46 +++++++-
+ drivers/gpu/drm/tests/drm_rect_test.c   |  36 +++++-
+ include/kunit/test-bug.h                |  26 +++++
+ include/kunit/test.h                    |  98 ++++++++++++++++
+ kernel/panic.c                          |  11 ++
+ lib/bug.c                               |  12 +-
+ lib/kunit/Makefile                      |   4 +-
+ lib/kunit/backtrace-suppression-test.c  | 192 ++++++++++++++++++++++++++++++++
+ lib/kunit/bug.c                         | 127 +++++++++++++++++++++
+ lib/kunit/hooks-impl.h                  |   2 +
+ 10 files changed, 544 insertions(+), 10 deletions(-)
+---
+base-commit: 74fe02ce122a6103f207d29fafc8b3a53de6abaf
+change-id: 20260312-kunit_add_support-2f35806b19dd
+
+Best regards,
+-- 
+Albert Esteve <aesteve@redhat.com>
 
