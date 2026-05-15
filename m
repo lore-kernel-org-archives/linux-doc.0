@@ -1,120 +1,126 @@
-Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5BF23EA94;
-	Fri, 15 May 2026 02:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CE63C9882
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 03:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778813339; cv=none; b=DYNcRAn9soMjo3wSsnmBzXnDsedhgUux4W8eJB0J2121k2bHHAR5cx8JC6t3V32E6gr/T7PSn+GvhwE6X+vnL64gBkxJCzdeUwc9G6eS4zev9pPm7oY9TS9LvCCNJwBQl6If7Dwhpw1Mb3QLTkUTcbYGapATe4BlbtBPjEEX0TQ=
+	t=1778814213; cv=none; b=pg1mpbYAI0ze+r3wJRSN0IIe7eHY06SAD5nZzAwdnpX4SIE8mt2K3JN//2Rksf/dKkaH3Z2/oPI0Mbq/0hHdRg4H0wBKdBGV46RpNaN5D4qTHXYS1U6V1kfGSvpF3FeIKG52CIYQCPe0jHh+xRTFVsf5WJlsMyifgQ3Va49SBdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778813339; c=relaxed/simple;
-	bh=fn3sbyeJ9aEHNIbhoZsLiUWFsuyelp2Mhxp3TMs7gB4=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=D39dWSVWBoTywD+GN+1z7qvtXH3KvZreo/d3x7nAT48tNELcdUc03uleYTNaQgTWonOi88WNwIS/q75F9N19nsBCIJGNZ1tmkRE0sJsfIjPIcNrplgnQa/q6kv1ZofI2z3TC5QBdQU1HedyDpvJ5hAOy2TQ+8ZsqGMwah9hE+d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=UceLzAU5; arc=none smtp.client-ip=113.46.200.225
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1778814213; c=relaxed/simple;
+	bh=LE4iHKm4t9UfoFq/JD7py44dDWXkdwherx2HuxZ/YYA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=lq/1ATKh6tgmYo3D0t3u/k4EDg7enzRvcWY4u/6S0HNrEeRMuJV4bDr1KtAb8i0M52l2w/UbnVGLaQz1vBJNktDNuXXhbBCy1VWGII2JZe9ybxYuLNrBkpDoVgor0frAmpCVB6Jm063yKGcLEz5qmv0xRzrAlJHvwOAQBx4MM1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=ZXjIE5k5; arc=none smtp.client-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="UceLzAU5"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=LDl56P9DXVKuA44aEtTZafXcNPo8mzTvmPJnf+zvCjI=;
-	b=UceLzAU5LWnH6ecDuxs0dvaKTNCBxHWZJVYhmynLj99oolo66BRueqDrtZvEl5GHHqtqz079y
-	p6l+dl5ez/OIOVztmNo1Lb4yqTrnDI7c9E0In0I2Km1Ie2ATtjU2v7IRCIellcwU9+eHDZJYvsL
-	aAE/SHAdWnihL1fWkF3AB1Q=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4gGrzw194Wz1K9D5;
-	Fri, 15 May 2026 10:41:16 +0800 (CST)
-Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id F0B0B40570;
-	Fri, 15 May 2026 10:48:52 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 15 May 2026 10:48:52 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 15 May 2026 10:48:51 +0800
-Subject: Re: [PATCH v7 1/6] mm/memory-failure: drop dead error_states[] entry
- for reserved pages
-To: Breno Leitao <leitao@debian.org>
-CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Andrew Morton
-	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, "Lorenzo
- Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
-	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
-	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
-	<nao.horiguchi@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, "Masami
- Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
-	<mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>
-References: <20260513-ecc_panic-v7-0-be2e578e61da@debian.org>
- <20260513-ecc_panic-v7-1-be2e578e61da@debian.org>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <ebbed082-b104-0bb3-94b8-8e96f6f2408b@huawei.com>
-Date: Fri, 15 May 2026 10:48:50 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="ZXjIE5k5"
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2f7020a928eso12288101eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 14 May 2026 20:03:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nexthop.ai; s=google; t=1778814211; x=1779419011; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sukG3LK43QSVOar4Qmd0GrtT53PCwKZDghqzgcwbn4w=;
+        b=ZXjIE5k5n0agMDMRvIPITxpS2a7lzo4iCsib8uPY6EEfFWQEFEu2fjVgEHtMCEQ2dk
+         JSb1JhWJ02Z9BGpE1XQxRSVKa+53WEbfXJRZtwWgJOHY0hml7PtmfKvHqHDv9j94s4kf
+         vZK1TkA3/VYB+XgKCzzLIBkqDOaB8gYZjrsSC6mVmrhHdG14trGFCHqmMURqCUEN/Dkn
+         xrX2W+2/HQMblrCBrrNOsk4oXOLvSCF20Q27hArnSrUdSFtez4g6eoSlEU26KeVM/DbP
+         Z9qXi7W4f5NbLOI2aR6djCne6nx78CWgySHA7H6IejTUHokX4+lr8EL6Xjj1mTLO8Sb1
+         BAhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778814211; x=1779419011;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=sukG3LK43QSVOar4Qmd0GrtT53PCwKZDghqzgcwbn4w=;
+        b=s6WZBDEj8g+/GDiIQkLGpLhM3TyisvTVtLDpbW9x06z5HBpxTPyaWdLCyUnhh1aZAn
+         1lVifD9LiCY+vxcAynlJYA0xgGSZ51flRXSGNpr8/4Rzmh9BqFzsV2UBuuHYYt533gVH
+         u6M5oM0GKHI7DEi6i8tqsqFyB62sPa474H0dw4G4f9FxhK3b6hqp/hfLb84AcFKepl85
+         CAQmNs17yMSA98C+PM1afxVzIHL/4AHOLNEqt5zrpcOhDx1hpUX0V5L5NG42QHeVzqg9
+         mt4fI1iTY3wM4zf4eHZfxqnKcbbxskAaKIk7NEsdr+FhFDzrt5cIju1lUl471jL0RbYg
+         PR1A==
+X-Forwarded-Encrypted: i=1; AFNElJ/Cf+CJf22ojzPxY9cGx9fw3GBSJCWMKaVWpV1XkTnHcXT0Rw66Z6YnkT8zr3nuGUdfcL1l+TKEVsI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzY2/JV+8t1nqcODjv6LeS/DUH2jEjVEMw3s/dyas7sVfKJq1Jy
+	9UKcVoucIYTxSNrG5bfYjt3sChQvkIuofhP4r0NQCfg3hPuDQOpS8bEYds0hWM+mnfg=
+X-Gm-Gg: Acq92OHWnWcCpqpSoUzjRrtL0r+ixWBg+5ymmdESwGoYwgbj4gAFkyUWExHCfk/mpc+
+	oosFyo/Ui+AgJtJDRubWO3ORyH/ilqHJsixO73tzhMCfY8L9A0Cmx3a6OYyqNDb3k/lOyh0GiKh
+	6EM/n4OzJDayrhgihDLhMUt3BJVkhLDB47iWZY4Q2HiZTX8nkaoOI7h2tpNtgj9ucWQVMo9VRBQ
+	kxbcNgohjK5dlxICpMhaHoqjTfw0xRvcZJkxN4VkJWvBNCovKCRTz99bbRx0WJuHfemBj1czzxS
+	EZ8C9Ix5yJuZ18YEvRdcCgd1pthd+I/rlgCVdyvOE6dQ7bGPBgxX3WNAVGSb5jfqPGylllNswiX
+	62+MLxAD74dq7L2jqGCFGBmtlOT77BLEtXhfkCe0oKwnrVqCwXnDzuyJMb/geIqK7iJs2Xn3DyA
+	178uGnCfU5OtOJi+TiUZnIIm4Fdw==
+X-Received: by 2002:a05:7301:608c:b0:2ed:e14:7f5f with SMTP id 5a478bee46e88-303986b4534mr1062366eec.35.1778814211151;
+        Thu, 14 May 2026 20:03:31 -0700 (PDT)
+Received: from [127.0.0.2] ([50.145.100.174])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30296dcb6f6sm6347011eec.17.2026.05.14.20.03.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 20:03:30 -0700 (PDT)
+From: Abdurrahman Hussain <abdurrahman@nexthop.ai>
+Date: Thu, 14 May 2026 20:03:25 -0700
+Subject: [PATCH v4 1/2] dt-bindings: trivial-devices: Add Murata D1U74T PSU
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260513-ecc_panic-v7-1-be2e578e61da@debian.org>
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+Message-Id: <20260514-d1u74t-v4-1-1f1ee7b002ec@nexthop.ai>
+References: <20260514-d1u74t-v4-0-1f1ee7b002ec@nexthop.ai>
+In-Reply-To: <20260514-d1u74t-v4-0-1f1ee7b002ec@nexthop.ai>
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Abdurrahman Hussain <abdurrahman@nexthop.ai>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778814209; l=1648;
+ i=abdurrahman@nexthop.ai; s=20260510; h=from:subject:message-id;
+ bh=LE4iHKm4t9UfoFq/JD7py44dDWXkdwherx2HuxZ/YYA=;
+ b=/kCOYXl8ifIU2EnFxiX85D74yslO3ujA62IYMCclljKZkjlF8kisal3nsSXsDFuMMjCnbaVxC
+ e+AZaPkft32BDikpqNhgtfb+pfX+iMQrzBsYQZnqdhXgpoiMCwTv8kd
+X-Developer-Key: i=abdurrahman@nexthop.ai; a=ed25519;
+ pk=omTm9cCAbO0ZhS32aKfJDKue0W3sQGpG9ub5eYHif8I=
 
-On 2026/5/13 23:39, Breno Leitao wrote:
-> The first entry of error_states[],
-> 
-> 	{ reserved,	reserved,	MF_MSG_KERNEL,	me_kernel },
-> 
-> is unreachable.  identify_page_state() has two callers, and neither
-> one can dispatch a PG_reserved page to me_kernel():
-> 
->   * memory_failure() reaches identify_page_state() only after
->     get_hwpoison_page() returned 1.  get_any_page() reaches that
->     return only via __get_hwpoison_page(), which gates the refcount
->     on HWPoisonHandlable().  HWPoisonHandlable() rejects PG_reserved
->     pages, so they fail with -EBUSY/-EIO long before
->     identify_page_state() runs.
-> 
->   * try_memory_failure_hugetlb() reaches identify_page_state() on
->     the MF_HUGETLB_IN_USED branch, but the page is necessarily a
->     hugetlb folio there.  The first table entry that matches a
->     hugetlb folio is { head, head, MF_MSG_HUGE, me_huge_page }, so
->     they dispatch to me_huge_page() before the (now-removed)
->     reserved entry would have matched, regardless of whether
->     PG_reserved happens to be set on the head page.
-> 
-> me_kernel() never executes and the entry exists only to be matched
-> against by code that cannot see it.
-> 
-> Drop the entry, the me_kernel() helper, and the now-unused
-> "reserved" macro.  Leave the MF_MSG_KERNEL enum value in place: it
-> remains part of the tracepoint and pr_err() string tables, and
-> follow-on work to classify unrecoverable kernel pages can reuse it
-> without churning the user-visible enum.
-> 
-> No functional change.
+The Murata D1U74T-W series are hot-pluggable 1U AC/DC front-end
+power supplies in the Intel CRPS-185 / OCP M-CRPS form factor.
+Each variant delivers a 12 V main output plus a 12 V standby output
+from a wide AC input (90-264 Vac) or HVDC supply, and includes an
+internal variable-speed cooling fan and on-board voltage, current,
+power, fan-speed, and temperature telemetry.
 
-As the code evolves, this entry is no longer needed. Thanks for cleanup.
+The host-side digital interface is a PMBus 1.2 port on I2C.  The
+PSU's other electrical signals (status, alert, current-share) live
+on the CRPS edge connector and are consumed by the chassis
+controller rather than the host SoC, so there are no host-described
+supplies, GPIOs, clocks, or interrupts.  Add the compatible to
+trivial-devices.yaml rather than carrying a standalone binding file.
 
-> 
-> Suggested-by: David Hildenbrand <david@kernel.org>
-> Signed-off-by: Breno Leitao <leitao@debian.org>
+Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
+---
+ Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-With David's comments addressed, this patch looks good to me:
+diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+index 23fd4513933a..19c8c7220858 100644
+--- a/Documentation/devicetree/bindings/trivial-devices.yaml
++++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+@@ -352,6 +352,8 @@ properties:
+           - mps,mp9941
+             # Monolithic Power Systems Inc. digital step-down converter mp9945
+           - mps,mp9945
++            # Murata D1U74T-W power supply unit
++          - murata,d1u74t
+             # Temperature sensor with integrated fan control
+           - national,lm63
+             # Temperature sensor with integrated fan control
 
-Acked-by: Miaohe Lin <linmiaohe@huawei.com>
-
-Thanks.
-.
+-- 
+2.53.0
 
