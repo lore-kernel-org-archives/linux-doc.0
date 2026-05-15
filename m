@@ -1,66 +1,67 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1973D890E
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 17:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50C52F7EE5
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 17:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778865638; cv=none; b=XFHrOOywp4KobStJclHxb3gpkk93xfzzstlpRNHUG4W8+dHVEpYqftTf7/7Mc6lC9q/mEZtRiJgJahXtD+Qll2IbEAJnE7knxaQr2rgwcg54fTi9n13IvyPkbSqpqhwS+dOq7hG1h+cAO0b3irSk/skT5ujU7cLiqjI2KVTuEKY=
+	t=1778865640; cv=none; b=l3Z4qHRIRg5EYPRmGDyVyjlDz40mtug7p1+yMP/alrrFwHpmlTOn8Sk64dIGaTP2V1xFmr7N591XkipuqInV1TrzDy3MGBMvbKhn0GjLRP4wBqioGCMK2FMkyfjnlWrywhfGLY7rRKiEcAeZb4xbQxFcUYnZY1JnFj4WTixvp0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778865638; c=relaxed/simple;
-	bh=WQzgbd4gD/OqB9V4Rk9Ji7gPHFa1NK2yJay10RsfNJc=;
+	s=arc-20240116; t=1778865640; c=relaxed/simple;
+	bh=m8YmuvX4TDlVB6bnCnutEvfah5hoA7EjIjLtjUPBIL4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jmPGanijIpHVsZpEVW3F6+0rOMaQBH4A9/y1Mb0YrBBHOe8ShTZP8mmHGiNeNvIQqp0mt4G+X40KuNs6x2NB6rKsZMZ/pBvsZVNKqJHbEZiMhJwhQWWAcsFuChX6tsNEt1QxHSFpMoQvF7ReAGKU1ZNxw8sogaIVwnTYcE26eYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=JQCORrLj; arc=none smtp.client-ip=209.85.128.43
+	 In-Reply-To:To:Cc; b=XUY9Wd/zzcJNnDYInH12ry4JMLbzW5t2ZLKcvcqaOQzKjrsMiiu9eE9f72Ci8ub1NkXamOxNmGAyKsVrUgRQcPrXcBOAjrXh+qwtbw1tJDhnFu9FpuGAaAxaHYhlLQfwJo+JO4Hav3UDk+INh7w2fo0lp7i8tcoGqSYhfZvh78U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=SCfKnRyq; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=9elements.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="JQCORrLj"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48e8132c6d0so408435e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 10:20:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="SCfKnRyq"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48896199cbaso465965e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 10:20:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1778865636; x=1779470436; darn=vger.kernel.org;
+        d=9elements.com; s=google; t=1778865637; x=1779470437; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5qxFE8IaiHsbsErZJsCvFlpV3PqyMaRTCaZoT9JNhmY=;
-        b=JQCORrLjMQqsMPtCm63xjtY3sJJNEjb1PoHFBOCak+RBo41a2s9Joo5m69UBRwaFNS
-         nff6v0p1eEX3B6YAvFvC41Y1EdhM1iw6FWVyawLVTS9XSCrQWq51WAhFxt/Macx3cm9a
-         wM7LQidJfcIY527eYi3e1EzIzesLELED0fhOCAwwPpFLQj0VyYmFxOEMgKr9TpBByPvO
-         9/bR+S708z/82+st5xqXCN/dfOb3gf/HnXIWADHwuCyYsw57nvf7lGdpiUUiu3WPDL3f
-         gKINpHbXWV/UVIudPfyxvJvE2ET8D5Q86qrNfqdjIKWeX0eNcV9J5bADJ96eQOKBMPNA
-         n4wQ==
+        bh=j4eG0JthOt+VtfdBCLTuen3JmdYDXA8kaFqzMdS8pq8=;
+        b=SCfKnRyqxevqPpByhKuCauzZGod4kQtwPsIHSh8qxk7AQkB9wAZ3ZbpbK5dgUE5TM+
+         B0PW4SqUF8oCDUN3Gxu67xdfkcLULeox+yhzpezdwOmNQH8H5T52lBVKXJnLTzYYEQvG
+         o3btQQDLqQcou7RD0ZsVT+hn5mEaNxfm7f426evVasFfhLmhHCUFfBw9DBk79Y4/VwU0
+         uZF0ngsodAM4pdfW0uaqn7IAFbMQPGhGrTuc/PVgilSA020esWbVCTq8yJn9D6FrfBoc
+         A5PIQ3yafdeb9+QWjyidQBxgBqkbROQKkEEnJEi+pY3gfbijW+OaFIvpKd90UvCiwBup
+         O+YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778865636; x=1779470436;
+        d=1e100.net; s=20251104; t=1778865637; x=1779470437;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=5qxFE8IaiHsbsErZJsCvFlpV3PqyMaRTCaZoT9JNhmY=;
-        b=nynw/6cTQvZsHKQgA3NqfyDWK5sUGG4z7rseb4c5LduC3rNFfOqDRTId02A23p8BJs
-         EvoF56KKEEUV6C8/2c1skKgozu05CQ/GNenSeanhTSKSgzC8B+4gGtKmeIDpqZwP1d05
-         9GKbuWDbPr4LxAugXYxvZTaPk1nxUkb4mWCNHYOB6nwOR2LBof5vzxTTrwDt/D5mXZM1
-         2yf8gaSWIP+/NOjIpHhX8RDsfEH0kmhapbPgNnSHizckPTJNcBLxfiYX2XL39h49UG0M
-         RLh1bnd69GUiYz3qGidMbw0sFvDwtZF9Gkpn5oALYsi0uFWYVYWXKtVNkld5eUBQlc6n
-         Ofgw==
-X-Gm-Message-State: AOJu0YxXHLSHZTPQ8fhQfw2uVDV23og+rAwM4caSWBQrhp7ijVLM30hq
-	X0DPPhEQSVhmaXm4u9eYUpenM2kO6whMT51RinOEaxNoLfs8YO9IJLdWTggoiWoGNVsNb3dKVrV
-	P0Hw=
-X-Gm-Gg: Acq92OEOEiqpnLrSrlsXLy/NHJlYJ45mYdcsYXUWchH7KUwm+54A73VD/H5QL2xors8
-	mF+4Xip5Yj8V89vuYNXZOqtxSTF7q1BTpUtHTYBqptd4t7QeK2+/ltOQE4KLuwPhKm9pJ1Mx9EQ
-	tRwF53tmVWbMn7u5buLuZUNfrS+pEcO22XNT3KzgG86ZoEFAWY2bGzr17n1LI1DNcgcFhZDPDJ4
-	sKwkgzGEt4SPvgTTETCAsmWqfqx8gUYR2Xyx8Pio8+v36u/yXq8R7/aNXbsgQLYncnfBFloCBgI
-	c8X9m4iXGo84oCZ+RdfEPz8ngg8F7nAiN0XR7UMbRRjmHop8eLwp7PBJQ3VlgJrFOLNrIZAl+/y
-	krqlU9Z3qfqhamcuGfN/GpKAr0ylZSODfjBPEeG5drKpYRCRIKKR8FNZmuH3NVJzGQXbzzCvw1N
-	uj1xs1T47GFlGaUG7qBnusMDTza5309I1pbxPLX8o=
-X-Received: by 2002:a05:600c:c173:b0:48f:e230:c3f8 with SMTP id 5b1f17b1804b1-48fe661b50amr72052485e9.30.1778865635735;
-        Fri, 15 May 2026 10:20:35 -0700 (PDT)
+        bh=j4eG0JthOt+VtfdBCLTuen3JmdYDXA8kaFqzMdS8pq8=;
+        b=E1lNdjX2cU9vMq4CP4J8UqCjtpaHbwZSx6gNfUYrIgCgiMEp1A5Cg1m34bFWnCKZ1V
+         dHUVlIBAvJDni5VGy3+YvEwyh1i8uXXgdeTv1ajISPux2ejHbNuryMkdrLyKWmkG4owX
+         eqRiCZSCn68MTOUCBpZ6meoOY19bHEgvdwGreSvRSs4aExQjfhcdx3FFm/XwoTj69e4+
+         rFekaOFLH/YPfRNXNaveaeSrqwZg98uKq0trMwcTxObGAlGox2/smXUurEGKqHiZY9Ua
+         2dVUii7DIA2Zfh9HzzPWXsHmyaI6KZFfVSeq6qtdiq3r/aFP39kKE5/jfJUm8Ev873vB
+         a3hA==
+X-Gm-Message-State: AOJu0YxMl4DrVgupuyWTP2jFOiZPzBRCss/rIOr9NAS6rN9Ey7jnJQEl
+	7xb5OtN1qWNZT2qYD1CpQ7VG314doDDFA2LfbTrn9TiAP79oxps3ub8ML4WJybsIwLR+8gCPJu2
+	pA2g=
+X-Gm-Gg: Acq92OHodpH+SFLo9RdBA8HnGNZw+l/Aprx686cqe15x8x5AHf+47N6Muejhzz3BeNG
+	+iSEiZi/Wzl3ANXyYEc77oYvgGADXWXMLnZacHqTCi5oy//MkJTdmvTD1o2s8xrJJXDq1qsT0QT
+	7w5c+rsx69qoWxU/weVqwkB6pIYMACFKtaTAMM0W4w058orOtUeAfqC7cAEX9haSnDTxC+QIbHb
+	zPL8u2Z6Bnh83AJ3ZEVxaxP6VjYAU46ityaT+7hujDtJSJ9vnCk2SVaeff3Wv/oHuFReijDFHkH
+	34xIHwHzJSNAdPTKago4QSbIRFztaSTJYdTuLLF2h6BE4z+RZls0d+QgPMRFANvjuywUpKF6QHK
+	cn7Y7NC6aRdci+T1EEFOXGTyR5jsOBDif7qjynYP3wxFcQiXaLIzCDjY0I5nsG505WwYyr3IJ3Y
+	UFu56/HAIzaXUVWYv7CiL3eYti68W8dtycDQCzLyo=
+X-Received: by 2002:a05:600c:3b21:b0:48a:f18:ece4 with SMTP id 5b1f17b1804b1-48fe6514dd6mr67304695e9.24.1778865636698;
+        Fri, 15 May 2026 10:20:36 -0700 (PDT)
 Received: from [192.168.2.212] ([185.209.196.194])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe537ccf5sm77251515e9.14.2026.05.15.10.20.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe537ccf5sm77251515e9.14.2026.05.15.10.20.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 10:20:35 -0700 (PDT)
+        Fri, 15 May 2026 10:20:36 -0700 (PDT)
 From: Michal Gorlas <michal.gorlas@9elements.com>
-Date: Fri, 15 May 2026 19:20:19 +0200
-Subject: [PATCH 1/2] module: add CONFIG_MODULE_RESTRICT_AUTOLOAD
+Date: Fri, 15 May 2026 19:20:20 +0200
+Subject: [PATCH 2/2] module: restrict autoload to CAP_SYS_ADMIN if
+ CONFIG_MODULE_RESTRICT_AUTOLOAD
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260515-autoload_restrict-v1-1-40b7c03ddd04@9elements.com>
+Message-Id: <20260515-autoload_restrict-v1-2-40b7c03ddd04@9elements.com>
 References: <20260515-autoload_restrict-v1-0-40b7c03ddd04@9elements.com>
 In-Reply-To: <20260515-autoload_restrict-v1-0-40b7c03ddd04@9elements.com>
 To: Jonathan Corbet <corbet@lwn.net>, 
@@ -81,57 +82,74 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-modules@vger.kernel.org, Michal Gorlas <michal.gorlas@9elements.com>
 X-Mailer: b4 0.15.0
 
-Add CONFIG_MODULE_RESTRICT_AUTOLOAD and modrestrict parameter
-documentation.
+Restrict module auto-loading to CAP_SYS_ADMIN if
+CONFIG_MODULE_RESTRICT_AUTOLOAD is enabled, cmdline parameter
+modrestrict=true, or kernel.modrestrict=1 is set with sysctl.
 
 Signed-off-by: Michal Gorlas <michal.gorlas@9elements.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt |  5 +++++
- kernel/module/Kconfig                           | 15 +++++++++++++++
- 2 files changed, 20 insertions(+)
+ kernel/module/internal.h |  1 +
+ kernel/module/kmod.c     |  5 +++++
+ kernel/module/main.c     | 11 +++++++++++
+ 3 files changed, 17 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 03a550630644..1013104f0943 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4185,6 +4185,11 @@ Kernel parameters
- 			For details see:
- 			Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+diff --git a/kernel/module/internal.h b/kernel/module/internal.h
+index 061161cc79d9..496d8703f0c6 100644
+--- a/kernel/module/internal.h
++++ b/kernel/module/internal.h
+@@ -46,6 +46,7 @@ struct kernel_symbol {
  
-+	modrestrict=<bool>
-+			Control the restriction of module auto-loading to
-+			CAP_SYS_ADMIN. If no <bool> value is specified, this
-+			is set to the value of CONFIG_MODULE_RESTRICT_AUTOLOAD.
-+
- 	<module>.async_probe[=<bool>] [KNL]
- 			If no <bool> value is specified or if the value
- 			specified is not a valid <bool>, enable asynchronous
-diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-index 43b1bb01fd27..c9e01bb848c0 100644
---- a/kernel/module/Kconfig
-+++ b/kernel/module/Kconfig
-@@ -337,6 +337,21 @@ config MODULE_SIG_HASH
+ extern struct mutex module_mutex;
+ extern struct list_head modules;
++extern bool module_autoload_restrict;
  
- endif # MODULE_SIG || IMA_APPRAISE_MODSIG
+ extern const struct module_attribute *const modinfo_attrs[];
+ extern const size_t modinfo_attrs_count;
+diff --git a/kernel/module/kmod.c b/kernel/module/kmod.c
+index a25dccdf7aa7..58b28c23f571 100644
+--- a/kernel/module/kmod.c
++++ b/kernel/module/kmod.c
+@@ -156,6 +156,11 @@ int __request_module(bool wait, const char *fmt, ...)
+ 	if (ret)
+ 		return ret;
  
-+config MODULE_RESTRICT_AUTOLOAD
-+	bool "Restrict module auto-loading to privileged users"
-+	default n
-+	help
-+	  Restrict module auto-loading in response to use of some feature
-+	  implemented by an unloaded module to CAP_SYS_ADMIN. Enabling this
-+	  option helps reducing the attack surface where unprivileged users
-+	  can abuse auto-loading to cause a vulnerable module to load that is
-+	  then exploited.
++	if (module_autoload_restrict && !capable(CAP_SYS_ADMIN)) {
++		pr_alert("denied attempt to auto-load module %s\n", module_name);
++		return -EPERM;
++	}
 +
-+	  Note that this option also prevents a benign use of auto-loading for
-+	  a non-root users. Thus if enabled, the root user should execute
-+	  modprobe manually if needed, or add the module to the list of modules
-+	  loaded at the boot by modifying init scripts.
+ 	ret = down_timeout(&kmod_concurrent_max, MAX_KMOD_ALL_BUSY_TIMEOUT * HZ);
+ 	if (ret) {
+ 		pr_warn_ratelimited("request_module: modprobe %s cannot be processed, kmod busy with %d threads for more than %d seconds now",
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index 46dd8d25a605..a293b75ce9b7 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -130,6 +130,10 @@ static void mod_update_bounds(struct module *mod)
+ static int modules_disabled;
+ core_param(nomodule, modules_disabled, bint, 0);
+ 
++/* Restrict auto-loading? */
++bool module_autoload_restrict = IS_ENABLED(CONFIG_MODULE_RESTRICT_AUTOLOAD);
++core_param(modrestrict, module_autoload_restrict, bool, 0);
 +
- config MODULE_COMPRESS
- 	bool "Module compression"
- 	help
+ static const struct ctl_table module_sysctl_table[] = {
+ 	{
+ 		.procname	= "modprobe",
+@@ -148,6 +152,13 @@ static const struct ctl_table module_sysctl_table[] = {
+ 		.extra1		= SYSCTL_ONE,
+ 		.extra2		= SYSCTL_ONE,
+ 	},
++	{
++		.procname	= "modrestrict",
++		.data		= &module_autoload_restrict,
++		.maxlen		= sizeof(bool),
++		.mode		= 0644,
++		.proc_handler   = proc_dobool,
++	},
+ };
+ 
+ static int __init init_module_sysctl(void)
 
 -- 
 2.54.0
