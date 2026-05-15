@@ -1,130 +1,108 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEA73FDBE2
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 18:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAD54F7990
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 18:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778868169; cv=none; b=e5sqUqTOcmVzc7rcY5owooFk+QiHMCcf4noWWoV+BGwjAcugfXd/Sp/4G3FLOZkXDC/7J+EswIEJsb6r8SqovQadqAY+TbrWftOeiCwDGA8uVcwtXRJ8IVsgwGGIt6H5bK26Sv3JBrQrkt9CjC994zn6OQTmfmndplme2+y+Uuk=
+	t=1778869158; cv=none; b=lk/DsrkcNL8naV388oHKTZwDDOoK6wIJkjtyL7WC6zVmPqsJ1yBLLFS7BQy5RO8Z2KZlC2Fi5NRHb+10BThXDGRbLVoh7Ky9VsMczKa8bZiBST2R6AGWPxiKH08xI2qoNfY7q1dlJ1O4j1kGFpB/T95PR0eS88dliJ8O8Ork2WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778868169; c=relaxed/simple;
-	bh=wVsqZq2pujX7Mzo3LIq+ONMgvAx8TwkKlQ7+abVJOkY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f45FeRPQFAWtwrQpVS+ksvNBov3XhxxBwMtLAmWVwU/PMs+kX7+WWtX6t0Hl4+1AxR6v5lgaPDya//CcoREqdHODB9HNkJNaOo3YOsdNtc/ZgZFRoI4JM77THYaRyjt59nX2OeImQapjL55OZ8BO7fLvsKzj1qgZmUCKKgAhKuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NJUEGww6; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=m3toZXnq; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1778869158; c=relaxed/simple;
+	bh=UYr/I6qjn4wSH0n1COVWBH6/TMZqwbY9NtoG0+z0hIk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SSeBvaosmpch12Q5DdKIYTjId2wWIxM/oVVpkubpMTUFcDa/67qkmw6LYYh8P8JgccKj47ZyXq77q1g3wECPgbf6gCol83sFIWdJVmvNIuTIhxISA0tusiuTlUpw5HRy250altypFULrHJRSF6/N0+baaI3svIBkHLz/JGRnyls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GqobJYan; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NJUEGww6";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="m3toZXnq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778868167;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=pBTwi+jrHhMifAymDCS6TKusqewyQXvFSl5p7awC+y4=;
-	b=NJUEGww6htzbwMbNx4ippGA3SE3vVVDRbAgRfkIYOkZrjhe5iwZk2RBxVfJEcfqCLs23kE
-	I/imm8mcCqaaOVRmS+FefyNU3JpifZ19AeZqxRi+ULFGLLqFh6Hdw1EzVPRtCeGLHcmCQu
-	t1FsDTrWSWXMLZ7Ub5Jpnd6zEf/FvNs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-12-Zn4W8qYaN-mR7cvmwk8KGA-1; Fri, 15 May 2026 14:02:46 -0400
-X-MC-Unique: Zn4W8qYaN-mR7cvmwk8KGA-1
-X-Mimecast-MFC-AGG-ID: Zn4W8qYaN-mR7cvmwk8KGA_1778868165
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-48fe24773c8so364325e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 11:02:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1778868165; x=1779472965; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pBTwi+jrHhMifAymDCS6TKusqewyQXvFSl5p7awC+y4=;
-        b=m3toZXnq+9DZdDjC0HWtMnnVMlfVE9MQ7z2Ma6bpKbdbnELs79ZZ4F9nDv/8BdPDAX
-         QeTC5FtwEU9RQxIK/SpMTz+kT8t4PBrPkba9QMx74Xy/MCAx2+WDhJ+5f7QuyV/1wy7i
-         PagfGoAFFF6+7dMaqQoV4w5HtVRNMdB61mV8do16Zn3v7KBQc1FzbemaLA7OFuPA2jm7
-         rC4vFPI6ixieJ15qyFGvWkLqKWxMBX7Ecqnr8srtg4UjR/7W/WyNVx18l1bE+ZSAAa7t
-         lEBfLi8+YhPA4w8+RU2pdXYcQ3DBeREII3Q9iog17prlQsI+8hmLQ0sI9e8XLnQEyaVx
-         WTQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778868165; x=1779472965;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pBTwi+jrHhMifAymDCS6TKusqewyQXvFSl5p7awC+y4=;
-        b=i+KNY7N3VnWPK9GpU10sahpMmqYRXMlsOmRNrWV7htIwjJv0cyKDpS4ZFGY0pyRLUd
-         y9kS3JCiJMy2t3KBIa9m+oW/HOJ9P4CRRF88CvCnLWTm68lHstEL4UrIU9NvZur9tKp2
-         vFIDbsUVYWhmzKEqQy2qQpAz9h+KbvkKp+FYT3ZarbWaucS5owouTnkHl1mxwy8uR+5g
-         VadyD3FZRSjA/UlEgHdjSw1y1Q2E9oq4DckULB2tZOS2/TA2Y4DGuqkmOAKv9/rTU6Az
-         75xxfcKVuK+BZmvw5rAZYCag3OAgmL4G/dEgKlOZhmqwea9Q1jMFwgHkmKQ+4/Z8AnJp
-         3Miw==
-X-Forwarded-Encrypted: i=1; AFNElJ/6+k+W+hRWiSCWsSTtjMRsGCqAZLGPV5AtnyBtjn5GNSVz2TdSyNQ/Qw6alAebKw8fbehX+Szkz9I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWOLdOf83Q/ToawL1+db/TVGfTRj2ZLwA1ROIMgxCGDh/Yw44s
-	YwFlNGRW4Hok6Db3khONMgjsPKvDlIZwm0NJ6IyRE1MBrC0JJIFEFTEpBcjOrn3LXjoJj5yNW/2
-	shhPevSoG6Znp71Pis19ZgHdvziHHLgMI+NJFRm8fu6IxnOiKQ9H1wHOEKfwDJw==
-X-Gm-Gg: Acq92OHj0iEP0LsFbDcs+Y8yLnEX/TTuzV5M1nmWmK4+XL/qzJhbOPS/D+Wc8e4F0v/
-	PV0x2pfee3PXUvLH7py58JRZufalyYnnOxeSbR2NhNRQVBL7DwoFdZFrNJDzkv1nNL8r7TJFLbF
-	G/eDhoreLmtGhPCamXHZl2rJByvYeUx4opiwOq5OXHUb1uBmpkQmQ+14Ms7VU04VI8O7zi1uN4e
-	YXECFazebEgn0DJ+jClbMzAj5o1UxCg9CzAoXRoHIg7zBrjm09NQpKdB3vTOkd4MgkOXZT1EY2h
-	RMyvVuFVL2N5sx9g62+/q5nlFWd0M5QYYFo6sk9MIeoAMLAzUIP2mXQyeyR2xflitc6+buAAFue
-	auM1+BKuR0FX/1Je69u9YZk5U4SulbzoDQK8=
-X-Received: by 2002:a05:600c:4e4e:b0:483:8062:b2f with SMTP id 5b1f17b1804b1-48fe5fd4747mr77301975e9.6.1778868164760;
-        Fri, 15 May 2026 11:02:44 -0700 (PDT)
-X-Received: by 2002:a05:600c:4e4e:b0:483:8062:b2f with SMTP id 5b1f17b1804b1-48fe5fd4747mr77301635e9.6.1778868164397;
-        Fri, 15 May 2026 11:02:44 -0700 (PDT)
-Received: from costa-tp.bos2.lab ([2a00:a041:e223:1b00:fe51:8bb:7986:c897])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48feab26ed9sm30566715e9.2.2026.05.15.11.02.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 11:02:43 -0700 (PDT)
-From: Costa Shulyupin <costa.shul@redhat.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Costa Shulyupin <costa.shul@redhat.com>
-Subject: [PATCH v1] docs: sysctl/net: Remove ax25, netrom, rose entries
-Date: Fri, 15 May 2026 21:01:57 +0300
-Message-ID: <20260515180200.1490926-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GqobJYan"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778869156; x=1810405156;
+  h=date:from:to:cc:subject:message-id;
+  bh=UYr/I6qjn4wSH0n1COVWBH6/TMZqwbY9NtoG0+z0hIk=;
+  b=GqobJYani40ElTX55IYqIimY7CTSl/HXzlr8zXLltAdahmB6hJKQ420d
+   g0EuDCIUxV0NjpJwZxQJBwjqhKUQNVA3+77qgEh+O+hy3Y7pEfw5Zmurt
+   0+/ELVd4vW6oDRZIAUuP9r8I8wR6TLFakjX9g617oYyA/DP6+JOIROxkw
+   EzUnxFuqK6YTQB2BAO4w+NGsL81IfMh+XxrYIvb6gEc1FCeb4yB8A/gmO
+   Tv/osyM8S61GjryxVdi4xyNl9rjA/InOyZ8oyr3pWThAEXtQGZe9mGsP2
+   v6j+81TuJCWVqWTX9AIwcpp2gnBKtQXYP6ySQLu5DQL7CwDusB+ltoBnD
+   g==;
+X-CSE-ConnectionGUID: IsbiMbs4Q56qf7cj1Xy6Uw==
+X-CSE-MsgGUID: 0slFbMRiSUW7KopwUO4cUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="83445019"
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="83445019"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 11:19:16 -0700
+X-CSE-ConnectionGUID: iz3xfg3LTFSfDGy9aJn4CA==
+X-CSE-MsgGUID: q7ad3C2KQyq1igP43CHPHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="262520381"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 15 May 2026 11:19:15 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wNx7w-0000000094n-2V0g;
+	Fri, 15 May 2026 18:19:12 +0000
+Date: Fri, 15 May 2026 20:18:41 +0200
+From: kernel test robot <lkp@intel.com>
+To: Bharata B Rao <bharata@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/admin-guide/mm/pghot.rst:25:
+ WARNING: Block quote ends without a blank line; unexpected unindent.
+ [docutils]
+Message-ID: <202605152034.dMAW8M0F-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-These networking subsystems were removed in commit dd8d4bc28ad7
-("net: remove ax25 and amateur radio (hamradio) subsystem"),
-but the sysctl directory table still listed them.
+tree:   https://github.com/intel-lab-lkp/linux/commits/Bharata-B-Rao/mm-migrate-Allow-misplaced-migration-without-VMA/20260515-143252
+head:   1d6b2275629c24d5b061e08617e75603cb245c50
+commit: 973f77abc41ebd632577220150f11b8f803f8987 mm: Hot page tracking and promotion - pghot
+date:   12 hours ago
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260515/202605152034.dMAW8M0F-lkp@intel.com/reproduce)
 
-Assisted-by: Claude:claude-opus-4-6
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
----
- Documentation/admin-guide/sysctl/net.rst | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605152034.dMAW8M0F-lkp@intel.com/
 
-diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-index 0724a793798f..3db464e006a3 100644
---- a/Documentation/admin-guide/sysctl/net.rst
-+++ b/Documentation/admin-guide/sysctl/net.rst
-@@ -36,12 +36,11 @@ Table : Subdirectories in /proc/sys/net
-  ========= =================== = ========== ===================
-  802       E802 protocol         mptcp      Multipath TCP
-  appletalk Appletalk protocol    netfilter  Network Filter
-- ax25      AX25                  netrom     NET/ROM
-- bridge    Bridging              rose       X.25 PLP layer
-- core      General parameter     tipc       TIPC
-- ethernet  Ethernet protocol     unix       Unix domain sockets
-- ipv4      IP version 4          vsock      VSOCK sockets
-- ipv6      IP version 6          x25        X.25 protocol
-+ bridge    Bridging              tipc       TIPC
-+ core      General parameter     unix       Unix domain sockets
-+ ethernet  Ethernet protocol     vsock      VSOCK sockets
-+ ipv4      IP version 4          x25        X.25 protocol
-+ ipv6      IP version 6
-  ========= =================== = ========== ===================
- 
- 1. /proc/sys/net/core - Network core options
--- 
-2.53.0
+All warnings (new ones prefixed by >>):
 
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+   Documentation/admin-guide/mm/pghot.rst:23: ERROR: Unexpected indentation. [docutils]
+>> Documentation/admin-guide/mm/pghot.rst:25: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/admin-guide/mm/pghot.rst:32: ERROR: Unexpected indentation. [docutils]
+   Documentation/admin-guide/mm/pghot.rst:34: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/admin-guide/mm/pghot.rst:43: ERROR: Unexpected indentation. [docutils]
+   Documentation/admin-guide/mm/pghot.rst:77: ERROR: Unexpected indentation. [docutils]
+   Documentation/arch/riscv/zicfilp.rst:79: WARNING: Inline literal start-string without end-string. [docutils]
+
+
+vim +25 Documentation/admin-guide/mm/pghot.rst
+
+    19	
+    20	1. **enabled_sources**
+    21	   - Bitmask to enable/disable hotness sources.
+    22	   - Bits:
+    23	     - 0: Hint faults (value 0x1)
+    24	     - 1: Hardware hints (value 0x2)
+  > 25	   - Default: 0 (disabled)
+    26	   - Example:
+    27	     # echo 0x3 > /sys/kernel/debug/pghot/enabled_sources
+    28	     Enables all sources.
+    29	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
