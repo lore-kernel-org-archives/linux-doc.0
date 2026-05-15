@@ -1,79 +1,86 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9662844A701;
-	Fri, 15 May 2026 13:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FC3048BD29;
+	Fri, 15 May 2026 14:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778853410; cv=none; b=H6Ai/j1Jt/go2up3bcYvIqcz2QZnS5SgW0u3wBZaSb+H5MUDX76oNeswtcNKwFHHJCAaDIsErt3/XG4utm5C9Rkm5JPPrIcnsTpJ9GLdyy29nNUfo7JYi4athfWc9b8aAJqwfQPtvkBxlD0m3vrW3x2PBu+UXd3g1RJgWCWBXNI=
+	t=1778853991; cv=none; b=QASEOl84kUqxm8ofBLU7r5RQIGSzUG3lyO/WInrcj9OC/R6xAwdK13/Q2vMeCJJdPca6OAMB8NGyuRN9I3Y408QKyIn9TqDu5z0by9Fs+A71SXF5Z1yq309akxP5DkkL6wPCHkIjLvmlx/E3ZaQBx3OMRKu/VwIMTi5uBsJYrm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778853410; c=relaxed/simple;
-	bh=yPL09EUVdhNMglzCNhqFjmlhS6R6u3y1ZDaHT4NK6ms=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WMe2Hvi2s2YiQPd/n34BOVYn5WLaTw7ZvnVWsO3ktiXerkBZH2Cs8ZKxqANiNs7b89S8tlS9aBd+gH4Yz0mSlTsdu49d/lAmRn6cMlero+8dIqsAhylgelbJLBJobk3lLHbHakS04mJh/UDwEj+5zT6e8SrGvq5wESGiGwlZw1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bMU6ngph; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1778853991; c=relaxed/simple;
+	bh=92FbUOwThLkQI1YMirCwdfld6AI0F1cy25HxoL3c/k4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ldirvQz8Sfp8ynv6/F+jopIo7mS38eyafs4GXtmiU1zV5q+TB1mlQWYl9Icz5gkl+AukR9oMWOvr5vdQhq/iihEfZ8C0GHVgjL0FjIvFmUEcTmDg7wtWuDmRBsBer1mvvh2xyotb0qxs6Q4+qRKcaUG/4Axo0H4HDrMWXEPJboE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=r0N9wc1a; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bMU6ngph"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EA980410BF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1778853409; bh=+f8TCT67vyuvsz+YiQGqtt7wzEU9fUk3tYBacKzPZEw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=bMU6ngph5PHb+MTJsuyAnK0e5GxOplGW3eVjGSWEEORqbiP4uk007yOtfuPA1rENr
-	 r7BkvVZhRhEC9jOdwkLOeVGv0s5QOeC7m1nOuc/8FLO0OfNX6AK4CDdTNmU5CujT2b
-	 XiUUtwLmAsvSuCgZReT4Gx4fGVvHGIl49syjnKyButJWbw3biADR4Qrdq+8/uzJdFS
-	 acaUpKuAepyDqiZ5IEd/umc0F08do5gYaQaf3UVXlWrVauOlG/KZ5i+sHakjLLK2+7
-	 wBKig+YK9PhiHq5AGPzy/MmlJVcFdX45ymSkyxqBd7qJuBaG78kjaIpTIVOtpYamE9
-	 Xoh/QwhsgmnZw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EA980410BF;
-	Fri, 15 May 2026 13:56:48 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Chen-Shi-Hong <eric039eric@gmail.com>, linux@leemhuis.info
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Chen-Shi-Hong <eric039eric@gmail.com>
-Subject: Re: [PATCH v4] docs: reporting-issues: replace "these advices" with
- "all of this advice"
-In-Reply-To: <20260514082808.655-1-eric039eric@gmail.com>
-References: <20260514082808.655-1-eric039eric@gmail.com>
-Date: Fri, 15 May 2026 07:56:48 -0600
-Message-ID: <874ik8srmn.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="r0N9wc1a"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 49DDA2923;
+	Fri, 15 May 2026 07:06:20 -0700 (PDT)
+Received: from e134344.cambridge.arm.com (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 464683F836;
+	Fri, 15 May 2026 07:06:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778853985; bh=92FbUOwThLkQI1YMirCwdfld6AI0F1cy25HxoL3c/k4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=r0N9wc1aiLGjVKxRj0SczgEXdtXj+o6V04WIR5xn2JOxphg3trzVBX0jrt1J6nGJ6
+	 1nB6ZvM8mygUEPKLwlM66unrHynqDu9gVB9eYqLkgQGeIu3hAZ6Ez3EzGq74yOmEAQ
+	 pGrtGWpkfSCtSihXnlQ/uZjQeAqlK7Q+tdtrRyFw=
+From: Ben Horgan <ben.horgan@arm.com>
+To: ben.horgan@arm.com
+Cc: james.morse@arm.com,
+	reinette.chatre@intel.com,
+	fenghuay@nvidia.com,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	corbet@lwn.net,
+	x86@kernel.org,
+	linux-doc@vger.kernel.org,
+	dave.martin@arm.com
+Subject: [PATCH v3 0/3] x86,fs/resctrl,arm_mpam: Factor MBA parse-time conversion to be per-arch
+Date: Fri, 15 May 2026 15:06:09 +0100
+Message-ID: <20260515140612.1205251-1-ben.horgan@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Chen-Shi-Hong <eric039eric@gmail.com> writes:
+This is a new version of Dave Martin's patch [1] to delegate rounding of
+bandwidth control user values to the arch code. As there is now more than one
+architecture using resctrl, I split the original patch into two, a core resctrl
+patch and an x86 patch, and added an MPAM patch. Please let me know if the patch
+break down and ordering is sensible and whether the pattern should be followed
+for any future similar changes.
 
-> "Advice" is an uncountable noun, so "these advices" is grammatically
-> incorrect.
->
-> Replace it with "all of this advice" instead, which keeps the sentence
-> grammatical while also making it clear that it refers to the full set of
-> recommendations in the paragraph.
->
-> Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
-> ---
-> v4:
-> - move version changelog below the "---"
-> - send as a separate thread
->
-> v3:
-> - resend against the original base as requested
-> - replace "these advices" directly with "all of this advice"
->
-> v2:
-> - use "all of this advice" based on review feedback
->  Documentation/admin-guide/reporting-issues.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+This does have a user visible effect on MB schema when using MPAM hardware
+with 'bandwidth_gran' greater than 1. I'm not sure if MPAM hardware with such
+coarse controls exists in the wild but it is spec compliant and I've tested it
+on a model.
 
-Applied, thanks.
+[1] https://lore.kernel.org/lkml/20251031154225.14799-1-Dave.Martin@arm.com/
 
-jon
+Ben Horgan (2):
+  x86/resctrl: Add resctrl_arch_preconvert_bw()
+  arm_mpam: resctrl: Add pass-through resctrl_arch_preconvert_bw()
+
+Dave Martin (1):
+  fs/resctrl: Factor MBA parse-time conversion to be per-arch
+
+ Documentation/filesystems/resctrl.rst     | 17 +++++++++--------
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c |  6 ++++++
+ drivers/resctrl/mpam_resctrl.c            |  5 +++++
+ fs/resctrl/ctrlmondata.c                  |  6 +++---
+ include/linux/resctrl.h                   | 19 +++++++++++++++++++
+ 5 files changed, 42 insertions(+), 11 deletions(-)
+
+-- 
+2.43.0
+
