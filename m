@@ -1,155 +1,72 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9FCD48C3F0;
-	Fri, 15 May 2026 14:06:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0686621771B;
+	Fri, 15 May 2026 14:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778854000; cv=none; b=cklo0M90OCcxFypVdSJ+4gGols/YtQa/5ayOZmxgjFUew/0Ta41Z8pl3WIrUKfLCJQ1HeiU6GFIABk4QC8/szB9ikAEgpvk2+gMeYQwD3qOexs+lS9AMvB7nRQXSU8mDfXhn/da1D0YIyeG8BifYDgQwlfbC2ZtVqhun3ONzcuI=
+	t=1778854082; cv=none; b=l4EPchQuyoPrUPrJbDwjv0BDDwd55FMLj0t3DNYMMFXgmurOYfF8ql5nXs/d46uXM/n5YYGYZ9JLmNMi2seD8fqctSAAMjdd96XonM0f45H1n3t0+Hj8D0XxDZFX1/azqqRkSpEX5NcUhgflFKRyzzwnnl/0gYNjkH/bbVEb04E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778854000; c=relaxed/simple;
-	bh=/X5vvNOKH2UKMw4tT6pijLDefuLZqv7SXoC571MH1NI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FOfwnFtuPoZR8ek7k4fbcs/k7A1Cg0q6FYSzi/usxyEVlNLCtJDGPRrnT6KmnKVChlP9g7ZguK1Lz2yWuAhmD1Bk3MCAnpArk5Swn48MUyBJWBdRxPGp10ge8v6799zVkmE7eDMhXK35xo0TxivnuajwMJ/08LZJUQym0b1QrhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=fcjXZtSZ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1778854082; c=relaxed/simple;
+	bh=5Je9qJDQHUmKksf6M7wkN/UCibG/n4JN6VJ9BQsIkKk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XcgTnajz1okQ92rnYyXJmSe7B4AjAZ99qWcPCalNOSZSTuXFlY/td+45pU0yYJamw7vGAAnTKLJDJcqW790ptp0kaDVQ/ezBdV32gbih7xUe9hp8HSHmdAjgy1avHOKj+VxZh4zYuMRWUiAgHzYoV7hmCoc3/u25G2L6IcHslXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=spZqlwJX; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="fcjXZtSZ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE5EC35A6;
-	Fri, 15 May 2026 07:06:31 -0700 (PDT)
-Received: from e134344.cambridge.arm.com (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 51B793F836;
-	Fri, 15 May 2026 07:06:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778853997; bh=/X5vvNOKH2UKMw4tT6pijLDefuLZqv7SXoC571MH1NI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fcjXZtSZl2ZNrGbX6+vWkP9u57+qjXoxb6pY1g1Os5S26m6y5WFJX35ZMh+e3QsT6
-	 DvQImAJ+dn92pHdHv32vcq/1VtsSovXI1bemv6yNfKjeW9ii1j0yrtr3ktbKCJI3e7
-	 Y1lrLT2iHh+AE7jLrjcl77GgBqKk6LLw+u2jMYPE=
-From: Ben Horgan <ben.horgan@arm.com>
-To: ben.horgan@arm.com
-Cc: james.morse@arm.com,
-	reinette.chatre@intel.com,
-	fenghuay@nvidia.com,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	corbet@lwn.net,
-	x86@kernel.org,
-	linux-doc@vger.kernel.org,
-	dave.martin@arm.com,
-	Dave Martin <Dave.Martin@arm.com>,
-	Ben Horgan <Ben.Horgan@arm.com>
-Subject: [PATCH v3 3/3] fs/resctrl: Factor MBA parse-time conversion to be per-arch
-Date: Fri, 15 May 2026 15:06:12 +0100
-Message-ID: <20260515140612.1205251-4-ben.horgan@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260515140612.1205251-1-ben.horgan@arm.com>
-References: <20260515140612.1205251-1-ben.horgan@arm.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="spZqlwJX"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 40BA4410B5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1778854080; bh=7mj6lsxeuqRuDfxWMifzwdMgNMY3D4qHHh8yjBVSBxA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=spZqlwJXWPMSr4J60NkzpjhiOqJNHRzU0PZ6jejUicA1JjA3bYlRp7XkNStvtc//+
+	 YLJHfOwCqBoOXP2511iSUbJt2SlnoyXTUrGqOLKZ6mtg1bHyXo49waArXP8ZpLH6ZZ
+	 s7pid7P+N8h9Q5y+pqpsejbo1dfeXVWM7TxfCYRfLPZyQeYUcFIEOmkY8k17GrtsoO
+	 AaRJgZWYa4+YbXjyzJ+GdbJrjnQYtmpjFlvfDa2WLlm+DsCWn07Tcv1oX5bsyM23c5
+	 zhasPnr2se5PXJTtNlSzDkaSXGB6UksfnOwF669OO8r5WU4b/1DN2CLGq5fi7yEgcW
+	 0YyZPSJ3WknqA==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 40BA4410B5;
+	Fri, 15 May 2026 14:08:00 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Miguel Ojeda <ojeda@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Alice Ryhl <aliceryhl@google.com>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Benno Lossin <lossin@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Gary Guo
+ <gary@garyguo.net>, Joe Perches <joe@perches.com>, Matteo Croce
+ <technoboy85@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, Trevor
+ Gross <tmgross@umich.edu>
+Subject: Re: [PATCH v3 00/13] Improve process/maintainers output
+In-Reply-To: <cover.1778309595.git.mchehab+huawei@kernel.org>
+References: <cover.1778309595.git.mchehab+huawei@kernel.org>
+Date: Fri, 15 May 2026 08:07:59 -0600
+Message-ID: <87zf20rcjk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Dave Martin <Dave.Martin@arm.com>
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-The control value parser for the MB resource currently coerces the
-memory bandwidth percentage value from userspace to be an exact
-multiple of the rdt_resource::resctrl_membw::bw_gran parameter.
+> Hi Jon,
+>
+> This series improve the output at process/maintainers: instead of a
+> pure enriched text, the maintainer's file content is now converted
+> to a table, and has gained a javascript to allow filtering entries.
 
-On MPAM systems, this results in somewhat worse-than-worst-case
-rounding, since the bandwidth granularity advertised to resctrl by the
-MPAM driver is in general only an approximation to the actual hardware
-granularity on these systems, and the hardware bandwidth allocation
-control value is not natively a percentage -- necessitating a further
-conversion in the resctrl_arch_update_domains() path, regardless of the
-conversion done at parse time.
+OK, I've applied it.  I've wondered about including the MAINTAINERS
+stuff, but I must admit that the search box is kind of cool...
 
-For MPAM and x86 use their custom pre-prepared parse-time conversion,
-resctrl_arch_preconvert_bw(). This will avoid accumulated error
-from rounding the value twice on MPAM systems. For x86 systems there
-is no functional change.
-
-Clarify the documentation, but avoid overly exact promises.
-
-Clamping to bw_min and bw_max still feels generic: leave it in the core
-code, for now.
-
-[ BH: Split out x86 specific changes ]
-Signed-off-by: Dave Martin <Dave.Martin@arm.com>
-Signed-off-by: Ben Horgan <Ben.Horgan@arm.com>
-Reviewed-by: Ben Horgan <ben.horgan@arm.com>
----
- Documentation/filesystems/resctrl.rst | 17 +++++++++--------
- fs/resctrl/ctrlmondata.c              |  6 +++---
- 2 files changed, 12 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index b003bed339fd..4322d8025453 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -236,12 +236,11 @@ with respect to allocation:
- 		user can request.
- 
- "bandwidth_gran":
--		The granularity in which the memory bandwidth
--		percentage is allocated. The allocated
--		b/w percentage is rounded off to the next
--		control step available on the hardware. The
--		available bandwidth control steps are:
--		min_bandwidth + N * bandwidth_gran.
-+		The approximate granularity in which the memory bandwidth
-+		percentage is allocated. The allocated bandwidth percentage
-+		is rounded up to the next control step available on the
-+		hardware. The available hardware steps are no larger than
-+		this value.
- 
- "delay_linear":
- 		Indicates if the delay scale is linear or
-@@ -871,8 +870,10 @@ The minimum bandwidth percentage value for each cpu model is predefined
- and can be looked up through "info/MB/min_bandwidth". The bandwidth
- granularity that is allocated is also dependent on the cpu model and can
- be looked up at "info/MB/bandwidth_gran". The available bandwidth
--control steps are: min_bw + N * bw_gran. Intermediate values are rounded
--to the next control step available on the hardware.
-+control steps are, approximately, min_bw + N * bw_gran.  The steps may
-+appear irregular due to rounding to an exact percentage: bw_gran is the
-+maximum interval between the percentage values corresponding to any two
-+adjacent steps in the hardware.
- 
- The bandwidth throttling is a core specific mechanism on some of Intel
- SKUs. Using a high bandwidth and a low bandwidth setting on two threads
-diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
-index 9a7dfc48cb2e..934e12f5d145 100644
---- a/fs/resctrl/ctrlmondata.c
-+++ b/fs/resctrl/ctrlmondata.c
-@@ -37,8 +37,8 @@ typedef int (ctrlval_parser_t)(struct rdt_parse_data *data,
- /*
-  * Check whether MBA bandwidth percentage value is correct. The value is
-  * checked against the minimum and max bandwidth values specified by the
-- * hardware. The allocated bandwidth percentage is rounded to the next
-- * control step available on the hardware.
-+ * hardware. The allocated bandwidth percentage is converted as
-+ * appropriate for consumption by the specific hardware driver.
-  */
- static bool bw_validate(char *buf, u32 *data, struct rdt_resource *r)
- {
-@@ -71,7 +71,7 @@ static bool bw_validate(char *buf, u32 *data, struct rdt_resource *r)
- 		return false;
- 	}
- 
--	*data = roundup(bw, (unsigned long)r->membw.bw_gran);
-+	*data = resctrl_arch_preconvert_bw(bw, r);
- 	return true;
- }
- 
--- 
-2.43.0
-
+jon
