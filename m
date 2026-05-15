@@ -1,94 +1,136 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A823EEAC0;
-	Fri, 15 May 2026 18:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8951C23A99F;
+	Fri, 15 May 2026 18:41:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778869518; cv=none; b=eEOibQP4qo97eR300XqYRsV702tAX9/lAJd0ioiFVItvdiNK72qyMX57WTZTFZXI5+vZyiITC84lucVV6i1rfDEsR8M3MjLN+4PlDoLkALQUwAyo7eXtXkg8i/7D+M/jj9UQfQ9zU75pqTPbB1aJN5uXwPE08FBmGwefZRixSok=
+	t=1778870494; cv=none; b=sUbmqVX3QbrVv4pkzi7FQMwhllA5GCZDvnDUEAmxqI17udwbRZxLe/CLWT32Qb3t9C8X2B+N0bOXp5ZGaIMjbjzj9if9/krQ3Tqv8ask7NgtVcBfxMiWDKD1XZpP+WtIwpPTuN0BN1uNqbsXFrSiYBSam820rUl2zK6PuJah3x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778869518; c=relaxed/simple;
-	bh=+D39WEqyomb+nNPmuTRr+bLaKZEw4mD9zXtCoFo/EFI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=FeNRna/9qfnCz+3Ec+mx12J961P8Ksg+7kHlvXZB5KDHjIgv/UWTTdHefCcmTf/LNXP1ILts6UzB1uFGWiYYWuEUvvkrAUttiPg0J1ySfwrC3NWCEV9qnYlUywHOFqrctbDUKecdJbr1Ctl9vHdJreAaaQPVK15E5af3mRUaN3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fipa0HJd; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1778870494; c=relaxed/simple;
+	bh=GwivGZO8Wm6h0va9M4mOP/dflJKHX49qqSGVDT/xeJI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ki3iqE867ZUwJOdUD1p5EXhBLTSykrOZdK+pSMIKTqb4MLQoqAfzSBMh5llZSy/RG0URHFO0xaO4oteqFkaWDxBU9QQnRWxqLI3jq7B/SSXU1X4/Cd0FmVhyRYOD1zgsxrRhozd7ahhBb4gMSjBAf85IXTHF4CMR/OnrE2vQK4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQAgJ68J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fipa0HJd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=XrAQLDba89PLjVWu5sBEja37v+TAXs5K9v4QTmQpbDY=; b=fipa0HJdm8Yh9vCyZBaGmhgfc0
-	SXNxG1UHA66FL5ff6j+qGpV1O+zpevSGZ9myd35yTG6APJdzQv+ThIGmjYa3ZZ8UrNgQ4RLT490EE
-	RQw3q3VWFBQlgMO6r4mvxzpR/mGe5KJqjER5HP4kFzNnXqPk1dWLNKvJ0mUr/NkGXmhE9dnTUsAnM
-	GCnJtou0QgOw2N3x9xtqGFGw/LSORUTl6sF0MFS6ghPKKfc+vhAQy5M6OAQMWBIhVTa/9nlo/Nd19
-	3JtGDHcZiJb1qKQ5lxwyVmsPLhCe8NosMAva40n0ljMKlNwjdrNAu074atB3v0oIzvsN5JUBFWwRV
-	WWhZqwmA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNxDg-000000095H1-2aRW;
-	Fri, 15 May 2026 18:25:08 +0000
-Message-ID: <e20c670c-8224-4bbe-aed3-8c5f498d37e8@infradead.org>
-Date: Fri, 15 May 2026 11:25:08 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQAgJ68J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 144C5C2BCB0;
+	Fri, 15 May 2026 18:41:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778870492;
+	bh=GwivGZO8Wm6h0va9M4mOP/dflJKHX49qqSGVDT/xeJI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dQAgJ68JBJiEVYcWN4KUfoFOjI43S8lEmAduuVLNtLsWgJCkCJUESQKxYZzxS4FPG
+	 6r4b0sekFeMfqq6CecYHs/3GGSFY11ojQC5SPUUX48cjQDLvPKcA6RggznQ5UIw378
+	 gkBEh8QdYrxHdqGBC7FENxInFyJNa07gtI5npZhFWAZ+ZOOAHSIh6dsnoK4DRayLb9
+	 xc6guYJ30CVzhDg9jk5AYfWOfo1iH5P4jT21xVAP03kLnMQ64oxvS9KnvsYN2sy7Mi
+	 aPVkBTySkovP47fajmYy7NH2X/xnGPIY/wGLqXeRZMK1PNEBcXiPJqO9kmrFkftM7r
+	 oY58+9YIUJLlA==
+Date: Fri, 15 May 2026 11:41:24 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: LiaoYuanhong-vivo <liaoyuanhong@vivo.com>
+Cc: Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	"open list:F2FS FILE SYSTEM" <linux-f2fs-devel@lists.sourceforge.net>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	"open list:FSCRYPT: FILE SYSTEM LEVEL ENCRYPTION SUPPORT" <linux-fscrypt@vger.kernel.org>
+Subject: Re: [PATCH 0/3] f2fs: support encrypted inline data
+Message-ID: <20260515184124.GA4903@quark>
+References: <20260513100431.299904-1-liaoyuanhong@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] docs: sysctl/net: Remove ax25, netrom, rose entries
-To: Costa Shulyupin <costa.shul@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260515180200.1490926-1-costa.shul@redhat.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260515180200.1490926-1-costa.shul@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260513100431.299904-1-liaoyuanhong@vivo.com>
 
-
-
-On 5/15/26 11:01 AM, Costa Shulyupin wrote:
-> These networking subsystems were removed in commit dd8d4bc28ad7
-> ("net: remove ax25 and amateur radio (hamradio) subsystem"),
-> but the sysctl directory table still listed them.
+On Wed, May 13, 2026 at 06:04:27PM +0800, LiaoYuanhong-vivo wrote:
+> From: Liao Yuanhong <liaoyuanhong@vivo.com>
 > 
-> Assisted-by: Claude:claude-opus-4-6
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
-> ---
->  Documentation/admin-guide/sysctl/net.rst | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
+> F2FS currently avoids inline data for encrypted regular files.  This is
+> because inline data is stored in the inode block, outside the regular
+> bio-based data path where fscrypt and blk-crypto normally operate.
+> As a result, devices that enable blk-crypto for encrypted file contents
+> cannot use F2FS inline data for encrypted regular files, which wastes
+> space for small files.
 > 
-> diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-> index 0724a793798f..3db464e006a3 100644
-> --- a/Documentation/admin-guide/sysctl/net.rst
-> +++ b/Documentation/admin-guide/sysctl/net.rst
-> @@ -36,12 +36,11 @@ Table : Subdirectories in /proc/sys/net
->   ========= =================== = ========== ===================
->   802       E802 protocol         mptcp      Multipath TCP
->   appletalk Appletalk protocol    netfilter  Network Filter
-> - ax25      AX25                  netrom     NET/ROM
-> - bridge    Bridging              rose       X.25 PLP layer
-> - core      General parameter     tipc       TIPC
-> - ethernet  Ethernet protocol     unix       Unix domain sockets
-> - ipv4      IP version 4          vsock      VSOCK sockets
-> - ipv6      IP version 6          x25        X.25 protocol
-> + bridge    Bridging              tipc       TIPC
-> + core      General parameter     unix       Unix domain sockets
-> + ethernet  Ethernet protocol     vsock      VSOCK sockets
-> + ipv4      IP version 4          x25        X.25 protocol
-> + ipv6      IP version 6
->   ========= =================== = ========== ===================
->  
->  1. /proc/sys/net/core - Network core options
+> This series adds support for keeping small encrypted regular-file
+> contents as inline data.  The f2fs side defines a new on-disk feature,
+> encrypted_inline_data, under which inline payloads of encrypted regular
+> files are interpreted as ciphertext.  The payload is encrypted before
+> being stored in the inode block and decrypted back into page-cache
+> plaintext on read.
+> 
+> The fscrypt side prepares a software contents-key transform even when
+> normal file contents use blk-crypto, so filesystems can encrypt
+> filesystem-managed data regions that do not go through bio submission.
+> The new fscrypt helper operates on fscrypt data units and leaves the
+> filesystem responsible for deciding which filesystem-managed byte ranges
+> need this treatment.
+> 
+> The software crypto operation is limited to the inline payload.  Since
+> these files are small enough to remain inline, the expected read/write
+> performance difference between hardware and software crypto is small,
+> while the space saving from keeping the data inline is significant.
+> 
+> The feature is guarded by CONFIG_F2FS_FS_ENCRYPTED_INLINE_DATA and by the
+> F2FS encrypted_inline_data on-disk feature bit.  Filesystems with this
+> feature set are rejected if the kernel lacks the config option.
+> 
+> Hardware-wrapped keys are not supported by this initial version. I would
+> like to discuss whether this feature should remain disabled for
+> hardware-wrapped keys, or whether there is an acceptable way to support the
+> combination in the future.
+> 
+> The f2fs-tools support for formatting filesystems with this feature will be
+> submitted separately.
+> 
+> Basic testing passed.  Encrypted small files can be kept as inline data,
+> and read/write verification succeeded.
 
--- 
-~Randy
+Honestly, I'm not convinced this is worth the complexity and the
+additional memory use.
+
+First, it works only in the combination: 'f2fs && inlinecrypt &&
+!hw_wrapped_keys'.  That really limits how many users would use this.
+'f2fs && inlinecrypt' de facto targets it to Android devices rather than
+"regular" Linux systems.  But at the same time, the "best practice" on
+such devices is to use HW-wrapped keys, which has already been widely
+adopted.  So this would be useful only on devices where the SoC doesn't
+support HW-wrapped keys.  Its usefulness will go away when support for
+HW-wrapped keys is added.
+
+Second, in the per-file key case this makes every file use an additional
+1 KiB of memory or so (assuming AES-XTS) to hold the "software key",
+just in case the file ever has inline data.  That seems problematic, and
+maybe not a great direction to be going in right now, given the ongoing
+RAM shortage.
+
+There also seem to be quite a few bugs/issues.  Sashiko found quite a
+few
+(https://sashiko.dev/#/message/20260513100431.299904-1-liaoyuanhong%40vivo.com).
+But just from a quick readthrough, anything that calls
+fscrypt_is_key_prepared() seems to be broken now, as that function isn't
+aware that both fields of fscrypt_prepared_key can be needed.
+
+I'm also not seeing what differentiates the new
+fscrypt_{en,decrypt}_data_unit_inplace() from the existing
+fscrypt_{en,decrypt}_block_inplace().  They seem redundant.
+
+There's already a lot of complexity in fscrypt, with the different
+settings and the different ways the filesystems do en/decryption.  With
+this, plus the concurrent work to add support for extent-based
+encryption (for btrfs), it's really quite hard to keep track of
+everything.  So I have to wonder if this patchset is really worth it.
+
+So, overall, I think this would need a bit more work.  But also I'm
+wondering if it's actually worthwhile.  Do you plan to never enable
+HW-wrapped keys, for example?  And you're fine with using more RAM?
+
+- Eric
