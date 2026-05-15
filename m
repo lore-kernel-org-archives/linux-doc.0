@@ -1,168 +1,135 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A8741C2F5
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 08:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D24311979
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 09:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778835228; cv=none; b=MTD4IOEotDJfd0weA2EocsFw0zEcMSkolgR01QTW6K5Eppk79KFNTpqLyOPEk2CK0TibyAxFOXbL3s+G6cKtAH5uAbMab8BB0Xbum8KnUDqXWQK2W+tAyoyom2JOl2o2cl1oMe7679AbtkDSRFjJ0N5oXDBLhpPm1G5I1/b9Sl4=
+	t=1778837493; cv=none; b=hNpnLaC/+S4BWyFry/wUYMv+sC1eexAm44zriv8NbME1nqPQlke2EpHG19zxuCPywHbDAQ9u/+71L8wQ6zex8C5uikb/o+fF2S7QbA9nnPhf2BPkjnQ3lULg5MtDqaHIs1W0kHzjN1hnE9KGTNSD6a7Tfm/biCdGdUL4zRIJZaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778835228; c=relaxed/simple;
-	bh=95rnVbuPoEqYoOgOEmXgRRLmt/DgdbJJ5HiCjeQHGDU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nYecTGLBbVru3s/OIDM1EFafkaKm6/y7ocmjObKX7XVvVao+1eJEyTkpsS5SKmt5MxPDflyHALsCOTW7yCCUUMIbKCiSUYYwkeo5PSFyY+GK7fcXt36fAm5HSNgsfSptABCVSe1w8E6+VAliIAsgOwgNkfTt4FI/IIFJ6YvUJWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LTVNGs/S; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1778837493; c=relaxed/simple;
+	bh=ihXGMwI9HKziM3oJP/L4COg+vtW7X6bZgQ61DgnepQA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HmgyEn/dqBm7sutRkxHxwzRT09Otm7KuAA4vaD4yus49nO73S+ZWae9qjkz27nbEzWNNJsGhLmgyPvBSgX+p0mbbMKsAqYh4o4fOxnhkEnIbjB1/NcB8T+tayuzw38buvps+5rljuqB/QJedhA+hSmyxHe6mVUiDOF/M1OyDrfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ggZV1Vaw; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LTVNGs/S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778835225;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mmxOVGUrnxS/H09zubyapT22aA5Jy+w6JF95xU/Ftgg=;
-	b=LTVNGs/SKoWXMgO0VtO1exio+vMnMirB02mUFH7Rg0W+7fbnek/oCjmCNG4Ajm4p9KejbT
-	xL8NXetWuKjgrqJ3jUmUdwivpITN+RWQsNpGiCmLnABHzwHqJqMVfjReD2PfZfdOuRqcCC
-	xYiFLDEFEVADdAGTpUqGQrN6pK4WB34=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-484-XDqT1YrxOLCP5ZZge2o2rA-1; Fri,
- 15 May 2026 04:53:42 -0400
-X-MC-Unique: XDqT1YrxOLCP5ZZge2o2rA-1
-X-Mimecast-MFC-AGG-ID: XDqT1YrxOLCP5ZZge2o2rA_1778835219
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4B1411956054;
-	Fri, 15 May 2026 08:53:38 +0000 (UTC)
-Received: from [192.168.1.153] (headnet01.pony-001.prod.iad2.dc.redhat.com [10.2.32.101])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DBD4D1955D85;
-	Fri, 15 May 2026 08:53:31 +0000 (UTC)
-From: Albert Esteve <aesteve@redhat.com>
-Date: Fri, 15 May 2026 10:52:53 +0200
-Subject: [PATCH v12 4/4] kunit: Add documentation for warning backtrace
- suppression API
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ggZV1Vaw"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488a14c31eeso60374385e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 02:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778837491; x=1779442291; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MBkHEZtZGZd4AhluodDreLYAV0s6Gw1zv9m84/i9HII=;
+        b=ggZV1Vaw6EqINErgoParu2vIJcoBkFBCKdYJCvnZi3Wtg5fHQSk8ANUUMIGc1am+70
+         SPzuUSc0OqSECu09FDHeyvRcqcDdZdPeksgOQ125DzB49MgdT7hzi1kBieEesaIt1Sxw
+         RT3u+vy3FMDquwN0VqehnCQeOEfO4f5UctWJnuhjKY7CFCoi2kj6VTunuE+qDnbQGe5T
+         J7RP0mCla/JWauxdgdmz16UgK1RPFLvzsVc89zBBfXIExKhWuXFT32+WiVchBJ5tET6v
+         ZVGSnrU2yvfBnMBIVxQ8SgmvGxtfPQs1Z2Pvk+wcWR5ShckhIY23WicOOlMG25oTD8hu
+         5DkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778837491; x=1779442291;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=MBkHEZtZGZd4AhluodDreLYAV0s6Gw1zv9m84/i9HII=;
+        b=Nb8JQCR0GrYapxvbkHpC/acVbMtDXCwjbkVbroBGvSzd8KF37RpeLl3Gkp0MTN0nhZ
+         q8GqlVTtfWQgAm7daAxG9nZSD7kaNmtTvOXkwq2M/INpPDaaz/AdtsE/8ErIB814EgdT
+         pasE5osc5/sWtvJjDYzYski36v+3e0hyrgQBIz0x1ZJhgBJXKu+RSfxHswGIpI8SC7ha
+         mxu44FmR/w1CUTtTy5vgxqoQj2CkVqk8R6lOyZ8aRruvb6MkEB1La/v7+6bmdbQHU6TR
+         LKE8IwULcGMSqWlLlJIdEzE3jmZKLtSB0AnnbvQ/mHgwvo2xzSo7Y4hKR3o7qG+fFpc0
+         QAlw==
+X-Forwarded-Encrypted: i=1; AFNElJ/t/3SiWzKtvAynoFAOXo7EOfzsT/xey6GK8KjTkCCqa7gVvcggt6wHGvHPVnhYJfQeJOKg51mfwko=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzPN70s4hGrDe8j+yGdjc2S7mxOYQUuph9DVWz1J5G8iPTYJrR
+	58pwlCYONQWkZNIx5OoNW9rCl34oQpGAfwOvbTPpPWYX2g8kkpvDUw4W
+X-Gm-Gg: Acq92OGcbjFhVzyECxDKdJQQaErw4HZV1ZyRbBm5zYQJKDSkpe3hW+Mw0qOxHM/+Xzd
+	uf0bbjOi6GPv/5MGG9k2hIn+Vuq/KWz6oKfrMn3F9jdnXyopE2VaPGx0QYJ3ZvkyX/Mj1Fxk4TD
+	e2oGHsXOL0DcQW8GcoanGVYOgWiyXgZ1ucwNkhOhOmzCBeaUUtbNc6hO26jTgJQ0rxMuLLHEJb6
+	SZJ4viKDfac0qUdzqtOr3rv1NEvAffTMpYimIHrDzlJkh1a7W/279wlq22FEAV5D5abcuJ8x24m
+	YX5nSYzuDCpfnAUm7qYT+ceBfVRDBlsKr+7nf336qA+tecVwW/e1cvZP8x78OSSJ+stIPPFHgO3
+	bBqB7DV+EUyZXCauFf73uN+juk243cFp7QPCeRUMGNYmjvXpCKbMEeVXWYWySVAQ7tMyOeV1XKm
+	eXbYO2v1yu1nrTrcyPyL7+I++6D41g8bh1uLqYkv1PyFZWq+uhZX8BY7sTmA0b5Ymcytb2Gqg=
+X-Received: by 2002:a05:600c:34ce:b0:48a:592c:e63d with SMTP id 5b1f17b1804b1-48fe60d7832mr45420365e9.14.1778837490737;
+        Fri, 15 May 2026 02:31:30 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe5694fcasm43875125e9.5.2026.05.15.02.31.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 02:31:30 -0700 (PDT)
+Date: Fri, 15 May 2026 10:31:28 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Manuel Ebner
+ <manuelebner@mailbox.org>, Kees Cook <kees@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Andy Whitcroft
+ <apw@canonical.com>, Joe Perches <joe@perches.com>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Randy
+ Dunlap <rdunlap@infradead.org>, Jani Nikula <jani.nikula@intel.com>, Heiko
+ Carstens <hca@linux.ibm.com>, "open list:DOCUMENTATION PROCESS"
+ <workflows@vger.kernel.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/3] drivers: add deprecated remarks to strlcat()
+Message-ID: <20260515103128.323da7e4@pumpkin>
+In-Reply-To: <CAMuHMdW12mAV2YROUiFLoKKmtNS=tYNZs7pWN0e4wTKkSMA2xQ@mail.gmail.com>
+References: <20260514160719.105084-3-manuelebner@mailbox.org>
+	<20260514163033.108009-2-manuelebner@mailbox.org>
+	<CAMuHMdXFBFbb+3CqaJGRLqUubRm0pt-yYSds0fitm_wv07kYxw@mail.gmail.com>
+	<CAHp75VfhHK9E+W83k+w3RWEMq3-HeXC31cJcKE7OiUY9U-wLcQ@mail.gmail.com>
+	<CAMuHMdW12mAV2YROUiFLoKKmtNS=tYNZs7pWN0e4wTKkSMA2xQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260515-kunit_add_support-v12-4-a216dc228be8@redhat.com>
-References: <20260515-kunit_add_support-v12-0-a216dc228be8@redhat.com>
-In-Reply-To: <20260515-kunit_add_support-v12-0-a216dc228be8@redhat.com>
-To: Arnd Bergmann <arnd@arndb.de>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
- Rae Moar <raemoar63@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Paul Walmsley <pjw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
- peterz@infradead.org, Guenter Roeck <linux@roeck-us.net>, 
- Linux Kernel Functional Testing <lkft@linaro.org>, 
- Alessandro Carminati <acarmina@redhat.com>, 
- Albert Esteve <aesteve@redhat.com>, Dan Carpenter <error27@gmail.com>, 
- Kees Cook <kees@kernel.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778835177; l=2728;
- i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
- bh=YX7AMC4Z3qCvd9o2GGoQ6LMsoUJS/dulVvDsXv5Qzg4=;
- b=uU8iZP3aKTG6p9f6uzLQ+7585Tt2YEgz1OTvweQ4CuLQ3H8MMENyxt9ulFNJQ1k4vJADogKw5
- Vq1oW3OIyVmDghCtrvC2+FcWQVlJ23+UX8uxtuiWX2rKMKaZvQTxK9J
-X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
- pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Guenter Roeck <linux@roeck-us.net>
+On Fri, 15 May 2026 09:32:06 +0200
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-Document API functions for suppressing warning backtraces.
+> Hi Andy,
+>=20
+> On Fri, 15 May 2026 at 09:31, Andy Shevchenko <andy.shevchenko@gmail.com>=
+ wrote:
+> > On Fri, May 15, 2026 at 10:23=E2=80=AFAM Geert Uytterhoeven
+> > <geert@linux-m68k.org> wrote: =20
+> > > On Thu, 14 May 2026 at 18:32, Manuel Ebner <manuelebner@mailbox.org> =
+wrote: =20
+> > > > add kernel-doc comment to strlcat() function definitions =20
+> >
+> > ...
+> > =20
+> > > > +/**
+> > > > + * strlcat - Append a string to an existing string
+> > > > + *
+> > > > + * @dest: pointer to %NUL-terminated string to append to
+> > > > + * @src: pointer to %NUL-terminated string to append from
+> > > > + * @count: Maximum bytes available in @dest
+> > > > + * =20
+> > >
+> > > Missing "Returns ...". =20
+> >
+> > Documentation says "Return:" as
+> > - the section (note important colon)
+> > - the singular (however plural is undocumented and supported) =20
+>=20
+> Trailing "s" is not always plural in English ;-)
 
-Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
-Reviewed-by: David Gow <david@davidgow.net>
-Signed-off-by: Albert Esteve <aesteve@redhat.com>
----
- Documentation/dev-tools/kunit/usage.rst | 46 ++++++++++++++++++++++++++++++++-
- 1 file changed, 45 insertions(+), 1 deletion(-)
+It is for 'Return' :-)
+Most of the exceptions are words taken directly from Latin,
+where something that might be a Latin plural is used (who knows what
+the Romans actually used).
+It many cases the 's' plural is also valid.
 
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index ebd06f5ea4550..1c78dfff94e8a 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -157,6 +157,50 @@ Alternatively, one can take full control over the error message by using
- 	if (some_setup_function())
- 		KUNIT_FAIL(test, "Failed to setup thing for testing");
- 
-+Suppressing warning backtraces
-+------------------------------
-+
-+Some unit tests trigger warning backtraces either intentionally or as a side
-+effect. Such backtraces are normally undesirable since they distract from
-+the actual test and may result in the impression that there is a problem.
-+
-+Backtraces can be suppressed with **task-scoped suppression**: while
-+suppression is active on the current task, the backtrace and stack dump from
-+``WARN*()``, ``WARN_ON*()``, and related macros on that task are suppressed.
-+Two API forms are available.
-+
-+- Scoped suppression is the simplest form. Wrap the code that triggers
-+  warnings in a ``kunit_warning_suppress()`` block:
-+
-+.. code-block:: c
-+
-+	static void some_test(struct kunit *test)
-+	{
-+		kunit_warning_suppress(test) {
-+			trigger_backtrace();
-+			KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
-+		}
-+	}
-+
-+.. note::
-+   The warning count must be checked inside the block; the suppression handle
-+   is not accessible after the block exits.
-+
-+- Direct functions return an explicit handle pointer. Use them when the handle
-+  needs to be retained or passed across helper functions:
-+
-+.. code-block:: c
-+
-+	static void some_test(struct kunit *test)
-+	{
-+		struct kunit_suppressed_warning *w;
-+
-+		w = kunit_start_suppress_warning(test);
-+		trigger_backtrace();
-+		kunit_end_suppress_warning(test, w);
-+
-+		KUNIT_EXPECT_EQ(test, kunit_suppressed_warning_count(w), 1);
-+	}
- 
- Test Suites
- ~~~~~~~~~~~
-@@ -1211,4 +1255,4 @@ For example:
- 		dev_managed_string = devm_kstrdup(fake_device, "Hello, World!");
- 
- 		// Everything is cleaned up automatically when the test ends.
--	}
-\ No newline at end of file
-+	}
+-- David
 
--- 
-2.53.0
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                         Geert
+>=20
 
