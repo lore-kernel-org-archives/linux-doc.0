@@ -1,184 +1,411 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6E1318B96
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 14:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778854269; cv=none; b=GD2BxO6QpVhCA1c+YNt+CfhYDGoAA0icC7tDrWvMBZlWzdti5BPZ3w5qgvFX6IbKVY0S/4AESxU2c/Ig245NeHegk5jpRkKHKyyYbJeCb9pFzGU+sNXfkhUL42HC3YgK2fipjp0cI+0Q43GC5L/QrcdD/HpmSu4AIc/gQwlpBqQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778854269; c=relaxed/simple;
-	bh=oYYzVpTKzGuJc8QWczA/enECx9ZhL4LtYa3m9P3daMY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qVQyLltNmtjbk5KoqAGhVi2zcFalYWeLm70SmbDYIqNhJn7zgsDfLOeB99K1S3YwMFyDdLON7a/MiBLhebvEqRATsSdU2YUpJ/WLx54ggCuprF3dyOdjT6OgT2k84P4onoLYc2GuUUv8fAtZZljDeshON6S/gkJICWqzV5dmeN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gPLrtGwt; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360BB47F2D1
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 14:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778854466; cv=pass; b=D+ps/H5jb7MEhwtDyha8rHLKPY4+0/Tv6fNGfXS03bK8iVF+fQJSbLz99LuQE6QjDKChrN7I7fvQM91Oqo50hQsMvVkj3jA/UtLeWAL7CWAoukctU7DuAhk1j6+PjO65oBolrR4D6NX0WssMGaMFdc3VNLVgXLt99o6M0FlTvdY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778854466; c=relaxed/simple;
+	bh=FaxTYlTBleuGE3zOrA0kjtoeT54kzZ578UmRae1Nmsk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eLaQm794/UnaKwPJV3y3yerw+rFXu3ERVxHOXkt+TOcLYS2++cg2KmtE8WbH2pM+3rUpoz7Qwbj7aZps/zBihmsFIkhx32eVA8K+LdnsS9Sf6ULAT4+AaOjlpGYZzR9JumQROkQtUlDBrlXzIgbqLUrBakzlTVH0iFf91kFApFE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GZAJHNNu; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=WZoy1OYB; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gPLrtGwt"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ba6485d219so61138135ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 07:11:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GZAJHNNu";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="WZoy1OYB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778854461;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VObRtO05jubkBNdePEiKs8bkHI05Ids5T/0ogzpYITY=;
+	b=GZAJHNNumSnw6RrrGsk2+MklEnNnLUJ+e1IBnnuEMdQWvQR1hVklsyymqTRKAwb/IWkOOI
+	O7xsGA9XNh1LvOkVA74A2uVIorCHPymNIgFA+9dNwSWbfVaJ6qHZlqqiXpwShWsvc7Je1F
+	mWu9/Szrwt53oXf1ITTJMetU60hhbeU=
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
+ [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-676-thFHb9Q6PniOjpeOEdWIYg-1; Fri, 15 May 2026 10:14:20 -0400
+X-MC-Unique: thFHb9Q6PniOjpeOEdWIYg-1
+X-Mimecast-MFC-AGG-ID: thFHb9Q6PniOjpeOEdWIYg_1778854460
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-65c67faba33so20894738d50.3
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 07:14:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778854460; cv=none;
+        d=google.com; s=arc-20240605;
+        b=eXmdooMgIPpOs658tIfGZelZxvzSuwHQtbp4RPjaOLrakp471mxbqsglu7R3A+fJCU
+         wtrEGH078VVYqR6S+SLCd6p4jMTUGlgLKU2iARXLERyl/UCdJRbdPl9Vv7qmGkVinza0
+         EWe1ldakPZFt6EDMxIsDusFXnUGOXelkl0kRmu1IISyw3dX2HXFMFUzOvQ7aewr2N6x6
+         tc1K7pW9rbzY/TyvhtRXwIuE7+gmDkVErvdlK9XlPBGZ6C2YE8/4V8sA7nb0br6oW9FP
+         MA0d5hv49lxYal1iY0PIo8ZLnUttBRXhKXMQ3+lWWqr9aLD0MRR/p86z+AaojXi7uKU6
+         zOHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=VObRtO05jubkBNdePEiKs8bkHI05Ids5T/0ogzpYITY=;
+        fh=d1Bgxt4Z8XAfi+Q4XJdppoJP0AiGwVjQ/NLvCxNs8Z4=;
+        b=W69KazNFvj5kCDXDN14YkJz6dZtB5XZYWTWFOrwTBmWAZWYCIclJXTi3aqCM+eIWz/
+         ByyHpC8lbSQzMThNrNACF3mN3x7rnPOwsfpE+H8x/VIHpieaxA8sH4bVOTqY0yLkEbaj
+         i1iAh33elCXAxB1DAFk4hyPodwB6u6F0ikeBDKZ9WRKe7TNUs1vwEE0Wn8X9Zl5HRfHs
+         FzD9EfkQFLzuWT78qfx3RiwqTkpRoVArgUAV7qvOmEiVcl66b0OmuNAcpcqxxaWGGRxU
+         XnFsMmalCVQC6KPVk9SYztLELsfuzgHwaiUQ66Q5e9yb3poN91XqTZ2b+4pW0hR+JWIy
+         as5A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778854267; x=1779459067; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=81XPbDwfScOnAZMMx/pWg3B2AY2BVs/a2ta6xIUDaJg=;
-        b=gPLrtGwtpaz8gAd18MisukF2Q5SBuG+J1YIGJndSU0wHaEpI+DbP7u8gD3KQOy0vCi
-         z7K97Z0ew+xl5fux288Kdb5kDpmby48OVQFS0/dgqwbvho+dST0PmBlMTSuKx3Wt9z47
-         iJWyPHuHeo645ew9FaA3okOmvCqrlRRIH/UHRkBs3NS7rxKuSdbZaPUaXiXycemLPkme
-         3yeY4rO4oIfh7Uhk9NOstr6btYlzFJXkzTDPql6t1jGIZNoQgTMBWXOoDnJWLBg9p3Ug
-         fy7IJI3cN+ss7OqR0rzLeydSJX/HZIR3pCZZ3e2j5V4P3n5aUvhT/qaS9jLKPhywWrp5
-         JU+A==
+        d=redhat.com; s=google; t=1778854460; x=1779459260; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VObRtO05jubkBNdePEiKs8bkHI05Ids5T/0ogzpYITY=;
+        b=WZoy1OYBYdppYYUte1dhqnqK7YGtlRhaSDcG59YyS5Xr2LfVf1a5Au33jKpgEEslGV
+         NFOjNOTFz2cTY0aYBH1KArvI5/0NKuIsBplDjePnNncbw54a9yJb0lD8W0Bp0pZ+juqm
+         UTraJko5hw1WZPj+nA3Ye5e8eQxDJKJKlAZ1+qBtXWJ6Og6n/F26wcOo2B2hidE2KdLL
+         TJvKil4x9GBgZ/aS+83+PMoDjVVWHaoqYp1SV5kVI24kNf5VyTPtgcyWdOoPXG0QTf6C
+         GFs2oUK3Yd5eeYntmuFWPo8mEQHHaQjsUmtgTohQP2CD+s8ajOItKQNnBqzKW2+FVDeV
+         0Z0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778854267; x=1779459067;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=81XPbDwfScOnAZMMx/pWg3B2AY2BVs/a2ta6xIUDaJg=;
-        b=gYhpLVgG2FT+sS6jGi15UZX4hNxNCZx+WoByocPjYLiEeSpywjLb7/ns8OmgsqzHD4
-         LeDtW98UL7kJ/JLqwT4xefcBJoQ9C0+jhbHuCpokEMpS+cLfzeSjxBTYztQCWj0xGlEw
-         ute03hd6ZT0w3SvNgvMSNNpFs/Qfir57Gj5hZ1GfYZw5lMbKMfoijGLV9EBi1NyY7Pgz
-         +yzruLOfpdujjPYO++G1QKs0qKoT3L0ln0eMbYhY1i+JZV3QuySqD6zMO4DOunRpcLoU
-         4wcPS5IIo5d5NdGPJQs55B2E7JRB/QUxcbzIiOJ6RWwRYDgLXDyUDyOR5ptLqb/GQXgu
-         hctA==
-X-Forwarded-Encrypted: i=1; AFNElJ9EIn5DWidp5KMJ7c1t+elvO5qFhaSvNFYPiWPeNN17zTXgM4ZsgvECslcOQQEGofIk5LvCQ9ID1BI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxa7Ncbm+iFZTfJMPU+0m1ELOd0oSe7KayMSO4hkbk3hO2dUnHj
-	8NlhAMVnTI0I6tMKVT7IjiEi3wVDOHOcWBCVvKxeRUTagE92I490ZlZg
-X-Gm-Gg: Acq92OGSoi/e3lng3iHcSpSBnkx3znbAu72LeorSZCGUppsbsQgFWuFmZFKPDtGLqS/
-	Vgpp/GjlBhYUR1PTCPNxFkMKdsGzTKRX5NWQKLpxqmMqLB7KxxYUXrS7B/h2jYXmaGPFJ8vemTE
-	PDIzYe8smwPLYLQmmqGz0YMmgc6djtCb7tqW/7wtr7d4tjH21caQqxCRc94FJQZ7IaPUDQ+Rgux
-	F9yt6vgJ3wJmZwV21l8MgTtVEXtI/PPnq9apjursWVohwbvCRFBrpFnas4rUhBJW5zrxznjECof
-	f28QOFelG7Iq+oFroHw+iXMXiz5Wq/2ww8jtGGaF75wYwEFPk6saEe3vFdISawA/ceh4oBXcGPY
-	bwcoeKWSLDloGOqCkLreNdDPxjdcRqmgoX9ng6VFgjC7Tb3Hf4M/+U5pKdFrBQD6jIX7PM3PMiY
-	TSKa5A6a9stH2Z1F60YUW9HGvQCWcy9Obo+0y836tGhvnf53+oXprFrIw9Sv2zP6Qe9zmFeCiFm
-	3F2t4jMNxU=
-X-Received: by 2002:a17:903:f8d:b0:2b0:b016:773f with SMTP id d9443c01a7336-2bd7e8a0b31mr49913305ad.11.1778854266855;
-        Fri, 15 May 2026 07:11:06 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5cfe8baesm63119575ad.47.2026.05.15.07.11.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 May 2026 07:11:06 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <54160fbb-01d9-400b-80f7-bf340997a8d0@roeck-us.net>
-Date: Fri, 15 May 2026 07:11:05 -0700
+        d=1e100.net; s=20251104; t=1778854460; x=1779459260;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=VObRtO05jubkBNdePEiKs8bkHI05Ids5T/0ogzpYITY=;
+        b=UktYhYmm8myhjfY+f+vqEzsX/ew5+hU4D2bG4SA75QI3/MeW0NOfZ8YzQGEE5tK/ci
+         lMNjCIceeaoDA51GmgvTTh5Oq6EONO59h1zN9ULFKfQfZLyeOeP10ri7RbdeeA7obxxM
+         cZatAUxAd160n5R6/zHdLlrxHzSFEVYM7o/fFXypDGmMQy2AqZQdYqMFMdwbq+3bHdKm
+         rGeGsSxPjqNiqq2a8UPhuCuCdZrmrcaOBUp63qc/bEX/1uWtIVFNFmR1aiwpbh8jO/IA
+         OLH1tfwNlSTBCNDz2vQ5iRf5LI2OY00nb+O7It9GGhLRETgnF5AfnBzSYwAYt+YwXAIF
+         FPOQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/l5Km1a7N+7SEJSpna0MPdwjcIMa1FE45ckwzkARRxtMCzl+O4N9ygtDms5+bsqr/0NsM+wWi+Iro=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yypz75bthzt50k1lhpAjy387R3uVTGm2GhbeItleTBoQ+2pe51k
+	gI/5p2V3a6bcQ+Lp1YQooFMgW1dWJ7cIBWoAQtmbVbTgrWu+IWdcTvgKbnMPwU7h2nNQfA8+eK0
+	GNF+ysgTAv23Y1oCukUiZUM3RkLvHgi05Yd8PIXeriShQMXBi/GX5NDTJaHlwToKOgsTi49W6PC
+	37PN9qaxbZqaXOvV76BPZmImoSRmgp08jAEnpc30K4xvuTEhUspQ==
+X-Gm-Gg: Acq92OFAIdlBSssJtwDjgq9f8AAgMKAfCLpfKPCgwVqbN0F9u5YXawDZntvbIB39XRh
+	D2cYCyRSs9hIm2AgEdBKTKnp+SwM4QYEuTj7rEgP88Ki6O0BA2mUHKGEsM3d+gQx67Dn+hcbbxd
+	DD0gfpnWUkDj9NcBa7C/sBtei+mBnR340F8l4zW367xAG5AwuAu1oqLUYK6wNuRdKD5D8CDfS2Q
+	HqFjw==
+X-Received: by 2002:a05:690c:4a08:b0:7ba:ef98:9712 with SMTP id 00721157ae682-7c959a9a3e0mr45636057b3.11.1778854459903;
+        Fri, 15 May 2026 07:14:19 -0700 (PDT)
+X-Received: by 2002:a05:690c:4a08:b0:7ba:ef98:9712 with SMTP id
+ 00721157ae682-7c959a9a3e0mr45635597b3.11.1778854459379; Fri, 15 May 2026
+ 07:14:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] misc: amd-sbi: Add SBTSI ioctl register transfer
- interface
-To: Akshay Gupta <Akshay.Gupta@amd.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, arnd@arndb.de,
- gregkh@linuxfoundation.org, naveenkrishna.chatradhi@amd.com,
- Prathima.Lk@amd.com, Anand.Umarji@amd.com, Kevin.Tung@quantatw.com
-References: <20260515134506.397649-1-Akshay.Gupta@amd.com>
- <20260515134506.397649-6-Akshay.Gupta@amd.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260515134506.397649-6-Akshay.Gupta@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260515-kunit_add_support-v13-0-18ee42f96e7b@redhat.com> <20260515-kunit_add_support-v13-2-18ee42f96e7b@redhat.com>
+In-Reply-To: <20260515-kunit_add_support-v13-2-18ee42f96e7b@redhat.com>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Fri, 15 May 2026 16:14:07 +0200
+X-Gm-Features: AVHnY4KpgDDXeYFVXYd1aCpKGaTXXGfKzXerArdIzcyo8M52liefZmNjWABG4yY
+Message-ID: <CADSE00LZD0+TMxkCgH5YEwjdPggx8X5ZrHEFx_ku0wBSjS_Oyw@mail.gmail.com>
+Subject: Re: [PATCH v13 2/4] kunit: Add backtrace suppression self-tests
+To: Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
+	peterz@infradead.org, Guenter Roeck <linux@roeck-us.net>, 
+	Linux Kernel Functional Testing <lkft@linaro.org>, Alessandro Carminati <acarmina@redhat.com>, Dan Carpenter <error27@gmail.com>, 
+	Kees Cook <kees@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/15/26 06:45, Akshay Gupta wrote:
-> From: Prathima <Prathima.Lk@amd.com>
-> 
-> Implement IOCTL interface for SB-TSI driver to enable userspace access
-> to TSI register read/write operations through the AMD Advanced Platform
-> Management Link (APML) protocol.
-> Add an ioctl command (SBTSI_IOCTL_REG_XFER_CMD) that accepts a register
-> address, data byte, and direction flag. Serialize access with a mutex
-> shared between the hwmon and ioctl paths to prevent concurrent bus
-> transactions from corrupting register state.
-> 
-> Reviewed-by: Akshay Gupta <Akshay.Gupta@amd.com>
-> Signed-off-by: Prathima <Prathima.Lk@amd.com>
+On Fri, May 15, 2026 at 2:30=E2=80=AFPM Albert Esteve <aesteve@redhat.com> =
+wrote:
+>
+> From: Guenter Roeck <linux@roeck-us.net>
+>
+> Add unit tests to verify that warning backtrace suppression works.
+>
+> Tests cover both API forms:
+> - Scoped: kunit_warning_suppress() with in-block count verification
+>   and post-block inactivity check.
+> - Direct functions: kunit_start/end_suppress_warning() with
+>   sequential independent suppression blocks and per-block counts.
+>
+> Furthermore, tests verify incremental warning counting, that
+> kunit_has_active_suppress_warning() transitions correctly around
+> suppression boundaries, and that suppression active in the test
+> kthread does not leak to a separate kthread.
+>
+> If backtrace suppression does _not_ work, the unit tests will likely
+> trigger unsuppressed backtraces, which should actually help to get
+> the affected architectures / platforms fixed.
+>
+
+Another set of sashiko comments for this patch
+https://sashiko.dev/#/patchset/20260515-kunit_add_support-v13-0-18ee42f96e7=
+b%40redhat.com?part=3D2
+here:
+
+1. CPU spike from while (!kthread_should_stop()) schedule()
+Ha! I expected this one because I saw it in a previous review from the
+bot. schedule() from TASK_RUNNING yields the CPU; it does not
+spin-wait. The thread is rescheduled only when the scheduler gives it
+time, not in a tight loop. But the important thing is that the window
+where this loop actually runs is negligible: the parent calls
+kthread_stop() immediately after wait_for_completion() returns. Using
+set_current_state(TASK_INTERRUPTIBLE) would be slightly more
+CPU-friendly, but for a test that probably runs and exits in
+microseconds, it makes no practical difference. And it unnecessarily
+adds complexity.
+
+2. Orphaned kthread on early abort
+This cannot happen in this test. The only KUNIT_ASSERT_* that could
+abort early is KUNIT_ASSERT_FALSE(test, IS_ERR(task)). If that
+assertion fails, it means kthread_run() itself returned an error,
+therefore, the kthread was never started and there is nothing to
+orphan. If kthread_run() succeeds, the assertion passes, and execution
+continues sequentially to kthread_stop(). No code path allows a live
+kthread to exist while bypassing kthread_stop().
+
+> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
+> Reviewed-by: David Gow <david@davidgow.net>
+> Signed-off-by: Albert Esteve <aesteve@redhat.com>
 > ---
-> Changes since v1:
-> - Use of devm_mutex_init in place of mutex_init
-> - Use of guard_mutex in place of mutex_lock()/mutex_unlock()
-> - Use of devm_add_action_or_reset() for clean removal
->   
->   drivers/hwmon/sbtsi_temp.c      |  6 +++
->   drivers/misc/amd-sbi/tsi-core.c | 84 ++++++++++++++++++++++++++++++++-
->   drivers/misc/amd-sbi/tsi-core.h | 15 ++++++
->   drivers/misc/amd-sbi/tsi.c      | 20 ++++++--
->   include/linux/misc/tsi.h        |  8 ++++
->   include/uapi/misc/amd-apml.h    | 23 +++++++++
->   6 files changed, 151 insertions(+), 5 deletions(-)
->   create mode 100644 drivers/misc/amd-sbi/tsi-core.h
-> 
-> diff --git a/drivers/hwmon/sbtsi_temp.c b/drivers/hwmon/sbtsi_temp.c
-> index d7ae986d824c..00e982f4c716 100644
-> --- a/drivers/hwmon/sbtsi_temp.c
-> +++ b/drivers/hwmon/sbtsi_temp.c
-> @@ -64,12 +64,15 @@ static inline void sbtsi_mc_to_reg(s32 temp, u8 *integer, u8 *decimal)
->   /*
->    * Read integer and decimal parts of an SB-TSI temperature register pair
->    * The read order is determined by the ReadOrder bit to ensure atomic latching.
-> + * The mutex protects against concurrent access to the shared I2C/I3C bus by
-> + * the hwmon sysfs and a userspace ioctl
->    */
->   static int sbtsi_temp_read(struct sbtsi_data *data, u8 reg1, u8 reg2,
->   			   u8 *val1, u8 *val2)
->   {
->   	int ret;
->   
-> +	guard(mutex)(&data->lock);
-
-I would suggest to hide this behind access functions such as sbtsi_lock(),
-sbtsi_unlock(), and the matching guard functions. That can be done in a
-separate patch; it should not be necessary to include hwmon in the patch
-introducing the ioctl.
-
-Thanks,
-Guenter
+>  lib/kunit/Makefile                     |   1 +
+>  lib/kunit/backtrace-suppression-test.c | 192 +++++++++++++++++++++++++++=
+++++++
+>  2 files changed, 193 insertions(+)
+>
+> diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+> index 4592f9d0aa8dd..2e8a6b71a2ab0 100644
+> --- a/lib/kunit/Makefile
+> +++ b/lib/kunit/Makefile
+> @@ -22,6 +22,7 @@ obj-$(if $(CONFIG_KUNIT),y) +=3D                hooks.o
+>
+>  obj-$(CONFIG_KUNIT_TEST) +=3D            kunit-test.o
+>  obj-$(CONFIG_KUNIT_TEST) +=3D            platform-test.o
+> +obj-$(CONFIG_KUNIT_TEST) +=3D            backtrace-suppression-test.o
+>
+>  # string-stream-test compiles built-in only.
+>  ifeq ($(CONFIG_KUNIT_TEST),y)
+> diff --git a/lib/kunit/backtrace-suppression-test.c b/lib/kunit/backtrace=
+-suppression-test.c
+> new file mode 100644
+> index 0000000000000..59a038b2739f5
+> --- /dev/null
+> +++ b/lib/kunit/backtrace-suppression-test.c
+> @@ -0,0 +1,192 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * KUnit test for suppressing warning tracebacks.
+> + *
+> + * Copyright (C) 2024, Guenter Roeck
+> + * Author: Guenter Roeck <linux@roeck-us.net>
+> + */
+> +
+> +#include <kunit/test.h>
+> +#include <linux/bug.h>
+> +#include <linux/completion.h>
+> +#include <linux/kthread.h>
+> +
+> +static void backtrace_suppression_test_warn_direct(struct kunit *test)
+> +{
+> +       if (!IS_ENABLED(CONFIG_BUG))
+> +               kunit_skip(test, "requires CONFIG_BUG");
+> +
+> +       kunit_warning_suppress(test) {
+> +               WARN(1, "This backtrace should be suppressed");
+> +               /*
+> +                * Count must be checked inside the scope; the handle
+> +                * is not accessible after the block exits.
+> +                */
+> +               KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
+> +       }
+> +       KUNIT_EXPECT_FALSE(test, kunit_has_active_suppress_warning());
+> +}
+> +
+> +static noinline void trigger_backtrace_warn(void)
+> +{
+> +       WARN(1, "This backtrace should be suppressed");
+> +}
+> +
+> +static void backtrace_suppression_test_warn_indirect(struct kunit *test)
+> +{
+> +       if (!IS_ENABLED(CONFIG_BUG))
+> +               kunit_skip(test, "requires CONFIG_BUG");
+> +
+> +       kunit_warning_suppress(test) {
+> +               trigger_backtrace_warn();
+> +               KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
+> +       }
+> +}
+> +
+> +static void backtrace_suppression_test_warn_multi(struct kunit *test)
+> +{
+> +       if (!IS_ENABLED(CONFIG_BUG))
+> +               kunit_skip(test, "requires CONFIG_BUG");
+> +
+> +       kunit_warning_suppress(test) {
+> +               WARN(1, "This backtrace should be suppressed");
+> +               trigger_backtrace_warn();
+> +               KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 2);
+> +       }
+> +}
+> +
+> +static void backtrace_suppression_test_warn_on_direct(struct kunit *test=
+)
+> +{
+> +       if (!IS_ENABLED(CONFIG_BUG))
+> +               kunit_skip(test, "requires CONFIG_BUG");
+> +
+> +       kunit_warning_suppress(test) {
+> +               WARN_ON(1);
+> +               KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
+> +       }
+> +}
+> +
+> +static noinline void trigger_backtrace_warn_on(void)
+> +{
+> +       WARN_ON(1);
+> +}
+> +
+> +static void backtrace_suppression_test_warn_on_indirect(struct kunit *te=
+st)
+> +{
+> +       if (!IS_ENABLED(CONFIG_BUG))
+> +               kunit_skip(test, "requires CONFIG_BUG");
+> +
+> +       kunit_warning_suppress(test) {
+> +               trigger_backtrace_warn_on();
+> +               KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
+> +       }
+> +}
+> +
+> +static void backtrace_suppression_test_count(struct kunit *test)
+> +{
+> +       if (!IS_ENABLED(CONFIG_BUG))
+> +               kunit_skip(test, "requires CONFIG_BUG");
+> +
+> +       kunit_warning_suppress(test) {
+> +               KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 0);
+> +
+> +               WARN(1, "suppressed");
+> +               KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
+> +
+> +               WARN(1, "suppressed again");
+> +               KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 2);
+> +       }
+> +}
+> +
+> +static void backtrace_suppression_test_active_state(struct kunit *test)
+> +{
+> +       KUNIT_EXPECT_FALSE(test, kunit_has_active_suppress_warning());
+> +
+> +       kunit_warning_suppress(test) {
+> +               KUNIT_EXPECT_TRUE(test, kunit_has_active_suppress_warning=
+());
+> +       }
+> +
+> +       KUNIT_EXPECT_FALSE(test, kunit_has_active_suppress_warning());
+> +
+> +       kunit_warning_suppress(test) {
+> +               KUNIT_EXPECT_TRUE(test, kunit_has_active_suppress_warning=
+());
+> +       }
+> +
+> +       KUNIT_EXPECT_FALSE(test, kunit_has_active_suppress_warning());
+> +}
+> +
+> +static void backtrace_suppression_test_multi_scope(struct kunit *test)
+> +{
+> +       struct kunit_suppressed_warning *sw1, *sw2;
+> +
+> +       if (!IS_ENABLED(CONFIG_BUG))
+> +               kunit_skip(test, "requires CONFIG_BUG");
+> +
+> +       sw1 =3D kunit_start_suppress_warning(test);
+> +       trigger_backtrace_warn_on();
+> +       WARN(1, "suppressed by sw1");
+> +       kunit_end_suppress_warning(test, sw1);
+> +
+> +       sw2 =3D kunit_start_suppress_warning(test);
+> +       WARN(1, "suppressed by sw2");
+> +       kunit_end_suppress_warning(test, sw2);
+> +
+> +       KUNIT_EXPECT_EQ(test, kunit_suppressed_warning_count(sw1), 2);
+> +       KUNIT_EXPECT_EQ(test, kunit_suppressed_warning_count(sw2), 1);
+> +}
+> +
+> +struct cross_kthread_data {
+> +       bool was_active;
+> +       struct completion done;
+> +};
+> +
+> +static int cross_kthread_fn(void *data)
+> +{
+> +       struct cross_kthread_data *d =3D data;
+> +
+> +       d->was_active =3D kunit_has_active_suppress_warning();
+> +       complete(&d->done);
+> +       while (!kthread_should_stop())
+> +               schedule();
+> +       return 0;
+> +}
+> +
+> +static void backtrace_suppression_test_cross_kthread(struct kunit *test)
+> +{
+> +       struct cross_kthread_data data;
+> +       struct task_struct *task;
+> +
+> +       data.was_active =3D false;
+> +       init_completion(&data.done);
+> +
+> +       kunit_warning_suppress(test) {
+> +               task =3D kthread_run(cross_kthread_fn, &data, "kunit-cros=
+s-test");
+> +               KUNIT_ASSERT_FALSE(test, IS_ERR(task));
+> +               wait_for_completion(&data.done);
+> +               kthread_stop(task);
+> +       }
+> +
+> +       KUNIT_EXPECT_FALSE(test, data.was_active);
+> +}
+> +
+> +static struct kunit_case backtrace_suppression_test_cases[] =3D {
+> +       KUNIT_CASE(backtrace_suppression_test_warn_direct),
+> +       KUNIT_CASE(backtrace_suppression_test_warn_indirect),
+> +       KUNIT_CASE(backtrace_suppression_test_warn_multi),
+> +       KUNIT_CASE(backtrace_suppression_test_warn_on_direct),
+> +       KUNIT_CASE(backtrace_suppression_test_warn_on_indirect),
+> +       KUNIT_CASE(backtrace_suppression_test_count),
+> +       KUNIT_CASE(backtrace_suppression_test_active_state),
+> +       KUNIT_CASE(backtrace_suppression_test_multi_scope),
+> +       KUNIT_CASE(backtrace_suppression_test_cross_kthread),
+> +       {}
+> +};
+> +
+> +static struct kunit_suite backtrace_suppression_test_suite =3D {
+> +       .name =3D "backtrace-suppression-test",
+> +       .test_cases =3D backtrace_suppression_test_cases,
+> +};
+> +kunit_test_suites(&backtrace_suppression_test_suite);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("KUnit test to verify warning backtrace suppression")=
+;
+>
+> --
+> 2.53.0
+>
 
