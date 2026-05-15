@@ -1,46 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3B923EAA4;
-	Fri, 15 May 2026 12:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8784A311C2C;
+	Fri, 15 May 2026 13:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778849251; cv=none; b=j4KT1oC+Mw4OOwYHrBKFhIC7nm79C9m2DYC1GoqP34t1yrFgIBnjYYsIgp8lGiYLkWAeRL5HWEc8VExVP2TaaEELhJ36MVIXLXxTdsMbXtlMPEc9oz+M+KhFAqBFd7XxdlTb/YziKbTfSKCI2DshSNd0jVSHu/+O5q+80sy+aow=
+	t=1778850889; cv=none; b=tDprRJpNYyDqu5I26A6i4uJf7cA1WhkMIO+5tdBNAr5qS2uEZjYeC0E43ot6rAYqBg23ca0gTJ/RVYoWXfPMV601mNknUdVK10CsUQ1SzxN0Zu6XI07kFJ47xPMo/Np9HZUQb12W/3Knnopf5x7SGcrOZH6qoDYbBqk8tZ+/N/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778849251; c=relaxed/simple;
-	bh=RutxBLw/fTqyWYne9ALFxGxyYBTrKY4dBcGpCUx/QLM=;
+	s=arc-20240116; t=1778850889; c=relaxed/simple;
+	bh=4DW1KFLKdY0r9Kt85uXfYMWGPLMqHEQnYtena6SVqwc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s/vXb38MEd3LGKbObNlz2AXx+e5iwDBUgcZEiea+fnHfd8NBth1oiORZCh8yvU6THAEWcfLxWVc3aTdKZEOIF0Cf1Pzx43MJlgihp+xQ7biAP4pfECLtub9fhY/XuUu3/XePyBU3NQORMRFdtKkh9NNCPHngsKCYo+wmM58Kkkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EOqYLJxf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=u8Yw8vnoxwxdv/CtuBaj5xZZ4pXwqknObLVC0Lmfscuvby4b6oqV2wTjV0Rwsbo7sKXQnKcgg48Ez+s3RC536hOkwe4Wktrg/aZQxi0qvRnWVQvDQfGPjH3FtPKINboAVTUUagBCQX6YPzQoOVSGOifULOZUwGnGo9zNtZ6SXVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=YO6HHuhT; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EOqYLJxf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 065FCC2BCB7;
-	Fri, 15 May 2026 12:47:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778849250;
-	bh=RutxBLw/fTqyWYne9ALFxGxyYBTrKY4dBcGpCUx/QLM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EOqYLJxfBaT3DbXlN83O21rR2IWjpFpD16bBcbsEFx+OwTxbhNN8iNRxIdg03WBX2
-	 g7HhVxvca6FcFAZc39BfEDW0kd2AvxAElL5X4jNDWx+6L0xYfbtYLasXHr4hOESWI6
-	 50MLH7eiRkxoftXw93sMVQ5SOAM5SsRk0DExr2wJOyPWOa+75JWEviB1Edo/nSLOcD
-	 skcDlEbcV+BFAdOUQmhVehP644dOep+jnmoWJSRd76omn+4GVHDDu38RU3hyvvTrBJ
-	 unreLhq+tgTsVGEpkopvbOf6c476Fp8EMpAs56uI9rhnV6XEoFTYwX7B5BHeyx41LJ
-	 rZhGMYQr2nmdA==
-Date: Fri, 15 May 2026 18:17:22 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Aksh Garg <a-garg7@ti.com>
-Cc: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kwilczynski@kernel.org, bhelgaas@google.com, corbet@lwn.net, kishon@kernel.org, 
-	skhan@linuxfoundation.org, lukas@wunner.de, cassel@kernel.org, alistair@alistair23.me, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, s-vadapalli@ti.com, 
-	danishanwar@ti.com, srk@ti.com
-Subject: Re: [PATCH v3 3/4] PCI: endpoint: Add API for DOE initialization and
- setup in EPC core
-Message-ID: <mn7rnqdunp4mq45a7ypf26rfpzjr2gik7w4p7hpj4x3r3fzfzz@dlrsn27u5mbf>
-References: <20260427051725.223704-1-a-garg7@ti.com>
- <20260427051725.223704-4-a-garg7@ti.com>
- <m4z3q3pe3ro5vkl4uq4zkewpjdqccgeact2hj4tjnkonttx4vr@ndan37zzwgxc>
- <3853ba15-d096-4cf4-b52f-8a2e5f50fe53@ti.com>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="YO6HHuhT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description;
+	bh=Pmx2rneBBjmIsZbvqyQI5Qj38w0M3wSqScjqM675SPE=; b=YO6HHuhTFg9PhNc1fOrsmCg0l2
+	coFCfL/HXWdkEJQ/NNKVRj19rXWjjJl5HBw6M88KuaCjeYzYEPxkD/PkxEoOUOEpDSXao2gSZ5fNV
+	y2r2DTZTvmnVMIM7EDLOTJKm80si4Z51/LIYtXbCGrLWy68gBkSfDd3begZfr1Tl9UpTgOTCJY8k3
+	larcZFhBbwn6Ob9lxog2bbdoGpydWJoRKteQBRuuG59KTjRkgsoB1omyQ2EO0LFmGAFwi8y4O91SP
+	UuCvmx/NcPNmSfXVwpJq08KpkIpKycDMtaozxfkO3MZka5q8HtenV+xPq1+8eNV+rO49xWD9L4NcB
+	YfFZfRSg==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wNsMf-004kzr-03;
+	Fri, 15 May 2026 13:14:05 +0000
+Date: Fri, 15 May 2026 06:13:58 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Lance Yang <lance.yang@linux.dev>
+Cc: linmiaohe@huawei.com, akpm@linux-foundation.org, david@kernel.org, 
+	ljs@kernel.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, shuah@kernel.org, nao.horiguchi@gmail.com, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, liam@infradead.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v7 2/6] mm/memory-failure: surface unhandlable kernel
+ pages as -ENOTRECOVERABLE
+Message-ID: <agcbfLHT5ZWnNeN0@gmail.com>
+References: <agXcPleVC9LGVCmj@gmail.com>
+ <20260515070353.87244-1-lance.yang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,80 +56,172 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3853ba15-d096-4cf4-b52f-8a2e5f50fe53@ti.com>
+In-Reply-To: <20260515070353.87244-1-lance.yang@linux.dev>
+X-Debian-User: leitao
 
-On Fri, May 15, 2026 at 10:21:52AM +0530, Aksh Garg wrote:
+On Fri, May 15, 2026 at 03:03:53PM +0800, Lance Yang wrote:
 > 
+> On Thu, May 14, 2026 at 07:37:14AM -0700, Breno Leitao wrote:
+> >On Thu, May 14, 2026 at 09:28:30PM +0800, Lance Yang wrote:
+> >> 
+> >> On Wed, May 13, 2026 at 08:39:33AM -0700, Breno Leitao wrote:
+> >> >get_any_page() collapses three different failure modes into a single
+> >> >-EIO return:
+> >> >
+> >> >  * the put_page race in the !count_increased path;
+> >> >  * the HWPoisonHandlable() rejection that bounces out of
+> >> >    __get_hwpoison_page() with -EBUSY and exhausts shake_page() retries;
+> >> >  * the HWPoisonHandlable() rejection that goes through the
+> >> >    count_increased / put_page / shake_page retry loop.
+> >> >
+> >> >The first is transient (the page is racing with the allocator).  The
+> >> >second can be either transient (a userspace folio briefly off LRU
+> >> >during migration/compaction) or stable (slab/vmalloc/page-table/
+> >> >kernel-stack pages).  The third describes a stable kernel-owned page
+> >> >that the count_increased=true caller already held a reference on.
+> >> >
+> >> >Distinguish them on the return path: keep -EIO for both the put_page
+> >> >race and the -EBUSY-after-retries branch (shake_page() cannot drag a
+> >> >folio back from active migration, so we cannot prove the page is
+> >> >permanently kernel-owned from there), keep -EBUSY for the allocation
+> >> >race (unchanged), and return -ENOTRECOVERABLE only from the
+> >> >count_increased-true HWPoisonHandlable() rejection that exhausts its
+> >> >retries -- the caller's reference is structural evidence that the
+> >> >page is owned by the kernel.
+> >> >
+> >> >Extend the unhandlable-page pr_err() to fire for either errno and
+> >> >update the get_hwpoison_page() kerneldoc.
+> >> >
+> >> >memory_failure() still folds every negative return into
+> >> >MF_MSG_GET_HWPOISON via its existing "else if (res < 0)" branch, so
+> >> >this patch is a no-op for users of memory_failure() and only changes
+> >> >the errno that soft_offline_page() can propagate to its callers.  A
+> >> >follow-up wires the new return code through memory_failure() and
+> >> >reports MF_MSG_KERNEL for the unrecoverable cases.
+> >> >
+> >> >Suggested-by: David Hildenbrand <david@kernel.org>
+> >> >Signed-off-by: Breno Leitao <leitao@debian.org>
+> >> >---
+> >> > mm/memory-failure.c | 18 +++++++++++++++---
+> >> > 1 file changed, 15 insertions(+), 3 deletions(-)
+> >> >
+> >> >diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> >> >index 49bcfbd04d213..bae883df3ccb2 100644
+> >> >--- a/mm/memory-failure.c
+> >> >+++ b/mm/memory-failure.c
+> >> >@@ -1408,6 +1408,15 @@ static int get_any_page(struct page *p, unsigned long flags)
+> >> > 				shake_page(p);
+> >> > 				goto try_again;
+> >> > 			}
+> >> >+			/*
+> >> >+			 * Return -EIO rather than -ENOTRECOVERABLE: this
+> >> >+			 * branch is also reached for pages that are merely
+> >> >+			 * off-LRU transiently (e.g. a folio in the middle
+> >> >+			 * of migration or compaction), which shake_page()
+> >> >+			 * cannot drag back.  The caller cannot prove the
+> >> >+			 * page is permanently kernel-owned from here, so
+> >> >+			 * keep it on the recoverable errno.
+> >> >+			 */
+> >> > 			ret = -EIO;
+> >> > 			goto out;
+> >> > 		}
+> >> >@@ -1427,10 +1436,10 @@ static int get_any_page(struct page *p, unsigned long flags)
+> >> > 			goto try_again;
+> >> > 		}
+> >> > 		put_page(p);
+> >> >-		ret = -EIO;
+> >> >+		ret = -ENOTRECOVERABLE;
+> >> > 	}
+> >> > out:
+> >> >-	if (ret == -EIO)
+> >> >+	if (ret == -EIO || ret == -ENOTRECOVERABLE)
+> >> > 		pr_err("%#lx: unhandlable page.\n", page_to_pfn(p));
+> >> > 
+> >> > 	return ret;
+> >> >@@ -1487,7 +1496,10 @@ static int __get_unpoison_page(struct page *page)
+> >> >  *         -EIO for pages on which we can not handle memory errors,
+> >> >  *         -EBUSY when get_hwpoison_page() has raced with page lifecycle
+> >> >  *         operations like allocation and free,
+> >> >- *         -EHWPOISON when the page is hwpoisoned and taken off from buddy.
+> >> >+ *         -EHWPOISON when the page is hwpoisoned and taken off from buddy,
+> >> >+ *         -ENOTRECOVERABLE for stable kernel-owned pages the handler
+> >> >+ *         cannot recover (PG_reserved, slab, vmalloc, page tables,
+> >> >+ *         kernel stacks, and similar non-LRU/non-buddy pages).
+> >> 
+> >> Did you test this patch series? I don't see how we ever get to
+> >> -ENOTRECOVERABLE there ...
+> >
+> >Yes, I did. I am using the following test case:
 > 
-> On 14/05/26 13:38, Manivannan Sadhasivam wrote:
-> > On Mon, Apr 27, 2026 at 10:47:24AM +0530, Aksh Garg wrote:
-> > > Add pci_epc_setup_doe() API in EPC core driver to initialize and setup
-> > > the DOE framework for an endpoint controller. The API discovers the DOE
-> > > capabilities (extended capability ID 0x2E), and registers each discovered
-> > > DOE mailbox for all the functions in the endpoint controller. This API
-> > > should be invoked by the controller driver during probe based on the
-> > > doe_capable feature.
-> > > 
-> > > Add pci_epc_destroy_doe() API in EPC core driver for cleanup of DOE
-> > > resources, which should be invoked by the controller driver during
-> > > controller cleanup based on the doe_capable feature.
-> > > 
-> > > Co-developed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> > > Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> > > Signed-off-by: Aksh Garg <a-garg7@ti.com>
-> > > ---
-> > > 
-> > > Changes from v2 to v3:
-> > > - Rebased on 7.1-rc1.
-> > > 
-> > > Changes since v1:
-> > > - New patch added to v2 (not present in v1)
-> > > 
-> > > v2: https://lore.kernel.org/all/20260401073022.215805-4-a-garg7@ti.com/
-> > > 
-> > > This patch is introduced based on the feedback provided by Manivannan
-> > > Sadhasivam at [1].
-> > > 
-> > 
-> > Sweet! But I was expecting you to add atleast one EPC driver implementation to
-> > make use of these APIs.
-> > 
-> > Also, why can't you call these APIs from the EPC core directly? Maybe during
-> > pci_epc_init_notify() once the register accesses become valid.
+> Okay.
 > 
-> Can we add the DOE initialization API to pci_epc_init_notify()? This
-> API seems to be called to notify the EPF drivers that the EPC device's
-> initialization has been completed, as the name and description suggests.
-
-That's correct. But there is no harm in calling something like
-pci_epc_init_capabilities() inside its definition. Only concern would be that
-pci_epc_init_notify() is mostly called from threaded IRQ handlers. So loading
-the handler would not be recommended. But since it is threaded anyway and we
-don't have a better place to call, it would be OK.
-
-We could've called this from pci_epc_{create/start}, but some controllers won't
-allow accessing CSRs without REFCLK. So only after pci_init_notify(), CSRs can
-be accessed.
-
-> As 'pci_epc_doe_setup' is a part of EPC initialization, I thought the
-> EPC drivers should call this API before calling the pci_epc_init_notify().
+> >https://github.com/leitao/linux/commit/cfebe84ddeab5ac34ed456331db980d57e7025dc
+> >
+> >	# RUN_DESTRUCTIVE=1 tools/testing/selftests/mm/hwpoison-panic.sh
+> >	# enabling /proc/sys/vm/panic_on_unrecoverable_memory_failure
+> >	# injecting hwpoison at phys 0x2a00000 (Kernel rodata)
+> >	# expecting kernel panic: 'Memory failure: <pfn>: unrecoverable page'
+> >	[  501.113256] Memory failure: 0x2a00: recovery action for reserved kernel page: Ignored
+> >	[  501.113956] Kernel panic - not syncing: Memory failure: 0x2a00: unrecoverable page
+> >
+> >
+> >> Even with MF_COUNT_INCREASED, the first pass does:
+> >> 
+> >> 	if (flags & MF_COUNT_INCREASED)
+> >> 		count_increased = true;
+> >> 
+> >> 	[...]
+> >> 
+> >> 	if (PageHuge(p) || HWPoisonHandlable(p, flags)) {
+> >> 		ret = 1;
+> >> 	} else {
+> >> 		if (pass++ < GET_PAGE_MAX_RETRY_NUM) { <-
+> >> 			put_page(p);
+> >> 			shake_page(p);
+> >> 			count_increased = false;
+> >> 			goto try_again; <-
+> >> 		}
+> >> 		put_page(p);
+> >> 		ret = -ENOTRECOVERABLE;
+> >> 	}
+> >> 
+> >> Then we come back with count_increased=false:
+> >> 
+> >> try_again:
+> >> 	if (!count_increased) {
+> >> 		ret = __get_hwpoison_page(p, flags); <-
+> >> 		if (!ret) {
+> >> 		[...]
+> >> 		} else if (ret == -EBUSY) { <-
+> >> 		[...]
+> >> 			ret = -EIO;
+> >> 			goto out; <-
+> >> 		}
+> >> 	}
+> >> 
+> >> For slab/vmalloc/page-table pages, __get_hwpoison_page() returns -EBUSY:
+> >> 
+> >> 	if (!HWPoisonHandlable(&folio->page, flags))
+> >> 		return -EBUSY;
+> >> 
+> >> so they still seem to end up as -EIO ... Am I missing something?
+> >
+> >You are not, and thanks for catching this. I traced it again and the
+> >-ENOTRECOVERABLE branch is unreachable for slab/vmalloc/page-table pages
+> >exactly as you described. The __get_hwpoison_page() → -EBUSY → shake → retry
+> >loop catches them first and they exit as -EIO.
 > 
-> However, I agree with your suggestion to call the DOE setup API directly
-> from the EPC core instead of sprinkling over the EPC drivers. I would
-> recommend renaming the pci_epc_init_notify() API (and hence the
-> pci_epc_deinit_notify() as well) to something like pci_epc_init_complete(),
-> and add the DOE setup API/logic just before the
-> logic of notifying the EPF devices.
+> Wonder if it would be simpler to just do a positive check near the top
+> of get_any_page() instead. Something like:
 > 
+> static bool hwpoison_unrecoverable_kernel_page(struct page *page,
+> 						unsigned long flags)
 
-No need to rename this API. Just use as is:
+Ack. We probably want to call it something like HWPoisonKernelOwned() to
+follow the same naming sematics of these helpers, such as HWPoisonHandlable()
 
-	pci_epc_init_notify()
-		-> pci_epc_init_capabilities()
-			-> pci_epc_init_doe()
-		-> epf->event_ops->epc_init()
+By the way, I will re-include the self test back to this patch series,
+In case they are not useful, we do not merge it.
 
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+Thanks for the review,
+--breno
