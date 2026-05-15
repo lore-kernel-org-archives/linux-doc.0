@@ -1,354 +1,304 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010022.outbound.protection.outlook.com [52.101.193.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBE330C144;
-	Fri, 15 May 2026 21:13:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778879610; cv=fail; b=dL1XrnsCDWn7FqxIxO9HmoR68Dsn98igJZORrvudeSOmeoF1TXtU8/5EO214XMYiJhAsCBdoTrM1BCIgAk5QGgV7Ldkaczmuz4XVQ8GuQrNcV8CDN67aV8ZxXv4AEtwOb5MMRz017YZ9wxeYMN9sHgATA5zx6NiMcSJNht3gMbM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778879610; c=relaxed/simple;
-	bh=HHqXfPiqC02Zv0O21odd7ZTyANNtYFVtgBOx8uYjdjc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=C37vcAR3ufWqjc5186l6JmeKiI0WMeYcPkezV/m3vDs9juPkiTx2uir5MpLB6UDl9wbQ2VkbaNO9PjZg1xr8t52csDveuYgtD+Mi9XeEcrGCCoovm+39AWlVWR+APYjxYlkdYqeRYysHtbJ7kMigCtFPrz4f1spMJkledDszRPo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=cPq5lhZZ; arc=fail smtp.client-ip=52.101.193.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446BD3E1D0F
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 21:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778879655; cv=none; b=dTwvcyweRhllz5zQGarPidARW8kxqrdEXfyUS6UI2SXWQrDMpKVfsb38FE7byjFkLmiuOvw8fuvfQZagCxJIv35VaVavXHTIdNOC5439S3qmvcw+ozr6IcyV56byNsgWxkjURUCkbUBNMet6e1Ke6br1srqfB/Npv+NXMPQuTWQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778879655; c=relaxed/simple;
+	bh=rFYaUaAT16Cmq71pIwaII1M5sgICxN3WJjU+oZD6zvs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W8DbAmKXiTQDPSkzI1Q9UCOW6lt32KvLPpi9LJYwx+H5H9fN4hOlNQxW090DQ/RIhSWAQKMez54K1lC05HAFSpE2wkaBQTu/+uZsh6MbOHhZ7Q1y8Okc/bqXsaAjR7GNfVzHiYvebYUQ6aw4Zss6zzN4b9gyRiIizcxP1iNvrMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eh7qIjCV; arc=none smtp.client-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="cPq5lhZZ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mWrRBMsavYjO+DunDdQpQRi/pxOpKNMV+FHhahTtLDAUA0kCNpAeGyYQajxoHVl7c3+TsH2Wcxcom/UZFaSlYplxv1U8nS6DYqdncbj5H1Q/8P2coga8dAm8mfUKqzNQtwBot8pLYYno7nzi+ttrsf6mMmgmEORO4t2YHZyOw5MgAJeJsqTMczgZu5loBTXUbMqIL81Omb2NQOUlpYZvUWzPiNQz3UhfyzDiijnrMg69wmB7AU58O6jM6j96oJISslz5YV68PmVHq4Qg8LoE9JlWDqe46o1dclvD7aBbaIw8EwSrEXeI6Va3a9ivFR1Un2ryqw4DYUhWL3lEuR9FPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BnFkzP5o+vgRcNsplXFxDF3G50mqLctsHOICex6HK+s=;
- b=koEN9eWSdRRuD6QA3iTBu6rX4QvXwQdH/5v1f3HxPGzztJMOwUKXMOP8pX1itPXSUozHLOkqvsqjDjZwaou8OCO2T5tZE1X/xxt/+zYUiaN6kqFWPtqM5ew+BkjhFbPtLcBClsFUU4jaT3g0+vmYK8qC8nvurfhKDQNYNpyBfDdag1LRg8qwfjjL8youtgjf5Ac3q3Lj2vbsNqFa2zMfi9AmEoxAfNvRe3XUD5ehsJtd/Yp2xNo2/s+aKCA1Dgv+AoFyrkDW857VKKtuZpV/eOzcp6G7TiEhd4P4SRTSkwNavpzAmYpXMQqmZO+3XFzOoKhye3JYKq+ggVg6nFV5LA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BnFkzP5o+vgRcNsplXFxDF3G50mqLctsHOICex6HK+s=;
- b=cPq5lhZZFlRVTm4KjXFOSdUuQdT+s/PnbwlqWp4jLpY2DkG3j1+fKewX3GDpftlbyDflYv1V+VyTTTzXvSP9c4dHttOkkChd4HjuUZnbDu6qCuQpU4x/IV/epUh99aaygmwk+dVmHs0W6PHIE2E7TjK2biMIhoCq/3CrISDw4A0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DSVPR12MB999147.namprd12.prod.outlook.com (2603:10b6:8:38b::11)
- by DS0PR12MB8368.namprd12.prod.outlook.com (2603:10b6:8:fe::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.18; Fri, 15 May
- 2026 21:13:25 +0000
-Received: from DSVPR12MB999147.namprd12.prod.outlook.com
- ([fe80::98c5:8206:6a4:c445]) by DSVPR12MB999147.namprd12.prod.outlook.com
- ([fe80::98c5:8206:6a4:c445%3]) with mapi id 15.20.9870.023; Fri, 15 May 2026
- 21:13:25 +0000
-Message-ID: <bf521e4e-1aa5-49ce-bec5-52845f02214e@amd.com>
-Date: Fri, 15 May 2026 16:13:22 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] cpufreq: CPPC: add autonomous mode boot parameter
- support
-Content-Language: en-US
-To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, pierre.gondois@arm.com, ionela.voinescu@arm.com,
- zhenglifeng1@huawei.com, zhanjie9@hisilicon.com, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, linux-pm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
- vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
- mochs@nvidia.com, bbasu@nvidia.com
-References: <20260515122624.1920637-1-sumitg@nvidia.com>
- <20260515122624.1920637-3-sumitg@nvidia.com>
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20260515122624.1920637-3-sumitg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7PR04CA0083.namprd04.prod.outlook.com
- (2603:10b6:806:121::28) To DSVPR12MB999147.namprd12.prod.outlook.com
- (2603:10b6:8:38b::11)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eh7qIjCV"
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-12ddbe104ccso178040c88.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 14:14:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778879652; x=1779484452; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mZWDYSQL0KY9ESsVCDJnFdENr1SKqKscOsf4LFzsjVs=;
+        b=Eh7qIjCVEsaKhcH/uTf8ZTh1yNmAdX4amJcXFgk5WpPvfyincAYECewqjQHDXk47Yj
+         DtMzo7AP3wKhjTRcQ62aSFvaRoBNJKlfQV21wO6lNJQ0/5sU9M4DpaSC5grOo7TEHxQ6
+         fEMLYX+Ea6Juv+TO7vzSTW95oTuDmFumWkqjH8QyISYaJTz5mOwRDh3xx6SwVQEh0suH
+         fvdHqrNnkYdfs3Y9YTOtrTj6U+FO+rudKMghwdwhmznPK3MFQvVRSMMSzYO/SNkIpqCL
+         0iiPnMIqxLQaDUpm7g8X8gd3uZCEzF4xSHzOZjVsQSFPE1s8pr6Df5Gs5ntr9ytUbCqq
+         XGlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778879652; x=1779484452;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mZWDYSQL0KY9ESsVCDJnFdENr1SKqKscOsf4LFzsjVs=;
+        b=ARw83HsF9w4zrBn3Q1uQ/KEXfp35VFWeO7fzypwpOYbE/Iuz4YYeA3Ul0Ko8X/8WiL
+         IYunoPi0WlOGA3Rfe5sKMHWugrr4KA2gINsXrCRAaSPzAzNH32snuHmXa/DYYSq/5Av7
+         W6SN08zjDKn9TmWTlyW0E6CiyzjBBxJqcujulP9RB94vkSDmh4gYy2HwE4cmbmMQEPtP
+         UFDKrhDajDV1hQgeH9FQ5wClYwY6UTheqOisYh7/emLpb0bu5PwjlsPQNI6ZbJH0Y7RJ
+         rSA/yx5EsXfp4qZCY+xAvnj4xCMYuWIW3zlxpSAkh6iCq509y/1AZW8ecg93fhlYPF1Z
+         Uksw==
+X-Forwarded-Encrypted: i=1; AFNElJ+ZD4DmtMCTpY0Hv4H9vbvAl4o4Iv5ClQTkJioTcDrBSZ3aYJjuyaFeImcRyH5Altgd9lrjZEnSBfY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywq/ht9ZonZusOMDD40C/hIZ1oR53Yu1duSzJeBJVair7qOGfE1
+	yU4rxllwGpiwjXrCK4ntV2B4T53vbef+rXyov/2QqMMwdJQbSe390wX1
+X-Gm-Gg: Acq92OHCA9zfmxwXK3KWEKfPnDLzqew7xueHRYApae4mihiyDgYvXRoqnrHpoMJeDH3
+	LGMfv6JIY1ItoFHM2LHuc8UzHjbIRi5KojR1AcGz59fDvJNbNTs42yLB7pK2Sa5CF2ks6UZYF1B
+	nFL99mCxqtm9cZaK367dVdBYYox5zolLuPWXI9/NX+oMwN0iF7na4QFjGStb0FPCjMetN592d8k
+	UAC7UdgtE+QxuqklKwMIhSOXJIt166KbbEfcOTmHusQisusNTZyr0DrqC/z1IaXlBHMNI32nup6
+	yP+uW+DSia3bdglWD0j671VvvgELoWai6Qh1p8G2tNDLXID5tQXMRi9MA1jCCAeKI78a8vNk2ek
+	Tr6AxQApVjGJQqhdNRiXwc34kBsgfQPrV7SBfmyF3ddJVQXHfkvB38bR28Gd2Wf4R3f/0TBdsnW
+	61cpf+N/+HfQVKzMIPtrsV94RSWaYgYH8=
+X-Received: by 2002:a05:7022:b8f:b0:130:6978:c96 with SMTP id a92af1059eb24-13504738d6cmr2812237c88.19.1778879652253;
+        Fri, 15 May 2026 14:14:12 -0700 (PDT)
+Received: from mimas.lan ([2603:8000:df01:38f7:a6bb:6dff:fecf:e71a])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cbdcf140sm11362043c88.5.2026.05.15.14.14.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 14:14:11 -0700 (PDT)
+From: Ross Philipson <ross.philipson@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	x86@kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	kexec@lists.infradead.org,
+	linux-efi@vger.kernel.org,
+	iommu@lists.linux.dev
+Cc: ross.philipson@gmail.com,
+	dpsmith@apertussolutions.com,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	hpa@zytor.com,
+	dave.hansen@linux.intel.com,
+	ardb@kernel.org,
+	mjg59@srcf.ucam.org,
+	James.Bottomley@hansenpartnership.com,
+	peterhuewe@gmx.de,
+	jarkko@kernel.org,
+	jgg@ziepe.ca,
+	luto@amacapital.net,
+	nivedita@alum.mit.edu,
+	herbert@gondor.apana.org.au,
+	davem@davemloft.net,
+	corbet@lwn.net,
+	ebiederm@xmission.com,
+	dwmw2@infradead.org,
+	baolu.lu@linux.intel.com,
+	kanth.ghatraju@oracle.com,
+	daniel.kiper@oracle.com,
+	andrew.cooper3@citrix.com,
+	trenchboot-devel@googlegroups.com
+Subject: [PATCH v16 00/38] x86: Secure Launch support for Intel TXT
+Date: Fri, 15 May 2026 14:13:32 -0700
+Message-ID: <20260515211410.31440-1-ross.philipson@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DSVPR12MB999147:EE_|DS0PR12MB8368:EE_
-X-MS-Office365-Filtering-Correlation-Id: f29a2f41-2f09-487b-c0ad-08deb2c6cd30
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|4143699003|11063799003|3023799003|18002099003|56012099003|921020|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	5AnRVaQRuKKw11cocN1xYSaMRgE4Dv4oKNe16NR3wzAROCOH/ialW/q50+s6PQDYlYRdcBOu7BVAtWh/VI/8tsgllCg329g642JlvOGzPqTtqojMQh9GbgO6gkl3EudtTf8VLUgQaClumzeYgVYQV6zC9Rz4skxh/HcbTh2tni4jzNcg/thfKm/8ieijm7GsCm8Wi45rorS5reLGon0GoA4t7bm5gZjE87RMlTGej72Y1LkyG9OptRY9Ni2xzpX5dbE1A6dadIO+3A+d57jOGKNUscQFjmw1HVyteIA7mJjoRpnr5MizTDXW8WQtV2HQZSrMe7jFD9LjIv1577IpYVF2t5Add0huK4pCThzu81WAuo+Ygr//5lYkyn0tg+VNu4r4Gv/v+TviIjyc61ytkhnbce2ktUr+Dre1ve94H4zz3hCyA3lr0luCw6oREQ+cEHqAA9qqUA9stTKsen02doCjESgtgm0z93Tno3EpY23Qc2xrwc/5y9TMRk0oXmTJRaxZrJP8903uCFO0T799twelq4ZJkZ7S/dudRvnKaVKfXiJxbEITgf2DdwtYzbLgC87jF7jjCAKLtHnnKM7MrtZba8p0TS9AtQuEWKke14eBD5cNIIlgV3uvmV+/MlFhZilMQcz+KHBVosyQbLAeoyF8LLVKz2yBR+UqqoWICg3n3VFNtvyJUap6vmGlYUlK2oM26u455sYta08vJt2/tH8tHFuUjcInBhlnloXSyJvVWQS/2WbjI8aC2fmBI87e
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DSVPR12MB999147.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(4143699003)(11063799003)(3023799003)(18002099003)(56012099003)(921020)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NnV2bS8ycVVYQVdtRTlJbFRGenNxdkxwY2lCT3FubWxHSlZkc3F5K2JlM3ky?=
- =?utf-8?B?OUVFNTcxcW5nOTBvdUxFcVNURDJJOGpMRDVJbk5CbDErb2EzVkNaejZyZGlk?=
- =?utf-8?B?TDh5OGtUY3owVjlkL0pDNmxoSzVsWG15R1VnSlBya2dBRjlBa3JEM3pjN0x4?=
- =?utf-8?B?OUlWbTV1aHZZQWlHSWMxVVA4YnZhVzFvSXdRcFU5ZytBNUpKTWYzNTVVOVk3?=
- =?utf-8?B?cEF0dU0vWWhLMVdaY0syUkoxRnlJTENUQitFMGo2LzFQM2dhRHZvWW50YUht?=
- =?utf-8?B?bmNVQ1dyaTYvTUhuckVZMCs1clRHVlR6OXIrdzhWeXlNWTZoN2JNc3p4Wmh5?=
- =?utf-8?B?T25HR2U4dGVYWjAzUTFRSk9rNVZBU0JhR2E0dkY2YmFwK05jaVRhSnRobHky?=
- =?utf-8?B?Ni9LWldZdi83c1NPeDFxOE85d0t1VGN1V3pQemZWaGwxTXBpYXd0RXhKa2tW?=
- =?utf-8?B?b2UxOEgzeDZBRFJMVlhlaTFwYzVtd1NiZkxGY1ZLbXVnVXVaM1pQSEVqeDY3?=
- =?utf-8?B?RTVSd1VteUsrYmpZbnhJaTFaUVFYaDg3OFlOZVNLSnF3Y1cyek9hQnRFRlVT?=
- =?utf-8?B?ZjJoeU9hSlRmWFR2SlZjNG9MeFBzM3oxTTQ5UlY4UmVGMFYwUGF3T3lhV2E4?=
- =?utf-8?B?QzBoZ3dSYUJIK3JrL2Y4aFFNVlhQQWpvaE50WFlPbEt1WW9SUzdudkZPMk5D?=
- =?utf-8?B?QXo3TVJpWU1FWVkxRlovZFF0WFd3dmhnRjRyL1VGOHJyWTF6cjRyT29qMEZQ?=
- =?utf-8?B?S2R1WWw1NmNTVDQzelA5RVFPUlBhQzRQUGJ5RjZzRzMzTnJTZm5VNG50U3NF?=
- =?utf-8?B?VDJoeDlKRS92RXFYbTFFWVgyaHVJRHJBVVpjS0xJMlBkSWhOcUQzUyszMU43?=
- =?utf-8?B?bjYva3VuRXpFcnN5c29YOVNIdGo5ekNDS1FtM1hJeTlQeSttUG5TN2xmNW1X?=
- =?utf-8?B?K2pyR2FRYlp6eUpnTktoNm1OSms4RVRDZXpocC9BN0VhcmdERHE3ZUFhL05a?=
- =?utf-8?B?OHowRDJNUk1pbkxIakExTXNPWmNiR1B5RkV3WDhUU0RIVjFpeHBqTkRFbkZI?=
- =?utf-8?B?SFl6YXBxYk43aGtCSHJqWW5Xa0U1b2FKZFQwMWp5NnFjcmZtbXR5QVNFQWpW?=
- =?utf-8?B?Mmdnamg0MGhYY09oY2lHdHFmbDFPTml3K2tPK0M5VkJkSVZjcWZtZFU2dWZ2?=
- =?utf-8?B?cm1pV3BXaEZyNGhrUzZYUmNybTB5V052UjRZVG00SXlTREpXbnpTeDRSeFFw?=
- =?utf-8?B?Qk5zSkxreExoT3J2WG9BcHI5WWR3bllNZkZzWlNHR3RJVGY0bVVVVDJxaDZt?=
- =?utf-8?B?dUc3L09CV1dYUEhlMnZJbWlWRVRISzBTLzNESmVRbmVlYlUwbjd3RXc3V3I1?=
- =?utf-8?B?RkhFeTlML01CRzN3ZWgwcFJDTFB0Y0FhUUZoMXBOOXRjUXRQaGR4aFROQXdM?=
- =?utf-8?B?Mlp0and3Z1llUDVFcVNiaXRXaVR3Lytpd0pscWZ4N0RKaFhUdFJJbmZndWp5?=
- =?utf-8?B?VjdBWDh4c213K05ab1BVdFcvd0tJbW5MYzZhdkdGZ0txUXdIRVhXNFlrNEh5?=
- =?utf-8?B?c0N4SU5meVBPcWhuUDJ1UVZQWHVBUXVFU0I0bFhjSEdTSlZKOTlWK2FqRWcy?=
- =?utf-8?B?T0RrS0VibHlrRk9mSCtBR0FDOWVRZEtnQ01KcmM2eFB5azhUKzZnTW4zVk9u?=
- =?utf-8?B?dWZxZ1hDd2t6ckhBRS9hVlByMHlWZm5ZazlzRXA2cmFDWVJrUHE2bHFib0VI?=
- =?utf-8?B?OEZYd2dWNW5aZWdsK011eVpPb0cvczFvcXhPVGx3V3BsK0xEZXp3RUFDQmoy?=
- =?utf-8?B?OFZEaW54VFFYZlc4UlZ2TEdRT1BnRWRHVXBGTEg3RXk4MzhiM2pHUURSYWpl?=
- =?utf-8?B?Y2VuNnc4Z3ZlUU01RElvNFpmNXNndjdyY0V1b1V6dStqQXhIVjk5VlpGZEVz?=
- =?utf-8?B?V0dPREt4ZC9GSnZtMU1GNDNERUpNQ2dQbkt6aFBvL3dnVjFXL3dlNmlaZUdG?=
- =?utf-8?B?elVKZ0VwL004anl4T1Z6LzVKOUN5MVFlQXduZkZZSTlnOWU1bVFCRFNxcy8r?=
- =?utf-8?B?OG5jMEgzTEtacFNCbTRRRjg5QlRhYWdRVGc0UUFidlhxSW03MnJ6ZzdwRkVR?=
- =?utf-8?B?dHZoaGlhWml5T0M1TlI0YmRwclZYdGVFbXFTY2p4cklXdldsOGJXZGlyeHox?=
- =?utf-8?B?VHJrZHM2emMyVkRpbDBiTnpKMEE2SHRoV1o3SjRYM3RMSzhyVHA2c0JVc2U3?=
- =?utf-8?B?cm9GcVBvRW8wWGZTaXh1YWN6Q3IzWHdiYW5udlFZc1I1QWo0c2Q3elA4bDdw?=
- =?utf-8?B?ZG5wY1lTMm01WThlaWIxYStuTi9UbUZQSTFZNnBoeHRqQVJkS0ptZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f29a2f41-2f09-487b-c0ad-08deb2c6cd30
-X-MS-Exchange-CrossTenant-AuthSource: DSVPR12MB999147.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2026 21:13:25.0918
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hi5SctPl0QwNK3TKd59QLqpDjCqcEhYMjv+I9GjM7xwzMTeFdL5GZWqEJZTnxTLc9MhEPMOEy5dhZfoSImQQvA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8368
+Content-Transfer-Encoding: 8bit
 
+Secure Launch is a vendor-neutral approach to implementing TGC Dynamic
+Root of Trust (DRTM) support in the kernel. This is complementary to
+better known Static Root of Trust (SRTM) schemes such as UEFI
+SecureBoot.
 
+This series provides the common infrastructure along with Intel TXT
+support, without needing the tboot exokernel. Support for AMD SKINIT is
+pending the common infrastructure getting nailed down, and ARM are
+looking to build on it too.
 
-On 5/15/26 07:26, Sumit Gupta wrote:
-> Add a kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
-> CPPC autonomous performance selection on all CPUs at system startup.
-> When autonomous mode is enabled, the hardware automatically adjusts
-> CPU performance based on workload demands using Energy Performance
-> Preference (EPP) hints.
-> 
-> When the parameter is set:
-> - Configure all CPUs for autonomous operation on first init
-> - Use HW min/max_perf when available; otherwise initialize from caps
-> - Initialize desired_perf to max_perf as a starting hint
-> - Hardware controls frequency instead of the OS governor
-> - EPP behavior depends on parameter value:
->    - performance (or 1): override EPP to performance preference (0x0)
->    - default_epp (or 2): preserve EPP value programmed by BIOS/firmware
-> 
-> The boot parameter is applied only during first policy initialization.
-> Skip applying it on CPU hotplug to preserve runtime sysfs configuration.
-> 
-> This patch depends on patch series [1] ("cpufreq: Set policy->min and
-> max as real QoS constraints") so that the policy->min/max set in
-> cppc_cpufreq_cpu_init() are not overridden by cpufreq_set_policy()
-> during init.
-> 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
-> [1] https://lore.kernel.org/lkml/20260511135538.522653-1-pierre.gondois@arm.com/
-> ---
->   .../admin-guide/kernel-parameters.txt         |  16 +++
->   drivers/cpufreq/cppc_cpufreq.c                | 122 +++++++++++++++++-
->   2 files changed, 133 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 0eb64aab3685..7e4b3a8fd76f 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1048,6 +1048,22 @@ Kernel parameters
->   			policy to use. This governor must be registered in the
->   			kernel before the cpufreq driver probes.
->   
-> +	cppc_cpufreq.auto_sel_mode=
-> +			[CPU_FREQ] Enable ACPI CPPC autonomous performance
-> +			selection. When enabled, hardware automatically adjusts
-> +			CPU frequency on all CPUs based on workload demands.
-> +			In Autonomous mode, Energy Performance Preference (EPP)
-> +			hints guide hardware toward performance (0x0) or energy
-> +			efficiency (0xff).
-> +			Requires ACPI CPPC autonomous selection register
-> +			support.
-> +			Accepts:
-> +			  performance, 1: enable auto_sel + set EPP to
-> +					  performance (0x0)
-> +			  default_epp, 2: enable auto_sel, preserve EPP value
-> +					  programmed by BIOS/firmware
-> +			Unset: cpufreq governors are used (auto_sel disabled).
+Originally, tboot were approached to see if they'd take support for
+other vendors, but they elected not to. Hence this approach instead.
 
-Rather than unset doing nothing, have you considered having it take a 
-midpoint like 128?  That's what we do in amd-pstate (default to 
-balance_performance).  I think it turns into a reasonable balance.
+Work is being coordinated by the Trenchboot project,
+https://trenchboot.org/, organising Secure Launch support for upstream
+open source projects including Grub, iPXE and Xen. The goal of the
+Trenchboot project is to make DTRM easy to use, e.g. GRUB adds "slaunch"
+as a command in the boot stanza. See
+https://trenchboot.org/user-docs/QUICKSTART/#linux-quick-start-guide for
+more details
 
-> +
->   	cpu_init_udelay=N
->   			[X86,EARLY] Delay for N microsec between assert and de-assert
->   			of APIC INIT to start processors.  This delay occurs
-> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-> index 6b54427b52e1..5f4d735e7c7d 100644
-> --- a/drivers/cpufreq/cppc_cpufreq.c
-> +++ b/drivers/cpufreq/cppc_cpufreq.c
-> @@ -28,6 +28,43 @@
->   
->   static struct cpufreq_driver cppc_cpufreq_driver;
->   
-> +/* Autonomous Selection boot parameter modes */
-> +enum {
-> +	AUTO_SEL_PERFORMANCE = 1,
-> +	AUTO_SEL_DEFAULT_EPP = 2,
-> +};
-> +
-> +static int auto_sel_mode;
-> +
-> +static int auto_sel_mode_set(const char *val, const struct kernel_param *kp)
-> +{
-> +	if (sysfs_streq(val, "performance") || sysfs_streq(val, "1"))
-> +		*(int *)kp->arg = AUTO_SEL_PERFORMANCE;
-> +	else if (sysfs_streq(val, "default_epp") || sysfs_streq(val, "2"))
-> +		*(int *)kp->arg = AUTO_SEL_DEFAULT_EPP;
-> +	else
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static int auto_sel_mode_get(char *buffer, const struct kernel_param *kp)
-> +{
-> +	switch (*(int *)kp->arg) {
-> +	case AUTO_SEL_PERFORMANCE:
-> +		return sysfs_emit(buffer, "performance\n");
-> +	case AUTO_SEL_DEFAULT_EPP:
-> +		return sysfs_emit(buffer, "default_epp\n");
-> +	default:
-> +		return sysfs_emit(buffer, "disabled\n");
-> +	}
-> +}
-> +
-> +static const struct kernel_param_ops auto_sel_mode_ops = {
-> +	.set = auto_sel_mode_set,
-> +	.get = auto_sel_mode_get,
-> +};
-> +
->   #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
->   static enum {
->   	FIE_UNSET = -1,
-> @@ -715,11 +752,75 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
->   	policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
->   	cpu_data->perf_ctrls.desired_perf =  caps->highest_perf;
->   
-> -	ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-> -	if (ret) {
-> -		pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
-> -			 caps->highest_perf, cpu, ret);
-> -		goto out;
-> +	/*
-> +	 * Enable autonomous mode on first init if boot param is set.
-> +	 * Check last_governor to detect first init and skip if auto_sel
-> +	 * is already enabled.
-> +	 */
-> +	if (auto_sel_mode && policy->last_governor[0] == '\0' &&
-> +	    !cpu_data->perf_ctrls.auto_sel) {
-> +		/* Init min/max_perf from caps if not already set by HW. */
-> +		if (!cpu_data->perf_ctrls.min_perf)
-> +			cpu_data->perf_ctrls.min_perf = caps->lowest_nonlinear_perf;
-> +		if (!cpu_data->perf_ctrls.max_perf)
-> +			cpu_data->perf_ctrls.max_perf = policy->boost_enabled ?
-> +				caps->highest_perf : caps->nominal_perf;
-> +
-> +		/*
-> +		 * In autonomous mode desired_perf is only a hint; EPP and
-> +		 * the platform drive actual selection within [min, max].
-> +		 * Initialize it to max_perf so HW starts at the upper bound.
-> +		 */
-> +		cpu_data->perf_ctrls.desired_perf = cpu_data->perf_ctrls.max_perf;
-> +
-> +		policy->cur = cppc_perf_to_khz(caps,
-> +					       cpu_data->perf_ctrls.desired_perf);
-> +
-> +		/*
-> +		 * Override EPP only in 'performance' mode; 'default_epp' mode
-> +		 * preserves the BIOS/firmware programmed EPP value.
-> +		 * EPP is optional - some platforms may not support it.
-> +		 */
-> +		if (auto_sel_mode == AUTO_SEL_PERFORMANCE) {
-> +			ret = cppc_set_epp(cpu, CPPC_EPP_PERFORMANCE_PREF);
-> +			if (ret && ret != -EOPNOTSUPP)
-> +				pr_warn("Failed to set EPP for CPU%d (%d)\n", cpu, ret);
-> +			else if (!ret)
-> +				cpu_data->perf_ctrls.energy_perf = CPPC_EPP_PERFORMANCE_PREF;
-> +		}
-> +
-> +		/* Program min/max/desired into CPPC regs (non-fatal on failure). */
-> +		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-> +		if (ret)
-> +			pr_warn("set_perf failed CPU%d (%d); using HW values\n",
-> +				cpu, ret);
-> +
-> +		ret = cppc_set_auto_sel(cpu, true);
-> +		if (ret && ret != -EOPNOTSUPP)
-> +			pr_warn("auto_sel CPU%d failed (%d); using OS mode\n",
-> +				cpu, ret);
-> +		else if (!ret)
-> +			cpu_data->perf_ctrls.auto_sel = true;
-> +	}
-> +
-> +	if (cpu_data->perf_ctrls.auto_sel) {
-> +		/* Sync policy limits from HW when autonomous mode is active */
-> +		policy->min = cppc_perf_to_khz(caps,
-> +					       cpu_data->perf_ctrls.min_perf ?:
-> +					       caps->lowest_nonlinear_perf);
-> +		policy->max = cppc_perf_to_khz(caps,
-> +					       cpu_data->perf_ctrls.max_perf ?:
-> +					       (policy->boost_enabled ?
-> +						caps->highest_perf :
-> +						caps->nominal_perf));
-> +	} else {
-> +		/* Normal mode: governors control frequency */
-> +		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-> +		if (ret) {
-> +			pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
-> +				 caps->highest_perf, cpu, ret);
-> +			goto out;
-> +		}
->   	}
->   
->   	cppc_cpufreq_cpu_fie_init(policy);
-> @@ -1079,10 +1180,21 @@ static int __init cppc_cpufreq_init(void)
->   
->   static void __exit cppc_cpufreq_exit(void)
->   {
-> +	unsigned int cpu;
-> +
-> +	for_each_present_cpu(cpu)
-> +		cppc_set_auto_sel(cpu, false);
-> +
->   	cpufreq_unregister_driver(&cppc_cpufreq_driver);
->   	cppc_freq_invariance_exit();
->   }
->   
-> +module_param_cb(auto_sel_mode, &auto_sel_mode_ops, &auto_sel_mode, 0444);
-> +MODULE_PARM_DESC(auto_sel_mode,
-> +		 "Enable CPPC autonomous performance selection at boot: "
-> +		 "performance or 1 (EPP=performance), "
-> +		 "default_epp or 2 (preserve BIOS/firmware EPP)");
-> +
->   module_exit(cppc_cpufreq_exit);
->   MODULE_AUTHOR("Ashwin Chaugule");
->   MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+ spec");
+Patch set based on commit:
+torvalds/master/028ef9c96e96197026887c0f092424679298aae8
+(tag: v7.0) Linux 7.0
+
+Finally we would like to thank everyone for their input and
+assistance. It has all been very helpful in improving the quality of
+our solution and in reviewing/strengthening our security posture.
+
+Thanks
+Ross Philipson and Daniel P. Smith
+
+Changes in v16:
+
+ - Moved Secure Launch entry point out of the x86 setup kernel into the
+   mainline kernel.
+ - Add EFI protocol support for DL stub callback.
+ - Add SHA 384/512 PCR extend support.
+ - Rewrote Secure Launch kernel documentation.
+ - Updated the reorganization of TPM header and buffer related files.
+ - TXT early heap parsing support.
+ - Corrected commit messages and tag lists per review feedback.
+ - Fix code formatting and typos.
+
+Changes in v15:
+
+ - Rewriting and reformatting of the cover letter, commit message and
+   code comments per requests from maintainers.
+ - Introduction of a early TPM driver in the x86 setup kernel to allow
+   TPM extend command very early in the boot.
+ - Remove previous TPM extending architecture that attempted to update
+   the TPM PCRs later in the boot process.
+ - Include set of split up TPM header files to allow TPM driver reuse
+   in other environments (e.g. early kernel, x86).
+ - Split slaunch.h into 2 files, with a new txt.h. The former contains
+   platform agnostic definitions for the SL feature. The new txt.h file
+   contains Intel TXT definitions from the public specs.
+ - Split TPM headers up following the specifications where the
+   technologies are defined.
+ - Fix code formatting and typos.
+
+Alec Brown (1):
+  tpm: Remove main TPM header from TPM event log header
+
+Ard Biesheuvel (3):
+  x86/boot: Slight refactor of the 5 level paging logic
+  x86/efistub: EFI stub DRTM support for Secure Launch
+  x86/boot: Legacy boot DRTM support for Secure Launch
+
+Daniel P. Smith (9):
+  tpm/tpm_tis: Close all localities
+  tpm/tpm_tis: Address positive localities in tpm_tis_request_locality()
+  tpm/tpm_tis: Allow locality to be set to a different value
+  tpm/sysfs: Show locality used by kernel
+  Documentation/security: Secure Launch kernel documentation
+  x86: Add early SHA-1 support for Secure Launch early measurements
+  x86: Add early SHA-256 support for Secure Launch early measurements
+  x86: Add early SHA-384/512 support for Secure Launch early
+    measurements
+  x86/slaunch: Secure Launch late initcall platform module
+
+Jarkko Sakkinen (3):
+  tpm-buf: Merge TPM_BUF_BOUNDARY_ERROR and TPM_BUF_OVERFLOW
+  tpm-buf: Remove chip parameter from tpm_buf_append_handle()
+  tpm-buf: Implement managed allocations
+
+Ross Philipson (22):
+  tpm: Initial step to reorganize TPM public headers
+  tpm: Move TPM1 specific definitions to the command header
+  tpm: Move TPM2 specific definitions to the command header
+  tpm: Move TPM common base definitions to the command header
+  tpm: Move platform specific definitions to the new PTP header
+  tpm-buf: Add TPM buffer support header for standalone reuse
+  x86: Secure Launch Kconfig
+  x86: Secure Launch Resource Table header file
+  x86/efi: Secure Launch Resource Table EFI definitions header file
+  x86: Secure Launch main header file
+  x86/txt: Intel Trusted eXecution Technology (TXT) definitions
+  lib/crypto: Add SHA1 support for pre-boot environments
+  lib/crypto: Add SHA512 support for pre-boot environments
+  x86: Allow WARN_trap() macro to be included in pre-boot environments
+  x86/msr: Add variable MTRR base/mask and x2apic ID registers
+  x86/tpm: Early startup TPM PCR extending driver
+  x86/slaunch: Add MLE header and Secure Launch entrypoint to the core
+    kernel
+  x86/slaunch: Secure Launch kernel early boot initialization
+  x86/slaunch: Secure Launch kernel late boot initialization
+  x86/slaunch: Secure Launch SMP bringup support
+  kexec/slaunch: Secure Launch kexec SEXIT support
+  reboot/slaunch: Secure Launch SEXIT support on reboot paths
+
+ Documentation/arch/x86/boot.rst               |   8 +
+ Documentation/arch/x86/zero-page.rst          |   1 +
+ Documentation/security/index.rst              |   1 +
+ .../security/launch-integrity/index.rst       |   9 +
+ .../launch-integrity/secure_launch.rst        | 681 ++++++++++++++
+ arch/x86/Kconfig                              |  15 +
+ arch/x86/boot/compressed/Makefile             |   2 +-
+ arch/x86/boot/compressed/misc.c               |  55 +-
+ arch/x86/boot/compressed/pgtable_64.c         |  18 +-
+ arch/x86/boot/startup/Makefile                |   8 +
+ arch/x86/boot/startup/exports.h               |   7 +
+ arch/x86/boot/startup/lib-sha1.c              |   6 +
+ arch/x86/boot/startup/lib-sha256.c            |   6 +
+ arch/x86/boot/startup/lib-sha512.c            |   6 +
+ arch/x86/boot/startup/sl_main.c               | 638 +++++++++++++
+ arch/x86/boot/startup/tpm.h                   |  47 +
+ arch/x86/boot/startup/tpm_drv.c               | 567 ++++++++++++
+ arch/x86/include/asm/boot.h                   |   4 +
+ arch/x86/include/asm/bug.h                    |   8 +-
+ arch/x86/include/asm/msr-index.h              |   5 +
+ arch/x86/include/asm/realmode.h               |   3 +
+ arch/x86/include/asm/txt.h                    | 281 ++++++
+ arch/x86/include/uapi/asm/bootparam.h         |   3 +-
+ arch/x86/kernel/Makefile                      |   3 +
+ arch/x86/kernel/asm-offsets.c                 |  22 +
+ arch/x86/kernel/reboot.c                      |  14 +
+ arch/x86/kernel/setup.c                       |   3 +
+ arch/x86/kernel/sl_stub.S                     | 847 ++++++++++++++++++
+ arch/x86/kernel/slaunch.c                     | 619 +++++++++++++
+ arch/x86/kernel/slmodule.c                    | 353 ++++++++
+ arch/x86/kernel/smpboot.c                     |  47 +-
+ arch/x86/kernel/vmlinux.lds.S                 |   5 +
+ arch/x86/realmode/init.c                      |   8 +
+ arch/x86/realmode/rm/header.S                 |   3 +
+ arch/x86/realmode/rm/trampoline_64.S          |  32 +
+ arch/x86/tools/relocs.c                       |   1 +
+ drivers/char/tpm/tpm-buf.c                    | 148 +--
+ drivers/char/tpm/tpm-chip.c                   |  35 +-
+ drivers/char/tpm/tpm-sysfs.c                  |  31 +-
+ drivers/char/tpm/tpm.h                        | 180 ----
+ drivers/char/tpm/tpm1-cmd.c                   | 193 ++--
+ drivers/char/tpm/tpm2-cmd.c                   | 338 +++----
+ drivers/char/tpm/tpm2-sessions.c              | 144 ++-
+ drivers/char/tpm/tpm2-space.c                 |  57 +-
+ drivers/char/tpm/tpm_tis_core.c               |  24 +-
+ drivers/char/tpm/tpm_tis_core.h               |  64 +-
+ drivers/char/tpm/tpm_vtpm_proxy.c             |  30 +-
+ drivers/firmware/efi/libstub/Makefile         |   1 +
+ drivers/firmware/efi/libstub/efistub.h        |  24 +
+ drivers/firmware/efi/libstub/x86-slaunch.c    |  38 +
+ drivers/firmware/efi/libstub/x86-stub.c       |  27 +-
+ drivers/iommu/intel/dmar.c                    |   4 +
+ include/keys/trusted_tpm.h                    |   1 -
+ include/linux/slaunch.h                       | 262 ++++++
+ include/linux/slr_efi.h                       |  40 +
+ include/linux/slr_table.h                     | 339 +++++++
+ include/linux/tpm.h                           | 234 +----
+ include/linux/tpm_buf.h                       |  57 ++
+ include/linux/tpm_command.h                   | 516 ++++++++++-
+ include/linux/tpm_eventlog.h                  |   4 +-
+ include/linux/tpm_ptp.h                       | 151 ++++
+ kernel/kexec_core.c                           |   8 +
+ lib/crypto/sha1.c                             |  10 +-
+ lib/crypto/sha512.c                           |  10 +-
+ security/keys/trusted-keys/trusted_tpm1.c     |  37 +-
+ security/keys/trusted-keys/trusted_tpm2.c     | 171 ++--
+ 66 files changed, 6385 insertions(+), 1129 deletions(-)
+ create mode 100644 Documentation/security/launch-integrity/index.rst
+ create mode 100644 Documentation/security/launch-integrity/secure_launch.rst
+ create mode 100644 arch/x86/boot/startup/lib-sha1.c
+ create mode 100644 arch/x86/boot/startup/lib-sha256.c
+ create mode 100644 arch/x86/boot/startup/lib-sha512.c
+ create mode 100644 arch/x86/boot/startup/sl_main.c
+ create mode 100644 arch/x86/boot/startup/tpm.h
+ create mode 100644 arch/x86/boot/startup/tpm_drv.c
+ create mode 100644 arch/x86/include/asm/txt.h
+ create mode 100644 arch/x86/kernel/sl_stub.S
+ create mode 100644 arch/x86/kernel/slaunch.c
+ create mode 100644 arch/x86/kernel/slmodule.c
+ create mode 100644 drivers/firmware/efi/libstub/x86-slaunch.c
+ create mode 100644 include/linux/slaunch.h
+ create mode 100644 include/linux/slr_efi.h
+ create mode 100644 include/linux/slr_table.h
+ create mode 100644 include/linux/tpm_buf.h
+ create mode 100644 include/linux/tpm_ptp.h
+
+-- 
+2.47.3
 
