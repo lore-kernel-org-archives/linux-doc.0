@@ -1,82 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1234E3F44EA
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 22:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D79E405C41;
+	Fri, 15 May 2026 22:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778883163; cv=none; b=Qszynbpc9HwpLoryZldDLmyKDG3dBBH61h2uHuU/bVNMzcsuUvpFaBuP7isH18VrnhiLZhR7a2xt/WXdZTnJ60TNPAqpp8ZQsQY6FPnj33juPZheudy6CWffV/GpHjPhM9qNYClz/BRs2xo/XhTbPNr2nqBhLvTCdNjeme6NTck=
+	t=1778883300; cv=none; b=Kr7ywacJaM6KWWUfuD2ScIPuwRddsOtLOVWs02dolt8cQqdikQOyiA7qPTxakRx7Iik5kyU/1HzT7kuf6XKar1McdDLQIaXjolDYR4powEYoKwEZiCgo1G90WgE+155V4iscOFOzu3yHGjaCC1GkODvkt+1jyRDEyWiRMBrV8po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778883163; c=relaxed/simple;
-	bh=Xo9RN/YaHlAbWe60yDn3HcJADUDb6frVOkoaJStZf5s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p0F6lHTTWHEQwwLLRKv5mnObmtRCx0pOWnE04GeouCMDc7JJ63IQjh4H3WP3rGe1MA3fn4YjYARkJR5s8uh8yRSUNXG+dEo0+srtnTz9ZW9F91rmsInBBoqTZ4VPZGkno3Qy7lU4IgvCAaqnbFVCpkxMJTxYljdcAxB5c+yv724=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tv+IRzby; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778883300; c=relaxed/simple;
+	bh=jtBOm2uPnQYFmHSs1M/Yo/0rcke+5LEHR4oPThHOhZc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rrY+1FhGWf3UfiUG1F3qZ/ATUxI0pfdvehZJBUtHwSi+/MsmHHHn0Clm17jD64sBvVxj6YQH5saYkaIUfBrsvbeEh0QJf2fd0lVvjVBcHPmy+mlhc27Lrav7ObYgxZEQMlRhcul2NOKaoRxeq9F1UgbizTIhTkUnHsVzZPG2gpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iiVNrNKX; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tv+IRzby"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF6D5C2BCF5
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 22:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778883162;
-	bh=Xo9RN/YaHlAbWe60yDn3HcJADUDb6frVOkoaJStZf5s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tv+IRzby0Wc1y1AfRAfBW3nKPJfKGSdDUKMAC83W6JZ/dYSjgCeuFvnvRb+k2fDWh
-	 xbo5tF45ctQN2+lUP3uiBUSdgPOAi+Wx+0tkvg+4pJup5eskAOQTJlwp6phqJcshLI
-	 zwma6B6kmV2AJ2QU39YgSPGY+7u3MZcxTeE3mLdPCH/vhNyTGPwjMe4zxLH36reM8B
-	 Aer/b8HC7tlHs6JLUSTc8CC6m60eU8oVJuXGFC3sjcHNI2tTjQrIJ4E+efJOd+l39W
-	 8dpKuDtdYrLdKdfWZ3TWstbmXaMPftJx2DJhHT9Ud2qtgOsF/sPz15MPQ/jP7lSeCE
-	 kkkwEGkOg5Eqg==
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-65c5361142fso700160d50.0
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 15:12:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+d0N4hP1wq+rCqwS/oyPCgm3KhzD/jV9gG9WpS7pgmfrBrm8+MRwJmHJn6jtqBtGRs01pNMW6XxiU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM0BCsfpWewyU3hM5PKYKlXgDfFuOGjFJWba/ot5a+0nkHzRt1
-	YIOcVHRKD4wYkes24t7PZzzMjaq5bE+WCmDrnt4PF9WXupqiX9jAXv98ixJSpLDfmpdgFwmqiq6
-	UVRm5CnWQUugTePn37ArwqA01mv2OIzJVt1of/JhgpQ==
-X-Received: by 2002:a05:690e:14c4:b0:64e:f106:60ea with SMTP id
- 956f58d0204a3-65e22807f82mr6158139d50.44.1778883162092; Fri, 15 May 2026
- 15:12:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iiVNrNKX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=1zobbfP4WB+3+tnZ3vazEKyIHxBQmbIB/DheGdu717s=; b=iiVNrNKXTsWSokzcQ919SL720G
+	O/TkcfxKmdlMg+fgOOcgbUHgrQbfR7uNLTxklxsuXzYoI8vvvbAoT8VkSOm1dm0j46SHOdn2hhld+
+	7aHSuxcdQtUXDpRpJNlJbFTceu8QKixWs/HbEQsV8QpgLY3ItQmFAIRhnC5/gDwhUXamV/2clFEyF
+	ANaEaeRasQjB0Z4cvvu3BpWJ3vXpi3fEvkuzsfl0j18t/Zl+c+P4SAMlTaF8tTZLk0AbrzB9gtAD6
+	65c/FEnwS4l86rBW01G7SVI1E0NzxW9W2SCoHYayBNuLJ7dtTA9FjgreemAl2qM7J9vI4BObllToC
+	YaVC617w==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wO0o2-00000009bil-0mKg;
+	Fri, 15 May 2026 22:14:54 +0000
+Message-ID: <b4516579-c4bf-4ddd-843a-30d4a4992519@infradead.org>
+Date: Fri, 15 May 2026 15:14:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512053625.2950900-1-hch@lst.de> <20260512053625.2950900-10-hch@lst.de>
-In-Reply-To: <20260512053625.2950900-10-hch@lst.de>
-From: Chris Li <chrisl@kernel.org>
-Date: Fri, 15 May 2026 15:12:31 -0700
-X-Gmail-Original-Message-ID: <CACePvbVPV55SgPmivqMX+bP8H7FKcSAbWCwAe5icgZjZV9vUNA@mail.gmail.com>
-X-Gm-Features: AVHnY4LtC3KSyPNEsLh1ud1t2IOob9XfSBaYZO4ouG71LQM8qOS5lvZuuzrl4N0
-Message-ID: <CACePvbVPV55SgPmivqMX+bP8H7FKcSAbWCwAe5icgZjZV9vUNA@mail.gmail.com>
-Subject: Re: [PATCH 09/12] swap: push down setting sis->bdev into ->swap_activate
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Kairui Song <kasong@tencent.com>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	David Sterba <dsterba@suse.com>, "Theodore Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>, 
-	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, Carlos Maiolino <cem@kernel.org>, 
-	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, May 11, 2026 at 10:37=E2=80=AFPM Christoph Hellwig <hch@lst.de> wro=
-te:
->
-> Only the file operation method knows what block device we'll swap
-> to.  So move down setting sis->bdev and the special blockdev flag
-> into ->swap_activate.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] cpufreq: CPPC: add autonomous mode boot parameter
+ support
+To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
+ viresh.kumar@linaro.org, pierre.gondois@arm.com, ionela.voinescu@arm.com,
+ zhenglifeng1@huawei.com, zhanjie9@hisilicon.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, mario.limonciello@amd.com,
+ linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+ vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
+ mochs@nvidia.com, bbasu@nvidia.com
+References: <20260515122624.1920637-1-sumitg@nvidia.com>
+ <20260515122624.1920637-3-sumitg@nvidia.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260515122624.1920637-3-sumitg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-The core swap part of the code looks fine to me, I did not look much
-deeper into the fs side.
 
-Ack-by: Chris Li <chrisl@kernel.org>
+On 5/15/26 5:26 AM, Sumit Gupta wrote:
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 0eb64aab3685..7e4b3a8fd76f 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1048,6 +1048,22 @@ Kernel parameters
+>  			policy to use. This governor must be registered in the
+>  			kernel before the cpufreq driver probes.
+>  
+> +	cppc_cpufreq.auto_sel_mode=
+> +			[CPU_FREQ] Enable ACPI CPPC autonomous performance
 
-Chris
+I just noticed that we should have both CPU_FREQ and CPU_IDLE added to the
+legend (meanings) section at the very beginning of this file, but that
+doesn't have to be part of this patch.
+
+> +			selection. When enabled, hardware automatically adjusts
+> +			CPU frequency on all CPUs based on workload demands.
+> +			In Autonomous mode, Energy Performance Preference (EPP)
+> +			hints guide hardware toward performance (0x0) or energy
+> +			efficiency (0xff).
+> +			Requires ACPI CPPC autonomous selection register
+> +			support.
+> +			Accepts:
+> +			  performance, 1: enable auto_sel + set EPP to
+> +					  performance (0x0)
+> +			  default_epp, 2: enable auto_sel, preserve EPP value
+> +					  programmed by BIOS/firmware
+> +			Unset: cpufreq governors are used (auto_sel disabled).
+
+-- 
+~Randy
+
