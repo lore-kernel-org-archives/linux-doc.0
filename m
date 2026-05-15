@@ -1,270 +1,238 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E529A405C45
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 21:16:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CAF6365A1A;
+	Fri, 15 May 2026 21:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778879764; cv=none; b=Z6PQhXNuPRCBGOtVVye41iN7sRhy7MSdtBgn66sjX6bR6TN0AfUtwPAcigOEQoQGy5T+TpFwmXKQVrClRgfDPxEIcgyRX0znhA5IRoOIAhbzIsE4+VrB8mZ+vrhafhvIQya2L76DMexQlJ5oxesI4frTFgNjWyugBNMtKdeCp9k=
+	t=1778881141; cv=none; b=btxcc6oa83/EGc3OKUPUKBVGQb3wmKgylqxqNWH7yKDG0/BIZ8MBBH72QeiUEa2gGI5wDjz2bUraiEy84RKcROv2RLxOqvigqsO5Kgq6Lb3HadcpubBJKmNE9O71wtmEvUpFPAAzI3aFiwUKAHSvuc0u+aDtNAKh1yy7ZjAyZH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778879764; c=relaxed/simple;
-	bh=Yb8MnWED6Q7bAT/hqKNGG8lkKmGIJFI2VweKIbS2p4w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C6xBnOeuoBbzX5TXGo69P9IoSLviLponpVPLZOmjw4jP+gC6KI5QYeVqqz4DL2XwuJTYAImaBu9wL3boTrBrz1SN445UoPWEzGkDxreTTm7PRcyAmesJGqg19Q+/ypgbV7dudY06jIzLSQe+0LYHWjCcfSBSYtCd12uikw+rqjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BF56TtPm; arc=none smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778881141; c=relaxed/simple;
+	bh=gtqm1+szNLp2jwNm6jjF6Mm1t3vnsm1dmQ641nHywG0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OLLKIChWwacarDBY3hMW8J1oecDJESg60uIKWSuYs0cWHPhW+T8HNVLIqqe4TuN0EaK8iiDrnU/fIdVLEhoB6hUZhV3gCv59n308Z7ajm9VexKvprphzT9vDzPjxTBiYD0IyV1i2+9xBBFUYTrUBdb2FQIzaPV6zcRPQImK6S0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=cXyEcIrq; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BF56TtPm"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-132830d8281so952069c88.1
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 14:16:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778879761; x=1779484561; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UCBpSoWd+DzhR5w/L2qTUePdSLNQuDLLzBvZ0vft3Fw=;
-        b=BF56TtPmbTq/ykC8PdHqLL2T52MU6o1OuGFsPhF6ynYNpWVBeiSvCagbcZxtobjddA
-         xexaxNpjpT7SjCuVkLzRxN1AiPOoYkIe3NCnWxNp8aEWbCIaIjx9ozVYBYKc69mHI3t1
-         cmhkh4WEmi7Ax0rxbTg9QkQpikFSs1q0NqeF3bEFDZn03MJX7OsocK3Sr/O8UlpX/P4Y
-         IcczdzzNyATeOkj00G7LTkEmkHAk7flzvVbai4qA4ibYRHCbnjVIwocwTADiEtvJTKI1
-         JWoSdHMS7BnisdwKjfCIzp8ncdxHCX1VIPaHE7wrI6lrms4o/Dp1o7D3YCFluVOHP+v3
-         lukg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778879761; x=1779484561;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UCBpSoWd+DzhR5w/L2qTUePdSLNQuDLLzBvZ0vft3Fw=;
-        b=Y5md+IlJF8Sw7jvC4FeloCfw3Zzv1h2um8ypSQk5eNxV8rAMIy2KouNkmLoFAMQqpC
-         SrpQ1d6/BC0jblJRj34Rr0C7IqLcWuwyx3rC1Hw62U2p3tZ0666vgSCauuRviDOfCLsW
-         8s6W+FNfrBZaBy2OTNyojxDY0XS2hrHP/R7ZeAgFR/YSc+1S7REGCWrZBV8BMfZkaw9P
-         6hl7nfLuAv2mKDWk6Ap1/jZ9OMeMfICPeB2BHOMvIzdRdy/wr1KHyGbPFL+yJqv4A9up
-         Qh2bpEjs8YXk5Y9JnqTGzEbHeMuNOvCyTH+/6ZZdtRk0U8YOej1SQJGz2DXuRlVGaWs+
-         jxfA==
-X-Forwarded-Encrypted: i=1; AFNElJ/wCgwX3PAoxIT/OoNxR5LNEZBqKxqHYMCpXTZ2oQJlkGnJ1h6V1nnMeMM2xrSQ8qiGjFuf74s+XXI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwD4bKX3E2uVcLxpZD95SBPCods3bhkFUUchYYMLZZgTXJrPgCA
-	Hf+dUgFpyD69gKEYK5DrJr5colyblvQaZIxSGh59xiXM2EfFgGYru+dP
-X-Gm-Gg: Acq92OHNEMrPHfGbvrVoj5yAFLz2f4xJCYwvD4e+sD9MUmBq4cJKnyncxhIu5qSyRnv
-	/YAmBF3DHg/38XID+F71En40OdtZhh2anZ53NgsllxE9ZBlKYW1TWZLG7h5Frr4S76JTkPaV9pJ
-	4xxf4cEVqovMuT4wi3iaETisCn0dxrr1IE83an3Zgy5B2nilezuOsf/6rpQQUfI1s6jf6udl7Sy
-	RPEtkNBRWyWegOPDQt9citr7m9D95n/jDmI+fGxOz6z9ChFWZ3jOZpurEus56b7edyjPC+WO7Cp
-	BPEv2iGGKBxbE05KXDcWKZbNjAg9BN9xU7rKX+5eHG+Kif/7LVepozzmpo0El198iY2ZVnPIB0/
-	9pFw5exjD1eCk3iykyfkp1MQPFTXUHmgHrBBFRf3DqRktZbacFyHePuy/V//Ze06z26lvWXLVpO
-	/TG+Qg0VW3r+9vTLMkcKWii3wN9hs5py0=
-X-Received: by 2002:a05:7022:1a85:b0:12d:d972:b96e with SMTP id a92af1059eb24-1350542e8e5mr2758254c88.20.1778879760953;
-        Fri, 15 May 2026 14:16:00 -0700 (PDT)
-Received: from mimas.lan ([2603:8000:df01:38f7:a6bb:6dff:fecf:e71a])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cb5b3c20sm11529163c88.0.2026.05.15.14.15.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 14:16:00 -0700 (PDT)
-From: Ross Philipson <ross.philipson@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	x86@kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	kexec@lists.infradead.org,
-	linux-efi@vger.kernel.org,
-	iommu@lists.linux.dev
-Cc: ross.philipson@gmail.com,
-	dpsmith@apertussolutions.com,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	hpa@zytor.com,
-	dave.hansen@linux.intel.com,
-	ardb@kernel.org,
-	mjg59@srcf.ucam.org,
-	James.Bottomley@hansenpartnership.com,
-	peterhuewe@gmx.de,
-	jarkko@kernel.org,
-	jgg@ziepe.ca,
-	luto@amacapital.net,
-	nivedita@alum.mit.edu,
-	herbert@gondor.apana.org.au,
-	davem@davemloft.net,
-	corbet@lwn.net,
-	ebiederm@xmission.com,
-	dwmw2@infradead.org,
-	baolu.lu@linux.intel.com,
-	kanth.ghatraju@oracle.com,
-	daniel.kiper@oracle.com,
-	andrew.cooper3@citrix.com,
-	trenchboot-devel@googlegroups.com
-Subject: [PATCH v16 38/38] x86/boot: Legacy boot DRTM support for Secure Launch
-Date: Fri, 15 May 2026 14:14:10 -0700
-Message-ID: <20260515211410.31440-39-ross.philipson@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260515211410.31440-1-ross.philipson@gmail.com>
-References: <20260515211410.31440-1-ross.philipson@gmail.com>
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="cXyEcIrq"
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id CF76027198;
+	Fri, 15 May 2026 23:38:57 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id GD6M3Ixz-pbv; Fri, 15 May 2026 23:38:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1778881137; bh=gtqm1+szNLp2jwNm6jjF6Mm1t3vnsm1dmQ641nHywG0=;
+	h=From:Subject:Date:To:Cc;
+	b=cXyEcIrqY8lE87UkP3uKV2mQt6IRFmIkW9JMsbDdNnS5JMUL6b2IVIqLdcQYHrJNI
+	 ZUkfhkjAndmW+WeJKhGhb2AxvQR1djJyCSjWVqSSvnJzEWVUQ5t3Ut54ay/NLW4m1j
+	 I6lWhnEqe0hUO3DX8BcMMCcsmcIN3mPgPagtezLXY8GJReK0V0Dtoiv4hvFp0gA8+j
+	 qMigiyklycfaBS9Xj2n5883VCipmbw6eIu8Y5WVOaLts3md4yYedyvZFjfsO04ql5y
+	 00umDfqPU18p/ZEuEKQPeA10UUfdo9qKP/LiKYm5Pq57hHtHzG58G8IznO5DUe4zHL
+	 wps0dlDs+9Phg==
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: [PATCH v7 00/10] Support for Samsung S2MU005 PMIC and its
+ sub-devices
+Date: Sat, 16 May 2026 03:08:32 +0530
+Message-Id: <20260516-s2mu005-pmic-v7-0-73f9702fb461@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAFmSB2oC/2XOy27DIBCF4VeJWJdqZriZrvoeVReYS8IicQSp1
+ SryuxdHitya5UH6fubOaiw5VvZ2uLMS51zzdGnDvByYP7nLMfIc2mYEpBCReKXzF4Di13P2HLw
+ 2yenReeFZI9cSU/5+5D4+2z7lepvKz6M+4/r6DMn/oRk5cBsFDjIIB96+h1zLNN1ep3Jka2qmJ
+ 9eApHecGjdDQmdUUtK4nouNE6kdF42P0qUYrTQaRM/lxmV3vFx/T9HIAZQxUfdc/eG056rx5Ed
+ vg1MOQPZcb1zh/njdOFpjEbS1FHZ8WZZfkF7LX+UBAAA=
+X-Change-ID: 20251112-s2mu005-pmic-0c67fa6bac3c
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Nam Tran <trannamatk@gmail.com>, 
+ =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>, 
+ Yassine Oudjana <y.oudjana@protonmail.com>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-From: Ard Biesheuvel <ardb@kernel.org>
+S2MU005 is an MFD chip manufactured by Samsung Electronics. This is
+found in various devices manufactured by Samsung and others, including
+all Exynos 7870 devices. It is known to have the following features:
 
-Implement Secure Launch D-RTM of the decompressed kernel via a
-callback interface exposed by the Secure Launch Resource Table (SLRT), a
-reference to which is added to struct boot_params.
+1. Two LED channels with adjustable brightness for use as a torch, or a
+   flash strobe.
+2. An RGB LED with 8-bit channels. Usually programmed as a notification
+   indicator.
+3. An MUIC, which works with USB micro-B (and USB-C?). For the micro-B
+   variant though, it measures the ID-GND resistance using an internal
+   ADC.
+4. A charger device, which reports if charger is online, voltage,
+   resistance, etc.
 
-This permits a boot loader to set up the Secure Launch, allow the
-decompressor to execute up to the point where it would otherwise boot the
-core kernel, and at that point, perform the Dynamic Launch Event in a
-architecture/vendor specific manner. This is similar to how EFI boot
-achieves this, using a EFI protocol exposed by the boot loader.
+This patch series implements a lot of these features. Naturally, this
+series touches upon a lot of subsystems. The 'parent' is the MFD driver,
+so the subsystems have some form of dependency to the MFD driver, so
+they are not separable.
 
-This requires that the decompressor unpacks the kernel into the buffer that
-it was started from itself, and so physical KASLR needs to be omitted
-(although the boot loader is free to place the decompressor at any
-suitably aligned locations in system memory, and so it can perform the
-physical randomization itself).
+Here are the subsystems corresponding to the patch numbers:
+dt-bindings - 01, 02, 03
+mfd         - 03, 04, 05
+led         - 01, 06, 07, 08
+extcon      - 02, 09
+power       - 10
 
-It also relies on the demand paging logic in the decompressor, to ensure
-that the SLRT and the entry point it describes are callable, at least to
-the extent that allows the callback code to re-establish its own
-execution environment.
-
-Co-developed-by: Ross Philipson <ross.philipson@gmail.com>
-Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: Ross Philipson <ross.philipson@gmail.com>
+Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
- Documentation/arch/x86/zero-page.rst  |  1 +
- arch/x86/boot/compressed/misc.c       | 51 ++++++++++++++++++++++++---
- arch/x86/boot/compressed/pgtable_64.c |  7 ++++
- arch/x86/include/uapi/asm/bootparam.h |  2 +-
- 4 files changed, 56 insertions(+), 5 deletions(-)
+Changes in v7:
+- Add missing tags collected from v5
+- Add trailing `#` in s2mu005 mfd dt-schema (Sashiko AI)
+- Squash [v6 04/11] with [v6 06/11] to prevent bisect regression (Sashiko AI)
+- Remove ack_base from regmap IRQ as not needed by hardware (Sashiko AI)
+- Update commit message of [v6 04/11] (Sashiko AI)
+- Fix reference to leds-trigger-pattern in [v6 09/11] commit (Sashiko AI)
+- Remove Kconfig `select REGMAP_IRQ` from [v6 07/11], [v6 08/11] (Sashiko AI)
+- Implement lock for s2m_fled_flash_{brightness,timeout}_set() (Sashiko AI)
+- Remove superfluous lock from s2m_fled_flash_external_strobe_set() (Sashiko AI)
+- Remove incorrect (void *) cast to s2m_fled_v4l2_flash_release() (Sashiko AI)
+- Change regmap_{s/update_bits/write} for slope setting in
+  s2mu005_rgb_apply_params() (Sashiko AI)
+- Allow for extrapolation in s2m_rgb_lut_get_closest_duration() (Sashiko AI)
+- Explicitly initialize ramp_{up,dn}_en in s2m_rgb_pattern_set() (Sashiko AI)
+- Use duplicated s2mu005_rgb_subled_info for allowing multi-driver (Sashiko AI)
+- Change s/CDP/DCP in s2mu005_muic_attach() (Sashiko AI)
+- Remove EXTCON_USB state from USB DCP (Sashiko AI)
+- Move muic_attach call to irq init, preventing undefined extcon (Sashiko AI)
+- Properly propagate errors in platform_get_irq_byname_optional() in extcon-s2m
+  (Sashiko AI)
+- Use duplicated s2mu005_muic_irq_data for allowing multi-driver (Sashiko AI)
+- Fix if-else-if chain in s2mu005_chgr_get_usb_type() (Sashiko AI)
+- Consider errors in extcon_get_state() call (Sashiko AI)
+- Handle NULL possibility on extcon child node in charger (Sashiko AI)
+- Link to v6: https://patch.msgid.link/20260515-s2mu005-pmic-v6-0-1979106992d4@disroot.org
 
-diff --git a/Documentation/arch/x86/zero-page.rst b/Documentation/arch/x86/zero-page.rst
-index 45aa9cceb4f1..dd98b467929c 100644
---- a/Documentation/arch/x86/zero-page.rst
-+++ b/Documentation/arch/x86/zero-page.rst
-@@ -20,6 +20,7 @@ Offset/Size	Proto	Name			Meaning
- 060/010		ALL	ist_info		Intel SpeedStep (IST) BIOS support information
- 						(struct ist_info)
- 070/008		ALL	acpi_rsdp_addr		Physical address of ACPI RSDP table
-+078/008		ALL	slr_table_addr		Physical address of Secure Launch Resource Table
- 080/010		ALL	hd0_info		hd0 disk parameter, OBSOLETE!!
- 090/010		ALL	hd1_info		hd1 disk parameter, OBSOLETE!!
- 0A0/010		ALL	sys_desc_table		System description table (struct sys_desc_table),
-diff --git a/arch/x86/boot/compressed/misc.c b/arch/x86/boot/compressed/misc.c
-index e3b5177bfa6f..eaaface4cd7d 100644
---- a/arch/x86/boot/compressed/misc.c
-+++ b/arch/x86/boot/compressed/misc.c
-@@ -17,6 +17,7 @@
- #include "../string.h"
- #include "../voffset.h"
- #include <asm/bootparam_utils.h>
-+#include <linux/slr_table.h>
- 
- /*
-  * WARNING!!
-@@ -391,6 +392,36 @@ static void early_sev_detect(void)
- 		lines = cols = 0;
- }
- 
-+#ifdef CONFIG_SECURE_LAUNCH
-+static void sl_initiate_launch(unsigned long table, unsigned long base)
-+{
-+	struct slr_table *slrt = (void *)table;
-+	struct slr_entry_dl_info *dl_info;
-+	struct slr_setup_dlme dlme;
-+	dl_launch_func launch_fn;
-+
-+	dlme.dlme_base = base;
-+	dlme.dlme_header_offset = mle_header_offset;
-+	dlme.dlme_table = 0;
-+
-+	if (!slrt)
-+		return;
-+
-+	dl_info = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_DL_INFO);
-+	if (!dl_info)
-+		return;
-+
-+	launch_fn = (void *)dl_info->dl_launch;
-+
-+	/* Do the Dynamic Launch Event */
-+	launch_fn(&dl_info->bl_context, &dlme);
-+}
-+#else
-+static inline void sl_initiate_launch(unsigned long table, unsigned long base)
-+{
-+}
-+#endif
-+
- /*
-  * The compressed kernel image (ZO), has been moved so that its position
-  * is against the end of the buffer used to hold the uncompressed kernel
-@@ -491,10 +522,15 @@ asmlinkage __visible void *extract_kernel(void *rmode, unsigned char *output)
- 	debug_putaddr(trampoline_32bit);
- #endif
- 
--	choose_random_location((unsigned long)input_data, input_len,
--				(unsigned long *)&output,
--				needed_size,
--				&virt_addr);
-+	/*
-+	 * When doing a secure launch, the actual launch will be initiated by
-+	 * jumping back to the bootloader. Omit physical KASLR in that case, to
-+	 * avoid trampling on its code or data inadvertently.
-+	 */
-+	if (!boot_params_ptr->slr_table_addr)
-+		choose_random_location((unsigned long)input_data, input_len,
-+				       (unsigned long *)&output,
-+				       needed_size, &virt_addr);
- 
- 	/* Validate memory location choices. */
- 	if ((unsigned long)output & (MIN_KERNEL_ALIGN - 1))
-@@ -528,6 +564,13 @@ asmlinkage __visible void *extract_kernel(void *rmode, unsigned char *output)
- 	debug_puthex(entry_offset);
- 	debug_putstr(").\n");
- 
-+	/*
-+	 * Secure Launch involves calling back into the bootloader, so this
-+	 * needs to happen before disabling exception handling, to ensure that
-+	 * the entry point will be mapped on demand if needed.
-+	 */
-+	sl_initiate_launch(boot_params_ptr->slr_table_addr, (unsigned long)output);
-+
- 	/* Disable exception handling before booting the kernel */
- 	cleanup_exception_handling();
- 
-diff --git a/arch/x86/boot/compressed/pgtable_64.c b/arch/x86/boot/compressed/pgtable_64.c
-index 3e9d651da73e..f82094669ac0 100644
---- a/arch/x86/boot/compressed/pgtable_64.c
-+++ b/arch/x86/boot/compressed/pgtable_64.c
-@@ -124,6 +124,13 @@ asmlinkage void configure_5level_paging(struct boot_params *bp, void *pgtable)
- 
- 	l5_required = !cmdline_find_option_bool("no5lvl");
- 
-+	/*
-+	 * Don't change the number of levels when doing a Secure Launch. The
-+	 * Secure Launch stub will take care of that if needed.
-+	 */
-+	if (bp->slr_table_addr)
-+		l5_required = l5_enabled;
-+
- 	if (l5_required) {
- 		/* Initialize variables for 5-level paging */
- 		__pgtable_l5_enabled = 1;
-diff --git a/arch/x86/include/uapi/asm/bootparam.h b/arch/x86/include/uapi/asm/bootparam.h
-index 8155fa899f50..bc2ef37096af 100644
---- a/arch/x86/include/uapi/asm/bootparam.h
-+++ b/arch/x86/include/uapi/asm/bootparam.h
-@@ -121,7 +121,7 @@ struct boot_params {
- 	__u64  tboot_addr;				/* 0x058 */
- 	struct ist_info ist_info;			/* 0x060 */
- 	__u64 acpi_rsdp_addr;				/* 0x070 */
--	__u8  _pad3[8];					/* 0x078 */
-+	__u64 slr_table_addr;				/* 0x078 */
- 	__u8  hd0_info[16];	/* obsolete! */		/* 0x080 */
- 	__u8  hd1_info[16];	/* obsolete! */		/* 0x090 */
- 	struct sys_desc_table sys_desc_table; /* obsolete! */	/* 0x0a0 */
--- 
-2.47.3
+Changes in v6:
+- Fix build, UAF, and functional errors with
+  CONFIG_V4L2_FLASH_LED_CLASS=m (Lee Jones)
+- Remove (ret < 0) wherever redundant (Lee Jones)
+- Remove extra conditionals for supporting multiple variants (Lee Jones)
+- Fix OOB condition in initailizing flash LED channels (Lee Jones)
+- Declare i inside for, like: for (int i = 0; ...) (Lee Jones)
+- Rewrite and simplify closest timing function for clarity (Lee Jones)
+- Link to v5: https://lore.kernel.org/r/20260424-s2mu005-pmic-v5-0-fcbc9da5a004@disroot.org
+
+Changes in v5:
+- Drop port property from charger dt binding (Krzysztof Kozlowski)
+- Create separate dt binding for S2MU005 MFD (Krzysztof Kozlowski)
+- Move RGB LED and charger schema to parent schema (Rob Herring)
+- Fix error of using invalid revision mask
+- Link to v4: https://lore.kernel.org/r/20260414-s2mu005-pmic-v4-0-7fe7480577e6@disroot.org
+
+Changes in v4:
+- Use OF graph to connect charger with MUIC in device tree
+- Move DMA coherent mask to all MFD PMICs (André Draszik)
+- Modify pointer names for flash/RGB drivers (Lee Jones)
+- Use 100-char line wrap for flash/RGB drivers (Lee Jones)
+- Revamp LED device initialization in flash driver (Lee Jones)
+- Add proper USB 2.0 support in charger driver (Łukasz Lebiedziński)
+- Link to v3: https://lore.kernel.org/r/20260225-s2mu005-pmic-v3-0-b4afee947603@disroot.org
+
+Changes in v3:
+- Remove "extcon" text from dt-bindings documentation (Rob Herring)
+- Add connector for MUIC node
+- Fix dt binding errors reported by robh's bot
+- Fix kernel test robot const errors 
+- Remove FIELD_PREP() values in register header file (André Draszik)
+- Add max_register, volatile_reg, cache_type (André Draszik)
+- Redo [v2 07/12] to NOT store the PMIC revision (André Draszik)
+- Add a commit to fix DMA coherent mask in I2C PMICs
+- Implement various flow changes in flash LED driver (André Draszik)
+- Use device_for_each_child_node_scoped() (André Draszik)
+- Fix CFI panic in devm_add_action_or_reset()
+- Link to v2: https://lore.kernel.org/r/20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org
+
+Changes in v2:
+- Drop [v1 06/13], instead use regmap_irq_chip::get_irq_regs() 
+- Remove references to driver in devicetree commits (Conor Dooley)
+- Propagate errors of sec_pmic_store_rev() (André Draszik)
+- Fix documentation language errors (Randy Dunlap)
+- Link to v1: https://lore.kernel.org/r/20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org
+
+To: Lee Jones <lee@kernel.org>
+To: Pavel Machek <pavel@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+To: MyungJoo Ham <myungjoo.ham@samsung.com>
+To: Chanwoo Choi <cw00.choi@samsung.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+To: André Draszik <andre.draszik@linaro.org>
+To: Nam Tran <trannamatk@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Sebastian Reichel <sre@kernel.org>
+Cc: linux-leds@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+
+---
+Kaustabh Chakraborty (10):
+      dt-bindings: leds: document Samsung S2M series PMIC flash LED device
+      dt-bindings: extcon: document Samsung S2M series PMIC extcon device
+      dt-bindings: mfd: add documentation for S2MU005 PMIC
+      mfd: sec: add support for S2MU005 PMIC
+      mfd: sec: set DMA coherent mask
+      leds: flash: add support for Samsung S2M series PMIC flash LED device
+      leds: rgb: add support for Samsung S2M series PMIC RGB LED device
+      Documentation: leds: document pattern behavior of Samsung S2M series PMIC RGB LEDs
+      extcon: add support for Samsung S2M series PMIC extcon devices
+      power: supply: add support for Samsung S2M series PMIC charger device
+
+ .../bindings/extcon/samsung,s2mu005-muic.yaml      |  40 ++
+ .../bindings/leds/samsung,s2mu005-flash.yaml       |  52 +++
+ .../bindings/mfd/samsung,s2mu005-pmic.yaml         | 120 ++++++
+ Documentation/leds/index.rst                       |   1 +
+ Documentation/leds/leds-s2m-rgb.rst                |  60 +++
+ drivers/extcon/Kconfig                             |   9 +
+ drivers/extcon/Makefile                            |   1 +
+ drivers/extcon/extcon-s2m.c                        | 370 ++++++++++++++++++
+ drivers/leds/flash/Kconfig                         |  11 +
+ drivers/leds/flash/Makefile                        |   1 +
+ drivers/leds/flash/leds-s2m-flash.c                | 350 +++++++++++++++++
+ drivers/leds/rgb/Kconfig                           |  10 +
+ drivers/leds/rgb/Makefile                          |   1 +
+ drivers/leds/rgb/leds-s2m-rgb.c                    | 426 +++++++++++++++++++++
+ drivers/mfd/sec-common.c                           |  37 +-
+ drivers/mfd/sec-i2c.c                              |  29 ++
+ drivers/mfd/sec-irq.c                              |  73 ++++
+ drivers/power/supply/Kconfig                       |  10 +
+ drivers/power/supply/Makefile                      |   1 +
+ drivers/power/supply/s2m-charger.c                 | 313 +++++++++++++++
+ include/linux/mfd/samsung/core.h                   |   1 +
+ include/linux/mfd/samsung/irq.h                    |  66 ++++
+ include/linux/mfd/samsung/s2mu005.h                | 332 ++++++++++++++++
+ 23 files changed, 2308 insertions(+), 6 deletions(-)
+---
+base-commit: e98d21c170b01ddef366f023bbfcf6b31509fa83
+change-id: 20251112-s2mu005-pmic-0c67fa6bac3c
+
+Best regards,
+--  
+Kaustabh Chakraborty <kauschluss@disroot.org>
 
