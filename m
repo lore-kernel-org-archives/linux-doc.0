@@ -1,229 +1,163 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011038.outbound.protection.outlook.com [52.101.57.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0AC481ABC;
-	Fri, 15 May 2026 13:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.38
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778852765; cv=fail; b=UHWzFe+E+Sio4fp+UURtDG0sxm/Qe4WZR54Ye9J0KyuDtK5c5RXguG1zOXm3Wz+ERAd2GN6rmTGietTphZkTQrJ0cSTvkr+SYH9DZTOCiOqVZsezv2zfI2h+5L8BdMl/w9Lozign4pLHFji3NSvMvQhy8qq+2hMzLCIUKjoZ4Sw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778852765; c=relaxed/simple;
-	bh=H5GG2gQ3bYfhkbTWNp3zY8DP76cKEth7SG2R9CBncGU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lbxHRjoZUMYExn4YtQ+b++zN6LZC2P+JAB2L93dbR/DqhonejepMLwV4EN5R0R4HAKGp2Bd9bLZOdWBPVSnophaKWdUsc5xh8D3d1qOWyCVJx4Baxiyx3FjiusDEbQkccacJ7b/7Ludg9crVjniR5E5fojnLJebif26PJmh7f4A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=T6gRAvhR; arc=fail smtp.client-ip=52.101.57.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3983955F2
+	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 13:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778853084; cv=none; b=AqXytGmlTt+2u4cvVbHIs3oqvtSzvT49nTOYsr52IwZhf4NTVRZbpnws5nuA9y/TJhhdgmrp0XgMgtfK8gbsR5IebH6xpkdoK27G6LIlsPta5PxzMaBUCu6Yn+sk+f5X8vDWyOIxciyXgK4pO1WfZ55uoIarsWmCVcFVQYTxX8M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778853084; c=relaxed/simple;
+	bh=wgSQwV7y2dO+kRyJMQFpWLD3nIA4u4gcVsn2IUwSLFI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r9hrG3PZCTlIP5NQjFjkR1PczLckTe1xjIHWT33J6DN4JBkAyENT6rIthzUnM6Vw9noY52cygWHxh59IAQZcpV3tjGf3PbAfLQSWUUH9LPXDOqvIZmyS3JvmMSa7mruhbJlyYvF01VHDDJURszeQgNZF9ExOSZob7ZHUTQG4pBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QVYUWK7S; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="T6gRAvhR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QEAnqFEQuw/tdaKKhIn5WevfXU1RKYwqDhyRZorqfs1QINa5GKDsoM8wSRY98W6HzJrf/jm55uJWq3BP8vPKH8Lwc2ovOy6dlHOlnCK/fUD9G9fAom1PT6MQisC+wTtDD2qu/dLQuTLKhyxZDqpDKJlH9xxeM/KjPEdUPUsVSIAdzoNuuYVuzMpq3OMUNKwS6Qn5RQ61GQhqqOSZztVUEEWHiG4DZxhLsxxTLQkv9ENJQGz56O7aszOEnwhYbykn22TV1RvvKD5t4BD08BrAS0BYoUZVfw3wHoCBv64INkoY/9YzYPnQNUs3yWFe2Tst0HdmpULTZCZ8FM10PvhEtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=81adDRHg1D76MPKLsbmiva0+jlSo2C0PW6c2l7Hchmc=;
- b=KhrXsTRVowdJazOwTQoRmxWZNxFJpW3Zf2xm2T8U/H2XOrsEoaQEehLSRHJJWLoe4mjqS9ZHJSv0yzaW8GYwkYG48KMr6/AI7aoN2tBhohjdhrdxKF7rYZgrw+78KCmFdyGiU1KSd8SWlzXh0ekbBUgXhB4r8qNR4RSTZbm9yuwuLDxtZ0A2j1llMSXZFs0yFQ1lOV4DBX7EA/6d3Raln/LpMyVCI5ExjMYDDvY3aq5sv5XZHd0eTeg2oYxHNLHzMwwmueswJ3IPJ7kA2jBIY/6/Rt1BVecmAxfK7uZX/sCtCkhFDGZYr4Jal9WcF9bb3I/XFO1JGqaE59XF4NVN+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=81adDRHg1D76MPKLsbmiva0+jlSo2C0PW6c2l7Hchmc=;
- b=T6gRAvhR8pz6YInEsgJHuxocpJ+7DD8QGlbaVA8dYUZw5Fq8qYiV0P+Au+wZmMcsUUJTinaSlydAyG00hLPWtCOCHpjMLSa3HRPppTLwl64HsIpaBAAI1mcbKeoJ8UXZb+GjHNPN46ejVlEXwWlWnpR4I+9wRgTZ13S/sjYxMyg=
-Received: from MN2PR03CA0027.namprd03.prod.outlook.com (2603:10b6:208:23a::32)
- by SJ1PR12MB6170.namprd12.prod.outlook.com (2603:10b6:a03:45b::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Fri, 15 May
- 2026 13:45:58 +0000
-Received: from BL6PEPF0001AB72.namprd02.prod.outlook.com
- (2603:10b6:208:23a:cafe::83) by MN2PR03CA0027.outlook.office365.com
- (2603:10b6:208:23a::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.14 via Frontend Transport; Fri,
- 15 May 2026 13:45:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF0001AB72.mail.protection.outlook.com (10.167.242.165) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.25.13 via Frontend Transport; Fri, 15 May 2026 13:45:58 +0000
-Received: from dcsm-trdripper1.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Fri, 15 May
- 2026 08:45:52 -0500
-From: Akshay Gupta <Akshay.Gupta@amd.com>
-To: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-hwmon@vger.kernel.org>
-CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <linux@roeck-us.net>,
-	<arnd@arndb.de>, <gregkh@linuxfoundation.org>, <akshay.gupta@amd.com>,
-	<naveenkrishna.chatradhi@amd.com>, <Prathima.Lk@amd.com>,
-	<Anand.Umarji@amd.com>, <Kevin.Tung@quantatw.com>, Akshay Gupta
-	<Akshay.Gupta@amd.com>
-Subject: [PATCH v2 6/6] docs: misc: amd-sbi: Document SBTSI userspace interface
-Date: Fri, 15 May 2026 19:15:06 +0530
-Message-ID: <20260515134506.397649-7-Akshay.Gupta@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260515134506.397649-1-Akshay.Gupta@amd.com>
-References: <20260515134506.397649-1-Akshay.Gupta@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QVYUWK7S"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2bd8c4aa911so5653555ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 06:51:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778853074; x=1779457874; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=O2F8t6ntdYK/5aPvjkHgghGF13JKRdZuJCFrw2MfPU0=;
+        b=QVYUWK7SMMlkVxmwQPeOVpqhZ8lgPBHC5ZPb94MEaSxyCOtesLmACUxkXqLOdjOEPP
+         GG8IrpTfgGNKeNzC+KiVoxbPeY2ca0qfjDw2q6n+gGsCVKIwenlOTvxss7rAh47Aeudc
+         HN7jIVFJKmxDareC3d/4lz9Ox5H25A0y0glbYZjvTVSkonue5AhLa23uq10XSdQU0i/o
+         w3t7s5FMJ+8YuAXO+Y74d4cQJJjkbm06UsP1zyQic77oB5k4dP9VN1H/2b64jwykwRAq
+         c4YzpoiQd87BX+QuzkJjREKbgKqbcHqOZ6JrjvowMMVNJvmadPHwt0BQaabQFfOev8Qc
+         RTEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778853074; x=1779457874;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O2F8t6ntdYK/5aPvjkHgghGF13JKRdZuJCFrw2MfPU0=;
+        b=sCipQIaRXnGK8aSmkh9dzjqRFfG56ykDFJL8KOxfToToqyOikpDGII6KnMtkKIVlFF
+         MC4QUDReNzZiaufA1GIH9ihAqD/p7qPGaKHgODprP58vlhJBbOfcfwMCD5KOsdX8ikqc
+         uucoAYQ/iKl4EWRr9EyWiEg3Np5HicyvCo3bCxoUDkHtlMX+o4j3buKWj0NitMeoWZTN
+         5bmO+9IO0cIZORdM+CbHwtYNQME934iVhxsHNhAhOkW/EX0IDoaOwD6iXqZWznTxIJJW
+         Xy2dOKG1IbfT+iJB0XflxLBlcnyJK/u6W764GEkzVWQhrA1GpfuYdIVvgcBn1YPVJpMo
+         So+Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/fy+hW4spq5U/NLap0BSLKn5qadur0dHYa2ZxFQ6bFkcSC6w+AZl560+2cSVK08E3apyC4kjwi38M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmRue/ofMSDXicv4B5xavDxjDI+704PkM9eoCaazp1hJ0G4lwi
+	y5152ebFS5piOF6uK+RKSj0tSUpdPO9w5nYYmQX8XVFBVieqYSTOnsI9
+X-Gm-Gg: Acq92OHSgTKAOF1SaVKBTtGfzwCo0mJwe1Fa//G45bZmPu2Kw1w7X14Kvx2ttJqALF1
+	JtrnNli5DbA210KdoF2t1BhjOu5Vy3MmxqSsBQ+lAILRMzCxukkRr1tH/4Y4eZH3AJMg7cJdxio
+	ihLUGkYlcIWYvCVvrrzu6ysqN6UxbDn7s5vDlj4HwhJc+szL8WSuRAk4pxep0XDD2JrodQ+KAtm
+	j7jVTQCLosMZ/taBKpCVbb1dGyXbn4/ZLP0L6nQWmriOtQlHOl4DxvPcB1Hr7yoIxKrZ+f5wIx8
+	KbeH6jo0Wbb7Y6tF6OMNOYbZwYsGO/K3bvB4AWYcg7OJ+euz7Gov2iv3p1KTRYD2KE4WFCLv82p
+	3bYHMpXlGiT5Wh7QOpmMJYdrqWZ7qPOjaTc5QN/uKsgej7Zk4aKbnNixHg8RotvnUcb2LtCuCji
+	wDzZ86ahA0G5LSuGYdQ742CKlrAMhE3v+Al2ACXY+RfwpMqtgx9cUX2BYs+xb4SRzHlG7tkmvc
+X-Received: by 2002:a17:903:44cd:b0:2bd:6732:6817 with SMTP id d9443c01a7336-2bd7e8d3578mr31205215ad.23.1778853074142;
+        Fri, 15 May 2026 06:51:14 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d0f94c6sm62848175ad.56.2026.05.15.06.51.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 May 2026 06:51:13 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <7bcead90-7d96-4101-bd13-dde2c5ded1aa@roeck-us.net>
+Date: Fri, 15 May 2026 06:51:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB72:EE_|SJ1PR12MB6170:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ab2c4a5-9507-4cc8-9111-08deb2884b56
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|376014|82310400026|13003099007|3023799003|11063799003|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	n55IQCH1x0poAcuU0ocHhAdh6/E72IQj3kPKlOVGLp6AbcajXSxZnXY1wPM53aXRXUMTkzipdsSqtrkc0lj4cHtaiQMel8+e+erlEf+sviPTu9yXOL9Zf60eAqb/ZIl5Vfbh3vt8CxEzSmHJrft/RPKjJCquO7qBD2GwYhHpNueGpXVuHu8IHq4ckqlBzsiecgNd5irNnonr0o70PVYClgAiRy08ry5tC1podnKiqGLvNF9zGN88zU7mhFI1SQcKnZsGTwTFgOq8geGmCBkOLbZ7OJt83JLMn/hViqUOz/32zU8+3YjxHHQ2MiAWDXaOVuZ5c9a7uz+FUCqyn0vmn1MSnBWmNH9DFBaoZoTfNDea8Eu8PU7fziklTBAZcmCrZp1irvit4QmyB+i/gtVjXtVENfAFU0eCSBTrrlf5KeBUYYVFmhyJoeFyt6aLtcmQBIcLSAt+c3fMekerZKnH1ZbgjIA2qR0Bp5/kr6iQ9HlfaM4qXPo2I7Ti7nqSIkt2+vmYLH4mNrWICi1wKdYN4VqKqld61nLfdZdigyRd9tJBxdQwK2aw5bCwxrMXDhVi6fBsRHMh7X9E7Zg4StbKavnqL/VXQ+REPV+53T31j8LdVLbZB6/9gYA30Ksp2ALcbJdb+XxAK0UCWU/yPyIgGFCUIhGEcvhnURInPlayG56CZKpzW0Z/1Bg8ElhzvkSC3Tedi1Jigq6qBWJ0CY7qZBLIdjAiKke5JrXj7V4PxPY=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(376014)(82310400026)(13003099007)(3023799003)(11063799003)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	qt8aqMrHEFndeRrES1/9hgaRUp01mFkcBsxbTr6oWbrARBwEaj+W/e29PFhr5AzFHwEE06cwGOMAiV61TUjVQNkvtY+YHgAV+Mu7qn6JZrZQmeITnObMho9e2uULa0GnaJdXcLHw60v8bCvdkO++EPkSnLN0ljqwdqWU8/f+OLmdN0jXl/9b1toa41NxP9WAHuU/5za1xtaVWnET3SOw6Us6RkTQsB6eTKCQquU+zEp3ZRV8kvojECagVx4TMVOuUN9lHHQx48nrd9KFisB/ZVEpGqnbIg1cjguNsboKZVrkoR5AjqdtYLBXKz1SGgQ/rET1CCdtiqqThJqrfIkYpc0ZxRywJWxZFLhUxKpgD7Qlj4A7eqhn1R02a37rVZJdmAX5FAAz8XVZ6JgFDEAYGyggGwZA5yWT6fwm+ShNZ4eLfvZu0T2826GiMfRI3AYk
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2026 13:45:58.2022
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ab2c4a5-9507-4cc8-9111-08deb2884b56
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB72.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6170
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 0/4] kunit: Add support for suppressing warning
+ backtraces
+To: Albert Esteve <aesteve@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>,
+ Rae Moar <raemoar63@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ dri-devel@lists.freedesktop.org, workflows@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+ peterz@infradead.org, Alessandro Carminati <acarmina@redhat.com>,
+ Kees Cook <kees@kernel.org>,
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Dan Carpenter <error27@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+References: <20260515-kunit_add_support-v13-0-18ee42f96e7b@redhat.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260515-kunit_add_support-v13-0-18ee42f96e7b@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Prathima <Prathima.Lk@amd.com>
+Hi Albert,
 
-- Document AMD sideband IOCTL description defined
-  for SBTSI and its usage.
-  User space C-APIs are made available by esmi_oob_library [1],
-  which is provided by the E-SMS project [2].
+On 5/15/26 05:29, Albert Esteve wrote:
+...
 
-  Link: https://github.com/amd/esmi_oob_library [1]
-  Link: https://www.amd.com/en/developer/e-sms.html [2]
+> Guenter Roeck (3):
+>        kunit: Add backtrace suppression self-tests
+>        drm: Suppress intentional warning backtraces in scaling unit tests
+>        kunit: Add documentation for warning backtrace suppression API
+> 
 
-Include a user-space open example for /dev/sbtsi-* and list auxiliary
-bus sysfs paths.
 
-Reviewed-by: Akshay Gupta <Akshay.Gupta@amd.com>
-Signed-off-by: Prathima <Prathima.Lk@amd.com>
----
-Changes since v1:
-- Elaborate the document
+How much of that is from me at this point ? Wouldn't it make sense to drop me
+as "author" of those patches ?
 
- Documentation/misc-devices/amd-sbi.rst | 64 ++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
+I would not mind. I had the idea, but others like you are doing the hard work
+of pushing it through.
 
-diff --git a/Documentation/misc-devices/amd-sbi.rst b/Documentation/misc-devices/amd-sbi.rst
-index f91ddadefe48..6a6344439ef5 100644
---- a/Documentation/misc-devices/amd-sbi.rst
-+++ b/Documentation/misc-devices/amd-sbi.rst
-@@ -48,6 +48,56 @@ Access restrictions:
-  * APML Mailbox messages and Register xfer access are read-write,
-  * CPUID and MCA_MSR access is read-only.
- 
-+SBTSI device
-+============
-+
-+sbtsi driver under the drivers/misc/amd-sbi creates miscdevice
-+/dev/sbtsi-* to let user space programs run APML TSI register xfer
-+commands.
-+
-+The driver supports both I2C and I3C transports for SB-TSI targets.
-+The transport is selected by the bus where the device is enumerated.
-+
-+.. code-block:: bash
-+
-+   $ ls -al /dev/sbtsi-4c
-+   crw-------    1 root     root       10, 116 Apr  2 05:22 /dev/sbtsi-4c
-+
-+
-+Access restrictions:
-+ * Only root user is allowed to open the file.
-+ * APML TSI Register xfer access is read-write.
-+
-+SBTSI hwmon interface
-+=====================
-+
-+The sbtsi_temp auxiliary driver binds to the auxiliary device published
-+by the core sbtsi driver on the auxiliary bus. The auxiliary device is
-+named amd-sbtsi.temp-sensor.<addr> where <addr> is the device's dynamic
-+address.
-+
-+It registers a hwmon device, providing a standard Linux hwmon interface
-+for reading CPU temperature and managing temperature limits.
-+
-+The hwmon device appears under ``/sys/class/hwmon/`` when both ``sbtsi.ko``
-+and ``sbtsi_temp.ko`` are loaded.
-+
-+Verify auxiliary bus device::
-+
-+  ls /sys/bus/auxiliary/devices/
-+  # e.g. amd-sbtsi.temp-sensor.X
-+
-+Example usage::
-+
-+  # Read current temperature
-+  cat /sys/class/hwmon/hwmon<N>/temp1_input
-+
-+  # Set high temperature limit to 70 °C
-+  echo 70000 > /sys/class/hwmon/hwmon<N>/temp1_max
-+
-+  # Verify
-+  cat /sys/class/hwmon/hwmon<N>/temp1_max
-+
- Driver IOCTLs
- =============
- 
-@@ -63,6 +113,9 @@ Driver IOCTLs
- .. c:macro:: SBRMI_IOCTL_REG_XFER_CMD
- .. kernel-doc:: include/uapi/misc/amd-apml.h
-    :doc: SBRMI_IOCTL_REG_XFER_CMD
-+.. c:macro:: SBTSI_IOCTL_REG_XFER_CMD
-+.. kernel-doc:: include/uapi/misc/amd-apml.h
-+   :doc: SBTSI_IOCTL_REG_XFER_CMD
- 
- User-space usage
- ================
-@@ -85,6 +138,16 @@ Next thing, open the device file, as follows::
-     exit(1);
-   }
- 
-+To open SB-TSI device::
-+
-+  int file;
-+
-+  file = open("/dev/sbtsi-*", O_RDWR);
-+  if (file < 0) {
-+    /* ERROR HANDLING */
-+    exit(1);
-+  }
-+
- The following IOCTLs are defined:
- 
- ``#define SB_BASE_IOCTL_NR      	0xF9``
-@@ -92,6 +155,7 @@ The following IOCTLs are defined:
- ``#define SBRMI_IOCTL_CPUID_CMD		_IOWR(SB_BASE_IOCTL_NR, 1, struct apml_cpuid_msg)``
- ``#define SBRMI_IOCTL_MCAMSR_CMD	_IOWR(SB_BASE_IOCTL_NR, 2, struct apml_mcamsr_msg)``
- ``#define SBRMI_IOCTL_REG_XFER_CMD	_IOWR(SB_BASE_IOCTL_NR, 3, struct apml_reg_xfer_msg)``
-+``#define SBTSI_IOCTL_REG_XFER_CMD      _IOWR(SB_BASE_IOCTL_NR, 4, struct apml_tsi_xfer_msg)``
- 
- 
- User space C-APIs are made available by esmi_oob_library, hosted at
--- 
-2.34.1
+Thanks,
+Guenter
 
