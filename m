@@ -1,47 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A5BC8EB
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 14:36:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0173B636C;
+	Fri, 15 May 2026 14:42:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778855768; cv=none; b=jDpfrMabjl3QpNvlOIld5grXIvHJKmJnK6z1W7djN+pn2jV1EQGQfgevKhj4T9qQVnfidzlrp/tt8jXiRRL1gGNCz/1QMwFxCThZXIuo7DCC0/Z/pToPM+ViYVODLl1RlGxHQkDz6ZxC3y9tsUWgLzY8UpNjIHruvUR/rtEVqE4=
+	t=1778856142; cv=none; b=LwxfUkYdCcLipgo+6eLBvf+SA1OFMRy8jxEk/RzJ3OTEXBKQo3Wev9rG5wEyY3MIrhIQel4eK1LSpoX4ENf1R4uIoXfecLgfGeSaAAzDOK92P36F7NIdpKRBKHMA6nugc7QUyFsvfNcFtvJ8HjXsTzGPf2vQ0xEztLsos5FN9qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778855768; c=relaxed/simple;
-	bh=uCh6TRj7BWDq2jED3MZppkmiQ5hCz9hJHccz6aa4afo=;
+	s=arc-20240116; t=1778856142; c=relaxed/simple;
+	bh=91/MUJntMig6shlSdAm3Ao6hWgk5tAskd8lknBNlwE0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kT7EqnTtVa1o/i5WGxGMuWENYXjfjUrG83d35RmLZ0419rK4siSc/07oBXJiPZ6+uGG1/RqwWIIr/+Qj2eWNjhsInuwKzWSkWxCZYp4EHQfCzCVA8wyYGeM+8Hlsv2A4bumqQSsA/+8RK3WlI3W5L7BGo5f46LtPDcM3OBHYna8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Dh2jxuNE; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=OE9OXy5kuW9HcfZb9LITnO4ec7iCEu3zKCSG7j3fLobvkHu+IjW49WfdwZxOB0hgt5Z/R4ViCpAHRO+mGSsZV8oTufkQg/nsOkOw4eAeKHDDpZM4SW8Fc7PvbfwWQGiz3GrWWgAuTNLyqLbRAhK6Myq2599rddJdMpEGyj/kw30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Qmqj3uWK; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Dh2jxuNE"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 66986410B5
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Qmqj3uWK"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 16C05410B5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1778855766; bh=HHUc31yYkUONY5SmAP0FzINJAZpZCxxY9IZFM8vNzM0=;
+	t=1778856139; bh=eLCsVAMGqk1U7q51Akbtvr3X5ibRmVt2uWXhRXhFtPo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Dh2jxuNEAg6Rj6opg2jDQF2VjybCRWZJqd9JgWk0c0yHjvQTELBPf5WOIorUgpbz4
-	 32tC3w7ratJs9gf6RQZbPuGrduxJXeGonUkFu3A/kp6RNAC55j0cdDuxMkshZq+Rve
-	 vqxyLamVXWLw6GxCN0Tfo1AdLuQL57Ge6LBNhC0YJqZCSynVPXgLWbMDFy0MOQ2VVm
-	 nL752x+YEDuX2xuhx7eh9fVZxgKsPNX+ZfBToZyLHz82XpVCyThTm/xn4M49A33yqw
-	 CwTZNmF8TJp2AXTvxgOud8fIgyXec0AmcFdbPZ2ejEHHJgsbZIgAqCCsDtWY9sIftU
-	 gnJG31UJzZJvg==
+	b=Qmqj3uWKKo9R1BtTyzT3TELCwi9u+qiDWVP40YonRVnSFSgY+vl898/UjHm3bioPR
+	 BMYThWqq/p5Pd9x944lBEcsSVTFvCI55gwohRXE1lRmGJAbkn+Tr3pN5JySZUMv2mW
+	 IMpQ2EULLtzhQTeO2Vbyz67AVNN/JuVvmDwARtz7BSzwBF6zR+gRf9v670XOVdDlET
+	 DSwYGsXr/Y5wKUk1GgTEQs+sOvSK7rz/+Db3KLwpzwh7oEOeBBsNysU6GxvGnNITG+
+	 n2nSICM/KaAFKddHX6kXEYMKzblTWnkk3guTqYvj4W1cu4JimnEyp2D96JTAUyFy5Q
+	 Tnr5pUELptAIw==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 66986410B5;
-	Fri, 15 May 2026 14:36:06 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 16C05410B5;
+	Fri, 15 May 2026 14:42:19 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, Jakub Kicinski <kuba@kernel.org>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-doc@vger.kernel.org
-Subject: Re: kernel-doc no longer warns about leftover argument doc?
-In-Reply-To: <1ff1d237-fd32-4373-aaef-d19743bb2ea4@infradead.org>
-References: <20260514184948.3fa705e1@kernel.org>
- <1ff1d237-fd32-4373-aaef-d19743bb2ea4@infradead.org>
-Date: Fri, 15 May 2026 08:36:05 -0600
-Message-ID: <87se7spwoa.fsf@trenco.lwn.net>
+To: Shuicheng Lin <shuicheng.lin@intel.com>, linux-doc@vger.kernel.org
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Jani Nikula <jani.nikula@linux.intel.com>,
+ linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v4] scripts/kernel-doc: Detect mismatched inline member
+ documentation tags
+In-Reply-To: <20260507023232.4108680-1-shuicheng.lin@intel.com>
+References: <20260507023232.4108680-1-shuicheng.lin@intel.com>
+Date: Fri, 15 May 2026 08:42:18 -0600
+Message-ID: <87o6igpwdx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,37 +51,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Shuicheng Lin <shuicheng.lin@intel.com> writes:
 
-> On 5/14/26 6:49 PM, Jakub Kicinski wrote:
->> Hi!
->> 
->> Looks like the new python kernel-doc does not warn when there are
->> stray arguments in function kdoc. Eg
->> 
->> /**                                                                             
->>  * ksz_wol_pre_shutdown - Prepares the switch device for shutdown while         
->>  *                        considering Wake-on-LAN (WoL) settings.               
->>  * @dev: The switch device structure.                                           
->>  * @wol_enabled: Pointer to a boolean which will be set to true if WoL is       
->>  *               enabled on any port.                                           
->>  *                                                                              
->>  * This function prepares the switch device for a safe shutdown while taking    
->>  * into account the Wake-on-LAN (WoL) settings on the user ports. It updates    
->>  * the wol_enabled flag accordingly to reflect whether WoL is active on any     
->>  * port.                                                                        
->>  */                                                                             
->> static void ksz_wol_pre_shutdown(struct ksz_device *dev)
->> 
->> 
->> AIs seem to catch it but that's not ideal..
->> 
+> Add validation in check_sections() to verify that inline member
+> documentation tags (/** @member: description */) match actual struct/union
+> member names. Previously, kernel-doc only validated section headers against
+> the parameter list, but inline doc tags stored in parameterdescs were never
+> cross-checked, allowing stale or mistyped member names to go undetected.
 >
-> Yes, hopefully we can have this patch merged soon:
-> https://lore.kernel.org/all/20260507023232.4108680-1-shuicheng.lin@intel.com/
+> The new check iterates over parameterdescs keys and warns about any that
+> don't appear in the parameter list, catching issues like renamed struct
+> members where the documentation tag was not updated to match.
+>
+> This catches real issues such as:
+>   - xe_bo_types.h: @atomic_access (missing struct prefix, should be
+>     @attr.atomic_access)
+>   - xe_device_types.h: @usm.asid (member is actually asid_to_vm)
 
-The odds of such things increase significantly when the patch is
-actually sent to the maintainer; in the midst of travel such I missed
-this one.  Looking at it now.
+Sigh ... naturally this adds a number of docs-build warnings, but they
+do seem to be legit.  So I've applied it, thanks.
+
+In the future, please copy the maintainer(s) on your patches;
+scripts/get_maintainer.pl should have told you to do that.  I almost
+missed this one entirely.
 
 jon
