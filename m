@@ -1,45 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CD536EA86
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 14:24:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE3E3644C6;
+	Fri, 15 May 2026 14:24:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778855042; cv=none; b=X/iBhWNp6ptwxWcVTo1ubCJEgsppelwOVfZ8z/L1wr7Kg07Q9B7F1whNJy5FfCPlkcMNSPtZCmjDB+DgpmGTxjhE89akD7VoA23yjVwZ1ujTNvJH1Is+Il1iMicIBrBhFR5+cdbW1Cp98t2yjY8RG+0x+dN1tlqpBX1L7Mx+AG0=
+	t=1778855083; cv=none; b=jGJzc/HRfq16PrD2+2cXd8PRJlaWsNN2nhq7C3ZvmYVKiiQzZ125xYQjKWJBrHD5N6b+U3LQSxsyvoGBMS56Fa5njk/fcCjbVVAlkciZ979heLG8zlHl3TL+qNj9TcfopK76xxl25lGbBlNvXveKftc1utrK8psR9/S6X4Uox7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778855042; c=relaxed/simple;
-	bh=Vm/osYbTBgn0GbjA6RbPms4tZyz9GrfcKhbGzdialG4=;
+	s=arc-20240116; t=1778855083; c=relaxed/simple;
+	bh=3DiJgyfPq3xnTtCKRtiC8wm23wJPX8GfQvZtRbZcz3A=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=feC3YbdmQEoImsBM4/inO733lJVNxfsb95MSZNse39VC9uxzbItLuQ9ZZ8BKza0cShgSn80rx5WVff6zGrrTJSEw7Ng0SzVC75OEM4AIC4A8wtkVxmHHDJfTa4AdGQULn338B9Ozbc/7GYovqbytKXGCdb/uHJ1AGKTACqXWpeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qgX0yWdt; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=i2Th3JAWfkG9Ofn84iFZ+DAiy46lwfRE0G7THNoJ2KZ6RVSeok3NLiv0YUCa3u4IvKbES/4vvVfOq94sUplpGCzCvgKZyV6zOMySVm1RHwZwUP5AUvXAA4T7RvLeyt5tQtAehqaF0id4qh8nNx8ftltGtrVLPZ5T1lv9zVpO+YA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bJbAwpj0; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qgX0yWdt"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 31EB2410B5
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bJbAwpj0"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4A83D410B5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1778855041; bh=vJkYCmocxCht2qwBk/F+G/Nz3u5Ni0ovYkMD1ukfxQo=;
+	t=1778855075; bh=ohNchLk5gAAU6hAND7s6bUUwHtS10xJjW5wCO8yXh0Q=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=qgX0yWdtlilQAj2cepD5ei/VvkYo3r/6MoijKPMyJFM3oj1M76x1YZdN/qRU34Ym2
-	 MSFjJqqb4G8Dv9ktaARAu2VILpXapJ1HqGpsNDIUbCfM3P+2sv4oaNps6gnwsLvD1l
-	 a9qRp3Nm3bAcYPW36eJC+VWjpHYJ+egKBV7vkNMKyhOuof+2ClmnyWj9CyL0RtNXZY
-	 0yMFcBGJYgXdjEjCKzYbViCwbgzoVStkcXAxQIxEbH71NqFtEbHYVV4BccW4U54xfB
-	 dbEadiNmgQ7pLaINpJes+P6X2Q5MvkS3K95QYT6w7zkuclJ499NOI7ya5hfA1q+1/x
-	 WkUrmjSdmk6nw==
+	b=bJbAwpj0ZYDzZ6JvkHJobOVegOR8y+qm5UhbcAjc71P6KtqspF3o3iI3TsipuGwPU
+	 jhqmjbr1oJgaIBkttPXP01sjz/SvMPAOOcvpi7G+35iX3pNRN/fyt95F+CLgRmH1+F
+	 3vnvcB16pBbUabzp4MGoSAjqh6NJPIl6H/xyQGp1I2q1jffZOyRQ1NF/TmY+eC+SCA
+	 Vqow3sy+wj6jZQxxCboIq7uSf7MAWJvOoNgxemzL143IhUGT4ePXQIrUS45vnJisuv
+	 YYxI0/x8OmtshLAoZrScFow/p/fhl99AUbcZ0Hz+08P5agF5BlU4/jMLDfJhx6c7w/
+	 HHH+rK/Ggjc+A==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 31EB2410B5;
-	Fri, 15 May 2026 14:24:01 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4A83D410B5;
+	Fri, 15 May 2026 14:24:35 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: linux-doc@vger.kernel.org, Daniel Pereira <danielmaraboo@gmail.com>
-Subject: Re: [PATCH v2] docs: pt_BR: translate process/license-rules.rst
-In-Reply-To: <20260503160352.160135-1-danielmaraboo@gmail.com>
-References: <20260503160352.160135-1-danielmaraboo@gmail.com>
-Date: Fri, 15 May 2026 08:24:00 -0600
-Message-ID: <87ecjcrbsv.fsf@trenco.lwn.net>
+To: Costa Shulyupin <costa.shul@redhat.com>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Jan Kara <jack@suse.cz>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Costa Shulyupin <costa.shul@redhat.com>
+Subject: Re: [PATCH v1] docs: locking: Fix stale dquot.c path
+In-Reply-To: <20260503160221.1594319-2-costa.shul@redhat.com>
+References: <20260503160221.1594319-2-costa.shul@redhat.com>
+Date: Fri, 15 May 2026 08:24:34 -0600
+Message-ID: <87a4u0rbrx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,27 +52,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Daniel Pereira <danielmaraboo@gmail.com> writes:
+Costa Shulyupin <costa.shul@redhat.com> writes:
 
-> Translate the license-rules.rst document into Brazilian Portuguese.
-> This document provides guidelines on how licenses should be identified
-> and handled within the kernel source code.
+> The quota code was moved from fs/dquot.c to fs/quota/dquot.c
+> in commit 884d179dff3a ("quota: Move quota files into separate
+> directory"). Update the reference.
 >
-> Additionally, update the pt_BR/process/index.rst to include the new
-> translation in the documentation tree.
->
-> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
->
+> Assisted-by: Claude:claude-opus-4-6
+> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 > ---
-> v2:
->   - Fixed docutils warning: "Line block ends without a blank line" on line 72.
->   - Removed stray '|' character from the translation file to fix the build.
-> ---
->  Documentation/translations/pt_BR/index.rst    |   1 +
->  .../pt_BR/process/license-rules.rst           | 483 ++++++++++++++++++
->  2 files changed, 484 insertions(+)
->  create mode 100644 Documentation/translations/pt_BR/process/license-rules.rst
-
+>  Documentation/filesystems/locking.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
+> index 8421ea21bd35..277e49314d32 100644
+> --- a/Documentation/filesystems/locking.rst
+> +++ b/Documentation/filesystems/locking.rst
+> @@ -584,7 +584,7 @@ write_info:	yes		dqonoff_sem
+>  FS recursion means calling ->quota_read() and ->quota_write() from superblock
+>  operations.
+>  
+> -More details about quota locking can be found in fs/dquot.c.
+> +More details about quota locking can be found in fs/quota/dquot.c.
+>  
 Applied, thanks.
 
 jon
