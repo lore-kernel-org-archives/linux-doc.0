@@ -1,84 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE173F44FC
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 22:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD19370D72;
+	Fri, 15 May 2026 22:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778884209; cv=none; b=p/g/tT13MfdqbumK9EzMr3NTUHg5sflGfgSx4SVI3QzzGtTxQTiNZgtg6OsRyts4JYEsw69SDlBLmvjZWrUSU05NEUEa4+g/1xvrybcHUKwkwyeBBeSYOB4b0x4n/hNJx711l2tOybIYypnzvPom4KGc9qDQCnrysE6D2PXmMfQ=
+	t=1778884335; cv=none; b=ZdATrrj2TLbh1saEOMP9b+rbB40E7XTpnNzBYld4UvFiC9JTEzyIuuKMUt1BqDCe56QZot3mZmuaoVgYtyo0FwiLIOFzVrwCcdziVHLKdFJeoasszkqhMJdwUrL3/ME1WGljBXpL2O8wkQ7geZiRmanH71fBRRZv4rmED3g/tDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778884209; c=relaxed/simple;
-	bh=ReQtRGN6YCVCM+VLe1SVEp6J++lmzI2ST6cnJuKfsNY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mvlHGU9FujJwUr6tsxTd6zftaHSPjsCUimEPDZBL7Im1tMc06LdMd4+6lkbbcSR8gXFqS2jVmRfJbaj5JmTS+W6hEfyFPdaPg61EgJsE4xDbKaOTMJOLkvFFsQLgoCpyZinaIYCJqbdEBPGTwPI3xxIhY03hLC10w3yhBDwZa7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l1BmAcRS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778884335; c=relaxed/simple;
+	bh=KK/lONyvJSJbPPBHqDhaBOi5QdetZIyeHwLoQjZfWgk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XQbSObmd2+BzewIlCyI2BzowEc0jaix2CkET5edvQ6xFkDVHlUHqqaVueC9ECISGcW+l7e1iCe/KY8fuKfnmb9k2R3Z3D72lHKQvHOSd6ftTvLUMpjlnB9MCjGxfoLwe2afUd01zQWOstZh8PaIw59h2lopKyz0mJ4Ef6WRdbJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mn+Cywo+; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l1BmAcRS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E23B8C2BCFA
-	for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 22:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778884208;
-	bh=ReQtRGN6YCVCM+VLe1SVEp6J++lmzI2ST6cnJuKfsNY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=l1BmAcRSlMtkGR8AS0UI7PMBSsVdeQ+vAfkS1phC7SdTdRHX+BGs4MAQg6DgBmiXA
-	 d+XKcoVCgyus/I8MJO2S5377iU9wMxI4ndzUMSOH3X0aA5wcic6o9RuVDF3YmW+Cyd
-	 Rsm0oXBAm3I4KOJJf2LhQe4ro/ZXtPTXTgkhYGdTF1JpalHy6mrdtRIOikrONxR6gi
-	 khlgGqooS0g8AnPRBVazaVmq7yYCJ19qdANfoofjF9OShgb9otGvgrG9SRWnjQPRsF
-	 l52n9H+vH0yBViDvJWLpYnNjBc23ogiZTPw0OfmtteiSRyxOR0C1GXSFcVk7sCYfIz
-	 GNPD2LtwC5Ozg==
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-65c24be9e4bso660136d50.1
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 15:30:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8pVfnEJf25GLm71UXyqjTTmf82yk9Rr2e2qNr8wpYyfXnBimsvtQ04ujP5Na3TL1st+OmH9IQvZjE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRGM8Bsx1GaOFJHF9iZMBxWM8CvJBdgmIN0rFwpGSqkota4mKY
-	mYeGlOw8RquIsS4qveaFb8EiloxkFoEKcpaBfyyRnUVDBnLnNrCse+9Xh11gmQpuyXbOAJ76aHN
-	1LWFrsqqKTU65Rgd4EJn7N32L3NpGASzFyTSMBqAxqQ==
-X-Received: by 2002:a05:690e:480f:b0:64e:597a:f5c2 with SMTP id
- 956f58d0204a3-65e2289a39cmr4822587d50.65.1778884208163; Fri, 15 May 2026
- 15:30:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mn+Cywo+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778884334; x=1810420334;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=KK/lONyvJSJbPPBHqDhaBOi5QdetZIyeHwLoQjZfWgk=;
+  b=Mn+Cywo+ZW4M6UgLL7Wp27PfCuZeZN00VvKhq8p88lOzsqwQXeuFyBgj
+   EL2mlADnru29A/PjApL+X0ndNSbNZFmlY5s8+MaGQoaM8USC2R5IUugiO
+   XrRChfCJCLgK5T87myvU52PYpt+nJl/iXXboRcP2aw1uYWIdn7koH/rUl
+   Fo300P7izknKk8a5Qp9+j9y0EUb9qW6zIO80bJwCjjDs5zSOfSvjx5xPV
+   mS/7ifSW7zNvyStRyvMsC5b/iw04PIXBi2tS93Ln/VADG3qP3zgcbEith
+   Bl/PuQm3wOnQx7Tz3msc2f24XE99R5SEidpBjz+aagPaWE5I1aZ6+uwzL
+   Q==;
+X-CSE-ConnectionGUID: J4lmdRfwS5GQmKSjWX4z5A==
+X-CSE-MsgGUID: GM7mEorzTmG/v/LVlUL0jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="79874934"
+X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
+   d="scan'208";a="79874934"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 15:32:13 -0700
+X-CSE-ConnectionGUID: 7h4qy8WhRj6hnoV9za4Bow==
+X-CSE-MsgGUID: alnpl2zvRBelMjEHn3O9uA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
+   d="scan'208";a="276911894"
+Received: from gabaabhi-mobl2.amr.corp.intel.com (HELO [10.125.108.201]) ([10.125.108.201])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 15:32:13 -0700
+Message-ID: <7648b5f3-2810-4bae-99ab-21c93ea36f25@intel.com>
+Date: Fri, 15 May 2026 15:32:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512053625.2950900-1-hch@lst.de> <20260512053625.2950900-3-hch@lst.de>
-In-Reply-To: <20260512053625.2950900-3-hch@lst.de>
-From: Chris Li <chrisl@kernel.org>
-Date: Fri, 15 May 2026 15:29:57 -0700
-X-Gmail-Original-Message-ID: <CACePvbUPQ=tO5feC=2-8XdBV1PgzoX+EwASU__jNiuzcGsPMPA@mail.gmail.com>
-X-Gm-Features: AVHnY4KVT3GwVUdlKXUpf18PwWGpkgh1B7IPlKLHiB6TxVcw3NQNEM73-FjKVDw
-Message-ID: <CACePvbUPQ=tO5feC=2-8XdBV1PgzoX+EwASU__jNiuzcGsPMPA@mail.gmail.com>
-Subject: Re: [PATCH 02/12] swap: move boilerplate code into the core swap code
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Kairui Song <kasong@tencent.com>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	David Sterba <dsterba@suse.com>, "Theodore Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>, 
-	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, Carlos Maiolino <cem@kernel.org>, 
-	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 29/38] x86/tpm: Early startup TPM PCR extending driver
+To: Ross Philipson <ross.philipson@gmail.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux.dev
+Cc: dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
+ mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+ peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+ nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
+ corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
+ baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
+ daniel.kiper@oracle.com, andrew.cooper3@citrix.com,
+ trenchboot-devel@googlegroups.com
+References: <20260515211410.31440-1-ross.philipson@gmail.com>
+ <20260515211410.31440-30-ross.philipson@gmail.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20260515211410.31440-30-ross.philipson@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 11, 2026 at 10:36=E2=80=AFPM Christoph Hellwig <hch@lst.de> wro=
-te:
->
-> Make the core swap code calculate sis->pages, nr_extents and the span,
-> re-set sis->max based on it and don't require passing the current offset
-> into the swap file to swap_add_extent as all that can trivially be
-> calculated internally.  Also truncate the spans based on the available
-> information.
->
-> All this removes a lot of boilerplate code in the callers.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On 5/15/26 14:14, Ross Philipson wrote:
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Based of the original tpm_tis.c implementation as found in the
+> + * Linux 2.6 code base.
+> + *
+> + * Copyright (C) 2005, 2006 IBM Corporation
+> + *
+> + * Authors:
+> + * Leendert van Doorn <leendert@watson.ibm.com>
+> + * Kylene Hall <kjhall@us.ibm.com>
+> + */
 
-Very nice cleanup.
+Hey guys,
 
-Acked-by: Chris Li <chrisl@kernel.org>
+Last time:
 
-Chris
+> https://lore.kernel.org/lkml/56929e8b-a7cf-4390-b4ec-0b4c2c32b311@intel.com/
+
+So, fast forward another version and six months ... the "fishy" bits
+ripped out of it, license changed and ... crickets in the changelogs and
+cover letter from what I can see.
+
+Second, the cadence on these is rather slow. I don't know what the delta
+from the last one is, but it doesn't _look_ like a six month project.
+It's really hard for reviewers to page stuff back in after that long.
+
+Also, new since the last post, you got Sashiko'd:
+
+> https://sashiko.dev/#/patchset/20260515211410.31440-1-ross.philipson%40gmail.com
+
+I'd suggest working through those first before the maintainers take
+another crack at this. There are a *LOT* of comments in there.
+
+I'd appreciate if you'd go back through the v15 comments and make sure
+you got all of them. I certainly felt like you didn't address at least
+on of my questions (the licensing stuff).
