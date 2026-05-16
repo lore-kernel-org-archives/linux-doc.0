@@ -1,122 +1,175 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436963E5A25
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 16:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB80D35A393;
+	Sat, 16 May 2026 16:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778947855; cv=none; b=sFUK03eqVsuOWFi+7Jg4Wj65bELTFm3h4GnENxiRII6hjkf/CafVbTHkYIWwLr+kxxKZ0hw3oEnrf1mQ5tbbMzdSZpbu654QDwhH1GhgCj1CB9euo5kHtv3BVeXtUP8YeGTUize95AAeMeuIf6ccbyMvzGO2uinDPndru0DNv+E=
+	t=1778948320; cv=none; b=YjEinyiYu2MJLn6r7wjFCmRbymO1ULtIJo7aSIqEjsk/lsP8NJQJ4y3KwhD2mhfLlqZhnsgxvmEMGEWFwdlPJo992ortJlmisjZ/mQujb7jfqiT97W4B1qXaq/u6sP6Udqhvy+zJorkDGJBITzeEYSAPAkvsli5C+zC/6wMSSd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778947855; c=relaxed/simple;
-	bh=Yecx+BTtAbiNUWINlUY77HFix2PSh5bmZlkraJA5IkI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CHDpcEdupwj3IrRH2kFHZmAZ5RmvqmUFkNkSRm72eq9KQfkoe74w2TRbxgB+vwSyETdcgopzVD1ZPyCXsqU3P/VzyV5IQ6RqO3sYLKkB11A8CIISrs5fIwX9OaO3AIV6k5l8z4NFaYojQlnQ2fx81s+Y+jTWTEOyhMh90eEheUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tBd1zBCf; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778948320; c=relaxed/simple;
+	bh=FM7gTZ1mmAAgFi4vaJTykZhCfX+sgQguDzAIZMiy5x4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hPp1Dj7KGtr6K9vzGVu7NjLRZJhje2d8i4V5K/7Sc4IPci8llua+lol9vPBgP7CSi8rYejzeo3MepsegTVUe95hYdhlwaDaVafZM/r/f8YpC3x9qTqw6LqI7vfBmz0fiYY3DLQyT2VqsvLx04TyyK8VD3TxW83NB0ay3o+l6RL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=r4UtEKN8; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tBd1zBCf"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2babfd18435so3761375ad.1
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 09:10:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778947854; x=1779552654; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=whYzxfm5ps4K2a8SUZCAvYuUvFnuFuh28riHObBjpH0=;
-        b=tBd1zBCfRV4dEzWoZEM0eXNrBwy49T8RLfj87AOZrVml0YlxCWqLppjELetNw6P6m3
-         58bGhZalPiqHugB7iUxweKd+1UvZja7Z+h72njcc4OI+slGsWrI5aYc1KV9b0JjX2S0w
-         Kj2SXZMmC5nwvtYmyeojCLhLrbXpQARvPEzkaPhCLmHYSEHq/1sj4WHSX0fQdccaUQFO
-         OwNwGP0SI6mpldvacIpsnZucPlbm+1nXKXEoxET5gWku97+GG/40np7wuyPvhcZW9wF6
-         FusEH04oHTYQ0LXlsTXXIHt/PznRlBTyO2RUC4HkC0kEuGxpZHVxFb1fhH3LW9qCrDVw
-         INcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778947854; x=1779552654;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=whYzxfm5ps4K2a8SUZCAvYuUvFnuFuh28riHObBjpH0=;
-        b=EXqd3mhlz+BGuMlDJwsvsqLYg0FeYL8quXgafmr9eIWmCpJazSfmpB24fta2HXsTyf
-         r/YzIXxsn/F7WMKtAzhJmSBqjoHm5ByTASiBtg3OKCfGmbIRO76MrvkAJ+lSnv+RhsIX
-         EdsotxHLi9bSgsYcb6G9S1pc4lj+q8wyUnb4fBRMfV9BQccZJlfnBgvKCE1YuEpHHaMy
-         kDXThg1oKWZc0DWw0SPtGBUJhdxNlNqXjraL7NQM5Zrj+fL8Jpa01p5+4zQm6eHUFb6o
-         V5nY7yofTnVNDaco8LGHjvt/4HVN4fr3JvNlkVBhXNnMEf3Zj7HxNsiwaXnbYgl+BMOm
-         nRhA==
-X-Forwarded-Encrypted: i=1; AFNElJ+GrTVEAjQcnxB2Z+dhNpT+O7vZy87WNELsUB8NqQQ6fNA/MoZGkPYJYAAzUwMe3AuUbAFc9EOofe0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsHdz+i7pnj2C2I+U1rCFp5e5rC2hh+yzuiYCH7n1ZeSDKBcEC
-	IncUT5TWsGZa0JiRwLTcsctlU55cQAh0sTuENWbdLXGL9InkT/Lr912C
-X-Gm-Gg: Acq92OHeUQXdv7sVotJ/QXABPZJwlBqV16jgfIPpf6fYktv9jbczsJknJJIQT66bk0e
-	o6gdIHQyRvPOzcwxOqnFHfxY4gSdxeRsl/saaOmyyZqrrPz4yxaC3jj+nwgO/uhDgUv/xk7gHWZ
-	1kmRhPeQa4awGpAhMjQDube5u8ZU2HAlUzz3izlYPynFK1qRqRa7nX0cOdgf6iU/h0xKgAUYyIb
-	/WrnXttlL9jRguR5H2F4ldKls6tM+rUIhdb+cNucSFq9TsxtrUjxZBCFpn/324V6lz6eKCVNzIF
-	PSnU/Zlg2eLKyd9Nkn+43viLl5gYxMSmZ03fh8mCRk5tD22Lz5/saDQPqPwd/4bGR8fcoSSGB4+
-	nvO0vBIHkCbXwViM7QOv6NhgsGeHgPu/ahDUkORSCRcLwnJ8PUkVJY2I6CtSz8ikV0LgR9LetWF
-	49fOW65wcjcmCFWCW9wGe6L8xk0AWDGZ3FHAzNHAEvF2k/JhUyjiBy/2wiBMeWjL3qO+dqSl9qF
-	VVw26CzDwFrrmxOL8pfFYXYADWSJTN/ls0rYTBxZYCVAccgAGg2myxs2kMMbdE=
-X-Received: by 2002:a17:903:1b25:b0:2b2:5515:661c with SMTP id d9443c01a7336-2bd7e8ca3d7mr118739585ad.31.1778947853613;
-        Sat, 16 May 2026 09:10:53 -0700 (PDT)
-Received: from ERIC039ERIC.localdomain (1-170-184-71.dynamic-ip.hinet.net. [1.170.184.71])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d0f94c6sm97752565ad.56.2026.05.16.09.10.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 09:10:53 -0700 (PDT)
-From: Chen-Shi-Hong <eric039eric@gmail.com>
-To: linux@roeck-us.net
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen-Shi-Hong <eric039eric@gmail.com>
-Subject: [PATCH] Documentation: hwmon: lm75: document sysfs interface
-Date: Sun, 17 May 2026 00:10:35 +0800
-Message-ID: <20260516161037.1486-1-eric039eric@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="r4UtEKN8"
+Message-ID: <0171629c-bdd3-4661-a4e6-2698dd623c3a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778948306;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vR+lCQ0+V0Cdos5Ij8lDKUWYnxsl8sJZdNMOw6mrUN4=;
+	b=r4UtEKN8a1UsCGh7yOfFegUVpsKLPA7q0L22MVLySoDpU72FG41c8Sk94hzx7+op1L62Oz
+	NaCH7lToB2Na5CMycO9mwvJGHJ713s+iLAHLlfLJz9LDQQyL/4fsf4ntfucLEX4VYbYYuz
+	BvPZAYWr9/U61fKJ1pRdQpQJBOlkbSs=
+Date: Sun, 17 May 2026 00:18:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH RESEND bpf-next v10 2/8] bpf: clear list node owner and
+ unlink before drop
+To: Eduard Zingerman <eddyz87@gmail.com>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, ast@kernel.org, memxor@gmail.com, corbet@lwn.net,
+ martin.lau@linux.dev, daniel@iogearbox.net, andrii@kernel.org,
+ song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+ kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org,
+ shuah@kernel.org, chengkaitao@kylinos.cn, skhan@linuxfoundation.org,
+ vmalik@redhat.com, linux-kselftest@vger.kernel.org, martin.lau@kernel.org,
+ clm@meta.com, ihor.solodrai@linux.dev, bot+bpf-ci@kernel.org
+References: <20260512055919.95716-3-kaitao.cheng@linux.dev>
+ <da95f45b43d94d17796b19abc4c555e35daafab7d5e1cdca3714fe0f54ab8cce@mail.kernel.org>
+ <e141699dab70282d811ec30bbf2aa8279706817b.camel@gmail.com>
+ <DII0TT9LXYCX.2GMM6QA4Q9BPZ@gmail.com>
+ <0fb2d99b-b122-44fa-a8bc-9befe6e350bc@linux.dev>
+ <7fa6794161a8bd4fdbc21dad68e86e9770c873cc.camel@gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kaitao Cheng <kaitao.cheng@linux.dev>
+In-Reply-To: <7fa6794161a8bd4fdbc21dad68e86e9770c873cc.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Document the sysfs attributes supported by the lm75 driver.
 
-The driver exposes temp1_input, temp1_max, temp1_max_hyst, and the
-standard update_interval attribute. Some chips also expose temp1_alarm.
 
-Add a sysfs-Interface section to Documentation/hwmon/lm75.rst to
-describe the supported attributes and clarify that temp1_alarm and the
-write permissions of update_interval depend on the chip.
+在 2026/5/16 02:24, Eduard Zingerman 写道:
+> On Fri, 2026-05-15 at 12:34 +0800, Kaitao Cheng wrote:
+>>
+>> 在 2026/5/14 09:50, Alexei Starovoitov 写道:
+>>> On Wed May 13, 2026 at 3:53 PM PDT, Eduard Zingerman wrote:
+>>>> On Tue, 2026-05-12 at 06:41 +0000, bot+bpf-ci@kernel.org wrote:
+>>>>
+>>>> [...]
+>>>>
+>>>>> When a BPF program holds an owning or refcount-acquired reference to
+>>>>> one of these nodes (node X), which is structurally supported because
+>>>>> __bpf_obj_drop_impl() uses refcount_dec_and_test() and only frees at
+>>>>> refcount 0, a concurrent push to a DIFFERENT bpf_list_head becomes a
+>>>>> corruption:
+>>>>>
+>>>>> CPU 0 (bpf_list_head_free, lock released)  CPU 1 (BPF prog, refcount X)
+>>>>> -----------------------------------------   ----------------------------
+>>>>> (owner of X == NULL, X linked in drain)
+>>>>>                                             bpf_list_push_back(other, X)
+>>>>>                                               __bpf_list_add: spin_lock()
+>>>>>                                               cmpxchg(X->owner, NULL,
+>>>>>                                                       POISON) -> OK
+>>>>>                                               list_add_tail(&X->list_head,
+>>>>>                                                             other_head)
+>>>>>                                                 -> overwrites X->next,
+>>>>>                                                    X->prev, corrupts
+>>>>>                                                    other_head's chain
+>>>>>                                                    because X is still
+>>>>>                                                    stitched into drain
+>>>>> pos = drain.next;      (may be X or neighbor using X's stale next)
+>>>>> list_del_init(pos);    reads X->next/prev now pointing into other_head,
+>>>>>                        corrupts other_head's list and/or drain
+>>>>
+>>>>
+>>>> Kaitao, this scenario seem plausible, could you please comment on it?
+>>>
+>>> I think bot is correct.
+>>> This patch looks buggy.
+>>> It seems to me an optimization that breaks the concurrent logic.
+>>> May be just drop this patch and reorder the other one, so that bot
+>>> sees nonown suffix logic first.
+>>
+>> This patch is still necessary because it addresses the problem discussed
+>> in this thread:
+>> https://lore.kernel.org/all/DH846C0P88QU.16YT12I1LXBZM@etsalapatis.com/
+>>
+>> The patch does have a bug, however. To fix the issues we are seeing now,
+>> I propose the additional changes below and would appreciate feedback.
+>>
+>> --- a/kernel/bpf/helpers.c
+>> +++ b/kernel/bpf/helpers.c
+>> @@ -2263,8 +2263,10 @@ void bpf_list_head_free(const struct btf_field *field, void *list_head,
+>>         if (!head->next || list_empty(head))
+>>                 goto unlock;
+>>         list_for_each_safe(pos, n, head) {
+>> -               WRITE_ONCE(container_of(pos,
+>> -                       struct bpf_list_node_kern, list_head)->owner, NULL);
+>> +               struct bpf_list_node_kern *node;
+>> +
+>> +               node = container_of(pos, struct bpf_list_node_kern, list_head);
+>> +               WRITE_ONCE(node->owner, BPF_PTR_POISON);
+>>                 list_move_tail(pos, &drain);
+>>         }
+>>  unlock:
+>> @@ -2272,8 +2274,12 @@ void bpf_list_head_free(const struct btf_field *field, void *list_head,
+>>         __bpf_spin_unlock_irqrestore(spin_lock);
+>>
+>>         while (!list_empty(&drain)) {
+>> +               struct bpf_list_node_kern *node;
+>> +
+>>                 pos = drain.next;
+>> +               node = container_of(pos, struct bpf_list_node_kern, list_head);
+>>                 list_del_init(pos);
+>> +               WRITE_ONCE(node->owner, NULL);
+> 
+> I think this still leaves a short race window open.
+> Why does the .owner has field to be NULL?
+> Can the logic that implies for it to be NULL be extended to accept
+> POISON as well?
 
-Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
----
- Documentation/hwmon/lm75.rst | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Here, before setting owner to NULL, list_del_init() has already been
+executed, which means the node no longer belongs to any list. This
+should match the semantic meaning of owner == NULL.
 
-diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
-index 4269da04508e..cbf737948c1d 100644
---- a/Documentation/hwmon/lm75.rst
-+++ b/Documentation/hwmon/lm75.rst
-@@ -181,3 +181,21 @@ is supported by this driver, other specific enhancements are not.
- 
- The LM77 is not supported, contrary to what we pretended for a long time.
- Both chips are simply not compatible, value encoding differs.
-+
-+sysfs-Interface
-+---------------
-+
-+================ ============================================
-+temp1_input      temperature input
-+temp1_max        maximum temperature
-+temp1_max_hyst   maximum temperature hysteresis
-+================ ============================================
-+
-+If supported by the chip, the following attribute is also available:
-+
-+================ ============================================
-+temp1_alarm      temperature alarm
-+================ ============================================
-+
-+The standard update_interval attribute is also supported. Its write
-+permissions depend on the chip.
+Do you mean deleting WRITE_ONCE(node->owner, NULL) and preventing
+all subsequent __bpf_list_add() operations on this node?
+
+> 
+>>                 /* The contained type can also have resources, including a
+>>                  * bpf_list_head which needs to be freed.
+>>                  */
+
+
+>> @@ -2481,6 +2487,14 @@ static int __bpf_list_add(struct bpf_list_node_kern *node,
+>>         if (unlikely(!h->next))
+>>                 INIT_LIST_HEAD(h);
+>> 
+>> +       /* bpf_list_head_free() marks nodes being detached with BPF_PTR_POISON
+>> +        * before list_del_init().  cmpxchg(NULL, POISON) below would fail with
+>> +        * that old value and fall into the generic error path, which wrongly
+>> +        * calls __bpf_obj_drop_impl().  Reject POISON up front instead.
+>> +        */
+>> +       if (READ_ONCE(node->owner) == BPF_PTR_POISON)
+>> +               return -EINVAL;
+>> +
+
+This code block is not needed; I will remove it.
+
 -- 
-2.53.0
+Thanks
+Kaitao Cheng
 
