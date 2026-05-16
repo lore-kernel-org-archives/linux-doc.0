@@ -1,256 +1,150 @@
-Received: from smtp.uniroma2.it (smtp.uniroma2.it [160.80.4.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6474F405C4D;
-	Sat, 16 May 2026 16:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.80.4.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6F93E2AA5
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 16:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778949167; cv=none; b=RYdaf6Kgfv6d7jTfE8t34j2RRDLNPb1L7/H5TQiX9kC6nTWUVINEQfup4l2zvO6IcZi8uor/YUWwHy9bkM5s4o66mMZ88iTmjHFDiLrHhHshqHQnrGaW6dJSsTM0D7yzLuA3Oq95OvEzSI21kPHh1tQUrjHZ4H6MD8HIvCv1dMk=
+	t=1778949330; cv=none; b=i7hOxGgEvruOt943kP+onUWbLPQSHQM8Uw9FyeFipa9P6Eu8lvuR8SnWR9ZtbEqorWQwowWcOMVVyrUKAvek+RHPLYn0gLrYcBLmGONH+1r68EFoQOxMDp3G/DAEEOsV2l9FhXXXXiN9vhPr8cnYDFs0yQ7AZvn1KsXVGKemk/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778949167; c=relaxed/simple;
-	bh=PWRlz0bAYGNEss5NAODwa78EZdoYB4GvTMaDda35irc=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=D4+j2XOkfbGEbo5LalsbH7QWlqUy3VdrA8svKshZ0kY5HZk2ovwHC9lBlGREq8/kcKVjxejHyqdY5rmkmObV5+TcDzgpQoHtWBevQ5W/B8/JkGcVPK/zUuIF3LzNnu3VBBp4DFHHN1QW9WOXtTA4kFWduxUbHEaJa2N3FRiKH/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniroma2.it; spf=pass smtp.mailfrom=uniroma2.it; dkim=permerror (0-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b=o7bu4ttN; dkim=pass (2048-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b=Ryku/9CD; arc=none smtp.client-ip=160.80.4.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniroma2.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniroma2.it
+	s=arc-20240116; t=1778949330; c=relaxed/simple;
+	bh=ObeT11Yua0BV4EJOKCJX/brzVfO/DD/aReuB3TectNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k6heVIk8uSpGatoYW1gdj0no0woMJJ40E8CssT4KG/wYwbZQc06gfQvqeDmCOTBco6F7LbeNaaSOT1lS+uVEgIGWkAMg8ALvp2SN2wDGHVZg3OS1Q6LyC8qCplWXpyy8XIHv0vIKoW4U+D4OAhRNL9LS5sCzNZEdJFTtx/bgM1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AavyMMsL; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b="o7bu4ttN";
-	dkim=pass (2048-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b="Ryku/9CD"
-Received: from smtpauth-2019-1.uniroma2.it (smtpauth-2019-1.uniroma2.it [160.80.5.46])
-	by smtp-2015.uniroma2.it (8.14.4/8.14.4/Debian-8) with ESMTP id 64GGQ0f7022595;
-	Sat, 16 May 2026 18:26:06 +0200
-Received: from lubuntu-18.04 (host-95-246-236-184.retail.telecomitalia.it [95.246.236.184])
-	by smtpauth-2019-1.uniroma2.it (Postfix) with ESMTPSA id DBF44122901;
-	Sat, 16 May 2026 18:25:56 +0200 (CEST)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=uniroma2.it;
-	s=ed201904; t=1778948757; h=from:from:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RTO1RAu7euvHtj4HzoctoToKt9Ch9IUKUgMEEx4QzpQ=;
-	b=o7bu4ttNt52bH3A6pny5FyhRyrFs+Yn4MFCg9/fTZe27XN9jDx6O3FxJhA41tQo+R2DyA8
-	dM+TGYj7SRzLH2BA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniroma2.it; s=rsa201904;
-	t=1778948757; h=from:from:sender:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RTO1RAu7euvHtj4HzoctoToKt9Ch9IUKUgMEEx4QzpQ=;
-	b=Ryku/9CDDmWB/aFrWWfQ0ClbLjlvV00F9zcAwNDPa1czzXWpj3zwoMx3F1aDO8Xenp/dSx
-	XUsOri3sl7ZMaX+CBY5BBPIlYxp0dSUZ1UIpXy8UUDGD1jpCE1+nVuI0OULcAOtQ2tOGAm
-	KZp7ERlmvcMGi6CP9UexUuOguskVP2274Y9d135F7XZ6YIAUClGgyzS5JYGsn/LrTd8Yh7
-	EMMPE3MhF4VbQKSK2SYn42ZIVDDs7gw5FhXEVNu63znQLgAS4Sotnn1hQX9E9KzmMhJ41V
-	xTaU65EK+l+ZKGk3gbqtRzEl3FMR9Q8KyXPUmcoyOZvvJY1kBu2zvnGuN/ykIQ==
-Date: Sat, 16 May 2026 18:25:56 +0200
-From: Andrea Mayer <andrea.mayer@uniroma2.it>
-To: Yuya Kusakabe <yuya.kusakabe@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        Justin Iurman
- <justin.iurman@gmail.com>,
-        Shuah Khan <shuah@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, stefano.salsano@uniroma2.it,
-        ahabdels@cisco.com, Andrea Mayer
- <andrea.mayer@uniroma2.it>
-Subject: Re: [PATCH v2 0/7] seg6: add SRv6 Mobile User Plane (RFC 9433)
- behaviors
-Message-Id: <20260516182556.66af27a9c63208435911990b@uniroma2.it>
-In-Reply-To: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com>
-References: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AavyMMsL"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48a3e9862f0so4237835e9.1
+        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 09:35:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778949327; x=1779554127; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IZeZfDIT56zPfGGUkR4CImZ1hE92727R56H7iAHBklM=;
+        b=AavyMMsLjPzrM/9co6HPLUCovA1mkQz+IQ9CLAnbMKZe7Q2OfhEgzIvlefLWV072u5
+         caW9LLwa9+dnudCva5YbXi5SwesQeWGefJW0prZC0cDtABDhVubtzwZH/wMFXxilRvzX
+         4fZHzmeGvR7v0g/pmsceY5mIVh9mhlx9xbXnJHWzYrOkOplJBwydY0lNzRKhgIY6mmaV
+         JeUa+j/3SAqauhuEQnR6n2VoKncRDKlgJqISmO/JWTVVYHy56nKF26XfAVWcjRrtb8aV
+         bqmuUgATVXXkm+Gi/EmFL1lMZyzdkpxg6Oo7hHh2urUc+WSg4MBQoGQsV+2PGxa8l4Wh
+         Cd8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778949327; x=1779554127;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IZeZfDIT56zPfGGUkR4CImZ1hE92727R56H7iAHBklM=;
+        b=UOKM04ZfauUL7eNEKx534db1gTMlcBsXBemi8FCnw5BSxJ4uyU6oCng1GsGwKmnTu6
+         YSJV8i603pZjpKt69Ed+avhSPzaRfPpydnXndtgpP1lzQfV4VEzEp1PEcF9/5/+bOfIY
+         r6T4DbSjT8AU9qKXxfKUoVGCYA+RVauHS39H0YWPJ1HH02sHWrup7BWRYFCOYy8TI4Ak
+         bNYPy5zp9dcgcaDI0jFIQkBrgtu6+Ey+JzlcwdZmexuTQ4wF0oo7oiNxoMuXRMujvCtB
+         ERwqW/JAQO6K1uIam0WsEORZk5p7w2owat2pPs+TX3ILMCGXig+Y04XwRdgHcCIhNr/u
+         dxrA==
+X-Forwarded-Encrypted: i=1; AFNElJ/DU6LOzK6amfdyN9F9I+53yV/hoqYcPp9fv1TzS+ZTLW1UCuS+Qqq7ju9U5SqHkLHVPJ8HeWGHNEw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAnLTzhLVI2EPyfLWZwYLovXDjm29+uNtgwx2UyN1g2kPvUAMo
+	Y2Q+yWE/WaGWqS3lgiZ/VNgDv2SRzQu7Jkrh3owAqOULR4/prKNdltCP
+X-Gm-Gg: Acq92OENqtprqIsDYLxvxA/1g3VPpXDOULo0gb9TspCGLg/jlvK2I1OSpbS/jYgp9Lg
+	nbRo/4D/rGCg+a0HSi3zTU4VQL915KmJ9615N4xKjecm21PFPY9GwGsdHGE7X2ubyZWL+d1iC6s
+	B8dLQo7Li0nJu/r4QbBBzN4mENwjXiMAy/G2CyDivdhNYH60eT06EO/zxime6E1qXkOM8EF2eEB
+	C4FZwGAspyvGeJ25h2SEFDeQdhLD0oc3kG3lUBbi54FFHR5nb1HYsutqOyyoVE/4oSZtFKH2C61
+	PKu3s3asgZoAkD+/NWePJ4/1WP7W8q4sDS1eg31LqQFVHoE01TsGcujMLGyX0/d87DEZ4sYgGfc
+	98sxsc5/kk3zftpY7jgsHlNst04u8IPq9M9Ka5q6vUdULv2J2JcjLFXsE5M9XXcfGjOJVdSgJCM
+	aG81JyMWQBBW8OWsOwalhPL4u/vLV3H9inpL+IGMMS7rA7TuWIsiWN5sX6FVoFAm+s6SjG5ZY=
+X-Received: by 2002:a05:600c:4851:b0:48a:79d8:a8d6 with SMTP id 5b1f17b1804b1-48feea99dc7mr50647655e9.7.1778949326439;
+        Sat, 16 May 2026 09:35:26 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febe79ce3sm41831365e9.31.2026.05.16.09.35.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 May 2026 09:35:26 -0700 (PDT)
+Date: Sat, 16 May 2026 17:35:24 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Heiko Carstens <hca@linux.ibm.com>
+Cc: Kees Cook <kees@kernel.org>, Manuel Ebner <manuelebner@mailbox.org>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Andy Whitcroft
+ <apw@canonical.com>, Joe Perches <joe@perches.com>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Geert
+ Uytterhoeven <geert@linux-m68k.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Jani Nikula <jani.nikula@intel.com>, "open list:DOCUMENTATION PROCESS"
+ <workflows@vger.kernel.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] Doc: deprecated.rst: add strlcat()
+Message-ID: <20260516173524.498984d0@pumpkin>
+In-Reply-To: <20260516152819.14597A76-hca@linux.ibm.com>
+References: <20260514160719.105084-3-manuelebner@mailbox.org>
+	<20260514162652.107714-2-manuelebner@mailbox.org>
+	<202605140931.913048A68B@keescook>
+	<20260516152819.14597A76-hca@linux.ibm.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.100.0 at smtp-2015
-X-Virus-Status: Clean
 
-On Tue, 05 May 2026 01:30:10 +0900
-Yuya Kusakabe <yuya.kusakabe@gmail.com> wrote:
+On Sat, 16 May 2026 17:28:19 +0200
+Heiko Carstens <hca@linux.ibm.com> wrote:
 
-Hi Yuya,
+> On Thu, May 14, 2026 at 09:31:46AM -0700, Kees Cook wrote:
+> > On Thu, May 14, 2026 at 06:26:53PM +0200, Manuel Ebner wrote:  
+> > > add strlcat and alternatives
+> > > 
+> > > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> > > ---
+> > >  Documentation/process/deprecated.rst | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > > 
+> > > diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> > > index fed56864d036..06e802f4bbfd 100644
+> > > --- a/Documentation/process/deprecated.rst
+> > > +++ b/Documentation/process/deprecated.rst
+> > > @@ -153,6 +153,13 @@ used, and the destinations should be marked with the `__nonstring
+> > >  attribute to avoid future compiler warnings. For cases still needing
+> > >  NUL-padding, strtomem_pad() can be used.
+> > >  
+> > > +strlcat()
+> > > +---------
+> > > +strlcat() must re-scan the destination string from the beginning on each
+> > > +call (O(n^2) behavior). Alternatives are seq_buf_puts() and seq_buf_printf().
+> > > +snprintf(), scnprintf() and sysfs_emit() are possible aswell, but the adoption
+> > > +of the arguments needs to be taken care off.
+> > > +  
+> > 
+> > How about just:
+> > 
+> > strlcat() must re-scan the destination string from the beginning on each
+> > call (O(n^2) behavior). Use the seq_buf API or similar instead.  
+> 
+> seq_buf API for appending something to e.g. boot_command_line seems to be odd,
+> since boot_command_line is usually "just there" (depending on architecture and
+> boot loader).
 
-Thanks for the work. Some comments on the overall design below. I will
-reply on the individual patches separately.
+Indeed, but ISTR that code uses strcat() a lot of the time.
+The lengths are all known, so memcpy() can be used.
 
-> This series adds the in-kernel data path for the SRv6 Mobile User
-> Plane (MUP) architecture defined in RFC 9433.  SRv6 MUP integrates
-> GTP-U mobile traffic into an SRv6 transport domain by mapping the
-> 5-tuple (TEID, QFI, R, U, PDU Session ID) into a single SID, allowing
-> operators to replace the GTP-U overlay between the gNB and the
-> upstream UPF with native SRv6 forwarding while keeping the radio side
-> unchanged.
->
-> The series implements the six MUP behaviors that an SRv6 MUP gateway
-> typically needs:
->
->   End.MAP         (RFC 9433 Section 6.2) -- swap DA with the next SID
->                                             without consuming the SRH
->   End.M.GTP6.D    (Section 6.3) -- IPv6/GTP-U to SRv6 headend encap
->   End.M.GTP6.D.Di (Section 6.4) -- drop-in mode variant of the above
->                                    (preserves the original outer DA at
->                                    SRH[0] and discards TEID/QFI)
->   End.M.GTP6.E    (Section 6.5) -- SRv6 to IPv6/GTP-U egress encap
->   End.M.GTP4.E    (Section 6.6) -- SRv6 to IPv4/GTP-U egress encap
->   H.M.GTP4.D      (Section 6.7) -- IPv4/GTP-U to SRv6 headend encap
+I don't really see why strlcat() should be deprecated.
+Clearly there are many cases where there are better ways to do things.
+The only problem with strlcat() is that it returns the 'required length'.
+So there are some broken uses.
+- fs/nfs/flexfilelayout/flexfilelayout.c
+- lib/kunit/string-stream.c (although the preceding vsnprintf() looks like the actual bug).
+There is also some very strange code in security/selinus/ima.c - but it may be ok.
 
-RFC 9433 Section 6 is titled "SRv6 Segment Endpoint Mobility Behaviors",
-but Section 6.7 defines H.M.GTP4.D as "SR Policy Headend with tunnel
-decapsulation and map to an SRv6 policy". This behavior receives IPv4
-packets and is not bound to any SID, so it does not fit the endpoint
-model that seg6_local implements. Placing it there required relaxing the
-ETH_P_IPV6 guard to accept ETH_P_IP and adding input_family to
-seg6_action_desc, for a single behavior that does not share the endpoint
-model.
+In reality the return value of strlcat() isn't really much worse that that
+of snprintf().
 
-seg6_local is not the natural place for this behavior. The UAPI cannot
-be undone once merged, so where it should live needs discussion on the
-list before we proceed.
+-- David
 
->
-> End.Limit (RFC 9433 Section 6.8) is intentionally out of scope.
+> 
+> So if I would remove strlcat() from appending something to boot_command_line I
+> would end up open-coding strlcat(), including the chance for the usual
+> off-by-one bugs. Looks like this would be true for nearly all architectures.
+> 
+> Is performance really the only reason to deprecate strlcat()? This seems to be
+> a bit questionable to me.
 
->
-> All behaviors plug into the existing seg6_local lwtunnel framework, so
-> they are configurable through the standard "ip route ... encap
-> seg6local action ..." interface.
-
-This adds ~2.2k lines to seg6_local.c, bringing it from ~2.7k to ~5k
-lines. The behaviors reuse the existing seg6_local infrastructure (SRH
-validation, seg6_do_srh_encap, seg6_lookup_nexthop), while the GTP-U
-parsing, encapsulation, and PDU Session handling, for example, is new
-and self-contained. Given the volume, moving the MUP code into a
-separate seg6_mobile.c (say CONFIG_IPV6_SEG6_MUP) would keep seg6_local
-focused on the RFC 8986 endpoint framework. There are trade-offs
-either way and I think this deserves discussion on the list.
-
-There is significant duplication across the introduced behaviors: for
-example the GTP-U parsing, inner protocol dispatch, and NF_HOOK plumbing
-are nearly identical each time, and the small differences are already
-hiding issues (HMAC validation missing in some, malformed SRH silently
-accepted in others, wrong drop reasons). Some of the individual
-functions are also well over 100 lines. Splitting them with helpers
-would help.
-The new code also has some style drift from seg6_local.c (variable
-declaration ordering, scope blocks, blank lines) that should be fixed.
-
-I think this patchset should be broken into smaller patchsets, one per
-behavior, each with the behavior, its selftest, and any needed helpers as
-separate patches. The same approach was used for End.DT4/End.DT6 and
-End.DT46. End.M.GTP4.E alone is ~1.2k lines in a single diff.
-
-> No new netlink families are
-> introduced -- the new SEG6_LOCAL_MOBILE_* attributes extend
-> SEG6_LOCAL_MAX in an add-only way, and the new SEG6_LOCAL_ACTION_*
-> values are appended.
-
-The attribute layout and semantics are probably the most sensitive part
-of the series and need to be settled before it can go in, since the UAPI
-cannot be changed once merged.
-
-The series reuses SEG6_LOCAL_NH6, SEG6_LOCAL_SRH and SEG6_LOCAL_OIF with
-semantics that differ from the existing behaviors. NH6 today means
-next-hop in End.X/DX6. This series reuses it as DA replacement in
-End.MAP and as prefix template in H.M.GTP4.D.
-SRH is inserted verbatim in End.B6/B6.Encaps but augmented per-packet in
-the mobile behaviors. These attributes have established UAPI semantics
-from their existing behaviors. Giving them a different meaning in new
-behaviors is a UAPI semantic divergence.
-
-The selftests use OIF on all five GTP behaviors to select a VRF for the
-lookup, but that is what TABLE and VRFTABLE are for (End.DT4, End.DT6).
-OIF in the existing behaviors means output interface (End.X) or L2
-egress device (End.DX2). VRF support is a nice-to-have that can be added
-later as a separate optional attribute.
-
->
-> The egress behaviors (End.M.GTP4.E and End.M.GTP6.E) accept an
-> optional per-route pdu_type attribute that is the sole control
-> for inserting the GTP-U PDU Session Container (3GPP TS 38.415 Section
-> 5.5.2).  When pdu_type is set (dl/ul/0..15), every emitted GTP-U
-> packet carries the container with that PDU Type and the QFI extracted
-> from Args.Mob.Session.  When pdu_type is unset, the egress emits
-> a short GTPv1-U header with no container.  pdu_type must be
-> configured on egress routes serving 5G N3 traffic; omitting it is
-> intended only for LTE-only / S1-U-style deployments where no PDU
-> Session Container is exchanged.
->
-> The matching iproute2 patch series has been posted to iproute2-next:
-> https://lore.kernel.org/netdev/20260505-seg6-mobile-v2-0-93291b7b0134@gmail.com/
-
-The user-facing parameter names and their semantics are defined in the
-iproute2 series (where the man page lives), so that is probably the
-better place to discuss keyword choices and attribute naming.
-
-> [snip]
->  include/net/dropreason-core.h                      |   40 +
-
-The series introduces six mobile-specific drop reasons. Drop reasons are
-visible to userspace via the kfree_skb tracepoint (perf, bpftrace,
-dropwatch), so they look like a kind of interface and their names should
-match the actual failure.
-
-BAD_SID and BAD_GTPU make sense as mobile-specific reasons. The other
-four have issues: NOMEM and MTU_EXCEEDED duplicate existing generic
-reasons (NOMEM and PKT_TOO_BIG). INVALID_SRH_SL is used for multiple SRH
-validation failures, not just Segments Left (HMAC failure is also
-reported as INVALID_SRH_SL). BAD_INNER is used as a catch-all for outer
-header pull failures and encapsulation errors, neither of which involves
-the inner payload.
-
-We could think about a prep patch introducing SRv6-level drop reasons
-(SEG6_INVALID_SRH, SEG6_HMAC, etc.) that both the existing behaviors and
-the MUP ones can share.
-
-> [snip]
->  .../selftests/net/srv6_end_m_gtp4_e_test.sh        |  486 ++++
->  .../selftests/net/srv6_end_m_gtp6_d_di_test.sh     |  427 ++++
->  .../selftests/net/srv6_end_m_gtp6_d_test.sh        |  497 ++++
->  .../selftests/net/srv6_end_m_gtp6_e_test.sh        |  402 +++
->  tools/testing/selftests/net/srv6_end_map_test.sh   |  103 +
->  .../testing/selftests/net/srv6_h_m_gtp4_d_test.sh  |  487 ++++
-
-Selftests for the five GTP behaviors heavily depend on python3 and scapy
-heredocs embedded in the shell scripts for packet construction and
-validation, which adds an external runtime dependency. A statically
-compiled C helper would remove it and avoid embedding python heredocs
-in shell scripts.
-A few cases worth covering: SRH and no-SRH input paths where the
-behavior accepts both, missing SRH where the behavior requires
-it, malformed SRH, and invalid attribute values.
-
-The five GTP behaviors pass per-packet context to a finish callback through
-skb->cb, and recover the lwtstate via skb_dst(skb)->lwtstate.
-When nf_hooks_lwtunnel is enabled, an NF_HOOK sits between the input
-handler and the finish callback. Netfilter processing at this hook can then
-corrupt the cb (IPCB/IP6CB aliases skb->cb) or drop/replace the skb dst, so
-the finish callback dereferences a NULL or unrelated dst.
-Even if the dst is preserved, the cb may have been modified.
-
-The dst problem is pre-existing from 7a3f5b0de364 ("netfilter: add
-netfilter hooks to SRv6 data plane") and affects seg6_iptunnel too. Both
-issues need a robust fix before this series can go in. I want to look at
-this myself and will Cc you when I do, as the five new behaviors may need
-to be adjusted on top.
-
-> [snip]
-
-> Best regards,
-> --
-> Yuya Kusakabe <yuya.kusakabe@gmail.com>
-
-Ciao,
-Andrea
