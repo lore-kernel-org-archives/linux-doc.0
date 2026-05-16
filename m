@@ -1,53 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E232C3D0C03;
-	Sat, 16 May 2026 10:40:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7086D1C5F39;
+	Sat, 16 May 2026 10:57:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778928035; cv=none; b=ee4WaVvQ01lUdzdZSLA/C7oOxdDIcg2iVngAl3HIKherThS10CKC2MxySPUbf20yHf4m4sVawwr+tu4I9wdrRHEkKVYlPNCCbX8x/LfyFctT6ENQfYX61FZ6tJNT5RSnMmfFk5kR/1JUfIRz81LXR3ME4CWD2j2Aa+f8KQoY6qw=
+	t=1778929047; cv=none; b=Ge36V9u4huxhHh3VNVgPrydzVrYKcfqbNc174/2meO7NcxKAeswD/h0KsXxMCEF2+CbIVeKYU7xU1l+DAMZgjtaLI1z7y9M7uNWdAX+eyr3Ks8rqq5BV0GpixhTmJUaAayb1VKZLLhajltuIzxU/5dROG6pJmANvC93YjXLmaKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778928035; c=relaxed/simple;
-	bh=fXmnEYBLoOJ7UNNv2B4c5j0+3yxz9xeHcARFFB09Kqs=;
+	s=arc-20240116; t=1778929047; c=relaxed/simple;
+	bh=w1HDI7qDSJTkeV92krG3LvV/CuMFeiY4XLAxP9rTTiI=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VZpfEgnAYUyL29APXQB/LeZQCjrVmc3gQbm2csO348BQZLoFTwkTgxW5Cm1GoubjbcHztgOIfCxUUV09gQcCKD2NQGJywBz4WMLCBBKzZCf0eCnJazwau6afxWwXF1ZFyJCej+TcxnyJQZBcDwlnuWg8vMTl1AYQZ8+QtXS7bVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OlDgRiPT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Te1jeCh/SrALbr6Z002KYkgoeFl5OKbMygQwHFNFTa0lxnERK61TOvjaf+iTXbQCsXuidTw+Sowv6o5l54vncs5c51UEGw6BA+h5/q4gPADCZ0kW9RA2Up1LEYKH3B10uVGfqzx3ilZyqwiSug37kBRqC+3Jvkza6ekYC2LNB3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EQx+wD3p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OlDgRiPT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FA58C19425;
-	Sat, 16 May 2026 10:40:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EQx+wD3p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B482CC19425;
+	Sat, 16 May 2026 10:57:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778928034;
-	bh=fXmnEYBLoOJ7UNNv2B4c5j0+3yxz9xeHcARFFB09Kqs=;
+	s=k20201202; t=1778929047;
+	bh=w1HDI7qDSJTkeV92krG3LvV/CuMFeiY4XLAxP9rTTiI=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OlDgRiPTZ/EHN17s3jfhKd0Gd1EStbmTUQtdTnIfJxGt+H4iDVDSkPIwGI1VFRbF/
-	 YkYrWlvPMwvt/UaCU3i/e5W56B8C9cUeoypyB1oIs2vj1wG39pGVCneGEDX9ACLDPW
-	 G5oOqKX+yFHQN+2Kc8ZE2Na/Lq2UxaLDaX1JcKULAouGm0Sa5Gjh2OQmPooFd/46I4
-	 XLUIXDeZgkZhEQDV0xOkIeu9RCegWcy0uOE9hIm8mhMquuooNFqmclAnfLLQuutz5e
-	 OgNlH8Jnjvwe4rKzLuy/zbGlBcUe6vulRvTPLj3V7K2wF78eXvLyY6y3oHUlSXkx9J
-	 kDarKgSqqJe9g==
-Date: Sat, 16 May 2026 11:40:22 +0100
+	b=EQx+wD3ppTNhg7Xws8Dlxl2QSV4pLZ7RKnw/uRNVq/YUaW3wH6VCnShJuBKZCFcO+
+	 klaK8e/+7VvS6hSRfqQ1tV1sUpoA4TWb4PYi8Y38GwoU77vmyOVCcOp1GRBZDSGdzB
+	 /V1VUU0yQA0L284LwFp8GV4s6p6qut7Y3fUMSeauNvwPQLakOj2jbHWK357bYRl1us
+	 8tAn2KCVnmGfaGvKKtHcvQ/tapZxKh1Xf4oj7GouhXnuULqZYbfUeg/A89CSaJk3zg
+	 B716D/qSXj98KWfa2dWAZarXRNAcmXuXqYcspv9NB0s9eQvNA1WmphodoqTHAuvHQ9
+	 1sOmr5kFrdaHg==
+Date: Sat, 16 May 2026 11:57:19 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>,
- rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH RFC v4 01/10] dt-bindings: iio: frequency: add ad9910
-Message-ID: <20260516114022.58949a06@jic23-huawei>
-In-Reply-To: <vklczsi4vk3sqf53zifslhp5pysdmj3gfyhvdgrwo4bg3wdkxj@lnbftaf5jcbf>
-References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
-	<20260508-ad9910-iio-driver-v4-1-d26bfd20ee3d@analog.com>
-	<20260512193129.777d62a8@jic23-huawei>
-	<vklczsi4vk3sqf53zifslhp5pysdmj3gfyhvdgrwo4bg3wdkxj@lnbftaf5jcbf>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Stepan Ionichev <sozdayvek@gmail.com>, corbet@lwn.net,
+ dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org, hcazarim@yahoo.com,
+ linux-doc@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: iio: fix typo in triggered-buffers
+ example
+Message-ID: <20260516115719.2a866ecf@jic23-huawei>
+In-Reply-To: <agb8enneR8dWE_uL@ashevche-desk.local>
+References: <20260514085157.20327-1-sozdayvek@gmail.com>
+	<agb8enneR8dWE_uL@ashevche-desk.local>
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,41 +50,18 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 13 May 2026 16:09:24 +0100
-Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
+On Fri, 15 May 2026 13:59:06 +0300
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
 
-> On 26/05/12 07:31PM, Jonathan Cameron wrote:
-> > On Fri, 08 May 2026 18:00:17 +0100
-> > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> >   
-> > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > > 
-> > > DT-bindings for AD9910, a 1 GSPS DDS with 14-bit DAC. It includes
-> > > configurations for clocks, DAC current, reset and basic GPIO control.  
-> > 
-> > I think this is getting close enough now that for next version you should
-> > drop the RFC (which is probably gating DT binding folk giving it
-> > a detailed review!)
-> >   
-> > > 
-> > > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>  
-> >   
-> > > +
-> > > +  adi,dac-output-current-microamp:
-> > > +    minimum: 8640
-> > > +    maximum: 31590
-> > > +    default: 20070
-> > > +    description:
-> > > +      DAC full-scale output current in microamps.
-> > > +  
-> > Can we use generic dac.yaml defined output-range-microamp? The base will be 0 always but
-> > that shouldn't matter.
-> >  
+> On Thu, May 14, 2026 at 01:51:57PM +0500, Stepan Ionichev wrote:
+> > In the "IIO triggered buffer setup" example, iio_triggered_buffer_setup()
+> > is called with "sensor_iio_polfunc" (single 'l') while the function is
+> > defined and later referenced as "sensor_iio_pollfunc" (double 'l'). Fix
+> > the misspelling so the example is consistent.  
 > 
-> would that be fine even if we do not have those child channel nodes in the device-tree node? 
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 > 
-I think I'd rather we generalized to cover the 'one shared value' case rather
-then went with a vendor specific binding.
 
-Jonathan
-
+Applied.
+Thanks,
+J
