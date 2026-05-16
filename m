@@ -1,135 +1,185 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879393E4C76
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 16:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24373E4C6D
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 16:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778949641; cv=none; b=kFsak50WH5gEh7BhBOfUCqKwBT3+spDYaiWNzH9SC+OAKFgyC+t713q7DYsw16QA0FUnq4EDCy9+PIIdF5gUjCpdAJwIHjBH3p3/zcdjtZbEdmBnVh3JJRyBG1ASTGrfuSYnwe2RhSzVlM55SBpbT1l7uFon/fv4wNqiugXGIwI=
+	t=1778950089; cv=none; b=LOLKh6tsBXyNSWQSB24bOTj97+sLW7R37vzmQxzdIJc8q9b3ReJITYrOBIEqQ0iEd9a1ds6s7ICi08tRIWtDLLbCH23i5Vuh/Cqmpde3XqHmkyYwKO7O95io8fZ6XD0lQ3pL+h50gEMat/HEHlNQH0zMSpxys8SkE5hyPP+O4+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778949641; c=relaxed/simple;
-	bh=NK7YqHRs4nyjGwzGqAJDFJyW08ZuhszEYyz6iuH4Xfs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y6iKjbB30ESUCRG1SnR0Q4nIUyWGsbhxrO72MGH51K73szN401pvj61tEfmkFyNQcooFui9duqcNtcueiPcfYq4CfunBx2979Ruf+pG5gFl0tZ0LogPEab7ph2ZwsSRJEA60T5PAWOrpBLx1uanrLMNCZoMOkT8uK8IwZowLGqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hnAsEdoN; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1778950089; c=relaxed/simple;
+	bh=WMlOjIdiNANsBwMFWWoNNCkhaCE2V7Ythj7cNr6DgmA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZUmdWrATLjV+DaFD2ixRc9FGh31uO8UlokzMRS33mNJfXO27XaweqmGO/khSzoF4DtZ3DCa9HjhLoUTAxCGetln6gkvv3uRDMQRCn0voZvrG0BmlHFnlJHzCx9ZIpXRElEAjLenz7EtBXuMCO+zbcZuH0ynJuq6YIVLF03CxlyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=amoeVVAG; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hnAsEdoN"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-83d31ac4017so367832b3a.3
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 09:40:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="amoeVVAG"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c801912c903so345721a12.0
+        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 09:48:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778949640; x=1779554440; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eBIdaWnYuc/Npeb6Oh6KMBYaEw3GCxevwGqd6QfClhg=;
-        b=hnAsEdoN79VrRJdy8CIrqSiqiGe9eSk/kqUK7711HdP48nEE0pRUqWUlhQ7Zy2x/N/
-         cavsCThiwnqQ578QunZxHrPyoOeiqKighjIMtU7aFq3JaH6ENBvk6dWfXUEgnT/jRkcJ
-         dLUUBuqH2p6gKLj5INuI116rLawJPwgeOdN/lOPoY97ykcRHZzK2e/751sYaxJe73BiD
-         yQx2J1BpfS+yJ4XPQRKK54Q0Js8XRig6RSpX/FXkDHLUcoM4uzCxK5WFs46xtCGV5JGN
-         ijWTj8NVSqCt6Vw5ybgKCjcB+ByxEKZPSZ3813FJPolndS7j+mFfQ2bgXRq1HQSRA1EN
-         kHkQ==
+        d=gmail.com; s=20251104; t=1778950087; x=1779554887; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=hYWEwhZdGymCfPIDAOUC+rMTpJ4gelKJp/fgl5s1WHI=;
+        b=amoeVVAG2Ut3LrKUflGiDIxjSBS/mchQPFNwDKVmgNsYOXSLAmMJMEtgh0f4JFeEc1
+         AZ8CGtSbwbAf+29ZPbLydKhZue47Ea43MvcJJ/cywVJKr9R6t5dX3M9BFv4/KxWn210A
+         DrHhW8RzY5P0jmhSovJTU/9e+XJOAqH0Iou8tIY9g8gsPO1Cn+DlQj8KAls9XR1mgZ2b
+         1ZTZ81DDmUDEno3L8F+6wXhkKKccpIwwXM7MIPethny+AkU/amOeC42PfyGBpMsokhDk
+         id3WTCl/GFA3A2cvkXryxoBeVYyq+drEcIlLh3nwAxHExNDV/tvX2jkesgKPD8O0mMau
+         9d6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778949640; x=1779554440;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eBIdaWnYuc/Npeb6Oh6KMBYaEw3GCxevwGqd6QfClhg=;
-        b=iZqDv37lTngBB/0cJurU9EeJ9O085KTdszeyoieQZykxRIfuti6OWplh52sdy5Y+jb
-         ueDMX+VpXZrr5KfZxz6b+u2b6RjlAeCvPfa7qGDJvsmiToU+nzAY+mlgWnrQFqChsNDk
-         UIgT5kLDGthITRTtLTpQIWiU2rQtSckJvRd/UHVlGeWx1Zbar8mcej0jJNhNStmFQX4T
-         h+BaM/Vj/V1CYMZM8v1amUmZEOF1cRVBqhI1BQAouVTfvPhWi/CmWd1fGyijV0BtkSHv
-         5gpkrk/j0FLJfC3ZnydElJaUkubql5vmwmQj/SUjYN3E1CV5M2GhbyGiQX1vCVzaIVoc
-         88Wg==
-X-Forwarded-Encrypted: i=1; AFNElJ9hcQVniVO6IHVychvuv+3vocgJqQR4GX+lx/ow6ct62e1YnAPjbNCaIOqfbfqAu+4SB6t5BTExf9c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiUl7pU0ZBAzGjH9nhNAzrMEeIVYeg1Kk0Mgjr18buCIItgYft
-	NrLB4qj1/G8WYKrlHhb8dex4Xf9HFywgF+R7+N1iU4wcLirBLJSoQEU0
-X-Gm-Gg: Acq92OEu2us+fPkd/dGOERcV/BWJC/+DGXd0HqBBks+J85CuaZ4WZvQfvfUUjuPMqMj
-	Jr6/wEQfzT//ZGeuwS8grZc7kaFMs6oSfd3JiFjA8BPUyeaElf2Mslezx9XLOrG683DjJ9njfoE
-	rZcRGTiGrEwDcJm7f1Bfl90NwKIib05f0eROutb01jqby1bA/G94VIEtzxWko6hkZcO4xvhmvQw
-	r6fDgex274/nw/+LjbVb4dJokG+sbCcxxqALDbXqcXST8HJX7GIJXtg0xQMbyI7qaRqhaszDZ/S
-	Y+LjNL1ZZketH4tpmdiY2slKpRuQUzG9hcWj0CRuDbNpw6PJJBKaEHm7p4JkYvcyu8yQU13JugR
-	xSk3P5IWEvOVI+XxG1ycCbX9IUnfz56z/PqqSP540NxTm1f3w3jtBnIaJ53XrXYfN2iy1LeQFk3
-	X/jQnFqa8QweEHVfO50f0WBKAOj/fwhd13csP/kIBd5pFwyCVMBrB/QAGQjE6p1W7GRA7phUpWA
-	bD/t8/22i4Vnzyb/aiGJM9ApD0VbNghDUTwGBHSF9R5S2alQr4PTDnhQB2euug=
-X-Received: by 2002:a05:6a00:18a9:b0:827:3b1b:43e6 with SMTP id d2e1a72fcca58-83f33d227c0mr8861050b3a.21.1778949639761;
-        Sat, 16 May 2026 09:40:39 -0700 (PDT)
-Received: from ERIC039ERIC.localdomain (1-170-184-71.dynamic-ip.hinet.net. [1.170.184.71])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19c7f202sm9105162b3a.43.2026.05.16.09.40.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 09:40:38 -0700 (PDT)
-From: Chen-Shi-Hong <eric039eric@gmail.com>
-To: linux@roeck-us.net
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen-Shi-Hong <eric039eric@gmail.com>
-Subject: [PATCH v2] Documentation: hwmon: lm75: document sysfs interface
-Date: Sun, 17 May 2026 00:40:19 +0800
-Message-ID: <20260516164022.1792-1-eric039eric@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260516160823.1461-1-eric039eric@gmail.com>
-References: <20260516160823.1461-1-eric039eric@gmail.com>
+        d=1e100.net; s=20251104; t=1778950087; x=1779554887;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hYWEwhZdGymCfPIDAOUC+rMTpJ4gelKJp/fgl5s1WHI=;
+        b=TQiB3Kwh8RPWcp6Hq6ef+5AV+xpa24c+UxBGMEMGmISieaYYuJXTjT0mrLIPJRurr/
+         RYzOPqMbHCbN4MihDewsfrQLzc5kJ/iGKPaYRMR+S9XrZptPi9inBmTKbWW+ITS8+nSx
+         /aG536qqizN/YcNE2PnpBqMlzz4tNlw0+Usyg5lH3RLFyJGKpnURNna/Kn/nLHX+vNsK
+         KDkTKqNopG2Ref48Dh3HVwMz7JjhJsOJJoUxROLhysq8mgCYop/b3Leg9BpNi6XuSCmv
+         2r4+SHrenF06tg/XC1LqBYucXAjrZQU4Yzk7n4HZ23tsqMOEAcM7+AR2/BP9pbl5Mkbm
+         bsHA==
+X-Forwarded-Encrypted: i=1; AFNElJ8OA3lbA+RufOjciXRDZD3AdltN7a0jlP/dzLAqAUAjdLmjmZraffYeGf9GUf1eTsK9V8MFzLrsBrE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzo7NSFaujLzIoKWEZEq9v1qrjcDaPoHtgful0/yc7MuyyWdFtw
+	kvoXrgIxSgxjTJ1YGOeA++6UklYcMTnnvnApjDlIABGSZ0qmhMH4IPVq
+X-Gm-Gg: Acq92OGfbIKl6XHsHvbNPuuSj6x5O4mWRVmftHyCf94Gc8QjbImQ3kwWWg3l9pGtfpm
+	9PKJl2zyrn8PdGwkWU0IGeXy1RJmjg4flA0aVgE1pY1g8VXaov1AVO//y7VeMKivCyq1zrbBzr7
+	KiDcSnsKkigbWtJD4jOo5GTqDRypVuBCeTQdB4V4Y7d72C42Y5jpruD+t/e+/yCk70Gssj7HJ7c
+	1f4xooupys6uA1H+XFMAoYRNVNnoVozvc32RzIKVcuNT1LYbGNyxKBI4rJguIkN+haAocvV1Tth
+	z9Rmr6wPxkUxI96XdXR1d32WqRgFpnzLmqxd4XC7IWV5Knt7c/dBPWBpg0woHaVM2mNGeCfrVe4
+	0U+5f7VvVnMnQW/G7ulCpWmp9j2y2wtSkb9iL+IMiAdL2g+YBsb+ECkfsvYimEnH+tJchshv9yU
+	1mpjcn7Q0uwuaFd7ABArKPeRTjDFtWvISFQzlyI8YTDROh3Qt8EGRCRkSRv9lHXT/xG2YpXL/U
+X-Received: by 2002:a17:903:8cc:b0:2bd:ba87:40a1 with SMTP id d9443c01a7336-2bdba8741ffmr16241715ad.29.1778950087111;
+        Sat, 16 May 2026 09:48:07 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5c05f727sm98761795ad.19.2026.05.16.09.48.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 May 2026 09:48:06 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <0c2187c0-be5a-431b-b65d-a5fd6bf47212@roeck-us.net>
+Date: Sat, 16 May 2026 09:48:05 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation: hwmon: lm75: document sysfs interface
+To: Chen-Shi-Hong <eric039eric@gmail.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260516160823.1461-1-eric039eric@gmail.com>
+ <20260516164022.1792-1-eric039eric@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260516164022.1792-1-eric039eric@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Document the sysfs attributes supported by the lm75 driver.
+On 5/16/26 09:40, Chen-Shi-Hong wrote:
+> Document the sysfs attributes supported by the lm75 driver.
+> 
+> The driver exposes temp1_input, temp1_max, temp1_max_hyst, and the
+> standard update_interval attribute. Some chips also expose temp1_alarm,
+> and temp1_label is available if a label is provided for the device.
+> 
+> Add a sysfs-Interface section to Documentation/hwmon/lm75.rst to
+> describe the supported attributes and clarify that temp1_alarm,
+> temp1_label, and the write permissions of update_interval depend on the
+> chip.
+> 
+> Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
 
-The driver exposes temp1_input, temp1_max, temp1_max_hyst, and the
-standard update_interval attribute. Some chips also expose temp1_alarm,
-and temp1_label is available if a label is provided for the device.
+Change log is missing.
 
-Add a sysfs-Interface section to Documentation/hwmon/lm75.rst to
-describe the supported attributes and clarify that temp1_alarm,
-temp1_label, and the write permissions of update_interval depend on the
-chip.
+Yes, I do see Sashiko's reply, but that is not an excuse for neglecting
+to provide a change log.
 
-Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
----
- Documentation/hwmon/lm75.rst | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+Guenter
 
-diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
-index 4269da04508e..fa8ddcaa0c2b 100644
---- a/Documentation/hwmon/lm75.rst
-+++ b/Documentation/hwmon/lm75.rst
-@@ -181,3 +181,28 @@ is supported by this driver, other specific enhancements are not.
- 
- The LM77 is not supported, contrary to what we pretended for a long time.
- Both chips are simply not compatible, value encoding differs.
-+
-+sysfs-Interface
-+---------------
-+
-+================ ============================================
-+temp1_input      temperature input
-+temp1_max        maximum temperature
-+temp1_max_hyst   maximum temperature hysteresis
-+================ ============================================
-+
-+If a label is provided for the device, the following attribute is also
-+available:
-+
-+================ ============================================
-+temp1_label      temperature channel label
-+================ ============================================
-+
-+If supported by the chip, the following attribute is also available:
-+
-+================ ============================================
-+temp1_alarm      temperature alarm
-+================ ============================================
-+
-+The standard update_interval attribute is also supported. Its write
-+permissions depend on the chip.
--- 
-2.53.0
+> ---
+>   Documentation/hwmon/lm75.rst | 25 +++++++++++++++++++++++++
+>   1 file changed, 25 insertions(+)
+> 
+> diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
+> index 4269da04508e..fa8ddcaa0c2b 100644
+> --- a/Documentation/hwmon/lm75.rst
+> +++ b/Documentation/hwmon/lm75.rst
+> @@ -181,3 +181,28 @@ is supported by this driver, other specific enhancements are not.
+>   
+>   The LM77 is not supported, contrary to what we pretended for a long time.
+>   Both chips are simply not compatible, value encoding differs.
+> +
+> +sysfs-Interface
+> +---------------
+> +
+> +================ ============================================
+> +temp1_input      temperature input
+> +temp1_max        maximum temperature
+> +temp1_max_hyst   maximum temperature hysteresis
+> +================ ============================================
+> +
+> +If a label is provided for the device, the following attribute is also
+> +available:
+> +
+> +================ ============================================
+> +temp1_label      temperature channel label
+> +================ ============================================
+> +
+> +If supported by the chip, the following attribute is also available:
+> +
+> +================ ============================================
+> +temp1_alarm      temperature alarm
+> +================ ============================================
+> +
+> +The standard update_interval attribute is also supported. Its write
+> +permissions depend on the chip.
 
