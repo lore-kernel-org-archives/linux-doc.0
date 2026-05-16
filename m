@@ -1,76 +1,88 @@
-Received: from mail-4325.protonmail.ch (mail-4325.protonmail.ch [185.70.43.25])
+Received: from smtp06-ext.udag.de (smtp06-ext.udag.de [62.146.106.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978B436C5BB
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 06:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE542556E;
+	Sat, 16 May 2026 06:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778911237; cv=none; b=lC/5rIPi+m4NC2tmlsXcc19Uia/tknqRNM8cnZ2Z7BwgMc9TS5B3Z53k2zF1zDoMvE0klYdT8Sh7bbGi40AsES3bFpo1TiUr+PgGkWKYPK1Qv++GsN/7fq9x+Anu3+0zTlAzvBQVrs/MOC+ME8u2JNA/gdeQpJIMbIVeVS8p+6o=
+	t=1778914529; cv=none; b=e6yq5mevgNlaB453HvG0qyZ1IQPwWo4ulBrRHDcdv0kiuuQfg1fhEEeWuqqvStgS9/xtzAc1tSq+qf4cr7kHhT+CHAZ2eGNf9nrupaJPZnr5vDee/39PkSCrBkYR0mrwW/ll+hSE0SkBM9GCkRsky9WWoo1qoYZXgshRMLZsbKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778911237; c=relaxed/simple;
-	bh=6gRnyyU6kT2iGFbB1O4lo48RXODj/MSirfM4J3sPjX8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qa1mnjObblAsrQljHFb3QSOovy7/TEpCY1cdMc65yGpDxqWQBymwXj4Ycy444iG9Ul5zCsZQ/z8nU8ybPwxqvW0RZADakXwJz6RnixGPuwDZJek9nt1yhImlVzZZfbGeJLX3R68Snqo9sqxv6k/+w3/PcjeQU6mdONWpijDh3d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=exKKwUSw; arc=none smtp.client-ip=185.70.43.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="exKKwUSw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1778911225; x=1779170425;
-	bh=6gRnyyU6kT2iGFbB1O4lo48RXODj/MSirfM4J3sPjX8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=exKKwUSwDgpOH+GghS+cg0WpqlpW7/kdOmsVajrUmsuqwykqrZYLW4obIYCOM+hpK
-	 nTYPd95Frp4uWt5+McPYaECMbgDa15O+NfWyjxIbie8UDm3jOKEl+3EYnFUp5frQde
-	 +KPakUhswEeEskrt7H2pt6mbrt3pVER6RSuF3K4oFtoP3olna/SEwvjNBVQRZd7kIu
-	 gDwvga1LLdFQOYgLCQiQ8Y83nZTCrCJCMq8kNlCGdzZl2j4nPgX9vXoXGDv78zIshL
-	 frS0jYfgdqgo3IttvdoeVZioVi0qVCGy68uc6UoXNWQhw6a/HsV+h0CD8WRtg6tNY7
-	 FhtjCZxONYWBw==
-Date: Sat, 16 May 2026 06:00:21 +0000
-To: Guenter Roeck <linux@roeck-us.net>
-From: Hassan Maazu <maazudev@proton.me>
-Cc: Randy Dunlap <rdunlap@infradead.org>, "corbet@lwn.net" <corbet@lwn.net>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "khan@linuxfoundation.org" <khan@linuxfoundation.org>
-Subject: Re: Documentation: fix typo in title for max31730
-Message-ID: <iHocZ7FKS1VKC5iUOdqgnNintdfIRrLyjCZgF7_SwkMiNKO0dGvWMIvuiRn2UfHfN-7Zssd4e0rRZnZ81xzL2-4wXtaXADFUD_YZVOtPxGU=@proton.me>
-In-Reply-To: <e370fb0e-c3c4-4f82-a280-49e154a4c08d@roeck-us.net>
-References: <lC2hDaF-g523KA69MW_DVSRix9HHjA5drjH62zaO9eFNuOboR1cxxrTbqNJ8lmvuZ0u35qD4Ds8x0SeARtp5Hi-qIVpOi2zjYoV_vzCJjEM=@proton.me> <5e0aa2ae-b179-4cfa-85fc-805c0da79111@infradead.org> <e370fb0e-c3c4-4f82-a280-49e154a4c08d@roeck-us.net>
-Feedback-ID: 83974785:user:proton
-X-Pm-Message-ID: e2f4ba59ca4e3cb54a0327d0aeb918d0d93d1ae9
+	s=arc-20240116; t=1778914529; c=relaxed/simple;
+	bh=z8/9X7Bvm3CIChoyhozd5xpK/hWysmqIPSywUfmGpMU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GmoBgh84CXrmgVXvzI33Y9Ru9gheC2aPxBQUf/IEEUD5lsxJoaevoSg9Amr8seJJV6NvYpDSS7PgaHpcwxH/lRV8IZWDmkLQFvZ8SDku5Rzvg2QfV8N9wEIZ4tR0tlMSGTlw3c7HOjJGjWqYLrquaymufjkNqL/QZJyN61zsB5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
+Received: from localhost (075-132-067-156.ip-addr.inexio.net [156.67.132.75])
+	by smtp06-ext.udag.de (Postfix) with ESMTPA id 9722CE0276;
+	Sat, 16 May 2026 08:55:17 +0200 (CEST)
+Authentication-Results: smtp06-ext.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
+Date: Sat, 16 May 2026 08:55:16 +0200
+From: Horst Birthelmer <horst@birthelmer.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Horst Birthelmer <horst@birthelmer.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, oe-kbuild-all@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Horst Birthelmer <hbirthelmer@ddn.com>
+Subject: Re: Re: [PATCH] dcache: add fs.dentry-limit sysctl with
+ negative-first reaper
+Message-ID: <aggTg7OnEm175nSQ@fedora.fritz.box>
+References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
+ <202605152333.0pOd2zJR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202605152333.0pOd2zJR-lkp@intel.com>
 
-Resent
+On Fri, May 15, 2026 at 11:09:54PM +0800, kernel test robot wrote:
+> Hi Horst,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 5d6919055dec134de3c40167a490f33c74c12581]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Horst-Birthelmer/dcache-add-fs-dentry-limit-sysctl-with-negative-first-reaper/20260515-154600
+> base:   5d6919055dec134de3c40167a490f33c74c12581
+> patch link:    https://lore.kernel.org/r/20260514-limit-dentries-cache-v1-1-431b9eb0c530%40ddn.com
+> patch subject: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first reaper
+> config: openrisc-randconfig-r073-20260515 (https://download.01.org/0day-ci/archive/20260515/202605152333.0pOd2zJR-lkp@intel.com/config)
+> compiler: or1k-linux-gcc (GCC) 10.5.0
+> smatch: v0.5.0-9185-gbcc58b9c
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605152333.0pOd2zJR-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605152333.0pOd2zJR-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    fs/dcache.c: In function 'dentry_limit_worker_fn':
+> >> fs/dcache.c:1474:7: error: implicit declaration of function 'get_nr_dentry'; did you mean 'retain_dentry'? [-Werror=implicit-function-declaration]
+>     1474 |  nr = get_nr_dentry();
+>          |       ^~~~~~~~~~~~~
+>          |       retain_dentry
+>    cc1: some warnings being treated as errors
+> 
+> 
+> vim +1474 fs/dcache.c
+> 
+...
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-Regards,
-Hassan
+This is puzzling to me get_nr_dentry() is defined in line 178 in the same file and first used in line 209 
+and has been there since 2013.
 
-On Saturday, May 16th, 2026 at 12:45 AM, Guenter Roeck <linux@roeck-us.net>=
- wrote:
-
-> On 5/15/26 19:56, Randy Dunlap wrote:
-> >
-> > [adding Guenter]
-> >
-> > On 5/15/26 7:41 PM, Hassan Maazu wrote:
-> >> Wrong device name used in title.
-> >>
-> >> Signed-off-by: Hassan Maazu <maazudev@proton.me>
-> >
-> > Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> >
->
-> Thanks for copying me, but I wasn't copied on the original patch,
-> and neither was the hwmon mailing list. I am not going to waste
-> my time trying to dig up the actual patch, sorry.
->
-> Guenter
->
->
+Builds fine applied to tag v7.1-rc3 and to the current master with gcc and clang.
