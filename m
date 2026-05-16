@@ -1,109 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outbound.ms.icloud.com (ms-2003g-snip4-11.eps.apple.com [57.103.72.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDC439BFE7
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 09:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2325246BBA
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 09:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.72.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778923194; cv=none; b=RoKu8LmudgnMzQWC+1Ko4NMx4a2d6Pz+k0uu/oIT8YkfAIavw5w9SEI50oYy/VyamUcZcWuZVELGCbyMihlvFEoF5xp9KrvpKEkErPSCZ9D171htlrgyxIGynLqjIULQZX/GYMEuJYDE8Mfp9+w97zK9b61oTo8MlsGfpRvOIBY=
+	t=1778924179; cv=none; b=AB6COke0YBNTp4I8kXz6771lAbBhDVqC0OHbrVYXYgyeXdQcIsgqmPF+dSjA4Tli52ojzXouNkXityvK4oRTrmBZ8MeCcKY4MdopfUjIQmQOKN6Z3TI5YsvHKMlrbb0KXO/diGL1i7HxWyLK+n+45ZG/xKw//+VpTRgqGWC+zUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778923194; c=relaxed/simple;
-	bh=G1PUbCxyJOX//Tw7UPj9+qUEfRYerN3gCn9IPzsOw7c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RgkvPxW/Xz9/EEoP7Jj/E9V6EjERTf/dXR7m+J8TRD3j94AQdKaWvNA+HgstF3XKuQHat9q2m/mBRHLBkkQzJwYDo0PZBmgNM11V1J7O5ibIewhHRgyzYWnIFVSjmVsB3b8sr4pe0P3WT7BWWkqZFWPPDvR621kHuzwf6+7kt+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M1z72bao; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778924179; c=relaxed/simple;
+	bh=EBM96ebgjURdL7OjhBLKUpgJSgt1jtE4A6/JMcajHOI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XgLYu8ZzS43e/TTiKW1pQH7B6Ac41NHbsVkIQzzTCEDnSYEsCO5gc0d03nwJXM0DSkhostV12SBVGyfqN38Vge1q9ddkz3IZctObY090MuQs5NfmWm3CymZFl49OeCjvEu3G1QVfCv66ZzrU+wiGCouOVezm5bjldJsR6HpYdbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=NfuQO4iS; arc=none smtp.client-ip=57.103.72.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M1z72bao"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33CB7C2BCF5
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 09:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778923194;
-	bh=G1PUbCxyJOX//Tw7UPj9+qUEfRYerN3gCn9IPzsOw7c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=M1z72baoLmGJAEKOKqQZ86umfRZIzE/a/XGjsuyC2B4C2wlE1QHhtr/w78SZurUcj
-	 weHzRq8Qt//48z9bq7n7N7fFaDfSiTsphqENDn1/PUflv232kYu2CRgg8j9ClFq93b
-	 msqTPrTtdkX8k+U6G4aTsX4cXywWFSetkX0oSxWR+RmO+NSY4LOAAUtxDeFPzGxF6E
-	 fcRtbK64rUgnF5X+E0teg3M33P+tvkBXmpgqd1T8S9R00XEJPVgzMzrLnyWYyKZ/Q1
-	 8R7raGUJN6mb6Qa4oFUGszn5/fGQs04AsGgPMZgDV6zlzRsdAdzTjr89YwHXmbRvH5
-	 RoJtjjey6r67A==
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-9116861f004so205312485a.3
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 02:19:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/1pdVGtUQ/om+hPDHj+v5eiX1hLr04oQXgExUvN7PovzuPYsXQV7nD3Llwtc704SG9Gn5U+EwTvxw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyc8JBKZ4inLk1RZIWIWL7ks7ElRlSUqjPu90hnjlGPb2yX5sO6
-	CrvgVLKprE+dQ4XkM0Yf95e0/77FLgz8p+KXReCVLDcurMF+8gubGrwucuweBkHgimbIz4gCeY3
-	Ps2kMjuDa89O/xgQgNlS5XBRf0xovzNw=
-X-Received: by 2002:a05:620a:4487:b0:912:c631:d797 with SMTP id
- af79cd13be357-912c631d977mr618156185a.60.1778923192922; Sat, 16 May 2026
- 02:19:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="NfuQO4iS"
+Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-3a-20-percent-2 (Postfix) with ESMTPS id 8234F180010F;
+	Sat, 16 May 2026 09:36:15 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhKBUMDRQBBCFYBWANLVxQEG1sIUhhXE1gTVl8OXQIwUBtfAkIPHBNWFRMLU1ZRGFwdQAhUClkVC0EFXXcCURxWDVdDVARfUEsbDlwBS1oVVRcOAkIfUB9MFldDWhgcGVoUXBhTRVEfVFhDGUVWaUELTx1dGVscQmRYVwkKAlEcVg1XQ1QEX1BUEVdQC1kCQg9IBlwBWwtDDE0BQw9fAkQUSR4OXw5XA1wbUgZSWQtGCThaDlsERxQXG1wACUtGCUkdDgRUB10FXQ==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778924177; x=1781516177; bh=pLIOlW+zoMRvn3ZZV36sMbKshXXQyD52jA4AIxLVy1Y=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=NfuQO4iSJ+67M3P6Vwvb/37/aM27nrC9cvX4WXfDTNd39A6+0UHAODBI/rcYAzcJkThRuXyJUga0fHS5SRqx5xhetSoQvh/AUGlPBS89ihamDzK/Hi3rOAMEBwRL+bm/idbpbcrckjm0+3Bsk/A8MRdxYPQXDS5ls2olMGec36DlCjbYZeCjZY76BQTUkZorS1LK4K0QOgZfEk+l2PJsOHlxb0ND5pPwogQcYA8+majDfjmmqUIz6a3dNGorXVH8mtWAiZy3KnyRwuxhff9z1xbOFRMPim21URK55jdQVQxTVpN5P0bZ5rsVnL7N/GJVLQYDftZJP4huO6VXJqDm2A==
+Received: from localhost.localdomain (unknown [17.57.154.37])
+	by p00-icloudmta-asmtp-us-west-3a-20-percent-2 (Postfix) with ESMTPSA id 7A85E1800106;
+	Sat, 16 May 2026 09:36:11 +0000 (UTC)
+From: Cheesecake <cheesecake2960@icloud.com>
+To: SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Cheesecake <cheesecake2960@icloud.com>
+Subject: [PATCH] docs: fix typos in design.rst
+Date: Sat, 16 May 2026 18:35:37 +0900
+Message-ID: <20260516093552.8404-1-cheesecake2960@icloud.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <8ef38815-6ae9-4359-86d4-042554357639@amd.com> <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
- <CADSE00Jq_uvNgvxgPze0mEdUd+hF4-DPZkHy0KroWHZzygf4WA@mail.gmail.com> <CABdmKX3DhejYBis9htLDnzPrG7vuF3R3URLVNEbnyd61SSsx=g@mail.gmail.com>
-In-Reply-To: <CABdmKX3DhejYBis9htLDnzPrG7vuF3R3URLVNEbnyd61SSsx=g@mail.gmail.com>
-From: Barry Song <baohua@kernel.org>
-Date: Sat, 16 May 2026 17:19:41 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4zyecY6E-=Tm4_couT7uoM9LMcFdTMUPkZAjj4zUKE-dQ@mail.gmail.com>
-X-Gm-Features: AVHnY4Lfp6d8-xrGLNMN2A36VEAHbeTkf6FHYhVfd3tCidoD4YpDVmS9DpWsPFQ
-Message-ID: <CAGsJ_4zyecY6E-=Tm4_couT7uoM9LMcFdTMUPkZAjj4zUKE-dQ@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 2/5] dma-heap: charge dma-buf
- memory via explicit memcg
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Albert Esteve <aesteve@redhat.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri- <devel@lists.freedesktop.org>, 
-	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, mripard@kernel.org, echanude@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE2MDA5MyBTYWx0ZWRfX7ZnDZ7huTtVu
+ KfCCErq43Td9krDJDecIzjVvJp5O1F/91Y2cn/A61mjwTfJIAW2lMBtKL+MDgwYGFL5b2kU09kZ
+ 87/0HfoVj/S9grnd/hDTlEafHCuLMdUbGqgDuZ4cG7RB6h3BwUso1GKjvn4h/cQy6cymcoYE2Gr
+ N7V3Ir/Mp0l8QI+Zf7EpyHICj9hHCoh7/IcvORwZh8MW/8NGLUqWP0FO1ndOrNjdwg44Fohv7D1
+ btRQYFBLzYTzNEV50ZRdzgwRS1CaDjMcgAlKAS+KVL3nSrzWrNCikl/LuMy7PQDGqcjA4YWGWiQ
+ eWq+bc68auZRpoqEtrBw20Z4hpNUyILtLDgYuwDplW3MDDndGf7ZOn3sVi7kec=
+X-Authority-Info-Out: v=2.4 cv=O4c0fR9W c=1 sm=1 tr=0 ts=6a083a90
+ cx=c_apl:c_pps:t_out a=qkKslKyYc0ctBTeLUVfTFg==:117 a=NGcC8JguVDcA:10
+ a=x7bEGLp0ZPQA:10 a=sIGCgqHK338A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=v3ZZPjhaAAAA:8 a=_08Xcmskz7rbIMj_RqsA:9
+X-Proofpoint-ORIG-GUID: ajntKu6TFwtbcfSmFXvV-7uUv9Erb4R6
+X-Proofpoint-GUID: ajntKu6TFwtbcfSmFXvV-7uUv9Erb4R6
+X-Apple-Category-Label: MjE0Nzk4NjU5NzY6JGNhdGVnb3J5JF9QZXJzb25hbCw=
 
-On Thu, May 14, 2026 at 12:35=E2=80=AFAM T.J. Mercier <tjmercier@google.com=
-> wrote:
-[...]
-> > > I have a question about this part. Albert I guess you are interested
-> > > only in accounting dmabuf-heap allocations, or do you expect to add
-> > > __GFP_ACCOUNT or mem_cgroup_charge_dmabuf calls to other
-> > > non-dmabuf-heap exporters?
-> >
-> > We're scoping this to dma-buf heaps for now. CMA heaps and the dmem
-> > controller are on the radar for follow-up/parallel work (there will be
-> > dragons and will surely need discussion). For DRM and V4L2 the
-> > long-term intent is migration to heaps, which would make direct
-> > accounting on those paths unnecessary.
->
-> Ah I see. GEM buffers exported to dmabufs are what I had in mind. I
-> guess this would only leave the odd non-DRM driver with the need to
-> add their own accounting calls, which I don't expect would be a big
-> problem.
->
+L140: "unsinged" -> "unsigned"
+L371: "sampleing" -> "sampling"
+L387: "multipled" -> "multiplied"
 
-sounds like we still have a long way to go to correctly account for
-various v4l2, drm, GEM, CMA, etc. In patch 1, the charging is done in
-dma_buf_export(), so I guess it covers all dma-buf types except
-dma_heap, but the problem is that it has no remote charging support at
-all?
+Signed-off-by: Cheesecake <cheesecake2960@icloud.com>
+---
+ Documentation/mm/damon/design.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> > udmabufs are already
-> > memcg-charged, so adding a separate MEMCG_DMABUF would double count.
-> > Are there any other exporters you had in mind that would benefit from
-> > this approach?
-> >
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index afc7d52bd..9cc70a296 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -140,7 +140,7 @@ as Idle page tracking does.
+ Address Unit
+ ------------
+ 
+-DAMON core layer uses ``unsinged long`` type for monitoring target address
++DAMON core layer uses ``unsigned long`` type for monitoring target address
+ ranges.  In some cases, the address space for a given operations set could be
+ too large to be handled with the type.  ARM (32-bit) with large physical
+ address extension is an example.  For such cases, a per-operations set
+@@ -371,7 +371,7 @@ with theoretical maximum ``nr_accesses``, which can be calculated as
+ ``aggregation interval / sampling interval``.
+ 
+ The mechanism calculates the ratio of access events for ``aggrs`` aggregations,
+-and increases or decrease the ``sampleing interval`` and ``aggregation
++and increases or decrease the ``sampling interval`` and ``aggregation
+ interval`` in same ratio, if the observed access ratio is lower or higher than
+ the target, respectively.  The ratio of the intervals change is decided in
+ proportion to the distance between current samples ratio and the target ratio.
+@@ -387,7 +387,7 @@ The tuning is turned off by default, and need to be set explicitly by the user.
+ As a rule of thumbs and the Parreto principle, 4% access samples ratio target
+ is recommended.  Note that Parreto principle (80/20 rule) has applied twice.
+ That is, assumes 4% (20% of 20%) DAMON-observed access events ratio (source)
+-to capture 64% (80% multipled by 80%) real access events (outcomes).
++to capture 64% (80% multiplied by 80%) real access events (outcomes).
+ 
+ To know how user-space can use this feature via :ref:`DAMON sysfs interface
+ <sysfs_interface>`, refer to :ref:`intervals_goal
+-- 
+2.54.0
 
-Thanks
-Barry
