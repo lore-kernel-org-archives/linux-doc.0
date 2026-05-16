@@ -1,373 +1,330 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C5317B50F
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 18:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53DB1A3154;
+	Sat, 16 May 2026 18:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778955490; cv=none; b=dNMTF5nXXUx2kzPLQIN1xAzTJ3PT1DEq23+k5fGs0O9+nFNFT/HPa5v4/UPCzxQBBrxvcjCGrzT0PZFm5uGflcfKebKk4TU3C5JYU99mCqjvjWjHqpqWp3QHZp8MtlApsuNphi7/gWlkF+H/xfDa6aJzT6ZewRrFLF4ZDEl2QfA=
+	t=1778956644; cv=none; b=EwtRQAtByAyLq5RWbhnPuA1Y7GJrfX1TdcYI7HNKpNen1b7J3ArWGNTbohArKRpYICl0V5vZ508Gr1WfHBRI9we6+pRvfeP1tNcFl1+Ov0FkafUniPrwztzSsPl245g1qIq9zQYYssY1sA7noIBylJa3idFSQvSDZ6LmKEWFcCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778955490; c=relaxed/simple;
-	bh=/qEtG+RVBPIzxD9LT6Y4vWiwm+rUQ4i7wfGw9xfnh8o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qb0YWW3/xAxvrYdRwuxyzPlqYc4sZ4t9q70g85FA/T7xPkVRAz8RZV7JlcQ47G7PXDTtAOW7ZE83TXUgnNTJuaPFQZD9cfJdXYt0PvCG5+1ElWHb7SSnp2F+TuQeiivuyP15B4T+GJ+TUK7PJUO45eWM9LS8VaEvd/BgJEWh3fM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=IZbzvft0; arc=none smtp.client-ip=209.85.167.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1778956644; c=relaxed/simple;
+	bh=iNE/SB8H53Nzextg8blBzeBIvjL6Bieyu8nHGY4bfl4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mQUlT8s0LDT4CSgdgxlczFzwMQ5YWhETN7bsKmnkxJpLvBAxcQnnCLrGT0cwqU+LG4rlMuR3QUIRRKCoIgXrOmmLd/KHWRJyPDNu23Vtr9Qd3s5AfRPW2cRsskdw1p7Mu+KdjQNqfnbWnVnhrTbjkkHAoDb6yEF/lX2Wzxxyojo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fk8U0nia; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="IZbzvft0"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-47c35be031dso698379b6e.3
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 11:18:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778955486; x=1779560286; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4vUt23i4NQCqZR50VDzgD/PyoHZA+01KM295cLKfk0c=;
-        b=IZbzvft01BRTPcK/p8m35xNiQ+8j19L20jNDfib4/lAAi2NoHFzhDBfWHq92NeWWp1
-         Ly2IEp+WkuNkAtDb6i9sLy6fwHMwwcR7f+tasp5XW0u+chHWmVB+MDh8C2KUrDjY1MKg
-         eUNMWkT8s8Ty1H2t9KZRheyAZCMVgqjCKROdO1qUB0rJ+oqCD38gKnPPHkv8F248BFRD
-         nl6hSfkGQ2XcpnERwx4e7U1CyEDChlRHUl/tjvTON3E63AaB3T2tHQhEozJppMkQh2bJ
-         vcr6Qbox9VAyRj287+k1UssLzHV8wFgU/IUuTOu79V5yCONrH+bYnXNdMGu+K2V515RI
-         SNxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778955486; x=1779560286;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4vUt23i4NQCqZR50VDzgD/PyoHZA+01KM295cLKfk0c=;
-        b=cNF8EwHkIBvbqqachmMfqUX2exQpcsMqduQB9ZIOkYZ/B0eyrUPk0s5ecaNzOLV+qw
-         6GKk01Mv41yRGxy8BdPV8inEu8rj7niFtifXoEeUDWtJ9w1cddOuBZEw2JpPJIPpizSJ
-         /8/8CsPTaY9ae9rcWs8Semujwy4B1Xh+XZGeFr+xjcmu/ZsoO0sqWe2TbLg8lT8D0Dtq
-         sWLe+S1ngRSpQ6pgLMZbKDNnchMFXBpba54vcHmBwccBTI9nr0fO8edyV4rHU8LRPs7B
-         +8SGWDmo3pCr7MByMso7Ij76TPNrYoCbS994/U5cjaHRKSJnW4UgiTX3Bb3Ow5W6sPeT
-         Z44w==
-X-Forwarded-Encrypted: i=1; AFNElJ9+KsIBJeZFgmfyz7lo3QJ1hEdxmOFCCdBxxSStlQ68jbeZse22xWCXUfiGwYHaLvdv2LWzN6QlQvQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlppLPb66AxvrNaS0Fjs1ljcynNczMwNiEX0AR48NZuCbO8+/c
-	T0Q3zm1xkiQkLpYLlIHZDEIZBBw576guB3D9z6cZAY4f3kC1QHNYXi9bg1jEyivAvfQ=
-X-Gm-Gg: Acq92OHEXFtIOrpuKRo0D0rDvyH5Cz/y2JzCLntgBu2IVNKrec/UBhGlJ4HjP/SCcmd
-	xpxQPZhFtqyJeyfqW0WyJYbF3n/iu5etxcMjGrxfLM3eL4SS+KMPyWHqMt0BoV970bPeBuA9dns
-	e1Ymu0XwzEMyqtIobqzzL5S0N3WL1bCyToVxcqkV+mYxgiz2On2sTg8EKaitDMzjxjsib0nYB80
-	viGjLg/HLMNUIollviuIQg/N3t13LwZ147O33ZzFx9wntu0eLJI5xF/cgMGEe3lssvLQulfJIUQ
-	gsCr2FTJDM7bo1YL+8pYiH6v1xo1KTnUOKwqvtquLX7fLL90Dz0L81yqiTIrl6AxOJoYsQZQ5ug
-	td4ySLgLGFZxYDFz5wlZn0ObL7rRh1fUDvSoElMtlqKBNMv6kJnlGv9dvGZLr9/CjwNe6mWdegD
-	I3DeDwnbmeNDeSofz0a78xvEwUzrk0VZ93OhrlLRRTuwfJkUG70HxIjA8xueq45A6nXZllwrO35
-	A==
-X-Received: by 2002:a05:6820:f012:b0:69b:56aa:1525 with SMTP id 006d021491bc7-69c940a22b4mr5473008eaf.0.1778955486426;
-        Sat, 16 May 2026 11:18:06 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:b36d:bd18:7c02:29e2? ([2600:8803:e7e4:500:b36d:bd18:7c02:29e2])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69d04655cbcsm2718778eaf.8.2026.05.16.11.18.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 16 May 2026 11:18:05 -0700 (PDT)
-Message-ID: <78d4bb1c-4c6d-4781-86ee-458579ac6990@baylibre.com>
-Date: Sat, 16 May 2026 13:18:03 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fk8U0nia"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB461C19425;
+	Sat, 16 May 2026 18:37:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778956644;
+	bh=iNE/SB8H53Nzextg8blBzeBIvjL6Bieyu8nHGY4bfl4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fk8U0niaHwU8+O663bnFtGKSIAspTm435SwxEs0Xdbsh5kW3OyPFSaOtw1ZlsVTBI
+	 rarbyKZ8EEZ23lWyi5EXJVDchP5jcPV4h+cpCNrQNdpmzCxhJ37zh/e8QeHMOb9GUK
+	 IAq/ZGRLHpecpiVl7kxQgDmXejLor/mjCTFhTreHJxak6SgqbBtGNwrHqelVZQrG+i
+	 ObBEuLJjmycc8n6vbdor4ZV9Ue/Cm+dNLTriRFTv9n3HQq4T4DfcGiVvE05cRpRRpv
+	 z4a7ZnkS9lwPmCdUCJzMG6hz38mt8JK4YrAlxzXPppHAN9DwMI6pF1/IDMVaA4h6qM
+	 mJtXOlL6vgepg==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: [RFC PATCH v3 00/28] mm/damon: introduce data attributes monitoring
+Date: Sat, 16 May 2026 11:36:41 -0700
+Message-ID: <20260516183712.81393-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 6/6] docs: iio: adc: ad4691: add driver documentation
-To: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260515-ad4692-multichannel-sar-adc-driver-v11-0-eab27d852ac2@analog.com>
- <20260515-ad4692-multichannel-sar-adc-driver-v11-6-eab27d852ac2@analog.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260515-ad4692-multichannel-sar-adc-driver-v11-6-eab27d852ac2@analog.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 5/15/26 8:31 AM, Radu Sabau via B4 Relay wrote:
-> From: Radu Sabau <radu.sabau@analog.com>
-> 
-> Add RST documentation for the AD4691 family ADC driver covering
-> supported devices, IIO channels, operating modes, oversampling,
-> reference voltage, LDO supply, reset, GP pins, SPI offload support,
-> and buffer data format.
-> 
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
-> ---
->  Documentation/iio/ad4691.rst | 225 +++++++++++++++++++++++++++++++++++++++++++
->  Documentation/iio/index.rst  |   1 +
->  MAINTAINERS                  |   1 +
->  3 files changed, 227 insertions(+)
-> 
-> diff --git a/Documentation/iio/ad4691.rst b/Documentation/iio/ad4691.rst
-> new file mode 100644
-> index 000000000000..84492ef7a5d6
-> --- /dev/null
-> +++ b/Documentation/iio/ad4691.rst
-> @@ -0,0 +1,225 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=============
-> +AD4691 driver
-> +=============
-> +
-> +ADC driver for Analog Devices Inc. AD4691 family of multichannel SAR ADCs.
-> +The module name is ``ad4691``.
-> +
-> +
-> +Supported devices
-> +=================
-> +
-> +The following chips are supported by this driver:
-> +
-> +* `AD4691 <https://www.analog.com/en/products/ad4691.html>`_ — 16-channel, 500 kSPS
-> +* `AD4692 <https://www.analog.com/en/products/ad4692.html>`_ — 16-channel, 1 MSPS
-> +* `AD4693 <https://www.analog.com/en/products/ad4693.html>`_ — 8-channel, 500 kSPS
-> +* `AD4694 <https://www.analog.com/en/products/ad4694.html>`_ — 8-channel, 1 MSPS
-> +
-> +
-> +IIO channels
-> +============
-> +
-> +Each physical ADC input maps to one IIO voltage channel. The AD4691 and AD4692
-> +expose 16 channels (``voltage0`` through ``voltage15``); the AD4693 and AD4694
-> +expose 8 channels (``voltage0`` through ``voltage7``).
-> +
-> +All channels share a common scale (``in_voltage_scale``), derived from the
-> +reference voltage. Each channel independently exposes:
-> +
-> +* ``in_voltageN_raw`` — single-shot ADC result
-> +* ``in_voltageN_sampling_frequency`` — per-channel effective output rate,
-> +  defined as the internal oscillator frequency divided by the channel's
-> +  oversampling ratio. Writing this attribute selects the nearest achievable
-> +  rate for the current OSR; the value read back reflects the actual rate after
-> +  snapping to the closest valid oscillator entry.
-> +* ``in_voltageN_sampling_frequency_available`` — list of achievable effective
-> +  rates for the channel's current oversampling ratio. The list updates
-> +  dynamically when the oversampling ratio changes.
-> +
-> +The following attributes are only available in CNV Burst Mode:
-> +
-> +* ``in_voltageN_oversampling_ratio`` — per-channel hardware oversampling depth;
-> +  see `Oversampling`_ below.
-> +* ``in_voltageN_oversampling_ratio_available`` — valid ratios: 1, 2, 4, 8, 16,
-> +  32.
-> +
-> +
-> +Operating modes
-> +===============
-> +
-> +The driver supports two operating modes, selected automatically from the
-> +device tree at probe time.
-> +
-> +Manual Mode
-> +-----------
-> +
-> +Selected when no ``pwms`` property is present in the device tree. The CNV pin
-> +is tied to the SPI chip-select: every CS assertion triggers a conversion and
-> +returns the previous result. A user-defined IIO trigger (e.g. hrtimer trigger)
-> +drives the buffer.
-> +
-> +Oversampling is not supported in Manual Mode.
-> +
-> +CNV Burst Mode
-> +--------------
-> +
-> +Selected when a ``pwms`` property is present in the device tree. A PWM drives
-> +the CNV pin at the configured conversion rate. A GP pin wired to the SoC and
-> +declared in the device tree signals DATA_READY at the end of each burst,
-> +triggering a readout of all active channel results into the IIO buffer.
-> +
-> +The buffer output rate is controlled by the ``sampling_frequency`` attribute
-> +on the IIO buffer. In practice the PWM rate should be set low enough to allow
-> +the SPI readout to complete before the next conversion burst begins.
-> +
-> +Autonomous Mode (idle / single-shot)
-> +-------------------------------------
-> +
-> +When the IIO buffer is disabled, ``in_voltageN_raw`` reads perform a single
-> +conversion on the requested channel using the internal oscillator. The
-> +oscillator is started and stopped around each read to save power.
-> +
-> +
-> +Oversampling
-> +============
-> +
-> +In CNV Burst Mode each channel has an independent hardware accumulator that
-> +averages a configurable number of successive conversions. The result is always
-> +returned as a 16-bit mean, so ``realbits`` and ``storagebits`` are unaffected
+TL; DR
+======
 
-realbits and storagebits are driver implementation details. I would write this
-in terms of userpace, which would be the buffer0/*_type attribute.
+Extend DAMON for monitoring general data attributes other than accesses.
+The short term motivation is lightweight page type (e.g., belonging
+cgroup) aware monitoring.  In long term, this will help extending DAMON
+for multiple access events capture primitives (e.g., page faults and
+PMU) and eventually pivotting DAMON to a "Data Attributes Monitoring and
+Operations eNgine" in long term.
 
-> +by the oversampling ratio. Valid ratios are 1, 2, 4, 8, 16 and 32; the default
-> +is 1 (no averaging). Oversampling is not supported in Manual Mode.
-> +
-> +.. code-block:: bash
-> +
-> +    # Set oversampling ratio to 16 on channel 0
-> +    echo 16 > /sys/bus/iio/devices/iio:device0/in_voltage0_oversampling_ratio
-> +
-> +    # Read the resulting effective sampling frequency
-> +    cat /sys/bus/iio/devices/iio:device0/in_voltage0_sampling_frequency
-> +
-> +Writing ``oversampling_ratio`` stores the new depth for that channel and
-> +snaps the internal oscillator to the largest valid table entry that is both
-> +less than or equal to ``old_effective_rate × new_osr`` and evenly divisible
-> +by ``new_osr``. This preserves an integer read-back of
-> +``in_voltageN_sampling_frequency`` after the change and keeps the oscillator
-> +as close as possible to the previous effective rate.
-> +
-> +All channels share one internal oscillator. Writing ``sampling_frequency`` for
-> +any channel updates the oscillator and therefore affects the effective rate
-> +read back from all other channels.
-> +
-> +
-> +Reference voltage
-> +=================
-> +
-> +The driver supports two reference configurations, mutually exclusive:
-> +
-> +* **External reference** (``ref-supply``): a voltage between 2.4 V and 5.25 V
-> +  supplied externally.
-> +* **Buffered internal reference** (``refin-supply``): an internal reference
-> +  buffer is enabled by the driver.
-> +
-> +Exactly one of ``ref-supply`` or ``refin-supply`` must be present in the
-> +device tree. The reference voltage determines the full-scale range reported
-> +via ``in_voltage_scale``.
-> +
-> +
-> +LDO supply
-> +==========
-> +
-> +The chip contains an internal LDO that powers part of the analog front-end.
-> +The supply configuration is mutually exclusive:
-> +
-> +* **External VDD** (``vdd-supply``): an external 1.8 V supply is used directly;
-> +  the internal LDO is disabled.
-> +* **Internal LDO** (``ldo-in-supply``): the internal LDO is enabled and fed
-> +  from the ``ldo-in`` regulator. Use this when no external 1.8 V VDD is present.
-> +
-> +Exactly one of ``vdd-supply`` or ``ldo-in-supply`` must be provided.
-> +
-> +
-> +Reset
-> +=====
-> +
-> +The driver supports two reset mechanisms:
-> +
-> +* **Hardware reset** (``reset-gpios`` in device tree): asserted at probe by
-> +  the reset controller framework.
-> +* **Software reset** (fallback when ``reset-gpios`` is absent): written
-> +  automatically at probe.
-> +
-> +
-> +GP pins and interrupts
-> +======================
-> +
-> +The chip exposes up to four general-purpose (GP) pins. In CNV Burst Mode
-> +(non-offload), one GP pin must be wired to an interrupt-capable SoC input and
-> +declared in the device tree using the ``interrupts`` and ``interrupt-names``
-> +properties. The ``interrupt-names`` value identifies which GP pin is used
-> +(``"gp0"`` through ``"gp3"``).
-> +
-> +Example device tree fragment::
-> +
-> +    adc@0 {
-> +        compatible = "adi,ad4692";
-> +        ...
-> +        interrupts = <17 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-parent = <&gpio0>;
+Background: High Cost of Page Level Properties Monitoring
+=========================================================
 
-Would be more logical to put interrupt-parent before interrupts.
+DAMON is initially introduced as a Data Access MONitor.  It has been
+extended for not only access monitoring but also data access-aware
+system operations (DAMOS).  But still the monitoring part is only for
+data accesses.
 
-> +        interrupt-names = "gp0";
-> +    };
-> +
-> +
-> +SPI offload support
-> +===================
-> +
-> +When a SPI offload engine (e.g. the AXI SPI Engine) is present, the driver
-> +uses DMA-backed transfers for CPU-independent, high-throughput data capture.
-> +SPI offload is detected automatically at probe; if no offload hardware is
-> +available the driver falls back to the software triggered-buffer path.
-> +
-> +Two SPI offload sub-modes exist:
-> +
-> +CNV Burst offload
-> +-----------------
-> +
-> +Used when a ``pwms`` property is present and SPI offload is available. The PWM
-> +drives CNV at the configured rate; on DATA_READY the offload engine reads all
-> +active channel results and streams them directly to the IIO DMA buffer with no
-> +CPU involvement. The GP pin used as DATA_READY trigger is supplied by the
-> +trigger-source consumer at buffer enable time; no ``interrupt-names`` entry is
-> +required.
-> +
-> +Manual offload
-> +--------------
-> +
-> +Used when no ``pwms`` property is present and SPI offload is available. A
-> +periodic SPI offload trigger controls the conversion rate and the offload engine
-> +streams results directly to the IIO DMA buffer.
-> +
-> +The ``sampling_frequency`` attribute on the IIO buffer controls the trigger
-> +rate (in Hz). The initial rate is 100 kHz.
-> +
-> +Oversampling is not supported in Manual Mode.
-> +
-> +
-> +Buffer data format
-> +==================
-> +
-> +The sample format in the IIO buffer depends on whether SPI offload is in use.
-> +
-> +Software triggered-buffer path (no SPI offload)
-> +------------------------------------------------
-> +
-> +Each active channel occupies one 16-bit big-endian slot (``storagebits=16``,
-> +``endianness=be``). Active channels are packed densely in scan-index order,
-> +followed by a 64-bit software timestamp appended by the IIO core.
-> +
-> +SPI offload path
-> +----------------
-> +
-> +Each active channel occupies one 16-bit CPU-native slot (``storagebits=16``,
-> +``endianness=cpu``). The SPI offload engine streams 16-bit words directly from
-> +the SPI Engine into the DMA buffer; no software timestamp is appended.
-> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-> index ba3e609c6a13..007e0a1fcc5a 100644
-> --- a/Documentation/iio/index.rst
-> +++ b/Documentation/iio/index.rst
-> @@ -23,6 +23,7 @@ Industrial I/O Kernel Drivers
->     ad4000
->     ad4030
->     ad4062
-> +   ad4691
->     ad4695
->     ad7191
->     ad7380
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 24e4502b8292..875ea2455d91 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1490,6 +1490,7 @@ L:	linux-iio@vger.kernel.org
->  S:	Supported
->  W:	https://ez.analog.com/linux-software-drivers
->  F:	Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
-> +F:	Documentation/iio/ad4691.rst
->  F:	drivers/iio/adc/ad4691.c
->  
->  ANALOG DEVICES INC AD4695 DRIVER
-> 
+Data access patterns is good information, but some users need more
+holistic views.  Particularly, users want to show the access pattern
+information together with the types of the memory.  For example, users
+who work for making huge pages efficiently want to know how much of
+DAMON-found hot/cold regions are backed by huge pages.  Users who run
+multiple workloads with different cgroups want to know how much of
+DAMON-found hot/cold regions belong to specific cgroups.
 
+For the user demand, we developed a DAMOS extension for page level
+properties based monitoring [1], which has landed on 6.14.  Using the
+feature, users can inform the page level data properties that they are
+interested in, in a flexible format that uses DAMOS filters.  Then,
+DAMON applies the filters to each folio of the entire DAMON region and
+lets users know how many bytes of memory in each DAMON region passed the
+given filters.
+
+This gives page level detailed and deterministic information to users.
+But, because the operation is done at page level, the overhead is
+proportional to the memory size.  It was useful for test or debugging
+purposes on a small number of machines.  But it was obviously too heavy
+to be enabled always on all machines running the real user workloads.
+For real world workloads, it was recommended to use the feature with
+user-space controlled sampling approaches.  For example, users could do
+the page level monitoring only once per hour, on randomly selected one
+percent of machines of their fleet.  If the runtime and the  size of the
+fleet is long and big enough, it should provide statistically meaningful
+data.
+
+But users are too busy to implement such controls on their own.
+
+Data Attributes Monitoring
+==========================
+
+Extend DAMON to monitor not only data accesses, but also general data
+attributes.  Do the extension while keeping the main promise of DAMON,
+the bounded and best-effort minimum overhead.
+
+Allow users to specify what data attributes in addition to the data
+access they want to monitor.  Users can install one 'data probe' per
+data attribute of their interest for this purpose.  The 'data probe'
+should be able to be applied to any memory, and determine if the given
+memory has the appropriate data attribute.  E.g., if memory of physical
+address 42 belongs to cgroup A.  Each 'data probe' is configured with
+filters that are very similar to the DAMOS filters.
+
+When DAMON checks if each sampling address memory of each region is
+accessed since the last check, it applies data probes if registered.
+Same to the number of access check-positive samples accounting
+(nr_accesses), it accounts the number of each data probe-positive
+samples in another per-region counters array, namely 'probe_hits'. When
+DAMON resets nr_accesses every aggregation interval, it resets
+'probe_hits' together.
+
+Users can read 'probe_hits' just before the values are reset.  In this
+way, users can know how many hot/cold memory regions have data
+attributes of their interest.  E.g., 30 percent of this system's hot
+memory is belonging to cgroup A, and 80 percent of the cgroup
+A-belonging hot memory is backed by huge pages.
+
+Patches Sequence
+================
+
+First eight patches implement the core feature, interface and the
+working support.  Patch 1 introduces data probe data structure, namely
+damon_probe.  Patch 2 extends damon_ctx for installing data probes.
+Patch 3 introduces another data structure for filters of each data
+probe, namely damon_filter.  Patch 4 updates damon_ctx commit function
+to handle the probes.  Patch 5 extends damon_region for the per-region
+per-probe positive samples counter, namely probe_hits.  Patch 6 extends
+damon_operations for applying probes on the underlying DAMON operations
+implementation.  Patch 7 updates kdamond_fn() to invoke the probes
+applying callback.  Patch 8 finally implements the probes support on
+paddr ops.
+
+Ten changes for user interface (patches 9-18) come next.  Patches 9-13
+implements sysfs directories and files for setting data probes, namely
+probes directory, probe directory, filters directory, filter directory
+and filter directory internal files, respectively.  Patch 14 connects
+the user inputs that are made via the sysfs files to DAMON core.
+Following three patches (patches 15-17) implement sysfs directories and
+files for showing the probe_hits to users, namely probes directory,
+probe directory and hits files, respectively.  Patch 18 introduces a new
+tracepoint for showing the probe_hits via tracefs.
+
+Patch 19 adds a selftest for the sysfs files.
+
+Patches 20 and 21 documents the design and usage of the new feature,
+respectively.
+
+Seven additional patches (patches 22-28) for monitoring belonging memory
+cgroup follow.  Depending on the feedback, this part might be separated
+to another series in future.  Patch 22 defines the DAMON filter type for
+the new attribute, namely DAMON_FILTER_TYPE_MEMCG.  Patch 23 add the
+support on paddr ops.  Patch 24 updates the sysfs interface for setup of
+the target memcg.  Patch 25 move code for easy reuse of the filter
+target memcg setup.  Patch 26 connects the user input to the core layer.
+Finally, patches 27 and 28 update the design and usage documents for the
+memcg attribute monitoring support.
+
+Discussions
+===========
+
+This allows the page properties monitoring with overhead that is low
+enough to be enabled always on real world workloads.  Because the
+sampling time for access check is reused for data attributes check,  the
+upper-bounded and best-effort minimum overhead of DAMON is kept.
+Because the sampling memory for access check is reused for data
+attributes check, additional overhead is minimum.
+
+Still DAMOS-based page level properties monitoring should be useful,
+because it provides a deterministic page level information.  When in
+doubt of the sampling based information, running DAMOS-based one
+together and comparing the results would be useful, for debugging and
+tuning.
+
+Plan for Dropping RFC tag
+=========================
+
+Making changes for feedback from myself, humans and Sashiko should be
+the major remaining work.
+
+I'm currently hoping to drop the RFC tag by 7.2-rc1.
+
+Future Works: Mid Term
+========================
+
+This version of implementation is limiting the maximum number of data
+probes to four.  I will try to find a way to remove the limit in future.
+I personally think it should be enough for common use cases, though, and
+therefore not giving high priority at the moment.
+
+Future Works: Long Term
+=======================
+
+There are user requests for extending DAMON with detailed access
+information, for example, per-CPUs/threads/read/writes monitoring.  For
+that, I was working [2] on extending DAMON to use page fault events as
+another access check primitives, and making the infrastructure flexible
+for future use of yet another access check primitive.  Actually there is
+another ongoing work [3] for extending DAMON with PMU events.  The
+motivation of the work is reducing the overhead, though.
+
+In my work [2], I was introducing a new interface for access sampling
+primitives control.  Now I think this data probe interface can be used
+for that, too.  That is, data access becomes just one type of data
+attribute.  Also, pg_idle-confirmed access, page fault-confirmed access,
+and PMU event-confirmed access will be different types of data
+attributes.
+
+The regions adjustment mechanism is currently working based on the
+access information.  That's because DAMON is designed for data access
+monitoring.  That is, data access information is the primary interest,
+and therefore DAMON adjusts regions in a way that can best-present the
+information.
+
+Once data access becomes just one of data attributes, there is no reason
+to think data access that special.  There might be some users not
+interested in access at all but want to know the location of memory of
+specific type.  Data probes interface will allow doing that.  Further,
+we could extend the interface to let users set any data attribute as the
+'primary' attribute.  Then, DAMON will split and merge regions in a way
+that can best-present the 'primary' attributes.
+
+DAMOS will also be extended, to specify targets based on not only the
+data access pattern, but all user-registered data attributes.  From this
+stage, we may be able to call DAMON as a "Data Attributes Monitoring and
+Operations eNgine".
+
+[1] https://lore.kernel.org/20250106193401.109161-1-sj@kernel.org
+[2] https://lore.kernel.org/20251208062943.68824-1-sj@kernel.org/
+[3] https://lore.kernel.org/20260423004211.7037-1-akinobu.mita@gmail.com
+
+Changes from RFC v2.2
+- rfc v2.2: https://lore.kernel.org/20260515004433.128933-1-sj@kernel.org
+- Rename damon_aggregated_v2 trace event to damon_region_aggregated.
+- Address Sashiko issues.
+  - Enclose arguments on damon_for_each_{probe,filter}[_safe]() macros.
+  - Fix typos in comments and documents.
+  - Update probe_hits for region split and merge.
+  - Add more documentation for damon_operation->apply_probes() callback.
+  - Reduce unnecessary folio_{get,put}() in damon_pa_apply_probes().
+  - Define damon_sysfs_probe_attrs as static.
+  - Link scheme tried region sysfs dir and increase the count only after
+    all internal dir population success.
+  - Commit damon_filter->memcg_id for newly added filters.
+Changes from RFC v2.1
+- rfc v2.1: https://lore.kernel.org/20260514140904.119781-1-sj@kernel.org
+- Rebase to mm-stable (7.1-rc3) to avoid Sashiko patch apply failure.
+Changes from RFC v2
+- rfc v2: https://lore.kernel.org/20260512143645.113201-1-sj@kernel.org
+- Optimize nr_probes calculation for probe_hits tracepoint.
+- Use TRACE_EVENT_CONDITION() for probe_hits tracepoint.
+- Rebase to latest mm-new.
+Changes from RFC
+- rfc: https://lore.kernel.org/all/20260426205222.93895-1-sj@kernel.org/
+- Support memcg DAMON filter.
+- Use per-probe probe_hits sysfs file.
+- Use dynamic_array for probe_hits tracing.
+- Fix filter matching field.
+- Fix folio leaking in damon_pa_filter_pass().
+- Move nr_regions of damon_aggregated_v2 tracepoint after end.
+- Rename DAMON_TEST_TYPE_ANON to DAMON_FILTER_TYPE_ANON.
+
+SeongJae Park (28):
+  mm/damon/core: introduce struct damon_probe
+  mm/damon/core: embed damon_probe objects in damon_ctx
+  mm/damon/core: introduce damon_filter
+  mm/damon/core: commit probes
+  mm/damon/core: introduce damon_region->probe_hits
+  mm/damon/core: introduce damon_ops->apply_probes
+  mm/damon/core: do data attributes monitoring
+  mm/damon/paddr: support data attributes monitoring
+  mm/damon/sysfs: implement probes dir
+  mm/damon/sysfs: implement probe dir
+  mm/damon/sysfs: implement filters directory
+  mm/damon/sysfs: implement filter dir
+  mm/damon/sysfs: implement filter dir files
+  mm/damon/sysfs: setup probes on DAMON core API parameters
+  mm/damon/sysfs-schemes: implement tried_regions/<r>/probes/
+  mm/damon/sysfs-schemes: implement probe dir
+  mm/damon/sysfs-schemes: implement probe/hits file
+  mm/damon: trace probe_hits
+  selftests/damon/sysfs.sh: test probes dir
+  Docs/mm/damon/design: document data attributes monitoring
+  Docs/admin-guide/mm/damon/usage: document data attributes monitoring
+  mm/damon/core: introduce DAMON_FILTER_TYPE_MEMCG
+  mm/damon/paddr: support DAMON_FILTER_TYPE_MEMCG
+  mm/damon/sysfs: add filters/<F>/path file
+  mm/damon/sysfs-schemes: move memcg_path_to_id() to sysfs-common
+  mm/damon/sysfs: setup damon_filter->memcg_id from path
+  Docs/mm/damon/design: update for memcg damon filter
+  Docs/admin-guide/mm/damon/usage: update for memcg damon filter
+
+ Documentation/admin-guide/mm/damon/usage.rst |  46 +-
+ Documentation/mm/damon/design.rst            |  39 ++
+ include/linux/damon.h                        |  69 +++
+ include/trace/events/damon.h                 |  38 ++
+ mm/damon/core.c                              | 211 +++++++
+ mm/damon/paddr.c                             |  76 +++
+ mm/damon/sysfs-common.c                      |  41 ++
+ mm/damon/sysfs-common.h                      |   2 +
+ mm/damon/sysfs-schemes.c                     | 226 ++++++--
+ mm/damon/sysfs.c                             | 557 +++++++++++++++++++
+ tools/testing/selftests/damon/sysfs.sh       |  48 ++
+ 11 files changed, 1305 insertions(+), 48 deletions(-)
+
+
+base-commit: 5d6919055dec134de3c40167a490f33c74c12581
+-- 
+2.47.3
