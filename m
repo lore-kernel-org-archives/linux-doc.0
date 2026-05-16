@@ -1,67 +1,67 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913783D75B6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B753D75A5
 	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 11:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778929625; cv=none; b=mwtckiIPwNjpVH0sd2fr0wke/7yireckfu1i9PrJrcEBISoNvwAtb2p1Hqnua2U8Sfm5JZqZcsfT+y9YQmZrw253zjTnImKTisNqcJrkaFWdm7/ph+VCFX8Ep6s13UEWYElTfSgM1W25bmrsTK3tZAO1bpVszczIv87kAmNQITc=
+	t=1778929625; cv=none; b=qTo+bsVqj0f6YQGuhyv+RKlVrFiD752rHDyaSKeCxIFUgI0Hzr+I54zvue5V2LVUU9SafIcWpUsGffu/GdVFwn90LXkgMCzpodh+fzlEM9riqC9KIf3pGsfYHNDS6dAtrU487iGHX1qHL1YwXbp3ulxAoeNIRfOv2fB9H9O/bjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778929625; c=relaxed/simple;
-	bh=9xL4k8P4OzDmeuDyBCak9cYfAMz/kFZpIBcu/tKVYxQ=;
+	bh=gccEkxb9Fgxq3kICRGFzS2yuH2T+EBoB3hEcASoUfk4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=G7XCMoUPS8nu4PQyuJH4v6CquW5HfkVDBCv6sSQU6SwVImjvCpurvL7KGyMJyEXT0k+KvAp7VchuYBCDdNWvpPxMoSuRR5lsQdTeztvMGlWJo4Op/s6lNmbrBgUTmZI6DZaI8bFYSJ1Rp+VfEwFjU6SL06XEyUxLaAXtlIe3pZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0gmvF4h; arc=none smtp.client-ip=209.85.128.49
+	 In-Reply-To:To:Cc; b=Zv6gFIrf7TELSiDB57zvkwkEGAwShHx7F1ilLsLYarjjg8yfYLf2u/U9c0BuVizjZplSC4BS/AAm57D5RIXV6Y3By0DuZmql0BKDtdUq+6L/tyGJPAgES2sFTmuJbBqXM2L6E1qrsHr9couit32Nrb4FHBXJjSq9wRCOhFrCVdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GZEVIFNy; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0gmvF4h"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4891b0786beso4616275e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 04:07:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GZEVIFNy"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48d102471a4so4671375e9.2
+        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 04:07:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778929619; x=1779534419; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778929618; x=1779534418; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dVfs+wqDh2APf8gPwREvGpcVhgxv7KkNQvxDWgzbhy8=;
-        b=h0gmvF4hSc0teZTysKlI5gUnQhaDoq3CcSselgyORbUx5s7dJwaW+hBdrHtMqByO0S
-         pGnRYKtOAPMPYv4yBtaKxa2VixqKYMYn5Sz7+XNy54aZgoTIM/sk93jkUB6iDqZqJaVx
-         ycLYpieUUxM8S+BUtvFPrJXKlKv9dMznd+/2/98NtHmN3l/eiCiuUh6qeuiwZwb1CL9i
-         05cQpbv/WLQXaRYYcNohLQy6Wps6pYg8NAu6iKTrOFy5QWOG1ojf3O20WOWRauCr2CPC
-         PTRUsxvkLYD7Yr0E566D8Kj6nc8GTs2QgtBkZaLqKkseb2Pr/5D0z17KB5TrSqSyWUyF
-         S9zQ==
+        bh=mZxaw3u6g9gSQgxhivb/aQTd6ZH6WM8J0IbrlUd06os=;
+        b=GZEVIFNyXzBrJZH8agXuIgpikeppwWAlOjbWAop6q2/OCcKQ2pInJjZb5VyghaXLFw
+         8at78ujSh/yhjy8e/2kBfbJ8/9p5sMbnVKitoVsjBKkj2VtjSVSolS5QzR11CL+ttgfI
+         xxcMmJ6hxkQSnQxUJQDDKvl08c8tzKrDBV5sqVuL2VbVgRYcOTKig6HJigQXMbNwGppz
+         MeiCETWq9exFIn0sCv3TiQDtuCeNStwHST0vREwJo6rPyTnKSJpmkCiffZi5VRfPZR7r
+         vMAtyKPoRLylB7JOfZGXLV7TlJveAd/EDW4AbweEcN4TZnR9fBM4CXUmHCeNNXon8ReW
+         UNJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778929619; x=1779534419;
+        d=1e100.net; s=20251104; t=1778929618; x=1779534418;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=dVfs+wqDh2APf8gPwREvGpcVhgxv7KkNQvxDWgzbhy8=;
-        b=bjyRA43N/1hLyzPFjMm2IfGuI95NQ8Ii/owl9TVfPBBe/aPacu2gvcTpx1i3+sVlSW
-         EL1LBB9JiG1R5Oi8eZA9Dyint9VbBxiKhREhn2lV3VMD+bxU1Br7HhMk+W5rfoGFGzCZ
-         F+/ZVCaftqBGKN3VPf1D7UX6ec01SqsYHeeYzc021s1b3z+gAo84PdIzOEy1Od1YAynf
-         j3Yz55pnDkZRPSMBnk/B3firnbaxSoyIX9dLXBAlnwhM8ynajc+b1ydttzqNgSFrT40O
-         FhvCaYDfUHqYEt84Nxk0zdiEA3Verxx1yvBi93M6ny5KtY787L1YTFtw6crfHbokJoIC
-         VtEg==
-X-Forwarded-Encrypted: i=1; AFNElJ/mY1xAED81eg6vD6295hhDGBw0K/yLI7Ov/Uk/Qury8bjRKE9ZT5kroGyRHcMzmbfuTE3XhS2N0Xg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyN9nzKtZfeFUELzdUWfmHniTi4XxvcJCw/41DVWHzp81p+n50G
-	oJvvRxMKu1SBcviDKqY6CZ/SXgzbRuUcwcDNYnrOcwugF2GOEUk0YJwb
-X-Gm-Gg: Acq92OFJimu6lJR4LkyFNEEw7VG7ui4peRIl7cQFeHZW6wk4R4pb9PjNCPLWTijTgif
-	Iy8oTHhbqXJban+Wt21SQfbNY9TWgUOf76e2bzhdA4Xuk1oTdIXMowXcgL7UDNGVZyZzGbq3Are
-	rXRdRtFyjgN9wDc8ZHl1YYvTDqDqigISFBqH0Ma4uYQdlyad8hRgZ4F/hJRmVPC1qCw2VocQvWn
-	hfwO9Dpp6gXdB568YT6sN5FsZEbzKbpDvnoqzBFWGelDJ+uSkqp40pdx3c9bEQzPBVYIr2A58Ca
-	asJozC1sl3ZlptRLkNNNSpWeUSwr3IH68uCr9h2qbCKlGkBlr7md7D4WBENT13z0HKoB5d/CV2D
-	7lS46Qm6nKxJRyDwbFpRFVqL+KY7EidgZaGdXmqizd4yDLnJ1P6Es5aiIQ43HUwTHqeiHWHeOWi
-	rLWQCEvDHl0W83aAfmfIkEGiuneEaOwwXm+dO0jxidVFt4ni6WoJnt9ElfsZ1cFPsPdMtJUYxMt
-	yGOo3c=
-X-Received: by 2002:a05:600c:c4a1:b0:48a:5363:8cac with SMTP id 5b1f17b1804b1-48fe63268eemr108045305e9.22.1778929618884;
-        Sat, 16 May 2026 04:06:58 -0700 (PDT)
+        bh=mZxaw3u6g9gSQgxhivb/aQTd6ZH6WM8J0IbrlUd06os=;
+        b=SOOyOHwtKOj0Mjah1OgfKL8OE1W0Mjq0UmDWFL6CYvADplrFfJ9avXjjDN+R4o270f
+         HAAU+irTcsDz+2oT7A8JAqkV3Y18TfpGYMhmCmFX2mgNXnV23nTM9ZdV+k0cM0BnxQ3i
+         9DLUJy6EjApsaFt4FbxiNCmxJbk85TycqlX+QIeZvcrKN896oMgzvlF3TFsOH/AAygPW
+         5EE2LffJ0c6szFCmaiwE5MHmDvPCzt933uV/hsQj4+qnkxfM3Wg2T1WJY8eYtKZfzAL2
+         w5GgZbM+wLnv6aBH0f1hPWnR3OWKGiWiALS/O+lGbBxS6Q7VbMa0A3RxURIwTgYsvolc
+         Z7wA==
+X-Forwarded-Encrypted: i=1; AFNElJ/I4zMmS7a2+p5vsrdEsGXLRwQ046z6UCYrhFoiD4yseNfCS33E7NXMzqTHd1etNOvMli6PnUyX1YA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNH69TtVWawb1STvnew5sujZowUC/mPBidhMFH/v8DgtzjxEyN
+	QyQFVUGLUEDFpLnVhMQ9EehJed4/UkOWn2Q/GgkO7NTM42U7sivaA8z3
+X-Gm-Gg: Acq92OHny4ynPwtw4/VzcMzSkaQXVWwHeP8SnaMetmxTwL373PqCZZsNx8jTqotj4fv
+	LGJ6h/Ufg9EOspera/zds5rTN5USO3I6vUi/iq5kHCLa1P2ZqbNOv3wSrRWXddUpAO5lzKSFYbM
+	p10WzigtVUrw+J3pL/Tg+PHNke4IS67mlxyegrOTA8Vm1zW1LT/syCzskC5VE7sVIWUlScgM4eG
+	x1yqhRRvRgAm1NyncoKSxbwmqWrAuzR90Y9TjJ0oaXC8jrfGXA4Nze19d59RKm7Mv6qh8QA1OVV
+	CFEyIxcf5IzQiKuUP6dXQOPwXmmcR1b0u+wvIV9JxRhqVd/xcmac1H1QmtM/MBJjgZLgER9qon8
+	fZeRaapJFbag46NViVc1dzd3XWqQpg/LQx7qSY5OsNfXfDBEdqisk7GIYHfMWH1ad9oErdlXoRI
+	qPZWCD0+5FkanuUEZOEQ0A7wvzBwG2zLrF3XOAsuhEwy8lWaV6GB/l9iWV2AgYuUuxxOOGNp9ke
+	RDVjP4l6k9i5QHF4Q==
+X-Received: by 2002:a05:600c:2d09:b0:48f:e1ac:c96d with SMTP id 5b1f17b1804b1-48fe61f2bcemr60030905e9.20.1778929617614;
+        Sat, 16 May 2026 04:06:57 -0700 (PDT)
 Received: from [10.13.0.20] (ip87-106-117-14.pbiaas.com. [87.106.117.14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48feb00e5easm36399545e9.13.2026.05.16.04.06.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48feb00e5easm36399545e9.13.2026.05.16.04.06.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 04:06:58 -0700 (PDT)
+        Sat, 16 May 2026 04:06:57 -0700 (PDT)
 From: Julian Orth <ju.orth@gmail.com>
-Date: Sat, 16 May 2026 13:06:14 +0200
-Subject: [PATCH 11/12] drm/syncobj: add drm_syncobj_export_sync_file
+Date: Sat, 16 May 2026 13:06:13 +0200
+Subject: [PATCH 10/12] drm/syncobj: add drm_syncobj_import_sync_file
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260516-jorth-syncobj-v1-11-88ede9d98a81@gmail.com>
+Message-Id: <20260516-jorth-syncobj-v1-10-88ede9d98a81@gmail.com>
 References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
 In-Reply-To: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -86,46 +86,40 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org, 
  ju.orth@gmail.com
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778929602; l=3389;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778929602; l=2792;
  i=ju.orth@gmail.com; s=20251120; h=from:subject:message-id;
- bh=9xL4k8P4OzDmeuDyBCak9cYfAMz/kFZpIBcu/tKVYxQ=;
- b=IyP6KTEg/nnToCAtPFKyKdeoh+C+VT61maR9YZkQriDB2BckEZMqDGD+hg82OZFoyq8W/t5dM
- UcduM0gEp0VDuV8slfvoJd+B0QiHGRqTA8TF5AMzoWTfDIVoRvYYEyG
+ bh=gccEkxb9Fgxq3kICRGFzS2yuH2T+EBoB3hEcASoUfk4=;
+ b=LfciDdq+01NiK3gXOUbCymlEM3K+nuuGo3VhuhjLND4T9QDwYUXe2UHMMsjDrtokyTzc+edKE
+ S+PE8qGatMuDQ8hyiPBhAhZK6ObHL0ljbFX8Do8xYlPgTokSZvXJnCB
 X-Developer-Key: i=ju.orth@gmail.com; a=ed25519;
  pk=uM2SS4lelkuIoYHc7v9N9bgBZ3hS632zJS2xjRJLPLI=
 
-This makes the logic from drm_syncobj_export_sync_file_by_handle
-available to callers that have a drm_syncobj instead of a
-drm_file/handle pair.
+This makes the logic from drm_syncobj_import_sync_file_fence available
+to callers that have a drm_syncobj instead of a drm_file/handle pair.
 
 Signed-off-by: Julian Orth <ju.orth@gmail.com>
 ---
- drivers/gpu/drm/drm_syncobj.c | 39 ++++++++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/drm_syncobj.c | 35 ++++++++++++++++++++++++++---------
  include/drm/drm_syncobj.h     |  2 ++
- 2 files changed, 36 insertions(+), 5 deletions(-)
+ 2 files changed, 28 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 4c1667c67cb7..d5e633738730 100644
+index 1da96e23dfc0..4c1667c67cb7 100644
 --- a/drivers/gpu/drm/drm_syncobj.c
 +++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -815,8 +815,34 @@ int drm_syncobj_import_sync_file(struct drm_syncobj *syncobj,
- }
- EXPORT_SYMBOL(drm_syncobj_import_sync_file);
+@@ -765,19 +765,37 @@ static int drm_syncobj_fd_to_handle(struct drm_file *file_private,
+ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
+ 					      int fd, int handle, u64 point)
+ {
+-	struct dma_fence *fence = sync_file_get_fence(fd);
+ 	struct drm_syncobj *syncobj;
+ 	int ret = 0;
  
--static int drm_syncobj_export_sync_file(struct drm_file *file_private,
--					int handle, u64 point, int *p_fd)
-+static int drm_syncobj_export_sync_file_by_handle(struct drm_file *file_private,
-+						   int handle, u64 point,
-+						   int *p_fd)
-+{
-+	struct drm_syncobj *syncobj;
-+	int ret;
-+
 +	syncobj = drm_syncobj_find(file_private, handle);
 +	if (!syncobj)
 +		return -ENOENT;
 +
-+	ret = drm_syncobj_export_sync_file(syncobj, point, p_fd);
++	ret = drm_syncobj_import_sync_file(syncobj, fd, point);
 +
 +	drm_syncobj_put(syncobj);
 +
@@ -133,58 +127,54 @@ index 4c1667c67cb7..d5e633738730 100644
 +}
 +
 +/**
-+ * drm_syncobj_export_sync_file - export a syncobj fence as a sync_file fd
-+ * @syncobj: syncobj to export from
++ * drm_syncobj_import_sync_file - import a sync_file fd into a syncobj
++ * @syncobj: syncobj to import into
++ * @fd: sync_file file descriptor
 + * @point: timeline point or 0
-+ * @p_fd: out parameter for the new file descriptor
 + *
 + * Returns 0 on success or a negative error value on failure.
 + */
-+int drm_syncobj_export_sync_file(struct drm_syncobj *syncobj,
-+				 u64 point, int *p_fd)
- {
- 	int ret;
- 	struct dma_fence *fence;
-@@ -826,7 +852,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
- 	if (fd < 0)
- 		return fd;
++int drm_syncobj_import_sync_file(struct drm_syncobj *syncobj,
++				 int fd, u64 point)
++{
++	struct dma_fence *fence = sync_file_get_fence(fd);
++	int ret = 0;
++
+ 	if (!fence)
+ 		return -EINVAL;
  
--	ret = drm_syncobj_find_fence(file_private, handle, point, 0, &fence);
-+	ret = drm_syncobj_fence_lookup(syncobj, point, 0, &fence);
- 	if (ret)
- 		goto err_put_fd;
+-	syncobj = drm_syncobj_find(file_private, handle);
+-	if (!syncobj) {
+-		ret = -ENOENT;
+-		goto err_syncobj;
+-	}
+-
+ 	if (point) {
+ 		struct dma_fence_chain *chain = dma_fence_chain_alloc();
  
-@@ -847,6 +873,8 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
- 	put_unused_fd(fd);
+@@ -792,11 +810,10 @@ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
+ 	}
+ 
+ err:
+-	drm_syncobj_put(syncobj);
+-err_syncobj:
+ 	dma_fence_put(fence);
  	return ret;
  }
-+EXPORT_SYMBOL(drm_syncobj_export_sync_file);
-+
- /**
-  * drm_syncobj_open - initializes syncobj file-private structures at devnode open time
-  * @file_private: drm file-private structure to set up
-@@ -933,8 +961,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
- 		point = args->point;
++EXPORT_SYMBOL(drm_syncobj_import_sync_file);
  
- 	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
--		return drm_syncobj_export_sync_file(file_private, args->handle,
--						    point, &args->fd);
-+		return drm_syncobj_export_sync_file_by_handle(file_private,
-+							      args->handle,
-+							      point, &args->fd);
- 
- 	if (args->point)
- 		return -EINVAL;
+ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+ 					int handle, u64 point, int *p_fd)
 diff --git a/include/drm/drm_syncobj.h b/include/drm/drm_syncobj.h
-index 1571ffa12a5c..48476c570595 100644
+index da237ca3e61f..1571ffa12a5c 100644
 --- a/include/drm/drm_syncobj.h
 +++ b/include/drm/drm_syncobj.h
-@@ -145,6 +145,8 @@ int drm_syncobj_query(struct drm_syncobj **syncobjs, u64 user_points,
+@@ -143,6 +143,8 @@ int drm_syncobj_timeline_signal(struct drm_syncobj **syncobjs,
+ 				u64 user_points, u32 count);
+ int drm_syncobj_query(struct drm_syncobj **syncobjs, u64 user_points,
  		      u32 count, u32 flags);
- int drm_syncobj_import_sync_file(struct drm_syncobj *syncobj,
- 				 int sync_file_fd, u64 point);
-+int drm_syncobj_export_sync_file(struct drm_syncobj *syncobj,
-+				 u64 point, int *p_fd);
++int drm_syncobj_import_sync_file(struct drm_syncobj *syncobj,
++				 int sync_file_fd, u64 point);
  void drm_syncobj_free(struct kref *kref);
  int drm_syncobj_create(struct drm_syncobj **out_syncobj, uint32_t flags,
  		       struct dma_fence *fence);
