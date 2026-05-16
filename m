@@ -1,77 +1,79 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE7A2BD030
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 15:13:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD8C3E3DA1;
+	Sat, 16 May 2026 15:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778944425; cv=none; b=Mi3b4Ri/VU9hNZHzAyJVNR+GOmIehT9UG/aDgWd4OM8xX/22QKrmtPUqiwafPexPqtYfINvdN4s/ppyQvuBqfTTbalXDVOi/jJxFEi1N9wmCmuddpzCOus3X9SLCh0L958GRWMzDdlnVEgJjY9C32RFBghlTxQvBBQRJzwgqYsY=
+	t=1778945344; cv=none; b=X/UvdYkc03djBnl48YPY8yCpqFG9rYXIH2jy77UmPOO1ySBGZ8MeucMyfail4acXpWrfarodW6weyOKfLoCFXbi9UkFF4idAKkOoaa8U+Xo8MKIZmPNClmxqf3D5WDRrwfQ7PZ5tMGz8W31QCjYwqPGjYtiiwRQfEEpINEO5nyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778944425; c=relaxed/simple;
-	bh=x3q9X5rctzpPLLg+WEQqW83/payfJpridGsXjOe3umU=;
+	s=arc-20240116; t=1778945344; c=relaxed/simple;
+	bh=Y3WuhnHu7QPmVg+ykLOwTgydBzjCSDuS70FvLN3Xglg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QJ55CLYwfup9KF1VI4u9bSDkrQ9hUX1j5zbXCjzpueVpeKFgA1VyRLyC5x96+fTQvbsl6kibBBy0Sgx5VtesV79FKM0LYq25fuRpxdYGqLKRcx5br+e0llzjnQAGIK3EqkHwLQLH3xkCAp8+/JPYVX6/YoL+Pzw/00no5gYBzxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LJTLQ0SZ; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=MJ3Bk48rh36Q7J8o8ddSK//Z3xbH0jsZlrcEgxgv8H2THUEQn/dgjqTjmY47U8pme7YMCDrZ712r9EmrnYz57I9Z7E7JmlDt7zq3LjQMATGKbipx9gq94o9213lfYHCZz3wcxxEjHGgaYcfLBbF9pkqZupbWksm0xV+bPn3D3xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=TDoPq+0B; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LJTLQ0SZ"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-82f8b60e485so398999b3a.0
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 08:13:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778944423; x=1779549223; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YVFycFVy8UBTwjNSOafscyPuCcY/dWfAyWqdQ/Z2H1Y=;
-        b=LJTLQ0SZuWsFfqnxd7BruF9bCltEOMs9E80pjGh3FmDBC7+M7qVQFyx5/AxXVkTGJc
-         6XEqJEmEWi80KOOQKx/0wSmhp/igu6hW2B7vVgfH9QLqfu7fZb3tXeX6yKNlb+7uxjiy
-         rtbnFsvVGFzYunwr1tBw29NyHahCnuBAG40XBPDWJlWEPCxruZFUZa9aCv5jxJAkwbB0
-         +29HkG+T5FW9boRmjHc9Bojb3yZjhn8GDzTFgp/X1vkewu3G3DuEYzClQhVXEMSdAl6V
-         nrZFt4wvYh5LG1nmNgdT49GbVxviXCXw0Vb6Kc9EUi35fr8OZfueaWjXOkhGFhd5xVkl
-         j8NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778944423; x=1779549223;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YVFycFVy8UBTwjNSOafscyPuCcY/dWfAyWqdQ/Z2H1Y=;
-        b=c9lDnSWLZOtUYOM9Ja3lSA/mkyPLgNcz8thX3gxkJVvHpZ8wdp7S4pmxsVIkMdduBH
-         tJsUC3UULaNTDJ64ojt0qOOKxHXfPqBA/7GCPtdAg7mNg0Di1Rh1YNtLyyqeu8AId5UH
-         N/sZGexdGfyOo/pI6/yZdAtnLW77WLcRxVWbNjrJmUDWDp1TfN0dMkew7p6VIhpPA5+r
-         mjoHS7CT4J5ycZUsaj5U1SCvQPWrPkZj9iXxB/l1GO+/PHMw22DTwqhKsBYoTLNx4NWh
-         dM+BBq18xx3CW732YneSgK6prRBzu+h9L72wHyBw+FudDT5B9UkQY6PhNJk8H7wKxcGu
-         QodA==
-X-Forwarded-Encrypted: i=1; AFNElJ9Fm/cElbQjr8WDN4XYxI3osuOPaQ9LPCxiaGxlV/yvYdnKfqztawkJfO85e6bqitc1N7BosKTP2Ak=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6fvpb9mjCV71gHeKWMg4uirwhvO4nd2kW+TQrZQYVKWYZvKl6
-	rUQXkI6WIsQv3cdpiCW6qcFHdCAlvBERTKM8HrXolkc13OUUvI4EJqyU
-X-Gm-Gg: Acq92OFusEs60neFTqyRywul6/e5uSSshTWs1zwLB3OHnESKoyVRelu2TBjUSw9Q7GU
-	m4s+q8Vr1kT/CR1/NmuD8sBMJ4xY2tK/Me6qiwJLBF6AzHStBAMPAO5B3N0UwQG9+PUyDgFqb7c
-	R203ZjtCro5oKSeVFPchWqwuOEmx/SHV3F3uFrn4xKPXwPzernucirL4MqnOhoPETfzQh0U8Vf1
-	geoiX2Fqhgh2x2eTDqVzNLlegXRE+fmN5hGluzPKc4ANGzM1x6trR01U9jAKyWgk66Fy5EjtVhj
-	mPVml9+gJ/Fo/EDf5VXl2rB1YVNG3iMJgvM51lujRhALVlH6euf2al9vDZCK5aUiH32QPWBq+jH
-	wVVSoQYTxJqjxNqM8BiB8yZovjHSvxJKjQZ2FyQvxjO6kMHZIt4SWBqc/hoCAJw489bRL2TEZtm
-	dA4p7PNaXrk8zr/xmkRZ3tEJkJb27ILK0qCXiD
-X-Received: by 2002:a05:6a00:1c81:b0:82c:eb46:acb9 with SMTP id d2e1a72fcca58-83f33d26a98mr8474307b3a.24.1778944422863;
-        Sat, 16 May 2026 08:13:42 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f1977a570sm8762514b3a.20.2026.05.16.08.13.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 08:13:42 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sat, 16 May 2026 08:13:41 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 2/2] hwmon: (pmbus/d1u74t) Add Murata D1U74T PSU driver
-Message-ID: <5074e0b2-1276-4856-81f3-c2b79f567a6f@roeck-us.net>
-References: <20260514-d1u74t-v4-0-1f1ee7b002ec@nexthop.ai>
- <20260514-d1u74t-v4-2-1f1ee7b002ec@nexthop.ai>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="TDoPq+0B"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64G4CHnP787840;
+	Sat, 16 May 2026 15:28:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=IZ5zA3XsTWGgAiQK890akjbBXwL2El
+	lxVxpRn2y4q8Y=; b=TDoPq+0BCrQ9mf/TMuvfj5T4rSJL3BEMendO35UG4GE/jC
+	lSFF5h5ZLmpl6YSUG9qvP68K5Us//Naxq4jDqBHgBL9tna5oyQgCN5Lhb60cY88H
+	HkWOHdzv8YJnZW0F1v3tVf+e4pI78shua8qm6IhGkc4kbDd5Z/cn7pQoR4ICS8+o
+	Usf3tuHt+OL8SV22SaILST3G9nUFmi6b1ufu01W2Ytx1eBAS45gnWi3XpwfSzz5F
+	fjGvlfT01Frn5idZY7h3cKo5fpVvp/JpA3WwGlC9UBxypvoda+If5Drl0FRNH2CT
+	//Y2Q76NU37Eq0oxsklFiJhwJ9vXw3QTRfdiwI5w==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e6hb81a4m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 16 May 2026 15:28:24 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64GFO6Ri015810;
+	Sat, 16 May 2026 15:28:23 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4e5kvcr80s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 16 May 2026 15:28:23 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64GFSLUP37683472
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 16 May 2026 15:28:22 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DBB4D20043;
+	Sat, 16 May 2026 15:28:21 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0F5B520040;
+	Sat, 16 May 2026 15:28:21 +0000 (GMT)
+Received: from osiris (unknown [9.87.148.37])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Sat, 16 May 2026 15:28:20 +0000 (GMT)
+Date: Sat, 16 May 2026 17:28:19 +0200
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Manuel Ebner <manuelebner@mailbox.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        David Laight <david.laight.linux@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jani Nikula <jani.nikula@intel.com>,
+        "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] Doc: deprecated.rst: add strlcat()
+Message-ID: <20260516152819.14597A76-hca@linux.ibm.com>
+References: <20260514160719.105084-3-manuelebner@mailbox.org>
+ <20260514162652.107714-2-manuelebner@mailbox.org>
+ <202605140931.913048A68B@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,266 +82,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260514-d1u74t-v4-2-1f1ee7b002ec@nexthop.ai>
+In-Reply-To: <202605140931.913048A68B@keescook>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE2MDE1MCBTYWx0ZWRfX0vIa8fNIub+a
+ vEjD0tmEgSUybvhsoEqpZ+V7J2x5KATmufeoCUEmL/3RZQkbrPWb0nLYo/jqvxjBgorE5D2e2mG
+ GhaUPDFZ665Wfk33qP4tF9M1t9VgDCPOlnLQ66PTacCavUfw9aHRWFVoMoBndDPr67s58KlBZpx
+ xpRwINo5+QQ7XZLWfXIIA7Vt86lZD2udfw3xcQEv6p7jY4X72oVbuWxw2PlEbY3Y/H64vjk5MPX
+ DoYGjg0640rm5ULiUO/mlTqxXE0i76tFhG/XN9Ud/olTDItH0keStDRkM0ZjvX/WmidhsMhRsSC
+ VEBvLCGWf+YX/g5I01MH4lK+ezIFgkI2Nav0Knp61EF3dhjCGAh501Sk6prWIcFakLYl9ir4auL
+ aOzdwBhZqGvQZMlxRQAl02V2nMSGUCN3EX/dsqjMuJK9zWereJodGsE3fVkMQdxXdYIl/rA0Cer
+ H+aaO1PHIgepunSrcNA==
+X-Proofpoint-GUID: CS_nslXN3hW6X0meCFcdylojT7DcHbli
+X-Proofpoint-ORIG-GUID: ak1NJ0RZPhuFZ_HqDcxEheQywVEf2ISA
+X-Authority-Analysis: v=2.4 cv=aYBRWxot c=1 sm=1 tr=0 ts=6a088d18 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=b3CbU_ItAAAA:8
+ a=6hv-k8JefT9e1lRrFzwA:9 a=CjuIK1q_8ugA:10 a=Rv2g8BkzVjQTVhhssdqe:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-16_01,2026-05-15_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ clxscore=1015 spamscore=0 phishscore=0 priorityscore=1501 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605160150
 
-On Thu, May 14, 2026 at 08:03:26PM -0700, Abdurrahman Hussain wrote:
-> Add PMBUS driver for Murata D1U74T power supplies.
+On Thu, May 14, 2026 at 09:31:46AM -0700, Kees Cook wrote:
+> On Thu, May 14, 2026 at 06:26:53PM +0200, Manuel Ebner wrote:
+> > add strlcat and alternatives
+> > 
+> > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> > ---
+> >  Documentation/process/deprecated.rst | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> > index fed56864d036..06e802f4bbfd 100644
+> > --- a/Documentation/process/deprecated.rst
+> > +++ b/Documentation/process/deprecated.rst
+> > @@ -153,6 +153,13 @@ used, and the destinations should be marked with the `__nonstring
+> >  attribute to avoid future compiler warnings. For cases still needing
+> >  NUL-padding, strtomem_pad() can be used.
+> >  
+> > +strlcat()
+> > +---------
+> > +strlcat() must re-scan the destination string from the beginning on each
+> > +call (O(n^2) behavior). Alternatives are seq_buf_puts() and seq_buf_printf().
+> > +snprintf(), scnprintf() and sysfs_emit() are possible aswell, but the adoption
+> > +of the arguments needs to be taken care off.
+> > +
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202605122253.zInzmUeX-lkp@intel.com/
-> Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-
-Applied, after dropping the above Reported-by: and Closes: tags.
-Those are inappropriate for new drivers.
-
-I also added the missing include files.
-
-Guenter
-
-> ---
->  Documentation/hwmon/d1u74t.rst | 81 +++++++++++++++++++++++++++++++++++++++
->  Documentation/hwmon/index.rst  |  1 +
->  MAINTAINERS                    |  7 ++++
->  drivers/hwmon/pmbus/Kconfig    |  9 +++++
->  drivers/hwmon/pmbus/Makefile   |  1 +
->  drivers/hwmon/pmbus/d1u74t.c   | 86 ++++++++++++++++++++++++++++++++++++++++++
->  6 files changed, 185 insertions(+)
+> How about just:
 > 
-> diff --git a/Documentation/hwmon/d1u74t.rst b/Documentation/hwmon/d1u74t.rst
-> new file mode 100644
-> index 000000000000..3a9eedbda483
-> --- /dev/null
-> +++ b/Documentation/hwmon/d1u74t.rst
-> @@ -0,0 +1,81 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +Kernel driver d1u74t
-> +====================
-> +
-> +Supported chips:
-> +
-> +  * Murata D1U74T
-> +
-> +    Prefix: 'd1u74t'
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet: Publicly available at the Murata website
-> +
-> +Authors:
-> +    Abdurrahman Hussain <abdurrahman@nexthop.ai>
-> +
-> +
-> +Description
-> +-----------
-> +
-> +This driver implements support for Murata D1U74T Power Supply with
-> +PMBus support.
-> +
-> +The driver is a client driver to the core PMBus driver.
-> +Please see Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
-> +
-> +
-> +Usage Notes
-> +-----------
-> +
-> +This driver does not auto-detect devices. You will have to instantiate the
-> +devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
-> +details.
-> +
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +======================= ======================================================
-> +curr1_label		"iin"
-> +curr1_input		Measured input current
-> +curr1_alarm		Input current alarm
-> +curr1_rated_max		Maximum rated input current
-> +
-> +curr2_label		"iout1"
-> +curr2_input		Measured output current
-> +curr2_max		Maximum output current
-> +curr2_max_alarm		Output current high alarm
-> +curr2_crit		Critical high output current
-> +curr2_crit_alarm	Output current critical high alarm
-> +curr2_rated_max		Maximum rated output current
-> +
-> +in1_label		"vin"
-> +in1_input		Measured input voltage
-> +in1_alarm		Input voltage alarm
-> +in1_rated_min		Minimum rated input voltage
-> +in1_rated_max		Maximum rated input voltage
-> +
-> +in2_label		"vout1"
-> +in2_input		Measured output voltage
-> +in2_alarm		Output voltage alarm
-> +in2_rated_min		Minimum rated output voltage
-> +in2_rated_max		Maximum rated output voltage
-> +
-> +power1_label		"pin"
-> +power1_input		Measured input power
-> +power1_alarm		Input power alarm
-> +power1_rated_max	Maximum rated input power
-> +
-> +temp[1-3]_input		Measured temperature
-> +temp[1-3]_max		Maximum temperature
-> +temp[1-3]_max_alarm	Maximum temperature alarm
-> +temp[1-3]_rated_max	Maximum rated temperature
-> +
-> +fan1_alarm		Fan 1 warning
-> +fan1_fault		Fan 1 fault
-> +fan1_input		Fan 1 speed in RPM
-> +fan1_target		Fan 1 target
-> +======================= ======================================================
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 8b655e5d6b68..97b1ef65b1c1 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -60,6 +60,7 @@ Hardware Monitoring Kernel Drivers
->     corsair-psu
->     cros_ec_hwmon
->     crps
-> +   d1u74t
->     da9052
->     da9055
->     dell-smm-hwmon
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b2040011a386..3106cf725dfc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -18249,6 +18249,13 @@ F:	drivers/mux/
->  F:	include/dt-bindings/mux/
->  F:	include/linux/mux/
->  
-> +MURATA D1U74T PSU DRIVER
-> +M:	Abdurrahman Hussain <abdurrahman@nexthop.ai>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/hwmon/d1u74t.rst
-> +F:	drivers/hwmon/pmbus/d1u74t.c
-> +
->  MUSB MULTIPOINT HIGH SPEED DUAL-ROLE CONTROLLER
->  M:	Bin Liu <b-liu@ti.com>
->  L:	linux-usb@vger.kernel.org
-> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> index 8f4bff375ecb..ee93b22d2887 100644
-> --- a/drivers/hwmon/pmbus/Kconfig
-> +++ b/drivers/hwmon/pmbus/Kconfig
-> @@ -113,6 +113,15 @@ config SENSORS_CRPS
->  	  This driver can also be built as a module. If so, the module will
->  	  be called crps.
->  
-> +config SENSORS_D1U74T
-> +	tristate "Murata D1U74T Power Supply"
-> +	help
-> +	  If you say yes here you get hardware monitoring support for the Murata
-> +	  D1U74T Power Supply.
-> +
-> +	  This driver can also be built as a module. If so, the module will
-> +	  be called d1u74t.
-> +
->  config SENSORS_DELTA_AHE50DC_FAN
->  	tristate "Delta AHE-50DC fan control module"
->  	help
-> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-> index 7129b62bc00f..8cf7d3075371 100644
-> --- a/drivers/hwmon/pmbus/Makefile
-> +++ b/drivers/hwmon/pmbus/Makefile
-> @@ -76,3 +76,4 @@ obj-$(CONFIG_SENSORS_XDPE1A2G7B)	+= xdpe1a2g7b.o
->  obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
->  obj-$(CONFIG_SENSORS_PIM4328)	+= pim4328.o
->  obj-$(CONFIG_SENSORS_CRPS)	+= crps.o
-> +obj-$(CONFIG_SENSORS_D1U74T)	+= d1u74t.o
-> diff --git a/drivers/hwmon/pmbus/d1u74t.c b/drivers/hwmon/pmbus/d1u74t.c
-> new file mode 100644
-> index 000000000000..286ba492e336
-> --- /dev/null
-> +++ b/drivers/hwmon/pmbus/d1u74t.c
-> @@ -0,0 +1,86 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright 2026 Nexthop Systems.
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/of.h>
-> +#include <linux/pmbus.h>
-> +
-> +#include "pmbus.h"
-> +
-> +static const struct i2c_device_id d1u74t_id[] = {
-> +	{ "d1u74t" },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(i2c, d1u74t_id);
-> +
-> +static struct pmbus_driver_info d1u74t_info = {
-> +	.pages = 1,
-> +	/* PSU uses default linear data format. */
-> +	.func[0] = PMBUS_HAVE_PIN | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-> +		   PMBUS_HAVE_IIN | PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT |
-> +		   PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_TEMP |
-> +		   PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3 |
-> +		   PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_FAN12 |
-> +		   PMBUS_HAVE_STATUS_FAN12,
-> +};
-> +
-> +static int d1u74t_probe(struct i2c_client *client)
-> +{
-> +	char buf[I2C_SMBUS_BLOCK_MAX + 2] = { 0 };
-> +	struct device *dev = &client->dev;
-> +	int rc;
-> +
-> +	rc = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, buf);
-> +	if (rc < 0)
-> +		return dev_err_probe(dev, rc, "Failed to read PMBUS_MFR_ID\n");
-> +
-> +	if (rc != 9 || strncmp(buf, "Murata-PS", 9)) {
-> +		buf[rc] = '\0';
-> +		return dev_err_probe(dev, -ENODEV,
-> +				     "Unsupported Manufacturer ID '%s'\n",
-> +				     buf);
-> +	}
-> +
-> +	rc = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
-> +	if (rc < 0)
-> +		return dev_err_probe(dev, rc,
-> +				     "Failed to read PMBUS_MFR_MODEL\n");
-> +
-> +	if (rc < 8 || strncmp(buf, "D1U74T-W", 8)) {
-> +		buf[rc] = '\0';
-> +		return dev_err_probe(dev, -ENODEV, "Model '%s' not supported\n",
-> +				     buf);
-> +	}
-> +
-> +	rc = pmbus_do_probe(client, &d1u74t_info);
-> +	if (rc)
-> +		return dev_err_probe(dev, rc, "Failed to probe\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id d1u74t_of_match[] = {
-> +	{
-> +		.compatible = "murata,d1u74t",
-> +	},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, d1u74t_of_match);
-> +
-> +static struct i2c_driver d1u74t_driver = {
-> +	.driver = {
-> +		.name = "d1u74t",
-> +		.of_match_table = d1u74t_of_match,
-> +	},
-> +	.probe = d1u74t_probe,
-> +	.id_table = d1u74t_id,
-> +};
-> +
-> +module_i2c_driver(d1u74t_driver);
-> +
-> +MODULE_AUTHOR("Abdurrahman Hussain");
-> +MODULE_DESCRIPTION("PMBus driver for Murata D1U74T-W power supplies");
-> +MODULE_LICENSE("GPL");
-> +MODULE_IMPORT_NS("PMBUS");
+> strlcat() must re-scan the destination string from the beginning on each
+> call (O(n^2) behavior). Use the seq_buf API or similar instead.
+
+seq_buf API for appending something to e.g. boot_command_line seems to be odd,
+since boot_command_line is usually "just there" (depending on architecture and
+boot loader).
+
+So if I would remove strlcat() from appending something to boot_command_line I
+would end up open-coding strlcat(), including the chance for the usual
+off-by-one bugs. Looks like this would be true for nearly all architectures.
+
+Is performance really the only reason to deprecate strlcat()? This seems to be
+a bit questionable to me.
