@@ -1,82 +1,112 @@
-Received: from outbound.st.icloud.com (p-east2-cluster6-host7-snip4-8.eps.apple.com [57.103.76.159])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0F6239562
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 07:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.76.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC0B35F5E3
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 07:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778915236; cv=none; b=Mf3+PblJKUYTmNEEZvyLoefjTdB5T1VtG+CZQeyj9gyXHIeqzVa6mY+eoD33pCuQ002GvzyV/Dt0lOOQd52Sqy1SdJ4Dopqqz+MJkVf2OZBVWfoX0cSmniJOUbrapeh+edyZ7IArceTmOZNv3uNH+yCp2TKCjuS+PaDp2O7o9CM=
+	t=1778917028; cv=none; b=kKQ+W5zV/6fUK4UnB1Je9VjkILhRhgLMs44ndW+qOah8dhNX1eA8nvK27+VLUoilaq+FoYL4CsDOWmEaeq1U22wLEhuacOZ3HTkMTC2w7TD7xM3sDuij4WgEfs+pKtsK54yLvtEgpm2k21ux4Kby2dbZVDWGNVxYRNBkh/zaZ74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778915236; c=relaxed/simple;
-	bh=73insC5T0AeVlaEyZnP8POsvpSIMoEvhr0e71OpkB+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=su6uKfrWTBXW4oD/Q0AM5GzR5gqWvZtLtpVhOs/QH70LWhXQ9IaM4SHuXy60Z2dZW3gql7hO4mql+OhQQAcRv5Hgaxe5X/wIIBBvzsLRfF0YMMeuP1kwHJ1yyvgZiXxPEXRJuHaQcm8/fp/t1NpYpNZuiq0Pf9B6pURgAqrx9L4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=OYB6ySIp; arc=none smtp.client-ip=57.103.76.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1778917028; c=relaxed/simple;
+	bh=P3vqgwHwD6iLuiEKYHBc9rKUdaJI1VWv+dxZinDZG8M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f7s8yj97p0DECCbosMDEoA7SxlBwZd/W/QV2UHVkohlad3SMMi27EyXXYYHaW513XPp5swXv22R+X4y+UFBlHReiRAaUaFjIj+XWzdE0mT3DD2MJ22mR9ez7sV1SN8d+TCqbAiq6B+NDRLvqtLwfrXfZUn20d9cvzH3dh3El2fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNpNtXRG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="OYB6ySIp"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-7 (Postfix) with ESMTPS id 5883C18005A4;
-	Sat, 16 May 2026 07:07:12 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhKBUMDRQBBCFYBWANLVxQEG1sIUhhXE1gTVl8OXQIwUBtfAkIPHBNWFRMLU1ZRGFwdQAhUClkVC0EFXXcCURxWDVdDVARfUEsbDloXA1ccVkVcGEMJXQVXHB0eQ0VbE1UXRgkZCF0dGQhHHwowA0IOVgNDB0UALRkcV1BeCF4fTBwdDlgGEh1QHA5RBVsARglNAlsHXAJGDEgdVANeBl0IVVAFUg5BFVoZWAgFUgRAeRFQAVgeVl5aF15TFx9LAFxFWg5bBEcU
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778915234; x=1781507234; bh=cnwn2KMhgJMjHIBc+zqe94/lk6fW6pUCJCcxgef4qAU=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=OYB6ySIpevBN2FPgI4FNm/pqcrRG1/47F6OCi0ZvA1eARkZsdLQ3jZlKJUKqay09xUqbLK24eo8RC/FHsRPDn7FzcHXwlcsnGxv4UQPzm0qiWtNl4dsVL8I2stosaIP8HKWerLgibASH7m+p3DqlSOxVryzvQIrhmTtX8u/y7QNU/62Fy1SZSKJFqbkamMHf6gcody3ivoOn31G7BEM7R43Az71qp3tubUPth6/uo5QwhX6bRc2Qo3LC+/M6ZlXGrDfDj+gRqwVcnoORIx5fq5FExl2mdCkKVC/fVvcmmcisFKsp8OQVwmYqclaUxX7o0sBVHpSnZkx/FVSvs8HklA==
-Received: from localhost.localdomain (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-7 (Postfix) with ESMTPSA id E7E191800348;
-	Sat, 16 May 2026 07:07:09 +0000 (UTC)
-From: Cheesecake <cheesecake2960@icloud.com>
-To: corbet@lwn.net
-Cc: W_Armin@gmx.de,
-	skhan@linuxfoundation.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Cheesecake <cheesecake2960@icloud.com>
-Subject: [PATCH] docs: fix typo in uniwill-laptop.rst
-Date: Sat, 16 May 2026 16:06:50 +0900
-Message-ID: <20260516070650.9454-1-cheesecake2960@icloud.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNpNtXRG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61460C2BCFF
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 07:37:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778917028;
+	bh=P3vqgwHwD6iLuiEKYHBc9rKUdaJI1VWv+dxZinDZG8M=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nNpNtXRGUw0mf4NnH+yNpsGfoHEeYyd5NHflVOhmZkdo7mVPuYo0Sn7ejcQkpbAdL
+	 Xq4AnHBYR4AGZl8TBwgKc4eBK1jQKV2THXCREwHOk3eNmL2yNugi07+KM4ItzVAMO6
+	 lSPY0Q0dGzv7nMdKXX7wA4HJVc7hGOOjnXN54jcMnyKjaImX35rvGB1CMn7FnXzrEH
+	 ttD1bT9CLBvfDdqqOFFKIZxJh2yhLap9F2AzPm/qZYxfkQWJm8kzSDn2H87s6wQ+fJ
+	 uJXowVoELz8Hq3RAcg3eCdTqAUK/EgUtAJVUnrzr3fZqJNnt9hF+hAPgi/sObhd4Kf
+	 /5dvJQcCOdrpg==
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8b1f2b7f1bcso10984856d6.1
+        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 00:37:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8K5SppdbNKExv3+ot16b4wPTv0GcwFR684oUVeesancR//SwDxV+U0g1rAws/vEaq/RmLACyHWTgs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNt21zciM1wei+Fm/wbxwkRMGHz27HYeAhfb8cFv1YUD7A3EQN
+	NDWmXmpfDUvOi11MD6F/1OqMOfjADmeVWv552i8jriJu+/5LidQSSRClTne6n9QAOqqKeFrbfJD
+	F3gaLnVwoLAjgRWcbymJwz8K32Tjh0rk=
+X-Received: by 2002:a05:6214:29ce:b0:8b3:ff3f:5d61 with SMTP id
+ 6a1803df08f44-8c8fda1ccbbmr178745586d6.22.1778917027156; Sat, 16 May 2026
+ 00:37:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: _cxffX7dRJAOLSoIEQcndxFqpTPlQ2JO
-X-Authority-Info-Out: v=2.4 cv=PfzyRyhd c=1 sm=1 tr=0 ts=6a0817a1
- cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
- a=YrL12D//S6tul8v/L+6tKg==:17 a=NGcC8JguVDcA:10 a=x7bEGLp0ZPQA:10
- a=sIGCgqHK338A:10 a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=v3ZZPjhaAAAA:8
- a=qOMYXKSGN7icZ86_DFIA:9
-X-Proofpoint-GUID: _cxffX7dRJAOLSoIEQcndxFqpTPlQ2JO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE2MDA2OCBTYWx0ZWRfXxJR26vZ2KklV
- 33j3lbos/6Iu955eVPvDOMeRjCO0rZrmtBIOXsl3kQJTPQPrP9ga8muep8i9/JxnqArSbyS/nOS
- dVKCVmxKU+6AJUIY88diwP1ka6USdIXmkABMXX5j5gyi23vFOrlsgpF/kHd6l2KWuPwtTelVY1H
- Avn0kmYTcSEWl9nwDYvNLwlHOqslsWosqcmzhTgdseGhzo8gEp2jIPEmqsOSxu6/rUQhZdcEr89
- wNfgxs2njGSR77a2CHr03gPS6wwgARr0yP3/Ff10LQHTN+RUw33Yc9i369Q6HpIwPR0yx2hauI9
- 19XFeqRnh9lkK2TDqxp164kt/VRbLDIlK6yAvZihLFiXneBXlYzl50J1G0+2gY=
-X-Apple-Category-Label: MjE0Nzk4NjU5NzY6JGNhdGVnb3J5JF9QZXJzb25hbCw=
+References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
+ <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
+In-Reply-To: <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
+From: Barry Song <baohua@kernel.org>
+Date: Sat, 16 May 2026 15:36:56 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4xfznffbjOaNKwnN6oZk_H6pqOzYqd1zx4Q9XrocdzV8A@mail.gmail.com>
+X-Gm-Features: AVHnY4L9M-s1Neba6WebvB2EkXnslTMMIykTYPVPE3skCvVx5rzQK6ntLSW6W0w
+Message-ID: <CAGsJ_4xfznffbjOaNKwnN6oZk_H6pqOzYqd1zx4Q9XrocdzV8A@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
+To: Albert Esteve <aesteve@redhat.com>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Christian Brauner <brauner@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, mripard@kernel.org, 
+	echanude@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Replace "benifit" with "benefit".
+On Tue, May 12, 2026 at 5:18=E2=80=AFPM Albert Esteve <aesteve@redhat.com> =
+wrote:
+>
+> On embedded platforms a central process often allocates dma-buf
+> memory on behalf of client applications. Without a way to
+> attribute the charge to the requesting client's cgroup, the
+> cost lands on the allocator, making per-cgroup memory limits
+> ineffective for the actual consumers.
+>
+> Add charge_pid_fd to struct dma_heap_allocation_data. When set to
+> a valid pidfd, DMA_HEAP_IOCTL_ALLOC resolves the target task's
+> memcg and charges the buffer there via mem_cgroup_charge_dmabuf()
+> inside dma_heap_buffer_alloc(). Without charge_pid_fd, and with
+> the mem_accounting module parameter enabled, the buffer is charged
+> to the allocator's own cgroup.
+>
+> Additionally, commit 3c227be90659 ("dma-buf: system_heap: account for
+> system heap allocation in memcg") adds __GFP_ACCOUNT to system-heap
+> page allocations. Keeping __GFP_ACCOUNT would charge the same pages
+> twice (once to kmem, once to MEMCG_DMABUF), thus remove it and route
+> all accounting through a single MEMCG_DMABUF path.
+>
+[...]
 
-Signed-off-by: Cheesecake <cheesecake2960@icloud.com>
----
- Documentation/wmi/devices/uniwill-laptop.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> -               if (mem_accounting)
+> -                       flags |=3D __GFP_ACCOUNT;
 
-diff --git a/Documentation/wmi/devices/uniwill-laptop.rst b/Documentation/wmi/devices/uniwill-laptop.rst
-index e246bf293..65583b239 100644
---- a/Documentation/wmi/devices/uniwill-laptop.rst
-+++ b/Documentation/wmi/devices/uniwill-laptop.rst
-@@ -189,7 +189,7 @@ Indexed IO
- 
- Indexed IO with IO ports with a granularity of a single byte can be performed using the ``RIOP``
- (read) and ``WIOP`` (write) ACPI control methods. Those ACPI methods are unused because they
--provide no benifit when compared to the native IO port access functions provided by the kernel.
-+provide no benefit when compared to the native IO port access functions provided by the kernel.
- 
- Special thanks go to github user `pobrn` which developed the
- `qc71_laptop <https://github.com/pobrn/qc71_laptop>`_ driver on which this driver is partly based.
--- 
-2.54.0
+Hi Albert,
 
+would it be better to move this and its description to patch 1? It
+looks like patch 1 already introduces the double accounting changes,
+and patch 2 is mainly just supporting remote charging.
+
+Also, mem_accounting is only used by system_heap.c; has this patchset
+also eliminated its need?
+
+Thanks
+Barry
