@@ -1,67 +1,31 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.mr.icloud.com (mr-2002h-snip4-11.eps.apple.com [57.103.68.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C997392C56
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 23:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34063932E9
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 23:13:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.68.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778972977; cv=none; b=oSf8GNHGFWZWZZjOhz9jIoogZn90NWMUUBdj95K9+ZOBFQ5Z+tostxxsk3gwb/RrflSgYfcCKvG+FT8xoMfeBkln8Y/E7saDK45j4TXA4x0Rco205zoChQSsbw4eS7534gBOJ/23+D1I4NCHHAKQpWYfwcftok/qiFRCQ9PUKvU=
+	t=1778973239; cv=none; b=pZoRQF+B3PEpI2md2l69QMgfbYgZCj9f1t5l8UkQIb3sx5KrKPT/sAR9Iz5gqmbXg6W6YxQ/Bw94dbq9JJZT99Q+R5WxsD0Fv/aJySMZ5v69A4BGcphne1x70bVqzMY54CsKkR6N3Gbt2MeAfAydLVQKXonT8BK9P+U5xYlMpeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778972977; c=relaxed/simple;
-	bh=jM9P4tLfIF8MeGuI1VXJ2SJvpBLazhgAXkZYS1qSi8c=;
+	s=arc-20240116; t=1778973239; c=relaxed/simple;
+	bh=2B8kh88BmMcREPsTrqppXb4O6KSA0MQb13JMTQ3AyrA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UzdDLNct3+NqvMLJ3QkcVZlceCm4iPOf1BIHIjwrTa74LjUqB+/qR2gRHO6XTk1kcwX42U+KbA1TGh7H+ZkdzxYn+joPAi1l/rVmyPDAB0TtlQy7JceVdm52/kEskAGG0SMkQWOJpgmTe3Wsj7tLhVUFVbymO8Mt2u7I2iWgVz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ib4Sy1l3; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=CBZEVER/W8gpxHaMI4mTRvPSkCSog8/B2B2LZ+fqVUxlrqVDifaK1jHCDZSx14KDcRbRJjTlG6Blt3WfU353JAQlrFThgnmzm9DfBYqA6MMWcMlm9sFeYiRKlU62m/nv44DbOD2hBf6o2m3cepCTjH3tykxiM7c1oW7CAZVS+yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=ZrEe2af6; arc=none smtp.client-ip=57.103.68.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ib4Sy1l3"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-837b39eb078so738159b3a.2
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 16:09:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778972974; x=1779577774; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=cBfXIYldpHcgRD4I6rHdSNL+xKkkUEyUH1UQFq6ffjw=;
-        b=ib4Sy1l3y56lF59UbtcoepMWSFCgwGd5FprrZ0DwixOW2ZqT5Ie4QUAerChYZ/+OSI
-         AB1ATs7kweM/v0JrUExCRvIdEFMO0FaEiwo8N2l70l+3lqAy16vjhj/RpKcTmh3f65jy
-         DZs7YPniMnC6L9wS7MOPIzHc8mdZyYUvtTIBWGd0odtpjxRoxziNPwydctHfYhPyDA8k
-         siDJMZD43eE8DK3P7CysN5/ogIAf6iH0ZQEXURAAXbFWfpz6lMLR/vwk9qC97HeUJrIT
-         V9IIBpqKoGdiBCzv23ppwsjkDLDsoN/p1mfSrPBS1OhwU7QKnX3XF7NrM3RSKUEiYRk1
-         msJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778972974; x=1779577774;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cBfXIYldpHcgRD4I6rHdSNL+xKkkUEyUH1UQFq6ffjw=;
-        b=oIRwFgJA2isosLWdVU7j2l0qGgdWWWvoZNYkazDzr4Gh9rEDWBU3piEdLF3d3WU3Zq
-         Yo9+6JfybFZSu1WHNja5O2NnW5IvATHCYj/2yUdOL4FfHAxb0OBHqW7Wt0f/xs4f9RYG
-         tpzntIQaRrIGXzSIJjvaPl9mueUve0HT1gDer2i9iFN2VjFtX7Rr8Pa+r1YACJ4LNCBv
-         pfZ3IDR4ivrgHxwWjhLefcd4UkVxhpcVsJhOz1CWnzcSRszqRLePw0Zb7i0EwqoEkG9m
-         86YXYy/hLYNPQzxpD1EcEdODAhRJJ21Tz2GoWkqYViht9rxqHkeM7Io3ZY0JEcAW/Kgf
-         DHYw==
-X-Forwarded-Encrypted: i=1; AFNElJ8IsvYNRdgsjoDfegLCxlzghsc3e3HuWnw3Xi893cmvNolobqJjsulBMBDUDPn1KfwC/VGyFkrkBWA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyu/F2CFn3hRJqVVsc0A2x1A3B154nm7mpJVOH857dnYS6a08H9
-	jWtp8o94m0LlKV+Wa0oyigK5ZmzPzCEUl3vqdYgRjuITkKqk9xcd0Uiw
-X-Gm-Gg: Acq92OHEmVvOdP1WyThuB0Jz6Db5OBI9+XETXcZv6BaYsjAHXMcFwNuL0cs5e6RmYjC
-	E2H0vJTJhXnzIQvZ6P0KGDzuV7cGGtWVxieB2qDZCOHwn360mo77gF01INfwDGer1etOfQNq2XG
-	srNkbim1VfLJyzhMefE9YXCfcLw0RGkHLNhHh5ZZiivoy/qMo4CottTch7uzJdzn+TSc1AAyHXw
-	/cIcC+0fy37vnpg84SpQU8ZIBsS3RcafmPYWgkFjdojUD2wuIJ45/HQmbkXmXAp5UlJtAeXRJpM
-	adGKiW/2fuhob7m2Ki3YdtJjEv6Kt1QmxCF0q1Bxvk+L4Zfa9v9ETev7X8AOqqxDjJfTyjdynPg
-	o3hv1+GCeUzd+vs4Xf0nVxOMsTGYnnV3tupK4pjDblbkp0AZdj/Q/L9Seg0/mz4/Hl7XMNSguHc
-	vk7L1VXwtnuLeYr+mxAkOS+C9Zhlx5MVZemyC8uPV9ppxo8ijdMJ1syRO3dqxKOXljajDM7TVJ
-X-Received: by 2002:a05:6a00:390f:b0:838:af72:fb2f with SMTP id d2e1a72fcca58-83f33aec2a5mr10161094b3a.6.1778972974432;
-        Sat, 16 May 2026 16:09:34 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f2875f0fbsm8978388b3a.57.2026.05.16.16.09.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 16 May 2026 16:09:33 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <76f0d9d4-b7c1-4aa4-87ab-6de26f200e4c@roeck-us.net>
-Date: Sat, 16 May 2026 16:09:31 -0700
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="ZrEe2af6"
+Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-2a-60-percent-5 (Postfix) with ESMTPS id 1EE231800133;
+	Sat, 16 May 2026 23:13:54 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhKBUMDRQBBCFYBWANLVxQEG1sIUhhXE1gTVl8OXQIwUBtfAkIPHBNWFRMLU1ZRGFwdQAhUClkVC0EFXXcCURxWDVdDVARfUEsbDlwES1oVVRcOAkIfUB9MFldDWhkcGVoUXBhTRVEfVFhDGUVWaUELTx1dGVscQmRYVwkKAlEcVg1XQ1QEX1BUEVdQCwoAFlpAClRVRgJEDEkeWQNYBF1YTldfGlJTFAAaCw4FXQZAXDhaDlsERxQXG1wACUtGCUkdDgRUB10FXQ==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778973238; x=1781565238; bh=2B8kh88BmMcREPsTrqppXb4O6KSA0MQb13JMTQ3AyrA=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=ZrEe2af6nbuQLUs+52pG0Ub0MTF8KtiuYVacoOn6dz74pLF+6/Pl4gQ/MhNLkWHOL10lbfP5CRrbRLsR2qJp6nu9drE+xzNdYKEA4omdExVP7gHB6FJB2XU0gGIOdvKGERWr592TYXSJ9SATX/SJvvBE8fsKEz0KlcpPyfPzSOCNL3pkV3pJBbDy+SLb9qgv5YYrH7SWZLLPRntrGad2Kd1VrJ3f8g6UgF98Xz3Vjm8gkluC1b9DSh1YA3/IZnApksUo+PEBkMqNDz3Ypu7BkjT9PrKIEowCFRp3/2pdUe9C5UC/Xn6s6GR2zLvJ5mS5zrL29HrzXRYeDAhP/WYkbA==
+Received: from [192.168.1.34] (unknown [17.57.152.38])
+	by p00-icloudmta-asmtp-us-west-2a-60-percent-5 (Postfix) with ESMTPSA id B13AC1800134;
+	Sat, 16 May 2026 23:13:51 +0000 (UTC)
+Message-ID: <a2fc899b-0451-4436-a6d2-9ad9b8c2640e@icloud.com>
+Date: Sun, 17 May 2026 08:13:46 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,104 +33,56 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] soc: bcm2835: raspberrypi-firmware: Add voltage
- domain IDs
-To: Shubham Chakraborty <chakrabortyshubham66@gmail.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260516164407.25255-1-chakrabortyshubham66@gmail.com>
- <20260516191555.17978-1-chakrabortyshubham66@gmail.com>
- <20260516191555.17978-2-chakrabortyshubham66@gmail.com>
+Subject: Re: [PATCH] docs: fix typo in mpo-overview.rst
+To: Jonathan Corbet <corbet@lwn.net>, Alex Deucher
+ <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260516100406.21070-1-cheesecake2960@icloud.com>
+ <87se7rmont.fsf@trenco.lwn.net>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260516191555.17978-2-chakrabortyshubham66@gmail.com>
+From: Cheesecake <cheesecake2960@icloud.com>
+In-Reply-To: <87se7rmont.fsf@trenco.lwn.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE2MDIzNyBTYWx0ZWRfX9afkiO/+L68K
+ 3sxyBWtZdDUI1yDvHkh0b4UTlPgwsu3RwLa8Mo3ujYiTphvnV/uUmoBYx1JP3i46lv0BV0UHJHF
+ OLxJeYT3im3fTXJzdbZNyKzNv6D0tFSpdJUYqZysp3xOX4Wfb+wh02QbDzaE7TEPBX6OkkwAXKS
+ fzVl02OvH/xfwgCQ7DJdhq8BCZmJgPh+DhGBaIrHoZnDVXERXTjI3RWbc9FvKFnyv0DJEJtYqAZ
+ nGhVlDYV0DwdjhFJ6stHN5JDZz6vrXufPbhatQnBBl9r6PT8S0RoDOLqh4RomCamLMWx6wUiyPA
+ t0KpAcfFhJ4BaypM5VZktEloHnBOHMvYP3xs3jAAuaXVic5FwnyfBj2S4TVMvQ=
+X-Authority-Info-Out: v=2.4 cv=BquQAIX5 c=1 sm=1 tr=0 ts=6a08fa34
+ cx=c_apl:c_pps:t_out a=9OgfyREA4BUYbbCgc0Y0oA==:117
+ a=9OgfyREA4BUYbbCgc0Y0oA==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=x7bEGLp0ZPQA:10 a=sIGCgqHK338A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=v3ZZPjhaAAAA:8 a=U4lEO9gh2w5_OOAwJnoA:9 a=QEXdDO2ut3YA:10 a=UzISIztuOb4A:10
+ a=zY0JdQc1-4EAyPf5TuXT:22
+X-Proofpoint-GUID: FockY6_NoY58eSZNn8CMSw7qhlzHuBrL
+X-Proofpoint-ORIG-GUID: FockY6_NoY58eSZNn8CMSw7qhlzHuBrL
 
-On 5/16/26 12:15, Shubham Chakraborty wrote:
-> Add firmware voltage domain identifiers for the Raspberry Pi
-> mailbox property interface.
-> 
-> These IDs are used by firmware clients to query voltage rails
-> through the RPI_FIRMWARE_GET_VOLTAGE property.
-> 
-> Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-> ---
->   include/soc/bcm2835/raspberrypi-firmware.h | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
-> index e1f87fbfe554..fd2e051ce05b 100644
-> --- a/include/soc/bcm2835/raspberrypi-firmware.h
-> +++ b/include/soc/bcm2835/raspberrypi-firmware.h
-> @@ -156,6 +156,14 @@ enum rpi_firmware_clk_id {
->   	RPI_FIRMWARE_NUM_CLK_ID,
->   };
->   
-> +enum rpi_firmware_volt_id {
-> +	RPI_FIRMWARE_VOLT_ID_RESERVED = 0,
+On 2026/05/16 23:09, Jonathan Corbet wrote:
 
-Is that needed ?
+> Cheesecake <cheesecake2960@icloud.com> writes:
+>
+>> Replace "transparant" with "transparent"
+>>
+>> Signed-off-by: Cheesecake <cheesecake2960@icloud.com>
+> Patches need a proper signoff with a real name, please.
+>
+> Thanks,
+>
+> jo
 
-> +	RPI_FIRMWARE_VOLT_ID_CORE = 1,
-> +	RPI_FIRMWARE_VOLT_ID_SDRAM_C = 2,
-> +	RPI_FIRMWARE_VOLT_ID_SDRAM_I = 3,
-> +	RPI_FIRMWARE_VOLT_ID_SDRAM_P = 4,
 
-Regarding Sashiko's feedback: I don't know where it got the
-information from, but a web search suggests that it has a point;
-RPI_FIRMWARE_VOLT_ID_SDRAM_I and RPI_FIRMWARE_VOLT_ID_SDRAM_P appear
-to be swapped. If that is not the case, please provide evidence.
+Thanks for pointing that out.
 
-Thanks,
-Guenter
+I accidentally sent this patch using an anonymous address/name.
+I'll resend it properly later.
+
+Thank you for your time.
 
