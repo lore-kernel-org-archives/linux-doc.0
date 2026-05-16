@@ -1,31 +1,31 @@
-Received: from outbound.mr.icloud.com (mr-2002h-snip4-11.eps.apple.com [57.103.68.141])
+Received: from outbound.mr.icloud.com (mr-2005d-snip4-5.eps.apple.com [57.103.71.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34063932E9
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 23:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.68.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F6A3914FF
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 23:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.71.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778973239; cv=none; b=pZoRQF+B3PEpI2md2l69QMgfbYgZCj9f1t5l8UkQIb3sx5KrKPT/sAR9Iz5gqmbXg6W6YxQ/Bw94dbq9JJZT99Q+R5WxsD0Fv/aJySMZ5v69A4BGcphne1x70bVqzMY54CsKkR6N3Gbt2MeAfAydLVQKXonT8BK9P+U5xYlMpeo=
+	t=1778973283; cv=none; b=IJTWG5hs/Y+28U9DZTTXxDwXctfoh9w+GYXDFHj/uf9HYrz7ab9Vh1AgkKLCmqK4PWg0vfGuKaxLve0V5TNMWgVfPBC7wnE2dz3IKbd+wYegk4nn6ImxJsE9KJdHFoQmdpfisVGRoX58Ndt/8GSh8vhWxZHkZA0eRqJJnHSapFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778973239; c=relaxed/simple;
-	bh=2B8kh88BmMcREPsTrqppXb4O6KSA0MQb13JMTQ3AyrA=;
+	s=arc-20240116; t=1778973283; c=relaxed/simple;
+	bh=L/JTUTY0j5GARu9gVX6D1m0HdMb+0VJudBrgr89NJy8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CBZEVER/W8gpxHaMI4mTRvPSkCSog8/B2B2LZ+fqVUxlrqVDifaK1jHCDZSx14KDcRbRJjTlG6Blt3WfU353JAQlrFThgnmzm9DfBYqA6MMWcMlm9sFeYiRKlU62m/nv44DbOD2hBf6o2m3cepCTjH3tykxiM7c1oW7CAZVS+yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=ZrEe2af6; arc=none smtp.client-ip=57.103.68.141
+	 In-Reply-To:Content-Type; b=sZJcz3w/3ey7vY27PVylyqWPJ0KDmc6ry+5xZTVlg+VrOfy8U2neJLzfQGJLqnLJqORZvOTNZH4OJLPQwmTEVH3AK7gzUORf+GOgH8i4Rk3UGw5p1dUtiTZTYLTRnr2uNcg26E4h/MQQrLO9C+sKu4U7+hjMILRQhmqpEmDc3qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=yMeRoyrm; arc=none smtp.client-ip=57.103.71.98
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="ZrEe2af6"
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="yMeRoyrm"
 Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-2a-60-percent-5 (Postfix) with ESMTPS id 1EE231800133;
-	Sat, 16 May 2026 23:13:54 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhKBUMDRQBBCFYBWANLVxQEG1sIUhhXE1gTVl8OXQIwUBtfAkIPHBNWFRMLU1ZRGFwdQAhUClkVC0EFXXcCURxWDVdDVARfUEsbDlwES1oVVRcOAkIfUB9MFldDWhkcGVoUXBhTRVEfVFhDGUVWaUELTx1dGVscQmRYVwkKAlEcVg1XQ1QEX1BUEVdQCwoAFlpAClRVRgJEDEkeWQNYBF1YTldfGlJTFAAaCw4FXQZAXDhaDlsERxQXG1wACUtGCUkdDgRUB10FXQ==
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778973238; x=1781565238; bh=2B8kh88BmMcREPsTrqppXb4O6KSA0MQb13JMTQ3AyrA=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=ZrEe2af6nbuQLUs+52pG0Ub0MTF8KtiuYVacoOn6dz74pLF+6/Pl4gQ/MhNLkWHOL10lbfP5CRrbRLsR2qJp6nu9drE+xzNdYKEA4omdExVP7gHB6FJB2XU0gGIOdvKGERWr592TYXSJ9SATX/SJvvBE8fsKEz0KlcpPyfPzSOCNL3pkV3pJBbDy+SLb9qgv5YYrH7SWZLLPRntrGad2Kd1VrJ3f8g6UgF98Xz3Vjm8gkluC1b9DSh1YA3/IZnApksUo+PEBkMqNDz3Ypu7BkjT9PrKIEowCFRp3/2pdUe9C5UC/Xn6s6GR2zLvJ5mS5zrL29HrzXRYeDAhP/WYkbA==
-Received: from [192.168.1.34] (unknown [17.57.152.38])
-	by p00-icloudmta-asmtp-us-west-2a-60-percent-5 (Postfix) with ESMTPSA id B13AC1800134;
-	Sat, 16 May 2026 23:13:51 +0000 (UTC)
-Message-ID: <a2fc899b-0451-4436-a6d2-9ad9b8c2640e@icloud.com>
-Date: Sun, 17 May 2026 08:13:46 +0900
+	by p00-icloudmta-asmtp-us-west-2a-20-percent-0 (Postfix) with ESMTPS id E96FD180014F;
+	Sat, 16 May 2026 23:14:40 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhKBUMDRQBBCFYBWANLVxQEG1sIUhhXE1gTVl8OXQIwUBtfAkIPHBNWFRMLU1ZRGFwdQAhUClkVC0EFXXcCURxWDVdDVARfUEsbDlwCS1oVVRcOAkIfUB9MFldDWhkcGVoUXBhTRVEfVFhDGUVWaUELTx1dGVscQmRYVwkKAlEcVg1XQ1QEX1BUEVdQC1JXEQpJAl0BRgtDXEweWVQJUF1bTQULGg9XR1obVgsFXwQVXzhaDlsERxQXG1wACUtGCUkdDgRUB10FXQ==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778973281; x=1781565281; bh=/zVePlSPbB8tZaMeUqvI5r7tySGsEW1UJvhXgOHkLv8=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=yMeRoyrmKaBhjYKor1AW72OHUCOd+ptW0mkDPf04aBLfg/B1SSbV77JJB7mK0CEZhgokRf/xylM2NW6cGi4ktDRx9f59Kq4oE5XOIW5jLY+Z4xKuQlY+SToBkrBtSAxpd3iG8EYmqS7oL7ldnQoIc4u1jzLtwtWxyv59KLcI+8oTGS4RC+MA2e7GmDZ+jVX0I4v9wk8xgbr6NPZneK2ESRA0mmyXZbLbagJXt+H4no+MLUESCGzT+DX1ppi6YocxtX/IEBiEj54DhnU0JYoO/3j3sPETdsGrEFvKTPtk4St873tCP3L+/6rt+3qMYGpmwGEZpucur7AWbOwNuhAOig==
+Received: from [192.168.1.33] (unknown [17.57.152.38])
+	by p00-icloudmta-asmtp-us-west-2a-20-percent-0 (Postfix) with ESMTPSA id 788201800146;
+	Sat, 16 May 2026 23:14:37 +0000 (UTC)
+Message-ID: <9ea31106-93e4-4cbb-b56f-de7ccef246ef@icloud.com>
+Date: Sun, 17 May 2026 08:14:35 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -33,51 +33,68 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: fix typo in mpo-overview.rst
-To: Jonathan Corbet <corbet@lwn.net>, Alex Deucher
- <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260516100406.21070-1-cheesecake2960@icloud.com>
- <87se7rmont.fsf@trenco.lwn.net>
+Subject: Re: [PATCH] docs: fix typos in design.rst
+To: SeongJae Park <sj@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, damon@lists.linux.dev,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260516170847.146524-1-sj@kernel.org>
 Content-Language: en-US
 From: Cheesecake <cheesecake2960@icloud.com>
-In-Reply-To: <87se7rmont.fsf@trenco.lwn.net>
+In-Reply-To: <20260516170847.146524-1-sj@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE2MDIzNyBTYWx0ZWRfX9afkiO/+L68K
- 3sxyBWtZdDUI1yDvHkh0b4UTlPgwsu3RwLa8Mo3ujYiTphvnV/uUmoBYx1JP3i46lv0BV0UHJHF
- OLxJeYT3im3fTXJzdbZNyKzNv6D0tFSpdJUYqZysp3xOX4Wfb+wh02QbDzaE7TEPBX6OkkwAXKS
- fzVl02OvH/xfwgCQ7DJdhq8BCZmJgPh+DhGBaIrHoZnDVXERXTjI3RWbc9FvKFnyv0DJEJtYqAZ
- nGhVlDYV0DwdjhFJ6stHN5JDZz6vrXufPbhatQnBBl9r6PT8S0RoDOLqh4RomCamLMWx6wUiyPA
- t0KpAcfFhJ4BaypM5VZktEloHnBOHMvYP3xs3jAAuaXVic5FwnyfBj2S4TVMvQ=
-X-Authority-Info-Out: v=2.4 cv=BquQAIX5 c=1 sm=1 tr=0 ts=6a08fa34
+X-Proofpoint-ORIG-GUID: pixu_aVUBLdvevj9Cz3LevPRO61nP8sx
+X-Authority-Info-Out: v=2.4 cv=bcFmkePB c=1 sm=1 tr=0 ts=6a08fa61
  cx=c_apl:c_pps:t_out a=9OgfyREA4BUYbbCgc0Y0oA==:117
  a=9OgfyREA4BUYbbCgc0Y0oA==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
  a=x7bEGLp0ZPQA:10 a=sIGCgqHK338A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=v3ZZPjhaAAAA:8 a=U4lEO9gh2w5_OOAwJnoA:9 a=QEXdDO2ut3YA:10 a=UzISIztuOb4A:10
+ a=VwQbUJbxAAAA:8 a=v3ZZPjhaAAAA:8 a=JORHhQuN_TVeFzD3vIAA:9 a=QEXdDO2ut3YA:10
  a=zY0JdQc1-4EAyPf5TuXT:22
-X-Proofpoint-GUID: FockY6_NoY58eSZNn8CMSw7qhlzHuBrL
-X-Proofpoint-ORIG-GUID: FockY6_NoY58eSZNn8CMSw7qhlzHuBrL
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE2MDIzNyBTYWx0ZWRfXzpv8BHIlWj63
+ 3jfaMPHcz/h7PH3Pu0ibIXpZvtyeE/o0A5D3rC+YmTWAkqiP0Lwrr1jxy8xTs3sHZzxzdKvFG3a
+ CbovpU3V2hljm3X7DQHlePJeDkmfFARTS5sK9NYNEm0sT6UlUTtJsodikIO1SxVVdHbvX1H5in3
+ kXlO1cB+RO1MKA/HiE1tff6ScgNqzVhDPmR2h2MluZ90NDjb21/W0gt3rMtatB/kkLfABTqcual
+ 1n+MBnFD+AwBi76GHZ4W3Tvn5Bf2AtSjzv0ZgqfnN7vdhCjFNf801vgFZCPWHiappA4wX0xQYKv
+ 2lvzZVJQBeM30lG8NiqaNIIrjAhRLeIb60yz81KvGv5pNR8Mr4HvrvB2CUXwcQ=
+X-Proofpoint-GUID: pixu_aVUBLdvevj9Cz3LevPRO61nP8sx
 
-On 2026/05/16 23:09, Jonathan Corbet wrote:
 
-> Cheesecake <cheesecake2960@icloud.com> writes:
+On 2026/05/17 2:08, SeongJae Park wrote:
+> Hello Cheesecake,
 >
->> Replace "transparant" with "transparent"
->>
+> Thank you for this patch!
+>
+> For the consistency, let's use 'Docs/mm/damon/design:' as the prefix of the
+> subject.  E.g., Docs/mm/damon/design: fix three typos
+>
+> On Sat, 16 May 2026 18:35:37 +0900 Cheesecake <cheesecake2960@icloud.com> wrote:
+>
+>> L140: "unsinged" -> "unsigned"
+>> L371: "sampleing" -> "sampling"
+>> L387: "multipled" -> "multiplied"
+> Thank you for finding and fixing these!
+>
 >> Signed-off-by: Cheesecake <cheesecake2960@icloud.com>
-> Patches need a proper signoff with a real name, please.
+> Is Cheesecake your real name or known identity?  We don't allow anonymous
+> contributions [1], and mm community prefer to use real names.
+>
+> [...]
+>
+> The file changes look good.
+>
+> Could you please send v2 of this patch with changed subject and the name (if
+> Cheesecake is not your real name or known identity)?
+>
+> [1] https://docs.kernel.org/process/submitting-patches.html#developer-s-certificate-of-origin-1-1
+>
 >
 > Thanks,
->
-> jo
-
+> SJ
 
 Thanks for pointing that out.
 
