@@ -1,543 +1,110 @@
-Received: from mail-yw1-f193.google.com (mail-yw1-f193.google.com [209.85.128.193])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE43D38F92F
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 22:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0675389460
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 22:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778970910; cv=none; b=RmwMa7SEKxLXeGLWkCjwhwd9Jk3WbS12+hpJ07gW/9lmEIXfGVJBl+9LbW7vaqYUcRjrb+SrbqLvaE0laqw28nVs4UVfT9ddPc27xmo+Im+dIaVEDEPOFl7LHqiaeHtBLzO0rfzLEgpzcRqKi6AKY2ZB8KE6n8eb+cdbUrWIcn0=
+	t=1778971016; cv=none; b=tbUHU0GOo91ru02xbv9SDA/zTJ7DrtvfbPhix6fHZFgqS6emplK10eyvkxxTAGyzq8C9REXfHnwpoBkV7+22ilGTcLRZ/g86JGKZpkwxzo8CwO5KlffppTNQEcznLgzxNkcHDvCTrEk9gEfBF0m+UqMfENGwLKpMKMRofOZ/Nmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778970910; c=relaxed/simple;
-	bh=C1VJDWaTu/84/0Jx2DjeM70yxTyztJpxfgkG+Kg0D4U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RK58951hrSJGUo2NAW3SahAxCVEoO10GyVTu1gQKWYmJku1YAN0wsiRNibXeWw3yONcJLEzJdT3gkptXDMHsCLZZOzdo9ScXxAzeggFjfGdi83t3XXSpAijnJ0b3xHxRXDYv7kuUy5kMTIA1T/DXW8yrBoKx80/py9gJsSdUX3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=avjTg+pP; arc=none smtp.client-ip=209.85.128.193
+	s=arc-20240116; t=1778971016; c=relaxed/simple;
+	bh=sxq0Fouty+0v+eJA2xuYjtfpnte/cnVjXqImvrRUxIk=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ecEeV8E/zwc9djvP8S1e3ZjSGJEL6aZKxSLEo3Iamh5tWsaKr/rwxxJOlNbgZ8EJNURNiuL2DEOtfzs5n9S+ddOZaOq9iRx8THgZ4Nz8sW4G82oeA/7sqLRfz8tyCqCciD/VQCmgS1vy03gM8WvjCf3viDv1dnl18SF7xojZlwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cynoR5E1; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="avjTg+pP"
-Received: by mail-yw1-f193.google.com with SMTP id 00721157ae682-7c2fa14795aso4559937b3.1
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 15:34:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cynoR5E1"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4891d7164ddso5041405e9.3
+        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 15:36:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778970897; x=1779575697; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hvMZysC8itbbidjyAgiRDox5/pyQFwV2BMVhnr5sBjw=;
-        b=avjTg+pPmTeSv8gRYR1WijpNKZ6yA6qfCGrpW+BGOK1/JbYUFCTQkCmspWASweDi3/
-         EXf54ZoonnYijQ4dT0KZLb+o3fWommCh/5tXkLfsJjAId4icMgnzVx0sfL1ACa5re/nw
-         Bci0r4JIntF8pJ5RUQfSLTrX7KEvWsoYmwPfpvxqnEyT1+hqqPFRfxbF+WlcYtSVmEoj
-         of3GxsVq6A0r2m8mHq32iEMN8QD938ju1eEh8opiglQgqZOPjPKtfgCKlAunV25Vz/9y
-         hTMRsUPdZ5PDH8vYxs8t8Olenk2ID5/RpLZXhxbHpwCyRMtwNdxzt5fIUQ21W9W0A3rr
-         NXrg==
+        d=gmail.com; s=20251104; t=1778971013; x=1779575813; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sxq0Fouty+0v+eJA2xuYjtfpnte/cnVjXqImvrRUxIk=;
+        b=cynoR5E1HeqYCTiD2FRyJb5ircrAUg8/6rvXhgnfMyjfXWo4dbLialEjE02DTbtx1n
+         r3O7SqYLoPQAUe88qPo3vvHnhfjeNkw9VrfS6JQvfSf2TAeY3howQIpjtDyb3YzvqGue
+         v0DskFIBDiY+17DRdIJ204ISEVIBFL8NRIGXD0v8Uc7Kb+jNgDbZ48LahfpikBJikGQ/
+         RoryNL6veBZ8AnrSQp+EMPnn+ZI0ch87jajLgP2FEF8yIBYl5p4CFFiqiEyjFfF10dMb
+         lzDupOH03C3dK/3V3TSnXK52QM/qaS8+uEZPaLFCl48h7V7vwJDBjG3d1VthwtkxjnpJ
+         SSYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778970897; x=1779575697;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hvMZysC8itbbidjyAgiRDox5/pyQFwV2BMVhnr5sBjw=;
-        b=JShQqYhCG9cH+4BLLXFaWNKXkU8OiEV27n7f2/3EgX3w6BFzKfchbM0tqxm3kAUz1I
-         jwg3oE08lfO11G5UmMtGVJsd4vqspoo83mXXTmuT0Ajk6KXkw7vdxK6Uoif6Q8fjmSQD
-         HvjDOwU17yEYPczgZkW+F1SBF2QWHBTc0uOyEcRWSwjYsEYc8p1Q+d8/i4tPDtEXZRuw
-         mHNN8j9KqL9wMyiIwqybMDCSYWZTBedt+COl+uDXrbslYEppl6kyUDTDJZJvkgE0ZgZ1
-         ncvwM87XZvOU0AYLbn3p8/KXEAo2UzODMpX7SA5/QTzrXzkscaUsm/LFIq74aov9EUhl
-         bk6Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8pa2LCH8X4YAmKILwnsiY5YvrYfqjmD2CROw7tloRxFRoHXwAZfwx5qoPS6Pi/sNBPVSCVlpO+Fvg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8aPLW2NML2/s36XnNeROsVkBs3d6Pm3wfJQXR23cIlG/haRfM
-	JIHqQHc3jDMWZ82fOj3NFIWwnkr8AewNV7Gr0aoRPE8HMclWAp5qJM0=
-X-Gm-Gg: Acq92OFl7Y0Tu5k4cdATiUNwyo/gjQAnPSIMNzYm07Wqgd8AjU0/reTb0jhOZuRdO+H
-	OoR9y0zT9U1nvm47cG9D3Th7sCyCkpDTjRMq6NKR7IF0YUMCRGCY7JFH1+k59s76J+Fl8Dgv8P2
-	feG8E3l+fcja/UlXz4jCipGBWQWzDO4sWaLVcoZKjoOHB49Vo25jq3oHyixIbF89w6ygIzzcPkK
-	08Ni5juhMLokX5YMn40tJIBKri2tr8AC9V/0Yswa1GkPfKWeQ6Y2DM5/J1aZ/0f/jYLRuf6cg5i
-	JPUs1U0uMgkkhE8Czl2c6VOvU8pa+OHZJfL521Xb/0P7lHDJ0WO+AT8tOY9CRVgVsZ7n4d81Z09
-	kpdhLcChwF3j7VYTIXBynWftLjLeKjNAOk8HVC7V3ywaOn6S1HYYuRDnf9G0ir5GAV2GSlpQPyg
-	0lf+v0b3XuvFahvcfMF7Qf5uYf2pYs+unI94wUdwInXwp4QQWwhC5b/g8FYBfCXTMOd+nqn9oyW
-	g==
-X-Received: by 2002:a05:690c:c364:b0:7c0:de77:f466 with SMTP id 00721157ae682-7c9594b3711mr86084717b3.2.1778970896587;
-        Sat, 16 May 2026 15:34:56 -0700 (PDT)
-Received: from localhost (23-116-43-216.lightspeed.sntcca.sbcglobal.net. [23.116.43.216])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7cc9bc0db09sm690837b3.27.2026.05.16.15.34.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 15:34:56 -0700 (PDT)
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-To: sj@kernel.org,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com,
-	ravis.opensrc@gmail.com,
-	bharata@amd.com
-Subject: [RFC PATCH 7/7] mm/damon/damon_ibs: add AMD IBS-based access sampling backend
-Date: Sat, 16 May 2026 15:34:32 -0700
-Message-ID: <20260516223439.4033-8-ravis.opensrc@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260516223439.4033-1-ravis.opensrc@gmail.com>
-References: <20260516223439.4033-1-ravis.opensrc@gmail.com>
+        d=1e100.net; s=20251104; t=1778971013; x=1779575813;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sxq0Fouty+0v+eJA2xuYjtfpnte/cnVjXqImvrRUxIk=;
+        b=TCCBmrh2kjs73Urr4JJ4qia5IS91cW6rWPWoELf6NgG5McfqoX9dD8oQYJCHXCoTZJ
+         Fip6iCSB8jLPP01eDOAQYvaXaVwg5p29JLamo1fiO2OlCDaG5QXm6ZJ4CZycP1X2t8Hu
+         xiervzeAS/O38WOCEAGhtXj9gCJEEzZrkUdDZpLY7OfkpfXoyWAoA3xSyLxAHfPGRn6U
+         a3SE03LZicm/iuwufvu4NVBgqyGWcF7/Mb90rd2sNVXqNt0Epou8SzvcXOmWzB7htQyS
+         +tEReTDOH04dgdygGZYzS9LoeHvnmAdy4dfRYr2jws/DzNFScqoUmzYfu2b3SLSwXEcA
+         hmWQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+MfqR9cTYI1t/PkFYJpbTinhj4djc4mP5y70AQjuNelDBVCAQnEinXdmD+x5fF4JopYcdqtZNnCTc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiMXh73Ij3jW/0s8g/K5ugxkCI/jEgMCOVvlMRskLomqsiDNaH
+	N6FXgYB5pKs8DnIEDhGg5zPF5hjyma7DHW92HGLNKEwECp0R99VLR3Q4
+X-Gm-Gg: Acq92OGZQObfzlCbI29ARmIy0heJtjIf2CB5uzsWXUQ2SEIaYVQ3roZ0x2SVtZGzUKg
+	81G+K7p4YWJfqCip0lNQjy+ML4BsXeavYkngX7aikczYR65vt6kUI5IWNgADh/AmLAX3UU2cKLl
+	6nMjx8aLFtaqwmcoE3xZGlKTACMpSz8D/p8y0cRvd+J8jYM4ESDIq5Kv+7aKdDO9uHgFU8SGhAz
+	EkTTcHMC9NPpQYivCqG94KcHeCgw+OxB9a9/MXN+37NG9ZNpFvibGVSRdpwGSPf1PHBrhXmgajO
+	JhM/h9b++Q95/EUAnzuOiajc4Vj4NbnH5zmRmbnGJtEspAI6sm84pL/a2qsCQGMypQZlno1ggED
+	KxYDhm+2i0aSgIRi7h3yWGDhaEcyvY7z5+kEuJWZupRubICnKbRZN++LIJp82a380vAeXuBwN6Y
+	e4N9WAghacsnPwYe1u2Jtf9kYffAvlt/mm1qBjaWzWpHTy30rUDc+ZOps=
+X-Received: by 2002:a05:600c:a4f:b0:48f:e230:c3f9 with SMTP id 5b1f17b1804b1-48fe661df4dmr122944235e9.31.1778971013009;
+        Sat, 16 May 2026 15:36:53 -0700 (PDT)
+Received: from [192.168.0.41] (bl21-200-180.dsl.telepac.pt. [2.82.200.180])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ec3ac86sm25218839f8f.14.2026.05.16.15.36.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 May 2026 15:36:52 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <2c9f467a-b303-4dc3-83ab-e2a857faec3c@gmail.com>
+Date: Sat, 16 May 2026 23:36:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Julian Braha <julianbraha@gmail.com>
+Subject: Re: [RFC v3 0/3] add kconfirm
+To: nathan@kernel.org, nsc@kernel.org
+Cc: jani.nikula@linux.intel.com, akpm@linux-foundation.org, gary@garyguo.net,
+ ljs@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
+ masahiroy@kernel.org, ojeda@kernel.org, corbet@lwn.net,
+ qingfang.deng@linux.dev, yann.prono@telecomnancy.net, demiobenour@gmail.com,
+ ej@inai.de, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20260516215354.449807-1-julianbraha@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20260516215354.449807-1-julianbraha@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Add paddr_ibs operations using AMD IBS Op sampling via
-perf_event_create_kernel_counter().  IBS delivers physical-address-
-keyed access reports to DAMON's shared-layer ring buffer
-(damon_report_access()), without dependency on PTE Accessed-bit
-scanning or page faults.
+On 5/16/26 22:53, Julian Braha wrote:
 
-Per-CPU IBS events are created and torn down via cpuhp notifiers
-(CPUHP_AP_ONLINE_DYN).  Routing of access reports through the ring-
-drain path is bound to ops.id == DAMON_OPS_PADDR_IBS at the dispatch
-site (see "mm/damon: add sysfs binding and dispatch hookup for
-paddr_ibs operations"), so .init does not need to flip a per-context
-flag.
+> Dependencies will need to first be downloaded from crates.io by running
+> the `cargo vendor` command in scripts/kconfirm/
 
-Sample-time discipline:
-  - PERF_SAMPLE_PHYS_ADDR is requested in attr.sample_type, but the
-    IBS perf driver only fills data->phys_addr when
-    IBS_OP_DATA3.dc_phy_addr_valid is set.  Skip stale-PA samples by
-    inspecting data->sample_flags rather than testing phys_addr for
-    zero (which would also drop legitimate page 0).
-  - PERF_SAMPLE_DATA_SRC is requested so the perf driver decodes
-    IBS_OP_DATA3.{ld_op,st_op} into data->data_src.mem_op; the
-    backend reports load vs store accordingly via
-    damon_access_report.is_write.
+Ugh, sorry all. I didn't realize that the linux gitignore blocks all dot
+files.
 
-Module parameters:
-  - max_cnt: IBS Op MaxCnt (writable; writes call
-    damon_ibs_set_sample_rate() to restart sampling at the new rate)
-  - samples_total / samples_filtered: per-CPU-aggregated counters
-    (read-only)
+So, the scripts/kconfirm/.cargo/config.toml wasn't checked in correctly
+due to this.
 
-Source file is mm/damon/damon_ibs.c (renamed from mm/damon/ibs.c) so
-the resulting module is loaded as damon_ibs.ko, avoiding the generic
-"ibs" namespace.
+It should have contained the following:
+```
+[source.crates-io]
+replace-with = "vendored-sources"
 
-The IBS sampling approach is derived from Bharata B Rao's pghot RFC v5
-series; the attribution header is in damon_ibs.c.
+[source.vendored-sources]
+directory = "vendor"
+```
 
-Suggested-by: Bharata B Rao <bharata@amd.com>
-Link: https://lore.kernel.org/linux-mm/20260129144043.231636-1-bharata@amd.com/
-Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
----
- mm/damon/Kconfig     |  10 ++
- mm/damon/Makefile    |   1 +
- mm/damon/damon_ibs.c | 369 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 380 insertions(+)
- create mode 100644 mm/damon/damon_ibs.c
+And Nicolas, I think this was why v2 didn't compile for you.
 
-diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
-index ad629f0f31d8d..bb698d2717f34 100644
---- a/mm/damon/Kconfig
-+++ b/mm/damon/Kconfig
-@@ -131,4 +131,14 @@ config DAMON_ACMA
- 	  min/max memory for the system and maximum memory pressure stall time
- 	  ratio.
- 
-+config DAMON_IBS
-+	tristate "AMD IBS-based access sampling for DAMON"
-+	depends on DAMON_PADDR && CPU_SUP_AMD && X86_64 && PERF_EVENTS
-+	help
-+	  Uses AMD IBS (Instruction-Based Sampling) hardware to deliver
-+	  physical-address-keyed access reports to DAMON's shared-layer
-+	  ring buffer, without relying on PTE Accessed-bit scanning or
-+	  page faults.  Registers as the "paddr_ibs" operations set.
-+	  Requires AMD processors with IBS Op support.
-+
- endmenu
-diff --git a/mm/damon/Makefile b/mm/damon/Makefile
-index 22494754f41e8..109d0fb1db97d 100644
---- a/mm/damon/Makefile
-+++ b/mm/damon/Makefile
-@@ -9,3 +9,4 @@ obj-$(CONFIG_DAMON_RECLAIM)	+= modules-common.o reclaim.o
- obj-$(CONFIG_DAMON_LRU_SORT)	+= modules-common.o lru_sort.o
- obj-$(CONFIG_DAMON_STAT)	+= modules-common.o stat.o
- obj-$(CONFIG_DAMON_ACMA)	+= modules-common.o acma.o
-+obj-$(CONFIG_DAMON_IBS)		+= damon_ibs.o
-diff --git a/mm/damon/damon_ibs.c b/mm/damon/damon_ibs.c
-new file mode 100644
-index 0000000000000..1dd99e91c3928
---- /dev/null
-+++ b/mm/damon/damon_ibs.c
-@@ -0,0 +1,369 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * DAMON IBS (Instruction-Based Sampling) backend for AMD processors.
-+ *
-+ * Uses AMD IBS Op sampling via the perf kernel counter infrastructure to
-+ * deliver PA-keyed access reports to DAMON's shared-layer ring buffer
-+ * (see damon_report_access()).  This enables physical-address hot-page
-+ * detection without relying on page-table Accessed bits or page faults.
-+ *
-+ * The IBS sampling approach in this file derives from concepts in
-+ * Bharata B Rao's pghot RFC v5 series for hot page tracking.
-+ * See: https://lore.kernel.org/linux-mm/20260129144043.231636-1-bharata@amd.com/
-+ *
-+ * Author: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-+ */
-+
-+#include <linux/cpu.h>
-+#include <linux/fs.h>
-+#include <linux/module.h>
-+#include <linux/percpu.h>
-+#include <linux/perf_event.h>
-+#include <linux/slab.h>
-+#include <linux/smp.h>
-+
-+#include <linux/damon.h>
-+#include "ops-common.h"
-+
-+#define DAMON_IBS_DEFAULT_MAX_CNT	262144	/* ~4K samples/sec/core */
-+#define IBS_OP_PMU_TYPE_PATH	"/sys/bus/event_source/devices/ibs_op/type"
-+
-+static unsigned int damon_ibs_max_cnt = DAMON_IBS_DEFAULT_MAX_CNT;
-+
-+static int damon_ibs_set_sample_rate(unsigned int max_cnt);
-+
-+static int max_cnt_set(const char *val, const struct kernel_param *kp)
-+{
-+	unsigned int new_cnt;
-+	int ret;
-+
-+	ret = kstrtouint(val, 0, &new_cnt);
-+	if (ret)
-+		return ret;
-+	if (!new_cnt)
-+		return -EINVAL;
-+	return damon_ibs_set_sample_rate(new_cnt);
-+}
-+static const struct kernel_param_ops max_cnt_ops = {
-+	.set = max_cnt_set,
-+	.get = param_get_uint,
-+};
-+module_param_cb(max_cnt, &max_cnt_ops, &damon_ibs_max_cnt, 0644);
-+MODULE_PARM_DESC(max_cnt,
-+	"IBS MaxCnt (ops between samples). Writes restart sampling.");
-+
-+static DEFINE_MUTEX(damon_ibs_lock);
-+static bool damon_ibs_enabled;
-+static enum cpuhp_state damon_ibs_cpuhp_state;
-+static unsigned int ibs_pmu_type;	/* discovered at init */
-+
-+static DEFINE_PER_CPU(struct perf_event *, damon_ibs_event);
-+
-+/*
-+ * Diagnostic counters.  Incremented from NMI context, so use per-CPU
-+ * counters and sum them on read.
-+ */
-+static DEFINE_PER_CPU(unsigned long, ibs_samples_total_pcpu);
-+static DEFINE_PER_CPU(unsigned long, ibs_samples_filtered_pcpu);
-+
-+static unsigned long damon_ibs_sum_pcpu(unsigned long __percpu *var)
-+{
-+	unsigned long sum = 0;
-+	int cpu;
-+
-+	for_each_possible_cpu(cpu)
-+		sum += per_cpu(*var, cpu);
-+	return sum;
-+}
-+
-+static int samples_total_get(char *buffer, const struct kernel_param *kp)
-+{
-+	return sysfs_emit(buffer, "%lu\n",
-+			damon_ibs_sum_pcpu(&ibs_samples_total_pcpu));
-+}
-+
-+static int samples_filtered_get(char *buffer, const struct kernel_param *kp)
-+{
-+	return sysfs_emit(buffer, "%lu\n",
-+			damon_ibs_sum_pcpu(&ibs_samples_filtered_pcpu));
-+}
-+
-+static const struct kernel_param_ops samples_total_ops = {
-+	.get = samples_total_get,
-+};
-+static const struct kernel_param_ops samples_filtered_ops = {
-+	.get = samples_filtered_get,
-+};
-+
-+module_param_cb(samples_total, &samples_total_ops, NULL, 0444);
-+MODULE_PARM_DESC(samples_total, "Total IBS samples delivered (read-only)");
-+module_param_cb(samples_filtered, &samples_filtered_ops, NULL, 0444);
-+MODULE_PARM_DESC(samples_filtered, "IBS samples filtered out (read-only)");
-+
-+/**
-+ * damon_ibs_overflow_handler() - IBS overflow callback.
-+ *
-+ * Called when an IBS Op counter overflows.  The IBS perf driver fills
-+ * data->phys_addr from IBSDCPHYSAD when dc_phy_addr_valid is set.
-+ *
-+ * Context: NMI — no sleeping, no mutex, no kmalloc.
-+ */
-+static void damon_ibs_overflow_handler(struct perf_event *event,
-+				       struct perf_sample_data *data,
-+				       struct pt_regs *regs)
-+{
-+	struct damon_access_report report;
-+	unsigned long phys_addr;
-+
-+	if (!data)
-+		return;
-+
-+	/*
-+	 * PERF_SAMPLE_PHYS_ADDR was requested in attr.sample_type, but
-+	 * the IBS perf driver only populates data->phys_addr when
-+	 * IBS_OP_DATA3.dc_phy_addr_valid is set.  Skip stale-PA samples
-+	 * by checking the sample_flags rather than testing phys_addr
-+	 * for zero (which would also drop legitimate page 0).
-+	 */
-+	if (!(data->sample_flags & PERF_SAMPLE_PHYS_ADDR)) {
-+		this_cpu_inc(ibs_samples_filtered_pcpu);
-+		return;
-+	}
-+	phys_addr = data->phys_addr;
-+
-+	report = (struct damon_access_report){
-+		.paddr = phys_addr & PAGE_MASK,
-+		.size = PAGE_SIZE,
-+		.cpu = smp_processor_id(),
-+		.is_write = !!(data->data_src.mem_op & PERF_MEM_OP_STORE),
-+	};
-+	damon_report_access(&report);
-+	this_cpu_inc(ibs_samples_total_pcpu);
-+}
-+
-+static int damon_ibs_create_event(int cpu)
-+{
-+	struct perf_event_attr attr = {
-+		.type = ibs_pmu_type,
-+		.size = sizeof(attr),
-+		/* config=0: IBS perf driver uses sample_period as MaxCnt. */
-+		.config = 0,
-+		.sample_period = damon_ibs_max_cnt,
-+		.sample_type = PERF_SAMPLE_PHYS_ADDR | PERF_SAMPLE_DATA_SRC,
-+		.pinned = 1,
-+	};
-+	struct perf_event *event;
-+
-+	event = perf_event_create_kernel_counter(&attr, cpu, NULL,
-+						 damon_ibs_overflow_handler,
-+						 NULL);
-+	if (IS_ERR(event))
-+		return PTR_ERR(event);
-+
-+	/*
-+	 * perf_event_create_kernel_counter() returns the event already
-+	 * enabled; no perf_event_enable() needed here.
-+	 */
-+	per_cpu(damon_ibs_event, cpu) = event;
-+	return 0;
-+}
-+
-+static void damon_ibs_destroy_event(int cpu)
-+{
-+	struct perf_event *event = per_cpu(damon_ibs_event, cpu);
-+
-+	if (!event)
-+		return;
-+
-+	perf_event_disable(event);
-+	perf_event_release_kernel(event);
-+	per_cpu(damon_ibs_event, cpu) = NULL;
-+}
-+
-+static int damon_ibs_cpu_online(unsigned int cpu)
-+{
-+	int ret = damon_ibs_create_event(cpu);
-+
-+	if (ret)
-+		pr_warn_ratelimited(
-+			"damon-ibs: failed to create perf_event on cpu %u (err %d); "
-+			"this cpu will not contribute samples\n", cpu, ret);
-+	return 0;	/* never block CPU online */
-+}
-+
-+static int damon_ibs_cpu_offline(unsigned int cpu)
-+{
-+	damon_ibs_destroy_event(cpu);
-+	return 0;
-+}
-+
-+/* Caller must hold damon_ibs_lock. */
-+static int __damon_ibs_start(void)
-+{
-+	int ret;
-+
-+	if (damon_ibs_enabled)
-+		return -EBUSY;
-+
-+	ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "damon/ibs:online",
-+				damon_ibs_cpu_online, damon_ibs_cpu_offline);
-+	if (ret < 0)
-+		return ret;
-+	damon_ibs_cpuhp_state = ret;
-+
-+	damon_ibs_enabled = true;
-+	pr_info_once("damon-ibs: first start (max_cnt=%u, pmu_type=%u)\n",
-+		     damon_ibs_max_cnt, ibs_pmu_type);
-+	return 0;
-+}
-+
-+/* Caller must hold damon_ibs_lock. */
-+static void __damon_ibs_stop(void)
-+{
-+	if (!damon_ibs_enabled)
-+		return;
-+
-+	cpuhp_remove_state(damon_ibs_cpuhp_state);
-+	damon_ibs_enabled = false;
-+}
-+
-+static int damon_ibs_start(void)
-+{
-+	int ret;
-+
-+	mutex_lock(&damon_ibs_lock);
-+	ret = __damon_ibs_start();
-+	mutex_unlock(&damon_ibs_lock);
-+	return ret;
-+}
-+
-+static void damon_ibs_stop(void)
-+{
-+	mutex_lock(&damon_ibs_lock);
-+	__damon_ibs_stop();
-+	mutex_unlock(&damon_ibs_lock);
-+}
-+
-+/**
-+ * damon_ibs_set_sample_rate() - Set IBS sampling interval.
-+ * @max_cnt: IBS Op MaxCnt value (ops between samples).
-+ *           Higher = fewer samples/sec.
-+ *
-+ * If IBS is already running, restart it with the new rate.
-+ *
-+ * Return: 0 on success; if a restart was required and failed,
-+ * propagate the error so callers (e.g. the max_cnt module-param
-+ * .set callback) surface it to userspace instead of silently
-+ * leaving sampling stopped.
-+ */
-+static int damon_ibs_set_sample_rate(unsigned int max_cnt)
-+{
-+	int ret = 0;
-+
-+	mutex_lock(&damon_ibs_lock);
-+	damon_ibs_max_cnt = max_cnt ? max_cnt : DAMON_IBS_DEFAULT_MAX_CNT;
-+
-+	if (damon_ibs_enabled) {
-+		__damon_ibs_stop();
-+		ret = __damon_ibs_start();
-+		if (ret)
-+			pr_warn("damon-ibs: restart failed: %d\n", ret);
-+	}
-+	mutex_unlock(&damon_ibs_lock);
-+	return ret;
-+}
-+
-+
-+static void damon_ibs_init_ctx(struct damon_ctx *ctx)
-+{
-+	int ret;
-+
-+	/* IBS is the access-detection source for this ctx. */
-+	ctx->sample_control.primitives_enabled.page_table = false;
-+
-+	ret = damon_ibs_start();
-+	if (ret && ret != -EBUSY)
-+		pr_warn("damon-ibs: failed to start IBS sampling: %d\n", ret);
-+}
-+
-+/**
-+ * damon_ibs_discover_pmu_type() - Discover IBS Op PMU type from sysfs.
-+ *
-+ * Reads /sys/bus/event_source/devices/ibs_op/type to get the PMU type
-+ * identifier needed for perf_event_attr.type.
-+ *
-+ * TODO: replace sysfs-read with a PMU lookup API when one becomes
-+ * available.
-+ *
-+ * Return: 0 on success, negative error code otherwise.
-+ */
-+static int damon_ibs_discover_pmu_type(void)
-+{
-+	struct file *f;
-+	char buf[16];
-+	loff_t pos = 0;
-+	ssize_t len;
-+	int ret;
-+
-+	f = filp_open(IBS_OP_PMU_TYPE_PATH, O_RDONLY, 0);
-+	if (IS_ERR(f))
-+		return PTR_ERR(f);
-+
-+	len = kernel_read(f, buf, sizeof(buf) - 1, &pos);
-+	filp_close(f, NULL);
-+	if (len <= 0)
-+		return -EIO;
-+
-+	buf[len] = '\0';
-+	ret = kstrtouint(strim(buf), 10, &ibs_pmu_type);
-+	if (ret)
-+		return ret;
-+
-+	pr_info("damon-ibs: discovered ibs_op PMU type=%u\n", ibs_pmu_type);
-+	return 0;
-+}
-+
-+static int __init damon_ibs_init(void)
-+{
-+	struct damon_operations ops = {
-+		.id = DAMON_OPS_PADDR_IBS,
-+		.owner = THIS_MODULE,
-+		.init = damon_ibs_init_ctx,
-+		.prepare_access_checks = damon_pa_prepare_access_checks,
-+		.check_accesses = damon_pa_check_accesses,
-+		.apply_probes = damon_pa_apply_probes,
-+		.apply_scheme = damon_pa_apply_scheme,
-+		.get_scheme_score = damon_pa_scheme_score,
-+	};
-+	int err;
-+
-+	if (!boot_cpu_has(X86_FEATURE_IBS))
-+		return -ENODEV;
-+
-+	err = damon_ibs_discover_pmu_type();
-+	if (err) {
-+		pr_err("damon-ibs: failed to discover IBS PMU type: %d\n", err);
-+		return err;
-+	}
-+
-+	err = damon_register_ops(&ops);
-+	if (err)
-+		return err;
-+
-+	pr_info("damon-ibs: AMD IBS backend registered (max_cnt=%u, pmu_type=%u)\n",
-+		damon_ibs_max_cnt, ibs_pmu_type);
-+	return 0;
-+}
-+
-+static void __exit damon_ibs_exit(void)
-+{
-+	damon_ibs_stop();
-+	damon_unregister_ops(DAMON_OPS_PADDR_IBS);
-+}
-+
-+module_init(damon_ibs_init);
-+module_exit(damon_ibs_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Ravi Jonnalagadda <ravis.opensrc@gmail.com>");
-+MODULE_DESCRIPTION("AMD IBS-based access sampling backend for DAMON");
--- 
-2.43.0
+- Julian Braha
 
