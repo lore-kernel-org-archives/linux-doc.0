@@ -1,182 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7563B28686;
-	Sat, 16 May 2026 18:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A394134EEEA
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 19:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778957736; cv=none; b=VbUO0bxtX7u+CPfpoSS5Wk6he/e7nZnru3vdnavr2MO7DyfKtkW8NqyU1oF9WfUPdjU55T7BRaiF1/XAkqBshmpLP6RooIiZGto4dGhCSSjuwSwD4+bxTtyexwhU38bmYRGgBBLUCnpA8FJOu1jgeR8SbzG4R6jJ5MTrp54UUrQ=
+	t=1778958093; cv=none; b=XEONVEgTmJOif8Zn09XQ2Fe8OkzhPwI9wWQmGG7M5dqGOehmYjxPcXrDje+gEO1y7sJqh//kC9Fd44K14KfUC3MMpervDlO9mS86Lm/aAqJC6AE6kg94uQJxd2fQDapf/cfl9teN5Xeiva9wnIuDzPzLj1r+P2hY1fOK6ls7/Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778957736; c=relaxed/simple;
-	bh=q/IpILmr0azoC+t0Lf2g+yybKTzBbhfe+OMXbr5vnMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kbo1J/U1puZ/DF9hsIJjmjoGN4XEBBd4AiHXppHBZU3bfixcD/Wp3s4k4HaObYxVY2eoJvsQ/oAjyAO1zxxR/nDEsG/AKgUpWKwhDGg6uwwxmxnB89zUa99Ud9unZ35DhpGOi9NcsQFfKz/8x7TSJcvYzd1H2v/PL8jUfwnb6ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZhK1sizi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778958093; c=relaxed/simple;
+	bh=Q7hjCK61LwuTQY6yskK+p+41m4W+x20RkOQH4/PG+CQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GlavYvqLv8bg3LjMlwSQzh1dlUkaH6IEGUyke4LfWg/zZxNzyzpNQ5b9Z/uAPgYfbBBK3hi6AA/Zn/4dbuOmGhMP/xuajqvziQhXT4cD4fyM0v5/+QSZXqj+zQz8z2X2CoxJbexCSeOS9pZprTm4Y2FYMl6+Bu1V1oJv1Bdggzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z4cnHym+; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZhK1sizi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DDB1C19425;
-	Sat, 16 May 2026 18:55:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778957736;
-	bh=q/IpILmr0azoC+t0Lf2g+yybKTzBbhfe+OMXbr5vnMg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZhK1siziz+X7X/gaHEAf46XLp/wpndFW29ONEQhistZJ8LZL9NdVhquDzcCgPzRA7
-	 bYeyYR8bf5oaBqHnG4MFF7J/vDaW1WRDMr726TXGzMop61gPwHVD6HKwttfehaoLoA
-	 h7vseBAgDOF2R1upFMaCUfj+o0ws1/A5FYJEw9mg1eHlPYjnYCltvTi0BhptUvduT2
-	 9ZQ1zmnNifahl03+VVA7SFJfAiqMlxHu0iCqsxEmROOF0FY2eStn6JT/JHOpG/VQq5
-	 deKDcavTSAoCLRc5oCU4z03rHl+rmDgUp+Sn0RdZQMBSdjAowxOxCHcvXl1dC/Zb7q
-	 iT6k3kn+oWE+Q==
-Date: Sat, 16 May 2026 19:55:22 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
-Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
- <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v11 5/6] iio: adc: ad4691: add oversampling support
-Message-ID: <20260516195522.6792f89e@jic23-huawei>
-In-Reply-To: <20260515-ad4692-multichannel-sar-adc-driver-v11-5-eab27d852ac2@analog.com>
-References: <20260515-ad4692-multichannel-sar-adc-driver-v11-0-eab27d852ac2@analog.com>
-	<20260515-ad4692-multichannel-sar-adc-driver-v11-5-eab27d852ac2@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z4cnHym+"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488af96f6b2so10350815e9.0
+        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 12:01:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778958090; x=1779562890; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SGHSLr5Q+XDF70m5E5RqpezGDL6n6KDUo6T4Dn6m/jo=;
+        b=Z4cnHym+Xz9wylFWNGaA59njZ60zDBghEiGBO5M76J8QS3x2xFNZf+MjEeEhvxUFgh
+         +EdWFJfjs5+oEp6W5RHDbJ+s7xiBRrrnROZ3hUa5GNh5z4aKzgAs6pSnnjninHdI2DOX
+         r6BQ9BNxKf9yLeWzD09XD73retwWBVFs39zjyP1kF6CpIxvFQ9x+IDMfopLVo9fM8mCB
+         cbU1Q4korU30UilNBdsi2BMwsUdEkNOfnGtxIrVbYNLxfTMpTNmIC5jV8ODQuSXIYAs9
+         W/bUIV4FCRTXU7epFF89lZo74IpCpogpzRZptrabvlJrJqx/DUCwMbjV+nys1QmUWCrb
+         mrsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778958090; x=1779562890;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SGHSLr5Q+XDF70m5E5RqpezGDL6n6KDUo6T4Dn6m/jo=;
+        b=souW4EAIdZ07SsD2zho0E4gDzBQuU27oN7aFxOy35eEJI7RIXgjAVyP7frTNgP5lZX
+         Fbi31bkTVZjwG5qs/jpxXftydGP8fopc5LkaYdrUsL4aUbwtritMiRBWLPq3UZrmQB+N
+         JYmuh7lEAO4zy7/SgO9dJGbn+DhnUkKMmIrIJqMDyTnqyiuBlVeYUAOaslljWa+76Uig
+         vJsme2sB0l431OaOjrpF3I3qJXqxpkAaYZnJEiFDJhQipQ3VQE5ajN1tbhj+ogDlq4I2
+         rljOiHbaAbT0Ow19BWeRbIZb12LJ4ViHNEjH58aeHGuEdh94L81NhIaDlP/IPo1B+vZK
+         Cbnw==
+X-Gm-Message-State: AOJu0YwBKrv3W4o2JF6dSaljK2X4EgJ/YI7Qa42V/T6xcgcF78mTLriL
+	/3sXp4t+7SQheeVytehh8dvqx4gd9sa66N+zGTK5pCXtojtpsOcHM9xE
+X-Gm-Gg: Acq92OFRUYCfkj2+M/QubEK1ksACbhWz/m4pWPyhFkofzFcOPK84lYwPR1/YlWEBI7w
+	DpUwjCtvtDuookEuWxaAjE0HXsmg9vC21Rp7QlS5CQhoN2SF9QxUISIgM/DznthdwUlG26g9rri
+	CKgdWOKMOXHreox5ETzJuTAw3yneLkzXfI/zpIrp9ersX2JLv005MUDGH+bJkpEyAHZla8VyhMx
+	7Sd1yaa0lQ9fgf0KtesMIYTgUU22FpVveSxFzVuKAtjvlH3EBBF6HDU+pKmxQIacGl1Tnps0450
+	s8uis6LY7EdPkyqxxqW4sMCaGCCrxen1CVU923I3JTGNGEoj+mJWT9vbDG1e3wSAmG96G33vKAm
+	E3e56VlhsnAlgUjU9ObYw85KmpkWh0Uy9clCNYpvY/MlrLPlxOKQddIrUJSaZn1YAjELD9NDUce
+	cXLpSbvsrTiyEuALZgWvjclhxqSXTBAc8XDDvBeJY7yT6gOA5tgB/A4i7EiJGUvmvMScUImQ==
+X-Received: by 2002:a05:600c:a406:b0:489:e126:b757 with SMTP id 5b1f17b1804b1-48fe63297b9mr106298385e9.25.1778958089810;
+        Sat, 16 May 2026 12:01:29 -0700 (PDT)
+Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe53804aesm138278265e9.15.2026.05.16.12.01.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 May 2026 12:01:29 -0700 (PDT)
+From: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
+To: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+Cc: linux-doc@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Alejandro Colomar <alx.manpages@gmail.com>,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
+	Alejandro Colomar <alx@kernel.org>
+Subject: [PATCH] landlock: Documentation wording cleanups
+Date: Sat, 16 May 2026 21:01:12 +0200
+Message-ID: <20260516190112.4924-1-gnoack3000@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 15 May 2026 16:31:34 +0300
-Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
+Documentation cleanups suggested by Alejandro Colomar,
+which we have also applied in the man pages.
 
-> From: Radu Sabau <radu.sabau@analog.com>
-> 
-> Add per-channel oversampling ratio (OSR) support for CNV burst mode.
-> The accumulator depth register (ACC_DEPTH_IN) is programmed with the
-> selected OSR at buffer enable time and before each single-shot read.
-> 
-> Supported OSR values: 1, 2, 4, 8, 16, 32.
-> 
-> Introduce AD4691_MANUAL_CHANNEL() for manual mode channels, which do
-> not expose the oversampling_ratio attribute since OSR is not applicable
-> in that mode. A separate manual_channels array is added to
-> struct ad4691_channel_info and selected at probe time.
-> 
-> in_voltageN_sampling_frequency represents the effective output rate for
-> channel N, defined as osc_freq / osr[N]. The chip has one internal
-> oscillator shared by all channels; each channel independently
-> accumulates osr[N] oscillator cycles before producing a result.
-> 
-> Writing sampling_frequency computes needed_osc = freq * osr[N] and
-> snaps down to the largest oscillator table entry that satisfies both
-> osc <= needed_osc and osc % osr[N] == 0, guaranteeing an exact integer
-> read-back. The result is stored in target_osc_freq_Hz and written to
-> OSC_FREQ_REG at buffer enable and single-shot time, so sampling_frequency
-> and oversampling_ratio can be set in any order.
-> 
-> in_voltageN_sampling_frequency_available is computed dynamically from
-> the channel's current OSR, listing only oscillator table entries that
-> divide evenly by osr[N], expressed as effective rates. The list becomes
-> sparser as OSR increases, capping at max_rate / osr[N].
-> 
-> Writing oversampling_ratio stores the new OSR for that channel and snaps
-> target_osc_freq_Hz to the largest oscillator table entry that is both
-> <= old_effective_rate * new_osr and evenly divisible by new_osr. This
-> preserves an integer read-back of in_voltageN_sampling_frequency after
-> the OSR change while keeping the oscillator as close as possible to the
-> previous effective rate.
-> 
-> OSR defaults to 1 (no accumulation) for all channels.
-> 
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+Link: https://lore.kernel.org/all/agW4yMK6CinJGqXt@devuan/
+Suggested-by: Alejandro Colomar <alx@kernel.org>
+Signed-off-by: Günther Noack <gnoack3000@gmail.com>
+---
+ include/uapi/linux/landlock.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Mostly to avoid others looking into it. We do indeed have some issues
-in the IIO core with races around read_avail().
-They've been there a long time and attempts to fix them haven't yet
-made it upstream.  Where possible it is better to precompute all the options
-and pick a pointer rather than copying on the fly.
+diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
+index 10a346e55e95..48c12ddf1108 100644
+--- a/include/uapi/linux/landlock.h
++++ b/include/uapi/linux/landlock.h
+@@ -255,16 +255,16 @@ struct landlock_net_port_attr {
+  *   :manpage:`connect(2)` as well as calls to :manpage:`sendmsg(2)` with an
+  *   explicit recipient address.
+  *
+- *   This access right only applies to connections to UNIX server sockets which
++ *   This access right applies only to connections to UNIX server sockets which
+  *   were created outside of the newly created Landlock domain (e.g. from within
+  *   a parent domain or from an unrestricted process).  Newly created UNIX
+  *   servers within the same Landlock domain continue to be accessible.  In this
+  *   regard, %LANDLOCK_ACCESS_FS_RESOLVE_UNIX has the same semantics as the
+  *   ``LANDLOCK_SCOPE_*`` flags.
+  *
+- *   If a resolve attempt is denied, the operation returns an ``EACCES`` error,
+- *   in line with other filesystem access rights (but different to denials for
+- *   abstract UNIX domain sockets).
++ *   If a resolution attempt is denied, the operation returns an ``EACCES``
++ *   error, in line with other filesystem access rights (but different to
++ *   denials for abstract UNIX domain sockets).
+  *
+  *   This access right is available since the ninth version of the Landlock ABI.
+  *
+-- 
+2.54.0
 
-I think we can do that here but maybe I'm missing something.
-
-I'm running out of energy tonight and feel like some Eurovision silliness
-so I'm not going to do another full review today at least
-
-> ---
->  drivers/iio/adc/ad4691.c | 381 ++++++++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 343 insertions(+), 38 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/ad4691.c b/drivers/iio/adc/ad4691.c
-> index 25f7a6939b0f..39244e0e4a2d 100644
-> --- a/drivers/iio/adc/ad4691.c
-> +++ b/drivers/iio/adc/ad4691.c
-
->  
->  static int ad4691_read_avail(struct iio_dev *indio_dev,
-> @@ -634,10 +802,46 @@ static int ad4691_read_avail(struct iio_dev *indio_dev,
->  	unsigned int start = ad4691_samp_freq_start(st->info);
->  
->  	switch (mask) {
-> -	case IIO_CHAN_INFO_SAMP_FREQ:
-> -		*vals = &ad4691_osc_freqs_Hz[start];
-> +	case IIO_CHAN_INFO_SAMP_FREQ: {
-> +		unsigned int osr;
-> +		int n = 0;
-> +
-> +		/*
-> +		 * Hold the lock while reading osr[chan] and populating the
-> +		 * scratch buffer: a concurrent oversampling_ratio write modifies
-> +		 * both target_osc_freq_Hz and osr[] under the lock, so we must
-> +		 * read osr atomically with respect to that write. The scratch
-> +		 * buffer is per-channel, so concurrent reads on different
-> +		 * channels do not race; concurrent reads on the same channel
-> +		 * would compute identical values, but holding the lock avoids
-> +		 * the formal data race.
-
-The further issue that sashiko points out is we might rip whilst the
-core is formatting this. It's actually worse than a small race as the
-consumer interface might hold the pointer indefinitely.  There are only
-a few osr values, can we precompute the lot and make this a pick?
-
-
-> +		 */
-> +		scoped_guard(mutex, &st->lock) {
-> +			osr = st->osr[chan->channel];
-> +
-> +			/*
-> +			 * Only oscillator frequencies evenly divisible by the
-> +			 * channel's OSR yield an integer effective rate; expose
-> +			 * those as effective rates (osc / osr) so the user works
-> +			 * entirely in output-sample space.
-> +			 */
-> +			for (unsigned int i = start;
-> +			     i < ARRAY_SIZE(ad4691_osc_freqs_Hz); i++) {
-> +				if (ad4691_osc_freqs_Hz[i] % osr)
-> +					continue;
-> +				st->samp_freq_avail[chan->channel][n++] =
-> +					ad4691_osc_freqs_Hz[i] / osr;
-> +			}
-> +		}
-> +		*vals = st->samp_freq_avail[chan->channel];
->  		*type = IIO_VAL_INT;
-> -		*length = ARRAY_SIZE(ad4691_osc_freqs_Hz) - start;
-> +		*length = n;
-> +		return IIO_AVAIL_LIST;
-> +	}
-> +	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
-> +		*vals = ad4691_oversampling_ratios;
-> +		*type = IIO_VAL_INT;
-> +		*length = ARRAY_SIZE(ad4691_oversampling_ratios);
->  		return IIO_AVAIL_LIST;
->  	default:
->  		return -EINVAL;
