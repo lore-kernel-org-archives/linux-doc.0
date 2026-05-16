@@ -1,95 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB59923D7FF
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 03:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565C7405C59
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 03:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778900965; cv=none; b=V5uFZ4cEiAtj1vfIsYzOE94XYwTdTSU0XSLqJzxUPvsC4zZHwLDSjVTcvNHcCqxOuTPRtgMI4t+yRMmsi9zYZ4MnnHvHhrMAm2VN6JA4cljMSFWdIOdbvH/ARwe3rGEde3T+cqgwpXXxwhOsVDUEIVhpUovvGq9aqXl1teXck2Q=
+	t=1778903587; cv=none; b=auLq3Wf9JrsStuNCsikttgjb8KEoMhWiIjbo/pm1RaFvveRwWdqj5h59HHXzqT0ZbX7c7S0M4o5HFJN6TYky+YzTjFmgWM+qA1xR1wSrCU+eGydpQIHJwdmN7kXyKLlxt9qpFvdvxHOoo0UCcCxq7G+oDcJr2RZiWXnTFBeMlnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778900965; c=relaxed/simple;
-	bh=qRfqEEK/oTFuibVy7Qb7zNQA204GL40iU97gIngEQjM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=W3uXHdVHby8U9HolkXdQOmz0TSZCx//VmBlmSd3WLCUBQxtwKxBJouSZ+LqrrzKnN6egILddiq3Dyc6hIfMULUP/BrnDbc5asLGO59oLH/2lY6JG/hN5t6cXCM4pawvoKbvCHBGljrW1D/3jRZ0E6MDNF5VQfBXxNh3QtLuz9tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j300VT8h; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778903587; c=relaxed/simple;
+	bh=Zh88LsjdS8b82WS8dFjlxBtfxA5gFqlVa8xpNBjfh4w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JC6IH5QPt6ZvlH4ZRkolPlXTsuPyXgGlDOOLaAEKUNoaszLOpXG090VjABB2WQNI/n0NU8WM/fGkgP9/deJfCZAt4M+CRXvUlz5wwbZlAfyA+6gcnPHlvhvef+HxKOQSkiEPNdDkrpNDKi+tmM2nQy8WQSi2DeNWs9V7SQWxNXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SxS98qsT; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j300VT8h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778900964; x=1810436964;
-  h=date:from:to:cc:subject:message-id;
-  bh=qRfqEEK/oTFuibVy7Qb7zNQA204GL40iU97gIngEQjM=;
-  b=j300VT8hqF3Opi5rlu6ftr1xueA4z7vsKCZCm09kBB3WcFR1GOneTkkN
-   T1AgD5oRWHT85/lkg4xUdm90vwJKkKDBWgcdkVKx6REopZwSIClI+mZfA
-   LxNGmzIFn9YduTVTSYBVIal8hWNyH3Nk0QDnZTIWJlwKcA4EISYJyOXWF
-   h8zc27K8tRwV/N+/X1tsvT9O5uzTGwKJ7/lWw46LdigRvIPXgA25m9/Hc
-   WeV4o5Y/mdpUCHhteNrAi8hOqy+bhW4rwCdF//O0252pnexTfWZsit76R
-   uIUpc+648KChfis40f8KpfKa3lIZOUW1aLqximCLaXZiNHB+mf8Yp5bUA
-   g==;
-X-CSE-ConnectionGUID: /MdHRrvRT1migfjasy+sdw==
-X-CSE-MsgGUID: KPUkH4UARZabYrXQOoXenA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="83711328"
-X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="83711328"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 20:09:23 -0700
-X-CSE-ConnectionGUID: lxx6kbnIQluvGkM6BNVYUQ==
-X-CSE-MsgGUID: oiOpvW+5Q++aCe8sMgzAjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,237,1770624000"; 
-   d="scan'208";a="243839309"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 15 May 2026 20:09:22 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wO5Ox-000000009CT-3mza;
-	Sat, 16 May 2026 03:09:19 +0000
-Date: Sat, 16 May 2026 05:08:20 +0200
-From: kernel test robot <lkp@intel.com>
-To: Zhen Ni <zhen.ni@easystack.cn>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/mm/page_owner.rst:70: WARNING:
- Literal block expected; none found. [docutils]
-Message-ID: <202605160501.NQmx0x3R-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SxS98qsT"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8383fb7143aso206360b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 20:53:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778903585; x=1779508385; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jS0vSk6bmPfIusfXr5IMosg02PohFsEnHMQvJ941g6k=;
+        b=SxS98qsTuwHbGpb6DvVM4HlVu+HNsLYf/b4Nn6agt/VR+4b+z0MpagoLIwl/x0aaM6
+         QxinH3PHQF3qYJ9FcPE5DmPPk3lW75aunb0FxWMOtm00KNbWt1KYA0di14kxGiGBfjhp
+         SWjGmuT7Xq3mPRRvU1kCG4U6Cy6f7UqXOg0MYjb+NBw1MDDVXO3z3J9kOnHSJxuv1vKk
+         zAwxfw+WcP7Gt6qhDrulv5Yj36DB6q7gOm+qLIpyZ41tWUlgSROGGBNLa6vuz7UoTpkE
+         0FzwL33ENDdVmKssisGpvzqI3KTcK7GaKaX8eHaBqh+qFwCGgVeqcTdR5dbAA0jMgPYr
+         x/HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778903585; x=1779508385;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jS0vSk6bmPfIusfXr5IMosg02PohFsEnHMQvJ941g6k=;
+        b=VZWYtiHLutRnUvRtpoGboAXSSL5Dtq8eyyFapSLca+6iPtgOMD+HCpGeM2olZKUMxE
+         YPS0dSBI3uK4V1KPPdzTbeUpciD6fO5M7gjLg8Xfc3H4ZKMCED18snvugk93DRHupUFA
+         vXQ5ketsOTwExpd7d3hDc4DDNbQGPkOZGKGPDr3uzBwWpVFHytoLPkes5IQUQEb+2LCc
+         CahIUmooa8dqkxEYVjw1GmvrIrN5bQhj0RrAtqUelI8bbhvpm3p7Cxq/vM2Q3XCJdyXq
+         ObkLc7U9gVoG6/iYiyj9OLlcC157yz6kdSoVqtL+kxq5BbGOhFTr0mpe+mCzuWUwv08G
+         oyIQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9UgIaw+u/oJJEX3FZoipPqZHjvGVj6MVsJ20V00Dzp9GUAfJqig9O7ggQd61ncMOnls+vHn1U0G58=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJme/XitCF6dS0+fagAD6YAHuM+IvuwVsV4bGa8e1RGizY1JhJ
+	++NbB0d5POhOkXOX5ENXoRYzJBtCoHOA4DbI1lSY5xTmPzeo6inujr3MG4SUAOWmxbA=
+X-Gm-Gg: Acq92OETHmzmgfzbYPNDwSaN+FW/2JvZVw7lUpoM+PfVI6V8EiXA/eaqxfFzKyNNBLv
+	c7DsklZVWwg88P/3c5PI2nlHkQE+bko1qJ4pfDWhWXszcgOXN+UFZsjhMYKTo9RBMAt+huWN+Xs
+	/nfs4xSwvBp56oSdVwLqJ9KXBTxL6nKNCr3Lg8wBTJsZgEYnyxT6aiuweRn8Es1vd5j5Zpttu7h
+	WSF0rQSyBg3PGLsganYplECGkpNXL6rV5W7W/+Xx4yOTqxIFG/YKlVaB/lIExcvCMCY5C+JtYKz
+	vWuXYWhTn5ce5BtHxO6rjz8U2S3uB9lgWP8pxFiAbYOiLpstBVie1UIX26Jl8vTxtvq1AkEr1g+
+	HmnJlv5FxbRX0N3mUjwa+wlNw7i07WDIg1I4q5MAGIYDrtpPLY3QArhZQ4ZP+6zl1Zp5Etfb8nf
+	O9W8VLGprwnKHSAsm/DYaKUkVfV4jCWOOE1vLbABDWDvhfBZw6ZNlv9LThQLPXU2/+OtkkjGwec
+	tQOcyMuQaxemDeS3wYqQsj/U66VO7/E6ALRVVgr5KOKJYJlkuTvZmuuGp4UKyk=
+X-Received: by 2002:a05:6a20:e293:b0:39f:a42:924c with SMTP id adf61e73a8af0-3b22eba1aa3mr7452542637.17.1778903585380;
+        Fri, 15 May 2026 20:53:05 -0700 (PDT)
+Received: from ERIC039ERIC.localdomain (1-170-184-71.dynamic-ip.hinet.net. [1.170.184.71])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bb121cd6sm6939008a12.30.2026.05.15.20.53.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 20:53:04 -0700 (PDT)
+From: Chen-Shi-Hong <eric039eric@gmail.com>
+To: linux@roeck-us.net
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen-Shi-Hong <eric039eric@gmail.com>
+Subject: [PATCH] Documentation: hwmon: adt7411: document supported sysfs attributes
+Date: Sat, 16 May 2026 11:52:31 +0800
+Message-ID: <20260516035245.1604-1-eric039eric@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Zhen-Ni/mm-page_owner-add-print_mode-filter/20260515-225525
-head:   a6ca3c15fa7e6f6f22139da9699ecc02375c6942
-commit: a6ca3c15fa7e6f6f22139da9699ecc02375c6942 mm/page_owner: document page_owner filter
-date:   12 hours ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260516/202605160501.NQmx0x3R-lkp@intel.com/reproduce)
+The adt7411 driver exposes additional standard hwmon attributes beyond
+the ones currently listed in Documentation/hwmon/adt7411.rst.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605160501.NQmx0x3R-lkp@intel.com/
+Document voltage min/max/alarm attributes, temperature min/max and
+min_alarm/max_alarm attributes, and the temp2_fault attribute for the
+external temperature channel.
 
-All warnings (new ones prefixed by >>):
+Also update the documentation to clarify that analog inputs in1 and in2
+are not available when the external temperature sensor is enabled, and
+remove the outdated statement claiming that external temperature support
+and limit registers are unsupported.
 
-   Non-Preserved Properties
-   ======================== [docutils]
->> Documentation/mm/page_owner.rst:70: WARNING: Literal block expected; none found. [docutils]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:48: ERROR: Unexpected section title.
+Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
+---
+ Documentation/hwmon/adt7411.rst | 37 +++++++++++++++++++++++++++------
+ 1 file changed, 31 insertions(+), 6 deletions(-)
 
+diff --git a/Documentation/hwmon/adt7411.rst b/Documentation/hwmon/adt7411.rst
+index 57ad16fb216a..28b6f3cb6b86 100644
+--- a/Documentation/hwmon/adt7411.rst
++++ b/Documentation/hwmon/adt7411.rst
+@@ -30,11 +30,36 @@ Check the datasheet for details.
+ sysfs-Interface
+ ---------------
+ 
+-================ =================
+-in0_input	 vdd voltage input
+-in[1-8]_input	 analog 1-8 input
+-temp1_input	 temperature input
+-================ =================
++================    =================================
++in0_input           vdd voltage input
++in0_min             vdd low limit
++in0_max             vdd high limit
++in0_alarm           vdd alarm
++in[1-8]_input       analog 1-8 input
++in[1-8]_min         analog input low limit
++in[1-8]_max         analog input high limit
++in[1-8]_alarm       analog input alarm
++temp1_input         internal temperature input
++temp1_min           internal temperature low limit
++temp1_max           internal temperature high limit
++temp1_min_alarm     internal temperature low alarm
++temp1_max_alarm     internal temperature high alarm
++================    =================================
++
++If the external temperature sensor is enabled, the following attributes are
++also available:
++
++================ ================================================
++temp2_input      external temperature input
++temp2_min        external temperature low limit
++temp2_max        external temperature high limit
++temp2_min_alarm  external temperature low alarm
++temp2_max_alarm  external temperature high alarm
++temp2_fault      external temperature sensor fault
++================ ================================================
++
++If the external temperature sensor is enabled, analog inputs in1 and in2 are
++not available.
+ 
+ Besides standard interfaces, this driver adds (0 = off, 1 = on):
+ 
+@@ -47,4 +72,4 @@ Besides standard interfaces, this driver adds (0 = off, 1 = on):
+ Notes
+ -----
+ 
+-SPI, external temperature sensor and limit registers are not supported yet.
++SPI is not supported yet.
+-- 
+2.53.0
 
-vim +70 Documentation/mm/page_owner.rst
-
-    69	
-  > 70	To filter page_owner output::
-    71	
-    72		cd tools/mm
-    73		make page_owner_filter
-    74	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
