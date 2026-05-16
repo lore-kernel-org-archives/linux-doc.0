@@ -1,256 +1,256 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021104.outbound.protection.outlook.com [52.101.100.104])
+Received: from smtp.uniroma2.it (smtp.uniroma2.it [160.80.4.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3749A3E3172;
-	Sat, 16 May 2026 16:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.104
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778948913; cv=fail; b=G1CZojIJ73qsOrf2g8JYVBbF8A803UUACfPOK40Z88fqHU6NbBEfIc0meYEe9m8G6x6XvZNh5hp1sPWj0n4wVkCmEdyQvdZrRzZFtHYw7Xv602Ci1E760g6Mlxn/boDtxA2z+eSdeCYPGxLGGR+afhOJiuQrUGTqQzpiatgTpKA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778948913; c=relaxed/simple;
-	bh=VuSekCAxvrTYJlQLt8i3ji/maqGhOKAmNcPQRaLNrrs=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=T3XXoaVpgnlaxZKvxWYOmg6f14KgyJECsrAs3uXsAGWSCNu6ElpS6hG71W+xvh62/0oZXmT+XvJM+bGh+zuBtBJ7hK5+knVTGbVOeOayb3FhmRw+lw8nJfx88nC9JvqwsiljkmLU9N1Stm0hmvr9f7WYjQVtcYrmGSCyMa3CBgM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.100.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SPvsihMg0RIgervGrL5D8MZhL1OxdeZ9S9xYIdDJEJXV5JVzndKEmszH6ceVRYyIZ50sG/ZJmTJvAE39IwBwMFl5d9CUOKdPno+JYmIr0qw8CArZYmXtNYsZGG7EuSqYxQ65O6iiAcmdvF7A01ES5nc/EChcxAAUhPp13V0+6wp+JbvsPfluDCIhtWWg1zZeDXP38itrJCeCMBspdcqwk5gSkyUcXc8yEFoU73baEQwDQxJ1zXhLKtkOOdQtg4E7QMYj5KRIAlXmEF+oVxL46k1l/V8e9vCNh7DJ2M5w8SjyahccvBHJYw7uqBUPVsW/3HSt1LY7qI99lhf9m4aOkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9/DfpcFvtUpNf0tRNKBchGvcQk0SKkYEt+uXtr6SXRo=;
- b=gHEcpkng6gL7O+xvN3eE4xpAFIlRJYuNzi6PYrWW22kfJszwRxB5K5WL6Z1InApsBYDVwjmCIyHSYHyZGmES0oxg4nQEkDIySOEumqYIzFCVabuzDg3jkf8YT5S6yVpCGqSy7gIUF0f26W8keZyrkFutIyZAnChUw/R+yca6nJgq90AIqtN/BTn6ucMI2WGiuU5mj8cXbuD6GOR98SPLPayZWiDlBtBZ88FYc7iASKSJ3Cn/KoxQjBJ/E+n2JkFvVJZWw2TnmEUqXhGJSRIMw8yXLqhoJOmak1KuiEO/DRSjAdFGl2Ccl5u09mG0qMG29ayzhsiIwYFY3FNcSJ4Wqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by CW1P123MB8919.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:271::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.21; Sat, 16 May
- 2026 16:28:23 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9846.025; Sat, 16 May 2026
- 16:28:23 +0000
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: tglx@kernel.org,
-	akpm@linux-foundation.org,
-	bp@alien8.de,
-	rdunlap@infradead.org,
-	dave.hansen@linux.intel.com,
-	feng.tang@linux.alibaba.com,
-	pawan.kumar.gupta@linux.intel.com,
-	dapeng1.mi@linux.intel.com,
-	kees@kernel.org,
-	elver@google.com,
-	paulmck@kernel.org,
-	lirongqing@baidu.com,
-	bhelgaas@google.com,
-	bigeasy@linutronix.de,
-	bagasdotme@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] docs: kernel-parameters: document scope of irqaffinity= parameter
-Date: Sat, 16 May 2026 12:28:19 -0400
-Message-ID: <20260516162819.247530-1-atomlin@atomlin.com>
-X-Mailer: git-send-email 2.51.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BN1PR14CA0026.namprd14.prod.outlook.com
- (2603:10b6:408:e3::31) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6474F405C4D;
+	Sat, 16 May 2026 16:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.80.4.37
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778949167; cv=none; b=RYdaf6Kgfv6d7jTfE8t34j2RRDLNPb1L7/H5TQiX9kC6nTWUVINEQfup4l2zvO6IcZi8uor/YUWwHy9bkM5s4o66mMZ88iTmjHFDiLrHhHshqHQnrGaW6dJSsTM0D7yzLuA3Oq95OvEzSI21kPHh1tQUrjHZ4H6MD8HIvCv1dMk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778949167; c=relaxed/simple;
+	bh=PWRlz0bAYGNEss5NAODwa78EZdoYB4GvTMaDda35irc=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=D4+j2XOkfbGEbo5LalsbH7QWlqUy3VdrA8svKshZ0kY5HZk2ovwHC9lBlGREq8/kcKVjxejHyqdY5rmkmObV5+TcDzgpQoHtWBevQ5W/B8/JkGcVPK/zUuIF3LzNnu3VBBp4DFHHN1QW9WOXtTA4kFWduxUbHEaJa2N3FRiKH/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniroma2.it; spf=pass smtp.mailfrom=uniroma2.it; dkim=permerror (0-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b=o7bu4ttN; dkim=pass (2048-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b=Ryku/9CD; arc=none smtp.client-ip=160.80.4.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniroma2.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniroma2.it
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=permerror (0-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b="o7bu4ttN";
+	dkim=pass (2048-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b="Ryku/9CD"
+Received: from smtpauth-2019-1.uniroma2.it (smtpauth-2019-1.uniroma2.it [160.80.5.46])
+	by smtp-2015.uniroma2.it (8.14.4/8.14.4/Debian-8) with ESMTP id 64GGQ0f7022595;
+	Sat, 16 May 2026 18:26:06 +0200
+Received: from lubuntu-18.04 (host-95-246-236-184.retail.telecomitalia.it [95.246.236.184])
+	by smtpauth-2019-1.uniroma2.it (Postfix) with ESMTPSA id DBF44122901;
+	Sat, 16 May 2026 18:25:56 +0200 (CEST)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=uniroma2.it;
+	s=ed201904; t=1778948757; h=from:from:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RTO1RAu7euvHtj4HzoctoToKt9Ch9IUKUgMEEx4QzpQ=;
+	b=o7bu4ttNt52bH3A6pny5FyhRyrFs+Yn4MFCg9/fTZe27XN9jDx6O3FxJhA41tQo+R2DyA8
+	dM+TGYj7SRzLH2BA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniroma2.it; s=rsa201904;
+	t=1778948757; h=from:from:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RTO1RAu7euvHtj4HzoctoToKt9Ch9IUKUgMEEx4QzpQ=;
+	b=Ryku/9CDDmWB/aFrWWfQ0ClbLjlvV00F9zcAwNDPa1czzXWpj3zwoMx3F1aDO8Xenp/dSx
+	XUsOri3sl7ZMaX+CBY5BBPIlYxp0dSUZ1UIpXy8UUDGD1jpCE1+nVuI0OULcAOtQ2tOGAm
+	KZp7ERlmvcMGi6CP9UexUuOguskVP2274Y9d135F7XZ6YIAUClGgyzS5JYGsn/LrTd8Yh7
+	EMMPE3MhF4VbQKSK2SYn42ZIVDDs7gw5FhXEVNu63znQLgAS4Sotnn1hQX9E9KzmMhJ41V
+	xTaU65EK+l+ZKGk3gbqtRzEl3FMR9Q8KyXPUmcoyOZvvJY1kBu2zvnGuN/ykIQ==
+Date: Sat, 16 May 2026 18:25:56 +0200
+From: Andrea Mayer <andrea.mayer@uniroma2.it>
+To: Yuya Kusakabe <yuya.kusakabe@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Justin Iurman
+ <justin.iurman@gmail.com>,
+        Shuah Khan <shuah@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, stefano.salsano@uniroma2.it,
+        ahabdels@cisco.com, Andrea Mayer
+ <andrea.mayer@uniroma2.it>
+Subject: Re: [PATCH v2 0/7] seg6: add SRv6 Mobile User Plane (RFC 9433)
+ behaviors
+Message-Id: <20260516182556.66af27a9c63208435911990b@uniroma2.it>
+In-Reply-To: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com>
+References: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CW1P123MB8919:EE_
-X-MS-Office365-Filtering-Correlation-Id: 231a7430-77c8-4a0e-859d-08deb36825ec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|56012099003|18002099003|3023799003;
-X-Microsoft-Antispam-Message-Info:
-	9tvvhK8eJ+r9vjqbvFPlJnApO77JeTvj262ew0Db60jHHmDXyG8lsvoa81nLZf+dhczgqdt6ZG/G9iE3Y+XjqgRFvZSQX0KKIJd5GZbJ4bkunANMHdkro7bvcCc4wDVpw1KpEToeZyvJghscvWgUowgngZqCJQn4EmewVkdZ/WqzQW1QRKnkUk9+zm29Uahee7a0SrPhrr9WI5rrNCVAlRQIC+mHWzLWTSEs82aHneVA07pXJaLqkhg1g+ui3u/YBxIcWNk3jhO38mnjQWLoGsL3wBJsVBv00BqAMnHDlOf3mblJmxBUJ49fzkqQEEn99ktPTO07c+c8mkRHjo/h+qe/Dxo35Rg6uZGMRJhf7ts5CHWOyIsh6CvqhUBTbro5LEEhn0osfBZeYOTjCkDKc2O7+7U0r13XsEaD/uL5B7fE5QlwDlYa0CFXGF5hcF+v2Xr0PgThqYdo6cymYdrOxuUqldO1ort9sCT5MDOpm4137ezutDTT7auCbZ2knXdo5PiYeOefadHTwtUGWFddLrvaNUanZEd4EXmbzqPpwx9C5EQ/H0EaDSBalpnNr5seeroX4GDPSs4byS9CvaCE4WVAEiFaxJa8DsHQnjQKnd5GBA+WWXl6IK2VJyY6PDt0qJz1sbQ5hhlor8V75rhVvPv7Hvw/gdaKw652PGDwqfMt0lL5X4BS+mIG2KQmzEQG5rlSGWyKvoxb/h48Upltcg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(56012099003)(18002099003)(3023799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pBXp4alWccKsNqrT8FUZJriO5YQ6V4PtnooX9sDZWtwiEzXjC4/JvQr/KLc7?=
- =?us-ascii?Q?JVx4d5rdd1dRbqNJHdYEZq2g0r+LuJoiWcGrrl+1W+XaT7B2cJc6b5OrRNj+?=
- =?us-ascii?Q?MzouwzSB/nAJn4rECsgDqzJT42JAKOFsp3fIp+qyIjNFqRXkZPyGtM40F9C3?=
- =?us-ascii?Q?weFH+MpGTiqvmtWWAvYbTaLi7HEOUe7FEvk3eGbzLhGW6tvv0va5eqnIfu72?=
- =?us-ascii?Q?qBC7VDTLFrmGrcZDQNsaV40nOyApeioHv9c854iwNZWy1DSo0Qn/rs5chTVu?=
- =?us-ascii?Q?efq6SwjzeRg5AVtN5/RKmOYOpK7uSgvC7JcABXrXUyyC4xEVlG5zzjVXFzTD?=
- =?us-ascii?Q?PxGSW2vAfKLtJwJNRgXT+HUe0TFRX4Q8U1QhW0nFZFczZzBPlTj4STmWXhGE?=
- =?us-ascii?Q?SSvNCnRCGiNOO8HMzrh/JdHQ1CIo91EsWYxYlNr7q8pU6kTw8nyGclb2hY1i?=
- =?us-ascii?Q?uUTI3BYQsl7S/lmGnU+SNVjKYFbW75PsKb7RZMJA3bUqEmru1gdDDFm2z2Jl?=
- =?us-ascii?Q?vvSYhRAQaEFC+7uBExbIo8XPcDhGZxQVcrbkBsS8Sz9z4NTnDFh0a7mRdbLk?=
- =?us-ascii?Q?jYxLckSXY5Pqou5ubiqUY/LgEecE7EKN2TijGHYRzLL+5/s5lvRW5Ha9zay/?=
- =?us-ascii?Q?ExyzE9VVL1hF4jpYAg851IrGGgRx8fRnxjSjNlQoC54ibYOTUlVj4i7Fk1Ih?=
- =?us-ascii?Q?ULQktIhZA63vjA8Ph0WSwUafjknHAgUwy1gdnMO05YsV80yG8yH7Cm7Tx/IG?=
- =?us-ascii?Q?L0iX/OXOv2ry7OVWfRLDIGteYcQSDnTe0c5rP8OwPALpKZSziTLYjO5cHag6?=
- =?us-ascii?Q?VMJwyhJsgI6inE4JyNdhKtP0SblenHr+YLTdZTt+/Igdq3L0ZGEIo/pa9w8r?=
- =?us-ascii?Q?bT5Sp6xJiiZDbhHGuOcn/U1pIf84g4DwlQURiLLKlIAGEOJEBfEnpoJh2CgD?=
- =?us-ascii?Q?KbhgIbSY/+Bz3rpiHTW7Tyi/wCbSphVZ1B4sDWAxamLfoFZp5B84PSCaPoBN?=
- =?us-ascii?Q?aTduagy4gnc01Q80PUWu2UdaVeWI85339TmGepf3yrkKD2PDeEC5fpE12rt6?=
- =?us-ascii?Q?YqRHLqgmXTxtcTsfuY3g/EJTbfiw9AWcb80C3brVWMp1GS5eZDeIX0jhpIp7?=
- =?us-ascii?Q?QkB3Iom+k9vV6z3/Km25ysDOrtnMBLdE/cwTm/VHvKVKXu2/r7Weei384ZUi?=
- =?us-ascii?Q?D6Utk65/DHEKQmztTyrgwgT5aMlSRSVFZceqtYlklSpflDK4NsCm7Qz2FZOD?=
- =?us-ascii?Q?EPPNmrl502uyd6D2Kzwv+iGJQSdA4nhmg14rG0IDcAiVGUfWNr9bot2+jg4d?=
- =?us-ascii?Q?NTM7Z7A/xsG7DYtNaHnbdtqNKYmUPxXreMOYMMj+kvznsUyUXqXE2DH3a+4R?=
- =?us-ascii?Q?lfcdBn/vXOmK+XamQ7WO81BQxD8pnxO+bckta235ZAYYuZvuizPsEzhHLhWq?=
- =?us-ascii?Q?KfhR63rNKtYzA3WO4dDhgtgMQ64HvX9yMKVB48JL0oOzvCRNnctxzm6jfy2j?=
- =?us-ascii?Q?6YpbspFZg/VAL0omZ3UpFQ2GbkgfRAvQhsKBj8xPf8TCC2bJUkv+O9VDKP4V?=
- =?us-ascii?Q?8Q2xsEI8k6gLkjLqef5/gwvVz0LXYmAAWEDVlb179+XIzsD3WR9Fa157avEw?=
- =?us-ascii?Q?0rsO3vX11RJ1zu1FKTi04UDtzkHfj6YNomaU4dtXRDdLcrcCrZJPPOkNOrWP?=
- =?us-ascii?Q?3JjgYucVVcL9JiskovaqsYyVBUsObeMwQUXK5zEuWLmkfkQRbWMpp5TfcY2A?=
- =?us-ascii?Q?7+aYvOwb0Q=3D=3D?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 231a7430-77c8-4a0e-859d-08deb36825ec
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2026 16:28:22.9396
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PI2fxh0+F3mTCTivzw1GAegy1l+/cntvFo0Z8FmWfROIxlfnMc3KBaCxfAwAR2hUDy2qDbaKYPl30polR+lhKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P123MB8919
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.100.0 at smtp-2015
+X-Virus-Status: Clean
 
-There is a common misconception that the "irqaffinity=" boot parameter
-acts as a global override for all hardware interrupts. In reality, it
-only sets the irq_default_affinity mask, which is explicitly ignored
-by managed interrupts (e.g., modern multiqueue storage controllers).
+On Tue, 05 May 2026 01:30:10 +0900
+Yuya Kusakabe <yuya.kusakabe@gmail.com> wrote:
 
-This patch updates kernel-parameters.txt to document this limitation,
-directs users to "isolcpus=managed_irq" and
-Documentation/core-api/irq/managed_irq.rst for further details.
-Additionally, it updates managed_irq.rst to provide a debugfs example
-demonstrating the IRQD_AFFINITY_MANAGED state flag.
+Hi Yuya,
 
-Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
----
-Changes since v2 [1]:
- - Reworded the debugfs explanation to explicitly distinguish between
-   active and offline managed IRQ states
- - Clarified that the shutdown flags (IRQD_IRQ_DISABLED,
-   IRQD_IRQ_MASKED, etc.) only appear when the CPU is offlined to
-   resolve the previous contradiction with the example output
- - Explicitly labeled the debugfs snippet as an "active" managed
-   interrupt
- - Used double-colon for literal code block (Bagas Sanjaya)
+Thanks for the work. Some comments on the overall design below. I will
+reply on the individual patches separately.
 
-Changes since v1 [2]:
- - Provided an example of a managed IRQ using CONFIG_GENERIC_IRQ_DEBUGFS
- - Referenced Documentation/core-api/irq/managed_irq.rst
+> This series adds the in-kernel data path for the SRv6 Mobile User
+> Plane (MUP) architecture defined in RFC 9433.  SRv6 MUP integrates
+> GTP-U mobile traffic into an SRv6 transport domain by mapping the
+> 5-tuple (TEID, QFI, R, U, PDU Session ID) into a single SID, allowing
+> operators to replace the GTP-U overlay between the gNB and the
+> upstream UPF with native SRv6 forwarding while keeping the radio side
+> unchanged.
+>
+> The series implements the six MUP behaviors that an SRv6 MUP gateway
+> typically needs:
+>
+>   End.MAP         (RFC 9433 Section 6.2) -- swap DA with the next SID
+>                                             without consuming the SRH
+>   End.M.GTP6.D    (Section 6.3) -- IPv6/GTP-U to SRv6 headend encap
+>   End.M.GTP6.D.Di (Section 6.4) -- drop-in mode variant of the above
+>                                    (preserves the original outer DA at
+>                                    SRH[0] and discards TEID/QFI)
+>   End.M.GTP6.E    (Section 6.5) -- SRv6 to IPv6/GTP-U egress encap
+>   End.M.GTP4.E    (Section 6.6) -- SRv6 to IPv4/GTP-U egress encap
+>   H.M.GTP4.D      (Section 6.7) -- IPv4/GTP-U to SRv6 headend encap
 
-[1]: https://lore.kernel.org/lkml/20260421150911.42404-1-atomlin@atomlin.com/
-[2]: https://lore.kernel.org/lkml/20260414200245.1153919-1-atomlin@atomlin.com/
----
- .../admin-guide/kernel-parameters.txt         | 11 ++++
- Documentation/core-api/irq/managed_irq.rst    | 60 ++++++++++++++++++-
- 2 files changed, 68 insertions(+), 3 deletions(-)
+RFC 9433 Section 6 is titled "SRv6 Segment Endpoint Mobility Behaviors",
+but Section 6.7 defines H.M.GTP4.D as "SR Policy Headend with tunnel
+decapsulation and map to an SRv6 policy". This behavior receives IPv4
+packets and is not bound to any SID, so it does not fit the endpoint
+model that seg6_local implements. Placing it there required relaxing the
+ETH_P_IPV6 guard to accept ETH_P_IP and adding input_family to
+seg6_action_desc, for a single behavior that does not share the endpoint
+model.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index cf3807641d89..365c4931700a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2726,6 +2726,17 @@ Kernel parameters
- 	irqaffinity=	[SMP] Set the default irq affinity mask
- 			The argument is a cpu list, as described above.
- 
-+			Note: This parameter only sets the default affinity
-+			for unmanaged interrupts (e.g., legacy single-queue
-+			devices or unmanaged pre/post vectors). It is
-+			explicitly ignored by managed interrupts, such as
-+			those utilised by modern multiqueue storage
-+			controllers. To isolate CPUs from managed
-+			interrupts, see "isolcpus=managed_irq".
-+
-+			For further details see:
-+			Documentation/core-api/irq/managed_irq.rst
-+
- 	irqchip.gicv2_force_probe=
- 			[ARM,ARM64,EARLY]
- 			Format: <bool>
-diff --git a/Documentation/core-api/irq/managed_irq.rst b/Documentation/core-api/irq/managed_irq.rst
-index 05e295f3c289..649f7f7fb0ac 100644
---- a/Documentation/core-api/irq/managed_irq.rst
-+++ b/Documentation/core-api/irq/managed_irq.rst
-@@ -80,9 +80,63 @@ The following examples assume a system with 8 CPUs.
-     /proc/irq/48/effective_affinity_list:0
-     /proc/irq/48/smp_affinity_list:7
- 
--  This can be verified via the debugfs interface
--  (/sys/kernel/debug/irq/irqs/48). The dstate field will include
--  IRQD_IRQ_DISABLED, IRQD_IRQ_MASKED and IRQD_MANAGED_SHUTDOWN.
-+  If the Linux kernel was built with Kconfig CONFIG_GENERIC_IRQ_DEBUGFS
-+  enabled, this can be verified via the debugfs interface (e.g.,
-+  /sys/kernel/debug/irq/irqs/48).
-+
-+  A managed IRQ will always include IRQD_AFFINITY_MANAGED in its dstate.
-+  Furthermore, when the associated CPU is offlined, the dstate field will
-+  also include IRQD_IRQ_DISABLED, IRQD_IRQ_MASKED, and IRQD_MANAGED_SHUTDOWN,
-+  verifying that the interrupt was cleanly shut down rather than migrated.
-+
-+  For example, an active managed interrupt might look like this::
-+
-+    # cat /sys/kernel/debug/irq/irqs/87
-+    handler:  handle_edge_irq
-+    device:   0000:41:00.0
-+    status:   0x00000000
-+    istate:   0x00004000
-+    ddepth:   0
-+    wdepth:   0
-+    dstate:   0x19601200
-+		IRQD_ACTIVATED
-+		IRQD_IRQ_STARTED
-+		IRQD_SINGLE_TARGET
-+		IRQD_AFFINITY_SET
-+		IRQD_AFFINITY_MANAGED
-+		IRQD_AFFINITY_ON_ACTIVATE
-+		IRQD_HANDLE_ENFORCE_IRQCTX
-+    node:     0
-+    affinity: 3
-+    effectiv: 3
-+    pending:
-+    domain:  IR-PCI-MSIX-0000:41:00.0-12
-+     hwirq:   0x8
-+     chip:    IR-PCI-MSIX-0000:41:00.0
-+      flags:   0x430
-+		 IRQCHIP_SKIP_SET_WAKE
-+		 IRQCHIP_ONESHOT_SAFE
-+
-+      address_hi: 0x00000000
-+      address_lo: 0xfee00000
-+      msg_data:   0x00000008
-+     parent:
-+	domain:  AMD-IR-3-14
-+	 hwirq:   0x41000000
-+	 chip:    AMD-IR
-+	  flags:   0x0
-+	 parent:
-+	    domain:  VECTOR
-+	     hwirq:   0x57
-+	     chip:    APIC
-+	      flags:   0x0
-+	     Vector:    33
-+	     Target:     3
-+	     move_in_progress: 0
-+	     is_managed:       1
-+	     can_reserve:      0
-+	     has_reserved:     0
-+	     cleanup_pending:  0
- 
- - A QEMU instance is booted with "-device virtio-scsi-pci,num_queues=2"
-   and the kernel command line includes:
--- 
-2.51.0
+seg6_local is not the natural place for this behavior. The UAPI cannot
+be undone once merged, so where it should live needs discussion on the
+list before we proceed.
 
+>
+> End.Limit (RFC 9433 Section 6.8) is intentionally out of scope.
+
+>
+> All behaviors plug into the existing seg6_local lwtunnel framework, so
+> they are configurable through the standard "ip route ... encap
+> seg6local action ..." interface.
+
+This adds ~2.2k lines to seg6_local.c, bringing it from ~2.7k to ~5k
+lines. The behaviors reuse the existing seg6_local infrastructure (SRH
+validation, seg6_do_srh_encap, seg6_lookup_nexthop), while the GTP-U
+parsing, encapsulation, and PDU Session handling, for example, is new
+and self-contained. Given the volume, moving the MUP code into a
+separate seg6_mobile.c (say CONFIG_IPV6_SEG6_MUP) would keep seg6_local
+focused on the RFC 8986 endpoint framework. There are trade-offs
+either way and I think this deserves discussion on the list.
+
+There is significant duplication across the introduced behaviors: for
+example the GTP-U parsing, inner protocol dispatch, and NF_HOOK plumbing
+are nearly identical each time, and the small differences are already
+hiding issues (HMAC validation missing in some, malformed SRH silently
+accepted in others, wrong drop reasons). Some of the individual
+functions are also well over 100 lines. Splitting them with helpers
+would help.
+The new code also has some style drift from seg6_local.c (variable
+declaration ordering, scope blocks, blank lines) that should be fixed.
+
+I think this patchset should be broken into smaller patchsets, one per
+behavior, each with the behavior, its selftest, and any needed helpers as
+separate patches. The same approach was used for End.DT4/End.DT6 and
+End.DT46. End.M.GTP4.E alone is ~1.2k lines in a single diff.
+
+> No new netlink families are
+> introduced -- the new SEG6_LOCAL_MOBILE_* attributes extend
+> SEG6_LOCAL_MAX in an add-only way, and the new SEG6_LOCAL_ACTION_*
+> values are appended.
+
+The attribute layout and semantics are probably the most sensitive part
+of the series and need to be settled before it can go in, since the UAPI
+cannot be changed once merged.
+
+The series reuses SEG6_LOCAL_NH6, SEG6_LOCAL_SRH and SEG6_LOCAL_OIF with
+semantics that differ from the existing behaviors. NH6 today means
+next-hop in End.X/DX6. This series reuses it as DA replacement in
+End.MAP and as prefix template in H.M.GTP4.D.
+SRH is inserted verbatim in End.B6/B6.Encaps but augmented per-packet in
+the mobile behaviors. These attributes have established UAPI semantics
+from their existing behaviors. Giving them a different meaning in new
+behaviors is a UAPI semantic divergence.
+
+The selftests use OIF on all five GTP behaviors to select a VRF for the
+lookup, but that is what TABLE and VRFTABLE are for (End.DT4, End.DT6).
+OIF in the existing behaviors means output interface (End.X) or L2
+egress device (End.DX2). VRF support is a nice-to-have that can be added
+later as a separate optional attribute.
+
+>
+> The egress behaviors (End.M.GTP4.E and End.M.GTP6.E) accept an
+> optional per-route pdu_type attribute that is the sole control
+> for inserting the GTP-U PDU Session Container (3GPP TS 38.415 Section
+> 5.5.2).  When pdu_type is set (dl/ul/0..15), every emitted GTP-U
+> packet carries the container with that PDU Type and the QFI extracted
+> from Args.Mob.Session.  When pdu_type is unset, the egress emits
+> a short GTPv1-U header with no container.  pdu_type must be
+> configured on egress routes serving 5G N3 traffic; omitting it is
+> intended only for LTE-only / S1-U-style deployments where no PDU
+> Session Container is exchanged.
+>
+> The matching iproute2 patch series has been posted to iproute2-next:
+> https://lore.kernel.org/netdev/20260505-seg6-mobile-v2-0-93291b7b0134@gmail.com/
+
+The user-facing parameter names and their semantics are defined in the
+iproute2 series (where the man page lives), so that is probably the
+better place to discuss keyword choices and attribute naming.
+
+> [snip]
+>  include/net/dropreason-core.h                      |   40 +
+
+The series introduces six mobile-specific drop reasons. Drop reasons are
+visible to userspace via the kfree_skb tracepoint (perf, bpftrace,
+dropwatch), so they look like a kind of interface and their names should
+match the actual failure.
+
+BAD_SID and BAD_GTPU make sense as mobile-specific reasons. The other
+four have issues: NOMEM and MTU_EXCEEDED duplicate existing generic
+reasons (NOMEM and PKT_TOO_BIG). INVALID_SRH_SL is used for multiple SRH
+validation failures, not just Segments Left (HMAC failure is also
+reported as INVALID_SRH_SL). BAD_INNER is used as a catch-all for outer
+header pull failures and encapsulation errors, neither of which involves
+the inner payload.
+
+We could think about a prep patch introducing SRv6-level drop reasons
+(SEG6_INVALID_SRH, SEG6_HMAC, etc.) that both the existing behaviors and
+the MUP ones can share.
+
+> [snip]
+>  .../selftests/net/srv6_end_m_gtp4_e_test.sh        |  486 ++++
+>  .../selftests/net/srv6_end_m_gtp6_d_di_test.sh     |  427 ++++
+>  .../selftests/net/srv6_end_m_gtp6_d_test.sh        |  497 ++++
+>  .../selftests/net/srv6_end_m_gtp6_e_test.sh        |  402 +++
+>  tools/testing/selftests/net/srv6_end_map_test.sh   |  103 +
+>  .../testing/selftests/net/srv6_h_m_gtp4_d_test.sh  |  487 ++++
+
+Selftests for the five GTP behaviors heavily depend on python3 and scapy
+heredocs embedded in the shell scripts for packet construction and
+validation, which adds an external runtime dependency. A statically
+compiled C helper would remove it and avoid embedding python heredocs
+in shell scripts.
+A few cases worth covering: SRH and no-SRH input paths where the
+behavior accepts both, missing SRH where the behavior requires
+it, malformed SRH, and invalid attribute values.
+
+The five GTP behaviors pass per-packet context to a finish callback through
+skb->cb, and recover the lwtstate via skb_dst(skb)->lwtstate.
+When nf_hooks_lwtunnel is enabled, an NF_HOOK sits between the input
+handler and the finish callback. Netfilter processing at this hook can then
+corrupt the cb (IPCB/IP6CB aliases skb->cb) or drop/replace the skb dst, so
+the finish callback dereferences a NULL or unrelated dst.
+Even if the dst is preserved, the cb may have been modified.
+
+The dst problem is pre-existing from 7a3f5b0de364 ("netfilter: add
+netfilter hooks to SRv6 data plane") and affects seg6_iptunnel too. Both
+issues need a robust fix before this series can go in. I want to look at
+this myself and will Cc you when I do, as the five new behaviors may need
+to be adjusted on top.
+
+> [snip]
+
+> Best regards,
+> --
+> Yuya Kusakabe <yuya.kusakabe@gmail.com>
+
+Ciao,
+Andrea
