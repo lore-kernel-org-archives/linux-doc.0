@@ -1,105 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C815730C17D;
-	Sat, 16 May 2026 19:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89C829ACCD
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 20:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778960225; cv=none; b=I5yjNEYnKLlar70CdvRpWHbbMB8/oo+L2XRpp99VUvGerOSK8r00relbjC3y0XGgI858hasErHlryK+2QX82zrKFw2/E76QQrKZSuaJmNyAsmirMsFnQCVWXc4uQ4Tb8GQNeaJruWsH53xcf3T6H/hOGou0cfQE6twUesdh2Efo=
+	t=1778963434; cv=none; b=XQ1EvRh0w6LvxqpidXBG56dM1sbvV3b+pg6TgO7ojDYGB3m/bLjyMt1Jigo7yzfoLimJnRpeFQR89nfh2wkv+J/DvDTRZD4yqwUrEdwpYzF6VPIGR22P29m9jtr4r9QZrp+Ra8QpmALC5V2yPTi8GWh4g4pJyCSdjd7bi5EKW+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778960225; c=relaxed/simple;
-	bh=7/WHj5XFUUJLhqNRPGaO0Y/TS2Woku8/eo5bmNh8yjQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WDbMtxaLsOghhhL1C7j0LRQiTAjmSaYg7funlQcFOOIWoUfqLlEiLYA4luNIYiwMNivXnchfDPZSsp6zHhKBLGLLhBG34shD04zgHtZdFi93mmcZoKMQd+1nEeOzMUmO0/yUQjYHUmXUvESP2XhfcCvFOEFsJCXP4O1rqhIa0Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dk9YluEO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778963434; c=relaxed/simple;
+	bh=NgG7c/3HifMrXF+hurQ67sFXdJackyEaDrNuCaV1jLA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BlTMzokCHMueVZbX7RD5GxLznQijZiZ4OMHWwjZsM7DoRv3G5VaPVLj1IP2NCdpt71eR1RDwB2V0p94t1BLGMMns+wrJwrSztSWKQfmV4kUwg67A0OAb4l5W/3VTe9z6RUne/u4YgJ4XSqcAD/BAUPno3CGkXCLCdjs4+uaoouo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O4rPzPP8; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dk9YluEO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5EA9C19425;
-	Sat, 16 May 2026 19:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778960225;
-	bh=7/WHj5XFUUJLhqNRPGaO0Y/TS2Woku8/eo5bmNh8yjQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Dk9YluEOo72DeCYm6MKI/0PcYFTsBRCLxN8RPYPhf7IKbSM7cCab+6CZFnAXZKTvt
-	 VEoI9SBZLOo4pMcwCtufUbGVbYvrppR6brlH9RHzFgJ2TLTjlTtn12OS9fa3nGhwXe
-	 oi57A9hlK/T/srIQp1JVa4wmrgXY65HPiP4BLQp5DB65U//brOS4Ae3jj/stTQ2Lkf
-	 4ziFrvTRgPVjqcGFNPIbBPH9/CyOMnq0V9g/Xuo75cQuVqGZMrbj8iWXf+cK/WUwsK
-	 QcXQ6WZFYamxakKelDsgy5AR7RIBFyxS9CfsvUqe2PZrxZSTq/ZmdjFvhRs+8VC4mP
-	 eLYD5q3cOjCuA==
-Message-ID: <f24607ee-6b7f-4a58-b0a1-bda8802dcb74@kernel.org>
-Date: Sat, 16 May 2026 21:37:01 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O4rPzPP8"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-67be871ed3fso2713236a12.1
+        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 13:30:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778963431; x=1779568231; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A2SnpYX99cRNTw4ZpHBuGZFwe81HvPv2StYkxx5LEus=;
+        b=O4rPzPP8AvcB50Ruj6z/Gum87Vt07fVRYdMSmJXXQpPCchpGmULLidYMI+YsNW/51Y
+         +NKxb4M6tY/ngvpSa+8Ygr6lLPD5/8P1dyssjGUvszg6sJd5dtN+i+YSuYZsTQeK/nEJ
+         rSZJTjVtOz9AaddH+jTIc9/ae6IdTMpJOB43SC0YQPLTnpzcYJMLETxVsqt6y86mpcdr
+         117vQZh2YjGXincYkqHUA6SB5zpWT+wcKA6+K9zgwvpG9m1LSSDcljzZR9Zf3gnwIZnq
+         iJCuA7z0EB3nQHWI1miK3MAU1N5sdgsxCQhb2IbTIE/f7koE6Dta+S2xIosXQkf5jGK8
+         MiqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778963431; x=1779568231;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A2SnpYX99cRNTw4ZpHBuGZFwe81HvPv2StYkxx5LEus=;
+        b=bzd3pUS4DtA+pzq0ras+35vzUMgPXvgqpKx7FsTolTyJ47ZZsTn7y3L/kMO+hcTSit
+         jvNYJy6H3yvTk2NypT7VSMBn2uIja6DqymRgRWqnP3l5mmEoY8iqWyt0yTfgVqcx6VGt
+         SO5SUA6c7W0D6sO8nHjmCqkp+SF4DBrcuEhPc5ehH1nULR8b3D76lj870qlldoeyPedQ
+         DmSlLQkZd4ndY53HZPWu1evL6Z59HF7rD81K43bmmWEhDi3neNfQ5BcM41/z9X1hTbUt
+         hSY5e7V4nW9+nLk5q4aVschQ08xfKbVXayj5xwzOcx+Ls3gl8i+HDC6qbsPqcMKKgmYF
+         l6Pg==
+X-Forwarded-Encrypted: i=1; AFNElJ8HC7y1rdEHWBJkJEhuvkcPbXmhTo+M6cqasIVELCHmGxaFKpJEqKITgPMpE6VbIZpo37zNlm+laD8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+/ydtXEvA2no3P915+GU3qoTMHmNJxO0sfmiAVgQeGCbI8k74
+	cnl7/kJQKpzkHfceaDyYX+mfubm/7sKKQru3sBjDwyC4NdjzxrevPqYt
+X-Gm-Gg: Acq92OGboYcG6Hi+/Sca3+/qtWjqZbQK/nTes8GUMb/iE/NCyTR408kAUALz7Wi7rnT
+	H4xGmLPRn6VjzjG4pCXXOY/lkaowB0AbT139Aiak9o/xBOMFH2An/AlP1yX2IxGAmmuVLMnaI/o
+	G4hKdz+W39hRKPp7UoWNRN6q+6xWwaOm5ucLBQIMxNTwBKscavS425/O+1znWN1qKXXNbn5ymiv
+	HIzu4EbY/uqMvdTZ5CiDHWtAx+LBUew7ThmRiqQkpuoo5C0KfTtd5KCqwuR3mpwVXfAS+pxvsrB
+	/7O78QnnlTnRVSNSzNQCRAhW3vMzCvfvcRAR8XPXod8tZwv0j3plclnetzwmNh6zJETg8tr1FI8
+	BfBTzpyfEZSyJWVC5T3tXHITb8XT7c6w88sdcWrbbBtuJ+aiEyhXXiG8IWNdZLzITcXl4xbIQup
+	7hiHhcOma4Usn9
+X-Received: by 2002:a17:907:388b:b0:bcb:cc44:e144 with SMTP id a640c23a62f3a-bd517967f9cmr421444866b.24.1778963430906;
+        Sat, 16 May 2026 13:30:30 -0700 (PDT)
+Received: from Godswill ([102.90.99.61])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4bcf492sm382423766b.6.2026.05.16.13.30.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 May 2026 13:30:29 -0700 (PDT)
+From: Godswill Onwusilike <onwusilikegodswill@gmail.com>
+To: David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Godswill Onwusilike <onwusilikegodswill@gmail.com>
+Subject: [PATCH] docs: gpu: drm-uapi: fix spelling of "unprivileged"
+Date: Sat, 16 May 2026 21:30:15 +0100
+Message-ID: <20260516203015.33466-1-onwusilikegodswill@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] Documentation: fix typo in heading for max31730
-To: Guenter Roeck <linux@roeck-us.net>, Hassan Maazu <maazudev@proton.me>
-Cc: "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <hGgiFItk4iaav9-zfXL4hA_EVmxAaZYRbYviXz8aKKzOVAqduObTpd-PvRy1-9Ksuziam1HIXZNEkXbw3znqWX86Lplbq-Axo3fImYbtNZA=@proton.me>
- <ce11a8ba-8ebc-4c09-b6d0-7e98febeae6b@roeck-us.net>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <ce11a8ba-8ebc-4c09-b6d0-7e98febeae6b@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 16/05/2026 14:29, Guenter Roeck wrote:
-> On Sat, May 16, 2026 at 06:00:01AM +0000, Hassan Maazu wrote:
->> Wrong device name used in heading.
->>
-> 
-> That is not a proper commit description.
-But luckily that one-liner was reviewed by Sashiko. :/
+Correct the spelling of "unpriviledged" to "unprivileged" in DRM uAPI documentation.
 
-Best regards,
-Krzysztof
+Signed-off-by: Godswill Onwusilike <onwusilikegodswill@gmail.com>
+---
+ Documentation/gpu/drm-uapi.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 579e87cb9ff7..8717744f0fec 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -568,7 +568,7 @@ ENOSPC:
+ EPERM/EACCES:
+         Returned for an operation that is valid, but needs more privileges.
+         E.g. root-only or much more common, DRM master-only operations return
+-        this when called by unpriviledged clients. There's no clear
++        this when called by unprivileged clients. There's no clear
+         difference between EACCES and EPERM.
+ 
+ ENODEV:
+-- 
+2.53.0
+
