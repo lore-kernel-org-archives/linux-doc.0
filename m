@@ -1,155 +1,111 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6193D6691
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 12:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778933337; cv=pass; b=ssdXTLssgGTawzy3njI2pX6XG88FzIB5OZxuliuH2jmk8wdVi9mmd3t8E3MK5EPleAkl+/qZLEhgg1vFz3igy0SjFGNRiNy/iCStCUyOLQXdBLdoCP2CjLg7ntk0f6OQ0y1x6H2jQ+OxPiRIvzwAuS6wgmhyq42qs9WNA0Ham6E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778933337; c=relaxed/simple;
-	bh=UnZHnr16Ldb8b7+gY3OvT6xRffrGcqKrfxvcPgb6SRk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Nd+0dVDJtm3ZSE7nbJyQCwjCdybbpqKK/HyQBLQFLUp0COXWr0aPKMBXaFXCCQabI0/l8+ByhI0ywaw5cx20QnBHUk/CrBV61RtWAU1DLfE5CowZbue4YsaGr0D0vB8aPqw1ZWefD/Uvwog77RSAeQe08mymfU/yBZizxHG/N6I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VUMu2dqp; arc=pass smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA4E3E16B7
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 12:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778934575; cv=none; b=buSbST4zdb2dOssH7rTLqmzzPkrWP4/k1Pgz1XNGHsYM6JIfCxHXRyg50OWFjR1Rfkk1UbGihCPjF5Hdkm7vTq7RxY9dP+6un40mNP/nv+5tcrAvIcrkLDi38aDUKsxXrTSXn5pJuohrqtoGizq6CW3+Uqi35vS+7acKipzV8YQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778934575; c=relaxed/simple;
+	bh=1rX+FKhKupeqz5h2OPMmrXiIUNApyN55JDPyZD51/sY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PJTzp4z7SYxS87nTeZuiPjF1HIWIwXlB206sKZWwtY3uHYgeYb9zi52teVmyQaDAicTLvjwppiDb/F1gok7hReryEMmwRvNYu6QBJ4oPo6o3AEfVIj04jm9sxBMJhU1EmLg27CmpFaYFXa5lwmF22gbVnXDuQ2avJsGpwR3BpiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T4iXEQ9l; arc=none smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VUMu2dqp"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-6563f83ae9fso1080656d50.1
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 05:08:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778933335; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Okk9iKoME8VLy2oGGLNnQ5xeWXGftQ2pQEAqambw7S15qJQYqzSlP0yd8rPcp0AC7p
-         /ETHjh9oanaO+KZJeLhf88+nRL+/bxs7mi/QQDPoRQQ5U+iB1Cip9CCH23tDWDU93cUg
-         60Lroje8lEfLIlgo/khxdKfgAshNsBytmjvAPRx2AnIEY5v7brCnChO6HwWwu5nBuRCr
-         8g9Z5ABGZIgeZK1UsPNMKWIdWxJWKpr06y6GfCGqmBkiO/tzXvjiQvY7foVTqYLFkT50
-         C1iAcJnYJD9LagCzIceBmtT7ACmgFDj74IHh/0o6WNTm0i31I+WougxJsnvy5sgmgoyq
-         /iJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pXKN0MkYU+n3rTPZHnEN2kaQtyY3hF+mGwCAYWY3s6g=;
-        fh=l4YCxDTiUYvZVAHiP+uoVtSp8iCpD3YFi2LL9wJzVqU=;
-        b=eDs2a4CcmL/eeqXj9ckOxgkzIBmr8kLa3WciPXSo3IkMKS4ihXX8dMxKnsT1kyPylJ
-         LcHp8p79+23q9dYqRLkFq9EuQvUzYbAf5EOTBd1mR1S56SYRSiAh3yt/QtvqcwpE1fXM
-         gdoLpCF7v0KLQqqH738M95uh8dwHM8Kj7wRjdK8v9WLFlTPW5AFXds2DEM7ok3WFurl+
-         wcicFdJ7b9C3zFtXZd6VEWzwkkaltt5MJL+nFF66IY02C+Eds55DjWQtWn1zWeWkCblX
-         KxgBeKh6ngtFjTbPkuT7G89RCF6RZ989GQwEOxsdB3+q5Bw2DqybLS5UwK43x2ryW+KP
-         3H+g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T4iXEQ9l"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-132830d8281so3508972c88.1
+        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 05:29:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778933335; x=1779538135; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pXKN0MkYU+n3rTPZHnEN2kaQtyY3hF+mGwCAYWY3s6g=;
-        b=VUMu2dqpcYG/XSzkhzXBHSbpFNtoHjl/UpICA4xG/acFuVpLV/UR5+FSRQIku0OFXu
-         kFs9o4jDLrtti2Y8bJ+f9Exf37dHstAKNSr7B3UJc7ZyMUqvtibf3KPnlSgVgUVWFZMI
-         KmTfzI9A4mWyLV4HYfqOP98okxgISzjeiPl/HiEhQG+TUJ+NeeBLn4Jiavj55gJQPxqW
-         bVmHOiTMOgVtAJ8bCe7Wafl9PPzAvBLVhn4Ph/xazGLbFd3CwYLRNOv4LxxJfy2NaPme
-         Haztj0m/AZ/3LcncGduWOAFvZ6SOlGkCHPO8xWz5wT20xZ0bbR4GXJy5/ZYE/QdDlSPz
-         kI4g==
+        d=gmail.com; s=20251104; t=1778934573; x=1779539373; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=503Th2kxYcv3cJvOPkWJW0XIgs4g5oDkF5q5qp/92ac=;
+        b=T4iXEQ9ls+0Ib6Csae8zTFs6wB1r2LuDLGe2OouFl4Syrhxk4rGKTSS0qPQL8dkv4o
+         mu78T+mR1U6KKHY//iwbFkJIUFufJBYqpjWuFSW7HZ+H2ocR12hKg5ogcS9TREKzki4k
+         gyZaq8PRUNE8ycztWy7wVKpQ5tsx3Klld2o2nuvdBFlak21CGbDQB5D3FRBTSeJ6jc3s
+         L8NGrTnHcm43HrNNmnl2s9+WfYo66ZmhFuyoDNnGqyVWcmvHtMjauPO6avxL/9z7fE4+
+         X608qDaxVtYSdCLPFfXDbWtgPDMhO0vcWQLgsxed7fkM0ADHS1dZ6Q6MWQ+1pkHebLZZ
+         pmIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778933335; x=1779538135;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pXKN0MkYU+n3rTPZHnEN2kaQtyY3hF+mGwCAYWY3s6g=;
-        b=HZlES+1dWNCAeAvSFHuyF0dIAXDjGktTptDoNM9PS9rQOI5huSDeE+CQ0nkWR3os/V
-         sevwc6ygY6fdX6nacoaiu3zwLj4qlBzhAykgC3VMzrxszJm/zsniPhbt5VeVIoeheqQN
-         aPr1nqWQlzv35GRGh1oGptCAehUJcXOoaZe31UHgsrb7hlb516Rq5YpHkhGzXe1eZ4vZ
-         r+twKfsAqwn1/0ec5iG6O49Vp3h/mSFNVIRHBDCOJzm4rPqDhhISuiVLnlIUAVQuIWwc
-         YaG3jZbieqxMwqnd56fHXZOh90S1hT8nhOiImZfapuD5eDt9tktQSQmeXd7vlvxDccQ1
-         F09A==
-X-Forwarded-Encrypted: i=1; AFNElJ8mXFrhBnyCQpoDi/MYgoSFUAn3S8y00yY4Zkhd45b73Qm2UWM71e11k1vS/cT3AvdCupFkpiTh/mg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNKx6OJ1rfdMLAXYzGuLIFMY7aRNRiS97t965Xh2pUKcX/E+cN
-	JVda3i2o7YklzmcOA/WxGLQtSGqn796sjUlrEQIMgvP+h4osFKh1s1peRLs/COHEtQ5PmfJvYG4
-	ziONnVcamTkmOkc+kBWZ0/U8hcy4RoTc=
-X-Gm-Gg: Acq92OHD/YaIPvGVYYvewXsFl/HJmXFvgLYx8RVejydSAtNqJMXrER3lJHMTD14XJV4
-	+50r/4Mffj02+tV+t4+tgFAu1mhbV7uvatpINiGCpEV2jzuz67N2WbJCpb6xvhY9ap0yYV3yC8j
-	ngGC83EUKopJ2e26RlzR6ZHSrnytXqT1hNNoywdTs1NbTi9e3Uf29TGxYYKK9bP/neTWtCb201k
-	WGewIPFa502kuq1c3aiCveKRFGZshlnJ20jdvX+ErvXKbxlQGUVg9z5u9LPIAud8PqbMDIteurn
-	sD63hD/WCFR88h9a+Jdzv6WLKlI5gYkEUNR3+o1j0dXZ/bvqs5k7Mq1NanM=
-X-Received: by 2002:a53:d015:0:b0:651:c29e:f0b0 with SMTP id
- 956f58d0204a3-65e22701655mr7274124d50.4.1778933335045; Sat, 16 May 2026
- 05:08:55 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778934574; x=1779539374;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=503Th2kxYcv3cJvOPkWJW0XIgs4g5oDkF5q5qp/92ac=;
+        b=a7T8Pz5BgT/zmS7VavjkIXD1fo4grM6JtZUNX8SS/4kK/TM81AQdLQbQzHecofxLN4
+         VpwXxKSkqeHpKmP+a45rQUSkC1VzTAsz6SHz13XAOL7j29E2BxWFf1a7qW1a6eBJWOMM
+         yt1JJRAE6IwVWlJTbHcK5V/JuM+Hg0LjyWjQOSpxBjXBQdSUDkreJuZA93+Zi3/XcQ9K
+         g+Rx7p9iXN7FIkrp5HeEZwW6asktahCCA3ZKAZUiaoFAW6eMd7S+NQQ2Aglf2FE9srH/
+         0gONuY5onguHFkc2I9vpbzAJBODcMHREETRYZlON2ZqI9CBxoQOvhCisiBD44EhR8Cmh
+         J2GQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+kGQXtvhd5xniQZ4cYvT2AUGxwT9wsh/YHgY+x1vmqGV6fqHQ87SwhrGYPryTmnhZUn0LLb+QtxAg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzio/FAYXTKDsqIT5N7XrJ1RakqhJTniIHwdoRDiE+RXFhG1Ve9
+	ypgyRepWxwjePb5eyF2KrorhjnUmyVChHizibbIImhQDI+ykGQ44rV7E
+X-Gm-Gg: Acq92OFEzs351pMM73gamdLh8cGuj2rEGaN7lApgNpLa5BgNkFd9lxU24ZuUUJkE0dZ
+	bHh4A25XClXO4g+CItMxstdnb1SA+p6ylrm1GaXk4CwH/FNU/Qv5moc5oEVbYjMb1btfwY2dqwz
+	gtUPTHd4/cw2aAEbUS7W4nIWgVkNKc5wIjuy6J7iDQRk+tCMpMMHfVJlG9AeTS6LcWVZQQ4Zntg
+	KgMjOguf5xfv20Et1wczzK2MvbcZH2Vqfv9E2KZO65PFaMBTKQ7e5WcqvZLl/12terBQrzRGng4
+	yztxNJAevL0DS3wJ6ovlPcRyjuhX1W51naqfC6gn/olxbK2rvBQd1t60O36Q0myCNoV1/u8tO0A
+	VCo36cABcB/HqjoDNgOOEvvhYAKzfxIdVbfmbiDfW7C+BbKAVwirStteQ0FJeZGW3co8jKhvm0y
+	a3Yjl5XwrilotbyjRjew4Qqv+KZGheGczQorap
+X-Received: by 2002:a05:7022:688d:b0:128:d4be:7438 with SMTP id a92af1059eb24-1350552c64cmr3517301c88.30.1778934573614;
+        Sat, 16 May 2026 05:29:33 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cc2351c3sm14539548c88.11.2026.05.16.05.29.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 May 2026 05:29:33 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sat, 16 May 2026 05:29:32 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Hassan Maazu <maazudev@proton.me>
+Cc: "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RESEND] Documentation: fix typo in heading for max31730
+Message-ID: <ce11a8ba-8ebc-4c09-b6d0-7e98febeae6b@roeck-us.net>
+References: <hGgiFItk4iaav9-zfXL4hA_EVmxAaZYRbYviXz8aKKzOVAqduObTpd-PvRy1-9Ksuziam1HIXZNEkXbw3znqWX86Lplbq-Axo3fImYbtNZA=@proton.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
- <20260516-jorth-syncobj-v1-12-88ede9d98a81@gmail.com> <2026051652-pork-omission-b762@gregkh>
-In-Reply-To: <2026051652-pork-omission-b762@gregkh>
-From: Julian Orth <ju.orth@gmail.com>
-Date: Sat, 16 May 2026 14:08:44 +0200
-X-Gm-Features: AVHnY4LliAXwIRGSinLMXXpk0k3pE4bCMnvt3uyz5Wz7sqrJHyVxIP5cb_UqBE8
-Message-ID: <CAHijbEU3+3ZoxTuUCkJx=a75_yNxt2Nn3UKU7gbS-Xf1bPqBUg@mail.gmail.com>
-Subject: Re: [PATCH 12/12] misc/syncobj: add new device
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	wayland-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <hGgiFItk4iaav9-zfXL4hA_EVmxAaZYRbYviXz8aKKzOVAqduObTpd-PvRy1-9Ksuziam1HIXZNEkXbw3znqWX86Lplbq-Axo3fImYbtNZA=@proton.me>
 
-On Sat, May 16, 2026 at 1:38=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Sat, May 16, 2026 at 01:06:15PM +0200, Julian Orth wrote:
-> > This device makes the DRM_IOCTL_SYNCOBJ_* ioctls available via a
-> > dedicated device. This allows applications to use syncobjs without
-> > having to open device nodes in /dev/dri, on systems that don't have any
-> > such nodes, or on systems whose devices don't support the
-> > DRIVER_SYNCOBJ_TIMELINE feature.
-> >
-> > Wayland uses syncobjs as its buffer synchronization mechanism. Most
-> > compositors use the DRM_IOCTL_SYNCOBJ_EVENTFD ioctl to perform a pure
-> > CPU wait for syncobj point. DRM devices are not involved in this proces=
-s
-> > except insofar that a DRM device needs to be used to access the ioctl.
-> >
-> > Similarly, a software-rendered client might perform rendering on a
-> > dedicated thread and use the wayland syncobj protocol to submit frames
-> > before they finish rendering. Again, this does not involve DRM devices
-> > except insofar ... as above.
-> >
-> > As an added benefit, this device removes the need to translate between
-> > file descriptors and handles.
-> >
-> > Signed-off-by: Julian Orth <ju.orth@gmail.com>
-> > ---
-> >  Documentation/userspace-api/ioctl/ioctl-number.rst |   1 +
-> >  drivers/misc/Kconfig                               |  10 +
-> >  drivers/misc/Makefile                              |   1 +
-> >  drivers/misc/syncobj.c                             | 404 +++++++++++++=
-++++++++
-> >  include/uapi/linux/syncobj.h                       |  75 ++++
-> >  5 files changed, 491 insertions(+)
->
-> As this is a bunch of user-facing code, why not do this in rust to at
-> least get some semblance of proper parsing of user data sanity?  Or is
-> the api to the drm layer just to complex for that at the moment?
+On Sat, May 16, 2026 at 06:00:01AM +0000, Hassan Maazu wrote:
+> Wrong device name used in heading.
+> 
 
-I didn't consider using rust because I'm not familiar with rust in the kern=
-el.
+That is not a proper commit description.
 
-But even if I had considered it, I probably would not have done it
-because drm_syncobj currently has no rust bindings. The driver as-is
-is just a thin layer around drm_syncobj.c so if drm_syncobj gains rust
-bindings it should be easy to convert the driver.
+> Signed-off-by: Hassan Maazu <maazudev@proton.me>
 
->
-> Just curious, not a criticism of this in C at all.
->
-> thanks,
->
-> greg k-h
+... and you dropped an Acked-by:.
+
+Guenter
+
+> ---
+>  Documentation/hwmon/max31730.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --
+> 2.54.0
+> 
+> diff --git a/Documentation/hwmon/max31730.rst b/Documentation/hwmon/max31730.rst
+> index 1c5a32b64187..0936ba2eac24 100644
+> --- a/Documentation/hwmon/max31730.rst
+> +++ b/Documentation/hwmon/max31730.rst
+> @@ -1,4 +1,4 @@
+> -Kernel driver max31790
+> +Kernel driver max31730
+>  ======================
+> 
+>  Supported chips:
