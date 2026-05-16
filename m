@@ -1,64 +1,64 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6175329E117
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 04:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DDC2D77E6
+	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 04:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778905729; cv=none; b=R/KCANSWEUp1BIkhLTy/8XAv06w5M+Y98T8Id/ANVQvQJ3FehtxVtXyYgt6K8I7mglXvjlPnCBGv9GdZ3+IPjAbNWEb1NaoH8CNQSIo7nF8gbt6poXikJ9Nn6gbBY2s1fxG/8a+KNtUaksA08ADVztdg7LBwy171FiPVDlsaZyc=
+	t=1778905730; cv=none; b=B27oEx6IbyR5KwUB+JOT9dFsoTgSaVAzGBsbocSTGf7PySzISbVT3DRGpHsVxrru6mu/wJ6frRaCpIkC+tbwELYkT9SFw60X1dqS90OAwRfQ/+ZmhEQB++u+iB43oij9k4um2eULGVilAN+2IE0DgznBvc6Tmyls5LcGu9eSi1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778905729; c=relaxed/simple;
-	bh=RICv2uQYT0l/8kKuw5PHNQu6VoO25z0NvP59VIwjWKc=;
+	s=arc-20240116; t=1778905730; c=relaxed/simple;
+	bh=C6Lq0h4SS9j4in/A2lWUcjRwSZvwrE9MweGfH3l6bDA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uMV7pnXtscpiLQFkdnFKfM0qeubLlxV0EI3mZxGz1zf4kLH30s5tIrux1+Byo/aaiqwNKG0Ig62GN0mfaO+wl4fX1DuPycjRHI6a7QLrkqzxJhAOHHggWeObdjNZVL5YkXoyyIi855Q66cTzBZZl3bpd8cTwsdJgVIhyhku5RX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XIL+8HLr; arc=none smtp.client-ip=74.125.82.48
+	 MIME-Version; b=G9M6kGHc7VEZ0bU0gQSdD1/Z79UM2kXllBex82XEGz6fA1tap9TNV3J/p+akl3mnzr8kivDnIGw/lPw6W/mhDO2+UvjVUeKxcT6Nn0V1S4koIT7ocFcIP5QJw4sYi7/HFani0pGLPkr5d+K1u+UMZ+d3S/ESRnHEmmJtCG+ETMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G4IRebr3; arc=none smtp.client-ip=74.125.82.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XIL+8HLr"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1334825de43so400732c88.0
-        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 21:28:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G4IRebr3"
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-12c88e5f4aeso234003c88.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 May 2026 21:28:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778905725; x=1779510525; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778905727; x=1779510527; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0wzKDjjUei9kASpqvmNxqBhlpaDAOPbC46E9Kejq29Q=;
-        b=XIL+8HLrl561jkUpIpHjasiOkM7Ka0gRQGhaUGW5HyveV2oEgVD9ESWxuId3g6mqyy
-         wmW5YFAGIu3BjL8Hb1K8RxjLVn9q906Iesmq+v9Kflrc1arvQE6MC9Co6jkP8+HMXN2S
-         M3efVPj0ay+q5aKoBdQtvNqeyFKtnqnyomeeE+Sms4QPjXn7KOzDqypjRnjDbmtpesbF
-         khc/KnDdwHtzl0/FGZoyPnOkOHJU7lndZ8Wswdxs36M33j1RnJtZ+bEwTojG9kCVC9g0
-         N2auED4JTIm1+RfRA8GvSpwpsK01H7005oreHVzXf2N3mNecBmwZoxDNI+O14+x8jz/d
-         fyDA==
+        bh=g1H7d34SPfoyNYAsdLlRjLA1ck6QmOr366cYvcoN9Rk=;
+        b=G4IRebr36wcZ1EC7Q2sKRb6g297Qpb9QtvSRcdGu4HY5n0zbrzU3ci0vXCSaBKjOyn
+         noRnRSEhGj8V38BQOkMJDkKaG2664oQAU48l3oDaHTh/M0JQyxzqlCGtLkDi7hs8zqKV
+         Zquo1Toh12vVLkuNTgOyX8MyK+HYpvnOy9F0X12X6McqnY9Zsf5Vis0ayiArv0zf2k3m
+         rfDcNnDp+dKLPc+NjpIPdId7afG4V59z/2BsdpmNGA/On87CMbwb2vQDypkTYgdU1/1p
+         5vuKJ0kcFEvtxbMNOHkHu7v3guLyK/+7w4d2eLVx1cVcdOMjaGyhtIO3zu9g/I2y109h
+         jbAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778905725; x=1779510525;
+        d=1e100.net; s=20251104; t=1778905727; x=1779510527;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0wzKDjjUei9kASpqvmNxqBhlpaDAOPbC46E9Kejq29Q=;
-        b=iOnXM9zIEypBEM/vW37QlMVeNe6YMMNsdaOcmMteX4G/3v4m+1cUAz912MZKe+lwFL
-         ooiczuVHabaEW1hK7PP3Qp300X/CB6mjZ1ds68QyMVqhuzN1/FO1kdjP2aGq05x2I9/A
-         k187JjiBfY6Jx6cfZ0B/Qd16N8iOdB/D0+Jibje3WRjK0DfnSniCeVxNoPWyLCPOFHcn
-         1Z/3vdyDLpfFevFByfIoUfT/KMgz/8uexrgWzIjlc+NAILN3lKHBwz8DQBE6C20pLNLl
-         /wj602rUGyC+abNJhkmdfvbTm3bkcUADcfXE299lHHwo8rc7OyVK5r3AIczPvcEGUL4E
-         m5Eg==
-X-Forwarded-Encrypted: i=1; AFNElJ/dUx9p4cqyKzpXUtovYVyImeoYj4W4m4reT/oFhPwjfAUNNWR2/2U/iX4nN+OZzJbl2JtDc1m8n68=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycJ+VmMskCjtyMHKAQ6lWG64dyCBKk+BhYLYDNDeiDrbYmyT6v
-	25bGPT+J+A8mao5w1oy3GWA193YmeuTtrx2M8luwxhzK6TUcEtrxdEdu
-X-Gm-Gg: Acq92OFZjAUsTJNj21Jop8LDVJv5niLi7xgFIz8AaAEtihNDlW264aHWhjfC39BD3i0
-	f7PafscxSWkKneFmte6DRTRYeoMzZkgW06A1b7DQh52ouq+rCA29ZBfJhEVA6OU858tyxo3y4IN
-	rtUYDfSO2Q5BSTDWoCOqjbxvT2qyanNp6d7VZgwYTKN/FbhH65EDFe0TYG9fqUO/DX8rBKNZw1p
-	C7Us1B5zmsKxr2yLrsZXkZrMuDke2pkJUh6r1C1lTk2CYthBEjp2hxd2KmDSTdrudZ7qpHAAVT2
-	kvyKTjzcTsxrbh+qDk2MNSD3dwOEPLhAj5T7+AMM6I7Csm3R5dw0ChnBUTxGeoxAmm4m5gVpJt3
-	E6J/2RJBlYAWsAjJoq2bNQzD39dBORRHLAkPc/HXBjVoYAsZUOAZmjU8Pa33iEJHt+wflpej3mc
-	kJxNBS1rxJZWSRU34qZXqGLGgJv8QU+79igPTjjxZdCt2YkF9FzRR01KrmY79ObO/g+EV8PCMNG
-	Oo4nuTLsprDa6Q=
-X-Received: by 2002:a05:7022:439e:b0:12c:44a5:fb4f with SMTP id a92af1059eb24-13504c605eamr3199543c88.10.1778905725342;
-        Fri, 15 May 2026 21:28:45 -0700 (PDT)
+        bh=g1H7d34SPfoyNYAsdLlRjLA1ck6QmOr366cYvcoN9Rk=;
+        b=h+Ujjq5rRjehCOor4d+uRZ0urivKkW9gNWzcTqxL4/zOuPTzgMGUHoCFDm4ldxEPGD
+         WaaXHc2Cx9kp3gawRhDlAMR+5d0oiVVyJ+q51RZdoIeaE020OzUBkfNHY7WbxvG1/39d
+         Xb7YhGoWEw3YyeovC/2pFLkCGGIOPRkPqD5XrJRjWsOZXNwBqbbAzZlQZxVlj9dEedTb
+         bcEwQRgXl5TAtOZ6rwnh7OFg2RuNOeNH1msOi2or18eXeuacwBJP/ii0LX9D6b8tI2PL
+         3LdfOZv9A2sVcHQ9Llp/w479seu1LYNn/NqLIJm4MqTYptZl1kbP6tO+UFMOeh6ePs7t
+         2S6w==
+X-Forwarded-Encrypted: i=1; AFNElJ+ekMNLAZA7kVt7sr1RfZ96Q/sF3VFMCB254jcDvpygAcJBr/lKkgP7w9deruResbbfMkUfTJo5dK4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTuU40NFcqans3VlkNCtCikVH6+cSZFDDbUF9WE+F30g/jTE2g
+	0Z9gRo0ZfT4ekJPXdBTG5WFbOVZAyULWvfnWcBx0R3xZWvxZrYG9c1/m
+X-Gm-Gg: Acq92OFNr8RDnqNlFdc1Q+0s/FcnJs00xatGXTLkg1WOe1Yce15UECaXt1BhSeyn3ix
+	YATBYEPddyrdmdQIwvtnZbDt9xUE+4cu21MO4r4Gxfj300uPhZNm9gcJKlngUvBVZeWn5UvNSbA
+	PP+IkJ8OVbm1swbWwmVDzsQdrRtV66D2IHQHDgIUOuhxjKY/EwtosmnjOX3gxoD9rT81nCCj/9f
+	3PW9RHJF8FCNyTF2aG2OB7vMFk0lnGo7eH08zTzINbDDV+QZ/oO5xGiNU4D/f0pCB1TA09cBIIz
+	WYx1tYyo4M1HkhqWomPnE8F7axoS2cY4A3H4acV8YTBnRgxLOydd1v3AF2yRWu0u450r2xRbbuz
+	g3znAmaGbu1ByTNGWdAX9pDHBcsAgAp2/q6tViXIf04DYqeGK+UF2qcS+khS2QnEAGO3wTny5u9
+	VRD4GzBk03Ep13TrvGbEwADgVaRCKfUo92wpJCrdQVqc9I2LqeEqUfuIw4Ec0+byMKCManvL2aF
+	WzA
+X-Received: by 2002:a05:7022:f102:b0:132:d1d:ef5a with SMTP id a92af1059eb24-134c8c3e3c7mr5070102c88.12.1778905726961;
+        Fri, 15 May 2026 21:28:46 -0700 (PDT)
 Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cbed2232sm13260185c88.7.2026.05.15.21.28.44
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cbed2232sm13260185c88.7.2026.05.15.21.28.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 21:28:45 -0700 (PDT)
+        Fri, 15 May 2026 21:28:46 -0700 (PDT)
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>
@@ -69,9 +69,9 @@ Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
 	linux-input@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/4] HID: hid-msi: Add MSI Claw configuration driver
-Date: Sat, 16 May 2026 04:28:38 +0000
-Message-ID: <20260516042841.500299-2-derekjohn.clark@gmail.com>
+Subject: [PATCH v4 3/4] HID: hid-msi: Add RGB control interface
+Date: Sat, 16 May 2026 04:28:40 +0000
+Message-ID: <20260516042841.500299-4-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260516042841.500299-1-derekjohn.clark@gmail.com>
 References: <20260516042841.500299-1-derekjohn.clark@gmail.com>
@@ -83,488 +83,520 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds configuration HID driver for the MSI Claw series of handheld PC's.
-In this initial patch add the initial driver outline and attributes for
-changing the gamepad mode, M-key behavior, and add a WO reset function.
+Adds RGB control interface for MSI Claw devices. The MSI Claw uses a
+fairly unique RGB interface. It has 9 total zones (4 per joystick ring
+and 1 for the ABXY buttons), and supports up to 8 sequential frames of
+RGB zone data. Each frame is written to a specific area of MCU memory by
+the profile command, the value of which changes based on the firmware of
+the device. Unlike other devices (such as the Legion Go or the OneXPlayer
+devices), there are no hard coded effects built into the MCU. Instead,
+the basic effects are provided as a series of frame data. I have
+mirrored the effects available in Windows in this driver, while keeping
+the effect names consistent with the Lenovo drivers for the effects that
+are similar.
 
-Sending the SWITCH_MODE and RESET commands causes a USB disconnect in
-the device. The completion will therefore never get hit and would trigger
-an -EIO. To avoid showing the user an error for every write to these
-attrs a bypass for the completion handling is introduced when timeout ==
-0.
-
-The initial version of this patch was written by Denis Benato, which
-contained the initial reverse-engineering and implementation for the
-gamepad mode switching. This work was later expanded by Zhouwang Huang
-to include more gamepad modes. Finally, I refactored the drivers data
-in/out flow and overall format to conform to kernel driver best
-practices and style guides. Claude was used as an initial reviewer of
-this patch.
+Initial reverse-engineering and implementation of this feature was done
+by Zhouwang Huang. I refactored the overall format to conform to kernel
+driver best practices and style guides. Claude was used as an initial
+reviewer of this patch.
 
 Assisted-by: Claude:claude-sonnet-4-6
-Co-developed-by: Denis Benato <denis.benato@linux.dev>
-Signed-off-by: Denis Benato <denis.benato@linux.dev>
 Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
 Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
 Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 ---
 v4:
-  - Add msi_suspend/claw_suspend.
-  - Reorder claw_remove to cancel all work before removing sysfs.
-  - Add mutex lock for removing sysfs attributes.
-  - Add mutex lock for MODE command data read/write.
+  - Fix frame_calc validity check to use >=.
+  - USe spinlock instead of mutex in raw_event and related attribute
+    _store function.
+  - Ensure delayed work is canceled in suspend & canceled before sysfs
+    attribute removal.
 v3:
-  - Ensure claw_hw_output_report is properly guarded.
-  - Reoder claw_probe to ensure all mutex, completion, and variable
-    assignments are in place prior to setting drvdata.
-  - Ensure gamepad_mode is set to a valid enum value in claw_probe.
+  - Add mutex for read/write of rgb frame data.
+  - Remove setting rgb_frame_count when reading rgb profiles as it always
+    returns garbage data.
+  - Ensure rgb_speed is getting drvdata from a valid lookup (not hdev).
 v2:
-  - Rename driver to hid-msi from hid-msi-claw.
-  - Rename reusable/generic functions to msi_* from claw_*, retaining
-    claw specific functions.
-  - Add generic entrypoints for probe, remove, and raw event that route
-    to claw specific functions.
+  - Use pending_profile mutex
 ---
- MAINTAINERS           |   6 +
- drivers/hid/Kconfig   |  12 +
- drivers/hid/Makefile  |   1 +
- drivers/hid/hid-ids.h |   6 +
- drivers/hid/hid-msi.c | 625 ++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 650 insertions(+)
- create mode 100644 drivers/hid/hid-msi.c
+ drivers/hid/hid-msi.c | 549 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 544 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6f6517bf4f970..8e2de98b768f7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17965,6 +17965,12 @@ S:	Odd Fixes
- F:	Documentation/devicetree/bindings/net/ieee802154/mrf24j40.txt
- F:	drivers/net/ieee802154/mrf24j40.c
- 
-+MSI HID DRIVER
-+M:	Derek J. Clark <derekjohn.clark@gmail.com>
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	drivers/hid/hid-msi.c
-+
- MSI EC DRIVER
- M:	Nikita Kravets <teackot@gmail.com>
- L:	platform-driver-x86@vger.kernel.org
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 10c12d8e65579..af146691bd481 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -492,6 +492,18 @@ config HID_GT683R
- 	Currently the following devices are know to be supported:
- 	  - MSI GT683R
- 
-+config HID_MSI
-+	tristate "MSI Claw Gamepad Support"
-+	depends on USB_HID
-+	select LEDS_CLASS
-+	select LEDS_CLASS_MULTICOLOR
-+	help
-+	Support for the MSI Claw RGB and controller configuration
-+
-+	Say Y here to include configuration interface support for the MSI Claw Line
-+	of Handheld Console Controllers. Say M here to compile this driver as a
-+	module. The module will be called hid-msi.
-+
- config HID_KEYTOUCH
- 	tristate "Keytouch HID devices"
- 	help
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index 07dfdb6a49c59..80925a17b059c 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -92,6 +92,7 @@ obj-$(CONFIG_HID_MAYFLASH)	+= hid-mf.o
- obj-$(CONFIG_HID_MEGAWORLD_FF)	+= hid-megaworld.o
- obj-$(CONFIG_HID_MICROSOFT)	+= hid-microsoft.o
- obj-$(CONFIG_HID_MONTEREY)	+= hid-monterey.o
-+obj-$(CONFIG_HID_MSI)		+= hid-msi.o
- obj-$(CONFIG_HID_MULTITOUCH)	+= hid-multitouch.o
- obj-$(CONFIG_HID_NINTENDO)	+= hid-nintendo.o
- obj-$(CONFIG_HID_NTI)			+= hid-nti.o
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 933b7943bdb50..6d0d34806931f 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1047,7 +1047,13 @@
- #define USB_DEVICE_ID_MOZA_R16_R21_2	0x0010
- 
- #define USB_VENDOR_ID_MSI		0x1770
-+#define USB_VENDOR_ID_MSI_2		0x0db0
- #define USB_DEVICE_ID_MSI_GT683R_LED_PANEL 0xff00
-+#define USB_DEVICE_ID_MSI_CLAW_XINPUT	0x1901
-+#define USB_DEVICE_ID_MSI_CLAW_DINPUT	0x1902
-+#define USB_DEVICE_ID_MSI_CLAW_DESKTOP	0x1903
-+#define USB_DEVICE_ID_MSI_CLAW_BIOS	0x1904
-+
- 
- #define USB_VENDOR_ID_NATIONAL_SEMICONDUCTOR 0x0400
- #define USB_DEVICE_ID_N_S_HARMONY	0xc359
 diff --git a/drivers/hid/hid-msi.c b/drivers/hid/hid-msi.c
-new file mode 100644
-index 0000000000000..1bf1d6150f4fd
---- /dev/null
+index bc0169c992ae8..8ea8f551b8e43 100644
+--- a/drivers/hid/hid-msi.c
 +++ b/drivers/hid/hid-msi.c
-@@ -0,0 +1,625 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ *  HID driver for MSI Claw Handheld PC gamepads.
-+ *
-+ *  Provides configuration support for the MSI Claw series of handheld PC
-+ *  gamepads. Multiple iterations of the device firmware has led to some
-+ *  quirks for how certain attributes are handled. The original firmware
-+ *  did not support remapping of the M1 (right) and M2 (left) rear paddles.
-+ *  Additionally, the MCU RAM address for writing configuration data has
-+ *  changed twice. Checks are done during probe to enumerate these variances.
-+ *
-+ *  Copyright (c) 2026 Zhouwang Huang <honjow311@gmail.com>
-+ *  Copyright (c) 2026 Denis Benato <denis.benato@linux.dev>
-+ *  Copyright (c) 2026 Valve Corporation
-+ */
+@@ -21,10 +21,13 @@
+ #include <linux/device.h>
+ #include <linux/hid.h>
+ #include <linux/kobject.h>
++#include <linux/led-class-multicolor.h>
+ #include <linux/leds.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/pm.h>
++#include <linux/spinlock.h>
++#include <linux/spinlock_types.h>
+ #include <linux/sysfs.h>
+ #include <linux/types.h>
+ #include <linux/unaligned.h>
+@@ -43,6 +46,10 @@
+ 
+ #define CLAW_KEYS_MAX		5
+ 
++#define CLAW_RGB_ZONES		9
++#define CLAW_RGB_MAX_FRAMES	8
++#define CLAW_RGB_FRAME_OFFSET	0x24
 +
-+#include <linux/array_size.h>
-+#include <linux/cleanup.h>
-+#include <linux/completion.h>
-+#include <linux/container_of.h>
-+#include <linux/device.h>
-+#include <linux/hid.h>
-+#include <linux/kobject.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/pm.h>
-+#include <linux/sysfs.h>
-+#include <linux/types.h>
-+#include <linux/unaligned.h>
-+#include <linux/usb.h>
-+#include <linux/workqueue.h>
-+
-+#include "hid-ids.h"
-+
-+#define CLAW_OUTPUT_REPORT_ID	0x0f
-+#define CLAW_INPUT_REPORT_ID	0x10
-+
-+#define CLAW_PACKET_SIZE	64
-+
-+#define CLAW_DINPUT_CFG_INTF_IN	0x82
-+#define CLAW_XINPUT_CFG_INTF_IN	0x83
-+
-+enum claw_command_index {
-+	CLAW_COMMAND_TYPE_READ_PROFILE =		0x04,
-+	CLAW_COMMAND_TYPE_READ_PROFILE_ACK =		0x05,
-+	CLAW_COMMAND_TYPE_ACK =				0x06,
-+	CLAW_COMMAND_TYPE_WRITE_PROFILE_DATA =		0x21,
-+	CLAW_COMMAND_TYPE_SYNC_TO_ROM =			0x22,
-+	CLAW_COMMAND_TYPE_SWITCH_MODE =			0x24,
-+	CLAW_COMMAND_TYPE_READ_GAMEPAD_MODE =		0x26,
-+	CLAW_COMMAND_TYPE_GAMEPAD_MODE_ACK =		0x27,
-+	CLAW_COMMAND_TYPE_RESET_DEVICE =		0x28,
+ enum claw_command_index {
+ 	CLAW_COMMAND_TYPE_READ_PROFILE =		0x04,
+ 	CLAW_COMMAND_TYPE_READ_PROFILE_ACK =		0x05,
+@@ -71,6 +78,7 @@ enum claw_profile_ack_pending {
+ 	CLAW_NO_PENDING,
+ 	CLAW_M1_PENDING,
+ 	CLAW_M2_PENDING,
++	CLAW_RGB_PENDING,
+ };
+ 
+ enum claw_key_index {
+@@ -228,6 +236,22 @@ static const struct {
+ 	{ 0xce, "REL_WHEEL_DOWN" },
+ };
+ 
++enum claw_rgb_effect_index {
++	CLAW_RGB_EFFECT_MONOCOLOR,
++	CLAW_RGB_EFFECT_BREATHE,
++	CLAW_RGB_EFFECT_CHROMA,
++	CLAW_RGB_EFFECT_RAINBOW,
++	CLAW_RGB_EFFECT_FROSTFIRE,
 +};
 +
-+enum claw_gamepad_mode_index {
-+	CLAW_GAMEPAD_MODE_XINPUT =	0x01,
-+	CLAW_GAMEPAD_MODE_DINPUT =	0x02,
-+	CLAW_GAMEPAD_MODE_DESKTOP =	0x04,
++static const char * const claw_rgb_effect_text[] = {
++	[CLAW_RGB_EFFECT_MONOCOLOR] =	"monocolor",
++	[CLAW_RGB_EFFECT_BREATHE] =	"breathe",
++	[CLAW_RGB_EFFECT_CHROMA] =	"chroma",
++	[CLAW_RGB_EFFECT_RAINBOW] =	"rainbow",
++	[CLAW_RGB_EFFECT_FROSTFIRE] =	"frostfire",
 +};
 +
-+static const char * const claw_gamepad_mode_text[] = {
-+	[CLAW_GAMEPAD_MODE_XINPUT] =	"xinput",
-+	[CLAW_GAMEPAD_MODE_DINPUT] =	"dinput",
-+	[CLAW_GAMEPAD_MODE_DESKTOP] =	"desktop",
+ static const u16 button_mapping_addr_old[] = {
+ 	0x007a,  /* M1 */
+ 	0x011f,  /* M2 */
+@@ -238,6 +262,9 @@ static const u16 button_mapping_addr_new[] = {
+ 	0x0164,  /* M2 */
+ };
+ 
++static const u16 rgb_addr_old = 0x01fa;
++static const u16 rgb_addr_new = 0x024a;
++
+ struct claw_command_report {
+ 	u8 report_id;
+ 	u8 padding[2];
+@@ -246,6 +273,28 @@ struct claw_command_report {
+ 	u8 data[59];
+ } __packed;
+ 
++struct rgb_zone {
++	u8 red;
++	u8 green;
++	u8 blue;
 +};
 +
-+enum claw_mkeys_function_index {
-+	CLAW_MKEY_FUNCTION_MACRO,
-+	CLAW_MKEY_FUNCTION_COMBO,
-+	CLAW_MKEY_FUNCTION_DISABLED,
++struct rgb_frame {
++	struct rgb_zone zone[CLAW_RGB_ZONES];
 +};
 +
-+static const char * const claw_mkeys_function_text[] = {
-+	[CLAW_MKEY_FUNCTION_MACRO] =	"macro",
-+	[CLAW_MKEY_FUNCTION_COMBO] =	"combination",
-+	[CLAW_MKEY_FUNCTION_DISABLED] =	"disabled",
-+};
-+
-+struct claw_command_report {
-+	u8 report_id;
-+	u8 padding[2];
-+	u8 header_tail;
-+	u8 cmd;
-+	u8 data[59];
++struct rgb_report {
++	u8 profile;
++	__be16 read_addr;
++	u8 frame_bytes;
++	u8 padding;
++	u8 frame_count;
++	u8 state; /* Always 0x09 */
++	u8 speed;
++	u8 brightness;
++	struct rgb_frame zone_data;
 +} __packed;
 +
-+struct claw_drvdata {
-+	/* MCU General Variables */
-+	struct completion send_cmd_complete;
-+	struct delayed_work cfg_resume;
-+	struct delayed_work cfg_setup;
-+	struct hid_device *hdev;
-+	struct mutex mode_mutex; /* mutex for mode calls */
-+	struct mutex cfg_mutex; /* mutex for synchronous data */
-+	u8 ep;
+ struct claw_drvdata {
+ 	/* MCU General Variables */
+ 	enum claw_profile_ack_pending profile_pending;
+@@ -257,6 +306,7 @@ struct claw_drvdata {
+ 	struct mutex mode_mutex; /* mutex for mode calls */
+ 	struct mutex cfg_mutex; /* mutex for synchronous data */
+ 	struct mutex rom_mutex; /* mutex for SYNC_TO_ROM calls */
++	spinlock_t frame_lock; /* lock for read/write rgb_frames */
+ 	u16 bcd_device;
+ 	u8 ep;
+ 
+@@ -267,6 +317,16 @@ struct claw_drvdata {
+ 	u8 m2_codes[CLAW_KEYS_MAX];
+ 	const u16 *bmap_addr;
+ 	bool bmap_support;
 +
-+	/* Gamepad Variables */
-+	enum claw_mkeys_function_index mkeys_function;
-+	enum claw_gamepad_mode_index gamepad_mode;
-+};
++	/* RGB Variables */
++	struct rgb_frame rgb_frames[CLAW_RGB_MAX_FRAMES];
++	enum claw_rgb_effect_index rgb_effect;
++	struct led_classdev_mc led_mc;
++	struct delayed_work rgb_queue;
++	u8 rgb_frame_count;
++	bool rgb_enabled;
++	u8 rgb_speed;
++	u16 rgb_addr;
+ };
+ 
+ static int get_endpoint_address(struct hid_device *hdev)
+@@ -298,8 +358,11 @@ static int claw_gamepad_mode_event(struct claw_drvdata *drvdata,
+ 
+ static int claw_profile_event(struct claw_drvdata *drvdata, struct claw_command_report *cmd_rep)
+ {
+-	u8 *codes;
+-	int i;
++	struct rgb_report *frame;
++	u16 rgb_addr, read_addr;
++	u8 *codes, f_idx;
++	u16 frame_calc;
++	int i, ret = 0;
+ 
+ 	switch (drvdata->profile_pending) {
+ 	case CLAW_M1_PENDING:
+@@ -309,15 +372,46 @@ static int claw_profile_event(struct claw_drvdata *drvdata, struct claw_command_
+ 		for (i = 0; i < CLAW_KEYS_MAX; i++)
+ 			codes[i] = (cmd_rep->data[6 + i]);
+ 		break;
++	case CLAW_RGB_PENDING:
++		frame = (struct rgb_report *)cmd_rep->data;
++		rgb_addr = drvdata->rgb_addr;
++		read_addr = be16_to_cpu(frame->read_addr);
++		frame_calc = (read_addr - rgb_addr) / CLAW_RGB_FRAME_OFFSET;
++		if (frame_calc >= CLAW_RGB_MAX_FRAMES) {
++			dev_err(drvdata->led_mc.led_cdev.dev, "Got unsupported frame index: %x\n",
++				frame_calc);
++			ret = -EINVAL;
++			goto err_pending;
++		}
++		f_idx = frame_calc;
 +
-+static int get_endpoint_address(struct hid_device *hdev)
++		scoped_guard(spinlock, &drvdata->frame_lock) {
++			memcpy(&drvdata->rgb_frames[f_idx], &frame->zone_data,
++			       sizeof(struct rgb_frame));
++
++			/* Only use frame 0 for remaining variable assignment */
++			if (f_idx != 0)
++				break;
++
++			drvdata->rgb_speed = frame->speed;
++			drvdata->led_mc.led_cdev.brightness = frame->brightness;
++			drvdata->led_mc.subled_info[0].intensity = frame->zone_data.zone[0].red;
++			drvdata->led_mc.subled_info[1].intensity = frame->zone_data.zone[0].green;
++			drvdata->led_mc.subled_info[2].intensity = frame->zone_data.zone[0].blue;
++		}
++
++		break;
+ 	default:
+ 		dev_dbg(&drvdata->hdev->dev,
+ 			"Got profile event without changes pending from command: %x\n",
+ 			cmd_rep->cmd);
+ 		return -EINVAL;
+ 	}
++
++err_pending:
+ 	drvdata->profile_pending = CLAW_NO_PENDING;
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int claw_raw_event(struct claw_drvdata *drvdata, struct hid_report *report,
+@@ -763,6 +857,404 @@ static const struct attribute_group claw_gamepad_attr_group = {
+ 	.is_visible = claw_gamepad_attr_is_visible,
+ };
+ 
++/* Read RGB config from device */
++static int claw_read_rgb_config(struct hid_device *hdev)
 +{
-+	struct usb_host_endpoint *ep;
-+	struct usb_interface *intf;
++	u8 data[4] = { 0x01, 0x00, 0x00, CLAW_RGB_FRAME_OFFSET };
++	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
++	u16 read_addr = drvdata->rgb_addr;
++	size_t len = ARRAY_SIZE(data);
++	int ret, i;
 +
-+	intf = to_usb_interface(hdev->dev.parent);
-+	ep = intf->cur_altsetting->endpoint;
-+	if (ep)
-+		return ep->desc.bEndpointAddress;
++	if (!drvdata->rgb_addr)
++		return -ENODEV;
 +
-+	return -ENODEV;
-+}
-+
-+static int claw_gamepad_mode_event(struct claw_drvdata *drvdata,
-+				   struct claw_command_report *cmd_rep)
-+{
-+	if (cmd_rep->data[0] >= ARRAY_SIZE(claw_gamepad_mode_text) ||
-+	    !claw_gamepad_mode_text[cmd_rep->data[0]] ||
-+	    cmd_rep->data[1] >= ARRAY_SIZE(claw_mkeys_function_text))
-+		return -EINVAL;
-+
-+	drvdata->gamepad_mode = cmd_rep->data[0];
-+	drvdata->mkeys_function = cmd_rep->data[1];
++	/* Loop through all 8 pages of RGB data */
++	guard(mutex)(&drvdata->profile_mutex);
++	for (i = 0; i < 8; i++) {
++		drvdata->profile_pending = CLAW_RGB_PENDING;
++		data[1] = (read_addr >> 8) & 0xff;
++		data[2] = read_addr & 0x00ff;
++		ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_READ_PROFILE, data, len, 8);
++		if (ret) {
++			drvdata->profile_pending = CLAW_NO_PENDING;
++			return ret;
++		}
++		read_addr += CLAW_RGB_FRAME_OFFSET;
++	}
 +
 +	return 0;
 +}
 +
-+static int claw_raw_event(struct claw_drvdata *drvdata, struct hid_report *report,
-+			  u8 *data, int size)
++/* Send RGB configuration to device */
++static int claw_write_rgb_state(struct claw_drvdata *drvdata)
 +{
-+	struct claw_command_report *cmd_rep;
-+	int ret = 0;
++	struct rgb_report report = { 0x01, 0x0000, CLAW_RGB_FRAME_OFFSET, 0x00,
++			drvdata->rgb_frame_count, 0x09, drvdata->rgb_speed,
++			drvdata->led_mc.led_cdev.brightness };
++	u16 write_addr = drvdata->rgb_addr;
++	size_t len = sizeof(report);
++	int f, ret;
 +
-+	if (size != CLAW_PACKET_SIZE)
-+		return 0;
++	if (!drvdata->rgb_addr)
++		return -ENODEV;
 +
-+	cmd_rep = (struct claw_command_report *)data;
-+
-+	if (cmd_rep->report_id != CLAW_INPUT_REPORT_ID || cmd_rep->header_tail != 0x3c)
-+		return 0;
-+
-+	dev_dbg(&drvdata->hdev->dev, "Rx data as raw input report: [%*ph]\n",
-+		CLAW_PACKET_SIZE, data);
-+
-+	switch (cmd_rep->cmd) {
-+	case CLAW_COMMAND_TYPE_GAMEPAD_MODE_ACK:
-+		ret = claw_gamepad_mode_event(drvdata, cmd_rep);
-+		break;
-+	case CLAW_COMMAND_TYPE_ACK:
-+		break;
-+	default:
-+		dev_dbg(&drvdata->hdev->dev, "Unknown command: %x\n", cmd_rep->cmd);
-+		return 0;
-+	}
-+
-+	complete(&drvdata->send_cmd_complete);
-+
-+	return ret;
-+}
-+
-+static int msi_raw_event(struct hid_device *hdev, struct hid_report *report,
-+			 u8 *data, int size)
-+{
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+
-+	if (!drvdata || (drvdata->ep != CLAW_XINPUT_CFG_INTF_IN &&
-+			 drvdata->ep != CLAW_DINPUT_CFG_INTF_IN))
-+		return 0;
-+
-+	return claw_raw_event(drvdata, report, data, size);
-+}
-+
-+static int claw_hw_output_report(struct hid_device *hdev, u8 index, u8 *data,
-+				 size_t len, unsigned int timeout)
-+{
-+	unsigned char *dmabuf __free(kfree) = NULL;
-+	u8 header[] = { CLAW_OUTPUT_REPORT_ID, 0, 0, 0x3c, index };
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+	size_t header_size = ARRAY_SIZE(header);
-+	int ret;
-+
-+	if (header_size + len > CLAW_PACKET_SIZE)
++	if (!drvdata->rgb_frame_count)
 +		return -EINVAL;
 +
-+	/* We can't use a devm_alloc reusable buffer without side effects during suspend */
-+	dmabuf = kzalloc(CLAW_PACKET_SIZE, GFP_KERNEL);
-+	if (!dmabuf)
-+		return -ENOMEM;
++	guard(mutex)(&drvdata->rom_mutex);
++	/* Loop through (up to) 8 pages of RGB data */
++	for (f = 0; f < drvdata->rgb_frame_count; f++) {
++		report.zone_data = drvdata->rgb_frames[f];
 +
-+	memcpy(dmabuf, header, header_size);
-+	if (data && len)
-+		memcpy(dmabuf + header_size, data, len);
++		/* Set the MCU address to write the frame data to */
++		report.read_addr = cpu_to_be16(write_addr);
 +
-+	guard(mutex)(&drvdata->cfg_mutex);
-+	if (timeout)
-+		reinit_completion(&drvdata->send_cmd_complete);
++		/* Serialize the rgb_report and write it to MCU */
++		ret = claw_hw_output_report(drvdata->hdev, CLAW_COMMAND_TYPE_WRITE_PROFILE_DATA,
++					    (u8 *)&report, len, 8);
++		if (ret)
++			return ret;
 +
-+	dev_dbg(&hdev->dev, "Send data as raw output report: [%*ph]\n",
-+		CLAW_PACKET_SIZE, dmabuf);
-+
-+	ret = hid_hw_output_report(hdev, dmabuf, CLAW_PACKET_SIZE);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = ret == CLAW_PACKET_SIZE ? 0 : -EIO;
-+	if (ret)
-+		return ret;
-+
-+	if (timeout) {
-+		ret = wait_for_completion_interruptible_timeout(&drvdata->send_cmd_complete,
-+								msecs_to_jiffies(timeout));
-+
-+		dev_dbg(&hdev->dev, "Remaining timeout: %u\n", ret);
-+		if (ret >= 0) /* preserve errors */
-+			ret = ret == 0 ? -EBUSY : 0; /* timeout occurred : time remained */
++		/* Increment the write addr by the offset for the next frame */
++		write_addr += CLAW_RGB_FRAME_OFFSET;
 +	}
++
++	ret = claw_hw_output_report(drvdata->hdev, CLAW_COMMAND_TYPE_SYNC_TO_ROM, NULL, 0, 8);
 +
 +	return ret;
 +}
 +
-+static ssize_t gamepad_mode_store(struct device *dev, struct device_attribute *attr,
-+				  const char *buf, size_t count)
++/* Fill all zones with the same color */
++static void claw_frame_fill_solid(struct rgb_frame *frame, struct rgb_zone zone)
 +{
-+	struct hid_device *hdev = to_hid_device(dev);
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+	int i, ret = -EINVAL;
-+	u8 data[2];
++	int z;
 +
-+	for (i = 0; i < ARRAY_SIZE(claw_gamepad_mode_text); i++) {
-+		if (claw_gamepad_mode_text[i] && sysfs_streq(buf, claw_gamepad_mode_text[i])) {
-+			ret = i;
-+			break;
++	for (z = 0; z < CLAW_RGB_ZONES; z++)
++		frame->zone[z] = zone;
++}
++
++/* Apply solid effect (1 frame, all zones same color) */
++static int claw_apply_monocolor(struct claw_drvdata *drvdata)
++{
++	struct mc_subled *subleds = drvdata->led_mc.subled_info;
++	struct rgb_zone zone = { subleds[0].intensity, subleds[1].intensity,
++				 subleds[2].intensity };
++
++	guard(spinlock)(&drvdata->frame_lock);
++	drvdata->rgb_frame_count = 1;
++	claw_frame_fill_solid(&drvdata->rgb_frames[0], zone);
++
++	return claw_write_rgb_state(drvdata);
++}
++
++/* Apply breathe effect (2 frames: color -> off) */
++static int claw_apply_breathe(struct claw_drvdata *drvdata)
++{
++	struct mc_subled *subleds = drvdata->led_mc.subled_info;
++	struct rgb_zone zone = { subleds[0].intensity, subleds[1].intensity,
++				 subleds[2].intensity };
++	static const struct rgb_zone off = { 0, 0, 0 };
++
++	guard(spinlock)(&drvdata->frame_lock);
++	drvdata->rgb_frame_count = 2;
++	claw_frame_fill_solid(&drvdata->rgb_frames[0], zone);
++	claw_frame_fill_solid(&drvdata->rgb_frames[1], off);
++
++	return claw_write_rgb_state(drvdata);
++}
++
++/* Apply chroma effect (6 frames: rainbow cycle, all zones sync) */
++static int claw_apply_chroma(struct claw_drvdata *drvdata)
++{
++	static const struct rgb_zone colors[] = {
++		{255,   0,   0},  /* red     */
++		{255, 255,   0},  /* yellow  */
++		{  0, 255,   0},  /* green   */
++		{  0, 255, 255},  /* cyan    */
++		{  0,   0, 255},  /* blue    */
++		{255,   0, 255},  /* magenta */
++	};
++	u8 frame_count = ARRAY_SIZE(colors);
++	int frame;
++
++	guard(spinlock)(&drvdata->frame_lock);
++	drvdata->rgb_frame_count = frame_count;
++
++	for (frame = 0; frame < frame_count; frame++)
++		claw_frame_fill_solid(&drvdata->rgb_frames[frame], colors[frame]);
++
++	return claw_write_rgb_state(drvdata);
++}
++
++/* Apply rainbow effect (4 frames: rotating colors around joysticks) */
++static int claw_apply_rainbow(struct claw_drvdata *drvdata)
++{
++	static const struct rgb_zone colors[] = {
++		{255,   0,   0},  /* red   */
++		{  0, 255,   0},  /* green */
++		{  0, 255, 255},  /* cyan  */
++		{  0,   0, 255},  /* blue  */
++	};
++	u8 frame_count = ARRAY_SIZE(colors);
++	int frame, zone;
++
++	guard(spinlock)(&drvdata->frame_lock);
++	drvdata->rgb_frame_count = frame_count;
++
++	for (frame = 0; frame < frame_count; frame++) {
++		for (zone = 0; zone < 4; zone++) {
++			drvdata->rgb_frames[frame].zone[zone]     = colors[(zone + frame) % 4];
++			drvdata->rgb_frames[frame].zone[zone + 4] = colors[(zone + frame) % 4];
 +		}
++		drvdata->rgb_frames[frame].zone[8] = colors[frame];
 +	}
++
++	return claw_write_rgb_state(drvdata);
++}
++
++/*
++ * Apply frostfire effect (4 frames: fire vs ice rotating)
++ * Right joystick: fire red -> dark -> ice blue -> dark (clockwise)
++ * Left joystick: ice blue -> dark -> fire red -> dark (counter-clockwise)
++ * ABXY: fire red -> dark -> ice blue -> dark
++ */
++static int claw_apply_frostfire(struct claw_drvdata *drvdata)
++{
++	static const struct rgb_zone colors[] = {
++		{255,   0,   0},  /* fire red */
++		{  0,   0,   0},  /* dark     */
++		{  0,   0, 255},  /* ice blue */
++		{  0,   0,   0},  /* dark     */
++	};
++	u8 frame_count = ARRAY_SIZE(colors);
++	int frame, zone;
++
++	guard(spinlock)(&drvdata->frame_lock);
++	drvdata->rgb_frame_count = frame_count;
++
++	for (frame = 0; frame < frame_count; frame++) {
++		for (zone = 0; zone < 4; zone++) {
++			drvdata->rgb_frames[frame].zone[zone]     = colors[(zone + frame) % 4];
++			drvdata->rgb_frames[frame].zone[zone + 4] = colors[(zone - frame + 6) % 4];
++		}
++		drvdata->rgb_frames[frame].zone[8] = colors[frame];
++	}
++
++	return claw_write_rgb_state(drvdata);
++}
++
++/* Apply current state to device */
++static int claw_apply_rgb_state(struct claw_drvdata *drvdata)
++{
++	static const struct rgb_zone off = { 0, 0, 0 };
++
++	if (!drvdata->rgb_enabled) {
++		guard(spinlock)(&drvdata->frame_lock);
++		drvdata->rgb_frame_count = 1;
++		claw_frame_fill_solid(&drvdata->rgb_frames[0], off);
++		return claw_write_rgb_state(drvdata);
++	}
++
++	switch (drvdata->rgb_effect) {
++	case CLAW_RGB_EFFECT_MONOCOLOR:
++		return claw_apply_monocolor(drvdata);
++	case CLAW_RGB_EFFECT_BREATHE:
++		return claw_apply_breathe(drvdata);
++	case CLAW_RGB_EFFECT_CHROMA:
++		return claw_apply_chroma(drvdata);
++	case CLAW_RGB_EFFECT_RAINBOW:
++		return claw_apply_rainbow(drvdata);
++	case CLAW_RGB_EFFECT_FROSTFIRE:
++		return claw_apply_frostfire(drvdata);
++	default:
++		dev_err(drvdata->led_mc.led_cdev.dev,
++			"No supported rgb_effect selected\n");
++		return -EINVAL;
++	}
++}
++
++static void claw_rgb_queue_fn(struct work_struct *work)
++{
++	struct delayed_work *dwork = container_of(work, struct delayed_work, work);
++	struct claw_drvdata *drvdata = container_of(dwork, struct claw_drvdata, rgb_queue);
++	int ret;
++
++	ret = claw_apply_rgb_state(drvdata);
++	if (ret)
++		dev_err(drvdata->led_mc.led_cdev.dev,
++			"Failed to apply RGB state: %d\n", ret);
++}
++
++static ssize_t effect_store(struct device *dev,
++			    struct device_attribute *attr,
++			    const char *buf, size_t count)
++{
++	struct led_classdev *led_cdev = dev_get_drvdata(dev);
++	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
++	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
++	int ret;
++
++	ret = sysfs_match_string(claw_rgb_effect_text, buf);
 +	if (ret < 0)
 +		return ret;
 +
-+	guard(mutex)(&drvdata->mode_mutex);
-+	data[0] = ret;
-+	data[1] = drvdata->mkeys_function;
-+
-+	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_SWITCH_MODE, data, ARRAY_SIZE(data), 0);
-+	if (ret)
-+		return ret;
++	drvdata->rgb_effect = ret;
++	mod_delayed_work(system_wq, &drvdata->rgb_queue, msecs_to_jiffies(50));
 +
 +	return count;
 +}
 +
-+static ssize_t gamepad_mode_show(struct device *dev,
++static ssize_t effect_show(struct device *dev,
++			   struct device_attribute *attr, char *buf)
++{
++	struct led_classdev *led_cdev = dev_get_drvdata(dev);
++	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
++	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
++
++	if (drvdata->rgb_effect >= ARRAY_SIZE(claw_rgb_effect_text))
++		return -EINVAL;
++
++	return sysfs_emit(buf, "%s\n", claw_rgb_effect_text[drvdata->rgb_effect]);
++}
++
++static DEVICE_ATTR_RW(effect);
++
++static ssize_t effect_index_show(struct device *dev,
 +				 struct device_attribute *attr, char *buf)
-+{
-+	struct hid_device *hdev = to_hid_device(dev);
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+	int ret, i;
-+
-+	guard(mutex)(&drvdata->mode_mutex);
-+	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_READ_GAMEPAD_MODE, NULL, 0, 8);
-+	if (ret)
-+		return ret;
-+
-+	i = drvdata->gamepad_mode;
-+
-+	if (!claw_gamepad_mode_text[i] || claw_gamepad_mode_text[i][0] == '\0')
-+		return sysfs_emit(buf, "unsupported\n");
-+
-+	return sysfs_emit(buf, "%s\n", claw_gamepad_mode_text[i]);
-+}
-+static DEVICE_ATTR_RW(gamepad_mode);
-+
-+static ssize_t gamepad_mode_index_show(struct device *dev,
-+				       struct device_attribute *attr, char *buf)
-+{
-+	ssize_t count = 0;
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(claw_gamepad_mode_text); i++) {
-+		if (!claw_gamepad_mode_text[i] || claw_gamepad_mode_text[i][0] == '\0')
-+			continue;
-+		count += sysfs_emit_at(buf, count, "%s ", claw_gamepad_mode_text[i]);
-+	}
-+
-+	buf[count - 1] = '\n';
-+
-+	return count;
-+}
-+static DEVICE_ATTR_RO(gamepad_mode_index);
-+
-+static ssize_t mkeys_function_store(struct device *dev, struct device_attribute *attr,
-+				    const char *buf, size_t count)
-+{
-+	struct hid_device *hdev = to_hid_device(dev);
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+	int i, ret = -EINVAL;
-+	u8 data[2];
-+
-+	for (i = 0; i < ARRAY_SIZE(claw_mkeys_function_text); i++) {
-+		if (claw_mkeys_function_text[i] && sysfs_streq(buf, claw_mkeys_function_text[i])) {
-+			ret = i;
-+			break;
-+		}
-+	}
-+	if (ret < 0)
-+		return ret;
-+
-+	guard(mutex)(&drvdata->mode_mutex);
-+	data[0] = drvdata->gamepad_mode;
-+	data[1] = ret;
-+
-+	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_SWITCH_MODE, data, ARRAY_SIZE(data), 0);
-+	if (ret)
-+		return ret;
-+
-+	return count;
-+}
-+
-+static ssize_t mkeys_function_show(struct device *dev, struct device_attribute *attr,
-+				   char *buf)
-+{
-+	struct hid_device *hdev = to_hid_device(dev);
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+	int ret, i;
-+
-+	guard(mutex)(&drvdata->mode_mutex);
-+	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_READ_GAMEPAD_MODE, NULL, 0, 8);
-+	if (ret)
-+		return ret;
-+
-+	i = drvdata->mkeys_function;
-+
-+	if (i >= ARRAY_SIZE(claw_mkeys_function_text))
-+		return sysfs_emit(buf, "unsupported\n");
-+
-+	return sysfs_emit(buf, "%s\n", claw_mkeys_function_text[i]);
-+}
-+static DEVICE_ATTR_RW(mkeys_function);
-+
-+static ssize_t mkeys_function_index_show(struct device *dev,
-+					 struct device_attribute *attr, char *buf)
 +{
 +	int i, count = 0;
 +
-+	for (i = 0; i < ARRAY_SIZE(claw_mkeys_function_text); i++)
-+		count += sysfs_emit_at(buf, count, "%s ", claw_mkeys_function_text[i]);
++	for (i = 0; i < ARRAY_SIZE(claw_rgb_effect_text); i++)
++		count += sysfs_emit_at(buf, count, "%s ", claw_rgb_effect_text[i]);
 +
-+	buf[count - 1] = '\n';
++	if (count)
++		buf[count - 1] = '\n';
 +
 +	return count;
 +}
-+static DEVICE_ATTR_RO(mkeys_function_index);
++static DEVICE_ATTR_RO(effect_index);
 +
-+static ssize_t reset_store(struct device *dev, struct device_attribute *attr,
-+			   const char *buf, size_t count)
++static ssize_t enabled_store(struct device *dev,
++			     struct device_attribute *attr,
++			     const char *buf, size_t count)
 +{
-+	struct hid_device *hdev = to_hid_device(dev);
++	struct led_classdev *led_cdev = dev_get_drvdata(dev);
++	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
++	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
 +	bool val;
 +	int ret;
 +
@@ -572,268 +604,243 @@ index 0000000000000..1bf1d6150f4fd
 +	if (ret)
 +		return ret;
 +
-+	if (!val)
-+		return -EINVAL;
-+
-+	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_RESET_DEVICE, NULL, 0, 0);
-+	if (ret)
-+		return ret;
++	drvdata->rgb_enabled = val;
++	mod_delayed_work(system_wq, &drvdata->rgb_queue, msecs_to_jiffies(50));
 +
 +	return count;
 +}
-+static DEVICE_ATTR_WO(reset);
 +
-+static umode_t claw_gamepad_attr_is_visible(struct kobject *kobj, struct attribute *attr,
-+					    int n)
++static ssize_t enabled_show(struct device *dev,
++			    struct device_attribute *attr, char *buf)
 +{
-+	struct hid_device *hdev = to_hid_device(kobj_to_dev(kobj));
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
++	struct led_classdev *led_cdev = dev_get_drvdata(dev);
++	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
++	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
 +
-+	if (!drvdata) {
-+		dev_warn(&hdev->dev,
-+			 "Failed to get drvdata from kobj. Gamepad attributes are not available.\n");
-+		return 0;
-+	}
-+
-+	return attr->mode;
++	return sysfs_emit(buf, "%s\n", drvdata->rgb_enabled ? "true" : "false");
 +}
++static DEVICE_ATTR_RW(enabled);
 +
-+static struct attribute *claw_gamepad_attrs[] = {
-+	&dev_attr_gamepad_mode.attr,
-+	&dev_attr_gamepad_mode_index.attr,
-+	&dev_attr_mkeys_function.attr,
-+	&dev_attr_mkeys_function_index.attr,
-+	&dev_attr_reset.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group claw_gamepad_attr_group = {
-+	.attrs = claw_gamepad_attrs,
-+	.is_visible = claw_gamepad_attr_is_visible,
-+};
-+
-+static void cfg_setup_fn(struct work_struct *work)
++static ssize_t enabled_index_show(struct device *dev,
++				  struct device_attribute *attr, char *buf)
 +{
-+	struct delayed_work *dwork = container_of(work, struct delayed_work, work);
-+	struct claw_drvdata *drvdata = container_of(dwork, struct claw_drvdata, cfg_setup);
++	return sysfs_emit(buf, "true false\n");
++}
++static DEVICE_ATTR_RO(enabled_index);
++
++static ssize_t speed_store(struct device *dev, struct device_attribute *attr,
++			   const char *buf, size_t count)
++{
++	struct led_classdev *led_cdev = dev_get_drvdata(dev);
++	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
++	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
++	unsigned int val, speed;
 +	int ret;
 +
-+	ret = claw_hw_output_report(drvdata->hdev, CLAW_COMMAND_TYPE_READ_GAMEPAD_MODE, NULL, 0, 8);
-+	if (ret) {
-+		dev_err(&drvdata->hdev->dev,
-+			"Failed to setup device, can't read gamepad mode: %d\n", ret);
-+		return;
-+	}
-+
-+	/* Add sysfs attributes after we get the device state */
-+	ret = device_add_group(&drvdata->hdev->dev, &claw_gamepad_attr_group);
-+	if (ret) {
-+		dev_err(&drvdata->hdev->dev,
-+			"Failed to setup device, can't create gamepad attrs: %d\n", ret);
-+		return;
-+	}
-+
-+	kobject_uevent(&drvdata->hdev->dev.kobj, KOBJ_CHANGE);
-+}
-+
-+static void cfg_resume_fn(struct work_struct *work)
-+{
-+	struct delayed_work *dwork = container_of(work, struct delayed_work, work);
-+	struct claw_drvdata *drvdata = container_of(dwork, struct claw_drvdata, cfg_resume);
-+	u8 data[2] = { drvdata->gamepad_mode, drvdata->mkeys_function };
-+	int ret;
-+
-+	ret = claw_hw_output_report(drvdata->hdev, CLAW_COMMAND_TYPE_SWITCH_MODE, data,
-+				    ARRAY_SIZE(data), 0);
-+	if (ret)
-+		dev_err(&drvdata->hdev->dev, "Failed to set gamepad mode settings: %d\n", ret);
-+}
-+
-+static int claw_probe(struct hid_device *hdev, u8 ep)
-+{
-+	struct claw_drvdata *drvdata;
-+	int ret;
-+
-+	drvdata = devm_kzalloc(&hdev->dev, sizeof(*drvdata), GFP_KERNEL);
-+	if (!drvdata)
-+		return -ENOMEM;
-+
-+	drvdata->gamepad_mode = CLAW_GAMEPAD_MODE_XINPUT;
-+	drvdata->hdev = hdev;
-+	drvdata->ep = ep;
-+
-+	mutex_init(&drvdata->cfg_mutex);
-+	init_completion(&drvdata->send_cmd_complete);
-+	INIT_DELAYED_WORK(&drvdata->cfg_resume, &cfg_resume_fn);
-+	INIT_DELAYED_WORK(&drvdata->cfg_setup, &cfg_setup_fn);
-+
-+	/* For control interface: open the HID transport for sending commands. */
-+	ret = hid_hw_open(hdev);
++	ret = kstrtouint(buf, 10, &val);
 +	if (ret)
 +		return ret;
 +
-+	hid_set_drvdata(hdev, drvdata);
-+	schedule_delayed_work(&drvdata->cfg_setup, msecs_to_jiffies(500));
++	if (val > 20)
++		return -EINVAL;
 +
-+	return 0;
++	/* 0 is fastest, invert value for intuitive userspace speed */
++	speed = 20 - val;
++
++	drvdata->rgb_speed = speed;
++	mod_delayed_work(system_wq, &drvdata->rgb_queue, msecs_to_jiffies(50));
++
++	return count;
 +}
 +
-+static int msi_probe(struct hid_device *hdev, const struct hid_device_id *id)
++static ssize_t speed_show(struct device *dev, struct device_attribute *attr,
++			  char *buf)
 +{
-+	int ret;
-+	u8 ep;
++	struct led_classdev *led_cdev = dev_get_drvdata(dev);
++	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
++	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
++	u8 speed = 20 - drvdata->rgb_speed;
 +
-+	if (!hid_is_usb(hdev)) {
-+		ret = -ENODEV;
-+		goto err_probe;
-+	}
++	return sysfs_emit(buf, "%u\n", speed);
++}
++static DEVICE_ATTR_RW(speed);
 +
-+	ret = hid_parse(hdev);
-+	if (ret)
-+		goto err_probe;
++static ssize_t speed_range_show(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	return sysfs_emit(buf, "0-20\n");
++}
++static DEVICE_ATTR_RO(speed_range);
 +
-+	/* Set quirk to create separate input devices per HID application */
-+	hdev->quirks |= HID_QUIRK_INPUT_PER_APP | HID_QUIRK_MULTI_INPUT;
-+	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-+	if (ret)
-+		goto err_probe;
++static void claw_led_brightness_set(struct led_classdev *led_cdev,
++				    enum led_brightness _brightness)
++{
++	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
++	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
 +
-+	/* For non-control interfaces (keyboard/mouse), allow userspace to grab the devices. */
-+	ret = get_endpoint_address(hdev);
-+	if (ret < 0)
-+		goto err_stop_hw;
-+
-+	ep = ret;
-+	if (ep == CLAW_XINPUT_CFG_INTF_IN || ep == CLAW_DINPUT_CFG_INTF_IN) {
-+		ret = claw_probe(hdev, ep);
-+		if (ret)
-+			goto err_stop_hw;
-+	}
-+
-+	return 0;
-+
-+err_stop_hw:
-+	hid_hw_stop(hdev);
-+err_probe:
-+	return dev_err_probe(&hdev->dev, ret, "Failed to init device\n");
++	mod_delayed_work(system_wq, &drvdata->rgb_queue, msecs_to_jiffies(50));
 +}
 +
-+static void claw_remove(struct hid_device *hdev)
-+{
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
++static struct attribute *claw_rgb_attrs[] = {
++	&dev_attr_effect.attr,
++	&dev_attr_effect_index.attr,
++	&dev_attr_enabled.attr,
++	&dev_attr_enabled_index.attr,
++	&dev_attr_speed.attr,
++	&dev_attr_speed_range.attr,
++	NULL,
++};
 +
-+	if (!drvdata) {
-+		hid_hw_stop(hdev);
++static const struct attribute_group claw_rgb_attr_group = {
++	.attrs = claw_rgb_attrs,
++};
++
++static struct mc_subled claw_rgb_subled_info[] = {
++	{
++		.color_index = LED_COLOR_ID_RED,
++		.channel = 0x1,
++	},
++	{
++		.color_index = LED_COLOR_ID_GREEN,
++		.channel = 0x2,
++	},
++	{
++		.color_index = LED_COLOR_ID_BLUE,
++		.channel = 0x3,
++	},
++};
++
+ static void cfg_setup_fn(struct work_struct *work)
+ {
+ 	struct delayed_work *dwork = container_of(work, struct delayed_work, work);
+@@ -776,6 +1268,13 @@ static void cfg_setup_fn(struct work_struct *work)
+ 		return;
+ 	}
+ 
++	ret = claw_read_rgb_config(drvdata->hdev);
++	if (ret) {
++		dev_err(drvdata->led_mc.led_cdev.dev,
++			"Failed to setup device, can't read RGB config: %d\n", ret);
 +		return;
 +	}
 +
-+	cancel_delayed_work_sync(&drvdata->cfg_setup);
-+	cancel_delayed_work_sync(&drvdata->cfg_resume);
+ 	/* Add sysfs attributes after we get the device state */
+ 	ret = device_add_group(&drvdata->hdev->dev, &claw_gamepad_attr_group);
+ 	if (ret) {
+@@ -784,7 +1283,15 @@ static void cfg_setup_fn(struct work_struct *work)
+ 		return;
+ 	}
+ 
++	ret = device_add_group(drvdata->led_mc.led_cdev.dev, &claw_rgb_attr_group);
++	if (ret) {
++		dev_err(&drvdata->hdev->dev,
++			"Failed to setup device, can't create led attributes: %d\n", ret);
++		return;
++	}
 +
-+	guard(mutex)(&drvdata->cfg_mutex);
-+	device_remove_group(&hdev->dev, &claw_gamepad_attr_group);
-+	hid_hw_close(hdev);
-+}
+ 	kobject_uevent(&drvdata->hdev->dev.kobj, KOBJ_CHANGE);
++	kobject_uevent(&drvdata->led_mc.led_cdev.dev->kobj, KOBJ_CHANGE);
+ }
+ 
+ static void cfg_resume_fn(struct work_struct *work)
+@@ -794,6 +1301,10 @@ static void cfg_resume_fn(struct work_struct *work)
+ 	u8 data[2] = { drvdata->gamepad_mode, drvdata->mkeys_function };
+ 	int ret;
+ 
++	ret = claw_read_rgb_config(drvdata->hdev);
++	if (ret)
++		dev_err(drvdata->led_mc.led_cdev.dev, "Failed to read RGB config: %d\n", ret);
 +
-+static void msi_remove(struct hid_device *hdev)
-+{
-+	int ret;
-+	u8 ep;
+ 	ret = claw_hw_output_report(drvdata->hdev, CLAW_COMMAND_TYPE_SWITCH_MODE, data,
+ 				    ARRAY_SIZE(data), 0);
+ 	if (ret)
+@@ -807,18 +1318,24 @@ static void claw_features_supported(struct claw_drvdata *drvdata)
+ 
+ 	if (major == 0x01) {
+ 		drvdata->bmap_support = true;
+-		if (minor >= 0x66)
++		if (minor >= 0x66) {
+ 			drvdata->bmap_addr = button_mapping_addr_new;
+-		else
++			drvdata->rgb_addr = rgb_addr_new;
++		} else {
+ 			drvdata->bmap_addr = button_mapping_addr_old;
++			drvdata->rgb_addr = rgb_addr_old;
++		}
+ 		return;
+ 	}
+ 
+ 	if ((major == 0x02 && minor >= 0x17) || major >= 0x03) {
+ 		drvdata->bmap_support = true;
+ 		drvdata->bmap_addr = button_mapping_addr_new;
++		drvdata->rgb_addr = rgb_addr_new;
+ 		return;
+ 	}
 +
-+	ret = get_endpoint_address(hdev);
-+	if (ret <= 0)
-+		goto hw_stop;
++	drvdata->rgb_addr = rgb_addr_old;
+ }
+ 
+ static int claw_probe(struct hid_device *hdev, u8 ep)
+@@ -833,6 +1350,7 @@ static int claw_probe(struct hid_device *hdev, u8 ep)
+ 		return -ENOMEM;
+ 
+ 	drvdata->gamepad_mode = CLAW_GAMEPAD_MODE_XINPUT;
++	drvdata->rgb_enabled = true;
+ 	drvdata->hdev = hdev;
+ 	drvdata->ep = ep;
+ 
+@@ -843,12 +1361,28 @@ static int claw_probe(struct hid_device *hdev, u8 ep)
+ 	if (!drvdata->bmap_support)
+ 		dev_dbg(&hdev->dev, "M-Key mapping is not supported. Update firmware to enable.\n");
+ 
++	drvdata->led_mc.led_cdev.name = "msi_claw:rgb:joystick_rings";
++	drvdata->led_mc.led_cdev.brightness = 0x50;
++	drvdata->led_mc.led_cdev.max_brightness = 0x64;
++	drvdata->led_mc.led_cdev.color = LED_COLOR_ID_RGB;
++	drvdata->led_mc.led_cdev.brightness_set = claw_led_brightness_set;
++	drvdata->led_mc.num_colors = 3;
++	drvdata->led_mc.subled_info = devm_kmemdup(&hdev->dev, claw_rgb_subled_info,
++						   sizeof(claw_rgb_subled_info), GFP_KERNEL);
++	if (!drvdata->led_mc.subled_info)
++		return -ENOMEM;
 +
-+	ep = ret;
-+	if (ep == CLAW_XINPUT_CFG_INTF_IN || ep == CLAW_DINPUT_CFG_INTF_IN)
-+		claw_remove(hdev);
+ 	mutex_init(&drvdata->cfg_mutex);
+ 	mutex_init(&drvdata->profile_mutex);
+ 	mutex_init(&drvdata->rom_mutex);
+ 	init_completion(&drvdata->send_cmd_complete);
+ 	INIT_DELAYED_WORK(&drvdata->cfg_resume, &cfg_resume_fn);
+ 	INIT_DELAYED_WORK(&drvdata->cfg_setup, &cfg_setup_fn);
++	INIT_DELAYED_WORK(&drvdata->rgb_queue, &claw_rgb_queue_fn);
 +
-+hw_stop:
-+	hid_hw_stop(hdev);
-+}
-+
-+static int claw_resume(struct hid_device *hdev)
-+{
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+
-+	if (!drvdata)
-+		return -ENODEV;
-+
-+	/* MCU can take up to 500ms to be ready after resume */
-+	schedule_delayed_work(&drvdata->cfg_resume, msecs_to_jiffies(500));
-+	return 0;
-+}
-+
-+static int msi_resume(struct hid_device *hdev)
-+{
-+	int ret;
-+	u8 ep;
-+
-+	ret = get_endpoint_address(hdev);
-+	if (ret <= 0)
-+		return 0;
-+
-+	ep = ret;
-+	if (ep == CLAW_XINPUT_CFG_INTF_IN || ep == CLAW_DINPUT_CFG_INTF_IN)
-+		return claw_resume(hdev);
-+
-+	return 0;
-+}
-+
-+static int claw_suspend(struct hid_device *hdev)
-+{
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+
-+	if (!drvdata)
-+		return -ENODEV;
-+
-+	cancel_delayed_work_sync(&drvdata->cfg_setup);
-+	cancel_delayed_work_sync(&drvdata->cfg_resume);
-+
-+	return 0;
-+}
-+
-+static int msi_suspend(struct hid_device *hdev, pm_message_t msg)
-+{
-+	int ret;
-+	u8 ep;
-+
-+	ret = get_endpoint_address(hdev);
-+	if (ret <= 0)
-+		return 0;
-+
-+	ep = ret;
-+	if (ep == CLAW_XINPUT_CFG_INTF_IN || ep == CLAW_DINPUT_CFG_INTF_IN)
-+		return claw_suspend(hdev);
-+
-+	return 0;
-+}
-+
-+static const struct hid_device_id msi_devices[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_MSI_2, USB_DEVICE_ID_MSI_CLAW_XINPUT) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_MSI_2, USB_DEVICE_ID_MSI_CLAW_DINPUT) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_MSI_2, USB_DEVICE_ID_MSI_CLAW_DESKTOP) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_MSI_2, USB_DEVICE_ID_MSI_CLAW_BIOS) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, msi_devices);
-+
-+static struct hid_driver msi_driver = {
-+	.name		= "hid-msi",
-+	.id_table	= msi_devices,
-+	.raw_event	= msi_raw_event,
-+	.probe		= msi_probe,
-+	.remove		= msi_remove,
-+	.resume		= msi_resume,
-+	.suspend	= pm_ptr(msi_suspend),
-+};
-+module_hid_driver(msi_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Denis Benato <denis.benato@linux.dev>");
-+MODULE_AUTHOR("Zhouwang Huang <honjow311@gmail.com>");
-+MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
-+MODULE_DESCRIPTION("HID driver for MSI Claw Handheld PC gamepads");
++	ret = devm_led_classdev_multicolor_register(&hdev->dev, &drvdata->led_mc);
++	if (ret)
++		return ret;
+ 
+ 	/* For control interface: open the HID transport for sending commands. */
+ 	ret = hid_hw_open(hdev);
+@@ -910,10 +1444,14 @@ static void claw_remove(struct hid_device *hdev)
+ 		return;
+ 	}
+ 
++	/* Block writes to brightness/multi_intensity during teardown */
++	drvdata->led_mc.led_cdev.brightness_set = NULL;
+ 	cancel_delayed_work_sync(&drvdata->cfg_setup);
+ 	cancel_delayed_work_sync(&drvdata->cfg_resume);
++	cancel_delayed_work_sync(&drvdata->rgb_queue);
+ 
+ 	guard(mutex)(&drvdata->cfg_mutex);
++	device_remove_group(drvdata->led_mc.led_cdev.dev, &claw_rgb_attr_group);
+ 	device_remove_group(&hdev->dev, &claw_gamepad_attr_group);
+ 	hid_hw_close(hdev);
+ }
+@@ -972,6 +1510,7 @@ static int claw_suspend(struct hid_device *hdev)
+ 
+ 	cancel_delayed_work_sync(&drvdata->cfg_setup);
+ 	cancel_delayed_work_sync(&drvdata->cfg_resume);
++	cancel_delayed_work_sync(&drvdata->rgb_queue);
+ 
+ 	return 0;
+ }
 -- 
 2.53.0
 
