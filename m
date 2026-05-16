@@ -1,40 +1,57 @@
-Received: from smtp02-ext3.udag.de (smtp02-ext3.udag.de [62.146.106.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01678405C53;
-	Sat, 16 May 2026 14:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1188C224F3;
+	Sat, 16 May 2026 14:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778941324; cv=none; b=PEpXa9kPX4jMtZlFqKNmWJdrTPtkSe/E02LAu3T/fl3PNkXFRbO5VhVFcR9dq+T7rZyOH8chwcqQoDSbXM/LmkrM7McgAokTWquqsnu6RI4hjf0+HdnXonUJ7hw6Li8o4kpMtXxiAudoABlPZT7OwVAAuwGAiqLLsW2ZAg/G/wo=
+	t=1778942100; cv=none; b=m+ElEPK4OHYf+2FJOzG0T5sPeDc/Q+0/S4wADLQgwBTBanqHYcPj/1viQTTL6szUcBE1iUCBkw5v7gvIxUqA/Rcm89N/VrD0u4a96WKNxfm+HDmsyp5qZXb7w7X+SzZFOoYIfAoVFXdVdaZASKfVu5IJoAwcOyxjvKJTyYwKIa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778941324; c=relaxed/simple;
-	bh=BEWCA5byu5IXhbA56f73LcHStz+2RzytfpTliKLsGbs=;
+	s=arc-20240116; t=1778942100; c=relaxed/simple;
+	bh=7FPVVjbFBDMkksgmJiXsOCiopoLzzbxZggJOR3J67Ew=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WHYScHUVa9yK45MQIA0Sc/LIuRL3LWY+OkLB7aKNpcAuTT4V18N4h56C/hfFGSty/T9TkiuJ1kZ8QN3rmqXNQ4rfwT/bcLrURGumIGKQ8BgvprnCiOKcmgFGm0+TOs+QcLxaPMBnXAAcULL60ncurf7TEUDZRFLv+mPobeATfGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (075-132-067-156.ip-addr.inexio.net [156.67.132.75])
-	by smtp02-ext3.udag.de (Postfix) with ESMTPA id 5E05BE02E4;
-	Sat, 16 May 2026 16:15:25 +0200 (CEST)
-Authentication-Results: smtp02-ext3.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Sat, 16 May 2026 16:15:24 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Stafford Horne <shorne@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, 
-	Horst Birthelmer <horst@birthelmer.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: Re: Re: [PATCH] dcache: add fs.dentry-limit sysctl with
- negative-first reaper
-Message-ID: <agh7m6iXFMsu81AU@fedora.fritz.box>
-References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
- <202605152333.0pOd2zJR-lkp@intel.com>
- <aggTg7OnEm175nSQ@fedora.fritz.box>
- <aghIDLYW91C4fcd7@antec>
+	 Content-Type:Content-Disposition:In-Reply-To; b=W3ymU5UORUTfXs4L92rdQbmMuKveyaEpydZRnx0CAwgkzSY9W0MKZpVZ1C2QSOPylbnQ0z9J+Ps0duW5qUN7jO53VNc2nkYX/A5YtI+eYLCZfmpcKJWC6DE3B/8Kkczz7KG3TvJzygIhj0GF2pA2qm1J9HkSAwA82K3luZ8bNDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lbc5XaXX; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lbc5XaXX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F93EC19425;
+	Sat, 16 May 2026 14:34:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778942099;
+	bh=7FPVVjbFBDMkksgmJiXsOCiopoLzzbxZggJOR3J67Ew=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Lbc5XaXXuwZRLRq12Cg+NRERhha3IWqvQ6ZI0612tI58GojNahj6luIAy9qKkDhza
+	 ovPL+PfuIefcN8Mrqx3YCDfX8mYeq6nZkvA9B9Yg7hsyj3g7WSrndLVpjaqz6W2Lx7
+	 JBiMnDsBWIxmMIgVkksALOHpjuR5sXTOpTICemlvfU+y3MhMct/j75qtZFqu4Ynybl
+	 YwTc2TesHzT1d51vvsthY5gNlKp6gii8MnF7WH44GROAYKm6IiBuhz5Fi/ZKjHQ/dt
+	 ZqJrsTwfTdBNGcf1zKfquyu5xmkaFafL/Gc56rcWHEeP4yZDdFMj4JFhRP7UBjxgB1
+	 YFmR/UryrNq6w==
+Date: Sat, 16 May 2026 22:34:53 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Johan Hovold <johan@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v10 8/9] platform/chrome: Protect cros_ec_device
+ lifecycle with revocable
+Message-ID: <agiAjVPrFaRiUouy@tzungbi-laptop>
+References: <20260508105448.31799-1-tzungbi@kernel.org>
+ <20260508105448.31799-9-tzungbi@kernel.org>
+ <20260508115309.GA9254@nvidia.com>
+ <agVCoxuTu7l60TH-@google.com>
+ <20260514160214.GH787748@nvidia.com>
+ <agbZLY0wn85JqTFV@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,70 +60,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aghIDLYW91C4fcd7@antec>
+In-Reply-To: <agbZLY0wn85JqTFV@google.com>
 
-On Sat, May 16, 2026 at 11:33:48AM +0100, Stafford Horne wrote:
-> On Sat, May 16, 2026 at 08:55:16AM +0200, Horst Birthelmer wrote:
-> > On Fri, May 15, 2026 at 11:09:54PM +0800, kernel test robot wrote:
-> > > Hi Horst,
-> > > 
-> > > kernel test robot noticed the following build errors:
-> > > 
-> > > [auto build test ERROR on 5d6919055dec134de3c40167a490f33c74c12581]
-> > > 
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Horst-Birthelmer/dcache-add-fs-dentry-limit-sysctl-with-negative-first-reaper/20260515-154600
-> > > base:   5d6919055dec134de3c40167a490f33c74c12581
-> > > patch link:    https://lore.kernel.org/r/20260514-limit-dentries-cache-v1-1-431b9eb0c530%40ddn.com
-> > > patch subject: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first reaper
-> > > config: openrisc-randconfig-r073-20260515 (https://download.01.org/0day-ci/archive/20260515/202605152333.0pOd2zJR-lkp@intel.com/config)
-> > > compiler: or1k-linux-gcc (GCC) 10.5.0
-> > > smatch: v0.5.0-9185-gbcc58b9c
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605152333.0pOd2zJR-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202605152333.0pOd2zJR-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > >    fs/dcache.c: In function 'dentry_limit_worker_fn':
-> > > >> fs/dcache.c:1474:7: error: implicit declaration of function 'get_nr_dentry'; did you mean 'retain_dentry'? [-Werror=implicit-function-declaration]
-> > >     1474 |  nr = get_nr_dentry();
-> > >          |       ^~~~~~~~~~~~~
-> > >          |       retain_dentry
-> > >    cc1: some warnings being treated as errors
-> > > 
-> > > 
-> > > vim +1474 fs/dcache.c
-> > > 
-> > ...
-> > > 
-> > > --
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
+On Fri, May 15, 2026 at 08:28:29AM +0000, Tzung-Bi Shih wrote:
+> On Thu, May 14, 2026 at 01:02:14PM -0300, Jason Gunthorpe wrote:
+> > On Thu, May 14, 2026 at 03:33:55AM +0000, Tzung-Bi Shih wrote:
 > > 
-> > This is puzzling to me get_nr_dentry() is defined in line 178 in the same file and first used in line 209 
-> > and has been there since 2013.
+> > > > Given you say this is such a bug I think you really should be sending
+> > > > a series that is patches 5 through 7 from the other series and a
+> > > > simple rwsem instead of misc_deregister_sync() to deal with this bug
+> > > > ASAP. No need to complicate a simple bug fix in a driver with all
+> > > > these core changes.
+> > > 
+> > > Apologies for missing this suggestion.
+> > > 
+> > > For "patches 5 through 7 from the other series" I guess you're referring:
+> > > - https://lore.kernel.org/all/20260427134659.95181-6-tzungbi@kernel.org
+> > > - https://lore.kernel.org/all/20260427134659.95181-7-tzungbi@kernel.org
+> > > - https://lore.kernel.org/all/20260427134659.95181-8-tzungbi@kernel.org
 > > 
-> > Builds fine applied to tag v7.1-rc3 and to the current master with gcc and clang.
+> > Yes
+> > 
+> > > Could you provide a bit more detail on the rwsem approach?  I'm not
+> > > entirely clear on what data or operations the rwsem would be protecting.
+> > 
+> > Just put a rwsem, or even scru, inside the driver's fops.
+> > 
+> > You can refactor that out to a misc or revocable later.
 > 
-> Hi
-> 
-> They are protected in:
-> 
-> #if defined(CONFIG_SYSCTL) && defined(CONFIG_PROC_FS)
-> 
-> With #endif on line 247.
+> I see.  Thank you for your suggestion.  I will explore it and send out a
+> new version.
 
-You are right, of course.
-Thank you!
-
-I will send a corrected version.
-
-> 
-> In the rand config as least I see:
->  # CONFIG_PROC_FS is not set
-> 
-> -Stafford
-> 
+https://lore.kernel.org/all/20260516143017.18560-1-tzungbi@kernel.org
+is an attempt at it.
