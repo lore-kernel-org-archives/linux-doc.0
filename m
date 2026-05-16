@@ -1,78 +1,54 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE94530FC36
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 17:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4682381AF;
+	Sat, 16 May 2026 17:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778951265; cv=none; b=LMVlCCach6Ue61rM5BSrBn5evFPGGa+V2gtgBSawsd45ki/k+UMhmWJh1I9s3vEZNCb8cgkIOaQavtcBwWZ/9lUnYaDqjuP8IlE7uzD8K1pWqdy7eK2bVYCIkJphhgsn0kMRG2b0Kcxnd/psnwb8YvZYwN5ubXT+lA3qzQjfps0=
+	t=1778951336; cv=none; b=ZuwAlP9OB7CWIz7SzTnOwj5L/JyLlVFZmFUnN2kphJzggnoYw7brXqlrYiz2t3w+AuELQ0nwZDYIdslSIb4jlHbbk3L+zBR2cGFcsOpEpQwwqN0QS8T46gXR6fj4S0QqrLQwOmdC9u8n9pI9M1YWsFf16oiBzdq20nH2LewNhNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778951265; c=relaxed/simple;
-	bh=4e+bn1uubIZw9wql/1SJXdIru++gUkvx4CTwKY8VeGs=;
+	s=arc-20240116; t=1778951336; c=relaxed/simple;
+	bh=BKQDoDJsXC439gUolHkssDteieDPq4StZKKZEfqYp3Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Em/VvOAqccxL2W5ZSm+qlmqMBfDMGP8cyGPYhvyuTIHd9RiAIcBaghu84gz2On3g/HFVL2rgv60J35sF7NYYiAxxoSROtKV+1o8E1AKCjjXTa/oT4FkoaViyGvhhFGrVSbQInUbaKc7Z1FXVLUqGBu2XFEaLfSGbfE/vEQfBE0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ONz6HPXI; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version; b=CCnHYTABooWNotkHd8BLXz6S4OcBILffsrzEk3pf6R0Afx7W/rPbouFVKxMxdu20UzVvndoGAIbEaapfwVgJb8/dlbwB67Haga2EX9+sf+Kg9w53Rg6skbFAGZdNNpEdtEN1GVNvPnOfPIKmn+Dp6gi0d1St9PiOqNxLy9MQ0KU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gWcZta16; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ONz6HPXI"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-36974221f93so280708a91.2
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 10:07:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778951264; x=1779556064; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y5EcwcuLp5lxGviQ6k0KGxmJmfzJ96X9EE9tFSv1iWA=;
-        b=ONz6HPXIcRz2T4PoGARtgwke7nFBMNk78GFFbDnX9LE9eqYUD1BH6uGhkYbBSDCumg
-         nppj8qKvMFd4VFig9wuK+h0ByG4Bqrtd0b/0eZwH0ZAS7O3Ag0EGUql/YHCqlDuy7ca9
-         xUcaimaBzsxw4NXp18ULHaYKM8gsHL1sC+pgjFzQ0ttolfJWM92aP1B1dunzgHoBxGgS
-         wp/T726RGk+/sQw7EQeVOtSu0nd/UVgIjLs5ao2pLQQbRkWRh04GM9R458hlhcvbsiGO
-         y+t5epWZzRKpf6wTGEJuq6OZnhsxjQi4QS5tlD6UI1aLhrc6soqFFnakvVndg7QsCC1M
-         eDGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778951264; x=1779556064;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=y5EcwcuLp5lxGviQ6k0KGxmJmfzJ96X9EE9tFSv1iWA=;
-        b=FM7W7XUhtx5zTpfW5DwV/LuwEV1Jp1FqxXbsccE01AMOaqe94fvTI146wkJL1ttdNo
-         u5C7eIYsuTIXAasc5P+KhE99zGZppaaA7EcYH58MBz7nAZS+0Qcqqh9EKhES6ENlenv8
-         K8+BOX19a+U0+XL+ksC2ot8cykBPkjinwjgVfmYnXZ99jwgiFXs2158eKqohcoCJPBJJ
-         RjvlSGZVpXeuRfDzkZetBuICb6/y25mo3u6GoDl0Ja0PRiCYR4RIizpQg2G8U6tweef3
-         7TgJ7qZFj7wfm/a0DMm3a6L0UTiQiJcgYIrpzpPT7cii9HEEZtAFczX3a4Jl8eUng2AQ
-         cTYw==
-X-Forwarded-Encrypted: i=1; AFNElJ+SUZkeTjTKQX600uA4CMbb2AlaGPkmcjAEh2SFOPnZCiiSUK/g23/nidSl+U4iAThuRIWiIU8eIhw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuDTIcfW+QHiLeexcFtwr3RWtQN5+utksoJKIctuMqj1sgfJXR
-	gCvKuDtSrFCoEyNEHJjvaCwBBOv+7/1pwlGRyLUdGA22oVKCjE8I3LZY
-X-Gm-Gg: Acq92OHgnegTEO5z96H6C47lA+5U2RMUQIIq4vIzQpQZJGBaIKcKTUXh3ngt/it9HxA
-	bUp4L1c5NLKhEyrzxQFZOJSxDfEpfVxrSSUTVk/vhmyAz6Ef97Dmo4X8GvWHtxM7/B3nQz5onbB
-	wpAlKPjKgK69Du0YldrSrMEJ/re8tmkBDc0smw8+Pt1SO/B5uIbgGEdYeLSMnLwI2C7aOfM7dXi
-	jUzkepPXYbR4w2Nfa+5nSSisRsCJrguxkHALBRnJyHh8qh7rOQQ5HfOO9mxagVGiizoXxuJOvrU
-	etMbbo1PVLD370MdAkRubn3mBmn9rv/W+xgkK2xrIyLgnUYT6qpRkg5K7BnT6CEKi1Ds4tU+SEY
-	3FMS7EqG7uwLGd51yuqN8bM1pdcm9Iomj0p81qk17GupbFQE+2xiQWe9sNim2FZngxK25+ivFlZ
-	ReeWFpMzGwM98Py3/tTNxVDejuilqTLYJ84hpXhYkvLuJ7yT+oVi8Br7BNp5zymKyv18K3+fI0k
-	acs+1FnLXQ+K26bf8Mu8IUAfdKCp9B7OHsdQFD1ZPr5ILg79NEGls7fqAjjric=
-X-Received: by 2002:a17:90b:2742:b0:368:cefe:ddd0 with SMTP id 98e67ed59e1d1-36951b82f8fmr9282400a91.15.1778951263902;
-        Sat, 16 May 2026 10:07:43 -0700 (PDT)
-Received: from ERIC039ERIC.localdomain (1-170-184-71.dynamic-ip.hinet.net. [1.170.184.71])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-369514aecaesm6308994a91.17.2026.05.16.10.07.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 10:07:43 -0700 (PDT)
-From: Chen-Shi-Hong <eric039eric@gmail.com>
-To: linux@roeck-us.net
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-hwmon@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gWcZta16"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A25FC19425;
+	Sat, 16 May 2026 17:08:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778951336;
+	bh=BKQDoDJsXC439gUolHkssDteieDPq4StZKKZEfqYp3Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=gWcZta16u/92H3aK2QjZQO3xAoa+TkIkwQDbEdzLFkd9A9rMwW2BkF7ciNWSo5AnJ
+	 X9RKfj4S+e5yCwow6MLU12oY5LI7ccmoLaNE13KqBuJ7eo/KQaPr7hz9N5++ho3GNC
+	 Xj5mol82GI6pP3R7uY9zSTSNNuNOObOfYtwlmralmQtONdxvENwEb+tglaJXqmBIsd
+	 tHGS96TH2F0jduPUeqUDG/y84G/WOo7QlXHEbe7/L//6sAhzJuCvE8xOfoRCu9VEBC
+	 88jdSwOqwvius+kNtzcTeF2lvrt1T/QFqeox52dWdajzEBWPTBs5muYBjDexcluapy
+	 KFPkCFkfwAqrg==
+From: SeongJae Park <sj@kernel.org>
+To: Cheesecake <cheesecake2960@icloud.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen-Shi-Hong <eric039eric@gmail.com>
-Subject: [PATCH v3] Documentation: hwmon: lm75: document sysfs interface
-Date: Sun, 17 May 2026 01:07:27 +0800
-Message-ID: <20260516170728.2066-1-eric039eric@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260516160823.1461-1-eric039eric@gmail.com>
-References: <20260516160823.1461-1-eric039eric@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: fix typos in design.rst
+Date: Sat, 16 May 2026 10:08:46 -0700
+Message-ID: <20260516170847.146524-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260516093552.8404-1-cheesecake2960@icloud.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,62 +57,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document the sysfs attributes supported by the lm75 driver.
+Hello Cheesecake,
 
-The driver exposes temp1_input, temp1_max, temp1_max_hyst, and the
-standard update_interval attribute. Some chips also expose temp1_alarm,
-and temp1_label is available if a label is provided for the device.
+Thank you for this patch!
 
-Add a sysfs-Interface section to Documentation/hwmon/lm75.rst to
-describe the supported attributes and clarify that temp1_alarm,
-temp1_label, and the write permissions of update_interval depend on the
-chip.
+For the consistency, let's use 'Docs/mm/damon/design:' as the prefix of the
+subject.  E.g., Docs/mm/damon/design: fix three typos
 
-Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
----
-Changes in v2:
-- Document temp1_label as conditionally available when a device label is
-  provided.
+On Sat, 16 May 2026 18:35:37 +0900 Cheesecake <cheesecake2960@icloud.com> wrote:
 
-Changes in v3:
-- Add changelog requested during review.
+> L140: "unsinged" -> "unsigned"
+> L371: "sampleing" -> "sampling"
+> L387: "multipled" -> "multiplied"
 
- Documentation/hwmon/lm75.rst | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+Thank you for finding and fixing these!
 
-diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
-index 4269da04508e..fa8ddcaa0c2b 100644
---- a/Documentation/hwmon/lm75.rst
-+++ b/Documentation/hwmon/lm75.rst
-@@ -181,3 +181,28 @@ is supported by this driver, other specific enhancements are not.
- 
- The LM77 is not supported, contrary to what we pretended for a long time.
- Both chips are simply not compatible, value encoding differs.
-+
-+sysfs-Interface
-+---------------
-+
-+================ ============================================
-+temp1_input      temperature input
-+temp1_max        maximum temperature
-+temp1_max_hyst   maximum temperature hysteresis
-+================ ============================================
-+
-+If a label is provided for the device, the following attribute is also
-+available:
-+
-+================ ============================================
-+temp1_label      temperature channel label
-+================ ============================================
-+
-+If supported by the chip, the following attribute is also available:
-+
-+================ ============================================
-+temp1_alarm      temperature alarm
-+================ ============================================
-+
-+The standard update_interval attribute is also supported. Its write
-+permissions depend on the chip.
--- 
-2.53.0
+> 
+> Signed-off-by: Cheesecake <cheesecake2960@icloud.com>
 
+Is Cheesecake your real name or known identity?  We don't allow anonymous
+contributions [1], and mm community prefer to use real names.
+
+[...]
+
+The file changes look good.
+
+Could you please send v2 of this patch with changed subject and the name (if
+Cheesecake is not your real name or known identity)?
+
+[1] https://docs.kernel.org/process/submitting-patches.html#developer-s-certificate-of-origin-1-1
+
+
+Thanks,
+SJ
