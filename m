@@ -1,349 +1,157 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A516633DEDD
-	for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 19:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F01129C35A;
+	Sat, 16 May 2026 19:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778958994; cv=none; b=D06fym253Yl+GLKR9/5ZI3xxm2CBLfK6t+2EA1Ce63wCPhcuTEWFtd8VH2F2pFkPIycOnqWN7EONjYvByo+HTjpNpcX0/B41pRR534k/ckvMbk6KlRH91rqg7HQlyr0XjsFvITTsVfJ6yIVm6L+yDdoVFdvuSUyvmF2BuFzoiaI=
+	t=1778959156; cv=none; b=ZjiiAopBK6pdJKBVy6qwoA35MlrDeklz9QwAS7GQD8C+on3HyTPLMW31wzUU4wiu+CO/eqUdSdUJJ5K2yYS9l6Imbkdtytukf9x5rr8+nZKhw1lpOMwhFzCRhO78ld3mXJACXOrrK5Duyj8V7uSJy3TY+RdUBRmWzNUuUisNRn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778958994; c=relaxed/simple;
-	bh=msGHrG0N31BgvzjdtZs3pUL1RS6TzKsZz51sy/aaMro=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZvjYOegiFVv3QnwRNe3U3mIr4dw0I1m8FC/IS+oRCHmbFIdy1gX+oGoFouSjAlSDMD30tUC/ocO9oiDfIhMyA7X4tTgmY4net0l4sP+bfV3o2fjENcdd3Rv+s0DcUkcBmXZo5WgE44BoihkbvkKAadE8NGBB0Q0eT6w6ZPZCP2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QQxnoC6S; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778959156; c=relaxed/simple;
+	bh=ftfldjVo82GvKdRrIhImiH0wSu5UwkvKcH8WnBsL2j4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DFsiulKq/mab3AQ54o3xaPb1xmciwoWEyDTUWLiVWFXEwLLQxE2Z9yAMEYdNzma2jpxSuvuItYl4T1J9QMwjfW4wfTvLL5MXJqLqscCnFMJmuY4pQPAs3CGLaW8M2/kq0a86jPwrPh8RqwnorElmoyebAcbdUbGebG39bme8dYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ezlIFUQ8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QQxnoC6S"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-83ef1d17904so969289b3a.1
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 12:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778958992; x=1779563792; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ybAe4Yq5WnbodBsCF6/CHnT6jJ3uUESQY3Wg7H337Q8=;
-        b=QQxnoC6Sqyf8jzEwpTCoasfHOpXgMj4V1XGT4cuYZToXQNXjRSnATbmtLk5iW/zn8G
-         eA8hT6EAfsnrAeu69wgOJpPgfmq6oO7Zh7P/9WF/KCsEc0jHfHAOsSCO8Hww+LdEo1pt
-         wlogc5obsXauILF4FxM9RyYjVa3ftDysHJ4vlNfh1DG/sX8QSdT96UB1trW/YhmKq3iw
-         Wr4BIxCvtYK/E2pEpKNmTzzz24ImoBC9V1/qgo12EWNnCiXbaKL9AM+OOD56AvBHrfU9
-         135MPvKJSS6CpNHuaPF8Mr/MeOz3rHZnEv4UIS2Lq984t0VlC4Z9ABPDiLse5tJqLERq
-         9cdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778958992; x=1779563792;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ybAe4Yq5WnbodBsCF6/CHnT6jJ3uUESQY3Wg7H337Q8=;
-        b=KlUSQQ6pIiL0+habR57hoobi2Ze2R/Eog5BQ2dSLiE8FRb6xyRjZkhY0KE4OJJAohr
-         fqEofETtV/OEPctYpMZRXOzoaEdDeGjwtUEmi77E6wx9rdLZSwi/dx49N5Nn4+aYyj6N
-         g814U1jTJEkz9HwMfqtgnWdgdGynFRuF9J04cgd8VIaRNE941UH8HbD2USOx99pcOyla
-         jZ6boCrmhIeK8MFoR9ZLU/4brUZMJFM1tftexy4IDSuzYSTLy1PgJg4vZXvoalEb4q67
-         T9HoCpKx82DV2tBh2ooE07CTnth352TnIN8aoYLTcBX4Np0i9i8PvJTKg/ks5ebN4Ht9
-         61Yg==
-X-Forwarded-Encrypted: i=1; AFNElJ/rV8xzmCpLcCXSx0cUap5DU01XNun4V+eNBP8VgaiwlusQPgB0w6rhwqBaT3txiSpdJoPI0jDcjlQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4ha+JjPJ46gBFMbO/T4WvG+xtsfSyM/y3Xl5LU57XMFtd6YMS
-	t3whWEHb1Nhxi1SDPvEW2csKkwiqaBdJzeEEO+v/89yTtmsxfDXZCbJF
-X-Gm-Gg: Acq92OFiV04svYGIJCG5gjZPvr5+b920cqVDQ7kul0WOe+JbVClWTUSe2s/O7KwrA7a
-	KRbSSkzzIaxoxvr+whUKbKZVd3mGYI7LOgXtbn+QfM7nfzb1fETwIf2kAxRViGFmoCtZ+A73bJ/
-	U8BxWR2z0Xo5BvsarkT6kYOSbuwZY9BMZEFdKuZKCYci/rURQ4LJfm+PUMY/4qESpGCLuSs6Gx9
-	aV9mUwoXo7uLqXdNNwfcVrOXHA0n0OxM+Z6s3XTCgHOR/WgIFSeUtWjDa1Znpa1Lwmg96KhGcob
-	tIciS1gNefC5OYYftVnDOu6DKtfmRP6uskqPg2JSMhTyjSOBZGQi/Jvh2dIS4I4sGiIYgEeNgKU
-	aC6jRGADFnL9k9srbG9VWqauMv4xGMFhljIKRgi7bufTw+zGuumT3mNV4dkGB8vFUqMZltUOfoA
-	FfF7ECrfRgXJaOqw/Oyi6SFo29/kFArG277j1TTgyjUakSvvMMGf2iYtAb/Gv05BQGQi3b
-X-Received: by 2002:a05:6a00:340c:b0:83b:aa29:3415 with SMTP id d2e1a72fcca58-83f33cb5e9bmr9160316b3a.17.1778958991872;
-        Sat, 16 May 2026 12:16:31 -0700 (PDT)
-Received: from fedora.taildae27b.ts.net ([2409:40e5:100a:b5ee:87c:e578:2b2e:422b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19661261sm12297625b3a.3.2026.05.16.12.16.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 12:16:31 -0700 (PDT)
-From: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-Subject: [PATCH v2 2/2] hwmon: raspberrypi: Add voltage input support
-Date: Sun, 17 May 2026 00:45:55 +0530
-Message-ID: <20260516191555.17978-3-chakrabortyshubham66@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260516191555.17978-1-chakrabortyshubham66@gmail.com>
-References: <20260516164407.25255-1-chakrabortyshubham66@gmail.com>
- <20260516191555.17978-1-chakrabortyshubham66@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ezlIFUQ8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60002C19425;
+	Sat, 16 May 2026 19:19:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778959155;
+	bh=ftfldjVo82GvKdRrIhImiH0wSu5UwkvKcH8WnBsL2j4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ezlIFUQ8sUTJkd1PnAHWM40f6VGFQl/6xDZibb9lmgD+jGZh9dkevA30ebON4X0QM
+	 KOIUTbFW6rgf7iWdNKdOUExcLl3tmGyRJIIWhWtvRFQih3SUOeeEdJ0FpqLi32rxTB
+	 2mPtcPI+HM3EwXsDtx7R4bhocX7gC4PdPWUiygFn9omFTn4JOAZSJ6jSczl4sSfNpa
+	 FfhtxkT5ataezrAXPD/CQ0dhsc5z95v/+3lusvFd8KdaZq9W9X4/WCjmiJTw7Fqyuo
+	 xtUkC+p6HVKX/jj8aMumWLjIhNxrNpYhvqiHWdQoo5NI9shAi4bgvhZ9XW95dxft1E
+	 MFyLyn31Bkg1Q==
+Date: Sat, 16 May 2026 21:19:11 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
+Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH] landlock: Documentation wording cleanups
+Message-ID: <agjBUgqr1b908oWn@devuan>
+References: <20260516190112.4924-1-gnoack3000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bbzhlxjnnqmvezvb"
+Content-Disposition: inline
+In-Reply-To: <20260516190112.4924-1-gnoack3000@gmail.com>
 
-Extend the raspberrypi-hwmon driver to expose firmware-provided
-voltage measurements through the hwmon subsystem.
 
-The driver now exports the following voltage inputs:
+--bbzhlxjnnqmvezvb
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
+Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH] landlock: Documentation wording cleanups
+Message-ID: <agjBUgqr1b908oWn@devuan>
+References: <20260516190112.4924-1-gnoack3000@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20260516190112.4924-1-gnoack3000@gmail.com>
 
-  - in0_input (core)
-  - in1_input (sdram_c)
-  - in2_input (sdram_i)
-  - in3_input (sdram_p)
+Hi G=C3=BCnther,
 
-Voltage values returned by firmware are converted from microvolts
-to millivolts as expected by the hwmon subsystem.
+> Cc: Alejandro Colomar <alx.manpages@gmail.com>
 
-Update the documentation related to it.
+I don't use that address anymore.  (The gmail account still exists, but
+I'll eventually remove it.)
 
-The existing undervoltage sticky alarm handling is preserved and
-associated with the first voltage channel.
+On 2026-05-16T21:01:12+0200, G=C3=BCnther Noack wrote:
+> Documentation cleanups suggested by Alejandro Colomar,
+> which we have also applied in the man pages.
+>=20
+> Link: https://lore.kernel.org/all/agW4yMK6CinJGqXt@devuan/
+> Suggested-by: Alejandro Colomar <alx@kernel.org>
+> Signed-off-by: G=C3=BCnther Noack <gnoack3000@gmail.com>
+> ---
+>  include/uapi/linux/landlock.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
+> index 10a346e55e95..48c12ddf1108 100644
+> --- a/include/uapi/linux/landlock.h
+> +++ b/include/uapi/linux/landlock.h
+> @@ -255,16 +255,16 @@ struct landlock_net_port_attr {
+>   *   :manpage:`connect(2)` as well as calls to :manpage:`sendmsg(2)` wit=
+h an
+>   *   explicit recipient address.
+>   *
+> - *   This access right only applies to connections to UNIX server socket=
+s which
+> + *   This access right applies only to connections to UNIX server socket=
+s which
 
-Tested in -
-- Raspberry Pi 3b+ (Linux raspberrypi 6.12.75+rpt-rpi-v8 #1 SMP PREEMPT
-  Debian 1:6.12.75-1+rpt1 (2026-03-11) aarch64 GNU/Linux)
+Yup.  As a reminder, 'only' applies to whatever comes immediately after
+it.
 
-Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
----
- Documentation/hwmon/raspberrypi-hwmon.rst |  15 ++-
- drivers/hwmon/raspberrypi-hwmon.c         | 134 +++++++++++++++++++++-
- 2 files changed, 144 insertions(+), 5 deletions(-)
+>   *   were created outside of the newly created Landlock domain (e.g. fro=
+m within
+>   *   a parent domain or from an unrestricted process).  Newly created UN=
+IX
+>   *   servers within the same Landlock domain continue to be accessible. =
+ In this
+>   *   regard, %LANDLOCK_ACCESS_FS_RESOLVE_UNIX has the same semantics as =
+the
+>   *   ``LANDLOCK_SCOPE_*`` flags.
+>   *
+> - *   If a resolve attempt is denied, the operation returns an ``EACCES``=
+ error,
+> - *   in line with other filesystem access rights (but different to denia=
+ls for
+> - *   abstract UNIX domain sockets).
+> + *   If a resolution attempt is denied, the operation returns an ``EACCE=
+S``
+> + *   error, in line with other filesystem access rights (but different to
+> + *   denials for abstract UNIX domain sockets).
 
-diff --git a/Documentation/hwmon/raspberrypi-hwmon.rst b/Documentation/hwmon/raspberrypi-hwmon.rst
-index 8038ade36490..db315184b861 100644
---- a/Documentation/hwmon/raspberrypi-hwmon.rst
-+++ b/Documentation/hwmon/raspberrypi-hwmon.rst
-@@ -20,6 +20,17 @@ undervoltage conditions.
- Sysfs entries
- -------------
- 
--======================= ==================
-+======================= ======================================================
-+in0_input		Core voltage in millivolts
-+in1_input		SDRAM controller voltage in millivolts
-+in2_input		SDRAM I/O voltage in millivolts
-+in3_input		SDRAM PHY voltage in millivolts
-+in0_label		"core"
-+in1_label		"sdram_c"
-+in2_label		"sdram_i"
-+in3_label		"sdram_p"
- in0_lcrit_alarm		Undervoltage alarm
--======================= ==================
-+======================= ======================================================
-+
-+The voltage inputs and labels are only exposed if the firmware reports support
-+for the corresponding voltage ID.
-diff --git a/drivers/hwmon/raspberrypi-hwmon.c b/drivers/hwmon/raspberrypi-hwmon.c
-index a2938881ccd2..4f96f37116f3 100644
---- a/drivers/hwmon/raspberrypi-hwmon.c
-+++ b/drivers/hwmon/raspberrypi-hwmon.c
-@@ -5,6 +5,7 @@
-  * Based on firmware/raspberrypi.c by Noralf Trønnes
-  *
-  * Copyright (C) 2018 Stefan Wahren <stefan.wahren@i2se.com>
-+ * Copyright (C) 2026 Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-  */
- #include <linux/device.h>
- #include <linux/devm-helpers.h>
-@@ -18,13 +19,26 @@
- 
- #define UNDERVOLTAGE_STICKY_BIT	BIT(16)
- 
-+struct rpi_firmware_get_value {
-+	__le32 id;
-+	__le32 val;
-+} __packed;
-+
- struct rpi_hwmon_data {
- 	struct device *hwmon_dev;
- 	struct rpi_firmware *fw;
-+	u32 valid_inputs;
- 	u32 last_throttled;
- 	struct delayed_work get_values_poll_work;
- };
- 
-+static const char * const rpi_hwmon_labels[] = {
-+	"core",
-+	"sdram_c",
-+	"sdram_i",
-+	"sdram_p",
-+};
-+
- static void rpi_firmware_get_throttled(struct rpi_hwmon_data *data)
- {
- 	u32 new_uv, old_uv, value;
-@@ -56,6 +70,23 @@ static void rpi_firmware_get_throttled(struct rpi_hwmon_data *data)
- 	hwmon_notify_event(data->hwmon_dev, hwmon_in, hwmon_in_lcrit_alarm, 0);
- }
- 
-+static int rpi_firmware_get_voltage(struct rpi_hwmon_data *data, u32 id,
-+				    long *val)
-+{
-+	struct rpi_firmware_get_value packet;
-+	int ret;
-+
-+	packet.id = cpu_to_le32(id);
-+	packet.val = 0;
-+	ret = rpi_firmware_property(data->fw, RPI_FIRMWARE_GET_VOLTAGE,
-+				    &packet, sizeof(packet));
-+	if (ret)
-+		return ret;
-+
-+	*val = le32_to_cpu(packet.val) / 1000;
-+	return 0;
-+}
-+
- static void get_values_poll(struct work_struct *work)
- {
- 	struct rpi_hwmon_data *data;
-@@ -77,19 +108,94 @@ static int rpi_read(struct device *dev, enum hwmon_sensor_types type,
- {
- 	struct rpi_hwmon_data *data = dev_get_drvdata(dev);
- 
--	*val = !!(data->last_throttled & UNDERVOLTAGE_STICKY_BIT);
-+	if (type == hwmon_in) {
-+		switch (attr) {
-+		case hwmon_in_input:
-+			switch (channel) {
-+			case 0:
-+				return rpi_firmware_get_voltage(data,
-+						RPI_FIRMWARE_VOLT_ID_CORE,
-+						val);
-+			case 1:
-+				return rpi_firmware_get_voltage(data,
-+						RPI_FIRMWARE_VOLT_ID_SDRAM_C,
-+						val);
-+			case 2:
-+				return rpi_firmware_get_voltage(data,
-+						RPI_FIRMWARE_VOLT_ID_SDRAM_I,
-+						val);
-+			case 3:
-+				return rpi_firmware_get_voltage(data,
-+						RPI_FIRMWARE_VOLT_ID_SDRAM_P,
-+						val);
-+			default:
-+				return -EOPNOTSUPP;
-+			}
-+		case hwmon_in_lcrit_alarm:
-+			if (channel == 0) {
-+				*val = !!(data->last_throttled & UNDERVOLTAGE_STICKY_BIT);
-+				return 0;
-+			}
-+			return -EOPNOTSUPP;
-+		default:
-+			return -EOPNOTSUPP;
-+		}
-+	}
-+
-+	return -EOPNOTSUPP;
-+}
-+
-+static int rpi_read_string(struct device *dev, enum hwmon_sensor_types type,
-+			   u32 attr, int channel, const char **str)
-+{
-+	if (type == hwmon_in && attr == hwmon_in_label) {
-+		if (channel >= ARRAY_SIZE(rpi_hwmon_labels))
-+			return -EOPNOTSUPP;
-+
-+		*str = rpi_hwmon_labels[channel];
-+		return 0;
-+	}
-+
-+	return -EOPNOTSUPP;
-+}
-+
-+static umode_t rpi_is_visible(const void *_data, enum hwmon_sensor_types type,
-+			      u32 attr, int channel)
-+{
-+	const struct rpi_hwmon_data *data = _data;
-+
-+	if (type == hwmon_in) {
-+		switch (attr) {
-+		case hwmon_in_input:
-+		case hwmon_in_label:
-+			if (!(data->valid_inputs & BIT(channel)))
-+				return 0;
-+			return 0444;
-+		case hwmon_in_lcrit_alarm:
-+			if (channel == 0)
-+				return 0444;
-+			return 0;
-+		default:
-+			return 0;
-+		}
-+	}
-+
- 	return 0;
- }
- 
- static const struct hwmon_channel_info * const rpi_info[] = {
- 	HWMON_CHANNEL_INFO(in,
--			   HWMON_I_LCRIT_ALARM),
-+			   HWMON_I_INPUT | HWMON_I_LABEL | HWMON_I_LCRIT_ALARM,
-+			   HWMON_I_INPUT | HWMON_I_LABEL,
-+			   HWMON_I_INPUT | HWMON_I_LABEL,
-+			   HWMON_I_INPUT | HWMON_I_LABEL),
- 	NULL
- };
- 
- static const struct hwmon_ops rpi_hwmon_ops = {
--	.visible = 0444,
-+	.is_visible = rpi_is_visible,
- 	.read = rpi_read,
-+	.read_string = rpi_read_string,
- };
- 
- static const struct hwmon_chip_info rpi_chip_info = {
-@@ -101,6 +207,7 @@ static int rpi_hwmon_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct rpi_hwmon_data *data;
-+	long voltage;
- 	int ret;
- 
- 	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-@@ -110,6 +217,26 @@ static int rpi_hwmon_probe(struct platform_device *pdev)
- 	/* Parent driver assure that firmware is correct */
- 	data->fw = dev_get_drvdata(dev->parent);
- 
-+	ret = rpi_firmware_get_voltage(data, RPI_FIRMWARE_VOLT_ID_CORE,
-+				       &voltage);
-+	if (!ret)
-+		data->valid_inputs |= BIT(0);
-+
-+	ret = rpi_firmware_get_voltage(data, RPI_FIRMWARE_VOLT_ID_SDRAM_C,
-+				       &voltage);
-+	if (!ret)
-+		data->valid_inputs |= BIT(1);
-+
-+	ret = rpi_firmware_get_voltage(data, RPI_FIRMWARE_VOLT_ID_SDRAM_I,
-+				       &voltage);
-+	if (!ret)
-+		data->valid_inputs |= BIT(2);
-+
-+	ret = rpi_firmware_get_voltage(data, RPI_FIRMWARE_VOLT_ID_SDRAM_P,
-+				       &voltage);
-+	if (!ret)
-+		data->valid_inputs |= BIT(3);
-+
- 	data->hwmon_dev = devm_hwmon_device_register_with_info(dev, "rpi_volt",
- 							       data,
- 							       &rpi_chip_info,
-@@ -159,6 +286,7 @@ static struct platform_driver rpi_hwmon_driver = {
- module_platform_driver(rpi_hwmon_driver);
- 
- MODULE_AUTHOR("Stefan Wahren <wahrenst@gmx.net>");
-+MODULE_AUTHOR("Shubham Chakraborty <chakrabortyshubham66@gmail.com>");
- MODULE_DESCRIPTION("Raspberry Pi voltage sensor driver");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("platform:raspberrypi-hwmon");
--- 
-2.54.0
+I.e.: s/resolve/resolution/
 
+I miss semantic newlines!  :)
+
+
+Have a lovely day!
+Alex
+
+>   *
+>   *   This access right is available since the ninth version of the Landl=
+ock ABI.
+>   *
+> --=20
+> 2.54.0
+>=20
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--bbzhlxjnnqmvezvb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmoIwycACgkQ64mZXMKQ
+wqmQgQ//d1Zjm4nq4I64zFgwLViUIPtmBPuV5AAA/PKh8FlnvwFUYXqhOVioK6wK
+cUsFOAliFNSfOB6fYNWR3qxOE4l+79/3VrEbxKdgeqfN6wZD6g7pVJAew/7SyV1K
+R40Gknn0FfoPgyL2eCVjkegI/eyDa/lZKa8O1MFkoDHsfmB0CKeJ/nc6ZfTOs/yk
+p1UyGoBs1YEm4nQj163lkAUrhpJsH2qCnLiuBDq1+wBTghmSHrhiMUU1Qn++2i6o
+k7GIb5F2kQa7RpVehEZDaWChWNye8URZ2K857fVwVDWi/KX6pncspM+BkfuTHMRP
+rgSgvhX1TSqZ2O9vt4gOr9rK/6RpA7o7OwF4Rsh0jzHwBnAaxqg0NMaUizCgaxL1
+M/QWQj3dw8yH/KKUepk120sChiT8n6CfBd2fB0KWcs6mvORwwD7eJkyEUFrHGWUq
+4CkA+OuzmVFvMnMGAvamHTwkYwdeeXl85YPAM8PFZcUQDCoAB+hYKvbRQk3P7mfe
+qKJY5I5JV3NSSYv9NgnFtW98XiNx89bBKp4W1+Iu0aho79tlmINCPHAyw9pRKcqY
+gln+U3lD31WctKNMTSQjdj2ldnmm0AD8HLkpRcR1JxH/NzHA6E4n6KnAb4scjsY1
+2+ga0J0XWC5PGSi/BVQvGj8qNwQ54tWGppPsELBUnjKx6dtCSfw=
+=DZlG
+-----END PGP SIGNATURE-----
+
+--bbzhlxjnnqmvezvb--
