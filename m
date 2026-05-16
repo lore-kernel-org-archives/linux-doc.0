@@ -1,90 +1,182 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45BD405C2C;
-	Sat, 16 May 2026 18:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7563B28686;
+	Sat, 16 May 2026 18:55:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778957436; cv=none; b=WOL85rEUrK06SsGzvkxuUy0dCwGtcKvvmkUrS+9NYvuAHvCEJrwZ3SXlKQ6NE11qRGwWnlUdBXx7iaOohugXgFn+UpvzYB9efawNy7UAhBYj4LBScKrBsAJ5qgQ4yoBRr7fhZdgwc/rOiY2Iy40VWNUHfqIsei6eI/FWqnF6kFQ=
+	t=1778957736; cv=none; b=VbUO0bxtX7u+CPfpoSS5Wk6he/e7nZnru3vdnavr2MO7DyfKtkW8NqyU1oF9WfUPdjU55T7BRaiF1/XAkqBshmpLP6RooIiZGto4dGhCSSjuwSwD4+bxTtyexwhU38bmYRGgBBLUCnpA8FJOu1jgeR8SbzG4R6jJ5MTrp54UUrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778957436; c=relaxed/simple;
-	bh=/mc+Cv8/SoyCbsJ+SUSfV3aQIXou0Zvtdu64a7r8qYM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dXxYy60Fm61VAr41Y1pC/zRlfz5heRdS0M6em+tdN08aQlKH1gON3s6BFrGH4zYHIdOnURgLfjV5K75HYFb/ZjP4IjjpcnuSsmMOVisC4fklB1MlfQQ6UDw0v1fAQMT+v5UccdzYqp5RS0dzyIVkaoYFESwX0WRqJJBt0pOVQ80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VN3fGvEE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778957736; c=relaxed/simple;
+	bh=q/IpILmr0azoC+t0Lf2g+yybKTzBbhfe+OMXbr5vnMg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kbo1J/U1puZ/DF9hsIJjmjoGN4XEBBd4AiHXppHBZU3bfixcD/Wp3s4k4HaObYxVY2eoJvsQ/oAjyAO1zxxR/nDEsG/AKgUpWKwhDGg6uwwxmxnB89zUa99Ud9unZ35DhpGOi9NcsQFfKz/8x7TSJcvYzd1H2v/PL8jUfwnb6ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZhK1sizi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VN3fGvEE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D941C19425;
-	Sat, 16 May 2026 18:50:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZhK1sizi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DDB1C19425;
+	Sat, 16 May 2026 18:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778957436;
-	bh=/mc+Cv8/SoyCbsJ+SUSfV3aQIXou0Zvtdu64a7r8qYM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VN3fGvEEmvdhLyWQADuEhdcDPWtnDsteqJlC8SSPj08SiA2BC7rARwfG7WMURFPKL
-	 f8yvxnb4/aE8Gt4eDMYAMxY9o3xfIU2L1g65OZoy9QyfOH/VwwWprRkgWmFU9FrC8C
-	 t++NdPULqY8GumqhbwZ/npQZ+2soy480LiAvhD7e5/mS7syRAckwtveY3ZETiiNVpi
-	 XUh6HIio2/H6vUKqL4DFe0uGf9TNHJRcMu4EyADux72g6DnaJGeTqfw0kRh9/b3Tet
-	 Y/dZ1iHkp8Z/1b26B0xcD6Csi8gbq6y+UFYUBRfwD7+YgFwrVu/g+r+Aa5cy7G2t0e
-	 /aFo9vFPiNAJw==
-From: SeongJae Park <sj@kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: "Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v3 00/28] mm/damon: introduce data attributes monitoring
-Date: Sat, 16 May 2026 11:50:31 -0700
-Message-ID: <20260516185032.82261-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260516183712.81393-1-sj@kernel.org>
-References: 
+	s=k20201202; t=1778957736;
+	bh=q/IpILmr0azoC+t0Lf2g+yybKTzBbhfe+OMXbr5vnMg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZhK1siziz+X7X/gaHEAf46XLp/wpndFW29ONEQhistZJ8LZL9NdVhquDzcCgPzRA7
+	 bYeyYR8bf5oaBqHnG4MFF7J/vDaW1WRDMr726TXGzMop61gPwHVD6HKwttfehaoLoA
+	 h7vseBAgDOF2R1upFMaCUfj+o0ws1/A5FYJEw9mg1eHlPYjnYCltvTi0BhptUvduT2
+	 9ZQ1zmnNifahl03+VVA7SFJfAiqMlxHu0iCqsxEmROOF0FY2eStn6JT/JHOpG/VQq5
+	 deKDcavTSAoCLRc5oCU4z03rHl+rmDgUp+Sn0RdZQMBSdjAowxOxCHcvXl1dC/Zb7q
+	 iT6k3kn+oWE+Q==
+Date: Sat, 16 May 2026 19:55:22 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
+ <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v11 5/6] iio: adc: ad4691: add oversampling support
+Message-ID: <20260516195522.6792f89e@jic23-huawei>
+In-Reply-To: <20260515-ad4692-multichannel-sar-adc-driver-v11-5-eab27d852ac2@analog.com>
+References: <20260515-ad4692-multichannel-sar-adc-driver-v11-0-eab27d852ac2@analog.com>
+	<20260515-ad4692-multichannel-sar-adc-driver-v11-5-eab27d852ac2@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, 16 May 2026 11:36:41 -0700 SeongJae Park <sj@kernel.org> wrote:
+On Fri, 15 May 2026 16:31:34 +0300
+Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
 
-> TL; DR
-> ======
+> From: Radu Sabau <radu.sabau@analog.com>
 > 
-> Extend DAMON for monitoring general data attributes other than accesses.
-> The short term motivation is lightweight page type (e.g., belonging
-> cgroup) aware monitoring.  In long term, this will help extending DAMON
-> for multiple access events capture primitives (e.g., page faults and
-> PMU) and eventually pivotting DAMON to a "Data Attributes Monitoring and
-> Operations eNgine" in long term.
-[...]
-> Changes from RFC v2.1
-> - rfc v2.1: https://lore.kernel.org/20260514140904.119781-1-sj@kernel.org
-> - Rebase to mm-stable (7.1-rc3) to avoid Sashiko patch apply failure.
+> Add per-channel oversampling ratio (OSR) support for CNV burst mode.
+> The accumulator depth register (ACC_DEPTH_IN) is programmed with the
+> selected OSR at buffer enable time and before each single-shot read.
+> 
+> Supported OSR values: 1, 2, 4, 8, 16, 32.
+> 
+> Introduce AD4691_MANUAL_CHANNEL() for manual mode channels, which do
+> not expose the oversampling_ratio attribute since OSR is not applicable
+> in that mode. A separate manual_channels array is added to
+> struct ad4691_channel_info and selected at probe time.
+> 
+> in_voltageN_sampling_frequency represents the effective output rate for
+> channel N, defined as osc_freq / osr[N]. The chip has one internal
+> oscillator shared by all channels; each channel independently
+> accumulates osr[N] oscillator cycles before producing a result.
+> 
+> Writing sampling_frequency computes needed_osc = freq * osr[N] and
+> snaps down to the largest oscillator table entry that satisfies both
+> osc <= needed_osc and osc % osr[N] == 0, guaranteeing an exact integer
+> read-back. The result is stored in target_osc_freq_Hz and written to
+> OSC_FREQ_REG at buffer enable and single-shot time, so sampling_frequency
+> and oversampling_ratio can be set in any order.
+> 
+> in_voltageN_sampling_frequency_available is computed dynamically from
+> the channel's current OSR, listing only oscillator table entries that
+> divide evenly by osr[N], expressed as effective rates. The list becomes
+> sparser as OSR increases, capping at max_rate / osr[N].
+> 
+> Writing oversampling_ratio stores the new OSR for that channel and snaps
+> target_osc_freq_Hz to the largest oscillator table entry that is both
+> <= old_effective_rate * new_osr and evenly divisible by new_osr. This
+> preserves an integer read-back of in_voltageN_sampling_frequency after
+> the OSR change while keeping the oscillator as close as possible to the
+> previous effective rate.
+> 
+> OSR defaults to 1 (no accumulation) for all channels.
+> 
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
 
-Still this seires is based on mm-stable (7.1-rc3) for the same reason.  The
-patches that based on mm-new is available at damon/next tree [1].
+Mostly to avoid others looking into it. We do indeed have some issues
+in the IIO core with races around read_avail().
+They've been there a long time and attempts to fix them haven't yet
+made it upstream.  Where possible it is better to precompute all the options
+and pick a pointer rather than copying on the fly.
 
-[1] https://origin.kernel.org/doc/html/latest/mm/damon/maintainer-profile.html#scm-trees
+I think we can do that here but maybe I'm missing something.
+
+I'm running out of energy tonight and feel like some Eurovision silliness
+so I'm not going to do another full review today at least
+
+> ---
+>  drivers/iio/adc/ad4691.c | 381 ++++++++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 343 insertions(+), 38 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/ad4691.c b/drivers/iio/adc/ad4691.c
+> index 25f7a6939b0f..39244e0e4a2d 100644
+> --- a/drivers/iio/adc/ad4691.c
+> +++ b/drivers/iio/adc/ad4691.c
+
+>  
+>  static int ad4691_read_avail(struct iio_dev *indio_dev,
+> @@ -634,10 +802,46 @@ static int ad4691_read_avail(struct iio_dev *indio_dev,
+>  	unsigned int start = ad4691_samp_freq_start(st->info);
+>  
+>  	switch (mask) {
+> -	case IIO_CHAN_INFO_SAMP_FREQ:
+> -		*vals = &ad4691_osc_freqs_Hz[start];
+> +	case IIO_CHAN_INFO_SAMP_FREQ: {
+> +		unsigned int osr;
+> +		int n = 0;
+> +
+> +		/*
+> +		 * Hold the lock while reading osr[chan] and populating the
+> +		 * scratch buffer: a concurrent oversampling_ratio write modifies
+> +		 * both target_osc_freq_Hz and osr[] under the lock, so we must
+> +		 * read osr atomically with respect to that write. The scratch
+> +		 * buffer is per-channel, so concurrent reads on different
+> +		 * channels do not race; concurrent reads on the same channel
+> +		 * would compute identical values, but holding the lock avoids
+> +		 * the formal data race.
+
+The further issue that sashiko points out is we might rip whilst the
+core is formatting this. It's actually worse than a small race as the
+consumer interface might hold the pointer indefinitely.  There are only
+a few osr values, can we precompute the lot and make this a pick?
 
 
-Thanks,
-SJ
-
-[...]
+> +		 */
+> +		scoped_guard(mutex, &st->lock) {
+> +			osr = st->osr[chan->channel];
+> +
+> +			/*
+> +			 * Only oscillator frequencies evenly divisible by the
+> +			 * channel's OSR yield an integer effective rate; expose
+> +			 * those as effective rates (osc / osr) so the user works
+> +			 * entirely in output-sample space.
+> +			 */
+> +			for (unsigned int i = start;
+> +			     i < ARRAY_SIZE(ad4691_osc_freqs_Hz); i++) {
+> +				if (ad4691_osc_freqs_Hz[i] % osr)
+> +					continue;
+> +				st->samp_freq_avail[chan->channel][n++] =
+> +					ad4691_osc_freqs_Hz[i] / osr;
+> +			}
+> +		}
+> +		*vals = st->samp_freq_avail[chan->channel];
+>  		*type = IIO_VAL_INT;
+> -		*length = ARRAY_SIZE(ad4691_osc_freqs_Hz) - start;
+> +		*length = n;
+> +		return IIO_AVAIL_LIST;
+> +	}
+> +	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+> +		*vals = ad4691_oversampling_ratios;
+> +		*type = IIO_VAL_INT;
+> +		*length = ARRAY_SIZE(ad4691_oversampling_ratios);
+>  		return IIO_AVAIL_LIST;
+>  	default:
+>  		return -EINVAL;
