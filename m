@@ -1,153 +1,232 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BA33C4B82
-	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 18:26:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D612DB781
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 18:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779042412; cv=none; b=l9RDpdP83iiVFKXhlYYxtqxT6yid7NARALsM1Jc7FQpT/psGwy2HXgSUyXFO5EztbLc+pq6CKJtgryX7Sfp7kyvRhSd9ij/3GqihlZl1KDVRFDDtX4+w0XAnIT47Opv5XafG0UnM2L0fpDmPBnfXau3soBV20z6VDxKUx6jb6M0=
+	t=1779043001; cv=none; b=ft7/CIR1zWSRow1HKV3pWsjFZwkjQxY8YgIajkVHp2ksgzWBbw40kYs68jNaMdZAjnFgx2AtGAxc9KQXtpvk6cmmy68sM99eqC6pCd6uHyFgTBTRNMjZTj/ZbGAKBvlt0JJLl8R5yH16CKaEBSW7R7P01gFbXZkwVbythvQBv74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779042412; c=relaxed/simple;
-	bh=vXM9Wu6Q6FwlpT7rufba8YKh8vMGByrc/DR7vm33zao=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JuObKjZgkOMrGm0ltAJ8x6APIOCuHW+evMBaB7Sp6P2FcI6XmfDUulqOHgf3cg+IwLNihiqxUgEda8VRQpJnif8NG1nRBvGlN24j6RKZyy5zDAboAl5YOaPJ6sErNlFzWC9YFWibeG5hVtUmfhMPZf147ELJGz8XlsJwgdO7XG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RcCW8HRZ; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1779043001; c=relaxed/simple;
+	bh=WLP2XISDODwrJ9jTE9ldleGxDFC3U/plew2A2E6a8Uk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uW6o0rr9LpctiE794GyX8uIpMoXdofCl1mn828rM17I5sRmvYfbSMDKhR2KJPSOKJd7CdzWIQqf42Jehe3cM49EvBM6JFDiURYJfV9xV3ylAATLWUlRkim4Iklso+8GOtJJeyfFKjVMGPGH13oxFG3qc2/HFEbQjsZ9lhv6o1y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=E8pRMi48; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RcCW8HRZ"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779042406;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=V9vGbDjxgZyPY7/BSXSX99pspMvi9Dnp2FUzlVWZm1Y=;
-	b=RcCW8HRZzzfzqL9uy3GAt1LQZN1SwBPn6GHQb4hzkJKTmYk9RPTR2w8wnRSp2DayqU02jy
-	R779rFWkXjHEFULIPuoOVaWVz+OAvGz+bvwB4ZXqr3GQMo26J21+yACfBuXQ9SnA/WPqAp
-	iuhtFExuagWeoV+mPjASSal5KPm/220=
-From: Zenghui Yu <zenghui.yu@linux.dev>
-To: damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: sj@kernel.org,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	Zenghui Yu <zenghui.yu@linux.dev>
-Subject: [PATCH] Docs/{ABI,admin-guide}/damon: fix various typoes
-Date: Mon, 18 May 2026 02:26:22 +0800
-Message-ID: <20260517182624.7167-1-zenghui.yu@linux.dev>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="E8pRMi48"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-911449d9d03so202594185a.1
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 11:36:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1779042998; x=1779647798; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lirFWsJ5C0bTd/R7aKsYhvTxoj04iUNEXEllFWQcIOE=;
+        b=E8pRMi48rMimZqHyZsyiQqtynHdmNsssKQoSp9vRy4l8iBxj9DUzhRjj2QazNuD47G
+         gM+O8wp7lRq0CeQeJUA5t+U/jo/j949vaOma/fCd6tPWoMrpo1DE5sTcvd2VObXHUhpB
+         s/fQv5e66Gj8uA68T8YpFT9BGokWZ9yzv/0p15T1W3y6MwnLDMaj90SBsr5kv8IpO9vy
+         kfPQE2EO2QPxOlGg8D4Mp0aCK4RoX8eNoCrpwGT6HxJIoTJmvTkgp5QXbUGiQsbe79Lf
+         tnjeMh/EIMrhYblBWKv7OyqLxrInxyJLVttkYBatYvoM4qmMnFj7v6zilzYbfhvs0oNU
+         tqDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779042998; x=1779647798;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lirFWsJ5C0bTd/R7aKsYhvTxoj04iUNEXEllFWQcIOE=;
+        b=TkDflvymut1mG+PfkcSKsNAFAzDvNi4/gvwbNk77EPMgTX9dAIvyhnqm4WXF4NlgPO
+         SjdsmeiCFvC0dPCh7gt8Rgj2vDblWvSn5pNcXaeK4eP4P0YUxVsywSyQIreLv367i3kq
+         uwFl9npI3ED3A6w2gTrUhxueDBawBBTQXSMUEokOEAEbDwDoppUFzeyeubSpXxB8gNzt
+         vVS45AwyGkHDzVaj/+iLGc6+QTSKuPbWc1zdyVJYHjP0cJdJqmochqu79npRfh2W4NqH
+         1tLMOF492Gkm3cJaWhBi3AHVI/U7O+X9DRnfdglp19bYoHFrChUQ3w1nofooNwryuI3T
+         javQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8PBSuEJ0mWFkerlLiHLXiQDjfgvAbt08Z1nYaPsAG39yg4S7S17h1hnuzYJQySJZkchaQT5gt807Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwY5SPvhlMAcPX4ea8/qFEEOJaMDDckloRuo9pjoUWPSCXO2rOv
+	O+XtHMyGPErq4JjA18/DCQ8olbbps4TaK/txInv/xGV0J3aKk9zYsgPd4AoYBr9EcQE=
+X-Gm-Gg: Acq92OEP8wKQ7Df5LOyHVcXupnbxdtFmtrWp6Hm8rIyLrgK8QmYHc70GUI+viv0O9Lx
+	/UKm+P9s3YET2PdIn0UTV2r2TwJAMomAmvx/ScUmoyXo2LEIsjNHXVW5UMuHCywdj1shHld+cWf
+	A8pCN/0HaBmdGuzFBkkDkwKZaSpLGMC0DqNHUrb/UZLzPecRrEy73prKbs1MJCxjhZmCX3RzutG
+	Ae+s1MnjrjhuU/5aiXnpxbW9APqXihN7Y0o8dPmKOdvAZGgDOnFoDw6D+rjaXCAzob3OZ+wiuKm
+	fMBZC4QFApB1XNYSrgsabgcq7dqCHZXI/6wkn6wpJwSmWEsoNY9kWi3dyX3wdpO4aZhAQsIuQsn
+	VEVAqsxnPYU3W/eriBG0AgKN5a7Keuam1c+gq7fqxmpt1rbj70YsHyesYiagMexHc/1I5SqX/iT
+	X8S0GJPRmEEIko4AG6pxKgg21ZocS+mDwU1ZW+j+AzlbxnGFrp1T4=
+X-Received: by 2002:a05:620a:6cc6:b0:911:a9e4:8b04 with SMTP id af79cd13be357-911d1042fc0mr1877269085a.62.1779042998343;
+        Sun, 17 May 2026 11:36:38 -0700 (PDT)
+Received: from plex ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-910bcf3584esm1221812385a.34.2026.05.17.11.36.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2026 11:36:37 -0700 (PDT)
+Date: Sun, 17 May 2026 18:36:36 +0000
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	linux-kselftest@vger.kernel.org, shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	corbet@lwn.net, dmatlack@google.com, kexec@lists.infradead.org, 
+	pratyush@kernel.org, skhawaja@google.com, graf@amazon.com
+Subject: Re: [PATCH v2 01/10] liveupdate: centralize state management into
+ struct luo_ser
+Message-ID: <agoKAw9CQIVIhp2b@plex>
+References: <20260514222628.931312-1-pasha.tatashin@soleen.com>
+ <20260514222628.931312-2-pasha.tatashin@soleen.com>
+ <agn4z5ZrFBi9AIGw@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <agn4z5ZrFBi9AIGw@kernel.org>
 
-``damon_target_idx`` was wrongly written as ``target_idx`` in the docs. Fix
-it all over the place, as well as the wrong directory count, grammar, etc.
+On 05-17 20:20, Mike Rapoport wrote:
+> On Thu, May 14, 2026 at 10:26:19PM +0000, Pasha Tatashin wrote:
+> > Transition the LUO to ABI v2, which centralizes state management into a
+> > single struct luo_ser header.
+> > 
+> > Previously, LUO state was spread across multiple FDT properties and
+> > subnodes. ABI v2 simplifies this by placing all core state, including
+> > the liveupdate number and physical addresses for sessions and FLB
+> > headers into a centralized struct luo_ser.
+> > 
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > ---
+> >  include/linux/kho/abi/luo.h      | 91 +++++++++++---------------------
+> >  kernel/liveupdate/luo_core.c     | 59 ++++++++++++++-------
+> >  kernel/liveupdate/luo_flb.c      | 65 ++++-------------------
+> >  kernel/liveupdate/luo_internal.h |  8 +--
+> >  kernel/liveupdate/luo_session.c  | 57 +++-----------------
+> >  5 files changed, 93 insertions(+), 187 deletions(-)
+> 
+> This looks lovely :)
+> 
+> > @@ -115,27 +117,29 @@ static int __init luo_early_startup(void)
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > -	ln_size = 0;
+> > -	ptr = fdt_getprop(luo_global.fdt_in, 0, LUO_FDT_LIVEUPDATE_NUM,
+> > -			  &ln_size);
+> > -	if (!ptr || ln_size != sizeof(luo_global.liveupdate_num)) {
+> > -		pr_err("Unable to get live update number '%s' [%d]\n",
+> > -		       LUO_FDT_LIVEUPDATE_NUM, ln_size);
+> > +	header_size = 0;
+> > +	ptr = fdt_getprop(luo_global.fdt_in, 0, LUO_FDT_ABI_HEADER, &header_size);
+> > +	if (!ptr || header_size != sizeof(u64)) {
+> > +		pr_err("Unable to get ABI header '%s' [%d]\n",
+> > +		       LUO_FDT_ABI_HEADER, header_size);
+> >  
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > -	luo_global.liveupdate_num = get_unaligned((u64 *)ptr);
+> > +	luo_ser_pa = get_unaligned((u64 *)ptr);
+> > +	luo_ser = phys_to_virt(luo_ser_pa);
+> > +
+> > +	luo_global.liveupdate_num = luo_ser->liveupdate_num;
+> >  	pr_info("Retrieved live update data, liveupdate number: %lld\n",
+> >  		luo_global.liveupdate_num);
+> >  
+> > -	err = luo_session_setup_incoming(luo_global.fdt_in);
+> > +	err = luo_session_setup_incoming(luo_ser->sessions_pa);
+> >  	if (err)
+> >  		return err;
+> >  
+> > -	err = luo_flb_setup_incoming(luo_global.fdt_in);
+> > +	luo_flb_setup_incoming(luo_ser->flbs_pa);
+> 
+> Sashiko asks: 
+> 
+>   Is there a leak of the preserved luo_ser memory here?
+> 
+>   The outgoing kernel allocates the header using kho_alloc_preserve(), but
+>   luo_early_startup() returns without calling kho_restore_free() on the
+>   luo_ser pointer once the fields have been processed. This results in an
+>   unreleased memory reservation on every successful live update.
+> 
+> This seems preexisting, and we probably don't care enough, but still...
 
-Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
----
- .../ABI/testing/sysfs-kernel-mm-damon          |  2 +-
- Documentation/admin-guide/mm/damon/usage.rst   | 18 +++++++++---------
- 2 files changed, 10 insertions(+), 10 deletions(-)
+The freeing happen during finish, that was by design.
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-damon b/Documentation/ABI/testing/sysfs-kernel-mm-damon
-index 2424237ebb10..40c8843a82a4 100644
---- a/Documentation/ABI/testing/sysfs-kernel-mm-damon
-+++ b/Documentation/ABI/testing/sysfs-kernel-mm-damon
-@@ -428,7 +428,7 @@ Description:	If 'hugepage_size' is written to the 'type' file, writing to
- 		or reading from this file sets or gets the maximum size of the
- 		hugepage for the filter.
- 
--What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/filters/<F>/target_idx
-+What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/filters/<F>/damon_target_idx
- Date:		Dec 2022
- Contact:	SeongJae Park <sj@kernel.org>
- Description:	If 'target' is written to the 'type' file, writing to or
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 534e1199cf09..cae622b959db 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -89,7 +89,7 @@ comma (",").
-     │ │ │ │ │ │ │ │ │ 0/target_metric,target_value,current_value,nid,path
-     │ │ │ │ │ │ │ :ref:`watermarks <sysfs_watermarks>`/metric,interval_us,high,mid,low
-     │ │ │ │ │ │ │ :ref:`{core_,ops_,}filters <sysfs_filters>`/nr_filters
--    │ │ │ │ │ │ │ │ 0/type,matching,allow,memcg_path,addr_start,addr_end,target_idx,min,max
-+    │ │ │ │ │ │ │ │ 0/type,matching,allow,memcg_path,addr_start,addr_end,damon_target_idx,min,max
-     │ │ │ │ │ │ │ :ref:`dests <damon_sysfs_dests>`/nr_dests
-     │ │ │ │ │ │ │ │ 0/id,weight
-     │ │ │ │ │ │ │ :ref:`stats <sysfs_schemes_stats>`/nr_tried,sz_tried,nr_applied,sz_applied,sz_ops_filter_passed,qt_exceeds,nr_snapshots,max_nr_snapshots
-@@ -337,7 +337,7 @@ to ``N-1``.  Each directory represents each DAMON-based operation scheme.
- schemes/<N>/
- ------------
- 
--In each scheme directory, eight directories (``access_pattern``, ``quotas``,
-+In each scheme directory, nine directories (``access_pattern``, ``quotas``,
- ``watermarks``, ``core_filters``, ``ops_filters``, ``filters``, ``dests``,
- ``stats``, and ``tried_regions``) and three files (``action``, ``target_nid``
- and ``apply_interval``) exist.
-@@ -447,7 +447,7 @@ given DAMON-based operation scheme.
- Under the watermarks directory, five files (``metric``, ``interval_us``,
- ``high``, ``mid``, and ``low``) for setting the metric, the time interval
- between check of the metric, and the three watermarks exist.  You can set and
--get the five values by writing to the files, respectively.
-+get the five values by writing to and reading from the files, respectively.
- 
- Keywords and meanings of those that can be written to the ``metric`` file are
- as below.
-@@ -455,7 +455,7 @@ as below.
-  - none: Ignore the watermarks
-  - free_mem_rate: System's free memory rate (per thousand)
- 
--The ``interval`` should written in microseconds unit.
-+The ``interval_us`` should be written in microseconds unit.
- 
- .. _sysfs_filters:
- 
-@@ -483,9 +483,9 @@ in the numeric order.
- 
- Each filter directory contains nine files, namely ``type``, ``matching``,
- ``allow``, ``memcg_path``, ``addr_start``, ``addr_end``, ``min``, ``max``
--and ``target_idx``.  To ``type`` file, you can write the type of the filter.
--Refer to :ref:`the design doc <damon_design_damos_filters>` for available type
--names, their meaning and on what layer those are handled.
-+and ``damon_target_idx``.  To ``type`` file, you can write the type of the
-+filter.  Refer to :ref:`the design doc <damon_design_damos_filters>` for
-+available type names, their meaning and on what layer those are handled.
- 
- For ``memcg`` type, you can specify the memory cgroup of the interest by
- writing the path of the memory cgroup from the cgroups mount point to
-@@ -495,7 +495,7 @@ files, respectively.  For ``hugepage_size`` type, you can specify the minimum
- and maximum size of the range (closed interval) to ``min`` and ``max`` files,
- respectively.  For ``target`` type, you can specify the index of the target
- between the list of the DAMON context's monitoring targets list to
--``target_idx`` file.
-+``damon_target_idx`` file.
- 
- You can write ``Y`` or ``N`` to ``matching`` file to specify whether the filter
- is for memory that matches the ``type``.  You can write ``Y`` or ``N`` to
-@@ -677,7 +677,7 @@ show results using tracepoint supporting tools like ``perf``.  For example::
- 
- Each line of the perf script output represents each monitoring region.  The
- first five fields are as usual other tracepoint outputs.  The sixth field
--(``target_id=X``) shows the ide of the monitoring target of the region.  The
-+(``target_id=X``) shows the id of the monitoring target of the region.  The
- seventh field (``nr_regions=X``) shows the total number of monitoring regions
- for the target.  The eighth field (``X-Y:``) shows the start (``X``) and end
- (``Y``) addresses of the region in bytes.  The ninth field (``X``) shows the
--- 
-2.53.0
+> 
+> There were more comments by sashiko, didn't check them yet.
 
+The other comment is stupid: yes, changing ABI prevents updating from 
+older kernel.
+
+>   
+> > -	return err;
+> > +	return 0;
+> >  }
+> >  
+> >  static int __init liveupdate_early_init(void)
+> > @@ -156,7 +160,8 @@ early_initcall(liveupdate_early_init);
+> >  /* Called during boot to create outgoing LUO fdt tree */
+> >  static int __init luo_fdt_setup(void)
+> >  {
+> > -	const u64 ln = luo_global.liveupdate_num + 1;
+> > +	struct luo_ser *luo_ser;
+> > +	u64 luo_ser_pa;
+> >  	void *fdt_out;
+> >  	int err;
+> >  
+> > @@ -166,27 +171,45 @@ static int __init luo_fdt_setup(void)
+> >  		return PTR_ERR(fdt_out);
+> >  	}
+> >  
+> > +	luo_ser = kho_alloc_preserve(sizeof(*luo_ser));
+> > +	if (IS_ERR(luo_ser)) {
+> > +		err = PTR_ERR(luo_ser);
+> > +		goto exit_free_fdt;
+> > +	}
+> > +	luo_ser_pa = virt_to_phys(luo_ser);
+> > +
+> >  	err = fdt_create(fdt_out, LUO_FDT_SIZE);
+> >  	err |= fdt_finish_reservemap(fdt_out);
+> >  	err |= fdt_begin_node(fdt_out, "");
+> >  	err |= fdt_property_string(fdt_out, "compatible", LUO_FDT_COMPATIBLE);
+> > -	err |= fdt_property(fdt_out, LUO_FDT_LIVEUPDATE_NUM, &ln, sizeof(ln));
+> > -	err |= luo_session_setup_outgoing(fdt_out);
+> > -	err |= luo_flb_setup_outgoing(fdt_out);
+> > +	err |= fdt_property(fdt_out, LUO_FDT_ABI_HEADER, &luo_ser_pa,
+> > +			    sizeof(luo_ser_pa));
+> >  	err |= fdt_end_node(fdt_out);
+> >  	err |= fdt_finish(fdt_out);
+> >  	if (err)
+> > -		goto exit_free;
+> > +		goto exit_free_luo_ser;
+> > +
+> > +	err = luo_session_setup_outgoing(&luo_ser->sessions_pa);
+> > +	if (err)
+> > +		goto exit_free_luo_ser;
+> > +
+> > +	err = luo_flb_setup_outgoing(&luo_ser->flbs_pa);
+> > +	if (err)
+> > +		goto exit_free_luo_ser;
+> > +
+> > +	luo_ser->liveupdate_num = luo_global.liveupdate_num + 1;
+> >  
+> >  	err = kho_add_subtree(LUO_FDT_KHO_ENTRY_NAME, fdt_out,
+> >  			      fdt_totalsize(fdt_out));
+> >  	if (err)
+> > -		goto exit_free;
+> > +		goto exit_free_luo_ser;
+> 
+> And here we also seem to leak memory allocated by sesttion/flb setup.
+> 
+> >  	luo_global.fdt_out = fdt_out;
+> >  
+> >  	return 0;
+> >  
+> > -exit_free:
+> > +exit_free_luo_ser:
+> > +	kho_unpreserve_free(luo_ser);
+> > +exit_free_fdt:
+> >  	kho_unpreserve_free(fdt_out);
+> >  	pr_err("failed to prepare LUO FDT: %d\n", err);
+> 
+> -- 
+> Sincerely yours,
+> Mike.
