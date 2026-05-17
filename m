@@ -1,198 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C080C3D5656;
-	Sun, 17 May 2026 23:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8F432E6B4
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 23:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779059132; cv=none; b=CTEzP7XeVH9CogVi9zphm62GCcX1GoO6A74RZvnHxQ8WgVzuEdEXGMPX41Iemj5suALeXFHoc3aOHufSeUVP+8mbNv4ZH2sf6kQq/ds5qDuM0oAETX0Lddsm5tgn1OVdiotZBySjglASUuGZFs3//x49Uu+YIJnox7LxOQeYdVc=
+	t=1779060126; cv=none; b=fhthuebAKXBuQgqDXntdHoLfmlE8G33uj33unXBbb1My6Rkf2WkKWb9/CGXMnP+Xbz1CloC+o2bUSObEZh++FgDXr1lsYLn0xjVMk+1ZbpTsiTYKFczsdhP8jixPs69jaELFVoxInPkmAOtkxPps4luwl3or6pUmpN0D4ILdvQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779059132; c=relaxed/simple;
-	bh=rOmTabndOoOX7AmULUZroOZTY/ZAC4Q9umxkdxMQeds=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ly0CNGtPdRK6YoklrujDLgY1TmT34nYqu2D0OnmQz9/X9InJSYYVK2tM4Mc2oCyvve7Z41ZMYANI5LY73opwLKYxbvxSAYhsQGOxUSz75BejB6OJNASecvSa1aHjSl0jekatafJeIBvcPOlh5FRnwBfDXA93tz6RYbR5vM1iDBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=om0tmjJt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779060126; c=relaxed/simple;
+	bh=WxHYqkzp7/G7ttQ4qio7ZbKdNhBkpwbp4SLfPYgRBs0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=QSdJobILMxCeDz80IZLSyCf3iI25Ie07THmmutap+fzNQkkSsSPq724NhkosheQa/Ul746Dmm4lucdLovQ+7KLKGfcTAxIAjvVU94LLd0Xn9yfp5cpUOYzAfufq7dUuL6C+1OUe8rEattg1thxfkRP0R35rrpGUWDSkNCOjeJNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JrmlvSCT; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="om0tmjJt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4335FC2BCB3;
-	Sun, 17 May 2026 23:05:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779059132;
-	bh=rOmTabndOoOX7AmULUZroOZTY/ZAC4Q9umxkdxMQeds=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=om0tmjJtiEXsd7zEymiSPQRCBV+VoM9SSR/41DFzBGphNGT2qBxd9dj5MhCQLNQaI
-	 Df4aE0euUAlLQ4l4sZ4qztJpxQVeBdsYPXb1wnPW5EzngIT2pocIGrjckkuj+2hLpU
-	 kg2bg5xApZdLeV7JWnvOnGnb/klp61O4cxeq4B2ESA0uBCo4AnRzHkU0/sli+xrJMJ
-	 PaVYgpoA5NubciPbwYcREgkKh+pCsx6D4sjbv+D2vZW5A77OgBWoY1LWlj/2DZIEiZ
-	 rcfXNIiIp0r+0FNcAVd1lmsfA2TpImCSZmE5AXzMzTHf1Da0+8yYGoGVw4YH0U/Thi
-	 qeKF6NpVGqNsA==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Sun, 17 May 2026 13:05:04 -1000
-Subject: [PATCH v2 01/16] kbuild: Bump minimum version of LLVM for building
- the kernel to 17.0.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JrmlvSCT"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48896199cbaso12736715e9.1
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 16:22:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779060123; x=1779664923; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UBbUGCFqJiMRYfsl+eF9tbHmcztNauGUmlMdpL91Tl8=;
+        b=JrmlvSCTzJ7VL4x1ZyI7ZLr3CfFzZqnIWOpug8xh/mvmbUCqSy7abXVfjTIMJ0J76l
+         wA9Ad2oLh8LR014R7KsKvbkZ4Xz/i2ez+ND6yEPNbZGOESA3yKNQ4WjF7zTaPARM1Z2d
+         u5TjwGQ8GJoEIv1RKzRe4fGax6Wjk/3LLeshQtd9qOH2LlGaoB6Nw4VADZU/crPuwHM5
+         UZ9fF7gwbM/HnRq4fG+Yes6NYEF83xNshonI3DYFYkIvrU8MPVcDMNS830Wxc4EeKN0f
+         Hz+fWAYJNzHzEmEcQjgmaGmBJ5VrR1mK+MM2gkL3c160j3UcqqQVwLS20jxgLDQ+ilJQ
+         3qmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779060123; x=1779664923;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UBbUGCFqJiMRYfsl+eF9tbHmcztNauGUmlMdpL91Tl8=;
+        b=ZR46WpWbw37OvcjdQpQm0o1orRj9Ix89cSNDUf7Eb0eHKRHcGXizSi+KPMI011ODZV
+         UFIjjriyRKkdAlBzw7SPLa7pCmNQ33iAZarO50dCqmijIseYqkp/4gsEnIovuCBGCKtm
+         As+T3c17gpqQO8zJ2g0ByT6vDIYapmSZdB1oYMUY1cydEybgiURuFswdSp3yynesGV50
+         mLphoDANd6SMjinDZ78Ko89/4zTa6zZeq+5h7qnIzvGNlpeBMTverRXJj3o+/kGXv62V
+         GOgaO0mIFX/8MTNggKvE+7GS1ZsAAO5i603MEJJjlToEzXj5jd2nhDUL/vaVX7W/fjrM
+         h7dg==
+X-Forwarded-Encrypted: i=1; AFNElJ8VezztQvHAiBnroNuCRzDxg7gHk7PlhHEA0iikRmlRe+AfaZmI65NNbfBGYSSOD8zwbZYTskCl+zI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztxZ+KG8jhtAZm8+UkJRxmGF5OAZkgKqrCA56+Kk0i9y+WHXz2
+	ShY77M39oNQdvRfLzrp1ey1Rk0KaYah3IwDY6fnLDgVmbQAuO72yVzUTuvuCbVIHIDB1mTQr
+X-Gm-Gg: Acq92OFEdwzR38UQwLPd0+AC1Ow5iZV5UiXkRzD/8t9eQh4LpKfNY1KYqWVt14CG5rr
+	9tYXXZD4QrF9TYBK4pDtE3/N/Hv+2kgPYOfzNke/x5xwwhem88vxL6hqQKzDvbCE71ACE2hlm+F
+	gsn+lT+hYXUWMRZ6YIUW0EklRQUs6SIF3FlXGqaLufsQJOAKaskNx4aTPPK7Z1XcAFZIM8/kJnh
+	ARrHXAesD3aUCzHn46Fm39fea1++oYd+4bENQ81M6seA4apVvW79MjWlTl3rQ3BJFC7mQ1cj1YA
+	V0zVmXpZaOXS9JlXF0pmpd0m9b87zYDQEK+dJZwpmpCajCff/N3CfZFiRzeoWv9ZuM/iui2fPcw
+	gl9SjhZhLG5i9YWleK4uO5fxAT7miLJC9z7Gad/5vNwJ5eT1KIq9VScKTqAcKaoUT06dM0OkivO
+	ZlDymMbEYTyzxAlUfggcVQpr5JjxoXMU1jYwf1zSmoasXti1h+PWo9saA=
+X-Received: by 2002:a05:600c:4a1a:b0:48a:592c:e655 with SMTP id 5b1f17b1804b1-48fe6325f25mr113675785e9.17.1779060123186;
+        Sun, 17 May 2026 16:22:03 -0700 (PDT)
+Received: from [192.168.0.41] (bl21-200-180.dsl.telepac.pt. [2.82.200.180])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c8d39esm218924895e9.7.2026.05.17.16.22.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 May 2026 16:22:02 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <dc9bf309-ba57-4ab2-a297-206fcabe318d@gmail.com>
+Date: Mon, 18 May 2026 00:21:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260517-bump-minimum-supported-llvm-version-to-17-v2-1-b3b8cda46bdd@kernel.org>
-References: <20260517-bump-minimum-supported-llvm-version-to-17-v2-0-b3b8cda46bdd@kernel.org>
-In-Reply-To: <20260517-bump-minimum-supported-llvm-version-to-17-v2-0-b3b8cda46bdd@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
- linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7199; i=nathan@kernel.org;
- h=from:subject:message-id; bh=rOmTabndOoOX7AmULUZroOZTY/ZAC4Q9umxkdxMQeds=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDFlcnhsYTwYbsN8U8Pc086itCH4n8VviqZXqr2QtzaWXx
- V+2LU7vKGVhEONikBVTZKl+rHrc0HDOWcYbpybBzGFlAhnCwMUpABNxlWb4H+rhMKdL56DtESXd
- XlsJJgGPqg35mu82m9tcCbirprLoAsNv1tcFr6VvtNZfPFmmV7x08sWtWT8X2pWcae11D7qx71o
- HMwA=
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+User-Agent: Mozilla Thunderbird
+From: Julian Braha <julianbraha@gmail.com>
+Subject: Re: [RFC v3 0/3] add kconfirm
+To: Demi Marie Obenour <demiobenour@gmail.com>, nathan@kernel.org,
+ nsc@kernel.org
+Cc: jani.nikula@linux.intel.com, akpm@linux-foundation.org, gary@garyguo.net,
+ ljs@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
+ masahiroy@kernel.org, ojeda@kernel.org, corbet@lwn.net,
+ qingfang.deng@linux.dev, yann.prono@telecomnancy.net, ej@inai.de,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20260516215354.449807-1-julianbraha@gmail.com>
+ <c6e9481c-932b-42f7-a903-b781d38cc1a8@gmail.com>
+Content-Language: en-US
+In-Reply-To: <c6e9481c-932b-42f7-a903-b781d38cc1a8@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The current minimum version of LLVM for building the kernel is 15.0.0.
-However, there are two deficiencies compared to GCC that were fixed in
-LLVM 17 that are starting to become more noticeable.
+On 5/17/26 07:14, Demi Marie Obenour wrote:
+>> Hi all,
+>>
+>> kconfirm has shrunk a lot since v2!
+> Thanks for dropping so many of the dependencies!
+> 
+> It might be able to shrink it further by using the existing C Kconfig
+> parser.  This has the advantage that it ensures kconfirm and Kconfig
+> will interpret the Kconfig files the same way.  I'm not sure if
+> that would be too much of a change.  That's up to you.
+Hi Demi,
 
-The first was a bug in LLVM's scope checker [1], where all labels in a
-function were validated as potential targets of an asm goto statement,
-even if they were not listed in the asm goto statement as targets. This
-becomes particularly problematic when the cleanup attribute is used, as
+I did look into the in-tree parser after your suggestion in v2. What I
+discovered was that this parser performs too much evaluation of the
+kconfig code during parsing, making it unsuitable for purposes of static
+analysis:
 
-  asm goto(... : label_a);
-  ...
-label_a:
-  ...
-  int var __free(foo);
-  asm goto(... : label_b);
-  ...
-label_b:
-  ...
+The in-tree parser doesn't actually output a parse tree that we can
+traverse and analyze, which is how kconfirm currently works. Instead,
+semantic actions directly construct the symbol table *during parsing*,
+with that symbol table being different from ours. I think(?) this makes
+the overall process faster (which is great for real-world kernel
+builds), but for static analysis purposes, we really need to preserve
+as much of the underlying code as we can. For example, we don't even
+preprocess variables, because this allows us to analyze more regardless
+of the host and target. (Well, architecture is the one exception there
+because we need to resolve imports/"source".)
 
-will trigger an error since the scope checker will complain that the
-cleanup variable would be skipped when jumping from the first asm goto
-to label_b (which obviously cannot happen). This issue was the catalyst
-for commit e2ffa15b9baa ("kbuild: Disable CC_HAS_ASM_GOTO_OUTPUT on
-clang < 17"). Unfortunately, this issue is reproducible with regular asm
-goto in addition to asm goto with outputs, so that change was not
-entirely sufficient to avoid the issue altogether. As asm goto has
-effectively been required since commit a0a12c3ed057 ("asm goto:
-eradicate CC_HAS_ASM_GOTO") and the usage of the cleanup attribute
-continues to grow across the tree, raising the minimum to a version that
-avoids this issue altogether is a better long term solution than
-attempting to workaround it at every spot where it happens.
+I do want to point out that Yann, the author of kconfirm's parsing
+library (nom-kconfig) is CC'd on these RFCs and has done an awesome job
+of supporting the parser and kconfirm's usage of it.
 
-The second issue is an incompatibility with GCC 8.1+ around variables
-marked with const being valid constant expressions for _Static_assert
-and other macros [2]. With GCC 8.1 being the minimum supported version
-since commit 118c40b7b503 ("kbuild: require gcc-8 and binutils-2.30"),
-this incompatibility becomes more of a maintenance burden since only
-clang-15 and clang-16 are affected by it.
+He also helped reduce the number of indirect dependencies pulled in by
+the parser following your feedback in RFC v2.
 
-Looking at the clang version of various major distributions through
-Docker images, no one should be left behind as a result of this bump, as
-the old ones cannot clear the current minimum of 15.0.0.
-
-  archlinux:latest              clang version 22.1.3
-  debian:oldoldstable-slim      Debian clang version 11.0.1-2
-  debian:oldstable-slim         Debian clang version 14.0.6
-  debian:stable-slim            Debian clang version 19.1.7 (3+b1)
-  debian:testing-slim           Debian clang version 21.1.8 (3+b1)
-  debian:unstable-slim          Debian clang version 21.1.8 (7+b1)
-  fedora:42                     clang version 20.1.8 (Fedora 20.1.8-4.fc42)
-  fedora:latest                 clang version 21.1.8 (Fedora 21.1.8-4.fc43)
-  fedora:44                     clang version 22.1.1 (Fedora 22.1.1-2.fc44)
-  fedora:rawhide                clang version 22.1.3 (Fedora 22.1.3-1.fc45)
-  opensuse/leap:latest          clang version 17.0.6
-  opensuse/tumbleweed:latest    clang version 21.1.8
-  ubuntu:jammy                  Ubuntu clang version 14.0.0-1ubuntu1.1
-  ubuntu:noble                  Ubuntu clang version 18.1.3 (1ubuntu1)
-  ubuntu:questing               Ubuntu clang version 20.1.8 (0ubuntu4)
-  ubuntu:resolute               Ubuntu clang version 21.1.8 (6ubuntu1)
-
-17.0.1 is chosen as the minimum instead of 17.0.0 to ensure that the
-particular version of LLVM 17 has the two aforementioned bugs fixed, as
-the second was fixed during the 17.0.0 release candidate phase and it
-was not until LLVM 18 that LLVM adopted the scheme of x.0.0 being a
-prerelease version and x.1.0 is a release version [3] to help with
-scenarios such as this.
-
-Link: https://github.com/llvm/llvm-project/commit/f023f5cdb2e6c19026f04a15b5a935c041835d14 [1]
-Link: https://github.com/llvm/llvm-project/commit/0b2d5b967d98375793897295d651f58f6fbd3034 [2]
-Link: https://github.com/llvm/llvm-project/commit/4532617ae420056bf32f6403dde07fb99d276a49 [3]
-Acked-by: Nicolas Schier <nsc@kernel.org>
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/process/changes.rst                    | 2 +-
- Documentation/translations/it_IT/process/changes.rst | 2 +-
- Documentation/translations/pt_BR/process/changes.rst | 2 +-
- scripts/min-tool-version.sh                          | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 9a99037270ff..b9afce768446 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -36,7 +36,7 @@ bindgen (optional)     0.71.1           bindgen --version
- binutils               2.30             ld -v
- bison                  2.0              bison --version
- btrfs-progs            0.18             btrfs --version
--Clang/LLVM (optional)  15.0.0           clang --version
-+Clang/LLVM (optional)  17.0.1           clang --version
- e2fsprogs              1.41.4           e2fsck -V
- flex                   2.5.35           flex --version
- gdb                    7.2              gdb --version
-diff --git a/Documentation/translations/it_IT/process/changes.rst b/Documentation/translations/it_IT/process/changes.rst
-index 7e93833b4511..7ee54c972418 100644
---- a/Documentation/translations/it_IT/process/changes.rst
-+++ b/Documentation/translations/it_IT/process/changes.rst
-@@ -33,7 +33,7 @@ PC Card, per esempio, probabilmente non dovreste preoccuparvi di pcmciautils.
-         Programma       Versione minima       Comando per verificare la versione
- ====================== =================  ========================================
- GNU C                  8.1                gcc --version
--Clang/LLVM (optional)  13.0.0             clang --version
-+Clang/LLVM (optional)  17.0.1             clang --version
- Rust (opzionale)       1.78.0             rustc --version
- bindgen (opzionale)    0.65.1             bindgen --version
- GNU make               4.0                make --version
-diff --git a/Documentation/translations/pt_BR/process/changes.rst b/Documentation/translations/pt_BR/process/changes.rst
-index 1964c1c93b34..6bbfe60fd973 100644
---- a/Documentation/translations/pt_BR/process/changes.rst
-+++ b/Documentation/translations/pt_BR/process/changes.rst
-@@ -31,7 +31,7 @@ PC Card por exemplo, provavelmente não precisará se preocupar com o pcmciautil
-         Programa        Versão mínima       Comando para verificar a versão
- ====================== ===============  ========================================
- GNU C                  8.1              gcc --version
--Clang/LLVM (optional)  15.0.0           clang --version
-+Clang/LLVM (optional)  17.0.1           clang --version
- Rust (optional)        1.78.0           rustc --version
- bindgen (optional)     0.65.1           bindgen --version
- GNU make               4.0              make --version
-diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-index b96ec2d379b6..ea2689bc9641 100755
---- a/scripts/min-tool-version.sh
-+++ b/scripts/min-tool-version.sh
-@@ -27,7 +27,7 @@ llvm)
- 	if [ "$SRCARCH" = loongarch ]; then
- 		echo 18.0.0
- 	else
--		echo 15.0.0
-+		echo 17.0.1
- 	fi
- 	;;
- rustc)
-
--- 
-2.54.0
-
+- Julian Braha
