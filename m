@@ -1,62 +1,64 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A8C303C97
-	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 01:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0493016E7
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 01:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778981970; cv=none; b=kLAYRZReoN0HMT128HbWcWrOuqCglVdOvDsW3zF6J7LyYgAU81lRob29e4p/MRugsn/5vWbnEJaOWzq6ORZNPq7d0Gfe655oO1bcC7UNTcvD8FY3d58QtD0mArK4lUq/JVk2iBYv6SPlEZiI9z9f2E0jUxl+VmX+2OnBGbGUBQw=
+	t=1778981972; cv=none; b=NW4O7kwjUBtbVn7nAXiaWMxfue8NQRbRc/In4SpRsJ4km6urkEK5G4i5uINtcJaVDM0tYsHR19BTsJILRc3j2C5h9yx4jru5Qy32rQH/OFm8othsjO/+x4koYE/S4Lpik5r2lnGF456x0lq9rGaws23mqd10SAJ2XNdAI+2AEqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778981970; c=relaxed/simple;
-	bh=pPbH/0fAZCTMfBo2AlodrAijJ5me0bk98Uy/Q8uG59M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b+XeRBFaq/u/uCaKZJQGViYI9IAuScVcvxg3G0N3HNao1dFTiD3BrHfcQRQtsuCFejdowvoo77KX0oOkFp9eCeOjRhP+u6KvrPG27Z24hyJspFMWRcAo7aSXLRktKvUYQ+LncI6b+u6mKLrFIIx1mQVeyBWESLsHVbi7l5tyhSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L8INou/b; arc=none smtp.client-ip=74.125.82.52
+	s=arc-20240116; t=1778981972; c=relaxed/simple;
+	bh=914l8ePDBQaFTccMua0YHTTjbdoF9N3OQAxBig+j8P0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UJO1MpJPGLO7P2zc21GyvTKNZMmy6h9IkfdDOnbRV95bbblubImtpniP3o9ZJ7zLn9d+i2iXs1X5k4fEodjgWyLsDGYsPGpIWy0pyho+duHL5LvULjog9Mj1zFAjBKb8uZFAHdSepzkbeJQvwU44L/XPF7SfvzDHbaiyz2WJ9hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rLHzNDMV; arc=none smtp.client-ip=74.125.82.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L8INou/b"
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1332772f6b3so1148887c88.1
-        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 18:39:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rLHzNDMV"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1331e851faaso457570c88.1
+        for <linux-doc@vger.kernel.org>; Sat, 16 May 2026 18:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778981968; x=1779586768; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2NlxtySzo01FfuK8dPO1udm7bJRoM/LnmyF6z8QWTE0=;
-        b=L8INou/bMHnoNRiPlCv18iM5cbNVECiVzp+WTfP3K3SsbieJYsuNOdeJDMdoYW0Ya6
-         BaRq71ieFP9PHEs2q2XswQxNPdzL+wkPt5FLvCD9IBs2s6lRqWuzZ3TvJUdU3kGM7cFj
-         2HGm+OILWeUByFbDNAGoMHB5XxHJtdCg2D28dhAOT9l5c1NEezuz2KFydpphNLZNxGOL
-         G3AkDZOHMkCpIZGRg573CWQ3fJ3eXMkykN6oFgcZl74J2xfEqapwQoAAxkA8vr2uME+x
-         7xgG7bexlsNRO+4WQOgchlsRr+jRwCWCmdeRfQXR5VPPy5lM3Xyp5Q8WLP9mYUCx0m5u
-         Z5xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778981968; x=1779586768;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778981970; x=1779586770; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2NlxtySzo01FfuK8dPO1udm7bJRoM/LnmyF6z8QWTE0=;
-        b=Mz9nu3AGNVUHMfL4E7wj/1IsWvH9qkhqwW4EfB5XIOnzMHd/H1oDlOsQm20DV6osgm
-         fyrq/3u3mM9hT6st5EWKULDp0kw2suZANGmH1Jss+1dN2O09pjjVSOOf1XPBUI4Wzio1
-         pxEwLKiYReZhSxcZju6y158FrQGRH+Vvq/yJGxWFBdCfN3dLf69eC0TByxjb28UIM1cH
-         vYoWPdfgjxUhZMfOjXyFkk3FhmvxO1OZm/XP8FabaFAMtvTjeDxrG8SdM/Q8pFkeMoap
-         irIumuVcWRxGqZXIdchMR6EWVmgudQAfk+Y2tsRqaeyQ6po5LEirGlNsMPPpRg8uFGT2
-         yf3w==
-X-Forwarded-Encrypted: i=1; AFNElJ+VBIhwwaUU02KjJDwFVO9vJ+KW9fkrCWzxA0EF/5N/+njyWrf9aO8Yja/wWfAerZ0uZGE1nE+fhyA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3u8NdLtE7m28otZ2Virwi5O0z5ddkMrEe6WJy00IOFh/H55WH
-	qtDcDto6sjtH4r6Fa+50Y7vPQsZvLwfIfa0p3huywi/JJfG42S+Ky1uM
-X-Gm-Gg: Acq92OEnfVhURCTnat9pdk+3oFlhcHmnP/1UX1ygCPqnTvYb19dxRRD7y83fm+PpKJO
-	wMTM/CuWo1+NcoETI1o7tLObmqVUNkya8tf7DQ0Y+ccUtLcJFPh16sgkcp0fxqBGM13KdirYF64
-	M9nFmedNa57cadqrtGrTxydqfl/PWi6KwMyQ5LWyIEACuQN6bsNXKlmxLFZQOQZyCsymvJOU15R
-	j4W295E8oENUBZK8gYz9KF5XQzJePPDWTptcWK5ndTajHJ1z1XVVdT+Nb2ucd2fC0ZFIIGLi/3/
-	0pIJaJdXRPasa1zeOxfJMNJ9bUZ1KhTaKlwuTb4SRL0xKgcjuuWVMcw3YcdjJLgkVrOz0TFzhCg
-	zJL4B6ib3/I7/iMAQJerri691Ze+/6SIT6RqvMx1PByCqgef9xajB2UHuRw2ScbbiaMi5B5h8ua
-	v6xCtQqdJ3YZGjXoqAyUPk20wDEFcDqP0QJck/ZJgcVhNlw37Hx1uPx7TIX+ckbtwwJcosFndBm
-	nqU
-X-Received: by 2002:a05:7022:4193:b0:12d:de3f:d84e with SMTP id a92af1059eb24-1350494d102mr3763558c88.39.1778981967817;
-        Sat, 16 May 2026 18:39:27 -0700 (PDT)
+        bh=D4N6GL+LnlQCe9GCl0mwC7StR6g4mMaRywTmywgm5Rs=;
+        b=rLHzNDMVoz/8ldumz2rUxD7GNyCawQzQBz0hgh0iDZTdBEsbCINBp84QKgrbL0E6S2
+         RRnVDCGMyFss2U5g88Wv1FQ7p07m5UiMcb1cjo7g4DmfgmZpvFZI1mbKWpue3AV03TgA
+         XDZMijrODd+V6kU/rTu49BS02lXoqWQrrnMxB8UxKSIIetrtd1Sx+BwHDx9p0MMRPjHR
+         Q96+XyQmGqBOnfNMD2uuSroY5tnbr8QgGPJsm4T/tWpFkcBaic3ZR4i+akoz6RdITn4J
+         WORJUMM1iY9D6p7lmpl7mJASIbz6A6jXLpZHLIC4VO0jh84VWEtboJ1+T/h4UwX8yacY
+         hVFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778981970; x=1779586770;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=D4N6GL+LnlQCe9GCl0mwC7StR6g4mMaRywTmywgm5Rs=;
+        b=e5KIJgImQAdL8/tMOeV9cxBp7daqtNAtS+BvgPP+l5CzivecGzjHTVdC8ycM3o6GsB
+         lDTw1NOcIl1t+vPX4R4lJQBgjbdvOUzNCJ6GqFX9vSHc4vvydogduEm9bgnU6hZYZuaf
+         2Op+x7CI8PP45+sJ4FaNOoCYcP2gBCz1O18WbpIO4t1L+e3VSebUcF75MID9JfQ7Fp2I
+         ax8Hf9aS429nuNqYw7a8l6WN5Wg4HWhovFu8E7al5fTdb2MGf81/g4tRQGVmrV9xk28c
+         cyjNcmWeYfpqfjyrHbY+Z3kMzoG/Oin3v3pE7ief1ATBHpZDafuygdYgNPYloVF86pEj
+         RTbA==
+X-Forwarded-Encrypted: i=1; AFNElJ8SA0fiX9Uqchp0U9pUJKGCl6qZ0i4xcQRhk1oWhshVNnEztOg7QeJQMqzxHHpYREFzXTSgmSTG1Bk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3270c5+V0Xwkuu8nbZxSY4QQPI9G+Ys9rkC4e0WB4MxZlPsj+
+	GJV6m2KIDIsjfzS/r5BlmU+21It8AAAcQrjVC7/6hPLp6XAgzBnnrchk
+X-Gm-Gg: Acq92OElbXmUgGHN5RzB4RypVHCo6+zYYq51z+4C50SU/BAM9ISBdzSmAXHRZ7fTVa7
+	f5UMIgpMYWvYXvVbLe5eUHVJPuGU5bMG+FRWs3rtQNofJVgxLvSnAHDWniIV3E6IedcrUmJQIFv
+	vU8+BU0XSn5DIRXJnjcxWSvRYJrXqKhmTgOrJhxMaT0HHffVHehK7bN2yrc3l/ugWj/paDZZXk1
+	jG84RqMT8rK5Xg8Mu0uma7cX8csd60pAh10eR1YFy1F5F+S7Nkqv3V9zatO3pekq3mQu1/4qF7Q
+	LbPn9h0yNntVfN82xLQFOm0mzflJx1R4GMextmgzhXDXXxd2j+FFiRQPr+HbIfHFSLAuKnt5lPN
+	QAlyRdBitJ7ga9yt3AA/qRI/B8y0mge8LwIZWY+oO/V2IOVPgYAR0dNL3dXFU73JRBBmg4hs0ic
+	Rf3BhH+lT5FtCi/pGpmr7NP5ChxUBPWXo15JgCVM7k0eQ9sD+jJYp7L5ltkz7OAldVUVYALjspf
+	63P
+X-Received: by 2002:a05:7022:6b98:b0:132:1e00:f6e8 with SMTP id a92af1059eb24-134c8c3e281mr7109558c88.14.1778981969710;
+        Sat, 16 May 2026 18:39:29 -0700 (PDT)
 Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cb5b3c20sm15898086c88.0.2026.05.16.18.39.26
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cb5b3c20sm15898086c88.0.2026.05.16.18.39.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 18:39:27 -0700 (PDT)
+        Sat, 16 May 2026 18:39:29 -0700 (PDT)
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>
@@ -67,10 +69,12 @@ Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
 	linux-input@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 0/4] Add MSI Claw HID Configuration Driver
-Date: Sun, 17 May 2026 01:39:21 +0000
-Message-ID: <20260517013925.3120314-1-derekjohn.clark@gmail.com>
+Subject: [PATCH v5 2/4] HID: hid-msi: Add M-key mapping attributes
+Date: Sun, 17 May 2026 01:39:23 +0000
+Message-ID: <20260517013925.3120314-3-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260517013925.3120314-1-derekjohn.clark@gmail.com>
+References: <20260517013925.3120314-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,95 +83,540 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series adds an HID Configuration driver for the MSI Claw line of
-Handheld Gaming PC's. The MSI Claw HID interface provides multiple
-features, such as the ability to switch between xinput, dinput, and a
-desktop mode, RGB control, rumble intensity, and mapping of the rear "M"
-keys. There are additional gamepad modes that are not included in this
-driver as they appear to be used in assembly line testing or are
-incomplete in the firmware. During my testing I found them to be unstable.
+Adds attributes that allow for remapping the M-keys with up to 5 values
+when in macro mode. There are 2 mappable buttons on the rear of the
+device, M1 on the right and M2 on the left. When mapped, the events will
+fire from one of three event devices: gamepad buttons will fire from the
+device handled by xpad, while keyboard and mouse events will fire from
+respectively typed evdevs provided by the input core. Names of each
+mapping have been kept as close to the event that will fire from the evdev
+as possible, with context added to the ABS_ events on the direction of the
+movement.
 
-The initial version of this driver was written by Denis Benato, which
-contained the initial reverse-engineering and implementation for the
-gamepad mode switching. This work was later expanded by Zhouwang Huang
-to include more gamepad modes and additional features. Finally, I
-refactored the entire driver, fixed multiple bugs, and refined the overall
-format to conform to kernel driver best practices and style guide.
-
-Claude was used initially by Zhouwang Huang to quickly parse HID captures
-during the reverse-engineering of some of the features. Since Claude had
-already been used, as a test of its capabilities I had it implement the
-rumble intensity attribute after I had already rewritten most of the
-driver, which I then manually edited to fix some mistakes. I also used
-Claude to review the driver and these patches for any mistakes and bugs.
+Initial reverse-engineering and implementation of this feature was done
+by Zhouwang Huang. I refactored the overall format to conform to kernel
+driver best practices and style guides. Claude was used as an initial
+reviewer of this patch.
 
 Assisted-by: Claude:claude-sonnet-4-6
-Co-developed-by: Denis Benato <denis.benato@linux.dev>
-Signed-off-by: Denis Benato <denis.benato@linux.dev>
 Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
 Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
 Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 ---
 v5:
-  - Swap disabled & combination mkeys_function enum values.
-  - Fix bug introduced in v5 where claw_buttons_store would return
-    -EINVAL on all valid key entries.
-  - Ensure mode_mutex is properly init.
-  - Ensure claw_remove is calling hid_hw_close and not hid_hw_stop for
-    all paths.
   - Ensure adding "DISABLED" key to valid entries is done in the correct
     patch.
   - Re-enable sending an empty string to clear button mappings in
     addition to setting DISABLED.
-  - Move adding the RGB device into cfg_setup to prevent led core
-    attributes from being written to prior to setup completing.
-  - Ensure frame_lock is properly init.
-  - Change variable names in RGB functions from frame and zone to f and
-    z respectively to fit all scoped_guard actions in 100 columns.
-v4: https://lore.kernel.org/linux-input/20260516042841.500299-1-derekjohn.clark@gmail.com/
-  - Add msi_suspend/claw_suspend.
-  - Reorder claw_remove to cancel all work before removing sysfs.
-  - Add mutex lock for removing sysfs attributes.
-  - Add mutex lock for MODE command data read/write.
+v4:
   - Change dev_warn to dev_dbg in claw_profile_event.
   - use __free with DEFINE_FREE macro for argv instead of manually
     running argv_free, cleaining up scoped_guard goto.
-  - Fix frame_calc validity check to use >=.
-  - Use spinlock instead of mutex in raw_event and related attribute
-    _store function.
-  - Ensure delayed work is canceled in suspend & canceled before sysfs
-    attribute removal.
-v3: https://lore.kernel.org/linux-input/20260515033622.2095277-1-derekjohn.clark@gmail.com/
-  - Add mutex for read/write if rgb frame data.
-  - Ensure claw_hw_output_report is properly guarded.
-  - Remove setting rgb_frame_count when reading rgb profiles as it always
-    returns garbage data.
-  - Ensure rgb_speed is getting drvdata from a valid lookup (not hdev).
+v3:
   - Use scoped_guard where necessary.
-  - Reoder claw_probe to ensure all mutex, completion, and variable
-    assignments are in place prior to setting drvdata.
-  - Ensure gamepad_mode is set to a valid enum value in claw_probe.
-v2: https://lore.kernel.org/linux-input/20260513231445.3213501-1-derekjohn.clark@gmail.com/
-  - Use mutexes to guard SYNC_TO_ROM calls and pending_profile calls.
-  - Rename driver to hid-msi and add generic entrypoints for
-    probe/resume/remove that call claw specific functions in order to
-    future proof the driver for other MSI HID interfaces.
-  - Fix various bugs and formatting issues.
-v1: https://lore.kernel.org/linux-input/20260510043510.442807-1-derekjohn.clark@gmail.com/
-Derek J. Clark (4):
-  HID: hid-msi: Add MSI Claw configuration driver
-  HID: hid-msi: Add M-key mapping attributes
-  HID: hid-msi: Add RGB control interface
-  HID: hid-msi: Add Rumble Intensity Attributes
+v2:
+  - Add mutex for SYNC_TO_ROM commands to ensure every SYNC is completed
+    before more data is written to the MCU volatile memory.
+  - Add mutex for profile_pending to ensure every profile action
+    response is  serialized to the generating command.
+---
+ drivers/hid/hid-msi.c | 401 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 400 insertions(+), 1 deletion(-)
 
- MAINTAINERS           |    6 +
- drivers/hid/Kconfig   |   12 +
- drivers/hid/Makefile  |    1 +
- drivers/hid/hid-ids.h |    6 +
- drivers/hid/hid-msi.c | 1728 +++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 1753 insertions(+)
- create mode 100644 drivers/hid/hid-msi.c
-
+diff --git a/drivers/hid/hid-msi.c b/drivers/hid/hid-msi.c
+index 3f809dc70a4cc..991d5a25d3de0 100644
+--- a/drivers/hid/hid-msi.c
++++ b/drivers/hid/hid-msi.c
+@@ -41,6 +41,8 @@
+ #define CLAW_DINPUT_CFG_INTF_IN	0x82
+ #define CLAW_XINPUT_CFG_INTF_IN	0x83
+ 
++#define CLAW_KEYS_MAX		5
++
+ enum claw_command_index {
+ 	CLAW_COMMAND_TYPE_READ_PROFILE =		0x04,
+ 	CLAW_COMMAND_TYPE_READ_PROFILE_ACK =		0x05,
+@@ -65,6 +67,17 @@ static const char * const claw_gamepad_mode_text[] = {
+ 	[CLAW_GAMEPAD_MODE_DESKTOP] =	"desktop",
+ };
+ 
++enum claw_profile_ack_pending {
++	CLAW_NO_PENDING,
++	CLAW_M1_PENDING,
++	CLAW_M2_PENDING,
++};
++
++enum claw_key_index {
++	CLAW_KEY_M1,
++	CLAW_KEY_M2,
++};
++
+ enum claw_mkeys_function_index {
+ 	CLAW_MKEY_FUNCTION_MACRO,
+ 	CLAW_MKEY_FUNCTION_DISABLED,
+@@ -77,6 +90,155 @@ static const char * const claw_mkeys_function_text[] = {
+ 	[CLAW_MKEY_FUNCTION_COMBO] =	"combination",
+ };
+ 
++static const struct {
++	u8 code;
++	const char *name;
++} claw_button_mapping_key_map[] = {
++	/* Gamepad buttons */
++	{ 0x01, "ABS_HAT0Y_UP" },
++	{ 0x02, "ABS_HAT0Y_DOWN" },
++	{ 0x03, "ABS_HAT0X_LEFT" },
++	{ 0x04, "ABS_HAT0X_RIGHT" },
++	{ 0x05, "BTN_TL" },
++	{ 0x06, "BTN_TR" },
++	{ 0x07, "BTN_THUMBL" },
++	{ 0x08, "BTN_THUMBR" },
++	{ 0x09, "BTN_SOUTH" },
++	{ 0x0a, "BTN_EAST" },
++	{ 0x0b, "BTN_NORTH" },
++	{ 0x0c, "BTN_WEST" },
++	{ 0x0d, "BTN_MODE" },
++	{ 0x0e, "BTN_SELECT" },
++	{ 0x0f, "BTN_START" },
++	{ 0x13, "BTN_TL2"},
++	{ 0x14, "BTN_TR2"},
++	{ 0x15, "ABS_Y_UP"},
++	{ 0x16, "ABS_Y_DOWN"},
++	{ 0x17, "ABS_X_LEFT"},
++	{ 0x18, "ABS_X_LEFT_RIGHT"},
++	{ 0x19, "ABS_RY_UP"},
++	{ 0x1a, "ABS_RY_DOWN"},
++	{ 0x1b, "ABS_RX_LEFT"},
++	{ 0x1c, "ABS_RX_RIGHT"},
++	/* Keyboard keys */
++	{ 0x32, "KEY_ESC" },
++	{ 0x33, "KEY_F1" },
++	{ 0x34, "KEY_F2" },
++	{ 0x35, "KEY_F3" },
++	{ 0x36, "KEY_F4" },
++	{ 0x37, "KEY_F5" },
++	{ 0x38, "KEY_F6" },
++	{ 0x39, "KEY_F7" },
++	{ 0x3a, "KEY_F8" },
++	{ 0x3b, "KEY_F9" },
++	{ 0x3c, "KEY_F10" },
++	{ 0x3d, "KEY_F11" },
++	{ 0x3e, "KEY_F12" },
++	{ 0x3f, "KEY_GRAVE" },
++	{ 0x40, "KEY_1" },
++	{ 0x41, "KEY_2" },
++	{ 0x42, "KEY_3" },
++	{ 0x43, "KEY_4" },
++	{ 0x44, "KEY_5" },
++	{ 0x45, "KEY_6" },
++	{ 0x46, "KEY_7" },
++	{ 0x47, "KEY_8" },
++	{ 0x48, "KEY_9" },
++	{ 0x49, "KEY_0" },
++	{ 0x4a, "KEY_MINUS" },
++	{ 0x4b, "KEY_EQUAL" },
++	{ 0x4c, "KEY_BACKSPACE" },
++	{ 0x4d, "KEY_TAB" },
++	{ 0x4e, "KEY_Q" },
++	{ 0x4f, "KEY_W" },
++	{ 0x50, "KEY_E" },
++	{ 0x51, "KEY_R" },
++	{ 0x52, "KEY_T" },
++	{ 0x53, "KEY_Y" },
++	{ 0x54, "KEY_U" },
++	{ 0x55, "KEY_I" },
++	{ 0x56, "KEY_O" },
++	{ 0x57, "KEY_P" },
++	{ 0x58, "KEY_LEFTBRACE" },
++	{ 0x59, "KEY_RIGHTBRACE" },
++	{ 0x5a, "KEY_BACKSLASH" },
++	{ 0x5b, "KEY_CAPSLOCK" },
++	{ 0x5c, "KEY_A" },
++	{ 0x5d, "KEY_S" },
++	{ 0x5e, "KEY_D" },
++	{ 0x5f, "KEY_F" },
++	{ 0x60, "KEY_G" },
++	{ 0x61, "KEY_H" },
++	{ 0x62, "KEY_J" },
++	{ 0x63, "KEY_K" },
++	{ 0x64, "KEY_L" },
++	{ 0x65, "KEY_SEMICOLON" },
++	{ 0x66, "KEY_APOSTROPHE" },
++	{ 0x67, "KEY_ENTER" },
++	{ 0x68, "KEY_LEFTSHIFT" },
++	{ 0x69, "KEY_Z" },
++	{ 0x6a, "KEY_X" },
++	{ 0x6b, "KEY_C" },
++	{ 0x6c, "KEY_V" },
++	{ 0x6d, "KEY_B" },
++	{ 0x6e, "KEY_N" },
++	{ 0x6f, "KEY_M" },
++	{ 0x70, "KEY_COMMA" },
++	{ 0x71, "KEY_DOT" },
++	{ 0x72, "KEY_SLASH" },
++	{ 0x73, "KEY_RIGHTSHIFT" },
++	{ 0x74, "KEY_LEFTCTRL" },
++	{ 0x75, "KEY_LEFTMETA" },
++	{ 0x76, "KEY_LEFTALT" },
++	{ 0x77, "KEY_SPACE" },
++	{ 0x78, "KEY_RIGHTALT" },
++	{ 0x79, "KEY_RIGHTCTRL" },
++	{ 0x7a, "KEY_INSERT" },
++	{ 0x7b, "KEY_HOME" },
++	{ 0x7c, "KEY_PAGEUP" },
++	{ 0x7d, "KEY_DELETE" },
++	{ 0x7e, "KEY_END" },
++	{ 0x7f, "KEY_PAGEDOWN" },
++	{ 0x8a, "KEY_KPENTER" },
++	{ 0x8b, "KEY_KP0" },
++	{ 0x8c, "KEY_KP1" },
++	{ 0x8d, "KEY_KP2" },
++	{ 0x8e, "KEY_KP3" },
++	{ 0x8f, "KEY_KP4" },
++	{ 0x90, "KEY_KP5" },
++	{ 0x91, "KEY_KP6" },
++	{ 0x92, "KEY_KP7" },
++	{ 0x93, "KEY_KP8" },
++	{ 0x94, "KEY_KP9" },
++	{ 0x95, "MD_PLAY" },
++	{ 0x96, "MD_STOP" },
++	{ 0x97, "MD_NEXT" },
++	{ 0x98, "MD_PREV" },
++	{ 0x99, "MD_VOL_UP" },
++	{ 0x9a, "MD_VOL_DOWN" },
++	{ 0x9b, "MD_VOL_MUTE" },
++	{ 0x9c, "KEY_F23" },
++	/* Mouse events */
++	{ 0xc8, "BTN_LEFT" },
++	{ 0xc9, "BTN_MIDDLE" },
++	{ 0xca, "BTN_RIGHT" },
++	{ 0xcb, "BTN_SIDE" },
++	{ 0xcc, "BTN_EXTRA" },
++	{ 0xcd, "REL_WHEEL_UP" },
++	{ 0xce, "REL_WHEEL_DOWN" },
++	{ 0xff, "DISABLED" },
++};
++
++static const u16 button_mapping_addr_old[] = {
++	0x007a,  /* M1 */
++	0x011f,  /* M2 */
++};
++
++static const u16 button_mapping_addr_new[] = {
++	0x00bb,  /* M1 */
++	0x0164,  /* M2 */
++};
++
+ struct claw_command_report {
+ 	u8 report_id;
+ 	u8 padding[2];
+@@ -87,18 +249,26 @@ struct claw_command_report {
+ 
+ struct claw_drvdata {
+ 	/* MCU General Variables */
++	enum claw_profile_ack_pending profile_pending;
+ 	struct completion send_cmd_complete;
+ 	struct delayed_work cfg_resume;
+ 	struct delayed_work cfg_setup;
++	struct mutex profile_mutex; /* mutex for profile_pending calls */
+ 	struct hid_device *hdev;
+ 	struct mutex mode_mutex; /* mutex for mode calls */
+ 	struct mutex cfg_mutex; /* mutex for synchronous data */
++	struct mutex rom_mutex; /* mutex for SYNC_TO_ROM calls */
++	u16 bcd_device;
+ 	u8 ep;
+ 
+ 	/* Gamepad Variables */
+ 	enum claw_mkeys_function_index mkeys_function;
+ 	enum claw_gamepad_mode_index gamepad_mode;
++	u8 m1_codes[CLAW_KEYS_MAX];
++	u8 m2_codes[CLAW_KEYS_MAX];
+ 	bool gamepad_registered;
++	const u16 *bmap_addr;
++	bool bmap_support;
+ };
+ 
+ static int get_endpoint_address(struct hid_device *hdev)
+@@ -128,6 +298,30 @@ static int claw_gamepad_mode_event(struct claw_drvdata *drvdata,
+ 	return 0;
+ }
+ 
++static int claw_profile_event(struct claw_drvdata *drvdata, struct claw_command_report *cmd_rep)
++{
++	u8 *codes;
++	int i;
++
++	switch (drvdata->profile_pending) {
++	case CLAW_M1_PENDING:
++	case CLAW_M2_PENDING:
++		codes = (drvdata->profile_pending == CLAW_M1_PENDING) ?
++			drvdata->m1_codes : drvdata->m2_codes;
++		for (i = 0; i < CLAW_KEYS_MAX; i++)
++			codes[i] = (cmd_rep->data[6 + i]);
++		break;
++	default:
++		dev_dbg(&drvdata->hdev->dev,
++			"Got profile event without changes pending from command: %x\n",
++			cmd_rep->cmd);
++		return -EINVAL;
++	}
++	drvdata->profile_pending = CLAW_NO_PENDING;
++
++	return 0;
++}
++
+ static int claw_raw_event(struct claw_drvdata *drvdata, struct hid_report *report,
+ 			  u8 *data, int size)
+ {
+@@ -149,6 +343,9 @@ static int claw_raw_event(struct claw_drvdata *drvdata, struct hid_report *repor
+ 	case CLAW_COMMAND_TYPE_GAMEPAD_MODE_ACK:
+ 		ret = claw_gamepad_mode_event(drvdata, cmd_rep);
+ 		break;
++	case CLAW_COMMAND_TYPE_READ_PROFILE_ACK:
++		ret = claw_profile_event(drvdata, cmd_rep);
++		break;
+ 	case CLAW_COMMAND_TYPE_ACK:
+ 		break;
+ 	default:
+@@ -373,6 +570,164 @@ static ssize_t reset_store(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR_WO(reset);
+ 
++static int button_mapping_name_to_code(const char *name)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(claw_button_mapping_key_map); i++) {
++		if (!strcmp(name, claw_button_mapping_key_map[i].name))
++			return claw_button_mapping_key_map[i].code;
++	}
++
++	return -EINVAL;
++}
++
++static const char *button_mapping_code_to_name(u8 code)
++{
++	int i;
++
++	if (code == 0xff)
++		return NULL;
++
++	for (i = 0; i < ARRAY_SIZE(claw_button_mapping_key_map); i++) {
++		if (claw_button_mapping_key_map[i].code == code)
++			return claw_button_mapping_key_map[i].name;
++	}
++
++	return NULL;
++}
++
++DEFINE_FREE(argv, char **, if (_T) argv_free(_T))
++
++static int claw_buttons_store(struct device *dev, const char *buf, u8 mkey_idx)
++{
++	struct hid_device *hdev = to_hid_device(dev);
++	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
++	u8 data[] = { 0x01, (drvdata->bmap_addr[mkey_idx] >> 8) & 0xff,
++		      drvdata->bmap_addr[mkey_idx] & 0xff, 0x07,
++		      0x04, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff };
++	char **raw_keys __free(argv) = NULL;
++	size_t len = ARRAY_SIZE(data);
++	int ret, key_count, i;
++
++	raw_keys = argv_split(GFP_KERNEL, buf, &key_count);
++	if (!raw_keys)
++		return -ENOMEM;
++
++	if (key_count > CLAW_KEYS_MAX)
++		return -EINVAL;
++
++	if (key_count == 0)
++		goto set_buttons;
++
++	for (i = 0; i < key_count; i++) {
++		ret = button_mapping_name_to_code(raw_keys[i]);
++		if (ret < 0)
++			return ret;
++
++		data[6 + i] = ret;
++	}
++
++set_buttons:
++	scoped_guard(mutex, &drvdata->rom_mutex) {
++		ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_WRITE_PROFILE_DATA,
++					    data, len, 8);
++		if (ret)
++			return ret;
++
++		ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_SYNC_TO_ROM, NULL, 0, 8);
++	}
++
++	return ret;
++}
++
++static int claw_buttons_show(struct device *dev, char *buf, enum claw_key_index m_key)
++{
++	struct hid_device *hdev = to_hid_device(dev);
++	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
++	u8 data[] = { 0x01, (drvdata->bmap_addr[m_key] >> 8) & 0xff,
++		      drvdata->bmap_addr[m_key] & 0xff, 0x07 };
++	size_t len = ARRAY_SIZE(data);
++	int i, ret, count = 0;
++	const char *name;
++	u8 *codes;
++
++	codes = (m_key == CLAW_KEY_M1) ? drvdata->m1_codes : drvdata->m2_codes;
++
++	guard(mutex)(&drvdata->profile_mutex);
++	drvdata->profile_pending = (m_key == CLAW_KEY_M1) ? CLAW_M1_PENDING : CLAW_M2_PENDING;
++
++	ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_READ_PROFILE, data, len, 8);
++	if (ret) {
++		drvdata->profile_pending = CLAW_NO_PENDING;
++		return ret;
++	}
++	for (i = 0; i < CLAW_KEYS_MAX; i++) {
++		name = button_mapping_code_to_name(codes[i]);
++		if (name)
++			count += sysfs_emit_at(buf, count, "%s ", name);
++	}
++
++	if (!count)
++		return sysfs_emit(buf, "(not set)\n");
++
++	buf[count - 1] = '\n';
++
++	return count;
++}
++
++static ssize_t button_m1_store(struct device *dev, struct device_attribute *attr,
++			       const char *buf, size_t count)
++{
++	int ret;
++
++	ret = claw_buttons_store(dev, buf, CLAW_KEY_M1);
++	if (ret)
++		return ret;
++
++	return count;
++}
++
++static ssize_t button_m1_show(struct device *dev, struct device_attribute *attr,
++			      char *buf)
++{
++	return claw_buttons_show(dev, buf, CLAW_KEY_M1);
++}
++static DEVICE_ATTR_RW(button_m1);
++
++static ssize_t button_m2_store(struct device *dev, struct device_attribute *attr,
++			       const char *buf, size_t count)
++{
++	int ret;
++
++	ret = claw_buttons_store(dev, buf, CLAW_KEY_M2);
++	if (ret)
++		return ret;
++
++	return count;
++}
++
++static ssize_t button_m2_show(struct device *dev, struct device_attribute *attr,
++			      char *buf)
++{
++	return claw_buttons_show(dev, buf, CLAW_KEY_M2);
++}
++static DEVICE_ATTR_RW(button_m2);
++
++static ssize_t button_mapping_options_show(struct device *dev,
++					   struct device_attribute *attr, char *buf)
++{
++	int i, count = 0;
++
++	for (i = 0; i < ARRAY_SIZE(claw_button_mapping_key_map); i++)
++		count += sysfs_emit_at(buf, count, "%s ", claw_button_mapping_key_map[i].name);
++
++	buf[count - 1] = '\n';
++
++	return count;
++}
++static DEVICE_ATTR_RO(button_mapping_options);
++
+ static umode_t claw_gamepad_attr_is_visible(struct kobject *kobj, struct attribute *attr,
+ 					    int n)
+ {
+@@ -385,10 +740,22 @@ static umode_t claw_gamepad_attr_is_visible(struct kobject *kobj, struct attribu
+ 		return 0;
+ 	}
+ 
+-	return attr->mode;
++	/* Always show attrs available on all firmware */
++	if (attr == &dev_attr_gamepad_mode.attr ||
++	    attr == &dev_attr_gamepad_mode_index.attr ||
++	    attr == &dev_attr_mkeys_function.attr ||
++	    attr == &dev_attr_mkeys_function_index.attr ||
++	    attr == &dev_attr_reset.attr)
++		return attr->mode;
++
++	/* Hide button mapping attrs if it isn't supported */
++	return drvdata->bmap_support ? attr->mode : 0;
+ }
+ 
+ static struct attribute *claw_gamepad_attrs[] = {
++	&dev_attr_button_m1.attr,
++	&dev_attr_button_m2.attr,
++	&dev_attr_button_mapping_options.attr,
+ 	&dev_attr_gamepad_mode.attr,
+ 	&dev_attr_gamepad_mode_index.attr,
+ 	&dev_attr_mkeys_function.attr,
+@@ -440,8 +807,31 @@ static void cfg_resume_fn(struct work_struct *work)
+ 		dev_err(&drvdata->hdev->dev, "Failed to set gamepad mode settings: %d\n", ret);
+ }
+ 
++static void claw_features_supported(struct claw_drvdata *drvdata)
++{
++	u8 major = (drvdata->bcd_device >> 8) & 0xff;
++	u8 minor = drvdata->bcd_device & 0xff;
++
++	if (major == 0x01) {
++		drvdata->bmap_support = true;
++		if (minor >= 0x66)
++			drvdata->bmap_addr = button_mapping_addr_new;
++		else
++			drvdata->bmap_addr = button_mapping_addr_old;
++		return;
++	}
++
++	if ((major == 0x02 && minor >= 0x17) || major >= 0x03) {
++		drvdata->bmap_support = true;
++		drvdata->bmap_addr = button_mapping_addr_new;
++		return;
++	}
++}
++
+ static int claw_probe(struct hid_device *hdev, u8 ep)
+ {
++	struct usb_interface *intf = to_usb_interface(hdev->dev.parent);
++	struct usb_device *udev = interface_to_usbdev(intf);
+ 	struct claw_drvdata *drvdata;
+ 	int ret;
+ 
+@@ -453,8 +843,17 @@ static int claw_probe(struct hid_device *hdev, u8 ep)
+ 	drvdata->hdev = hdev;
+ 	drvdata->ep = ep;
+ 
++	/* Determine feature level from firmware version */
++	drvdata->bcd_device = le16_to_cpu(udev->descriptor.bcdDevice);
++	claw_features_supported(drvdata);
++
++	if (!drvdata->bmap_support)
++		dev_dbg(&hdev->dev, "M-Key mapping is not supported. Update firmware to enable.\n");
++
+ 	mutex_init(&drvdata->mode_mutex);
+ 	mutex_init(&drvdata->cfg_mutex);
++	mutex_init(&drvdata->profile_mutex);
++	mutex_init(&drvdata->rom_mutex);
+ 	init_completion(&drvdata->send_cmd_complete);
+ 	INIT_DELAYED_WORK(&drvdata->cfg_resume, &cfg_resume_fn);
+ 	INIT_DELAYED_WORK(&drvdata->cfg_setup, &cfg_setup_fn);
 -- 
 2.53.0
 
