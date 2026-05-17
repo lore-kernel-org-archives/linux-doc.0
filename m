@@ -1,87 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9DA2ECE91;
-	Sun, 17 May 2026 18:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A0A3328FD
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 18:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779043633; cv=none; b=sxOfzA0LQU6PuwzxKlj4xb9P8Si1InAuMZQkLmx36YhS44Agphup/c+dRXN5KGBHj4Fx9q4q9OdbE3HBfDLs1sL1PXxBHVaRWsZUnaHG7wmDf+aUxjtxjteLm3vsYjkHTXNhaOnsBg7T1ZyAgLwLsegSdoSd1Tj9QKoNVnMFQ20=
+	t=1779043928; cv=none; b=eQUbBka8AgXR+gVQ4WN5NNqB2C5d6FqEBnA/1SylWUPBndroCBUCGJTK0XZscGOtVSC7Cz7KcH6hzuQ6SxgIpQA0y5Q4pV2Yd9B5bhN5Fpz7gjTeBXGxvw3z3Sz+DUwd1qlsj7jspZXpO47WRr/FJqtbLV/Zp+GDifRgRZu2wfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779043633; c=relaxed/simple;
-	bh=q0yo9dDFhdfYJZH46om+DDXSMlLk9yZyYFxDwNP5H2U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U/TdMDnaOqqeWwC5XzH8dzHAITp7Zkr3+ZrXTm7KShgAwhkf6S0GRq4tCNfnqHbLfXaVX+ExfDBiWUkswB4ru2r4EnatkEvYAU9l9jJYeBgtV6yxXbcN87n9Ha7XWcO/2ExaUl4Oc3pTaqB6dPA84EzGrL+9qjXtsjAqFl8VCnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SN3KVN+O; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779043928; c=relaxed/simple;
+	bh=dEI0dHO4/KkcUDU6wf5hMM3cRP/Uvov+/pcBQE3YBOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W6v10hXuumM4oTkV2R6Zf/oASNwpTg7QD4m+DEWOxad6vQXoHIrOy3InqCLV0fUl7+85Po5BLW56dmF2XbteG+8A6OlIjkIdIz5Z9nUpo6OgF7Xd0OruAuQcdkannMUtrcsPx+m8mc6tiXOql4uV56Tr0SZM7uIeHzu9PumVfF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=SX7ltOKb; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SN3KVN+O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C07F1C2BCB0;
-	Sun, 17 May 2026 18:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779043633;
-	bh=q0yo9dDFhdfYJZH46om+DDXSMlLk9yZyYFxDwNP5H2U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SN3KVN+OmG+YdSHj8RmFq7bQsp31iwYIqyzerCEi4S9YLr2aGW6GrarlYu8N5KfpI
-	 PRLxMH7RFr4ZHzgAh6nlDxuKg1wsVfg+7+ir2lAuUz+paDQgrva9SUc7VK3PMybwC6
-	 LZm5O3+qfN79znFh/walN/wYHuKcZIPu4XL+hu8KbvZhOOdLgUM9xblR5u8EShTrGl
-	 OhjnVG9KbVI/iG9yDYAJGrE0ZtonMUd3CcYMOz25f601ogVQi0zfDerCkOpdJLsnsG
-	 WgJLI7g2BS+Wio+EhVuUJzaY4hhSjo1HaCFGPEB5u9XJzHWkPlXPQkScIN0lVViTc3
-	 FM6Z/DJz5l/yA==
-From: SeongJae Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com
-Subject: Re: [RFC PATCH 3/5] mm/damon/core: floor effective quota size at minimum region size
-Date: Sun, 17 May 2026 11:47:04 -0700
-Message-ID: <20260517184705.4652-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260516210357.2247-4-ravis.opensrc@gmail.com>
-References: 
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="SX7ltOKb"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5165195c8b0so21963751cf.0
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 11:52:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1779043925; x=1779648725; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rMikKmjIRuhmCNsf7ga38/uSHQiRF0nG0AquMF025/Q=;
+        b=SX7ltOKbDqicCJW23t8jAciw5Vsm4yNsVJ6Z+qUjPO9M9yPi6UtaAy86NR/Brh5Kme
+         lYvZWWbknpMYomOS4ckwZTRq9ZCA6yJ5ls8Mef47zHwhtxCduJWd3xJD2qdUlhPqAN+u
+         OI/Olu95iUM2KLqqlsQfXALMaNyPVxR+sjoJTa0p1NvXJG6YLvHVqFcSLNK/Ye0FOJag
+         QKcXKJEXmUmLHlNYrPFYdek1VURSo5PIIRoa3cIPenGZaVxLmD4WGpHdZzvqBVWRLIJ3
+         6JZNVyKXm7RvD1u3iA7zjFGniPOuzB8Vn8+LA6+m8FQPokL8h62a7zkvHCNtyIiUBe+s
+         e5KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779043925; x=1779648725;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rMikKmjIRuhmCNsf7ga38/uSHQiRF0nG0AquMF025/Q=;
+        b=TCLyf3+gGQLO/lpc7llW1zHmToC4YgSbMiqtHVx5nkHTqRlJnpLoohXl85iOTOKsxB
+         H8nmQ3p6tunAOGle02XVMxynMPvBHWjiuzF3slqThdor8HZqgsqGhz5jZYEjxoD+s6P3
+         0NmwUb3dx7bpT5DGvY5zua3UUIk3nxtg8HpSQyRybaZp2tsmC6fbvvJRok6KcPsJRLw+
+         Ca8f6QDjIjq8JAbGRgk7UuplZ/g1U6BYvBabyO4j55NKcZXug60dAYOVX9QdNsWHq8+M
+         bLKuRLtH1hO1Tolo8WY1341Kd2qjLzvSne0wWY72hCgxZ2Kje+i/L8nJ+le2pu8FVfo9
+         p2vQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9Zc34jhX01uiO9Kff9R+mnqKd4diCKGIXQUiMKaQDneebqOKz4ae5PnETmUBXJNAzqNYN6kOVmZd4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtAHmcooujT2NuXG/Y3/JbnyJpffD7Fe5jHpJrBoUJm/wrabQc
+	kQLUiX3gGRJtYyk/xti4E58tVkn6VtIxwaqKdhNPoAxxNFqny4A8wA306txb/pWPhSc=
+X-Gm-Gg: Acq92OFTlOQeY4rs0udG/I8hpdx/VeGTFAQ06aH2hKwj5z1XkUmZyAj+aNWMaWtKx92
+	i67JuLvNZnZYdIXbGfIu6JEp0P3HkD2nv2euun5SmxXp7Q9xktbdViW3VmRU8YF9moZbMgVdqRc
+	wCC6kqU7k36WHa/E21hcLhS5jSALFkWfX+6hk/UhAfu3II1du+8GDzWXV0FrH2DmJkNSQzzkP5T
+	oRrgxVIeyk+g1SVI49Q3cDMUPXM/V7WIvx5AY2VY5vVxutVaBgqmsXBKc+vmoM1t0e8X8yjfPPu
+	fglPY8jSCgnWlqC9MPd1ON9CI8w719lkAngm6Br84x71UwY1bBR0QEd5sNSfDs/WZbMYl///TqT
+	5m/GIbF3Uv8JQZonRjbDOiwmN1iddxn20mQYxRkiwXl4nwJhPMuGBaKjjkWuVgc9834F5K2m9/k
+	iEWhkBahwwOfHXxLTYCfZCDePJ58ZqcuCCX/alaIDuLriDg0BeFoo=
+X-Received: by 2002:a05:622a:6201:b0:50e:5819:d7e7 with SMTP id d75a77b69052e-51659ff8947mr173729421cf.3.1779043925075;
+        Sun, 17 May 2026 11:52:05 -0700 (PDT)
+Received: from plex ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-516456888f6sm114656631cf.3.2026.05.17.11.52.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2026 11:52:03 -0700 (PDT)
+Date: Sun, 17 May 2026 18:52:02 +0000
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	linux-kselftest@vger.kernel.org, shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	corbet@lwn.net, dmatlack@google.com, kexec@lists.infradead.org, 
+	pratyush@kernel.org, skhawaja@google.com, graf@amazon.com
+Subject: Re: [PATCH v2 05/10] liveupdate: defer session block allocation and
+ PA setting
+Message-ID: <agoL1Afx2cHUNmE9@plex>
+References: <20260514222628.931312-1-pasha.tatashin@soleen.com>
+ <20260514222628.931312-6-pasha.tatashin@soleen.com>
+ <agn7XnuO7VU4eK52@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <agn7XnuO7VU4eK52@kernel.org>
 
-On Sat, 16 May 2026 14:03:55 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+On 05-17 20:31, Mike Rapoport wrote:
+> On Thu, May 14, 2026 at 10:26:23PM +0000, Pasha Tatashin wrote:
+> > Currently, luo_session_setup_outgoing() allocates the session block and
+> > sets its physical address in the header immediately. With upcoming
+> > dynamic block-based session management, this makes the first block
+> > different from the rest. Move the allocation to where it is first needed.
+> > 
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> 
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> 
+> > ---
+> > @@ -77,15 +77,16 @@
+> >  
+> >  /**
+> >   * struct luo_session_header - Header struct for managing LUO sessions.
+> > - * @count:      The number of sessions currently tracked in the @list.
+> > - * @list:       The head of the linked list of `struct luo_session` instances.
+> > - * @rwsem:      A read-write semaphore providing synchronized access to the
+> > - *              session list and other fields in this structure.
+> > - * @header_ser: The header data of serialization array.
+> > - * @ser:        The serialized session data (an array of
+> > - *              `struct luo_session_ser`).
+> > - * @active:     Set to true when first initialized. If previous kernel did not
+> > - *              send session data, active stays false for incoming.
+> > + * @count:       The number of sessions currently tracked in the @list.
+> > + * @list:        The head of the linked list of `struct luo_session` instances.
+> > + * @rwsem:       A read-write semaphore providing synchronized access to the
+> > + *               session list and other fields in this structure.
+> > + * @header_ser:  The header data of serialization array.
+> > + * @ser:         The serialized session data (an array of
+> > + *               `struct luo_session_ser`).
+> > + * @sessions_pa: Points to the location of sessions_pa within struct luo_ser.
+> > + * @active:      Set to true when first initialized. If previous kernel did not
+> > + *               send session data, active stays false for incoming.
+> 
+> Hmm, why addition of a single field changed the entire block? :/
 
-> The CONSIST quota goal tuner initializes esz_bp to 0, producing an
-> effective quota size (esz) of 1 byte on the first tick.
-> damos_quota_is_full() rejects all regions when esz < min_region_sz
-> (default PAGE_SIZE = 4096), so no regions can be tried and no
-> feedback reaches the tuner — a bootstrapping deadlock.
+Yes, I had to decide whether to shorten the field name or change the 
+entire block. I opted for the latter. :-)
 
-That depend on whether the goal is already [over]-achieved.  If the goal is
-achieved, the tuner will think no change is needed, so keep the
-effectively-zero quota.  If the goal is over-achived, the tuner will think the
-DAMOS scheme should be less aggressive, but it is already effectively-zero
-quota, so keep having effectively-zero quota.
-
-If the ogal is under-achived, the logic will iteratively increase the internal
-esz (esz_bp), until it exceeds the min_region_sz, and finally start making some
-effects.
-
-So, unless the goal is already [over]-achieved, there is no deadlock.  If the
-goal is already [over]-achieved, why we would want to make DAMOS do something?
-
-Am I missing something?
-
-I'd like to discuss this high level thing first, before digging deep into the
-details.
-
-
-Thanks,
-SJ
-
-[...]
+> 
+> >   */
+> >  struct luo_session_header {
+> >  	long count;
+> 
+> -- 
+> Sincerely yours,
+> Mike.
