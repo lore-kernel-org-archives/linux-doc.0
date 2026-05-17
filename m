@@ -1,278 +1,381 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012022.outbound.protection.outlook.com [40.107.200.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C6E2FFDD6;
-	Sun, 17 May 2026 20:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779048983; cv=fail; b=QtF655m49Ir8gaLIgG3H9PCNP8gZWDV1zvoyiUb0GdP/EGbZRbGhUth0C6ZdQidCiXSmSAwqO8LsdlwUTCi2UHLqtIPucl3jq7EUUrnAy/dztCoT/KU7Zb8+3RJA9f97+m9TZr8x0+Yf7NiU3eYUR/jkbeiBFNMJbRBGUTFqLmk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779048983; c=relaxed/simple;
-	bh=Ou83dAw2WBD3/Hzx1mZsd7+BkNqm3pBdFfvn15o/wqs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T+139UXt0jywgOUiS6YacVz2y0f1mIXMVNbteZGbF0Sw/VenyLJYZeF8k+OEHz0yTIdfC0eF8T/noY27J3i+16q2qoPzFIhUWc/vWaJ4+9v+EAWq/iKUaa0WM3wPwwEVuZiBy0bYum6NUr41ZahQyGpQMszF5fKKxYQHbIXRPsY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=lPmrbBzq; arc=fail smtp.client-ip=40.107.200.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE54F30DD0A
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 20:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779049552; cv=none; b=m3bjxAWXiBdv3fgod6++3NWr0Muu7F3TgJLOptof5Q9tRX4J3Va59P5l2iBqTSYyR3bIX+L/COeYppR4NHRzDyNgvFziDPiQNqTq34Ij+JIiamPO7I4t/GONcLukYUnd57zxWc6tmdlhmdff7UPcL1QoU/jBFlpzqjdmZgorHEE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779049552; c=relaxed/simple;
+	bh=UHb3ysFndkgwemUkGedxuElnJVjxgvGx3Wafa+61CIg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SblXeIKL9HMt/ilG/8Yf1h9vP4CessvicT/tyO5rOny71hqw5D7rYUyVs39LxCA4/Fg5ZKuieV3mjZ2Pawf7Ic3+UkljZaH+Cva8/Ad0lJvrXvjn1jjKOvxz+v2zXP1+HPHbEaY5seu0n2tNRDe/KqK6KtsnKqyrrxOnaTj98lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nyC6sbvV; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="lPmrbBzq"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lwD5NJ7gYFcmV2jfwBFt4iOoPdiqswf9sUqiCGoqWO6o4isGsTf+YUGj/uh4srpt6kAtYvPlOIOfyJMnTr5a9k6/6Qubb8hSwhmeD9E0IhK/1sDI7yQAyOpWHiN5/b5sTuIKF2IzuWJx2xuAlPVRTsbXWx20zki5MawrLqM4BxYBmIYbYcWatmHsL+1NOF2CVwEuKVfcuoUDUEhIe1dLMa2DODBtU4ZMWsDBfPDM1ysfhaOCxF9GdDPnw0XZeQ4I8krB7Q6djdiBtzkxVqV7ejvrmKKN4qRUQ0xS+WbYpZ5uyuOOlkWldZTTTZHozoGEBqxtzJ0P9sPiNdc5xwnRGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sHzC2Nb1OFnYoQpsB5d+r63ZC5H9ijhPswIpPK5NHoI=;
- b=XpviESjvKt+57Mc5aHwaqzw8RxwWLUVB1YLFdV2MtwyB80YoRjuIcSbP6MI47R2RM/gAOgJhuI15z5aqyCTqJ7VeyqM0g7iNIxVWAty0ePgNkrix3wGjak4rLGbGcoOBNU1SWQALdE1gQ0+G5e8wPxFSDZUmlHFqRZ5doZGmR4w0SJ71OpOjFKi9Q9VN579jrJvpt6+EQ2fjbtpb7LD167Hid+DB1R2xMPse42UqNpF/rLvX1tlroMYu26ccRmiNbXHfbqLMIOZwnRQnlu8xj6Zusf03Wx2IyMXBYkfI8qVUtt29Vs/NkfCn+D5C3VW2xmQwc/2kHF6fuE0E/zHSuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sHzC2Nb1OFnYoQpsB5d+r63ZC5H9ijhPswIpPK5NHoI=;
- b=lPmrbBzqHChGJfzlIR6lPVABzPbZUFZUbzT3lJqny9TIXQGhI0k9keLpkf0voHrQ5bU0VuTwkvoHPKsinUJHRKFHux++Y8SatRbaNunBtyscEYzaCUd/rRHyfiaC+uZtIoWWbZANof7N/iA6dfDW03Xg6rMBoEbrmvWXMJaGzagrJdHm4MMfkHDvGwN5LRNpQjsG4l/ZtSWybNU/cJsApfLtfZZXZNv5WzDpcu90+KxuQ+FEos+Y6UwwNQkylV0mvmkyljagADhws7kFz0VK6UXEbUa82wM86cu7SgkhiWQLenoegjI2KR+y3bGnqThaZ3BCOR2luGBzdCtRzjhauw==
-Received: from CH0PR03CA0434.namprd03.prod.outlook.com (2603:10b6:610:10e::16)
- by BL3PR12MB6521.namprd12.prod.outlook.com (2603:10b6:208:3bd::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.20; Sun, 17 May
- 2026 20:16:17 +0000
-Received: from CH1PEPF0000AD79.namprd04.prod.outlook.com
- (2603:10b6:610:10e:cafe::61) by CH0PR03CA0434.outlook.office365.com
- (2603:10b6:610:10e::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.25.23 via Frontend Transport; Sun, 17
- May 2026 20:16:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- CH1PEPF0000AD79.mail.protection.outlook.com (10.167.244.57) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.48.11 via Frontend Transport; Sun, 17 May 2026 20:16:16 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 17 May
- 2026 13:16:04 -0700
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Sun, 17 May 2026 13:16:04 -0700
-Received: from build-va-bionic-20251031.nvidia.com (10.127.8.14) by
- mail.nvidia.com (10.126.190.182) with Microsoft SMTP Server id 15.2.2562.20
- via Frontend Transport; Sun, 17 May 2026 13:16:04 -0700
-From: Vishwaroop A <va@nvidia.com>
-To: <broonie@kernel.org>, <linux-spi@vger.kernel.org>
-CC: <smangipudi@nvidia.com>, <jonathanh@nvidia.com>,
-	<thierry.reding@gmail.com>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-	<va@nvidia.com>
-Subject: [PATCH v5 2/2] docs: spi: add documentation for userspace device instantiation
-Date: Sun, 17 May 2026 20:16:02 +0000
-Message-ID: <20260517201602.498135-3-va@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260517201602.498135-1-va@nvidia.com>
-References: <20260517201602.498135-1-va@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nyC6sbvV"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-7bd6f65c781so9013097b3.1
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 13:25:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779049550; x=1779654350; darn=vger.kernel.org;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=x5cYafEdZsFjRRlew4rwqQPOAGf/rzpc61k7Dr0kJJo=;
+        b=nyC6sbvV1l0MUKTURK0w7BgAAciMMsDtVQxUWl67g63BwWEmsSl+ciAASzOImHlBAH
+         CZ+O2A23Se2uJuouq5KNOIOA0KoK9IQ/ojfFRhKDK2PhrCjIn6L+L3leSBjMtVlDTC72
+         TTXz7U9ntYtoOL5cfi4GbOTq90+5M+/SGftI8KILn8ROXwMpx+GQTKna+3a+XgWwVFfk
+         syQqLjFmO5Mw7ZxykbhZYBwErQGN40Ip3IPp6vxXLyPUazzlq9DkTqnUlr/M1h62JIkX
+         6aKCyEoY0WIMsELe1CThCOeX+k+ANAbAv+k1NR8S1k+inee/anll6KQT3Ej2R2ZRinEe
+         y7iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779049550; x=1779654350;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x5cYafEdZsFjRRlew4rwqQPOAGf/rzpc61k7Dr0kJJo=;
+        b=POZiZWohOwiIOuAC7U90iQPOBK7/pqqgCJOO28pKgFBFmL89zqC0qooQc/FbbCmj7T
+         YdW36Fh7JHQNXD5sr+6DHoSeSCyLwJRRl6EVlG9JWMFMngOnU0IFeEkTEw322LXP7AqG
+         hm2lcArwRASMhKpZFYUptW0Njnhdd2w+KR0vUMRKxTpoJvfZBDeAYzAqjw0JzrBzPtEE
+         wEmPzXigtJp8moMEwLCfMMWg+J1iCXsSxpesdpm0gfnneCG/jOpOr/1Ju4kThv8lsKkg
+         juLlCy2ErieK/1BOJkJEkRZpINTZ/90x/pqKSenZzjuOg+BWVtKw5LNX2XAQOrU8pa2e
+         aDLg==
+X-Forwarded-Encrypted: i=1; AFNElJ+YsCWfmwfnvEutYArtxtUiQFaI2Wo53mo7oXe5JR63/w0QOai63LAS+8v4ogIUrczXDF80u+yDmks=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/MZyyTlkV+vWgAic7nwd27dUkHpkyqO68Xqfb8k9g3tWF2O7y
+	nEzOfdfAuEzeaMAeSgXq2GmC53XLSECEEHq1/AfsUgF359bjLd7Ldy/o
+X-Gm-Gg: Acq92OHOEAnqJANtfAlf1Ej3rG9WQfGkZh2vJXdjRFDv93DdYWrZSgg4LmcZkFIJ0P8
+	Eg61vD7ImB5PNaZ6wKTcDOQMWtqkqNToxPHEoVtrBpIAaumlVuVk+pQsLx18P4ntyQLqKOyfocY
+	JiPFaS7JY3SmpTXp6+kPj2yVr8Q+BYuiknZMCK83IXIl5feCStXz+GozgY6XR2mAKu+40j00eAR
+	9bUqegqaYKAMzkjjzyYR5r8/YOAyIX+av81/QwtTPAECbRBseyZ02+L6BDQo7etEP7H8LjGH/cN
+	YGRCT9Hee7X3xNAxmIfuMgPfwbacmEvm0/tiuw/Zpo5BqQQ1f67RMVubH/qyWSCVGqNZX/j5v3T
+	h8xT7pttapn1/J6UuxDR3KRlJ8q0p1hX/KDpQKQdjcrPlr/Dvecl7MfvGOqHMLUVBZOTI3+7wrs
+	4ukb4FqpIVGTE4qrW7pjBw7FGZsal1O+npHMkZP9cblF94u6XfDPxTkac3d/jZOOjfMRbCxafDl
+	T6lFBysvMAjvngky6e3K+FU52XaujyJ+nyBp0ju+g==
+X-Received: by 2002:a05:690c:48c1:b0:7bd:69b8:f2e7 with SMTP id 00721157ae682-7c7e667fe4cmr150288087b3.12.1779049549798;
+        Sun, 17 May 2026 13:25:49 -0700 (PDT)
+Received: from [10.138.34.110] (h69-131-150-190.cncrtn.broadband.dynamic.tds.net. [69.131.150.190])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7cc965ab98dsm12294147b3.0.2026.05.17.13.25.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 May 2026 13:25:48 -0700 (PDT)
+Message-ID: <f77a4858-2bcf-4bfb-95e0-24a5d91e0862@gmail.com>
+Date: Sun, 17 May 2026 16:25:44 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD79:EE_|BL3PR12MB6521:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0ba0c53-057a-4fa4-1155-08deb45126d1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|30052699003|36860700016|82310400026|18002099003|56012099003|22082099003|3023799003|11063799003;
-X-Microsoft-Antispam-Message-Info:
-	nwMN0ZNYHjIGfAN6L3q167mzrwQ8DuvyDytd5m1MhN+e9P+yb0ZIQb1Hls9xsrkzNk1lTmt2CfpAIaJfLklfYupI8LBfSnO2NYOf5dFoQeeRSq44SwaWrH+NOnwaHm4xQwLkLoOg6r584fiE4Z5lBvDG6yCnq5OIUibrLp7MEDfvaCRS7Y2hoVSY4ZoGGwrtB2mma0LXVGvoSN8sqwwDEiJyJI7Uol9/gspNssPPAGt3V23qMf6Gwg8BTi0F6pNZlH6BRwcmQYw+yUL5zkmROyh8TD2YK6f/2rYIIxGC/MnC4wjs+DTJNA7im0dng73JIPCNRAWXIc79svBQTlE5wnVprtD7TMe7g3SRVLR7sQ9sCibdGwkhj6gRpCn8zvQZS6Nvnx6zPIaak0vUQYfHJQ+C9GjBxQ2X3GhQJG0lU6OBV7WG0UtIyRGGQtRAbz+beccdml0pjfVpNfhING3mM8JyDtt9WwIHTu0uzZdFuZcrs7doqfVb0Z6YtfbwV62zwp1ydFdIX5sgVB6eq4lmSARp5JEBgDPFM5SXM14W8j20RaVuQIvpAv/Nm5zUfh5c1dP+epXf2BwE8R58IU5xIe3RYxs6KsMKwlhY/mWfBhR26Ni0ReQkXzVkYq6RqtpJBeJzWSK9UnFZFpfhJ27DHFv3rM+sZOp9aflHqW3AVaIZPGj9oZ5uyOfRjUlDU1Zj7IVnul1Xs/NU0lrwOt+5AhaJctTmQDjTd+fbnnr1QmM=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(376014)(30052699003)(36860700016)(82310400026)(18002099003)(56012099003)(22082099003)(3023799003)(11063799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	5xnh9S9XxeZaeKj41vkmw7p+4xknH+qwfdljaJC0ZaUHSVBmoC6C6lXYvOjT5fn4YPsrdGcjM8xoKhO12v4xJf30gphpZg0p1g+6QtDqqvbDvkD1iCSPjChYBSPX1hyv0W2SG+cbU/W3PJmIXPypzwj+yR/6S5pjTU5bqAyobCee6qJ/imlTCvwB2HMhD5IcuXLH2PXTcw1Pw4tdYmRPCGfze99RwKkiiuIeY4IUGekzeNdHDBr5AIr28CKTUCHuTi0XRzhN+DuQlrBoA+BxuT757XJdFzywwChzs09Q1orA145pfGSdbN4cEiMY4FKFERBcVfF/ER1dA70wXIamCesHI6I6W4z8FlZ1SkXyl8O5jAS4d7Ts8fQZuJqHCYTJRSVf+eLvmRT7XdsAdG9qgL/jHI7DmO16v8T6Xxgw4Kwt91lvCEJe6Zm9WxZS4q0z
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2026 20:16:16.8084
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0ba0c53-057a-4fa4-1155-08deb45126d1
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000AD79.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6521
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 1/3] scripts: add kconfirm
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Julian Braha <julianbraha@gmail.com>, nathan@kernel.org, nsc@kernel.org,
+ jani.nikula@linux.intel.com, akpm@linux-foundation.org, gary@garyguo.net,
+ ljs@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
+ masahiroy@kernel.org, ojeda@kernel.org, corbet@lwn.net,
+ qingfang.deng@linux.dev, yann.prono@telecomnancy.net, ej@inai.de,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20260516215354.449807-1-julianbraha@gmail.com>
+ <20260516215354.449807-2-julianbraha@gmail.com>
+ <ba7ec52f-c4e9-4588-9484-dc8280d55593@gmail.com>
+ <CANiq72k_tXGSCd1BEg8XmTr+acZHfdRbcFOVD7=O6yAbmv-nHw@mail.gmail.com>
+Content-Language: en-US
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <CANiq72k_tXGSCd1BEg8XmTr+acZHfdRbcFOVD7=O6yAbmv-nHw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------F6YZ5HBTnRL5QQ8Da28crFot"
 
-Document the new_device and delete_device sysfs attributes on SPI
-controllers:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------F6YZ5HBTnRL5QQ8Da28crFot
+Content-Type: multipart/mixed; boundary="------------Crrjw8WXSDbF45mWouF7jwd0";
+ protected-headers="v1"
+Message-ID: <f77a4858-2bcf-4bfb-95e0-24a5d91e0862@gmail.com>
+Date: Sun, 17 May 2026 16:25:44 -0400
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 1/3] scripts: add kconfirm
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Julian Braha <julianbraha@gmail.com>, nathan@kernel.org, nsc@kernel.org,
+ jani.nikula@linux.intel.com, akpm@linux-foundation.org, gary@garyguo.net,
+ ljs@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
+ masahiroy@kernel.org, ojeda@kernel.org, corbet@lwn.net,
+ qingfang.deng@linux.dev, yann.prono@telecomnancy.net, ej@inai.de,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20260516215354.449807-1-julianbraha@gmail.com>
+ <20260516215354.449807-2-julianbraha@gmail.com>
+ <ba7ec52f-c4e9-4588-9484-dc8280d55593@gmail.com>
+ <CANiq72k_tXGSCd1BEg8XmTr+acZHfdRbcFOVD7=O6yAbmv-nHw@mail.gmail.com>
+Content-Language: en-US
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <CANiq72k_tXGSCd1BEg8XmTr+acZHfdRbcFOVD7=O6yAbmv-nHw@mail.gmail.com>
 
-  - Documentation/spi/instantiating-devices.rst: describes when and
-    why this interface is needed, accepted parameters, usage examples,
-    and limitations.
-  - Documentation/ABI/testing/sysfs-class-spi-master: formal ABI
-    entry for both attributes.
+--------------Crrjw8WXSDbF45mWouF7jwd0
+Content-Type: multipart/mixed; boundary="------------zilHOc7vg3DTTNhK0R9YTQnN"
 
-Signed-off-by: Vishwaroop A <va@nvidia.com>
----
- .../ABI/testing/sysfs-class-spi-master        | 34 +++++++
- Documentation/spi/index.rst                   |  1 +
- Documentation/spi/instantiating-devices.rst   | 88 +++++++++++++++++++
- 3 files changed, 123 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-class-spi-master
- create mode 100644 Documentation/spi/instantiating-devices.rst
+--------------zilHOc7vg3DTTNhK0R9YTQnN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/ABI/testing/sysfs-class-spi-master b/Documentation/ABI/testing/sysfs-class-spi-master
-new file mode 100644
-index 000000000000..b498be128bad
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-class-spi-master
-@@ -0,0 +1,34 @@
-+What:		/sys/class/spi_master/spiB/new_device
-+Date:		April 2026
-+KernelVersion:	7.2
-+Contact:	linux-spi@vger.kernel.org
-+Description:	(WO) Instantiate a new SPI device on bus B, where B
-+		is the bus number (0, 1, 2, ...). Takes parameters
-+		in the format:
-+
-+		<modalias> <chip_select> [<max_speed_hz> [<mode>]]
-+
-+		where modalias is the driver name, chip_select is the
-+		CS line number, and max_speed_hz and mode are optional.
-+
-+		The device can later be removed with delete_device.
-+
-+		Only devices created via this interface can be removed
-+		with delete_device; platform and DT devices are not
-+		affected.
-+
-+		Example:
-+		# echo spidev 0 > /sys/class/spi_master/spi0/new_device
-+		# echo spidev 0 10000000 > /sys/class/spi_master/spi0/new_device
-+		# echo spidev 0 10000000 3 > /sys/class/spi_master/spi0/new_device
-+
-+What:		/sys/class/spi_master/spiB/delete_device
-+Date:		April 2026
-+KernelVersion:	7.2
-+Contact:	linux-spi@vger.kernel.org
-+Description:	(WO) Remove a SPI device previously created via
-+		new_device. Takes a single parameter: the chip select
-+		number of the device to remove.
-+
-+		Example:
-+		# echo 0 > /sys/class/spi_master/spi0/delete_device
-diff --git a/Documentation/spi/index.rst b/Documentation/spi/index.rst
-index ac0c2233ce48..3f723e2c07da 100644
---- a/Documentation/spi/index.rst
-+++ b/Documentation/spi/index.rst
-@@ -8,6 +8,7 @@ Serial Peripheral Interface (SPI)
-    :maxdepth: 1
- 
-    spi-summary
-+   instantiating-devices
-    spidev
-    multiple-data-lanes
-    butterfly
-diff --git a/Documentation/spi/instantiating-devices.rst b/Documentation/spi/instantiating-devices.rst
-new file mode 100644
-index 000000000000..9ed08d94ae01
---- /dev/null
-+++ b/Documentation/spi/instantiating-devices.rst
-@@ -0,0 +1,88 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================
-+How to instantiate SPI devices
-+==============================
-+
-+SPI devices are normally declared statically via device-tree, ACPI, or
-+board files. When the SPI controller is registered, these devices are
-+instantiated automatically by the SPI core. This is the preferred method
-+for any device with a proper kernel driver.
-+
-+Instantiate from user-space
-+---------------------------
-+
-+In certain cases a SPI device cannot be declared statically:
-+
-+* The ``spidev`` driver, which provides raw userspace access to SPI
-+  buses, explicitly rejects the bare ``"spidev"`` compatible string in
-+  device-tree because spidev is a Linux implementation detail, not a
-+  hardware description. Vendor-specific compatible strings for spidev
-+  (e.g. ``"vendor,board-spidev"``) are also generally not accepted
-+  upstream. Device-tree overlays do not help here either, since the
-+  spidev driver performs the same compatible check regardless of how
-+  the DT node was loaded.
-+
-+* You are developing or testing a SPI device on a development board
-+  where the SPI bus is exposed on expansion headers, and the connected
-+  device may change frequently.
-+
-+For these cases, a sysfs interface is provided on each SPI controller
-+(similar to the I2C ``new_device``/``delete_device`` interface described
-+in Documentation/i2c/instantiating-devices.rst). Two write-only
-+attribute files are created in every SPI controller directory:
-+``new_device`` and ``delete_device``.
-+
-+File ``new_device`` takes 2 to 4 parameters: the name of the SPI
-+device (a string), the chip select number, and optionally
-+``max_speed_hz`` and ``mode``::
-+
-+  <modalias> <chip_select> [<max_speed_hz> [<mode>]]
-+
-+The modalias is set both as the device's ``modalias`` field and as its
-+``driver_override``. This ensures that the device binds to the named
-+driver directly, bypassing the normal bus matching logic (OF, ACPI,
-+and ``id_table``). This is necessary because drivers like ``spidev``
-+deliberately exclude generic names from their ``id_table``.
-+
-+If ``max_speed_hz`` is omitted or 0, ``spi_setup()`` clamps it to
-+the controller's maximum speed. If ``mode`` is omitted, SPI mode 0
-+(CPOL=0, CPHA=0) is used.
-+
-+File ``delete_device`` takes a single parameter: the chip select
-+number. As no two devices can share a chip select on a given SPI bus,
-+the chip select is sufficient to uniquely identify the device.
-+
-+Examples::
-+
-+  # Create a spidev device on SPI bus 0, chip select 0
-+  echo spidev 0 > /sys/class/spi_master/spi0/new_device
-+
-+  # Create with explicit clock rate and SPI mode
-+  echo spidev 0 10000000 3 > /sys/class/spi_master/spi0/new_device
-+
-+  # Remove the device
-+  echo 0 > /sys/class/spi_master/spi0/delete_device
-+
-+On systems that need spidev access at boot, a systemd service or
-+udev rule can write to ``new_device`` after the SPI controller is
-+available.
-+
-+Limitations
-+^^^^^^^^^^^
-+
-+Devices created through this interface have the following limitations
-+compared to devices declared via device-tree:
-+
-+* No interrupt (IRQ) support.
-+* No additional properties such as ``spi-max-frequency`` DT bindings
-+  or controller-specific configuration.
-+* No platform data or software nodes.
-+
-+For ``spidev`` usage these limitations are not relevant, since spidev
-+provides a raw byte-level interface that does not require any of these
-+features.
-+
-+Only devices created via ``new_device`` can be removed through
-+``delete_device``. Devices declared via device-tree, ACPI, or board
-+files are not affected by this interface.
--- 
-2.17.1
+On 5/17/26 05:58, Miguel Ojeda wrote:
+> On Sun, May 17, 2026 at 8:10=E2=80=AFAM Demi Marie Obenour
+> <demiobenour@gmail.com> wrote:
+>>
+>> I think it is simpler to just inline all of this code into its
+>> single call-site.  The safety of the code is obvious in context,
+>> and you can avoid checking for impossible errors.  For instance,
+>> since all of the options have required arguments, it really is safe
+>> to dereference optarg without any null check.
+>=20
+> If we are going to have unsafe code, then let's please build safe
+> abstractions wherever possible, just like we do elsewhere. We should
+> also write `// SAFETY` comments and enable the lints that catch that
+> etc., just like elsewhere too.
+>=20
+> (This is not to say we should use `getopt` instead of something like
+> `clap` -- as soon as we start using `cargo vendor`, then it makes
+> sense to at least consider having a set of vetted, well-known crates
+> to write Rust tools in-tree, as I mentioned in v1.)
 
+I was hoping for Linux to avoid the Rust trend of downloading tons
+of third-party crates, with all the supply-chain risks that entails.
+Hence the idea of using getopt and system C libraries.
+--=20
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+--------------zilHOc7vg3DTTNhK0R9YTQnN
+Content-Type: application/pgp-keys; name="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsFNBFp+A0oBEADffj6anl9/BHhUSxGTICeVl2tob7hPDdhHNgPR4C8xlYt5q49y
+B+l2nipdaq+4Gk6FZfqC825TKl7eRpUjMriwle4r3R0ydSIGcy4M6eb0IcxmuPYf
+bWpr/si88QKgyGSVZ7GeNW1UnzTdhYHuFlk8dBSmB1fzhEYEk0RcJqg4AKoq6/3/
+UorR+FaSuVwT7rqzGrTlscnTDlPWgRzrQ3jssesI7sZLm82E3pJSgaUoCdCOlL7M
+MPCJwI8JpPlBedRpe9tfVyfu3euTPLPxwcV3L/cfWPGSL4PofBtB8NUU6QwYiQ9H
+zx4xOyn67zW73/G0Q2vPPRst8LBDqlxLjbtx/WLR6h3nBc3eyuZ+q62HS1pJ5EvU
+T1vjyJ1ySrqtUXWQ4XlZyoEFUfpJxJoN0A9HCxmHGVckzTRl5FMWo8TCniHynNXs
+BtDQbabt7aNEOaAJdE7to0AH3T/Bvwzcp0ZJtBk0EM6YeMLtotUut7h2Bkg1b//r
+6bTBswMBXVJ5H44Qf0+eKeUg7whSC9qpYOzzrm7+0r9F5u3qF8ZTx55TJc2g656C
+9a1P1MYVysLvkLvS4H+crmxA/i08Tc1h+x9RRvqba4lSzZ6/Tmt60DPM5Sc4R0nS
+m9BBff0Nm0bSNRS8InXdO1Aq3362QKX2NOwcL5YaStwODNyZUqF7izjK4QARAQAB
+zTxEZW1pIE9iZW5vdXIgKElUTCBFbWFpbCBLZXkpIDxhdGhlbmFAaW52aXNpYmxl
+dGhpbmdzbGFiLmNvbT7CwY4EEwEIADgWIQR2h02fEza6IlkHHHGyiLVf/5wiwQUC
+X6YJvQIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCyiLVf/5wiwWRhD/0Y
+R+YYC5Kduv/2LBgQJIygMsFiRHbR4+tWXuTFqgrxxFSlMktZ6gQrQCWe38WnOXkB
+oY6n/5lSJdfnuGd2UagZ/9dkaGMUkqt+5WshLFly4BnP7pSsWReKgMP7etRTwn3S
+zk1OwFx2lzY1EnnconPLfPBc6rWG2moA6l0WX+3WNR1B1ndqpl2hPSjT2jUCBWDV
+rGOUSX7r5f1WgtBeNYnEXPBCUUM51pFGESmfHIXQrqFDA7nBNiIVFDJTmQzuEqIy
+Jl67pKNgooij5mKzRhFKHfjLRAH4mmWZlB9UjDStAfFBAoDFHwd1HL5VQCNQdqEc
+/9lZDApqWuCPadZN+pGouqLysesIYsNxUhJ7dtWOWHl0vs7/3qkWmWun/2uOJMQh
+ra2u8nA9g91FbOobWqjrDd6x3ZJoGQf4zLqjmn/P514gb697788e573WN/MpQ5XI
+Fl7aM2d6/GJiq6LC9T2gSUW4rbPBiqOCeiUx7Kd/sVm41p9TOA7fEG4bYddCfDsN
+xaQJH6VRK3NOuBUGeL+iQEVF5Xs6Yp+U+jwvv2M5Lel3EqAYo5xXTx4ls0xaxDCu
+fudcAh8CMMqx3fguSb7Mi31WlnZpk0fDuWQVNKyDP7lYpwc4nCCGNKCj622ZSocH
+AcQmX28L8pJdLYacv9pU3jPy4fHcQYvmTavTqowGnM08RGVtaSBNYXJpZSBPYmVu
+b3VyIChsb3ZlciBvZiBjb2RpbmcpIDxkZW1pb2Jlbm91ckBnbWFpbC5jb20+wsF4
+BBMBAgAiBQJafgNKAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCyiLVf
+/5wiwYa/EACv8a2+MMou9cSCNoZBQaU+fTmyzft9hUE+0d5W2UY1RY3OsjFIzm9R
+/4SVccfsqOYLEo+S0vQMIIIqFEq3FCpXXwPzyimotps05VA8U3Bd7yseojFygOgK
+sAMOAee2RCaDDOnoJue01dfZMzzHPO/TVdp3OvnpWipfv5G1Xg96rwbhMLE3tg6N
+xwAHa31Bv4/Xq8CJOoIWvx6fcmZQpz01/lSvsYn0KrfEbTKkuUf0vM9JrCTCP2oz
+VNN5BYzqaq2M4r+jmSyeXLim922VOWqGkUEQ85BSEemqrRS06IU6NtEMsF8EWt/b
+hWjk/9GDKTcnpdJHTrMxTspExBiNrvpI2t+YPU5B/dJJAUxvmhFrbSIbdB8umBZs
+I3AMYrEmpAbh5x7jEjoskUC7uN3o9vpg1oCLS2ePDLtAtyBtbHnkA4xGD7ar8mem
+xpH9lY/i+sC6CyyIUWcUDnnagKyJP0m9ks0GLsTeOCA0bft2XA6rD6aaCnMUsndT
+ctrab42CV5XypjmC4U1rPJ8JQJUh1/3P48/8sMH+3krxpJ06KNWNFaUbaMTGiltZ
+7x9DngklSYrX0T+2G4kVXNmjaljwkoLahwLla2gUWwBSyofXdqyhQdwZsp01KXNQ
+UCyT/Pg+aDcm/E7OMV3d4lf7g/CSxiX2GSEe6BlhSz+Lmd7ZJ3g32M1ARGVtaSBN
+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
+EtJuZYM5blWncBOJCoWMnBEcTEo/viU3GgcVRw=3D=3D
+=3Dx94R
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------zilHOc7vg3DTTNhK0R9YTQnN--
+
+--------------Crrjw8WXSDbF45mWouF7jwd0--
+
+--------------F6YZ5HBTnRL5QQ8Da28crFot
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmoKJEkACgkQszaHOrMp
+8lMvyQ/6A09kmeMT/o5ajOqt4PLD4AC7lr3n28/7T/HmUGzimIF5sDD41SOhtCId
+oYgjkzFCMBszzqcr1PTKBCS/Sf5AaptxeCKV0xGx9lWpwYRMOKJq1qk70D7bR/Bm
+QTHadHuNNZ/TDqifbUZtpytLv5vQN76qSHFXfsrHGPB0D7R1DKJ/H7ClLYUX5vGU
+/eEWDkaAFY13v3jpeJHrc+qlbYDfshyAj1Tpo6mizcRi6Va023OA3zFM/dD9d+bn
+SMGa8XulPlqSu36/pz7zyUTiuxVqO91WbG3Dgv2ngh9Urh9kEWkKDc4MiIGexdOj
+An1rh+hOWGHVl6PjZwZIG/7SFzXkFmLzDCJXr8OGPmCTiPl4Cqyhb/zALricRcQR
+jlZ01WR0+aO5LdF3K6iS7rT6aAj7it7X3st9+iesg89U7JNT38Mb+UJJel9Y3Y2h
+EQsOkZv8vZJ6eAJWKA29SYsvnJedszHF7+03q7tyPavxZbtsPwbAhOXf5+hgm7Od
+J85HHqrrFaCGrNf9dItf0eQDFvwEXSLKSeqvdHnKDfgJcjdeEGhUo1kqa66PLh2D
+hsFbPDHj7PNsleVsA+ewZE6v9tge3MFotN8WSfxnnUq1cTlRXZU3CQQFMGy65FRO
+V5WZQcjTvzoOzN9judlOMAFmgjGvhtjMOU0LEttiZzZJc7ll6aE=
+=mGzB
+-----END PGP SIGNATURE-----
+
+--------------F6YZ5HBTnRL5QQ8Da28crFot--
