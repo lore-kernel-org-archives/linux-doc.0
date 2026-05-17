@@ -1,124 +1,105 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8F432E6B4
-	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 23:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838611F4176;
+	Sun, 17 May 2026 23:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779060126; cv=none; b=fhthuebAKXBuQgqDXntdHoLfmlE8G33uj33unXBbb1My6Rkf2WkKWb9/CGXMnP+Xbz1CloC+o2bUSObEZh++FgDXr1lsYLn0xjVMk+1ZbpTsiTYKFczsdhP8jixPs69jaELFVoxInPkmAOtkxPps4luwl3or6pUmpN0D4ILdvQY=
+	t=1779061084; cv=none; b=ZqL3bolNiMk8CawQFP7nnbwYTXAI9riNIMvnTxYR5TsASWIG1aowQDF45txev7NgoqVoC5oY+cE/N244eAmyhBIfvORgDTmFhWuP85VzvfaYB/7+sylHxTEJKB6lMgqsk1qrzGJzPWJZaRrOXiCrNnCpmczmugrlYkkRk1mcxK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779060126; c=relaxed/simple;
-	bh=WxHYqkzp7/G7ttQ4qio7ZbKdNhBkpwbp4SLfPYgRBs0=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=QSdJobILMxCeDz80IZLSyCf3iI25Ie07THmmutap+fzNQkkSsSPq724NhkosheQa/Ul746Dmm4lucdLovQ+7KLKGfcTAxIAjvVU94LLd0Xn9yfp5cpUOYzAfufq7dUuL6C+1OUe8rEattg1thxfkRP0R35rrpGUWDSkNCOjeJNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JrmlvSCT; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779061084; c=relaxed/simple;
+	bh=ECiqAt9xoPWZmUznHtBSPzT0B3FSpo2D0BKG4KeiTuA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ApXjPAU45SbW9uBHQyYcjCVwE5XgcCty3MBhtmN3V9v+2Od489lJFgvCIzA8V1VKa3nzSlc+YKS/SDccsU2A+ifGdetmAi4cyYsBMNlQILMdIwuIkTGNo7mJjPnwEfu08Tp3b/z39mxQiLh92flQ3Fzy+Ixz5r4sVLA1/P00oOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bQTWjja0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JrmlvSCT"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48896199cbaso12736715e9.1
-        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 16:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779060123; x=1779664923; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UBbUGCFqJiMRYfsl+eF9tbHmcztNauGUmlMdpL91Tl8=;
-        b=JrmlvSCTzJ7VL4x1ZyI7ZLr3CfFzZqnIWOpug8xh/mvmbUCqSy7abXVfjTIMJ0J76l
-         wA9Ad2oLh8LR014R7KsKvbkZ4Xz/i2ez+ND6yEPNbZGOESA3yKNQ4WjF7zTaPARM1Z2d
-         u5TjwGQ8GJoEIv1RKzRe4fGax6Wjk/3LLeshQtd9qOH2LlGaoB6Nw4VADZU/crPuwHM5
-         UZ9fF7gwbM/HnRq4fG+Yes6NYEF83xNshonI3DYFYkIvrU8MPVcDMNS830Wxc4EeKN0f
-         Hz+fWAYJNzHzEmEcQjgmaGmBJ5VrR1mK+MM2gkL3c160j3UcqqQVwLS20jxgLDQ+ilJQ
-         3qmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779060123; x=1779664923;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UBbUGCFqJiMRYfsl+eF9tbHmcztNauGUmlMdpL91Tl8=;
-        b=ZR46WpWbw37OvcjdQpQm0o1orRj9Ix89cSNDUf7Eb0eHKRHcGXizSi+KPMI011ODZV
-         UFIjjriyRKkdAlBzw7SPLa7pCmNQ33iAZarO50dCqmijIseYqkp/4gsEnIovuCBGCKtm
-         As+T3c17gpqQO8zJ2g0ByT6vDIYapmSZdB1oYMUY1cydEybgiURuFswdSp3yynesGV50
-         mLphoDANd6SMjinDZ78Ko89/4zTa6zZeq+5h7qnIzvGNlpeBMTverRXJj3o+/kGXv62V
-         GOgaO0mIFX/8MTNggKvE+7GS1ZsAAO5i603MEJJjlToEzXj5jd2nhDUL/vaVX7W/fjrM
-         h7dg==
-X-Forwarded-Encrypted: i=1; AFNElJ8VezztQvHAiBnroNuCRzDxg7gHk7PlhHEA0iikRmlRe+AfaZmI65NNbfBGYSSOD8zwbZYTskCl+zI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztxZ+KG8jhtAZm8+UkJRxmGF5OAZkgKqrCA56+Kk0i9y+WHXz2
-	ShY77M39oNQdvRfLzrp1ey1Rk0KaYah3IwDY6fnLDgVmbQAuO72yVzUTuvuCbVIHIDB1mTQr
-X-Gm-Gg: Acq92OFEdwzR38UQwLPd0+AC1Ow5iZV5UiXkRzD/8t9eQh4LpKfNY1KYqWVt14CG5rr
-	9tYXXZD4QrF9TYBK4pDtE3/N/Hv+2kgPYOfzNke/x5xwwhem88vxL6hqQKzDvbCE71ACE2hlm+F
-	gsn+lT+hYXUWMRZ6YIUW0EklRQUs6SIF3FlXGqaLufsQJOAKaskNx4aTPPK7Z1XcAFZIM8/kJnh
-	ARrHXAesD3aUCzHn46Fm39fea1++oYd+4bENQ81M6seA4apVvW79MjWlTl3rQ3BJFC7mQ1cj1YA
-	V0zVmXpZaOXS9JlXF0pmpd0m9b87zYDQEK+dJZwpmpCajCff/N3CfZFiRzeoWv9ZuM/iui2fPcw
-	gl9SjhZhLG5i9YWleK4uO5fxAT7miLJC9z7Gad/5vNwJ5eT1KIq9VScKTqAcKaoUT06dM0OkivO
-	ZlDymMbEYTyzxAlUfggcVQpr5JjxoXMU1jYwf1zSmoasXti1h+PWo9saA=
-X-Received: by 2002:a05:600c:4a1a:b0:48a:592c:e655 with SMTP id 5b1f17b1804b1-48fe6325f25mr113675785e9.17.1779060123186;
-        Sun, 17 May 2026 16:22:03 -0700 (PDT)
-Received: from [192.168.0.41] (bl21-200-180.dsl.telepac.pt. [2.82.200.180])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c8d39esm218924895e9.7.2026.05.17.16.22.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 May 2026 16:22:02 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <dc9bf309-ba57-4ab2-a297-206fcabe318d@gmail.com>
-Date: Mon, 18 May 2026 00:21:55 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bQTWjja0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B52B2C2BCB0;
+	Sun, 17 May 2026 23:38:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779061084;
+	bh=ECiqAt9xoPWZmUznHtBSPzT0B3FSpo2D0BKG4KeiTuA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bQTWjja0ecUoGO/loHB3HhbJeqUM/pZzgcF12hl02M8frXScwwP2R3fvZfIrbkdwF
+	 iDUW4Zb6oB41e7IHxI/Dn/5z8SBIh4UbpdiqYefz6C6paU/SYs24GavAgv1VLBUNdR
+	 oBtM6BuMdWrvCUnD3zisuSWe6UVPhuZGazjx442tV+WPOGfTpmgzSSQRUKKLdRVsgd
+	 QDZhxIwKaV8756gBdX3zfqMQZIdieIHC80nQlZmHRlM0mx0yNLSOp580WbcXit53sG
+	 S9eMmLoK37dsUh/u5pDZMQXS3/PnXylV2NEhW/zbS7jjFEUlqq8f6WemOC5SkdmDcc
+	 UnTqcXvNjeWTw==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [RFC PATCH 4/5] mm/damon/paddr: skip free pageblocks in migration walk
+Date: Sun, 17 May 2026 16:37:55 -0700
+Message-ID: <20260517233756.89097-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260516210357.2247-5-ravis.opensrc@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Julian Braha <julianbraha@gmail.com>
-Subject: Re: [RFC v3 0/3] add kconfirm
-To: Demi Marie Obenour <demiobenour@gmail.com>, nathan@kernel.org,
- nsc@kernel.org
-Cc: jani.nikula@linux.intel.com, akpm@linux-foundation.org, gary@garyguo.net,
- ljs@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
- masahiroy@kernel.org, ojeda@kernel.org, corbet@lwn.net,
- qingfang.deng@linux.dev, yann.prono@telecomnancy.net, ej@inai.de,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20260516215354.449807-1-julianbraha@gmail.com>
- <c6e9481c-932b-42f7-a903-b781d38cc1a8@gmail.com>
-Content-Language: en-US
-In-Reply-To: <c6e9481c-932b-42f7-a903-b781d38cc1a8@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/17/26 07:14, Demi Marie Obenour wrote:
->> Hi all,
->>
->> kconfirm has shrunk a lot since v2!
-> Thanks for dropping so many of the dependencies!
+On Sat, 16 May 2026 14:03:56 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+
+> damon_pa_migrate() walks every PFN in a region linearly, calling
+> damon_get_folio() for each one.  On sparse physical address spaces
+> (e.g., CXL-attached memory), a single DAMON region can span hundreds
+> of gigabytes where most memory is free and sitting in the buddy
+> allocator.  Most page lookups are fruitless and dominate kdamond
+> tick time.
+
+On sparse address spaces, the problem would be large DAMON regions of offlined
+memory.  The large DAMON regions that nearly all freed memory is another
+problem that doesn't require the sparse address spaces.  If I'm not wrong, the
+above paragraph could better clarified in my opinion.
+
 > 
-> It might be able to shrink it further by using the existing C Kconfig
-> parser.  This has the advantage that it ensures kconfirm and Kconfig
-> will interpret the Kconfig files the same way.  I'm not sure if
-> that would be too much of a change.  That's up to you.
-Hi Demi,
+> Check at pageblock boundaries (2MB on x86_64) whether the block is
+> entirely free.  If the first page of a pageblock is a buddy page at
+> pageblock_order or higher, the entire block is free and can be
+> skipped.
+> Similarly skip pageblocks where pfn_to_online_page() returns
+> NULL.
+> 
+> This reduces the iteration from O(region_sz / PAGE_SIZE) to
+> O(region_sz / pageblock_sz) + O(populated_pages).
+> 
+> buddy_order_unsafe() is used without zone->lock.  A transient false
+> positive (block becomes non-free between the PageBuddy and order
+> checks) costs at most one tick of missed candidates on that block;
+> the next tick re-scans.  No correctness consequence as DAMON walks
+> are best-effort.
 
-I did look into the in-tree parser after your suggestion in v2. What I
-discovered was that this parser performs too much evaluation of the
-kconfig code during parsing, making it unsuitable for purposes of static
-analysis:
+I was initially thinking this is a good and reasonable optimization approach.
+But on the second thought I get below questions.
 
-The in-tree parser doesn't actually output a parse tree that we can
-traverse and analyze, which is how kconfirm currently works. Instead,
-semantic actions directly construct the symbol table *during parsing*,
-with that symbol table being different from ours. I think(?) this makes
-the overall process faster (which is great for real-world kernel
-builds), but for static analysis purposes, we really need to preserve
-as much of the underlying code as we can. For example, we don't even
-preprocess variables, because this allows us to analyze more regardless
-of the host and target. (Well, architecture is the one exception there
-because we need to resolve imports/"source".)
+For large offlined memory space problem, couldn't we simply tune DAMON's
+monitoring regions boundary to ignore the holes?
 
-I do want to point out that Yann, the author of kconfirm's parsing
-library (nom-kconfig) is CC'd on these RFCs and has done an awesome job
-of supporting the parser and kconfirm's usage of it.
+For large free memory area, is it reasonable to assume such situations?  In
+production, users will try to utilize as much memory of the system as possible.
+Then, wouldn't there be such problematically large free memory area?
 
-He also helped reduce the number of indirect dependencies pulled in by
-the parser following your feedback in RFC v2.
+Could you please enlighten me?
 
-- Julian Braha
+I will hold digging deep until this high level questions are answered.
+
+
+Thanks,
+SJ
+
+[...]
