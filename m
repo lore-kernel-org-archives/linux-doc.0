@@ -1,61 +1,63 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B430A37D10F
-	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 13:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A8437DE83
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 13:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779023077; cv=none; b=oFi0N8uqfMaptNY9uNow2QQFJD9VqstxxXi4pdUVL53fG/eJOQ+SJi++sFH+BOcYZ5DwhGFWa2yxrE/4uPZtdnAlvN+WN6x4C7Xk6Fl5QBh2fv7Coa32k4TowIsVi2FavFlqWJaoQ1c/aaSQ8CwqFhzmBSKKEZtkUpkodPpwbOM=
+	t=1779023082; cv=none; b=d8PAL/yyUnw+6M9v2NqvqI+KyQrjCMQpUAB5DphOeSiic6wmwvFK/YxUgn79sB1Daoo27BEXBVPyR3MH7dOK3Rf1JGD5HvrnSC5DJPZSihHKn7NcEkQ/q5tRi5f7xuNTCW6OZCG4MM4e2K0HkbLtUX+6ezHDwGk5ll7IY/bqSFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779023077; c=relaxed/simple;
-	bh=LeWHHqCWtRB6/iOFzUEGlxNN/mbW1NUBtdf1HtpuOvA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VfU7n0yEZ1CRqiPS8U/FBL8hRu2aF4rHGb+SeVugQ2h3ZueY1y+0RgOs3VkMbFb/KRC6RZzSYh+P6YgJveibVV0ThNvhc460gS0k/FCHq0Sn5dJLu89ogmlqod36p0OQ5xGhxdhWAGySma7gBEiNwiZfI3mr+9VCVzUflLJWkkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KI3IXRyF; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1779023082; c=relaxed/simple;
+	bh=KshHTQQR+6mvIAComUFUue7CrlaSwdDDnxEiUrLUvHQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CiwGF9uWUK4nlEJwSXExAqpbW49y59hsZhEegL7kt0esZoQCMnB8XVfsVAGQTJTP4mGVHI15hZrJv+OwHYymzS91dh0ytl6zbMXeh3wYd5A4nWFxxKKmdUMfT1yZVF9uIyIMz2E0wlIx5Hls7WjnXHW1aVNiI8fMoiw0PMWHXKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBFKjqP3; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KI3IXRyF"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c7b9f54d3deso1061739a12.1
-        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 06:04:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBFKjqP3"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-835386ff122so1428182b3a.3
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 06:04:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779023062; x=1779627862; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NmrD4XCw/ddiD1eD+XE4KxmCSjyDbYSOCXwkAExthfA=;
-        b=KI3IXRyFIToM1BOabyqiJXZANtjQirFVaVz9VJPHyxWo6dBbqtfnNR78d7kmpz45Wa
-         mobSq+A+ZwugG184a5IK6RoJ+T18iNaEvnOWcB5JJ9XJ8mJGG+gEvpXHZET1oA8uaiUM
-         Ktxt57oqZp8kBCDkS5w7wke+34eC77LMIoDvmXUVxMaP6ONZRA9CxCXopZO+RUCSSYNN
-         YleCpuRh5Bo0L8e0NH4w2dEg+y3h7ixHKfDkolY0rVAFv2em3nWHPm5LMf4FzjOuLs9p
-         QqLKpXdfAMO56q9c7yRfpry+APnNq0xnhAz3C5+ZBLRJdqS8IKhuEwx8XFVqRafxVt5K
-         +jjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779023062; x=1779627862;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779023066; x=1779627866; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NmrD4XCw/ddiD1eD+XE4KxmCSjyDbYSOCXwkAExthfA=;
-        b=RkuGk9cjFWDu4X7LsWXZYP3U32DxJA5wgOgaxp03TaT12kNVLXdNTxZG6KZvpjG3VS
-         63rQQB6nGDMCKe/EdfoecL2chWGwKk/CoCTLxIOJ8qs0EQzVmpuUhZf+p1F3EOIttOC2
-         Sa7hyNn5cumVlLgt4EeMgFPlYdQZuyvM3gTd9t4MJ5vsBri0fDn2sOdcB8X1hB/HHKDR
-         epHXxGZ/9USOXfi6nDSceXoqVmtL1z3XVBRxFsBhGdCqSGK5Xkt/vTSLyqmTzXR9ypV8
-         AUZaR51Li7qDlL/lH6SXePtPuxd8kZkTVzamd4wJLrEaUGFQILFPFQ2DqPFqZKzXI4ul
-         /2tQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9MmwN+4YprX42pLdYc/fd0DqBiA+rBb8Ivg7WnGQdWFCQd3ZLZt3Qhg9v9fL5nxdMKrIhubAwB0TI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3WNM4ysXvw+muiXBWLzpkcsW1P96QdRIUHNnZDZ3SQbNYLpJS
-	EUrDxe+oW+K/gpNo88pfmffP1vfDu0cXt167ba5N0TguhalK3rWRLKc5N/0QPHfn
-X-Gm-Gg: Acq92OEpTvTQqaBUFhP51UzfSWiT0o772eAft+D8LabMQd/uDa078oJ5aTBQKMBbtD9
-	eM754i9hF4y+204nmsxDx0ZupwFu27Gnrz8tbN1FWtqjPp0tXPG8UJT6xuvnHlEZFf/CuG17Zzg
-	kAbfsBWTjmS2LaPxC9b3m/B/dVLqNFIsR2ULawHGLEsu0hwWzSeMXpenFk3BWc0pAxx+Hy2TXgl
-	Gv5qQNDdBxLTzt0pvCmc6AiIApuI0dBaNBXgPeWNJugHO6Dwu2gcacBRDoJkQJjjVpE1BIPUAd7
-	eR4C5mnpU/X2CVY018VBX3iu7qYY8uEIi7R5hw/JqGR4Xt8Te1AITp6wIaYfH6gzMwJ48VvcbTe
-	5l8g3vGks8Ahy0639qnj1lLeKUaH2sn8pw1e0s1QWjpYjWosQex0mmBLCXH2l1j8mEUeOq7zAyx
-	+swQ5T9W71NEWDfVjgDN9eQQ==
-X-Received: by 2002:a05:6a21:3386:b0:39f:794f:94d8 with SMTP id adf61e73a8af0-3b22ec9aecemr12673319637.29.1779023062153;
-        Sun, 17 May 2026 06:04:22 -0700 (PDT)
+        bh=CbYK6zyjwjcKr/UaCrMnTnE/VprY/vEckd2yJv9TdQ8=;
+        b=cBFKjqP3uvCQp4D4whhPenh+JHSL8UIvtISkpXMfb9SVrW9cCbKojzC5I7cwfTM71E
+         z8h8b2BsXaMeu8jilWX+shwia2uG5epq2xoep/eof+O9XSCbN9QA231oqoc07c8eUadz
+         crZy/cXQkvq2VmEqGdHKDzzrDa6m3GtGgPez0C9xu4PSVzemUjfD2cGncMExnEy/WJdF
+         Lcneg0mulmPj5lKQOPFKTnIgd2pWRNEk+auJAt3IYoqEjIcPaMmQ4QZlPH6MD6NPv37G
+         4w6aqaxKkwrhL2iJoLTtmmUJgIjzaL30Gfv9RHq9MqeqBkcCWZ9CrkccgLiIDCL59DXL
+         4Bbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779023066; x=1779627866;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CbYK6zyjwjcKr/UaCrMnTnE/VprY/vEckd2yJv9TdQ8=;
+        b=WXKcTzvxtTRtf5n17U6nnUD5lb9c0L6pc6iYEjXGMDM1baCVyFP0ZlkBOHrxibVAkw
+         mkVYVjgnLePXD0oJ+XSuiYqnxErQ2zEzt3Wt7p8Fit9xD2wO8bzZ4xDj2VcAFjarTSCP
+         hioV5yKYUtlDcYRz11JnKspn24DM14Jj0VXUOyE0ZraCyseIhhZ3+cmQme2LbzStB2Ph
+         ErxKP4xqYKZ26c+zTR+KtqrfFiv/wXiiRVISr8mhW8UGvoFC9KLXAI//NLKlrCZ5wayL
+         xCHSsiYvQmHtea74wIIMr1iCRwqpLNHaMO3HwlsAJbDvfr3fPSiKVu2S52C/yp9qVD1t
+         p77A==
+X-Forwarded-Encrypted: i=1; AFNElJ8HM8DWNy5igisHD2uAjxR4e9U6F1Wp3ttHOWS8Q2p/+AIfo+xtF7FfIE6V9EDbKGbn4Aqd/zK3hUY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKcuKyTUp9dIEKRVtAiJkf0B4uGlCeVBh15o/RjLWXh7TkkjCO
+	9MKNhQ2+YL7G+aqi1v1Q1LRyy9YbaIr1aBc5r5FeGo8ow2yB1lFDjTGY
+X-Gm-Gg: Acq92OFddKDihicu0KFPOHkpg7eHx5n+lxzIKum783uKC+hnE1E29YE5xdKmpye4OLM
+	g5TTHQmRBqnGUYk8aafeU80g07PJfhfDYS2zaZWf9GzRrPRPaNXDZI9dPSBp/9y9Rz5iI2Hw36q
+	NIXObY6xNvpc6g0yAVPg71YS49a1GYyi6FWj8mOr4NC+Rc8HuCswGmCYlpeb1esUpouzlgAU1ze
+	f7PISfcyZcGuieriAzlW1Z9rdN1on7d9VSCIw8qv35pEBwVNZkpjS0FGPvzv+0aQtmw6qezGKLg
+	0Vw1rS+4X9HJGQtE03mkE1WpKa2ab8/to71JY2WKkvTiysPF9WQS5rdkQkfe2mPYdaLKd+qSBTh
+	GLjDLzVPV+jG90Dic3iEjXToh6Gk2Sk/aLwzhp5R4hCemIrYgg4C9IWf6RkZ8ITUhbZetEZQ3Rp
+	649yb5CPmy4Y/LJcgbQeBggQ==
+X-Received: by 2002:a05:6a00:440e:b0:82f:3ecc:c42f with SMTP id d2e1a72fcca58-83f33c9d17amr11704313b3a.40.1779023066365;
+        Sun, 17 May 2026 06:04:26 -0700 (PDT)
 Received: from mincom1 ([119.214.48.64])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19c77822sm11712607b3a.41.2026.05.17.06.04.19
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19c77822sm11712607b3a.41.2026.05.17.06.04.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 06:04:21 -0700 (PDT)
+        Sun, 17 May 2026 06:04:24 -0700 (PDT)
 From: Jihong Min <hurryman2212@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Mathias Nyman <mathias.nyman@intel.com>
@@ -69,11 +71,15 @@ Cc: Guenter Roeck <linux@roeck-us.net>,
 	linux-doc@vger.kernel.org,
 	linux-pci@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Jihong Min <hurryman2212@gmail.com>
-Subject: [PATCH v6 0/2] AMD Promontory 21 xHCI temperature sensor support
-Date: Sun, 17 May 2026 22:04:05 +0900
-Message-ID: <20260517130407.795157-1-hurryman2212@gmail.com>
+	Jihong Min <hurryman2212@gmail.com>,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	Yaroslav Isakov <yaroslav.isakov@gmail.com>
+Subject: [PATCH v6 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
+Date: Sun, 17 May 2026 22:04:06 +0900
+Message-ID: <20260517130407.795157-2-hurryman2212@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260517130407.795157-1-hurryman2212@gmail.com>
+References: <20260517130407.795157-1-hurryman2212@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,51 +88,282 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+AMD Promontory 21 (PROM21) xHCI controllers use generic xHCI
+operation, but the PCI function also exposes optional
+controller-specific sensor functionality. Add a small PROM21 PCI glue
+driver for AMD 1022:43fc and 1022:43fd controllers.
 
-This series adds temperature monitoring for AMD Promontory 21 (PROM21)
-xHCI PCI functions.
+The driver delegates USB host operation to the common xhci-pci core,
+collects the parent-provided MMIO resource data, and creates a "hwmon"
+auxiliary device for optional child drivers. Failure to create the
+auxiliary device is logged but does not fail the xHCI probe, since the
+auxiliary device is only needed for sensor support.
 
-Patch 1 adds a small PROM21-specific xHCI PCI glue driver. USB host
-operation is delegated to the common xhci-pci code, while the PROM21 glue
-publishes an auxiliary device for optional sensor support.
+Make the PROM21 PCI glue a hidden Kconfig tristate that follows
+USB_XHCI_PCI. This keeps the glue built in with a built-in xhci-pci core
+and builds it as a module with a modular xhci-pci core. A built-in
+xhci-pci core must not hand PROM21 controllers to a PROM21 glue driver
+that is only available as a module, otherwise USB behind those controllers
+can be unavailable during initramfs and PROM21 temperature sensor support
+may not appear until the controller is rebound after the module loads.
 
-Patch 2 adds an auxiliary-bus hwmon driver that binds to that auxiliary
-device and exposes the PROM21 xHCI temperature value as temp1_input.
-
-The hwmon driver reads the sensor through a vendor index/data register pair
-in the xHCI PCI MMIO BAR. It does not wake the parent PCI device for hwmon
-reads; if the parent is suspended, the read returns -ENODATA.
-
-Changes in v6:
-- Make USB_XHCI_PCI_PROM21 a hidden tristate that follows USB_XHCI_PCI,
-  so the PROM21 PCI glue is built in with a built-in xhci-pci core and
-  built as a module with a modular xhci-pci core.
-- Use an IDA-allocated auxiliary device id instead of encoding the PCI
-  domain/BDF into the auxiliary id.
-- Use a 32-bit read for the PROM21 vendor data register and mask the low
-  byte instead of using readb().
-
-Jihong Min (2):
-  usb: xhci-pci: add AMD Promontory 21 PCI glue
-  hwmon: add AMD Promontory 21 xHCI temperature sensor support
-
- Documentation/hwmon/index.rst                 |   1 +
- Documentation/hwmon/prom21-xhci.rst           | 101 ++++++++
- drivers/hwmon/Kconfig                         |  10 +
- drivers/hwmon/Makefile                        |   1 +
- drivers/hwmon/prom21-xhci.c                   | 239 ++++++++++++++++++
+Assisted-by: Codex:gpt-5.5
+Signed-off-by: Jihong Min <hurryman2212@gmail.com>
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+Tested-by: Yaroslav Isakov <yaroslav.isakov@gmail.com>
+---
  drivers/usb/host/Kconfig                      |   7 +
  drivers/usb/host/Makefile                     |   1 +
- drivers/usb/host/xhci-pci-prom21.c            | 136 ++++++++++
- drivers/usb/host/xhci-pci.c                   |  11 +
+ drivers/usb/host/xhci-pci-prom21.c            | 136 ++++++++++++++++++
+ drivers/usb/host/xhci-pci.c                   |  11 ++
  drivers/usb/host/xhci-pci.h                   |   3 +
- include/linux/platform_data/usb-xhci-prom21.h |  22 ++
- 11 files changed, 532 insertions(+)
- create mode 100644 Documentation/hwmon/prom21-xhci.rst
- create mode 100644 drivers/hwmon/prom21-xhci.c
+ include/linux/platform_data/usb-xhci-prom21.h |  22 +++
+ 6 files changed, 180 insertions(+)
  create mode 100644 drivers/usb/host/xhci-pci-prom21.c
  create mode 100644 include/linux/platform_data/usb-xhci-prom21.h
 
+diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+index 0a277a07cf70..89bf262235e1 100644
+--- a/drivers/usb/host/Kconfig
++++ b/drivers/usb/host/Kconfig
+@@ -42,6 +42,13 @@ config USB_XHCI_PCI
+ 	depends on USB_PCI
+ 	default y
+ 
++config USB_XHCI_PCI_PROM21
++	tristate
++	depends on X86
++	depends on USB_XHCI_PCI
++	default USB_XHCI_PCI
++	select AUXILIARY_BUS
++
+ config USB_XHCI_PCI_RENESAS
+ 	tristate "Support for additional Renesas xHCI controller with firmware"
+ 	depends on USB_XHCI_PCI
+diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
+index a07e7ba9cd53..174580c1281a 100644
+--- a/drivers/usb/host/Makefile
++++ b/drivers/usb/host/Makefile
+@@ -71,6 +71,7 @@ obj-$(CONFIG_USB_UHCI_HCD)	+= uhci-hcd.o
+ obj-$(CONFIG_USB_FHCI_HCD)	+= fhci.o
+ obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
+ obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
++obj-$(CONFIG_USB_XHCI_PCI_PROM21)	+= xhci-pci-prom21.o
+ obj-$(CONFIG_USB_XHCI_PCI_RENESAS)	+= xhci-pci-renesas.o
+ obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
+ obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
+diff --git a/drivers/usb/host/xhci-pci-prom21.c b/drivers/usb/host/xhci-pci-prom21.c
+new file mode 100644
+index 000000000000..be0933ca5c62
+--- /dev/null
++++ b/drivers/usb/host/xhci-pci-prom21.c
+@@ -0,0 +1,136 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * AMD Promontory 21 xHCI host controller PCI Bus Glue.
++ *
++ * This does not add any PROM21-specific USB or xHCI operation. It exists only
++ * to publish an auxiliary device for integrated temperature sensor support.
++ *
++ * Copyright (C) 2026 Jihong Min <hurryman2212@gmail.com>
++ */
++
++#include <linux/auxiliary_bus.h>
++#include <linux/device/devres.h>
++#include <linux/errno.h>
++#include <linux/idr.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/platform_data/usb-xhci-prom21.h>
++#include <linux/usb.h>
++#include <linux/usb/hcd.h>
++
++#include "xhci-pci.h"
++
++struct prom21_xhci_auxdev {
++	struct auxiliary_device *auxdev;
++	struct prom21_xhci_pdata pdata;
++	int id;
++};
++
++static DEFINE_IDA(prom21_xhci_auxdev_ida);
++
++static void prom21_xhci_auxdev_release(struct device *dev, void *res)
++{
++	struct prom21_xhci_auxdev *prom21_auxdev = res;
++
++	auxiliary_device_destroy(prom21_auxdev->auxdev);
++	ida_free(&prom21_xhci_auxdev_ida, prom21_auxdev->id);
++}
++
++static int prom21_xhci_create_auxdev(struct pci_dev *pdev)
++{
++	struct prom21_xhci_auxdev *prom21_auxdev;
++	struct usb_hcd *hcd = pci_get_drvdata(pdev);
++
++	if (!hcd)
++		return -ENODEV;
++
++	prom21_auxdev = devres_alloc(prom21_xhci_auxdev_release,
++				     sizeof(*prom21_auxdev), GFP_KERNEL);
++	if (!prom21_auxdev)
++		return -ENOMEM;
++
++	prom21_auxdev->pdata.pdev = pdev;
++	prom21_auxdev->pdata.regs = hcd->regs;
++	prom21_auxdev->pdata.rsrc_len = hcd->rsrc_len;
++
++	prom21_auxdev->id = ida_alloc(&prom21_xhci_auxdev_ida, GFP_KERNEL);
++	if (prom21_auxdev->id < 0) {
++		int ret = prom21_auxdev->id;
++
++		devres_free(prom21_auxdev);
++		return ret;
++	}
++
++	prom21_auxdev->auxdev = auxiliary_device_create(&pdev->dev,
++							KBUILD_MODNAME, "hwmon",
++							&prom21_auxdev->pdata,
++							prom21_auxdev->id);
++	if (!prom21_auxdev->auxdev) {
++		ida_free(&prom21_xhci_auxdev_ida, prom21_auxdev->id);
++		devres_free(prom21_auxdev);
++		return -ENOMEM;
++	}
++
++	devres_add(&pdev->dev, prom21_auxdev);
++	return 0;
++}
++
++static void prom21_xhci_destroy_auxdev(struct pci_dev *pdev)
++{
++	devres_release(&pdev->dev, prom21_xhci_auxdev_release, NULL, NULL);
++}
++
++static int prom21_xhci_probe(struct pci_dev *dev,
++			     const struct pci_device_id *id)
++{
++	int retval;
++
++	retval = xhci_pci_common_probe(dev, id);
++	if (retval)
++		return retval;
++
++	retval = prom21_xhci_create_auxdev(dev);
++	if (retval) {
++		/*
++		 * The auxiliary device only provides optional temperature sensor
++		 * support. Keep the xHCI controller usable if it fails.
++		 */
++		dev_err(&dev->dev,
++			"failed to create PROM21 hwmon auxiliary device: %d\n",
++			retval);
++	}
++
++	return 0;
++}
++
++static void prom21_xhci_remove(struct pci_dev *dev)
++{
++	prom21_xhci_destroy_auxdev(dev);
++	xhci_pci_remove(dev);
++}
++
++static const struct pci_device_id pci_ids[] = {
++	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD) },
++	{ /* end: all zeroes */ }
++};
++MODULE_DEVICE_TABLE(pci, pci_ids);
++
++static struct pci_driver prom21_xhci_driver = {
++	.name = "xhci-pci-prom21",
++	.id_table = pci_ids,
++
++	.probe = prom21_xhci_probe,
++	.remove = prom21_xhci_remove,
++
++	.shutdown = usb_hcd_pci_shutdown,
++	.driver = {
++		.pm = pm_ptr(&usb_hcd_pci_pm_ops),
++	},
++};
++module_pci_driver(prom21_xhci_driver);
++
++MODULE_AUTHOR("Jihong Min <hurryman2212@gmail.com>");
++MODULE_DESCRIPTION("AMD Promontory 21 xHCI PCI Host Controller Driver");
++MODULE_IMPORT_NS("xhci");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 585b2f3117b0..039c26b241d0 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -696,12 +696,23 @@ static const struct pci_device_id pci_ids_renesas[] = {
+ 	{ /* end: all zeroes */ }
+ };
+ 
++/* handled by xhci-pci-prom21 if enabled */
++static const struct pci_device_id pci_ids_prom21[] = {
++	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD) },
++	{ /* end: all zeroes */ }
++};
++
+ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ {
+ 	if (IS_ENABLED(CONFIG_USB_XHCI_PCI_RENESAS) &&
+ 			pci_match_id(pci_ids_renesas, dev))
+ 		return -ENODEV;
+ 
++	if (IS_ENABLED(CONFIG_USB_XHCI_PCI_PROM21) &&
++	    pci_match_id(pci_ids_prom21, dev))
++		return -ENODEV;
++
+ 	return xhci_pci_common_probe(dev, id);
+ }
+ 
+diff --git a/drivers/usb/host/xhci-pci.h b/drivers/usb/host/xhci-pci.h
+index e87c7d9d76b8..11f435f94322 100644
+--- a/drivers/usb/host/xhci-pci.h
++++ b/drivers/usb/host/xhci-pci.h
+@@ -4,6 +4,9 @@
+ #ifndef XHCI_PCI_H
+ #define XHCI_PCI_H
+ 
++#define PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC	0x43fc
++#define PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD	0x43fd
++
+ int xhci_pci_common_probe(struct pci_dev *dev, const struct pci_device_id *id);
+ void xhci_pci_remove(struct pci_dev *dev);
+ 
+diff --git a/include/linux/platform_data/usb-xhci-prom21.h b/include/linux/platform_data/usb-xhci-prom21.h
+new file mode 100644
+index 000000000000..ee672ad452a8
+--- /dev/null
++++ b/include/linux/platform_data/usb-xhci-prom21.h
+@@ -0,0 +1,22 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * AMD Promontory 21 xHCI auxiliary device platform data.
++ *
++ * Copyright (C) 2026 Jihong Min <hurryman2212@gmail.com>
++ */
++
++#ifndef _LINUX_PLATFORM_DATA_USB_XHCI_PROM21_H
++#define _LINUX_PLATFORM_DATA_USB_XHCI_PROM21_H
++
++#include <linux/compiler_types.h>
++#include <linux/types.h>
++
++struct pci_dev;
++
++struct prom21_xhci_pdata {
++	struct pci_dev *pdev;
++	void __iomem *regs;
++	resource_size_t rsrc_len;
++};
++
++#endif
 -- 
 2.53.0
+
