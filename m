@@ -1,320 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F6135E1AD;
-	Sun, 17 May 2026 09:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B13A359A89
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 09:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779009281; cv=none; b=p1INKN60assuwOibnApeafotOyavWjIANDYn8lBxrvy7s7dzdy2+dD0HgCulz26XeSKC9Awq7YRYTVicowoZra/7k45CLCan2aLLuPxeELZtSXAovaYdxMd8e5T660+Cl+YmQ7Cjhvpp/TlhafsHZYkBSOl4uN5PNJVlSaNWne4=
+	t=1779009317; cv=none; b=cFYu2vvu3ebzu1+rwdq8xPPSu6gtlYWW2C5X5fejxvL8pFmUeUPmhzNcxjqHzoMIZmVBoUhGRYuAnGpC3qw7DKEAWRzJDV6nu6M/ph4NxNcxrFsRjtHn0kXN1SCUrs56yZDpPXHXK9U3ugvHfhXvrfARTfb7olD5Z9E7cIr6BGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779009281; c=relaxed/simple;
-	bh=vCCVBPrrpCyOW1pPOsJh6jvf99OH3fFh5OwBpgLkL+k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Mg3ld463bzVFcCpSQAk4BrXOy8U5u6XyyWPu833hlzkjX34s4A/o02c0kreNx3dq81ZvNQGpq+Rej+tx77/O18DOvLSRWCu0be2TvpUwf6t0+KmOhSYNfrE272kUIMecbCHOuRTBcT8pjTWH/R9JKuUVCWENecMxKwVO0aaz4Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qJ2rC+Si; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779009317; c=relaxed/simple;
+	bh=61Z1Wd1LuFtHc0CWXwDXGlmkcFLquQFVca5tQpsQg6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LnKMyU3UcHqitEcW/qzDbxSYMehfUH5zxtWqsGRVXFcZAyyIFrrBsf7kJ+Uons5ijwkk1MtSITNToUiDHaTskE17Aow1/jh6qLeJomhCM2B0wQxTkcn7lrOXrjp62VFJeF2pJfHjGamvbC7MRdyy18Yox9r89IHwg1jnPMUgQxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FuS7fwfu; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qJ2rC+Si"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8B8CDC4AF12;
-	Sun, 17 May 2026 09:14:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779009281;
-	bh=vCCVBPrrpCyOW1pPOsJh6jvf99OH3fFh5OwBpgLkL+k=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=qJ2rC+Si8u8BQYHdBXJDclsCFwiCZLer+Vxaz8iAEsRR518BLRy41xXCWgJY4oxye
-	 VVguOCG+ttGhLe0tlxqAtvGuWovwAp2BKMrK/Lz/mAtFFVSE8LnxG87IOFzCgq6++F
-	 mKbMAC0fmx0SWvWRVA9bHSCm0Fhot+i4E2yrDDfSIDReTI4Bt8uN3heIgAz6v9dkXE
-	 XibYA9pSM9ZRUEnqWM8PyIFyglVlsvDCC1HFNkE1kbKibV5W6yD/+LuZSw75YQAeak
-	 et0FZEAAjovb1bNiq+7kmwtDcB+eAvbOVIbS+wQ9/jRWVsrztsjIOUcBJoMLGv6zdc
-	 T/0ayfjYrRSNA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E2FCD37AC;
-	Sun, 17 May 2026 09:14:41 +0000 (UTC)
-From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Sun, 17 May 2026 10:14:06 +0100
-Subject: [PATCH v13 11/12] docs: iio: add documentation for adf41513 driver
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FuS7fwfu"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488d2079582so11591315e9.2
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 02:15:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779009314; x=1779614114; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XN1c+TmyGX2w/UYxycY7xEq81VHA1tvYN2TkPmssO/0=;
+        b=FuS7fwfu6dkS/ipWEVMkYQKsYDcoZ2qo5nlpj5PPmgk3N8qyGJAvfusmwngdwzdy+X
+         FtlG+TLXe39qHh3pJKHTACE65y1NHicKfPHnzC9CYfJ0NstBMTiyYBCSYJDSlVOpOqCh
+         EsH2LONZE8zImsxzqkTbO05aGnabdlN3gfji+eIDukoIfgfdOiv+hfLbh0fDvEjyd1Ow
+         178VJDQ8MsUjxwXV3XCtbQ7zEOuDU/SnfXq1VmPZF4t/gmkXMMBjk4/QewfQ/JsEHz+j
+         lOrTvypH/+pM0UphjjdQvKLmkSaDpOVGAGCbl59gCeRS6Q16nNwk25gHHE2CH34oZ58r
+         rl3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779009314; x=1779614114;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XN1c+TmyGX2w/UYxycY7xEq81VHA1tvYN2TkPmssO/0=;
+        b=pUxlPUiECZrFRa2qfdWOikOOf/nLpJoMZkzOcL+wn4EYRQoiifxKw2m0oDdS/rMdUS
+         ax6A7o1KZQQO1+ZP+kXcnHrk6haPTXaqA2YM2xoaZzcB3T8N6DahMY95QzBnG97BgVRw
+         Cmpg+m6u3g0S1HSr39to169/IneVvG1zW08mNOmb1aZXo0CpHU09upIfiiV0xosqX+Tf
+         tuOZ3gzYLBTO5RQG4mFYu4f6UIL2OcYnazWiUWbmBvc+pmLi+9hKfwia2Yk7Jepd/oXW
+         tDPj9o2QHa/IddTNLpkpmKd3+ji8eYVUWHNXoq+nRfpG2YbGaglM06tXUVbUbRf0djMH
+         h2xA==
+X-Forwarded-Encrypted: i=1; AFNElJ+PLPfd6lrOQk/H4z5w9KmZPFnpHXEM9D6QYSa0O+pZUiLD2yHWHQFRhbkLifW6SMszl90z2d7i3Yc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywu5+na2008xOhly6JywQ1nzlZA1nmC67exTi4VTweL7cjNQ+uR
+	Q7VHgNKvvcbE9RVx0LZdCrSk+F3zd/IxO8o8C7LDQ632U4G3F4W2Jk/s
+X-Gm-Gg: Acq92OHeWD2JEuLVMMcPQF4U32Q+MeAmMN+jQ7CfFgpq/CTQIsZpE3vOLm1ya3+0B8n
+	4ZuLf+PTsB4MygGKxbKhuf1Di+nBsgwpEQEQZptXHragRysSzK+WloVYzBKk4tLmGHl4r2Ggzun
+	F3h3jkAAKLzn+NjSVN9lCdGCPMuZSSYxQFiHBZqqGUm3GT9scR7oiT6t/d7pbJNAYsZLVYt+ahA
+	SgGyL0rViEJ3RMz9xhk9oqg/GSTR3LnHVAJYIt0rbAW0Edv4ZC+0OZYBGtgNOutwSDS4exGSgtx
+	XNyK6RTrY1WLSu4gRJmTwzUg+iRkYQl3nZzz1Cpzr0yYMDFAgMrX/nMeCLzdsyJrU+va0epqsk4
+	XO0tWG6vLlVBuMrsmRDQgbx+H/YsPYYUC+7VF4qCS4waAtw8tGARKUSg3Vk1wmIeT9IOpRKURlv
+	v12ti2ZtLpUVFLTQLOzqWi4FPPbMuPsDPwXQWn30cfbhcnYzL5ulGQlnMhPmqOH8j/gN7PbMyPb
+	3GlV1FVmw==
+X-Received: by 2002:a05:600c:4692:b0:483:7903:c3b1 with SMTP id 5b1f17b1804b1-48fe6325978mr150764275e9.20.1779009314306;
+        Sun, 17 May 2026 02:15:14 -0700 (PDT)
+Received: from f (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fffb9aac4sm98809525e9.9.2026.05.17.02.15.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2026 02:15:13 -0700 (PDT)
+Date: Sun, 17 May 2026 11:15:04 +0200
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: Horst Birthelmer <horst@birthelmer.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Horst Birthelmer <hbirthelmer@ddn.com>
+Subject: Re: [PATCH v2] dcache: add fs.dentry-limit sysctl with
+ negative-first reaper
+Message-ID: <5afacskoalmd2u6s525dosvyrtr3j66ajd5m4p2ylymtlgytkz@excrdfpndx37>
+References: <20260516-limit-dentries-cache-v2-1-c733a78e603b@ddn.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260517-adf41513-iio-driver-v13-11-bb6e134a360f@analog.com>
-References: <20260517-adf41513-iio-driver-v13-0-bb6e134a360f@analog.com>
-In-Reply-To: <20260517-adf41513-iio-driver-v13-0-bb6e134a360f@analog.com>
-To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>, 
- David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Rodrigo Alencar <rodrigo.alencar@analog.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779009279; l=9329;
- i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=AvtUh1Q2wOSppdZq2ewDKuAEItFf+BjGvoFJPXHGb4k=;
- b=5zjX1C9JJBqJkGaGrlAaaozUyXz4xpwtDj9M+tg3oFZUjEn6zPfWWFAKoqqH2lf3mtPEcXaLm
- MvET38MMGyYDFRcyhRQihtOzBglIB5e8Rrid5tTnxpoyaNfuFvAGlKA
-X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
- pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
-X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
- with auth_id=561
-X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Reply-To: rodrigo.alencar@analog.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260516-limit-dentries-cache-v2-1-c733a78e603b@ddn.com>
 
-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On Sat, May 16, 2026 at 04:52:54PM +0200, Horst Birthelmer wrote:
+> From: Horst Birthelmer <hbirthelmer@ddn.com>
+> 
+> The dcache only shrinks under memory pressure, which is rarely reached
+> on machines with ample RAM, so cached negative dentries can accumulate
+> without bound.  Give administrators a soft cap they can set,
+> and a background worker that prefers negative dentries when reclaiming.
+> 
+> Two new sysctls under /proc/sys/fs/:
+> 
+>   dentry-limit             -- soft cap on nr_dentry.  0 (default)
+>                               disables the feature; behaviour is then
+>                               identical to before.
+>   dentry-limit-interval-ms -- pacing for the worker while still over
+>                               the cap.  Default 1000, minimum 1.
+> 
+> When the cap is exceeded, a delayed_work runs in two phases:
+> 
+>   1. iterate_supers() draining only negative dentries from every LRU.
+>      Positive entries are rotated past so the walk makes progress.
+>      DCACHE_REFERENCED is ignored here on purpose -- an admin-imposed
+>      cap should evict even hot negatives before any positive entry.
+>   2. If still over the cap, iterate_supers() again with the same
+>      isolate callback the memory-pressure shrinker uses.
+> 
+> Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
+> ---
+> There was a discussion at LSFMM about servers with too many cached
+> negative dentries.
+> That gave me the idea to keep the dentries in general limited
+> if the system administrator needs it to.
+> 
 
-Add documentation for ADF41513 driver, which describes the device
-driver files and shows how userspace may consume the ABI for various
-tasks.
+I wrote about the negative entries problem here:
 
-Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
----
- Documentation/iio/adf41513.rst | 199 +++++++++++++++++++++++++++++++++++++++++
- Documentation/iio/index.rst    |   1 +
- MAINTAINERS                    |   1 +
- 3 files changed, 201 insertions(+)
+https://lore.kernel.org/linux-fsdevel/f7bp3ggliqbb7adyysonxgvo6zn76mo4unroagfcuu3bfghynu@7wkgqkfb5c43/#t
 
-diff --git a/Documentation/iio/adf41513.rst b/Documentation/iio/adf41513.rst
-new file mode 100644
-index 000000000000..244453cce6f6
---- /dev/null
-+++ b/Documentation/iio/adf41513.rst
-@@ -0,0 +1,199 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============
-+ADF41513 driver
-+===============
-+
-+This driver supports Analog Devices' ADF41513 and similar SPI PLL frequency
-+synthesizers.
-+
-+1. Supported devices
-+====================
-+
-+* `ADF41510 <https://www.analog.com/ADF41510>`_
-+* `ADF41513 <https://www.analog.com/ADF41513>`_
-+
-+The ADF41513 is an ultralow noise frequency synthesizer that can be used to
-+implement local oscillators (LOs) as high as 26.5 GHz in the upconversion and
-+downconversion sections of wireless receivers and transmitters. The ADF41510
-+is a similar device that supports frequencies up to 10 GHz.
-+
-+Both devices support integer-N and fractional-N operation modes, providing
-+excellent phase noise performance and flexible frequency generation
-+capabilities.
-+
-+Key Features:
-+
-+- **ADF41510**: 1 GHz to 10 GHz frequency range
-+- **ADF41513**: 1 GHz to 26.5 GHz frequency range
-+- Integer-N and fractional-N operation modes
-+- Ultra-low phase noise (-235 dBc/Hz integer-N, -231 dBc/Hz fractional-N)
-+- High maximum PFD frequency (250 MHz integer-N, 125 MHz fractional-N)
-+- 25-bit fixed modulus or 49-bit variable modulus fractional modes
-+- Programmable charge pump currents with 16x range
-+- Digital lock detect functionality
-+- Phase resync capability for consistent output phase
-+
-+2. Device attributes
-+====================
-+
-+The ADF41513 driver provides the following IIO extended attributes for
-+frequency control and monitoring:
-+
-+Each IIO device has a device folder under ``/sys/bus/iio/devices/iio:deviceX``,
-+where X is the IIO index of the device. Under these folders reside a set of
-+device files that provide access to the synthesizer's functionality.
-+
-+The following table shows the ADF41513 related device files:
-+
-++--------------------------------------+-------------------------------------------------------+
-+| Device file                          | Description                                           |
-++======================================+=======================================================+
-+| out_altvoltage0_frequency            | RF output frequency control and readback (Hz)         |
-++--------------------------------------+-------------------------------------------------------+
-+| out_altvoltage0_frequency_resolution | Target frequency resolution control (Hz)              |
-++--------------------------------------+-------------------------------------------------------+
-+| out_altvoltage0_powerdown            | Power management control (0=active, 1=power down)     |
-++--------------------------------------+-------------------------------------------------------+
-+| out_altvoltage0_phase                | RF output phase adjustment and readback (radians)     |
-++--------------------------------------+-------------------------------------------------------+
-+
-+2.1 Frequency Control
-+----------------------
-+
-+The ``out_altvoltage0_frequency`` attribute controls the RF output frequency
-+with sub-Hz precision. The driver automatically selects between integer-N and
-+fractional-N modes to achieve the requested frequency with the best possible
-+phase noise performance.
-+
-+**Supported ranges:**
-+
-+- **ADF41510**: 1,000,000,000 Hz to 10,000,000,000 Hz (1 GHz to 10 GHz)
-+- **ADF41513**: 1,000,000,000 Hz to 26,500,000,000 Hz (1 GHz to 26.5 GHz)
-+
-+The frequency is specified in Hz, for sub-Hz precision use decimal notation.
-+For example, 12.102 GHz would be written as "12102000000.000000".
-+
-+2.2 Frequency Resolution Control
-+--------------------------------
-+
-+The ``out_altvoltage0_frequency_resolution`` attribute controls the target
-+frequency resolution that the driver attempts to achieve. This affects the
-+choice between integer-N and fractional-N modes, including fixed modulus
-+(25-bit) and variable modulus (49-bit) fractional-N modes:
-+
-+- **Integer-N**: Resolution = :math:`f_{PFD}` (same as PFD frequency)
-+- **Fixed modulus**: Resolution = :math:`f_{PFD} / 2^{25}` (~3 Hz with 100 MHz PFD)
-+- **Variable modulus**: Resolution = :math:`f_{PFD} / 2^{49}` (µHz resolution possible)
-+
-+Default resolution is 1 Hz (1,000,000 µHz).
-+
-+2.3 Phase adjustment
-+--------------------
-+
-+The ``out_altvoltage0_phase`` attribute allows adjustment of the output phase
-+in radians. Setting this attribute enables phase adjustment. It can be set
-+from 0 to :math:`2\pi` radians. Reading this attribute returns the current
-+phase offset of the output signal. To create a consistent phase relationship
-+with the reference signal, the phase resync feature needs to be enabled by
-+setting a non-zero value to the ``adi,phase-resync-period-ns`` device property,
-+which triggers a phase resynchronization after locking is achieved.
-+
-+3. Operating modes
-+==================
-+
-+3.1 Integer-N Mode
-+------------------
-+
-+When the requested frequency can be achieved as an integer multiple of the PFD
-+frequency (within the specified resolution tolerance), the driver automatically
-+selects integer-N mode for optimal phase noise performance.
-+
-+In integer-N mode:
-+
-+- Phase noise: -235 dBc/Hz normalized floor
-+- Frequency resolution: :math:`f_{PFD}` (same as PFD frequency)
-+- Maximum PFD frequency: 250 MHz
-+- Bleed current: Disabled
-+
-+3.2 Fractional-N Mode
-+---------------------
-+
-+When sub-integer frequency steps are required, the driver automatically selects
-+fractional-N mode using either fixed or variable modulus.
-+
-+**Fixed Modulus (25-bit)**:
-+
-+- Used when variable modulus is not required
-+- Resolution: :math:`f_{PFD} / 2^{25}`
-+- Simpler implementation, faster settling
-+
-+**Variable Modulus (49-bit)**:
-+
-+- Used for maximum resolution requirements
-+- Resolution: :math:`f_{PFD} / 2^{49}` (theoretical)
-+- Exact frequency synthesis capability
-+
-+In fractional-N mode:
-+
-+- Phase noise: -231 dBc/Hz normalized floor
-+- Maximum PFD frequency: 125 MHz
-+- Bleed current: Automatically enabled and optimized
-+- Dithering: Enabled to reduce fractional spurs
-+
-+3.3 Automatic Mode Selection
-+----------------------------
-+
-+The driver automatically selects the optimal operating mode based on:
-+
-+1. **Frequency accuracy requirements**: Determined by ``frequency_resolution`` setting
-+2. **Phase noise optimization**: Integer-N preferred when possible
-+3. **PFD frequency constraints**: Different limits for integer vs fractional modes
-+4. **Prescaler selection**: Automatic 4/5 vs 8/9 prescaler selection based on frequency
-+
-+4. Usage examples
-+=================
-+
-+4.1 Basic Frequency Setting
-+----------------------------
-+
-+Set output frequency to 12.102 GHz:
-+
-+.. code-block:: bash
-+
-+    root:/sys/bus/iio/devices/iio:device0> echo 12102000000 > out_altvoltage0_frequency
-+
-+Read current frequency:
-+
-+.. code-block:: bash
-+
-+    root:/sys/bus/iio/devices/iio:device0> cat out_altvoltage0_frequency
-+    12101999999.582767
-+
-+4.2 High Resolution Frequency Control
-+-------------------------------------
-+
-+Configure for sub-Hz resolution and set a precise frequency:
-+
-+.. code-block:: bash
-+
-+    # Set resolution to 0.1 Hz (100,000 µHz)
-+    root:/sys/bus/iio/devices/iio:device0> echo 0.1 > out_altvoltage0_frequency_resolution
-+
-+    # Set frequency to 12.102 GHz (1 µHz precision)
-+    root:/sys/bus/iio/devices/iio:device0> echo 12102000000 > out_altvoltage0_frequency
-+    root:/sys/bus/iio/devices/iio:device0> cat out_altvoltage0_frequency
-+    12101999999.980131
-+
-+4.3 Monitor Lock Status
-+-----------------------
-+
-+When lock detect GPIO is configured, check if PLL is locked:
-+
-+.. code-block:: bash
-+
-+    # Read frequency - will return error if not locked
-+    root:/sys/bus/iio/devices/iio:device0> cat out_altvoltage0_frequency
-+
-+If the PLL is not locked, the frequency read will return ``-EBUSY`` (Device or
-+resource busy).
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 007e0a1fcc5a..b02b879b053a 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -31,6 +31,7 @@ Industrial I/O Kernel Drivers
-    ad7625
-    ad7944
-    ade9000
-+   adf41513
-    adis16475
-    adis16480
-    adis16550
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6d695913e717..33168d20ca48 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1668,6 +1668,7 @@ L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
-+F:	Documentation/iio/adf41513.rst
- F:	drivers/iio/frequency/adf41513.c
- 
- ANALOG DEVICES INC ADF4377 DRIVER
+The mechanism as suggested here will end up evicting *useful* negative
+entries. Granted, they will be recreated soon enough so it's not a
+tragedy but it still is an avoidable perf loss.
 
--- 
-2.43.0
+What is needed in the long run is a mechanism which aggressively
+recycles stale negative entries and recognizes which ones should be
+saved for the time being.
 
+Below some magic threshold you just allocate a new negative entry.
 
+All new entries would get a grace period where they need to get hits and
+prove useful OR get whacked. If you are at or above the threshold and
+are allocating a new entry, you can whack the oldest negative one which
+did not make it.
+
+This is just one idea, what is not up for debate is the discrepancy
+between small subset of negative entires with tons of hits vs the ones
+which get virtually no traffic at all.
+
+Whatever the mechanism it will have to take advantage of it.
+
+> This is somewhat related to [1] where it would address the same
+> symptoms but in a more unobtrusive way, by just garbage collecting
+> the negative and then the unused cache entries.
+> 
+> The other effect I have seen regarding this is that FUSE
+> will not forget inodes (no FORGET call to the FUSE server)
+> even after the latest reference has been closed until much later.
+> 
+> In a FUSE server that mirrors the kernel cached inodes in user space
+> because it has to keep a lot of private data for every node
+> this puts an unnecessarry memory strain on that userspace entity
+> especially if the memory is limited for its cgroup.
+
+I don't know anything about how FUSE works. In this context I presume
+you have a mount point backed by FUSE and the problematic memory usage
+stems from inodes created against such a mount point.
+
+This would suggest you would be better served with a mechanism which
+allows userspace to cull some number of dentries for a given mount
+point, maybe even with an optional preference for negative entries if
+that's considered better for given fs. 
+
+Or to put it differently, I would look into exposing sb shrinkers to
+root instead of rolling with a global scan.
+
+> +static enum lru_status dentry_lru_isolate_negative(struct list_head *item,
+> +		struct list_lru_one *lru, void *arg)
+> +{
+> +	struct list_head *freeable = arg;
+> +	struct dentry *dentry = container_of(item, struct dentry, d_lru);
+> +
+> +	if (!spin_trylock(&dentry->d_lock))
+> +		return LRU_SKIP;
+
+If anything of the sort is to land, you definitely want to pre-check
+d_count and d_is_negative without the lock.
