@@ -1,232 +1,93 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D612DB781
-	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 18:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BABD3CC9F3;
+	Sun, 17 May 2026 18:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779043001; cv=none; b=ft7/CIR1zWSRow1HKV3pWsjFZwkjQxY8YgIajkVHp2ksgzWBbw40kYs68jNaMdZAjnFgx2AtGAxc9KQXtpvk6cmmy68sM99eqC6pCd6uHyFgTBTRNMjZTj/ZbGAKBvlt0JJLl8R5yH16CKaEBSW7R7P01gFbXZkwVbythvQBv74=
+	t=1779043023; cv=none; b=OINnvXAewa8pYOcIqtN/J0fn7rGW28m5eGbf+iJij9uwcAYrachMNqERRPzzeuZIVlCiwzQLBOVfkYqI+KP8Su9gGChgjsfbn+2np+D4xVXWOcX8RR+ktzJKz3SdgH8OMiUEHSplsQRkaKZx2kSdUtJy2RHxXftN1787Jf5okTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779043001; c=relaxed/simple;
-	bh=WLP2XISDODwrJ9jTE9ldleGxDFC3U/plew2A2E6a8Uk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uW6o0rr9LpctiE794GyX8uIpMoXdofCl1mn828rM17I5sRmvYfbSMDKhR2KJPSOKJd7CdzWIQqf42Jehe3cM49EvBM6JFDiURYJfV9xV3ylAATLWUlRkim4Iklso+8GOtJJeyfFKjVMGPGH13oxFG3qc2/HFEbQjsZ9lhv6o1y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=E8pRMi48; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1779043023; c=relaxed/simple;
+	bh=C+SyJKDLu7Bb/+Y2+23ar4XFJMGe57MICkLTUWmQqus=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=n7Jy+IHZWaACzXrVgiRKeyA3we6Uzz2oB6El2TpawsjxWL5Z136bjZo14vs0VIg67pApmtrjPnncBFpmi4rKSHZoxSW8Qa+V/S/quxmdLzz0DjubR3dPDsgwaLxrO+6/5gkwuTpp2YJ6BDh8HCEA+ZiaADe/iwkD6PrF51NECPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJKsRJoY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="E8pRMi48"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-911449d9d03so202594185a.1
-        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 11:36:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1779042998; x=1779647798; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lirFWsJ5C0bTd/R7aKsYhvTxoj04iUNEXEllFWQcIOE=;
-        b=E8pRMi48rMimZqHyZsyiQqtynHdmNsssKQoSp9vRy4l8iBxj9DUzhRjj2QazNuD47G
-         gM+O8wp7lRq0CeQeJUA5t+U/jo/j949vaOma/fCd6tPWoMrpo1DE5sTcvd2VObXHUhpB
-         s/fQv5e66Gj8uA68T8YpFT9BGokWZ9yzv/0p15T1W3y6MwnLDMaj90SBsr5kv8IpO9vy
-         kfPQE2EO2QPxOlGg8D4Mp0aCK4RoX8eNoCrpwGT6HxJIoTJmvTkgp5QXbUGiQsbe79Lf
-         tnjeMh/EIMrhYblBWKv7OyqLxrInxyJLVttkYBatYvoM4qmMnFj7v6zilzYbfhvs0oNU
-         tqDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779042998; x=1779647798;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lirFWsJ5C0bTd/R7aKsYhvTxoj04iUNEXEllFWQcIOE=;
-        b=TkDflvymut1mG+PfkcSKsNAFAzDvNi4/gvwbNk77EPMgTX9dAIvyhnqm4WXF4NlgPO
-         SjdsmeiCFvC0dPCh7gt8Rgj2vDblWvSn5pNcXaeK4eP4P0YUxVsywSyQIreLv367i3kq
-         uwFl9npI3ED3A6w2gTrUhxueDBawBBTQXSMUEokOEAEbDwDoppUFzeyeubSpXxB8gNzt
-         vVS45AwyGkHDzVaj/+iLGc6+QTSKuPbWc1zdyVJYHjP0cJdJqmochqu79npRfh2W4NqH
-         1tLMOF492Gkm3cJaWhBi3AHVI/U7O+X9DRnfdglp19bYoHFrChUQ3w1nofooNwryuI3T
-         javQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8PBSuEJ0mWFkerlLiHLXiQDjfgvAbt08Z1nYaPsAG39yg4S7S17h1hnuzYJQySJZkchaQT5gt807Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwY5SPvhlMAcPX4ea8/qFEEOJaMDDckloRuo9pjoUWPSCXO2rOv
-	O+XtHMyGPErq4JjA18/DCQ8olbbps4TaK/txInv/xGV0J3aKk9zYsgPd4AoYBr9EcQE=
-X-Gm-Gg: Acq92OEP8wKQ7Df5LOyHVcXupnbxdtFmtrWp6Hm8rIyLrgK8QmYHc70GUI+viv0O9Lx
-	/UKm+P9s3YET2PdIn0UTV2r2TwJAMomAmvx/ScUmoyXo2LEIsjNHXVW5UMuHCywdj1shHld+cWf
-	A8pCN/0HaBmdGuzFBkkDkwKZaSpLGMC0DqNHUrb/UZLzPecRrEy73prKbs1MJCxjhZmCX3RzutG
-	Ae+s1MnjrjhuU/5aiXnpxbW9APqXihN7Y0o8dPmKOdvAZGgDOnFoDw6D+rjaXCAzob3OZ+wiuKm
-	fMBZC4QFApB1XNYSrgsabgcq7dqCHZXI/6wkn6wpJwSmWEsoNY9kWi3dyX3wdpO4aZhAQsIuQsn
-	VEVAqsxnPYU3W/eriBG0AgKN5a7Keuam1c+gq7fqxmpt1rbj70YsHyesYiagMexHc/1I5SqX/iT
-	X8S0GJPRmEEIko4AG6pxKgg21ZocS+mDwU1ZW+j+AzlbxnGFrp1T4=
-X-Received: by 2002:a05:620a:6cc6:b0:911:a9e4:8b04 with SMTP id af79cd13be357-911d1042fc0mr1877269085a.62.1779042998343;
-        Sun, 17 May 2026 11:36:38 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-910bcf3584esm1221812385a.34.2026.05.17.11.36.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 11:36:37 -0700 (PDT)
-Date: Sun, 17 May 2026 18:36:36 +0000
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	linux-kselftest@vger.kernel.org, shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	corbet@lwn.net, dmatlack@google.com, kexec@lists.infradead.org, 
-	pratyush@kernel.org, skhawaja@google.com, graf@amazon.com
-Subject: Re: [PATCH v2 01/10] liveupdate: centralize state management into
- struct luo_ser
-Message-ID: <agoKAw9CQIVIhp2b@plex>
-References: <20260514222628.931312-1-pasha.tatashin@soleen.com>
- <20260514222628.931312-2-pasha.tatashin@soleen.com>
- <agn4z5ZrFBi9AIGw@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJKsRJoY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F8FAC2BCB0;
+	Sun, 17 May 2026 18:37:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779043022;
+	bh=C+SyJKDLu7Bb/+Y2+23ar4XFJMGe57MICkLTUWmQqus=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZJKsRJoYbsMp8e+Oodzd2DVfcMy73uE4Ln23GQaU/fKTFrbejdbatIIMTeegftDQW
+	 1SqH+2mwthlzpr7tTchvLg4f7iofCT8UChl7AP1nr1UHEcDp2FLEJPlIgzJ0nvmWT7
+	 Q+PJNlR1Bte9prfsQKNuREHoLJXm49whuzTTG+p0kQI9JVIAnq7J2GE6KsBqtQRCCa
+	 53B9HRtymr2nH60XjCW4Rf4k7F3YCqWeVQ06B6lkJcld/1lve/+aLgl1caw4671940
+	 a1ZhdOu4LJwWmpVwggYkYPB+oklX9hZ0ZF1GQE3MQja22U3w/YwmKIWtcQjeCuTm2/
+	 vY4+AwFfHU0kA==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [RFC PATCH 2/5] mm/damon/core: cap effective quota size to total monitored memory
+Date: Sun, 17 May 2026 11:36:57 -0700
+Message-ID: <20260517183658.4510-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260516210357.2247-3-ravis.opensrc@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agn4z5ZrFBi9AIGw@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On 05-17 20:20, Mike Rapoport wrote:
-> On Thu, May 14, 2026 at 10:26:19PM +0000, Pasha Tatashin wrote:
-> > Transition the LUO to ABI v2, which centralizes state management into a
-> > single struct luo_ser header.
-> > 
-> > Previously, LUO state was spread across multiple FDT properties and
-> > subnodes. ABI v2 simplifies this by placing all core state, including
-> > the liveupdate number and physical addresses for sessions and FLB
-> > headers into a centralized struct luo_ser.
-> > 
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  include/linux/kho/abi/luo.h      | 91 +++++++++++---------------------
-> >  kernel/liveupdate/luo_core.c     | 59 ++++++++++++++-------
-> >  kernel/liveupdate/luo_flb.c      | 65 ++++-------------------
-> >  kernel/liveupdate/luo_internal.h |  8 +--
-> >  kernel/liveupdate/luo_session.c  | 57 +++-----------------
-> >  5 files changed, 93 insertions(+), 187 deletions(-)
-> 
-> This looks lovely :)
-> 
-> > @@ -115,27 +117,29 @@ static int __init luo_early_startup(void)
-> >  		return -EINVAL;
-> >  	}
-> >  
-> > -	ln_size = 0;
-> > -	ptr = fdt_getprop(luo_global.fdt_in, 0, LUO_FDT_LIVEUPDATE_NUM,
-> > -			  &ln_size);
-> > -	if (!ptr || ln_size != sizeof(luo_global.liveupdate_num)) {
-> > -		pr_err("Unable to get live update number '%s' [%d]\n",
-> > -		       LUO_FDT_LIVEUPDATE_NUM, ln_size);
-> > +	header_size = 0;
-> > +	ptr = fdt_getprop(luo_global.fdt_in, 0, LUO_FDT_ABI_HEADER, &header_size);
-> > +	if (!ptr || header_size != sizeof(u64)) {
-> > +		pr_err("Unable to get ABI header '%s' [%d]\n",
-> > +		       LUO_FDT_ABI_HEADER, header_size);
-> >  
-> >  		return -EINVAL;
-> >  	}
-> >  
-> > -	luo_global.liveupdate_num = get_unaligned((u64 *)ptr);
-> > +	luo_ser_pa = get_unaligned((u64 *)ptr);
-> > +	luo_ser = phys_to_virt(luo_ser_pa);
-> > +
-> > +	luo_global.liveupdate_num = luo_ser->liveupdate_num;
-> >  	pr_info("Retrieved live update data, liveupdate number: %lld\n",
-> >  		luo_global.liveupdate_num);
-> >  
-> > -	err = luo_session_setup_incoming(luo_global.fdt_in);
-> > +	err = luo_session_setup_incoming(luo_ser->sessions_pa);
-> >  	if (err)
-> >  		return err;
-> >  
-> > -	err = luo_flb_setup_incoming(luo_global.fdt_in);
-> > +	luo_flb_setup_incoming(luo_ser->flbs_pa);
-> 
-> Sashiko asks: 
-> 
->   Is there a leak of the preserved luo_ser memory here?
-> 
->   The outgoing kernel allocates the header using kho_alloc_preserve(), but
->   luo_early_startup() returns without calling kho_restore_free() on the
->   luo_ser pointer once the fields have been processed. This results in an
->   unreleased memory reservation on every successful live update.
-> 
-> This seems preexisting, and we probably don't care enough, but still...
+Hello Ravi,
 
-The freeing happen during finish, that was by design.
+On Sat, 16 May 2026 14:03:54 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+
+> The DAMOS quota goal tuner can compute an effective size (esz) larger
+> than the total monitored memory because it integrates over cumulative
+> deltas without bounding by the actual workload size.  Once esz exceeds
+> total monitored memory, the per-tick "remaining quota" arithmetic
+> stops being meaningful: any scheme can apply to the entire monitored
+> space and "remaining" stays positive indefinitely.
+
+Nice finding!
 
 > 
-> There were more comments by sashiko, didn't check them yet.
+> Cap esz to the total size of all currently monitored regions as a
+> final bound after all other quota calculations.  Add
+> damon_ctx_total_monitored_sz() helper that sums region sizes across
+> all targets.
 
-The other comment is stupid: yes, changing ABI prevents updating from 
-older kernel.
+You could also make an arbitrary cap by setting the static size quota.  That
+is, if there are not only quota goal but also the size quota and/or time quota,
+and the different types of quotas disagree about the real quota, DAMOS uses
+smallest quota.  You could read damos_set_effective_quota() code and kernel-doc
+comment of 'struct damos_quota' for more details.
 
->   
-> > -	return err;
-> > +	return 0;
-> >  }
-> >  
-> >  static int __init liveupdate_early_init(void)
-> > @@ -156,7 +160,8 @@ early_initcall(liveupdate_early_init);
-> >  /* Called during boot to create outgoing LUO fdt tree */
-> >  static int __init luo_fdt_setup(void)
-> >  {
-> > -	const u64 ln = luo_global.liveupdate_num + 1;
-> > +	struct luo_ser *luo_ser;
-> > +	u64 luo_ser_pa;
-> >  	void *fdt_out;
-> >  	int err;
-> >  
-> > @@ -166,27 +171,45 @@ static int __init luo_fdt_setup(void)
-> >  		return PTR_ERR(fdt_out);
-> >  	}
-> >  
-> > +	luo_ser = kho_alloc_preserve(sizeof(*luo_ser));
-> > +	if (IS_ERR(luo_ser)) {
-> > +		err = PTR_ERR(luo_ser);
-> > +		goto exit_free_fdt;
-> > +	}
-> > +	luo_ser_pa = virt_to_phys(luo_ser);
-> > +
-> >  	err = fdt_create(fdt_out, LUO_FDT_SIZE);
-> >  	err |= fdt_finish_reservemap(fdt_out);
-> >  	err |= fdt_begin_node(fdt_out, "");
-> >  	err |= fdt_property_string(fdt_out, "compatible", LUO_FDT_COMPATIBLE);
-> > -	err |= fdt_property(fdt_out, LUO_FDT_LIVEUPDATE_NUM, &ln, sizeof(ln));
-> > -	err |= luo_session_setup_outgoing(fdt_out);
-> > -	err |= luo_flb_setup_outgoing(fdt_out);
-> > +	err |= fdt_property(fdt_out, LUO_FDT_ABI_HEADER, &luo_ser_pa,
-> > +			    sizeof(luo_ser_pa));
-> >  	err |= fdt_end_node(fdt_out);
-> >  	err |= fdt_finish(fdt_out);
-> >  	if (err)
-> > -		goto exit_free;
-> > +		goto exit_free_luo_ser;
-> > +
-> > +	err = luo_session_setup_outgoing(&luo_ser->sessions_pa);
-> > +	if (err)
-> > +		goto exit_free_luo_ser;
-> > +
-> > +	err = luo_flb_setup_outgoing(&luo_ser->flbs_pa);
-> > +	if (err)
-> > +		goto exit_free_luo_ser;
-> > +
-> > +	luo_ser->liveupdate_num = luo_global.liveupdate_num + 1;
-> >  
-> >  	err = kho_add_subtree(LUO_FDT_KHO_ENTRY_NAME, fdt_out,
-> >  			      fdt_totalsize(fdt_out));
-> >  	if (err)
-> > -		goto exit_free;
-> > +		goto exit_free_luo_ser;
-> 
-> And here we also seem to leak memory allocated by sesttion/flb setup.
-> 
-> >  	luo_global.fdt_out = fdt_out;
-> >  
-> >  	return 0;
-> >  
-> > -exit_free:
-> > +exit_free_luo_ser:
-> > +	kho_unpreserve_free(luo_ser);
-> > +exit_free_fdt:
-> >  	kho_unpreserve_free(fdt_out);
-> >  	pr_err("failed to prepare LUO FDT: %d\n", err);
-> 
-> -- 
-> Sincerely yours,
-> Mike.
+So you could apply the total monitoring region size cap by setting the size
+quota of the total monitoring region size.  Could that work for you?
+
+Adding the total monitoring region size cap makes sense to me, and I think that
+will make user experience better.  But, if the size quota based cap works, that
+could also be handled on user space in an easier and even a betetr way.  If so,
+I'd prefer the direction, to reduce kernel code complexity.  What do you think?
+
+
+Thanks,
+SJ
+
+[...]
