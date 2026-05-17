@@ -1,45 +1,86 @@
-Received: from outbound.st.icloud.com (p-east2-cluster3-host5-snip4-1.eps.apple.com [57.103.77.192])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013011.outbound.protection.outlook.com [40.93.196.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96F229D264
-	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 11:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.77.192
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779016140; cv=none; b=bw1NwpNjpECn44vQm0/DF/k3IVL+ortb/OHXOE6Bu6HE0gVbrxrEeMry2R/oO/9asdgjNP/d+dcyLw1OxAnF12BhIbPVJI2YcmLaQp8FFtM1/NPCVFNmszz7yIOTnPOUy2ROu5T/S4h4wY7kGl7WP7vn/Y3wfGFKdKHM5jt73DQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779016140; c=relaxed/simple;
-	bh=2+51ZGVQDsE0ehQk0B08PIl7zFZEfmQVlm4gNU6NdS4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e08pwoM1lGZQ7dxkk0anRnLXBCMIJGOJOVwR4eqkvNmSkG/4iq+BnqNy8Twq0Z7WpEb6fCrmDNTts7TvNg27na/gUypjI0JV5ZhSa46kbIyUasSZe6grsABPMSON7WNf+9XD+31jNDk1TsbfLMXGrNDLaZoniA7nP0R11dUWPOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=GL86WyF6; arc=none smtp.client-ip=57.103.77.192
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0410D8BE9;
+	Sun, 17 May 2026 11:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779017242; cv=fail; b=FMD05H198S20iS1vpHF1FtfRti8ddguztxvsj2dM+/RpqZUUSY+JlCumvzprF7jKCwPLyLYTqDZTKGv5cp6oaLrlh36k6wzja4MnBpvmezt+7XK1ujhZ5IHfshe6vIps6qAGGdNXTsry+kX+/JQhW7fLQK40KcE1R6LoaoFCHfw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779017242; c=relaxed/simple;
+	bh=AxB9ypgjdsK82ef53sMCOQP6xqr7h8MjyXh8ED5z99I=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bTMOI0Ef2rrhvSCns9CEtQzzaNkTnyjPLRo472xB5/UAH8VqlzPS4xqAqmULJPB8835p7ZH4KiZmglQF+tiRzxVlkvdTK4nT+Hh4aANULPXvZO9tabWXTOmoWCaCvoZswca8acTl5YWKUa3tXI+5V3nWaETMssl1K0F+ZjtdAnM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=blGBDOrE; arc=fail smtp.client-ip=40.93.196.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="GL86WyF6"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-3 (Postfix) with ESMTPS id 1B07C18002BF;
-	Sun, 17 May 2026 11:08:57 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhKBUMDRQBBCFYBWANLVxQEC0AFBlgARnkRUAFYHlZeWhdeTVEPDwNKEAJeBV1yGVoUXBhTRVEfVFhBDgpaA1BRHV8CCgRHBFsXRgNTRUEEFxFQAVgeVl5aF15NRx9ATWJJAVoZWxxAF0puTVMPDxlaFFwYU0VRH1RYXgRTVg5CCUoFXQJaBUEISAVZAEUHQwtJCkAGRkEDUUkAXwErWxNVF0YJGQhdHQdYRxRHDg8ZWhRcGFM=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1779016138; x=1781608138; bh=z71PqENSr7vFfogwsyZJQ+3mEvrdaF546GeFnxFzzfg=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=GL86WyF6rNk9T0QJWDP7kQAKA6Ue/zKUhhggtiiE+Yb3chIwHYYjVMIXTSvHUEA+Gv8N1xfZLUIVGCmKcbJA/UbrQfo5wVgKdl/ZF2tO416pii0qVUzBD9CbTjmGmVe2UtElPvbyuhH0Y7ooavBI6BLaUBQnxjj4prjFMF2n5BeLW2boGw4of6db+yD12TdCQna/1Sb2sWAqR5WjXqLytXrSvneihS3RT744+P4HGHpHQZYmOND5z7PcoasScTTYr/gdNpHtkv/ZdLyVM7kE7MRE05TZr+LOFftKoEx/Fo+7bNjGdKoNY5R5J5N0t1sj+nDUlJr9FRqsWWg7k41ACQ==
-mail-alias-created-date: 1778972301885
-Received: from localhost.localdomain (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-3 (Postfix) with ESMTPSA id CDC8A1800115;
-	Sun, 17 May 2026 11:08:53 +0000 (UTC)
-From: Sakurai Shun <ssh1326@icloud.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Sakurai Shun <ssh1326@icloud.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/gpu: fix typo in msm-crash-dump.rst
-Date: Sun, 17 May 2026 20:06:38 +0900
-Message-ID: <20260517110647.53219-1-ssh1326@icloud.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="blGBDOrE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kWY2J/2R1ycB98pJ7Lfa4QKAfDwLQpSMk8wSLICuTctipvWkR8c//lo27k3hGwfDKAmaRKeBkWl5QnxTAVfLXzRYZ0dIB59pt4XFRycEXBZCHXEOxei6IXHvjeipeOSJljMPM+xh0zvfYS93St3kjTKqtdjtGSub8rV4H5+ukRTsoEkoFxCQV0iEMoC+NujWuBZdJGO52BM3Hesq6tr7oWQU7+6CTdVGTvREtNZDXoJm+eVKztoLF9Tt3TMKPbxoruzkKFCuunrTosF9nbK1LCdjUvKzTo9f52SEkAyEugXeiDpV5txyBFsGiVrnZ88tIF2QJDw7f8qrjI0SCAngag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=akW2i+UQXFGZTAllVy9jhbLoH8bnjT9BDDuaF+/e92s=;
+ b=QHVviFO8Rl7vO1HuuIl7lqdO7eXDUYEwiwFsiuXw1g23+blTzaqhTlKYXktORAaaY+ka9bA5/h/7cUJO+nBqXlG5j1aF310nqmC463/Gv41OZZmDMUiGQIE55O/53fdCOZ7TxuulaWmtOqmY71n8/XCXSKUZQi5d3fHgoJG0dasbLBnQcACMTw4P28lA+6MrC7MMhw5F3khnzYHpHb6e2fibJ9QIEUK2/G5wTq0JX8KA2YZ8dyZsXaPw/G1hgBOgcdpdBNjGi1r5WTTbp0o6VO894gUchspnpkFgYXaYyQC7aU+8e/cp8g3V5YZpeM7iOLF/Nbu4JYh6/l6g4vfc6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=akW2i+UQXFGZTAllVy9jhbLoH8bnjT9BDDuaF+/e92s=;
+ b=blGBDOrEymvMYO2TjbWo+RLRtHj60CRdd/c1/9b7GN5o7soTgHxuOOh5wFMgt+x46UwwnMbbi6RY+IJ35WEIha64w+7+DaCOQ3kcg30BABP+tShYFCMwjs9oDwxr05NHlAXiLmgaLDTbUII5LUkGb/NZZdkpdYFinKyn6NyVXrF3N9yjve+lDZWDhrPDlLnOEFIyqr2i+nhAUg/i7hLL+WrAUc8AkBFhwDaOujzamLQt1HCNO4UaN7JTm2D+1K029D677KgLOQq74jg073R5nhHw7w/rXAjGgjk8mDO3OcATuQNGR0H6w4yd3pDXz9FO08HsA4A+qlTKKlMLImHzEA==
+Received: from MN0PR05CA0017.namprd05.prod.outlook.com (2603:10b6:208:52c::21)
+ by LV8PR12MB9271.namprd12.prod.outlook.com (2603:10b6:408:1ff::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.22; Sun, 17 May
+ 2026 11:27:17 +0000
+Received: from BL6PEPF0002256E.namprd02.prod.outlook.com
+ (2603:10b6:208:52c:cafe::26) by MN0PR05CA0017.outlook.office365.com
+ (2603:10b6:208:52c::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.48.12 via Frontend Transport; Sun, 17
+ May 2026 11:27:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ BL6PEPF0002256E.mail.protection.outlook.com (10.167.249.36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.48.11 via Frontend Transport; Sun, 17 May 2026 11:27:16 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 17 May
+ 2026 04:27:11 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Sun, 17 May 2026 04:27:11 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Sun, 17 May 2026 04:27:05 -0700
+From: Tariq Toukan <tariqt@nvidia.com>
+To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>
+CC: Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, "Jonathan
+ Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, "Saeed
+ Mahameed" <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq
+ Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Vlad Dumitrescu
+	<vdumitrescu@nvidia.com>, Aleksandr Loktionov
+	<aleksandr.loktionov@intel.com>, Daniel Zahka <daniel.zahka@gmail.com>,
+	"David Ahern" <dsahern@kernel.org>, Nikolay Aleksandrov
+	<razor@blackwall.org>, <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Gal Pressman
+	<gal@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>, Jiri Pirko
+	<jiri@nvidia.com>
+Subject: [PATCH net-next 0/2]  devlink: add generic max_sfs parameter and mlx5 support
+Date: Sun, 17 May 2026 14:26:58 +0300
+Message-ID: <20260517112700.343575-1-tariqt@nvidia.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,41 +88,65 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Info-Out: v=2.4 cv=eu/SD4pX c=1 sm=1 tr=0 ts=6a09a1c9
- cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
- a=YrL12D//S6tul8v/L+6tKg==:17 a=NGcC8JguVDcA:10 a=x7bEGLp0ZPQA:10
- a=ZxuoajvSgW0A:10 a=VkNPw1HP01LnGYTKEx00:22 a=v3ZZPjhaAAAA:8
- a=SEPSIZnlKA0O9iT1Kh8A:9 a=IxSG75etxsVYPPdR13TJ:22 a=m7rIf0WiDq7R2lvFmMRz:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE3MDExOSBTYWx0ZWRfX92+4zMWvPwvl
- cg1MVS6qvE5pwJHuqo766lMBSeKABw+PlQzy3+XDhr5vGuPROc94gaQh6oVbMXnwsTM9RI41Y2F
- voQewbcxRiDr/bhVffJ4VSWKQ8TcKDFld/useXKqa7qmD8twntJPYX52n1Wl+wsttlXbRutoFE9
- +jJiFrQES1WKoJLEwPMXQ1EbAg0zmKczJeqFrqQtpGNPWr2ccBpvNPl0TXXyJI8BZZNUEkHQZve
- VxicdgNWDF5UvhtMeq06O+8A2j0fi9nSrpBZ6WJzxrk5hrScCcap4a1DE4c7WET5aevQnSI/7R/
- O3b6uz6LrcFYi9InR+LKGAeKK115Y2Zd7lcSOFgZ2I+jmmrjGUOpp3saD5PNLY=
-X-Proofpoint-GUID: Zt4l9sG8gBM9onD0Qf4VAdXvnm_RYueo
-X-Proofpoint-ORIG-GUID: Zt4l9sG8gBM9onD0Qf4VAdXvnm_RYueo
-X-Apple-Category-Label: MjE0Nzk4NjU5NzY6JGNhdGVnb3J5JF9QZXJzb25hbCw=
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0002256E:EE_|LV8PR12MB9271:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2f64013-678d-4f65-65c5-08deb4074050
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700016|1800799024|56012099003|18002099003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	Vw+WGOmVNy6OyiknQd9aim4y1bBegXFOrnNtNkQLQaIif4FodeFXZUX5lSzKOIHRHyaGnXcqda398rdTXOygKGgDLmceOC4rkG90lGX8bOKHz4VrIxwcz0XG0bhOjgoJG5VE31+ssPln5pH97tSDR+RdZaCGB0guePsalVjMY64Cu0CXF3BWkbZRjVyy3PkxjLg9ixrBIyPkpaqPqe6ikJBZ+EV9KX6LWrvMHgYz6e3b2c4XzRy/wTD6DHW22VEF0p2mjKI3NX9cg3QtuGSQI7Dun+Jzi5ZCiFGVHKMLDnTlmc06HkAbRnPKxTLdI3pA0oi4JDPJmmX8v0Mlb9rQ/Z/XSl7K0KBaMZEQiKMZDXctrKMM/nRRHRYXfFrgMEPGBgCpl4qIchF0ULNa8aRuVYybh+5CWZuutyx+zH0YYFK3t90ISla05gMHumFzmC1XCzWXKvGh/vkLtJG0mFd0BIrC5SkflIxf2ZN9R+ye7StyjhtTr6MyiM9JB0awU4A97tmezYSECWjP9VMTN+1QV9wXVUbRbsIoKCKOLGauB9L6GeUpKGdgukMTQ9YJboXAwiGFXOIgB3a+AcJl/qgdW1mKHStfYJCJwEYACMDDpQeuGSMWg5iSpLNL6hpGULQ7QNKo3TqlB7+tZQnlW4l98lpRhysQUOaAWWk1WtsTKUav5mBfMNAU84ydkprldtgsf9RBSbH4ODVgMdzCszVGklP/R0DSQuH/o57/DUqpmZA=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700016)(1800799024)(56012099003)(18002099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	GnPOx4Sr6i9BVECdF61xBPI6kqUFYIAI0fayFvVVUrEoevgenO8qMsbwYkYfy5HrSf6BLwgHm0IKahjfebuGDgFFVFBDNKQoamzOLLanpNOVrR79O69HGYre7TB6KDLKgIZgGNvDlJsZUG183SxzO8NeqdShcHgnOxR4vDnkUN9xCdmdlfuLmIgZmQ8o/gyeA6JguGFidgW0UieZSOMqSHgfHlgUIb1O8viUIKn99YeosSnLnOBKv/Wrs9UhpdMN0a/ZUXNc1Qi1a1zHIW06M7CPG0vhyHpx1Y3y4Sr3bOM6xhRcXFfhZz7ftaiG0F/xhtTfRZSKWN0BA4kfZ9+8juuWnzwhfvniQfz2Z6YwZen2RQRBqLcpeKNNIM/4tUeOTErj4/jV50RmyGJ1fy9U6yBMP7Lr2n+EMMaBrRyZdBms1f1JI7XlDod4uzOMNlKe
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2026 11:27:16.8198
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2f64013-678d-4f65-65c5-08deb4074050
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF0002256E.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9271
 
-Replace "uinque" with "unique"
+Hi,
 
-Signed-off-by: Sakurai Shun <ssh1326@icloud.com>
----
- Documentation/gpu/msm-crash-dump.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series by Nikolay introduces a new generic devlink device
+parameter, max_sfs, to control the number of light-weight NIC
+subfunctions (SFs) that can be created on a device.
 
-diff --git a/Documentation/gpu/msm-crash-dump.rst b/Documentation/gpu/msm-crash-dump.rst
-index 9509cc422..474c0d265 100644
---- a/Documentation/gpu/msm-crash-dump.rst
-+++ b/Documentation/gpu/msm-crash-dump.rst
-@@ -70,7 +70,7 @@ ringbuffer
- 
- bo
- 	List of buffers from the hanging submission if available.
--	Each buffer object will have a uinque iova.
-+	Each buffer object will have a unique iova.
- 
- 	iova
- 		GPU address of the buffer object.
+The first patch adds the generic devlink parameter and infrastructure
+support.
+The second patch implements support for the parameter in the mlx5
+driver.
+
+With this addition, users can enable or disable SF creation directly via
+devlink, without relying on external vendor-specific tools.
+
+Regards,
+Tariq
+
+Nikolay Aleksandrov (2):
+  devlink: add generic device max_sfs parameter
+  net/mlx5: implement max_sfs parameter
+
+ .../networking/devlink/devlink-params.rst     |  6 ++
+ Documentation/networking/devlink/mlx5.rst     |  7 +-
+ .../mellanox/mlx5/core/lib/nv_param.c         | 83 ++++++++++++++++++-
+ include/net/devlink.h                         |  4 +
+ net/devlink/param.c                           |  5 ++
+ 5 files changed, 101 insertions(+), 4 deletions(-)
+
+
+base-commit: 627ac78f2741e2ebd2225e2e953b6964a8a9182f
 -- 
-2.54.0
+2.44.0
 
