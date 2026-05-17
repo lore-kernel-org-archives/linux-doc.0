@@ -1,70 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E2B23E358;
-	Sun, 17 May 2026 17:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2DC33A03A;
+	Sun, 17 May 2026 17:42:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779039493; cv=none; b=sHa5EAay1Y+GemBh5W5K8uvr/OIg/zTNigAlUmioWNiHj40uxhj9spWkrdfOCIIckvem0ay26dkndcV1jFUmkyVtIF+D2HHKXTyDpXH10psGAwHob1+iRtBPtG90DEcs8OsFMOsly11qEok3Mk/C58unkPKIj/4ULqxoP5/iQEk=
+	t=1779039762; cv=none; b=P6rghokparmhNUtee+ff0ETqA0AfEajQA/cs+r9a40Gl+nVgoH0Lodysz6sV39PyvCOTBv0/2wyM3Kj7eXuH+MkmND+Trs9vcLR5xFhVE37qDO1c5HPVcSQDYBG9WgFL6jfvtcZA45g8lfrfxe9Tbcka9kkp5vbksTbQxBExvlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779039493; c=relaxed/simple;
-	bh=hUXEIurEBWkC2u5wz4FjIdplyJXliJSJqkf1ECw3UDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tqu9N/TJluMsJTBmkbXcNCUVpg0xxyRjTGKSi960ImJe5pxpbyFE3vnGJz0pzVpVe0RMqtrdHNZIxPfsxZGk3+splRfDtFUOggLbZFkUiH2jg4mWc2v5fm6t5BCPqwmLOk6ZBx68ScOHoOAI60D4OEdET2K12jwGAn7G9Z/L88A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LFLx6ZNf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779039762; c=relaxed/simple;
+	bh=mIIt+rPrya9rA0KovBDgwi0sHwBa4TedHEoMg1kEOwg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=c5k6gnGoLVX7zOLWI+0DGEJx/PkIghMqJPg/amj7j9pMIsV8R+u52cf6B5W0l8ksCJ7s1BSnITsQhAFOn6EmqNvIQk6MhOd8DZoZSybord9lT/czGqlEWfX4v/Z+dVo8ul7vvxpFCJ7rtZj1vabAVuDaRvRFYOlVbsEeZVNT4CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KkaJhxGY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LFLx6ZNf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 624B7C2BCB0;
-	Sun, 17 May 2026 17:38:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KkaJhxGY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DACFC2BCB0;
+	Sun, 17 May 2026 17:42:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779039492;
-	bh=hUXEIurEBWkC2u5wz4FjIdplyJXliJSJqkf1ECw3UDQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LFLx6ZNf3rrbva2M3m65Nd4aTUKBDskBTAyJvCjKxOWOWO2U+uXm55P1kFR6D3V5B
-	 2MghIV+hpD7aSSqQ9qjxY1v9NiV5EuhzuF/tpzGOtf2xJcKApaPaMkRt9vT+D6xMtB
-	 WhKI/ZquiUJE/91W4Vl3vVJ+nvSp2GiVE7A9FqNJij3E0FbOQvX8MhfzQ0dCaQ0Vcc
-	 weiEdPQRSeTvrepjQbsJ76kfFv8m/cSg6Au6rflUxL7NuXB0MaLp5OTzaFNN0AoVkC
-	 TbqxfzIevYlrwaGMBK68BNqj5UMzmD7DONdBpD56DqyFVugzLDSZ9nU7Ror2x0iwRz
-	 3xS5LjIPteA5g==
-Date: Sun, 17 May 2026 20:38:04 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: linux-kselftest@vger.kernel.org, shuah@kernel.org,
-	akpm@linux-foundation.org, linux-mm@kvack.org,
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net, dmatlack@google.com,
-	kexec@lists.infradead.org, pratyush@kernel.org, skhawaja@google.com,
-	graf@amazon.com
-Subject: Re: [PATCH v2 10/10] selftests/liveupdate: Add stress-files kexec
- test
-Message-ID: <agn8_FAtMdc8B5c9@kernel.org>
-References: <20260514222628.931312-1-pasha.tatashin@soleen.com>
- <20260514222628.931312-11-pasha.tatashin@soleen.com>
+	s=k20201202; t=1779039762;
+	bh=mIIt+rPrya9rA0KovBDgwi0sHwBa4TedHEoMg1kEOwg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KkaJhxGYX7lgZ9F9mKGUyhfhH7wkdWbaD0WNwKVI1tx6HVzkLhKss6TJSc8gFRxzA
+	 pB40KUWixstWeCK1cjYCyYvDOzTPzBAp/oaoU7/GP2499OW9W3dGaTXR6nSVSAlKUt
+	 Qp6JbD1ge0AX2m3ZTwRGfzS567WKH+j2gxlheV3priVgBwI8HH5k7vYLwRxpVdtj5M
+	 cUo2mJVsjMzK1jgKQkpaO9jy9kt029Re1ns/B0LzQUUPUt5RIs39y0j+8K5FlJyT11
+	 ttZTh1VsqGnsCOSFM9hmaHLURZRg2SFcsE1uAXDtmsVTmfa4MZHdejBGKzI8+LJMvr
+	 hxtr/YrWi7d3A==
+From: SeongJae Park <sj@kernel.org>
+To: Sakurai Shun <ssh1326@icloud.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 RESEND] design: fix typos in design.rst
+Date: Sun, 17 May 2026 10:42:32 -0700
+Message-ID: <20260517174233.1595-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260517073433.3015-1-ssh1326@icloud.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260514222628.931312-11-pasha.tatashin@soleen.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 14, 2026 at 10:26:28PM +0000, Pasha Tatashin wrote:
-> Add a new luo_stress_files kexec test that verifies preserving and
-> retrieving 500 files across a kexec reboot.
+Hello Sakurai,
+
+
+Thank you for sending v2 of this patch!
+
+As I commented [1] to the previous version, let's use 'Docs/mm/damon/design:'
+as the prefix of the subject, e.g., "Docs/mm/damon/design: fix three typos"
+
+On Sun, 17 May 2026 16:34:26 +0900 Sakurai Shun <ssh1326@icloud.com> wrote:
+
+> L140: "unsinged" -> "unsigned"
+> L371: "sampleing" -> "sampling"
+> L387: "multipled" -> "multiplied"
 > 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Reviewed-by: Pratyush Yadav (Google) <pratyush@kernel.org>
+> Signed-off-by: Sakurai Shun <ssh1326@icloud.com>
 
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Assuming the subject prefix suggestion is accepted,
+
+Reviewed-by: SeongJae Park <sj@kernel.org>
+
+If you willing to, please send v3 with the change.  But please do so after
+giving time (say, one day?) for others to further comment.
+
+Unless you object to the subject prefix change suggestion, Andrew might pick
+this after making the subject line change on his own.  I will also pick this
+with my subject line change suggestion on my tree (damon/next), and repost it
+for mm.git inclusion if it seems Andrew will not do so.
+
+So, assuming you are ok with my subject line change suggestion, no more work
+from your side is needed (unless you willing to do some).  Thank you for your
+contribution, Sakurai :)
 
 > ---
->  tools/testing/selftests/liveupdate/Makefile   |   1 +
->  .../selftests/liveupdate/luo_stress_files.c   | 101 ++++++++++++++++++
->  2 files changed, 102 insertions(+)
->  create mode 100644 tools/testing/selftests/liveupdate/luo_stress_files.c
 
--- 
-Sincerely yours,
-Mike.
+Also, from the next time, please add patch changelog here [2].
+
+
+[1] https://lore.kernel.org/20260516170847.146524-1-sj@kernel.org
+[2] https://docs.kernel.org/process/submitting-patches.html#commentary
+
+
+Thanks,
+SJ
+
+[...]
