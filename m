@@ -1,108 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.tkos.co.il (hours.tkos.co.il [84.110.109.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F0F405C32;
-	Sun, 17 May 2026 15:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5050F3B7770;
+	Sun, 17 May 2026 15:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.110.109.230
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779032754; cv=none; b=fwFa8n+txeKH1KkNTmrxR3JCuSWejndEH1AnSQM2j6DmOurYkBiZGrgemf00TYyuZJ0jQQn/r4IKeCdD0RqiHMnN0i6yG8iTMQ4E1RocF5qBq6XEqVu+2f7pIpN8c56wBDSckUp8UgdFrcHIShCEQitzkykKhM5DyFDLSuDZ0Tg=
+	t=1779033082; cv=none; b=d6e8YQkeDUnrqawuhAsn96kNgijeYJR3HsR9rZK9TJdvT7ChypVYGbOuQGkFVGGQm8B24I1wmlsVo3th8ncgzb3Jy/0DqC/ecYvo2kXBurYK5EeLs4Pf2ege9nQYE3mafSW5yd65VeyoXJD2+Ysi1c9NSMfgvlvYXZuokHT5Sjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779032754; c=relaxed/simple;
-	bh=ItD4S9x0mFpUzIadUXek7CMnVOMmle1JXqnbR7Ej58g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s/0v2itPlwZOk/K7Os/pluUjqALG7c+ajwQR8VqNbgo71Wd3GiUqP4x2TLC7UGH5nMNx41VqPKBlmXZfB/oX1zzkegnWgJl+9b/pyCUxHYP8XY+KlKtLu4Fwoez1FG7wdrM/KkvIsxg+udm2pjE1LOVhjDZRKCGXmzrrfxAWvYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IfYRzgM+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779033082; c=relaxed/simple;
+	bh=PcgrPFzDl99t+SthxMlQrcpaADWjEm49nKN2R/4x8Xw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Uw98YBSKKXdoNGkbkDBtvuPwnJoH36+QQ69HZzhQsJOXhxkQhv1+c2ae7KjvTx95bCT3ixZXdYVV4JWtFdU1qGomCxrN47l6KCVe5ESvngUgH16LmOI9gaFAaGEMmsWx5gM1+PI5xfbxHHszz3rh4T1O814MBwS7lJ1FoIpluQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tkos.co.il; spf=pass smtp.mailfrom=tkos.co.il; dkim=pass (2048-bit key) header.d=tkos.co.il header.i=@tkos.co.il header.b=D7bfIvUi; arc=none smtp.client-ip=84.110.109.230
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tkos.co.il
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tkos.co.il
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IfYRzgM+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C353AC2BCB0;
-	Sun, 17 May 2026 15:45:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779032754;
-	bh=ItD4S9x0mFpUzIadUXek7CMnVOMmle1JXqnbR7Ej58g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IfYRzgM+DtGlBgcpGCMVW9sJTrzrixPXuJyw0fhPxM2ihHniQBzBNs1hdgapnL5zc
-	 8z/WLxtVND1yu8Ykr0+gIpC6SbhlOW9BY3zMMLmA2RG/0AnHATz3E6ofMe95ac2JJB
-	 TANEW4BpLOVEdaxXontvxyIx1xnQe246wa8YD2bTBJo9BkfHBrcSX1GENL23+/JMtA
-	 GIVMkpAaH77UpQfA790chUZBuuDp/+JsJioX1uDnOUF9DemFLk8F4yoyo4OgC/8PLO
-	 SFmtpFoc93xWXY57QZ1P9fehEbbs3wkZQhWNt99PRFDg/bpM0cTc1VbJSLWYuGeXl6
-	 zUYzGZvyllbbg==
-Date: Sun, 17 May 2026 16:45:43 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH RFC v4 09/10] Documentation: ABI: testing: add docs for
- ad9910 sysfs entries
-Message-ID: <20260517164543.0d9a12fd@jic23-huawei>
-In-Reply-To: <20260517155843.7f833658@jic23-huawei>
-References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
-	<20260508-ad9910-iio-driver-v4-9-d26bfd20ee3d@analog.com>
-	<20260517155843.7f833658@jic23-huawei>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=tkos.co.il header.i=@tkos.co.il header.b="D7bfIvUi"
+Received: from tarshish.tkos.co.il (unknown [10.0.8.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.tkos.co.il (Postfix) with ESMTPS id 6AAFE4403AE;
+	Sun, 17 May 2026 18:41:21 +0300 (IDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
+	s=default; t=1779032481;
+	bh=PcgrPFzDl99t+SthxMlQrcpaADWjEm49nKN2R/4x8Xw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=D7bfIvUi8ebimLlcq+XtQbR3enuPYT+eUaHRlbFnXY/VJZxQkcIbziNBQmQOawkHF
+	 G/fO2u5gVP0Uwbhzx61HWvKSgUKInAFokUYAaELKfVtqutUKIAmA9P6xMq9zw6qBJw
+	 lE3lH3Wj2/GFDucbILojJUFDNdKMJwYyZy/vSrbQOoPvU5njoXNb6OWxvx99pG2A7B
+	 xxlTQHSVY5qPKwMqYo2AMeDdbAV0gwvP08zkjDUWSuX+OPbpQOswoiA6NxJnmUgSm4
+	 JWekSiT9hZ4AEHFXtGmnlOks7rnlvDKvZyRCpBMflKmykiHJoiSgrkpbBuefDWaAb0
+	 Y7YABi3wt9vHA==
+From: Baruch Siach <baruch@tkos.co.il>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Willy Tarreau <w@1wt.eu>,
+	Baruch Siach <baruch@tkos.co.il>
+Subject: [PATCH] docs: threat-model: add missing closing parenthesis
+Date: Sun, 17 May 2026 18:41:41 +0300
+Message-ID: <da8ee1e8b4e99261ec11544c4e1a4f81316ae965.1779032501.git.baruch@tkos.co.il>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 17 May 2026 15:58:43 +0100
-Jonathan Cameron <jic23@kernel.org> wrote:
+Fixes: a03ef333fbd6 ("Documentation: security-bugs: explain what is and is not a security bug")
+Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+---
+ Documentation/process/threat-model.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On Fri, 08 May 2026 18:00:25 +0100
-> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> 
-> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > 
-> > Add custom ABI documentation file for the DDS AD9910 with sysfs entries to
-> > control Parallel Port, Digital Ramp Generator and OSK parameters.
-> > 
-> > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>  
-> I'm fine with phase and frequency as defined, but for the scaling it made me wonder.
-> For outvoltage0 channels the assumption the value is the peak voltage so if
-> we know what input to be modulated by the ramp generator can we express them
-> in volts (well milivolts) rather than as a scaling multiplier?
-> 
-> That seems to me like it fits better with the overall ABI.
-> 
-> > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_scale_offset
-> > +KernelVersion:
-> > +Contact:	linux-iio@vger.kernel.org
-> > +Description:
-> > +		For a channel that allows amplitude control through buffers, this
-> > +		represents the value for a base amplitude scale. The actual output
-> > +		amplitude scale is a result with the sum of this value.
-> > +  
-> 
-> > +
-> > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_scale_roc  
-> 
-> Silly question perhaps but can work out how this related to millivolts/sec
-> That might make a more intuitive interface than scaling multiplier per sec
-> Perhaps the combination with offset makes this impossible though maybe that
-> could be a expressed as a voltage offset?  Afterall if the amplitude being
-> scaled is 5V then 5 * (offset + scale) = 5 * offset + 5 * scale
->  
-See thread on next patch. I think I argued myself out of this.  
-
-> > +KernelVersion:
-> > +Contact:	linux-iio@vger.kernel.org
-> > +Description:
-> > +		Amplitude scale rate of change in 1/s for channels that ramp
-> > +		amplitude. This value may be influenced by the channel's
-> > +		sampling_frequency setting.  
-> 
-> 
-> 
+diff --git a/Documentation/process/threat-model.rst b/Documentation/process/threat-model.rst
+index f177b8d3c1ca..9dd8011dde82 100644
+--- a/Documentation/process/threat-model.rst
++++ b/Documentation/process/threat-model.rst
+@@ -176,7 +176,7 @@ regular bug:
+   * problems seen only under development simulators, emulators, or combinations
+     that do not exist on real systems at the time of reporting (issues
+     involving tens of millions of threads, tens of thousands of CPUs,
+-    unrealistic CPU frequencies, RAM sizes or disk capacities, network speeds.
++    unrealistic CPU frequencies, RAM sizes or disk capacities, network speeds).
+ 
+   * issues whose reproduction requires hardware modification or emulation,
+     including fake USB devices that pretend to be another one.
+-- 
+2.53.0
 
