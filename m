@@ -1,166 +1,116 @@
-Received: from smtp05-ext.udag.de (smtp05-ext.udag.de [62.146.106.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47093537F1;
-	Sun, 17 May 2026 09:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.75
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779010970; cv=none; b=CNvvUZDTV9U8grNc2uMG+5y5rmwTrFzG4GrazF5EXHxPdp3rYGd7N2Q12SvAURRFAQk5BJf2U107GH7U6YXENcgNmdTbSNPOcBQ0qvClrUxEXfkSJqVSjuE9Iq62DJU6TEef1pkze4lMqFBaUEu1eosD4dfZ2zjZlrqMuvyjtfw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779010970; c=relaxed/simple;
-	bh=Lg4+kXDk79K95N9DxPx/sDDeMzZxyj9ggaQo0suwydU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rilepzplPFN36kVQIqcme8XU12VaPPspkUQqDoAAl1Me+WP0YstiQnq5ay9yqL+TM+2uE69XhUIM8RTgBn9+vzysaqPlTUV9Mr1RyrVT8o3HgN8kXcgEXrk2Aolm99ytexs7ifrsejoLGyxSCXeVCEuEPnwWDa7CF8/2Rik6Mj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (075-132-067-156.ip-addr.inexio.net [156.67.132.75])
-	by smtp05-ext.udag.de (Postfix) with ESMTPA id 20DBCE0443;
-	Sun, 17 May 2026 11:42:38 +0200 (CEST)
-Authentication-Results: smtp05-ext.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Sun, 17 May 2026 11:42:37 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Horst Birthelmer <horst@birthelmer.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: Re: [PATCH v2] dcache: add fs.dentry-limit sysctl with
- negative-first reaper
-Message-ID: <agmK0xmOVL5TLxdy@fedora.fritz.box>
-References: <20260516-limit-dentries-cache-v2-1-c733a78e603b@ddn.com>
- <5afacskoalmd2u6s525dosvyrtr3j66ajd5m4p2ylymtlgytkz@excrdfpndx37>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0482FBDFD
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 09:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779011302; cv=pass; b=BfbDTMqagpGRT5YHu/VmmTbC/kRpzClKs1h/CAhrafnq9KKnzDDrja7RCMrT8Z9KNLnCkCi9DdRwzxzgSMmebhnxoAiBdif/WMviLew6n995L7DucJeWczZvvZbBBl8o/1tdv2CtNDEuFtv00WajEjXlwsQVMrYaMr8Fbu28C+U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779011302; c=relaxed/simple;
+	bh=fk0uhQwp4prrEBPZo/QiveKATOKm2IGlddgiGbufK3c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nfx7pHzbdOYI78pda9EG/09gsYwh2qiFTaON4m+ABMUmErZILq9kA8GIRDzgGjs03t96lZe0pwtltxbCJ80fqxo8K30LLXY3glKkNOrKjHbbo8NffxSQAolxod0CWU9BaqnYUZ68vxf5HQiFkExokmpvoODo/H+F/XmAXKaBO7Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GCfhkVbd; arc=pass smtp.client-ip=74.125.82.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GCfhkVbd"
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-130a1776581so72344c88.0
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 02:48:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779011300; cv=none;
+        d=google.com; s=arc-20240605;
+        b=L985gCrdPDOxBUGvewqP1mZYKjP2/vBv1J3LfQJVFuQgPxurTKits7EnHM0AY4++yP
+         S0ElyHzcGpZ9V0ye4L3UF5Bp2h2deNZktvKiQj7QHgWQG7wYFv2f1PDVE2Fd3o+29LR0
+         JfRn+p6snU9vWfb4eJ3M8hZIj88WN1q/zWGSiwSZhrui24vuKFZnulQFUhIrk29Vxiry
+         /yGWKmeVkE8egS6yuM4XGpww/Pc4qCB/iObgULrrJV4/rjsbEnDW1/94Y6tAtvWUG24Z
+         RzJfjNMlbonbd1ZwH92feTnUzV5X+IAezYYvEXkoZW3KUmK9tkivPryvqAW5lq6Jde7E
+         SP2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=sVUqUYkBeY1XFxEA4ae3wa4R5g8DYhw2jdF14zFrc4Y=;
+        fh=qA1u/gwP6ldkKhSDNFb4+7OFrPEtnJ/tFp8jEWFtoAQ=;
+        b=ZSB/wVMCmQ49Z984ZDDfpb8CTcUXK8q4qiETzkYHEECgHXv8qxmx+RYA/vhOUmHPHD
+         fKwmH90gcMSKk4QoJ8yEP+VF3/iAwYmuUTBpxk6runinjSW4PAheTrBi14DlDKsAY11x
+         N91533XZM20rSeD0gfvqZ5EqphOUVm0168JpIjGNsEJ0oagCUUtwkNqXU6PouA+aZQdh
+         Fe6CxeyqxbYz6EAqBt4qfpnbOGuvYSHQ4vPqx+FkhfcG7YF4MbMSCS1twccCDCje+iYM
+         t0nvy+oJSp2Q3zUavRFjUwpWlVM0KPP7cFzRgnyoN/FGUjJZtSwE9x8Aye1VsheMRXbA
+         0hiA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779011300; x=1779616100; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sVUqUYkBeY1XFxEA4ae3wa4R5g8DYhw2jdF14zFrc4Y=;
+        b=GCfhkVbdOCQN8/igHWR8gZVhwCFhk4HQztU4nNEwUtkRUFgb49b11z6YQPohHl3OX3
+         WxyAr3A7XAqkB5i+XyOpcQ28F/Wx9pnc7+B7hHpWCcfuCe1aSl6XaDf/CuKuDRE2fsdw
+         VAXz4MbsZtgrKiH5jRywsoeD8mhFZXpauULhtDE/MY5A+yD6vorEZ0vM+Ocms1j762im
+         X4jYdmF47TB8PgA3x6A+Z9o3gNpkD7v2DBFzZ6mOEZ7hr1NHNtTftmVELNomnHr6+yE9
+         X9pS1Fu2cmyKKPSx25Jd0UvJA8BvuOqoZHwSRxZuRz8Q3WOdpc41dqUYeqgNqdjLwFgK
+         9GWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779011300; x=1779616100;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sVUqUYkBeY1XFxEA4ae3wa4R5g8DYhw2jdF14zFrc4Y=;
+        b=NFXSFK3LJLsUFXkqUEtN1yU1FSgJT3ZO/eknSMTxtR2cNz7RjUe3jaGf3bdlYgGVJl
+         ucoMPdZjWB+GFTMXMeGT7sH2tUQvhUp7lERPVsVT3nVEgH2xJCVN71k1UxoTCZwtEKOI
+         IZ9ufol/tGY0zKWoN/IkP8+7BCHwPD1ArCIVpKbjJ6u7KLStIFcVvHwTc9XG+ZcTZ1g3
+         UErbsQje9n/jO1mNf4IVM2HbINM2NANxWqKxBAh58mSg/pJ3PQoDZTcdREsPjnn4dsim
+         S2Ythg+m529nLROLY0R1FxoBFm6SDCn7prS3QemWOK5MiSiNL8X3KUqsH4Xema5gJjOc
+         cWRA==
+X-Forwarded-Encrypted: i=1; AFNElJ/Nvi6VWnB/2eyKTvKHOidU2iN2yVgIO1gksQ/oFZ6gg0MR3QgBGOxj72vv6bNhvLGCS0zB6AYFKHg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yye6k4TmzthskuL7YztSFeSe1DErR3qsHA28LaLT+p4y3bcMVHM
+	qEG2VnITpM3nsWS/PCP1mNcNRrM6xyS7oQVal/3z1UKyJtij06SOXkFeioxSGVyHiNghHHNDBiR
+	PMGozsEyFQoaujsRl7skNLbvZTcVyNnI=
+X-Gm-Gg: Acq92OHEVqSCARIa4rPc73daSyb63i9BexR2MJm4WTvWuE6mXvBCbwCzDPGikJEghCL
+	81vaDIRcW0jT0B0hP4UoDqlz8yOoQ5jA9nwSotAkAuW1XEpcpNMqsypdK/m9hogXhtMhjnRP6K8
+	ePtV6vjF8r3nLQvdRfA4nPp/39Yr03K/5xjCaM+gnOB9vmzIl/Xto3QFghOVMbn/QIeVdOG12vh
+	xJwRKl6oXiYKy6N0q74/+HVzWYrpdr7pHYFzqKkYjIIz+Zd+HuGtJCE8PEiJy/zerDIZBgsDYlx
+	6oq3sCPajhwj7VbOMbd8P/MQ2vw8uAm0s82ALyMyIYQzOrRR9LSuxDVhRSsQw0A7YbcgpSGNkeB
+	muXslKhVuvKEq94YmYfKrn8Y=
+X-Received: by 2002:a05:7301:6448:b0:2d3:4252:b13d with SMTP id
+ 5a478bee46e88-3039868bb9emr2318584eec.5.1779011300185; Sun, 17 May 2026
+ 02:48:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5afacskoalmd2u6s525dosvyrtr3j66ajd5m4p2ylymtlgytkz@excrdfpndx37>
+References: <20260516215354.449807-1-julianbraha@gmail.com>
+ <20260516215354.449807-2-julianbraha@gmail.com> <CANiq72kr=tzvEitYj6xyT=jGnKQZK1dmekSU3us7MWGTrv0FNA@mail.gmail.com>
+ <615113d6-7e90-4d54-ad1f-a6833474e8c9@gmail.com> <CANiq72=9nxRgfFf1WzWgp=TP9or=Mi=wLyME9-f2M4hti+ZNcg@mail.gmail.com>
+ <18809682-aa16-4ab4-b615-cefa525c872f@gmail.com>
+In-Reply-To: <18809682-aa16-4ab4-b615-cefa525c872f@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 17 May 2026 11:48:07 +0200
+X-Gm-Features: AVHnY4IqZjwtBaQ4bjp2dDDFDM7IN9UCZH5fs8MV0fMtXZ3wLSajt2Od6R0WmJM
+Message-ID: <CANiq72=2CFJGPcO_zP1wbgXiDAL=gOUcHRMMP_bEUa1U0rZB_Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 1/3] scripts: add kconfirm
+To: Demi Marie Obenour <demiobenour@gmail.com>
+Cc: Julian Braha <julianbraha@gmail.com>, nathan@kernel.org, nsc@kernel.org, 
+	jani.nikula@linux.intel.com, akpm@linux-foundation.org, gary@garyguo.net, 
+	ljs@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org, 
+	masahiroy@kernel.org, ojeda@kernel.org, corbet@lwn.net, 
+	qingfang.deng@linux.dev, yann.prono@telecomnancy.net, ej@inai.de, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 17, 2026 at 11:15:04AM +0200, Mateusz Guzik wrote:
-> On Sat, May 16, 2026 at 04:52:54PM +0200, Horst Birthelmer wrote:
-> > From: Horst Birthelmer <hbirthelmer@ddn.com>
-> > 
-> > The dcache only shrinks under memory pressure, which is rarely reached
-> > on machines with ample RAM, so cached negative dentries can accumulate
-> > without bound.  Give administrators a soft cap they can set,
-> > and a background worker that prefers negative dentries when reclaiming.
-> > 
-> > Two new sysctls under /proc/sys/fs/:
-> > 
-> >   dentry-limit             -- soft cap on nr_dentry.  0 (default)
-> >                               disables the feature; behaviour is then
-> >                               identical to before.
-> >   dentry-limit-interval-ms -- pacing for the worker while still over
-> >                               the cap.  Default 1000, minimum 1.
-> > 
-> > When the cap is exceeded, a delayed_work runs in two phases:
-> > 
-> >   1. iterate_supers() draining only negative dentries from every LRU.
-> >      Positive entries are rotated past so the walk makes progress.
-> >      DCACHE_REFERENCED is ignored here on purpose -- an admin-imposed
-> >      cap should evict even hot negatives before any positive entry.
-> >   2. If still over the cap, iterate_supers() again with the same
-> >      isolate callback the memory-pressure shrinker uses.
-> > 
-> > Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
-> > ---
-> > There was a discussion at LSFMM about servers with too many cached
-> > negative dentries.
-> > That gave me the idea to keep the dentries in general limited
-> > if the system administrator needs it to.
-> > 
-> 
-> I wrote about the negative entries problem here:
-> 
-> https://lore.kernel.org/linux-fsdevel/f7bp3ggliqbb7adyysonxgvo6zn76mo4unroagfcuu3bfghynu@7wkgqkfb5c43/#t
-> 
-> The mechanism as suggested here will end up evicting *useful* negative
-> entries. Granted, they will be recreated soon enough so it's not a
-> tragedy but it still is an avoidable perf loss.
-> 
-> What is needed in the long run is a mechanism which aggressively
-> recycles stale negative entries and recognizes which ones should be
-> saved for the time being.
-> 
-> Below some magic threshold you just allocate a new negative entry.
-> 
-> All new entries would get a grace period where they need to get hits and
-> prove useful OR get whacked. If you are at or above the threshold and
-> are allocating a new entry, you can whack the oldest negative one which
-> did not make it.
-> 
-> This is just one idea, what is not up for debate is the discrepancy
-> between small subset of negative entires with tons of hits vs the ones
-> which get virtually no traffic at all.
+On Sun, May 17, 2026 at 11:33=E2=80=AFAM Demi Marie Obenour
+<demiobenour@gmail.com> wrote:
+>
+> That's true.  Some distros (Fedora, Debian) don't like that either,
+> but that's a bigger ecosystem-wide concern.
 
-I'm trying not to focus that much on the negative dentries since it has
-no relevance for fuse, but was just a nice effect to solve that one, too,
-and a bit of 'when you're at it' logic.
-I'm more interested in throwing out the unused ones.
+Do you mean that distributions would like to package this tool on
+their own? If so, I don't see why packagers would be blocked.
 
-You are completely right in your analysis that this could remove fresh
-and useful negative dentries.
-
-> 
-> Whatever the mechanism it will have to take advantage of it.
-> 
-> > This is somewhat related to [1] where it would address the same
-> > symptoms but in a more unobtrusive way, by just garbage collecting
-> > the negative and then the unused cache entries.
-> > 
-> > The other effect I have seen regarding this is that FUSE
-> > will not forget inodes (no FORGET call to the FUSE server)
-> > even after the latest reference has been closed until much later.
-> > 
-> > In a FUSE server that mirrors the kernel cached inodes in user space
-> > because it has to keep a lot of private data for every node
-> > this puts an unnecessarry memory strain on that userspace entity
-> > especially if the memory is limited for its cgroup.
-> 
-> I don't know anything about how FUSE works. In this context I presume
-> you have a mount point backed by FUSE and the problematic memory usage
-> stems from inodes created against such a mount point.
-> 
-
-correct
-
-> This would suggest you would be better served with a mechanism which
-> allows userspace to cull some number of dentries for a given mount
-> point, maybe even with an optional preference for negative entries if
-> that's considered better for given fs. 
-> 
-
-As I mentioned in the other post, I kinda did this (not triggered by user
-space, though, just by a limit negotiated during init with user space) 
-just for fuse and was told that this kind of limit would be useful in vfs.
-
-> Or to put it differently, I would look into exposing sb shrinkers to
-> root instead of rolling with a global scan.
-
-This would be a cool idea.
-
-> 
-> > +static enum lru_status dentry_lru_isolate_negative(struct list_head *item,
-> > +		struct list_lru_one *lru, void *arg)
-> > +{
-> > +	struct list_head *freeable = arg;
-> > +	struct dentry *dentry = container_of(item, struct dentry, d_lru);
-> > +
-> > +	if (!spin_trylock(&dentry->d_lock))
-> > +		return LRU_SKIP;
-> 
-> If anything of the sort is to land, you definitely want to pre-check
-> d_count and d_is_negative without the lock.
-
-probably ... 
-I still think that a lock held is a good indicator that we can just move on.
-
-Thanks for your time,
-Horst
+Cheers,
+Miguel
