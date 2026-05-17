@@ -1,104 +1,261 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2DC33A03A;
-	Sun, 17 May 2026 17:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259D52DECD3
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 17:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779039762; cv=none; b=P6rghokparmhNUtee+ff0ETqA0AfEajQA/cs+r9a40Gl+nVgoH0Lodysz6sV39PyvCOTBv0/2wyM3Kj7eXuH+MkmND+Trs9vcLR5xFhVE37qDO1c5HPVcSQDYBG9WgFL6jfvtcZA45g8lfrfxe9Tbcka9kkp5vbksTbQxBExvlo=
+	t=1779040483; cv=none; b=dttAeb74tPDFp4a0i8DEby/ANyW+he0MEc3aAEUPKavhObnzh4XBbd/aR8WrDw5iB+OK/GhYHdJ2H+PVHVzIG6ivMgofXzS4xdkJjs6roQFPgrcC+v4UNUOCtwTog+cqOKWom31Zgs7PqwNGrkUYUOUFOAcnlvaDR6ZhG64iKfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779039762; c=relaxed/simple;
-	bh=mIIt+rPrya9rA0KovBDgwi0sHwBa4TedHEoMg1kEOwg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c5k6gnGoLVX7zOLWI+0DGEJx/PkIghMqJPg/amj7j9pMIsV8R+u52cf6B5W0l8ksCJ7s1BSnITsQhAFOn6EmqNvIQk6MhOd8DZoZSybord9lT/czGqlEWfX4v/Z+dVo8ul7vvxpFCJ7rtZj1vabAVuDaRvRFYOlVbsEeZVNT4CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KkaJhxGY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779040483; c=relaxed/simple;
+	bh=HV9+cXihAaH4KwSTsC1gpmYVeE6h/AHKaW49mEWHgB8=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dgHyTEBsbmSaiVouOpbGMfdoN87XH9QCyc5hFw69uSQKZLZbP6RFqXDEIjxs1M8sjYGzgCNfnRZnJf47R1qlaYOCYQutTq+8IONomWTJTMB1PRvYgr3W4o2s2DxLTkEQVh72zMzmczW3d95kqnBLzXh7uRDCWVHToeZqMmTg7U8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CJDcSzUZ; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KkaJhxGY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DACFC2BCB0;
-	Sun, 17 May 2026 17:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779039762;
-	bh=mIIt+rPrya9rA0KovBDgwi0sHwBa4TedHEoMg1kEOwg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KkaJhxGYX7lgZ9F9mKGUyhfhH7wkdWbaD0WNwKVI1tx6HVzkLhKss6TJSc8gFRxzA
-	 pB40KUWixstWeCK1cjYCyYvDOzTPzBAp/oaoU7/GP2499OW9W3dGaTXR6nSVSAlKUt
-	 Qp6JbD1ge0AX2m3ZTwRGfzS567WKH+j2gxlheV3priVgBwI8HH5k7vYLwRxpVdtj5M
-	 cUo2mJVsjMzK1jgKQkpaO9jy9kt029Re1ns/B0LzQUUPUt5RIs39y0j+8K5FlJyT11
-	 ttZTh1VsqGnsCOSFM9hmaHLURZRg2SFcsE1uAXDtmsVTmfa4MZHdejBGKzI8+LJMvr
-	 hxtr/YrWi7d3A==
-From: SeongJae Park <sj@kernel.org>
-To: Sakurai Shun <ssh1326@icloud.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 RESEND] design: fix typos in design.rst
-Date: Sun, 17 May 2026 10:42:32 -0700
-Message-ID: <20260517174233.1595-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260517073433.3015-1-ssh1326@icloud.com>
-References: 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CJDcSzUZ"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-45d96d21e82so734303f8f.0
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 10:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779040480; x=1779645280; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TnFwmmTG90t0fKQgEeFLZttD4NeL9fxw8K+kX1DEzbA=;
+        b=CJDcSzUZCydm54QBxUNXA+hA8oosDpavNttlf92pe5ylkavdt9zuD/uSVCsi1O9GyY
+         rCpfVm7ROr+J97t7odaTaHJHhsupkmYLyj6OBshs/YaCZrjOJtUCm1lAkcFvNV4R3yto
+         sVk4sUIsxl8FMdw1iQxsFdxtJpUJ8UBEDx9QVyDf4NvaSzm25xYfuVuc7en4tsUPKoNY
+         /Xc1/mAqn+/kQ5oUM4CFnwOfImFl3y/Q/G2mp9sPJFvwc8zWy0rxE2VJzSUQ22Td5jWT
+         kVGS502jHT+mScFwagskCd5FnVeTffQdCd/70mXdUYdo3fTaWLwB5nQBzWCWuEpIgczG
+         b7pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779040480; x=1779645280;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TnFwmmTG90t0fKQgEeFLZttD4NeL9fxw8K+kX1DEzbA=;
+        b=p0RgQ8nqB4m+cmkX/DLRSf4qBleziZqqiVA+zhH6MdFApmNRJ86LyM+ovLcQzeGlVs
+         aFFo5RSblC1UU1hKXE9EQ/Qyx5j0wxlfp2kWscccu7eJx19tVXlNlL+cCWszqj9b35oa
+         c5x8H64f3AHAXvHCLAjreZIVR2Z6Kdg0+sKt2gNcrcxE1kH9U5rW6WU+MeF8sjfr/1NH
+         pw1/anqCJfXFKH8Uxpa7ocoFZucEsoPVIoFgw5WaQ2nN3bu4X+CwJ+Q1OBYCOig7idmk
+         r5MKV9lCMfCWVUCJORMRvMVZ4SrGejnJxYc+LC0pQf8QgNttR9IsXyqtKJyfX8IHv7WH
+         S8bA==
+X-Forwarded-Encrypted: i=1; AFNElJ92FjbjoInM8Q+qmZDrikMWBwI2Q+fGAnhN6/7ehZuWm/JlMtd/EwtgCUA3bkZouEpTDe+dwMWbvJw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxS0Mtod3Fp4OdiJFy3OAXctMcr9Nl1sRVcm0ofCtzfYAAV8Cig
+	VqX0rVDjPrJxMR1/rqlIyoNYVCNvRM74LgI/o03jCmArsbuAlAqdeNCg
+X-Gm-Gg: Acq92OFewqF7BTh4MMoU9KYPp7TRAoRHYo01Scv45FAzCmxnvagT6SC1K44xTym1XbL
+	j4+l6fTuD69VQrDvdKV8F5PfL22SxhHUFepN2OnGp5KHJ1acIxSEi8urel3/DkxWm3Uz8rVEIir
+	wDfnXJWMartPu+iIqtOORetCE32jamlaP81q2HoDHYHc75D67mn8LhLeVijvLADQZS048kbJ0bY
+	5zXF/2jSO0pyQ50D+A7l+Y7b/pJQQZax4yp10uA/S2e1tas55ijvmJSocil/2mTJGnoax/wORx1
+	cTPPLVwiFkAOoB7JiBsHzsB2m9tOEsGufVSyH0oiGLYCfvffFAHg0BlUBNg0S9M3Z4q0ZWap1eB
+	HdYyOOIb0JEKfdCcnfQyG7WNnLuLrFCE16HS4B17PNlvjaVdQQA1NTeipEzUhSZwVJToxFOuFKu
+	4jhZ85Bc++cDpFfTUyRSfHsf7ToggOhaO6WEbyPXozPUR5x16Mwgw/semjx5knpd7dU989XYcpn
+	INHD6SCIxqg4kA44tSzFqSOBTI+bJos8Q+pzA/zqXnc6vaMEA==
+X-Received: by 2002:adf:f643:0:b0:45e:73b6:d107 with SMTP id ffacd0b85a97d-45e73b6d124mr3699595f8f.41.1779040480412;
+        Sun, 17 May 2026 10:54:40 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9e768bcesm32883396f8f.4.2026.05.17.10.54.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2026 10:54:39 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Sun, 17 May 2026 18:54:34 +0100
+To: Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>
+Cc: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
+	rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH RFC v4 10/10] docs: iio: add documentation for ad9910
+ driver
+Message-ID: <lydcfe6pxgswwysqqnn3mqjwj2b2x3ldcnvwhnbh5tukdummps@f4b3h4kpf7ff>
+References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
+ <20260508-ad9910-iio-driver-v4-10-d26bfd20ee3d@analog.com>
+ <b8f9a174-f3d0-4cb8-a571-605be79165d6@baylibre.com>
+ <zvulxrrvg4sf7m5pjfpfucg7yssgallfu6zi6mcyblu2qy24hn@wdzs7h77vkoz>
+ <18c2eab9-c0c7-4e93-b4e8-73b18531e784@baylibre.com>
+ <uphcx5zr4lmukuom75g66hp4agurty7yq6mo6ri6otrsscqfek@tn3u5jjszaoy>
+ <5bce7868-feca-4c54-a14d-ad4bf4072c29@baylibre.com>
+ <20260517164418.37f13914@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260517164418.37f13914@jic23-huawei>
 
-Hello Sakurai,
-
-
-Thank you for sending v2 of this patch!
-
-As I commented [1] to the previous version, let's use 'Docs/mm/damon/design:'
-as the prefix of the subject, e.g., "Docs/mm/damon/design: fix three typos"
-
-On Sun, 17 May 2026 16:34:26 +0900 Sakurai Shun <ssh1326@icloud.com> wrote:
-
-> L140: "unsinged" -> "unsigned"
-> L371: "sampleing" -> "sampling"
-> L387: "multipled" -> "multiplied"
+On 26/05/17 04:44PM, Jonathan Cameron wrote:
+> On Mon, 11 May 2026 10:23:35 -0500
+> David Lechner <dlechner@baylibre.com> wrote:
 > 
-> Signed-off-by: Sakurai Shun <ssh1326@icloud.com>
+> > On 5/11/26 10:02 AM, Rodrigo Alencar wrote:
+> > > On 26/05/11 09:46AM, David Lechner wrote:  
+> > >> On 5/10/26 4:30 AM, Rodrigo Alencar wrote:  
+> > >>> On 26/05/09 06:42PM, David Lechner wrote:  
+> > >>>> On 5/8/26 12:00 PM, Rodrigo Alencar via B4 Relay wrote:  
+> > >>>>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > >>>>>
+> > >>>>> Add documentation for the AD9910 DDS IIO driver, which describes channels,
+> > >>>>> DDS modes, attributes and ABI usage examples.  
+> > >>>
+> > >>> ...
+> > >>>  
+> > >>>>> +       must be a power of 2.
+> > >>>>> +
+> > >>>>> +   * - ``frequency_offset``
+> > >>>>> +     - Hz
+> > >>>>> +     - Base FTW to which scaled parallel data is added. Range :math:`[0, f_{SYSCLK}/2)`.
+> > >>>>> +
+> > >>>>> +   * - ``phase_offset``
+> > >>>>> +     - rad
+> > >>>>> +     - Base phase for polar modulation. Lower 8 bits of POW register.
+> > >>>>> +       Range :math:`[0, 2\pi/256)`.
+> > >>>>> +
+> > >>>>> +   * - ``scale_offset``
+> > >>>>> +     - fractional
+> > >>>>> +     - Base amplitude for polar modulation. Lower 6 bits of ASF register.
+> > >>>>> +       Range :math:`[0, 1/256)`.
+> > >>>>> +  
+> > >>>>
+> > >>>> I guess there was some discussion on these attributes. I see some of these in the
+> > >>>> ad9832 driver in staging, but I'm guessing they are new ABI. It isn't clear to
+> > >>>> me from the documentation here what they actually do though. I guess they are
+> > >>>> just basic transformations on the input signal?  
+> > >>>
+> > >>> Not sure how the ABI is not clear:
+> > >>>
+> > >>> 	For a channel that allows amplitude control through buffers, this
+> > >>> 	represents the value for a base amplitude scale. The actual output
+> > >>> 	amplitude scale is a result with the sum of this value.
+> > >>>
+> > >>> So yes, it is a basic transformation.  
+> > >>
+> > >> I didn't have time to read the ABI docs yet. For scale_offset though,
+> > >> how is that different from the existing offset attribute?  
+> > > 
+> > > I suppose that existing offset ABI is applied to (raw * scale), mostly for
+> > > voltage channels, here the scale_offset is an offset to the scale itself.  
+> > 
+> > 
+> > Ah, so a very general case would be (raw * (scale + scale_offset)) + offset
+> > 
+> > when the scale can change as a function of time and comes from an external
+> > source.
+> Ah. Similar question to what I was commenting on.  Though maths is currently wrong
+> for normal offset application as it is pre scale.
+> 
+> 
+> 	(raw + offset) * scale is normal case.
+> This is proposing (I think)
+> 
+> 	(raw + offset) * (scale_offset + scale)
+> 
+> Altvoltages are a little odd though in that we are really always kind of dealing
+> in scales as it's the peak voltage that is the base unit. So they are kind
+> of always about scale - hence for such a single offset would be shifting the
+> mid voltage point which I guess is different form scale_offset.
 
-Assuming the subject prefix suggestion is accepted,
+As mentioned in the previous patch, I'd say we don't handle voltages in altvoltage
+channels because voltage values depends on external circuitry and they vary with
+frequency. Scale control is often achieved with hardware_gain in dB, but the
+dB scale would not be good to achive the 32 bit control of the "raw" values.
+Then, here it is implemented from 0 to 1.0, where 1.0 is the full scale.
 
-Reviewed-by: SeongJae Park <sj@kernel.org>
+> 
+> Hmm. Not sure I can draw this but i'll give it a go...
+> 
+> So with no modulation going on and scale = 2.0, Raw 1000. 
+> (imagine these are sign waves)
+> 
+>   _         _       _ 2V
+>  / \       / \
+> /___\_____/___\___  _ 0V
+>      \   /     \
+>       \_/       \__ _ -2V
+> 
+> That is sine wave -2/2V swing.
+> 
+> Now if scale or voltage double it get twice as big.
+> 
+> If offset + 100
+> 
+>   _         _       _ 3V
+>  / \       / \
+> /   \     /   \   
+> _____\___/_____\___ _ 0v
+>       \_/       \__ _ -1V
+> 
+> Scale offset at this point seems straight forward.. Gets more fun when it's modulated.
+> 
+> For now apply a scale offset of -1 and scale becomes 2 - 1 == 1. 
+>   _         _       _ 1.5V
+>  / \       / \
+> /   \     /   \   
+> _____\___/_____\___ _ 0v
+>       \_/       \__ _ -0.5V
+> 
+> So for simple case we could just role it into scale. However the fun here
+> I believe is that _scale is controlled by say a ramp generator.. 
+> 
+> Ok. I can't really draw this.. Lets try with xs
 
-If you willing to, please send v3 with the change.  But please do so after
-giving time (say, one day?) for others to further comment.
+The ramp pattern would be the envelope of the actual varying signal.
 
-Unless you object to the subject prefix change suggestion, Andrew might pick
-this after making the subject line change on his own.  I will also pick this
-with my subject line change suggestion on my tree (damon/next), and repost it
-for mm.git inclusion if it seems Andrew will not do so.
+> 
+> Initial scale 1, ramping to 2 over a couple 1ish cycles, offset 1.  That is
+> computed sale is going from 2 to 3.
+>                    Peak 3
+> ____________________________ 3V
+>     Peak 2.33         xx
+> ______x_______________xx____ 2V 
+>      xxx             x  x
+>    xx   x            x
+>  xx      x          x
+> x_________x_________x_______ 0V   
+>            x       x 
+>             x      x
+>              x    x
+> ______________x__x__________ -2V            
+> _______________xx___________ -2.5
+>                 Peak 2.67
+> 
+> Key being really where this starts which is scale_offset = 1 rather than starting
+> ramp from scale of 0.
 
-So, assuming you are ok with my subject line change suggestion, no more work
-from your side is needed (unless you willing to do some).  Thank you for your
-contribution, Sakurai :)
+yeah... that makes sense. Note that scale_offset ABI is defined generically, but
+it is proposed for the parallel port mode with polar as destination. That is needed
+because the amplitude is defined by the 6-bit offset (LSB) plus 8-bit input (MSB) that
+would come from the buffer.
 
-> ---
+> Having drawn these I'm even less clear in my head on whether we can move from
+> expressing that scale_offset and scale_roc in volts  - i.e. not as scales
+> or not.
 
-Also, from the next time, please add patch changelog here [2].
+Yes, I'd say volts is not the right unit to use here. We may have the options:
+- raw values
+- fractional or proportional values from 0 to 1.0 (the one I am using here)
+- dBFS
 
+> Given need for separate control for overall mid point of waveform and the
+> starting point of scaling I think not.  Ah well.  The challenge will be
+> how to makes sure folk looking at the ABI can understand the complex
+> interactions of all these parameters. We may need some extra docs with
+> better diagrams than above.
+>               
+> Jonathan
+> 
+> 
 
-[1] https://lore.kernel.org/20260516170847.146524-1-sj@kernel.org
-[2] https://docs.kernel.org/process/submitting-patches.html#commentary
+-- 
+Kind regards,
 
-
-Thanks,
-SJ
-
-[...]
+Rodrigo Alencar
