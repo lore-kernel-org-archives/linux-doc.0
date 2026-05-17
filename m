@@ -1,189 +1,191 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486532F5313
-	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 19:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554F4305669
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 19:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779044659; cv=none; b=aOzMIeJlG8j/+Nb4FwfHQgPJXNfsqGowIIP2eHVulFypYClG7FgSi1deVKVZHI2KGUd93Kr2vkeSF6t27zGWbMeI8wNO7GNSlyFRe5HwDmwYFK/HksTaaWmDBH2wkNclIJeKNrXlb0DX4oEsMRC3bTkk3nMHJj1z2fZfjhAG6fQ=
+	t=1779045698; cv=none; b=PY6E5WD8rk5R9zhyVmM9QU0+QMFsyHk9/mv7g5440AEeW7G8Y7wnpOUlRIN+JCmRdeJ879ZUVe0WYxVVsQySLqycDFihVilPV/i+AZBMhtqqMqlZDpJebaQvxRgZcw1kLya3R/nRYed5ItI3rN9NHtZYc89auV0cK0zKnMAR2nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779044659; c=relaxed/simple;
-	bh=g79u3gMKe4oZqB979X3yLwiUop9hrYjCE/ZQ9QdtcQ0=;
+	s=arc-20240116; t=1779045698; c=relaxed/simple;
+	bh=lH1GgG6AZ3p8TFNccFcpJy8FScpxCDQooWelGA+EHCY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j/ir15A67SIBSRGqYnIGd42wUGl3DbIMc+ybG48qT4Z/vz7qWO0WlUeZS2th2I/Sni5o5WxknaaT0elGdqRgBqzcwLWDq7t4A+Dy1MuTeECAFJPh0CNqnGEZvf29zz/AUzvyTe33Z1e0bvnpVWeKpaHMqDm0c12Mxo8+WA4QwW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gkFieru9; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=Ni3ixQli4UVCTALYwXsmG8ioRzysE3llU5ImfvyNEig+jX0UQBX3q+2ez0KSQFxv2lEyssijbdpGqkw6CaM906Ps96FSSWHecqZD3AHaNdVLYLif4/p57W5simgLns+qSj9JtohnW8G7c8pj4NdswUdNpp6LfU+uacxAONSiI5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=WNgLu7g9; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gkFieru9"
-Message-ID: <65228806-6ed3-4577-9037-13fd5eb8f9b6@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779044655;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ocLUawCgIiqgFoSO6rtDbcAWX6JsO4JMBPCybL4HayA=;
-	b=gkFieru93xndDsQeIR8L/2dWYTkeYNnvRucTZ9LF4xAIwFi8WXcjrY2y6m1YkqL2Y6qXyK
-	nLaxwIy6lgJQFur4fYsW9J/s+HrOFNCk0oIqo2jzUFKu4fiCHeDb3OYg7GWHR3xxNBaQ7Q
-	IZ+6RApE0nMovOtW1+xr+7ARRbFzvN4=
-Date: Sun, 17 May 2026 12:04:04 -0700
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="WNgLu7g9"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-691de293326so818385eaf.3
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 12:21:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1779045694; x=1779650494; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=avFUFeQjZc5s2Fh1Gw+bXzbv6Nmu8tEYY1j2IJydQzo=;
+        b=WNgLu7g9882rZjfblRCA0f7R+Si3jCbcL1IoVyJ8xem5nV0o4D+3VgpV6BfeA4DypW
+         7Vo0DDNEbaIeGQq9qpNKAXpZ3JbsRUKtkXXyQbd7LYp+UzlHtbWugKcwH9IYl6v+zreR
+         KhBLKDwI1nosZXqI7ZfeE+rJ1YwQVs/CmhQpEBtyQpi5ukocCLV7/wsBXGELBKHDcbGB
+         jQUO0U0mVjc2XXiatiROYmSGkeYuWtLX3PIGK25sItq8Y0yZxQKl3Yr3clEDHEZwTrzK
+         o/JNEU0loLdHQ2z5VhS0G0B/wYf0i1l9qJZLFJlBmossgWlMzZJb73d4iQJ+pXbLR2yZ
+         db8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779045694; x=1779650494;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=avFUFeQjZc5s2Fh1Gw+bXzbv6Nmu8tEYY1j2IJydQzo=;
+        b=X2vKYkY8bl0w1W7LYxUTfZGiLvXCXsh/oiugKwthwy4DddqI4pIl2b53TBme7BEkA9
+         3N9ePkW79o1K64A7oTLWKdRx6xv3gDSaw+Qfez+UMXt7jQtFJA8g59TzfzM1rGyVP8Hq
+         JRq6w7Yg7oj3JCt2ftfHY5mCl9KHoC5MnIdUKNvrD6sRnRijtuEBZQQjNFRy7x8XMMtD
+         wihB+/uzmAMi6LisFq+fGDqPj2EOk3ZJoL1V/ZtwKdO76iWlIyfngY2l4NGXfJJg2l4v
+         yH1R2EeLZs0fxpKf8Rn208EpQqBwSHMnYV/Za9snbeSfCiO0F54LzycHCdJVzyL+SMg0
+         f3Uw==
+X-Forwarded-Encrypted: i=1; AFNElJ9x1XGQUgziku3Wghg+4/8oWo5OiORbujTm8pXtDnCkT87CdPMcPs4xKDE2P3w565M0JrmAKlNOAro=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzB2tbcxI7kv+r2CFnusAPRw+/u1wX164A+JttudiNE8mpZHufM
+	TQmRSigVR22Fj5Bl5vpVIYqb2undMRJCWJXtg/l4McVzODFowAalTnsODY2fBveqtI8=
+X-Gm-Gg: Acq92OF+0j8/nLGW0byheFDBKPJH4XXu9oAeULCsllpa/tdQaWRI7f30CHn0M9cD8ty
+	Xdg+4BEhXJWtq1ADNJ9+DZVTUgwq0qRV9vMDJS8ZoBdlac4iARpwZREZj5LU3O1mwC7S3oFgtf2
+	XuQdIAnecoekdnTQMv1i35buD1hUfwNKgosDh7Tb+5tDhys4XNFUgq2+lPcGqAEiwtUxcet9PMe
+	LHUa9yTQEh/IYrIEtdG0VdF7owcBHeIdrIUAxCQjWlDMaJF6nbsg/hawkBaQ0lpdVMYcj2NAiZy
+	NYqU7nnuqHMNk6lbxG3yN5thTpG/ZDkPUPkrH8pn8+NYtEk6Hr5FhELDIotMtr3vkXJUFnDzgxc
+	cK2eqnEQiJbLJo/TEHAYFsvn3sUU2uebkpwyqMzWEiADcu+W8kRNRCdzDzp2aMwSCVA5/z04QH5
+	fyQVZ5/zAyTi0u4OmTxINNOGD3qlWxf92UqN0WqqHmZNKAIE8ccmTaoSox6Y/iDiFj7yQts0WDL
+	40auRUF6g==
+X-Received: by 2002:a05:6820:4c0b:b0:694:8e6e:2e1c with SMTP id 006d021491bc7-69c9bfc92a9mr7692055eaf.60.1779045694287;
+        Sun, 17 May 2026 12:21:34 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:7a4b:ddf0:f61:f58d? ([2600:8803:e7e4:500:7a4b:ddf0:f61:f58d])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69d045e6567sm4530406eaf.3.2026.05.17.12.21.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 May 2026 12:21:32 -0700 (PDT)
+Message-ID: <58a66855-9fb3-48ca-8cae-ff9277f745df@baylibre.com>
+Date: Sun, 17 May 2026 14:21:30 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 05/16] vfio: Enforce preserved devices are retrieved
- via LIVEUPDATE_SESSION_RETRIEVE_FD
-To: Vipin Sharma <vipinsh@google.com>, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-pci@vger.kernel.org,
- "yanjun.zhu@linux.dev" <yanjun.zhu@linux.dev>
-Cc: ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com,
- ankita@nvidia.com, apopple@nvidia.com, chrisl@kernel.org, corbet@lwn.net,
- dmatlack@google.com, graf@amazon.com, jacob.pan@linux.microsoft.com,
- jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, julianr@linux.ibm.com,
- kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com, lukas@wunner.de,
- michal.winiarski@intel.com, parav@nvidia.com, pasha.tatashin@soleen.com,
- praan@google.com, pratyush@kernel.org, rananta@google.com,
- rientjes@google.com, rodrigo.vivi@intel.com, rppt@kernel.org,
- saeedm@nvidia.com, skhan@linuxfoundation.org, skhawaja@google.com,
- vivek.kasireddy@intel.com, witu@nvidia.com, yi.l.liu@intel.com
-References: <20260511234802.2280368-1-vipinsh@google.com>
- <20260511234802.2280368-6-vipinsh@google.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <20260511234802.2280368-6-vipinsh@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 3/6] iio: adc: ad4691: add triggered buffer support
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260515-ad4692-multichannel-sar-adc-driver-v11-0-eab27d852ac2@analog.com>
+ <20260515-ad4692-multichannel-sar-adc-driver-v11-3-eab27d852ac2@analog.com>
+ <9b7986e1-6550-415d-b301-33089ba10177@baylibre.com>
+ <20260517132526.27c71b70@jic23-huawei>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20260517132526.27c71b70@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
+On 5/17/26 7:25 AM, Jonathan Cameron wrote:
+> On Sat, 16 May 2026 12:32:51 -0500
+> David Lechner <dlechner@baylibre.com> wrote:
+> 
+>> On 5/15/26 8:31 AM, Radu Sabau via B4 Relay wrote:
+>>> From: Radu Sabau <radu.sabau@analog.com>
+>>>
+>>> Add buffered capture support using the IIO triggered buffer framework.
+>>>
+>>> CNV Burst Mode: the GP pin identified by interrupt-names in the device
+>>> tree is configured as DATA_READY output. The IRQ handler stops
+>>> conversions and fires the IIO trigger; the trigger handler executes a
+>>> pre-built SPI message that reads all active channels from the AVG_IN
+>>> accumulator registers and then resets accumulator state and restarts
+>>> conversions for the next cycle.
+>>>
+>>> Manual Mode: CNV is tied to SPI CS so each transfer simultaneously
+>>> reads the previous result and starts the next conversion (pipelined
+>>> N+1 scheme). At preenable time a pre-built, optimised SPI message of
+>>> N+1 transfers is constructed (N channel reads plus one NOOP to drain
+>>> the pipeline). The trigger handler executes the message in a single
+>>> spi_sync() call and collects the results. An external trigger (e.g.
+>>> iio-trig-hrtimer) is required to drive the trigger at the desired
+>>> sample rate.
+>>>
+>>> Both modes share the same trigger handler and push a complete scan —
+>>> one big-endian 16-bit (__be16) slot per active channel, densely packed
+>>> in scan_index order, followed by a timestamp.
+>>>
+>>> The CNV Burst Mode sampling frequency (PWM period) is exposed as a
+>>> buffer-level attribute via IIO_DEVICE_ATTR.
+>>>
+>>> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+> 
+>>> +
+>>> +static int ad4691_manual_buffer_preenable(struct iio_dev *indio_dev)
+>>> +{
+>>> +	struct ad4691_state *st = iio_priv(indio_dev);
+>>> +	unsigned int k, i;
+>>> +	int ret;
+>>> +
+>>> +	memset(st->scan_xfers, 0, sizeof(st->scan_xfers));
+>>> +	memset(st->scan_tx, 0, sizeof(st->scan_tx));
+>>> +
+>>> +	spi_message_init(&st->scan_msg);
+>>> +
+>>> +	k = 0;
+>>> +	iio_for_each_active_channel(indio_dev, i) {
+>>> +		if (i >= indio_dev->num_channels - 1)
+>>> +			break; /* skip soft timestamp */  
+>>
+>> I don't think timestamp gets set in the scan mask. It is handled separately.
+> 
+> FWIW that is a sashiko false postive (I believe anyway!)
+> If we do hit this please shout as we have a core bug.
+> 
+> If anyone has time to look at how hard it would be to tweak
+> iio_for_each_active_channel to skip a last element timestamp that
+> would be great.
+> 
+> I think that iterates one too far which is what sashiko is tripping over.
+> 
+> I'm only keen to fix that if we can make it low cost and hid it entirely
+> from drivers.
+> 
+> Jonathan
+> 
+This is what I came up with (totally untested).
 
-在 2026/5/11 16:47, Vipin Sharma 写道:
-> From: David Matlack <dmatlack@google.com>
->
-> Enforce that files for incoming (preserved by previous kernel) VFIO
-> devices are retrieved via LIVEUPDATE_SESSION_RETRIEVE_FD rather than by
-> opening the corresponding VFIO character device or via
-> VFIO_GROUP_GET_DEVICE_FD.
->
-> Both of these methods would result in VFIO initializing the device
-> without access to the preserved state of the device passed by the
-> previous kernel.
->
-> Reviewed-by: Pranjal Shrivastava <praan@google.com>
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> Co-developed-by: Vipin Sharma <vipinsh@google.com>
-> Signed-off-by: Vipin Sharma <vipinsh@google.com>
-> ---
->   drivers/vfio/device_cdev.c             |  8 ++++++++
->   drivers/vfio/group.c                   |  9 +++++++++
->   drivers/vfio/pci/vfio_pci_liveupdate.c |  6 ++++++
->   drivers/vfio/vfio.h                    | 18 ++++++++++++++++++
->   4 files changed, 41 insertions(+)
->
-> diff --git a/drivers/vfio/device_cdev.c b/drivers/vfio/device_cdev.c
-> index 1ab07ccaf3ab..4df0495941c6 100644
-> --- a/drivers/vfio/device_cdev.c
-> +++ b/drivers/vfio/device_cdev.c
-> @@ -49,6 +49,14 @@ static int vfio_device_cdev_open(struct vfio_device *device, struct file **filep
->   		}
->   
->   		*filep = file;
-> +	} else if (vfio_liveupdate_incoming_is_preserved(device)) {
-> +		/*
-> +		 * Since it is live update preserved device, it must be
-> +		 * retrieved via LIVEUPDATE_SESSION_RETRIEVE_FD instead of
-> +		 * opening /dev/vfio/devices/vfioX.
-> +		 */
-> +		ret = -EBUSY;
-> +		goto err_free_device_file;
+Since timestamp can never be set in scan_mask/active_scan_mask, it should
+be safe to exclude it from masklength without breaking existing code.
 
-When vfio_liveupdate_incoming_is_preserved(device) returns true, 
-vfio_device_put_registration(device) is not called in this path.
+I didn't check all callers of masklength/iio_get_masklength() though.
 
-Is vfio_device_put_registration(device) instead invoked from the 
-err_free_device_file error handling path?
+---
+diff --git a/drivers/iio/industrialio-buffer.c b/drivers/iio/industrialio-buffer.c
+index 9d66510a1d49..17f539fc23e2 100644
+--- a/drivers/iio/industrialio-buffer.c
++++ b/drivers/iio/industrialio-buffer.c
+@@ -2300,8 +2300,10 @@ int iio_buffers_alloc_sysfs_and_mask(struct iio_dev *indio_dev)
+ 	if (channels) {
+ 		int ml = 0;
+ 
+-		for (i = 0; i < indio_dev->num_channels; i++)
+-			ml = max(ml, channels[i].scan_index + 1);
++		for (i = 0; i < indio_dev->num_channels; i++) {
++			if (channels[i].type != IIO_TIMESTAMP)
++				ml = max(ml, channels[i].scan_index + 1);
++		}
+ 		ACCESS_PRIVATE(indio_dev, masklength) = ml;
+ 	}
+ 
 
-Zhu Yanjun
-
->   	}
->   
->   	file->private_data = df;
-> diff --git a/drivers/vfio/group.c b/drivers/vfio/group.c
-> index b2299e5bc6df..62b4eaabc829 100644
-> --- a/drivers/vfio/group.c
-> +++ b/drivers/vfio/group.c
-> @@ -316,6 +316,15 @@ static int vfio_group_ioctl_get_device_fd(struct vfio_group *group,
->   	if (IS_ERR(device))
->   		return PTR_ERR(device);
->   
-> +	/*
-> +	 * This device was preserved across a Live Update. Accessing it via
-> +	 * VFIO_GROUP_GET_DEVICE_FD is not allowed.
-> +	 */
-> +	if (vfio_liveupdate_incoming_is_preserved(device)) {
-> +		vfio_device_put_registration(device);
-> +		return -EBUSY;
-> +	}
-> +
->   	fd = FD_ADD(O_CLOEXEC, vfio_device_open_file(device));
->   	if (fd < 0)
->   		vfio_device_put_registration(device);
-> diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> index 11c3bc8a8dcd..731a3e34085f 100644
-> --- a/drivers/vfio/pci/vfio_pci_liveupdate.c
-> +++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> @@ -47,6 +47,12 @@
->    *   ...
->    *   ioctl(session_fd, LIVEUPDATE_SESSION_FINISH, ...);
->    *
-> + * .. note::
-> + *    After kexec, if a device was preserved by the previous kernel, attempting
-> + *    to open a new file for the device via its character device
-> + *    (``/dev/vfio/devices/X``) or via ``VFIO_GROUP_GET_DEVICE_FD`` will fail
-> + *    with ``-EBUSY``.
-> + *
->    * Restrictions
->    * ============
->    *
-> diff --git a/drivers/vfio/vfio.h b/drivers/vfio/vfio.h
-> index 0854f3fa1a22..5269fe021ee3 100644
-> --- a/drivers/vfio/vfio.h
-> +++ b/drivers/vfio/vfio.h
-> @@ -11,6 +11,7 @@
->   #include <linux/cdev.h>
->   #include <linux/module.h>
->   #include <linux/vfio.h>
-> +#include <linux/pci.h>
->   
->   struct iommufd_ctx;
->   struct iommu_group;
-> @@ -461,4 +462,21 @@ static inline void vfio_device_debugfs_init(struct vfio_device *vdev) { }
->   static inline void vfio_device_debugfs_exit(struct vfio_device *vdev) { }
->   #endif /* CONFIG_VFIO_DEBUGFS */
->   
-> +#ifdef CONFIG_PCI_LIVEUPDATE
-> +static inline bool vfio_liveupdate_incoming_is_preserved(struct vfio_device *device)
-> +{
-> +	struct device *d = device->dev;
-> +
-> +	if (dev_is_pci(d))
-> +		return to_pci_dev(d)->liveupdate_incoming;
-> +
-> +	return false;
-> +}
-> +#else
-> +static inline bool vfio_liveupdate_incoming_is_preserved(struct vfio_device *device)
-> +{
-> +	return false;
-> +}
-> +#endif /* CONFIG_PCI_LIVEUPDATE */
-> +
->   #endif
-
--- 
-Best Regards,
-Yanjun.Zhu
 
