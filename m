@@ -1,161 +1,107 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1162C35A388
-	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 12:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779021343; cv=pass; b=nUv26+b+MoGbeKD9sa2IihCxe2XYktH3fo8ntNzplgu6LuIYXmZdf+D4O+7Nl2Yaew1Ut3BrdLbyZwOmPwr8PwgEeYdTEwDxVvVbuPLS2PQkNoqDCitYtZRm5nXKJ4Tk9af/bQuwTUmIG8KGbjX43h/e2GmuGSPgVkCsssAQZfo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779021343; c=relaxed/simple;
-	bh=AGbyvD1A3j38Oj/KC8gvWB2798BTRZG+Gqsn6fkT65I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FZg48y1pK4sGRNdJQqb1NFHoWZjP/auZFRJLkqpDcBvmFoY6QtrLaMvuXE/n9p+GzBh33/r7Sgc0b6mHDC10Y+c1QaUp5HdGQbTUngw6+pRxgZRiRSDaTyCIgozgRU2Rl9hpvQdgmGGjt/0C87biIwvgDsUdKGiei4P7RXzFve8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZjKGcA1d; arc=pass smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90BF2DC798
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 12:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779022408; cv=none; b=cJl0fOwH2RcB/fuA8GNui7Qe7KXFlf2KJxlETDbuPV+EOFAJlbbqctd2oI4FAjKSxb0M1aGlPKaS+jXxnoFToVV+ZTQHFFzHNSEVfd++pVJymgp9rtW3pTFaDW70aRoEpbkGf/UWZnNLYZ+kQoATKQxKMCaJyrA5L67k62PVdZQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779022408; c=relaxed/simple;
+	bh=391qIWo4cYVk+od4CnAXI3LRAlbBgSeafbcDlO1t8dE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ho+YiMfQr18T72V+hI3OLHc7/PnNZlvgTCjpJGx/tJzCo+kyIPgLb83EgoHN18vfibcWCeRJR43p0cjOy9k1S9BnMr/QSrY+BcmyaanIQdTwy9Qbialch0qc5sxPJ5Yio2E+0UuiGVhjx/wBR1hbADRhaagbIif/HjION+eAGjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TJsZfePT; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZjKGcA1d"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2f13ae64db1so44602eec.3
-        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 05:35:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779021341; cv=none;
-        d=google.com; s=arc-20240605;
-        b=V0Z5gMoI4dlyZxtOY8slDYU2dgJD4f27VRTNtueJA+Vfm4WYoIrda/tgnFsFCyLfu5
-         hzEbqdjaqcDaR27vPioy712HwGAbWoMx+TfXLRW9F7gDCYltWp9vU24rj+avMikGMcbE
-         6TgFHH+NAM9rGzVXbQuflDXkH7GatzCBSw7EUElR6REZas/2eIwhypUtT5ZQ1o2QEc1d
-         BBndJd+Z+g1Uig7PG/tIL9dAR5NrsH2A6Zt4sqnk4Oj9Ex06DNFmPCjCzNO9O+S0MCl4
-         M1g/D0XBFagcm3o4aKt+MQkubindp6PuAI/DRVlIDHQbi5cVQ1hZxsxDemEgnRijidm7
-         +5Xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AGbyvD1A3j38Oj/KC8gvWB2798BTRZG+Gqsn6fkT65I=;
-        fh=tko7vhhcdcLn1YwHrR1BA+Ve4bLTpbI1zy5XxlzzVSk=;
-        b=A+MPI94MafVFl8wi9xHhjeA4cCTOuO6EwRnxV61odZiMRiQBqJGmG4lmd1ba3EDLOe
-         n0ZXjv7K95L0AUhEtu2RkctbNfdFe1eAvM2bZly17EIDxV+h6Je6BLzEtAyV9NFhuzs7
-         M+uCXsR3ebj2OS/kfp57+DBRScXRfJScnPEFNDRVcXb2zvGvTC+UxRngVsjbLEZyC4I4
-         94LU8nvql7eD1PnpvwOjRWBZGBRf1atbdfTBl4cQh43s8CJ5DVq4XSnFZT7cCVv6/BxU
-         bqhWgMBhGM4pT/Qoa5T5OYDCi+DtMt+8f6oDdm2jxOM5J/NWiFx6B8sHChl7rfPhzC8H
-         M1pA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJsZfePT"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c70c112cb61so1087795a12.0
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 05:53:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779021341; x=1779626141; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AGbyvD1A3j38Oj/KC8gvWB2798BTRZG+Gqsn6fkT65I=;
-        b=ZjKGcA1dSL5wVUTKvrIzCjFDf2h01d2J7ChDnaeITFYcJLDQWYhmRoPXDxVS4eR68N
-         f4CI+3SI5f0LpgkG2iZFGfM6dz2MxyktVDFrl1HxTLnDBl08IF+uGDe6S7o6Iugy8Tbh
-         +WhaWOrnyP9BooFnYjLOERAgA9ttFatntyMRqi/fXiK+38pc1zNokRivepbOlXFmlV7x
-         bJ/d5vFnJLN9WYEiNWEoaRM1Ll9YeC1I4/e61YFOVW9FxzLI4KD0xAfaap4ZFxzvgOCL
-         Pe5iLiocZSuJ7q1qYLGZLWBiHZVAC8XL+7Q+eNaCMy3A7ZKkG18Od4uwxjH/+AqjlDAu
-         4sFQ==
+        d=gmail.com; s=20251104; t=1779022406; x=1779627206; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RHZ1M4yEHAJJ16tGf5b4knwqeJ/DaNdMkNl3YNcxA30=;
+        b=TJsZfePTaj6ODxDjQSanombBTZZBx+PVwSOnJeLxTcrow3h2sIFG/UuKnePae/+ItK
+         crF3Ls+Bh9RXmYqYSYVd28JkCNP/WTiu5+SZ4kZimUHhSV39VrzgUuy8msj+9vEUu7Xm
+         M3LK1Hnzjz+6awd+P4iJzpx/MEF5bCxLLkeg64rSfXtM9dtHqi9aWy74VoRhLTyRCrs0
+         ZTq4BaGhd0y9DmljrVj0UuGNiBk85CqfdGjNoyYNBqFWkJFxVPISKfueFF0pp7K37Ofx
+         t5Nrq3dksP7selcJcBTDehdmGqyQX5l2p8YAyYtQ7zrz/N8cAEs/EPE2ti2/TEPrVy6+
+         ce+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779021341; x=1779626141;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AGbyvD1A3j38Oj/KC8gvWB2798BTRZG+Gqsn6fkT65I=;
-        b=BKd9+8RhY5+kZfdR3ZPFT+dEwxo/aa/y9y+GZpOvSoSQ8QHo1oUReW6mU91jzkBD9w
-         t+5TY7NzGQruPf78ng1ukjv3RbAC3tAuE6oVEsWWUlbwxGMl04gcHqYe+X4u3u9SEutP
-         Ic75io1w0fFtm12i0i5n4OIoT13H1kdEpeBF312UTf6VznO+x+bHiNexCSippBIjkBEg
-         JJroJ6uPNnfO/lSO/nfmIUBx5CaOsArAjSPHrrvPHZRHkh1+C65K2uiYMauXzr3cyih+
-         IB5EdI/hAixW34iww/W2uopsJHvF2oegOuuWHXpNVOT7DxGlX6IT8e8OZMUIh8WuHwTz
-         fvBg==
-X-Forwarded-Encrypted: i=1; AFNElJ/C9UP6nPMrCHux/g35ndJ/v+chFk8u3Qmy2axKujNSvTFspUskmQyPnCU24c3VUD2K6q/3IIcWjAg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+Q8H5vFe93NoCxP4CV3fqNXt0BaIufHfpAwb2rmftK/ao9SKS
-	yeM/UYGyPQSY9GIl3mct3p0TOmOR/tAEUNEU6uTGMXR6lWEfp53DDd4mYvUYfqVDs3POR482LGU
-	JcRxGYKzPCoTtLjeXGuq3G65kzmYfUBw=
-X-Gm-Gg: Acq92OEW6uhIiGSbIu5RJcUFABuRdNFjZhY0rp+9Iw2Y8oSdwRToaEsvjcQfFttwGjE
-	/1jXuPJPdh5z/3cCN+Y/QrPSRbdFTyrGR9qQtMV16c00eH2lbX2UU1/Hfatq5mDkFXNckFm1XJP
-	bfJnPok8RLLZ6AfYpM6s9qvlChFHj+Hh0ZiAv/d1dCnPuKSg7k7YkysLNwBGLTsnf+ASSGKOull
-	3a6qjq3Wbm3KWYQL/CPKBXzuoGBF0OBEK9wv+NpTCl7ONNor7YupDoGJ2GFzYJp5TFV3/0m1XyB
-	1fiVkb+Joh4KBH0Vj/fZU54WAXP4w71yaSpFifMGA/iaBGkmyHvCnK1GcxEG7ENArfU+tVy9qXZ
-	ClmAHpctU78gW9K/QtVnNg34=
-X-Received: by 2002:a05:7300:e6c4:b0:2d9:2896:2794 with SMTP id
- 5a478bee46e88-30398737cbemr2263699eec.7.1779021341133; Sun, 17 May 2026
- 05:35:41 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779022406; x=1779627206;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RHZ1M4yEHAJJ16tGf5b4knwqeJ/DaNdMkNl3YNcxA30=;
+        b=pto1M9rLTqC/v/cRggJfZ4okLUuzT/1+UFmatjReGui+4iqCm1dnbDVzPDW73LbJp6
+         Tz9K2HyWcSpoKqViP+GVYZM+qenNhcdQXrXJR+WAORQ0euMMHcYojvB61YGHKJJOIM+j
+         8+6a+lUxT4w5hsiN+0hBD9/zd5iCvknulIybRIWc35eX5pCCtG/UE3xlwB0S/O6gopUm
+         2dgtbiU3PZHtrrsHAUvuN+mndgOkLoXFFQu4pQFilr6NyaWnnQbXCeUPZ037mbWrowB2
+         y34nKRAPoMxrIUFcNgPIbd0GV8aXx2TwpusmYOzdAa49zTOyymQK9PpxNCMDFskIflFs
+         JD/g==
+X-Forwarded-Encrypted: i=1; AFNElJ/32tV4H3mN7XJQzN6MBaMAPSKy9MCZcLHHppnrD4O8RZeC8yAniEdvQ6qIh2TVbGRvuoTfLEOuGXo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSP7SqvqCNmE3DaTVXv2zTvbgPhUOIHnVAS/h0ZN2rwPXBQyg8
+	dPI1MTNIYmfEFNNPgB7mo5vQOP+INJlbChk1rVUFk8CHp3IhCzM8b4gA
+X-Gm-Gg: Acq92OHxz3RMD2kdeD2As+m8hUiGwB1KJnNmxY/Ck8zCnhADOzxIzjJScoMWOiB+3YL
+	u7aWY2Dl/BYCT564U32JlIShuExhjYQsor+ouYuAw85S/kSaMkk+NWFkX65fNKVEmdf7SUhk21I
+	ga6WB+mymHVTqFtmF3HSAH65QLorVcuiwt2xTl0TIG+yWXxwiNLf0J1q9ubpVEZV1bCjVz97xj7
+	ceEEwHBbZxwqaCq6Rl7kWT7liypcuwbc4Erajsls80BmRX32T6eHNXHPIJJjOoH4qUlcDH8n8wX
+	v6XqM+LWGZz+jGKTud6yC41dgkyH6nrWsTxcu3+N5+xpflPCh2+PanD5rzk8ZwnvyJqkWpkYlId
+	kTr6JkgwdsW5Bp8R2qYKG4yUZkjuK5eMVstvIvvvNcgBUVfGLSeY9j47g8zV7eBAmZyqyBS51bV
+	bf4Ioy6G9sYL5v1Q8hJuZhlUHARaKJNITxvsGlU/MPL2P6qCX2y9sVI1KW2r+gZMLvVfJPI/q2a
+	iczG+G8+JyOBrMv0DajzEUV4ThHy9fSSzpDqSASz7u1I65GWDk3yDMue2QB8UY=
+X-Received: by 2002:a05:6a21:3294:b0:3a0:b9d8:96b with SMTP id adf61e73a8af0-3b22ebe1b3dmr13415750637.26.1779022406159;
+        Sun, 17 May 2026 05:53:26 -0700 (PDT)
+Received: from ERIC039ERIC.localdomain (1-170-184-71.dynamic-ip.hinet.net. [1.170.184.71])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bb115c38sm10688596a12.28.2026.05.17.05.53.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2026 05:53:25 -0700 (PDT)
+From: Chen-Shi-Hong <eric039eric@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen-Shi-Hong <eric039eric@gmail.com>
+Subject: [PATCH] docs: hwmon: htu31: document debugfs serial_number
+Date: Sun, 17 May 2026 20:52:21 +0800
+Message-ID: <20260517125320.2196-1-eric039eric@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260516215354.449807-1-julianbraha@gmail.com>
- <20260516215354.449807-3-julianbraha@gmail.com> <CANiq72=dKOhoLUoWRmzG9Kyv0jWY97Nx_O4rWV-UHjRtULz-jg@mail.gmail.com>
- <20260517094041.GC3773662@ax162>
-In-Reply-To: <20260517094041.GC3773662@ax162>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 17 May 2026 14:35:27 +0200
-X-Gm-Features: AVHnY4IZSFNRtOREQTvbcPWlzfBHcED3UQFBqTP6EdleEX439u6RoJ3RvvnKjFg
-Message-ID: <CANiq72n3Lz4QeNnEOWfEwXHc1+UdnsbsD-9wvR2OnhLsYBsnqw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 2/3] Documentation: add kconfirm
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Julian Braha <julianbraha@gmail.com>, nsc@kernel.org, jani.nikula@linux.intel.com, 
-	akpm@linux-foundation.org, gary@garyguo.net, ljs@kernel.org, arnd@arndb.de, 
-	gregkh@linuxfoundation.org, masahiroy@kernel.org, ojeda@kernel.org, 
-	corbet@lwn.net, qingfang.deng@linux.dev, yann.prono@telecomnancy.net, 
-	demiobenour@gmail.com, ej@inai.de, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 17, 2026 at 11:40=E2=80=AFAM Nathan Chancellor <nathan@kernel.o=
-rg> wrote:
->
-> I guess this is kind of a weird/unique situation. I agree that the files
-> generated by 'cargo run' should absolutely be contained within the build
-> folder; at that point, $(srctree) could be read only and I would
-> consider it rude not to respect the user's choice of build directory.
-> For 'cargo vendor' however, I am not sure. They are source files and I
-> would expect that running 'cargo vendor' would be more considered part
-> of preparing the source tree, rather than the build one (so it should
-> not be read only).
+Document the debugfs serial_number file exposed by the htu31 driver.
 
-That would simplify things, yeah. We could always start there and see
-if someone needs it.
+The driver creates a debugfs entry for the sensor serial number, but
+the documentation currently only describes the sysfs interface.
 
-> At the same time, it might be safer for dependency updates and internal
-> consistency that they are confined to the build folder. I guess we would
-> only want to remove them with a 'distclean', rather than 'mrproper' or
-> 'clean', in that case, to avoid requiring users to constantly run
-> 'cargo vendor'. It might be more ergonomic for this to be a Kbuild
-> target ('kconfirmvendor'?) so that this could be handled automatically
-> based on the user's build command.
+Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
+---
+ Documentation/hwmon/htu31.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Yeah, it is a bit painful to not have the usual Kbuild
-variables/infrastructure around... On the other hand, it is a nice
-property to know that nothing called via `make` will ever connect (or
-need to connect) to the Internet.
+diff --git a/Documentation/hwmon/htu31.rst b/Documentation/hwmon/htu31.rst
+index ccde84264643..9ab774dcf65d 100644
+--- a/Documentation/hwmon/htu31.rst
++++ b/Documentation/hwmon/htu31.rst
+@@ -35,3 +35,10 @@ temp1_input:        temperature input
+ humidity1_input:    humidity input
+ heater_enable:      heater control
+ =================== =================
++
++debugfs-Interface
++-----------------
++
++=================== =========================================
++serial_number:      unique serial number of the sensor
++=================== =========================================
+-- 
+2.53.0
 
-Hmm... Perhaps a good middle ground would be having something in the
-name that makes it obvious it will connect, e.g. `fetch` like Git? Or,
-if people feel strongly about the property mentioned, then something
-like an environment variable that needs to be set to allow it (with a
-message printed about it if it is not set).
-
-If this were allowed, i.e. if we are OK having things in `make` that
-fetch stuff and put it in the build folder (only in certain targets,
-of course), then we could actually think about doing more things that
-we didn't so far, such as other setup-like targets, e.g. preparing
-kernel.org toolchains, setting up a Rust toolchain via `rustup`
-(including `bindgen` etc.), and so on and so forth.
-
-> Additionally, can we detect explicitly when dependencies are not
-> properly vendored and error with a more helpful error message? The build
-> command in patch 1 just throws up its hands when the build fails and
-> asks if the dependencies have been set up but if we provided our own
-> vendoring build target, we could add some canary that says we vendored
-> successfully and if that is not present, error before even running the
-> build and say "hey, you need to explicitly run this target before you
-> build".
-
-+1, good error messages help a lot. Something like `rustavailable`
-that prints which particular thing is missing is great (that one even
-tries to warn about some problematic versions testing for bugs --
-hopefully we don't need `autoconf`... :).
-
-Cheers,
-Miguel
