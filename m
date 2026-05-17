@@ -1,186 +1,221 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B29274B5F;
-	Sun, 17 May 2026 13:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849671C84A2
+	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 13:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779023405; cv=none; b=AL3hYA7EPWqNmMm2sk64GSy1NhnZe3LustAGKqUu8u2g1zzVOMz6ROlWa7ntk8ABNyHMKjDCiCmLrA74lMON5K7J0QQ6NcWMOijOumYCQJbK48jttD2xWjukVj/Lu/z9rqH+7noLs08WLo12DSC33dcFlwWxaADvxyFgvY3B2Zs=
+	t=1779025299; cv=none; b=WiNvidsYH6S0XsJZUUROkSMVjSYhXpPGyn1bP5d1lgIBJpeJTIH5t93mi6TA+bsWEqrY9tpy9A33LzB0avcM5UTiNKXiV2649d1vXLnE9/vwxHd37CQauYZmi3Op+UJ+U0jqtHfvJrQMUxKIK63r6W7zxOkYr6RMWl7mccHqtJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779023405; c=relaxed/simple;
-	bh=VmZO8wUns6Rzp7QhfWBpX9OW3ArS21uLigpWw23RVe0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=rqgnPmNUVunzPPD6m/WtJ4hmJwa4Qf1akVyMd6N/IQgRLPLnZC+imuSeSqhCwvKO2yG3+LrGSpXJM3OFvChkH3ZfFW+sT3JFTLKQDPal1rZtuevrLZdSiRkFQd4HW+f4XVF+WAehgkjGnVDW6gao6t18YlPIcOB7csX+pwSWDO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=S38s4N/3; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1779025299; c=relaxed/simple;
+	bh=7Y0ReJXNUS5w7p1PQFhAmWmhyBq6tUOUn6HIe366q6s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NJz+TZategOvaWjv0kcmUqcJT1fvNoq/y5nTwSPJBjLMpBjKpXudHnkpc1qzm70Ee1GyD31lkCiaBL/W7ddeH2c8ZG9dXk9oqkpgacpstFr0fgcMuvprag+ISpgNerTdXM7JXvqJg5yvjQQoi/eGCZCG/68H38Z/OHZW4RR0Lbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HopwKcDA; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="S38s4N/3"
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id AF548270F3;
-	Sun, 17 May 2026 15:09:52 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id iz7bdltAi84y; Sun, 17 May 2026 15:09:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1779023391; bh=VmZO8wUns6Rzp7QhfWBpX9OW3ArS21uLigpWw23RVe0=;
-	h=Date:To:Cc:Subject:From:References:In-Reply-To;
-	b=S38s4N/3j/FiziIop4tsq8NahUewcH98fRM7YKQifUrAWbDncqY8LWkCTRCMS9UkI
-	 rpGjuV6ZjZ+5DJWl++KMcRG114tis08jxDUBOVxqqZIdy2IKEDddBiaxZM0uCadrE7
-	 HPVpyotSRXNTvouCqX51foNX17f8gXA65NemsiKM5MWGWMwfdX/5r6KGZI9kk1MTK1
-	 VR7w6C9N28B6bCaOnhSuCguWzs2BP+cJLTDNuiidp99hi4+UZpWzFj18L/O+cF+AkJ
-	 fWeCm2tIA9IFEEe8y7mK14ZjZsvR7kPTwr2vREd/jjvesnMF66Tt2ICMHbcLOFr9sw
-	 iLIx2voOesDAw==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HopwKcDA"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-453903ee4adso1142602f8f.3
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 06:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779025295; x=1779630095; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=e0Fqrssiq5EKJqOqnUySdSTXrmaCviyXE8eaNVLH4Wo=;
+        b=HopwKcDA3I+5h2/tRrvagVhpOEm8GcdxvUs24So0lbYwKzqGNlrKUxAALo8Hdn8WPb
+         Vi2beSlEEwiPa9GCKN4gLKEmfY5nmne9CHKO+e7K6t+Ap0k3g9ELC1Omplr8u2pXW4jN
+         q43vsW9GHY5TKt6HlkV3Bi4lKJWYscoSRbh+GNfhUl9X25ZdmjM0q1HLfDgPeukdzTWe
+         IrEp8DfDmGBcEQbumrgT3f3Ay7wlhECrWtPkgNhnQFF54F2IDg0/TyBuJb/1Q0sSmvxj
+         kufAx7ah2Ow8a0KZHyPkl4P3sSpdeL+ND1xW2ur8movBdo/VziFzAVRU7zqE1STEBKr7
+         eQAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779025295; x=1779630095;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e0Fqrssiq5EKJqOqnUySdSTXrmaCviyXE8eaNVLH4Wo=;
+        b=pk229JQuPor9RUIebMic4S6C3mwQPjOCKlA29Sqsg+mIVre5snfXe2StEQvNsU/R3v
+         pwUlg9OlBYyS9gn1ina1r+PKDANnoGdZnOdflJ+JHb7wa46ZbZOhC1kI0DhN8psdrqi9
+         AXNiHVW6cjByHaUcS0hyX11tSrFQA9+Sh7v7YcxWMWmtp6ccVpeheZE3b2uq0Yw7GYkO
+         Dh5ZDWd8cNOl/ukYu5tXnzEj/7fgvinZdQ0nUIrS1oOk8tWW7E7DA3y1Q3TGHWtIGGqo
+         RQuC6Tg3A/U068V9elcBjv/XPKU4BaDBNPGpqYlIBvmz34g/+BI687PEoFEm7cvrfdt8
+         hJyw==
+X-Forwarded-Encrypted: i=1; AFNElJ+dn4OHLK3bXcUiAYpQRSXxN+Rdf35ARg1xuoYmajPjwmRcIEP5N9lvPkEMGc7EHGnvYIS/ZH6oIoQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9mFgKkqpv7t971P2l0eh5qinVeVx3wPQvFatwQmRsuc0oDqji
+	nRVMNt6baxDtofRFo71JqtIrRahutp9RNnrzYObPOlOxp/NbxiRcQkqJ
+X-Gm-Gg: Acq92OHPKf4+ffuraI21b0e4Mi8YmTWCbRekZC+mOc3VJF5zNGLovWSaxVPhVApQw37
+	m5dl2lI1YWQuvq4xj5BiJtNkSqxV0sqtYxWrLAaFIMyvzCye+69dVTtJ3o/3eQfbuVXwMngbdcc
+	QdfeBT2DtpOhyMmIhgcBqQ4kH7RHaI/xSHdCVj4E91BSYExfhWro+nNMDr96ew3fPbkPGY/zMh/
+	OtdbU7x7oqSkn5RJh/7BWbaCpZbq16dJBi4uG2TJjT6qCErKO1Hg6eyeOFnTUflicSmS5jEbOLj
+	tfzK6hTvWW3XqF0SZUyD0IcANwaTC9T9GsuRD+HbemYcW5SKbyIf03fY3VuxoEjshaaCSHLJLM1
+	5iuEGedzzgplwB+nKlu7Vxpazb0am+d5ZNGdj8tTZ7fprEoLTZrON9tAM6Tg8H/sZi4G6v94XBA
+	5mVCbheUKYor3w/6kpd+4r5bwLyb3oNePOzuhgvGNACav+O/RWluv8Oquo3a7ILIkXGaKhC9FHV
+	w==
+X-Received: by 2002:a05:6000:4010:b0:43f:df1b:9e07 with SMTP id ffacd0b85a97d-45e5c5a5580mr16862802f8f.42.1779025294346;
+        Sun, 17 May 2026 06:41:34 -0700 (PDT)
+Received: from localhost.localdomain (i59F7ABEC.versanet.de. [89.247.171.236])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da15a666fsm28231673f8f.36.2026.05.17.06.41.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2026 06:41:33 -0700 (PDT)
+From: Elliot Tester <elliotctester1@gmail.com>
+To: alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Elliot Tester <elliotctester1@gmail.com>
+Subject: [PATCH] docs: gpu: fix spelling errors and remove duplicate sentence
+Date: Sun, 17 May 2026 15:41:22 +0200
+Message-ID: <20260517134122.38389-1-elliotctester1@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 17 May 2026 18:39:37 +0530
-Message-Id: <DIKZ5L2HC2CV.YL3MZUJQ2EV6@disroot.org>
-To: "Conor Dooley" <conor@kernel.org>, "Kaustabh Chakraborty"
- <kauschluss@disroot.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "MyungJoo Ham"
- <myungjoo.ham@samsung.com>, "Chanwoo Choi" <cw00.choi@samsung.com>,
- "Sebastian Reichel" <sre@kernel.org>, "Krzysztof Kozlowski"
- <krzk@kernel.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, "Nam Tran" <trannamatk@gmail.com>,
- =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>,
- <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v6 03/11] dt-bindings: mfd: add documentation for
- S2MU005 PMIC
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-References: <20260515-s2mu005-pmic-v6-0-1979106992d4@disroot.org>
- <20260515-s2mu005-pmic-v6-3-1979106992d4@disroot.org>
- <20260515-justly-recite-6028f4bfb24a@spud>
- <DIJK5FTQ5KWG.HOKZAOXHTGU7@disroot.org>
- <20260516-esquire-chitchat-0fffa597e2f3@spud>
-In-Reply-To: <20260516-esquire-chitchat-0fffa597e2f3@spud>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On 2026-05-16 23:25 +01:00, Conor Dooley wrote:
-> On Sat, May 16, 2026 at 02:41:29AM +0530, Kaustabh Chakraborty wrote:
->> On 2026-05-15 18:14 +01:00, Conor Dooley wrote:
->> > On Fri, May 15, 2026 at 04:08:59PM +0530, Kaustabh Chakraborty wrote:
->> >> Samsung's S2MU005 PMIC includes subdevices for a charger, an MUIC (Mi=
-cro
->> >> USB Interface Controller), and flash and RGB LED controllers.
->> >>=20
->> >> Add the compatible and documentation for the S2MU005 PMIC. Also, add =
-an
->> >> example for nodes for supported sub-devices, i.e. MUIC, flash LEDs, a=
-nd
->> >> RGB LEDs. Charger sub-device uses the node of the parent.
->> >>=20
->> >> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->> >> ---
->> >>  .../bindings/mfd/samsung,s2mu005-pmic.yaml         | 120 +++++++++++=
-++++++++++
->> >>  1 file changed, 120 insertions(+)
->> >>=20
->> >> diff --git a/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pm=
-ic.yaml b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
->> >> new file mode 100644
->> >> index 0000000000000..0e6afb7d2017b
->> >> --- /dev/null
->> >> +++ b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
->> >> @@ -0,0 +1,120 @@
->> >> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> >> +%YAML 1.2
->> >> +---
->> >> +$id: http://devicetree.org/schemas/mfd/samsung,s2mu005-pmic.yaml#
->> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> >> +
->> >> +title: Samsung S2MU005 Power Management IC
->> >> +
->> >> +maintainers:
->> >> +  - Kaustabh Chakraborty <kauschluss@disroot.org>
->> >> +
->> >> +description: |
->> >> +  The S2MU005 is a companion power management IC which includes subd=
-evices for
->> >> +  a charger controller, an MUIC (Micro USB Interface Controller), an=
-d flash and
->> >> +  RGB LED controllers.
->> >> +
->> >> +allOf:
->> >> +  - $ref: /schemas/power/supply/power-supply.yaml#
->> >> +
->> >> +properties:
->> >> +  compatible:
->> >> +    const: samsung,s2mu005-pmic
->> >> +
->> >> +  flash:
->> >> +    $ref: /schemas/leds/samsung,s2mu005-flash.yaml
->> >> +    description:
->> >> +      Child node describing flash LEDs.
->> >> +
->> >> +  interrupts:
->> >> +    maxItems: 1
->> >> +
->> >> +  muic:
->> >> +    $ref: /schemas/extcon/samsung,s2mu005-muic.yaml#
->> >> +    description:
->> >> +      Child node describing MUIC device.
->> >> +
->> >> +  multi-led:
->> >> +    type: object
->> >> +
->> >> +    allOf:
->> >> +      - $ref: /schemas/leds/leds-class-multicolor.yaml#
->> >
->> > Does this need to be an allOf when the other refs are not?
->>=20
->> It has it's own properties, that's the reason. This used to be it's own
->> thing in dt-bindings/leds, but I was asked to move it here in prior
->> reviews.
->
-> What do you mean by "its own properties"?
+Fix various spelling errors in GPU docs:
+- indicies -> indices (userq.rst)
+- umap -> unmap (userq.rst)
+- pre-empt -> preempt (drm-compute.rst)
+- buffer-leaks -> buffer leaks (drm-uapi.rst)
+- Additionally to -> In addition to (drm-uapi.rst)
+- unpriviledged -> unprivileged (drm-uapi.rst)
+- fucntions -> functions (todo.rst)
+- varios -> various (todo.rst)
+- implementions -> implementations (todo.rst)
+- complection -> completion (todo.rst)
 
-I mean, the other schemas (muic, flash) are in their own file, with
-compatible, and other properties too.
+Ale remove a duplicated sentance and stray "uff." in the todo.rst, add
+missing period after drm_ioctl.c reference, and add missing newline at
+end of drm-uapi.rst. Fixing this would make reading the docs just a
+little bit easier.
 
-This one, inherits properties from leds-class-multicolor, AND has a
-"compatible" property with it, which is not defined in
-leds-class-multicolor. Now if you ask why does the compatible exist,
-that's something Krzysztof suggested in previous revisions.
+Signed-off-by: Elliot Tester <elliotctester1@gmail.com>
+---
+ Documentation/gpu/amdgpu/userq.rst |  4 ++--
+ Documentation/gpu/drm-compute.rst  |  2 +-
+ Documentation/gpu/drm-uapi.rst     | 10 +++++-----
+ Documentation/gpu/todo.rst         | 11 +++++------
+ 4 files changed, 13 insertions(+), 14 deletions(-)
 
-And, Krzysztof had also reviewed this patch, and (similar to the prev
-patch) I've missed the trailers, which have been addressed in v7 now.
+diff --git a/Documentation/gpu/amdgpu/userq.rst b/Documentation/gpu/amdgpu/userq.rst
+index 88f54393b..94427e18a 100644
+--- a/Documentation/gpu/amdgpu/userq.rst
++++ b/Documentation/gpu/amdgpu/userq.rst
+@@ -156,9 +156,9 @@ IOCTL Interfaces
+ GPU virtual addresses used for queues and related data (rptrs, wptrs, context
+ save areas, etc.) should be validated by the kernel mode driver to prevent the
+ user from specifying invalid GPU virtual addresses.  If the user provides
+-invalid GPU virtual addresses or doorbell indicies, the IOCTL should return an
++invalid GPU virtual addresses or doorbell indices, the IOCTL should return an
+ error message.  These buffers should also be tracked in the kernel driver so
+-that if the user attempts to unmap the buffer(s) from the GPUVM, the umap call
++that if the user attempts to unmap the buffer(s) from the GPUVM, the unmap call
+ would return an error.
+ 
+ INFO
+diff --git a/Documentation/gpu/drm-compute.rst b/Documentation/gpu/drm-compute.rst
+index f90c3e63a..35cc8d654 100644
+--- a/Documentation/gpu/drm-compute.rst
++++ b/Documentation/gpu/drm-compute.rst
+@@ -7,7 +7,7 @@ seconds. (The time let the user wait before he reaches for the power button).
+ This means that other techniques need to be used to manage those workloads,
+ that cannot use fences.
+ 
+-Some hardware may schedule compute jobs, and have no way to pre-empt them, or
++Some hardware may schedule compute jobs, and have no way to preempt them, or
+ have their memory swapped out from them. Or they simply want their workload
+ not to be preempted or swapped out at all.
+ 
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 579e87cb9..0ef498bff 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -150,10 +150,10 @@ separate render node called renderD<num>. There will be one render node
+ per device. No ioctls except PRIME-related ioctls will be allowed on
+ this node. Especially GEM_OPEN will be explicitly prohibited. For a
+ complete list of driver-independent ioctls that can be used on render
+-nodes, see the ioctls marked DRM_RENDER_ALLOW in drm_ioctl.c  Render
+-nodes are designed to avoid the buffer-leaks, which occur if clients
++nodes, see the ioctls marked DRM_RENDER_ALLOW in drm_ioctl.c.  Render
++nodes are designed to avoid the buffer leaks, which occur if clients
+ guess the flink names or mmap offsets on the legacy interface.
+-Additionally to this basic interface, drivers must mark their
++In addition to this basic interface, drivers must mark their
+ driver-dependent render-only ioctls as DRM_RENDER_ALLOW so render
+ clients can use them. Driver authors must be careful not to allow any
+ privileged ioctls on render nodes.
+@@ -568,7 +568,7 @@ ENOSPC:
+ EPERM/EACCES:
+         Returned for an operation that is valid, but needs more privileges.
+         E.g. root-only or much more common, DRM master-only operations return
+-        this when called by unpriviledged clients. There's no clear
++        this when called by unprivileged clients. There's no clear
+         difference between EACCES and EPERM.
+ 
+ ENODEV:
+@@ -761,4 +761,4 @@ Stable uAPI events
+ From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
+ 
+ .. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+-   :doc: uAPI trace events
+\ No newline at end of file
++   :doc: uAPI trace events
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index bc9f14c8a..b13cd4347 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -55,7 +55,7 @@ There are still drivers that use drm_simple_display_pipe. The task here is to
+ convert them to use regular atomic helpers. Search for a driver that calls
+ drm_simple_display_pipe_init() and inline all helpers from drm_simple_kms_helper.c
+ into the driver, such that no simple-KMS interfaces are required. Please also
+-rename all inlined fucntions according to driver conventions.
++rename all inlined functions according to driver conventions.
+ 
+ Contact: Thomas Zimmermann, respective driver maintainer
+ 
+@@ -301,7 +301,7 @@ Various hold-ups:
+   valid formats for atomic drivers.
+ 
+ - Many drivers subclass drm_framebuffer, we'd need a embedding compatible
+-  version of the varios drm_gem_fb_create functions. Maybe called
++  version of the various drm_gem_fb_create functions. Maybe called
+   drm_gem_fb_create/_with_dirty/_with_funcs as needed.
+ 
+ Contact: Simona Vetter
+@@ -326,10 +326,9 @@ everything after it has done the write-protect/mkwrite trickery:
+ 
+       vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
+ 
+-- Set the mkwrite and fsync callbacks with similar implementions to the core
++- Set the mkwrite and fsync callbacks with similar implementations to the core
+   fbdev defio stuff. These should all work on plain ptes, they don't actually
+-  require a struct page.  uff. These should all work on plain ptes, they don't
+-  actually require a struct page.
++  require a struct page.
+ 
+ - Track the dirty pages in a separate structure (bitfield with one bit per page
+   should work) to avoid clobbering struct page.
+@@ -914,7 +913,7 @@ Querying errors from drm_syncobj
+ ================================
+ 
+ The drm_syncobj container can be used by driver independent code to signal
+-complection of submission.
++completion of submission.
+ 
+ One minor feature still missing is a generic DRM IOCTL to query the error
+ status of binary and timeline drm_syncobj.
+-- 
+2.54.0
 
->>=20
->> >> +
->> >> +    properties:
->> >> +      compatible:
->> >> +        const: samsung,s2mu005-rgb
->> >> +
->> >> +    required:
->> >> +      - compatible
->> >> +
->> >> +    unevaluatedProperties: false
->> >> +
->> >> +  reg:
->> >> +    maxItems: 1
->> >
->> > Move this above the child nodes please.
->>=20
->> But properties are sorted in lex order?
->
-> Typically the binding is sorted in the same order as properties go in
-> nodes. Common stuff like reg/clocks/interrupts therefore send up above
-> child nodes.
-
-So, do I change this? For one, I don't see the same being followed in
-other schemas of samsung in the same dir (not that I'm trying to pose it
-as an argument against your suggestion), and this was reviewed by
-Krzysztof and is adderssed in v7.
