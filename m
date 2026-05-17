@@ -1,145 +1,127 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp03-ext2.udag.de (smtp03-ext2.udag.de [62.146.106.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825382F7F04
-	for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 08:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A314D2E1F06;
+	Sun, 17 May 2026 08:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779005122; cv=none; b=cVxfnNaQIo7BpnMf9FLiNz2hU8xa+cQ+S4znBbyvuBW3e8D0UfhXv5cW1RPiCZi4oxvyNyofuxxUIr5/I42j031frNnVvIEJdArxfmAcDy+oLrYhVSj3f6Prlnfx1tTpdDOm8omcF1VtzYQYC+7x+o7kVwsh/SRa5emhpq385hg=
+	t=1779005212; cv=none; b=EDFoUPjIUtaqkXYgYRI76LuRXFCPigl8dhcRbPGGDc1NO9ZO/proyMgKydNk/1Q0VVQTT9k6f2BNvTSp1xFjle/H4wOVrzLjCFUZi/Jf6E6EUGRw/OGjxBNlrYqPgfkZNiOtlja3NZYDaLpAPMpcu1cJoSiyftr2RARPzbFj2BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779005122; c=relaxed/simple;
-	bh=NGMb25quMJA/qmhqXGV0PuyWAv1LkEiCtHZF83T9J/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G9jqw6HJN0WEup8J6Na4/wxSXg79HBo9xAdyFo+c/Ij4vKTZ4AdkSVIeu4Eh8Yw58641x0KSSnr/zW49NqTFEL7SnfkQfztx99/TkhV3s4MSvm85ZDmY0jY45Z2yMUlE084Ej6Phz2Tray3tVo5uzehqX+oe04w/IqIw+CbTf+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dX9kROA7; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dX9kROA7"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2bd2c147abaso7303775ad.3
-        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 01:05:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779005121; x=1779609921; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yMtYakkWg6xW89eWo2V/gAFSemUpeEFr7/GQfm8tsfU=;
-        b=dX9kROA7A82iVIFYb1z97RYdleh5cBn7EHgQ3KYhRKjOmWeUu581VaJpX+J98LIqIS
-         PvTYGF9Hdaipk0QhkKbCUm4YAfff95W+k13r8mjdw1xemczO3PfZdNZgNb+Ql3NkW7k+
-         CjF1gihNTes2g2OdLMhaREbiCpJu8Icwz/vUzMpB4EjDVu9IGgsiH93z2tLNDWDGDaFX
-         WUHvdtMw5rmyNQjRaCUCxSMHoisdzVXSfurJaQVG0/uluRuP7UKUcIRuHoKtYIzMtQ0h
-         8DXlvfVwiXQFgEnPu7i6hXj24XpjCMdSzWgUhamD45rFK709gc7kcUguDvaLlD456EN6
-         +cNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779005121; x=1779609921;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=yMtYakkWg6xW89eWo2V/gAFSemUpeEFr7/GQfm8tsfU=;
-        b=sSHsdhmPqCXSVdHzZ7d8EX/ELAgrtnQNJySJWYXDBd/LyEgS7kUXVtQs+GJs2DKfZS
-         xB62Ev1wiz9uUa2D4SSb7VMxnXcTao9yKWtaJLMfDa2Tw0So0jMTexw2vv4/oBcPP9OP
-         gyHp7X0x4+xnImwEjVAynOjfrg2xRqPp4zt3ntNS5SWhyqKJA9khx+sV5xs/1xMB3Fm6
-         Xj5nkCZM6kmugB/GKmxl+6T5TGBsBZqmDh+HPmkldD9Gz7ZAAYB4j6kee54IMqPR121f
-         OfH8mTqYp9zqF4PEQtubPyb30XwPLAUHr2J6rYDgPMNA1y1BJyzx358EAbPsfzjEjP2y
-         PiXA==
-X-Forwarded-Encrypted: i=1; AFNElJ872A6QJEKKMeu/O3Cdr5S8Bju0LxkVH5j82LaDoR4n75r1At1veczX5ev1j59MfsBwHoxON3wu2fc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGuSD8sXcCDaXfBEfIj5YXFGO1FMlhD6BbavAm0Kf4EZy3YZYm
-	lBUaQUOvvBxTdd9uiPjcJxZirKW+IKJ7Hc7aUpdFZgTqMebAAKIlJiiM
-X-Gm-Gg: Acq92OHQCoBm2gh3OT6ZX8n9qrx6f3Sl5bh1PIML4v9NvM0cn5WQFgItvrYpdBoDvEG
-	MzYUd0JUoQ+Crx2soxkurlxehRoBAYRj5361vIhT0Wxd1J/k4pVh6YkNBGDdUvjc0Vnl7C3IClm
-	b4HeijbXTdlHw61NjIcK6FEl5XDLyYd94j2+Qu8xjjuvLwZYRT2RrgX4j3FKPFYSJ1KqnWlItp5
-	uY/TG7xN+2B6t+pWviSFcsVrwcLH/AFs6GoIWF9abNDu0u8Zvi/dSOTNFXoED0s1sgxQzGj4UYF
-	ba1oTPSwgDel2Vs6gI67SIGPbdEJaqpZU5wrEseDaqlv/nlDGcj1ot2eZ2qwyVo+VmDERdHhPOy
-	/GQL4AHueK+tpfg3Zsj0UhwKo21lYh7gehhd3np35beZAnz6qJhXHl6trA8Qlk/yb/elAMw+3lB
-	ySJIq5VyVzWEQnRG2BVQuVQ0DFb9hMbEPIu8mIVAGg2qMEDb1q/IuWoa3d9cmQ
-X-Received: by 2002:a17:902:7d86:b0:2bc:7486:21cf with SMTP id d9443c01a7336-2bd7e9056dfmr70871815ad.36.1779005120658;
-        Sun, 17 May 2026 01:05:20 -0700 (PDT)
-Received: from fedora.taildae27b.ts.net ([2409:4064:2d80:75ca:8541:272f:2bb3:5e55])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5bd5fb17sm109834595ad.1.2026.05.17.01.05.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 01:05:20 -0700 (PDT)
-From: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-Subject: [PATCH v3 3/3] hwmon: raspberrypi: Fix delayed-work teardown race
-Date: Sun, 17 May 2026 13:34:45 +0530
-Message-ID: <20260517080445.103962-4-chakrabortyshubham66@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260517080445.103962-1-chakrabortyshubham66@gmail.com>
-References: <20260516164407.25255-1-chakrabortyshubham66@gmail.com>
- <20260517080445.103962-1-chakrabortyshubham66@gmail.com>
+	s=arc-20240116; t=1779005212; c=relaxed/simple;
+	bh=uhTrkKL4IJufye3y2imoYk/TBVB6PtQaTVwPh+9QMB8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xn1LhfR0yl0arKsuAaDQJ9Q49uV4m372tdWBOC/9ldTvin1rqr9NrY5wAHY/z0oMG5uV8WFa3kJpq/h+dVhX4s0K0yl1NHJJ4sWGn6KP0USbJ2ev0CykVtZjVh++NMcek3yr9jSX/+GTWy7xaFLsL7PrG5be6PUqvMHJ42/Na60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
+Received: from localhost (075-132-067-156.ip-addr.inexio.net [156.67.132.75])
+	by smtp03-ext2.udag.de (Postfix) with ESMTPA id 4B7F9E0055;
+	Sun, 17 May 2026 09:57:42 +0200 (CEST)
+Authentication-Results: smtp03-ext2.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
+Date: Sun, 17 May 2026 09:57:41 +0200
+From: Horst Birthelmer <horst@birthelmer.de>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Horst Birthelmer <horst@birthelmer.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Horst Birthelmer <hbirthelmer@ddn.com>
+Subject: Re: Re: [PATCH v2] dcache: add fs.dentry-limit sysctl with
+ negative-first reaper
+Message-ID: <aglh7SrXWbYgD3nA@fedora.fritz.box>
+References: <20260516-limit-dentries-cache-v2-1-c733a78e603b@ddn.com>
+ <agj5JkPZ7eNbFueR@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <agj5JkPZ7eNbFueR@casper.infradead.org>
 
-The delayed polling work rearms itself from the work function, so use
-explicit delayed-work setup and cleanup instead of
-devm_delayed_work_autocancel().
+On Sun, May 17, 2026 at 12:09:26AM +0100, Matthew Wilcox wrote:
+> On Sat, May 16, 2026 at 04:52:54PM +0200, Horst Birthelmer wrote:
+> > There was a discussion at LSFMM about servers with too many cached
+> > negative dentries.
+> > That gave me the idea to keep the dentries in general limited
+> > if the system administrator needs it to.
+> 
+> I feel you should link to the dozens of previous attempts at this kind
+> of thing to show that you're aware that this has been tried before and
+> you're doing something meaningfully different.
+> 
 
-Initialize the delayed work with INIT_DELAYED_WORK() and register a
-devres cleanup action that calls disable_delayed_work_sync() during
-teardown.
+Hi Matthew,
 
-This addresses the concern raised during review about the polling work
-being able to requeue itself while the driver is being removed.
+thanks for looking at this.
 
-Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
----
- drivers/hwmon/raspberrypi-hwmon.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+- The first limitation of dentries I could find was a patch for Linux 2.6.7
+which introduced the vfs_cache_pressure option. [1]
+This is still in use today but will not limit dentries as such just the
+relation of where to release the pressure but you have to get into a pressure
+situation for it to actually matter.
+For my case when we get into pressure the fuse server could already be in heavy
+trouble (we have had OOM events for the cgroup due to this)
 
-diff --git a/drivers/hwmon/raspberrypi-hwmon.c b/drivers/hwmon/raspberrypi-hwmon.c
-index 8ce6dacc19b0..0bbc735f74a4 100644
---- a/drivers/hwmon/raspberrypi-hwmon.c
-+++ b/drivers/hwmon/raspberrypi-hwmon.c
-@@ -8,7 +8,6 @@
-  * Copyright (C) 2026 Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-  */
- #include <linux/device.h>
--#include <linux/devm-helpers.h>
- #include <linux/err.h>
- #include <linux/hwmon.h>
- #include <linux/module.h>
-@@ -96,6 +95,13 @@ static void get_values_poll(struct work_struct *work)
- 	schedule_delayed_work(&data->get_values_poll_work, 2 * HZ);
- }
- 
-+static void rpi_hwmon_cancel_poll_work(void *res)
-+{
-+	struct rpi_hwmon_data *data = res;
-+
-+	disable_delayed_work_sync(&data->get_values_poll_work);
-+}
-+
- static int rpi_read(struct device *dev, enum hwmon_sensor_types type,
- 		    u32 attr, int channel, long *val)
- {
-@@ -237,8 +243,8 @@ static int rpi_hwmon_probe(struct platform_device *pdev)
- 	if (IS_ERR(data->hwmon_dev))
- 		return PTR_ERR(data->hwmon_dev);
- 
--	ret = devm_delayed_work_autocancel(dev, &data->get_values_poll_work,
--					   get_values_poll);
-+	INIT_DELAYED_WORK(&data->get_values_poll_work, get_values_poll);
-+	ret = devm_add_action_or_reset(dev, rpi_hwmon_cancel_poll_work, data);
- 	if (ret)
- 		return ret;
- 	platform_set_drvdata(pdev, data);
--- 
-2.54.0
+- in 2011 there was the attempt to limit dentries by container [2] [3]
+Here Dave Chinner made the point that the dentry cache is usually not the problem
+but the inode cache, which is exactly what we see as well, since the fuse server
+has to keep a lot of private data for every cached inode. However we have the
+information for LRU only for the dentries, so it is the best way we can keep this
+under control, limit the number of dentries to an acceptable amounr.
 
+- there was an entire series by Waiman Long starting at around 2017 [4] 
+Here even you were part of the discussion, and I think the ideas are very similar,
+I'm just more worried about unused dentries (I just prefer negative ones on
+reclaim) There are several of different attempts in this context.
+
+- then there was tbe one I mentioned in the cover letter [5]
+which was trying to modify the caching to limit the excessing traversing when
+there are so many entries.
+I'm trying to save the same symptoms but not with that approach at all. I don't
+worry at all about the chache structures.
+
+- there was [6] by Gautham Ananthakrishna
+Here the focus was on the memory used for the dentries. This is none of my concern
+in this patch. I'm trying to just not keep dentries and indirectly inodes 
+unnecessarily in the kernel and as a consequence in the fuse server in user space.
+
+- currently we have the possibility via /proc/sys/fs/dentry-negative to disable
+negative dentries completely
+I am completely agnostic to this. If an admin disables negative dentries I try to
+free some by freeing unused ones and make the limit, if not this is no problem.
+
+I'm sure I have probably missed some where the limitation of dentries was a 
+secodnary effect. I have searched for patches for fs/dcache.c that had anything
+to do with dentries.
+
+--
+As a conclusion, I think I have an uncommon perspective on the cache entries
+since I don't usually work on vfs but argue from the perspective of a fuse server
+Where the kernel makes us waste resources. This hurts way more in the FUSE context
+than in a 'normal' file system.
+I have taken the look at the dentry cache just because people told me that this
+has to be solved in the vfs (and I agree). I actually have a somewhat hacky patch
+to do this from fuse and only for the fuse sb.
+
+This patch will start a worker when we pass the set limit and free the negative
+dentries then continue on with the unused dentries based on the LRU data.
+
+What I'm trying to achieve is keep only actually used entries in if we are over
+an arbitrary limit, and trying not to mess too much with the work that is done
+by the kernel. Then there is the point that shrink_dentry_list() is only there
+since 2019, so older approaches did not have tthe possibility.
+
+The short version: This is noothing new, just a new combination of already existing
+solutions, that could be useful.
+
+[1] https://www.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/2.6.7/2.6.7-mm1/broken-out/vfs-shrinkage-tuning.patch
+[2] https://lwn.net/Articles/441164/
+[3] https://lore.kernel.org/all/4DBFF1AD.90303@parallels.com/
+[4] https://lore.kernel.org/all/1500298773-7510-1-git-send-email-longman@redhat.com/
+[5] https://lore.kernel.org/linux-fsdevel/20260331012925.74840-1-raven@themaw.net/
+[6] https://lore.kernel.org/all/1611235185-1685-1-git-send-email-gautham.ananthakrishna@oracle.com/
