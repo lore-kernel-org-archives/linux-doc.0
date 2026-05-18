@@ -1,136 +1,163 @@
-Received: from mta-64-136.flowmailer.net (mta-64-136.flowmailer.net [185.136.64.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30430405C5C
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118FF3002AB
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779145523; cv=none; b=NGdSzlEiKdKiGBYPg5FIyP50bCLY+bGFaYMEF6TSWi9KE02z/4s5RjJ/xuI6JjOQ2DYfp9JuY/BwwK8ZHdirW2mu+Ka49XM2gQro6o3sm1S36kqOaghNh/7fA+wDbfeCH6a7wzjHIUNIKmKah8FtPvf/ifZ/RRFGgPP/tlBUJks=
+	t=1779145600; cv=none; b=BlYF/8hd04Mjcrkj3ke4arJ3R4LWXDvvC+MGuvWLMGsx6ky2VMPxz7Wh8vn98JukNAVHcUOlsy91mTbkEZ7tpXNluGk/F8QWac0yt3K7tbnkNjO1NrAs6k3/4BWghNK3rWH936/YipaCxCU+2zpyIRNx0nCHw+ncQtbA5Zsi8p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779145523; c=relaxed/simple;
-	bh=+rYo9RwlleK8Myvw5KVXSvl5djJdJZXOJbD7irbefyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iTqEd32Af8Q0YlZeyah7x/9eWLtG1AhBqfo+eOORI+5wb/5q+phOc1Dvq4Ukm4R2K4KJH7hzVE4xTeWgdMED31Y9oa8oCGdkAU1U40U2nCNznBoexx2bVbgjU6hBQL2I7fojv+sdIoVfyFNGeYo140HGAbmNAzB6owhsAm6+7vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com; dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b=oOv4FfQQ; dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b=dI1aE97G; arc=none smtp.client-ip=185.136.64.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com
+	s=arc-20240116; t=1779145600; c=relaxed/simple;
+	bh=tdQX6z5Ow34bb/pGtk3dNyrAbcLCh7UCBhe9r1uuApA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JbA1XwveObtAIGF3UUtRbsxv4/eikj+CIFzDo3RLT62VqgIP50NyY5wNZO1wRsVWkZn9Cn9tfREhCUAuw/vEbBByG/bzpMVjAnMQbJAumwToFkZzqmO8DfU8cWGVdRMQV5nxrnltLV2xLHsmrXQsT8r9gUfVvBAhO6NnfzFzClE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iKifQGEz; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b="oOv4FfQQ";
-	dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b="dI1aE97G"
-Received: by mta-64-136.flowmailer.net with ESMTPSA id 20260518172446a2ab3ecad30019fd49
-        for <linux-doc@vger.kernel.org>;
-        Mon, 18 May 2026 19:24:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=s1;
- d=flowmailer.net;
- h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
- bh=/xBoFD2ZNsbMOTky3B3enP8bn+W9UZXo1Hl2aVCLXos=;
- b=oOv4FfQQlHtS5BCboX78gqtA1vOdIzc2Bde3Q6JtaXyf67I3yyl6ut16FqBNN9+Yj9rq9Z
- nyDRk4mSBg/XXlSyTrgBcXgDhCrmwyDzEj+K3hddaJfeuwolNJkOXXJ8o46GUX+ljc6wR96d
- SFujsYOnihqEglQ5vlocmhDkHNiKg=;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm3;
- d=siemens-energy.com; i=schuster.simon@siemens-energy.com;
- h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
- bh=/xBoFD2ZNsbMOTky3B3enP8bn+W9UZXo1Hl2aVCLXos=;
- b=dI1aE97GXW4w7iNDnE322TQwRLqhXPJ7u7OOtHXqPwbH7I8b7QZPUcsZ5dpM3aKOX+wuYT
- LPsjcYlVTxPExZ5kMJNCcDWODnTNTrGp6pV8qtNcwDcVLy69NW0vpvbVMGwrINlSJJ+x3xuE
- 8IjsHXj0AnDwTdczWEYMyN3ZXAMnYVljNLinrYheZqc9sCRB5uWpiqfkBE0KYz9ZVSj4gXWO
- W3XtjKRwxfg4DG16B+5mpyk1TGNVwWG+Fbcs2a0kj3mxu3xIuWEGyaVHCYP7ptwU5BzA0nrO
- 6VN6z+VVxxOzsIQ5H6Xp7Kj7GVjsxvKu6BvSATf/LyzOGeeNKmSh+lOw==;
-Date: Mon, 18 May 2026 19:24:44 +0200
-From: Simon Schuster <schuster.simon@siemens-energy.com>
-To: Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Dinh Nguyen <dinguyen@kernel.org>
-Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
- workflows@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
- dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-iio@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
- linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas
- Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>, Yanteng Si
- <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Hu Haowen
- <2023002089@link.tyut.edu.cn>, Kees Cook <kees@kernel.org>, Oleg Nesterov
- <oleg@redhat.com>, Will Deacon <will@kernel.org>, "Aneesh Kumar K.V (Arm)"
- <aneesh.kumar@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Nicholas Piggin <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>, Frank
- Li <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>, Andi Shyti
- <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>, David Lechner
- <dlechner@baylibre.com>, =?ISO-8859-1?Q?Nuno_S=E1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof
- WilczyDski <kwilczynski@kernel.org>, Andreas Oetken
- <andreas.oetken@siemens-energy.com>
-Subject: Re: [PATCH] nios2: remove the architecture
-Message-ID: <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
-References: <20260518042833.272221-1-enelsonmoore@gmail.com>
- <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
- <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iKifQGEz"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2bc763e2ba8so12521765ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 16:06:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779145598; x=1779750398; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=J6fRPsUXaMKX0qPKfz3OqQyhzwCYHmD71RB3fhnMJPw=;
+        b=iKifQGEzAh3nSIZfpJZ9YmMOaA3tTspIJSBXVF+njJnVFVRWhMr60osRzOcmOzsKRX
+         YrGDT1oBgngfvbxZW/hzH6hciFB9fdnt4qrI18QoiRjMG7ybEfkCnD+4hvYqTZzhgQyc
+         HY1KpuxlP1Ql7R7Jm+eHeVN9Rj4CHp7JTNTqapF1TLxPuF/vokhvpCnrCujUlIHNNUK0
+         FO6byZ4mQg+RBG8hEiFzs5o5LAnIiBvAgVoWjtCusn2O0n/OX+RGKGvJh6uznc45IezW
+         3vI3xm5nYYRaDpNWpariflH0kh6b4/zXJNo7FWWFvPY6IL27dfbkncRf+YIwT2VgCx5F
+         mHeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779145598; x=1779750398;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J6fRPsUXaMKX0qPKfz3OqQyhzwCYHmD71RB3fhnMJPw=;
+        b=LZIShuz41bprVWgmThWnzuMfYSkX8htVsGi4tVR5BAzNAycbL5EnXQ1l0h6fNfsH3u
+         TPSTvagOa6E6CVjOK+sL5qXNoaK6yp/l/kdrWWMqHzrlIUcWF6ClRniz8Bz9vaRtoHWo
+         AZBTplH4yahciJrorojM5R+bH7QwRLhUWgX3GDkZ+fE5VH8oJqktmmFNA5PxuCCHY+WG
+         Svew2H6wkuDgNyM3rVbrtU7qWsVndumPtqAi/AIL3kVp7WMiNfYphWOiIrucShqwrkN4
+         jWROTf7uBqERKDfbos6VFECDNAZHKxJcRXqxc9UwFAcJ8oFIhLQ4TSSJ0E+ERHNtGLAA
+         B0GQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9nRUWB0SkYOP2XZXAJwQ4hiCOHhEtLpk0tba3vUsIt/HeEwnLLpwHapLKu9ABT97NKh0MP9gAEZ64=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQqhAqkh5S1q4KSRmnC9SwILK7A6SeTK1JIjpPzJahag1CDrC4
+	57TPT2l+3hF7rh37s/wC0qMJySA51B01vaKqlEuHb18CaLmarQGyIIGUDaWrXZYekUA=
+X-Gm-Gg: Acq92OHFp2+AQ3VY+Od2+8NkbTFdLGf/pS/HHMxHFy8YYkUopJP+kBAlZmIJx+eecIr
+	oQ8GP4sRX1m04KDMrtYefNLo/4jjCaVRC9XFq4Y/1cSMhRqWwAMJEDFhAUWT10lB6qPFVM5Gmn7
+	cu4OstslFTBOkjsKnQkiRUL9WMgB8ZZUUVKPH2Po3ApqhiNTo+0y4de44IHAXBaqAXNHDzJ4QBx
+	gGR+5IuC9jgLzhYxX+Ozkgu2OeZw2rjfZgBHKsih2cMOUmmG06OOugHQRqTezVjd8Rp9TM33mtG
+	oigUTbjg/0CaiFOCcxIq0ZByy2ffyK5bQXdZZWsfxi9oAFeC1ajiHCaD57truSu3TzlCPXh9jSS
+	K4y7BnQxCm+Mug9vGh9UdtfAMMzqZnXFiTJnoksF5TmC7PGQsLKDsgzKOmz2wRZZHPqZMfi7L2R
+	3PDA+DL/EMiBP87d8wffuLktvrAhbUy/4=
+X-Received: by 2002:a17:903:3c43:b0:2bd:e43c:12d0 with SMTP id d9443c01a7336-2bde43c14b7mr63463745ad.28.1779145598364;
+        Mon, 18 May 2026 16:06:38 -0700 (PDT)
+Received: from [192.168.89.2] ([119.214.48.64])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5bd5fb35sm159558035ad.12.2026.05.18.16.06.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 May 2026 16:06:37 -0700 (PDT)
+Message-ID: <7ff352be-05d2-4c21-931e-18238172e4d7@gmail.com>
+Date: Tue, 19 May 2026 08:06:34 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>, Guenter Roeck <linux@roeck-us.net>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ Yaroslav Isakov <yaroslav.isakov@gmail.com>
+References: <20260517130407.795157-1-hurryman2212@gmail.com>
+ <20260517130407.795157-2-hurryman2212@gmail.com>
+ <20260517232147.34931718.michal.pecio@gmail.com>
+ <144ec61c-4cc1-4986-a16c-7c1b99f3a72e@gmail.com>
+ <20260518233711.4c99cc72.michal.pecio@gmail.com>
+Content-Language: en-US
+From: Jihong Min <hurryman2212@gmail.com>
+In-Reply-To: <20260518233711.4c99cc72.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Ethan, Arnd, Peter and Dinh,
 
-On Mon, May 18, 2026 at 11:29:48AM +0200, Arnd Bergmann wrote:
-> We last discussed this a year ago when Simon Schuster mentioned[1]
-> that Siemens Energy is still using NIOS-2 in production and would
-> prefer to have this still included in Linux for at least another
-> few years until the obligation for kernel updates ends.
 
-First off, thank you, Arnd, for remembering us as this patch series came
-up and also to Dinh for his maintenance of the architecture!
+On 5/19/26 06:37, Michal Pecio wrote:
+> That's true.
+> Making this possible is the whole purpose of "if IS_ENABLED" here:
 
-Regarding our status in relation to nios2, Arnd's response already gives
-you the gist:
+I re-checked the Kconfig cases, and I think you are right here.
 
-We are well aware that the architecture was deprecated by Intel and are
-therefore phasing it out in favour of more contemporary hardware.
-I'm also fully aware of the uncertain future of 32-bit architectures as
-a whole [0] and that this fate will come to nios2 sooner or later.
-But as of now, the mainline support is still in very good shape.
+The two cases I was trying to avoid are:
 
-On Mon, May 18, 2026 at 12:57:35PM +0200, Peter Zijlstra wrote:
-> Isn't that what we have LTS branches for?
+  1. the sensor driver is built as a module, or loads only after the
+     initramfs stage, but the PROM21 controller has already been bound by
+     the generic xhci-pci driver, so no auxiliary device exists for the
+     sensor driver to bind to;
 
-Unfortunately, as we are an infrastructure provider for civil energy
-infrastructure, the refurbishment cycle is a bit slower than for
-traditional consumer systems. This implies that the traditional LTS
-support duration (max. Dec 2028 as of writing [1]) is rather short, and
-we would be glad if we could keep the architecture in mainline for at
-least 5 years and only then "decay" to LTS.
+  2. the built-in generic xhci-pci driver rejects the PROM21 controller, but
+     xhci-pci-prom21 is only available as a module and is not present during
+     initramfs, leaving USB behind that controller unavailable at that
+stage.
 
-On Mon, May 18, 2026 at 11:29:48AM +0200, Arnd Bergmann wrote:
-> My feeling is that the maintenance burden of keeping nios2 is
-> relatively low. On the other hand, maintaining it out of tree
-> as a patch set is also something that should not be all that
-> hard if it does get removed.
+Looking at your proposed Kconfig shape again, it handles both cases.
 
-Judging from the architecture's git history, it seems that it's
-currently mainly touched by treewide refactors, which are extremely
-helpful as we therefore do not have to piece these changes together 
-downstream. In other respects, we try to be good citizens and contribute
-bugfixes as well as required cleanups (such as implementing clone3 [2]
-and fixing its flag behaviour on 32-bit architectures) as they come up.
+If SENSORS_PROM21_XHCI=n, then no sensor support is requested and
+USB_XHCI_PCI_PROM21 can stay disabled. In that case generic xhci-pci binds
+the controller, which is fine because there is no sensor driver that
+needs an
+auxiliary device.
 
-If desired, we also would be happy to intensify our support regarding
-reviews or testing to share the maintnance burden if it helps to keep
-nios2 in mainline a bit longer.
+If SENSORS_PROM21_XHCI=m or y and USB_XHCI_PCI=y, then
+USB_XHCI_PCI_PROM21 follows USB_XHCI_PCI and becomes y. That means the
+PROM21
+glue is available during early boot, creates the auxiliary device, and the
+hwmon driver can still bind later if it is built as a module.
 
-Best regards,
-Simon
- 
-0: https://lwn.net/Articles/1035727/
-1: https://www.kernel.org/category/releases.html
-2: https://lore.kernel.org/lkml/20250821-nios2-implement-clone3-v1-0-1bb24017376a@siemens-energy.com/
+If USB_XHCI_PCI=m, then xhci-pci itself is modular. In that case needing the
+PROM21 glue module in initramfs is not a PROM21-specific built-in/module
+split
+problem; it is the normal requirement for a modular xHCI PCI setup.
+
+So I agree that tying the hidden glue option to whether
+SENSORS_PROM21_XHCI is enabled is reasonable.
+
+> Currently, you have a weird situation where xhci-pci-prom21 always
+> binds on x86 and xhci-pci on other platforms (with the unofficial PCIe
+> card you mentioned), plus the sensor cannot work on other platforms.
+
+Agreed. I also agree that the X86 dependency is only a heuristic and is
+not a
+good restriction for a PCI ID based driver. PROM21 is mainly used on AMD x86
+desktop platforms today, but the unofficial PCIe card example shows that the
+device can exist outside the normal AMD x86 chipset topology.
+
+I do not know whether other PROM21-related functionality is supported on
+non-x86 platforms, but this driver does not need to prevent the xHCI
+temperature sensor path from being built there.
+
+> One could further argue that neither should it care whether some hwmon
+> driver exists at all, or which kernel releases it exists in :)
+
+Right. I think the cleanest result is:
+
+  - generic xhci-pci handles PROM21 when no sensor support is requested;
+  - xhci-pci-prom21 handles PROM21 only when the sensor path is enabled;
+  - the hwmon driver remains the user-visible option.
+
+Unless Guenter or the USB maintainers object, I plan to change the next
+revision in that direction and test the Kconfig combinations locally.
+
+
+Sincerely,
+Jihong Min
