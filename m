@@ -1,96 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE8B24169D;
-	Mon, 18 May 2026 15:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9AE3EDAA6;
+	Mon, 18 May 2026 16:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779119038; cv=none; b=gOS4cjNXE9L9L8usjyb2qRgqDAqbVhW7+ImS8GhNNSpD4AXNJ+ruxVZlj2taNcWHKLezB8Caj/WXxqaM5ZRxLX/faLpAeHW0aTW0upzIsUKH3mqMvj22YEDK6tXWo7xLcU52Ma7gj+KM8aB1AK9C/tkoV60uNbFNuw6pP3E+6x4=
+	t=1779120324; cv=none; b=trURMq8siSJO8Atg+EJDgo2bjCYKcUces3xfe3QMN6IUNWBTJkSEHoSJ7VqMoxz0EHo03kCHVfK/6gB3qCn/pyz5jDt5aEpjKQs2jGM7nob6ed2EYkdXM//ofkzqksdU9vd4m3DpVe/RJgid4Alw2cE5qQB7+lmJ+n6lmxrio8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779119038; c=relaxed/simple;
-	bh=2ezjglnevhAB4I3slsDsPspjCGwAS8DII5WYJikxgB8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=FVQwd07Qj5mdGoPKJ0PGS3dI4cSYppBI+zp08QcEDgOMrL+7LJrvDmcPM6ckAbZ+AHgXKcQc1VkRhszjXSRm2oAwNdB93oS+LWp/ZqXdnoLdvS/0VH3skXGc/wp60vFOhxifqE1rhxHssYe6H9YbtBrXgHIlkKhVAPyxUxbOdMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cb9YgKLg; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779120324; c=relaxed/simple;
+	bh=v45vH87nw4D1mVKzarWJJcSPeeedXoh8U70fwZ5uNIM=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=IhtpXN7ejVWrF4AcsDpPX82h3VCTtQYb6d5cf8SlnvkIuCq/uAv2MBEW2Oe9P6M7M5itkhfBkOmqsR9gTTUGTDGLlpqSzUCbqnaRE4VpmDnB/2sqeSuwb4gwz8ueE++nW3vPLkFUVpg/yR8qYHXfNdR1UCL4Mnzk4xHASYND7FE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKuadpqx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cb9YgKLg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779119036; x=1810655036;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=2ezjglnevhAB4I3slsDsPspjCGwAS8DII5WYJikxgB8=;
-  b=Cb9YgKLgW3jxD6jePQUx7rztArMRbHBQBN85E+nTBVNnZbbgJNCbggSb
-   rvSC0CPtQDkAMMEzFg4r23j8p8vqZIIoDexA0nHWiFkzzMLiqsnFtbMGe
-   Za8QTUazJsrCBJIGYqzGtEK9OthYomFCP9Zljfd0yk/Cqseh2XzBZ31pl
-   BKZU2fgUioikKf7MeWFkl9bpn2e4W8yzU2ZGrbqBdDlABggoHsC6FU2X9
-   wpeTwpDGvapTAGUx3p39i8ImfiibFDJVyMyIRvQeprImzo3tk08GJEGBf
-   zNPhYYkYFC1tu/yfh+arbkA7ANRYE71Ye6XdWY9viXNkWEBCt5YpLPcwT
-   g==;
-X-CSE-ConnectionGUID: b34h4oZ2T1GcGULDOPJSKQ==
-X-CSE-MsgGUID: 5+iiA/cvSoqr3lFxD8KMwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="78996543"
-X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="78996543"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 08:43:55 -0700
-X-CSE-ConnectionGUID: EEACSAm2R0qyrLMoGuhueA==
-X-CSE-MsgGUID: lgboBeC3QhCvX9oafKgSOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="241282368"
-Received: from aschende-mobl.amr.corp.intel.com (HELO [10.125.109.65]) ([10.125.109.65])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 08:43:55 -0700
-Message-ID: <3d2755da-d94d-4db8-895d-1c591545ef66@intel.com>
-Date: Mon, 18 May 2026 08:43:53 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKuadpqx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6FA4C2BCB8;
+	Mon, 18 May 2026 16:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779120323;
+	bh=v45vH87nw4D1mVKzarWJJcSPeeedXoh8U70fwZ5uNIM=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=AKuadpqxx/B89jip0fD0/F6hJrYk16O+jiHGZYShm9K9VtN5pBKFsGgqBo20I5ail
+	 ISiyJTDFYH2i1DfvuVx2CD3sKJVsF5k89TIqWB2BU+Fp1EeBWTSh2T0DxqPgADEHac
+	 z5ubkK8DgtfwAAQtWuKVhzbZh3U5z3SnuK3JOu9aObyNybgxON7+MAXObx3cvuym+3
+	 oEzrRtnMgedctWwnbhFQqVIUYKiIMVrZWbWMyE1xwzT0oN2yqNrh/ELrB4E0QfnTop
+	 zTIw+ReT5bJLsu1VEBGgJQwD9ZHAeTGWAQT/8ysfG7QYBRXjNm9yHKtO9cqgycBDmR
+	 /SJ2RGtxp42+w==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id D5300F40071;
+	Mon, 18 May 2026 12:05:21 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Mon, 18 May 2026 12:05:21 -0400
+X-ME-Sender: <xms:wTgLagWI-LRzCyFvj5-SW88nR94iXyrzBoVO7amYDEiM5dYIfV556w>
+    <xme:wTgLavY7Me7FUFtq197eKP8PcoFR3HRWI_Ev1CaCeu-HoahZPI3ZEmHa4UHO9vmFI
+    ZYJaQee4KuIDmOvWZgEqd_ChXRUaaTf3wDnVTzOyhbKKm4PJmDIx7VU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeelfedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpeejvefhudehleetvdejhfejvefghfelgeejvedvgfduuefffeegtdejuefhiedukeen
+    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomheptghhuhgtkhhlvghvvghrodhmvghsmhhtphgruhht
+    hhhpvghrshhonhgrlhhithihqdduieefgeelleelheelqdefvdelkeeggedvfedqtggvlh
+    eppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthho
+    pedvgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhgvihhlsegsrhhofihnrd
+    hnrghmvgdprhgtphhtthhopehmrghthhhivghurdguvghsnhhohigvrhhssegvfhhfihgt
+    ihhoshdrtghomhdprhgtphhtthhopegrlhgvgidrrghrihhnghesghhmrghilhdrtghomh
+    dprhgtphhtthhopegrmhhirhejfehilhesghhmrghilhdrtghomhdprhgtphhtthhopehr
+    ohhsthgvughtsehgohhoughmihhsrdhorhhgpdhrtghpthhtoheprghnnhgrsehkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmhhhirh
+    grmhgrtheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:wTgLarH8t9U69HcggmaGlvvyhKqM09rbiNxOL98IFMm8CGNMzeI2uA>
+    <xmx:wTgLaqA45lDUbffJuwFEU3t8c7rGrIHAnSheFb4MBzWhDCag0wJMLg>
+    <xmx:wTgLagmNZDl4RFX2b8B6_OE97_XqPw1I0j0ncwVANEeyX5gI2DgDWw>
+    <xmx:wTgLao4YQfJeVgkS1nyGaY7VLPXxuIMbbsjWQzJEedW3Y4GeRV7h8A>
+    <xmx:wTgLantlG21DGkEHuT-ZUKqAYFMZUaUfPNSiI6pkVA64J3XgB2WINcyr>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id A907E780070; Mon, 18 May 2026 12:05:21 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: nvdimm: Include maintainer profile
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>,
- Ira Weiny <ira.weiny@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, nvdimm@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260518104306.39289-2-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20260518104306.39289-2-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: AAilal1C8uxw
+Date: Mon, 18 May 2026 12:05:01 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Christian Brauner" <brauner@kernel.org>,
+ "Jeff Layton" <jlayton@kernel.org>, "Chuck Lever" <chuck.lever@oracle.com>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Aring" <alex.aring@gmail.com>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Calum Mackay" <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <b727a784-1c7c-41dd-83a8-a43084e4c4f9@app.fastmail.com>
+In-Reply-To: <20260515-weltschmerz-folgen-68ca0db1ef84@brauner>
+References: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
+ <20260515-weltschmerz-folgen-68ca0db1ef84@brauner>
+Subject: Re: (subset) [PATCH v3 00/28] vfs/nfsd: add support for CB_NOTIFY callbacks in
+ directory delegations
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/18/26 3:43 AM, Krzysztof Kozlowski wrote:
-> No dedicated NVDIMM maintainers are returned by get_maintainers.pl for
-> the subsystem maintainer profile, thus patches changing that file miss
-> the actual owners of the file.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Acked-by: Dave Jiang <dave.jiang@intel.com>
-
-
+On Fri, May 15, 2026, at 1:26 PM, Christian Brauner wrote:
+> On Tue, 28 Apr 2026 08:09:44 +0100, Jeff Layton wrote:
+>> Re-posting the set per Christian's request. The only difference in this
+>> version is a small error handling fix in alloc_init_dir_deleg(). The old
+>> version could crash since release_pages() can't handle an array with
+>> NULL pointers in it.
+>> 
+>> ---------------------------------8<------------------------------------
+>> 
+>> [...]
+>
+> @Chuck, @Jeff, I've only merged the vfs specific changes into a stable branch.
+> You can pull it I won't touch it again. You can pull the nfsd work in in
+> whatever form you like. Same procedure I use with io_uring et al.
+>
+> Let me know if that work for you.
+>
 > ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7a65b220d93f..294909f6d488 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14751,6 +14751,7 @@ S:	Supported
->  Q:	https://patchwork.kernel.org/project/linux-nvdimm/list/
->  P:	Documentation/nvdimm/maintainer-entry-profile.rst
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/nvdimm/nvdimm.git
-> +F:	Documentation/nvdimm/maintainer-entry-profile.rst
->  F:	drivers/acpi/nfit/*
->  F:	drivers/nvdimm/*
->  F:	include/linux/libnvdimm.h
+>
+> Applied to the vfs-7.2.directory.delegations branch of the vfs/vfs.git 
+> tree.
+> Patches in the vfs-7.2.directory.delegations branch should appear in 
+> linux-next soon.
+>
+> Please report any outstanding bugs that were missed during review in a
+> new review to the original patch series allowing us to drop it.
+>
+> It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> patch has now been applied. If possible patch trailers will be updated.
+>
+> Note that commit hashes shown below are subject to change due to rebase,
+> trailer updates or similar. If in doubt, please check the listed branch.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> branch: vfs-7.2.directory.delegations
+>
+> [01/28] filelock: pass current blocking lease to 
+> trace_break_lease_block() rather than "new_fl"
+>         https://git.kernel.org/vfs/vfs/c/89330d3a60f7
+> [02/28] filelock: add support for ignoring deleg breaks for dir change 
+> events
+>         https://git.kernel.org/vfs/vfs/c/24cbf43337f4
+> [03/28] filelock: add a tracepoint to start of break_lease()
+>         https://git.kernel.org/vfs/vfs/c/e39026a86b48
+> [04/28] filelock: add an inode_lease_ignore_mask helper
+>         https://git.kernel.org/vfs/vfs/c/95825fdcc0b0
+> [05/28] fsnotify: new tracepoint in fsnotify()
+>         https://git.kernel.org/vfs/vfs/c/ad4489dcd08d
+> [06/28] fsnotify: add fsnotify_modify_mark_mask()
+>         https://git.kernel.org/vfs/vfs/c/12ffbb117b64
+> [07/28] fsnotify: add FSNOTIFY_EVENT_RENAME data type
+>         https://git.kernel.org/vfs/vfs/c/010043003c0c
 
+Looks good.
+
+To make the NFSD pieces apply, I need v7.1-rc4 and
+vfs-7.2.directory.delegations merged into vfs.all. Given your
+regular merge cadence over the past few weeks, I expect that
+will happen end of this week? Early next?
+
+
+-- 
+Chuck Lever
