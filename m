@@ -1,233 +1,249 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14ED3F6C4C
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 11:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C353F8880
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 11:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779104765; cv=none; b=QG9hCqlBB05FYj33AyvLI5WQSj9hJPV4kz2djJBfNCpJwPkym5z7hPD1xSF0cAwWS9W5nmS3pSHztAEw9v6UVcyoVgPtxc0bYkLOKLCogwugbhoYLFuo60nOUR2LKKH9HaPUOktjc+tCNMi1/wl0GJVLS/wU5kWcmGvLYpJllB4=
+	t=1779105378; cv=none; b=ZF5YKyqfsQjUhhBc+fLe0tzvQvDdjaMkU3ElpOd2d51yXIdrxuDeWOgz6gM/HGQjEkZZ8A0KAjxjg46JjDmr+teSO0OshHTm+G0v6GVNSFCqyEycGuXE+4jiyiJmmUYwR5lDkAgeUXsHA7S1NSEuO8RM77xpf9X+74hdFJVcA9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779104765; c=relaxed/simple;
-	bh=1yuJZujnJQq9wJqVPIoiZiDLsjPcYcNjsPmSeto0ClA=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mF5sxvnsJCciMC8uSHP9uc2/7p8HyeGa3eRVrA1SHs0RmATHVv7mYSvlnslyoh5oDa0wJ8NKX/bLwwkYxHjEEqaczb18g5FXz5VO7kR62J80SwXUWBLcreUGoFQ87/YRTvJ7UQE+velWiV2ZApNMJAF+xPwq+lLEIwHQQxmmGGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NhOvqbPZ; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779105378; c=relaxed/simple;
+	bh=lfpuBWpE/drB2RGskLZuxkE7ezxb0JMljtdwM6JQyMc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BbcwjjaS0tO+AXEks97SMeT3rcvoxDSztmvsbMV8ssp6eNnSTZqQgFL5NAUM/QS2BD/HDswdMmSqAnBWYgv0mof0wXNVZ6Idg8HSv70RAAvvtk/clpRYzQ2Z1hsgY5y0htGykOT5t5bmNAGcjk6qbQ7UfuqBh9HrthItZqd46JI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rdqyiaYq; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NhOvqbPZ"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43d7e23defbso1151137f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 04:46:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779104762; x=1779709562; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7glLEzH6ZByBVkx3BNOToB7H47RR2NhR7VOuAUnFczk=;
-        b=NhOvqbPZg3CekKfNxlhbRPOYzXmE32W3WSMDG5ZJ1OhN3ck+d6oLCIF3f/CtkKSFRS
-         JQ8MWcnz2MMqIaiuRrcHSj9Bw1Zy+06xJ49CCWzg+n5kGJliMgmJvKdmb3HZaAQukVnP
-         rcfKms4/Km4svFw/80dx7VSHMUkTLZdWsXQHeD7lh5Oq/vP4atWHYErzQEI9P2hTkW8F
-         7KQnCF0HdHQ9zWj/GIvc/J1uLcP36TtVAU0L2GjbyG2ARHkjw32ihQurSveI4j+ZPnuu
-         C/P6lvW+DvQss6V0uypMZG8B0jaDtbWXw+a7l48/Zf3X0lPqe8J/1Ryoqaw5ltNWSNvV
-         QNJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779104762; x=1779709562;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7glLEzH6ZByBVkx3BNOToB7H47RR2NhR7VOuAUnFczk=;
-        b=n/NaD7L//QfuG6XdjKbL1z+DLSTzQ6MOrcRmwM9f0N4tlW31ZL0qN+S8Kp2ryVN1J5
-         WlwfeTTF4ow52G36gEvCV4bznY26z2JURopiqkwBxcRLbgetWzCJRQznXrbmy1PbI4Wq
-         PJwKsK6ZH53L64KSvhvcszujztor+TXfrJIsMQrwTko6HJ8WmaapxQQtSvXhM5UWxyuz
-         sywG+XenLaz5fEmXNilWDfyKdn5ykRzofZScomxbAX/dK4vszKpEPZN3PF+e+aSowKn5
-         6JjThszzg2Ogj//YL/OJlMICNMzoZVx9gpZls6dcpFXFZq4159wbAcj61PFBcKoQA51m
-         HoZA==
-X-Forwarded-Encrypted: i=1; AFNElJ8kjJdKK5lqEqT7tgIEy5dUacNksmSkfvHN+v8qnKderbyNV94m6s6MSC3z+2n3tU2b1FWxECmWYYo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJziExRIon+10yNWBGdT42X/cViPc8Q7d76sw8szv+CHSkQrko
-	5zsr2f3YGFXJ3ckduBMyANAF0wa5Drvv6tNkQVdtMB0gpIJLHfZs96S9
-X-Gm-Gg: Acq92OFfRexFF50ZXmEblwswnUgIERkLb8E3mvekQzOM/ikl0qsZESko0x5bPTYkbKJ
-	dRKj5enhNn2GUSCsx2ej79Ifs/sUU+NR4ly8Gc9wnNNGvslVVJk8SlQ5hAFzb4G9xr4nrdiMInP
-	RcBjbexTDce9QS/U5TLLPiqUapPPW2Ii1fbNzf4uL1syrZdvP7iq+OihWrrY9ExXA6mq9ujgZjP
-	QOHBukHRT6thslUteOzvrtYvvTeeqBpc9gPbGxM5rAIZJQ4wrVse8TffiUYNvneKlju/kDAhmej
-	mSq7dBDcWClh1YICvoeNcJZTVYbb1joZB7ydySD7X1oha1TA6pbPotO9BDyb5qz0ALJuOHDloA6
-	O8uYUirTczIMUiTIBVSW+ra5iftPvc/FSAnGo7VH5DHHMVs2HYHEM1+3Bzs5b/AgARA9avtcRo9
-	eDjT7Z/gRQX76WK/UPSgmQ292rphI7TjNcGSK1yN2P74fre21aJM3BxfXuachHQVbxHGqZ3qaCk
-	hFSuY2DZHDCBw5tzBrluvrIBN+XBKcubCLN2rDD7Nzuq9OzzDE1k7sfp+XY
-X-Received: by 2002:a05:6000:2f87:b0:452:c246:ab7a with SMTP id ffacd0b85a97d-45e5c5beb43mr23682888f8f.14.1779104761877;
-        Mon, 18 May 2026 04:46:01 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a17ec2sm33901792f8f.24.2026.05.18.04.46.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 04:46:01 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Mon, 18 May 2026 12:45:55 +0100
-To: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hardening@vger.kernel.org
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v5 06/13] iio: frequency: ad9910: initial driver
- implementation
-Message-ID: <3hmrlvjzxoh6vasxdku36sin25g36ienzqingm5iu6gqtkeduj@4dxxraojyfic>
-References: <20260517-ad9910-iio-driver-v5-0-31599c88314a@analog.com>
- <20260517-ad9910-iio-driver-v5-6-31599c88314a@analog.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rdqyiaYq"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1779105363;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0LJeLV2647C+GmwKXUyT3/UeLI1LWOfAc30rkgrn0ms=;
+	b=rdqyiaYqPu/3PGr8wI8hiBGi8r49XAev4HhrQSjq2yn+GuqjVSomehva6Vv/1joKeJCYm2
+	AxIJ3YQcKZvuKJIYrgCvb5HhkMUwLM11PF58ri2ZAi6OeIw3qVQINowz/X6q9sDGDsbjVE
+	cg+Xr8pxJdU77R/0uRSV3F7ivZO1xE4=
+From: Usama Arif <usama.arif@linux.dev>
+To: Nico Pache <npache@redhat.com>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	anshuman.khandual@arm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	byungchul@sk.com,
+	catalin.marinas@arm.com,
+	cl@gentwo.org,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jackmanb@google.com,
+	jannh@google.com,
+	jglisse@google.com,
+	joshua.hahnjy@gmail.com,
+	kas@kernel.org,
+	lance.yang@linux.dev,
+	liam@infradead.org,
+	ljs@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	matthew.brost@intel.com,
+	mhiramat@kernel.org,
+	mhocko@suse.com,
+	peterx@redhat.com,
+	pfalcato@suse.de,
+	rakie.kim@sk.com,
+	raquini@redhat.com,
+	rdunlap@infradead.org,
+	richard.weiyang@gmail.com,
+	rientjes@google.com,
+	rostedt@goodmis.org,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shivankg@amd.com,
+	sunnanyong@huawei.com,
+	surenb@google.com,
+	thomas.hellstrom@linux.intel.com,
+	tiwai@suse.de,
+	usamaarif642@gmail.com,
+	vbabka@suse.cz,
+	vishal.moola@gmail.com,
+	wangkefeng.wang@huawei.com,
+	will@kernel.org,
+	willy@infradead.org,
+	yang@os.amperecomputing.com,
+	ying.huang@linux.alibaba.com,
+	ziy@nvidia.com,
+	zokeefe@google.com
+Subject: Re: [PATCH mm-unstable v17 02/14] mm/khugepaged: generalize alloc_charge_folio()
+Date: Mon, 18 May 2026 04:55:51 -0700
+Message-ID: <20260518115553.3513034-1-usama.arif@linux.dev>
+In-Reply-To: <20260511185817.686831-3-npache@redhat.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260517-ad9910-iio-driver-v5-6-31599c88314a@analog.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 26/05/17 07:20PM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 6 potential issue(s) to consider:
-> - [High] Incorrect usage of `device_property_read_u32_array` causes single-value property `output-range-microamp` to be ignored.
-> - [High] VCO_SEL field is incorrectly set to an out-of-bounds value (7) when the PLL is bypassed.
-> - [High] Stack out-of-bounds read in `ad9910_profile_set()` triggered by unvalidated GPIO descriptor count.
-> - [High] Missing resource teardown: device reset line is never asserted on driver removal.
-> - [Medium] PLL multiplier clamping logic violates the hardware's minimum VCO operating frequency.
-> - [Medium] Missing hardware initialization delay after reset deassertion can cause SPI communications to fail.
-> --
+On Mon, 11 May 2026 12:58:02 -0600 Nico Pache <npache@redhat.com> wrote:
+
+> From: Dev Jain <dev.jain@arm.com>
 > 
-> commit fb6e130c7d866653f35ab965acf927500a84756c
-> Author: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> Pass order to alloc_charge_folio() and update mTHP statistics.
 > 
-> iio: frequency: ad9910: initial driver implementation
+> Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Acked-by: Usama Arif <usama.arif@linux.dev>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Signed-off-by: Dev Jain <dev.jain@arm.com>
+> Co-developed-by: Nico Pache <npache@redhat.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>  Documentation/admin-guide/mm/transhuge.rst |  8 ++++++++
+>  include/linux/huge_mm.h                    |  2 ++
+>  mm/huge_memory.c                           |  4 ++++
+>  mm/khugepaged.c                            | 17 +++++++++++------
+>  4 files changed, 25 insertions(+), 6 deletions(-)
 > 
-> Add the core AD9910 DDS driver infrastructure with single tone mode
-> support. This includes SPI register access, profile management via GPIO
-> pins, PLL/DAC configuration from firmware properties, and single tone
-> frequency/phase/amplitude control through IIO attributes.
-> 
-> > diff --git a/drivers/iio/frequency/ad9910.c b/drivers/iio/frequency/ad9910.c
-> > new file mode 100644
-> > index 0000000000000..c7b1e474c92df
-> > --- /dev/null
-> > +++ b/drivers/iio/frequency/ad9910.c
-> [ ... ]
-> > +static int ad9910_set_sysclk_freq(struct ad9910_state *st, u32 freq_hz,
-> > +				  bool update)
-> > +{
-> [ ... ]
-> > +		tmp32 = clamp(tmp32, DIV_ROUND_UP(AD9910_PLL_OUT_MIN_FREQ_HZ, refclk_freq_hz),
-> > +			      AD9910_PLL_OUT_MAX_FREQ_HZ / refclk_freq_hz);
-> > +		tmp32 = clamp(tmp32, AD9910_PLL_MIN_N, AD9910_PLL_MAX_N);
-> > +		sysclk_freq_hz = refclk_freq_hz * tmp32;
-> 
-> Is it possible for this second clamp to drop the multiplier below the
-> minimum frequency constraint? If the input reference clock is 3.2 MHz,
-> the first clamp would raise the multiplier to 132 to reach 420 MHz, but
-> the second clamp limits it to 127. This results in a VCO frequency of
-> 406.4 MHz, violating the hardware minimum. Should the driver return
-> -ERANGE instead if the bounds cannot be satisfied?
+> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+> index 5fbc3d89bb07..c51932e6275d 100644
+> --- a/Documentation/admin-guide/mm/transhuge.rst
+> +++ b/Documentation/admin-guide/mm/transhuge.rst
+> @@ -639,6 +639,14 @@ anon_fault_fallback_charge
+>  	instead falls back to using huge pages with lower orders or
+>  	small pages even though the allocation was successful.
+>  
+> +collapse_alloc
+> +	is incremented every time a huge page is successfully allocated for a
+> +	khugepaged collapse.
+> +
+> +collapse_alloc_failed
+> +	is incremented every time a huge page allocation fails during a
+> +	khugepaged collapse.
+> +
+>  zswpout
+>  	is incremented every time a huge page is swapped out to zswap in one
+>  	piece without splitting.
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index 2949e5acff35..ba7ae6808544 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -128,6 +128,8 @@ enum mthp_stat_item {
+>  	MTHP_STAT_ANON_FAULT_ALLOC,
+>  	MTHP_STAT_ANON_FAULT_FALLBACK,
+>  	MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE,
+> +	MTHP_STAT_COLLAPSE_ALLOC,
+> +	MTHP_STAT_COLLAPSE_ALLOC_FAILED,
+>  	MTHP_STAT_ZSWPOUT,
+>  	MTHP_STAT_SWPIN,
+>  	MTHP_STAT_SWPIN_FALLBACK,
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index e9d499da0ac7..05f482a72a89 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -699,6 +699,8 @@ static struct kobj_attribute _name##_attr = __ATTR_RO(_name)
+>  DEFINE_MTHP_STAT_ATTR(anon_fault_alloc, MTHP_STAT_ANON_FAULT_ALLOC);
+>  DEFINE_MTHP_STAT_ATTR(anon_fault_fallback, MTHP_STAT_ANON_FAULT_FALLBACK);
+>  DEFINE_MTHP_STAT_ATTR(anon_fault_fallback_charge, MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE);
+> +DEFINE_MTHP_STAT_ATTR(collapse_alloc, MTHP_STAT_COLLAPSE_ALLOC);
+> +DEFINE_MTHP_STAT_ATTR(collapse_alloc_failed, MTHP_STAT_COLLAPSE_ALLOC_FAILED);
+>  DEFINE_MTHP_STAT_ATTR(zswpout, MTHP_STAT_ZSWPOUT);
+>  DEFINE_MTHP_STAT_ATTR(swpin, MTHP_STAT_SWPIN);
+>  DEFINE_MTHP_STAT_ATTR(swpin_fallback, MTHP_STAT_SWPIN_FALLBACK);
+> @@ -764,6 +766,8 @@ static struct attribute *any_stats_attrs[] = {
+>  #endif
+>  	&split_attr.attr,
+>  	&split_failed_attr.attr,
+> +	&collapse_alloc_attr.attr,
+> +	&collapse_alloc_failed_attr.attr,
+>  	NULL,
+>  };
+>  
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 979885694351..f0e29d5c7b1f 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -1068,21 +1068,26 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
+>  }
+>  
+>  static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_struct *mm,
+> -		struct collapse_control *cc)
+> +		struct collapse_control *cc, unsigned int order)
+>  {
+>  	gfp_t gfp = (cc->is_khugepaged ? alloc_hugepage_khugepaged_gfpmask() :
+>  		     GFP_TRANSHUGE);
+>  	int node = collapse_find_target_node(cc);
+>  	struct folio *folio;
+>  
+> -	folio = __folio_alloc(gfp, HPAGE_PMD_ORDER, node, &cc->alloc_nmask);
+> +	folio = __folio_alloc(gfp, order, node, &cc->alloc_nmask);
+>  	if (!folio) {
+>  		*foliop = NULL;
+> -		count_vm_event(THP_COLLAPSE_ALLOC_FAILED);
+> +		if (is_pmd_order(order))
+> +			count_vm_event(THP_COLLAPSE_ALLOC_FAILED);
+> +		count_mthp_stat(order, MTHP_STAT_COLLAPSE_ALLOC_FAILED);
+>  		return SCAN_ALLOC_HUGE_PAGE_FAIL;
+>  	}
+>  
+> -	count_vm_event(THP_COLLAPSE_ALLOC);
+> +	if (is_pmd_order(order))
+> +		count_vm_event(THP_COLLAPSE_ALLOC);
+> +	count_mthp_stat(order, MTHP_STAT_COLLAPSE_ALLOC);
+> +
 
-I suppose that would not be problematic as the PLL does accept that input
-frequency. Even though the VCO might not be designed for frequencies as low as
-406.4 MHz, we are doing the best effort here to get a proper configuration.
- 
-> [ ... ]
-> > +	} else {
-> > +		tmp32 = DIV_ROUND_CLOSEST(refclk_freq_hz, freq_hz);
-> > +		tmp32 = clamp(tmp32, 1U, 2U);
-> > +		sysclk_freq_hz = refclk_freq_hz / tmp32;
-> > +		tmp32 = AD9910_CFR3_VCO_SEL_MSK |
-> > +			FIELD_PREP(AD9910_CFR3_REFCLK_DIV_BYPASS_MSK, tmp32 % 2);
-> > +		ret = ad9910_reg32_update(st, AD9910_REG_CFR3,
-> > +					  AD9910_CFR3_VCO_SEL_MSK |
-> > +					  AD9910_CFR3_REFCLK_DIV_BYPASS_MSK,
-> > +					  tmp32, update);
-> 
-> Does setting tmp32 with AD9910_CFR3_VCO_SEL_MSK cause the update function
-> to write an out-of-bounds value here? Because tmp32 contains the entire
-> mask, the underlying field will be set to 7, but the valid range for the
-> vco sel field is 0 to 5.
+The vmstat THP_COLLAPSE_ALLOC counter is pmd order only.
+But after this we have
 
-No, 6 and 7 means PLL bypassed (Table 8 in the datasheet). Also, 7 is the
-default value of that bitfield.
+	count_memcg_folio_events(folio, THP_COLLAPSE_ALLOC, 1);
 
-> [ ... ]
-> > +static int ad9910_profile_set(struct ad9910_state *st, u8 profile)
-> > +{
-> > +	DECLARE_BITMAP(values, BITS_PER_TYPE(profile));
-> > +
-> > +	st->profile = profile;
-> > +	values[0] = profile;
-> > +	gpiod_multi_set_value_cansleep(st->gpio_profile, values);
-> > +
-> > +	return 0;
-> > +}
-> 
-> Could this cause an out-of-bounds read on the stack? The values bitmap is
-> sized using BITS_PER_TYPE(profile), which allocates space for 1 unsigned
-> long. If the device tree provides more profile gpios than fit in an unsigned
-> long, gpiod_multi_set_value_cansleep() might read past the end of the bitmap
-> when iterating over the descriptors.
+which is not being guarded with is_pmd_order().
 
-well, profile-gpios are at most 3 pins. I'll see to constraint that in the
-probe function.
+I think we want this to be pmd order only as well so that
+the meaning of the vmstat and cgroup counter remains the same?
 
-> [ ... ]
-> > +static int ad9910_parse_fw(struct ad9910_state *st)
-> > +{
-> [ ... ]
-> > +	tmp[1] = AD9910_DAC_IOUT_DEFAULT_uA;
-> > +	device_property_read_u32_array(dev, "output-range-microamp", tmp,
-> > +				       ARRAY_SIZE(tmp));
-> 
-> Will this properly read a single-value property? Because ARRAY_SIZE(tmp)
-> is passed as the expected element count, device_property_read_u32_array()
-> might return -EOVERFLOW and leave the tmp array unmodified if only one
-> value is present in the device tree, causing the property to be silently
-> ignored.
 
-Ignoring those misconfigurations might be ok too. One can refer to the
-bindings to have a proper reference.
-
-> 
-> [ ... ]
-> > +static int ad9910_setup(struct device *dev, struct ad9910_state *st,
-> > +			struct reset_control *dev_rst)
-> > +{
-> > +	int ret;
-> > +
-> > +	ret = reset_control_deassert(dev_rst);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> 
-> Is a teardown action missing for the device reset here? Without adding a
-> managed action to assert the reset line, the hardware might remain active
-> after the driver is unloaded or if a subsequent setup step fails.
-
-I'd say it can't remain active with the power down pin being handled already.
-
-> Might this also require a hardware delay before the first spi write? The
-> datasheet specifies waiting for the internal state machine to become ready
-> after a low-to-high transition on the reset line. On fast hosts, the
-> immediate spi access might be ignored.
-
-Could not find that info in the datasheet. What is says is that the reset
-clears memory elements, e.g. registers are set to default values.
-
-> > +	ret = ad9910_reg32_write(st, AD9910_REG_CFR1,
-> > +				 (st->spi->mode & SPI_3WIRE ? 0 :
-> > +				 AD9910_CFR1_SDIO_INPUT_ONLY_MSK), false);
-> > +	if (ret)
-> > +		return ret;
-> 
+>  	if (unlikely(mem_cgroup_charge(folio, mm, gfp))) {
+>  		folio_put(folio);
+>  		*foliop = NULL;
+> @@ -1118,7 +1123,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+>  	 */
+>  	mmap_read_unlock(mm);
+>  
+> -	result = alloc_charge_folio(&folio, mm, cc);
+> +	result = alloc_charge_folio(&folio, mm, cc, HPAGE_PMD_ORDER);
+>  	if (result != SCAN_SUCCEED)
+>  		goto out_nolock;
+>  
+> @@ -1899,7 +1904,7 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+>  	VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
+>  	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
+>  
+> -	result = alloc_charge_folio(&new_folio, mm, cc);
+> +	result = alloc_charge_folio(&new_folio, mm, cc, HPAGE_PMD_ORDER);
+>  	if (result != SCAN_SUCCEED)
+>  		goto out;
+>  
 > -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260517-ad9910-iio-driver-v5-0-31599c88314a@analog.com?part=6
-
--- 
-Kind regards,
-
-Rodrigo Alencar
+> 2.54.0
+> 
+> 
