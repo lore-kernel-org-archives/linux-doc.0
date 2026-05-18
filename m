@@ -1,443 +1,269 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011063.outbound.protection.outlook.com [40.93.194.63])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F27481AB8;
-	Mon, 18 May 2026 14:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779113747; cv=fail; b=pnb+1MCXtcwkXTCWAZqi/UDftvGWoAjgzg5llZcwI88b4P/lOB9Ent01GEGXnOAcQr/MBd6Bp4erw9owuyQW98OaohPElobRDMUwOnCy+H5XJeXeqNltzgwNDTlt/pdQCxtmwG4vmgkLqFEQMTn985bCBbK7j16Udf34QIZ2PmU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779113747; c=relaxed/simple;
-	bh=MGMfsBNOvM23R8tZupevn+SebAa4kA9mGypE+5agXbM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ewwWnb+GlQ1O17Ti5Fgmn8Jk/moTGtjaqql3eBIFEchmaPrxWjsnocAlvVql+D4uRCzyysJSEdJKR+JRJ2weJM0qNmCQHphQ57E3d77UtKlOfskGSP905FMACoYKyJZJbas/I3+J0NS0zZ+k6x2lF9+dOtvHc8dscyTzbxlZa8k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=d5P61gEw; arc=fail smtp.client-ip=40.93.194.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF50D3F6C3E;
+	Mon, 18 May 2026 14:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779114078; cv=none; b=Qzz5H3hkaKiVh/9jEZ3v4e0Rh9TarwVRQP5aw21PZGz+7b0Fz1Cu7MOGIoDZrRsRlgXtmSWsvUQKba+jdC+IFJrWYO2YW1PqiF0cGiiFShaRcw3hp04l4mde787mst6Gqb0M90TyCuOSQXUahnPGV0FhaopWg6/vKzW+6mg3xSM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779114078; c=relaxed/simple;
+	bh=4JTnJo51lYwkVot9a+w1x7GmHxbJZVsWI0vpr1W/ws8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u4vIdgz1weHKMwuB64MNv9LvySMs/hisN9FOyf/BNG13qe9sh+qgRgjKOm1kf2LeI89T+NY1WIJ5LtjtZsXA+78ftLoKqpydIrRgPDqVV5JhKHdJ/i3a82Ev7Olq+AgGuqS5ReMZKVvL70b2gfuBn+db/mf9W4PvZyJsxJ8fmAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gR6Agr3e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="d5P61gEw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QuBo9NfVgKumhv6Rh1fOwQFkvTOtDcoR//8/ldCtbbEkDM9WPtV9dCD/YQvjoelLxfyZZR94e/NwdyZFN1w/EvZ35iha3fNIySeYozIYwcI2aUufHJSTuAmZ6hUsbHRH8Cc/Vg38gm4t01Zx6UMwtO29tBjaDNVjc4bhaLByMk+sLMie74/Kn7kUjpxYTS2X+yJeHCM+GOMmrKtET6akNqBDiOleg/Nl/39FFUWGcWzmsnQ+q371jUOwlX0BB3MlfvdlnKoEIRiRSipQ0MxILO2YeonSUqJpyaoO26wk2LKz0s2PpS5DsUJ65IHsTqQDyajTb7lucbcsRszaSI0Mwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4C2SgUB/UhppwC8k47Lf1TQECFUUL5gSuZIdw/r3fHI=;
- b=ivOsCbfXUplQVehbctz+T1KZ2EordVGpoqB1EXAKYw3X1zzxcOfu3Fku54AVZwmaCxECb/hrBmE8R2h5Wy2bvjlad0CKrh9XTtu/qf2jrqIZnjC5dHbJNLat7SGjMucrSg1n/GETSh/QYRLGbHijif09woFnK20sSX46O2hofjmeYUTOZ7XH9nNKu1XNL1FTvNR9GGsTtP2tUkGfWcAoAlWzqZHLJQm1pDgaquWXs0L7NaQSQU39bgs1Xr5xO3w1UusqWiDhkLTO9SXHC0WE+KbFWZxAZNA5C4lCHY44e2E0O18Z5ha3uvET9Mrm8aUc/6Cb+Gb8+O4KWYwN7vuZNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4C2SgUB/UhppwC8k47Lf1TQECFUUL5gSuZIdw/r3fHI=;
- b=d5P61gEwo0qtMD1I/5Zr2i60xmJ/StlR6s7nsoNiTZXWvaZalTxlEuEeLZtERZ+8xqnKl3Zk/6syyhqLQGKka1rD8ufT7+7nvX7gVoNWFHYfJLStNglZ6Q6/ExnoHdS5rpqejqiJmRXk5PucFnZxdh1Oya5ld8fSF/9uG1Ov5lZV+dN9/0p6aQdvIxgP9L9ynX2rPlYL9NcioOjTfxFIteQiW3dHApn48ADf+61UV4Wc5Ht+VFirG3OZlZYS7E0yPcDAjcLXuZSco5q2wkrPufDWISZeON7ZcTo9xjAB4qnvCXsMWW9VM2J0SIU+1VdTLe3TzmQTWQNvy8fJ7Ko0yQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
- by CH0PR12MB8486.namprd12.prod.outlook.com (2603:10b6:610:18a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.23; Mon, 18 May
- 2026 14:15:33 +0000
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f%4]) with mapi id 15.21.0025.022; Mon, 18 May 2026
- 14:15:33 +0000
-Message-ID: <e1a546f2-6e7e-4236-97bb-f72bea0137f7@nvidia.com>
-Date: Mon, 18 May 2026 19:45:23 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] cpufreq: CPPC: add autonomous mode boot parameter
- support
-To: Mario Limonciello <mario.limonciello@amd.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, pierre.gondois@arm.com, ionela.voinescu@arm.com,
- zhenglifeng1@huawei.com, zhanjie9@hisilicon.com, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, linux-pm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
- vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
- mochs@nvidia.com, bbasu@nvidia.com
-References: <20260515122624.1920637-1-sumitg@nvidia.com>
- <20260515122624.1920637-3-sumitg@nvidia.com>
- <bf521e4e-1aa5-49ce-bec5-52845f02214e@amd.com>
- <139d2f0e-72d9-4721-9d5a-d1d4a2a95fa1@nvidia.com>
- <72fd2fcc-6303-4980-beb7-e4b711ad6406@amd.com>
-Content-Language: en-US
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <72fd2fcc-6303-4980-beb7-e4b711ad6406@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5P287CA0096.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1d4::11) To BN9PR12MB5179.namprd12.prod.outlook.com
- (2603:10b6:408:11c::18)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gR6Agr3e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8253AC2BCFA;
+	Mon, 18 May 2026 14:21:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779114076;
+	bh=4JTnJo51lYwkVot9a+w1x7GmHxbJZVsWI0vpr1W/ws8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gR6Agr3eAos7fSGAABTi1vFd6i19cW7ktH2QMt59oqUuyoX9bOJXYy4qbVBu7XYYr
+	 Qo39rkjpee7dPAQcn4IjkMO5kdQOCCF9Bbu0wdViedOm0U0Uc6Kno0aN06PvQ3a/Zi
+	 xW/leZBRumXNNB/tyh4IqLxg1rdgygkGvuHHOAh24p0rnTOfrVam422/hP5hnA2P70
+	 cNz49HhIQ1gEU97Xa1vKHFiIS0X1lfDk824L2ieJNf+tPWjX0HIJRocYQzHOYQqz09
+	 1GecBrZmDvMzbrqbBWCg7LoNDWPFus0YfJmOFnBk1RSNkHHLUYUROgqJLjtBg8kD0Y
+	 +6jqsWLT2MIfg==
+Date: Mon, 18 May 2026 15:21:03 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, Bartosz
+ Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v11 3/6] iio: adc: ad4691: add triggered buffer support
+Message-ID: <20260518152103.4d428c1e@jic23-huawei>
+In-Reply-To: <58a66855-9fb3-48ca-8cae-ff9277f745df@baylibre.com>
+References: <20260515-ad4692-multichannel-sar-adc-driver-v11-0-eab27d852ac2@analog.com>
+	<20260515-ad4692-multichannel-sar-adc-driver-v11-3-eab27d852ac2@analog.com>
+	<9b7986e1-6550-415d-b301-33089ba10177@baylibre.com>
+	<20260517132526.27c71b70@jic23-huawei>
+	<58a66855-9fb3-48ca-8cae-ff9277f745df@baylibre.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|CH0PR12MB8486:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56787747-ce18-419f-e891-08deb4e7ec7f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|3023799003|11063799003|4143699003|22082099003|56012099003|18002099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	zQgXaQRbkt1razk9PAvTHg0j6GKl/PzxewSlw6SzTwZ+367RPOK3gAtnOz1bYZfvK6+80BmowDHmuqBq9M80cBHWj5kXZIEPe1IDIsK8bXmlgXOUs7nrCUnIg4kkoAKuwXh/JlyQxg0YWDXFhfXwQbqtR8DHwkihmi29BS5pwno8lrt6CMJ/0+XJ/9Ze8oznpfwSPUMWNt8oMxr6QqtnHolA2kxJhoEZqyq5iVjibSlHqZldlXhaaI3HHCBeEon7AWm8lZ3MSGhixUQPPDRoin28IgKLTtVm5jkgTKrP7k5cAIxVMpgpRm5LxuYwNxpTarCan9o77BrOuFr6r9gTQidiqceRlCF6nOBPlibh7kCc3ZGoyKoAiRzFHs1bshVyzkUQpSSR3q1kldutd0QTYwBRFYgTzwceVEqCA/nDVYCXpavo18qjtTvLxSrQTkkC0NBofe3CmmJ33SwUKLo/9T+MsRYA3nllCnEDyYE0SKkYmvxYM3QCtrxoBXvtcr8dp0qaEc8jE2HHeYBH6uFE3saB9VgA+Rfc/RIf3vY7RIjMI+x1ewf4NhrzFC2YgAiE9O1xXXGKmf41kPdmZyfIuO6dkMZOJq2dcQ9yFRG0mMEbe9O6SfiDQLc9vi1oZr/08VzvolGw/HNEhH0F4Zt1BuupAoXI/m5czzbQcv7/iHVmk0BuGulH0XK7IWYwY5TJ9pJlBsVpiQ2FIc8H/90MzDj3w9/zk7TafkVdlQhR2j67oZOq2aeeHQ2B4xZ69w9B
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(3023799003)(11063799003)(4143699003)(22082099003)(56012099003)(18002099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aGJzbm1iSnZsNW1vZXg1UW9YSi9VNHorcVI0OUdYZ2EvbXo4TnhhUVpXYXZJ?=
- =?utf-8?B?UGhHM1FjYUlUQVRxZ3ZQcmdvM0ZhdlBRWmRWQmsvZkpnTzA5M2xCOWRZUkJV?=
- =?utf-8?B?RnZWcUhaVkdSeGg3RHRHc0tYSWVqSVJyeDRiZXJjRGxRb1I4SFVtQjV2UUtC?=
- =?utf-8?B?ZFBteEV5eU8wZ1ZhUU5ROUxINExCdkRnMWE4OGM5Y0JzeFRVUlJseXZNQm9q?=
- =?utf-8?B?RkREUGV2cGE2ZkdrdjEzR2p2dUFadU9jMnZCYjFXRWNHK0p2aG5QQUwwdk52?=
- =?utf-8?B?UmZ3VjZtYzZGeVo2ZjNHdEJLcmRpOVZ4YmdHcG9TUEN6L2hBL1BzV3FEbmFG?=
- =?utf-8?B?R1c4UDAzNEhyeDRrWWtpemhpamVWNEp0WjUxN1E5RkpkZE5ZWjEraWlnanRq?=
- =?utf-8?B?a1hoaGlVMUJPZHVDbmcxWGJHZGpCUVE2U1cxWElKS210djYyUEwyTnVxd1ds?=
- =?utf-8?B?am4wUm4wd2EyMExVeklRMkxNZHBQbkVraHp6aFUwbW9EeFFGcHdiKzdlMGdX?=
- =?utf-8?B?UlQyY3JrRk5CdWRORmpHT0tVUmd5UUhsMFVHZGVSdjRGNHFSNzRDYXA4ZW1Q?=
- =?utf-8?B?eTI0SGh6NERRNTRJbmFTWlZ1d0tpT2JsWHY3c0dtbWlJZ1dIaHFiOVptbUJ0?=
- =?utf-8?B?MitmaU5Bc2VxT0VMUFdPcVJmMDRRRVZkOU8zQ3NDMHhNNjRDdDRtOUwwNGJU?=
- =?utf-8?B?cU1pUmhOWk9RZVNjcHJkVTgxdUdkWnp3Tm56cmdxRHNxdE1NTlF2RFR6citM?=
- =?utf-8?B?d1lmbGd6dko4VGNhWmVQMURxYlBNcVBqSEo0anA1VmlCNW4zdXJYN3Zvc1d1?=
- =?utf-8?B?Y1dLZWk0ZWpYYUFCdk54djh5TytUaENERjdXU3h2ZWlEdnB3VWk1enNDTEV3?=
- =?utf-8?B?ZFpUcUZkbDhHdjRPbGxFQlJKbXRINVRZUW02Tmg5WjhXRXl1S3RXaFF1WEVC?=
- =?utf-8?B?UHpTU2VVQ1hGMThuSTBUdzlUMysrRkxSMUFERVBJY0hwajJTa004WlBEZXFq?=
- =?utf-8?B?ekVIcDhmWm4vYXc0STNHUDhTTzhPSS9pOHlGNXRqM0JIQ2FockhZYlRqOGJV?=
- =?utf-8?B?UkllYXRoQ2FYbUJoQUJiSkFPd3AwalN3NmdGMXoyTi93MUtGQlRvbVNoM2lL?=
- =?utf-8?B?Q2cxZzZGNUVpYUd3VUVXaHRWc0lIS200QkdDbWVFRUZDUmxUOWNuTmVubHZ4?=
- =?utf-8?B?bysxMDhBVHllNGd5LzBGV0p5bkxxQkEzb1F6dGZIMTFJY3BWd2ZaVmlzOWd0?=
- =?utf-8?B?akI0RWR2OWRQMlppc2lqRDFvMTN6WUdwL1NFUmJCcGVZaFRtbVRPZlh3NW5G?=
- =?utf-8?B?Vm45K0czaUw0WUZYMDNFUStaam9DbmFUMGRBdWhJTXArdVpIaG1TYTdENmdT?=
- =?utf-8?B?OFlhNFh3US9NTEVhUWFtb2JhOTE0L0lZR0pBa0Z4bndQVVZWcVZOeE1JbE1B?=
- =?utf-8?B?aHF5MUVBNjhIRWVRVTlEWGk0c05WZTkrc1Z5YkM4Nm9yb0ZUYld1YW5wT2FR?=
- =?utf-8?B?d3loVi9oRFZQR2tKYndjWWtiS1BqN1JQYXlnejVCZHpxK0E0THhjU0xDM3BN?=
- =?utf-8?B?aVJuTkxQbWhxWWljZXJOU1pzUDBzaVZHUXp0dUhGaXg0N1ZPL3g4cW45dlBr?=
- =?utf-8?B?RlgxblZ3T3RuQkJ5Zk1mbkJOUFp2WTd6OE56U0N4OFFhWmFWelFjWGNSbGgr?=
- =?utf-8?B?cnlsSUF4UzVCc05JeDNFejZwRzJOaE4xbVNpMGQ5RmhHTE45N0RTSXE2czVo?=
- =?utf-8?B?ellPZy96dVhwalZ6S2E3U25GQkU4Z1hlcUdJUno3eHQvUEdIK05WVStRVFBn?=
- =?utf-8?B?dFFBV3BMZU5NMXNXVDJvZnBmZWJ0clZONXdjbEJFREM2TVordjBBMHZNV0Na?=
- =?utf-8?B?SkN4am5aenhKRS9mb1hBL3BkbTlNZ1Z3VEpBaEM1NEgya2NyOElhR0JuZ0tU?=
- =?utf-8?B?a3hCOXpiekg0NmswTUNERE9RS0FacDk0dUtEdWxQU3ZteFprbzhldXExWjRT?=
- =?utf-8?B?MG9oMDZ6WXNFbnhna3g3MnlPRy9kcEdUYnN0SnpSZzBjTTVHVWxyUzd0dkpp?=
- =?utf-8?B?emhydUh5MVNIYmJ5ZEh1UjYzYVpGZ3NGMHVxaTl2d3IySHJlSFJnWkM3ODJW?=
- =?utf-8?B?QkVNdW5HZFg2RjlIbk91WUxMMG5wanFYZVpCdEFtN2dSOHRwb0NFblJkbXZa?=
- =?utf-8?B?aVZCOTlXVDdUYTloby9sajFXelRad1RyWVhCNnVCaFprSUxqRUQyQVlvdlQz?=
- =?utf-8?B?cTJHSFBDWDdJaDBVVWlrdnFmU0s4NXlVZ2ZMbkNheUZKN2Z2TGYrOVpBT3Rk?=
- =?utf-8?Q?1t8N1AZDBUi02Yle16?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56787747-ce18-419f-e891-08deb4e7ec7f
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 14:15:33.4908
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xE9Fcdt9J4N4/CPHCabhnGwbUNEIp5vcAUBKIAX9txg9L/Cit53tuRXlGkYD2Yfqrn7uVFFkXVdIs/LPiZqvBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8486
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, 17 May 2026 14:21:30 -0500
+David Lechner <dlechner@baylibre.com> wrote:
+
+> On 5/17/26 7:25 AM, Jonathan Cameron wrote:
+> > On Sat, 16 May 2026 12:32:51 -0500
+> > David Lechner <dlechner@baylibre.com> wrote:
+> >  =20
+> >> On 5/15/26 8:31 AM, Radu Sabau via B4 Relay wrote: =20
+> >>> From: Radu Sabau <radu.sabau@analog.com>
+> >>>
+> >>> Add buffered capture support using the IIO triggered buffer framework.
+> >>>
+> >>> CNV Burst Mode: the GP pin identified by interrupt-names in the device
+> >>> tree is configured as DATA_READY output. The IRQ handler stops
+> >>> conversions and fires the IIO trigger; the trigger handler executes a
+> >>> pre-built SPI message that reads all active channels from the AVG_IN
+> >>> accumulator registers and then resets accumulator state and restarts
+> >>> conversions for the next cycle.
+> >>>
+> >>> Manual Mode: CNV is tied to SPI CS so each transfer simultaneously
+> >>> reads the previous result and starts the next conversion (pipelined
+> >>> N+1 scheme). At preenable time a pre-built, optimised SPI message of
+> >>> N+1 transfers is constructed (N channel reads plus one NOOP to drain
+> >>> the pipeline). The trigger handler executes the message in a single
+> >>> spi_sync() call and collects the results. An external trigger (e.g.
+> >>> iio-trig-hrtimer) is required to drive the trigger at the desired
+> >>> sample rate.
+> >>>
+> >>> Both modes share the same trigger handler and push a complete scan =
+=E2=80=94
+> >>> one big-endian 16-bit (__be16) slot per active channel, densely packed
+> >>> in scan_index order, followed by a timestamp.
+> >>>
+> >>> The CNV Burst Mode sampling frequency (PWM period) is exposed as a
+> >>> buffer-level attribute via IIO_DEVICE_ATTR.
+> >>>
+> >>> Signed-off-by: Radu Sabau <radu.sabau@analog.com> =20
+> >  =20
+> >>> +
+> >>> +static int ad4691_manual_buffer_preenable(struct iio_dev *indio_dev)
+> >>> +{
+> >>> +	struct ad4691_state *st =3D iio_priv(indio_dev);
+> >>> +	unsigned int k, i;
+> >>> +	int ret;
+> >>> +
+> >>> +	memset(st->scan_xfers, 0, sizeof(st->scan_xfers));
+> >>> +	memset(st->scan_tx, 0, sizeof(st->scan_tx));
+> >>> +
+> >>> +	spi_message_init(&st->scan_msg);
+> >>> +
+> >>> +	k =3D 0;
+> >>> +	iio_for_each_active_channel(indio_dev, i) {
+> >>> +		if (i >=3D indio_dev->num_channels - 1)
+> >>> +			break; /* skip soft timestamp */   =20
+> >>
+> >> I don't think timestamp gets set in the scan mask. It is handled separ=
+ately. =20
+> >=20
+> > FWIW that is a sashiko false postive (I believe anyway!)
+> > If we do hit this please shout as we have a core bug.
+> >=20
+> > If anyone has time to look at how hard it would be to tweak
+> > iio_for_each_active_channel to skip a last element timestamp that
+> > would be great.
+> >=20
+> > I think that iterates one too far which is what sashiko is tripping ove=
+r.
+> >=20
+> > I'm only keen to fix that if we can make it low cost and hid it entirely
+> > from drivers.
+> >=20
+> > Jonathan
+> >  =20
+> This is what I came up with (totally untested).
+>=20
+> Since timestamp can never be set in scan_mask/active_scan_mask, it should
+> be safe to exclude it from masklength without breaking existing code.
+Probably...=20
+>=20
+> I didn't check all callers of masklength/iio_get_masklength() though.
+
+That was the bit that made me nervous. Particularly if there is an off
+by one that is working by luck today - or someone who understood this
+oddity and did it deliberately.
+
+At one point we also had a few other timestamps - the ones come from hardwa=
+re.
+I can't remember how we handled those wrt to the scan mask.  I took a quick
+look and thing they are all fine.=20
+FWIW a nice precursor would be to make sure all timestamp channels are assi=
+gned
+using the macro. There are a few that are hand crafted.  I tested a few, bu=
+t obviously
+needs turning in to a proper set and cleaning up.
+
+diff --git a/drivers/iio/adc/ad4170-4.c b/drivers/iio/adc/ad4170-4.c
+index 627cbf5a37b0..890e25294baa 100644
+--- a/drivers/iio/adc/ad4170-4.c
++++ b/drivers/iio/adc/ad4170-4.c
+@@ -2385,9 +2385,7 @@ static int ad4170_parse_channels(struct iio_dev *indi=
+o_dev)
+ 	}
+=20
+ 	/* Add timestamp channel */
+-	struct iio_chan_spec ts_chan =3D IIO_CHAN_SOFT_TIMESTAMP(chan_num);
+-
+-	st->chans[chan_num] =3D ts_chan;
++	st->chans[chan_num] =3D IIO_CHAN_SOFT_TIMESTAMP(chan_num);
+ 	num_channels =3D num_channels + 1;
+=20
+ 	indio_dev->num_channels =3D num_channels;
+diff --git a/drivers/iio/adc/at91_adc.c b/drivers/iio/adc/at91_adc.c
+index 6e1930f7c65d..56baca1f5026 100644
+--- a/drivers/iio/adc/at91_adc.c
++++ b/drivers/iio/adc/at91_adc.c
+@@ -521,13 +521,7 @@ static int at91_adc_channel_init(struct iio_dev *idev)
+ 	}
+ 	timestamp =3D chan_array + idx;
+=20
+-	timestamp->type =3D IIO_TIMESTAMP;
+-	timestamp->channel =3D -1;
+-	timestamp->scan_index =3D idx;
+-	timestamp->scan_type.sign =3D 's';
+-	timestamp->scan_type.realbits =3D 64;
+-	timestamp->scan_type.storagebits =3D 64;
+-
++	*timestamp =3D IIO_CHAN_SOFT_TIMESTAMP(idx);
+ 	idev->channels =3D chan_array;
+ 	return idev->num_channels;
+ }
+diff --git a/drivers/iio/adc/cc10001_adc.c b/drivers/iio/adc/cc10001_adc.c
+index 2c51b90b7101..d42b747325aa 100644
+--- a/drivers/iio/adc/cc10001_adc.c
++++ b/drivers/iio/adc/cc10001_adc.c
+@@ -262,7 +262,7 @@ static const struct iio_info cc10001_adc_info =3D {
+ static int cc10001_adc_channel_init(struct iio_dev *indio_dev,
+ 				    unsigned long channel_map)
+ {
+-	struct iio_chan_spec *chan_array, *timestamp;
++	struct iio_chan_spec *chan_array;
+ 	unsigned int bit, idx =3D 0;
+=20
+ 	indio_dev->num_channels =3D bitmap_weight(&channel_map,
+@@ -289,13 +289,7 @@ static int cc10001_adc_channel_init(struct iio_dev *in=
+dio_dev,
+ 		idx++;
+ 	}
+=20
+-	timestamp =3D &chan_array[idx];
+-	timestamp->type =3D IIO_TIMESTAMP;
+-	timestamp->channel =3D -1;
+-	timestamp->scan_index =3D idx;
+-	timestamp->scan_type.sign =3D 's';
+-	timestamp->scan_type.realbits =3D 64;
+-	timestamp->scan_type.storagebits =3D 64;
++	chan_array[idx] =3D IIO_CHAN_SOFT_TIMESTAMP(idx);
+=20
+ 	indio_dev->channels =3D chan_array;
+=20
+diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+index 96b05c86c325..702b2fc66326 100644
+--- a/include/linux/iio/iio.h
++++ b/include/linux/iio/iio.h
+@@ -353,7 +353,7 @@ static inline bool iio_channel_has_available(const stru=
+ct iio_chan_spec *chan,
+ 		(chan->info_mask_shared_by_all_available & BIT(type));
+ }
+=20
+-#define IIO_CHAN_SOFT_TIMESTAMP(_si) {					\
++#define IIO_CHAN_SOFT_TIMESTAMP(_si) (struct iio_chan_spec) {		\
+ 	.type =3D IIO_TIMESTAMP,						\
+ 	.channel =3D -1,							\
+ 	.scan_index =3D _si,						\
+
+Doing that will mean we can spot any unusual use of IIO_TIMESTAMP much more
+easily.
+
+Anyhow, basic approach looks good to me.
+
+Jonathan
 
 
-On 18/05/26 19:20, Mario Limonciello wrote:
-> External email: Use caution opening links or attachments
->
->
-> On 5/18/26 08:44, Sumit Gupta wrote:
->> Hi Mario,
->>
->>
->> On 16/05/26 02:43, Mario Limonciello wrote:
->>> External email: Use caution opening links or attachments
->>>
->>>
->>> On 5/15/26 07:26, Sumit Gupta wrote:
->>>> Add a kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
->>>> CPPC autonomous performance selection on all CPUs at system startup.
->>>> When autonomous mode is enabled, the hardware automatically adjusts
->>>> CPU performance based on workload demands using Energy Performance
->>>> Preference (EPP) hints.
->>>>
->>>> When the parameter is set:
->>>> - Configure all CPUs for autonomous operation on first init
->>>> - Use HW min/max_perf when available; otherwise initialize from caps
->>>> - Initialize desired_perf to max_perf as a starting hint
->>>> - Hardware controls frequency instead of the OS governor
->>>> - EPP behavior depends on parameter value:
->>>>    - performance (or 1): override EPP to performance preference (0x0)
->>>>    - default_epp (or 2): preserve EPP value programmed by 
->>>> BIOS/firmware
->>>>
->>>> The boot parameter is applied only during first policy initialization.
->>>> Skip applying it on CPU hotplug to preserve runtime sysfs 
->>>> configuration.
->>>>
->>>> This patch depends on patch series [1] ("cpufreq: Set policy->min and
->>>> max as real QoS constraints") so that the policy->min/max set in
->>>> cppc_cpufreq_cpu_init() are not overridden by cpufreq_set_policy()
->>>> during init.
->>>>
->>>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
->>>> ---
->>>> [1] https://lore.kernel.org/lkml/20260511135538.522653-1-
->>>> pierre.gondois@arm.com/
->>>> ---
->>>>   .../admin-guide/kernel-parameters.txt         |  16 +++
->>>>   drivers/cpufreq/cppc_cpufreq.c                | 122 
->>>> +++++++++++++++++-
->>>>   2 files changed, 133 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/
->>>> Documentation/admin-guide/kernel-parameters.txt
->>>> index 0eb64aab3685..7e4b3a8fd76f 100644
->>>> --- a/Documentation/admin-guide/kernel-parameters.txt
->>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
->>>> @@ -1048,6 +1048,22 @@ Kernel parameters
->>>>                       policy to use. This governor must be registered
->>>> in the
->>>>                       kernel before the cpufreq driver probes.
->>>>
->>>> +     cppc_cpufreq.auto_sel_mode=
->>>> +                     [CPU_FREQ] Enable ACPI CPPC autonomous 
->>>> performance
->>>> +                     selection. When enabled, hardware automatically
->>>> adjusts
->>>> +                     CPU frequency on all CPUs based on workload
->>>> demands.
->>>> +                     In Autonomous mode, Energy Performance
->>>> Preference (EPP)
->>>> +                     hints guide hardware toward performance (0x0)
->>>> or energy
->>>> +                     efficiency (0xff).
->>>> +                     Requires ACPI CPPC autonomous selection register
->>>> +                     support.
->>>> +                     Accepts:
->>>> +                       performance, 1: enable auto_sel + set EPP to
->>>> +                                       performance (0x0)
->>>> +                       default_epp, 2: enable auto_sel, preserve EPP
->>>> value
->>>> +                                       programmed by BIOS/firmware
->>>> +                     Unset: cpufreq governors are used (auto_sel
->>>> disabled).
->>>
->>> Rather than unset doing nothing, have you considered having it take a
->>> midpoint like 128?  That's what we do in amd-pstate (default to
->>> balance_performance).  I think it turns into a reasonable balance.
->>
->> Thanks for the suggestion.
->> I can add balance_performance that enables auto_sel with EPP=128 in v4.
->>
->> On changing the driver default (no param behavior) to auto enable
->> balance_performance, it would be good to keep the current behavior for
->> now since cppc_cpufreq is generic across ARM64/RISC-V platforms where
->> EPP and Autonomous Selection registers are optional.
->> A default change would affect existing users relying on governors.
->>
->> Thank you,
->> Sumit Gupta
->
-> But couldn't you make the "no module parameter set" follow the behavior
-> to only set the registers if they're available?
->
-> So the systems that support it start using it, the ones that don't it's
-> a NOP.
->
 
-Would it work to add balance_performance as a new mode in v4,
-and discuss changing the default separately as a follow-up?
+>=20
+> ---
+> diff --git a/drivers/iio/industrialio-buffer.c b/drivers/iio/industrialio=
+-buffer.c
+> index 9d66510a1d49..17f539fc23e2 100644
+> --- a/drivers/iio/industrialio-buffer.c
+> +++ b/drivers/iio/industrialio-buffer.c
+> @@ -2300,8 +2300,10 @@ int iio_buffers_alloc_sysfs_and_mask(struct iio_de=
+v *indio_dev)
+>  	if (channels) {
+>  		int ml =3D 0;
+> =20
+> -		for (i =3D 0; i < indio_dev->num_channels; i++)
+> -			ml =3D max(ml, channels[i].scan_index + 1);
+> +		for (i =3D 0; i < indio_dev->num_channels; i++) {
+> +			if (channels[i].type !=3D IIO_TIMESTAMP)
+> +				ml =3D max(ml, channels[i].scan_index + 1);
+> +		}
+>  		ACCESS_PRIVATE(indio_dev, masklength) =3D ml;
+>  	}
+> =20
+>=20
+>=20
+>=20
 
-Runtime detection helps for unsupported platforms. But platforms which
-support the registers use OS governors today, and silently switching
-them to autonomous mode on a kernel update is a behavior change for
-existing users. They would also have no way to boot into sw governor.
-
-Thank you,
-Sumit Gupta
-
-
->>
->>
->>>
->>>> +
->>>>       cpu_init_udelay=N
->>>>                       [X86,EARLY] Delay for N microsec between assert
->>>> and de-assert
->>>>                       of APIC INIT to start processors. This delay
->>>> occurs
->>>> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/
->>>> cppc_cpufreq.c
->>>> index 6b54427b52e1..5f4d735e7c7d 100644
->>>> --- a/drivers/cpufreq/cppc_cpufreq.c
->>>> +++ b/drivers/cpufreq/cppc_cpufreq.c
->>>> @@ -28,6 +28,43 @@
->>>>
->>>>   static struct cpufreq_driver cppc_cpufreq_driver;
->>>>
->>>> +/* Autonomous Selection boot parameter modes */
->>>> +enum {
->>>> +     AUTO_SEL_PERFORMANCE = 1,
->>>> +     AUTO_SEL_DEFAULT_EPP = 2,
->>>> +};
->>>> +
->>>> +static int auto_sel_mode;
->>>> +
->>>> +static int auto_sel_mode_set(const char *val, const struct
->>>> kernel_param *kp)
->>>> +{
->>>> +     if (sysfs_streq(val, "performance") || sysfs_streq(val, "1"))
->>>> +             *(int *)kp->arg = AUTO_SEL_PERFORMANCE;
->>>> +     else if (sysfs_streq(val, "default_epp") || sysfs_streq(val, 
->>>> "2"))
->>>> +             *(int *)kp->arg = AUTO_SEL_DEFAULT_EPP;
->>>> +     else
->>>> +             return -EINVAL;
->>>> +
->>>> +     return 0;
->>>> +}
->>>> +
->>>> +static int auto_sel_mode_get(char *buffer, const struct kernel_param
->>>> *kp)
->>>> +{
->>>> +     switch (*(int *)kp->arg) {
->>>> +     case AUTO_SEL_PERFORMANCE:
->>>> +             return sysfs_emit(buffer, "performance\n");
->>>> +     case AUTO_SEL_DEFAULT_EPP:
->>>> +             return sysfs_emit(buffer, "default_epp\n");
->>>> +     default:
->>>> +             return sysfs_emit(buffer, "disabled\n");
->>>> +     }
->>>> +}
->>>> +
->>>> +static const struct kernel_param_ops auto_sel_mode_ops = {
->>>> +     .set = auto_sel_mode_set,
->>>> +     .get = auto_sel_mode_get,
->>>> +};
->>>> +
->>>>   #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
->>>>   static enum {
->>>>       FIE_UNSET = -1,
->>>> @@ -715,11 +752,75 @@ static int cppc_cpufreq_cpu_init(struct
->>>> cpufreq_policy *policy)
->>>>       policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
->>>>       cpu_data->perf_ctrls.desired_perf = caps->highest_perf;
->>>>
->>>> -     ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
->>>> -     if (ret) {
->>>> -             pr_debug("Err setting perf value:%d on CPU:%d. 
->>>> ret:%d\n",
->>>> -                      caps->highest_perf, cpu, ret);
->>>> -             goto out;
->>>> +     /*
->>>> +      * Enable autonomous mode on first init if boot param is set.
->>>> +      * Check last_governor to detect first init and skip if auto_sel
->>>> +      * is already enabled.
->>>> +      */
->>>> +     if (auto_sel_mode && policy->last_governor[0] == '\0' &&
->>>> +         !cpu_data->perf_ctrls.auto_sel) {
->>>> +             /* Init min/max_perf from caps if not already set by
->>>> HW. */
->>>> +             if (!cpu_data->perf_ctrls.min_perf)
->>>> +                     cpu_data->perf_ctrls.min_perf = caps-
->>>> >lowest_nonlinear_perf;
->>>> +             if (!cpu_data->perf_ctrls.max_perf)
->>>> +                     cpu_data->perf_ctrls.max_perf = policy-
->>>> >boost_enabled ?
->>>> +                             caps->highest_perf : caps->nominal_perf;
->>>> +
->>>> +             /*
->>>> +              * In autonomous mode desired_perf is only a hint; 
->>>> EPP and
->>>> +              * the platform drive actual selection within [min, 
->>>> max].
->>>> +              * Initialize it to max_perf so HW starts at the upper
->>>> bound.
->>>> +              */
->>>> +             cpu_data->perf_ctrls.desired_perf = cpu_data-
->>>> >perf_ctrls.max_perf;
->>>> +
->>>> +             policy->cur = cppc_perf_to_khz(caps,
->>>> + cpu_data->perf_ctrls.desired_perf);
->>>> +
->>>> +             /*
->>>> +              * Override EPP only in 'performance' mode;
->>>> 'default_epp' mode
->>>> +              * preserves the BIOS/firmware programmed EPP value.
->>>> +              * EPP is optional - some platforms may not support it.
->>>> +              */
->>>> +             if (auto_sel_mode == AUTO_SEL_PERFORMANCE) {
->>>> +                     ret = cppc_set_epp(cpu,
->>>> CPPC_EPP_PERFORMANCE_PREF);
->>>> +                     if (ret && ret != -EOPNOTSUPP)
->>>> +                             pr_warn("Failed to set EPP for CPU%d
->>>> (%d)\n", cpu, ret);
->>>> +                     else if (!ret)
->>>> + cpu_data->perf_ctrls.energy_perf = CPPC_EPP_PERFORMANCE_PREF;
->>>> +             }
->>>> +
->>>> +             /* Program min/max/desired into CPPC regs (non-fatal on
->>>> failure). */
->>>> +             ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
->>>> +             if (ret)
->>>> +                     pr_warn("set_perf failed CPU%d (%d); using HW
->>>> values\n",
->>>> +                             cpu, ret);
->>>> +
->>>> +             ret = cppc_set_auto_sel(cpu, true);
->>>> +             if (ret && ret != -EOPNOTSUPP)
->>>> +                     pr_warn("auto_sel CPU%d failed (%d); using OS
->>>> mode\n",
->>>> +                             cpu, ret);
->>>> +             else if (!ret)
->>>> +                     cpu_data->perf_ctrls.auto_sel = true;
->>>> +     }
->>>> +
->>>> +     if (cpu_data->perf_ctrls.auto_sel) {
->>>> +             /* Sync policy limits from HW when autonomous mode is
->>>> active */
->>>> +             policy->min = cppc_perf_to_khz(caps,
->>>> + cpu_data->perf_ctrls.min_perf ?:
->>>> + caps->lowest_nonlinear_perf);
->>>> +             policy->max = cppc_perf_to_khz(caps,
->>>> + cpu_data->perf_ctrls.max_perf ?:
->>>> + (policy->boost_enabled ?
->>>> + caps->highest_perf :
->>>> + caps->nominal_perf));
->>>> +     } else {
->>>> +             /* Normal mode: governors control frequency */
->>>> +             ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
->>>> +             if (ret) {
->>>> +                     pr_debug("Err setting perf value:%d on CPU:%d.
->>>> ret:%d\n",
->>>> +                              caps->highest_perf, cpu, ret);
->>>> +                     goto out;
->>>> +             }
->>>>       }
->>>>
->>>>       cppc_cpufreq_cpu_fie_init(policy);
->>>> @@ -1079,10 +1180,21 @@ static int __init cppc_cpufreq_init(void)
->>>>
->>>>   static void __exit cppc_cpufreq_exit(void)
->>>>   {
->>>> +     unsigned int cpu;
->>>> +
->>>> +     for_each_present_cpu(cpu)
->>>> +             cppc_set_auto_sel(cpu, false);
->>>> +
->>>>       cpufreq_unregister_driver(&cppc_cpufreq_driver);
->>>>       cppc_freq_invariance_exit();
->>>>   }
->>>>
->>>> +module_param_cb(auto_sel_mode, &auto_sel_mode_ops, &auto_sel_mode,
->>>> 0444);
->>>> +MODULE_PARM_DESC(auto_sel_mode,
->>>> +              "Enable CPPC autonomous performance selection at 
->>>> boot: "
->>>> +              "performance or 1 (EPP=performance), "
->>>> +              "default_epp or 2 (preserve BIOS/firmware EPP)");
->>>> +
->>>>   module_exit(cppc_cpufreq_exit);
->>>>   MODULE_AUTHOR("Ashwin Chaugule");
->>>>   MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+
->>>> spec");
->>>
->
