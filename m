@@ -1,138 +1,214 @@
-Received: from jpms-ob02-os7.noc.sony.co.jp (jpms-ob02-os7.noc.sony.co.jp [211.125.139.72])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011068.outbound.protection.outlook.com [40.93.194.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB5B3E92AF;
-	Mon, 18 May 2026 10:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779100384; cv=none; b=f8pYxX+sj2HCpL/DrUwQbZlLlSaS0aqcsTWRTNCeeksN8mh2gC4AP0yDL92Mlkj0ORMBxo45cy6D35HmGPlJbZL3w8qq1S38cRDO+IVhSb0AaA1xGsByKL+a3uVcylqFJevlegpvPOy0uYixYc5sz6pVWOFA6JiB1UhQBLNCXH8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779100384; c=relaxed/simple;
-	bh=y/ZSU6WO76m6NnoFZ2UHtM+29I7tmfGcQeI6Sr56gGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K4XJ7STZjOd1Nq7g0D4FGqXGkJIZfcSEiM2+iBhXVgXxoTNS0YtvBfilVFqHHH1Z+ZILN7MSXhGHkuKtUINQksqdO3mBOaItgf+0Lnqje+lUcGCiUnsrdCwFwl5oAPduB3nVqMOOJONXgoP0bOIP11+M1gtCAtUJ5pKhFR8D6tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=UoteJgeB; arc=none smtp.client-ip=211.125.139.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3253EEAEF;
+	Mon, 18 May 2026 10:37:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779100677; cv=fail; b=hjCQLrxVxnGrpzL1hM9mihb9fG+uapUGX0J0ioLp/aPVOGIZ8oaodM0aPl1ea86ITr6lqZBj+D1bPmXLnL194ws19te4J1zws3vtpIyIPU7WEt+/7drSJ15ho+H1ceeNQO3ci0Svldvtgb0yQbzGWrtarCW3WY3X4Lj6cIgX2go=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779100677; c=relaxed/simple;
+	bh=vXHgLqwzywTz7YxY07glvo/wF9/wONsPyWa4brb88Ew=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=JCkwXVU7GCn8mDCurViBy9EFgULHXopnY2qdVp/SLylibfK7BsehWQSTVkan7lF/u4/7X8SgNGyBAxRGz73bY46Vn9awDJiVne+cDU0gLy/mbmB+vqOhhQIJkF+f5TAGoXD3UPFAFZrLhXKNRUGIyxtV5SoV7rdZAMOxiPIAlHo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AF+PWkxE; arc=fail smtp.client-ip=40.93.194.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="UoteJgeB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1779100360; x=1810636360;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Qg52IZakrDwa+7/YtZM2VQOBVW4gzCDrQLRgDaIE4Fk=;
-  b=UoteJgeBJo1onKpWNx13hF9V0wSu25tCka7zdAPqSXrBODw5MFs0O8Bj
-   J3cfseLF1BE4gIUknGGR0ZpSbpY+LLOAhjV/4ln5n/sFDYIsKMLX3OOc/
-   3/t7/VEt/9MdvW0wCYfPmXv4+QggzY8H06hScZcdnUCP7READRNMER+Kj
-   a/WK7jY+DOZ2gnylOjoTtm1PB+9hICkzLeWPxp59me304zZNDwMO/dAiI
-   7pyjJ6kootiikGW9FmgcOsZ3lb0ZdFBIpaMuVmYgTZpk0liPJIpYgX5Dr
-   6CBImYg++LvlW/LbWYWzyVUUnRpmHR39TBB79BAdssNeL6EHoTPTqzrHY
-   w==;
-X-CSE-ConnectionGUID: rEk16PglQ42apwMEHjNHGA==
-X-CSE-MsgGUID: gcvWBvR0RE2G3yOmVc5ccw==
-Received: from unknown (HELO jpmta-ob01-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::6])
-  by jpms-ob02-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 19:32:30 +0900
-X-CSE-ConnectionGUID: LE5Xik2fR8SdQOdHHPC7kA==
-X-CSE-MsgGUID: tneGe+ukRCC0giD8+owyPg==
-X-IronPort-AV: E=Sophos;i="6.23,241,1770562800"; 
-   d="scan'208";a="66945202"
-Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
-  by jpmta-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 19:32:29 +0900
-Date: Mon, 18 May 2026 19:32:28 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AF+PWkxE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kpJ220TSmhNv9Ra+XKIGbLz6UAiAzEZP8AnQe1Bcw2+VhxSep66bjmnrQGv9Ea3nwRIzqvLY2MLfuVNWOomZvJoP5MwcOEAsRNUZ1gXFJJu2X/DlkcUeOco74v7RC/pYCui6y+qQbCwgO0V7pwTKVFd5kzySYnhofzjP8cLt96WrrTBKDUldIHjZyEMSwui1e6xk9vieU1qjDfCxR3/kLf72+/AiEPvg8eCj7ucFmhY1El3d5WznU0zJws4JZXEgBTb96dI3O4Oj7Eb0xKHfn69NpJZHEqLkIZf0oCwuPW/eL0t8uVQ3PClAIU/C6VyBsGGWlAg4DO61Vbrs4QYL0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ak/LQubX8kYkGnJKw2fo0OttR1BmpdujRh1Y21r8Xbw=;
+ b=Ce2xccI5jYTm4jOcGvqOs83svlgbi/4mCrqvsYMJqJf8SxfE9YOeYOAnEcTBJ3mSW7GgaSY/7WTsBzdylOGlenzC9uPXlODZDdZu8UbUDEdVvhQK9yQLYXaoMx0GB76MAFfQnI3qSOO4OyJtxlbVtKYW8jkLli+yvR5rSDMl1bXBpSP6gYFXU+Dkm2fBuDBrKzTEP3lDEr1JHJmPiRhl4QueqTuvmbceHAVuRl76aKR5E+xGMngaWEkmJ+ONhAqt7SM3FflTFSQDl/ASOukjDKMI9thK9tmWS4P7EzdOa95+gnvayN2QD27rXqNLXC7VxHvGl8HdGpx5IhqSlnFUjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ak/LQubX8kYkGnJKw2fo0OttR1BmpdujRh1Y21r8Xbw=;
+ b=AF+PWkxEgu1avwnX20N+L/4Aoav50kLgViLalyOnQun7ToC0P7wnuN4KyabQB2pOntXUbDvVwL70zR66G+bX4fBPlzKk0TaMPcWUuJWkAoLZV/OsMvQBI9W1g9jjsM2hrwfZtJO5i7klvs6f8y1BHVTRGl+ziwREHTo7p/4qM6rA1acsPo2qVf3Tz0OL03guP4OC/OirovwVg7o7WecvvpqUHasx2wuXaSnk2pAgbMdaGxX/x57m9sRU+n029Td5wudV09d8YyC8NtR6lohk11x6jiSUQvnGnL9HVGiRA1toOH0Gscep1MCV39BocGrDz1IqL+AiKeXVhpbexuRJKw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7928.namprd12.prod.outlook.com (2603:10b6:8:14c::13)
+ by DM3PR12MB9287.namprd12.prod.outlook.com (2603:10b6:8:1ac::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.23; Mon, 18 May
+ 2026 10:37:31 +0000
+Received: from DS0PR12MB7928.namprd12.prod.outlook.com
+ ([fe80::5420:4724:4733:9abd]) by DS0PR12MB7928.namprd12.prod.outlook.com
+ ([fe80::5420:4724:4733:9abd%5]) with mapi id 15.20.9891.020; Mon, 18 May 2026
+ 10:37:31 +0000
+Date: Mon, 18 May 2026 13:37:27 +0300
+From: Nikolay Aleksandrov <nikolay@nvidia.com>
+To: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>,
-	Leo Yan <leo.yan@arm.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Rahul Bukte <rahul.bukte@sony.com>, linux-kernel@vger.kernel.org,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>, linux-modules@vger.kernel.org,
-	linux-tegra@vger.kernel.org, Sumit Gupta <sumitg@nvidia.com>
-Subject: Re: [PATCH v5 4/4] driver core: platform: set mod_name in driver
- registration
-Message-ID: <agrqvIiNWrYtGvTk@JPC00244420>
-References: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
- <20260518-acpi_mod_name-v5-4-705ccc430885@sony.com>
- <2026051827-curler-disjoin-c83f@gregkh>
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
+	Vlad Dumitrescu <vdumitrescu@nvidia.com>,
+	Daniel Zahka <daniel.zahka@gmail.com>,
+	David Ahern <dsahern@kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	Gal Pressman <gal@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>,
+	Jiri Pirko <jiri@nvidia.com>
+Subject: Re: [PATCH net-next 2/2] net/mlx5: implement max_sfs parameter
+Message-ID: <agrr57EgAsBANKAO@penguin>
+References: <20260517112700.343575-1-tariqt@nvidia.com>
+ <20260517112700.343575-3-tariqt@nvidia.com>
+ <IA3PR11MB8986745A7DF8DFE5EDE7D6F5E5032@IA3PR11MB8986.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <IA3PR11MB8986745A7DF8DFE5EDE7D6F5E5032@IA3PR11MB8986.namprd11.prod.outlook.com>
+X-ClientProxiedBy: FR4P281CA0061.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ce::7) To DS0PR12MB7928.namprd12.prod.outlook.com
+ (2603:10b6:8:14c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026051827-curler-disjoin-c83f@gregkh>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7928:EE_|DM3PR12MB9287:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b951261-818e-4853-8be2-08deb4c976e9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|11063799003|4143699003|18002099003|56012099003|22082099003|3023799003;
+X-Microsoft-Antispam-Message-Info:
+	BW0paEDCNPJUQ97rtWN/a0fmA9eTyFClDZOWYDLH+ZclEEOvz7MGONdhISKonhqTib1U1zc5ZNg12rVI8pAXjECww8LykL+Hmy7jzfQhHDaXbFMcPfemsaRJskWKqARX0dxPEmPArH0aFTSKH2UF295k41uKjATYMwfqg5sb60JhkGgvB+56wZ2rIDuzSky4KRbRR8BxikhfBIrXkiWlTWIUL3AZDdckRGRAnjYtCcG35w/JPBpVf8WuqmsCMu0ZPQJS3WVMG1eJ4scNW7jhdLTuL/+cyzowlKEVdxGYC2LJRQIiy8ldWZOCRLBs0/6TbH7sRjoa4ak17cnce9izkKPJIA7v/2dwp53vHhsi+QzoOGbkh4rSeyG5ONhiYFYejj/FCFGkfTssr+VIQU1YyuouCS1LcP4iVdn0M/m4nj4Ri26u1+gqDjrW9/u2NeVa7ThCKIwklZZTXsgsKN1VxaB6qO9rhYGMGs5HoFM673hqeXfAmPJfR8cMolWWYWaa3tSKTiseuJ+YrjeXl1jBPZi9/68Q+oqQ0NhB65/YcZuElDupdYIUVL2zfA0aVY2Q1Avc+SvgpSZz8Ixsd96md6OR8JKi0jbsrb/CCGd8HdqVXYaf92qQC1Y/cVvj3FK6W6phEZlXXWSkxCsHHfye6Z2r3mzlWNmm5WJSgsBHAn9fztuElsGwgirZe5nnoqQZ
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7928.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(11063799003)(4143699003)(18002099003)(56012099003)(22082099003)(3023799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?5Df0zzaHT0xKYrOcEGX7IWnsMNRFQqwmBUga9vTJ94UbfMTWIPRzIL6DbiUf?=
+ =?us-ascii?Q?KqXPFb84o3jpJ56188rhEhxBLbEKb6vIg2EGHoiRQFcPVeWakMXehONtyXIx?=
+ =?us-ascii?Q?UCWvZNYDwGy2cimv8h357YgTsjWJOGw2hH64P5j6IJtmW2IcMckR/rCtmINd?=
+ =?us-ascii?Q?3xRDM/eF+oncVQf/Vk40BmjG/Hz3zBNVQkqUM3d8P64Q3uzE88JGdFhq82uS?=
+ =?us-ascii?Q?gLE0rvRiKw51AE8FuMeKk/AqpyI1jrb/+ysnjAnF01vZPyas1dgmPs+9lKWH?=
+ =?us-ascii?Q?njwcTmPVZkhKlPO5rDg26QpV/L+zGMynF/QkSiznRRzvZlRQlhjvqs1sYzrU?=
+ =?us-ascii?Q?HkcuFlbk2kCp2lyEag6DMBaIS2XXpRg94vmh5BvSWrZtoX5eAlS7Uj8OujJY?=
+ =?us-ascii?Q?s0gGcIm7mKHKcxyylKgmH+3FmT/Tv1PRlZP4VrBg0WB+lkFaUhwHnB8Y+nVw?=
+ =?us-ascii?Q?Eid8Cd1NKvb9bSePWiVyHW92OsQF266XGa6Lk8zsDr7/O11Z3Lw0kKozdznx?=
+ =?us-ascii?Q?KwhNdMH9O59JvgbwqUNCXClIW/PhYpkCM6nozX71mlMAYZm0D0fDugqgO8KK?=
+ =?us-ascii?Q?C+bRxKCAur85Y2HfWKPDhdRobdNEp66rN2BDQ93NO6T7V85XszUD435x94if?=
+ =?us-ascii?Q?26kJrI2s4qOGUg1cDrMsSMxRUkyrOD2mA07/AnLWjR6HeFwnrKwUM5Au80VB?=
+ =?us-ascii?Q?kbiXqLW0zvlxqz0G/4lban7cLA2svDUk+nU0mbINWmA0ofjOX2iCxviGHfaL?=
+ =?us-ascii?Q?RT9wN/jakuCaudvJCNs0caHM1L+1kB6V+C8hmWeJH2IKTbSHjbScpxQbEa+i?=
+ =?us-ascii?Q?H2zaB1WjR3U9AHLBroY36gKpkZaF+CcZYy0ClqoyzSMWezWo9n6HDcXCrgu5?=
+ =?us-ascii?Q?TzkV/09zZieDhuQrBAHQZlZ30RTyATT6hHkvK9eS1NJ8PsUPMnztLp74qElT?=
+ =?us-ascii?Q?uSCfkf1CUi8K+Uyf1jz2XDimfeBAlUBtyqsj22sQAmhnThUygULJdram68pH?=
+ =?us-ascii?Q?2y+oj2m0HgPAjEKbXvt3x33BIHZI0EOObDsqsD3o20TnbZMwTAEMaj1IXxYb?=
+ =?us-ascii?Q?3bEw7v9rOtokewy60kQ2uZRchPRyj1Ff1wx4GaiRFaItguGxUu7aKEwd1Z+U?=
+ =?us-ascii?Q?NzJMASRuw4pLDFEYe3/YeRKCzRSQJM3iIJviE8ErhzHDjmsWJv6fKkQ2pGH6?=
+ =?us-ascii?Q?ool04gtjB+mRGjVyaMWc9mggV3+oXqlOvdJwg74WPqgiYH9GEIvCXNFzV3la?=
+ =?us-ascii?Q?wRLGqAltJdlmHEweS8FQrKA9zcid5/126N4s2wQiKftkU58wV7V5ggqPQzcX?=
+ =?us-ascii?Q?2orT6UooFDnwWrVKiOYtOWDnVBOV8KkGCZXWtBIYIxVgf7tny/Vrfo/A9fsR?=
+ =?us-ascii?Q?dXrr77g+v+iIBITm41m9Iziwhv8qVW9InQjZ110Jrkq982plE8gloFaMyI0G?=
+ =?us-ascii?Q?vYLVecVoWjpb9Rs7BtHdswk4JntF4eaEF3mAokfHkph8DUiNvTqP1EZRZxSm?=
+ =?us-ascii?Q?dEZun+t+h4Km1hwm5s2v0hVIYeyv6dNszNB30FpyZUymmCoaHTttMeDI4JsN?=
+ =?us-ascii?Q?2Td8JvdZssx3D+Dr2vN1ZKZZCxK5+s4il4jqtPSNxBuWoCDN0GcAAfnAOIJZ?=
+ =?us-ascii?Q?ESTtUK9vmb+wPHgBoOrsC9quZM1zEOgEMsLtcLTabEBJX5PxbUwzdnmWuY+1?=
+ =?us-ascii?Q?j6jZUKG9JTRh3Z2JeleWvlPP1ogeTfGhzL/7Yy5xVajqknxWnwjEO75HkVlU?=
+ =?us-ascii?Q?RSBAM+rB3Q=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b951261-818e-4853-8be2-08deb4c976e9
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7928.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 10:37:31.1361
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: R7fSFTpnmp2Fw4oK+N2O7Y8vFAZytBdrR4z2YiJy+nx1mvSFuc3Rsx7p2ITNpb9kVfjIgi0lLDgY3J6Ey+iVgg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9287
 
-On Mon, May 18, 2026 at 12:27:13PM +0200, Greg Kroah-Hartman wrote:
-> On Mon, May 18, 2026 at 07:20:00PM +0900, Shashank Balaji wrote:
-> > Pass KBUILD_MODNAME through the driver registration macro so that
-> > the driver core can create the module symlink in sysfs for built-in
-> > drivers, and fixup all callers.
-> > 
-> > The Rust platform adapter is updated to pass the module name through to the new
-> > parameter.
-> > 
-> > Tested on qemu with:
-> > - x86 defconfig + CONFIG_RUST
-> > - arm64 defconfig + CONFIG_RUST + CONFIG_CORESIGHT stuff
-> > 
-> > Examples after this patch:
-> > 
-> >     /sys/bus/platform/drivers/...
-> >         coresight-itnoc/module		-> coresight_tnoc
-> >         coresight-static-tpdm/module	-> coresight_tpdm
-> >         coresight-catu-platform/module	-> coresight_catu
-> >         serial8250/module		-> 8250
-> >         acpi-ged/module			-> acpi
-> >         vmclock/module			-> ptp_vmclock
-> > 
-> > Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> > Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> > Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
-> > ---
-> > This patch depends on patches 1, 2, 3
-> > ---
-> >  Documentation/driver-api/driver-model/platform.rst |  3 ++-
-> >  drivers/base/platform.c                            | 21 ++++++++++++++-------
-> >  drivers/hwtracing/coresight/coresight-core.c       |  5 +++--
-> >  include/linux/coresight.h                          |  5 +++--
-> >  include/linux/platform_device.h                    | 17 +++++++++--------
-> >  rust/kernel/platform.rs                            |  4 +++-
-> >  6 files changed, 34 insertions(+), 21 deletions(-)
-> > 
-> > diff --git a/Documentation/driver-api/driver-model/platform.rst b/Documentation/driver-api/driver-model/platform.rst
-> > index cf5ff48d3115..9673470bded2 100644
-> > --- a/Documentation/driver-api/driver-model/platform.rst
-> > +++ b/Documentation/driver-api/driver-model/platform.rst
-> > @@ -70,7 +70,8 @@ Kernel modules can be composed of several platform drivers. The platform core
-> >  provides helpers to register and unregister an array of drivers::
-> >  
-> >  	int __platform_register_drivers(struct platform_driver * const *drivers,
-> > -				      unsigned int count, struct module *owner);
-> > +				      unsigned int count, struct module *owner,
-> > +				      const char *mod_name);
+On Mon, May 18, 2026 at 09:05:52AM +0000, Loktionov, Aleksandr wrote:
 > 
-> Why can't you just use the owner->name value instead?  They are always
-> the same here, right?
+> 
+> > -----Original Message-----
+> > From: Tariq Toukan <tariqt@nvidia.com>
+> > Sent: Sunday, May 17, 2026 1:27 PM
+> > To: Eric Dumazet <edumazet@google.com>; Jakub Kicinski
+> > <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>; Andrew Lunn
+> > <andrew+netdev@lunn.ch>; David S. Miller <davem@davemloft.net>
+> > Cc: Jiri Pirko <jiri@resnulli.us>; Simon Horman <horms@kernel.org>;
+> > Jonathan Corbet <corbet@lwn.net>; Shuah Khan
+> > <skhan@linuxfoundation.org>; Saeed Mahameed <saeedm@nvidia.com>; Leon
+> > Romanovsky <leon@kernel.org>; Tariq Toukan <tariqt@nvidia.com>; Mark
+> > Bloch <mbloch@nvidia.com>; Vlad Dumitrescu <vdumitrescu@nvidia.com>;
+> > Loktionov, Aleksandr <aleksandr.loktionov@intel.com>; Daniel Zahka
+> > <daniel.zahka@gmail.com>; David Ahern <dsahern@kernel.org>; Nikolay
+> > Aleksandrov <razor@blackwall.org>; netdev@vger.kernel.org; linux-
+> > doc@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+> > rdma@vger.kernel.org; Gal Pressman <gal@nvidia.com>; Dragos Tatulea
+> > <dtatulea@nvidia.com>; Jiri Pirko <jiri@nvidia.com>; Nikolay
+> > Aleksandrov <nikolay@nvidia.com>
+> > Subject: [PATCH net-next 2/2] net/mlx5: implement max_sfs parameter
+> > 
+> > From: Nikolay Aleksandrov <nikolay@nvidia.com>
+> > 
+> > Implement max_sfs generic parameter to allow users to control the
+> > total light-weight NIC subfunctions that can be created using devlink
+> > instead of external vendor tools. A value of 0 will effectively
+> > disable creation of new subfunction devices. A warning is sent to
+> > user-space via extack (returning extack without error code is
+> > interpreted as a warning by user-space tools).
+> > 
+> > Signed-off-by: Nikolay Aleksandrov <nikolay@nvidia.com>
+> > Reviewed-by: David Ahern <dsahern@kernel.org>
+> > Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
+> > ---
+> >  Documentation/networking/devlink/mlx5.rst     |  7 +-
+> >  .../mellanox/mlx5/core/lib/nv_param.c         | 83
+> > ++++++++++++++++++-
+> >  2 files changed, 86 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/Documentation/networking/devlink/mlx5.rst
+> > b/Documentation/networking/devlink/mlx5.rst
+> > index 4bba4d780a4a..283b93d16861 100644
+> > --- a/Documentation/networking/devlink/mlx5.rst
+> > +++ b/Documentation/networking/devlink/mlx5.rst
+> > @@ -45,8 +45,13 @@ Parameters
+> >       - The range is between 1 and a device-specific max.
+> >       - Applies to each physical function (PF) independently, if the
+> > device
+> >         supports it. Otherwise, it applies symmetrically to all PFs.
+> > +   * - ``max_sfs``
+> > +     - permanent
+> > +     - The range is between 0 and a device-specific max.
+> > +     - Applies to each physical function (PF) independently.
+> > 
+> > -Note: permanent parameters such as ``enable_sriov`` and ``total_vfs``
+> > require FW reset to take effect
+> > +Note: permanent parameters such as ``enable_sriov``, ``total_vfs` and
+> > ``max_sfs``
+> I think one ` is missed after the ``total_vfs` ?
+> 
+> 
+> ...
+> 
 
-owner is NULL for built-in modules.
+ha, good catch! there's a missing ` indeed :)
+
+> > 
+> > 	DEVLINK_PARAM_DRIVER(MLX5_DEVLINK_PARAM_ID_CQE_COMPRESSION_TYPE
+> > ,
+> >  			     "cqe_compress_type",
+> > DEVLINK_PARAM_TYPE_STRING,
+> >  			     BIT(DEVLINK_PARAM_CMODE_PERMANENT),
+> > --
+> > 2.44.0
+> 
