@@ -1,91 +1,73 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013035.outbound.protection.outlook.com [40.93.201.35])
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011028.outbound.protection.outlook.com [52.101.57.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A9938A725;
-	Mon, 18 May 2026 18:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988723815F0;
+	Mon, 18 May 2026 18:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.28
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779127462; cv=fail; b=mptXM9iVwZMgRekG9zqlgkd3C4RIh+HMZKadKmpDQLTtiSmDn4YJpbYJx45cTwjZOxlOd+Z8Prwt1DzMTwcV6NXA7EtHBpBbA7hgaEnPlOuJ6OeteclwNHtBUXmwt8NJMq5KhoTs72v5IjW1Y41El0enZLDrDw9YKuSeoQwkffg=
+	t=1779127695; cv=fail; b=QAv23a60IEunTFLI0DHhS5hQDbLI9nxuCE5p0YoZDoJeneJf5udnF/1sqaQy21H98VPlnlNB3Uvm4pKHDj3mkPbZfgmTTBRwqpIa7/HxP+XH8MmnbldZAGLGtFslDz3KgV9hBQa0qJ6nYv5myvoXnisuPAva/g1pLwu8IvmIswU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779127462; c=relaxed/simple;
-	bh=vmvKoW2Y9Vcn4/MCGJPE31VTmSXdRUPhc+Y+XgN+zpc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ir1ESsz8/oZEZ0ydY/OeT2sE0T3jiRGTmI5PtO3WouU+WLPvC89sVBHcbDXBrwmODiSg0NdL6p+LVQ4fmU1CxUuhreEx0WtMF4tSQhrLLM7+Cbe/5R/KqwVaVB7pZvymsKaxmo7etKINgKKhM3mUC6l0ElPLck74i3z8dSwZEgk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=nWK59l55; arc=fail smtp.client-ip=40.93.201.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1779127695; c=relaxed/simple;
+	bh=Nlxi+X0afx/W4Z2OySGbtF2HBxPLx1Kh7rn5bnkjvjE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=p7E06LvBl9pMj/wz5EDLPKsruNnrDxt6Mnj8iyWnRhZqWQ2Kw/2MZUA5fI2NbU6yzgRslZtAm2vIK6fHvaekNO9F5qTWFFYDk8g5eRUVsMS20mVt6RpMO9y5tgfIOLLVKOBvACqw/TsIipCo/HKKUkb3oc+PC8R8b958lOXqWR4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NNV/bt5U; arc=fail smtp.client-ip=52.101.57.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="nWK59l55"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NNV/bt5U"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PNAUw/l/nw3wZcDij3L6V1ja0Q0HrkoJg96PYmFLOfVNYvEBJqRAbXdWHgMIxm/Skc471ZnZ/MKIaHz2eIl5WJ8hDNeRIdE5hMEwecOMEwDRbRr79c518Vd+IqEladhbeO4iFGSjpXwNWs8+9Fmi4+NaU7sHdyR3y04+Y/QAN4crxDhDjxxqKeUj/PlB6FvOOjtEHZliXPFLyhb5JgdmTjIkbRqgcaasETSRxGn41fD98+VGWYv2uAQ8nBRqrYOUsbF1Hf6IgcKrTsgh16boKY6YW+RhevybSVFf1EAyxreKuZ3tImbxnUS0/WT7yyyb2GzXkvZpCMHg50/+AsvGXQ==
+ b=CKFXnymmcp5EfnBCWqFTiHGn/RUoPjOcOiLbJIjg5AaUdpZxoj4B3gZdjfydxjWAUP9QpHp/yr893obFTwrCvwRAtxR9lCZytde+bdvx1KZ+Rn0ewpnulfOgG3L3iJYVZEvG41ene3pgk+ObZU1nJhVq+j+jmfIj0WYRAAWQyqxWXQT8hPNCPalvTxcgr/YXS2U+n9kXfgzci6WOmb8hcay85w3USqUIobzXwjkVK7tteEFyJBd8EPm5nRqGOKoVUbqbnRobw7ULQrHPNCkLsHDJsj+baO5OfF68VnUnS4iCQOZ3IlAh6bEUF7Neksz8F//qTEINyJ4e/V1JrBRJsA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/gqTTSQgAQpJwQtPOZfeAgCUPU1SY3H81VIAoRyqfBw=;
- b=cQdyWn3buihNdAdnfHwprvG/ptLlHceIQJNP6kzscb3lWGosyrvOiH/UD4ttj507vOX+l154GjZLHskms4WUdq+b6jx+n/GFsBjRcUScN9UbL07+UBWfsRHvoHkvIzftovuqR9K0mrDlL9aAQliS6abRuS+3QwxGiwQNkYgIgfQCrhCEVMq9cFcOK2YmrYMST+ecCZQ+muL1n97JWthWmUgBDIMO1HovE00u4qbEGVp27TFXKCmyoZOIb/AU6QeRd+0MiFzjmun4348V6D1skj4k9J7g4HjPd7MaZRRm/uydk8IB9TJIUBY/ZrF9qD9eT+cRPzZHl6rqgokXJuzU9Q==
+ bh=jNJziEFmDmxADJwwKP3qOl0oCvax7vYbimEJBl7ECr0=;
+ b=n7AReYJhO+QqkqXrU3pVkBxeMU8FbWd0UMUAQJZc7vtTA7z413fBB+hQk9VfVb7RjDczNWXIXrfKL59W++wqXdzQkKCxsde9VcHlW6/YFTXJfQ5ZogCmbOL32JlecOAVp0MjkTXrc6znNEzpyYYZdnIXFBEQXvxX4jCV3SALviA57NT01bjbPgxSvipLvkubvhy1sj2sOP1B7d3wHj7NxKxOpqtNXLAdtqtismQflunpc9sbVa/LsMbH8K7CWD7tuaItqmne/BKeLU3Qgx+BGujzRCU34Hef3Qj4XOjlRPlYiLx3EUJ3hPRM7ZTVmzs0EeeoRCZ9cF/ic7dUWfrebA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/gqTTSQgAQpJwQtPOZfeAgCUPU1SY3H81VIAoRyqfBw=;
- b=nWK59l55TkTfjQZCITa9GEDpSQINodlohnRPOu5iW7YPsVqU2mOCGo9Fzr/VdYC80po+tx03IjUdAkUbFb4JtUg6DB3HrR3UZ28IAdQRBKAliulnTpC60ElsQumQhnqcegRoZ3x6vZ+rg2P6+AppvHlNoGZPFOkrbmAdlRAYn+s01DHKhDrnckunFuDat8WmBCZ9WNLb9Zr3ipLEllMM/ivsFRL65Z7R1x9kcf0VQFKvDhfXie06Opmzd1noFTcx4l551TtWJHCSoQYYKOJ1oVOdaEorxCQ+Xw5LJdskRz4HhKt1aWbssIXhytcK7fbJ6yXzv0u3gbe7UtEqT9FeWw==
+ bh=jNJziEFmDmxADJwwKP3qOl0oCvax7vYbimEJBl7ECr0=;
+ b=NNV/bt5UWHJM6MlbB7VCebQOimNr6hQZMMaxWB62nVKckyc4YI+csMZDT3/SVdlret66QVr+NCZAkCudWh4vg3K6mriJ9lk9fJzvPMaoVBr0BzINvOex6Hz2aVuJI85WDp6GOeTjz+oXlzQUD9ojdfhssmymB8yj/SAJwxhz5O8=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- PH7PR12MB5620.namprd12.prod.outlook.com (2603:10b6:510:137::5) with Microsoft
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DSVPR12MB999147.namprd12.prod.outlook.com (2603:10b6:8:38b::11)
+ by DM4PR12MB5769.namprd12.prod.outlook.com (2603:10b6:8:60::6) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.25.22; Mon, 18 May 2026 18:04:09 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%6]) with mapi id 15.21.0025.012; Mon, 18 May 2026
- 18:04:09 +0000
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: linux-kernel@vger.kernel.org
-Cc: Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dave Airlie <airlied@redhat.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org,
-	nova-gpu@lists.linux.dev,
-	Nikola Djukic <ndjukic@nvidia.com>,
-	David Airlie <airlied@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Timur Tabi <ttabi@nvidia.com>,
-	Edwin Peer <epeer@nvidia.com>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Andrea Righi <arighi@nvidia.com>,
-	Andy Ritger <aritger@nvidia.com>,
-	Zhi Wang <zhiw@nvidia.com>,
-	Balbir Singh <balbirs@nvidia.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	alexeyi@nvidia.com,
-	Eliot Courtney <ecourtney@nvidia.com>,
-	joel@joelfernandes.org,
-	linux-doc@vger.kernel.org,
-	Joel Fernandes <joelagnelf@nvidia.com>
-Subject: [PATCH v1 12/12] gpu: nova-core: mm: Add PRAMIN aperture self-tests
-Date: Mon, 18 May 2026 14:03:42 -0400
-Message-Id: <20260518180342.2387845-13-joelagnelf@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260518180342.2387845-1-joelagnelf@nvidia.com>
-References: <20260518180342.2387845-1-joelagnelf@nvidia.com>
+ 15.21.25.23; Mon, 18 May 2026 18:08:09 +0000
+Received: from DSVPR12MB999147.namprd12.prod.outlook.com
+ ([fe80::98c5:8206:6a4:c445]) by DSVPR12MB999147.namprd12.prod.outlook.com
+ ([fe80::98c5:8206:6a4:c445%3]) with mapi id 15.20.9870.023; Mon, 18 May 2026
+ 18:08:09 +0000
+Message-ID: <ad24ad9a-2b30-4952-b36a-210c08a62346@amd.com>
+Date: Mon, 18 May 2026 13:08:06 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] cpufreq: CPPC: add autonomous mode boot parameter
+ support
+Content-Language: en-US
+To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
+ viresh.kumar@linaro.org, pierre.gondois@arm.com, ionela.voinescu@arm.com,
+ zhenglifeng1@huawei.com, zhanjie9@hisilicon.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+ vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
+ mochs@nvidia.com, bbasu@nvidia.com
+References: <20260515122624.1920637-1-sumitg@nvidia.com>
+ <20260515122624.1920637-3-sumitg@nvidia.com>
+ <bf521e4e-1aa5-49ce-bec5-52845f02214e@amd.com>
+ <139d2f0e-72d9-4721-9d5a-d1d4a2a95fa1@nvidia.com>
+ <72fd2fcc-6303-4980-beb7-e4b711ad6406@amd.com>
+ <e1a546f2-6e7e-4236-97bb-f72bea0137f7@nvidia.com>
+ <7d7a6ab6-b1ea-484c-a275-19acca50c483@amd.com>
+ <985f976f-1144-445b-96c2-df5bd57ecf05@nvidia.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <985f976f-1144-445b-96c2-df5bd57ecf05@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN0PR03CA0014.namprd03.prod.outlook.com
- (2603:10b6:208:52f::30) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+X-ClientProxiedBy: SN6PR01CA0033.prod.exchangelabs.com (2603:10b6:805:b6::46)
+ To DSVPR12MB999147.namprd12.prod.outlook.com (2603:10b6:8:38b::11)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -93,381 +75,214 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|PH7PR12MB5620:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2227dd01-134c-4cd5-756d-08deb507dbed
+X-MS-TrafficTypeDiagnostic: DSVPR12MB999147:EE_|DM4PR12MB5769:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae4cf575-1ece-4bb1-e982-08deb5086aee
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|56012099003|22082099003|18002099003|11063799003|3023799003;
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020|11063799003|56012099003|22082099003|18002099003|4143699003|3023799003;
 X-Microsoft-Antispam-Message-Info:
-	FwFWCAvbNvVU4zi9cJ7J7H6DhY4iXC6Z+bTXaTBsSM+YZBD2hHD1rHJTVd97drsAaxttCthQC7JxW6ZDJiIvxgQfkHPyJfhjyHuyFTM/ePi1v/gAhPRtCfsKTYsPODN4i67hxXyc8gpqB+bn9/bRMtLoge9miyKLMx2orbMovaXFgAy0oDe7ElAf6QDFXEyxISbGk+EcIR+a48yEbLKhG5XEKeZRmt2BYFCPPqlqwJLWJt8wUuRKxCfKbo3e/aWE3NpcIegzIbdaj543bMbkESNmssAI5TKbkHSlJiciyt3CCpmUGqC8+CPrpnc5+vriDowRQal5401IIN8TZj4Q4EbFErhtjbF+Wmf98SKsc614b3fMz03eg7hPZBtPUneF3EGiCBjV1Tv2GJQfblGwQSVxuScpPfuN0fNWRS/7pwfTRMty0i5Ec1tQX/2KKon9t/jsOcgBA9vWGPH8EZD9sQy7EMFD+KuB17H6Yc4wnWv4kGUCJ+eTRlqb5FDitzVfAelqVxQd2Vze7ys/9Lv2yCqwlFoeYeLAqYjPVPOg/0cj9wS+w1qOWx1PbI+bALHiKo8qRqptGNe24F//OvGg9TNt5S0O2E/XQgYLXXp0HSnGKXblDs3OLZJX28ebdSnNhpQyUy639gTzK3CkN7ofa/tmFInoMGylw9vUokU7iC70N/vNk7LRGZFzeXSEzXRM
+	SqCM5lkZwGxcKmq/HeQM2+hch/pTSv+o5MntWwsrdudoyhpY4hgUp2B4KBTuFq0MyYjfC4jR1DMWOLPKhVYDfE89UIrtZ+2eLgliellHayrWXZLLaP7WH8BDlNFXK37Qj4rKe/t8jbInAj2kEwhP0vQN1g+NxBixrKnigccfx2joSTsXLOL4Tvn0/uQPzZsReS560d8ad4bey7pg+GUzfcxfZxV+JIPaYtkN3gCEqpYXwMLwdo6yPpvwxSseCk0NgdujQobUNMLsbb6sSVQR1Zs3nRezAXJ9o7XTlCGqhPgEdSqN4UIGc4vQ1mOKg0Ni6m2HNC9Ac8gZ1pvcKNy1qT6by2eq+D7uRLXvh5rKsGLPEkRqsnaaMQNDwS617Ts4/gfmUisnSvxOgcveIzbMbusmrFIk4QFHaG6wQlxjh1Iy96DjLh9kbJ2FpZF8oT5i7s8aewMgOsPyGEvIQ8D0gZxcNZO9EskXLbFQ5aHKMCNlqwvKHpasCwjfYocIFftGWk3tSSnG0vaH9HEbBQ+oBT2vYC35+BxuHKMM9uyj+2895leGVnGrPkxXxvKRbgwAtAen+jXKVZitOR2UMoWARN0jL8swYDa6cN/kunvZIz2fZ8xUnK+4mnoQN2CuXrmLzbFVDTfe2U2tPeufH+AFIQzWlken5le6Q+kUeCKnRL5ro2wQxOMSZXHT2ZqvuB4F
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(56012099003)(22082099003)(18002099003)(11063799003)(3023799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DSVPR12MB999147.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020)(11063799003)(56012099003)(22082099003)(18002099003)(4143699003)(3023799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7ln9XB56kRlth7q66qgJtQQKX5ce4Z7epretePVoXnLmFSDlUj4xFIZ+dvbk?=
- =?us-ascii?Q?7GkiAPLzPDGRaG42k9u7N2omwr2Y3R7kQQEjr6vFX2Nfgk/6wbe2W/zWbWmZ?=
- =?us-ascii?Q?+2qUrfxlm2YhpEgHBmakgg4WBCagrusEXhc71ft8YgviwN1VqO4U4Ehhg5Mk?=
- =?us-ascii?Q?9D5tMXZskK3Vz81+FSD4PcNOzkWKKTtix27tY3HoxAwGLB+bOGHMGGhUqyDL?=
- =?us-ascii?Q?DF+FqMv8fGsaYrB4lbMTebv2NWI1TqlS6pF6krz2kdST6kBaLNRYYUonPiI/?=
- =?us-ascii?Q?JdBKplzr+7y9KEva22rA7cR9HbH/auYpTGshm+rwHpprPJ7ZUuKyHq9zRF7f?=
- =?us-ascii?Q?MbI4Q5+eLbWkrOQLzyVtie0pwjOg8AT+FJR+fsIOV5rCW0X/9PVctbLDUtYW?=
- =?us-ascii?Q?9qjPoD6r7RobwK9j2McpVm7I2x4LYtt0OIpDamXxB1plLpJ596awDtLoieU6?=
- =?us-ascii?Q?2y1rmH2tiQYU5F1YP9NunlBTqgwQhUB3dTo6/seIm+EPIrh7AgrpVcCYIRfW?=
- =?us-ascii?Q?1ocoqjLeS6Lg6TnibFkPyMEk9rl7IyHF5f20JsDOSburEodmrHSSk1zVALIA?=
- =?us-ascii?Q?vTSJMfRyxxLDwxhRNeC5az+ZJNXCtQSNOPvYvGact7jH3B4Gp79fVkux247W?=
- =?us-ascii?Q?5WI+YBuZkSagH57zA/UfvxIn222gEQw/B1ucbUfitX+Fpb3KoMsHxtNVcFmQ?=
- =?us-ascii?Q?RMJ25G/+KwP85xNvBvWb2J8ubCpNh2JYLtZ+9q6/HgroU5mKCZDr80Do3rKh?=
- =?us-ascii?Q?nCXjP080CYo8+CvTi3TJHicU08Z5C5g8zb3VhJukWIkw4mMSvi4TP5JQyFaV?=
- =?us-ascii?Q?QpAlTnRafijPdKZyW3MSL/2SgpiZV9gF9/6eWBcMt00aKcNLKpPzhVRLG4W4?=
- =?us-ascii?Q?9Igz46tpmfnvNx6u8Ciwm+ZAP0Zdhyza5MeqjR9NRa0SkHOMnAhgBTIYIG0j?=
- =?us-ascii?Q?9WbEdAq9xn3N+2IxdScVNeSYzsIASNB9wra55BVXikAgSzxuLAcmcww3Zo8z?=
- =?us-ascii?Q?ZlZWg7ZJIRS+EhkxLeAl/JZ6U44Id2dx2mNpACe6D+s4bzAzegJSOX7OOXNi?=
- =?us-ascii?Q?MvNrVAdff7eOG8fn27Bvlrz24hnTouIkjhDQFqbLBt/QAufU9oYbJF9ie2wb?=
- =?us-ascii?Q?DXwRnVS/fVTo5HYGR9BfN1go5dG+2ov4r6RC++5GBKYvF7Uy+Owr0CCUu8nY?=
- =?us-ascii?Q?XUKfg8Fd3al3f0MVRJVf1jkNugwPZCOFkIofvDxfOe6fx0BXSz6eMN8Ad7HX?=
- =?us-ascii?Q?lsncc473kGn7rVG56qOeynwH0RyDDTGQJEXo8kOCKN6B/bTg58kq0AdeRPtd?=
- =?us-ascii?Q?Od4PSkZf2A7u/hM4PejgJ8VCee9J/jZ31t1DGiwD4PqmtTBy6DhmbvJriyIW?=
- =?us-ascii?Q?0+kGaxxrmWCwXivJj0ARvjU4HY0aPcoLaYPuVn/A63KsHZmv3+hm6ER9GXAe?=
- =?us-ascii?Q?PXHHVA0hIeJVyqwo5BygJMX58pRB3PN1lsRnbYHLblbTTNglgiGiBgYU6vNS?=
- =?us-ascii?Q?1jL9v+qF93W+PDavYUxNhIVNyPwaPJlrNv3wxGZs81VPyUjJ/IaETDqp/axJ?=
- =?us-ascii?Q?Pfl0b62tnvLa17xxCCQCQCYl8hnbk0nZPGNm+cucltRYAUIqIVfBpsEL6S2K?=
- =?us-ascii?Q?IABNK+8AR22ePh6nI8DPX6AJEttqp0rBgYsagn+s/bkr/fNk4C9HUBGU0ojg?=
- =?us-ascii?Q?2Bfdz2asYhesK0IJPTQ7ClDQKhrb8h0pJ5UQKWZSm7VgAbpxpbTtUaVdyglb?=
- =?us-ascii?Q?l4Z4y12ogQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2227dd01-134c-4cd5-756d-08deb507dbed
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+	=?utf-8?B?K2RNOFZKZXFvT2VXamRLMm5uWGNHSDB2U2hNNUllTUVLc2VscUFXQWNVVW50?=
+ =?utf-8?B?djJwdEZkRml4cjNiaVlZQS9mVHBoOEYwOWFSNU1WdFBWU3lnTjZvb1ZMbFBq?=
+ =?utf-8?B?QmpHVHhOSXIvSjB5eHpBb0lKK1Y2dW9maGR5eWVLRGU1cENnZ2JPNDJIa1ZP?=
+ =?utf-8?B?bXpGemZsb3pGaDMxWHNvQ3IxU0hpNmhuektMa2psMmo0LzcwRjdsY0RxMzJS?=
+ =?utf-8?B?TmorR3lRRktpbHlDYXl2UTBKTkRTSmx2Y3lxSW9SY0VWQVg3TWRQM1VFNWJl?=
+ =?utf-8?B?bkhFdXg2UkdORkE4MjZvRlhpZWlwMG96WXlvakVaYWtBOVJwclNFeWxGMVYr?=
+ =?utf-8?B?VkV6MTN1RWlTdjV3R1Rnd24reHl0Mnl2YTV0MEpkWEJqeDRtNUxneFc4c3NC?=
+ =?utf-8?B?eERTM1BGajNxMFIwenhyNGRqbUlEODJrclMxSVVWdUFqbDNobE5wMHoxS1M5?=
+ =?utf-8?B?aGI5bGJqM2xpZ3o3L2tJREwrWGU4WVNGWC9qc0tGYW1SQnRwVmQ1WmxBaHVP?=
+ =?utf-8?B?RkhxV096Vno3NEZSd1Q2enNDSGJaUXZCN2hkTkJQVmk5OHpjZ2Zhd2wxVDRJ?=
+ =?utf-8?B?c285WGFlWFB6WTRmbmZZRDF4VC96RVpOL015dFowdVU4Nmt2dC9TY2dyNUdK?=
+ =?utf-8?B?SldPZTg3cFpnak03L0syWHZ4QWFZMHlzQldLdm9iNkwrRy9IYlFCZEg3eERW?=
+ =?utf-8?B?aUpVTEtrdHMwRzQya2dOdk11Um1yZlh5VUdSeE03TGlDVzM4MEx3b2F0dmFK?=
+ =?utf-8?B?KzU5dWRJV2VxVmhOSUkwUUNZNVAzRVFTVzZuZGIxSUw4VVc5c1BGMUZmc2wv?=
+ =?utf-8?B?T0VjbkFMVEwvYjNxWWwwRHZocjZNM2pYTFc0dFQ1N0hPbFEvV2k1L3RMd0k2?=
+ =?utf-8?B?cjBrOFNnY2FnVE1wUjF4dnpoM0JxR0pPajVFVVl4TmVCZ081dEtKL0RDVnEx?=
+ =?utf-8?B?by9PMG4yRjdEemxkWE5JWHZyeVdTQmt3QXZ2bityTytOdFI0Yng1blYrOVZx?=
+ =?utf-8?B?ZXMwa1hHeWloSitObEZtQXBCSzN3UjQzQ29LYXpkZmZweXFKK2xueTdaMnN2?=
+ =?utf-8?B?VXBydWh6SVMyK0tLbXpUN2Z6Y2VERktlYzZNNTFyMDFQM2M3ZnlDQVNMVi9K?=
+ =?utf-8?B?a0pXcDRqdmEyQmMwd1Vjbmthdnk3Sk5Iby9OV0RDVG1WaFk3UkkyOXJzK3Jv?=
+ =?utf-8?B?ZlNwWmptRitpbE1tb3lqYTRJUGpTK3hZdithVDNmWVNMNkx1N2E2MVYvTFdw?=
+ =?utf-8?B?Zk1USHBkVVZVSi83L2JXT1k2eGdEeXZTcS9RVGptZ1pmUHFrejdSYW1lUWQv?=
+ =?utf-8?B?RDhjVFRTc1NKZkg0R05WZTNJZzErRW5leGxvQm55ZTh6eHE1L3FxYUUxZ3ly?=
+ =?utf-8?B?RSt5SDZ6K1I4M2EzeGsrcmduLy8zQ3pYajZnc3cwSW9rckIveFJYdGNGeEV4?=
+ =?utf-8?B?dXZ1bjQzSXJaQkZ6UkVnak5LTHZOVDduK3I3b2pHSC9lTE83ZS95Y1REeDNz?=
+ =?utf-8?B?a2E5WHZZK1cycytOTlMvYkNoLzR6OVhWclR4Slp3YVNIVGQvdDVCUmRiNTNR?=
+ =?utf-8?B?N1RHL2VWNGx3UFBLcDRvcC9Edk9pYkdZZmZQbWxic2NLOXRicllQM0JPZ0Zh?=
+ =?utf-8?B?QWs5NjZrQldMWmh6dTZjKzNKNmFqcU8ya0FneU1jYklmYUV4em5ZQmJzdU9S?=
+ =?utf-8?B?K3FnRnd1Y1RhZWovdTNXR2FrMFVDUGRsZXFsOEZmelpoZm9BdUdSSlgwaGpu?=
+ =?utf-8?B?SnhUaklRMDVGM1BwbE5oa0dFeEowTWt0WFc1MXQ1Z0x2eU1EQktkWTdod3k1?=
+ =?utf-8?B?RHdnbmpBTEEveEFYanpIL1Nydnc1RFBTem5CTFp1SkhydlJ5VktXNjExRWFU?=
+ =?utf-8?B?OEM2TVJzQnZML3RvTlRsMGJRNjhRcVZyUVVwNEdRSmZweis5TnprUGt2T0xZ?=
+ =?utf-8?B?OU9hUjZRMzc2MTRNSDlJaTVaMWR0YUUxWWQrVnNRZlB5V2NlYlRwbU84VXFT?=
+ =?utf-8?B?b1hUWGtBNm4ySEJZeHlkb1J2djBmRk9CWjM5d0hTamRXNmtMU2s0S1J1M3V2?=
+ =?utf-8?B?c3FNU2szWEQ4SVh4UGtNaisvTkVmRU9KaS9nS3hIaWEvYkkyUm5VWHIyRnMw?=
+ =?utf-8?B?NjJYZnp0SHVlMXNYUndpWHFQR3lWbGVaQ0hyUTMvQmlTU1REYmZSb3Jkc3Az?=
+ =?utf-8?B?aDZubTNWZzJXTTV5WVp3bFBMb0VUaHQvekUvRWlRamdYRnNUcVphMzVtNXIy?=
+ =?utf-8?B?QzNsVU9Ec0hxNUd6SjF3dkRIZExFeGRWUGM5eWRPRW12YmVkQXZTVkdnUEdR?=
+ =?utf-8?B?RU9YeTNreEdLZjZncGxnT2RTeVFFRStaZEkrVGpONkJSRlUraGJmQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae4cf575-1ece-4bb1-e982-08deb5086aee
+X-MS-Exchange-CrossTenant-AuthSource: DSVPR12MB999147.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 18:04:09.4231
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 18:08:09.3524
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IjErPxB0v3X8c3Y3lO3wbGdkJiMtGdbT6ErqEiRzZZM9NQkaOVzkwEZ6Iz22evqmZqbRIgOYriGqkk5evcPhDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5620
+X-MS-Exchange-CrossTenant-UserPrincipalName: XM+N+9JcyIfcLvoc5ym6PsgNUpxqxW7U3fs80hdrUdyPy1hEEPV5Xu3HgMUMx47WwEtb+6Th3daGfKD64Q/KGg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5769
 
-Add self-tests for the PRAMIN aperture mechanism to verify correct
-operation during GPU probe. The tests validate various alignment
-requirements and corner cases.
 
-The tests are default disabled and behind CONFIG_NOVA_MM_SELFTESTS.
-When enabled, tests run after GSP boot during probe.
 
-Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
----
- drivers/gpu/nova-core/Kconfig      |  10 ++
- drivers/gpu/nova-core/driver.rs    |   2 +
- drivers/gpu/nova-core/gpu.rs       |   9 ++
- drivers/gpu/nova-core/mm.rs        |  16 +++
- drivers/gpu/nova-core/mm/pramin.rs | 214 +++++++++++++++++++++++++++++
- 5 files changed, 251 insertions(+)
+On 5/18/26 12:22, Sumit Gupta wrote:
+> 
+> On 18/05/26 19:51, Mario Limonciello wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> On 5/18/26 09:15, Sumit Gupta wrote:
+>>>
+>>> On 18/05/26 19:20, Mario Limonciello wrote:
+>>>> External email: Use caution opening links or attachments
+>>>>
+>>>>
+>>>> On 5/18/26 08:44, Sumit Gupta wrote:
+>>>>> Hi Mario,
+>>>>>
+>>>>>
+>>>>> On 16/05/26 02:43, Mario Limonciello wrote:
+>>>>>> External email: Use caution opening links or attachments
+>>>>>>
+>>>>>>
+>>>>>> On 5/15/26 07:26, Sumit Gupta wrote:
+>>>>>>> Add a kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
+>>>>>>> CPPC autonomous performance selection on all CPUs at system startup.
+>>>>>>> When autonomous mode is enabled, the hardware automatically adjusts
+>>>>>>> CPU performance based on workload demands using Energy Performance
+>>>>>>> Preference (EPP) hints.
+>>>>>>>
+>>>>>>> When the parameter is set:
+>>>>>>> - Configure all CPUs for autonomous operation on first init
+>>>>>>> - Use HW min/max_perf when available; otherwise initialize from caps
+>>>>>>> - Initialize desired_perf to max_perf as a starting hint
+>>>>>>> - Hardware controls frequency instead of the OS governor
+>>>>>>> - EPP behavior depends on parameter value:
+>>>>>>>    - performance (or 1): override EPP to performance preference 
+>>>>>>> (0x0)
+>>>>>>>    - default_epp (or 2): preserve EPP value programmed by BIOS/
+>>>>>>> firmware
+>>>>>>>
+>>>>>>> The boot parameter is applied only during first policy 
+>>>>>>> initialization.
+>>>>>>> Skip applying it on CPU hotplug to preserve runtime sysfs
+>>>>>>> configuration.
+>>>>>>>
+>>>>>>> This patch depends on patch series [1] ("cpufreq: Set policy->min 
+>>>>>>> and
+>>>>>>> max as real QoS constraints") so that the policy->min/max set in
+>>>>>>> cppc_cpufreq_cpu_init() are not overridden by cpufreq_set_policy()
+>>>>>>> during init.
+>>>>>>>
+>>>>>>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+>>>>>>> ---
+>>>>>>> [1] https://lore.kernel.org/lkml/20260511135538.522653-1-
+>>>>>>> pierre.gondois@arm.com/
+>>>>>>> ---
+>>>>>>>   .../admin-guide/kernel-parameters.txt         |  16 +++
+>>>>>>>   drivers/cpufreq/cppc_cpufreq.c                | 122 +++++++++++++
+>>>>>>> ++++-
+>>>>>>>   2 files changed, 133 insertions(+), 5 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/
+>>>>>>> Documentation/admin-guide/kernel-parameters.txt
+>>>>>>> index 0eb64aab3685..7e4b3a8fd76f 100644
+>>>>>>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>>>>>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>>>>>> @@ -1048,6 +1048,22 @@ Kernel parameters
+>>>>>>>                       policy to use. This governor must be 
+>>>>>>> registered
+>>>>>>> in the
+>>>>>>>                       kernel before the cpufreq driver probes.
+>>>>>>>
+>>>>>>> +     cppc_cpufreq.auto_sel_mode=
+>>>>>>> +                     [CPU_FREQ] Enable ACPI CPPC autonomous
+>>>>>>> performance
+>>>>>>> +                     selection. When enabled, hardware 
+>>>>>>> automatically
+>>>>>>> adjusts
+>>>>>>> +                     CPU frequency on all CPUs based on workload
+>>>>>>> demands.
+>>>>>>> +                     In Autonomous mode, Energy Performance
+>>>>>>> Preference (EPP)
+>>>>>>> +                     hints guide hardware toward performance (0x0)
+>>>>>>> or energy
+>>>>>>> +                     efficiency (0xff).
+>>>>>>> +                     Requires ACPI CPPC autonomous selection 
+>>>>>>> register
+>>>>>>> +                     support.
+>>>>>>> +                     Accepts:
+>>>>>>> +                       performance, 1: enable auto_sel + set EPP to
+>>>>>>> +                                       performance (0x0)
+>>>>>>> +                       default_epp, 2: enable auto_sel, preserve 
+>>>>>>> EPP
+>>>>>>> value
+>>>>>>> +                                       programmed by BIOS/firmware
+>>>>>>> +                     Unset: cpufreq governors are used (auto_sel
+>>>>>>> disabled).
+>>>>>>
+>>>>>> Rather than unset doing nothing, have you considered having it take a
+>>>>>> midpoint like 128?  That's what we do in amd-pstate (default to
+>>>>>> balance_performance).  I think it turns into a reasonable balance.
+>>>>>
+>>>>> Thanks for the suggestion.
+>>>>> I can add balance_performance that enables auto_sel with EPP=128 in 
+>>>>> v4.
+>>>>>
+>>>>> On changing the driver default (no param behavior) to auto enable
+>>>>> balance_performance, it would be good to keep the current behavior for
+>>>>> now since cppc_cpufreq is generic across ARM64/RISC-V platforms where
+>>>>> EPP and Autonomous Selection registers are optional.
+>>>>> A default change would affect existing users relying on governors.
+>>>>>
+>>>>> Thank you,
+>>>>> Sumit Gupta
+>>>>
+>>>> But couldn't you make the "no module parameter set" follow the behavior
+>>>> to only set the registers if they're available?
+>>>>
+>>>> So the systems that support it start using it, the ones that don't it's
+>>>> a NOP.
+>>>>
+>>>
+>>> Would it work to add balance_performance as a new mode in v4,
+>>> and discuss changing the default separately as a follow-up?
+>>>
+>>
+>> Sure.
+>>
+>>> Runtime detection helps for unsupported platforms. But platforms which
+>>> support the registers use OS governors today, and silently switching
+>>> them to autonomous mode on a kernel update is a behavior change for
+>>> existing users. They would also have no way to boot into sw governor.
+>>>
+>>
+>> But hopefully it should be better battery life/responsiveness for those
+>> scenarios too, right?
+>>
+> 
+> Yes in many cases, but if some workloads rely on specific OS governor
+> configurations, then that would get impacted.
+> I will send a separate change later to seek broader consensus on
+> enabling auto_sel as default without any param.
+> 
 
-diff --git a/drivers/gpu/nova-core/Kconfig b/drivers/gpu/nova-core/Kconfig
-index f918f69e0599..abf10e82647b 100644
---- a/drivers/gpu/nova-core/Kconfig
-+++ b/drivers/gpu/nova-core/Kconfig
-@@ -15,3 +15,13 @@ config NOVA_CORE
- 	  This driver is work in progress and may not be functional.
- 
- 	  If M is selected, the module will be called nova-core.
-+
-+config NOVA_MM_SELFTESTS
-+	bool "Memory management self-tests"
-+	depends on NOVA_CORE
-+	help
-+	  Enable self-tests for the memory management subsystem. When enabled,
-+	  tests are run during GPU probe to verify PRAMIN aperture access,
-+	  page table walking, and BAR1 virtual memory mapping functionality.
-+
-+	  This is a testing option and is default-disabled.
-diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driver.rs
-index 84b0e1703150..77746d6949d7 100644
---- a/drivers/gpu/nova-core/driver.rs
-+++ b/drivers/gpu/nova-core/driver.rs
-@@ -96,6 +96,8 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, E
- 
-             Ok(try_pin_init!(Self {
-                 gpu <- Gpu::new(pdev, bar.clone(), bar.access(pdev.as_ref())?),
-+                // Run optional GPU selftests.
-+                _: { gpu.run_selftests(pdev)? },
-                 _reg <- auxiliary::Registration::new(
-                     pdev.as_ref(),
-                     c"nova-drm",
-diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index 38544c38d660..aa047fe91054 100644
---- a/drivers/gpu/nova-core/gpu.rs
-+++ b/drivers/gpu/nova-core/gpu.rs
-@@ -342,4 +342,13 @@ pub(crate) fn unbind(&self, dev: &device::Device<device::Core>) {
-             .inspect(|bar| self.sysmem_flush.unregister(bar))
-             .is_err());
-     }
-+
-+    /// Run selftests on the constructed [`Gpu`].
-+    pub(crate) fn run_selftests(
-+        self: Pin<&mut Self>,
-+        pdev: &pci::Device<device::Bound>,
-+    ) -> Result {
-+        crate::mm::run_mm_selftests(pdev, &self.mm, self.spec.chipset)?;
-+        Ok(())
-+    }
- }
-diff --git a/drivers/gpu/nova-core/mm.rs b/drivers/gpu/nova-core/mm.rs
-index 5c1941d20d1b..08d74710f790 100644
---- a/drivers/gpu/nova-core/mm.rs
-+++ b/drivers/gpu/nova-core/mm.rs
-@@ -40,6 +40,7 @@ macro_rules! impl_pfn_bounded {
-     device,
-     devres::Devres,
-     num::Bounded,
-+    pci,
-     prelude::*,
-     sync::Arc, //
- };
-@@ -83,6 +84,21 @@ pub(crate) fn pramin(&self) -> &pramin::Pramin {
-     }
- }
- 
-+/// Run MM subsystem self-tests during probe.
-+///
-+/// No-op when `CONFIG_NOVA_MM_SELFTESTS` is not enabled.
-+#[cfg_attr(not(CONFIG_NOVA_MM_SELFTESTS), allow(unused_variables))]
-+pub(crate) fn run_mm_selftests(
-+    pdev: &pci::Device<device::Bound>,
-+    mm: &Arc<GpuMm>,
-+    chipset: Chipset,
-+) -> Result {
-+    #[cfg(CONFIG_NOVA_MM_SELFTESTS)]
-+    pramin::run_self_test(pdev.as_ref(), mm.pramin(), chipset)?;
-+
-+    Ok(())
-+}
-+
- bitfield! {
-     /// Physical VRAM address in GPU video memory.
-     pub(crate) struct VramAddress(u64) {
-diff --git a/drivers/gpu/nova-core/mm/pramin.rs b/drivers/gpu/nova-core/mm/pramin.rs
-index 38758ca971be..73d516c91c15 100644
---- a/drivers/gpu/nova-core/mm/pramin.rs
-+++ b/drivers/gpu/nova-core/mm/pramin.rs
-@@ -296,3 +296,217 @@ fn compute_window(
-     define_pramin_write!(try_write32, u32);
-     define_pramin_write!(try_write64, u64);
- }
-+
-+#[cfg(CONFIG_NOVA_MM_SELFTESTS)]
-+mod selftest {
-+    use super::*;
-+    use crate::{
-+        mm::VramAddress,
-+        num::IntoSafeCast, //
-+    };
-+    use kernel::{
-+        device,
-+        prelude::*, //
-+    };
-+
-+    /// Offset within the VRAM region to use as the self-test area.
-+    const SELFTEST_REGION_OFFSET: u64 = 0x1000;
-+
-+    /// Test read/write at byte-aligned locations.
-+    fn test_byte_readwrite(
-+        dev: &kernel::device::Device,
-+        win: &mut PraminWindow<'_>,
-+        base: VramAddress,
-+    ) -> Result {
-+        for i in 0u8..4 {
-+            let offset = base + 1 + u64::from(i);
-+            let val = 0xA0 + i;
-+            win.try_write8(offset, val)?;
-+            let read_val = win.try_read8(offset)?;
-+            if read_val != val {
-+                dev_err!(
-+                    dev,
-+                    "PRAMIN: FAIL - offset {:#x}: wrote {:#x}, read {:#x}\n",
-+                    offset,
-+                    val,
-+                    read_val
-+                );
-+                return Err(EIO);
-+            }
-+        }
-+        Ok(())
-+    }
-+
-+    /// Test writing a `u32` and reading back as individual `u8`s.
-+    fn test_u32_as_bytes(
-+        dev: &kernel::device::Device,
-+        win: &mut PraminWindow<'_>,
-+        base: VramAddress,
-+    ) -> Result {
-+        let offset = base + 0x10;
-+        let val: u32 = 0xDEADBEEF;
-+        win.try_write32(offset, val)?;
-+
-+        // Read back as individual bytes (little-endian: EF BE AD DE).
-+        let expected_bytes: [u8; 4] = [0xEF, 0xBE, 0xAD, 0xDE];
-+        for (i, &expected) in expected_bytes.iter().enumerate() {
-+            let i_u64: u64 = i.into_safe_cast();
-+            let read_val = win.try_read8(offset + i_u64)?;
-+            if read_val != expected {
-+                dev_err!(
-+                    dev,
-+                    "PRAMIN: FAIL - offset {:#x}: expected {:#x}, read {:#x}\n",
-+                    offset + i_u64,
-+                    expected,
-+                    read_val
-+                );
-+                return Err(EIO);
-+            }
-+        }
-+        Ok(())
-+    }
-+
-+    /// Test window repositioning across 1MB boundaries.
-+    fn test_window_reposition(
-+        dev: &kernel::device::Device,
-+        win: &mut PraminWindow<'_>,
-+        base: VramAddress,
-+    ) -> Result {
-+        let offset_a = base;
-+        let offset_b = base + 0x200000; // base + 2MB (different 1MB region).
-+        let val_a: u32 = 0x11111111;
-+        let val_b: u32 = 0x22222222;
-+
-+        win.try_write32(offset_a, val_a)?;
-+        win.try_write32(offset_b, val_b)?;
-+
-+        let read_b = win.try_read32(offset_b)?;
-+        if read_b != val_b {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - offset {:#x}: expected {:#x}, read {:#x}\n",
-+                offset_b,
-+                val_b,
-+                read_b
-+            );
-+            return Err(EIO);
-+        }
-+
-+        let read_a = win.try_read32(offset_a)?;
-+        if read_a != val_a {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - offset {:#x}: expected {:#x}, read {:#x}\n",
-+                offset_a,
-+                val_a,
-+                read_a
-+            );
-+            return Err(EIO);
-+        }
-+        Ok(())
-+    }
-+
-+    /// Test that offsets outside the VRAM region are rejected.
-+    fn test_invalid_offset(
-+        dev: &kernel::device::Device,
-+        win: &mut PraminWindow<'_>,
-+        vram_end: VramAddress,
-+    ) -> Result {
-+        let result = win.try_read32(vram_end);
-+        if result.is_ok() {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - read at invalid offset {:#x} should have failed\n",
-+                vram_end
-+            );
-+            return Err(EIO);
-+        }
-+        Ok(())
-+    }
-+
-+    /// Test that misaligned multi-byte accesses are rejected.
-+    fn test_misaligned_access(
-+        dev: &kernel::device::Device,
-+        win: &mut PraminWindow<'_>,
-+        base: VramAddress,
-+    ) -> Result {
-+        // `u16` at odd offset (not 2-byte aligned).
-+        let offset_u16 = base + 0x21;
-+        if win.try_write16(offset_u16, 0xABCD).is_ok() {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - misaligned u16 write at {:#x} should have failed\n",
-+                offset_u16
-+            );
-+            return Err(EIO);
-+        }
-+
-+        // `u32` at 2-byte-aligned (not 4-byte-aligned) offset.
-+        let offset_u32 = base + 0x32;
-+        if win.try_write32(offset_u32, 0x12345678).is_ok() {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - misaligned u32 write at {:#x} should have failed\n",
-+                offset_u32
-+            );
-+            return Err(EIO);
-+        }
-+
-+        // `u64` read at 4-byte-aligned (not 8-byte-aligned) offset.
-+        let offset_u64 = base + 0x44;
-+        if win.try_read64(offset_u64).is_ok() {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - misaligned u64 read at {:#x} should have failed\n",
-+                offset_u64
-+            );
-+            return Err(EIO);
-+        }
-+        Ok(())
-+    }
-+
-+    /// Run PRAMIN self-tests during boot if self-tests are enabled.
-+    pub(crate) fn run_self_test(
-+        pdev: &device::Device<device::Bound>,
-+        pramin: &Pramin,
-+        chipset: crate::gpu::Chipset,
-+    ) -> Result {
-+        use crate::gpu::Architecture;
-+
-+        let dev = pdev;
-+
-+        // PRAMIN uses NV_PBUS_BAR0_WINDOW which is only available on pre-Hopper GPUs.
-+        // Hopper+ uses NV_XAL_EP_BAR0_WINDOW instead, requiring a separate HAL that
-+        // has not been implemented yet.
-+        if !matches!(
-+            chipset.arch(),
-+            Architecture::Turing | Architecture::Ampere | Architecture::Ada
-+        ) {
-+            dev_info!(
-+                dev,
-+                "PRAMIN: Skipping self-tests for {:?} (only pre-Hopper supported)\n",
-+                chipset
-+            );
-+            return Ok(());
-+        }
-+
-+        dev_info!(dev, "PRAMIN: Starting self-test...\n");
-+
-+        let vram_region = pramin.vram_region();
-+        let base = vram_region.start + SELFTEST_REGION_OFFSET;
-+        let vram_end = vram_region.end;
-+        let mut win = pramin.get_window(pdev)?;
-+
-+        test_byte_readwrite(dev, &mut win, base)?;
-+        test_u32_as_bytes(dev, &mut win, base)?;
-+        test_window_reposition(dev, &mut win, base)?;
-+        test_invalid_offset(dev, &mut win, vram_end)?;
-+        test_misaligned_access(dev, &mut win, base)?;
-+
-+        dev_info!(dev, "PRAMIN: All self-tests PASSED\n");
-+        Ok(())
-+    }
-+}
-+
-+#[cfg(CONFIG_NOVA_MM_SELFTESTS)]
-+pub(crate) use selftest::run_self_test;
--- 
-2.34.1
+I suppose another option is to have a Kconfig to decide at compile time 
+whether to turn on autonomous mode by default, so systems can avoid 
+moving to this if they don't want to.
 
