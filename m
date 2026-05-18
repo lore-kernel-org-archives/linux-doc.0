@@ -1,663 +1,262 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8644A3E5A2E;
-	Mon, 18 May 2026 09:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779095597; cv=fail; b=jkFfUZW7frDJLtI3GQC/id0GQ4iV9vVKUby1ZF7G6VGVDVJb/lVmynj0btxVQBsq/8tA6/i0ZbTO7Ej/t7NYV76SyvvSQMTLq7APvxL393IqEP+RBNKay3O/liK5PpeY6gIcU4uk5PEdZ3hmwIGG5VmU2pFe1SDGGV3N/bS/BAY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779095597; c=relaxed/simple;
-	bh=zP0mACIY8ZrmI7lyCe2w2ajMkqi3m4L8sUM1wU4jkS4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=fDYvpEIOYtJR/Xfo5Dri8bavbB8EQILqAn7QkAQuhg6lzzKUCtzf25F2kxsYMvpfN6souZUUJOaYG+inDpUq4bxg6UeCeS8kJ3+d0F7lWM2WT9Zeqi7nvt3K8k1OZWXt2k4iAqln+oCJHSWS4Fkd9sJmImnDqh+RNWb5AEgtMFY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U/i3nGZ0; arc=fail smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9373E277E
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 09:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779096004; cv=none; b=pTTIP78rQ+gORpnHyhL66IDC125Mnhb9QMz5Ir1hSM8V3X6OjgsdEkJidq2tsqvQV3XA7CWPoCu6xznoJ48M6PJsrUXbHuxIo4E3RkDEgC6+5KKXOSJzXzcdNLnA9fcVE0XnfkFVBdEODwhtCpYd9ZGLE0WiIIZwRf0/FSRpn60=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779096004; c=relaxed/simple;
+	bh=MywEWsbnG8C6ngvsR4dw6Oxcahx3+ItSZfhu87dPrc0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZCi4cQiSxudA3Ow5QumYeQ1CZLoBbK2f9e2ILlrrIfSawZeWPvSZ3CwJHwIffs8glilX665DUGuskZ+/q5MEXOfrM8nCic83vYrr1V8rOK4Dwr5wVsD2yYFk1Y+E6MMb1L3KL6JrEvk/IGaxwbvKiSNVxC+Hae7QLjU7LKCf4zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=X7xPW22w; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Y7LG9aTO; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/i3nGZ0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779095595; x=1810631595;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=zP0mACIY8ZrmI7lyCe2w2ajMkqi3m4L8sUM1wU4jkS4=;
-  b=U/i3nGZ0CoWR3u5S2TeDzq84BPy8svDrXWIh66mVphzc8qLlP70F7hZB
-   JCJL/MXL3poU+NLaTYchjd8USIT5ZAmXTrYgWrPzqryCesZ42eNmZ9B0v
-   uLvWViFwKsadNg0m8jsMY4Sw5sxT8iSlkl7Qzx8TsNheH9xXjWzHEaPX0
-   2pJWMUzRaidmwDA8Q2ZIapp6sL3/C9nMUPywcUexxTX5cjeQCgirZe5ZI
-   DPIxmakQOOc6AoGJYOD5fI8sZRpRQ2tW7DmsQmBy+Cq1O/KwUBQY/6K9d
-   q1dOhx5xQQdnC5FX2qGaJ9mWINuJbjNhz+cSYc87dOntG36Y+h1o6YTqR
-   w==;
-X-CSE-ConnectionGUID: fpDCeDXLSYmA/7la6MA47A==
-X-CSE-MsgGUID: SUACiUC+SOeRLIE2PhY2qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="83796651"
-X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
-   d="scan'208";a="83796651"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 02:13:14 -0700
-X-CSE-ConnectionGUID: xjdec7YpSAGQx7tdsfXhSg==
-X-CSE-MsgGUID: szY8eT8dSPGjt/f0cKrCsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
-   d="scan'208";a="263154036"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 02:13:14 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 18 May 2026 02:13:13 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 18 May 2026 02:13:13 -0700
-Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.3) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 18 May 2026 02:13:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ltvlbV1+b1A4+6ndVa1Onk+pzJMexRgrzBTjQ9ofPp5PPIDnXUVFuhoYREdWDInpdIrEz27iW/VGbpoDR4f86wRjPdm4rC43+wfWQSOnOASZsb9QmWqbMqB1N7cJDvm72VEWuuVl1UmfQTgNFkvsTI2nwxrePBAOi3iHqTvcikciD6pJ3aW8UJWGSLnkK6ejnOwclJc8iIf/4SdO48GaA/oU9I9PE89B6JXp/zBexuf2Y4+YaYw/PV+f9+OmXuyEoh7LnPzYqY4zfYkY6bCYlAiAalv6wCZsDimZuJdjBzyfz1nxB0EJkEiM4YH6Zz01HGKkpSfCN5ulDsavht604Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JSoXB6VHSItdHu2a91SilF5isVmx+/qLIteTnxZ/HXY=;
- b=Rg1Ju/NaaNu1mA7H/L9R27vh5dzEnPayLxCouxgmUn3i1aokDmcSVevEriPaqWwX2hF4dlraThTL9sH930Xa9HFcsrZOVtbAQDEVj7gRcJzZKYsOfR7eZd8cQYbvxgD+V/YJJur1jTylc+PYHC2EHdFUkBeIcmrCGWo2OBzjblTUaE7MDQyvzpu/AK9pwkYqtQ8xenXg5yumOiJtEy65bCqQKLFW8P6k4MSBcfEXIJI9rrjHDdjcp6NCQWK+Zoin43vY9Z8W9U9M6QOMWmOsnonhWvwcbAGdKO9rM7ffuxjLYpsIil3rm+NLsJfL1neiJ+ROseBRo9gDO5yWCuAiJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB7540.namprd11.prod.outlook.com (2603:10b6:806:340::7)
- by CH8PR11MB9481.namprd11.prod.outlook.com (2603:10b6:610:2bb::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.22; Mon, 18 May
- 2026 09:13:11 +0000
-Received: from SN7PR11MB7540.namprd11.prod.outlook.com
- ([fe80::2edd:5c6d:169c:389b]) by SN7PR11MB7540.namprd11.prod.outlook.com
- ([fe80::2edd:5c6d:169c:389b%6]) with mapi id 15.21.0025.022; Mon, 18 May 2026
- 09:13:11 +0000
-Date: Mon, 18 May 2026 11:12:58 +0200
-From: Larysa Zaremba <larysa.zaremba@intel.com>
-To: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<edumazet@google.com>, <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>,
-	<przemyslaw.kitszel@intel.com>, <aleksander.lobakin@intel.com>,
-	<sridhar.samudrala@intel.com>, <anjali.singhai@intel.com>,
-	<michal.swiatkowski@linux.intel.com>, <maciej.fijalkowski@intel.com>,
-	<emil.s.tantilov@intel.com>, <madhu.chittim@intel.com>,
-	<joshua.a.hay@intel.com>, <jacob.e.keller@intel.com>,
-	<jayaprakash.shanmugam@intel.com>, <jiri@resnulli.us>, <horms@kernel.org>,
-	<corbet@lwn.net>, <richardcochran@gmail.com>, <linux-doc@vger.kernel.org>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Bharath R
-	<Bharath.r@intel.com>
-Subject: Re: [PATCH net-next v3 12/14] ixd: add reset checks and initialize
- the mailbox
-Message-ID: <agrYGjTmafeGxODv@soc-5CG4396X81.clients.intel.com>
-References: <20260515224443.2772147-1-anthony.l.nguyen@intel.com>
- <20260515224443.2772147-13-anthony.l.nguyen@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260515224443.2772147-13-anthony.l.nguyen@intel.com>
-X-ClientProxiedBy: VI1P189CA0013.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:802:2a::26) To SN7PR11MB7540.namprd11.prod.outlook.com
- (2603:10b6:806:340::7)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="X7xPW22w";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Y7LG9aTO"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I86r5i2125765
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 09:20:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=I18mqyGP+9h9hQQewvDHdR
+	JLfyFJ2fL/hYo7DB9EfNE=; b=X7xPW22wrdHv/qJT1WoxNBi9i4pPo4d7eCtG5f
+	OoQPAm8WqjeVdKdn8vlqG85IErxImGX9EnD4ve0fciTehhmp6mqWQg/0vgR7wDeV
+	PSioE22RIdZABUPeiZOe6i+OGe2whCPzV+iqrXZ7vRH9+VvX52QZWyx7cWt5WyGB
+	nfSd7PHQqbJKtn2ZnyHZ/LgiBHjuzcscXrgzMMWCWTWnKNXn3roBrTBzzHGYALAL
+	/0xkPVxrhxP+cxUAd9HjuV/WGdnWTavvKUUJ1bn3QpXm7P/trdc1j+EVxDwyoQgB
+	cQqBjffaAfZDPt2ed/ds3B2qBfQnobDazT/OeKjD5nY3BVHQ==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e6gvqwr3b-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 09:20:02 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50fbc70cfbdso63171151cf.2
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 02:20:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1779096002; x=1779700802; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I18mqyGP+9h9hQQewvDHdRJLfyFJ2fL/hYo7DB9EfNE=;
+        b=Y7LG9aTOzH8eqwJa4O1GdvrpYDCaXWMqaEuyRA7WaGW8en8jbK9G46O16K35X1wjuk
+         JWBSsmyDyPvrsGlEzQwaDQoJvDPBvIp1Ey8A+yk/DSd1TQePBr5PkNfqGabEb0LHCdyp
+         NKJByLkkMP/Av3fRzI56+uZFG1IimaM/8QcpqhDpKdq6O404hmYYPaHY5f6RNHMg2mvo
+         ODoMdf1UNgGDIERZBEEAjOcD9dhcFj1QW9rTlbOTfqjCTX6K/p4R6lA9W9yJij95k2G9
+         TCOjon2vXohKfZpfe+uhJFjbxLxnfrZh3k7JZOfVNjRMx0OHMakyWMuisfu+3yYCk4Cv
+         uSxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779096002; x=1779700802;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I18mqyGP+9h9hQQewvDHdRJLfyFJ2fL/hYo7DB9EfNE=;
+        b=gaq7eshwwfQJi1ynjxh6eDLwrOOH1+QAoKRjCSWXXRtldYhG8CmTH5ZZ2UvnSzYSqi
+         g7E0WNHnj4NV34eJhzF24NzgPJt4Xjld6vVt5Jjzfl92WDxqePWUG8eNWe+XeyndMrtA
+         2npJkJt5lCCrGbnXkiH1kdElRhSXVYvJMidJDQZ8Cogxl4QjLzRXCuDty8VbGqDl9Yve
+         X1jq4ji7+xzxiyD77iTqBZEGgFppxS1Tb/ogCYzMyPTM2SWiAFb3urg1S4mXGVr+Mxed
+         /S8hmkX07K17O7mq6+xI9nxG6PbIyr9w+u4TgUFg2O9fsQ+nx7UWUlneHqWEE60tHR/7
+         KEMw==
+X-Forwarded-Encrypted: i=1; AFNElJ9Tmgeo/PcLFof70sFP7qHudpfyNAcUBHr/tCIcSIDokMgHXxXofWrEoMhvc2m3e4PofalMYbSRsyk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxThQYgBjhjUWXoiRCGLvw0DqRDFXSEXbxxNlvos1tdJsbdWo+f
+	0SsUdlTM6G4dwpz3/7nEVPOyA8LD2HInBcCdx1Sa6Wi+6ElIwJ1PXXNp7aWRZ/NBrT28q898GVh
+	gW2JNXqryu+hUcKCEo219HdJBJqFF1PIhSdyX8yL3sAsh8CghVvCuFVFqZNDMgpo=
+X-Gm-Gg: Acq92OFFFDI7wDMZqqE5oqtRCc3GUu9+C+IO7AjYEHQIhQSB4fFUrRQXAmdUFBdxTVm
+	MdafqZlTBsN3LqFHQi4pDl3ObkdpfFzE0WVW9nm/XCut3d8gPvYZa8is2fhGCWbVTQtIoAXYc9h
+	XypLAkYPJBOttrBZMy64+9VnWuMnHsUljQjiRosQ164x1BnulEtL4W04ACQu84U++mpdvCu9rJs
+	XdwfaoRJNCCgSQUEdf13VzOe2Br5m0riokOw8lmsGfCC5bhZtRVssgZa3b7LxRDNyAVyEiZ1QPy
+	lwNewZJFvYerfyao/kUYzawDRhSEy1tVkT7wiGqprCZCKNySUAxs8cDmzNo4DTkdQedrGDB2FJY
+	engPAiCxNeYAsE4JYFbxbshY/csc/JNuXpe1h
+X-Received: by 2002:ac8:5d14:0:b0:50b:404a:746e with SMTP id d75a77b69052e-5165a22c052mr194216411cf.47.1779096001562;
+        Mon, 18 May 2026 02:20:01 -0700 (PDT)
+X-Received: by 2002:ac8:5d14:0:b0:50b:404a:746e with SMTP id d75a77b69052e-5165a22c052mr194216131cf.47.1779096001043;
+        Mon, 18 May 2026 02:20:01 -0700 (PDT)
+Received: from quoll ([178.197.219.94])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48ff43f8799sm126595765e9.2.2026.05.18.02.19.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 02:20:00 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>, devicetree@vger.kernel.org
+Subject: [PATCH] docs: dt: maintainer: Add Devicetree and OF maintainer profile document
+Date: Mon, 18 May 2026 11:19:41 +0200
+Message-ID: <20260518091942.29822-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB7540:EE_|CH8PR11MB9481:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0b96a95-277f-431c-e7a2-08deb4bdaef4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|10070799003|366016|22082099003|3023799003|18002099003|11063799003|56012099003|4143699003;
-X-Microsoft-Antispam-Message-Info: ZbTfolsMdVvwf1A0fSexdKFo8PnqrbyaZ/Jbgt8suEEgN9Mw7dqd1zkOkJQvKZLuVdEKksjDZU5G/RFM1WY6PUkVvqFHQvA+UAx6v9sfkM4Tkk++wjkLLWG2RqVwxAZeFI7kOoolBBUZZI3jKrNzvS9CxNA26LckZIt/IbEh2O+/Lrlf6dDgW254hyf6BlP6MHeYsp6Z2D0QJtkjuLFgFdNFrVxXNTtz47fs/ixoCuhZav/xTS6La07v3QsXFxrHeUbQ6IZRmTXkriBTIaJtjX0EnQLqq6LY13Vwu80eapoky8N4ARlBXDtM0tVnvAge9NQwniFBdkLggnyEn2Yys+BL9dqFIsnj5yU9uMb4cmjOXMOkoOZXFvQC3lESuwCme1aTP+sMnI7vmFgcAIeIB8vL4qpvY0Km5XqVSikjb7SBcMpHAcd2v3iqXkDC20Ae6jARZvMsepiqrAnIaQ9r7fCw+DmP9bF2tFr6tsawXmuTJyQDe2nPGCVoUPAGPvpEnFDsS1exMWFJb72PBUiUK0lh+LlxdCaPbnJIiJcUwFhE/v0WdfcWDhHo66mgo7ZycnlKaepl2o3bxEzexq9lkdHn6dzmq9ME8BmZ9+WJ2zC+dfIVu5aado+JZyTu2gjBES/1Ada3F0L1HAHpYfkzyw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7540.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(10070799003)(366016)(22082099003)(3023799003)(18002099003)(11063799003)(56012099003)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?25ErZaYmlI1PPWb6+fC1nXKx+Ps5RzyrIG/lqtB7kkW0K8vnlMC/3snM4MM4?=
- =?us-ascii?Q?7IJsY8wUIDjzPRQcH7aaHjgImJPOHuF+9QDe7gN40SnDSF72oXmH7LZeJDxT?=
- =?us-ascii?Q?QSublXQh6evNj+6H26JCGfpZ/XHG1lyo1C75PqQhzFWMqpcUODE5Uzqi4emy?=
- =?us-ascii?Q?aHPb6idKj9Gi4UfIjMuMKTF+DCjfOFuoZMov+YvcTaby1uqqIABFYyvpDgMF?=
- =?us-ascii?Q?+SrMZIjN30ZA94hmmc6hJIXO8u3rhXCuH2suObkOvsmn/Vf7dgw53uQwUkWE?=
- =?us-ascii?Q?YeASVhkadMII7jXDULzBKBfFLT9WmGzEJDwRGt3EMoYo+8GzXEJRFzHRT5mS?=
- =?us-ascii?Q?ecaKah8GDZ/kZV5xw0hCLUV7TeZo7sGU+dCPjohuLgP9mMwBJHX/eNmvWBTk?=
- =?us-ascii?Q?frYCPaED5jYO5DONKYJnwEND43jxDrD/pHZXvwuYcJnrNpc/u+rmg2rrY8Uf?=
- =?us-ascii?Q?330k5qlnGF8c1M6rFGiNg3gI3T1FxqXuWzd1XXTBDk9J8P8S+sPyydA3vB+a?=
- =?us-ascii?Q?5uvpxlX7fSbGC9yC6IgyDpYmeITL8wYemYxu2VPWGPj5vT9q/q+/SAm4Z4GG?=
- =?us-ascii?Q?pNfqtiBeqXItkXJ/lhbqMChHotaAzBvMq0vQz5YM8oNlgcba1VNjGapuiovJ?=
- =?us-ascii?Q?taBAiWPAq+OphkphV1UflnkytPnayDrt4AcLvmRer6nSvhTyDiIlnEA7Ozhr?=
- =?us-ascii?Q?Jik+PI9OW79/DyIpHeaYd54uTM9UhvJOeIanx6v3QEz0XeE2zpvXbFoUK9k2?=
- =?us-ascii?Q?ZqkeM1lAbnQdCVXabHgPt6xorkW+Vjq7d6dxRhLTHmqYZ6Y6TUBJTMvKwsLE?=
- =?us-ascii?Q?gUEDMGkYbiJrO3hz5ZrtLycwC8ei+8Qg0J6EGgwnKzQXiK4C/BJDTCJzkg0v?=
- =?us-ascii?Q?nti/d7y4wZcmzhUpg/lacAcIiO9zITMAuGsMcTKAkWqe4URziqpNOGZadBzr?=
- =?us-ascii?Q?K6d4oJjdcrV294XkCEV6MDF64B79GG8N+VFPnWjJYNM4mxVa4N/FCtw8h8gE?=
- =?us-ascii?Q?LJJHua5TbT9FzgLa8AReX/SQudLf+OcWFndVMy7afCC7Al4w0Egx5BGq5kXT?=
- =?us-ascii?Q?fhn/zvWy3Oh63tTiCWM/PjlPaMeKnb9cJikeN172B1dj5IR/AFGrA25BB/hP?=
- =?us-ascii?Q?yen4pvm7tEfpQVFqieaMCO+0kCoiH6Z3dp2P+hLiDltyalEU04Iw5s25ORxc?=
- =?us-ascii?Q?LFpYmAcdfCkHFxbFG7bWTGqmrm5YJtR3ny7knuBV+rT091LD8+OItRxAPlUc?=
- =?us-ascii?Q?sOntIxmUkEtYdQ/SaX8gBuzxADUzjuDWZ0P0Fs4ZWscNBInY1ZoDx+uAnyPO?=
- =?us-ascii?Q?lSfzNinlhEk64eFkArb0YJvqP5x2s7HrOgCsFZE9EDKoTvIbptXHQS1da+Id?=
- =?us-ascii?Q?kvv/uJ5zBpne9NQdWVwl0JSZVgNHlTHryzYrJIa7HL1S2x5CyebWC04MHo+l?=
- =?us-ascii?Q?cP5DPmBzkQ6Y9dU5HGoJqX30Quj5qEHX8zY6q9PeR8iaJsdYaFXnvkAU3dwx?=
- =?us-ascii?Q?u/ILecYtSzAdgYV2cSGzEhyJ38FUjZF2WLF7u33AU9DY0h9XeEah4DoWOaqA?=
- =?us-ascii?Q?AxHsalB2azeqxQ/uz71aSF1ZG3tWzYE6cjnF1JNMoprFWpawpUUjP+Lb/ltb?=
- =?us-ascii?Q?4IEh4EuL0dl0Tir+IzNH42almrhdBL7+u1eyCP2Cu1B3D1+4UXSl/pUPxlON?=
- =?us-ascii?Q?NUX5t94s6z9lxQAon+4l+53nmhKkBGtHEecqjoAauha9uVSJNJTFkqsa2EMS?=
- =?us-ascii?Q?PpTJaMYYUDU1JTe6WNloPntTJdfMBhIuTyFKdACi7UWVD4jpOpdXih0+CLkk?=
-X-MS-Exchange-AntiSpam-MessageData-1: e0qY5VMe68tw7gnyJAFAvgEw8baJnipKk8s=
-X-Exchange-RoutingPolicyChecked: UJlto8/OqpzAyFR+JJwqHpXmwPUKK2dX3CDQAvSc40tbFqc0UXf1ISEswdS5i+2k1TlnmiNjxE+9BzzXv0cuzAMwY/kTwgxxdSW58Aiz1ihzakS4N16xZsfuAORIlxIkMiwdf8XuCqk3dO6336mikAqV0BwTRWUEWF6+jftS6SB8k7tq0TmOWqpalXm5e6M7ZtN/VbCgmA3tZdPEKOkxCmeBibHAagGF9/Rh8NzKCePppXsx3UI6V9chwYaAthVlaWfrjnIsE6C94TEpdJLIIoEDgtFvUqsCUZL4mGOhaTEcpZ0Xsxe3bvM8GlvWYIWYdacsimDczbBvAVPrx/IKfA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0b96a95-277f-431c-e7a2-08deb4bdaef4
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7540.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 09:13:11.3118
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V+k1bhfr20AYJTW3lS1ckC4QtM0ybPeenpMFoo15AOj0n9Eqpkem2L8zOUAziHOMaWFFS+Aa3rSP6PpL4qZD8fXgs4WdgS95y1Pp24QJHW0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR11MB9481
-X-OriginatorOrg: intel.com
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4966; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=MywEWsbnG8C6ngvsR4dw6Oxcahx3+ItSZfhu87dPrc0=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBqCtmumnqtz2DrrUYmcqtjtL+zj9KSzXza91qhN
+ 4vD8nd0ScKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCagrZrgAKCRDBN2bmhouD
+ 144JD/92rFjLhf/92xycJGocLdfGFaVBF38rs2t3jyw2nINyTbk3bmFcdJ+qQ15Phpu0nwrjkBS
+ kN5TL5zBtS1lWzgth7hPSasnXYt9l2++lAZF4NFrYlCDyJOAidiEUERDRe17D1bubQGN3OoF19R
+ 1Cyf1d8dmSs/CbTjlcmKrapsiIoOtev6BFfq0QKF7BFcU8IKcTu2Icblo/NjucSLeJqf8cDU4nc
+ heI90GMHoADwGCP/r52UdVRXvGFCOAvrJ7ztUJXa9Ob8vqJ8GqTEmIqJh9RZDQfWay3S3Nrnv1f
+ yuqkW2/sQFjKfqJGikHL/nMusKn0mNdLcRZwncZLiOXIKOgIcEv5NFSovy5DU2ZRfDmX7Ape2uA
+ Bxyw+yfOT5a4GLGMaWKLfQ+4J28x/xnZl0VRhVq1fHvfxw6H1yF9GI7sEOTtK1HA8T0ypoyUCSx
+ N9wj6s5lElz1nMJxwsreTkEcxRWzoFY+NZaGOKIJoOcfeNio3tqG3H0Uo2/BPYnKTZNWQbHf0dj
+ 7rHJctO29PtNxpEf3/L62THABh6WQSpETSgdEipvyonvgXiscVL39z1OlEYN1KS+CvAq3voq1p4
+ hG29sIF89P7RxKCuFJEbOl3oJHmrOeV+4/EE4ue5yGsxkDZMy3o2HxyCtIAZm41UPKA37HepIxS WlUVXarRsr8FZOA==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: xUrrmifW9lSAp66L8SiF6vNOVuHSIuOY
+X-Proofpoint-ORIG-GUID: xUrrmifW9lSAp66L8SiF6vNOVuHSIuOY
+X-Authority-Analysis: v=2.4 cv=LKJWhpW9 c=1 sm=1 tr=0 ts=6a0ad9c2 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=7C85NsCI5bDNKhsY0GcA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+ a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDA4OSBTYWx0ZWRfXyptcGkSBgOH3
+ TgLnH9Mrb1vuRMu+udQkqIfxKLlsxJchEcCCpVm8hHJcQS+YHqcafZnS+NldRIxOwJZ25aw0xDh
+ BCs5Ph88Ckg7KKNnj0Y+9xjX0heHuWg7sNb0r4BDi3KWqEVA/AIFlweJJ8aIg2XCm7fE0ixtFiP
+ PF2vE+lxOhA+XIYPW5Uw4oQ76ZGa3RhpNoYFXIHwuLmIE+yzd8o8qMJURdcSAGrv0dlocXfcyrN
+ x8SA0ZM08oQDWko7Cw4cyFSdmfzITBXQRkggBgpkabC+VFMmIG73+50mP1w9F7vpqtcDc0g99Cy
+ Phzc1Cwaljb4cSKtvwnHm1U5A1cz+pOTV1Wxuol9H3C7L7HhzssPdmvngXUT1EsoSgJn7PvrvPl
+ b43JzUNxdCEfzajHVWxiULYFe2bvxSQ31HOq+WBL7wCEDCctXPYrNxnAzIa7d/JTGgSjLS8M/TO
+ sFWKtkUBfNdaOvE7duA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-18_02,2026-05-15_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 spamscore=0 adultscore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 suspectscore=0 malwarescore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605180089
 
-On Fri, May 15, 2026 at 03:44:36PM -0700, Tony Nguyen wrote:
-> From: Larysa Zaremba <larysa.zaremba@intel.com>
-> 
-> At the end of the probe, trigger hard reset, initialize and schedule the
-> after-reset task. If the reset is complete in a pre-determined time,
-> initialize the default mailbox, through which other resources will be
-> negotiated.
+Document how Devicetree and Open Firmware maintainers handle their
+subsystem, especially focusing on two caveats:
 
-Sashiko says [0]:
+Devicetree subsystem handles patches with a minor difference comparing
+to other subsystems: while DT maintainers pick up OF code, they only
+provide review of DT bindings without applying these.
 
-"
-Does this teardown sequence properly ensure the hardware is quiescent before
-freeing its DMA memory?
-Looking at ixd_trigger_reset(), it performs a writel(), which is a posted
-write over PCIe.
-The code here does not flush this write with a dummy read, nor does it
-wait for the reset to complete by polling ixd_check_reset_complete().
-Since ixd_deinit_dflt_mbx() immediately proceeds to free the DMA memory
-via libie_ctlq_xn_deinit(), could the hardware continue executing DMA
-operations into the freed memory, potentially causing IOMMU faults or memory
-corruption?
-"
+All three DT bindings maintainers rely currently on Patchwork and due to
+enormous amount of emails per day, regardless how much DT maintainers
+try, they cannot read all the emails.
 
-Reset flow is consistent with what pre-refactor idpf does, and is the intended 
-way to perform removal.
+Cc: Rob Herring <robh@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Saravana Kannan <saravanak@kernel.org>
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-[0] https://sashiko.dev/#/patchset/20260515224443.2772147-1-anthony.l.nguyen%40intel.com
+---
 
-> 
-> Co-developed-by: Amritha Nambiar <amritha.nambiar@intel.com>
-> Signed-off-by: Amritha Nambiar <amritha.nambiar@intel.com>
-> Reviewed-by: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-> Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
-> Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-> Tested-by: Bharath R <Bharath.r@intel.com>
-> Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
-> ---
->  drivers/net/ethernet/intel/ixd/Kconfig        |   1 +
->  drivers/net/ethernet/intel/ixd/Makefile       |   2 +
->  drivers/net/ethernet/intel/ixd/ixd.h          |  28 +++-
->  drivers/net/ethernet/intel/ixd/ixd_dev.c      |  89 +++++++++++
->  drivers/net/ethernet/intel/ixd/ixd_lan_regs.h |  40 +++++
->  drivers/net/ethernet/intel/ixd/ixd_lib.c      | 143 ++++++++++++++++++
->  drivers/net/ethernet/intel/ixd/ixd_main.c     |  32 +++-
->  7 files changed, 326 insertions(+), 9 deletions(-)
->  create mode 100644 drivers/net/ethernet/intel/ixd/ixd_dev.c
->  create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lib.c
-> 
-> diff --git a/drivers/net/ethernet/intel/ixd/Kconfig b/drivers/net/ethernet/intel/ixd/Kconfig
-> index f5594efe292c..24510c50070e 100644
-> --- a/drivers/net/ethernet/intel/ixd/Kconfig
-> +++ b/drivers/net/ethernet/intel/ixd/Kconfig
-> @@ -5,6 +5,7 @@ config IXD
->  	tristate "Intel(R) Control Plane Function Support"
->  	depends on PCI_MSI
->  	select LIBETH
-> +	select LIBIE_CP
->  	select LIBIE_PCI
->  	help
->  	  This driver supports Intel(R) Control Plane PCI Function
-> diff --git a/drivers/net/ethernet/intel/ixd/Makefile b/drivers/net/ethernet/intel/ixd/Makefile
-> index 3849bc240600..164b2c86952f 100644
-> --- a/drivers/net/ethernet/intel/ixd/Makefile
-> +++ b/drivers/net/ethernet/intel/ixd/Makefile
-> @@ -6,3 +6,5 @@
->  obj-$(CONFIG_IXD) += ixd.o
->  
->  ixd-y := ixd_main.o
-> +ixd-y += ixd_dev.o
-> +ixd-y += ixd_lib.o
-> diff --git a/drivers/net/ethernet/intel/ixd/ixd.h b/drivers/net/ethernet/intel/ixd/ixd.h
-> index d813c27941a5..99c44f2aa659 100644
-> --- a/drivers/net/ethernet/intel/ixd/ixd.h
-> +++ b/drivers/net/ethernet/intel/ixd/ixd.h
-> @@ -4,14 +4,25 @@
->  #ifndef _IXD_H_
->  #define _IXD_H_
->  
-> -#include <linux/intel/libie/pci.h>
-> +#include <linux/intel/libie/controlq.h>
->  
->  /**
->   * struct ixd_adapter - Data structure representing a CPF
-> - * @hw: Device access data
-> + * @cp_ctx: Control plane communication context
-> + * @init_task: Delayed initialization after reset
-> + * @xnm: virtchnl transaction manager
-> + * @asq: Send control queue info
-> + * @arq: Receive control queue info
->   */
->  struct ixd_adapter {
-> -	struct libie_mmio_info hw;
-> +	struct libie_ctlq_ctx cp_ctx;
-> +	struct {
-> +		struct delayed_work init_work;
-> +		u8 reset_retries;
-> +	} init_task;
-> +	struct libie_ctlq_xn_manager *xnm;
-> +	struct libie_ctlq_info *asq;
-> +	struct libie_ctlq_info *arq;
->  };
->  
->  /**
-> @@ -22,7 +33,16 @@ struct ixd_adapter {
->   */
->  static inline struct device *ixd_to_dev(struct ixd_adapter *adapter)
->  {
-> -	return &adapter->hw.pdev->dev;
-> +	return &adapter->cp_ctx.mmio_info.pdev->dev;
->  }
->  
-> +void ixd_ctlq_reg_init(struct ixd_adapter *adapter,
-> +		       struct libie_ctlq_reg *ctlq_reg_tx,
-> +		       struct libie_ctlq_reg *ctlq_reg_rx);
-> +void ixd_trigger_reset(struct ixd_adapter *adapter);
-> +bool ixd_check_reset_complete(struct ixd_adapter *adapter);
-> +void ixd_init_task(struct work_struct *work);
-> +int ixd_init_dflt_mbx(struct ixd_adapter *adapter);
-> +void ixd_deinit_dflt_mbx(struct ixd_adapter *adapter);
-> +
->  #endif /* _IXD_H_ */
-> diff --git a/drivers/net/ethernet/intel/ixd/ixd_dev.c b/drivers/net/ethernet/intel/ixd/ixd_dev.c
-> new file mode 100644
-> index 000000000000..cdd5477cc1f4
-> --- /dev/null
-> +++ b/drivers/net/ethernet/intel/ixd/ixd_dev.c
-> @@ -0,0 +1,89 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright (C) 2025 Intel Corporation */
-> +
-> +#include "ixd.h"
-> +#include "ixd_lan_regs.h"
-> +
-> +/**
-> + * ixd_ctlq_reg_init - Initialize default mailbox registers
-> + * @adapter: PCI device driver-specific private data
-> + * @ctlq_reg_tx: Transmit queue registers info to be filled
-> + * @ctlq_reg_rx: Receive queue registers info to be filled
-> + */
-> +void ixd_ctlq_reg_init(struct ixd_adapter *adapter,
-> +		       struct libie_ctlq_reg *ctlq_reg_tx,
-> +		       struct libie_ctlq_reg *ctlq_reg_rx)
-> +{
-> +	struct libie_mmio_info *mmio_info = &adapter->cp_ctx.mmio_info;
-> +	*ctlq_reg_tx = (struct libie_ctlq_reg) {
-> +		.head = libie_pci_get_mmio_addr(mmio_info, PF_FW_ATQH),
-> +		.tail = libie_pci_get_mmio_addr(mmio_info, PF_FW_ATQT),
-> +		.len = libie_pci_get_mmio_addr(mmio_info, PF_FW_ATQLEN),
-> +		.addr_high = libie_pci_get_mmio_addr(mmio_info, PF_FW_ATQBAH),
-> +		.addr_low = libie_pci_get_mmio_addr(mmio_info, PF_FW_ATQBAL),
-> +		.len_mask = PF_FW_ATQLEN_ATQLEN_M,
-> +		.len_ena_mask = PF_FW_ATQLEN_ATQENABLE_M,
-> +		.head_mask = PF_FW_ATQH_ATQH_M,
-> +	};
-> +
-> +	*ctlq_reg_rx = (struct libie_ctlq_reg) {
-> +		.head = libie_pci_get_mmio_addr(mmio_info, PF_FW_ARQH),
-> +		.tail = libie_pci_get_mmio_addr(mmio_info, PF_FW_ARQT),
-> +		.len = libie_pci_get_mmio_addr(mmio_info, PF_FW_ARQLEN),
-> +		.addr_high = libie_pci_get_mmio_addr(mmio_info, PF_FW_ARQBAH),
-> +		.addr_low = libie_pci_get_mmio_addr(mmio_info, PF_FW_ARQBAL),
-> +		.len_mask = PF_FW_ARQLEN_ARQLEN_M,
-> +		.len_ena_mask = PF_FW_ARQLEN_ARQENABLE_M,
-> +		.head_mask = PF_FW_ARQH_ARQH_M,
-> +	};
-> +}
-> +
-> +static const struct ixd_reset_reg ixd_reset_reg = {
-> +	.rstat  = PFGEN_RSTAT,
-> +	.rstat_m = PFGEN_RSTAT_PFR_STATE_M,
-> +	.rstat_ok_v = 0b01,
-> +	.rtrigger = PFGEN_CTRL,
-> +	.rtrigger_m = PFGEN_CTRL_PFSWR,
-> +};
-> +
-> +/**
-> + * ixd_trigger_reset - Trigger PFR reset
-> + * @adapter: the device with mapped reset register
-> + */
-> +void ixd_trigger_reset(struct ixd_adapter *adapter)
-> +{
-> +	void __iomem *addr;
-> +	u32 reg_val;
-> +
-> +	addr = libie_pci_get_mmio_addr(&adapter->cp_ctx.mmio_info,
-> +				       ixd_reset_reg.rtrigger);
-> +	reg_val = readl(addr);
-> +	writel(reg_val | ixd_reset_reg.rtrigger_m, addr);
-> +}
-> +
-> +/**
-> + * ixd_check_reset_complete - Check if the PFR reset is completed
-> + * @adapter: CPF being reset
-> + *
-> + * Return: %true if the register read indicates reset has been finished,
-> + *	   %false otherwise
-> + */
-> +bool ixd_check_reset_complete(struct ixd_adapter *adapter)
-> +{
-> +	u32 reg_val, reset_status;
-> +	void __iomem *addr;
-> +
-> +	addr = libie_pci_get_mmio_addr(&adapter->cp_ctx.mmio_info,
-> +				       ixd_reset_reg.rstat);
-> +	reg_val = readl(addr);
-> +	reset_status = reg_val & ixd_reset_reg.rstat_m;
-> +
-> +	/* 0xFFFFFFFF might be read if the other side hasn't cleared
-> +	 * the register for us yet.
-> +	 */
-> +	if (reg_val != GENMASK(31, 0) &&
-> +	    reset_status == ixd_reset_reg.rstat_ok_v)
-> +		return true;
-> +
-> +	return false;
-> +}
-> diff --git a/drivers/net/ethernet/intel/ixd/ixd_lan_regs.h b/drivers/net/ethernet/intel/ixd/ixd_lan_regs.h
-> index fbb88929d0de..58e58c75981b 100644
-> --- a/drivers/net/ethernet/intel/ixd/ixd_lan_regs.h
-> +++ b/drivers/net/ethernet/intel/ixd/ixd_lan_regs.h
-> @@ -11,9 +11,33 @@
->  #define PF_FW_MBX_REG_LEN		4096
->  #define PF_FW_MBX			0x08400000
->  
-> +#define PF_FW_ARQBAL			(PF_FW_MBX)
-> +#define PF_FW_ARQBAH			(PF_FW_MBX + 0x4)
-> +#define PF_FW_ARQLEN			(PF_FW_MBX + 0x8)
-> +#define PF_FW_ARQLEN_ARQLEN_M		GENMASK(12, 0)
-> +#define PF_FW_ARQLEN_ARQENABLE_S	31
-> +#define PF_FW_ARQLEN_ARQENABLE_M	BIT(PF_FW_ARQLEN_ARQENABLE_S)
-> +#define PF_FW_ARQH_ARQH_M		GENMASK(12, 0)
-> +#define PF_FW_ARQH			(PF_FW_MBX + 0xC)
-> +#define PF_FW_ARQT			(PF_FW_MBX + 0x10)
-> +
-> +#define PF_FW_ATQBAL			(PF_FW_MBX + 0x14)
-> +#define PF_FW_ATQBAH			(PF_FW_MBX + 0x18)
-> +#define PF_FW_ATQLEN			(PF_FW_MBX + 0x1C)
-> +#define PF_FW_ATQLEN_ATQLEN_M		GENMASK(9, 0)
-> +#define PF_FW_ATQLEN_ATQENABLE_S	31
-> +#define PF_FW_ATQLEN_ATQENABLE_M	BIT(PF_FW_ATQLEN_ATQENABLE_S)
-> +#define PF_FW_ATQH_ATQH_M		GENMASK(9, 0)
-> +#define PF_FW_ATQH			(PF_FW_MBX + 0x20)
-> +#define PF_FW_ATQT			(PF_FW_MBX + 0x24)
-> +
->  /* Reset registers */
->  #define PFGEN_RTRIG_REG_LEN		2048
->  #define PFGEN_RTRIG			0x08407000	/* Device resets */
-> +#define PFGEN_RSTAT			0x08407008	/* PFR status */
-> +#define PFGEN_RSTAT_PFR_STATE_M		GENMASK(1, 0)
-> +#define PFGEN_CTRL			0x0840700C	/* PFR trigger */
-> +#define PFGEN_CTRL_PFSWR		BIT(0)
->  
->  /**
->   * struct ixd_bar_region - BAR region description
-> @@ -25,4 +49,20 @@ struct ixd_bar_region {
->  	resource_size_t size;
->  };
->  
-> +/**
-> + * struct ixd_reset_reg - structure for reset registers
-> + * @rstat: offset of status in register
-> + * @rstat_m: status mask
-> + * @rstat_ok_v: value that indicates PFR completed status
-> + * @rtrigger: offset of reset trigger in register
-> + * @rtrigger_m: reset trigger mask
-> + */
-> +struct ixd_reset_reg {
-> +	u32	rstat;
-> +	u32	rstat_m;
-> +	u32	rstat_ok_v;
-> +	u32	rtrigger;
-> +	u32	rtrigger_m;
-> +};
-> +
->  #endif /* _IXD_LAN_REGS_H_ */
-> diff --git a/drivers/net/ethernet/intel/ixd/ixd_lib.c b/drivers/net/ethernet/intel/ixd/ixd_lib.c
-> new file mode 100644
-> index 000000000000..afc413d3650f
-> --- /dev/null
-> +++ b/drivers/net/ethernet/intel/ixd/ixd_lib.c
-> @@ -0,0 +1,143 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright (C) 2025 Intel Corporation */
-> +
-> +#include "ixd.h"
-> +
-> +#define IXD_DFLT_MBX_Q_LEN 64
-> +
-> +/**
-> + * ixd_init_ctlq_create_info - Initialize control queue info for creation
-> + * @info: destination
-> + * @type: type of the queue to create
-> + * @ctlq_reg: register assigned to the control queue
-> + */
-> +static void ixd_init_ctlq_create_info(struct libie_ctlq_create_info *info,
-> +				      enum virtchnl2_queue_type type,
-> +				      const struct libie_ctlq_reg *ctlq_reg)
-> +{
-> +	*info = (struct libie_ctlq_create_info) {
-> +		.type = type,
-> +		.id = -1,
-> +		.reg = *ctlq_reg,
-> +		.len = IXD_DFLT_MBX_Q_LEN,
-> +	};
-> +}
-> +
-> +/**
-> + * ixd_init_libie_xn_params - Initialize xn transaction manager creation info
-> + * @params: destination
-> + * @adapter: adapter info struct
-> + * @ctlqs: list of the managed queues to create
-> + * @num_queues: length of the queue list
-> + */
-> +static void ixd_init_libie_xn_params(struct libie_ctlq_xn_init_params *params,
-> +				     struct ixd_adapter *adapter,
-> +				      struct libie_ctlq_create_info *ctlqs,
-> +				      uint num_queues)
-> +{
-> +	*params = (struct libie_ctlq_xn_init_params){
-> +		.cctlq_info = ctlqs,
-> +		.ctx = &adapter->cp_ctx,
-> +		.num_qs = num_queues,
-> +	};
-> +}
-> +
-> +/**
-> + * ixd_adapter_fill_dflt_ctlqs - Find default control queues and store them
-> + * @adapter: adapter info struct
-> + */
-> +static void ixd_adapter_fill_dflt_ctlqs(struct ixd_adapter *adapter)
-> +{
-> +	guard(spinlock)(&adapter->cp_ctx.ctlqs_lock);
-> +	struct libie_ctlq_info *cq;
-> +
-> +	list_for_each_entry(cq, &adapter->cp_ctx.ctlqs, list) {
-> +		if (cq->qid != -1)
-> +			continue;
-> +		if (cq->type == LIBIE_CTLQ_TYPE_RX)
-> +			adapter->arq = cq;
-> +		else if (cq->type == LIBIE_CTLQ_TYPE_TX)
-> +			adapter->asq = cq;
-> +	}
-> +}
-> +
-> +/**
-> + * ixd_deinit_dflt_mbx - Deinitialize default mailbox
-> + * @adapter: adapter info struct
-> + */
-> +void ixd_deinit_dflt_mbx(struct ixd_adapter *adapter)
-> +{
-> +	if (adapter->xnm)
-> +		libie_ctlq_xn_deinit(adapter->xnm, &adapter->cp_ctx);
-> +
-> +	adapter->arq = NULL;
-> +	adapter->asq = NULL;
-> +	adapter->xnm = NULL;
-> +}
-> +
-> +/**
-> + * ixd_init_dflt_mbx - Setup default mailbox parameters and make request
-> + * @adapter: adapter info struct
-> + *
-> + * Return: %0 on success, negative errno code on failure
-> + */
-> +int ixd_init_dflt_mbx(struct ixd_adapter *adapter)
-> +{
-> +	struct libie_ctlq_create_info ctlqs_info[2];
-> +	struct libie_ctlq_xn_init_params xn_params;
-> +	struct libie_ctlq_reg ctlq_reg_tx;
-> +	struct libie_ctlq_reg ctlq_reg_rx;
-> +	int err;
-> +
-> +	ixd_ctlq_reg_init(adapter, &ctlq_reg_tx, &ctlq_reg_rx);
-> +	ixd_init_ctlq_create_info(&ctlqs_info[0], LIBIE_CTLQ_TYPE_TX,
-> +				  &ctlq_reg_tx);
-> +	ixd_init_ctlq_create_info(&ctlqs_info[1], LIBIE_CTLQ_TYPE_RX,
-> +				  &ctlq_reg_rx);
-> +	ixd_init_libie_xn_params(&xn_params, adapter, ctlqs_info,
-> +				 ARRAY_SIZE(ctlqs_info));
-> +	err = libie_ctlq_xn_init(&xn_params);
-> +	if (err)
-> +		return err;
-> +	adapter->xnm = xn_params.xnm;
-> +
-> +	ixd_adapter_fill_dflt_ctlqs(adapter);
-> +
-> +	if (!adapter->asq || !adapter->arq) {
-> +		ixd_deinit_dflt_mbx(adapter);
-> +		return -ENOENT;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * ixd_init_task - Initialize after reset
-> + * @work: init work struct
-> + */
-> +void ixd_init_task(struct work_struct *work)
-> +{
-> +	struct ixd_adapter *adapter;
-> +	int err;
-> +
-> +	adapter = container_of(work, struct ixd_adapter,
-> +			       init_task.init_work.work);
-> +
-> +	if (!ixd_check_reset_complete(adapter)) {
-> +		if (++adapter->init_task.reset_retries < 10)
-> +			queue_delayed_work(system_unbound_wq,
-> +					   &adapter->init_task.init_work,
-> +					   msecs_to_jiffies(500));
-> +		else
-> +			dev_err(ixd_to_dev(adapter),
-> +				"Device reset failed. The driver was unable to contact the device's firmware. Check that the FW is running.\n");
-> +		return;
-> +	}
-> +
-> +	adapter->init_task.reset_retries = 0;
-> +	err = ixd_init_dflt_mbx(adapter);
-> +	if (err)
-> +		dev_err(ixd_to_dev(adapter),
-> +			"Failed to initialize the default mailbox: %pe\n",
-> +			ERR_PTR(err));
-> +}
-> diff --git a/drivers/net/ethernet/intel/ixd/ixd_main.c b/drivers/net/ethernet/intel/ixd/ixd_main.c
-> index 75ee53152e61..b4d4000b63ed 100644
-> --- a/drivers/net/ethernet/intel/ixd/ixd_main.c
-> +++ b/drivers/net/ethernet/intel/ixd/ixd_main.c
-> @@ -5,6 +5,7 @@
->  #include "ixd_lan_regs.h"
->  
->  MODULE_DESCRIPTION("Intel(R) Control Plane Function Device Driver");
-> +MODULE_IMPORT_NS("LIBIE_CP");
->  MODULE_IMPORT_NS("LIBIE_PCI");
->  MODULE_LICENSE("GPL");
->  
-> @@ -16,7 +17,13 @@ static void ixd_remove(struct pci_dev *pdev)
->  {
->  	struct ixd_adapter *adapter = pci_get_drvdata(pdev);
->  
-> -	libie_pci_unmap_all_mmio_regions(&adapter->hw);
-> +	/* Do not mix removal with (re)initialization */
-> +	cancel_delayed_work_sync(&adapter->init_task.init_work);
-> +	/* Leave the device clean on exit */
-> +	ixd_trigger_reset(adapter);
-> +	ixd_deinit_dflt_mbx(adapter);
-> +
-> +	libie_pci_unmap_all_mmio_regions(&adapter->cp_ctx.mmio_info);
->  }
->  
->  /**
-> @@ -51,7 +58,7 @@ static int ixd_iomap_regions(struct ixd_adapter *adapter)
->  	};
->  
->  	for (int i = 0; i < ARRAY_SIZE(regions); i++) {
-> -		struct libie_mmio_info *mmio_info = &adapter->hw;
-> +		struct libie_mmio_info *mmio_info = &adapter->cp_ctx.mmio_info;
->  		bool map_ok;
->  
->  		map_ok = libie_pci_map_mmio_region(mmio_info,
-> @@ -81,11 +88,15 @@ static int ixd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  	struct ixd_adapter *adapter;
->  	int err;
->  
-> +	if (WARN_ON(ent->device != IXD_DEV_ID_CPF))
-> +		return -EINVAL;
-> +
->  	adapter = devm_kzalloc(&pdev->dev, sizeof(*adapter), GFP_KERNEL);
->  	if (!adapter)
->  		return -ENOMEM;
-> -	adapter->hw.pdev = pdev;
-> -	INIT_LIST_HEAD(&adapter->hw.mmio_list);
-> +
-> +	adapter->cp_ctx.mmio_info.pdev = pdev;
-> +	INIT_LIST_HEAD(&adapter->cp_ctx.mmio_info.mmio_list);
->  
->  	err = libie_pci_init_dev(pdev);
->  	if (err)
-> @@ -93,7 +104,18 @@ static int ixd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  
->  	pci_set_drvdata(pdev, adapter);
->  
-> -	return ixd_iomap_regions(adapter);
-> +	err = ixd_iomap_regions(adapter);
-> +	if (err)
-> +		return err;
-> +
-> +	INIT_DELAYED_WORK(&adapter->init_task.init_work,
-> +			  ixd_init_task);
-> +
-> +	ixd_trigger_reset(adapter);
-> +	queue_delayed_work(system_unbound_wq, &adapter->init_task.init_work,
-> +			   msecs_to_jiffies(500));
-> +
-> +	return 0;
->  }
->  
->  static const struct pci_device_id ixd_pci_tbl[] = {
-> -- 
-> 2.47.1
-> 
+I expect patch to be picked up by Rob, after review.
+---
+ .../process/maintainer-devicetree.rst         | 70 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +
+ 2 files changed, 72 insertions(+)
+ create mode 100644 Documentation/process/maintainer-devicetree.rst
+
+diff --git a/Documentation/process/maintainer-devicetree.rst b/Documentation/process/maintainer-devicetree.rst
+new file mode 100644
+index 000000000000..331701bb2282
+--- /dev/null
++++ b/Documentation/process/maintainer-devicetree.rst
+@@ -0,0 +1,70 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================================
++Devicetree and Open Firmware Subsystem
++======================================
++
++Other Process Documents
++-----------------------
++
++Please see the documents in Documentation/devicetree/bindings/ for information
++on how to write proper Devicetree bindings and how to submit patches.
++
++Patch Review and Handling
++-------------------------
++
++Patches handled by Devicetree maintainers are processed differently depending
++on the patch type:
++
++1. Core OF driver code, e.g. drivers/of/:
++   patches are reviewed and applied by DT maintainers.
++
++2. Devicetree bindings:
++   patches are reviewed by DT maintainers but, except in certain cases, should
++   be applied by subsystem maintainers.  See also *For kernel maintainers* in
++   Documentation/devicetree/bindings/submitting-patches.rst.
++   
++3. DTS and drivers:
++   DT maintainers might provide comments, but review is generally not expected.
++
++Pachwork
++~~~~~~~~
++
++Devicetree maintainers review patches using Patchwork, so the current status of
++a patch can be checked there. For typical driver submissions, Patchwork
++receives the entire patch set, but only a few patches are usually Devicetree
++bindings that are reviewed by DT maintainers.
++
++Explanation of Patchwork statutes:
++
++ - **New**: Not yet processed by the automation toolset.
++ - **Needs ACK**: Waiting for review by DT maintainers.
++ - **Handled Elsewhere**: Non-DT patch; not being reviewed here.
++ - **RFC**: Patch was likely ignored because it was an incomplete RFC.
++ - **Changes Requested**: Patch was reviewed and DT maintainers expect changes.
++ - **Accepted**: Patch was reviewed and applied by DT maintainers to their tree.
++ - **Not Applicable**: Patch was reviewed and is likely in good shape, with a
++   *Reviewed-by* or *Acked-by* tag provided, but DT maintainers expect someone
++   else to apply it.
++
++Patch Re-review and Pinging
++~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Due to the high volume of email traffic, Devicetree maintainers do not read
++every email they receive and instead rely on Patchwork during the review
++process. They also often skip patches that have already been reviewed.
++
++As a result, maintainers might miss:
++
++1. Questions about already reviewed patches.
++2. Pings, for example when a patch has been reviewed by DT maintainers but has
++   not been picked up by subsystem maintainers.
++
++Such cases can be addressed by:
++
++1. Pinging DT maintainers on the IRC channel.
++2. Dropping the DT maintainer’s *Acked-by* or *Reviewed-by* tag when sending a new
++   version of the patch set, together with an explanation in the patch
++   changelog describing why the tag was removed and what is expected from DT
++   maintainers.
++
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f877e5aaf2c7..c4929de50ab7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20050,6 +20050,7 @@ S:	Maintained
+ Q:	http://patchwork.kernel.org/project/devicetree/list/
+ W:	http://www.devicetree.org/
+ C:	irc://irc.libera.chat/devicetree
++P:	Documentation/process/maintainer-devicetree.rst
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+ F:	Documentation/ABI/testing/sysfs-firmware-ofw
+ F:	drivers/of/
+@@ -20070,6 +20071,7 @@ M:	Conor Dooley <conor+dt@kernel.org>
+ L:	devicetree@vger.kernel.org
+ S:	Maintained
+ Q:	http://patchwork.kernel.org/project/devicetree/list/
++P:	Documentation/process/maintainer-devicetree.rst
+ C:	irc://irc.libera.chat/devicetree
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+ F:	Documentation/devicetree/
+-- 
+2.51.0
+
