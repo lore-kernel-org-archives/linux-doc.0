@@ -1,132 +1,87 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1CF302CD5
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05915318EE1
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779145672; cv=none; b=BtC8r5u3jLMqv4OV56zmDKDrdmMJVZ8BTGtlyKpKqT7h2VFxYci0ySSlFWKF6PRaUVtVLcgYnZPKsPXpgWWrzhMUPg8eUnHv6iBewGOPMAElry1dPpchAv9mKyNlPRbVBIsqVkZX69b0DGfBIS3z/EuMTk0auDQRqGSrdUu1Vx4=
+	t=1779146585; cv=none; b=g0LMIhPsVQq+pU2mgBnOXLOJvyGqvehOz1Bhj9rps/TRd9SL7l3q4HiPBvmpMGLlTKHUdwIE3stAdlJ4vUvePNqlgzTtLLDHmaFzcwHJGn6zuyTEq8zDcp1yTnmX87awqw9bY8aE9d4SMeDQ3hPi+/catOPDRF11LPsMwHGY1ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779145672; c=relaxed/simple;
-	bh=IQSkyfVnVv6hMYJ0XzeA/W2XMI6fDtbK2L0AxxeJkSc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=r3z+XKXI4/izZHxWg4CnjbjkWh23i9wAe4sR8NlDUSOChFSn2uhuPjGe0yyvZbOnRak2lMoxqFlgg3Fk7QHhZSJowrxZbJJKmsV46z4h0av1t8g3JT4k3K5opmMldwqSoAmFOvHH9f2p3EOqeuwPeDFJnD6DOzGuwf0vHF076pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DzhwPjMl; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779146585; c=relaxed/simple;
+	bh=OB6kYmMn6vo3vaMVZ12Q4bsdsJGNYLvDRQKnvb3ZEx4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YbWFnsdBqiiCT4U9ZT5myuC3JDFpzLEmwpC6vVF2JKPHTz5724jqOFV/akdoYgqrIEXEzBlC8h9aGJOzyQ09pYe0SchGhudHAe/bC/qRiLYP9spCiWjbcT5LfB1UDlgP5M1JJCPxgUbZ6AFkhpvLhKa/1hT2Q4dKJ2l82yhgE+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sD9fCqpi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DzhwPjMl"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2b45cb89f7eso18341825ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 16:07:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779145670; x=1779750470; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IQSkyfVnVv6hMYJ0XzeA/W2XMI6fDtbK2L0AxxeJkSc=;
-        b=DzhwPjMlWqz5efX1sMgxb2Vls98hT8VhyyClZRBRC3M4GT5mFpkf/w2LTj2j6/MAWD
-         pmSLpJ33QG2EhmIgJa3fryQYzxq5ibxUVGjsaVVtIcyghjY1aojLp1duJynZFN8U/8CZ
-         Fu68HuJ8BJ1NF7RJmXynB7c78S1gvClezbHO05wrBtmmdToLYbpZuTgNA7sSQuDKs89L
-         30HFk0ZN0qyNJdbWTkbWmUEPxcJjo5vE0GNulDFSVKOsvcmcte6fYTR/9U+PKyjPjSNP
-         CN1VvZkHYgB5fiyQwvSzQXCwVpH5nez3FB3sEXqPZ876Gxm/PXfbqj7jSlFXrDAa5jSb
-         14UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779145670; x=1779750470;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IQSkyfVnVv6hMYJ0XzeA/W2XMI6fDtbK2L0AxxeJkSc=;
-        b=KUuyWXOs0sgv6TsmDYxgYltuBSNW4pVjv4IjWtfnpS0Gqab/IstqEbwEFId++e0YNa
-         pGwRo38bAsxCPQRa2hS26Y+LXnOtwD8CxUhuOSIBv2A7b4O6D+j4vcuB3ABaFbYd5PLk
-         nBPjedfvuKMGcG6Ze5Lx2JsMNIUZaueI1hHkUFIPd5Mt9ybpIw3QnngB9neoha2ZZg/q
-         uUOmT2z51NCTOFAh1WL+lLbp7bMUE40NEr7yK6HJm02ty3JJxakSwc56PYB1K/ab34ZS
-         mbPx+2zwB4GbR1N7xR2FWoZOo9uv2/QPUvqjEglyutQjkpPN7HFzYXSsHrbMRcCZ1Wpr
-         X3ZQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9aQwN5+DYljmqFbmjWR0icXzq5FYWcgx0Dm99bVVu3kfQ/yp/xiy3S5oQzFgDTsFTnyViD4/MM4N0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylmhSF/C/lzeH1yhzkMTHVLlWO/bYLQT9OUzMfJj5f0c6Jdnp6
-	xA/iA+5lUZSehZckSIFA75sUaSV0z/iWRPA3lx36jCnifQm5FI00SW/Z
-X-Gm-Gg: Acq92OGYoC6cCNWKWz2uaiWgRBOlV3MXwugt0SIX9Wu4+HlBu4dQ8ljr3WXn1qd55Ea
-	QwY3ERme9cnqleD8dPXwSSIb7nisKzsd3ZubvqvAcPN8CAq7mzEvou7r6CREXAKFxPc47stUkb7
-	h5axc9qzokZaM/SxW4lHHhLVfbuez+d8vGcjXwcKWtKy3wW9CyaNUoX0POrONLn3NdGffS/4+PR
-	ORdOjWpUuc9Sub3+yg43fnyYllfBqlzwFoppkn2+Z6lVLpgDEA4U7hblbzBdq+1+oFS/W90MgIc
-	rafLb0s76TF96AJMj1AjUuXubIxPibqTj7XYQAm2ztqbDSTpkUP7r9Eh07N0VUwLWfgPEG8+vad
-	+S8RuxTBujz3boB5GYzco8bYPpJ4d/tD5nePuL7wThdxqvsqejRR5A6buDiXLKBluAHsfwH4MG2
-	4qEuzcSrfbbeTf/9JbCnTubTs+enWq9NlBe3bQHyyy+mGp31se8C74
-X-Received: by 2002:a17:902:ef11:b0:2be:1eb1:eaf7 with SMTP id d9443c01a7336-2be1eb1ec68mr30387365ad.24.1779145670352;
-        Mon, 18 May 2026 16:07:50 -0700 (PDT)
-Received: from [192.168.89.2] ([119.214.48.64])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d0fcb10sm161499835ad.60.2026.05.18.16.07.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2026 16:07:49 -0700 (PDT)
-Message-ID: <79ee1d2d-1c8b-4d0e-896e-e9c09374053d@gmail.com>
-Date: Tue, 19 May 2026 08:07:46 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sD9fCqpi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6A16C2BCC7
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:23:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779146584;
+	bh=OB6kYmMn6vo3vaMVZ12Q4bsdsJGNYLvDRQKnvb3ZEx4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=sD9fCqpibOhaCsh9QdseTFrYYosUHQiE3ih5+9gDujAgvob5ZpfQAJtx2mS6uoOAm
+	 GOcO3pgTHMd723zt9zOrSbcvrrf4OdElyMPwnmBSLXggjbNWPip7Z1Lyh41wYOgaQ8
+	 oVILPTTdJfTF1KM7M7UpbjkDoNmd824M2i50WqcmgiGMQtnCKNByIx4PlD9E6E1bVH
+	 YoRdwA/uMclT1UuqCxyoD4s4z+oTQSW/sDtERRFruGNIaTQL0byWc4lami3+gYVhA5
+	 eE5ME5daoGT7m/SpjSxVK1axMdav4pikB7rQzlACyF240tXMb/gjdfM10J0l8HccyN
+	 h4pwL0LBYM6tA==
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8b62ca1d28eso35708326d6.2
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 16:23:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8sRsYatgJATdyce4mQuGMsSQ8WfI40lAW0ZEtjXUV/9UPZwKcjLMg31yJx8qt5NT3ME4g8eRDG4tw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxitT8GzEK3FfiMc4W0O7xjjc5GsHiRo1Fnjg72h218iHWl4I6d
+	+YCjWhkL6MceevWCKGRdlknfwlnSNmb3iTxRxofG9PrKBn1RGjPpSpviRVX27BFuSigA8+1y8br
+	ww3SNaSUfQlLFZcTOhaYkliY6soezzjA=
+X-Received: by 2002:a05:6214:ac5:b0:8ca:10aa:e1f9 with SMTP id
+ 6a1803df08f44-8ca10aae3f5mr290946326d6.42.1779146583902; Mon, 18 May 2026
+ 16:23:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
-From: Jihong Min <hurryman2212@gmail.com>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>, Guenter Roeck <linux@roeck-us.net>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Mario Limonciello (AMD)" <superm1@kernel.org>,
- Yaroslav Isakov <yaroslav.isakov@gmail.com>
-References: <20260517130407.795157-1-hurryman2212@gmail.com>
- <20260517130407.795157-2-hurryman2212@gmail.com>
- <20260517232147.34931718.michal.pecio@gmail.com>
- <144ec61c-4cc1-4986-a16c-7c1b99f3a72e@gmail.com>
-Content-Language: en-US
-In-Reply-To: <144ec61c-4cc1-4986-a16c-7c1b99f3a72e@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260507070547.2268452-1-sashal@kernel.org> <CAHC9VhTwDt2Bx8n0io9Qge_fUEnrHsxrFAQY+KaemKWqJqBQxw@mail.gmail.com>
+ <CAPhsuW4TJRqQKXgcBYog8YgFLU2h2Zq9ReahxTYp_zpDyvO8AA@mail.gmail.com> <CAHC9VhS1DJNs9gDB6gD9WKhL08giSVajBskZ+=mY0AWRCAsw7Q@mail.gmail.com>
+In-Reply-To: <CAHC9VhS1DJNs9gDB6gD9WKhL08giSVajBskZ+=mY0AWRCAsw7Q@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Mon, 18 May 2026 16:22:52 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW5jQOzRTi1ea+=UPhx5W9bkBdivPagRE=O=nx0zf_vb8w@mail.gmail.com>
+X-Gm-Features: AVHnY4LBviQM2Wc3xspaZE5GnjsB83lBdOh9pKPiqYN81JHKPUgKpxqJif3TGBc
+Message-ID: <CAPhsuW5jQOzRTi1ea+=UPhx5W9bkBdivPagRE=O=nx0zf_vb8w@mail.gmail.com>
+Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation primitive
+To: Paul Moore <paul@paul-moore.com>
+Cc: Sasha Levin <sashal@kernel.org>, corbet@lwn.net, akpm@linux-foundation.org, 
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	gregkh@linuxfoundation.org, linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 5/19/26 05:30, Jihong Min wrote:
-> It seems that these three functions above are everything that you truly
-> want to add; the rest is boilerplate required by this two-module scheme
-> to work, plus ID tables which must be duplicated and kept in sync.
+On Mon, May 18, 2026 at 2:29=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
+[...]
+> In my opinion, making killswitch an LSM is more of a procedural item
+> that deals with how we view a capability like killswitch.  I
+> personally view killswitch as somewhat similar to Lockdown, which is
+> why I made the suggestion.
 >
-> I wonder if a separate module is really justified, as opposed to simply
-> linking this file into xhci_pci.ko when directed by Kconfig.
+> The use of kprobes, while an interesting idea, presents problems as
+> allowing any kernel symbol to be killed introduces the potential for
+> security regressions.  As a reminder, some LSMs, as well as other
+> kernel subsystems, have mechanisms in place to restrict root and/or
+> enforce one-way configuration locks; while many people equate "root"
+> with full control, in many cases today that is not strictly correct.
 >
-> The downside would be slightly higher memory usage on systems where the
-> hwmon driver is enabled but not needed. OTOH, same systems would likely
-> see reduced disk waste.
+> Yes, kprobes have been around for some time, this is not a new
+> problem, but killswitch makes it far more convenient and accessible to
+> do dangerous things with kprobes.  If killswitch makes it past the RFC
+> stage without any significant changes to its kill mechanism, we may
+> need to start considering more liberal usage of NOKPROBE_SYMBOL()
+> which I think would be an unfortunate casualty.
 
-One clarification about this part:
+I don't think we can use NOKPROBE_SYMBOL(). There are functions
+that we don't want to killswitch, but still want to trace.
 
-In my previous reply I said that I could rework this either way depending on
-the USB maintainer preference. After thinking about it again, I think the
-current direction is the better one.
-
-Mathias's earlier review pushed this series away from adding PROM21-specific
-hwmon support directly into the common xhci-pci path. I agree with that
-direction. The common xhci-pci driver should not grow PROM21-specific sensor
-logic.
-
-The current split keeps the PROM21-specific auxiliary-device lifetime
-handling
-in xhci-pci-prom21.c, keeps the hwmon implementation in drivers/hwmon, and
-leaves xhci-pci.c with only the PCI ID handoff. That is also the closest
-match
-to the existing Renesas handoff approach.
-
-So, while I previously phrased this as something I would leave entirely
-to the
-USB maintainers, my current preference is to keep the separate PROM21
-PCI glue
-driver unless Mathias or another USB maintainer specifically asks for a
-different structure.
-
-
-Sincerely,
-Jihong Min
+Thanks,
+Song
