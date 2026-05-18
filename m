@@ -1,150 +1,159 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02578279DCC;
-	Mon, 18 May 2026 16:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C3F481FDD
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 16:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779121521; cv=none; b=VVMSY/DqRqbOOaFrBc+RUbiSMO4eV4BXxN2qvi4cyBFn2xcIwsfo2Jl0rQa/v7oBFad4BLhapjS9U9oUg1Ns3eNHMVGp3+hwcvTveg8mc0d8maE5mCscdOTj6RoPMxxbXAbynZz/ehnkhJ0SAq2u+23I4HLai9JH57p9ObedKxg=
+	t=1779122255; cv=none; b=DvK5sne+x95fUEv4YsvrV5y9WeTMY3uzbn4aG/2akS7cHxQK9HpRln/pqym0NmXJg4042kjMvgkLYCJmcfQvw4aSJ6fCu2/JGq7AdKKtfAKmbkiSZdonNCqtMR04Gte50mICmptXpEyzFsTj2uOmOOlpnix+b7bUKmqcBuyhwbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779121521; c=relaxed/simple;
-	bh=Yvug/rkJy3x/DTVDt7pixegJguZz6nZS2ADuwX1DSXw=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Z2aDxcsPRrKUfJcrXsNTw7um5pXHKntsj50JztniLDxXnTBxwsE0zZbe4EvEHYIMms45GNZUsZas5plnLY+ln/gW4BS2uS2lnPFibQLpfU/7PsIZr3IVRPfRSLeK78XdJ3BILtYd3z4J7k3gVwObHMRx093xsQUqFDZUb3T3vJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ghMySlr3; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1779122255; c=relaxed/simple;
+	bh=opLnOv8rcGGpMzk9NYT62osXVn/LxJ7Ob8lhc0zDKrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PH3xfA/L9ZKqLFmYG22u97PnmCrLh/c9V0LFg7A/5GZBAf0KV2X4QPi9CHQogrj70WqcvBbKq7Ukp7QnbGvQmH7CmRM6fVLiYODBiZC1h9VIXohE2aRYsDt1buBfO7XJfkF9QUN900Q4bR3zZvrwbf0uLG1Lc7gwoQ2O9s5Lov0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P2Q8oU6l; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ghMySlr3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=F0k8h0P8yeIbJ9N9KuaQ7GKHxxzGm6CK/9Y9921ojuQ=; b=ghMySlr3y4a0XPq95p4/cifORm
-	GJt+qWjJj5HEnrH6x7HZHtIB/cnVbwNQtuJjFWYNYWz22LxXMz6eavNI0CdPQGO0M4d96RZXPa5yX
-	p6zOXA92EV3plLubl5UA5qWiMLfxEscN6C7wn6EqrbLJ3hgE5nTMfpwVdQAW1yYDgtfXDFtc/sWOu
-	avDyHxfRFf4lyNVO0YHyksLusQ5E8nZHce/8+q9MtLBNNB7mGiciI4AQHIR11zEvwlE6/eKh4EvR1
-	Ylfe4a3mr61SmvpkVA28xm4L5ILm/6NjzA5MG6PBFfZ6NrZWJ5WLJu7LQyr/OsGDROWFNKVing5LV
-	vSjk7I7w==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wP0mJ-0000000GIE3-3vb9;
-	Mon, 18 May 2026 16:25:15 +0000
-Message-ID: <47b4f655-1a89-47a6-a3fb-9e82184c5fe4@infradead.org>
-Date: Mon, 18 May 2026 09:25:15 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P2Q8oU6l"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ba3b9bcf69so1925ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 09:37:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779122254; x=1779727054; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+pfGbgcaleoCc2Ifk0qdh18kJSuW5oqOcEuMwE4BYsU=;
+        b=P2Q8oU6lQk05pqegx9wz2Ckm4pDXPQZea1FepjyKI/zkJrjl11E+xDSNSU3l6Hqtdc
+         D1b9XotvaV/jHWJ40QukJxeJjr0ABXujWSFUNWcdOzVYen/UIIHT3n+YnpGy1FzvRfVe
+         oDtCSXbsE7guueyK9OwwVN0vod9he4MfeDgN+YdZjXoxKj/EcGl1UcRQSBR+b9KKKeJG
+         XoaUBpcyP2yaGieaQ3WX+yXa5Ucjh54IlLTwgQaphG4uQaZMq/QtSwKgnC4AtUcWt2WC
+         Iky9yA+EOh7/FVX/JNOxUxkl545i55IxKnv2pG7wYCoEpuuhy68cNUnSHi6021Aqa1nm
+         y6Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779122254; x=1779727054;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+pfGbgcaleoCc2Ifk0qdh18kJSuW5oqOcEuMwE4BYsU=;
+        b=q2S3VfTLiccByoaQG3FLr1l5lZkAOWgU8J53lX/tnbARnPqnGmRLeiQfJA0QMUZblU
+         i5czLWn5UvYnwedtF0V26ijnCIoZgJ8bMcnF36e40ZjT5dLVAlphYFrrg16Bjn9Qhql1
+         CdssN7O6RI8Ke/lv3WQ68ptVfWjzK7I3wa74XabWy2e54C85/10OSbQaVyTzPpce8CVw
+         CnDLJc1VT0joXkHcXNw6zGGZGMPFENAVPoq8MN4ZIBuRUfgOyIEaYa78T66+3re0XsIS
+         l6sy3dfnm34wwfGhDS1zHzwfzVwxACIC/FGfwpfZKgBfU/F5ubYcdxajxMbEbJn1ti8w
+         oOfA==
+X-Forwarded-Encrypted: i=1; AFNElJ+z8QRAklgUdDXTnC+GRKKxWoyeQUfzudjcUJfF6HCT7iyeD3syETuNCY6Cqay6gQXhLuWkh5IcmlM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/wYrRiULt3BIkepXJchXbwLtN7+/kS4QKnfRL56Jmh/m43Ooj
+	DbhRzOVbXQEUxJ3/2hfsOvk1gvplc2KKNZ5j00mJ4B1fW6+eiWBva30UKJ4warv89Y4tqkxHVJ2
+	z85F4gNuJ
+X-Gm-Gg: Acq92OGixpbQL9TeQfuyrZ07KQg9JW1ApIZPyHQGawtVYoHatNAQIX5NpiiZ5u+ROWF
+	FBjHcZTiLANwsNtDmrSDlq0noGqWCZ28/xb5c1BUFciS4vnUPVSs62oV/i03YP2o/PuMszynWvz
+	QE8u9NaXwx++rEFkta06ukayIqIswf9Tp0Pr2Zr09hQ1Qx1GchNLtYugQzq3qZ8Oyd8u3/BTEzG
+	898ijQBCn4Thd8CWn4cMB7DPyeFjUtRQlkUZBjp3YuF5TJndpNv8Sxf2UYjhODEzJXWpMjVPa1N
+	L+xTDOx7V+D70uKtpfR8ulvAD4RVy/qS2CZ7C90BR5TtNZEcR7ZTKDIQtORXO/6ww1eqJ5C1cr8
+	AdpdDmlno19QAdSyHOknZF3KfkgtosGLSMJ88dSIREin03dMK3MMJ1lWv8Dpal0+RHTLPRCea3b
+	84WAXQPeBNllZSliMLoUuzkMyeTlxZBfwmdk9jIbCdc7ziVo+L4Ej6lJZd/qHhDVEx+3CZ3kI=
+X-Received: by 2002:a17:902:d512:b0:2bc:dc0b:ab29 with SMTP id d9443c01a7336-2bdb0109472mr2960365ad.0.1779122253168;
+        Mon, 18 May 2026 09:37:33 -0700 (PDT)
+Received: from google.com (176.13.105.34.bc.googleusercontent.com. [34.105.13.176])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bb121cd6sm14018626a12.30.2026.05.18.09.37.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 09:37:32 -0700 (PDT)
+Date: Mon, 18 May 2026 09:37:28 -0700
+From: Vipin Sharma <vipinsh@google.com>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Samiullah Khawaja <skhawaja@google.com>, 
+	David Matlack <dmatlack@google.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-pci@vger.kernel.org, 
+	ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com, ankita@nvidia.com, 
+	apopple@nvidia.com, chrisl@kernel.org, corbet@lwn.net, graf@amazon.com, 
+	jacob.pan@linux.microsoft.com, jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, 
+	julianr@linux.ibm.com, kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com, 
+	lukas@wunner.de, michal.winiarski@intel.com, parav@nvidia.com, 
+	pasha.tatashin@soleen.com, praan@google.com, rananta@google.com, rientjes@google.com, 
+	rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com, skhan@linuxfoundation.org, 
+	vivek.kasireddy@intel.com, witu@nvidia.com, yanjun.zhu@linux.dev, yi.l.liu@intel.com
+Subject: Re: [PATCH v4 02/16] vfio/pci: Preserve vfio-pci device files across
+ Live Update
+Message-ID: <20260518152420.GA3281683.vipinsh@google.com>
+References: <20260511234802.2280368-1-vipinsh@google.com>
+ <20260511234802.2280368-3-vipinsh@google.com>
+ <CALzav=fR8c2tYj9jeOc_K=xoupxAfWMHmk0ipDniSXg6uGiFYA@mail.gmail.com>
+ <20260512211412.GA2819150.vipinsh@google.com>
+ <agT9bYpXskVwW0E_@google.com>
+ <2vxzcxyy9fpd.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] docs: submitting-patches: Clarify that in English
- "reviewer" is a person
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Guenter Roeck <linux@roeck-us.net>
-References: <20260516123846.63413-2-krzysztof.kozlowski@oss.qualcomm.com>
- <ce1e5e9b-83d0-4971-aee3-dc5a8f85ce22@kernel.org>
-Content-Language: en-US
-In-Reply-To: <ce1e5e9b-83d0-4971-aee3-dc5a8f85ce22@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2vxzcxyy9fpd.fsf@kernel.org>
 
-
-
-On 5/16/26 7:39 AM, Vlastimil Babka (SUSE) wrote:
-> On 5/16/26 14:38, Krzysztof Kozlowski wrote:
->> Common understanding of word "Reviewer" is: a person performing a review
->> work [1]. Tools are not persons, thus cannot be reviewers in this term.
->> Also tools cannot make statements ("A Reviewed-by tag is a statement of
->> opinion"), since making a statement needs some sort of conscious mind.
->>
->> Our docs already clearly mark that "Reviewed-by" must come from a
->> person:
->>
->>  - "By offering my Reviewed-by: tag, I state that:"
->>
->>    Usage of first person "I" and word "state"
->>
->>  - "A Reviewed-by tag is *a statement of opinion* that the patch is an
->>     appropriate modification of the kernel without any remaining serious"
->>
->>    Only a person can make a statement of opinion.
->>
->>  - "Any interested reviewer (who has done the work) can offer a
->>    Reviewed-by"
->>
->>    A person can offer a tag thus above does not grant the tool
->>    permission to offer a tag.
->>
->> However this is not enough and apparently English is not that precise,
->> so let's clarify that only a person can state the "Reviewer's statement
->> of oversight".
->>
->> Link: https://en.wiktionary.org/wiki/reviewer [1]
->> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Cc: Vlastimil Babka <vbabka@kernel.org>
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: David Hildenbrand <david@kernel.org>
->> Cc: Linus Torvalds <torvalds@linux-foundation.org>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+On Thu, May 14, 2026 at 05:24:46PM +0200, Pratyush Yadav wrote:
+> On Wed, May 13 2026, Samiullah Khawaja wrote:
 > 
-> I agree with the intent that the tag is for people (whether they use a tool
-> or not to help them). We also don't put "Tested-by: kernel test robot" or
-> syzkaller on every commit that they test and find no bugs. Review is also
-> not just about absence of bugs, but agreeing with the larger design and
-> whether the change makes sense to do in the first place.
+> > On Tue, May 12, 2026 at 02:29:19PM -0700, Vipin Sharma wrote:
+> >>On Tue, May 12, 2026 at 01:59:51PM -0700, David Matlack wrote:
+> >>> On Mon, May 11, 2026 at 4:48 PM Vipin Sharma <vipinsh@google.com> wrote:
+> >>>
+> >>> > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
+> >>> > index c12d614fc6c4..019de053f116 100644
+> >>> > --- a/drivers/vfio/pci/Kconfig
+> >>> > +++ b/drivers/vfio/pci/Kconfig
+> >>> > @@ -45,13 +45,15 @@ config VFIO_PCI_IGD
+> >>> >
+> >>> >  config VFIO_PCI_LIVEUPDATE
+> >>> >         bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
+> >>> > -       depends on PCI_LIVEUPDATE
+> >>> > +       depends on PCI_LIVEUPDATE && VFIO_DEVICE_CDEV
+> >>> >         help
+> >>> >           Support for preserving devices bound to vfio-pci across a Live
+> >>> >           Update. This option should only be enabled by developers working on
+> >>> >           implementing this support. Once enough support has landed in the
+> >>> >           kernel, this option will no longer be marked EXPERIMENTAL.
+> >>> >
+> >>> > +         Enabling this will disable support for VFIO PCI DMA buffer.
+> >>> > +
+> >>> >           If you don't know what to do here, say N.
+> >>> >
+> >>> >  endif
+> >>> > @@ -68,7 +70,7 @@ config VFIO_PCI_ZDEV_KVM
+> >>> >           To enable s390x KVM vfio-pci extensions, say Y.
+> >>> >
+> >>> >  config VFIO_PCI_DMABUF
+> >>> > -       def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER
+> >>> > +       def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER && !VFIO_PCI_LIVEUPDATE
+> >>>
+> >>> Why does enabling VFIO_PCI_LIVEUPDATE require disabling
+> >>> VFIO_PCI_DMABUF? I saw the cover letter says "to keep things simple",
+> >>> but what specific problem does this solve or simplify?
+> >>
+> >>I should have provided more details there.
+> >>
+> >>When device is getting reset in vfio_pci_liveupdate_freeze(), we are
+> >>zapping userspace mapped bars, we also need to use
+> >>vfio_pci_dma_buf_move() to revoke dma buffer access or
+> >>vfio_pci_dma_buf_cleanup() combination. Cleanup takes the memory lock
+> >>which freeze already takes, and there are some refcounts which are
+> >>managed in both of these APIs. This was causing complexities with code
+> >>flow based on result of pci_load_saved_state(). All this was adding more
+> >>refactoring than I wanted in the series.
+> >
+> > Maybe we can return -EOPNOTSUPP if any dmabufs for this vfio cdev are
+> > exported during preserve?
 
-Ack that also.
-
-> So whether that's achieved with this particular wording or differently,
-> 
-> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+Currently, no APIs are present to fetch if dmabufs are exported or not.
+I will add one patch to this series to return EOPNOTSUPP and remove
+condition from the config.
 
 > 
->>
->> ---
->>
->> I find it silly to need to describe English, but it seems it is needed.
->>
->> https://lore.kernel.org/all/fd3b2ca7-4d64-4c4b-98a3-7d3285fa6826@roeck-us.net/
->> ---
->>  Documentation/process/submitting-patches.rst | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
->> index d7290e208e72..a989de43f3db 100644
->> --- a/Documentation/process/submitting-patches.rst
->> +++ b/Documentation/process/submitting-patches.rst
->> @@ -581,10 +581,10 @@ By offering my Reviewed-by: tag, I state that:
->>  
->>  A Reviewed-by tag is a statement of opinion that the patch is an
->>  appropriate modification of the kernel without any remaining serious
->> -technical issues.  Any interested reviewer (who has done the work) can
->> -offer a Reviewed-by tag for a patch.  This tag serves to give credit to
->> -reviewers and to inform maintainers of the degree of review which has been
->> -done on the patch.  Reviewed-by: tags, when supplied by reviewers known to
->> +technical issues.  Any interested reviewer (who has done the work and is a
->> +person) can offer a Reviewed-by tag for a patch.  This tag serves to give
->> +credit to reviewers and to inform maintainers of the degree of review which has
->> +been done on the patch.  Reviewed-by: tags, when supplied by reviewers known to
->>  understand the subject area and to perform thorough reviews, will normally
->>  increase the likelihood of your patch getting into the kernel.
->>  
-> 
+> Whichever way you go with, a TODO/comment would be nice to have so
+> someone (including future you) looking at this code knows why this
+> restriction exists.
 > 
 
--- 
-~Randy
+I will add comment in the next version.
