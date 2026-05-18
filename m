@@ -1,147 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDBF303A32
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 06:31:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E023CD8A8
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 06:37:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779085919; cv=none; b=aVnh56M0seuDx69Za3SM6Ik/VMyPOSZ6NM7muhvOkjuKyzYHisW8E9m0Yf5pyNg5dzD3F9qQBtBvkAZs9bAjgLZlhND0NuXilwEXlnFfReKjWZw7bF4s5E9mFQKp4SBirGtXJPuQDAorCSEYRDvHQGXufUt7OhvlCnF5owekyaU=
+	t=1779086269; cv=none; b=DVuoI/3YQAWs0/nkx1mFwgZ5CbPlb6Ny+sVorH/xv9rKb1GcadjLw0JW3coubvpIw+1VGYMdP5W3NzVskM1oIoN97oBv85EJSePX/THTJTnecACq0Qod3VJpZHzxctf92H3XcrAqKLy05UOmHne6DvGWLEv5Tm0h585nbt62OD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779085919; c=relaxed/simple;
-	bh=MlEkCgLfLAET7HePrdJoisimifxqtQFmEEEd1oJx1CU=;
+	s=arc-20240116; t=1779086269; c=relaxed/simple;
+	bh=PrT96Y/vLV0Zld5NPvnbzDiOZRpJnR9HPYAVqBrX/a4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fv4SHBs8wxOAmGanwV4yPDr61VfRzJx+LX/G3q5A6y81bWPYzu4koUqToU9Aw4tckMsNU0a4Uif2mI73ZbBICKaaD+IKXCd7n/Iz28eiOPj1+r2hpfDvNV9L6k2FgzsA5ZAhQNVv06ffCfxXQKVx+g0xR3R5sFJw4DzWKOBQoH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cuAGr4Dn; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=Tx4iBNNAGop/KJRquILbndXI6zUKQ890XWZhKgDHWRbfB0/Gxj9llEr2Qa2yUJ8Ay4r/epYBZHGzCCrHBHy4FH6eJLJj4npWOOdP39p+Zox3vykeVpnvKTLJfkf5auCmJEJO0rpaCFvm5QCrKO9LUHqxGscGCw7y40ENgXvI30c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tpomMW39; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cuAGr4Dn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A72D8C2BCF7
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 06:31:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tpomMW39"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 650F1C2BCB7
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 06:37:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779085918;
-	bh=MlEkCgLfLAET7HePrdJoisimifxqtQFmEEEd1oJx1CU=;
+	s=k20201202; t=1779086268;
+	bh=PrT96Y/vLV0Zld5NPvnbzDiOZRpJnR9HPYAVqBrX/a4=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cuAGr4DnkaFWPiMnoO48Yvv80BrIorHG/0iLTHalhudgVSdwvPoapErFdIN+NFMz2
-	 phLGmFTNoU5bC3WLQ6i8P7+rbKg89ysZTCsBcgzIz6Vz4bIjOgfYeqfplU+dVj8yLh
-	 W6Rj4kkSmJN3NlQR97SIRGnYtluBo0phXonMWeZsAmo7QkpAt2gj9kboK68pC4kAI7
-	 JlR1I8OQHsDoQysR1HWWgP4pQlJy4VQMQiI6kRLU+7N/KPp53TTWyfRZiLQIHMP1et
-	 +5icBoIoHPPt+nOhGNZ5UsVbyVzaGJz0bEjBOoCWDncGwWIW+tknxhYVmJpb+Lh8Gm
-	 2kXg3SVX2YAig==
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-902deb2412fso254255485a.3
-        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 23:31:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8E4Uu+EguJGslYLgIqe4tU193t3qMKh8CeucV5Q8ioI4VzglxzeyhkecTBCvwv0+IaUJ1W39Rcnxo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxjg7477ykS/aAiMrhF4IbCtOwxy/6v+0mTqXekTQwl8m+ar+Xq
-	3QgrE5qYM2dpg5CwkQlLE6jyd1pLO3HoNcYau1S7Wnv3/0/vs0oWxUg3H9w4Xk7rh2A67G0su4d
-	GQytO5W7tFmjskSyZoYPl7xu0jt9uX8Y=
-X-Received: by 2002:a05:620a:ac0a:b0:912:61f8:cab1 with SMTP id
- af79cd13be357-91261f8d5b2mr1253868385a.25.1779085917789; Sun, 17 May 2026
- 23:31:57 -0700 (PDT)
+	b=tpomMW39Z+QDBMxf/W2OlOg6wDPsPG25eOFCJTVwmHzccb84gLd4cO9h/QGw+/gZD
+	 GAsyRzMtDEKon2j700Sa96994l4RBypdbX+Z/ROuYRHDIRkNIs7PVMgpO2psMCgcwS
+	 2t/OpakfWgVJNjObHzxYCPZeUX1OMgBcyZAmFBeqZJI8ZQPbs9TA7w75y153t7kFIY
+	 U4Nz8gtYhQA87sytwD1i4vdRJs+8httO/jezAxwxirFI7fVHXjf8PslP3/4Ha1H/rD
+	 0ww/W+yedO4WQcrdCNfDtEKxT4hiBLWOWmBOjlqa1yZYDkX0cDbHrrybjue+LRS2o7
+	 z2/3a+RWPiTBw==
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8b3d6b215cfso38654376d6.3
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 23:37:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+cTNtIG97teh4GgA1SmRj9eSf10WvXmzReUFaFIW1nDZ5By0wvvVLZyMXC45HD1OMvtm5VcnluAqA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEZEK4c5bkhO6LyNFSpaaesx+oG5a9h11ij1Y9skfRen5Wccj+
+	d6NXZLrpwa0+mJUHZ2Rvq14dliZd3k3u6Pq2A2ccSibeL5lIkQ4xyXvDOt6ifuGzqowhS6tAApd
+	xT1FalIfDVneY0E0q2zvZNuOuTVWNUBc=
+X-Received: by 2002:a05:6214:3c98:b0:8ca:2410:4b05 with SMTP id
+ 6a1803df08f44-8ca2410535fmr151166296d6.40.1779086267702; Sun, 17 May 2026
+ 23:37:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260507070547.2268452-1-sashal@kernel.org> <CAHC9VhTwDt2Bx8n0io9Qge_fUEnrHsxrFAQY+KaemKWqJqBQxw@mail.gmail.com>
-In-Reply-To: <CAHC9VhTwDt2Bx8n0io9Qge_fUEnrHsxrFAQY+KaemKWqJqBQxw@mail.gmail.com>
+References: <20260508195749.1885522-1-sashal@kernel.org> <20260517134858.146569-1-sashal@kernel.org>
+In-Reply-To: <20260517134858.146569-1-sashal@kernel.org>
 From: Song Liu <song@kernel.org>
-Date: Sun, 17 May 2026 23:31:45 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW4TJRqQKXgcBYog8YgFLU2h2Zq9ReahxTYp_zpDyvO8AA@mail.gmail.com>
-X-Gm-Features: AVHnY4LE6Uz9P1F7Ei7__uZGPqS4LrmpPDUToLlmTi9orUT0m2IrTepJoYB0Usc
-Message-ID: <CAPhsuW4TJRqQKXgcBYog8YgFLU2h2Zq9ReahxTYp_zpDyvO8AA@mail.gmail.com>
-Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation primitive
-To: Paul Moore <paul@paul-moore.com>
-Cc: Sasha Levin <sashal@kernel.org>, corbet@lwn.net, akpm@linux-foundation.org, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	gregkh@linuxfoundation.org, linux-security-module@vger.kernel.org
+Date: Sun, 17 May 2026 23:37:36 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW4x8shWon8Moi5VgCq2n4E2EzaaauZ2HHpy42Rp1Y-J-g@mail.gmail.com>
+X-Gm-Features: AVHnY4J4mKBEhL8yoe8m_C50zE8fB-yoG9ZDQzbqPScq3MxagdnowtQVIUF5N1M
+Message-ID: <CAPhsuW4x8shWon8Moi5VgCq2n4E2EzaaauZ2HHpy42Rp1Y-J-g@mail.gmail.com>
+Subject: Re: [PATCH v3] killswitch: add per-function short-circuit mitigation primitive
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, bpf@vger.kernel.org, 
+	live-patching@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Joshua Peisach <jpeisach@ubuntu.com>, Florian Weimer <fw@deneb.enyo.de>, Breno Leitao <leitao@debian.org>, 
+	Anthony Iliopoulos <ailiop@suse.com>, Michal Hocko <mhocko@suse.com>, Jiri Olsa <jolsa@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 14, 2026 at 8:48=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
-ote:
+On Sun, May 17, 2026 at 6:49=E2=80=AFAM Sasha Levin <sashal@kernel.org> wro=
+te:
 >
-> On Thu, May 7, 2026 at 3:05=E2=80=AFAM Sasha Levin <sashal@kernel.org> wr=
-ote:
-> >
-> > When a (security) issue goes public, fleets stay exposed until a patche=
-d kernel
-> > is built, distributed, and rebooted into.
-> >
-> > For many such issues the simplest mitigation is to stop calling the bug=
-gy
-> > function. Killswitch provides that. An admin writes:
-> >
-> >     echo "engage af_alg_sendmsg -1" \
-> >         > /sys/kernel/security/killswitch/control
-> >
-> > After this, af_alg_sendmsg() returns -EPERM on every call without
-> > running its body. The mitigation takes effect immediately, and is dropp=
-ed on
-> > the next reboot.
-> >
-> > A lot of recent kernel issues sit in code paths most installs only have=
- enabled
-> > to support a relative minority of users: AF_ALG, ksmbd, nf_tables, vsoc=
-k, ax25,
-> > and friends.
-> >
-> > For most users, the cost of "this socket family stops working for the d=
-ay" is
-> > much smaller than the cost of running a known vulnerable kernel until t=
-he fix
-> > land.
-> >
-> > Assisted-by: Claude:claude-opus-4-7
-> > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > ---
-> >  Documentation/admin-guide/index.rst           |   1 +
-> >  Documentation/admin-guide/killswitch.rst      | 159 ++++
-> >  Documentation/admin-guide/tainted-kernels.rst |   8 +
-> >  MAINTAINERS                                   |  11 +
-> >  include/linux/killswitch.h                    |  19 +
-> >  include/linux/panic.h                         |   3 +-
-> >  init/Kconfig                                  |   2 +
-> >  kernel/Kconfig.killswitch                     |  31 +
-> >  kernel/Makefile                               |   1 +
-> >  kernel/killswitch.c                           | 798 ++++++++++++++++++
-> >  kernel/panic.c                                |   1 +
-> >  lib/Kconfig.debug                             |  13 +
-> >  lib/Makefile                                  |   1 +
-> >  lib/test_killswitch.c                         |  85 ++
-> >  tools/testing/selftests/Makefile              |   1 +
-> >  tools/testing/selftests/killswitch/.gitignore |   1 +
-> >  tools/testing/selftests/killswitch/Makefile   |   8 +
-> >  .../selftests/killswitch/cve_31431_test.c     | 162 ++++
-> >  .../selftests/killswitch/killswitch_test.sh   | 147 ++++
-> >  19 files changed, 1451 insertions(+), 1 deletion(-)
-> >  create mode 100644 Documentation/admin-guide/killswitch.rst
-> >  create mode 100644 include/linux/killswitch.h
-> >  create mode 100644 kernel/Kconfig.killswitch
-> >  create mode 100644 kernel/killswitch.c
-> >  create mode 100644 lib/test_killswitch.c
-> >  create mode 100644 tools/testing/selftests/killswitch/.gitignore
-> >  create mode 100644 tools/testing/selftests/killswitch/Makefile
-> >  create mode 100644 tools/testing/selftests/killswitch/cve_31431_test.c
-> >  create mode 100755 tools/testing/selftests/killswitch/killswitch_test.=
-sh
+> When a kernel (security) issue goes public, fleets stay exposed until a p=
+atched
+> kernel is built, distributed, and rebooted into.
 >
-> If we made Lockdown an LSM, we should probably also make killswitch an LS=
-M.
+> For many such issues the simplest mitigation is to stop calling the buggy
+> function. Killswitch provides that. An admin writes:
+>
+>     echo "engage af_alg_sendmsg -1" \
+>         > /sys/kernel/security/killswitch/control
+>
+> After this, af_alg_sendmsg() returns -EPERM on every call without
+> running its body. The mitigation takes effect immediately, and is dropped=
+ on
+> the next reboot -- by which point a patched kernel is hopefully in place.
+>
+> A lot of recent kernel issues sit in code paths most installs only have e=
+nabled
+> to support a relative minority of users: AF_ALG, ksmbd, nf_tables, vsock,=
+ ax25,
+> and friends.
+>
+> For most users, the cost of "this socket family stops working for the day=
+" is
+> much smaller than the cost of running a known vulnerable kernel until the=
+ fix
+> lands.
+>
+> Why not an existing facility:
+>
+> * livepatch needs a built, signed, per-kernel-version module per CVE.
+>   Under Secure Boot the operator can't sign their own, so they wait
+>   for the vendor, and only a minority of vendors actually ship
+>   livepatches. Killswitch covers the days before that module shows
+>   up.
+>
+> * fail_function (CONFIG_FUNCTION_ERROR_INJECTION) is disabled in
+>   most production kernels. Even where enabled, it only works on
+>   functions pre-annotated with ALLOW_ERROR_INJECTION() in source -
+>   no help for a freshly-disclosed CVE. The debugfs UI is blocked by
+>   lockdown=3Dintegrity and the override is probabilistic.
+>
+> * BPF override (bpf_override_return) honors the same
+>   ALLOW_ERROR_INJECTION() whitelist, and BPF itself is off in many
+>   production kernels. Even where on, the operator interface is
+>   "load a verified BPF program," not a one-line write.
 
-I don't think killswitch can stack with other LSMs. In fact, killswitch
-can be used to bypass other LSMs, for example:
-
-echo engage security_file_open 0 > /sys/kernel/security/killswitch/control
-
-will bypass all hooks on security_file_open.
+If it is OK for killswitch to attach to any kernel functions, do we still
+need ALLOW_ERROR_INJECTION() for fail_function and BPF
+override? Shall we instead also allow fail_function and BPF override
+to attach to any kernel functions?
 
 Thanks,
 Song
-
-> For the LSM crowd who might be seeing this for the first time, the
-> original thread can be found on lore via the link below:
-> https://lore.kernel.org/all/20260507070547.2268452-1-sashal@kernel.org
->
-> --
-> paul-moore.com
->
