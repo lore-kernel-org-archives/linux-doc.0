@@ -1,215 +1,235 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BF9390224
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 19:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28732391846;
+	Mon, 18 May 2026 19:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779131559; cv=none; b=UmnGXAVAExWawlDUnbwyHBeAFK3cKZ2tzH3T4LywRKoOlSxChc4baWThcaAIustJMnLBexrb/VzAvyYUOuyvi6zm6bsZbStndPq1mJTJXvD3fmjrtXMa5Udp285u1HmAjTbeuyI4kB1aDlN7/cGmwumInLsOaoV5LN6NBi9qgyw=
+	t=1779132786; cv=none; b=EF+aVlUiEddfkMXJ2ho88t2mWd6UQ6rkeXDYJqTFbNHM/Ny5BtQ8wV9OFaeMopaK8/Yv9FbHv9Bg7PvyUeNUNKUmRpFXtntcs8DLXpCxFdsBq5Puz+4EfLX9N/pgRYWcUh5GsctPx6qXF9vCZbijFIGKxfsiOLabVSzxTa+VG+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779131559; c=relaxed/simple;
-	bh=RljyayX1PyhhLkcz/gwwb9ZSAUXbtpbGzWUaxpfKHrw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rq8eWSGf9JoeF+cnOtF//MJK99PfyesdlHb5rLwEBwONKAmUo8WRZqAWDzqPM0uRU8QWcgl4UqPzXv3ms4MxqZ2ONx3+cnDe2gLEXcqfQRQ1UDULakIvDm2FL2RVnu4fj+om6QtzISIGN73GjHPedsJ49ClI+gsoPwdn1g1o7PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LdpCApab; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779132786; c=relaxed/simple;
+	bh=YkGCI2ydQOiH18bfYuav9c9v7raj6NjUh/q2u2zqGQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A+guBRHnkVhy7W089AsW1Idu3YKA25J/4r+efwUBegaBIHeOq8JEJDHyQ19zJWBGf2VBX3IJ7xpv0a+OmgpVo3S3Mp22Onoo9cLVvrR9bclGPkQCSyIM/Gcmr/BqWo4wwRZ1ZmWmRgN/Or9Is3SvwtsLg/tpwup17Rx7eBJfy64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vDmvFmZ+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LdpCApab"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43fe62837baso1484048f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 12:12:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779131550; x=1779736350; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G8rvqbbv4pCegDpTmp8AOnsZ/Yo8hHTCvqhnXp9eK9A=;
-        b=LdpCApabLeLn3LB2LR54zKUbb1X5xcpMSnDjlbR6jc5nJjTN+km+N9OQq8Ox6aE08Y
-         9FG9BeNHOU6ujGKYH2los/54NUTum6rVhtOTK9Yo0A96xfZYUorAeOA6UJo9iVtGPPGp
-         MFQbK6vxqpsBKL3Nscui25Cxi34KBfmMvhDHJ7K9WgjZmp/5SYwsKowobEBG6/amxHYR
-         qNw1Awn4/XYYiILB0Efe29W/QEsOmt7zAQVF5ZnhlObIBKkhi3cibjuAbsJm8n4HWH4s
-         e2eWw2xkfGxGXTjhTDCfpaivE1w3bH9OGDvRFKlfoOXlQUg2h+k2VR1UZEirWl+E23T4
-         q1yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779131550; x=1779736350;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=G8rvqbbv4pCegDpTmp8AOnsZ/Yo8hHTCvqhnXp9eK9A=;
-        b=WqcXVw8ZiLYmGyXjZ+bbgVI7BWK1g+WV+lZMgOiN929MHthNjJlISuSxtx28Wjubm1
-         2XDA7y2UmXtnCcKkppC5cR5KJ9OcquXAYXfa2CmKZUDU02ZNtxqysAS53HfvDnnQG41p
-         zbGLF20VNfsv6iYu3xK15yzPG507nsINaaTAKIav/fnj9TD7Ip0gr2Ug3aWZ+SonsUzP
-         OXFGUDEnj+SZ4aW/ZIS+gnPLT3dUcWOjituHOrPUw1P86/sM5V1qvI3byDftctQM41pK
-         oouTEx/bvascgaWotfgb8IPBxy9UM9no90VyuLl4CbjMFBduGWRM3uqEeqkeyVfZcu+f
-         cGLw==
-X-Forwarded-Encrypted: i=1; AFNElJ+BRhEHJPuwqegJ0NorV5ZDlfmutNN28ux6O9FbqN6/LdwRzlPfyLQgpdTlUXGtlpbeiHBj4yF+Jl0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYBgLZMRSVYb5N/JOFma0ypV+iX1IRtdCEOyS+xmJSbRnnubNN
-	EAwzvwj5P7YIrkhPl4jLECPEefzDvCeh2/NV3ngpzp0CG/wIpYuQ7RhfNLsAsaZbnOI=
-X-Gm-Gg: Acq92OEAik5eEo+43xzPYG8OHLuFf00tYZuwEo7pcIsBf3uhBkev6zOUTe4PGJta0J6
-	FrfcqKkaYwX56D3orYQMqXUF91Dc7acIFIlhdKgVaX4ulrJVCQlMVnwqCe3zzbQhAX4fIB2ZSZm
-	Oc/byCOpeQtgjvexGeFgbVi+RqJg8sme9+5lM7nAk+7D4ii4kgz3yoUe55uOshFW+mkygZj9AMx
-	DEshNSxrGFRHo3K5/oOJM7kwoHmVNqyLkcC3BjIMfbqgUmLh3U5zRS8vxbJedkdWLa5G8OtxGAR
-	EZirKFaCLYnW1BNWoOupQ8P5lZOmTExkI7xq+z8FlsW33S5G4suTmlopjHtHjI4QWmvpjlt2p0B
-	on2o5+ipp3WdG1NOj9gJj5ERCVHktqkMk7kr07t0grd2Um/6oSxET6kWtaKkq1agzPr+Yu7z+/n
-	bZEa1JtOPPa8cnCE9hxjVQjP8mCi8t1z45NSw8b0uGgyel6NiTQT8DhxxojtYmgg==
-X-Received: by 2002:a05:6000:1247:b0:45e:6518:3299 with SMTP id ffacd0b85a97d-45e651832f5mr15730841f8f.5.1779131549508;
-        Mon, 18 May 2026 12:12:29 -0700 (PDT)
-Received: from mshcherba-RedmiBook-16.. ([188.163.115.207])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da15a6454sm40043167f8f.34.2026.05.18.12.12.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 12:12:29 -0700 (PDT)
-From: Maksym Shcherba <mshcherba2000@gmail.com>
-X-Google-Original-From: Maksym Shcherba <maksym.shcherba@lnu.edu.ua>
-To: sj@kernel.org,
-	akpm@linux-foundation.org
-Cc: david@kernel.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Maksym Shcherba <maksym.shcherba@lnu.edu.ua>
-Subject: [PATCH 6/6] selftests/damon: add a test for update_schemes_quota_goals
-Date: Mon, 18 May 2026 22:09:32 +0300
-Message-Id: <20260518190932.42270-6-maksym.shcherba@lnu.edu.ua>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260518190932.42270-1-maksym.shcherba@lnu.edu.ua>
-References: <20260518190932.42270-1-maksym.shcherba@lnu.edu.ua>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vDmvFmZ+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29D75C2BCC6;
+	Mon, 18 May 2026 19:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779132785;
+	bh=YkGCI2ydQOiH18bfYuav9c9v7raj6NjUh/q2u2zqGQ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vDmvFmZ+iTrW6rG0Gcm9nWDPvvRK1Rsj48dFtKprQeQ1e6lYyM5VMFRhBpg8rwS61
+	 0TNXTtczIM+BVYe4dk6R82ZVaWwaFbuN+I3al6alVhDH1MljGD3eYqKFw/QXi7Qvm0
+	 JKoE6kG5Db51dOjr9Juw7dqsEFy3nED8MYgsGtG2paTjp5kcRM6tNacnnxJWHErq5S
+	 M8Qrai0JHOMsBE7ZTTpOx6tIkJOYjnAKZFKHD4doWsSaZi9ZYNp4SbjR5D1f4rsOHj
+	 H3beDvWRIUdalnXZNIQ+HM/9w5MnR/fIEerEMaPESJ8Zc3zgsQGlP1eDVwfo09KpCR
+	 ofuvouMs7WwgQ==
+Date: Mon, 18 May 2026 20:32:50 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Wei Yang <richard.weiyang@gmail.com>, 
+	Lance Yang <lance.yang@linux.dev>, npache@redhat.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
+	aarcange@redhat.com, akpm@linux-foundation.org, anshuman.khandual@arm.com, 
+	apopple@nvidia.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
+	byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, 
+	hughd@google.com, jack@suse.cz, jackmanb@google.com, jannh@google.com, 
+	jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org, liam@infradead.org, 
+	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
+	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
+	rdunlap@infradead.org, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
+	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
+	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-unstable v17 04/14] mm/khugepaged: generalize
+ __collapse_huge_page_* for mTHP support
+Message-ID: <agtpK1x27B-E7mMo@lucifer>
+References: <20260511185817.686831-5-npache@redhat.com>
+ <20260512074202.10253-1-lance.yang@linux.dev>
+ <20260514031009.f66cgop3ctgiqxz3@master>
+ <9b33339e-157a-45b7-942e-3be3418a5142@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9b33339e-157a-45b7-942e-3be3418a5142@kernel.org>
 
-The new update_schemes_quota_goals sysfs command allows users to manually
-update the current_value of quota goals.
+On Mon, May 18, 2026 at 03:16:11PM +0200, David Hildenbrand (Arm) wrote:
+> On 5/14/26 05:10, Wei Yang wrote:
+> > On Tue, May 12, 2026 at 03:42:02PM +0800, Lance Yang wrote:
+> >>
+> >> On Mon, May 11, 2026 at 12:58:04PM -0600, Nico Pache wrote:
+> >>> generalize the order of the __collapse_huge_page_* and collapse_max_*
+> >>> functions to support future mTHP collapse.
+> >>>
+> >>> The current mechanism for determining collapse with the
+> >>> khugepaged_max_ptes_none value is not designed with mTHP in mind. This
+> >>> raises a key design issue: if we support user defined max_pte_none values
+> >>> (even those scaled by order), a collapse of a lower order can introduces
+> >>> an feedback loop, or "creep", when max_ptes_none is set to a value greater
+> >>> than HPAGE_PMD_NR / 2. [1]
+> >>>
+> >>> With this configuration, a successful collapse to order N will populate
+> >>> enough pages to satisfy the collapse condition on order N+1 on the next
+> >>> scan. This leads to unnecessary work and memory churn.
+> >>>
+> >>> To fix this issue introduce a helper function that will limit mTHP
+> >>> collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
+> >>> This effectively supports two modes: [2]
+> >>>
+> >>> - max_ptes_none=0: never collapses if it encounters an empty PTE or a PTE
+> >>>  that maps the shared zeropage. Consequently, no memory bloat.
+> >>> - max_ptes_none=511 (on 4k pagesz): Always collapse to the highest
+> >>>  available mTHP order.
+> >>>
+> >>> This removes the possiblilty of "creep", while not modifying any uAPI
+> >>> expectations. A warning will be emitted if any non-supported
+> >>> max_ptes_none value is configured with mTHP enabled.
+> >>>
+> >>> mTHP collapse will not honor the khugepaged_max_ptes_shared or
+> >>> khugepaged_max_ptes_swap parameters, and will fail if it encounters a
+> >>> shared or swapped entry.
+> >>>
+> >>> No functional changes in this patch; however it defines future behavior
+> >>> for mTHP collapse.
+> >>>
+> >>> [1] - https://lore.kernel.org/all/e46ab3ab-a3d7-4fb7-9970-d0704bd5d05a@arm.com
+> >>> [2] - https://lore.kernel.org/all/37375ace-5601-4d6c-9dac-d1c8268698e9@redhat.com
+> >>>
+> >>> Co-developed-by: Dev Jain <dev.jain@arm.com>
+> >>> Signed-off-by: Dev Jain <dev.jain@arm.com>
+> >>> Signed-off-by: Nico Pache <npache@redhat.com>
+> >>> ---
+> >>> include/trace/events/huge_memory.h |   3 +-
+> >>> mm/khugepaged.c                    | 117 ++++++++++++++++++++---------
+> >>> 2 files changed, 85 insertions(+), 35 deletions(-)
+> >>>
+> >>> diff --git a/include/trace/events/huge_memory.h b/include/trace/events/huge_memory.h
+> >>> index bcdc57eea270..443e0bd13fdb 100644
+> >>> --- a/include/trace/events/huge_memory.h
+> >>> +++ b/include/trace/events/huge_memory.h
+> >>> @@ -39,7 +39,8 @@
+> >>> 	EM( SCAN_STORE_FAILED,		"store_failed")			\
+> >>> 	EM( SCAN_COPY_MC,		"copy_poisoned_page")		\
+> >>> 	EM( SCAN_PAGE_FILLED,		"page_filled")			\
+> >>> -	EMe(SCAN_PAGE_DIRTY_OR_WRITEBACK, "page_dirty_or_writeback")
+> >>> +	EM(SCAN_PAGE_DIRTY_OR_WRITEBACK, "page_dirty_or_writeback")	\
+> >>> +	EMe(SCAN_INVALID_PTES_NONE,	"invalid_ptes_none")
+> >>>
+> >>> #undef EM
+> >>> #undef EMe
+> >>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> >>> index f68853b3caa7..27465161fa6d 100644
+> >>> --- a/mm/khugepaged.c
+> >>> +++ b/mm/khugepaged.c
+> >>> @@ -61,6 +61,7 @@ enum scan_result {
+> >>> 	SCAN_COPY_MC,
+> >>> 	SCAN_PAGE_FILLED,
+> >>> 	SCAN_PAGE_DIRTY_OR_WRITEBACK,
+> >>> +	SCAN_INVALID_PTES_NONE,
+> >>> };
+> >>>
+> >>> #define CREATE_TRACE_POINTS
+> >>> @@ -353,37 +354,60 @@ static bool pte_none_or_zero(pte_t pte)
+> >>>  * PTEs for the given collapse operation.
+> >>>  * @cc: The collapse control struct
+> >>>  * @vma: The vma to check for userfaultfd
+> >>> + * @order: The folio order being collapsed to
+> >>>  *
+> >>>  * Return: Maximum number of none-page or zero-page PTEs allowed for the
+> >>>  * collapse operation.
+> >>>  */
+> >>> -static unsigned int collapse_max_ptes_none(struct collapse_control *cc,
+> >>> -		struct vm_area_struct *vma)
+> >>> +static int collapse_max_ptes_none(struct collapse_control *cc,
+> >>> +		struct vm_area_struct *vma, unsigned int order)
+> >>> {
+> >>> +	unsigned int max_ptes_none = khugepaged_max_ptes_none;
+> >>> 	// If the vma is userfaultfd-armed, allow no none-page or zero-page PTEs.
+> >>
+> >> One thing I still want to call out: kernel code usually uses C-style
+> >> comments :)
+> >>
+> >>> 	if (vma && userfaultfd_armed(vma))
+> >>> 		return 0;
+> >>> 	// for MADV_COLLAPSE, allow any none-page or zero-page PTEs.
+> >>> 	if (!cc->is_khugepaged)
+> >>> 		return HPAGE_PMD_NR;
+> >>> -	// For all other cases repect the user defined maximum.
+> >>> -	return khugepaged_max_ptes_none;
+> >>> +	// for PMD collapse, respect the user defined maximum.
+> >>> +	if (is_pmd_order(order))
+> >>> +		return max_ptes_none;
+> >>> +	/* Zero/non-present collapse disabled. */
+> >>> +	if (!max_ptes_none)
+> >>> +		return 0;
+> >>> +	// for mTHP collapse with the sysctl value set to KHUGEPAGED_MAX_PTES_LIMIT,
+> >>> +	// scale the maximum number of PTEs to the order of the collapse.
+> >>> +	if (max_ptes_none == KHUGEPAGED_MAX_PTES_LIMIT)
+> >>> +		return (1 << order) - 1;
+> >>> +
+> >>> +	// We currently only support max_ptes_none values of 0 or KHUGEPAGED_MAX_PTES_LIMIT.
+> >>> +	// Emit a warning and return -EINVAL.
+> >>> +	pr_warn_once("mTHP collapse only supports max_ptes_none values of 0 or %u\n",
+> >>> +		      KHUGEPAGED_MAX_PTES_LIMIT);
+> >>
+> >> Maybe fallback to 0 instead, as David suggested earlier?
+> >>
+> >
+> > It looks reasonable to fallback to 0.
+> >
+> > But as the updated Document says in patch 14:
+> >
+> >   For mTHP collapse, only 0 or (HPAGE_PMD_NR - 1) are supported. Any other
+> >   value will emit a warning and no mTHP collapse will be attempted.
+> >
+> > This is why it does like this now.
+> >
+> >     mthp_collapse()
+> >         max_ptes_none = collapse_max_ptes_none();
+> >         if (max_ptes_none < 0)
+> >             return collapsed;
+> >
+> >> max_ptes_none is mostly legacy PMD THP behavior. mTHP is new, and any
+> >> intermediate value in (0, KHUGEPAGED_MAX_PTES_LIMIT) would implicitly
+> >> disable it :(
+> >>
+> >
+> > So it depends on what we want to do here :-)
+> >
+> > For me, I would vote for fallback to 0.
+>
+> At this point I'll prefer to not return errors from collapse_max_ptes_none().
+> It's just rather awkward to return an error deep down in collapse code for a
+> configuration problem.
+>
+> For mthp collapse, we only support max_ptes_none==0 and
+> max_ptes_none=="HPAGE_PMD_NR - 1" (default).
+>
+> If another value is specified while collapsing mTHP, print a warning and treat
+> it as 0 (save value, no creep, no memory waste).
+>
+> In a sense, this is similar to how we handle max_ptes_shared + max_ptes_swap:
+> for mTHP: we always treat them as being 0 for mTHP collapse (and don't issue a
+> warning, because we would issue a warning with the default settings).
+>
+> @Lorenzo, fine with you?
 
-Add a selftest for the command. The test writes a dummy value to
-current_value, executes the update command, and verifies that the dummy
-value is successfully overwritten by the kernel.
+Yes 100%, this sounds sensible both in terms of the error and the default. Let's
+keep our lives simple(-ish) please :)
 
-Assisted-by: Antigravity:Gemini-3.1-Pro
-Signed-off-by: Maksym Shcherba <maksym.shcherba@lnu.edu.ua>
----
- tools/testing/selftests/damon/Makefile        |  1 +
- .../damon/sysfs_update_schemes_quota_goals.py | 86 +++++++++++++++++++
- 2 files changed, 87 insertions(+)
- create mode 100755 tools/testing/selftests/damon/sysfs_update_schemes_quota_goals.py
+>
+> --
+> Cheers,
+>
+> David
 
-diff --git a/tools/testing/selftests/damon/Makefile b/tools/testing/selftests/damon/Makefile
-index 2180c328a825..a692ebaa6c8a 100644
---- a/tools/testing/selftests/damon/Makefile
-+++ b/tools/testing/selftests/damon/Makefile
-@@ -13,6 +13,7 @@ TEST_PROGS += sysfs.py
- TEST_PROGS += sysfs_update_schemes_tried_regions_wss_estimation.py
- TEST_PROGS += damos_quota.py damos_quota_goal.py damos_apply_interval.py
- TEST_PROGS += damos_tried_regions.py damon_nr_regions.py
-+TEST_PROGS += sysfs_update_schemes_quota_goals.py
- TEST_PROGS += reclaim.sh lru_sort.sh
- 
- # regression tests (reproducers of previously found bugs)
-diff --git a/tools/testing/selftests/damon/sysfs_update_schemes_quota_goals.py b/tools/testing/selftests/damon/sysfs_update_schemes_quota_goals.py
-new file mode 100755
-index 000000000000..745b97f75bc2
---- /dev/null
-+++ b/tools/testing/selftests/damon/sysfs_update_schemes_quota_goals.py
-@@ -0,0 +1,86 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+
-+"""
-+Test the update_schemes_quota_goals sysfs command.
-+
-+Start DAMON with a scheme that has a some_mem_psi_us quota goal.  Write a
-+physically impossible dummy value to the goal's current_value sysfs file.
-+Wait for a while, ensure the dummy value is not overwritten asynchronously,
-+then write 'update_schemes_quota_goals' to the state file and verify that
-+the dummy value is overwritten by the kernel.
-+"""
-+
-+import os
-+import time
-+
-+import _damon_sysfs
-+
-+
-+def main():
-+    goal = _damon_sysfs.DamosQuotaGoal(
-+            metric=_damon_sysfs.qgoal_metric_some_mem_psi_us,
-+            target_value=1000)
-+    kdamonds = _damon_sysfs.Kdamonds([_damon_sysfs.Kdamond(
-+            contexts=[_damon_sysfs.DamonCtx(
-+                ops='paddr',
-+                schemes=[_damon_sysfs.Damos(
-+                    action='stat',
-+                    quota=_damon_sysfs.DamosQuota(
-+                        goals=[goal], reset_interval_ms=100),
-+                    )]  # schemes
-+                )]  # contexts
-+            )])  # kdamonds
-+
-+    err = kdamonds.start()
-+    if err is not None:
-+        print('kdamond start failed: %s' % err)
-+        exit(1)
-+
-+    # Write a dummy value to current_value to ensure the command actually
-+    # overwrites it. We use 2x the quota reset interval in microseconds,
-+    # which is a physically impossible value for the kernel to measure.
-+    impossible_value = goal.quota.reset_interval_ms * 2000
-+    err = _damon_sysfs.write_file(
-+            os.path.join(goal.sysfs_dir(), 'current_value'),
-+            '%d' % impossible_value)
-+    if err is not None:
-+        kdamonds.stop()
-+        print('Writing dummy current_value failed: %s' % err)
-+        exit(1)
-+
-+    # wait a couple of aggregation intervals so that the kernel has a chance
-+    # to compute the first current_value measurement
-+    time.sleep(0.5)
-+
-+    content, err = _damon_sysfs.read_file(
-+            os.path.join(goal.sysfs_dir(), 'current_value'))
-+    if err is not None:
-+        kdamonds.stop()
-+        print('Reading current_value before update failed: %s' % err)
-+        exit(1)
-+    if int(content) != impossible_value:
-+        kdamonds.stop()
-+        print('current_value changed before update (%s)' % content)
-+        exit(1)
-+
-+    err = kdamonds.kdamonds[0].update_schemes_quota_goals()
-+    if err is not None:
-+        kdamonds.stop()
-+        print('update_schemes_quota_goals failed: %s' % err)
-+        exit(1)
-+
-+    # current_value must be updated and different from our dummy value
-+    if goal.current_value is None or goal.current_value == impossible_value:
-+        kdamonds.stop()
-+        print('update_schemes_quota_goals failed to update current_value')
-+        exit(1)
-+
-+    print('current_value after update_schemes_quota_goals: %d' %
-+          goal.current_value)
-+
-+    kdamonds.stop()
-+
-+
-+if __name__ == '__main__':
-+    main()
--- 
-2.43.0
-
+Cheers, Lorenzo
