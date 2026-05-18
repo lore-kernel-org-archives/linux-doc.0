@@ -1,116 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp05-ext.udag.de (smtp05-ext.udag.de [62.146.106.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136D93C5540;
-	Mon, 18 May 2026 06:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1963D2ED84A;
+	Mon, 18 May 2026 07:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779087361; cv=none; b=ERjy8wBKImCuCGxshEPyi259aQUHjCGuGXsjSHOScrg4qwwhrgZ1Hd7UeaKbu+aaJZZwia1xuS//hCT653LVCFroaJ7htaguXxV2vcuVXO2U+uwxu7BlA+v86ywuFg1zcd22V46DPD2C61geR4Kw8TqEEtHCj5XmXXqE0vmbXoA=
+	t=1779087723; cv=none; b=GJOI6TbcBH3sqxCgoAdLF+XKWP8KVCGrrCQUZ/WSyUMTz3y7pJkiFF99igEe4wIyqQZm1x9yDCY8fDCHNQEKCFXFQav2eGTsf9GCO9A+OxRsYB+NWiOxsGaz15lbcCvoPM7qnMY6aiuO02Ughtv77Sj2Txw2cHiYOlTiiOLMSXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779087361; c=relaxed/simple;
-	bh=o7dvWOoDxJoqk2pHywtA9JSXlbLLMaNNcTzFjnfj+Jk=;
+	s=arc-20240116; t=1779087723; c=relaxed/simple;
+	bh=RvOMmhfPP7Qb2P8FlsKpgoTLMwWUYwf9ehjYpkJdVoI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nzyr2yXrYaogmwid2AOD2OqYSFLcQEOiSc2YPcUkdSBYycIp6RgNJTva6uMujVnhV76pHkQ0S4Lv8i5G3HKhuVcBWC7MOPCm+q4KFk8wzIWTwp+ZRxJJJ1/YHBxuqx8CP2eGrVoZanWYpdVQ7LJGRCRlEbQx/rHyNGis6XWAsJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBEAy425; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBEAy425"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E94F3C2BCB7;
-	Mon, 18 May 2026 06:55:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779087360;
-	bh=o7dvWOoDxJoqk2pHywtA9JSXlbLLMaNNcTzFjnfj+Jk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nBEAy425sh60FdXG3PK9Hl5HHmR4JhLGLkssLELCmAl6bLVf2uoZT9DlFjrBdwUOr
-	 iPfrb/zNRGIbEw5MvkdWEHn8q9hpCzXM89p5Eh0zCbZWYKLA5OQFQDbLaGF4DiqNsx
-	 zJKMRlYVC5OMdTqQz0LhOSYUJpWk1ykdqIsnUjH9EeY5aVmMnsIak3HhyAh2Zwj230
-	 XNquFayYEnkmYsxqti+gH/xiwDlCZHDReM+yHYJXq7nqnJbiS2qeiIQytSvEmXNEAw
-	 41STb/iOBY3qwPcjq8FwSnfB1RrgHS3q3+J3DY9cymgBqa5YCBmuBqY6sLXjcMgzsR
-	 3JaQQwY6GZZ2A==
-Date: Mon, 18 May 2026 08:55:58 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
-	workflows@vger.kernel.org, linux-arch@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-csky@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Hu Haowen <2023002089@link.tyut.edu.cn>, Dinh Nguyen <dinguyen@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
-	Dave Penkler <dpenkler@gmail.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Subject: Re: [PATCH] nios2: remove the architecture
-Message-ID: <agq3nMVq5x4SyBAV@monoceros>
-References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hv0jlPxi79XC9k0bpU7hsgwEuc/TVRBBRa2Srhh7QZoJMMoHVyGq2d3+miYeqKNDSv/Eeq2IBOk+rmYNWKCCQgthokUxYfzcSuN/qbqkMsKgcFUTo0iqlbtc72KHAy0+Khcb3VPYG2yyGBH5DuHpGjwINv99EBmD5d1+P1L+Bss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
+Received: from localhost (075-132-067-156.ip-addr.inexio.net [156.67.132.75])
+	by smtp05-ext.udag.de (Postfix) with ESMTPA id 45979E04B4;
+	Mon, 18 May 2026 09:01:57 +0200 (CEST)
+Authentication-Results: smtp05-ext.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
+Date: Mon, 18 May 2026 09:01:56 +0200
+From: Horst Birthelmer <horst@birthelmer.de>
+To: NeilBrown <neil@brown.name>
+Cc: Horst Birthelmer <horst@birthelmer.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Horst Birthelmer <hbirthelmer@ddn.com>
+Subject: Re: Re: [PATCH] dcache: add fs.dentry-limit sysctl with
+ negative-first reaper
+Message-ID: <agq1xnx2lMvA22BL@fedora.fritz.box>
+References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
+ <177906210551.3947082.4313294634549021141@noble.neil.brown.name>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="v3mrrmanqdjd4jn4"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260518042833.272221-1-enelsonmoore@gmail.com>
+In-Reply-To: <177906210551.3947082.4313294634549021141@noble.neil.brown.name>
 
+On Mon, May 18, 2026 at 09:55:05AM +1000, NeilBrown wrote:
+> On Fri, 15 May 2026, Horst Birthelmer wrote:
+> > From: Horst Birthelmer <hbirthelmer@ddn.com>
+> > 
+> > The dcache only shrinks under memory pressure, which is rarely reached
+> > on machines with ample RAM, so cached negative dentries can accumulate
+> > without bound.  Give administrators a soft cap they can set,
+> > and a background worker that prefers negative dentries when reclaiming.
+> > 
+> > Two new sysctls under /proc/sys/fs/:
+> > 
+> >   dentry-limit             -- soft cap on nr_dentry.  0 (default)
+> >                               disables the feature; behaviour is then
+> >                               identical to before.
+> 
+> Is a system-wide cap really a suitable tool?  What guidance would you
+> give to sysadmins who are considering setting a number?
 
---v3mrrmanqdjd4jn4
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] nios2: remove the architecture
-MIME-Version: 1.0
+I know it is a rhetorical question ... nevertheless
+It's a soft cap, so it depends on the number of open files usually floating 
+around on the machine. It even depends on the file systems. That was actually
+my motivation (more than the negative entries). Some cache entries are 
+expensive for our fuse server due to our DLM usage and private data 
+held in user space.
 
-Hello,
+> Is there a better approach?
 
-On Sun, May 17, 2026 at 09:28:33PM -0700, Ethan Nelson-Moore wrote:
-> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-> index 6f3147518376..d8145f369ec3 100644
-> --- a/drivers/pwm/Kconfig
-> +++ b/drivers/pwm/Kconfig
-> @@ -131,7 +131,7 @@ config PWM_ATMEL_TCB
-> =20
->  config PWM_AXI_PWMGEN
->  	tristate "Analog Devices AXI PWM generator"
-> -	depends on MICROBLAZE || NIOS2 || ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_INTE=
-L_SOCFPGA || COMPILE_TEST
-> +	depends on MICROBLAZE || ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_INTEL_SOCFPGA=
- || COMPILE_TEST
->  	select REGMAP_MMIO
->  	help
->  	  This enables support for the Analog Devices AXI PWM generator.
-> diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-> index 5a40252b8334..edc8c96d91b6 100644
+After reading your thoughts and those of the others who have taken the time
+to revisit this, I think there is no better solution in the VFS layer.
 
-Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org> # for pwm
+Since 2025 (commit 395b95530343e) shrink_dentry_list() is an exported symbol 
+and that can be used for a specific file system to do its own housekeeping. 
+This will probably be considered a misuse by some , but it would be more 
+specific and better controllable especially from filesystems where certain
+cache entries are more expensive than others and/or running in user space (FUSE).
 
-Best regards
-Uwe
+> 
+> According to the email you linked, a problem arises when a directory has
+> a great many negative children.  Code which walks the list of children
+> (such as fsnotify) while holding a lock can suffer unpredictable delays
+> and result in long lock-hold times.  So maybe a limit on negative
+> dentries for any parent is what we really want.  That would be clumsy to
+> implement I imagine.
+> 
+> But what if we move dentries to the end of the list when they become
+> negative, and to the start of the list when they become positive?  Then
+> code which walks the child list could simply abort on the first
+> negative.
+> 
+> I doubt that would be quite as easy as it sounds, but it would at least
+> be more focused on the observed symptom rather than some whole-system
+> number which only vaguely correlates with the observed symptom.
+> 
+> Maybe a completely different approach: change children-walking code to
+> drop and retake the lock (with appropriate validation) periodically.
+> What too would address the specific symptom.
+> 
+> Thanks for attempting to resolve this issue, but I'm not convinced that
+> you have found a good solution yet.
 
---v3mrrmanqdjd4jn4
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks for the clear words. I realy appreciate it!
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmoKt+8ACgkQj4D7WH0S
-/k6D+wf/c3PPUzT+ilOfvLDq6xQ9mwqwWCSp0mpgj+sKStF3zLW22/Jxh8uQfgJz
-ZxNzeVpp3RcvofNMMm9NFY7fAJ1PB+bqLcKvHzxUCFe5c6VAocZOm+H+6jrnvcGM
-tKehUuFKbRlgdS1XjOXmRn9CuXP4HU7Jm0kFysqDtNt0Zl8gGYQgubZ2Z34XrBIu
-msmr1l3QT1BMbE7uRR5crgqH4HHvMpZqR0RehrX2/c1VY8HWEujhEkufhcMZMrvx
-Vmuf0f4bdeu4oIwwFMXmijr6ySoxRBKluXwjFOMUa8ZqhyhLFSr6lOhX8pXD+rOr
-+brUNxnEjv3MpJArRnZswn7AfSGXWw==
-=83W7
------END PGP SIGNATURE-----
-
---v3mrrmanqdjd4jn4--
+> 
+> NeilBrown
+> 
