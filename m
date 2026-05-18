@@ -1,123 +1,110 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E6D264A97
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 14:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A801F2E2852;
+	Mon, 18 May 2026 14:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779115809; cv=none; b=Z8+2NwOof+gs/7+ZdxhosFgfDaYCoSGIYgTB2YCCYk2NVatwWsjib57FtNlxFrNCfyHK2YppSWh0EDt47kD0nfyq0MAGIc4dDETRQiMug+ZhsPh7Bia2ePe+cxo/vASTkRzKVN/VIne/nPwimG/qh6oUgxKK036wPWz7hPsz+fw=
+	t=1779116371; cv=none; b=buCZbPnswleu9iMCm7okU/4PGjyQROXi+l8adajBNMaTll1ZiNpFV0wAC1OFas1njAkU3PzKAzA2gonzMjQq5faTYImtuvl7oJOaJzsQBENJm/4/lu8ZWPhHFqWDWvO6gm1rNUNUfcLKCwxSk6tIV2m8y9GGMTuJEhpriz3D8Ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779115809; c=relaxed/simple;
-	bh=oURhpEBlAycUWGbt4NLTrrptb/5bAJzXmY4fgpuMNSI=;
+	s=arc-20240116; t=1779116371; c=relaxed/simple;
+	bh=4Lgn6t0fuYFERzWq8cSTuFDDHPDJwNAV4U5PBWaO7/s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RlkyyZ986oX4GgwGGtVdG/WGWN9uRBFo780y1AlfrrKJ+iLMBshzCgk5ujvzEXxDcGQlavpj9JgnwGbps14VSAixAFpdyYMV8aACfTduf1FI4AlQQ+gUOA8B00D9r6U+1WmAPxwv0IjyZQYmaZKQW5m/r0JmeWoZzDJhsXr2gHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GGDI55Jj; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=soEHtyAu/VzSkn/oycgnCZbuAxGTpNbpVANatk2/laTvMwmIRJGoWivK8gxEeo2kUZLjkj9LMIxGuFZ7ztlvyuGpi0L1mkAvdIVrirHnN/DLcortcov4NlqKKYAQdk0LiTP9e2GEZ6wMSsISjwdoJ+zilFlUfTC/hNdzuA6W5us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=DXjbUy/A; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GGDI55Jj"
-Message-ID: <51db205d-77cf-416f-bfe5-fd9d0b12c433@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779115804;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DXjbUy/A"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gK1D76l2tz9vRv;
+	Mon, 18 May 2026 16:59:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1779116360;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G4JAT+Wv/wwNQKfA8xAYYX6sfEdDyGrZpZJWJ9wvC6o=;
-	b=GGDI55JjKEWW58pLJGuEuk13mpMWz2AZW3HUCXipMsnflKZs31jdktebMCfBgPW9nmuzTY
-	ZYmzrf6bs0k7XjgXrnImxn9WjNZNHKzB4lrc7ZZwSVGza9GdmjDhHFTot3DH8zZ5yqjGl4
-	DiJ3oqFstsnOR3UmclsnOEO4xKuhJCQ=
-Date: Mon, 18 May 2026 22:49:29 +0800
+	bh=xEoW7QI8tOR5iNVRlAhv7eG6k5IqVBNzfswNCeXalc0=;
+	b=DXjbUy/AOTZW3zBiwywU8iZ3jrmaRsxLyz+8KUrE7j9hQKSmrki6ROAGhHAM6WedaoyvhQ
+	9jSe5+nmE9VcOnf0+fm7/54Zjf+jtSjDOd+/7I7qVefYGPD2zPDnWpw+07awWynVUM2FE1
+	hRW1PZDSxyC7Ni81aCUPphUPUiSg3BWb0svS/bDMm4aevBsDHCf3BtFT4l6ibHVkm2NtQg
+	SsqgMevsPLEGZ6vImSVOcBt/o0pTsjHQDAOrMP+RI+r0qDrz6Sk+Ei5sRhDsYCKFhjLTTc
+	TbQNJtDMQ/4IQ5ZGYZ1zzoQPJuGqIfp3KGz3Z1ihsIuflzN8G1UZXUqZmgRsAw==
+Message-ID: <1162f62e-9c65-446b-9788-bb289a202e6e@mailbox.org>
+Date: Mon, 18 May 2026 16:59:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH mm-unstable v17 02/14] mm/khugepaged: generalize
- alloc_charge_folio()
-Content-Language: en-US
-To: Usama Arif <usama.arif@linux.dev>, Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
- akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
- catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
- dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
- gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz,
- jackmanb@google.com, jannh@google.com, jglisse@google.com,
- joshua.hahnjy@gmail.com, kas@kernel.org, liam@infradead.org, ljs@kernel.org,
- mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
- mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
- rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
- richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
- rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
- sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
- tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
- vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
- willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-References: <20260518115553.3513034-1-usama.arif@linux.dev>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <20260518115553.3513034-1-usama.arif@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Julian Orth <ju.orth@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+ <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com>
+ <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
+ <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 4nag1dydo76jap3z98ifcc9bkczk6f9r
+X-MBO-RS-ID: da9341ae0f9ef38a13e
 
-
-
-On 2026/5/18 19:55, Usama Arif wrote:
-[...]
->> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->> index 979885694351..f0e29d5c7b1f 100644
->> --- a/mm/khugepaged.c
->> +++ b/mm/khugepaged.c
->> @@ -1068,21 +1068,26 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
->>   }
->>   
->>   static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_struct *mm,
->> -		struct collapse_control *cc)
->> +		struct collapse_control *cc, unsigned int order)
->>   {
->>   	gfp_t gfp = (cc->is_khugepaged ? alloc_hugepage_khugepaged_gfpmask() :
->>   		     GFP_TRANSHUGE);
->>   	int node = collapse_find_target_node(cc);
->>   	struct folio *folio;
->>   
->> -	folio = __folio_alloc(gfp, HPAGE_PMD_ORDER, node, &cc->alloc_nmask);
->> +	folio = __folio_alloc(gfp, order, node, &cc->alloc_nmask);
->>   	if (!folio) {
->>   		*foliop = NULL;
->> -		count_vm_event(THP_COLLAPSE_ALLOC_FAILED);
->> +		if (is_pmd_order(order))
->> +			count_vm_event(THP_COLLAPSE_ALLOC_FAILED);
->> +		count_mthp_stat(order, MTHP_STAT_COLLAPSE_ALLOC_FAILED);
->>   		return SCAN_ALLOC_HUGE_PAGE_FAIL;
->>   	}
->>   
->> -	count_vm_event(THP_COLLAPSE_ALLOC);
->> +	if (is_pmd_order(order))
->> +		count_vm_event(THP_COLLAPSE_ALLOC);
->> +	count_mthp_stat(order, MTHP_STAT_COLLAPSE_ALLOC);
->> +
+On 5/18/26 14:41, Christian König wrote:
+> On 5/18/26 14:02, Julian Orth wrote:
+>> On Mon, May 18, 2026 at 1:58 PM Christian König
+>> <christian.koenig@amd.com> wrote:
+>>> On 5/16/26 13:06, Julian Orth wrote:
+>>>> This series adds a new device /dev/syncobj that can be used to create
+>>>> and manipulate DRM syncobjs. Previously, these operations required the
+>>>> use of a DRM device and the device needed to support the DRIVER_SYNCOBJ
+>>>> and DRIVER_SYNCOBJ_TIMELINE features.
+>>>>
+>>>> There are several issues with the existing API:
+>>>>
+>>>> - Syncobjs are the only explicit sync mechanism available on wayland.
+>>>>   Most compositors do not use GPU waits. Instead, they use the
+>>>>   DRM_IOCTL_SYNCOBJ_EVENTFD ioctl to perform a CPU wait. Being tied to
+>>>>   DRM devices means that compositors cannot consistently offer this
+>>>>   feature even though no device-specific logic is involved.
+>>>
+>>> Well the drm_syncobj is a container for device specific dma fences.
+>>
+>> Not necessarily. The DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL ioctl attaches
+>> some kind of dummy fence that is already signaled. I don't believe
+>> this is device specific. That is also the path that llvmpipe would
+>> use.
 > 
-> The vmstat THP_COLLAPSE_ALLOC counter is pmd order only.
-> But after this we have
+> Yeah I feared that.
 > 
-> 	count_memcg_folio_events(folio, THP_COLLAPSE_ALLOC, 1);
-> 
-> which is not being guarded with is_pmd_order().
+> This is the wait before signal path and if I'm not completely mistaken that one is not supported by a lot of compositors.
 
-Good catch!
+Where did you get that impression from?
 
-> 
-> I think we want this to be pmd order only as well so that
-> the meaning of the vmstat and cgroup counter remains the same?
+It's arguably the main point of the syncobj Wayland protocol extension, which is supported by all major compositors (except Weston, where it's still a pending MR).
 
-Agreed. THP_COLLAPSE_ALLOC should remain PMD order only for
-vmstat and memcg events.
 
-So this should be guarded with is_pmd_order() as well :)
+> So as far as I can see using drm_syncobj for software rendering really doesn't make sense, eventfd is a much better fit for that use case.
 
-Cheers, Lance
+I agree with Julian's rebuttal to that.
+
+
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
