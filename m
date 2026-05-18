@@ -1,152 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB253C455B;
-	Mon, 18 May 2026 07:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B288B3AF666;
+	Mon, 18 May 2026 07:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779088518; cv=none; b=LPggO9lFlVevJbwaCKDdjhmaO0qnwvyKRvLFKsJnbZbhMOPTIDEsqJ7u8HoFj47R2qYrpsQurIpK5lp3cdGTnWG31kEQucVdNNjIde9k1dmR/HXtztPZwpcaCoLmx778UWl7IT9ZASx6uhPVajpAsloQVqVeKDxVal7EIUGDhpU=
+	t=1779088624; cv=none; b=cmfMBVdCUcahXBGytCv6JjupuXyIBA5WPK+94HPJMB0gnXEZbxoz6EkBE98X7BjMn1rCyT8wHKin+JaRgtImM6OO8rKAocAsJFiH2gTjKeae0xGGCq0xamIqxvpXCTSNebODBVwZ0MzOcCr2GicMQGKhD806IVf+7PltCWgDpEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779088518; c=relaxed/simple;
-	bh=n7/YL3GElLBfX4jr0KLAsez9u8gpICuLSYYSFrl/+cA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VFt1XdIqu9MentljnCFNEJ1BmVqh6QOBLmmk8MCmBN6e0AoKVLO0aCDW0h/lbg6hs7+RsGScAOWSzmBSVRXeCmDTRrUZ0/0xc+HIbG8AQT+QY2cRoCephflMkZqMFn0ntscXZjmYFG/4tdEySaEnxIaK9f11gPPU49Xr1D9P9l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W0ka2vxW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779088624; c=relaxed/simple;
+	bh=KqXz31fFcllBghfI8pU+i0+gahHJxk311r9iPzSXzpE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=R6tHyhlbrAK6F7kj4ZB+SQJO/4TsgIvsQOW4afcOisudq8IWSEAR0g4W/KwKHecjX/tSAAvMBYSU9QusyWqCRw5v5RmxEA2NLF4woUqsHilD6BX101YmolxotK8E4k1jB8qt8fWGfTL4J2rw0P/ApvYLMBQyCuW+FOOTWRxyhWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Ro/navyn; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W0ka2vxW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07C9FC2BCC9;
-	Mon, 18 May 2026 07:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779088517;
-	bh=n7/YL3GElLBfX4jr0KLAsez9u8gpICuLSYYSFrl/+cA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W0ka2vxWYwc3CRzbeajOPL2FKgeOQQAeLvaOCODyJkV3OjYGRUVC+B1/jL8GfNVpb
-	 p29b3ZNy/XeZEqX85paVN0ks97ellsE8nqFUnhNuoBWUTgP2e7ZWfi+LJ/6ORbDB/y
-	 mOtbejVQdAuPD4o20n9X7mIp+ncOetIhH+wk0iIRpAjRoo+Te0Fxrl3x/JC5x2van7
-	 Z/JVrChg/4ioCn+RJLWO7LmDLfr+b0hscswX9n3XBLe60QC+Q+ixxAChB57kDS4Gzf
-	 rQHwMoxESIRsOxGH51QcsbQoEF6Gv5GLtde2dLOpCFcGdqc7nqyPyxs9f7n8TaGu1b
-	 ydQep04jp2OyQ==
-Message-ID: <d2f4cb7d-5c3e-4b9a-86ca-04262cbb9775@kernel.org>
-Date: Mon, 18 May 2026 09:15:11 +0200
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Ro/navyn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1779088614;
+	bh=KqXz31fFcllBghfI8pU+i0+gahHJxk311r9iPzSXzpE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Ro/navyn0/DVaD7IcAs2bwN9U0+qbMBiTf0oUjhMcD0ROwgB/USIvQN1YZMsz174L
+	 qBnN+vWuGWz1lVeR2jYgmElu1mjPxSMMGXIGAjsej3MU7FVBjkaUWJZstMBCZOlCyO
+	 Lv4cAJJONcuvfiREYLHFMuSa+lE3sWIqJRj8ubGV6P0FReLdNK4Fk54j0akWhe7mYb
+	 Ym19npygDaWlq5bpJbStix+kkZv9vaF6FznF0nLYxsVhvf2siW6oSF6AwFgJReakda
+	 iiCScxbzTpDsRQNchfi+ZPOY5WefpAq+Cs+QuebRutmtjhkxc98uX1vYr3I/U2XKv+
+	 5Ebczo3CckW+Q==
+Received: from fedora (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id BDEFE17E04E2;
+	Mon, 18 May 2026 09:16:53 +0200 (CEST)
+Date: Mon, 18 May 2026 09:16:50 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, Marcin =?UTF-8?B?xZpsdXNhcno=?=
+ <marcin.slusarz@arm.com>, Ketil Johnsen <ketil.johnsen@arm.com>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Steven Price
+ <steven.price@arm.com>, Daniel Almeida <daniel.almeida@collabora.com>,
+ Alice Ryhl <aliceryhl@google.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Florent Tomasin <florent.tomasin@arm.com>, nd@arm.com
+Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
+ allocation in panthor
+Message-ID: <20260518091650.5a7a4f4a@fedora>
+In-Reply-To: <CAPaKu7QC7FdjL6m_OSb+E5aYKs6bmT-9DAHc5PC=XctCmRph2Q@mail.gmail.com>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+	<20260505140516.1372388-5-ketil.johnsen@arm.com>
+	<20260505181523.49a3d85c@fedora>
+	<afxVIuVVPisBQ9p_@e129842.arm.com>
+	<20260507135356.5428d50d@fedora>
+	<agMvb_jeRsO7tSS-@e142607>
+	<20260512161111.0cb7000e@fedora>
+	<agNJasayW8VCHTiU@e142607>
+	<CAPaKu7QC7FdjL6m_OSb+E5aYKs6bmT-9DAHc5PC=XctCmRph2Q@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 03/11] dt-bindings: mfd: add documentation for S2MU005
- PMIC
-To: Conor Dooley <conor@kernel.org>,
- Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Nam Tran <trannamatk@gmail.com>, =?UTF-8?B?xYF1a2FzeiBMZWJpZWR6acWEc2tp?=
- <kernel@lvkasz.us>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260515-s2mu005-pmic-v6-0-1979106992d4@disroot.org>
- <20260515-s2mu005-pmic-v6-3-1979106992d4@disroot.org>
- <20260515-justly-recite-6028f4bfb24a@spud>
- <DIJK5FTQ5KWG.HOKZAOXHTGU7@disroot.org>
- <20260516-esquire-chitchat-0fffa597e2f3@spud>
- <DIKZ5L2HC2CV.YL3MZUJQ2EV6@disroot.org>
- <20260517-corrode-tuesday-a598ca734b38@spud>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260517-corrode-tuesday-a598ca734b38@spud>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 17/05/2026 22:52, Conor Dooley wrote:
-> On Sun, May 17, 2026 at 06:39:37PM +0530, Kaustabh Chakraborty wrote:
->>>>>>> +
->>>>>> +    properties:
->>>>>> +      compatible:
->>>>>> +        const: samsung,s2mu005-rgb
->>>>>> +
->>>>>> +    required:
->>>>>> +      - compatible
->>>>>> +
->>>>>> +    unevaluatedProperties: false
->>>>>> +
->>>>>> +  reg:
->>>>>> +    maxItems: 1
->>>>>
->>>>> Move this above the child nodes please.
->>>>
->>>> But properties are sorted in lex order?
->>>
->>> Typically the binding is sorted in the same order as properties go in
->>> nodes. Common stuff like reg/clocks/interrupts therefore send up above
->>> child nodes.
->>
->> So, do I change this? For one, I don't see the same being followed in
->> other schemas of samsung in the same dir (not that I'm trying to pose it
->> as an argument against your suggestion), and this was reviewed by
->> Krzysztof and is adderssed in v7.
-> 
-> If Krzysztof doesn't care, then I won't ask you to change it.
+On Wed, 13 May 2026 12:31:32 -0700
+Chia-I Wu <olvaffe@gmail.com> wrote:
 
-This builds on top of bindings for previous Samsung PMIC devices, so
-that's why it keeps the compatibles for children, I guess. No one
-complained about this at v1-v2 reviews, so when I joined reviewing in v3
-I did not, either.
+> On Tue, May 12, 2026 at 8:39=E2=80=AFAM Liviu Dudau <liviu.dudau@arm.com>=
+ wrote:
+> >
+> > On Tue, May 12, 2026 at 04:11:11PM +0200, Boris Brezillon wrote: =20
+> > > On Tue, 12 May 2026 14:47:27 +0100
+> > > Liviu Dudau <liviu.dudau@arm.com> wrote:
+> > > =20
+> > > > On Thu, May 07, 2026 at 01:53:56PM +0200, Boris Brezillon wrote: =20
+> > > > > On Thu, 7 May 2026 11:02:26 +0200
+> > > > > Marcin =C5=9Alusarz <marcin.slusarz@arm.com> wrote:
+> > > > > =20
+> > > > > > On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon wrote=
+: =20
+> > > > > > > > @@ -277,9 +286,21 @@ int panthor_device_init(struct panthor=
+_device *ptdev)
+> > > > > > > >                     return ret;
+> > > > > > > >     }
+> > > > > > > >
+> > > > > > > > +   /* If a protected heap name is specified but not found,=
+ defer the probe until created */
+> > > > > > > > +   if (protected_heap_name && strlen(protected_heap_name))=
+ { =20
+> > > > > > >
+> > > > > > > Do we really need this strlen() > 0? Won't dma_heap_find() fa=
+il is the
+> > > > > > > name is "" already? =20
+> > > > > >
+> > > > > > If dma_heap_find() will fail, then the whole probe with fail to=
+o.
+> > > > > > This check prevents that. =20
+> > > > >
+> > > > > Yeah, that's also a questionable design choice. I mean, we can
+> > > > > currently probe and boot the FW even though we never setup the
+> > > > > protected FW sections, so why should we defer the probe here? Can=
+'t we
+> > > > > just retry the next time a group with the protected bit is create=
+d and
+> > > > > fail if we can find a protected heap? =20
+> > > >
+> > > > The problem we have with the current firmware is that it does a num=
+ber of setup steps at "boot"
+> > > > time only. One of the steps is preparing its internal structures fo=
+r when it enters protected
+> > > > mode and it stores them in the buffer passed in at firmware loading=
+. We cannot later run the
+> > > > process when we have a group with protected mode set. =20
+> > >
+> > > No, but we can force a full/slow reset and have that thing
+> > > re-initialized, can't we? I mean, that's basically what we do when a
+> > > fast reset fails: we re-initialize all the sections and reset again, =
+at
+> > > which point the FW should start from a fresh state, and be able to
+> > > properly initialize the protected-related stuff if protected sections
+> > > are populated. Am I missing something? =20
+> >
+> > Right, we can do that. For some reason I keep associating the reset wit=
+h the
+> > error handling and not with "normal" operations. =20
+> I kind of hope we end up with either
+>=20
+>  - panthor knows the exact heap to use and fails with EPROBE_DEFER if
+> the heap is missing, or
+>  - panthor gets a dma-buf from userspace and does the full reset
+>    - userspace also needs to provide a dma-buf for each protected
+> group for the suspend buffer
+>=20
+> than something in-between. The latter is more ad-hoc and basically
+> kicks the issue to the userspace.
 
-I don't think the compatible should be here, but I also don't want to
-stall that patchset. I understand that it is inconsistent review from my
-side, because other similar patchsets receive comment to drop the
-compatible. But I don't think we will be fair asking to drop the
-compatible now, when we did not ask for that in the early versions at all.
+Indeed, the second option is more ad-hoc, but when you think about it,
+userspace has to have this knowledge, because it needs to know the
+dma-heap to use for buffer allocation that cross a device boundary
+anyway. Think about frames produced by a video decoder, and composited
+by the GPU into a protected scanout buffer that's passed to the KMS
+device. Why would the GPU driver be source of truth when it comes to
+choosing the heap to use to allocate protected buffers for the video
+decoder or those used for the display?
 
-Best regards,
-Krzysztof
+>=20
+> For the former, expressing the relation in DT seems to be the best,
+> but only if possible :-). Otherwise, a kconfig option (instead of
+> module param) should be easier to work with.
+>=20
+> Looking at the userspace implementation, can we also have an panthor
+> ioctl to return the heap to userspace?
+
+Yes, it's something we can add, but again, I'm questioning the
+usefulness of this: how can we ensure the heap used by panthor to
+allocate its protected FW buffers is suitable for scanout buffers
+(buffers that can be used by display drivers). There needs to be a glue
+leaving in usersland and taking the decision, and I'm not too sure
+trusting any of the component in the chain (vdec, gpu, display) is the
+right thing to do.
