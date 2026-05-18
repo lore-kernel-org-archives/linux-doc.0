@@ -1,127 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE553CC9F6;
-	Mon, 18 May 2026 10:49:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B113502AA
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 10:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779101390; cv=none; b=pBb+ixLEJfFhk1UuhOO8kMCCuwh/ho3acGsOXogkBEqMsREWUtHCBbciOit25vcEiAT5lSmGMUAtZnhV94AXlZzv+vwXia3B0S387MMs8Uz4TByyu977Vdxbkt9o9/QKW8LKLUrgloVStguUvSNLlypsdw9sLQdcQLHDK/9VFCI=
+	t=1779101761; cv=none; b=GehX1psYURgUeyn3sAkzT3SGvZJPJ7cps2iVaYq8LQjsckHf7JjPLO7mJBH8OjuqiIeX9w0l1NXI2ZBZykiTiKAyYDjEGtR61DaTX+D82VIrhORfVBtPJYQQzHjwgqpPbIbBsuUIcxBkdQNntCHMA0Y1VJBJf/oFbHP9cdLtXjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779101390; c=relaxed/simple;
-	bh=42jNNsHQpsQpdQu92rwfrOHOBcpmK94BPUkm62USyd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OkuwPOMzL326bvihT7wQt2XhxDIuQXQF/HUq/yf7EUnotP0+RoZMK/0go+OxB7nWQdqfK8XtjVLB/UA5hoB/HFJ28/2rAydEjlRvBMWRvr4IcOMulbUjbfHIN1UUa2BMN5i3GhkbZtMMUCJv+yI/x9iJZXqyUp1/SPR8SkLKKzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bvmkqrM+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779101761; c=relaxed/simple;
+	bh=hHrnrova4QOYv2M6dIOzxmlKptiDDDOXgFRyBRFswWM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h+zyrrNeU1qyFX6e2t9icxyy6bQfRPnXf0WOHuk3v4RH7uAStIcVSEhNyHIbiiJRJ9/5+1ZXrCcuNKVWRNXIDkIGiSPv048K6+EombQYUL5WYSWpvE8JdR6Xq6YEyagSffLqzJse9+MMaCO8xARnoDqjvbIsXxYkhHpqB2T/ZOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RJ+peLbN; arc=none smtp.client-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bvmkqrM+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC5DC2BCB7;
-	Mon, 18 May 2026 10:49:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1779101389;
-	bh=42jNNsHQpsQpdQu92rwfrOHOBcpmK94BPUkm62USyd4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bvmkqrM+eXFjvGXVjJHiwUCycK215Afb0uWDNVzd1/qkeeUmDxVKwfS8cLg9LcLFf
-	 gSI0Vp7+TKoFzL9pIp3Ga8zHUcTvD0kmsveZ2nd3ds7cGPM81D3VR4kwFq9v4CNLjR
-	 /m8B69I8qyU/qSTxlW0YVjITv6VzOn4aKpDD49W8=
-Date: Mon, 18 May 2026 12:49:03 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Shashank Balaji <shashank.mahadasyam@sony.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>,
-	Leo Yan <leo.yan@arm.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Rahul Bukte <rahul.bukte@sony.com>, linux-kernel@vger.kernel.org,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>, linux-modules@vger.kernel.org,
-	linux-tegra@vger.kernel.org, Sumit Gupta <sumitg@nvidia.com>
-Subject: Re: [PATCH v5 4/4] driver core: platform: set mod_name in driver
- registration
-Message-ID: <2026051849-life-almanac-224e@gregkh>
-References: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
- <20260518-acpi_mod_name-v5-4-705ccc430885@sony.com>
- <2026051827-curler-disjoin-c83f@gregkh>
- <agrqvIiNWrYtGvTk@JPC00244420>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RJ+peLbN"
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2f0ad52830cso2368877eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 03:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779101755; x=1779706555; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fv8cUffeX0YGsV9duS8FS6XTQ7kK/O4/YLY9appo4lw=;
+        b=RJ+peLbNbir3jr4971jUhuRTqRK6nzP9YseDMYD9dztemweAnGsdaqrP17cDKashmp
+         o1dTpZGyShDmnba8711ZeX7QRJ7RR1YbBwI/4rH9jNM0H/Yhe/9v1oLuaF4K1coMPPdt
+         1MjfkQ5qeZePNsQa2LbCuv/xZyhu0exD3HEpLYNCN9X48lnCP3QmJWnKJ/LEC44GoB64
+         m0kaSz7Q0ijMCW+dB8E3/IpcAOR6VvdWIwaF6jRyHKNMdujZJ82MG7lkadZV7Tun20yh
+         st0DZnwAXi4TjCrUnFaLwYzUi7HlUMP0rzZpXTGo8O/OAwaYTivMu1vFmaisdF2wbMcF
+         2UzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779101755; x=1779706555;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Fv8cUffeX0YGsV9duS8FS6XTQ7kK/O4/YLY9appo4lw=;
+        b=pKs7Shpx9oM6HOxwW1l4qUiTqyc6x7W3vwlakZjqAiKcdgg/Njjl0euXmYvWo8H7dT
+         QIyc99x/I1twdUVE63jfS+5VTXo3Q4MQZEpcbQ+It/1Uct27iRDatuIbe6arvY3o9/DS
+         6euox4cGhY0zSg1A+o5Tqxsr+rnbTudcd0gbEyzzBBgdI1T1rQ6deWqdl1cQ56XeAuBc
+         jR4v8OTBp6b/uCvpPCGA9j6hGVO2OzDz8a1n1nsfDFVSxs65GM0bbJVhxiX8nFUd8M/+
+         UvzeN3AEFy1LUvr6BS6SFJH6ERpK0mS+4/M983mRlno3yUhgmiBbnzorsJba1qqUmLcf
+         ANsQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8hfMAYFmm5EznkLp90ACJpalhtyUgIcNyWMYwxivw4toia/YqOiJdF6rYZduX7svIsQfMiCQhltSg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeobMKyMCoV6wrWBdXXRJbtOSSAWTf6qHSXv3QEFtdKhSTY/oy
+	129dZhfTfJYjfKJWNLuxAWeMMRhmE1Bd+6A5srXy3ZcBGJ/rjKZJjoat
+X-Gm-Gg: Acq92OFB1u+im8js0dT4aKXnKc6IC/EwRxaDwpKltJ4MM9CiTtTcU/828FgWIf58tSi
+	RURZp6CfAjkOsUhQoF05cXUml5/xL6PhwTLTN1+EAlHxr+hF4NqLIPO3L1VlQEOv0z4A+yvEznJ
+	Eb5hIryXEl7/vbxF4Kt5ufG6DlDh9l8WpR+Dm8vtYqjldobDqITSWTSAuwQZ9/9i+Xm+0j00vjT
+	2sUtZsle8P+URaWFo0Qmsr2YgmsvpJV2aHEzpA8vy8khYBj617PYqlziSNHBzILkr2stGrX9xDr
+	R9lQ2cHpKbBnYLMieRsfGyi0qxc7xyANRTyN/YiluWjRf2Y8ygEUV2WeN57pglqO/6E8x7k3UVe
+	GAi+i3sMChLeXs+EoPtZGpN9ATIhO4Vb4oR7Mki9T2Qqumtaa5PEI/TGpnucczBl36SIS4+0e8/
+	LjjTelscOIEhykRMBlS0Qg8e73UsjcWL0RaBexrI0PicU0zCXYToeulwaxC/JsuuhwyrlHbWgGw
+	rCdXKbtiZs=
+X-Received: by 2002:a05:7300:dc8e:b0:2f2:5c68:5074 with SMTP id 5a478bee46e88-3039818af8fmr6391352eec.13.1779101754580;
+        Mon, 18 May 2026 03:55:54 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30294500a97sm15416905eec.9.2026.05.18.03.55.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 May 2026 03:55:54 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <f05e075d-a87e-49b5-95f8-5858d21acf64@roeck-us.net>
+Date: Mon, 18 May 2026 03:55:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agrqvIiNWrYtGvTk@JPC00244420>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
+To: Michal Pecio <michal.pecio@gmail.com>, Jihong Min <hurryman2212@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ Yaroslav Isakov <yaroslav.isakov@gmail.com>
+References: <20260517130407.795157-1-hurryman2212@gmail.com>
+ <20260517130407.795157-2-hurryman2212@gmail.com>
+ <20260517232147.34931718.michal.pecio@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260517232147.34931718.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 18, 2026 at 07:32:28PM +0900, Shashank Balaji wrote:
-> On Mon, May 18, 2026 at 12:27:13PM +0200, Greg Kroah-Hartman wrote:
-> > On Mon, May 18, 2026 at 07:20:00PM +0900, Shashank Balaji wrote:
-> > > Pass KBUILD_MODNAME through the driver registration macro so that
-> > > the driver core can create the module symlink in sysfs for built-in
-> > > drivers, and fixup all callers.
-> > > 
-> > > The Rust platform adapter is updated to pass the module name through to the new
-> > > parameter.
-> > > 
-> > > Tested on qemu with:
-> > > - x86 defconfig + CONFIG_RUST
-> > > - arm64 defconfig + CONFIG_RUST + CONFIG_CORESIGHT stuff
-> > > 
-> > > Examples after this patch:
-> > > 
-> > >     /sys/bus/platform/drivers/...
-> > >         coresight-itnoc/module		-> coresight_tnoc
-> > >         coresight-static-tpdm/module	-> coresight_tpdm
-> > >         coresight-catu-platform/module	-> coresight_catu
-> > >         serial8250/module		-> 8250
-> > >         acpi-ged/module			-> acpi
-> > >         vmclock/module			-> ptp_vmclock
-> > > 
-> > > Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> > > Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> > > Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
-> > > ---
-> > > This patch depends on patches 1, 2, 3
-> > > ---
-> > >  Documentation/driver-api/driver-model/platform.rst |  3 ++-
-> > >  drivers/base/platform.c                            | 21 ++++++++++++++-------
-> > >  drivers/hwtracing/coresight/coresight-core.c       |  5 +++--
-> > >  include/linux/coresight.h                          |  5 +++--
-> > >  include/linux/platform_device.h                    | 17 +++++++++--------
-> > >  rust/kernel/platform.rs                            |  4 +++-
-> > >  6 files changed, 34 insertions(+), 21 deletions(-)
-> > > 
-> > > diff --git a/Documentation/driver-api/driver-model/platform.rst b/Documentation/driver-api/driver-model/platform.rst
-> > > index cf5ff48d3115..9673470bded2 100644
-> > > --- a/Documentation/driver-api/driver-model/platform.rst
-> > > +++ b/Documentation/driver-api/driver-model/platform.rst
-> > > @@ -70,7 +70,8 @@ Kernel modules can be composed of several platform drivers. The platform core
-> > >  provides helpers to register and unregister an array of drivers::
-> > >  
-> > >  	int __platform_register_drivers(struct platform_driver * const *drivers,
-> > > -				      unsigned int count, struct module *owner);
-> > > +				      unsigned int count, struct module *owner,
-> > > +				      const char *mod_name);
-> > 
-> > Why can't you just use the owner->name value instead?  They are always
-> > the same here, right?
+On 5/17/26 14:21, Michal Pecio wrote:
+> On Sun, 17 May 2026 22:04:06 +0900, Jihong Min wrote:
+>> AMD Promontory 21 (PROM21) xHCI controllers use generic xHCI
+>> operation, but the PCI function also exposes optional
+>> controller-specific sensor functionality. Add a small PROM21 PCI glue
+>> driver for AMD 1022:43fc and 1022:43fd controllers.
+>>
+>> The driver delegates USB host operation to the common xhci-pci core,
+>> collects the parent-provided MMIO resource data, and creates a "hwmon"
+>> auxiliary device for optional child drivers. Failure to create the
+>> auxiliary device is logged but does not fail the xHCI probe, since the
+>> auxiliary device is only needed for sensor support.
+>>
+>> Make the PROM21 PCI glue a hidden Kconfig tristate that follows
+>> USB_XHCI_PCI. This keeps the glue built in with a built-in xhci-pci core
+>> and builds it as a module with a modular xhci-pci core. A built-in
+>> xhci-pci core must not hand PROM21 controllers to a PROM21 glue driver
+>> that is only available as a module, otherwise USB behind those controllers
+>> can be unavailable during initramfs and PROM21 temperature sensor support
+>> may not appear until the controller is rebound after the module loads.
+>>
+>> Assisted-by: Codex:gpt-5.5
+>> Signed-off-by: Jihong Min <hurryman2212@gmail.com>
+>> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>> Tested-by: Yaroslav Isakov <yaroslav.isakov@gmail.com>
+>> ---
+>>   drivers/usb/host/Kconfig                      |   7 +
+>>   drivers/usb/host/Makefile                     |   1 +
+>>   drivers/usb/host/xhci-pci-prom21.c            | 136 ++++++++++++++++++
+>>   drivers/usb/host/xhci-pci.c                   |  11 ++
+>>   drivers/usb/host/xhci-pci.h                   |   3 +
+>>   include/linux/platform_data/usb-xhci-prom21.h |  22 +++
+>>   6 files changed, 180 insertions(+)
+>>   create mode 100644 drivers/usb/host/xhci-pci-prom21.c
+>>   create mode 100644 include/linux/platform_data/usb-xhci-prom21.h
+>>
+>> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+>> index 0a277a07cf70..89bf262235e1 100644
+>> --- a/drivers/usb/host/Kconfig
+>> +++ b/drivers/usb/host/Kconfig
+>> @@ -42,6 +42,13 @@ config USB_XHCI_PCI
+>>   	depends on USB_PCI
+>>   	default y
+>>   
+>> +config USB_XHCI_PCI_PROM21
+>> +	tristate
+>> +	depends on X86
+>> +	depends on USB_XHCI_PCI
+>> +	default USB_XHCI_PCI
+>> +	select AUXILIARY_BUS
+>> +
 > 
-> owner is NULL for built-in modules.
+> Instead of the X86 heuristic, would it be possible to build glue
+> code if and only if SENSORS_PROM21_XHCI is enabled?
+> 
+> This seems to work:
+> 
+>   config SENSORS_PROM21_XHCI
+>          tristate "AMD Promontory 21 xHCI temperature sensor"
+> -       depends on USB_XHCI_PCI_PROM21
+> +       depends on USB_XHCI_PCI
+> 
+>   config USB_XHCI_PCI_PROM21
+>          tristate
+> -       depends on X86
+>          depends on USB_XHCI_PCI
+> -       default USB_XHCI_PCI
+> +       default USB_XHCI_PCI if SENSORS_PROM21_XHCI != 'n'
+>          select AUXILIARY_BUS
+> 
+> I don't know if it's the best way, perhaps it would be preferable for
+> the hwmon driver to select the glue, but then I'm not sure how to force
+> glue to become 'y' when xhci-pci is 'y'.
+> 
 
-Ah, sorry, forgot about that.
+Unless I am missing something, that would disable the entire controller
+if the hwmon device is not enabled. That seems a bit draconian to me.
+
+Guenter
+
