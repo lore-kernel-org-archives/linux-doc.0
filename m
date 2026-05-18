@@ -1,222 +1,97 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26008413D85
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 12:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C31441027;
+	Mon, 18 May 2026 12:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779108611; cv=none; b=lUakkc27utol4faC4iikwy2Z5z6ISIM3dWbe6j6DgDUuluCc9OFM5C0XSxWjeEMuAJxVhnG8o9pmh6neARIW8hTmcEd7t6/C3PYutGj859eP3HUKiMQGed/bpggT69e3+JAc2jOoUFu28LTL/CjaPBVFiSWLuxVs7XgcMvMGeKQ=
+	t=1779108634; cv=none; b=CqHbNBrCXuiWbjtjyS+fDKltXyETsnQdVQ8pdb1Jb+uKYR4cFiHkesZaMkFmfMzuCAca7/LxgvV5rwQTZ23OamW1rK6oSUkhzuHNKLmOzggxIh8GX+Z1qBWu1cftig5Ozsqmn5DDETME6/XR8lx1jKV+15qj/6EY0SFWV7T0DyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779108611; c=relaxed/simple;
-	bh=71B0nRHlWp/xojgpspfis42HrCowovQsOla+aGirePQ=;
+	s=arc-20240116; t=1779108634; c=relaxed/simple;
+	bh=WPhw6qDiAGN2oBlqBBTsxK3ncCOIWcpD4zMUxAJ+iB8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JR9KOmg26VYNnLWK6VGWLKRuhdBPfhwaozCx3YNRRCfGSwsyqAG4IwFbwhIYzqmFMut0+M3NKZ17DQGz535bgNImtRg8lieUi7knGUl+6GmDZb4dIhWcWxPKjUaeC0JiZOp4FTgbrv3IawERFvm5WysIjN3eYLJD0AAj5eFYDkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ec0dCnIp; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZnXKugSIU9wekNozN1RTZ/LHTkqDE+gtVVL5Yy4+GdKERL9QLXkZbG1bjl55gNSN/DQ9jYoixAGFoOOv4gLC3bp+Kqbot4OUcI1+Rabq8GxZ0i3ZBM/llKVyHSXo+hfBDEpGOUf4uFhhziVEdQRCJ2I7W5X+ldiVET275IgibKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XgXCLeDj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ec0dCnIp"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-bd8f6ef4ba6so35869366b.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 05:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779108608; x=1779713408; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VKGGrrG5MRCv9nIegptkqAObQ0mJWvKMrBMMlmCctkg=;
-        b=Ec0dCnIp7CP5F2PJoqTEPCggb70l4WstiLwLV+aM60gbS171HBPP1NwejxlSBoXH0V
-         blDYHGqA61Ia+Mfdd/YZ6fHldjPKCal+EycFIojAZuzQ/j/0H5yKUeSf1OF8hVF6R3hf
-         lqcq1AFHIVpP7uDkCPM+WItGGNT7I4zR9QZWlEaEvJdr9rzeO9Zq8DSxprko/VzD7tnz
-         8xdAcpezIDDrZ9yCA39tyWJc7QtUR3JvtoH/Gng6Bk+t70sEDpePjt/Fv9tluQNWJTJC
-         Q5aoc9Va7tgQ4arsTNLlfAvPs/cE5JYN8tQne0EWHIwP+7LP5tQg39ExDNZc75yc2HiH
-         D82w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779108608; x=1779713408;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VKGGrrG5MRCv9nIegptkqAObQ0mJWvKMrBMMlmCctkg=;
-        b=c6t47WFWg93LB5E3dv/dr/sytXzIpj/+oEMtTQ8OVUMku8YsBv4qQXuJZsFhPbhP9e
-         FjX6rTt1/bNciKeW4WqlS/YL1Ra3AhDwzCV6Ln1pOfAQZ67Qh/LicSAQMACpb6nkhWq6
-         e8IudT98eruhrn2wskiD6/Ng0YeHmVkVV9tU8aIJDaCECrwvHYz4LOoEHaIvBSMvwkSy
-         W8pBg3rPIErKw1ncKrZkmwav93xaopVGTDwO/iAaXeBu7EK1sMyS3QYwCuYiSQjtPYZ/
-         BoiMAKkEBGCNqoAf5xrfrnSkDaqlSXhvR37vKldAKYEUrV0eNHDVYRV2Suu4hRXOubO3
-         Lzvg==
-X-Gm-Message-State: AOJu0Yzq5ow/SL1f9NjWwObcmqVx46SAew33jixjXFgeqkK6tKxCrt5t
-	3KXuASktamIK1eU6YI9S5TTYNwXW97yX90wNXZTTTg+Dbe/dO1Y9Esj0
-X-Gm-Gg: Acq92OEIgyQPFe9xyi0A+Q6KMlnUDA7jUCnQ+rBD2NsTpIh8ZO+oCDG/ocGWSxrN5u2
-	Q6NdsOsQlWaqsjMiHl6J/61YBDa7DVKdyFsh7cY0RwOxAzxTdbCLjFYeBbvM/eSn9/BTDUFTlaR
-	ghP2OjMQv/C48OHjG3xHj0GZITKgpvyXWv/ELQRqzI4Tvc/y6LX7pY5EjjagVpo09qJO45YUgLK
-	bskV9mCHGqk7FSYqC7p5VqzDItPL9gqnIXQxWe6hRsxE0y+QHwEMcPMgYEz8kP2jb8djW4yTSH+
-	uAqro3fnINutnrRGLrgfZvNypwJfV0qU1sMDgkN2MeQJNYQlruJK7ivYww2m6tilmX53fJxaxaK
-	MQFER9iNJpZ/Nk+azR4ncyRc0i7aVcjDZtGI/9mAJsaDRZwkxCFJnbzKwbvZX8pFetQ/hgFwanj
-	QbeyARmT68N04iUmXv1t5zaTfg3PdaAllp
-X-Received: by 2002:a17:906:ee85:b0:bd1:ba38:c724 with SMTP id a640c23a62f3a-bd51790b3a8mr743116466b.32.1779108608313;
-        Mon, 18 May 2026 05:50:08 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4dec7c4sm577430666b.40.2026.05.18.05.50.07
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 18 May 2026 05:50:07 -0700 (PDT)
-Date: Mon, 18 May 2026 12:50:07 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
-	aarcange@redhat.com, akpm@linux-foundation.org,
-	anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org,
-	baolin.wang@linux.alibaba.com, byungchul@sk.com,
-	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
-	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com,
-	jack@suse.cz, jackmanb@google.com, jannh@google.com,
-	jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org,
-	lance.yang@linux.dev, liam@infradead.org, ljs@kernel.org,
-	mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
-	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com,
-	pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
-	rdunlap@infradead.org, richard.weiyang@gmail.com,
-	rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org,
-	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com,
-	surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de,
-	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com,
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org,
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com,
-	ziy@nvidia.com, zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v17 00/14] khugepaged: mTHP support
-Message-ID: <20260518125007.a4z3pw4r73uuwja4@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20260511185817.686831-1-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XgXCLeDj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21682C2BCB8;
+	Mon, 18 May 2026 12:50:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779108634;
+	bh=WPhw6qDiAGN2oBlqBBTsxK3ncCOIWcpD4zMUxAJ+iB8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XgXCLeDjXm7KIH3AtGV+Uv1KWalHfmeIA9ngVbp+N3H9DnccUg8pi/AwCAugAqdWF
+	 0+5rXVuZ6NQ0TjAVG1PppbmsuH97UckJc0ugyJut5usQWzGvVvav9nvw0/MtLCjDhc
+	 AmF6W5BQa8cC+A2Se6bHEnRjtdOgDjE+GuGnuIN9kUpHiYLRWUmQt5bzTeranpwBgc
+	 ralLQE7FthKhP28IDYAGUmCoGKJZTMKogFeV2nQFtgR7n3f23Ux2VlhM3TFfAdntKH
+	 HrGL3+4CEUqyKhajj/c0HlKMj9AVjMuJ3dYSLxxtfj13kdrnfifp3RjFUxOCwmOygB
+	 Rtqb99WKcsKNg==
+Date: Mon, 18 May 2026 14:50:32 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-arch@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-csky@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+	Hu Haowen <2023002089@link.tyut.edu.cn>, Dinh Nguyen <dinguyen@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+	Dave Penkler <dpenkler@gmail.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Subject: Re: [PATCH] nios2: remove the architecture
+Message-ID: <20260518-vagabond-amigurumi-orangutan-6b1620@quoll>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260511185817.686831-1-npache@redhat.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20260518042833.272221-1-enelsonmoore@gmail.com>
 
-On Mon, May 11, 2026 at 12:58:00PM -0600, Nico Pache wrote:
->The following series provides khugepaged with the capability to collapse
->anonymous memory regions to mTHPs.
->
->To achieve this we generalize the khugepaged functions to no longer depend
->on PMD_ORDER. Then during the PMD scan, we use a bitmap to track individual
->pages that are occupied (!none/zero). After the PMD scan is done, we use
->the bitmap to find the optimal mTHP sizes for the PMD range. The
->restriction on max_ptes_none is removed during the scan, to make sure we
->account for the whole PMD range in the bitmap. When no mTHP size is
->enabled, the legacy behavior of khugepaged is maintained.
->
->We currently only support max_ptes_none values of 0 or HPAGE_PMD_NR - 1
->(ie 511). If any other value is specified, the kernel will emit a warning
->and no mTHP collapse will be attempted. If a mTHP collapse is attempted,
->but contains swapped out, or shared pages, we don't perform the collapse.
->It is now also possible to collapse to mTHPs without requiring the PMD THP
->size to be enabled. These limitations are to prevent collapse "creep"
->behavior. This prevents constantly promoting mTHPs to the next available
->size, which would occur because a collapse introduces more non-zero pages
->that would satisfy the promotion condition on subsequent scans.
->
->Patch 1-2:   Generalize hugepage_vma_revalidate and alloc_charge_folio
->	     for arbitrary orders.
->Patch 3:     Rework max_ptes_* handling into helper functions
->Patch 4:     Generalize __collapse_huge_page_* for mTHP support
->Patch 5:     Require collapse_huge_page to enter/exit with the lock dropped
->Patch 6:     Generalize collapse_huge_page for mTHP collapse
->Patch 7:     Skip collapsing mTHP to smaller orders
->Patch 8-9:   Add per-order mTHP statistics and tracepoints
->Patch 10:    Introduce collapse_allowable_orders helper function
->Patch 11-13: Introduce bitmap and mTHP collapse support, fully enabled
->Patch 14:    Documentation
->
->Testing:
->- Built for x86_64, aarch64, ppc64le, and s390x
->- ran all arches on test suites provided by the kernel-tests project
->- internal testing suites: functional testing and performance testing
->- selftests mm
->- I created a test script that I used to push khugepaged to its limits
->   while monitoring a number of stats and tracepoints. The code is
->   available here[1] (Run in legacy mode for these changes and set mthp
->   sizes to inherit)
->   The summary from my testings was that there was no significant
->   regression noticed through this test. In some cases my changes had
->   better collapse latencies, and was able to scan more pages in the same
->   amount of time/work, but for the most part the results were consistent.
->- redis testing. I did some testing with these changes along with my defer
->  changes (see followup [2] post for more details). We've decided to get
->  the mTHP changes merged first before attempting the defer series.
->- some basic testing on 64k page size.
->- lots of general use.
->
+On Sun, May 17, 2026 at 09:28:33PM -0700, Ethan Nelson-Moore wrote:
+> The Nios II architecture is a soft-core architecture developed by
+> Altera (since acquired by Intel) and intended to run on their FPGAs.
+> 
+> Licenses for the architecture have not been available for purchase
+> since 2024 [1], and support for it has been removed from GCC 15 [2],
+> Buildroot [3], and QEMU [4].
+> 
+> Given all of these factors, it is time to remove Nios II support from
+> the kernel. The maintainer stated in 2024 that they were planning to do
+> so soon [5], but this did not come to pass.
+> 
+> Remove Nios II support from the kernel and move the former maintainer
+> to CREDITS. Thank you, Dinh Nguyen, for maintaining Nios II support!
+> 
+> References:
+> [1] https://docs.altera.com/v/u/docs/781327/is-discontinuing-ip-ordering-codes-listed-in-pdn2312-for-nios-ii-ip
+> [2] https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=e876acab6cdd84bb2b32c98fc69fb0ba29c81153
+> [3] https://github.com/buildroot/buildroot/commit/6775ccc5a199d574ad70b5f79ec58cce97a07c6f
+> [4] https://github.com/qemu/qemu/commit/6c3014858c4c0024dd0560f08a6eda0f92f658d6
+> [5] https://sourceware.org/pipermail/newlib/2024/021083.html
+> 
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+> ---
 
-Two links are missing. I got them from previous version.
+Wearing DT hat:
 
-[1] - https://gitlab.com/npache/khugepaged_mthp_test
-[2] - https://lore.kernel.org/lkml/20250515033857.132535-1-npache@redhat.com/
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-And the test in [1] is a performance test. I am thinking whether we want a
-functional test in selftests.
+Best regards,
+Krzysztof
 
-I did a quick try with following change and some hack.
-
-@@ -744,6 +765,51 @@ static void collapse_max_ptes_none(struct collapse_context *c, struct mem_ops *o
- 	ksft_test_result_report(exit_status, "%s\n", __func__);
- }
- 
-+static void collapse_mth_ptes(struct collapse_context *c, struct mem_ops *ops)
-+{
-+	struct thp_settings settings = *thp_current_settings();
-+	void *p;
-+	int i;
-+
-+	/* Disable mthp on fault */
-+	for (i = 0; i < NR_ORDERS; i++) {
-+		settings.hugepages[i].enabled = THP_NEVER;
-+	}
-+	thp_push_settings(&settings);
-+
-+	p = ops->setup_area(1);
-+
-+	ops->fault(p, 0, hpage_pmd_size);
-+
-+	/* Expect all order-0 folio after fault */
-+	memset(expected_orders, 0, sizeof(int) * (pmd_order + 1));
-+	expected_orders[0] = hpage_pmd_nr;
-+	if (check_folio_orders(p, hpage_pmd_size, pagemap_fd,
-+					   kpageflags_fd, expected_orders,
-+					   (pmd_order + 1)))
-+		ksft_exit_fail_msg("Unexpected huge page at fault\n");
-+
-+	/* Enable mthp before collapse */
-+	thp_pop_settings();
-+	settings.hugepages[2].enabled = THP_ALWAYS;
-+	thp_push_settings(&settings);
-+
-+	c->collapse("Collapse fully populated PTE table with order 2", p, 1,
-+		    ops, true);
-+
-+	/* Expect all order-2 folio after collapse */
-+	memset(expected_orders, 0, sizeof(int) * (pmd_order + 1));
-+	expected_orders[2] = 1 << (pmd_order - 2);
-+	if (check_folio_orders(p, hpage_pmd_size, pagemap_fd,
-+					   kpageflags_fd, expected_orders,
-+					   (pmd_order + 1)))
-+		ksft_exit_fail_msg("Unexpected page order\n");
-+
-+	ops->cleanup_area(p, hpage_pmd_size);
-+	thp_pop_settings();
-+	ksft_test_result_report(exit_status, "%s\n", __func__);
-+}
-+
- static void collapse_swapin_single_pte(struct collapse_context *c, struct mem_ops *ops)
- {
- 	void *p;
-
-This leverage check_after_split_folio_orders() in split_huge_page_test.c to
-check folio order in PMD range.
-
--- 
-Wei Yang
-Help you, Help me
