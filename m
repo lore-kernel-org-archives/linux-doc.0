@@ -1,126 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DC238237D;
-	Mon, 18 May 2026 18:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C116A29D291
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 18:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779128780; cv=none; b=K4qKyOo+CdkeUWENeTkd4r0lLziTuYsFg+M55ficJ9WjVLE0P6nUCQviCcPdpzoHfo5JCP046pn1YltIcpN4f1FgKtpiXxm3O2s8W9lx66St9syzvZt4LhmeUDrDa8tB2I44L5+MNe9U5Vm7Op4L7HHzp3JimzOcWjdkhYCE0Gg=
+	t=1779128889; cv=none; b=uG9Zac0ODzs0ye3m7OKaXE0E3/PyGrgu5WP+rg8gUBqzgHNkfRrzQBIWcl9jiE15QY/wIcrWu4tnyMXFTHb924Ini6w+9BB2ut4we0Gff7HV/vQP6wu7KoGkVfstm19FxzLMaZZ5XGpN0aCevz2L0U47OJJbSwOUFXO3jd3JHpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779128780; c=relaxed/simple;
-	bh=pbXYLQ1mwct3+ssZlrWJpr6OzTUkZbnMsQ/G5sb/T3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AD7/43eDuGOoEq+T35lC4QD/Y67eyRbJR31nR957MQEP33uzEiMhdd1Os9xCmMCY3IwNa6mJtH6kuzid6b1V1V0QMwYGzZ6Tal+6X1pqp/x9GUTkgvMDhlVWjPAxjcz1/VE5QjG9NyaeTs7t4nCrxNpTKBXlgY277v65NDN6foI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2T0DUHL; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779128889; c=relaxed/simple;
+	bh=Ah9T/D7TaKx90qMGMFHvGj88FNtjPUUx01fez6F8Ylk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ocQpV7S/cPVSnWhzTe0ydh19r4S5uHyzZTGL6yb5LR7B31aw5k1oGm9JMFMtl9G8QOgZIM8VGdBOT6aJ0MEbN55g57cQth86M2BD3COE9DPfZQPUqj2n0/o2gPwfW140z8Ld6xLm6ABPM5ZCkW7MK6RIZQA5bQNhtOt3eILlPJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cKB2TQ2O; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2T0DUHL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779128779; x=1810664779;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pbXYLQ1mwct3+ssZlrWJpr6OzTUkZbnMsQ/G5sb/T3M=;
-  b=A2T0DUHLXSAZYQw2jRiF+UoKrVoD0sUG+NgJtbnOEQb18t2vQsGxLopw
-   YUxKWtYH8sxVruSa43cAl3BbpnZ04oBxA4nDyeKXLSbRW1afM6G4WSkr4
-   ZJObrW+BGc0Icc6onS9dZJE4WOU0QPpHzD8wHPszfE+/amcnq74W8dnKi
-   ojxajFEfbqExWClaWwZqO4rARkYfU4V+fyjqBpaVjrQhtM0PqYc19qSsI
-   3nLaQA3OGxSSKCqC+ljONKYwvx39XAdeaOkXLxRLKrsuiGC3BZF3e3Dub
-   /9Ft5tR0johwFWGFLRiCCXov2JNgAOk0WOR15314fzbbobb8vfam97s1H
-   A==;
-X-CSE-ConnectionGUID: 9qriItO/ScWlODNBpfRg1Q==
-X-CSE-MsgGUID: +k3VPqE9SVOFJAvzB/QnXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="90575555"
-X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="90575555"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 11:26:18 -0700
-X-CSE-ConnectionGUID: O0zap/NiRba3AYD16GFVrA==
-X-CSE-MsgGUID: e9aNJkI4TGO68gsQIjE1Pw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="239764455"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.3])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 11:26:12 -0700
-Date: Mon, 18 May 2026 21:26:09 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	"Hennerich, Michael" <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	"Sa, Nuno" <Nuno.Sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cKB2TQ2O"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3664df32e91so2754334a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 11:28:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779128887; x=1779733687; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JB4aW/MA1IgHT/TNDmbGBxtQNVtFxmmb6HgdJVp+WjQ=;
+        b=cKB2TQ2O+VTbKylCcSN1G75VhmughYVliM8BQHCCjJXalOIWgpNopQ7os85xL+Nd/5
+         csAgMmzOqigUjp4x/ALvi0sxwB0x3nvg7yUMDaLk9+CFR1w3rPQkOz13LUQOuQnCnCYs
+         zuSQqnHfixmfw7obK6sxqTt/Z/HUuibjeRvmwlG39HY5JlxhVOnZUcAfKZXzCqNx9URv
+         7+5bQ5SPJ1NdQS8JPrL1rZsDqpg/KGWCIJDhE0OdUDfo6spnLrjVRuikb1doHhKW1fdy
+         rHa9qN45vpRD36ehW6GwHMmpBiRMMWLS9eC6M9++MpRK4GA0OyWb+blDa7OExsOdXkRx
+         gHhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779128887; x=1779733687;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JB4aW/MA1IgHT/TNDmbGBxtQNVtFxmmb6HgdJVp+WjQ=;
+        b=ARHCdIwdaNtBLd1jDl0oJKl5K9vvAa7oTEc+klpb7wVn+VVaEo6j7v19l35Yr5tctI
+         +OWdC/6sDzKsTV+ph+mD/BsLis2LLuMOq5af96RtOgBnrBDAWbengYhzubew/GKFrfxT
+         Xkput/QlRQgy8SYxi2saifl/McHM55goCdskfKAtgkzV+TEddHleEWpPdK6flbC2eAzH
+         e3b3ccNhpE5JyzPG5Gr7jUpP4bkVzLfZWgt5spY9eBv3wffZrH0vpo4G6q1YSHNsyaq0
+         icIwDyVFaZlYFksZkwvIYWgYSD4rXpuVLBWD7NeChlCgZG8yPLEiuG6NmrjMoxghteaV
+         VxjQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8M4zc7pkB9Pfge/xTvBCOyEKUrbLD49mEXVHbaKJ0VDoEJuVqHdU1d6zNI97/4yZNFZhqxQiKBYUM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyClPb7oVof/NXJYMx90KwoIuU57XHQmukhau6sCdbH65oO7IjP
+	iVg65S/wZPErEU6EbvFS0Qd2cjsf/W+qib6iTpqkZH3vSQqOsU2MTr2f
+X-Gm-Gg: Acq92OGLzP3Rbx+kYsECxiaZHis3ChGhdbbtVdRNtE9vzICJY2H/rdLNZQuPI5g/YhF
+	18Av5RXAZ19wLcOh2ZBUfMrthEc6qDDwDWNjIkUqQw9WaiVL4Luhxbycmtlp+G7CecjZZIHXSjn
+	+uqTVg6w57a4I17L7+/QjqdErjYd2VrN58WuaCC6IEWjvu1QKvcinuOYOxX3/ORTrbmilTlxJGi
+	tm+Nbx0sZAdcpupfM2GVPK4t2IKiPrmrNdd8VQ36fFQ87wpEZeEhppdgR37Q6P6JGDZUpBjf+Fb
+	Dx3gpl9I2S5dqtY6H2hDVC9ksfbLsZm/Fk2lzAz82amyiyb8nYvKLZgZQmYWGqT+HFjeDglhgS/
+	D9+YErw0z5FGpjPDvqe1UYq+24EBTtKaO9O6RtmGyTUvtqnk7sBjm21myoCcP34MdjdgQN9p6L7
+	DfwAfMV/ag/gI0jMQr3jPAwQAc5Vn7LRr/Hr+P71XlPtrU0w4TRklb1k76dAbP7Qr3FQuYWqmCi
+	sWFziVgiu2hz6Ps1eEIYEaVE0xxialoHeirVWSj7xtsMwDZQBqCnb7sh+nHoSSPYhw9TMQl9Q==
+X-Received: by 2002:a17:90a:e7c8:b0:366:159a:c228 with SMTP id 98e67ed59e1d1-369518bad8bmr15658986a91.6.1779128887055;
+        Mon, 18 May 2026 11:28:07 -0700 (PDT)
+Received: from ERIC039ERIC.localdomain (1-170-130-21.dynamic-ip.hinet.net. [1.170.130.21])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5c05f9d0sm159320925ad.31.2026.05.18.11.28.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 11:28:06 -0700 (PDT)
+From: Chen-Shi-Hong <eric039eric@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v11 4/6] iio: adc: ad4691: add SPI offload support
-Message-ID: <agtZwbeVeZdnlXTI@ashevche-desk.local>
-References: <20260515-ad4692-multichannel-sar-adc-driver-v11-0-eab27d852ac2@analog.com>
- <20260515-ad4692-multichannel-sar-adc-driver-v11-4-eab27d852ac2@analog.com>
- <80f61c0b-1f36-4fee-9f76-b93f63b87abe@baylibre.com>
- <LV9PR03MB841418AEF0059E802F7A69B2F7032@LV9PR03MB8414.namprd03.prod.outlook.com>
- <60d66897-41cc-4f3f-afd2-64e49f0bb55e@baylibre.com>
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen-Shi-Hong <eric039eric@gmail.com>
+Subject: [PATCH] Documentation: hwmon: ad7314: document sysfs interface
+Date: Tue, 19 May 2026 02:27:41 +0800
+Message-ID: <20260518182744.1302-1-eric039eric@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <60d66897-41cc-4f3f-afd2-64e49f0bb55e@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 18, 2026 at 10:16:38AM -0500, David Lechner wrote:
-> On 5/18/26 10:14 AM, Sabau, Radu bogdan wrote:
-> >> -----Original Message-----
-> >> From: David Lechner <dlechner@baylibre.com>
-> >> Sent: Saturday, May 16, 2026 8:53 PM
+Document the temp1_input sysfs attribute supported by the ad7314
+driver.
 
-...
+Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
+---
+ Documentation/hwmon/ad7314.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> >>> +	if (st->manual_mode && st->offload)
-> >>> +		return sysfs_emit(buf, "%llu\n", READ_ONCE(st->offload-
-> >>> trigger_hz));
-> >>
-> >> Why do we need READ_ONCE?
-> > 
-> > trigger_hz is u64 and if the target is 32-bit, a 64-bit access compiles to two 32-bit
-> > instructions, so show() reading it without a lock and store() writing it concurrently
-> > can produce a torn value at the compiler level. READ_ONCE/WRITE_ONCE suppress
-> > the compiler transformations that would allow that splitting or caching. We could
-> > have st->lock in show() instead, but that felt heavier than necessary for a single
-> > scalar where a transiently stale-but-whole read is fine.
-> 
-> I would go with the mutex. It will be easier for people to understand.
-
-But why? READ_ONCE() here is exactly enough. We do not care about
-serialisation, we care only about integrity. With mutex it will confuse
-(some) people more, e.g., me. Because in that case I would think about
-some specific access to it that may happen. Yes, I saw many times the show
-functions that do mutex and then print the result when mutex is not held
-anymore, but for simple cases like here, mutex is overkill. Interestingly
-that using guard()() inside show makes the mentioned functions to print
-(almost) latest value of the variable in question. It narrows window down
-as printing will go inside critical section.
-
+diff --git a/Documentation/hwmon/ad7314.rst b/Documentation/hwmon/ad7314.rst
+index bf389736bcd1..b454e617d48c 100644
+--- a/Documentation/hwmon/ad7314.rst
++++ b/Documentation/hwmon/ad7314.rst
+@@ -28,6 +28,12 @@ Driver supports the above parts.  The ad7314 has a 10 bit
+ sensor with 1lsb = 0.25 degrees centigrade. The adt7301 and
+ adt7302 have 14 bit sensors with 1lsb = 0.03125 degrees centigrade.
+ 
++sysfs-Interface
++---------------
++
++temp1_input
++        temperature input
++
+ Notes
+ -----
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.53.0
 
