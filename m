@@ -1,97 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1F341C62;
-	Mon, 18 May 2026 23:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779148424; cv=none; b=BBgeYhruv98KjE5x8ha1eVHGT0McdIR6bdYSq0au02zm7o0RC7g49k0t9Df1fmMxmCYJWbpGvly8tjZI38bAwdoGDvdXU+PPbczRy9U4d8OIiyMCYFpJhXvM3kCTwgbVhVJmOUahdG/+2CRqexHYxIN6S7ASntmJ+ZmycIvljpU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779148424; c=relaxed/simple;
-	bh=CCybTItl2l5Gf43MmCAPz8mcPgmYEVNMNLsLUpJUbN8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RfeWDL0eBZ422ymJveS+Z34gAEw6zEZgWxwOs3/750GyTQoDYb3IErTK0QJifBX0OXK8bgKeUAN6v2lPtQo43AUpSmGn3cw6JuIX8Zsbe3+rmCFGKISF8wa9hOQjH+XJXC0VnJzklY7VS16zrv9kPl/4SZe09RuNG8xTzZiSYDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BtC4UE8f; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B0B338906
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779148672; cv=pass; b=r0KvirYu72krt3rM/aDH+rGJySWfkukNNAzTk+hM7jFy3Qg9ri21KtAz7YQRYsKqr+RQs5RxCsq0AkvJvzsdPMgbU0lcwC6oy3x8mGvPgcGp3nN+/krP4WE0q1HwXHGEk1H8cI4UNBxlr8O6G0LCYe72/pmIf8z2R1ndOXFHP5w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779148672; c=relaxed/simple;
+	bh=unqEGZFYSyCBmS401bO5UPSCWFKfUOAKb+T3Y4jxQe0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OYjowG9lh5YVDLUyzjmkgf3Up6jpSSJmu782cv1N0MjzyPc7wVGPxWztphvAnkfLMNOSRffGCCO39cSfpUFIHlfA29KXCDkCH7pGlkWMeyark6lK2U9LB77ZXyei/HoButRgtbNKafWRmN+HqIuU1W0+UC6yr76q8joYmq73NxU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=YW1xiazA; arc=pass smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BtC4UE8f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69000C2BCB7;
-	Mon, 18 May 2026 23:53:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779148424;
-	bh=CCybTItl2l5Gf43MmCAPz8mcPgmYEVNMNLsLUpJUbN8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BtC4UE8f9YImDELdTsR30s9qV7Sfy4huKZAEnlT6YqC/XF3AEhhTAyUsPwtmB1gEp
-	 5V3/u/FryBPMIgLDc3+KiBYI//28T90ZNylyhhL+dCm967kY+L9Lt4sVVXjtlfT/H6
-	 OGa8/dTsHX2DOOGqd9VYAe78UBi/gNm5TcWKDpwA2F3ey8PE8IHmt6OM7ULx93g/tP
-	 icavgCFw35jPGHgsURhE8Eytx0+35+qAEZhJReQLirfR9U5dqKSjYHgcE5abXh4T5R
-	 DSagiQST1o/j8A7b2V6Mr8HQy4WSBtSlWhqKKpc5NvRwuJxCOik7bZiny3OMranSvz
-	 wEgoRBGgIw/9g==
-From: SeongJae Park <sj@kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/28] mm/damon: introduce data attributes monitoring
-Date: Mon, 18 May 2026 16:53:34 -0700
-Message-ID: <20260518235335.98776-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260518234119.97569-1-sj@kernel.org>
-References: 
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="YW1xiazA"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3698e34a567so2372450a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 16:57:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779148670; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KJExnlRyu/Nb/f8RLNryoyEsEgGU6/xZSe1SMAdRpMmPEQep84IG4+nTrfgTHdW06g
+         eagzHMyKmCc9a+Hi9O2n31gp7zHNHX/0MvCWhRc+QWGMaCRC5oj/VGex0gY7AKI73pA4
+         HMfBdyLOU1s5ekGc0DzhSzD5FodYfg1ucQK2s3+3TrpGHxHo4XMfwmR6CSizI2bgXqIW
+         aLnXD7Lty7BffBt+kvW3vVVKAqCWGwfj1rDKcy9J8ZJoOyC8ghSsKWS8pUVvO5kuIsWj
+         iwDOsZLp6DesM9aS0rOSyGKaEnptBClf8abDVlY0wOPiCBboLv5WQscicJfmGB4hsOGy
+         jA3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yQIzRVdOE5dF5raU9qEOWy4pjYF2amwoUhs+1RS7QM4=;
+        fh=hC3ncdNPR+uRN3CWjtBNdiVomp2EozTu//sB+Llr+Sw=;
+        b=WxoN6shcLQEfwb1TXerdlhffT8nQXHwPllJxqcwTbcAgAEKZd/KPDa7yNhhkVimtZp
+         8AZPZAUiPiuZ7OQQUpTgCsKxRodhho9bDh8UU8iTOK+jHnFy36WxXQ9jDSb5JCfqFKiD
+         AhxdBzGmh8AVWynBlRbcI9sGD/HB3hiDMBIYJIRNIuv9GW48qIRfUIJBSmT/1aypFCXZ
+         Jyn0As2bLX4Pq/owBF/If/d6Q4ElRnR+TTXE+PN1Dk481c/hqxBBoKCaPJx7IgkcJEOt
+         6fo9yn/wrKXFatu8ogLPU5vSoiy/EIkYYik+agGASJLVzcyV4tM/2velWKnKPd5oG51z
+         Pzdg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1779148670; x=1779753470; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yQIzRVdOE5dF5raU9qEOWy4pjYF2amwoUhs+1RS7QM4=;
+        b=YW1xiazAIuoO9uzWuY8PqoK6SOdp7+AQBjShSj8YTFGoQR3wR6bW5nFHEGj7Lav0df
+         371Iaezpn7zqcLSmiRbT/LfnDxDSWJIP1r9ISLxB/GdZAN8zjmyHF1MYQKW6A/gBrv9I
+         4L8gjS8H+H40H8waQIhbxIsIllLqY/uEqsrvQGIsAD3FV3EbMMkON2FFZr+X1MIAuope
+         +XppFw06GE7AMWQJaiF/SC66WOVHKImIN0C37Bk+9rjk70Wb1VjogJNnTSVIS2TCJA86
+         HdqITE68CdCVz2ZfHjuYhUvr8NTvbUxNtJgRhUacgXWXp/QAkMNxVBuxXNvmZPP0B5v6
+         lNKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779148670; x=1779753470;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yQIzRVdOE5dF5raU9qEOWy4pjYF2amwoUhs+1RS7QM4=;
+        b=N179t+p6Lyd2RM0ajGJ8kOXRbXYEQ4R101Gc8+yjdPW3ICdrNTRp9ha1pk83EQGxEV
+         szMoXzzqQVotG3Ycry9RF+GM/MpYofWJetMSPlgNyUSi9VOFQolNo4ZgIUlyabx3oj++
+         D3tngoP71v8jda4zomMWUbXMlju/qzGpiz66ulXukzhckB4E3AyvM84gENwftnyQ9iJZ
+         IT2eXTXFJ9TAKUSnndPO1pvrO6PGDLQLqa6c6gu+RQ1ku7vO4jiatWq043AiElvhtlm4
+         WIqkhV6J2dU6KwHq+11sNdkxspsLifkvXbXZJ86qQAx0wtqgfhdh/hxZ3I1Fi+Pu1wCt
+         paAQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/GutrgCK2LSCqNvtCEh42WEAT1HqhoG1XdS0l33Q6WOMJAuz2sdaGjXLvJJupK8rz+WvlbDaMIIDE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZQnBQn6yzxekn8KN2P8ZC6nWT7VFpUG0mo2faVwav7OPztuKF
+	/gi+1VVjjTKG0Sou7EqE/99V1uLhOlXEK7GoccCLKtbdiFNKzJzC+VP9Wz29owXOJxu7AI81F6T
+	JNjD0jsLEvNe00f6UChMqoE9cZ7/hY8dJN4JZX/kM
+X-Gm-Gg: Acq92OFTTAVIP70ecdiAYpdG8sSvEWGkjd9iXf/oBiN5adfhkfxooCAwRj9M8Wsq1oj
+	59VTB4EE4+ZF6YrUSP0QXHXQN0A0SLbGDIJEyQqDpxu64526uqzHnE8kSDfcwNNn6KnZT9csYoK
+	1fCoAjiIkGk3oP7q6HJY3E16Uf75cPetkQpWWpCUjdgulDGY5aA7Pbmdyqk+EW8AEE2CFAuVSGU
+	69Dxr8qiBi29IgbpuKappuEPehnEj09QZFB0yM7MdqkyMBrlZ1EGuPIbRD6hVBTmuE3pmnhK7Us
+	UPAtAmg=
+X-Received: by 2002:a17:90b:5486:b0:35f:c729:de9b with SMTP id
+ 98e67ed59e1d1-36951cabdd1mr17237144a91.20.1779148670183; Mon, 18 May 2026
+ 16:57:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260507070547.2268452-1-sashal@kernel.org> <CAHC9VhTwDt2Bx8n0io9Qge_fUEnrHsxrFAQY+KaemKWqJqBQxw@mail.gmail.com>
+ <CAPhsuW4TJRqQKXgcBYog8YgFLU2h2Zq9ReahxTYp_zpDyvO8AA@mail.gmail.com>
+ <CAHC9VhS1DJNs9gDB6gD9WKhL08giSVajBskZ+=mY0AWRCAsw7Q@mail.gmail.com> <CAPhsuW5jQOzRTi1ea+=UPhx5W9bkBdivPagRE=O=nx0zf_vb8w@mail.gmail.com>
+In-Reply-To: <CAPhsuW5jQOzRTi1ea+=UPhx5W9bkBdivPagRE=O=nx0zf_vb8w@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 18 May 2026 19:57:37 -0400
+X-Gm-Features: AVHnY4Ju9QhtCnU9X4q0Y1FoqKmXLcQYabAg7vghJP1SBxCLhKOLIiAM2oGfePM
+Message-ID: <CAHC9VhTGDOJZDzEA31qc0S6FJpYNC4oD__HQ-65wqqwhng=V9Q@mail.gmail.com>
+Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation primitive
+To: Song Liu <song@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, corbet@lwn.net, akpm@linux-foundation.org, 
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	gregkh@linuxfoundation.org, linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 18 May 2026 16:40:48 -0700 SeongJae Park <sj@kernel.org> wrote:
+On Mon, May 18, 2026 at 7:23=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+> On Mon, May 18, 2026 at 2:29=E2=80=AFPM Paul Moore <paul@paul-moore.com> =
+wrote:
+> [...]
+> > In my opinion, making killswitch an LSM is more of a procedural item
+> > that deals with how we view a capability like killswitch.  I
+> > personally view killswitch as somewhat similar to Lockdown, which is
+> > why I made the suggestion.
+> >
+> > The use of kprobes, while an interesting idea, presents problems as
+> > allowing any kernel symbol to be killed introduces the potential for
+> > security regressions.  As a reminder, some LSMs, as well as other
+> > kernel subsystems, have mechanisms in place to restrict root and/or
+> > enforce one-way configuration locks; while many people equate "root"
+> > with full control, in many cases today that is not strictly correct.
+> >
+> > Yes, kprobes have been around for some time, this is not a new
+> > problem, but killswitch makes it far more convenient and accessible to
+> > do dangerous things with kprobes.  If killswitch makes it past the RFC
+> > stage without any significant changes to its kill mechanism, we may
+> > need to start considering more liberal usage of NOKPROBE_SYMBOL()
+> > which I think would be an unfortunate casualty.
+>
+> I don't think we can use NOKPROBE_SYMBOL(). There are functions
+> that we don't want to killswitch, but still want to trace.
 
-> TL; DR
-> ======
-> 
-> Extend DAMON for monitoring general data attributes other than accesses.
-> The short term motivation is lightweight page type (e.g., belonging
-> cgroup) aware monitoring.  In long term, this will help extending DAMON
-> for multiple access events capture primitives (e.g., page faults and
-> PMU) and eventually pivotting DAMON to a "Data Attributes Monitoring and
-> Operations eNgine" in long term.
-[...]
-> Changes from RFC v3
-> - rfc v3: https://lore.kernel.org/20260516183712.81393-1-sj@kernel.org
-> - Wordsmithing documentation.
-> - Drop RFC tag.
-> - Rebase to mm-new.
+That was exactly my point, but we need to figure something out so
+killswitch doesn't make it easier to cause a regression.
 
-Sashiko failed [1] to reivew this series because it is still having an old
-version of mm-new, while this series is based on mm-new.  Same issues were
-found in RFC versions, so I was making those to based on mm-stable, and got
-Sashiko reviews.  On the last version (RFC v3), I confirmed [2] Sashiko find no
-more blocker.  So I believe this is good to go for more testing in mm-new.  I
-will of course happy to get different inputs.
-
-[1] https://sashiko.dev/#/patchset/20260518234119.97569-1-sj%40kernel.org
-[2] https://lore.kernel.org/20260516220317.4300-1-sj@kernel.org
-
-
-Thanks,
-SJ
-
-[...]
+--=20
+paul-moore.com
