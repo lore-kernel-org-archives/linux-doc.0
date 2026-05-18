@@ -1,475 +1,324 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9AE40584E
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 13:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C0D48164B
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 13:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779112186; cv=none; b=OhuzLIUMrmUFvVPjnI3AE3e/IDL8nm8zbwKvNJmnPqOjVLDpiCMX59brPPzmOfTdNpcTPRYnAHiu9F70YSOhG7xrWWSbj4WumaIpK82VF7TP50WlVUBIHMggD0xEi1W6k3r7/IZPzI3kl+8/s/isMAxsx33dppA1g1HJZ/vL6jI=
+	t=1779112247; cv=none; b=e5fpkCBvaAyZQIc6FLnP7+ed4wAVgDBgqeigGP1qsa1GDK3rye1PPj9ZtS2T7WXZ5DyufDVPIBwuZIdnsEH9nEHOAfvc73Y25DLoe68fp8UCEGClhadq81h8clIroWxlg36Nu2LX2ZjPDJy9EeNBvqdw8i3+PhXUGNGp3FelcdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779112186; c=relaxed/simple;
-	bh=p7WZEwXNbhK0lVkEY+DpExH28HyCean8dgponTITKsI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QfJJjYMfMMLcs8MwlvAvR+faKXop+CuPmDtIPfmIMt9oYZeidyLaOfuqQD/q5ixDFNXWeQqcjaznr8qvI38wYCFS1waPXN6Q3e81yA17JTv5Z0CSgT0bYp9evu4kdacOeRmMb8IAaR3BsBNcTgGe9u9PumyK+hKYsXjF8L73XXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=h1wCBo5y; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1779112247; c=relaxed/simple;
+	bh=HRuFSBfnRcAX1Ik+wr5YWCfxLO3z+wetsNZ7npXKxLM=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SvPF3mDEoktrCCjZnOIaZ13utJPiJtGf0tUUz2FnWJIoVo4bQbCSKFFsq2uQ2gjq/hKvj4ljFyGPzlOsnK+n1S0OvtxClz8pPA1zvkkSmLuVUsgm+fjHNz7PyrJ27NHymbTqW6Yil3Q6vozJzgONW3LfkCQpWZqz1eOU1C3t2Kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MFwQkIRV; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="h1wCBo5y"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779112180;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l2FwIXaCr6z2c7J1Q50vcnQJYVZk8ntrsSo1FZstdpk=;
-	b=h1wCBo5yGFM1Zjrq18y6818uZ1o7a3Pd/5u+uWsrbc82Zwrl5NhvbkF2NZCGYwtNbkZI5Y
-	Hm32Fd5O0Pip+8LR2k4yQZWSoAFjcYG0ctQaIUb0EZaNiDt6pIg/EUXwLrueP+QTKNhjVi
-	Zp4VJN00ca+xQaffqoOD8oOTvNJMcfU=
-From: Usama Arif <usama.arif@linux.dev>
-To: Nico Pache <npache@redhat.com>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	anshuman.khandual@arm.com,
-	apopple@nvidia.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	byungchul@sk.com,
-	catalin.marinas@arm.com,
-	cl@gentwo.org,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	david@kernel.org,
-	dev.jain@arm.com,
-	gourry@gourry.net,
-	hannes@cmpxchg.org,
-	hughd@google.com,
-	jack@suse.cz,
-	jackmanb@google.com,
-	jannh@google.com,
-	jglisse@google.com,
-	joshua.hahnjy@gmail.com,
-	kas@kernel.org,
-	lance.yang@linux.dev,
-	liam@infradead.org,
-	ljs@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com,
-	mhiramat@kernel.org,
-	mhocko@suse.com,
-	peterx@redhat.com,
-	pfalcato@suse.de,
-	rakie.kim@sk.com,
-	raquini@redhat.com,
-	rdunlap@infradead.org,
-	richard.weiyang@gmail.com,
-	rientjes@google.com,
-	rostedt@goodmis.org,
-	rppt@kernel.org,
-	ryan.roberts@arm.com,
-	shivankg@amd.com,
-	sunnanyong@huawei.com,
-	surenb@google.com,
-	thomas.hellstrom@linux.intel.com,
-	tiwai@suse.de,
-	usamaarif642@gmail.com,
-	vbabka@suse.cz,
-	vishal.moola@gmail.com,
-	wangkefeng.wang@huawei.com,
-	will@kernel.org,
-	willy@infradead.org,
-	yang@os.amperecomputing.com,
-	ying.huang@linux.alibaba.com,
-	ziy@nvidia.com,
-	zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v17 04/14] mm/khugepaged: generalize __collapse_huge_page_* for mTHP support
-Date: Mon, 18 May 2026 06:49:28 -0700
-Message-ID: <20260518134929.1947933-1-usama.arif@linux.dev>
-In-Reply-To: <20260511185817.686831-5-npache@redhat.com>
-References: 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MFwQkIRV"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43d7645adbdso1493404f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 06:50:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779112243; x=1779717043; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=bOGygrHdqOVWXAOvGkDRTZ2rxuT23fhhj2Bb5CGxVXQ=;
+        b=MFwQkIRVFs1L3E53/SbMCH3sOMOZOZOkeAoBGFOErhTW8PYjS9u/rXKRbvdYPctSVy
+         agHN8dBvR9tr3SUV+NHVQsytocivf9/+ttfPGtqRTpbnX2x12vXL4uEFCDbeV4Seojog
+         nPUkgXIB2Lj2YpNuo8KEMp90H2jEfUiptqieprDZKHJdecu6P5iONWU1JFvMc1qxCJwu
+         tOkPlALa5HVS1yY44S33qnyYBrOlgHxajEha0bvyVwB8LCBkWUyFjKznbevCzXV7G1wB
+         ChzqkeWlxv3TS44ufX9EFF5i9zFOuQVPa8DPaEVt3VIN6iIYxhn+vU9aFo0+Liizxt++
+         CQLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779112243; x=1779717043;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bOGygrHdqOVWXAOvGkDRTZ2rxuT23fhhj2Bb5CGxVXQ=;
+        b=beJl790SAKRIHVsv1jv9DtUDL8MNolWoOBp0uhiaVpw36bpQqn2pnADoHL6d1Rc0Vn
+         YLpJV5Zo3a1/5Xh14xmm3fsR126Z11jJlM7bSsVPpnFXq5g1H07K2TqIIx/NStL0alHJ
+         6N3n22xyFtCrOp1igJNZJ0zw7bUZZJj/rjdWzWAMy+AXADQQ2oIFxI9VaeW5tiYWHmrE
+         10+Y+I+wR32ujdcGoE7dOYGAko3UMtJvrusJSCCxw8qMQZxiyiZQXsdo7sz4rgW0jXIC
+         BQYui0D/9S5BJ/eZOS4rhk1AN5Ml/HuFTmFE73k7O1qil+tPVi7i4rVoygQUckwN/4Cx
+         ebGQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8MOfl14hJWjecQUMTft5EG1JsxYxaguv5plOtCC3jljY7ofEckyJRHnaAnKO+Pl4rgo8lpX2lgM9M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCBauqSCoLeQDs4vev8QTLQ+oj2WcljK3x9KdVvRVNGOJV3xGP
+	lpzHuZFfada+ftxB8GrbuSIGkJGUrY0PNTd6BxP0sv4fcHt7zvRKcEyP
+X-Gm-Gg: Acq92OHP35vNFsFBhrOBeaUe6i1nzzFZLKqtXGABmuphVl/+37l24LPAIdjrOgLGXLe
+	6vNSNK+SHpjsmWqg93Bdng0ylnrIz0Kdxm7FYtVdnGP9dDVkds6bmCQqZJ6MJHFNygiUf586k7e
+	6S5o6/5uvTLgvaOjHsuY1eEjPc4Efzq1geXvX8Kx2HIrEG4lFKfIACswM5rKM+Jk7Q91U8YpncK
+	jNxreS8sdvCU+4sa1Y5Xh2O7Q7twV0ZMmn5qo3MPI1CDtyuvZZShOOGyFtooWPox13VkYOdNKTX
+	z46pW1m2Njyn60zvLF38uvowlB20ziFBYSjPp5BARswqMx+FcsPf9fsrFFsoM02SE9jc/JaNdiJ
+	uzgA5Hc2GmpD6QjgjJZ95uioM5B61UZ2v4bqx0KG150Oco99aGM5vi+raxr1pTqNYIO4kPSNv88
+	ZCKSamkVCww1UuLtgUn+FzYyalWq6ePQfGul94GxPT4Tx7KGm/COAAY+sNbyBi1G2RTZNQXNzQO
+	OK1JcfqFEM6VI+E6ZrBWYzSLBIcMaparccHws3zQ/tFuSSr9RYT7PU8XnWj
+X-Received: by 2002:a05:600c:470e:b0:48e:8741:fd3d with SMTP id 5b1f17b1804b1-48fe60ea21dmr213355945e9.14.1779112242814;
+        Mon, 18 May 2026 06:50:42 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9e768bcesm39767810f8f.4.2026.05.18.06.50.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 06:50:42 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 18 May 2026 14:50:37 +0100
+To: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hardening@vger.kernel.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v5 09/13] iio: frequency: ad9910: add RAM mode support
+Message-ID: <dedkptdfy4bbhr66nirp52ldzmkje4rnjqgxre7gvnlrpwrvce@zymm36oaulv6>
+References: <20260517-ad9910-iio-driver-v5-0-31599c88314a@analog.com>
+ <20260517-ad9910-iio-driver-v5-9-31599c88314a@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20260517-ad9910-iio-driver-v5-9-31599c88314a@analog.com>
 
-On Mon, 11 May 2026 12:58:04 -0600 Nico Pache <npache@redhat.com> wrote:
+On 26/05/17 07:19PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 5 potential issue(s) to consider:
+> - [High] Incomplete hardware rollback during a profile swap failure leaves AD9910 shadow registers corrupted.
+> - [High] Missing software cache and hardware rollback when CFR1 register update fails.
+> - [High] Unprotected software profile cache corruption on firmware upload failure.
+> - [High] Firmware upload `.write` callback fails on chunked payloads and performs out-of-bounds memory reads.
+> - [Medium] The RAM firmware upload sysfs node and debugfs symlinks are registered with a `(null)` name.
+> --
+> 
+> commit 3876f09fc86743085e5099fea5762c34dc150ecf
+> Author: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> 
+> iio: frequency: ad9910: add RAM mode support
+> 
+> Add RAM control channel, which includes RAM data loading via firmware
+> upload interface, per-profile configuration, profile switching,
+> sampling frequency control, and ram-enable-aware read/write paths.
+> 
+> > diff --git a/drivers/iio/frequency/ad9910.c b/drivers/iio/frequency/ad9910.c
+> > index 4ad80475139d7..86ed350011cff 100644
+> > --- a/drivers/iio/frequency/ad9910.c
+> > +++ b/drivers/iio/frequency/ad9910.c
+> 
+> [ ... ]
+> 
+> > @@ -1202,6 +1306,41 @@ static int ad9910_write_raw(struct iio_dev *indio_dev,
+> >  			return ad9910_reg32_update(st, AD9910_REG_CFR2,
+> >  						   AD9910_CFR2_DRG_ENABLE_MSK,
+> >  						   tmp32, true);
+> > +		case AD9910_CHANNEL_RAM:
+> > +			if (AD9910_RAM_ENABLED(st) == !!val)
+> > +				return 0;
+> > +
+> > +			/* swap profile configs */
+> > +			for (i = 0; i < AD9910_NUM_PROFILES; i++) {
+> > +				tmp64 = st->reg[AD9910_REG_PROFILE(i)].val64;
+> > +				ret = ad9910_reg64_write(st,
+> > +							 AD9910_REG_PROFILE(i),
+> > +							 st->reg_profile[i],
+> > +							 false);
+> > +				if (ret)
+> > +					break;
+> > +				st->reg_profile[i] = tmp64;
+> > +			}
+> > +
+> > +			if (ret) {
+> > +				/*
+> > +				 * After the write failure, profiles 0..i-1 were
+> > +				 * already swapped in SW, but Hw registers are
+> > +				 * still pending an IO update, so swap them back
+> > +				 * in SW to keep the state consistent.
+> > +				 */
+> > +				while (i--) {
+> > +					tmp64 = st->reg[AD9910_REG_PROFILE(i)].val64;
+> > +					st->reg[AD9910_REG_PROFILE(i)].val64 = st->reg_profile[i];
+> > +					st->reg_profile[i] = tmp64;
+> > +				}
+> > +				return ret;
+> 
+> If a write fails mid-loop, this rollback block restores the software cache
+> but doesn't issue SPI writes to revert the hardware shadow registers.
+> Could the next successful SPI write with an IO_UPDATE pulse inadvertently
+> latch these corrupted, partially-swapped profiles into the active hardware
+> state?
 
-> generalize the order of the __collapse_huge_page_* and collapse_max_*
-> functions to support future mTHP collapse.
+The approach reverts the changes on cached values, so we do not have RAM and single
+tone profile values mixed in software. The hardware might be in an invalid state,
+but an error is reported to the user.
+ 
+> > +			}
+> > +
+> > +			tmp32 = FIELD_PREP(AD9910_CFR1_RAM_ENABLE_MSK, !!val);
+> > +			return ad9910_reg32_update(st, AD9910_REG_CFR1,
+> > +						   AD9910_CFR1_RAM_ENABLE_MSK,
+> > +						   tmp32, true);
 > 
-> The current mechanism for determining collapse with the
-> khugepaged_max_ptes_none value is not designed with mTHP in mind. This
-> raises a key design issue: if we support user defined max_pte_none values
-> (even those scaled by order), a collapse of a lower order can introduces
-> an feedback loop, or "creep", when max_ptes_none is set to a value greater
-> than HPAGE_PMD_NR / 2. [1]
-> 
-> With this configuration, a successful collapse to order N will populate
-> enough pages to satisfy the collapse condition on order N+1 on the next
-> scan. This leads to unnecessary work and memory churn.
-> 
-> To fix this issue introduce a helper function that will limit mTHP
-> collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
-> This effectively supports two modes: [2]
-> 
-> - max_ptes_none=0: never collapses if it encounters an empty PTE or a PTE
->   that maps the shared zeropage. Consequently, no memory bloat.
-> - max_ptes_none=511 (on 4k pagesz): Always collapse to the highest
->   available mTHP order.
-> 
-> This removes the possiblilty of "creep", while not modifying any uAPI
-> expectations. A warning will be emitted if any non-supported
-> max_ptes_none value is configured with mTHP enabled.
-> 
-> mTHP collapse will not honor the khugepaged_max_ptes_shared or
-> khugepaged_max_ptes_swap parameters, and will fail if it encounters a
-> shared or swapped entry.
-> 
-> No functional changes in this patch; however it defines future behavior
-> for mTHP collapse.
-> 
-> [1] - https://lore.kernel.org/all/e46ab3ab-a3d7-4fb7-9970-d0704bd5d05a@arm.com
-> [2] - https://lore.kernel.org/all/37375ace-5601-4d6c-9dac-d1c8268698e9@redhat.com
-> 
-> Co-developed-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  include/trace/events/huge_memory.h |   3 +-
->  mm/khugepaged.c                    | 117 ++++++++++++++++++++---------
->  2 files changed, 85 insertions(+), 35 deletions(-)
-> 
-> diff --git a/include/trace/events/huge_memory.h b/include/trace/events/huge_memory.h
-> index bcdc57eea270..443e0bd13fdb 100644
-> --- a/include/trace/events/huge_memory.h
-> +++ b/include/trace/events/huge_memory.h
-> @@ -39,7 +39,8 @@
->  	EM( SCAN_STORE_FAILED,		"store_failed")			\
->  	EM( SCAN_COPY_MC,		"copy_poisoned_page")		\
->  	EM( SCAN_PAGE_FILLED,		"page_filled")			\
-> -	EMe(SCAN_PAGE_DIRTY_OR_WRITEBACK, "page_dirty_or_writeback")
-> +	EM(SCAN_PAGE_DIRTY_OR_WRITEBACK, "page_dirty_or_writeback")	\
-> +	EMe(SCAN_INVALID_PTES_NONE,	"invalid_ptes_none")
->  
->  #undef EM
->  #undef EMe
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index f68853b3caa7..27465161fa6d 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -61,6 +61,7 @@ enum scan_result {
->  	SCAN_COPY_MC,
->  	SCAN_PAGE_FILLED,
->  	SCAN_PAGE_DIRTY_OR_WRITEBACK,
-> +	SCAN_INVALID_PTES_NONE,
->  };
->  
->  #define CREATE_TRACE_POINTS
-> @@ -353,37 +354,60 @@ static bool pte_none_or_zero(pte_t pte)
->   * PTEs for the given collapse operation.
->   * @cc: The collapse control struct
->   * @vma: The vma to check for userfaultfd
-> + * @order: The folio order being collapsed to
->   *
->   * Return: Maximum number of none-page or zero-page PTEs allowed for the
->   * collapse operation.
->   */
-> -static unsigned int collapse_max_ptes_none(struct collapse_control *cc,
-> -		struct vm_area_struct *vma)
-> +static int collapse_max_ptes_none(struct collapse_control *cc,
-> +		struct vm_area_struct *vma, unsigned int order)
->  {
-> +	unsigned int max_ptes_none = khugepaged_max_ptes_none;
->  	// If the vma is userfaultfd-armed, allow no none-page or zero-page PTEs.
->  	if (vma && userfaultfd_armed(vma))
->  		return 0;
->  	// for MADV_COLLAPSE, allow any none-page or zero-page PTEs.
->  	if (!cc->is_khugepaged)
->  		return HPAGE_PMD_NR;
-> -	// For all other cases repect the user defined maximum.
-> -	return khugepaged_max_ptes_none;
-> +	// for PMD collapse, respect the user defined maximum.
-> +	if (is_pmd_order(order))
-> +		return max_ptes_none;
-> +	/* Zero/non-present collapse disabled. */
-> +	if (!max_ptes_none)
-> +		return 0;
-> +	// for mTHP collapse with the sysctl value set to KHUGEPAGED_MAX_PTES_LIMIT,
-> +	// scale the maximum number of PTEs to the order of the collapse.
-> +	if (max_ptes_none == KHUGEPAGED_MAX_PTES_LIMIT)
-> +		return (1 << order) - 1;
-> +
-> +	// We currently only support max_ptes_none values of 0 or KHUGEPAGED_MAX_PTES_LIMIT.
-> +	// Emit a warning and return -EINVAL.
-> +	pr_warn_once("mTHP collapse only supports max_ptes_none values of 0 or %u\n",
-> +		      KHUGEPAGED_MAX_PTES_LIMIT);
-> +	return -EINVAL;
->  }
->  
->  /**
->   * collapse_max_ptes_shared - Calculate maximum allowed PTEs that map shared
->   * anonymous pages for the given collapse operation.
->   * @cc: The collapse control struct
-> + * @order: The folio order being collapsed to
->   *
->   * Return: Maximum number of PTEs that map shared anonymous pages for the
->   * collapse operation
->   */
-> -static unsigned int collapse_max_ptes_shared(struct collapse_control *cc)
-> +static unsigned int collapse_max_ptes_shared(struct collapse_control *cc,
-> +		unsigned int order)
->  {
->  	// for MADV_COLLAPSE, do not restrict the number of PTEs that map shared
->  	// anonymous pages.
->  	if (!cc->is_khugepaged)
->  		return HPAGE_PMD_NR;
-> +	// for mTHP collapse do not allow collapsing anonymous memory pages that
-> +	// are shared between processes.
-> +	if (!is_pmd_order(order))
-> +		return 0;
-> +	// for PMD collapse, respect the user defined maximum.
->  	return khugepaged_max_ptes_shared;
->  }
->  
-> @@ -391,16 +415,22 @@ static unsigned int collapse_max_ptes_shared(struct collapse_control *cc)
->   * collapse_max_ptes_swap - Calculate the maximum allowed non-present PTEs or the
->   * maximum allowed non-present pagecache entries for the given collapse operation.
->   * @cc: The collapse control struct
-> + * @order: The folio order being collapsed to
->   *
->   * Return: Maximum number of non-present PTEs or the maximum allowed non-present
->   * pagecache entries for the collapse operation.
->   */
-> -static unsigned int collapse_max_ptes_swap(struct collapse_control *cc)
-> +static unsigned int collapse_max_ptes_swap(struct collapse_control *cc,
-> +		unsigned int order)
->  {
->  	// for MADV_COLLAPSE, do not restrict the number PTEs entries or
->  	// pagecache entries that are non-present.
->  	if (!cc->is_khugepaged)
->  		return HPAGE_PMD_NR;
-> +	// for mTHP collapse do not allow any non-present PTEs or pagecache entries.
-> +	if (!is_pmd_order(order))
-> +		return 0;
-> +	// for PMD collapse, respect the user defined maximum.
->  	return khugepaged_max_ptes_swap;
->  }
->  
-> @@ -594,18 +624,22 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
->  
->  static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
-> -		struct list_head *compound_pagelist)
-> +		unsigned int order, struct list_head *compound_pagelist)
->  {
-> +	const unsigned long nr_pages = 1UL << order;
->  	struct page *page = NULL;
->  	struct folio *folio = NULL;
->  	unsigned long addr = start_addr;
->  	pte_t *_pte;
->  	int none_or_zero = 0, shared = 0, referenced = 0;
->  	enum scan_result result = SCAN_FAIL;
-> -	unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma);
-> -	unsigned int max_ptes_shared = collapse_max_ptes_shared(cc);
-> +	int max_ptes_none = collapse_max_ptes_none(cc, vma, order);
-> +	unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, order);
-> +
-> +	if (max_ptes_none < 0)
-> +		return SCAN_INVALID_PTES_NONE;
->  
-> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR;
-> +	for (_pte = pte; _pte < pte + nr_pages;
->  	     _pte++, addr += PAGE_SIZE) {
->  		pte_t pteval = ptep_get(_pte);
->  		if (pte_none_or_zero(pteval)) {
-> @@ -738,18 +772,18 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  }
->  
->  static void __collapse_huge_page_copy_succeeded(pte_t *pte,
-> -						struct vm_area_struct *vma,
-> -						unsigned long address,
-> -						spinlock_t *ptl,
-> -						struct list_head *compound_pagelist)
-> +		struct vm_area_struct *vma, unsigned long address,
-> +		spinlock_t *ptl, unsigned int order,
-> +		struct list_head *compound_pagelist)
->  {
-> -	unsigned long end = address + HPAGE_PMD_SIZE;
-> +	const unsigned long nr_pages = 1UL << order;
-> +	unsigned long end = address + (PAGE_SIZE << order);
->  	struct folio *src, *tmp;
->  	pte_t pteval;
->  	pte_t *_pte;
->  	unsigned int nr_ptes;
->  
-> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR; _pte += nr_ptes,
-> +	for (_pte = pte; _pte < pte + nr_pages; _pte += nr_ptes,
->  	     address += nr_ptes * PAGE_SIZE) {
->  		nr_ptes = 1;
->  		pteval = ptep_get(_pte);
-> @@ -802,11 +836,10 @@ static void __collapse_huge_page_copy_succeeded(pte_t *pte,
->  }
->  
->  static void __collapse_huge_page_copy_failed(pte_t *pte,
-> -					     pmd_t *pmd,
-> -					     pmd_t orig_pmd,
-> -					     struct vm_area_struct *vma,
-> -					     struct list_head *compound_pagelist)
-> +		pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
-> +		unsigned int order, struct list_head *compound_pagelist)
->  {
-> +	const unsigned long nr_pages = 1UL << order;
->  	spinlock_t *pmd_ptl;
->  
->  	/*
-> @@ -822,7 +855,7 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
->  	 * Release both raw and compound pages isolated
->  	 * in __collapse_huge_page_isolate.
->  	 */
-> -	release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
-> +	release_pte_pages(pte, pte + nr_pages, compound_pagelist);
->  }
->  
->  /*
-> @@ -842,16 +875,17 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
->   */
->  static enum scan_result __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
->  		pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
-> -		unsigned long address, spinlock_t *ptl,
-> +		unsigned long address, spinlock_t *ptl, unsigned int order,
->  		struct list_head *compound_pagelist)
->  {
-> +	const unsigned long nr_pages = 1UL << order;
->  	unsigned int i;
->  	enum scan_result result = SCAN_SUCCEED;
->  
->  	/*
->  	 * Copying pages' contents is subject to memory poison at any iteration.
->  	 */
-> -	for (i = 0; i < HPAGE_PMD_NR; i++) {
-> +	for (i = 0; i < nr_pages; i++) {
->  		pte_t pteval = ptep_get(pte + i);
->  		struct page *page = folio_page(folio, i);
->  		unsigned long src_addr = address + i * PAGE_SIZE;
-> @@ -870,10 +904,10 @@ static enum scan_result __collapse_huge_page_copy(pte_t *pte, struct folio *foli
->  
->  	if (likely(result == SCAN_SUCCEED))
->  		__collapse_huge_page_copy_succeeded(pte, vma, address, ptl,
-> -						    compound_pagelist);
-> +						    order, compound_pagelist);
->  	else
->  		__collapse_huge_page_copy_failed(pte, pmd, orig_pmd, vma,
-> -						 compound_pagelist);
-> +						 order, compound_pagelist);
->  
->  	return result;
->  }
-> @@ -1044,12 +1078,12 @@ static enum scan_result check_pmd_still_valid(struct mm_struct *mm,
->   * Returns result: if not SCAN_SUCCEED, mmap_lock has been released.
->   */
+> If ad9910_reg32_update() fails here, the function returns immediately without
+> reverting the swapped profiles. Should there be a rollback of the swapped
+> profiles in this error path to prevent the device from operating with corrupted
+> synthesizer parameters?
 
+Yes, I'd this part can be improved. Writing to CFR1 can be moved up (before the cache
+restore).
 
-Can you add a comment above __collapse_huge_page_swapin function that says its only
-done for PMD size only? Something like:
+> 
+> >  		default:
+> >  			return -EINVAL;
+> >  		}
+> 
+> [ ... ]
+> 
+> > @@ -1475,6 +1657,126 @@ static int ad9910_read_label(struct iio_dev *indio_dev,
+> > +static enum fw_upload_err ad9910_ram_fwu_write(struct fw_upload *fw_upload,
+> > +					       const u8 *data, u32 offset,
+> > +					       u32 size, u32 *written)
+> > +{
+> > +	const struct ad9910_ram_fw *fw_data = (const struct ad9910_ram_fw *)data;
+> > +	struct ad9910_state *st = fw_upload->dd_handle;
+> > +	int ret, ret2, idx, wcount;
+> > +	u64 tmp64, backup;
+> > +
+> > +	if (offset != 0)
+> > +		return FW_UPLOAD_ERR_INVALID_SIZE;
+> 
+> The sysfs firmware upload framework chunks data into blocks bounded by
+> PAGE_SIZE (typically 4096 bytes). Since the maximum AD9910 firmware size
+> can be 4176 bytes, this driver will reject any chunks after the first.
+> Can this be adjusted to support firmware files larger than PAGE_SIZE?
 
-For PMD-order collapse this faults in any swap entries it finds. For mTHP
-orders the function bails on the first swap entry with SCAN_EXCEED_SWAP_PTE,
-because faulting pages back in during a lower-order collapse could re-populate
-PTEs that push a later scan over the threshold for a higher-order collapse.
+That does not seem to be the case:
+https://elixir.bootlin.com/linux/v7.1-rc3/source/drivers/base/firmware_loader/sysfs_upload.c#L184
 
+Sysfs binary attribute writes from userspace are limited to PAGE_SIZE per
+write() syscall (enforced in fs/sysfs/file.c). But the firmware loader
+framework accumulates these into an internal buffer (fw->data).
 
->  static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
-> -		struct vm_area_struct *vma, unsigned long start_addr, pmd_t *pmd,
-> -		int referenced)
-> +		struct vm_area_struct *vma, unsigned long start_addr,
-> +		pmd_t *pmd, int referenced, unsigned int order)
->  {
->  	int swapped_in = 0;
->  	vm_fault_t ret = 0;
-> -	unsigned long addr, end = start_addr + (HPAGE_PMD_NR * PAGE_SIZE);
-> +	unsigned long addr, end = start_addr + (PAGE_SIZE << order);
->  	enum scan_result result;
->  	pte_t *pte = NULL;
->  	spinlock_t *ptl;
-> @@ -1081,6 +1115,19 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
->  		    pte_present(vmf.orig_pte))
->  			continue;
->  
-> +		/*
-> +		 * TODO: Support swapin without leading to further mTHP
-> +		 * collapses. Currently bringing in new pages via swapin may
-> +		 * cause a future higher order collapse on a rescan of the same
-> +		 * range.
-> +		 */
-> +		if (!is_pmd_order(order)) {
-> +			pte_unmap(pte);
-> +			mmap_read_unlock(mm);
-> +			result = SCAN_EXCEED_SWAP_PTE;
-> +			goto out;
-> +		}
-> +
->  		vmf.pte = pte;
->  		vmf.ptl = ptl;
->  		ret = do_swap_page(&vmf);
-> @@ -1200,7 +1247,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
->  		 * that case.  Continuing to collapse causes inconsistency.
->  		 */
->  		result = __collapse_huge_page_swapin(mm, vma, address, pmd,
-> -						     referenced);
-> +						     referenced, HPAGE_PMD_ORDER);
->  		if (result != SCAN_SUCCEED)
->  			goto out_nolock;
->  	}
-> @@ -1248,6 +1295,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
->  	pte = pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
->  	if (pte) {
->  		result = __collapse_huge_page_isolate(vma, address, pte, cc,
-> +						      HPAGE_PMD_ORDER,
->  						      &compound_pagelist);
->  		spin_unlock(pte_ptl);
->  	} else {
-> @@ -1278,6 +1326,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
->  
->  	result = __collapse_huge_page_copy(pte, folio, pmd, _pmd,
->  					   vma, address, pte_ptl,
-> +					   HPAGE_PMD_ORDER,
->  					   &compound_pagelist);
->  	pte_unmap(pte);
->  	if (unlikely(result != SCAN_SUCCEED))
-> @@ -1313,9 +1362,9 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  		struct vm_area_struct *vma, unsigned long start_addr,
->  		bool *lock_dropped, struct collapse_control *cc)
->  {
-> -	const unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma);
-> -	const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc);
-> -	const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc);
-> +	const int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
-> +	const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER);
-> +	const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
->  	pmd_t *pmd;
->  	pte_t *pte, *_pte;
->  	int none_or_zero = 0, shared = 0, referenced = 0;
-> @@ -2369,8 +2418,8 @@ static enum scan_result collapse_scan_file(struct mm_struct *mm,
->  		unsigned long addr, struct file *file, pgoff_t start,
->  		struct collapse_control *cc)
->  {
-> -	const unsigned int max_ptes_none = collapse_max_ptes_none(cc, NULL);
-> -	const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc);
-> +	const int max_ptes_none = collapse_max_ptes_none(cc, NULL, HPAGE_PMD_ORDER);
-> +	const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
->  	struct folio *folio = NULL;
->  	struct address_space *mapping = file->f_mapping;
->  	XA_STATE(xas, &mapping->i_pages, start);
+The driver's write callback is called from fw_upload_main() in sysfs_upload.c.
+So, the key question is whether that function passes fw->size - offset
+(the full remaining size) or min(fw->size - offset, PAGE_SIZE) (PAGE_SIZE-bounded chunks)
+to the driver callback.
+
+The referenced code shows that the write callback is not called every
+PAGE_SIZE chunks, but the callback implementation that defines the how
+much it can handle at each call.
+
+Also, I have already tested this code with a FW file bigger than 4k.
+
+> > +
+> > +	guard(mutex)(&st->lock);
+> > +
+> > +	if (st->ram_fwu_cancel)
+> > +		return FW_UPLOAD_ERR_CANCELED;
+> > +
+> > +	if (AD9910_RAM_ENABLED(st))
+> > +		return FW_UPLOAD_ERR_HW_ERROR;
+> > +
+> > +	for (idx = 0; idx < AD9910_NUM_PROFILES; idx++)
+> > +		st->reg_profile[idx] = get_unaligned_be64(&fw_data->profiles[idx]) |
+> > +				       AD9910_PROFILE_RAM_OPEN_MSK;
+> 
+> Here the software cache st->reg_profile[] is overwritten before the SPI
+> hardware operations. If any subsequent hardware writes fail, the function
+> aborts and the cache is left with partially uploaded profiles.
+> Could the original cache be backed up and restored on failure?
+
+I'd say that is not an issue. When RAM is disabled (requirement to enter this function),
+this cache is exclusive to be managed by the RAM mode. This is meant to be
+written here.
+
+> 
+> > +
+> > +	ret = ad9910_reg32_update(st, AD9910_REG_CFR1,
+> > +				  AD9910_CFR1_RAM_PLAYBACK_DEST_MSK |
+> > +				  AD9910_CFR1_INT_PROFILE_CTL_MSK,
+> > +				  get_unaligned_be32(&fw_data->cfr1), true);
+> > +	if (ret)
+> > +		return FW_UPLOAD_ERR_RW_ERROR;
+> > +
+> > +	wcount = get_unaligned_be16(&fw_data->wcount);
+> > +	if (!wcount) {
+> > +		*written = size;
+> > +		return FW_UPLOAD_ERR_NONE; /* nothing else to write */
+> > +	}
+> > +
+> > +	ret = ad9910_profile_set(st, st->profile);
+> > +	if (ret)
+> > +		return FW_UPLOAD_ERR_HW_ERROR;
+> > +
+> > +	/* backup profile register and update it with required address range */
+> > +	backup = st->reg[AD9910_REG_PROFILE(st->profile)].val64;
+> > +	tmp64 = AD9910_PROFILE_RAM_STEP_RATE_MSK |
+> > +		FIELD_PREP(AD9910_PROFILE_RAM_START_ADDR_MSK, 0) |
+> > +		FIELD_PREP(AD9910_PROFILE_RAM_END_ADDR_MSK, wcount - 1);
+> > +	ret = ad9910_reg64_write(st, AD9910_REG_PROFILE(st->profile), tmp64, true);
+> > +	if (ret)
+> > +		return FW_UPLOAD_ERR_RW_ERROR;
+> > +
+> > +	memcpy(&st->tx_buf[1], fw_data->words, wcount * AD9910_RAM_WORD_SIZE);
+> 
+> If the firmware is larger than PAGE_SIZE, size will be 4096 on the first
+> call, but wcount could request more bytes than are present in the chunk.
+> Does this memcpy() risk reading out-of-bounds memory from the data buffer?
+
+this is dicussed above, from drivers/base/firmware_loader/sysfs_upload.c it
+does not seem to be true that the write happens in chunks of PAGE_SIZE.
+
+> [ ... ]
+> 
+> > @@ -1688,7 +2014,25 @@ static int ad9910_probe(struct spi_device *spi)
+> >  	if (ret)
+> >  		return dev_err_probe(dev, ret, "device setup failed\n");
+> >  
+> > -	return devm_iio_device_register(dev, indio_dev);
+> > +	snprintf(st->ram_fwu_name, sizeof(st->ram_fwu_name), "%s:ram",
+> > +		 dev_name(&indio_dev->dev));
+> 
+> The IIO core does not assign the device name to indio_dev->dev until
+> devm_iio_device_register() is called. Will dev_name() return "(null)" here,
+> resulting in sysfs nodes named "/sys/class/firmware/(null):ram"?
+> This might also cause probe failures due to sysfs name collisions if multiple
+> AD9910 devices are present on the system.
+
+I suppose that is incorrect.
+
+	dev_set_name(&indio_dev->dev, "iio:device%d", iio_dev_opaque->id)
+
+happens during iio_device_alloc().
+
+> 
+> > +	st->ram_fwu = firmware_upload_register(THIS_MODULE, dev, st->ram_fwu_name,
+> > +					       &ad9910_ram_fwu_ops, st);
+> > +	if (IS_ERR(st->ram_fwu))
+> > +		return dev_err_probe(dev, PTR_ERR(st->ram_fwu),
+> > +				     "failed to register ram upload ops\n");
+> > +
+> > +	ret = devm_add_action_or_reset(dev, ad9910_ram_fwu_unregister, st->ram_fwu);
+> > +	if (ret)
+> > +		return dev_err_probe(dev, ret,
+> > +				     "failed to add ram upload unregister action\n");
+> > +
+> > +	ret = devm_iio_device_register(dev, indio_dev);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ad9910_debugfs_init(st, indio_dev);
+> > +	return 0;
+> >  }
+> 
 > -- 
-> 2.54.0
-> 
-> 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20260517-ad9910-iio-driver-v5-0-31599c88314a@analog.com?part=9
+
+-- 
+Kind regards,
+
+Rodrigo Alencar
