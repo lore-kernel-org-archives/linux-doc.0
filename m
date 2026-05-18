@@ -1,87 +1,73 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010016.outbound.protection.outlook.com [52.101.193.16])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011063.outbound.protection.outlook.com [40.93.194.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B923339875;
-	Mon, 18 May 2026 14:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F27481AB8;
+	Mon, 18 May 2026 14:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.63
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779113231; cv=fail; b=Pk4BY+br2d9edQd1+VqgxQt/6rsNX7x+y4w6cXj4R0YN1BgDnT0/vIHOiS1nySpgEbjQg2GVgoXkHzXqODajMVYXv4NBF2ytNjvxQKro1NpHUYUM4plcQIpy37Tx069mhde/VsOoycf4vnIDtSh9SmQMx75oUNKUkeHZ4AyKTIs=
+	t=1779113747; cv=fail; b=pnb+1MCXtcwkXTCWAZqi/UDftvGWoAjgzg5llZcwI88b4P/lOB9Ent01GEGXnOAcQr/MBd6Bp4erw9owuyQW98OaohPElobRDMUwOnCy+H5XJeXeqNltzgwNDTlt/pdQCxtmwG4vmgkLqFEQMTn985bCBbK7j16Udf34QIZ2PmU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779113231; c=relaxed/simple;
-	bh=DcBBcDz+RZYXF4N6fXmG+KWYDZr0jZZeuEfDwlDrOxY=;
+	s=arc-20240116; t=1779113747; c=relaxed/simple;
+	bh=MGMfsBNOvM23R8tZupevn+SebAa4kA9mGypE+5agXbM=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=f0P8MxWSzMBhVjusTvGdhw92GoFbpE10js1h27xuyyvzw3BHKqcnHry8CsSo6hw3au+ToVLva0Skf0hAE9f63paO7yR8eDbLV4m9/Q+GWJaI8SQBSVn+ZlmW2aKEsIefuq0CiupcY084VKrbh/s/yUN3Oh2ruIEVDza+yfAmK0Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UdbplvIQ; arc=fail smtp.client-ip=52.101.193.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	 Content-Type:MIME-Version; b=ewwWnb+GlQ1O17Ti5Fgmn8Jk/moTGtjaqql3eBIFEchmaPrxWjsnocAlvVql+D4uRCzyysJSEdJKR+JRJ2weJM0qNmCQHphQ57E3d77UtKlOfskGSP905FMACoYKyJZJbas/I3+J0NS0zZ+k6x2lF9+dOtvHc8dscyTzbxlZa8k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=d5P61gEw; arc=fail smtp.client-ip=40.93.194.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UdbplvIQ"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="d5P61gEw"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LbS+pGiBrCmW11GoHj0NOa2GVMLVbzqm21AK/8ZOxsXGk1r9RY5f2fheQ35cjrwYAnzEBgi6RkpNtk3iAz4VmE/8ExBEZoNsW4FwLthvofeOjyUJhThIwMaBAcI4DU6b+fMZlsd2Rn1c7vcTNEZfZjVHCuspB9bRYn3306sQ2pLjsQWig50ZrOeoQXFJ7TmMVVp6hQ86VoTrqO5rxYVDuNXVJmeeR/LZe6AYocRQp9/8Ha+46yfvyvFG4ma3JjIE55gdaPnyJVvwak6X2jV/nmFCX424Yr9jVgAhHvj3B2kNPQRWOcLtHQ4ds8OEKtYRUDdgUOfvwYJJERzQyqQ5VA==
+ b=QuBo9NfVgKumhv6Rh1fOwQFkvTOtDcoR//8/ldCtbbEkDM9WPtV9dCD/YQvjoelLxfyZZR94e/NwdyZFN1w/EvZ35iha3fNIySeYozIYwcI2aUufHJSTuAmZ6hUsbHRH8Cc/Vg38gm4t01Zx6UMwtO29tBjaDNVjc4bhaLByMk+sLMie74/Kn7kUjpxYTS2X+yJeHCM+GOMmrKtET6akNqBDiOleg/Nl/39FFUWGcWzmsnQ+q371jUOwlX0BB3MlfvdlnKoEIRiRSipQ0MxILO2YeonSUqJpyaoO26wk2LKz0s2PpS5DsUJ65IHsTqQDyajTb7lucbcsRszaSI0Mwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QWOQllWq8tBdwYD97bk8HHpRxY8kZ/JxczwmHc/UYK0=;
- b=EKSKvuTXrlW/YTKFTv5jMZVQYSwSxxV+UIEV3ygsgZ5Q1v2ycVscjj2I1O6H0KtGlbz33rZSsTApioTTVdY0DwSZll5B7yrlMYZTip+zaFapoWSvvOL1zZqfjD/GqrvLLXVe7Js/zlw+2CTDqGAEJXqfo4dHZdXQCgwHt1KI9mS3Ow5Vqc3kc18yaChEok6K9d7bknjR4bGKlx42DneAbDADNmCnAUZfir3LGCpJ8VhCgwkWg8CEkHSrbZsIblxMiDtfsDjm4txzjNRaLXBgtRYZqGnj/948ZIl5o7K7/pZtAzRdn03mp5V9TCe/8bh0rXVV66xjRVRJFHESUwzJ0w==
+ bh=4C2SgUB/UhppwC8k47Lf1TQECFUUL5gSuZIdw/r3fHI=;
+ b=ivOsCbfXUplQVehbctz+T1KZ2EordVGpoqB1EXAKYw3X1zzxcOfu3Fku54AVZwmaCxECb/hrBmE8R2h5Wy2bvjlad0CKrh9XTtu/qf2jrqIZnjC5dHbJNLat7SGjMucrSg1n/GETSh/QYRLGbHijif09woFnK20sSX46O2hofjmeYUTOZ7XH9nNKu1XNL1FTvNR9GGsTtP2tUkGfWcAoAlWzqZHLJQm1pDgaquWXs0L7NaQSQU39bgs1Xr5xO3w1UusqWiDhkLTO9SXHC0WE+KbFWZxAZNA5C4lCHY44e2E0O18Z5ha3uvET9Mrm8aUc/6Cb+Gb8+O4KWYwN7vuZNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QWOQllWq8tBdwYD97bk8HHpRxY8kZ/JxczwmHc/UYK0=;
- b=UdbplvIQCCTtVxnGyLICMhL4tTLbSrEbOl8JZZ8+GcBCJp7xfuLxHnoA/phkEmaimw4b8AsWOmB/M3Mx7I1GoTACUcOeFk3l1bE2Acsb8vzDex3Y+tOTEy0T4OIh/3fArHvSREd9R1JnCR/sL//XOMulnRO+XpV6slWnVt26H80=
+ bh=4C2SgUB/UhppwC8k47Lf1TQECFUUL5gSuZIdw/r3fHI=;
+ b=d5P61gEwo0qtMD1I/5Zr2i60xmJ/StlR6s7nsoNiTZXWvaZalTxlEuEeLZtERZ+8xqnKl3Zk/6syyhqLQGKka1rD8ufT7+7nvX7gVoNWFHYfJLStNglZ6Q6/ExnoHdS5rpqejqiJmRXk5PucFnZxdh1Oya5ld8fSF/9uG1Ov5lZV+dN9/0p6aQdvIxgP9L9ynX2rPlYL9NcioOjTfxFIteQiW3dHApn48ADf+61UV4Wc5Ht+VFirG3OZlZYS7E0yPcDAjcLXuZSco5q2wkrPufDWISZeON7ZcTo9xjAB4qnvCXsMWW9VM2J0SIU+1VdTLe3TzmQTWQNvy8fJ7Ko0yQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB6442.namprd12.prod.outlook.com (2603:10b6:510:1fa::20) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by CH0PR12MB8486.namprd12.prod.outlook.com (2603:10b6:610:18a::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.23; Mon, 18 May
- 2026 14:06:58 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Mon, 18 May 2026
- 14:06:58 +0000
-Message-ID: <88efe10a-8b93-4a81-8279-4a5559d0f17c@amd.com>
-Date: Mon, 18 May 2026 16:06:49 +0200
+ 2026 14:15:33 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f%4]) with mapi id 15.21.0025.022; Mon, 18 May 2026
+ 14:15:33 +0000
+Message-ID: <e1a546f2-6e7e-4236-97bb-f72bea0137f7@nvidia.com>
+Date: Mon, 18 May 2026 19:45:23 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit
- memcg
-To: Albert Esteve <aesteve@redhat.com>
-Cc: "T.J. Mercier" <tjmercier@google.com>,
- Christian Brauner <brauner@kernel.org>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-mm@kvack.org, linux-security-module@vger.kernel.org,
- selinux@vger.kernel.org, linux-kselftest@vger.kernel.org,
- mripard@kernel.org, echanude@redhat.com
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <20260515-hinschauen-effizient-9e3a05a94f2e@brauner>
- <CABdmKX0d6Zsg+_TxXjB80UZR23ZvXzxYoWzORgwmx=ZiuE+Nzw@mail.gmail.com>
- <208fb820-d8eb-4832-a343-ef8b360e8120@amd.com>
- <CADSE00Lh95ygoXGKJGsYvQGEsFV8sVmwEC3uvh8M6r3ERzaJwg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] cpufreq: CPPC: add autonomous mode boot parameter
+ support
+To: Mario Limonciello <mario.limonciello@amd.com>, rafael@kernel.org,
+ viresh.kumar@linaro.org, pierre.gondois@arm.com, ionela.voinescu@arm.com,
+ zhenglifeng1@huawei.com, zhanjie9@hisilicon.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+ vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
+ mochs@nvidia.com, bbasu@nvidia.com
+References: <20260515122624.1920637-1-sumitg@nvidia.com>
+ <20260515122624.1920637-3-sumitg@nvidia.com>
+ <bf521e4e-1aa5-49ce-bec5-52845f02214e@amd.com>
+ <139d2f0e-72d9-4721-9d5a-d1d4a2a95fa1@nvidia.com>
+ <72fd2fcc-6303-4980-beb7-e4b711ad6406@amd.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CADSE00Lh95ygoXGKJGsYvQGEsFV8sVmwEC3uvh8M6r3ERzaJwg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <72fd2fcc-6303-4980-beb7-e4b711ad6406@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BLAPR05CA0019.namprd05.prod.outlook.com
- (2603:10b6:208:36e::24) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+X-ClientProxiedBy: MA5P287CA0096.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1d4::11) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,397 +75,369 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB6442:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a92aa7e-30e2-41f0-08d7-08deb4e6b95c
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|CH0PR12MB8486:EE_
+X-MS-Office365-Filtering-Correlation-Id: 56787747-ce18-419f-e891-08deb4e7ec7f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|18002099003|56012099003|22082099003|11063799003|4143699003;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|3023799003|11063799003|4143699003|22082099003|56012099003|18002099003|921020;
 X-Microsoft-Antispam-Message-Info:
-	MTxVJYUC6oD2/Jyu9bmX1RkSfALK/i20sOCExY9n6J5g8wOv4uRJOs9t8l0K/wCNa9yEkTnLOLLn86+ew0caGK4DowXN1YABNzoY4sn1Mgzs8DyIqygxfR8c8CfzcEFBf0AjU125YFLsnit9pCo/ARfIbZCzbrt4X8pa1bDpzNolb1YNFlhk6b3Q4TLmSgDHfac7yU/y5j2td+gd5HNwi2qWhYCICI3dqZgy1cD80GvqoS0d3un9yTLXq+/oVqwhFm5yJAjh0KDff1MAX1Dr6ZRy6PtOKYWN37YfORRtVGcCR3SxsK7Kl1I/pGEITEvvlg1FmnEEL+6TDoB8/Rmq7kVmt2KE/jL6wA0t9j7rzshk7K5j1UbBNas2JmejFtaFQD/U8lrg+4Px6QFcf148+QPr+oyDiEr4Wg4jGDFJBy1m3vlfnX9i2RXoPMqdpQ45GeWfmYV6balclpP94tjoqLYWi4KGlY2bzMKPdN9/tJCVwjc6U01Q8EJnAIhZE4/3lPw6ha+NBTNIIsTYD0Q3hN3ALY3YI29SUSh9/WKZtKsBoTZiUo/5SKgwiFIwe4WHMs9R5nU3OuRAjrd5BTqt/Gtz852k7cS80KSFw3Tqm8vp6FW/4lXHb990yXYQawtyh1D6SN4MJBx3pCyof8+QHsJxAyWnXPS0jwjinGCWzz2tj7kX0I/XQ461sgk4JTYA
+	zQgXaQRbkt1razk9PAvTHg0j6GKl/PzxewSlw6SzTwZ+367RPOK3gAtnOz1bYZfvK6+80BmowDHmuqBq9M80cBHWj5kXZIEPe1IDIsK8bXmlgXOUs7nrCUnIg4kkoAKuwXh/JlyQxg0YWDXFhfXwQbqtR8DHwkihmi29BS5pwno8lrt6CMJ/0+XJ/9Ze8oznpfwSPUMWNt8oMxr6QqtnHolA2kxJhoEZqyq5iVjibSlHqZldlXhaaI3HHCBeEon7AWm8lZ3MSGhixUQPPDRoin28IgKLTtVm5jkgTKrP7k5cAIxVMpgpRm5LxuYwNxpTarCan9o77BrOuFr6r9gTQidiqceRlCF6nOBPlibh7kCc3ZGoyKoAiRzFHs1bshVyzkUQpSSR3q1kldutd0QTYwBRFYgTzwceVEqCA/nDVYCXpavo18qjtTvLxSrQTkkC0NBofe3CmmJ33SwUKLo/9T+MsRYA3nllCnEDyYE0SKkYmvxYM3QCtrxoBXvtcr8dp0qaEc8jE2HHeYBH6uFE3saB9VgA+Rfc/RIf3vY7RIjMI+x1ewf4NhrzFC2YgAiE9O1xXXGKmf41kPdmZyfIuO6dkMZOJq2dcQ9yFRG0mMEbe9O6SfiDQLc9vi1oZr/08VzvolGw/HNEhH0F4Zt1BuupAoXI/m5czzbQcv7/iHVmk0BuGulH0XK7IWYwY5TJ9pJlBsVpiQ2FIc8H/90MzDj3w9/zk7TafkVdlQhR2j67oZOq2aeeHQ2B4xZ69w9B
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(18002099003)(56012099003)(22082099003)(11063799003)(4143699003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(3023799003)(11063799003)(4143699003)(22082099003)(56012099003)(18002099003)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NStXMWw5YzJEYjRDL1hrTWlSVkxRRjJ1MUEzOFczbGozUHF3c1N0RVFESGNk?=
- =?utf-8?B?MWdTS3c5cjlWaGFES1V3dXJvVHcvMS9Nc1ovU1dEWEd2SlNVMGttdzNxWjJJ?=
- =?utf-8?B?ZGpQaUd2RGYrRTMySzJMTElvNFhMYkdsMEwzUHVGY2pvWTY0UkZjMyswUFlW?=
- =?utf-8?B?OEU1YWFvaS9lQkFyWkxGWEJOZVVlQTQvcCt4QnJIRDFjSlRjUkR2K2x5V2d5?=
- =?utf-8?B?UHBvSktEM0VwWVpXL0lTRFdXTTRMRmdvaU53TzBMRlI2QTVLK1RiUGNGV1Jt?=
- =?utf-8?B?UzZiZUtEdUFza0VjT21yNWJ0WHRSOTYvMUd5V1NxZm1vRGNZc0NNOEtCTGVR?=
- =?utf-8?B?a1RyejFkMXNnZytCcUZRWTExOTdzbTl0OEdCanVYekdGV2pwKytRanBOWE0x?=
- =?utf-8?B?K3NiZWFWZ2tmSzJCdVZxWUdXWGtzNW5aRnZiZGRCUW9IT0ZoTkUvK1hreVAv?=
- =?utf-8?B?Y3QyTFdBSjcwMWdjZis1RG11dVBUWXNLK204enNTK2VQRWR4dTRBRnVQWFJI?=
- =?utf-8?B?RW5KU0xXaytadEswQkV5dytlNWM2U1lwc0FHUWhDSFBncHFXY3dCMmxlSklL?=
- =?utf-8?B?R01td1EremVWNXRNRFBIaU1PM2RFT1F6NW5qdnFRU2NpayttOTJ5YnRoTVpz?=
- =?utf-8?B?TEIzUVgxSEJjMzJwa3lXWkNOemlYUlFYdHpmUTVMbmF6a3BvTHNFRk9RUTl4?=
- =?utf-8?B?bTNiRmhKTnVGY3VTaFZXS09PNzVyb2Y1Um9TNzFLeDdpVGh3aU9zL204ZHVz?=
- =?utf-8?B?ZkR5YmEzMFRobWVpbW5BMDB5Z015VzBwQlFOU01tVE1yendFdXlYT3cvS3VZ?=
- =?utf-8?B?cWlQQjl1b1Z5OEthMU5QTkw2Tzd1L3dXeTFDd2N5eFRhZkJpd21mWUd0RXc2?=
- =?utf-8?B?bS9VMGRKaFJJL3dLcjdZREJISk5aNHVTc0xOOFo4VzFXS3RMK01RTFQ1MktV?=
- =?utf-8?B?SWMwV2dYaW9EVWNabWovMGw3VUtwMDVFaEl5L2RrR3k4MDI2VWp2V0t6Z0Qx?=
- =?utf-8?B?SlowQmNDWmhBY21ubnhra2VRQ05sckNPaXVXcXpGcUtkamNNdHZOVG44OTB1?=
- =?utf-8?B?N0hTQW8xcDYzalE5VkxSejU0MlhEcWd2OFFhc1Mwbng5d1oyU2F4VWgzdXhr?=
- =?utf-8?B?TWtEaWNneDQrcE52U29vSjJLd1pRZjdTTWVOSmxKZGQ0ZGFFYXRPd3N6ZjV6?=
- =?utf-8?B?aHU4c2hROTFENHNYQ1M5SFVTdUl2dyt6VGpvRnBJSE9mRnZRK08vQTI3Qmxi?=
- =?utf-8?B?U2x5U3RJTGF0Q2N0d3Q2TDFqV09oYnNrSi9mKzlybncrQzBwcmFmY0NkVlIz?=
- =?utf-8?B?R1l4T3VOMURpSWZMelJWQkthSmxZYU5iQjRjL05hQmpkTGVkc3JoeW9xT1Q0?=
- =?utf-8?B?UUM3SUR0Tmp6OC9TVWJGRWpBcDdRQ1Z1NzF4M0JvZ1hjTEtYUU40RWlSNW0z?=
- =?utf-8?B?L1IyM1BXOFlzdG91RTJGaXlpd0hVQkNhSVowaTVRQ1lETW0xTitveTRiMDVO?=
- =?utf-8?B?dW9xQjFnSmxRTGdaWFF5Q0dpL2dHVmUvTUJpUm44MDZmUmIycUowUHRmd3Fw?=
- =?utf-8?B?U1YzcjRpamVFeDFqWFB1TEFZbFhudTJncEhFYzJ0YnFSRndUa3hWZ241eEFR?=
- =?utf-8?B?Rkk0OFJ4MlBmSWNzZThzbnVLZDd6T25qUU80RU9TYlZrQmRhQWZOVkorMVBp?=
- =?utf-8?B?dm0wK2V5TWs0OGw5dmw0ajM2QXJ1ZnZVR21WTEY1UkhiS0dyWE1JcnV6TkY0?=
- =?utf-8?B?R01NSzZuSENzR0VmTGJxN1BydUxHM2p4RlBCVy95TS9nOEYzb2ROUDVuSk8x?=
- =?utf-8?B?MCsvdG9IdVV4MVhYU2RTU1ZhK3FmczRUMFpIUlh3K0l4aGdwVGRwWHdDZW1V?=
- =?utf-8?B?MFgwMCtJdUFjekFtUW5OOFYwRTd2N0FsMWlydjJxcUZWZkEyNk0vZGszb0Rh?=
- =?utf-8?B?cFkxUUNVdkJMdzlXMkxYMWVZbnljTTN2bjM0RVVxNVMyb0NVZFREUDJzVkc5?=
- =?utf-8?B?R2N6Q0JQK0FkV0RacUpReTNneDhDN3N1TDVyMEhqMldJaTl6dFREZnNPQ2JG?=
- =?utf-8?B?RVJGdGJWdkVIK2E2QUlENzlzRmxQMGQvVzJyWGVBQjE3RjhtUitLYjhOR1Ir?=
- =?utf-8?B?TzBhTHhtQ21sajRSVE01Rk1wbDlwWURYNFM0SHhpeWJuNjJhcUg5Wi9IS2xG?=
- =?utf-8?B?bnNLWWcveC8zNVFJMHRCVTJYUXJPQU5WcXN4K2Nhc2I1MFpLRkMvb0dBSmEv?=
- =?utf-8?B?Uy8ydHNWYUVmL1pnN2xqSUI2TFAzTUl3MUNENU5SM3FiOGNyZGVtUDYzS0h2?=
- =?utf-8?Q?jUHU/iD/wzuKjSwUnO?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a92aa7e-30e2-41f0-08d7-08deb4e6b95c
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+	=?utf-8?B?aGJzbm1iSnZsNW1vZXg1UW9YSi9VNHorcVI0OUdYZ2EvbXo4TnhhUVpXYXZJ?=
+ =?utf-8?B?UGhHM1FjYUlUQVRxZ3ZQcmdvM0ZhdlBRWmRWQmsvZkpnTzA5M2xCOWRZUkJV?=
+ =?utf-8?B?RnZWcUhaVkdSeGg3RHRHc0tYSWVqSVJyeDRiZXJjRGxRb1I4SFVtQjV2UUtC?=
+ =?utf-8?B?ZFBteEV5eU8wZ1ZhUU5ROUxINExCdkRnMWE4OGM5Y0JzeFRVUlJseXZNQm9q?=
+ =?utf-8?B?RkREUGV2cGE2ZkdrdjEzR2p2dUFadU9jMnZCYjFXRWNHK0p2aG5QQUwwdk52?=
+ =?utf-8?B?UmZ3VjZtYzZGeVo2ZjNHdEJLcmRpOVZ4YmdHcG9TUEN6L2hBL1BzV3FEbmFG?=
+ =?utf-8?B?R1c4UDAzNEhyeDRrWWtpemhpamVWNEp0WjUxN1E5RkpkZE5ZWjEraWlnanRq?=
+ =?utf-8?B?a1hoaGlVMUJPZHVDbmcxWGJHZGpCUVE2U1cxWElKS210djYyUEwyTnVxd1ds?=
+ =?utf-8?B?am4wUm4wd2EyMExVeklRMkxNZHBQbkVraHp6aFUwbW9EeFFGcHdiKzdlMGdX?=
+ =?utf-8?B?UlQyY3JrRk5CdWRORmpHT0tVUmd5UUhsMFVHZGVSdjRGNHFSNzRDYXA4ZW1Q?=
+ =?utf-8?B?eTI0SGh6NERRNTRJbmFTWlZ1d0tpT2JsWHY3c0dtbWlJZ1dIaHFiOVptbUJ0?=
+ =?utf-8?B?MitmaU5Bc2VxT0VMUFdPcVJmMDRRRVZkOU8zQ3NDMHhNNjRDdDRtOUwwNGJU?=
+ =?utf-8?B?cU1pUmhOWk9RZVNjcHJkVTgxdUdkWnp3Tm56cmdxRHNxdE1NTlF2RFR6citM?=
+ =?utf-8?B?d1lmbGd6dko4VGNhWmVQMURxYlBNcVBqSEo0anA1VmlCNW4zdXJYN3Zvc1d1?=
+ =?utf-8?B?Y1dLZWk0ZWpYYUFCdk54djh5TytUaENERjdXU3h2ZWlEdnB3VWk1enNDTEV3?=
+ =?utf-8?B?ZFpUcUZkbDhHdjRPbGxFQlJKbXRINVRZUW02Tmg5WjhXRXl1S3RXaFF1WEVC?=
+ =?utf-8?B?UHpTU2VVQ1hGMThuSTBUdzlUMysrRkxSMUFERVBJY0hwajJTa004WlBEZXFq?=
+ =?utf-8?B?ekVIcDhmWm4vYXc0STNHUDhTTzhPSS9pOHlGNXRqM0JIQ2FockhZYlRqOGJV?=
+ =?utf-8?B?UkllYXRoQ2FYbUJoQUJiSkFPd3AwalN3NmdGMXoyTi93MUtGQlRvbVNoM2lL?=
+ =?utf-8?B?Q2cxZzZGNUVpYUd3VUVXaHRWc0lIS200QkdDbWVFRUZDUmxUOWNuTmVubHZ4?=
+ =?utf-8?B?bysxMDhBVHllNGd5LzBGV0p5bkxxQkEzb1F6dGZIMTFJY3BWd2ZaVmlzOWd0?=
+ =?utf-8?B?akI0RWR2OWRQMlppc2lqRDFvMTN6WUdwL1NFUmJCcGVZaFRtbVRPZlh3NW5G?=
+ =?utf-8?B?Vm45K0czaUw0WUZYMDNFUStaam9DbmFUMGRBdWhJTXArdVpIaG1TYTdENmdT?=
+ =?utf-8?B?OFlhNFh3US9NTEVhUWFtb2JhOTE0L0lZR0pBa0Z4bndQVVZWcVZOeE1JbE1B?=
+ =?utf-8?B?aHF5MUVBNjhIRWVRVTlEWGk0c05WZTkrc1Z5YkM4Nm9yb0ZUYld1YW5wT2FR?=
+ =?utf-8?B?d3loVi9oRFZQR2tKYndjWWtiS1BqN1JQYXlnejVCZHpxK0E0THhjU0xDM3BN?=
+ =?utf-8?B?aVJuTkxQbWhxWWljZXJOU1pzUDBzaVZHUXp0dUhGaXg0N1ZPL3g4cW45dlBr?=
+ =?utf-8?B?RlgxblZ3T3RuQkJ5Zk1mbkJOUFp2WTd6OE56U0N4OFFhWmFWelFjWGNSbGgr?=
+ =?utf-8?B?cnlsSUF4UzVCc05JeDNFejZwRzJOaE4xbVNpMGQ5RmhHTE45N0RTSXE2czVo?=
+ =?utf-8?B?ellPZy96dVhwalZ6S2E3U25GQkU4Z1hlcUdJUno3eHQvUEdIK05WVStRVFBn?=
+ =?utf-8?B?dFFBV3BMZU5NMXNXVDJvZnBmZWJ0clZONXdjbEJFREM2TVordjBBMHZNV0Na?=
+ =?utf-8?B?SkN4am5aenhKRS9mb1hBL3BkbTlNZ1Z3VEpBaEM1NEgya2NyOElhR0JuZ0tU?=
+ =?utf-8?B?a3hCOXpiekg0NmswTUNERE9RS0FacDk0dUtEdWxQU3ZteFprbzhldXExWjRT?=
+ =?utf-8?B?MG9oMDZ6WXNFbnhna3g3MnlPRy9kcEdUYnN0SnpSZzBjTTVHVWxyUzd0dkpp?=
+ =?utf-8?B?emhydUh5MVNIYmJ5ZEh1UjYzYVpGZ3NGMHVxaTl2d3IySHJlSFJnWkM3ODJW?=
+ =?utf-8?B?QkVNdW5HZFg2RjlIbk91WUxMMG5wanFYZVpCdEFtN2dSOHRwb0NFblJkbXZa?=
+ =?utf-8?B?aVZCOTlXVDdUYTloby9sajFXelRad1RyWVhCNnVCaFprSUxqRUQyQVlvdlQz?=
+ =?utf-8?B?cTJHSFBDWDdJaDBVVWlrdnFmU0s4NXlVZ2ZMbkNheUZKN2Z2TGYrOVpBT3Rk?=
+ =?utf-8?Q?1t8N1AZDBUi02Yle16?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56787747-ce18-419f-e891-08deb4e7ec7f
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 14:06:58.0561
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 14:15:33.4908
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6k3s3qo2Bg6F0UBvk/Ct9DU87/kj8vMhOFM+3Bq0qWDZ2rG2ZTvbXz5rF9eIep1u
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6442
+X-MS-Exchange-CrossTenant-UserPrincipalName: xE9Fcdt9J4N4/CPHCabhnGwbUNEIp5vcAUBKIAX9txg9L/Cit53tuRXlGkYD2Yfqrn7uVFFkXVdIs/LPiZqvBA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8486
 
-On 5/18/26 14:50, Albert Esteve wrote:
-> On Mon, May 18, 2026 at 9:20 AM Christian König
-> <christian.koenig@amd.com> wrote:
+
+On 18/05/26 19:20, Mario Limonciello wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On 5/18/26 08:44, Sumit Gupta wrote:
+>> Hi Mario,
 >>
->> On 5/15/26 19:06, T.J. Mercier wrote:
->>> On Fri, May 15, 2026 at 6:53 AM Christian Brauner <brauner@kernel.org> wrote:
->>>>
->>>> On Tue, May 12, 2026 at 11:10:44AM +0200, Albert Esteve wrote:
->>>>> On embedded platforms a central process often allocates dma-buf
->>>>> memory on behalf of client applications. Without a way to
->>>>> attribute the charge to the requesting client's cgroup, the
->>>>> cost lands on the allocator, making per-cgroup memory limits
->>>>> ineffective for the actual consumers.
->>>>>
->>>>> Add charge_pid_fd to struct dma_heap_allocation_data. When set to
->>>>
->>>> Please be aware that pidfds come in two flavors:
->>>>
->>>> thread-group pidfds and thread-specific pidfds. Make sure that your API
->>>> doesn't implicitly depend on this distinction not existing.
+>>
+>> On 16/05/26 02:43, Mario Limonciello wrote:
+>>> External email: Use caution opening links or attachments
 >>>
->>> Hi Christian,
 >>>
->>> Memcg is not a controller that supports "thread mode" so all threads
->>> in a group should belong to the same memcg.
->>
->> BTW: Exactly that is the requirement automotive has with their native context use case.
->>
->> The use case is that you have a deamon which has multiple threads were each one is acting on behalve of some other process.
->>
->> At the moment we basically say they are simply not using cgroups for that use case, but it would be really nice if we could handle that as well.
->>
->> Summarizing the requirement of that use case: You need a different cgroup for each thread of a process.
-> 
-> Hi Christian,
-> 
-> Thanks for sharing this atuomotive usecase. If I understand correctly,
-> the actual requirement is attributing dma-buf charges to the right
-> client, not putting each daemon thread in a different cgroup?
-
-Nope, exactly that's the difference.
-
-The thread acts as a filtering agent for both memory allocation and command submission for somebody else, the process on which behalve the daemon does things can even be in a client VM, completely remote over some network or even something like a microcontroller.
-
-Everything the thread does regarding CPU time, GPU driver memory allocation as well as resources like GPU processing and I/O time etc.. needs to be accounted to one client which can be different for each thread of the process.
-
-The only thing which is shared with the main process thread is CPU memory resources, e.g. malloc() because that is basically just needed for housekeeping and pretty much irrelevant for this kind of use case.
-
-The problem is now you can't do that with cgroups at the moment but unfortunately only the kernel has the information you need to know to do this.
-
-So what you end up with is to define tons of interfaces just to get the necessary information from the kernel into userspace and then essentially duplicate the same infrastructure cgroup provides in the kernel in userspace again.
-
-> If so,
-> the `charge_pid_fd` approach achieves this directly by passing the
-> client's `pid_fd`, without needing to add per-thread cgroup
-> infrastructure.
-
-Well it's already a massive improvemt, we could basically stop doing the whole duplication part for the GPU driver stack and just use cgroups for this part.
-
-Doing that automatically for CPU and I/O time would just be nice to have additionally.
-
-Regards,
-Christian.
-
-> 
->>
->> Regards,
->> Christian.
->>
->>>
->>> Checking the flags from pidfd_get_pid would be the best way for an
->>> explicit check of the pidfd type?
->>>
->>>>> a valid pidfd, DMA_HEAP_IOCTL_ALLOC resolves the target task's
->>>>> memcg and charges the buffer there via mem_cgroup_charge_dmabuf()
->>>>> inside dma_heap_buffer_alloc(). Without charge_pid_fd, and with
->>>>> the mem_accounting module parameter enabled, the buffer is charged
->>>>> to the allocator's own cgroup.
->>>>>
->>>>> Additionally, commit 3c227be90659 ("dma-buf: system_heap: account for
->>>>> system heap allocation in memcg") adds __GFP_ACCOUNT to system-heap
->>>>> page allocations. Keeping __GFP_ACCOUNT would charge the same pages
->>>>> twice (once to kmem, once to MEMCG_DMABUF), thus remove it and route
->>>>> all accounting through a single MEMCG_DMABUF path.
->>>>>
->>>>> Usage examples:
->>>>>
->>>>>   1. Central allocator charging to a client at allocation time.
->>>>>      The allocator knows the client's PID (e.g., from binder's
->>>>>      sender_pid) and uses pidfd to attribute the charge:
->>>>>
->>>>>        pid_t client_pid = txn->sender_pid;
->>>>>        int pidfd = pidfd_open(client_pid, 0);
->>>>>
->>>>>        struct dma_heap_allocation_data alloc = {
->>>>>            .len             = buffer_size,
->>>>>            .fd_flags        = O_RDWR | O_CLOEXEC,
->>>>>            .charge_pid_fd   = pidfd,
->>>>>        };
->>>>>        ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &alloc);
->>>>>        close(pidfd);
->>>>>        /* alloc.fd is now charged to client's cgroup */
->>>>>
->>>>>   2. Default allocation (no pidfd, mem_accounting=1).
->>>>>      When charge_pid_fd is not set and the mem_accounting module
->>>>>      parameter is enabled, the buffer is charged to the allocator's
->>>>>      own cgroup:
->>>>>
->>>>>        struct dma_heap_allocation_data alloc = {
->>>>>            .len      = buffer_size,
->>>>>            .fd_flags = O_RDWR | O_CLOEXEC,
->>>>>        };
->>>>>        ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &alloc);
->>>>>        /* charged to current process's cgroup */
->>>>>
->>>>> Current limitations:
->>>>>
->>>>>  - Single-owner model: a dma-buf carries one memcg charge regardless of
->>>>>    how many processes share it. Means only the first owner (and exporter)
->>>>>    of the shared buffer bears the charge.
->>>>>  - Only memcg accounting supported. While this makes sense for system
->>>>>    heap buffers, other heaps (e.g., CMA heaps) will require selectively
->>>>>    charging also for the dmem controller.
->>>>>
->>>>> Signed-off-by: Albert Esteve <aesteve@redhat.com>
->>>>> ---
->>>>>  Documentation/admin-guide/cgroup-v2.rst |  5 ++--
->>>>>  drivers/dma-buf/dma-buf.c               | 16 ++++---------
->>>>>  drivers/dma-buf/dma-heap.c              | 42 ++++++++++++++++++++++++++++++---
->>>>>  drivers/dma-buf/heaps/system_heap.c     |  2 --
->>>>>  include/uapi/linux/dma-heap.h           |  6 +++++
->>>>>  5 files changed, 53 insertions(+), 18 deletions(-)
->>>>>
->>>>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
->>>>> index 8bdbc2e866430..824d269531eb1 100644
->>>>> --- a/Documentation/admin-guide/cgroup-v2.rst
->>>>> +++ b/Documentation/admin-guide/cgroup-v2.rst
->>>>> @@ -1636,8 +1636,9 @@ The following nested keys are defined.
->>>>>               structures.
->>>>>
->>>>>         dmabuf (npn)
->>>>> -             Amount of memory used for exported DMA buffers allocated by the cgroup.
->>>>> -             Stays with the allocating cgroup regardless of how the buffer is shared.
->>>>> +             Amount of memory used for exported DMA buffers allocated by or on
->>>>> +             behalf of the cgroup. Stays with the allocating cgroup regardless
->>>>> +             of how the buffer is shared.
->>>>>
->>>>>         workingset_refault_anon
->>>>>               Number of refaults of previously evicted anonymous pages.
->>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>>>> index ce02377f48908..23fb758b78297 100644
->>>>> --- a/drivers/dma-buf/dma-buf.c
->>>>> +++ b/drivers/dma-buf/dma-buf.c
->>>>> @@ -181,8 +181,11 @@ static void dma_buf_release(struct dentry *dentry)
->>>>>        */
->>>>>       BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
->>>>>
->>>>> -     mem_cgroup_uncharge_dmabuf(dmabuf->memcg, PAGE_ALIGN(dmabuf->size) / PAGE_SIZE);
->>>>> -     mem_cgroup_put(dmabuf->memcg);
->>>>> +     if (dmabuf->memcg) {
->>>>> +             mem_cgroup_uncharge_dmabuf(dmabuf->memcg,
->>>>> +                                       PAGE_ALIGN(dmabuf->size) / PAGE_SIZE);
->>>>> +             mem_cgroup_put(dmabuf->memcg);
->>>>> +     }
->>>>>
->>>>>       dmabuf->ops->release(dmabuf);
->>>>>
->>>>> @@ -764,13 +767,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->>>>>               dmabuf->resv = resv;
->>>>>       }
->>>>>
->>>>> -     dmabuf->memcg = get_mem_cgroup_from_mm(current->mm);
->>>>> -     if (!mem_cgroup_charge_dmabuf(dmabuf->memcg, PAGE_ALIGN(dmabuf->size) / PAGE_SIZE,
->>>>> -                                   GFP_KERNEL)) {
->>>>> -             ret = -ENOMEM;
->>>>> -             goto err_memcg;
->>>>> -     }
->>>>> -
->>>>>       file->private_data = dmabuf;
->>>>>       file->f_path.dentry->d_fsdata = dmabuf;
->>>>>       dmabuf->file = file;
->>>>> @@ -781,8 +777,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->>>>>
->>>>>       return dmabuf;
->>>>>
->>>>> -err_memcg:
->>>>> -     mem_cgroup_put(dmabuf->memcg);
->>>>>  err_file:
->>>>>       fput(file);
->>>>>  err_module:
->>>>> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
->>>>> index ac5f8685a6494..ff6e259afcdc0 100644
->>>>> --- a/drivers/dma-buf/dma-heap.c
->>>>> +++ b/drivers/dma-buf/dma-heap.c
->>>>> @@ -7,13 +7,17 @@
->>>>>   */
->>>>>
->>>>>  #include <linux/cdev.h>
->>>>> +#include <linux/cgroup.h>
->>>>>  #include <linux/device.h>
->>>>>  #include <linux/dma-buf.h>
->>>>>  #include <linux/dma-heap.h>
->>>>> +#include <linux/memcontrol.h>
->>>>> +#include <linux/sched/mm.h>
->>>>>  #include <linux/err.h>
->>>>>  #include <linux/export.h>
->>>>>  #include <linux/list.h>
->>>>>  #include <linux/nospec.h>
->>>>> +#include <linux/pidfd.h>
->>>>>  #include <linux/syscalls.h>
->>>>>  #include <linux/uaccess.h>
->>>>>  #include <linux/xarray.h>
->>>>> @@ -55,10 +59,12 @@ MODULE_PARM_DESC(mem_accounting,
->>>>>                "Enable cgroup-based memory accounting for dma-buf heap allocations (default=false).");
->>>>>
->>>>>  static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
->>>>> -                              u32 fd_flags,
->>>>> -                              u64 heap_flags)
->>>>> +                              u32 fd_flags, u64 heap_flags,
->>>>> +                              struct mem_cgroup *charge_to)
->>>>>  {
->>>>>       struct dma_buf *dmabuf;
->>>>> +     unsigned int nr_pages;
->>>>> +     struct mem_cgroup *memcg = charge_to;
->>>>>       int fd;
->>>>>
->>>>>       /*
->>>>> @@ -73,6 +79,22 @@ static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
->>>>>       if (IS_ERR(dmabuf))
->>>>>               return PTR_ERR(dmabuf);
->>>>>
->>>>> +     nr_pages = len / PAGE_SIZE;
->>>>> +
->>>>> +     if (memcg)
->>>>> +             css_get(&memcg->css);
->>>>> +     else if (mem_accounting)
->>>>> +             memcg = get_mem_cgroup_from_mm(current->mm);
->>>>> +
->>>>> +     if (memcg) {
->>>>> +             if (!mem_cgroup_charge_dmabuf(memcg, nr_pages, GFP_KERNEL)) {
->>>>> +                     mem_cgroup_put(memcg);
->>>>> +                     dma_buf_put(dmabuf);
->>>>> +                     return -ENOMEM;
->>>>> +             }
->>>>> +             dmabuf->memcg = memcg;
->>>>> +     }
->>>>> +
->>>>>       fd = dma_buf_fd(dmabuf, fd_flags);
->>>>>       if (fd < 0) {
->>>>>               dma_buf_put(dmabuf);
->>>>> @@ -102,6 +124,9 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
->>>>>  {
->>>>>       struct dma_heap_allocation_data *heap_allocation = data;
->>>>>       struct dma_heap *heap = file->private_data;
->>>>> +     struct mem_cgroup *memcg = NULL;
->>>>> +     struct task_struct *task;
->>>>> +     unsigned int pidfd_flags;
->>>>>       int fd;
->>>>>
->>>>>       if (heap_allocation->fd)
->>>>> @@ -113,9 +138,20 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
->>>>>       if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
->>>>>               return -EINVAL;
->>>>>
->>>>> +     if (heap_allocation->charge_pid_fd) {
->>>>> +             task = pidfd_get_task(heap_allocation->charge_pid_fd, &pidfd_flags);
+>>> On 5/15/26 07:26, Sumit Gupta wrote:
+>>>> Add a kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
+>>>> CPPC autonomous performance selection on all CPUs at system startup.
+>>>> When autonomous mode is enabled, the hardware automatically adjusts
+>>>> CPU performance based on workload demands using Energy Performance
+>>>> Preference (EPP) hints.
 >>>>
->>>> Will always get a thread-group leader pidfd and will fail if this is a
->>>> thread-specific pidfd. pidfd_open(1234, PIDFD_THREAD) can be used to
->>>> open a thread-specific pidfd.
+>>>> When the parameter is set:
+>>>> - Configure all CPUs for autonomous operation on first init
+>>>> - Use HW min/max_perf when available; otherwise initialize from caps
+>>>> - Initialize desired_perf to max_perf as a starting hint
+>>>> - Hardware controls frequency instead of the OS governor
+>>>> - EPP behavior depends on parameter value:
+>>>>    - performance (or 1): override EPP to performance preference (0x0)
+>>>>    - default_epp (or 2): preserve EPP value programmed by 
+>>>> BIOS/firmware
 >>>>
->>>>> +             if (IS_ERR(task))
->>>>> +                     return PTR_ERR(task);
->>>>> +
->>>>> +             memcg = get_mem_cgroup_from_mm(task->mm);
->>>>> +             put_task_struct(task);
->>>>> +     }
->>>>> +
->>>>>       fd = dma_heap_buffer_alloc(heap, heap_allocation->len,
->>>>>                                  heap_allocation->fd_flags,
->>>>> -                                heap_allocation->heap_flags);
->>>>> +                                heap_allocation->heap_flags,
->>>>> +                                memcg);
->>>>> +     mem_cgroup_put(memcg);
->>>>>       if (fd < 0)
->>>>>               return fd;
->>>>>
->>>>> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
->>>>> index 03c2b87cb1112..95d7688167b93 100644
->>>>> --- a/drivers/dma-buf/heaps/system_heap.c
->>>>> +++ b/drivers/dma-buf/heaps/system_heap.c
->>>>> @@ -385,8 +385,6 @@ static struct page *alloc_largest_available(unsigned long size,
->>>>>               if (max_order < orders[i])
->>>>>                       continue;
->>>>>               flags = order_flags[i];
->>>>> -             if (mem_accounting)
->>>>> -                     flags |= __GFP_ACCOUNT;
->>>>>               page = alloc_pages(flags, orders[i]);
->>>>>               if (!page)
->>>>>                       continue;
->>>>> diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-heap.h
->>>>> index a4cf716a49fa6..e02b0f8cbc6a1 100644
->>>>> --- a/include/uapi/linux/dma-heap.h
->>>>> +++ b/include/uapi/linux/dma-heap.h
->>>>> @@ -29,6 +29,10 @@
->>>>>   *                   handle to the allocated dma-buf
->>>>>   * @fd_flags:                file descriptor flags used when allocating
->>>>>   * @heap_flags:              flags passed to heap
->>>>> + * @charge_pid_fd:   optional pidfd of the process whose cgroup should be
->>>>> + *                   charged for this allocation; 0 means charge the calling
->>>>> + *                   process's cgroup
->>>>> + * @__padding:               reserved, must be zero
->>>>>   *
->>>>>   * Provided by userspace as an argument to the ioctl
->>>>>   */
->>>>> @@ -37,6 +41,8 @@ struct dma_heap_allocation_data {
->>>>>       __u32 fd;
->>>>>       __u32 fd_flags;
->>>>>       __u64 heap_flags;
->>>>> +     __u32 charge_pid_fd;
->>>>> +     __u32 __padding;
->>>>>  };
->>>>>
->>>>>  #define DMA_HEAP_IOC_MAGIC           'H'
->>>>>
->>>>> --
->>>>> 2.53.0
->>>>>
+>>>> The boot parameter is applied only during first policy initialization.
+>>>> Skip applying it on CPU hotplug to preserve runtime sysfs 
+>>>> configuration.
+>>>>
+>>>> This patch depends on patch series [1] ("cpufreq: Set policy->min and
+>>>> max as real QoS constraints") so that the policy->min/max set in
+>>>> cppc_cpufreq_cpu_init() are not overridden by cpufreq_set_policy()
+>>>> during init.
+>>>>
+>>>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+>>>> ---
+>>>> [1] https://lore.kernel.org/lkml/20260511135538.522653-1-
+>>>> pierre.gondois@arm.com/
+>>>> ---
+>>>>   .../admin-guide/kernel-parameters.txt         |  16 +++
+>>>>   drivers/cpufreq/cppc_cpufreq.c                | 122 
+>>>> +++++++++++++++++-
+>>>>   2 files changed, 133 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/
+>>>> Documentation/admin-guide/kernel-parameters.txt
+>>>> index 0eb64aab3685..7e4b3a8fd76f 100644
+>>>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>>> @@ -1048,6 +1048,22 @@ Kernel parameters
+>>>>                       policy to use. This governor must be registered
+>>>> in the
+>>>>                       kernel before the cpufreq driver probes.
+>>>>
+>>>> +     cppc_cpufreq.auto_sel_mode=
+>>>> +                     [CPU_FREQ] Enable ACPI CPPC autonomous 
+>>>> performance
+>>>> +                     selection. When enabled, hardware automatically
+>>>> adjusts
+>>>> +                     CPU frequency on all CPUs based on workload
+>>>> demands.
+>>>> +                     In Autonomous mode, Energy Performance
+>>>> Preference (EPP)
+>>>> +                     hints guide hardware toward performance (0x0)
+>>>> or energy
+>>>> +                     efficiency (0xff).
+>>>> +                     Requires ACPI CPPC autonomous selection register
+>>>> +                     support.
+>>>> +                     Accepts:
+>>>> +                       performance, 1: enable auto_sel + set EPP to
+>>>> +                                       performance (0x0)
+>>>> +                       default_epp, 2: enable auto_sel, preserve EPP
+>>>> value
+>>>> +                                       programmed by BIOS/firmware
+>>>> +                     Unset: cpufreq governors are used (auto_sel
+>>>> disabled).
+>>>
+>>> Rather than unset doing nothing, have you considered having it take a
+>>> midpoint like 128?  That's what we do in amd-pstate (default to
+>>> balance_performance).  I think it turns into a reasonable balance.
 >>
-> 
+>> Thanks for the suggestion.
+>> I can add balance_performance that enables auto_sel with EPP=128 in v4.
+>>
+>> On changing the driver default (no param behavior) to auto enable
+>> balance_performance, it would be good to keep the current behavior for
+>> now since cppc_cpufreq is generic across ARM64/RISC-V platforms where
+>> EPP and Autonomous Selection registers are optional.
+>> A default change would affect existing users relying on governors.
+>>
+>> Thank you,
+>> Sumit Gupta
+>
+> But couldn't you make the "no module parameter set" follow the behavior
+> to only set the registers if they're available?
+>
+> So the systems that support it start using it, the ones that don't it's
+> a NOP.
+>
 
+Would it work to add balance_performance as a new mode in v4,
+and discuss changing the default separately as a follow-up?
+
+Runtime detection helps for unsupported platforms. But platforms which
+support the registers use OS governors today, and silently switching
+them to autonomous mode on a kernel update is a behavior change for
+existing users. They would also have no way to boot into sw governor.
+
+Thank you,
+Sumit Gupta
+
+
+>>
+>>
+>>>
+>>>> +
+>>>>       cpu_init_udelay=N
+>>>>                       [X86,EARLY] Delay for N microsec between assert
+>>>> and de-assert
+>>>>                       of APIC INIT to start processors. This delay
+>>>> occurs
+>>>> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/
+>>>> cppc_cpufreq.c
+>>>> index 6b54427b52e1..5f4d735e7c7d 100644
+>>>> --- a/drivers/cpufreq/cppc_cpufreq.c
+>>>> +++ b/drivers/cpufreq/cppc_cpufreq.c
+>>>> @@ -28,6 +28,43 @@
+>>>>
+>>>>   static struct cpufreq_driver cppc_cpufreq_driver;
+>>>>
+>>>> +/* Autonomous Selection boot parameter modes */
+>>>> +enum {
+>>>> +     AUTO_SEL_PERFORMANCE = 1,
+>>>> +     AUTO_SEL_DEFAULT_EPP = 2,
+>>>> +};
+>>>> +
+>>>> +static int auto_sel_mode;
+>>>> +
+>>>> +static int auto_sel_mode_set(const char *val, const struct
+>>>> kernel_param *kp)
+>>>> +{
+>>>> +     if (sysfs_streq(val, "performance") || sysfs_streq(val, "1"))
+>>>> +             *(int *)kp->arg = AUTO_SEL_PERFORMANCE;
+>>>> +     else if (sysfs_streq(val, "default_epp") || sysfs_streq(val, 
+>>>> "2"))
+>>>> +             *(int *)kp->arg = AUTO_SEL_DEFAULT_EPP;
+>>>> +     else
+>>>> +             return -EINVAL;
+>>>> +
+>>>> +     return 0;
+>>>> +}
+>>>> +
+>>>> +static int auto_sel_mode_get(char *buffer, const struct kernel_param
+>>>> *kp)
+>>>> +{
+>>>> +     switch (*(int *)kp->arg) {
+>>>> +     case AUTO_SEL_PERFORMANCE:
+>>>> +             return sysfs_emit(buffer, "performance\n");
+>>>> +     case AUTO_SEL_DEFAULT_EPP:
+>>>> +             return sysfs_emit(buffer, "default_epp\n");
+>>>> +     default:
+>>>> +             return sysfs_emit(buffer, "disabled\n");
+>>>> +     }
+>>>> +}
+>>>> +
+>>>> +static const struct kernel_param_ops auto_sel_mode_ops = {
+>>>> +     .set = auto_sel_mode_set,
+>>>> +     .get = auto_sel_mode_get,
+>>>> +};
+>>>> +
+>>>>   #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
+>>>>   static enum {
+>>>>       FIE_UNSET = -1,
+>>>> @@ -715,11 +752,75 @@ static int cppc_cpufreq_cpu_init(struct
+>>>> cpufreq_policy *policy)
+>>>>       policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
+>>>>       cpu_data->perf_ctrls.desired_perf = caps->highest_perf;
+>>>>
+>>>> -     ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+>>>> -     if (ret) {
+>>>> -             pr_debug("Err setting perf value:%d on CPU:%d. 
+>>>> ret:%d\n",
+>>>> -                      caps->highest_perf, cpu, ret);
+>>>> -             goto out;
+>>>> +     /*
+>>>> +      * Enable autonomous mode on first init if boot param is set.
+>>>> +      * Check last_governor to detect first init and skip if auto_sel
+>>>> +      * is already enabled.
+>>>> +      */
+>>>> +     if (auto_sel_mode && policy->last_governor[0] == '\0' &&
+>>>> +         !cpu_data->perf_ctrls.auto_sel) {
+>>>> +             /* Init min/max_perf from caps if not already set by
+>>>> HW. */
+>>>> +             if (!cpu_data->perf_ctrls.min_perf)
+>>>> +                     cpu_data->perf_ctrls.min_perf = caps-
+>>>> >lowest_nonlinear_perf;
+>>>> +             if (!cpu_data->perf_ctrls.max_perf)
+>>>> +                     cpu_data->perf_ctrls.max_perf = policy-
+>>>> >boost_enabled ?
+>>>> +                             caps->highest_perf : caps->nominal_perf;
+>>>> +
+>>>> +             /*
+>>>> +              * In autonomous mode desired_perf is only a hint; 
+>>>> EPP and
+>>>> +              * the platform drive actual selection within [min, 
+>>>> max].
+>>>> +              * Initialize it to max_perf so HW starts at the upper
+>>>> bound.
+>>>> +              */
+>>>> +             cpu_data->perf_ctrls.desired_perf = cpu_data-
+>>>> >perf_ctrls.max_perf;
+>>>> +
+>>>> +             policy->cur = cppc_perf_to_khz(caps,
+>>>> + cpu_data->perf_ctrls.desired_perf);
+>>>> +
+>>>> +             /*
+>>>> +              * Override EPP only in 'performance' mode;
+>>>> 'default_epp' mode
+>>>> +              * preserves the BIOS/firmware programmed EPP value.
+>>>> +              * EPP is optional - some platforms may not support it.
+>>>> +              */
+>>>> +             if (auto_sel_mode == AUTO_SEL_PERFORMANCE) {
+>>>> +                     ret = cppc_set_epp(cpu,
+>>>> CPPC_EPP_PERFORMANCE_PREF);
+>>>> +                     if (ret && ret != -EOPNOTSUPP)
+>>>> +                             pr_warn("Failed to set EPP for CPU%d
+>>>> (%d)\n", cpu, ret);
+>>>> +                     else if (!ret)
+>>>> + cpu_data->perf_ctrls.energy_perf = CPPC_EPP_PERFORMANCE_PREF;
+>>>> +             }
+>>>> +
+>>>> +             /* Program min/max/desired into CPPC regs (non-fatal on
+>>>> failure). */
+>>>> +             ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+>>>> +             if (ret)
+>>>> +                     pr_warn("set_perf failed CPU%d (%d); using HW
+>>>> values\n",
+>>>> +                             cpu, ret);
+>>>> +
+>>>> +             ret = cppc_set_auto_sel(cpu, true);
+>>>> +             if (ret && ret != -EOPNOTSUPP)
+>>>> +                     pr_warn("auto_sel CPU%d failed (%d); using OS
+>>>> mode\n",
+>>>> +                             cpu, ret);
+>>>> +             else if (!ret)
+>>>> +                     cpu_data->perf_ctrls.auto_sel = true;
+>>>> +     }
+>>>> +
+>>>> +     if (cpu_data->perf_ctrls.auto_sel) {
+>>>> +             /* Sync policy limits from HW when autonomous mode is
+>>>> active */
+>>>> +             policy->min = cppc_perf_to_khz(caps,
+>>>> + cpu_data->perf_ctrls.min_perf ?:
+>>>> + caps->lowest_nonlinear_perf);
+>>>> +             policy->max = cppc_perf_to_khz(caps,
+>>>> + cpu_data->perf_ctrls.max_perf ?:
+>>>> + (policy->boost_enabled ?
+>>>> + caps->highest_perf :
+>>>> + caps->nominal_perf));
+>>>> +     } else {
+>>>> +             /* Normal mode: governors control frequency */
+>>>> +             ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+>>>> +             if (ret) {
+>>>> +                     pr_debug("Err setting perf value:%d on CPU:%d.
+>>>> ret:%d\n",
+>>>> +                              caps->highest_perf, cpu, ret);
+>>>> +                     goto out;
+>>>> +             }
+>>>>       }
+>>>>
+>>>>       cppc_cpufreq_cpu_fie_init(policy);
+>>>> @@ -1079,10 +1180,21 @@ static int __init cppc_cpufreq_init(void)
+>>>>
+>>>>   static void __exit cppc_cpufreq_exit(void)
+>>>>   {
+>>>> +     unsigned int cpu;
+>>>> +
+>>>> +     for_each_present_cpu(cpu)
+>>>> +             cppc_set_auto_sel(cpu, false);
+>>>> +
+>>>>       cpufreq_unregister_driver(&cppc_cpufreq_driver);
+>>>>       cppc_freq_invariance_exit();
+>>>>   }
+>>>>
+>>>> +module_param_cb(auto_sel_mode, &auto_sel_mode_ops, &auto_sel_mode,
+>>>> 0444);
+>>>> +MODULE_PARM_DESC(auto_sel_mode,
+>>>> +              "Enable CPPC autonomous performance selection at 
+>>>> boot: "
+>>>> +              "performance or 1 (EPP=performance), "
+>>>> +              "default_epp or 2 (preserve BIOS/firmware EPP)");
+>>>> +
+>>>>   module_exit(cppc_cpufreq_exit);
+>>>>   MODULE_AUTHOR("Ashwin Chaugule");
+>>>>   MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+
+>>>> spec");
+>>>
+>
