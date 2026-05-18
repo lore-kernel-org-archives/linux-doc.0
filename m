@@ -1,80 +1,80 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343283321A7
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A834E33859A
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779147558; cv=pass; b=SVkoBhDG67+2NwpkID0nrl6E3L5Mf1bHk7MiH5m8jsEjEPvgOV3NbML+JdciJrcWt9yjp4YWLng0lmG4goFykchOEeFqscVP+slzSDpKuOKocgvunFyAFXj332zQay1H31spIhME1Y3IlG5wyAgUqFzyX6AWRWpCH9UeCHWOHD4=
+	t=1779147564; cv=pass; b=oD4HSB+PAIHL4NqkYuj6oXFSw80IvKiE0QK1V+B/wZjp+RU0MvhRPGsTm474sanMxPSGTv60c6XV9W/9KVYsshusBJtbOiMthSmwHtwnjRsZN/KcEI/z3DKvFCnw+1UpDtk/B++Lm3MCLViKhvxbFrQNVA+7sLhAabYo0Bjq+Cs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779147558; c=relaxed/simple;
-	bh=Mcq8G65erSH6P+qgAE9z4eUjbK8B0zwTDtFgfrR4hAQ=;
+	s=arc-20240116; t=1779147564; c=relaxed/simple;
+	bh=RlgWSbw/qDy0FEEgyFzO7eBFoHyyLd7vQDOSYcU9a5s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BXxUcPm61GXOOUkWA++TCKaQ7JlNVO++tdUBMRGrdAzT39HiEOZnzXEpnqF7TeaLO/evgxPryTvNPGFnBOMeVcPldawHPZxtmTlr7JznxKPWOn5rU8UNvXc1URrFeJIF6cWo/ERTMktlv2mReOQC+j5+VNrgZhjMadTd0kOmD/I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CiDPL5Sm; arc=pass smtp.client-ip=209.85.128.53
+	 To:Cc:Content-Type; b=jpmVM6Rj7IiYGkDm+Z2KM8rZjsSz04yiJ+/0GVv+1SO3DG/VA7rYedQcQfalX1ILLmOKEa5/EB0GnzGXM4pjnTvRNnjGdfVcwkJRskywYPti45elgcdToEBYGxCvuqVYU51PeNdJyxB66bRWefpW3XoG4yGLAinhCZSMj5lPq7M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aX+kKzUs; arc=pass smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CiDPL5Sm"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-488940ccfa6so555e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 16:39:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779147554; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aX+kKzUs"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488940ccfa6so635e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 16:39:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779147561; cv=none;
         d=google.com; s=arc-20240605;
-        b=ZhKJz9vgh4xznHuA0vbDD65VAYg4rWAnr3w6wYvju42rv6rRB28rZ78sxH0hiZE3UA
-         5duq4g0ShJMlejix3vogf8WLQ2io3Ia9F6IL+/KsvFLLc1F5soyE71aUJtosQt+2ndmC
-         Lf3+hmx8NDreOkvjm7+/E0qh5w9Z+8A0fgztu+hPy0sPDZO96WASAkzKr1OHhcie1Wp9
-         xpdRjGheekrV1b5kUXlTtsPUmCvFnD95eyHx2Gb+hihvEkgUXT4z6K3+49Txen8F4OMy
-         KFEjwxRYwqt3jsbZ0sHIo2tLqECbXAzXHkhJpEw8dJPK3RYprXl1UUwSLtUBfM3O22m/
-         mv7g==
+        b=RX36PBiomXwQ3kFWisptln4irPYGmuH4oe9U0f0hTPH8VgvmwG+gIUUi8M0bwcqvfw
+         q0+7pS68OngujMnk0QSmsrytj6qrNbz1l9U61FLeCctKawxM4Ux/NRqn0iGvdq6eaJbr
+         USzcqR1W0BBt52aYvmfHDMjFR3tVOvGQxjeL0PJ5im1xxqXPXSP/rfLW/kh3+FZSQk3M
+         hfSBiUl5BlDrSsJvlu8tpPXocniczs6cI9gA59OX3kh5mZG0EvA7ZaqHDoOVDkVeXY/p
+         CJab8qrtqnrpzLLAVeIxyvABoTwsEDRjrP8nBPCgnToQT/PtuQxsDFAZyDDZfs9soGaZ
+         e+dA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Mcq8G65erSH6P+qgAE9z4eUjbK8B0zwTDtFgfrR4hAQ=;
-        fh=QoccEo2F98Gx0gT4rBjmiqtdfqYGM5PDVliYYAdF+io=;
-        b=QGbQlEBKYUA10jhajL4pXXhC4SRJcaQbzV4lTCbUIbDxvKdvDjdpufJN2EffhWxjU3
-         7+WH1ot+tlpnVZIB0aDmtORlGtQvZkvTk6yczBtfeg4WiPc4yUN9MAuljljR3YkZt4I3
-         jj9/90Xw8e0mc+WWXSFIi5LGB8jn0lh1kER5s8N2nXf2ntyAwN1fwqacHq6+lpKLN+Rz
-         o90quDp47v8FgrzZiG2jntoP+TaybPB/7R2cWN6w3aE9+r8/n44CX926wE3VDbzsqMxb
-         8wKesXVP7LYaTcT0H1CPhCBLBkCgaikSWeLSCIAfiZoyvjk6ERzd3ZRtQS26vSqiYcIh
-         f49w==;
+        bh=RlgWSbw/qDy0FEEgyFzO7eBFoHyyLd7vQDOSYcU9a5s=;
+        fh=pTiRz3qvRQBpc99NDGZ22iO4s/gndTn56iWs8SXfHKQ=;
+        b=BOhmKZkrSJxpiM1amJLEg10XuM7SDVFj2mz7GNAaPtHufQ7B3Vg21X36x+eI0+xvBr
+         qKtcKz6p6QdLCQF4WJPcUAfKX6PwMhreXgAlR1KKGjwVKw1Bu4cefVRlBHhD+CNTPunU
+         k7VKMB4sjX0cIY5JiFgMaXy57Ksp+i/NxP7tT3K1x5C1WLEQe4OrGvkxi0EQw/Z+WffK
+         01W4V4dS4/cB4H+TNVKE2DKyqEskL31voX3BOzUZ2nfmnAuqF1mLz8WNaH68+9fNNGz4
+         A+6C/pRTrSK5JWIOkk/uSvEu9HKux5CUZOgC9cmsLWUHsSgpKnsyczsJzWiD5aPFjOse
+         bUvg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779147554; x=1779752354; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1779147561; x=1779752361; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Mcq8G65erSH6P+qgAE9z4eUjbK8B0zwTDtFgfrR4hAQ=;
-        b=CiDPL5SmLs8Uj1xMnC+3rSpDgI7bJBLrSvAsM8GnEvfRWf3qxittHUYaoPOdyetJpu
-         JB1hiA3FAcsQr8Xvk0ZlvumqY8XNYng0JvUpCtVG1DJHpQ0WgF+CV/NXJVDKN7ha/D5V
-         uF/JQ+iboJrsMYyPRJHfPvYpLFTN70CXOfN3gkYX/seyTVNeKgps2MHzHBHUMvKup4rv
-         X2KiGwO6w1ICOGOJE1bw+P3EkOGZv4lOWAD5wTrDI6E5VU08b2Pip32Il+WWFSQTsAA/
-         WVeQitXHDSigAL84gB9DW8ksILFSJgC4Tab8Ztvqn9itRVBNN8b5JkxRQA519u9z2DRL
-         BNoQ==
+        bh=RlgWSbw/qDy0FEEgyFzO7eBFoHyyLd7vQDOSYcU9a5s=;
+        b=aX+kKzUsboVSf1MSKClDtOA3TnfKk+2f/C6h/5nyVGbD9QLjyaIW08h8weErzxQ8CV
+         K05jrB3VojE83yb+c2TIiJHZ53CzjtK3vhBDEYgkBJbzrecfWi1eqaiES6OCvMAdd70f
+         6VUC1A6T4JCWF/UBzVx7hx02iiKtejtlhO9uaTDWQJMQaUDhf+7nzaNcVT+3s0e2QUgS
+         GSnujKQ3COePTRHcxTBo16Pc/2bGiAVoDMzg7hza8br6DAfoYb+m6y62mfnRfGopFZgu
+         1hCCXb9CCP+V63QbmI6ny3ZzWqx7jKpPC9Uc/dskvKKvJmtPSyszZdVulhdG92zpq2eO
+         11Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779147554; x=1779752354;
+        d=1e100.net; s=20251104; t=1779147561; x=1779752361;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Mcq8G65erSH6P+qgAE9z4eUjbK8B0zwTDtFgfrR4hAQ=;
-        b=QLP898L3xpMGTc3NnBakF7YR6eHCc9Ssh4QnobvOAZ2vusw8ICym1yMsrhUdul1e2v
-         Mn5ODU9ZhPpdSL92RM+GCe8VBIQ1j2WhpNCUlv4P8ELSG2e4Vuy0CrrrlxxsQcZPGcwL
-         0dbZLXK7PCOWB7yrz0sEXOwjPGpcrtLNcxknVp/KUvS+N0TItTRewxKL+UxypabDzBZC
-         57bJ/vcMH/74d/MvRsNLYXDpFHkOEqAKF1m3QZdb+vvw9fLBMx/chdpdBYdAMe8Hhxwe
-         kcIEXuuEmzLXp0VfLUQLMYRp7tfbc9lypKmx+7KWXeCILqTm8tsquQQwWOjTTDeX0aiG
-         xCSg==
-X-Forwarded-Encrypted: i=1; AFNElJ97jE1letLHLF9rwncKmdD4eoDppBPoXvYEftm69G7QrSwXQE2oIL4KIrSSoaTnjPqPabFmsrpDQ6k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDepAOedvTiPEkMfr7jUHwzVWrmKuztPi9IVl0NWoAxamBxVVy
-	qHypJa5pwVSgi+iMNLcOhujcIx+cXg5vy/hP3Wsq3PyGeE8az5XLLicEWyM5ET6tUI1GBiTJtK6
-	F1XH7fII/ux82QunVa6mBgiHQt+/fvMYOzInq+h05
-X-Gm-Gg: Acq92OG0nEp8frrifewMMAA0P5AU61uhwqKCJpor0SAqbh/l2NGgI+6J9qw9f7juqmk
-	3+GNBCHpMQTj3XSAFuBCy9TsE4SO7Dr3C9aJxvqWODuC8Xj1qyUZhV+8re0V5DmiR2z6sGgPpAW
-	GFoJNmNv64RRsf2nf3Dph78uLjI+HmlWOXKHun/pe/+I+HPGe0PcIklG1iISqTKQlcHy7RvUbqg
-	akSCmfh6twzHfDJTqAa0na9iIW/F+6MGh8Ip0EjkUrl7eBvz9YkEo4f04rhEIYGl/hnwPtvWjlt
-	UtMoyNi4mOQM24RRsvFT+6G2u5t7lX09HSNG0z7F0I8bizU9
-X-Received: by 2002:a05:600c:83c4:b0:48a:56fa:36dd with SMTP id
- 5b1f17b1804b1-48ffd85790amr3271995e9.11.1779147554173; Mon, 18 May 2026
- 16:39:14 -0700 (PDT)
+        bh=RlgWSbw/qDy0FEEgyFzO7eBFoHyyLd7vQDOSYcU9a5s=;
+        b=BLVBsa6kn73fijYz878NShA8n6us4BrafEDzfUCe9Z21/h8jbGd259xgun9Q5D8M/X
+         v72GjI48QOQF+/tkpl4B1KovlfKHLFbYeFyR20WnSlL8rz+Vm352vlqgGeL9b2+huWd5
+         aqSpMPbqaljC8GO+kX+myvJAR9Boj216GXCZ2ZBc39+JO7dxYKxVwSltDpevKUinyWBn
+         Sd2Il20NRuiRHCYvA1t+daWqWR6qIS+ZB/RK7hQVraPIB20bBlIReQkib0P08QfoJ3+y
+         wf9mPbR6q8fP/evVhy7I6UxX2BUS6bF26IsGsZ/vdZf2IbmdfY+1tjQocoXqvd7nMqTf
+         I9vQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8K6rBx4Pf/bzJl2wdUKI0kewGcM0nsf1rJpiI3ZIioXChvLtFtIVwMB8Pa5Ju//xvzPlK9Ab4injg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/JcRdnNDZnqvRnlDWAtEpcVfq80yi4PDmoF7ffvO9KhL5zOjo
+	wY30O1Fv4E7S0Xje8yR/50v9dTKP21L47KVWKqrY5u7aq7eNRIZxEZqucOpnPytPtc3qB8UG1Wi
+	apG/+DmueIPjMEiB3Ozp/9H6Ea9iFZju4lVS4dJdc
+X-Gm-Gg: Acq92OFy88mZcFa+nt00jl9qmMFvuCC39PqfATh2tU28q9J6kJqmE/fvQc1y0gYTfPK
+	tKbiTDq23ihaGzKCAN19T9A9+URNAUmLzOm0gfMMZgBmOPmx0hseaVtiYmoq65/l9RQ2ngQ0fjJ
+	4SHwGPeXQcli+qsYWOgUZrkMGkRH7tOvZ5YQHct/s2RIvQewZHw/IyL4hFPLO6N4BpDYIEsWsBZ
+	k07E1Vao3dKS+CvppoaPiGX/asnfu2DnuHSqyFaYRynY3Wx9LAx83PoF+aVtL3TG4B+X+VyvzrT
+	tNpiQGe2lfGcCriowvlGpfjTz9xlNPUjkCxRfNz4Kmgmz7H6
+X-Received: by 2002:a05:600c:534b:b0:48f:d634:b18d with SMTP id
+ 5b1f17b1804b1-48ffa5e1260mr1775015e9.8.1779147560622; Mon, 18 May 2026
+ 16:39:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,127 +83,135 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
  <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <20260515-hinschauen-effizient-9e3a05a94f2e@brauner> <CABdmKX0d6Zsg+_TxXjB80UZR23ZvXzxYoWzORgwmx=ZiuE+Nzw@mail.gmail.com>
- <208fb820-d8eb-4832-a343-ef8b360e8120@amd.com> <CADSE00Lh95ygoXGKJGsYvQGEsFV8sVmwEC3uvh8M6r3ERzaJwg@mail.gmail.com>
- <88efe10a-8b93-4a81-8279-4a5559d0f17c@amd.com>
-In-Reply-To: <88efe10a-8b93-4a81-8279-4a5559d0f17c@amd.com>
+ <8ef38815-6ae9-4359-86d4-042554357639@amd.com> <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
+ <CAGsJ_4zjrFJYQQsLThTGXR6g+2PXzeAhjyDpLHfDFqVViWvyBQ@mail.gmail.com>
+ <CABdmKX0gqg309hcXcOHSj_yTg0h1zwDL34GDk8mX3wp4YoyfDg@mail.gmail.com>
+ <CABdmKX3wwgovwS-V8rVC3=+EZcTvPs_cttpQb1w6WemwLAVhsw@mail.gmail.com> <CAGsJ_4y=Gsv=FSUjJ5+99Gg6ULUnv0LRexCGOGetzChR3YA44Q@mail.gmail.com>
+In-Reply-To: <CAGsJ_4y=Gsv=FSUjJ5+99Gg6ULUnv0LRexCGOGetzChR3YA44Q@mail.gmail.com>
 From: "T.J. Mercier" <tjmercier@google.com>
-Date: Mon, 18 May 2026 16:39:02 -0700
-X-Gm-Features: AVHnY4K5WzHxjnmBKK1J4Ij9G3s1JmujGOC18rtfp3AXYH6mFeA4fkV1W-efX6I
-Message-ID: <CABdmKX3yZubjDKbVqwrjHAiKyj_ioHzOoxd0wzFbJK=PAGOqcQ@mail.gmail.com>
+Date: Mon, 18 May 2026 16:39:07 -0700
+X-Gm-Features: AVHnY4LTFYlENC6xQVXK8AijxUAKUMiH_YZR8cEYxhyMaKCwg0sVArYGdEg8UAo
+Message-ID: <CABdmKX3GgCogr9pQFybnV1p_zuo1V9fqJLCXvk-HAnk1gwLoDw@mail.gmail.com>
 Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Albert Esteve <aesteve@redhat.com>, Christian Brauner <brauner@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+To: Barry Song <baohua@kernel.org>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Albert Esteve <aesteve@redhat.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
 	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
 	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
 	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
 	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, mripard@kernel.org, 
-	echanude@redhat.com
+	John Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, mripard@kernel.org, echanude@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 18, 2026 at 7:07=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+On Mon, May 18, 2026 at 3:19=E2=80=AFPM Barry Song <baohua@kernel.org> wrot=
+e:
 >
-> On 5/18/26 14:50, Albert Esteve wrote:
-> > On Mon, May 18, 2026 at 9:20=E2=80=AFAM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >>
-> >> On 5/15/26 19:06, T.J. Mercier wrote:
-> >>> On Fri, May 15, 2026 at 6:53=E2=80=AFAM Christian Brauner <brauner@ke=
-rnel.org> wrote:
-> >>>>
-> >>>> On Tue, May 12, 2026 at 11:10:44AM +0200, Albert Esteve wrote:
-> >>>>> On embedded platforms a central process often allocates dma-buf
-> >>>>> memory on behalf of client applications. Without a way to
-> >>>>> attribute the charge to the requesting client's cgroup, the
-> >>>>> cost lands on the allocator, making per-cgroup memory limits
-> >>>>> ineffective for the actual consumers.
-> >>>>>
-> >>>>> Add charge_pid_fd to struct dma_heap_allocation_data. When set to
-> >>>>
-> >>>> Please be aware that pidfds come in two flavors:
-> >>>>
-> >>>> thread-group pidfds and thread-specific pidfds. Make sure that your =
-API
-> >>>> doesn't implicitly depend on this distinction not existing.
-> >>>
-> >>> Hi Christian,
-> >>>
-> >>> Memcg is not a controller that supports "thread mode" so all threads
-> >>> in a group should belong to the same memcg.
-> >>
-> >> BTW: Exactly that is the requirement automotive has with their native =
-context use case.
-> >>
-> >> The use case is that you have a deamon which has multiple threads were=
- each one is acting on behalve of some other process.
-> >>
-> >> At the moment we basically say they are simply not using cgroups for t=
-hat use case, but it would be really nice if we could handle that as well.
-> >>
-> >> Summarizing the requirement of that use case: You need a different cgr=
-oup for each thread of a process.
+> On Tue, May 19, 2026 at 5:17=E2=80=AFAM T.J. Mercier <tjmercier@google.co=
+m> wrote:
+> [...]
+> > > > > Yeah I think this might work. I know of 3 cases, and it trivially
+> > > > > solves the first two. The third requires some work on our end to
+> > > > > extend our userspace interfaces to include the pidfd but it seems
+> > > > > doable. I'm checking with our graphics folks.
+> > > > >
+> > > > > 1) Direct allocation from user (e.g. app -> allocation ioctl on
+> > > > > /dev/dma_heap/foo)
+> > > > > No changes required to userspace. mem_accounting=3D1 charges the =
+app.
+> > > > >
+> > > > > 2) Single hop remote allocation (e.g. app -> AHardwareBuffer_allo=
+cate
+> > > > > -> gralloc)
+> > > > > gralloc has the caller's pid as described in the commit message. =
+Open
+> > > > > a pidfd and pass it in the dma_heap_allocation_data.
+> > > > >
+> > > > > 3) Double hop remote allocation (e.g. app -> dequeueBuffer ->
+> > > > > SurfaceFlinger -> gralloc)
+> > > > > In this case gralloc knows SurfaceFlinger's pid, but not the app'=
+s. So
+> > > > > we need to add the app's pidfd to the SurfaceFlinger -> gralloc
+> > > > > interface, or transfer the memcg charge from SurfaceFlinger to th=
+e app
+> > > > > after the allocation.
+> > > > > It'd be nice to avoid the charge transfer option entirely, but if=
+ we
+> > > > > need it that doesn't seem so bad in this case because it's a bulk
+> > > > > charge for the entire dmabuf rather than per-page. So the exporte=
+r
+> > > > > doesn't need to get involved (we wouldn't need a new dma_buf_op) =
+and
+> > > > > we wouldn't have to worry about looping and locking for each page=
+.
+> > > > >
+> > > >
+> > > > Hi T.J.,
+> > > >
+> > > > Your description of the three different cases sounds very interesti=
+ng.
+> > > > It helps me understand how difficult it can be to correctly charge
+> > > > dma-buf in the current user scenarios.
+> > > >
+> > > > I=E2=80=99m wondering where I can find Android userspace code that =
+transfers
+> > > > the PID of RPC callers. Do we have any existing sample code in Andr=
+oid
+> > > > for this?
+> > >
+> > > Hi Barry,
+> > >
+> > > In Java android.os.Binder.getCallingPid() will provide it. Here
 > >
-> > Hi Christian,
+> > ... let me try again
 > >
-> > Thanks for sharing this atuomotive usecase. If I understand correctly,
-> > the actual requirement is attributing dma-buf charges to the right
-> > client, not putting each daemon thread in a different cgroup?
+> > Here are some examples from the framework code:
+> >
+> > https://cs.android.com/search?q=3DgetCallingPid%20f:ActivityManager&sq=
+=3D&ss=3Dandroid%2Fplatform%2Fsuperproject
+> >
+> > In native code we have AIBinder_getCallingPid and
+> > android::IPCThreadState::self()->getCallingPid() (or
+> > android::hardware::IPCThreadState::self()->getCallingPid() for HIDL)
+> >
+> > https://cs.android.com/search?q=3DgetCallingPid%20l:cpp%20-f:prebuilt&s=
+s=3Dandroid%2Fplatform%2Fsuperproject
 >
-> Nope, exactly that's the difference.
->
-> The thread acts as a filtering agent for both memory allocation and comma=
-nd submission for somebody else, the process on which behalve the daemon do=
-es things can even be in a client VM, completely remote over some network o=
-r even something like a microcontroller.
->
-> Everything the thread does regarding CPU time, GPU driver memory allocati=
-on as well as resources like GPU processing and I/O time etc.. needs to be =
-accounted to one client which can be different for each thread of the proce=
-ss.
->
-> The only thing which is shared with the main process thread is CPU memory=
- resources, e.g. malloc() because that is basically just needed for houseke=
-eping and pretty much irrelevant for this kind of use case.
->
-> The problem is now you can't do that with cgroups at the moment but unfor=
-tunately only the kernel has the information you need to know to do this.
->
-> So what you end up with is to define tons of interfaces just to get the n=
-ecessary information from the kernel into userspace and then essentially du=
-plicate the same infrastructure cgroup provides in the kernel in userspace =
-again.
->
-> > If so,
-> > the `charge_pid_fd` approach achieves this directly by passing the
-> > client's `pid_fd`, without needing to add per-thread cgroup
-> > infrastructure.
->
-> Well it's already a massive improvemt, we could basically stop doing the =
-whole duplication part for the GPU driver stack and just use cgroups for th=
-is part.
->
-> Doing that automatically for CPU and I/O time would just be nice to have =
-additionally.
->
-> Regards,
-> Christian.
+> Thanks very much, T.J. That is very helpful. I guess
+> that would require user space to understand the RPC
+> procedure, including single-hop and two-hop cases, and
+> make the corresponding changes.
 
-Hopefully I'm following correctly here.... So you are duplicating the
-GPU driver stack to achieve remote accounting on a per-thread basis?
-Does this mean for GPU allocations you currently have some GFP_ACCOUNT
-magic in your driver to attribute GPU memory to the correct remote
-client? So this series would close the gap for dma-buf allocations,
-but what about private GPU driver memory allocated on behalf of a
-client?
+Yes, this is solvable by having a policy in allocator services where
+the caller is implicitly charged, while also supporting cases where
+the RPC includes additional explicit information about who to charge.
+This needs security checks to prevent arbitrary remote charges at both
+the ioctl() level (selinux charge_to from patch 4), and at the RPC
+level (not sure yet but maybe a private interface between system
+components and gralloc), so that only privileged components can
+initiate remote charges.
+
+> You pointed out the SurfaceFlinger cases, which are
+> two hops. It seems that AI models are also using
+> dma_heap, at least from what I have observed on MTK
+> and Qualcomm phones. Likely, we need to understand
+> those RPC relationships in userspace and make the
+> corresponding changes.
+> I assume AI models are a single-hop case?
+
+It's currently a mix because AI model loading is largely controlled by
+vendor code right now. Some implementations use
+AHardwareBuffer_allocate, but that comes with unnecessary RPC overhead
+for the AI use case. So I think we should be trending towards direct
+allocations from dma-buf heaps because model loading time is
+important.
