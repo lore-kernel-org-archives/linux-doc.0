@@ -1,136 +1,198 @@
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F093B7763;
-	Mon, 18 May 2026 08:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EAB3E1717
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 08:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779091717; cv=none; b=rW08yMMixrPg8UFbXdVryeRHOFmEtz8A47URBj2pAspj9vfhHsdvkKA1DvbqUQ+eAsQ6wLzStT2qzfCkUicmAKZLBcQyVJ5PpWEVXiqgGDetC9+lR7Vl0CYepp/yPzGI0cRKPBXhu22DTfWhqXvHnWaGeUWdi7h1FlOAd8kILWo=
+	t=1779092378; cv=none; b=lUNKWpHwbjpVt3auqhI/DgQRLdJJKBPIgE5LdsZfvAA5cLqSy2WANTZMlFEnra4Roc7EdzFdFE9DL0juhfLGinOlI/vAI5JWLAFPyRXLamZKya3Pc5ih1QHE24zk4KuFQ3TlIeg9QafIP3CCGlH/u1dKV/EB6+A2HWUJr1Ohruw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779091717; c=relaxed/simple;
-	bh=o3YCFVIczNIry44nAnDihzccv7vZrX+n7Q0zFtD8cKE=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=WrySVdenBtB1LZyGyfmurfd4gDrWoGq8S5REysTmRqPmGd5jOHyEX3QlRxFcajwdVUBfCGI/2o2FotNPYNN/fa0I5Q2VR70MkcRk4ZOJny4PjTp8k98UWMRKjQKjlhgF+8SSmmuCO9HsnGsqzjhT5qs5n/d5nWa7jw7bwEwbqyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=FAxhkYyu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p/62/miq; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1779092378; c=relaxed/simple;
+	bh=63puU6u/Q/rhOWLpbHVdswxyCPYCyTBuyLju4zlY4is=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Msv4vk4oYArBuT4bRITywjKSsjVpBlomhVXCCB1gjXoBesZ6tJtD7ws9XxevVG4c5zbKXZe0HlflNdF1E3PFF5NoSQ340Ngm3XHuWOoFuLK1xU3jP6EHZTZnejKHrkx1LtMBWs5jBk2S8eP3lZnlp7CraMhNu98c/FXQF+JIVX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gkCo+ZN3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=l/xIq4H8; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gkCo+ZN3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=l/xIq4H8; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="FAxhkYyu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p/62/miq"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 05EA27A0114;
-	Mon, 18 May 2026 04:08:31 -0400 (EDT)
-Received: from phl-imap-05 ([10.202.2.95])
-  by phl-compute-04.internal (MEProxy); Mon, 18 May 2026 04:08:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1779091711;
-	 x=1779178111; bh=SMTE3eKUoPJQ9Fckj2EBplDYrIXz7DHO/1XXF0HbP1E=; b=
-	FAxhkYyuLp9QidDS8KwCzt5I9eFjCKuXS6WlEfWw/4xqZq2Gv3EFRu7YZEV6gZWR
-	V88n1VBalToYEo+DDz3r33kmGYNayDWO+RMCxjfjel+Q2pZ5YJRIUw7/vda2z/Te
-	owpMXDik+TQGtbyTvzBHlA4KaAFiiy/yJ+vF7jfrcm+abClJcryARx57nduckvkS
-	fuvoo0wHUZLEWeM2rCJBdEdiy1Ntk2v+x7SqL/j/70pETf+Mr1RoCopdegeOTiIS
-	U4J8S/jvvCBSIBWKnp6dbhFddl/Zl0nwaKzuztrfpAoN22fQqKuDwHYWWFJtIoXB
-	m5H3ATTVzi6WTDGZd6ZONQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779091711; x=
-	1779178111; bh=SMTE3eKUoPJQ9Fckj2EBplDYrIXz7DHO/1XXF0HbP1E=; b=p
-	/62/miq9xDJbvy0O/t7ak+HpbTF7idnT1/Eu/lXsv5x2kbXEkQkfEzZjsugtQCo4
-	S8VyQ+/PNhokthuvCh410TB70+cbYG6zWwBph8ROLYgvkBZOOB5z24r0TSF/TYHB
-	5rA86oVDqNLRRLcwc80zn72qf0jwsAnFnrqV1ujQSQD0J5c9X3uUp5AaF3XoiPDi
-	4nkK5YLqTdB6IDfXdDLmY/obH/L9NZg4QIUTh3o6F5WB037HsfIHdn8ZsEnDa/+j
-	h6vooQKrJQFW+rOF4m4EBrBUv8cUwOd5P7z3D6FqgQbZQGQbyKI88zhTWHNMqXjc
-	ro7gj2ADERZtNGNWUeCLw==
-X-ME-Sender: <xms:_sgKaqFtZMscDadiwF6vnRuRP9GLRSo8zTFDq40f4AxqrpKN3YsJ9g>
-    <xme:_sgKamInPF6wZJCqPUKbunfyBJxYkc2D5DpQd9OqBacFxm5AVCQaRCacEoytZMEuV
-    XEBDJwcpazTwlCauvgEylH6Alo84vmVptBdaOBYF9nV1PuTfwY5U3U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeekfeehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhepvdfhvdekueduveffffetgfdvveefvdelhedvvdegjedvfeehtdeggeevheefleej
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvddtpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehgrghrhiesghgrrhihghhuohdrnhgvthdprhgtphhtthhopeguvg
-    hmihhosggvnhhouhhrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhhulhhirghnsghr
-    rghhrgesghhmrghilhdrtghomhdprhgtphhtthhopehmihhguhgvlhdrohhjvggurgdrsh
-    grnhguohhnihhssehgmhgrihhlrdgtohhmpdhrtghpthhtohepvghjsehinhgrihdruggv
-    pdhrtghpthhtoheplhhjsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrshgrhh
-    hirhhohieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehnshgtsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:_sgKahvZfXVB2y2iD6OXwPyFctVH5KWlUkQBIb2AY0veHI6KZAzL9w>
-    <xmx:_sgKahhJ42ah9loNqrmLbDQHqusOWeLESmcHCthaVWFnBJXRWeRdPA>
-    <xmx:_sgKasfQWz7GRS0f_qvCBoVrgtKuLQBB2ITxvAgVzmupnJY41lv4UA>
-    <xmx:_sgKauliLd5wz_BIeuIxMUslcviBLEPJ5bRx097M7tk-e9PSUVxksQ>
-    <xmx:_8gKauBNVy1Ny4K4BDfkSfG8RXh3lLLg9pC3MavyjdjdCwRsqhzFTKf8>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id A9B081820082; Mon, 18 May 2026 04:08:30 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gkCo+ZN3";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="l/xIq4H8";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gkCo+ZN3";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="l/xIq4H8"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3487F67E57;
+	Mon, 18 May 2026 08:19:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779092375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kS4DqZ2QPY3ssAog9+U/o7f+sGAEPsoSb+Orwj9q0Jg=;
+	b=gkCo+ZN3ozIlnuXo4JxuWGYUdP8VcnMeGWaEIe0KL8y3J0uFEXsmsQuiF2QlmBEQKlCy/z
+	+sizwsCT1IV6SozxTYFzfX1KnrSQmpCx+DemhX5SrH16S9+LSkCuRdiHpISJX0P9WEYaSi
+	Vb2VkkexybKK+PIAJbC2/hoCBdJWTOw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779092375;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kS4DqZ2QPY3ssAog9+U/o7f+sGAEPsoSb+Orwj9q0Jg=;
+	b=l/xIq4H8SrmNpRHrwPmxVLkJ2IWBwwJwNz0kkIEgSiyHu8dH0+3Bv6PyvEIFyFkDRkoWgo
+	pFKOAfZuCHpCfmDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779092375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kS4DqZ2QPY3ssAog9+U/o7f+sGAEPsoSb+Orwj9q0Jg=;
+	b=gkCo+ZN3ozIlnuXo4JxuWGYUdP8VcnMeGWaEIe0KL8y3J0uFEXsmsQuiF2QlmBEQKlCy/z
+	+sizwsCT1IV6SozxTYFzfX1KnrSQmpCx+DemhX5SrH16S9+LSkCuRdiHpISJX0P9WEYaSi
+	Vb2VkkexybKK+PIAJbC2/hoCBdJWTOw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779092375;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kS4DqZ2QPY3ssAog9+U/o7f+sGAEPsoSb+Orwj9q0Jg=;
+	b=l/xIq4H8SrmNpRHrwPmxVLkJ2IWBwwJwNz0kkIEgSiyHu8dH0+3Bv6PyvEIFyFkDRkoWgo
+	pFKOAfZuCHpCfmDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28E0B593A8;
+	Mon, 18 May 2026 08:19:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OkT1CZfLCmpGHQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 18 May 2026 08:19:35 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 47615A0A90; Mon, 18 May 2026 10:19:30 +0200 (CEST)
+Date: Mon, 18 May 2026 10:19:30 +0200
+From: Jan Kara <jack@suse.cz>
+To: Ian Kent <raven@themaw.net>
+Cc: NeilBrown <neil@brown.name>, Horst Birthelmer <horst@birthelmer.com>, 
+	Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Horst Birthelmer <hbirthelmer@ddn.com>
+Subject: Re: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first
+ reaper
+Message-ID: <yk2hem4zwinm4glenpc74to7sm5kyriksgwn6mxh7t4saotiba@7zik7jcnbs5m>
+References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
+ <177906210551.3947082.4313294634549021141@noble.neil.brown.name>
+ <bc359831-e653-4269-9d57-742b48d56d9f@themaw.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AShNAKQnQ-07
-Date: Mon, 18 May 2026 10:08:10 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>,
- "Demi Marie Obenour" <demiobenour@gmail.com>
-Cc: "Julian Braha" <julianbraha@gmail.com>,
- "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>,
- "Jani Nikula" <jani.nikula@linux.intel.com>,
- "Andrew Morton" <akpm@linux-foundation.org>, "Gary Guo" <gary@garyguo.net>,
- ljs@kernel.org, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Masahiro Yamada" <masahiroy@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, qingfang.deng@linux.dev,
- yann.prono@telecomnancy.net, ej@inai.de, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-Message-Id: <ef59ee46-87e2-4f99-babf-4dc8ee3cbec5@app.fastmail.com>
-In-Reply-To: 
- <CANiq72mGTehUWS2-MgukOKmwAn3fB63boFNqbNENse6B00M7Zg@mail.gmail.com>
-References: <20260516215354.449807-1-julianbraha@gmail.com>
- <20260516215354.449807-2-julianbraha@gmail.com>
- <ba7ec52f-c4e9-4588-9484-dc8280d55593@gmail.com>
- <CANiq72k_tXGSCd1BEg8XmTr+acZHfdRbcFOVD7=O6yAbmv-nHw@mail.gmail.com>
- <f77a4858-2bcf-4bfb-95e0-24a5d91e0862@gmail.com>
- <CANiq72mGTehUWS2-MgukOKmwAn3fB63boFNqbNENse6B00M7Zg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/3] scripts: add kconfirm
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bc359831-e653-4269-9d57-742b48d56d9f@themaw.net>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[brown.name,birthelmer.com,gmail.com,szeredi.hu,lwn.net,linuxfoundation.org,zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,ddn.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
 
-On Mon, May 18, 2026, at 00:53, Miguel Ojeda wrote:
-> On Sun, May 17, 2026 at 10:25=E2=80=AFPM Demi Marie Obenour
-> <demiobenour@gmail.com> wrote:
->>
->> I was hoping for Linux to avoid the Rust trend of downloading tons
->> of third-party crates, with all the supply-chain risks that entails.
->
-> I completely agree -- it is why I said a well-known, vetted set of cra=
-tes.
->
-> That is, we should decide on e.g. a single CLI arg parser, a single
-> logger, etc. for most of our tools, and ideally they should be
-> well-known crates (ideally already trusted via use in the compiler
-> itself).
->
-> Moreover, they should be pinned with `--locked` or similar (like we
-> already recommend for `bindgen-cli`), so that we only ever use
-> something that matches the hash in the lockfile that would be
-> committed in the tree.
+Hi Ian,
 
-What about dependencies that are normally shipped by the distros
-along with the rust compiler? Would it be possible to allow a
-range of version that matches the ones that are present on
-common distros like we do with C libraries, or would that cause
-more problems than it solves?
+On Mon 18-05-26 10:55:43, Ian Kent wrote:
+> On 18/5/26 07:55, NeilBrown wrote:
+> > On Fri, 15 May 2026, Horst Birthelmer wrote:
+> > According to the email you linked, a problem arises when a directory has
+> > a great many negative children.  Code which walks the list of children
+> > (such as fsnotify) while holding a lock can suffer unpredictable delays
+> > and result in long lock-hold times.  So maybe a limit on negative
+> > dentries for any parent is what we really want.  That would be clumsy to
+> > implement I imagine.
+> 
+> But the notion of dropping the dentry in ->d_delete() on last dput() is
+> simple enough but did see regressions (the only other place in the VFS
+> besides dentry_kill() that the inode is unlinked from the dentry on
+> dput()). I wonder if the regression was related to the test itself
+> deliberately recreating deleted files and if that really is normal
+> behaviour. By itself that should prevent almost all negative dentries
+> being retained. Although file systems could do this as well (think XFS
+> inode recycling) it should be reasonable to require it be left to the
+> VFS.
+> 
+> But even that's not enough given that, in my case, there would still be
+> around 4 million dentries in the LRU cache and in fsnotify there are
+> directory child traversals holding the parent i_lock "spinlock" that are
+> going to cause problems.
 
-     Arnd
+Do you mean there are very many positive children of a directory?
+
+> That's all that much more puzzling when I see things like commit
+> 172e422ffea2 ("fsnotify: clear PARENT_WATCHED flags lazily") which looks
+> like it implies the child flag depends entirely on the parent state (what
+> am I missing Amir?)
+
+PARENT_WATCHED dentry flags (as the name suggests) are only caching the
+information whether the parent has notification marks receiving events from
+the child. So yes, the flag fully depends on the parent state.
+
+> so why is this traversal even retained in fsnotify?
+
+Not sure which traversal you mean but if you set watch on a parent, you
+have to walk all children to set PARENT_WATCHED flag so that you don't miss
+events on children...
+
+> > But what if we move dentries to the end of the list when they become
+> > negative, and to the start of the list when they become positive?  Then
+> > code which walks the child list could simply abort on the first
+> > negative.
+> > 
+> > I doubt that would be quite as easy as it sounds, but it would at least
+> > be more focused on the observed symptom rather than some whole-system
+> > number which only vaguely correlates with the observed symptom.
+> > 
+> > Maybe a completely different approach: change children-walking code to
+> > drop and retake the lock (with appropriate validation) periodically.
+> > What too would address the specific symptom.
+> 
+> Another good question.
+> 
+> I have assumed that dropping and re-taking the lock cannot be done but
+> this is a question I would like answered as well. Dropping and re-taking
+> lock would require, as Miklos pointed out to me off-list, recording the
+> list position with say a cursor, introducing unwanted complexity when it
+> would be better to accept the cost of a single extra access to the parent
+> flags (which I assume is one reason to set the flag in the child).
+
+The parent access is actually more expensive than you might think. Based on
+experience with past fsnotify related performance regression I expect some
+20% performance hit for small tmpfs writes if you add unconditional parent
+access to the write path.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
