@@ -1,87 +1,83 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C3F481FDD
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 16:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD1B48C3ED
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 16:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779122255; cv=none; b=DvK5sne+x95fUEv4YsvrV5y9WeTMY3uzbn4aG/2akS7cHxQK9HpRln/pqym0NmXJg4042kjMvgkLYCJmcfQvw4aSJ6fCu2/JGq7AdKKtfAKmbkiSZdonNCqtMR04Gte50mICmptXpEyzFsTj2uOmOOlpnix+b7bUKmqcBuyhwbQ=
+	t=1779122840; cv=none; b=B/hDwBsrpRGftYQkVXk9iVUvLIU+TaC66Gb1/W/jTUAjXv0wbCK1M2l0aGoyI6gvwMtt/fzXUjhXVtYiRhCJDL0rQ4PunkTTzjf1rSGCjUJ121E85/NBgRavVm8UhOPcTpA4wZIg4UO7k+paxXCXFQWLvknBXDM0T3rik0QX5H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779122255; c=relaxed/simple;
-	bh=opLnOv8rcGGpMzk9NYT62osXVn/LxJ7Ob8lhc0zDKrA=;
+	s=arc-20240116; t=1779122840; c=relaxed/simple;
+	bh=uZJ/xSOMto8dGbxnTVpZw9SBqppTOhKt7BGw30Zdg+A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PH3xfA/L9ZKqLFmYG22u97PnmCrLh/c9V0LFg7A/5GZBAf0KV2X4QPi9CHQogrj70WqcvBbKq7Ukp7QnbGvQmH7CmRM6fVLiYODBiZC1h9VIXohE2aRYsDt1buBfO7XJfkF9QUN900Q4bR3zZvrwbf0uLG1Lc7gwoQ2O9s5Lov0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P2Q8oU6l; arc=none smtp.client-ip=209.85.214.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=uZFgytV+XIBdgusEGW/vPxtBfcfM1F/ZW0DOROY1uRWiVGkxkZXQpZaYlV7z+Q6L/vydIT1R3NdHh/1DpSsyETFJmB4Qg7l0IlDKQO+/CxdhjkPVluvdZYOhZxZEY2kqeWSzLlLI9fRCyqElehetvsBxJjEpEr9pN8wDgn4syG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nKukTcqo; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P2Q8oU6l"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ba3b9bcf69so1925ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 09:37:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nKukTcqo"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2b46da8c48eso1625ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 09:47:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779122254; x=1779727054; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1779122838; x=1779727638; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=+pfGbgcaleoCc2Ifk0qdh18kJSuW5oqOcEuMwE4BYsU=;
-        b=P2Q8oU6lQk05pqegx9wz2Ckm4pDXPQZea1FepjyKI/zkJrjl11E+xDSNSU3l6Hqtdc
-         D1b9XotvaV/jHWJ40QukJxeJjr0ABXujWSFUNWcdOzVYen/UIIHT3n+YnpGy1FzvRfVe
-         oDtCSXbsE7guueyK9OwwVN0vod9he4MfeDgN+YdZjXoxKj/EcGl1UcRQSBR+b9KKKeJG
-         XoaUBpcyP2yaGieaQ3WX+yXa5Ucjh54IlLTwgQaphG4uQaZMq/QtSwKgnC4AtUcWt2WC
-         Iky9yA+EOh7/FVX/JNOxUxkl545i55IxKnv2pG7wYCoEpuuhy68cNUnSHi6021Aqa1nm
-         y6Yw==
+        bh=fRb534kT/Y8t4mzJvcjyqqGoTPac4Acgjf8YBCzvDuA=;
+        b=nKukTcqo6THU3OJrpAZjK+bkMEcD/wiQoHRer+Og2CBzHbtgb4Sxvj6QI0GyTuQyoH
+         c45n5GNsFhUTLX42jW7A1iDGbJzepcqxkrQnL8ZYFZ9/2sleWwKrNS44PGA1MNTwiYV4
+         RN/QCeg87CWqEBqb9FBJ6AE1L8SB7Zb+Fic1/gahaHux++tEmJS5cs4fkZUBx4V88e39
+         FrejJ/ET+aasIe8L3bLmMBbBvW+Mp/rSNoJnoi3Jt5uTg31e3nRPIW88BBcJKUEhPucU
+         Ko4KIVt0GjTqhxfGBGz8e5dqiuEfPvnhECe+0LvEPS4MH/r86qWzgr8wBfcY2bJApQg6
+         pVcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779122254; x=1779727054;
+        d=1e100.net; s=20251104; t=1779122838; x=1779727638;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+pfGbgcaleoCc2Ifk0qdh18kJSuW5oqOcEuMwE4BYsU=;
-        b=q2S3VfTLiccByoaQG3FLr1l5lZkAOWgU8J53lX/tnbARnPqnGmRLeiQfJA0QMUZblU
-         i5czLWn5UvYnwedtF0V26ijnCIoZgJ8bMcnF36e40ZjT5dLVAlphYFrrg16Bjn9Qhql1
-         CdssN7O6RI8Ke/lv3WQ68ptVfWjzK7I3wa74XabWy2e54C85/10OSbQaVyTzPpce8CVw
-         CnDLJc1VT0joXkHcXNw6zGGZGMPFENAVPoq8MN4ZIBuRUfgOyIEaYa78T66+3re0XsIS
-         l6sy3dfnm34wwfGhDS1zHzwfzVwxACIC/FGfwpfZKgBfU/F5ubYcdxajxMbEbJn1ti8w
-         oOfA==
-X-Forwarded-Encrypted: i=1; AFNElJ+z8QRAklgUdDXTnC+GRKKxWoyeQUfzudjcUJfF6HCT7iyeD3syETuNCY6Cqay6gQXhLuWkh5IcmlM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/wYrRiULt3BIkepXJchXbwLtN7+/kS4QKnfRL56Jmh/m43Ooj
-	DbhRzOVbXQEUxJ3/2hfsOvk1gvplc2KKNZ5j00mJ4B1fW6+eiWBva30UKJ4warv89Y4tqkxHVJ2
-	z85F4gNuJ
-X-Gm-Gg: Acq92OGixpbQL9TeQfuyrZ07KQg9JW1ApIZPyHQGawtVYoHatNAQIX5NpiiZ5u+ROWF
-	FBjHcZTiLANwsNtDmrSDlq0noGqWCZ28/xb5c1BUFciS4vnUPVSs62oV/i03YP2o/PuMszynWvz
-	QE8u9NaXwx++rEFkta06ukayIqIswf9Tp0Pr2Zr09hQ1Qx1GchNLtYugQzq3qZ8Oyd8u3/BTEzG
-	898ijQBCn4Thd8CWn4cMB7DPyeFjUtRQlkUZBjp3YuF5TJndpNv8Sxf2UYjhODEzJXWpMjVPa1N
-	L+xTDOx7V+D70uKtpfR8ulvAD4RVy/qS2CZ7C90BR5TtNZEcR7ZTKDIQtORXO/6ww1eqJ5C1cr8
-	AdpdDmlno19QAdSyHOknZF3KfkgtosGLSMJ88dSIREin03dMK3MMJ1lWv8Dpal0+RHTLPRCea3b
-	84WAXQPeBNllZSliMLoUuzkMyeTlxZBfwmdk9jIbCdc7ziVo+L4Ej6lJZd/qHhDVEx+3CZ3kI=
-X-Received: by 2002:a17:902:d512:b0:2bc:dc0b:ab29 with SMTP id d9443c01a7336-2bdb0109472mr2960365ad.0.1779122253168;
-        Mon, 18 May 2026 09:37:33 -0700 (PDT)
+        bh=fRb534kT/Y8t4mzJvcjyqqGoTPac4Acgjf8YBCzvDuA=;
+        b=I+GxBPlu/c1nBMgq4Z4VTGW6aTIUARRMrWc+50q0VdUHmFnpQCI1rfpructEZXhHRD
+         tHoU5poV7cUdTOd0kjWuked8fVnk4oSqF2PcdprAT6U/lRP1NgaibI2dKcgmvVzFF2Ii
+         38yOIE9QjPu49d8Kke22h+09M14ADSGACfbAyM12Zidpt0/2MSdMJx7XLII5y3mwvqlI
+         YqQMNJdFniE8pDrrdrbVLVztfLBLjmzHRKFP2UNL4T0v06fvCx+V9ZFz7+Cz+85LGoa5
+         ErkFk2bVkz/7D4HlTLA7JlqHAAPkIpic5bJ9RWi0o4vlBTd+uRmQ+pqlZ24bbfvvwiG8
+         yJkQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8un7D597IwCsecFX6H+KIuGBtCDm5kwf0CM7yHPm7c69D/CFiCVjQqZIipNpiSUYGexInJ3BjaTng=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywrf3kVNUbLa61Oq+pumaykAg5GvmRhpYGj7484wEoJCAU6WTD1
+	Jhr9Kdp7cqDtukk0cYCkzjppWPfa3i4P8iurYzkVTCsLVoOyelBvDzxLJ5JOHOYx+g==
+X-Gm-Gg: Acq92OGi98VH7BErxsaGKLZ4vq38pxhBGxsChhZaXWrtd5FXptLcwmt3u2uiApwmdfS
+	pPlpAEpULmBx0sdIywc3tGMB39ApD3J3y0SZ68cRgEY+XrQnhqcVGeT0Lm0RARtL2lTvxCFBqCh
+	dMxBNLSaRd/hDeuvsXk72/mlJuAw+GjtT1xd5wMl4oFnf4v8hpofu8c+oO1wJ8vgzkBQcqoyFTu
+	iBYueydAYvUolamf1KkesN7CwaKgPfGGdy2Td1/HiNXVx/q59QaJhFPYn6OikWnFd4YZScyYAPO
+	D74yxs0uTKiZqH2U5awcs1rq7h3bKCzm9p53TkTC/oortxpgoLa2oH2pJEhwMX40wyM529L6ilY
+	JgJ4Nwy8kwaaqKTusNxriq7IBHF7vfVIbg5a79gNS7Sw3cCIvvYTqvbFeu9UtxmyZQ7WfTmPtvW
+	X5i7GfaUqxpTEuU6dG1BYvIzufilMhqEjGv/S3UkK7ABq9OnUB1WVPqYjos3mQ/VDVJIQpJPQ=
+X-Received: by 2002:a17:902:e550:b0:2b4:6153:e541 with SMTP id d9443c01a7336-2bdb3064621mr2846235ad.3.1779122837181;
+        Mon, 18 May 2026 09:47:17 -0700 (PDT)
 Received: from google.com (176.13.105.34.bc.googleusercontent.com. [34.105.13.176])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bb121cd6sm14018626a12.30.2026.05.18.09.37.32
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bafb0a3esm14196811a12.0.2026.05.18.09.47.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 09:37:32 -0700 (PDT)
-Date: Mon, 18 May 2026 09:37:28 -0700
+        Mon, 18 May 2026 09:47:16 -0700 (PDT)
+Date: Mon, 18 May 2026 09:47:12 -0700
 From: Vipin Sharma <vipinsh@google.com>
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Samiullah Khawaja <skhawaja@google.com>, 
-	David Matlack <dmatlack@google.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+To: Zhu Yanjun <yanjun.zhu@linux.dev>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-pci@vger.kernel.org, 
 	ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com, ankita@nvidia.com, 
-	apopple@nvidia.com, chrisl@kernel.org, corbet@lwn.net, graf@amazon.com, 
-	jacob.pan@linux.microsoft.com, jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, 
-	julianr@linux.ibm.com, kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com, 
-	lukas@wunner.de, michal.winiarski@intel.com, parav@nvidia.com, 
-	pasha.tatashin@soleen.com, praan@google.com, rananta@google.com, rientjes@google.com, 
-	rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com, skhan@linuxfoundation.org, 
-	vivek.kasireddy@intel.com, witu@nvidia.com, yanjun.zhu@linux.dev, yi.l.liu@intel.com
-Subject: Re: [PATCH v4 02/16] vfio/pci: Preserve vfio-pci device files across
- Live Update
-Message-ID: <20260518152420.GA3281683.vipinsh@google.com>
+	apopple@nvidia.com, chrisl@kernel.org, corbet@lwn.net, dmatlack@google.com, 
+	graf@amazon.com, jacob.pan@linux.microsoft.com, jgg@nvidia.com, jgg@ziepe.ca, 
+	jrhilke@google.com, julianr@linux.ibm.com, kevin.tian@intel.com, leon@kernel.org, 
+	leonro@nvidia.com, lukas@wunner.de, michal.winiarski@intel.com, parav@nvidia.com, 
+	pasha.tatashin@soleen.com, praan@google.com, pratyush@kernel.org, rananta@google.com, 
+	rientjes@google.com, rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com, 
+	skhan@linuxfoundation.org, skhawaja@google.com, vivek.kasireddy@intel.com, witu@nvidia.com, 
+	yi.l.liu@intel.com
+Subject: Re: [PATCH v4 05/16] vfio: Enforce preserved devices are retrieved
+ via LIVEUPDATE_SESSION_RETRIEVE_FD
+Message-ID: <20260518164045.GB3281683.vipinsh@google.com>
 References: <20260511234802.2280368-1-vipinsh@google.com>
- <20260511234802.2280368-3-vipinsh@google.com>
- <CALzav=fR8c2tYj9jeOc_K=xoupxAfWMHmk0ipDniSXg6uGiFYA@mail.gmail.com>
- <20260512211412.GA2819150.vipinsh@google.com>
- <agT9bYpXskVwW0E_@google.com>
- <2vxzcxyy9fpd.fsf@kernel.org>
+ <20260511234802.2280368-6-vipinsh@google.com>
+ <65228806-6ed3-4577-9037-13fd5eb8f9b6@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -91,69 +87,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2vxzcxyy9fpd.fsf@kernel.org>
+In-Reply-To: <65228806-6ed3-4577-9037-13fd5eb8f9b6@linux.dev>
 
-On Thu, May 14, 2026 at 05:24:46PM +0200, Pratyush Yadav wrote:
-> On Wed, May 13 2026, Samiullah Khawaja wrote:
+On Sun, May 17, 2026 at 12:04:04PM -0700, Zhu Yanjun wrote:
 > 
-> > On Tue, May 12, 2026 at 02:29:19PM -0700, Vipin Sharma wrote:
-> >>On Tue, May 12, 2026 at 01:59:51PM -0700, David Matlack wrote:
-> >>> On Mon, May 11, 2026 at 4:48 PM Vipin Sharma <vipinsh@google.com> wrote:
-> >>>
-> >>> > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
-> >>> > index c12d614fc6c4..019de053f116 100644
-> >>> > --- a/drivers/vfio/pci/Kconfig
-> >>> > +++ b/drivers/vfio/pci/Kconfig
-> >>> > @@ -45,13 +45,15 @@ config VFIO_PCI_IGD
-> >>> >
-> >>> >  config VFIO_PCI_LIVEUPDATE
-> >>> >         bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
-> >>> > -       depends on PCI_LIVEUPDATE
-> >>> > +       depends on PCI_LIVEUPDATE && VFIO_DEVICE_CDEV
-> >>> >         help
-> >>> >           Support for preserving devices bound to vfio-pci across a Live
-> >>> >           Update. This option should only be enabled by developers working on
-> >>> >           implementing this support. Once enough support has landed in the
-> >>> >           kernel, this option will no longer be marked EXPERIMENTAL.
-> >>> >
-> >>> > +         Enabling this will disable support for VFIO PCI DMA buffer.
-> >>> > +
-> >>> >           If you don't know what to do here, say N.
-> >>> >
-> >>> >  endif
-> >>> > @@ -68,7 +70,7 @@ config VFIO_PCI_ZDEV_KVM
-> >>> >           To enable s390x KVM vfio-pci extensions, say Y.
-> >>> >
-> >>> >  config VFIO_PCI_DMABUF
-> >>> > -       def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER
-> >>> > +       def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER && !VFIO_PCI_LIVEUPDATE
-> >>>
-> >>> Why does enabling VFIO_PCI_LIVEUPDATE require disabling
-> >>> VFIO_PCI_DMABUF? I saw the cover letter says "to keep things simple",
-> >>> but what specific problem does this solve or simplify?
-> >>
-> >>I should have provided more details there.
-> >>
-> >>When device is getting reset in vfio_pci_liveupdate_freeze(), we are
-> >>zapping userspace mapped bars, we also need to use
-> >>vfio_pci_dma_buf_move() to revoke dma buffer access or
-> >>vfio_pci_dma_buf_cleanup() combination. Cleanup takes the memory lock
-> >>which freeze already takes, and there are some refcounts which are
-> >>managed in both of these APIs. This was causing complexities with code
-> >>flow based on result of pci_load_saved_state(). All this was adding more
-> >>refactoring than I wanted in the series.
-> >
-> > Maybe we can return -EOPNOTSUPP if any dmabufs for this vfio cdev are
-> > exported during preserve?
-
-Currently, no APIs are present to fetch if dmabufs are exported or not.
-I will add one patch to this series to return EOPNOTSUPP and remove
-condition from the config.
-
+> 在 2026/5/11 16:47, Vipin Sharma 写道:
+> > From: David Matlack <dmatlack@google.com>
+> > 
+> > Enforce that files for incoming (preserved by previous kernel) VFIO
+> > devices are retrieved via LIVEUPDATE_SESSION_RETRIEVE_FD rather than by
+> > opening the corresponding VFIO character device or via
+> > VFIO_GROUP_GET_DEVICE_FD.
+> > 
+> > Both of these methods would result in VFIO initializing the device
+> > without access to the preserved state of the device passed by the
+> > previous kernel.
+> > 
+> > Reviewed-by: Pranjal Shrivastava <praan@google.com>
+> > Signed-off-by: David Matlack <dmatlack@google.com>
+> > Co-developed-by: Vipin Sharma <vipinsh@google.com>
+> > Signed-off-by: Vipin Sharma <vipinsh@google.com>
+> > ---
+> >   drivers/vfio/device_cdev.c             |  8 ++++++++
+> >   drivers/vfio/group.c                   |  9 +++++++++
+> >   drivers/vfio/pci/vfio_pci_liveupdate.c |  6 ++++++
+> >   drivers/vfio/vfio.h                    | 18 ++++++++++++++++++
+> >   4 files changed, 41 insertions(+)
+> > 
+> > diff --git a/drivers/vfio/device_cdev.c b/drivers/vfio/device_cdev.c
+> > index 1ab07ccaf3ab..4df0495941c6 100644
+> > --- a/drivers/vfio/device_cdev.c
+> > +++ b/drivers/vfio/device_cdev.c
+> > @@ -49,6 +49,14 @@ static int vfio_device_cdev_open(struct vfio_device *device, struct file **filep
+> >   		}
+> >   		*filep = file;
+> > +	} else if (vfio_liveupdate_incoming_is_preserved(device)) {
+> > +		/*
+> > +		 * Since it is live update preserved device, it must be
+> > +		 * retrieved via LIVEUPDATE_SESSION_RETRIEVE_FD instead of
+> > +		 * opening /dev/vfio/devices/vfioX.
+> > +		 */
+> > +		ret = -EBUSY;
+> > +		goto err_free_device_file;
 > 
-> Whichever way you go with, a TODO/comment would be nice to have so
-> someone (including future you) looking at this code knows why this
-> restriction exists.
+> When vfio_liveupdate_incoming_is_preserved(device) returns true,
+> vfio_device_put_registration(device) is not called in this path.
 > 
+> Is vfio_device_put_registration(device) instead invoked from the
+> err_free_device_file error handling path?
 
-I will add comment in the next version.
+Yes, at the end of vfio_device_cdev_open(), goto label first frees the
+device file object and then calls the vfio_device_put_registration().
+This is the same error handlign flow as in the if(!file) {} code in the
+above function.
+
