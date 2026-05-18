@@ -1,144 +1,147 @@
-Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0D43C9426
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 05:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779083678; cv=pass; b=NDaLZUWsyWLeEOVXfy4V+UIwyrzVd8+5Ynwp7Rw1XgWtXvu4TWtGmrHElASW8PImZV1+p1VYjAQg5s17Hp4M2Ohk+/B4PKSsvIjUR1fwAk/SvjmI+2/UkarC4XTTUQG65a9MU7E9eAON1HER0LnGRGP+U8Kl6RD8STF8T6Egxjg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779083678; c=relaxed/simple;
-	bh=7Pa+dNJYGynoLkAUGjb4J4hrWHiM/xV6A//U2j1wNSA=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDBF303A32
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 06:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779085919; cv=none; b=aVnh56M0seuDx69Za3SM6Ik/VMyPOSZ6NM7muhvOkjuKyzYHisW8E9m0Yf5pyNg5dzD3F9qQBtBvkAZs9bAjgLZlhND0NuXilwEXlnFfReKjWZw7bF4s5E9mFQKp4SBirGtXJPuQDAorCSEYRDvHQGXufUt7OhvlCnF5owekyaU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779085919; c=relaxed/simple;
+	bh=MlEkCgLfLAET7HePrdJoisimifxqtQFmEEEd1oJx1CU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kpcdu1pjworFWSUm0pz4m8Coww5s6zt64aT5DPWVMZSSSr0FNntfGNNWiff0TEVQL/BH6/Tt8HO70vqiFSDdkL4PKUAZsF3RXzjBbrud0zTEzEWCl7i8Vfa69OwG9c+0ZlbqBOj7Xn7VMSePBewHv1vdjEGk0hAS6l/Onw4nZSo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bIOfyyrL; arc=pass smtp.client-ip=74.125.82.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=Fv4SHBs8wxOAmGanwV4yPDr61VfRzJx+LX/G3q5A6y81bWPYzu4koUqToU9Aw4tckMsNU0a4Uif2mI73ZbBICKaaD+IKXCd7n/Iz28eiOPj1+r2hpfDvNV9L6k2FgzsA5ZAhQNVv06ffCfxXQKVx+g0xR3R5sFJw4DzWKOBQoH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cuAGr4Dn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bIOfyyrL"
-Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-1329fc4bf77so4638104c88.1
-        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 22:54:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779083670; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dL4o5JwvXKSYY+N5b9GvRGf2r8zofOAS3L4HhfMRXo7JaFUwjaJbTTZu94r/iZXsD2
-         3XgRVYCHdKPDvFJ1fs4EWi+qag93nltJxWCO8mFLYUBhgTSujsMUohPSdFK/QT7jDZrj
-         xDTgZmxpTSdg9306XdVq3gJDZGOmQqb5AdeHtHg9kLEgvuo0iXYg7lUl0kNrOfRG2AAV
-         cyB4XBqh3KEHnB0KEeyrJgSKFGHkq8FskC1vKEzy/5lOQX1vrv/m7X5lv9P7s0M/aJrl
-         Jmr4dTjIY4TWLPlPDvLD4PjpRIC2EhmHssMFQ4RkPUTy9THUfKq8kBsi+eK+SqxlXbeg
-         tMoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=s9Xsm/ouRy8rllw0+gW2As39+lMNLqayO0PK1J5oNAk=;
-        fh=3GceYLm4Sy/k1zqiFiSfY4srRpkEq8baFd9e8GQHLsE=;
-        b=lh5CI+AtH8Kg3febjBDvCewWfGpN77EKvNzFSh8VcnAO0/CA0rX7qd9hgmV2jVaSQU
-         chWY5wLO4B9pq2PwJ4nCov5BEx6dKS62B+QiM/Ej1G4QFYuwFLqzPvRlubUp5bczK9j2
-         CMozWkQsyrI0wRGanioGp0CXyEt4Nk3TWSJXikTocy6aM05b8rh1wXxWcPKwZEZ4Lboz
-         ltBydU3FymlZxqLVGt8xd7n1wYOKqnolwmIQlX2ve8Nvf1Esc7eaRuvKS7FklbyK7yks
-         Bs7cCDCTQ9UogKGbmebO7tDm4UrujPoGHLnFNkHSiG1OyU3OC69T9ZLSbPDpeliQqDAp
-         eTDw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779083670; x=1779688470; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s9Xsm/ouRy8rllw0+gW2As39+lMNLqayO0PK1J5oNAk=;
-        b=bIOfyyrLlWXW9S5mSboke7I6WyFBcbibXmdMbtCd2GKycKGyFGrChCWZcpjUJfQiDV
-         PJcWEW2dPmZJYC/w942ursnqCCGPT4MpoWEIcUIzgAbjEGrpoz5cM72NWQg5dsJiKRKr
-         OEFORyufkLLRstvkWGyMmfVZrwRtXkwHnyCeX/u4axdH8oB0lDKy2nilzBxVxGU8DnIW
-         hD7ZTDTLxpt4cVTiJ5HRNlskE/aMNoXljrKbY0vCiCxzbW1Vbjl3C64iJunLxe+PFsKe
-         3Ax/Q1a7bGZStgYS5bQlFChPv+/Gr46e5W2cFl0pcdfdSUdOcCZLfDeq5k2uEtN53e6C
-         2/eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779083670; x=1779688470;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=s9Xsm/ouRy8rllw0+gW2As39+lMNLqayO0PK1J5oNAk=;
-        b=kcnsrkawA42UarsqDelY7cOn0sM2mO0Rk1xkbpWXqQO2pE6CF1Sepxyz9aygP9avUh
-         sI1m/AcUNMvw4F7VczQpDBHYuSz+lDGUlqEQsA0CBWX0w/ONGzpECW0FbNmBDoYXU0J8
-         txfAS3CZvocmkMc/ms9IhDmm88FhI1AUXEIyACUt0wLJ7qLdmRa+coJgkdhBqOleE8h4
-         Db7onvM/IRAsJvSr7tHLZm0/yYllDNWqb2Bg801z9GcgclCaLeI0be3VYlY423d4AmHA
-         nkG92fxeNvwSjLudmPYtaAUQ4krni254aO0b9MI7DIFlrYQTAa6IAAERteW7ZVcdvZQm
-         SDAg==
-X-Forwarded-Encrypted: i=1; AFNElJ8GS1CYU1uG5IkAfPXvOKf/zTWgWdi7o7jL4Es64irupI9SmuW5XOgKRLkoFINypmdOMBFv0GDE9dk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2hw/iAVHzC4kTH/YQZZKClSfOoixjF1WZJwN1De3p9YzPjXav
-	5IOyZP77C6NQ7NuonPSKzrYYqW9qrM+2kuT0bwwypSGP5YGrKYJrCWpzFUalcsSDeUO0ngNSI4Z
-	XSPyFxQufTMkoEc++5kR707eLIVXOPQ==
-X-Gm-Gg: Acq92OEF/EIuQjI5Qsc33hDW3nDNZs5J7tVkh8nYhJyjVf7jOE1Dg/QH5TgHimsI6yD
-	BLjssp017TIFzwIBM3d+N+juUjS3D0m8CDW193d1oMdo69VrVfrHbZCJbpYvKSgb+N3nafaYPTm
-	D7XTL42ggwEDhNKZc8O/HJMqwP4hkHz4UljrlQqXhGXTqHz9RlKR4J+mRm0nDkc4+K26UnDuYMt
-	nHZMl3fknhaL8bSnj2x+XPJOUXOKGOkomzZByxhKUSI0mZmRZGcbbC8GPWLu9KUZo8cS5V4gIvS
-	aab9Luo=
-X-Received: by 2002:a05:7022:ff42:b0:132:7ab5:6cb6 with SMTP id
- a92af1059eb24-1350451da55mr5923196c88.2.1779083670222; Sun, 17 May 2026
- 22:54:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cuAGr4Dn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A72D8C2BCF7
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 06:31:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779085918;
+	bh=MlEkCgLfLAET7HePrdJoisimifxqtQFmEEEd1oJx1CU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=cuAGr4DnkaFWPiMnoO48Yvv80BrIorHG/0iLTHalhudgVSdwvPoapErFdIN+NFMz2
+	 phLGmFTNoU5bC3WLQ6i8P7+rbKg89ysZTCsBcgzIz6Vz4bIjOgfYeqfplU+dVj8yLh
+	 W6Rj4kkSmJN3NlQR97SIRGnYtluBo0phXonMWeZsAmo7QkpAt2gj9kboK68pC4kAI7
+	 JlR1I8OQHsDoQysR1HWWgP4pQlJy4VQMQiI6kRLU+7N/KPp53TTWyfRZiLQIHMP1et
+	 +5icBoIoHPPt+nOhGNZ5UsVbyVzaGJz0bEjBOoCWDncGwWIW+tknxhYVmJpb+Lh8Gm
+	 2kXg3SVX2YAig==
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-902deb2412fso254255485a.3
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 23:31:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8E4Uu+EguJGslYLgIqe4tU193t3qMKh8CeucV5Q8ioI4VzglxzeyhkecTBCvwv0+IaUJ1W39Rcnxo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxjg7477ykS/aAiMrhF4IbCtOwxy/6v+0mTqXekTQwl8m+ar+Xq
+	3QgrE5qYM2dpg5CwkQlLE6jyd1pLO3HoNcYau1S7Wnv3/0/vs0oWxUg3H9w4Xk7rh2A67G0su4d
+	GQytO5W7tFmjskSyZoYPl7xu0jt9uX8Y=
+X-Received: by 2002:a05:620a:ac0a:b0:912:61f8:cab1 with SMTP id
+ af79cd13be357-91261f8d5b2mr1253868385a.25.1779085917789; Sun, 17 May 2026
+ 23:31:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260516210357.2247-6-ravis.opensrc@gmail.com> <20260517234326.89365-1-sj@kernel.org>
-In-Reply-To: <20260517234326.89365-1-sj@kernel.org>
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Date: Sun, 17 May 2026 22:54:18 -0700
-X-Gm-Features: AVHnY4JSJ_v1VisgQmkmSmbMTe-WurEHckc4yzgeccnY1Ya-JDuePUsGS8NIYOs
-Message-ID: <CALa+Y17XTzjAK5ZyKAKZLN1cAE-+c+2DgqpmuHGWgjUAZMgkFg@mail.gmail.com>
-Subject: Re: [RFC PATCH 5/5] mm/damon/paddr: add time budget to migration page walk
-To: SeongJae Park <sj@kernel.org>
-Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
-	bijan311@gmail.com, ajayjoshi@micron.com, honggyu.kim@sk.com, 
-	yunjeong.mun@sk.com
+References: <20260507070547.2268452-1-sashal@kernel.org> <CAHC9VhTwDt2Bx8n0io9Qge_fUEnrHsxrFAQY+KaemKWqJqBQxw@mail.gmail.com>
+In-Reply-To: <CAHC9VhTwDt2Bx8n0io9Qge_fUEnrHsxrFAQY+KaemKWqJqBQxw@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Sun, 17 May 2026 23:31:45 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW4TJRqQKXgcBYog8YgFLU2h2Zq9ReahxTYp_zpDyvO8AA@mail.gmail.com>
+X-Gm-Features: AVHnY4LE6Uz9P1F7Ei7__uZGPqS4LrmpPDUToLlmTi9orUT0m2IrTepJoYB0Usc
+Message-ID: <CAPhsuW4TJRqQKXgcBYog8YgFLU2h2Zq9ReahxTYp_zpDyvO8AA@mail.gmail.com>
+Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation primitive
+To: Paul Moore <paul@paul-moore.com>
+Cc: Sasha Levin <sashal@kernel.org>, corbet@lwn.net, akpm@linux-foundation.org, 
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	gregkh@linuxfoundation.org, linux-security-module@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 17, 2026 at 4:43=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
-:
+On Thu, May 14, 2026 at 8:48=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
 >
-> On Sat, 16 May 2026 14:03:57 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail=
-.com> wrote:
+> On Thu, May 7, 2026 at 3:05=E2=80=AFAM Sasha Levin <sashal@kernel.org> wr=
+ote:
+> >
+> > When a (security) issue goes public, fleets stay exposed until a patche=
+d kernel
+> > is built, distributed, and rebooted into.
+> >
+> > For many such issues the simplest mitigation is to stop calling the bug=
+gy
+> > function. Killswitch provides that. An admin writes:
+> >
+> >     echo "engage af_alg_sendmsg -1" \
+> >         > /sys/kernel/security/killswitch/control
+> >
+> > After this, af_alg_sendmsg() returns -EPERM on every call without
+> > running its body. The mitigation takes effect immediately, and is dropp=
+ed on
+> > the next reboot.
+> >
+> > A lot of recent kernel issues sit in code paths most installs only have=
+ enabled
+> > to support a relative minority of users: AF_ALG, ksmbd, nf_tables, vsoc=
+k, ax25,
+> > and friends.
+> >
+> > For most users, the cost of "this socket family stops working for the d=
+ay" is
+> > much smaller than the cost of running a known vulnerable kernel until t=
+he fix
+> > land.
+> >
+> > Assisted-by: Claude:claude-opus-4-7
+> > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > ---
+> >  Documentation/admin-guide/index.rst           |   1 +
+> >  Documentation/admin-guide/killswitch.rst      | 159 ++++
+> >  Documentation/admin-guide/tainted-kernels.rst |   8 +
+> >  MAINTAINERS                                   |  11 +
+> >  include/linux/killswitch.h                    |  19 +
+> >  include/linux/panic.h                         |   3 +-
+> >  init/Kconfig                                  |   2 +
+> >  kernel/Kconfig.killswitch                     |  31 +
+> >  kernel/Makefile                               |   1 +
+> >  kernel/killswitch.c                           | 798 ++++++++++++++++++
+> >  kernel/panic.c                                |   1 +
+> >  lib/Kconfig.debug                             |  13 +
+> >  lib/Makefile                                  |   1 +
+> >  lib/test_killswitch.c                         |  85 ++
+> >  tools/testing/selftests/Makefile              |   1 +
+> >  tools/testing/selftests/killswitch/.gitignore |   1 +
+> >  tools/testing/selftests/killswitch/Makefile   |   8 +
+> >  .../selftests/killswitch/cve_31431_test.c     | 162 ++++
+> >  .../selftests/killswitch/killswitch_test.sh   | 147 ++++
+> >  19 files changed, 1451 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/admin-guide/killswitch.rst
+> >  create mode 100644 include/linux/killswitch.h
+> >  create mode 100644 kernel/Kconfig.killswitch
+> >  create mode 100644 kernel/killswitch.c
+> >  create mode 100644 lib/test_killswitch.c
+> >  create mode 100644 tools/testing/selftests/killswitch/.gitignore
+> >  create mode 100644 tools/testing/selftests/killswitch/Makefile
+> >  create mode 100644 tools/testing/selftests/killswitch/cve_31431_test.c
+> >  create mode 100755 tools/testing/selftests/killswitch/killswitch_test.=
+sh
 >
-> > On populated physical address ranges the pageblock skip optimization
-> > alone is insufficient =E2=80=94 most pageblocks contain at least one al=
-located
-> > page, so the walk still iterates millions of PFNs.
->
-> So my questions to the fourth patch of this series are also applied here,
-> especially about the assumption of systems having most memory free.  I wi=
-ll
-> hold digging deep here until the high level discussion is completed.
->
-Hello SJ,
+> If we made Lockdown an LSM, we should probably also make killswitch an LS=
+M.
 
-Stepping back to look at this with fresh eyes, I think this
-patch is in the same bucket as patches 1 and 3 (full background
-on the patch 3 thread): it came out of the same parallel debug
-effort, where I was seeing long walks during the startup
-transient on a multi-hundred-GB monitored target -- before
-kdamond_split_regions() and damon_apply_min_nr_regions() had
-trimmed the initial regions down -- and was unsure whether
-those long walks were contributing to the NMI-side
-responsiveness issues I was chasing.
+I don't think killswitch can stack with other LSMs. In fact, killswitch
+can be used to bypass other LSMs, for example:
 
-Once the actual NMI problem was fixed and the per-region work
-in steady state is bounded by DAMON's region splitting (and by
-the scheme's quota when one is set), the per-call cost in
-damon_pa_migrate() is already small enough that the budget
-isn't doing useful work.  cond_resched() after damon_migrate_pages()
-covers the preemption case.
+echo engage security_file_open 0 > /sys/kernel/security/killswitch/control
 
-If a real workload later shows a per-region walk long
-enough to matter, I'll re-evaluate then with concrete numbers.
+will bypass all hooks on security_file_open.
 
 Thanks,
-Ravi
+Song
 
+> For the LSM crowd who might be seeing this for the first time, the
+> original thread can be found on lore via the link below:
+> https://lore.kernel.org/all/20260507070547.2268452-1-sashal@kernel.org
 >
-> Thanks,
-> SJ
+> --
+> paul-moore.com
 >
-> [...]
