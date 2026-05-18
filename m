@@ -1,566 +1,334 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCB83382F3
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779147675; cv=pass; b=VmNzFXmcbmYd++u8QqHaisRfKh4dWkOiFlsGQZYQiNgFATeiYzcSQArTD9NMubV9Ls/j9pRNMvDToFga4ZYaQjRBXGeoeRyashpDPC5FGL0CnOaxOG9IXmQF2bzNTqmkvN+pjQLUtUpTDLqaL+M5EEZ7RtxT0seYOCuJ95AJcV4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779147675; c=relaxed/simple;
-	bh=PU4MQADEhWH1xOQECaKm2ggORZ2WklbWnTEtF3vgZi4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=II3l81uj8VnUUpZxXHi2fpgDKHGONDGfigoZYm/R++0gDW3AOIkXhNcmc61D5SqelIilnsBK8Z6xb53VGj37r2NcUh5K9GNlZmbQgKWwN9Ey2F0aeEpcWFtSYKH0OfDMewAvhTZQZILDl/JIaBPQvunBfAIkWWQqaTLB1PH4zW8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QVIhjBWU; arc=pass smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B6B2882CD;
+	Mon, 18 May 2026 23:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779147684; cv=none; b=g0+8PG9uAo2n+GkHAstsuGAgMilvUwCbDA/LbXjmn7DTBeVXmQWznxlOZwXQrVLuaUv2NdI5wn2+y4XQ7lFsbHCBlPBKZecbRk4Xgd2Lq3SGfD/t2/CKBXjQhXkShotQG9SOu1F8rwdIl0wexa3SMdanR+AtY8W0jfGyS27x2n4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779147684; c=relaxed/simple;
+	bh=+UVNLwm/E3CMO6tDmNKQr9wGx/8Ji4oKVLhQWJQz8T8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CskUs+UwQiwe6NZhE0RWZdJJH9lwJzVwHqScTXj8HbW9WNVAeyKuWPXR8VtZhGtmuNZJOt6R8u4NS+IWXkV+O3lgmwqWfwD2+tOIH2be5eNqoMVmoMyrQpcY0LMT2Iwl+pJxn5UgVHc7jR6I/m0cCgR7e7P524WgOdjn9HrsBTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+gfMcym; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QVIhjBWU"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2b2e8b95bdbso305ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 16:41:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779147672; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JvldDFQXVkvstkorbP9Q0HzX95Vf8S45UuuUQUQEl3wfh44luEI6IY0KqeeUeFxDvZ
-         KaPoQG5H0q7Q8jVIc5Ieh2Ma4ZyTM9xDwCam0+2IBDeMxKuILJFgyUHEzeYw/ufeY7Jv
-         a3bB1gqHhWxspl/zDWIJ2Z8Za04rGvLFt0ibks82WTVZ6fihR+Ni5ZXup7+y3Dl4JJaw
-         yWSDxcSYFDfhJhS87BqoT470Ll3xjbnM7nK+XCcxYSYuE1Hg5aYctyTPjhKjQz8kGAvR
-         5/3Ql0FlA1+psAsAcKbxTt0+wqBVKPHlnUyj/i3L6wC8mzgzfxyQK0Bd5jkNMBZOUgcU
-         vCMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IHRjlbIxx8xNGO6BZ+LZbmgJGbpCAmOWcnGBXVgqzb0=;
-        fh=7rv33QRKTlsPH2xt6t0Xwt0F1IZqavlgoTMKea0MoAQ=;
-        b=Jq25wHIX72I0qG69F8vsO/8JnZT3DvRXsigGy+GGet3QieZTAr3Ph6WUpNrrtwFJ2R
-         bsJz9Q2BLn4LDR8nH6V/TXdmPGP6l0gLaoic+NWpZ3kAhQK5n2B1opiasXWIGbRsrP6i
-         iUpuyZlJnDAVci/Qh+FI4VBqyauyuA6pMSF2tC3HgQvpddj5Webw7WmipToY8xO0cGEn
-         m2uYdqG7HuDGhjoHJMIODQAyBb8O+HHG+foGGoGuD+SXLUo2HifK2eIZDLFq9JfcmGJg
-         Js7AHI5yTBVYwlYXgexq0DDVX85fmp9SFmh8kfWsYVJji6QeWZm0euXo0hqaK8dVJFBP
-         ZJdw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779147672; x=1779752472; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IHRjlbIxx8xNGO6BZ+LZbmgJGbpCAmOWcnGBXVgqzb0=;
-        b=QVIhjBWUr+TTWYZkeGNYqKGiT0Fj5iSB91YvXWc1x44DLvlAUuLTuURs9K9mMI/gBh
-         e/7W5t1mpZtVHojjBy3qoDSJ19AI+uH8TW8SUjv5EKWtyFcHlNKE3jwQ8a6J1s71jWjf
-         MOMi9m1eJJTc3Qqqrs+SvTk8GQPjagcBT82IQca9u8OKK7lr7+ilsZg/h9cWVdhF0sb8
-         cEJcUuQkeInuy2fU71f4ut+G5Sfr4JRrnI4i9tvjwvoLqT+qXonkSL/W+94Ml/Ewcgp4
-         Sc2KGH5aEvsabw05j3sAi7ab7yLYjxCE78dO2UeUiM8VdEpShEi9CM7Aex8i8NXxMo1I
-         gjEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779147672; x=1779752472;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IHRjlbIxx8xNGO6BZ+LZbmgJGbpCAmOWcnGBXVgqzb0=;
-        b=gkMC4XXk6ec/uEgZYTwA0+tyzRBuMHz6cukP5IIpWnT3LMoJznFh9D9ILGv8bZbDkw
-         UDIQID3/hyE2sWbO3KhUVwREzM9KcrhJ3KvYmVSJY70dayKiGEA8Dbvn7kIDaTrZEgzg
-         0VndiKS0wIXOzjvSr3ks63Y9g4BPUgahVrcKPgy86rD6xn45a9saG0AW55cQArfsdl1v
-         Sw90YLQAOsw5MCqfZP+WGDbRK0T5qpwA5r9CM2XlPlU4wO07zW8SNjisBtXSyPu8cHyk
-         FesphwpFTU4i1S8CGJtttz7SVN9hRaP8H+AGbBSSy00f06R+vJ1eaxlcKgl5X4nkOBGo
-         TViA==
-X-Forwarded-Encrypted: i=1; AFNElJ9DWMNykK5m5VP/5q/LCpqFPtGIHrnkAQWp/YTvMWNKWXIQBW8wXraTGCpQOZcMizCw3SpfJdRtCLM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVrEljECjJGOWvwodaXSAzKwGx0wnHfDusxTAaR7ESaOKvNOfH
-	v5MLDLyKHvqvMUF9/QPwBCgOkyTINA5vaLq6pAmZWZCFI2vp8zN88NbmA7r9yTH+O21j9xNgdWO
-	wWSEuDiRzhh0oOBPNP8wCismwCN4EK/Eum7/d4cDu
-X-Gm-Gg: Acq92OELCXYUgWCTUugzn3wxBMHt6+afEVuYB0ZUz3TZBta+R6G0xU0I3BMmdZv+UrX
-	kB+jp7B9X0F81X525iGiPZ17wVkEuDqxPkFWK3Ds85xD7/sf95Hr3L6kyg2LFaBwd9YjvhUhU4h
-	gviQLfIm9F1FjzD24x+KmE3S93JimLXnqWwDPk0AygZQ0s7tOqvQeSAAL6/4Omx8UrxMdwyCtyj
-	v7ORok99S4agBsJ1A3yO02ouY7aATDG9pKc1qhw/3JtPwq5Odj2utd08AObOI5oawy+AFwX8qZz
-	bj82SWzRUsINctfsGzmHtRXjJvXAT4kzgGztbudmGBLMWEYO
-X-Received: by 2002:a17:903:37d0:b0:2b7:b03d:9dce with SMTP id
- d9443c01a7336-2bdb041671dmr4491685ad.18.1779147671779; Mon, 18 May 2026
- 16:41:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+gfMcym"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23052C2BCB7;
+	Mon, 18 May 2026 23:41:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779147684;
+	bh=+UVNLwm/E3CMO6tDmNKQr9wGx/8Ji4oKVLhQWJQz8T8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=p+gfMcym9MmCahY6flskwcuLHsBvE014rcKXEUZbfmRvKzOedbuqddrOCtSszOLZe
+	 zcmviOAIxwVkT8KB1eEf+V/sNxP+Jb5ebx3CK1MHXWZLpZs5/Io7fhUnRnVITI/1xq
+	 csqlPy/x6PhX0RVx4P38vSbEsFqCScjjvAYftiKw7ogYxdzw2ztTgmR/9MYdh+ZYs1
+	 IuJ4R1CFZck53hukueH74pnYpYUNHwxeLaLOXJKUKL/bMqXydkoOjIUEf2Oi6skuzm
+	 xkvi33ItKDdWoHU8SWkQv5BhmliS3+KunEO1M7HxX1CEhEjlu/wzVgmJ4hyvlZY82A
+	 FtRgrVeoEpKhg==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: [PATCH 00/28] mm/damon: introduce data attributes monitoring
+Date: Mon, 18 May 2026 16:40:48 -0700
+Message-ID: <20260518234119.97569-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1777936301.git.abhishekbapat@google.com>
- <d064a1a8de127c0e321f675a9966e533a0917e7e.1777936301.git.abhishekbapat@google.com>
- <2f546525-8ff6-4bbe-86ae-6f474f7cefe3@linux.dev>
-In-Reply-To: <2f546525-8ff6-4bbe-86ae-6f474f7cefe3@linux.dev>
-From: Abhishek Bapat <abhishekbapat@google.com>
-Date: Mon, 18 May 2026 16:41:00 -0700
-X-Gm-Features: AVHnY4ImPLsbds7akkX1H341x9cN6owK86NVv2eBmbeDXBcUDJajU37sLzNZjmA
-Message-ID: <CAL41Mv7zCEFUAD43wBRo+rno2AK-teUUaVSdx2Pd7qDU0uNwsg@mail.gmail.com>
-Subject: Re: [PATCH 1/6] alloc_tag: add ioctl to /proc/allocinfo
-To: Hao Ge <hao.ge@linux.dev>
-Cc: Suren Baghdasaryan <surenb@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, Sourav Panda <souravpanda@google.com>, 
-	Kent Overstreet <kent.overstreet@linux.dev>, Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 13, 2026 at 9:38=E2=80=AFPM Hao Ge <hao.ge@linux.dev> wrote:
->
-> Hi Suren and Abhishek
->
->
-> Thanks for the patch! A couple of minor comments below.
->
->
-> On 2026/5/5 07:36, Abhishek Bapat wrote:
-> > From: Suren Baghdasaryan <surenb@google.com>
-> >
-> > Add the following ioctl commands for /proc/allocinfo file:
-> >
-> > ALLOCINFO_IOC_CONTENT_ID - gets content identifier which can be used
-> > to check whether the file content has changed specifically due to modul=
-e
-> > load/unload. Every time a module is loaded / unloaded, the returned
-> > value will be different. By comparing the identifier value at the
-> > beginning and at the end of the content retrieval operation, users can
-> > validate retrieved information for consistency.
-> >
-> > ALLOCINFO_IOC_GET_AT - gets the record at the specified position. This
-> > is the position of a record in /proc/allocinfo.
-> >
-> > ALLOCINFO_IOC_GET_NEXT - gets the record next to the last retrieved
-> > one. If no records were previously retrieved, returns the first
-> > record.
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
-> > ---
-> >   .../userspace-api/ioctl/ioctl-number.rst      |   2 +
-> >   include/linux/codetag.h                       |   1 +
-> >   include/uapi/linux/alloc_tag.h                |  54 ++++++
-> >   lib/alloc_tag.c                               | 178 +++++++++++++++++=
--
-> >   lib/codetag.c                                 |  11 ++
-> >   5 files changed, 244 insertions(+), 2 deletions(-)
-> >   create mode 100644 include/uapi/linux/alloc_tag.h
-> >
-> > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Docum=
-entation/userspace-api/ioctl/ioctl-number.rst
-> > index 331223761fff..84f6808a8578 100644
-> > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > @@ -349,6 +349,8 @@ Code  Seq#    Include File                         =
-                    Comments
-> >                                                                        =
-  <mailto:luzmaximilian@gmail.com>
-> >   0xA5  20-2F  linux/surface_aggregator/dtx.h                          =
-  Microsoft Surface DTX driver
-> >                                                                        =
-  <mailto:luzmaximilian@gmail.com>
-> > +0xA6  00-0F  uapi/linux/alloc_tag.h                                   =
- Memory allocation profiling
-> > +                                                                      =
- <mailto:surenb@google.com>
-> >   0xAA  00-3F  linux/uapi/linux/userfaultfd.h
-> >   0xAB  00-1F  linux/nbd.h
-> >   0xAC  00-1F  linux/raw.h
-> > diff --git a/include/linux/codetag.h b/include/linux/codetag.h
-> > index 8ea2a5f7c98a..2bcd4e7c809e 100644
-> > --- a/include/linux/codetag.h
-> > +++ b/include/linux/codetag.h
-> > @@ -76,6 +76,7 @@ struct codetag_iterator {
-> >
-> >   void codetag_lock_module_list(struct codetag_type *cttype, bool lock)=
-;
-> >   bool codetag_trylock_module_list(struct codetag_type *cttype);
-> > +unsigned long codetag_get_content_id(struct codetag_type *cttype);
-> >   struct codetag_iterator codetag_get_ct_iter(struct codetag_type *ctty=
-pe);
-> >   struct codetag *codetag_next_ct(struct codetag_iterator *iter);
-> >
-> > diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_=
-tag.h
-> > new file mode 100644
-> > index 000000000000..e9a5b55fcc7a
-> > --- /dev/null
-> > +++ b/include/uapi/linux/alloc_tag.h
-> > @@ -0,0 +1,54 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > +/*
-> > + *  include/linux/alloc_tag.h
-> > + */
-> > +
-> > +#ifndef _UAPI_ALLOC_TAG_H
-> > +#define _UAPI_ALLOC_TAG_H
-> > +
-> > +#include <linux/types.h>
-> > +
-> > +#define ALLOCINFO_STR_SIZE   64
-> > +
-> > +struct allocinfo_content_id {
-> > +     __u64 id;
-> > +};
-> > +
-> > +struct allocinfo_tag {
-> > +     /* Longer names are trimmed */
-> > +     char modname[ALLOCINFO_STR_SIZE];
-> > +     char function[ALLOCINFO_STR_SIZE];
-> > +     char filename[ALLOCINFO_STR_SIZE];
-> > +     __u64 lineno;
-> > +};
-> > +
-> > +struct allocinfo_counter {
-> > +     __u64 bytes;
-> > +     __u64 calls;
-> > +     __u8 accurate;
-> > +     __u8 pad[7]; /* Add alignment to not break the 32-bit compatible =
-interface */
-> > +};
-> > +
-> > +struct allocinfo_tag_data {
-> > +     struct allocinfo_tag tag;
-> > +     struct allocinfo_counter counter;
-> > +};
-> > +
-> > +struct allocinfo_get_at {
-> > +     __u64 pos;      /* input */
-> > +     struct allocinfo_tag_data data;
-> > +};
-> > +
-> > +#define _ALLOCINFO_IOC_CONTENT_ID    0
-> > +#define _ALLOCINFO_IOC_GET_AT                1
-> > +#define _ALLOCINFO_IOC_GET_NEXT              2
-> > +
-> > +#define ALLOCINFO_IOC_BASE           0xA6
-> > +#define ALLOCINFO_IOC_CONTENT_ID     _IOR(ALLOCINFO_IOC_BASE, _ALLOCIN=
-FO_IOC_CONTENT_ID,     \
-> > +                                          struct allocinfo_content_id)
-> > +#define ALLOCINFO_IOC_GET_AT         _IOWR(ALLOCINFO_IOC_BASE, _ALLOCI=
-NFO_IOC_GET_AT,        \
-> > +                                           struct allocinfo_get_at)
-> > +#define ALLOCINFO_IOC_GET_NEXT               _IOR(ALLOCINFO_IOC_BASE, =
-_ALLOCINFO_IOC_GET_NEXT,       \
-> > +                                          struct allocinfo_tag_data)
-> > +
-> > +#endif /* _UAPI_ALLOC_TAG_H */
-> > diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-> > index ed1bdcf1f8ab..5c24d2f954d4 100644
-> > --- a/lib/alloc_tag.c
-> > +++ b/lib/alloc_tag.c
-> > @@ -14,6 +14,7 @@
-> >   #include <linux/string_choices.h>
-> >   #include <linux/vmalloc.h>
-> >   #include <linux/kmemleak.h>
-> > +#include <uapi/linux/alloc_tag.h>
-> >
-> >   #define ALLOCINFO_FILE_NAME         "allocinfo"
-> >   #define MODULE_ALLOC_TAG_VMAP_SIZE  (100000UL * sizeof(struct alloc_t=
-ag))
-> > @@ -46,6 +47,9 @@ int alloc_tag_ref_offs;
-> >   struct allocinfo_private {
-> >       struct codetag_iterator iter;
-> >       bool print_header;
-> > +     /* ioctl uses a separate iterator not to interfere with reads */
-> > +     struct codetag_iterator ioctl_iter;
-> > +     bool positioned; /* seq_open_private() sets to 0 */
-> >   };
-> >
-> >   static void *allocinfo_start(struct seq_file *m, loff_t *pos)
-> > @@ -125,6 +129,177 @@ static const struct seq_operations allocinfo_seq_=
-op =3D {
-> >       .show   =3D allocinfo_show,
-> >   };
-> >
-> > +static int allocinfo_open(struct inode *inode, struct file *file)
-> > +{
-> > +     return seq_open_private(file, &allocinfo_seq_op,
-> > +                             sizeof(struct allocinfo_private));
-> > +}
-> > +
-> > +static int allocinfo_release(struct inode *inode, struct file *file)
-> > +{
-> > +     return seq_release_private(inode, file);
-> > +}
-> > +
-> > +static const char *allocinfo_str(const char *str)
-> > +{
-> > +     size_t len =3D strlen(str);
-> > +
-> > +     /* Keep an extra space for the trailing NULL. */
-> > +     if (len >=3D ALLOCINFO_STR_SIZE)
-> > +             str +=3D (len - ALLOCINFO_STR_SIZE) + 1;
-> > +     return str;
-> > +}
-> > +
-> > +/* Copy a string and trim from the beginning if it's too long */
-> > +static void allocinfo_copy_str(char *dest, const char *src)
-> > +{
-> > +     strscpy(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE);
-> > +}
-> > +
-> > +static void allocinfo_to_params(struct codetag *ct,
-> > +                             struct allocinfo_tag_data *data)
-> > +{
-> > +     struct alloc_tag *tag =3D ct_to_alloc_tag(ct);
-> > +     struct alloc_tag_counters counter =3D alloc_tag_read(tag);
-> > +
-> > +     if (ct->modname)
-> > +             allocinfo_copy_str(data->tag.modname, ct->modname);
-> > +     else
-> > +             data->tag.modname[0] =3D '\0';
->
-> Minor nit about allocinfo_to_params():
->
-> When modname is NULL (built-in kernel code), the current code sets it
->
-> to an empty string:
->
->      if (ct->modname)
->
->          allocinfo_copy_str(data->tag.modname, ct->modname);
->
->      else
->
->          data->tag.modname[0] =3D '\0';
->
-> This is of course workable in userspace by checking for an empty
->
-> string, but I was wondering if it would be cleaner to use "vmlinux"
->
-> as a default:
->
-> else
->
->            allocinfo_copy_str(data->tag.modname, "vmlinux");
->
->
-> For some context, in our memory analysis workflow we often group
->
-> allocations by module to get a quick overview of where memory goes,
->
-> for example:
->
-> vmlinux:    2.1 GB    (kernel core)
->
-> nvidia:     1.2 GB    (GPU driver)
->
-> iwlwifi:    800 MB    (WiFi driver)
->
-> ext4:       500 MB    (filesystem)
->
-> Having a consistent identifier for kernel built-in allocations would
->
-> avoid each userspace tool needing to handle the empty string as a
->
-> special case. Totally fine if this is intentional though.
->
-Thanks for bringing this up, I can certainly make this change.
-However, the information is not currently exposed this way through
-/proc/allocinfo. /proc/allocinfo does not categorize kernel non-module
-allocations as vmlinux, so there will a delta between how IOCTL and
-/proc/allocinfo behave. Suren, could you comment on whether this
-recommendation is fine by you?
+TL; DR
+======
 
-> > +     allocinfo_copy_str(data->tag.function, ct->function);
-> > +     allocinfo_copy_str(data->tag.filename, ct->filename);
-> > +     data->tag.lineno =3D ct->lineno;
-> > +     data->counter.bytes =3D counter.bytes;
-> > +     data->counter.calls =3D counter.calls;
-> > +     data->counter.accurate =3D !alloc_tag_is_inaccurate(tag);
-> > +}
-> > +
-> > +static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __u=
-ser *arg)
-> > +{
-> > +     struct allocinfo_content_id params;
-> > +
-> > +     codetag_lock_module_list(alloc_tag_cttype, true);
-> > +     params.id =3D codetag_get_content_id(alloc_tag_cttype);
-> > +     codetag_lock_module_list(alloc_tag_cttype, false);
-> > +     if (copy_to_user(arg, &params, sizeof(params)))
-> > +             return -EFAULT;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg=
-)
-> > +{
-> > +     struct allocinfo_private *priv;
-> > +     struct codetag *ct;
-> > +     __u64 pos;
-> > +     struct allocinfo_get_at params =3D {0};
-> > +
-> > +     if (copy_from_user(&params, arg, sizeof(params)))
-> > +             return -EFAULT;
-> > +
-> > +     priv =3D (struct allocinfo_private *)m->private;
-> > +     pos =3D params.pos;
-> > +
-> > +     codetag_lock_module_list(alloc_tag_cttype, true);
-> > +
-> > +     /* Find the codetag */
-> > +     priv->ioctl_iter =3D codetag_get_ct_iter(alloc_tag_cttype);
-> > +     ct =3D codetag_next_ct(&priv->ioctl_iter);
-> > +     while (ct && pos--)
-> > +             ct =3D codetag_next_ct(&priv->ioctl_iter);
->
-> I noticed that codetag_next_ct(&priv->ioctl_iter) and
->
-> priv->positioned are accessed without serialization in the ioctl
->
-> path. Concurrent ioctl calls on the same fd could race on these
->
-> fields. Just something I spotted while reading the code.
->
->
-> Thanks
->
-> Best Regards
->
-> Hao
->
-I believe this should be prevented by `codetag_lock_module_list`; am I
-wrong in my understanding?
+Extend DAMON for monitoring general data attributes other than accesses.
+The short term motivation is lightweight page type (e.g., belonging
+cgroup) aware monitoring.  In long term, this will help extending DAMON
+for multiple access events capture primitives (e.g., page faults and
+PMU) and eventually pivotting DAMON to a "Data Attributes Monitoring and
+Operations eNgine" in long term.
 
-> > +     if (ct) {
-> > +             allocinfo_to_params(ct, &params.data);
-> > +             priv->positioned =3D true;
-> > +     }
-> > +
-> > +     codetag_lock_module_list(alloc_tag_cttype, false);
-> > +
-> > +     if (!ct)
-> > +             return -ENOENT;
-> > +
-> > +     if (copy_to_user(arg, &params, sizeof(params)))
-> > +             return -EFAULT;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *a=
-rg)
-> > +{
-> > +     struct allocinfo_private *priv;
-> > +     struct codetag *ct;
-> > +     struct allocinfo_tag_data params =3D {0};
-> > +     int ret =3D 0;
-> > +
-> > +     priv =3D (struct allocinfo_private *)m->private;
-> > +
-> > +     codetag_lock_module_list(alloc_tag_cttype, true);
-> > +
-> > +     if (!priv->positioned) {
-> > +             priv->ioctl_iter =3D codetag_get_ct_iter(alloc_tag_cttype=
-);
-> > +             priv->positioned =3D true;
-> > +     }
-> > +
-> > +     ct =3D codetag_next_ct(&priv->ioctl_iter);
-> > +     if (ct)
-> > +             allocinfo_to_params(ct, &params);
-> > +
-> > +     if (!ct) {
-> > +             priv->positioned =3D false;
-> > +             ret =3D -ENOENT;
-> > +     }
-> > +     codetag_lock_module_list(alloc_tag_cttype, false);
-> > +
-> > +     if (ret =3D=3D 0) {
-> > +             if (copy_to_user(arg, &params, sizeof(params)))
-> > +                     return -EFAULT;
-> > +     }
-> > +     return ret;
-> > +}
-> > +
-> > +static long allocinfo_ioctl(struct file *file, unsigned int cmd,
-> > +                         unsigned long __arg)
-> > +{
-> > +     void __user *arg =3D (void __user *)__arg;
-> > +     int ret;
-> > +
-> > +     switch (cmd) {
-> > +     case ALLOCINFO_IOC_CONTENT_ID:
-> > +             ret =3D allocinfo_ioctl_get_content_id(file->private_data=
-, arg);
-> > +             break;
-> > +     case ALLOCINFO_IOC_GET_AT:
-> > +             ret =3D allocinfo_ioctl_get_at(file->private_data, arg);
-> > +             break;
-> > +     case ALLOCINFO_IOC_GET_NEXT:
-> > +             ret =3D allocinfo_ioctl_get_next(file->private_data, arg)=
-;
-> > +             break;
-> > +     default:
-> > +             ret =3D -ENOIOCTLCMD;
-> > +             break;
-> > +     }
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +#ifdef CONFIG_COMPAT
-> > +static long allocinfo_compat_ioctl(struct file *file, unsigned int cmd=
-,
-> > +                                unsigned long arg)
-> > +{
-> > +     return allocinfo_ioctl(file, cmd, (unsigned long)compat_ptr(arg))=
-;
-> > +}
-> > +#endif
-> > +
-> > +static const struct proc_ops allocinfo_proc_ops =3D {
-> > +     .proc_open              =3D allocinfo_open,
-> > +     .proc_read_iter         =3D seq_read_iter,
-> > +     .proc_lseek             =3D seq_lseek,
-> > +     .proc_release           =3D allocinfo_release,
-> > +     .proc_ioctl             =3D allocinfo_ioctl,
-> > +#ifdef CONFIG_COMPAT
-> > +     .proc_compat_ioctl      =3D allocinfo_compat_ioctl,
-> > +#endif
-> > +
-> > +};
-> > +
-> >   size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, =
-bool can_sleep)
-> >   {
-> >       struct codetag_iterator iter;
-> > @@ -946,8 +1121,7 @@ static int __init alloc_tag_init(void)
-> >               return 0;
-> >       }
-> >
-> > -     if (!proc_create_seq_private(ALLOCINFO_FILE_NAME, 0400, NULL, &al=
-locinfo_seq_op,
-> > -                                  sizeof(struct allocinfo_private), NU=
-LL)) {
-> > +     if (!proc_create(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_proc=
-_ops)) {
-> >               pr_err("Failed to create %s file\n", ALLOCINFO_FILE_NAME)=
-;
-> >               shutdown_mem_profiling(false);
-> >               return -ENOMEM;
-> > diff --git a/lib/codetag.c b/lib/codetag.c
-> > index 304667897ad4..93aa30991563 100644
-> > --- a/lib/codetag.c
-> > +++ b/lib/codetag.c
-> > @@ -48,6 +48,17 @@ bool codetag_trylock_module_list(struct codetag_type=
- *cttype)
-> >       return down_read_trylock(&cttype->mod_lock) !=3D 0;
-> >   }
-> >
-> > +unsigned long codetag_get_content_id(struct codetag_type *cttype)
-> > +{
-> > +     lockdep_assert_held(&cttype->mod_lock);
-> > +
-> > +     /*
-> > +      * next_mod_seq is updated on every load, so can be used to ident=
-ify
-> > +      * content changes.
-> > +      */
-> > +     return cttype->next_mod_seq;
-> > +}
-> > +
-> >   struct codetag_iterator codetag_get_ct_iter(struct codetag_type *ctty=
-pe)
-> >   {
-> >       struct codetag_iterator iter =3D {
+Background: High Cost of Page Level Properties Monitoring
+=========================================================
 
-Note, I will be following up with a v2 patchset with your feedback
-included. Please bring up any other points you'd want to clarify so
-that I can include all the changes in the v2 patchset. Thanks for
-reviewing!
+DAMON is initially introduced as a Data Access MONitor.  It has been
+extended for not only access monitoring but also data access-aware
+system operations (DAMOS).  But still the monitoring part is only for
+data accesses.
+
+Data access patterns is good information, but some users need more
+holistic views.  Particularly, users want to show the access pattern
+information together with the types of the memory.  For example, users
+who work for making huge pages efficiently want to know how much of
+DAMON-found hot/cold regions are backed by huge pages.  Users who run
+multiple workloads with different cgroups want to know how much of
+DAMON-found hot/cold regions belong to specific cgroups.
+
+For the user demand, we developed a DAMOS extension for page level
+properties based monitoring [1], which has landed on 6.14.  Using the
+feature, users can inform the page level data properties that they are
+interested in, in a flexible format that uses DAMOS filters.  Then,
+DAMON applies the filters to each folio of the entire DAMON region and
+lets users know how many bytes of memory in each DAMON region passed the
+given filters.
+
+This gives page level detailed and deterministic information to users.
+But, because the operation is done at page level, the overhead is
+proportional to the memory size.  It was useful for test or debugging
+purposes on a small number of machines.  But it was obviously too heavy
+to be enabled always on all machines running the real user workloads.
+For real world workloads, it was recommended to use the feature with
+user-space controlled sampling approaches.  For example, users could do
+the page level monitoring only once per hour, on randomly selected one
+percent of machines of their fleet.  If the runtime and the  size of the
+fleet is long and big enough, it should provide statistically meaningful
+data.
+
+But users are too busy to implement such controls on their own.
+
+Data Attributes Monitoring
+==========================
+
+Extend DAMON to monitor not only data accesses, but also general data
+attributes.  Do the extension while keeping the main promise of DAMON,
+the bounded and best-effort minimum overhead.
+
+Allow users to specify what data attributes in addition to the data
+access they want to monitor.  Users can install one 'data probe' per
+data attribute of their interest for this purpose.  The 'data probe'
+should be able to be applied to any memory, and determine if the given
+memory has the appropriate data attribute.  E.g., if memory of physical
+address 42 belongs to cgroup A.  Each 'data probe' is configured with
+filters that are very similar to the DAMOS filters.
+
+When DAMON checks if each sampling address memory of each region is
+accessed since the last check, it applies data probes if registered.
+Same to the number of access check-positive samples accounting
+(nr_accesses), it accounts the number of each data probe-positive
+samples in another per-region counters array, namely 'probe_hits'. When
+DAMON resets nr_accesses every aggregation interval, it resets
+'probe_hits' together.
+
+Users can read 'probe_hits' just before the values are reset.  In this
+way, users can know how many hot/cold memory regions have data
+attributes of their interest.  E.g., 30 percent of this system's hot
+memory is belonging to cgroup A, and 80 percent of the cgroup
+A-belonging hot memory is backed by huge pages.
+
+Patches Sequence
+================
+
+First eight patches implement the core feature, interface and the
+working support.  Patch 1 introduces data probe data structure, namely
+damon_probe.  Patch 2 extends damon_ctx for installing data probes.
+Patch 3 introduces another data structure for filters of each data
+probe, namely damon_filter.  Patch 4 updates damon_ctx commit function
+to handle the probes.  Patch 5 extends damon_region for the per-region
+per-probe positive samples counter, namely probe_hits.  Patch 6 extends
+damon_operations for applying probes on the underlying DAMON operations
+implementation.  Patch 7 updates kdamond_fn() to invoke the probes
+applying callback.  Patch 8 finally implements the probes support on
+paddr ops.
+
+Ten changes for user interface (patches 9-18) come next.  Patches 9-13
+implements sysfs directories and files for setting data probes, namely
+probes directory, probe directory, filters directory, filter directory
+and filter directory internal files, respectively.  Patch 14 connects
+the user inputs that are made via the sysfs files to DAMON core.
+Following three patches (patches 15-17) implement sysfs directories and
+files for showing the probe_hits to users, namely probes directory,
+probe directory and hits files, respectively.  Patch 18 introduces a new
+tracepoint for showing the probe_hits via tracefs.
+
+Patch 19 adds a selftest for the sysfs files.
+
+Patches 20 and 21 documents the design and usage of the new feature,
+respectively.
+
+Seven additional patches (patches 22-28) for monitoring belonging memory
+cgroup follow.  Depending on the feedback, this part might be separated
+to another series in future.  Patch 22 defines the DAMON filter type for
+the new attribute, namely DAMON_FILTER_TYPE_MEMCG.  Patch 23 add the
+support on paddr ops.  Patch 24 updates the sysfs interface for setup of
+the target memcg.  Patch 25 move code for easy reuse of the filter
+target memcg setup.  Patch 26 connects the user input to the core layer.
+Finally, patches 27 and 28 update the design and usage documents for the
+memcg attribute monitoring support.
+
+Discussions
+===========
+
+This allows the page properties monitoring with overhead that is low
+enough to be enabled always on real world workloads.  Because the
+sampling time for access check is reused for data attributes check,  the
+upper-bounded and best-effort minimum overhead of DAMON is kept.
+Because the sampling memory for access check is reused for data
+attributes check, additional overhead is minimum.
+
+Still DAMOS-based page level properties monitoring should be useful,
+because it provides a deterministic page level information.  When in
+doubt of the sampling based information, running DAMOS-based one
+together and comparing the results would be useful, for debugging and
+tuning.
+
+Plan for Dropping RFC tag
+=========================
+
+Making changes for feedback from myself, humans and Sashiko should be
+the major remaining work.
+
+I'm currently hoping to drop the RFC tag by 7.2-rc1.
+
+Future Works: Mid Term
+========================
+
+This version of implementation is limiting the maximum number of data
+probes to four.  I will try to find a way to remove the limit in future.
+I personally think it should be enough for common use cases, though, and
+therefore not giving high priority at the moment.
+
+Future Works: Long Term
+=======================
+
+There are user requests for extending DAMON with detailed access
+information, for example, per-CPUs/threads/read/writes monitoring.  For
+that, I was working [2] on extending DAMON to use page fault events as
+another access check primitives, and making the infrastructure flexible
+for future use of yet another access check primitive.  Actually there is
+another ongoing work [3] for extending DAMON with PMU events.  The
+motivation of the work is reducing the overhead, though.
+
+In my work [2], I was introducing a new interface for access sampling
+primitives control.  Now I think this data probe interface can be used
+for that, too.  That is, data access becomes just one type of data
+attribute.  Also, pg_idle-confirmed access, page fault-confirmed access,
+and PMU event-confirmed access will be different types of data
+attributes.
+
+The regions adjustment mechanism is currently working based on the
+access information.  That's because DAMON is designed for data access
+monitoring.  That is, data access information is the primary interest,
+and therefore DAMON adjusts regions in a way that can best-present the
+information.
+
+Once data access becomes just one of data attributes, there is no reason
+to think data access that special.  There might be some users not
+interested in access at all but want to know the location of memory of
+specific type.  Data probes interface will allow doing that.  Further,
+we could extend the interface to let users set any data attribute as the
+'primary' attribute.  Then, DAMON will split and merge regions in a way
+that can best-present the 'primary' attributes.
+
+DAMOS will also be extended, to specify targets based on not only the
+data access pattern, but all user-registered data attributes.  From this
+stage, we may be able to call DAMON as a "Data Attributes Monitoring and
+Operations eNgine".
+
+[1] https://lore.kernel.org/20250106193401.109161-1-sj@kernel.org
+[2] https://lore.kernel.org/20251208062943.68824-1-sj@kernel.org/
+[3] https://lore.kernel.org/20260423004211.7037-1-akinobu.mita@gmail.com
+
+Changes from RFC v3
+- rfc v3: https://lore.kernel.org/20260516183712.81393-1-sj@kernel.org
+- Wordsmithing documentation.
+- Drop RFC tag.
+- Rebase to mm-new.
+Changes from RFC v2.2
+- rfc v2.2: https://lore.kernel.org/20260515004433.128933-1-sj@kernel.org
+- Rename damon_aggregated_v2 trace event to damon_region_aggregated.
+- Address Sashiko issues.
+  - Enclose arguments on damon_for_each_{probe,filter}[_safe]() macros.
+  - Fix typos in comments and documents.
+  - Update probe_hits for region split and merge.
+  - Add more documentation for damon_operation->apply_probes() callback.
+  - Reduce unnecessary folio_{get,put}() in damon_pa_apply_probes().
+  - Define damon_sysfs_probe_attrs as static.
+  - Link scheme tried region sysfs dir and increase the count only after
+    all internal dir population success.
+  - Commit damon_filter->memcg_id for newly added filters.
+Changes from RFC v2.1
+- rfc v2.1: https://lore.kernel.org/20260514140904.119781-1-sj@kernel.org
+- Rebase to mm-stable (7.1-rc3) to avoid Sashiko patch apply failure.
+Changes from RFC v2
+- rfc v2: https://lore.kernel.org/20260512143645.113201-1-sj@kernel.org
+- Optimize nr_probes calculation for probe_hits tracepoint.
+- Use TRACE_EVENT_CONDITION() for probe_hits tracepoint.
+- Rebase to latest mm-new.
+Changes from RFC
+- rfc: https://lore.kernel.org/all/20260426205222.93895-1-sj@kernel.org/
+- Support memcg DAMON filter.
+- Use per-probe probe_hits sysfs file.
+- Use dynamic_array for probe_hits tracing.
+- Fix filter matching field.
+- Fix folio leaking in damon_pa_filter_pass().
+- Move nr_regions of damon_aggregated_v2 tracepoint after end.
+- Rename DAMON_TEST_TYPE_ANON to DAMON_FILTER_TYPE_ANON.
+
+SeongJae Park (28):
+  mm/damon/core: introduce struct damon_probe
+  mm/damon/core: embed damon_probe objects in damon_ctx
+  mm/damon/core: introduce damon_filter
+  mm/damon/core: commit probes
+  mm/damon/core: introduce damon_region->probe_hits
+  mm/damon/core: introduce damon_ops->apply_probes
+  mm/damon/core: do data attributes monitoring
+  mm/damon/paddr: support data attributes monitoring
+  mm/damon/sysfs: implement probes dir
+  mm/damon/sysfs: implement probe dir
+  mm/damon/sysfs: implement filters directory
+  mm/damon/sysfs: implement filter dir
+  mm/damon/sysfs: implement filter dir files
+  mm/damon/sysfs: setup probes on DAMON core API parameters
+  mm/damon/sysfs-schemes: implement tried_regions/<r>/probes/
+  mm/damon/sysfs-schemes: implement probe dir
+  mm/damon/sysfs-schemes: implement probe/hits file
+  mm/damon: trace probe_hits
+  selftests/damon/sysfs.sh: test probes dir
+  Docs/mm/damon/design: document data attributes monitoring
+  Docs/admin-guide/mm/damon/usage: document data attributes monitoring
+  mm/damon/core: introduce DAMON_FILTER_TYPE_MEMCG
+  mm/damon/paddr: support DAMON_FILTER_TYPE_MEMCG
+  mm/damon/sysfs: add filters/<F>/path file
+  mm/damon/sysfs-schemes: move memcg_path_to_id() to sysfs-common
+  mm/damon/sysfs: setup damon_filter->memcg_id from path
+  Docs/mm/damon/design: update for memcg damon filter
+  Docs/admin-guide/mm/damon/usage: update for memcg damon filter
+
+ Documentation/admin-guide/mm/damon/usage.rst |  46 +-
+ Documentation/mm/damon/design.rst            |  39 ++
+ include/linux/damon.h                        |  69 +++
+ include/trace/events/damon.h                 |  38 ++
+ mm/damon/core.c                              | 211 +++++++
+ mm/damon/paddr.c                             |  76 +++
+ mm/damon/sysfs-common.c                      |  41 ++
+ mm/damon/sysfs-common.h                      |   2 +
+ mm/damon/sysfs-schemes.c                     | 224 ++++++--
+ mm/damon/sysfs.c                             | 557 +++++++++++++++++++
+ tools/testing/selftests/damon/sysfs.sh       |  48 ++
+ 11 files changed, 1303 insertions(+), 48 deletions(-)
+
+
+base-commit: b491d3b062a367a23fdc98def7fe3a8cf21bb3b0
+-- 
+2.47.3
