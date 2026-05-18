@@ -1,122 +1,126 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3240C38655E
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 18:19:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DC238237D;
+	Mon, 18 May 2026 18:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779128384; cv=none; b=hGPBDddDCKsB0yKzeC4IFDj4rNzjvuLUhg3/76Ajpnb0QH3DZTrp0ACh9QpElhs2ICkPjw4QPclbtWMa9dgJZn35thETnFSrzm8iKUhts72ObyS68bWkos5hMK/mf19ui1LhQdXCb/q6GdAnlMQwMTAXtoiZTboXvO8CuPQokyY=
+	t=1779128780; cv=none; b=K4qKyOo+CdkeUWENeTkd4r0lLziTuYsFg+M55ficJ9WjVLE0P6nUCQviCcPdpzoHfo5JCP046pn1YltIcpN4f1FgKtpiXxm3O2s8W9lx66St9syzvZt4LhmeUDrDa8tB2I44L5+MNe9U5Vm7Op4L7HHzp3JimzOcWjdkhYCE0Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779128384; c=relaxed/simple;
-	bh=U8xFS+reyo4EkCXhRcUbUpO8uVADqC7MT0R0uL+qQus=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sCOZnBp91eUok73IIZvdMPQh7rdJFvHDFr8YzjtytTMuTxxbVP8ulLML05nLIzr9q+laHmJMXmuj9w5PnGTSvEVxH6ULRmMCzpco1ZBOjJmjpsobOuMsnFxtfs2RlKyfK6slLt7A/8crBAK7PVKaKHxGZhOBK0PXgrT3nd4xOwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nL+HNbQT; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779128780; c=relaxed/simple;
+	bh=pbXYLQ1mwct3+ssZlrWJpr6OzTUkZbnMsQ/G5sb/T3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AD7/43eDuGOoEq+T35lC4QD/Y67eyRbJR31nR957MQEP33uzEiMhdd1Os9xCmMCY3IwNa6mJtH6kuzid6b1V1V0QMwYGzZ6Tal+6X1pqp/x9GUTkgvMDhlVWjPAxjcz1/VE5QjG9NyaeTs7t4nCrxNpTKBXlgY277v65NDN6foI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2T0DUHL; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nL+HNbQT"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-44e5624c053so1562198f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 11:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779128381; x=1779733181; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=U8xFS+reyo4EkCXhRcUbUpO8uVADqC7MT0R0uL+qQus=;
-        b=nL+HNbQTZ5Yn0Xoa60Gk2Cgr9XqqZwlFFkJM+ShxdK11YEOMUNL0vcd9tzFug5sWKz
-         2cbOBz/prx6kJcgFYNBM1FLljWds9tb4vqxxFQMTYB7MD75k+H4JbVE0unI9JYs17B8I
-         EiSZrfi1IGvRX+Up7LSwDpfC31FpyEecWBmPHViLUB/QB8EeyVzI1iRlxu0TKWHXMAvf
-         MTfMOXVygd8oyFybXQGKl+J9N7Ey7+3UM3SCoI1Ff8MeePJPZp8urv5Lz4hTIkj7Z2wB
-         WfIjcPTevk8T3N+DhUH1nZzMGPQdBRHwRhoQJZh0Bt6czDbd/hwd8E8bRRncfQBgKJDK
-         p83A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779128381; x=1779733181;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U8xFS+reyo4EkCXhRcUbUpO8uVADqC7MT0R0uL+qQus=;
-        b=XNiouNJxP9aDkkKyAyjiPMc7O+DmrIBy/nU9R6tbi7NzcPc438Z1/FxvveR2XEl47q
-         xt8CAwn+2KjRD/CajSdh032p7M90bS+IdL9Uy/OQJAO7I7ueg+NHMEbph95HfCcjlgTZ
-         1ruGVhElQ3PzwN8jqkE86IKBsrHcJ+Z1uCQtZoitw8gYA2dx+p6/7iLErdA/dnzgQ/BC
-         CdVCXEzvKa3ko1rxuBxvtpprsCBDE8lVY1XwlthpvL/9y6XTDO6cfyxRZs58ZRCHmbGS
-         zirsXK6l6vxnkIWwrXT8dtdFmKemIPED9shJykcZ+72Sgo5eAiuxchVoux52YYMHmupG
-         6UNQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9T2BiiXdlGEiSvau5rkQ+G6YoaEcn3VeE9K3TEbHDd2ixkwyA0wRpeB3R/4N4eHFlRsgd9w68S6X4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCkL4Nmkfrq4v3i88/QE5i1+5SOA5lh1DoePc5sX1yWmDNgIDf
-	YBKtyCTAuyoEvzPDsy7fLTr5Gw9W5vI1/POB1mia4X1UnqcMw2G4CR2h
-X-Gm-Gg: Acq92OFkvoVzr2wMJmNSB38vnbABHEe6Y/OXYZsafGSU/lV8giQsM6xZ/vOypPLr224
-	BodByVWYSTQU1OrxB3ayKzTL7IyuRq7Kbjht2HRby1OT963xfdlh1cRIhiIJ//UfMBHa/8BCDd4
-	2IJXCP6WEiMCNu8k/6XmWdY71YJbjdVTSXyxO+hV7uw0T0Cor+Pfvyv8FU9k+Z+WH5otQZeeilg
-	mR1iJrfCfgKNU3eDRZ5w0fAkWFPLoMSPpIErc7lBUnjf/0U7nYBoZrynqx1l4ehqFeootprN1PL
-	gNJsXtDPy1ePOXUTerHjLCrYv2xJZnI+p+6X8OE2R4nr2sNC6Su6EeDZzDyKu0yiQwhOPpsZmNJ
-	AfLuXZxp6RrI5cV/QY9bnol9n9zeJ0Bog77ursCCiSb6Zm9E5weu3rpPDEmTIvsEKl6uRvgNMjY
-	Nu/4U/6uQfSN9zdYkYvPXhcE2lIDGCODsKtAu4M/ugjm0J9LpxHQpinxgfKVk=
-X-Received: by 2002:a05:6000:2489:b0:43f:e2b7:7160 with SMTP id ffacd0b85a97d-45e5c58fe72mr24859160f8f.4.1779128381341;
-        Mon, 18 May 2026 11:19:41 -0700 (PDT)
-Received: from [10.128.10.158] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0fe248dsm38425105f8f.30.2026.05.18.11.19.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2026 11:19:40 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <8294a089-4350-4013-a644-b7cb4ffa5130@gmail.com>
-Date: Mon, 18 May 2026 19:19:39 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2T0DUHL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779128779; x=1810664779;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pbXYLQ1mwct3+ssZlrWJpr6OzTUkZbnMsQ/G5sb/T3M=;
+  b=A2T0DUHLXSAZYQw2jRiF+UoKrVoD0sUG+NgJtbnOEQb18t2vQsGxLopw
+   YUxKWtYH8sxVruSa43cAl3BbpnZ04oBxA4nDyeKXLSbRW1afM6G4WSkr4
+   ZJObrW+BGc0Icc6onS9dZJE4WOU0QPpHzD8wHPszfE+/amcnq74W8dnKi
+   ojxajFEfbqExWClaWwZqO4rARkYfU4V+fyjqBpaVjrQhtM0PqYc19qSsI
+   3nLaQA3OGxSSKCqC+ljONKYwvx39XAdeaOkXLxRLKrsuiGC3BZF3e3Dub
+   /9Ft5tR0johwFWGFLRiCCXov2JNgAOk0WOR15314fzbbobb8vfam97s1H
+   A==;
+X-CSE-ConnectionGUID: 9qriItO/ScWlODNBpfRg1Q==
+X-CSE-MsgGUID: +k3VPqE9SVOFJAvzB/QnXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="90575555"
+X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
+   d="scan'208";a="90575555"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 11:26:18 -0700
+X-CSE-ConnectionGUID: O0zap/NiRba3AYD16GFVrA==
+X-CSE-MsgGUID: e9aNJkI4TGO68gsQIjE1Pw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
+   d="scan'208";a="239764455"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.3])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 11:26:12 -0700
+Date: Mon, 18 May 2026 21:26:09 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	"Hennerich, Michael" <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	"Sa, Nuno" <Nuno.Sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v11 4/6] iio: adc: ad4691: add SPI offload support
+Message-ID: <agtZwbeVeZdnlXTI@ashevche-desk.local>
+References: <20260515-ad4692-multichannel-sar-adc-driver-v11-0-eab27d852ac2@analog.com>
+ <20260515-ad4692-multichannel-sar-adc-driver-v11-4-eab27d852ac2@analog.com>
+ <80f61c0b-1f36-4fee-9f76-b93f63b87abe@baylibre.com>
+ <LV9PR03MB841418AEF0059E802F7A69B2F7032@LV9PR03MB8414.namprd03.prod.outlook.com>
+ <60d66897-41cc-4f3f-afd2-64e49f0bb55e@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 1/3] scripts: add kconfirm
-To: Arnd Bergmann <arnd@arndb.de>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Demi Marie Obenour <demiobenour@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Gary Guo <gary@garyguo.net>,
- ljs@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, qingfang.deng@linux.dev,
- yann.prono@telecomnancy.net, ej@inai.de, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-References: <20260516215354.449807-1-julianbraha@gmail.com>
- <20260516215354.449807-2-julianbraha@gmail.com>
- <ba7ec52f-c4e9-4588-9484-dc8280d55593@gmail.com>
- <CANiq72k_tXGSCd1BEg8XmTr+acZHfdRbcFOVD7=O6yAbmv-nHw@mail.gmail.com>
- <f77a4858-2bcf-4bfb-95e0-24a5d91e0862@gmail.com>
- <CANiq72mGTehUWS2-MgukOKmwAn3fB63boFNqbNENse6B00M7Zg@mail.gmail.com>
- <ef59ee46-87e2-4f99-babf-4dc8ee3cbec5@app.fastmail.com>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <ef59ee46-87e2-4f99-babf-4dc8ee3cbec5@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <60d66897-41cc-4f3f-afd2-64e49f0bb55e@baylibre.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 5/18/26 09:08, Arnd Bergmann wrote:
-> What about dependencies that are normally shipped by the distros
-> along with the rust compiler? Would it be possible to allow a
-> range of version that matches the ones that are present on
-> common distros like we do with C libraries, or would that cause
-> more problems than it solves?
+On Mon, May 18, 2026 at 10:16:38AM -0500, David Lechner wrote:
+> On 5/18/26 10:14 AM, Sabau, Radu bogdan wrote:
+> >> -----Original Message-----
+> >> From: David Lechner <dlechner@baylibre.com>
+> >> Sent: Saturday, May 16, 2026 8:53 PM
 
-Hi Arnd,
+...
 
-Yes it's something that I would like to enable, though we first need
-to wait for all of kconfirm's dependencies to be available for these
-distributions.
+> >>> +	if (st->manual_mode && st->offload)
+> >>> +		return sysfs_emit(buf, "%llu\n", READ_ONCE(st->offload-
+> >>> trigger_hz));
+> >>
+> >> Why do we need READ_ONCE?
+> > 
+> > trigger_hz is u64 and if the target is 32-bit, a 64-bit access compiles to two 32-bit
+> > instructions, so show() reading it without a lock and store() writing it concurrently
+> > can produce a torn value at the compiler level. READ_ONCE/WRITE_ONCE suppress
+> > the compiler transformations that would allow that splitting or caching. We could
+> > have st->lock in show() instead, but that felt heavier than necessary for a single
+> > scalar where a transiently stale-but-whole read is fine.
+> 
+> I would go with the mutex. It will be easier for people to understand.
 
-I've filed a GitHub issue for this in the repo of 'nom-kconfig':
-https://github.com/Mcdostone/nom-kconfig/issues/149#issuecomment-4480419622
+But why? READ_ONCE() here is exactly enough. We do not care about
+serialisation, we care only about integrity. With mutex it will confuse
+(some) people more, e.g., me. Because in that case I would think about
+some specific access to it that may happen. Yes, I saw many times the show
+functions that do mutex and then print the result when mutex is not held
+anymore, but for simple cases like here, mutex is overkill. Interestingly
+that using guard()() inside show makes the mentioned functions to print
+(almost) latest value of the variable in question. It narrows window down
+as printing will go inside critical section.
 
-Also note that the author of that library is CC'd on these emails:
-Yann Prono <yann.prono@telecomnancy.net>
+-- 
+With Best Regards,
+Andy Shevchenko
 
-I will need to do some testing once all is available, but as far as I
-can tell, this would not create many additional problems, though we
-would still need to provide crates.io as a source for distributions that
-do not package Rust libraries.
 
-- Julian Braha
