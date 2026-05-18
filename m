@@ -1,161 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9AE3EDAA6;
-	Mon, 18 May 2026 16:05:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0332B4921AA;
+	Mon, 18 May 2026 16:09:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779120324; cv=none; b=trURMq8siSJO8Atg+EJDgo2bjCYKcUces3xfe3QMN6IUNWBTJkSEHoSJ7VqMoxz0EHo03kCHVfK/6gB3qCn/pyz5jDt5aEpjKQs2jGM7nob6ed2EYkdXM//ofkzqksdU9vd4m3DpVe/RJgid4Alw2cE5qQB7+lmJ+n6lmxrio8w=
+	t=1779120585; cv=none; b=luhH/tanLhVv8MX3HNwNi6tkiCX4FUnYSWCyHFcY6Afz7pqhoTJFzs8nFZwmFY2C2PANUfUme5iDRE0c7GwiXzShTQEmUtz7LTwFuB4ZO7xxAgRYWf3VGS+CDvj0HTZVfOh/uPAzFuPXlKbNDV6cSX9/m+sSW6G9MmgWH8CJZ+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779120324; c=relaxed/simple;
-	bh=v45vH87nw4D1mVKzarWJJcSPeeedXoh8U70fwZ5uNIM=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=IhtpXN7ejVWrF4AcsDpPX82h3VCTtQYb6d5cf8SlnvkIuCq/uAv2MBEW2Oe9P6M7M5itkhfBkOmqsR9gTTUGTDGLlpqSzUCbqnaRE4VpmDnB/2sqeSuwb4gwz8ueE++nW3vPLkFUVpg/yR8qYHXfNdR1UCL4Mnzk4xHASYND7FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKuadpqx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779120585; c=relaxed/simple;
+	bh=s7bf1gytuPn56xayEzHgxmKGWQoeuGExmsjfzDxy83E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cLppf2ZI5OUdE4bw91CBCmrTLC4/un9bdvGXemgAMfuWeS31IlL2uLYUgCcH0drHJnvU7q+Ef83crGMn/herRn02m1zdStJrSxdtGHswILVGOwbKyEHbMB5hbqH4OM1mkabe0hIqqqQgeWE7sgDUcr1xyE/Jak+P+9XuSB8L/uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E1kOa37c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKuadpqx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6FA4C2BCB8;
-	Mon, 18 May 2026 16:05:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E1kOa37c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A021EC2BCB8;
+	Mon, 18 May 2026 16:09:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779120323;
-	bh=v45vH87nw4D1mVKzarWJJcSPeeedXoh8U70fwZ5uNIM=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=AKuadpqxx/B89jip0fD0/F6hJrYk16O+jiHGZYShm9K9VtN5pBKFsGgqBo20I5ail
-	 ISiyJTDFYH2i1DfvuVx2CD3sKJVsF5k89TIqWB2BU+Fp1EeBWTSh2T0DxqPgADEHac
-	 z5ubkK8DgtfwAAQtWuKVhzbZh3U5z3SnuK3JOu9aObyNybgxON7+MAXObx3cvuym+3
-	 oEzrRtnMgedctWwnbhFQqVIUYKiIMVrZWbWMyE1xwzT0oN2yqNrh/ELrB4E0QfnTop
-	 zTIw+ReT5bJLsu1VEBGgJQwD9ZHAeTGWAQT/8ysfG7QYBRXjNm9yHKtO9cqgycBDmR
-	 /SJ2RGtxp42+w==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id D5300F40071;
-	Mon, 18 May 2026 12:05:21 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Mon, 18 May 2026 12:05:21 -0400
-X-ME-Sender: <xms:wTgLagWI-LRzCyFvj5-SW88nR94iXyrzBoVO7amYDEiM5dYIfV556w>
-    <xme:wTgLavY7Me7FUFtq197eKP8PcoFR3HRWI_Ev1CaCeu-HoahZPI3ZEmHa4UHO9vmFI
-    ZYJaQee4KuIDmOvWZgEqd_ChXRUaaTf3wDnVTzOyhbKKm4PJmDIx7VU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeelfedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
-    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpeejvefhudehleetvdejhfejvefghfelgeejvedvgfduuefffeegtdejuefhiedukeen
-    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomheptghhuhgtkhhlvghvvghrodhmvghsmhhtphgruhht
-    hhhpvghrshhonhgrlhhithihqdduieefgeelleelheelqdefvdelkeeggedvfedqtggvlh
-    eppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthho
-    pedvgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhgvihhlsegsrhhofihnrd
-    hnrghmvgdprhgtphhtthhopehmrghthhhivghurdguvghsnhhohigvrhhssegvfhhfihgt
-    ihhoshdrtghomhdprhgtphhtthhopegrlhgvgidrrghrihhnghesghhmrghilhdrtghomh
-    dprhgtphhtthhopegrmhhirhejfehilhesghhmrghilhdrtghomhdprhgtphhtthhopehr
-    ohhsthgvughtsehgohhoughmihhsrdhorhhgpdhrtghpthhtoheprghnnhgrsehkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmhhhirh
-    grmhgrtheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:wTgLarH8t9U69HcggmaGlvvyhKqM09rbiNxOL98IFMm8CGNMzeI2uA>
-    <xmx:wTgLaqA45lDUbffJuwFEU3t8c7rGrIHAnSheFb4MBzWhDCag0wJMLg>
-    <xmx:wTgLagmNZDl4RFX2b8B6_OE97_XqPw1I0j0ncwVANEeyX5gI2DgDWw>
-    <xmx:wTgLao4YQfJeVgkS1nyGaY7VLPXxuIMbbsjWQzJEedW3Y4GeRV7h8A>
-    <xmx:wTgLantlG21DGkEHuT-ZUKqAYFMZUaUfPNSiI6pkVA64J3XgB2WINcyr>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id A907E780070; Mon, 18 May 2026 12:05:21 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20201202; t=1779120581;
+	bh=s7bf1gytuPn56xayEzHgxmKGWQoeuGExmsjfzDxy83E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=E1kOa37cr7bPE9swjgFFgtDKCM5l/qpuwM4pboIejehjvUZ2WUbDVb+k7AFQ5Hry8
+	 Lji4+Ka09N4UVUj/nNgZGHqrRnL7gU1YHHMkgodhyBDFjHjueJ1xripfcXawy6uGcN
+	 af0PChBPfRexi05qgulxWbVpITsvjBYsb2eJsHEje2Ps6pUXVumyWDsKnvxafZLJNT
+	 7EYPNsgwVCJpuqhtmlJ6Zamo46eCzrSDFRNYqwcKuVqNkVniC5xylD6aMsksiKn+Yg
+	 bt8MHAJkKPgRJ1eqbIa/IYe0/kdgTIF6nhlQfEa/m+iBRxYIrjm1zcwVFVr5JBh/iw
+	 CFH8fkI66NCoQ==
+Date: Mon, 18 May 2026 17:09:27 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Dan Williams (nvidia)" <djbw@kernel.org>
+Cc: "Bowman, Terry" <terry.bowman@amd.com>, dave@stgolabs.net,
+ dave.jiang@intel.com, alison.schofield@intel.com, bhelgaas@google.com,
+ shiju.jose@huawei.com, ming.li@zohomail.com,
+ Smita.KoralahalliChannabasappa@amd.com, rrichter@amd.com,
+ dan.carpenter@linaro.org, PradeepVineshReddy.Kodamati@amd.com,
+ lukas@wunner.de, Benjamin.Cheatham@amd.com,
+ sathyanarayanan.kuppuswamy@linux.intel.com, vishal.l.verma@intel.com,
+ alucerop@amd.com, ira.weiny@intel.com, corbet@lwn.net, rafael@kernel.org,
+ xueshuai@linux.alibaba.com, linux-cxl@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org, Mauro Carvalho
+ Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v17 02/11] cxl/ras: Unify Endpoint and Port AER trace
+ events
+Message-ID: <20260518170927.2ffa8211@jic23-huawei>
+In-Reply-To: <69feaebd471c3_1b86a100b@djbw-dev.notmuch>
+References: <20260505173029.2718246-1-terry.bowman@amd.com>
+	<20260505173029.2718246-3-terry.bowman@amd.com>
+	<20260507190836.70197e24@jic23-huawei>
+	<8913c666-a343-4717-8ab2-0b8546d1bdfb@amd.com>
+	<20260508150533.04e19cf9@jic23-huawei>
+	<69feaebd471c3_1b86a100b@djbw-dev.notmuch>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AAilal1C8uxw
-Date: Mon, 18 May 2026 12:05:01 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Christian Brauner" <brauner@kernel.org>,
- "Jeff Layton" <jlayton@kernel.org>, "Chuck Lever" <chuck.lever@oracle.com>
-Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
- "Alexander Aring" <alex.aring@gmail.com>,
- "Steven Rostedt" <rostedt@goodmis.org>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
- NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Calum Mackay" <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Message-Id: <b727a784-1c7c-41dd-83a8-a43084e4c4f9@app.fastmail.com>
-In-Reply-To: <20260515-weltschmerz-folgen-68ca0db1ef84@brauner>
-References: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
- <20260515-weltschmerz-folgen-68ca0db1ef84@brauner>
-Subject: Re: (subset) [PATCH v3 00/28] vfs/nfsd: add support for CB_NOTIFY callbacks in
- directory delegations
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Fri, 08 May 2026 20:49:17 -0700
+"Dan Williams (nvidia)" <djbw@kernel.org> wrote:
+
+> Jonathan Cameron wrote:
+> > On Thu, 7 May 2026 13:33:45 -0500
+> > "Bowman, Terry" <terry.bowman@amd.com> wrote:  
+> [..]
+> > > > This concerns me (sorry I wasn't paying attention to the v16 thread).
+> > > > It is a userspace regression against code that is out in the wild and typically
+> > > > not updated in sync with the kernel.
+> > > > 
+> > > > If you are suggesting breaking ras-daemon at the very least +CC the maintainer.  
+> 
+> Sorry, that was not the intent, see below.
 
 
-On Fri, May 15, 2026, at 1:26 PM, Christian Brauner wrote:
-> On Tue, 28 Apr 2026 08:09:44 +0100, Jeff Layton wrote:
->> Re-posting the set per Christian's request. The only difference in this
->> version is a small error handling fix in alloc_init_dir_deleg(). The old
->> version could crash since release_pages() can't handle an array with
->> NULL pointers in it.
->> 
->> ---------------------------------8<------------------------------------
->> 
->> [...]
->
-> @Chuck, @Jeff, I've only merged the vfs specific changes into a stable branch.
-> You can pull it I won't touch it again. You can pull the nfsd work in in
-> whatever form you like. Same procedure I use with io_uring et al.
->
-> Let me know if that work for you.
->
-> ---
->
-> Applied to the vfs-7.2.directory.delegations branch of the vfs/vfs.git 
-> tree.
-> Patches in the vfs-7.2.directory.delegations branch should appear in 
-> linux-next soon.
->
-> Please report any outstanding bugs that were missed during review in a
-> new review to the original patch series allowing us to drop it.
->
-> It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> patch has now been applied. If possible patch trailers will be updated.
->
-> Note that commit hashes shown below are subject to change due to rebase,
-> trailer updates or similar. If in doubt, please check the listed branch.
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> branch: vfs-7.2.directory.delegations
->
-> [01/28] filelock: pass current blocking lease to 
-> trace_break_lease_block() rather than "new_fl"
->         https://git.kernel.org/vfs/vfs/c/89330d3a60f7
-> [02/28] filelock: add support for ignoring deleg breaks for dir change 
-> events
->         https://git.kernel.org/vfs/vfs/c/24cbf43337f4
-> [03/28] filelock: add a tracepoint to start of break_lease()
->         https://git.kernel.org/vfs/vfs/c/e39026a86b48
-> [04/28] filelock: add an inode_lease_ignore_mask helper
->         https://git.kernel.org/vfs/vfs/c/95825fdcc0b0
-> [05/28] fsnotify: new tracepoint in fsnotify()
->         https://git.kernel.org/vfs/vfs/c/ad4489dcd08d
-> [06/28] fsnotify: add fsnotify_modify_mark_mask()
->         https://git.kernel.org/vfs/vfs/c/12ffbb117b64
-> [07/28] fsnotify: add FSNOTIFY_EVENT_RENAME data type
->         https://git.kernel.org/vfs/vfs/c/010043003c0c
+Sorry for slow reply - getting a bit buried in other kernel work so haven't been
+checking CXL stuff as often as normal.
 
-Looks good.
+Anyhow direction looks good to me.
 
-To make the NFSD pieces apply, I need v7.1-rc4 and
-vfs-7.2.directory.delegations merged into vfs.all. Given your
-regular merge cadence over the past few weeks, I expect that
-will happen end of this week? Early next?
+Jonathan
 
-
--- 
-Chuck Lever
