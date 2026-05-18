@@ -1,298 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A371378821;
-	Mon, 18 May 2026 15:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00A037AA9C
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 15:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779117919; cv=none; b=GNPSBL/ZW5mt7GovHCN/S5ezfIe4XTjeOPRnz8HPcOatxF3RIaAZLkjPwHkeLTgHcc1b5SWr/3eiH93dA4KrYP9Y4WQIKUV7NlL4AYie/rwMpOEqE4VWkOdeI7ZFPgMHzc8OPJEqlFwWyPC5MyjcM75fhgMYfoCKTK9ooAq/nRA=
+	t=1779118055; cv=none; b=XZG02Vx0weLMgz6DBMdPYxfWH7yn+WzLlSH6Mh5A2+Oc8QQvmTn+sa9tLHVp/cVBBP4rOg3FE1DvhrW6QrsS5EpFlwzYRTuap4u+GUme6n7aDFw/AY21BQMGHvIdfqDZUfYoSNBJ8KJ5tlfzDJ0qdapw5tJd/eSJbm4wkl58B30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779117919; c=relaxed/simple;
-	bh=e2V8SoWXISAZIzBWk2/EsX1mNRTP/C7gIW2/+jrGbBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eu70KWBC/oVVuSfvhN1C139B0Z877GoZ/LIpTAG5M/HfkPzSSs4MeJVkco5/pH4jfUMPyzL/FiRYyCTrVOkTTHx6XkoLfvop6xJqfUi+Qw/X1K1rbkEMVY6dG4k83bZNNgKzI44pUd7PF4Hw45PYX+aGV/GzZPuQ5ngK+o0Hr+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IjtCQkbk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779118055; c=relaxed/simple;
+	bh=b9Vk9qY/xav/EhSVPYY2GDfbqJukb+UtFNl3cAOu4qM=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rvXNH+gfY95T3XDtyyCTDsSlVNlKQAo692apY84s8yCDpMDR5tLmSwOd9ub59PZpfbUpXxU3QMbRxD6xdebQcrTrBinzlLL6tAQQrTZUcrqGNNkBcnF6iHlsFzlu8hSRqvIBnBb26K5SWHbIIzr4vFEn5bcupjzgRSnL0pwHtJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C4XI2Zm2; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IjtCQkbk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01FB5C2BCB7;
-	Mon, 18 May 2026 15:25:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779117918;
-	bh=e2V8SoWXISAZIzBWk2/EsX1mNRTP/C7gIW2/+jrGbBI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IjtCQkbkWP1dEU31uV3eVnEFt/wPDknMDaKiU48HYNvTKDqkMVAaKl6EnHsBSqvHU
-	 MvFRTaXmoAFj2I9hFxA47wGzq4DxSo3XzRWHN9jrGDXdLG+bKFsncEJ+OyNjxT7k34
-	 hCiDr/FlhliUQPvm/EpBLe52o5u5TopzH3/d+0BlZksm69whbqyyjHMhJfZkT1i5go
-	 nJdinX5rPAtltyhY6tVybiPm6M2sAJcgclcL59W8Qcviz9o/E91dI8B7UHMAvuagQD
-	 +AsZ5OXG18UI+eU/mMKJ59uBFSo7SpYsDmsyDbAsR1fnsJey6AMMPByMMMkJF1IFUI
-	 vjHo5KrzIa1nA==
-Date: Mon, 18 May 2026 16:25:06 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, Bartosz
- Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v11 3/6] iio: adc: ad4691: add triggered buffer support
-Message-ID: <20260518162506.4a98519d@jic23-huawei>
-In-Reply-To: <c9610990-6b40-40a8-948c-fa1209242dbe@baylibre.com>
-References: <20260515-ad4692-multichannel-sar-adc-driver-v11-0-eab27d852ac2@analog.com>
-	<20260515-ad4692-multichannel-sar-adc-driver-v11-3-eab27d852ac2@analog.com>
-	<9b7986e1-6550-415d-b301-33089ba10177@baylibre.com>
-	<20260517132526.27c71b70@jic23-huawei>
-	<58a66855-9fb3-48ca-8cae-ff9277f745df@baylibre.com>
-	<20260518152103.4d428c1e@jic23-huawei>
-	<c9610990-6b40-40a8-948c-fa1209242dbe@baylibre.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C4XI2Zm2"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-67c2b4809baso5585606a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 08:27:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779118050; x=1779722850; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u5i5J5qLZGHdK+LXGjv6pdc5szyRrGvH9rm66LD4078=;
+        b=C4XI2Zm2YVKNJzHaxQoHUZRGA332eu6se9fUFJuGXXxDKyVy1OBKMia0TXoz9Fxv2i
+         l11awCVfc4uCLwbMA/suZ0ZqJqmysU56+6DwVtSAAQbJjDJjnUW7Qv8gB4VTKVuhJmGR
+         YcHleXHieiMQhGWfi9wpISWADLQwYyEMbwB9tR9W8j9nzpz3IrRj6EN9J50RzfQ5vLKj
+         2uKavpgwVcVJYnKGwklaeuyYy5lfWssK3xoA34bosK64HX5IvpQuaPmcXE1AaChx7/a8
+         bAvmb6K1D/a9jsCsDC7+h4mgYMDBQIvZv4r2vI1J3x6J+lc41fF9grsERAaA/zVjVOIW
+         D+IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779118050; x=1779722850;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u5i5J5qLZGHdK+LXGjv6pdc5szyRrGvH9rm66LD4078=;
+        b=LaILENk7hCD9jOTxW25an2Oq6R7aAW7oBh+XX0phSHXcaD8dFXiLn1vHqcscyJJe4X
+         9FCBw2Y4sRNV6F3dVV+QQQ74xuLA7TweqcmFg11EifYfW2QPewols0oH55+cogHz5xKl
+         YKeOKp6Oz4doc2TBF+Sk/CVxnDUmvXlVAxnurl9AJJgqArzJcEQ+tuOOrsJa+naZLOiq
+         cEYZnXHDdxNZdeW0rt3DabdYJjAtiaDkwFlEMebtrWIeGWBGXvhx/0rdsW/9qt78iLXA
+         KA808/QI7Uss39Y+AZQWLghDCM+Wcb6sDagWpsIl0tdmEKBO1RqK213Z2I0WGu2IyBeJ
+         R9Yg==
+X-Forwarded-Encrypted: i=1; AFNElJ/3IibsyBOPOUXj0YF8Hw2LpBmXLefqv++xceWTeoNRzX0VRL4qjzYqR7PyQ/AiH6AwOcByJj3TVsk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwssJpWEL+Fq7x6uIpLya/3s2fbYW1h5fWV649xSSYvGqh5eCoa
+	G+BkRnSSbKqBnMAX4Oc5Y/N9um2lJUg06RR2nPsZvmrKbSbRn5fFBVFl
+X-Gm-Gg: Acq92OGBP0z5Tr9X12pQ+c1a/YQoDn95rXVQBHJii2cG2E6Yzrp/hgieGsxajctQ21b
+	6/sDxY/yyIyrasnOnd3PC0b6Oc77pC4y7BchCp+RMVcHEK6ZaEBgHSi6DIovmKdUR4N+tgJScZa
+	B+4tyIS00SsC9cd8+LKIhBV9ByyfJ5HufHyictk77OBqRApNr9TGORxuaG8LFa4eeeFx8iJld5u
+	Ux70bCFVJ2YKjeNHuXfjOzIcAij7eMjidD3TSxlEWWsuxuuukamxNYotJ0A4xWVjC6iwhwwiKjh
+	PuFSsRdqLG4v0jpAFyrcPJRV0uAUup9jIYBVtChYKMkPllfrN/kB/BbD3AuMd+yDE+bQDCtisey
+	g/toHOgi2ZetHW6vKofr+NTHEyreuTohNSx96BQBg4QN/tY+CF0jDjyFK+YkER8hH4nveZUiVRT
+	rB/8z7aFeUl/4RfYmNjqTwzY4rTvpR7JIGiHLUvneh/NEVCrxDfOJbrmi8wL1/fUfkybC+nnLEf
+	0KwXLZOhDbuHWOQrhnbsJ+2RNoW9rjNwmpKa9gqB1uAgfrxFRYRKw9WxqZD
+X-Received: by 2002:a17:906:5145:10b0:bd5:5834:1d39 with SMTP id a640c23a62f3a-bd558341f32mr480464166b.45.1779118049379;
+        Mon, 18 May 2026 08:27:29 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4de6f28sm590371766b.34.2026.05.18.08.27.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 08:27:28 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 18 May 2026 16:27:23 +0100
+To: Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH RFC v4 09/10] Documentation: ABI: testing: add docs for
+ ad9910 sysfs entries
+Message-ID: <pkx5v4od3wkyyzxomfrjf4ei7leboadzth262xnl55fvu76pf3@yqrezmo6gtq7>
+References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
+ <20260508-ad9910-iio-driver-v4-9-d26bfd20ee3d@analog.com>
+ <20260517155843.7f833658@jic23-huawei>
+ <yrabhhhdkzmiuxlqzrrj6a47ftlzwvva7r2korzeszdy4yqrin@xl6obhhnnas4>
+ <20260518144537.7c998308@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260518144537.7c998308@jic23-huawei>
 
-On Mon, 18 May 2026 09:36:18 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+On 26/05/18 02:45PM, Jonathan Cameron wrote:
+> On Sun, 17 May 2026 18:30:27 +0100
+> Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
+> 
+> > On 26/05/17 03:58PM, Jonathan Cameron wrote:
+> > > On Fri, 08 May 2026 18:00:25 +0100
+> > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> > >   
+> > > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > > > 
+> > > > Add custom ABI documentation file for the DDS AD9910 with sysfs entries to
+> > > > control Parallel Port, Digital Ramp Generator and OSK parameters.
+> > > > 
+> > > > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>  
+> > > I'm fine with phase and frequency as defined, but for the scaling it made me wonder.
+> > > For outvoltage0 channels the assumption the value is the peak voltage so if
+> > > we know what input to be modulated by the ramp generator can we express them
+> > > in volts (well milivolts) rather than as a scaling multiplier?  
+> > 
+> > The DAC output is current-based and differential. Voltage conversion would happen
+> > outside the device...
+> 
+> Why aren't we representing this as out_altcurrentX-Y_xxxx?
 
-> On 5/18/26 9:21 AM, Jonathan Cameron wrote:
-> > On Sun, 17 May 2026 14:21:30 -0500
-> > David Lechner <dlechner@baylibre.com> wrote:
-> >  =20
-> >> On 5/17/26 7:25 AM, Jonathan Cameron wrote: =20
-> >>> On Sat, 16 May 2026 12:32:51 -0500
-> >>> David Lechner <dlechner@baylibre.com> wrote:
-> >>>    =20
-> >>>> On 5/15/26 8:31 AM, Radu Sabau via B4 Relay wrote:   =20
-> >>>>> From: Radu Sabau <radu.sabau@analog.com>
-> >>>>>
-> >>>>> Add buffered capture support using the IIO triggered buffer framewo=
-rk.
-> >>>>>
-> >>>>> CNV Burst Mode: the GP pin identified by interrupt-names in the dev=
-ice
-> >>>>> tree is configured as DATA_READY output. The IRQ handler stops
-> >>>>> conversions and fires the IIO trigger; the trigger handler executes=
- a
-> >>>>> pre-built SPI message that reads all active channels from the AVG_IN
-> >>>>> accumulator registers and then resets accumulator state and restarts
-> >>>>> conversions for the next cycle.
-> >>>>>
-> >>>>> Manual Mode: CNV is tied to SPI CS so each transfer simultaneously
-> >>>>> reads the previous result and starts the next conversion (pipelined
-> >>>>> N+1 scheme). At preenable time a pre-built, optimised SPI message of
-> >>>>> N+1 transfers is constructed (N channel reads plus one NOOP to drain
-> >>>>> the pipeline). The trigger handler executes the message in a single
-> >>>>> spi_sync() call and collects the results. An external trigger (e.g.
-> >>>>> iio-trig-hrtimer) is required to drive the trigger at the desired
-> >>>>> sample rate.
-> >>>>>
-> >>>>> Both modes share the same trigger handler and push a complete scan =
-=E2=80=94
-> >>>>> one big-endian 16-bit (__be16) slot per active channel, densely pac=
-ked
-> >>>>> in scan_index order, followed by a timestamp.
-> >>>>>
-> >>>>> The CNV Burst Mode sampling frequency (PWM period) is exposed as a
-> >>>>> buffer-level attribute via IIO_DEVICE_ATTR.
-> >>>>>
-> >>>>> Signed-off-by: Radu Sabau <radu.sabau@analog.com>   =20
-> >>>    =20
-> >>>>> +
-> >>>>> +static int ad4691_manual_buffer_preenable(struct iio_dev *indio_de=
-v)
-> >>>>> +{
-> >>>>> +	struct ad4691_state *st =3D iio_priv(indio_dev);
-> >>>>> +	unsigned int k, i;
-> >>>>> +	int ret;
-> >>>>> +
-> >>>>> +	memset(st->scan_xfers, 0, sizeof(st->scan_xfers));
-> >>>>> +	memset(st->scan_tx, 0, sizeof(st->scan_tx));
-> >>>>> +
-> >>>>> +	spi_message_init(&st->scan_msg);
-> >>>>> +
-> >>>>> +	k =3D 0;
-> >>>>> +	iio_for_each_active_channel(indio_dev, i) {
-> >>>>> +		if (i >=3D indio_dev->num_channels - 1)
-> >>>>> +			break; /* skip soft timestamp */     =20
-> >>>>
-> >>>> I don't think timestamp gets set in the scan mask. It is handled sep=
-arately.   =20
-> >>>
-> >>> FWIW that is a sashiko false postive (I believe anyway!)
-> >>> If we do hit this please shout as we have a core bug.
-> >>>
-> >>> If anyone has time to look at how hard it would be to tweak
-> >>> iio_for_each_active_channel to skip a last element timestamp that
-> >>> would be great.
-> >>>
-> >>> I think that iterates one too far which is what sashiko is tripping o=
-ver.
-> >>>
-> >>> I'm only keen to fix that if we can make it low cost and hid it entir=
-ely
-> >>> from drivers.
-> >>>
-> >>> Jonathan
-> >>>    =20
-> >> This is what I came up with (totally untested).
-> >>
-> >> Since timestamp can never be set in scan_mask/active_scan_mask, it sho=
-uld
-> >> be safe to exclude it from masklength without breaking existing code. =
-=20
-> > Probably...  =20
-> >>
-> >> I didn't check all callers of masklength/iio_get_masklength() though. =
-=20
-> >=20
-> > That was the bit that made me nervous. Particularly if there is an off
-> > by one that is working by luck today - or someone who understood this
-> > oddity and did it deliberately.
-> >=20
-> > At one point we also had a few other timestamps - the ones come from ha=
-rdware.
-> > I can't remember how we handled those wrt to the scan mask.  I took a q=
-uick
-> > look and thing they are all fine.=20
-> > FWIW a nice precursor would be to make sure all timestamp channels are =
-assigned
-> > using the macro. There are a few that are hand crafted.  I tested a few=
-, but obviously
-> > needs turning in to a proper set and cleaning up.
-> >=20
-> > diff --git a/drivers/iio/adc/ad4170-4.c b/drivers/iio/adc/ad4170-4.c
-> > index 627cbf5a37b0..890e25294baa 100644
-> > --- a/drivers/iio/adc/ad4170-4.c
-> > +++ b/drivers/iio/adc/ad4170-4.c
-> > @@ -2385,9 +2385,7 @@ static int ad4170_parse_channels(struct iio_dev *=
-indio_dev)
-> >  	}
-> > =20
-> >  	/* Add timestamp channel */
-> > -	struct iio_chan_spec ts_chan =3D IIO_CHAN_SOFT_TIMESTAMP(chan_num);
-> > -
-> > -	st->chans[chan_num] =3D ts_chan;
-> > +	st->chans[chan_num] =3D IIO_CHAN_SOFT_TIMESTAMP(chan_num);
-> >  	num_channels =3D num_channels + 1;
-> > =20
-> >  	indio_dev->num_channels =3D num_channels;
-> > diff --git a/drivers/iio/adc/at91_adc.c b/drivers/iio/adc/at91_adc.c
-> > index 6e1930f7c65d..56baca1f5026 100644
-> > --- a/drivers/iio/adc/at91_adc.c
-> > +++ b/drivers/iio/adc/at91_adc.c
-> > @@ -521,13 +521,7 @@ static int at91_adc_channel_init(struct iio_dev *i=
-dev)
-> >  	}
-> >  	timestamp =3D chan_array + idx;
-> > =20
-> > -	timestamp->type =3D IIO_TIMESTAMP;
-> > -	timestamp->channel =3D -1;
-> > -	timestamp->scan_index =3D idx;
-> > -	timestamp->scan_type.sign =3D 's';
-> > -	timestamp->scan_type.realbits =3D 64;
-> > -	timestamp->scan_type.storagebits =3D 64;
-> > -
-> > +	*timestamp =3D IIO_CHAN_SOFT_TIMESTAMP(idx);
-> >  	idev->channels =3D chan_array;
-> >  	return idev->num_channels;
-> >  }
-> > diff --git a/drivers/iio/adc/cc10001_adc.c b/drivers/iio/adc/cc10001_ad=
-c.c
-> > index 2c51b90b7101..d42b747325aa 100644
-> > --- a/drivers/iio/adc/cc10001_adc.c
-> > +++ b/drivers/iio/adc/cc10001_adc.c
-> > @@ -262,7 +262,7 @@ static const struct iio_info cc10001_adc_info =3D {
-> >  static int cc10001_adc_channel_init(struct iio_dev *indio_dev,
-> >  				    unsigned long channel_map)
-> >  {
-> > -	struct iio_chan_spec *chan_array, *timestamp;
-> > +	struct iio_chan_spec *chan_array;
-> >  	unsigned int bit, idx =3D 0;
-> > =20
-> >  	indio_dev->num_channels =3D bitmap_weight(&channel_map,
-> > @@ -289,13 +289,7 @@ static int cc10001_adc_channel_init(struct iio_dev=
- *indio_dev,
-> >  		idx++;
-> >  	}
-> > =20
-> > -	timestamp =3D &chan_array[idx];
-> > -	timestamp->type =3D IIO_TIMESTAMP;
-> > -	timestamp->channel =3D -1;
-> > -	timestamp->scan_index =3D idx;
-> > -	timestamp->scan_type.sign =3D 's';
-> > -	timestamp->scan_type.realbits =3D 64;
-> > -	timestamp->scan_type.storagebits =3D 64;
-> > +	chan_array[idx] =3D IIO_CHAN_SOFT_TIMESTAMP(idx);
-> > =20
-> >  	indio_dev->channels =3D chan_array;
-> > =20
-> > diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-> > index 96b05c86c325..702b2fc66326 100644
-> > --- a/include/linux/iio/iio.h
-> > +++ b/include/linux/iio/iio.h
-> > @@ -353,7 +353,7 @@ static inline bool iio_channel_has_available(const =
-struct iio_chan_spec *chan,
-> >  		(chan->info_mask_shared_by_all_available & BIT(type));
-> >  }
-> > =20
-> > -#define IIO_CHAN_SOFT_TIMESTAMP(_si) {					\
-> > +#define IIO_CHAN_SOFT_TIMESTAMP(_si) (struct iio_chan_spec) {		\
-> >  	.type =3D IIO_TIMESTAMP,						\
-> >  	.channel =3D -1,							\
-> >  	.scan_index =3D _si,						\
-> >=20
-> > Doing that will mean we can spot any unusual use of IIO_TIMESTAMP much =
-more
-> > easily.
-> >=20
-> > Anyhow, basic approach looks good to me. =20
->=20
-> I guess you didn't see the other series cleaning up IIO_TIMESTAMP I alrea=
-dy
-> sent yet.
->=20
-:( That's what I get for not reading all my email before starting to reply!
+Good point! altcurrent makes more sense than altvoltage if we want to use raw to
+control the output level rather than scale, which would be a constant to convert
+raw into current units (what is the one that is used in the sysfs ABI? Ampere, mA or uA?)
 
+Not sure about the benefits on setting "differential" in channel spec.. the name would
+become out_altcurrentX-altcurrentY_xxxxx...
 
-> >=20
-> > Jonathan
-> >=20
-> >=20
-> >  =20
-> >>
-> >> ---
-> >> diff --git a/drivers/iio/industrialio-buffer.c b/drivers/iio/industria=
-lio-buffer.c
-> >> index 9d66510a1d49..17f539fc23e2 100644
-> >> --- a/drivers/iio/industrialio-buffer.c
-> >> +++ b/drivers/iio/industrialio-buffer.c
-> >> @@ -2300,8 +2300,10 @@ int iio_buffers_alloc_sysfs_and_mask(struct iio=
-_dev *indio_dev)
-> >>  	if (channels) {
-> >>  		int ml =3D 0;
-> >> =20
-> >> -		for (i =3D 0; i < indio_dev->num_channels; i++)
-> >> -			ml =3D max(ml, channels[i].scan_index + 1);
-> >> +		for (i =3D 0; i < indio_dev->num_channels; i++) {
-> >> +			if (channels[i].type !=3D IIO_TIMESTAMP)
-> >> +				ml =3D max(ml, channels[i].scan_index + 1);
-> >> +		}
-> >>  		ACCESS_PRIVATE(indio_dev, masklength) =3D ml;
-> >>  	}
-> >> =20
-> >>
-> >>
-> >> =20
-> >  =20
->=20
+Is there any modifier for amplitude/peak/envelope? I see IIO_MOD_RMS, which could be used
+if adding a 1/sqrt(2) factor to the fixed scale.
 
+Then, I would consider something like out_altcurrent_rms_xxxx as a good alternative.
+
+"scale" would be a constant in the top-level phy channel
+
+single tone profile channels would have:
+- frequency
+- phase
+- raw
+
+drg ramp up/down channels:
+- frequency and frequency_roc
+- phase and phase_roc
+- raw and raw_roc
+
+parallel port channel(s):
+- frequency_scale and frequency_offset (frequency destination)
+- phase_offset (polar destination)
+- offset (polar destination)
+
+osk channel:
+- raw
+- raw_roc
+
+raw_roc could be just roc, but that sounds like it carries the scale and refers to
+a current value? and maybe that breaks consistency with other destination attributes?
+I am fine with just roc if that refers to the raw value, not (raw * scale).
+
+With all the above, still using altvoltage is not incorrect, just a matter on how
+we want to express the units. Note that using raw instead of scale to control the
+amplitude is just another option to tackle the problem. I suppose that the
+important thing here is being technically corrent and consistent in terms of
+usage. Maybe out_altcurrent_rms_* is more clear in terms of amplitude level.
+
+> 
+> 
+> > using a resistor load or an op-amp transimpedance stage,
+> > and I am no expert on that, but that often requires impedance matching so voltage
+> > levels may depend on the frequency. Then, I suppose that voltage is not the right
+> > unit to use.
+> 
+> Understood that it can get complex!
+> > 
+> > The scale here controls the amplitude of the varying signal. Assuming the peak voltage
+> > (amplitude) is constant means we have a constant envelope, but that should not mean
+> > we can't control it or it should not mean that the hardware can have other ways to
+> > control it. That said, scale behaves as a "gain multiplier".
+> Understood. Given it's the envelope then if scale happened to be 1 always it would
+> be presented as _processed. So this is consistent with other channel types.
+> 
+> > 
+> > > 
+> > > That seems to me like it fits better with the overall ABI.
+> > >   
+> > > > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_scale_offset
+> > > > +KernelVersion:
+> > > > +Contact:	linux-iio@vger.kernel.org
+> > > > +Description:
+> > > > +		For a channel that allows amplitude control through buffers, this
+> > > > +		represents the value for a base amplitude scale. The actual output
+> > > > +		amplitude scale is a result with the sum of this value.
+> > > > +  
+> > >   
+> > > > +
+> > > > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_scale_roc  
+> > > 
+> > > Silly question perhaps but can work out how this related to millivolts/sec
+> > > That might make a more intuitive interface than scaling multiplier per sec
+> > > Perhaps the combination with offset makes this impossible though maybe that
+> > > could be a expressed as a voltage offset?  Afterall if the amplitude being
+> > > scaled is 5V then 5 * (offset + scale) = 5 * offset + 5 * scale
+> > >    
+> > > > +KernelVersion:
+> > > > +Contact:	linux-iio@vger.kernel.org
+> > > > +Description:
+> > > > +		Amplitude scale rate of change in 1/s for channels that ramp
+> > > > +		amplitude. This value may be influenced by the channel's
+> > > > +		sampling_frequency setting.  
+> > > 
+> > >   
+> > 
+> 
+
+-- 
+Kind regards,
+
+Rodrigo Alencar
