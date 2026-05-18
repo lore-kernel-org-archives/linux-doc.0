@@ -1,265 +1,731 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D703B3FCB31
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 12:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBFB3FD947
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 12:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779106026; cv=pass; b=GWgxkjd2lShQBxNSr81FX/+OQ0lFyQ3cKbFZWgqLw5pVfbJ+t5FRxAajKtsQiRIXElzO1KX7zPsUJxCwpEN+MIjJLuqSOgfAr5Onl6v9X7b/qAgegntSxSeAFGkbE6L4wVKrdcxv4CxQvtS/PHnWKUjFFHEDOxg9oZJHq7q31Ag=
+	t=1779106248; cv=pass; b=Yfcn4yxrbeeWaGr6i9TuVAH5Z6YtYgSbkH+AHNc6+BD1oIMN3nkTWQCDCGJ+treaftRxlH9qiUmK5ARozrFHnTE5frG/IHJ4fbqN99jCrUmJpsVCeKB1it+6YikfLYsHPy68T+J6T1MzjPexycmyuFoGlHYMySwhlB5eOOjsskY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779106026; c=relaxed/simple;
-	bh=EAOhdahq1wTYoi+v3Sd0YHLgR6nzuu2wluSY7LEs20o=;
+	s=arc-20240116; t=1779106248; c=relaxed/simple;
+	bh=FW4k2MyM47mwr/PM+AQhpqdHGtgictbnNAkbP/OOER0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UNq1lGn6iTfesop8CzOggIoFnDEqCGKZayWxAdN/t3LaaDZEwfnb3JvI5u/ZiKHWQVQv55nPIb2Ve+AaxsbCnSI0wljZ43rRXd+/5loAsG9UfDfm1z4KtZqrbAx5mMlLF7WGJn+SwEMNi+UvXTX9oHi1JJrEZfbV5J+7q/3tpVs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G4THvtww; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=BXRKsefn; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=Y2rn28FordC/bHWsddY3eMr/diksWyJf7tnHxs6ngW/mX5RoPx8Lvcxkopnw+x3zeLJvx9wyFjUf5r+7LSuCX3kiT5yaDVZknPDTyIo7pHdqyxTG40OIzkqxXOqxnfzjuqauxm1rx9eDMs7A3kqnhPJmrlYw6F14Ix5lIznTgts=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qmsKkmH5; arc=pass smtp.client-ip=74.125.224.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G4THvtww";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="BXRKsefn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779106021;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EAOhdahq1wTYoi+v3Sd0YHLgR6nzuu2wluSY7LEs20o=;
-	b=G4THvtwwT61itdHBuBUracjdcEpsi+sICgXXKBL+iwx6iVPlkVa/kYDy7ZLbsrDPs/K3J2
-	0T/r2m5zaN05pt/9i+k0znZnhFAnkynfANkoWx6y/sW1knf51kYrvn2qDC3KuynqN8mP0i
-	/Kqt9tFL5BiiB92vZXzY1V3fixBsomk=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-395--F9cS_ciMCK3rd0gdEqWcw-1; Mon, 18 May 2026 08:06:59 -0400
-X-MC-Unique: -F9cS_ciMCK3rd0gdEqWcw-1
-X-Mimecast-MFC-AGG-ID: -F9cS_ciMCK3rd0gdEqWcw_1779106018
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-7bd5c9e2e4aso30212657b3.2
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 05:06:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779106018; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qmsKkmH5"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-651c7ddf514so2000646d50.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 05:10:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779106244; cv=none;
         d=google.com; s=arc-20240605;
-        b=QzmTyfA0I6/Qk4PzhvI5xudarD+Vfa7MSCe4jWsICTRLwYvjNwMosZuqqECFtJxpIi
-         dLz6ElnYYiybBK1ZEfseDtAqSY6FBB+wz285Ki67JnT6y7JrK9cCY+yUznMGqvob1GF5
-         uq3NIgcqbGmEHlD6WqOxe05G/Y7sbAdaNWES/pHapcGYLDfDJMs37GAfw2NsQtirjOJd
-         cesi5mwXG2+WEjpY0Btnf+13Gb6nePVVVo05lqGSax0lJlG3dzc4cGMl8b/GjmJkyA+G
-         FzC6HuaPc6smX2xtg2X8oqAIGit+Nj0o6J6JP6rN+PjWkQb95TDf8OaR/twSZqc/f2Mf
-         5UMw==
+        b=DdTM8Ve16lh8+wR2JiBS9e/oW0YXckw1DA/1T3vrShdH/A60e//vpB6j2wb8pCDGNn
+         Sb/F+ejTIkFch1GYpgxxfQE1QvweSXFM2mVUKBtQ3MFmDlt2ARAP8eCJ7dt/l1vdVKnV
+         ILCJFId3A/+TdpB+Z6DYXA888zQeDvfxfY0arVms9b1ow5QuZKjzzZzXZNW1w9f20HOr
+         zdjFWSrJHUcVowgRc9pmmLv9Gs/k1tlAN4/vjb6n7DhFW/KLtFJTNttxmPq3vJJnMoeI
+         T2PWpCs/4mdr+gLTkiCZ3mDTOhDt9J7N12+3jzLVOXZj+iUYcd5PImVKAkmZuo1dnMLR
+         RGaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=EAOhdahq1wTYoi+v3Sd0YHLgR6nzuu2wluSY7LEs20o=;
-        fh=EjypE2+7wnXMQLJa+xG6ZQDUbw67mMqnN4rBOvO+5MQ=;
-        b=Ng2XSfNXpHoIpgcdefSvB/viouCMPvSt+e9aPlDEv8rIGl9L6CBpdjIfVORr50oxvt
-         jGmsf/LC4iHBaTBnKQIKw3qD7HBO57D21F/NugOBNdve2rouDemP9Wo8RGO+zJkFDJpk
-         T1arVG/b+QVqGfR7zZILrwtX/dHdn5JO5hKSX5wExXhH7lvddqLNWQ+aNhvcOHAWPZAY
-         uyKLnpGK/xziNtxyApl4KQmmPK8D8FTNoOqv4oPDmGSwym1zcN6VsdwZKTrJeYWv/hwu
-         uxmwRgMT05I2nfdB9/lLou+j7cMhtSZPz31vQOBvv/GdFEdkAKWFYHqhfDONxI/UxFOI
-         Wb6Q==;
+        bh=plmfWyCAsOyqIGG0vlgzF8PeCBJYS1a4eoMMtlKeDxY=;
+        fh=Hp2/xDSKxl+r3jGPkocMZk/g/Z7ZLFV8YJCAk0m2UmE=;
+        b=KA8oo4Dna7vDEbedrJNA/2GFHw7H6FB9vwjxRjS5duiyzjGjmNCnTczX8/QIrW6huR
+         UkPZ7W/eb2ewIuEB38+TyCb11eMn8bjSnuVsTN2Fkro7584Bjvz5FpbA84wjcnVHqLmN
+         QcGa1warbc1awFHhwSSyLNzaI7ccNJrZS6egmC0EnbN0sOzBEEXH3/h3Jk3a2bU0Ly7o
+         jRD8tPcLNOD/Qp7jnNhJet882zl7/bScOqj/G2wUHiO4bNpmwC3B8fcOszIlok86AGjc
+         nEzZRlBPicf1WQ5pAE9pFFZrMQLJppIHj6G8lukpwSWKGkVzk8LGETIxb/ZgyXeOPlPH
+         Zg+Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779106018; x=1779710818; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779106244; x=1779711044; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EAOhdahq1wTYoi+v3Sd0YHLgR6nzuu2wluSY7LEs20o=;
-        b=BXRKsefnGCMXMhgisrd0MC7Rs/auGleOXoRdtovMvOZlz8JJE1sPikdDhxXtmkWdr4
-         /bR5Nt++ZHSOPzEGG8kIY9AOtowwgbNrnZNJT7Y6W0seh1k+P9T6nEGXlvx4bRcI/8eb
-         uRRHMtOFb3JcOzXyIK10B/cJAuPoJY0qdSzZ6sCVNfj54b+HQ3HFZbzPQ0hjx7zlOqA7
-         an8qq4u22GOl/cyqbd55SH39Y9RLLNTPjU5iCMDhjxvuMlak4x41FhiunXT6fZP/Gtdt
-         D75/+eSFwmAZgP5xdE2FoVW7eokz5kyr1zHwu/5Z+MEDZzdcYLOF2T+EslGzUT2ojgbm
-         D3IQ==
+        bh=plmfWyCAsOyqIGG0vlgzF8PeCBJYS1a4eoMMtlKeDxY=;
+        b=qmsKkmH5h3bJ39l/ly1DlgCnDrIUruCsqhm2wQUSLsgr8xc3qh4on++UQyhO8Ih0BL
+         YSxG4rWEK0lFrFFfE4/n+yzwUldMl4KzHPAlCfvUoHhd8WzTI2NMdfbda4GeRjCGmH+p
+         RbhXb/a2O7NvvbB4i/30m2ZpQIjf296tejV56NSaz4LgM7FBR/QIH/n5JVpVsr2TYqVX
+         tgcDaEHwOa0+2DdR0jjzkMmu9t4sUNR0VquU4NN3cFRe9t126BGjHnRPKKJgW9yoZcSb
+         nowk9gqrPGW54ghmZEp8iPtZoprPJ9gnOgTIDOziBZNU4I9kdyRAkbZBN40i/qovw/MF
+         /7zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779106018; x=1779710818;
+        d=1e100.net; s=20251104; t=1779106244; x=1779711044;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=EAOhdahq1wTYoi+v3Sd0YHLgR6nzuu2wluSY7LEs20o=;
-        b=B0NmgIgN/tzldAM2DIXbFWEZCd8R4uh4TgPRSobxykAhKY7eIMTFVxtriYyJldr0E+
-         H/x6wfIeeT3it9OcP7Kyz4af8dUj4lNSzOyQvh5VzQKS2wZKSL4H8JZnPDb222fdCOiR
-         pwQqZL3G605MJrss8SXoRQRXZzjOiIzzYh43VVZG+mXvMAbUuFDMk+ofTeOcqRVH8Ksc
-         0t8rUDNOYhxQUyyOxTLNlJvO20aaBznnizz7EroH2tnae4ugnAcZUO/YxPg/xyxLAeIL
-         u61w18lxwhepAmohJAV/cxpgoIOKch9j8WP5zX6tAza7gfR9Ww3jNrMo3yi/W+1P1ATV
-         0tjw==
-X-Forwarded-Encrypted: i=1; AFNElJ8Pu50LD+S1sg4nOPuPZ8oBkP0qtXvFrt843BS1Zja9UoCt/kWMud/H8heQxZpgpNPwubYNFt5nFFo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxq7TZhW9Qd+xr+WccPsKtSQ8x+cicb8qIy/NfDesBhKinI9dqZ
-	edCrPBKwD2C+hVuBbhh15vOBqLjd8dPwwSecW6BcZLQQLHnNSs9XncrJtyVIVn7ogMkIUXTIZly
-	sGwG2FMmACByXV1JYbZ7QJVzcMzCkLkoux3otQzs36xVyVqrlN8eKJBUWNN4wWNhBUXtc4YkTys
-	D/drjdcQs1ybO/BAVPyiu5yLkn80vW/DQP9xgF
-X-Gm-Gg: Acq92OGMwSF8+1QaJ1aj3PSIIUW9Xl0G1JCzBoJT45AfxUa4ko80L/0AB54KrVmto05
-	TXv9c0O9BurhpwTSVPheoFdoUpR1cRuMSRTQAhCdQcOQwNuppxgM4MfAXWtNWmpD2TmitaVS9f2
-	PvFsrfxRuK3L9aq18x1G7CG0KqY6fXrJDHd+EKds+UUy+LzWtns9szfNuaEsjwmLzXJGI10nBYy
-	AF3KA==
-X-Received: by 2002:a05:690c:e3e1:b0:7c0:56f:5b59 with SMTP id 00721157ae682-7c9599a36ddmr149907427b3.15.1779106018454;
-        Mon, 18 May 2026 05:06:58 -0700 (PDT)
-X-Received: by 2002:a05:690c:e3e1:b0:7c0:56f:5b59 with SMTP id
- 00721157ae682-7c9599a36ddmr149906897b3.15.1779106017837; Mon, 18 May 2026
- 05:06:57 -0700 (PDT)
+        bh=plmfWyCAsOyqIGG0vlgzF8PeCBJYS1a4eoMMtlKeDxY=;
+        b=nk4Pat5VzSsKzyDtyX99dJit4oDoTUQd4sXwZjzPSkeq59VY3w8mU5wkzZjcQR5mX3
+         WMVoxy6Dgk7/GHIlAHxK170v5/UtGpkVnT4PInXduajB98ylThfJnrmNvrBmsm1q/UiF
+         5y4ZGEqbVmuJthoIXoJDqJQ6tpXrIWtvKygUuaTc+tKGsX+KGU3u9iKlDnC3y3kLqiWv
+         5+dDOXkH6CvpJzKiZQq+RdO31hheuDVBbA6KphW05pNfrB5aY39FJjkZLzsZUypUiwQD
+         mUAKbFUiGOJoggo7D+m2eEaM56lO8oOc5ed8Onu3OWh8fyO++KM//AECEbKrrV061loB
+         CH1Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9uLQGpVCLtn15BNTscryExB+QMu9Rqufu/dnbkELMBCqUprm6xHy6hT5bbAztLjczw5yJA5V5mGMQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywht9WgCkT6hXh6B/mVGczG3uA0q8zQvJZMIYrRZkuAChFkzRDA
+	vipuqDf8Oa8zMhI5mkUZnbCQXubzg6Oe+GtqUL0U171Ep8nCjTlOSkuZhdYvlby/6JQKX1D6jTh
+	cyz0Rw2nvvTyDbg4MrTGZXTWMTYf1a2U=
+X-Gm-Gg: Acq92OEvVHPkVDhqHfQhAC5XX1C6KA7D9wuQF5HMSE23aFAF/iU7UGp/3o6DB5o69x/
+	ea0w1ngel0yMcU0f7aOslhxBh/RqrazhWIXutclpw0TB3hmL7lYi2x3QzmWQPdHPSPsbJkfNCtu
+	27dPVAqoOgQo2IeVgtHTg+X4MU4qP/fsdaA8Mr5Gjnt7752phUzf3Ot3xiezvVWSfI5Up7jxDu2
+	JRlPyuASrtmRN5G7D3xsZMtmRFAomQJAUBn4vDXERQSsJ7U7WIccpFrPjQBzRbFcuQlUpHkhyyj
+	9OsuJU5m4IKMwXICeUX08Cx600/ShqwheuP0FLR/sNNfiBJt
+X-Received: by 2002:a05:690e:155c:10b0:65c:6ffb:3023 with SMTP id
+ 956f58d0204a3-65e226bb1b7mr12444291d50.23.1779106244251; Mon, 18 May 2026
+ 05:10:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <8ef38815-6ae9-4359-86d4-042554357639@amd.com> <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
- <CADSE00Jq_uvNgvxgPze0mEdUd+hF4-DPZkHy0KroWHZzygf4WA@mail.gmail.com>
- <CABdmKX3DhejYBis9htLDnzPrG7vuF3R3URLVNEbnyd61SSsx=g@mail.gmail.com>
- <CAGsJ_4zyecY6E-=Tm4_couT7uoM9LMcFdTMUPkZAjj4zUKE-dQ@mail.gmail.com> <cb84c2ee-9de1-4565-b2e0-60984721228f@amd.com>
-In-Reply-To: <cb84c2ee-9de1-4565-b2e0-60984721228f@amd.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Mon, 18 May 2026 14:06:45 +0200
-X-Gm-Features: AVHnY4K8qpVqb_W68zu-wX_-3BWWvVrVAC2CPBMHXBkSI4OOVylnoTOI9cwLMps
-Message-ID: <CADSE00Lc42s2bzXzV5D7t1Enf56u4BVj-yXLp3Yxhm0=qMPvuw@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 2/5] dma-heap: charge dma-buf
- memory via explicit memcg
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+ <20260516-jorth-syncobj-v1-12-88ede9d98a81@gmail.com> <8602a990-e557-45e3-8b3a-f9e6aaa00e0d@amd.com>
+In-Reply-To: <8602a990-e557-45e3-8b3a-f9e6aaa00e0d@amd.com>
+From: Julian Orth <ju.orth@gmail.com>
+Date: Mon, 18 May 2026 14:10:33 +0200
+X-Gm-Features: AVHnY4KBdbjPR5hSqE8jo8_fs1XgRZ0tFr-EnGkZE_KQTZ7MkglkOsUr24e-C_c
+Message-ID: <CAHijbEVvLKki2tx_2xZQTPK2zxaGyj8GxKGf0-Xmtf45-YE7SQ@mail.gmail.com>
+Subject: Re: [PATCH 12/12] misc/syncobj: add new device
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Barry Song <baohua@kernel.org>, "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri- <devel@lists.freedesktop.org>, 
-	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, mripard@kernel.org, echanude@redhat.com
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	wayland-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 18, 2026 at 9:34=E2=80=AFAM Christian K=C3=B6nig
+On Mon, May 18, 2026 at 2:06=E2=80=AFPM Christian K=C3=B6nig
 <christian.koenig@amd.com> wrote:
 >
-> On 5/16/26 11:19, Barry Song wrote:
-> > On Thu, May 14, 2026 at 12:35=E2=80=AFAM T.J. Mercier <tjmercier@google=
-.com> wrote:
-> > [...]
-> >>>> I have a question about this part. Albert I guess you are interested
-> >>>> only in accounting dmabuf-heap allocations, or do you expect to add
-> >>>> __GFP_ACCOUNT or mem_cgroup_charge_dmabuf calls to other
-> >>>> non-dmabuf-heap exporters?
-> >>>
-> >>> We're scoping this to dma-buf heaps for now. CMA heaps and the dmem
-> >>> controller are on the radar for follow-up/parallel work (there will b=
-e
-> >>> dragons and will surely need discussion). For DRM and V4L2 the
-> >>> long-term intent is migration to heaps, which would make direct
-> >>> accounting on those paths unnecessary.
-> >>
-> >> Ah I see. GEM buffers exported to dmabufs are what I had in mind. I
-> >> guess this would only leave the odd non-DRM driver with the need to
-> >> add their own accounting calls, which I don't expect would be a big
-> >> problem.
-> >>
+> On 5/16/26 13:06, Julian Orth wrote:
+> > This device makes the DRM_IOCTL_SYNCOBJ_* ioctls available via a
+> > dedicated device. This allows applications to use syncobjs without
+> > having to open device nodes in /dev/dri, on systems that don't have any
+> > such nodes, or on systems whose devices don't support the
+> > DRIVER_SYNCOBJ_TIMELINE feature.
 > >
-> > sounds like we still have a long way to go to correctly account for
-> > various v4l2, drm, GEM, CMA, etc. In patch 1, the charging is done in
-> > dma_buf_export(), so I guess it covers all dma-buf types except
-> > dma_heap, but the problem is that it has no remote charging support at
-> > all?
+> > Wayland uses syncobjs as its buffer synchronization mechanism. Most
+> > compositors use the DRM_IOCTL_SYNCOBJ_EVENTFD ioctl to perform a pure
+> > CPU wait for syncobj point. DRM devices are not involved in this proces=
+s
+> > except insofar that a DRM device needs to be used to access the ioctl.
+> >
+> > Similarly, a software-rendered client might perform rendering on a
+> > dedicated thread and use the wayland syncobj protocol to submit frames
+> > before they finish rendering. Again, this does not involve DRM devices
+> > except insofar ... as above.
 >
-> No, just the other way around
+> That use case is invalid.
 >
-> DMA-buf heaps can be handled here because we know that it is pure system =
-memory and nothing special so memcg always applies.
->
-> dma_buf_export() on the other hand handles tons of different use cases, r=
-anging from buffer accounted to dmem, over special resources which aren't e=
-ven memory all the way to buffers which can migrate from dmem to memcg and =
-back during their lifetime.
->
-> >>> udmabufs are already
-> >>> memcg-charged, so adding a separate MEMCG_DMABUF would double count.
-> >>> Are there any other exporters you had in mind that would benefit from
-> >>> this approach?
->
-> Well apart from DMA-buf memfd_create() is one of the things which as brok=
-en our neck in the past a couple of times.
->
-> But thinking more about it what if instead of making this DMA-buf heaps s=
-pecific what if we have a general cgroups function which allows to change a=
-ccounting of a buffer referenced by a file descriptor to a different proces=
-s?
->
-> That would cover not only the DMA-buf heaps use case, but also all other =
-DMA-buf with dmem and whatever we come up in the future as well.
+> Usually drm_syncobj can only be filled with dma_fence objects and it is i=
+mpossible to create one of those for software rendering.
 
-I removed a draft adding an ioctl for charge transfer from the series
-before sending because I wanted to focus on the charge_pid_fd approach
-and keep things simple, deferring the recharge path to a follow-up
-depending on feedback.
-
-The main difference between my removed draft and what you're
-describing, iiuc, is scope and layer: my draft was an explicit ioctl
-on the dma-buf fd that the consumer calls to claim the charge (see
-below), while you seem to be suggesting a more general kernel-internal
-function that could work across buffer types and cgroup controllers,
-so not necessarily userspace-initiated? A kernel-internal function
-will need a way to identify the target process, which sounds similar
-to the binder-backed approach from TJ [1]. For everything else, the
-receiver still needs to declare itself, which the ioctl accomplishes.
-
-```
-# When an app imports a daemon-allocated buffer, it can transfer the
-charge to itself:
-int buf_fd =3D receive_dmabuf_from_daemon();
-ioctl(buf_fd, DMA_BUF_IOCTL_XFER_CHARGE); /* charge now attributed to
-apps's cgroup */
-```
-
-[1] https://lore.kernel.org/cgroups/20230109213809.418135-1-tjmercier@googl=
-e.com/
+That is simply not true. As I wrote above,
+DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL can be used with software rendering.
 
 >
-> The only drawback I can see is that DMA-buf heap allocations would be tem=
-porarily accounted to the memory allocation daemon, but I don't think that =
-this would be a problem.
+> What could be used is the drm_syncobj wait before signal functionality, b=
+ut that usually requires special handling on the Wayland/Compositor side wh=
+ich as far as I can see doesn't make sense here either.
 
-The main reasons we moved away from TJ's transfer-based approach
-toward `charge_pid_fd` are: avoid the transient charge window on the
-daemon's cgroup; and to decouple from Binder, allowing any allocator
-to use it.
+Commit (to wayland) before submit (rendering work) is fully supported
+by the wayland syncobj protocol. No work needs to be done on the
+wayland side. In fact, everything that this series enables can already
+be done today by opening random /dev/dri nodes until you find one that
+supports the syncobj timeline ioctls. This series just makes it
+easier.
 
-Technically, both approaches could coexist, though. Of the three
-scenarios TJ described:
-- Scenario 2 is directly addressed by charge_pid_fd approach without
-any transient charge on the daemon at the cost of one extra field in
-the heap ioctl uAPI struct.
-- Scenario 3 can be handled by the charge transfer function without
-changes to SurfaceFlinger. The app or dequeueBuffer claims the charge
-for itself or the app, respectively (depending on whether we include a
-pid_fd field in the transfer ioctl). It also covers non-heap
-exporters. The con in both variants is the transient charge window on
-the daemon.
-
-Both approaches shift the responsibility for correct charging
-attribution to userspace: first, 'charge_pid_fd` on the allocator's
-side, and the transfer charge on the consumer's side.
-
-Deciding on one, the other or both depends on how much we value
-avoiding transient attribution, and how much we need a non-heap
-generic solution. With the XFER_CHARGE we can cover both. Thus, the
-`charge_pid_fd` approach in this RFC can be seen as a
-performance/strictness optimisation, eliminating transient charges to
-the daemon at the cost of a permanent uAPI addition to the heap ioctl
-struct, but not strictly required for correctness. On the other hand,
-if we agree on the end goal of migrating other exporters to use
-dma-buf heaps, and scenario 3 is addressed by adding the app's pid_fd
-to SurfaceFlinger, then `charge_pid_fd` alone is a coherent/sufficient
-approach despite the uAPI change.
-
+>
+> So the justification to use this for software rendering is very weak. Eit=
+her I'm missing something or that is not going to fly at all.
 >
 > Regards,
 > Christian.
 >
 > >
-> > Thanks
-> > Barry
+> > As an added benefit, this device removes the need to translate between
+> > file descriptors and handles.
+> >
+> > Signed-off-by: Julian Orth <ju.orth@gmail.com>
+> > ---
+> >  Documentation/userspace-api/ioctl/ioctl-number.rst |   1 +
+> >  drivers/misc/Kconfig                               |  10 +
+> >  drivers/misc/Makefile                              |   1 +
+> >  drivers/misc/syncobj.c                             | 404 +++++++++++++=
+++++++++
+> >  include/uapi/linux/syncobj.h                       |  75 ++++
+> >  5 files changed, 491 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Docum=
+entation/userspace-api/ioctl/ioctl-number.rst
+> > index 331223761fff..5e140ae5735e 100644
+> > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > @@ -395,6 +395,7 @@ Code  Seq#    Include File                         =
+                    Comments
+> >                                                                        =
+ <mailto:michael.klein@puffin.lb.shuttle.de>
+> >  0xCC  00-0F  drivers/misc/ibmvmc.h                                    =
+ pseries VMC driver
+> >  0xCD  01     linux/reiserfs_fs.h                                      =
+ Dead since 6.13
+> > +0xCD  00-0F  uapi/linux/syncobj.h
+> >  0xCE  01-02  uapi/linux/cxl_mem.h                                     =
+ Compute Express Link Memory Devices
+> >  0xCF  02     fs/smb/client/cifs_ioctl.h
+> >  0xDD  00-3F                                                           =
+ ZFCP device driver see drivers/s390/scsi/
+> > diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+> > index 00683bf06258..c1e7749bd356 100644
+> > --- a/drivers/misc/Kconfig
+> > +++ b/drivers/misc/Kconfig
+> > @@ -644,6 +644,16 @@ config MCHP_LAN966X_PCI
+> >           - lan966x-miim (MDIO_MSCC_MIIM)
+> >           - lan966x-switch (LAN966X_SWITCH)
+> >
+> > +config SYNCOBJ_DEV
+> > +     tristate "DRM syncobj device (/dev/syncobj)"
+> > +     depends on DRM
+> > +     help
+> > +       Creates a /dev/syncobj device node that provides DRM synchroniz=
+ation
+> > +       objects (syncobjs) without requiring a DRM device.
+> > +
+> > +       To compile this driver as a module, choose M here: the module
+> > +       will be called syncobj.
+> > +
+> >  source "drivers/misc/c2port/Kconfig"
+> >  source "drivers/misc/eeprom/Kconfig"
+> >  source "drivers/misc/cb710/Kconfig"
+> > diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+> > index b32a2597d246..9e5deb1d0d76 100644
+> > --- a/drivers/misc/Makefile
+> > +++ b/drivers/misc/Makefile
+> > @@ -75,3 +75,4 @@ obj-$(CONFIG_MCHP_LAN966X_PCI)      +=3D lan966x-pci.=
+o
+> >  obj-y                                +=3D keba/
+> >  obj-y                                +=3D amd-sbi/
+> >  obj-$(CONFIG_MISC_RP1)               +=3D rp1/
+> > +obj-$(CONFIG_SYNCOBJ_DEV)    +=3D syncobj.o
+> > diff --git a/drivers/misc/syncobj.c b/drivers/misc/syncobj.c
+> > new file mode 100644
+> > index 000000000000..11ef46ddfeef
+> > --- /dev/null
+> > +++ b/drivers/misc/syncobj.c
+> > @@ -0,0 +1,404 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * syncobj.c - Standalone device for syncobj manipulation.
+> > + *
+> > + * Copyright (C) 2026 Julian Orth <ju.orth@gmail.com>
+> > + */
+> > +
+> > +#include <linux/fdtable.h>
+> > +#include <linux/miscdevice.h>
+> > +#include <linux/module.h>
+> > +#include <linux/uaccess.h>
+> > +#include <drm/drm_syncobj.h>
+> > +#include <drm/drm_utils.h>
+> > +#include <uapi/drm/drm.h>
+> > +#include <uapi/linux/syncobj.h>
+> > +
+> > +static int syncobj_array_find(void __user *user_fds, u32 count,
+> > +                           struct drm_syncobj ***syncobjs_out)
+> > +{
+> > +     u32 i;
+> > +     s32 *fds;
+> > +     struct drm_syncobj **syncobjs;
+> > +     int ret;
+> > +
+> > +     fds =3D kmalloc_array(count, sizeof(*fds), GFP_KERNEL);
+> > +     if (!fds)
+> > +             return -ENOMEM;
+> > +
+> > +     if (copy_from_user(fds, user_fds, sizeof(s32) * count)) {
+> > +             ret =3D -EFAULT;
+> > +             goto err_free_fds;
+> > +     }
+> > +
+> > +     syncobjs =3D kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
+> > +     if (!syncobjs) {
+> > +             ret =3D -ENOMEM;
+> > +             goto err_free_fds;
+> > +     }
+> > +
+> > +     for (i =3D 0; i < count; i++) {
+> > +             syncobjs[i] =3D drm_syncobj_from_fd(fds[i]);
+> > +             if (!syncobjs[i]) {
+> > +                     ret =3D -EBADF;
+> > +                     goto err_put_syncobjs;
+> > +             }
+> > +     }
+> > +
+> > +     kfree(fds);
+> > +     *syncobjs_out =3D syncobjs;
+> > +     return 0;
+> > +
+> > +err_put_syncobjs:
+> > +     while (i-- > 0)
+> > +             drm_syncobj_put(syncobjs[i]);
+> > +     kfree(syncobjs);
+> > +err_free_fds:
+> > +     kfree(fds);
+> > +     return ret;
+> > +}
+> > +
+> > +static void syncobj_array_free(struct drm_syncobj **syncobjs, u32 coun=
+t)
+> > +{
+> > +     u32 i;
+> > +
+> > +     for (i =3D 0; i < count; i++)
+> > +             drm_syncobj_put(syncobjs[i]);
+> > +     kfree(syncobjs);
+> > +}
+> > +
+> > +static int syncobj_ioctl_create(void __user *argp)
+> > +{
+> > +     struct syncobj_create_args args;
+> > +     struct drm_syncobj *syncobj;
+> > +     int fd, ret;
+> > +
+> > +     if (copy_from_user(&args, argp, sizeof(args)))
+> > +             return -EFAULT;
+> > +
+> > +     if (args.flags & ~SYNCOBJ_CREATE_SIGNALED)
+> > +             return -EINVAL;
+> > +
+> > +     static_assert(SYNCOBJ_CREATE_SIGNALED =3D=3D DRM_SYNCOBJ_CREATE_S=
+IGNALED);
+> > +
+> > +     ret =3D drm_syncobj_create(&syncobj, args.flags, NULL);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     ret =3D drm_syncobj_get_fd(syncobj, &fd);
+> > +     drm_syncobj_put(syncobj);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     args.fd =3D fd;
+> > +     if (copy_to_user(argp, &args, sizeof(args))) {
+> > +             close_fd(fd);
+> > +             return -EFAULT;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int syncobj_ioctl_wait(void __user *argp)
+> > +{
+> > +     struct syncobj_wait_args args;
+> > +     struct drm_syncobj **syncobjs;
+> > +     signed long timeout;
+> > +     u32 first =3D ~0;
+> > +     ktime_t t, *tp =3D NULL;
+> > +     int ret;
+> > +
+> > +     if (copy_from_user(&args, argp, sizeof(args)))
+> > +             return -EFAULT;
+> > +
+> > +     if (args.flags & ~(SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+> > +                        SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
+> > +                        SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE |
+> > +                        SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE))
+> > +             return -EINVAL;
+> > +
+> > +     static_assert(SYNCOBJ_WAIT_FLAGS_WAIT_ALL        =3D=3D DRM_SYNCO=
+BJ_WAIT_FLAGS_WAIT_ALL);
+> > +     static_assert(SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT =3D=3D DRM_SYNCO=
+BJ_WAIT_FLAGS_WAIT_FOR_SUBMIT);
+> > +     static_assert(SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE  =3D=3D DRM_SYNCO=
+BJ_WAIT_FLAGS_WAIT_AVAILABLE);
+> > +     static_assert(SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE   =3D=3D DRM_SYNCO=
+BJ_WAIT_FLAGS_WAIT_DEADLINE);
+> > +
+> > +     if (args.pad)
+> > +             return -EINVAL;
+> > +
+> > +     if (args.count =3D=3D 0)
+> > +             return 0;
+> > +
+> > +     ret =3D syncobj_array_find(u64_to_user_ptr(args.fds),
+> > +                              args.count, &syncobjs);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     if (args.flags & SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
+> > +             t =3D ns_to_ktime(args.deadline_nsec);
+> > +             tp =3D &t;
+> > +     }
+> > +
+> > +     timeout =3D drm_timeout_abs_to_jiffies(args.timeout_nsec);
+> > +     timeout =3D drm_syncobj_array_wait_timeout(syncobjs,
+> > +                                              u64_to_user_ptr(args.poi=
+nts),
+> > +                                              args.count,
+> > +                                              args.flags,
+> > +                                              timeout, &first, tp);
+> > +
+> > +     syncobj_array_free(syncobjs, args.count);
+> > +
+> > +     if (timeout < 0)
+> > +             return timeout;
+> > +
+> > +     args.first_signaled =3D first;
+> > +     if (copy_to_user(argp, &args, sizeof(args)))
+> > +             return -EFAULT;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int syncobj_ioctl_reset(void __user *argp)
+> > +{
+> > +     struct syncobj_array_args args;
+> > +     struct drm_syncobj **syncobjs;
+> > +     u32 i;
+> > +     int ret;
+> > +
+> > +     if (copy_from_user(&args, argp, sizeof(args)))
+> > +             return -EFAULT;
+> > +
+> > +     if (args.flags)
+> > +             return -EINVAL;
+> > +
+> > +     if (args.points)
+> > +             return -EINVAL;
+> > +
+> > +     if (args.count =3D=3D 0)
+> > +             return -EINVAL;
+> > +
+> > +     ret =3D syncobj_array_find(u64_to_user_ptr(args.fds),
+> > +                              args.count, &syncobjs);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     for (i =3D 0; i < args.count; i++)
+> > +             drm_syncobj_replace_fence(syncobjs[i], NULL);
+> > +
+> > +     syncobj_array_free(syncobjs, args.count);
+> > +     return 0;
+> > +}
+> > +
+> > +static int syncobj_ioctl_signal(void __user *argp)
+> > +{
+> > +     struct syncobj_array_args args;
+> > +     struct drm_syncobj **syncobjs;
+> > +     int ret;
+> > +
+> > +     if (copy_from_user(&args, argp, sizeof(args)))
+> > +             return -EFAULT;
+> > +
+> > +     if (args.flags)
+> > +             return -EINVAL;
+> > +
+> > +     if (args.count =3D=3D 0)
+> > +             return -EINVAL;
+> > +
+> > +     ret =3D syncobj_array_find(u64_to_user_ptr(args.fds),
+> > +                              args.count, &syncobjs);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     ret =3D drm_syncobj_timeline_signal(syncobjs, args.points, args.c=
+ount);
+> > +
+> > +     syncobj_array_free(syncobjs, args.count);
+> > +     return ret;
+> > +}
+> > +
+> > +static int syncobj_ioctl_query(void __user *argp)
+> > +{
+> > +     struct syncobj_array_args args;
+> > +     struct drm_syncobj **syncobjs;
+> > +     int ret;
+> > +
+> > +     if (copy_from_user(&args, argp, sizeof(args)))
+> > +             return -EFAULT;
+> > +
+> > +     if (args.flags & ~SYNCOBJ_QUERY_FLAGS_LAST_SUBMITTED)
+> > +             return -EINVAL;
+> > +
+> > +     static_assert(SYNCOBJ_QUERY_FLAGS_LAST_SUBMITTED =3D=3D DRM_SYNCO=
+BJ_QUERY_FLAGS_LAST_SUBMITTED);
+> > +
+> > +     if (args.count =3D=3D 0)
+> > +             return -EINVAL;
+> > +
+> > +     ret =3D syncobj_array_find(u64_to_user_ptr(args.fds),
+> > +                              args.count, &syncobjs);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     ret =3D drm_syncobj_query(syncobjs, args.points, args.count, args=
+.flags);
+> > +
+> > +     syncobj_array_free(syncobjs, args.count);
+> > +     return ret;
+> > +}
+> > +
+> > +static int syncobj_ioctl_transfer(void __user *argp)
+> > +{
+> > +     struct syncobj_transfer_args args;
+> > +     struct drm_syncobj *src, *dst;
+> > +     int ret;
+> > +
+> > +     if (copy_from_user(&args, argp, sizeof(args)))
+> > +             return -EFAULT;
+> > +
+> > +     if (args.pad)
+> > +             return -EINVAL;
+> > +
+> > +     if (args.flags & ~SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT)
+> > +             return -EINVAL;
+> > +
+> > +     static_assert(SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT =3D=3D DRM_SYNCO=
+BJ_WAIT_FLAGS_WAIT_FOR_SUBMIT);
+> > +
+> > +     src =3D drm_syncobj_from_fd(args.src_fd);
+> > +     if (!src)
+> > +             return -EBADF;
+> > +
+> > +     dst =3D drm_syncobj_from_fd(args.dst_fd);
+> > +     if (!dst) {
+> > +             drm_syncobj_put(src);
+> > +             return -EBADF;
+> > +     }
+> > +
+> > +     ret =3D drm_syncobj_transfer(src, args.src_point,
+> > +                                dst, args.dst_point, args.flags);
+> > +
+> > +     drm_syncobj_put(dst);
+> > +     drm_syncobj_put(src);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int syncobj_ioctl_eventfd(void __user *argp)
+> > +{
+> > +     struct syncobj_eventfd_args args;
+> > +     struct drm_syncobj *syncobj;
+> > +     int ret;
+> > +
+> > +     if (copy_from_user(&args, argp, sizeof(args)))
+> > +             return -EFAULT;
+> > +
+> > +     if (args.flags & ~SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)
+> > +             return -EINVAL;
+> > +
+> > +     static_assert(SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE =3D=3D DRM_SYNCOB=
+J_WAIT_FLAGS_WAIT_AVAILABLE);
+> > +
+> > +     if (args.pad)
+> > +             return -EINVAL;
+> > +
+> > +     syncobj =3D drm_syncobj_from_fd(args.syncobj_fd);
+> > +     if (!syncobj)
+> > +             return -EBADF;
+> > +
+> > +     ret =3D drm_syncobj_register_eventfd(syncobj, args.eventfd,
+> > +                                        args.point, args.flags);
+> > +
+> > +     drm_syncobj_put(syncobj);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int syncobj_ioctl_export_sync_file(void __user *argp)
+> > +{
+> > +     struct syncobj_sync_file_args args;
+> > +     struct drm_syncobj *syncobj;
+> > +     int ret;
+> > +
+> > +     if (copy_from_user(&args, argp, sizeof(args)))
+> > +             return -EFAULT;
+> > +
+> > +     syncobj =3D drm_syncobj_from_fd(args.syncobj_fd);
+> > +     if (!syncobj)
+> > +             return -EBADF;
+> > +
+> > +     ret =3D drm_syncobj_export_sync_file(syncobj, args.point,
+> > +                                        &args.sync_file_fd);
+> > +     drm_syncobj_put(syncobj);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     if (copy_to_user(argp, &args, sizeof(args))) {
+> > +             close_fd(args.sync_file_fd);
+> > +             return -EFAULT;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int syncobj_ioctl_import_sync_file(void __user *argp)
+> > +{
+> > +     struct syncobj_sync_file_args args;
+> > +     struct drm_syncobj *syncobj;
+> > +     int ret;
+> > +
+> > +     if (copy_from_user(&args, argp, sizeof(args)))
+> > +             return -EFAULT;
+> > +
+> > +     syncobj =3D drm_syncobj_from_fd(args.syncobj_fd);
+> > +     if (!syncobj)
+> > +             return -EBADF;
+> > +
+> > +     ret =3D drm_syncobj_import_sync_file(syncobj, args.sync_file_fd,
+> > +                                        args.point);
+> > +
+> > +     drm_syncobj_put(syncobj);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static long syncobj_dev_ioctl(struct file *file, unsigned int cmd,
+> > +                           unsigned long arg)
+> > +{
+> > +     void __user *argp =3D (void __user *)arg;
+> > +
+> > +     switch (cmd) {
+> > +     case SYNCOBJ_IOC_CREATE:
+> > +             return syncobj_ioctl_create(argp);
+> > +     case SYNCOBJ_IOC_WAIT:
+> > +             return syncobj_ioctl_wait(argp);
+> > +     case SYNCOBJ_IOC_RESET:
+> > +             return syncobj_ioctl_reset(argp);
+> > +     case SYNCOBJ_IOC_SIGNAL:
+> > +             return syncobj_ioctl_signal(argp);
+> > +     case SYNCOBJ_IOC_QUERY:
+> > +             return syncobj_ioctl_query(argp);
+> > +     case SYNCOBJ_IOC_TRANSFER:
+> > +             return syncobj_ioctl_transfer(argp);
+> > +     case SYNCOBJ_IOC_EVENTFD:
+> > +             return syncobj_ioctl_eventfd(argp);
+> > +     case SYNCOBJ_IOC_EXPORT_SYNC_FILE:
+> > +             return syncobj_ioctl_export_sync_file(argp);
+> > +     case SYNCOBJ_IOC_IMPORT_SYNC_FILE:
+> > +             return syncobj_ioctl_import_sync_file(argp);
+> > +     default:
+> > +             return -ENOIOCTLCMD;
+> > +     }
+> > +}
+> > +
+> > +static const struct file_operations syncobj_dev_fops =3D {
+> > +     .owner          =3D THIS_MODULE,
+> > +     .unlocked_ioctl =3D syncobj_dev_ioctl,
+> > +     .compat_ioctl   =3D compat_ptr_ioctl,
+> > +};
+> > +
+> > +static struct miscdevice syncobj_misc =3D {
+> > +     .minor  =3D MISC_DYNAMIC_MINOR,
+> > +     .name   =3D "syncobj",
+> > +     .fops   =3D &syncobj_dev_fops,
+> > +     .mode   =3D 0666,
+> > +};
+> > +
+> > +module_misc_device(syncobj_misc);
+> > +
+> > +MODULE_AUTHOR("Julian Orth");
+> > +MODULE_DESCRIPTION("DRM syncobj device");
+> > +MODULE_LICENSE("GPL");
+> > diff --git a/include/uapi/linux/syncobj.h b/include/uapi/linux/syncobj.=
+h
+> > new file mode 100644
+> > index 000000000000..c4068fbd5773
+> > --- /dev/null
+> > +++ b/include/uapi/linux/syncobj.h
+> > @@ -0,0 +1,75 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+> > +#ifndef _UAPI_LINUX_SYNCOBJ_H_
+> > +#define _UAPI_LINUX_SYNCOBJ_H_
+> > +
+> > +#include <linux/ioctl.h>
+> > +#include <linux/types.h>
+> > +
+> > +#define SYNCOBJ_CREATE_SIGNALED                      (1 << 0)
+> > +
+> > +#define SYNCOBJ_WAIT_FLAGS_WAIT_ALL          (1 << 0)
+> > +#define SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT   (1 << 1)
+> > +#define SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE    (1 << 2)
+> > +#define SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE     (1 << 3)
+> > +
+> > +#define SYNCOBJ_QUERY_FLAGS_LAST_SUBMITTED   (1 << 0)
+> > +
+> > +struct syncobj_create_args {
+> > +     __s32 fd;
+> > +     __u32 flags;
+> > +};
+> > +
+> > +struct syncobj_wait_args {
+> > +     __u64 fds;
+> > +     __u64 points;
+> > +     __s64 timeout_nsec;
+> > +     __u32 count;
+> > +     __u32 flags;
+> > +     __u32 first_signaled;
+> > +     __u32 pad;
+> > +     __u64 deadline_nsec;
+> > +};
+> > +
+> > +struct syncobj_array_args {
+> > +     __u64 fds;
+> > +     __u64 points;
+> > +     __u32 count;
+> > +     __u32 flags;
+> > +};
+> > +
+> > +struct syncobj_transfer_args {
+> > +     __s32 src_fd;
+> > +     __s32 dst_fd;
+> > +     __u64 src_point;
+> > +     __u64 dst_point;
+> > +     __u32 flags;
+> > +     __u32 pad;
+> > +};
+> > +
+> > +struct syncobj_eventfd_args {
+> > +     __s32 syncobj_fd;
+> > +     __s32 eventfd;
+> > +     __u64 point;
+> > +     __u32 flags;
+> > +     __u32 pad;
+> > +};
+> > +
+> > +struct syncobj_sync_file_args {
+> > +     __s32 syncobj_fd;
+> > +     __s32 sync_file_fd;
+> > +     __u64 point;
+> > +};
+> > +
+> > +#define SYNCOBJ_IOC_BASE             0xCD
+> > +
+> > +#define SYNCOBJ_IOC_CREATE           _IOWR(SYNCOBJ_IOC_BASE, 0, struct=
+ syncobj_create_args)
+> > +#define SYNCOBJ_IOC_WAIT             _IOWR(SYNCOBJ_IOC_BASE, 1, struct=
+ syncobj_wait_args)
+> > +#define SYNCOBJ_IOC_RESET            _IOW(SYNCOBJ_IOC_BASE,  2, struct=
+ syncobj_array_args)
+> > +#define SYNCOBJ_IOC_SIGNAL           _IOW(SYNCOBJ_IOC_BASE,  3, struct=
+ syncobj_array_args)
+> > +#define SYNCOBJ_IOC_QUERY            _IOW(SYNCOBJ_IOC_BASE,  4, struct=
+ syncobj_array_args)
+> > +#define SYNCOBJ_IOC_TRANSFER         _IOW(SYNCOBJ_IOC_BASE,  5, struct=
+ syncobj_transfer_args)
+> > +#define SYNCOBJ_IOC_EVENTFD          _IOW(SYNCOBJ_IOC_BASE,  6, struct=
+ syncobj_eventfd_args)
+> > +#define SYNCOBJ_IOC_EXPORT_SYNC_FILE _IOWR(SYNCOBJ_IOC_BASE, 7, struct=
+ syncobj_sync_file_args)
+> > +#define SYNCOBJ_IOC_IMPORT_SYNC_FILE _IOW(SYNCOBJ_IOC_BASE,  8, struct=
+ syncobj_sync_file_args)
+> > +
+> > +#endif /* _UAPI_LINUX_SYNCOBJ_H_ */
+> >
 >
-
