@@ -1,144 +1,159 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C0F2F7EF5
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 22:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C9E395DBE
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 22:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779142682; cv=none; b=BmZRr6jNaJXEwg2D7nEpqiOBUujggjQDVk6mI+dP5cH7j6z9BucthmQPwvG4covDgbU5uhMusMzoHrdlD8YnIG5Hi17oj8PlOLPNOd4aZR5sN63pAYBqIk7n21ADzgvTa4GMkaEXMgxTawYDlmNnPXwWPgDT2uRG3w41NaypPjs=
+	t=1779142756; cv=none; b=Svys5JdLR9+hSHW9JnzkZnt+mX++cmR9ppettzMu+qxSZkht/go0i0VpfIjkQwWdCmJd3iD+9koWNfQzhGlno5MCfganlNN/jJOl/KNaindoGkxVuIyPCJaRRHyUevnadFKEj7IPYlDGnO8lUxS2OFxbt+Puz6yFZnZ7r9KJ1qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779142682; c=relaxed/simple;
-	bh=rwy9AaB+YZ2TxWZYUbWBAN5RIBxXVW8FYgve6/rXKyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bMv0HthtDwonaj9srAJ/RALR/TUBGDBjiCg9NR5rXRcRU27A/KAiUDklkyFRZU/l30eDWuSh6I6wZ6XkT/geCK3g06Ez6Mbnocd8hKDM6TG8I9GchAKgBVmonK9L5ATO9ekyEb1QAzrMos4+Kp2R+goC7SyeuA5kHMLPUUzaXoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p3Q3KQm6; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779142756; c=relaxed/simple;
+	bh=QwPwsIbtmpQIwK98XGhoY5fkgFLxHo2PkgkWS665XEM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hHuB9XUMVOajVDRsNf6kW6KaXLVXW83zg0naroR1SEFgS1+DJHXefy9d+R6NFsuDfIvFv2PumcSBRK/Z3CNrwNIkDvQqaiqOufLruuMbsEgILNwA9sv+U6b0IIqGTc6eWTbqT/zdH4zPsP3hndGkxgfDnPSgrnieXgsaQvfZHzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I2DT7leN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p3Q3KQm6"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2f03d6cf77bso2906204eec.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 15:18:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779142681; x=1779747481; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HvAeM3G6bmkfm6f0wgfGcfgEROVq1lUgw+e1xbuFGjg=;
-        b=p3Q3KQm6XaUwQa2NUL3KVOdeuTe3LAxUmXMs3Y0Xc2kjPHWKWn+Q9dqpXCvc3HaATH
-         XnvbDLJMSOiIsyN3pHPgbU+LBSLhMlK2wGOVh4wGOm4yW1zhOxE7kQAMqCwbfRNHBTvR
-         KMlL0yNOw4KXvCI3bd16RziOhhFcQNfUPWtxaQa+Oj+cgmKEdfJNN8eLJfrZT5lV9QKj
-         VEFWqE6PQn6Ttj4R3HkXD79D34OiuzwWY5rV4vNSP5EQj7X8jslBQtzZiT+yjlmX5nR7
-         +Z+o04RtoGX6k7v2S7g9B/MKLbYwCAqC2Goy/w/0aw3G9N/5C+yd2iZNmDKQ4Va0z3ve
-         0BOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779142681; x=1779747481;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=HvAeM3G6bmkfm6f0wgfGcfgEROVq1lUgw+e1xbuFGjg=;
-        b=iNLs86WRjN5DIybiRluFMnN4nCGzIe/HZtOXoQRRuadGduakrH407tikCImiXCMWA7
-         nRKvMV9O/eMGLXuPh7Rp7nbORKptnTfw6ZUMqhF9L4cQHH51RbVC+7+UjjRWm5Agnt4n
-         yM4zilfm1Uq1b06ZOPAW6Dj3f3etSt40V0r8QBXZAfprKNBjJAe+h/agtNIgEdxHsnNy
-         iQEpjns0QRiQ/2XuAZGGKyw01EgrRI+tT8hk3/h4CFov9jiMFkLpzvn2WErtSmsE8Yiy
-         WjWCZNiIThw9DZ+/vCuOjYCqIw5QEKPjP0eq+RH9G3f0EyFtc03AzP0smbBgtUZKtw7U
-         mbAQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9biR04Tm6FVA5Xu+FW6q12PtQy4NQY/9syKmMg6E2Kv2fX01eGux1VVbCmc6+B8ZAVFSxIEbwISw4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9bOSyOMTlO2+rt2+5sbjLVLWCRiSaHIrP8rMvbNz4oJ9s3lFz
-	6LU0PbQJzCQgkFV83rhAyMeSr6/HTLN6i/hE127S+IVRiyHWWQuzz0ek
-X-Gm-Gg: Acq92OGqJx9BEIfVhRMsc+Ffcg8zfSwEJg4+2gIg/b21wvFzrBsQlpAcXPdhObiwqHU
-	FIrUrGiVTdnTr+dXMqoLDDRRKx59DaOkGfz5ibZvyuGNi+KY+XmstQApNh9SfvgqcX5LA9luf+R
-	yGANEjlFtxKikH1aiOxGkH9ZH877qRMG8GUeRGv1e0JS8toF4QIflHkTUwSc0jzVcU0yHKCGIXM
-	7ovr4ZWKDoi5igr9nsXdp/TnaXXWfigDfmEr3qDp/oTbwDWUl5td9DPLOS12cEpQPCmXkuuKDHr
-	1xUKZuOmMQ7UU/Hs/deDSCTcdLOxTXbPibqxy0qzUlvJp1pGxw9X2lJYA6mZemCmEaZX6qcEGkY
-	frrKg9NCdPfhoTjWO53fgK8g9KhwcMbuCLrLxOqOjUIRNynjOUXbABs3uw33cs+Cz+/0AfH/2Nh
-	URxurusf/5mE8NE7fl4oyKt7ivzUkCHIXzGcq7nbsBrIoSwxo=
-X-Received: by 2002:a05:7300:fb83:b0:2ed:2942:34ab with SMTP id 5a478bee46e88-3039818afb2mr7606381eec.3.1779142680596;
-        Mon, 18 May 2026 15:18:00 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30296dcb6c3sm18171998eec.19.2026.05.18.15.17.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 15:18:00 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 18 May 2026 15:17:59 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] soc: bcm2835: raspberrypi-firmware: Add voltage
- domain IDs
-Message-ID: <a3eba071-d969-4498-baae-77cee9b2ed78@roeck-us.net>
-References: <20260516164407.25255-1-chakrabortyshubham66@gmail.com>
- <20260517080445.103962-1-chakrabortyshubham66@gmail.com>
- <20260517080445.103962-2-chakrabortyshubham66@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I2DT7leN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEA57C2BCF6
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 22:19:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779142756;
+	bh=QwPwsIbtmpQIwK98XGhoY5fkgFLxHo2PkgkWS665XEM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=I2DT7leNuntNS4Fb0mktVNPyw8Rbhs+gVWTrg1CstO4ifg9+fbn19Tgwwb5RQu6SJ
+	 oVl76IdmVMFtIEEqI2x/Xk3A/Wht7NKh8NtrVe0yXfXVmjnNq8YVf80fCSmSQB/9Sl
+	 z6dIrXGO3QMeh0NMXNp52X2Z9+LN7pXlOPxNah+bZ6rTc1cHUpk0as9s2igql3GoOc
+	 Nn3oJzn+lUOR2SS9p5bZeS83tU/OhQ+WnZftbPwcS04E1pQZCCdT8Su+w/1iajXGdX
+	 Bukvz/pnRIlUSoqf23mMiKaFEZErMrH8ypf7E0ZiSE4XanK5S8CzjuMpKgvtHduVrO
+	 pN/VlZ1JtpNSg==
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-95f2b0bd920so2659065241.0
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 15:19:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/izOEhPLAtW+VDD8EIt78HZsvm5AuX8a861u06KlCMls0hMk+MeANCL+v8wjqTv3zBoZrZeKyjD9k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy49V+hMXGNqquZlhOJbGSTzC7Ocq6BTg7r7Hu7kggw4vaC2AEF
+	q3U7smc9BvozhUmLctLrQwLlkuOyDrdBFiUycHu7G6E6D3DvZU5B231xn/+jiENXR+byH3nMc2+
+	6fuylYRvcl4wJoa42sLixxldQKdS7Eww=
+X-Received: by 2002:a05:6102:6:b0:65a:fec7:137b with SMTP id
+ ada2fe7eead31-65afec72d9emr1102084137.0.1779142755093; Mon, 18 May 2026
+ 15:19:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260517080445.103962-2-chakrabortyshubham66@gmail.com>
+References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
+ <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
+ <8ef38815-6ae9-4359-86d4-042554357639@amd.com> <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
+ <CAGsJ_4zjrFJYQQsLThTGXR6g+2PXzeAhjyDpLHfDFqVViWvyBQ@mail.gmail.com>
+ <CABdmKX0gqg309hcXcOHSj_yTg0h1zwDL34GDk8mX3wp4YoyfDg@mail.gmail.com> <CABdmKX3wwgovwS-V8rVC3=+EZcTvPs_cttpQb1w6WemwLAVhsw@mail.gmail.com>
+In-Reply-To: <CABdmKX3wwgovwS-V8rVC3=+EZcTvPs_cttpQb1w6WemwLAVhsw@mail.gmail.com>
+From: Barry Song <baohua@kernel.org>
+Date: Tue, 19 May 2026 06:19:03 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4y=Gsv=FSUjJ5+99Gg6ULUnv0LRexCGOGetzChR3YA44Q@mail.gmail.com>
+X-Gm-Features: AVHnY4I1qEOEZQdYFnOfKNfIzm2SBPuZfZoateaLto4Ne3PZjITQyUeamdYuj98
+Message-ID: <CAGsJ_4y=Gsv=FSUjJ5+99Gg6ULUnv0LRexCGOGetzChR3YA44Q@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Albert Esteve <aesteve@redhat.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, mripard@kernel.org, echanude@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 17, 2026 at 01:34:43PM +0530, Shubham Chakraborty wrote:
-> Add Raspberry Pi firmware voltage domain identifiers for the mailbox
-> property interface.
-> 
-> Also add the voltage request structure used with
-> RPI_FIRMWARE_GET_VOLTAGE so firmware clients can share the common API
-> definition from the firmware header.
-> 
-> Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+On Tue, May 19, 2026 at 5:17=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
+ wrote:
+[...]
+> > > > Yeah I think this might work. I know of 3 cases, and it trivially
+> > > > solves the first two. The third requires some work on our end to
+> > > > extend our userspace interfaces to include the pidfd but it seems
+> > > > doable. I'm checking with our graphics folks.
+> > > >
+> > > > 1) Direct allocation from user (e.g. app -> allocation ioctl on
+> > > > /dev/dma_heap/foo)
+> > > > No changes required to userspace. mem_accounting=3D1 charges the ap=
+p.
+> > > >
+> > > > 2) Single hop remote allocation (e.g. app -> AHardwareBuffer_alloca=
+te
+> > > > -> gralloc)
+> > > > gralloc has the caller's pid as described in the commit message. Op=
+en
+> > > > a pidfd and pass it in the dma_heap_allocation_data.
+> > > >
+> > > > 3) Double hop remote allocation (e.g. app -> dequeueBuffer ->
+> > > > SurfaceFlinger -> gralloc)
+> > > > In this case gralloc knows SurfaceFlinger's pid, but not the app's.=
+ So
+> > > > we need to add the app's pidfd to the SurfaceFlinger -> gralloc
+> > > > interface, or transfer the memcg charge from SurfaceFlinger to the =
+app
+> > > > after the allocation.
+> > > > It'd be nice to avoid the charge transfer option entirely, but if w=
+e
+> > > > need it that doesn't seem so bad in this case because it's a bulk
+> > > > charge for the entire dmabuf rather than per-page. So the exporter
+> > > > doesn't need to get involved (we wouldn't need a new dma_buf_op) an=
+d
+> > > > we wouldn't have to worry about looping and locking for each page.
+> > > >
+> > >
+> > > Hi T.J.,
+> > >
+> > > Your description of the three different cases sounds very interesting=
+.
+> > > It helps me understand how difficult it can be to correctly charge
+> > > dma-buf in the current user scenarios.
+> > >
+> > > I=E2=80=99m wondering where I can find Android userspace code that tr=
+ansfers
+> > > the PID of RPC callers. Do we have any existing sample code in Androi=
+d
+> > > for this?
+> >
+> > Hi Barry,
+> >
+> > In Java android.os.Binder.getCallingPid() will provide it. Here
+>
+> ... let me try again
+>
+> Here are some examples from the framework code:
+>
+> https://cs.android.com/search?q=3DgetCallingPid%20f:ActivityManager&sq=3D=
+&ss=3Dandroid%2Fplatform%2Fsuperproject
+>
+> In native code we have AIBinder_getCallingPid and
+> android::IPCThreadState::self()->getCallingPid() (or
+> android::hardware::IPCThreadState::self()->getCallingPid() for HIDL)
+>
+> https://cs.android.com/search?q=3DgetCallingPid%20l:cpp%20-f:prebuilt&ss=
+=3Dandroid%2Fplatform%2Fsuperproject
 
-I'll need an Acked-by: from a maintainer to apply this patch,
-or some other maintainer will have to pick it up.
+Thanks very much, T.J. That is very helpful. I guess
+that would require user space to understand the RPC
+procedure, including single-hop and two-hop cases, and
+make the corresponding changes.
 
-Thanks,
-Guenter
+You pointed out the SurfaceFlinger cases, which are
+two hops. It seems that AI models are also using
+dma_heap, at least from what I have observed on MTK
+and Qualcomm phones. Likely, we need to understand
+those RPC relationships in userspace and make the
+corresponding changes.
+I assume AI models are a single-hop case?
 
-> ---
->  include/soc/bcm2835/raspberrypi-firmware.h | 25 ++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm2835/raspberrypi-firmware.h
-> index e1f87fbfe554..975bef529854 100644
-> --- a/include/soc/bcm2835/raspberrypi-firmware.h
-> +++ b/include/soc/bcm2835/raspberrypi-firmware.h
-> @@ -156,6 +156,31 @@ enum rpi_firmware_clk_id {
->  	RPI_FIRMWARE_NUM_CLK_ID,
->  };
->  
-> +enum rpi_firmware_volt_id {
-> +	RPI_FIRMWARE_VOLT_ID_CORE = 1,
-> +	RPI_FIRMWARE_VOLT_ID_SDRAM_C = 2,
-> +	RPI_FIRMWARE_VOLT_ID_SDRAM_P = 3,
-> +	RPI_FIRMWARE_VOLT_ID_SDRAM_I = 4,
-> +	RPI_FIRMWARE_NUM_VOLT_ID,
-> +};
-> +
-> +/**
-> + * struct rpi_firmware_get_voltage_request - Firmware request for a voltage
-> + * @id:		ID of the voltage being queried
-> + * @value:	Voltage in microvolts. Set by the firmware.
-> + *
-> + * Used by @RPI_FIRMWARE_GET_VOLTAGE.
-> + */
-> +struct rpi_firmware_get_voltage_request {
-> +	__le32 id;
-> +	__le32 value;
-> +} __packed;
-> +
-> +#define RPI_FIRMWARE_GET_VOLTAGE_REQUEST(_id)	\
-> +	{					\
-> +		.id = cpu_to_le32(_id),		\
-> +	}
-> +
->  /**
->   * struct rpi_firmware_clk_rate_request - Firmware Request for a rate
->   * @id:	ID of the clock being queried
+Best Regards
+Barry
