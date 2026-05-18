@@ -1,159 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C9E395DBE
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 22:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E333ACF0E
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 22:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779142756; cv=none; b=Svys5JdLR9+hSHW9JnzkZnt+mX++cmR9ppettzMu+qxSZkht/go0i0VpfIjkQwWdCmJd3iD+9koWNfQzhGlno5MCfganlNN/jJOl/KNaindoGkxVuIyPCJaRRHyUevnadFKEj7IPYlDGnO8lUxS2OFxbt+Puz6yFZnZ7r9KJ1qs=
+	t=1779143382; cv=none; b=awtuaHh4YTg+RvOfm6Ln6ETDslg7QgLYC9MwtHo+0FySqWbUwqdgJ70ETMmtnAc7aQkqy9KVXqF9ACoxLdnbGxZIloQVK4jgaQOtgObHHIs75FyK9j3Q/M8QbHfbo/YbYm6QfHOKbr9FJ1l8xalzXQBaLZKcEyYkwweutY0fEkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779142756; c=relaxed/simple;
-	bh=QwPwsIbtmpQIwK98XGhoY5fkgFLxHo2PkgkWS665XEM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hHuB9XUMVOajVDRsNf6kW6KaXLVXW83zg0naroR1SEFgS1+DJHXefy9d+R6NFsuDfIvFv2PumcSBRK/Z3CNrwNIkDvQqaiqOufLruuMbsEgILNwA9sv+U6b0IIqGTc6eWTbqT/zdH4zPsP3hndGkxgfDnPSgrnieXgsaQvfZHzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I2DT7leN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779143382; c=relaxed/simple;
+	bh=JRGL5wZBb3oL+bnWpkoEk/q+HYrwhDzUrlKuFgdfihM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r+TJQM8JRgTHeWf3cM8sn1br5N/fwKiAwK9OPak1OdD+uuKoNrvINJjbHHOL9aBrBeIWoc9D+BbKBTDPLVE0Gals6ZYPgyWPeVsSOXvA5PJhKuAqQicgfujo/r+MOQAmAnCZ2rx3mUF4bexwcugQ3ED0euTIA5I9ZvFgBfdPF+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kokZpiIu; arc=none smtp.client-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I2DT7leN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEA57C2BCF6
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 22:19:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779142756;
-	bh=QwPwsIbtmpQIwK98XGhoY5fkgFLxHo2PkgkWS665XEM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=I2DT7leNuntNS4Fb0mktVNPyw8Rbhs+gVWTrg1CstO4ifg9+fbn19Tgwwb5RQu6SJ
-	 oVl76IdmVMFtIEEqI2x/Xk3A/Wht7NKh8NtrVe0yXfXVmjnNq8YVf80fCSmSQB/9Sl
-	 z6dIrXGO3QMeh0NMXNp52X2Z9+LN7pXlOPxNah+bZ6rTc1cHUpk0as9s2igql3GoOc
-	 Nn3oJzn+lUOR2SS9p5bZeS83tU/OhQ+WnZftbPwcS04E1pQZCCdT8Su+w/1iajXGdX
-	 Bukvz/pnRIlUSoqf23mMiKaFEZErMrH8ypf7E0ZiSE4XanK5S8CzjuMpKgvtHduVrO
-	 pN/VlZ1JtpNSg==
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-95f2b0bd920so2659065241.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 15:19:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/izOEhPLAtW+VDD8EIt78HZsvm5AuX8a861u06KlCMls0hMk+MeANCL+v8wjqTv3zBoZrZeKyjD9k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy49V+hMXGNqquZlhOJbGSTzC7Ocq6BTg7r7Hu7kggw4vaC2AEF
-	q3U7smc9BvozhUmLctLrQwLlkuOyDrdBFiUycHu7G6E6D3DvZU5B231xn/+jiENXR+byH3nMc2+
-	6fuylYRvcl4wJoa42sLixxldQKdS7Eww=
-X-Received: by 2002:a05:6102:6:b0:65a:fec7:137b with SMTP id
- ada2fe7eead31-65afec72d9emr1102084137.0.1779142755093; Mon, 18 May 2026
- 15:19:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kokZpiIu"
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2f0ad52830cso3446559eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 15:29:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779143379; x=1779748179; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mcpgSIiQdf2cAbmXhw2oCtEbUOvcbWqgvHUYe0xVm8M=;
+        b=kokZpiIub/tBlUkujSMehZwuotJE8jzHluyL7/06veA8mfKMDJlgfRv01vteXC6Etj
+         ByiwdbJFDbvaJdmh/3u2SMZoM+zJ1wgUmYMwGD1VxkE956uF1iTBR0zoJomdO+fC3Ct0
+         q19SbI/amgjoO5TQupDa+n6J8K7khkvMbsVVXXEsD6LXSRMJkBn0CUMBeJldR9tc4EWV
+         iC/P6KolRoBMOTUoH0G0DTZKlWWZQ3IPvfs2gYG9Yy9ZU9T1IHeuuNu4wPutpAgqr4RP
+         +EgnQxcGrbxUrxeThD7K9y2325BWhNnv234cXuerzuuAbvx1Bpp29E/r4KibvSxLTY+5
+         8NAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779143379; x=1779748179;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mcpgSIiQdf2cAbmXhw2oCtEbUOvcbWqgvHUYe0xVm8M=;
+        b=a4kRO6Kck2eJzM00iGJJ8/uWWIZrQqCjOIxGBxzlyKn6mJiPrJxTqaesLGxAKpkD6i
+         h2+tfygOhSWjPUEc4b8/V+jm3djEaoUvFwqsnb16t3ip9p4dUl3et210j9Bx+GAAF8rM
+         U8jiCO4HW7FgwASjmoWAkr2Cds7gbWjlSj7x6zuHIu/bzF3mE2T16lY2mNXdaHSbcPP4
+         QPMW4QS7VIWVp73cB7iVh98Yn4OEy7Eqvm0mJcqBPyqFnJNuDUppF/QM+nSAjogKvL0V
+         6n7dGSpcFToXGk1pdKEEtMnUwDhevqf2rfDaSUx6e8lyVcn8KL0Ta176Hy0cCa46d2Ss
+         7p+g==
+X-Forwarded-Encrypted: i=1; AFNElJ/1HrkjZ77zXrFucVzzJRVy/1umm5BXct1w015HYA+7TQddvk5NZawkEK9p50XVecYZu2mzRGyBMuU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwG3oD88ncHcpPbLEh2nosiIkKT2her3WcmyFGNQzlvhrOCIvau
+	5jkpt+7ITQcNTDyDfx/flbfuwcok49JTUFTdzfQvALWOFNbgAc5KsV89rm0enA==
+X-Gm-Gg: Acq92OGuONpyoBANrB0Lf5DT7RG67UHIM3JwdRuzEc+Z+PvW1m1tyCb5p/cn/KCkneq
+	OFhqy4KHOnDk+KhTNN14g2ABPKT779i8b/WiCNAxn0+jPKm8AcIdD2OVr1NphSXBBeoacovqLYf
+	OgVgf6V59PU3Uc+oacr7SWU2n25LhY0XA7H3kihxtPy1sod+CPBFDSJKNzqjl+clcVeYXJEz51g
+	MO/vw0YiBzXHOH+nTGGF4Df+acbvl0EuBXTBpPBTs7pv8c5zsL+eU9xDgykS4uDWHQaD1HHS+Iu
+	bpfWYj8RJS9q1HESqh1ybnrgipiQl/lxbIo7Taa6q6WOwfl9iuesOPR1erK2xikbCzMw+fuO1LW
+	0yIAFf7obiXYxpyAWrQ8Hz2VkQgnBSycOmh4ydAbpu8SEGKWZRB3FhpCulydkK1NB1pt2t93Z5h
+	ncf/6p44BqfG/NsCOXPXYf7fGSiK/+AJEKPi5Z/xHzqKpLUiD9vcfAf5XXqgk2edWTD4GfOtrBM
+	tiz
+X-Received: by 2002:a05:693c:2c8d:b0:2d9:6373:ad0a with SMTP id 5a478bee46e88-3039818738dmr7825863eec.11.1779143379124;
+        Mon, 18 May 2026 15:29:39 -0700 (PDT)
+Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30296dcc464sm15797095eec.14.2026.05.18.15.29.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 15:29:38 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	Denis Benato <denis.benato@linux.dev>,
+	Zhouwang Huang <honjow311@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 0/4] Add MSI Claw HID Configuration Driver
+Date: Mon, 18 May 2026 22:29:31 +0000
+Message-ID: <20260518222935.1802071-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <8ef38815-6ae9-4359-86d4-042554357639@amd.com> <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
- <CAGsJ_4zjrFJYQQsLThTGXR6g+2PXzeAhjyDpLHfDFqVViWvyBQ@mail.gmail.com>
- <CABdmKX0gqg309hcXcOHSj_yTg0h1zwDL34GDk8mX3wp4YoyfDg@mail.gmail.com> <CABdmKX3wwgovwS-V8rVC3=+EZcTvPs_cttpQb1w6WemwLAVhsw@mail.gmail.com>
-In-Reply-To: <CABdmKX3wwgovwS-V8rVC3=+EZcTvPs_cttpQb1w6WemwLAVhsw@mail.gmail.com>
-From: Barry Song <baohua@kernel.org>
-Date: Tue, 19 May 2026 06:19:03 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4y=Gsv=FSUjJ5+99Gg6ULUnv0LRexCGOGetzChR3YA44Q@mail.gmail.com>
-X-Gm-Features: AVHnY4I1qEOEZQdYFnOfKNfIzm2SBPuZfZoateaLto4Ne3PZjITQyUeamdYuj98
-Message-ID: <CAGsJ_4y=Gsv=FSUjJ5+99Gg6ULUnv0LRexCGOGetzChR3YA44Q@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Albert Esteve <aesteve@redhat.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, mripard@kernel.org, echanude@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 19, 2026 at 5:17=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
- wrote:
-[...]
-> > > > Yeah I think this might work. I know of 3 cases, and it trivially
-> > > > solves the first two. The third requires some work on our end to
-> > > > extend our userspace interfaces to include the pidfd but it seems
-> > > > doable. I'm checking with our graphics folks.
-> > > >
-> > > > 1) Direct allocation from user (e.g. app -> allocation ioctl on
-> > > > /dev/dma_heap/foo)
-> > > > No changes required to userspace. mem_accounting=3D1 charges the ap=
-p.
-> > > >
-> > > > 2) Single hop remote allocation (e.g. app -> AHardwareBuffer_alloca=
-te
-> > > > -> gralloc)
-> > > > gralloc has the caller's pid as described in the commit message. Op=
-en
-> > > > a pidfd and pass it in the dma_heap_allocation_data.
-> > > >
-> > > > 3) Double hop remote allocation (e.g. app -> dequeueBuffer ->
-> > > > SurfaceFlinger -> gralloc)
-> > > > In this case gralloc knows SurfaceFlinger's pid, but not the app's.=
- So
-> > > > we need to add the app's pidfd to the SurfaceFlinger -> gralloc
-> > > > interface, or transfer the memcg charge from SurfaceFlinger to the =
-app
-> > > > after the allocation.
-> > > > It'd be nice to avoid the charge transfer option entirely, but if w=
-e
-> > > > need it that doesn't seem so bad in this case because it's a bulk
-> > > > charge for the entire dmabuf rather than per-page. So the exporter
-> > > > doesn't need to get involved (we wouldn't need a new dma_buf_op) an=
-d
-> > > > we wouldn't have to worry about looping and locking for each page.
-> > > >
-> > >
-> > > Hi T.J.,
-> > >
-> > > Your description of the three different cases sounds very interesting=
-.
-> > > It helps me understand how difficult it can be to correctly charge
-> > > dma-buf in the current user scenarios.
-> > >
-> > > I=E2=80=99m wondering where I can find Android userspace code that tr=
-ansfers
-> > > the PID of RPC callers. Do we have any existing sample code in Androi=
-d
-> > > for this?
-> >
-> > Hi Barry,
-> >
-> > In Java android.os.Binder.getCallingPid() will provide it. Here
->
-> ... let me try again
->
-> Here are some examples from the framework code:
->
-> https://cs.android.com/search?q=3DgetCallingPid%20f:ActivityManager&sq=3D=
-&ss=3Dandroid%2Fplatform%2Fsuperproject
->
-> In native code we have AIBinder_getCallingPid and
-> android::IPCThreadState::self()->getCallingPid() (or
-> android::hardware::IPCThreadState::self()->getCallingPid() for HIDL)
->
-> https://cs.android.com/search?q=3DgetCallingPid%20l:cpp%20-f:prebuilt&ss=
-=3Dandroid%2Fplatform%2Fsuperproject
+This series adds an HID Configuration driver for the MSI Claw line of
+Handheld Gaming PC's. The MSI Claw HID interface provides multiple
+features, such as the ability to switch between xinput, dinput, and a
+desktop mode, RGB control, rumble intensity, and mapping of the rear "M"
+keys. There are additional gamepad modes that are not included in this
+driver as they appear to be used in assembly line testing or are
+incomplete in the firmware. During my testing I found them to be unstable.
 
-Thanks very much, T.J. That is very helpful. I guess
-that would require user space to understand the RPC
-procedure, including single-hop and two-hop cases, and
-make the corresponding changes.
+The initial version of this driver was written by Denis Benato, which
+contained the initial reverse-engineering and implementation for the
+gamepad mode switching. This work was later expanded by Zhouwang Huang
+to include more gamepad modes and additional features. Finally, I
+refactored the entire driver, fixed multiple bugs, and refined the overall
+format to conform to kernel driver best practices and style guide.
 
-You pointed out the SurfaceFlinger cases, which are
-two hops. It seems that AI models are also using
-dma_heap, at least from what I have observed on MTK
-and Qualcomm phones. Likely, we need to understand
-those RPC relationships in userspace and make the
-corresponding changes.
-I assume AI models are a single-hop case?
+Claude was used initially by Zhouwang Huang to quickly parse HID captures
+during the reverse-engineering of some of the features. Since Claude had
+already been used, as a test of its capabilities I had it implement the
+rumble intensity attribute after I had already rewritten most of the
+driver, which I then manually edited to fix some mistakes. I also used
+Claude to review the driver and these patches for any mistakes and bugs.
 
-Best Regards
-Barry
+Assisted-by: Claude:claude-sonnet-4-6
+Co-developed-by: Denis Benato <denis.benato@linux.dev>
+Signed-off-by: Denis Benato <denis.benato@linux.dev>
+Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
+Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+---
+v6:
+  - Add send/ack pattern to ensure synchronous acks.
+  - Use spinlock_irqsave instead of mutex for read/write MODE event
+    data.
+  - add select NEW_LEDS to kconfig.
+  - Make all timeouts 25ms to ensure at least 2 jiffies in a 100Hz
+    config.
+  - Gate all attribute show/store functions with gamepad_registered or
+    rgb_registered, enabling use of devm_device_add_group and ending
+    the need to hold a mutex during remove.
+  - Don't set gamepad_mode on resume, MCU preserves state.
+  - Ensure all count variables are checked for > 0 characters before
+    setting buf - 1 to \n.
+  - Re-arm cfg_setup in resume if it was canceled in an early suspend.
+  - Remove duplicated argv_free macro.
+  - Add spinlock_irqsave vice mutex for read/write access on attribute
+    variables.
+v5: https://lore.kernel.org/linux-input/20260517013925.3120314-1-derekjohn.clark@gmail.com/
+  - Swap disabled & combination mkeys_function enum values.
+  - Fix bug introduced in v5 where claw_buttons_store would return
+    -EINVAL on all valid key entries.
+  - Ensure mode_mutex is properly init.
+  - Ensure claw_remove is calling hid_hw_close and not hid_hw_stop for
+    all paths.
+  - Ensure adding "DISABLED" key to valid entries is done in the correct
+    patch.
+  - Re-enable sending an empty string to clear button mappings in
+    addition to setting DISABLED.
+  - Move adding the RGB device into cfg_setup to prevent led core
+    attributes from being written to prior to setup completing.
+  - Ensure frame_lock is properly init.
+  - Change variable names in RGB functions from frame and zone to f and
+    z respectively to fit all scoped_guard actions in 100 columns.
+v4: https://lore.kernel.org/linux-input/20260516042841.500299-1-derekjohn.clark@gmail.com/
+  - Add msi_suspend/claw_suspend.
+  - Reorder claw_remove to cancel all work before removing sysfs.
+  - Add mutex lock for removing sysfs attributes.
+  - Add mutex lock for MODE command data read/write.
+  - Change dev_warn to dev_dbg in claw_profile_event.
+  - use __free with DEFINE_FREE macro for argv instead of manually
+    running argv_free, cleaining up scoped_guard goto.
+  - Fix frame_calc validity check to use >=.
+  - Use spinlock instead of mutex in raw_event and related attribute
+    _store function.
+  - Ensure delayed work is canceled in suspend & canceled before sysfs
+    attribute removal.
+v3: https://lore.kernel.org/linux-input/20260515033622.2095277-1-derekjohn.clark@gmail.com/
+  - Add mutex for read/write if rgb frame data.
+  - Ensure claw_hw_output_report is properly guarded.
+  - Remove setting rgb_frame_count when reading rgb profiles as it always
+    returns garbage data.
+  - Ensure rgb_speed is getting drvdata from a valid lookup (not hdev).
+  - Use scoped_guard where necessary.
+  - Reoder claw_probe to ensure all mutex, completion, and variable
+    assignments are in place prior to setting drvdata.
+  - Ensure gamepad_mode is set to a valid enum value in claw_probe.
+v2: https://lore.kernel.org/linux-input/20260513231445.3213501-1-derekjohn.clark@gmail.com/
+  - Use mutexes to guard SYNC_TO_ROM calls and pending_profile calls.
+  - Rename driver to hid-msi and add generic entrypoints for
+    probe/resume/remove that call claw specific functions in order to
+    future proof the driver for other MSI HID interfaces.
+  - Fix various bugs and formatting issues.
+v1: https://lore.kernel.org/linux-input/20260510043510.442807-1-derekjohn.clark@gmail.com/
+Derek J. Clark (4):
+  HID: hid-msi: Add MSI Claw configuration driver
+  HID: hid-msi: Add M-key mapping attributes
+  HID: hid-msi: Add RGB control interface
+  HID: hid-msi: Add Rumble Intensity Attributes
+
+ MAINTAINERS           |    6 +
+ drivers/hid/Kconfig   |   13 +
+ drivers/hid/Makefile  |    1 +
+ drivers/hid/hid-ids.h |    5 +
+ drivers/hid/hid-msi.c | 1766 +++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 1791 insertions(+)
+ create mode 100644 drivers/hid/hid-msi.c
+
+-- 
+2.53.0
+
