@@ -1,413 +1,224 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94FCC3F99E0;
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010019.outbound.protection.outlook.com [40.93.198.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955013F99EB;
 	Mon, 18 May 2026 11:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779105541; cv=none; b=YnQtUx6Q0ATKSbHHH/TfXH++fVbR0iX+MWhKqiaujovzNBbgh792nZLJef1FBSWofgCheT3N1Aqhp1Zi1oz3gm9o/GyZ3uneh7Cha3Odhmd9A4k4rKKmAO7admy8gOrRxjdTsja9EZ/ugSmWo7wS5IFb6pFbWzhp7qRSUiAUPS8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779105541; c=relaxed/simple;
-	bh=qIFFyyy4m0uVoomEtae1wRHS1d2gI1FUMrEpVshS6vY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=i5sLg6CCZD1ll0WNmTfULDgGEXRis3t1cqSeTMvNciAVoDwShXMU1qVVISvWRkiDBVt/3uJR6A5fTI6lju3bjT37dX/wcMumtELb5/TdPvkB7LXvpae0kCbxFCWPL2IXc1mwrRWgqxG+58Jpzocs13PJiEdSJBOF7Duf+IAkHC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Ho6+ioAM; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779105544; cv=fail; b=TpLDH9LuF1GCDRNmrBZP+wkzvMycRfHt5qt1WFczjQ7Zi63xTw/+nhSkv+jSl5Aq9KIQWACWAohZxIFd03pyMSLYBwXVo1ST1ceoN0lkulpWcfU0ufg0eIHkt+5i4Q8JC/UiE/Y8HCSr5iKhj0ggCqIEPldVbjZvo4OPg8ZnZns=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779105544; c=relaxed/simple;
+	bh=J2AacgFG6iNy0mjHDA5yPjLJoiacKyHrklzpyOIdyBk=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=HCrTDQtD3nrJQ7BhfJaoLaQBgXvQMeEhO7fWc419RE5iUlw//f7Ng4MLTCsascM/HjGobr6pURQMj9MgSN2VPjuaazjTp4LH7eEHC25YvaoyGpTyJl/hMVW2TiasX8k27KzYhpmREqNqB0eAzcI4nUYd6f4RYUvbn+JgQLT8yu8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4e+ldNJN; arc=fail smtp.client-ip=40.93.198.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Ho6+ioAM"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02A204660;
-	Mon, 18 May 2026 04:58:44 -0700 (PDT)
-Received: from e134710.arm.com (e134710.arm.com [10.33.10.82])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 01F1A3F85F;
-	Mon, 18 May 2026 04:58:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779105529; bh=qIFFyyy4m0uVoomEtae1wRHS1d2gI1FUMrEpVshS6vY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Ho6+ioAMQXMaH16/hDUnt33VbYA0fYe1Hu3Lh72trd1no6alYDoUoq3SdYCL/Lu6v
-	 n0YE4FQ+bMeA1z4uiycZggUxl9MIUTKvG0CphwMQjd3BbQKoTcfQx7mFdi1Fn4FVEs
-	 m6FYpNDiLPe4O66p+Dq4BpkqugmcFp1ckN2/N+p8=
-From: Ahmed Tiba <ahmed.tiba@arm.com>
-Date: Mon, 18 May 2026 12:57:49 +0100
-Subject: [PATCH v4 06/10] ACPI: APEI: GHES: move CXL CPER helpers
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4e+ldNJN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=d0Jx5wzDq3Lyr7jmOEWWMNisk48o1AvVdNKGOdyuCEz0Q/zP2K7b4Ly1Kf1uB26mE949g3zcdVL190qu2ffmg2rEOPhW6QlP6hYGx1NYJXp9YFALQHzs4NMy6xqU6VYsGkkPOfN+DiGOlQsqhwwQKWzKE/xlYvsOhDPlnSAANbTJQ6yaM/z+CYK9n/loF7gAWkHA2Db08jgSwwEBEYE/5K/cE3G6rDs9OuhiJcGwSZnCLgwnV/KLtYX7zUqCT7hkjHnbmINDmDYuFm9W4PPOQuniz4SNnzxm2/JJjFWyz2kowMP/3R2D2D60lZwhuY04OWPFurItFU2shppDBEJBzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o/wxmq+4Qvp7ufsZ9FjX+jEXRqx7RKPZMk16j/OF3nA=;
+ b=BEYVA3JpDfZUn3XXIr+hD2vGiZc83DL7tIfg3Vm7agxs+ukEziFy0DHyVWJATB8E7BxzJVmC7OOZwwIsoO3j2L2K5LTXTDokSXB77AVaF4MFSy40d3d9IRTaPADTKFGc8ob7WeeLHfG1pu+xpbyvaofKhq7TXbU95UAkDtplj9irKljm1sVFHyKw37sp5QB+7qwX+CSVTk8+0EMH4ZrVNopb3PuOZVrlRT9KTHktqnKzVJiqiAhUVsBsOeTiDqT/gMcP2h54/oJ1WMoO17vpj0FfvOuLQmWtxAl+PL77Zm1FVeFkbBfjaDmOHqldbAgDeD9eUyu4dA7zT1xtNlGFbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o/wxmq+4Qvp7ufsZ9FjX+jEXRqx7RKPZMk16j/OF3nA=;
+ b=4e+ldNJNIM/70iaS5dqkhWAXrAtm7ynh7qKWc6+suudExwPfotwlX296qOtPh3JNFW9w2WCMFdcCvhHVSk6dSX6X3PeAP0CgBVHb7VTjNOofKzwwqO+kTJ1D+DiYunl1C5vkjPzTqII5GgATymJPS4L+YEUJyveiv/BN+qk3JSg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by LVUPR12MB999160.namprd12.prod.outlook.com (2603:10b6:408:3a4::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Mon, 18 May
+ 2026 11:58:44 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Mon, 18 May 2026
+ 11:58:43 +0000
+Message-ID: <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com>
+Date: Mon, 18 May 2026 13:58:37 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
+To: Julian Orth <ju.orth@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0068.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-6-42698675ba61@arm.com>
-References: <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-0-42698675ba61@arm.com>
-In-Reply-To: <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-0-42698675ba61@arm.com>
-To: rafael@kernel.org, bp@alien8.de, saket.dumbre@intel.com, 
- will@kernel.org, xueshuai@linux.alibaba.com, mchehab@kernel.org, 
- krzk+dt@kernel.org, dave@stgolabs.net, conor+dt@kernel.org, 
- vishal.l.verma@intel.com, jic23@kernel.org, corbet@lwn.net, 
- guohanjun@huawei.com, dave.jiang@intel.com, catalin.marinas@arm.com, 
- lenb@kernel.org, tony.luck@intel.com, skhan@linuxfoundation.org, 
- djbw@kernel.org, alison.schofield@intel.com, ira.weiny@intel.com, 
- robh@kernel.org
-Cc: Ahmed Tiba <ahmed.tiba@arm.com>, devicetree@vger.kernel.org, 
- linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org, 
- Dmitry.Lamerov@arm.com, linux-cxl@vger.kernel.org, Michael.Zhao2@arm.com, 
- acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779105490; l=10220;
- i=ahmed.tiba@arm.com; s=20260219; h=from:subject:message-id;
- bh=qIFFyyy4m0uVoomEtae1wRHS1d2gI1FUMrEpVshS6vY=;
- b=e93y9dNLb0+3aW8sPzJELkIQ7nitmVnuEMMNblZAkFLNDDOyeZPVK6s2fgAO7bCQgaZlr2ncq
- B8IVtNYhil5AQLatVBiQnn0e4Voup6XvvatYQxZbLbu73F6xFk7UPX6
-X-Developer-Key: i=ahmed.tiba@arm.com; a=ed25519;
- pk=xVOtd+Qklh/4tuM3tB+BEZD4jj5a6W59C3KCNX6v7OE=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|LVUPR12MB999160:EE_
+X-MS-Office365-Filtering-Correlation-Id: cdae05e7-a15a-424d-e73a-08deb4d4cf41
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|3023799003|11063799003|56012099003|18002099003|22082099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	20fTFCzOVW1xoiFKGKsPTRF2OzUf6aMwahZJ1CQKOIS3P2yJLbpIJNhYBB9ZdvhSe5qmD2najRGMgaVmynjZAnyJd8Dg+mAydf3w21bNri92rmXgMvX1YGlP58Ysnw+X4OcuAC26ahZQRHMwIlTvU3IWreWAxUgncUM31Q1DvrT/Md73QMm4qzkPTydaxhPQpNiCXiGp4LUx8IN01an3GT+URoku58R79gQJ1IUUjs+neUx+zvvDxunLSZtRYVXKu+bQIL/G1zIJNr0M2GNB8nkt+XF2QHRDyMVr629nqqZx3qSLL6Ts50+mCHCp7VfUxYcy95I9SyQPnG9n1g+FVEPJ8y/65LwYv+g9apUbckHZUttx1QpQeUruaC/bNhxrFKTtVVVkyIv/UN9iFPJO3OyzTvmcxoHgVnMxUV6C8bjTa9uVym1ajduxNf6uFZx/qkk6MGi6GXHn9egDMWLMLt0f8fLEuDDnm2KtRUHrdOeul984+/sCRAz5eKGH0XKR0DNRlAQwK/e9pSA1rrPcT4u9PYhPtvqLM45v1MWv3cIsS9ZrZIVf83/ABmiKYuvsqGhKx/lH4BqWO17fpbqbPl8baSQWS1cMRF/XwnJKhgE76sPZom1tnEND5J6rS5CrQh/Y6CuWlB9r/unEExQk6WWxfiYX6kivhBpdI9GP5N1JYqvRdGkka0wivN+0IKJYPCKN6FRUEEoQjtL/cj2/C46hkjrkixKRgqMgtStN4/DPX9eAYSkOZkfjVNPCRr7m
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(3023799003)(11063799003)(56012099003)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aStzSUlYMU5XVmpKR1o5Y3FzRjdiNFhLME5ka1FCNHBZcmZaOWRua3hJcVlP?=
+ =?utf-8?B?MmtuWkZOYnFydXNOcDFqK1YyRW94VEgwSU1IemFvVmViL01sbnF4S0M2Mmx4?=
+ =?utf-8?B?U09zQVc0a09hd1l0QnZ1Yisrenh6ckRtOTQzSG05RS9ua3NUTjZMVVU5UTly?=
+ =?utf-8?B?bm5UM1g0YVp3U0NrZEtaS3k2V3B2Zk5OdHlrbHpiYjl4WlY1ZDFMdjVKQTJJ?=
+ =?utf-8?B?Q2psN3hTYVFadzVhS1c0bUt1ZTlyd2xKWnoxQ0ZUMXl2MWlwUktkMjVJbUtW?=
+ =?utf-8?B?TUJPcnFqK09LM001Yk5weGRMMVU5ZCt3a3RuTmpJRkdGaUxNRThTMDFqV2hO?=
+ =?utf-8?B?MnJBTkNKYXJDQ1FDY2VhM0kwTzFwczVFYjlPcFlLRkZxSnlyaFErNEdDMzlQ?=
+ =?utf-8?B?Y2VOd2NHcW1Ea0JzbXZkcHIyU2thRzdCQTBsb0FkYUk4OWY3Ry9LOS9zenlN?=
+ =?utf-8?B?dzQyMkJQV1B3b3RLVHBJY3ZkVmFpZFE1MksxaTNxMWVVRFVlcFc5WmtpaGV6?=
+ =?utf-8?B?RXFnM25aNXlKcGFxQmZVQkFoN1BxZkZ6b2p5Uk9vMktRUjA3ODlMK2VTYnUv?=
+ =?utf-8?B?S281eE5pUkVVWEpkUlZva2hwS3ltWDdSckpvZXNUdEFRVno4SzNOSUg4Tkdw?=
+ =?utf-8?B?aThaZmFRY09mVHJ2aGpCamZGeW1BL1o2cUpBNy9xUW80Z2JvSktxdFE2Zmpy?=
+ =?utf-8?B?Q1Q3QnJvRzdYcFFPTW5tR1hjbzdWUk5QQmpXZ01TeUYvV2lxZmc0blg5NFNt?=
+ =?utf-8?B?VEc4RFM1VURxN1U5MHNJRkRNUUVRdG5KYkxuZ3hBT29aMmJWTGxCUktGR2lT?=
+ =?utf-8?B?bEdmS2xCc21pRlNBRTJHRWo1OGtsVGo0U0F3SnFrWmloR1lTZC9tTXRvbjUy?=
+ =?utf-8?B?cTFHOWpQaVhrTE03djZXbUFIU0wxZ1Nya2lscWdXQkhVZW9SamJCNUVrcFU1?=
+ =?utf-8?B?YzhmS2t1RE43akEzS0NXWXRmSmlEam50cWtkcnhXamlmRHFBRnY3RS9pYTh5?=
+ =?utf-8?B?djZGY2Y0YU9oV2tSb0EvSnlZSUJqL2JwNWJUZW5FYTZxUWxaV0lqOElrNXNZ?=
+ =?utf-8?B?QTVXYnk5dVRPN0tncEl3VmdEbjBrd3QxT2JLMVE4blA1MTVqdFAreldRQThv?=
+ =?utf-8?B?QWIwdWx2L2M1SU5oQm9EZzN4empBM0Jzbnh2N00yeW9CQmVBMUpUZnA4bEEv?=
+ =?utf-8?B?NWVOTUJnMGtVMXhtd2pnVlBBd0xyQmxMb29ocytVUGw5aENTN2RnMHZjVldy?=
+ =?utf-8?B?bERFU0tVQVh3UFNmVDAxMkdVNm5JSHI1L0huY2JKZjE2MG9VMi9QUHdJaG05?=
+ =?utf-8?B?NHhvK0lKME0xbHVjN3VLVFRrMzd0QUY2eFZNbkhUd1I0V0lvNENPaXRqeUxB?=
+ =?utf-8?B?cEMzZXB6SHVaTjRSTHRIVVlOU2JZU2dtNWgvT3FPeUdZS3NBaUJlSEV4eGpQ?=
+ =?utf-8?B?N2dKL1J1WlgrVU81cmhNMEpDaGpoVDBIMDI5aVhYMHdkMlVLT09RL29LWmE1?=
+ =?utf-8?B?NmlwWG05WUhjMVBsNXF6ZlMxUldRZXorcjd1WG5JaVg3d1lCTnJEN1ArQmdm?=
+ =?utf-8?B?U3hjYzRKNXZ0dzl0Zmo5YzYyZk11ejkzVDVtTmxiaEhOUkFYM1F0OHc5WHQv?=
+ =?utf-8?B?UmtTOWwrb0VGUis3V25TNHlIdk1ZTy9RQ05DS2N2aGhISUdNRHlkWjRTTllU?=
+ =?utf-8?B?eitkZXkzOXVxZVhvUnZNN0lPWVRHUWNudi9nTExhVTIyaUZGbGN2NFF2Y2pC?=
+ =?utf-8?B?aEpqdXprSVJHMTFUZ09MeWx0NWRYRFZmTHNYUHUwRWNKMnNRb2t4OVhOZGxM?=
+ =?utf-8?B?L3lOUnhhQ2U3RUNnUEtjZHE3VnREZ0VWVkNkU2RYTGxXbGtidVBCd2xmdEdT?=
+ =?utf-8?B?aXl4bFRuMmdVRnRzMmRpTGhTWEk3bVZSU2xIOTFjak5jN05VWEtEK0FWQTRE?=
+ =?utf-8?B?WTFVOVdvMVBHVGhpUERCSUp2Wi9QL25ZeVVIOHdPei9IQnE4RGloTStIYUhx?=
+ =?utf-8?B?N1JjMk5HeFRNblBLZ0I4d05MU3lUR3NOQXF3MmNJTHZveGN2d0piTWZlejlu?=
+ =?utf-8?B?Y2krYk5lSDgrV3ltZDU3dW5EcEMrb09tK2djd0VwNlVNV0N0MHRnVGQ1SkZV?=
+ =?utf-8?B?Y3lMb0Vuc2NvTDlRc0c5RzEzMzl3SkdvOHZSVGg1aUpodlhRbGhYNjJBZFd1?=
+ =?utf-8?B?eHpaa05oS2J2dFZwYWpPem9RakowRlN5dHFLSjhzeFVaWml5RUY1SmVNVGRn?=
+ =?utf-8?B?WEZTMk1NWDd0OFR2amJFMXdOUFozbVppNWErck1nQWg3T0F0TCtLUmNEa0g0?=
+ =?utf-8?Q?o1z+p8c0BsiS7DCnRv?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cdae05e7-a15a-424d-e73a-08deb4d4cf41
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 11:58:43.7473
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w6iXGI6582ldThXYz2ub6jKt+47WO/6aBi0YhHFo/scZRHuRC4/cATUvQMeRwGxo
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LVUPR12MB999160
 
-Move the CXL CPER handling paths out of ghes.c and into ghes_cper.c so the
-helpers can be reused. The code is moved as-is, with the public
-prototypes updated so GHES keeps calling into the new translation unit.
+On 5/16/26 13:06, Julian Orth wrote:
+> This series adds a new device /dev/syncobj that can be used to create
+> and manipulate DRM syncobjs. Previously, these operations required the
+> use of a DRM device and the device needed to support the DRIVER_SYNCOBJ
+> and DRIVER_SYNCOBJ_TIMELINE features.
+> 
+> There are several issues with the existing API:
+> 
+> - Syncobjs are the only explicit sync mechanism available on wayland.
+>   Most compositors do not use GPU waits. Instead, they use the
+>   DRM_IOCTL_SYNCOBJ_EVENTFD ioctl to perform a CPU wait. Being tied to
+>   DRM devices means that compositors cannot consistently offer this
+>   feature even though no device-specific logic is involved.
 
-Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
----
- drivers/acpi/apei/ghes.c      | 132 -----------------------------------------
- drivers/acpi/apei/ghes_cper.c | 134 ++++++++++++++++++++++++++++++++++++++++++
- include/acpi/ghes_cper.h      |  11 ++++
- 3 files changed, 145 insertions(+), 132 deletions(-)
+Well the drm_syncobj is a container for device specific dma fences.
 
-diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-index 81ac51632f21..85be2ebf4d3e 100644
---- a/drivers/acpi/apei/ghes.c
-+++ b/drivers/acpi/apei/ghes.c
-@@ -383,69 +383,6 @@ static void ghes_handle_aer(struct acpi_hest_generic_data *gdata)
- #endif
- }
- 
--/* Room for 8 entries */
--#define CXL_CPER_PROT_ERR_FIFO_DEPTH 8
--static DEFINE_KFIFO(cxl_cper_prot_err_fifo, struct cxl_cper_prot_err_work_data,
--		    CXL_CPER_PROT_ERR_FIFO_DEPTH);
--
--/* Synchronize schedule_work() with cxl_cper_prot_err_work changes */
--static DEFINE_SPINLOCK(cxl_cper_prot_err_work_lock);
--struct work_struct *cxl_cper_prot_err_work;
--
--static void cxl_cper_post_prot_err(struct cxl_cper_sec_prot_err *prot_err,
--				   int severity)
--{
--#ifdef CONFIG_ACPI_APEI_PCIEAER
--	struct cxl_cper_prot_err_work_data wd;
--
--	if (cxl_cper_sec_prot_err_valid(prot_err))
--		return;
--
--	guard(spinlock_irqsave)(&cxl_cper_prot_err_work_lock);
--
--	if (!cxl_cper_prot_err_work)
--		return;
--
--	if (cxl_cper_setup_prot_err_work_data(&wd, prot_err, severity))
--		return;
--
--	if (!kfifo_put(&cxl_cper_prot_err_fifo, wd)) {
--		pr_err_ratelimited("CXL CPER kfifo overflow\n");
--		return;
--	}
--
--	schedule_work(cxl_cper_prot_err_work);
--#endif
--}
--
--int cxl_cper_register_prot_err_work(struct work_struct *work)
--{
--	if (cxl_cper_prot_err_work)
--		return -EINVAL;
--
--	guard(spinlock)(&cxl_cper_prot_err_work_lock);
--	cxl_cper_prot_err_work = work;
--	return 0;
--}
--EXPORT_SYMBOL_NS_GPL(cxl_cper_register_prot_err_work, "CXL");
--
--int cxl_cper_unregister_prot_err_work(struct work_struct *work)
--{
--	if (cxl_cper_prot_err_work != work)
--		return -EINVAL;
--
--	guard(spinlock)(&cxl_cper_prot_err_work_lock);
--	cxl_cper_prot_err_work = NULL;
--	return 0;
--}
--EXPORT_SYMBOL_NS_GPL(cxl_cper_unregister_prot_err_work, "CXL");
--
--int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd)
--{
--	return kfifo_get(&cxl_cper_prot_err_fifo, wd);
--}
--EXPORT_SYMBOL_NS_GPL(cxl_cper_prot_err_kfifo_get, "CXL");
--
- static void ghes_vendor_record_notifier_destroy(void *nb)
- {
- 	ghes_unregister_vendor_record_notifier(nb);
-@@ -464,75 +401,6 @@ int devm_ghes_register_vendor_record_notifier(struct device *dev,
- }
- EXPORT_SYMBOL_GPL(devm_ghes_register_vendor_record_notifier);
- 
--/* Room for 8 entries for each of the 4 event log queues */
--#define CXL_CPER_FIFO_DEPTH 32
--DEFINE_KFIFO(cxl_cper_fifo, struct cxl_cper_work_data, CXL_CPER_FIFO_DEPTH);
--
--/* Synchronize schedule_work() with cxl_cper_work changes */
--static DEFINE_SPINLOCK(cxl_cper_work_lock);
--struct work_struct *cxl_cper_work;
--
--static void cxl_cper_post_event(enum cxl_event_type event_type,
--				struct cxl_cper_event_rec *rec)
--{
--	struct cxl_cper_work_data wd;
--
--	if (rec->hdr.length <= sizeof(rec->hdr) ||
--	    rec->hdr.length > sizeof(*rec)) {
--		pr_err(FW_WARN "CXL CPER Invalid section length (%u)\n",
--		       rec->hdr.length);
--		return;
--	}
--
--	if (!(rec->hdr.validation_bits & CPER_CXL_COMP_EVENT_LOG_VALID)) {
--		pr_err(FW_WARN "CXL CPER invalid event\n");
--		return;
--	}
--
--	guard(spinlock_irqsave)(&cxl_cper_work_lock);
--
--	if (!cxl_cper_work)
--		return;
--
--	wd.event_type = event_type;
--	memcpy(&wd.rec, rec, sizeof(wd.rec));
--
--	if (!kfifo_put(&cxl_cper_fifo, wd)) {
--		pr_err_ratelimited("CXL CPER kfifo overflow\n");
--		return;
--	}
--
--	schedule_work(cxl_cper_work);
--}
--
--int cxl_cper_register_work(struct work_struct *work)
--{
--	if (cxl_cper_work)
--		return -EINVAL;
--
--	guard(spinlock)(&cxl_cper_work_lock);
--	cxl_cper_work = work;
--	return 0;
--}
--EXPORT_SYMBOL_NS_GPL(cxl_cper_register_work, "CXL");
--
--int cxl_cper_unregister_work(struct work_struct *work)
--{
--	if (cxl_cper_work != work)
--		return -EINVAL;
--
--	guard(spinlock)(&cxl_cper_work_lock);
--	cxl_cper_work = NULL;
--	return 0;
--}
--EXPORT_SYMBOL_NS_GPL(cxl_cper_unregister_work, "CXL");
--
--int cxl_cper_kfifo_get(struct cxl_cper_work_data *wd)
--{
--	return kfifo_get(&cxl_cper_fifo, wd);
--}
--EXPORT_SYMBOL_NS_GPL(cxl_cper_kfifo_get, "CXL");
--
- static void ghes_log_hwerr(int sev, guid_t *sec_type)
- {
- 	if (sev != CPER_SEV_RECOVERABLE)
-diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
-index 131980d36064..d7a666a163c3 100644
---- a/drivers/acpi/apei/ghes_cper.c
-+++ b/drivers/acpi/apei/ghes_cper.c
-@@ -12,10 +12,12 @@
-  *   Author: Huang Ying <ying.huang@intel.com>
-  */
- 
-+#include <linux/aer.h>
- #include <linux/err.h>
- #include <linux/genalloc.h>
- #include <linux/irq_work.h>
- #include <linux/io.h>
-+#include <linux/kfifo.h>
- #include <linux/kernel.h>
- #include <linux/list.h>
- #include <linux/math64.h>
-@@ -321,6 +323,138 @@ void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
- 	schedule_work(&entry->work);
- }
- 
-+/* Room for 8 entries */
-+#define CXL_CPER_PROT_ERR_FIFO_DEPTH 8
-+static DEFINE_KFIFO(cxl_cper_prot_err_fifo, struct cxl_cper_prot_err_work_data,
-+		    CXL_CPER_PROT_ERR_FIFO_DEPTH);
-+
-+/* Synchronize schedule_work() with cxl_cper_prot_err_work changes */
-+static DEFINE_SPINLOCK(cxl_cper_prot_err_work_lock);
-+struct work_struct *cxl_cper_prot_err_work;
-+
-+void cxl_cper_post_prot_err(struct cxl_cper_sec_prot_err *prot_err,
-+			    int severity)
-+{
-+#ifdef CONFIG_ACPI_APEI_PCIEAER
-+	struct cxl_cper_prot_err_work_data wd;
-+
-+	if (cxl_cper_sec_prot_err_valid(prot_err))
-+		return;
-+
-+	guard(spinlock_irqsave)(&cxl_cper_prot_err_work_lock);
-+
-+	if (!cxl_cper_prot_err_work)
-+		return;
-+
-+	if (cxl_cper_setup_prot_err_work_data(&wd, prot_err, severity))
-+		return;
-+
-+	if (!kfifo_put(&cxl_cper_prot_err_fifo, wd)) {
-+		pr_err_ratelimited("CXL CPER kfifo overflow\n");
-+		return;
-+	}
-+
-+	schedule_work(cxl_cper_prot_err_work);
-+#endif
-+}
-+
-+int cxl_cper_register_prot_err_work(struct work_struct *work)
-+{
-+	if (cxl_cper_prot_err_work)
-+		return -EINVAL;
-+
-+	guard(spinlock)(&cxl_cper_prot_err_work_lock);
-+	cxl_cper_prot_err_work = work;
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS_GPL(cxl_cper_register_prot_err_work, "CXL");
-+
-+int cxl_cper_unregister_prot_err_work(struct work_struct *work)
-+{
-+	if (cxl_cper_prot_err_work != work)
-+		return -EINVAL;
-+
-+	guard(spinlock)(&cxl_cper_prot_err_work_lock);
-+	cxl_cper_prot_err_work = NULL;
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS_GPL(cxl_cper_unregister_prot_err_work, "CXL");
-+
-+int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd)
-+{
-+	return kfifo_get(&cxl_cper_prot_err_fifo, wd);
-+}
-+EXPORT_SYMBOL_NS_GPL(cxl_cper_prot_err_kfifo_get, "CXL");
-+
-+/* Room for 8 entries for each of the 4 event log queues */
-+#define CXL_CPER_FIFO_DEPTH 32
-+static DEFINE_KFIFO(cxl_cper_fifo, struct cxl_cper_work_data, CXL_CPER_FIFO_DEPTH);
-+
-+/* Synchronize schedule_work() with cxl_cper_work changes */
-+static DEFINE_SPINLOCK(cxl_cper_work_lock);
-+struct work_struct *cxl_cper_work;
-+
-+void cxl_cper_post_event(enum cxl_event_type event_type,
-+			 struct cxl_cper_event_rec *rec)
-+{
-+	struct cxl_cper_work_data wd;
-+
-+	if (rec->hdr.length <= sizeof(rec->hdr) ||
-+	    rec->hdr.length > sizeof(*rec)) {
-+		pr_err(FW_WARN "CXL CPER Invalid section length (%u)\n",
-+		       rec->hdr.length);
-+		return;
-+	}
-+
-+	if (!(rec->hdr.validation_bits & CPER_CXL_COMP_EVENT_LOG_VALID)) {
-+		pr_err(FW_WARN "CXL CPER invalid event\n");
-+		return;
-+	}
-+
-+	guard(spinlock_irqsave)(&cxl_cper_work_lock);
-+
-+	if (!cxl_cper_work)
-+		return;
-+
-+	wd.event_type = event_type;
-+	memcpy(&wd.rec, rec, sizeof(wd.rec));
-+
-+	if (!kfifo_put(&cxl_cper_fifo, wd)) {
-+		pr_err_ratelimited("CXL CPER kfifo overflow\n");
-+		return;
-+	}
-+
-+	schedule_work(cxl_cper_work);
-+}
-+
-+int cxl_cper_register_work(struct work_struct *work)
-+{
-+	if (cxl_cper_work)
-+		return -EINVAL;
-+
-+	guard(spinlock)(&cxl_cper_work_lock);
-+	cxl_cper_work = work;
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS_GPL(cxl_cper_register_work, "CXL");
-+
-+int cxl_cper_unregister_work(struct work_struct *work)
-+{
-+	if (cxl_cper_work != work)
-+		return -EINVAL;
-+
-+	guard(spinlock)(&cxl_cper_work_lock);
-+	cxl_cper_work = NULL;
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS_GPL(cxl_cper_unregister_work, "CXL");
-+
-+int cxl_cper_kfifo_get(struct cxl_cper_work_data *wd)
-+{
-+	return kfifo_get(&cxl_cper_fifo, wd);
-+}
-+EXPORT_SYMBOL_NS_GPL(cxl_cper_kfifo_get, "CXL");
-+
- /*
-  * GHES error status reporting throttle, to report more kinds of
-  * errors, instead of just most frequently occurred errors.
-diff --git a/include/acpi/ghes_cper.h b/include/acpi/ghes_cper.h
-index 51725f25c516..dd49e9179b63 100644
---- a/include/acpi/ghes_cper.h
-+++ b/include/acpi/ghes_cper.h
-@@ -20,6 +20,7 @@
- #include <linux/workqueue.h>
- 
- #include <acpi/ghes.h>
-+#include <cxl/event.h>
- 
- #define GHES_PFX	"GHES: "
- 
-@@ -106,5 +107,15 @@ void ghes_estatus_cache_add(struct acpi_hest_generic *generic,
- 			    struct acpi_hest_generic_status *estatus);
- void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
- 				   int sev);
-+void cxl_cper_post_prot_err(struct cxl_cper_sec_prot_err *prot_err,
-+			    int severity);
-+int cxl_cper_register_prot_err_work(struct work_struct *work);
-+int cxl_cper_unregister_prot_err_work(struct work_struct *work);
-+int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd);
-+void cxl_cper_post_event(enum cxl_event_type event_type,
-+			 struct cxl_cper_event_rec *rec);
-+int cxl_cper_register_work(struct work_struct *work);
-+int cxl_cper_unregister_work(struct work_struct *work);
-+int cxl_cper_kfifo_get(struct cxl_cper_work_data *wd);
- 
- #endif /* ACPI_APEI_GHES_CPER_H */
+What could be possible instead is to pass an eventfd into Wayland, but that is something userspace needs to decide.
 
--- 
-2.43.0
+> - llvmpipe currently cannot offer syncobj interop because it does not
+>   have access to a DRM device. This means that applications using
+>   llvmpipe cannot present images before they have finished rendering,
+>   despite llvmpipe using threaded rendering.
+
+Yeah, but that is completely intentional. You *CAN'T* use a dma_fence as completion event for llvmpipe rendering. See the kernel documentation on that.
+
+What could be possible is to use the drm_syncobjs functionality to wait before signal, but that has different semantics.
+
+Regards,
+Christian.
+
+> - Clients that do not use the Vulkan WSI need to manually probe /dev/dri
+>   for devices that support the syncobj ioctls in order to use the
+>   wayland syncobj protocol.
+> - Similarly, clients that want to use screen capture have no equivalent
+>   to the WSI and are therefore forced into that path.
+> - Having to keep a DRM device open has potentially negative interactions
+>   with GPU hotplug.
+> - Having to translate between syncobj FDs and handles is troublesome in
+>   the compositor usecase since syncobjs come and go frequently and need
+>   to be cleaned up when clients disconnect.
+> 
+> /dev/syncobj solves these issues by providing all syncobj ioctls under a
+> consistent path that is not tied to any DRM device. It also operates
+> directly on file descriptors instead of syncobj handles.
+> 
+> The series starts with a number of small refactorings in drm_syncobj.c
+> to make its functionality available outside of the file and without the
+> need for drm_file/handle pairs.
+> 
+> The last commit adds the /dev/syncobj module. I've added it as a misc
+> device but maybe this should instead live somewhere under gpu/drm.
+> 
+> An application using the new interface can be found at [1].
+> 
+> [1]: https://github.com/mahkoh/jay/pull/947
+> 
+> ---
+> Julian Orth (12):
+>       drm/syncobj: add drm_syncobj_from_fd
+>       drm/syncobj: add drm_syncobj_fence_lookup
+>       drm/syncobj: make drm_syncobj_array_wait_timeout public
+>       drm/syncobj: add drm_syncobj_register_eventfd
+>       drm/syncobj: have transfer functions accept drm_syncobj directly
+>       drm/syncobj: add drm_syncobj_transfer
+>       drm/syncobj: add drm_syncobj_timeline_signal
+>       drm/syncobj: add drm_syncobj_query
+>       drm/syncobj: fix resource leak in drm_syncobj_import_sync_file_fence
+>       drm/syncobj: add drm_syncobj_import_sync_file
+>       drm/syncobj: add drm_syncobj_export_sync_file
+>       misc/syncobj: add new device
+> 
+>  Documentation/userspace-api/ioctl/ioctl-number.rst |   1 +
+>  drivers/gpu/drm/drm_syncobj.c                      | 374 ++++++++++++++-----
+>  drivers/misc/Kconfig                               |  10 +
+>  drivers/misc/Makefile                              |   1 +
+>  drivers/misc/syncobj.c                             | 404 +++++++++++++++++++++
+>  include/drm/drm_syncobj.h                          |  21 ++
+>  include/uapi/linux/syncobj.h                       |  75 ++++
+>  7 files changed, 795 insertions(+), 91 deletions(-)
+> ---
+> base-commit: 6916d5703ddf9a38f1f6c2cc793381a24ee914c6
+> change-id: 20260516-jorth-syncobj-d4d374c8c61b
+> 
+> Best regards,
+> --  
+> Julian Orth <ju.orth@gmail.com>
+> 
 
