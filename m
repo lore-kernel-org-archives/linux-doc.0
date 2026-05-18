@@ -1,241 +1,281 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from jpms-ob01-os7.noc.sony.co.jp (jpms-ob01-os7.noc.sony.co.jp [211.125.139.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E4A330B07
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 10:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92B032470E;
+	Mon, 18 May 2026 10:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779099400; cv=none; b=BRyeJfL5J46mz9vVlKS5Y8hJFlGh9C4heL2QOsZ40jynCkvQghwFUQDd8X1W+XDYxxYKNOI8oH4ex+lFl2lX6PgtoZcQyVYsmZtT5A7YcgBbrVEb/3okIeENYHvC3tt5QXuskpW+GTa1CCtxi4erC72+t7lfD5jQGupxCHUGIHg=
+	t=1779099616; cv=none; b=ubzbyKJrBk+tr8g65znXwDAJMPhzjuxeVMe4o+3ETaxLhz+ArOE93j7mmr7S+2NQXvLOluTKhHyuiyAdHfeRKOZcnANO6FM7sfMSJVQQ7Wt9YcbxuFJEmHFDi/xV3bGkw2j0dwPF3nL66s22tYGr3960chx+lWbIRxsrQm0Rp1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779099400; c=relaxed/simple;
-	bh=aC5z06FWk+pyXDTL9LfFjgrA0ok5zpMZ4Ub/i5Y7SA4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ejff7GttSEPVzD2rCEv/P837VmNQnkJ1+CQlnnrS1nHb0NDpHsux66OIk3Sc8j7PwFlhTSulj+dLCWtMRtI9qfG3ZZe72rIPYzPEkAvHCsnv//fp6cgQexkYQfF7xpP0xFkfE9hLk8WbN1fz43iH/8tzHTS4rY8QExUcuMdHHZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NH0vkbzT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JMtCNRS6; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1779099616; c=relaxed/simple;
+	bh=lnmr+Tsr/Pi3mBRQX9k33KTQHyV3H2FAwHmofyYMs7Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=CqZDjWEw8de23t0RQL9ru5dUnDdREGuM63BK3uwOfCtBNKqEdUpsPLS8i6dIBggPMoZC/nNQzt49ig6Xq2mXPHdNDPvAN0bcbmuwXK+qrG1Khv4vCOP70YijFHKiX6hNGnAMQkuYGha7dbHO1MKBEt9cmIKkFQcDASaXJvOzB3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=L0efM9Xg; arc=none smtp.client-ip=211.125.139.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NH0vkbzT";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JMtCNRS6"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I5e6Kr2847489
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 10:16:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ZIVWjciyt7GX3njw61ulzwpsLrA89pbtfyZ61onL89Q=; b=NH0vkbzTYC5Uuo2u
-	y5zzjCIlsElJyMtagkkfFWN57ReuRy/2LMP2+LKSUd3DLPTvaQiyj8BEbwB5SRsL
-	54AiScKCue6R8tViG2OthFafrMgsKlX6i/y61A+EH0dyofaz+nBd0SiZ3VC54qws
-	Efh5LHVnOdgByLBWPhTzON8c85RYH2AbDtwEH9rXw2nKLDB5PJ6Wvcahqln3m8ib
-	HmRFix17W/KUKuc6ZRDOJyUFLWfjzSqc0i6Dn9u0no9aNepYf1tGhOn60VFqZdlp
-	O7gbVoRuTwaTmHooBP4q1gYrFjxT5yNTWO7Ss8nG3iBtKluvc82ONSzOoxSKNzWB
-	sG1OUg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e6hv7wuut-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 10:16:37 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-5163ade1583so44375661cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 03:16:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="L0efM9Xg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779099397; x=1779704197; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZIVWjciyt7GX3njw61ulzwpsLrA89pbtfyZ61onL89Q=;
-        b=JMtCNRS69sZqHxGw9yizwYDxt+NArxJ5Wxf9xDW+wGVPCOFRNPT/P5S1g8yizgog8H
-         48yqboazTEvAx7Oj2ni0sB+zv+u7e9v2CIw4pmmzpxWH1Ys9M8iS+sfqI0iJaHrYBTci
-         IfBgnHC6TzVEwTyHvsQrkBJ08Ghw1ba9cSFb/yPgyXOKTmazwJ7Kj7m5uyOgBMe79NZ/
-         Jq4Sd36iMbn3NrHgfpzgMbFB/zp9OsDv2GTbOSHyQnbDG87OFGyaRKRlgn8n6/fS3v3E
-         HNVeY1EN8+93Vs3mzpiuN/cWdYmprlRDww+74oANTdthGMREATpEj+DgtkbD2PWPiYKC
-         EeDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779099397; x=1779704197;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZIVWjciyt7GX3njw61ulzwpsLrA89pbtfyZ61onL89Q=;
-        b=C5LvLM/3yr6SfSJwRCxymtEkpgs1osHVu/gygGFHs5yIFA0nS2Z/jpcncqzbb0Un7R
-         o0zGqvSk53IB80icDcBMCiiBT1vnuJtRHaRgaqNxbSWlwOehtcechZQENEhXm17PjXEg
-         JwSg6xm68jz+xh0GWEostYfKJiza2XgfBDX7nU6Dj7XsYwqmn0xKWPGf5FdLK6RCh+2T
-         Hh/lFbhQy65nGQCB+ZjJ6bmE2NDiho1mGyhmp16jvBAPXXy25ZoABstuLg+QR6RoDUPn
-         bkuhwHim6AcYkLgcimHoSGhkpSR9ddK7VbvVe3Yw2P+/y2oEDXOSB3jEE3Sv3Cp0B3mz
-         /INw==
-X-Forwarded-Encrypted: i=1; AFNElJ9DDrnBtgIYxdA++RP4/5MUzeWzNq5zcdp9iTJISw5kf7qUkLW6q9x/szwqOdonIiJ7AWfo2U0+tG0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4mJFgCRtKD5CvnjR4llvrY3w3TZ/ji5Z4AyglLhH+hHVbdGvO
-	UZIQ3jEbtxUd04ZG22tT9vXZbWFc+DBdVKkOJcKFzFjEo86jESfbsyS7cjh6VB8M+mq9Ei130KV
-	IWAFaULB61mPWFjFZJwXc9GxN9HXU0f+tKmcthZNZzT+3MG8JdAn3RPqdRIgMJQ4=
-X-Gm-Gg: Acq92OEFrUxxxDk+PvqjazX1OltJUJ7Ucq40R+iYuywuTFbEJg48qBa/omg5dzA94IU
-	Ice9hYVDIbpQcCtt6i/O/4IBx0S+U5gS+Rk4noJDc9kb8YEYv0QNQYGxaJnAsqcFKbg3ulvJCX2
-	KB3fj5cGqfP0DzAQE/fpZkXChCLGL+2Pd3Tx/G4vCNAgUA/2zwLx/2MWJQhaPlfXVgcmMPtByCP
-	Iz92v4lPCFHh5Hq0JwDngT0Fp9PoD63zfpS0fRDf3xXPjBAUJ/Ku50sg378lMgE9FdswpPadoPu
-	xhDMdM0HCIhZcJStnQV092Q8fAj/VuidRdnGNZ/ixtZmy/9qe+bi/0kveDoYdELmD/eNgkrwcs8
-	gNE0rIi9c7LHo45lrbIuQwlQG5kVQ6xGR6/38xQ9Srt5iUQOq
-X-Received: by 2002:a05:622a:144e:b0:509:f36:496d with SMTP id d75a77b69052e-5165a0d0932mr215105071cf.33.1779099396956;
-        Mon, 18 May 2026 03:16:36 -0700 (PDT)
-X-Received: by 2002:a05:622a:144e:b0:509:f36:496d with SMTP id d75a77b69052e-5165a0d0932mr215104671cf.33.1779099396492;
-        Mon, 18 May 2026 03:16:36 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.219.94])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febe7dd22sm103474895e9.7.2026.05.18.03.16.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2026 03:16:35 -0700 (PDT)
-Message-ID: <0363e0a9-e645-4fec-86a1-dc847bbf14c4@oss.qualcomm.com>
-Date: Mon, 18 May 2026 12:16:33 +0200
+  d=sony.com; s=s1jp; t=1779099613; x=1810635613;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=dyx/WAd/4hjOcMcsJmCxGjIgR8e2a5jk1JUwFrJZSao=;
+  b=L0efM9XgRixXcbt/6b3LVqSnMGrTsEpaDjthjvw20UWUNo/aPPILw5Bw
+   cDgwxXTtkPsTHp2H0MobU54Ystd7pN4X0yrX/sD0KgP5mr18cVQ9VgDEe
+   XKQnrD0+2ohYIEedjdmfLMDOZg35OkidZnHQ0gjIfsXKIq++TPPrSTaG2
+   VBDwUUqgOKGPYlKI0xsUHVpSh+ZCtfeHcBi75QAoGmJyGXKVBNbx2Mu1I
+   wYNpPryP/s3+5GVb6IDVWhrgcQUX6v1yeVEcVzjHUXLWnLff+Z8crfXD8
+   N7slbHiVCrTHRzqeFQaohgnCtT60ZKBJmzpu1KBDJqf7Xk2sFcF76xNyh
+   A==;
+X-CSE-ConnectionGUID: yO9V46fRRc+PhGmlKW9uLQ==
+X-CSE-MsgGUID: qAL+DhRaSoOBHbKOGlzjRQ==
+Received: from unknown (HELO jpmta-ob02-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::7])
+  by jpms-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 19:20:05 +0900
+X-CSE-ConnectionGUID: XQMiEi2RTcWpArWyYri4mg==
+X-CSE-MsgGUID: VrHP121bRvWEDxjNnwRL5g==
+X-IronPort-AV: E=Sophos;i="6.23,241,1770562800"; 
+   d="scan'208";a="56041672"
+Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob02-os7.noc.sony.co.jp with ESMTP; 18 May 2026 19:20:05 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+Date: Mon, 18 May 2026 19:19:59 +0900
+Subject: [PATCH v5 3/4] coresight: pass THIS_MODULE implicitly through a
+ macro
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: submitting-patches: Clarify that in English
- "reviewer" is a person
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
-        "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Guenter Roeck <linux@roeck-us.net>, Mark Brown <broonie@kernel.org>
-References: <20260516123846.63413-2-krzysztof.kozlowski@oss.qualcomm.com>
- <ce1e5e9b-83d0-4971-aee3-dc5a8f85ce22@kernel.org>
- <1d350564-0127-48c1-8988-54245fdb9b23@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@oss.qualcomm.com; keydata=
- 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
- cwzYbmi/Et7T2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <1d350564-0127-48c1-8988-54245fdb9b23@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDA5OSBTYWx0ZWRfX2+noTpJMrga9
- jxHHZYaR90QvxwY9PWhtdk1gkJuMkINvxB+OdLzm7pftmLTz5tR+mnHO0yhhGAYS0+3o7HWCZh4
- Znf0LfNuley3ut5v1bHCi4ndGlUsu64vpFJ8JezlO5eVFFuGv3WeQKB4mJcKJCzfS6sHmpzBsei
- aaFgNwyt0BMk1fAsV9mdVNGQok69J+cURObvasIzixCaye4tPi7uUy01G9/T5SvhYJhy0XgL3vq
- dCc5q1umdT4ME9k29grL0jgVC3umMFPyXwpRtdP06NJgJ859Kn3EDN7LXTerm3zOc0BNV/7VYWF
- MwI6q7bXFUAEXPehkdi2D0xIzwu265rDnwO7exU+2hG+MX5Pd1VnGKgV3fBcdpkjhWtyMgUaaLB
- vhP0EDEXQWZgvNZIT9PVu8AjoY+Hr6pmAjDtI/i6qoB6+u9sWg11NXHG1wSOGcgm7tWUZ8Y1Gtg
- U7wJf4yDPo7/NeBMBBA==
-X-Authority-Analysis: v=2.4 cv=a8oAM0SF c=1 sm=1 tr=0 ts=6a0ae705 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=1Qhj-OTkAAAA:8 a=ag1SF4gXAAAA:8 a=VwQbUJbxAAAA:8 a=Z4Rwk6OoAAAA:8
- a=EUspDBNiAAAA:8 a=3Q_fXuLkU7711zDDGqUA:9 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=HkZW87K1Qel5hWWM3VKY:22
-X-Proofpoint-ORIG-GUID: s9XACoRi1K33hn7knNU9R5x4sTKBIUC_
-X-Proofpoint-GUID: s9XACoRi1K33hn7knNU9R5x4sTKBIUC_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-18_02,2026-05-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
- clxscore=1015 bulkscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605180099
+Message-Id: <20260518-acpi_mod_name-v5-3-705ccc430885@sony.com>
+References: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
+In-Reply-To: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ James Clark <james.clark@linaro.org>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+ Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>, 
+ Leo Yan <leo.yan@arm.com>, Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Mike Leach <mike.leach@arm.com>
+Cc: Rahul Bukte <rahul.bukte@sony.com>, 
+ Shashank Balaji <shashank.mahadasyam@sony.com>, 
+ linux-kernel@vger.kernel.org, coresight@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev, 
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Daniel Palmer <daniel.palmer@sony.com>, Tim Bird <tim.bird@sony.com>, 
+ linux-modules@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ Sumit Gupta <sumitg@nvidia.com>
+X-Mailer: b4 0.16-dev-3bfbc
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8553;
+ i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
+ bh=lnmr+Tsr/Pi3mBRQX9k33KTQHyV3H2FAwHmofyYMs7Q=;
+ b=owGbwMvMwCU2bX1+URVTXyjjabUkhiyu5xeL6j6mXzyT/uGF70aDo31uxSyL06W1tC23mtqIz
+ HF4bne5o5SFQYyLQVZMkaVUqfrX3hVBS3rOvFaEmcPKBDKEgYtTACYiwcTI0Kt24U3Bli+PBDzu
+ vaxdf7+6Ick61OyqYMXqfRpLkqoTShn+ux7vjjhvIrh925kNh5vO88i5vRRa57VuMcu+FRlTLsv
+ YcQMA
+X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
+ fpr=75227BFABDA852A48CCCEB2196AF6F727A028E55
 
-On 18/05/2026 10:31, David Hildenbrand (Arm) wrote:
-> On 5/16/26 16:39, Vlastimil Babka (SUSE) wrote:
->> On 5/16/26 14:38, Krzysztof Kozlowski wrote:
->>> Common understanding of word "Reviewer" is: a person performing a review
->>> work [1]. Tools are not persons, thus cannot be reviewers in this term.
->>> Also tools cannot make statements ("A Reviewed-by tag is a statement of
->>> opinion"), since making a statement needs some sort of conscious mind.
->>>
->>> Our docs already clearly mark that "Reviewed-by" must come from a
->>> person:
->>>
->>>  - "By offering my Reviewed-by: tag, I state that:"
->>>
->>>    Usage of first person "I" and word "state"
->>>
->>>  - "A Reviewed-by tag is *a statement of opinion* that the patch is an
->>>     appropriate modification of the kernel without any remaining serious"
->>>
->>>    Only a person can make a statement of opinion.
->>>
->>>  - "Any interested reviewer (who has done the work) can offer a
->>>    Reviewed-by"
->>>
->>>    A person can offer a tag thus above does not grant the tool
->>>    permission to offer a tag.
->>>
->>> However this is not enough and apparently English is not that precise,
->>> so let's clarify that only a person can state the "Reviewer's statement
->>> of oversight".
->>>
->>> Link: https://en.wiktionary.org/wiki/reviewer [1]
->>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>> Cc: Vlastimil Babka <vbabka@kernel.org>
->>> Cc: Andrew Morton <akpm@linux-foundation.org>
->>> Cc: David Hildenbrand <david@kernel.org>
->>> Cc: Linus Torvalds <torvalds@linux-foundation.org>
->>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
->>
->> I agree with the intent that the tag is for people (whether they use a tool
->> or not to help them). We also don't put "Tested-by: kernel test robot" or
->> syzkaller on every commit that they test and find no bugs. Review is also
->> not just about absence of bugs, but agreeing with the larger design and
->> whether the change makes sense to do in the first place.
-> 
-> I'd assume that SOB/RB/ACK would all be real persons, not tools.
-> 
-> For SOB we term it as "known identity". I'd assume that a tool is not an
-> identity ...
-> 
-> So maybe we should also talk about "know identity" here?
+Rename coresight_init_driver() to coresight_init_driver_with_owner() and replace
+it with a macro wrapper that passes THIS_MODULE implicitly. This is in line with
+what other buses do.
 
-I think this - s/person/known identity/ - is a good idea. We should not
-have aliases and anonymous reviews because these are not accountable.
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Leo Yan <leo.yan@arm.com>
+Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+---
+Patch 4 depends on this patch
+---
+ drivers/hwtracing/coresight/coresight-catu.c       | 2 +-
+ drivers/hwtracing/coresight/coresight-core.c       | 6 +++---
+ drivers/hwtracing/coresight/coresight-cpu-debug.c  | 3 +--
+ drivers/hwtracing/coresight/coresight-funnel.c     | 3 +--
+ drivers/hwtracing/coresight/coresight-replicator.c | 3 +--
+ drivers/hwtracing/coresight/coresight-stm.c        | 2 +-
+ drivers/hwtracing/coresight/coresight-tmc-core.c   | 2 +-
+ drivers/hwtracing/coresight/coresight-tnoc.c       | 2 +-
+ drivers/hwtracing/coresight/coresight-tpdm.c       | 3 +--
+ drivers/hwtracing/coresight/coresight-tpiu.c       | 2 +-
+ include/linux/coresight.h                          | 6 ++++--
+ 11 files changed, 16 insertions(+), 18 deletions(-)
 
-I got few acks already and I plan to retain them in v2, so please let me
-know if you disagree with keeping Ack/Reviewed-by while replacing this
-to known identity.
+diff --git a/drivers/hwtracing/coresight/coresight-catu.c b/drivers/hwtracing/coresight/coresight-catu.c
+index ce71dcddfca2..0c8698c8fc5e 100644
+--- a/drivers/hwtracing/coresight/coresight-catu.c
++++ b/drivers/hwtracing/coresight/coresight-catu.c
+@@ -706,7 +706,7 @@ static int __init catu_init(void)
+ {
+ 	int ret;
+ 
+-	ret = coresight_init_driver("catu", &catu_driver, &catu_platform_driver, THIS_MODULE);
++	ret = coresight_init_driver("catu", &catu_driver, &catu_platform_driver);
+ 	tmc_etr_set_catu_ops(&etr_catu_buf_ops);
+ 	return ret;
+ }
+diff --git a/drivers/hwtracing/coresight/coresight-core.c b/drivers/hwtracing/coresight/coresight-core.c
+index 46f247f73cf6..54ad5193b850 100644
+--- a/drivers/hwtracing/coresight/coresight-core.c
++++ b/drivers/hwtracing/coresight/coresight-core.c
+@@ -1694,8 +1694,8 @@ static void __exit coresight_exit(void)
+ module_init(coresight_init);
+ module_exit(coresight_exit);
+ 
+-int coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
+-			  struct platform_driver *pdev_drv, struct module *owner)
++int coresight_init_driver_with_owner(const char *drv, struct amba_driver *amba_drv,
++				     struct platform_driver *pdev_drv, struct module *owner)
+ {
+ 	int ret;
+ 
+@@ -1713,7 +1713,7 @@ int coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
+ 	amba_driver_unregister(amba_drv);
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(coresight_init_driver);
++EXPORT_SYMBOL_GPL(coresight_init_driver_with_owner);
+ 
+ void coresight_remove_driver(struct amba_driver *amba_drv,
+ 			     struct platform_driver *pdev_drv)
+diff --git a/drivers/hwtracing/coresight/coresight-cpu-debug.c b/drivers/hwtracing/coresight/coresight-cpu-debug.c
+index 629614278e46..3a806c1d50ea 100644
+--- a/drivers/hwtracing/coresight/coresight-cpu-debug.c
++++ b/drivers/hwtracing/coresight/coresight-cpu-debug.c
+@@ -757,8 +757,7 @@ static struct platform_driver debug_platform_driver = {
+ 
+ static int __init debug_init(void)
+ {
+-	return coresight_init_driver("debug", &debug_driver, &debug_platform_driver,
+-				     THIS_MODULE);
++	return coresight_init_driver("debug", &debug_driver, &debug_platform_driver);
+ }
+ 
+ static void __exit debug_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-funnel.c b/drivers/hwtracing/coresight/coresight-funnel.c
+index 3f56ceccd8c9..0abc11f0690c 100644
+--- a/drivers/hwtracing/coresight/coresight-funnel.c
++++ b/drivers/hwtracing/coresight/coresight-funnel.c
+@@ -412,8 +412,7 @@ static struct amba_driver dynamic_funnel_driver = {
+ 
+ static int __init funnel_init(void)
+ {
+-	return coresight_init_driver("funnel", &dynamic_funnel_driver, &funnel_driver,
+-				     THIS_MODULE);
++	return coresight_init_driver("funnel", &dynamic_funnel_driver, &funnel_driver);
+ }
+ 
+ static void __exit funnel_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-replicator.c b/drivers/hwtracing/coresight/coresight-replicator.c
+index 07fc04f53b88..2f382de357ee 100644
+--- a/drivers/hwtracing/coresight/coresight-replicator.c
++++ b/drivers/hwtracing/coresight/coresight-replicator.c
+@@ -418,8 +418,7 @@ static struct amba_driver dynamic_replicator_driver = {
+ 
+ static int __init replicator_init(void)
+ {
+-	return coresight_init_driver("replicator", &dynamic_replicator_driver, &replicator_driver,
+-				     THIS_MODULE);
++	return coresight_init_driver("replicator", &dynamic_replicator_driver, &replicator_driver);
+ }
+ 
+ static void __exit replicator_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-stm.c b/drivers/hwtracing/coresight/coresight-stm.c
+index aca6cec7885a..4e860519a73f 100644
+--- a/drivers/hwtracing/coresight/coresight-stm.c
++++ b/drivers/hwtracing/coresight/coresight-stm.c
+@@ -1050,7 +1050,7 @@ static struct platform_driver stm_platform_driver = {
+ 
+ static int __init stm_init(void)
+ {
+-	return coresight_init_driver("stm", &stm_driver, &stm_platform_driver, THIS_MODULE);
++	return coresight_init_driver("stm", &stm_driver, &stm_platform_driver);
+ }
+ 
+ static void __exit stm_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-tmc-core.c b/drivers/hwtracing/coresight/coresight-tmc-core.c
+index c89fe996af23..bc5a133ada3e 100644
+--- a/drivers/hwtracing/coresight/coresight-tmc-core.c
++++ b/drivers/hwtracing/coresight/coresight-tmc-core.c
+@@ -1046,7 +1046,7 @@ static struct platform_driver tmc_platform_driver = {
+ 
+ static int __init tmc_init(void)
+ {
+-	return coresight_init_driver("tmc", &tmc_driver, &tmc_platform_driver, THIS_MODULE);
++	return coresight_init_driver("tmc", &tmc_driver, &tmc_platform_driver);
+ }
+ 
+ static void __exit tmc_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-tnoc.c b/drivers/hwtracing/coresight/coresight-tnoc.c
+index 96a25877b824..9e8de4323d28 100644
+--- a/drivers/hwtracing/coresight/coresight-tnoc.c
++++ b/drivers/hwtracing/coresight/coresight-tnoc.c
+@@ -344,7 +344,7 @@ static struct platform_driver itnoc_driver = {
+ 
+ static int __init tnoc_init(void)
+ {
+-	return coresight_init_driver("tnoc", &trace_noc_driver, &itnoc_driver, THIS_MODULE);
++	return coresight_init_driver("tnoc", &trace_noc_driver, &itnoc_driver);
+ }
+ 
+ static void __exit tnoc_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-tpdm.c b/drivers/hwtracing/coresight/coresight-tpdm.c
+index eaf7210af648..8464edbba2d4 100644
+--- a/drivers/hwtracing/coresight/coresight-tpdm.c
++++ b/drivers/hwtracing/coresight/coresight-tpdm.c
+@@ -1563,8 +1563,7 @@ static struct platform_driver static_tpdm_driver = {
+ 
+ static int __init tpdm_init(void)
+ {
+-	return coresight_init_driver("tpdm", &dynamic_tpdm_driver, &static_tpdm_driver,
+-				     THIS_MODULE);
++	return coresight_init_driver("tpdm", &dynamic_tpdm_driver, &static_tpdm_driver);
+ }
+ 
+ static void __exit tpdm_exit(void)
+diff --git a/drivers/hwtracing/coresight/coresight-tpiu.c b/drivers/hwtracing/coresight/coresight-tpiu.c
+index b8560b140e0f..7b029d2eb389 100644
+--- a/drivers/hwtracing/coresight/coresight-tpiu.c
++++ b/drivers/hwtracing/coresight/coresight-tpiu.c
+@@ -310,7 +310,7 @@ static struct platform_driver tpiu_platform_driver = {
+ 
+ static int __init tpiu_init(void)
+ {
+-	return coresight_init_driver("tpiu", &tpiu_driver, &tpiu_platform_driver, THIS_MODULE);
++	return coresight_init_driver("tpiu", &tpiu_driver, &tpiu_platform_driver);
+ }
+ 
+ static void __exit tpiu_exit(void)
+diff --git a/include/linux/coresight.h b/include/linux/coresight.h
+index 2131febebee9..cd8fb47a1192 100644
+--- a/include/linux/coresight.h
++++ b/include/linux/coresight.h
+@@ -691,8 +691,10 @@ coresight_find_output_type(struct coresight_platform_data *pdata,
+ 			   enum coresight_dev_type type,
+ 			   union coresight_dev_subtype subtype);
+ 
+-int coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
+-			  struct platform_driver *pdev_drv, struct module *owner);
++int coresight_init_driver_with_owner(const char *drv, struct amba_driver *amba_drv,
++				     struct platform_driver *pdev_drv, struct module *owner);
++#define coresight_init_driver(drv, amba_drv, pdev_drv) \
++	coresight_init_driver_with_owner(drv, amba_drv, pdev_drv, THIS_MODULE)
+ 
+ void coresight_remove_driver(struct amba_driver *amba_drv,
+ 			     struct platform_driver *pdev_drv);
 
+-- 
+2.43.0
 
-
-Best regards,
-Krzysztof
