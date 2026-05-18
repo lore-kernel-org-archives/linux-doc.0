@@ -1,146 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mta-64-136.flowmailer.net (mta-64-136.flowmailer.net [185.136.64.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99AC3002AB
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30430405C5C
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779145220; cv=none; b=UppZPK/Mv1LBCTFdDflyE4O8s/oLbySmR6hgER2oSbW9EIiUUMMckjNUrmLSXZdnRVB+7SP1ge4ADhyVwOJal/yP7/Vx7cUZa3/iPtVkVlD2Cp7snXbRbRWg9OGgPHjOhmfLr4uStWDsmVEoACsGI97EyavVTcUpF1e5YbzjnLA=
+	t=1779145523; cv=none; b=NGdSzlEiKdKiGBYPg5FIyP50bCLY+bGFaYMEF6TSWi9KE02z/4s5RjJ/xuI6JjOQ2DYfp9JuY/BwwK8ZHdirW2mu+Ka49XM2gQro6o3sm1S36kqOaghNh/7fA+wDbfeCH6a7wzjHIUNIKmKah8FtPvf/ifZ/RRFGgPP/tlBUJks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779145220; c=relaxed/simple;
-	bh=IdMsK7+qqBktFYOQdPjrszNAWNg59HWQ7/X9tF03+KA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MIU4FWlB6DfUhCht0e01I/dndtrX0IBwxBtMDvBd9/PU6lRe6VlHY701+vQ0O4lATPqgku5RPol/p0N2yPKsozbe0tlLESy0WZDjrZDf+NOQdcIRSY+8jgLHV5b3DrZbHwPf5WM721GHe1ljNl94wH08FYJSazWNcmPBT/jrA1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GKBaQ9DW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779145523; c=relaxed/simple;
+	bh=+rYo9RwlleK8Myvw5KVXSvl5djJdJZXOJbD7irbefyc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iTqEd32Af8Q0YlZeyah7x/9eWLtG1AhBqfo+eOORI+5wb/5q+phOc1Dvq4Ukm4R2K4KJH7hzVE4xTeWgdMED31Y9oa8oCGdkAU1U40U2nCNznBoexx2bVbgjU6hBQL2I7fojv+sdIoVfyFNGeYo140HGAbmNAzB6owhsAm6+7vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com; dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b=oOv4FfQQ; dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b=dI1aE97G; arc=none smtp.client-ip=185.136.64.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GKBaQ9DW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C44AC2BCF7
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:00:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779145220;
-	bh=IdMsK7+qqBktFYOQdPjrszNAWNg59HWQ7/X9tF03+KA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=GKBaQ9DWHDRe9+tG++ZPlIoQ4CugNvI5+ftXhfTi6txThm87onadLleybQl4vz+Fx
-	 sv91RZTsVD3QK0BlRLPvGh7h1DhdF80k0Lok7aGRNy2DCOziFvTd98IBLPvVCl8feD
-	 SSQcbGvHwkJ312D/2okkCTyEYk9E+ZwtFGmc1IKWyasVecqiBKSNe7CtdrP9kZoroC
-	 15bohK+iE5wRBtNNUs3c52ZfMsZqNg8ZSZzeuYL4/R44GCKrcSK4BCI6CTHKf0nH0n
-	 IMU+jccKSztoDoclFBGrt/8LSp8aFKReAOTI9T0eTq9oNQ176bY7MH0VEHiaSuhcon
-	 GbWWlR1F98aGQ==
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-95f6b47b309so451738241.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 16:00:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+Hfn+J6TXY+ik3BYSS8jMC7NqfUJnFRdf/w2q8Ra/XBU3ybeKJLbC2/wV29Bb88FAfh2rcCWDqD68=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLC/+xJlqAQGJUFCmwsDhgpXVl+VB6chYNiropqIQZcdZKQHe+
-	qrunDhNOHl6bWWHRZSuhdHmPaIwvkWeAimgX5PRz++M09Tgk9M3H5+aGuPtyiBvpNmti6gfQ8Iw
-	RqRd0Qtmo3tKk8fI5FjEVHpWdWPUNIUo=
-X-Received: by 2002:a05:6102:8649:10b0:65a:fcea:5a4 with SMTP id
- ada2fe7eead31-65afcea0ff6mr1668580137.4.1779145219252; Mon, 18 May 2026
- 16:00:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b="oOv4FfQQ";
+	dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b="dI1aE97G"
+Received: by mta-64-136.flowmailer.net with ESMTPSA id 20260518172446a2ab3ecad30019fd49
+        for <linux-doc@vger.kernel.org>;
+        Mon, 18 May 2026 19:24:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=s1;
+ d=flowmailer.net;
+ h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
+ bh=/xBoFD2ZNsbMOTky3B3enP8bn+W9UZXo1Hl2aVCLXos=;
+ b=oOv4FfQQlHtS5BCboX78gqtA1vOdIzc2Bde3Q6JtaXyf67I3yyl6ut16FqBNN9+Yj9rq9Z
+ nyDRk4mSBg/XXlSyTrgBcXgDhCrmwyDzEj+K3hddaJfeuwolNJkOXXJ8o46GUX+ljc6wR96d
+ SFujsYOnihqEglQ5vlocmhDkHNiKg=;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm3;
+ d=siemens-energy.com; i=schuster.simon@siemens-energy.com;
+ h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
+ bh=/xBoFD2ZNsbMOTky3B3enP8bn+W9UZXo1Hl2aVCLXos=;
+ b=dI1aE97GXW4w7iNDnE322TQwRLqhXPJ7u7OOtHXqPwbH7I8b7QZPUcsZ5dpM3aKOX+wuYT
+ LPsjcYlVTxPExZ5kMJNCcDWODnTNTrGp6pV8qtNcwDcVLy69NW0vpvbVMGwrINlSJJ+x3xuE
+ 8IjsHXj0AnDwTdczWEYMyN3ZXAMnYVljNLinrYheZqc9sCRB5uWpiqfkBE0KYz9ZVSj4gXWO
+ W3XtjKRwxfg4DG16B+5mpyk1TGNVwWG+Fbcs2a0kj3mxu3xIuWEGyaVHCYP7ptwU5BzA0nrO
+ 6VN6z+VVxxOzsIQ5H6Xp7Kj7GVjsxvKu6BvSATf/LyzOGeeNKmSh+lOw==;
+Date: Mon, 18 May 2026 19:24:44 +0200
+From: Simon Schuster <schuster.simon@siemens-energy.com>
+To: Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Dinh Nguyen <dinguyen@kernel.org>
+Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+ workflows@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-iio@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+ linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas
+ Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Hu Haowen
+ <2023002089@link.tyut.edu.cn>, Kees Cook <kees@kernel.org>, Oleg Nesterov
+ <oleg@redhat.com>, Will Deacon <will@kernel.org>, "Aneesh Kumar K.V (Arm)"
+ <aneesh.kumar@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Nicholas Piggin <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>, Frank
+ Li <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>, Andi Shyti
+ <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, =?ISO-8859-1?Q?Nuno_S=E1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof
+ WilczyDski <kwilczynski@kernel.org>, Andreas Oetken
+ <andreas.oetken@siemens-energy.com>
+Subject: Re: [PATCH] nios2: remove the architecture
+Message-ID: <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+ <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
+ <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <8ef38815-6ae9-4359-86d4-042554357639@amd.com> <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
- <CADSE00Jq_uvNgvxgPze0mEdUd+hF4-DPZkHy0KroWHZzygf4WA@mail.gmail.com>
- <CABdmKX3DhejYBis9htLDnzPrG7vuF3R3URLVNEbnyd61SSsx=g@mail.gmail.com>
- <CAGsJ_4zyecY6E-=Tm4_couT7uoM9LMcFdTMUPkZAjj4zUKE-dQ@mail.gmail.com> <cb84c2ee-9de1-4565-b2e0-60984721228f@amd.com>
-In-Reply-To: <cb84c2ee-9de1-4565-b2e0-60984721228f@amd.com>
-From: Barry Song <baohua@kernel.org>
-Date: Tue, 19 May 2026 07:00:07 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4z121v4tK_3+j-hkD7HH0gH3w8tWD8nk0CwRhFE5T+4Og@mail.gmail.com>
-X-Gm-Features: AVHnY4J-roggZZXq-3fecPrif-MI9m_xhdL-W3ahLsaa5t4gx3NgfHLdPTzAVis
-Message-ID: <CAGsJ_4z121v4tK_3+j-hkD7HH0gH3w8tWD8nk0CwRhFE5T+4Og@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 2/5] dma-heap: charge dma-buf
- memory via explicit memcg
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: "T.J. Mercier" <tjmercier@google.com>, Albert Esteve <aesteve@redhat.com>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri- <devel@lists.freedesktop.org>, 
-	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, mripard@kernel.org, echanude@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
 
-On Mon, May 18, 2026 at 3:34=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> On 5/16/26 11:19, Barry Song wrote:
-> > On Thu, May 14, 2026 at 12:35=E2=80=AFAM T.J. Mercier <tjmercier@google=
-.com> wrote:
-> > [...]
-> >>>> I have a question about this part. Albert I guess you are interested
-> >>>> only in accounting dmabuf-heap allocations, or do you expect to add
-> >>>> __GFP_ACCOUNT or mem_cgroup_charge_dmabuf calls to other
-> >>>> non-dmabuf-heap exporters?
-> >>>
-> >>> We're scoping this to dma-buf heaps for now. CMA heaps and the dmem
-> >>> controller are on the radar for follow-up/parallel work (there will b=
-e
-> >>> dragons and will surely need discussion). For DRM and V4L2 the
-> >>> long-term intent is migration to heaps, which would make direct
-> >>> accounting on those paths unnecessary.
-> >>
-> >> Ah I see. GEM buffers exported to dmabufs are what I had in mind. I
-> >> guess this would only leave the odd non-DRM driver with the need to
-> >> add their own accounting calls, which I don't expect would be a big
-> >> problem.
-> >>
-> >
-> > sounds like we still have a long way to go to correctly account for
-> > various v4l2, drm, GEM, CMA, etc. In patch 1, the charging is done in
-> > dma_buf_export(), so I guess it covers all dma-buf types except
-> > dma_heap, but the problem is that it has no remote charging support at
-> > all?
->
-> No, just the other way around
->
-> DMA-buf heaps can be handled here because we know that it is pure system =
-memory and nothing special so memcg always applies.
->
-> dma_buf_export() on the other hand handles tons of different use cases, r=
-anging from buffer accounted to dmem, over special resources which aren't e=
-ven memory all the way to buffers which can migrate from dmem to memcg and =
-back during their lifetime.
->
+Hi Ethan, Arnd, Peter and Dinh,
 
-Hi Christian,
+On Mon, May 18, 2026 at 11:29:48AM +0200, Arnd Bergmann wrote:
+> We last discussed this a year ago when Simon Schuster mentioned[1]
+> that Siemens Energy is still using NIOS-2 in production and would
+> prefer to have this still included in Linux for at least another
+> few years until the obligation for kernel updates ends.
 
-Thanks very much for your explanation. So basically it seems that
-dma_buf_export() is not the proper place to charge, since it may end up
-mixing in non-system-memory accounting?
+First off, thank you, Arnd, for remembering us as this patch series came
+up and also to Dinh for his maintenance of the architecture!
 
-My question is also about the global view for both heap and non-heap cases.
-After reading the discussion, I=E2=80=99ve tried to summarize it=E2=80=94pl=
-ease let me know
-if my understanding is correct.
+Regarding our status in relation to nios2, Arnd's response already gives
+you the gist:
 
-for dma_heap, we have the ioctl DMA_HEAP_IOCTL_ALLOC, where users can pass =
-a
-remote pidfd or similar information to indicate where the dma-buf should be
-charged, as in Albert's patchset.
+We are well aware that the architecture was deprecated by Intel and are
+therefore phasing it out in favour of more contemporary hardware.
+I'm also fully aware of the uncertain future of 32-bit architectures as
+a whole [0] and that this fate will come to nios2 sooner or later.
+But as of now, the mainline support is still in very good shape.
 
-For non-dma_heap dma-bufs, we don=E2=80=99t have an obvious userspace entry=
- point that
-triggers the allocation. So we likely need other approaches. We could eithe=
-r
-move more drivers over to dma-heap, or introduce something like
-DMA_BUF_IOCTL_XFER_CHARGE, as you are discussing, to let userspace explicit=
-ly
-declare a charge.
+On Mon, May 18, 2026 at 12:57:35PM +0200, Peter Zijlstra wrote:
+> Isn't that what we have LTS branches for?
 
-Best Regards
-Barry
+Unfortunately, as we are an infrastructure provider for civil energy
+infrastructure, the refurbishment cycle is a bit slower than for
+traditional consumer systems. This implies that the traditional LTS
+support duration (max. Dec 2028 as of writing [1]) is rather short, and
+we would be glad if we could keep the architecture in mainline for at
+least 5 years and only then "decay" to LTS.
+
+On Mon, May 18, 2026 at 11:29:48AM +0200, Arnd Bergmann wrote:
+> My feeling is that the maintenance burden of keeping nios2 is
+> relatively low. On the other hand, maintaining it out of tree
+> as a patch set is also something that should not be all that
+> hard if it does get removed.
+
+Judging from the architecture's git history, it seems that it's
+currently mainly touched by treewide refactors, which are extremely
+helpful as we therefore do not have to piece these changes together 
+downstream. In other respects, we try to be good citizens and contribute
+bugfixes as well as required cleanups (such as implementing clone3 [2]
+and fixing its flag behaviour on 32-bit architectures) as they come up.
+
+If desired, we also would be happy to intensify our support regarding
+reviews or testing to share the maintnance burden if it helps to keep
+nios2 in mainline a bit longer.
+
+Best regards,
+Simon
+ 
+0: https://lwn.net/Articles/1035727/
+1: https://www.kernel.org/category/releases.html
+2: https://lore.kernel.org/lkml/20250821-nios2-implement-clone3-v1-0-1bb24017376a@siemens-energy.com/
