@@ -1,279 +1,241 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A003E1207;
-	Mon, 18 May 2026 08:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779094676; cv=fail; b=IznrVBnDNfMbbt3RtT+f11ryz7YwboJoOb6IDFQQ3847a6pvBHb0pUyGBC+fjmSWbvqYjQ5clECkrXiGMRUwh0LCMQIRNXSmp0xjgEArq/bJGk8b0RFXi38188Rna8IN4UW9IVcSolf3ZpcoAXBuH2gIrQy+pps7lwf1n5Er8Uo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779094676; c=relaxed/simple;
-	bh=WMHhJh+wSBZdhmLlhq8ukbGcO04R45kHS8le2qXYjIc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=X6HCEx7SSP1duy1pLqzUQJiB8FMIPrY8NcFTSm7lkcXdl7C+6Q7LbtWZUjDK2Q72L5Mh/9A67YegS38ONzo/xFR9L9sH3FdiQ0hxjrcJqBCT3GJPa6tVukxH9Y/3ScEDu2bYmNY1LMizA67AP5Rmgal+CWNTwWmICSvXwQmnnh4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CBPe0BRx; arc=fail smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF66E352C5C
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 09:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779094841; cv=none; b=abFiA3ZgB61OVtUvA7CcWqtn7QMjNhDGA5RH9MaULLLxc4NNA4uyG7ehv+jf8DLqIQtmQm3th+eTB4uYizjhq6KqFROWO/iMmVDFK8hjINH/hCL908tBGKPGazwzGKajeznqj2YRHT/EmIyoTz/UmKCqKSRetkDUxGxJOSiRQ/k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779094841; c=relaxed/simple;
+	bh=8gl6syFyWzCyLYlloj87TrpSjgjvbMEMIle2GFeQx90=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ezm32ONT8pgsbj/MtELLuQAkiAbbTrdhkRwstQxD5KSDcGXbWut5Be6UN7DjDAMNqrNFW6uZwflicykLpFSzNDcxYMdfYsL2YVWC9Ca+F0VQ4mLzx3vO9UK5VoB3/rt/ajZYY0T6l2xWpZwIfH1CxzdoEgWVys8AXV+BTPfIIDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=V6TQ9BI8; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=L4ApyNVS; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CBPe0BRx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779094673; x=1810630673;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=WMHhJh+wSBZdhmLlhq8ukbGcO04R45kHS8le2qXYjIc=;
-  b=CBPe0BRxvekppioPC5rKnfGVbH5/zbddrHzx5J44XAyyd8cF8swpBiiB
-   XiGd8qq+73GfCDNXC4OB8jPVFL3e7S9DbTvFMOKP/zLz3dFCj56y1zpE/
-   weWA2smt5DuBdhzNI5eqOTW/yhl/vZBF1vqZkvNZ9c4/atcWBwOVsvwjC
-   CcnHtlEccwe+S1cjoOUbZDUBfLdh6fBp4Z8UOEx6eZgQSa6ALVNAromfv
-   bqWT0d91fx3327oY4oBlqsjj523W2S9m4QgKlt59bUJCfETKoEfGuethC
-   kEni1UlGfNM0dTSMYzP1p09BVTAxW/ULp0Zy6Gijj5Smmtfnj6nI8Xc5V
-   Q==;
-X-CSE-ConnectionGUID: Llt/TvAYSpmOp2uztYSXiw==
-X-CSE-MsgGUID: IgHdlLabR3ayaUW/XTPC4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="105403147"
-X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
-   d="scan'208";a="105403147"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 01:57:53 -0700
-X-CSE-ConnectionGUID: AKZr62Q3Rx2y03FjolAlBw==
-X-CSE-MsgGUID: 60Q28BheQSWOK9ez00xqFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
-   d="scan'208";a="244342777"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 01:57:52 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 18 May 2026 01:57:52 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 18 May 2026 01:57:52 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.25) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 18 May 2026 01:57:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ts2R+dZaXoH/WIkW5/2Vovmvlv4SA3OQn4nud61qh9iZ+NaaA48KswUTGJ7ml6uoWQfFLfQXuMB2jHj+CjEemoYO4zG/1LXMIpHLqY1lhIFCVbCZneknUa0e9ONy8FCRz1Bw/CoT20z84Z9qnjGUAdEM0xi9C7oOR6urlds15LYBhGNUqdBK5huySrzsg88lvLgtIT0uVkCh27YWq7ZIJ2nENtthF+TqQHvo2qUm6H7SSvflOUTEuzWJChrMPGrooLBFeenW4GEb/CdP6YGxG4CVxAbj6B2Ue9d+Bc43uhMNaTihtjlCNyNAGIeAm3DQVDXLS4ykJZHbBlP0rTvORQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AMwp5k8Sx4nn28ffRAmgAOBvYdvrZjYkhsJdT3wRN2o=;
- b=UbkLpojur25MDTBAWEm35TCVQP73dNplt5RKsCmMsqTMVwwvsvikCjhUBtRdZNYsA7Y4tm06L7PTyD/S/XL0jvQMO0yIY6Iya1WXxRra4XhVob0noZgM+RZ5PgO+45tqqjs3oYtJZiZqRTNKoDKFoueorP+X0/tK8JeVfN6ZunI9oMxFh11WnSuBVbixl95H1Kda/FH19b14H7BUkBtMIVOlJmydweAFzi0PxpVP1r6gx1tvo0EjyF0ZLf5lNKnUW7sZhzXLqwrWdrxo8yQyVHSaPtmqzZjvX2Y/dPANjljXb+COt/7k70ti56doM3pRwlGK9gnsQOsGGsvDKkxGEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA3PR11MB8986.namprd11.prod.outlook.com (2603:10b6:208:577::21)
- by CY5PR11MB6283.namprd11.prod.outlook.com (2603:10b6:930:21::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.24; Mon, 18 May
- 2026 08:57:49 +0000
-Received: from IA3PR11MB8986.namprd11.prod.outlook.com
- ([fe80::e6f0:6afb:6ef9:ab5c]) by IA3PR11MB8986.namprd11.prod.outlook.com
- ([fe80::e6f0:6afb:6ef9:ab5c%5]) with mapi id 15.21.0025.020; Mon, 18 May 2026
- 08:57:49 +0000
-From: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
-To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, "Andrew
- Lunn" <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>
-CC: Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, "Jonathan
- Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, "Saeed
- Mahameed" <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
-	<mbloch@nvidia.com>, Vlad Dumitrescu <vdumitrescu@nvidia.com>, Daniel Zahka
-	<daniel.zahka@gmail.com>, David Ahern <dsahern@kernel.org>, "Nikolay
- Aleksandrov" <razor@blackwall.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>, Gal Pressman <gal@nvidia.com>, Dragos Tatulea
-	<dtatulea@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Nikolay Aleksandrov
-	<nikolay@nvidia.com>
-Subject: RE: [PATCH net-next 1/2] devlink: add generic device max_sfs
- parameter
-Thread-Topic: [PATCH net-next 1/2] devlink: add generic device max_sfs
- parameter
-Thread-Index: AQHc5fAqyBv8g4eHK0GeZOOg2rKOH7YTfNQA
-Date: Mon, 18 May 2026 08:57:49 +0000
-Message-ID: <IA3PR11MB89862198768E41FCA4A1FADDE5032@IA3PR11MB8986.namprd11.prod.outlook.com>
-References: <20260517112700.343575-1-tariqt@nvidia.com>
- <20260517112700.343575-2-tariqt@nvidia.com>
-In-Reply-To: <20260517112700.343575-2-tariqt@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA3PR11MB8986:EE_|CY5PR11MB6283:EE_
-x-ms-office365-filtering-correlation-id: 21765de3-0d90-42c6-1e1d-08deb4bb8986
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700021|22082099003|18002099003|56012099003|4143699003|11063799003;
-x-microsoft-antispam-message-info: 34/HGa37W4HE72+TA7+TgI9wyYA4Zzul4bU6eXMlRQ+49WH4qrXDFITuiu+aEAg/F6KegF7CKkubcUf25r1Gfer669Dbc+ErK1nMSGkGsXnpVwZR6HQGtpoXwMewduTy4TY+yuDBWWRDlrzwxAn96yBRUbI7ed++bbnoat74p+OiqSKcKtQHbxmbSu4dlhOLuJt//hKjH9raBk0J39jLJ7TiFwgL4q+9Ym38oyZqgc4VPIQe7I6reGhdXnQ9iPT53g+VufuIH/DClFBQDcyn1gCarcDjoLTYKjWyuzW5qjvxZs3p/N3P11YGiM5P0teXGEez7NSAcEGSIRNPiWDrX1Buufg96jK1z5LKeYO48wPWGq7QRRo5G1sSL+iE8iGbMoDupDORUU/ymLVAE9SeZOd4XrscC75jdJZV42rUQiKg3V3KfARmBslZ08qGji8Gf6yncb1zhNse8EndRSRPkuJ8l+T8TkAAdfnHU69ScKmxFpE0gxKWkJEiyv1447txFTRirXONuKoxL88JaA2jBRh736DBZ2AYtnQ4pM4lXkX37GIN9MXziO3o4W40cCl6CvawKMPFYdZ+ABNjOP/PiG3odYqvqjrUr78jZ9lMccHXuzjvntALYb4YVUlWzTmdZbiTwCbHyoyA/NDo6RcgGHXv7awRQKbBE2/sW4qfQp37w9VSHLM2TNCMWUustkeKEJ+032MWd3XRY6s/cY7z7ZW7Cb59S/VF0+3G37LQYTLRHMAK/pq68I6qoOMnOCUs
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB8986.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700021)(22082099003)(18002099003)(56012099003)(4143699003)(11063799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?hGoQI22jpwwrvAefzyrt3JfYyT4LWHcocbu7TLmRE82YOE6ntF+LaLBhREfd?=
- =?us-ascii?Q?dlVZWQoLVRBoMLYFstRJtVdBASYyzZsaU5YRcO0jB6aQbCrOO9WUGw/aXf65?=
- =?us-ascii?Q?PiXPdKxvhoDFXwBPSyLfjYqvLGNxvipbAbQNAOgntXw2kGLchBC3jJ1aKFv2?=
- =?us-ascii?Q?SEluz+GdwPWUpz3ec1Z+xZKPzFb080h3AWMAdrLi33TdAhtt1b6wUKrFYdzw?=
- =?us-ascii?Q?UlodvkGy3ncUu2ckxr0hbr6IGf8PpWO2Ougpfr9OOlmn17LuOyNSekKYqQYL?=
- =?us-ascii?Q?K5sHCvgM2eKs2ymN1rgeL7aufA4Sp3lyZ6ozVjV/BJ6d1J6bIjKZIqDZSeK/?=
- =?us-ascii?Q?23iwVDlR4qOSuvzgYCwQFhFXtoyNL/cM7jlGnKsTSZwFZF3GKQ2vYI0Vkta8?=
- =?us-ascii?Q?WGE10NPXHSF2ARnizztR0em26MDRngVm5sr1sOzFp1spa6baxnP2xCBVMcfk?=
- =?us-ascii?Q?WuRD4McuO0qU0igk8Qs8IR8O/+9v/uGAkrXC0veYdFD3jhp107at77gX5+At?=
- =?us-ascii?Q?xXUwOGHt0jM5YUSUFjqQmF34S4iH1tczkkCogDFS1SHF5pvA1wOdXIavY9gC?=
- =?us-ascii?Q?aZeuJ00jKansq+Hs7P3xeA1YSNNjnqehfHhS4CFTNZvWIwhxj23pgv6W+ET2?=
- =?us-ascii?Q?4N3JfGzBeKYiGYDQumGGe1qO5VlkRM5d6Z7Kho+Qg3aVTTZiJp6+z739U7Z9?=
- =?us-ascii?Q?mTvEQ5lHA5QpmbcXlDLrZDT1oTBoOz0Fa1CEAUjwVaHR6ST75yurwJ7tTiUD?=
- =?us-ascii?Q?CjrFnQ/Y7nG18Nc4IFN0nS/3hCOwg6oW05UUt1Jq6eB5bdoyyMh8ZsNG+1Jx?=
- =?us-ascii?Q?QSzWAvaZ1BmlPIg+EQEb+OzU4IX/WGj2H4zTh/J/rlbV/GMSL5bRleVJcH8y?=
- =?us-ascii?Q?gdCKG7ZkUvwU2WmC/wTYEzDHQjJ/ydrjZaWR6lxObQd5S8GYalUQSVQcyfF0?=
- =?us-ascii?Q?dQQuvq0Q+J7lbgVsG6Z6TGnS7qHo5j/pIwJpI3Udq4xzc1ysgQIqbHEvj19a?=
- =?us-ascii?Q?Jyi0gZ2ZbLL+b/vMzfAJl7/J/afPPyOnn7pFdnkVz3C3iK0kDmFRktgoOIeX?=
- =?us-ascii?Q?FELujJKhmUHCNDd54q731I0dh+K2nApDdL/4LFUMJw+cXGWw5VnivaZm686x?=
- =?us-ascii?Q?yXw6y7NmAct+8w3ZmMgezIeCYHbPympXuK8Fi/KrnrNrdV1O0YlhH1kMXJwg?=
- =?us-ascii?Q?Lmd+ORFd0D6cm+vyF5pCYYf6dSQs/KRNnJEO2aQqddef8nTKIwUCv8ZNT7ow?=
- =?us-ascii?Q?Ekq1cp/8X4jb/JHfjyesM+e0NAqgAUG+Vi9A/Qc0NwrGN2EbGlPdrH4391ty?=
- =?us-ascii?Q?NaSZvUxmBFSJdhT81ZSuSNWKhziRCy/qXSasq9XWYawKeYhcfSfAbxwu9pjN?=
- =?us-ascii?Q?8Hk5Al499vjhX0lqYmqIJI43nMC+QIuA2eH7jhFiQpBW8/eI81aP40IXM3fY?=
- =?us-ascii?Q?PBe4oChTL0L6g53ikouJFoQGt/q5XNY/AgT6Nf5esjof6Ozbo5+COX+aRRCe?=
- =?us-ascii?Q?5PxNb5eniCq9S0pSoNw4iH7ktHBGiDp5OVOOLRnwPF2aDrO+0mK+KIr2F+se?=
- =?us-ascii?Q?ntqzPvfHQS8OFLBG2C6nS5Ru+kFucud1Fux8caj351ZH3KJ1mrOn7jCIW/oA?=
- =?us-ascii?Q?5CxqO4e9V4DgSCkP6C5WaU2/pOgSsu1yfECAJHOom+dzzYpmHXTnsaWyTlIN?=
- =?us-ascii?Q?xTOV/J1bLQk7k5cbqBbwlB6WHEE+lw4UMZwygAoN3imP2VqDZbDdszzB6gnE?=
- =?us-ascii?Q?2+L18UY3RTOuFkbuGxxbL0Y/rAuQMi4=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="V6TQ9BI8";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="L4ApyNVS"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I5Yo5R2685232
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 09:00:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DeHqM3j3SVN+eTXDPYgfh5OJPSipZ7LbM1o7vMq5rZw=; b=V6TQ9BI80gZtbJ8M
+	Nj3TmIcxGtNWe10tMjsX716aVI3Eu+VG6DTs4A36zQe80Enbr7RHAtC69EWy17rh
+	K3JP94V5n4S2f8D0O3K4HRKWJ7UhnovMGIZRSkPCSSkP+H4iHn/nNrToKz21QVDn
+	xqGyn+iqXfO48YUzbgmo9L54JJoyFpFNoRGFKg5BOocVxPlzUapmX0DyOJ98ZuxJ
+	6ucwVgxLs3Ci96Kv8Zso3UnEKE+bmqH+NsdWAPEp5q3EvSvdmgOUv2pkuO4UxltL
+	KcE4FvA21SQtuTkeLGQh+2Wx/1EABfARD9mKAw1JxrivC1JRuZzSCq0/ZeaqlTLl
+	AkTviA==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e7vrbrw16-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 09:00:39 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-3663cbff31cso5030358a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 02:00:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1779094838; x=1779699638; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DeHqM3j3SVN+eTXDPYgfh5OJPSipZ7LbM1o7vMq5rZw=;
+        b=L4ApyNVS1cvEjlKS4w2sqeuZsK/cjK8hTvCRwrgTFxfcIs16eU2MfPsUKa131JfTP6
+         4K0K36bRd7LrXU65mHFdt1z6QofqOXKvoNbZv5ZpJ94IutDPIzwnW71xMDEo7HpnAlcQ
+         wLO/5zESsaOs7rZKZXE4cyVG0lSMOF7mTziQPa9mwr9U2CyWv3vamef3gCmU/M9I4iXF
+         CAyfqVjaO3+/E8w2K7IBnS07+TZeJ+VBitqOrQArYWuRCktqDNf3BDVPZ7LsnCAUOfjC
+         0EGoyjrygDWkL3pqz3YoOFLz3DmOlV4HILvLaSjxDOcyZiEhIFkmOT6bzjd/2LW89S8X
+         gA8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779094838; x=1779699638;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DeHqM3j3SVN+eTXDPYgfh5OJPSipZ7LbM1o7vMq5rZw=;
+        b=T5WfivQorIZZ/18nDDta0CPk78UCWdllcxtiUrkcUfC1+UXkUOh2XMWfrjzvDIwsjv
+         A7AHPXR9yNCe70FbXGaYDl1pPbAGPGIrrkc0bhBfov/TtCzor3cD1x05nvX17OX9CVIF
+         G7uToxuwQbgy3rvRMntOLyiAWMF/ImWN26X+F2S1s1/rlVBdZ2uAILGnW6rnOcjtKUTs
+         WLgWmPBqcP6aorg34/OhaH4/k2sCnNxCQU7RiFVE/I8G5iEdoZBe5NUoXE0Q8c/JR4sS
+         EyxOn5bQbCwwJsCA6cY/M1+u1t+vR6SNI3KXVrQUlaXa3KpUzdi7dXsSnFZxId4MBndv
+         lgIA==
+X-Gm-Message-State: AOJu0Yz4ckZKJiRKEukEgtRe8mVpszIwNpzsi7/4/MfFKRoWpMuxTLoB
+	dSio1J420lvqQ/JHlxRcrI/K8a69kY3lqco44M86dQHtdk68/h2Ao6xQPLVwdUcLwrFzhuyuSpp
+	HrdLDSdBLilt2jDOba8XvtT5qIp/zU/kpS1bBvrEp7bLnWbcART14zk6JAqrg3nQ=
+X-Gm-Gg: Acq92OF2Yw8Mj7aeVLngxaBVWdzIYLiSupAFWjx5avEObZopjmNtxF4IK5CZZfgxmIk
+	sp1Yn5rHNan/Kr8HB7iiIn13jmTy8XGgddHqIWkiWPsRb27YadveH06N4CCNxhjaS8KlA+13kv2
+	Hi6mihlOk8s4jSnSbjleCH2WRn/gDdb2NPTo16QuDibWYxXWpaTRJqczHZhbQH2ATLTNkK+SOsN
+	AFho8FZ2qZwIfNHRepcPhvuhFY/kn7mgUnnYbjEsqhq+ZH2Wi14tmSRby1QiWIcec5O05PdhdHE
+	/vYaWOMY8gkw9MmMxEUNbiM1lBGupRy7bYaOwwChu9JWc/gcnuejB7OcDTYi9QU8uob3zK+d/ek
+	BSv4BLUXsvX9XcWf97MLACOYZwhS5SngR/nrsUY1EJY8MiB7WDv+QWscUNcHHw0kWaHCgydpl5y
+	s26+PAxjihoT2399pJ
+X-Received: by 2002:a17:90b:58cf:b0:364:8f64:49ea with SMTP id 98e67ed59e1d1-36951dc8fe8mr14259630a91.27.1779094836644;
+        Mon, 18 May 2026 02:00:36 -0700 (PDT)
+X-Received: by 2002:a17:90b:58cf:b0:364:8f64:49ea with SMTP id 98e67ed59e1d1-36951dc8fe8mr14258906a91.27.1779094830798;
+        Mon, 18 May 2026 02:00:30 -0700 (PDT)
+Received: from [10.133.33.74] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d11ce67sm146041295ad.74.2026.05.18.02.00.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 May 2026 02:00:30 -0700 (PDT)
+Message-ID: <23d542db-42f8-443d-94f7-3e760e150985@oss.qualcomm.com>
+Date: Mon, 18 May 2026 17:00:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: HRoA2fahp/2uLAw4NtYw+wrt7r70Ytl+fYzCRofTJRwDrgJo1i1vfXeQb4uTor3SuifZefjOCIyLW82pYb5AW0abWyQdozVtc1/5x6YK5lzcIsoWx9gxJAoRaZte28JIem9umHflzi4WmOIDitQBOUk0/+gnV2X+XBjKJw1851nwjK8CMR048A1baLG3kxBr9O8UrMwU/M8ZT40qHN1WFJYDvVHITwiE273zhL+2OucA/HDFs/MgBKeKua9TjWthM8B5gh+MlPafUeFG/SDO8QLY8Y84iqJUvv186Tn/YXZesiFnSrTHT1IDMRY8UuYd23yPdiqWwpAxANUEApoJFg==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB8986.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21765de3-0d90-42c6-1e1d-08deb4bb8986
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 May 2026 08:57:49.1877
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ND9BtRjIdE/SSzFh7gS8dQi7qxvvgKPoOrvF618sbCPThkT8enrR86fwI7XhmFjvOjPgeXEYANmVNBDWASq+ek8hD/YfU6dVh90/+z5zwsg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6283
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+From: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+Subject: Re: [PATCH v2] cpufreq-stats: document limitations on modern cpufreq
+ drivers
+To: NicoErdmann <nicobsc4@yahoo.com>, linux-pm@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, rafael@kernel.org, viresh.kumar@linaro.org,
+        corbet@lwn.net, skhan@linuxfoundation.org,
+        zhongqiu.han@oss.qualcomm.com
+References: <b23cee4d-dd82-4828-9f38-72cfb05eff32@infradead.org>
+ <20260510193352.195181-1-nicobsc4@yahoo.com>
+Content-Language: en-US
+In-Reply-To: <20260510193352.195181-1-nicobsc4@yahoo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: t6ob7f9_4v4jkViVIaDYd9yGioRmINvN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDA4NiBTYWx0ZWRfXzsz1Kfm7fU6C
+ qOadHam79Zk/5Dn8i7DagqLxF1ztBkpMyDeEq8+5YXht93vv07iqnTSt4CsN2V7zqySppy0S05V
+ h2nIKwOM7LGhysuwV6n3pQHvgmimzRfBUb0lrW9carKUHwN0yP4QshFukVl5byd83hHmwK10HRm
+ nw/+6kZdFMFIxbqkxHUYjAwF7PFBfAKXP2gfbAa+V4rx6szuWLEZLHkkLUHzi78mXQjcbJFdpe0
+ VDEL7M+6HO9D7HTOCtGshWgxZb8PjdtpoGTMXlq+oXScXJO0jb164nN1IPl5iBe18VvJPMClsdn
+ WkrVgLman4QzNu7lpWR/mME71dclWfHRxU0W3uR8KGeoZ4rRR8E3L9+GW10UBQ043kp8iAJjmmW
+ kzg7T1LEcBPOLaq/oZ32b2tukU2Y2mVrjaYVIruEtnWsGg8GKP4F8Z19PE/DnbUPtO3srATvHkE
+ rJGhkm63puGLmj1sHFA==
+X-Authority-Analysis: v=2.4 cv=KZ3idwYD c=1 sm=1 tr=0 ts=6a0ad537 cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=CjxXgO3LAAAA:8 a=2I2IG0rrK8GDGPmW3z8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-ORIG-GUID: t6ob7f9_4v4jkViVIaDYd9yGioRmINvN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-18_02,2026-05-15_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 phishscore=0 priorityscore=1501 adultscore=0
+ clxscore=1015 spamscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605180086
 
+On 5/11/2026 3:33 AM, NicoErdmann wrote:
+> Add a note clarifying that cpufreq-stats may not be present or may not provide meaningful statistics depending
+> on the active CPU frequency scaling driver.
+> 
+> In particular, drivers such as intel_pstate and amd_pstate may use alternative mechanisms for frequency scaling
+> and accounting.
+> 
 
+Hi NicoErdmann,
 
-> -----Original Message-----
-> From: Tariq Toukan <tariqt@nvidia.com>
-> Sent: Sunday, May 17, 2026 1:27 PM
-> To: Eric Dumazet <edumazet@google.com>; Jakub Kicinski
-> <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>; Andrew Lunn
-> <andrew+netdev@lunn.ch>; David S. Miller <davem@davemloft.net>
-> Cc: Jiri Pirko <jiri@resnulli.us>; Simon Horman <horms@kernel.org>;
-> Jonathan Corbet <corbet@lwn.net>; Shuah Khan
-> <skhan@linuxfoundation.org>; Saeed Mahameed <saeedm@nvidia.com>; Leon
-> Romanovsky <leon@kernel.org>; Tariq Toukan <tariqt@nvidia.com>; Mark
-> Bloch <mbloch@nvidia.com>; Vlad Dumitrescu <vdumitrescu@nvidia.com>;
-> Loktionov, Aleksandr <aleksandr.loktionov@intel.com>; Daniel Zahka
-> <daniel.zahka@gmail.com>; David Ahern <dsahern@kernel.org>; Nikolay
-> Aleksandrov <razor@blackwall.org>; netdev@vger.kernel.org; linux-
-> doc@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
-> rdma@vger.kernel.org; Gal Pressman <gal@nvidia.com>; Dragos Tatulea
-> <dtatulea@nvidia.com>; Jiri Pirko <jiri@nvidia.com>; Nikolay
-> Aleksandrov <nikolay@nvidia.com>
-> Subject: [PATCH net-next 1/2] devlink: add generic device max_sfs
-> parameter
->=20
-> From: Nikolay Aleksandrov <nikolay@nvidia.com>
->=20
-> Add a new generic devlink device parameter (max_sfs) to control if and
-> how many light-weight NIC subfunctions can be created. Subfunctions
-> are a light-weight network functions backed by an underlying PCI
-> function.
-> Their lifecycle can already be managed by devlink, but currently users
-> cannot enable them in the device. They can be enabled/disabled only
-> via external vendor tools. This parameter allows subfunctions to be
-> enabled
-> (>0) or disabled (0) via devlink. A subsequent patch will add support
-> for max_sfs to the mlx5 driver.
->=20
-> Signed-off-by: Nikolay Aleksandrov <nikolay@nvidia.com>
-> Reviewed-by: David Ahern <dsahern@kernel.org>
-> Reviewed-by: Jiri Pirko <jiri@nvidia.com>
-> Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
+Thanks for working on this — this documentation gap seems worth
+addressing.
+
+Please run ./scripts/checkpatch.pl cpufreq-stats-document-xx.patch to
+avoid style/format issue.
+
+I see the below Error/Warning, please fix.
+
+-----------------------------------------------------------------------
+WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit 
+description?)
+#6:
+Add a note clarifying that cpufreq-stats may not be present or may not 
+provide meaningful statistics depending
+
+ERROR: trailing whitespace
+#29: FILE: Documentation/cpu-freq/cpufreq-stats.rst:32:
++^I$
+
+total: 1 errors, 1 warnings, 13 lines checked
+-----------------------------------------------------------------------
+
+> v2:
+>   - Add missing period at end of sentence (reported by Randy)
+> 
+> Signed-off-by: NicoErdmann <nicobsc4@yahoo.com>
 > ---
->  Documentation/networking/devlink/devlink-params.rst | 6 ++++++
->  include/net/devlink.h                               | 4 ++++
->  net/devlink/param.c                                 | 5 +++++
->  3 files changed, 15 insertions(+)
->=20
-> diff --git a/Documentation/networking/devlink/devlink-params.rst
-> b/Documentation/networking/devlink/devlink-params.rst
-> index ea17756dcda6..29b8a9246fb6 100644
-> --- a/Documentation/networking/devlink/devlink-params.rst
-> +++ b/Documentation/networking/devlink/devlink-params.rst
-> @@ -165,3 +165,9 @@ own name.
->       - u32
->       - Controls the maximum number of MAC address filters that can be
-> assigned
->         to a Virtual Function (VF).
-> +   * - ``max_sfs``
-> +     - u32
-> +     - The maximum number of subfunctions which can be created on the
-> device.
-> +       Modifying this parameter may require a device restart and PCI
-> bus
-> +       rescanning because the BAR layout may change. A value of 0
-> disables
-> +       subfunction creation.
-> diff --git a/include/net/devlink.h b/include/net/devlink.h index
-> bcd31de1f890..4ec455cfe7a4 100644
-> --- a/include/net/devlink.h
-> +++ b/include/net/devlink.h
-> @@ -546,6 +546,7 @@ enum devlink_param_generic_id {
->  	DEVLINK_PARAM_GENERIC_ID_TOTAL_VFS,
->  	DEVLINK_PARAM_GENERIC_ID_NUM_DOORBELLS,
->  	DEVLINK_PARAM_GENERIC_ID_MAX_MAC_PER_VF,
-> +	DEVLINK_PARAM_GENERIC_ID_MAX_SFS,
->=20
->  	/* add new param generic ids above here*/
->  	__DEVLINK_PARAM_GENERIC_ID_MAX,
-> @@ -619,6 +620,9 @@ enum devlink_param_generic_id {  #define
-> DEVLINK_PARAM_GENERIC_MAX_MAC_PER_VF_NAME "max_mac_per_vf"
->  #define DEVLINK_PARAM_GENERIC_MAX_MAC_PER_VF_TYPE
-> DEVLINK_PARAM_TYPE_U32
->=20
-> +#define DEVLINK_PARAM_GENERIC_MAX_SFS_NAME "max_sfs"
-> +#define DEVLINK_PARAM_GENERIC_MAX_SFS_TYPE DEVLINK_PARAM_TYPE_U32
+>   Documentation/cpu-freq/cpufreq-stats.rst | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/cpu-freq/cpufreq-stats.rst b/Documentation/cpu-freq/cpufreq-stats.rst
+> index 9ad695b1c7db..6ffa5a6a63c9 100644
+> --- a/Documentation/cpu-freq/cpufreq-stats.rst
+> +++ b/Documentation/cpu-freq/cpufreq-stats.rst
+> @@ -28,6 +28,13 @@ Various statistics will form read_only files under this directory.
+>   This driver is designed to be independent of any particular cpufreq_driver
+>   that may be running on your CPU. So, it will work with any cpufreq_driver.
+
+
+The existing statement "it will work with any cpufreq_driver" may not be
+entirely accurate in practice. The stats driver relies on the scaling
+driver populating a frequency table (policy->freq_table), which is not
+the case for some modern drivers. It might be better to clarify this
+dependency rather than keeping the current wording and adding a
+contradicting note.
+
+>   
+> +.. note::
+> +	
+> +   On some modern systems, this interface may not be available or may not
+> +   expose meaningful statistics depending on the active CPU frequency scaling driver.
+
+
+Also, "may not expose meaningful statistics" could be a bit misleading.
+In these cases, the stats/ directory is typically not created at all,
+since cpufreq_stats_create_table() returns early when the frequency
+table is not available.
+
+
 > +
->  #define DEVLINK_PARAM_GENERIC(_id, _cmodes, _get, _set, _validate)	\
->  {									\
->  	.id =3D DEVLINK_PARAM_GENERIC_ID_##_id,				\
-> diff --git a/net/devlink/param.c b/net/devlink/param.c index
-> cf95268da5b0..523243e49d88 100644
-> --- a/net/devlink/param.c
-> +++ b/net/devlink/param.c
-> @@ -117,6 +117,11 @@ static const struct devlink_param
-> devlink_param_generic[] =3D {
->  		.name =3D DEVLINK_PARAM_GENERIC_MAX_MAC_PER_VF_NAME,
->  		.type =3D DEVLINK_PARAM_GENERIC_MAX_MAC_PER_VF_TYPE,
->  	},
-> +	{
-> +		.id =3D DEVLINK_PARAM_GENERIC_ID_MAX_SFS,
-> +		.name =3D DEVLINK_PARAM_GENERIC_MAX_SFS_NAME,
-> +		.type =3D DEVLINK_PARAM_GENERIC_MAX_SFS_TYPE,
-> +	},
->  };
->=20
->  static int devlink_param_generic_verify(const struct devlink_param
-> *param)
-> --
-> 2.44.0
+> +   In particular, drivers such as intel_pstate or amd_pstate may use alternative
+> +   mechanisms for frequency scaling and accounting.
 
 
-Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Similarly, describing this as "alternative mechanisms for frequency
+scaling and accounting" may be slightly vague. The key point is that
+these drivers do not populate policy->freq_table, which prevents the
+stats driver from creating its sysfs interface.
+
+
+Small nit: The subject line "modern cpufreq drivers" feels a bit vague;
+it might be clearer to refer to drivers that do not populate
+policy->freq_table, since that is the actual condition under
+which cpufreq-stats is not available.
+
+For completeness, it may also be worth mentioning cppc_cpufreq, which
+behaves in a similar way.
+
+
+>   
+>   2. Statistics Provided (with example)
+>   =====================================
+
+
+Perhaps something along the following lines would make the behavior
+clearer:
+
+This driver is designed to be independent of any particular
+cpufreq_driver that may be running on your CPU. However, it requires
+the scaling driver to populate a frequency table
+(``policy->freq_table``). Drivers that operate on a continuous
+performance range rather than a discrete set of frequencies, such
+as ``intel_pstate``, ``amd_pstate``, and ``cppc_cpufreq``, do not
+populate this table. As a result, the ``stats/`` directory will not
+be present for those drivers.
+
+
+Thanks again for looking into this.
+
+
+
+-- 
+Thx and BRs,
+Zhongqiu Han
