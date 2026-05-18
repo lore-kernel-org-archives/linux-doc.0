@@ -1,93 +1,93 @@
-Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
+Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59523BF66C
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 05:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0D43C9426
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 05:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.66
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779082755; cv=pass; b=E4dxPIww4L8Rg3HicSbqkxo0AVssA967uzs0cfQUnqNMKtpuVHEH7dCCGNAiaAXYxVH/GOWTfoGukel8x8Y5GodY/8m+PwC3lgPXxnEwttysm9j2X9tNGLrrEtoa6aHBQs/ue3aZvLKGgFrVqh9s+oQxR42GJ4USmcYTNSYS+Mg=
+	t=1779083678; cv=pass; b=NDaLZUWsyWLeEOVXfy4V+UIwyrzVd8+5Ynwp7Rw1XgWtXvu4TWtGmrHElASW8PImZV1+p1VYjAQg5s17Hp4M2Ohk+/B4PKSsvIjUR1fwAk/SvjmI+2/UkarC4XTTUQG65a9MU7E9eAON1HER0LnGRGP+U8Kl6RD8STF8T6Egxjg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779082755; c=relaxed/simple;
-	bh=ZU9zcwa/1oA+08JxSkZueqLN2CpJd+9cjTLHgOB8s8s=;
+	s=arc-20240116; t=1779083678; c=relaxed/simple;
+	bh=7Pa+dNJYGynoLkAUGjb4J4hrWHiM/xV6A//U2j1wNSA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QsijqBjkKn1/Kx82pxigFhag+dqAokWefrf9Eh4YkJMTVOIOHWE7TJUA+hrPm4H8XQBBhmeIQhyIz1nu/yTJPuO3koAdyfiUIULtJeK7oocZJoau10GUM+iSnF7lzKwOu5CdFkekm+6ehNauNFSkOcqbaPXV2diKXeDpHdUZC5E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TB1liBXy; arc=pass smtp.client-ip=74.125.82.194
+	 To:Cc:Content-Type; b=kpcdu1pjworFWSUm0pz4m8Coww5s6zt64aT5DPWVMZSSSr0FNntfGNNWiff0TEVQL/BH6/Tt8HO70vqiFSDdkL4PKUAZsF3RXzjBbrud0zTEzEWCl7i8Vfa69OwG9c+0ZlbqBOj7Xn7VMSePBewHv1vdjEGk0hAS6l/Onw4nZSo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bIOfyyrL; arc=pass smtp.client-ip=74.125.82.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TB1liBXy"
-Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-303dbfbec77so707339eec.0
-        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 22:39:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779082744; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bIOfyyrL"
+Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-1329fc4bf77so4638104c88.1
+        for <linux-doc@vger.kernel.org>; Sun, 17 May 2026 22:54:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779083670; cv=none;
         d=google.com; s=arc-20240605;
-        b=N0t9MrbU+CWUHVRGG46cpdYBB+69thp8tWay5w4IfoygPb79CKu84z2q+WfSrhi415
-         9w9kRTf8RcOsToyc/Mw30UWXlcdXa7RPXxn8BeJwu2ZOgdE6G9gW16mEIgDJorTt+wHL
-         GCMCvcd7N2aJRrXfOeUGosQuk0zZasgz4MBL9NEl50dSOl9A331iif9BFpkBFaA67C6L
-         GdtQwJ6rus8gPaw9xtrztF4okq0Cbll3eTParaeQey//tRMfFuU97jAiqAAL0M/hKdu6
-         39vk+adanyzWkJ1Zrm3hA/JXkRhdNNGYbC7+cuS5kwCJB6z2gQyXAPtGnuZgDdyIj/nQ
-         VprQ==
+        b=dL4o5JwvXKSYY+N5b9GvRGf2r8zofOAS3L4HhfMRXo7JaFUwjaJbTTZu94r/iZXsD2
+         3XgRVYCHdKPDvFJ1fs4EWi+qag93nltJxWCO8mFLYUBhgTSujsMUohPSdFK/QT7jDZrj
+         xDTgZmxpTSdg9306XdVq3gJDZGOmQqb5AdeHtHg9kLEgvuo0iXYg7lUl0kNrOfRG2AAV
+         cyB4XBqh3KEHnB0KEeyrJgSKFGHkq8FskC1vKEzy/5lOQX1vrv/m7X5lv9P7s0M/aJrl
+         Jmr4dTjIY4TWLPlPDvLD4PjpRIC2EhmHssMFQ4RkPUTy9THUfKq8kBsi+eK+SqxlXbeg
+         tMoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=YLIcqWTVpJE5E6ocMJoFGIXQYdlOWCw+6fTR5Kv3lQU=;
-        fh=dpGgfr4FCxyq7gHlAc+1pIqXaFMwEz1zLzzTTVFp3HQ=;
-        b=YKEavljdC7A50EstRr6fBxBtkcJntXBpO7ewrvCJE8g4zlAPcHYEOfgkGv1JZgR1ob
-         PC9/1yPlHACEQyz/WmTuP9lGC8venFJvZ0gpnG9VZPUELTpSXolDfdIiPDT2Q19t6gMV
-         OMBVXkApOqRDH1sYUSbR98RJO5Atkf0LPzBAOqqmv9raSV51qCZ+YrqP+BM+Vs0qdM3M
-         IO6Z5YObdRt7xnKHND8jU4JCWOtV5RDD8KHMVe8jcJ4gp9slgw0JY52q+lZqMtwV5XQP
-         o6CNcBq6LDqbGzBqCTurK0kVdy8Up7mstJX3t0hgLD42fLYPbe5+JqCd/W1VYv7LgkiJ
-         drLQ==;
+        bh=s9Xsm/ouRy8rllw0+gW2As39+lMNLqayO0PK1J5oNAk=;
+        fh=3GceYLm4Sy/k1zqiFiSfY4srRpkEq8baFd9e8GQHLsE=;
+        b=lh5CI+AtH8Kg3febjBDvCewWfGpN77EKvNzFSh8VcnAO0/CA0rX7qd9hgmV2jVaSQU
+         chWY5wLO4B9pq2PwJ4nCov5BEx6dKS62B+QiM/Ej1G4QFYuwFLqzPvRlubUp5bczK9j2
+         CMozWkQsyrI0wRGanioGp0CXyEt4Nk3TWSJXikTocy6aM05b8rh1wXxWcPKwZEZ4Lboz
+         ltBydU3FymlZxqLVGt8xd7n1wYOKqnolwmIQlX2ve8Nvf1Esc7eaRuvKS7FklbyK7yks
+         Bs7cCDCTQ9UogKGbmebO7tDm4UrujPoGHLnFNkHSiG1OyU3OC69T9ZLSbPDpeliQqDAp
+         eTDw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779082744; x=1779687544; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779083670; x=1779688470; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YLIcqWTVpJE5E6ocMJoFGIXQYdlOWCw+6fTR5Kv3lQU=;
-        b=TB1liBXybDxhylVHUIX2k8rH+3bGu5CezB7CbliFSjzu9d6FVG/oVN+o0kyhOTC61i
-         pMHth3QkZcX+qf3rYgCqxDLSj4+mBDzQXyvCL78MxSl6RncYOLEkSmOMngkYrwHlOssD
-         1giQgsIU7WvFZXNqZ/C9jhOrXzCVKYoHKw5K6wMFAmF/nqsQPgUVkcgau72VMG6HtXlm
-         RRIcLFxare1tCEpdSxedDzwukENJ3+/0qldg6TCNc0BfIV8Dv7usIwKRWUrRZ7/0AwPv
-         p5vk5jf4kQgcF4mQ5kEMPfXCMnLuUlykxvlXkkxPtwN1pIbKXOuyxZpYZeze5Uh9H5AL
-         BgcQ==
+        bh=s9Xsm/ouRy8rllw0+gW2As39+lMNLqayO0PK1J5oNAk=;
+        b=bIOfyyrLlWXW9S5mSboke7I6WyFBcbibXmdMbtCd2GKycKGyFGrChCWZcpjUJfQiDV
+         PJcWEW2dPmZJYC/w942ursnqCCGPT4MpoWEIcUIzgAbjEGrpoz5cM72NWQg5dsJiKRKr
+         OEFORyufkLLRstvkWGyMmfVZrwRtXkwHnyCeX/u4axdH8oB0lDKy2nilzBxVxGU8DnIW
+         hD7ZTDTLxpt4cVTiJ5HRNlskE/aMNoXljrKbY0vCiCxzbW1Vbjl3C64iJunLxe+PFsKe
+         3Ax/Q1a7bGZStgYS5bQlFChPv+/Gr46e5W2cFl0pcdfdSUdOcCZLfDeq5k2uEtN53e6C
+         2/eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779082744; x=1779687544;
+        d=1e100.net; s=20251104; t=1779083670; x=1779688470;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=YLIcqWTVpJE5E6ocMJoFGIXQYdlOWCw+6fTR5Kv3lQU=;
-        b=L6hlHZH7mFVG8COHkfwW/gcR7SUnnP2VNfZVKF4V/lrChXD0tRtzv3B1mK/IXOg5xr
-         GtnQLzHAJ0gauPfcMZYzZMA3r6HfmzNvdyH63qtSmEfz30LZHunC1wWV/+9oxz6Hl1bX
-         YN/J04iwhI8RS5QT5zIlFwx+dRzMufL8fPxOWZ+k5QTRK6RRWgCSuzoGHDpJlNt126pY
-         BHs0qE1Rmx3YXC2VP8ujg2JmgNNyqBeIMdCpzOjskCuS7jeBYaBdTULHnHtJ32//SV52
-         72VdMkWqkYk4WUYGLD1UoI+YVXQGt7Pdv2qPQaZfzedjJsYvx1hPMLs4taQXbW9BtvsR
-         Wclg==
-X-Forwarded-Encrypted: i=1; AFNElJ9QVpsuzsK9V7i2MLiISHMBs6wHSUkL/ZwZreImlX5HY8CN2BrHejn/IFWbJXDi6V8hRMwB+DYKG3g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRtx4UT8EW3g0UZuUQjJ8eofgGGbmc0ryrwstx9waMJ0EV/NAI
-	tqe3eQ1ZyfMBZuQw/68M+01mte9AxbxsxPgpgjLY8HJtqP7GFhfP2JN/H2kBetVIdWk+qAt6Xpr
-	EsakjbftoTd3Rc/Y9IdLsZ+kPugDU0A==
-X-Gm-Gg: Acq92OHeSS2R0xypP/nSu/n+i0OWlCrDnXItaiN85AYhosSAdYMwdFdD227O7LoVkfe
-	PL9YpuVOmsYedw2FOAyC/OmXywusoBPxf1u8H4Jiu9dzJyE93pAwhOipuc1cIcJbJuwsZnBC57v
-	4X3p19BEl8x4QIKMBQZb5kZDYjQVjAjjxOvDdw/J4Qsojnc+eSRxGKxh9k897E4wznkT1vl3U+X
-	rRAF9VUSPAu2Ot4S5JsNtIGVVyKBNJeLwv5f/FbpJiv1sAM55StPibduKb89p0KVsGjfTqMeHpW
-	IUdGIAacBeJogir3rg==
-X-Received: by 2002:a05:7022:f9a:b0:132:5d31:dcb4 with SMTP id
- a92af1059eb24-1350483cd3bmr5446081c88.23.1779082744288; Sun, 17 May 2026
- 22:39:04 -0700 (PDT)
+        bh=s9Xsm/ouRy8rllw0+gW2As39+lMNLqayO0PK1J5oNAk=;
+        b=kcnsrkawA42UarsqDelY7cOn0sM2mO0Rk1xkbpWXqQO2pE6CF1Sepxyz9aygP9avUh
+         sI1m/AcUNMvw4F7VczQpDBHYuSz+lDGUlqEQsA0CBWX0w/ONGzpECW0FbNmBDoYXU0J8
+         txfAS3CZvocmkMc/ms9IhDmm88FhI1AUXEIyACUt0wLJ7qLdmRa+coJgkdhBqOleE8h4
+         Db7onvM/IRAsJvSr7tHLZm0/yYllDNWqb2Bg801z9GcgclCaLeI0be3VYlY423d4AmHA
+         nkG92fxeNvwSjLudmPYtaAUQ4krni254aO0b9MI7DIFlrYQTAa6IAAERteW7ZVcdvZQm
+         SDAg==
+X-Forwarded-Encrypted: i=1; AFNElJ8GS1CYU1uG5IkAfPXvOKf/zTWgWdi7o7jL4Es64irupI9SmuW5XOgKRLkoFINypmdOMBFv0GDE9dk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2hw/iAVHzC4kTH/YQZZKClSfOoixjF1WZJwN1De3p9YzPjXav
+	5IOyZP77C6NQ7NuonPSKzrYYqW9qrM+2kuT0bwwypSGP5YGrKYJrCWpzFUalcsSDeUO0ngNSI4Z
+	XSPyFxQufTMkoEc++5kR707eLIVXOPQ==
+X-Gm-Gg: Acq92OEF/EIuQjI5Qsc33hDW3nDNZs5J7tVkh8nYhJyjVf7jOE1Dg/QH5TgHimsI6yD
+	BLjssp017TIFzwIBM3d+N+juUjS3D0m8CDW193d1oMdo69VrVfrHbZCJbpYvKSgb+N3nafaYPTm
+	D7XTL42ggwEDhNKZc8O/HJMqwP4hkHz4UljrlQqXhGXTqHz9RlKR4J+mRm0nDkc4+K26UnDuYMt
+	nHZMl3fknhaL8bSnj2x+XPJOUXOKGOkomzZByxhKUSI0mZmRZGcbbC8GPWLu9KUZo8cS5V4gIvS
+	aab9Luo=
+X-Received: by 2002:a05:7022:ff42:b0:132:7ab5:6cb6 with SMTP id
+ a92af1059eb24-1350451da55mr5923196c88.2.1779083670222; Sun, 17 May 2026
+ 22:54:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260516210357.2247-5-ravis.opensrc@gmail.com> <20260517233756.89097-1-sj@kernel.org>
-In-Reply-To: <20260517233756.89097-1-sj@kernel.org>
+References: <20260516210357.2247-6-ravis.opensrc@gmail.com> <20260517234326.89365-1-sj@kernel.org>
+In-Reply-To: <20260517234326.89365-1-sj@kernel.org>
 From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Date: Sun, 17 May 2026 22:38:51 -0700
-X-Gm-Features: AVHnY4K2ub7Wht5Qs4RyrHgIQ9aprUqnUTmA2ZoG_aUhnEoirB9aJCACF4FE6fU
-Message-ID: <CALa+Y17nudor22aJvakfos3UegPgEG1M8N7cJPAxWX0Ca=MvfA@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/5] mm/damon/paddr: skip free pageblocks in migration walk
+Date: Sun, 17 May 2026 22:54:18 -0700
+X-Gm-Features: AVHnY4JSJ_v1VisgQmkmSmbMTe-WurEHckc4yzgeccnY1Ya-JDuePUsGS8NIYOs
+Message-ID: <CALa+Y17XTzjAK5ZyKAKZLN1cAE-+c+2DgqpmuHGWgjUAZMgkFg@mail.gmail.com>
+Subject: Re: [RFC PATCH 5/5] mm/damon/paddr: add time budget to migration page walk
 To: SeongJae Park <sj@kernel.org>
 Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
 	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
@@ -96,101 +96,47 @@ Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 17, 2026 at 4:38=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
+On Sun, May 17, 2026 at 4:43=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
 :
 >
-> On Sat, 16 May 2026 14:03:56 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail=
+> On Sat, 16 May 2026 14:03:57 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail=
 .com> wrote:
 >
-> > damon_pa_migrate() walks every PFN in a region linearly, calling
-> > damon_get_folio() for each one.  On sparse physical address spaces
-> > (e.g., CXL-attached memory), a single DAMON region can span hundreds
-> > of gigabytes where most memory is free and sitting in the buddy
-> > allocator.  Most page lookups are fruitless and dominate kdamond
-> > tick time.
+> > On populated physical address ranges the pageblock skip optimization
+> > alone is insufficient =E2=80=94 most pageblocks contain at least one al=
+located
+> > page, so the walk still iterates millions of PFNs.
 >
-> On sparse address spaces, the problem would be large DAMON regions of off=
-lined
-> memory.  The large DAMON regions that nearly all freed memory is another
-> problem that doesn't require the sparse address spaces.  If I'm not wrong=
-, the
-> above paragraph could better clarified in my opinion.
+> So my questions to the fourth patch of this series are also applied here,
+> especially about the assumption of systems having most memory free.  I wi=
+ll
+> hold digging deep here until the high level discussion is completed.
 >
-> >
-> > Check at pageblock boundaries (2MB on x86_64) whether the block is
-> > entirely free.  If the first page of a pageblock is a buddy page at
-> > pageblock_order or higher, the entire block is free and can be
-> > skipped.
-> > Similarly skip pageblocks where pfn_to_online_page() returns
-> > NULL.
-> >
-> > This reduces the iteration from O(region_sz / PAGE_SIZE) to
-> > O(region_sz / pageblock_sz) + O(populated_pages).
-> >
-> > buddy_order_unsafe() is used without zone->lock.  A transient false
-> > positive (block becomes non-free between the PageBuddy and order
-> > checks) costs at most one tick of missed candidates on that block;
-> > the next tick re-scans.  No correctness consequence as DAMON walks
-> > are best-effort.
->
-> I was initially thinking this is a good and reasonable optimization appro=
-ach.
-> But on the second thought I get below questions.
->
-> For large offlined memory space problem, couldn't we simply tune DAMON's
-> monitoring regions boundary to ignore the holes?
->
-> For large free memory area, is it reasonable to assume such situations?  =
-In
-> production, users will try to utilize as much memory of the system as pos=
-sible.
-> Then, wouldn't there be such problematically large free memory area?
->
-> Could you please enlighten me?
->
+Hello SJ,
 
-Hi SJ,
+Stepping back to look at this with fresh eyes, I think this
+patch is in the same bucket as patches 1 and 3 (full background
+on the patch 3 thread): it came out of the same parallel debug
+effort, where I was seeing long walks during the startup
+transient on a multi-hundred-GB monitored target -- before
+kdamond_split_regions() and damon_apply_min_nr_regions() had
+trimmed the initial regions down -- and was unsure whether
+those long walks were contributing to the NMI-side
+responsiveness issues I was chasing.
 
-You're right on the first point.  For static offlined memory
-holes (memory hotplug gaps, partial socket population, etc.) the
-right answer is configuring the monitoring region boundaries to
-exclude them upfront, not making the walk skip them at runtime.
-The changelog is clearer if I narrow the patch to the free-but-
-online case.
+Once the actual NMI problem was fixed and the per-region work
+in steady state is bounded by DAMON's region splitting (and by
+the scheme's quota when one is set), the per-call cost in
+damon_pa_migrate() is already small enough that the budget
+isn't doing useful work.  cond_resched() after damon_migrate_pages()
+covers the preemption case.
 
-On the free-online case: I agree large free memory areas are
-not the steady state on a fully-utilized system.  The cases I
-had in mind are more limited:
-
-   - A workload using a small part of a much larger range, with
-      the rest left as headroom (e.g. 64 GB used of a 512 GB
-      range).
-
-  - Shared tiers where workloads are allocated and freed on their own
-    timelines.  Any single piece of free memory doesn't last
-    long, but on a busy system there's typically a meaningful
-    free fraction in the range at any point -- especially on a
-    slower tier, where workloads prefer faster memory first
-    when it's available.
-
-The patch as written is a narrow optimization for those cases:
-the pageblock-aligned check is one extra read per
-pageblock_nr_pages PFNs (about 1 per 512 on x86_64), so it's
-effectively a no-op when the region is fully populated.
-
-If you don't see those workloads as warranting the change, I'm
-happy to drop the patch.  If the framing is the issue more than
-the change itself, I can respin a v2 with:
-
-  - the changelog narrowed to the free-but-online case (no
-    offlined-memory framing);
-  - any suggestions from you on sashiko's review comments.
+If a real workload later shows a per-region walk long
+enough to matter, I'll re-evaluate then with concrete numbers.
 
 Thanks,
 Ravi
 
-> I will hold digging deep until this high level questions are answered.
->
 >
 > Thanks,
 > SJ
