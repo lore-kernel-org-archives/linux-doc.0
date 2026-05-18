@@ -1,878 +1,154 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18823AE6F5
-	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 22:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E50B395D8E
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 22:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779143386; cv=none; b=iNdjavDun4hoiyBrHpgcrI/NwAPLQSQLHphApoKLLWN4+TinyHjoIcbMbHIS8LS8XU3gmltP+CE058CuuNhP0g8cVuDHp78fPHOledNblngNey7+41bzbOsk+qp69zwp7FzvMHTFDN1aw5gDc0AO5KKdnNl8hU7oZuG/FfPPexo=
+	t=1779144219; cv=none; b=aZ8z742QCAt2Vh/OAZUlxW2nQrdAJSXwSLT5N/JJJhLxfaJDnB5Qg+S1vk4qdSvgn/JJO6fpmeAmOzHPRyyUxdX8kJvK/EZrKMMhoOHRn/L3RkKiNZQB2DK6sctjWcG6ztUssGglRQPBIo3sim99fXJlDX6qnqY8L51W0mJs0WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779143386; c=relaxed/simple;
-	bh=sxtCNveEXSScc272gvYa7JrpLPKBU7HbODzVH8u8JlY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AtYTQEeiK4XFyipNPZ9Q5oTxY2lGtrRS0jW6n0cr7GK8T9dxcHnDjSgPx3Us/9giBX65D6X9n9qqwUz1UOW1zk3yoUb1zuicmFiMZpcPcF3KFo1PNpwZQlBNz84EQ4JEIginK0QLaoRoy31FFSraEnRobXNZIg8CT4A/rTYoQ7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kvo8WdWU; arc=none smtp.client-ip=74.125.82.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779144219; c=relaxed/simple;
+	bh=ZqxlUv6AphBiZDSxvrCBSCRC+/VdjzoWlIzND7rNfMs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q3mcpdYvzb5rgvf4WSj5VRkFuwOvq6q77OcTA5NIGQLOOeC6cg2d67CFpi/5Wdwf7h+rVav8U2T8jdj8TzF9XKxDQ4/eVEeiqqb6Qr0EPjFuynmgKjFbnOv8yAuK2ORBDSnEXoYSw4qPoZgJn14hcpV3VHXGD1Ium+37ybOzlIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jnLwwkQM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kvo8WdWU"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2f30a4601bbso2560295eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 15:29:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779143382; x=1779748182; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GRxZ3u2Hi+BMMX8nG/gX7RwOenwTyRaNlKQLpg2lkJw=;
-        b=Kvo8WdWUMWIXt5xWGPnI0jitA+DHp/OwcH99dl5aNPQ+AmwX1MSn0/LHSgMCLZ2/IA
-         A+aXhQjpxOOJZN3Mlv6mUaeJX93xTyJhTVzRNTQEVhm0c/j7ZVollA2byVh9Fzd7evPf
-         pDrR8LtrnKNeeO0sXcRb9Sz/hqaxsMa60XaeKlbohes/pAO0Ax66qnNkjTV1bhogakHo
-         fMB6o9hIkMOQJni+7r8/p9hHmZG1JGjdSK74f+rlzRikCyKdcJrFM+7WZOUnk7t3IJUw
-         WjMtDEvF9Xo8TBTOPGP+tArwW26VlWbc8pCiSJx/XfXTx6BsZqdnThA0T6RaCD6crnq9
-         KaHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779143382; x=1779748182;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GRxZ3u2Hi+BMMX8nG/gX7RwOenwTyRaNlKQLpg2lkJw=;
-        b=niQ6qIE4xckgY6/pK28GzZ+GeqWP1qDesOVfUFtREiA0ued/SMwDOFBnN1OH+OABG0
-         A6OtD99Tem1f+z344JAl1wflzifNF6RNGjTbv5kSa+GsgUokXM8EyEjwf7p/7rYDuLqt
-         7OFc7+FqJF8vKeVIlZJ0llOi5gxh+l/DysJ9N/UYor59cYCYBt5p7/ed6ULlE8eTkaK/
-         hxYRowoQ3qpoLvZvVj+ArYjgM3QsZVPqH+XMCAUufkYMBfNxLgCJ5bY+0+PkmTWNAkP7
-         El+4j3WzCqg8iHqsL/Jy5tvQ1VWGHWpawaRUz814RQteIp7UmAPMzWq7TTstXIHz/s5v
-         hZPA==
-X-Forwarded-Encrypted: i=1; AFNElJ92cApcOItXwqGTyi0LVCr7uaOCLm+vjgucwQTq5NOH5ZBEPPGjvTxKnqULqR5JYD+m3YMIimScTSs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzv+FsOJu4DkQe7Po+O/D2ySyqj/9nzZspmx4RrlcRkOU2N7wNn
-	dffy+yFmmI1oESAPg0suaYxVc2BTEe/v+ok6xGWvfQnn5Ixfuw4wgxaOGWH0ew==
-X-Gm-Gg: Acq92OHJFvLfMrYyIEl5GNMWUAbxDIAPaSZg1O8TfZ1a/GiTBSBj5txEJkhqo+F63zF
-	+e39AeLZq1Rgq6ESg7TJrmRj1HBrUhZfS/RIWhakphke5Vhma0y7S2OTmVRcFCCjlkfM9F1/nVC
-	RBCtt+gSsMJhjvdK8LwqPP9KLIs9saWLSR5tYxUzXNS298W1lDsT7aYVfQSe9CY3fAMhNuGH79j
-	ONHlAONWlDkL8GfwhkM6kacaCjmlKvAgZ8ESuHP+YyQ4X95fRYrqRIrtVZU053dVbagPGZwplzX
-	NPkbSxxdrzk2uepcaR5Hdo5Uj86WcUxK6jWZ9WqRuQbrz4t5Xb1Q7Sv6aZq+Yl7Xr9MI9qQHqvX
-	ktK5W2ZSdIpOssXvLmZr7GFBioux8SQpAx4y7d/V3cp8cj8wM7OdsLQNU4R1Q/FhFsHe1Z0K3W5
-	GM5IxMfc6bLUCwguefLJjC/rgmojnYksWNLQo3i3/unSscCKuWI0zin4OKjwSvxkgWk0vgrBkkc
-	I+Z
-X-Received: by 2002:a05:7301:1983:b0:2f3:a348:a2db with SMTP id 5a478bee46e88-303982bffb9mr7189564eec.10.1779143381944;
-        Mon, 18 May 2026 15:29:41 -0700 (PDT)
-Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30296dcc464sm15797095eec.14.2026.05.18.15.29.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 15:29:41 -0700 (PDT)
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-	Denis Benato <denis.benato@linux.dev>,
-	Zhouwang Huang <honjow311@gmail.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 3/4] HID: hid-msi: Add RGB control interface
-Date: Mon, 18 May 2026 22:29:34 +0000
-Message-ID: <20260518222935.1802071-4-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260518222935.1802071-1-derekjohn.clark@gmail.com>
-References: <20260518222935.1802071-1-derekjohn.clark@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jnLwwkQM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BBBAC2BCFA
+	for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 22:43:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779144219;
+	bh=ZqxlUv6AphBiZDSxvrCBSCRC+/VdjzoWlIzND7rNfMs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=jnLwwkQMSrXKmuTYoC8kFb+1DJ/go3KnenQZXQbnnWDMKKe8Jj3Fzm3HyLrQ0zheV
+	 fWwkQt3ckMrypK82sqP40r4dWhy/Sug1Az8mk5wtdqdi3B8OH285juzi22vXh0j4B4
+	 DUVPFgA0b1KVuKWxy8+/+DaAhru/iD/G3ca5MZBV4Onpr+/jbrySCFfaO++5TDEQvu
+	 3ogI98oJYBqD1C8zrDhoJ1leceekpoRlJDlxh07BKnKkng2BxQy7E7S80tlFJqWAgt
+	 IM9QYwIjrjB+uI75Gi/whUG4uhXcOaQc7yM0/nstduFPa55V4lKsPsP3u1KqoxhIWm
+	 csQ6T9UwG2PSg==
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-6314287380bso2059762137.3
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 15:43:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+sqH62l8dW2XGEikaTyQ8CcLmoV6c+K1kL/5TPY8+X3NlsTS7jbNJpdHgB8Qa2kpBqQh1qAy47eUM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzV+b2y1fozQ72XFWnh2Gn3/nTV8uQNR7reXzOROR2r8TLQzHAj
+	gkCGFnJGRVzXYfvJCt1rzMccFdWgVhJFhvr7WFwWxH631sz/tmzcGZgxukamKkxDb7AiRCDWyg3
+	fZTyGst6vhC4Fcn326x8xt5SmhOk6p+Y=
+X-Received: by 2002:a05:6102:1497:b0:632:eef7:4b7f with SMTP id
+ ada2fe7eead31-63a3f38ed3dmr9090434137.22.1779144217888; Mon, 18 May 2026
+ 15:43:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
+ <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
+ <CAGsJ_4xfznffbjOaNKwnN6oZk_H6pqOzYqd1zx4Q9XrocdzV8A@mail.gmail.com> <CADSE00LjJcL8P5M-UPEpzZijU70uEmUirnin29N8YR5W5D-oFg@mail.gmail.com>
+In-Reply-To: <CADSE00LjJcL8P5M-UPEpzZijU70uEmUirnin29N8YR5W5D-oFg@mail.gmail.com>
+From: Barry Song <baohua@kernel.org>
+Date: Tue, 19 May 2026 06:43:26 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4xwJ7SAhKPJyRtMTw6psTO7H1EcFFpDw0po1W8PX4FE8g@mail.gmail.com>
+X-Gm-Features: AVHnY4KEVuNU5LGUxbEGufPnQvVfof22PSDgrj8C9uNhmMZb-wsisqSstH9JT8s
+Message-ID: <CAGsJ_4xwJ7SAhKPJyRtMTw6psTO7H1EcFFpDw0po1W8PX4FE8g@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
+To: Albert Esteve <aesteve@redhat.com>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Christian Brauner <brauner@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, mripard@kernel.org, 
+	echanude@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adds RGB control interface for MSI Claw devices. The MSI Claw uses a
-fairly unique RGB interface. It has 9 total zones (4 per joystick ring
-and 1 for the ABXY buttons), and supports up to 8 sequential frames of
-RGB zone data. Each frame is written to a specific area of MCU memory by
-the profile command, the value of which changes based on the firmware of
-the device. Unlike other devices (such as the Legion Go or the OneXPlayer
-devices), there are no hard coded effects built into the MCU. Instead,
-the basic effects are provided as a series of frame data. I have
-mirrored the effects available in Windows in this driver, while keeping
-the effect names consistent with the Lenovo drivers for the effects that
-are similar.
+On Mon, May 18, 2026 at 8:16=E2=80=AFPM Albert Esteve <aesteve@redhat.com> =
+wrote:
+>
+> On Sat, May 16, 2026 at 9:37=E2=80=AFAM Barry Song <baohua@kernel.org> wr=
+ote:
+> >
+> > On Tue, May 12, 2026 at 5:18=E2=80=AFPM Albert Esteve <aesteve@redhat.c=
+om> wrote:
+> > >
+> > > On embedded platforms a central process often allocates dma-buf
+> > > memory on behalf of client applications. Without a way to
+> > > attribute the charge to the requesting client's cgroup, the
+> > > cost lands on the allocator, making per-cgroup memory limits
+> > > ineffective for the actual consumers.
+> > >
+> > > Add charge_pid_fd to struct dma_heap_allocation_data. When set to
+> > > a valid pidfd, DMA_HEAP_IOCTL_ALLOC resolves the target task's
+> > > memcg and charges the buffer there via mem_cgroup_charge_dmabuf()
+> > > inside dma_heap_buffer_alloc(). Without charge_pid_fd, and with
+> > > the mem_accounting module parameter enabled, the buffer is charged
+> > > to the allocator's own cgroup.
+> > >
+> > > Additionally, commit 3c227be90659 ("dma-buf: system_heap: account for
+> > > system heap allocation in memcg") adds __GFP_ACCOUNT to system-heap
+> > > page allocations. Keeping __GFP_ACCOUNT would charge the same pages
+> > > twice (once to kmem, once to MEMCG_DMABUF), thus remove it and route
+> > > all accounting through a single MEMCG_DMABUF path.
+> > >
+> > [...]
+> >
+> > > -               if (mem_accounting)
+> > > -                       flags |=3D __GFP_ACCOUNT;
+> >
+> > Hi Albert,
+> >
+> > would it be better to move this and its description to patch 1? It
+> > looks like patch 1 already introduces the double accounting changes,
+> > and patch 2 is mainly just supporting remote charging.
+>
+> Hi Barry,
+>
+> Thanks for looking into this series! Yes, in my head I was trying to
+> keep patch 1, which was taken from a previous, different series, and
+> then diverge from it starting with patch 2. This would clarify the
+> difference between the two. But I can see it just added some confusion
+> (for example, patch 1 charges on dma_buf_export() and then it is moved
+> to dma_heap_buffer_alloc() in patch 2). I will reorganize it better
+> for the next version, including your suggestion.
 
-Initial reverse-engineering and implementation of this feature was done
-by Zhouwang Huang. I refactored the overall format to conform to kernel
-driver best practices and style guides. Claude was used as an initial
-reviewer of this patch.
+Yep, I understand the situation now. I also understand
+that you were referring to T.J.'s patch, which caused
+some back-and-forth confusion for readers when reading
+patches 1 and 2.
 
-Assisted-by: Claude:claude-sonnet-4-6
-Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
-Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
----
-v6:
-  - Make all timeouts 25ms to ensure at least 2 jiffies in a 100Hz
-    config.
-  - Gate all attribute show/store functions with rgb_registered,
-    enabling use of devm_device_add_group.
-v5:
-  - Move adding the RGB device into cfg_setup to prevent led core
-    attributes from being written to prior to setup completing.
-  - Ensure frame_lock is properly init.
-  - Change variable names in RGB functions from frame and zone to f and
-    z respectively to fit all scoped_guard actions in 100 columns.
-v4:
-  - Fix frame_calc validity check to use >=.
-  - USe spinlock instead of mutex in raw_event and related attribute
-    _store function.
-  - Ensure delayed work is canceled in suspend & canceled before sysfs
-    attribute removal.
-v3:
-  - Add mutex for read/write of rgb frame data.
-  - Remove setting rgb_frame_count when reading rgb profiles as it always
-    returns garbage data.
-  - Ensure rgb_speed is getting drvdata from a valid lookup (not hdev).
-v2:
-  - Use pending_profile mutex
----
- drivers/hid/hid-msi.c | 596 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 587 insertions(+), 9 deletions(-)
+>
+> >
+> > Also, mem_accounting is only used by system_heap.c; has this patchset
+> > also eliminated its need?
+>
+> No, mem_accounting is still handled in this patch for the general case
+> where no `charge_pid_fd` is used. See dma_heap_buffer_alloc() code:
+>
+> +       if (memcg)
+> +               css_get(&memcg->css);
+> +       else if (mem_accounting)
+> +               memcg =3D get_mem_cgroup_from_mm(current->mm);
 
-diff --git a/drivers/hid/hid-msi.c b/drivers/hid/hid-msi.c
-index e58d35dba5b40..4d267b896da72 100644
---- a/drivers/hid/hid-msi.c
-+++ b/drivers/hid/hid-msi.c
-@@ -21,6 +21,7 @@
- #include <linux/device.h>
- #include <linux/hid.h>
- #include <linux/kobject.h>
-+#include <linux/led-class-multicolor.h>
- #include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-@@ -44,6 +45,10 @@
- 
- #define CLAW_KEYS_MAX		5
- 
-+#define CLAW_RGB_ZONES		9
-+#define CLAW_RGB_MAX_FRAMES	8
-+#define CLAW_RGB_FRAME_OFFSET	0x24
-+
- enum claw_command_index {
- 	CLAW_COMMAND_TYPE_READ_PROFILE =		0x04,
- 	CLAW_COMMAND_TYPE_READ_PROFILE_ACK =		0x05,
-@@ -72,6 +77,7 @@ enum claw_profile_ack_pending {
- 	CLAW_NO_PENDING,
- 	CLAW_M1_PENDING,
- 	CLAW_M2_PENDING,
-+	CLAW_RGB_PENDING,
- };
- 
- enum claw_key_index {
-@@ -230,6 +236,22 @@ static const struct {
- 	{ 0xff, "DISABLED" },
- };
- 
-+enum claw_rgb_effect_index {
-+	CLAW_RGB_EFFECT_MONOCOLOR,
-+	CLAW_RGB_EFFECT_BREATHE,
-+	CLAW_RGB_EFFECT_CHROMA,
-+	CLAW_RGB_EFFECT_RAINBOW,
-+	CLAW_RGB_EFFECT_FROSTFIRE,
-+};
-+
-+static const char * const claw_rgb_effect_text[] = {
-+	[CLAW_RGB_EFFECT_MONOCOLOR] =	"monocolor",
-+	[CLAW_RGB_EFFECT_BREATHE] =	"breathe",
-+	[CLAW_RGB_EFFECT_CHROMA] =	"chroma",
-+	[CLAW_RGB_EFFECT_RAINBOW] =	"rainbow",
-+	[CLAW_RGB_EFFECT_FROSTFIRE] =	"frostfire",
-+};
-+
- static const u16 button_mapping_addr_old[] = {
- 	0x007a,  /* M1 */
- 	0x011f,  /* M2 */
-@@ -240,6 +262,9 @@ static const u16 button_mapping_addr_new[] = {
- 	0x0164,  /* M2 */
- };
- 
-+static const u16 rgb_addr_old = 0x01fa;
-+static const u16 rgb_addr_new = 0x024a;
-+
- struct claw_command_report {
- 	u8 report_id;
- 	u8 padding[2];
-@@ -248,6 +273,28 @@ struct claw_command_report {
- 	u8 data[59];
- } __packed;
- 
-+struct rgb_zone {
-+	u8 red;
-+	u8 green;
-+	u8 blue;
-+};
-+
-+struct rgb_frame {
-+	struct rgb_zone zone[CLAW_RGB_ZONES];
-+};
-+
-+struct rgb_report {
-+	u8 profile;
-+	__be16 read_addr;
-+	u8 frame_bytes;
-+	u8 padding;
-+	u8 frame_count;
-+	u8 state; /* Always 0x09 */
-+	u8 speed;
-+	u8 brightness;
-+	struct rgb_frame zone_data;
-+} __packed;
-+
- struct claw_drvdata {
- 	/* MCU General Variables */
- 	enum claw_profile_ack_pending profile_pending;
-@@ -274,6 +321,18 @@ struct claw_drvdata {
- 	spinlock_t mode_lock; /* Lock for mode data read/write */
- 	const u16 *bmap_addr;
- 	bool bmap_support;
-+
-+	/* RGB Variables */
-+	struct rgb_frame rgb_frames[CLAW_RGB_MAX_FRAMES];
-+	enum claw_rgb_effect_index rgb_effect;
-+	struct led_classdev_mc led_mc;
-+	struct delayed_work rgb_queue;
-+	spinlock_t frame_lock; /* lock for rgb_frames read/write */
-+	bool rgb_registered;
-+	u8 rgb_frame_count;
-+	bool rgb_enabled;
-+	u8 rgb_speed;
-+	u16 rgb_addr;
- };
- 
- static int get_endpoint_address(struct hid_device *hdev)
-@@ -307,8 +366,11 @@ static int claw_gamepad_mode_event(struct claw_drvdata *drvdata,
- 
- static int claw_profile_event(struct claw_drvdata *drvdata, struct claw_command_report *cmd_rep)
- {
--	u8 *codes;
--	int i;
-+	struct rgb_report *frame;
-+	u16 rgb_addr, read_addr;
-+	u8 *codes, f_idx;
-+	u16 frame_calc;
-+	int i, ret = 0;
- 
- 	switch (drvdata->profile_pending) {
- 	case CLAW_M1_PENDING:
-@@ -318,6 +380,35 @@ static int claw_profile_event(struct claw_drvdata *drvdata, struct claw_command_
- 		for (i = 0; i < CLAW_KEYS_MAX; i++)
- 			codes[i] = (cmd_rep->data[6 + i]);
- 		break;
-+	case CLAW_RGB_PENDING:
-+		frame = (struct rgb_report *)cmd_rep->data;
-+		rgb_addr = drvdata->rgb_addr;
-+		read_addr = be16_to_cpu(frame->read_addr);
-+		frame_calc = (read_addr - rgb_addr) / CLAW_RGB_FRAME_OFFSET;
-+		if (frame_calc >= CLAW_RGB_MAX_FRAMES) {
-+			dev_err(&drvdata->hdev->dev, "Got unsupported frame index: %x\n",
-+				frame_calc);
-+			drvdata->profile_pending = CLAW_NO_PENDING;
-+			return -EINVAL;
-+		}
-+		f_idx = frame_calc;
-+
-+		scoped_guard(spinlock_irqsave, &drvdata->frame_lock) {
-+			memcpy(&drvdata->rgb_frames[f_idx], &frame->zone_data,
-+			       sizeof(struct rgb_frame));
-+
-+			/* Only use frame 0 for remaining variable assignment */
-+			if (f_idx != 0)
-+				break;
-+
-+			drvdata->rgb_speed = frame->speed;
-+			drvdata->led_mc.led_cdev.brightness = frame->brightness;
-+			drvdata->led_mc.subled_info[0].intensity = frame->zone_data.zone[0].red;
-+			drvdata->led_mc.subled_info[1].intensity = frame->zone_data.zone[0].green;
-+			drvdata->led_mc.subled_info[2].intensity = frame->zone_data.zone[0].blue;
-+		}
-+
-+		break;
- 	default:
- 		dev_dbg(&drvdata->hdev->dev,
- 			"Got profile event without changes pending from command: %x\n",
-@@ -326,7 +417,7 @@ static int claw_profile_event(struct claw_drvdata *drvdata, struct claw_command_
- 	}
- 	drvdata->profile_pending = CLAW_NO_PENDING;
- 
--	return 0;
-+	return ret;
- }
- 
- static int claw_raw_event(struct claw_drvdata *drvdata, struct hid_report *report,
-@@ -832,6 +923,441 @@ static const struct attribute_group claw_gamepad_attr_group = {
- 	.is_visible = claw_gamepad_attr_is_visible,
- };
- 
-+/* Read RGB config from device */
-+static int claw_read_rgb_config(struct hid_device *hdev)
-+{
-+	u8 data[4] = { 0x01, 0x00, 0x00, CLAW_RGB_FRAME_OFFSET };
-+	struct claw_drvdata *drvdata = hid_get_drvdata(hdev);
-+	u16 read_addr = drvdata->rgb_addr;
-+	size_t len = ARRAY_SIZE(data);
-+	int ret, i;
-+
-+	if (!drvdata->rgb_addr)
-+		return -ENODEV;
-+
-+	/* Loop through all 8 pages of RGB data */
-+	guard(mutex)(&drvdata->profile_mutex);
-+	for (i = 0; i < 8; i++) {
-+		drvdata->profile_pending = CLAW_RGB_PENDING;
-+		data[1] = (read_addr >> 8) & 0xff;
-+		data[2] = read_addr & 0x00ff;
-+		ret = claw_hw_output_report(hdev, CLAW_COMMAND_TYPE_READ_PROFILE, data, len, 25);
-+		if (ret) {
-+			drvdata->profile_pending = CLAW_NO_PENDING;
-+			return ret;
-+		}
-+		read_addr += CLAW_RGB_FRAME_OFFSET;
-+	}
-+
-+	return 0;
-+}
-+
-+/* Send RGB configuration to device */
-+static int claw_write_rgb_state(struct claw_drvdata *drvdata)
-+{
-+	struct rgb_report report = { 0x01, 0x0000, CLAW_RGB_FRAME_OFFSET, 0x00,
-+			drvdata->rgb_frame_count, 0x09, drvdata->rgb_speed,
-+			drvdata->led_mc.led_cdev.brightness };
-+	u16 write_addr = drvdata->rgb_addr;
-+	size_t len = sizeof(report);
-+	int f, ret;
-+
-+	if (!drvdata->rgb_addr)
-+		return -ENODEV;
-+
-+	if (!drvdata->rgb_frame_count)
-+		return -EINVAL;
-+
-+	guard(mutex)(&drvdata->rom_mutex);
-+	/* Loop through (up to) 8 pages of RGB data */
-+	for (f = 0; f < drvdata->rgb_frame_count; f++) {
-+		scoped_guard(spinlock_irqsave, &drvdata->frame_lock)
-+			report.zone_data = drvdata->rgb_frames[f];
-+
-+		/* Set the MCU address to write the frame data to */
-+		report.read_addr = cpu_to_be16(write_addr);
-+
-+		/* Serialize the rgb_report and write it to MCU */
-+		ret = claw_hw_output_report(drvdata->hdev, CLAW_COMMAND_TYPE_WRITE_PROFILE_DATA,
-+					    (u8 *)&report, len, 25);
-+		if (ret)
-+			return ret;
-+
-+		/* Increment the write addr by the offset for the next frame */
-+		write_addr += CLAW_RGB_FRAME_OFFSET;
-+	}
-+
-+	ret = claw_hw_output_report(drvdata->hdev, CLAW_COMMAND_TYPE_SYNC_TO_ROM, NULL, 0, 25);
-+
-+	return ret;
-+}
-+
-+/* Fill all zones with the same color */
-+static void claw_frame_fill_solid(struct rgb_frame *frame, struct rgb_zone zone)
-+{
-+	int z;
-+
-+	for (z = 0; z < CLAW_RGB_ZONES; z++)
-+		frame->zone[z] = zone;
-+}
-+
-+/* Apply solid effect (1 frame, no color) */
-+static int claw_apply_disabled(struct claw_drvdata *drvdata)
-+{
-+	struct rgb_zone off = { 0x00, 0x00, 0x00};
-+
-+	scoped_guard(spinlock_irqsave, &drvdata->frame_lock) {
-+		drvdata->rgb_frame_count = 1;
-+		claw_frame_fill_solid(&drvdata->rgb_frames[0], off);
-+	}
-+
-+	return claw_write_rgb_state(drvdata);
-+}
-+
-+/* Apply solid effect (1 frame, all zones same color) */
-+static int claw_apply_monocolor(struct claw_drvdata *drvdata)
-+{
-+	struct mc_subled *subleds = drvdata->led_mc.subled_info;
-+	struct rgb_zone zone = { subleds[0].intensity, subleds[1].intensity,
-+				 subleds[2].intensity };
-+
-+	scoped_guard(spinlock_irqsave, &drvdata->frame_lock) {
-+		drvdata->rgb_frame_count = 1;
-+		claw_frame_fill_solid(&drvdata->rgb_frames[0], zone);
-+	}
-+
-+	return claw_write_rgb_state(drvdata);
-+}
-+
-+/* Apply breathe effect (2 frames: color -> off) */
-+static int claw_apply_breathe(struct claw_drvdata *drvdata)
-+{
-+	struct mc_subled *subleds = drvdata->led_mc.subled_info;
-+	struct rgb_zone zone = { subleds[0].intensity, subleds[1].intensity,
-+				 subleds[2].intensity };
-+	static const struct rgb_zone off = { 0, 0, 0 };
-+
-+	scoped_guard(spinlock_irqsave, &drvdata->frame_lock) {
-+		drvdata->rgb_frame_count = 2;
-+		claw_frame_fill_solid(&drvdata->rgb_frames[0], zone);
-+		claw_frame_fill_solid(&drvdata->rgb_frames[1], off);
-+	}
-+
-+	return claw_write_rgb_state(drvdata);
-+}
-+
-+/* Apply chroma effect (6 frames: rainbow cycle, all zones sync) */
-+static int claw_apply_chroma(struct claw_drvdata *drvdata)
-+{
-+	static const struct rgb_zone colors[] = {
-+		{255,   0,   0},  /* red     */
-+		{255, 255,   0},  /* yellow  */
-+		{  0, 255,   0},  /* green   */
-+		{  0, 255, 255},  /* cyan    */
-+		{  0,   0, 255},  /* blue    */
-+		{255,   0, 255},  /* magenta */
-+	};
-+	u8 frame_count = ARRAY_SIZE(colors);
-+	int f;
-+
-+	scoped_guard(spinlock_irqsave, &drvdata->frame_lock) {
-+		drvdata->rgb_frame_count = frame_count;
-+
-+		for (f = 0; f < frame_count; f++)
-+			claw_frame_fill_solid(&drvdata->rgb_frames[f], colors[f]);
-+	}
-+
-+	return claw_write_rgb_state(drvdata);
-+}
-+
-+/* Apply rainbow effect (4 frames: rotating colors around joysticks) */
-+static int claw_apply_rainbow(struct claw_drvdata *drvdata)
-+{
-+	static const struct rgb_zone colors[] = {
-+		{255,   0,   0},  /* red   */
-+		{  0, 255,   0},  /* green */
-+		{  0, 255, 255},  /* cyan  */
-+		{  0,   0, 255},  /* blue  */
-+	};
-+	u8 frame_count = ARRAY_SIZE(colors);
-+	int f, z;
-+
-+	scoped_guard(spinlock_irqsave, &drvdata->frame_lock) {
-+		drvdata->rgb_frame_count = frame_count;
-+
-+		for (f = 0; f < frame_count; f++) {
-+			for (z = 0; z < 4; z++) {
-+				drvdata->rgb_frames[f].zone[z]     = colors[(z + f) % 4];
-+				drvdata->rgb_frames[f].zone[z + 4] = colors[(z + f) % 4];
-+			}
-+			drvdata->rgb_frames[f].zone[8] = colors[f];
-+		}
-+	}
-+
-+	return claw_write_rgb_state(drvdata);
-+}
-+
-+/*
-+ * Apply frostfire effect (4 frames: fire vs ice rotating)
-+ * Right joystick: fire red -> dark -> ice blue -> dark (clockwise)
-+ * Left joystick: ice blue -> dark -> fire red -> dark (counter-clockwise)
-+ * ABXY: fire red -> dark -> ice blue -> dark
-+ */
-+static int claw_apply_frostfire(struct claw_drvdata *drvdata)
-+{
-+	static const struct rgb_zone colors[] = {
-+		{255,   0,   0},  /* fire red */
-+		{  0,   0,   0},  /* dark     */
-+		{  0,   0, 255},  /* ice blue */
-+		{  0,   0,   0},  /* dark     */
-+	};
-+	u8 frame_count = ARRAY_SIZE(colors);
-+	int f, z;
-+
-+	scoped_guard(spinlock_irqsave, &drvdata->frame_lock) {
-+		drvdata->rgb_frame_count = frame_count;
-+
-+		for (f = 0; f < frame_count; f++) {
-+			for (z = 0; z < 4; z++) {
-+				drvdata->rgb_frames[f].zone[z]     = colors[(z + f) % 4];
-+				drvdata->rgb_frames[f].zone[z + 4] = colors[(z - f + 6) % 4];
-+			}
-+			drvdata->rgb_frames[f].zone[8] = colors[f];
-+		}
-+	}
-+
-+	return claw_write_rgb_state(drvdata);
-+}
-+
-+/* Apply current state to device */
-+static int claw_apply_rgb_state(struct claw_drvdata *drvdata)
-+{
-+	if (!drvdata->rgb_enabled)
-+		return claw_apply_disabled(drvdata);
-+
-+	switch (drvdata->rgb_effect) {
-+	case CLAW_RGB_EFFECT_MONOCOLOR:
-+		return claw_apply_monocolor(drvdata);
-+	case CLAW_RGB_EFFECT_BREATHE:
-+		return claw_apply_breathe(drvdata);
-+	case CLAW_RGB_EFFECT_CHROMA:
-+		return claw_apply_chroma(drvdata);
-+	case CLAW_RGB_EFFECT_RAINBOW:
-+		return claw_apply_rainbow(drvdata);
-+	case CLAW_RGB_EFFECT_FROSTFIRE:
-+		return claw_apply_frostfire(drvdata);
-+	default:
-+		dev_err(drvdata->led_mc.led_cdev.dev,
-+			"No supported rgb_effect selected\n");
-+		return -EINVAL;
-+	}
-+}
-+
-+static void claw_rgb_queue_fn(struct work_struct *work)
-+{
-+	struct delayed_work *dwork = container_of(work, struct delayed_work, work);
-+	struct claw_drvdata *drvdata = container_of(dwork, struct claw_drvdata, rgb_queue);
-+	int ret;
-+
-+	if (!drvdata->rgb_registered)
-+		return;
-+
-+	ret = claw_apply_rgb_state(drvdata);
-+	if (ret)
-+		dev_err(drvdata->led_mc.led_cdev.dev,
-+			"Failed to apply RGB state: %d\n", ret);
-+}
-+
-+static ssize_t effect_store(struct device *dev,
-+			    struct device_attribute *attr,
-+			    const char *buf, size_t count)
-+{
-+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
-+	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
-+	int ret;
-+
-+	if (!drvdata->rgb_registered)
-+		return -ENODEV;
-+
-+	ret = sysfs_match_string(claw_rgb_effect_text, buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	drvdata->rgb_effect = ret;
-+	mod_delayed_work(system_wq, &drvdata->rgb_queue, msecs_to_jiffies(50));
-+
-+	return count;
-+}
-+
-+static ssize_t effect_show(struct device *dev,
-+			   struct device_attribute *attr, char *buf)
-+{
-+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
-+	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
-+
-+	if (!drvdata->rgb_registered)
-+		return -ENODEV;
-+
-+	if (drvdata->rgb_effect >= ARRAY_SIZE(claw_rgb_effect_text))
-+		return -EINVAL;
-+
-+	return sysfs_emit(buf, "%s\n", claw_rgb_effect_text[drvdata->rgb_effect]);
-+}
-+
-+static DEVICE_ATTR_RW(effect);
-+
-+static ssize_t effect_index_show(struct device *dev,
-+				 struct device_attribute *attr, char *buf)
-+{
-+	int i, count = 0;
-+
-+	for (i = 0; i < ARRAY_SIZE(claw_rgb_effect_text); i++)
-+		count += sysfs_emit_at(buf, count, "%s ", claw_rgb_effect_text[i]);
-+
-+	if (count)
-+		buf[count - 1] = '\n';
-+
-+	return count;
-+}
-+static DEVICE_ATTR_RO(effect_index);
-+
-+static ssize_t enabled_store(struct device *dev,
-+			     struct device_attribute *attr,
-+			     const char *buf, size_t count)
-+{
-+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
-+	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
-+	bool val;
-+	int ret;
-+
-+	if (!drvdata->rgb_registered)
-+		return -ENODEV;
-+
-+	ret = kstrtobool(buf, &val);
-+	if (ret)
-+		return ret;
-+
-+	drvdata->rgb_enabled = val;
-+	mod_delayed_work(system_wq, &drvdata->rgb_queue, msecs_to_jiffies(50));
-+
-+	return count;
-+}
-+
-+static ssize_t enabled_show(struct device *dev,
-+			    struct device_attribute *attr, char *buf)
-+{
-+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
-+	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
-+
-+	if (!drvdata->rgb_registered)
-+		return -ENODEV;
-+
-+	return sysfs_emit(buf, "%s\n", drvdata->rgb_enabled ? "true" : "false");
-+}
-+static DEVICE_ATTR_RW(enabled);
-+
-+static ssize_t enabled_index_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "true false\n");
-+}
-+static DEVICE_ATTR_RO(enabled_index);
-+
-+static ssize_t speed_store(struct device *dev, struct device_attribute *attr,
-+			   const char *buf, size_t count)
-+{
-+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
-+	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
-+	unsigned int val, speed;
-+	int ret;
-+
-+	if (!drvdata->rgb_registered)
-+		return -ENODEV;
-+
-+	ret = kstrtouint(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val > 20)
-+		return -EINVAL;
-+
-+	/* 0 is fastest, invert value for intuitive userspace speed */
-+	speed = 20 - val;
-+
-+	drvdata->rgb_speed = speed;
-+	mod_delayed_work(system_wq, &drvdata->rgb_queue, msecs_to_jiffies(50));
-+
-+	return count;
-+}
-+
-+static ssize_t speed_show(struct device *dev, struct device_attribute *attr,
-+			  char *buf)
-+{
-+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
-+	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
-+	u8 speed = 20 - drvdata->rgb_speed;
-+
-+	if (!drvdata->rgb_registered)
-+		return -ENODEV;
-+
-+	return sysfs_emit(buf, "%u\n", speed);
-+}
-+static DEVICE_ATTR_RW(speed);
-+
-+static ssize_t speed_range_show(struct device *dev,
-+				struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "0-20\n");
-+}
-+static DEVICE_ATTR_RO(speed_range);
-+
-+static void claw_led_brightness_set(struct led_classdev *led_cdev,
-+				    enum led_brightness _brightness)
-+{
-+	struct led_classdev_mc *led_mc = container_of(led_cdev, struct led_classdev_mc, led_cdev);
-+	struct claw_drvdata *drvdata = container_of(led_mc, struct claw_drvdata, led_mc);
-+
-+	if (!drvdata->rgb_registered)
-+		return;
-+
-+	mod_delayed_work(system_wq, &drvdata->rgb_queue, msecs_to_jiffies(50));
-+}
-+
-+static struct attribute *claw_rgb_attrs[] = {
-+	&dev_attr_effect.attr,
-+	&dev_attr_effect_index.attr,
-+	&dev_attr_enabled.attr,
-+	&dev_attr_enabled_index.attr,
-+	&dev_attr_speed.attr,
-+	&dev_attr_speed_range.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group claw_rgb_attr_group = {
-+	.attrs = claw_rgb_attrs,
-+};
-+
-+static struct mc_subled claw_rgb_subled_info[] = {
-+	{
-+		.color_index = LED_COLOR_ID_RED,
-+		.channel = 0x1,
-+	},
-+	{
-+		.color_index = LED_COLOR_ID_GREEN,
-+		.channel = 0x2,
-+	},
-+	{
-+		.color_index = LED_COLOR_ID_BLUE,
-+		.channel = 0x3,
-+	},
-+};
-+
- static void cfg_setup_fn(struct work_struct *work)
- {
- 	struct delayed_work *dwork = container_of(work, struct delayed_work, work);
-@@ -846,16 +1372,44 @@ static void cfg_setup_fn(struct work_struct *work)
- 		return;
- 	}
- 
--	/* Add sysfs attributes after we get the device state */
--	ret = devm_device_add_group(&drvdata->hdev->dev, &claw_gamepad_attr_group);
-+	ret = claw_read_rgb_config(drvdata->hdev);
- 	if (ret) {
- 		dev_err(&drvdata->hdev->dev,
--			"Failed to setup device, can't create gamepad attrs: %d\n", ret);
-+			"Failed to setup device, can't read RGB config: %d\n", ret);
- 		return;
- 	}
--	drvdata->gamepad_registered = true;
-+
-+	/* Add sysfs attributes after we get the device state */
-+	if (!drvdata->gamepad_registered) {
-+		ret = devm_device_add_group(&drvdata->hdev->dev, &claw_gamepad_attr_group);
-+		if (ret) {
-+			dev_err(&drvdata->hdev->dev,
-+				"Failed to setup device, can't create gamepad attrs: %d\n", ret);
-+			return;
-+		}
-+		drvdata->gamepad_registered = true;
-+	}
-+
-+	/* Add and enable RGB interface once we have the device state */
-+	if (!drvdata->rgb_registered) {
-+		ret = devm_led_classdev_multicolor_register(&drvdata->hdev->dev, &drvdata->led_mc);
-+		if (ret) {
-+			dev_err(&drvdata->hdev->dev,
-+				"Failed to setup device, can't create led device: %d\n", ret);
-+			return;
-+		}
-+
-+		ret = devm_device_add_group(drvdata->led_mc.led_cdev.dev, &claw_rgb_attr_group);
-+		if (ret) {
-+			dev_err(&drvdata->hdev->dev,
-+				"Failed to setup device, can't create led attributes: %d\n", ret);
-+			return;
-+		}
-+		drvdata->rgb_registered = true;
-+	}
- 
- 	kobject_uevent(&drvdata->hdev->dev.kobj, KOBJ_CHANGE);
-+	kobject_uevent(&drvdata->led_mc.led_cdev.dev->kobj, KOBJ_CHANGE);
- }
- 
- static void cfg_resume_fn(struct work_struct *work)
-@@ -874,18 +1428,24 @@ static void claw_features_supported(struct claw_drvdata *drvdata)
- 
- 	if (major == 0x01) {
- 		drvdata->bmap_support = true;
--		if (minor >= 0x66)
-+		if (minor >= 0x66) {
- 			drvdata->bmap_addr = button_mapping_addr_new;
--		else
-+			drvdata->rgb_addr = rgb_addr_new;
-+		} else {
- 			drvdata->bmap_addr = button_mapping_addr_old;
-+			drvdata->rgb_addr = rgb_addr_old;
-+		}
- 		return;
- 	}
- 
- 	if ((major == 0x02 && minor >= 0x17) || major >= 0x03) {
- 		drvdata->bmap_support = true;
- 		drvdata->bmap_addr = button_mapping_addr_new;
-+		drvdata->rgb_addr = rgb_addr_new;
- 		return;
- 	}
-+
-+	drvdata->rgb_addr = rgb_addr_old;
- }
- 
- static int claw_probe(struct hid_device *hdev, u8 ep)
-@@ -900,6 +1460,7 @@ static int claw_probe(struct hid_device *hdev, u8 ep)
- 		return -ENOMEM;
- 
- 	drvdata->gamepad_mode = CLAW_GAMEPAD_MODE_XINPUT;
-+	drvdata->rgb_enabled = true;
- 	drvdata->hdev = hdev;
- 	drvdata->ep = ep;
- 
-@@ -910,14 +1471,27 @@ static int claw_probe(struct hid_device *hdev, u8 ep)
- 	if (!drvdata->bmap_support)
- 		dev_dbg(&hdev->dev, "M-Key mapping is not supported. Update firmware to enable.\n");
- 
-+	drvdata->led_mc.led_cdev.name = "msi_claw:rgb:joystick_rings";
-+	drvdata->led_mc.led_cdev.brightness = 0x50;
-+	drvdata->led_mc.led_cdev.max_brightness = 0x64;
-+	drvdata->led_mc.led_cdev.color = LED_COLOR_ID_RGB;
-+	drvdata->led_mc.led_cdev.brightness_set = claw_led_brightness_set;
-+	drvdata->led_mc.num_colors = 3;
-+	drvdata->led_mc.subled_info = devm_kmemdup(&hdev->dev, claw_rgb_subled_info,
-+						   sizeof(claw_rgb_subled_info), GFP_KERNEL);
-+	if (!drvdata->led_mc.subled_info)
-+		return -ENOMEM;
-+
- 	mutex_init(&drvdata->cfg_mutex);
- 	mutex_init(&drvdata->profile_mutex);
- 	mutex_init(&drvdata->rom_mutex);
- 	spin_lock_init(&drvdata->cmd_lock);
- 	spin_lock_init(&drvdata->mode_lock);
-+	spin_lock_init(&drvdata->frame_lock);
- 	init_completion(&drvdata->send_cmd_complete);
- 	INIT_DELAYED_WORK(&drvdata->cfg_resume, &cfg_resume_fn);
- 	INIT_DELAYED_WORK(&drvdata->cfg_setup, &cfg_setup_fn);
-+	INIT_DELAYED_WORK(&drvdata->rgb_queue, &claw_rgb_queue_fn);
- 
- 	/* For control interface: open the HID transport for sending commands. */
- 	ret = hid_hw_open(hdev);
-@@ -979,10 +1553,14 @@ static void claw_remove(struct hid_device *hdev)
- 		return;
- 	}
- 
-+	/* Block writes to brightness/multi_intensity during teardown */
-+	drvdata->led_mc.led_cdev.brightness_set = NULL;
- 	cancel_delayed_work_sync(&drvdata->cfg_setup);
- 	cancel_delayed_work_sync(&drvdata->cfg_resume);
-+	cancel_delayed_work_sync(&drvdata->rgb_queue);
- 
- 	drvdata->gamepad_registered = false;
-+	drvdata->rgb_enabled = false;
- 
- 	hid_hw_close(hdev);
- }
--- 
-2.53.0
+I see. What feels a bit odd to me is that mem_accounting
+could either be dropped (with unconditional charging), or
+it should cover both remote and local charge cases.
 
+I don=E2=80=99t have a strong opinion here=E2=80=94it just feels a bit
+strange, since its description is quite generic for memcg:
+
+"Enable cgroup-based memory accounting for dma-buf heap
+allocations (default=3Dfalse)."
+
+Best Regards
+Barry
