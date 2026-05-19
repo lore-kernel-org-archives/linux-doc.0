@@ -1,296 +1,129 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E873F0ABA
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 09:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779182246; cv=pass; b=u8l+9xHAPOH5MJ7y+JnR7ka54kDXqEEAhxTuxp3wRDFWaSvKU/vb9N65r75XtWIrGKxNffyADhnMRRiKwHTdGGNwiyKaXbcmg59byTlOSH/XO33p142Ndk1ASIgnfC1+eCR90r5z4/Yiy94sN2u17tii9TufmWk5Iq2r1LFp/L4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779182246; c=relaxed/simple;
-	bh=ahxcxmkOaihabfP2WFI6asNswH1uQirOjdb0LjAlcss=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HSSDf1c+H2D2TZoyuTIbhy6BZPextEg7xrhln1OfX85Z60kmYa+Rls/wZwUmCrKzUJLw4vmyLT38DL1zmomJvWVCsURmLuFCmiA1E7/5eDrCH1/BW5iKKKDv00G6R6qbpJ1IM6sy8pKLXqbQ9wSLOFrNMo8LgY5b9Mqm+reQQgU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AOW9Nv7j; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qvia8Yl1; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7811B3DFC9C;
+	Tue, 19 May 2026 09:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779182584; cv=none; b=FyBFe89EVvjQmSyOYcElJH5uRGQKsvArqbvVOLLJz/7mwcBasu8eUdAtbz+sX03wcKx1h7bBFGASvD3t/DDL9iExlxJ8n8pdx2TcL2erLflnFKUUyF0qRg0NvOmBQWoGuacq6UqTazHpTcVYvdk3A5jk9xj+4BKJDyaX72ctA0A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779182584; c=relaxed/simple;
+	bh=zoicHgt9O7RSwyA/8Yt8+UfNI+ddUfsokmOgEX1CF+Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YsvWjaY0eIaD01iaX+Znfs7ZqgCAAoq4YeRw0rhmBpA3XPvIoVkNAdvCvkxethh2BeFhZR1Gh4wIVgBE9o0W6JJXBQpluYalxTXcQ9L/ctgA04BpTxflS7R6McnH0mH8KHILwtCWCE5EdY+blBXPpSVvmM/XuSyH+Sh/nqiwBWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pddg1vFT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AOW9Nv7j";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qvia8Yl1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779182244;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ahxcxmkOaihabfP2WFI6asNswH1uQirOjdb0LjAlcss=;
-	b=AOW9Nv7jZW7A/9LRrVY1xHXznWasUh1Wxqnz8dOcz38erHhs24ZomgdQvO/AV+uAh2hB2s
-	B5M7oaaIr6uYO/1lhIGSndNfPYg/JO5sJQJf1WSUOmoNbzAAaDYT1nK/wXOoLZ0XUWEa1/
-	CbNFTGjs5deKwgxCNveR9vIw2tp/Nas=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-207-auZ7tebsM8eHg6XjP5_oog-1; Tue, 19 May 2026 05:17:22 -0400
-X-MC-Unique: auZ7tebsM8eHg6XjP5_oog-1
-X-Mimecast-MFC-AGG-ID: auZ7tebsM8eHg6XjP5_oog_1779182242
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-7c24193e2b8so52549637b3.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 02:17:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779182242; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZX8Don92vFmZgtQoJgJTBnXizQWBUFHanOKJ/1etmMsb392KXz0rQ3HHy4d2ReS5WY
-         i2+wasN5i5E9NupKgBGHvHKcupConCwFWI8X+11GjWRPq7xlyTTkYhv73RMmRuERxc8k
-         bQBCXiFnlJ1VUDi4gMAVJ9+KjS48I4a27wnMeNapBuLk78q/tLfdlKQRuyMmzWsmrBgM
-         EhkEseXCiizvc5I+gLG7OhnVR6q0wXc5h/qkb40DBWT5L4EW2rGGvIr4BTtiEbojhU7u
-         Qw82mxthFqwUndubLuEdFpUh4M0FSif3eafyZcOselnTY+obJSwSzRhmJISq/Z9cOqIs
-         OC0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ahxcxmkOaihabfP2WFI6asNswH1uQirOjdb0LjAlcss=;
-        fh=pbs2LBp4oNKslimPn2lqZXduNuEybt4g2uUAlqp5nJA=;
-        b=dr4RQwfVTXLWItGHrzHwmmpii4TXXWz+qhXsoyIFihnAhlp0H9NFuV/4jV3Sxs7FSf
-         9Puf+g8dqE0+b8EDcjXGz6GkT+TA9jP1j5sUgfe+zIz4FouSKU4AINIUVn6mYNb49guj
-         nxtl+7jOAB/+VzSmIThvAFH0AzOnFFIAonyuoXOLa9hA6iil47aE0diENUU+8UdWmVXB
-         wQuMQ3zLiIcMpySdpW3uiMKOo1K2XPv9N6yCk8pTOPeKOuj16e8MflpSqiALp9tIyli3
-         BnWbprJlDZlf0Lfu1x89cyLKABINHreJ5nPT/9CujA3lc/HHyhcvr2XJXjh6xtXZWO5N
-         68ug==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779182242; x=1779787042; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ahxcxmkOaihabfP2WFI6asNswH1uQirOjdb0LjAlcss=;
-        b=qvia8Yl1VZBOEkQ86mS3aIVG1q8FX6h42hqISIixHt0A1lAeoANof82medLl6SbTC3
-         cUO8xorSlCTK++u+4yVlN0vmpI8HJ367/nIuxoWC1isBD27Wig/2OMKkYMO38QPaiLIX
-         vXL5233zvsFfIobVXoaiflR4ahGM0uUXaZFM8gb3vtRkcENHgWy8JLu56GHAp9WuK8qy
-         v4KusyLi37P5MnD3/N3p8quc3k1QMk9WyTAwaNRn+P5JqRuWuiDjZzDJPH/7S7zXpi7Z
-         big8Jox/ATLs3U9uyxFzDG25wvmOFvvSWmELbArKwjVnBP2nVsHzL391vCVlnPbTlkMe
-         u3HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779182242; x=1779787042;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ahxcxmkOaihabfP2WFI6asNswH1uQirOjdb0LjAlcss=;
-        b=s1uxj94Oi4HrZjwp0IjTHCa5l2HE4TYlghATM5hTBMXN+hentRvqm5P2yNsz2Gr+3h
-         gBbnlmnYf+NnF9Q+bx4psXldD5jqSn3bL3Bvz/Frln6lPX1v+afmDt8QLjHt5xWaTr3T
-         5xCzCK3vqxwrGvTHSDC5M7RgnLO6BxDjzRO4TertZgSYC5TeOqNuh4JmlHcufZDsJnu0
-         KdIryIXppAi20QfAWepguvVuiG4rYr/Mtu2aUKF97dCh5cJ66LS8MlGBmWdO0ZQFu5PG
-         GF1wl0yYaa7fD7IWNh36rSNWTZaMj9gSZTtVNkjdxGFfakbZVasQWn4RUiUN2MAxt8Qy
-         sIig==
-X-Forwarded-Encrypted: i=1; AFNElJ8LOnu95zqIPvPqdcFFmoieB5iaWXeaFeRSdhcTleYD1wXtGYIrHYHC7IhFlgIrw11eNjRsIH3Cznc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzw105kjzSvKVPwIjO0zaGXSkYAvWJqaj5yGBXxo4LRdnSAdper
-	GU+ojL7dWw15zbptgnQ3WAn1jvFihS0zpmETUi6xPrFiDtK/qZ9ts+rVuxV8s4/pg29qg7MUDc/
-	x1o7O0xeu65CQ7TNuZBCz3C/Q2j1XDahNvWXcA/10QhkqzX+g5heCxw8h7KTS+FjwZFoj+7M1D8
-	Sv85dljmnWQ+8FHk+CvKm4staWWZ6OCEvZMjNn
-X-Gm-Gg: Acq92OFtRw7EjA2rUzGi6vChZ7tPYFmueb3kwctbJQRAsgl2G8grUyaPsrXHggt7FnV
-	CXNxout92urzdjpHJ5SVwJwXhqZ2KOQVmX0X1IHKFQyND3j9s6blFRlIpVcZvReOB9lVj4Fw3Vp
-	B08pqgTzZgrd2qoIRuzo8gqeGKTT/e+ysJpNE8bnSDQBEFYykbH1SSRHd4+tFs6xslcL7+0qmqv
-	xs/VA==
-X-Received: by 2002:a05:690c:c513:b0:7b4:f43f:1a23 with SMTP id 00721157ae682-7c95d1d5de1mr201683217b3.34.1779182241800;
-        Tue, 19 May 2026 02:17:21 -0700 (PDT)
-X-Received: by 2002:a05:690c:c513:b0:7b4:f43f:1a23 with SMTP id
- 00721157ae682-7c95d1d5de1mr201682637b3.34.1779182241263; Tue, 19 May 2026
- 02:17:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pddg1vFT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E254C2BCF5;
+	Tue, 19 May 2026 09:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779182584;
+	bh=zoicHgt9O7RSwyA/8Yt8+UfNI+ddUfsokmOgEX1CF+Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pddg1vFTCh1TukRUY0V4DNXlP+8KxkotVm9cx5a5akZSkmQJ2odYwd7pIU7+gpN8o
+	 tjnTCiM6/13XkQQSXuYmQgFOrTGugiwyU3kRtQwS2IODoBrZ7q7zh7FOMKoDxx0rAC
+	 j90xHw17PtS7VJf8jLbE5Ip8FJ1I34Ecj92IuWCahEDAWSHrugL4oHETq6VF4I7apI
+	 7lnaIJeLEOkYQhkCLSJ0unrz036rF1qkVLag1PEMQzH3HpPi8I/AKnC5G2n+PxRCOj
+	 trB4WR4fNvfFR8Xi7XF1qaU6TzsDFqRnPEGBM0N2wC8Sl12aJtCDOew9X21WHmJL5V
+	 RkVR7MV9cgSLw==
+Message-ID: <d12b5738-ca14-40aa-930f-eddf3199818d@kernel.org>
+Date: Tue, 19 May 2026 11:22:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <8ef38815-6ae9-4359-86d4-042554357639@amd.com> <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
- <CADSE00Jq_uvNgvxgPze0mEdUd+hF4-DPZkHy0KroWHZzygf4WA@mail.gmail.com>
- <CABdmKX3DhejYBis9htLDnzPrG7vuF3R3URLVNEbnyd61SSsx=g@mail.gmail.com>
- <CAGsJ_4zyecY6E-=Tm4_couT7uoM9LMcFdTMUPkZAjj4zUKE-dQ@mail.gmail.com>
- <cb84c2ee-9de1-4565-b2e0-60984721228f@amd.com> <CADSE00Lc42s2bzXzV5D7t1Enf56u4BVj-yXLp3Yxhm0=qMPvuw@mail.gmail.com>
- <9cc79977-9a42-40eb-bfa7-460881c1e10f@amd.com>
-In-Reply-To: <9cc79977-9a42-40eb-bfa7-460881c1e10f@amd.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Tue, 19 May 2026 11:17:09 +0200
-X-Gm-Features: AVHnY4IPueDokk-vXqsRnZz3u8JK7NQGe3IxviX_AiFOJ3NwW-K39W0igYKchDQ
-Message-ID: <CADSE00Lxti-MabrZq9KWijRxTHX49NOAV=hMdfLdqKrj-C=Jug@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 2/5] dma-heap: charge dma-buf
- memory via explicit memcg
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Barry Song <baohua@kernel.org>, "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri- <devel@lists.freedesktop.org>, 
-	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, mripard@kernel.org, echanude@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 09/10] dt-bindings: firmware: add arm,ras-cper
+To: Ahmed Tiba <ahmed.tiba@arm.com>, rafael@kernel.org, bp@alien8.de,
+ saket.dumbre@intel.com, will@kernel.org, xueshuai@linux.alibaba.com,
+ mchehab@kernel.org, krzk+dt@kernel.org, dave@stgolabs.net,
+ conor+dt@kernel.org, vishal.l.verma@intel.com, jic23@kernel.org,
+ corbet@lwn.net, guohanjun@huawei.com, dave.jiang@intel.com,
+ catalin.marinas@arm.com, lenb@kernel.org, tony.luck@intel.com,
+ skhan@linuxfoundation.org, djbw@kernel.org, alison.schofield@intel.com,
+ ira.weiny@intel.com, robh@kernel.org
+Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
+ linux-cxl@vger.kernel.org, Michael.Zhao2@arm.com,
+ acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
+References: <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-0-42698675ba61@arm.com>
+ <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-9-42698675ba61@arm.com>
+ <5fb43b8d-e772-42af-ba78-d75abd87bd0c@kernel.org>
+ <8bc812fd-cda5-485f-98d2-4901ec17c66f@arm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <8bc812fd-cda5-485f-98d2-4901ec17c66f@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 19, 2026 at 9:53=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> On 5/18/26 14:06, Albert Esteve wrote:
-> >>>>> udmabufs are already
-> >>>>> memcg-charged, so adding a separate MEMCG_DMABUF would double count=
-.
-> >>>>> Are there any other exporters you had in mind that would benefit fr=
-om
-> >>>>> this approach?
-> >>
-> >> Well apart from DMA-buf memfd_create() is one of the things which as b=
-roken our neck in the past a couple of times.
-> >>
-> >> But thinking more about it what if instead of making this DMA-buf heap=
-s specific what if we have a general cgroups function which allows to chang=
-e accounting of a buffer referenced by a file descriptor to a different pro=
-cess?
-> >>
-> >> That would cover not only the DMA-buf heaps use case, but also all oth=
-er DMA-buf with dmem and whatever we come up in the future as well.
-> >
-> > I removed a draft adding an ioctl for charge transfer from the series
-> > before sending because I wanted to focus on the charge_pid_fd approach
-> > and keep things simple, deferring the recharge path to a follow-up
-> > depending on feedback.
-> >
-> > The main difference between my removed draft and what you're
-> > describing, iiuc, is scope and layer: my draft was an explicit ioctl
-> > on the dma-buf fd that the consumer calls to claim the charge (see
-> > below), while you seem to be suggesting a more general kernel-internal
-> > function that could work across buffer types and cgroup controllers,
-> > so not necessarily userspace-initiated? A kernel-internal function
-> > will need a way to identify the target process, which sounds similar
-> > to the binder-backed approach from TJ [1]. For everything else, the
-> > receiver still needs to declare itself, which the ioctl accomplishes.
-> >
-> > ```
-> > # When an app imports a daemon-allocated buffer, it can transfer the
-> > charge to itself:
-> > int buf_fd =3D receive_dmabuf_from_daemon();
-> > ioctl(buf_fd, DMA_BUF_IOCTL_XFER_CHARGE); /* charge now attributed to
-> > apps's cgroup */
->
-> Well that thinking goes into the right direction, but the requirements ar=
-e still not completely covered as far as I can see.
->
-> Let me explain below a bit more.
->
-> >
-> > [1] https://lore.kernel.org/cgroups/20230109213809.418135-1-tjmercier@g=
-oogle.com/
-> >
-> >>
-> >> The only drawback I can see is that DMA-buf heap allocations would be =
-temporarily accounted to the memory allocation daemon, but I don't think th=
-at this would be a problem.
-> >
-> > The main reasons we moved away from TJ's transfer-based approach
-> > toward `charge_pid_fd` are: avoid the transient charge window on the
-> > daemon's cgroup; and to decouple from Binder, allowing any allocator
-> > to use it.
->
-> Yeah those concerns are completely correct.
->
-> The application should not volunteering says 'Charge that buffer to me.',=
- but rather that the daemon says force charge that buffer to this applicati=
-on and tell me when the application is over its limit.
->
-> >
-> > Technically, both approaches could coexist, though. Of the three
-> > scenarios TJ described:
-> > - Scenario 2 is directly addressed by charge_pid_fd approach without
-> > any transient charge on the daemon at the cost of one extra field in
-> > the heap ioctl uAPI struct.
->
-> Yeah extending the uAPI to pass in the pid on allocation time is not much=
- of a problem, but you also need to modify the whole stack above it and tha=
-t is a bit more trickier.
->
-> > - Scenario 3 can be handled by the charge transfer function without
-> > changes to SurfaceFlinger. The app or dequeueBuffer claims the charge
-> > for itself or the app, respectively (depending on whether we include a
-> > pid_fd field in the transfer ioctl). It also covers non-heap
-> > exporters. The con in both variants is the transient charge window on
-> > the daemon.
->
-> It should be trivial for the deamon to charge the buffer to an applicatio=
-n before handing it out.
+On 19/05/2026 11:02, Ahmed Tiba wrote:
+> On 19/05/2026 08:04, Krzysztof Kozlowski wrote:
+>> On 18/05/2026 13:57, Ahmed Tiba wrote:
+>>> Describe the DeviceTree node that exposes the Arm firmware-first
+>>> CPER provider and hook the file into MAINTAINERS so the
+>>> binding has an owner.
+>>>
+>>> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+>>
+>> Please implement previous comments.
+> 
+> Could you please clarify which previous DT comments you still see
+> as unaddressed?
+> 
+> My understanding was that I had addressed the earlier points on the YAML
+> description formatting, the `memory-region` description text, and the
+> example. If I missed a specific item beyond the one below, please point 
+> me to it.
 
-Yeah, true.
+You do not need other nodes for your device in the example. I asked why
+this is needed for the example, but there was no answer.
 
->
-> > Both approaches shift the responsibility for correct charging
-> > attribution to userspace: first, 'charge_pid_fd` on the allocator's
-> > side, and the transfer charge on the consumer's side.
->
-> Yeah that's why I said it would be better if we do that without any uAPI =
-change, but with all the uAPI we have to transfer file descriptors (dup(), =
-fork(), passing FDs over sockets etc...) it could be really tricky to imple=
-ment that.
->
-> > Deciding on one, the other or both depends on how much we value
-> > avoiding transient attribution, and how much we need a non-heap
-> > generic solution. With the XFER_CHARGE we can cover both. Thus, the
-> > `charge_pid_fd` approach in this RFC can be seen as a
-> > performance/strictness optimisation, eliminating transient charges to
-> > the daemon at the cost of a permanent uAPI addition to the heap ioctl
-> > struct, but not strictly required for correctness.
->
-> Well all we need is a uAPI which says charge this buffer (file descriptor=
-) to that cgroup (pidfd).
 
-So you favor having only the XFER_CHARGE variant. That is fine with me.
-If that is fine for others also that could be the way forward. If we
-extend it to accept either a pidfd or a cgroup fd (as commented
-previously), we can cover all dma-buf use cases with a single
-primitive:
-```
-ioctl(buf_fd, DMA_BUF_IOCTL_XFER_CHARGE, charge_fd);
-```
-With the daemon invoking this ioctl before handing out the buf_fd.
-
-This should cover most usecases? Except for the memfd case, which
-requires a separate mechanism. That would be follow-up work.
-
->
-> With this at hand we should be able to handle all use cases at the same t=
-ime.
->
-> > On the other hand,
-> > if we agree on the end goal of migrating other exporters to use
-> > dma-buf heaps
->
-> That won't work. DMA-buf heaps is actually only a rather small and Anroid=
- specific use case.
->
-> We have tons of other interfaces to allocate DMA-bufs which need to stay =
-around because of HW restrictions and we do need a solution for them as wel=
-l.
->
-> Regards,
-> Christian.
->
-> >, and scenario 3 is addressed by adding the app's pid_fd
-> > to SurfaceFlinger, then `charge_pid_fd` alone is a coherent/sufficient
-> > approach despite the uAPI change.
-> >
-> >>
-> >> Regards,
-> >> Christian.
-> >>
-> >>>
-> >>> Thanks
-> >>> Barry
-> >>
-> >
->
-
+Best regards,
+Krzysztof
