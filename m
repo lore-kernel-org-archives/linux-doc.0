@@ -1,296 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B41037CD42;
-	Tue, 19 May 2026 06:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C20A3164B4
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 06:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779171556; cv=none; b=KryuVhXrwqstyV+8pZFKyg3UVRo9wwlP2cKQIQxV+cg8+GxijJKnxsnofwGmVWVwlmvyoFH+LJkyAaJi7BAOs8nRjLacIj180G8vVcWEItfC+UpBNpgTEQUddRygiLTfnlyVHeI11rFq1mRVSMPdYxvmP2m2ethyjdk1X9cV4Qw=
+	t=1779172156; cv=none; b=fxA1He6VwCBjVF1rWAPpm4KHA6nG397NQCzCzycizg8W8fz/xrzo1OQkK/0YCSRgBeApVlWCYCidlEPU6RZxsLKfm75L2orLz/fkJWjsrobRXB0qnHdTfBmR7tknJavKZyro/4eRbpqzDCTrkipi/O+14eYZdmv2JOgiCdxmHwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779171556; c=relaxed/simple;
-	bh=F9T026scRHGaX752RNU0g51fdoRwtQ0Pcs9BEJSWy2Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TE4OYr0zGVqP8d36PoN9z3L1Tnsy+IRRm0R5+MLcOnxzbCue99Bn9KmXZRU/Qbcpb5vIX3tIaRLEff+UiHNNsTiLvfh66nl2TsxPPCxtzTxL0fGp/R27L1hnubc/6fT/inHRXBAvHbvm5n92jZEU8lCR5Sal3x5wevRKxDtbwWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZdLklr+7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779172156; c=relaxed/simple;
+	bh=cAdSMAiT0vq3CRylRYsNX7wN26CtymDogFCBpjbtyWY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=E5ffulJW0oi/dHXX2B+8CLrigHRVaUDWv+zvUgF3EQlnCHZg3KhkOk7LybnUc2R2v2myN+UliUY2DlwgloAuP42ETOZHtPRC4pqNQ7Z5XiDw0vEkLcLIVG4CMfvsXSbLy3rrbawWVNQSTKuxKpF9TGeI+EBZAseonJMnJe0Zx9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RFa9B29C; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZdLklr+7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CFCCC2BCB3;
-	Tue, 19 May 2026 06:19:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779171555;
-	bh=F9T026scRHGaX752RNU0g51fdoRwtQ0Pcs9BEJSWy2Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZdLklr+7zLiqo2iVrv5PcJCs0zUOe2xhV1o+dSilRnptjvT3RM54iUiga025A9O5d
-	 UXansClNWubwn4qY1NEr62/2zy5D5G2pKnNEiZ36w2miymfTLjlV8muw862pgdbzqv
-	 fi50mwa9KkwKMkyzsmu/XwSGp7DBWBl9FjXgHPcv915003jFN14Sdq69yM+XuQ7HoH
-	 zS+nO1AmiAKtlVbhW2wAQht9ykObjr5gWPn3szXCxdPl/+IeJoA+HWo8KLknjNxR9U
-	 vWBSfLcGNNJx8vZeX85hyMeakm1aJGQBHWPtrT/J8JmCA4Y2YvLqiajQjpj3VOLeTx
-	 qfsVnPfKnSHcQ==
-From: SeongJae Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com,
-	bharata@amd.com,
-	Akinobu Mita <akinobu.mita@gmail.com>
-Subject: Re: [RFC PATCH 0/7] mm/damon: hardware-sampled access reports + AMD IBS Op example
-Date: Mon, 18 May 2026 23:19:04 -0700
-Message-ID: <20260519061905.89681-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260516223439.4033-1-ravis.opensrc@gmail.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RFa9B29C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779172154; x=1810708154;
+  h=date:from:to:cc:subject:message-id;
+  bh=cAdSMAiT0vq3CRylRYsNX7wN26CtymDogFCBpjbtyWY=;
+  b=RFa9B29CPu0OrzO2zTVKPlMfgilGRwAbkucVIcse6mM1bzmqHPEdEdYf
+   I8oFst1Ab5C/je1oAQfifIz+bq/8VaigBNEX7y3f12+RhpnDObzvesTHu
+   ps2o+AVs3RkfG5oSBRZeWqKxpg0d4eYsclDbpZB9cJBk1SrnCyU/F3wsO
+   I+GbF1LjuOI0WVGMkUZjtHq7IvfQ72m8eDsukTzGp/n3WaN2Ioqepb4x0
+   L14ok7doGlKsdIYtq086Ck89qgXcPVeIbBcQMQKkO+1QmFpEszcSwKQG3
+   R+QUkeJ1kjLAgJ5NTcaGfB+zlq96KeLi2l3ypr4yzupr9DoBHrz44f7+g
+   g==;
+X-CSE-ConnectionGUID: MqsRM+fqQuKyovqebJJ4OQ==
+X-CSE-MsgGUID: eTrNcp3tQzKowLc3aobQ8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="91434366"
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="91434366"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 23:29:13 -0700
+X-CSE-ConnectionGUID: ujYmqk63TxiT2f3G135c6g==
+X-CSE-MsgGUID: DbA2ljC3T2yNhCOqT3JetA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="236664579"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 18 May 2026 23:29:11 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wPDwz-00000000A6n-3XBb;
+	Tue, 19 May 2026 06:29:09 +0000
+Date: Tue, 19 May 2026 08:28:21 +0200
+From: kernel test robot <lkp@intel.com>
+To: Louis Sautier <sautier.louis@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Warning: drivers/scsi/mpt3sas/Kconfig references a
+ file that doesn't exist: Documentation/hwmon/mpt3sas.rst
+Message-ID: <202605190857.DUejkpQ7-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-+ Akinobu
+tree:   https://github.com/intel-lab-lkp/linux/commits/Louis-Sautier/scsi-mpt3sas-add-IO-Unit-Page-7-config-accessor/20260519-030206
+head:   82f70fb1a3a62df368d90847eec6afb9adbf9d2e
+commit: 82f70fb1a3a62df368d90847eec6afb9adbf9d2e scsi: mpt3sas: add hwmon support
+date:   11 hours ago
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260519/202605190857.DUejkpQ7-lkp@intel.com/reproduce)
 
-Hello Ravi,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605190857.DUejkpQ7-lkp@intel.com/
 
-On Sat, 16 May 2026 15:34:25 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+All warnings (new ones prefixed by >>):
 
-> Hi all,
-> 
-> This is an RFC, not for merge.  The series exercises and validates
-> damon_report_access() -- the consumer API SeongJae introduced in [1]
-> -- as a substrate for ingesting access reports from hardware-sampling
-> sources.  The series includes one worked-example backend, an AMD IBS
-> Op module (damon_ibs.ko), that runs on Zen 3+ silicon via the
-> existing perf event subsystem.
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
+>> Warning: drivers/scsi/mpt3sas/Kconfig references a file that doesn't exist: Documentation/hwmon/mpt3sas.rst
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
 
-Thank you for sharing this great RFC series!
-
-[...]
-> Why a hardware-source primitive complements existing primitives
-> ===============================================================
-[...]
-> Both primitives produce a view of hotness that converges to the
-> true distribution over the aggregation interval.  For systems where
-> the address space is small relative to the aggregation rate, this is
-> the right tool.  On large heterogeneous-memory systems with goal-
-> driven schemes asking the closed-loop tuner to converge on a target
-> distribution, a complementary lower-latency view of accesses can
-> tighten the loop -- reducing the time DAMON's nr_accesses takes to
-> reflect the workload's actual access distribution, which in turn
-> reduces ramp duration and oscillation amplitude during convergence
-> of goal-driven schemes.
-> 
-> A hardware-sampling primitive provides this complementary view:
-> hardware retirement records each access at its natural event rate,
-> with a physical address per sample, independent of TLB state and
-> independent of the unmap/fault path.
-
-Yes, I fully agree.  Different multiple access check primitives have different
-characteristics.
-
-[...]
-
-> Demonstration
-> =============
-[...]
-> In both regimes, convergence to target is quick, and the workload's
-> measured DRAM share then holds within 1.3 percentage points of
-> target with standard deviation under 1.3 percentage points, sustained
-> over runs of 15-30 minutes per target.
-
-I understand this demonstration shows your AMD IBS-based version of DAMON is
-functioning as expected.  Thank you for sharing this!
-
-[...]
-> What's in this series
-> =====================
-> 
->   Patch 1.  mm/damon/core: refcount ops owner module to prevent
->             rmmod UAF
->   Patch 2.  mm/damon/paddr: export damon_pa_* ops for IBS module
->   Patch 3.  mm/damon/core: replace mutex-protected report buffer
->             with per-CPU lockless ring
->   Patch 4.  mm/damon/core: flat-array snapshot + bsearch in ring-
->             drain loop
->   Patch 5.  mm/damon: add sysfs binding and dispatch hookup for
->             paddr_ibs operations
->   Patch 6.  mm/damon/core: accept paddr_ibs in node_eligible_mem_bp
->             ops check
->   Patch 7.  mm/damon/damon_ibs: add AMD IBS-based access sampling
->             backend
-> 
-> Patches 1, 3, and 4 are general infrastructure that benefits any
-> consumer of damon_report_access().  Patches 2, 5, 6, and 7 are the
-> worked-example backend (paddr_ibs ops, sysfs binding, IBS module).
-
-I didn't read the detailed code of each patch.  But my high level understanding
-is as below.
-
-Patches 1 and 2 are needed for supporting loadable module-based DAMON operation
-sets (access sampling backend).
-
-Patch 3 is needed for supporting access check primitives that can provide the
-access information in only nmi context.  It can also speedup the access
-reporting in general, though.
-
-Patch 4 makes DAMON's internal reported access information retrieval faster, so
-will help any reporting-based DAMON operation set use case.
-
-Patches 5-7 are required for only the IBS-based DAMON operations set
-(paddr_ibs).
-
-So I agree patch 4 is a general infrastructure improvement that benefits
-multiple use cases.
-
-Patch 3 is also arguably general infrastructure improvement, as it will make
-the reporting faster in general.
-
-Patch 1 is not technically coupled with paddr_ibs, and will be needed for
-general loadable module based access check primitives.  But, should we support
-lodable modules?  If so, why?
-
-Patch 2 is also not technically coupled with paddr_ibs, to my understanding, so
-should be categorized together with patch 1?  In other words, if we agree we
-should support lodable modules based DAMON operation sets, this should be
-useful for not only paddr_ibs but more general cases.
-
-Correct me if I'm wrong.
-
-> 
-> 
-> Patches worth folding into damon/next
-> =====================================
-> 
-> Patches 1, 3, and 4 are not specific to IBS or to this RFC's
-> backend.  Each is preparatory infrastructure that any consumer of
-> damon_report_access() will need:
-> 
->   - Patch 1 (refcount ops owner) -- any modular ops set, including
->     out-of-tree backends, needs clean module unload to avoid UAF
->     on damon_unregister_ops.
->   - Patch 3 (per-CPU lockless ring) -- damon_report_access() cannot
->     be called from NMI context with the current mutex-protected
->     buffer.  Hardware samplers all need NMI-safe submission.
->   - Patch 4 (flat-array snapshot + bsearch drain) -- the linear-
->     scan drain is O(reports x regions) and exceeds the sample
->     interval at high-CPU x large-region products.  Bsearch brings
->     it to O(reports x log regions).
-> 
-> If these belong directly on damon/next as preparatory patches for
-> damon_report_access() rather than living inside an IBS-specific
-> track, we are happy to rebase and resend them that way.
-
-So I'm bit unsure about patch 1.  If we don't have a plan to support lodable
-modules based DAMON operations set, we might not need it for now.
-
-For patches 3 and 4, I agree those will be useful in general.  Nonetheless, I'd
-slightly prefer to do that optimizations at the later part of the long term
-project.
-
-> 
-> 
-> Relation to prior and ongoing work
-> ==================================
-> 
-> The IBS sampling pattern in patch 7 -- attr.config=0 to use IBS Op
-> default config, dc_phy_addr_valid filter, NMI-safe sample submission
-> -- is derived from concepts in Bharata B Rao's pghot RFC v5 [3].
-> The attribution header is in mm/damon/damon_ibs.c and the patch
-> carries a Suggested-by: trailer.
-> 
-> Bharata's pghot v7 [4] introduces a different IBS driver targeting
-> the new IBS Memory Profiler (IBS-MProf) facility, which Bharata
-> describes as a facility "that will be present in future AMD
-> processors" -- a separate IBS instance from the one this RFC's
-> backend uses. This version of driver based out of v5 [3] is an
-> example of how DAMON can be benefited from AMD IBS Hardware
-> source and validates importance of IBS information indepedently.
-> It is not meant to be merged in the current form.
-> @Bharata if you see a path where IBS samples can be consumed
-> by DAMON at some point, will be happy to collaborate.
->  
-> Akinobu Mita's perf-event-based access-check RFC [5] explores a
-> configurable perf-event-driven access source for DAMON.  IBS has
-> vendor-specific MSR setup beyond what perf_event_attr alone
-> expresses (e.g. dc_phy_addr_valid filtering on the produced sample,
-> not on the perf attr), so the IBS path here appears complementary
-> to [5] -- operators choose based on whether their hardware sampler
-> fits stock perf or needs additional kernel-side setup.
-
-So apparently there are multiple approaches to develop and use h/w-based access
-monitoring.  Akinobu and you are trying to do that using DAMON as the frontend,
-and already made the working prototypes.  There were more people who showed
-interest and will to contribute to this project other than you, too.  I 100%
-agree h/w-based access monitoring can be useful, and I of course thinking using
-DAMON as the fronend is the right approach.  I'm all for making this
-upstreamed.
-
-I was therefore spending time on thinking about in what long-term maintainable
-shape this capability can successfully be upstreamed.  I suggested
-damon_report_access() as the internal interface between DAMON and the h/w-based
-access check primitives, and apparently we all (I, Ravi and Akinobu in this
-context) agreed.  Akinobu thankfully revisioned his implementation based on
-damon_report_access() interface.  Ravi also implemented this RFC based on the
-interface.
-
-After making the consensus with Akinobu, I was taking time on the user space
-interface.  When I was discussing with Akinobu, my idea was extending the user
-interface for the page faults based monitoring v3 [1].  But, recently I decided
-to make this more general, so proposed data attributes monitoring extension [2]
-at LSFMMBPF.  The patch series for the initial change [3] is merged into mm-new
-for more testing, today.  The cover letter of the patch series is also sharing
-how it will be extended for h/w based access monitoring in long term.
-
-I of course want us to go in this direction.  I believe you already had chances
-to take a look on the long term plan and didn't make some voice because you
-don't strongly disagree about the plan.  If not, please make a voice.
-
-Assuming you don't have concern on the long term plan yet, I will take time to
-write down more formal and detailed plan.  It will explain the overall roadmap,
-timeline and how we could collaborate.  On top of that, we could further
-discuss.
-
-> 
-> 
-> Specific asks
-> =============
-> 
-> To SeongJae:
-> 
->   1. Patches 1, 3, and 4 are infrastructure that benefits any consumer
->      of damon_report_access(), not just the IBS backend in this RFC.
->      Would these belong directly on damon/next as preparatory patches
->      for damon_report_access(), rather than living inside an
->      IBS-specific track?  Happy to rebase and resend them that way if
->      you'd prefer that shape.  Tested-by: tags can come along.
-
-I'm still thinking about how we can collaborate well.  The answer for the above
-question would be a part of that.  In other words, I have no good answer right
-now, sorry.  Could you please give me more time to think more and share the
-plan?  I will share the plan as another mail.  On the thread, we could further
-discuss.  Of course, we could have DAMON beer/coffee/tea chats [4] like
-additional discussions before/after/during the plan discussion.
-
-So, long story short, we agreed this project (h/w-based data access monitoring)
-should be upstreamed.  But give me little more time on thinking about how we
-will do it and collaborate.  It will take some time.  Please bear in mind.
-Sorry for making you wait, but I pretty sure and promise that we will
-eventually make it.
-
-[1] https://lore.kernel.org/20251208062943.68824-1-sj@kernel.org
-[2] https://lwn.net/Articles/1071256/
-[3] https://lore.kernel.org/20260518234119.97569-1-sj@kernel.org
-[4] https://docs.google.com/document/d/1v43Kcj3ly4CYqmAkMaZzLiM2GEnWfgdGbZAH3mi2vpM/edit?usp=sharing
-
-
-Thanks,
-SJ
-
-[...]
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
