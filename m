@@ -1,187 +1,329 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907744D2EF2;
-	Tue, 19 May 2026 12:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EAC3F4DC5;
+	Tue, 19 May 2026 12:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779192934; cv=none; b=q/qBt2SY+Mk6UZiGDjuVtEPhACh18JfqlJJlwmPQh0AA1iOnDLjLAUZYjZUh2FNPwOjnUWbTZ1hSVy2w7qNWteE4JNl6FJ7owvODoP/Gv8JvVDA/OuJ/wEPwTwH3KdYhizSRA52T0kC/+lcP/r/Yth9/046HZPZY89tXgkulBo0=
+	t=1779193242; cv=none; b=bltsr6qhcG7cYcy6zTTgJ/zsXpdtG9OAZBqjG1VgGaHe8OyCY8OEk5NIuvMnTnBA/a6pwldTTOvewt0b4NVcy6T+0fxAjwXOmxOb94S5BHCC3VdwEqZWSLGB+1c8oP2YG04xv4IKOxXTr3CIVAqr1Zfx3PS6kEAIGdFgtl+GSxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779192934; c=relaxed/simple;
-	bh=CXx/u3vKSJnWVOiDDZPhI2ckjfwxBaTk6Gv3lKidhY0=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=JTnHVYEN5J+1UwA6p4zviLBojXuW/QSNzmYDs/NItDDpDsL6iu2BkXqbAHDGVofF+gw8sPGqvyJPhZc6ikzCmi61Pvy5TGzZzaON6zAP7WdjN90Gm4U5G1fEh5NTr5pwUsJqj1CcNsSUM6QEhjo+rATMR1B6UkeFIgvuz9LSxCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=FUkKNPvA; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1779193242; c=relaxed/simple;
+	bh=8av/kJ9kA0sa1b8pBI5r56i7v9Q1hZvi5vRA9smgQjU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=s8l2iRsqSGFcBHhBrCZM4UgPjUlVWve1Uo9NRZblaj9sMXcHT6xBC5wxmDXJF0T5z4vRzhEtVy2O7yAX+hoJkffLIsMg7NoaoszEYorD28ZUmktDjRSbH0IyUdjHftQVxzkmM6U5Dl8VgHFeH/zkAqsoJt37sbt6Pqs11mOSlE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XQWXcyD0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="FUkKNPvA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1779192886; x=1779797686; i=markus.elfring@web.de;
-	bh=TJVCrmpS/0Yu8FOvt1EMzOtMTmBXYYMBLETUzrErVFw=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=FUkKNPvAnbwFc8wBE1oYYqlr3z897iUirAo7YjaAtN8nz2/hkpl6a9tnTp4af0Yu
-	 3dwy5Binv5WthqO16E7e51/aEg1zSlsU4Dw7ERJHxOjPKPZ5F4FOs9UUphvXNzup2
-	 vqOaKuOy3b4TJUNQgzadajswVXzuC4ezBEI7jFijMVBZRfyLMuLEHDhufdLrK6rOY
-	 Am6//xF2cx82iJvdx8wSA9Ms9KBfOzLP+eKB5goRgP1+XJaUkK1Ve0a+6qet9qQ3d
-	 pSh1vzvCNUqlwZG8xrivRboFyqTzgQsZ7Fey/btoDtoOt8p8xR92pIZ4uZigjwxJ/
-	 VxmLi+dW+do9g7hfDg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MPaMQ-1wlmAm3MCg-00RF4c; Tue, 19
- May 2026 14:14:46 +0200
-Message-ID: <5e0d72fa-929a-4905-9066-6648892bef4a@web.de>
-Date: Tue, 19 May 2026 14:14:34 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XQWXcyD0"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D2D87C2BCC6;
+	Tue, 19 May 2026 12:20:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779193241;
+	bh=8av/kJ9kA0sa1b8pBI5r56i7v9Q1hZvi5vRA9smgQjU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=XQWXcyD0L8rWeTkVN5JmIMhwTosjB/3bgRJE1c0tV9uD0qWwAOVNAbkXUzC+yHtY4
+	 phixY3eXrmcC8yqU8bD7MGeXENkqvUttOy2d3LkzKQuL0gVU7X1FM6VkYxMF4Ce1Sh
+	 62Xda/ca0WGCSa6sJ5K0xU7Gsb9Yy+zCYmmnGDK6tyalIh+K1pxUBtY2+9RiLDWv9R
+	 7IM1HCobecQ/p9f+4RBmAyR4km8izamrHOZY99ue0ang651B1gu0K7GjOAKBJhDEwu
+	 64YgvklFe7GL4gMdqI8TkCg8Wj6UXT3HMxeDnX6/UWjPS6LI0gkCOaxguK8NM6DPlf
+	 k+Y7hHToxtE1g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C26A8CD4F5B;
+	Tue, 19 May 2026 12:20:41 +0000 (UTC)
+From: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Date: Tue, 19 May 2026 15:20:22 +0300
+Subject: [PATCH v12 1/6] dt-bindings: iio: adc: add AD4691 family
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>,
- =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Shuah Khan <skhan@linuxfoundation.org>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Bharath Kumar <quic_bkumar@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Will Deacon <will@kernel.org>
-References: <20260519-qda-series-v1-9-b2d984c297f8@oss.qualcomm.com>
-Subject: Re: [PATCH 09/15] accel/qda: Add DMA-backed GEM objects and memory
- manager integration
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260519-qda-series-v1-9-b2d984c297f8@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:bRsIFpvwYiV1tO+OIATn8QYrABXSKCixA8cn8eN58JZxMSBs7wm
- Scnwmh4u29DLaKlpE3M2zIzB7s04okUO0pdJKSpBOp1VG870ii+pWVStg9i9JES8W5a5v6k
- SMRdE3zw2m1nLAaLNP17bD9Q1p4Z1+ID/USnLfBqChpHul92p2PN2ntTq6s3A6cpWBI1VlL
- XXD8bYrG6xbZjpM5Wqkgw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:bQNescsDjyI=;IsRfxZgLSPDLEqdpF+zDe/1mMIu
- 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
- 2xwz4YiawcJRtkMOEW2Yp9mwtGo=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260519-ad4692-multichannel-sar-adc-driver-v12-1-5b335162aa51@analog.com>
+References: <20260519-ad4692-multichannel-sar-adc-driver-v12-0-5b335162aa51@analog.com>
+In-Reply-To: <20260519-ad4692-multichannel-sar-adc-driver-v12-0-5b335162aa51@analog.com>
+To: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Radu Sabau <radu.sabau@analog.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779193239; l=7809;
+ i=radu.sabau@analog.com; s=20260220; h=from:subject:message-id;
+ bh=zmIoPMOYWOcJrqI//dWqHawVi5T3cjP8oiFlmAKz5cM=;
+ b=eLeAGfPufSTaRYvK09a6oiPuMKxvUURSN+JvMr4RsmwHQgifNDhdYU+qRuZwy/op70x/d+7xj
+ gJnUwnV0VTcCmzQbZS5bRhT2WUEODzLPnEku3MCFZoEJo7LvU9MfGo/
+X-Developer-Key: i=radu.sabau@analog.com; a=ed25519;
+ pk=lDPQHgn9jTdt0vo58Na9lLxLaE2mb330if71Cn+EvFU=
+X-Endpoint-Received: by B4 Relay for radu.sabau@analog.com/20260220 with
+ auth_id=642
+X-Original-From: Radu Sabau <radu.sabau@analog.com>
+Reply-To: radu.sabau@analog.com
 
-=E2=80=A6
-> Assisted-by: Claude:claude-4-6-sonnet
-=E2=80=A6
+From: Radu Sabau <radu.sabau@analog.com>
 
-Did such an information source gather the knowledge to benefit more
-from the application of scope-based resource management?
+Add DT bindings for the Analog Devices AD4691 family of multichannel
+SAR ADCs (AD4691, AD4692, AD4693, AD4694).
+
+The binding describes the hardware connections:
+
+- Power domains: avdd-supply (required), vio-supply, ref-supply or
+  refin-supply (external reference; the REFIN path enables the
+  internal reference buffer). Digital core VDD is supplied either
+  externally via vdd-supply, or generated by the on-chip LDO fed
+  from ldo-in-supply; the two are mutually exclusive and one must
+  be present.
+
+- Optional PWM on the CNV pin selects CNV Burst Mode; when absent,
+  Manual Mode is assumed with CNV tied to SPI CS.
+
+- An optional reset GPIO (reset-gpios) for hardware reset.
+
+- Up to four GP pins (gp0..gp3) usable as interrupt sources,
+  identified in firmware via interrupt-names "gp0".."gp3".
+
+- gpio-controller with #gpio-cells = <2> for GP pin GPIO usage.
+
+- #trigger-source-cells = <1>: one cell selecting the GP pin number
+  (0-3) used as the SPI offload trigger source.
+
+Two binding examples are provided: CNV Burst Mode with SPI offload
+(DMA data acquisition driven by DATA_READY on a GP pin), and Manual
+Mode for CPU-driven triggered-buffer or single-shot capture.
+
+The four variants are not compatible with each other: AD4691/AD4692 have
+16 analog input channels while AD4693/AD4694 have 8, and AD4691/AD4693
+top out at 500 kSPS while AD4692/AD4694 reach 1 MSPS. These differences
+in channel count and maximum sample rate require distinct compatible
+strings so the driver can select the correct channel configuration and
+rate limits.
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+---
+ .../devicetree/bindings/iio/adc/adi,ad4691.yaml    | 180 +++++++++++++++++++++
+ MAINTAINERS                                        |   7 +
+ 2 files changed, 187 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
+new file mode 100644
+index 000000000000..af28a0c1cfa9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
+@@ -0,0 +1,180 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/adc/adi,ad4691.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices AD4691 Family Multichannel SAR ADCs
++
++maintainers:
++  - Radu Sabau <radu.sabau@analog.com>
++
++description: |
++  The AD4691 family are high-speed, low-power, multichannel successive
++  approximation register (SAR) analog-to-digital converters (ADCs) with
++  an SPI-compatible serial interface. The ADC supports CNV Burst Mode,
++  where an external PWM drives the CNV pin, and Manual Mode, where CNV
++  is directly tied to the SPI chip-select.
++
++  Datasheets:
++    * https://www.analog.com/en/products/ad4691.html
++    * https://www.analog.com/en/products/ad4692.html
++    * https://www.analog.com/en/products/ad4693.html
++    * https://www.analog.com/en/products/ad4694.html
++
++$ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    enum:
++      - adi,ad4691
++      - adi,ad4692
++      - adi,ad4693
++      - adi,ad4694
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 40000000
++
++  spi-cpol: true
++  spi-cpha: true
++
++  avdd-supply:
++    description: Analog power supply (4.5V to 5.5V).
++
++  vdd-supply:
++    description:
++      External 1.8V digital core supply. When present, the internal LDO is
++      disabled (LDO_EN = 0). Mutually exclusive with ldo-in-supply.
++
++  ldo-in-supply:
++    description:
++      LDO input supply (2.4V to 5.5V). When present and vdd-supply is absent,
++      the internal LDO generates 1.8V VDD from this input (LDO_EN = 1).
++      Mutually exclusive with vdd-supply.
++
++  vio-supply:
++    description: I/O voltage supply (1.71V to 1.89V or VDD).
++
++  ref-supply:
++    description: External reference voltage supply (2.4V to 5.25V).
++
++  refin-supply:
++    description: Internal reference buffer input supply.
++
++  reset-gpios:
++    description:
++      GPIO line controlling the hardware reset pin (active-low).
++    maxItems: 1
++
++  pwms:
++    description:
++      PWM connected to the CNV pin. When present, selects CNV Burst Mode where
++      the PWM drives the conversion rate. When absent, Manual Mode is used
++      (CNV tied to SPI CS).
++    maxItems: 1
++
++  interrupts:
++    description:
++      Interrupt lines connected to the ADC GP pins. Each GP pin can be
++      physically wired to an interrupt-capable input on the SoC.
++    maxItems: 4
++
++  interrupt-names:
++    description: Names of the interrupt lines, matching the GP pin names.
++    minItems: 1
++    maxItems: 4
++    items:
++      enum:
++        - gp0
++        - gp1
++        - gp2
++        - gp3
++
++  gpio-controller: true
++
++  '#gpio-cells':
++    const: 2
++
++  '#trigger-source-cells':
++    description:
++      This node can act as a trigger source. The single cell in a consumer
++      reference specifies the GP pin number (0-3) used as the trigger output.
++    const: 1
++
++required:
++  - compatible
++  - reg
++  - avdd-supply
++  - vio-supply
++
++allOf:
++  # vdd-supply and ldo-in-supply are mutually exclusive, one is required:
++  # either an external 1.8V VDD is provided or the internal LDO is fed from
++  # ldo-in-supply to generate VDD.
++  - oneOf:
++      - required:
++          - vdd-supply
++      - required:
++          - ldo-in-supply
++  # ref-supply and refin-supply are mutually exclusive, one is required
++  - oneOf:
++      - required:
++          - ref-supply
++      - required:
++          - refin-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    /* AD4692 in CNV Burst Mode with SPI offload */
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        adc@0 {
++            compatible = "adi,ad4692";
++            reg = <0>;
++            spi-cpol;
++            spi-cpha;
++            spi-max-frequency = <40000000>;
++
++            avdd-supply = <&avdd_supply>;
++            ldo-in-supply = <&avdd_supply>;
++            vio-supply = <&vio_supply>;
++            ref-supply = <&ref_5v>;
++
++            reset-gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
++
++            pwms = <&pwm_gen 0 0>;
++
++            #trigger-source-cells = <1>;
++        };
++    };
++
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    /* AD4692 in Manual Mode (CNV tied to SPI CS) */
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        adc@0 {
++            compatible = "adi,ad4692";
++            reg = <0>;
++            spi-cpol;
++            spi-cpha;
++            spi-max-frequency = <31250000>;
++
++            avdd-supply = <&avdd_supply>;
++            ldo-in-supply = <&avdd_supply>;
++            vio-supply = <&vio_supply>;
++            refin-supply = <&refin_supply>;
++
++            reset-gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c2c6d79275c6..7d31c38921e8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1482,6 +1482,13 @@ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/devicetree/bindings/iio/adc/adi,ad4170-4.yaml
+ F:	drivers/iio/adc/ad4170-4.c
+ 
++ANALOG DEVICES INC AD4691 DRIVER
++M:	Radu Sabau <radu.sabau@analog.com>
++L:	linux-iio@vger.kernel.org
++S:	Supported
++W:	https://ez.analog.com/linux-software-drivers
++F:	Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
++
+ ANALOG DEVICES INC AD4695 DRIVER
+ M:	Michael Hennerich <michael.hennerich@analog.com>
+ M:	Nuno Sá <nuno.sa@analog.com>
+
+-- 
+2.43.0
 
 
-=E2=80=A6
-> +++ b/drivers/accel/qda/qda_drv.c
-=E2=80=A6
-> @@ -32,6 +33,18 @@ static void qda_postclose(struct drm_device *dev, str=
-uct drm_file *file)
->  {
-=E2=80=A6
-> +		if (refcount_dec_and_test(&iommu_dev->refcount)) {
-> +			spin_lock_irqsave(&iommu_dev->lock, flags);
-> +			iommu_dev->assigned_pid =3D 0;
-> +			iommu_dev->assigned_file_priv =3D NULL;
-> +			spin_unlock_irqrestore(&iommu_dev->lock, flags);
-> +		}
-=E2=80=A6
-
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(spinlock_irqsave)(&iommu_dev->lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v7.1-rc4/source/include/linux/spinlock.h#=
-L619-L622
-
-Regards,
-Markus
