@@ -1,132 +1,172 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB4735C1B0
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 05:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D82237D137
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 06:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779170179; cv=none; b=KvhIxNBnXPXjQsxMOUuI/Bymb4HEq4eIDSxGoM0bMbH21b+HGYxAto+7ABaYgToK62HGkfZbB3N32EaJ9xVAeCumtXItZvhDrIz/JhgGs2gf3vmMuVpV/UH+tdCJWFNoJwHzjILydvceqsUGBZ18/m4iJCpwHpjbHUmEHzQqGiE=
+	t=1779170999; cv=none; b=f+CRzYxVWckCkufuJBL2Qbwtn7Sw27JVLZk0hEVnGf7VgPuKepovhFJUqMRh3sLBx1BtaqJx53p4oTEbfFvJZqMRRxhISVG+WQ6HCGoCe8hXt8jxg4MkUeToTlSFMT9+mfu/bhqyFfTtvGYBp+SDLPKndE1gTtQIU0Qoq9JxZ18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779170179; c=relaxed/simple;
-	bh=TCLu5MNEcNIL5e7ATwDDhlB3YNv67f7AtXIvfVcNMA8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=aEUQ0lrLFGd3n2sdLK/GcPaCtRECPCODGY6r44o77t6FyMTSyMuDpG2wwNQz51b2NSoEIjSs2P8xM+RmwDIBWh4fsvktV5KaCxDxasRLmYYo5yDrQjnGX1U7yaWxG269TDdl/lK19CiDfV0bl5do0Y/ss7T8p4ta5CHIy2KJ/w0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JmnoS6Yk; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1779170999; c=relaxed/simple;
+	bh=m4Wkj+rk/VrvijEitrfIMERd/zmOQp580t2sTN8465o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PYelJ8q1v0KWZ8IzTVoBr1C5cmFgwBNDvEJG2L0dxAmPMgdjhkm2Es64250GN8FyF+JoKoeXG+G9facrdHOVuHyxaZvz0l0nz6gLLA0Y5aXFfwXzdOk4sFE2RbcYH2W4zvmvQpyLWCdy36EKUQMcPbk2oNSj+3rESbgJHpUxpwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=efLuJxH1; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JmnoS6Yk"
-Date: Tue, 19 May 2026 07:55:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779170174;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fDUb5wllfZTf/t6wsoMQEEce9T5suMuho2M4U8byo6M=;
-	b=JmnoS6YkymUjv5x1woBoN7AX65oKlCbRuqVZaYKNPDvlFcEISydaMEn9eUrvSy17Gal4Ul
-	3yjnk5MEtQQLKK7jFO834FSFiXy9WI9MshO8HC+h42iUbC8d2nWTYUVieYUyJnbcC+fbcy
-	dmcbRF4bkF1xgNkUpmYJdOMHkxrgrhQ=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Jakub Kicinski <kuba@kernel.org>, MD Danish Anwar <danishanwar@ti.com>,
- Felix Maurer <fmaurer@redhat.com>
-CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Roger Quadros <rogerq@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Meghana Malladi <m-malladi@ti.com>, Jacob Keller <jacob.e.keller@intel.com>,
- David Carlier <devnexen@gmail.com>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>, Kevin Hao <haokexin@gmail.com>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Vladimir Oltean <vladimir.oltean@nxp.com>, luka.gejak@linux.dev
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_net-next_v2_2/2=5D_net=3A_ti=3A?=
- =?US-ASCII?Q?_icssg=3A_Add_HSR_and_LRE_PA_statistics?=
-In-Reply-To: <20260518184506.694c584e@kernel.org>
-References: <20260514075605.850674-1-danishanwar@ti.com> <20260514075605.850674-3-danishanwar@ti.com> <20260518184506.694c584e@kernel.org>
-Message-ID: <E30AAC96-01D2-4A23-B562-126087DEB7FA@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="efLuJxH1"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ba0fc8b1f0so19766955ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779170989; x=1779775789; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=35UEgwPy5bOt7bPAiRN5I3s053dsTnr88mncjkP29bU=;
+        b=efLuJxH10cUg1gukP013S367aaVA1L9r0LkGaWAVp/yFbTxJ2TP1CpIdBJRtmKc7Zz
+         fGr7acFJmVz5GxgIuhls2Ti5nrnLFnmdbNxu+U8MiTjG2340f+N8rtD0C+ORScuGf5fK
+         hCZb9/EcPOD5K+ZtqOdRkHvV587n4Br791Cdgdu3UitFLqS65nBs1VdeweVNFnSThA2d
+         zMClp/ExjcF0ttlXzJu3T7zrjsNhRUH/xOr9AStU8oREjyuclsfyqX6fpgRU5wjPp0KQ
+         lkJRVbYXOll1EqyHKTNG5HrGAvTPDZDFMfmXqk0omxWngJpQQi/lWN0Wm8wRackSO2rm
+         XSTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779170989; x=1779775789;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=35UEgwPy5bOt7bPAiRN5I3s053dsTnr88mncjkP29bU=;
+        b=Oaqic1p38wdZ7eQAlinKE7JiIIofpfudpwbBiUphNKY0Yd7E+1RKaNEO7KBqqjdspY
+         eODBLjn/bPWcSGmxwyl/JUzpqJLohzC+stcNxF2sa7qZ93I3ZcyfQtUFjwFKVJxeJsek
+         FC0raXj7ZGaMODogyRzp80GSvO0e29UCRRx4bTp0F/6lQEQYrDLVeKY5oTs4DXHDehfe
+         80UH83KRKoSBgfGF42oSKrRCuolfgBhdlAzJthAb8LljZleJk8mPO3jfXe5P2dQVfp2j
+         1CENaKNL+1SLy7aXSGrLE1XOUcYnM1fPhQLh3UaxxI5xY178yYVPAvj5/HGijvKP4SKo
+         hcdQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9U4MeO3qQpAgVYbXyLWpFD/dx9iYENkL+UiMiNHg+4gYwQha6PeZlvn0WQZtRITh3k1U1d1by9II8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiPYaEEIatQBvf/FHun+xf/BemraNYp5jTVYk+sbGC081dnHuv
+	IIx0DPWZwRS1+Q0ssjdRAAX33vBur+o1XqIIWjszDn7UV91I9EwK/cnC
+X-Gm-Gg: Acq92OHbnbS00umuSBYIPSw0R7u7vFPvl6ZO8AfStPB0WH3a2BBMCJVnceHFXTqopsO
+	SUdHcdeN04m2TXeTekVPiJsdDYDmBFv/eci2YVofrmZrENZn6hkon9qFg8vlGAqD+uoCFzyU0Ek
+	s4ZwS29vvC1+aZqBjX0iSDbPjRVRagyS4bUZMHdqIvbcpzAeoEIuKWrydXtrozbLEE350mwEEkY
+	dnWkT8tu2mADhbdSEMB6SPOjYi0L+wHRxiqHe60F4eInQUS2/903PRJSN8DW+Y6flA1lWhE+Dkg
+	dD++3sT60PPZdWkBHmXyjaPx3phhk0PYGXp1ldKvi73ZLq7JKgGMM1iIPkyOPprAIj8d8Mzan5W
+	S6zV73Uks1GddBzm+a3jY5yoskOgSUGsFJRlf5obGVgYADAKm6xXynEKU0wjYMOA3HfFE5FO3rl
+	wTWzHQrgPwfn5v/UPq3EgOhV1uWbFQ93sY126DZr7GYX5cOstTkF0ACNRCGTuJ6Ewddg==
+X-Received: by 2002:a17:903:284:b0:2b0:60db:7927 with SMTP id d9443c01a7336-2bd7e977b8fmr200540165ad.28.1779170989314;
+        Mon, 18 May 2026 23:09:49 -0700 (PDT)
+Received: from harvey.lan (c-73-83-32-130.hsd1.wa.comcast.net. [73.83.32.130])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5cfe64a9sm172805975ad.53.2026.05.18.23.09.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 23:09:48 -0700 (PDT)
+From: Jim Broadus <jbroadus@gmail.com>
+To: linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: peterhuewe@gmx.de,
+	jarkko@kernel.org,
+	jgg@ziepe.ca,
+	Jim Broadus <jbroadus@gmail.com>
+Subject: [PATCH] tpm: tpm_tis: Add optional delay after relinquish
+Date: Mon, 18 May 2026 23:09:26 -0700
+Message-ID: <20260519060926.103727-1-jbroadus@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On May 19, 2026 3:45:06 AM GMT+02:00, Jakub Kicinski <kuba@kernel=2Eorg> wr=
-ote:
->On Thu, 14 May 2026 13:26:05 +0530 MD Danish Anwar wrote:
->> Add new firmware PA statistics counters for HSR and LRE to the ethtool
->> statistics exposed by the ICSSG driver=2E
->>=20
->> New statistics added:
->>  - FW_HSR_FWD_CHECK_FAIL_DROP: Packets dropped on the HSR forwarding pa=
-th
->>  - FW_HSR_HE_CHECK_FAIL_DROP: Packets dropped on the HSR host egress pa=
-th
->>  - FW_HSR_SKIP_HOST_DUP_DISCARD_FRAMES: Frames with duplicate discard
->>    skipped
->>  - FW_LRE_CNT_UNIQUE/DUPLICATE/MULTIPLE_RX: LRE duplicate detection
->>    counters
->>  - FW_LRE_CNT_RX/TX: LRE per-port frame counters
->>  - FW_LRE_CNT_OWN_RX: Own HSR tagged frames received
->>  - FW_LRE_CNT_ERRWRONGLAN: Frames with wrong LAN identifier (PRP)
->>=20
->> Document the new HSR/LRE statistics in icssg_prueth=2Erst=2E
->
->To an untrained eye these stats look like stuff that could=20
->be standardized across drivers=2E=20
->
->Luka, Felix, others on CC, do you think we should expose these
->from HSR over netlink as "standard" offload stats different drivers=20
->can plug into or not worth it?
+Some TPMs fail to grant locality when requested immediately after being
+relinquished. In this case, the TPM_ACCESS_REQUEST_USE bit of the
+TPM_ACCESS register is cleared immediately without setting
+TPM_ACCESS_ACTIVE_LOCALITY.
 
-Hi Jakub,
-I think there is a case for standardizing part of this, but I would=20
-not standardize the whole set as-is=2E
+This issue can be seen at boot since tpm_chip_start, called right
+after locality is relinquished, fails. This causes the probe to fail:
 
-The LRE counters look generic enough to me, especially:
- - unique rx
- - duplicate rx
- - multiple rx
- - rx / tx
- - own rx
- - wrong LAN, PRP only
+tpm_tis MSFT0101:00: probe with driver tpm_tis failed with error -1
 
-Those are protocol/LRE concepts rather than TI firmware details, so
-exposing them from the HSR/PRP layer sounds useful=2E I would expect=20
-both the software implementation and offloaded implementations to be=20
-able to provide at least some of them, with unsupported counters=20
-omitted or reported as not available=2E
-I would not put the firmware check/drop counters in the same standard
-bucket, though:
- - FW_HSR_FWD_CHECK_FAIL_DROP
- - FW_HSR_HE_CHECK_FAIL_DROP
- - FW_HSR_SKIP_HOST_DUP_DISCARD_FRAMES
+This occurs on some older Dell Latitudes and maybe others. To work
+around this, add a "settle" boolean param to tpm_tis. When this is
+enabled, a delay is added after locality is relinquished.
 
-Those sound more like implementation/debug counters for the ICSSG
-firmware pipeline=2E They are still useful in ethtool driver stats, but=20
-I would be hesitant to bake their exact semantics into HSR UAPI=2E
-So my preference would be:
- 1=2E Keep driver-private ethtool stats for the full firmware counter set=
-=2E
- 2=2E Add a small HSR/PRP standard stats set separately, limited to
-    well-defined LRE counters=2E
- 3=2E Make the HSR layer expose them, with offload drivers plugging in via
-    an optional callback or offload stats op=2E
- 4=2E Define the counters carefully, including whether they are per-HSR
-    device or per-port A/B, and what PRP-only counters mean for HSR=2E
+Signed-off-by: Jim Broadus <jbroadus@gmail.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
+ drivers/char/tpm/tpm_tis.c                      | 7 +++++++
+ drivers/char/tpm/tpm_tis_core.c                 | 3 +++
+ drivers/char/tpm/tpm_tis_core.h                 | 1 +
+ 4 files changed, 18 insertions(+)
 
-I do not think this patch should blindly become the UAPI definition,=20
-but I do think it points at a useful follow-up=2E If we want to avoid=20
-adding driver-private names first and then standardizing different=20
-names later, then it may be worth asking Danish to split the=20
-protocol-level LRE counters out and route those through a common HSR=20
-stats interface=2E
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 4d0f545fb3ec..5b7111033fbb 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -7651,6 +7651,13 @@ Kernel parameters
+ 			defined by Trusted Computing Group (TCG) see
+ 			https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
+ 
++	tpm_tis.settle= [HW,TPM]
++			Format: <bool>
++			When enabled, this adds a delay after locality is
++			relinquished. Some TPMs will fail to grant locality if
++			requested immediately after being relinquished. This
++			causes the probe to fail.
++
+ 	tp_printk	[FTRACE]
+ 			Have the tracepoints sent to printk as well as the
+ 			tracing ring buffer. This is useful for early boot up
+diff --git a/drivers/char/tpm/tpm_tis.c b/drivers/char/tpm/tpm_tis.c
+index 9aa230a63616..8ac0ea78570e 100644
+--- a/drivers/char/tpm/tpm_tis.c
++++ b/drivers/char/tpm/tpm_tis.c
+@@ -101,6 +101,10 @@ module_param(force, bool, 0444);
+ MODULE_PARM_DESC(force, "Force device probe rather than using ACPI entry");
+ #endif
+ 
++static bool settle;
++module_param(settle, bool, 0444);
++MODULE_PARM_DESC(settle, "Add settle time after relinquish");
++
+ #if defined(CONFIG_PNP) && defined(CONFIG_ACPI)
+ static int has_hid(struct acpi_device *dev, const char *hid)
+ {
+@@ -242,6 +246,9 @@ static int tpm_tis_init(struct device *dev, struct tpm_info *tpm_info)
+ 	if (itpm || is_itpm(ACPI_COMPANION(dev)))
+ 		set_bit(TPM_TIS_ITPM_WORKAROUND, &phy->priv.flags);
+ 
++	if (settle)
++		set_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &phy->priv.flags);
++
+ 	return tpm_tis_core_init(dev, &phy->priv, irq, &tpm_tcg,
+ 				 ACPI_HANDLE(dev));
+ }
+diff --git a/drivers/char/tpm/tpm_tis_core.c b/drivers/char/tpm/tpm_tis_core.c
+index 21d79ad3b164..68be26fa5817 100644
+--- a/drivers/char/tpm/tpm_tis_core.c
++++ b/drivers/char/tpm/tpm_tis_core.c
+@@ -184,6 +184,9 @@ static int tpm_tis_relinquish_locality(struct tpm_chip *chip, int l)
+ 		__tpm_tis_relinquish_locality(priv, l);
+ 	mutex_unlock(&priv->locality_count_mutex);
+ 
++	if (test_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &priv->flags))
++		tpm_msleep(TPM_TIMEOUT);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/char/tpm/tpm_tis_core.h b/drivers/char/tpm/tpm_tis_core.h
+index 6c3aa480396b..413cac5e0f31 100644
+--- a/drivers/char/tpm/tpm_tis_core.h
++++ b/drivers/char/tpm/tpm_tis_core.h
+@@ -90,6 +90,7 @@ enum tpm_tis_flags {
+ 	TPM_TIS_DEFAULT_CANCELLATION	= 2,
+ 	TPM_TIS_IRQ_TESTED		= 3,
+ 	TPM_TIS_STATUS_VALID_RETRY	= 4,
++	TPM_TIS_SETTLE_AFTER_RELINQUISH	= 5,
+ };
+ 
+ struct tpm_tis_data {
+-- 
+2.54.0
 
-Best regards,
-Luka Gejak
