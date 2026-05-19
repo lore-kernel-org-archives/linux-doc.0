@@ -1,33 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7811B3DFC9C;
-	Tue, 19 May 2026 09:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6FF3FCB10
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 09:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779182584; cv=none; b=FyBFe89EVvjQmSyOYcElJH5uRGQKsvArqbvVOLLJz/7mwcBasu8eUdAtbz+sX03wcKx1h7bBFGASvD3t/DDL9iExlxJ8n8pdx2TcL2erLflnFKUUyF0qRg0NvOmBQWoGuacq6UqTazHpTcVYvdk3A5jk9xj+4BKJDyaX72ctA0A=
+	t=1779182955; cv=none; b=lI9otiXqCZaL9tssmCV1gmQ0J0G0DDHsBnBLSEew0Y+StUXwnj6ZFPCK3RG/+0niuP/ye/B4cozrDQd+G0XToY1yWwgjYh1PB78Um0FUUqg4lNu85XEk9Es/0Bb6I1vUcqbe6UmIRifAP7k0hfqMBLtn5N8xnf1gcKKCPpeTtV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779182584; c=relaxed/simple;
-	bh=zoicHgt9O7RSwyA/8Yt8+UfNI+ddUfsokmOgEX1CF+Y=;
+	s=arc-20240116; t=1779182955; c=relaxed/simple;
+	bh=tCjZjgBY3r9OZllLAP22YI2f1t7uM28nGSzAOg+D+qM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YsvWjaY0eIaD01iaX+Znfs7ZqgCAAoq4YeRw0rhmBpA3XPvIoVkNAdvCvkxethh2BeFhZR1Gh4wIVgBE9o0W6JJXBQpluYalxTXcQ9L/ctgA04BpTxflS7R6McnH0mH8KHILwtCWCE5EdY+blBXPpSVvmM/XuSyH+Sh/nqiwBWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pddg1vFT; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=mqNbr+H2KlNdZNlSWCr1OE7YH2XIXA1SklZIK9okXyCXL06L48MowV6Tf6PRcZLAFYzrJrhpFwIRipzDEKu30TgqCwwmtXM6niPHMuZ4r9HHokRAuKH4DzoPJTMUiQKzGCIx+HUABGl+nj8B9SHnKwCebUwMvj8c0+NIi2pTJlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KtPLBN0L; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ab2SFtRZ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pddg1vFT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E254C2BCF5;
-	Tue, 19 May 2026 09:22:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779182584;
-	bh=zoicHgt9O7RSwyA/8Yt8+UfNI+ddUfsokmOgEX1CF+Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pddg1vFTCh1TukRUY0V4DNXlP+8KxkotVm9cx5a5akZSkmQJ2odYwd7pIU7+gpN8o
-	 tjnTCiM6/13XkQQSXuYmQgFOrTGugiwyU3kRtQwS2IODoBrZ7q7zh7FOMKoDxx0rAC
-	 j90xHw17PtS7VJf8jLbE5Ip8FJ1I34Ecj92IuWCahEDAWSHrugL4oHETq6VF4I7apI
-	 7lnaIJeLEOkYQhkCLSJ0unrz036rF1qkVLag1PEMQzH3HpPi8I/AKnC5G2n+PxRCOj
-	 trB4WR4fNvfFR8Xi7XF1qaU6TzsDFqRnPEGBM0N2wC8Sl12aJtCDOew9X21WHmJL5V
-	 RkVR7MV9cgSLw==
-Message-ID: <d12b5738-ca14-40aa-930f-eddf3199818d@kernel.org>
-Date: Tue, 19 May 2026 11:22:55 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KtPLBN0L";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ab2SFtRZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779182949;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WltqGyX6LSgbCxoNJFtaPsurvESE3OwLgIknpaUUGUA=;
+	b=KtPLBN0LPhOV6tykDbTIgEbM37jh9Hg6z5VehfXEHwv5r8XVql+ZOZB/1xc71xI6efAshs
+	e7JUcTB9Wdel1I1Auoju6uhYTspl+1nyOrDRTz37wg0jFNspiGzsax4GaOfVa/ycFQvYiL
+	mNHdThnVRFId+Tmh8xzh5ymnD+y8b8g=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-628-wyiI3WH_NwmIpZioyO6BLg-1; Tue, 19 May 2026 05:29:06 -0400
+X-MC-Unique: wyiI3WH_NwmIpZioyO6BLg-1
+X-Mimecast-MFC-AGG-ID: wyiI3WH_NwmIpZioyO6BLg_1779182945
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-48fd64c32e8so22724875e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 02:29:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1779182945; x=1779787745; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WltqGyX6LSgbCxoNJFtaPsurvESE3OwLgIknpaUUGUA=;
+        b=ab2SFtRZ/aUymUZUeseGZxWW3HwrKtlly5cy04cAV5CiTR9HG0xC3bca3h8R0bmd1U
+         IkIUdqhHuhkGiNKVdpXmfprJiFw3E6JGcVL764sMHP196X9Pu6HdNiIdDezXV1wY7FUA
+         759iG83jlzXt+oi2Fu050BVFzMV1OeqVpPebln5/yLqze0Tk6vavDLG9OfWf5lXkeYHB
+         MwuQ1SZT65oeVY0mBXsbmrbq5vINX01xTG6z25Pr+GIyqFXW/r6Dgjc1kpFHOGKhW4dp
+         yfo8sxnJgvjmEAC03O04yYdlffkJll21gWbwIlCzuuwolELbc4m5fEvZdaj9P7Ri0LIX
+         itAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779182945; x=1779787745;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WltqGyX6LSgbCxoNJFtaPsurvESE3OwLgIknpaUUGUA=;
+        b=LTG6lyLsY+E8qRFTDo8IMtlWeuqeYQrTu6wwA93qxEWXeP+kkW2gBkRxNlBhfVoDIW
+         PIauqfd9Bzn48BsSWVO7WupxoQbeen/K/Wn4tqndK3hWMCPPid5x5bdErjT7KIA7DWsW
+         3J4M8DrzbBZPer26j46ZcvTyLzvTru5z8fFDNFL+J9oN5qVQS+C3v+W2J2yjl4MGiqJI
+         rSTkxbtOnJY5BMY1MA7yaBenNjKEnNzGzFehvANRST8XTOTf+/expnUThX4ICIOAGYt6
+         ivFHPc0H9rKhMGu7Y5r5Z9MjF8yXCw5Ty6QaoKB6s+dhcyDCBTU1N18sQ88fMjhL27fA
+         42dQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/vXKejZu/60enHbFqjoDORP+NXQ/Y4PyhWF9byw90tvKrY/mIBFG61D7Ukx1XiKzuOe1EbhYY4nGA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzACu9E1yPEgzoNtU/Q/oQyHYBudvIApiD5gK9ZbwNSQdVuaeK5
+	SBQj/N0t1cF9PIQ2RLZcrOSnD7MztDX/1o8XNVmJXDbX6ciEPFHEn5TwUXe3vIVGUY25LMKIsvQ
+	4MVRzzN5JhzluQOajKAIIeVx5OYym3vml7ZTerG0I03OGwqomlj1gzMu8VjBZ1Q==
+X-Gm-Gg: Acq92OEysNf6ag7M5t4TdSHpd3TEu3WhHYdIV2Ox8YXwVGQXlMWbeYgZg5ZgTpRqEDa
+	9eRxbTNm97utrRaz6q4dnihXUX1QQJuNsyLiZiSxIvi9Q4fHMGW8pDCT154w8oZulaG6/XV1w+D
+	R1ezNxCzR1MrdkSnselduoptx8waeGEljuTZyd3vBjRSE7aVsBije6EOaxXi0EZ5vXD1t2R2DSb
+	O6Y+4OwYq044WQ5EfqR6vEV53XWd7UhrXg3yhHsn3gcooN+VTnKlmwblc+DLX6GC9F0/NcVC2za
+	DDUnNhhPwJD1V03kvodsxhpBT2COQ199YJpCOIMBjv1HDJQpr/0xq10OI14McuONPMfKZbnzjP0
+	7o9eKen0ilcgvH6q5fQH8Q6xPxH0B7pvF9zxv0Hnwb8EAhDu2v4oJBJY=
+X-Received: by 2002:a05:600c:34cc:b0:48e:635a:18d7 with SMTP id 5b1f17b1804b1-48fe59b047bmr317369595e9.0.1779182945112;
+        Tue, 19 May 2026 02:29:05 -0700 (PDT)
+X-Received: by 2002:a05:600c:34cc:b0:48e:635a:18d7 with SMTP id 5b1f17b1804b1-48fe59b047bmr317368795e9.0.1779182944663;
+        Tue, 19 May 2026 02:29:04 -0700 (PDT)
+Received: from [192.168.88.32] ([150.228.25.33])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febf81970sm144760595e9.8.2026.05.19.02.29.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 May 2026 02:29:04 -0700 (PDT)
+Message-ID: <b0e8121c-e2aa-476b-b8b0-3c799e712e90@redhat.com>
+Date: Tue, 19 May 2026 11:29:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,95 +87,37 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/10] dt-bindings: firmware: add arm,ras-cper
-To: Ahmed Tiba <ahmed.tiba@arm.com>, rafael@kernel.org, bp@alien8.de,
- saket.dumbre@intel.com, will@kernel.org, xueshuai@linux.alibaba.com,
- mchehab@kernel.org, krzk+dt@kernel.org, dave@stgolabs.net,
- conor+dt@kernel.org, vishal.l.verma@intel.com, jic23@kernel.org,
- corbet@lwn.net, guohanjun@huawei.com, dave.jiang@intel.com,
- catalin.marinas@arm.com, lenb@kernel.org, tony.luck@intel.com,
- skhan@linuxfoundation.org, djbw@kernel.org, alison.schofield@intel.com,
- ira.weiny@intel.com, robh@kernel.org
-Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
- linux-cxl@vger.kernel.org, Michael.Zhao2@arm.com,
- acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
-References: <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-0-42698675ba61@arm.com>
- <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-9-42698675ba61@arm.com>
- <5fb43b8d-e772-42af-ba78-d75abd87bd0c@kernel.org>
- <8bc812fd-cda5-485f-98d2-4901ec17c66f@arm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH net-next v2 2/2] net: ti: icssg: Add HSR and LRE PA
+ statistics
+To: MD Danish Anwar <danishanwar@ti.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Roger Quadros <rogerq@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Meghana Malladi <m-malladi@ti.com>, Jacob Keller <jacob.e.keller@intel.com>,
+ David Carlier <devnexen@gmail.com>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>, Kevin Hao <haokexin@gmail.com>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Vladimir Oltean <vladimir.oltean@nxp.com>
+References: <20260514075605.850674-1-danishanwar@ti.com>
+ <20260514075605.850674-3-danishanwar@ti.com>
+From: Paolo Abeni <pabeni@redhat.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <8bc812fd-cda5-485f-98d2-4901ec17c66f@arm.com>
+In-Reply-To: <20260514075605.850674-3-danishanwar@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 19/05/2026 11:02, Ahmed Tiba wrote:
-> On 19/05/2026 08:04, Krzysztof Kozlowski wrote:
->> On 18/05/2026 13:57, Ahmed Tiba wrote:
->>> Describe the DeviceTree node that exposes the Arm firmware-first
->>> CPER provider and hook the file into MAINTAINERS so the
->>> binding has an owner.
->>>
->>> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
->>
->> Please implement previous comments.
-> 
-> Could you please clarify which previous DT comments you still see
-> as unaddressed?
-> 
-> My understanding was that I had addressed the earlier points on the YAML
-> description formatting, the `memory-region` description text, and the
-> example. If I missed a specific item beyond the one below, please point 
-> me to it.
+On 5/14/26 9:56 AM, MD Danish Anwar wrote:
+> @@ -201,6 +201,16 @@ static const struct icssg_pa_stats icssg_all_pa_stats[] = {
+>  	ICSSG_PA_STATS(FW_HOST_TX_PKT_CNT),
+>  	ICSSG_PA_STATS(FW_HOST_EGRESS_Q_PRE_OVERFLOW),
+>  	ICSSG_PA_STATS(FW_HOST_EGRESS_Q_EXP_OVERFLOW),
+> +	ICSSG_PA_STATS(FW_HSR_FWD_CHECK_FAIL_DROP),
+> +	ICSSG_PA_STATS(FW_HSR_HE_CHECK_FAIL_DROP),
+> +	ICSSG_PA_STATS(FW_HSR_SKIP_HOST_DUP_DISCARD_FRAMES),
 
-You do not need other nodes for your device in the example. I asked why
-this is needed for the example, but there was no answer.
+Sashiko noted that this statistic name exceed the ethtool string limit.
 
+/P
 
-Best regards,
-Krzysztof
