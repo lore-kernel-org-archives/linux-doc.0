@@ -1,153 +1,189 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E784C6F0A;
-	Tue, 19 May 2026 12:08:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D411A492502;
+	Tue, 19 May 2026 12:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.133.104.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779192493; cv=none; b=UB5Xs3YM+mIycGql/2odFPrPzuf+dJ2cYQMe/PRM2PfUfC+YxpRxEOp9OqtLMxrN9U5lZfsRBrP1uUZG+5axFLSVrSs/jTIDnQj00YLvYLPykfVPuf4zDNflUGzx4VhDSt8mgM9yQV7qCV6b1B97Yes+G0Wk2Nar4mNVXzM+8RI=
+	t=1779192835; cv=none; b=EyDjcW1Xq9b6ql+uqp4gAgP7D3t5KEtXvvdcPdlVJJHCBk5e0J+R3RG/MF5zHG7ckY2U3Fdz08BpW3qErMu1k7BtzFZYzm2fXfnjT8qtN21ECdNzV41+NAQUgIfcv6u+lxKTEreVQ2peJ9mMz49UboI7zgWXZ6EAhUAOCfon8Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779192493; c=relaxed/simple;
-	bh=HOH4zolnpjz17GuZevflHD1qmQ35A3RygmEY1pWBHCQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=TGX8zVy4Botg/+ps5sJumOeQEqqbT0WSZqMSR3by7mK7EIONDKaC2+dF8lHHtLe5LS1oTClty5ywEgOhXsXuf9wnQ0UT5XLxLvVuVrwzu/gfn+1PtliWmVhHxwG1ZRb/ZOeDSUpGynS6RbXYGeQEra5B+tQVLVAnLhSU24Wp6gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=MDLo8o7h; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1779192835; c=relaxed/simple;
+	bh=qGkWukyg7BRJ3BYm19QN2I31E/gz6jl12f4LD2DpBVU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UOVCJv6QGfRPc/Kbroie6SkXcyr1cUv/Ssuq7pkSCVoMiUGCKRqjhaC3+xhhiZ5OPsemYAKc8Je4L1yRfBv91oi62AyqxnF3laa0J3sRxl/8udt2w5aU77qVQTUHLuQlYbb9JVh8Gv2+kZ1QuM4jjttvmBCW9fMVbjQMqCYmCzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net; spf=pass smtp.mailfrom=iogearbox.net; dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b=hQ5wDWvP; arc=none smtp.client-ip=213.133.104.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iogearbox.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="MDLo8o7h"
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id BDE7F27713;
-	Tue, 19 May 2026 14:08:08 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id HPM6vn7VwL0t; Tue, 19 May 2026 14:08:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1779192488; bh=HOH4zolnpjz17GuZevflHD1qmQ35A3RygmEY1pWBHCQ=;
-	h=Date:To:Cc:Subject:From:References:In-Reply-To;
-	b=MDLo8o7hPr4AET7m7AYF//xh93Cl0MwxKi543eqRJOXBWyE8iTv4D7kzUYU9dBcq6
-	 qcZSSf3ADrzc9GoNnTgHzkgiUZYsIGJoYZrPiJp54itCF0lySVkczMwPd1JadRRtsE
-	 nDREAOhOjI79bJTNQCq/rETRSH24HG48Esr7qg6R3GPFB5OtbLS6KA582enf4G9iaK
-	 V+hYaiqvNLsfHcWGdHQYzDrXUICAOkuj+pmeqH1OZeqsOuF9qRhuNBvCCRGRHVOVrY
-	 tytRUXhWDvSfYPxTsvVBTUtN0SENIOBjxeHvmiuajPUZ5QjGDu1dWL1DsWZ1OmbrNw
-	 P4cLbI8NqyU7g==
+	dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b="hQ5wDWvP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=lQBojDY84EYZekKZoulFlCOXOf8H914FBQk+2ZSsF6M=; b=hQ5wDWvPkargrg/9FISN9vF9o0
+	/ylJJiY7sUlG2YI4i2GCxTghR1XNzejpmh9PcOm98xRpzCGj//eI3HFVSWWbvYxfSWKEMW3g+dgRf
+	whaeMaFjn4cLGcGgSwW2KSCeunu8/f3xDZaQRpxY0K1vkU+Hp5zJ5ye0/cuaySKntHGW6WGu0HisE
+	+PLes7xgZlsGFJ8zhRNYHimhWOL+XY5paB/dZg7PA40Xhcv5Im98ikFt7dcl6jYnLIHzQMzLIr8Rz
+	GCcs43CrZbNNrzNEHY+NX46jtI9EpG3yfdjUlySgCShr2CVxWQenhRy04k5k2K+3ydMwQ0lQiieto
+	oBpIkAoQ==;
+Received: from sslproxy06.your-server.de ([78.46.172.3])
+	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1wPJKC-0008pA-0P;
+	Tue, 19 May 2026 14:13:28 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy06.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1wPJKB-0008ua-0C;
+	Tue, 19 May 2026 14:13:27 +0200
+Message-ID: <b342c38b-7323-4b72-a239-8a574d6bc36b@iogearbox.net>
+Date: Tue, 19 May 2026 14:13:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 19 May 2026 17:37:50 +0530
-Message-Id: <DIMN3D9E8YCT.3T2PGAYYB2IOO@disroot.org>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Conor Dooley"
- <conor@kernel.org>, "Kaustabh Chakraborty" <kauschluss@disroot.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "MyungJoo Ham"
- <myungjoo.ham@samsung.com>, "Chanwoo Choi" <cw00.choi@samsung.com>,
- "Sebastian Reichel" <sre@kernel.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, "Nam Tran" <trannamatk@gmail.com>,
- =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>,
- <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v6 03/11] dt-bindings: mfd: add documentation for
- S2MU005 PMIC
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-References: <20260515-s2mu005-pmic-v6-0-1979106992d4@disroot.org>
- <20260515-s2mu005-pmic-v6-3-1979106992d4@disroot.org>
- <20260515-justly-recite-6028f4bfb24a@spud>
- <DIJK5FTQ5KWG.HOKZAOXHTGU7@disroot.org>
- <20260516-esquire-chitchat-0fffa597e2f3@spud>
- <DIKZ5L2HC2CV.YL3MZUJQ2EV6@disroot.org>
- <20260517-corrode-tuesday-a598ca734b38@spud>
- <d2f4cb7d-5c3e-4b9a-86ca-04262cbb9775@kernel.org>
- <20260518-succulent-plethora-2dba60fad426@spud>
- <0240eb13-6c56-4879-8db7-b990a220a78f@kernel.org>
-In-Reply-To: <0240eb13-6c56-4879-8db7-b990a220a78f@kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] killswitch: add per-function short-circuit mitigation
+ primitive
+To: Song Liu <song@kernel.org>, Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+ live-patching@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Joshua Peisach <jpeisach@ubuntu.com>, Florian Weimer <fw@deneb.enyo.de>,
+ Breno Leitao <leitao@debian.org>, Anthony Iliopoulos <ailiop@suse.com>,
+ Michal Hocko <mhocko@suse.com>, Jiri Olsa <jolsa@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Christian Brauner <brauner@kernel.org>
+References: <20260508195749.1885522-1-sashal@kernel.org>
+ <20260517134858.146569-1-sashal@kernel.org>
+ <CAPhsuW4x8shWon8Moi5VgCq2n4E2EzaaauZ2HHpy42Rp1Y-J-g@mail.gmail.com>
+ <agsVDqdALBoHEHlv@laps>
+ <CAPhsuW44UX663Au=WwHz8MVwnQgLkjxOqpJSCKxNiv3=RpZvqw@mail.gmail.com>
+Content-Language: en-US
+From: Daniel Borkmann <daniel@iogearbox.net>
+Autocrypt: addr=daniel@iogearbox.net; keydata=
+ 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
+In-Reply-To: <CAPhsuW44UX663Au=WwHz8MVwnQgLkjxOqpJSCKxNiv3=RpZvqw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: Clear (ClamAV 1.4.3/28005/Tue May 19 08:25:42 2026)
 
-On 2026-05-18 12:23 +02:00, Krzysztof Kozlowski wrote:
-> On 18/05/2026 11:45, Conor Dooley wrote:
->> On Mon, May 18, 2026 at 09:15:11AM +0200, Krzysztof Kozlowski wrote:
->>> On 17/05/2026 22:52, Conor Dooley wrote:
->>>> On Sun, May 17, 2026 at 06:39:37PM +0530, Kaustabh Chakraborty wrote:
->>>>>>>>>> +
->>>>>>>>> +    properties:
->>>>>>>>> +      compatible:
->>>>>>>>> +        const: samsung,s2mu005-rgb
->>>>>>>>> +
->>>>>>>>> +    required:
->>>>>>>>> +      - compatible
->>>>>>>>> +
->>>>>>>>> +    unevaluatedProperties: false
->>>>>>>>> +
->>>>>>>>> +  reg:
->>>>>>>>> +    maxItems: 1
->>>>>>>>
->>>>>>>> Move this above the child nodes please.
->>>>>>>
->>>>>>> But properties are sorted in lex order?
->>>>>>
->>>>>> Typically the binding is sorted in the same order as properties go i=
-n
->>>>>> nodes. Common stuff like reg/clocks/interrupts therefore send up abo=
-ve
->>>>>> child nodes.
->>>>>
->>>>> So, do I change this? For one, I don't see the same being followed in
->>>>> other schemas of samsung in the same dir (not that I'm trying to pose=
- it
->>>>> as an argument against your suggestion), and this was reviewed by
->>>>> Krzysztof and is adderssed in v7.
+On 5/19/26 1:59 AM, Song Liu wrote:
+> On Mon, May 18, 2026 at 6:33 AM Sasha Levin <sashal@kernel.org> wrote:
+>> On Sun, May 17, 2026 at 11:37:36PM -0700, Song Liu wrote:
+>>> On Sun, May 17, 2026 at 6:49 AM Sasha Levin <sashal@kernel.org> wrote:
+>>>> * fail_function (CONFIG_FUNCTION_ERROR_INJECTION) is disabled in
+>>>>    most production kernels. Even where enabled, it only works on
+>>>>    functions pre-annotated with ALLOW_ERROR_INJECTION() in source -
+>>>>    no help for a freshly-disclosed CVE. The debugfs UI is blocked by
+>>>>    lockdown=integrity and the override is probabilistic.
 >>>>
->>>> If Krzysztof doesn't care, then I won't ask you to change it.
+>>>> * BPF override (bpf_override_return) honors the same
+>>>>    ALLOW_ERROR_INJECTION() whitelist, and BPF itself is off in many
+>>>>    production kernels. Even where on, the operator interface is
+>>>>    "load a verified BPF program," not a one-line write.
 >>>
->>> This builds on top of bindings for previous Samsung PMIC devices, so
->>> that's why it keeps the compatibles for children, I guess. No one
->>> complained about this at v1-v2 reviews, so when I joined reviewing in v=
-3
->>> I did not, either.
->>>
->>> I don't think the compatible should be here, but I also don't want to
->>> stall that patchset. I understand that it is inconsistent review from m=
-y
->>> side, because other similar patchsets receive comment to drop the
->>> compatible. But I don't think we will be fair asking to drop the
->>> compatible now, when we did not ask for that in the early versions at a=
-ll.
->>=20
->>=20
->> I think you misunderstood, we were talking about the ordering of the
->> properties in the binding file being alphanumerical, rather than the
->> more typical approach of approximately following the order of
->> dts-coding-style.
->
->
-> Ah, then I misunderstood and, even though it is a nit, I do care because
-> old code is then used for new patches. Bindings follow DTS rules, thus
-> should be:
-> 1. compatible
-> 2. reg
-> 3. core properties
-> 4. vendor properties
->
-> Kaustabh, can you change it please?
+>>> If it is OK for killswitch to attach to any kernel functions, do we still
+>>> need ALLOW_ERROR_INJECTION() for fail_function and BPF
+>>> override? Shall we instead also allow fail_function and BPF override
+>>> to attach to any kernel functions?
+>>
+>> I don't think so. ALLOW_ERROR_INJECTION is not a security mechanism, it's an
+>> integrity/safety mechanism for both bpf and fault injection.
+>>
+>> It protects against a "developer or CI script doing legitimate fault injection
+>> accidentally panics the box" scenario, not an "attacker gets in" one.
+> 
+> There really isn't a clear boundary between "security mechanism" and
+> "non-security mechanism". As we are making killswitch available
+> everywhere under root, users will soon learn to use it to do fault injection,
+> and potentially much more scary things. (Think about agents with sudo
+> access).
 
-Ack, will do that in v8 then.
+Fully agree with Song here that there is no clear boundary, and that the
+killswitch could lead to arbitrary, hard to debug breakage if applied to
+the wrong function.. introducing worse bugs than the one being mitigated
+or even /short-circuit LSM enforcement/ (engage security_file_open 0,
+engage cap_capable 0, engage apparmor_* etc).
 
-While at it, do you also want me to drop the multi-led compatible string?
-So it would be:
+The ALLOW_ERROR_INJECTION() provides a curated white-list where you may
+return with an error without causing more severe damage (assuming the
+error handling code is right). The right thing would be to more widely
+apply ALLOW_ERROR_INJECTION() or to figure out a better way to safely
+enable the latter without explicit function annotation.
 
-  multi-led:
-    $ref: /schemas/leds/leds-class-multicolor.yaml#
+Wrt BPF:
 
->
-> Best regards,
-> Krzysztof
+>>>> * BPF override (bpf_override_return) honors the same
+>>>>    ALLOW_ERROR_INJECTION() whitelist, and BPF itself is off in many
+>>>>    production kernels. Even where on, the operator interface is
+>>>>    "load a verified BPF program," not a one-line write.
 
+The claim that BPF itself is off in many production kernels is not really
+true, where did you get that from? All the major distros and cloud providers
+have BPF enabled these days, and even systemd ships BPF programs for
+custom service firewalling etc.
+
+The operator interface is to load a program vs. one-line write.. so we're
+disregarding existing infra where you can already achieve the same for a
+less safe one-liner convenience? (similarly for the livepatch infra..)
+
+If you need a one-liner: bpftrace -e 'kprobe:FUNC { override(RETVAL); }'
+Alternatively, add an extension to systemd where you can just deploy a
+list of functions, and it does the necessary work in the background and
+persistently.
+
+Also, what about other classes of bugs, like OOB access, UAFs, locking
+issues, etc which then could be used as a means for privilege escalations?
+It feels like this proposal is a quick'n'dirty prototype via Claude as a
+reaction to copy fail bug, but the right solution would be to improve
+the user space tooling as mentioned and existing infra we have in kernel.
