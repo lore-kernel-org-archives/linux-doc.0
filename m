@@ -1,154 +1,209 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43B934041F;
-	Tue, 19 May 2026 13:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779197475; cv=none; b=SnGt8wAsPNrH2E00q0XA0iDTziGQgcfYBhhuZZlwHaKKSXdIP76Gyo1EyO473lt4sEjmbJvgFzzlwwPTcTmBOS3W2YqNYksN5a0kzId4A9UNjrTchYdkUo2kgjRYAXGYK7a9Frak73/UMScyQG/Fwwc66r9+IUEQOVvza/F9hS8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779197475; c=relaxed/simple;
-	bh=J7cjT8wwxqHz02RXCxPHiST3VKDw4MzTF9Evyd+e0r0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=edltv2YmeyJdyMerHADLKFhzY1QWhHZkQfCZMe0ECvFZ0ug7C0PLbc5m0pUT5/fGEk+ZmktQYO7QtrWhNDWw9ZliLruvwweM6kG4eQtCi+QEDeTCxoV/bU0uqubU6zytkkZighqHRhevHDzf8X5P21C/RIViqlRl8B7fzX0JRWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DwqiZsf4; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B242D3403E8
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 13:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779197931; cv=pass; b=gnDOZDAFurrkczWuX2odW81+vol/8hHNZ3kztYA3/nTa51g1otCO/2AYVCXOs2nJ54reozhfAYBFbbh3umwDgdaOJ/lHt6YJOrLPRy9ttTw9YHu52nEW6IqPg7bqnXnNaFr5EfeMantRNd2KVOHle7eLsKiVyFdT2RIXlFofeUk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779197931; c=relaxed/simple;
+	bh=KP7zUHOrkzgdt1cRpKbtyeNbsXf5dD6XKZ2LFxmQcjA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i4kff36mEeamC6/RK4+QU09Z3yTZdkjxXc39ILB7r0Fsi2Xl3ND6nfLgAQoHOPnIQq0qkhW61dE9XR3pgoMlcE+Ic9+sVM4AxrFH3CIDIkeZBZgipdznPIH7nWcnurLwP1Dx2jVv0ds69cSkZvGai1xzlj9yMYAl0X1RDa7l3v4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OPbjvKpv; arc=pass smtp.client-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DwqiZsf4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC694C2BCB3;
-	Tue, 19 May 2026 13:31:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779197475;
-	bh=J7cjT8wwxqHz02RXCxPHiST3VKDw4MzTF9Evyd+e0r0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DwqiZsf4SeAkJwmmJgMLq9tGM4Bmb9HeNR3E2KvFL76ksO3nTaVW1WOU+IUS5RBHX
-	 yrjxjF5IKR5+wVIcKIt5HyHD8W+Yn0IOhr5V6eOiwnLYFuDQCEbt7Hfb5cQ6NW5x/p
-	 F9I7GagrZ3soknOhw62fDsvhJ09pXPc5eLC1gLvpoLBu5KX/wztJsscBcGcHnB+Sie
-	 s4gTbv22cUFfhgvU/fp8eHlDF9dhMI0asbULbR1RHSlWhfBwzoAiGyA1tYOfIuzgTi
-	 ZGtwu3z8pEpeNCdp1lYr8uUqeKiRqgshhVNikFYRo9UXdTYcE4c/f6W3WoJFnU65G7
-	 m21jHl/xFW/cA==
-Message-ID: <633e48e7-df98-4518-a2ca-0199bfaf1cd4@kernel.org>
-Date: Tue, 19 May 2026 15:31:09 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OPbjvKpv"
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-134fe980658so4615548c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 06:38:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779197929; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LmNaGHegBq3129Rnaeht+9NFJfJI+C0qWPTJcf7mawGhSCVZX53YRZYuHu+uhavab3
+         70EnUaDLWB4SV5LUhiD7pBRJA1c1rzhrDbsTNfxE6iqiVJt6UzD9xkF/dPoFdq0PeXx5
+         WcvMG6Qia8CrJw1gJJ+xT5fm+iPxwkQaMreIUKvjLhETJjTV+CZvQeKL5jpOdzwOSuYs
+         dSrWpclZ0RP/1OKV6qjX7HIE1xp4/eme+6OBVLal1o/MDjpJORQX+oIHTajQaVsJ1RTO
+         akk1Xbvk4/vjK9tTdTmnClvQOWGrNpXTUn9Un259RaDr0HTBMbAzQtUGUj+EAGXBi+Ai
+         SMWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4rLi9EF1nJ5zuh+5Rs48RasaCD3EpgpMag9kYOR3Lik=;
+        fh=bJSIkU0uN5NyxxdOpOyv/VND8dMU1X1dx5a1657c7v8=;
+        b=l05i7iQ+bn3hdm80jRbKZrg2zNfRP92n+q6OFL7iIBeic6IEpyMynWWS48hWoS4fzt
+         4FIckuOXCN1KMiTOSHz+5sbp8KSw+Y10iWmfzqRG8BqC3/846xinYh8prlddILx3QXm1
+         axWPTMGN2Wy3YteryDxq/CCojsKr9q5sQXuRdbzQM19rAmvh9sNU0nT/jXAFKtnUOyTA
+         RZSV/rpstkIfHH/XFzVdfxYzd0S2dBGIjS1frY5iLuU3DU3DYDRK+rXBmKpWXMj6oc8P
+         kP0z4SKCCnsFHSj4K8I4dz3EQp83TNKdQsI20PPBphAEMMp2WgPwF1FOCiogPkD5Exac
+         DO2w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779197929; x=1779802729; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4rLi9EF1nJ5zuh+5Rs48RasaCD3EpgpMag9kYOR3Lik=;
+        b=OPbjvKpvK+OOsLnQTyTbj/EEwx/Tqt3Q1Bf7N2TZJ28bLrcnJtva4CFBMJtMzij0mD
+         JnqsJqYu1ilCuw1SrjoDXnDPeRfxULJdIQMhUDjM4UlAQ88XlEoM5xRpCHNq4OMV3NSC
+         E5FuXpSSOn1SsQXfUTKYryw/aLxox2YWCykG3akE5P9U5/Bp7gY73o9JsHbsh40lB6A4
+         jioI+ZxrGzU8sfge6iPPMUedq9g7VFqrB/8XpoWeIiN0pB4+WVzThesgkqeYJsIRMUlc
+         sxg++URubx45Tn6+TM3VhE/WCdKpwCIGj5Pk4OpgbRoURB98A0Dklu+Ui17iluY5rOMo
+         x+Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779197929; x=1779802729;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4rLi9EF1nJ5zuh+5Rs48RasaCD3EpgpMag9kYOR3Lik=;
+        b=R++VWluKXDfoGXPLIBpvagnBM9vtx3e4ilNpYQMKvG2XNwK4dVvp/0D/Kd2jx57jAd
+         DLI8W3A793DfyopyEn+YWPaEYZEmfM4K0uZaYa9R5ZLQ3XPqADpW8WaMgKA9UYPbzHrm
+         Bs5AtJukG9kwrAYj3HSLO3MRaYitXnXeDXOQNzbG3bUX6GhZPFGgvAsmu6DUhe8czLbP
+         MagbG816eqkG0jmbhWeVNALBxHrW6+nGJa7qtvMx8VU/GTxYp6YHffWWHAJ/XatEGjjL
+         RhwksP/qS11IUHQdYRk7s/d+saTJ0oTlPvbU6QEkRCBmbofnYoEp4okQQxRdDbdrS0Aa
+         C6cQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+lXyAxqi5BNYEjlLuVa1fTL0P2vKj2DcYXzoT088Fp3JZlzdt8Eqv4Xq/zjaDLTfKvElQ3q5TDm0Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyztZb1s0uYWkeN0evTatAM0vrlp7EoChN7xvzyt0G/0+a56ugq
+	0iVCpvof97ga2t3be0eEYw6I0SfwI386erFvpxs2GszYSLLuG0neCeGUPf5/BXDJ3lFudCZbdQl
+	rRDdJ8DEZ7fqcs2SuOc3ImM/rYcpWzX0=
+X-Gm-Gg: Acq92OGt2dgxGLMk7lQR/+9xLV/B7WdRXWEg3BUPt4KO5IKDyeTezLF9AHWnD04fgfK
+	2nXYJ1EnaQxR3rVg+sNnFgN1aUtHqaDMbOeU+GZuUWIxV4s+c9g6qqlpiDtYreee6k7+8pvGA8C
+	7G4a6hHy2WJxq3duQitVtxKhbHLHaklE/fMuabUtvfhGKwi9gRoTRXYh/F1qNMPO1buKNGoG0lh
+	brt5KTIruniFlQzDFgXn2ewgvolInmpYYWlc4FschJr8re8XxTMj4BPfFACB+tgEL2+Vbh/ULaQ
+	FivIKbbGEMONBghV
+X-Received: by 2002:a05:7300:a146:b0:2ea:ed7c:8064 with SMTP id
+ 5a478bee46e88-3039816dc0fmr7981877eec.3.1779197928558; Tue, 19 May 2026
+ 06:38:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 03/11] dt-bindings: mfd: add documentation for S2MU005
- PMIC
-To: Kaustabh Chakraborty <kauschluss@disroot.org>,
- Conor Dooley <conor@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Nam Tran <trannamatk@gmail.com>, =?UTF-8?B?xYF1a2FzeiBMZWJpZWR6acWEc2tp?=
- <kernel@lvkasz.us>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260515-s2mu005-pmic-v6-0-1979106992d4@disroot.org>
- <20260515-s2mu005-pmic-v6-3-1979106992d4@disroot.org>
- <20260515-justly-recite-6028f4bfb24a@spud>
- <DIJK5FTQ5KWG.HOKZAOXHTGU7@disroot.org>
- <20260516-esquire-chitchat-0fffa597e2f3@spud>
- <DIKZ5L2HC2CV.YL3MZUJQ2EV6@disroot.org>
- <20260517-corrode-tuesday-a598ca734b38@spud>
- <d2f4cb7d-5c3e-4b9a-86ca-04262cbb9775@kernel.org>
- <20260518-succulent-plethora-2dba60fad426@spud>
- <0240eb13-6c56-4879-8db7-b990a220a78f@kernel.org>
- <DIMN3D9E8YCT.3T2PGAYYB2IOO@disroot.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <DIMN3D9E8YCT.3T2PGAYYB2IOO@disroot.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260519060926.103727-1-jbroadus@gmail.com>
+In-Reply-To: <20260519060926.103727-1-jbroadus@gmail.com>
+From: Jim Broadus <jbroadus@gmail.com>
+Date: Tue, 19 May 2026 06:38:37 -0700
+X-Gm-Features: AVHnY4LT_jG2no69Sj6hc2qtUbtjHtBegcw9-dznFgFDKMTe2apHJoCmGtMe5Bo
+Message-ID: <CAKgEEwsXD4_Bks1J=irU8c2UbFY4fX9g3H6On3hBiV+DckGQxA@mail.gmail.com>
+Subject: Re: [PATCH] tpm: tpm_tis: Add optional delay after relinquish
+To: linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Cc: peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 19/05/2026 14:07, Kaustabh Chakraborty wrote:
->>>>
->>>> I don't think the compatible should be here, but I also don't want to
->>>> stall that patchset. I understand that it is inconsistent review from my
->>>> side, because other similar patchsets receive comment to drop the
->>>> compatible. But I don't think we will be fair asking to drop the
->>>> compatible now, when we did not ask for that in the early versions at all.
->>>
->>>
->>> I think you misunderstood, we were talking about the ordering of the
->>> properties in the binding file being alphanumerical, rather than the
->>> more typical approach of approximately following the order of
->>> dts-coding-style.
->>
->>
->> Ah, then I misunderstood and, even though it is a nit, I do care because
->> old code is then used for new patches. Bindings follow DTS rules, thus
->> should be:
->> 1. compatible
->> 2. reg
->> 3. core properties
->> 4. vendor properties
->>
->> Kaustabh, can you change it please?
-> 
-> Ack, will do that in v8 then.
-> 
-> While at it, do you also want me to drop the multi-led compatible string?
-> So it would be:
-
-Yes
-
-> 
->   multi-led:
->     $ref: /schemas/leds/leds-class-multicolor.yaml#
-
-with "unevaluatedProperties: false"
+I realize the delay should be moved to __tpm_tis_relinquish_locality.
+I'll change that in a v2 patch.
 
 
-Best regards,
-Krzysztof
+On Mon, May 18, 2026 at 11:09=E2=80=AFPM Jim Broadus <jbroadus@gmail.com> w=
+rote:
+>
+> Some TPMs fail to grant locality when requested immediately after being
+> relinquished. In this case, the TPM_ACCESS_REQUEST_USE bit of the
+> TPM_ACCESS register is cleared immediately without setting
+> TPM_ACCESS_ACTIVE_LOCALITY.
+>
+> This issue can be seen at boot since tpm_chip_start, called right
+> after locality is relinquished, fails. This causes the probe to fail:
+>
+> tpm_tis MSFT0101:00: probe with driver tpm_tis failed with error -1
+>
+> This occurs on some older Dell Latitudes and maybe others. To work
+> around this, add a "settle" boolean param to tpm_tis. When this is
+> enabled, a delay is added after locality is relinquished.
+>
+> Signed-off-by: Jim Broadus <jbroadus@gmail.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
+>  drivers/char/tpm/tpm_tis.c                      | 7 +++++++
+>  drivers/char/tpm/tpm_tis_core.c                 | 3 +++
+>  drivers/char/tpm/tpm_tis_core.h                 | 1 +
+>  4 files changed, 18 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index 4d0f545fb3ec..5b7111033fbb 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -7651,6 +7651,13 @@ Kernel parameters
+>                         defined by Trusted Computing Group (TCG) see
+>                         https://trustedcomputinggroup.org/resource/pc-cli=
+ent-platform-tpm-profile-ptp-specification/
+>
+> +       tpm_tis.settle=3D [HW,TPM]
+> +                       Format: <bool>
+> +                       When enabled, this adds a delay after locality is
+> +                       relinquished. Some TPMs will fail to grant locali=
+ty if
+> +                       requested immediately after being relinquished. T=
+his
+> +                       causes the probe to fail.
+> +
+>         tp_printk       [FTRACE]
+>                         Have the tracepoints sent to printk as well as th=
+e
+>                         tracing ring buffer. This is useful for early boo=
+t up
+> diff --git a/drivers/char/tpm/tpm_tis.c b/drivers/char/tpm/tpm_tis.c
+> index 9aa230a63616..8ac0ea78570e 100644
+> --- a/drivers/char/tpm/tpm_tis.c
+> +++ b/drivers/char/tpm/tpm_tis.c
+> @@ -101,6 +101,10 @@ module_param(force, bool, 0444);
+>  MODULE_PARM_DESC(force, "Force device probe rather than using ACPI entry=
+");
+>  #endif
+>
+> +static bool settle;
+> +module_param(settle, bool, 0444);
+> +MODULE_PARM_DESC(settle, "Add settle time after relinquish");
+> +
+>  #if defined(CONFIG_PNP) && defined(CONFIG_ACPI)
+>  static int has_hid(struct acpi_device *dev, const char *hid)
+>  {
+> @@ -242,6 +246,9 @@ static int tpm_tis_init(struct device *dev, struct tp=
+m_info *tpm_info)
+>         if (itpm || is_itpm(ACPI_COMPANION(dev)))
+>                 set_bit(TPM_TIS_ITPM_WORKAROUND, &phy->priv.flags);
+>
+> +       if (settle)
+> +               set_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &phy->priv.flags=
+);
+> +
+>         return tpm_tis_core_init(dev, &phy->priv, irq, &tpm_tcg,
+>                                  ACPI_HANDLE(dev));
+>  }
+> diff --git a/drivers/char/tpm/tpm_tis_core.c b/drivers/char/tpm/tpm_tis_c=
+ore.c
+> index 21d79ad3b164..68be26fa5817 100644
+> --- a/drivers/char/tpm/tpm_tis_core.c
+> +++ b/drivers/char/tpm/tpm_tis_core.c
+> @@ -184,6 +184,9 @@ static int tpm_tis_relinquish_locality(struct tpm_chi=
+p *chip, int l)
+>                 __tpm_tis_relinquish_locality(priv, l);
+>         mutex_unlock(&priv->locality_count_mutex);
+>
+> +       if (test_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &priv->flags))
+> +               tpm_msleep(TPM_TIMEOUT);
+> +
+>         return 0;
+>  }
+>
+> diff --git a/drivers/char/tpm/tpm_tis_core.h b/drivers/char/tpm/tpm_tis_c=
+ore.h
+> index 6c3aa480396b..413cac5e0f31 100644
+> --- a/drivers/char/tpm/tpm_tis_core.h
+> +++ b/drivers/char/tpm/tpm_tis_core.h
+> @@ -90,6 +90,7 @@ enum tpm_tis_flags {
+>         TPM_TIS_DEFAULT_CANCELLATION    =3D 2,
+>         TPM_TIS_IRQ_TESTED              =3D 3,
+>         TPM_TIS_STATUS_VALID_RETRY      =3D 4,
+> +       TPM_TIS_SETTLE_AFTER_RELINQUISH =3D 5,
+>  };
+>
+>  struct tpm_tis_data {
+> --
+> 2.54.0
+>
