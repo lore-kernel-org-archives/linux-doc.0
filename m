@@ -1,218 +1,226 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012025.outbound.protection.outlook.com [52.101.43.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D04B3B3C17
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 07:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779174428; cv=none; b=IwzkTvg9sC97PUD7hUn3wFyBMS+JVCsfqKFzKZ7ModkH1NAqUxnourniyj/5HY8GgfugZ6WlY1RHaGuXeUYdWyk5JB85hRAre3h2AH1vnPRnpvCuMs7YqQhEvaLAXCnQmhGYE1ymNIKISRqopnLXqs1bymqL8pxSc/Fadnkzo/o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779174428; c=relaxed/simple;
-	bh=BMcuZpgrheTtw8YzlMY85egTpgVnX4SxV15uvlEKhA0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hrqrw1s4eShInVu/OQBJLcNWEWiz6sS+1mx/YAOqHq7REiP5GXsM4z13iYPc/Y6YhX7qm/wf/yJrrk1i7RJncQ0vVCRx1GlISv/MU6bv8jDCRxAUisr0lhh3uaVXW7dXxACtQY12oDH1MM7taDymJb97U8rPnxKlTok1XHx1zyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YHqpetAH; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C945B305E3B;
+	Tue, 19 May 2026 07:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779174602; cv=fail; b=sJ2nCAojM3yqibghG+PpJSukReKYytigvJbYURkDT05CCPde46QXlxiS1z2AYApGsma+44JXcPg3GhFSSHsgfOBUPmhEKp1jDdMBh3qJlwGoUoCYSY/JDrvlEUluLJ5o/JtJoisndr8Mx4OgkrkYoI9DO+K8xuAUNJ55BN1pmr0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779174602; c=relaxed/simple;
+	bh=VkVQPqLCk3O5ODQdCMZHroFWdopgNmZC3kj7PS+E8cI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ADr2zvyUhFIyHJV6ivrdtJM6jTEwoobGKm/dIrFOHFQYUW7tHttoSoo/xHmFN2JjC27qw3Q1VhwQ4C9nW0A6+x/FYrV8c/hxJfuswQD5tlRqUQALjHRsKSwI6NZ57LNhG6erRN3BoiorW8XGMMMfJXVpiICxlEHUK+b1T+mSYN0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NQ6YQVTf; arc=fail smtp.client-ip=52.101.43.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YHqpetAH"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48909558b3aso33262345e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 00:07:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779174425; x=1779779225; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jyEEvS9/Ik69rxCZnXUKAzpf2s9PN8D1R1Hqx/eCkrg=;
-        b=YHqpetAHI1jQxLGxEd1pIGnfIcAU33q5IrPJ1/kHLAhrWFoFRuDeZfd5lu71uwi9FF
-         v9NQqdgh/b8r1rASk3LeM3/wuOvzqd9ALgJOJUlBliHVsh8pzZtHtjguRqfUmXaouJV7
-         NB5VjA+nzvnb0eeDzBztDqM+7MP8ruC/lebiSWqn0rCMua+YCchXZNQxyBY3PKXBLkSZ
-         Iwc4aWhoTuWEClNs3FfPcE4rjGnfbklPBDnh9cMqQN3LK6x32vPHFX1AFaKWmEG4Qkpx
-         4AJCx0A/10FWncuG2Ip9sexds/FMr3pdeZwpxQpq8bkuETcPBX8FGm5WKqL2YjgqO1pB
-         qDrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779174425; x=1779779225;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jyEEvS9/Ik69rxCZnXUKAzpf2s9PN8D1R1Hqx/eCkrg=;
-        b=Zheg5/W1s2uvwn/kqL4HFM5DWfgyAiYdxmHP5G8VOZnis5GfkrMYsHre5y3EKYtKIw
-         dhozSSslEYJ7IBFaZOIJT0azS9qVP0PG6JpFjTiq4/v7UOKWln5QRz5Mebmbh9MgYUPD
-         XhOENsmGsmDl50IQJAGtHnqPbQDV79urem3YGudBZAX3ChSImd2yJbIw7SWbuDWittIJ
-         wiNyc1vRqFeYTb9VUvBpKqj11jPm2OJOkQvbnckpYhmMxeU6yBylzSu9kk6Y8TqjSJBg
-         nr3BsH4MErgrelfEU1N3bcqayb4TEhIznCTI3xUoAgdosyiVVSEA9qgZ+lAovfFA+ftP
-         2YNA==
-X-Forwarded-Encrypted: i=1; AFNElJ+U1j2JMjAfaV+nMK2QpJ+ML3O0ftMH/6sLOsNIJEh5PDQhF1DET0teJDIPy0mX1QrDQzRAjzWHCeg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywanb8uLPj/YGmjxvNjtcvuW03GqvjcMiW/v47P/huGbZUxWUBc
-	KEFkTt21qLWXbJS3mcF+FXbN17JI6dSjxZNXQZyc5M0hNIPO18Q25Akz
-X-Gm-Gg: Acq92OEddQZ9F3xFGaQaJfSgMyoBFU2lbci1PrknTqPDtbEdLEcV1tFeNWk2OSCldhx
-	y0g2Q5sHZF3p//lI7Bw2os8JgZwkE2NPLnjL7q1loA5HScIITtvfhz7/hZdhJOdali1zv7t/pQv
-	ycMzAnwjRBzW0z9CKaMxWa3Fci5lc2C5RKPRDg6MqbYia/6oGOyH4NLmknnzjcQToVas2ru8Ipc
-	CTl82XCD6/LPdN4fpSpzTSlt9wZ31eaAtAkm/+A0JlyCFYCNVPr8ZbjeiuzMA/s1pb3embWFFOe
-	fIH9HLDPZAgBNw1qIlcClVFF6KxOL3qFCtH5EtSNEfk4RCgIc4BH6SnFZmayt5wTR9vAStIMPST
-	IhPK7jxFLEtopZ7O9wHlusOidX+tBeFUdCBIgpX9AV1YJe6XLFibkGU8Xk1XcupV9sfMQRi/kEq
-	d+1NY3o2RP7/PelwSSLtM4rA2UJXQNtZPiNAxV1a6tENz7UMQDmLnkpCA8U1QAyQyF8dLV
-X-Received: by 2002:a5d:5f45:0:b0:45b:d891:56bb with SMTP id ffacd0b85a97d-45e5c5db696mr28861409f8f.38.1779174424577;
-        Tue, 19 May 2026 00:07:04 -0700 (PDT)
-Received: from ?IPV6:2a02:3033:6d8:15d8:ec15:f5ad:b85f:a3b8? ([2a02:3033:6d8:15d8:ec15:f5ad:b85f:a3b8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ec39ff1sm46305257f8f.10.2026.05.19.00.07.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 May 2026 00:07:04 -0700 (PDT)
-Message-ID: <233a93d1-1901-440b-902b-f0e482d9a1a4@gmail.com>
-Date: Tue, 19 May 2026 09:07:01 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NQ6YQVTf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VESfoGjqVsylJhPLkZucjg3PL/p9xwpG9oNT0/nxlHO6zMSMH+qEa1dkiYuKP/BFvwvLVNPvVSDss2cDL6yWye3z3Il0QSpSn2pOAtN7/jDjmAWgPPFMZQIVaoNVxpXO2hCfBIHwr2y0iA5fUIu6MHa5a+uC/T7/E+bgamUupfrTizRM9zAmakwlivdvYnih+7O8xG3+lwVwX4+s6XrKNvbuvB4H0UOxgJUaRSsQxaqHTk0pL+K/wHkUMsoUpCnZW0iu6HdWfRvK/xTXsoO321Egtf45zw1Bx0N3NdJBdNI8w5P19kf+QHO5Lc6wwy8k5idliiFSd/wr1FnErCgIzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KDby89GDFbE2WlCNFDnN5bITqJ0cJDi+MZpwXASlNGw=;
+ b=bX++wGp4czlwfL1byR7lCEzA3EQ/o8ypDZD0hZA6ZTeMb93kUxD0JPUKpRws25qC2P/Qrg1UIQ/Z+Yrjgf/Yq11QnqttJHtXOOWZMUTrlWJB6qAMtv1Qig9elXbGoWDIHR0uLbxlShnheOHAE4FhJpXgDJqBWD7bsJBgOOjTlGLSnyuQlmzAtmUpB3CXzD5LCqX1HLag5JYpyaqGnaqG4CM0uNyT6AAgCxx6+lW2TIxEpVQvInQ1E8kQPBC9E+9nc2JdZQqpGWfZ0LidMuRqioilqTMNOz/85svBPxetUwXoZawN86Lt+UvzJnh2kyHLjuKV3sy+acbyPvK2JlMasQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KDby89GDFbE2WlCNFDnN5bITqJ0cJDi+MZpwXASlNGw=;
+ b=NQ6YQVTfXtVDhmneMG3j2JS8cH21liLeDjrSSBIZynaMbfnaP/mqLNFLDl4tB+c1GCRoJT/H3eAUc8NMc4dbiIuejGHv85Hz09l0PxaIDS6gbmgdtOhjZNKPkKXfBdLA5//qdoeZoWRSIUA0POKrawd5uamIU+8UbLNm8cq9RUE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by BY5PR12MB4115.namprd12.prod.outlook.com (2603:10b6:a03:20f::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.21; Tue, 19 May
+ 2026 07:09:57 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Tue, 19 May 2026
+ 07:09:56 +0000
+Message-ID: <8a13b1ad-f1be-4ef4-905e-0d9828ae8cb5@amd.com>
+Date: Tue, 19 May 2026 09:09:47 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 2/5] dma-heap: charge dma-buf
+ memory via explicit memcg
+To: Barry Song <baohua@kernel.org>
+Cc: "T.J. Mercier" <tjmercier@google.com>, Albert Esteve
+ <aesteve@redhat.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ Christian Brauner <brauner@kernel.org>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri- <devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+ selinux@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ mripard@kernel.org, echanude@redhat.com
+References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
+ <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
+ <8ef38815-6ae9-4359-86d4-042554357639@amd.com>
+ <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
+ <CADSE00Jq_uvNgvxgPze0mEdUd+hF4-DPZkHy0KroWHZzygf4WA@mail.gmail.com>
+ <CABdmKX3DhejYBis9htLDnzPrG7vuF3R3URLVNEbnyd61SSsx=g@mail.gmail.com>
+ <CAGsJ_4zyecY6E-=Tm4_couT7uoM9LMcFdTMUPkZAjj4zUKE-dQ@mail.gmail.com>
+ <cb84c2ee-9de1-4565-b2e0-60984721228f@amd.com>
+ <CAGsJ_4z121v4tK_3+j-hkD7HH0gH3w8tWD8nk0CwRhFE5T+4Og@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAGsJ_4z121v4tK_3+j-hkD7HH0gH3w8tWD8nk0CwRhFE5T+4Og@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0420.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:d0::17) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] iio: dac: Add AD5529R DAC driver support
-To: Jonathan Cameron <jic23@kernel.org>,
- Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260508-ad5529r-driver-v2-0-e315441685d7@analog.com>
- <20260508-ad5529r-driver-v2-2-e315441685d7@analog.com>
- <20260508143017.28f86551@jic23-huawei>
-Content-Language: en-US
-From: Janani Sunil <jan.sun97@gmail.com>
-In-Reply-To: <20260508143017.28f86551@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BY5PR12MB4115:EE_
+X-MS-Office365-Filtering-Correlation-Id: 16b26d90-c393-4ec2-7819-08deb575a1f8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|56012099003|22082099003|18002099003|4143699003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	Z9i1JUP7T+NrdAaxJm32m2qm0GXls+gvyn2fH+HCuRApRWYZZiQmjf7P45wCPXf7JfBhMfuKP8M6R3+dAC0pwDAk6YGDmIPUPlzpNaJswORqhtjMY5c17JGnbxdyUWYztcJYyCnYNijqXDfqM0GYVVOMyCUJltJquNlScMDBx0s5nvbIQN0m+QuDNrjyb9I7EmtGxbUu1lS/ZZo1Trt5rQ88NVb+74cNBehZ1V19Uk+MgE5wtvXFBcQWS087BGN51MPD8pMEbJZg4Zakmwd1KsGtDjPIs/p9FGQtRs4hkqct3Ox1thkPG/c6AmdEXnkA26WNze7C3zn9HAJbWlcYMnhFvktQ4KM2GglQVbJwzFtDBl2Iib1PsDHALfUekrKoTCS7cnGZ3pFtdsKi8qxHJIY6YIJpLj6mmc+Hd/MTn3ZvoeUqo69msFe5wf5RBBTUc3kmspC5dg/dx8QLkH2Yf6LRcofiD00r+GMEXObmczSetfa9mE1qQkRAy+fHcqa2nKPbNjACVZy6sNfQK2BBrXdEFj3lgxoPapP1N4Eu76WWjrsApW7s3tS5CnM7TIwIPgphHKFXH3PRLXXy5sw4mA0KywNPhiXrfyQhkSBCcpYRn9A45h4S3+jLU0aS3fpdtO7bmbL7EEcaHcUZpwyeSMqwHVzWp78z8FMJbLZJh2MVYwL8tTiH6gSj/XJlIjC6
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(56012099003)(22082099003)(18002099003)(4143699003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dks3UVNwYkVHa2pZOGp3ajFwT0pwakpUbmJXS2tQQ3hOT0ExRXNxb2NxUTFP?=
+ =?utf-8?B?d0luekY2NkNRQWU1R28xbzI1VklyLzNSK0tHMVFFV2FLY0VwREZOK0ZOeHB5?=
+ =?utf-8?B?dzAvNUFFbXNhTm45UUJWSTJuM3FmUVB5VG9xQ0U0R2dwMjIzbjJmQ1VSSU9V?=
+ =?utf-8?B?OStrMlE2OVQzYXVueHZSemNHMVlTb3JKcUNpUXZtUmJ6R3l0RmpZVHdMTEpU?=
+ =?utf-8?B?SVZBWWQzRjMyTmNDSCsxeDYwdHZPalU2S1dPczZUY1RheHRhRGhIajB2bnJk?=
+ =?utf-8?B?YXRNS2dBRk1tU3R6OFZKQ0N0RWg2dU8xbkxMbnRvOUJEcFF3WXNaQVhpTWty?=
+ =?utf-8?B?bDMxYUViYmE3YkdyVHZRcGJiMC9FNmxsYjZRcDBsbG9nRzdDL1UyWVhiVyt0?=
+ =?utf-8?B?clFad05mdTFMNlYxamdGem9UcjdLdlp6c3V3V3U4cFhEQkJ1b2RIalQ0M3dj?=
+ =?utf-8?B?cUJBNkY4bElMbVNhTEkzdnVtN1BScHF3Y2FhbEorTXR4ZEthcVJ0VTA4TVFi?=
+ =?utf-8?B?c3BaQXdFOG0wSTBDU096SGY3dzZTNk9uUG16UnhMTGtkaXE3TE1FSG5hMGpV?=
+ =?utf-8?B?NTRMMENEMlRHSzE0aEFESFlPdWVTNVBscURSVEZ1dU1sT0JkT04xcG5vd2RS?=
+ =?utf-8?B?aktVcnJtOFQ3OWh2Rzh1dHYrOVBIaUZKSXowNCtWamI3emxINWF3dGNERERO?=
+ =?utf-8?B?RDdzb0plN0h5OTM0MTRTbDdKRks4L1liREU1UDJxNEtSLzMrKzRtVmpXaW1J?=
+ =?utf-8?B?WkoxV0tyU0R0cHhyYU1tbFU5dVo3enRYL0VYbTJwUHZJdkxXVHBRSGtCbDZE?=
+ =?utf-8?B?OEpxbldSMkFiVnpKZ1ljNmh3UEF0MDV1VmdPaS9EcWNDY01NR2VDRkVGdWtG?=
+ =?utf-8?B?bnJQZHE1NVBOMjFzZnZTYUQ4bHh3VUd4K29rT3VMZTFsVWNkQ3l3eEJ5ZWEx?=
+ =?utf-8?B?cmJpMU0zbUwwd2pOUVJJTURyZzczK2FLL3M5azZhZFZ2L2lZZUhuM2M5WGMv?=
+ =?utf-8?B?UUtaOVhWZlhROE52K2FIZStwREVzcVo4MzE2SWg5RlhkcXdoV3dkQjBXZjZC?=
+ =?utf-8?B?empraXk0enhabjQzZFMrYkg3K2QzQXNWV2FrelFlNk53NzRpUkh2SGV2U0VI?=
+ =?utf-8?B?WGcvRzl6ekQ3RmpDeTdITzNLZ0ZuLy9MTVpjM0Z6Qkg1QW5hOEl1UHg5SXRu?=
+ =?utf-8?B?cnpYVERGQXNaelgrclVrNDE4WG9NY016cDRQbUdGMUpsQWhOQUFDSDcwUGJQ?=
+ =?utf-8?B?dFFITVllVGZxaWx5MXZrNExMN3BudmEzUnJVcEZHazZPREJMQ2pWMjZSNllq?=
+ =?utf-8?B?bmVDekkrWU9lMWgyY2ZVUDBIQlV4dHBLTit6aE1nWDNGMVcyQWJMdjV0cTFp?=
+ =?utf-8?B?WjhjRjYrbmlBNUhzZ3lrYWowOFJxOTlYWDB3ekkrODE1bE5SMGg0TGZ3STVz?=
+ =?utf-8?B?L3VFZW0xRkJTeEF0N2c5TEZCQjZWcVFEeU4zeFZOeUZsSTdrQlVsbzdkdFZR?=
+ =?utf-8?B?Q1dHeFNmWHM5czR3Q0J0TThIV3REclk4bmdKVkkxN3Yzd1piaGE4Q0hucEEw?=
+ =?utf-8?B?MzVSdy8wd0NPU2Nqb3NZclRwNkl3Nk4zNWg4M0t4UUovTDRnTndUK28zU0xt?=
+ =?utf-8?B?SzkvZVVJTWdQajVJTWhQcEJhOVg5ZXhUay8vQ2NlV2g1S1hYK1FwRU4wVGhK?=
+ =?utf-8?B?Z0ZnNTh5ZFBSMG1zcjRJZUJ1dzEvNFQzR0JxOW1RMnlpYmt5M25lOFhYUUw4?=
+ =?utf-8?B?OVl0ZHZzTHQzdk56ZHB0Z09ZdDJPTms3MWhqNWc4VzZhaEg1NTVxeFBGck50?=
+ =?utf-8?B?TkEvUVgxZmJQSnR2YlFZcXNYV2d2eTUzTlJYSTRROWFpamFmNGNOK2VHZWpB?=
+ =?utf-8?B?NnFKZ08vNW1xdXJSUE9qNlQzaExBckN3ak9MTkk4TGZrRVQzaGR6R2lQQmdj?=
+ =?utf-8?B?cmgzMUJJN3VKRmlQUUVhczZJSVI3N01YdGJBcStPVUE2eUpsTVF1SGpzSDJS?=
+ =?utf-8?B?d1QvVTM3d2RkMFlSTC9ocjRvaDRlSnh6NXZERU9wdUpsQmV2UURPTldiV3NY?=
+ =?utf-8?B?ckpwUGtUMHVnUU1aVVk0cFNpU29OZEVCTVpPcmpnaURiRWVWNXNvMHFVRkpK?=
+ =?utf-8?B?Q3J4cXp2am5hVnVjVkFiVUZsNWNRaFJHWStQdkt4RFFqcHh6ZS83Njd5M3FF?=
+ =?utf-8?B?blo2ZUptUDN5bFRVcWtGM3QxNDJtSjZBd2dtbnd6QVIyUUR3UEt0KzJ6dzl2?=
+ =?utf-8?B?N3hRd3lPajNhelc0UVduN3FuckZuYlo5WG5kdHBJK1o5YjJDN0FSUTEvalE0?=
+ =?utf-8?Q?+aHqYm9l2vxAg0i2cl?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16b26d90-c393-4ec2-7819-08deb575a1f8
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2026 07:09:56.7940
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 88mu8R2ynre5LClCmoXXIPU27rEcIQmhD4NxaLne/k50dawo2qKFfZnyN2BgAJq6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4115
 
-
-On 5/8/26 15:30, Jonathan Cameron wrote:
-> On Fri, 8 May 2026 13:55:48 +0200
-> Janani Sunil <janani.sunil@analog.com> wrote:
->
->> Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
+On 5/19/26 01:00, Barry Song wrote:
+> On Mon, May 18, 2026 at 3:34 PM Christian König
+> <christian.koenig@amd.com> wrote:
 >>
->> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
->> +/* Register Map */
->> +#define AD5529R_REG_INTERFACE_CONFIG_A		0x00
->> +#define AD5529R_REG_INTERFACE_CONFIG_B		0x01
->> +#define AD5529R_REG_DEVICE_CONFIG		0x02
->> +#define AD5529R_REG_CHIP_TYPE			0x03
->> +#define AD5529R_REG_PRODUCT_ID_L		0x04
->> +#define AD5529R_REG_PRODUCT_ID_H		0x05
->> +#define AD5529R_REG_CHIP_GRADE			0x06
->> +#define AD5529R_REG_SCRATCH_PAD			0x0A
->> +#define AD5529R_REG_SPI_REVISION		0x0B
->> +#define AD5529R_REG_VENDOR_L			0x0C
->> +#define AD5529R_REG_VENDOR_H			0x0D
->> +#define AD5529R_REG_STREAM_MODE			0x0E
->> +#define AD5529R_REG_TRANSFER_CONFIG		0x0F
->> +#define AD5529R_REG_INTERFACE_CONFIG_C		0x10
->> +#define AD5529R_REG_INTERFACE_STATUS_A		0x11
->> +
->> +/* Configuration registers */
->> +#define AD5529R_REG_MULTI_DAC_CH_SEL		(0x14 + 1)
-> Feels like this would all be simpler if you used autoincrement rather than
-> default value of autdecrement.  What breaks if you do that?
-> Superficially feels like all the +1 would go away - though with need
-> for a byte swap?  Might be worth that pain for the simpler code.
-> Should just be a regmap_config parameter.
+>> On 5/16/26 11:19, Barry Song wrote:
+>>> On Thu, May 14, 2026 at 12:35 AM T.J. Mercier <tjmercier@google.com> wrote:
+>>> [...]
+>>>>>> I have a question about this part. Albert I guess you are interested
+>>>>>> only in accounting dmabuf-heap allocations, or do you expect to add
+>>>>>> __GFP_ACCOUNT or mem_cgroup_charge_dmabuf calls to other
+>>>>>> non-dmabuf-heap exporters?
+>>>>>
+>>>>> We're scoping this to dma-buf heaps for now. CMA heaps and the dmem
+>>>>> controller are on the radar for follow-up/parallel work (there will be
+>>>>> dragons and will surely need discussion). For DRM and V4L2 the
+>>>>> long-term intent is migration to heaps, which would make direct
+>>>>> accounting on those paths unnecessary.
+>>>>
+>>>> Ah I see. GEM buffers exported to dmabufs are what I had in mind. I
+>>>> guess this would only leave the odd non-DRM driver with the need to
+>>>> add their own accounting calls, which I don't expect would be a big
+>>>> problem.
+>>>>
+>>>
+>>> sounds like we still have a long way to go to correctly account for
+>>> various v4l2, drm, GEM, CMA, etc. In patch 1, the charging is done in
+>>> dma_buf_export(), so I guess it covers all dma-buf types except
+>>> dma_heap, but the problem is that it has no remote charging support at
+>>> all?
+>>
+>> No, just the other way around
+>>
+>> DMA-buf heaps can be handled here because we know that it is pure system memory and nothing special so memcg always applies.
+>>
+>> dma_buf_export() on the other hand handles tons of different use cases, ranging from buffer accounted to dmem, over special resources which aren't even memory all the way to buffers which can migrate from dmem to memcg and back during their lifetime.
+>>
+> 
+> Hi Christian,
+> 
+> Thanks very much for your explanation. So basically it seems that
+> dma_buf_export() is not the proper place to charge, since it may end up
+> mixing in non-system-memory accounting?
 
-Switching to auto increment is feasible. I'll switch to auto increment and
-eliminate all the +1 offsets.
+Yes, exactly that.
 
->> +
->> +static const struct regmap_range ad5529r_8bit_readable_ranges[] = {
->> +	regmap_reg_range(AD5529R_REG_INTERFACE_CONFIG_A, AD5529R_REG_CHIP_GRADE),
->> +	regmap_reg_range(AD5529R_REG_SCRATCH_PAD, AD5529R_REG_VENDOR_H),
->> +	regmap_reg_range(AD5529R_REG_STREAM_MODE, AD5529R_REG_INTERFACE_STATUS_A),
->> +};
->> +
->> +static const struct regmap_range ad5529r_16bit_readable_ranges[] = {
-> Tricky bit here is you are saying it's a 16 bit regmap but then providing
-> address ranges including the ones we shouldn't use. We need to hide those
-> intermediate addresses.  Various things might work depending on the addresses.
-> Can we hide the bottom bit of each address then write it to appropriate value
-> under the hood. That is divide addresses by 2?
+> My question is also about the global view for both heap and non-heap cases.
+> After reading the discussion, I’ve tried to summarize it—please let me know
+> if my understanding is correct.
+> 
+> for dma_heap, we have the ioctl DMA_HEAP_IOCTL_ALLOC, where users can pass a
+> remote pidfd or similar information to indicate where the dma-buf should be
+> charged, as in Albert's patchset.
 
-I'll address this by using reg_stride = 2 in the 16-bit regmap configuration,
-which automatically handles the address spacing and eliminates the need for manual
-address range exclusion.
+Well that's the current proposal, but I think we need to come up with something more general.
 
->> +	int ret;
->> +
->> +	switch (mask) {
->> +	case IIO_CHAN_INFO_RAW:
->> +		reg_addr = AD5529R_REG_DAC_INPUT_A(chan->channel);
->> +		ret = regmap_read(st->regmap_16bit, reg_addr, &reg_val_h);
->> +		if (ret)
->> +			return ret;
->> +
->> +		*val = reg_val_h;
->> +
->> +		return IIO_VAL_INT;
->> +	case IIO_CHAN_INFO_SCALE:
->> +		/*
->> +		 * Using default 0-5V range: VOUTn = A × D/2^N + B
->> +		 * where A = 5V, B = 0V, D = digital code, N = resolution
->> +		 * Scale = 5000mV / 2^resolution
-> See the comment on the dt-binding. I think we need support for
-> dt described output ranges from the start. This is a rare multi range
-> device where we could set a safe default but to me it makes little sense
-> and the driver will be doing something unexpected if a newer DT is
-> provided with a different range.
+> For non-dma_heap dma-bufs, we don’t have an obvious userspace entry point that
+> triggers the allocation. So we likely need other approaches. We could either
+> move more drivers over to dma-heap, or introduce something like
+> DMA_BUF_IOCTL_XFER_CHARGE, as you are discussing, to let userspace explicitly
+> declare a charge.
 
-I will add devicetree properties for per channel output range configuration.
+Yeah but that's not only for DMA-buf, we need that for file descriptors returned by memfd_create() as well.
 
->> +
->> +static int ad5529r_probe(struct spi_device *spi)
->> +{
->> +	struct device *dev = &spi->dev;
->> +	struct iio_dev *indio_dev;
->> +	struct ad5529r_state *st;
->> +	int ret;
->> +
->> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
->> +	if (!indio_dev)
->> +		return -ENOMEM;
->> +
->> +	st = iio_priv(indio_dev);
->> +
->> +	st->spi = spi;
->> +
->> +	ret = devm_regulator_bulk_get_enable(dev, AD5529R_NUM_SUPPLIES,
->> +					     ad5529r_supply_names);
->> +	if (ret)
->> +		return dev_err_probe(dev, ret, "Failed to get and enable regulators\n");
->> +
->> +	st->regmap_8bit = devm_regmap_init_spi(spi, &ad5529r_regmap_8bit_config);
->> +	if (IS_ERR(st->regmap_8bit))
->> +		return dev_err_probe(dev, PTR_ERR(st->regmap_8bit),
->> +				     "Failed to initialize 8-bit regmap\n");
->> +
->> +	st->regmap_16bit = devm_regmap_init_spi(spi, &ad5529r_regmap_16bit_config);
->> +	if (IS_ERR(st->regmap_16bit))
->> +		return dev_err_probe(dev, PTR_ERR(st->regmap_16bit),
->> +				     "Failed to initialize 16-bit regmap\n");
->> +
->> +	ret = ad5529r_reset(st);
->> +	if (ret)
->> +		return dev_err_probe(dev, ret, "Failed to reset device\n");
->> +
->> +	ret = ad5529r_detect_device(st);
->> +	if (ret)
->> +		return dev_err_probe(dev, ret, "Failed to detect device variant\n");
-> No to this. It breaks the use of fallback device tree compatibles.  As such we
-> never fail on an ID missmatch. Instead we just believe firmware when it says
-> whatever is there is compatible with this device. See below on why I think
-> we need to break this into separate compatibles.
+Regards,
+Christian.
 
-I'll create separate compatibles and remove the device ID detection logic.
-
-Best Regards,
-Janani Sunil
+> Best Regards
+> Barry
 
