@@ -1,205 +1,109 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC12E492519;
-	Tue, 19 May 2026 11:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6F6370AF4;
+	Tue, 19 May 2026 11:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779190647; cv=none; b=pZngMN7cWO7cn/K2ZpSekpL/se+6v7YQdpTukDHwrLnnw7WvmfD9RdlV+4L0RpDawr6TdpKEw6Yzli9LU99lOGn6M+4RfG34ozSKdQaI1T14HmvI642okybhqzwr2Kupv5R5z+xSm8bqjK41mIXSAu1ClZXt/SY8Hx76nls/Ydc=
+	t=1779190823; cv=none; b=hpzt8W4g3Umztv9oh+yY9I6e357wlAD13z8vDkIEDmEC6PeGA1h9DH//bijePeNOnsR1FhuMIO3lvzgDtnOIoEv4ve0zJhDAN2WPuJJAm9GjPTLlkUPFKlNY3mlfgjDiiA8W3PJTQyZPLmKKPeBDSxDgSxYuJoICEzTyF3NQsYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779190647; c=relaxed/simple;
-	bh=P71i5LOBOPL4Hw9EeBymlq0Uf0mmQClWsPDyQMD6YBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iREbEBjK9/3N9PD79NCwIZLrrB7/SbRGQKmSwzvPpWBMYxvm3CRc9JEHi7D/HtbKw8HPCTwRXOHda04QgJvTHf0n27RlLjsrAJ3EoE/OywpPhF65J+EFzKMrrW/y/OOte0QtnvXHIP0Ee51lz8YzZKagSFoBXw2smmTVCYYxeiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lmkJMfMF; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1779190823; c=relaxed/simple;
+	bh=QQaaGxQ5MASOA16eW1u17RV/meEJnJskrvGMHhJ6QeQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hfRFjpS077LvXhtU0z3kzy8nB8R8VeqWVdTNxyhVSdIWx78/Fe8DWuXg4Y9sUqP6SDwWLDwCU2DxvkA9I/dSGq3JNpl30hnAhdf4ewmc3ZWe0dsGFh9IY/wxu46j7L25XhxUR8D0VBkaf0a0Z4PrKG9oq6c+vVAz5+xxlUE7L1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G0TPOmjb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lmkJMfMF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1779190642;
-	bh=P71i5LOBOPL4Hw9EeBymlq0Uf0mmQClWsPDyQMD6YBw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lmkJMfMFv3KpVtRpcOyjXSIVDVhu6eCaJRIpW91cYOFDTqtTZIC2c9C+1C1oJMtSU
-	 dnXMaW6ng5tUAkAskq35eqxUC1O+6hNTVv3ZEfCXQD0BDsa2/0uZpsUEzq1Esv2qxZ
-	 615G/Hj4eMOGF4pB1h2Vu6Cygfef+Ypql4Qe2tp3asoMM20dltJ83aK9xDrDpdNjbM
-	 6iR+0qbuawQlElj596VtUO+CgXYXrOMvfkA6dJV2s8GSWcHzzz4OXdvKMqCzrC7oIp
-	 KFu7AEHGP5uoXhH8VP+npLTMz3B87ETrX4Qo41jOb8UOqcWeFMJeXt7HLLVpLm8ybE
-	 aDrFawFNR4TbQ==
-Received: from fedora (unknown [100.64.0.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4C28B17E1305;
-	Tue, 19 May 2026 13:37:21 +0200 (CEST)
-Date: Tue, 19 May 2026 13:37:18 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Chia-I Wu <olvaffe@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>, Marcin
- =?UTF-8?B?xZpsdXNhcno=?= <marcin.slusarz@arm.com>, Ketil Johnsen
- <ketil.johnsen@arm.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Sumit Semwal
- <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Steven Price
- <steven.price@arm.com>, Daniel Almeida <daniel.almeida@collabora.com>,
- Alice Ryhl <aliceryhl@google.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Florent Tomasin <florent.tomasin@arm.com>, nd@arm.com
-Subject: Re: [Linaro-mm-sig] Re: [PATCH 4/8] drm/panthor: Add support for
- protected memory allocation in panthor
-Message-ID: <20260519133718.373d6070@fedora>
-In-Reply-To: <20260519-loutish-beautiful-trogon-67453f@houat>
-References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
-	<20260505140516.1372388-5-ketil.johnsen@arm.com>
-	<20260505181523.49a3d85c@fedora>
-	<afxVIuVVPisBQ9p_@e129842.arm.com>
-	<20260507135356.5428d50d@fedora>
-	<agMvb_jeRsO7tSS-@e142607>
-	<20260512161111.0cb7000e@fedora>
-	<agNJasayW8VCHTiU@e142607>
-	<CAPaKu7QC7FdjL6m_OSb+E5aYKs6bmT-9DAHc5PC=XctCmRph2Q@mail.gmail.com>
-	<20260518091650.5a7a4f4a@fedora>
-	<20260519-loutish-beautiful-trogon-67453f@houat>
-Organization: Collabora
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0TPOmjb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3FFCC2BCB3;
+	Tue, 19 May 2026 11:40:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779190823;
+	bh=QQaaGxQ5MASOA16eW1u17RV/meEJnJskrvGMHhJ6QeQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=G0TPOmjbmcvJIsyGp9Lt9WWuGrK3bSidLM55V8j1toGC08ccXy34OW+azx4MDkSV7
+	 a/BjSolTL36yxsLoocb5XUNbmpvdpDCm+P1wzQ6KWLN2vZA6JE6WOXE6NoTfzmfUey
+	 ef352MxE0yvpE8Idden2ACG12L3FEAoE2VydQ6X7abTwmp4W+J7UEPOHhQC0QxrCUv
+	 A5SHqdGiPEPP28otiuD5aBL0d9JDnfKn5p70KSV2wgC/lhciRK56CwFnAc4hkqZKLg
+	 mvQf2SluEbysYMgQBbiDmzhVt7XjUOIOl9GPWQDyB05H0C+RTfaFU1sGH/cIjAHr4+
+	 Jh0UTs5zoTCUA==
+Message-ID: <6b5378ed-270a-4ade-a944-654941ee9f8c@kernel.org>
+Date: Tue, 19 May 2026 06:40:18 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nios2: remove the architecture
+Content-Language: en-US
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Simon Schuster <schuster.simon@siemens-energy.com>
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+ workflows@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-iio@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+ linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner
+ <tglx@kernel.org>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Hu Haowen <2023002089@link.tyut.edu.cn>, Kees Cook <kees@kernel.org>,
+ Oleg Nesterov <oleg@redhat.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Nicholas Piggin <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+ Frank Li <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof WilczyDski <kwilczynski@kernel.org>,
+ Andreas Oetken <andreas.oetken@siemens-energy.com>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+ <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
+ <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
+ <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
+ <CADkSEUjhq6HSdg4ignzbuJiN5uXATsTdxFbRJ3BMxs5=WUWLDg@mail.gmail.com>
+ <20260519103012.blot4bssgiqfer6p@dev-vm-schuster> <agxBqd-ubOL2_i-j@shikoro>
+From: Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <agxBqd-ubOL2_i-j@shikoro>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 19 May 2026 11:52:13 +0200
-Maxime Ripard <mripard@kernel.org> wrote:
+Hi Simon,
 
-> Hi Boris,
->=20
-> On Mon, May 18, 2026 at 09:16:50AM +0200, Boris Brezillon wrote:
-> > On Wed, 13 May 2026 12:31:32 -0700
-> > Chia-I Wu <olvaffe@gmail.com> wrote:
-> >  =20
-> > > On Tue, May 12, 2026 at 8:39=E2=80=AFAM Liviu Dudau <liviu.dudau@arm.=
-com> wrote: =20
-> > > >
-> > > > On Tue, May 12, 2026 at 04:11:11PM +0200, Boris Brezillon wrote:   =
-=20
-> > > > > On Tue, 12 May 2026 14:47:27 +0100
-> > > > > Liviu Dudau <liviu.dudau@arm.com> wrote:
-> > > > >   =20
-> > > > > > On Thu, May 07, 2026 at 01:53:56PM +0200, Boris Brezillon wrote=
-:   =20
-> > > > > > > On Thu, 7 May 2026 11:02:26 +0200
-> > > > > > > Marcin =C5=9Alusarz <marcin.slusarz@arm.com> wrote:
-> > > > > > >   =20
-> > > > > > > > On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon w=
-rote:   =20
-> > > > > > > > > > @@ -277,9 +286,21 @@ int panthor_device_init(struct pan=
-thor_device *ptdev)
-> > > > > > > > > >                     return ret;
-> > > > > > > > > >     }
-> > > > > > > > > >
-> > > > > > > > > > +   /* If a protected heap name is specified but not fo=
-und, defer the probe until created */
-> > > > > > > > > > +   if (protected_heap_name && strlen(protected_heap_na=
-me)) {   =20
-> > > > > > > > >
-> > > > > > > > > Do we really need this strlen() > 0? Won't dma_heap_find(=
-) fail is the
-> > > > > > > > > name is "" already?   =20
-> > > > > > > >
-> > > > > > > > If dma_heap_find() will fail, then the whole probe with fai=
-l too.
-> > > > > > > > This check prevents that.   =20
-> > > > > > >
-> > > > > > > Yeah, that's also a questionable design choice. I mean, we can
-> > > > > > > currently probe and boot the FW even though we never setup the
-> > > > > > > protected FW sections, so why should we defer the probe here?=
- Can't we
-> > > > > > > just retry the next time a group with the protected bit is cr=
-eated and
-> > > > > > > fail if we can find a protected heap?   =20
-> > > > > >
-> > > > > > The problem we have with the current firmware is that it does a=
- number of setup steps at "boot"
-> > > > > > time only. One of the steps is preparing its internal structure=
-s for when it enters protected
-> > > > > > mode and it stores them in the buffer passed in at firmware loa=
-ding. We cannot later run the
-> > > > > > process when we have a group with protected mode set.   =20
-> > > > >
-> > > > > No, but we can force a full/slow reset and have that thing
-> > > > > re-initialized, can't we? I mean, that's basically what we do whe=
-n a
-> > > > > fast reset fails: we re-initialize all the sections and reset aga=
-in, at
-> > > > > which point the FW should start from a fresh state, and be able to
-> > > > > properly initialize the protected-related stuff if protected sect=
-ions
-> > > > > are populated. Am I missing something?   =20
-> > > >
-> > > > Right, we can do that. For some reason I keep associating the reset=
- with the
-> > > > error handling and not with "normal" operations.   =20
-> > > I kind of hope we end up with either
-> > >=20
-> > >  - panthor knows the exact heap to use and fails with EPROBE_DEFER if
-> > > the heap is missing, or
-> > >  - panthor gets a dma-buf from userspace and does the full reset
-> > >    - userspace also needs to provide a dma-buf for each protected
-> > > group for the suspend buffer
-> > >=20
-> > > than something in-between. The latter is more ad-hoc and basically
-> > > kicks the issue to the userspace. =20
-> >=20
-> > Indeed, the second option is more ad-hoc, but when you think about it,
-> > userspace has to have this knowledge, because it needs to know the
-> > dma-heap to use for buffer allocation that cross a device boundary
-> > anyway. Think about frames produced by a video decoder, and composited
-> > by the GPU into a protected scanout buffer that's passed to the KMS
-> > device. Why would the GPU driver be source of truth when it comes to
-> > choosing the heap to use to allocate protected buffers for the video
-> > decoder or those used for the display? =20
->=20
-> Just fyi, the trend is to go to devices listing the heaps userspace
-> should allocate from
+On 5/19/26 05:55, Wolfram Sang wrote:
+> Hi Simon,
+> 
+>>> ... but given this, you might want to get added in MAINTAINERS as
+>>> reviewer (or even maintainer) for nios2? Besides that your efforts are
+>>> already worth it in my book, it would also ensure you get CCed on
+>>> patches like this. Then, you are not depending on people like Arnd
+>>> putting you in the loop manually.
+>>
+>> Sure, I'd be glad to do so, but so far I refrained from it as I was a bit
+>> unsure about the netiquette (can I simply do so by self-proclamation? At
+>> least the git history seems to suggest so...).
+> 
+> In your case, you can do so, I'd say. You explained your very reasonable
+> interest in the architecture and have already shown efforts to keep it,
+> as we can see from the git history. The final call will be done by Dinh
+> Nguyen obviously with whom you probably need to sort out details. But I
+> can't imagine your offer for help will be rejected, quite the contrary.
+> 
 
-Devices listing the heaps they are able to import buffers from
-(with the list being different based on the buffer properties, I
-guess) is a good thing. This way the central allocator is in a position
-where it can intersect the devices lists and decide which heap to
-allocate from based on its buffer sharing knowledge.
+I 100% support adding you as a maintainer. Please send a patch.
 
-> and/or using the heaps internally to allocate their
-> buffers,
-
-Yes, that too. For internal buffers (especially the device-wide ones,
-like the protected FW sections we were discussing), it makes sense to
-leave that up to the driver.
-
-> so that last part is where we're headed, and feels totally
-> reasonable to me.
-
-Just to be clear, my main concern right now is not the long term plan,
-but how realistic it is to assume we'll have all the DT/dma_heap pieces
-in place in a reasonable amount of time. Looking at the current state
-of affairs (based on this patchset), it feels like we're a long way
-till we can have a robust way of exposing dma_heaps to in-kernel users
-(refcounting, lifetime issues, describing allowed heaps, ensuring heaps
-truly provide buffers with the expected properties, ...). I'm certainly
-not saying these are not valid concerns, but I'd like to have a
-temporary solution to support protected rendering in the meantime...
-
->=20
-> Maxime
+Thanks,
+Dinh
 
