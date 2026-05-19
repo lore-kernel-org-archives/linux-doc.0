@@ -1,104 +1,207 @@
-Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E453EF0BC;
-	Tue, 19 May 2026 08:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59DFF3F660E;
+	Tue, 19 May 2026 09:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779180940; cv=none; b=dOMWnqYeAgMxQ984Xii1dS3GoYI7LSOTMVoYWPAmx2it/fHDr3OlPqgI/+a1ut95GXU+yEq6Egyf5U5m734yzvbFzh5mgixZe+nHlxyRHPKL1PpXkjeAITBVU74uKmlnzkjJkZODR0b8lMVd6pO86s7Y2dz3YNPrxEgOOrq00vI=
+	t=1779181322; cv=none; b=eZfUV0KV7XD+eHZ/w5yimMbWYQ0bqvXCOP7xg4twnao9f5vDVNRZ1Zkta0RWlOCJNkYyzyPHnYpSjwVLZEqqGAlI8c9fdisCzBUVTrmLzoJM6u9XrP+cAap2e7dBTgoXX/+XmufbIjNv8Sfhgnv1dJXFDunjgzp1qF49OlCIyQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779180940; c=relaxed/simple;
-	bh=J05AeAqG71CwR6+dkANjT+VWQxCxqr/Vrlgz+AgBcz4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pqNwvQan/xoZsu1uwwre8BpREt1hh2YYTors2MVOTJZLfcQ7pNQwW3/PACNCbWN5Rftewn9AxA3IQFmXqDCSa7CSk162PO/DlNU+jOMOkjdMniA0vqN6XyzujkIwlg84KHkpC6JlyEvZY+pESjQQaKhiTLqqqyg4Ef67Z9jyl74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.224.235])
-	by frasgout13.his.huawei.com (SkyGuard) with ESMTPS id 4gKScl52lzzpTS0;
-	Tue, 19 May 2026 16:33:43 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id 2764E4056C;
-	Tue, 19 May 2026 16:38:38 +0800 (CST)
-Received: from [10.204.63.22] (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwCHymaDIQxqPxhvAQ--.19007S2;
-	Tue, 19 May 2026 09:38:37 +0100 (CET)
-Message-ID: <3e2629f86015edb92951dfbdb9f6df4e82c6a456.camel@huaweicloud.com>
-Subject: Re: [PATCH v5 00/13] ima: Introduce staging mechanism
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, steven chen
-	 <chenste@linux.microsoft.com>, corbet@lwn.net, skhan@linuxfoundation.org, 
-	zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	gregorylumen@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
-Date: Tue, 19 May 2026 10:38:24 +0200
-In-Reply-To: <8db443f1-d2f3-47ce-9116-18985ed0b290@linux.microsoft.com>
-References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
-	 <99c30be6-8b0f-486a-890c-cf74c5930726@linux.microsoft.com>
-	 <aaed52cf-26e1-4c40-812d-3788024ce5b5@linux.microsoft.com>
-	 <2302296a13b847960dbdbab3cf5518b275938838.camel@huaweicloud.com>
-	 <8db443f1-d2f3-47ce-9116-18985ed0b290@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	s=arc-20240116; t=1779181322; c=relaxed/simple;
+	bh=DBIFCH1cyjEz//oJo5SEbw9KVoeReft6owR9CiWCBWE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ua7buADPzfbsrw6IiCFxnFUR1KUxZlkeqDjJYrlMzdn0Ga1psA2o1GV65tvLQTHlhJtVhoyCRMT+eFCyHExOQ8BuuX+nAZ6rZ8HJmGkGkggGpxky9gvQQz23pqokfPTQ3XqgdCH1bpOVOynuKhR7MIgaUnsPUt706le3zYBwSsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1X9EXRT; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1X9EXRT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84CDCC2BCC6;
+	Tue, 19 May 2026 09:02:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779181322;
+	bh=DBIFCH1cyjEz//oJo5SEbw9KVoeReft6owR9CiWCBWE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Y1X9EXRTahEPgr2zSuhJs9c17S5jYxTLLiGu+iOrdX8ZfEte1822QcrrYUayj4jBP
+	 vmZs+qmfMCAZ3YKmfj3FzC/fKpdiial856eoB4PQqTDX/HBEKSDSLcws3SMP45rfze
+	 11vPAcbRahaj3sVLg+7mqxcLf2ruQOb0fqnwA+eGFDykY40Ssn6mm4ILJssu7bzI7p
+	 hxua60gVxA9j8n90NXdtpoC5XwfMm3YvRhiKPXUkUCGMIQSgYHOeTap1EJ2VdoIoth
+	 zIbumNIHUcKfxeTOs+oAeQ9VvtDpFsBxgZTJZP07GfaEHIXyEEAxAWgoc6VoNqtWvT
+	 iBJr/twufoIEw==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v5 00/19] drm/atomic: Rework initial state allocation
+Date: Tue, 19 May 2026 11:01:42 +0200
+Message-Id: <20260519-drm-mode-config-init-v5-0-388b03321e38@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:GxC2BwCHymaDIQxqPxhvAQ--.19007S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZrW5urWrGr17Zw4kWF4Durg_yoWfGwc_ur
-	1jyryvkF4UZw15CFZ2vFn3WrWDJ34Fy3WfGw15Xrs8J3srJwsxGrs5KrZYyF1fJrn8ZF1v
-	9rZrWFWFvrnI9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbx8YFVCjjxCrM7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
-	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x02
-	67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aVCY1x0267
-	AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2
-	j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AK
-	xVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
-	0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_Wryl
-	IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
-	AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
-	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07Udku
-	cUUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQASBGoK9roL3wAAsv
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33Oy07DMBAF0F+JvGaQx488uuI/EIvaHqcWxCl2i
+ Iqq/DtOuiioCss7o3tmrixTCpTZobqyRHPIYYwl6KeK2dMx9gTBlcwEFzWXyMGlAYbREdgx+tB
+ DiGECJPRamEZpx1mpnhP5cNnY17dbTvT5VfTpNmTmmFdiGMJ0qDYzZAuRLhOsp4BrQMXW7inka
+ Uzf24czbuX/n5kRyoYa2TW2JbT+5Z1SpI/nMfWbOItfithTRFFsLT2iVNTU9kGRd0UJtaPIorS
+ mbl3nDHeteVDUXdEodhRVFN2h885aNL77oyzL8gOBd07SxwEAAA==
+X-Change-ID: 20260310-drm-mode-config-init-1e1f52b745d0
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>, 
+ Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>, 
+ Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5807; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=DBIFCH1cyjEz//oJo5SEbw9KVoeReft6owR9CiWCBWE=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFk8aj+Xs5/e6KAh99ytpPtUhZ/FhBs7mU/XZCpdnHZwd
+ XK7sfz8jqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCR5caMdYrv1m3rFszsrchY
+ uPJ1ZHDKYZWS03EeNVsPO995yl/BlRRtNZtr9edeo72zch3nM8T8Z6wzfBaoYbPE/Vnijy9iWTs
+ vnxFufHP/RMrmH+diLZ5pK07SPRfgqdShm/1hDXtXoolnYDwA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-On Fri, 2026-05-15 at 10:37 -0700, Lakshmi Ramasubramanian wrote:
-> Thanks for the response Roberto.
->=20
-> On 5/12/2026 1:17 AM, Roberto Sassu wrote:
->=20
-> > > >=20
-> > > > This submission proposes two ways for log trimming:
-> > > >=20
-> > > > *Flavor 1:* Staging With Prompt
-> > > > *Flavor 2:* Stage and Delete N
-> > > >=20
-> >=20
-> > I'm happy to support your trimming method. Just does not fit with my
-> > use case. I would like to keep both.
-> >=20
->=20
-> If "Flavor 1: Staging With Prompt" would be beneficial to the Linux=20
-> kernel customers, in general, we should continue to review the change=20
-> and merge it eventually.
->=20
-> My request, then, would be to split this patch set into 2 parts:
->=20
-> 	Part 1: Implements "Staging With Prompt"
->=20
-> 	Part 2: Implements "Stage and Delete N"
->=20
-> I think that would make it easier for reviewing the code, test\validate,=
-=20
-> and merge.
+Hi,
 
-No need in my opinion, it is simple enough.
+This series started from my work on the hardware state readout[1], and
+more specifically a discussion with Thomas[2].
 
-Roberto
+This series expands the work that has been merged recently to make
+drm_private_obj and drm_private_state allocation a bit more consistent
+and ended up creating a new atomic_create_state callback to allocate a
+new state with no side effect.
+
+The first patches document the existing behaviour and fix a few
+cleanups and typos.
+
+Then, __drm_*_state_reset() helpers are renamed to
+__drm_*_state_init() to clarify that they initialize rather than
+reset state, and we add the new atomic_create_state callback to
+every other DRM object (planes, CRTCs, connectors, colorops).
+
+Next, we leverage those new callbacks to create a new helper,
+drm_mode_config_create_initial_state(), to create the initial state
+for all the objects of a driver, and update the driver skeleton to
+recommend it.
+
+Finally, we convert the tidss driver and the bridge_connector to the
+new pattern.
+
+This was tested on a TI SK-AM62, with the tidss driver.
+
+Let me know what you think,
+Maxime
+
+1: https://lore.kernel.org/dri-devel/20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org/
+2: https://lore.kernel.org/dri-devel/5920ffe5-b6b1-484b-b320-332b9eb9db82@suse.de/
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v5:
+- Address sashiko reviews
+- Improve the docs
+- Fix drmm_connector_hdmi_init
+- Drop drm/tidss: Switch to drm_mode_config_create_initial_state since
+  not all possible bridges would have been converted to create_state 
+- Link to v4: https://lore.kernel.org/r/20260512-drm-mode-config-init-v4-0-591dfdcc1bf9@kernel.org
+
+Changes in v4:
+- Rebased on current drm-misc-next
+- Update drm_atomic_state to drm_atomic_commit
+- Various doc impromvements
+- Don't call drm_crtc_vblank_reset in create_state
+- Prevent mem leak if states already have a state when
+  drm_mode_config_reset or _create_initial_state are called
+- Link to v3: https://lore.kernel.org/r/20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org
+
+Changes in v3:
+- Reintroduce state documentation that was dropped by accident
+- Change name to drm_mode_config_create_initial_state()
+- Don't call drm_mode_config_create_initial_state() in drm_dev_register
+  anymore
+- Drop __drm_atomic_helper_*_create_state
+- Improve documentation and commit messages where necessary
+- Collected tags
+- Link to v2: https://lore.kernel.org/r/20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org
+
+Changes in v2:
+- Change the _state_reset function names to _state_init
+- Change the colorop too
+- Various doc improvements
+- Link to v1: https://lore.kernel.org/r/20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org
+
+---
+Maxime Ripard (19):
+      drm/atomic: Document atomic commit lifetime
+      drm/colorop: Fix typos in the doc
+      drm/atomic: Drop drm_private_obj.state assignment from create_state
+      drm/atomic: Expand atomic_create_state expectations for drm_private_obj
+      drm/mode-config: Document drm_private_obj exclusion from drm_mode_config_reset()
+      drm/colorop: Rename __drm_colorop_state_reset()
+      drm/colorop: Create drm_atomic_helper_colorop_create_state()
+      drm/atomic-state-helper: Fix __drm_atomic_helper_plane_reset() doc typo
+      drm/atomic-state-helper: Rename __drm_atomic_helper_plane_state_reset()
+      drm/plane: Add new atomic_create_state callback
+      drm/atomic-state-helper: Rename __drm_atomic_helper_crtc_state_reset()
+      drm/crtc: Add new atomic_create_state callback
+      drm/atomic-state-helper: Rename __drm_atomic_helper_connector_state_reset()
+      drm/hdmi: Rename __drm_atomic_helper_connector_hdmi_reset()
+      drm/connector: Add new atomic_create_state callback
+      drm/mode-config: Create drm_mode_config_create_initial_state()
+      drm/drv: Switch skeleton to drm_mode_config_create_initial_state()
+      drm/tidss: Convert to atomic_create_state
+      drm/bridge_connector: Convert to atomic_create_state
+
+ Documentation/gpu/drm-kms.rst                      |   6 +
+ drivers/gpu/drm/display/drm_bridge_connector.c     |  17 +-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  15 +-
+ drivers/gpu/drm/drm_atomic.c                       |  67 ++++++++
+ drivers/gpu/drm/drm_atomic_state_helper.c          | 114 ++++++++++---
+ drivers/gpu/drm/drm_colorop.c                      |  41 ++++-
+ drivers/gpu/drm/drm_connector.c                    |  10 +-
+ drivers/gpu/drm/drm_drv.c                          |   4 +-
+ drivers/gpu/drm/drm_mode_config.c                  | 189 ++++++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_crtc.c          |   2 +-
+ drivers/gpu/drm/i915/display/intel_plane.c         |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |   2 +-
+ drivers/gpu/drm/tidss/tidss_crtc.c                 |  17 +-
+ drivers/gpu/drm/tidss/tidss_plane.c                |   2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |   2 +-
+ include/drm/display/drm_hdmi_state_helper.h        |   4 +-
+ include/drm/drm_atomic.h                           |   5 +-
+ include/drm/drm_atomic_state_helper.h              |  12 +-
+ include/drm/drm_colorop.h                          |   2 +
+ include/drm/drm_connector.h                        |  16 ++
+ include/drm/drm_crtc.h                             |  16 ++
+ include/drm/drm_mode_config.h                      |   1 +
+ include/drm/drm_plane.h                            |  16 ++
+ 24 files changed, 496 insertions(+), 68 deletions(-)
+---
+base-commit: 69c95e4c529297c25503e60acba757fba24fdc95
+change-id: 20260310-drm-mode-config-init-1e1f52b745d0
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
