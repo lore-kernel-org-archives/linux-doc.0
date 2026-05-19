@@ -1,246 +1,296 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405953EFFA9
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 09:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779181968; cv=none; b=kT4ygl0W+sezxRSdVllp9LDzQmzheFLVi0DV2JlVMsCgUIsb/zB++vNqS2ryyEjGQM2kJlyEy0ZTHAB3pmo4sB5eB257QR1CZcJcVLu117cfUPdFlty017F/1oK05GA4xI7upA3ufh0OnH6w3XfWaoXcp5QrRh0Av4rURQIwvuE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779181968; c=relaxed/simple;
-	bh=onFQ4v+FSFK2UXSilq7yV/sB/D4Z8/XdOpqBb9Xk3E0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c2Shvl8crPkjwG7SstVf/EgCkLCJwA5VeFmA7Ujg6Lx/0TgzpH+dvYSB2YFe0R3YyiH7WXoSlydp1lxLkT+R4YQstlhxwfVhIvwhz+p3dZxO7S7dVAcz+XvIZyMp5BWTgz5Ix9+39cG6ONqOppjMqVvskc+4WDZkWxcUx4UeH7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XbGAhXBI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=X6ZgIe8/; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XbGAhXBI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=X6ZgIe8/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E873F0ABA
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 09:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779182246; cv=pass; b=u8l+9xHAPOH5MJ7y+JnR7ka54kDXqEEAhxTuxp3wRDFWaSvKU/vb9N65r75XtWIrGKxNffyADhnMRRiKwHTdGGNwiyKaXbcmg59byTlOSH/XO33p142Ndk1ASIgnfC1+eCR90r5z4/Yiy94sN2u17tii9TufmWk5Iq2r1LFp/L4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779182246; c=relaxed/simple;
+	bh=ahxcxmkOaihabfP2WFI6asNswH1uQirOjdb0LjAlcss=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HSSDf1c+H2D2TZoyuTIbhy6BZPextEg7xrhln1OfX85Z60kmYa+Rls/wZwUmCrKzUJLw4vmyLT38DL1zmomJvWVCsURmLuFCmiA1E7/5eDrCH1/BW5iKKKDv00G6R6qbpJ1IM6sy8pKLXqbQ9wSLOFrNMo8LgY5b9Mqm+reQQgU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AOW9Nv7j; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qvia8Yl1; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XbGAhXBI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="X6ZgIe8/";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XbGAhXBI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="X6ZgIe8/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 43A9B67F29;
-	Tue, 19 May 2026 09:12:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779181965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AOW9Nv7j";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qvia8Yl1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779182244;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OapOTgqeeMhqW6YJcFJ+j8t6Yq/X2hHrIATznFjjbVc=;
-	b=XbGAhXBI/QiMYRG8U49S3i/aUHqHv9uVX6HFUqDB3MwrdQEyfg9DiS6Zy2mPlItAJT2zMn
-	lu7gGfHHr7C5r9r76uzaFqckqahM1Cy2hkxxW2E0ez5/OjQWOPpttSzKyEe0ZmEQuXZzUH
-	0ntBxWkoYL/lk5HYq46I0Jgzz1Qp1J0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779181965;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OapOTgqeeMhqW6YJcFJ+j8t6Yq/X2hHrIATznFjjbVc=;
-	b=X6ZgIe8/BF2YcZiNuiESI0iJepoaOwNhOBat0Ui8p3LR/d7mzitu7tICbisOUxdEcJ5NLg
-	jrE9VxN/n0AccJCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=XbGAhXBI;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="X6ZgIe8/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779181965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OapOTgqeeMhqW6YJcFJ+j8t6Yq/X2hHrIATznFjjbVc=;
-	b=XbGAhXBI/QiMYRG8U49S3i/aUHqHv9uVX6HFUqDB3MwrdQEyfg9DiS6Zy2mPlItAJT2zMn
-	lu7gGfHHr7C5r9r76uzaFqckqahM1Cy2hkxxW2E0ez5/OjQWOPpttSzKyEe0ZmEQuXZzUH
-	0ntBxWkoYL/lk5HYq46I0Jgzz1Qp1J0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779181965;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OapOTgqeeMhqW6YJcFJ+j8t6Yq/X2hHrIATznFjjbVc=;
-	b=X6ZgIe8/BF2YcZiNuiESI0iJepoaOwNhOBat0Ui8p3LR/d7mzitu7tICbisOUxdEcJ5NLg
-	jrE9VxN/n0AccJCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 391C2593A8;
-	Tue, 19 May 2026 09:12:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DrDsDY0pDGq/OQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 19 May 2026 09:12:45 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 69844A0ADE; Tue, 19 May 2026 11:12:44 +0200 (CEST)
-Date: Tue, 19 May 2026 11:12:44 +0200
-From: Jan Kara <jack@suse.cz>
-To: Ian Kent <raven@themaw.net>
-Cc: Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
-	Horst Birthelmer <horst@birthelmer.com>, Amir Goldstein <amir73il@gmail.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first
- reaper
-Message-ID: <fglq7n2brxwdsu7and6nt6xpgdziua754yzgxkmd33pmk6tor4@noxa5ajva7wg>
-References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
- <177906210551.3947082.4313294634549021141@noble.neil.brown.name>
- <bc359831-e653-4269-9d57-742b48d56d9f@themaw.net>
- <yk2hem4zwinm4glenpc74to7sm5kyriksgwn6mxh7t4saotiba@7zik7jcnbs5m>
- <b320ff9a-7f6f-44c3-940f-33f79cc5569f@themaw.net>
+	bh=ahxcxmkOaihabfP2WFI6asNswH1uQirOjdb0LjAlcss=;
+	b=AOW9Nv7jZW7A/9LRrVY1xHXznWasUh1Wxqnz8dOcz38erHhs24ZomgdQvO/AV+uAh2hB2s
+	B5M7oaaIr6uYO/1lhIGSndNfPYg/JO5sJQJf1WSUOmoNbzAAaDYT1nK/wXOoLZ0XUWEa1/
+	CbNFTGjs5deKwgxCNveR9vIw2tp/Nas=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-207-auZ7tebsM8eHg6XjP5_oog-1; Tue, 19 May 2026 05:17:22 -0400
+X-MC-Unique: auZ7tebsM8eHg6XjP5_oog-1
+X-Mimecast-MFC-AGG-ID: auZ7tebsM8eHg6XjP5_oog_1779182242
+Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-7c24193e2b8so52549637b3.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 02:17:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779182242; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZX8Don92vFmZgtQoJgJTBnXizQWBUFHanOKJ/1etmMsb392KXz0rQ3HHy4d2ReS5WY
+         i2+wasN5i5E9NupKgBGHvHKcupConCwFWI8X+11GjWRPq7xlyTTkYhv73RMmRuERxc8k
+         bQBCXiFnlJ1VUDi4gMAVJ9+KjS48I4a27wnMeNapBuLk78q/tLfdlKQRuyMmzWsmrBgM
+         EhkEseXCiizvc5I+gLG7OhnVR6q0wXc5h/qkb40DBWT5L4EW2rGGvIr4BTtiEbojhU7u
+         Qw82mxthFqwUndubLuEdFpUh4M0FSif3eafyZcOselnTY+obJSwSzRhmJISq/Z9cOqIs
+         OC0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ahxcxmkOaihabfP2WFI6asNswH1uQirOjdb0LjAlcss=;
+        fh=pbs2LBp4oNKslimPn2lqZXduNuEybt4g2uUAlqp5nJA=;
+        b=dr4RQwfVTXLWItGHrzHwmmpii4TXXWz+qhXsoyIFihnAhlp0H9NFuV/4jV3Sxs7FSf
+         9Puf+g8dqE0+b8EDcjXGz6GkT+TA9jP1j5sUgfe+zIz4FouSKU4AINIUVn6mYNb49guj
+         nxtl+7jOAB/+VzSmIThvAFH0AzOnFFIAonyuoXOLa9hA6iil47aE0diENUU+8UdWmVXB
+         wQuMQ3zLiIcMpySdpW3uiMKOo1K2XPv9N6yCk8pTOPeKOuj16e8MflpSqiALp9tIyli3
+         BnWbprJlDZlf0Lfu1x89cyLKABINHreJ5nPT/9CujA3lc/HHyhcvr2XJXjh6xtXZWO5N
+         68ug==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1779182242; x=1779787042; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ahxcxmkOaihabfP2WFI6asNswH1uQirOjdb0LjAlcss=;
+        b=qvia8Yl1VZBOEkQ86mS3aIVG1q8FX6h42hqISIixHt0A1lAeoANof82medLl6SbTC3
+         cUO8xorSlCTK++u+4yVlN0vmpI8HJ367/nIuxoWC1isBD27Wig/2OMKkYMO38QPaiLIX
+         vXL5233zvsFfIobVXoaiflR4ahGM0uUXaZFM8gb3vtRkcENHgWy8JLu56GHAp9WuK8qy
+         v4KusyLi37P5MnD3/N3p8quc3k1QMk9WyTAwaNRn+P5JqRuWuiDjZzDJPH/7S7zXpi7Z
+         big8Jox/ATLs3U9uyxFzDG25wvmOFvvSWmELbArKwjVnBP2nVsHzL391vCVlnPbTlkMe
+         u3HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779182242; x=1779787042;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ahxcxmkOaihabfP2WFI6asNswH1uQirOjdb0LjAlcss=;
+        b=s1uxj94Oi4HrZjwp0IjTHCa5l2HE4TYlghATM5hTBMXN+hentRvqm5P2yNsz2Gr+3h
+         gBbnlmnYf+NnF9Q+bx4psXldD5jqSn3bL3Bvz/Frln6lPX1v+afmDt8QLjHt5xWaTr3T
+         5xCzCK3vqxwrGvTHSDC5M7RgnLO6BxDjzRO4TertZgSYC5TeOqNuh4JmlHcufZDsJnu0
+         KdIryIXppAi20QfAWepguvVuiG4rYr/Mtu2aUKF97dCh5cJ66LS8MlGBmWdO0ZQFu5PG
+         GF1wl0yYaa7fD7IWNh36rSNWTZaMj9gSZTtVNkjdxGFfakbZVasQWn4RUiUN2MAxt8Qy
+         sIig==
+X-Forwarded-Encrypted: i=1; AFNElJ8LOnu95zqIPvPqdcFFmoieB5iaWXeaFeRSdhcTleYD1wXtGYIrHYHC7IhFlgIrw11eNjRsIH3Cznc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzw105kjzSvKVPwIjO0zaGXSkYAvWJqaj5yGBXxo4LRdnSAdper
+	GU+ojL7dWw15zbptgnQ3WAn1jvFihS0zpmETUi6xPrFiDtK/qZ9ts+rVuxV8s4/pg29qg7MUDc/
+	x1o7O0xeu65CQ7TNuZBCz3C/Q2j1XDahNvWXcA/10QhkqzX+g5heCxw8h7KTS+FjwZFoj+7M1D8
+	Sv85dljmnWQ+8FHk+CvKm4staWWZ6OCEvZMjNn
+X-Gm-Gg: Acq92OFtRw7EjA2rUzGi6vChZ7tPYFmueb3kwctbJQRAsgl2G8grUyaPsrXHggt7FnV
+	CXNxout92urzdjpHJ5SVwJwXhqZ2KOQVmX0X1IHKFQyND3j9s6blFRlIpVcZvReOB9lVj4Fw3Vp
+	B08pqgTzZgrd2qoIRuzo8gqeGKTT/e+ysJpNE8bnSDQBEFYykbH1SSRHd4+tFs6xslcL7+0qmqv
+	xs/VA==
+X-Received: by 2002:a05:690c:c513:b0:7b4:f43f:1a23 with SMTP id 00721157ae682-7c95d1d5de1mr201683217b3.34.1779182241800;
+        Tue, 19 May 2026 02:17:21 -0700 (PDT)
+X-Received: by 2002:a05:690c:c513:b0:7b4:f43f:1a23 with SMTP id
+ 00721157ae682-7c95d1d5de1mr201682637b3.34.1779182241263; Tue, 19 May 2026
+ 02:17:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b320ff9a-7f6f-44c3-940f-33f79cc5569f@themaw.net>
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,brown.name,birthelmer.com,gmail.com,szeredi.hu,lwn.net,linuxfoundation.org,zeniv.linux.org.uk,kernel.org,vger.kernel.org,ddn.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 43A9B67F29
-X-Spam-Level: 
+References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
+ <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
+ <8ef38815-6ae9-4359-86d4-042554357639@amd.com> <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
+ <CADSE00Jq_uvNgvxgPze0mEdUd+hF4-DPZkHy0KroWHZzygf4WA@mail.gmail.com>
+ <CABdmKX3DhejYBis9htLDnzPrG7vuF3R3URLVNEbnyd61SSsx=g@mail.gmail.com>
+ <CAGsJ_4zyecY6E-=Tm4_couT7uoM9LMcFdTMUPkZAjj4zUKE-dQ@mail.gmail.com>
+ <cb84c2ee-9de1-4565-b2e0-60984721228f@amd.com> <CADSE00Lc42s2bzXzV5D7t1Enf56u4BVj-yXLp3Yxhm0=qMPvuw@mail.gmail.com>
+ <9cc79977-9a42-40eb-bfa7-460881c1e10f@amd.com>
+In-Reply-To: <9cc79977-9a42-40eb-bfa7-460881c1e10f@amd.com>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Tue, 19 May 2026 11:17:09 +0200
+X-Gm-Features: AVHnY4IPueDokk-vXqsRnZz3u8JK7NQGe3IxviX_AiFOJ3NwW-K39W0igYKchDQ
+Message-ID: <CADSE00Lxti-MabrZq9KWijRxTHX49NOAV=hMdfLdqKrj-C=Jug@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 2/5] dma-heap: charge dma-buf
+ memory via explicit memcg
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Barry Song <baohua@kernel.org>, "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri- <devel@lists.freedesktop.org>, 
+	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, mripard@kernel.org, echanude@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon 18-05-26 21:39:13, Ian Kent wrote:
-> On 18/5/26 16:19, Jan Kara wrote:
-> > Hi Ian,
-> > 
-> > On Mon 18-05-26 10:55:43, Ian Kent wrote:
-> > > On 18/5/26 07:55, NeilBrown wrote:
-> > > > On Fri, 15 May 2026, Horst Birthelmer wrote:
-> > > > According to the email you linked, a problem arises when a directory has
-> > > > a great many negative children.  Code which walks the list of children
-> > > > (such as fsnotify) while holding a lock can suffer unpredictable delays
-> > > > and result in long lock-hold times.  So maybe a limit on negative
-> > > > dentries for any parent is what we really want.  That would be clumsy to
-> > > > implement I imagine.
-> > > But the notion of dropping the dentry in ->d_delete() on last dput() is
-> > > simple enough but did see regressions (the only other place in the VFS
-> > > besides dentry_kill() that the inode is unlinked from the dentry on
-> > > dput()). I wonder if the regression was related to the test itself
-> > > deliberately recreating deleted files and if that really is normal
-> > > behaviour. By itself that should prevent almost all negative dentries
-> > > being retained. Although file systems could do this as well (think XFS
-> > > inode recycling) it should be reasonable to require it be left to the
-> > > VFS.
-> > > 
-> > > But even that's not enough given that, in my case, there would still be
-> > > around 4 million dentries in the LRU cache and in fsnotify there are
-> > > directory child traversals holding the parent i_lock "spinlock" that are
-> > > going to cause problems.
-> > Do you mean there are very many positive children of a directory?
-> 
-> Didn't quantify that.
-> 
-> The symptom is the "Spinlock held for more than ... seconds" occurring in
-> the log. So there are certainly a lot of children in the list, but it's
-> an assumption the ratio of positive to negative entries is roughly the
-> same as the overall ratio in the dcache.
+On Tue, May 19, 2026 at 9:53=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> On 5/18/26 14:06, Albert Esteve wrote:
+> >>>>> udmabufs are already
+> >>>>> memcg-charged, so adding a separate MEMCG_DMABUF would double count=
+.
+> >>>>> Are there any other exporters you had in mind that would benefit fr=
+om
+> >>>>> this approach?
+> >>
+> >> Well apart from DMA-buf memfd_create() is one of the things which as b=
+roken our neck in the past a couple of times.
+> >>
+> >> But thinking more about it what if instead of making this DMA-buf heap=
+s specific what if we have a general cgroups function which allows to chang=
+e accounting of a buffer referenced by a file descriptor to a different pro=
+cess?
+> >>
+> >> That would cover not only the DMA-buf heaps use case, but also all oth=
+er DMA-buf with dmem and whatever we come up in the future as well.
+> >
+> > I removed a draft adding an ioctl for charge transfer from the series
+> > before sending because I wanted to focus on the charge_pid_fd approach
+> > and keep things simple, deferring the recharge path to a follow-up
+> > depending on feedback.
+> >
+> > The main difference between my removed draft and what you're
+> > describing, iiuc, is scope and layer: my draft was an explicit ioctl
+> > on the dma-buf fd that the consumer calls to claim the charge (see
+> > below), while you seem to be suggesting a more general kernel-internal
+> > function that could work across buffer types and cgroup controllers,
+> > so not necessarily userspace-initiated? A kernel-internal function
+> > will need a way to identify the target process, which sounds similar
+> > to the binder-backed approach from TJ [1]. For everything else, the
+> > receiver still needs to declare itself, which the ioctl accomplishes.
+> >
+> > ```
+> > # When an app imports a daemon-allocated buffer, it can transfer the
+> > charge to itself:
+> > int buf_fd =3D receive_dmabuf_from_daemon();
+> > ioctl(buf_fd, DMA_BUF_IOCTL_XFER_CHARGE); /* charge now attributed to
+> > apps's cgroup */
+>
+> Well that thinking goes into the right direction, but the requirements ar=
+e still not completely covered as far as I can see.
+>
+> Let me explain below a bit more.
+>
+> >
+> > [1] https://lore.kernel.org/cgroups/20230109213809.418135-1-tjmercier@g=
+oogle.com/
+> >
+> >>
+> >> The only drawback I can see is that DMA-buf heap allocations would be =
+temporarily accounted to the memory allocation daemon, but I don't think th=
+at this would be a problem.
+> >
+> > The main reasons we moved away from TJ's transfer-based approach
+> > toward `charge_pid_fd` are: avoid the transient charge window on the
+> > daemon's cgroup; and to decouple from Binder, allowing any allocator
+> > to use it.
+>
+> Yeah those concerns are completely correct.
+>
+> The application should not volunteering says 'Charge that buffer to me.',=
+ but rather that the daemon says force charge that buffer to this applicati=
+on and tell me when the application is over its limit.
+>
+> >
+> > Technically, both approaches could coexist, though. Of the three
+> > scenarios TJ described:
+> > - Scenario 2 is directly addressed by charge_pid_fd approach without
+> > any transient charge on the daemon at the cost of one extra field in
+> > the heap ioctl uAPI struct.
+>
+> Yeah extending the uAPI to pass in the pid on allocation time is not much=
+ of a problem, but you also need to modify the whole stack above it and tha=
+t is a bit more trickier.
+>
+> > - Scenario 3 can be handled by the charge transfer function without
+> > changes to SurfaceFlinger. The app or dequeueBuffer claims the charge
+> > for itself or the app, respectively (depending on whether we include a
+> > pid_fd field in the transfer ioctl). It also covers non-heap
+> > exporters. The con in both variants is the transient charge window on
+> > the daemon.
+>
+> It should be trivial for the deamon to charge the buffer to an applicatio=
+n before handing it out.
 
-OK, but that's not necessarily true. I have seen these complaints from the
-kernel but in all the cases I remember it was due to negative dentries
-accumultating in a particular directory. There are certain apps such as
-ElasticSearch which really do like creating huge amounts of negative
-dentries in one directory - they use hashes as filenames and use directory
-lookup instead of a DB table lookup and lookup lots of non-existent keys...
+Yeah, true.
 
-> > > so why is this traversal even retained in fsnotify?
-> > Not sure which traversal you mean but if you set watch on a parent, you
-> > have to walk all children to set PARENT_WATCHED flag so that you don't miss
-> > events on children...
-> 
-> Yes, that traversal is what I'm questioning ... again thanks.
-> 
-> I think the function name is still fsnotify_set_children_dentry_flags()
-> in recent kernels, the subject of commit 172e422ffea2 I mentioned above.
+>
+> > Both approaches shift the responsibility for correct charging
+> > attribution to userspace: first, 'charge_pid_fd` on the allocator's
+> > side, and the transfer charge on the consumer's side.
+>
+> Yeah that's why I said it would be better if we do that without any uAPI =
+change, but with all the uAPI we have to transfer file descriptors (dup(), =
+fork(), passing FDs over sockets etc...) it could be really tricky to imple=
+ment that.
+>
+> > Deciding on one, the other or both depends on how much we value
+> > avoiding transient attribution, and how much we need a non-heap
+> > generic solution. With the XFER_CHARGE we can cover both. Thus, the
+> > `charge_pid_fd` approach in this RFC can be seen as a
+> > performance/strictness optimisation, eliminating transient charges to
+> > the daemon at the cost of a permanent uAPI addition to the heap ioctl
+> > struct, but not strictly required for correctness.
+>
+> Well all we need is a uAPI which says charge this buffer (file descriptor=
+) to that cgroup (pidfd).
 
-OK, thanks.
+So you favor having only the XFER_CHARGE variant. That is fine with me.
+If that is fine for others also that could be the way forward. If we
+extend it to accept either a pidfd or a cgroup fd (as commented
+previously), we can cover all dma-buf use cases with a single
+primitive:
+```
+ioctl(buf_fd, DMA_BUF_IOCTL_XFER_CHARGE, charge_fd);
+```
+With the daemon invoking this ioctl before handing out the buf_fd.
 
-> When you say miss events are you saying that accessing the parent dentry to
-> work out if the child needs to respond to an event is quite expensive in the
-> overall event processing context, that might make more sense to me ... or do
-> I completely not yet understand the reasoning behind the need for the flag?
+This should cover most usecases? Except for the memfd case, which
+requires a separate mechanism. That would be follow-up work.
 
-Close but not quite. The cost is the overhead of dget_parent() in
-fsnotify_parent() which is often a couple of cache cold loads and atomic
-instructions to find out we don't need to send any event for the current
-write(2) or read(2) call. It gets worse if there are many IOs happening to
-dentries in the same directory from multiple CPUs because instead of
-cache-cold loads you get a cacheline contention on the parent.
+>
+> With this at hand we should be able to handle all use cases at the same t=
+ime.
+>
+> > On the other hand,
+> > if we agree on the end goal of migrating other exporters to use
+> > dma-buf heaps
+>
+> That won't work. DMA-buf heaps is actually only a rather small and Anroid=
+ specific use case.
+>
+> We have tons of other interfaces to allocate DMA-bufs which need to stay =
+around because of HW restrictions and we do need a solution for them as wel=
+l.
+>
+> Regards,
+> Christian.
+>
+> >, and scenario 3 is addressed by adding the app's pid_fd
+> > to SurfaceFlinger, then `charge_pid_fd` alone is a coherent/sufficient
+> > approach despite the uAPI change.
+> >
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>>
+> >>> Thanks
+> >>> Barry
+> >>
+> >
+>
 
-> > > > But what if we move dentries to the end of the list when they become
-> > > > negative, and to the start of the list when they become positive?  Then
-> > > > code which walks the child list could simply abort on the first
-> > > > negative.
-> > > > 
-> > > > I doubt that would be quite as easy as it sounds, but it would at least
-> > > > be more focused on the observed symptom rather than some whole-system
-> > > > number which only vaguely correlates with the observed symptom.
-> > > > 
-> > > > Maybe a completely different approach: change children-walking code to
-> > > > drop and retake the lock (with appropriate validation) periodically.
-> > > > What too would address the specific symptom.
-> > > Another good question.
-> > > 
-> > > I have assumed that dropping and re-taking the lock cannot be done but
-> > > this is a question I would like answered as well. Dropping and re-taking
-> > > lock would require, as Miklos pointed out to me off-list, recording the
-> > > list position with say a cursor, introducing unwanted complexity when it
-> > > would be better to accept the cost of a single extra access to the parent
-> > > flags (which I assume is one reason to set the flag in the child).
-> > The parent access is actually more expensive than you might think. Based on
-> > experience with past fsnotify related performance regression I expect some
-> > 20% performance hit for small tmpfs writes if you add unconditional parent
-> > access to the write path.
-> 
-> That sounds like a lot for what should be a memory access of an already in
-> memory structure since the parent must be accessed to traverse the list of
-> child entries. I clearly don't fully understand the implications of what
-> I'm saying but there has been mention of another context ...
-
-Parent dentry is of course in memory but often cache cold - you don't need
-the parent to do e.g. write(2) to an already open file. You seem to be
-somewhat confused about the child dentry list traversal (or maybe I'm
-misunderstanding) - that happens only when placing the notification mark
-but definitely not for each IO operation.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
