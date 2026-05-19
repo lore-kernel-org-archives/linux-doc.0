@@ -1,111 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729DD155757;
-	Tue, 19 May 2026 00:38:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2D526461F
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 00:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779151106; cv=none; b=cuNCoSdKo+3Pz8uaqStN6lz0AKiFFn3veIQJMM0eIdRpzoYLn8w+sruX7gqu/sBL1Obrm8fMxs3na9lceyqxW5Zb1ji9SCEyga+2imb6ETHJ3XXUeICDVJva1dZ/ZU6M9evIVUSaMhZUXcJNl/0AIchfSQNpBN4IfjK31n2rF5E=
+	t=1779151455; cv=none; b=F0AajQqVBthZfmrH+HewZ+jTZnPqZzU6EEkUorGl6PQgzSZX3ZWVnydMXXZpJbkh5HfeIaAaRyyqAppY2qTCwPvpjxQXdOOohrMt2gR5r/Pumhhv4JdzYNuwy4Ovun7wjlsVmqQql4S7hYjCth2WP2xD+5N0RmX/PDQJedZqTL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779151106; c=relaxed/simple;
-	bh=dLXATdWeDSOf90S8HMR8NRXCMaR+PI2JbsB1ZSuiKQo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QlgEQW8TZXZq7sSEIwvIORnvQP4CIoHnMnmvUBKzsUdN/fTWXYBHu6/9wvpxORxcRBrCIk1DTH5azySxwQdhbSw/hwshaOF3rVr3SIE/9Rclhc8pwblSCPkHmXNvFutZNrloFpCNV27K+3CXPSknbfL92QhOBo4x5hDhPnK+W14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sqAq29rG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779151455; c=relaxed/simple;
+	bh=Ewifb8VwQasaz0okwhge4bZJXgIyigSuJeyXErZk4aU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Content-Type; b=kzlOgzLwpk5HGqoOT/sK4mYzBTT9DSux3+7qo/BvaK6nv6ZLye0UBgfxGy9cZyScAsZNocqby3Fe+75S7Z1cnHOdUilPEGHdf3846Ij9ZYt0HEB1uyUvIbP2vb7KCgNuo/qEd/rQmdnLdL331RrT+g4i/jyYTPi/3XbbgJOgSgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WTZWvuRF; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sqAq29rG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9515CC2BCB7;
-	Tue, 19 May 2026 00:38:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779151106;
-	bh=dLXATdWeDSOf90S8HMR8NRXCMaR+PI2JbsB1ZSuiKQo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sqAq29rGfrXDj64i1THzbhpWcgmaVJOwLO9wc/4a8BCKsDImTd4wp5jCszDqZ+weH
-	 cEIKFmCQjenJQPRhLk3MQ9/QZkk5AE6SaJ8FY4qTgp6pszrgwApBGd4XJ4Ose5YnsP
-	 Kmt9I16Bv2sAn+I4esI4WBDSVfUq2FwQGNodak6o1e1BO99E1fwoNr6TLj5eE07UDe
-	 iSUjYL1fhoBcFxZnI3VPgUbciizHm4vBLWI4qmn+PW31pukvDt4cTUq2eWH1TwGyrA
-	 zSrCwzjgIhyztmmXP2fX/Guv7kTrG9eOYXxVx8F4ByLjUJzRNftBgqOdzjYpNz4vyU
-	 be3unufwToIVw==
-From: SeongJae Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com
-Subject: Re: [RFC PATCH 2/5] mm/damon/core: cap effective quota size to total monitored memory
-Date: Mon, 18 May 2026 17:38:16 -0700
-Message-ID: <20260519003818.99779-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CALa+Y14PXA_anNdvJCzx4RfKoKj6hNmEG39KUvMALtOBznprkw@mail.gmail.com>
-References: 
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WTZWvuRF"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-835423c69ffso1436125b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 17:44:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779151453; x=1779756253; darn=vger.kernel.org;
+        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DC6DVjI2095clscFBU2SfIMH51WSvFVw68FB2pL6Udk=;
+        b=WTZWvuRF5I++iBkOQuqHyI7zk5av1fmmXsRa3KCG1P4FDmbDZ9Q4WA/9w+HlWpfarO
+         rATsrTgsWLASP4XIozjXKxryp7DM30SwNs9yvcEgfaWMZnbU4pPE758vUlsgIQv4/z4Y
+         2HVPyrf7TQSkPBhOJL0dJh6i+m8pMcp8zoEfNW0I+qcItUaRqdel5cAfjEts2Ia7HV+J
+         bYb4+1slJdbVphBPlOynloiYkGaee3TuEBQ5+pICd0GVbnOygrtarfhOMiRFAM7a67DP
+         dhGW38eB2yEafMQEtB3wJ7SiaBkxRnPmIpYABChdC+ovaz7PT7NfmYdo22YmCFyPoIv0
+         DoAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779151453; x=1779756253;
+        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DC6DVjI2095clscFBU2SfIMH51WSvFVw68FB2pL6Udk=;
+        b=foHysIr45X0WKmlJTBh2XCA0nsFBwb+6WxNHcle8vhBBEXUZoZqyxWyOJ62+jOwPJV
+         Pd214t4bmMj2CQt4YiX7+WohlxwVxte+vDkKYl26GzHtKVIJ+B12PD3LkV2J62xxlYRL
+         ukwMu8dVQXQ5Yo+tN5+5ltoyR5e1JRSnAkV0JKLIkx4hVB+ATzVP6iCB69dgeoU4OwxX
+         E7mJOuX9T9Rhj2z5kwUlRY+ZEnPQL7Jf5r/x/iWTNtF/lA6gpa8EwRvHT4UitJm9bfDP
+         d8IVktv//Fql4+5/W6uEDe2E/Hd7PigruvrP7UJTdx8sQpezFDMWW3sIgA/AsHdNBsCU
+         mIjg==
+X-Forwarded-Encrypted: i=1; AFNElJ9xqZC9cLPRsuyCq2R0NyvqXi3QphbGFk3olU9R1enbA17A19cbRekwMMtZadmPg7fXpfjo4dqn9AA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1hYcpufGZ+mdH6/NkTGa6a7+Yk9BYO+uLCoqXqYXXCxEFnE05
+	xttrWQxzdqe9KROPQQMAssgBiOzgyJ/k3NLMD8yMJdky12WXLWnQE8Lbw8cPDEYMDn4AxMqpyeg
+	PPxg0Fg==
+X-Received: from pfbfd35.prod.google.com ([2002:a05:6a00:2ea3:b0:837:c7f5:5c27])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:429b:b0:83e:b125:ff30
+ with SMTP id d2e1a72fcca58-83f33ab698bmr17431805b3a.7.1779151452757; Mon, 18
+ May 2026 17:44:12 -0700 (PDT)
+Date: Mon, 18 May 2026 17:41:06 -0700
+In-Reply-To: <20260407190343.325299-1-jmattson@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260407190343.325299-1-jmattson@google.com>
+X-Mailer: git-send-email 2.54.0.563.g4f69b47b94-goog
+Message-ID: <177915062620.2226127.1264745848157211491.b4-ty@google.com>
+Subject: Re: [PATCH v8 0/8] KVM: x86: nSVM: Improve PAT virtualization
+From: Sean Christopherson <seanjc@google.com>
+To: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Yosry Ahmed <yosry@kernel.org>, 
+	Jim Mattson <jmattson@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Sun, 17 May 2026 22:22:34 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
-
-> On Sun, May 17, 2026 at 11:37 AM SeongJae Park <sj@kernel.org> wrote:
-> >
-> > Hello Ravi,
-> >
-> > On Sat, 16 May 2026 14:03:54 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
-> >
-> > > The DAMOS quota goal tuner can compute an effective size (esz) larger
-> > > than the total monitored memory because it integrates over cumulative
-> > > deltas without bounding by the actual workload size.  Once esz exceeds
-> > > total monitored memory, the per-tick "remaining quota" arithmetic
-> > > stops being meaningful: any scheme can apply to the entire monitored
-> > > space and "remaining" stays positive indefinitely.
-> >
-> > Nice finding!
-> >
-> > >
-> > > Cap esz to the total size of all currently monitored regions as a
-> > > final bound after all other quota calculations.  Add
-> > > damon_ctx_total_monitored_sz() helper that sums region sizes across
-> > > all targets.
-> >
-> > You could also make an arbitrary cap by setting the static size quota.  That
-> > is, if there are not only quota goal but also the size quota and/or time quota,
-> > and the different types of quotas disagree about the real quota, DAMOS uses
-> > smallest quota.  You could read damos_set_effective_quota() code and kernel-doc
-> > comment of 'struct damos_quota' for more details.
-> >
-> > So you could apply the total monitoring region size cap by setting the size
-> > quota of the total monitoring region size.  Could that work for you?
-> >
-> > Adding the total monitoring region size cap makes sense to me, and I think that
-> > will make user experience better.  But, if the size quota based cap works, that
-> > could also be handled on user space in an easier and even a betetr way.  If so,
-> > I'd prefer the direction, to reduce kernel code complexity.  What do you think?
+On Tue, 07 Apr 2026 12:03:23 -0700, Jim Mattson wrote:
+> Currently, KVM's implementation of nested SVM treats the PAT MSR the same
+> way whether or not nested NPT is enabled: L1 and L2 share a single
+> PAT. However, the AMD APM specifies that when nested NPT is enabled, the host
+> (L1) and the guest (L2) should have independent PATs: hPAT for L1 and gPAT
+> for L2.
 > 
-> Hello SJ,
+> This patch series implements independent PATs for L1 and L2 when nested NPT
+> is enabled, but only when a new quirk, KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT,
+> is disabled. By default, the quirk is enabled, preserving KVM's legacy
+> behavior. When the quirk is disabled, KVM correctly virtualizes a separate
+> PAT register for L2, using the g_pat field in the VMCB.
 > 
-> Agreed.  quota->sz combined with the smallest-quota-wins rule in
-> damos_set_effective_quota does express this cap from userspace
-> without kernel changes, and keeping the kernel side clean is the
-> right call.
-> 
-> If the UX argument carries weight later, I'm happy to respin v2
-> with sashiko fixes addressed.
+> [...]
 
-Makes sense.  I find no change on the weight for now.  If someone else
-including myself or you in the future claims again, we could revisit.
+Applied to kvm-x86 svm.  Yosry and/or Jim, please double check the result, the
+goof with patch 5 was slightly more annoying than I was expecting.
 
+Thanks!
 
-Thanks,
-SJ
+[1/8] KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
+      https://github.com/kvm-x86/linux/commit/822790ab0149
+[2/8] KVM: x86: nSVM: Clear VMCB_NPT clean bit when updating hPAT from guest mode
+      https://github.com/kvm-x86/linux/commit/0a8aeb15848e
+[3/8] KVM: x86: nSVM: Cache and validate vmcb12 g_pat
+      https://github.com/kvm-x86/linux/commit/4b83e4ba836e
+[4/8] KVM: x86: nSVM: Set vmcb02.g_pat correctly for nested NPT
+      https://github.com/kvm-x86/linux/commit/02233c73f8ae
+[6/8] KVM: x86: nSVM: Save gPAT to vmcb12.g_pat on VMEXIT
+      https://github.com/kvm-x86/linux/commit/d65cf222b899
+[7/8] KVM: Documentation: document KVM_{GET,SET}_NESTED_STATE for SVM
+      https://github.com/kvm-x86/linux/commit/32ebdbce3b23
+[8/8] KVM: x86: nSVM: Save/restore gPAT with KVM_{GET,SET}_NESTED_STATE
+      https://github.com/kvm-x86/linux/commit/4f256d5770fe
 
-[...]
+--
+https://github.com/kvm-x86/linux/tree/next
