@@ -1,181 +1,425 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72CBD2BCF46;
-	Tue, 19 May 2026 01:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D57A2C237C
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 01:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779153287; cv=none; b=bQLWvE9b7FW2aYI5xevhdUdyr1GXLTbPoUaMD8UyEVfrsLetBcDRLGxgi6LctxX6jQx0wWxXZsFRy4e462jHWE9eeGN2tZ8V3DSBoWc78IVlDDbwAAXhrKis+G1iHUae8fTMru5kfkveIwcXEECDVj0g2HumT9yyk3VD2oHY/JA=
+	t=1779154080; cv=none; b=Sf2qfv8KLoQOswtTTW4v5HKGhX98xvuf1p83r24B42nEaMMHoVJ9Fr0LatJTPuAsbk142AmhfnvdTh/Sx0FcNG1MeQr5d+ypYSPTQwyxuQlO9QqLDI+aq39Tzhs/Mm+r0e0qOFediXyAmXWLP2lkwVg1NRbaKDlgeg+cIE2gxBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779153287; c=relaxed/simple;
-	bh=2kljYz959akpWYYVv87a7PKBDFfGelUMKZ7YiyHZVXA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tb+o8gPP0EZRSbXFaU51Cpx0I7OvdwWkeZUmOJeJCQF10aNzCXfXijBWtRxu684jvt12JRhEUTwlLaND6XN08isdubkdqvNQ5ILgygvx9Czs0Rncq2CZETOtNvOYg91gJi+//sArT0F4UkWz4fHL39zMxgbUBoUaAC4GDCAGR0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pWilHvQP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779154080; c=relaxed/simple;
+	bh=R2CXmKtrbnfFFYRwuiAv0qD3pZe3w4XoySXfZFi3yow=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S0zSEsSZb0q1cYMpJ7SjuqwNejYtSlgBTa2HlO62GwG6/XYocJg+84KU5uJQ8MQOqhaVu67e+9TzCicd/nSQv7hc6++9jYNKmJiAAUU4SE3OuCoQK9eYdB9eCE39tcitEu72Pu+hJnM4VRVjif7KaeAGu9/pLLIWQIBC5Fntsc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AHF2VB2a; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pWilHvQP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99DD6C2BCB7;
-	Tue, 19 May 2026 01:14:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779153287;
-	bh=2kljYz959akpWYYVv87a7PKBDFfGelUMKZ7YiyHZVXA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pWilHvQPZZd7DeQWwFDL3B4sTRguYaw7ISYSe0UQ0fYUO4eJke5tPz64CcMo3G2J6
-	 +wnwTk6xFCEThHHyMi4f6QMI27THb57EWnbonfpK2XsqJBdW1I3Ugeazh8Lo0drZDD
-	 2Ahmm/UqczhgdP1cDp6262zavReH9qJ5DxDtn2zhNP8U/yxW+PsiDvZBc6v0ojukp6
-	 dWQJ4GbQoPLGangb7/vvH/nvpHjDw0urB8TVWWRfpI3A6+IiPUG7Cqfr5n1M9tf/5y
-	 xIQ3wSXcEeLz3jTPyzyPuQkJIB7haF7JWAJc3vswiHlSLNcDPYxsVFTK7r287W595C
-	 raaFcnwN+N1RA==
-From: SeongJae Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AHF2VB2a"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4891c00e7aeso20910685e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 18:27:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779154077; x=1779758877; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TWeQWtJQMxeeRXnY89NFG6LDLskX6Fx4PPSnkyRbsAw=;
+        b=AHF2VB2atQ50KKpQuUtEzOr5EhcFavzp1e/NEZs35lU8BwJxeB51D0pxftwhkXXqQn
+         d5GFvbGVRkw2J0nz0w9Zi3MoyAj2HQWifTVtZS2JwzVHuZhWoIhVLg90PHQMMswMIQqV
+         DwytJuz7SdyPhmYXgPf1fi8dlFdsQ6xlnYLvwGwdalye1UoWRwLO1sKQkwmMzZSWaNo8
+         B7PaHsjyozXl+dWKywQIucRymPW2iulq4lRfEEIS/KZANjwcsUP+q4tGSUT9+FmvsM+0
+         Qd8lF0khVQ4IL6h2BfjAn04g+mwTzXsgkKRkWNjX/DIGH/HIY46HLnuv7UYPZvSIlIB9
+         8DJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779154077; x=1779758877;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TWeQWtJQMxeeRXnY89NFG6LDLskX6Fx4PPSnkyRbsAw=;
+        b=mRtxw1Jc3taUZO5Ztds687URY+WBL48LAYNahgmgFgaIMBmhTMsTI9mVCr9fqAUbGy
+         8FA3sBZ2fQuUol83lAXaMwrYWk3Zt6qqUI82CZ5QLpb0xBQYVJ9SMwl1X8bjJyVf1ydy
+         GCc/jnuFSH9mmG206hDlANJkaTY91z3cyNVwnVhDzyBQQovGFSUMtu0MqQ93NkiGhhRc
+         AlXiA5vJjina4gDpo61gdRQ0G0iXe6GBgmrykHGIyrSMO4z0kTQklDBDroj+imIShhwt
+         sUR1bdu9LK1x61Rkapt111x7U/ZnDOh+sOFm57+C+SGnhdvDgajliFDUSTgR2GDlAAEP
+         Hh9A==
+X-Gm-Message-State: AOJu0YxBedI8bhy7f9du6cczNlR4ufDyoNSGyEJFlGRQrfN7D/o6V8it
+	v7qCuo4TAR5/vwgiyk5J8avV7WJLlJMEqLC1VTh60EFxfFaKt2jN8Vf7
+X-Gm-Gg: Acq92OED46KOwbIW8XWsIN1VUSIRUvWTY/W+7YqCCEr1fwkSTddUXrduomfztUGdzt4
+	1OvlN+OuUTLRO7v9hf3YFr26A6+phSgrPDsLaYt7xsxksEWeqsRKMwEnpR+PCupYQH+CNOtaplE
+	/twkFgHEcob1oXMHapjUA/Ckoe8y6q/xyQwXY+a3Y21YmTHRnTHhb2BWx/1nfgas55ApK6L191M
+	xzbYw2bwZBi+kobHCJrgb4sqPPAGMfrS4O+jwbXs9vzIGTLIBI6a52SMDrxK5Kz7MO+04P+DJm7
+	kx3OM5r3HJQbOzcIVXxVe01U4c7yAj8Gi46gQ8ITJaqUxkOP05qSFdG2M2gCfevwofkY47Du2JQ
+	5SPH42vGvQMpl8fbFzZQf+Rl0SdtAATYA3M2bOTuFX3cBtRC+TpQNEc7WtyUs0ma+3rTT66NL0b
+	mYmA/Eoe5bZQ4G/YCh0NoxO7XGVlSN5SUyB/R94YWa
+X-Received: by 2002:a05:600c:1d0d:b0:48f:da34:ec4e with SMTP id 5b1f17b1804b1-48fe632343dmr250425635e9.19.1779154076414;
+        Mon, 18 May 2026 18:27:56 -0700 (PDT)
+Received: from WindFlash.powerhub ([2a0a:ef40:f83:8501:800:cd4:5e2:9556])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ed2f738sm40548683f8f.16.2026.05.18.18.27.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 18:27:56 -0700 (PDT)
+From: Leonardo Bras <leobras.c@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Leonardo Bras <leobras.c@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Harry Yoo <harry@kernel.org>,
+	Hao Li <hao.li@linux.dev>,
+	Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Baoquan He <bhe@redhat.com>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Wei Xu <weixugc@google.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	Kees Cook <kees@kernel.org>,
+	Marco Elver <elver@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Li RongQing <lirongqing@baidu.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Douglas Anderson <dianders@chromium.org>,
+	Gary Guo <gary@garyguo.net>,
+	Christian Brauner <brauner@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Coiby Xu <coxu@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>
+Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com
-Subject: Re: [RFC PATCH 4/5] mm/damon/paddr: skip free pageblocks in migration walk
-Date: Mon, 18 May 2026 18:14:28 -0700
-Message-ID: <20260519011429.100021-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CALa+Y17nudor22aJvakfos3UegPgEG1M8N7cJPAxWX0Ca=MvfA@mail.gmail.com>
-References: 
+	linux-mm@kvack.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH v4 0/4] Introduce Per-CPU Work helpers (was QPW)
+Date: Mon, 18 May 2026 22:27:46 -0300
+Message-ID: <20260519012754.240804-1-leobras.c@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9299; i=leobras.c@gmail.com; h=from:subject; bh=R2CXmKtrbnfFFYRwuiAv0qD3pZe3w4XoySXfZFi3yow=; b=owGbwMvMwCX2pizjszvTwvWMp9WSGLK494QflH1w7EaT7zmFI0+eT+DY+qaHmdulKf3ETu8UO 0mVSjH+jlIWBjEuBlkxRRbZR/NX8XyfknHkyo8FMHNYmUCGMHBxCsBE9oYzMlzmXGXIxl1sICwS V/dYPflDnvoXz8DbbLzKS6/dfhug4cLIcG3Zk327Kidn/WZgcMmNk3q/aJG5yrszGxu3Lsue7P3 4NAsA
+X-Developer-Key: i=leobras.c@gmail.com; a=openpgp; fpr=36E6C95AE0F111CC5B6F4D2E688C33F8A0C5B0C5
 Content-Transfer-Encoding: 8bit
 
-On Sun, 17 May 2026 22:38:51 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+The problem:
+Some places in the kernel implement a parallel programming strategy
+consisting on local_locks() for most of the work, and some rare remote
+operations are scheduled on target cpu. This keeps cache bouncing low since
+cacheline tends to be mostly local, and avoids the cost of locks in non-RT
+kernels, even though the very few remote operations will be expensive due
+to scheduling overhead.
 
-> On Sun, May 17, 2026 at 4:38 PM SeongJae Park <sj@kernel.org> wrote:
-> >
-> > On Sat, 16 May 2026 14:03:56 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
-> >
-> > > damon_pa_migrate() walks every PFN in a region linearly, calling
-> > > damon_get_folio() for each one.  On sparse physical address spaces
-> > > (e.g., CXL-attached memory), a single DAMON region can span hundreds
-> > > of gigabytes where most memory is free and sitting in the buddy
-> > > allocator.  Most page lookups are fruitless and dominate kdamond
-> > > tick time.
-> >
-> > On sparse address spaces, the problem would be large DAMON regions of offlined
-> > memory.  The large DAMON regions that nearly all freed memory is another
-> > problem that doesn't require the sparse address spaces.  If I'm not wrong, the
-> > above paragraph could better clarified in my opinion.
-> >
-> > >
-> > > Check at pageblock boundaries (2MB on x86_64) whether the block is
-> > > entirely free.  If the first page of a pageblock is a buddy page at
-> > > pageblock_order or higher, the entire block is free and can be
-> > > skipped.
-> > > Similarly skip pageblocks where pfn_to_online_page() returns
-> > > NULL.
-> > >
-> > > This reduces the iteration from O(region_sz / PAGE_SIZE) to
-> > > O(region_sz / pageblock_sz) + O(populated_pages).
-> > >
-> > > buddy_order_unsafe() is used without zone->lock.  A transient false
-> > > positive (block becomes non-free between the PageBuddy and order
-> > > checks) costs at most one tick of missed candidates on that block;
-> > > the next tick re-scans.  No correctness consequence as DAMON walks
-> > > are best-effort.
-> >
-> > I was initially thinking this is a good and reasonable optimization approach.
-> > But on the second thought I get below questions.
-> >
-> > For large offlined memory space problem, couldn't we simply tune DAMON's
-> > monitoring regions boundary to ignore the holes?
-> >
-> > For large free memory area, is it reasonable to assume such situations?  In
-> > production, users will try to utilize as much memory of the system as possible.
-> > Then, wouldn't there be such problematically large free memory area?
-> >
-> > Could you please enlighten me?
-> >
-> 
-> Hi SJ,
-> 
-> You're right on the first point.  For static offlined memory
-> holes (memory hotplug gaps, partial socket population, etc.) the
-> right answer is configuring the monitoring region boundaries to
-> exclude them upfront, not making the walk skip them at runtime.
-> The changelog is clearer if I narrow the patch to the free-but-
-> online case.
+On the other hand, for RT workloads this can represent a problem: getting
+an important workload scheduled out to deal with remote requests is
+sure to introduce unexpected deadline misses.
 
-Thank you for clarifying, Ravi.
+The idea:
+Currently with PREEMPT_RT=y, local_locks() become per-cpu spinlocks.
+In this case, instead of scheduling work on a remote cpu, it should
+be safe to grab that remote cpu's per-cpu spinlock and run the required
+work locally. That major cost, which is un/locking in every local function,
+already happens in PREEMPT_RT.
 
-> 
-> On the free-online case: I agree large free memory areas are
-> not the steady state on a fully-utilized system.  The cases I
-> had in mind are more limited:
-> 
->    - A workload using a small part of a much larger range, with
->       the rest left as headroom (e.g. 64 GB used of a 512 GB
->       range).
+Also, there is no need to worry about extra cache bouncing:
+The cacheline invalidation already happens due to schedule_work_on().
 
-Why would the user have that large amount of headroom?
+This will avoid schedule_work_on(), and thus avoid scheduling-out an
+RT workload.
 
-> 
->   - Shared tiers where workloads are allocated and freed on their own
->     timelines.  Any single piece of free memory doesn't last
->     long, but on a busy system there's typically a meaningful
->     free fraction in the range at any point -- especially on a
->     slower tier, where workloads prefer faster memory first
->     when it's available.
+Proposed solution:
+A new interface called PerCPU Work (PW), which should replace
+Work Queue in the above mentioned use case.
 
-I agree there could be reasonable amount of free memory.  But, I'm still not
-feeling difficult to know would that be big enough to cause the issue in DAMOS.
+If CONFIG_PWLOCKS=n this interfaces just wraps the current
+local_locks + WorkQueue behavior, so no expected change in runtime.
 
-> 
-> The patch as written is a narrow optimization for those cases:
-> the pageblock-aligned check is one extra read per
-> pageblock_nr_pages PFNs (about 1 per 512 on x86_64), so it's
-> effectively a no-op when the region is fully populated.
-> 
-> If you don't see those workloads as warranting the change, I'm
-> happy to drop the patch.  If the framing is the issue more than
-> the change itself, I can respin a v2 with:
-> 
->   - the changelog narrowed to the free-but-online case (no
->     offlined-memory framing);
->   - any suggestions from you on sashiko's review comments.
+If CONFIG_PWLOCKS=y, and kernel boot option pwlocks=1,
+pw_queue_on(cpu,...) will lock that cpu's per-cpu structure
+and perform work on it locally. 
 
-I think your arguments make sense in general.  But I'm still not quite sure
-what is the realistic size of the problem, so difficult to judge.  Having a
-clearer and detailed use case and backing data would be nice.
+v3->v4:
+- Mechanism name changed from QPW to PW/PWLOCKS. Helper funcions / API,
+  file names and config options renamed accordingly.
+- All members of the Per-CPU Work API now start with the same prefix 
+  (Frederic Weisbecker)
+- Improved style a bit, reviewed documentation
 
-I also got a little and trivial concern for this approach.  DAMOS quota system
-assumes the cost of applying DAMOS action will be proportional to the size of
-memory it is applied for.  After this patch is applied, the cost will depend on
-amount of free or offline memory in the memory.  It might make users difficult
-to predict the overhead of DAMOS.  I might be too picky and hallucinated, but
-to be honest I'm not feeling 100% comfortable with this change.
+v2->v3:
+- Use preempt_disable/preempt_enable on !CONFIG_PREEMPT_RT (Vlastimil Babka).
+- Improve documentation to include local_qpw_lock on operations table
+  (Leonardo Bras).
+- Enable qpw=1 automatically if CPU isolation is enabled (Vlastimil Babka).
 
-For long term, we are working on extending DAMON for general data attributes
-monitoring.  I pretty sure you also aware of that.  The v1 [1] is just added to
-mm-new for more testing.  It is currently supporting anon page and belinging
-memory cgroup attributes.  I'm planning to extend that a lot.  In future, DAMOS
-might be able to target and filter memory based on the attributes monitoring
-results.  Then, we may be able to extend it for monitoring online or freeness
-of the memory and ask DAMOS to filter out or de-prioritize memory regions
-having high proportion of free or offline memory.
+v1->v2:
+- Introduce local_qpw_lock and unlock functions, move preempt_disable/
+  preempt_enable to it (Leonardo Bras). This reduces performance
+  overhead of the patch.
+- Documentation and changelog typo fixes (Leonardo Bras).
+- Fix places where preempt_disable/preempt_enable was not being
+  correctly performed.
+- Add performance measurements.
 
-So, long story short, I'd suggest to revisit this after a clear use case and
-real problem is found, unless we have it right now.
+RFC->v1:
 
-[1] https://lore.kernel.org/20260518234119.97569-1-sj@kernel.org
+- Introduce CONFIG_QPW and qpw= kernel boot option to enable
+  remote spinlocking and execution even on !CONFIG_PREEMPT_RT
+  kernels (Leonardo Bras).
+- Move buffer_head draining to separate workqueue (Marcelo Tosatti).
+- Convert mlock per-CPU page lists to QPW (Marcelo Tosatti).
+- Drop memcontrol convertion (as isolated CPUs are not targets
+  of queue_work_on anymore).
+- Rebase SLUB against Vlastimil's slab/next.
+- Add basic document for QPW (Waiman Long).
+
+The performance numbers, as measured by the following test program,
+are as follows (v3, mechanics not changed since then):
+
+CONFIG_PREEMPT_DYNAMIC=y
+Unpatched kernel:                       60 cycles
+Patched kernel, CONFIG_QPW=n:           62 cycles
+Patched kernel, CONFIG_QPW=y, qpw=0:    62 cycles
+Patched kernel, CONFIG_QPW=y, qpw=1:    75 cycles
+
+CONFIG_PREEMPT_RT:
+Unpatched kernel:                       95 cycles
+Patched kernel, CONFIG_QPW=y, qpw=0:    99 cycles
+Patched kernel, CONFIG_QPW=y, qpw=1:    97 cycles
+
+kmalloc_bench.c:
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/slab.h>
+#include <linux/timex.h>
+#include <linux/preempt.h>
+#include <linux/irqflags.h>
+#include <linux/vmalloc.h>
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Gemini AI");
+MODULE_DESCRIPTION("A simple kmalloc performance benchmark");
+
+static int size = 64; // Default allocation size in bytes
+module_param(size, int, 0644);
+
+static int iterations = 9000000; // Default number of iterations
+module_param(iterations, int, 0644);
+
+static int __init kmalloc_bench_init(void) {
+    void **ptrs;
+    cycles_t start, end;
+    uint64_t total_cycles;
+    int i;
+    pr_info("kmalloc_bench: Starting test (size=%d, iterations=%d)\n", size, iterations);
+
+    // Allocate an array to store pointers to avoid immediate kfree-reuse optimization
+    ptrs = vmalloc(sizeof(void *) * iterations);
+    if (!ptrs) {
+        pr_err("kmalloc_bench: Failed to allocate pointer array\n");
+        return -ENOMEM;
+    }
+
+    preempt_disable();
+    start = get_cycles();
+
+    for (i = 0; i < iterations; i++) {
+        ptrs[i] = kmalloc(size, GFP_ATOMIC);
+    }
+
+    end = get_cycles();
+
+    total_cycles = end - start;
+    preempt_enable();
+
+    pr_info("kmalloc_bench: Total cycles for %d allocs: %llu\n", iterations, total_cycles);
+    pr_info("kmalloc_bench: Avg cycles per kmalloc: %llu\n", total_cycles / iterations);
+
+    // Cleanup
+    for (i = 0; i < iterations; i++) {
+        kfree(ptrs[i]);
+    }
+    vfree(ptrs);
+
+    return 0;
+}
+
+static void __exit kmalloc_bench_exit(void) {
+    pr_info("kmalloc_bench: Module unloaded\n");
+}
+
+module_init(kmalloc_bench_init);
+module_exit(kmalloc_bench_exit);
+
+The following testcase triggers lru_add_drain_all on an isolated CPU
+(that does sys_write to a file before entering its realtime
+loop).
+
+/*
+ * Simulates a low latency loop program that is interrupted
+ * due to lru_add_drain_all. To trigger lru_add_drain_all, run:
+ *
+ * blockdev --flushbufs /dev/sdX
+ *
+ */
+#define _GNU_SOURCE
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/mman.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <pthread.h>
+#include <sched.h>
+#include <unistd.h>
+
+int cpu;
+
+static void *run(void *arg)
+{
+        pthread_t current_thread;
+        cpu_set_t cpuset;
+        int ret, nrloops;
+        struct sched_param sched_p;
+        pid_t pid;
+        int fd;
+        char buf[] = "xxxxxxxxxxx";
+
+        CPU_ZERO(&cpuset);
+        CPU_SET(cpu, &cpuset);
+
+        current_thread = pthread_self();   
+        ret = pthread_setaffinity_np(current_thread, sizeof(cpu_set_t), &cpuset);
+        if (ret) {
+                perror("pthread_setaffinity_np failed\n");
+                exit(0);
+        }
+
+        memset(&sched_p, 0, sizeof(struct sched_param));
+        sched_p.sched_priority = 1;
+        pid = gettid();
+        ret = sched_setscheduler(pid, SCHED_FIFO, &sched_p);
+        if (ret) {
+                perror("sched_setscheduler");
+                exit(0);
+        }
+
+        fd = open("/tmp/tmpfile", O_RDWR|O_CREAT|O_TRUNC);
+        if (fd == -1) {
+                perror("open");
+                exit(0);
+        }
+
+        ret = write(fd, buf, sizeof(buf));
+        if (ret == -1) {
+                perror("write");
+                exit(0);
+        }
+
+        do {
+                nrloops = nrloops+2;
+                nrloops--;
+        } while (1);
+}
+
+int main(int argc, char *argv[])
+{
+        int fd, ret;
+        pthread_t thread;
+        long val;
+        char *endptr, *str;
+        struct sched_param sched_p;
+        pid_t pid;
+
+        if (argc != 2) {
+                printf("usage: %s cpu-nr\n", argv[0]);
+                printf("where CPU number is the CPU to pin thread to\n");
+                exit(0);
+        }
+        str = argv[1];
+        cpu = strtol(str, &endptr, 10);
+        if (cpu < 0) {
+                printf("strtol returns %d\n", cpu);
+                exit(0);
+        }
+        printf("cpunr=%d\n", cpu);
+
+        memset(&sched_p, 0, sizeof(struct sched_param));
+        sched_p.sched_priority = 1;
+        pid = getpid();
+        ret = sched_setscheduler(pid, SCHED_FIFO, &sched_p);
+        if (ret) {
+                perror("sched_setscheduler");
+                exit(0);
+        }
+
+        pthread_create(&thread, NULL, run, NULL);
+
+        sleep(5000);
+
+        pthread_join(thread, NULL);
+}
+
+Leonardo Bras (3):
+  Introducing pw_lock() and per-cpu queue & flush work
+  swap: apply new pw_queue_on() interface
+  slub: apply new pw_queue_on() interface
+
+Marcelo Tosatti (1):
+  mm/swap: move bh draining into a separate workqueue
+
+ MAINTAINERS                                   |   7 +
+ .../admin-guide/kernel-parameters.txt         |  10 +
+ Documentation/locking/pwlocks.rst             |  76 +++++
+ init/Kconfig                                  |  35 +++
+ kernel/Makefile                               |   2 +
+ include/linux/pwlocks.h                       | 265 ++++++++++++++++++
+ mm/internal.h                                 |   4 +-
+ kernel/pwlocks.c                              |  47 ++++
+ mm/mlock.c                                    |  51 +++-
+ mm/page_alloc.c                               |   2 +-
+ mm/slub.c                                     | 142 +++++-----
+ mm/swap.c                                     | 109 ++++---
+ 12 files changed, 624 insertions(+), 126 deletions(-)
+ create mode 100644 Documentation/locking/pwlocks.rst
+ create mode 100644 include/linux/pwlocks.h
+ create mode 100644 kernel/pwlocks.c
 
 
-Thanks,
-SJ
-
-[...]
+base-commit: 5200f5f493f79f14bbdc349e402a40dfb32f23c8
+-- 
+2.54.0
