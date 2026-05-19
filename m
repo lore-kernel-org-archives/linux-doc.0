@@ -1,121 +1,184 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9D43ACEE2
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 09:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65F546AEF0;
+	Tue, 19 May 2026 09:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779184266; cv=none; b=mRQb/YU9mDnT3SaOm5mC6nOEVFoqs+1fUc7SsmeeSwfMbA4ukTTg3XeSsvLqADABD/gWV9RgBP9k2FlofwNLUmPEbbA0ALHFK3WuWZ7/lssWB0PtbVFseArZOa70F5hJjjK0nWrAMbf3P90Uu3NTRuBWA1Q80pjoAgFJenQZHFA=
+	t=1779184336; cv=none; b=PHKkm7ULDjanxV4Q300ksSr4++n8Txhr3zUaLjxEcdLT8BflZ7FROoI4sCO0vj0YfNecFw1QfQWzvLAlbsYPGy6hnJ3oW1p5RuP06YaKrkcISrLRXHK8QQAhtj+k+oqVM5P1/oPowOtFXRNns3vxZ6GXK4bRsSoZ2zPsVxHBMxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779184266; c=relaxed/simple;
-	bh=VV0WQeCgbPqBTi7yab+uEYQeq6u9LFtTUX4clbsM2Vw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FFBu39/ZVrBR6emV2JlxxjEopao3ke/GwdIaaBQrYFC+CdJLAz6XkQWKFDI2KDkYMlS+gTmMJ3Gfq7JEw5NMQOcduYWr9O50058SvmdaJl9Wi7ms7WJfdxk919AD43lFqWGrH+45A+oVkPlPXfDAt63iySb4oWC04UrKV3M3QWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7de4a9cb8eeso3365632a34.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 02:51:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779184264; x=1779789064;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T+2SZGl9spcuw3ZVraVsNeWL62/l5e6HnqNdDh6fCso=;
-        b=l0AR9jrqi1+aGnbtbyzWTMkCoDjaTSlBgqYbqz1btWxaQppu03yb8H53qMe90JoKaO
-         6391E9hgAtA7VR/iN6Cx9W9i/pjmF3G9e6eLCUfw5dOvbCLQqzs/zJo7wlzpY4s8cwrH
-         tJPHHHwGfDtkvhV+uMTmIOLSTvnM5/bJbhsQbxQsWX+NBIugnSDpTvNpU7vYWiDqYs1T
-         ceFpedGXgQgwSi4DMkOipfLmEO5nuqQEUInXw1d6RcdMhBT3PTEk1/pxZxUvhhXxL2vV
-         OMwnJAOlC+Trmwovh3rQ+HKzJnynPukkkhHvJlzObwgfc3qkpSeJ5CGKezKaxXOo7TJO
-         x0mw==
-X-Forwarded-Encrypted: i=1; AFNElJ/gchTdzMYdtCrnDtE1o11g5QYp7iaOAd9RegT+uSeMxf7aM3HGr3JS7YNyBVuNVN0IBtk49ihzbj0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyLSpqaXFO4NVbacejyoCbZuFD74VPuB5AsOzjo73dE8eOIoJG
-	30uLdny/G4WDViULnR+jCg6eh9/SQ8brlUUVteYszv6FZqTlsDLa2c+QWhPirkvg
-X-Gm-Gg: Acq92OEEHsHU9TO7vrGp/DzYlh0/lk8cJF39EroxvYtfEZ6vRbwSzJlHkbX5YiThGBI
-	JHZ+ooLO1KXx0w9N9De3Ce6CxXZ+xSfjOKi/QaFTNQIhUW2RH6OLMpj2SDJnLkpb5+0IG2Ra4wR
-	tmG1VFDqJ+YaEFRKRwN/9NaCKTSLsI2dlKb7SZ6uyPV9z7ovZk8i7tYKfs2bBZdIDJYumvDEiJ8
-	gKTSmLlFlW1qqyvRiygT7lG+ZH+OJznAgxPmiWwftiCH/lonraKaLV/SLh8kVdsDaDyv71SbO4U
-	PdVCl1/GRc0FUbjr3NRyTLxw7brJKhQx8TIS06crozj1ABT1SW4BPI38bfU05tmUwwI6OrM188G
-	R6UfRb5hjnAMYCma8BuACinpCJ0Rk9xpkQn2RLMczFzdnjV8mEAPl7TMIkEBzdByMLN4iDi9YFz
-	ctpS77pM/0zstOHBSxLXt7zkyW3L9DP1+Y/Z/XCQjJKOLF+GTdI0J4vWgfEE7G
-X-Received: by 2002:a05:6820:990:b0:696:924d:2956 with SMTP id 006d021491bc7-69c942daedcmr12666385eaf.14.1779184264244;
-        Tue, 19 May 2026 02:51:04 -0700 (PDT)
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com. [209.85.210.48])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43a956f4957sm6953437fac.12.2026.05.19.02.51.03
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 May 2026 02:51:03 -0700 (PDT)
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7dbcb467f2bso3315132a34.3
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 02:51:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9U+acAhAv/sGTNt5olB83M5vsiVNaVkPJS3y0gOGKXUq4QK2qVu02xsf5/eRgqaymfkMrBKcHITUg=@vger.kernel.org
-X-Received: by 2002:a05:6102:511f:b0:634:d42d:15e2 with SMTP id
- ada2fe7eead31-63a403ac9a2mr7077474137.26.1779183821499; Tue, 19 May 2026
- 02:43:41 -0700 (PDT)
+	s=arc-20240116; t=1779184336; c=relaxed/simple;
+	bh=qQAx2S7DIvi/HfSEU64Ukx1DApHFp7BANES2FJ3Vywc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lugiZsy3ht37Yq9zoMpUh4J8dubDNQ4IJtM5XTFoAqcm2uLrPEVPRIokXNN0ukt7VNGGGaTEuwpncfj2OD8Fmf+rihf+M/+RD+lpu9ZII6vSS6dwh+dgp9ivlXP1XAxH4+dUOZWbxTsf1iuRdhOwBj60HsHSIoebyIKoDw9HhsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JHEixrZp; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JHEixrZp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07597C2BCB3;
+	Tue, 19 May 2026 09:52:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779184335;
+	bh=qQAx2S7DIvi/HfSEU64Ukx1DApHFp7BANES2FJ3Vywc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JHEixrZpCOxm73sOygk3wsmQN4Sm+kK2cjidgYWrtWzLq18Z52de1Mvh9HxAqd6EA
+	 VVXXQvt1Ozkom/KZncwEzxmYH+FMDBWqFO/tLBn2FGrJKFLVq0FKr4uovi5j5MPIvI
+	 geo1yLPS/pBsfqcn2UjNTDoaT/EnpFNcsqApniiB3GHn0ETqukBO1/NKnIQg+JHBtQ
+	 dqT9Bdj3KS1vonHExfpsmiZHZnByH8K238WVDuIlSfAZNa6L4jbVwToGFlqx45vRaU
+	 jkX6w76ZEHYGgY3IK4PrDOPXISkwqWxw9DSyEdHmQD6rMSDzzgss1dpEolpI3FMdfF
+	 S7+EGBrXxCzzg==
+Date: Tue, 19 May 2026 11:52:13 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Chia-I Wu <olvaffe@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Marcin =?utf-8?Q?=C5=9Alusarz?= <marcin.slusarz@arm.com>, Ketil Johnsen <ketil.johnsen@arm.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Steven Price <steven.price@arm.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Florent Tomasin <florent.tomasin@arm.com>, nd@arm.com
+Subject: Re: [Linaro-mm-sig] Re: [PATCH 4/8] drm/panthor: Add support for
+ protected memory allocation in panthor
+Message-ID: <20260519-loutish-beautiful-trogon-67453f@houat>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+ <20260505140516.1372388-5-ketil.johnsen@arm.com>
+ <20260505181523.49a3d85c@fedora>
+ <afxVIuVVPisBQ9p_@e129842.arm.com>
+ <20260507135356.5428d50d@fedora>
+ <agMvb_jeRsO7tSS-@e142607>
+ <20260512161111.0cb7000e@fedora>
+ <agNJasayW8VCHTiU@e142607>
+ <CAPaKu7QC7FdjL6m_OSb+E5aYKs6bmT-9DAHc5PC=XctCmRph2Q@mail.gmail.com>
+ <20260518091650.5a7a4f4a@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260518042833.272221-1-enelsonmoore@gmail.com> <20260519094820.1f05ab8e@pumpkin>
-In-Reply-To: <20260519094820.1f05ab8e@pumpkin>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 19 May 2026 11:43:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVw349EBZUuYZAns3FnTndx0A=PHbznxarYuAQr8nbqDQ@mail.gmail.com>
-X-Gm-Features: AVHnY4Lfn8Mcrjf-CZtgFTL8ilhwbGlXFwz-O3Z8xcIZpla9SRL4d3C994HiNs4
-Message-ID: <CAMuHMdVw349EBZUuYZAns3FnTndx0A=PHbznxarYuAQr8nbqDQ@mail.gmail.com>
-Subject: Re: [PATCH] nios2: remove the architecture
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org, 
-	devicetree@vger.kernel.org, workflows@vger.kernel.org, 
-	linux-arch@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-csky@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Hu Haowen <2023002089@link.tyut.edu.cn>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, Vinod Koul <vkoul@kernel.org>, 
-	Frank Li <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ehulylxo6op5dniv"
+Content-Disposition: inline
+In-Reply-To: <20260518091650.5a7a4f4a@fedora>
 
-Hi David,
 
-On Tue, 19 May 2026 at 10:55, David Laight <david.laight.linux@gmail.com> wrote:
-> The company I used to work for used 4 NIOS II inside an fpga.
-> The instruction timing for one is pretty critical, it has some code that
-> has to complete in 122 clocks (worst case).
-> Our solution was to spend a few man-weeks writing a compatible cpu!
-> I think it came out with fewer pipeline stalls (in particular it 'lost'
-> the one for a (predicted) taken branch).
-> The maximum clock frequency might be lower; but it is ok at 62.5MHz and the
-> higher 125MHz in just impossible for all sorts of reasons.
->
-> OTOH I really wouldn't run Linux on it!
+--ehulylxo6op5dniv
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [Linaro-mm-sig] Re: [PATCH 4/8] drm/panthor: Add support for
+ protected memory allocation in panthor
+MIME-Version: 1.0
 
-Sounds similar to what CoreSemi is doing with J2 (nommu, also for
-predictable latency), but their products do run Linux.
-See the video from the LPC session at
-https://lpc.events/event/19/contributions/2097/
+Hi Boris,
 
-Gr{oetje,eeting}s,
+On Mon, May 18, 2026 at 09:16:50AM +0200, Boris Brezillon wrote:
+> On Wed, 13 May 2026 12:31:32 -0700
+> Chia-I Wu <olvaffe@gmail.com> wrote:
+>=20
+> > On Tue, May 12, 2026 at 8:39=E2=80=AFAM Liviu Dudau <liviu.dudau@arm.co=
+m> wrote:
+> > >
+> > > On Tue, May 12, 2026 at 04:11:11PM +0200, Boris Brezillon wrote: =20
+> > > > On Tue, 12 May 2026 14:47:27 +0100
+> > > > Liviu Dudau <liviu.dudau@arm.com> wrote:
+> > > > =20
+> > > > > On Thu, May 07, 2026 at 01:53:56PM +0200, Boris Brezillon wrote: =
+=20
+> > > > > > On Thu, 7 May 2026 11:02:26 +0200
+> > > > > > Marcin =C5=9Alusarz <marcin.slusarz@arm.com> wrote:
+> > > > > > =20
+> > > > > > > On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon wro=
+te: =20
+> > > > > > > > > @@ -277,9 +286,21 @@ int panthor_device_init(struct panth=
+or_device *ptdev)
+> > > > > > > > >                     return ret;
+> > > > > > > > >     }
+> > > > > > > > >
+> > > > > > > > > +   /* If a protected heap name is specified but not foun=
+d, defer the probe until created */
+> > > > > > > > > +   if (protected_heap_name && strlen(protected_heap_name=
+)) { =20
+> > > > > > > >
+> > > > > > > > Do we really need this strlen() > 0? Won't dma_heap_find() =
+fail is the
+> > > > > > > > name is "" already? =20
+> > > > > > >
+> > > > > > > If dma_heap_find() will fail, then the whole probe with fail =
+too.
+> > > > > > > This check prevents that. =20
+> > > > > >
+> > > > > > Yeah, that's also a questionable design choice. I mean, we can
+> > > > > > currently probe and boot the FW even though we never setup the
+> > > > > > protected FW sections, so why should we defer the probe here? C=
+an't we
+> > > > > > just retry the next time a group with the protected bit is crea=
+ted and
+> > > > > > fail if we can find a protected heap? =20
+> > > > >
+> > > > > The problem we have with the current firmware is that it does a n=
+umber of setup steps at "boot"
+> > > > > time only. One of the steps is preparing its internal structures =
+for when it enters protected
+> > > > > mode and it stores them in the buffer passed in at firmware loadi=
+ng. We cannot later run the
+> > > > > process when we have a group with protected mode set. =20
+> > > >
+> > > > No, but we can force a full/slow reset and have that thing
+> > > > re-initialized, can't we? I mean, that's basically what we do when a
+> > > > fast reset fails: we re-initialize all the sections and reset again=
+, at
+> > > > which point the FW should start from a fresh state, and be able to
+> > > > properly initialize the protected-related stuff if protected sectio=
+ns
+> > > > are populated. Am I missing something? =20
+> > >
+> > > Right, we can do that. For some reason I keep associating the reset w=
+ith the
+> > > error handling and not with "normal" operations. =20
+> > I kind of hope we end up with either
+> >=20
+> >  - panthor knows the exact heap to use and fails with EPROBE_DEFER if
+> > the heap is missing, or
+> >  - panthor gets a dma-buf from userspace and does the full reset
+> >    - userspace also needs to provide a dma-buf for each protected
+> > group for the suspend buffer
+> >=20
+> > than something in-between. The latter is more ad-hoc and basically
+> > kicks the issue to the userspace.
+>=20
+> Indeed, the second option is more ad-hoc, but when you think about it,
+> userspace has to have this knowledge, because it needs to know the
+> dma-heap to use for buffer allocation that cross a device boundary
+> anyway. Think about frames produced by a video decoder, and composited
+> by the GPU into a protected scanout buffer that's passed to the KMS
+> device. Why would the GPU driver be source of truth when it comes to
+> choosing the heap to use to allocate protected buffers for the video
+> decoder or those used for the display?
 
-                        Geert
+Just fyi, the trend is to go to devices listing the heaps userspace
+should allocate from and/or using the heaps internally to allocate their
+buffers, so that last part is where we're headed, and feels totally
+reasonable to me.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Maxime
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--ehulylxo6op5dniv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCagwyvwAKCRAnX84Zoj2+
+dgjMAX9vYm/a4/mvh7CTGhu02MOZ2R365vHowMKWRty1Iieek7krzaTpTq2fXWdd
+H94eza8Bf1qt0LVur372tjV0TZ6LACyCkou132aOZthz51XbsLGn68Or0vOV4+vZ
+v4p+K4/w4Q==
+=5L5Y
+-----END PGP SIGNATURE-----
+
+--ehulylxo6op5dniv--
