@@ -1,90 +1,96 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2329212D7C
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 00:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BEF2175A62;
+	Tue, 19 May 2026 00:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779150441; cv=none; b=SE3tT1L3JBkgMfpbz3q4dBZXKjHUNLie7iS4GjR7SCYXgZCfAdlL4+prZuTkwrI+jHsef057h+NW2kvvqnR6SuZOSncE0B6B7XR7B6QsYazphZ1z6KfFeknqFdku3nVSGJgqQLjtdkiaICLOUbrtRaTTZzzCujUBNbqi8gYPw1Q=
+	t=1779150681; cv=none; b=ljPVZBaOHVF84yx7bifvpuPGr/Ixo++U2xgRRjgnm+BpBPeE8ogV+0WgLYF+9nRRBm+T6CbnPv4lwtVURrJ5qxyyVFqUE2gWfbifgrbPlHbS+Sc+RIj5Tio1dG4p4HhLX2/4MWuWlxm+bT3Mme6+NN8FVXirtaQVIcq0VsNpyB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779150441; c=relaxed/simple;
-	bh=5jBfMjx70K9+mHD2zp4KAHeW+IWt7gMJGSytd06NO9I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G4tuAUobdoBZfJ8BEj0J6uFesdq3HvALsTOVKJ4W2O7FzHbqhzcGvgXmvOEtziC596PEtExLmpu2GblI0x0X9Orus8UqikCj4vfYOKgxq7cnFnXoKf1c7FwG+SYn9XZ1gW0LM4PwOmLSldAPq57p1GhrcCJJ5rxpvZK9ks8wAtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NhXWk2pC; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779150681; c=relaxed/simple;
+	bh=ugd6OYM13lrewg3RCk4+7fzTmJDDbeyPBjaxq5puXrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jVg9OZcmORizfr70XSO/6dl355RpJNe4aA83yQPVxH2qlhb35dsJ3O821h7uViBMAXZ9JM2A52HfOHBX4bOiADedWiL6vt4Pib52eHX3/uF7Y2qDISqztBXhjtbhuOFjwAgA5bAjrBShviFF6ja6k482afikTbYuU56aFFSm7Cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q8p4I1CK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NhXWk2pC"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8379e010b01so1200226b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 17:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779150439; x=1779755239; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5jBfMjx70K9+mHD2zp4KAHeW+IWt7gMJGSytd06NO9I=;
-        b=NhXWk2pCzFN3E25BLG6IQREuZh1XsAhP/h/WykUGo/RIs2423MicHx1GO9B0IzLZv6
-         ENoEZIMhk70tU/F0fnvQarSQkOaCVf1bNXBC1lW6vvGsUSq2OmjQ+2fWI4yZzB6LiYzt
-         rdRhQi7GBDqTa7/eWj9zMt3W8kudczjtBWCb5eAyw5HEyUN7Zd9N8lqohxJ6D1LWPVJn
-         4da9PYfgHr2SZEkBKoMZ+zACxuSJT2dfjBeBz0M9JskbfgwX+JEHew4a8cyLToLHFEeU
-         qqNEodC4XcAB65vLCNIIYm8X4VOlXst0s369CyekvMyj+TtjEsDOML/aW4oQbn2ffcU9
-         tfKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779150439; x=1779755239;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5jBfMjx70K9+mHD2zp4KAHeW+IWt7gMJGSytd06NO9I=;
-        b=GsB5SqgfZcidkbfT3TMVek0qMtIrtRSLO47nhaDqzqLjDpRHrrZiWl43v1aTd5l4GM
-         vBu6XS5buiDu18WfNQ0fyNi2uWPghy7whGMLzQTQQr132N2Wa/rSMoBb8aze1Pqr0xGU
-         +KZufSG/nDommSrPuiet3qEzZhjbp/T03auPxjohmcxM9aiX2jBYhUpJP0L3VL2mCUz2
-         vhRPU1tFQ5q1/IE23V4Lkx3wIYgnhc+BhkJ9OPjsJrvP54bu9LEQr7S7UK1fY95wPD7S
-         nXnNJb7gYxFOApH096cYrfCwsfwHIKqBfWNYhpn5827rsHUGUkClfk0g6OzgaQyeU4A2
-         bOtw==
-X-Forwarded-Encrypted: i=1; AFNElJ+eCs/M98W8FniUCOC4TwqeyVDbsdRjCnz+oBzl+adqzYG5UtKzD5ap5eYPcWnCStEzgFXKGeIQsSs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxu8qy5gg0QhY+A1zIFWVeXAgrwt4EXpNVG8yxDcfmQQY2NLz9R
-	Mnz1sYRSY2nM1+RrZGsWwmVhEjcIcvUjMBouN7Wu/W2xroRmD5y4jn8f
-X-Gm-Gg: Acq92OHdvAMLqyPpxgqeeI2gJR1eF2fMYDSIBGnYtJEzZgKCei5hBpBsKkr7MAMHFoI
-	hIycdSdjGidf5S8UH/dxsOAbKpsjVLfncDHQcIAlwgxfW8aV5SjmJCS6m3VOt03ZBoIl6inyHz/
-	ei3LWGbgIlZZ4gbBakEz7pYy1WLSeW1gwn+HOP+pV9Jr5LbRdnfXSVWmaoUdqjEJuXXoHEK0p7Q
-	IIydtwsHCVZF6wlPfnhhiMyk+QgNYyb+t11eLhECXFx42mxEZIKXkF7u0RwgBGEvWdPSgbHamLS
-	c909jLpVBvTfS8uL1EJzQaxTiE1kTUKUKjnsElK/coumBGY1Gy9nOhfPCXUNuSRzF5tdkC/pX4m
-	tbdR3GtazhzkprOmdPsKjfzGrzqKNIobEhaNxXUIoqi1ikfQeUmIw+XSPTG4W84enm3Ks9D0GiE
-	tnRr7JAm6bzmyoT4/j8EaFi7C5UCGPdYNu+v9pS+cRAIJW1YpeRIDKk+LG1AmG8r/y1SQrZyZ9u
-	CVBvwnDrNei4hQOF6mgdl3wyL13S11PtSyrrxtFCH+f/n4F61msSuQzFmQ/3g4=
-X-Received: by 2002:a05:6a00:3689:b0:82f:390a:69df with SMTP id d2e1a72fcca58-83f33df437bmr17739669b3a.35.1779150439256;
-        Mon, 18 May 2026 17:27:19 -0700 (PDT)
-Received: from ERIC039ERIC.localdomain (1-170-130-21.dynamic-ip.hinet.net. [1.170.130.21])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f75c0d232sm4544463b3a.17.2026.05.18.17.27.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 17:27:18 -0700 (PDT)
-From: Chen-Shi-Hong <eric039eric@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: hwmon: ad7314: document sysfs interface
-Date: Tue, 19 May 2026 08:26:45 +0800
-Message-ID: <20260519002703.544-1-eric039eric@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <006d3f24-b1cd-4fad-b8b6-96ddd904c283@roeck-us.net>
-References: <006d3f24-b1cd-4fad-b8b6-96ddd904c283@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q8p4I1CK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFBB3C2BCB8;
+	Tue, 19 May 2026 00:31:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779150681;
+	bh=ugd6OYM13lrewg3RCk4+7fzTmJDDbeyPBjaxq5puXrE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Q8p4I1CKRGuATsYVFUBxxv418bj8L8Be74qaPtvPea3MG6MkN250M3FXNdfeLoiN9
+	 EuJkQhvk1vEdmYZ/En+uT2xo6nEhtDl48zDtZTX8RxCeIvwHmJCWU/c7Kn76RYyUiz
+	 evDpqldZ59lIB2BC3SQ49+P65rq1jtRa4LXVUFgTZovvMw2hSr/J86xgAybVI73gI1
+	 drFqze+7Aib4PVPzcyQyWJgSJKE+Igk58GGKyLwoiJZ8qbISBoEt7pqXgYe2WMx5Fz
+	 nNaeErOkSNp0y9yCKwOmHhxtMSYnUtFM0rxyVZSykPHyYfzxo6MsCi7kR0e64KcBP7
+	 cI5xevaMAJILw==
+Date: Mon, 18 May 2026 20:31:19 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Song Liu <song@kernel.org>, corbet@lwn.net, akpm@linux-foundation.org,
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	gregkh@linuxfoundation.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH] killswitch: add per-function short-circuit mitigation
+ primitive
+Message-ID: <aguvV8QCxK28ZHct@laps>
+References: <20260507070547.2268452-1-sashal@kernel.org>
+ <CAHC9VhTwDt2Bx8n0io9Qge_fUEnrHsxrFAQY+KaemKWqJqBQxw@mail.gmail.com>
+ <CAPhsuW4TJRqQKXgcBYog8YgFLU2h2Zq9ReahxTYp_zpDyvO8AA@mail.gmail.com>
+ <CAHC9VhS1DJNs9gDB6gD9WKhL08giSVajBskZ+=mY0AWRCAsw7Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhS1DJNs9gDB6gD9WKhL08giSVajBskZ+=mY0AWRCAsw7Q@mail.gmail.com>
 
-Hi Guenter,
+On Mon, May 18, 2026 at 05:29:32PM -0400, Paul Moore wrote:
+>From my perspective there are two different issues here: should
+>killswitch be a LSM, and should killswitch leverage kprobes to be able
+>to "kill" security related symbols.  After all, are we okay with
+>killswitch killing capable() and friends?
 
-Understood. Thank you for the feedback.
+killswitch doesn't do it on it's own. It may be instructed by root to do that,
+at which point that is root's problem.
 
-I will avoid sending this kind of low-value documentation patch in the future and will be more careful in judging whether a change is worth reviewers' time.
+>In my opinion, making killswitch an LSM is more of a procedural item
+>that deals with how we view a capability like killswitch.  I
+>personally view killswitch as somewhat similar to Lockdown, which is
+>why I made the suggestion.
 
+Maybe I'm not all that familiar with LSMs, but we would need to be able to stop
+"random" code paths from executing, and I don't think we can create LSM hooks
+at that granularity, no?
+
+>The use of kprobes, while an interesting idea, presents problems as
+>allowing any kernel symbol to be killed introduces the potential for
+>security regressions.  As a reminder, some LSMs, as well as other
+>kernel subsystems, have mechanisms in place to restrict root and/or
+>enforce one-way configuration locks; while many people equate "root"
+>with full control, in many cases today that is not strictly correct.
+
+killswitch "complies" with lockdown. Is there a different scenario which we
+should be blocking?
+
+>Yes, kprobes have been around for some time, this is not a new
+>problem, but killswitch makes it far more convenient and accessible to
+>do dangerous things with kprobes.  If killswitch makes it past the RFC
+>stage without any significant changes to its kill mechanism, we may
+>need to start considering more liberal usage of NOKPROBE_SYMBOL()
+>which I think would be an unfortunate casualty.
+
+Why? If I don't really mind the security impact, I want to be able to have a
+killswitch-like interface on my systems. If an attacker is in my systems,
+killswitch is the least of my concerns I think.
+
+If you are security concious, just don't enable CONFIG_KILLSWITCH?
+
+-- 
 Thanks,
-Chen-Shi-Hong
+Sasha
