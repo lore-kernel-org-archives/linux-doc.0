@@ -1,44 +1,61 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AEC400E1A
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 15:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A5134E760;
+	Tue, 19 May 2026 15:24:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779204263; cv=none; b=sas4vXjH7LV72dq8IRT5wYrQx6JXq3cmEWalmJPtyLFT3xLB/3vxmxLaTDGbCVx0N+Z69rEnovWxQt+WbOlktlVHVmkGEtDQYFvdyIuPTeCl+3YIlSNTvNIpYw+VYwhjcLYkEKInfMMZOY6xpBAbZGqDdp2SuOaitdArBMkotss=
+	t=1779204275; cv=none; b=b9+1uHpx/Na542kIPkRhyeKHSW+bOMiuFsFrV3f77FmjzpyYHlnGjvtz0QZSACZAVuWR7W0wCv34iogNLdFVxNcR/oVbJgVAX/PqrQC5R0D+mT9uZBoQvOeCmILA5g/8jx1QE/CYTdajhK7tOR9THNKy5Rx+3PwCPNHrzmum65I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779204263; c=relaxed/simple;
-	bh=yGclX00sEmvr2VHCUrzeE+m5yMZUCl/baz5r002iGfk=;
+	s=arc-20240116; t=1779204275; c=relaxed/simple;
+	bh=nd/SFqFEnjKhIh8jdIA2Y3hV+o5FYf2nfi5Ar2FriVk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aeBeo9yS3IuTc4iD4b2CCxHrdlwWZ5EfnC3owdT4rPcLpXKnHj2Xa88E2RrSwawyv/6aNqoqmejCKWxpVTBTLYBkY74oCAupv7xTLCJj25z8IulOUIhZfGQQ4BNK5B2Fmo8bkqzXRmD+5n6w4BHBD3EydItVBhZOl+oJeN8jyOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AuhVB9DO; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=LlRisk8H+ZhiDOueTtkMCEa7430viPcFGPiRhJmSwm28U3N/qLXk41KAoCRKhY+FuG4sEFtl/9tLp6zUD0XL4kY/tLtuX1E7MhK92NZUvUlWmp1Etk+EPP/UcCmwIqnZo30EoKF5Z7Dj0mQvOZKD7keJCG1fr8VgrN63UEjDnAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SZU/9Nk1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AuhVB9DO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A66F3C2BCB3;
-	Tue, 19 May 2026 15:24:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SZU/9Nk1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C400C2BCB8;
+	Tue, 19 May 2026 15:24:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779204263;
-	bh=yGclX00sEmvr2VHCUrzeE+m5yMZUCl/baz5r002iGfk=;
+	s=k20201202; t=1779204274;
+	bh=nd/SFqFEnjKhIh8jdIA2Y3hV+o5FYf2nfi5Ar2FriVk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AuhVB9DO3aQKgSyzzgiaQyUBKNX8tiLyVYh2LwfpxJo5jfSn7SvdF//NUd8ec5/X6
-	 H5iw6qVBfvxfPa3WCPCgoq/jRlhG0Nmps5YeWqLT0cQdzEFtTIDBaF6Dk4yhEUUfmJ
-	 wF5toKF9p0gGO3Cd5IJ52ug2WudLGT0rIUcUT+tNpelfXip53G9nA5g6Sv4SYZnLqR
-	 CpLbHKr9t5Ylxfa5HMTWdXMg62nEVdezSbHysBevJ60Hwanx0DQPurSJuv9rQWA3fa
-	 dljNqWcu7IGG/4IEOvBqIVE5H+KLhaJPNtH0lF9RKi4YgeJTktCXliqKXgCfSV5L3Z
-	 o1RiSEby2rHzQ==
+	b=SZU/9Nk1isibwbe/goA8rb23RTRh+TDHdGVHiJweVgoFLIlaLyRzOrwS1BowvouWW
+	 XenrcwvtqzcvxlAqhITZdQf9hYUeMs+gI2MdgR92uUqwQP2LBIU7SPyp6qGx6gbBOP
+	 qxVOY1l0Hhwe8JHeBzuxD0evaj0x7W+y+oLW5c93HbazWiqi0GAG4wuiOMzW6R2yeg
+	 XIaC4t8teRvWrIo4Xqyc3S70Nmw+ZV4CAGKYlxRrWTX3qixRRusoMKSBvtbM/0FjOK
+	 HSgKDcNXau/2MnWzfrD69KOkQ2gsuE0586E8+C/3t8eS87g67RVVwLnhTwzTobrB2m
+	 fWdtpV9EPdYoQ==
 From: Will Deacon <will@kernel.org>
-To: catalin.marinas@arm.com,
-	Robin Murphy <robin.murphy@arm.com>
+To: maz@kernel.org,
+	oupton@kernel.org,
+	catalin.marinas@arm.com,
+	corbet@lwn.net,
+	pbonzini@redhat.com,
+	Tian Zheng <zhengtian10@huawei.com>
 Cc: kernel-team@android.com,
 	Will Deacon <will@kernel.org>,
+	yuzenghui@huawei.com,
+	wangzhou1@hisilicon.com,
+	liuyonglong@huawei.com,
+	yezhenyu2@huawei.com,
+	linuxarm@huawei.com,
+	joey.gouly@arm.com,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] arm64: errata: Reformat table for IDs
-Date: Tue, 19 May 2026 16:23:09 +0100
-Message-ID: <177918817933.747252.7403057722390578379.b4-ty@kernel.org>
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	suzuki.poulose@arm.com,
+	leo.bras@arm.com,
+	Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH v3 0/5] Support the FEAT_HDBSS introduced in Armv9.5
+Date: Tue, 19 May 2026 16:23:12 +0100
+Message-ID: <177918656142.736362.17906576792384645789.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <0d4c8f3968e5c5c0a6f3dc295c3e9f696b9006f4.1777657487.git.robin.murphy@arm.com>
-References: <0d4c8f3968e5c5c0a6f3dc295c3e9f696b9006f4.1777657487.git.robin.murphy@arm.com>
+In-Reply-To: <20260225040421.2683931-1-zhengtian10@huawei.com>
+References: <20260225040421.2683931-1-zhengtian10@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,24 +65,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Fri, 01 May 2026 18:52:28 +0100, Robin Murphy wrote:
-> We have some inconsistency where multiple errata for the same component
-> share the same Kconfig workaround; some are one ID per line, some are
-> smooshed together, and some are entirely separate entries. Standardise
-> on the single entry, one ID per line format so that things render nice
-> and consistently in the HTML docs, and it's simple and clear to add new
-> IDs to existing workarounds without churning the table too much.
+On Wed, 25 Feb 2026 12:04:16 +0800, Tian Zheng wrote:
+> This series of patches add support to the Hardware Dirty state tracking
+> Structure(HDBSS) feature, which is introduced by the ARM architecture
+> in the DDI0601(ID121123) version.
+> 
+> The HDBSS feature is an extension to the architecture that enhances
+> tracking translation table descriptors' dirty state, identified as
+> FEAT_HDBSS. This feature utilizes hardware assistance to achieve dirty
+> page tracking, aiming to significantly reduce the overhead of scanning
+> for dirty pages.
 > 
 > [...]
 
-I think I intended to send this upstream at -rc1, but it didn't happen.
-However, we don't (yet) seem to have any new workarounds in linux-next
-so I'll take it on its own branch for 7.2.
+Applied sysreg definitions to arm64 (for-next/sysregs), thanks!
 
-Applied to arm64 (for-next/errata), thanks!
-
-[1/1] arm64: errata: Reformat table for IDs
-      https://git.kernel.org/arm64/c/ede94377d855
+[1/5] arm64/sysreg: Add HDBSS related register information
+      https://git.kernel.org/arm64/c/72f7be0c2e30
 
 Cheers,
 -- 
