@@ -1,172 +1,115 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D82237D137
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 06:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1843612D8;
+	Tue, 19 May 2026 06:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779170999; cv=none; b=f+CRzYxVWckCkufuJBL2Qbwtn7Sw27JVLZk0hEVnGf7VgPuKepovhFJUqMRh3sLBx1BtaqJx53p4oTEbfFvJZqMRRxhISVG+WQ6HCGoCe8hXt8jxg4MkUeToTlSFMT9+mfu/bhqyFfTtvGYBp+SDLPKndE1gTtQIU0Qoq9JxZ18=
+	t=1779171355; cv=none; b=t0HUGae7GY9mVtcL4XZNQjMdQPldYYpd7cqtT5kAS9DpwGBkxJic4Z3t8kP+hbN5kVTMeF6+c0wacLJjnktz8rSROhCWaRwTjWv7rJ76rA+w30/KGmXZg50bIkHErxkzBOR6Sl9vW3Y/BU4SB4jlGuNG88SkKkIac9KERwITAbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779170999; c=relaxed/simple;
-	bh=m4Wkj+rk/VrvijEitrfIMERd/zmOQp580t2sTN8465o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PYelJ8q1v0KWZ8IzTVoBr1C5cmFgwBNDvEJG2L0dxAmPMgdjhkm2Es64250GN8FyF+JoKoeXG+G9facrdHOVuHyxaZvz0l0nz6gLLA0Y5aXFfwXzdOk4sFE2RbcYH2W4zvmvQpyLWCdy36EKUQMcPbk2oNSj+3rESbgJHpUxpwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=efLuJxH1; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779171355; c=relaxed/simple;
+	bh=oPFAYDbcOdaONkTK3t8RuJ4HZ+KQnAEEZ3J8LUUbMv8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=O5iUtlNCqlCPEEZF7BMYTcAhOeEtV85vUmWPvRtcrMCD8Cb6Av1up/34gNiqfhdfGQ/EfQO4QhoDCjbjnrpZLdViQWFJzpMh+VVV4xSTXBP06TNGvFkqDhHrn10cHQiQTCTn6qXn2DBvmM7fvp4mRQKkppFC7xazqlqjgzHC96E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L8E9UP6J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="efLuJxH1"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ba0fc8b1f0so19766955ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779170989; x=1779775789; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=35UEgwPy5bOt7bPAiRN5I3s053dsTnr88mncjkP29bU=;
-        b=efLuJxH10cUg1gukP013S367aaVA1L9r0LkGaWAVp/yFbTxJ2TP1CpIdBJRtmKc7Zz
-         fGr7acFJmVz5GxgIuhls2Ti5nrnLFnmdbNxu+U8MiTjG2340f+N8rtD0C+ORScuGf5fK
-         hCZb9/EcPOD5K+ZtqOdRkHvV587n4Br791Cdgdu3UitFLqS65nBs1VdeweVNFnSThA2d
-         zMClp/ExjcF0ttlXzJu3T7zrjsNhRUH/xOr9AStU8oREjyuclsfyqX6fpgRU5wjPp0KQ
-         lkJRVbYXOll1EqyHKTNG5HrGAvTPDZDFMfmXqk0omxWngJpQQi/lWN0Wm8wRackSO2rm
-         XSTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779170989; x=1779775789;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=35UEgwPy5bOt7bPAiRN5I3s053dsTnr88mncjkP29bU=;
-        b=Oaqic1p38wdZ7eQAlinKE7JiIIofpfudpwbBiUphNKY0Yd7E+1RKaNEO7KBqqjdspY
-         eODBLjn/bPWcSGmxwyl/JUzpqJLohzC+stcNxF2sa7qZ93I3ZcyfQtUFjwFKVJxeJsek
-         FC0raXj7ZGaMODogyRzp80GSvO0e29UCRRx4bTp0F/6lQEQYrDLVeKY5oTs4DXHDehfe
-         80UH83KRKoSBgfGF42oSKrRCuolfgBhdlAzJthAb8LljZleJk8mPO3jfXe5P2dQVfp2j
-         1CENaKNL+1SLy7aXSGrLE1XOUcYnM1fPhQLh3UaxxI5xY178yYVPAvj5/HGijvKP4SKo
-         hcdQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9U4MeO3qQpAgVYbXyLWpFD/dx9iYENkL+UiMiNHg+4gYwQha6PeZlvn0WQZtRITh3k1U1d1by9II8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiPYaEEIatQBvf/FHun+xf/BemraNYp5jTVYk+sbGC081dnHuv
-	IIx0DPWZwRS1+Q0ssjdRAAX33vBur+o1XqIIWjszDn7UV91I9EwK/cnC
-X-Gm-Gg: Acq92OHbnbS00umuSBYIPSw0R7u7vFPvl6ZO8AfStPB0WH3a2BBMCJVnceHFXTqopsO
-	SUdHcdeN04m2TXeTekVPiJsdDYDmBFv/eci2YVofrmZrENZn6hkon9qFg8vlGAqD+uoCFzyU0Ek
-	s4ZwS29vvC1+aZqBjX0iSDbPjRVRagyS4bUZMHdqIvbcpzAeoEIuKWrydXtrozbLEE350mwEEkY
-	dnWkT8tu2mADhbdSEMB6SPOjYi0L+wHRxiqHe60F4eInQUS2/903PRJSN8DW+Y6flA1lWhE+Dkg
-	dD++3sT60PPZdWkBHmXyjaPx3phhk0PYGXp1ldKvi73ZLq7JKgGMM1iIPkyOPprAIj8d8Mzan5W
-	S6zV73Uks1GddBzm+a3jY5yoskOgSUGsFJRlf5obGVgYADAKm6xXynEKU0wjYMOA3HfFE5FO3rl
-	wTWzHQrgPwfn5v/UPq3EgOhV1uWbFQ93sY126DZr7GYX5cOstTkF0ACNRCGTuJ6Ewddg==
-X-Received: by 2002:a17:903:284:b0:2b0:60db:7927 with SMTP id d9443c01a7336-2bd7e977b8fmr200540165ad.28.1779170989314;
-        Mon, 18 May 2026 23:09:49 -0700 (PDT)
-Received: from harvey.lan (c-73-83-32-130.hsd1.wa.comcast.net. [73.83.32.130])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5cfe64a9sm172805975ad.53.2026.05.18.23.09.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 23:09:48 -0700 (PDT)
-From: Jim Broadus <jbroadus@gmail.com>
-To: linux-integrity@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: peterhuewe@gmx.de,
-	jarkko@kernel.org,
-	jgg@ziepe.ca,
-	Jim Broadus <jbroadus@gmail.com>
-Subject: [PATCH] tpm: tpm_tis: Add optional delay after relinquish
-Date: Mon, 18 May 2026 23:09:26 -0700
-Message-ID: <20260519060926.103727-1-jbroadus@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8E9UP6J"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4AFF5C2BCC6;
+	Tue, 19 May 2026 06:15:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779171355;
+	bh=oPFAYDbcOdaONkTK3t8RuJ4HZ+KQnAEEZ3J8LUUbMv8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=L8E9UP6JDabt600TvsCR9slzoGhC8Jwuiv7ar8SzlmQIT/5k4Ap/fBmT2Sp4/mBGi
+	 GkRCVI8vKNMEDIjQo5e+HBThyfqZOLIB3g42MxaA4VfW8vXPGelxTQ00XHskUqpVjR
+	 71f6xwdeuUhqEJ/qY6tV90GvdI+XxlwKEls7aL8AXm27Mfu7z3U5rvNxJ0W7C56GM2
+	 8+VC4dtJ1yrnvzCLcnl76SyXDtZfozios3ijPACRDedJ0gBECnQx6CkyrzhWae6605
+	 lZSIVwBRORUJjwkgZhb7RGt1Ek1/lcp9UhNfq6V1yNS4Nr+zSA/ijtNS/cVtPSvEl5
+	 5ypjvcl6TZGIA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37596CD4F3C;
+	Tue, 19 May 2026 06:15:55 +0000 (UTC)
+From: Ekansh Gupta via B4 Relay <devnull+ekansh.gupta.oss.qualcomm.com@kernel.org>
+Date: Tue, 19 May 2026 11:45:51 +0530
+Subject: [PATCH 01/15] MAINTAINERS: Add entry for Qualcomm DSP Accelerator
+ (QDA) driver
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260519-qda-series-v1-1-b2d984c297f8@oss.qualcomm.com>
+References: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
+In-Reply-To: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
+To: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Bharath Kumar <quic_bkumar@quicinc.com>, 
+ Chenna Kesava Raju <quic_chennak@quicinc.com>, srini@kernel.org, 
+ dmitry.baryshkov@oss.qualcomm.com, andersson@kernel.org, 
+ konradybcio@kernel.org, robin.clark@oss.qualcomm.com, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ iommu@lists.linux.dev, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, 
+ Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779171352; l=1114;
+ i=ekansh.gupta@oss.qualcomm.com; s=20260223; h=from:subject:message-id;
+ bh=AcTCOc39xB2eWZrt+ASexMe8l7bzMXO4brOtNDdJpLc=;
+ b=XwNsf2StpfGEc03MIN5ksLv66Pg0T/usYVgQPmqfzw5MxB6jXvhJsbXX7bTYyLF5Fy7wEzC3K
+ d5yJ5e27faWDfrCTzW5xSeogxKwAaQNBtjHjh56ZsIQNBZP6cslu86G
+X-Developer-Key: i=ekansh.gupta@oss.qualcomm.com; a=ed25519;
+ pk=n0SepARizye+pYjhjg1RA5J+Nq4+IJbyRcBybU+/ERQ=
+X-Endpoint-Received: by B4 Relay for ekansh.gupta@oss.qualcomm.com/20260223
+ with auth_id=647
+X-Original-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Reply-To: ekansh.gupta@oss.qualcomm.com
 
-Some TPMs fail to grant locality when requested immediately after being
-relinquished. In this case, the TPM_ACCESS_REQUEST_USE bit of the
-TPM_ACCESS register is cleared immediately without setting
-TPM_ACCESS_ACTIVE_LOCALITY.
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 
-This issue can be seen at boot since tpm_chip_start, called right
-after locality is relinquished, fails. This causes the probe to fail:
+Add a MAINTAINERS entry for the Qualcomm DSP Accelerator (QDA) driver,
+covering the driver source under drivers/accel/qda, documentation under
+Documentation/accel/qda, and the UAPI header
+include/uapi/drm/qda_accel.h. The linux-arm-msm and dri-devel mailing
+lists are listed as the relevant review lists.
 
-tpm_tis MSFT0101:00: probe with driver tpm_tis failed with error -1
-
-This occurs on some older Dell Latitudes and maybe others. To work
-around this, add a "settle" boolean param to tpm_tis. When this is
-enabled, a delay is added after locality is relinquished.
-
-Signed-off-by: Jim Broadus <jbroadus@gmail.com>
+Assisted-by: Claude:claude-4-6-sonnet
+Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
- drivers/char/tpm/tpm_tis.c                      | 7 +++++++
- drivers/char/tpm/tpm_tis_core.c                 | 3 +++
- drivers/char/tpm/tpm_tis_core.h                 | 1 +
- 4 files changed, 18 insertions(+)
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 4d0f545fb3ec..5b7111033fbb 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -7651,6 +7651,13 @@ Kernel parameters
- 			defined by Trusted Computing Group (TCG) see
- 			https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3dd58a16f06a..c5c13ad1e6fe 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22083,6 +22083,15 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/crypto/qcom-qce.yaml
+ F:	drivers/crypto/qce/
  
-+	tpm_tis.settle= [HW,TPM]
-+			Format: <bool>
-+			When enabled, this adds a delay after locality is
-+			relinquished. Some TPMs will fail to grant locality if
-+			requested immediately after being relinquished. This
-+			causes the probe to fail.
++QUALCOMM DSP ACCELERATOR (QDA) DRIVER
++M:	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
++L:	linux-arm-msm@vger.kernel.org
++L:	dri-devel@lists.freedesktop.org
++S:	Supported
++F:	Documentation/accel/qda/
++F:	drivers/accel/qda/
++F:	include/uapi/drm/qda_accel.h
 +
- 	tp_printk	[FTRACE]
- 			Have the tracepoints sent to printk as well as the
- 			tracing ring buffer. This is useful for early boot up
-diff --git a/drivers/char/tpm/tpm_tis.c b/drivers/char/tpm/tpm_tis.c
-index 9aa230a63616..8ac0ea78570e 100644
---- a/drivers/char/tpm/tpm_tis.c
-+++ b/drivers/char/tpm/tpm_tis.c
-@@ -101,6 +101,10 @@ module_param(force, bool, 0444);
- MODULE_PARM_DESC(force, "Force device probe rather than using ACPI entry");
- #endif
- 
-+static bool settle;
-+module_param(settle, bool, 0444);
-+MODULE_PARM_DESC(settle, "Add settle time after relinquish");
-+
- #if defined(CONFIG_PNP) && defined(CONFIG_ACPI)
- static int has_hid(struct acpi_device *dev, const char *hid)
- {
-@@ -242,6 +246,9 @@ static int tpm_tis_init(struct device *dev, struct tpm_info *tpm_info)
- 	if (itpm || is_itpm(ACPI_COMPANION(dev)))
- 		set_bit(TPM_TIS_ITPM_WORKAROUND, &phy->priv.flags);
- 
-+	if (settle)
-+		set_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &phy->priv.flags);
-+
- 	return tpm_tis_core_init(dev, &phy->priv, irq, &tpm_tcg,
- 				 ACPI_HANDLE(dev));
- }
-diff --git a/drivers/char/tpm/tpm_tis_core.c b/drivers/char/tpm/tpm_tis_core.c
-index 21d79ad3b164..68be26fa5817 100644
---- a/drivers/char/tpm/tpm_tis_core.c
-+++ b/drivers/char/tpm/tpm_tis_core.c
-@@ -184,6 +184,9 @@ static int tpm_tis_relinquish_locality(struct tpm_chip *chip, int l)
- 		__tpm_tis_relinquish_locality(priv, l);
- 	mutex_unlock(&priv->locality_count_mutex);
- 
-+	if (test_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &priv->flags))
-+		tpm_msleep(TPM_TIMEOUT);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/char/tpm/tpm_tis_core.h b/drivers/char/tpm/tpm_tis_core.h
-index 6c3aa480396b..413cac5e0f31 100644
---- a/drivers/char/tpm/tpm_tis_core.h
-+++ b/drivers/char/tpm/tpm_tis_core.h
-@@ -90,6 +90,7 @@ enum tpm_tis_flags {
- 	TPM_TIS_DEFAULT_CANCELLATION	= 2,
- 	TPM_TIS_IRQ_TESTED		= 3,
- 	TPM_TIS_STATUS_VALID_RETRY	= 4,
-+	TPM_TIS_SETTLE_AFTER_RELINQUISH	= 5,
- };
- 
- struct tpm_tis_data {
+ QUALCOMM EMAC GIGABIT ETHERNET DRIVER
+ M:	Timur Tabi <timur@kernel.org>
+ L:	netdev@vger.kernel.org
+
 -- 
-2.54.0
+2.34.1
+
 
