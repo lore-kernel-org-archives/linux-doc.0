@@ -1,179 +1,212 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C23C4DB561;
-	Tue, 19 May 2026 12:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82AB4DD6DB;
+	Tue, 19 May 2026 12:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779194341; cv=none; b=UJ8gvdJ48czquhCbo2/KtoT+xOkIJfWz3wt54muhlmYG9+/N7W2uKp23GrsvYypIPnNBTQL7JNG3TmwVK34x2xbuI0NyZ8dLnHn3BVXzbwWUR9HETQpabJdciQItz80Ii/GlwSLYTqtkFENOwixSJWwwy0k59Lq4ZoOZyyvf+ms=
+	t=1779194534; cv=none; b=N4klqieOmfyvF4yy8Vc67LBfK+Ol1CuxOP8FJEb5Tl2VdppaYS0Z02jzF55mTPTjLvU0HL7S0mhMzqCkU7/WyvvkN+cmind6tzOBo59gDEVeYPNKGYFbV+KLeCT2L6LB5T85Wqb8LtkUucgcP5HASC7pHcmEPGoLEHaVy5A7+n8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779194341; c=relaxed/simple;
-	bh=8vDTP3D8eciTBIALrAZgpZD5nbooGrzE+oayZi9KF0E=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W5x13tKsdR0QqBD4iXRtKWjlu1JMDaUiiAdlGxl8OPA6I2WAtrdLhBSz3FVab0Hs1y8ekea1nJzdgBFY107MpUNwqCJm1OW+Yv/3d7JBudvpe0QhV24MZLGIW7Xh8Lm0dcdPGL5N15crSWTapvKkTm7FAYq9vxpAEsmz3H7tA3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X6t7ol7k; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779194534; c=relaxed/simple;
+	bh=eXsfyWpjoKyx+S3jo00ZmbgIJhM9/OKHb7VUAxkqqtg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YLd6wXwQwv7cANdfnfH64dTC0A2zKEYLZ6fDes4lYV4fk3sOSSODDe871qWwgXFGZU5j5G8j87Eqo54Amq/wR1rKrs45X35BvL9ymqcT3sPwZHSTw20l4wtfgUdzmK+gPswXkokgMz5cPtzM54lsxR7uJ+zYO3iOciwTdnuhyX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Imw5scWN; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X6t7ol7k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1AF6C2BCB3;
-	Tue, 19 May 2026 12:39:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779194340;
-	bh=8vDTP3D8eciTBIALrAZgpZD5nbooGrzE+oayZi9KF0E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=X6t7ol7k8hXaTj/jPvLJ4LNh/i0SOJnXHIXk5IZvumO7d/mN1CRjiMLm+KSTcCp01
-	 dpCgfb3aWuWfFvphoRRIUvocz42q1e+gPLCMrk98HK48+ExirdBV2p39MdspXradvs
-	 1S8OGLvyb2+JpsVe931jV07V3TurIWCZCvnNvmG/z9BrJiOSkahYsYOo1ZSNsKo2ra
-	 Y+gehhYjrv12Lm3yC01nrnbTOX6dWDkJ5zl5bn1iOKENlNlOCBFUr/hY7y5DGNyIh8
-	 j8dzCXa37aHLiHFr20/F7wIrW3FgI33uniFpprTdhEdwfVSdoMKI7k1UkTm0mh1dmW
-	 8eH0eWogRBXPQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wPJis-00000003wup-1KJo;
-	Tue, 19 May 2026 12:38:58 +0000
-Date: Tue, 19 May 2026 13:38:57 +0100
-Message-ID: <86qzn7wp3y.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: David Woodhouse <dwmw2@infradead.org>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	kvm <kvm@vger.kernel.org>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	"Kernel Mailing List, Linux" <linux-kernel@vger.kernel.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Jim Mattson <jmattson@google.com>,
-	Oliver Upton <oupton@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	kvmarm@lists.linux.dev,
-	linux-kselftest <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: KVM: Document guest-visible compatibility expectations
-In-Reply-To: <CABgObfacAYexR25SMi1kSZMRnHx3EDGj8=E84V1DumER66ibnQ@mail.gmail.com>
-References: <6856b269d2af706eae397e0cf9c1231f89d9a932.camel@infradead.org>
-	<6afc4b95-3c15-4d71-877d-19b84e91ce05@redhat.com>
-	<57bc082f4824d6114d3156744c25986effc29aca.camel@infradead.org>
-	<baff82ca-6321-4b16-aa61-b2d6d60b6535@redhat.com>
-	<86h5obya2r.wl-maz@kernel.org>
-	<48b06e5655d56ff6eda30e563b34894fa0eb2f07.camel@infradead.org>
-	<ba08dfe9-932b-40c3-9fdf-fc891d52e1d8@redhat.com>
-	<d9d4471a7f5ec1e297b3ca07f42a59090aa91e15.camel@infradead.org>
-	<CABgObfaM-JtNn2MuYXaiadQnLfAhTEaoHAcTG9=J6LkMcQCJ3A@mail.gmail.com>
-	<3f9d731c3d26b0367600f1069e6425099bc34eac.camel@infradead.org>
-	<agxFbniU_6eQ98t2@willie-the-truck>
-	<cf429f2082e863571595f74d1d3dedc3e6a82964.camel@infradead.org>
-	<CABgObfacAYexR25SMi1kSZMRnHx3EDGj8=E84V1DumER66ibnQ@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Imw5scWN"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Ha3U5FJeF61nR13fqhapGOPU2jfN530U4ccDWtKILT0=;
+	b=Imw5scWNyENSClDDsm0aKoLrou92ErUJJIQORPJEcabYI3utCuQCW0cH+DSoBKS/L+LrRsUXe
+	4/57egHk9L82uCmnWMcuwAKP6ON3NWimFljmUY71FbmH/qt6gcc0LgcZJmkJ1LP6GuoGabpLGiL
+	lCnVxupN6NtwOTzTEcksGao=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4gKYyh0hJKzcZyg;
+	Tue, 19 May 2026 20:34:36 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 899C44056A;
+	Tue, 19 May 2026 20:42:08 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 19 May 2026 20:42:04 +0800
+Message-ID: <3ca700ed-e081-4c62-8289-5bbd4248e630@huawei.com>
+Date: Tue, 19 May 2026 20:42:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: pbonzini@redhat.com, dwmw2@infradead.org, will@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, seanjc@google.com, jmattson@google.com, oupton@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, rananta@google.com, eric.auger@redhat.com, kees@kernel.org, arnd@arndb.de, nathan@kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 04/15] arm64: kexec_file: Fix potential buffer
+ overflow in prepare_elf_headers()
+To: Breno Leitao <leitao@debian.org>
+CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
+	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>,
+	<akpm@linux-foundation.org>, <bhe@redhat.com>, <rppt@kernel.org>,
+	<pasha.tatashin@soleen.com>, <pratyush@kernel.org>, <ruirui.yang@linux.dev>,
+	<rdunlap@infradead.org>, <pmladek@suse.com>, <dapeng1.mi@linux.intel.com>,
+	<kees@kernel.org>, <elver@google.com>, <kuba@kernel.org>,
+	<ebiggers@kernel.org>, <lirongqing@baidu.com>, <paulmck@kernel.org>,
+	<sourabhjain@linux.ibm.com>, <coxu@redhat.com>, <jbohac@suse.cz>,
+	<ryan.roberts@arm.com>, <osandov@fb.com>, <cfsworks@gmail.com>,
+	<tangyouling@kylinos.cn>, <ritesh.list@gmail.com>, <adityag@linux.ibm.com>,
+	<guoren@kernel.org>, <songshuaishuai@tinylab.org>, <kevin.brodsky@arm.com>,
+	<vishal.moola@gmail.com>, <junhui.liu@pigmoral.tech>,
+	<wangruikang@iscas.ac.cn>, <namcao@linutronix.de>, <chao.gao@intel.com>,
+	<seanjc@google.com>, <fuqiang.wang@easystack.cn>, <ardb@kernel.org>,
+	<chenjiahao16@huawei.com>, <hbathini@linux.ibm.com>,
+	<takahiro.akashi@linaro.org>, <james.morse@arm.com>, <lizhengyu3@huawei.com>,
+	<x86@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
+	<kexec@lists.infradead.org>
+References: <20260511030454.1730881-1-ruanjinjie@huawei.com>
+ <20260511030454.1730881-5-ruanjinjie@huawei.com> <agGkvrg06KNDNfDi@gmail.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <agGkvrg06KNDNfDi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-On Tue, 19 May 2026 13:13:41 +0100,
-Paolo Bonzini <pbonzini@redhat.com> wrote:
->=20
-> On Tue, May 19, 2026 at 1:44=E2=80=AFPM David Woodhouse <dwmw2@infradead.=
-org> wrote:
-> > > > So... what next? Is one of the other KVM/arm64 maintainers going to
-> > > > speak up? Paolo would you consider taking the fixes through your tr=
-ee
-> > > > directly?
->=20
-> I admit that my knowledge of Arm is really limited, and I do not
-> understand which IIDR values have architecturally allowed behaviors
-> and which (if any) were made up by KVM; but even if I cannot honestly
-> remark on the code or even the approach, a compatibility knob is the
-> right thing to have.  That's a userspace API design matter, not an Arm
-> or GIC matter.
 
-I agree that we can have the knob -- not having it is a userspace
-issue, and I have said that I was OK with preserving the userspace
-interface.
 
->=20
-> I hope that Marc provides a better explanation of why he believes
-> https://lore.kernel.org/all/20260511113558.3325004-2-dwmw2@infradead.org/
-> shouldn't be accepted, because I am more than a bit puzzled about
-> *why* that patch is being rejected or (in v3) so far ignored. Marc in
-> this thread wrote: "If userspace is not a total joke, it will read all
-> the ID registers, and configure what it wants to see, assuming it is a
-> feature that can be configured (not everything can, because the
-> architecture itself is not fully backward compatible)".
+On 5/11/2026 5:46 PM, Breno Leitao wrote:
+> On Mon, May 11, 2026 at 11:04:43AM +0800, Jinjie Ruan wrote:
+>> There is a race condition between the kexec_load() system call
+>> (crash kernel loading path) and memory hotplug operations that can
+>> lead to buffer overflow and potential kernel crash.
+>>
+>> During prepare_elf_headers(), the following steps occur:
+>> 1. The first for_each_mem_range() queries current System RAM memory ranges
+>> 2. Allocates buffer based on queried count
+>> 3. The 2st for_each_mem_range() populates ranges from memblock
+>>
+>> If memory hotplug occurs between step 1 and step 3, the number of ranges
+>> can increase, causing out-of-bounds write when populating cmem->ranges[].
+>>
+>> This happens because kexec_load() uses kexec_trylock (atomic_t) while
+>> memory hotplug uses device_hotplug_lock (mutex), so they don't serialize
+>> with each other.
+>>
+>> Add the explicit bounds checking to prevent out-of-bounds access.
+> 
+> It seems you have a TOCTOU type of issue, and this seems to be shrinking
+> the window, but not fully solving it?
 
-This was a more general comment on the full mechanism that we use to
-save/restore the state and at the same time configure the feature
-set. Which is what the GICD_IIDR does to some extent for the GIC.
+I plan to fix this issue as follows, and would appreciate your feedback
+on whether this is reasonable.
 
-> But in this case there's an ID register that tells KVM if userspace
-> wants the old or the new behavior, independent of whether that old
-> behavior is architecturally valid or not.
+Sashiko AI code review pointed out there is a TOCTOU (Time-of-Check to
+Time-of-Use) race condition in prepare_elf_headers() between the initial
+pass that counts System RAM ranges and the second pass that populates them.
+If a memory hotplug event occurs between these two steps, the number of
+memory regions may increase, causing an out-of-bounds write to
+the cmem->ranges[] array.
 
-But the "old behaviour" makes no sense, and cannot be used by a guest:
+To resolve this and ensure data consistency, this patch:
 
-- either the guest doesn't use the alternative interrupt groups, then
-  it wasn't affected by the bug. That's 100% of the guests.
+1. Wraps the counting and population passes with get_online_mems() and
+   crash_hotplug_lock(). This serializes the kexec_file_load() path
+   with concurrent memory hotplug operations, ensuring the memory
+   map remains consistent throughout the header preparation.
 
-- or the guest did try to use the alternative groups, and it *NEVER*
-  worked, as it wouldn't get any interrupt at all. What is the point
-  of preserving a "feature" that only results in a non-working guest?
+2. Adds an explicit boundary check in prepare_elf64_ram_headers_callback().
+   If the number of ranges exceeds the allocated maximum, it now returns
+   -EAGAIN, which indicates a transient race, signaling userspace
+   kexec-tools to retry the syscall instead of leaving the system
+without a loaded crash kernel.
 
-Given that, re-introducing a behaviour that cannot be used makes zero
-sense to me.
+index daf81a873bbd..546be6261177 100644
+--- a/arch/arm64/kernel/machine_kexec_file.c
++++ b/arch/arm64/kernel/machine_kexec_file.c
+@@ -15,6 +15,7 @@
+ #include <linux/kexec.h>
+ #include <linux/libfdt.h>
+ #include <linux/memblock.h>
++#include <linux/memory_hotplug.h>
+ #include <linux/of.h>
+ #include <linux/of_fdt.h>
+ #include <linux/slab.h>
+@@ -40,7 +41,7 @@ int arch_kimage_file_post_load_cleanup(struct kimage
+*image)
+ }
 
-> I will certainly take this patch, but I won't override Marc. However
-> I'd like to better understand his point of view, because right now I
-> just don't get it.
+ #ifdef CONFIG_CRASH_DUMP
+-int prepare_elf_headers(void **addr, unsigned long *sz)
++static int __prepare_elf_headers(void **addr, unsigned long *sz)
+ {
+ 	struct crash_mem *cmem;
+ 	unsigned int nr_ranges;
+@@ -59,6 +60,11 @@ int prepare_elf_headers(void **addr, unsigned long *sz)
+ 	cmem->max_nr_ranges = nr_ranges;
+ 	cmem->nr_ranges = 0;
+ 	for_each_mem_range(i, &start, &end) {
++		if (cmem->nr_ranges >= cmem->max_nr_ranges) {
++			ret = -EAGAIN;
++			goto out;
++		}
++
+ 		cmem->ranges[cmem->nr_ranges].start = start;
+ 		cmem->ranges[cmem->nr_ranges].end = end - 1;
+ 		cmem->nr_ranges++;
+@@ -81,6 +87,21 @@ int prepare_elf_headers(void **addr, unsigned long *sz)
+ 	kfree(cmem);
+ 	return ret;
+ }
++
++int prepare_elf_headers(void **addr, unsigned long *sz)
++{
++	int ret;
++
++	crash_hotplug_lock();
++	get_online_mems();
++
++	ret = __prepare_elf_headers(addr, sz);
++
++	put_online_mems();
++	crash_hotplug_unlock();
++
++	return ret;
++}
+ #endif
 
-I don't get it either, but for different reasons.
+> 
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will.deacon@arm.com>
+>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>> Cc: Baoquan He <bhe@redhat.com>
+>> Cc: Breno Leitao <leitao@debian.org>
+>> Cc: stable@vger.kernel.org
+>> Fixes: 3751e728cef2 ("arm64: kexec_file: add crash dump support")
+>> Closes: https://sashiko.dev/#/patchset/20260323072745.2481719-1-ruanjinjie%40huawei.com
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> ---
+>>  arch/arm64/kernel/machine_kexec_file.c | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>
+>> diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
+>> index e31fabed378a..a67e7b1abbab 100644
+>> --- a/arch/arm64/kernel/machine_kexec_file.c
+>> +++ b/arch/arm64/kernel/machine_kexec_file.c
+>> @@ -59,6 +59,11 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+>>  	cmem->max_nr_ranges = nr_ranges;
+>>  	cmem->nr_ranges = 0;
+>>  	for_each_mem_range(i, &start, &end) {
+>> +		if (cmem->nr_ranges >= cmem->max_nr_ranges) {
+>> +			ret = -ENOMEM;
+> 
+> -ENOMEM seems to be the the wrong errno. This isn't an allocation
+> failure; it's a transient race. -EBUSY or -EAGAIN would be more honest
 
->=20
-> > If KVM on arm64 doesn't aspire to maintain guest compatibility across
-> > host kernel changes =E2=80=94 regardless of whether the previous kernel=
-'s
-> > behaviour was "blessed" by the architecture specification or not =E2=80=
-=94 then
-> > it does not meet the expectation that we have of KVM implementations in
-> > the Linux kernel.
->=20
-> I agree with the "aspire" wording. Even if it's not going to be 100%
-> achievable, KVM *needs* to aspire to maintain both guest compatibility
-> and architecture precision. Sometimes it's impossible, sometimes there
-> are constraints that require you to trade off one for another (e.g.
-> via quirks, or by breaking behavior that no sane guest would have
-> cared about). But in general as a maintainer you don't *get* to
-> choose.
->=20
-> Paolo
->=20
-> > Or indeed the standards that we've held for Linux kernel ABIs for the
-> > last 35 years.
-
-As I said before, I'd be OK with something that would restore IIDR to
-REV1. But not something that actively breaks the GIC emulation by
-reintroducing a bug. That's, by construction, dead code that will only
-bitrot, because there is no SW that can make use of this nonsense.
-
-	M.
-
---=20
-Without deviation from the norm, progress is not possible.
