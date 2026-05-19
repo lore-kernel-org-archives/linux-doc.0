@@ -1,229 +1,482 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF171D5170;
-	Tue, 19 May 2026 16:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FBC2C11DE
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 16:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779208328; cv=none; b=lvaQkv2doIqjaxSD2jZpTrCq66NcKE6sSrOiVzVFz8jj2NVDTFcQJ8zAXfZ3cV3ZXzI9b1Cd0/zxwg1GOFHXLm3N9O928GLh2vkouvHy9xgBdjizWHEbRnKzdTb0ZHv35PzrebcDLURf2H1LocDxqSoL9wkQvrexlpbc05qJcxc=
+	t=1779208490; cv=none; b=mLjCxX8a3GHBRRq2X1Rb5CEj5AKcwF23psdEXX/Pp7NRevJdbAmi+xncd9aIE+0mJhmqXBqctrpa0uOrqiQJwx/RcCL/VJwpMBMM/jdI9Ie9Wlr5hNPLL095QXBYuiaV5MJ1ZagUADW/0DcL0Z7jmzRWCtQG9MgJJcDzTIqBrO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779208328; c=relaxed/simple;
-	bh=SzpovHMoKEOZz3NZw5bD7XsjuYX6EnzOkbjbXVaRR6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RbBdMraz1TMrD4vsJhJICVyv64ebZbTdWnYIegB9CKwPQn/tQACtGMG2Fu0QJifwP5IS8zOQxAhD2D+heuOpSdVuOxgWJ6uxJ+bZVuZM32OcDKRSIHwtlsIC2e9u/WW7LjelddAfpbcr2hQ3fIbQkjrWRCOnT9SMd3Z5oR4zuN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qs10YNzG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779208490; c=relaxed/simple;
+	bh=5WgO+Q1oi6EoEr5VWKbRb58qJkQRcAxLfQn2nSxYq3s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QqQpd1Qq1kc5exzCCNAcEUJ5E/a0jcdHZAAk54uM3MI9PrUgZvYQO2ZIqJUDNPi9ACgoih29CtH+EbeIcFoyhNlGGPXaw/UIKwMGlFn3yca5HuTGb4IorrgH4Gm7P3nlsvc79BGgtRHjmlL6AmX6X+P45kOtYpf9NULWDr4vZ4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hT3KlwKd; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qs10YNzG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7FF4C2BCB3;
-	Tue, 19 May 2026 16:32:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779208328;
-	bh=SzpovHMoKEOZz3NZw5bD7XsjuYX6EnzOkbjbXVaRR6E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qs10YNzGekgmtvHxgReV7P65tiMHHCYBYIjL502DOF/37vXQZXib42brdzZbD1BpW
-	 apttq7P/8t6ZJA5lh1XjKteQRKGy4IUleOftZiOcSJsul4W7AKVx3Ez6YGa8R6OZB6
-	 CwAt12wi/8Lw6DlCo2ZSjnidYwVR01dnhiDj2cTIMr5ZPTxXTEbbfXSw+aTnzpEZe2
-	 dItkNurzD1Uu3US5tLWBeZGSHywlXtbBITQXETM353dDe9pdSg6bBaIdcVy6uqixof
-	 W/luHicp+KZcBO1+K9htM0KBLl83yP0yCtyjGiv1wasSx7UUKxcdI2k7orYuuNWSJj
-	 4AogqySbyMoSQ==
-Date: Tue, 19 May 2026 18:32:04 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Albert Esteve <aesteve@redhat.com>, Barry Song <baohua@kernel.org>, 
-	"T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	Christian Brauner <brauner@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, dri- <devel@lists.freedesktop.org>, 
-	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, echanude@redhat.com
-Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 2/5] dma-heap: charge dma-buf
- memory via explicit memcg
-Message-ID: <20260519-graceful-hypnotic-penguin-0be97e@penduick>
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <8ef38815-6ae9-4359-86d4-042554357639@amd.com>
- <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
- <CADSE00Jq_uvNgvxgPze0mEdUd+hF4-DPZkHy0KroWHZzygf4WA@mail.gmail.com>
- <CABdmKX3DhejYBis9htLDnzPrG7vuF3R3URLVNEbnyd61SSsx=g@mail.gmail.com>
- <CAGsJ_4zyecY6E-=Tm4_couT7uoM9LMcFdTMUPkZAjj4zUKE-dQ@mail.gmail.com>
- <cb84c2ee-9de1-4565-b2e0-60984721228f@amd.com>
- <CADSE00Lc42s2bzXzV5D7t1Enf56u4BVj-yXLp3Yxhm0=qMPvuw@mail.gmail.com>
- <9cc79977-9a42-40eb-bfa7-460881c1e10f@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hT3KlwKd"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-9144163319fso297604285a.2
+        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 09:34:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779208487; x=1779813287; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8NXBBktgPsUvkC2vPEdHd/dIDOK6P5ILP1oorCTAVGY=;
+        b=hT3KlwKdgir4UfPCPnEA9cTz9Tw7giB4stqWuCrHIZi/goa17Hn/JGEH1wdhWo8OnX
+         oCcaoJb7MPmB7T8iqQ4NbYVGqKZShwhXOCx+l2r6h56yqK6GKUmAu1mbxezOJeZ1ZavT
+         qUsuXW2Hh/dLb2ssBz7Trh4zmu+NmTGyTixvaTFMuP9+1QaA8sxnrNyqBXfznqJae2yp
+         k4u/aKnvh2qPbzn9IFq8ITk2tm1lnH8AIZGLcvcXojPoEl9a1hx9+M8sn4E8qqip3ljl
+         /2IizROzyGOKCNZB2Td4lIYQ2vZhf7/MqC4A6LU7B4FJatyLzwDdHahQFrs729bIISms
+         89Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779208487; x=1779813287;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8NXBBktgPsUvkC2vPEdHd/dIDOK6P5ILP1oorCTAVGY=;
+        b=DHHgaTFAGyhmC9BW9l97jc8XfPgYy93dZEVIysGSab5kUn5EFFe0Z2KweyINdgpdV9
+         BaX/qD/Dbp3uHw+a2EB+1qt/hUBxfzSLTxLTROC1u1hM/YXMrZO2vO2BL1PK/Q0aoUM2
+         4ZuFVBK+LJjK4H0beFTvxq6tsyXsCGmQoRNYYuzPBFCYC1ydd3YW0uCSdkZXHm1DkDN/
+         /8vjI+Qh04dEBEOWKLCmAXiW43gVb8bOWWH13LSNGW4UCAt6znLkugWdMUsnzl+Nssrc
+         RnrOv3RWBoyMmJtZEJC1jfNh7HJM9om47Z8rx6oFnX5AKe5+x8YUtd0eZ2v5dDimEh9D
+         JesQ==
+X-Gm-Message-State: AOJu0YwGrRGnP+RZ/Klu0wLeaYZxq4P0u9VqfkzNWj+rJBDft+LGZRre
+	kOF7lXUJtXBN3b310fqbSYBLs75xs/VXuKrEofW8Z7ivvsTjshOSExi+7Z/TjA==
+X-Gm-Gg: Acq92OHKH8Ailjdrt+L5pW6JuF+akAVhgPSxXknNtemioSv6lGmjvvcYjqcEnOs6n1t
+	91iJfjqVMUTCgG2ISJ5M1a/YO6lz251b1Bu5Lmr8hhsbnmjbEqgwtJxtaROpYSfhYOsEQD+5oF1
+	G32TsW2WmGIEX6Lv1+61v6UXpDGfU2xrvj2L2v8zYiAt/H06S6UwHXBEwbzu5337JOOyJ6uM6/t
+	hytwzRTr9Rh62/9qr5FEl5ICIUMrJqDjEZWzULpUtGfHD0ngCw9y17hb60SwlTZZ//IxiaCSpa8
+	6h8CorK/O8UG4EqvQjtSPk9lLaSzwu2VERGo0xG29fx4XcEA+KBgCNUBRUPHlCBVI6X0PI81S9V
+	H5WW3SZwLk07Z/b1J3Z0sy5+CVDMOHxbylTXPsXf3fsyTy3bCu3U5aaZ0OlgN3chTtGU5dqvyUN
+	P101k65uBE8BKMd+TRaAJAuqwe5owqx4U9nUMmz0K5eIjzVCRvJUhuk0HVCVKJwH7RKFmkkwp6M
+	8t8uPZS2VTmk1I/OLE=
+X-Received: by 2002:a05:620a:2685:b0:8cf:ed8d:20a3 with SMTP id af79cd13be357-911cef0365amr2978306185a.42.1779208486166;
+        Tue, 19 May 2026 09:34:46 -0700 (PDT)
+Received: from localhost.localdomain (smtp.hostdime.com.br. [187.45.177.18])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-910ba36e68csm1880280985a.10.2026.05.19.09.34.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 09:34:45 -0700 (PDT)
+From: Daniel Pereira <danielmaraboo@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	Daniel Pereira <danielmaraboo@gmail.com>
+Subject: [PATCH] docs: pt_BR: Translate process/kernel-docs.rst into Portuguese
+Date: Tue, 19 May 2026 13:34:32 -0300
+Message-ID: <20260519163434.1045462-1-danielmaraboo@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="ran3hospswhrt5o6"
-Content-Disposition: inline
-In-Reply-To: <9cc79977-9a42-40eb-bfa7-460881c1e10f@amd.com>
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 
+Translate Documentation/process/kernel-docs.rst into Portuguese (pt_BR)
+and update the main index.
 
---ran3hospswhrt5o6
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 2/5] dma-heap: charge dma-buf
- memory via explicit memcg
-MIME-Version: 1.0
+The content was adapted following the RST formatting rules and the
+appropriate technical terminology for Brazilian Portuguese.
 
-Hi Chritian,
+Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+---
+ Documentation/translations/pt_BR/index.rst    |   1 +
+ .../pt_BR/process/kernel-docs.rst             | 373 ++++++++++++++++++
+ 2 files changed, 374 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/kernel-docs.rst
 
-On Tue, May 19, 2026 at 09:53:19AM +0200, Christian K=F6nig wrote:
-> On 5/18/26 14:06, Albert Esteve wrote:
-> >>>>> udmabufs are already
-> >>>>> memcg-charged, so adding a separate MEMCG_DMABUF would double count.
-> >>>>> Are there any other exporters you had in mind that would benefit fr=
-om
-> >>>>> this approach?
-> >>
-> >> Well apart from DMA-buf memfd_create() is one of the things which as b=
-roken our neck in the past a couple of times.
-> >>
-> >> But thinking more about it what if instead of making this DMA-buf heap=
-s specific what if we have a general cgroups function which allows to chang=
-e accounting of a buffer referenced by a file descriptor to a different pro=
-cess?
-> >>
-> >> That would cover not only the DMA-buf heaps use case, but also all oth=
-er DMA-buf with dmem and whatever we come up in the future as well.
-> >=20
-> > I removed a draft adding an ioctl for charge transfer from the series
-> > before sending because I wanted to focus on the charge_pid_fd approach
-> > and keep things simple, deferring the recharge path to a follow-up
-> > depending on feedback.
-> >=20
-> > The main difference between my removed draft and what you're
-> > describing, iiuc, is scope and layer: my draft was an explicit ioctl
-> > on the dma-buf fd that the consumer calls to claim the charge (see
-> > below), while you seem to be suggesting a more general kernel-internal
-> > function that could work across buffer types and cgroup controllers,
-> > so not necessarily userspace-initiated? A kernel-internal function
-> > will need a way to identify the target process, which sounds similar
-> > to the binder-backed approach from TJ [1]. For everything else, the
-> > receiver still needs to declare itself, which the ioctl accomplishes.
-> >=20
-> > ```
-> > # When an app imports a daemon-allocated buffer, it can transfer the
-> > charge to itself:
-> > int buf_fd =3D receive_dmabuf_from_daemon();
-> > ioctl(buf_fd, DMA_BUF_IOCTL_XFER_CHARGE); /* charge now attributed to
-> > apps's cgroup */
->=20
-> Well that thinking goes into the right direction, but the requirements ar=
-e still not completely
-> covered as far as I can see.
->=20
-> Let me explain below a bit more.
->=20
-> >=20
-> > [1] https://lore.kernel.org/cgroups/20230109213809.418135-1-tjmercier@g=
-oogle.com/
-> >=20
-> >>
-> >> The only drawback I can see is that DMA-buf heap allocations would be =
-temporarily accounted to the memory allocation daemon, but I don't think th=
-at this would be a problem.
-> >=20
-> > The main reasons we moved away from TJ's transfer-based approach
-> > toward `charge_pid_fd` are: avoid the transient charge window on the
-> > daemon's cgroup; and to decouple from Binder, allowing any allocator
-> > to use it.
->=20
-> Yeah those concerns are completely correct.
->=20
-> The application should not volunteering says 'Charge that buffer to
-> me.', but rather that the daemon says force charge that buffer to this
-> application and tell me when the application is over its limit.
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index 77c1a1cdc..76936710b 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -67,6 +67,7 @@ kernel e sobre como ver seu trabalho integrado.
+    :maxdepth: 1
+ 
+    Introdução <process/1.Intro>
++   Index de documentos do Kernel <process/kernel-docs>
+    Regras de licenciamento <process/license-rules>
+    Como começar <process/howto>
+    Requisitos mínimos <process/changes>
+diff --git a/Documentation/translations/pt_BR/process/kernel-docs.rst b/Documentation/translations/pt_BR/process/kernel-docs.rst
+new file mode 100644
+index 000000000..3c8d80ffa
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/kernel-docs.rst
+@@ -0,0 +1,373 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Índice de Documentação Adicional do Kernel
++==========================================
++
++A necessidade de um documento como este tornou-se evidente na lista de discussão
++linux-kernel, uma vez que as mesmas perguntas, solicitando referências de
++informações, apareciam repetidamente.
++
++Felizmente, à medida que cada vez mais pessoas chegam ao GNU/Linux, mais pessoas
++se interessam pelo Kernel. No entanto, ler o código-fonte nem sempre é o
++suficiente. É fácil entender o código, mas perder os conceitos, a filosofia
++e as decisões de design por trás dele.
++
++Infelizmente, não há muitos documentos disponíveis para iniciantes começarem.
++E, mesmo quando existem, não havia um local "bem conhecido" que os centralizasse.
++Estas linhas tentam suprir essa falta.
++
++POR FAVOR, se você conhece algum artigo não listado aqui ou se escrever um novo
++documento, inclua uma referência a ele aqui, seguindo o processo de envio de
++patches do kernel. Quaisquer correções, ideias ou comentários também são
++bem-vindos.
++
++Todos os documentos estão catalogados com os seguintes campos: o "Título" do
++documento, o(s) "Autor(es)", a "URL" onde podem ser encontrados, algumas
++"Palavras-chave" úteis para pesquisar tópicos específicos e uma breve
++"Descrição" do documento.
++
++.. note::
++
++   Os documentos em cada seção deste documento estão ordenados por sua data de
++   publicação, do mais recente para o mais antigo. O(s) mantenedor(es) deve(m)
++   remover periodicamente recursos à medida que se tornem obsoletos ou
++   desatualizados; com exceção de livros fundamentais.
++
++Documentação na árvore do Kernel
++--------------------------------
++
++Os manuais Sphinx devem ser compilados com ``make {htmldocs | pdfdocs | epubdocs}``.
++
++    * Nome: **linux/Documentation**
++
++      :Autor: Muitos.
++      :Localização: Documentation/
++      :Palavras-chave: arquivos de texto, Sphinx.
++      :Descrição: Documentação que acompanha o código-fonte do kernel,
++        dentro do diretório Documentation. Algumas páginas deste documento
++        (incluindo este próprio documento) foram movidas para lá e podem
++        estar mais atualizadas do que a versão web.
++
++Documentação on-line
++--------------------
++
++    * Título: **Linux Kernel Mailing List Glossary**
++
++      :Autor: diversos
++      :URL: https://kernelnewbies.org/KernelGlossary
++      :Data: versão contínua (rolling)
++      :Palavras-chave: glossário, termos, linux-kernel.
++      :Descrição: Da introdução: "Este glossário destina-se a ser uma breve
++        descrição de algumas das siglas e termos que você poderá ouvir durante
++        as discussões sobre o kernel Linux".
++
++    * Título: **The Linux Kernel Module Programming Guide**
++
++      :Autor: Peter Jay Salzman, Michael Burian, Ori Pomerantz, Bob Mottram,
++        Jim Huang.
++      :URL: https://sysprog21.github.io/lkmpg/
++      :Data: 2021
++      :Palavras-chave: módulos, livro GPL, /proc, ioctls, chamadas de sistema,
++        manipuladores de interrupção.
++      :Descrição: Um excelente livro sob licença GPL sobre o tópico de
++        programação de módulos. Repleto de exemplos. Atualmente, a nova versão
++        está sendo mantida ativamente em https://github.com/sysprog21/lkmpg.
++
++Livros Publicados
++-----------------
++
++    * Title: **The Linux Memory Manager**
++
++      :Autor: Lorenzo Stoakes
++      :Editora: No Starch Press
++      :Data: Fevereiro 2025
++      :Páginas: 1300
++      :ISBN: 978-1718504462
++      :Notas: Gerenciamento de memória. Rascunho completo disponível como acesso
++        antecipado para ré-venda, lançamento completo agendado para o
++        outono de 2025. Veja https://nostarch.com/linux-memory-manager
++        para mais informações.
++
++    * Title: **Practical Linux System Administration: A Guide to Installation, Configuration, and Management, 1st Edition**
++
++      :Autor: Kenneth Hess
++      :Editora: O'Reilly Media
++      :Data: Maio, 2023
++      :Páginas: 246
++      :ISBN: 978-1098109035
++      :Notas: Administração de sistemas
++
++    * Title: **Linux Kernel Debugging: Leverage proven tools and advanced techniques to effectively debug Linux kernels and kernel modules**
++
++      :Autor: Kaiwan N Billimoria
++      :Editora: Packt Publishing Ltd
++      :Data: Agosto, 2022
++      :Páginas: 638
++      :ISBN: 978-1801075039
++      :Notas: Livro sobre depuração (debugging)
++
++    * Title: **Linux Kernel Programming: A Comprehensive Guide to Kernel Internals, Writing Kernel Modules, and Kernel Synchronization**
++
++      :Autor: Kaiwan N Billimoria
++      :Editora: Packt Publishing Ltd
++      :Data: Março, 2021 (Segunda edição publicada em 2024)
++      :Páginas: 754
++      :ISBN: 978-1789953435 (O ISBN da segunda edição é 978-1803232225)
++
++    * Title: **Linux Kernel Programming Part 2 - Char Device Drivers and Kernel Synchronization: Create user-kernel interfaces, work with peripheral I/O, and handle hardware interrupts**
++
++      :Autor: Kaiwan N Billimoria
++      :Editora: Packt Publishing Ltd
++      :Data: Março, 2021
++      :Páginas: 452
++      :ISBN: 978-1801079518
++
++    * Title: **Linux System Programming: Talking Directly to the Kernel and C Library**
++
++      :Autor: Robert Love
++      :Editora: O'Reilly Media
++      :Data: Junho, 2013
++      :Páginas: 456
++      :ISBN: 978-1449339531
++      :Notas: Livro fundamental
++
++    * Título: **Linux Kernel Development, 3rd Edition**
++
++      :Autor: Robert Love
++      :Editora: Addison-Wesley
++      :Data: Julho de 2010
++      :Páginas: 440
++      :ISBN: 978-0672329463
++      :Notas: Livro fundamental
++
++    * Título: **Linux Device Drivers, 3rd Edition**
++
++      :Autores: Jonathan Corbet, Alessandro Rubini e Greg Kroah-Hartman
++      :Editora: O'Reilly & Associates
++      :Data: 2005
++      :Páginas: 636
++      :ISBN: 0-596-00590-3
++      :Notas: Livro fundamental. Mais informações em
++        http://www.oreilly.com/catalog/linuxdrive3/
++        Formato PDF, URL: https://lwn.net/Kernel/LDD3/
++
++    * Título: **The Design of the UNIX Operating System**
++
++      :Autor: Maurice J. Bach
++      :Editora: Prentice Hall
++      :Data: 1986
++      :Páginas: 471
++      :ISBN: 0-13-201757-1
++      :Notas: Livro fundamental
++
++Diversos
++--------
++
++    * Nome: **Cross-Referencing Linux**
++
++      :URL: https://elixir.bootlin.com/
++      :Palavras-chave: Navegação em código-fonte.
++      :Descrição: Outro navegador web para o código-fonte do kernel Linux.
++        Possui muitas referências cruzadas para variáveis e funções. Você pode
++        ver onde elas são definidas e onde são utilizadas.
++
++    * Nome: **Linux Weekly News**
++
++      :URL: https://lwn.net
++      :Palavras-chave: últimas notícias do kernel.
++      :Descrição: O título diz tudo. Há uma seção fixa sobre o kernel que
++        resume o trabalho dos desenvolvedores, correções de bugs, novos recursos
++        e versões produzidas durante a semana.
++
++    * Nome: **The home page of Linux-MM**
++
++      :Autor: A equipe Linux-MM.
++      :URL: https://linux-mm.org/
++      :Palavras-chave: gerenciamento de memória, Linux-MM, mm patches, TODO,
++        docs, mailing list.
++      :Descrição: Site dedicado ao desenvolvimento do Gerenciamento de Memória
++        do Linux. Patches relacionados à memória, HOWTOs, links, desenvolvedores
++        mm... Não perca se você estiver interessado no desenvolvimento do
++        gerenciamento de memória!
++
++    * Nome: **Kernel Newbies IRC Channel and Website**
++
++      :URL: https://www.kernelnewbies.org
++      :Palavras-chave: IRC, novatos, canal, tirar dúvidas.
++      :Descrição: #kernelnewbies em irc.oftc.net.
++        O canal #kernelnewbies é uma rede de IRC dedicada ao hacker de kernel
++        "novato" (newbie). O público consiste principalmente de pessoas que estão
++        aprendendo sobre o kernel, trabalhando em projetos do kernel ou hackers
++        profissionais que desejam ajudar pessoas menos experientes.
++        O #kernelnewbies está na rede de IRC OFTC.
++        Tente acessar irc.oftc.net como seu servidor e então digite /join #kernelnewbies.
++        O site kernelnewbies também hospeda artigos, documentos, FAQs...
++
++    * Nome: **linux-kernel mailing list archives and search engines**
++
++      :URL: https://subspace.kernel.org
++      :URL: https://lore.kernel.org
++      :Palavras-chave: linux-kernel, arquivos, busca.
++      :Descrição: Alguns dos arquivadores da lista de discussão linux-kernel.
++        Se você conhece algum outro (ou um melhor), por favor, me avise.
++
++    * Nome: **The Linux Foundation YouTube channel**
++
++      :URL: https://www.youtube.com/user/thelinuxfoundation
++      :Palavras-chave: linux, vídeos, linux-foundation, youtube.
++      :Descrição: A Linux Foundation faz o upload de gravações de vídeo de seus
++        eventos colaborativos, conferências de Linux (incluindo a LinuxCon) e
++        outras pesquisas originais e conteúdos relacionados ao Linux e ao
++        desenvolvimento de software.
++
++Rust
++----
++
++    * Título: **Rust for Linux**
++
++      :Autor: diversos
++      :URL: https://rust-for-linux.com/
++      :Data: versão contínua (rolling)
++      :Palavras-chave: glossário, termos, linux-kernel, rust.
++      :Descrição Do site: "Rust for Linux é o projeto que adiciona suporte à
++        linguagem Rust ao kernel Linux. Este site pretende ser um hub de links,
++        documentação e recursos relacionados ao projeto".
++
++    * Título: **Learn Rust the Dangerous Way**
++
++      :Autor: Cliff L. Biffle
++      :URL: https://cliffle.com/p/dangerust/
++      :Data: Acessado em 11 de setembro de 2024
++      :Palavras-chave: rust, blog.
++      :Descrição: Do site: "LRtDW é uma série de artigos que coloca os recursos
++        do Rust em contexto para programadores C de baixo nível que talvez não
++        tenham uma formação formal em Ciência da Computação, o tipo de pessoa
++        que trabalha com firmware, engines de jogos, kernels de SO e afins.
++        Basicamente, pessoas como eu.". O site ilustra conversões de linha por
++        linha de C para Rust.
++
++    * Título: **The Rust Book**
++
++      :Autor: Steve Klabnik e Carol Nichols, com contribuições da comunidade Rust
++      :URL: https://doc.rust-lang.org/book/
++      :Data: Acessado em 11 de setembro de 2024
++      :Palavras-chave: rust, livro.
++      :Descrição: Do site: "Este livro abraça totalmente o potencial do Rust para
++        capacitar seus usuários. É um texto amigável e acessível destinado a
++        ajudá-lo a elevar não apenas seu conhecimento de Rust, mas também seu
++        alcance e confiança como programador em geral. Então mergulhe de cabeça,
++        prepare-se para aprender e bem-vindo à comunidade Rust!".
++
++    * Título: **Rust for the Polyglot Programmer**
++
++      :Autor: Ian Jackson
++      :URL: https://www.chiark.greenend.org.uk/~ianmdlvl/rust-polyglot/index.html
++      :Data: Dezembro de 2022
++      :Palavras-chave: rust, blog, tooling.
++      :Descrição: Do site: "Existem muitos guias e introduções ao Rust. Este é
++        algo diferente: destina-se ao programador experiente que já conhece
++        muitas outras linguagens de programação. Tento ser abrangente o suficiente
++        para servir de ponto de partida para qualquer área do Rust, mas evito
++        entrar em detalhes excessivos, exceto onde as coisas não são como você
++        poderia esperar. Além disso, este guia não é inteiramente isento de
++        opiniões, incluindo recomendações de bibliotecas (crates), ferramentas, etc.".
++
++    * Título: **Fasterthanli.me**
++
++      :Autor: Amos Wenger
++      :URL: https://fasterthanli.me/
++      :Data: Acessado em 11 de setembro de 2024
++      :Palavras-chave: rust, blog, notícias.
++      :Descrição: Do site: "Eu crio artigos e vídeos sobre como os computadores
++        funcionam. Meu conteúdo é de formato longo, didático e exploratório
++        e frequentemente uma desculpa para ensinar Rust!".
++
++    * Título: **Comprehensive Rust**
++
++      :Autor: Equipe Android do Google
++      :URL: https://google.github.io/comprehensive-rust/
++      :Data: Acessado em 13 de setembro de 2024
++      :Palavras-chave: rust, blog.
++      :Descrição: Do site: "O curso cobre todo o espectro do Rust, desde a
++        sintaxe básica até tópicos avançados como genéricos e tratamento de erros".
++
++    * Título: **The Embedded Rust Book**
++
++      :Autor: Múltiplos colaboradores, principalmente Jorge Aparicio
++      :URL: https://docs.rust-embedded.org/book/
++      :Data: Acessado em 13 de setembro de 2024
++      :Palavras-chave: rust, blog.
++      :Descrição: Do site: "Um livro introdutório sobre o uso da linguagem de
++        programação Rust em sistemas embarcados 'Bare Metal', como microcontroladores".
++
++    * Título: **Experiment: Improving the Rust Book**
++
++      :Autor: Cognitive Engineering Lab na Brown University
++      :URL: https://rust-book.cs.brown.edu/
++      :Data: Acessado em 22 de setembro de 2024
++      :Palavras-chave: rust, blog.
++      :Descrição: Do site: "O objetivo deste experimento é avaliar e melhorar o
++        conteúdo do Rust Book para ajudar as pessoas a aprenderem Rust de forma
++        mais eficaz".
++
++    * Título: **New Rustacean** (podcast)
++
++      :Autor: Chris Krycho
++      :URL: https://newrustacean.com/
++      :Data: Acessado em 22 de setembro de 2024
++      :Palavras-chave: rust, podcast.
++      :Descrição: Do site: "Este é um podcast sobre aprender a linguagem de
++        programação Rust do zero! Além desta página inicial elegante, todo o
++        conteúdo do site é construído com as próprias ferramentas de documentação
++        do Rust".
++
++    * Título: **Opsem-team** (repositório)
++
++      :Autor: Equipe de semântica operacional (Operational semantics team)
++      :URL: https://github.com/rust-lang/opsem-team/tree/main
++      :Data: Acessado em 22 de setembro de 2024
++      :Palavras-chave: rust, repositório.
++      :Descrição: Do README: "A equipe opsem é a sucessora do grupo de trabalho
++        unsafe-code-guidelines e é responsável por responder a muitas das perguntas
++        difíceis sobre a semântica do Rust inseguro (unsafe Rust)".
++
++    * Título: **You Can't Spell Trust Without Rust**
++
++      :Autor: Alexis Beingessner
++      :URL: https://repository.library.carleton.ca/downloads/1j92g820w?locale=en
++      :Data: 2015
++      :Palavras-chave: rust, mestrado, tese.
++      :Descrição: Esta tese foca no sistema de propriedade (ownership) do Rust,
++        que garante a segurança de memória ao controlar a manipulação de dados e
++        o tempo de vida, enquanto também destaca suas limitações e o compara a
++        sistemas semelhantes no Cyclone e C++.
++
++    * Nome: **Apresentações de Rust no Linux Plumbers (LPC) 2024**
++
++      :Título: Rust microconference
++      :URL: https://lpc.events/event/18/sessions/186/#20240918
++      :Título: Rust for Linux
++      :URL: https://lpc.events/event/18/contributions/1912/
++      :Título: Journey of a C kernel engineer starting a Rust driver project
++      :URL: https://lpc.events/event/18/contributions/1911/
++      :Título: Crafting a Linux kernel scheduler that runs in user-space using Rust
++      :URL: https://lpc.events/event/18/contributions/1723/
++      :Título: openHCL: A Linux and Rust based paravisor
++      :URL: https://lpc.events/event/18/contributions/1956/
++      :Palavras-chave: rust, lpc, apresentações.
++      :Descrição: Uma série de palestras do LPC relacionadas ao Rust.
++
++    * Nome: **The Rustacean Station Podcast**
++
++      :URL: https://rustacean-station.org/
++      :Palavras-chave: rust, podcasts.
++      :Descrição: Um projeto comunitário para a criação de conteúdo em podcast
++        sobre a linguagem de programação Rust.
++
++-------
++
++Este documento foi originalmente baseado em:
++
++https://www.dit.upm.es/~jmseyas/linux/kernel/hackers-docs.html
++
++e escrito por Juan-Mariano de Goyeneche.
+-- 
+2.47.3
 
-I would agree, but with a caveat: how do we want to deal with malicious
-applications here? The application should have expressed that it's okay
-for it to be charged by a different process, otherwise it becomes
-trivial for a malicious app to create arbitrary charges against another
-application in the system and DoS it.
-
-But then, that means that an application could arbitrarily charge the
-daemon as well if it doesn't opt-in but asks for allocations.
-
-So maybe we should have an opt-in for the caller, and a way for the
-daemon to check if the caller has indeed opted in before performing the
-allocation (and the charge transfer)?
-
-> > Technically, both approaches could coexist, though. Of the three
-> > scenarios TJ described:
-> > - Scenario 2 is directly addressed by charge_pid_fd approach without
-> > any transient charge on the daemon at the cost of one extra field in
-> > the heap ioctl uAPI struct.
->=20
-> Yeah extending the uAPI to pass in the pid on allocation time is not
-> much of a problem, but you also need to modify the whole stack above
-> it and that is a bit more trickier.
->=20
-> > - Scenario 3 can be handled by the charge transfer function without
-> > changes to SurfaceFlinger. The app or dequeueBuffer claims the charge
-> > for itself or the app, respectively (depending on whether we include a
-> > pid_fd field in the transfer ioctl). It also covers non-heap
-> > exporters. The con in both variants is the transient charge window on
-> > the daemon.
->=20
-> It should be trivial for the deamon to charge the buffer to an
-> application before handing it out.
->=20
-> > Both approaches shift the responsibility for correct charging
-> > attribution to userspace: first, 'charge_pid_fd` on the allocator's
-> > side, and the transfer charge on the consumer's side.
->=20
-> Yeah that's why I said it would be better if we do that without any
-> uAPI change, but with all the uAPI we have to transfer file
-> descriptors (dup(), fork(), passing FDs over sockets etc...) it could
-> be really tricky to implement that.
->=20
-> > Deciding on one, the other or both depends on how much we value
-> > avoiding transient attribution, and how much we need a non-heap
-> > generic solution. With the XFER_CHARGE we can cover both. Thus, the
-> > `charge_pid_fd` approach in this RFC can be seen as a
-> > performance/strictness optimisation, eliminating transient charges to
-> > the daemon at the cost of a permanent uAPI addition to the heap ioctl
-> > struct, but not strictly required for correctness.
->=20
-> Well all we need is a uAPI which says charge this buffer (file
-> descriptor) to that cgroup (pidfd).
->=20
-> With this at hand we should be able to handle all use cases at the
-> same time.
->=20
-> > On the other hand, if we agree on the end goal of migrating other
-> > exporters to use dma-buf heaps
->=20
-> That won't work. DMA-buf heaps is actually only a rather small and
-> Anroid specific use case.
-
-I don't think that's true anymore. heaps are used in lots of different
-use cases now in the embedded space, including in regular, generic,
-components not specifically used for embedded systems.
-
-Maxime
-
---ran3hospswhrt5o6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCagyQfwAKCRAnX84Zoj2+
-dtabAX9HzGm1Ns4iAysPJk3eSmxFA0qKTFqj4loXjy2WUfrHE3uAJd/mivZu/62z
-8PDG3v4Bf0oF/N6HgEYqscS3K19cW4kROdi4s5J7LhNBraebPMHWMnpHJVUOF4SA
-yFPMifkqJw==
-=3qFV
------END PGP SIGNATURE-----
-
---ran3hospswhrt5o6--
