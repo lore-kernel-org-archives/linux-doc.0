@@ -1,104 +1,542 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88A12DF68;
-	Tue, 19 May 2026 02:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85901327C0D
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 02:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779156630; cv=none; b=NbOlby+jMDRn1VYGxrrkhDtbAqejOa/p0vY5+A7RVbB767OQ1idAiyZcYVRAG+mmmtcWABl3e764rfxq53LtR5piVNTe43xWBafzC98Vu29hIi6Kor/Cn8I8iAW7vqeFXcd+tLvgoREkPAxikuuHcVNryQhfVKxHhGKWY9xs2O8=
+	t=1779159196; cv=none; b=dF6gMfDIIDNCz/pcTcaSVXkOe6kNDr3qPtuqkhA2lUXPisGaXplkMqN54NGwlMl7mlYjTHEL8MIgc2u7Hft9GPRu4+bKrHVfvonmprmcXA/I+p/Kqp3KiAzzUdXUfWK2v412w5Z/+A77GQvvS1UNVk7PFhsWC5UNd1x7Q5YCh5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779156630; c=relaxed/simple;
-	bh=tztf4Nw5ut0/6DpoJ41Cp6mb7XeZ6UqH/1hSjhNFz7Q=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=BJd/XgpYjBb4jAFUrwbshPVlnRpZ9LD04sZMh0zb8Ph7v1Q46AXHuBfd4ohxKPhtegPuNJvIsT9c2gnmAb3YZdY48GirWXckYIJiUSjxfSSUS2a4ysHNxQES3lLHUgMp6+wi3HrBcbWnJUG7sRrrxJELjh8UxqoYlBWjVGTSIaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WWplNKEx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779159196; c=relaxed/simple;
+	bh=VLhMZuYZgDOYk+AgbFue9CtC0cedxXIbybJYbGxcE3I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XZBOuhOeRbRIIMmzgGWRV3+hpAox/BUmp67HIr0YmURYhYcRdeFC1o0vFMTXlCkeNYUQv1qofv+z+YSMhDeN7htygmyRtEvQePT4S0TmC5x3Qkva7e8QGWjYQo2t7ep+GY057MpKN8z0y/I3QFw/JxG2psTq7FSjJ21mCiD+UVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FMiZajGo; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WWplNKEx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91C8EC2BCB7;
-	Tue, 19 May 2026 02:10:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779156630;
-	bh=tztf4Nw5ut0/6DpoJ41Cp6mb7XeZ6UqH/1hSjhNFz7Q=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=WWplNKExtQuHDHTw8UbUhu2fO1NKnQ2AVH94j1ajgcn25WbgB2ljKdWg2SX9zbw7n
-	 LhhSdjHhIFvE9F0HfoqDxxeVSd6fPJPfaE+ZDZU5c70F+LlypOp0Jc73yzH8nfPmJz
-	 OwnIHSAFYWlwkkzlmzQkMjqA3saqd36t7YzJLHMC43lhCSKLEXxUBWbBkDxn2/S+qA
-	 1rGyeaRH+U9gz63DJZKka+sSEEIMMZy2I3rPW/iKcklQKZawCf/gFEjTEOA7t7hsDS
-	 Hh6Oc0iC/BY07nhLrQqYBHaJeYT+9LTwRSqzR1BezX8FXybyNOrz30JK2yi56NWc9t
-	 VEa7IkVlcoNgg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 198D93930D10;
-	Tue, 19 May 2026 02:10:43 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FMiZajGo"
+Message-ID: <c627136d-8060-4e2d-8473-0fe322ce1e6c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1779159182;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZhSe7EF8jKr6zX/CoCmPe82XnXTiCTnwbuDcj7k1W6I=;
+	b=FMiZajGoH2qCEZ6ljm1Wc1NNkryTBnwl7aDcHNwHVqBuTRNDgoMQ/1ofhwf1RLMBVamIyU
+	5hC71RyhcNzuAUbm/+kY30ClZwMc3Ox5GO/vXwW6IzRDnSZ1ngtVqhme4dwIAc/dN5EF1P
+	FaYKt5xRiTar+a+2nf1WxrQ+oDGVKhc=
+Date: Tue, 19 May 2026 10:52:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH 1/6] alloc_tag: add ioctl to /proc/allocinfo
+To: Abhishek Bapat <abhishekbapat@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ Sourav Panda <souravpanda@google.com>,
+ Kent Overstreet <kent.overstreet@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>
+References: <cover.1777936301.git.abhishekbapat@google.com>
+ <d064a1a8de127c0e321f675a9966e533a0917e7e.1777936301.git.abhishekbapat@google.com>
+ <2f546525-8ff6-4bbe-86ae-6f474f7cefe3@linux.dev>
+ <CAL41Mv7zCEFUAD43wBRo+rno2AK-teUUaVSdx2Pd7qDU0uNwsg@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <CAL41Mv7zCEFUAD43wBRo+rno2AK-teUUaVSdx2Pd7qDU0uNwsg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v5 0/8] net: devmem: support devmem with netkit
- devices
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177915664163.2054007.6384747943531037676.git-patchwork-notify@kernel.org>
-Date: Tue, 19 May 2026 02:10:41 +0000
-References: <20260514-tcp-dm-netkit-v5-0-408c59b91e66@meta.com>
-In-Reply-To: <20260514-tcp-dm-netkit-v5-0-408c59b91e66@meta.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, alexs@kernel.org, si.yanteng@linux.dev,
- dzm91@hust.edu.cn, michael.chan@broadcom.com, pavan.chebbi@broadcom.com,
- joshwash@google.com, hramamurthy@google.com, saeedm@nvidia.com,
- tariqt@nvidia.com, mbloch@nvidia.com, leon@kernel.org, alexanderduyck@fb.com,
- kernel-team@meta.com, daniel@iogearbox.net, razor@blackwall.org,
- shuah@kernel.org, dw@davidwei.uk, sdf.kernel@gmail.com,
- mohsin.bashr@gmail.com, willemb@google.com, jiang.kun2@zte.com.cn,
- xu.xin16@zte.com.cn, wang.yaxin@zte.com.cn, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, sdf@fomichev.me, almasrymina@google.com,
- bobbyeshleman@meta.com
+X-Migadu-Flow: FLOW_OUT
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Thu, 14 May 2026 10:22:27 -0700 you wrote:
-> This series enables TCP devmem TX through netkit devices.
-> 
-> Netkit now supports queue leasing. A physical NIC's RX queue can be
-> leased to a netkit guest interface inside a container namespace. This
-> gives the container a devmem-capable data path on the RX side (bind-rx,
-> etc...). On the TX side, the container process binds to its netkit guest
-> interface and sends traffic that netkit redirects (via BPF or ip
-> forwarding) to the physical NIC for DMA.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v5,1/8] net: convert netmem_tx flag to enum
-    https://git.kernel.org/netdev/net-next/c/7d3ab852dcd8
-  - [net-next,v5,2/8] net: netkit: declare NETMEM_TX_NO_DMA mode
-    https://git.kernel.org/netdev/net-next/c/6ce2bb048055
-  - [net-next,v5,3/8] net: devmem: support TX over NETMEM_TX_NO_DMA devices
-    https://git.kernel.org/netdev/net-next/c/1abe839b34ae
-  - [net-next,v5,4/8] selftests: drv-net: ncdevmem: add -n flag to skip NIC configuration
-    https://git.kernel.org/netdev/net-next/c/ecbdf3da7813
-  - [net-next,v5,5/8] selftests: drv-net: make attr _nk_guest_ifname public
-    https://git.kernel.org/netdev/net-next/c/28357ac667d4
-  - [net-next,v5,6/8] selftests: drv-net: refactor devmem command builders into lib module
-    https://git.kernel.org/netdev/net-next/c/6cac32fc3f1f
-  - [net-next,v5,7/8] selftests: drv-net: add primary_rx_redirect support to NetDrvContEnv
-    https://git.kernel.org/netdev/net-next/c/886a790b59f9
-  - [net-next,v5,8/8] selftests: drv-net: add netkit devmem tests
-    https://git.kernel.org/netdev/net-next/c/28c1cc999fbb
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Hi Abhishek
 
 
+Thanks for the follow-up.
+
+
+On 2026/5/19 07:41, Abhishek Bapat wrote:
+> On Wed, May 13, 2026 at 9:38 PM Hao Ge<hao.ge@linux.dev>  wrote:
+>> Hi Suren and Abhishek
+>>
+>>
+>> Thanks for the patch! A couple of minor comments below.
+>>
+>>
+>> On 2026/5/5 07:36, Abhishek Bapat wrote:
+>>> From: Suren Baghdasaryan<surenb@google.com>
+>>>
+>>> Add the following ioctl commands for /proc/allocinfo file:
+>>>
+>>> ALLOCINFO_IOC_CONTENT_ID - gets content identifier which can be used
+>>> to check whether the file content has changed specifically due to module
+>>> load/unload. Every time a module is loaded / unloaded, the returned
+>>> value will be different. By comparing the identifier value at the
+>>> beginning and at the end of the content retrieval operation, users can
+>>> validate retrieved information for consistency.
+>>>
+>>> ALLOCINFO_IOC_GET_AT - gets the record at the specified position. This
+>>> is the position of a record in /proc/allocinfo.
+>>>
+>>> ALLOCINFO_IOC_GET_NEXT - gets the record next to the last retrieved
+>>> one. If no records were previously retrieved, returns the first
+>>> record.
+>>>
+>>> Signed-off-by: Suren Baghdasaryan<surenb@google.com>
+>>> Signed-off-by: Abhishek Bapat<abhishekbapat@google.com>
+>>> ---
+>>>    .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+>>>    include/linux/codetag.h                       |   1 +
+>>>    include/uapi/linux/alloc_tag.h                |  54 ++++++
+>>>    lib/alloc_tag.c                               | 178 +++++++++++++++++-
+>>>    lib/codetag.c                                 |  11 ++
+>>>    5 files changed, 244 insertions(+), 2 deletions(-)
+>>>    create mode 100644 include/uapi/linux/alloc_tag.h
+>>>
+>>> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+>>> index 331223761fff..84f6808a8578 100644
+>>> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+>>> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+>>> @@ -349,6 +349,8 @@ Code  Seq#    Include File                                             Comments
+>>>                                                                           <mailto:luzmaximilian@gmail.com>
+>>>    0xA5  20-2F  linux/surface_aggregator/dtx.h                            Microsoft Surface DTX driver
+>>>                                                                           <mailto:luzmaximilian@gmail.com>
+>>> +0xA6  00-0F  uapi/linux/alloc_tag.h                                    Memory allocation profiling
+>>> +<mailto:surenb@google.com>
+>>>    0xAA  00-3F  linux/uapi/linux/userfaultfd.h
+>>>    0xAB  00-1F  linux/nbd.h
+>>>    0xAC  00-1F  linux/raw.h
+>>> diff --git a/include/linux/codetag.h b/include/linux/codetag.h
+>>> index 8ea2a5f7c98a..2bcd4e7c809e 100644
+>>> --- a/include/linux/codetag.h
+>>> +++ b/include/linux/codetag.h
+>>> @@ -76,6 +76,7 @@ struct codetag_iterator {
+>>>
+>>>    void codetag_lock_module_list(struct codetag_type *cttype, bool lock);
+>>>    bool codetag_trylock_module_list(struct codetag_type *cttype);
+>>> +unsigned long codetag_get_content_id(struct codetag_type *cttype);
+>>>    struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype);
+>>>    struct codetag *codetag_next_ct(struct codetag_iterator *iter);
+>>>
+>>> diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_tag.h
+>>> new file mode 100644
+>>> index 000000000000..e9a5b55fcc7a
+>>> --- /dev/null
+>>> +++ b/include/uapi/linux/alloc_tag.h
+>>> @@ -0,0 +1,54 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+>>> +/*
+>>> + *  include/linux/alloc_tag.h
+>>> + */
+>>> +
+>>> +#ifndef _UAPI_ALLOC_TAG_H
+>>> +#define _UAPI_ALLOC_TAG_H
+>>> +
+>>> +#include <linux/types.h>
+>>> +
+>>> +#define ALLOCINFO_STR_SIZE   64
+>>> +
+>>> +struct allocinfo_content_id {
+>>> +     __u64 id;
+>>> +};
+>>> +
+>>> +struct allocinfo_tag {
+>>> +     /* Longer names are trimmed */
+>>> +     char modname[ALLOCINFO_STR_SIZE];
+>>> +     char function[ALLOCINFO_STR_SIZE];
+>>> +     char filename[ALLOCINFO_STR_SIZE];
+>>> +     __u64 lineno;
+>>> +};
+>>> +
+>>> +struct allocinfo_counter {
+>>> +     __u64 bytes;
+>>> +     __u64 calls;
+>>> +     __u8 accurate;
+>>> +     __u8 pad[7]; /* Add alignment to not break the 32-bit compatible interface */
+>>> +};
+>>> +
+>>> +struct allocinfo_tag_data {
+>>> +     struct allocinfo_tag tag;
+>>> +     struct allocinfo_counter counter;
+>>> +};
+>>> +
+>>> +struct allocinfo_get_at {
+>>> +     __u64 pos;      /* input */
+>>> +     struct allocinfo_tag_data data;
+>>> +};
+>>> +
+>>> +#define _ALLOCINFO_IOC_CONTENT_ID    0
+>>> +#define _ALLOCINFO_IOC_GET_AT                1
+>>> +#define _ALLOCINFO_IOC_GET_NEXT              2
+>>> +
+>>> +#define ALLOCINFO_IOC_BASE           0xA6
+>>> +#define ALLOCINFO_IOC_CONTENT_ID     _IOR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_CONTENT_ID,     \
+>>> +                                          struct allocinfo_content_id)
+>>> +#define ALLOCINFO_IOC_GET_AT         _IOWR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_GET_AT,        \
+>>> +                                           struct allocinfo_get_at)
+>>> +#define ALLOCINFO_IOC_GET_NEXT               _IOR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_GET_NEXT,       \
+>>> +                                          struct allocinfo_tag_data)
+>>> +
+>>> +#endif /* _UAPI_ALLOC_TAG_H */
+>>> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+>>> index ed1bdcf1f8ab..5c24d2f954d4 100644
+>>> --- a/lib/alloc_tag.c
+>>> +++ b/lib/alloc_tag.c
+>>> @@ -14,6 +14,7 @@
+>>>    #include <linux/string_choices.h>
+>>>    #include <linux/vmalloc.h>
+>>>    #include <linux/kmemleak.h>
+>>> +#include <uapi/linux/alloc_tag.h>
+>>>
+>>>    #define ALLOCINFO_FILE_NAME         "allocinfo"
+>>>    #define MODULE_ALLOC_TAG_VMAP_SIZE  (100000UL * sizeof(struct alloc_tag))
+>>> @@ -46,6 +47,9 @@ int alloc_tag_ref_offs;
+>>>    struct allocinfo_private {
+>>>        struct codetag_iterator iter;
+>>>        bool print_header;
+>>> +     /* ioctl uses a separate iterator not to interfere with reads */
+>>> +     struct codetag_iterator ioctl_iter;
+>>> +     bool positioned; /* seq_open_private() sets to 0 */
+>>>    };
+>>>
+>>>    static void *allocinfo_start(struct seq_file *m, loff_t *pos)
+>>> @@ -125,6 +129,177 @@ static const struct seq_operations allocinfo_seq_op = {
+>>>        .show   = allocinfo_show,
+>>>    };
+>>>
+>>> +static int allocinfo_open(struct inode *inode, struct file *file)
+>>> +{
+>>> +     return seq_open_private(file, &allocinfo_seq_op,
+>>> +                             sizeof(struct allocinfo_private));
+>>> +}
+>>> +
+>>> +static int allocinfo_release(struct inode *inode, struct file *file)
+>>> +{
+>>> +     return seq_release_private(inode, file);
+>>> +}
+>>> +
+>>> +static const char *allocinfo_str(const char *str)
+>>> +{
+>>> +     size_t len = strlen(str);
+>>> +
+>>> +     /* Keep an extra space for the trailing NULL. */
+>>> +     if (len >= ALLOCINFO_STR_SIZE)
+>>> +             str += (len - ALLOCINFO_STR_SIZE) + 1;
+>>> +     return str;
+>>> +}
+>>> +
+>>> +/* Copy a string and trim from the beginning if it's too long */
+>>> +static void allocinfo_copy_str(char *dest, const char *src)
+>>> +{
+>>> +     strscpy(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE);
+>>> +}
+>>> +
+>>> +static void allocinfo_to_params(struct codetag *ct,
+>>> +                             struct allocinfo_tag_data *data)
+>>> +{
+>>> +     struct alloc_tag *tag = ct_to_alloc_tag(ct);
+>>> +     struct alloc_tag_counters counter = alloc_tag_read(tag);
+>>> +
+>>> +     if (ct->modname)
+>>> +             allocinfo_copy_str(data->tag.modname, ct->modname);
+>>> +     else
+>>> +             data->tag.modname[0] = '\0';
+>> Minor nit about allocinfo_to_params():
+>>
+>> When modname is NULL (built-in kernel code), the current code sets it
+>>
+>> to an empty string:
+>>
+>>       if (ct->modname)
+>>
+>>           allocinfo_copy_str(data->tag.modname, ct->modname);
+>>
+>>       else
+>>
+>>           data->tag.modname[0] = '\0';
+>>
+>> This is of course workable in userspace by checking for an empty
+>>
+>> string, but I was wondering if it would be cleaner to use "vmlinux"
+>>
+>> as a default:
+>>
+>> else
+>>
+>>             allocinfo_copy_str(data->tag.modname, "vmlinux");
+>>
+>>
+>> For some context, in our memory analysis workflow we often group
+>>
+>> allocations by module to get a quick overview of where memory goes,
+>>
+>> for example:
+>>
+>> vmlinux:    2.1 GB    (kernel core)
+>>
+>> nvidia:     1.2 GB    (GPU driver)
+>>
+>> iwlwifi:    800 MB    (WiFi driver)
+>>
+>> ext4:       500 MB    (filesystem)
+>>
+>> Having a consistent identifier for kernel built-in allocations would
+>>
+>> avoid each userspace tool needing to handle the empty string as a
+>>
+>> special case. Totally fine if this is intentional though.
+>>
+> Thanks for bringing this up, I can certainly make this change.
+> However, the information is not currently exposed this way through
+> /proc/allocinfo. /proc/allocinfo does not categorize kernel non-module
+> allocations as vmlinux, so there will a delta between how IOCTL and
+> /proc/allocinfo behave. Suren, could you comment on whether this
+> recommendation is fine by you?
+>
+Right, /proc/allocinfo indeed doesn't categorize them as vmlinux currently.
+
+It's just that in practice we often group allocations by module, so 
+having "vmlinux" as a default
+
+would be convenient. Let's wait for Suren's input.
+
+>>> +     allocinfo_copy_str(data->tag.function, ct->function);
+>>> +     allocinfo_copy_str(data->tag.filename, ct->filename);
+>>> +     data->tag.lineno = ct->lineno;
+>>> +     data->counter.bytes = counter.bytes;
+>>> +     data->counter.calls = counter.calls;
+>>> +     data->counter.accurate = !alloc_tag_is_inaccurate(tag);
+>>> +}
+>>> +
+>>> +static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __user *arg)
+>>> +{
+>>> +     struct allocinfo_content_id params;
+>>> +
+>>> +     codetag_lock_module_list(alloc_tag_cttype, true);
+>>> +     params.id = codetag_get_content_id(alloc_tag_cttype);
+>>> +     codetag_lock_module_list(alloc_tag_cttype, false);
+>>> +     if (copy_to_user(arg, &params, sizeof(params)))
+>>> +             return -EFAULT;
+>>> +
+>>> +     return 0;
+>>> +}
+>>> +
+>>> +static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
+>>> +{
+>>> +     struct allocinfo_private *priv;
+>>> +     struct codetag *ct;
+>>> +     __u64 pos;
+>>> +     struct allocinfo_get_at params = {0};
+>>> +
+>>> +     if (copy_from_user(&params, arg, sizeof(params)))
+>>> +             return -EFAULT;
+>>> +
+>>> +     priv = (struct allocinfo_private *)m->private;
+>>> +     pos = params.pos;
+>>> +
+>>> +     codetag_lock_module_list(alloc_tag_cttype, true);
+>>> +
+>>> +     /* Find the codetag */
+>>> +     priv->ioctl_iter = codetag_get_ct_iter(alloc_tag_cttype);
+>>> +     ct = codetag_next_ct(&priv->ioctl_iter);
+>>> +     while (ct && pos--)
+>>> +             ct = codetag_next_ct(&priv->ioctl_iter);
+>> I noticed that codetag_next_ct(&priv->ioctl_iter) and
+>>
+>> priv->positioned are accessed without serialization in the ioctl
+>>
+>> path. Concurrent ioctl calls on the same fd could race on these
+>>
+>> fields. Just something I spotted while reading the code.
+>>
+>>
+>> Thanks
+>>
+>> Best Regards
+>>
+>> Hao
+>>
+> I believe this should be prevented by `codetag_lock_module_list`; am I
+> wrong in my understanding?
+
+Thanks for the explanation! codetag_lock_module_list is designed to 
+protect the module list from concurrent load/unload, which it does
+
+correctly. However, it doesn't cover the race between concurrent ioctl 
+calls on the same fd, since it acquires cttype->mod_lock via
+
+down_read() and rwsem read locks allow multiple readers to proceed 
+concurrently:
+
+Thread A: ALLOCINFO_IOC_GET_AT
+
+down_read(&cttype->mod_lock)              // read lock acquired
+
+priv->ioctl_iter = codetag_get_ct_iter(...)
+
+ct = codetag_next_ct(&priv->ioctl_iter)
+
+priv->positioned = true;
+
+Thread B: ALLOCINFO_IOC_GET_NEXT            // concurrent ioctl on same fd
+
+down_read(&cttype->mod_lock)              // read locks don't exclude 
+each other
+
+if (!priv->positioned) {                  // sees partial state from 
+Thread A
+
+priv->ioctl_iter = ...                // overwrites Thread A's iterator
+
+}
+
+ct = codetag_next_ct(&priv->ioctl_iter)   // corrupted iterator
+
+priv->ioctl_iter and priv->positioned are per-fd state with no 
+serialization in the ioctl path.
+
+Just something I spotted.
+
+Thanks
+
+Best Regards
+
+Hao
+
+>>> +     if (ct) {
+>>> +             allocinfo_to_params(ct, &params.data);
+>>> +             priv->positioned = true;
+>>> +     }
+>>> +
+>>> +     codetag_lock_module_list(alloc_tag_cttype, false);
+>>> +
+>>> +     if (!ct)
+>>> +             return -ENOENT;
+>>> +
+>>> +     if (copy_to_user(arg, &params, sizeof(params)))
+>>> +             return -EFAULT;
+>>> +
+>>> +     return 0;
+>>> +}
+>>> +
+>>> +static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
+>>> +{
+>>> +     struct allocinfo_private *priv;
+>>> +     struct codetag *ct;
+>>> +     struct allocinfo_tag_data params = {0};
+>>> +     int ret = 0;
+>>> +
+>>> +     priv = (struct allocinfo_private *)m->private;
+>>> +
+>>> +     codetag_lock_module_list(alloc_tag_cttype, true);
+>>> +
+>>> +     if (!priv->positioned) {
+>>> +             priv->ioctl_iter = codetag_get_ct_iter(alloc_tag_cttype);
+>>> +             priv->positioned = true;
+>>> +     }
+>>> +
+>>> +     ct = codetag_next_ct(&priv->ioctl_iter);
+>>> +     if (ct)
+>>> +             allocinfo_to_params(ct, &params);
+>>> +
+>>> +     if (!ct) {
+>>> +             priv->positioned = false;
+>>> +             ret = -ENOENT;
+>>> +     }
+>>> +     codetag_lock_module_list(alloc_tag_cttype, false);
+>>> +
+>>> +     if (ret == 0) {
+>>> +             if (copy_to_user(arg, &params, sizeof(params)))
+>>> +                     return -EFAULT;
+>>> +     }
+>>> +     return ret;
+>>> +}
+>>> +
+>>> +static long allocinfo_ioctl(struct file *file, unsigned int cmd,
+>>> +                         unsigned long __arg)
+>>> +{
+>>> +     void __user *arg = (void __user *)__arg;
+>>> +     int ret;
+>>> +
+>>> +     switch (cmd) {
+>>> +     case ALLOCINFO_IOC_CONTENT_ID:
+>>> +             ret = allocinfo_ioctl_get_content_id(file->private_data, arg);
+>>> +             break;
+>>> +     case ALLOCINFO_IOC_GET_AT:
+>>> +             ret = allocinfo_ioctl_get_at(file->private_data, arg);
+>>> +             break;
+>>> +     case ALLOCINFO_IOC_GET_NEXT:
+>>> +             ret = allocinfo_ioctl_get_next(file->private_data, arg);
+>>> +             break;
+>>> +     default:
+>>> +             ret = -ENOIOCTLCMD;
+>>> +             break;
+>>> +     }
+>>> +
+>>> +     return ret;
+>>> +}
+>>> +
+>>> +#ifdef CONFIG_COMPAT
+>>> +static long allocinfo_compat_ioctl(struct file *file, unsigned int cmd,
+>>> +                                unsigned long arg)
+>>> +{
+>>> +     return allocinfo_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
+>>> +}
+>>> +#endif
+>>> +
+>>> +static const struct proc_ops allocinfo_proc_ops = {
+>>> +     .proc_open              = allocinfo_open,
+>>> +     .proc_read_iter         = seq_read_iter,
+>>> +     .proc_lseek             = seq_lseek,
+>>> +     .proc_release           = allocinfo_release,
+>>> +     .proc_ioctl             = allocinfo_ioctl,
+>>> +#ifdef CONFIG_COMPAT
+>>> +     .proc_compat_ioctl      = allocinfo_compat_ioctl,
+>>> +#endif
+>>> +
+>>> +};
+>>> +
+>>>    size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sleep)
+>>>    {
+>>>        struct codetag_iterator iter;
+>>> @@ -946,8 +1121,7 @@ static int __init alloc_tag_init(void)
+>>>                return 0;
+>>>        }
+>>>
+>>> -     if (!proc_create_seq_private(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_seq_op,
+>>> -                                  sizeof(struct allocinfo_private), NULL)) {
+>>> +     if (!proc_create(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_proc_ops)) {
+>>>                pr_err("Failed to create %s file\n", ALLOCINFO_FILE_NAME);
+>>>                shutdown_mem_profiling(false);
+>>>                return -ENOMEM;
+>>> diff --git a/lib/codetag.c b/lib/codetag.c
+>>> index 304667897ad4..93aa30991563 100644
+>>> --- a/lib/codetag.c
+>>> +++ b/lib/codetag.c
+>>> @@ -48,6 +48,17 @@ bool codetag_trylock_module_list(struct codetag_type *cttype)
+>>>        return down_read_trylock(&cttype->mod_lock) != 0;
+>>>    }
+>>>
+>>> +unsigned long codetag_get_content_id(struct codetag_type *cttype)
+>>> +{
+>>> +     lockdep_assert_held(&cttype->mod_lock);
+>>> +
+>>> +     /*
+>>> +      * next_mod_seq is updated on every load, so can be used to identify
+>>> +      * content changes.
+>>> +      */
+>>> +     return cttype->next_mod_seq;
+>>> +}
+>>> +
+>>>    struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype)
+>>>    {
+>>>        struct codetag_iterator iter = {
+> Note, I will be following up with a v2 patchset with your feedback
+> included. Please bring up any other points you'd want to clarify so
+> that I can include all the changes in the v2 patchset. Thanks for
+> reviewing!
