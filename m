@@ -1,171 +1,482 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DE03ED3C6
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 13:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779198834; cv=pass; b=VcMyguY6WVQNKU4SCLwBBiU0FVKFM8946QJRQ3LLOI8rkM0vQhhd7Q27jAaHi1Xi6iFtynEJt8ik67C71Qzpoisl6cRTW+1S0sYIR6Bv/SPsrirbIfoYKmtnpnqh6VZZuIVLvYaEn1Sf6gZ8Ub1NE4RNIWo267Ffd+BIXO+NJE0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779198834; c=relaxed/simple;
-	bh=YzdHAhYUrbTCX46WUv58l87g2Iwam1VpditQTACnMS0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eTvhI+pk6NT+TI/bEY4+DXC9SpIcjfScogN2KNG+V8YtCX0mj81nitSrCR5wv0a9MA2krNzodP0PYbtZsMhqelWZUO/2wkEFNnNF9y3LVn6kuU36kP3wzlyO1cOfDAeWySh3dxUsDwXsNGuItj+SPZHLPhLhwUi50GeUDBbjbz4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iAOyXM6o; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Lf+bsMZA; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111763F6C30
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 14:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779199258; cv=none; b=lYlmQwrx2h/2lqzhRb7LGSrgPTeJT56ztTqyB3g3RAc52oBo1uKlp+xCcZ1QRlQexQJ3ZBye3eRvkF18Efa4YCqPtGduR7xKIIatWap9kZKWEzlaW5eI75Z9qfLJDf+BOCMweuzfdsqdU30fAZ7mzBciPzlfLvISd5fpJvGIij4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779199258; c=relaxed/simple;
+	bh=5WgO+Q1oi6EoEr5VWKbRb58qJkQRcAxLfQn2nSxYq3s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Umg37bbVuqKo7G72xoj19KIB0Ur3qcfP5iTnCnFssl2Dt0s4EosirAWPNBWx02N9d9SvC9Lkf5aoEfcxgCCSrN0kuyc7qXOGnWqV05lZRdgIMo14PPNn6uifmlgXcVfKByGIyzQmPQWYoAW8yECHY828ZdLrx4kX8W5jgWXwOP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LoJz+aO3; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iAOyXM6o";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Lf+bsMZA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779198830;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gMJunAX4GgTUnfdlT58BrIL66UezK+YQZcmeEHYrE2w=;
-	b=iAOyXM6oQKGCs3i0/y0cFzEni5dv8jqdIw6V7e2MBE0bkr3xUNRQbr9iHLp+yR5eaN4SqP
-	NqxK9BdUgdRY0+n+QnyRh3mFZTxJcTRDbRajQ4xnj6AEbG9oqqNdc6067SEQCBkqGGvFZ4
-	zpgi17kDbrbtBPPjwyJIMkKWNTkANfA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-418-HjRhuT6qPrGYZrs7T_HAcQ-1; Tue, 19 May 2026 09:53:47 -0400
-X-MC-Unique: HjRhuT6qPrGYZrs7T_HAcQ-1
-X-Mimecast-MFC-AGG-ID: HjRhuT6qPrGYZrs7T_HAcQ_1779198826
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-48a589c7879so30396815e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 06:53:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779198826; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AGchXV833ARPWil0swzq9n/meShjNLF/S+3Hfpsq0En1NFgojkf9PltIFXiCBPAy2I
-         GLpHwOPx2bXhKRpOjKYG8etoiKfn2VE/LGi5rRCC2Ty68Bl300OMDUEtD0JxfRu2TnOu
-         kcvzVpv9A3U9qx/FuTMEMzdkpyGvaPNj4z3JsRoMetZ0HsiGOVxhSB/IG98t3NObBF4D
-         CRSRT4XH3gutMdQIY4ZgBv3QKBVyvxYmdIfkw4X9Re2XntOIsLW0ino/D54rlDURxdwn
-         gx/vqnZicry0Tx+UsNjwHjQCgu472n0j7kiLs/jRM6koLSgBisXoMkPUCEUOYT9BFBr9
-         axmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gMJunAX4GgTUnfdlT58BrIL66UezK+YQZcmeEHYrE2w=;
-        fh=HYszDUitN2KKqH3hFNZGHVkXdbNqEhYNJQJmJKXBtoE=;
-        b=DLZZQbACupwgigqE6BEnnlsMv0GWBrADO9g++spFOZtgPc9cpCO+T+MuLWewIbZko1
-         R/gXNh029pY45v2WpZqjwThz/3jwVHclgvEwb2JCUEWYVLB1pFpLBQUuvniTK4yJS6ht
-         jjJyez6YxQgBRrzylkqiGdRFcN5/KJLNGYQ3cddbUhzcUH/RyHKDNm7Gd4sNG03RU/kG
-         NZXhq2xVcK6wPl9jFQx2qEGIfUm+KJiKM8MgF5ElLov2p/ycgNy/eu/t5BwcgODHbFXd
-         yr2PJabv0iw5diNIl2aJhca9U5pSWHYjMIHz7sRwImYP+uEZeH3JnRP3ttXZsttet70Q
-         L0Xg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LoJz+aO3"
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-57602a2d80aso1024834e0c.2
+        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 07:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779198826; x=1779803626; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gMJunAX4GgTUnfdlT58BrIL66UezK+YQZcmeEHYrE2w=;
-        b=Lf+bsMZAXbnC39c7RHH+LcfzXLWB49fqiRtduik4NRRfs8PaWKKVq+l5ZPVCCigUw8
-         6BNamJIPAnXG1pkfQ00cr3rv0p8XNdh2K9Dw0V0+N77TxcRPbtblKE2LX2/k3L/7ij3/
-         toEXYxggaxGyelUcnJ0F1z5kfA6M9UxKXBvfXx5jWqjBBjMzSCXpXavrZBm2umlegWCh
-         Jc2RKEanpHA7ijDxwwzL1CYS3Fa/qlyQl+N+SleJpudgXWStQxf6YhRs2JbcvyZft+Vj
-         ePtLbFk6/psX41kk5+e+X4U2vdft13b+9Y8bBi7QPH+JZ+sQh3SUbbwzkIOrNby4Uknb
-         hFAQ==
+        d=gmail.com; s=20251104; t=1779199255; x=1779804055; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8NXBBktgPsUvkC2vPEdHd/dIDOK6P5ILP1oorCTAVGY=;
+        b=LoJz+aO3+gcYgwnjj+i4rlK4vOqfYFGkiHsdBcIs3a9XkgjlFPc0CKgLeDXkIItILA
+         tkdgxRtcwrPcOydSaiJLdz8Kxzpn07W4N2OCIWsPAYmyU1E3FptYl/PPW2Hn9+uvKOll
+         mhY9Ub5Ju0XvrLs7r1yrOko24abfg+PDWbz0r/19+McRF1EGA2NrJUM02SzFl2G0soqh
+         v4Sws2+UQLWjWWq6MFEiWeMm0B7biDfCfqxJFWd70suJgkgJL7aUUa8PF2BMnJX2JJ90
+         tkKgiRdQrZMg6pWbAlxCKzWUOSMFGRoPKhA817dGIDU3ufsBUxMGIpPNwmwdtc3pjJMH
+         SiAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779198826; x=1779803626;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gMJunAX4GgTUnfdlT58BrIL66UezK+YQZcmeEHYrE2w=;
-        b=YI749NwZmAvEi2BZA9qML10xh1jejD4mnOcLbXsyeaGFADKoW6JzMVWhQcY/KvboaC
-         hkfrdtVPuCr9lY4QBynJppjFt9T1G2jWBnrprd1nqkKwPFmKu+JHKKC+zKjV+3mWbZTT
-         TPCko4Ig9sg+8HOivtHDRWcSf5DUEWc7C/RQyaH5wlqcKqo+NC6qE6N3B/bNTEt5eouC
-         nEc65bVziA9+q/LJkveSIMO+fsnSrATZWezo55lhPYDnc37V4J9Xf03P7HU2ujVAAXwe
-         xp15RNzYlu6FE5t5H0uiH62duiAcRTUzxYpCUQoEsoqaJ7POe2N3XUtbf74L4OujYpS/
-         Qxyg==
-X-Forwarded-Encrypted: i=1; AFNElJ+NcRPStTvQqaKZS3cUm217A0u7ZFaFp7gDzYFHsJ0/L9vsvdMFpdzZQmbfLGLySY9d6VO2YLdk2P8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+P6IYc45l5tNLSHna0TzVUplsLITWs2WPEXNXqH+Miyzp+uAO
-	JMIXm/uiv9QVWzpX0hqndYmz/tv/tPebu9FSF05VaIHeA53hkdJ6/tg2UxoiRg7ZXxCSTN/7o2K
-	jPP7LEzZIkoQp80DCVTGymJo1p5L/Fpe4oSRoSkyWB3V++nYSMlgsa3V4HhWRp9BFqYtxrAC6Fe
-	2d0OIE8sOfvxBC+7Hg+H56+PlOvTGzak3fluRr
-X-Gm-Gg: Acq92OF7BsBP0cMBgalIAylbjl3+JYfXZw8Y2PCWMbgRgDohL2UsfUdxRAETyhQ5Yvt
-	HDcIDnJqCgZ9EZnlSDL800GUTGCQmysvY/kMS4xiZYWnhUeGJJ5XEw0JmW5YB1G80fvr5hiQ9Vq
-	xxXbXS+kdYTTLXsKwmJEgNwxrTXRCOR0Jp8x5C0c3gxGwzOsCd1vk7+SAqQIqmC2NpQHehOqIBF
-	Zch9W7KWGVOO2IPnWkeP1ohu+SouF5xyZo3YdPwTK1mjp9pOOGZKeFbhF+m8SVBn4Y4tE83Dz5O
-	rF8q/Q==
-X-Received: by 2002:a05:600c:4851:b0:48a:79d8:a8d6 with SMTP id 5b1f17b1804b1-48feea99dc7mr159587255e9.7.1779198826432;
-        Tue, 19 May 2026 06:53:46 -0700 (PDT)
-X-Received: by 2002:a05:600c:4851:b0:48a:79d8:a8d6 with SMTP id
- 5b1f17b1804b1-48feea99dc7mr159586875e9.7.1779198826081; Tue, 19 May 2026
- 06:53:46 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779199255; x=1779804055;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8NXBBktgPsUvkC2vPEdHd/dIDOK6P5ILP1oorCTAVGY=;
+        b=BSIfTuXxG6/9lZnK90eo6VqTY/1k1VwHQaECQX/k9YbBXHXTBJGRnCTf9a8Z2aIcEI
+         aUUOOMnqbM3uj4e4FQP1Nok7xlq8m+MY2EXo+ZCBs7t7HX+ORPI3VkdfSFbRuCiz51IY
+         xglVLz+ScpisFbG4ZxSNGaujfIMworAYYwTq87EoASC8HGtnA10CxMLP4zBRNgsQGy8d
+         fzNT1RoNaCs4zHP7doG7Q8ZtJThVDuPms9tyGolqrGOWqsf8ALYfH529arJQsbFkCadu
+         XwJqywJbFTUPTTObidZuVLeJk2O/ruGXJ+GioJk4YllG6ijEs1+6wuTvbeKRUx9759Xc
+         sJpg==
+X-Gm-Message-State: AOJu0YyoaNtjeXJZcfoFL3uIcQEqITMj6eCwHD/Ufa4SoqhJkNckf4WB
+	ggN+gw/lry3rcNAmJv5bDXzUcuZPtr2hmtC45yfD0Sac7zA/H13SrFP58UtmFQ==
+X-Gm-Gg: Acq92OFmLn8Rf14kXq9dJ/HDuc0arNAYxoCA9FvNYbByGnmS5HGVIYtxe0JmFLfXMkb
+	9RKyQOgAl1hO8+vf8aYiAXWxw+L3bVec4AkBw5MVhB2KIb7Uhh2uM8vd0Q2YYYDmmgH/CrWRLkI
+	eS8vqsyb/FQ5gZXZwhWaHWUhzS4B8GctNNV4iUnUSjE1TaZRLwwSfQNOZ0v9aOCoSITDW2KiKOJ
+	k6Rq0GBzs2vCi2wJKo1JaJgp+4OCjSmvelVtR/tRXSkWO3u+u2Q6XcHlx5c4yyA8oU0vQNV9LCb
+	d6OF4kgy4YX8BHrDv9x60wqVXyVRIFgZ9P7H4E5sPOE5T7JDxP8xtuehb4IoXvPWmHXjCmCeN+U
+	G5BpijFOrMrI/Is5JQqyAtxkA5fF5lq4zpUlxvHwP7+lHNq+N5bKQegYPfmC1Jn+AeAEI8JVrDv
+	KKWeaaQugmXNsWXZD9XdFaVbCpT6UMeKKgjQ+IHWxuE01mGFvYEuH26X8Mv9ytSba0Fp8xYIlv1
+	RKIDKp0um2yOHVhjnWVSNI/tn7+cg==
+X-Received: by 2002:a05:6122:2407:b0:575:637e:9509 with SMTP id 71dfb90a1353d-5760c0940d7mr9919505e0c.13.1779199253830;
+        Tue, 19 May 2026 07:00:53 -0700 (PDT)
+Received: from localhost.localdomain (smtp.hostdime.com.br. [187.45.177.18])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95fc2c99f63sm6409407241.1.2026.05.19.07.00.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 07:00:53 -0700 (PDT)
+From: Daniel Pereira <danielmaraboo@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	Daniel Pereira <danielmaraboo@gmail.com>
+Subject: [PATCH v3 3/4] docs: pt_BR: Translate process/kernel-docs.rst into Portuguese
+Date: Tue, 19 May 2026 11:00:33 -0300
+Message-ID: <20260519140035.1031694-1-danielmaraboo@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6856b269d2af706eae397e0cf9c1231f89d9a932.camel@infradead.org>
- <6afc4b95-3c15-4d71-877d-19b84e91ce05@redhat.com> <57bc082f4824d6114d3156744c25986effc29aca.camel@infradead.org>
- <baff82ca-6321-4b16-aa61-b2d6d60b6535@redhat.com> <86h5obya2r.wl-maz@kernel.org>
- <48b06e5655d56ff6eda30e563b34894fa0eb2f07.camel@infradead.org>
- <ba08dfe9-932b-40c3-9fdf-fc891d52e1d8@redhat.com> <d9d4471a7f5ec1e297b3ca07f42a59090aa91e15.camel@infradead.org>
- <CABgObfaM-JtNn2MuYXaiadQnLfAhTEaoHAcTG9=J6LkMcQCJ3A@mail.gmail.com>
- <3f9d731c3d26b0367600f1069e6425099bc34eac.camel@infradead.org>
- <agxFbniU_6eQ98t2@willie-the-truck> <cf429f2082e863571595f74d1d3dedc3e6a82964.camel@infradead.org>
- <CABgObfacAYexR25SMi1kSZMRnHx3EDGj8=E84V1DumER66ibnQ@mail.gmail.com>
- <86qzn7wp3y.wl-maz@kernel.org> <593a782c50f3c8656e13b36dfb975a67d43a908e.camel@infradead.org>
-In-Reply-To: <593a782c50f3c8656e13b36dfb975a67d43a908e.camel@infradead.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 19 May 2026 15:53:19 +0200
-X-Gm-Features: AVHnY4J8OrpUxEzodEMJc7lM9sDn1bgq4nXZ_hmQu7D8CU-GrOTBpsMt27h0TJk
-Message-ID: <CABgObfbS-z3OphDna5W_JQPvw+OK=yXJurVMHp1ANZ5uGEgVhQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: KVM: Document guest-visible compatibility expectations
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, kvm <kvm@vger.kernel.org>, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	"Kernel Mailing List, Linux" <linux-kernel@vger.kernel.org>, Sean Christopherson <seanjc@google.com>, 
-	Jim Mattson <jmattson@google.com>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Eric Auger <eric.auger@redhat.com>, Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	kvmarm@lists.linux.dev, linux-kselftest <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 19, 2026 at 3:00=E2=80=AFPM David Woodhouse <dwmw2@infradead.or=
-g> wrote:
-> Or some guest configurations which have only ever been tested under KVM
-> could have a bug where they *rely* on the registers not being writable,
-> and write values which are inconsistent with the rest of their
-> configuration. Which breaks the moment those registers become writable.
+Translate Documentation/process/kernel-docs.rst into Portuguese (pt_BR)
+and update the main index.
 
-Yeah, just having guests that worked by utter chance - but you still
-don't want to break them - is the case that is most likely. Crappy
-code that runs only under emulation/virtualization appears with
-probability 1 over time.
+The content was adapted following the RST formatting rules and the
+appropriate technical terminology for Brazilian Portuguese.
 
-Is this likely in this specific case---probably not, honestly.
-Christoffer's patch dates back to 2018 (commit d53c2c29ae0d); *back
-then* KVM/Arm was a lot less mature, and people developing for Arm on
-vanilla upstream kernels have moved on from Linux 4.19.
+Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+---
+ Documentation/translations/pt_BR/index.rst    |   1 +
+ .../pt_BR/process/kernel-docs.rst             | 373 ++++++++++++++++++
+ 2 files changed, 374 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/kernel-docs.rst
 
-I would still lean towards accepting the code considering the limited
-complexity of the addition (in fact I like it more now that it uses
-IIDR instead of v2_groups_user_writable, but that's taste).  However,
-there's a huge difference between setting expectations based on 2018
-vs 2026 maturity, and perhaps that's why Marc overall is inclined to
-put this in the category of pointless bug for bug compatibility?
-
-In any case, there's no arguing over this documentation patch, which
-is already a good thing to know.
-
-Thanks,
-
-Paolo
-
-> And those hypothetical cases *do* happen. All of the time. There's a
-> massive zoo of guest operating systems; not just the major players like
-> Linux, FreeBSD and Windows but a whole bunch of embedded home-grown and
-> network appliance kernels.
->
-> Nobody is claiming that we shouldn't fix any bug ever.
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index 77c1a1cdc..76936710b 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -67,6 +67,7 @@ kernel e sobre como ver seu trabalho integrado.
+    :maxdepth: 1
+ 
+    Introdução <process/1.Intro>
++   Index de documentos do Kernel <process/kernel-docs>
+    Regras de licenciamento <process/license-rules>
+    Como começar <process/howto>
+    Requisitos mínimos <process/changes>
+diff --git a/Documentation/translations/pt_BR/process/kernel-docs.rst b/Documentation/translations/pt_BR/process/kernel-docs.rst
+new file mode 100644
+index 000000000..3c8d80ffa
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/kernel-docs.rst
+@@ -0,0 +1,373 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Índice de Documentação Adicional do Kernel
++==========================================
++
++A necessidade de um documento como este tornou-se evidente na lista de discussão
++linux-kernel, uma vez que as mesmas perguntas, solicitando referências de
++informações, apareciam repetidamente.
++
++Felizmente, à medida que cada vez mais pessoas chegam ao GNU/Linux, mais pessoas
++se interessam pelo Kernel. No entanto, ler o código-fonte nem sempre é o
++suficiente. É fácil entender o código, mas perder os conceitos, a filosofia
++e as decisões de design por trás dele.
++
++Infelizmente, não há muitos documentos disponíveis para iniciantes começarem.
++E, mesmo quando existem, não havia um local "bem conhecido" que os centralizasse.
++Estas linhas tentam suprir essa falta.
++
++POR FAVOR, se você conhece algum artigo não listado aqui ou se escrever um novo
++documento, inclua uma referência a ele aqui, seguindo o processo de envio de
++patches do kernel. Quaisquer correções, ideias ou comentários também são
++bem-vindos.
++
++Todos os documentos estão catalogados com os seguintes campos: o "Título" do
++documento, o(s) "Autor(es)", a "URL" onde podem ser encontrados, algumas
++"Palavras-chave" úteis para pesquisar tópicos específicos e uma breve
++"Descrição" do documento.
++
++.. note::
++
++   Os documentos em cada seção deste documento estão ordenados por sua data de
++   publicação, do mais recente para o mais antigo. O(s) mantenedor(es) deve(m)
++   remover periodicamente recursos à medida que se tornem obsoletos ou
++   desatualizados; com exceção de livros fundamentais.
++
++Documentação na árvore do Kernel
++--------------------------------
++
++Os manuais Sphinx devem ser compilados com ``make {htmldocs | pdfdocs | epubdocs}``.
++
++    * Nome: **linux/Documentation**
++
++      :Autor: Muitos.
++      :Localização: Documentation/
++      :Palavras-chave: arquivos de texto, Sphinx.
++      :Descrição: Documentação que acompanha o código-fonte do kernel,
++        dentro do diretório Documentation. Algumas páginas deste documento
++        (incluindo este próprio documento) foram movidas para lá e podem
++        estar mais atualizadas do que a versão web.
++
++Documentação on-line
++--------------------
++
++    * Título: **Linux Kernel Mailing List Glossary**
++
++      :Autor: diversos
++      :URL: https://kernelnewbies.org/KernelGlossary
++      :Data: versão contínua (rolling)
++      :Palavras-chave: glossário, termos, linux-kernel.
++      :Descrição: Da introdução: "Este glossário destina-se a ser uma breve
++        descrição de algumas das siglas e termos que você poderá ouvir durante
++        as discussões sobre o kernel Linux".
++
++    * Título: **The Linux Kernel Module Programming Guide**
++
++      :Autor: Peter Jay Salzman, Michael Burian, Ori Pomerantz, Bob Mottram,
++        Jim Huang.
++      :URL: https://sysprog21.github.io/lkmpg/
++      :Data: 2021
++      :Palavras-chave: módulos, livro GPL, /proc, ioctls, chamadas de sistema,
++        manipuladores de interrupção.
++      :Descrição: Um excelente livro sob licença GPL sobre o tópico de
++        programação de módulos. Repleto de exemplos. Atualmente, a nova versão
++        está sendo mantida ativamente em https://github.com/sysprog21/lkmpg.
++
++Livros Publicados
++-----------------
++
++    * Title: **The Linux Memory Manager**
++
++      :Autor: Lorenzo Stoakes
++      :Editora: No Starch Press
++      :Data: Fevereiro 2025
++      :Páginas: 1300
++      :ISBN: 978-1718504462
++      :Notas: Gerenciamento de memória. Rascunho completo disponível como acesso
++        antecipado para ré-venda, lançamento completo agendado para o
++        outono de 2025. Veja https://nostarch.com/linux-memory-manager
++        para mais informações.
++
++    * Title: **Practical Linux System Administration: A Guide to Installation, Configuration, and Management, 1st Edition**
++
++      :Autor: Kenneth Hess
++      :Editora: O'Reilly Media
++      :Data: Maio, 2023
++      :Páginas: 246
++      :ISBN: 978-1098109035
++      :Notas: Administração de sistemas
++
++    * Title: **Linux Kernel Debugging: Leverage proven tools and advanced techniques to effectively debug Linux kernels and kernel modules**
++
++      :Autor: Kaiwan N Billimoria
++      :Editora: Packt Publishing Ltd
++      :Data: Agosto, 2022
++      :Páginas: 638
++      :ISBN: 978-1801075039
++      :Notas: Livro sobre depuração (debugging)
++
++    * Title: **Linux Kernel Programming: A Comprehensive Guide to Kernel Internals, Writing Kernel Modules, and Kernel Synchronization**
++
++      :Autor: Kaiwan N Billimoria
++      :Editora: Packt Publishing Ltd
++      :Data: Março, 2021 (Segunda edição publicada em 2024)
++      :Páginas: 754
++      :ISBN: 978-1789953435 (O ISBN da segunda edição é 978-1803232225)
++
++    * Title: **Linux Kernel Programming Part 2 - Char Device Drivers and Kernel Synchronization: Create user-kernel interfaces, work with peripheral I/O, and handle hardware interrupts**
++
++      :Autor: Kaiwan N Billimoria
++      :Editora: Packt Publishing Ltd
++      :Data: Março, 2021
++      :Páginas: 452
++      :ISBN: 978-1801079518
++
++    * Title: **Linux System Programming: Talking Directly to the Kernel and C Library**
++
++      :Autor: Robert Love
++      :Editora: O'Reilly Media
++      :Data: Junho, 2013
++      :Páginas: 456
++      :ISBN: 978-1449339531
++      :Notas: Livro fundamental
++
++    * Título: **Linux Kernel Development, 3rd Edition**
++
++      :Autor: Robert Love
++      :Editora: Addison-Wesley
++      :Data: Julho de 2010
++      :Páginas: 440
++      :ISBN: 978-0672329463
++      :Notas: Livro fundamental
++
++    * Título: **Linux Device Drivers, 3rd Edition**
++
++      :Autores: Jonathan Corbet, Alessandro Rubini e Greg Kroah-Hartman
++      :Editora: O'Reilly & Associates
++      :Data: 2005
++      :Páginas: 636
++      :ISBN: 0-596-00590-3
++      :Notas: Livro fundamental. Mais informações em
++        http://www.oreilly.com/catalog/linuxdrive3/
++        Formato PDF, URL: https://lwn.net/Kernel/LDD3/
++
++    * Título: **The Design of the UNIX Operating System**
++
++      :Autor: Maurice J. Bach
++      :Editora: Prentice Hall
++      :Data: 1986
++      :Páginas: 471
++      :ISBN: 0-13-201757-1
++      :Notas: Livro fundamental
++
++Diversos
++--------
++
++    * Nome: **Cross-Referencing Linux**
++
++      :URL: https://elixir.bootlin.com/
++      :Palavras-chave: Navegação em código-fonte.
++      :Descrição: Outro navegador web para o código-fonte do kernel Linux.
++        Possui muitas referências cruzadas para variáveis e funções. Você pode
++        ver onde elas são definidas e onde são utilizadas.
++
++    * Nome: **Linux Weekly News**
++
++      :URL: https://lwn.net
++      :Palavras-chave: últimas notícias do kernel.
++      :Descrição: O título diz tudo. Há uma seção fixa sobre o kernel que
++        resume o trabalho dos desenvolvedores, correções de bugs, novos recursos
++        e versões produzidas durante a semana.
++
++    * Nome: **The home page of Linux-MM**
++
++      :Autor: A equipe Linux-MM.
++      :URL: https://linux-mm.org/
++      :Palavras-chave: gerenciamento de memória, Linux-MM, mm patches, TODO,
++        docs, mailing list.
++      :Descrição: Site dedicado ao desenvolvimento do Gerenciamento de Memória
++        do Linux. Patches relacionados à memória, HOWTOs, links, desenvolvedores
++        mm... Não perca se você estiver interessado no desenvolvimento do
++        gerenciamento de memória!
++
++    * Nome: **Kernel Newbies IRC Channel and Website**
++
++      :URL: https://www.kernelnewbies.org
++      :Palavras-chave: IRC, novatos, canal, tirar dúvidas.
++      :Descrição: #kernelnewbies em irc.oftc.net.
++        O canal #kernelnewbies é uma rede de IRC dedicada ao hacker de kernel
++        "novato" (newbie). O público consiste principalmente de pessoas que estão
++        aprendendo sobre o kernel, trabalhando em projetos do kernel ou hackers
++        profissionais que desejam ajudar pessoas menos experientes.
++        O #kernelnewbies está na rede de IRC OFTC.
++        Tente acessar irc.oftc.net como seu servidor e então digite /join #kernelnewbies.
++        O site kernelnewbies também hospeda artigos, documentos, FAQs...
++
++    * Nome: **linux-kernel mailing list archives and search engines**
++
++      :URL: https://subspace.kernel.org
++      :URL: https://lore.kernel.org
++      :Palavras-chave: linux-kernel, arquivos, busca.
++      :Descrição: Alguns dos arquivadores da lista de discussão linux-kernel.
++        Se você conhece algum outro (ou um melhor), por favor, me avise.
++
++    * Nome: **The Linux Foundation YouTube channel**
++
++      :URL: https://www.youtube.com/user/thelinuxfoundation
++      :Palavras-chave: linux, vídeos, linux-foundation, youtube.
++      :Descrição: A Linux Foundation faz o upload de gravações de vídeo de seus
++        eventos colaborativos, conferências de Linux (incluindo a LinuxCon) e
++        outras pesquisas originais e conteúdos relacionados ao Linux e ao
++        desenvolvimento de software.
++
++Rust
++----
++
++    * Título: **Rust for Linux**
++
++      :Autor: diversos
++      :URL: https://rust-for-linux.com/
++      :Data: versão contínua (rolling)
++      :Palavras-chave: glossário, termos, linux-kernel, rust.
++      :Descrição Do site: "Rust for Linux é o projeto que adiciona suporte à
++        linguagem Rust ao kernel Linux. Este site pretende ser um hub de links,
++        documentação e recursos relacionados ao projeto".
++
++    * Título: **Learn Rust the Dangerous Way**
++
++      :Autor: Cliff L. Biffle
++      :URL: https://cliffle.com/p/dangerust/
++      :Data: Acessado em 11 de setembro de 2024
++      :Palavras-chave: rust, blog.
++      :Descrição: Do site: "LRtDW é uma série de artigos que coloca os recursos
++        do Rust em contexto para programadores C de baixo nível que talvez não
++        tenham uma formação formal em Ciência da Computação, o tipo de pessoa
++        que trabalha com firmware, engines de jogos, kernels de SO e afins.
++        Basicamente, pessoas como eu.". O site ilustra conversões de linha por
++        linha de C para Rust.
++
++    * Título: **The Rust Book**
++
++      :Autor: Steve Klabnik e Carol Nichols, com contribuições da comunidade Rust
++      :URL: https://doc.rust-lang.org/book/
++      :Data: Acessado em 11 de setembro de 2024
++      :Palavras-chave: rust, livro.
++      :Descrição: Do site: "Este livro abraça totalmente o potencial do Rust para
++        capacitar seus usuários. É um texto amigável e acessível destinado a
++        ajudá-lo a elevar não apenas seu conhecimento de Rust, mas também seu
++        alcance e confiança como programador em geral. Então mergulhe de cabeça,
++        prepare-se para aprender e bem-vindo à comunidade Rust!".
++
++    * Título: **Rust for the Polyglot Programmer**
++
++      :Autor: Ian Jackson
++      :URL: https://www.chiark.greenend.org.uk/~ianmdlvl/rust-polyglot/index.html
++      :Data: Dezembro de 2022
++      :Palavras-chave: rust, blog, tooling.
++      :Descrição: Do site: "Existem muitos guias e introduções ao Rust. Este é
++        algo diferente: destina-se ao programador experiente que já conhece
++        muitas outras linguagens de programação. Tento ser abrangente o suficiente
++        para servir de ponto de partida para qualquer área do Rust, mas evito
++        entrar em detalhes excessivos, exceto onde as coisas não são como você
++        poderia esperar. Além disso, este guia não é inteiramente isento de
++        opiniões, incluindo recomendações de bibliotecas (crates), ferramentas, etc.".
++
++    * Título: **Fasterthanli.me**
++
++      :Autor: Amos Wenger
++      :URL: https://fasterthanli.me/
++      :Data: Acessado em 11 de setembro de 2024
++      :Palavras-chave: rust, blog, notícias.
++      :Descrição: Do site: "Eu crio artigos e vídeos sobre como os computadores
++        funcionam. Meu conteúdo é de formato longo, didático e exploratório
++        e frequentemente uma desculpa para ensinar Rust!".
++
++    * Título: **Comprehensive Rust**
++
++      :Autor: Equipe Android do Google
++      :URL: https://google.github.io/comprehensive-rust/
++      :Data: Acessado em 13 de setembro de 2024
++      :Palavras-chave: rust, blog.
++      :Descrição: Do site: "O curso cobre todo o espectro do Rust, desde a
++        sintaxe básica até tópicos avançados como genéricos e tratamento de erros".
++
++    * Título: **The Embedded Rust Book**
++
++      :Autor: Múltiplos colaboradores, principalmente Jorge Aparicio
++      :URL: https://docs.rust-embedded.org/book/
++      :Data: Acessado em 13 de setembro de 2024
++      :Palavras-chave: rust, blog.
++      :Descrição: Do site: "Um livro introdutório sobre o uso da linguagem de
++        programação Rust em sistemas embarcados 'Bare Metal', como microcontroladores".
++
++    * Título: **Experiment: Improving the Rust Book**
++
++      :Autor: Cognitive Engineering Lab na Brown University
++      :URL: https://rust-book.cs.brown.edu/
++      :Data: Acessado em 22 de setembro de 2024
++      :Palavras-chave: rust, blog.
++      :Descrição: Do site: "O objetivo deste experimento é avaliar e melhorar o
++        conteúdo do Rust Book para ajudar as pessoas a aprenderem Rust de forma
++        mais eficaz".
++
++    * Título: **New Rustacean** (podcast)
++
++      :Autor: Chris Krycho
++      :URL: https://newrustacean.com/
++      :Data: Acessado em 22 de setembro de 2024
++      :Palavras-chave: rust, podcast.
++      :Descrição: Do site: "Este é um podcast sobre aprender a linguagem de
++        programação Rust do zero! Além desta página inicial elegante, todo o
++        conteúdo do site é construído com as próprias ferramentas de documentação
++        do Rust".
++
++    * Título: **Opsem-team** (repositório)
++
++      :Autor: Equipe de semântica operacional (Operational semantics team)
++      :URL: https://github.com/rust-lang/opsem-team/tree/main
++      :Data: Acessado em 22 de setembro de 2024
++      :Palavras-chave: rust, repositório.
++      :Descrição: Do README: "A equipe opsem é a sucessora do grupo de trabalho
++        unsafe-code-guidelines e é responsável por responder a muitas das perguntas
++        difíceis sobre a semântica do Rust inseguro (unsafe Rust)".
++
++    * Título: **You Can't Spell Trust Without Rust**
++
++      :Autor: Alexis Beingessner
++      :URL: https://repository.library.carleton.ca/downloads/1j92g820w?locale=en
++      :Data: 2015
++      :Palavras-chave: rust, mestrado, tese.
++      :Descrição: Esta tese foca no sistema de propriedade (ownership) do Rust,
++        que garante a segurança de memória ao controlar a manipulação de dados e
++        o tempo de vida, enquanto também destaca suas limitações e o compara a
++        sistemas semelhantes no Cyclone e C++.
++
++    * Nome: **Apresentações de Rust no Linux Plumbers (LPC) 2024**
++
++      :Título: Rust microconference
++      :URL: https://lpc.events/event/18/sessions/186/#20240918
++      :Título: Rust for Linux
++      :URL: https://lpc.events/event/18/contributions/1912/
++      :Título: Journey of a C kernel engineer starting a Rust driver project
++      :URL: https://lpc.events/event/18/contributions/1911/
++      :Título: Crafting a Linux kernel scheduler that runs in user-space using Rust
++      :URL: https://lpc.events/event/18/contributions/1723/
++      :Título: openHCL: A Linux and Rust based paravisor
++      :URL: https://lpc.events/event/18/contributions/1956/
++      :Palavras-chave: rust, lpc, apresentações.
++      :Descrição: Uma série de palestras do LPC relacionadas ao Rust.
++
++    * Nome: **The Rustacean Station Podcast**
++
++      :URL: https://rustacean-station.org/
++      :Palavras-chave: rust, podcasts.
++      :Descrição: Um projeto comunitário para a criação de conteúdo em podcast
++        sobre a linguagem de programação Rust.
++
++-------
++
++Este documento foi originalmente baseado em:
++
++https://www.dit.upm.es/~jmseyas/linux/kernel/hackers-docs.html
++
++e escrito por Juan-Mariano de Goyeneche.
+-- 
+2.47.3
 
