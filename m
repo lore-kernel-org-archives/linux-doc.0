@@ -1,179 +1,154 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428F93EAC86
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 08:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8366E3EEAEF
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 08:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779180313; cv=none; b=TFoUEFa9TejMh21qzPENTJPK5nKvmy5f2T5bWDKvTnDJdeqk6wkXjzj/qgn59J10GCjdQC6HR/pzoOHrAGdqGNpg6/UDOI4Ik05HQ4eMHUGn4QiBSox+JsP65YNErzqmLSaO/GSnwhH/YOBTb4Z21+9Gosc6btTSrOPWlMfa/7E=
+	t=1779180506; cv=none; b=VM6n2S9ig7jRvphs4pO2L3vD0Kou2YNmrlcj//lh585nWTvaNn2dqMLVtLR7fSXQ5cW6RiYxMveWnXo1NeJZeYyVtkOjfQKlHhwXUhkLwV3NYlV/CRFuEHbcdfLeSNHUGgZ8RLabfKb5PkRmM2ZF1mjKvq/+78iHnfqtNN8TKzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779180313; c=relaxed/simple;
-	bh=XDP1fY549TYDvl03vsmX/Cl9vu/6yPcUFkdIr1jX+Y8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rwn/0bdXx3+44aomlBvHR20NzcY4eunfnr5Y/ZjpRQlnW6O2batyMcu9dg3Xg9N5aYc7eaNHkwTl2x+rGZzbofT8QieZ2+rU26sw1VTdBK7I/5FfhutSERXQyu82NiLBRrP/vbEjFca9LMbnVCUgQILPXoik++57xREkCRKX1A8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PqwLcI/m; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xkUFEZX1; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PqwLcI/m; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xkUFEZX1; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1779180506; c=relaxed/simple;
+	bh=Hyx9uiXztVttxLdo9VjcbHUiP6qvqHfhOZr9vbJAYdk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lMXGTadC4SR3CHIttANFrRQmQbg+xiHG7Ja5Xf99HQQwOL2pD57npxrps8wikpb0nUKv1JCYCtPtzfjGVrfFSN1SNmdqz8+x2AR/D5n4bhKxflDSDe2zKi9gNtQHjwyuOWPIiafJ2Iynr0u0ViG9KjvRS5Ot/CaL580SxkuHyqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eKm0WEKT; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PqwLcI/m";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xkUFEZX1";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PqwLcI/m";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xkUFEZX1"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 579385D68A;
-	Tue, 19 May 2026 08:45:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779180310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nJFJUma/ZTHC3w1sDcmLeoMBS4NsPZRd9YgMW1oWErQ=;
-	b=PqwLcI/mUQreelUgHEq3UAcKmdGdQ5In2fDxkg4VaVoENEK68zRwTSL3bPzZ+o10C+wBAG
-	aMjOUOg9kvBCD7dKJKV1GhkSjBiq5mibmJQYq1ATuQawT8W6fRZymauxgvLkWpo+ldT9p/
-	Tty/28+Aj05K77LJIcUb5AbwAzk9aps=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779180310;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nJFJUma/ZTHC3w1sDcmLeoMBS4NsPZRd9YgMW1oWErQ=;
-	b=xkUFEZX19eGGDj9fUAasJzBQ3s2HULj8kbz7JedYPsDv1lxH75Fq+Kdkkj0TiyRGpsyAV9
-	RTrMB+KX2LdX+yBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="PqwLcI/m";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=xkUFEZX1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779180310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nJFJUma/ZTHC3w1sDcmLeoMBS4NsPZRd9YgMW1oWErQ=;
-	b=PqwLcI/mUQreelUgHEq3UAcKmdGdQ5In2fDxkg4VaVoENEK68zRwTSL3bPzZ+o10C+wBAG
-	aMjOUOg9kvBCD7dKJKV1GhkSjBiq5mibmJQYq1ATuQawT8W6fRZymauxgvLkWpo+ldT9p/
-	Tty/28+Aj05K77LJIcUb5AbwAzk9aps=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779180310;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nJFJUma/ZTHC3w1sDcmLeoMBS4NsPZRd9YgMW1oWErQ=;
-	b=xkUFEZX19eGGDj9fUAasJzBQ3s2HULj8kbz7JedYPsDv1lxH75Fq+Kdkkj0TiyRGpsyAV9
-	RTrMB+KX2LdX+yBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4E25F593AA;
-	Tue, 19 May 2026 08:45:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 348HExYjDGpgHgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 19 May 2026 08:45:10 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6523AA0ADE; Tue, 19 May 2026 10:45:09 +0200 (CEST)
-Date: Tue, 19 May 2026 10:45:09 +0200
-From: Jan Kara <jack@suse.cz>
-To: Horst Birthelmer <horst@birthelmer.de>
-Cc: Matthew Wilcox <willy@infradead.org>, 
-	Horst Birthelmer <horst@birthelmer.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: [PATCH v2] dcache: add fs.dentry-limit sysctl with
- negative-first reaper
-Message-ID: <mptmd2qxgqwkhfrq5dgwomysdnwoy6fnztr3ibrvbbsb7hvrv3@peg7mojzfucy>
-References: <20260516-limit-dentries-cache-v2-1-c733a78e603b@ddn.com>
- <agj5JkPZ7eNbFueR@casper.infradead.org>
- <aglh7SrXWbYgD3nA@fedora.fritz.box>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eKm0WEKT"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso27588025e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 01:48:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779180503; x=1779785303; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8U8k5KUlWmxiDre3dDf6j/8PHyhhwOqohUrC9tjzC3Y=;
+        b=eKm0WEKT3mVDrwy7IMshOn0GT2kwmWUNussjaxGEyv482mBKvskG0hs7pJ5k+AfXcN
+         l7Rjpy9iZzrpocdayWNqfQdXtH/nwyhXHiZOuGC5I7B98fO16ELapo992aMvVW7NErxJ
+         Dom6oCaQBG4n0rJrkSsLMhnHP63zTKUiw5KuKnT6p7IvYNK+2mRBlfzqpifVUT/esNd3
+         vlhe3vAPa4t8awQvJiHD5JpieSz9o9c/NHG55x2xnbEgyrkqQ4UwvMthmyx0XIjO0dD8
+         Ds9+nZuBWp3o5j4Qfh95443MbvDyxxMyRCOg8xUEL3EtMFxko1g7WSrXeeWqy5p4Vy/L
+         m4TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779180503; x=1779785303;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8U8k5KUlWmxiDre3dDf6j/8PHyhhwOqohUrC9tjzC3Y=;
+        b=rdU2VTz/1VF6kMMQmtnWLeARRtyzjp4fvkF6IXlTJznUs1zGKEfV83/l1Z520sxjTp
+         5hZn+6lU6NXARm+eIoIyunBG7+7poxlQT7N/SX6mXmBe42PeLTKzifcqQUhaMaQHmAvQ
+         AFu+R+5QrqWq7GgRlOeX9SaXpqra1qTHmro1cYahBp++kbxZZk72x/etKvlTZMVBRBIg
+         +xpwFMwiXq0nmt6ICSII7x33ADKzqRndZkdAhXoA/kpawVkOFjtvu2go6OUN6ua3i5ud
+         eICQXqIknleuu0Fbkrzi4whEVaFkSDkvv2YY9La+E4OTyU2PmLYlGeeejZkdbJGjOx0u
+         icZA==
+X-Gm-Message-State: AOJu0YyLup/uW4AsAC1UzHI+W564sIzymtdDTSxuXLf9pUcvzU7220Ur
+	20+s9yZ4JHFrJWZU4gbADlDLvKRCX5WSqLNRVRWE4uVjNeIk+wdLRJaP
+X-Gm-Gg: Acq92OEpyHeHWY0mLUp7JQgsN8v4x+lrtd47AOhIypINvtFbjW5xEDlWUz2EeUzpRAT
+	jS87TeA62oBiRSCqfp0xM2ir+RZIqIeDmD2IyAFAJxEdqvQ+iW3XbcNS1A5FFKFKAtlsn8bFzWz
+	iHGcwtDYmSYP0GM6y49xtzg1X54z3VHv4+NXC2DBgKumW4HU2b3v/nRLU2mIyy0ZBa6P4zxAp7A
+	4bQ4Fu/knavmx6vVbL6fYp8ijxwtZf5mT21CjSkQ8F/jtbDn466NsZmtva6oYNpgaJg5XcbyeCW
+	Ld2jfFFvmXjPXqr2AzkpOaHDhwldS4IlaOVpa8XjPZBWTcQDt1Q3/5sX9rJpELuwmHuDOCTl0bm
+	BZKsP6rcFiSNIul0TeEYsBE1D2lyk716Rz/c98sgdGE6+UfjM8H5Tw1HajqxX0Bh85IfqCBmVJa
+	Hm6dn39zxeEoRBW7hp1/S0aC2U4FIkU9kf9Vk2tZNaMQ30nTR4jB7na95kxnWWJp0j
+X-Received: by 2002:a05:600c:3e1b:b0:48a:8905:a500 with SMTP id 5b1f17b1804b1-48fe60da647mr311906705e9.12.1779180502860;
+        Tue, 19 May 2026 01:48:22 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c8344asm530004325e9.1.2026.05.19.01.48.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 01:48:22 -0700 (PDT)
+Date: Tue, 19 May 2026 09:48:20 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+ workflows@vger.kernel.org, linux-arch@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-iio@vger.kernel.org, netdev@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-csky@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Daniel
+ Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang
+ Mu <dzm91@hust.edu.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, Dinh
+ Nguyen <dinguyen@kernel.org>, Kees Cook <kees@kernel.org>, Oleg Nesterov
+ <oleg@redhat.com>, Will Deacon <will@kernel.org>, "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Nick
+ Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, Vinod
+ Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, Dave Penkler
+ <dpenkler@gmail.com>, Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron
+ <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Lorenzo Pieralisi
+ <lpieralisi@kernel.org>, Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?=
+ <kwilczynski@kernel.org>
+Subject: Re: [PATCH] nios2: remove the architecture
+Message-ID: <20260519094820.1f05ab8e@pumpkin>
+In-Reply-To: <20260518042833.272221-1-enelsonmoore@gmail.com>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aglh7SrXWbYgD3nA@fedora.fritz.box>
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.com:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 579385D68A
-X-Spam-Level: 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Horst!
+On Sun, 17 May 2026 21:28:33 -0700
+Ethan Nelson-Moore <enelsonmoore@gmail.com> wrote:
 
-On Sun 17-05-26 09:57:41, Horst Birthelmer wrote:
-> On Sun, May 17, 2026 at 12:09:26AM +0100, Matthew Wilcox wrote:
-> > On Sat, May 16, 2026 at 04:52:54PM +0200, Horst Birthelmer wrote:
-> > > There was a discussion at LSFMM about servers with too many cached
-> > > negative dentries.
-> > > That gave me the idea to keep the dentries in general limited
-> > > if the system administrator needs it to.
-> > 
-> > I feel you should link to the dozens of previous attempts at this kind
-> > of thing to show that you're aware that this has been tried before and
-> > you're doing something meaningfully different.
+> The Nios II architecture is a soft-core architecture developed by
+> Altera (since acquired by Intel) and intended to run on their FPGAs.
+> 
+> Licenses for the architecture have not been available for purchase
+> since 2024 [1],
 
-<snip>
+Except I think they got 'beaten up' by some telcos.
+The Nios II gets used inside fpga for small cpu doing things that it would
+be far to difficult to do in VHDL.
+(I believe some mobile base stations fgpa embed a lot of them.)
+These will have a small amount of code (maybe 4k - 64k) and a similarly
+small amount of data memory along with access to fpga peripheral registers
+and (optionally) host memory vie PCIe. No MMU, no cache (or rather the code/data
+is in the cache memory but it isn't backed by anything), no branch predictor
+(guaranteed cycle times), etc.
+Intel suggested that RISCV could be used instead, but it isn't the same beast.
+They didn't document the instruction timings nor how to add custom instructions.
 
-> As a conclusion, I think I have an uncommon perspective on the cache entries
-> since I don't usually work on vfs but argue from the perspective of a fuse server
-> Where the kernel makes us waste resources. This hurts way more in the FUSE context
-> than in a 'normal' file system.
-> I have taken the look at the dentry cache just because people told me that this
-> has to be solved in the vfs (and I agree). I actually have a somewhat hacky patch
-> to do this from fuse and only for the fuse sb.
+The company I used to work for used 4 NIOS II inside an fpga.
+The instruction timing for one is pretty critical, it has some code that
+has to complete in 122 clocks (worst case).
+Our solution was to spend a few man-weeks writing a compatible cpu!
+I think it came out with fewer pipeline stalls (in particular it 'lost'
+the one for a (predicted) taken branch).
+The maximum clock frequency might be lower; but it is ok at 62.5MHz and the
+higher 125MHz in just impossible for all sorts of reasons.
 
-So I'm a bit confused here. The changelog speaks only about negative
-dentries (and that's what the change also concentrates on). OTOH you've
-mentioned multiple times that you are not really interested in limiting
-negative dentries but rather positive ones because you have a problem with
-cached inodes. So can you perhaps formulate what is exactly the problem
-you're trying to solve?
+OTOH I really wouldn't run Linux on it!
 
-Also you mention that cached (positive) dentries and inodes are a wasted
-memory when they aren't used. That is certainly a valid view, OTOH you can
-never predict future so you don't really know what will get used in the
-future and thus will be useful. That's why we currently side with the idea
-that memory that isn't used for something is wasted and unless there's
-something to use the memory for, we cache dentries & inodes & page cache in
-it.
+-- David
 
-If I remember correctly the discussion we had at LSF, the problem why inode
-caching is a problem for you, although there's enough free memory and no
-memory pressure, is that these cached inodes pin memory on the other end of
-the FUSE communication channel and there we are getting short on memory. Is
-this what you're trying to solve?
+> and support for it has been removed from GCC 15 [2],
+> Buildroot [3], and QEMU [4].
+> 
+> Given all of these factors, it is time to remove Nios II support from
+> the kernel. The maintainer stated in 2024 that they were planning to do
+> so soon [5], but this did not come to pass.
+> 
+> Remove Nios II support from the kernel and move the former maintainer
+> to CREDITS. Thank you, Dinh Nguyen, for maintaining Nios II support!
+> 
+> References:
+> [1] https://docs.altera.com/v/u/docs/781327/is-discontinuing-ip-ordering-codes-listed-in-pdn2312-for-nios-ii-ip
+> [2] https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=e876acab6cdd84bb2b32c98fc69fb0ba29c81153
+> [3] https://github.com/buildroot/buildroot/commit/6775ccc5a199d574ad70b5f79ec58cce97a07c6f
+> [4] https://github.com/qemu/qemu/commit/6c3014858c4c0024dd0560f08a6eda0f92f658d6
+> [5] https://sourceware.org/pipermail/newlib/2024/021083.html
+> 
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
