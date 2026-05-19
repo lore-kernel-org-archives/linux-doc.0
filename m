@@ -1,84 +1,85 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D292E718B
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 16:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E80C2DCBF8
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 16:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779206484; cv=none; b=BHoPTcrrOcyjo/c8qQ0rCKO5ukXnoJ1WU1kMhv8BfLFGzTPG1Z16hzJovFA7AtsH/9qGD4nhKNnhFuVO/tyYx5FMyARbZFsRyp9fhxodexzGhufw40Fr1bFrvf6GmyfBwhWVaWEMtR6JDQcm7DDG9BcyRfF0646K7zkpouFNyh8=
+	t=1779206508; cv=none; b=YbKMUFR5SG9009K4QqQnhU2f5/JH/gCuvbgIjmJqGL9Myq0lgjKw0aBBdSio9BBE8EyIcWzkocFI1tR+t57+Qr+9R+H8bpSiqKR0KxAT+l6F3m6OGfU3H8bJuIwFSbExP2B3UnlYwkOW5c/5LY/tokTmcHYroGVYcmN9WRuH3So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779206484; c=relaxed/simple;
-	bh=6qUbI3kCpq9IrzG3DkvyvMZ2Bn6Qq+bPF5M36smFsFg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qcDplA+AfTVD/fC4daqHR5w0jvn1zy5Hhub1V9AiJ8g8iXaimM2DENM6ICvqXF8Y/UbwdQP+dKi6Qkhv/IBppS5XwWxWMFQbrIsSYQOJzwcDUm0VctF1GSJqN0ANbjcrrdLB9wOyHz00lFHfHmLqIgpxJP4VeRhLETK4h3nyemk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MiY6bFpQ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=N1odwPE0; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1779206508; c=relaxed/simple;
+	bh=m6bdn04H37lQht89QtTbnUX523/2qZixGamCNPKOT80=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=PSuM8UTiox9OOcuEGZtZY6VF7TIbCDpho52xoAwECgPdMca9iCchM1fuQjP5cMAwf2yndOo9T4ufb+zSebjEogQmFYTQEbWGAPt/IisKRQy1djmEtxWiebLGelyYj+8FLYKhv11XDxudsilTCkunL6V0p7zw/jYyUXJvV2P9dyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OxTnzH/P; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=YYZuMyhT; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MiY6bFpQ";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="N1odwPE0"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OxTnzH/P";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="YYZuMyhT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779206482;
+	s=mimecast20190719; t=1779206506;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=T6OjxI0zZxwDX8SXPRnZD+crOhWj/eJOyVt4Fi52IP8=;
-	b=MiY6bFpQK1qPcMoo+yneKt4ynjd/6YL0LIy781H56dNrRS/RZSf0uQtpaeckfrr/dJWuAT
-	iC03/sfcRIyQX99fk1D4Y/hoqyXAGK81XCIOWcP1bT8btZLuXxV37wpacHtJJJ9J932mR3
-	ij2MfH8Vf8QUDbTedTNRMau0CSAnZfw=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cipZ17JT05Ge5l1VfUm/NtrMByICdVG7S5/ux07qG+4=;
+	b=OxTnzH/PRjzrqpADJ+QbUp40J3k8PoxBSucl4RZ1bRsg6zeoNXSnqTgmO1f5TH+t4IeAXz
+	JXWs1m8krQQ6bLVP/qzOR52Gpn28v9mofT64jg5ygz5xFDSln7Pc4zO0a30mowkBSWrGUc
+	jJGJmRSBN0CUEZ7i2d60hTVWInuvT+I=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-591-3HF63aWpOGqcpI8I_4Kfuw-1; Tue, 19 May 2026 12:01:17 -0400
-X-MC-Unique: 3HF63aWpOGqcpI8I_4Kfuw-1
-X-Mimecast-MFC-AGG-ID: 3HF63aWpOGqcpI8I_4Kfuw_1779206477
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-90fd6eeed3cso925651485a.3
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 09:01:17 -0700 (PDT)
+ us-mta-20-pUp3KWpbPeqRVJBb10H43g-1; Tue, 19 May 2026 12:01:45 -0400
+X-MC-Unique: pUp3KWpbPeqRVJBb10H43g-1
+X-Mimecast-MFC-AGG-ID: pUp3KWpbPeqRVJBb10H43g_1779206505
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-90fbc9782c9so753952285a.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 09:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779206477; x=1779811277; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=T6OjxI0zZxwDX8SXPRnZD+crOhWj/eJOyVt4Fi52IP8=;
-        b=N1odwPE0/siiAwiVn2M6iHvLCude0BJRLK2LIsB+9rEIEJ3zXCfHr5FNSHn5UPIwqD
-         YxjeeEkwbbTdscSOypKWq+cym/hSvdm5jgesamu6ba7XDOJTcd/YCHSkXvlUpQLSFaVK
-         a3JxL4vgocd7VuPSPa8u7CsD+zcxpfs9THAyLTb+qsF2L8tmtPzORyCrfM8b0z5WUvEN
-         EEKaP8YdghLJXHZuRgIp1Gu3iIj3nesI6YueloDzmf9UvNY+tUjd8Qe6eRODi34IzH0z
-         4LXV2gc1nuLytyOObTMDZtWowVAQH7AEcZvF+FUsfglrVaxbavRr0hUG7juYAsYMlfmB
-         Y+zg==
+        d=redhat.com; s=google; t=1779206505; x=1779811305; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cipZ17JT05Ge5l1VfUm/NtrMByICdVG7S5/ux07qG+4=;
+        b=YYZuMyhTnrPP6HvVETcwGABjbms+3HdGmX1PFtSF8vhQBq80ySytVZz6Wz8q4Ok06A
+         9nnjQ54h7U6JjRGK8KJn/bzKA3riG8afcbFYnsQHovXxUflTssd4mcCRHO9aOVtEErEL
+         muTdX4U2ew9neAB7dctdWjAUVYAklJjQzuurU6akSMmCe2ye2Rk3p4SLJbmAo6KKTcD7
+         bgG/cUyOdtJKMJbalTj30QaQNxTMfrMfyGH3ddnXru3A52q02KND4uG09oVw2glK7LU+
+         2ZItyAVigNMkib2ODCtfn5i1a2IzxINNu05j3G6AZ004GJpyfGQPpnDqXxHJl9Or+BlT
+         3fuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779206477; x=1779811277;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T6OjxI0zZxwDX8SXPRnZD+crOhWj/eJOyVt4Fi52IP8=;
-        b=G108sis8DfiJQMj/5Oqt0RaCnbgbPYW4qiDw2e84jxM6TiQLa41k1287JEXER6WGPo
-         zHwCWYzz9iOatzeEitC6KfToI4qbCd2+df5MABV6mCJ8JS5fuOeEKXX+2sFBDeKpkikt
-         dPLnoumqiPSqn17AtJvGczKjIBtPRf6/C2FClEFZI/RjVNlEz7GfHMPaB0/WldvNEYZP
-         ONmujF5HE2G7iXzWfmVhBRr75T21nxlwCSvZanuF5ZPEBCqVEZlUYcICU79lnXvbqPUt
-         wfNOhjBzZHG2VItIR+6AIbbxcLmzTXLj2VmvkzRG6ainCxAvWuIHzWjIUxTEOFZq12FP
-         glhw==
-X-Forwarded-Encrypted: i=1; AFNElJ+/gXOJAkduDyGiPxSnOliQASblN4Hcil7vmdiuJ1CCc5FCGYszOZJONvyxUYQgTBp9F56SNB58h4A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMs0QX7cYFIcFdyre1ML4xmbXAaDCdXNPDUeVZuN4aqECPsfAh
-	VgAkTu9E01vwSsDhzL90kr0yGmyes5fSBg6EMkMQKXMg8BaUiW9jWziBob8DnNhqMV81PT6TxMG
-	eCYZ8KmmJ1mtVKAOOQyS9XYWSsGXVgSvv/iaGKMuMYJgxX1N6XSLYSJ9GV3rVsA==
-X-Gm-Gg: Acq92OEo4F8gecD2DDehMxF+GKJqBrzggNXGHt+LuYxWmCKwd5XGW40yxgdaGLxZVIS
-	VBGXWn6eY+xxRm3Yjklz+hc84soyaxywJMiaIGwfArtE1ej1QHPsmG+vOC2Rt7gzQPCqFVSZAHd
-	sPBiRIdYiFCpGzI/nfAKTPqk5ddkClCPMPg7+tHfYNsBIVBh96+ZNW4c6G8Xfi/dvZx/cHTnhs5
-	/aVOr4XBK0SmEALndbUxFYSmvsSLGkpFO+MoQn+XSRxCd5KEXvBfqs9w+0LSrdmz1bzXYl73YqL
-	3endnz78yf7sLdlEm0HwuQdQKYEmSNV2l2SddB823oaEn8TdhD6sEWznE2Vn2vrX7wnrc+pvPO+
-	W9R0wAAoUiur0pJPFDdQnhStIxx1q7blIrN/dzISaJHxWGhxmyC7fTMxEnvlxHEmiBg==
-X-Received: by 2002:a05:620a:460f:b0:911:4cb1:8a60 with SMTP id af79cd13be357-911cd178131mr3073461985a.13.1779206455569;
-        Tue, 19 May 2026 09:00:55 -0700 (PDT)
-X-Received: by 2002:a05:620a:460f:b0:911:4cb1:8a60 with SMTP id af79cd13be357-911cd178131mr3072809785a.13.1779206430240;
-        Tue, 19 May 2026 09:00:30 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779206505; x=1779811305;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=cipZ17JT05Ge5l1VfUm/NtrMByICdVG7S5/ux07qG+4=;
+        b=BzITt8PCeAWACMMAKJ6rmkw5W4CRjS2dw8+jslzb1IoqeAoiN422ZPVA55aDCKA5Ul
+         9ZIcOwIc/CQcEpVTudDDjzHkS0zjokcLCBhSmRmBZq+uAYVLL7vIZt+4fszxoHSzmkZV
+         uwQxJBrMtrf/hm0yogzXSq9mpImyuOfDTpBLL7ocd61R+3A6cEEAt74RfrYN95+R9aZK
+         t1s36MGv0ncJfldMkX8JUl7tL5g6codUbjq+dxr8qKBl3ZB4fKvvRrQvLBViGfSq7bbq
+         NY26gKQENytyulYngHXZWGf2kq/CBkRuEKBntmy5IfvxiRU+a5cF7Nyc11fi57Y9eVZ+
+         S14A==
+X-Forwarded-Encrypted: i=1; AFNElJ9vvSW0jEZ6IVNlXcbeWqpfKSdYfQakGee6c62tG7+yVzlW4oY2qcTm5wkZrEgqSw1tHGo6piiDsI4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEugGLzUceVe2AmQt4kh0nGUD0PkBg+yvDF3OhtapyrwwvqfHS
+	2CkO0uz9bpYOlmHIg7ySay9BO4OGodzt0lC+VvjpIKlUtWP0S+ZbzXDepKDWe1hJt9QY+fnyL+m
+	YIG4E1XcsqAmahDxAyrdG3nJx7uCkux7y8WAUwRq1I88LPHREF0x+SI07xMpT2w==
+X-Gm-Gg: Acq92OHLw0A2k/K5fCh5DGlCpjfLcRkNWoBTtrMSS5xqu+QmEJ3rhzWYhU/7X50X9f7
+	OGiAYilB+8XGopU6SX3yODtkLpt1VsyhejEesMlhSJ0rxaDn4mOunw5HRoNDuhXL2rRP4Zm1fnR
+	wrO8jaLAvTFozR9hXjuFpHq8JCiclwDZ4aYR4TkkQqSXEvnlpJM6/nzqLYiwZs/DyyNLVCIXjfm
+	OVtuOXJPaktV/JOeh4SnMoNNZOBvJc2pJEGmJB6NU5YIGOMEsV60xLgUWbBeluDQUNn2uqnMXO4
+	jIIsI+sjjXg86aJfYsgy3dOB4afyUzZv7GqwSK4G3CNdCHIB+E3i2XwTeTiLHS5CVpwoyS853mG
+	dsgs5rDU+xqZZ30bNVYE1BhnD2zRYQDQqM5fcF9qqmiK8/jpH3d50UM2zJ85c6HBfKQ==
+X-Received: by 2002:a05:620a:7116:b0:90a:708c:e6d9 with SMTP id af79cd13be357-911d10425e9mr3114786085a.56.1779206463353;
+        Tue, 19 May 2026 09:01:03 -0700 (PDT)
+X-Received: by 2002:a05:620a:7116:b0:90a:708c:e6d9 with SMTP id af79cd13be357-911d10425e9mr3114014285a.56.1779206432003;
+        Tue, 19 May 2026 09:00:32 -0700 (PDT)
 Received: from localhost (pool-100-17-21-205.bstnma.fios.verizon.net. [100.17.21.205])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-910bc9363fcsm1883933785a.27.2026.05.19.09.00.29
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-910bd62e233sm1876151185a.45.2026.05.19.09.00.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 09:00:29 -0700 (PDT)
+        Tue, 19 May 2026 09:00:31 -0700 (PDT)
 From: Eric Chanudet <echanude@redhat.com>
-Subject: [PATCH v2 0/2] cgroup/dmem: allow double-charging dmem allocations
- to memcg
-Date: Tue, 19 May 2026 11:59:00 -0400
-Message-Id: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
+Date: Tue, 19 May 2026 11:59:01 -0400
+Subject: [PATCH v2 1/2] mm/memcontrol: add dmem charge/uncharge functions
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,11 +88,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNTQrCMBCFr1Jm7cgktRZdeQ9xkSaTH7CNJG1BS
- u/uoAdw8Xg8+PjeBpVL4grXZoPCa6opTzL0oQEbzRQYk5MNmvSZWt2jDSUvL3QjjyixAV1ehie
- j4EVw8orIXLwfvAaxxFTnXN7fg1VJ3X+uE7V/XatCQtv2yqmuc6zNrbCLZj7aPMJj3/cPgkfhe
- r8AAAA=
-X-Change-ID: 20260327-cgroup-dmem-memcg-double-charge-0f100a9ffbf2
+Message-Id: <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
+References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
+In-Reply-To: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
 To: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
  Roman Gushchin <roman.gushchin@linux.dev>, 
  Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
@@ -109,51 +108,147 @@ Cc: cgroups@vger.kernel.org, linux-mm@kvack.org,
  Eric Chanudet <echanude@redhat.com>
 X-Mailer: b4 0.14.2
 
-Following suggestion[1], offer a cgroupfs entry to allow an
-administrator to request that a dmem controlled region also charges to
-the memory controller.
+Add mem_cgroup_dmem_charge() and mem_cgroup_dmem_uncharge() to allow
+dmem pool allocations to optionally be double-charged against the memory
+controller. Take the struct cgroup from the dmem pool's css as there is
+no convenient object exported to represent these allocations. These will
+resolve the effective memory css from that cgroup and perform the
+charge.
 
-Add mem_cgroup_dmem_charge/uncharge helpers to resolve the effective
-cgroup from a dmem pool's cgroup, perform the charge and update a
-MEMCG_DMEM stat counter.
-
-Add a "dmem.memcg" control file at the root level to configure memcg
-charging per region. The setting is disabled by default and locked on
-first charge attempt.
-
-[1] https://lore.kernel.org/all/a446b598-5041-450b-aaa9-3c39a09ff6a0@amd.com/
+Introduce a MEMCG_DMEM stat counter to memory.stat to make the cgroup's
+dmem charge visible.
 
 Signed-off-by: Eric Chanudet <echanude@redhat.com>
 ---
-Changes in v2:
-- Use mem_cgroup_dmem_{,un}charge to account for memcg pages instead of
-  exposing raw nr_pages functions. Use it to centralize where to find
-  the effective cgroup from the pool's cgroup (Johannes)
-- Set depends_on for cgrp_memory if CONFIG_MEMCG by having a memory
-  controller in children cgroup (Michal)
-- Move dmem.memcg to the root level as it applies by region for all
-  cgroups
-- Add a dmem memory.stats entry for reporting memcg charges for dmem
-  allocations.
-- Wrap the memcg enable/disable/lock configuration under a single state
-  to avoid toctou races and simplify transitions.
-- Link to v1: https://lore.kernel.org/r/20260403-cgroup-dmem-memcg-double-charge-v1-0-c371d155de2a@redhat.com
+ include/linux/memcontrol.h | 16 ++++++++++++
+ mm/memcontrol.c            | 65 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 81 insertions(+)
 
----
-Eric Chanudet (2):
-      mm/memcontrol: add dmem charge/uncharge functions
-      cgroup/dmem: add dmem.memcg control file for double-charging to memcg
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index dc3fa687759b45748b2acee6d7f43da325eb50c1..8e1d49b87fb64e6114f3eb920293e14920290fe7 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -39,6 +39,7 @@ enum memcg_stat_item {
+ 	MEMCG_ZSWAP_B,
+ 	MEMCG_ZSWAPPED,
+ 	MEMCG_ZSWAP_INCOMP,
++	MEMCG_DMEM,
+ 	MEMCG_NR_STAT,
+ };
+ 
+@@ -1872,6 +1873,21 @@ static inline bool mem_cgroup_zswap_writeback_enabled(struct mem_cgroup *memcg)
+ }
+ #endif
+ 
++#if defined(CONFIG_MEMCG) && defined(CONFIG_CGROUP_DMEM)
++bool mem_cgroup_dmem_charge(struct cgroup *cgrp, unsigned int nr_pages,
++			    gfp_t gfp_mask);
++void mem_cgroup_dmem_uncharge(struct cgroup *cgrp, unsigned int nr_pages);
++#else
++static inline bool mem_cgroup_dmem_charge(struct cgroup *cgrp,
++					  unsigned int nr_pages, gfp_t gfp_mask)
++{
++	return true;
++}
++static inline void mem_cgroup_dmem_uncharge(struct cgroup *cgrp,
++					    unsigned int nr_pages)
++{
++}
++#endif
+ 
+ /* Cgroup v1-related declarations */
+ 
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index c03d4787d466803db49cdaa90e6d6ba426b7afe2..91a7ac16b6eac2d6c3700b6885a068bf8b640706 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -433,6 +433,7 @@ static const unsigned int memcg_stat_items[] = {
+ 	MEMCG_ZSWAP_B,
+ 	MEMCG_ZSWAPPED,
+ 	MEMCG_ZSWAP_INCOMP,
++	MEMCG_DMEM,
+ };
+ 
+ #define NR_MEMCG_NODE_STAT_ITEMS ARRAY_SIZE(memcg_node_stat_items)
+@@ -1606,6 +1607,9 @@ static const struct memory_stat memory_stats[] = {
+ #ifdef CONFIG_NUMA_BALANCING
+ 	{ "pgpromote_success",		PGPROMOTE_SUCCESS	},
+ #endif
++#ifdef CONFIG_CGROUP_DMEM
++	{ "dmem",			MEMCG_DMEM		},
++#endif
+ };
+ 
+ /* The actual unit of the state item, not the same as the output unit */
+@@ -5909,6 +5913,67 @@ static struct cftype zswap_files[] = {
+ };
+ #endif /* CONFIG_ZSWAP */
+ 
++#ifdef CONFIG_CGROUP_DMEM
++/**
++ * mem_cgroup_dmem_charge - charge memcg for a dmem pool allocation
++ * @cgrp: cgroup of the dmem pool
++ * @nr_pages: number of pages to charge
++ * @gfp_mask: reclaim mode
++ *
++ * Charges @nr_pages to @memcg. Returns %true if the charge fit within
++ * @memcg's configured limit, %false if it doesn't.
++ */
++bool mem_cgroup_dmem_charge(struct cgroup *cgrp, unsigned int nr_pages,
++			    gfp_t gfp_mask)
++{
++	struct cgroup_subsys_state *mem_css;
++	struct mem_cgroup *memcg;
++
++	/* CGROUP_DMEM and MEMCG guarantees this cannot be NULL. */
++	mem_css = cgroup_get_e_css(cgrp, &memory_cgrp_subsys);
++
++	/* Use the memcg, if any, of the dmem cgroup. */
++	memcg = mem_cgroup_from_css(mem_css);
++	if (!memcg || mem_cgroup_is_root(memcg)) {
++		css_put(mem_css);
++		return false;
++	}
++
++	if (try_charge_memcg(memcg, gfp_mask, nr_pages)) {
++		css_put(mem_css);
++		return false;
++	}
++
++	mod_memcg_state(memcg, MEMCG_DMEM, nr_pages);
++	css_put(mem_css);
++	return true;
++}
++
++/**
++ * mem_cgroup_dmem_uncharge - uncharge memcg from a dmem pool allocation
++ * @cgrp: cgroup of the dmem pool
++ * @nr_pages: number of pages to uncharge
++ */
++void mem_cgroup_dmem_uncharge(struct cgroup *cgrp, unsigned int nr_pages)
++{
++	struct cgroup_subsys_state *mem_css;
++	struct mem_cgroup *memcg;
++
++	/* CGROUP_DMEM and MEMCG guarantees this cannot be NULL. */
++	mem_css = cgroup_get_e_css(cgrp, &memory_cgrp_subsys);
++
++	memcg = mem_cgroup_from_css(mem_css);
++	if (!memcg || mem_cgroup_is_root(memcg)) {
++		css_put(mem_css);
++		return;
++	}
++
++	mod_memcg_state(memcg, MEMCG_DMEM, -nr_pages);
++	refill_stock(memcg, nr_pages);
++	css_put(mem_css);
++}
++#endif /* CONFIG_CGROUP_DMEM */
++
+ static int __init mem_cgroup_swap_init(void)
+ {
+ 	if (mem_cgroup_disabled())
 
- Documentation/admin-guide/cgroup-v2.rst |  23 +++++
- include/linux/memcontrol.h              |  16 ++++
- kernel/cgroup/dmem.c                    | 158 +++++++++++++++++++++++++++++++-
- mm/memcontrol.c                         |  65 +++++++++++++
- 4 files changed, 259 insertions(+), 3 deletions(-)
----
-base-commit: d989f135f71699294bb2ffd4726b526456e2db68
-change-id: 20260327-cgroup-dmem-memcg-double-charge-0f100a9ffbf2
-
-Best regards,
 -- 
-Eric Chanudet <echanude@redhat.com>
+2.52.0
 
