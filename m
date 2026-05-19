@@ -1,154 +1,218 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8366E3EEAEF
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 08:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB9338F929;
+	Tue, 19 May 2026 08:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779180506; cv=none; b=VM6n2S9ig7jRvphs4pO2L3vD0Kou2YNmrlcj//lh585nWTvaNn2dqMLVtLR7fSXQ5cW6RiYxMveWnXo1NeJZeYyVtkOjfQKlHhwXUhkLwV3NYlV/CRFuEHbcdfLeSNHUGgZ8RLabfKb5PkRmM2ZF1mjKvq/+78iHnfqtNN8TKzg=
+	t=1779180586; cv=none; b=Bcs0qWDGv0mtDWisvT40TRCKtPSjZ6Ys/t8+OtAWF3lyg4D4bERwwZpEpQHVejX3j7VJre/tt7movDOGJ0gTP/od4WIJ2xsKvlOo506XGxTvUa+onA8birgQDrHX3f9LoYhS8Agjj43YpkdxC4Xlrgw5yG27HIrIIA8HiVLGiZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779180506; c=relaxed/simple;
-	bh=Hyx9uiXztVttxLdo9VjcbHUiP6qvqHfhOZr9vbJAYdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lMXGTadC4SR3CHIttANFrRQmQbg+xiHG7Ja5Xf99HQQwOL2pD57npxrps8wikpb0nUKv1JCYCtPtzfjGVrfFSN1SNmdqz8+x2AR/D5n4bhKxflDSDe2zKi9gNtQHjwyuOWPIiafJ2Iynr0u0ViG9KjvRS5Ot/CaL580SxkuHyqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eKm0WEKT; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779180586; c=relaxed/simple;
+	bh=2ItcKLOHuYuo+5+zg3nAK5dtbbWOEusz4M2dKNduT5Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eO47J9qW2YlFwqcYLcJZ5HCdLNhX2EaUJ0pVj/uDenJVN9iE+r6Wz6FbIzSadCrYtbZenFr9GB7l9iOBPqzqsCnTfC8FTv0Vt7Iuk3DSbKfk+55YNdq5Kgkbha7cYcaxFw56oJQKi4eZvf42Tj4yqJaDJr9sAKy6mp+1i+76+bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=UHWhEtQu; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eKm0WEKT"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso27588025e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 01:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779180503; x=1779785303; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8U8k5KUlWmxiDre3dDf6j/8PHyhhwOqohUrC9tjzC3Y=;
-        b=eKm0WEKT3mVDrwy7IMshOn0GT2kwmWUNussjaxGEyv482mBKvskG0hs7pJ5k+AfXcN
-         l7Rjpy9iZzrpocdayWNqfQdXtH/nwyhXHiZOuGC5I7B98fO16ELapo992aMvVW7NErxJ
-         Dom6oCaQBG4n0rJrkSsLMhnHP63zTKUiw5KuKnT6p7IvYNK+2mRBlfzqpifVUT/esNd3
-         vlhe3vAPa4t8awQvJiHD5JpieSz9o9c/NHG55x2xnbEgyrkqQ4UwvMthmyx0XIjO0dD8
-         Ds9+nZuBWp3o5j4Qfh95443MbvDyxxMyRCOg8xUEL3EtMFxko1g7WSrXeeWqy5p4Vy/L
-         m4TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779180503; x=1779785303;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8U8k5KUlWmxiDre3dDf6j/8PHyhhwOqohUrC9tjzC3Y=;
-        b=rdU2VTz/1VF6kMMQmtnWLeARRtyzjp4fvkF6IXlTJznUs1zGKEfV83/l1Z520sxjTp
-         5hZn+6lU6NXARm+eIoIyunBG7+7poxlQT7N/SX6mXmBe42PeLTKzifcqQUhaMaQHmAvQ
-         AFu+R+5QrqWq7GgRlOeX9SaXpqra1qTHmro1cYahBp++kbxZZk72x/etKvlTZMVBRBIg
-         +xpwFMwiXq0nmt6ICSII7x33ADKzqRndZkdAhXoA/kpawVkOFjtvu2go6OUN6ua3i5ud
-         eICQXqIknleuu0Fbkrzi4whEVaFkSDkvv2YY9La+E4OTyU2PmLYlGeeejZkdbJGjOx0u
-         icZA==
-X-Gm-Message-State: AOJu0YyLup/uW4AsAC1UzHI+W564sIzymtdDTSxuXLf9pUcvzU7220Ur
-	20+s9yZ4JHFrJWZU4gbADlDLvKRCX5WSqLNRVRWE4uVjNeIk+wdLRJaP
-X-Gm-Gg: Acq92OEpyHeHWY0mLUp7JQgsN8v4x+lrtd47AOhIypINvtFbjW5xEDlWUz2EeUzpRAT
-	jS87TeA62oBiRSCqfp0xM2ir+RZIqIeDmD2IyAFAJxEdqvQ+iW3XbcNS1A5FFKFKAtlsn8bFzWz
-	iHGcwtDYmSYP0GM6y49xtzg1X54z3VHv4+NXC2DBgKumW4HU2b3v/nRLU2mIyy0ZBa6P4zxAp7A
-	4bQ4Fu/knavmx6vVbL6fYp8ijxwtZf5mT21CjSkQ8F/jtbDn466NsZmtva6oYNpgaJg5XcbyeCW
-	Ld2jfFFvmXjPXqr2AzkpOaHDhwldS4IlaOVpa8XjPZBWTcQDt1Q3/5sX9rJpELuwmHuDOCTl0bm
-	BZKsP6rcFiSNIul0TeEYsBE1D2lyk716Rz/c98sgdGE6+UfjM8H5Tw1HajqxX0Bh85IfqCBmVJa
-	Hm6dn39zxeEoRBW7hp1/S0aC2U4FIkU9kf9Vk2tZNaMQ30nTR4jB7na95kxnWWJp0j
-X-Received: by 2002:a05:600c:3e1b:b0:48a:8905:a500 with SMTP id 5b1f17b1804b1-48fe60da647mr311906705e9.12.1779180502860;
-        Tue, 19 May 2026 01:48:22 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c8344asm530004325e9.1.2026.05.19.01.48.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 01:48:22 -0700 (PDT)
-Date: Tue, 19 May 2026 09:48:20 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
- workflows@vger.kernel.org, linux-arch@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-iio@vger.kernel.org, netdev@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-csky@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Daniel
- Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang
- Mu <dzm91@hust.edu.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, Dinh
- Nguyen <dinguyen@kernel.org>, Kees Cook <kees@kernel.org>, Oleg Nesterov
- <oleg@redhat.com>, Will Deacon <will@kernel.org>, "Aneesh Kumar K.V"
- <aneesh.kumar@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Nick
- Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, Vinod
- Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, Dave Penkler
- <dpenkler@gmail.com>, Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron
- <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Lorenzo Pieralisi
- <lpieralisi@kernel.org>, Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?=
- <kwilczynski@kernel.org>
-Subject: Re: [PATCH] nios2: remove the architecture
-Message-ID: <20260519094820.1f05ab8e@pumpkin>
-In-Reply-To: <20260518042833.272221-1-enelsonmoore@gmail.com>
-References: <20260518042833.272221-1-enelsonmoore@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="UHWhEtQu"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 61AF234FC;
+	Tue, 19 May 2026 01:49:38 -0700 (PDT)
+Received: from [10.57.24.124] (unknown [10.57.24.124])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5E89C3F85F;
+	Tue, 19 May 2026 01:49:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1779180583; bh=2ItcKLOHuYuo+5+zg3nAK5dtbbWOEusz4M2dKNduT5Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=UHWhEtQu0+j3+QsOWr2nLpXICsL3AQVNq2V7x/fb/XyRGPAKRbuSINGm0ljae0+i8
+	 9z42OdtXMowoLE3td48keL3MFMfcrE2qLP+5ACkvZROnd4D2JJ9PLo2A8+sjpZLK8t
+	 k19/XatDyTfkXHKjdvr06k8CRJ9nVozmozjNf8GY=
+Message-ID: <8f0b1750-a853-4895-9672-73a75f6dbd84@arm.com>
+Date: Tue, 19 May 2026 10:49:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
+ allocation in panthor
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Chia-I Wu <olvaffe@gmail.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?Q?Marcin_=C5=9Alusarz?=
+ <marcin.slusarz@arm.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Steven Price <steven.price@arm.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Alice Ryhl <aliceryhl@google.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, Florent Tomasin
+ <florent.tomasin@arm.com>, nd@arm.com
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+ <20260505140516.1372388-5-ketil.johnsen@arm.com>
+ <20260505181523.49a3d85c@fedora> <afxVIuVVPisBQ9p_@e129842.arm.com>
+ <20260507135356.5428d50d@fedora> <agMvb_jeRsO7tSS-@e142607>
+ <20260512161111.0cb7000e@fedora> <agNJasayW8VCHTiU@e142607>
+ <CAPaKu7QC7FdjL6m_OSb+E5aYKs6bmT-9DAHc5PC=XctCmRph2Q@mail.gmail.com>
+ <20260518091650.5a7a4f4a@fedora>
+ <CAPaKu7R9ET767qc3eppBUfG2RAeyrg7E-gE0turgp-u_FU4+Vg@mail.gmail.com>
+ <20260519093955.448ff899@fedora>
+Content-Language: en-US
+From: Ketil Johnsen <ketil.johnsen@arm.com>
+In-Reply-To: <20260519093955.448ff899@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, 17 May 2026 21:28:33 -0700
-Ethan Nelson-Moore <enelsonmoore@gmail.com> wrote:
-
-> The Nios II architecture is a soft-core architecture developed by
-> Altera (since acquired by Intel) and intended to run on their FPGAs.
+On 19/05/2026 09:39, Boris Brezillon wrote:
+> On Mon, 18 May 2026 17:36:40 -0700
+> Chia-I Wu <olvaffe@gmail.com> wrote:
 > 
-> Licenses for the architecture have not been available for purchase
-> since 2024 [1],
-
-Except I think they got 'beaten up' by some telcos.
-The Nios II gets used inside fpga for small cpu doing things that it would
-be far to difficult to do in VHDL.
-(I believe some mobile base stations fgpa embed a lot of them.)
-These will have a small amount of code (maybe 4k - 64k) and a similarly
-small amount of data memory along with access to fpga peripheral registers
-and (optionally) host memory vie PCIe. No MMU, no cache (or rather the code/data
-is in the cache memory but it isn't backed by anything), no branch predictor
-(guaranteed cycle times), etc.
-Intel suggested that RISCV could be used instead, but it isn't the same beast.
-They didn't document the instruction timings nor how to add custom instructions.
-
-The company I used to work for used 4 NIOS II inside an fpga.
-The instruction timing for one is pretty critical, it has some code that
-has to complete in 122 clocks (worst case).
-Our solution was to spend a few man-weeks writing a compatible cpu!
-I think it came out with fewer pipeline stalls (in particular it 'lost'
-the one for a (predicted) taken branch).
-The maximum clock frequency might be lower; but it is ok at 62.5MHz and the
-higher 125MHz in just impossible for all sorts of reasons.
-
-OTOH I really wouldn't run Linux on it!
-
--- David
-
-> and support for it has been removed from GCC 15 [2],
-> Buildroot [3], and QEMU [4].
+>> On Mon, May 18, 2026 at 12:16 AM Boris Brezillon
+>> <boris.brezillon@collabora.com> wrote:
+>>>
+>>> On Wed, 13 May 2026 12:31:32 -0700
+>>> Chia-I Wu <olvaffe@gmail.com> wrote:
+>>>   
+>>>> On Tue, May 12, 2026 at 8:39 AM Liviu Dudau <liviu.dudau@arm.com> wrote:
+>>>>>
+>>>>> On Tue, May 12, 2026 at 04:11:11PM +0200, Boris Brezillon wrote:
+>>>>>> On Tue, 12 May 2026 14:47:27 +0100
+>>>>>> Liviu Dudau <liviu.dudau@arm.com> wrote:
+>>>>>>   
+>>>>>>> On Thu, May 07, 2026 at 01:53:56PM +0200, Boris Brezillon wrote:
+>>>>>>>> On Thu, 7 May 2026 11:02:26 +0200
+>>>>>>>> Marcin Ślusarz <marcin.slusarz@arm.com> wrote:
+>>>>>>>>   
+>>>>>>>>> On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon wrote:
+>>>>>>>>>>> @@ -277,9 +286,21 @@ int panthor_device_init(struct panthor_device *ptdev)
+>>>>>>>>>>>                      return ret;
+>>>>>>>>>>>      }
+>>>>>>>>>>>
+>>>>>>>>>>> +   /* If a protected heap name is specified but not found, defer the probe until created */
+>>>>>>>>>>> +   if (protected_heap_name && strlen(protected_heap_name)) {
+>>>>>>>>>>
+>>>>>>>>>> Do we really need this strlen() > 0? Won't dma_heap_find() fail is the
+>>>>>>>>>> name is "" already?
+>>>>>>>>>
+>>>>>>>>> If dma_heap_find() will fail, then the whole probe with fail too.
+>>>>>>>>> This check prevents that.
+>>>>>>>>
+>>>>>>>> Yeah, that's also a questionable design choice. I mean, we can
+>>>>>>>> currently probe and boot the FW even though we never setup the
+>>>>>>>> protected FW sections, so why should we defer the probe here? Can't we
+>>>>>>>> just retry the next time a group with the protected bit is created and
+>>>>>>>> fail if we can find a protected heap?
+>>>>>>>
+>>>>>>> The problem we have with the current firmware is that it does a number of setup steps at "boot"
+>>>>>>> time only. One of the steps is preparing its internal structures for when it enters protected
+>>>>>>> mode and it stores them in the buffer passed in at firmware loading. We cannot later run the
+>>>>>>> process when we have a group with protected mode set.
+>>>>>>
+>>>>>> No, but we can force a full/slow reset and have that thing
+>>>>>> re-initialized, can't we? I mean, that's basically what we do when a
+>>>>>> fast reset fails: we re-initialize all the sections and reset again, at
+>>>>>> which point the FW should start from a fresh state, and be able to
+>>>>>> properly initialize the protected-related stuff if protected sections
+>>>>>> are populated. Am I missing something?
+>>>>>
+>>>>> Right, we can do that. For some reason I keep associating the reset with the
+>>>>> error handling and not with "normal" operations.
+>>>> I kind of hope we end up with either
+>>>>
+>>>>   - panthor knows the exact heap to use and fails with EPROBE_DEFER if
+>>>> the heap is missing, or
+>>>>   - panthor gets a dma-buf from userspace and does the full reset
+>>>>     - userspace also needs to provide a dma-buf for each protected
+>>>> group for the suspend buffer
+>>>>
+>>>> than something in-between. The latter is more ad-hoc and basically
+>>>> kicks the issue to the userspace.
+>>>
+>>> Indeed, the second option is more ad-hoc, but when you think about it,
+>>> userspace has to have this knowledge, because it needs to know the
+>>> dma-heap to use for buffer allocation that cross a device boundary
+>>> anyway. Think about frames produced by a video decoder, and composited
+>>> by the GPU into a protected scanout buffer that's passed to the KMS
+>>> device. Why would the GPU driver be source of truth when it comes to
+>>> choosing the heap to use to allocate protected buffers for the video
+>>> decoder or those used for the display?
+>> I don't think the GPU driver is ever the source of truth. If the
+>> system integrator wants to specify the source of truth (SoT) from
+>> kernel space, they should use the device tree (or module params /
+>> config options). If they want to specify the SoT in userspace, then we
+>> don't really care how it is done other than providing an ioctl.
+>> Panthor is always on the receiving end.
 > 
-> Given all of these factors, it is time to remove Nios II support from
-> the kernel. The maintainer stated in 2024 that they were planning to do
-> so soon [5], but this did not come to pass.
+> Okay, we're on the same page then.
 > 
-> Remove Nios II support from the kernel and move the former maintainer
-> to CREDITS. Thank you, Dinh Nguyen, for maintaining Nios II support!
+>>
+>> If we don't want to delay this functionality, but it takes time to
+>> converge on SoT, maybe a solution that is not a long-term promise can
+>> work? Of the options on the table (dt, module params, kconfig options,
+>> ioctls), a kconfig option, potentially marked as experimental, seems
+>> like a good candidate.
 > 
-> References:
-> [1] https://docs.altera.com/v/u/docs/781327/is-discontinuing-ip-ordering-codes-listed-in-pdn2312-for-nios-ii-ip
-> [2] https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=e876acab6cdd84bb2b32c98fc69fb0ba29c81153
-> [3] https://github.com/buildroot/buildroot/commit/6775ccc5a199d574ad70b5f79ec58cce97a07c6f
-> [4] https://github.com/qemu/qemu/commit/6c3014858c4c0024dd0560f08a6eda0f92f658d6
-> [5] https://sourceware.org/pipermail/newlib/2024/021083.html
+> If Panthor is only a consumer, I actually think it'd be easier to just
+> let userspace pass the protected FW section as an imported buffer
+> through an ioctl for now. It means we don't need any of the
+> modifications to the dma_heap API in this series, and userspace is free
+> to choose its SoT (efuse, DT, ...) and pass the info back to mesa/GBM
+> somehow (envvar, driconf, ...). The only thing we need to ensure is if
+> lazy protected FW section allocation is going to work, but given the
+> current code purely and simply ignores those sections, and the FW is
+> still able to boot and act properly (at least on v10-v13), I'm pretty
+> confident this is okay, unless there's some trick the MCU can do to
+> detect that the protected section isn't mapped (which I doubt, because
+> the MCU doesn't know it lives behind an MMU).
 > 
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+> Of course, once we have a consensus on how to describe this in the DT,
+> we can switch Panthor over to "protected dma_heap selection through DT",
+> and reflect that through the ioctl that exposes whether protected
+> support is ready or not (would be a DEV_QUERY), such that userspace can
+> skip this "PROTM initialization" step.
+> 
+> We're talking about an extra ioctl to set those buffers, and a
+> DEV_QUERY to query the state (ready or not), the size of the global
+> protected buffer (protected FW section) and the size of the protected
+> suspend buffer. The protected suspend buffer would be allocated and
+> passed at group creation time (extra arg passed to the existing
+> GROUP_CREATE ioctl). So, overall, I don't consider it a huge liability
+> in term of maintenance cost.
 
+If we can avoid the dma-heap changes, then that would surely help!
+I can try to implement this in the next version unless someone finds a 
+reason why it is a bad idea.
+
+>>>> For the former, expressing the relation in DT seems to be the best,
+>>>> but only if possible :-). Otherwise, a kconfig option (instead of
+>>>> module param) should be easier to work with.
+>>>>
+>>>> Looking at the userspace implementation, can we also have an panthor
+>>>> ioctl to return the heap to userspace?
+>>>
+>>> Yes, it's something we can add, but again, I'm questioning the
+>>> usefulness of this: how can we ensure the heap used by panthor to
+>>> allocate its protected FW buffers is suitable for scanout buffers
+>>> (buffers that can be used by display drivers). There needs to be a glue
+>>> leaving in usersland and taking the decision, and I'm not too sure
+>>> trusting any of the component in the chain (vdec, gpu, display) is the
+>>> right thing to do.
+>> The heap returned by panthor is only for panfrost/panvk. It says
+>> nothing about compatibility with other components on the system.
+> 
+> Okay, if it's used only for internal buffers, I guess that's fine.
+
+--
+Ketil
