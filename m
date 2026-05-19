@@ -1,400 +1,296 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FB6399001;
-	Tue, 19 May 2026 06:15:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B41037CD42;
+	Tue, 19 May 2026 06:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779171356; cv=none; b=oHqwVpiFHKi6+v2SFuCWIM8Ln4vm5prnK31U9NbFu+eQl4QBknFwfl0Nw5P1v9VHvgP+oW5g7MwBw1eZdy+n+XXrnJGgZB2ctyLNJf9NBVp1WxlsHGKkgaFTwv8tY7kSXd39BkYM/W9ptdM+pfysln5Ij9lADW2oaVzZw0U6TgI=
+	t=1779171556; cv=none; b=KryuVhXrwqstyV+8pZFKyg3UVRo9wwlP2cKQIQxV+cg8+GxijJKnxsnofwGmVWVwlmvyoFH+LJkyAaJi7BAOs8nRjLacIj180G8vVcWEItfC+UpBNpgTEQUddRygiLTfnlyVHeI11rFq1mRVSMPdYxvmP2m2ethyjdk1X9cV4Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779171356; c=relaxed/simple;
-	bh=VogAFtpediecZpP5TM2uZbRcL0kuXBfdro2v4LUoJkk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mZBuFgTQERXA/lodaLOYEc+0EKBfH5ZrSOtmtcAQ0s4tRBvEGyMes8o4+G0ZbISl6bDzhxsuh19YA0ZhiIfniRdtZdwMusj8OxZzWF2XVAMjF7SeRFmWqcaefKrDmDSHTWevq3uwil4vb+vL7lF0vKvSuU0vjhRNDAIsGAATKTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JVYMBi4e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779171556; c=relaxed/simple;
+	bh=F9T026scRHGaX752RNU0g51fdoRwtQ0Pcs9BEJSWy2Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TE4OYr0zGVqP8d36PoN9z3L1Tnsy+IRRm0R5+MLcOnxzbCue99Bn9KmXZRU/Qbcpb5vIX3tIaRLEff+UiHNNsTiLvfh66nl2TsxPPCxtzTxL0fGp/R27L1hnubc/6fT/inHRXBAvHbvm5n92jZEU8lCR5Sal3x5wevRKxDtbwWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZdLklr+7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JVYMBi4e"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 47D4EC2BD01;
-	Tue, 19 May 2026 06:15:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZdLklr+7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CFCCC2BCB3;
+	Tue, 19 May 2026 06:19:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779171356;
-	bh=VogAFtpediecZpP5TM2uZbRcL0kuXBfdro2v4LUoJkk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=JVYMBi4e5knehOiV81O7cwQseHAQVHd+8s2BqVc/aix1i3/H+O+BSZoRmk3LdV8ie
-	 tcMaX8rldTCDyNXRLyaCQ4QPHlQ8ca3n6w/FTZeJdzl2LnHOkT41jHijZ0kpoDI36g
-	 9lLoZM9Lq2YU4+YzgwhWOFCA9lDb9I0EWtP5I40b/d8ijR/urpQxlQpMG7pJg2+/U3
-	 AUgQIrK5jGhMvvkVVwz2QgvvIQF76zCn0jyaU65hJ7QVWZgfqAwkSojIa5oIJDhzvi
-	 9vSRRbbd5HcgIPEkcUh7Ib9cE1f+2GqPbz9VfbFAkyji8pRucSVbXX5dcsbWKAeGJg
-	 NRjMky5HYjSXQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40B63CD4F54;
-	Tue, 19 May 2026 06:15:56 +0000 (UTC)
-From: Ekansh Gupta via B4 Relay <devnull+ekansh.gupta.oss.qualcomm.com@kernel.org>
-Date: Tue, 19 May 2026 11:46:05 +0530
-Subject: [PATCH 15/15] accel/qda: Add remote memory unmap from DSP address
- space
+	s=k20201202; t=1779171555;
+	bh=F9T026scRHGaX752RNU0g51fdoRwtQ0Pcs9BEJSWy2Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZdLklr+7zLiqo2iVrv5PcJCs0zUOe2xhV1o+dSilRnptjvT3RM54iUiga025A9O5d
+	 UXansClNWubwn4qY1NEr62/2zy5D5G2pKnNEiZ36w2miymfTLjlV8muw862pgdbzqv
+	 fi50mwa9KkwKMkyzsmu/XwSGp7DBWBl9FjXgHPcv915003jFN14Sdq69yM+XuQ7HoH
+	 zS+nO1AmiAKtlVbhW2wAQht9ykObjr5gWPn3szXCxdPl/+IeJoA+HWo8KLknjNxR9U
+	 vWBSfLcGNNJx8vZeX85hyMeakm1aJGQBHWPtrT/J8JmCA4Y2YvLqiajQjpj3VOLeTx
+	 qfsVnPfKnSHcQ==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com,
+	bharata@amd.com,
+	Akinobu Mita <akinobu.mita@gmail.com>
+Subject: Re: [RFC PATCH 0/7] mm/damon: hardware-sampled access reports + AMD IBS Op example
+Date: Mon, 18 May 2026 23:19:04 -0700
+Message-ID: <20260519061905.89681-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260516223439.4033-1-ravis.opensrc@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260519-qda-series-v1-15-b2d984c297f8@oss.qualcomm.com>
-References: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
-In-Reply-To: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
-To: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Bharath Kumar <quic_bkumar@quicinc.com>, 
- Chenna Kesava Raju <quic_chennak@quicinc.com>, srini@kernel.org, 
- dmitry.baryshkov@oss.qualcomm.com, andersson@kernel.org, 
- konradybcio@kernel.org, robin.clark@oss.qualcomm.com, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- iommu@lists.linux.dev, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, 
- Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779171352; l=11684;
- i=ekansh.gupta@oss.qualcomm.com; s=20260223; h=from:subject:message-id;
- bh=/fQu1UAz3gyMqR3NFZpJX4rpM/wwR7jVltKg2M1B+DU=;
- b=72Y34omiJ0pH6eH3TjgrzGhfH0pIU59j8J/43VANXh+n8/tZffL9Y1uIHokwT5VZoT6IjXqws
- XpdsbbgKvkoDGQjDTS6MiWkzLPEsSABcWvS6//F1VQ4hTleSHoj3T3L
-X-Developer-Key: i=ekansh.gupta@oss.qualcomm.com; a=ed25519;
- pk=n0SepARizye+pYjhjg1RA5J+Nq4+IJbyRcBybU+/ERQ=
-X-Endpoint-Received: by B4 Relay for ekansh.gupta@oss.qualcomm.com/20260223
- with auth_id=647
-X-Original-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Reply-To: ekansh.gupta@oss.qualcomm.com
+Content-Transfer-Encoding: 8bit
 
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
++ Akinobu
 
-Implement DRM_IOCTL_QDA_REMOTE_MUNMAP (command 0x06), which unmaps
-a previously mapped memory region from the DSP's virtual address space.
-Two unmap modes mirror the two map modes:
+Hello Ravi,
 
-QDA_MUNMAP_REQUEST_LEGACY (FASTRPC_RMID_INIT_MUNMAP)
-  Legacy single-argument unmap: sends a fastrpc_munmap_req_msg
-  containing the session ID, the DSP virtual address (vaddrout from
-  the original map response), and the region size.
+On Sat, 16 May 2026 15:34:25 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
 
-QDA_MUNMAP_REQUEST_ATTR (FASTRPC_RMID_INIT_MEM_UNMAP)
-  Attribute-based unmap: sends a fastrpc_mem_unmap_req_msg which
-  additionally carries the original DMA-BUF fd and virtual address,
-  matching the fd-based MEM_MAP path.
+> Hi all,
+> 
+> This is an RFC, not for merge.  The series exercises and validates
+> damon_report_access() -- the consumer API SeongJae introduced in [1]
+> -- as a substrate for ingesting access reports from hardware-sampling
+> sources.  The series includes one worked-example backend, an AMD IBS
+> Op module (damon_ibs.ko), that runs on Zen 3+ silicon via the
+> existing perf event subsystem.
 
-DRM_QDA_REMOTE_MUNMAP is assigned command number 0x06, filling the
-slot that was previously reserved for this purpose.
+Thank you for sharing this great RFC series!
 
-Assisted-by: Claude:claude-4-6-sonnet
-Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
----
- drivers/accel/qda/qda_drv.c     |  1 +
- drivers/accel/qda/qda_fastrpc.c | 84 +++++++++++++++++++++++++++++++++++++++++
- drivers/accel/qda/qda_fastrpc.h | 34 +++++++++++++++++
- drivers/accel/qda/qda_ioctl.c   | 28 ++++++++++++++
- drivers/accel/qda/qda_ioctl.h   |  1 +
- include/uapi/drm/qda_accel.h    | 36 +++++++++++++++++-
- 6 files changed, 183 insertions(+), 1 deletion(-)
+[...]
+> Why a hardware-source primitive complements existing primitives
+> ===============================================================
+[...]
+> Both primitives produce a view of hotness that converges to the
+> true distribution over the aggregation interval.  For systems where
+> the address space is small relative to the aggregation rate, this is
+> the right tool.  On large heterogeneous-memory systems with goal-
+> driven schemes asking the closed-loop tuner to converge on a target
+> distribution, a complementary lower-latency view of accesses can
+> tighten the loop -- reducing the time DAMON's nr_accesses takes to
+> reflect the workload's actual access distribution, which in turn
+> reduces ramp duration and oscillation amplitude during convergence
+> of goal-driven schemes.
+> 
+> A hardware-sampling primitive provides this complementary view:
+> hardware retirement records each access at its natural event rate,
+> with a physical address per sample, independent of TLB state and
+> independent of the unmap/fault path.
 
-diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
-index 3640e4a41605..41cc207447b4 100644
---- a/drivers/accel/qda/qda_drv.c
-+++ b/drivers/accel/qda/qda_drv.c
-@@ -68,6 +68,7 @@ static const struct drm_ioctl_desc qda_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(QDA_GEM_MMAP_OFFSET, qda_ioctl_gem_mmap_offset, 0),
- 	DRM_IOCTL_DEF_DRV(QDA_REMOTE_SESSION_CREATE, qda_ioctl_init_create, 0),
- 	DRM_IOCTL_DEF_DRV(QDA_REMOTE_MAP, qda_ioctl_mmap, 0),
-+	DRM_IOCTL_DEF_DRV(QDA_REMOTE_MUNMAP, qda_ioctl_munmap, 0),
- 	DRM_IOCTL_DEF_DRV(QDA_REMOTE_INVOKE, qda_ioctl_invoke, 0),
- };
- 
-diff --git a/drivers/accel/qda/qda_fastrpc.c b/drivers/accel/qda/qda_fastrpc.c
-index cab3a560ceb5..0513beede428 100644
---- a/drivers/accel/qda/qda_fastrpc.c
-+++ b/drivers/accel/qda/qda_fastrpc.c
-@@ -887,6 +887,84 @@ static int fastrpc_prepare_args_mem_map_attr(struct fastrpc_invoke_context *ctx,
- 	return err;
- }
- 
-+static int fastrpc_prepare_args_munmap(struct fastrpc_invoke_context *ctx, char __user *argp)
-+{
-+	struct drm_qda_fastrpc_invoke_args *args;
-+	struct fastrpc_munmap_req_msg *req_msg;
-+	struct drm_qda_mem_unmap uargs;
-+	void *req;
-+	int err;
-+
-+	memcpy(&uargs, argp, sizeof(uargs));
-+
-+	args = kzalloc_obj(*args);
-+	if (!args)
-+		return -ENOMEM;
-+
-+	req = kzalloc_obj(*req_msg);
-+	if (!req) {
-+		err = -ENOMEM;
-+		goto err_free_args;
-+	}
-+	req_msg = (struct fastrpc_munmap_req_msg *)req;
-+
-+	req_msg->remote_session_id = ctx->remote_session_id;
-+	req_msg->size  = uargs.size;
-+	req_msg->vaddr = uargs.vaddrout;
-+
-+	setup_single_arg(args, req_msg, sizeof(*req_msg));
-+	ctx->sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MUNMAP, 1, 0);
-+	ctx->args = args;
-+	ctx->req = req;
-+	ctx->handle = FASTRPC_INIT_HANDLE;
-+
-+	return 0;
-+
-+err_free_args:
-+	kfree(args);
-+	return err;
-+}
-+
-+static int fastrpc_prepare_args_mem_unmap_attr(struct fastrpc_invoke_context *ctx,
-+					       char __user *argp)
-+{
-+	struct drm_qda_fastrpc_invoke_args *args;
-+	struct fastrpc_mem_unmap_req_msg *req_msg;
-+	struct drm_qda_mem_unmap uargs;
-+	void *req;
-+	int err;
-+
-+	memcpy(&uargs, argp, sizeof(uargs));
-+
-+	args = kzalloc_obj(*args);
-+	if (!args)
-+		return -ENOMEM;
-+
-+	req = kzalloc_obj(*req_msg);
-+	if (!req) {
-+		err = -ENOMEM;
-+		goto err_free_args;
-+	}
-+	req_msg = (struct fastrpc_mem_unmap_req_msg *)req;
-+
-+	req_msg->remote_session_id = ctx->remote_session_id;
-+	req_msg->fd      = uargs.fd;		/* DMA-BUF fd forwarded to DSP */
-+	req_msg->vaddrin = uargs.vaddr;
-+	req_msg->len     = uargs.size;
-+
-+	setup_single_arg(args, req_msg, sizeof(*req_msg));
-+	ctx->sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MEM_UNMAP, 1, 0);
-+	ctx->args = args;
-+	ctx->req = req;
-+	ctx->handle = FASTRPC_INIT_HANDLE;
-+
-+	return 0;
-+
-+err_free_args:
-+	kfree(args);
-+	return err;
-+}
-+
- static int fastrpc_prepare_args_invoke(struct fastrpc_invoke_context *ctx, char __user *argp)
- {
- 	struct drm_qda_invoke_args invoke_args;
-@@ -945,6 +1023,12 @@ int qda_fastrpc_prepare_args(struct fastrpc_invoke_context *ctx, char __user *ar
- 	case FASTRPC_RMID_INIT_MEM_MAP:
- 		err = fastrpc_prepare_args_mem_map_attr(ctx, argp);
- 		break;
-+	case FASTRPC_RMID_INIT_MUNMAP:
-+		err = fastrpc_prepare_args_munmap(ctx, argp);
-+		break;
-+	case FASTRPC_RMID_INIT_MEM_UNMAP:
-+		err = fastrpc_prepare_args_mem_unmap_attr(ctx, argp);
-+		break;
- 	case FASTRPC_RMID_INVOKE_DYNAMIC:
- 		err = fastrpc_prepare_args_invoke(ctx, argp);
- 		break;
-diff --git a/drivers/accel/qda/qda_fastrpc.h b/drivers/accel/qda/qda_fastrpc.h
-index 71812eaf9a54..030e9b954f7a 100644
---- a/drivers/accel/qda/qda_fastrpc.h
-+++ b/drivers/accel/qda/qda_fastrpc.h
-@@ -275,9 +275,11 @@ struct fastrpc_invoke_context {
- /* Remote Method ID table - identifies initialization and control operations */
- #define FASTRPC_RMID_INIT_RELEASE	1	/* Release DSP process */
- #define FASTRPC_RMID_INIT_MMAP		4	/* Map memory region to DSP */
-+#define FASTRPC_RMID_INIT_MUNMAP	5	/* Unmap DSP memory region */
- #define FASTRPC_RMID_INIT_CREATE	6	/* Create DSP process */
- #define FASTRPC_RMID_INIT_CREATE_ATTR	7	/* Create DSP process with attributes */
- #define FASTRPC_RMID_INIT_MEM_MAP	10	/* Map DMA buffer with attributes to DSP */
-+#define FASTRPC_RMID_INIT_MEM_UNMAP	11	/* Unmap DMA buffer from DSP */
- #define FASTRPC_RMID_INVOKE_DYNAMIC	0xFFFFFFFF	/* Dynamic method invocation */
- 
- /* Common handle for initialization operations */
-@@ -345,6 +347,38 @@ struct fastrpc_map_rsp_msg {
- 	u64 vaddrout;
- };
- 
-+/**
-+ * struct fastrpc_mem_unmap_req_msg - Memory unmap request message with attributes
-+ *
-+ * This message structure is sent to the DSP to request unmapping
-+ * of a previously mapped memory region (ATTR request).
-+ */
-+struct fastrpc_mem_unmap_req_msg {
-+	/** @remote_session_id: Client identifier for the session */
-+	s32 remote_session_id;
-+	/** @fd: DMA-BUF file descriptor of the buffer to unmap */
-+	s32 fd;
-+	/** @vaddrin: DSP virtual address of the mapped region to unmap */
-+	u64 vaddrin;
-+	/** @len: Size of the region to unmap in bytes */
-+	u64 len;
-+};
-+
-+/**
-+ * struct fastrpc_munmap_req_msg - Legacy memory unmap request message
-+ *
-+ * This message structure is sent to the DSP to request unmapping
-+ * of a previously mapped memory region.
-+ */
-+struct fastrpc_munmap_req_msg {
-+	/** @remote_session_id: Client identifier for the session */
-+	s32 remote_session_id;
-+	/** @vaddr: DSP virtual address of the mapped region to unmap */
-+	u64 vaddr;
-+	/** @size: Size of the region to unmap in bytes */
-+	u64 size;
-+};
-+
- void qda_fastrpc_context_free(struct kref *ref);
- struct fastrpc_invoke_context *qda_fastrpc_context_alloc(void);
- int qda_fastrpc_prepare_args(struct fastrpc_invoke_context *ctx, char __user *argp);
-diff --git a/drivers/accel/qda/qda_ioctl.c b/drivers/accel/qda/qda_ioctl.c
-index 283eb7535c45..aeba6190182e 100644
---- a/drivers/accel/qda/qda_ioctl.c
-+++ b/drivers/accel/qda/qda_ioctl.c
-@@ -254,6 +254,34 @@ int qda_ioctl_mmap(struct drm_device *dev, void *data, struct drm_file *file_pri
- 	}
- }
- 
-+/**
-+ * qda_ioctl_munmap() - Unmap memory from DSP address space
-+ * @dev: DRM device structure
-+ * @data: User-space data (struct drm_qda_mem_unmap)
-+ * @file_priv: DRM file private data
-+ *
-+ * Return: 0 on success, negative error code on failure
-+ */
-+int qda_ioctl_munmap(struct drm_device *dev, void *data, struct drm_file *file_priv)
-+{
-+	struct drm_qda_mem_unmap *unmap_req;
-+
-+	if (!data)
-+		return -EINVAL;
-+
-+	unmap_req = (struct drm_qda_mem_unmap *)data;
-+
-+	switch (unmap_req->request) {
-+	case QDA_MUNMAP_REQUEST_LEGACY:
-+		return fastrpc_invoke(FASTRPC_RMID_INIT_MUNMAP, dev, data, file_priv);
-+	case QDA_MUNMAP_REQUEST_ATTR:
-+		return fastrpc_invoke(FASTRPC_RMID_INIT_MEM_UNMAP, dev, data, file_priv);
-+	default:
-+		drm_err(dev, "Invalid munmap request type: %u\n", unmap_req->request);
-+		return -EINVAL;
-+	}
-+}
-+
- /**
-  * qda_ioctl_invoke() - Perform a dynamic FastRPC method invocation
-  * @dev: DRM device structure
-diff --git a/drivers/accel/qda/qda_ioctl.h b/drivers/accel/qda/qda_ioctl.h
-index 457ceccede08..e14a39050d09 100644
---- a/drivers/accel/qda/qda_ioctl.h
-+++ b/drivers/accel/qda/qda_ioctl.h
-@@ -14,5 +14,6 @@ int qda_ioctl_gem_create(struct drm_device *dev, void *data, struct drm_file *fi
- int qda_ioctl_gem_mmap_offset(struct drm_device *dev, void *data, struct drm_file *file_priv);
- int qda_ioctl_invoke(struct drm_device *dev, void *data, struct drm_file *file_priv);
- int qda_ioctl_mmap(struct drm_device *dev, void *data, struct drm_file *file_priv);
-+int qda_ioctl_munmap(struct drm_device *dev, void *data, struct drm_file *file_priv);
- 
- #endif /* __QDA_IOCTL_H__ */
-diff --git a/include/uapi/drm/qda_accel.h b/include/uapi/drm/qda_accel.h
-index 173f59abd361..e3b5c9a963bf 100644
---- a/include/uapi/drm/qda_accel.h
-+++ b/include/uapi/drm/qda_accel.h
-@@ -21,9 +21,10 @@ extern "C" {
- #define DRM_QDA_QUERY		0x00
- #define DRM_QDA_GEM_CREATE		0x01
- #define DRM_QDA_GEM_MMAP_OFFSET	0x02
--/* Command number 0x03 reserved for INIT_ATTACH; 0x06 reserved for MUNMAP */
-+/* Command number 0x03 reserved for INIT_ATTACH */
- #define DRM_QDA_REMOTE_SESSION_CREATE		0x04
- #define DRM_QDA_REMOTE_MAP			0x05
-+#define DRM_QDA_REMOTE_MUNMAP			0x06
- #define DRM_QDA_REMOTE_INVOKE			0x07
- 
- /*
-@@ -44,6 +45,8 @@ extern "C" {
- 		 struct drm_qda_init_create)
- #define DRM_IOCTL_QDA_REMOTE_MAP	DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_REMOTE_MAP, \
- 					  struct drm_qda_mem_map)
-+#define DRM_IOCTL_QDA_REMOTE_MUNMAP	DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_REMOTE_MUNMAP, \
-+					  struct drm_qda_mem_unmap)
- #define DRM_IOCTL_QDA_REMOTE_INVOKE	DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_REMOTE_INVOKE, \
- 					  struct drm_qda_invoke_args)
- 
-@@ -51,6 +54,10 @@ extern "C" {
- #define QDA_MAP_REQUEST_LEGACY    1  /* Legacy MMAP operation */
- #define QDA_MAP_REQUEST_ATTR      2  /* Handle-based MEM_MAP operation with attributes */
- 
-+/* Request type definitions for qda_mem_unmap */
-+#define QDA_MUNMAP_REQUEST_LEGACY    1  /* Legacy MUNMAP operation */
-+#define QDA_MUNMAP_REQUEST_ATTR      2  /* Handle-based MEM_UNMAP operation */
-+
- /**
-  * struct drm_qda_query - Device information query structure
-  * @dsp_name: Name of DSP (e.g., "adsp", "cdsp", "cdsp1", "gdsp0", "gdsp1")
-@@ -188,6 +195,33 @@ struct drm_qda_mem_map {
- 	__u64 vaddrout;
- };
- 
-+/**
-+ * struct drm_qda_mem_unmap - Memory unmapping request structure
-+ * @request: Request type (QDA_MUNMAP_REQUEST_LEGACY or QDA_MUNMAP_REQUEST_ATTR)
-+ * @fd: DMA-BUF file descriptor (used for ATTR request)
-+ * @vaddr: Virtual address (used for ATTR request)
-+ * @vaddrout: DSP virtual address (used for LEGACY request)
-+ * @size: Size of the memory region to unmap in bytes
-+ *
-+ * This structure is used to request unmapping of a previously mapped
-+ * memory region from the DSP's virtual address space.
-+ *
-+ * For QDA_MUNMAP_REQUEST_LEGACY (value 1):
-+ *   - Uses fields: vaddrout, size
-+ *   - Legacy MUNMAP operation for backward compatibility
-+ *
-+ * For QDA_MUNMAP_REQUEST_ATTR (value 2):
-+ *   - Uses fields: fd, vaddr, size
-+ *   - Handle-based MEM_UNMAP operation
-+ */
-+struct drm_qda_mem_unmap {
-+	__u32 request;
-+	__s32 fd;
-+	__u64 vaddr;
-+	__u64 vaddrout;
-+	__u64 size;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
+Yes, I fully agree.  Different multiple access check primitives have different
+characteristics.
 
--- 
-2.34.1
+[...]
+
+> Demonstration
+> =============
+[...]
+> In both regimes, convergence to target is quick, and the workload's
+> measured DRAM share then holds within 1.3 percentage points of
+> target with standard deviation under 1.3 percentage points, sustained
+> over runs of 15-30 minutes per target.
+
+I understand this demonstration shows your AMD IBS-based version of DAMON is
+functioning as expected.  Thank you for sharing this!
+
+[...]
+> What's in this series
+> =====================
+> 
+>   Patch 1.  mm/damon/core: refcount ops owner module to prevent
+>             rmmod UAF
+>   Patch 2.  mm/damon/paddr: export damon_pa_* ops for IBS module
+>   Patch 3.  mm/damon/core: replace mutex-protected report buffer
+>             with per-CPU lockless ring
+>   Patch 4.  mm/damon/core: flat-array snapshot + bsearch in ring-
+>             drain loop
+>   Patch 5.  mm/damon: add sysfs binding and dispatch hookup for
+>             paddr_ibs operations
+>   Patch 6.  mm/damon/core: accept paddr_ibs in node_eligible_mem_bp
+>             ops check
+>   Patch 7.  mm/damon/damon_ibs: add AMD IBS-based access sampling
+>             backend
+> 
+> Patches 1, 3, and 4 are general infrastructure that benefits any
+> consumer of damon_report_access().  Patches 2, 5, 6, and 7 are the
+> worked-example backend (paddr_ibs ops, sysfs binding, IBS module).
+
+I didn't read the detailed code of each patch.  But my high level understanding
+is as below.
+
+Patches 1 and 2 are needed for supporting loadable module-based DAMON operation
+sets (access sampling backend).
+
+Patch 3 is needed for supporting access check primitives that can provide the
+access information in only nmi context.  It can also speedup the access
+reporting in general, though.
+
+Patch 4 makes DAMON's internal reported access information retrieval faster, so
+will help any reporting-based DAMON operation set use case.
+
+Patches 5-7 are required for only the IBS-based DAMON operations set
+(paddr_ibs).
+
+So I agree patch 4 is a general infrastructure improvement that benefits
+multiple use cases.
+
+Patch 3 is also arguably general infrastructure improvement, as it will make
+the reporting faster in general.
+
+Patch 1 is not technically coupled with paddr_ibs, and will be needed for
+general loadable module based access check primitives.  But, should we support
+lodable modules?  If so, why?
+
+Patch 2 is also not technically coupled with paddr_ibs, to my understanding, so
+should be categorized together with patch 1?  In other words, if we agree we
+should support lodable modules based DAMON operation sets, this should be
+useful for not only paddr_ibs but more general cases.
+
+Correct me if I'm wrong.
+
+> 
+> 
+> Patches worth folding into damon/next
+> =====================================
+> 
+> Patches 1, 3, and 4 are not specific to IBS or to this RFC's
+> backend.  Each is preparatory infrastructure that any consumer of
+> damon_report_access() will need:
+> 
+>   - Patch 1 (refcount ops owner) -- any modular ops set, including
+>     out-of-tree backends, needs clean module unload to avoid UAF
+>     on damon_unregister_ops.
+>   - Patch 3 (per-CPU lockless ring) -- damon_report_access() cannot
+>     be called from NMI context with the current mutex-protected
+>     buffer.  Hardware samplers all need NMI-safe submission.
+>   - Patch 4 (flat-array snapshot + bsearch drain) -- the linear-
+>     scan drain is O(reports x regions) and exceeds the sample
+>     interval at high-CPU x large-region products.  Bsearch brings
+>     it to O(reports x log regions).
+> 
+> If these belong directly on damon/next as preparatory patches for
+> damon_report_access() rather than living inside an IBS-specific
+> track, we are happy to rebase and resend them that way.
+
+So I'm bit unsure about patch 1.  If we don't have a plan to support lodable
+modules based DAMON operations set, we might not need it for now.
+
+For patches 3 and 4, I agree those will be useful in general.  Nonetheless, I'd
+slightly prefer to do that optimizations at the later part of the long term
+project.
+
+> 
+> 
+> Relation to prior and ongoing work
+> ==================================
+> 
+> The IBS sampling pattern in patch 7 -- attr.config=0 to use IBS Op
+> default config, dc_phy_addr_valid filter, NMI-safe sample submission
+> -- is derived from concepts in Bharata B Rao's pghot RFC v5 [3].
+> The attribution header is in mm/damon/damon_ibs.c and the patch
+> carries a Suggested-by: trailer.
+> 
+> Bharata's pghot v7 [4] introduces a different IBS driver targeting
+> the new IBS Memory Profiler (IBS-MProf) facility, which Bharata
+> describes as a facility "that will be present in future AMD
+> processors" -- a separate IBS instance from the one this RFC's
+> backend uses. This version of driver based out of v5 [3] is an
+> example of how DAMON can be benefited from AMD IBS Hardware
+> source and validates importance of IBS information indepedently.
+> It is not meant to be merged in the current form.
+> @Bharata if you see a path where IBS samples can be consumed
+> by DAMON at some point, will be happy to collaborate.
+>  
+> Akinobu Mita's perf-event-based access-check RFC [5] explores a
+> configurable perf-event-driven access source for DAMON.  IBS has
+> vendor-specific MSR setup beyond what perf_event_attr alone
+> expresses (e.g. dc_phy_addr_valid filtering on the produced sample,
+> not on the perf attr), so the IBS path here appears complementary
+> to [5] -- operators choose based on whether their hardware sampler
+> fits stock perf or needs additional kernel-side setup.
+
+So apparently there are multiple approaches to develop and use h/w-based access
+monitoring.  Akinobu and you are trying to do that using DAMON as the frontend,
+and already made the working prototypes.  There were more people who showed
+interest and will to contribute to this project other than you, too.  I 100%
+agree h/w-based access monitoring can be useful, and I of course thinking using
+DAMON as the fronend is the right approach.  I'm all for making this
+upstreamed.
+
+I was therefore spending time on thinking about in what long-term maintainable
+shape this capability can successfully be upstreamed.  I suggested
+damon_report_access() as the internal interface between DAMON and the h/w-based
+access check primitives, and apparently we all (I, Ravi and Akinobu in this
+context) agreed.  Akinobu thankfully revisioned his implementation based on
+damon_report_access() interface.  Ravi also implemented this RFC based on the
+interface.
+
+After making the consensus with Akinobu, I was taking time on the user space
+interface.  When I was discussing with Akinobu, my idea was extending the user
+interface for the page faults based monitoring v3 [1].  But, recently I decided
+to make this more general, so proposed data attributes monitoring extension [2]
+at LSFMMBPF.  The patch series for the initial change [3] is merged into mm-new
+for more testing, today.  The cover letter of the patch series is also sharing
+how it will be extended for h/w based access monitoring in long term.
+
+I of course want us to go in this direction.  I believe you already had chances
+to take a look on the long term plan and didn't make some voice because you
+don't strongly disagree about the plan.  If not, please make a voice.
+
+Assuming you don't have concern on the long term plan yet, I will take time to
+write down more formal and detailed plan.  It will explain the overall roadmap,
+timeline and how we could collaborate.  On top of that, we could further
+discuss.
+
+> 
+> 
+> Specific asks
+> =============
+> 
+> To SeongJae:
+> 
+>   1. Patches 1, 3, and 4 are infrastructure that benefits any consumer
+>      of damon_report_access(), not just the IBS backend in this RFC.
+>      Would these belong directly on damon/next as preparatory patches
+>      for damon_report_access(), rather than living inside an
+>      IBS-specific track?  Happy to rebase and resend them that way if
+>      you'd prefer that shape.  Tested-by: tags can come along.
+
+I'm still thinking about how we can collaborate well.  The answer for the above
+question would be a part of that.  In other words, I have no good answer right
+now, sorry.  Could you please give me more time to think more and share the
+plan?  I will share the plan as another mail.  On the thread, we could further
+discuss.  Of course, we could have DAMON beer/coffee/tea chats [4] like
+additional discussions before/after/during the plan discussion.
+
+So, long story short, we agreed this project (h/w-based data access monitoring)
+should be upstreamed.  But give me little more time on thinking about how we
+will do it and collaborate.  It will take some time.  Please bear in mind.
+Sorry for making you wait, but I pretty sure and promise that we will
+eventually make it.
+
+[1] https://lore.kernel.org/20251208062943.68824-1-sj@kernel.org
+[2] https://lwn.net/Articles/1071256/
+[3] https://lore.kernel.org/20260518234119.97569-1-sj@kernel.org
+[4] https://docs.google.com/document/d/1v43Kcj3ly4CYqmAkMaZzLiM2GEnWfgdGbZAH3mi2vpM/edit?usp=sharing
 
 
+Thanks,
+SJ
+
+[...]
