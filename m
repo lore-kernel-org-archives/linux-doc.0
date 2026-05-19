@@ -1,66 +1,33 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E3238BF9E
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 06:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46DE2874E3;
+	Tue, 19 May 2026 07:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779173974; cv=none; b=Vmr+dVrbasODwX7TCcPaL9HkjrSwao0c3YIeDTss7XL/ZrIlQHtVO1FWECFMe0IZaqtohWkvj4QvvdLcZ1kvc5XjHV6TV6Ayp8nrc5gCywTsELqnqCbyeNrBEGoC2QTCBmWJbfsVxs0eKioyTPionuyv/c49Om1mfEPZpGTGeVA=
+	t=1779174290; cv=none; b=uCO+4A73M2sSEcwhzvjFBUquXjc8frqW9/9vK/7TbJKGXwO9AQoRztMjmxTQmxiKxSl+ZB6LEK0gqMDM3LviPgJ+yd0zX3MRgiYnZ8kVo2ns7wSeu0dQvCP0CMUTLHO49OOwjpDd7E8MX6TcYYDC/dUrd4fxtHocEloCo289T8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779173974; c=relaxed/simple;
-	bh=0BUhj6j3hrklauwfy+i/h/s8xlX/MYhRh465WVn2hLE=;
+	s=arc-20240116; t=1779174290; c=relaxed/simple;
+	bh=1irEky9aWBq8MFj23jSIgVbynmrjBX1upwAhF7Njc9k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NvAnog7TyyuzkS1T6iBAVEWe52tRsHg/ODdkF3+gxtsOiaJ8HSbsny55Ejt0xnYGYcXXfNGzNBzXJUkNzjezXL758rFaa3MN00EZj0Gd0l8X586IDcJgVn54MmigIhwiwTSlpxAZgO1+AjrT3cLaKB8eK5ldinnEyRLEGqSS+5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MAk4FSBV; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=XBtyy7GgIdGDE+AQLDeoaCmIruRvHUBZxhRx/I1vPTU6Z64G3ZL7FtdEWzXCfXPNel7f8vjPPv/vaDd1C1n54Y0/A3sDSevVH3dFRV5FwDS3MY3V8eoeVxzPmviW1NHIUPDNaMCvtwNJNkvJXafGyZ91D02stAHTGpqYGrqVRLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pmteWGt5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MAk4FSBV"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48e82c23840so24330245e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 May 2026 23:59:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779173972; x=1779778772; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gF5Z1qKa3/ePayEWJpcu7Cbt4cEhhoyI3/LeiuP7Ies=;
-        b=MAk4FSBVZdYEtSXDCJVHAy6HwIuYO1y7zU9AaEJ23cjjxSOJioRz1BBlFKSs2ns/gB
-         v3iWIZwcegLaqF4IeppnCt7DzcSLc2MresRoCAzV0pKasLnHkys0MihfsEVWVBKOT5ZK
-         +ug0dqRuAmaPBtg8GhJmR7YleUwAvwewy65+l72mU+9/MBjwHk7lR46KafUCsBZTehSm
-         v0SRbEYT5ECZDjIsmqXGw/LiRFHqMQ0aHfFcOIGicUoR2hwFxMuMrmbv+DvjdWNriDOy
-         jQ5mICK1BT3VOGcwqFzJcou47u26sST8mL9k7gSFcry6jMTdcEmiT7mDitDH9+JYDNNB
-         YvNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779173972; x=1779778772;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gF5Z1qKa3/ePayEWJpcu7Cbt4cEhhoyI3/LeiuP7Ies=;
-        b=DgizQ16ZZ92XvboVmyaVWtk7bcuBXOtw6JSAQoV2LdetYZwxZXA2uddFo9rhwEj0/s
-         ygeDWx0IOvBd/a9/fshuYdYcfe9HexmWO3Z/5ZK37F+7k0h2Rgh1GtynjbMsus9HINRt
-         pLhtSub8/SY8tZ2hZvNiJ15e9QORL3iSfh6GAT/janYO0X+Vt8+FElQei8vt8g9TjEHy
-         wIBe2bE/J6ivpPm3At8MIkC8Xjdvue0qJdY3/DTxhntAkYs/Rbe7gb7HA43SW8if8Ui1
-         rVZef7qDwfGO1G3mUeXN2mNy9wE5yNTIiZDRNkz3bPRn+qqzWhOfsLvM3yzkYuNuGqHo
-         7TdA==
-X-Forwarded-Encrypted: i=1; AFNElJ/XsoZ7WH3UVSA4nQG8BX3FHsxQcEbMuuwRVYEpHuhouKhvSFSo9mQy2n8vTTHU2sqha7toTORDX/8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykIcTuHT2KnD8gP8QdwB1txlE8kbxqlHPMdIZ1MWllKTDCBxwJ
-	bSSSI5fMlpl5tRXomwORLQi27JkYmPUfuRm1H5S8nJKR9U0kcYBLRKsc
-X-Gm-Gg: Acq92OGWJtPb+wim6t2wsuPMPwiRQAJ2VdM2sxE0emwyuh6w7a9/dsiQZ6o9tsuUi1A
-	bxOnOPv1Arq/hPGsSJnlMu1XraRtL8FsatyXWXAIy/xR/BMIKbnMR3w+kGHM4oYuSiVPJWi9rdr
-	Z0NhUzghCpS3In5mnGUcbf7dp4s3C4IYo53Afvi7EGoB8TVdeBeso1ZT4FCa4koQwsOhNeS9mQs
-	YTPNFtApwgbaivN8TsxpznOlv9FDr5FXqB1LsN5pNcX2dSKI/DjRTxx0QETsVN/A1c0l0F3FIyT
-	HfoL5soinnyDjexgrDbbd6zlTqZpW7ccAP3MUZNOTdABN2Yq/PjmW4uUWR5K+zEmK7NrUHgsM3e
-	q8aNZJVdiS2jX69qSYvBbIxeoz5D+NHgKRsTSa355z/30LFOYJ+o02SaRau+//vD8RQxy6moYq8
-	LBdpJyiLisAhx/ywGdmCeQpcGpGu37uCz3ieD/Q6cj9jdmwv+OKCHonHsE0LWxccgdDfDx
-X-Received: by 2002:a05:600c:8189:b0:488:ac01:72b6 with SMTP id 5b1f17b1804b1-48fe6323addmr275170575e9.21.1779173971682;
-        Mon, 18 May 2026 23:59:31 -0700 (PDT)
-Received: from ?IPV6:2a02:3033:6c2:b9c5:ec15:f5ad:b85f:a3b8? ([2a02:3033:6c2:b9c5:ec15:f5ad:b85f:a3b8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4900c16c744sm126227455e9.3.2026.05.18.23.59.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2026 23:59:31 -0700 (PDT)
-Message-ID: <3932472e-91aa-400b-a1a4-03f520706890@gmail.com>
-Date: Tue, 19 May 2026 08:59:19 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pmteWGt5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9667C2BCB3;
+	Tue, 19 May 2026 07:04:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779174289;
+	bh=1irEky9aWBq8MFj23jSIgVbynmrjBX1upwAhF7Njc9k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pmteWGt56uJcXCo5A+rXNj7VwcTV1m1gvqCSUJ40cdwhP4SSi7VbDTBMZo/fjoB9O
+	 jVxK69lU43R7NADVOysrSDc3m/mhP3lpBbVbHObVGLE1m+QDJfq7GmF6zvjiGaQHpW
+	 tFmQRi90LF3riJQNuT9HHpkG5cGnwcbedNqETXQHLfV7YA+I3Dtfhx71CtjVdfD45x
+	 mHMbL1NXUf6sq59kbKkDLtpknsoeAJKU5zJ0helOQO9hdh8Cae4G9u+Trh9Veek3cK
+	 uPj4zTiuPfFP5LGzuX7alpo+ZUrr20vOXf8dWnikAvhSr+QcidzusPcgxbQK4X3Ech
+	 LtZ5NX5RAo2ZA==
+Message-ID: <5fb43b8d-e772-42af-ba78-d75abd87bd0c@kernel.org>
+Date: Tue, 19 May 2026 09:04:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,74 +35,123 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: iio: dac: Add AD5529R
-To: Jonathan Cameron <jic23@kernel.org>,
- Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- rodrigo.alencar@analog.com
-References: <20260508-ad5529r-driver-v2-0-e315441685d7@analog.com>
- <20260508-ad5529r-driver-v2-1-e315441685d7@analog.com>
- <20260508134843.7646c4f5@jic23-huawei> <20260508140814.67800e4a@jic23-huawei>
+Subject: Re: [PATCH v4 09/10] dt-bindings: firmware: add arm,ras-cper
+To: Ahmed Tiba <ahmed.tiba@arm.com>, rafael@kernel.org, bp@alien8.de,
+ saket.dumbre@intel.com, will@kernel.org, xueshuai@linux.alibaba.com,
+ mchehab@kernel.org, krzk+dt@kernel.org, dave@stgolabs.net,
+ conor+dt@kernel.org, vishal.l.verma@intel.com, jic23@kernel.org,
+ corbet@lwn.net, guohanjun@huawei.com, dave.jiang@intel.com,
+ catalin.marinas@arm.com, lenb@kernel.org, tony.luck@intel.com,
+ skhan@linuxfoundation.org, djbw@kernel.org, alison.schofield@intel.com,
+ ira.weiny@intel.com, robh@kernel.org
+Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
+ linux-cxl@vger.kernel.org, Michael.Zhao2@arm.com,
+ acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
+References: <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-0-42698675ba61@arm.com>
+ <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-9-42698675ba61@arm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Janani Sunil <jan.sun97@gmail.com>
-In-Reply-To: <20260508140814.67800e4a@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-9-42698675ba61@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 18/05/2026 13:57, Ahmed Tiba wrote:
+> Describe the DeviceTree node that exposes the Arm firmware-first
+> CPER provider and hook the file into MAINTAINERS so the
+> binding has an owner.
+> 
+> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
 
-On 5/8/26 15:08, Jonathan Cameron wrote:
-> On Fri, 8 May 2026 13:48:43 +0100
-> Jonathan Cameron <jic23@kernel.org> wrote:
->
->> On Fri, 8 May 2026 13:55:47 +0200
->> Janani Sunil <janani.sunil@analog.com> wrote:
->>
->>> Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
->>> buffered voltage output digital-to-analog converter (DAC) with an
->>> integrated precision reference.
->>>
->>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
->>> ---
->>>   .../devicetree/bindings/iio/dac/adi,ad5529r.yaml   | 96 ++++++++++++++++++++++
->>>   MAINTAINERS                                        |  7 ++
->>>   2 files changed, 103 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml b/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
->>> new file mode 100644
->>> index 000000000000..f531b4865b01
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
->>> @@ -0,0 +1,96 @@
->>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/iio/dac/adi,ad5529r.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Analog Devices AD5529R 16-Channel 12/16-bit High Voltage DAC
->> How is one device bother 12 and 16-bit? That sometimes happens for
->> ADCs where it is really reflecting oversampling or for device with hardware
->> FIFOs where storage space is saved by using lower bit rate. I'm not sure either
->> applies here.
-> Having read the driver I now understand. This is supporting two parts and
-> doing device ID based detection.  In an unusual step for Analog they have
-> the same base part number with a post fix.  Whilst this approach works today
-> it fundamentally breaks fallback dt-compatibles being used in future (the
-> driver fails for any non match of WHOAMI value as it needs them to look
-> up device specific data)  As such I think you need to have separate
-> compatibles for the 12 and 16 bit versions.
+Please implement previous comments.
 
-AD5529R supports two variants- AD5529R-12 bit and AD5529R-16 bit. They share the same register interface and pin configuration
-but differ in DAC resolution. I will add separate compatibles for this case.
 
-Best Regards,
-Janani Sunil
+> ---
+>  .../devicetree/bindings/firmware/arm,ras-cper.yaml | 71 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  5 ++
+>  2 files changed, 76 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
+> new file mode 100644
+> index 000000000000..81dc37390af5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
+> @@ -0,0 +1,71 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/firmware/arm,ras-cper.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Arm RAS CPER provider
+> +
+> +maintainers:
+> +  - Ahmed Tiba <ahmed.tiba@arm.com>
+> +
+> +description:
+> +  Arm Reliability, Availability and Serviceability (RAS) firmware can expose
+> +  a firmware-first CPER error source directly via DeviceTree. Firmware
+> +  provides the CPER Generic Error Status block and notifies the OS through
+> +  an interrupt.
+> +
+> +properties:
+> +  compatible:
+> +    const: arm,ras-cper
+> +
+> +  memory-region:
+> +    oneOf:
+> +      - items:
+> +          - description:
+> +              CPER Generic Error Status block exposed by firmware
+> +      - items:
+> +          - description:
+> +              CPER Generic Error Status block exposed by firmware.
 
+Also, this is just a list with minItems. No need for oneOf.
+
+Best regards,
+Krzysztof
