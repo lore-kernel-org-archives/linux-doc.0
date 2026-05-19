@@ -1,102 +1,82 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66197371D10
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 14:03:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011332628D;
+	Tue, 19 May 2026 14:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779199415; cv=none; b=OY6sTivbfw10n1+u2UvevDe+9annyR65odpMEMXzlNcfrrNnXDnyPk+7YgL/4ZVAFkF0bajM9HAn2/hfaqw15ki1txUY+vyGLsxV0uFmN+ERrCUfTTlQ1rsoWudz3noXdNft7/6BYJSLaywbdrILhH9zrk4Xm8Lz0MKnMncWTBs=
+	t=1779199871; cv=none; b=NwYwFP1xwm5RSi3x1yGYMNGdr6ElGtDl4bon2MEgVf/e7nJuHGvirifyoXWSPE9AMHuwf6fHEx0Mjc19pA93V6witl9Vlq3Id5CYbRYRo37KKsVO7bTG1J8kJ48IXkRXm6BLZB+1iO6PZQ0Xy3asyaXk3/yOpZN6R4Kr8wYC7I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779199415; c=relaxed/simple;
-	bh=+bd1mhLfELW8lCaWsXMgjWjAfAbJ9cWsuWqeqGjHvrU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=LIxcOlcM++Q58pYq95Aydyo7K1XzY9u7RqOCE14UeAvuISjINQAaW/phhwD+/2kA3oqygpq4H8qcIwbPwcqGEb7c6MMToRBvmPgIVllYSaz/BUpLMfIM6wosz5R3hqfKUDL48iy2z7lfLC3UuUJBA1z0fBzxniPlCHNHuXD7J1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=aC0r6vOr; arc=none smtp.client-ip=209.85.167.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1779199871; c=relaxed/simple;
+	bh=htY8hqtawRFTSxusbcCFxZI713zUHbDkIkL9rQzvwrw=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=aZXz+2Ukh/pLVdX+AF+cTySZS1GgE3fKa9B03p80lxYjzZS2pTF+7p/Ec19zlvvR56JWY5YFsYoitiOBwedwg9/DvAfz3lPP/uJVFErKpUig1yX8wGhAhvADB5iWrQUA9F14qhEtse8Ajxk4gxkiIKz06ho1nV7l546MOKxA9hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=bIfLl4Y6; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="aC0r6vOr"
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-47c7b282d73so2423162b6e.3
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 07:03:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1779199413; x=1779804213; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YAmPSe9oMJmb2SDflrLo6XOZ/WBxHlp4jcSg2KpdbhQ=;
-        b=aC0r6vOrndytiunxmxy+muv+HgKS2vfrAuSVO2p743r3+Af3mKWcRNsGQHbgEpNpqb
-         7HoqYE5UT1l83jKC2jb4UdUOURH6//jKRTPqT8WBz57BMnpnKPViQYZ4sq6jDyPUt3yr
-         4zfGcxHow6nrrGiK/ZONGtPu7caa9rly5MNSvesyPLncZtATDXQboGHvQlkSmvVlNWFE
-         DLBBAEIUGkHgLd6AHiknPcHfgQQn27Va+E8dVMxZPL3+KA+oQVsXsAPG5jUw3AEOIASw
-         0yYbbUuCT0Vkx3xwzr1nTX3Xv8SExGPSHfbs2egj4BmAg56Ky5z4rhiiBPdRf+eMmR0W
-         rRTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779199413; x=1779804213;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=YAmPSe9oMJmb2SDflrLo6XOZ/WBxHlp4jcSg2KpdbhQ=;
-        b=ZMFW11Pw+8av0IManoSQN3MEFd0ArF5HysLhjS+J1yUG+IRL4rGu5iwc5b5SceRBTv
-         FtMVe1oufmr0DIAi9V12KXipk5Zu+nQRIbqiT+v28uxfg3/aY4mBhiE5KKKSg+IpCDtm
-         A+1yYOXADvN6EDWFQwAq0YR53VJMyaizpPq8gRrwvgdAi9ccwpd6e9epVjGYpm7To+HJ
-         GQVgsgIHe3hpLODgZBPIPZ2NshyLiiGMMXw3t1/XYStZgXB1uFoaqfr4JvGjKcQ7QDdS
-         RUIA+ko0hLKwoFomqTFvoZDHQVlHPMSHJS4QSzRc5xudxN97iUGVNz15t/oExt9/+sze
-         Z6dg==
-X-Forwarded-Encrypted: i=1; AFNElJ+aUTWA8MlpxpjG/OOhotdMgE83UlIZkG1vUnF8gWyGYVwxkDnuMtgRXbSlvfyC4DUzi5uO6iPU5CI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKm4IDo77+kCnT8bVWHdpxV8cDBUS2bJgogomb7xGVEQSHIa5s
-	UC+uJGmlF2VUo5Q8sg5gWL02i/DGD0cHTPofgKfdWpQ/v5cXu1NbdBoXguu4FmDGfv0=
-X-Gm-Gg: Acq92OGsfvDxE7XDSMxkI26d3fT0o4Lkoefmx+UyoHt8J/CQsziQ5jHKbNTs8Nj+SDS
-	LStPE9hiLIf93PgrT9JT1zM1dMy65jl8Nc1bBHTdE+ENr2wyquSolrFBAzcj69Wu5Qy7oxwlpFt
-	PAxSXCaFaz2BvKycT3FMsBxi1VhNf+HDHk1ZQDPcVsrFNPfUbgaqCvxBl6DWa/emC0Ilc97/bsh
-	gFIC6LDOZZCVh79yztKmExGCBbUqwprGeuHN8z9eJyT+Nt/cB70s7vIDYsaqLtO+Cgdb/95hq8E
-	eS/JA7QWDetwtr9FmhWfBE8klMT5lpP0da6id963x6QMY/k/4vbSNMTauHI9r6ROCvMHcjsILRC
-	XgdqP5CkygAD6wNggrwKvjRcN/LY8wugXkksHeYAJ2WDCPYdAYOe/NGpQA6hx4QT26bOen2s6Ma
-	5+QJaHxd1jm6GBhlXpZcZ2ObZMmTHmcE6DfvINOU9mLH+aahECp4uqdNLRTt2d
-X-Received: by 2002:a05:6808:2f0e:b0:479:d605:64a0 with SMTP id 5614622812f47-482e54e90cfmr13118969b6e.0.1779199413144;
-        Tue, 19 May 2026 07:03:33 -0700 (PDT)
-Received: from [127.0.1.1] ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5164581fdf9sm164071241cf.24.2026.05.19.07.03.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 07:03:32 -0700 (PDT)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Mike Rapoport <rppt@kernel.org>, 
- Luca Boccassi <luca.boccassi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Pratyush Yadav <pratyush@kernel.org>
-Cc: linux-kernel@vger.kernel.org, kexec@lists.infradead.org, 
- linux-doc@vger.kernel.org
-In-Reply-To: <20260519125714.2435640-1-pratyush@kernel.org>
-References: <20260519125714.2435640-1-pratyush@kernel.org>
-Subject: Re: [PATCH] liveupdate: document liveupdate=on
-Message-Id: <177919941198.1116313.3518745939102714040.b4-ty@soleen.com>
-Date: Tue, 19 May 2026 14:03:31 +0000
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="bIfLl4Y6"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gKc613DxHz9vh8;
+	Tue, 19 May 2026 16:11:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1779199865;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=htY8hqtawRFTSxusbcCFxZI713zUHbDkIkL9rQzvwrw=;
+	b=bIfLl4Y6s7sv46dJFqUplq3KJ1JMTHAZ+wFitsDxgawARWCdclFCVXITfyFm5QmUjS+FLC
+	fna30gosxS33pAMzQqLfHmF/xzTrrtYh99f2Jh/bqezKvPViObbMXf5VfRE9wn1rLTLKd+
+	ZGvBXA2PzXMaTMFp/Hzdv9gUd6SL6Dx/QDBRruSDN572+GuhIOOV2+ggPW9McGsMxiR9e3
+	ojR/Sq8tfTgZ06cw7thWHMRrKt4psqC4kHOAioh+elnkHqrU5ZhFWqsoKsZL/bfyT0xDZz
+	YshVAHWf+EkrWrBrBFdGVYd3ebvZDJ4QAvI4SqCMSIE7JWKLYEIPScXdt0hFJw==
+Message-ID: <584b2f5d131342952698ac5e5a567c79977cb1ba.camel@mailbox.org>
+Subject: Re: [PATCH v2 0/3] Doc, scripts: facilitate phaseout of strlcat
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>, Kees Cook
+ <kees@kernel.org>,  Jonathan Corbet	 <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Andy Whitcroft	 <apw@canonical.com>, Joe
+ Perches <joe@perches.com>, Dwaipayan Ray	 <dwaipayanray1@gmail.com>, Lukas
+ Bulwahn <lukas.bulwahn@gmail.com>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, David Laight <david.laight.linux@gmail.com>, Randy
+ Dunlap	 <rdunlap@infradead.org>, Jani Nikula <jani.nikula@intel.com>, Heiko
+ Carstens	 <hca@linux.ibm.com>, "open list:DOCUMENTATION PROCESS"	
+ <workflows@vger.kernel.org>, "open list:DOCUMENTATION"	
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Date: Tue, 19 May 2026 16:10:48 +0200
+In-Reply-To: <20260514160719.105084-3-manuelebner@mailbox.org>
+References: <20260514160719.105084-3-manuelebner@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+X-MBO-RS-META: 7upx68fzgrp4upnkm77hz1t43zatgpnj
+X-MBO-RS-ID: ad611a47d532e38a83d
 
+Hello
 
-On Tue, 19 May 2026 14:57:06 +0200, Pratyush Yadav wrote:
-> While the liveupdate= parameter is documented in kernel-parameters.txt,
-> it is not listed in LUO's user facing documentation. This can make it
-> hard for users to figure out how to enable the subsystem, since enabling
-> just the config isn't enough.
-> 
-> Note the need for the kernel parameter in LUO core documentation, which
-> gets exported to Documentation/core-api/liveupdate.rst.
-> 
-> [...]
+i'll ditch this series - it's just not the time yet.
 
-Applied, thanks!
+Manuel
 
-[1/1] liveupdate: document liveupdate=on
-      commit: d65d7e28888a6f3a1999908cacadd99f4c14ddd9
-
-Best regards,
--- 
-Pasha Tatashin <pasha.tatashin@soleen.com>
-
+On Thu, 2026-05-14 at 18:07 +0200, Manuel Ebner wrote:
+> Thanks for all the feedback. I tried to incorporate it in this version.
+>=20
+> The goal of this series is to facilitate the transition away from strlcat=
+()
+>=20
+> [v2]
+> =C2=A0add recipants
+> =C2=A0add remarks to strlcat definition in
+> =C2=A0 lib/string.c
+> =C2=A0 tools/include/nolibc/string.h
+> =C2=A0 -> [3/3]
+> =C2=A0
