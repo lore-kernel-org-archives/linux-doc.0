@@ -1,209 +1,270 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B242D3403E8
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 13:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779197931; cv=pass; b=gnDOZDAFurrkczWuX2odW81+vol/8hHNZ3kztYA3/nTa51g1otCO/2AYVCXOs2nJ54reozhfAYBFbbh3umwDgdaOJ/lHt6YJOrLPRy9ttTw9YHu52nEW6IqPg7bqnXnNaFr5EfeMantRNd2KVOHle7eLsKiVyFdT2RIXlFofeUk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779197931; c=relaxed/simple;
-	bh=KP7zUHOrkzgdt1cRpKbtyeNbsXf5dD6XKZ2LFxmQcjA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i4kff36mEeamC6/RK4+QU09Z3yTZdkjxXc39ILB7r0Fsi2Xl3ND6nfLgAQoHOPnIQq0qkhW61dE9XR3pgoMlcE+Ic9+sVM4AxrFH3CIDIkeZBZgipdznPIH7nWcnurLwP1Dx2jVv0ds69cSkZvGai1xzlj9yMYAl0X1RDa7l3v4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OPbjvKpv; arc=pass smtp.client-ip=74.125.82.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E79348C4B
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 13:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779198681; cv=none; b=eV089hcIxUqCSDTW+NXYN0dWUX+HdVc+zUMZCW/1uVsELhfqYbwX+Nnoj44GHUz+LKztICZf5N0+oNan/T8lx87G+wRINnrDyaeHgjgmKyx27TkQ1YxL/3B4tX+gyXLXatX4IYzzzIRiVZHmEhgairsK65uC5wxbXwFj9F1kPwA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779198681; c=relaxed/simple;
+	bh=38ZFwskQQfa3ov730T1p7ug/E9VDwdczihPE2NWFdAc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IgibZiSfR7BKgsULwQM323cv+CAgs0akdsnvLFOLJrfletCnwQk66tfbUV5HdbZ+ev2Eau4kk6/VaM2NltekbDCxic/nY3a6UXX0AQrf+8VyB+bpBozZ37NrWi/JPLmxmJtOG52nkLESN5f5afokByILuRyQ64xU74+953NiBfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=oBuDS/Xe; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Q9FEwWPj; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OPbjvKpv"
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-134fe980658so4615548c88.1
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 06:38:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779197929; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LmNaGHegBq3129Rnaeht+9NFJfJI+C0qWPTJcf7mawGhSCVZX53YRZYuHu+uhavab3
-         70EnUaDLWB4SV5LUhiD7pBRJA1c1rzhrDbsTNfxE6iqiVJt6UzD9xkF/dPoFdq0PeXx5
-         WcvMG6Qia8CrJw1gJJ+xT5fm+iPxwkQaMreIUKvjLhETJjTV+CZvQeKL5jpOdzwOSuYs
-         dSrWpclZ0RP/1OKV6qjX7HIE1xp4/eme+6OBVLal1o/MDjpJORQX+oIHTajQaVsJ1RTO
-         akk1Xbvk4/vjK9tTdTmnClvQOWGrNpXTUn9Un259RaDr0HTBMbAzQtUGUj+EAGXBi+Ai
-         SMWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4rLi9EF1nJ5zuh+5Rs48RasaCD3EpgpMag9kYOR3Lik=;
-        fh=bJSIkU0uN5NyxxdOpOyv/VND8dMU1X1dx5a1657c7v8=;
-        b=l05i7iQ+bn3hdm80jRbKZrg2zNfRP92n+q6OFL7iIBeic6IEpyMynWWS48hWoS4fzt
-         4FIckuOXCN1KMiTOSHz+5sbp8KSw+Y10iWmfzqRG8BqC3/846xinYh8prlddILx3QXm1
-         axWPTMGN2Wy3YteryDxq/CCojsKr9q5sQXuRdbzQM19rAmvh9sNU0nT/jXAFKtnUOyTA
-         RZSV/rpstkIfHH/XFzVdfxYzd0S2dBGIjS1frY5iLuU3DU3DYDRK+rXBmKpWXMj6oc8P
-         kP0z4SKCCnsFHSj4K8I4dz3EQp83TNKdQsI20PPBphAEMMp2WgPwF1FOCiogPkD5Exac
-         DO2w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="oBuDS/Xe";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Q9FEwWPj"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64J7nC2o2975535
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 13:51:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	laQpefoN7vkeESD532Fomlmi9HvRpWwdwjP+kI9x3eo=; b=oBuDS/XeXaoSgkaE
+	dqDSwxEx86d12NyTFJWC44Hcm7QhplTUdJHGZIj4CI4ITWHbuaeXlshNS4ipHQif
+	8fXBKNQ5xU1geIYbclY4kXgFkcB/HM+fEvCvdIDxH6l/Mdj79JBFbhVP4AVm3a25
+	Nc6hiLpzWWRgxRUZc/n/UrcjxziEBzbUgucMHwgFwn9nh608iyXCCeImOdH0TxGS
+	zkihU4hW6QXnt5jTYoyF8Q57GKlwcxEiihfXpt1/F8FEb74c7G/K1+OJgszISqg5
+	VCmHt7uE4beIdA2ZUORo2A1MpPAU+ft2/VX4UxIKcnav5EuxToemRPCbYaazEk4D
+	eGwj5Q==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e84v4cspt-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 13:51:18 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-83836443305so1876634b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 06:51:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779197929; x=1779802729; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4rLi9EF1nJ5zuh+5Rs48RasaCD3EpgpMag9kYOR3Lik=;
-        b=OPbjvKpvK+OOsLnQTyTbj/EEwx/Tqt3Q1Bf7N2TZJ28bLrcnJtva4CFBMJtMzij0mD
-         JnqsJqYu1ilCuw1SrjoDXnDPeRfxULJdIQMhUDjM4UlAQ88XlEoM5xRpCHNq4OMV3NSC
-         E5FuXpSSOn1SsQXfUTKYryw/aLxox2YWCykG3akE5P9U5/Bp7gY73o9JsHbsh40lB6A4
-         jioI+ZxrGzU8sfge6iPPMUedq9g7VFqrB/8XpoWeIiN0pB4+WVzThesgkqeYJsIRMUlc
-         sxg++URubx45Tn6+TM3VhE/WCdKpwCIGj5Pk4OpgbRoURB98A0Dklu+Ui17iluY5rOMo
-         x+Iw==
+        d=oss.qualcomm.com; s=google; t=1779198678; x=1779803478; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=laQpefoN7vkeESD532Fomlmi9HvRpWwdwjP+kI9x3eo=;
+        b=Q9FEwWPjKB7NuH3w4lqlk38zOhUJ69Wt9J9klpHgeTWtwF7YIlyZeT7PXTEdZFuG17
+         0rd6O32R191Y4Ip7ZJQLCHUikdtOLW3FhXHbakjq0LZBOBj8MtmJ8Nw+BQvZYPeKNUFF
+         8ILFL8a/+BwNcUBQXSKh3B1sc7B4ErsFClM9CvD2AvMyiUpaoCUbjGz14NoNE85/Z3OB
+         pJ6jj9eBrYgRrOK8DKDoj8reo33ty44G1b1fV5FZ7EiJn57NFbOPe5nBPuKG5WJ2XYnN
+         luKaVeBbmVuxYcQd/j40BzgSWeGrvYJRRe6DXoX1cY7CiTOi2YPwfFU1EvQt8ClkNVV4
+         0XkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779197929; x=1779802729;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4rLi9EF1nJ5zuh+5Rs48RasaCD3EpgpMag9kYOR3Lik=;
-        b=R++VWluKXDfoGXPLIBpvagnBM9vtx3e4ilNpYQMKvG2XNwK4dVvp/0D/Kd2jx57jAd
-         DLI8W3A793DfyopyEn+YWPaEYZEmfM4K0uZaYa9R5ZLQ3XPqADpW8WaMgKA9UYPbzHrm
-         Bs5AtJukG9kwrAYj3HSLO3MRaYitXnXeDXOQNzbG3bUX6GhZPFGgvAsmu6DUhe8czLbP
-         MagbG816eqkG0jmbhWeVNALBxHrW6+nGJa7qtvMx8VU/GTxYp6YHffWWHAJ/XatEGjjL
-         RhwksP/qS11IUHQdYRk7s/d+saTJ0oTlPvbU6QEkRCBmbofnYoEp4okQQxRdDbdrS0Aa
-         C6cQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+lXyAxqi5BNYEjlLuVa1fTL0P2vKj2DcYXzoT088Fp3JZlzdt8Eqv4Xq/zjaDLTfKvElQ3q5TDm0Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyztZb1s0uYWkeN0evTatAM0vrlp7EoChN7xvzyt0G/0+a56ugq
-	0iVCpvof97ga2t3be0eEYw6I0SfwI386erFvpxs2GszYSLLuG0neCeGUPf5/BXDJ3lFudCZbdQl
-	rRDdJ8DEZ7fqcs2SuOc3ImM/rYcpWzX0=
-X-Gm-Gg: Acq92OGt2dgxGLMk7lQR/+9xLV/B7WdRXWEg3BUPt4KO5IKDyeTezLF9AHWnD04fgfK
-	2nXYJ1EnaQxR3rVg+sNnFgN1aUtHqaDMbOeU+GZuUWIxV4s+c9g6qqlpiDtYreee6k7+8pvGA8C
-	7G4a6hHy2WJxq3duQitVtxKhbHLHaklE/fMuabUtvfhGKwi9gRoTRXYh/F1qNMPO1buKNGoG0lh
-	brt5KTIruniFlQzDFgXn2ewgvolInmpYYWlc4FschJr8re8XxTMj4BPfFACB+tgEL2+Vbh/ULaQ
-	FivIKbbGEMONBghV
-X-Received: by 2002:a05:7300:a146:b0:2ea:ed7c:8064 with SMTP id
- 5a478bee46e88-3039816dc0fmr7981877eec.3.1779197928558; Tue, 19 May 2026
- 06:38:48 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779198678; x=1779803478;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=laQpefoN7vkeESD532Fomlmi9HvRpWwdwjP+kI9x3eo=;
+        b=gUVAtE6TUzuw82cN4jM+tsRhd4BvWNTaEDQgUwjCdAv0pdC62O1EaNmMNHkxrS0LdQ
+         dHhN/m5P+x6+h86RKImVcPp0xBla3JZtyZlP/ygNDMmlBtgTGAXW6UomzbzjFWG/qf1E
+         eGm7KK1cvVCo7lFpNZ+rcw1xTddiQTqmfj7h768bSQUkvx0AFDVndGS7aGY9B/KtC5UU
+         jXlaRa7i5JLVk4GPYKP8BfJHVJbmo/P2sl/qFUlyfOR7DFP1jQ7j34NDfcm6WIg0WPbI
+         Xtvbr26hrXyfS7cp93cR5ebx5nh/QQlzhRcZHWYNyfwDu/fLtBJKmUo6qqa9RWiCb4I/
+         uGKw==
+X-Forwarded-Encrypted: i=1; AFNElJ+AuWLfyvzFueg6DmM9L/qHWyAwNEnFHP8LfoR7NmkuNjXf/GB48Z9z2nPrhhyJhMlLSSZrgDyWn4E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7BEM69v2wXP6llj9DBxymVAR7lcHwc5bXDzSnszVccz2vVl3u
+	ZyxNcq4Rr6U1tBQ13yV8axmSOg4L9D7jjr9QXaQ0EYrMEx4+icHmMifjGIjljUeqUIc0StFThSX
+	DgkRE2jt0E3HUbgCcAjYevG8ktX8wIcHhUVPQMRLyhTiO8B+V9o9oXSQ4QJwdWCk=
+X-Gm-Gg: Acq92OHhMylbXyy283H58XS9UqcFn4AXn/qaXGBAyru9YUuGiJKAsgxqCaS3cDOJsdd
+	oHtu1n/R3L/k1SB1I0oSWWWePvVOag0MStbd+kmI2ZqmuhRw+T49AhVTP+XN4hDTmLhytyCsUpx
+	+wDJ7fV4c4SA96CRAJftFtds5zYz2cyl2fPhSrJbqlTgcB+yBBxYtXaO5UMROn7z3fqLjgIFfpr
+	RwRVGeMomfXarmrOe4WwXFgvEXC+HgUCY5/HbQ9XXKM9rrLKhBaQxG+ZdzDgWhrMVLj/KvjdBw3
+	zFlEo//+PLmtBKMLYwisQPAnbwuuxofu91BWFDCd5Mmpq7sF9CrTHNb0joBv+oypKV3Y6qXVDAX
+	tkZiyc6TQ8dSOcGzH4s3oaJ4irx91FfDLYMVbguv0jGgoM56ZoIjoNfe/J3pApJamLOaxMfsH72
+	U/Uoj4iBM55N8y1DOHKQ==
+X-Received: by 2002:a05:6a00:4293:b0:835:41f3:f440 with SMTP id d2e1a72fcca58-83f33bf68e4mr18608832b3a.14.1779198678370;
+        Tue, 19 May 2026 06:51:18 -0700 (PDT)
+X-Received: by 2002:a05:6a00:4293:b0:835:41f3:f440 with SMTP id d2e1a72fcca58-83f33bf68e4mr18608773b3a.14.1779198677755;
+        Tue, 19 May 2026 06:51:17 -0700 (PDT)
+Received: from [10.133.33.109] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19664a59sm18398076b3a.1.2026.05.19.06.51.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 May 2026 06:51:17 -0700 (PDT)
+Message-ID: <cbf289b8-19d9-46b2-a80c-f72720686c46@oss.qualcomm.com>
+Date: Tue, 19 May 2026 21:51:11 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260519060926.103727-1-jbroadus@gmail.com>
-In-Reply-To: <20260519060926.103727-1-jbroadus@gmail.com>
-From: Jim Broadus <jbroadus@gmail.com>
-Date: Tue, 19 May 2026 06:38:37 -0700
-X-Gm-Features: AVHnY4LT_jG2no69Sj6hc2qtUbtjHtBegcw9-dznFgFDKMTe2apHJoCmGtMe5Bo
-Message-ID: <CAKgEEwsXD4_Bks1J=irU8c2UbFY4fX9g3H6On3hBiV+DckGQxA@mail.gmail.com>
-Subject: Re: [PATCH] tpm: tpm_tis: Add optional delay after relinquish
-To: linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Cc: peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] cpufreq: Extract cpufreq_policy_init_qos()
+ function
+To: Pierre Gondois <pierre.gondois@arm.com>, linux-kernel@vger.kernel.org
+Cc: Jie Zhan <zhanjie9@hisilicon.com>, Lifeng Zheng
+ <zhenglifeng1@huawei.com>,
+        Ionela Voinescu <ionela.voinescu@arm.com>,
+        Sumit Gupta <sumitg@nvidia.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Huang Rui <ray.huang@amd.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Perry Yuan <perry.yuan@amd.com>,
+        K Prateek Nayak <kprateek.nayak@amd.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Len Brown <lenb@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+        zhongqiu.han@oss.qualcomm.com
+References: <20260511135538.522653-1-pierre.gondois@arm.com>
+ <20260511135538.522653-2-pierre.gondois@arm.com>
+Content-Language: en-US
+From: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+In-Reply-To: <20260511135538.522653-2-pierre.gondois@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=VJPtWdPX c=1 sm=1 tr=0 ts=6a0c6ad7 cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=bSUqCxsoTDCc9_nI8b0A:9 a=QEXdDO2ut3YA:10
+ a=2VI0MkxyNR6bbpdq8BZq:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: DpeJfUdOu91AOG37AwXjqjRneagPmCKT
+X-Proofpoint-GUID: DpeJfUdOu91AOG37AwXjqjRneagPmCKT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE5MDEzNiBTYWx0ZWRfX8Y+Ar5FVVW3b
+ 3sZj1MBqIoJNA8kK9j35m0coN372HUPSjYNyvrAMbWjLji5rXSG3xHKUxJTErz8ovIdHi+fBV/i
+ xJeDajDruefvlX/mhZcLWp3EpAlw1wh3W/AzOLfizCo9NcPZll6zPBMyumqIdI2+quSGZ+y0qpJ
+ SU39nXyPR77deplwohVVgeR2vInZ6aLMSMqN2q8MrVVH6GFk+MwL/UZgnFrqYCjw7hBCPK3OeSQ
+ L25WNlhox+gxT2i7lQMqAkLSmwS1k75Ow0Tl1xxPy97p720q3RLOKJtuJW77G4lmmyQ0dxcbtU+
+ PGSyuuDowpSuVJuQv6QhcNJ6nx6JRbw0LXP2Cjag/7zOnSiRJecXrG6jSp9euxfha4wpJSDYPTg
+ 2skVVzrDKCJHc2IC7PlI39KB/YnfXmt+M9NgZEV9MSr8JWwa9qClM6jRf1qm2jg31HrcRToEhvv
+ vSpm0g68QwmTx3vnv7Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-19_03,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0 bulkscore=0
+ spamscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605190136
 
-I realize the delay should be moved to __tpm_tis_relinquish_locality.
-I'll change that in a v2 patch.
+On 5/11/2026 9:55 PM, Pierre Gondois wrote:
+> Extract the QoS related logic from cpufreq_policy_online()
+> to make the function shorter/simpler.
+> 
+> The logic is placed in cpufreq_policy_init_qos() and is
+> now executed right after the following calls:
+> - cpufreq_driver->init()
+> - cpufreq_table_validate_and_sort()
+> 
+> This helps preparing following patches that will,
+> in cpufreq_policy_init_qos():
+> - treat the policy->min/max values set by drivers as QoS requests.
+> - set a default policy->min/max value to all policies.
+> 
+> No functional change.
+> 
+> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
 
 
-On Mon, May 18, 2026 at 11:09=E2=80=AFPM Jim Broadus <jbroadus@gmail.com> w=
-rote:
->
-> Some TPMs fail to grant locality when requested immediately after being
-> relinquished. In this case, the TPM_ACCESS_REQUEST_USE bit of the
-> TPM_ACCESS register is cleared immediately without setting
-> TPM_ACCESS_ACTIVE_LOCALITY.
->
-> This issue can be seen at boot since tpm_chip_start, called right
-> after locality is relinquished, fails. This causes the probe to fail:
->
-> tpm_tis MSFT0101:00: probe with driver tpm_tis failed with error -1
->
-> This occurs on some older Dell Latitudes and maybe others. To work
-> around this, add a "settle" boolean param to tpm_tis. When this is
-> enabled, a delay is added after locality is relinquished.
->
-> Signed-off-by: Jim Broadus <jbroadus@gmail.com>
+Looks good to me apart from a minor nit inline.
+
+Reviewed-by: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+
+
 > ---
->  Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
->  drivers/char/tpm/tpm_tis.c                      | 7 +++++++
->  drivers/char/tpm/tpm_tis_core.c                 | 3 +++
->  drivers/char/tpm/tpm_tis_core.h                 | 1 +
->  4 files changed, 18 insertions(+)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index 4d0f545fb3ec..5b7111033fbb 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -7651,6 +7651,13 @@ Kernel parameters
->                         defined by Trusted Computing Group (TCG) see
->                         https://trustedcomputinggroup.org/resource/pc-cli=
-ent-platform-tpm-profile-ptp-specification/
->
-> +       tpm_tis.settle=3D [HW,TPM]
-> +                       Format: <bool>
-> +                       When enabled, this adds a delay after locality is
-> +                       relinquished. Some TPMs will fail to grant locali=
-ty if
-> +                       requested immediately after being relinquished. T=
-his
-> +                       causes the probe to fail.
+>   drivers/cpufreq/cpufreq.c | 53 +++++++++++++++++++++++----------------
+>   1 file changed, 32 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index 44eb1b7e7fc1b..034603c2af325 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -1397,6 +1397,32 @@ static void cpufreq_policy_free(struct cpufreq_policy *policy)
+>   	kfree(policy);
+>   }
+>   
+> +static int cpufreq_policy_init_qos(struct cpufreq_policy *policy)
+> +{
+> +	int ret;
 > +
->         tp_printk       [FTRACE]
->                         Have the tracepoints sent to printk as well as th=
-e
->                         tracing ring buffer. This is useful for early boo=
-t up
-> diff --git a/drivers/char/tpm/tpm_tis.c b/drivers/char/tpm/tpm_tis.c
-> index 9aa230a63616..8ac0ea78570e 100644
-> --- a/drivers/char/tpm/tpm_tis.c
-> +++ b/drivers/char/tpm/tpm_tis.c
-> @@ -101,6 +101,10 @@ module_param(force, bool, 0444);
->  MODULE_PARM_DESC(force, "Force device probe rather than using ACPI entry=
-");
->  #endif
->
-> +static bool settle;
-> +module_param(settle, bool, 0444);
-> +MODULE_PARM_DESC(settle, "Add settle time after relinquish");
+> +	if (policy->boost_supported) {
+> +		ret = freq_qos_add_request(&policy->constraints,
+> +						&policy->boost_freq_req,
+> +						FREQ_QOS_MAX,
+> +						policy->cpuinfo.max_freq);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
 > +
->  #if defined(CONFIG_PNP) && defined(CONFIG_ACPI)
->  static int has_hid(struct acpi_device *dev, const char *hid)
->  {
-> @@ -242,6 +246,9 @@ static int tpm_tis_init(struct device *dev, struct tp=
-m_info *tpm_info)
->         if (itpm || is_itpm(ACPI_COMPANION(dev)))
->                 set_bit(TPM_TIS_ITPM_WORKAROUND, &phy->priv.flags);
->
-> +       if (settle)
-> +               set_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &phy->priv.flags=
-);
+> +	ret = freq_qos_add_request(&policy->constraints, &policy->min_freq_req,
+> +				   FREQ_QOS_MIN, FREQ_QOS_MIN_DEFAULT_VALUE);
+> +	if (ret < 0)
+> +		return ret;
 > +
->         return tpm_tis_core_init(dev, &phy->priv, irq, &tpm_tcg,
->                                  ACPI_HANDLE(dev));
->  }
-> diff --git a/drivers/char/tpm/tpm_tis_core.c b/drivers/char/tpm/tpm_tis_c=
-ore.c
-> index 21d79ad3b164..68be26fa5817 100644
-> --- a/drivers/char/tpm/tpm_tis_core.c
-> +++ b/drivers/char/tpm/tpm_tis_core.c
-> @@ -184,6 +184,9 @@ static int tpm_tis_relinquish_locality(struct tpm_chi=
-p *chip, int l)
->                 __tpm_tis_relinquish_locality(priv, l);
->         mutex_unlock(&priv->locality_count_mutex);
->
-> +       if (test_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &priv->flags))
-> +               tpm_msleep(TPM_TIMEOUT);
+> +	ret = freq_qos_add_request(&policy->constraints, &policy->max_freq_req,
+> +				   FREQ_QOS_MAX, FREQ_QOS_MAX_DEFAULT_VALUE);
+> +	if (ret < 0)
+> +		return ret;
 > +
->         return 0;
->  }
->
-> diff --git a/drivers/char/tpm/tpm_tis_core.h b/drivers/char/tpm/tpm_tis_c=
-ore.h
-> index 6c3aa480396b..413cac5e0f31 100644
-> --- a/drivers/char/tpm/tpm_tis_core.h
-> +++ b/drivers/char/tpm/tpm_tis_core.h
-> @@ -90,6 +90,7 @@ enum tpm_tis_flags {
->         TPM_TIS_DEFAULT_CANCELLATION    =3D 2,
->         TPM_TIS_IRQ_TESTED              =3D 3,
->         TPM_TIS_STATUS_VALID_RETRY      =3D 4,
-> +       TPM_TIS_SETTLE_AFTER_RELINQUISH =3D 5,
->  };
->
->  struct tpm_tis_data {
-> --
-> 2.54.0
->
+> +	return ret;
+
+
+
+Just minor nit: cpufreq_policy_init_qos() could perhaps return 0 on
+success.
+
+In the original inline code we only checked 'ret < 0', so positive
+return values were not intended to propagate as part of the API
+contract. Returning 'ret' here may expose a positive success code (e.g.
+1) and make the helper easier to misuse (e.g. 'if (ret)' checks).
+Returning 0 would keep the semantics unambiguous.
+
+Alternatively, if this behavior is intentional, it might be helpful to
+document it with a kdoc comment (e.g. that the function may return 0 or
+1 on success and callers should check 'ret < 0' for errors).
+
+
+
+> +}
+> +
+>   static int cpufreq_policy_online(struct cpufreq_policy *policy,
+>   				 unsigned int cpu, bool new_policy)
+>   {
+> @@ -1442,6 +1468,12 @@ static int cpufreq_policy_online(struct cpufreq_policy *policy,
+>   		if (ret)
+>   			goto out_offline_policy;
+>   
+> +		if (new_policy) {
+> +			ret = cpufreq_policy_init_qos(policy);
+> +			if (ret < 0)
+> +				goto out_offline_policy;
+> +		}
+> +
+>   		/* related_cpus should at least include policy->cpus. */
+>   		cpumask_copy(policy->related_cpus, policy->cpus);
+>   	}
+> @@ -1458,27 +1490,6 @@ static int cpufreq_policy_online(struct cpufreq_policy *policy,
+>   			add_cpu_dev_symlink(policy, j, get_cpu_device(j));
+>   		}
+>   
+> -		if (policy->boost_supported) {
+> -			ret = freq_qos_add_request(&policy->constraints,
+> -						   &policy->boost_freq_req,
+> -						   FREQ_QOS_MAX,
+> -						   policy->cpuinfo.max_freq);
+> -			if (ret < 0)
+> -				goto out_destroy_policy;
+> -		}
+> -
+> -		ret = freq_qos_add_request(&policy->constraints,
+> -					   &policy->min_freq_req, FREQ_QOS_MIN,
+> -					   FREQ_QOS_MIN_DEFAULT_VALUE);
+> -		if (ret < 0)
+> -			goto out_destroy_policy;
+> -
+> -		ret = freq_qos_add_request(&policy->constraints,
+> -					   &policy->max_freq_req, FREQ_QOS_MAX,
+> -					   FREQ_QOS_MAX_DEFAULT_VALUE);
+> -		if (ret < 0)
+> -			goto out_destroy_policy;
+> -
+>   		blocking_notifier_call_chain(&cpufreq_policy_notifier_list,
+>   				CPUFREQ_CREATE_POLICY, policy);
+>   	}
+
+
+-- 
+Thx and BRs,
+Zhongqiu Han
