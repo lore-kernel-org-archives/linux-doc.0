@@ -1,190 +1,399 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011035.outbound.protection.outlook.com [52.101.57.35])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88AB3921DD;
-	Tue, 19 May 2026 08:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779178694; cv=fail; b=ceVZW1K6X5PjKLKRS8107/VUVjJOQ8UENqfZ1fVrFjqbLVCvo4d+1+h9+WJ9VFl9HJgVFbPC1+pEr1DuxKFyg2HBPPF/iJUgHXyuu0kRrR5Y+pDGxiU7JYo/wDdkJi/9agaTYEZEIOcig3Vgtoq+GPHrcKkpi9Fzo3O+t/fDcvE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779178694; c=relaxed/simple;
-	bh=vGb5vZ3kuAY6Hyq/oJc4G6TkurKumJl1/WZVCczxgQY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=nYi2RXH8BkZZPgFQ0zQXGJewyppFl/gJEC/wPajcIfjsR8IHjnpq8AGWHOJBC/WUGMjnixXUkrDpRcs6MnW8iuViKrPXqeLG6Ilv//9oRFJ1cuUw2r1BlPArxQjLVOL8eNa2iZKlXq7n9j7C4HGlGxxhpuRRD+xOvEXqUhuh2Hk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=lNstWQIk; arc=fail smtp.client-ip=52.101.57.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DC33E0C4D;
+	Tue, 19 May 2026 08:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779178857; cv=none; b=HXY+aoq6FHnGfoDiKxPO59P86eNyv1OXfIpSChhyBBG2oSZkg4LaT9zNTH0nnd/tTpw/n8kky9CcPnhETP3pEJxcTzKOA7mnbQMREQW81QFLLrHnPETXGDWouBevfqI5UTxVjuSbOs4kVwm8PyEqffHXzxzvHPtSUkhHauiQOfg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779178857; c=relaxed/simple;
+	bh=fuzhnyoilWzd57vJ+bEoD5Zmuhb+4Qh4JxANN6Dr0sY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Ysuk8Vu0ClBW+mdmxPUf8767hZzy4dvkrDD288UKS1ZnjB3hslsHyS3BG5CA4HRoxei0NBCa1z8jFpsMnWIGdpSTNmNiTqVhz4phxeSAvaQugesC/l5y7f24KzGuYeSEpEEnzt8kG2+iJO4/oS8zrvIu3nrvLR10mpPYc+lILd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=USXO6Kip; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lNstWQIk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CMuJLh1Kav/tq8EcRofSd5DBDWg96Tm4b9DnKHbGcUf+nXoO1Bg4ZjalDuT/dcP6R7mxSt0j47CTuOhl4nqTA1CbPsbfuafTCYhG4XoXZCheHRfiQ979+J3W7gjCdyeasVWMo0PKsexM0OIgbdwGtgVC5xkCitDfH9ipXrN6RRdL5rinFkKRKeOYcK3DFazVBbh5KIobsM2iFp5x3+WFSio9l3PTmEeaZMxv3uZNpMbmJg6X+rwLEYFoBVERt0ipumHz+wCJGB1Ap35T33d+H0olpuFDqm2fDGYQJBjLJPtu8NWCRoLlWl66c/6rC9jb9xalxY4wrFg1UqAVIL6TNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gdt2ufe5Nf4Xh1pVLZNJdJbP8FvV0ky+yp6pl2On0Xw=;
- b=eetHJ0UbttrHloj6JFdoLXWiV6wmonKpnNByjUxJKv4k95oagBnCpEy+wS00eYXuaxadSDjLC4pxNFMQS1DDjWC+TIMWINkVQv1thZfbcp24Yn1RNQTTecEUxaqe5suo9+YnmBsPSP0gsi1/q9YR0R9cY8vmDYsz7LgjawKCLFisOgJ1Ey0T9LRa7XMW0YA/+jevyz6IKpyN0EIQkZjvJhtty/AOVfRPbDH+0Wd1ZUJHQoPSRHZplb85pJfZ4EV+1aIT1LeTc8GFS9sDBUjz2weuqCYDNOFvWGwIyaylVXSLRIIiZSizO5Mh1B96Q5sa5E6uP6j/N/mUdHXZGenlzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gdt2ufe5Nf4Xh1pVLZNJdJbP8FvV0ky+yp6pl2On0Xw=;
- b=lNstWQIkh3aRn5maMLmdcxDQDlsvft+98atXjH5f76WkYzRkAIPKcjWp501iUOZ75WeAt2tGAIZYb6xUgqN5LBAaVB5QpmsObqLH11G/W9FiYEKLvkWmMoZ0A64K2rNiXESjLwrC/9snSimRfA5jcWABIFDq6SfZ/Lvi4+s4lq8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BY5PR12MB4195.namprd12.prod.outlook.com (2603:10b6:a03:200::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.23; Tue, 19 May
- 2026 08:18:09 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Tue, 19 May 2026
- 08:18:09 +0000
-Message-ID: <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com>
-Date: Tue, 19 May 2026 10:18:02 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
-To: Julian Orth <ju.orth@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
- <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com>
- <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
- <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com>
- <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0704.namprd03.prod.outlook.com
- (2603:10b6:408:ef::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="USXO6Kip"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gKSKn6fShz9v16;
+	Tue, 19 May 2026 10:20:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1779178846; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sQfaAnbU3FNLooD1DsvIeItu9adpCmZtOJCbvFgPeek=;
+	b=USXO6Kipz2iYG1/Y8VHZ3ADJpNbbf3zB6UBJhW4VK0YEzVzhblZgP4uPS8FfqkRHGWnBb/
+	9QxNKjWHa2SfQ036Tlji0JeFoKcj0HK9AOqAEgZP8JtAaxcNynnj4zL1LvRKJmeiIyCA3w
+	gtuHSg+grlRsOlXJyzmqqC1KhRVoW8Z4in+PlvnjNgW3+7+/LqZClCGunbP86+VOnaZBEb
+	FoX2/BLL7/CU6fPrcATVTLc3BIFa3Kio7koRToyWHkUAbU5QQT5Uvu8D2gQ/PyS13BzZ84
+	hxvEQ+vodHEUNwH2hxkoA3q48PzVKyv2Vqu/nVT0FaYx0fl6Yr0hLHIHDTOY2g==
+Message-ID: <7a477885c58709f287f6c1440fb7e31331227d10.camel@mailbox.org>
+Subject: Re: [PATCH net-next v3 02/14] libie: add PCI device initialization
+ helpers to libie
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Bjorn Helgaas <helgaas@kernel.org>, Tony Nguyen
+ <anthony.l.nguyen@intel.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+ edumazet@google.com,  andrew+netdev@lunn.ch, netdev@vger.kernel.org, Phani
+ R Burra <phani.r.burra@intel.com>, larysa.zaremba@intel.com, 
+ przemyslaw.kitszel@intel.com, aleksander.lobakin@intel.com, 
+ sridhar.samudrala@intel.com, anjali.singhai@intel.com, 
+ michal.swiatkowski@linux.intel.com, maciej.fijalkowski@intel.com, 
+ emil.s.tantilov@intel.com, madhu.chittim@intel.com, joshua.a.hay@intel.com,
+  jacob.e.keller@intel.com, jayaprakash.shanmugam@intel.com,
+ jiri@resnulli.us,  horms@kernel.org, corbet@lwn.net,
+ richardcochran@gmail.com,  linux-doc@vger.kernel.org, bhelgaas@google.com,
+ linux-pci@vger.kernel.org,  Bharath R <bharath.r@intel.com>, Samuel Salin
+ <Samuel.salin@intel.com>, Aleksandr Loktionov
+ <aleksandr.loktionov@intel.com>, Philipp Stanner <phasta@kernel.org>
+Date: Tue, 19 May 2026 10:20:27 +0200
+In-Reply-To: <20260518215441.GA640516@bhelgaas>
+References: <20260518215441.GA640516@bhelgaas>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BY5PR12MB4195:EE_
-X-MS-Office365-Filtering-Correlation-Id: 516690f0-9c46-4857-911b-08deb57f294e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|56012099003|22082099003|18002099003|3023799003|11063799003|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	CFPTJzkcLhe7SvmUVZG3AATO29fXnhMroJayWC8s+mOtDeMtBpZingtX3Z7N8GD16qade60lT4TGb/xLnJ9XxgMYEkFmcGK9pD+D8qPEVusIFOKKZWfJHUWvHhALIfjI1Vnym0Kc8p380d4OGKUm0Mm8w2vUIaWJatDFq+CuprqwLX5CNgs/ogwKYhtj+VmgJ0hi+j3GhaxZT1fLspgwRwSUlU1H4DgxlbJqQF5JGzu70VsVhaa4imRMqmS1s0kYz+9VAy4AHkNxrYIPOjddbkBsHWDpDeYi4bxWQVf1ftMuZWyMyAFo0R5rGCITXL7rpJOYnmE7TSaH/hm0crhfnZR4rqc63aX8YfbSE8OJFM9hKwuMRwJD4V3MXN5nd6gF/ULr2uUvtXrBR3+YR9sxGEcAGB1is3U5kQDv3R12aOhIkSPo49LrAfXHPW311CD8mgn1HB6juRQP7KDg26JisVE5z88xrlSRZ7mbPRbMfODOaoS7PQnx8e35zPERh+16Ggi0zemb1FFV8lfth+4Jbgtsw31hwg3sz1Iog694HZ5w5i94UcR6SnIF7FqjSH5hXhNG3anvqlqVltE6LYiJ1WwvfUJEMu27U4N5Gs0gjX0/5ToTAUKBuNnN2AsrMbfd/EPPi107BkTiAYMJOGtyVOze5S/xlkZykuRVTgeg2NN6VWisq0KSXpIncW1HSsARL04Ayt/e5ganhXCrCZc6vw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(56012099003)(22082099003)(18002099003)(3023799003)(11063799003)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?andXVXp2cFc0WnpCMU00OFdQNC9ldjVMSTF5NVYrN3cyaFAvVVMvZ0dnSjl3?=
- =?utf-8?B?S1hBdnEvRFk5MTBqYWFsd3A1dERUK2ZaeWtJTG5DL0RVWGNMWkVXZXUvcklp?=
- =?utf-8?B?dm5pNTVoTm1URUd5SnFxT3JveHRnSmZ4eEdmTkExMWpBSnJMdjdzaDZoMWVv?=
- =?utf-8?B?Z2JlRDZkMXorM29iUUpiYVFrcHQxeVlpVHRscXdxNHZmbEFFR3lLYTRoaG93?=
- =?utf-8?B?TmlRN3R6ZFJIOUN0cDV0K3FXSkdJTUo2NTU1bnQvd0c5SENsT0RkWTJRcEtK?=
- =?utf-8?B?d01ZYTVNMExmbFhNUVh0RXpVUTZtRkM5R2N2NGZJaGpKWUNrenVnRm5qR1Nh?=
- =?utf-8?B?ak4vV2VKVGtqdCtXTXFFTVM3N2JZVEVzMjdoNGpkcURMZCtzbCtLaitHdmRQ?=
- =?utf-8?B?KzR5L2dtYnVrYy9lQjllS2R4aE02L3R6VklHWjE3dVNnQldDM21xRDRXYVJ2?=
- =?utf-8?B?NnEzZFZBcFpSVEk0RmY5OXJiNVd3WER0M1VETWljSkU2QXVQTmZoVk9aOGFS?=
- =?utf-8?B?NitHT3poSHNZRCtlVzB0TXlJTnVHdjQrRnA2aGhrQkdBc2s4d1c3NTB5bDcv?=
- =?utf-8?B?alhjQWZZem5qOHpyUFFmcFdLbTJPdStDZGZPQmlkWHlML1d3SEFReTRnS1pl?=
- =?utf-8?B?YTlMcDgrOXJjQlBsU3JzVzdiZVh3bHdRK2JZejMzT3dlNk9IQW5BOURoYy96?=
- =?utf-8?B?ZnBKemZ6aTBvOXhTMnVYejhQODZpQUFNM0ptSWE5Q1ZPTFduVTl0S3g3OTR2?=
- =?utf-8?B?MHRtb2ZXTHdWRXRXbzJXdko4TnBxaWtiOHQ5ejRiNnYzSm1GcDlCazdCRVhQ?=
- =?utf-8?B?d3BvK0M3L3lxNkVlMXRjQm13YXVGOTk2UlhSZlo0aXNCeWVKeGxBcTR2cmNy?=
- =?utf-8?B?QVdmc3RiSjFKdWgwS0hNRU9rR2VoSGVWemxYUWlVYVBLM3NQWjNyc0F4STBK?=
- =?utf-8?B?Nk5SSWF4R3NHNEJPcjNqRFVPeVdWT3dnVmhtS3llTTJLNjJwM3VITndoTjJz?=
- =?utf-8?B?WkNBenp4S1BBRU5TS3Y2ekswb0pkeTIvNHRJTks4Q0Z0ZGRmWXNxclZjZXFS?=
- =?utf-8?B?eTFzeHJqcUVXUVpibHB2cUpCMHBnWHcwVEc0dTgvZUtzR0I1bm42UEM0K1lm?=
- =?utf-8?B?c2dvZlp5b05ocm5KL2ZOMnVhbDVFUmZJZjlBTW40Zmp5blN2WFJBejZRNzhn?=
- =?utf-8?B?cGNiMFRheFBZbzJHMlQybFlXM0dUTDdPT2ZyUldoMFByVCszNTNhQmlmTHA1?=
- =?utf-8?B?anN5WTh3dmJveDJkeEJtSm92aE1uMHNWaGRlYUZOS2J6a3RJSW5wUkUyckZX?=
- =?utf-8?B?YjZpNEhPR3hjMUN4NXlFc0hUcEhybGFaaVFvQjJHWXJQNVNkN1VZRmg4SlpS?=
- =?utf-8?B?L04xVlJkSWxDYTFBeEptM0l4K3p3QXlkdU9kbE1MV0ZZU3ZOWndFOHh3bXM2?=
- =?utf-8?B?ZmsxK2NIQUp4dmZsTXU4Zk5jM3V0LytwWjN5VEE4eWhsa2lzbWFoMXZ1QVIv?=
- =?utf-8?B?QXNQRU1vWHl3Z3UxcFdaQXQzQzN3enRrdnlYeEpIanZId0dmRHA2b1BHUEY4?=
- =?utf-8?B?NlE5ZjdlNlNndEppcGR6TDFwU2Z0WGg2S0hhVEllOWx3ajVqYm1MSnNYb2cv?=
- =?utf-8?B?UGhwd3NuVUpLdkhtTkhTUFh0VlVVcjQxTjNDZEJrZGdYTDZFSlM4TEZma2M2?=
- =?utf-8?B?VWhaVWtSbi9IZkpsRU1IbExmR21oamNPYmlyWmthTGlWMjE5dlR4SmdFOHpZ?=
- =?utf-8?B?T3FxTXkrSkxJbXA2SGxmamlEZmtUZkNhQ1JaRjBwU3pyV1BPUExjM1l1RG9D?=
- =?utf-8?B?dzVYeGwzaXJYWmhnL01oSDhXSVZubTRPT0lNSk5jV2xDdUFQcWlaeks1STFN?=
- =?utf-8?B?Y082U004cnB0NWRsQlpvSXBITkJWZ2U4TUFhZ1JUcHJteUpoNVZrcm5VL2xZ?=
- =?utf-8?B?TVBPNE5zSFVqWDAvaG8vWlNreThQZ0E1YlM3eFNpSVNyYWk2Q2kxNWhiUG5u?=
- =?utf-8?B?VXIwMWpwemVGL0M4Tm9hZVlZSTVaaVNzWjhIc2JhbE1NSTNVME1mVk5vNmU4?=
- =?utf-8?B?MzVUMmF0cUErM3JhZ2dUVnEzMU1aOURPa3NMcUlORkxPZzlXaUJKZHpHcXBw?=
- =?utf-8?B?akhLZlFROS9ocVBUem9RVlVrV1Ixd2RidXphVXFJZTlyaHNsbkFIM1VEVzZk?=
- =?utf-8?B?N3dLMnN4WjAvZ2k5aFI4VTdsT1VFdUdZbFhSUWh4VVNHZXgxZ3FkZlliWlFu?=
- =?utf-8?B?YXl3KzZudk9teGdQVUJtNkkyZnhzaFAxYVJTTHplQlVRTnRlWGREZGw2NzY5?=
- =?utf-8?Q?c6wtNeuk9Ae0NQPLP6?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 516690f0-9c46-4857-911b-08deb57f294e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2026 08:18:09.3016
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tr7OtFUqQHK8vI/daEkTbxnZS3gxADwqoZAsy1yJIMIY/7X1ipcVIC6XRUbM4oud
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4195
+X-MBO-RS-META: bu4mq3maazu4tprzgcr66hucmwurcb8x
+X-MBO-RS-ID: 8ab3abc5a08522f74bf
 
-On 5/18/26 14:58, Julian Orth wrote:
-> On Mon, May 18, 2026 at 2:41 PM Christian König
-> <christian.koenig@amd.com> wrote:
-...
->> It could be that we have eventfd integration for that as well now, but in that case you could give the compositor an eventfd instead of a drm_syncobj fd in the first place.
-> 
-> Yes, all compositors use the DRM_IOCTL_SYNCOBJ_EVENTFD ioctl to wait
-> async for the timeline point to materialize and/or be signaled. The
-> wayland protocol was the motivation for that ioctl.
-> 
->>
->> So as far as I can see using drm_syncobj for software rendering really doesn't make sense, eventfd is a much better fit for that use case.
-> 
-> Using eventfd has some disadvantages:
-> 
-> - We've just added syncobj support to vulkan:
-> https://github.com/KhronosGroup/Vulkan-Docs/issues/2473#issuecomment-4446117280.
-> For eventfd we would not only have to add yet another extension, that
-> would realistically only be exposed by llvmpipe, but also every
-> compositor and every client would have to support both extensions.
-> - Similarly, a new wayland protocol would need to be designed to
-> support sync over eventfd.
-> - Eventfd does not support timeline semantics. Meaning that you would
-> have to send two eventfds over the wire for each commit, one for the
-> acquire point and one for the release point. Whereas with syncobj you
-> only need to send two integers per commit.
-> 
-> I don't see the advantage when drm_syncobj already does everything we need.
-> 
-> You seem to believe that compositors would not be ready for this and
-> from that perspective I can understand your apprehension. But I can
-> assure you that compositors are already fully set up to support all of
-> the usecases I've described: The wayland protocol requires the
-> compositor to support wait before signal.
-Yeah that's much better than I thought it would be.
+On Mon, 2026-05-18 at 16:54 -0500, Bjorn Helgaas wrote:
+> [+cc Philipp]
+>=20
+> On Fri, May 15, 2026 at 03:44:26PM -0700, Tony Nguyen wrote:
+> > From: Phani R Burra <phani.r.burra@intel.com>
+> >=20
+> > Add support functions for drivers to configure PCI functionality and ac=
+cess
+> > MMIO space.
+>=20
+> This looks kind of like what pcim_iomap_range() does, i.e., a way to
+> ioremap (BAR-idx, offset, size) pieces of PCI BARs.=C2=A0 That sounds lik=
+e
+> useful functionality.
+>=20
+> Is there something Intel-specific or even ethernet-specific about
+> this?=C2=A0 If devm_* and pcim_* don't do what you need, maybe they shoul=
+d
+> be extended or this could be made generic so any drivers could use it?
+>=20
+> This looks like a mix of managed (pcim_enable_device(),
+> pcim_request_region()), and unmanaged (ioremap(), iounmap()) things.
+> I haven't looked at how all this is used, but it's pretty easy to get
+> things wrong when mixing models.
+>=20
+> > +++ b/drivers/net/ethernet/intel/libie/pci.c
+> > @@ -0,0 +1,208 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/* Copyright (C) 2025 Intel Corporation */
+> > +
+> > +#include <linux/intel/libie/pci.h>
+> > +
+> > +/**
+> > + * libie_find_mmio_region - find MMIO region containing a range
+> > + * @mmio_list: list that contains MMIO region info
+> > + * @offset: range start offset
+> > + * @size: range size
+> > + * @bar_idx: BAR index containing the range to search
+> > + *
+> > + * Return: pointer to a MMIO region overlapping with the range in any =
+way or
+> > + *	=C2=A0=C2=A0 NULL if no such region is mapped.
+> > + */
+> > +static struct libie_pci_mmio_region *
+> > +libie_find_mmio_region(const struct list_head *mmio_list,
+> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 resource_size_t offset, resourc=
+e_size_t size,
+> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int bar_idx)
+> > +{
+> > +	resource_size_t end_offset =3D offset + size;
+> > +	struct libie_pci_mmio_region *mr;
+> > +
+> > +	list_for_each_entry(mr, mmio_list, list) {
+> > +		resource_size_t mr_end =3D mr->offset + mr->size;
+> > +		resource_size_t mr_start =3D mr->offset;
+> > +
+> > +		if (mr->bar_idx !=3D bar_idx)
+> > +			continue;
+> > +		if (offset < mr_end && end_offset > mr_start)
+> > +			return mr;
+> > +	}
+> > +
+> > +	return NULL;
+> > +}
+> > +
+> > +/**
+> > + * __libie_pci_get_mmio_addr - get the MMIO virtual address
+> > + * @mmio_info: contains list of MMIO regions
+> > + * @offset: register offset to find
+> > + * @num_args: number of additional arguments present
+> > + *
+> > + * This function finds the virtual address of a register offset by ite=
+rating
+> > + * through the non-linear MMIO regions that are mapped by the driver.
+> > + *
+> > + * Return: valid MMIO virtual address or NULL.
+> > + */
+> > +void __iomem *__libie_pci_get_mmio_addr(struct libie_mmio_info *mmio_i=
+nfo,
+> > +					resource_size_t offset,
+> > +					int num_args, ...)
+> > +{
+> > +	struct libie_pci_mmio_region *mr;
+> > +	int bar_idx =3D 0;
+> > +	va_list args;
+> > +
+> > +	if (num_args) {
+> > +		va_start(args, num_args);
+> > +		bar_idx =3D va_arg(args, int);
+> > +		va_end(args);
+> > +	}
+> > +
+> > +	list_for_each_entry(mr, &mmio_info->mmio_list, list)
+> > +		if (bar_idx =3D=3D mr->bar_idx && offset >=3D mr->offset &&
+> > +		=C2=A0=C2=A0=C2=A0 offset < mr->offset + mr->size) {
+> > +			offset -=3D mr->offset;
+> > +
+> > +			return mr->addr + offset;
+> > +		}
+> > +
+> > +	return NULL;
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(__libie_pci_get_mmio_addr, "LIBIE_PCI");
+> > +
+> > +/**
+> > + * __libie_pci_map_mmio_region - map PCI device MMIO region
+> > + * @mmio_info: struct to store the mapped MMIO region
+> > + * @offset: MMIO region start offset
+> > + * @size: MMIO region size
+> > + * @num_args: number of additional arguments present
+> > + *
+> > + * Return: true on success, false on memory map failure.
+> > + */
+> > +bool __libie_pci_map_mmio_region(struct libie_mmio_info *mmio_info,
+> > +				 resource_size_t offset,
+> > +				 resource_size_t size, int num_args, ...)
+> > +{
+> > +	struct pci_dev *pdev =3D mmio_info->pdev;
+> > +	struct libie_pci_mmio_region *mr;
+> > +	resource_size_t pa;
+> > +	void __iomem *va;
+> > +	int bar_idx =3D 0;
+> > +	va_list args;
+> > +
+> > +	if (num_args) {
+> > +		va_start(args, num_args);
+> > +		bar_idx =3D va_arg(args, int);
+> > +		va_end(args);
+> > +	}
+> > +
+> > +	if (offset + size > pci_resource_len(pdev, bar_idx))
+> > +		return false;
+> > +
+> > +	mr =3D libie_find_mmio_region(&mmio_info->mmio_list, offset, size,
+> > +				=C2=A0=C2=A0=C2=A0 bar_idx);
+> > +	if (mr) {
+> > +		pci_warn(pdev,
+> > +			 "Mapping of BAR%u (offset=3D%llu, size=3D%llu) intersecting region=
+ (offset=3D%llu, size=3D%llu) already exists\n",
+> > +			 bar_idx, (unsigned long long)mr->offset,
+> > +			 (unsigned long long)mr->size,
+> > +			 (unsigned long long)offset, (unsigned long long)size);
+> > +		return mr->offset <=3D offset &&
+> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mr->offset + mr->size >=3D offs=
+et + size;
+> > +	}
+> > +
+> > +	pa =3D pci_resource_start(pdev, bar_idx) + offset;
+> > +	va =3D ioremap(pa, size);
 
-And that eventfds don't support timeline points is indeed a pretty good argument.
+I agree with Bjorn, this certainly looks like something that can be
+covered by shared PCI infrastructure?
 
-But I still don't see much justification for creating a /dev/syncobj device, this is clearly something DRM specific.
+> > +	if (!va) {
+> > +		pci_err(pdev, "Failed to map BAR%u region\n", bar_idx);
+> > +		return false;
+> > +	}
+> > +
+> > +	mr =3D kvzalloc_obj(*mr);
+> > +	if (!mr) {
+> > +		iounmap(va);
+> > +		return false;
+> > +	}
+> > +
+> > +	mr->addr =3D va;
+> > +	mr->offset =3D offset;
+> > +	mr->size =3D size;
+> > +	mr->bar_idx =3D bar_idx;
+> > +
+> > +	list_add_tail(&mr->list, &mmio_info->mmio_list);
+> > +
+> > +	return true;
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(__libie_pci_map_mmio_region, "LIBIE_PCI");
+> > +
+> > +/**
+> > + * libie_pci_unmap_fltr_regs - unmap selected PCI device MMIO regions
+> > + * @mmio_info: contains list of MMIO regions to unmap
+> > + * @fltr: returns true, if region is to be unmapped
+> > + */
+> > +void libie_pci_unmap_fltr_regs(struct libie_mmio_info *mmio_info,
+> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool (*fltr)(struct libie_mmio=
+_info *mmio_info,
+> > +					=C2=A0=C2=A0=C2=A0 struct libie_pci_mmio_region *reg))
+> > +{
+> > +	struct libie_pci_mmio_region *mr, *tmp;
+> > +
+> > +	list_for_each_entry_safe(mr, tmp, &mmio_info->mmio_list, list) {
+> > +		if (!fltr(mmio_info, mr))
+> > +			continue;
+> > +		iounmap(mr->addr);
+> > +		list_del(&mr->list);
+> > +		kvfree(mr);
+> > +	}
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(libie_pci_unmap_fltr_regs, "LIBIE_PCI");
+> > +
+> > +/**
+> > + * libie_pci_unmap_all_mmio_regions - unmap all PCI device MMIO region=
+s
+> > + * @mmio_info: contains list of MMIO regions to unmap
+> > + */
+> > +void libie_pci_unmap_all_mmio_regions(struct libie_mmio_info *mmio_inf=
+o)
+> > +{
+> > +	struct libie_pci_mmio_region *mr, *tmp;
+> > +
+> > +	list_for_each_entry_safe(mr, tmp, &mmio_info->mmio_list, list) {
+> > +		iounmap(mr->addr);
+> > +		list_del(&mr->list);
+> > +		kvfree(mr);
+> > +	}
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(libie_pci_unmap_all_mmio_regions, "LIBIE_PCI");
+> > +
+> > +/**
+> > + * libie_pci_init_dev - enable and reserve PCI regions of the device
+> > + * @pdev: PCI device information
+> > + *
+> > + * Return: %0 on success, -%errno on failure.
+> > + */
+> > +int libie_pci_init_dev(struct pci_dev *pdev)
+> > +{
+> > +	int err;
+> > +
+> > +	err =3D pcim_enable_device(pdev);
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	for (int bar =3D 0; bar < PCI_STD_NUM_BARS; bar++)
+> > +		if (pci_resource_flags(pdev, bar) & IORESOURCE_MEM) {
+> > +			err =3D pcim_request_region(pdev, bar, pci_name(pdev));
 
-What about using VGEM for this?
+So mappings are handled manually, and region requests automatically
+through devres?
 
-Regards,
-Christian.
+In case you can use (or add) a pcim_iomap_region() function for that,
+you would get consistent automatic devres management.
 
-> 
->>
->> Regards,
->> Christian.
+
+Greetings,
+P.
+
+> > +			if (err)
+> > +				return err;
+> > +		}
+> > +
+> > +	err =3D dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	pci_set_master(pdev);
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(libie_pci_init_dev, "LIBIE_PCI");
+> > +
+> > +MODULE_DESCRIPTION("Common Ethernet PCI library");
+> > +MODULE_LICENSE("GPL");
+> > diff --git a/include/linux/intel/libie/pci.h b/include/linux/intel/libi=
+e/pci.h
+> > new file mode 100644
+> > index 000000000000..effd072c55c8
+> > --- /dev/null
+> > +++ b/include/linux/intel/libie/pci.h
+> > @@ -0,0 +1,56 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +/* Copyright (C) 2025 Intel Corporation */
+> > +
+> > +#ifndef __LIBIE_PCI_H
+> > +#define __LIBIE_PCI_H
+> > +
+> > +#include <linux/pci.h>
+> > +
+> > +/**
+> > + * struct libie_pci_mmio_region - structure for MMIO region info
+> > + * @list: used to add a MMIO region to the list of MMIO regions in
+> > + *	=C2=A0 libie_mmio_info
+> > + * @addr: virtual address of MMIO region start
+> > + * @offset: start offset of the MMIO region
+> > + * @size: size of the MMIO region
+> > + * @bar_idx: BAR index to which the MMIO region belongs to
+> > + */
+> > +struct libie_pci_mmio_region {
+> > +	struct list_head	list;
+> > +	void __iomem		*addr;
+> > +	resource_size_t		offset;
+> > +	resource_size_t		size;
+> > +	u16			bar_idx;
+> > +};
+> > +
+> > +/**
+> > + * struct libie_mmio_info - contains list of MMIO regions
+> > + * @pdev: PCI device pointer
+> > + * @mmio_list: list of MMIO regions
+> > + */
+> > +struct libie_mmio_info {
+> > +	struct pci_dev		*pdev;
+> > +	struct list_head	mmio_list;
+> > +};
+> > +
+> > +#define libie_pci_map_mmio_region(mmio_info, offset, size, ...)	\
+> > +	__libie_pci_map_mmio_region(mmio_info, offset, size,		\
+> > +				=C2=A0=C2=A0=C2=A0=C2=A0 COUNT_ARGS(__VA_ARGS__), ##__VA_ARGS__)
+> > +
+> > +#define libie_pci_get_mmio_addr(mmio_info, offset, ...)		\
+> > +	__libie_pci_get_mmio_addr(mmio_info, offset,			\
+> > +				=C2=A0=C2=A0 COUNT_ARGS(__VA_ARGS__), ##__VA_ARGS__)
+> > +
+> > +bool __libie_pci_map_mmio_region(struct libie_mmio_info *mmio_info,
+> > +				 resource_size_t offset, resource_size_t size,
+> > +				 int num_args, ...);
+> > +void __iomem *__libie_pci_get_mmio_addr(struct libie_mmio_info *mmio_i=
+nfo,
+> > +					resource_size_t offset,
+> > +					int num_args, ...);
+> > +void libie_pci_unmap_all_mmio_regions(struct libie_mmio_info *mmio_inf=
+o);
+> > +void libie_pci_unmap_fltr_regs(struct libie_mmio_info *mmio_info,
+> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool (*fltr)(struct libie_mmio=
+_info *mmio_info,
+> > +					=C2=A0=C2=A0=C2=A0 struct libie_pci_mmio_region *reg));
+> > +int libie_pci_init_dev(struct pci_dev *pdev);
+> > +
+> > +#endif /* __LIBIE_PCI_H */
+> > --=20
+> > 2.47.1
+> >=20
+
