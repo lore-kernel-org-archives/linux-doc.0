@@ -1,47 +1,67 @@
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFC24BC030;
-	Tue, 19 May 2026 12:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8F54D8D8A;
+	Tue, 19 May 2026 12:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779193608; cv=none; b=ikphtNHjTPkIRmrGKKRsfa/cJ01lXftG//ojDP7J0O+XUHWxmaX5m4BI3mHgV3LewOL7LNASGRANg5mpBKWbT8t5DsE3Eju+jceZQvURYKDQpp98bmRYuS14R8m3KAixFDO01GaSIkS2qjj8+ZTlujmfenz7qSyvDjsy7psFmF0=
+	t=1779193721; cv=none; b=lKTFT/qgfYaY2ZJOyWeGaP5q2WjtvqFTb4G81rI+oqSXQ3fVA9eXK9vnYK2pVX3t2Wfsmn6UANuRHThfnS0gXZRUMKCyielsOu4nKJL389OAO1FtFSgktLeH8TyA1h8JPSAbnZUSXOUe7sqZGrvbL7V/lFIzeHmpUJIV1kKDLzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779193608; c=relaxed/simple;
-	bh=mRba9h2gfvXWw5pBqvzT+wX9InA2J38+IlZ4u6dwt8c=;
+	s=arc-20240116; t=1779193721; c=relaxed/simple;
+	bh=KzhKDF0K3r8ZFHYPz4rFLwMyhdEt83hvwqLEVGEIrmU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X8iurokPAxRCh6jOgjrXUZ1TVhuFL1sgcdUfjjNHnU8vi42r5FHXF8UabX1DvnrjQTYhQ7dH7ZC5MzbeelXLigIzwHDAvOlVITPvHXadYvYOVnrOuYe1ULsODwPFfaySMwC2cAk/3Oe7X6SIcbCcbp+kCp61vwmN+c0r6v49VEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=GYp3AcZJ; arc=none smtp.client-ip=62.210.214.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=OpvYWdIUdmwgCE8wSwWThraxMfBhXZkZtPQBdmiy0nWYNHMyv5Rc4UK6WxJQsPTyueZ8V22OKM558vWqwD+L6zoOgrq80nk8eGgZ7/2OAy9PNuQEXs3KBYamQ5fI90fMh1Xb6VPmpH51uFekUzYjOcc9gYIuB/yhTz1qYd4XEaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=q1qj6Ejv; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="GYp3AcZJ"
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id 43AB814C2D6;
-	Tue, 19 May 2026 14:26:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1779193603;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n96hixq1CKIOyyia02VL4n7Ha7jZSPQbAVaxVmHdhVc=;
-	b=GYp3AcZJOKPiNX0Ate2YF09BFlIDEEb51ldjcIKFo2xdSBc6ceWn79kihimAYeNTcFilGi
-	QQkgQHR1ZwboXxwm7C1jXxI6AuggT0YVEdJJhvvQpWHOBPx0Lxqsi219BcQFYvQumPTj6Q
-	feQ5c7nG2aVnpGPQlfiQ+JYr3+p17+SoGeF+z9g+A4lDA/IFqSuALAfgD7f80S4d3njkst
-	MvadhpZWQKYEb1PRF4zY0eDOSjfYnw8/KgZhWEaU3Yg7tvkWC/14NOu49mSmLAnybO/zzP
-	0BHj1jQ7kOQ88GoOq42tPXEW1qjk1poRcIS/dnICmPKygz/KysZ5EO907MvvdQ==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 3d4f33a4;
-	Tue, 19 May 2026 12:26:39 +0000 (UTC)
-Date: Tue, 19 May 2026 21:26:24 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: ericvh@kernel.org, Aayush Patil <aayushpatilsch@gmail.com>
-Cc: lucho@ionkov.net, linux_oss@crudebyte.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/filesystems/9p: fix broken external links
-Message-ID: <agxW8An7fRApCY1r@codewreck.org>
-References: <20260510182856.17569-1-aayushpatilsch@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="q1qj6Ejv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=LSInc1JiWKpTsleWh0NnlPhduAwurDov6fxszzRl4KU=; b=q1qj6EjvjeOCpnV9NuMTZItkZo
+	T49ZLX8cYfyOlkxGJ5ed0/205ef9CdMyfpTnPrJw4d0NlREDi558jtxp6i14+ScXOJJJeOKeAI6Ca
+	c6ybN1E7zSWrAAJBgiMdxBZFC6gf/BHl9K8PjFGljUMOD377kqH85RMtSd0emtLXkLcCkCtdj8PSO
+	+3Y6QxsUHJCJkZp8fwY6a7sB7lowzJocWIGcFLpvXn+T5Zn5WBPWyJtrQMUhHCFk/3fQF46w7jPnf
+	7cF8vntKQ5xvdQ2a1KiK9hB1UPs/bVJjk2Y+gCy4qSHwmzjWs6ixfRlnn3wz0OeKWI3dHtddEaGUA
+	1Rzx+RCA==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wPJYp-00000005tqO-1kxS;
+	Tue, 19 May 2026 12:28:35 +0000
+Date: Tue, 19 May 2026 13:28:35 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>,
+	=?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bharath Kumar <quic_bkumar@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chenna Kesava Raju <quic_chennak@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 09/15] accel/qda: Add DMA-backed GEM objects and memory
+ manager integration
+Message-ID: <agxXc8ttEzBFOlE2@casper.infradead.org>
+References: <20260519-qda-series-v1-9-b2d984c297f8@oss.qualcomm.com>
+ <5e0d72fa-929a-4905-9066-6648892bef4a@web.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,60 +70,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260510182856.17569-1-aayushpatilsch@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5e0d72fa-929a-4905-9066-6648892bef4a@web.de>
 
-Aayush Patil wrote on Sun, May 10, 2026 at 11:58:56PM +0530:
-> The xcpu.org links for xcpu-talk, kvmfs, and cellfs-talk are dead
-> with no archived snapshots available on the Wayback Machine, so
-> remove them. The PROSE I/O link redirects to a dead server; replace
-> it with an archived version from web.archive.org.S
 
-(I assume the final S is a typo here)
+Feel free to ignore everything Markus says.
 
-Eric, it looks like you're the one who added these links, would you
-happen to have a copy around if you care about keeping these?
-Otherwise I'm not sure of the value of listing the papers without the
-actual files available, but I don't mind either way.
-
-I agree dead links are of little value though so will pick this up if
-there's no reply in a while
-
+On Tue, May 19, 2026 at 02:14:34PM +0200, Markus Elfring wrote:
+> …
+> > Assisted-by: Claude:claude-4-6-sonnet
+> …
 > 
-> Signed-off-by: Aayush Patil <aayushpatilsch@gmail.com>
-> ---
->  Documentation/filesystems/9p.rst | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+> Did such an information source gather the knowledge to benefit more
+> from the application of scope-based resource management?
 > 
-> diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
-> index be3504ca034a..65809a1dad21 100644
-> --- a/Documentation/filesystems/9p.rst
-> +++ b/Documentation/filesystems/9p.rst
-> @@ -23,13 +23,10 @@ the 9p client is available in the form of a USENIX paper:
->  Other applications are described in the following papers:
->  
->  	* XCPU & Clustering
-> -	  http://xcpu.org/papers/xcpu-talk.pdf
-
-I found http://mirtchovski.postnix.pw/p9/xcpu-talk.pdf but I'm not sure
-if it's the same file
-
->  	* KVMFS: control file system for KVM
-> -	  http://xcpu.org/papers/kvmfs.pdf
-
-Looks close but perhaps not the same as
-https://www.kernel.org/doc/ols/2007/ols2007v2-pages-59-64.pdf ?
-
->  	* CellFS: A New Programming Model for the Cell BE
-> -	  http://xcpu.org/papers/cellfs-talk.pdf
-
-Couldn't find anything fo this one
-
->  	* PROSE I/O: Using 9p to enable Application Partitions
-> -	  http://plan9.escet.urjc.es/iwp9/cready/PROSE_iwp9_2006.pdf
-> +	  http://web.archive.org/web/20110101152020/http://plan9.escet.urjc.es/iwp9/cready/PROSE_iwp9_2006.pdf
->  	* VirtFS: A Virtualization Aware File System pass-through
->  	  https://kernel.org/doc/ols/2010/ols2010-pages-109-120.pdf
->  
-
--- 
-Dominique Martinet | Asmadeus
+> 
+> …
+> > +++ b/drivers/accel/qda/qda_drv.c
+> …
+> > @@ -32,6 +33,18 @@ static void qda_postclose(struct drm_device *dev, struct drm_file *file)
+> >  {
+> …
+> > +		if (refcount_dec_and_test(&iommu_dev->refcount)) {
+> > +			spin_lock_irqsave(&iommu_dev->lock, flags);
+> > +			iommu_dev->assigned_pid = 0;
+> > +			iommu_dev->assigned_file_priv = NULL;
+> > +			spin_unlock_irqrestore(&iommu_dev->lock, flags);
+> > +		}
+> …
+> 
+> Under which circumstances would you become interested to apply a statement
+> like “guard(spinlock_irqsave)(&iommu_dev->lock);”?
+> https://elixir.bootlin.com/linux/v7.1-rc4/source/include/linux/spinlock.h#L619-L622
+> 
+> Regards,
+> Markus
+> 
