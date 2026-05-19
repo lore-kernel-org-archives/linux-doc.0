@@ -1,98 +1,112 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60102246774;
-	Tue, 19 May 2026 15:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFBF256D
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 15:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.43.1.242
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779204961; cv=none; b=Va+DQCwAm7r7/64xSZ/s6ZbxwF9RL/yTdXX0ktbrHiOFIJUZUd3HwfvPifKLLoe4brsTB/uXVFIITSk6VCyrkBhEf9cBOoCK1ZDPnP3EdHe67mNQvoywsFCxOMBtOo8XamoRh/5FsleNV6dRoFvGzn+z3D6tOu9TnYxpLjVv+bI=
+	t=1779205049; cv=none; b=uxMkJ17l1jFfyZ/oK9prgxHJThAkRkpuH3MJ85BIjTcYI3f8AWdf1YgTHimXaC/035iCdQI/nErW6hN9pQS98J7JYiTriApYbxUg+LRXtyEoPjhRYBY8F7jR1o7lSO2Z8utweAckVpug8ZOYH3FIUtxJCG9pJnJ5WjpaMBYq0gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779204961; c=relaxed/simple;
-	bh=ZkRz0E7rghIRIQ6Vas5WZriK1yQc+rUOKfruBiITXEI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=F6Pin+4BeKLGQncWgzZqx9tNKLw29gv/WZkRAzXBCZsde8wyXuVipKI1xpNTjm8erkvuaGbetMJIFvEfpOzxFAHj3hWuEuj2ZIkrjaRDD/I5Rpowysn0mLPPFejS23hcK9hRtKrC/FbjFQKT/OWRA2PVCsIclgGz+HhAFnixKj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Tr5Iy+eF; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1779205049; c=relaxed/simple;
+	bh=oT6uiKktMScgUXFbTJP5r3yFWiKp5GOGABsHC9u3r+8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NKSI/zZZImjapUYm4xuNC6wcICRgFvIwZA+SuUAJ/bz60vjK7on+Y9fSDvEkbDBJbgmeu+UMYR4BHxKKVHdHRY2vHWBRirpgEf5cdqASUTIPQsmIt7N3yqSTxMcs4GuPfnw++7kcdy1oO+gGyYxIZDm6K4kxcMMX0ySxofJHBFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org; spf=pass smtp.mailfrom=kde.org; dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b=aDPUmUeu; arc=none smtp.client-ip=46.43.1.242
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kde.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Tr5Iy+eF"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 46E243528;
-	Tue, 19 May 2026 08:35:52 -0700 (PDT)
-Received: from devkitleo.cambridge.arm.com (devkitleo.cambridge.arm.com [10.1.196.90])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 06D2F3F632;
-	Tue, 19 May 2026 08:35:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779204957; bh=ZkRz0E7rghIRIQ6Vas5WZriK1yQc+rUOKfruBiITXEI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Tr5Iy+eFwtAYt3ObIw+VJv4hqD8NnNXrVImS/KaM3B7UPx2teDebcJMl0o/sqAvrd
-	 eVGCpt/7KscfUVWRWqRTlVXYKxM8aygDha8hQMG0DXl0eAjjoV6H0iM0KGW2GzQFrT
-	 S5BU9CCBk23N6+39Bw8htB9d60IxSCooMRuRfvlI=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Will Deacon <will@kernel.org>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	maz@kernel.org,
-	oupton@kernel.org,
-	catalin.marinas@arm.com,
-	corbet@lwn.net,
-	pbonzini@redhat.com,
-	Tian Zheng <zhengtian10@huawei.com>,
-	kernel-team@android.com,
-	yuzenghui@huawei.com,
-	wangzhou1@hisilicon.com,
-	liuyonglong@huawei.com,
-	yezhenyu2@huawei.com,
-	linuxarm@huawei.com,
-	joey.gouly@arm.com,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	suzuki.poulose@arm.com,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH v3 0/5] Support the FEAT_HDBSS introduced in Armv9.5
-Date: Tue, 19 May 2026 16:35:47 +0100
-Message-ID: <agyDU3ujE-OJWTiC@devkitleo>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <177918656142.736362.17906576792384645789.b4-ty@kernel.org>
-References: <20260225040421.2683931-1-zhengtian10@huawei.com> <177918656142.736362.17906576792384645789.b4-ty@kernel.org>
+	dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b="aDPUmUeu"
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+	(Authenticated sender: zamundaaa)
+	by letterbox.kde.org (Postfix) with ESMTPSA id 9972132B12E
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 16:31:53 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+	t=1779204713; bh=oT6uiKktMScgUXFbTJP5r3yFWiKp5GOGABsHC9u3r+8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=aDPUmUeuxJlqZqy46DQkbghe5oLt/7qJ+U9GC1GMXypZ4yMWs9Fc4jxvYNVfhGdBF
+	 GiwjepgbzFtOFe1fGLLFCTve/IeCL90e/o7L6U2kzLlFasvIE7sL3BuotnzQMBiW1L
+	 cUsIWE9SouMzKLLH2Mz7X55nD6k5l2ea9nJZ/3Yz5/5TdzbAJi15YigNk9pY+3A2sl
+	 +ogiM5tf+SpGRtPtfkREMVLa36lsfwTps1or6J7NydftbNZbbmBsKbKllLY3os9Tn+
+	 2rFAgvBSGUwHo1N6IwZ1eK0796dXyEKE96czATup9FCe9DXyesJ9N5Czw87WJMO8Yz
+	 jPyos493GO4Kg==
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-65c396d3b36so3769086d50.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 08:31:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/ODK59FxDT+gnWVZ8BDOsUz9MXp5D/H3RvKYfjGJoZgdLd8SRQO318KePPrszxPxgkLFzgY2lBUGU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvixNCWsvGZonEv2s5p8I3z5JqaUVKWHovQ+fkWWhRuz6Lr+2I
+	K7kTH1V1XSzXeUFCCGyRLIYrM/T1EnLyommBQay4wgc4dgZfCpvDmvWV6l0kH+JsC+B5p6bOnBN
+	sJE+8FG1RPCjC5jOnxx8WtOMWUmZWIxU=
+X-Received: by 2002:a53:acce:0:20b0:65d:f5e7:72bc with SMTP id
+ 956f58d0204a3-65e2276b844mr16430681d50.22.1779204711899; Tue, 19 May 2026
+ 08:31:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+ <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com> <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
+ <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com> <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
+ <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com> <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
+ <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com>
+In-Reply-To: <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com>
+From: Xaver Hugl <xaver.hugl@kde.org>
+Date: Tue, 19 May 2026 17:31:40 +0200
+X-Gmail-Original-Message-ID: <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
+X-Gm-Features: AVHnY4InFcbGFBQwqAypjrf9D3aYMpjvgQB5CvHgiLxe84oabRYNffn3PUsURt4
+Message-ID: <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
+Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Julian Orth <ju.orth@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	wayland-devel@lists.freedesktop.org, 
+	=?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 19, 2026 at 04:23:12PM +0100, Will Deacon wrote:
-> On Wed, 25 Feb 2026 12:04:16 +0800, Tian Zheng wrote:
-> > This series of patches add support to the Hardware Dirty state tracking
-> > Structure(HDBSS) feature, which is introduced by the ARM architecture
-> > in the DDI0601(ID121123) version.
-> > 
-> > The HDBSS feature is an extension to the architecture that enhances
-> > tracking translation table descriptors' dirty state, identified as
-> > FEAT_HDBSS. This feature utilizes hardware assistance to achieve dirty
-> > page tracking, aiming to significantly reduce the overhead of scanning
-> > for dirty pages.
-> > 
-> > [...]
-> 
-> Applied sysreg definitions to arm64 (for-next/sysregs), thanks!
-> 
-> [1/5] arm64/sysreg: Add HDBSS related register information
->       https://git.kernel.org/arm64/c/72f7be0c2e30
-> 
+Am Di., 19. Mai 2026 um 15:29 Uhr schrieb Christian K=C3=B6nig
+<christian.koenig@amd.com>:
+> > 1. This series makes the ability to manipulate syncobjs available
+> > independently of attached hardware.
+> > 2. It makes it available under a consistent path /dev/syncobj.
+>
+> Exactly that is a big no-go. This has to be under /dev/dri.
+FWIW udmabuf is also under /dev directly, but I don't think any
+compositor developer would complain about a different path.
+What are the rules for that? Could this simply be put in /dev/dri/syncobj?
 
-Thanks!
-Leo
+The part where we get this independent of attached hardware is quite
+important for us though, since we can't just ignore explicit sync once
+the device we previously imported the syncobj into is disconnected.
+Buffers can be from any device or allocated in system memory and
+access should be synchronized properly in all cases.
 
-> Cheers,
-> -- 
-> Will
-> 
-> https://fixes.arm64.dev
-> https://next.arm64.dev
-> https://will.arm64.dev
+How exactly it's made available isn't all that critical.
+
+> > 3. It removes the need to translate between syncobjs fds and handles.
+>
+> That's a pretty big no-go as well. The differentiation between FDs and ha=
+ndles is completely intentional.
+Could you expand on why it's needed? For compositors, the handle is
+just an intermediary thing when translating between file descriptors.
+
+FTR for me at least, this part would be merely nice to have, since it
+slightly reduces the amount of ioctls a compositor needs to call, but
+it's not important.
+
+> >> What about using VGEM for this?
+> >
+> > If the vgem render node were made available unconditionally under,
+>
+> Software rendering is a complete corner case, I don't think that this wil=
+l be enabled by default.
+That simply makes vgem unsuitable for solving the problems we face in
+compositors.
+
+- Xaver
