@@ -1,293 +1,179 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED733E5593
-	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 08:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779179124; cv=pass; b=rK94Pozk9lWFXomzVbOG87lU1Rytspaugbbwcww3w+ttONSOD2f1QuXWP/PWHAMwdIIoexnVRI+Gmo5thlguM81d81iDUz0gE4Leku8mg9ICMr2mFPJhYPWQFSkip4Y0SCIJCIIJhoI62N2jLxCsWBGyMMpZZr80B0fA6oajCw8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779179124; c=relaxed/simple;
-	bh=Zmlcsxs7JMP5bdHZ5kThghYTTdo51TjoA70ut3zJssU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fmNbaQycAtgJcPRnr6zTmUVSRWeXb0Hayh0vkAbZij99b7D/VGoUlVI1jtSs/v/E26eFFkvFXUqn/WIbgC5d5Xi3Aq4z8PAowsMkVx5nfO9AS/yvlHK7hE9jeLJBTcdO119DJiYQupTOKFmVnmRYY1xKFOjnG8f7OWbvgKkzWNk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XSeEuK8H; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=PTM7iW8X; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428F93EAC86
+	for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 08:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779180313; cv=none; b=TFoUEFa9TejMh21qzPENTJPK5nKvmy5f2T5bWDKvTnDJdeqk6wkXjzj/qgn59J10GCjdQC6HR/pzoOHrAGdqGNpg6/UDOI4Ik05HQ4eMHUGn4QiBSox+JsP65YNErzqmLSaO/GSnwhH/YOBTb4Z21+9Gosc6btTSrOPWlMfa/7E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779180313; c=relaxed/simple;
+	bh=XDP1fY549TYDvl03vsmX/Cl9vu/6yPcUFkdIr1jX+Y8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rwn/0bdXx3+44aomlBvHR20NzcY4eunfnr5Y/ZjpRQlnW6O2batyMcu9dg3Xg9N5aYc7eaNHkwTl2x+rGZzbofT8QieZ2+rU26sw1VTdBK7I/5FfhutSERXQyu82NiLBRrP/vbEjFca9LMbnVCUgQILPXoik++57xREkCRKX1A8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PqwLcI/m; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xkUFEZX1; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PqwLcI/m; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xkUFEZX1; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XSeEuK8H";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="PTM7iW8X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779179122;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PqwLcI/m";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xkUFEZX1";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PqwLcI/m";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xkUFEZX1"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 579385D68A;
+	Tue, 19 May 2026 08:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779180310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Zmlcsxs7JMP5bdHZ5kThghYTTdo51TjoA70ut3zJssU=;
-	b=XSeEuK8HhLnqAehTPjnPbJXtjiAhAQjl05LpHXwKxBsTFS/6Pk5HZn/lKE4HTVxBmODFnH
-	eimlojeysh9zo2NOw9SetmuwyvhqDbeZCYC4BfpJLyGDeUTLGvOUsnEvGowuxcFb1l7VPh
-	EQnnd59yVXCa41wY257j8AcLwWHY50Y=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-148-IIuuKbhXOU6Kd729FUpXhA-1; Tue, 19 May 2026 04:25:20 -0400
-X-MC-Unique: IIuuKbhXOU6Kd729FUpXhA-1
-X-Mimecast-MFC-AGG-ID: IIuuKbhXOU6Kd729FUpXhA_1779179119
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-7bd5c267082so6354877b3.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 01:25:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779179119; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XEbkwarGBbr84m6DME5n/zsR7brIxt4dy+EJlWTLqxTFHwEPa0FhhJO7/SBaAxEr9H
-         6CtjpZ6k5/uIaB7/03/nFseEoVRTXCE9wKSP/bgNzNvSamrQ5adGu6GkW3ZgBvvBlQAb
-         +xL1wik9m7el6adb3puGZfOBcNDEUW2PL05XfWMH1oqkR2UTRjb8MggLtGVFT+iZ8YFg
-         AGv9Cj9zhVVF5gYJAOySqWWlKy14513mscxmLjxIL8PVL2H+yGRecG6cSCZpLqfXTlXt
-         qe+XGY8tCy8fKHyEOVcAzns5xeYtLdYo3UDf8jMdvH+0P27R2EZJoOaQdk45MKxe4Uet
-         SF6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Zmlcsxs7JMP5bdHZ5kThghYTTdo51TjoA70ut3zJssU=;
-        fh=OFgYV4FB3ii1OghrAC9iXKCIZDmKrOSkmyjAPtjk+Dw=;
-        b=FaTjnxKkhLZSXjQ/7cR+p3CQWNZBGDh0kD6DC8m7dEa9bsrlETSFB3hkHDoP/NmLXZ
-         K+S2Am0VV7ZKqyPC3P8IaTAme1J0Xh7MWNugCn+yv7HlPr/oSWFKcaOfPSGTRlv+TEyh
-         74J08QSCeCoLIkX63gNteuENr0kTSrUEWw6Fp4cw4w+kfKSpFOO4VkDCvC023sYQpKZP
-         nWbZ1fI/AKfPGkXz/qPe60hqFh82JHoh66N7izNd2/7ZaiKoGjRH0/JfBrYR8XAQUTaE
-         oE9ncZe0dx6v0s0V6jokqlq1UzBBt3L/U9Q3TwbMkG+fXk77k6tbCdmFa5qvLDSZakJc
-         QsYA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779179119; x=1779783919; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zmlcsxs7JMP5bdHZ5kThghYTTdo51TjoA70ut3zJssU=;
-        b=PTM7iW8XX7Fc+svTNvQEPyrabuPKevYgU4wwNa0E2GH8kYNmCTP076uluaszhaEraK
-         v/CYuBcnqj0wOzxgH7z1HHOr6Wa9fIE/4W5rKBG0UW/t69AbbsSzrRlZ+tpCYksa1jyb
-         ly/65qoT2WsmO/uRyZm4CoZxr+3IjVuIa8dazFTmDVs+YwG4skJU54pbMzwUjZtIEgkl
-         j9HrbNhe1ZDSSgEV1+zP3CDzfLrH/a3gdTDNbhpOR09W8o/DsT383zAysKPGV6RnqBmY
-         Q7tDkwuSEgOTUbmEdCyswSIz4kSFHRgVMVyG2cHf/lMXFdxONybSi0MZANYMekQRnSGz
-         I7ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779179119; x=1779783919;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Zmlcsxs7JMP5bdHZ5kThghYTTdo51TjoA70ut3zJssU=;
-        b=EactEVks3e3hk7CaO2u/6G3do2/w3zL63XDqCcV0HLxKfEjXOzFaNCHNfUoshKHjtM
-         MptXtTanl54+WXKlNdkr4hhjWxZB/wD15Rk/Il38K+fNAPKBw1Cfk02fHnZfJj4Kbe7P
-         EdcMs/62ZplX5X7gQdD4UYCWlw7nh64ucXpcy48J/bQQZfGRcSDCpfKweO4h7WDKVzGa
-         GdSYVjlf4V2w3Am+uE108rdDpMoC3k/n/Os4dXPJfrxZjczXYo2rCSODoJhvG/QUeMBj
-         cclQo2Mp1u9v9g/HlJjBU7cYwHtHDrV9slWCge2ZVtGjDsSg0R6OGaDQYtCU/NYXgTEJ
-         8kOg==
-X-Forwarded-Encrypted: i=1; AFNElJ8NTI5U+UXfiOzBBvgGJcNq95FkiDpHTH4uhAppdVLs/seoz8LnT1twZ+5YGeVIr1dlUa2ZkLBJxoo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJSTxVENG8O3t9zACOZgosQ4BhXZCoo32jk3cLHXDM6bsZMvNm
-	/LyzPPYNUcKXcsT9eUYPvsG+uOfj8nrM6ndmrXpLLDS/bVDmhrwxb8jmQx3FlsLq7dtwEmTVop8
-	/mFV6jPPm/0T0SH/Ombld7Qr/H21J8PD7ysVA88uVd1rOGD3NHNVApoPJOLyy/JmQOKlHhQOzsz
-	WX+sa0MmbQCaL5gGC95YmCg5FWuFVvw3qgdGjS
-X-Gm-Gg: Acq92OEsaucROsyIWeure0DDecoOuWOdhElP3o7jRoO19jx5gfmIEOzxzGpzAX+bLbM
-	/0NRz9vu5uzroQwoX5pQe6yAbOXWkfd40xhoxb/xSs4OUwmKBNioyf0U0WuVCBePUdSdMhiJXHl
-	+Nt1HVRPaSB390B7iURBIzc+ln1nr3cxnIfzMyhLiLVeCCKJJo9AWSA0O/FPX8tDOgG5f5YUrO2
-	jEBvA==
-X-Received: by 2002:a05:690c:e041:b0:7b3:edc7:9bb8 with SMTP id 00721157ae682-7c955b970femr172557197b3.0.1779179119465;
-        Tue, 19 May 2026 01:25:19 -0700 (PDT)
-X-Received: by 2002:a05:690c:e041:b0:7b3:edc7:9bb8 with SMTP id
- 00721157ae682-7c955b970femr172556607b3.0.1779179118837; Tue, 19 May 2026
- 01:25:18 -0700 (PDT)
+	bh=nJFJUma/ZTHC3w1sDcmLeoMBS4NsPZRd9YgMW1oWErQ=;
+	b=PqwLcI/mUQreelUgHEq3UAcKmdGdQ5In2fDxkg4VaVoENEK68zRwTSL3bPzZ+o10C+wBAG
+	aMjOUOg9kvBCD7dKJKV1GhkSjBiq5mibmJQYq1ATuQawT8W6fRZymauxgvLkWpo+ldT9p/
+	Tty/28+Aj05K77LJIcUb5AbwAzk9aps=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779180310;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nJFJUma/ZTHC3w1sDcmLeoMBS4NsPZRd9YgMW1oWErQ=;
+	b=xkUFEZX19eGGDj9fUAasJzBQ3s2HULj8kbz7JedYPsDv1lxH75Fq+Kdkkj0TiyRGpsyAV9
+	RTrMB+KX2LdX+yBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="PqwLcI/m";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=xkUFEZX1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779180310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nJFJUma/ZTHC3w1sDcmLeoMBS4NsPZRd9YgMW1oWErQ=;
+	b=PqwLcI/mUQreelUgHEq3UAcKmdGdQ5In2fDxkg4VaVoENEK68zRwTSL3bPzZ+o10C+wBAG
+	aMjOUOg9kvBCD7dKJKV1GhkSjBiq5mibmJQYq1ATuQawT8W6fRZymauxgvLkWpo+ldT9p/
+	Tty/28+Aj05K77LJIcUb5AbwAzk9aps=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779180310;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nJFJUma/ZTHC3w1sDcmLeoMBS4NsPZRd9YgMW1oWErQ=;
+	b=xkUFEZX19eGGDj9fUAasJzBQ3s2HULj8kbz7JedYPsDv1lxH75Fq+Kdkkj0TiyRGpsyAV9
+	RTrMB+KX2LdX+yBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4E25F593AA;
+	Tue, 19 May 2026 08:45:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 348HExYjDGpgHgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 19 May 2026 08:45:10 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 6523AA0ADE; Tue, 19 May 2026 10:45:09 +0200 (CEST)
+Date: Tue, 19 May 2026 10:45:09 +0200
+From: Jan Kara <jack@suse.cz>
+To: Horst Birthelmer <horst@birthelmer.de>
+Cc: Matthew Wilcox <willy@infradead.org>, 
+	Horst Birthelmer <horst@birthelmer.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Horst Birthelmer <hbirthelmer@ddn.com>
+Subject: Re: [PATCH v2] dcache: add fs.dentry-limit sysctl with
+ negative-first reaper
+Message-ID: <mptmd2qxgqwkhfrq5dgwomysdnwoy6fnztr3ibrvbbsb7hvrv3@peg7mojzfucy>
+References: <20260516-limit-dentries-cache-v2-1-c733a78e603b@ddn.com>
+ <agj5JkPZ7eNbFueR@casper.infradead.org>
+ <aglh7SrXWbYgD3nA@fedora.fritz.box>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <20260515-hinschauen-effizient-9e3a05a94f2e@brauner> <CABdmKX0d6Zsg+_TxXjB80UZR23ZvXzxYoWzORgwmx=ZiuE+Nzw@mail.gmail.com>
- <208fb820-d8eb-4832-a343-ef8b360e8120@amd.com> <CADSE00Lh95ygoXGKJGsYvQGEsFV8sVmwEC3uvh8M6r3ERzaJwg@mail.gmail.com>
- <88efe10a-8b93-4a81-8279-4a5559d0f17c@amd.com> <CABdmKX3yZubjDKbVqwrjHAiKyj_ioHzOoxd0wzFbJK=PAGOqcQ@mail.gmail.com>
- <01b6eefc-c107-4f8c-9d7c-3b86f54cabaa@amd.com>
-In-Reply-To: <01b6eefc-c107-4f8c-9d7c-3b86f54cabaa@amd.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Tue, 19 May 2026 10:25:07 +0200
-X-Gm-Features: AVHnY4K5LncaNoVhZCnb-g1Oej_4CFtS9sUy70LBQyTJDD76MUlJZifB3Hgf-cg
-Message-ID: <CADSE00KCpCHOu2GMJ++ozXXbwF13fd2ZfmC3CnZBdLM_0p+ZMg@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: "T.J. Mercier" <tjmercier@google.com>, Christian Brauner <brauner@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, mripard@kernel.org, 
-	echanude@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aglh7SrXWbYgD3nA@fedora.fritz.box>
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.com:email];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 579385D68A
+X-Spam-Level: 
 
-On Tue, May 19, 2026 at 9:20=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> On 5/19/26 01:39, T.J. Mercier wrote:
-> > On Mon, May 18, 2026 at 7:07=E2=80=AFAM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >>
-> >> On 5/18/26 14:50, Albert Esteve wrote:
-> >>> On Mon, May 18, 2026 at 9:20=E2=80=AFAM Christian K=C3=B6nig
-> >>> <christian.koenig@amd.com> wrote:
-> >>>>
-> >>>> On 5/15/26 19:06, T.J. Mercier wrote:
-> >>>>> On Fri, May 15, 2026 at 6:53=E2=80=AFAM Christian Brauner <brauner@=
-kernel.org> wrote:
-> >>>>>>
-> >>>>>> On Tue, May 12, 2026 at 11:10:44AM +0200, Albert Esteve wrote:
-> >>>>>>> On embedded platforms a central process often allocates dma-buf
-> >>>>>>> memory on behalf of client applications. Without a way to
-> >>>>>>> attribute the charge to the requesting client's cgroup, the
-> >>>>>>> cost lands on the allocator, making per-cgroup memory limits
-> >>>>>>> ineffective for the actual consumers.
-> >>>>>>>
-> >>>>>>> Add charge_pid_fd to struct dma_heap_allocation_data. When set to
-> >>>>>>
-> >>>>>> Please be aware that pidfds come in two flavors:
-> >>>>>>
-> >>>>>> thread-group pidfds and thread-specific pidfds. Make sure that you=
-r API
-> >>>>>> doesn't implicitly depend on this distinction not existing.
-> >>>>>
-> >>>>> Hi Christian,
-> >>>>>
-> >>>>> Memcg is not a controller that supports "thread mode" so all thread=
-s
-> >>>>> in a group should belong to the same memcg.
-> >>>>
-> >>>> BTW: Exactly that is the requirement automotive has with their nativ=
-e context use case.
-> >>>>
-> >>>> The use case is that you have a deamon which has multiple threads we=
-re each one is acting on behalve of some other process.
-> >>>>
-> >>>> At the moment we basically say they are simply not using cgroups for=
- that use case, but it would be really nice if we could handle that as well=
-.
-> >>>>
-> >>>> Summarizing the requirement of that use case: You need a different c=
-group for each thread of a process.
-> >>>
-> >>> Hi Christian,
-> >>>
-> >>> Thanks for sharing this atuomotive usecase. If I understand correctly=
-,
-> >>> the actual requirement is attributing dma-buf charges to the right
-> >>> client, not putting each daemon thread in a different cgroup?
-> >>
-> >> Nope, exactly that's the difference.
-> >>
-> >> The thread acts as a filtering agent for both memory allocation and co=
-mmand submission for somebody else, the process on which behalve the daemon=
- does things can even be in a client VM, completely remote over some networ=
-k or even something like a microcontroller.
-> >>
-> >> Everything the thread does regarding CPU time, GPU driver memory alloc=
-ation as well as resources like GPU processing and I/O time etc.. needs to =
-be accounted to one client which can be different for each thread of the pr=
-ocess.
-> >>
-> >> The only thing which is shared with the main process thread is CPU mem=
-ory resources, e.g. malloc() because that is basically just needed for hous=
-ekeeping and pretty much irrelevant for this kind of use case.
-> >>
-> >> The problem is now you can't do that with cgroups at the moment but un=
-fortunately only the kernel has the information you need to know to do this=
-.
-> >>
-> >> So what you end up with is to define tons of interfaces just to get th=
-e necessary information from the kernel into userspace and then essentially=
- duplicate the same infrastructure cgroup provides in the kernel in userspa=
-ce again.
-> >>
-> >>> If so,
-> >>> the `charge_pid_fd` approach achieves this directly by passing the
-> >>> client's `pid_fd`, without needing to add per-thread cgroup
-> >>> infrastructure.
-> >>
-> >> Well it's already a massive improvemt, we could basically stop doing t=
-he whole duplication part for the GPU driver stack and just use cgroups for=
- this part.
-> >>
-> >> Doing that automatically for CPU and I/O time would just be nice to ha=
-ve additionally.
-> >>
-> >> Regards,
-> >> Christian.
-> >
-> > Hopefully I'm following correctly here.... So you are duplicating the
-> > GPU driver stack to achieve remote accounting on a per-thread basis?
->
-> Not quite, we are duplicating the handling cgroup provides in the kernel =
-in userspace.
->
-> For this memory usage information as well as execution times of the GPU k=
-ernel driver is exposed in fdinfo for example.
->
-> > Does this mean for GPU allocations you currently have some GFP_ACCOUNT
-> > magic in your driver to attribute GPU memory to the correct remote
-> > client?
->
-> No, we just expose what the kernel driver has allocated for itself. E.g. =
-page tables, buffers etc...
->
-> When userspace allocates something using memfd_create() for example we ju=
-st ignore that.
+Hi Horst!
 
+On Sun 17-05-26 09:57:41, Horst Birthelmer wrote:
+> On Sun, May 17, 2026 at 12:09:26AM +0100, Matthew Wilcox wrote:
+> > On Sat, May 16, 2026 at 04:52:54PM +0200, Horst Birthelmer wrote:
+> > > There was a discussion at LSFMM about servers with too many cached
+> > > negative dentries.
+> > > That gave me the idea to keep the dentries in general limited
+> > > if the system administrator needs it to.
+> > 
+> > I feel you should link to the dozens of previous attempts at this kind
+> > of thing to show that you're aware that this has been tried before and
+> > you're doing something meaningfully different.
 
->
-> > So this series would close the gap for dma-buf allocations,
-> > but what about private GPU driver memory allocated on behalf of a
-> > client?
->
-> Well we would need a cgroup which isn't associated with any process were =
-we could charge the GPU driver allocations against.
+<snip>
 
-I think I better understand your framing for this now. Thanks again
-for taking the time to explain.
+> As a conclusion, I think I have an uncommon perspective on the cache entries
+> since I don't usually work on vfs but argue from the perspective of a fuse server
+> Where the kernel makes us waste resources. This hurts way more in the FUSE context
+> than in a 'normal' file system.
+> I have taken the look at the dentry cache just because people told me that this
+> has to be solved in the vfs (and I agree). I actually have a somewhat hacky patch
+> to do this from fuse and only for the fuse sb.
 
-I was looking for a way to pass cgroup around to do the charge. I
-found that `struct cgroup *cgroup_get_from_fd(int fd)` already exists
-in cgroups available symbols to handle cgroup directories.
+So I'm a bit confused here. The changelog speaks only about negative
+dentries (and that's what the change also concentrates on). OTOH you've
+mentioned multiple times that you are not really interested in limiting
+negative dentries but rather positive ones because you have a problem with
+cached inodes. So can you perhaps formulate what is exactly the problem
+you're trying to solve?
 
-So here's an idea...
+Also you mention that cached (positive) dentries and inodes are a wasted
+memory when they aren't used. That is certainly a valid view, OTOH you can
+never predict future so you don't really know what will get used in the
+future and thus will be useful. That's why we currently side with the idea
+that memory that isn't used for something is wasted and unless there's
+something to use the memory for, we cache dentries & inodes & page cache in
+it.
 
-Rename the charge_pid_fd to charge_fd:
-- If it is a pidfd (`!IS_ERR(pidfd_pid(fget(charge_fd)))`) then we do
-what we're already doing here.
-- If it is a cgroup_fd (`!IS_ERR(cgroup_get_from_fd(charge_fd))`) then
-we charge to that cgroup.
+If I remember correctly the discussion we had at LSF, the problem why inode
+caching is a problem for you, although there's enough free memory and no
+memory pressure, is that these cached inodes pin memory on the other end of
+the FUSE communication channel and there we are getting short on memory. Is
+this what you're trying to solve?
 
-Also we could add add an ioctl for the generic fd path similar to what
-we have for dma-buf heaps. Or have a new flavour for memfd_create:
-```
-memfd_create2(name, flags, charge_fd);
-```
-
-The transfer ioctl could also be made generic to accept both pidfds
-and cgroup_fds.
-
-For this series we could move forward as is, and make the generic
-solution a follow-up series, knowing that the field can be reused for
-cgroup fds.
-
->
-> But good point, charging against a pid wouldn't work in this use case.
->
-> Regards,
-> Christian.
->
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
