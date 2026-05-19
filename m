@@ -1,224 +1,225 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011069.outbound.protection.outlook.com [40.107.208.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C110A409615;
-	Tue, 19 May 2026 13:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779197072; cv=none; b=hX6vgoJrTItaUTIWmzpoeipthUDmh/eqb2jTaLHiwEbfMzfHw9Eex06VgVFpbxvUGvQdUSiWydqMMqYyPYgpNhqM1/VwFS8zMXTorJ2ER2ZOOrnOgnizwV4WgEFWci+KBrazr6SaR+TzTc5t57sjBns1a4XUZSQhhyVhw9+2oo4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779197072; c=relaxed/simple;
-	bh=sr/q5W97G/GgreOLLhjVOht+bOtir9rNZPxS86m4SlA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kO24NURvv37jisNbtrHPM6bhi7VqbPy76SBxbo0ggjwVcq8ldlz9Dl0J+dLqfHL3ACux+7CQUmDR5sfsDmoNkUixX2K+9GspEZvqFQrEGye0kUP0qDmF6fJ78KTKvavdd3A17NKgs6Zq5PGdPJmVslIXeKg5OIma5zcfFOBLEdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QXwOGOsi; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DFF40963B;
+	Tue, 19 May 2026 13:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779197320; cv=fail; b=gC3Ce/xjiw6fO7ZX67P0/3LtuRpCMIKd6NHHv/IbzF8FTKM1YeUkIXKRYjHLAGPQQcvA+KSCbO7U3kOvmrLUDFNqKd2uWW7vj/o84vDtfOxVvTFMfCMZGherD3JKUol7L6qe35vTgVqH6enF4vxKfGeaHpwi9w9XYI3s5qnKS+0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779197320; c=relaxed/simple;
+	bh=Ag6kXo8W+jpmt5gIjkEOvvydejk+NVm5IPzR+ka8jJw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=m0eVJgLqU3ZIwGJ+DhoBj9C16xXFuYLc96USqAhJo3LHTeqpV5mHFDSR9cKhOUdEQ63iiwOiiQ5C0ndJaOTEKA5hjiBBF7P12cJX41MAomIWS/9toHrRJZKLQPNfHhSwUrrtaM2PqxcRNO4P/P+hPBX7NbkYuXjjiWCdCL6jyhw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=mZNr9YIU; arc=fail smtp.client-ip=40.107.208.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QXwOGOsi"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=sr/q5W97G/GgreOLLhjVOht+bOtir9rNZPxS86m4SlA=; b=QXwOGOsikJnjZClBeiKtd6LG1b
-	wv8w5Oxzb7HhDgWaLqk0sKyDSG0IUSz9gBIkVUe1tdzyLkbuMlk+WzcSsnHgSQuOhQW/IVLbZD0l/
-	NmvxFoyi1VDa86vmf2nA7JkYnR/MAWyFw8dx0xISVgI0K7JbH5MwDmB0NMMtgh9BlLyRTYRMWI+rD
-	4eh49nv03fDUilF/Ye8eooS7HPvhhpCyJErMa6FzsZwc7JwH06qmzY1AWI+cpjP8lwrtIjqVSsw3c
-	vHkyVH3Z9HuC1iiR4cnH4Xi5y/97V6SSxqIfsuXAESKQl4PgEjla6E3BBAv+q4sSlq7EHkVy3kG1G
-	xWCK01bg==;
-Received: from 54-240-197-233.amazon.com ([54.240.197.233] helo=u09cd745991455d.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPKQo-00000005wmo-3B2S;
-	Tue, 19 May 2026 13:24:22 +0000
-Message-ID: <ce8cfd87d2bc2bab190127deecc170c77db9168d.camel@infradead.org>
-Subject: Re: [PATCH] Documentation: KVM: Document guest-visible
- compatibility expectations
-From: David Woodhouse <dwmw2@infradead.org>
-To: Marc Zyngier <maz@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, kvm <kvm@vger.kernel.org>, Linux Doc
- Mailing List <linux-doc@vger.kernel.org>, "Kernel Mailing List, Linux"
- <linux-kernel@vger.kernel.org>, Sean Christopherson <seanjc@google.com>,
- Jim Mattson <jmattson@google.com>, Oliver Upton <oupton@kernel.org>, Joey
- Gouly <joey.gouly@arm.com>,  Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Catalin Marinas
- <catalin.marinas@arm.com>, Raghavendra Rao Ananta <rananta@google.com>,
- Eric Auger <eric.auger@redhat.com>, Kees Cook <kees@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>,  Nathan Chancellor <nathan@kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
- kvmarm@lists.linux.dev, linux-kselftest <linux-kselftest@vger.kernel.org>
-Date: Tue, 19 May 2026 14:24:21 +0100
-In-Reply-To: <86pl2rwoat.wl-maz@kernel.org>
-References: <6856b269d2af706eae397e0cf9c1231f89d9a932.camel@infradead.org>
-	 <6afc4b95-3c15-4d71-877d-19b84e91ce05@redhat.com>
-	 <57bc082f4824d6114d3156744c25986effc29aca.camel@infradead.org>
-	 <baff82ca-6321-4b16-aa61-b2d6d60b6535@redhat.com>
-	 <86h5obya2r.wl-maz@kernel.org>
-	 <48b06e5655d56ff6eda30e563b34894fa0eb2f07.camel@infradead.org>
-	 <ba08dfe9-932b-40c3-9fdf-fc891d52e1d8@redhat.com>
-	 <d9d4471a7f5ec1e297b3ca07f42a59090aa91e15.camel@infradead.org>
-	 <CABgObfaM-JtNn2MuYXaiadQnLfAhTEaoHAcTG9=J6LkMcQCJ3A@mail.gmail.com>
-	 <3f9d731c3d26b0367600f1069e6425099bc34eac.camel@infradead.org>
-	 <agxFbniU_6eQ98t2@willie-the-truck>
-	 <cf429f2082e863571595f74d1d3dedc3e6a82964.camel@infradead.org>
-	 <CABgObfacAYexR25SMi1kSZMRnHx3EDGj8=E84V1DumER66ibnQ@mail.gmail.com>
-	 <86qzn7wp3y.wl-maz@kernel.org> <86pl2rwoat.wl-maz@kernel.org>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-zKDurwcbWVveeC9GNtML"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="mZNr9YIU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TDfUy/H9B2OKVVYK9iNc/s43F4rsl/pVGQY0W8LkmtAS4aK6mLEp3F/s+LfG18JXAUrYQ/QKQTksyi0voBAt6jCt+T5ifq1v5fYctdb68p/TBVz1wUAqcguTpcsJ0x5rZ/sXhVO0VZzvIPyXH+Frbpj1o+eoxP7HS96xxg5ltPg9+M4yuYZbFlHz3dTnyjnbDCcrrHgUAqnmtndF3a//xrgbd0yHx+3cLrohfd9nxq3n45KOq0Ok1HDMFoaLDVclxlZcgfLG6Z6WSXRND/V3GxG+HQnH1NIkDTDaqn85CehGeDCMkDxTP2adKQH4iV+BKUOgMnLfx6ELe5Qi2MsEZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fTGTwFsT6mK9W9lL44pUtWMh17Wdka4kfHZsf6oj+Vk=;
+ b=foZohj2QGgCETmX2iRYT5gxIy2KJzdijwNt+1nYckGRnemHI/s33ctYtJWg6eJSz6CV8kWTJOORWRajCbyKh64uuiMzJfuZrGEaZWU/7zT+CRxe5r43pcWxFg3l9wsXIDraY6HVMUCL+9lqvKhTnCNyX6p2j/AD5YSuHkHA8rH77dNQsm/9h6YFfVdCv7MDHHYXcnnMS9EPxvrdq8lEBmn1KUre5tcsSUjDKFpTibo+0nhWv7lqjrOzfZrLn8ft+mCcuCInT/vI7laGUKSXYYcV4ql9SqFOkM7IbzpigM7wYLdTZt/dbpugJ4cF5WsQ43wmGlKcJBC8UA5DpaIsCKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fTGTwFsT6mK9W9lL44pUtWMh17Wdka4kfHZsf6oj+Vk=;
+ b=mZNr9YIUsibbTZ6M+EQ7Sh9bPB65nvY96+aUhztoT8LVfi1vRDa1IdumR1WmhBvpTIgUgrROYDRSeuRj8smdzbCY4FwpTgkgfJWdLKOi62B3XzeVEd9uQXjSy14zi1FktCGtdu2/pyR++pMi5NIyFjHc6ed4EQdWP8ItX4AWsDU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA1PR12MB7176.namprd12.prod.outlook.com (2603:10b6:806:2bd::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.21; Tue, 19 May
+ 2026 13:28:30 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Tue, 19 May 2026
+ 13:28:29 +0000
+Message-ID: <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com>
+Date: Tue, 19 May 2026 15:28:18 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
+To: Julian Orth <ju.orth@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+ <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com>
+ <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
+ <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com>
+ <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
+ <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com>
+ <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BLAPR03CA0147.namprd03.prod.outlook.com
+ (2603:10b6:208:32e::32) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB7176:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f047e07-93d1-4261-0268-08deb5aa83ea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|4143699003|3023799003|18002099003|11063799006|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	5GhQ70yXH0dM24buZadQlnyvJcoUf8z9cDFxWSCXUX9eSw0+G63cEH8R5ZncOdfgmlHEuAM7X27uhqjhW49rNFAfHbpD8ecyvstVBLDsdxacU/EK32JauAS4w6jO6PWNImCWsfpUNbwdSNw3f9x0cW1HS5ajsjnlW3NhC4MB8mlBmjWcvEmb1qscM4FFLkicnyUU30XX4GVQ35oYPcHMXbV/OYRtA07MuPwXgz8fFWQvlBr7jfmaUk1SaO+wif1AdWagx3PtcTjFzzmzfDbrnodHaUOKTYBzBLiwv22IQoHsxgwAImhsxCd1xTUrzDHZn8og84I939RzmpKoc32CbXXkW0o4XosMRGcvCJnz0/LkACUOWGaTSb4ZoVC01Tpz5WwhXTHg8z9GYSy7U9xFsOrbJgBh7zeoGWFEqqp4UhsXE+e1tl6S8OdW85dlUrZR2iO19pkUwi/gtWi9yGSpZ4TkLNQN5znrO8pBfU2vnXnknfCyWiSPpy7d/eCkJbdL01w0J5IarmCEj8ZvIseJa75ccAgcZ0hMV6rq51zh7dztQmYvkQCXQFWx7RtCvM6yhoVbcwuEq55cuPkBoQX/wXbhFNppd+yoQp5QswlhUTV5tXfS3oF6BDN1eKTO3Ax7ZaxvtaHo+VksCBnXLaTFQSrFk/yHXAgtBCJHd+J9wDWnjmj9KciJiyFCR3yJv7tmCO2Ec5/WkTGUjyxqoGmd5A==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(4143699003)(3023799003)(18002099003)(11063799006)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Q3RvZU5KODUvZHVzYThnR1hWTFhNL1ZjOUdkTitVT1UzTHFDUCtiN3JSUEcy?=
+ =?utf-8?B?RGF0VmFLOEM1Zk5JT0FVc3lJTjBJOTVtRS9JN3pEKzFjMXpXNFdTOXA5Z3RX?=
+ =?utf-8?B?THAxbkVrQzlyYmpJc2htc0h0eHgvZ1Z4VXMzTjJIamRmMFcxdVg4OHZWajk0?=
+ =?utf-8?B?ZU1mYzUwL2o0N05wbDhLbXdVQ0Nvc3FVNW9ZMUVxMTRnR25hd0o4cm1uQktj?=
+ =?utf-8?B?RUdBUHRCbU1DeU10RlhFaldMdVJPUEl2UFUzUklmWGtrUC91MUVCcFpKdUZ6?=
+ =?utf-8?B?VXJFS1BnNlZuWU4rN0w2RFhNV0ZIWFhoL0lhWWhQWktIZFJLdGhSNWRDR2lk?=
+ =?utf-8?B?Q1dsRUMvYlhYRXVQbmZsNEdrbWluNzVNY0J2bEl2OTRJb3llanQ3Nk0zMXBP?=
+ =?utf-8?B?RHBEcnJjenIzK1JRNWNBSndwV3V0Q1ZrYTUxSFV4dTU3UzhQZEdmTEtraHd3?=
+ =?utf-8?B?bnl4VWhPSDZMd0l6MGV1RlVhUTdLUmx1TnRJTzNTZmZDdDh1enJlNGhyaXMz?=
+ =?utf-8?B?aVJUenVPL0ZXYzJzRDlJWGhlSlhMdEpUZktoSnlKVUVUdTdJR0plT1lEZm1n?=
+ =?utf-8?B?cnVxcW1BNXhmb3FaWGNpd3gyM1RIZVFBMWtDY2RlQ2taV093SUFoOWZxTXI5?=
+ =?utf-8?B?RHhGV3l4ZUxYWXBxbnB3OEo4dXpUOGpBZHUrbG42YzNDdUpRdHdDUGh1Y3pE?=
+ =?utf-8?B?K0NnR0YwUk9Ja3ZhdTJKZlpuZ1hsNnd1TWhycU1JWWdRVkgycys1Q3J2UVRx?=
+ =?utf-8?B?bUtiUit5dFlMN0VmRUdsRGNmUEhxcE1EZGw5UW5OUUE3M0ZISHFjRytBY3BH?=
+ =?utf-8?B?R3RtcGpQSExRUEQ0dGcvSklOZ1BYdGJGTW1rRks0YnFuNC8vYXZsQTIrS0h6?=
+ =?utf-8?B?RXp1bFMvOGYxL1hnbFluK2xTY2NtRnphVXN3bG9ZaHZYa1UwRFhVSmtMZDJy?=
+ =?utf-8?B?Y0xWeEEyakwrUkkvYzlBNjVMWDVJZVVtWHJYZE1ySS9aWU1pQVNHOHdZYUF2?=
+ =?utf-8?B?MHJUcUZ6blB2TWlWYkJyUEJ3S2F4V2IrTDdzOUh2MGQvajFGN3FQS0lhQ3Ju?=
+ =?utf-8?B?SmhNbm42YUxmbVV6SlNzNGNlYldzRFVIc1dvLys0TFlBWGcyNThCU3JvNG1I?=
+ =?utf-8?B?bys4bW1mYWNyeFhrcE9nZ285dDdmZlRKNXo3NTJKQklCUWdVczZwM1hRemJM?=
+ =?utf-8?B?dEVYVzc1azBqaERMZHZiVnpJaWV1aElkRWZ5QkF2UU9FSU1iUnQ1Zi9WMlBZ?=
+ =?utf-8?B?anZ1MWp4WnVhcFcvRmdOUnFaTkpqMlpiYVQvM2tZT3dSL1FrZExoVWIvMS9z?=
+ =?utf-8?B?a0lObEwxOUgvenI5dXVycXJmM1VkTG50QW9hazMvOFBSc0RaVGJGaDBsWGlQ?=
+ =?utf-8?B?dWREWVlYWWJHNnVQUnhwaldJbVVBeU1LKzZTZi9WaVRNUWNJRkRJSTA5Y3dj?=
+ =?utf-8?B?Q0p6SjRLSVEreXZPZEZDSnRSR2NLYmZMZ1o0RGZOOXR1TXVJQVU2Z0UxL3hk?=
+ =?utf-8?B?OFMraS9oZFhJUGprUjdmVm1oekpRSVFwVjIrZVoxOE4rY3RxK2x2cXZ1Nkt4?=
+ =?utf-8?B?enZyV1J2SXFkSkZJWW9PWkp3MlkxY3B3UWxiOG9hSG1zMXhJSlBIeFhaWUVt?=
+ =?utf-8?B?OVJPOXVqYnowMTNBQS9ZZEk2d0tFMXpBVUw2Qzg2Q2pXWE9zUkpiTzBXTHZq?=
+ =?utf-8?B?eHV3ZnlzM3pMNUdmaTExN3c3UFhvREZwSVVCLzBTVUo4UnUzRjZVd2RYSXhk?=
+ =?utf-8?B?d3hJV0FFMkZUbmpVT1lhUTF5dE5laWdLZlpaUGpveGJQOFF6ZjRyRFMzNnEx?=
+ =?utf-8?B?N0FXUmJ2WDBqSWtBVzEvM0JZQm43QzJKWDVGbFdFa1VRNDczdjE2T0FpUE9n?=
+ =?utf-8?B?SWZOQXpIMnAwUXB6QXBZSjRqSDF3ekI2b0o3bkgvWWpXVG1QeVVQOFFkeFgv?=
+ =?utf-8?B?cWJrQmxxTmpnbkYySERReHl1N1BuazdjWXZXOFluQ3ZFWUkyWWZXWmpoc1pJ?=
+ =?utf-8?B?bWMxLzFxTFRHSmFnSHl0R1NDM2pGSkhWZXZRWnUrNXo4WENZNDFWWU9SWUVZ?=
+ =?utf-8?B?WU5nOTRyZzVDYlNsdm9KOW9YYlFyTEtaZmJqV0VHS240UUNIdzdyRFhHV1NX?=
+ =?utf-8?B?aUhsd0JTNnFBNGVNVFJYMFdOKzNmWFNLUUU2N25TZXFpN1hzN3I1anJXTFNS?=
+ =?utf-8?B?RDl6bTBMZEpXT28yazNXdnN4MkdHR2JaUjMybTBuZ1dHNXNtZEpkeFZzU1BW?=
+ =?utf-8?B?YlhBUkp4UDd6Wm5pbjRmVlZFb3hIeWFyTmZEUlVOSzRaZFZyUWR2ZTNxM0Rw?=
+ =?utf-8?Q?RaJ5b8g4HlDXXGQzh9?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f047e07-93d1-4261-0268-08deb5aa83ea
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2026 13:28:29.7893
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +GXmBbKZ0cPo7s8DmxImyAJvey4jJwU6ZMu+hfKPzqPsZJzQddJes3TehDXfBjMD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7176
 
+On 5/19/26 15:19, Julian Orth wrote:
+> On Tue, May 19, 2026 at 10:18 AM Christian König
+> <christian.koenig@amd.com> wrote:
+>>
+>> On 5/18/26 14:58, Julian Orth wrote:
+>>> On Mon, May 18, 2026 at 2:41 PM Christian König
+>>> <christian.koenig@amd.com> wrote:
+>> ...
+>>>> It could be that we have eventfd integration for that as well now, but in that case you could give the compositor an eventfd instead of a drm_syncobj fd in the first place.
+>>>
+>>> Yes, all compositors use the DRM_IOCTL_SYNCOBJ_EVENTFD ioctl to wait
+>>> async for the timeline point to materialize and/or be signaled. The
+>>> wayland protocol was the motivation for that ioctl.
+>>>
+>>>>
+>>>> So as far as I can see using drm_syncobj for software rendering really doesn't make sense, eventfd is a much better fit for that use case.
+>>>
+>>> Using eventfd has some disadvantages:
+>>>
+>>> - We've just added syncobj support to vulkan:
+>>> https://github.com/KhronosGroup/Vulkan-Docs/issues/2473#issuecomment-4446117280.
+>>> For eventfd we would not only have to add yet another extension, that
+>>> would realistically only be exposed by llvmpipe, but also every
+>>> compositor and every client would have to support both extensions.
+>>> - Similarly, a new wayland protocol would need to be designed to
+>>> support sync over eventfd.
+>>> - Eventfd does not support timeline semantics. Meaning that you would
+>>> have to send two eventfds over the wire for each commit, one for the
+>>> acquire point and one for the release point. Whereas with syncobj you
+>>> only need to send two integers per commit.
+>>>
+>>> I don't see the advantage when drm_syncobj already does everything we need.
+>>>
+>>> You seem to believe that compositors would not be ready for this and
+>>> from that perspective I can understand your apprehension. But I can
+>>> assure you that compositors are already fully set up to support all of
+>>> the usecases I've described: The wayland protocol requires the
+>>> compositor to support wait before signal.
+>> Yeah that's much better than I thought it would be.
+>>
+>> And that eventfds don't support timeline points is indeed a pretty good argument.
+>>
+>> But I still don't see much justification for creating a /dev/syncobj device, this is clearly something DRM specific.
+> 
+> The justification is given in the cover letter. To repeat them briefly:
+> 
+> 1. This series makes the ability to manipulate syncobjs available
+> independently of attached hardware.
+> 2. It makes it available under a consistent path /dev/syncobj.
 
---=-zKDurwcbWVveeC9GNtML
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Exactly that is a big no-go. This has to be under /dev/dri.
 
-On Tue, 2026-05-19 at 13:56 +0100, Marc Zyngier wrote:
-> On Tue, 19 May 2026 13:38:57 +0100,
-> Marc Zyngier <maz@kernel.org> wrote:
-> >=20
-> > As I said before, I'd be OK with something that would restore IIDR to
-> > REV1. But not something that actively breaks the GIC emulation by
-> > reintroducing a bug. That's, by construction, dead code that will only
-> > bitrot, because there is no SW that can make use of this nonsense.
->=20
-> I will also add that if we make it a policy to preserve buggy
-> behaviours that the guest cannot be relying on, then I question
-> whether we should be fixing anything at all.
+> 3. It removes the need to translate between syncobjs fds and handles.
 
-I think we just have a different understanding of what it practically
-means to have behaviour "that the guest cannot be relying on", as in
-the examples I just described for the IIDR issue.
+That's a pretty big no-go as well. The differentiation between FDs and handles is completely intentional. 
 
-> For example, 6.19 fixed a totally buggy behaviour where a guest
-> couldn't not have more than (on most HW) 4 interrupts in flight at any
-> given time. This was obviously totally bogus, and this was fixed
-> unconditionally, as legitimate guests could experience gold-platted
-> lock-ups.
+> 
+>>
+>> What about using VGEM for this?
+> 
+> If the vgem render node were made available unconditionally under,
 
-And marked with a Fixes: tag and backported to stable, one presumes?
+Software rendering is a complete corner case, I don't think that this will be enabled by default.
 
-I'm confused that you think this is relevant. Can you contrive a
-situation where a guest actually relied on this bug and *survived*,
-like the situations I just explained for the IIDR issue?
+Regards,
+Christian.
 
-You can nit-pick my hypotheticals as unlikely =E2=80=94 and they are. But i=
-f we
-always just YOLO it and change guest-visible behaviour on the basis
-that it's "unlikely" to break anyone, and there are many such changes
-in a given kernel deployment (e.g. from v6.6 to v6.18), then the
-cumulative probability of being bitten by one of those "unlikely"
-problems approaches 1.
+> say, /dev/vgem and DRIVER_SYNCOBJ_TIMELINE were added to the driver,
+> then maybe that could solve points 1 and 2 above.
+> 
+> But it would not solve point 3 and it sounds like a hack to me to have
+> a render node available outside of /dev/dri.
+> 
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>>>
+>>>> Regards,
+>>>> Christian.
 
-There's a reason we do a *huge* amount of testing of what the guest
-sees as we move from one kernel to the next, and back again, and
-endeavour to eliminate all those differences.
-
-And once the new kernel *is* deployed and won't be rolled back, of
-course, all new launches can get the newer behaviour (and the latest
-version of PSCI, etc...)
-
-
---=-zKDurwcbWVveeC9GNtML
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCD9Aw
-ggSOMIIDdqADAgECAhAOmiw0ECVD4cWj5DqVrT9PMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0yNDAxMzAwMDAwMDBaFw0zMTEx
-MDkyMzU5NTlaMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYDVQQDExdWZXJv
-a2V5IFNlY3VyZSBFbWFpbCBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMjvgLKj
-jfhCFqxYyRiW8g3cNFAvltDbK5AzcOaR7yVzVGadr4YcCVxjKrEJOgi7WEOH8rUgCNB5cTD8N/Et
-GfZI+LGqSv0YtNa54T9D1AWJy08ZKkWvfGGIXN9UFAPMJ6OLLH/UUEgFa+7KlrEvMUupDFGnnR06
-aDJAwtycb8yXtILj+TvfhLFhafxroXrflspavejQkEiHjNjtHnwbZ+o43g0/yxjwnarGI3kgcak7
-nnI9/8Lqpq79tLHYwLajotwLiGTB71AGN5xK+tzB+D4eN9lXayrjcszgbOv2ZCgzExQUAIt98mre
-8EggKs9mwtEuKAhYBIP/0K6WsoMnQCcCAwEAAaOCAVwwggFYMBIGA1UdEwEB/wQIMAYBAf8CAQAw
-HQYDVR0OBBYEFIlICOogTndrhuWByNfhjWSEf/xwMB8GA1UdIwQYMBaAFEXroq/0ksuCMS1Ri6en
-IZ3zbcgPMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIweQYI
-KwYBBQUHAQEEbTBrMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYB
-BQUHMAKGN2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RD
-QS5jcnQwRQYDVR0fBD4wPDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0
-QXNzdXJlZElEUm9vdENBLmNybDARBgNVHSAECjAIMAYGBFUdIAAwDQYJKoZIhvcNAQELBQADggEB
-ACiagCqvNVxOfSd0uYfJMiZsOEBXAKIR/kpqRp2YCfrP4Tz7fJogYN4fxNAw7iy/bPZcvpVCfe/H
-/CCcp3alXL0I8M/rnEnRlv8ItY4MEF+2T/MkdXI3u1vHy3ua8SxBM8eT9LBQokHZxGUX51cE0kwa
-uEOZ+PonVIOnMjuLp29kcNOVnzf8DGKiek+cT51FvGRjV6LbaxXOm2P47/aiaXrDD5O0RF5SiPo6
-xD1/ClkCETyyEAE5LRJlXtx288R598koyFcwCSXijeVcRvBB1cNOLEbg7RMSw1AGq14fNe2cH1HG
-W7xyduY/ydQt6gv5r21mDOQ5SaZSWC/ZRfLDuEYwggWbMIIEg6ADAgECAhAH5JEPagNRXYDiRPdl
-c1vgMA0GCSqGSIb3DQEBCwUAMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYD
-VQQDExdWZXJva2V5IFNlY3VyZSBFbWFpbCBHMjAeFw0yNDEyMzAwMDAwMDBaFw0yODAxMDQyMzU5
-NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqGSIb3DQEBAQUAA4IC
-DwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZeYAS/SRV6zmfXlXaZ
-sNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2zkC9S7/yHDYnqegqt
-w4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qGpgFdZEk2/c//ZvUN
-i12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41vav1RhZJzYan4a1gU0
-kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0cvnO8FM6PTqsnSbcc
-0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PWPU6zfQTOMZ9uLQRR
-ci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXtREF5lLXxp+CJ6KKS
-blPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQrlR0gO3lBzuyPPArV
-hvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7IqaAovAX0d+f1YjbmC
-VsAwjhLmveFjNwIDAQABo4IBsDCCAawwHwYDVR0jBBgwFoAUiUgI6iBOd2uG5YHI1+GNZIR//HAw
-HQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3bXcyQGluZnJhZGVh
-ZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEBMA4GA1UdDwEB/wQE
-AwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwewYDVR0fBHQwcjA3oDWgM4YxaHR0
-cDovL2NybDMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDA3oDWgM4YxaHR0
-cDovL2NybDQuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDB2BggrBgEFBQcB
-AQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0
-aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNydDANBgkq
-hkiG9w0BAQsFAAOCAQEAQXc4FPiPLRnTDvmOABEzkIumojfZAe5SlnuQoeFUfi+LsWCKiB8Uextv
-iBAvboKhLuN6eG/NC6WOzOCppn4mkQxRkOdLNThwMHW0d19jrZFEKtEG/epZ/hw/DdScTuZ2m7im
-8ppItAT6GXD3aPhXkXnJpC/zTs85uNSQR64cEcBFjjoQDuSsTeJ5DAWf8EMyhMuD8pcbqx5kRvyt
-JPsWBQzv1Dsdv2LDPLNd/JUKhHSgr7nbUr4+aAP2PHTXGcEBh8lTeYea9p4d5k969pe0OHYMV5aL
-xERqTagmSetuIwolkAuBCzA9vulg8Y49Nz2zrpUGfKGOD0FMqenYxdJHgDCCBZswggSDoAMCAQIC
-EAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoT
-B1Zlcm9rZXkxIDAeBgNVBAMTF1Zlcm9rZXkgU2VjdXJlIEVtYWlsIEcyMB4XDTI0MTIzMDAwMDAw
-MFoXDTI4MDEwNDIzNTk1OVowHjEcMBoGA1UEAwwTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJ
-KoZIhvcNAQEBBQADggIPADCCAgoCggIBANqWLse95HW2F7FhfH9bugyT/danKmmXrbMnz5GZNAfj
-Jl5gBL9JFXrOZ9eVdpmw04Tp6aDxZctFLoEDvSWKi367Q7Sg+ci+fH4KwwfQ8Pi0IpIKx2n5emEg
-nbOQL1Lv/IcNiep6Cq3DiyaSpSp/RZf+CAfUNySHS8eWmhLU6jGpSD6hxTpYKye7PmrmvMWwfGEP
-WoamAV1kSTb9z/9m9Q2LXa89aKmTxNwnAfD3Ohn9mtU3JukwILRMewn9QRXK7KzM+01h5hkCE4nj
-W9q/VGFknNhqfhrWBTSQoE9CSVylASGrjzCgS7XmKy/BaH3/7mOOHQv5g1o3Qj/+cdKnpT0I5Qb1
-nRy+c7wUzo9OqydJtxzSP4ZyHA4dELto/a3m/ay1XHcpum1pgTOLgxAfGb/T4dCkwRUstSKLMmpL
-g9Y9TrN9BM4xn24tBFFyL5znGG0wQGzOVAM68RBzIQb6Fz758fjsr4yZnPbVsU1+gHEs/puNHrG0
-9e1EQXmUtfGn4InoopJuU8p5VGD9S3Ikd4UoBlc7xl5yjtNlQxUeYrRlnUSmdlucCEoTX1n4UmtA
-9CuVHSA7eUHO7I88CtWG9bGOU7tLgOZoSEvNqtaL/N7sQbBZK4jZ4Rr/zNTQg1SwYjjLB7u96lDP
-sipoCi8BfR35/ViNuYJWwDCOEua94WM3AgMBAAGjggGwMIIBrDAfBgNVHSMEGDAWgBSJSAjqIE53
-a4blgcjX4Y1khH/8cDAdBgNVHQ4EFgQUXGIam3Bs59Y60yTmWgfDu6pZQ6cwMAYDVR0RBCkwJ4ET
-ZHdtdzJAaW5mcmFkZWFkLm9yZ4EQZGF2aWRAd29vZGhvdS5zZTAUBgNVHSAEDTALMAkGB2eBDAEF
-AQEwDgYDVR0PAQH/BAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDB7BgNVHR8E
-dDByMDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
-Y3JsMDegNaAzhjFodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
-Y3JsMHYGCCsGAQUFBwEBBGowaDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29t
-MEAGCCsGAQUFBzAChjRodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVt
-YWlsRzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBBdzgU+I8tGdMO+Y4AETOQi6aiN9kB7lKWe5Ch
-4VR+L4uxYIqIHxR7G2+IEC9ugqEu43p4b80LpY7M4KmmfiaRDFGQ50s1OHAwdbR3X2OtkUQq0Qb9
-6ln+HD8N1JxO5nabuKbymki0BPoZcPdo+FeRecmkL/NOzzm41JBHrhwRwEWOOhAO5KxN4nkMBZ/w
-QzKEy4PylxurHmRG/K0k+xYFDO/UOx2/YsM8s138lQqEdKCvudtSvj5oA/Y8dNcZwQGHyVN5h5r2
-nh3mT3r2l7Q4dgxXlovERGpNqCZJ624jCiWQC4ELMD2+6WDxjj03PbOulQZ8oY4PQUyp6djF0keA
-MYIDuzCCA7cCAQEwVTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMX
-VmVyb2tleSBTZWN1cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJYIZIAWUDBAIBBQCg
-ggE3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDUxOTEzMjQy
-MVowLwYJKoZIhvcNAQkEMSIEIM5nz438GcEGUnpva46HvYeQ21c8Q2jJkUw2JY4YSKbsMGQGCSsG
-AQQBgjcQBDFXMFUwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoTB1Zlcm9rZXkxIDAeBgNVBAMTF1Zl
-cm9rZXkgU2VjdXJlIEVtYWlsIEcyAhAH5JEPagNRXYDiRPdlc1vgMGYGCyqGSIb3DQEJEAILMVeg
-VTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMXVmVyb2tleSBTZWN1
-cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQEBBQAEggIAUOTWStJj/72e
-qlvit12EItLB9cZHOu1YmdUukSsRixNEeWheSjXlRgS+Q27+BNnPVgl896kyT8Y92YIkKNzpsb8M
-rsRH29QOs7WK6k0j8mlN3xmcV9XaceVqhhYPNPACw4aKAGXaxN+lPNUbLdHESGagb8AMhJ2Z1C3k
-T0t/8xYkeDz5ynrfFTSNlGriXv0YVl1ExqDyyKwN5E/fJjE0L0FhP5Iuwu3wON0fZDQGDeCanKEO
-7qpLMqTAbZ7hQEpEajhLbnUfLlnYgeS/aUYlJdM7HemrflDDb5gJiugBjQPVTYnVTfxe0N33ng29
-oDLCSQ5t3ADn81HPPjVdLHSBOva5N+kvQ+UCuQ7KU+o72EMg6pnZjSwogXVOvjhe6ta5gpXnobmt
-AUkbsLFuT8vMUUuZJoThla+nCjgfE7InhaZEg2o8EzHF6WM8COOaGBEQ/8sHn98QO926eU4nDbFc
-IRmtWE/Rii6VlLb2GwK8DcBtV4Bhi1R66h6+QkoNcVQBOtSXTrPCglKCcZG3oR7muvTBw0R8a7Pz
-Q0xJFEIU3nltPshDsrbPtF6oFNpsKyJfuRV3XJGecqzj1xIgGgOM6N156qAwU9jjxofBlwzVkTut
-vLUW0fL37xcdeqXPV5uRLrjVmLVpMrI2KJIuKbOkxvP9lEBecPTk6UzhGzIzqM0AAAAAAAA=
-
-
---=-zKDurwcbWVveeC9GNtML--
