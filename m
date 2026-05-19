@@ -1,116 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA958351C30;
-	Tue, 19 May 2026 11:11:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC12E492519;
+	Tue, 19 May 2026 11:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779189110; cv=none; b=Ux8nbI/iNiVL8uSesMUlR4c0NtA5/h3grcayptzO3NG1QTzPnHLMmoxyRVSvxRIhaK4LZvEDXeVDd8dkRW0/DLLC1ki/UZc28uGzTpZx6K9cXy3PxvR4hghSFfZ8+q/Of2etzaNt3uMFP+seoMNqQWyOCAgfv8N0HSvwJSEK3hA=
+	t=1779190647; cv=none; b=pZngMN7cWO7cn/K2ZpSekpL/se+6v7YQdpTukDHwrLnnw7WvmfD9RdlV+4L0RpDawr6TdpKEw6Yzli9LU99lOGn6M+4RfG34ozSKdQaI1T14HmvI642okybhqzwr2Kupv5R5z+xSm8bqjK41mIXSAu1ClZXt/SY8Hx76nls/Ydc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779189110; c=relaxed/simple;
-	bh=yho1oY7rUwGUBK6N3ReIa8imE1mEl4Xep1Oe5MlRzKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u5BfenvvUZQz4mWK+fVHpt6LDz1lXwAXpjofb4glXMn9mhV/iJGsCUCG71ckRje5ie4v/AAd9Mgk9UI/7gZ0j+8eaB8r5VFSA+tnl/69YpIkl5b8h/G1ose4Vg0pGRfbdT+HaNZmBYU5IpUfV7vs7RO79tYVIrMjndTRLg/LYMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZIA+Mx51; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779190647; c=relaxed/simple;
+	bh=P71i5LOBOPL4Hw9EeBymlq0Uf0mmQClWsPDyQMD6YBw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iREbEBjK9/3N9PD79NCwIZLrrB7/SbRGQKmSwzvPpWBMYxvm3CRc9JEHi7D/HtbKw8HPCTwRXOHda04QgJvTHf0n27RlLjsrAJ3EoE/OywpPhF65J+EFzKMrrW/y/OOte0QtnvXHIP0Ee51lz8YzZKagSFoBXw2smmTVCYYxeiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lmkJMfMF; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZIA+Mx51"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EB23C2BCB3;
-	Tue, 19 May 2026 11:11:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779189110;
-	bh=yho1oY7rUwGUBK6N3ReIa8imE1mEl4Xep1Oe5MlRzKg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZIA+Mx511B2Utvn8fqrlK5XwSL8vqCOwjgfy/t0ERyQP2GgjcHBvxaBcaz/+rZ18J
-	 0CrpDV+n1qekubCKlZWpnJmE82yshPea4TnybMcHaE+QYIMwkljLEFlxIVTqMbq5dx
-	 p+bEZdKaRfP4JF3HO5II7EeaBytLydOBoJQe+Zs35ZNoMdXWzyeknmt3ZRISzIfQr2
-	 HPDKmcPWvg8kQiiPLq+VWUmTdcdgiXAsO6V2VXBl84LLkcAqZwz6qN9ws8wvRkwzMl
-	 aeqM9OuflbaGHxAGN6ds3muEW0LgDxQKUUbyaYUZxPKXW/BMGOIMin/d5MRp7xsP3r
-	 BRSjZhUoU2/xA==
-Date: Tue, 19 May 2026 12:11:42 +0100
-From: Will Deacon <will@kernel.org>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marc Zyngier <maz@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, kvm <kvm@vger.kernel.org>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	"Kernel Mailing List, Linux" <linux-kernel@vger.kernel.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Jim Mattson <jmattson@google.com>, Oliver Upton <oupton@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Eric Auger <eric.auger@redhat.com>, Kees Cook <kees@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	kvmarm@lists.linux.dev,
-	linux-kselftest <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: KVM: Document guest-visible compatibility
- expectations
-Message-ID: <agxFbniU_6eQ98t2@willie-the-truck>
-References: <6856b269d2af706eae397e0cf9c1231f89d9a932.camel@infradead.org>
- <6afc4b95-3c15-4d71-877d-19b84e91ce05@redhat.com>
- <57bc082f4824d6114d3156744c25986effc29aca.camel@infradead.org>
- <baff82ca-6321-4b16-aa61-b2d6d60b6535@redhat.com>
- <86h5obya2r.wl-maz@kernel.org>
- <48b06e5655d56ff6eda30e563b34894fa0eb2f07.camel@infradead.org>
- <ba08dfe9-932b-40c3-9fdf-fc891d52e1d8@redhat.com>
- <d9d4471a7f5ec1e297b3ca07f42a59090aa91e15.camel@infradead.org>
- <CABgObfaM-JtNn2MuYXaiadQnLfAhTEaoHAcTG9=J6LkMcQCJ3A@mail.gmail.com>
- <3f9d731c3d26b0367600f1069e6425099bc34eac.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lmkJMfMF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1779190642;
+	bh=P71i5LOBOPL4Hw9EeBymlq0Uf0mmQClWsPDyQMD6YBw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lmkJMfMFv3KpVtRpcOyjXSIVDVhu6eCaJRIpW91cYOFDTqtTZIC2c9C+1C1oJMtSU
+	 dnXMaW6ng5tUAkAskq35eqxUC1O+6hNTVv3ZEfCXQD0BDsa2/0uZpsUEzq1Esv2qxZ
+	 615G/Hj4eMOGF4pB1h2Vu6Cygfef+Ypql4Qe2tp3asoMM20dltJ83aK9xDrDpdNjbM
+	 6iR+0qbuawQlElj596VtUO+CgXYXrOMvfkA6dJV2s8GSWcHzzz4OXdvKMqCzrC7oIp
+	 KFu7AEHGP5uoXhH8VP+npLTMz3B87ETrX4Qo41jOb8UOqcWeFMJeXt7HLLVpLm8ybE
+	 aDrFawFNR4TbQ==
+Received: from fedora (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4C28B17E1305;
+	Tue, 19 May 2026 13:37:21 +0200 (CEST)
+Date: Tue, 19 May 2026 13:37:18 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Chia-I Wu <olvaffe@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>, Marcin
+ =?UTF-8?B?xZpsdXNhcno=?= <marcin.slusarz@arm.com>, Ketil Johnsen
+ <ketil.johnsen@arm.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Steven Price
+ <steven.price@arm.com>, Daniel Almeida <daniel.almeida@collabora.com>,
+ Alice Ryhl <aliceryhl@google.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Florent Tomasin <florent.tomasin@arm.com>, nd@arm.com
+Subject: Re: [Linaro-mm-sig] Re: [PATCH 4/8] drm/panthor: Add support for
+ protected memory allocation in panthor
+Message-ID: <20260519133718.373d6070@fedora>
+In-Reply-To: <20260519-loutish-beautiful-trogon-67453f@houat>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+	<20260505140516.1372388-5-ketil.johnsen@arm.com>
+	<20260505181523.49a3d85c@fedora>
+	<afxVIuVVPisBQ9p_@e129842.arm.com>
+	<20260507135356.5428d50d@fedora>
+	<agMvb_jeRsO7tSS-@e142607>
+	<20260512161111.0cb7000e@fedora>
+	<agNJasayW8VCHTiU@e142607>
+	<CAPaKu7QC7FdjL6m_OSb+E5aYKs6bmT-9DAHc5PC=XctCmRph2Q@mail.gmail.com>
+	<20260518091650.5a7a4f4a@fedora>
+	<20260519-loutish-beautiful-trogon-67453f@houat>
+Organization: Collabora
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3f9d731c3d26b0367600f1069e6425099bc34eac.camel@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 19, 2026 at 11:41:26AM +0100, David Woodhouse wrote:
-> On Wed, 2026-05-13 at 18:24 +0200, Paolo Bonzini wrote:
-> > 
-> > > See commit https://git.kernel.org/torvalds/c/49a1a2c70a7f which adds a
-> > > new guest-visible feature in revision 3, but allowed userspace to
-> > > restore the old behaviour by setting it to revision 2. All my patch
-> > >  above does, is make it possible to set it to revision 1 as
-> > > well. Because https://git.kernel.org/torvalds/c/d53c2c29ae0d previously
-> > > changed the behaviour and bumped the default to 2 *without* allowing
-> > > userspace to restore the prior behaviour, and we've been carrying a
-> > > *revert* of that patch.
-> > > 
-> > > Why would we *not* accept such a patch?
-> > 
-> > Agreed. Even ignoring your revert, there's no reason why any upgrade
-> > past 49a1a2c70a7f has to be from after d53c2c29ae0d.
-> 
-> So where do we go from here?
-> 
-> I assume you'll be taking this Documentation patch via the KVM tree?
-> 
-> But what about the actual fix at 
-> https://lore.kernel.org/all/20260511113558.3325004-2-dwmw2@infradead.org/
-> 
-> This is a simple and unintrusive bug fix to make KVM/arm64 follow the
-> "common sense" requirement that the doc patch codifies, apparently
-> being rejected with the rather bizarre claim that KVM has no *need* to
-> maintain guest-visible compatibility across host kernel changes.
-> 
-> So... what next? Is one of the other KVM/arm64 maintainers going to
-> speak up? Paolo would you consider taking the fixes through your tree
-> directly? 
-> 
-> Does Arm not actually *care* whether AArch64 is considered a stable and
-> mature platform for KVM hosting?
+On Tue, 19 May 2026 11:52:13 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
 
-Hey, come on. Marc cares more about this stuff than anybody else on the
-planet. He's been single-handedly maintaining the tree for the past
-couple of releases while Oliver was out and he's on the end of a _lot_
-of patches. I'm only cc'd on a fraction of the KVM/arm64 changes and
-it's bedlam.
+> Hi Boris,
+>=20
+> On Mon, May 18, 2026 at 09:16:50AM +0200, Boris Brezillon wrote:
+> > On Wed, 13 May 2026 12:31:32 -0700
+> > Chia-I Wu <olvaffe@gmail.com> wrote:
+> >  =20
+> > > On Tue, May 12, 2026 at 8:39=E2=80=AFAM Liviu Dudau <liviu.dudau@arm.=
+com> wrote: =20
+> > > >
+> > > > On Tue, May 12, 2026 at 04:11:11PM +0200, Boris Brezillon wrote:   =
+=20
+> > > > > On Tue, 12 May 2026 14:47:27 +0100
+> > > > > Liviu Dudau <liviu.dudau@arm.com> wrote:
+> > > > >   =20
+> > > > > > On Thu, May 07, 2026 at 01:53:56PM +0200, Boris Brezillon wrote=
+:   =20
+> > > > > > > On Thu, 7 May 2026 11:02:26 +0200
+> > > > > > > Marcin =C5=9Alusarz <marcin.slusarz@arm.com> wrote:
+> > > > > > >   =20
+> > > > > > > > On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon w=
+rote:   =20
+> > > > > > > > > > @@ -277,9 +286,21 @@ int panthor_device_init(struct pan=
+thor_device *ptdev)
+> > > > > > > > > >                     return ret;
+> > > > > > > > > >     }
+> > > > > > > > > >
+> > > > > > > > > > +   /* If a protected heap name is specified but not fo=
+und, defer the probe until created */
+> > > > > > > > > > +   if (protected_heap_name && strlen(protected_heap_na=
+me)) {   =20
+> > > > > > > > >
+> > > > > > > > > Do we really need this strlen() > 0? Won't dma_heap_find(=
+) fail is the
+> > > > > > > > > name is "" already?   =20
+> > > > > > > >
+> > > > > > > > If dma_heap_find() will fail, then the whole probe with fai=
+l too.
+> > > > > > > > This check prevents that.   =20
+> > > > > > >
+> > > > > > > Yeah, that's also a questionable design choice. I mean, we can
+> > > > > > > currently probe and boot the FW even though we never setup the
+> > > > > > > protected FW sections, so why should we defer the probe here?=
+ Can't we
+> > > > > > > just retry the next time a group with the protected bit is cr=
+eated and
+> > > > > > > fail if we can find a protected heap?   =20
+> > > > > >
+> > > > > > The problem we have with the current firmware is that it does a=
+ number of setup steps at "boot"
+> > > > > > time only. One of the steps is preparing its internal structure=
+s for when it enters protected
+> > > > > > mode and it stores them in the buffer passed in at firmware loa=
+ding. We cannot later run the
+> > > > > > process when we have a group with protected mode set.   =20
+> > > > >
+> > > > > No, but we can force a full/slow reset and have that thing
+> > > > > re-initialized, can't we? I mean, that's basically what we do whe=
+n a
+> > > > > fast reset fails: we re-initialize all the sections and reset aga=
+in, at
+> > > > > which point the FW should start from a fresh state, and be able to
+> > > > > properly initialize the protected-related stuff if protected sect=
+ions
+> > > > > are populated. Am I missing something?   =20
+> > > >
+> > > > Right, we can do that. For some reason I keep associating the reset=
+ with the
+> > > > error handling and not with "normal" operations.   =20
+> > > I kind of hope we end up with either
+> > >=20
+> > >  - panthor knows the exact heap to use and fails with EPROBE_DEFER if
+> > > the heap is missing, or
+> > >  - panthor gets a dma-buf from userspace and does the full reset
+> > >    - userspace also needs to provide a dma-buf for each protected
+> > > group for the suspend buffer
+> > >=20
+> > > than something in-between. The latter is more ad-hoc and basically
+> > > kicks the issue to the userspace. =20
+> >=20
+> > Indeed, the second option is more ad-hoc, but when you think about it,
+> > userspace has to have this knowledge, because it needs to know the
+> > dma-heap to use for buffer allocation that cross a device boundary
+> > anyway. Think about frames produced by a video decoder, and composited
+> > by the GPU into a protected scanout buffer that's passed to the KMS
+> > device. Why would the GPU driver be source of truth when it comes to
+> > choosing the heap to use to allocate protected buffers for the video
+> > decoder or those used for the display? =20
+>=20
+> Just fyi, the trend is to go to devices listing the heaps userspace
+> should allocate from
 
-Will
+Devices listing the heaps they are able to import buffers from
+(with the list being different based on the buffer properties, I
+guess) is a good thing. This way the central allocator is in a position
+where it can intersect the devices lists and decide which heap to
+allocate from based on its buffer sharing knowledge.
+
+> and/or using the heaps internally to allocate their
+> buffers,
+
+Yes, that too. For internal buffers (especially the device-wide ones,
+like the protected FW sections we were discussing), it makes sense to
+leave that up to the driver.
+
+> so that last part is where we're headed, and feels totally
+> reasonable to me.
+
+Just to be clear, my main concern right now is not the long term plan,
+but how realistic it is to assume we'll have all the DT/dma_heap pieces
+in place in a reasonable amount of time. Looking at the current state
+of affairs (based on this patchset), it feels like we're a long way
+till we can have a robust way of exposing dma_heaps to in-kernel users
+(refcounting, lifetime issues, describing allowed heaps, ensuring heaps
+truly provide buffers with the expected properties, ...). I'm certainly
+not saying these are not valid concerns, but I'd like to have a
+temporary solution to support protected rendering in the meantime...
+
+>=20
+> Maxime
+
