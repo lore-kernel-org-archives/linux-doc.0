@@ -1,166 +1,179 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8532B233949;
-	Tue, 19 May 2026 12:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C23C4DB561;
+	Tue, 19 May 2026 12:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779193950; cv=none; b=j8gThWwP9hG8aM5gESJfF+Cc+61s9W76yiuOontYd/wnG1/0FBwOtJMxiOLcc0z1xZGmd7hdZH6DJymlRXxEAOULRHgkMlm8NNYC/6HRFjU0dKv8Mzei9VgnKLvYmL0oHOZUNhLlnz82/CRrFhYE0iecWrt/DN83TBp9mpi+lOw=
+	t=1779194341; cv=none; b=UJ8gvdJ48czquhCbo2/KtoT+xOkIJfWz3wt54muhlmYG9+/N7W2uKp23GrsvYypIPnNBTQL7JNG3TmwVK34x2xbuI0NyZ8dLnHn3BVXzbwWUR9HETQpabJdciQItz80Ii/GlwSLYTqtkFENOwixSJWwwy0k59Lq4ZoOZyyvf+ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779193950; c=relaxed/simple;
-	bh=a3i+o0McdYohTrVqOh3i5ioTr30WGEXz7x2q0R/6iQE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MjmkZQBAksRl7rqvK8NdGPmBr8iLTziGHdcvTUNMm4VqR/n3UKeZ++/rWRidLS1UQIW9ou/4xCOK9rKRv0AHg2LAgGV5YEXVRoo2ZiwxPGpoxulVGDrYDAIbHJxnvKQ6//oRde82W6lMhswQnbGQbkCQK/BNj2q72PTbHytdtWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=bD4LrUFU; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1779194341; c=relaxed/simple;
+	bh=8vDTP3D8eciTBIALrAZgpZD5nbooGrzE+oayZi9KF0E=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W5x13tKsdR0QqBD4iXRtKWjlu1JMDaUiiAdlGxl8OPA6I2WAtrdLhBSz3FVab0Hs1y8ekea1nJzdgBFY107MpUNwqCJm1OW+Yv/3d7JBudvpe0QhV24MZLGIW7Xh8Lm0dcdPGL5N15crSWTapvKkTm7FAYq9vxpAEsmz3H7tA3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X6t7ol7k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="bD4LrUFU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1779193935; x=1779798735; i=markus.elfring@web.de;
-	bh=a3i+o0McdYohTrVqOh3i5ioTr30WGEXz7x2q0R/6iQE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=bD4LrUFUa99UynQkR+0Haqdgw0dWp3RyKBUH8A/LzhDoAUbsOc0oiwArzrbVbhah
-	 7OBGANqlIn6A0KGyV8mrfvU7c+dSaCpFjCIfumRmndbP0A4TNlg8rbZZWaCEQBLjx
-	 VlbX9r2+JkHZbLYXNCe2JG4DZbOCbYkUA1yqxwpCwZJWjoXWgg2TKid5sBs3yD9Bp
-	 KKbJvHzSy/Omsw2bJUsBq0wBRvwZG4hipgRxmYRJJH4dknj4rtWzdnL7J+VsXzkLo
-	 NaO+L+IvZfx+0lqG48vC8FDSCacJqYh4i9KNMzBeVjVKNImsmrR8jrhAAzv9wXdWl
-	 nHMJHfqEMikaFW+mqA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MzTLI-1xKZ0Z263E-014uRG; Tue, 19
- May 2026 14:32:15 +0200
-Message-ID: <056ecc87-c4ba-47cb-9aa2-5e3211da195c@web.de>
-Date: Tue, 19 May 2026 14:32:11 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X6t7ol7k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1AF6C2BCB3;
+	Tue, 19 May 2026 12:39:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779194340;
+	bh=8vDTP3D8eciTBIALrAZgpZD5nbooGrzE+oayZi9KF0E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=X6t7ol7k8hXaTj/jPvLJ4LNh/i0SOJnXHIXk5IZvumO7d/mN1CRjiMLm+KSTcCp01
+	 dpCgfb3aWuWfFvphoRRIUvocz42q1e+gPLCMrk98HK48+ExirdBV2p39MdspXradvs
+	 1S8OGLvyb2+JpsVe931jV07V3TurIWCZCvnNvmG/z9BrJiOSkahYsYOo1ZSNsKo2ra
+	 Y+gehhYjrv12Lm3yC01nrnbTOX6dWDkJ5zl5bn1iOKENlNlOCBFUr/hY7y5DGNyIh8
+	 j8dzCXa37aHLiHFr20/F7wIrW3FgI33uniFpprTdhEdwfVSdoMKI7k1UkTm0mh1dmW
+	 8eH0eWogRBXPQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1wPJis-00000003wup-1KJo;
+	Tue, 19 May 2026 12:38:58 +0000
+Date: Tue, 19 May 2026 13:38:57 +0100
+Message-ID: <86qzn7wp3y.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: David Woodhouse <dwmw2@infradead.org>,
+	Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	kvm <kvm@vger.kernel.org>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	"Kernel Mailing List, Linux" <linux-kernel@vger.kernel.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Jim Mattson <jmattson@google.com>,
+	Oliver Upton <oupton@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Eric Auger <eric.auger@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	kvmarm@lists.linux.dev,
+	linux-kselftest <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: KVM: Document guest-visible compatibility expectations
+In-Reply-To: <CABgObfacAYexR25SMi1kSZMRnHx3EDGj8=E84V1DumER66ibnQ@mail.gmail.com>
+References: <6856b269d2af706eae397e0cf9c1231f89d9a932.camel@infradead.org>
+	<6afc4b95-3c15-4d71-877d-19b84e91ce05@redhat.com>
+	<57bc082f4824d6114d3156744c25986effc29aca.camel@infradead.org>
+	<baff82ca-6321-4b16-aa61-b2d6d60b6535@redhat.com>
+	<86h5obya2r.wl-maz@kernel.org>
+	<48b06e5655d56ff6eda30e563b34894fa0eb2f07.camel@infradead.org>
+	<ba08dfe9-932b-40c3-9fdf-fc891d52e1d8@redhat.com>
+	<d9d4471a7f5ec1e297b3ca07f42a59090aa91e15.camel@infradead.org>
+	<CABgObfaM-JtNn2MuYXaiadQnLfAhTEaoHAcTG9=J6LkMcQCJ3A@mail.gmail.com>
+	<3f9d731c3d26b0367600f1069e6425099bc34eac.camel@infradead.org>
+	<agxFbniU_6eQ98t2@willie-the-truck>
+	<cf429f2082e863571595f74d1d3dedc3e6a82964.camel@infradead.org>
+	<CABgObfacAYexR25SMi1kSZMRnHx3EDGj8=E84V1DumER66ibnQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/15] accel/qda: Add DMA-backed GEM objects and memory
- manager integration
-To: Matthew Wilcox <willy@infradead.org>, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?=
- <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Shuah Khan <skhan@linuxfoundation.org>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Bharath Kumar <quic_bkumar@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Will Deacon <will@kernel.org>
-References: <20260519-qda-series-v1-9-b2d984c297f8@oss.qualcomm.com>
- <5e0d72fa-929a-4905-9066-6648892bef4a@web.de>
- <agxXc8ttEzBFOlE2@casper.infradead.org>
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <agxXc8ttEzBFOlE2@casper.infradead.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:ZCsSJd3hlZA0+s6pw9oSu6hy//TO5pI7XEUP2fNCggWZexrtIeC
- ztmJ2lavQ+zqx4kDCnaiWe2OloINiorh0ir6/HZHLmgzLjBnCWEje6lfH+2omUmIOxImtZ8
- oLJlyHHg7CSgf/fhhMzkYHPKesSLEMCEIdiyA3HuaBGm5L1K3/RB4gTtpny+qFIEcIc+nrw
- qec8gi9RND1ONV1qQOX+w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vJshWSmoSHA=;XWZhCWYeZiiacMBiBDZaL9WPur4
- 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
- b9UjQg==
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: pbonzini@redhat.com, dwmw2@infradead.org, will@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, seanjc@google.com, jmattson@google.com, oupton@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, rananta@google.com, eric.auger@redhat.com, kees@kernel.org, arnd@arndb.de, nathan@kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-> Feel free to ignore everything Markus says.
+On Tue, 19 May 2026 13:13:41 +0100,
+Paolo Bonzini <pbonzini@redhat.com> wrote:
+>=20
+> On Tue, May 19, 2026 at 1:44=E2=80=AFPM David Woodhouse <dwmw2@infradead.=
+org> wrote:
+> > > > So... what next? Is one of the other KVM/arm64 maintainers going to
+> > > > speak up? Paolo would you consider taking the fixes through your tr=
+ee
+> > > > directly?
+>=20
+> I admit that my knowledge of Arm is really limited, and I do not
+> understand which IIDR values have architecturally allowed behaviors
+> and which (if any) were made up by KVM; but even if I cannot honestly
+> remark on the code or even the approach, a compatibility knob is the
+> right thing to have.  That's a userspace API design matter, not an Arm
+> or GIC matter.
 
-Will any contributors care more for linked information sources
-(in constructive ways)?
+I agree that we can have the knob -- not having it is a userspace
+issue, and I have said that I was OK with preserving the userspace
+interface.
 
-Regards,
-Markus
+>=20
+> I hope that Marc provides a better explanation of why he believes
+> https://lore.kernel.org/all/20260511113558.3325004-2-dwmw2@infradead.org/
+> shouldn't be accepted, because I am more than a bit puzzled about
+> *why* that patch is being rejected or (in v3) so far ignored. Marc in
+> this thread wrote: "If userspace is not a total joke, it will read all
+> the ID registers, and configure what it wants to see, assuming it is a
+> feature that can be configured (not everything can, because the
+> architecture itself is not fully backward compatible)".
+
+This was a more general comment on the full mechanism that we use to
+save/restore the state and at the same time configure the feature
+set. Which is what the GICD_IIDR does to some extent for the GIC.
+
+> But in this case there's an ID register that tells KVM if userspace
+> wants the old or the new behavior, independent of whether that old
+> behavior is architecturally valid or not.
+
+But the "old behaviour" makes no sense, and cannot be used by a guest:
+
+- either the guest doesn't use the alternative interrupt groups, then
+  it wasn't affected by the bug. That's 100% of the guests.
+
+- or the guest did try to use the alternative groups, and it *NEVER*
+  worked, as it wouldn't get any interrupt at all. What is the point
+  of preserving a "feature" that only results in a non-working guest?
+
+Given that, re-introducing a behaviour that cannot be used makes zero
+sense to me.
+
+> I will certainly take this patch, but I won't override Marc. However
+> I'd like to better understand his point of view, because right now I
+> just don't get it.
+
+I don't get it either, but for different reasons.
+
+>=20
+> > If KVM on arm64 doesn't aspire to maintain guest compatibility across
+> > host kernel changes =E2=80=94 regardless of whether the previous kernel=
+'s
+> > behaviour was "blessed" by the architecture specification or not =E2=80=
+=94 then
+> > it does not meet the expectation that we have of KVM implementations in
+> > the Linux kernel.
+>=20
+> I agree with the "aspire" wording. Even if it's not going to be 100%
+> achievable, KVM *needs* to aspire to maintain both guest compatibility
+> and architecture precision. Sometimes it's impossible, sometimes there
+> are constraints that require you to trade off one for another (e.g.
+> via quirks, or by breaking behavior that no sane guest would have
+> cared about). But in general as a maintainer you don't *get* to
+> choose.
+>=20
+> Paolo
+>=20
+> > Or indeed the standards that we've held for Linux kernel ABIs for the
+> > last 35 years.
+
+As I said before, I'd be OK with something that would restore IIDR to
+REV1. But not something that actively breaks the GIC emulation by
+reintroducing a bug. That's, by construction, dead code that will only
+bitrot, because there is no SW that can make use of this nonsense.
+
+	M.
+
+--=20
+Without deviation from the norm, progress is not possible.
