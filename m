@@ -1,187 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812063B3BEC;
-	Tue, 19 May 2026 21:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779224407; cv=fail; b=qiZ+Ixr98Nqn6KezBWUOgYDzDKIc5e/yg9Zvwqyo5VDV4Fk+P+uHTG0HFjd6ov/6rPYuwDfEpeN1MfiMhREDTdQtJYnE28IaANYOrwyl6SA617h7f7vGDvJiSsAbkDdax/ifUJzmJORZBp2agZ6QtQ03lr8PdcIajk/LcCeKx4s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779224407; c=relaxed/simple;
-	bh=MfFXgFFQWdDVG4h+XTXCetsJXHMDf59tLKNSCPE9bCw=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=FG9daknCseJaQ+KylNdeGEPQKh+zOiHjR7884s8850nYK5DrqYa8B5BW5OUtqJZqlLjZt1+n3galrexu8GvaEwDUZ/gqc6/dpdDmbtGjDekgepCF6jsZbvjHxqagLQ0+sn4P9fugfkToJ3ElT9vutuPu5kJocIdghoJpSXsQBqg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lp687JFJ; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06DF3DCD94;
+	Tue, 19 May 2026 21:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779225053; cv=none; b=oi0oAz1EemAi9ZcVg+qCexUW62zfyXWEs5Z7k4i/TTQ0K2VUDd+GcSH3A0bAl2Ds6y9hA4Fh1mMRKLUNnx8hX7nwdaSGRGgYg8shUnEwyjzPF4TaBnhrZTgJ4rrOmo+y6vsFeb5LB72KdPc/vYUe9PrvJpnIrMG4pcRswvQUSck=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779225053; c=relaxed/simple;
+	bh=PMBbCkriMIJCPtnxEiVilsP0qVT+oqDX7B6s76Q9GBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iJEFVZDiCId7/Q3yyr+qmlxPllXL8D+rth97uKok1WZv6EVqfT+ShzpwgcgaRUTIPharOxsvfxvkVypPwWIXFos4jesk5ERk6YCT2QZf5qtfTXci4Z1b07aRPBpsukyxUfNNz/g4yjpiJaVSHVFK+gsRo+Pm1YDzjb2V+EJJxoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PpF+/Qs+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lp687JFJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779224406; x=1810760406;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=MfFXgFFQWdDVG4h+XTXCetsJXHMDf59tLKNSCPE9bCw=;
-  b=Lp687JFJNbCEUo1vNBHAuip4cNzzHBQUBgYgJIiAvdYCBFjaTUJGU5SQ
-   vr700ayPcEz9b6N0Y+Yr80o1S6BFTciLVDn6cloVi4b3B8438d+4BqZbK
-   6m/sXQ1TGnOcDG3WAOKMTxVtmsGoaqw9ZwVbQxwraB0aptcMSrvcx82cP
-   5TzmIeuD9lXqwAg4oNQcb1yS8OYpwOiuCMJ3AJsH7fsVSnpSUfMb7OaZY
-   TTQm8yhfgZo+viiRM9pLnvrp2BzKwNOPRFmPzVlenL5mkhIKigQwF2kMr
-   vQsPcuuHkg6GyPYqFRki6fLBt7rSgBsnR7bgH++PWyKlOBMhp9BA5NU7U
-   A==;
-X-CSE-ConnectionGUID: C348nOSyQ5eqOd0eMqrSyA==
-X-CSE-MsgGUID: mLddzsuhSIq8bzICfSeADg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80232032"
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="80232032"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 14:00:05 -0700
-X-CSE-ConnectionGUID: iBbuwIFuTv6FEmQGZJDySg==
-X-CSE-MsgGUID: t+DpIhEcQyeJKDXKzwVSyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="278011817"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 14:00:04 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 19 May 2026 14:00:04 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 19 May 2026 14:00:04 -0700
-Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.28) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 19 May 2026 14:00:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nsampaJEewCQtk/hm9fwo/GHxt0zk5olBNk5ztt3J6nkBxJiqwxi1ulwX6vCoidhgrkxEMp1W9MYsW4P+NHxT5R6U9V6O9SrVQKr2bSLZYPmyF8JE4U+gU+zFzA3RmR+SjyT19BooHIkd+fuhRKC3G2oAxxds4ctuBAzK05Ask2D8i75rv+VVzj6lapX0McThk0Xx7vBOtWZ8g1YeJejjcVJ1tlHOLWfxEz8yeyrDZ+9iAXI5MNaikLGwIbqt5uOoti0XrnYRZHSWJcG7Ij1KTZI0HKSdHxMr4Kxm6mIdN9YmuBAZuRLJh1gfavtrC4Y5zrRtbvpjRP+j00URt0KWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AosV9sL8x640dFpB4TwGyaWy5nuoAIz+rv5JtXTnpbo=;
- b=akhIeyU3Z/NL09ndH1mtj1uSCQdYTN9yCTP9M7dqQdO1MYm8RbFzCJOxePdjoUavZ5GL3NG1h4ss5o+ZUmlWC8q8sWN6PPQi4zyFwrDxqQUmtRZuPWj4KEWJ+SeK+3EkdZhW1qdduxydmraV6RMYZjiL1yt8n2LqqgNrM1wyC777ecvGue7Fkuny+0vwXQs/AV1fyOj6wEGsBoWC7y/vat2Eo8yqE+WVT8oX2/7IlY8mtuMhNMlLStQzEe09Nsdoxn2R6NJalEPUOq4oZOt5fzIAj3d4YfOeywaTCK612XAbiWeIZ9ZMqLimHkg6+NG8/MbyZIgTiuM4jeJAnyngWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS7PR11MB6077.namprd11.prod.outlook.com (2603:10b6:8:87::16) by
- CH3PR11MB7865.namprd11.prod.outlook.com (2603:10b6:610:128::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.23; Tue, 19 May
- 2026 21:00:01 +0000
-Received: from DS7PR11MB6077.namprd11.prod.outlook.com
- ([fe80::5502:19f9:650b:99d1]) by DS7PR11MB6077.namprd11.prod.outlook.com
- ([fe80::5502:19f9:650b:99d1%6]) with mapi id 15.20.9913.009; Tue, 19 May 2026
- 21:00:00 +0000
-Date: Tue, 19 May 2026 13:59:56 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Babu Moger <babu.moger@amd.com>
-CC: <corbet@lwn.net>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
-	<james.morse@arm.com>, <tglx@kernel.org>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <skhan@linuxfoundation.org>, <x86@kernel.org>,
-	<mingo@redhat.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
-	<rdunlap@infradead.org>, <pawan.kumar.gupta@linux.intel.com>,
-	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
-	<kees@kernel.org>, <elver@google.com>, <lirongqing@baidu.com>,
-	<paulmck@kernel.org>, <bhelgaas@google.com>, <seanjc@google.com>,
-	<alexandre.chartre@oracle.com>, <yazen.ghannam@amd.com>,
-	<peterz@infradead.org>, <chang.seok.bae@intel.com>, <kim.phillips@amd.com>,
-	<xin@zytor.com>, <naveen@kernel.org>, <thomas.lendacky@amd.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<eranian@google.com>, <peternewman@google.com>,
-	<sos-linux-ext-patches@mailman-svr.amd.com>
-Subject: Re: [PATCH v3 04/12] x86,fs/resctrl: Program PLZA through kmode arch
- hooks
-Message-ID: <agzPTMvJ_LdEmKXe@agluck-desk3>
-References: <cover.1777591496.git.babu.moger@amd.com>
- <0cfd813e10072eefc8f4d84328e83bd9a6220ad4.1777591497.git.babu.moger@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <0cfd813e10072eefc8f4d84328e83bd9a6220ad4.1777591497.git.babu.moger@amd.com>
-X-ClientProxiedBy: BY5PR17CA0030.namprd17.prod.outlook.com
- (2603:10b6:a03:1b8::43) To DS7PR11MB6077.namprd11.prod.outlook.com
- (2603:10b6:8:87::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PpF+/Qs+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C9C41F000E9;
+	Tue, 19 May 2026 21:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779225052;
+	bh=/J21S+Ld/hEhF27pPKSQ3l92mo4qOAr3o1Wi79JUnPo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PpF+/Qs+ycT4A8rWHJ/2DlTEDC2i0j/k3x9lrVRnSVvoqOOYYCaH5oDvCXXHRfgAW
+	 y1nzP4QlnoFKEjFtRVrSTHhl7gLvWebJ2lt1VrAbGbVEEEWhCzSXhkfe3kwZ+Tv91F
+	 WIkkGeNJsBlHxHEj9qdnVRmc3v6Jgi2dzvhHcT+JAmrlnsGeguE3WlCTEuB1tRZTud
+	 3bLAPhSMMQzLOaGYixd4SPKTsWHWm1bSqOWWUln6tiYSNTjaGkrRWYybGHryRNNsO7
+	 7lv/z7sGNzkLVvCxn2RZVMzjfDjStBmvCbEDlS5i7BNE0sCXMW1h+YsUFTlGgTtycQ
+	 bzBCjf8IrvBDg==
+Date: Tue, 19 May 2026 14:10:50 -0700
+From: Oliver Upton <oupton@kernel.org>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marc Zyngier <maz@kernel.org>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, kvm <kvm@vger.kernel.org>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	"Kernel Mailing List, Linux" <linux-kernel@vger.kernel.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Jim Mattson <jmattson@google.com>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Eric Auger <eric.auger@redhat.com>, Kees Cook <kees@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	kvmarm@lists.linux.dev,
+	linux-kselftest <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: KVM: Document guest-visible compatibility
+ expectations
+Message-ID: <agzR2kaJsNa8X9lF@kernel.org>
+References: <d9d4471a7f5ec1e297b3ca07f42a59090aa91e15.camel@infradead.org>
+ <CABgObfaM-JtNn2MuYXaiadQnLfAhTEaoHAcTG9=J6LkMcQCJ3A@mail.gmail.com>
+ <3f9d731c3d26b0367600f1069e6425099bc34eac.camel@infradead.org>
+ <agxFbniU_6eQ98t2@willie-the-truck>
+ <cf429f2082e863571595f74d1d3dedc3e6a82964.camel@infradead.org>
+ <CABgObfacAYexR25SMi1kSZMRnHx3EDGj8=E84V1DumER66ibnQ@mail.gmail.com>
+ <86qzn7wp3y.wl-maz@kernel.org>
+ <593a782c50f3c8656e13b36dfb975a67d43a908e.camel@infradead.org>
+ <CABgObfbS-z3OphDna5W_JQPvw+OK=yXJurVMHp1ANZ5uGEgVhQ@mail.gmail.com>
+ <9d0429ddbe4d8c6993e74237c4395697f80092d6.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR11MB6077:EE_|CH3PR11MB7865:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0629f99-9e4c-4f1c-bd99-08deb5e9976e
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|4143699003|11063799006|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 0+0vHATZpFMCcp5zze9ccagdAClO+IUHzyVsvozYaABZlCzl04ZTWAstViPnDAM+y4em5Nlca97S3B9wS3EV30KvgjGnVv01X/cRnQI1lUSD6BRI67JS8GsyjMfZ2rj/9ATbg+BETBDJdkav7Auzy2tXuMz0/lhg5xbjEpx+DFB+dvbsP1c81aRQsL8DWIYyXG3UQATfRBBqEGxTEMowJx5ffXTLT3qCWIqflj9XmoHKm0bsA0kxqZIWyQushb/3Ebpda0Vmbo+qIIZWr8g4xUk7UxEPT/fgPLF5Sb5WckHuW9EI/peVtnHNlDlSlT+tBIfMsF1DBt6Sbeweu8D5MPkwaRHht6Sxc+Ahy9kxS0bLab/y+mPsXYngZgN7nTHN+pa9/aSiufDecHQ7M+K5tf9RqfUSCP8V38Zf09yxl6mQT/96m2L7mJJ92jPBsNcPSrPtWmHMcuzs6i6jrpWV8h7g56ea3trCA+IP1JMC5tCHcgoVjQj71T4M6AGuWGV8LSDxO3keAffURxQjn4wYBqOk4RM0cd0jAXeemExLQ3Da+pM/VkLI7H0WSxUOiNb6pMtg4zVeEg6OGK87sT7dz1mC8W8H3MwSiRVgjxGVEgweE2+rr2dhDda3+lzlgRclCFIYb80fTnfcjag61G58lGJBCLxFzwlOAbC6gv7ySf/Csz59bUveEGpz+TjGyk25
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6077.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(4143699003)(11063799006)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?th72xxsOjZC/TAMMO1e6RHdUJFQApOlz5w4hRYUCkW35DFxxOdYm1kyOEBuq?=
- =?us-ascii?Q?fACm1tyAMMZNzImotGl4JfDEQBrQs+0iMnPmEEPwOzY8V2fx5jdKX7QUQWEo?=
- =?us-ascii?Q?88hAB3dMaOj1NxjQ93mHFSVmcDxKDMo5aQzWlC6rLiZA8yxy5ydFDaWb9E11?=
- =?us-ascii?Q?6umIl/Gk3HPgfFcF58nVsO4zPTd2XXFv/2tdbEa+zpRf+ZLE9NVp1SI1td4U?=
- =?us-ascii?Q?50JeJmbqIkZ7//yuic2xhlQa6K/T5WktjqlIpZjmIiHVvNJ2LWspzL3ubsRQ?=
- =?us-ascii?Q?255tkkck7ZkgVxSUMiLxF7XeXyFwEKfZkCzKbkUu0uxF3o0UFOtDB7PNAxbG?=
- =?us-ascii?Q?XNfB0+qEIIDs5XsAkXJ8/DDvK1DFCKdNMPl7ZmFyPbWhK+kFRBggG1uGJkUT?=
- =?us-ascii?Q?0P8McWOYot7ZfRrwrU7o4vCdejaOvdowvZC6M7jziL74BwnHNYszkir59WbJ?=
- =?us-ascii?Q?VdmcyXoa+Bldp5zH+XCfzD0HhJUygwCPwGUh0ckdCKQ+cNgMtbMsWlu5eo3D?=
- =?us-ascii?Q?PNfbAVkLIAS6WuFufdyIvquxQk47LD2YhuWwgWQfGzJGFVBaCcAXTB+9KV9A?=
- =?us-ascii?Q?wAKhyRhjv9B5g+MY/r4wKy/8RZo40/cLO4tcY2JhXA9K290ItC3HNYsmy+Qj?=
- =?us-ascii?Q?POn+k+ZIP5cCwvQ5AlMt3mhwuhJe7FqeklwhsQF2JjVaNhCdPLjTcZEExYF8?=
- =?us-ascii?Q?shz9YGREGh35PjtZrzni0aqPHDlTVGKomLPJThCtBjtEEqhKvqvKRxlTCW3L?=
- =?us-ascii?Q?mGSMiJhedgR6KiMsbE8t0VZGbWsFwp8FHX6LtufN8SLSVQepkhHskqzreYbQ?=
- =?us-ascii?Q?H4arng+UZzcTluMGGyqv0HGc9NECHxKp1UESrF0n3OhMxvBRaaH9Li9trqAG?=
- =?us-ascii?Q?jGtwxJhrUez3wB/eMXNDlq0cceELLztsWR4HTvkorYpSgBZUq5r10nYwqAw4?=
- =?us-ascii?Q?qx52N/AQC/b5DmBw4RBHd2kwj2xXVmw5BAUWUJv0R0hlNBP36pfBAK5ZBjOx?=
- =?us-ascii?Q?gG+y/KP89RuuAH+eCWVOo/6bJwRVo70h3A3o7gXrxgKXYYQiNo3xoqhlDecF?=
- =?us-ascii?Q?h9glbeLxREmUzhdkSo3TOHcxuFap414k3uD5GWcEuwZSUk2oA3Aurm8+QOSX?=
- =?us-ascii?Q?Dh/FJvgQCyAVHuYvgfLtbnKujDbfpWEMm6GV4J5YuxDoLhPphybCEiB9KL3a?=
- =?us-ascii?Q?3d0Z/wrimW0eJ3uCw7w8zMgp/QbIfCbqSbCGql6fXIn0B40dTjjSFSzCEKDC?=
- =?us-ascii?Q?gOky968TKIvsvjNK4/c1N5Bo+xV8DjWj4juUj5oAbHkvoQ1HYRMlrh/uO6df?=
- =?us-ascii?Q?x/7ktLkizZjXuyf2+lJ1eoXAqS4L/Pqwqmf8r+gEiAEES0cZEsxbw//qTgFg?=
- =?us-ascii?Q?O+6V+Q9Tl0S/Qloe04FKjly7iffDJhG106TvyY6zZx77fAjaw/Rf3hxl7s3M?=
- =?us-ascii?Q?7KcxamAguEOoqpa2SYNj6TKgMwzT9fZEl2aBGY2+/EZhdlcmOUpJuX5GO2Tu?=
- =?us-ascii?Q?tpyc56oo8VQuXIr55h/DMt6HP8fUPqFwNtbvyh7QPr6K89PDSOgKi1e7xi9u?=
- =?us-ascii?Q?p5Hm+fAKPrvX5SgzGEYO8+hQHClx2wddpHaaKhqlbhDwVBWN+khoZbDybH5+?=
- =?us-ascii?Q?aM2ph0sSrIqhjWvzlWIG0hSUnjh2XASyxprrHwblUE3yrDITk5Kfm4P3tsnP?=
- =?us-ascii?Q?s6wn7gQsDDWut1p37NjElsBzFuRacNM/6Qbj04+E21hO6JsDBQF5D/kf4wRK?=
- =?us-ascii?Q?CmBUeAci8A=3D=3D?=
-X-Exchange-RoutingPolicyChecked: wrvCBFqHWS9mD2ecXQOFhSZkFQZQKEU4kNxbUrtJPm1ESMsECvku9tiNmMsp0T5KDe/VLzIeXEQCr6nAVOvg1+rUhfchvEmARESe7ohpBHsWMnVdpbBK8FNvr5SKSeNTxWauRLF31MLNKYSE+ZrWUU2h3Nw8jJEa1gtN3854EtYv+K1wZvws7Vtkl89TP/FddxD4nk32jGcE1Nra3IPrLe+wU6D+sAF9tBmbnRFpWQDVRvoSN0Cxxb6wzPSAQ9q7pTYS3ELWY3KgRd4oiuB+dwg6G6h24DsLpr65VUvME+oGZG2FtkUVP53Ez7J5QKc5w7nzNR1WOHF7mNwYXd40Gg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0629f99-9e4c-4f1c-bd99-08deb5e9976e
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB6077.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2026 21:00:00.8652
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AyYh0ZNEgkhi9IAYqMrcmvhd3wT7i9gsj/LB+qaR9IS8XuZmDcfTqhV5Pf0sg54dOEdHnrs8r5U/m9JQhEhL+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7865
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9d0429ddbe4d8c6993e74237c4395697f80092d6.camel@infradead.org>
 
-On Thu, Apr 30, 2026 at 06:24:49PM -0500, Babu Moger wrote:
-> +void resctrl_arch_configure_kmode(cpumask_var_t cpu_mask, u32 closid, u32 rmid, bool enable)
-> +{
-> +	union msr_pqr_plza_assoc plza = { 0 };
-> +
-> +	plza.split.rmid = rmid;
-> +	plza.split.rmid_en = 1;
+On Tue, May 19, 2026 at 03:13:30PM +0100, David Woodhouse wrote:
+> On Tue, 2026-05-19 at 15:53 +0200, Paolo Bonzini wrote:
+> > On Tue, May 19, 2026 at 3:00 PM David Woodhouse <dwmw2@infradead.org> wrote:
+> > > Or some guest configurations which have only ever been tested under KVM
+> > > could have a bug where they *rely* on the registers not being writable,
+> > > and write values which are inconsistent with the rest of their
+> > > configuration. Which breaks the moment those registers become writable.
+> > 
+> > Yeah, just having guests that worked by utter chance - but you still
+> > don't want to break them - is the case that is most likely. Crappy
+> > code that runs only under emulation/virtualization appears with
+> > probability 1 over time.
+> > 
+> > Is this likely in this specific case---probably not, honestly.
+> > Christoffer's patch dates back to 2018 (commit d53c2c29ae0d); *back
+> > then* KVM/Arm was a lot less mature, and people developing for Arm on
+> > vanilla upstream kernels have moved on from Linux 4.19.
+> 
+> It's not really 2018 though. EC2 is still running kernels with that
+> older commit reverted because of the breaking change that it
+> introduced.
+> 
+> So the behaviour corresponding to GICD_IIDR.implementation_rev=1 is
+> still current for *millions* of guests.
+> 
+> I'm now finding that revert in our tree during a *later* kernel upgrade
+> and trying to eliminate it. 
 
-Shouldn't there be a parameter for the value of rmid_en?
+Still, as far as upstream is concerned this is damn near a decade old.
+Decisions that you or your peers made in the downstream doesn't change
+that.
 
-User asked for global_assign_ctrl_assign_mon_per_cpu set it to '1'
+> And sure, I have given the engineers responsible for that a very hard
+> stare and suggested that they should have fixed it 'properly' in the
+> first place with a patch like the one we're discussing right now.
+> 
+> And they're looking at this thread and saying "haha no, if fixing
+> things properly for Arm is this hard then we'll stick with the crappy
+> approach".
 
-User asked for global_assign_ctrl_inherit_mon_per_cpu set it to '0'
+The appropriate time to ask for accomodation was a *very* long time ago.
 
-> +	plza.split.closid = closid;
-> +	plza.split.closid_en = 1;
-> +	plza.split.plza_en = enable;
-> +
-> +	on_each_cpu_mask(cpu_mask, resctrl_kmode_set_one_amd, &plza, 1);
-> +}
+And in the absence of clear evidence of a guest depending on the broken
+IGROUPR behavior, I don't see how the guest-side changes of Christoffer's
+series are any different from the multitude of bug fixes that we take
+every single release cycle. It is an unfortunate bug and I concur with
+Marc that it doesn't seem like the sort of thing a guest could rely
+upon.
 
--Tony
+Because it is very much a bug fix, it should've happened without a
+change to the revision number.
+
+Now, the handling of GICD_IIDR itself is a separate issue. By my count,
+the series broke UAPI on three separate occasions. Before b489edc36169
+IIDR was RAZ/WI from userspace. And of course dd6251e463d3 and d53c2c29ae0d
+changed the revision with no way of restoring the old value.
+
+And really, IIDR should've *never* been used as a buy in for new UAPI
+because it unnecessarily becomes guest visible. 49a1a2c70a7f ("KVM: arm64:
+vgic-v3: Advertise GICR_CTLR.{IR, CES} as a new GICD_IIDR revision") is
+a much better example for IIDR going forward as it gates *guest-side*
+behavior.
+
+> I do not want them to be right. I don't think any of us want that.
+> 
+> > I would still lean towards accepting the code considering the limited
+> > complexity of the addition (in fact I like it more now that it uses
+> > IIDR instead of v2_groups_user_writable, but that's taste). 
+> 
+> I'm absolutely prepared to have a separate technical discussion about
+> the v2_groups_user_writable thing for GICv2, which is the second part
+> of that series.
+> 
+> It seems like the right thing to do, and as far as I can tell, this
+> code *never* worked with QEMU. But I'm not sure who even cares about
+> GICv2 any more. I couldn't find hardware and I had to test the whole
+> thing inside qemu-tcg.
+> 
+> But the 'IIDR defaults to 3 but the *behaviour* doesn't match until you
+> explicitly *set* it to 3' thing seemed so *egregiously* wrong to me,
+> that I fixed it anyway.
+
+Wrong or not, this behavior is documented unambiguously. From the VGICv2
+UAPI documentation:
+
+"""
+Userspace should set GICD_IIDR before setting any other registers (both
+KVM_DEV_ARM_VGIC_GRP_DIST_REGS and KVM_DEV_ARM_VGIC_GRP_CPU_REGS) to ensure
+the expected behavior. Unless GICD_IIDR has been set from userspace, writes
+to the interrupt group registers (GICD_IGROUPR) are ignored.
+"""
+
+I'm not inclined to change that. As a way out of this whole mess, can we
+instead:
+
+ - Allow userspace to set IIDR.Revision to 1
+
+ - Drop any bug emulation from the handling of IGROUPR registers
+
+ - Special-case the stupid GICv2 UAPI where IGROUPR are only writable if
+   the VMM has written to IIDR and the revision >= 2
+
+Thanks,
+Oliver
