@@ -1,218 +1,104 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB9338F929;
-	Tue, 19 May 2026 08:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E453EF0BC;
+	Tue, 19 May 2026 08:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779180586; cv=none; b=Bcs0qWDGv0mtDWisvT40TRCKtPSjZ6Ys/t8+OtAWF3lyg4D4bERwwZpEpQHVejX3j7VJre/tt7movDOGJ0gTP/od4WIJ2xsKvlOo506XGxTvUa+onA8birgQDrHX3f9LoYhS8Agjj43YpkdxC4Xlrgw5yG27HIrIIA8HiVLGiZk=
+	t=1779180940; cv=none; b=dOMWnqYeAgMxQ984Xii1dS3GoYI7LSOTMVoYWPAmx2it/fHDr3OlPqgI/+a1ut95GXU+yEq6Egyf5U5m734yzvbFzh5mgixZe+nHlxyRHPKL1PpXkjeAITBVU74uKmlnzkjJkZODR0b8lMVd6pO86s7Y2dz3YNPrxEgOOrq00vI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779180586; c=relaxed/simple;
-	bh=2ItcKLOHuYuo+5+zg3nAK5dtbbWOEusz4M2dKNduT5Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eO47J9qW2YlFwqcYLcJZ5HCdLNhX2EaUJ0pVj/uDenJVN9iE+r6Wz6FbIzSadCrYtbZenFr9GB7l9iOBPqzqsCnTfC8FTv0Vt7Iuk3DSbKfk+55YNdq5Kgkbha7cYcaxFw56oJQKi4eZvf42Tj4yqJaDJr9sAKy6mp+1i+76+bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=UHWhEtQu; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="UHWhEtQu"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 61AF234FC;
-	Tue, 19 May 2026 01:49:38 -0700 (PDT)
-Received: from [10.57.24.124] (unknown [10.57.24.124])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5E89C3F85F;
-	Tue, 19 May 2026 01:49:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779180583; bh=2ItcKLOHuYuo+5+zg3nAK5dtbbWOEusz4M2dKNduT5Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UHWhEtQu0+j3+QsOWr2nLpXICsL3AQVNq2V7x/fb/XyRGPAKRbuSINGm0ljae0+i8
-	 9z42OdtXMowoLE3td48keL3MFMfcrE2qLP+5ACkvZROnd4D2JJ9PLo2A8+sjpZLK8t
-	 k19/XatDyTfkXHKjdvr06k8CRJ9nVozmozjNf8GY=
-Message-ID: <8f0b1750-a853-4895-9672-73a75f6dbd84@arm.com>
-Date: Tue, 19 May 2026 10:49:33 +0200
+	s=arc-20240116; t=1779180940; c=relaxed/simple;
+	bh=J05AeAqG71CwR6+dkANjT+VWQxCxqr/Vrlgz+AgBcz4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pqNwvQan/xoZsu1uwwre8BpREt1hh2YYTors2MVOTJZLfcQ7pNQwW3/PACNCbWN5Rftewn9AxA3IQFmXqDCSa7CSk162PO/DlNU+jOMOkjdMniA0vqN6XyzujkIwlg84KHkpC6JlyEvZY+pESjQQaKhiTLqqqyg4Ef67Z9jyl74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.224.235])
+	by frasgout13.his.huawei.com (SkyGuard) with ESMTPS id 4gKScl52lzzpTS0;
+	Tue, 19 May 2026 16:33:43 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 2764E4056C;
+	Tue, 19 May 2026 16:38:38 +0800 (CST)
+Received: from [10.204.63.22] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwCHymaDIQxqPxhvAQ--.19007S2;
+	Tue, 19 May 2026 09:38:37 +0100 (CET)
+Message-ID: <3e2629f86015edb92951dfbdb9f6df4e82c6a456.camel@huaweicloud.com>
+Subject: Re: [PATCH v5 00/13] ima: Introduce staging mechanism
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, steven chen
+	 <chenste@linux.microsoft.com>, corbet@lwn.net, skhan@linuxfoundation.org, 
+	zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
+	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	gregorylumen@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
+Date: Tue, 19 May 2026 10:38:24 +0200
+In-Reply-To: <8db443f1-d2f3-47ce-9116-18985ed0b290@linux.microsoft.com>
+References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
+	 <99c30be6-8b0f-486a-890c-cf74c5930726@linux.microsoft.com>
+	 <aaed52cf-26e1-4c40-812d-3788024ce5b5@linux.microsoft.com>
+	 <2302296a13b847960dbdbab3cf5518b275938838.camel@huaweicloud.com>
+	 <8db443f1-d2f3-47ce-9116-18985ed0b290@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
- allocation in panthor
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Chia-I Wu <olvaffe@gmail.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?Q?Marcin_=C5=9Alusarz?=
- <marcin.slusarz@arm.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Steven Price <steven.price@arm.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Alice Ryhl <aliceryhl@google.com>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Florent Tomasin
- <florent.tomasin@arm.com>, nd@arm.com
-References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
- <20260505140516.1372388-5-ketil.johnsen@arm.com>
- <20260505181523.49a3d85c@fedora> <afxVIuVVPisBQ9p_@e129842.arm.com>
- <20260507135356.5428d50d@fedora> <agMvb_jeRsO7tSS-@e142607>
- <20260512161111.0cb7000e@fedora> <agNJasayW8VCHTiU@e142607>
- <CAPaKu7QC7FdjL6m_OSb+E5aYKs6bmT-9DAHc5PC=XctCmRph2Q@mail.gmail.com>
- <20260518091650.5a7a4f4a@fedora>
- <CAPaKu7R9ET767qc3eppBUfG2RAeyrg7E-gE0turgp-u_FU4+Vg@mail.gmail.com>
- <20260519093955.448ff899@fedora>
-Content-Language: en-US
-From: Ketil Johnsen <ketil.johnsen@arm.com>
-In-Reply-To: <20260519093955.448ff899@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:GxC2BwCHymaDIQxqPxhvAQ--.19007S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZrW5urWrGr17Zw4kWF4Durg_yoWfGwc_ur
+	1jyryvkF4UZw15CFZ2vFn3WrWDJ34Fy3WfGw15Xrs8J3srJwsxGrs5KrZYyF1fJrn8ZF1v
+	9rZrWFWFvrnI9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbx8YFVCjjxCrM7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
+	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x02
+	67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aVCY1x0267
+	AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2
+	j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7x
+	kEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AK
+	xVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+	0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_Wryl
+	IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+	AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
+	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07Udku
+	cUUUUU=
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQASBGoK9roL3wAAsv
 
-On 19/05/2026 09:39, Boris Brezillon wrote:
-> On Mon, 18 May 2026 17:36:40 -0700
-> Chia-I Wu <olvaffe@gmail.com> wrote:
-> 
->> On Mon, May 18, 2026 at 12:16 AM Boris Brezillon
->> <boris.brezillon@collabora.com> wrote:
->>>
->>> On Wed, 13 May 2026 12:31:32 -0700
->>> Chia-I Wu <olvaffe@gmail.com> wrote:
->>>   
->>>> On Tue, May 12, 2026 at 8:39 AM Liviu Dudau <liviu.dudau@arm.com> wrote:
->>>>>
->>>>> On Tue, May 12, 2026 at 04:11:11PM +0200, Boris Brezillon wrote:
->>>>>> On Tue, 12 May 2026 14:47:27 +0100
->>>>>> Liviu Dudau <liviu.dudau@arm.com> wrote:
->>>>>>   
->>>>>>> On Thu, May 07, 2026 at 01:53:56PM +0200, Boris Brezillon wrote:
->>>>>>>> On Thu, 7 May 2026 11:02:26 +0200
->>>>>>>> Marcin Ślusarz <marcin.slusarz@arm.com> wrote:
->>>>>>>>   
->>>>>>>>> On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon wrote:
->>>>>>>>>>> @@ -277,9 +286,21 @@ int panthor_device_init(struct panthor_device *ptdev)
->>>>>>>>>>>                      return ret;
->>>>>>>>>>>      }
->>>>>>>>>>>
->>>>>>>>>>> +   /* If a protected heap name is specified but not found, defer the probe until created */
->>>>>>>>>>> +   if (protected_heap_name && strlen(protected_heap_name)) {
->>>>>>>>>>
->>>>>>>>>> Do we really need this strlen() > 0? Won't dma_heap_find() fail is the
->>>>>>>>>> name is "" already?
->>>>>>>>>
->>>>>>>>> If dma_heap_find() will fail, then the whole probe with fail too.
->>>>>>>>> This check prevents that.
->>>>>>>>
->>>>>>>> Yeah, that's also a questionable design choice. I mean, we can
->>>>>>>> currently probe and boot the FW even though we never setup the
->>>>>>>> protected FW sections, so why should we defer the probe here? Can't we
->>>>>>>> just retry the next time a group with the protected bit is created and
->>>>>>>> fail if we can find a protected heap?
->>>>>>>
->>>>>>> The problem we have with the current firmware is that it does a number of setup steps at "boot"
->>>>>>> time only. One of the steps is preparing its internal structures for when it enters protected
->>>>>>> mode and it stores them in the buffer passed in at firmware loading. We cannot later run the
->>>>>>> process when we have a group with protected mode set.
->>>>>>
->>>>>> No, but we can force a full/slow reset and have that thing
->>>>>> re-initialized, can't we? I mean, that's basically what we do when a
->>>>>> fast reset fails: we re-initialize all the sections and reset again, at
->>>>>> which point the FW should start from a fresh state, and be able to
->>>>>> properly initialize the protected-related stuff if protected sections
->>>>>> are populated. Am I missing something?
->>>>>
->>>>> Right, we can do that. For some reason I keep associating the reset with the
->>>>> error handling and not with "normal" operations.
->>>> I kind of hope we end up with either
->>>>
->>>>   - panthor knows the exact heap to use and fails with EPROBE_DEFER if
->>>> the heap is missing, or
->>>>   - panthor gets a dma-buf from userspace and does the full reset
->>>>     - userspace also needs to provide a dma-buf for each protected
->>>> group for the suspend buffer
->>>>
->>>> than something in-between. The latter is more ad-hoc and basically
->>>> kicks the issue to the userspace.
->>>
->>> Indeed, the second option is more ad-hoc, but when you think about it,
->>> userspace has to have this knowledge, because it needs to know the
->>> dma-heap to use for buffer allocation that cross a device boundary
->>> anyway. Think about frames produced by a video decoder, and composited
->>> by the GPU into a protected scanout buffer that's passed to the KMS
->>> device. Why would the GPU driver be source of truth when it comes to
->>> choosing the heap to use to allocate protected buffers for the video
->>> decoder or those used for the display?
->> I don't think the GPU driver is ever the source of truth. If the
->> system integrator wants to specify the source of truth (SoT) from
->> kernel space, they should use the device tree (or module params /
->> config options). If they want to specify the SoT in userspace, then we
->> don't really care how it is done other than providing an ioctl.
->> Panthor is always on the receiving end.
-> 
-> Okay, we're on the same page then.
-> 
->>
->> If we don't want to delay this functionality, but it takes time to
->> converge on SoT, maybe a solution that is not a long-term promise can
->> work? Of the options on the table (dt, module params, kconfig options,
->> ioctls), a kconfig option, potentially marked as experimental, seems
->> like a good candidate.
-> 
-> If Panthor is only a consumer, I actually think it'd be easier to just
-> let userspace pass the protected FW section as an imported buffer
-> through an ioctl for now. It means we don't need any of the
-> modifications to the dma_heap API in this series, and userspace is free
-> to choose its SoT (efuse, DT, ...) and pass the info back to mesa/GBM
-> somehow (envvar, driconf, ...). The only thing we need to ensure is if
-> lazy protected FW section allocation is going to work, but given the
-> current code purely and simply ignores those sections, and the FW is
-> still able to boot and act properly (at least on v10-v13), I'm pretty
-> confident this is okay, unless there's some trick the MCU can do to
-> detect that the protected section isn't mapped (which I doubt, because
-> the MCU doesn't know it lives behind an MMU).
-> 
-> Of course, once we have a consensus on how to describe this in the DT,
-> we can switch Panthor over to "protected dma_heap selection through DT",
-> and reflect that through the ioctl that exposes whether protected
-> support is ready or not (would be a DEV_QUERY), such that userspace can
-> skip this "PROTM initialization" step.
-> 
-> We're talking about an extra ioctl to set those buffers, and a
-> DEV_QUERY to query the state (ready or not), the size of the global
-> protected buffer (protected FW section) and the size of the protected
-> suspend buffer. The protected suspend buffer would be allocated and
-> passed at group creation time (extra arg passed to the existing
-> GROUP_CREATE ioctl). So, overall, I don't consider it a huge liability
-> in term of maintenance cost.
+On Fri, 2026-05-15 at 10:37 -0700, Lakshmi Ramasubramanian wrote:
+> Thanks for the response Roberto.
+>=20
+> On 5/12/2026 1:17 AM, Roberto Sassu wrote:
+>=20
+> > > >=20
+> > > > This submission proposes two ways for log trimming:
+> > > >=20
+> > > > *Flavor 1:* Staging With Prompt
+> > > > *Flavor 2:* Stage and Delete N
+> > > >=20
+> >=20
+> > I'm happy to support your trimming method. Just does not fit with my
+> > use case. I would like to keep both.
+> >=20
+>=20
+> If "Flavor 1: Staging With Prompt" would be beneficial to the Linux=20
+> kernel customers, in general, we should continue to review the change=20
+> and merge it eventually.
+>=20
+> My request, then, would be to split this patch set into 2 parts:
+>=20
+> 	Part 1: Implements "Staging With Prompt"
+>=20
+> 	Part 2: Implements "Stage and Delete N"
+>=20
+> I think that would make it easier for reviewing the code, test\validate,=
+=20
+> and merge.
 
-If we can avoid the dma-heap changes, then that would surely help!
-I can try to implement this in the next version unless someone finds a 
-reason why it is a bad idea.
+No need in my opinion, it is simple enough.
 
->>>> For the former, expressing the relation in DT seems to be the best,
->>>> but only if possible :-). Otherwise, a kconfig option (instead of
->>>> module param) should be easier to work with.
->>>>
->>>> Looking at the userspace implementation, can we also have an panthor
->>>> ioctl to return the heap to userspace?
->>>
->>> Yes, it's something we can add, but again, I'm questioning the
->>> usefulness of this: how can we ensure the heap used by panthor to
->>> allocate its protected FW buffers is suitable for scanout buffers
->>> (buffers that can be used by display drivers). There needs to be a glue
->>> leaving in usersland and taking the decision, and I'm not too sure
->>> trusting any of the component in the chain (vdec, gpu, display) is the
->>> right thing to do.
->> The heap returned by panthor is only for panfrost/panvk. It says
->> nothing about compatibility with other components on the system.
-> 
-> Okay, if it's used only for internal buffers, I guess that's fine.
+Roberto
 
---
-Ketil
