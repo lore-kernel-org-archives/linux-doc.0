@@ -1,218 +1,136 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011056.outbound.protection.outlook.com [52.101.52.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543033A6B79;
-	Tue, 19 May 2026 23:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779234930; cv=fail; b=qc8IQWhuIm9ONdyf12X1CO3+TDVvmDgjPtKRdsAeGBiYUms9dKO83L/0ZQhl6O4mQJ50OFy9kaWyVBDUH8Qc2+m64J7XhzXa3qKwEC/sDp3EjPISOyGGIAmIk6sQ2x6qq83zBQQV2Ehikqxan3QTQoSx9JV3vrLhHPwAdAT0gRg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779234930; c=relaxed/simple;
-	bh=0prtbj/p00s5TOuv0VGr4ZH08U9rXQLjG59yNo+aySs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=VGlBKieadMJB2zmjXiRc0he1mzQX49gpNX8ZrObT5sGWJ06WX1LGcdOuRdNF9v7loGRd6b1ZyG/bbw5zUv/KausujoK4bYneJwv6M78m141W3ki0rTcbsipSaA45PUCXIfZXpDnAIE/BXN+V4TUz/Zpy6Ml/gh7ddcCYYv4fKGQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hF0XqIrl; arc=fail smtp.client-ip=52.101.52.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8420C3A7F7E;
+	Tue, 19 May 2026 23:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779235009; cv=none; b=ryGsQODesjASxPYMtj+rYHitrMWuHNCEntdbMbJKtgD23DJiEYCPhsdJY/lEbutT3DD+Km7FWjlUhHjA+1+0M6+04WoONWxP6OPMUCyawJ2k09A/zs2yfqyHj+AjFV6AruxnlF6UWsQ3bTaNKAIgWcL7i4cQe97BaQ315IFkf0s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779235009; c=relaxed/simple;
+	bh=vdFQP87CxmaqQBGjYYUQzavFHxP3v9QLU+hTIDisHFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Qfmx72rTudFVJbHfiY5mfXxxmR/PMG5700FeV1ok+zMXoUyRSrRo1UUuCmX3PqFn1YDQPd1WBdoHeRQCg6Iaom5myjmlvvuETxISnsv0WPVr0fj97Sn6uK5KdYaG8BCwe/W2IdxZg7n7ZlT1lsR5IE2lI4ijaM5SYlF1/rjnquA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=INtNDhNN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hF0XqIrl"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dFBGpCc+IW8N/gADfz3txTb5xPqaZj/THdXAf5U37XoIGh+DY0RBD5jef52y5bPorRVR/L3hfpRh0awWGG2MtWfh7XGDpfpo/kVJMbKWbKHARpBGo9gJwYwpce+ZpRcM4+zbPsfoxKxwVDFkLqBCZLeNX8/JEAupXIzPjA9ELp/YhZMstxfJ6mdAOVphIHsAFREp8dNtWaw1L86Ox1OACMqzA/2NnhHYPQwEN0b3NzqVlxC1DOcfWIaVol5jgJFRXFgj8Q8WY4COzkXdFgQlGjNENB5dvu4zPXwr19fK5AQse8mgqJ6a6jZVvpAyvbO3um3Pahe9AlE39LH/+LGjYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HdNUL+5FaYIL9TRc1kDGEz/Rq/aZuksjdQ18uS2s4f0=;
- b=XtFbDTUQdPf9dkMg3E65dP4qfI62wsS5t0NWnByKhVDMO+zVD123PXIfAxSkLHPnvht5Rtu5OCp9AiOD13Qw3WLAsUbE6rDML8yiUrwN9eSkOB75F/PpIIe7U/c+WJknSd+8xWwgSJmi/tp60+AHsQGIrHv7PAzR3LWyCcnrIv9SnSdlrFAfJLx6z5VzP9tY2WwmxHsFkP6OgjecVqsUwFbXNkTMGMHMPQVDWp//Lxk9dTu26FRXHMqDiY0h68ZnJfnvlB+7YCPh5VjMfp1am4YJFMJZTECu/ARe6cm+Bn6et5rq1nQ3m1bdxdKaaJ+W3D8BTMWT2AHhp8K4T9IQ6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HdNUL+5FaYIL9TRc1kDGEz/Rq/aZuksjdQ18uS2s4f0=;
- b=hF0XqIrl4UDHc/yN+LlNOdmmwSCVRmCHjrsddkoUdYg7q5wnKj+I5X/zqdVo5BH8CRWhZtub7Lx0lOMaYxZEKznMMWzbFCCQsLHQMOugUyhEg1XnOoD4kmvDPHIQrlONMNGnPy7j/W2S8+Qwv7xNjNtG/xbSMc2INTSFNM39JYCQ/HsMkhH3LsNiei2OOJ/ViZ1tnJBu/68eJVrk4JG1gJ8SjoLFpXgV/JlccxFn3aMAqTJw/v6egd1KOJrMv1RSC+lMl8N/08TSYMwjsSot2facI49o7VgjfAcyoHTbPrilhHtDrYVnzTgPDTeiDjBXwZEqOh/fiLBVic5MPhTWTw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by SJ1PR12MB6098.namprd12.prod.outlook.com (2603:10b6:a03:45f::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Tue, 19 May
- 2026 23:55:24 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.21.0048.013; Tue, 19 May 2026
- 23:55:24 +0000
-Date: Tue, 19 May 2026 20:55:22 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Johan Hovold <johan@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH v11 4/5] platform/chrome: Protect cros_ec_device
- lifecycle with revocable
-Message-ID: <20260519235522.GP3602937@nvidia.com>
-References: <20260513091043.6766-1-tzungbi@kernel.org>
- <20260513091043.6766-5-tzungbi@kernel.org>
- <20260513115102.GF7655@nvidia.com>
- <agVCtBbqT6aZL0mx@google.com>
- <20260514160043.GG787748@nvidia.com>
- <agiCQQO9KGoMS1Jj@tzungbi-laptop>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agiCQQO9KGoMS1Jj@tzungbi-laptop>
-X-ClientProxiedBy: YT1PR01CA0104.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::13) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="INtNDhNN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 458CC1F000E9;
+	Tue, 19 May 2026 23:56:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779235008;
+	bh=yYWbA7j46aueWZEJm8bnihGWxOjtMrOMmpHf9Fu5Y7A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=INtNDhNNwgCAkz3ew87JMcdeZl6c+E1ryD+QFvS0NJQGxosUfkWGVZgyOiriYretc
+	 Y0AyKreTS1Ey0kji8T8wdYsuU1aUND9pI4BtwVhxE5Nh7XIscCq+4ICKXho4j0dn6K
+	 BZRkQoQRub0KZUMvFEB+Th0vMXgmiX5RNvtHPaFb/zOd5MgQPRHL907oVn5Zt3n7bL
+	 3X/A72M3Ub7C/EqQ86i6FtCOZWj2MYTwGJoJlXmr+LbG1dG3cqIabGsEchb1dno/Im
+	 bc0JnXGz1TW8HIipXfAy0B8T7OPqSfeb9cmLFLoRm6u0kFDttm3AD79iki7P2H8GKU
+	 RtO/BLJ2FDRXA==
+Date: Tue, 19 May 2026 16:56:46 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Luka Gejak <luka.gejak@linux.dev>
+Cc: MD Danish Anwar <danishanwar@ti.com>, Felix Maurer <fmaurer@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Roger Quadros <rogerq@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Meghana Malladi <m-malladi@ti.com>, Jacob Keller
+ <jacob.e.keller@intel.com>, David Carlier <devnexen@gmail.com>, Vadim
+ Fedorenko <vadim.fedorenko@linux.dev>, Kevin Hao <haokexin@gmail.com>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Vladimir Oltean <vladimir.oltean@nxp.com>
+Subject: Re: [PATCH net-next v2 2/2] net: ti: icssg: Add HSR and LRE PA
+ statistics
+Message-ID: <20260519165646.09b0783f@kernel.org>
+In-Reply-To: <E30AAC96-01D2-4A23-B562-126087DEB7FA@linux.dev>
+References: <20260514075605.850674-1-danishanwar@ti.com>
+	<20260514075605.850674-3-danishanwar@ti.com>
+	<20260518184506.694c584e@kernel.org>
+	<E30AAC96-01D2-4A23-B562-126087DEB7FA@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|SJ1PR12MB6098:EE_
-X-MS-Office365-Filtering-Correlation-Id: a287ef84-a1bb-4424-d5c1-08deb60217b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|11063799006|5023799004|4143699003|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	CMRucnGRPjKjAHhA8EkTb1dh/sXI0ko9LxoT8Qd6R/z9eiw7WbiysZYltRxmWrHkeVofv5GS72oS01LTeSazAfyPpADnS2oq2BLZiZGSWtvvYCHOA7bCC95eRcQh7qwm2EcZgYtdi7pg/WXFY5M5a5JfmrKk/YLgx1N/fKycMQAUBlN4EMXti7fxCzpxJDj//qxQZiJugpo/Tp7b3ExHE8Ee7a8Xz5kus5hJPIdc6L82IsmL/e2NbHcuwDjE37FSYqi84F7DHIgX86uPnZMRzGm9y2JyKK45iQQCBWW9hN888vB943aUT6zdlVFH+SZ8w4AFhFIEyreo71nXjPpPixvBfJGztcRnM0PrOxEIdUgF+GsT72bJXaAB6p8kJF/J9+7Q3vM8mZcuJ5wQIZHQRZvHsOW1x2jED1H5Cn4VlcPHg/BiaPsRAyDpXIXwjSncVPCyO4SHP2eRpqSUdt8ZtZlOjkGe4ZQSJUnWp2J10TN1W2aiiUGeItPkazzE5d84TN0/ABH/w+S9aIUjpcuv9hy2GrLS8ycw9uozdeUDHB3w4SqNSetnrwp2p8mc/e9Y5rS40fzGlH9PNMlK6NLIvcL3g4sZ8OjOukYuk5aszwaWHNK4z//X/Z0MJaFDfrNMHgdJb7vE4kVCl9vzRaiISqfUyyv6PljzRL0yUjXvhJF6hNtpL9//qiu0PaQVxK+3
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(11063799006)(5023799004)(4143699003)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3skluzJPAahmKVnS5Xi+fqQ9TOA+l6snNow1uudsmaclGLpvyENUOyg/Vx9e?=
- =?us-ascii?Q?X+qZSR+Gp1kueivtH2/S9wjx+dmlYbOohs7YSejPI6/Yt05xGGkrN9ueMIEq?=
- =?us-ascii?Q?c76o1Il0Z9N4MUJrG7R5UQjmR8W++c+ZQREWciKBY3ToN55KCRHALt3ty44m?=
- =?us-ascii?Q?RWsZ1YZJzh8g7UIbYayWJg2cT+ULyNDphMhRYt2rGnZEWEFZtJ/Orjk8qPCz?=
- =?us-ascii?Q?y2We21S1MyoxeBCa+l/VYDML+ME14LGbkkYWCmnByR/Vv7DbdI0jaSNiuzC9?=
- =?us-ascii?Q?+DvM+UGErZyLcVClurNKSFXKdTOc/EZxL8gYj07LsbyIaHG3g+g9GN+sj0C6?=
- =?us-ascii?Q?3W6OEShp1XFbXW69y1oaUgGkDCUCkPv9MoWQAa9NOdKVng/GDHvhAEDC8BGW?=
- =?us-ascii?Q?9ZVO/fe7KzJai7DNKIg6c6rvmqfnymI4Ke8XaXZr/oaCz6+1LzQxTSnJlinl?=
- =?us-ascii?Q?xqawQ7lGUHEN/sdbgByjOS4i3nypJj7CuAKdVcNxzYf/QpP2THTi821FhCwi?=
- =?us-ascii?Q?pfrWa2EHx3eaEYEwOlQYp05IOUP1HV6k/tiNdb7RhqRxBcZ1uxv44Lmp/v7C?=
- =?us-ascii?Q?bmj5bYH6z79Fv/YiB/tXFAmdkE8DKiKCB2Xwntx/gghMNY9vF31VEyLPmj5g?=
- =?us-ascii?Q?dRjx+TpCJtmD5sKY1B//8fyUcSeiNKnksXa7wWv3rGVSaViNSt05MVaBqlE5?=
- =?us-ascii?Q?VCP3n/GJEQwiDn9GFPSkv1YQ+3Eft7x6F8WWV4i+MYC1E/GTZQW5HV4hb+aY?=
- =?us-ascii?Q?X56SyHTiTmaGMwmyxF00bQ9Fzad/st/c4wVC9TaBjvU8beCRfOdTWDndtqJl?=
- =?us-ascii?Q?GwD2kpx9iWtFDrBQ8qjl8e/OY7Q5UnI4lpc/pF5Abu9QvQAJtvnMy0U+qwUK?=
- =?us-ascii?Q?qX6Lu5A3UeNTao+keunAT9A2p6SSaEYNJhWbf9BS7sVcBVqD9VGU86P5oZkM?=
- =?us-ascii?Q?NCToQTI+8aKmbuhSRozFppPe5mOafVF21TpaJNcQio3CH1Rnfs/t+D6WORBc?=
- =?us-ascii?Q?47rEQ+J+DJIc+6xFv7LToZYI3tyBU0x1zJAQxl/lggDGmC9C/JOM0D/GaVpp?=
- =?us-ascii?Q?J5S7wvlba+nhj8prXyVjKRVQwka0OXMTKNNDJB3XoRsIlNAXgFAIKhoiHqi6?=
- =?us-ascii?Q?YdhRAXEHgnPppXzaCgXn6Wvbux4lrxvxuv4VfulOUrS+VEg/ulqolb2I68ee?=
- =?us-ascii?Q?wHRmpxEKMlrhgvgmAFOuReh+MPwIOnB2bTFFhxBeOMfisYVATc1fE4jAJrMe?=
- =?us-ascii?Q?5d8ORoArLaiilNdmekt7hCCL3kxljyA1Nv9NwHFAshxq7ntn3oKZXaztgAFM?=
- =?us-ascii?Q?mmMImJIzfCsjw7F1jGJmmstqT2bHHEjJjB5xjbtQifcejXjcHxmAUvyjYRZP?=
- =?us-ascii?Q?6gaGLrNzpGBuJdq+inQPMN7Kpws/AmA1dhwaj+Xfp+8WvH+D3jBzJYOI2Zex?=
- =?us-ascii?Q?ZZtK1Thf+76TyVEcmJipfBzXROUwg0rsjKhm//Pgg2CrLXM/DXcIMaLXIp1k?=
- =?us-ascii?Q?TTUbs5ZIe80fMvzs/V0/yWRO0W/V3k84Z45cB6D6QopczllFD7vVs0fcjV+q?=
- =?us-ascii?Q?Nd/TbqJAH11i8QxymUV8xR0MoWY8Ee8yfXFz+H7nYDwTjD+nVQWxHk4nKdqq?=
- =?us-ascii?Q?AvaN/vbg8YBp2K4jdopW9WKI12ts6XM+VaTY2nc8tJ6ExQ7N1zLjx87YiAdz?=
- =?us-ascii?Q?ZbngJCulhgWUDdKTsvBH/eFtwwiHXmc6ykJ/e8MF52U3wcRX?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a287ef84-a1bb-4424-d5c1-08deb60217b5
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2026 23:55:24.1091
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LYXjEMAYxlsFr/EtZb54yB4MUdnyXHbYcd8q7ykyTNVlGQtWmdZoc5TtxJjZeOLk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6098
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, May 16, 2026 at 10:42:09PM +0800, Tzung-Bi Shih wrote:
-> On Thu, May 14, 2026 at 01:00:43PM -0300, Jason Gunthorpe wrote:
-> > On Thu, May 14, 2026 at 03:34:12AM +0000, Tzung-Bi Shih wrote:
-> > 
-> > > To help me understand, could you elaborate on why the revocable mechanism
-> > > isn't suitable here?
-> > 
-> > Stay within one driver. Create the revokable is probe, consume it
-> > within that drivers fops/etc, destroy it on remove. Do not randomly
-> > pass it to other drivers.
+On Tue, 19 May 2026 07:55:55 +0200 Luka Gejak wrote:
+> On May 19, 2026 3:45:06 AM GMT+02:00, Jakub Kicinski <kuba@kernel.org> wrote:
+> >On Thu, 14 May 2026 13:26:05 +0530 MD Danish Anwar wrote:  
+> >> Add new firmware PA statistics counters for HSR and LRE to the ethtool
+> >> statistics exposed by the ICSSG driver.
+> >> 
+> >> New statistics added:
+> >>  - FW_HSR_FWD_CHECK_FAIL_DROP: Packets dropped on the HSR forwarding path
+> >>  - FW_HSR_HE_CHECK_FAIL_DROP: Packets dropped on the HSR host egress path
+> >>  - FW_HSR_SKIP_HOST_DUP_DISCARD_FRAMES: Frames with duplicate discard
+> >>    skipped
+> >>  - FW_LRE_CNT_UNIQUE/DUPLICATE/MULTIPLE_RX: LRE duplicate detection
+> >>    counters
+> >>  - FW_LRE_CNT_RX/TX: LRE per-port frame counters
+> >>  - FW_LRE_CNT_OWN_RX: Own HSR tagged frames received
+> >>  - FW_LRE_CNT_ERRWRONGLAN: Frames with wrong LAN identifier (PRP)
+> >> 
+> >> Document the new HSR/LRE statistics in icssg_prueth.rst.  
+> >
+> >To an untrained eye these stats look like stuff that could 
+> >be standardized across drivers. 
+> >
+> >Luka, Felix, others on CC, do you think we should expose these
+> >from HSR over netlink as "standard" offload stats different drivers 
+> >can plug into or not worth it?  
 > 
-> In that sense, after applying [1], does the patch make sense to you?
+> I think there is a case for standardizing part of this, but I would 
+> not standardize the whole set as-is.
+> 
+> The LRE counters look generic enough to me, especially:
+>  - unique rx
+>  - duplicate rx
+>  - multiple rx
+>  - rx / tx
+>  - own rx
+>  - wrong LAN, PRP only
+> 
+> Those are protocol/LRE concepts rather than TI firmware details, so
+> exposing them from the HSR/PRP layer sounds useful. I would expect 
+> both the software implementation and offloaded implementations to be 
+> able to provide at least some of them, with unsupported counters 
+> omitted or reported as not available.
+> I would not put the firmware check/drop counters in the same standard
+> bucket, though:
+>  - FW_HSR_FWD_CHECK_FAIL_DROP
+>  - FW_HSR_HE_CHECK_FAIL_DROP
+>  - FW_HSR_SKIP_HOST_DUP_DISCARD_FRAMES
 
-It is better, but you can see revokable is creating contortions that
-don't make sense:
+Thanks for the breakdown!
 
-> @@ -223,11 +223,9 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
->  	ret = blocking_notifier_chain_register(&pdata->subscribers,
->  					       &priv->notifier);
->  	if (ret) {
-> -		scoped_guard(rwsem_read, &pdata->ec_dev_sem) {
-> -			if (pdata->ec_dev)
-> -				dev_err(pdata->ec_dev->dev,
-> -					"failed to register event notifier\n");
-> -		}
-> +		revocable_try_access_or_skip_scoped(&pdata->ec_rev, ec_dev)
-> +			dev_err(ec_dev->dev,
-> +				"failed to register event notifier\n");
+> Those sound more like implementation/debug counters for the ICSSG
+> firmware pipeline. They are still useful in ethtool driver stats, but 
+> I would be hesitant to bake their exact semantics into HSR UAPI.
+> So my preference would be:
+>  1. Keep driver-private ethtool stats for the full firmware counter set.
+>  2. Add a small HSR/PRP standard stats set separately, limited to
+>     well-defined LRE counters.
+>  3. Make the HSR layer expose them, with offload drivers plugging in via
+>     an optional callback or offload stats op.
+>  4. Define the counters carefully, including whether they are per-HSR
+>     device or per-port A/B, and what PRP-only counters mean for HSR.
+> 
+> I do not think this patch should blindly become the UAPI definition, 
 
-It is impossible for ec_dev to be null here, the misc_unregister does
-fence open.
+Not at all, the unique / multiple stats gave me pause. We should
+only put in the standard API what can be easily and unambiguously
+defined given the protocol spec.
 
-> @@ -482,11 +483,12 @@ static int cros_ec_chardev_probe(struct platform_device *pdev)
->  static void cros_ec_chardev_remove(struct platform_device *pdev)
->  {
->  	struct chardev_pdata *pdata = platform_get_drvdata(pdev);
-> +	struct cros_ec_device *ec_dev;
->  
-> -	blocking_notifier_chain_unregister(&pdata->ec_dev->event_notifier,
-> -					   &pdata->relay);
-> -	scoped_guard(rwsem_write, &pdata->ec_dev_sem)
-> -		pdata->ec_dev = NULL;
-> +	revocable_try_access_or_skip_scoped(&pdata->ec_rev, ec_dev)
-> +		blocking_notifier_chain_unregister(&ec_dev->event_notifier,
-> +						   &pdata->relay);
-> +	revocable_revoke(&pdata->ec_rev);
+> but I do think it points at a useful follow-up. If we want to avoid 
+> adding driver-private names first and then standardizing different 
+> names later, then it may be worth asking Danish to split the 
+> protocol-level LRE counters out and route those through a common HSR 
+> stats interface.
 
-And this is complete garbage nonsense, we are in a driver bound
-context about to revoke the revokable, it is not optional, it can't
-fail, if it doesn't we can't skip the unregister or it will eventually
-crash.
-
-I said it before, but to re-iterate - what this scheme fails to
-capture from rust is the most important detail - the driver bound
-checking that confirms the content is valid without any need for
-locking or possibility of failure.
-
-Open, remove, are both bound contexts that can never fail to obtain
-their protected content and don't need srcu locking.
-
-I don't konw what Danilo thinks, but as the rust side has evolved I
-think it was a mistake to combine the revocable and SRCU
-together. Having two primitives would make more sense
-
-The first is "this value is only valid under driver bound, present
-your thing proving driver bound and you can get the value". This would
-be fully 0 cost.
-
-The second is "My callchain doesn't have a way to get driver bound,
-so this widget will try to open a SRCU critical section that produces
-it".
-
-Each driver could have many of the first but needs only one of the
-second. The second is the "code smell" that says something is not
-great by not properly managing driver bound. Since a driver needs only
-one of the widgets it would solve the repeated srcu problem on unbind.
-
-From that lens you can see how troubled this C version is, it promotes
-the "code smell" SRCU API into the only API and makes it first class
-promoting its use and ignores/obfuscates/worsens the actual API we
-want people to use: prove you have a driver bound. :(
-
-Jason
+As a general policy we ask for standard stats to be added first and
+ethtool to only contain what didn't fit in the standard ones.
+There are some technical reasons but it's mostly a mindset thing.
