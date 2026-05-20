@@ -1,324 +1,225 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D276537649D
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 09:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779270218; cv=pass; b=tMGVG7ZHo05bJOBpRir4o0wm8BwcLyyo6uIijjloZFxLOERIiTqylNjyqffytErqwh27jlDaVzCbqBQk2RT778EYAmZVOzDeIHlhwaX2bqY8a549pb/TOEP4Hh0xY3vCK/lbETt8LFCnNMpnce7y1U6M+ck2yLIY0nmm6D/cIXQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779270218; c=relaxed/simple;
-	bh=JmrG1Jn9Av/Kvwr6coyxrV52OlkLrMbkrLR5Y/uQygA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tYx+52nvtAJw9ILDIsphYWXbJnI9IE6xv24zMsRBQX8e1IZzoK0am0opywI1NdOJfP5PjxVuNxaUNcWAl0E6kbDCX3aUZ22qeNil0uvJZuyCMWje8zn5qaKO99t0WX3dA1ySO4dn00Bf3nLN3AEeZrrKWl1lIijBxCvrU4sHMuI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IzO0GplW; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A6E3D091B;
+	Wed, 20 May 2026 09:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779270905; cv=none; b=kDcSiq2ZLYP7XvksrljRQo+a6WQB0iD8ts48vWuS2EQx4IGaYSrZ8+21A950mG2bEqXZpVqD/3x8PuVIrAGYC37vtw3jISKV1exRdh8rlEJUCb1KqdhyFJIqdP+zE5cHWrJmgKH4I3rSJ7SAwLSkEWuF3BXNSEBBPH6kB5zDI1Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779270905; c=relaxed/simple;
+	bh=W/ETVLQPiLWnEVzKK7qPp+AucWqlm4vH3u/jl9ung40=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=m1F9ZmgLEuR9lZ35rDeQRCyMM02aM+8ThBLgf3jUsH/N/CIOpizzxrye4jWHrF4nSg1ZP35vDviMWp865M+TWv+gYAm4rZbu8fTTpn6xF/5OL8/kUlA8U1WbJwB/tSEntl43touSjZsgjs4XGyL7r1CMDX8B1GdJl6VAQC+/Rp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kubQ3jql; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IzO0GplW"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-67be871ed3fso10384535a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 02:43:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779270213; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JXEbaGx9qv2CygTNCyIVZb0oYvNxeF5Xl79ehf6Mm3nfO6ozydkt7MmR+/d3n1jlbk
-         ClmKev0IlKtLFGJbsHtAXUyb7gV5DcEaqCaMM2WyMg/jrOx7eecbeamH3wwvb6bB6i4e
-         zV5F7q3ztAKvGdnP9bfPXmL/+jqbTo9Nd4JEcLfjSaHcawtC1ZgA6N8uUOQgxezVwzVb
-         0CFBGYOA3XM3NXAjmoQBhi76mB4AYUyktCpM9+qaykmaHmhaU5OctX1GYRm8UVxPEn/K
-         l2GLiz2PwECebOvlTSSs03jbXlKT088gLx9F2Lj6UceX4eY83ir8K1KSHxFIZWp5p4Mr
-         KfBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vNvYpo8HmpaTLe7ddYRUxenBW8BmMG2NProsDhdfr4s=;
-        fh=3t3VZ/cbkDaUvIWrbtaR2Yp4bRT5cuqz3zmHH7JDKFQ=;
-        b=gviKy99nVMoQJ0IOnqCRpOmXZz6KrRzlLvirDpWYDXX+A2LaUQJZfL/EUANVMIkAYD
-         ISCj421lkG/p/l7CULG18qb3ySWECqWTWbZvOJchYfh+szyaicYOM1L48WePse3f+LOH
-         Hq+S8p6b0kwzRO01aS+vjkS76d0tRrs55L6ZJMQmlzVbNtflUrg9WoxjjAB+NrjXjyCs
-         7SCS1M2L3DbC2NSRCYUVDMOZu811WVwy3QLc559K5RZeeqxfs7+v6rbE+Jqt0T6cmV+Q
-         Z9BTgUMmlCCj69joJgKRExuQGnXIhq67Ixk/jW9aEpj5xhU3LlALJKMsLbb/TBd5MGPB
-         SIVQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779270213; x=1779875013; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vNvYpo8HmpaTLe7ddYRUxenBW8BmMG2NProsDhdfr4s=;
-        b=IzO0GplWp8mpG3wASYVPAVk1EFC37F3LcEP0QW8lZ6Ng45wHZ80fqAxFE8kSc0dZaR
-         GVfVEF5/BJv/pMuUIcv3ItgfLnQuuBgnKmjVyhlhIeztl69YK99olRtnXSEq5AgGAeJ2
-         p13X0jF3Tp3/GqPmIJcG/iNmuRu+Byi2Fo5Ie9yu9fRDcKru31IU5KLkaS0fef4/0oTu
-         cMJB0lXHJgk71cbvm5GqvEkbTutxppfWiLltrs2Ax6gBj5zQ9O1WI5pQLDYyigVOEOmZ
-         NlNFhSM+yI3A9Ezm2uqa0uoB05fZlygAK6LepPphfuC8fuPbiTws/RieDqn6rEGncCxA
-         kFXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779270213; x=1779875013;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vNvYpo8HmpaTLe7ddYRUxenBW8BmMG2NProsDhdfr4s=;
-        b=M87zuOYO18FpFv3KTaLtXA2Izf7303L4Na+GJuihDZjblzJdda+W8WGr+JVe/1frUE
-         gGgdrTt4ohxxuqtcXufZm7yod/QFK5Rf9ioCSfb9vIqU3caUKtbtMaACT689+JjsPjV9
-         h+waGtxRyJwhYsv0orL7IQPAHMNVVXRqAqvqaviNcFNc5OJ8i904GN1doJP6pUnwguTk
-         tj6CZ2ndZKOTfTWs7aZACQkAI+y8Nvr30hPwoX6ABqKJzbDWQOTKeo5RELSV98M7z7Sm
-         LGsRlmcp4YN+K7bWO6MYzLka6g2LV9sY+nEmPNDYD91hdNPI+A28zx5btz0RCX+GJTXk
-         yuWQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9JjCC0v4ZQkRmJ1MM2vxvX1XHPNjYbP9/k02RVwu9v84efQGA7c8ZImju7AERu57lrxZN2PiN3X34=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyksjAa8qW9UfA3xJZwXKcBieyTbhDi38qthmJJFXi5tkQh3Xqu
-	RU1VcojIiR+7k/AqNXFXZUq1wZrQRB1+Z5s34/cHji8jPIWcxiNQEP/hpgV92BADC4pBh8Icb+c
-	HJ5X9g2VXAJZ/ca0p3Pzv0fKaBvME8FE=
-X-Gm-Gg: Acq92OEaNXPen/T0HZ2vMqKkE47RbuDAZCNygYKnpkJM4DMBwJ/ObEg6UL1NRHcA5jO
-	1yuSBut6aZkud2kVtUrGpoKpkxWKU/AS+yatKKlCdH8mR20yRYRXM/LPaA9chPRJqkBnzvYJzJv
-	F5+pl8iavipW+64nyzG3B9WX046M6wH3JzFhOCy3Q2/JGA35r2SV135V0AAAU3YIeWTPKHE+7pZ
-	U8EaAbopJ+z748h/17MX7iX6pbJiZfbg4aXY9ckkNW8HfxF/QY5YrpxeVJcMdhxLkcec+QF4WT2
-	CRUT7Wthvu9GDa5Q+EAzveNWPTgreC8yPlJ9FjgCbg==
-X-Received: by 2002:a05:6402:c42:b0:683:bdd8:819b with SMTP id
- 4fb4d7f45d1cf-683bdd884d3mr11965323a12.25.1779270213291; Wed, 20 May 2026
- 02:43:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kubQ3jql"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BEB21F000E9;
+	Wed, 20 May 2026 09:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779270903;
+	bh=1rR11SLMve5z99TMpOCckaXfI3pjGLYjtT01yolVcVA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=kubQ3jqlcjIHtJBWJBC/to3LSIkAaMm0l7XhtMWuGGmjExiV5CkoCbKTUfd3BvVhj
+	 eoS3nNKCqeYOwtIRPbX9yNtLX5Q0aMkyU0vxOdFjrnWPWo+D9A27XF+2A/bF71fC2/
+	 qMKLiG3fY/sZZZLYyNuL/nsSrYJQz/eEtNKr1beBxg4CPz4j4HqGkkmPj8jXYWGYUi
+	 +2s+wVVk70cgtJFgWGgQ9kcnhHkp+x97sWJ41S6cdb8sO5WKyo8D0cP2Cgy3VdKM9d
+	 6eeeQIeBT3FHMyWMXtOcnlKqyxJmAtteMMhXQe0T3nJRFXcERFCpdBcykGgGXJ07Zv
+	 k2yiMhfy9ywyQ==
+Date: Wed, 20 May 2026 10:54:50 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>,
+ rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
+ Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
+ R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH RFC v4 09/10] Documentation: ABI: testing: add docs for
+ ad9910 sysfs entries
+Message-ID: <20260520105450.7fae5de1@jic23-huawei>
+In-Reply-To: <pkx5v4od3wkyyzxomfrjf4ei7leboadzth262xnl55fvu76pf3@yqrezmo6gtq7>
+References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
+	<20260508-ad9910-iio-driver-v4-9-d26bfd20ee3d@analog.com>
+	<20260517155843.7f833658@jic23-huawei>
+	<yrabhhhdkzmiuxlqzrrj6a47ftlzwvva7r2korzeszdy4yqrin@xl6obhhnnas4>
+	<20260518144537.7c998308@jic23-huawei>
+	<pkx5v4od3wkyyzxomfrjf4ei7leboadzth262xnl55fvu76pf3@yqrezmo6gtq7>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
- <177906210551.3947082.4313294634549021141@noble.neil.brown.name>
- <bc359831-e653-4269-9d57-742b48d56d9f@themaw.net> <yk2hem4zwinm4glenpc74to7sm5kyriksgwn6mxh7t4saotiba@7zik7jcnbs5m>
- <b320ff9a-7f6f-44c3-940f-33f79cc5569f@themaw.net> <fglq7n2brxwdsu7and6nt6xpgdziua754yzgxkmd33pmk6tor4@noxa5ajva7wg>
- <27a5593e-ffb8-4471-996f-7983bac0b1ab@themaw.net>
-In-Reply-To: <27a5593e-ffb8-4471-996f-7983bac0b1ab@themaw.net>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 20 May 2026 11:43:21 +0200
-X-Gm-Features: AVHnY4IdwSREOJlVozKHc6xuyOK40K4TP9sO6LFO_4dXGmxFef9s6c_InYrxjic
-Message-ID: <CAOQ4uxg-7Tsb0GWF4LN3iFBaY7uGxR5_7PwBF+GfMWtCdfi4xw@mail.gmail.com>
-Subject: Re: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first reaper
-To: Ian Kent <raven@themaw.net>
-Cc: Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
-	Horst Birthelmer <horst@birthelmer.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Horst Birthelmer <hbirthelmer@ddn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 20, 2026 at 9:16=E2=80=AFAM Ian Kent <raven@themaw.net> wrote:
->
-> On 19/5/26 17:12, Jan Kara wrote:
-> > On Mon 18-05-26 21:39:13, Ian Kent wrote:
-> >> On 18/5/26 16:19, Jan Kara wrote:
-> >>> Hi Ian,
-> >>>
-> >>> On Mon 18-05-26 10:55:43, Ian Kent wrote:
-> >>>> On 18/5/26 07:55, NeilBrown wrote:
-> >>>>> On Fri, 15 May 2026, Horst Birthelmer wrote:
-> >>>>> According to the email you linked, a problem arises when a director=
-y has
-> >>>>> a great many negative children.  Code which walks the list of child=
-ren
-> >>>>> (such as fsnotify) while holding a lock can suffer unpredictable de=
-lays
-> >>>>> and result in long lock-hold times.  So maybe a limit on negative
-> >>>>> dentries for any parent is what we really want.  That would be clum=
-sy to
-> >>>>> implement I imagine.
-> >>>> But the notion of dropping the dentry in ->d_delete() on last dput()=
- is
-> >>>> simple enough but did see regressions (the only other place in the V=
-FS
-> >>>> besides dentry_kill() that the inode is unlinked from the dentry on
-> >>>> dput()). I wonder if the regression was related to the test itself
-> >>>> deliberately recreating deleted files and if that really is normal
-> >>>> behaviour. By itself that should prevent almost all negative dentrie=
-s
-> >>>> being retained. Although file systems could do this as well (think X=
-FS
-> >>>> inode recycling) it should be reasonable to require it be left to th=
-e
-> >>>> VFS.
-> >>>>
-> >>>> But even that's not enough given that, in my case, there would still=
- be
-> >>>> around 4 million dentries in the LRU cache and in fsnotify there are
-> >>>> directory child traversals holding the parent i_lock "spinlock" that=
- are
-> >>>> going to cause problems.
-> >>> Do you mean there are very many positive children of a directory?
-> >> Didn't quantify that.
-> >>
-> >> The symptom is the "Spinlock held for more than ... seconds" occurring=
- in
-> >> the log. So there are certainly a lot of children in the list, but it'=
-s
-> >> an assumption the ratio of positive to negative entries is roughly the
-> >> same as the overall ratio in the dcache.
-> > OK, but that's not necessarily true. I have seen these complaints from =
-the
-> > kernel but in all the cases I remember it was due to negative dentries
-> > accumultating in a particular directory. There are certain apps such as
-> > ElasticSearch which really do like creating huge amounts of negative
-> > dentries in one directory - they use hashes as filenames and use direct=
-ory
-> > lookup instead of a DB table lookup and lookup lots of non-existent key=
-s...
->
-> Umm ... that's a good point, I hadn't paid much attention to ENOENT resul=
-t
->
-> lookups, I'll need to check on the like cycle of those, I think they do g=
-et
->
-> hashed. That has to be the other source of negative dentries that I've
->
-> neglected ...
->
+On Mon, 18 May 2026 16:27:23 +0100
+Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
 
-Yes, it has been claimed that some real life workloads create a lot of thos=
-e.
+> On 26/05/18 02:45PM, Jonathan Cameron wrote:
+> > On Sun, 17 May 2026 18:30:27 +0100
+> > Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
+> >   
+> > > On 26/05/17 03:58PM, Jonathan Cameron wrote:  
+> > > > On Fri, 08 May 2026 18:00:25 +0100
+> > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> > > >     
+> > > > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > > > > 
+> > > > > Add custom ABI documentation file for the DDS AD9910 with sysfs entries to
+> > > > > control Parallel Port, Digital Ramp Generator and OSK parameters.
+> > > > > 
+> > > > > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>    
+> > > > I'm fine with phase and frequency as defined, but for the scaling it made me wonder.
+> > > > For outvoltage0 channels the assumption the value is the peak voltage so if
+> > > > we know what input to be modulated by the ramp generator can we express them
+> > > > in volts (well milivolts) rather than as a scaling multiplier?    
+> > > 
+> > > The DAC output is current-based and differential. Voltage conversion would happen
+> > > outside the device...  
+> > 
+> > Why aren't we representing this as out_altcurrentX-Y_xxxx?  
+> 
+> Good point! altcurrent makes more sense than altvoltage if we want to use raw to
+> control the output level rather than scale, which would be a constant to convert
+> raw into current units (what is the one that is used in the sysfs ABI? Ampere, mA or uA?)
 
-If we can keep those at the tail of the children list, it will be best
-for the fsnotify
-iteration, which only cares about positive dentries.
+Same as non alternating version so mA (which is a historical design error we have
+long been stuck with :()  The altvoltageY_raw docs don't give a unit either.
+If you don't mind, please send a patch adding that whilst you are here.
+Same mid to peak - hopefully that is what any users not modifying to RMS have
+been doing!
 
-> >
-> >>>> so why is this traversal even retained in fsnotify?
-> >>> Not sure which traversal you mean but if you set watch on a parent, y=
-ou
-> >>> have to walk all children to set PARENT_WATCHED flag so that you don'=
-t miss
-> >>> events on children...
-> >> Yes, that traversal is what I'm questioning ... again thanks.
-> >>
-> >> I think the function name is still fsnotify_set_children_dentry_flags(=
-)
-> >> in recent kernels, the subject of commit 172e422ffea2 I mentioned abov=
-e.
-> > OK, thanks.
-> >
-> >> When you say miss events are you saying that accessing the parent dent=
-ry to
-> >> work out if the child needs to respond to an event is quite expensive =
-in the
-> >> overall event processing context, that might make more sense to me ...=
- or do
-> >> I completely not yet understand the reasoning behind the need for the =
-flag?
-> > Close but not quite. The cost is the overhead of dget_parent() in
-> > fsnotify_parent() which is often a couple of cache cold loads and atomi=
-c
-> > instructions to find out we don't need to send any event for the curren=
-t
-> > write(2) or read(2) call. It gets worse if there are many IOs happening=
- to
-> > dentries in the same directory from multiple CPUs because instead of
-> > cache-cold loads you get a cacheline contention on the parent.
-> >
-> >>>>> But what if we move dentries to the end of the list when they becom=
-e
-> >>>>> negative, and to the start of the list when they become positive?  =
-Then
-> >>>>> code which walks the child list could simply abort on the first
-> >>>>> negative.
-> >>>>>
-> >>>>> I doubt that would be quite as easy as it sounds, but it would at l=
-east
-> >>>>> be more focused on the observed symptom rather than some whole-syst=
-em
-> >>>>> number which only vaguely correlates with the observed symptom.
-> >>>>>
-> >>>>> Maybe a completely different approach: change children-walking code=
- to
-> >>>>> drop and retake the lock (with appropriate validation) periodically=
-.
-> >>>>> What too would address the specific symptom.
-> >>>> Another good question.
-> >>>>
-> >>>> I have assumed that dropping and re-taking the lock cannot be done b=
-ut
-> >>>> this is a question I would like answered as well. Dropping and re-ta=
-king
-> >>>> lock would require, as Miklos pointed out to me off-list, recording =
-the
-> >>>> list position with say a cursor, introducing unwanted complexity whe=
-n it
-> >>>> would be better to accept the cost of a single extra access to the p=
-arent
-> >>>> flags (which I assume is one reason to set the flag in the child).
-> >>> The parent access is actually more expensive than you might think. Ba=
-sed on
-> >>> experience with past fsnotify related performance regression I expect=
- some
-> >>> 20% performance hit for small tmpfs writes if you add unconditional p=
-arent
-> >>> access to the write path.
-> >> That sounds like a lot for what should be a memory access of an alread=
-y in
-> >> memory structure since the parent must be accessed to traverse the lis=
-t of
-> >> child entries. I clearly don't fully understand the implications of wh=
-at
-> >> I'm saying but there has been mention of another context ...
-> > Parent dentry is of course in memory but often cache cold - you don't n=
-eed
-> > the parent to do e.g. write(2) to an already open file. You seem to be
-> > somewhat confused about the child dentry list traversal (or maybe I'm
-> > misunderstanding) - that happens only when placing the notification mar=
-k
-> > but definitely not for each IO operation.
->
-> LOL, confusion is a pretty common state of mind for me!
->
->
-> I do get your point though and I am confusing the traversal with other
->
-> operations. I think this answers the question I've been asking (maybe
->
-> that wasn't obvious) about the reason for the traversal (ie. the reason
->
-> to maintain a flag in the child).
->
->
-> While I have looked at the code here I haven't absorbed it and I
->
-> definitely don't understand it, your continued patience is appreciated
->
-> and will be beneficial when I get time to look at it a bit closer. I
->
-> do still need to use a notifications mechanism to match up with Miklos's
->
-> statmount implementation to get the full benefit of that in user space,
->
-> if I ever get a chance to work on that again.
->
->
-> So it sounds like it would be worth while considering a traversal that's
->
-> based on taking a reference on each dentry rather than a spinlock for
->
-> the duration. It would be tricky though, for obvious reasons, like
->
-> children added during the traversal, added overhead of getting the next
->
-> entry reference, etc.
+Seems we either never had one or that particular bit of ABI doc is missing.
+Please add an entry for altcurrentX_raw
 
-Didn't look closely, but it feels like RCU traversal should be
-possible if entries are added to the tail, or to the END_OF_POSITIVE
-location.
+> 
+> Not sure about the benefits on setting "differential" in channel spec.. the name would
+> become out_altcurrentX-altcurrentY_xxxxx...
 
-When we discussed the "negavites at tail" at LSFMM
-it was said that managing the transitions positive<->negative
-would be challenging, but I don't know that anyone tried to look closer at =
-this.
+Becomes a question of whether it is useful to represent that - maybe not
+in this particular case.
 
-At least for fsnotify, positive->negative transition is not a problem
-w.r.t skipping entry and observing entry twice during positive iteration.
+> 
+> Is there any modifier for amplitude/peak/envelope? I see IIO_MOD_RMS, which could be used
+> if adding a 1/sqrt(2) factor to the fixed scale.
 
-If negative->positive transitions inserts at END_OF_POSITIVE
-location, then should be fine as well?
+For altcurrent / altvoltage assumption is it's mid to peak.  Unless the modifier switches
+it to RMS as you've noted.
 
-Iterators that need to iterate all children can do this under lock.
+> 
+> Then, I would consider something like out_altcurrent_rms_xxxx as a good alternative.
+> 
+> "scale" would be a constant in the top-level phy channel
+> 
+> single tone profile channels would have:
+> - frequency
+> - phase
+> - raw
+> 
+> drg ramp up/down channels:
+> - frequency and frequency_roc
+> - phase and phase_roc
+> - raw and raw_roc
+> 
+> parallel port channel(s):
+> - frequency_scale and frequency_offset (frequency destination)
+> - phase_offset (polar destination)
+> - offset (polar destination)
+> 
+> osk channel:
+> - raw
+> - raw_roc
+> 
+> raw_roc could be just roc, but that sounds like it carries the scale and refers to
+> a current value? and maybe that breaks consistency with other destination attributes?
+> I am fine with just roc if that refers to the raw value, not (raw * scale).
 
-Does that make sense?
+This is a good question.  We ran into ambiguity with events where we have to derive
+if it is _raw or _processed for the thresholds based on whether the main attribute
+is _raw or _processed.  Nice to avoid doing that again.
 
-Thanks,
-Amir.
+I'd be interesting in others views on this but to me raw_roc seems fine.
+
+> 
+> With all the above, still using altvoltage is not incorrect, just a matter on how
+> we want to express the units.
+
+Agreed - but to get to directly useable values we'd need to provide info on the
+external circuit - and given we are dealing with AC signals that is tricky to do
+in a compact way.
+
+
+> Note that using raw instead of scale to control the
+> amplitude is just another option to tackle the problem. I suppose that the
+> important thing here is being technically corrent and consistent in terms of
+> usage. Maybe out_altcurrent_rms_* is more clear in terms of amplitude level.
+
+Agreed.  It is always (?) possible to switch between scale and raw.
+For an ADC the distinction is clear as we can't control _raw. For a DAC it all gets
+rather value as we can logically control both and for an AC type of DAC / DDS it
+all gets less intuitive.  As you say, consistency is key.
+
+I'd like us to at least be consistent across DDS devices. Perhaps we need some
+general documentation on whatever the outcome of this discussion is to record
+some of the logic behind those decisions.
+
+> 
+> > 
+> >   
+> > > using a resistor load or an op-amp transimpedance stage,
+> > > and I am no expert on that, but that often requires impedance matching so voltage
+> > > levels may depend on the frequency. Then, I suppose that voltage is not the right
+> > > unit to use.  
+> > 
+> > Understood that it can get complex!  
+> > > 
+> > > The scale here controls the amplitude of the varying signal. Assuming the peak voltage
+> > > (amplitude) is constant means we have a constant envelope, but that should not mean
+> > > we can't control it or it should not mean that the hardware can have other ways to
+> > > control it. That said, scale behaves as a "gain multiplier".  
+> > Understood. Given it's the envelope then if scale happened to be 1 always it would
+> > be presented as _processed. So this is consistent with other channel types.
+> >   
+> > >   
+> > > > 
+> > > > That seems to me like it fits better with the overall ABI.
+> > > >     
+> > > > > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_scale_offset
+> > > > > +KernelVersion:
+> > > > > +Contact:	linux-iio@vger.kernel.org
+> > > > > +Description:
+> > > > > +		For a channel that allows amplitude control through buffers, this
+> > > > > +		represents the value for a base amplitude scale. The actual output
+> > > > > +		amplitude scale is a result with the sum of this value.
+> > > > > +    
+> > > >     
+> > > > > +
+> > > > > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_scale_roc    
+> > > > 
+> > > > Silly question perhaps but can work out how this related to millivolts/sec
+> > > > That might make a more intuitive interface than scaling multiplier per sec
+> > > > Perhaps the combination with offset makes this impossible though maybe that
+> > > > could be a expressed as a voltage offset?  Afterall if the amplitude being
+> > > > scaled is 5V then 5 * (offset + scale) = 5 * offset + 5 * scale
+> > > >      
+> > > > > +KernelVersion:
+> > > > > +Contact:	linux-iio@vger.kernel.org
+> > > > > +Description:
+> > > > > +		Amplitude scale rate of change in 1/s for channels that ramp
+> > > > > +		amplitude. This value may be influenced by the channel's
+> > > > > +		sampling_frequency setting.    
+> > > > 
+> > > >     
+> > >   
+> >   
+> 
+
