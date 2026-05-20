@@ -1,488 +1,366 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AE83D75D1
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 12:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5240E3DB635
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 12:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779278710; cv=pass; b=BtaS8g5x74LEdMyxmd4OHnm1jntoqy1lyIHP6BvpO1GMnaVJbE84wQbYq1R+6KvM+FwSKgXXbey8PcTfQorc1hrL0GH4Kd+UfI/zHG20A20WeQgypBz+EzOL3sAFodNKkwXJgve2/9tR5RbzKHnCBmYAkRl1u1WohJYCZZ0jCt0=
+	t=1779278936; cv=pass; b=jbWkw7VCon76E3DDopYP7WX5+p43B6qVEHdMC07pbT4paJO3KDQOZU+GnDvX9se+CGl8WoeYyGpAs2P3ofSbJqw4GkFtkbif5nM/OGTHec4gftZ6XCBgt//ulbjo60Yc6CWz+HKvBbz3PL8+Nlh/jvS4u6UFzoMq4EchaUrwtBg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779278710; c=relaxed/simple;
-	bh=KqlyTxdegMwZlZGk7oSjJ7XngOUM/Zk/4OzzN77LfHE=;
+	s=arc-20240116; t=1779278936; c=relaxed/simple;
+	bh=NP+Bm/TkJcZUUZNKc8UFgfwADzoe89pmcwPJCKU5qNQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u6IIMAaoEL9Req2CuIEXDT6mk38bmaLxob2fV3iaBSBb+JL4nBB5PUTV6ZJakMVFiT/NQZ1nWYNrRRSKVxqukFX2XRH1HGeQVyhGIm5v5Wk5BUIASaqEGgdn2jxYN44K+CpSip38L8vPTakKvCf9ovgiSxx16ZSbKUYlv7S/+q8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=itHQWgVM; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=f8YOoknd; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=iQIKrYcDS7IiTUe043m9NogXkYNCKUexYSxfWd1MYdbavIFOtQlyKNQ320I356jGeh0aRavzio35fiu28OhZvYDztZBGqWyImLZsVNiqxs1DezRUgxNpy3xRBhxqbOK7OMKxZp0dzrj38ZKUddW96Wa37g5ttxXuxEHomakBvZQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BAYPnjIM; arc=pass smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="itHQWgVM";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="f8YOoknd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779278707;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X2ZE/pE5hSr2fTsHeV6QyYnobMcbWzfo9dXFNayhhUc=;
-	b=itHQWgVMnjlsKw1fsDxaiEtIa6LLAhBfyJ0D7cFePzn8RDt2fIgOGMtOtrRgAXBdYCa9tu
-	oU852mhfDxTH1Xtw9xH3VDh6t/C02pMqwMtmY8BOhif3FzTW7Va35h5ZYvNrbs/2dyRZux
-	efipdQZXJagxyXAM9MVb9Snim+rxYBM=
-Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
- [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-58-VbWC4F0JP_-re73_4LBWmA-1; Wed, 20 May 2026 08:05:05 -0400
-X-MC-Unique: VbWC4F0JP_-re73_4LBWmA-1
-X-Mimecast-MFC-AGG-ID: VbWC4F0JP_-re73_4LBWmA_1779278705
-Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-651bd2131f0so131037d50.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 05:05:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779278705; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BAYPnjIM"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-515548f390fso641cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 05:08:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779278933; cv=none;
         d=google.com; s=arc-20240605;
-        b=cox0WKMdc3KAsRCAKUSFrak3WUmQI31xdeqJWfIdf1JQsLXZwo7Vg0+1C7s0FvYyrM
-         0AqKwmI0Q2/i2/yioht6cQA7dTesvt1Xyf2jp0nN/r6ZpG/rrmaYKEGY47jU1IHZQMPe
-         WogJXCmOy1MDM6MK3B6TApD8+L6LxNye8Yre9eK08TF8vJfIXAQ1w7FRYz2vSc3ErbXe
-         EAlD43EurKq+K3qFoyqEbc2NbJUlSYzu5iVbi4REGqpoPelo5g2pdV7qYuHX1Xg5zj3m
-         wIMjNgnRvabEKR8jehCvGmR3O78VWEIUl/GwsGRz/v5BrcH7O/iwJ2PT17+fmiscTuc+
-         VCMg==
+        b=IKeiRjTwTA8TEQIERF5QrPgr0lQnulYx1JD9qKv97h+hDDgE/czEUvX5oMTx1EEIxf
+         rjKwWe4KC67+Oyx9BP/x3md8AUbzWxq3J7k/cLP3LE+a3RBtINFGO8NDMvmrUPHcC1JG
+         L714RT7A9zmWpg/iHpOcO2vmneQi1RzMRif59ogRuIsyTLLyw7IMHoe7JmpB70Pdpf5h
+         bmZ592TI25X0FcxmRumxj/W9TD6YADQaPy/mAQzL3cBP0Sx7cnjKCgkW3Z1c4lggRUXb
+         7LVcFWNoBy0p/kUOz4WOYb+RpGLatg5nJtby9weWrHqW0+6X8s6284dKF/TM0JuFwsRZ
+         9AGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=X2ZE/pE5hSr2fTsHeV6QyYnobMcbWzfo9dXFNayhhUc=;
-        fh=PpdZ4ZqvCON8iuHaOHJtBfBZcEPXSB0oX25BxddkyLo=;
-        b=ObL70DcRcv6evDkTYb2v52GRgskFfKW9jVB6Ew66Q0+yHcUD8Sul5y+kEiKSsbLgLn
-         woBCmlJcQkztwf0fVnV+GloENzhGfTPnqLvF5BgkGJz85rgyQ55KVf7Q8+j6IsQMvBtS
-         V/5v43tuElJLutN82U1j7bjEq6OLYqcnKsXN8pHAc1ccnShezk57Qvi9XH5eod+X4D/A
-         OQCQHbDg7uWMQJ+MFkBj9AgPZltXKk1LIH9XXqmEw6v7S6q8+CR/xvTVCH86V9mbumXW
-         18Jnqy1u3M6l3ggMmXcmf+GZaOqEagDovlKPaVrTVY+ghdwMXnWxUA1BHAf2Q1Yc41WI
-         y/4g==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=0e+G9jJA0Qdw1DFvqZm8i4ZRk5ML+liKRoq2xKwcnGc=;
+        fh=DKiZz50qyFG76qoiUZHaSjig3EV3rF196Qaek4723V8=;
+        b=GTNAhrwx5xaEp6lq+RlN0+k5XA0+doloYgy3WtkvBRNS+GS9MwvxHWwGFTJ5sv3fYg
+         0hxEgRfts77zwpEi+ft3EwFEMLHf/aYghnDkQ76X5LvD0ez0E6N7wLPd9YU7Bcf3yCG1
+         oAKvzVzPMTsHSeeydVmMpEq7qBo0IR7+6Fn4oXYSVd+pey2QIk3WcrS0rolMx7Nkp25g
+         eO/tbTrLkuZ/TVEYwot9CjWVtdZLt3PV2dsjV0ZfCa9P7Tx+4k5GR4ioP9te7wuNK2S0
+         yJk/TrCVFABuQnKgYc/xTKQvRkx8FKuvF6uMtvfOPvQmUxkFKzUoB5JxlkfsnNTxoGlf
+         QnDw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779278705; x=1779883505; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X2ZE/pE5hSr2fTsHeV6QyYnobMcbWzfo9dXFNayhhUc=;
-        b=f8YOoknd+5rJ+H9PBR0OD46yr0BeF2XCse8dItr7PQSKrb1xcGZQBDFhl2fupSwpT9
-         TgWgwHfuciuv78sPIuIuhdjyjY58W1JypTgLPAqUF6Oo3dDHH/WI8dLEMI7VVW+tSDkk
-         rWAh00NN/spP5vNBspfxhKOtp8EF2ErIXyh+OBSQkr4awy+/4wprLUKbXg20YXfsFNt1
-         IdbtTePJ0GJPKT1Ajxw3aNwkwDSqlvOEMY0jOa0tiv9LLalUhTu1HEfHqkC6O5ZHtfYD
-         pB0uoOOESj3MZImO4RMFyylvMJq2W0ucQMPUb2s4njvoq1wf8Nrxuvdqwt/bS7iY6T0X
-         58XA==
+        d=google.com; s=20251104; t=1779278933; x=1779883733; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0e+G9jJA0Qdw1DFvqZm8i4ZRk5ML+liKRoq2xKwcnGc=;
+        b=BAYPnjIM1dncEk2Gy8exCWvlnvRZvG3Ot0dHOC6ECIfu4rULFkMrL3HiFhFOVxPTeW
+         Z9clF/W288a3Ba/Zw2qtoDcu4QeYDyKgXjufV5708LjstjenHgneGQ04fpuv23pE/VpT
+         A9iATvuZ8IrSFZKBvRJ9yO/otD+8sMaTMkLkDq3gGsxP1rsgZ6J74SCHdI+D8ZZYIrCP
+         dz5J+/FYKSAiB0nEmsf+Q492JSVebmsMUEnn9EfKACSKPPuPn75ugrkrcWaBeCWkvZ9/
+         ByNCVpA7KoroVyovmuVpnYuE5Irb7JBCQd/Pm2Vdp1O4ZuGtehQaTAa2Fg/zjny5nkAN
+         JhHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779278705; x=1779883505;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=X2ZE/pE5hSr2fTsHeV6QyYnobMcbWzfo9dXFNayhhUc=;
-        b=q4dz7/xHk9jk7X5GclsmqsKp12jjUJIP2FmG+XFeP89As0pIXzXHP3v0rubzZI23c7
-         g8e2e0ooGgFsVOHu+styfuD712JhzdjjZSNOYq6ooIoATgDLgznNCPtdGR2NyRiEHR37
-         DXA/1sLgQw3FiISPGW4WeLoBLKpVmYXuqePAaaCVqN4zhql+ShOOdj+dZXiIzrLzdQrh
-         /rmFFp5JtBNzqF6PyWRPNN7Y81vUidRnvzBcCmCqW5B+Q/EVp4K3MKJv5xyzcsjzucl0
-         jOKgP0mXdkii7KwII4ZDTAqugG09I7MUaAMwJgnGRaWTMfFBeyAO6hCd6wV82PKaEZjc
-         4O/A==
-X-Gm-Message-State: AOJu0YyCO0rPJjVaNt0QFh24wqSPCpU9VLsBXv/Addg26l+ioBVbubn1
-	G0Dr2scYCstg3Igsns/b7BwrunAQuCo+UPkeh6QzpbXzHija7WcUnxslLHfONba4hrvpkiRUNVd
-	29Dd7LpQWyzqrs1EczA4FXxmDuBxWqGpIrwiME9sVTPbrRkf+OUR/jxwg8SjIs4TSJGuyMy9FZC
-	uVQ/IHeYxBoFcx5AnSYRoEQJyN73Egbct1yuCx
-X-Gm-Gg: Acq92OEBppG+fQvQKNdRZ/h825QrXVup0ewPMGprFyR3MQWVUzsgQc9G7zJj8qM5/a+
-	UHCRlWfB7Q+IWslTL+jjyAh+sijwPoBAR1slRAogreDVg17WlbCCI36gCvQLvxk6Wh1uVhcIMms
-	Vnfz0rvQzoRqNHSvxCt8QMCvztE5MiLLWfscB1d1YMhTBsy+cozZpgQDS4Fnn6KRIZa3yx9ju0m
-	g62Qw==
-X-Received: by 2002:a05:690e:d4c:b0:651:c38b:e60e with SMTP id 956f58d0204a3-65e22685cedmr22029131d50.4.1779278704935;
-        Wed, 20 May 2026 05:05:04 -0700 (PDT)
-X-Received: by 2002:a05:690e:d4c:b0:651:c38b:e60e with SMTP id
- 956f58d0204a3-65e22685cedmr22029058d50.4.1779278704322; Wed, 20 May 2026
- 05:05:04 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779278933; x=1779883733;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0e+G9jJA0Qdw1DFvqZm8i4ZRk5ML+liKRoq2xKwcnGc=;
+        b=hsTZwLOc2eO895iZ8EYdxVtVztJE07uHfvJt+Grhw8ZOMMElcCHlbSLSAGEyDBW/El
+         Y8QjdPTOxt5+YXdL/OfMlbb9/BeJmQ+TuKaeWTVamekTJUH2Xch2rynngPXmtTjC+NiF
+         /AruOWtuxzy+uID8wQjY3da0LlJUYZv4bEUs8OrlIZdFM8Lzm7ECxOf2CaQx5Y94NELy
+         LhHLKzLkyNkgJkq0EvlRY1ljCNh3o3VlPwqHpeqloO3SDtJj17mEVJBpRA2dwVdVJ7QE
+         rN7mTqtdMUJgUfAfTT9WnCyhKGPBNjsciCAhxDJrY8Xc1dEN5MAwXKyFUTEBfM2J0cMS
+         PPTw==
+X-Forwarded-Encrypted: i=1; AFNElJ/cIOSD62IKK+xWdohfeCQe1Npu7nyAs6ouZo72E5WNmMgy9h9P+PifVVpQAzDRqZfJZSlg6LxKfU4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnJibYeWZfUxYugiTjVq6LiRpdLKKTyWJaG/EwDlAbNhFzrmxB
+	lxNmoVQpJ+1zAozHhQrelDV150vWEZ6cKGcU4Ed9HA5sRcPI2OwCGRthP4d90Vvat2TnxFBgjiH
+	4qxSHaOFQFgy6bwzavccshDyLG4BNwuqCS2ihLCrY
+X-Gm-Gg: Acq92OHM+dVdbQlNpooI10zX71UH8gQO6nCTIzgHw0ZBph7rKUyRSbrTAeb0qkGZExw
+	QvrMZgQolnwBLvzsSECfmaBJoBAXjqcHSvsA94JrpvhUwio23FidDH3wdZcpEf2N/691g4PegeP
+	60TsARC1HgVbz5VkN7T/1Ii8rZCJAfPx87FyxLC2JAeWUYed0fkSV4zJwMmEhN6t6abTBCBxLt8
+	7NUJ21iqFhhovx/PKUHk/VSYHY0X+QT9Ydb8An3tv5Ru1qRJvBcOT064Yax5+TIecjYF1ZN2B15
+	MTGnvXIUhoF3dGAX1LY=
+X-Received: by 2002:a05:622a:d04:b0:50f:af60:3496 with SMTP id
+ d75a77b69052e-5167b5765f0mr39671891cf.1.1779278932741; Wed, 20 May 2026
+ 05:08:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511185817.686831-1-npache@redhat.com> <20260511185817.686831-12-npache@redhat.com>
- <20260512154431.jxcs632mqqatqtsw@master>
-In-Reply-To: <20260512154431.jxcs632mqqatqtsw@master>
-From: Nico Pache <npache@redhat.com>
-Date: Wed, 20 May 2026 06:05:31 -0600
-X-Gm-Features: AVHnY4IloSXg-o2aX0zma4RbhBcFkj0iqvrRQAFcLN19LiuJy6POHEMF7fysqUQ
-Message-ID: <CAA1CXcD2KPKFrwCZd2PatQhf_e1nrvCguPD77GcNOVPFZLvsew@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v17 11/14] mm/khugepaged: Introduce mTHP
- collapse support
-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
-	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, 
-	baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com, 
-	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
-	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
-	jackmanb@google.com, jannh@google.com, jglisse@google.com, 
-	joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev, 
-	liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com, 
-	matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
-	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
-	rdunlap@infradead.org, rientjes@google.com, rostedt@goodmis.org, 
-	rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
-	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
-	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
-	zokeefe@google.com
+References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com> <20260507-gmem-inplace-conversion-v6-2-91ab5a8b19a4@google.com>
+In-Reply-To: <20260507-gmem-inplace-conversion-v6-2-91ab5a8b19a4@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Wed, 20 May 2026 13:08:15 +0100
+X-Gm-Features: AVHnY4KBKfgyi_eBxWBlexdsB2vmcgOHdCyR81rdHfnvKJlVZGLuwL2FE3zd1TQ
+Message-ID: <CA+EHjTwnMMbqLP=NFjM-FKYnvdzxi-z9Q0oEenQEy=WPcT5gZg@mail.gmail.com>
+Subject: Re: [PATCH v6 02/43] KVM: Rename KVM_GENERIC_MEMORY_ATTRIBUTES to KVM_VM_MEMORY_ATTRIBUTES
+To: ackerleytng@google.com
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 12, 2026 at 9:44=E2=80=AFAM Wei Yang <richard.weiyang@gmail.com=
-> wrote:
+On Thu, 7 May 2026 at 21:22, Ackerley Tng via B4 Relay
+<devnull+ackerleytng.google.com@kernel.org> wrote:
 >
-> On Mon, May 11, 2026 at 12:58:11PM -0600, Nico Pache wrote:
-> >Enable khugepaged to collapse to mTHP orders. This patch implements the
-> >main scanning logic using a bitmap to track occupied pages and a stack
-> >structure that allows us to find optimal collapse sizes.
-> >
-> >Previous to this patch, PMD collapse had 3 main phases, a light weight
-> >scanning phase (mmap_read_lock) that determines a potential PMD
-> >collapse, an alloc phase (mmap unlocked), then finally heavier collapse
-> >phase (mmap_write_lock).
-> >
-> >To enabled mTHP collapse we make the following changes:
-> >
-> >During PMD scan phase, track occupied pages in a bitmap. When mTHP
-> >orders are enabled, we remove the restriction of max_ptes_none during th=
-e
-> >scan phase to avoid missing potential mTHP collapse candidates. Once we
-> >have scanned the full PMD range and updated the bitmap to track occupied
-> >pages, we use the bitmap to find the optimal mTHP size.
-> >
-> >Implement collapse_scan_bitmap() to perform binary recursion on the bitm=
-ap
-> >and determine the best eligible order for the collapse. A stack structur=
-e
-> >is used instead of traditional recursion to manage the search. This also
-> >prevents a traditional recursive approach when the kernel stack struct i=
-s
-> >limited. The algorithm recursively splits the bitmap into smaller chunks=
- to
-> >find the highest order mTHPs that satisfy the collapse criteria. We star=
-t
-> >by attempting the PMD order, then moved on the consecutively lower order=
-s
-> >(mTHP collapse). The stack maintains a pair of variables (offset, order)=
-,
-> >indicating the number of PTEs from the start of the PMD, and the order o=
-f
-> >the potential collapse candidate.
-> >
-> >The algorithm for consuming the bitmap works as such:
-> >    1) push (0, HPAGE_PMD_ORDER) onto the stack
-> >    2) pop the stack
-> >    3) check if the number of set bits in that (offset,order) pair
-> >       statisfy the max_ptes_none threshold for that order
-> >    4) if yes, attempt collapse
-> >    5) if no (or collapse fails), push two new stack items representing
-> >       the left and right halves of the current bitmap range, at the
-> >       next lower order
-> >    6) repeat at step (2) until stack is empty.
-> >
-> >Below is a diagram representing the algorithm and stack items:
-> >
-> >                            offset   mid_offset
-> >                            |        |
-> >                            |        |
-> >                            v        v
-> >          ____________________________________
-> >         |          PTE Page Table            |
-> >         --------------------------------------
-> >                           <-------><------->
-> >                             order-1  order-1
-> >
-> >mTHP collapses reject regions containing swapped out or shared pages.
-> >This is because adding new entries can lead to new none pages, and these
-> >may lead to constant promotion into a higher order mTHP. A similar
-> >issue can occur with "max_ptes_none > HPAGE_PMD_NR/2" due to a collapse
-> >introducing at least 2x the number of pages, and on a future scan will
-> >satisfy the promotion condition once again. This issue is prevented via
-> >the collapse_max_ptes_none() function which imposes the max_ptes_none
-> >restrictions above.
-> >
-> >We currently only support mTHP collapse for max_ptes_none values of 0
-> >and HPAGE_PMD_NR - 1. resulting in the following behavior:
-> >
-> >    - max_ptes_none=3D0: Never introduce new empty pages during collapse
-> >    - max_ptes_none=3DHPAGE_PMD_NR-1: Always try collapse to the highest
-> >      available mTHP order
-> >
-> >Any other max_ptes_none value will emit a warning and skip mTHP collapse
-> >attempts. There should be no behavior change for PMD collapse.
-> >
-> >Once we determine what mTHP sizes fits best in that PMD range a collapse
-> >is attempted. A minimum collapse order of 2 is used as this is the lowes=
-t
-> >order supported by anon memory as defined by THP_ORDERS_ALL_ANON.
-> >
-> >Currently madv_collapse is not supported and will only attempt PMD
-> >collapse.
-> >
-> >We can also remove the check for is_khugepaged inside the PMD scan as
-> >the collapse_max_ptes_none() function handles this logic now.
-> >
-> >Signed-off-by: Nico Pache <npache@redhat.com>
+> From: Sean Christopherson <seanjc@google.com>
 >
-> [...]
+> Rename the per-VM memory attributes Kconfig to make it explicitly about
+> per-VM attributes in anticipation of adding memory attributes support to
+> guest_memfd, at which point it will be possible (and desirable) to have
+> memory attributes without the per-VM support, even in x86.
 >
-> >+static int mthp_collapse(struct mm_struct *mm, unsigned long address,
-> >+              int referenced, int unmapped, struct collapse_control *cc=
-,
-> >+              unsigned long enabled_orders)
-> >+{
-> >+      unsigned int nr_occupied_ptes, nr_ptes;
-> >+      int max_ptes_none, collapsed =3D 0, stack_size =3D 0;
-> >+      unsigned long collapse_address;
-> >+      struct mthp_range range;
-> >+      u16 offset;
-> >+      u8 order;
-> >+
-> >+      collapse_mthp_stack_push(cc, &stack_size, 0, HPAGE_PMD_ORDER);
-> >+
-> >+      while (stack_size) {
-> >+              range =3D collapse_mthp_stack_pop(cc, &stack_size);
-> >+              order =3D range.order;
-> >+              offset =3D range.offset;
-> >+              nr_ptes =3D 1UL << order;
-> >+
-> >+              if (!test_bit(order, &enabled_orders))
-> >+                      goto next_order;
-> >+
-> >+              max_ptes_none =3D collapse_max_ptes_none(cc, NULL, order)=
-;
+> No functional change intended.
 >
-> I am thinking whether there is a behavioral change for userfaultfd_armed(=
-vma).
->
-> collapse_single_pmd()
->     collapse_scan_pmd
->         max_ptes_none =3D collapse_max_ptes_none(cc, vma)
->         max_ptes_none =3D KHUGEPAGED_MAX_PTES_LIMIT                --- (1=
-)
->         mthp_collapse
->             max_ptes_none =3D collapse_max_ptes_none(cc, NULL)     --- (2=
-)
->             collapse_huge_page(mm)
->                 hugepage_vma_revalidate(&vma)
->                 __collapse_huge_page_isolate(vma)
->                     max_ptes_none =3D collapse_max_ptes_none(cc, vma)
->
-> Before mthp_collapse() introduced, userfaultfd_armed(vma) is skipped if t=
-here
-> is any pte_none_or_zero() in collapse_scan_pmd().
->
-> But now, max_ptes_none could be set to KHUGEPAGED_MAX_PTES_LIMIT at (1), =
-so
-> that we can scan all the pte to get the bitmap. This means
-> userfaultfd_armed(vma) could continue even with pte_none_or_zero().
->
-> Then in mthp_collapse(), collapse_max_ptes_none() at (2) ignores
-> userfaultfd_armed(vma), which means it will continue to collapse a
-> userfaultfd_armed(vma) when there is pte_none_or_zero().
->
-> The good news is we will stop at __collapse_huge_page_isolate(), where we
-> get collapse_max_ptes_none() with vma. But we already did a lot of work.
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
-Good catch!
+Reviewed-by: Fuad Tabba <tabba@google.com>
 
-As you stated we eventually ensure we respect the uffd checks. So
-there are no correctness issues, just the potential for wasted cycles.
+Cheers,
+/fuad
 
-At (1) we only do this if mTHPs are enabled. If that is the case, the
-only waste that can arise is at the PMD order, as that order respects
-the max_ptes_none value.
 
-I think one approach is to gate (1) with the uffd check as well. That
-way, if mTHPs are enabled and its uffd-armed, max_ptes_none will stay
-at 0, and we bail early on the scan early if any none_ptes are hit.
-
-But then we lose the ability to collapse to mTHPs that are uffd-armed,
-where the PMD has none/zero-ptes and the mTHP fully has 0
-non-none/zero-ptes.
-
-ie) assume a PMD is 16 x's [xxxxxxxx00000000]
-where x is a populated pte and 0 is not
-If we guard this scan (1), then we will never check if its possible to
-collapse to the smaller orders.
-
-Let me know if you see a flaw in my logic, I think it's best to keep it as =
-is?
-
+> ---
+>  arch/x86/include/asm/kvm_host.h |  2 +-
+>  arch/x86/kvm/Kconfig            |  6 +++---
+>  arch/x86/kvm/mmu/mmu.c          |  2 +-
+>  arch/x86/kvm/x86.c              |  2 +-
+>  include/linux/kvm_host.h        |  8 ++++----
+>  include/trace/events/kvm.h      |  4 ++--
+>  virt/kvm/Kconfig                |  2 +-
+>  virt/kvm/kvm_main.c             | 14 +++++++-------
+>  8 files changed, 20 insertions(+), 20 deletions(-)
 >
-> Not sure if I missed something.
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index c470e40a00aa4..60b997764beef 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -2369,7 +2369,7 @@ void kvm_configure_mmu(bool enable_tdp, int tdp_forced_root_level,
+>                        int tdp_max_root_level, int tdp_huge_page_level);
 >
-> >+
-> >+              if (max_ptes_none < 0)
-> >+                      return collapsed;
-> >+
-> >+              nr_occupied_ptes =3D collapse_mthp_count_present(cc, offs=
-et,
-> >+                                                             nr_ptes);
-> >+
-> >+              if (nr_occupied_ptes >=3D nr_ptes - max_ptes_none) {
-> >+                      int ret;
-> >+
-> >+                      collapse_address =3D address + offset * PAGE_SIZE=
-;
-> >+                      ret =3D collapse_huge_page(mm, collapse_address, =
-referenced,
-> >+                                               unmapped, cc, order);
-> >+                      if (ret =3D=3D SCAN_SUCCEED) {
-> >+                              collapsed +=3D nr_ptes;
-> >+                              continue;
-> >+                      }
-> >+              }
-> >+
-> >+next_order:
-> >+              if (order > KHUGEPAGED_MIN_MTHP_ORDER) {
-> >+                      const u8 next_order =3D order - 1;
-> >+                      const u16 mid_offset =3D offset + (nr_ptes / 2);
-> >+
-> >+                      collapse_mthp_stack_push(cc, &stack_size, mid_off=
-set,
-> >+                                               next_order);
-> >+                      collapse_mthp_stack_push(cc, &stack_size, offset,
-> >+                                               next_order);
-> >+              }
-> >+      }
-> >+      return collapsed;
-> >+}
-> >+
-> > static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
-> >               struct vm_area_struct *vma, unsigned long start_addr,
-> >               bool *lock_dropped, struct collapse_control *cc)
-> > {
-> >-      const int max_ptes_none =3D collapse_max_ptes_none(cc, vma, HPAGE=
-_PMD_ORDER);
-> >+      int max_ptes_none =3D collapse_max_ptes_none(cc, vma, HPAGE_PMD_O=
-RDER);
-> >       const unsigned int max_ptes_shared =3D collapse_max_ptes_shared(c=
-c, HPAGE_PMD_ORDER);
-> >       const unsigned int max_ptes_swap =3D collapse_max_ptes_swap(cc, H=
-PAGE_PMD_ORDER);
-> >+      enum tva_type tva_flags =3D cc->is_khugepaged ? TVA_KHUGEPAGED : =
-TVA_FORCED_COLLAPSE;
-> >       pmd_t *pmd;
-> >-      pte_t *pte, *_pte;
-> >-      int none_or_zero =3D 0, shared =3D 0, referenced =3D 0;
-> >+      pte_t *pte, *_pte, pteval;
-> >+      int i;
-> >+      int none_or_zero =3D 0, shared =3D 0, nr_collapsed =3D 0, referen=
-ced =3D 0;
-> >       enum scan_result result =3D SCAN_FAIL;
-> >       struct page *page =3D NULL;
-> >       struct folio *folio =3D NULL;
-> >       unsigned long addr;
-> >+      unsigned long enabled_orders;
-> >       spinlock_t *ptl;
-> >       int node =3D NUMA_NO_NODE, unmapped =3D 0;
-> >
-> >@@ -1429,8 +1579,19 @@ static enum scan_result collapse_scan_pmd(struct =
-mm_struct *mm,
-> >               goto out;
-> >       }
-> >
-> >+      bitmap_zero(cc->mthp_bitmap, MAX_PTRS_PER_PTE);
-> >       memset(cc->node_load, 0, sizeof(cc->node_load));
-> >       nodes_clear(cc->alloc_nmask);
-> >+
-> >+      enabled_orders =3D collapse_allowable_orders(vma, vma->vm_flags, =
-tva_flags);
 >
-> Would it be 0 at this point?
-
-If your question relates to the issue you brought up above, then yes,
-max_ptes_none would be 0 if it's uffd-armed. We must recheck the
-uffd-armed status before modifying it to 511.
-
+> -#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>  #define kvm_arch_has_private_mem(kvm) ((kvm)->arch.has_private_mem)
+>  #endif
 >
-> >+
-> >+      /*
-> >+       * If PMD is the only enabled order, enforce max_ptes_none, other=
-wise
-> >+       * scan all pages to populate the bitmap for mTHP collapse.
-> >+       */
-> >+      if (enabled_orders !=3D BIT(HPAGE_PMD_ORDER))
-> >+              max_ptes_none =3D KHUGEPAGED_MAX_PTES_LIMIT;
-> >+
-> >       pte =3D pte_offset_map_lock(mm, pmd, start_addr, &ptl);
-> >       if (!pte) {
-> >               cc->progress++;
-> >@@ -1438,11 +1599,13 @@ static enum scan_result collapse_scan_pmd(struct=
- mm_struct *mm,
-> >               goto out;
-> >       }
-> >
-> >-      for (addr =3D start_addr, _pte =3D pte; _pte < pte + HPAGE_PMD_NR=
-;
-> >-           _pte++, addr +=3D PAGE_SIZE) {
-> >+      for (i =3D 0; i < HPAGE_PMD_NR; i++) {
-> >+              _pte =3D pte + i;
-> >+              addr =3D start_addr + i * PAGE_SIZE;
-> >+              pteval =3D ptep_get(_pte);
-> >+
-> >               cc->progress++;
-> >
-> >-              pte_t pteval =3D ptep_get(_pte);
-> >               if (pte_none_or_zero(pteval)) {
-> >                       if (++none_or_zero > max_ptes_none) {
-> >                               result =3D SCAN_EXCEED_NONE_PTE;
-> >@@ -1522,6 +1685,8 @@ static enum scan_result collapse_scan_pmd(struct m=
-m_struct *mm,
-> >                       }
-> >               }
-> >
-> >+              /* Set bit for occupied pages */
-> >+              __set_bit(i, cc->mthp_bitmap);
-> >               /*
-> >                * Record which node the original page is from and save t=
-his
-> >                * information to cc->node_load[].
-> >@@ -1580,10 +1745,11 @@ static enum scan_result collapse_scan_pmd(struct=
- mm_struct *mm,
-> >       if (result =3D=3D SCAN_SUCCEED) {
-> >               /* collapse_huge_page expects the lock to be dropped befo=
-re calling */
-> >               mmap_read_unlock(mm);
-> >-              result =3D collapse_huge_page(mm, start_addr, referenced,
-> >-                                          unmapped, cc, HPAGE_PMD_ORDER=
-);
-> >+              nr_collapsed =3D mthp_collapse(mm, start_addr, referenced=
-, unmapped,
-> >+                                            cc, enabled_orders);
-> >               /* collapse_huge_page will return with the mmap_lock rele=
-ased */
+> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+> index 801bf9e520db3..26f6afd51bbdc 100644
+> --- a/arch/x86/kvm/Kconfig
+> +++ b/arch/x86/kvm/Kconfig
+> @@ -84,7 +84,7 @@ config KVM_SW_PROTECTED_VM
+>         bool "Enable support for KVM software-protected VMs"
+>         depends on EXPERT
+>         depends on KVM_X86 && X86_64
+> -       select KVM_GENERIC_MEMORY_ATTRIBUTES
+> +       select KVM_VM_MEMORY_ATTRIBUTES
+>         help
+>           Enable support for KVM software-protected VMs.  Currently, software-
+>           protected VMs are purely a development and testing vehicle for
+> @@ -135,7 +135,7 @@ config KVM_INTEL_TDX
+>         bool "Intel Trust Domain Extensions (TDX) support"
+>         default y
+>         depends on INTEL_TDX_HOST
+> -       select KVM_GENERIC_MEMORY_ATTRIBUTES
+> +       select KVM_VM_MEMORY_ATTRIBUTES
+>         select HAVE_KVM_ARCH_GMEM_POPULATE
+>         help
+>           Provides support for launching Intel Trust Domain Extensions (TDX)
+> @@ -159,7 +159,7 @@ config KVM_AMD_SEV
+>         depends on KVM_AMD && X86_64
+>         depends on CRYPTO_DEV_SP_PSP && !(KVM_AMD=y && CRYPTO_DEV_CCP_DD=m)
+>         select ARCH_HAS_CC_PLATFORM
+> -       select KVM_GENERIC_MEMORY_ATTRIBUTES
+> +       select KVM_VM_MEMORY_ATTRIBUTES
+>         select HAVE_KVM_ARCH_GMEM_PREPARE
+>         select HAVE_KVM_ARCH_GMEM_INVALIDATE
+>         select HAVE_KVM_ARCH_GMEM_POPULATE
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 892246204435c..a80a876ab4ad6 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -7899,7 +7899,7 @@ void kvm_mmu_pre_destroy_vm(struct kvm *kvm)
+>                 vhost_task_stop(kvm->arch.nx_huge_page_recovery_thread);
+>  }
 >
-> collapse_huge_page will return with mmap_lock released, but mthp_collapse=
-()
-> may not?
-
-We are now releasing the lock before calling mthp_collapse, which
-subsequently calls collapse_huge_page. Even if `collapse_huge_page` is
-never called-- say, because enabled_orders is 0 (which should not
-happen) and all collapse orders are skipped (never calling
-collapse_huge_page)-- we still return here with the lock dropped.
-
-I think this is sound. Let me know if you think differently.
-
-Cheers :)
--- Nico
-
+> -#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>  static bool hugepage_test_mixed(struct kvm_memory_slot *slot, gfn_t gfn,
+>                                 int level)
+>  {
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 0a1b63c63d1a9..1560de1e95be0 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -13625,7 +13625,7 @@ static int kvm_alloc_memslot_metadata(struct kvm *kvm,
+>                 }
+>         }
 >
-> >               *lock_dropped =3D true;
-> >+              result =3D nr_collapsed ? SCAN_SUCCEED : SCAN_FAIL;
-> >       }
-> > out:
-> >       trace_mm_khugepaged_scan_pmd(mm, folio, referenced,
-> >--
-> >2.54.0
+> -#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>         kvm_mmu_init_memslot_memory_attributes(kvm, slot);
+>  #endif
+>
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index 4c14aee1fb063..7b9faa3545300 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -722,7 +722,7 @@ static inline int kvm_arch_vcpu_memslots_id(struct kvm_vcpu *vcpu)
+>  }
+>  #endif
+>
+> -#ifndef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifndef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>  static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
+>  {
+>         return false;
+> @@ -871,7 +871,7 @@ struct kvm {
+>  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
+>         struct notifier_block pm_notifier;
+>  #endif
+> -#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>         /* Protected by slots_lock (for writes) and RCU (for reads) */
+>         struct xarray mem_attr_array;
+>  #endif
+> @@ -2528,7 +2528,7 @@ static inline bool kvm_memslot_is_gmem_only(const struct kvm_memory_slot *slot)
+>         return slot->flags & KVM_MEMSLOT_GMEM_ONLY;
+>  }
+>
+> -#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>  static inline unsigned long kvm_get_memory_attributes(struct kvm *kvm, gfn_t gfn)
+>  {
+>         return xa_to_value(xa_load(&kvm->mem_attr_array, gfn));
+> @@ -2550,7 +2550,7 @@ static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
+>  {
+>         return false;
+>  }
+> -#endif /* CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES */
+> +#endif /* CONFIG_KVM_VM_MEMORY_ATTRIBUTES */
+>
+>  #ifdef CONFIG_KVM_GUEST_MEMFD
+>  int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+> diff --git a/include/trace/events/kvm.h b/include/trace/events/kvm.h
+> index b282e3a867696..1ba72bd73ea2f 100644
+> --- a/include/trace/events/kvm.h
+> +++ b/include/trace/events/kvm.h
+> @@ -358,7 +358,7 @@ TRACE_EVENT(kvm_dirty_ring_exit,
+>         TP_printk("vcpu %d", __entry->vcpu_id)
+>  );
+>
+> -#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>  /*
+>   * @start:     Starting address of guest memory range
+>   * @end:       End address of guest memory range
+> @@ -383,7 +383,7 @@ TRACE_EVENT(kvm_vm_set_mem_attributes,
+>         TP_printk("%#016llx -- %#016llx [0x%lx]",
+>                   __entry->start, __entry->end, __entry->attr)
+>  );
+> -#endif /* CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES */
+> +#endif /* CONFIG_KVM_VM_MEMORY_ATTRIBUTES */
+>
+>  TRACE_EVENT(kvm_unmap_hva_range,
+>         TP_PROTO(unsigned long start, unsigned long end),
+> diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
+> index 794976b88c6f9..5119cb37145fc 100644
+> --- a/virt/kvm/Kconfig
+> +++ b/virt/kvm/Kconfig
+> @@ -100,7 +100,7 @@ config KVM_ELIDE_TLB_FLUSH_IF_YOUNG
+>  config KVM_MMU_LOCKLESS_AGING
+>         bool
+>
+> -config KVM_GENERIC_MEMORY_ATTRIBUTES
+> +config KVM_VM_MEMORY_ATTRIBUTES
+>         bool
+>
+>  config KVM_GUEST_MEMFD
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index 89489996fbc1e..306153abbafa5 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -1115,7 +1115,7 @@ static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
+>         spin_lock_init(&kvm->mn_invalidate_lock);
+>         rcuwait_init(&kvm->mn_memslots_update_rcuwait);
+>         xa_init(&kvm->vcpu_array);
+> -#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>         xa_init(&kvm->mem_attr_array);
+>  #endif
+>
+> @@ -1300,7 +1300,7 @@ static void kvm_destroy_vm(struct kvm *kvm)
+>         cleanup_srcu_struct(&kvm->irq_srcu);
+>         srcu_barrier(&kvm->srcu);
+>         cleanup_srcu_struct(&kvm->srcu);
+> -#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>         xa_destroy(&kvm->mem_attr_array);
+>  #endif
+>         kvm_arch_free_vm(kvm);
+> @@ -2418,7 +2418,7 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
+>  }
+>  #endif /* CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT */
+>
+> -#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>  static u64 kvm_supported_mem_attributes(struct kvm *kvm)
+>  {
+>         if (!kvm || kvm_arch_has_private_mem(kvm))
+> @@ -2623,7 +2623,7 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+>
+>         return kvm_vm_set_mem_attributes(kvm, start, end, attrs->attributes);
+>  }
+> -#endif /* CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES */
+> +#endif /* CONFIG_KVM_VM_MEMORY_ATTRIBUTES */
+>
+>  struct kvm_memory_slot *gfn_to_memslot(struct kvm *kvm, gfn_t gfn)
+>  {
+> @@ -4921,7 +4921,7 @@ static int kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
+>         case KVM_CAP_SYSTEM_EVENT_DATA:
+>         case KVM_CAP_DEVICE_CTRL:
+>                 return 1;
+> -#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>         case KVM_CAP_MEMORY_ATTRIBUTES:
+>                 return kvm_supported_mem_attributes(kvm);
+>  #endif
+> @@ -5325,7 +5325,7 @@ static long kvm_vm_ioctl(struct file *filp,
+>                 break;
+>         }
+>  #endif /* CONFIG_HAVE_KVM_IRQ_ROUTING */
+> -#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>         case KVM_SET_MEMORY_ATTRIBUTES: {
+>                 struct kvm_memory_attributes attrs;
+>
+> @@ -5336,7 +5336,7 @@ static long kvm_vm_ioctl(struct file *filp,
+>                 r = kvm_vm_ioctl_set_mem_attributes(kvm, &attrs);
+>                 break;
+>         }
+> -#endif /* CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES */
+> +#endif /* CONFIG_KVM_VM_MEMORY_ATTRIBUTES */
+>         case KVM_CREATE_DEVICE: {
+>                 struct kvm_create_device cd;
+>
 >
 > --
-> Wei Yang
-> Help you, Help me
+> 2.54.0.563.g4f69b47b94-goog
 >
-
+>
