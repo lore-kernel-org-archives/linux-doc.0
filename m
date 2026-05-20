@@ -1,178 +1,175 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6088F35F162
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 22:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779314647; cv=pass; b=PgJdXJn+f3SqxQJgHJBvu3Oe+zDQkA/O3dk7GjOrbdHjaptwipO5mlkRujRyOs/sRyDIcReZW8uUaeUXy2MwCMHiEJ4aaQ8YDFRXgg9ELe7PJatlUYd1RW9Mz4WDswaIQn+88GrkKv7CyflagDwkggUJcl/Bs6yQ/eozlabQSY0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779314647; c=relaxed/simple;
-	bh=o95rfOHFgJHNn7OjrZb3oTyna54O2JGL22GSkfMr7TI=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KT0uX4lBfqNcg6vniuTBMvtrok3gYKZuK5TdJaLSRxSyLrDopS0L+Mq2THqq7+81qz95AFFiUfRyMn15ep62svujZoKDH8hAFGNHw+HmXh35gw+eOgw0QYk0xQvy4NK71efci5DFew/csoa/aM8IV6kqA/jUQoF7hvh8fqnmOOg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Q3EmepI5; arc=pass smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9A2382367;
+	Wed, 20 May 2026 22:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779314994; cv=none; b=U3+lgW4Rg0FT3MtQKikENZrQjcgM1Ipj8aIvNh3Sl4ZVO8wNjXGFZJv4PWk+z5KAjv7l/U+qSRiQj/9xakMx65tv9ErK9HVPmOKgSWBdqDPfRpi6hVzK1L41l31+JceOm22zaL+ojgxPqKdB6XDP1TfFRdl+dQAFamGd8diXazc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779314994; c=relaxed/simple;
+	bh=sESrtnEkiukd957DKW4R4u+5NVgNWu0Rox+HVle5NOc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NxyYzPaY3KGdrYE/FWCSXcn7asTOrVzwKENTsld1VCP0IUvPuY/bHLZ5xqciF8kndgJMzyhoE5mlPggb+hBOu42N9Y+FDLn6iBgt+WGbp/BGH3cWpddQKqhyMXRv+yNK2tSPTqPWcFqxFPO9HAYmsp8g5Ey7D3IcGT6l2wSI6OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JY/2N9wD; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Q3EmepI5"
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-575602688deso1890809e0c.1
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 15:04:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779314645; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fe10wGyQ5MWGA33TIV/okF+usVoRlBhlLsuvVcXAG9VHu2X7oc/Bl+pIoennooyhE3
-         RT8mrx03soppgj2RqosBaSjXd/mmNMBYW44SFxtPt9Cjj8zH6CKgCIC0Zg2+auTvW9Or
-         8KQ87JXzlZOu+XA+refuyE1VilYr49oqu2nzYU58PcQMQMEOsxWiPLa0oXeCZZlwTDMt
-         P+uEgex4EwQ8YDkHEA4wflF1FLzMHghBNY5xfwABP3oH9hThm+bhmM3pwceWhrEFq2vu
-         /fEOPqXcjrFOPmmMV0s6cel5RVuG04K/z+L3EPBmdYLT+VyDhDxtOsvoQt7kmqp4CUwf
-         5kBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=9JThRUESw7nrWZ9dm2cNUbYGQDtPpp53TQuS0A6S/n8=;
-        fh=wBZJCWk1A5ZXdHVN4O8GQbUw/xPgpDW9zwRIbVQdD98=;
-        b=dAMkYcHpOUN5jd5qErgKammPLHmjIytSOX9YK0EXK4+F/D7OazwWYTXBficgz8jbQ6
-         RsrAZLNisaJOsTmxDZDzZa92I9smyRT4nswPs3tXJ/rTnUtD3Pmbh5A9Npq+nw+4juGq
-         S68M+ypH/iR9w134vQIFrl2osw3LP9Wxsfc5xpDLpdoe8wYoix9yHcedAjFsQmaD9IY7
-         FmVK9dcV9MrcWz6IdhdksOUkJ15HR6pF0Ib8cJBUtkaliBgzBInIYJvMsU66k/NVWYrl
-         0b/sABEksJdOn1nkCv4ix6Tn8tQYSpCyS6zN4rY7zij9PI+wMV5T4FA/B2iqRLR5+jkm
-         8PoQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779314645; x=1779919445; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9JThRUESw7nrWZ9dm2cNUbYGQDtPpp53TQuS0A6S/n8=;
-        b=Q3EmepI5xCjM/UbrJMyjazBEEPvUNvpMFGxaJTWcCaBCoKBqpmgmVW9nSj96/V0UvR
-         YU4SKxefFwTz3vPzyLWtYsQMbMDIZ1+PRFdzrpVNZah5ht/4Lau9SK5Z7Hk2aK9da2QZ
-         ElYgUidOH8ZfxbgraipKdjfhW9iC5iCfZ89Q6AG+ReETL2u771mN9ccRwV+LUdYfW+87
-         3QCBG1HE9Y3QYujQO861kN1FgiHZbEDNl9xgINQTIQmCpP+kV0DzmjIfElgG3v10zea1
-         kXlNWkoqCpFMDgRX93W7Q1rmzGH2debKRDFM5OR34S4Px/gk4DYaiQJX04LkqOmRpVIf
-         pbhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779314645; x=1779919445;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9JThRUESw7nrWZ9dm2cNUbYGQDtPpp53TQuS0A6S/n8=;
-        b=C4esAdtwWBiIHFq8qj+T4hiTuK6p+bxGrZO6UI1gFNTkCveyuMdQYhRbWCuZ/gal2c
-         8CgDGq9po1WpmNnaouKvlfZ081Bl3ihqqSM78r85cL1vi1VDkBKSV7XRhhLfvu8HsG+L
-         f5hsVgN9kB0f3jpBiblqYWh404x/91SAzxxp7e+KLlHANlvTx8sfupWuJEcwBS1mo2jm
-         qUXgf/Vqd0CZ4ra6yrOWRXhIh6L/Ya27UwfT/LF3UubqJEvp55Vdt6+HShZUXPqKJoEi
-         HqU0mKKTiJODqsbR1AcEzs7m2hrOry60ZUNgAySalJ9nQ5u1QuZk7C9851Yrl9rhcpPX
-         3TOA==
-X-Forwarded-Encrypted: i=1; AFNElJ/CfLIC/La61lKICAcFQMqpyoIfmnyIE8PzsSCKO/w2mK7iyDeMcA8guITGbkysRs6DtmuOndXDuG4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKp2uDmwt77rSrYWmBsXJp7U85qpdv7VxptvignIgYjCm3Abnv
-	rfsT500fSCmPMGOvuhlY9PO6RFTnylRzeBT49/oID+kGDK8jRRTIA2JZC1YWUpKqD9DncFUZwJH
-	EUAklsWabtE1Hp89eVcybtSmACVz1hIaFzCwHne8M
-X-Gm-Gg: Acq92OEJJBZlos5L/BUPGa0Nc0OlX8X+HWdBs0cuoSVGSowvYBXtlmwMP3LC8dJ75mv
-	AZlykVcAYoIilNXuXkObtjpfQiLKWurflL9CqKy/1BkWjmszG8sejnw/wDlKehC8TUDpzDUzilT
-	wwCoOGkSg0hSLq133Cf/zRLLEEdvfKWVE2MCgmzAQSIWWMIcktLQjfxHzxb8YamNr0LaOh+ugpr
-	oDehpIBhM/pVE5NPZIUt0tzZkM7YY697LqmZYrFQHOQW1fSODaL707cQta8JCu09A0M0dNRqev/
-	fCG0NcrF7ppoHv+QP2KK2+7jd+GijtdPQOoWzZdrHJwqDqE20uCOYvoALZyQ4jUhdtyGlPFDB92
-	pHNB7
-X-Received: by 2002:a05:6122:c87:b0:575:a6f4:46b4 with SMTP id
- 71dfb90a1353d-5842700dc5fmr95996e0c.9.1779314644642; Wed, 20 May 2026
- 15:04:04 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 20 May 2026 15:04:03 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 20 May 2026 15:04:03 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20260507-gmem-inplace-conversion-v6-20-91ab5a8b19a4@google.com>
-References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com> <20260507-gmem-inplace-conversion-v6-20-91ab5a8b19a4@google.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JY/2N9wD"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 11CE84E42D0D;
+	Wed, 20 May 2026 22:09:49 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C1E7C60019;
+	Wed, 20 May 2026 22:09:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 76A47107EA218;
+	Thu, 21 May 2026 00:09:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1779314987; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=k2dpDAzX+92g0x+C7pCYldq5Fu4ePZOO/ElZAdhgYyk=;
+	b=JY/2N9wDK5+hiyRFaCppsT37VKYC9Nb9y01lTE4KuA22D047rlTEUb13AOGEQBmw5shxad
+	bkBRv1IIsJu521Nf/g5NSdRhNGYSiuqFIAoBPSKuvBespd5kKDCdFOQKU2Xe8OgbH9ZIc5
+	9zRB/XY9AYfzVdtXlWeYze5anzwAHpE6wdJSiCvF3ubWxOS6A5S1c8FXeN0t8ZQPe+fAlU
+	cHtJnkmvtBkFAXHPnni3F4ayWnS8oYf2GDI2gRtza2xRT+t/Aqwr9qKQpGssrS9EP1iDDM
+	i81ksRtKCdl/doxaT1whcP7dxFN0SmVTLDOjLQHNdvLalfptovkYBDiGRYz/kw==
+From: =?utf-8?q?Alexis_Lothor=C3=A9_=28eBPF_Foundation=29?= <alexis.lothore@bootlin.com>
+Date: Thu, 21 May 2026 00:09:11 +0200
+Subject: [PATCH bpf-next v2] bpf, docs: add LOAD_ACQUIRE and STORE_RELEASE
+ instructions
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 20 May 2026 15:04:03 -0700
-X-Gm-Features: AVHnY4Kk5AWPmehPTXT0rrzakigDAOdp5MPH9_MZKvxVyYhTvoPj0_nMCwFjLrY
-Message-ID: <CAEvNRgGfWNG_NgC7v70BsZ3CJUu2Nh0KQQBwDdDrcu26=cB92w@mail.gmail.com>
-Subject: Re: [PATCH v6 20/43] KVM: guest_memfd: Enable INIT_SHARED on
- guest_memfd for x86 Coco VMs
-To: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>, aik@amd.com, 
-	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
-	chao.p.peng@linux.intel.com, david@kernel.org, ira.weiny@intel.com, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260521-bpf-insn-doc-v2-1-8c43c037d599@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NzQ6CMBCEX4Xs2TVQBMST72E49GeRNdqStjYYw
+ rsLePU4mW++mSGQZwpwyWbwlDiws2sQhwz0IO2dkM2aQeSiziuRoxp7ZBssGqexqWpV1q2WpTj
+ DOhk99TztuhtspKUpQvdrwls9SMfNtrEDh+j8Z39Oxb74f5IKLLA5mcZII1vV66tyLj7ZHrV7Q
+ bcsyxcx6oKexgAAAA==
+X-Change-ID: 20260520-bpf-insn-doc-756b369ca328
+To: David Vernet <void@manifault.com>, Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, 
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: ebpf@linuxfoundation.org, 
+ Bastien Curutchet <bastien.curutchet@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, bpf@vger.kernel.org, 
+ bpf@ietf.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Alexis_Lothor=C3=A9_=28eBPF_Foundation=29?= <alexis.lothore@bootlin.com>
+X-Mailer: b4 0.15.2
+X-Last-TLS-Session-Version: TLSv1.3
 
-Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-writes:
+Commit 880442305a39 ("bpf: Introduce load-acquire and store-release
+instructions") instroduced the LOAD_ACQUIRE and STORE_RELEASE atomic
+instructions modifiers. Those are currently not described in the
+documentation, despite being used in the verifier and the various JIT
+compilers supporting them.
 
-> From: Sean Christopherson <seanjc@google.com>
->
-> Now that guest_memfd supports tracking private vs. shared within gmem
-> itself, allow userspace to specify INIT_SHARED on a guest_memfd instance
-> for x86 Confidential Computing (CoCo) VMs, so long as per-VM attributes
-> are disabled, i.e. when it's actually possible for a guest_memfd instance
-> to contain shared memory.
->
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> ---
->  arch/x86/kvm/x86.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
->
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 1560de1e95be0..6609957ecfea3 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -14172,14 +14172,13 @@ bool kvm_arch_no_poll(struct kvm_vcpu *vcpu)
->  }
->
->  #ifdef CONFIG_KVM_GUEST_MEMFD
-> -/*
-> - * KVM doesn't yet support initializing guest_memfd memory as shared for VMs
-> - * with private memory (the private vs. shared tracking needs to be moved into
-> - * guest_memfd).
-> - */
->  bool kvm_arch_supports_gmem_init_shared(struct kvm *kvm)
->  {
-> -	return !kvm_arch_has_private_mem(kvm);
-> +	/*
-> +	 * INIT_SHARED isn't supported if the memory attributes are per-VM,
-> +	 * in which case guest_memfd can _only_ be used for private memory.
-> +	 */
-> +	return !vm_memory_attributes || !kvm_arch_has_private_mem(kvm);
+Add the missing entries in the instruction set documentation.
 
-Adding a note here from PUCK on 2026-05-20:
+Signed-off-by: Alexis Lothoré (eBPF Foundation) <alexis.lothore@bootlin.com>
+---
+Changes in v2:
+- fix commit message typo
+- clarify zero-extension and registers meaning for LOAD_ACQ
+- clarify insn encoding for LOAD_ACQ and STORE_REL
+- Link to v1: https://patch.msgid.link/20260520-bpf-insn-doc-v1-1-74d7dada9bfc@bootlin.com
 
-Michael pointed out that it's odd that when vm_memory_attributes is
-available, guest_memfd still can only be used for private memory.
+To: David Vernet <void@manifault.com>
+To: Alexei Starovoitov <ast@kernel.org>
+To: Daniel Borkmann <daniel@iogearbox.net>
+To: Andrii Nakryiko <andrii@kernel.org>
+To: Martin KaFai Lau <martin.lau@linux.dev>
+To: Eduard Zingerman <eddyz87@gmail.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To: Song Liu <song@kernel.org>
+To: Yonghong Song <yonghong.song@linux.dev>
+To: Jiri Olsa <jolsa@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: ebpf@linuxfoundation.org
+Cc: Bastien Curutchet <bastien.curutchet@bootlin.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc: bpf@vger.kernel.org
+Cc: bpf@ietf.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ .../bpf/standardization/instruction-set.rst        | 27 +++++++++++++++-------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
-It is a little odd, but we don't want to investigate the complexities of
-supporting it, and Sean says this is working as intended, in line with
-deprecating vm_memory_attributes=true.
+diff --git a/Documentation/bpf/standardization/instruction-set.rst b/Documentation/bpf/standardization/instruction-set.rst
+index 39c74611752b..e8b33374bd09 100644
+--- a/Documentation/bpf/standardization/instruction-set.rst
++++ b/Documentation/bpf/standardization/instruction-set.rst
+@@ -668,7 +668,8 @@ that use the ``ATOMIC`` mode modifier as follows:
+   part of the "atomic32" conformance group.
+ * ``{ATOMIC, DW, STX}`` for 64-bit operations, which are
+   part of the "atomic64" conformance group.
+-* 8-bit and 16-bit wide atomic operations are not supported.
++* ``{ATOMIC, H, STX}`` (only for LOAD_ACQ/STORE_REL)
++* ``{ATOMIC, B, STX}`` (only for LOAD_ACQ/STORE_REL)
+ 
+ The 'imm' field is used to encode the actual atomic operation.
+ Simple atomic operation use a subset of the values defined to encode
+@@ -695,22 +696,24 @@ arithmetic operations in the 'imm' field to encode the atomic operation:
+   *(u64 *)(dst + offset) += src
+ 
+ In addition to the simple atomic operations, there also is a modifier and
+-two complex atomic operations:
++four complex atomic operations:
+ 
+ .. table:: Complex atomic operations
+ 
+   ===========  ================  ===========================
+   imm          value             description
+   ===========  ================  ===========================
+-  FETCH        0x01              modifier: return old value
+-  XCHG         0xe0 | FETCH      atomic exchange
+-  CMPXCHG      0xf0 | FETCH      atomic compare and exchange
++  FETCH        0x0001            modifier: return old value
++  XCHG         0x00e0 | FETCH    atomic exchange
++  CMPXCHG      0x00f0 | FETCH    atomic compare and exchange
++  LOAD_ACQ     0x0100            atomic load with barrier
++  STORE_REL    0x0110            atomic store with barrier
+   ===========  ================  ===========================
+ 
+ The ``FETCH`` modifier is optional for simple atomic operations, and
+-always set for the complex atomic operations.  If the ``FETCH`` flag
+-is set, then the operation also overwrites ``src`` with the value that
+-was in memory before it was modified.
++always set for the ``XCHG`` and ``CMPXCHG`` complex atomic operations.  If
++the ``FETCH`` flag is set, then the operation also overwrites ``src`` with
++the value that was in memory before it was modified.
+ 
+ The ``XCHG`` operation atomically exchanges ``src`` with the value
+ addressed by ``dst + offset``.
+@@ -721,6 +724,14 @@ The ``CMPXCHG`` operation atomically compares the value addressed by
+ value that was at ``dst + offset`` before the operation is zero-extended
+ and loaded back to ``R0``.
+ 
++The ``LOAD_ACQ`` and ``STORE_REL`` operations allow using lighter load and
++store memory barriers rather than full barriers. The corresponding accesses
++must be aligned, but are allowed for any access size (8-bit up to 64-bit
++operations), with 8-bit and 16-bit ``LOAD_ACQ`` loaded values being
++zero-extended. As atomics are encoded as stores, the meaning of dst and src
++are different for ``LOAD_ACQ``, effectively using src as memory based
++pointer and dst as destination register for the fetched value.
++
+ 64-bit immediate instructions
+ -----------------------------
+ 
 
->  }
->
->  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_PREPARE
->
-> --
-> 2.54.0.563.g4f69b47b94-goog
+---
+base-commit: ceeb3aa37bff895116944acf4347fcded0b7692d
+change-id: 20260520-bpf-insn-doc-756b369ca328
+
+Best regards,
+--  
+Alexis Lothoré (eBPF Foundation) <alexis.lothore@bootlin.com>
+
