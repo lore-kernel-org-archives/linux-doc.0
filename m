@@ -1,135 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2F3371063;
-	Wed, 20 May 2026 11:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779276701; cv=none; b=oBrw2OKNQPwva8ZwIKw9SOh07FVUHXlOnhMjSLn9hiC8zCg0Nse+NC+B85XOcKwQhQtBSLS/98OvL1y9Mu7EXlGXZdSimg5AIDWtP/zsxytbIGeRf1a89+zwPvQMAI8QrdIIccCXHsWU27piIEI6V84Vb/Ukkv0uHYSWTkuDkW8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779276701; c=relaxed/simple;
-	bh=EvB6gGfDNvT2Ao7Q0FP2fZ1gLkK/2Q87kWN9XljFsPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qabz18aTI7bn5utyG3BmFe+dvnV1auT2HJCbodRNYtAkgiPAWGwkS1QMB9OD/RSd4HH6/INocMCBegtj/MwW1/7Ds5H0MnL209z2bvPi488jjTbQsv5OhbWYjfxzyCYfJV0g2mx4oB37jaAAbDjJCRGvdn41zHV0WZ5uwGuR1fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F/cEav5e; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B183C661A
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 11:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779277575; cv=pass; b=MqatEMrORR3aqLuhJRpBC571AuFY01WERpOQB9SbAHysEs3+mKf299YJF7HZZNmoSfOprzp04a7Xf6zg0liHsDJ7z1+yFLHUGu7BjMh+fNJ3C9uejqrru+o5Fz+4z0dT94ESt5Kx+zatWTW05GgEOP7Yzmt9/5Wazs9ETHpbQOA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779277575; c=relaxed/simple;
+	bh=mwQC2VpgPcAOO/eSiXMuOlKGLERJ6tVL0QZy3DdZeqg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c74um4Ilhvf0C7fWLbaHy5T4EXdu0Jcbxw+z4cVYvg+hthc8//aG7hYO2sGj6nO6kcwvbWOjlixkeZ+QAK6rg5OWQrermcfkCx/UVdtjV97TX2QkUDjVc6r055ZTj7lmM7Nf9Zu1vHS17B7PW8aAJ7W8dVEg7AjLmrjtd2JAUkE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DLLFzq1N; arc=pass smtp.client-ip=74.125.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F/cEav5e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFA8F1F000E9;
-	Wed, 20 May 2026 11:31:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779276700;
-	bh=jU4RY1MXfxstue/GxrrGI/R6d88bgt3L79phjkKZMvI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=F/cEav5et0J4vrESdmHTeG45bNaj43c7+k/MXOyikkKJEEhvjM/IZSHvoxmnLhSzM
-	 ptgBzeYEmC46Z50IhKctJfFjfWeGuttKfRDXXXrEMRyajEwztAMhN5y7Rl4R0wKC8l
-	 +aivf+hPl7MioHsgJtduZQkTTGlZcy1bCCL9acQn+FTuUW0L7/1CfqyIhneSEn6w2G
-	 WIlPgRFU2JjwWHo1cYqVnSgKh7xRH10hcHI8mOV+WU67fsveipexcHqholyxbaKmsl
-	 /6kGZlyjHj2rlitQ4glHypCgLAG08R21QMXesVr1k3MFe5IOgDSp4wEfC6Y0SsXuUe
-	 3ToKllqW9lgwQ==
-Date: Wed, 20 May 2026 12:31:29 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v5 02/13] iio: core: support 64-bit register through
- debugfs
-Message-ID: <20260520123129.1696f2e3@jic23-huawei>
-In-Reply-To: <unsohuo2hfsa7zzhprfpvtbatmu3guew6jpal7k2wvirpzwxfn@rjb4uz3k5dp3>
-References: <20260517-ad9910-iio-driver-v5-0-31599c88314a@analog.com>
-	<20260517-ad9910-iio-driver-v5-2-31599c88314a@analog.com>
-	<unsohuo2hfsa7zzhprfpvtbatmu3guew6jpal7k2wvirpzwxfn@rjb4uz3k5dp3>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DLLFzq1N"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-65c5361142fso4643796d50.0
+        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 04:46:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779277573; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cLXdjygXb+RJT2BrXtxByA4c2zn+2Mv+6Vsa2ZUGAYrPqCxJwjvliAsx3YZ5K5dJXK
+         Q50nq1kxsIO7co3Au7gDbhj8BXdrYFdhGGXfYq9dph7TF4XVwh3PAQCRhqLYtjMozjRz
+         pUwxoYBsRJwcBcr4YBkqci49e9OJWhzdavwBeyNka51DeValectfgiBaPH/l5dEvxvEP
+         B1TGhAd21JE4bW8ABKyWBi1kMCKzVwHqk5MikpvI5um1T04F8yBhzRXyyS+zuABdDokE
+         g17USnWxqC7ox8dpksHoXbRosgePnCmr02REb+vULagzbWAUSX0neLntfUhr6AY/8Sa0
+         05vA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mwQC2VpgPcAOO/eSiXMuOlKGLERJ6tVL0QZy3DdZeqg=;
+        fh=a43vw78E8asFGEaLWKR7+cE5WLeik45PNet4MydxmM8=;
+        b=bEUrJVzezM4lG9peD8gdQd/CQo2zA04lMTct5CLcz1Ty3hrAk2n1HnBtstiiw+4uqH
+         fg3jtG7+oI8FRJYEaEofGk7YQlABct84aY4/71JYW4kYemV+zP0Fu7djw3RPgIgnaprM
+         GZnUJFCOeqeJrsCtdqga5joY77nMq4XwiS8n6RUazzr9EsB5XXGvdoxsKbXN3zJhY6Ud
+         2wJpZzqsvZoKDHYsapAdVJvPARdHGdYBPzJ5sQNsiNa5qao6mIPBjONuw3nRizzVFjbW
+         sEQ8dUAwIcwriArR5F2M+66ZorwqSQhKW2PgyF/M2oZTLiuNhhTIp1ZH6gZtkzfsK/Nu
+         uA9Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779277573; x=1779882373; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mwQC2VpgPcAOO/eSiXMuOlKGLERJ6tVL0QZy3DdZeqg=;
+        b=DLLFzq1NI/jlE0KjxAF+xBgYr0bijFFLMLnQXRF9R+yg2s3RjBXBZQNjb/M41Ql3EQ
+         +ZheyYRDDN9kkHa9dnnqjzyXzQj/lZippxiK1tSuOwMhmI2qy9lMle+0b22N0RKRFbu7
+         lv+r5D+s6/LoQMztNtN2U69qRAjas2hZcCwd7hgqtUfMh+fIafWtQKACTWfQrn6UHGdy
+         Ru4qqJpuDWEMTgAfRByrjP2/ckcxnn3QmrX/lMngpYgC4lgHEVJ2w3xGDq20PHZNs8O5
+         g/JaTcX5f093Iga9G9Go7DUID3PH1u3ZyXMSGCnglb1l46M+eAwY/p9mJXVmhrxjRmv/
+         U52A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779277573; x=1779882373;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mwQC2VpgPcAOO/eSiXMuOlKGLERJ6tVL0QZy3DdZeqg=;
+        b=OicqU48Dsi9QHw0h26VUHX4Yo+F2DF4x3j4Zrs9+HDYBgRLOB+c5CWtVoDouGDuaCX
+         cdFhDaAUb+Snu/iwVRYB8i2M7XZjfu35dFNgZYl8AR2BGdKK4dFbih/UOoNNGXSiJLAn
+         mMrbYH/LF6c+cnJftwen434DENjW5S1jObaapHzVfhWtvLnRSwNQDCbgSFaYzQhkA6oK
+         V1giUE8wVg8UFp9xzy468QOQBTUwSSfAi162Ljfnao+fc2Bo1cn6DcOJ9iuAUsWPM8AC
+         IC0iMgAB4CBxH/EdypR4t7tlm4thlD08blOmnegEBBkifEvtliYIoeqzCt01ZPkSxPza
+         5TCw==
+X-Forwarded-Encrypted: i=1; AFNElJ/I4B9YBvzVRTY23IJRdRvJVfqK4IflW6uVhQG1ExNRZBmFnNykysU0lCqzzPbfK3BMjwts0TUrkoI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRN41p+ydrO2VabaFmD6HG2ZivUKGJQNa/Z5mS6r6096AZM7Os
+	+BPhQQKi3d/GJDv2Q9TCSIb1DAOJDrzgTOj5pxbnzTaOvDf6d/I1epAh6QGSy3xEG//fBrS7SOG
+	Zfhz8qVO12Ou0BPdGmbwE5Sid4PTll60=
+X-Gm-Gg: Acq92OFAYANQ94ThfV30Cz1Xp1B5hRcbftlqhUOT32VmJt/V2bpm5VsjBnHlLhHlhPw
+	t8CjihieMarQdExOi0enva0i2XuoqZctroP8ly5qD5pLq9m448BCapaaVQZvLSj6c22de1f6onZ
+	80wLDilrCvG272oFOQ618CXHgMuPljH+yGWKHy7MHENoM0IC9YOMhU/wsQaf39LXi0K9N2NzUYW
+	IkPPiejpiLUUQOsGVSBPZq7Lt2tESWpOX2cYVsje8F5gjJqEpJkv7HM/rWHnvfc97KK2LENhOOr
+	eGESrnqNzpjGnruXecDmsDd0Jzu0AI/DvRZiW1Vf0BeLSaKA
+X-Received: by 2002:a05:690e:1487:b0:65e:4b06:f89b with SMTP id
+ 956f58d0204a3-65e4b06fd2cmr14416343d50.51.1779277572905; Wed, 20 May 2026
+ 04:46:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+ <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com> <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
+ <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com> <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
+ <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com> <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
+ <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com> <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
+ <dff60378-4e47-4753-8878-feec6e1c2690@amd.com> <385a4d4f-fe22-41a7-8d4b-4dc6bc9930d3@mailbox.org>
+ <1e94106a-f72e-447e-9885-2d2cc8f8e722@amd.com>
+In-Reply-To: <1e94106a-f72e-447e-9885-2d2cc8f8e722@amd.com>
+From: Julian Orth <ju.orth@gmail.com>
+Date: Wed, 20 May 2026 13:46:00 +0200
+X-Gm-Features: AVHnY4JZYLaQrAuUqg_r9R4xrt_7B8lof_FLZgmpinm1lpd54PV11HWLkp9qJk4
+Message-ID: <CAHijbEWSnwm5_uTAbRDYOkMFwu+X3_xGHxjHyK-XeaO15KTGOQ@mail.gmail.com>
+Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
+	Xaver Hugl <xaver.hugl@kde.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	wayland-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 18 May 2026 14:56:06 +0100
-Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
+On Wed, May 20, 2026 at 1:21=E2=80=AFPM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> On 5/20/26 10:13, Michel D=C3=A4nzer wrote:
+> > On 5/19/26 18:00, Christian K=C3=B6nig wrote:
+> >> On 5/19/26 17:31, Xaver Hugl wrote:
+> >>> Am Di., 19. Mai 2026 um 15:29 Uhr schrieb Christian K=C3=B6nig
+> >>> <christian.koenig@amd.com>:
+> >>>>> 1. This series makes the ability to manipulate syncobjs available
+> >>>>> independently of attached hardware.
+> >>>>> 2. It makes it available under a consistent path /dev/syncobj.
+> >>>>
+> >>>> Exactly that is a big no-go. This has to be under /dev/dri.
+> >>> FWIW udmabuf is also under /dev directly, but I don't think any
+> >>> compositor developer would complain about a different path.
+> >>> What are the rules for that? Could this simply be put in /dev/dri/syn=
+cobj?
+> >>
+> >> The syncobj are actually the DRM specific way of doing things. The gen=
+eral kernel wide way is to use sync files (see drivers/dma-buf/sync_file.c)=
+.
+> >>
+> >> But there has already been tons of problems with those sync files. E.g=
+. they doesn't support your use case at all since they don't have wait befo=
+re submit behavior.
+> >>
+> >> So there are already ways to do this, but the Linux kernel so far told=
+ everybody that this is forbidden. The DRM syncobj wait before signal funct=
+ionality is much better, but then basically the second try to do this.
+> >
+> > I'm not quite sure what you're getting at here, just to be clear though=
+:
+> >
+> > While the syncobj Wayland protocol extension supports wait-before-submi=
+t behaviour at the Wayland protocol level, it doesn't need or cause wait-be=
+fore-submit behaviour for DMA fences in the kernel. The usual rules apply t=
+o fences attached to syncobj timeline points. The wait-before-submit behavi=
+our at the Wayland protocol level comes from allowing submit before a fence=
+ is attached to the acquire timeline point.
+>
+> Yeah I know. I'm one of the people who came up with the idea of doing wai=
+t before signal this way in the drm_syncobj.
+>
+> What I wanted to say is that a lot of people used the dma_fence to implem=
+ent wait before signal before and got a bloody nose from that.
+>
+> > (It took me a while to realize this distinction, before which I mistake=
+nly thought the kernel's DMA fence rules would prohibit wait-before-submit =
+behaviour at the Wayland protocol level as well)
+>
+> This is what surprised me.
+>
+> The drm_syncobj implementation solved the wait before signal for the kern=
+el, but my last feedback was that we basically just moved the issue to user=
+space and Wayland compositors would have quite some overhead to implement i=
+t correctly.
+>
+> That compositors now use eventfd to simplify that was news to me but make=
+s totally sense in hindsight.
+>
+> But anyway, we need to somehow simplify the drm_syncobj -> eventfd usage =
+in the compositor.
 
-> On 26/05/17 06:56PM, sashiko-bot@kernel.org wrote:
-> > Thank you for your contribution! Sashiko AI review found 1 potential is=
-sue(s) to consider:
-> > - [Medium] Silent truncation of 64-bit values when written to a 32-bit =
-register access function.
-> > --
-> >=20
-> > commit 64785a0c1416e2cf718b558aa7a2cc9ac39b2d81
-> > Author: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> >=20
-> > iio: core: support 64-bit register through debugfs
-> >=20
-> > This commit introduces a debugfs_reg64_access function pointer to iio_i=
-nfo
-> > to allow 64-bit register reads and writes through debugfs. The file ope=
-ration
-> > callbacks are modified to prefer the 64-bit variant when available.
-> >  =20
-> > > diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrial=
-io-core.c
-> > > index e587aca79b8e7..5c8404efd0a56 100644
-> > > --- a/drivers/iio/industrialio-core.c
-> > > +++ b/drivers/iio/industrialio-core.c =20
-> >=20
-> > [ ... ]
-> >  =20
-> > > @@ -429,7 +439,7 @@ static ssize_t iio_debugfs_write_reg(struct file =
-*file,
-> > > =20
-> > >  	buf[ret] =3D '\0';
-> > > =20
-> > > -	ret =3D sscanf(buf, "%i %i", &reg, &val);
-> > > +	ret =3D sscanf(buf, "%i %lli", &reg, &val64);
-> > > =20
-> > >  	switch (ret) {
-> > >  	case 1:
-> > > @@ -437,8 +447,12 @@ static ssize_t iio_debugfs_write_reg(struct file=
- *file,
-> > >  		break;
-> > >  	case 2:
-> > >  		iio_dev_opaque->cached_reg_addr =3D reg;
-> > > -		ret =3D indio_dev->info->debugfs_reg_access(indio_dev, reg,
-> > > -							  val, NULL);
-> > > +		if (indio_dev->info->debugfs_reg64_access)
-> > > +			ret =3D indio_dev->info->debugfs_reg64_access(indio_dev, reg,
-> > > +								    val64, NULL);
-> > > +		else
-> > > +			ret =3D indio_dev->info->debugfs_reg_access(indio_dev, reg,
-> > > +								  val64, NULL); =20
-> >=20
-> > Could this introduce a regression where values are silently truncated i=
-f the
-> > provided input exceeds 32 bits?
-> >=20
-> > Since the input is now unconditionally parsed as a 64-bit integer, fall=
-ing
-> > back to debugfs_reg_access (which takes an unsigned int for writeval) w=
-ill
-> > implicitly cast val64. If a user provides a value larger than UINT_MAX =
-to a
-> > driver that only provides the 32-bit callback, it appears the value wil=
-l be
-> > truncated rather than rejected with an error like -EINVAL. =20
->=20
-> Maybe -EINVAL can be returned for that case indeed. For a debug interface=
- I
-> did not see that as a problem.
-Agreed - I don't see this as important either way.
-> =20
-> > --=20
-> > Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260517-ad9910=
--iio-driver-v5-0-31599c88314a@analog.com?part=3D2 =20
->=20
+That is not the only usage in the compositor. Compositors use all of
+the following operations on syncobjs:
 
+- creating syncobjs
+- waiting for points synchronously
+- signaling points without a sync file
+- querying points
+- transferring sync files between points
+- exporting sync files
+- importing sync files
+
+Which you can see by looking at the userspace code linked in the cover
+letter. Bypassing the handle in one ioctl would gain compositors
+nothing since they would still have to convert to handles and manage
+their lifetime for all other ioctls.
+
+> That requirement is perfectly justified and avoiding importing the drm_sy=
+ncobj fd into any DRM driver should actually be really easy to implement.
+
+That is what this series does.
+
+>
+> Regards,
+> Christian.
