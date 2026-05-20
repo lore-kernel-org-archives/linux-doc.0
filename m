@@ -1,237 +1,127 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013003.outbound.protection.outlook.com [40.93.196.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8DB39C64E;
-	Wed, 20 May 2026 10:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779271243; cv=fail; b=RfXHZEMp293N80d88xe8j4Y0q04bAoGWeOtgNtnQoLiaCmptutupyyud9Je7vQSjCQmSnTni9YL7HMisoTYxxUYSqjlW/1k0FsFctnOr3R1xVNVT4hkIny36n3ArEEUvUEelDutSU+I7Xi2TxKTOIViVapoK/j5OCQCYxxNIrsU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779271243; c=relaxed/simple;
-	bh=PxOkhTG1J1ApiZrhHAebiJ8Y2SDGfc90iVVPzgIRUFM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=b8pzjGtOQxo1ASbMrM97UlN5bUmQKKVk/GN1TpYnKioqdXRVWoOgU+/2059tJ4YPxq7g2+ZMT4gh19czMEHCiMwecf059u4BiGcXWjr0epqHMRTUHSc9rVmpy1RO7HLQ2JcpOyJDZtPJ7ryE8KROd/SdCDFZ7UyCuegKTYMjtdg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=d/2xfP+q; arc=fail smtp.client-ip=40.93.196.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06A23B38AA
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 10:03:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779271416; cv=none; b=TkK8NvHJi521zzmpssVI+bQaqKeGpKPy0MVvd5A4kxB0K84n6ZrWHwakHH83/H8rZyAY1EjoKPhWlV72XKaBmDlpnuxNUobUGqJlnAc4oTy+Xlgz24Fd0gJP9ufi4GXkF8kIxhRT7FhdwFZIsTuiifsb+Pvi2/3jv3N6INONCfQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779271416; c=relaxed/simple;
+	bh=s5McUWYOgOEZHXnOSdmZAt9SCtkvJ7QTUrnHapV5HX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bunKfdk1vHmpug96r/vKnTUCwWBWnvUOoxgxRYHzne6DlK+y9jRaHWDujNH1SI856U03jpD65EEG0a00cQJh9tEitTd6s+Hn/pjdeXWBkEV3dVFxt05JUGRF40Is5ztLXdiAaDCX2ZUZ6MsJW2dYUKhulAvbtHN5osmlGcytl5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vA94rOgQ; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="d/2xfP+q"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=myVI+uE70Zp1+gvrpZCc/ztCbTAT6XlcIcP/2Sca2Ugbf3hfQDRviE0zjek1rXEUOAFvZJLs6qIaE3TSl3bwzMdYxhl4l2jks8W1qkfRyfQBXMQSq0hyjpr+DL91ZBRWfG9c7q1Vw3K/pVMuBaqRqObHGxwSZD1FUEYf/C8vtrRwXPWxR3R5eE1YYDbC+VDCv1h0bPOC/XQA2oNDJFj/IgChNwFQYCb5BNBTyyA8FLM80swMxGCVBNYPrIfMzwzGV89sUWrPRHN+V8dmuzZsTTVcOVPTliqJQziY+NaiWBojhiZrVfu1V9cbKsL+K5K6aK3ZhlK77m1e58uRSJOSrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L1e86+fEtFVZcjjxXF54aGBnFRIBUMnWEl24WNIiN7A=;
- b=oZGDLM86hNO/9LzoiQIWCMNIrzebu15lOLvZBnLV6ZdTPeEyGKJyQbvwG3E+VgY7xBrDIU40uxrQ4uUJeSQ5bIIUGVafbIlyH9i8uFHOgiamhyqtvdxDmUJQY6cnjYinCQUJrFnwS1anw6rYvhRYFrMy6NxFIitciIHMfpqB1EHtfUfphibiOeEWhN8gun592E9u4aju7WfFaxGHoooLtWx3Xo4SwEyLQG3FQTk0f3sEC8V2FwgyQ/QccgiJ1xMRDyzIlzI0ZCKh6kAO2VEsFou6G6yShAVgrDkf6lLOQQ3RT8RFT2zmtapkBs2MrPchvyS/OVO6lpetwPXUh4Qk6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=nxp.com smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L1e86+fEtFVZcjjxXF54aGBnFRIBUMnWEl24WNIiN7A=;
- b=d/2xfP+q11d/bdAbNHLRv1ChAP6hkPZGn/aVj4G/8dDXzi6bGWJifCPHHpKQLkUb5SW2gSpL5CZ7CcUUeqQ8erIW2RAQa2OPS/DmZnBPUKDbjOv3Emy/wQ8ppFxGC2b46s/tAO/0uHdLOLqWYHAiN2y88SFMyAnGZ1f2DZUxx+M=
-Received: from DS1P223CA0011.NAMP223.PROD.OUTLOOK.COM (2603:10b6:8:453::19) by
- IA0PR10MB7621.namprd10.prod.outlook.com (2603:10b6:208:484::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.13; Wed, 20 May
- 2026 10:00:37 +0000
-Received: from DS3PEPF0000C37B.namprd04.prod.outlook.com
- (2603:10b6:8:453:cafe::ae) by DS1P223CA0011.outlook.office365.com
- (2603:10b6:8:453::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.48.16 via Frontend Transport; Wed, 20
- May 2026 10:00:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- DS3PEPF0000C37B.mail.protection.outlook.com (10.167.23.5) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.48.11 via Frontend Transport; Wed, 20 May 2026 10:00:35 +0000
-Received: from DFLE204.ent.ti.com (10.64.6.62) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 20 May
- 2026 05:00:32 -0500
-Received: from DFLE215.ent.ti.com (10.64.6.73) by DFLE204.ent.ti.com
- (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 20 May
- 2026 05:00:31 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE215.ent.ti.com
- (10.64.6.73) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
- Transport; Wed, 20 May 2026 05:00:31 -0500
-Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 64KA0PMN1739976;
-	Wed, 20 May 2026 05:00:25 -0500
-Message-ID: <1d8ab51a-6943-4978-88cf-adda8cc57f7e@ti.com>
-Date: Wed, 20 May 2026 15:30:24 +0530
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vA94rOgQ"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2baef9f5ecdso36993605ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 03:03:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1779271412; x=1779876212; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nFK+VIX63/Lj3V2FSQmTOiB37XpHBdZ9pdoCzsYziaQ=;
+        b=vA94rOgQr6ttirgCzB3CsEp2xWWRP+dEzWK+64kz29cDLgHri8iuB1a7XAedib1bW6
+         5ueKUchFSQrk5HORvGi31OP7rtlMzB3gK612NYCUUyucEpZkaOyNOgiHh152nrmL2tVt
+         eeKyL6TxHW06oMTW4YAJMGTcMmamfa72G/XliNBC4ufQoBaDulI+qzbE7SmDTaQRRfw+
+         BQ0y2Y2eZ2/UH5iUoNnjGq+vEN1lMqSxP79q6OD8+xXU/QjKNAjeo/YnUMkKXjo2Z0Fe
+         3gRt93WTh4buNwWpvbdQ2C/OL5Y4/ZOXDS2wvhnjQV7zyBvsVWzjNJ/6IqQWXsghHQBK
+         X0Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779271412; x=1779876212;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nFK+VIX63/Lj3V2FSQmTOiB37XpHBdZ9pdoCzsYziaQ=;
+        b=Iu4vZdesud16XB9jgfpK5NUZXxuCKSb0WLCEIUmJEJL9w6hkAG3OoinaVkemRn+q9q
+         UXkqFPNqoiDZECaKMl/ZvkHyJADDeojED21dEb/GNXdRfck9KZFJrl1sU5a1AHhrDAVE
+         sVmivJDKUPjqwo8aFB6/xy6Axp1xMwlGqQB84R1GHZDfbQr4+RM4tGYBb85pdm+L2pXS
+         3TgSf7fFMg78VOAX9wyG99D6eOUS01B0FVJRae1HBaXGJEXNldbwolwkIhZ8a6T3COZ/
+         pasVnA7AWCMK/HmY+qY0zyjEpkpTlL6z0GmsA+45KB0Cbvj8MmWP88yHvVUJx9otW3Tl
+         SzXw==
+X-Forwarded-Encrypted: i=1; AFNElJ/pEyQsthyZ78JIALRaC4m37QDM6OAEprBCKY4jLrC8VHAWoUeX1OXc3m7fytDm0R7RbgSX6oSH8Fs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+TonkSz4zU0p9D343wC1uGjLbRQU55qRGljvIw6PSio5woqCT
+	imoiv1BeihyUdLHgaVJzeJ84bDgRYsen6KGibexJx2HJsR3zSonFRNuVWT1jposqm7k=
+X-Gm-Gg: Acq92OGYY9cObkekGCIv3DMgO7Yh5xM/YENPODa66Fi4ZCONJAprdj0Gb2QrKwef32X
+	QfAtLCSQTRCDMnHHNz6g2oqnS5ngomOGRhLwYLGYLFasXEb1aczW1vkbUuxXMPGoVEkMufnLtXZ
+	+7eNMXv5UBIsgcxiMtNS8pZ7TS3aVV+72YeBWYEJMA+AeABhRlLSilvTdGClIkj9hDw8Tz2oltc
+	dg3UQVFujidEfUznxoBTSTfV0h90aeFPuPjxCD3QT9ZuABsyDDCxUnx3xvh9hkXmovo1XP5sQ9c
+	nZApBrWxFlqGMADGlNp2H08ZFP27lsG05ZJAg/lniphyhofQoI6kiHrXznABTpSb98BiZHg3jjj
+	MYRApKbYVT/A//TMCJW5rU5JBtpegSt1Wlxdb1oNNM4zYYqRwBgew59O2JsLzIyWjOXU4fUf1Ei
+	WxR7rDevB9UOvTs+rXQdS0ojYmcr1RE5NBDQ==
+X-Received: by 2002:a17:903:8c4:b0:2bd:8fc0:1198 with SMTP id d9443c01a7336-2bd8fc01303mr231463085ad.5.1779271412411;
+        Wed, 20 May 2026 03:03:32 -0700 (PDT)
+Received: from localhost ([122.172.82.94])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5cfe8baesm217826775ad.47.2026.05.20.03.03.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 03:03:31 -0700 (PDT)
+Date: Wed, 20 May 2026 15:33:28 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Pierre Gondois <pierre.gondois@arm.com>
+Cc: linux-kernel@vger.kernel.org, Jie Zhan <zhanjie9@hisilicon.com>, 
+	Lifeng Zheng <zhenglifeng1@huawei.com>, Ionela Voinescu <ionela.voinescu@arm.com>, 
+	Sumit Gupta <sumitg@nvidia.com>, Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Huang Rui <ray.huang@amd.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>, 
+	K Prateek Nayak <kprateek.nayak@amd.com>, Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+	Len Brown <lenb@kernel.org>, Saravana Kannan <saravanak@kernel.org>, linux-pm@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] cpufreq: Use policy->min/max init as QoS request
+Message-ID: <bflxwyho5epheovbjnzlsvgvoitaqjbiv7kxcwbnoiz2nlmuvv@dtunrpupeyie>
+References: <20260511135538.522653-1-pierre.gondois@arm.com>
+ <20260511135538.522653-5-pierre.gondois@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 2/2] net: ti: icssg: Add HSR and LRE PA
- statistics
-To: Jakub Kicinski <kuba@kernel.org>, Luka Gejak <luka.gejak@linux.dev>
-CC: Felix Maurer <fmaurer@redhat.com>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Roger Quadros
-	<rogerq@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Meghana Malladi
-	<m-malladi@ti.com>, Jacob Keller <jacob.e.keller@intel.com>, David Carlier
-	<devnexen@gmail.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, Kevin Hao
-	<haokexin@gmail.com>, <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>
-References: <20260514075605.850674-1-danishanwar@ti.com>
- <20260514075605.850674-3-danishanwar@ti.com>
- <20260518184506.694c584e@kernel.org>
- <E30AAC96-01D2-4A23-B562-126087DEB7FA@linux.dev>
- <20260519165646.09b0783f@kernel.org>
-Content-Language: en-US
-From: MD Danish Anwar <danishanwar@ti.com>
-In-Reply-To: <20260519165646.09b0783f@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF0000C37B:EE_|IA0PR10MB7621:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27d2f068-5638-4494-cfb2-08deb656a38c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|1800799024|376014|7416014|3023799007|18002099003|56012099003|22082099003|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	s24esD5NOSlhNilhwB+mD0fTBS72A9/4NAkXKlAwIW2VagLMstv+pyefbD0SydmIQNwL2LymAoXPTHZ//iX75LqX7i1NgAiIIl9AtVJKAGq3AIxdF2tK1hDmPUatn4CWxlur/5JBB702ITpO7E0OZCVhRVdbLErVH9ULgl6KGMsDXc15oefZjvaDJc4t20Ehxi4smHaL3+OlI3toSZa89yFeggosZxLGAChvGkR4gRfEkuL8qk2SdY1pxKDaOFI7lQj1NWgaZlZI6cKxyIsB+PrQ0+BgQoZ64MihfH53rj5MNpDcA+zubMhr47YJXF3k92AtmOYTP+XBAWxKsfWF9oKrorwORW0dh7gnDyWQO5e/K1boetDTiUbAzvUeTTw4xmanLrVfHGP3ffgZySnoHQjnwj+J3zseJZQIIPVqbNbuHo6M+ylFqxqjN/WZlgIpwSbNr70YMkRIiPelLA6t8Epk7Utw8xEGOy5ICsd8cUZWqovVf5sZW/BDUjHGPTRic85q3Ydh0p3tcenk7mVTSG2nbAye1piitJhWOLhMoXj23eFQqF1bUScrou1pZWTe3I1rnzPte1XD7p/GqIrVKSd3YFnHb5vaY/qu30lCmPjEe46jfcXDeaITJRW8OmngtNVWLq0OUQtBi3AaYSNOmAvk/wuEJz5ax7v3px+WPLfe+fd+0dUZTUrq0CR3QtK0n1QMa37PdldAu0anSKLtEptTueRu8wODcErabvgly18=
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(1800799024)(376014)(7416014)(3023799007)(18002099003)(56012099003)(22082099003)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	gf/f1jVHXrM2p/GLRIJTnKepPJNSe1O0wSIt+F0zs4t299EGcGm35e5vruOVULySMQhw5u//j0/ARRS9VB7w2AN9j1JwC029fSdK5yVQHVSr3Jrn7zv0/DsTANcsFr9YROx+K4FOiMiIAW/QkkYYe73pU3zQ4NjLbciSRimiGtpAEwwVq1gA1DKdGCb6ZZnkN/NEdNUB77jC05IcNpqnIUOsshYaR/0sgBrwAoUjC3SwVfdpzwftr5b16SRHQpcm5n6ziubgVrW1BETBrq5dJcbS5sO3Nuz7K5pQVALeJ0wsEIqSrtzGdWesAAkhyx3xmrifhdU3coCZJvQqWqlTBY2rn7r+o3i6/ABP4Me/x7OfpKj2H8v9a4S7DPOkhqhoFo3gF0XBD8qCagIroDumUc9gfTBPnQMCI1ii09cb5vUC1W/vSoOaqUxW23lZnfyG
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 10:00:35.9603
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27d2f068-5638-4494-cfb2-08deb656a38c
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF0000C37B.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB7621
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260511135538.522653-5-pierre.gondois@arm.com>
 
-Hi Jakub,
+On 11-05-26, 15:55, Pierre Gondois wrote:
+> @@ -1399,8 +1399,16 @@ static void cpufreq_policy_free(struct cpufreq_policy *policy)
+>  
+>  static int cpufreq_policy_init_qos(struct cpufreq_policy *policy)
+>  {
+> +	unsigned int min_freq, max_freq;
+>  	int ret;
+>  
+> +	/* Use policy->min/max set by the driver as QoS requests. */
+> +	min_freq = max(FREQ_QOS_MIN_DEFAULT_VALUE, policy->min);
+> +	if (policy->max)
+> +		max_freq = min(FREQ_QOS_MAX_DEFAULT_VALUE, policy->max);
+> +	else
+> +		max_freq = FREQ_QOS_MAX_DEFAULT_VALUE;
+> +
 
-On 20/05/26 5:26 am, Jakub Kicinski wrote:
-> On Tue, 19 May 2026 07:55:55 +0200 Luka Gejak wrote:
->> On May 19, 2026 3:45:06 AM GMT+02:00, Jakub Kicinski <kuba@kernel.org> wrote:
->>> On Thu, 14 May 2026 13:26:05 +0530 MD Danish Anwar wrote:  
->>>> Add new firmware PA statistics counters for HSR and LRE to the ethtool
->>>> statistics exposed by the ICSSG driver.
->>>>
->>>> New statistics added:
->>>>  - FW_HSR_FWD_CHECK_FAIL_DROP: Packets dropped on the HSR forwarding path
->>>>  - FW_HSR_HE_CHECK_FAIL_DROP: Packets dropped on the HSR host egress path
->>>>  - FW_HSR_SKIP_HOST_DUP_DISCARD_FRAMES: Frames with duplicate discard
->>>>    skipped
->>>>  - FW_LRE_CNT_UNIQUE/DUPLICATE/MULTIPLE_RX: LRE duplicate detection
->>>>    counters
->>>>  - FW_LRE_CNT_RX/TX: LRE per-port frame counters
->>>>  - FW_LRE_CNT_OWN_RX: Own HSR tagged frames received
->>>>  - FW_LRE_CNT_ERRWRONGLAN: Frames with wrong LAN identifier (PRP)
->>>>
->>>> Document the new HSR/LRE statistics in icssg_prueth.rst.  
->>>
->>> To an untrained eye these stats look like stuff that could 
->>> be standardized across drivers. 
->>>
->>> Luka, Felix, others on CC, do you think we should expose these
->> >from HSR over netlink as "standard" offload stats different drivers 
->>> can plug into or not worth it?  
->>
->> I think there is a case for standardizing part of this, but I would 
->> not standardize the whole set as-is.
->>
->> The LRE counters look generic enough to me, especially:
->>  - unique rx
->>  - duplicate rx
->>  - multiple rx
->>  - rx / tx
->>  - own rx
->>  - wrong LAN, PRP only
->>
->> Those are protocol/LRE concepts rather than TI firmware details, so
->> exposing them from the HSR/PRP layer sounds useful. I would expect 
->> both the software implementation and offloaded implementations to be 
->> able to provide at least some of them, with unsupported counters 
->> omitted or reported as not available.
->> I would not put the firmware check/drop counters in the same standard
->> bucket, though:
->>  - FW_HSR_FWD_CHECK_FAIL_DROP
->>  - FW_HSR_HE_CHECK_FAIL_DROP
->>  - FW_HSR_SKIP_HOST_DUP_DISCARD_FRAMES
-> 
-> Thanks for the breakdown!
-> 
->> Those sound more like implementation/debug counters for the ICSSG
->> firmware pipeline. They are still useful in ethtool driver stats, but 
->> I would be hesitant to bake their exact semantics into HSR UAPI.
->> So my preference would be:
->>  1. Keep driver-private ethtool stats for the full firmware counter set.
->>  2. Add a small HSR/PRP standard stats set separately, limited to
->>     well-defined LRE counters.
->>  3. Make the HSR layer expose them, with offload drivers plugging in via
->>     an optional callback or offload stats op.
->>  4. Define the counters carefully, including whether they are per-HSR
->>     device or per-port A/B, and what PRP-only counters mean for HSR.
->>
->> I do not think this patch should blindly become the UAPI definition, 
-> 
-> Not at all, the unique / multiple stats gave me pause. We should
-> only put in the standard API what can be easily and unambiguously
-> defined given the protocol spec.
-> 
->> but I do think it points at a useful follow-up. If we want to avoid 
->> adding driver-private names first and then standardizing different 
->> names later, then it may be worth asking Danish to split the 
->> protocol-level LRE counters out and route those through a common HSR 
->> stats interface.
-> 
-> As a general policy we ask for standard stats to be added first and
-> ethtool to only contain what didn't fit in the standard ones.
-> There are some technical reasons but it's mostly a mindset thing.
+Why is this required to be done before setting policy->min/max ? And
+so I don't think patch 1/4 is required at all.
 
-What should be the next steps here? Is there any existing defined set of
-stats where I could populate stats from ICSSG firmware for HSR (similar
-to ndo_get_stats64 callback). Or de we need to implement a new callback
-that will do this for HSR.
-
-I agree with Luka on the categorization,
-
-Below stats can be generic,
- - unique rx
- - duplicate rx
- - multiple rx
- - rx / tx
- - own rx
- - wrong LAN, PRP only
-
-Below stats can be driver specific and can be pulled using `ethtool -S`
-on child interfaces of HSR
-
- - FW_HSR_FWD_CHECK_FAIL_DROP
- - FW_HSR_HE_CHECK_FAIL_DROP
- - FW_HSR_SKIP_HOST_DUP_DISCARD_FRAMES
-
-Let me know if I should go ahead and implement this.
+>  	/*
+>  	 * If the driver didn't set policy->min/max, set them as
+>  	 * they are used to clamp frequency requests.
+> @@ -1418,12 +1426,12 @@ static int cpufreq_policy_init_qos(struct cpufreq_policy *policy)
+>  	}
+>  
+>  	ret = freq_qos_add_request(&policy->constraints, &policy->min_freq_req,
+> -				   FREQ_QOS_MIN, FREQ_QOS_MIN_DEFAULT_VALUE);
+> +				   FREQ_QOS_MIN, min_freq);
+>  	if (ret < 0)
+>  		return ret;
+>  
+>  	ret = freq_qos_add_request(&policy->constraints, &policy->max_freq_req,
+> -				   FREQ_QOS_MAX, FREQ_QOS_MAX_DEFAULT_VALUE);
+> +				   FREQ_QOS_MAX, max_freq);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -- 
+> 2.43.0
 
 -- 
-Thanks and Regards,
-Danish
-
+viresh
