@@ -1,122 +1,199 @@
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137AC3F2117
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 15:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.43.1.242
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541AF2248AF
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 15:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779290855; cv=none; b=EsNjY/ASUkQ6JJQm9EyAKg8x+SaLBeLsIBx5J49D+VXrakZLrh4jOij1oNZm0HG+2hU/0jB3fA283desXBt3kOBi9ABSBRmar7pYatrPHHfZOB/ObsLS1wj/YjOH66OrZA+U3HdJIRgR5ZO4sD1A3tg9BdbIvxC47+GxSzqDJDY=
+	t=1779291992; cv=none; b=aGLHYKDgzYGp1njmgAMmTbtbGKTvNdA6Cev7Q9xjv6DIe1d13biBeLfuWXzPVLYSjQZVUJZD50iuGhTDVnjgYJliFCFuWjCoiFWUncDZIehyENn64R/tQL4/wphLIe5P/o182e+qZr5WTXqRs232jWdAgf9bj2g97nud6MbKklU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779290855; c=relaxed/simple;
-	bh=gcOIwOeeWzpvsrYJGYkpmTBiDOCGGGdp9mfugdpA+HY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mMNNilK1Em/mfwzWoMI1HEvl0Zqj6IE/Nihh7dzUJyOtAgOVq6yj7DXZtwAlWWQdfVP0NDXTLOMfb2w3tx+OW+TTEFXCGxYQdRvWGo3wme7TqYCW3EEE4D4uSHuQvEv9upVy+3BkdgzytcvbAawxMm3h8XEZRWfw5oUFnpRg63E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org; spf=pass smtp.mailfrom=kde.org; dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b=T419hTEV; arc=none smtp.client-ip=46.43.1.242
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kde.org
+	s=arc-20240116; t=1779291992; c=relaxed/simple;
+	bh=TZH+rMvDegQFwVaH2eD2Rg2dbmHi6ZAZjsZrA9rPr38=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=bOG1xEcx7lfbjzRJl2fljqk2kc8FGEpTThhpJAy/lYunwGgp93caUGd+VYfXyBrlLU9UvuNmjyvh4vlAGFGYZtKdRVX5sjBxnHD7xpxQXi+acEZscKJBu0UaokDl7AQ0LiNT8L8ALfhituGX/V1l9UZaj78HU+wQoFsdwGCdPAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kw6X2Lwj; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b="T419hTEV"
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
-	(Authenticated sender: zamundaaa)
-	by letterbox.kde.org (Postfix) with ESMTPSA id BFA6932BAFF
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 16:27:32 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
-	t=1779290852; bh=gcOIwOeeWzpvsrYJGYkpmTBiDOCGGGdp9mfugdpA+HY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=T419hTEVZCJohJJRY3tDRT94FAIrYPv48owA0ZwRJgpDxJ1GkS5YE5qsTj7HlWxqG
-	 3V0OQc9p8tVe1bzlkJw3wH9CgwBa4Tq6Qt2swVgcATaH/NH/QqycIMymlsurhx5jJp
-	 xoG7LB7vXJ2K1lJ6Rkao4L9H+YB3Mn93NyiK+FCSPeWNK8iY/Z1JHqT3ZpAHZcXfaK
-	 qRrsxp2MMtDMY+IW84d/Pr+INHZmye7hTxOVzdVNAtQRhU01gdhn40M1qUTchoyBzi
-	 mlCfRZVWAkqKhESz66+ZAA+K/TFRvVH3AtGOREFlYIHVplh2s/Xja6CMu+wBIRuke7
-	 /nTJQ/XCRtuog==
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-651bf695701so4795425d50.2
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 08:27:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9IRYwtzlysRBacvCLE5JId87xDTzHUyXLDPX/WqF15XlD3q6Wi2NWyXuO6QY8KhfF2f9rBLRFVrtw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywa5bcly7OL5Eu3RWHoEn+wKJVUQ0BwUl+sU4oQ1Eu+dO712jOf
-	zH1OsrBnKwERnnLidIfGw7njV6uGnQzzVcRWpBNUVe4ATSS1Xc9sHVOzyP0DIVBiIUJNHaVvA2P
-	kW2+wzBfGVnYDqkYjJ1jUMlBs8geG8HQ=
-X-Received: by 2002:a05:690e:151b:b0:65d:8f98:6bb4 with SMTP id
- 956f58d0204a3-65e2272ee9bmr21554674d50.29.1779290850965; Wed, 20 May 2026
- 08:27:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kw6X2Lwj"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 8570D1A363F;
+	Wed, 20 May 2026 15:46:28 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5685060019;
+	Wed, 20 May 2026 15:46:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E16D7107EA299;
+	Wed, 20 May 2026 17:46:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1779291986; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=cfRNTAH818IUWJGgb+bd+5zxVp7Fbl8Z1v24qdUzGL0=;
+	b=kw6X2Lwju3TtqEBuOKmLsB+JigNLGt59g+g/cA5d6IuQt/telkpinXB0YbLU683p4uIA6n
+	V5Igu5qKadZccexFqmTviykYCbfSQRgYJ2eN4V8OPCiqsLd0mvZlut0eSp+O8zTFnG8b5y
+	wpyEd+6Apvg05qvhSGxQxrNciwTHSMCt6M9pubSzyejSEasLD29mi/j5BkOdsTMsuIiecS
+	fIHviMkJOS9TdXU9SEpdLbpG4zWd0BMWSnwlXdy6M+K8rOg+7KnzDh0l4GpzgW3mw5Fguk
+	VbR959r0UCY63T9B1NB178G3x6DkQtOMwFB/o1u0oGpAXd5GecudhILUpvtzIw==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
- <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com> <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
- <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com> <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
- <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com> <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
- <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com> <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
- <dff60378-4e47-4753-8878-feec6e1c2690@amd.com> <CAFZQkGz=UJqaJ_eTwKBy1pAg5xL+PLibh7W1vYf7JD7Jrx-LZQ@mail.gmail.com>
- <53edf0b5-e733-4b96-87d7-3307275500c0@amd.com> <CAFZQkGxpPm081Fz8UtDuBA1PKD42+9YDA+cc6fbSpfawXwu9+g@mail.gmail.com>
- <c9fbfdaf-2a58-4423-8dc5-6e29a88f6293@amd.com>
-In-Reply-To: <c9fbfdaf-2a58-4423-8dc5-6e29a88f6293@amd.com>
-From: Xaver Hugl <xaver.hugl@kde.org>
-Date: Wed, 20 May 2026 17:27:20 +0200
-X-Gmail-Original-Message-ID: <CAFZQkGyK-ZV-2QuC21sbGu2BELbAicN7EqCAY=bo+WsKXcA+Yg@mail.gmail.com>
-X-Gm-Features: AVHnY4KO7S743c3zkoDggQQ_Kb7Ge56iO-xUbB5sb3ZY8i7QvLODzDohK8-8SEc
-Message-ID: <CAFZQkGyK-ZV-2QuC21sbGu2BELbAicN7EqCAY=bo+WsKXcA+Yg@mail.gmail.com>
-Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Julian Orth <ju.orth@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	wayland-devel@lists.freedesktop.org, 
-	=?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 20 May 2026 17:46:21 +0200
+Message-Id: <DINMD7Y3ZG8Q.3GZGX7SX9CN57@bootlin.com>
+Subject: Re: [PATCH bpf-next] bpf, docs: add LOAD_AQCUIRE and STORE_RELEASE
+ instructions
+Cc: <ebpf@linuxfoundation.org>, <bastien.curutchet@bootlin.com>,
+ <thomas.petazzoni@bootlin.com>, <bpf@vger.kernel.org>, <bpf@ietf.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <martin.lau@kernel.org>, <clm@meta.com>, <ihor.solodrai@linux.dev>
+From: =?utf-8?q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+To: <bot+bpf-ci@kernel.org>, <alexis.lothore@bootlin.com>,
+ <void@manifault.com>, <ast@kernel.org>, <daniel@iogearbox.net>,
+ <andrii@kernel.org>, <martin.lau@linux.dev>, <eddyz87@gmail.com>,
+ <memxor@gmail.com>, <song@kernel.org>, <yonghong.song@linux.dev>,
+ <jolsa@kernel.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260520-bpf-insn-doc-v1-1-74d7dada9bfc@bootlin.com>
+ <ffe4e22a8e5d0fceefa7f9ecb378e038b4686aa417addd57d2af243b67607c0a@mail.kernel.org>
+In-Reply-To: <ffe4e22a8e5d0fceefa7f9ecb378e038b4686aa417addd57d2af243b67607c0a@mail.kernel.org>
+X-Last-TLS-Session-Version: TLSv1.3
 
-> In general the answer is yes, userspace needs to take care of inserting fences when wait before signal is used and the work can not be submitted to the HW for some reason.
+On Wed May 20, 2026 at 5:18 PM CEST, bot+bpf-ci wrote:
+>> diff --git a/Documentation/bpf/standardization/instruction-set.rst b/Doc=
+umentation/bpf/standardization/instruction-set.rst
+>> --- a/Documentation/bpf/standardization/instruction-set.rst
+>> +++ b/Documentation/bpf/standardization/instruction-set.rst
+>> @@ -695,22 +695,24 @@
+>>    *(u64 *)(dst + offset) +=3D src
+>>
+>>  In addition to the simple atomic operations, there also is a modifier a=
+nd
+>> -two complex atomic operations:
+>> +four complex atomic operations:
+>>
+>>  .. table:: Complex atomic operations
+>>
+>>    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+>>    imm          value             description
+>>    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+>> -  FETCH        0x01              modifier: return old value
+>> -  XCHG         0xe0 | FETCH      atomic exchange
+>> -  CMPXCHG      0xf0 | FETCH      atomic compare and exchange
+>> +  FETCH        0x0001            modifier: return old value
+>> +  XCHG         0x00e0 | FETCH    atomic exchange
+>> +  CMPXCHG      0x00f0 | FETCH    atomic compare and exchange
+>> +  LOAD_ACQ     0x0100            atomic load with barrier
+>> +  STORE_REL    0x0110            atomic store with barrier
+>>    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>>  The ``FETCH`` modifier is optional for simple atomic operations, and
+>> -always set for the complex atomic operations.  If the ``FETCH`` flag
+>> -is set, then the operation also overwrites ``src`` with the value that
+>> -was in memory before it was modified.
+>> +always set for the ``XCHG`` and ``CMPXCHG`` complex atomic operations. =
+ If
+>> +the ``FETCH`` flag is set, then the operation also overwrites ``src`` w=
+ith
+>> +the value that was in memory before it was modified.
+>>
+>>  The ``XCHG`` operation atomically exchanges ``src`` with the value
+>>  addressed by ``dst + offset``.
 >
-> Currently we only have an IOCTL to insert the signaled dummy fence at some timeline sequence, but it should be trivial as well to insert a signaled fence with an error code.
+> [ ... ]
 >
-> But the compositor needs to be able to handle that case anyway, because it can be that a malicious or just buggy client just never inserts the fence.
+>> @@ -721,6 +723,11 @@
+>>  value that was at ``dst + offset`` before the operation is zero-extende=
+d
+>>  and loaded back to ``R0``.
+>>
+>> +The ``LOAD_ACQ`` and ``STORE_REL`` operations implement lighter LOAD an=
+d
+>> +STORE memory barriers than full barriers. The corresponding accesses mu=
+st
+>> +be aligned, but are allowed for any access size (8-bit up to 64-bit
+>> +operations).
 >
-> So that a device is hot plugged is not different to just a client not inserting the fence in the first place.
-A buggy client can always freeze its own surface, it doesn't need
-handling beyond cleaning up properly when the client disconnects.
-The hotplug case is different, since currently a well-behaved client
-can only attempt to signal the point in the syncobj... but the drm
-device is gone, so the ioctl will fail and the client's surface is
-frozen, even though it did everything right.
+> Does the LOAD_ACQ documentation need to clarify its non-standard register
+> semantics? BPF atomic operations are encoded as STX instructions, which
+> conventionally use dst as the memory base pointer and src as the value
+> register. However, LOAD_ACQ reverses this pattern by using src as the
+> memory base pointer and dst as the destination register for the fetched
+> value, acting like an LDX instruction.
 
-So afaict, whatever new ioctl is added for this will need to be
-independent of the drm device, or be special cased not to fail when
-the device is removed.
+True, I can specify that both are anyway supported by a STX instruction.=20
 
-> >> One problem is that only syncfile allows for querying such error codes at the moment, we have patches pending to add that to syncobj as well but we lack a compositor with support for that as userspace client.
-> > As long as the error case can be detected with an eventfd,
+> Additionally, should the documentation clarify that the loaded value is
+> zero-extended into the 64-bit destination register for 8, 16, and 32-bit
+> accesses? Omitting these details might lead to incorrect implementations
+> based on standard STX rules.
+
+I guess I can add this detail, yes.
+
+> This contradiction creates specification ambiguity: the documentation
+> states that LOAD_ACQ and STORE_REL "are allowed for any access size
+> (8-bit up to 64-bit operations)", but earlier in the document (line 671)
+> explicitly states "8-bit and 16-bit wide atomic operations are not
+> supported."
 >
-> Yeah that's the problem. The eventfd only tells you if the operation is completed (or at least has materialized).
+> The instruction encoding section (lines 667-671) only defines two size
+> encodings for ATOMIC mode:
+> - {ATOMIC, W, STX} for 32-bit operations
+> - {ATOMIC, DW, STX} for 64-bit operations
 >
-> To query the error you would need to ask the underlying syncobj or syncfile directly.
-Issuing an additional ioctl after the eventfd fired for this rare case
-wouldn't be particularly nice, but also not difficult. If we'd get
-that with the eventfd directly, that would be much better though.
-
-> Ah! I think I got the problem now. You basically want to avoid importing the syncobj because when the wrong device goes away you are busted.
-Exactly.
-
-> The reason we didn't considered having the IOCTLs on the FD is because if you don't import them and instead keep them around you can run out file descriptors quite quickly.
+> No encoding is shown for B (byte/8-bit) or H (half-word/16-bit) with
+> ATOMIC mode.
 >
-> When you have an use case where you receive an FD from the client and do a one shot conversion to an eventfd that will probably work, but for keeping them in the long run you need some kind of container for the syncobjs, don't you?
-Compositors always run with vastly increased fd limits since they have
-to handle a lot of fds for dmabufs alone, so keeping the fd around
-wouldn't be an issue for us.
+> If LOAD_ACQ/STORE_REL truly support 8-bit and 16-bit sizes, shouldn't the
+> encoding section document how B and H size modifiers work with ATOMIC
+> mode, and line 671 clarify the exception?
 
-> > A device-independent way to create and use syncobj would still be
-> > useful to us though, both to simplify the compositor and to improve
-> > the software rendering use cases.
+This point, and the corresponding mentions to the "atomic32 conformance
+group" and "atomic64 conformance group", made me realize that the kernel
+doc seems to be in sync with the eBPF ISA RFC
+(https://www.rfc-editor.org/rfc/rfc9669.html). It makes me wonder if
+it's really ok to add those LOAD_ACQUIRE/STORE_RELEASE mentions in the
+kernel doc only ?
+
+> Alternatively, if LOAD_ACQ/STORE_REL only support 32-bit and 64-bit sizes
+> like other atomic operations, should line 728 be corrected to state
+> "32-bit and 64-bit operations" instead of "8-bit up to 64-bit operations"=
+?
 >
-> Yeah not sure how to cleanly do that. We could have a dummy /dev/dri/rendersync or something like that, but that would be quite a hack.
-I think for userspace it would be less of a hack than searching for a
-random drm node that can import it. I'd gladly take another solution
-as well though, if there is one.
+> For a standardized instruction set specification used by multiple
+> implementations (verifier, JIT compilers, potentially other BPF runtimes)=
+,
+> internal contradictions can lead to implementation divergence and
+> interoperability issues.
+>
+>> +
+>>  64-bit immediate instructions
+>>  -----------------------------
+>>
+>
+>
+> ---
+> AI reviewed your patch. Please fix the bug or email reply why it's not a =
+bug.
+> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/READM=
+E.md
+>
+> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/261706=
+28668
 
-- Xaver
+
+
+
+--=20
+Alexis Lothor=C3=A9, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
