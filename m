@@ -1,235 +1,110 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4D83F4DEA
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 16:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8282F349AFF;
+	Wed, 20 May 2026 17:47:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779294493; cv=none; b=I/Ob0thofQVfl4cMgXCrsSvglcC3Xn5I0409FMRXld9uSks7hvSAScAalw6GMFtZyNjfUd4Gm+pMPO7FLpNj9Wyg4yE+EgPnqSjB9qtnhQpQTJcgIDHOMOj3C5E/NG+2cJjndBmH15uwCdoK0DpelPNunbx7sb2Y4Hcdr0yd1g0=
+	t=1779299250; cv=none; b=tgRmMn0FBWBvoYvqsahmp5G87StIP44JP/7qVzLSVIKksjBt3d5ELF155Sof+A35m3dc+1HbNYqyuW4nKvj9ueps/DltMs04wwru5GiYapiLkfV7LCRtk8Uzb2A4qtMSUrps0WsnI25K7Z8+y963necESgRzcQCw0OL099DweRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779294493; c=relaxed/simple;
-	bh=ES7YxmPnDFzUUbbeuT/pFvekD4p0hCCj++N15Dr+Ljc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rgErrkskUlx/IeWK8G3vEzEiGGei16Tp9e8A842SAzNZj+Dg1xVETIoTpl8xGDXCAJdPbZZd3NTrZp22L/X5gKD3tBvMyGNIl3v1chmpYK0uIJah9forxGRjqjyF1gLOZR6z6nuDIk7bpPbqKhiSnZZyNr22dRPpZnzxpizQvf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=egYmVf9H; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779299250; c=relaxed/simple;
+	bh=azrcSc5fBS9EAkI43k4N+bdBeogc36tuyCa1/SG/oas=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uIDZrbMD5tzdTo/hXSEaEa8gvA1aRnBGY1iBBaeZnI1SBNP6FMsKiH73kWfZlA0E6AShtK7V0tjESA8EIiUE7WQ3yw3QOvPLVcX+fSP/+uyXO6HIFT+jBbpLfkqYcV061byCxKoNDmsfEn8R5kBy9NFvMqaaQ/nJb/94pjgy1iU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E+KqHORQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="egYmVf9H"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2bc763e2ba8so24395165ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 09:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779294491; x=1779899291; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=S/2ozl9sGqUSrHRxDaydNsPYPMwiguh1yPS1e/2sQKI=;
-        b=egYmVf9HIvMeT6ih0BgUBj3UIGk+Bvu7b9en7dQAZbMmiCFZzDpgPBwD4sPySGGJcn
-         dyf4zRVNpKP4PYG/n08eWnk4rMyWaGxdqiKSGgMwd27ExjykACiWReCizUkvY4ZGeN1J
-         8edAozeUpDl7wkXIUqQ2QHB9TEI+9LYT4EQV4WlFwFDvkhTaPc60+Do8YiXtw6cZ2FhH
-         Txk63pJoomM7qJ7I37p7PzJEzKugNqnsFi+Jp2imtfeclpJvI3q6zN6yhzUTQ/eLFPfg
-         BD4+J2eRWZrpNz2w0OEe8fAsjY8UXsRajU8PBRoEmnhKnAOXjh30zjpMBOutZjGXGX+B
-         RyJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779294491; x=1779899291;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S/2ozl9sGqUSrHRxDaydNsPYPMwiguh1yPS1e/2sQKI=;
-        b=lyV/TR5wD75/Mul7hN1f1QNa7611vlYENnMNNUf8w/DiNFDosybBgKwBLcmzzY7rdV
-         h2xUHQsfUIZHxWumkrG1fkktbc+d0EhN30zSN9xfUMQk/JG4C/daJ6y3QY0kbTC4WCF0
-         GURuUsYjyA8zf1NTmSn3/crSw1DOxicc8yVUNY12Hd0J4iVlezEi8osSx+G18CdkWLlR
-         LO7/BjsJJ12eCGp2ge8kDzzWwe8iqqNVo5rzPud7ahpiAGGgH3vEiNeOvMB08uSyqMo9
-         NFsUOU9RD+LqBBvL0HJgynkgp3QKhFe+vLWxI9kQr+5GJFXSPJar4NCvOnz4+v08Cuq7
-         23gQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8x3E3DtKdZKI4lcBf1f7dvnmSmu9Cpqd+TJiWKz7LM3M02A31cy/LbaPexqjXNSkupIhId71CnLNk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBvy/xkwck956kAejmNUeBXFpZSuekV2Iz5kuJcb9jxy85dTh9
-	pfnZ6b8Xy5N8fFfWIXPeeSIbUuSqikORmWCrIp1ZHWwP5qGWjHY+v4Mb
-X-Gm-Gg: Acq92OHonpTWuHDekt/b3ZdasWIUw0tSY0FQvCiFS2BKroxD3I7LmWT2szQKXs6HlbN
-	h/rh10mXhCIpd+/sKgzIe9q65Ivsi65YigG2NomrRj01TJh+GGN7hw2MtMazSjTe61lVx/8YuAI
-	iAuDf56ZbrAsKcyGUS0hblFUIpypieVb9JNSD2yhm59i1osMsBkHuCVAcc9ZxHTGNxZYGWuBF07
-	9AUmfCdZ8cO/0Mp2/wNr2yjVRzERpJptTpBdRmhxhyC7Z98NERrQNCKn19tGp3aBermltVJQPLA
-	WNZYKS5T4GqE2DMRak0pEMYipiR9ZlHyrB2l7nVMXL0hHnJX9qiavidPbj+tJmPoNcnidotlByb
-	/0MOUs+FSj+4JHGMpyNXErBllpbC129vtSOFvGqyfACZ+6Jz2gJtuCGr0cbAEo1qM3q5hg+UPJe
-	1Ix4Suu6/OUSqIHA+1pZunTOaVnNYiL2FbZWfV8HVtKQVR6fLXbnSb2mv9ZIUcB2A=
-X-Received: by 2002:a17:903:907:b0:2b0:5ae9:ee4 with SMTP id d9443c01a7336-2bd7e8ae548mr266212465ad.5.1779294490473;
-        Wed, 20 May 2026 09:28:10 -0700 (PDT)
-Received: from [192.168.0.226] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d0f94c6sm228572925ad.56.2026.05.20.09.28.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 09:28:10 -0700 (PDT)
-Message-ID: <c7d7e50f458fd11c9a9172d01714cec1d80eb435.camel@gmail.com>
-Subject: Re: [PATCH RESEND bpf-next v10 2/8] bpf: clear list node owner and
- unlink before drop
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Kaitao Cheng <kaitao.cheng@linux.dev>
-Cc: bpf@vger.kernel.org, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, ast@kernel.org, 
-	memxor@gmail.com, corbet@lwn.net, martin.lau@linux.dev,
- daniel@iogearbox.net, 	andrii@kernel.org, song@kernel.org,
- yonghong.song@linux.dev, 	john.fastabend@gmail.com, kpsingh@kernel.org,
- sdf@fomichev.me, haoluo@google.com, 	jolsa@kernel.org, shuah@kernel.org,
- chengkaitao@kylinos.cn, 	skhan@linuxfoundation.org, vmalik@redhat.com,
- linux-kselftest@vger.kernel.org, 	martin.lau@kernel.org, clm@meta.com,
- ihor.solodrai@linux.dev, 	bot+bpf-ci@kernel.org
-Date: Wed, 20 May 2026 09:28:02 -0700
-In-Reply-To: <47b928ac-25d9-481c-8764-8f840c2dcafa@linux.dev>
-References: <20260512055919.95716-3-kaitao.cheng@linux.dev>
-	 <da95f45b43d94d17796b19abc4c555e35daafab7d5e1cdca3714fe0f54ab8cce@mail.kernel.org>
-	 <e141699dab70282d811ec30bbf2aa8279706817b.camel@gmail.com>
-	 <DII0TT9LXYCX.2GMM6QA4Q9BPZ@gmail.com>
-	 <0fb2d99b-b122-44fa-a8bc-9befe6e350bc@linux.dev>
-	 <7fa6794161a8bd4fdbc21dad68e86e9770c873cc.camel@gmail.com>
-	 <0171629c-bdd3-4661-a4e6-2698dd623c3a@linux.dev>
-	 <d5961282-d41c-4e54-8ba2-cd08823a8c77@linux.dev>
-	 <782833db5da77e4aa9761fc410827e7abe8583c8.camel@gmail.com>
-	 <47b928ac-25d9-481c-8764-8f840c2dcafa@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E+KqHORQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F8F31F000E9;
+	Wed, 20 May 2026 17:47:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779299249;
+	bh=ViRW9Nz3r6hXUk4I8QEt3nB7VpqxM71bV390oMtx5Ug=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=E+KqHORQPEi2v/ovg1wnEqFr8oDWY997yhhY4R1PG1PuSPUJYkhb8VagSOppZB+Rr
+	 A0FKrrZGSqhwUfPDPtXnkAmbqErhn1IZufP64ETA4qqpXvH0pe86apDIE60MBNjwEw
+	 RUfd9pOaiDymD8/T/FWXj7CZcBRvZOPScWM1lK0JYwdnAeWm7tQE1Tsmsl9tTiCRFI
+	 3siFught71zBG4B2SLyJfjVwSEg4UUGfukHiuNBzw5P/8kKwSKZ4x2cHIxbPEaZHgh
+	 C1XP0RZ0Sepvw0ts72eLscxXwx0QJPfuGnmsqMkMRKBDOTHd1f1hMZbWHQJHylmkgs
+	 J70Laujzm+ZXA==
+Date: Wed, 20 May 2026 10:47:27 -0700
+From: Oliver Upton <oupton@kernel.org>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marc Zyngier <maz@kernel.org>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, kvm <kvm@vger.kernel.org>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	"Kernel Mailing List, Linux" <linux-kernel@vger.kernel.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Jim Mattson <jmattson@google.com>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Eric Auger <eric.auger@redhat.com>, Kees Cook <kees@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	kvmarm@lists.linux.dev,
+	linux-kselftest <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: KVM: Document guest-visible compatibility
+ expectations
+Message-ID: <ag3zr7-11FO3k-Wv@kernel.org>
+References: <cf429f2082e863571595f74d1d3dedc3e6a82964.camel@infradead.org>
+ <CABgObfacAYexR25SMi1kSZMRnHx3EDGj8=E84V1DumER66ibnQ@mail.gmail.com>
+ <86qzn7wp3y.wl-maz@kernel.org>
+ <593a782c50f3c8656e13b36dfb975a67d43a908e.camel@infradead.org>
+ <CABgObfbS-z3OphDna5W_JQPvw+OK=yXJurVMHp1ANZ5uGEgVhQ@mail.gmail.com>
+ <9d0429ddbe4d8c6993e74237c4395697f80092d6.camel@infradead.org>
+ <agzR2kaJsNa8X9lF@kernel.org>
+ <1243d375846c4f4e20c229a6f09300126188fc8b.camel@infradead.org>
+ <agzq5kwzuJvd7Mh5@kernel.org>
+ <add71b6f61edc6357e1fddad83273b2cba697d10.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <add71b6f61edc6357e1fddad83273b2cba697d10.camel@infradead.org>
 
-On Wed, 2026-05-20 at 17:55 +0800, Kaitao Cheng wrote:
-> =E5=9C=A8 2026/5/20 06:56, Eduard Zingerman =E5=86=99=E9=81=93:
-> > On Mon, 2026-05-18 at 11:02 +0800, Kaitao Cheng wrote:
-> >=20
-> > [...]
-> >=20
-> > > > > > The patch does have a bug, however. To fix the issues we are se=
-eing now,
-> > > > > > I propose the additional changes below and would appreciate fee=
-dback.
-> > > > > >=20
-> > > > > > --- a/kernel/bpf/helpers.c
-> > > > > > +++ b/kernel/bpf/helpers.c
-> > > > > > @@ -2263,8 +2263,10 @@ void bpf_list_head_free(const struct btf=
-_field *field, void *list_head,
-> > > > > >         if (!head->next || list_empty(head))
-> > > > > >                 goto unlock;
-> > > > > >         list_for_each_safe(pos, n, head) {
-> > > > > > -               WRITE_ONCE(container_of(pos,
-> > > > > > -                       struct bpf_list_node_kern, list_head)->=
-owner, NULL);
-> > > > > > +               struct bpf_list_node_kern *node;
-> > > > > > +
-> > > > > > +               node =3D container_of(pos, struct bpf_list_node=
-_kern, list_head);
-> > > > > > +               WRITE_ONCE(node->owner, BPF_PTR_POISON);
-> > > > > >                 list_move_tail(pos, &drain);
-> > > > > >         }
-> > > > > >  unlock:
-> > > > > > @@ -2272,8 +2274,12 @@ void bpf_list_head_free(const struct btf=
-_field *field, void *list_head,
-> > > > > >         __bpf_spin_unlock_irqrestore(spin_lock);
-> > > > > >=20
-> > > > > >         while (!list_empty(&drain)) {
-> > > > > > +               struct bpf_list_node_kern *node;
-> > > > > > +
-> > > > > >                 pos =3D drain.next;
-> > > > > > +               node =3D container_of(pos, struct bpf_list_node=
-_kern, list_head);
-> > > > > >                 list_del_init(pos);
-> > > > > > +               WRITE_ONCE(node->owner, NULL);
-> >=20
-> > Is CPU allowed to reorder the stores in list_del_init() and WRITE_ONCE(=
-)?
-> > If it is, I think there is a race here.
->=20
-> Thanks for taking a close look at this. You are right that there is an
-> ordering issue here, but I don't think the specific sequence illustrated
-> by the example below is problematic.
->=20
-> > Thread #1:
-> >   enter bpf_list_head_free()
-> >   acquire H1 lock
-> >   list_move_tail(pos, &drain);             // reordered
-> >   <-- ip here -->
-> >   WRITE_ONCE(node->owner, BPF_PTR_POISON); // reordered
-> >=20
-> > Thread #2:
-> >=20
-> >   acquire H1 lock
-> >   n =3D bpf_refcount_acquire()
-> >   release H1 lock
-> >   acquire H2 lock
-> >   enter __bpf_list_add()
-> >   <-- ip here -->
-> >   cmpxchg(&node->owner, NULL, BPF_PTR_POISON)
->=20
-> Even if the stores from list_move_tail(pos, &drain) become visible before
-> WRITE_ONCE(node->owner, BPF_PTR_POISON), node->owner is not NULL in that
-> window. Before the WRITE_ONCE(), it still points to H1. After the WRITE_O=
-NCE(),
-> it is BPF_PTR_POISON. In both cases, __bpf_list_add() will fail:
->=20
-> 	cmpxchg(&node->owner, NULL, BPF_PTR_POISON)
->=20
-> because the old value is neither NULL nor expected to become NULL from th=
-is
-> part of bpf_list_head_free().
->=20
->=20
-> However, I agree that your original concern about the ordering between
-> list_del_init() and WRITE_ONCE(node->owner, NULL) is valid for the later
-> drain loop:
->=20
-> 	list_del_init(pos);
-> 	WRITE_ONCE(node->owner, NULL);
->=20
-> Here owner =3D=3D NULL is the signal that the node can be inserted into a=
-nother
-> list. Since WRITE_ONCE() does not provide release ordering, another CPU m=
-ay
-> observe owner =3D=3D NULL and successfully acquire the node in __bpf_list=
-_add()
-> before the list_del_init() stores are visible. In that case __bpf_list_ad=
-d()
-> can link the node into H2, and the delayed stores from list_del_init() ma=
-y
-> then overwrite the node's list pointers and corrupt the H2 list.
->=20
-> So the fix should be to publish owner =3D=3D NULL with release ordering a=
-fter the
-> node has been fully unlinked, for example:
->=20
-> ```
-> --- a/kernel/bpf/helpers.c
-> +++ b/kernel/bpf/helpers.c
-> @@ -2279,7 +2279,8 @@ void bpf_list_head_free(const struct btf_field *fie=
-ld, void *list_head,
->                 pos =3D drain.next;
->                 node =3D container_of(pos, struct bpf_list_node_kern, lis=
-t_head);
->                 list_del_init(pos);
-> -               WRITE_ONCE(node->owner, NULL);
-> +               /* Ensure __bpf_list_add() sees the node as unlinked. */
-> +               smp_store_release(&node->owner, NULL);
->                 /* The contained type can also have resources, including =
-a
->                  * bpf_list_head which needs to be freed.
->                  */
-> @@ -2607,7 +2608,8 @@ static struct bpf_list_node *__bpf_list_del(struct =
-bpf_list_head *head,
->                 return NULL;
->=20
->         list_del_init(n);
-> -       WRITE_ONCE(node->owner, NULL);
-> +       /* Ensure __bpf_list_add() sees the node as unlinked. */
-> +       smp_store_release(&node->owner, NULL);
->         return (struct bpf_list_node *)n;
->  }
-> ```
->=20
-> The existing cmpxchg() in __bpf_list_add() is a successful RMW with retur=
-n
-> value, so it is fully ordered and is sufficient on the acquire side.
+On Wed, May 20, 2026 at 12:33:52AM +0100, David Woodhouse wrote:
+> On Tue, 2026-05-19 at 15:57 -0700, Oliver Upton wrote:
+> > What ifs and maybes do not meet the bar, in my opinion, for preserving
+> > bug emulation in KVM. Of course there could be a little flexibility with
+> > that but we need to have some way of discriminating between bug fixes
+> > and genuine guest expectations around the behavior of virtual hardware.
+> 
+> I believe you have this completely backwards.
 
-Hi Kaitao,
+No, I really don't.
 
-Thank you for the analysis. I agree with the smp_store_release()
-approach, could you please respin the series?
+Leaving every bugfix that could _possibly_ have a guest-visible impact
+subject to drive-by scrutiny many years after the dust has settled is
+not an acceptable working dynamic. Especially since it would appear
+that the rest of the ecosystem has long since moved on from this
+particular issue.
+
+If this matters to you so deeply then please, be part of the solution
+instead. You may find that reviewing patches leads to better outcomes
+than getting belligerent with the arm64 folks every time you guys
+decide to rebase your kernel. Hell, hypotheticals actually have a lot
+more weight in the context of a review. And if your testing is extensive
+enough to catch these sort of subtleties, don't you think it's better
+done against mainline?
+
+Maybe it's just me but I am left feeling disappointed that we all
+haven't found a productive way of working together. I've tried to bridge
+the gap here; we obviously need to do something that at least fixes the
+UAPI breakage. Although apparently we don't even care to meet that low
+of bar.
+
+> A stable and mature platform doesn't get to play in its ivory tower and
+> randomly inflict breakage on guests because they "deserve it".
+
+Really? Aren't you asking for us to emulate something completely broken
+for you?
+
+Thanks,
+Oliver
