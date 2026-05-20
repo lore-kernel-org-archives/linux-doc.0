@@ -1,350 +1,281 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013056.outbound.protection.outlook.com [40.107.201.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9613E3C54
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 14:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7809C372ECF;
+	Wed, 20 May 2026 14:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.56
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779285670; cv=pass; b=pNhOwDgVPKwDSX+0uDzL8INlqeUnzXQeU92D3qbxuy7W+vf/h1atvVerePfrm1nc9336HTouJRfl0E+n97K2ZBnGDVzPsOfS3Qd8le1AGGOKWmSicSJjS6sqUaIuszFWFfyq8N0vhEUKKZtvY8rz3KSc41zfaYSC5WwfwdGsH4A=
+	t=1779286014; cv=fail; b=d8hAx0BUu8EqyL7HnZg4G7CG9P2GcN9rjG++ov6qsdgOWzX9szg6uB2EUgBEpsbGMWb6Wc6wruR8wv40yH20qMfJpQMtYtUEQ12bj1AvTvKZbik7HMBCpm++6NpIIDBI3nTCOUZjaDzyEKdu9LviW35pn6Upmq3XtLJoh045a/g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779285670; c=relaxed/simple;
-	bh=KqI0zLZ17ytNsiHeOhQjRgEAJF/6Oy8iX9IxWvab55c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=INr5E0ARtao2tw6wNnwGDkZS3f7b9t141WmnRzUouU9zXetM/sKNlSXfpe1D7mZg5kZ8LQ1+8Gp8utcpvDRAv/e2SOARIgumNgAfslqVb+i3e7hHYo2HkVkO4sNN0+hiosBApqTD0cIlHeeekYn9unP0CCp7Weu1/MQ6R5c4FCc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ERKjAc7P; arc=pass smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1779286014; c=relaxed/simple;
+	bh=fVdHlykYf+Hk99r3MCnmrGFN6a57t1NgrJBhs+is+pc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XF4bJOMaJK6vokG4Og5+a9xqoojflw8SWQSdB/aZDCXutZgn0EaiUVfGMMAKyu8rHt3YFuGWfwtno+qj7E4ynaWg6tARwvv45sOqYbHaqOevdMJNtNL2hCzq2p2tjn/KdndJ8pD97M5fd9SOc8azlxB2l5e+a6uRrinO415Ig5w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=AFMSxe8q; arc=fail smtp.client-ip=40.107.201.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ERKjAc7P"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-50d864c23bdso16051cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 07:01:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779285668; cv=none;
-        d=google.com; s=arc-20240605;
-        b=K4gUEo7OXrZJEdSp0pYHwqshRB5Mc8Dwn/R1wjTm32727HUqHuRdz2UnpC2uBZQHKw
-         rk8HBLk2dmW7P/Jce2PJBvm/Kpy8tSPwfFUMpmGAcsY+ili5hDoB9MpUKKiSFaM7brGw
-         u3LqKqmTvpbCd931VLQ8RWAPy94911CFqPVS8tHJoUcK96NB9smo+P61gVl7M220dgcT
-         sm5MULNCSBNwVVnC42f1WjiL/wrO6hBjq7RsrwSh4auAX+RWowj0xcRPeY4oNdwCcr23
-         Klx1Ho8HgM5vZ95/DuZfMoAbN70s+YoF6i5ybkjEWp6UFtBZxopoahtvtv7GccOBPEMM
-         bvuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=AI7U3CC1NzngQuPdfdvr3Q6fVVGPJz6btgu2++gP6TU=;
-        fh=VZAgQd1Nh2xN8gvrT2JtHkxZ495IAw7oCzG3QL5UIrk=;
-        b=VzXVEhXFgWPuYUg+5jM1y5GTbUOcntpX44QFuI6U3T1pvYkSz18wiFjd1dhnn6OL6f
-         y0hmrqXguFYT0Bf0DLf6MQi+XXHj5AIPqxI7PtMkvhO59wtUHL7k6TWSSyGDRJR7FHH1
-         FRm5+2cei3mAyRPkCJfA1P7qlr4ILEprt2ZgMrLKpsRslbtVm+ciz4IsKH0sPN1pU6HJ
-         XlMgQSTCrClqJm0qtu4+jSOi0kYHhS5/GpQMlU7Klnv64HwxL5l8qq8Dv4Ft4pBvZNwj
-         lqGeHHOzrFmLL78xhODzxNZf5SNtO7cC+vURpbIUqFStUhckX6IxI7ucYcZQPS28dSux
-         nDvg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779285668; x=1779890468; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AI7U3CC1NzngQuPdfdvr3Q6fVVGPJz6btgu2++gP6TU=;
-        b=ERKjAc7PL6fYz5pAuZ+JoytJwk4NKW0/jdQU8Qsy6SRjvo+TeIzA5UlaBhoWoUXJNq
-         oT+zSmRfvJO7Bv2nRfSNnqO9Q0skzdOF6TLe27/culeC7YheeWxj2CKx/yoO3Kwn6qfY
-         zFP4uimhYl1k8NdUNRACFYD9CK2aSkKgkpoqfm2iob5tu947ZR4jJzGzIVpLmK2gRvQn
-         eBm2Mk1yal29sbC56yseAAl2+vJpfsyyavqu1y0bNyuVctalJtno2KJIZ2jkfdpH7qKd
-         uh3Ji2p6FwR5yc3X6SHy6EMSpBOwDM01nctneip0+AY/SZ6qOQPYbCmovmKaE4pfAERx
-         ob2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779285668; x=1779890468;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AI7U3CC1NzngQuPdfdvr3Q6fVVGPJz6btgu2++gP6TU=;
-        b=RNZ+8esNgIGCbcpRxTMqrM7o0E1UjRkxesPQCmbSCfmv9wREi7P3lBhbwfze63IpQE
-         7Wg9QPiljrNOsMJhuJn5jo/q9xjsmoW/aC9Bp1zG/FPMJsWvvZOQPt/1thxRruUr6uwU
-         4ysZ8RwMTxCxLyi36yEuRIGhKUgZ9xabZ6n0ila8t12i7BoAszmILcH8zKx1919pjWgm
-         cEitQu1GHH9cfB3CW6dAGIv9RELPS4TFptsVw6W/z1Tz/gJsBjwnxMSE60pMw39KEsDu
-         4uZICTxlMJliewRRqdGmTzNsRV6ghZ/77AWgiRTq5LsOLfrEivrRX30s+YsYtWohcIU4
-         safA==
-X-Forwarded-Encrypted: i=1; AFNElJ+Xfb1EjROwvqMqUXMfJ2PdNzgVISnHQWrYk+p+qpGP8tUqZUMuawh9iQWUTd4n0JrAq18dh3QUIpM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0QKNb0qOoPUIIJqM+v8MjfIk0wqPG4cRx7p1ryuHvBG7wfb2K
-	oBuHgE5cpRJBnk7UCvfLlsQP6GdohdvWP/L92z03lhpdl9pzWv0JJLjzJxDwU4SuUueb4rVeB4K
-	0yJPcgy+SaZXTKH240rNtCXug/3ZgDVzApy+bGmgJ
-X-Gm-Gg: Acq92OH6Loejeh25nRFPAZ4PCn26I6h2j/slpDyblCAx8cRKqo8kBSMcisRQ/dV4oHB
-	l9iYCpRdbm5LkGPxexEKrC5ZttRwLucAh9s0LN0A0YgUlFS4Ow9AxxwiWHN19mrdkhLH5xzOi6+
-	z6vriiS672PQYOR7eil3/jlKcBCgK/ac0RMJdXENRuR7jdaDneTkTgkE+o62jMmNMuUjbYNDZO6
-	7EpJ6hN8RsFXvnTMhKo6mXQo5nVjTVc39AvPseFbHrNOdFQqai9I8YjBK8xvb2ZTrEZgEcQq/SU
-	KwWg0S/0Vt1q4N1VJ/s=
-X-Received: by 2002:a05:622a:900e:b0:50b:8d3c:5bd7 with SMTP id
- d75a77b69052e-5167b669c3fmr39500301cf.9.1779285665976; Wed, 20 May 2026
- 07:01:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="AFMSxe8q"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kpOyo+/TLANd/IcVZ9iTeCzM+iWPvIpUT1PraH4IJiApMjDU21ebv5uX91/OFUVidUMeBZc5WuItNuE64zclBaSll75/qDo8dZUpKd7N8yNGRFZFgFIgm8HmTBwrkWYHkQRqpeLmzgWloksNjMFHUbmqEMjf6eSHb5piopJe1vX5ACblS0ptxx9d9zrNo+VHLsyRtqh2OSaw7p68ZVsaiFuIX2CLdAFKmmyy/uZcdaexH2/EE9lH01F3Pmk4aFriCj1lu1NmSghWgQOVvua8hRLdYqGvrf5+UqcNn69bVvvgf2B3u+ZY/I3ugBBUYj/fjoHppS285jUFz+kVyqjw9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WwRAxA2xjM/8GXGvL0/VQ+RAkvqW6+6IFH9/uO5POT0=;
+ b=We3ER79Jy2bKbnqEV1OVK42Qb1c7++5OFc+hB8FN4QQvYtZibi+hzJgeQJjgzI4+1NTWRLO732aPOdMkNv+J38pNy3u6E5SSeUNVEdIepXqRsJEPACEpXH80YqS+YcSycf+B2HScBFlDWf6a4R2PjkqmRuy39kCfQ2B7z+pNYteM1c1SJrkOi1SN9gcWqJcJDEN2/7tAHNX0gOqxLbZKOmm2XMAigKXtnZsaooFQfZOGuhNZCgQgfHtvsTrcAKRAWimociXFT4g87hq8BXh3ivBSMJUbDdMn6bKnhS1wvrM/tEkuo6zzDfotJ7z8oSudBrH7I7iKVebxo1Ke95GENQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WwRAxA2xjM/8GXGvL0/VQ+RAkvqW6+6IFH9/uO5POT0=;
+ b=AFMSxe8qijd1eEjDo/2vFAidfFNFj25gumlZ+DoUrcuQ6g/BiT6N2V7IMEFXCNoMxgSqZi5+CY2NpftyJ9ioVK5RWTskS1epptapbB5pVrERRZm9yLtJAJ7op6RIk+mdtvG108W/DZsdsu74ZTCC5zixTelt/gu9454QaSn78xU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS4PR12MB9610.namprd12.prod.outlook.com (2603:10b6:8:277::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
+ 2026 14:06:46 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Wed, 20 May 2026
+ 14:06:46 +0000
+Message-ID: <c9fbfdaf-2a58-4423-8dc5-6e29a88f6293@amd.com>
+Date: Wed, 20 May 2026 16:06:40 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
+To: Xaver Hugl <xaver.hugl@kde.org>
+Cc: Julian Orth <ju.orth@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+ <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com>
+ <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
+ <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com>
+ <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
+ <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com>
+ <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
+ <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com>
+ <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
+ <dff60378-4e47-4753-8878-feec6e1c2690@amd.com>
+ <CAFZQkGz=UJqaJ_eTwKBy1pAg5xL+PLibh7W1vYf7JD7Jrx-LZQ@mail.gmail.com>
+ <53edf0b5-e733-4b96-87d7-3307275500c0@amd.com>
+ <CAFZQkGxpPm081Fz8UtDuBA1PKD42+9YDA+cc6fbSpfawXwu9+g@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAFZQkGxpPm081Fz8UtDuBA1PKD42+9YDA+cc6fbSpfawXwu9+g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BN9P222CA0009.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:408:10c::14) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com> <20260507-gmem-inplace-conversion-v6-10-91ab5a8b19a4@google.com>
-In-Reply-To: <20260507-gmem-inplace-conversion-v6-10-91ab5a8b19a4@google.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Wed, 20 May 2026 15:00:28 +0100
-X-Gm-Features: AVHnY4I1xsx3pMBMFSzeQ0uJ_eCgUqjv6x_jwcWrLBSoaR3lsTGttyhku4viwLQ
-Message-ID: <CA+EHjTxLXxtgTdhLnNiFwhjQWt25QWPxCqRgFRJoUBhOtSFZGA@mail.gmail.com>
-Subject: Re: [PATCH v6 10/43] KVM: guest_memfd: Add base support for KVM_SET_MEMORY_ATTRIBUTES2
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS4PR12MB9610:EE_
+X-MS-Office365-Filtering-Correlation-Id: 88fa798b-97b9-4634-eea4-08deb6790733
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|22082099003|56012099003|18002099003|5023799004|11063799006|3023799007|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	7OpWPTtRHid9cGBpyrX1pfLsQshnFvsiAvR7eSku5pVcjPU0OCVhan2G8zBbU0WF1ewXRgO+1sMD8VQj/eP4eE1W9X1Rr4527rLkGnCtCiZsB3OYZSIi2OWGFIvyKZpiruEY/8MZfvejDY5GQesyxy3oWVGYxrZfj6E6cJlm8DD0BGbPUznYEFey+Zd4o3EiSKapgmnycWBSqiYVtsT5TlaNVzYhs5GWH04GhYQYp+zwiAhJIJhjvFhq4zQR5ilzeLJ9gPwiXxpQLO6wZS10/WgnoC50DfzqL9ds9HJKwdRKASUmDmZu1TFTyF9IOWUxi5/VxILFQx1zCVP+C7lFiOHHGLSpuEWR1velcWesuP/JagOct1ailXhT1kRRGdK3RM195neWg4heGYEsWT4hUc+XQZ79p54U4Ks4gVQfUOJsMqBLX1VK/IGksBB7o+puXup1hATyNyUTCURbzp/OvbcD3z4tRR/AIlfKS445nGS2CiABpD7XdFbDQzmSBH6ozxOdMhSIt2Veb/1a8rJjTzKzIsHv+y5/w3gSlbq7kk2CNGo6XwD63Ut+HXArm2qjjElUp03j1L4O4KINrH4ADFyQO0kapaa3TJWlYrVuNK9o9jsH8gadZ5Y/OuJG4jL3EHrT8nGFJ0ZHK6yBIN72BVGe7jrD+c31V2leuSsABUr3oPOrZWHkMGnymfU+TEtu
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(22082099003)(56012099003)(18002099003)(5023799004)(11063799006)(3023799007)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cmxkRlNWblZidkc1cTJzNGF6R3EvN2dycGExd1lZdXhDWkMxUmVMSVFlaW9N?=
+ =?utf-8?B?WVNBajFVcEhwRFVjNXJLQ294L3lrQ3ltWDJiUEU0WWlLa3lEWmV3Ulp5VlZy?=
+ =?utf-8?B?VGVwbnpNZ0NKNUZZZ2cwbmVyNEZHcE9zWHV6aVVNc0l6SmhXQVBDaE85TWF3?=
+ =?utf-8?B?REQ2U3Q1azhtY1NuTEVOK1BpOE5nUnVWSjlnT05JcVVHa1hCeVNhL2FiNnhZ?=
+ =?utf-8?B?MW1MYm1kZzhEb3RnQmk2ZGN1cFpEUVkybStZYW45R1JGZXp2QUJWc0gvamF3?=
+ =?utf-8?B?aFBxRVFZdUNKZWQyZ2V6OS9mNHRib1JUN3Uwem9DSU5CamMwVUxGMUk2QTZL?=
+ =?utf-8?B?eVBFcXpKR05jK1pnZUJneEZWcFM5aXRwQjhSUlEwdGR2NWJteEVRamhNMlk1?=
+ =?utf-8?B?R2pLalJHT0ZJa0Z3aEJ4WlhTY0FFSWsyTzhtRXUzNDQ0ckdrNjl6VURBK0lC?=
+ =?utf-8?B?eHQ3RjBVbU9FcXZrTFdJRFBMYWc3SnY1clVjZGVWVWMrS2l1akQxa2pmZmJK?=
+ =?utf-8?B?cFVvT08zZWs1RW8zbTBNS3JWSkoxSFYrVGlpdXROOC9ITzNyeEZmUnVXZnEr?=
+ =?utf-8?B?VlJ2TmdoaEJYeU1KUUNnQ3lNbktuSkRic3MyU1k3T1gvalgydU5DMHRKd2lT?=
+ =?utf-8?B?cEs1cG01azV3RFl6UmlRbmlWT2NZVlZRdnY1bURjUEdxTUxYL3dHRnVSWFl4?=
+ =?utf-8?B?aTdEMTVyV2VNQ214bm9VaDJtdTVQQ2ZkK2dZU2IrejVTWUE2VGVjaGFETG1X?=
+ =?utf-8?B?MFdINFV2RWJWTHF2eVlLMVdRTGs1VExSVFJPcUJ4M05BRXdGdVFYOVI5aFNS?=
+ =?utf-8?B?TTdScDR4MTlFY0pqaTZuZkd4SnZxZVloMjRRejB5a1o4S3EvV2JIa3VSZXVp?=
+ =?utf-8?B?UlV1SmEzNXRwckVlME9UaFc0dGNkR01JMGZqQ01FN0M5cTl3TXFGTzROTnl3?=
+ =?utf-8?B?bm5hQXVvUWV1eEN2LzVRU1F5M0djbUpSM0VkVVJZdk9PTWI5MTM1c3kwcUlD?=
+ =?utf-8?B?Smt0dTJyUDF0alltNG5tbm5zYUk4VDMxRHVmQ3pnYUErK3lHRUhuaVVBb0lI?=
+ =?utf-8?B?SEZvM0J5M1g2T1pCZDVrZENaOXZzUmlqMjBNQ0taVEQ2QU9BRW82MEdwK0pB?=
+ =?utf-8?B?R0pFLzVCSU9hSnkzSjFTa1lRSTVNSjd1RSt1c2YyVVo4VmsxTC9aRW9scklu?=
+ =?utf-8?B?WnRZTWRkWXRIMVYwZ3QzZjd4WTdLZit6QmRxcUo3T2Z2QVQrZFJjZ0hKL1Qz?=
+ =?utf-8?B?TVdVWmNpb2lNL1dyVHdRTFk5ZHBGZng5dm1UbkdLSVV5OUMyNlUyUGxKRUY5?=
+ =?utf-8?B?RjE2Y2dDdSs3TVJ1VVdueWgveWJ6MG8rSkY3ODQybzFQVVE5VDROa29QVlpP?=
+ =?utf-8?B?NXMrQW5HNDVTbXhIWEI0MlhhQUJJTUNTbjVGWE1YbnZqT1g1RmRWWkdtZDMr?=
+ =?utf-8?B?bHpnb1AzYVV3SVlJQW5aSlVOT0EzdWFFdGlwd0VURXA5S29VaC9JVlNYaUIv?=
+ =?utf-8?B?enpjVU9HZzNMT1lNRDFlQitUUzZOQnJiVHZmbjcyQmpqZzF3Zml2d0hheW10?=
+ =?utf-8?B?RW5jQit6aFhFM0l5VHI3RGtTZUNWWjZRei92cUN5K2dFczN3TG1QUnpUdmZM?=
+ =?utf-8?B?RXhaWHRQdnNGbDdIVDNoemcvK3FSQm9tQU1pZmVpYW5BaUIvbTdLY1d6MkVQ?=
+ =?utf-8?B?S0lvWm5lQnArNmoyVGVYL3JOeW1kRXI4RWdjN0I1WXVvd1hOd0huM1hHMjRN?=
+ =?utf-8?B?WVVNOWovYnBOcXgvMTA3Y1N3bXJ2dGg1UTBFVDVKR054RnVURWI4T0pWd21F?=
+ =?utf-8?B?M3NUUGk2ZjV2RUJQQkQyVnNZU2JkaTE0OGViNlA4bUZNMGM5eDJrMVRuT1Nw?=
+ =?utf-8?B?NUN5bVFhUk03QTJQMmwxM0IrOWFtQmZLUVlaancwZzBXbEZpamtscWpGaUk5?=
+ =?utf-8?B?Zm5KeHFWalFLSW1nVjh2SFFxdnhGVVhkM1BXYWw4SWJCQTFFSGFSZStFSE9J?=
+ =?utf-8?B?Ukd0ZVlkRkFpVHFCNnpHOUtUQXdGM1dxaGRqd0kyeHlVNTVWdEt2SlM3QkR0?=
+ =?utf-8?B?VEk4Wm00RlhQcHlTYkNkd2xidm40UnlCWDZCWG0vbUp2RzBZbDFxWDFORmVE?=
+ =?utf-8?B?SDdUNzRPOU1WTjdKYlc5L3lWNGdJZEs1TVgzcjZyRmtlV1JFQWRtVXp5V1h4?=
+ =?utf-8?B?OU9icXkwQkpVZS9Cak9VNDF2cXNoUkEvd0YyUTRwOGRuMFhiRHdaSDFTT2Vi?=
+ =?utf-8?B?dDNXblJ4MEdZaVhzTTF1VWhOUTZBN2JnQktKUXNKeWpyei9ES3cxTVE2VXRD?=
+ =?utf-8?Q?mn2Z3eq4TD/79fg6TE?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88fa798b-97b9-4634-eea4-08deb6790733
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 14:06:46.2837
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JGB9x8W4fCJMLpslSV1FKUmJph2CJnYYwWDMhDm5vwzQoQELHBxmtgWnGU757T0F
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9610
 
-On Thu, 7 May 2026 at 21:22, Ackerley Tng via B4 Relay
-<devnull+ackerleytng.google.com@kernel.org> wrote:
->
-> From: Ackerley Tng <ackerleytng@google.com>
->
-> Introduce base support for KVM_SET_MEMORY_ATTRIBUTES2 in guest_memfd, which
-> just updates attributes tracked by guest_memfd.
->
-> Validate input fields in general. Guard usage of KVM_SET_MEMORY_ATTRIBUTES2
-> by making sure requested attributes are supported for this instance of kvm.
->
-> A new KVM_SET_MEMORY_ATTRIBUTES2 is defined to support writes (unlike
-> KVM_SET_MEMORY_ATTRIBUTES) in addition to reads so it can provide error
-> details to userspace. This will be used in a later patch.
->
-> The two ioctls use their corresponding structs with no overlap, but
-> backward compatibility is baked in for future support of
-> KVM_SET_MEMORY_ATTRIBUTES2 and struct kvm_memory_attributes2 in the VM
-> ioctl.
->
-> The process of setting memory attributes is set up such that the later half
-> will not fail due to allocation. Any necessary checks are performed before
-> the point of no return.
->
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> Co-developed-by: Vishal Annapurve <vannapurve@google.com>
-> Signed-off-by: Vishal Annapurve <vannapurve@google.com>
-> Co-developed-by: Sean Christoperson <seanjc@google.com>
-> Signed-off-by: Sean Christoperson <seanjc@google.com>
+On 5/20/26 14:33, Xaver Hugl wrote:
+> Am Mi., 20. Mai 2026 um 10:08 Uhr schrieb Christian König
+> <christian.koenig@amd.com>:
+>> Well I would say the other way around is a pretty common use case.
+>>
+>> In other words the compositors uses the internal GPU for composing and displaying the picture. And the client uses the external GPU for fast rendering.
+> Sure, but that's not what I'm talking about.
 
-Reviewed-by: Fuad Tabba <tabba@google.com>
-/fuad
-> ---
->  include/uapi/linux/kvm.h |  13 ++++++
->  virt/kvm/Kconfig         |   1 +
->  virt/kvm/guest_memfd.c   | 114 +++++++++++++++++++++++++++++++++++++++++++++++
->  virt/kvm/kvm_main.c      |  12 +++++
->  4 files changed, 140 insertions(+)
->
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 6c8afa2047bf3..e6bbf68a83813 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -1648,6 +1648,19 @@ struct kvm_memory_attributes {
->         __u64 flags;
->  };
->
-> +#define KVM_SET_MEMORY_ATTRIBUTES2              _IOWR(KVMIO,  0xd2, struct kvm_memory_attributes2)
-> +
-> +struct kvm_memory_attributes2 {
-> +       union {
-> +               __u64 address;
-> +               __u64 offset;
-> +       };
-> +       __u64 size;
-> +       __u64 attributes;
-> +       __u64 flags;
-> +       __u64 reserved[12];
-> +};
-> +
->  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
->
->  #define KVM_CREATE_GUEST_MEMFD _IOWR(KVMIO,  0xd4, struct kvm_create_guest_memfd)
-> diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
-> index 3fea89c45cfb4..e371e079e2c50 100644
-> --- a/virt/kvm/Kconfig
-> +++ b/virt/kvm/Kconfig
-> @@ -109,6 +109,7 @@ config KVM_VM_MEMORY_ATTRIBUTES
->
->  config KVM_GUEST_MEMFD
->         select XARRAY_MULTI
-> +       select KVM_MEMORY_ATTRIBUTES
->         bool
->
->  config HAVE_KVM_ARCH_GMEM_PREPARE
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index 4f7c4824c3a45..91e89b188f583 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -540,11 +540,125 @@ unsigned long kvm_gmem_get_memory_attributes(struct kvm *kvm, gfn_t gfn)
->  }
->  EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_gmem_get_memory_attributes);
->
-> +/*
-> + * Preallocate memory for attributes to be stored on a maple tree, pointed to
-> + * by mas.  Adjacent ranges with attributes identical to the new attributes
-> + * will be merged.  Also sets mas's bounds up for storing attributes.
-> + *
-> + * This maintains the invariant that ranges with the same attributes will
-> + * always be merged.
-> + */
-> +static int kvm_gmem_mas_preallocate(struct ma_state *mas, u64 attributes,
-> +                                   pgoff_t start, size_t nr_pages)
-> +{
-> +       pgoff_t end = start + nr_pages;
-> +       pgoff_t last = end - 1;
-> +       void *entry;
-> +
-> +       /* Try extending range. entry is NULL on overflow/wrap-around. */
-> +       mas_set(mas, end);
-> +       entry = mas_find(mas, end);
-> +       if (entry && xa_to_value(entry) == attributes)
-> +               last = mas->last;
-> +
-> +       if (start > 0) {
-> +               mas_set(mas, start - 1);
-> +               entry = mas_find(mas, start - 1);
-> +               if (entry && xa_to_value(entry) == attributes)
-> +                       start = mas->index;
-> +       }
-> +
-> +       mas_set_range(mas, start, last);
-> +       return mas_preallocate(mas, xa_mk_value(attributes), GFP_KERNEL);
-> +}
-> +
-> +static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
-> +                                    size_t nr_pages, uint64_t attrs)
-> +{
-> +       struct address_space *mapping = inode->i_mapping;
-> +       struct gmem_inode *gi = GMEM_I(inode);
-> +       pgoff_t end = start + nr_pages;
-> +       struct maple_tree *mt;
-> +       struct ma_state mas;
-> +       int r;
-> +
-> +       mt = &gi->attributes;
-> +
-> +       filemap_invalidate_lock(mapping);
-> +
-> +       mas_init(&mas, mt, start);
-> +       r = kvm_gmem_mas_preallocate(&mas, attrs, start, nr_pages);
-> +       if (r)
-> +               goto out;
-> +
-> +       /*
-> +        * From this point on guest_memfd has performed necessary
-> +        * checks and can proceed to do guest-breaking changes.
-> +        */
-> +
-> +       kvm_gmem_invalidate_begin(inode, start, end);
-> +       mas_store_prealloc(&mas, xa_mk_value(attrs));
-> +       kvm_gmem_invalidate_end(inode, start, end);
-> +out:
-> +       filemap_invalidate_unlock(mapping);
-> +       return r;
-> +}
-> +
-> +static long kvm_gmem_set_attributes(struct file *file, void __user *argp)
-> +{
-> +       struct gmem_file *f = file->private_data;
-> +       struct inode *inode = file_inode(file);
-> +       struct kvm_memory_attributes2 attrs;
-> +       size_t nr_pages;
-> +       pgoff_t index;
-> +       int i;
-> +
-> +       if (copy_from_user(&attrs, argp, sizeof(attrs)))
-> +               return -EFAULT;
-> +
-> +       if (attrs.flags)
-> +               return -EINVAL;
-> +       for (i = 0; i < ARRAY_SIZE(attrs.reserved); i++) {
-> +               if (attrs.reserved[i])
-> +                       return -EINVAL;
-> +       }
-> +       if (attrs.attributes & ~kvm_supported_mem_attributes(f->kvm))
-> +               return -EINVAL;
-> +       if (attrs.size == 0 || attrs.offset + attrs.size < attrs.offset)
-> +               return -EINVAL;
-> +       if (!PAGE_ALIGNED(attrs.offset) || !PAGE_ALIGNED(attrs.size))
-> +               return -EINVAL;
-> +
-> +       if (attrs.offset >= i_size_read(inode) ||
-> +           attrs.offset + attrs.size > i_size_read(inode))
-> +               return -EINVAL;
-> +
-> +       nr_pages = attrs.size >> PAGE_SHIFT;
-> +       index = attrs.offset >> PAGE_SHIFT;
-> +       return __kvm_gmem_set_attributes(inode, index, nr_pages,
-> +                                        attrs.attributes);
-> +}
-> +
-> +static long kvm_gmem_ioctl(struct file *file, unsigned int ioctl,
-> +                          unsigned long arg)
-> +{
-> +       switch (ioctl) {
-> +       case KVM_SET_MEMORY_ATTRIBUTES2:
-> +               if (vm_memory_attributes)
-> +                       return -ENOTTY;
-> +
-> +               return kvm_gmem_set_attributes(file, (void __user *)arg);
-> +       default:
-> +               return -ENOTTY;
-> +       }
-> +}
-> +
->  static struct file_operations kvm_gmem_fops = {
->         .mmap           = kvm_gmem_mmap,
->         .open           = generic_file_open,
->         .release        = kvm_gmem_release,
->         .fallocate      = kvm_gmem_fallocate,
-> +       .unlocked_ioctl = kvm_gmem_ioctl,
->  };
->
->  static int kvm_gmem_migrate_folio(struct address_space *mapping,
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index ff20e63143642..4d7bf52b7b717 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -110,6 +110,18 @@ EXPORT_SYMBOL_FOR_KVM_INTERNAL(STATIC_CALL_KEY(__kvm_get_memory_attributes));
->  EXPORT_SYMBOL_FOR_KVM_INTERNAL(STATIC_CALL_TRAMP(__kvm_get_memory_attributes));
->  #endif
->
-> +#define MEMORY_ATTRIBUTES_MATCH(one, two)                              \
-> +       static_assert(offsetof(struct kvm_memory_attributes, one) ==    \
-> +                     offsetof(struct kvm_memory_attributes2, two));    \
-> +       static_assert(sizeof_field(struct kvm_memory_attributes, one) ==\
-> +                     sizeof_field(struct kvm_memory_attributes2, two))
-> +
-> +/* Ensure the common parts of the two structs are identical. */
-> +MEMORY_ATTRIBUTES_MATCH(address, address);
-> +MEMORY_ATTRIBUTES_MATCH(size, size);
-> +MEMORY_ATTRIBUTES_MATCH(attributes, attributes);
-> +MEMORY_ATTRIBUTES_MATCH(flags, flags);
-> +
->  /*
->   * Ordering of locks:
->   *
->
-> --
-> 2.54.0.563.g4f69b47b94-goog
->
->
+Yeah sorry for that, I wasn't sure if I misunderstood your use case because it's usually the other way around.
+
+>>> - the buffers from the client stay valid
+>>
+>> Buffers from the hot plugged GPU don't stay valid. Accessing CPU mappings either result in a SIGBUS or are redirected to a dummy page.
+> Again, not what I wrote about. The buffers are on the integrated GPU.
+
+General rule of thumb is that as long as the exporter stays around the buffers stay around as well.
+
+>>> - the syncobj stays valid on the client side
+>>> - the syncobj becomes invalid on the compositor side
+>>
+>> Nope that's not correct. The syncobj itself stays valid even if you completely hot plug the device.
+>>
+>> It can just be that the fences inside the syncobj are terminated with an error.
+> What about eventfd created for a point on the syncobj?
+
+The eventfd unfortunately doesn't has error handling as far as I know, so when a fence signals with an error condition then the eventfd you only sees that it is signaled.
+
+> Another (future) problem with hotplugs will be if the sync file hasn't
+> materialized for the timeline point when the device is hotunplugged,
+> since there can't be an error on the fence if there isn't one. Or
+> could userspace somehow set an 'artificial' fence with an error in
+> that case?
+
+In general the answer is yes, userspace needs to take care of inserting fences when wait before signal is used and the work can not be submitted to the HW for some reason.
+
+Currently we only have an IOCTL to insert the signaled dummy fence at some timeline sequence, but it should be trivial as well to insert a signaled fence with an error code.
+
+But the compositor needs to be able to handle that case anyway, because it can be that a malicious or just buggy client just never inserts the fence.
+
+So that a device is hot plugged is not different to just a client not inserting the fence in the first place.
+
+>>> "invalid" there means either
+>>> - the acquire point of the client is marked as signaled, before
+>>> rendering on the client side is completed
+>>> - the acquire point of the client is never signaled. Since the
+>>> compositor waits for the acquire point, the Wayland surface is stuck
+>>> forever
+>>
+>> Both of those would be a *massive* violation of documented kernel rules for hot-plugging which could lead to random data corruption and/or deadlocks.
+>>
+>> If you see any HW driver showing behavior like that please open up a bug report and ping the relevant maintainers immediately.
+> If there are no error codes with syncobj yet, then to userspace, the
+> latter behavior is exactly what we get, isn't it?
+
+No, from userspace side you just see a signaled fence. It's just that you need to export the timeline point of the syncobj to a syncfile and then you can call the QUERY IOCTL on the syncfile to see the error code.
+
+>> When a hotplug happens all operations of the device should return an -ENODEV error, even when exposed to other devices/application through syncobj or syncfile.
+> Okay, that at least gives us a way to fail imports somewhat
+> gracefully. Normally, failing to import a syncobj is a fatal error in
+> the Wayland protocol.
+
+So the task at hand would be to avoid importing the syncobj into a driver. That should be relatively trivial.
+
+The only real problem I see is if you want to create a syncobj without having any device whatsoever.
+
+>> One problem is that only syncfile allows for querying such error codes at the moment, we have patches pending to add that to syncobj as well but we lack a compositor with support for that as userspace client.
+> As long as the error case can be detected with an eventfd,
+
+Yeah that's the problem. The eventfd only tells you if the operation is completed (or at least has materialized).
+
+To query the error you would need to ask the underlying syncobj or syncfile directly.
+
+> implementing that in KWin shouldn't be a challenge.
+> 
+>> Well the question here is if the device the compositor is using or the client is using is gone?
+>>
+>> If the client device is hot removed the compositor should be perfectly capable to import the syncobj.
+>>
+>> If the compositor device is gone then you don't have a device to display anything any more, so generating the next frame doesn't seem to make sense either.
+>>
+>> What could be is that you want the compositor to be kept alive even when the display device is gone to switch over to vkms or whatever so that a VNC session or other remote desktop still works.
+> There are two GPUs in the example I gave. The compositor can use both
+> for rendering (in cosmic-comp's case) or switch between them (what I'm
+> trying to do with KWin), or use one device for rendering, and another
+> for importing the syncobj.
+
+Ah! I think I got the problem now. You basically want to avoid importing the syncobj because when the wrong device goes away you are busted.
+
+The reason we didn't considered having the IOCTLs on the FD is because if you don't import them and instead keep them around you can run out file descriptors quite quickly.
+
+When you have an use case where you receive an FD from the client and do a one shot conversion to an eventfd that will probably work, but for keeping them in the long run you need some kind of container for the syncobjs, don't you?
+
+>>>>>>> 3. It removes the need to translate between syncobjs fds and handles.
+>>>>>>
+>>>>>> That's a pretty big no-go as well. The differentiation between FDs and handles is completely intentional.
+>>>>> Could you expand on why it's needed? For compositors, the handle is
+>>>>> just an intermediary thing when translating between file descriptors.
+>>>>
+>>>> Well what we could do is to add an IOCTL to directly attach an syncobj file descriptor to an eventfd.
+>>> That would be nice.
+>>
+>> Take a look at drm_syncobj_file_fops and how drm_syncobj_add_eventfd() is used. Adding that functionality shouldn't be more than a typing exercise.
+> Yeah, this patchset already adds that functionality (on the new device).
+> 
+>> Do I see it right that this would already solve most problems in the compositor side?
+> Skipping the syncobj handle step would only reduce the amounts of
+> ioctls the compositor does, but afaict it wouldn't solve any
+> compositor problems. At least not as long as it's still tied to a drm
+> device.
+
+Yeah, you need something like a syncobj container or dummy DRM device.
+
+> For device hotplugs, the only new thing we need for correctly handling
+> syncobj is a way to receive errors on the eventfd.
+
+I need to look into the eventfd code, could be that this is somehow possible but it's clearly not something I used before.
+
+> A device-independent way to create and use syncobj would still be
+> useful to us though, both to simplify the compositor and to improve
+> the software rendering use cases.
+
+Yeah not sure how to cleanly do that. We could have a dummy /dev/dri/rendersync or something like that, but that would be quite a hack.
+
+At least I understand the requirement now.
+
+Thanks,
+Christian.
+
+> 
+> - Xaver
+
