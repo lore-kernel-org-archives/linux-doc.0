@@ -1,283 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE1B3438A2
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 07:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779261741; cv=pass; b=WmmVAuw8UTPomWvwf73ahPtqHRtxJEBdmDDo8K1vmeUU0fOnGgD+/AYYeWfTWHpMqV+BQpRMfrHF2NlCkoag3eG8V7eOGhzVAiSa6xM4UdHJ5DiX/nq4CWG1YCCyzhzkYW1bNp2zOeawXtJTrGIOhWUfpJwCuE2+At8QpUOo7yY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779261741; c=relaxed/simple;
-	bh=wupLUxHCLNIn82ENANfRaN7CKoGhY1WDOE+kOFYZXFk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hoeijJpuiDoJnW36p8VDPFAtTcaxGtSaW/N3dCbLy2pHQPC6KK/Pi0yZU7Rg4O9Cp8kPrnkDETSdaGWqkAkbctMtzLlvYHy+0XX+9C1WpKUepgjfz5Dr18Yy4VXZmFe7dydiTOMMpmyxn7/p6zXM3LEVkQaOLhi3opHHEiWFg5M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EMVF/5TY; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Oa1rqCQF; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD43374E4E;
+	Wed, 20 May 2026 08:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779264364; cv=none; b=qStKGVHLuknIrOqbLzEdAvhW4xmZz5shdpu01ntkJ2atJiKYJRovS++8DioCyVCL+QFeuPpXbhPZ8QyHMIJMsH/ixSBKk5IO2Rz0yAH1qHoxdN0xFBFz21fer34RRTV+IEWIL8Bu1MkCUpuand5a5Z4alzc9+2k/DvT5yzlvlkk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779264364; c=relaxed/simple;
+	bh=gs853bop4kkL7HTCekE+oDlfVu/SjBw5Q0VX/QiWKBo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bqVeYdHHdQgLI4vCNio8x09Obxf8vObcMnvxcaBwi31f3vPlptuT5L6HB5/hRMRJhEHt/jAvIqb0SjmA1vCyzzMp6ot+xtyADSxhrEa1IZqcku7t9AeB/7nast9QytOmQoF0rywuJk+qUJZ8+NbibrPvNZw8HqSZCWSh1dKQl14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=YpsM5/Qj; arc=none smtp.client-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EMVF/5TY";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Oa1rqCQF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779261739;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Xx2spnpzWhoLag/qhNvFLWpyojrRWUzv888prY2ah/g=;
-	b=EMVF/5TY9Z+ov2XErYebG2/YTaGwrc1Nd9r8MMGS/RN6tuGHGOMovsMGKyogf7ENieQ7i7
-	/iE0y6TGN+fmY3TzxArCSnMOx91cdYhNPW8is5IspVIEagpFM8eOe3U1ifHLN8cTwBNTaC
-	ECRRBG/vA+ROaOP3EiSTcN87Kbfv7Sk=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-385-Isofm5QTMz2_Jurb3vWTOg-1; Wed, 20 May 2026 03:22:17 -0400
-X-MC-Unique: Isofm5QTMz2_Jurb3vWTOg-1
-X-Mimecast-MFC-AGG-ID: Isofm5QTMz2_Jurb3vWTOg_1779261737
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-7bf0b47d2e2so85286697b3.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 00:22:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779261737; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MI3kZu4frS23PTzsYnCFF+8OFBXw421jCVbMVrXpl5mwheSL9gMD8KRovXPq/+T8CY
-         AS6UAX580Od8vqZcd44IFsT6HM8EPrHQw+KNed90AxHU/6n+ETHgbpOnDvfT9h071Xns
-         It8mFX1gKevMTbmhusVeK4B0mMUi2ieFpLmVF57D6l+ioGfw3CfVMCHXF3hjMnghfqRT
-         ApsOJ3vm8zmRKX6UTcqFR5XbbgFuw+nndYpuSO2m99JgRd5V+oewgkhexx3cTu1gdba4
-         lA8Ks1ZFif2XL1um0COFHe4Nn+VtVdbvWoa666I8+luY2stcgRG0q0llnToSTkdaJTmP
-         Vugg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Xx2spnpzWhoLag/qhNvFLWpyojrRWUzv888prY2ah/g=;
-        fh=/ZxinDeEz/388IFVl6UmbzG+Fu6yC4ShleD80k9WPhM=;
-        b=V6alsZkWDmYFdV6EStZzTxjNhUzPtVPCtnrnwoqVVE5IvPyDS3ZmMBrl39qwLJPv1G
-         4dsqzi7jE5qkC5kPLiKdl2hBrZVGM76kL76OiERBUBbm+osa6xrIDq2VCkQhotzxknDQ
-         +DSnEczbg8pV71tO2T1E4oAvXyvM0c2CDIrADaF6DaQyq0lSy69lomdKOnM3bIKFbsAd
-         knF+pVPybReH4wAzJ9PMB8iDCl1TeXeXl1wj34K0d8rt9kQpWIWA0ANo1Ad3l3xaC8gY
-         Cys81+LxHyzLvEe9n/tp11yn/krlI0Iw+J3lW8QdBaSRr5MQUi/BIfPq1y4Ri4wkeL37
-         SztQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779261737; x=1779866537; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xx2spnpzWhoLag/qhNvFLWpyojrRWUzv888prY2ah/g=;
-        b=Oa1rqCQFPpAVZy+6jKuXMrN0EhcTbdd4X3A1SSvMMYf1L4IFO8RuLA9WFmxTGXdBsk
-         xpVKlJvzsIYrwxFC5KJyLICyxBSCMgpltTU7ICbRKhahbxQB5bWCnByFWYfbsD29wlUK
-         do2GE/AsWhvX+3vs5VHYbtQbLWxjdw/lTA5dxkR4sR01wW5HX6HX38U6F3WaCySqL3fm
-         JvCX4nD49qrOE9yAB8eTteCzKaAbqYG/RFPmKeZ13omA4NlaUe6Gc5EFUcn/yjHdMri5
-         EKO+n5m/p7Dm1eY6YCzZ6O5IIiKEcv1NGG22VscjRNJ6TeDHXADB8w5pKbHfKUmu7WOy
-         SVOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779261737; x=1779866537;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Xx2spnpzWhoLag/qhNvFLWpyojrRWUzv888prY2ah/g=;
-        b=TjWXJCejR+g3nlkmqXoWhMSixMKq/arwOUUTz3rm1IH7Orcs93yx1TWpcwopO5CbpJ
-         E1YWL1bndO0IybcdSP0zJ44oQbfp4RWfQAVVbH5Z+TRIOQ/aVWyQFH78yO1BtX6pIbvf
-         XAIkRXtMnpDSlITSVDOqKBjcR6OdGRmDHFp82hlDNMusl9aS7SMm+v1YgygQvApeqQbn
-         1hP4iRtG43jt4JxEgzNd5XEmtnzUA8+YcAobo2a/dNnOolbFrA8DAgVUDLEbjhVW0L5l
-         cM+Nfr85n7x0CeSpWw0RC63DqXBWNpfwzUm+VHKpNFCXyMQVrFQfzQm+TDitZKC9QxR8
-         2NYQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+ce5UfanMYf8GAzuEM04IqOxt6UGEdQ4qQbPoIP+gVr4o8cCMqIugwCZUGcH+nqfED89YZkudI6Xo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXUWVW6fX7ueZ0Fq6JQNGkmltQ9E8RtZHDeNS9gCOeXnsqvqXR
-	SuvRXmtoM33cbMh/Bzy7jQQg7Uigexr0RswNlFE4Y+8PBknQs9BYFlB1yRmKTEOFn1qM6FNNiOa
-	ZvvA37wxCeSbIS+wJdS/8GErudhVslrcVknUTnicD8Eml3rsZmUcTmSqZh1C6xAOP8iGKua6Y1B
-	xqtwyjrzHnwDE+h7zPfC9qrZAkVT3wHEornIcc
-X-Gm-Gg: Acq92OE2j/5Lu5x4Biyiuix8eCJZ95VgBrJlJ1LJjDh/Ho2LutsUpA5k11gGt4vDFye
-	in371EOUeqjZ8dcXeZmqS939xcqAgq6odvh+W2YInoqzS4ZOcnYkwRUXg1YUP63XnK0yIy5IWST
-	FVOstv/3db7mLQNlN3C+pa5h8Khfo+0dOq75LEZh0/4ooKj2QObnyirvhCi/6Mf16BHpqXOywJX
-	LpvZA==
-X-Received: by 2002:a05:690c:84:b0:7b5:88ec:91b0 with SMTP id 00721157ae682-7c95d1d9e08mr253826627b3.48.1779261736924;
-        Wed, 20 May 2026 00:22:16 -0700 (PDT)
-X-Received: by 2002:a05:690c:84:b0:7b5:88ec:91b0 with SMTP id
- 00721157ae682-7c95d1d9e08mr253826267b3.48.1779261736472; Wed, 20 May 2026
- 00:22:16 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="YpsM5/Qj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1779264344; bh=HZsvl46qWQHigxum3FRtg7Qi/0P+9ZbmcLxGnn2DTnE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=YpsM5/Qj1KURlIBKXLJLEH+lwLnh88W1EEgBZLjhrAelBCsljXVjJJxjryt8i9wQ0
+	 vjmllYVYxP0SnVFg/nHCbxoshrpQ2OQ0kEfi8P12VeplLEx29Fwq4T+9/IbWOoh9yc
+	 yzQK+SsclykiiRNEVLAq70fiOdbo09A4VZ9etRi4=
+Received: from [10.46.141.45] ([36.112.3.68])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id 16885226; Wed, 20 May 2026 16:05:40 +0800
+X-QQ-mid: xmsmtpt1779264340t8p8jvwdc
+Message-ID: <tencent_A8707EC14361A4E2A6C762850BE5994F7105@qq.com>
+X-QQ-XMAILINFO: M+sNXJc2Y9oMgafrCSjOBLoEkBVammffmwkVL4pQz/KyGooagbxo2UFNtXEbLh
+	 rDi3OJerN0VkNlalFAXGmVO8SqJsbrApke7cZTPXErJbye8yUYiyjtnXucuGGKdnPS4ZWkMjORLL
+	 E/S7d3vE/rBeteK1ca9TKRKKT1uFOqYG3/ez+2SyeelQ9WzoKiruO2ndJy9pJJqUvwcpYWBXuXgU
+	 SB1OUOa5/s09GsqQiEboiOv8DeyUHSmVFNaaPqW9NSM9UaOhyVDpfUdTkkLc8JvwGcqZyjfzcdGH
+	 CrPm/FnQvtCHqRF9zAhBXkef+5KK/XcI6I/tN9Gi3O+UVe1V3BQsZ3DHbfBWHMo+uRffnsz/ouXA
+	 9eGT+k46yxGZnzw0ETTaaRUieH4azQ02o8fccCNc1OB/uY4pUdwnVfX1A/s86AXHGfWrFgMLSUKi
+	 1UuF6L0327zC412Cmf9QHLZpqfBv9xkf3fnMQBDvkKMlF6beR6gntKXcPzwehCZcy5k3FwisK/qd
+	 8vgbcbJf7FusMgZ+/BiHj4OC125YJ6G7g05kz6065sJ30fSX/qNfvihpEFwpmWW+Z4ZdwdUPYybT
+	 QqBxihj3O1JSe71SMHPcdUGT/vBLD1AqFlfuoDCZi53GIk3JyPCEG0RKNZm2nn0l9tKw9DyASRfQ
+	 FdiAv3btEKFA4HQFa710G0GRp9THDoMAtwtcsfZNWXSaEhtz90Mk53ELMfpxDyXeWiDwWen8IHUl
+	 MR6OaNi19UkF7jYkhWRHkjQvi6UfxueW/oMAnbS78suVnTK/5deKb09RXJ+yB9sbU6ZK0eJTF8Y8
+	 3AslxoulvrFgJRYmNRkZn+NRYA2KKGZztDz7NpU/gEHwPzOeK/Pus1H/KN8/9+0M0AwbVAGxtb7G
+	 D35TFXXX4USBwqFerf3vi6rCrIwWsw1dxWF8dvGsxUgpZ/adCtbCJvLk5JstUfWNEnSQY/vBgNk3
+	 1fnbPSpVkcsTQ/b7F6LuDA+PyEyGLta+dSQpURXB/nZNf9vYZZK9xXuA7nRQ77T1dMFpz/eWSe6c
+	 bZYMqPCSMIhm1JxME0UXWO5XEZAOZMWC5WhpFbEJ6SvNZFk27zSEyQcSCRqqZl+pfhHXmfFi5hKf
+	 Ib3Xw2hnwwXOjgp8Iv6sQoa8RJKgKrYNLlcEtw
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+X-OQ-MSGID: <ff735130-77be-4c2f-99a6-aff64d95457d@qq.com>
+Date: Wed, 20 May 2026 16:05:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
- <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
-In-Reply-To: <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Wed, 20 May 2026 09:22:02 +0200
-X-Gm-Features: AVHnY4KBhaLJ6-NKlQm0NilZQ57LVIjKu_pC_jcyJuZg3rPObvW4KXxjSx93n3c
-Message-ID: <CADSE00L4R6PGtP6yGTZ6Ym=tvOZEYHRbuEtEu0BKX294HN6qXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] mm/memcontrol: add dmem charge/uncharge functions
-To: Eric Chanudet <echanude@redhat.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
-	Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "T.J. Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Maxime Ripard <mripard@redhat.com>, Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/5] mm: support zswap-backed anonymous large folio
+ swapin
+To: Alexandre Ghiti <alexghiti@meta.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Nhat Pham <nphamcs@gmail.com>, Yosry Ahmed <yosry@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>,
+ Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chengming Zhou <chengming.zhou@linux.dev>, Baoquan He <bhe@redhat.com>,
+ Lorenzo Stoakes <ljs@kernel.org>
+References: <tencent_8B437BE4F586C162950BF71954316C1EDB05@qq.com>
+ <CAEmasaV7ejxqb9-wTT=7xdt+icxj-ZvdSLkSoC6X5i6NMfsKPQ@mail.gmail.com>
+ <tencent_BE4D8C052157D1B38BA2F9FCA287D4C8E606@qq.com>
+ <CAEmasaV=L8w4dF7ja7GkDu_7U5i+aVVH1a1qsXgtFr3wuWNOPA@mail.gmail.com>
+From: Fujunjie <fujunjie1@qq.com>
+In-Reply-To: <CAEmasaV=L8w4dF7ja7GkDu_7U5i+aVVH1a1qsXgtFr3wuWNOPA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 19, 2026 at 6:01=E2=80=AFPM Eric Chanudet <echanude@redhat.com>=
- wrote:
->
-> Add mem_cgroup_dmem_charge() and mem_cgroup_dmem_uncharge() to allow
-> dmem pool allocations to optionally be double-charged against the memory
-> controller. Take the struct cgroup from the dmem pool's css as there is
-> no convenient object exported to represent these allocations. These will
-> resolve the effective memory css from that cgroup and perform the
-> charge.
->
-> Introduce a MEMCG_DMEM stat counter to memory.stat to make the cgroup's
-> dmem charge visible.
->
-> Signed-off-by: Eric Chanudet <echanude@redhat.com>
 
-Reviewed-by: Albert Esteve <aesteve@redhat.com>
 
-> ---
->  include/linux/memcontrol.h | 16 ++++++++++++
->  mm/memcontrol.c            | 65 ++++++++++++++++++++++++++++++++++++++++=
-++++++
->  2 files changed, 81 insertions(+)
->
-> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> index dc3fa687759b45748b2acee6d7f43da325eb50c1..8e1d49b87fb64e6114f3eb920=
-293e14920290fe7 100644
-> --- a/include/linux/memcontrol.h
-> +++ b/include/linux/memcontrol.h
-> @@ -39,6 +39,7 @@ enum memcg_stat_item {
->         MEMCG_ZSWAP_B,
->         MEMCG_ZSWAPPED,
->         MEMCG_ZSWAP_INCOMP,
-> +       MEMCG_DMEM,
->         MEMCG_NR_STAT,
->  };
->
-> @@ -1872,6 +1873,21 @@ static inline bool mem_cgroup_zswap_writeback_enab=
-led(struct mem_cgroup *memcg)
->  }
->  #endif
->
-> +#if defined(CONFIG_MEMCG) && defined(CONFIG_CGROUP_DMEM)
-> +bool mem_cgroup_dmem_charge(struct cgroup *cgrp, unsigned int nr_pages,
-> +                           gfp_t gfp_mask);
-> +void mem_cgroup_dmem_uncharge(struct cgroup *cgrp, unsigned int nr_pages=
-);
-> +#else
-> +static inline bool mem_cgroup_dmem_charge(struct cgroup *cgrp,
-> +                                         unsigned int nr_pages, gfp_t gf=
-p_mask)
-> +{
-> +       return true;
-> +}
-> +static inline void mem_cgroup_dmem_uncharge(struct cgroup *cgrp,
-> +                                           unsigned int nr_pages)
-> +{
-> +}
-> +#endif
->
->  /* Cgroup v1-related declarations */
->
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index c03d4787d466803db49cdaa90e6d6ba426b7afe2..91a7ac16b6eac2d6c3700b688=
-5a068bf8b640706 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -433,6 +433,7 @@ static const unsigned int memcg_stat_items[] =3D {
->         MEMCG_ZSWAP_B,
->         MEMCG_ZSWAPPED,
->         MEMCG_ZSWAP_INCOMP,
-> +       MEMCG_DMEM,
->  };
->
->  #define NR_MEMCG_NODE_STAT_ITEMS ARRAY_SIZE(memcg_node_stat_items)
-> @@ -1606,6 +1607,9 @@ static const struct memory_stat memory_stats[] =3D =
-{
->  #ifdef CONFIG_NUMA_BALANCING
->         { "pgpromote_success",          PGPROMOTE_SUCCESS       },
->  #endif
-> +#ifdef CONFIG_CGROUP_DMEM
-> +       { "dmem",                       MEMCG_DMEM              },
-> +#endif
->  };
->
->  /* The actual unit of the state item, not the same as the output unit */
-> @@ -5909,6 +5913,67 @@ static struct cftype zswap_files[] =3D {
->  };
->  #endif /* CONFIG_ZSWAP */
->
-> +#ifdef CONFIG_CGROUP_DMEM
-> +/**
-> + * mem_cgroup_dmem_charge - charge memcg for a dmem pool allocation
-> + * @cgrp: cgroup of the dmem pool
-> + * @nr_pages: number of pages to charge
-> + * @gfp_mask: reclaim mode
-> + *
-> + * Charges @nr_pages to @memcg. Returns %true if the charge fit within
-> + * @memcg's configured limit, %false if it doesn't.
-> + */
-> +bool mem_cgroup_dmem_charge(struct cgroup *cgrp, unsigned int nr_pages,
-> +                           gfp_t gfp_mask)
-> +{
-> +       struct cgroup_subsys_state *mem_css;
-> +       struct mem_cgroup *memcg;
-> +
-> +       /* CGROUP_DMEM and MEMCG guarantees this cannot be NULL. */
-> +       mem_css =3D cgroup_get_e_css(cgrp, &memory_cgrp_subsys);
-> +
-> +       /* Use the memcg, if any, of the dmem cgroup. */
-> +       memcg =3D mem_cgroup_from_css(mem_css);
-> +       if (!memcg || mem_cgroup_is_root(memcg)) {
-> +               css_put(mem_css);
-> +               return false;
-> +       }
-> +
-> +       if (try_charge_memcg(memcg, gfp_mask, nr_pages)) {
-> +               css_put(mem_css);
-> +               return false;
-> +       }
-> +
-> +       mod_memcg_state(memcg, MEMCG_DMEM, nr_pages);
-> +       css_put(mem_css);
-> +       return true;
-> +}
-> +
-> +/**
-> + * mem_cgroup_dmem_uncharge - uncharge memcg from a dmem pool allocation
-> + * @cgrp: cgroup of the dmem pool
-> + * @nr_pages: number of pages to uncharge
-> + */
-> +void mem_cgroup_dmem_uncharge(struct cgroup *cgrp, unsigned int nr_pages=
-)
-> +{
-> +       struct cgroup_subsys_state *mem_css;
-> +       struct mem_cgroup *memcg;
-> +
-> +       /* CGROUP_DMEM and MEMCG guarantees this cannot be NULL. */
-> +       mem_css =3D cgroup_get_e_css(cgrp, &memory_cgrp_subsys);
-> +
-> +       memcg =3D mem_cgroup_from_css(mem_css);
-> +       if (!memcg || mem_cgroup_is_root(memcg)) {
-> +               css_put(mem_css);
-> +               return;
-> +       }
-> +
-> +       mod_memcg_state(memcg, MEMCG_DMEM, -nr_pages);
-> +       refill_stock(memcg, nr_pages);
-> +       css_put(mem_css);
-> +}
-> +#endif /* CONFIG_CGROUP_DMEM */
-> +
->  static int __init mem_cgroup_swap_init(void)
->  {
->         if (mem_cgroup_disabled())
->
-> --
-> 2.52.0
->
+On 5/19/2026 10:49 PM, Alexandre Ghiti wrote:
+> Hi,
+> 
+> On Tue, May 12, 2026 at 9:46 AM Fujunjie <fujunjie1@qq.com> wrote:
+>>
+>>>
+>>
+>>
+>> On 5/12/2026 12:20 PM, Alexandre Ghiti wrote:
+>>> So I have been working on the exact same thing for some weeks now. My work is based on Usama's series [1].
+>>>
+>>> The problem with large folio swapin is that it can create swap thrashing: to swap in a large folio, swap out may be necessary, as reported in [2].
+>>>
+>>> I implemented quite a few throttling algorithms on top to try to avoid this issue and so far, I have had mixed/inconsistent results.
+>>>
+>>> How did you test this series? Did you encounter thrashing? Do you have performance numbers?
+>>>
+>>> Happy to talk more about this, thanks for your series!
+>>>
+>>> Alex
+>>>
+>>> [1] https://lore.kernel.org/all/20241018105026.2521366-1-usamaarif642@gmail.com/  <https://lore.kernel.org/all/20241018105026.2521366-1-usamaarif642@gmail.com/ >
+>>> [2] https://lore.kernel.org/all/SJ0PR11MB5678A864244B09FDE4D914EEC9402@SJ0PR11MB5678.namprd11.prod.outlook.com/  <https://lore.kernel.org/all/SJ0PR11MB5678A864244B09FDE4D914EEC9402@SJ0PR11MB5678.namprd11.prod.outlook.com/ >
+>>
+>> Thanks Alexandre.
+>>
+>> My RFC only had correctness testing so far. I tested the all-zswap path
+>> and fallback cases under QEMU, but I don't have bare-metal
+>> performance numbers yet.
+>>
+>> If you are already actively working on this, I don't want to duplicate the
+>> same effort. I will pause this RFC for now and wait for your series.
+>>
+>> After your series is posted, I will take another look and see if there is
+>> anything that still needs follow-up work.
+>>
+>> Thanks for letting me know.
+> 
+> Sorry for the late answer. I took a break because of the inconsistent
+> results that I had, perhaps a fresh look could help so no worries if
+> you give it a try on your end.
+> 
+> Happy to discuss further results if you continue.
+> 
+> Alex
+
+
+Thanks Alexandre.
+
+That sounds good. I will take a fresh look on my side.
+If I find something useful, I will discuss with you.
+
+Best regards,
+fujunjie
 
