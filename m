@@ -1,93 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677BC3E1CE1;
-	Wed, 20 May 2026 12:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779281907; cv=none; b=fiDs/+MilbSZZhB3Gjxq4NtsAGXaOLbYLlCKjwPksM+LD10TgBzylNWK5pD/EJkKIvXWoqXCo6N4RvBZHI3V9G37M6idXi+cNgg4Cb+6cTiO0gLby3crJUHDyy8ABpDozrVwWVaHhZpebOzIxuDhb9qEehXSEBIQfMLJH5UedLI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779281907; c=relaxed/simple;
-	bh=SZ3XnUjpMaWStJq8rla36qMuAI4MZY2cNqWSyf0wb1E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JXlz8VD+78wXeRMSXMVfKXc2rFDn4gtX4k4POvFKz5sl+zXnZ+CgUCxjQv40VbeQDy+0SeaAMGtYO63NOEuSauNeMZ/74qgGv2agrY0VKYeGQprYV5K9eteODjoQ6ifue3MPoUKb46YHwZ7RQgcBZwUbldEyN6FwXjw2VB8zTV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NffAtSug; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13AC9246BC0;
+	Wed, 20 May 2026 13:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779282353; cv=pass; b=OaQRYZ0k0agwD7/aP2K91Lu8wSmocoHDmckQQL/q7/UBlr2GFbiFdtvF+o3qqvMT0hWNQQivZlnhKLUa10feu5jpcY0lIKDvV5fCWLgApsHh9caFi0USl2V0n1S3oIDSuBhQSF+2yc7cWxWDl1TyILA9PPp59KqL89Kv1pMryJ4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779282353; c=relaxed/simple;
+	bh=4ZJUUFTusQwCkc4vQzNULFomBO0PaE2rEF2idtusgIk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=d3Efh2R+G8cCm+wY3uc+2fa3mEPHX/GEGe5KLLqIxSvY9fbsdgqb/k+W+PZk3YuA6osWJtRnLZhL4SPVsIg7O7hhEyr9DwGopvb6O75uowdSc2HPxKZFFq5/J2vGqhfsRl5sHwuSRZE7iguhNqbbavmZFIFvfYXbAL+9mUXCKXI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=kvvcfRON; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NffAtSug"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 139A21F000E9;
-	Wed, 20 May 2026 12:58:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779281906;
-	bh=YkW4pvVABxc/wOKESG2c5A2yb2O6fz7b3zhSvVthsmc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NffAtSugrfa5NSP2dageADCVoO5P1/NvBAAZ9M2cPo9QytiaLhUEQXbbGnZAnCUey
-	 KTk34rOn15zkN1A+UOc0jl9v+F8MNc1ugv4dB8L/z6XLaNESDh/RhBIjmGdcsGdC42
-	 9Q+mAkSftX4CaNHxvoEbVMlydPqd1Ie4kmZQ1FVv9OruJCBnWsPpTmBq3fZbHu/94i
-	 FC4TIlM4zD7Ee/3lQqOYuBlVDPBCryukvT9maixB6hK651FxrV4wx1Btp1YKZJ20Q1
-	 MjYSRRhDw3VDjQQKPJUR6h94cn7h5r2tJlWCqktLkqh7iw3+ky8DPENNaoVvMeO3xU
-	 8Wy0zd2DFyNLg==
-Date: Wed, 20 May 2026 15:58:16 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Sarthak Sharma <sarthak.sharma@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] tools/mm: add a standalone GUP microbenchmark
-Message-ID: <ag2v6KW8E94kl4M_@kernel.org>
-References: <20260519120506.184512-1-sarthak.sharma@arm.com>
- <20260519120506.184512-2-sarthak.sharma@arm.com>
- <ag13GbKcLMIoHOHj@kernel.org>
- <9382431f-3746-4477-bbef-87abb58bf180@arm.com>
- <67e9ecff-e532-4659-b4de-7019474af608@sirena.org.uk>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="kvvcfRON"
+ARC-Seal: i=1; a=rsa-sha256; t=1779282330; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=mEFU9MTKkNY27JHAoO8ryQydruPu/BCUPLQWwIJP2dkxH1SSm+pSltrsyBwl3cPlzsfvvDx0uErVlAg+7M529Lqlw4nHFe4NaikztcN+q2X5k6yH2KNNLCNRlTHptx+vh1k3CwZSoQC8J/yUaNKSgpL0YR/djGJNdHxrFZrGg98=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1779282330; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=u20ZVoKdpbCjyKL7bq7h0GFa0Bhq3tEyLxCBQAy1rGE=; 
+	b=YEYnIhD+3TVVCY1DiQMBIw31y8FTAcV8zm36Q+9R7QsYlsGeavI2LX0d7sBoomYzWHWGHkTyQBEF/1VDa4P9IV9fK0vMRaITYJGhEPIc8KFjNaG3AwkZm0GtGnqIZPbUms4Tvv38u3P7HFkCrv+JkyfqDpUnrieokD1Kyd9LLqs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779282330;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=u20ZVoKdpbCjyKL7bq7h0GFa0Bhq3tEyLxCBQAy1rGE=;
+	b=kvvcfRON8qeDHH/rme6bUJr8mC7+Scb4yxFVY/PAtFEjw4vuH7/uh3F+rFr2aapT
+	Wy5M65QqWj43xhhcWENlyfTvIPpH/OFDx9uA71r0dUYQIckMjuxgtRcluh5rtf0TCzR
+	tCHgI7V52wgqsZAgcPeos/yQWw5xohRcPjUYWUok=
+Received: by mx.zohomail.com with SMTPS id 1779282328033635.7819132771737;
+	Wed, 20 May 2026 06:05:28 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: [PATCH v4 0/3] Let userspace know about swapped out panthor GEM
+ objects
+Date: Wed, 20 May 2026 15:04:47 +0200
+Message-Id: <20260520-panthor-bo-reclaim-observability-v4-0-a47ab61cb80d@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67e9ecff-e532-4659-b4de-7019474af608@sirena.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43OTW6DMBAF4KsgrzuV/3BKVr1H1cXYDMUV4MR2U
+ KKIu9eQLiK1C5ZPmvneu7NE0VNix+rOIs0++TCVoF8q5nqcvgh8WzKTXBquJYcTTrkPEWyASG5
+ AP0KwBZnR+sHnGzQHbg6Na2qlHCvMKVLnr1vFx+cjp4v9JpdX9/ci0vlSuvPjjFlMBC6Mo8/Hq
+ o0jjD45mOiaYR0CvAah2ar1PuUQb9v+WWzP+6fOAjigbgUqQ/Smu3cXhgFtiPha2reCWT6jYgc
+ qC+oaoWqitrPmX1Q9o2oHqgpqOHZKCqPx79JlWX4AptGmp8wBAAA=
+X-Change-ID: 20260420-panthor-bo-reclaim-observability-970679c9533c
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel@collabora.com, linux-doc@vger.kernel.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+X-Mailer: b4 0.15.2
 
-On Wed, May 20, 2026 at 12:58:32PM +0100, Mark Brown wrote:
-> On Wed, May 20, 2026 at 03:45:53PM +0530, Sarthak Sharma wrote:
-> > On 5/20/26 2:25 PM, Mike Rapoport wrote:
-> 
-> > > It seems that we need to better share the common code in
-> > > tools/testing/selftest.
-> 
-> > > And adding another copy of the hugetlb detection and setup code does not
-> > > seem like a great idea.
-> 
-> > Agreed, but that was the least disruptive approach I could think of.
-> 
-> > I am thinking of doing this now: should I move the
-> > hugepage_settings.[ch] to tools/lib/ and move the read_num(),
-> > write_num(), read_file() and write_file() helpers to a separate file in
+Panthor has recently gained a GEM shrinker. It allows evicting memory
+that backs unused GEM objects to swap.
 
-these might need some adjustments because they use ksft_(), but in general
-it makes sense to me.
+In this series, both fdinfo and Panthor's gems debugfs are extended so
+that information on evicted pages can be gathered by users through these
+two methods.
 
-> > tools/lib/ itself without any ksft dependency? Then both
-> > tools/testing/selftests/* and tools/mm/ could share the same code.
->
-> Using tools/lib sounds sensible to me - as well as the sharing it makes
-> it clear that it's a library used by multiple things so avoids the
-> issues we sometimes have with selftest directories referencing each
-> other.
+---
+Changes in v4:
+- Change "evicted" memory type documentation to no longer explicitly
+  mention swap
+- Link to v3: https://patch.msgid.link/20260423-panthor-bo-reclaim-observability-v3-0-60af32164a4f@collabora.com
 
-I'd make it tools/lib/mm as most of the files tools/lib/*.c are stubs for
-the kernel functions.
+Changes in v3:
+- Add documentation for new "evicted" memory type in fdinfo
+- Link to v2: https://patch.msgid.link/20260421-panthor-bo-reclaim-observability-v2-0-c9135eedfb6f@collabora.com
 
--- 
-Sincerely yours,
-Mike.
+Changes in v2:
+- Change reclaimed_count to saturate at INT_MAX
+- Add "evictions" column to panthor gems debugfs which prints
+  reclaimed_count
+- Add a patch to reduce the padding of one panthor gems debugfs column a
+  bit
+- Link to v1: https://patch.msgid.link/20260420-panthor-bo-reclaim-observability-v1-0-a4d1a36ee84f@collabora.com
+
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+To: Liviu Dudau <liviu.dudau@arm.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kernel@collabora.com
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+
+---
+Nicolas Frattaroli (3):
+      drm/fdinfo: Add "evicted" memory accounting
+      drm/panthor: Implement evicted status for GEM objects
+      drm/panthor: Reduce padding in gems debugfs for refcount
+
+ Documentation/gpu/drm-usage-stats.rst |  6 ++++++
+ drivers/gpu/drm/drm_file.c            |  8 ++++++++
+ drivers/gpu/drm/panthor/panthor_gem.c | 18 ++++++++++++++----
+ drivers/gpu/drm/panthor/panthor_gem.h | 10 ++++++++++
+ include/drm/drm_file.h                |  2 ++
+ include/drm/drm_gem.h                 |  2 ++
+ 6 files changed, 42 insertions(+), 4 deletions(-)
+---
+base-commit: 69c95e4c529297c25503e60acba757fba24fdc95
+change-id: 20260420-panthor-bo-reclaim-observability-970679c9533c
+
+Best regards,
+--  
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+
