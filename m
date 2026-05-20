@@ -1,90 +1,148 @@
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8E52D1F40;
-	Wed, 20 May 2026 08:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2E63AF641;
+	Wed, 20 May 2026 08:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779267113; cv=none; b=rjOTq2L2SYb9SBiTIyZhh/zHWPNPkHb7UCY2EbZwoWcL+9KnYwc/lFTK9t2BaCrAaIFaeCUmAdh6CTg2vBUXi4OPQE8JgKBOQO8Yrbun4jc0E4z1ToKJNQ1VV0bfgsoKsDCxXS63ioXvvAwU7B34u8n7eq2Yf8fDF/Tjj76frD8=
+	t=1779267364; cv=none; b=c24wpFBpoXJ+aCjxIuIOOrdrkJoEssDI5cBWCKI+LPEf7aKxx43Tx+369fbL6/dGupjaYmXgkBLcVNY/PnD6lT0djMWLaRRUM277h298pyw4gW3iiOB5R2o4EzuXLFA2bG0eRV1gpUUCLc7mc4OAwunnEmgFuLQS5MwlmCWus+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779267113; c=relaxed/simple;
-	bh=9JAocrfSRE8OAcaCFSUKgWUvl095GAK8sITS8uCFLjM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=E7duziOdiDfscyg9lEQvP34MqmSVEWvSFoFzz1JEWTCLr+CjBtZWnkSDBhd7jJPnJOxyZ1+aVygaRDPp8ipYbOg2xrYsu+n4beogOXrtsvpQmptRxykiUMGBQOI4WfW6EkPEkNwYbIXLDuadjZcwFflom22FqecZZLkZNzNFdcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ahldOXzR; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1779267364; c=relaxed/simple;
+	bh=fVD0HQdprIAV+MLYO/FJgK0I16wrm0C3z2cWQQYFRd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q+MXnoZcN7ryn9CnU7w1pm0YVSmyw3STIHvKhCFZatXiqu8XT6XspCm1RvWfV6jNrsZfYMDGp7wj3jsoEUt644JZzZ+VWxhUZeQ2LbBb1OO4FulBt/1fXhDT1rZknZyWbBP55IHrbTV01/Hj5d7eoKc1c7WmwaCHChKWTRNYJhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CeXrUcx2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ahldOXzR"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=5ILLE5X/zh5Zp5m7SYWsEaC8ZBBvgKc8eCKNCOEyqYg=;
-	b=ahldOXzRVBCatzSoLh4qIWjZNKkjLW+qbMChK+u+JTSiPCXdTZPYb9zQteodxgzTQLeiOjLFL
-	1TOQJNZphPCA3XiHB3+YzYEx6XTyKjoXuFgzD869C++zx7TZXKvZ+XrYS/dQlY+k8Os8NGRpKvC
-	x+HpkHsLmUgowgc8bj+OXyA=
-Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4gL4pP2yrDzcbR6;
-	Wed, 20 May 2026 16:44:13 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6149B4056E;
-	Wed, 20 May 2026 16:51:47 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Wed, 20 May 2026 16:51:46 +0800
-Message-ID: <cd330f4f-2604-48ce-bfcf-c9a79f48e66b@huawei.com>
-Date: Wed, 20 May 2026 16:51:46 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CeXrUcx2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21DA51F00893;
+	Wed, 20 May 2026 08:55:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779267362;
+	bh=M67gQ2b5PjMLRqfJkCPbykmhRVGUYihUqRBcMGeSNZQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CeXrUcx2NOPTLF6tZf/gMUiuOZwHUDe75lwssrGyfd66X4OcDNz08Pfv1UHZagElP
+	 A8lqbt5XVP7uyJ1dN2EfUffGy7cG8k1jgBG7vDToskH1m04IT8Ji1SS7XStiZHgFcx
+	 TyI6Lg61rY43fLSAnKYE8w7LFTvOmnw6h8PBCsqemDuEQhP4bdHbOuLKmNsWJ3qQ9C
+	 2bQaMpbbyZelonnNlWluGQQRNpAcC+q3kFUEK2qeCfCRDFPrhWkeI0WX4ioNFFFU5Z
+	 AhCfLo6rAwgzcGSLS2WFmE/ZEiO+QvRJNgW4lQCov5OWOHb8Cf8r8WODVDFT8StkP/
+	 7YKie4t/+wQUw==
+Date: Wed, 20 May 2026 11:55:53 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Sarthak Sharma <sarthak.sharma@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v2 1/2] tools/mm: add a standalone GUP microbenchmark
+Message-ID: <ag13GbKcLMIoHOHj@kernel.org>
+References: <20260519120506.184512-1-sarthak.sharma@arm.com>
+ <20260519120506.184512-2-sarthak.sharma@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] Support the FEAT_HDBSS introduced in Armv9.5
-To: Will Deacon <will@kernel.org>, <maz@kernel.org>, <oupton@kernel.org>,
-	<catalin.marinas@arm.com>, <corbet@lwn.net>, <pbonzini@redhat.com>, Tian
- Zheng <zhengtian10@huawei.com>
-CC: <kernel-team@android.com>, <yuzenghui@huawei.com>,
-	<wangzhou1@hisilicon.com>, <liuyonglong@huawei.com>, <yezhenyu2@huawei.com>,
-	<joey.gouly@arm.com>, <kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <skhan@linuxfoundation.org>,
-	<suzuki.poulose@arm.com>, <leo.bras@arm.com>, Jonathan Cameron
-	<jic23@kernel.org>
-References: <20260225040421.2683931-1-zhengtian10@huawei.com>
- <177918656142.736362.17906576792384645789.b4-ty@kernel.org>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <177918656142.736362.17906576792384645789.b4-ty@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemr100010.china.huawei.com (7.202.195.125)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519120506.184512-2-sarthak.sharma@arm.com>
 
+(added broonie)
 
+Hi,
 
-On 5/19/2026 11:23 PM, Will Deacon wrote:
-> On Wed, 25 Feb 2026 12:04:16 +0800, Tian Zheng wrote:
->> This series of patches add support to the Hardware Dirty state tracking
->> Structure(HDBSS) feature, which is introduced by the ARM architecture
->> in the DDI0601(ID121123) version.
->>
->> The HDBSS feature is an extension to the architecture that enhances
->> tracking translation table descriptors' dirty state, identified as
->> FEAT_HDBSS. This feature utilizes hardware assistance to achieve dirty
->> page tracking, aiming to significantly reduce the overhead of scanning
->> for dirty pages.
->>
->> [...]
+On Tue, May 19, 2026 at 05:35:05PM +0530, Sarthak Sharma wrote:
+> Add a command-line tool for benchmarking get_user_pages fast-path
+> (GUP_FAST), pin_user_pages fast-path (PIN_FAST), and pin_user_pages
+> longterm (PIN_LONGTERM) via the CONFIG_GUP_TEST debugfs interface.
 > 
-> Applied sysreg definitions to arm64 (for-next/sysregs), thanks!
+> When invoked without arguments, gup_bench runs the same matrix of
+> configurations as run_gup_matrix() in run_vmtests.sh: all three GUP
+> commands across read/write, private/shared mappings, and a range of
+> page counts, with THP on/off for regular mappings and hugetlb for huge
+> page mappings.
 > 
-> [1/5] arm64/sysreg: Add HDBSS related register information
->        https://git.kernel.org/arm64/c/72f7be0c2e30
+> This tool is a mix of reused and new logic. The mapping/setup path comes
+> from selftests/mm/gup_test.c, while the default benchmark matrix matches
+> run_gup_matrix() in run_vmtests.sh. The standalone CLI and tools/mm
+> integration are added here so tools/mm does not depend on kselftest.
 > 
-> Cheers,
+> Add gup_bench to BUILD_TARGETS and INSTALL_TARGETS in tools/mm/Makefile,
+> and ignore the resulting binary in tools/mm/.gitignore. While here, also
+> add the missing thp_swap_allocator_test entry to .gitignore.
+> 
+> Add tools/mm/gup_bench.c to the GUP entry in MAINTAINERS.
+> 
+> Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
+> Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
+> ---
+>  MAINTAINERS          |   1 +
+>  tools/mm/.gitignore  |   2 +
+>  tools/mm/Makefile    |   6 +-
+>  tools/mm/gup_bench.c | 491 +++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 497 insertions(+), 3 deletions(-)
+>  create mode 100644 tools/mm/gup_bench.c
 
-Thanks!
-Tian
+...
+ 
+> +/*
+> + * Local HugeTLB setup helpers for gup_bench.
+> + *
+> + * These helpers were copied from tools/testing/selftests/mm/ and adjusted to
+> + * remove the ksft formatting. Keep this copy local so tools/mm does not
+> + * depend on ksft output behavior.
+> + */
 
+It looks like self tests of at least 5 subsystems beside mm use hugetlb:
+
+$ git grep -l "Hugepagesize:" tools/testing/selftests/ | grep -v "selftests/mm"
+tools/testing/selftests/arm64/mte/check_hugetlb_options.c
+tools/testing/selftests/cgroup/test_hugetlb_memcg.c
+tools/testing/selftests/kvm/lib/test_util.c
+tools/testing/selftests/memfd/common.c
+tools/testing/selftests/net/tcp_mmap.c
+
+It seems that we need to better share the common code in
+tools/testing/selftest.
+
+And adding another copy of the hugetlb detection and setup code does not
+seem like a great idea.
+
+> +
+> +static unsigned int psize(void)
+> +{
+> +	static unsigned int __page_size;
+> +
+> +	if (!__page_size)
+> +		__page_size = sysconf(_SC_PAGESIZE);
+> +	return __page_size;
+> +}
+> +
+> +static unsigned long default_huge_page_size(void)
+> +{
+> +	FILE *f = fopen("/proc/meminfo", "r");
+> +	unsigned long hpage_size = 0;
+> +	char buf[256];
+> +
+> +	if (!f)
+> +		return 0;
+> +	while (fgets(buf, sizeof(buf), f)) {
+> +		if (sscanf(buf, "Hugepagesize:       %lu kB", &hpage_size) == 1)
+> +			break;
+> +	}
+> +	fclose(f);
+> +	hpage_size <<= 10;
+> +	return hpage_size;
+> +}
+
+-- 
+Sincerely yours,
+Mike.
