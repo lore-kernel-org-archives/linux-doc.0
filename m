@@ -1,50 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from sender4-of-o51.zoho.com (sender4-of-o51.zoho.com [136.143.188.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49A0346A1F;
-	Wed, 20 May 2026 19:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779306157; cv=none; b=N+mkI90HsrbM3OMqr1Ztdojrl6qbaeHOm2ObcOHBcN14UP6KoiCnXksiAyHzfYAEu0nhe/17ZlhYxcq6wvssV5tgRHg1wfsKgGvZUekPe5gCPnwEf7gUP6WuXWgRMzqB0uj7qEYsAzT6s/ogeIpjwf/1hfOeFyAsRk/+CQrGXzs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779306157; c=relaxed/simple;
-	bh=atsaRhAHzHNADhhVMahA5E1WNAHoBYGfqIH8Gnl36Ik=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C77361662;
+	Wed, 20 May 2026 20:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779308095; cv=pass; b=sqbOxPvW/xL43YjWAfpcQ3mdxbDL/bW8n0nDAkmJzkFlkGecCuDf2n8Ghk3EJxRKKE0DjuI1+MmGIcVU1ftNdHDB39MzrtlxIe2p9JYfcFuK5I/fg50Zxu0kdnRNUhS/LRygkkO/UQ6g1wMR+0CZhTfIzCOa4Z3Ni8dOjO4ODEY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779308095; c=relaxed/simple;
+	bh=3sQXcyhBMV7Fy/iPzt6jvnFx2tQnSeys6xAJHBKj0uM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FD3OT+4c/gVQBKpn7cNkcFIAoczlLcFUcnr1Dvc54Ei1YgKlgilZ9Wtg8XRpybNDERO4+ylbp5LgFARKcKhFVF8Kjl5zFqEreJ7AfyKEVgCm+Y8cq6cA8lXrGk1J5fNx3HZKLwKGc0sU6vYJ9gO88f7i3que37uQEJi9wntl1EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eTPcgHhd; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type; b=jxixcqktCwQ/ytHmbHWg4L1NCNV//rSlCxEyq8lCIQCTqwP9Dq2EHfCWI/cysDjh1dGbOiHQlYfdWKGHHwV5zd2JhgrUt2UUh6Wqnw8tGVFc4LqNW0aI5x0hNb0kIzab0sLJmtRNCMkUPDNdugAEB9kN6f55kud9aaJZ3IyvP74=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com; spf=pass smtp.mailfrom=apertussolutions.com; dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b=fk8v3jVU; arc=pass smtp.client-ip=136.143.188.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apertussolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eTPcgHhd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779306156; x=1810842156;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=atsaRhAHzHNADhhVMahA5E1WNAHoBYGfqIH8Gnl36Ik=;
-  b=eTPcgHhdLBsIVm0hN8HXSyNF6jtmiShzVNcQIDZgE4BD3pW0TBcA0mUN
-   wLdun13KxIfbFHDXbIlzYKQi+sngLqOBGjIvC5aNkhtpeS9Za9lLdBfNK
-   t4SrBBOqshUZCONWHUfvFBfLck2m5OIzjDfwXmAUv/8vf3FdeTK+3FcpS
-   AKmGPCHSNn6hM4Wrtl1GNFWV2YEKvdKF00sEHZTIlE7Gi+pZ9ropiJ+zu
-   h3Gvz7oNPh/kcmiU0lqD0j+nIEYWOMYeKJorQykYxh5PtOcwltWV56LE9
-   sF17a0Y52+ZoymFv3Qz7AGSvFxcoJBVvKlnoo1n+KhGJ4qZqdQ8+OCtd9
-   w==;
-X-CSE-ConnectionGUID: YtbAQpjGQPGsu7QJx25XUQ==
-X-CSE-MsgGUID: t+Djqfd0QV21tM5aIY2UpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="79368580"
-X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="79368580"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 12:42:16 -0700
-X-CSE-ConnectionGUID: kUkCUNX4ShiKhZsXQIF7ig==
-X-CSE-MsgGUID: FHMFmU6vTSOG3+LSEfcxtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="237687779"
-Received: from spandruv-mobl5.amr.corp.intel.com (HELO [10.125.109.190]) ([10.125.109.190])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 12:42:15 -0700
-Message-ID: <809c5752-f9de-47f4-b73d-4bfe0d6ed9a7@intel.com>
-Date: Wed, 20 May 2026 12:42:19 -0700
+	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="fk8v3jVU"
+ARC-Seal: i=1; a=rsa-sha256; t=1779307955; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=F7zGj1KM1ljluaeAwqLEa2lH3pOe1//+GG7dZFuLI/e7EOJSEDFz7r/ZwPSXFaSPBjGDaBPn0evtNpBB0l5HBIb1P/fUeLabzdyhNHqLjeuGkLBgHLLVm5EQYbq04+VcicZG0jspNbLDSTyh8zBgXeTRPE3fhkuzIUVlkN+Kuec=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1779307955; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=DRXXEptyfYW324C3Rd22g0Bz5yZ2Gjy/Wsltr9WZ4UU=; 
+	b=hXusYhMz5XryhCubUebQISLI6+Ine8ivFgl/WZxwfusR8AzqJt1V+wVNJ1i9TWR7yNFDBQ9P1WW0mt6jlGz1g2pHHPmso0vwRGEu9eaVKtrXAo7S1Y5RKpyMKe+t9oPlp1nQNrItH2A1Q5SC1l1Bp1tYeBQF55St1jRYRdhYFng=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=apertussolutions.com;
+	spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+	dmarc=pass header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779307955;
+	s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=DRXXEptyfYW324C3Rd22g0Bz5yZ2Gjy/Wsltr9WZ4UU=;
+	b=fk8v3jVUl1vMDS7ypit1OGgSRJCwy3CYGZ7bOP84cJvHacZTycXN7FVoTp+cYxXJ
+	4LosRO1EMAetAFMW4Gciwa6SnlryPlJl52AjnXmy+3NRWfGKGJgbzuGNwjhNhs3rEHq
+	zTT4q6Z7O0CO4d0W44EH8K4c898wh3G/6FtiBfXQ=
+Received: by mx.zohomail.com with SMTPS id 1779307952071689.0219932508874;
+	Wed, 20 May 2026 13:12:32 -0700 (PDT)
+Message-ID: <a5d70928-5d86-4439-a177-e5182552b3e2@apertussolutions.com>
+Date: Wed, 20 May 2026 16:12:28 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,82 +45,51 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 00/25] Runtime TDX module update support
-To: Chao Gao <chao.gao@intel.com>, kvm@vger.kernel.org,
- linux-coco@lists.linux.dev, x86@kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Cc: binbin.wu@linux.intel.com, dave.hansen@linux.intel.com, djbw@kernel.org,
- ira.weiny@intel.com, kai.huang@intel.com, kas@kernel.org,
- nik.borisov@suse.com, paulmck@kernel.org, pbonzini@redhat.com,
- reinette.chatre@intel.com, rick.p.edgecombe@intel.com, sagis@google.com,
- seanjc@google.com, tony.lindgren@linux.intel.com, vannapurve@google.com,
- vishal.l.verma@intel.com, yilun.xu@linux.intel.com, xiaoyao.li@intel.com,
- yan.y.zhao@intel.com, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- "H. Peter Anvin" <hpa@zytor.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260520133909.409394-1-chao.gao@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH v16 01/38] tpm: Initial step to reorganize TPM public
+ headers
+To: Dave Hansen <dave.hansen@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Ross Philipson <ross.philipson@gmail.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux.dev, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
+ ardb@kernel.org, mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+ peterhuewe@gmx.de, luto@amacapital.net, nivedita@alum.mit.edu,
+ herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
+ ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com,
+ kanth.ghatraju@oracle.com, daniel.kiper@oracle.com,
+ andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
+References: <20260515211410.31440-1-ross.philipson@gmail.com>
+ <20260515211410.31440-2-ross.philipson@gmail.com>
+ <agemXwxVb9jvAbYM@kernel.org> <20260515230553.GO7702@ziepe.ca>
+ <8f8328d3-a7db-4a64-82f8-1e0e3eff93cf@intel.com>
 Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20260520133909.409394-1-chao.gao@intel.com>
-Content-Type: text/plain; charset=UTF-8
+From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+In-Reply-To: <8f8328d3-a7db-4a64-82f8-1e0e3eff93cf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-So a little cat|sort|uniq says:
+On 5/15/26 7:10 PM, Dave Hansen wrote:
+> On 5/15/26 16:05, Jason Gunthorpe wrote:
+>> Can we please split out and progress the TPM reorg mini-series at the
+>> front?
+> 
+> Yes, please.
+> 
 
-     11 Reviewed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-     17 Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+Yes, we will split this out, address the Sashiko comments, and work on 
+getting it out next week.
 
-We're on v10 here. There are 6 patches in here with no review tags:
+> Any way to break this down and merge in more bite-size pieces would be
+> better for everyone involved.
 
-M:      Kiryl Shutsemau <kas@kernel.org>
-R:      Dave Hansen <dave.hansen@linux.intel.com>
-R:      Rick Edgecombe <rick.p.edgecombe@intel.com>
+I went through the TPM only part of the series and only one commit was 
+of substantial length, note I am not considering those that were only 
+moving headers around. That's the new buffer allocation patch from 
+Jarkko. We can see if there is a way to split it up without resulting in 
+either unused code or breaking the TPM driver.
 
-Are all of those 6 new patches? Or do the reviewers still have some work
-to do?
+V/r,
+Daniel P. Smith
