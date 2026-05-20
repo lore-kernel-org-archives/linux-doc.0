@@ -1,44 +1,45 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C668E3128B2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6611305674;
 	Wed, 20 May 2026 13:06:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779282373; cv=pass; b=S2Mi9BaTMwjJdKZ9XrWjqY5UPQx6lO/7x/Vr5Et/Ko0cmQzObJXNx/lFlORHx5yuf+XSKbOwrzbF3vzK42u70usqU36NzZArdhPQDPOr52b3iMwO1Y+0nZSCXEtvTrUfzU0lS/0Q6gBzF03Ke/mtDHXtZxqfLrZYoM+7VZlflAo=
+	t=1779282373; cv=pass; b=KUtPDgcCISN2xBziOyrJbYZfSeyUYR0YjqLFduLSnzOabgmn7h01KK3jqpXsyZaR/H5R2nMJEsRzzGKHgqPJd5pdIjNo6qVAleggGHd9GNLw/Be3+quVCpw1KZy2gy8APDXqMlLQuE2J3WPNPMzvGWptBq0Cs3G4FMkqpePdZ9w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779282373; c=relaxed/simple;
-	bh=Nb65uEoh/VwcK6QkgBlTGFw+gdd3HLw/D9sa9oj+vPo=;
+	bh=dNjK5Bs0OOLLWncR7vo5ggWjQ++AWtIVL5OUD7DPba4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YqYDWn/+wNKVMvlGzO2fD+m9OHrOV9VsF469WOb9YTPNQENRUm/JCYA/QQOfU2+NfvgMgRWPD5yGM5E7sssO4ysyFuEOBzfD7784eloP2ZNWmyd6We/rQnCmjMpHRk1lLEgW32aSYtFYwqLxyP0jFYp1py5eWR8h7WCxkaPlmiA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=QJnZbjHR; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:To:Cc; b=llGwU3AYkP7eu1AvWfGTlY5mb+TqMh+IAyEoZeLY22vLs7ViCAufsdUzS13sGmgjreDPcxVWm2Xck3ECgbFgW3m54lYHor8B4Ukf961HOAb08I+gllpzp+zCEs7pfN1HDouX6twbIRizKK1KuWwdq2k0Q/BGRpAIfhL9j3ZzMIY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=M2d9PLas; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="QJnZbjHR"
-ARC-Seal: i=1; a=rsa-sha256; t=1779282334; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="M2d9PLas"
+ARC-Seal: i=1; a=rsa-sha256; t=1779282338; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=m3EMSwy3hSG11zvKoGUa5VtCwBhBtp0/qi8DiDM28PEnXHzSWGUs+ffOkR3d38qj/hr6wT5t/7fOWlzSQitNbLvk9bMy/oRcNdyiluAOZaiOGoPF7qbiG7f7YaLzTMzA4fpzKyVR4U9n8UaMqWNytRZ3mOrHY7fzBbtmSrJPJTs=
+	b=RqQAsJQ8D2bumAUvYuxVUgVyg6Ff+qHINjaOjhnNrjlSRUVN9RDiY17WAPsGfLZslvc7sLZj4zQ02oAS4u2ggoxoIMX9ymPOL4xj3b7mV9oNt1FDlKWV8RMwDNlUynGaCqUhSE0JakhiuaYqZxiMahQ+2vhndHSad+s/t5TShvg=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1779282334; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=31m7nkmQYDUOGoFy9g3jc9NCzZLMGg3gT01Xnk9NImU=; 
-	b=mOKUX14oU36Wrnlnuxg6rLtcCmEHPK6sPGz5hfLQe4izt5TRGjf/JufD+NBD2Sg4jfXbQhF+rBIsCm7uiJcYf53RlCb5GQvoHye9jd17w8y/gbMPP231iZew3UQesazWnfy/Do8P434yI/jlJrcuUwJzv2UK4dC0GACKijcYLyE=
+	t=1779282338; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=1+L0F6CYQyQIp80TpjfAI1kf74NLA/tfX/TS+7aDs38=; 
+	b=RThqN702f8jPlTU1ZVD1R3SjrkfJ3OJeEIxv58iA5/GGvLwfG7DbHN6NcmsgU7OdWkhRfSElTdTvLICej+B7y5xP878G/2if23xVRbN0dV7dgZ1RRYc3/vbx/kjH3SCwuHpDD7C7tCUltlzGMbKvAMm5vzvM/wBozVFCwhs89AI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
 	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779282334;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779282338;
 	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=31m7nkmQYDUOGoFy9g3jc9NCzZLMGg3gT01Xnk9NImU=;
-	b=QJnZbjHRh77umjzDUihSVj9GSlI81hfjWkgSJOJ7SfZ/LVCApNVKcpIkH/Ap8+Fo
-	iB1ErZIFoOrlJ9YdtuSI6kYeitdPjk0UrJWeouXi6YIKL+GP2OLyfUWoSO9oVuT/cFz
-	tVhSF8D1hwghYkuuiUabeiz7jw7wTeTD7RiTYxIQ=
-Received: by mx.zohomail.com with SMTPS id 177928233219299.95530128510529;
-	Wed, 20 May 2026 06:05:32 -0700 (PDT)
+	bh=1+L0F6CYQyQIp80TpjfAI1kf74NLA/tfX/TS+7aDs38=;
+	b=M2d9PLassir0IGGqslvqlFbjDaDeKip99ePtYbm6ePhss2wk8G2RKbNdWEqJLVIe
+	b2NaKne8ZVxiyMgYXPlCCKYE9aX7Lpf6mYeTv0UVDQ93pIfYra9UJdVZy4mERDnFOnF
+	sofphI8aAwaLNWL1oS1dkN2LFX/xevjvCIxbnTOM=
+Received: by mx.zohomail.com with SMTPS id 1779282336185171.0853906309393;
+	Wed, 20 May 2026 06:05:36 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Wed, 20 May 2026 15:04:48 +0200
-Subject: [PATCH v4 1/3] drm/fdinfo: Add "evicted" memory accounting
+Date: Wed, 20 May 2026 15:04:49 +0200
+Subject: [PATCH v4 2/3] drm/panthor: Implement evicted status for GEM
+ objects
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,7 +48,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260520-panthor-bo-reclaim-observability-v4-1-a47ab61cb80d@collabora.com>
+Message-Id: <20260520-panthor-bo-reclaim-observability-v4-2-a47ab61cb80d@collabora.com>
 References: <20260520-panthor-bo-reclaim-observability-v4-0-a47ab61cb80d@collabora.com>
 In-Reply-To: <20260520-panthor-bo-reclaim-observability-v4-0-a47ab61cb80d@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -62,117 +63,148 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 X-Mailer: b4 0.15.2
 
-Currently, there's no way to know for certain how much GPU memory was
-swapped out. The difference between total and resident memory would
-include newly allocated pages, which are not resident, but also aren't
-swapped out.
+For fdinfo to be able to fill its evicted counter with data, panthor
+needs to keep track of whether a GEM object has ever been reclaimed.
+Just checking whether the pages are resident isn't enough, as newly
+allocated objects also won't be resident.
 
-Add a new drm_gem_object_status so drivers can signal when an object has
-been evicted to swap, and add a new "evicted" counter to
-drm_memory_stats.
+Do this with a new atomic_t member on panthor_gem_object. It's increased
+when an object gets evicted by the shrinker, and saturates at INT_MAX.
+This means that once an object has been evicted at least once, its
+reclaim counter will never return to 0.
 
-Due to how the supported_flags bitmask is determined, the "evicted"
-count won't be printed to fdinfo if there's no swapped out pages.
+Due to this, it's possible to distinguish evicted non-resident pages
+from newly allocated non-resident pages by checking whether
+reclaimed_count is != 0
+
+Use this new member to then set the appropriate DRM_GEM_OBJECT_EVICTED
+status flag for fdinfo.
+
+Also add a new column and status flag to the panthor gems debugfs: the
+column is the number of times an object has been evicted, whereas the
+flag indicates whether it currently is evicted.
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- Documentation/gpu/drm-usage-stats.rst | 6 ++++++
- drivers/gpu/drm/drm_file.c            | 8 ++++++++
- include/drm/drm_file.h                | 2 ++
- include/drm/drm_gem.h                 | 2 ++
- 4 files changed, 18 insertions(+)
+ drivers/gpu/drm/panthor/panthor_gem.c | 18 ++++++++++++++----
+ drivers/gpu/drm/panthor/panthor_gem.h | 10 ++++++++++
+ 2 files changed, 24 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index 70b7cfcc194f..ac1dbf52d96d 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -202,6 +202,12 @@ One practical example of this could be the presence of unsignaled fences in a
- GEM buffer reservation object. Therefore, the active category is a subset of the
- resident category.
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index 13295d7a593d..068aa935c8fc 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -687,6 +687,8 @@ static void panthor_gem_evict_locked(struct panthor_gem_object *bo)
+ 	if (drm_WARN_ON_ONCE(bo->base.dev, !bo->backing.pages))
+ 		return;
  
-+- drm-evicted-<region>: <uint> [KiB|MiB]
++	atomic_add_unless(&bo->reclaimed_count, 1, INT_MAX);
 +
-+The total size of buffers that have been evicted and are no longer pinned by the
-+device. Only present if there are buffers that are currently evicted, and if the
-+driver implements reporting of this type of memory.
-+
- Implementation Details
- ======================
+ 	panthor_gem_dev_map_cleanup_locked(bo);
+ 	panthor_gem_backing_cleanup_locked(bo);
+ 	panthor_gem_update_reclaim_state_locked(bo, NULL);
+@@ -788,6 +790,8 @@ static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
  
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index ec820686b302..5078172976c0 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -868,6 +868,7 @@ int drm_memory_stats_is_zero(const struct drm_memory_stats *stats)
- 		stats->private == 0 &&
- 		stats->resident == 0 &&
- 		stats->purgeable == 0 &&
-+		stats->evicted == 0 &&
- 		stats->active == 0);
+ 	if (drm_gem_is_imported(&bo->base) || bo->backing.pages)
+ 		res |= DRM_GEM_OBJECT_RESIDENT;
++	else if (atomic_read(&bo->reclaimed_count))
++		res |= DRM_GEM_OBJECT_EVICTED;
+ 
+ 	return res;
  }
- EXPORT_SYMBOL(drm_memory_stats_is_zero);
-@@ -901,6 +902,10 @@ void drm_print_memory_stats(struct drm_printer *p,
- 	if (supported_status & DRM_GEM_OBJECT_PURGEABLE)
- 		drm_fdinfo_print_size(p, prefix, "purgeable", region,
- 				      stats->purgeable);
-+
-+	if (supported_status & DRM_GEM_OBJECT_EVICTED)
-+		drm_fdinfo_print_size(p, prefix, "evicted", region,
-+				      stats->evicted);
- }
- EXPORT_SYMBOL(drm_print_memory_stats);
+@@ -1595,6 +1599,7 @@ static void panthor_gem_debugfs_print_flag_names(struct seq_file *m)
+ 	static const char * const gem_state_flags_names[] = {
+ 		[PANTHOR_DEBUGFS_GEM_STATE_IMPORTED_BIT] = "imported",
+ 		[PANTHOR_DEBUGFS_GEM_STATE_EXPORTED_BIT] = "exported",
++		[PANTHOR_DEBUGFS_GEM_STATE_EVICTED_BIT] = "evicted",
+ 	};
  
-@@ -954,6 +959,9 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
+ 	static const char * const gem_usage_flags_names[] = {
+@@ -1625,6 +1630,7 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+ {
+ 	enum panthor_gem_reclaim_state reclaim_state = bo->reclaim_state;
+ 	unsigned int refcount = kref_read(&bo->base.refcount);
++	int reclaimed_count = atomic_read(&bo->reclaimed_count);
+ 	char creator_info[32] = {};
+ 	size_t resident_size;
+ 	u32 gem_usage_flags = bo->debugfs.flags;
+@@ -1638,16 +1644,20 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
  
- 		if (s & DRM_GEM_OBJECT_PURGEABLE)
- 			status.purgeable += add_size;
+ 	snprintf(creator_info, sizeof(creator_info),
+ 		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
+-	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd0x%-16lx",
++	seq_printf(m, "%-32s%-16d%-16d%-11d%-16zd%-16zd0x%-16lx",
+ 		   creator_info,
+ 		   bo->base.name,
+ 		   refcount,
++		   reclaimed_count,
+ 		   bo->base.size,
+ 		   resident_size,
+ 		   drm_vma_node_start(&bo->base.vma_node));
+ 
+ 	if (drm_gem_is_imported(&bo->base))
+ 		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
++	else if (!resident_size && reclaimed_count)
++		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_EVICTED;
 +
-+		if (s & DRM_GEM_OBJECT_EVICTED)
-+			status.evicted += add_size;
+ 	if (bo->base.dma_buf)
+ 		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
+ 
+@@ -1671,8 +1681,8 @@ static void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+ 
+ 	panthor_gem_debugfs_print_flag_names(m);
+ 
+-	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset       state      usage       label\n");
+-	seq_puts(m, "----------------------------------------------------------------------------------------------------------------------------------------------\n");
++	seq_puts(m, "created-by                      global-name     refcount        evictions  size            resident-size   file-offset       state      usage       label\n");
++	seq_puts(m, "---------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+ 
+ 	scoped_guard(mutex, &ptdev->gems.lock) {
+ 		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
+@@ -1680,7 +1690,7 @@ static void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+ 		}
  	}
- 	spin_unlock(&file->table_lock);
  
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 6ee70ad65e1f..7e4cb45a52c3 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -500,6 +500,7 @@ void drm_send_event_timestamp_locked(struct drm_device *dev,
-  * @resident: Total size of GEM objects backing pages
-  * @purgeable: Total size of GEM objects that can be purged (resident and not active)
-  * @active: Total size of GEM objects active on one or more engines
-+ * @evicted: Total size of GEM objects that have been evicted
-  *
-  * Used by drm_print_memory_stats()
-  */
-@@ -509,6 +510,7 @@ struct drm_memory_stats {
- 	u64 resident;
- 	u64 purgeable;
- 	u64 active;
-+	u64 evicted;
+-	seq_puts(m, "==============================================================================================================================================\n");
++	seq_puts(m, "=========================================================================================================================================================\n");
+ 	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
+ 		   totals.size, totals.resident, totals.reclaimable);
+ }
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index ae0491d0b121..56d63137b4eb 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -19,12 +19,16 @@ struct panthor_vm;
+ enum panthor_debugfs_gem_state_flags {
+ 	PANTHOR_DEBUGFS_GEM_STATE_IMPORTED_BIT = 0,
+ 	PANTHOR_DEBUGFS_GEM_STATE_EXPORTED_BIT = 1,
++	PANTHOR_DEBUGFS_GEM_STATE_EVICTED_BIT = 2,
+ 
+ 	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED: GEM BO is PRIME imported. */
+ 	PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED = BIT(PANTHOR_DEBUGFS_GEM_STATE_IMPORTED_BIT),
+ 
+ 	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED: GEM BO is PRIME exported. */
+ 	PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED = BIT(PANTHOR_DEBUGFS_GEM_STATE_EXPORTED_BIT),
++
++	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_EVICTED: GEM BO is evicted to swap. */
++	PANTHOR_DEBUGFS_GEM_STATE_FLAG_EVICTED = BIT(PANTHOR_DEBUGFS_GEM_STATE_EVICTED_BIT),
  };
  
- enum drm_gem_object_status;
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 86f5846154f7..799588a2762a 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -53,6 +53,7 @@ struct drm_gem_object;
-  * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not unpinned)
-  * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspace
-  * @DRM_GEM_OBJECT_ACTIVE: object is currently used by an active submission
-+ * @DRM_GEM_OBJECT_EVICTED: object is evicted and no longer pinned by driver
-  *
-  * Bitmask of status used for fdinfo memory stats, see &drm_gem_object_funcs.status
-  * and drm_show_fdinfo().  Note that an object can report DRM_GEM_OBJECT_PURGEABLE
-@@ -67,6 +68,7 @@ enum drm_gem_object_status {
- 	DRM_GEM_OBJECT_RESIDENT  = BIT(0),
- 	DRM_GEM_OBJECT_PURGEABLE = BIT(1),
- 	DRM_GEM_OBJECT_ACTIVE    = BIT(2),
-+	DRM_GEM_OBJECT_EVICTED   = BIT(3),
- };
+ enum panthor_debugfs_gem_usage_flags {
+@@ -172,6 +176,12 @@ struct panthor_gem_object {
+ 	/** @reclaim_state: Cached reclaim state */
+ 	enum panthor_gem_reclaim_state reclaim_state;
  
- /**
++	/**
++	 * @reclaimed_count: How many times object has been evicted to swap.
++	 * The count saturates at %INT_MAX and will never wrap around to 0.
++	 */
++	atomic_t reclaimed_count;
++
+ 	/**
+ 	 * @exclusive_vm_root_gem: Root GEM of the exclusive VM this GEM object
+ 	 * is attached to.
 
 -- 
 2.54.0
