@@ -1,151 +1,80 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFFF250BEC
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 00:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E59B2D9EFF;
+	Wed, 20 May 2026 01:21:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779238016; cv=none; b=IpKs/i5ijE3Ps7+YpmXI3Lf9G3LIhdzYXOJWT+UqR/JqZE7h+fSySoe87D8+KW+FGR38BdALm4JllA1U9KjlrfMcAHbIFequH/pX0EJTG2AiltJ2nL60LsZK1oR0eO7rV8SZbLE9qZXd7xoiFeoMjma3lDKv+J+i+biPDm786vY=
+	t=1779240083; cv=none; b=ctOzZIrtU7nzkafjzA/KBxInlJ4JrYTVVN7LBTRB1aumWt6w/kZZBDZ2rwTer6kfwSxJhBZdyVXIbhL/S0fYCdxmQmIIXtsMlhIh/NInj4NWJmQWCheRPvvf86j29GYDeCbgMPnFTHBUISvKBv+5nz2JvGlv5Kya5MACLhONijM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779238016; c=relaxed/simple;
-	bh=y7Fn9YFogsp8mpT4ZBz1BT2lYDSCTlD71c6vafu4GrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D478fqksCfHzHghzIztLFJ7xJjjElLJkzSijnY3K+bGy0UamkO4CcIIM9izqeowg93G2h67RWVBpkFiIzQsItTbtL9k0GVk5hqsydIz7/2GUk48YP4CqoLCRNCAhVcPScucvo/P7fbHVKmIApLyqqAvqP9DOzC1Ztmz+Mgt/NbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oi1gK6X1; arc=none smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779240083; c=relaxed/simple;
+	bh=IeU2rIkr3A7pk5FRRKcSwSz4g4NXXmbDTArq1sCHZ2s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LoY82EOWHI84VfS3XR6LwW8opJsWaSJj6csMesst8hYvs5LvWvEFbbOMddW+IhHND7iUy/s1AyT9Y1mpJjvG/uSzYfXXrf3U6xy+38tvzzvKvCXP+FTqCaCHkSDyv2f8WkCVpvj2fguJX2d1Z+ekkqTllfULsP/jw8kH90mZ4wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPdBqzaN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oi1gK6X1"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c19d23b19so5854136c88.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 17:46:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779238014; x=1779842814; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T0ubYMzKkPwIELjCKI6Oon/usrmm5Tf+jdhwqr1a+Dg=;
-        b=Oi1gK6X1wdaa1laIRBm5oaQHz3rdc+QnZbBsoPKdvwfxGp2l8ejVp1ZHpXea7gwW3V
-         I3Y1u9ZY8gY2cnslCLHJ9TiYdgcTfRg4b/PHNzHKLokzIvZKj83WGrEbwEKx14dHDpPr
-         /tm9sRYECBzfepI0NS37n0nluvJm58OBptAiqp+2EBtaG7dVjH9oRNc8VGXvTP8RBZWP
-         ZmPTSD/3QGURGt7d8HArEtLhx0WsWJnXNSZnGriaSxas7II/3JSfZ1O4sdWujXtFUIn/
-         DpyYf9Avp4sTN2LXkdE7DpevYGGjWKQlM3AKzSfNoXY/AVhyKVbp8xv4J1dbqCXmQApm
-         PXOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779238014; x=1779842814;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T0ubYMzKkPwIELjCKI6Oon/usrmm5Tf+jdhwqr1a+Dg=;
-        b=HZPixA5BwfZNa1JPI8xypGZun5+0WU2vX4uy4MNP+0Fh8loePFsMN7uC2+LiE4jAue
-         S8hpuFIo/vPF3mOVNke4kFdJlpxKhOQTLU6hailANglxQz4w8Gx4U7y/emO/hkKTcTmm
-         XgWWOo0DF9lcW7cvffHkIMYmtKm7gVhWbf5EtMRenHWKtQmUXkdvo0bHaM8ALQHZ5dE1
-         yHlAFhCgx/mGwJDJapOg9K6wbEfjBTfnhyZ+67smYi63Yi0N5QLV4BLDe1JBMWDUQbg8
-         TXX3AA333nbW4YZW0nyGeWUfw3J7fx38h37/1fI1xZFS9FgsbU5dG58BokXJciZiZpuF
-         H3pQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+nJ+0p5w0FGmtUFhvuSX6Io0KcoOtQCivpScFZdWc6Szctxpm6Yjj2+UiBDnPLg1QHiXrugXnZjKk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAoM8y3+5Wa3Gnu7k95xo5igwEeQY4jyKX5rbYA84dtezvamoP
-	cjQlcOoa/7AA43gR+SAAs9w/7HN8eP24sC67XrSM1xCCIcAdy8YOfPsq
-X-Gm-Gg: Acq92OGf6amd2UaE0vdxOj3ftMBduvHdn+mgjWwkF4zV4ybQK+P4RZRxFXx0x57aWYJ
-	Z38hTFCk8IZO4u1svijzYpEuwodN0DFfzTTP+38TmQuZSns2O7XGMBKeXxviFnIHLCXeKHuaXFo
-	cSQ+rMs39aG6MIwFILU6OcVcBGQExxh9xemnzG/vEvlfDj36P7J0KXz2ICNyLZNUwBU++ZL8LXV
-	t9NjcqEO3QgKvRaPsR0z4TUuS8q8ePVtZRy+hQy70KlMXZIEgZbpCtXBeyQVIJrZG4Fs52Dh9v0
-	S1j8H4AcTFhpZ9xVazMGEV/65FadGgF3F/5L0Kexhqwnj7GzsFa5VQZh46/gVGdEnJwE7jFz3bl
-	/zXSD1E6jtKkIrjnmtJohDPlLEO38mPLjqH3F6hFELVKit2NYXWiPeWG3e2qb6ZRmy0XPGK9L3B
-	h96oPteUX5cjX1fu2nYpAq9YpOmYqoPBt52KC6GAxBdOrQF0Zv6KCSBWl1xVj38uyu
-X-Received: by 2002:a05:701b:271b:b0:135:da70:c2d4 with SMTP id a92af1059eb24-135da70c454mr1271166c88.25.1779238014087;
-        Tue, 19 May 2026 17:46:54 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:7677:c3e6:c92a:e780])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cbed2232sm25928705c88.7.2026.05.19.17.46.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 17:46:53 -0700 (PDT)
-Date: Tue, 19 May 2026 17:46:50 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Frank Rowand <frowand.list@gmail.com>, Mika Westerberg <westeri@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, 
-	Russell King <linux@armlinux.org.uk>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] gpio: remove machine hogs
-Message-ID: <ag0Dn66ZVnbTc7J2@google.com>
-References: <20260309-gpio-hog-fwnode-v2-0-4e61f3dbf06a@oss.qualcomm.com>
- <20260309-gpio-hog-fwnode-v2-5-4e61f3dbf06a@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPdBqzaN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6674E1F000E9;
+	Wed, 20 May 2026 01:21:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779240082;
+	bh=EaKGk24Z7ZdkbvdHfuSkBUwjfEj8QPAEB7faP87DITc=;
+	h=From:To:Cc:Subject:Date;
+	b=OPdBqzaNraSbHm9bHtnmYlCyua6gaP78FWQB/jYLt5UA5oEwoNjr4Ze0hoJ6FMAPg
+	 F7CWhLtw+LVi2UyvJpB2eM/DaTLzxySQ4JQw0aOYMiI8qLYlfLQZR8A7yTi+J7UU3J
+	 xEvF7Djp4M5j9atLHOjkIpZKfUmgqHiHFDNLr0SWhFkGbnOSYJx84AQ7+/9geK1xGh
+	 rlJlvHnIUpK+awIuLGEHgoAIcRgDKh2iOIYTJnigCohyHR3JldYysi8BTeRatht1t3
+	 1l79YWLcZZCb2rFJxgNGRJbVfs9Kg2HbJwFLFj94Ws8aH6e3wL2IPtL4xhBZ27LBon
+	 T1BkOfzppwQeA==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH RESEND 0/3] mm/damon: reposting three reviewed patches
+Date: Tue, 19 May 2026 18:20:58 -0700
+Message-ID: <20260520012104.93602-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260309-gpio-hog-fwnode-v2-5-4e61f3dbf06a@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 09, 2026 at 01:42:41PM +0100, Bartosz Golaszewski wrote:
-> With no more users, remove legacy machine hog API from the kernel.
-> 
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+This series reposts patches that were reviewed by the DAMON maintainer
+but not yet added to mm-new, for more visibility.  From their last
+posted versions, only minor changes including commit subject update,
+Reviewed-by: and Acked-by: tags collection, and rebasing to latest
+mm-new were made by the DAMON maintainer.
 
-Argh! What is the replacement for this? I have patches for rsk7203 to
-use them to get rid of legacy gpio use, like this:
+Sakurai Shun (1):
+  Docs/mm/damon/design: fix three typos
 
-diff --git a/arch/sh/boards/mach-rsk/devices-rsk7203.c b/arch/sh/boards/mach-rsk/devices-rsk7203.c
-index f8760a91e2f1..5bbd3b31cffb 100644
---- a/arch/sh/boards/mach-rsk/devices-rsk7203.c
-+++ b/arch/sh/boards/mach-rsk/devices-rsk7203.c
-@@ -12,7 +12,7 @@
- #include <linux/smsc911x.h>
- #include <linux/input.h>
- #include <linux/io.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/gpio/machine.h>
- #include <linux/gpio/property.h>
- #include <asm/machvec.h>
-@@ -165,6 +165,19 @@ static const struct platform_device_info rsk7203_devices[] __initconst = {
- 	},
- };
- 
-+/* The base of the function GPIOs in the flat enum */
-+#define SH7203_FN_BASE GPIO_FN_PINT7_PB
-+
-+static struct gpiod_hog rsk7203_gpio_hogs[] = {
-+	GPIO_HOG("sh7203_pfc-fn", GPIO_FN_TXD0 - SH7203_FN_BASE,
-+		 "TXD0", GPIO_ACTIVE_HIGH, GPIOD_ASIS),
-+	GPIO_HOG("sh7203_pfc-fn", GPIO_FN_RXD0 - SH7203_FN_BASE,
-+		 "RXD0", GPIO_ACTIVE_HIGH, GPIOD_ASIS),
-+	GPIO_HOG("sh7203_pfc-fn", GPIO_FN_IRQ0_PB - SH7203_FN_BASE,
-+		 "IRQ0_PB", GPIO_ACTIVE_HIGH, GPIOD_ASIS),
-+	{ }
-+};
-+
- static int __init rsk7203_devices_setup(void)
- {
- 	struct platform_device *pd;
-@@ -172,12 +185,10 @@ static int __init rsk7203_devices_setup(void)
- 	int i;
- 
- 	/* Select pins for SCIF0 */
--	gpio_request(GPIO_FN_TXD0, NULL);
--	gpio_request(GPIO_FN_RXD0, NULL);
-+	gpiod_add_hogs(rsk7203_gpio_hogs);
- 
- 	/* Setup LAN9118: CS1 in 16-bit Big Endian Mode, IRQ0 at Port B */
- 	__raw_writel(0x36db0400, 0xfffc0008); /* CS1BCR */
--	gpio_request(GPIO_FN_IRQ0_PB, NULL);
- 
- 	error = software_node_register_node_group(rsk7203_swnodes);
- 	if (error) {
+Zenghui Yu (1):
+  Docs/{ABI,admin-guide}/damon: fix various typoes
+
+niecheng (1):
+  mm/damon/core: clarify next_intervals_tune_sis update path
+
+ .../ABI/testing/sysfs-kernel-mm-damon          |  2 +-
+ Documentation/admin-guide/mm/damon/usage.rst   | 18 +++++++++---------
+ Documentation/mm/damon/design.rst              |  6 +++---
+ mm/damon/core.c                                |  3 +++
+ 4 files changed, 16 insertions(+), 13 deletions(-)
 
 
-If there is no replacement maybe we can resurrect this? Or shoudl we
-have add swnode support for hogs?
-
-Thanks.
-
+base-commit: f4f9ecd6383da01075a0be8f9c08b82152061fd0
 -- 
-Dmitry
+2.47.3
