@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A853D3DCD9C;
-	Wed, 20 May 2026 11:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20273ED3C1;
+	Wed, 20 May 2026 11:20:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779276012; cv=none; b=I8dNUSvUD8NIwlSOOdOnAZ57K9URAPAMV266zW8SvmvFPI3S9AT/tR3yXO+F7coigMp7OT3cN9nnBGYcGNNHfsgl+NFcSssuHE8WwbwfgMhfN639LT9F5JS6BrjazcH+QTfJNisYG4h9AgzwrTu3COsRCJn9esrkGLQkPJpUaQU=
+	t=1779276032; cv=none; b=rYKXclA7cuSxCEheSMIZR7TVGRMJaGf3xFXK7PcwlzMwTkUAUUwm1/lGjnz7LSojvRFHhcMPlh8hHM/exY9VkptdPQbxww7CN/4LaexdvWnjI12xUUvl8BoQWIfdJ95HBRBWRASDsoCcbJKyUJ/YMaucNZxnZCanYX4YfLJS0FU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779276012; c=relaxed/simple;
-	bh=v4e5a/aMz1v6YR6+cednVDxQr9k3Oa+VodsgFCUyhVw=;
+	s=arc-20240116; t=1779276032; c=relaxed/simple;
+	bh=6G8mJUruCA7qk3la4XjD6mES1+LbZxcjEMGxXtoDUQU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g0stWTCIYrJAqDzIYp7Kid5+/0iLrJOlgJFzIQb9QrBG+lHEbEFJj2CahXKsHZlb2Z35ZSMxPksc9SH9iZbmC1xjuZdZO30u+u0+my/zq771Y3UsWM+/jRH/5kqdpBZ5ah8qxwHAiMWcWCgoOHh13Zv98T7At2MnIqk8KDspgow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k5LPF1J/; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=euQYRDxhylRV+I46NiAsYSgyR80FzF7QMRAikTBySv+rg2m3xqHAscV48aatN2mg60pk+MOgXCKZAJGUDY4SOVp5RQbDy4bGePLHB71dUuW2XHizXoWs+slFWJsZgGX9L9jjUZyQdPoqAZOdl544dxxoQMVlswOGXYePAlCktXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ur9V40zZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k5LPF1J/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638791F00894;
-	Wed, 20 May 2026 11:20:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ur9V40zZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EA101F00897;
+	Wed, 20 May 2026 11:20:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779276007;
-	bh=wh2vO+k2OhSXHw9Yg21L+HN+Ur8L1oQbLmdePBB+R98=;
+	s=k20260515; t=1779276030;
+	bh=ytUTrqgPtCXZ91Xi5mCBiWhz2KSy2GNakoWUqvng6so=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=k5LPF1J/4TewEoUQVfXgXu+kBGKHoDoWw8ETg/KWpZh0ZQ83roQKF5Sb2LV/Do4/p
-	 1c5p9Iq6jquG2tUQr/eEbo59BEH1jdbeD73tBpw6X1VzrtJy373WkDQgyr3XRDjuhf
-	 RxS0Xc8QBqtP8SSv2VpJwWvJRPGweJJrvyz3I9mLWOfFynSxqQV0UYc5+O34IWaSkE
-	 aAjzyuPPmAzqFknLqlZGwQM+/HuJ2Ln4zSONAVHFDfVVspwuyG+PIIqTkLZgDVkqg8
-	 3vNh/utmkddK0AzpwJRvslCGdLsHusfojp81Yzx8tRe5BkC5uEmRvD6u1Chxl6Sq2C
-	 96/ncE5/qBGMg==
+	b=Ur9V40zZMiYAKdlT/lKKN5blp+ZTHZyIm/Q0hFYKWfvacgXggxMpCxyZifgt3Sv5q
+	 W/rIIk/D0VNUtf3VmTUtn+SqQCgMNVHzIjzoB11EV1VEb+FIn9e2WJZJPsN3uNRXit
+	 XHsv8u1Iu4v1ZXOI5RQSlpCwqft9GXsbQmZeVPbRXKEGHBBSI2CXoZL2sKWv9CxtCf
+	 vaed2olmyL8cEXAABShURhBW/PeEgxPmR5pSMPc1BYLftSUK+hCIQ+35l0WCXDWS6f
+	 1qt6Vd/EoPOjmj3TWf8IzIddChoIC8wj6T8a1NE5vnkinR6jGa0PE0Fosh/m1UzuEg
+	 VDahAGp16fbMA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Chen-Shi-Hong <eric039eric@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>,
+Cc: Ninad Naik <ninadnaik07@gmail.com>,
+	Liam Merwick <liam.merwick@oracle.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
 	Sasha Levin <sashal@kernel.org>,
 	corbet@lwn.net,
-	linux-hwmon@vger.kernel.org,
+	kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0] docs: hwmon: sy7636a: fix temperature sysfs attribute name
-Date: Wed, 20 May 2026 07:18:48 -0400
-Message-ID: <20260520111944.3424570-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.12] Documentation: kvm: update links in the references section of AMD Memory Encryption
+Date: Wed, 20 May 2026 07:19:04 -0400
+Message-ID: <20260520111944.3424570-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260520111944.3424570-1-sashal@kernel.org>
 References: <20260520111944.3424570-1-sashal@kernel.org>
@@ -54,214 +55,277 @@ X-stable-base: Linux 7.0.9
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Chen-Shi-Hong <eric039eric@gmail.com>
+From: Ninad Naik <ninadnaik07@gmail.com>
 
-[ Upstream commit 51f57607e30bee282a1d40845f89a311cbb26481 ]
+[ Upstream commit 80f4a7b8ce7513c203562191426e4d4cc635b095 ]
 
-The hwmon sysfs naming convention uses
-temp[1-*]_input for temperature channels.
+Replace non-working links in the reference section with the working ones.
 
-Documentation/hwmon/sy7636a-hwmon.rst currently documents
-temp0_input, while the driver uses the standard hwmon
-temperature channel interface.
-
-Update the documentation to use temp1_input.
-
-Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
-Link: https://lore.kernel.org/r/20260514154108.1937-1-eric039eric@gmail.com
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+Link: https://patch.msgid.link/20260511174302.811918-1-ninadnaik07@gmail.com/
+Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
 ## Phase 1: Commit Message Forensics
-Record: Subsystem is `docs: hwmon: sy7636a`. Action verb is `fix`.
-Claimed intent is to correct the documented temperature sysfs attribute
-name from `temp0_input` to `temp1_input`.
 
-Record: Tags present: `Signed-off-by: Chen-Shi-Hong
-<eric039eric@gmail.com>`, `Link:
-https://lore.kernel.org/r/20260514154108.1937-1-eric039eric@gmail.com`,
-`Signed-off-by: Guenter Roeck <linux@roeck-us.net>`. No `Fixes:`,
-`Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-by:`, or `Cc:
-stable`.
+Step 1.1 Record: Subsystem `Documentation: kvm`; action verb `update` /
+body verb `Replace`; intent is to replace non-working AMD Memory
+Encryption reference links with working links.
 
-Record: The commit describes a documentation bug: the sy7636a hwmon
-document names `temp0_input`, while hwmon temperature channels are named
-`temp[1-*]_input`. No crash, data corruption, or runtime bug is claimed.
+Step 1.2 Record: Tags found: `Signed-off-by: Ninad Naik
+<ninadnaik07@gmail.com>`, `Link: https://patch.msgid.link/20260511174302
+.811918-1-ninadnaik07@gmail.com/`, `Reviewed-by: Liam Merwick
+<liam.merwick@oracle.com>`, `Signed-off-by: Paolo Bonzini
+<pbonzini@redhat.com>`. No `Fixes:`, `Reported-by:`, `Tested-by:`,
+`Acked-by:`, or `Cc: stable@vger.kernel.org`.
 
-Record: This is not a hidden runtime bug fix. It is an explicit
-documentation correctness fix.
+Step 1.3 Record: The commit body describes a documentation issue only:
+reference links in `Documentation/virt/kvm/x86/amd-memory-
+encryption.rst` no longer work as intended. The user-visible symptom is
+stale/broken documentation references for AMD SEV/SEV-SNP material. No
+runtime failure, crash, data corruption, or kernel version note is
+described.
+
+Step 1.4 Record: This is not a hidden runtime bug fix. It is a direct
+documentation fix, which is an allowed stable exception category due to
+zero runtime risk.
 
 ## Phase 2: Diff Analysis
-Record: One file changed: `Documentation/hwmon/sy7636a-hwmon.rst`, 1
-insertion and 1 deletion. No functions modified. Scope is a single-file
-documentation-only surgical fix.
 
-Record: Before, the document told users to read `temp0_input`. After, it
-tells users to read `temp1_input`. No normal/error/init runtime path
-changes.
+Step 2.1 Record: One file changed: `Documentation/virt/kvm/x86/amd-
+memory-encryption.rst`, 4 insertions and 4 deletions. No functions are
+modified. Scope classification: single-file surgical documentation
+update.
 
-Record: Bug category is documentation/API-description correctness.
-Verified against `Documentation/hwmon/sysfs-interface.rst`, which
-documents `temp[1-*]_input`, and `drivers/hwmon/hwmon.c`, where
-temperature attributes use `temp%d_input` with base index `1`.
+Step 2.2 Record: Before, four reference labels pointed to older AMD
+URLs. After, those labels point to current AMD Technical Information
+Portal URLs, and the SNP firmware ABI reference points to a current AMD
+PDF path. Only the `References` section is affected.
 
-Record: Fix quality is obviously correct and minimal. Runtime regression
-risk is zero because no code changes.
+Step 2.3 Record: Bug category is documentation correctness, specifically
+stale external references. No synchronization, memory safety, reference
+counting, initialization, type, logic, or hardware workaround code is
+involved.
+
+Step 2.4 Record: Fix quality is high: the diff only swaps URL strings,
+preserves labels, and does not touch kernel code or public APIs.
+Regression risk is effectively limited to the possibility of choosing a
+less useful URL, not runtime behavior.
 
 ## Phase 3: Git History Investigation
-Record: `git blame` shows `temp0_input` was introduced by
-`de34a40532507` when the sy7636a hwmon driver/doc was added. Ancestry
-checks show that commit is not in `v5.17` but is in `v5.18`, so the
-documentation bug exists from v5.18 onward where the driver exists.
 
-Record: No `Fixes:` tag is present, so there was no Fixes target to
-follow.
+Step 3.1 Record: `git blame` on the reference section showed the white-
+paper line came from `fbabc2eaef9fd7` in v6.3-rc1, the SNP firmware ABI
+line came from `136d8bc931c84f` in v6.11-rc1, and older reference lines
+are present in stable branches back to at least `v5.15` by direct branch
+grep. Some blame output for pre-rename lines hit a boundary attribution,
+so I did not rely on that boundary commit as the true source.
 
-Record: Related file history on `origin/master`: `51f57607e30be` doc
-attribute fix, `2f88425ef590b` regulator-enable leak fix,
-`68c2a8b59d231` sensor description doc fix, `80038a758b7fc` alias
-addition, `5b5d8ae019543` constification, `a96f688b4e446` underline
-warning fix, `de34a40532507` driver addition. This patch is standalone
-for trees with the current doc context.
+Step 3.2 Record: No `Fixes:` tag is present, so there is no specific
+introducing commit to follow.
 
-Record: Author history under hwmon/doc paths shows only this commit from
-Chen-Shi-Hong in the checked history. Guenter Roeck, the hwmon
-maintainer, committed/applied it.
+Step 3.3 Record: Recent file history on `origin/master` includes KVM
+SEV/SNP documentation and API additions, including `20c3c4108d58f`,
+`dcbcc2323c806`, `ad27ce155566f`, `dee5a47cc7a45`, and `136d8bc931c84f`.
+The candidate is standalone because it only changes URL strings and does
+not depend on those code/API changes to be meaningful where the same
+reference lines exist.
 
-Record: No functional dependencies. For older stable trees that do not
-contain `68c2a8b59d231`, the exact patch context differs and needs a
-trivial manual backport.
+Step 3.4 Record: `git log --author='Ninad Naik'` showed this author has
+other documentation link/spelling style commits, including
+`a362ae6e7e85b` for `amd-pstate` dead links and `5ed26ffe57ffc` for a
+`hwmon` link. I did not verify the author as a KVM maintainer; Paolo
+Bonzini committed/applied it and Liam Merwick reviewed it.
+
+Step 3.5 Record: No code symbols or function dependencies exist. The
+patch can apply standalone where the same documentation reference block
+exists; older stable branches may need context/path adjustments.
 
 ## Phase 4: Mailing List And External Research
-Record: `b4 dig -c 51f57607e30be` found the original submission at
-`https://patch.msgid.link/20260514154108.1937-1-eric039eric@gmail.com`.
 
-Record: `b4 dig -a` found only v1 of a single-patch series. No newer
-unapplied revision found.
+Step 4.1 Record: `b4 dig -c 80f4a7b8ce751` found the original patch
+thread at `https://patch.msgid.link/20260511174302.811918-1-
+ninadnaik07@gmail.com`. `b4 dig -a` found only v1; `b4 am -c` found no
+newer revision.
 
-Record: `b4 dig -w` showed recipients included Chen-Shi-Hong, Guenter
-Roeck, Jonathan Corbet, Shuah Khan, `linux-hwmon`, `linux-doc`, and
-`linux-kernel`.
+Step 4.2 Record: `b4 dig -w` showed the patch was sent to KVM and docs
+maintainers/lists, including Paolo Bonzini, Jonathan Corbet, Sean
+Christopherson, Michael Roth, Liam Merwick, `kvm@vger.kernel.org`, and
+`linux-doc@vger.kernel.org`.
 
-Record: The b4-fetched thread contains Guenter Roeck replying “Applied.”
-No NAKs, objections, or stable-specific nomination were found in that
-thread. Lore `WebFetch` was blocked by Anubis, but `b4` successfully
-retrieved the thread.
+Step 4.3 Record: There is no separate bug report or reporter tag. The
+thread contains Liam Merwick’s `Reviewed-by` and Paolo Bonzini’s
+“Applied, thanks.” I found no NAKs or concerns in the fetched thread.
+
+Step 4.4 Record: The patch is a one-patch series. No related required
+patches were identified.
+
+Step 4.5 Record: Web search did not find stable-specific discussion for
+this exact subject/hash. Direct WebFetch of lore stable search was
+blocked by Anubis, so stable-list search is partially unverified.
 
 ## Phase 5: Code Semantic Analysis
-Record: No code functions are modified.
 
-Record: Manual code tracing verified the documentation claim:
-`drivers/hwmon/sy7636a-hwmon.c` registers `HWMON_CHANNEL_INFO(temp,
-HWMON_T_INPUT)`. `drivers/hwmon/hwmon.c` formats temperature attributes
-with `temp%d_input`, and `hwmon_attr_base()` returns `1` for temperature
-sensors. Therefore the first temperature channel is `temp1_input`.
+Step 5.1 Record: No functions are modified.
 
-Record: Callers/callees are not applicable to the patch because it
-changes documentation only. The affected “path” is users reading the
-hwmon documentation.
+Step 5.2 Record: No callers exist because this is documentation.
+Documentation references to this file exist from
+`Documentation/virt/kvm/api.rst`, `Documentation/admin-guide/kernel-
+parameters.txt`, `Documentation/virt/kvm/x86/index.rst`, and related
+documentation pages.
 
-Record: Similar pattern check found the generic hwmon documentation and
-many hwmon docs use `temp1_input`, supporting the correction.
+Step 5.3 Record: No callees exist. The changed labels are consumed by
+Sphinx/ReST documentation rendering.
 
-## Phase 6: Stable Tree Analysis
-Record: `v5.15` does not contain `Documentation/hwmon/sy7636a-hwmon.rst`
-or `drivers/hwmon/sy7636a-hwmon.c`, so the patch is not applicable
-there.
+Step 5.4 Record: No runtime call chain exists. User impact is
+documentation usability for KVM SEV/SEV-SNP developers/users.
 
-Record: `v6.1`, `v6.6`, and `v6.12` contain the sy7636a driver and the
-wrong `temp0_input` documentation. `v7.0` contains the wrong attribute
-name with the newer “external NTC” text.
+Step 5.5 Record: Similar pattern exists in prior documentation link
+fixes, including `fbabc2eaef9fd7` for an AMD memory encryption white-
+paper URL and `bad0524e24201` for an x86 SEV documentation URL.
 
-Record: The exact patch applies cleanly to the current
-`stable/linux-7.0.y` checkout. It does not apply cleanly to `v6.1` or
-`v6.6` because the surrounding description text differs before the later
-doc description fix; a trivial one-line context-adjusted backport is
-needed there.
+## Phase 6: Cross-Referencing And Stable Tree Analysis
 
-Record: No alternate fix for this exact documentation bug was found in
-local stable history.
+Step 6.1 Record: Stable branches contain affected references.
+`stable/linux-5.15.y` and `stable/linux-6.1.y` contain the old KVM AMD
+memory encryption doc with three AMD references. `stable/linux-6.6.y`
+contains the three current old references. `stable/linux-6.12.y` through
+`stable/linux-7.0.y` contain all four references, including the SNP
+firmware ABI link.
 
-## Phase 7: Subsystem Context
-Record: Subsystem is hwmon documentation. Criticality is low for
-runtime, but it documents a userspace-visible sysfs ABI path for sy7636a
-hardware users.
+Step 6.2 Record: Backport difficulty is clean for the current
+`linux-7.0.y`-based tree: `git apply --check` succeeded. Older trees
+likely need small manual adjustment: `5.15.y` uses the pre-`x86/` path,
+`5.15.y`/`6.1.y` have an older white-paper URL, and `6.6.y` lacks the
+SNP firmware ABI line.
 
-Record: The sy7636a hwmon files have low churn and only a handful of
-targeted fixes since introduction.
+Step 6.3 Record: `stable/linux-7.0.y` does not contain this candidate
+commit by subject. I found prior related doc-link fixes, but not this
+exact KVM reference update in stable branches checked.
 
-## Phase 8: Impact And Risk
-Record: Affected population is sy7636a hardware users and anyone writing
-scripts or instructions based on
-`Documentation/hwmon/sy7636a-hwmon.rst`.
+## Phase 7: Subsystem And Maintainer Context
 
-Record: Trigger is reading/following the documentation. If followed
-literally, users look for a non-existent `temp0_input` instead of the
-actual `temp1_input`.
+Step 7.1 Record: Subsystem is KVM x86 documentation for AMD SEV/SEV-SNP.
+Criticality is peripheral for runtime kernel stability, but relevant to
+KVM confidential-computing documentation users.
 
-Record: Failure severity is LOW: documentation/user guidance bug, not a
-kernel crash or data corruption issue.
+Step 7.2 Record: File history shows active KVM SEV/SNP documentation
+churn due to recent SEV-SNP commands and API documentation. The touched
+change itself is isolated documentation.
 
-Record: Benefit is modest but real: correct stable documentation for a
-userspace-visible hwmon attribute. Risk is effectively zero: one
-documentation line, no code, no ABI change.
+## Phase 8: Impact And Risk Assessment
+
+Step 8.1 Record: Affected population is documentation users, especially
+KVM/SEV/SEV-SNP developers and operators consulting AMD specs from
+stable kernel docs.
+
+Step 8.2 Record: Trigger condition is reading the documentation
+references. It is not syscall- or runtime-triggered, and unprivileged
+runtime triggering is not applicable.
+
+Step 8.3 Record: Failure mode is stale/non-direct documentation links.
+Severity is LOW for runtime stability, but valid under the
+documentation-fix exception.
+
+Step 8.4 Record: Benefit is modest but real: stable documentation points
+users at current AMD references. Risk is very low: 4 URL replacements in
+one `.rst` file, no code, no ABI, no behavior change. Risk-benefit ratio
+is favorable because runtime regression risk is effectively zero.
 
 ## Phase 9: Final Synthesis
-Evidence for backporting: verified documentation is wrong; verified
-driver/core generate `temp1_input`; patch is one-line documentation-
-only; hwmon maintainer applied it; documentation fixes are an allowed
-stable exception with no runtime regression risk.
 
-Evidence against backporting: it is not a serious runtime bug, security
-issue, crash, or data corruption fix. Older stable trees before the
-sensor-description doc change need a trivial context adjustment.
+Step 9.1 Record: Evidence for backporting: documentation fix exception
+applies; patch is tiny; reviewed; applied by KVM maintainer Paolo
+Bonzini; no NAKs found; affected references exist in stable trees;
+current `7.0.y` patch application check succeeds. Evidence against: no
+runtime bug, no crash/security/data-loss impact, and older stable
+branches need minor backport adjustment. Unresolved: lore stable search
+was blocked by Anubis, so I could not fully verify stable-list
+discussion.
 
-Stable rules checklist: obviously correct, yes; fixes a real
-documentation bug, yes; important runtime issue, no; small and
-contained, yes; no new feature/API, yes; stable applicability, yes for
-v7.0 cleanly and older applicable with minor backport adjustment.
-Exception category: documentation fix.
+Step 9.2 Record: Stable rules checklist: obviously correct and reviewed:
+yes; fixes a real issue: yes, stale documentation references; important
+runtime issue: no, but documentation fixes are an allowed exception;
+small and contained: yes, 4 lines changed in one file; no new
+features/APIs: yes; can apply to stable: yes for current `7.0.y`, likely
+clean for `6.12.y+`, minor adjustment for older branches.
 
-Verification:
-- [Phase 1] Parsed exact commit `51f57607e30be` from `origin/master` and
-  confirmed tags/message.
-- [Phase 2] Inspected exact diff: one doc line changes `temp0_input` to
-  `temp1_input`.
-- [Phase 3] `git blame` confirmed `temp0_input` came from
-  `de34a40532507`; ancestry checks place it first in v5.18.
-- [Phase 4] `b4 dig` found the original patch; `b4 dig -a` showed v1
-  only; `b4 dig -w` showed appropriate hwmon/doc recipients; b4 mbox
-  showed Guenter replied “Applied.”
-- [Phase 5] Read sy7636a driver and hwmon core; confirmed first
-  temperature channel is named `temp1_input`.
-- [Phase 6] Checked `v5.15`, `v6.1`, `v6.6`, `v6.12`, and `v7.0`
-  content; exact patch applies to current 7.0 stable, not directly to
-  v6.1/v6.6 due context.
-- [Phase 8] Confirmed no runtime code changes, so regression risk is
-  zero.
+Step 9.3 Record: Exception category: documentation fix. This is
+explicitly the kind of zero-runtime-risk update that can be accepted
+even though it is not a runtime correctness fix.
 
-This should be backported where the sy7636a documentation exists, with
-trivial context adjustment for older trees as needed.
+Step 9.4 Record: Decision is YES. Backporting is appropriate for stable
+trees that carry the affected documentation, with minor manual
+adjustment where older branch context differs.
+
+## Verification
+
+- [Phase 1] `git show --format=fuller --stat --patch 80f4a7b8ce751`:
+  confirmed subject, tags, one-file documentation diff, and no runtime-
+  code changes.
+- [Phase 2] Diff inspection: confirmed 4 URL replacements only in
+  `Documentation/virt/kvm/x86/amd-memory-encryption.rst`.
+- [Phase 3] `git blame -L 652,664`: confirmed local history for the
+  reference block, including `fbabc2eaef9fd7` and `136d8bc931c84f`.
+- [Phase 3] `git describe --contains`: confirmed `fbabc2eaef9fd7` first
+  appears by v6.3-rc1 and `136d8bc931c84f` by v6.11-rc1.
+- [Phase 3] `git log origin/master --oneline -20 --
+  Documentation/virt/kvm/x86/amd-memory-encryption.rst`: confirmed
+  recent KVM SEV/SNP doc history and candidate placement.
+- [Phase 4] `b4 dig -c 80f4a7b8ce751`: found original patch thread by
+  patch-id.
+- [Phase 4] `b4 dig -c 80f4a7b8ce751 -a`: confirmed only v1 series.
+- [Phase 4] `b4 dig -c 80f4a7b8ce751 -w`: confirmed KVM/docs maintainers
+  and lists were included.
+- [Phase 4] `b4 mbox`/saved thread plus `rg`: confirmed `Reviewed-by:
+  Liam Merwick` and Paolo’s “Applied, thanks”; found no NAK/stable
+  request text.
+- [Phase 4] WebFetch of lore/patch URLs was blocked by Anubis; b4
+  successfully fetched the thread.
+- [Phase 5] `rg` in the doc file: confirmed changed labels are
+  referenced by SEV/SNP documentation text.
+- [Phase 5] `rg` under `Documentation`: confirmed documentation pages
+  link to `amd-memory-encryption.rst`.
+- [Phase 6] `git grep` across `stable/linux-5.15.y`, `6.1.y`, `6.6.y`,
+  `6.12.y`, `6.15.y`, `6.16.y`, `6.17.y`, `6.18.y`, `6.19.y`, and
+  `7.0.y`: confirmed affected old references exist and identified branch
+  differences.
+- [Phase 6] `git diff 80f4a7b8ce751^ 80f4a7b8ce751 | git apply --check`:
+  confirmed clean application to the current `7.0.y`-based working tree.
+- [Phase 8] URL checks with Python HEAD/WebFetch: confirmed old direct
+  AMD URLs no longer behave as direct PDF references in several cases,
+  while the new SNP ABI URL returns an AMD PDF; other new AMD TIP URLs
+  resolve to AMD documentation portal pages.
+- UNVERIFIED: full stable mailing-list history, because direct lore
+  stable WebFetch was blocked by Anubis and web search found no exact
+  stable discussion.
 
 **YES**
 
- Documentation/hwmon/sy7636a-hwmon.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/virt/kvm/x86/amd-memory-encryption.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/hwmon/sy7636a-hwmon.rst b/Documentation/hwmon/sy7636a-hwmon.rst
-index 0143ce0e5db76..03d866aba6e81 100644
---- a/Documentation/hwmon/sy7636a-hwmon.rst
-+++ b/Documentation/hwmon/sy7636a-hwmon.rst
-@@ -22,5 +22,5 @@ The following sensors are supported
- sysfs-Interface
- ---------------
+diff --git a/Documentation/virt/kvm/x86/amd-memory-encryption.rst b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+index b2395dd4769de..bd04a908a8dbd 100644
+--- a/Documentation/virt/kvm/x86/amd-memory-encryption.rst
++++ b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+@@ -656,8 +656,8 @@ References
+ See [white-paper]_, [api-spec]_, [amd-apm]_, [kvm-forum]_, and [snp-fw-abi]_
+ for more info.
  
--temp0_input
-+temp1_input
- 	- Temperature of external NTC (milli-degree C)
+-.. [white-paper] https://developer.amd.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
+-.. [api-spec] https://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
+-.. [amd-apm] https://support.amd.com/TechDocs/24593.pdf (section 15.34)
++.. [white-paper] https://docs.amd.com/v/u/en-US/memory-encryption-white-paper
++.. [api-spec] https://docs.amd.com/v/u/en-US/55766_PUB_3.24_SEV_API
++.. [amd-apm] https://docs.amd.com/v/u/en-US/24593_3.44_APM_Vol2 (section 15.34)
+ .. [kvm-forum]  https://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
+-.. [snp-fw-abi] https://www.amd.com/system/files/TechDocs/56860.pdf
++.. [snp-fw-abi] https://www.amd.com/content/dam/amd/en/documents/developer/56860.pdf
 -- 
 2.53.0
 
