@@ -1,321 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013020.outbound.protection.outlook.com [40.93.201.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B52400DEE;
-	Wed, 20 May 2026 11:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779276076; cv=none; b=eQb9pYBLvfbKLexTRsIM3XHp63VyJ7GAW1id2uhrfZHRhZckoFCXv/0zb4ThNW2yhZVHiTk4Z0gVFvEVQoVW6oXvvAtVbudMJBURZr3KUAPytuaawk/uJK+iXVfqge84zah60mIXuBSstNdoI8Fj2yIQ3ukVeCdIAXTutFGs9z8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779276076; c=relaxed/simple;
-	bh=y30KC3srFv+XseZMDrzuM4GMU5XpEdlU5cHxgx2MAqo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VU3llZibhX8YIeMBt9bcIRRj4whH1YIg4UK74qGtomT04xXBBayxVprgQiccIgmobNHOYXsFla+Ly8ty1kKffFskSFjmRfouUsvbO2xakFltkA7cR+9pqcTuakqhxVUwjN8QTe8YLch4oHeNwOneSrfFp6+RFtbNCv9I8MGJFzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gqXB+1CB; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FF73D47DE;
+	Wed, 20 May 2026 11:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779276098; cv=fail; b=tXTiozKi11NFomia+IxWd001dMzgdAgnLc3TUSd8iyFu+s9wsrRajaqtbcSXM7weZMaE6QGY1/b0kY2ZRC0xwGRhVQoACXJtjkf4ybmtd3cxqsiUEQs9WzMLzdMu36B4VG5K1XXUWFWTezqL99JosiQGXzosDU/moT1fmivQWsA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779276098; c=relaxed/simple;
+	bh=LB2aCjuyJ6bmu7098Tgt07LtmJFI/YppGYhw61urrvI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=l3OCw2Ed5OVSjIQ9mAzVE3/vzQKYiS4eoclYR429AVZUo+ME2zyNOeptDvnd65lYCkA4kKFcx7QtFvw0byHNCm2phrKKa1gSAyWqvrYFmzbq0XzdMZfX6KsOTt5A2DCrD7YbLqabJybQZv77Y6FYd84OO6y7DNXd+F7LMeryeMI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Sbwc6DT8; arc=fail smtp.client-ip=40.93.201.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gqXB+1CB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F5AC1F00898;
-	Wed, 20 May 2026 11:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779276074;
-	bh=vVYITuU5ayYDZ6nr6e6Lv1gWsOSA/WdMxHpJrzkPSpo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=gqXB+1CBA9UEm3EDO1dw0mOgboAG4qsRV/vwMX6Ci93oXY6kk0dSdPeBNtlP5TGnq
-	 8mrCIAV4I8BNEuGxjDJqVt2bqfrFNgRCWqhRknw19DAQDJtcMKCVk68RroNrohtr9/
-	 poImP4Uvn8qyVOv8y68012RUGCIeKkYScg8ABiZeQhGqTZNTArpCsd/uRQggV/rp4M
-	 k7HOSWUe2mKZVmzs+/j1r+xXxtLieCC5L/LhMLVi61s1WfJSh4p1F85y8Q+aCHz5Sr
-	 X/eipuXtcVMu0g+p3/jg8K8mDuDW2WnixwH43dRcIdcYGTx0HyrmcxKh0vIM7SyRNU
-	 eII3d91VR1cMg==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Willy Tarreau <w@1wt.eu>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sasha Levin <sashal@kernel.org>,
-	security@kernel.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0] Documentation: security-bugs: do not systematically Cc the security team
-Date: Wed, 20 May 2026 07:19:35 -0400
-Message-ID: <20260520111944.3424570-63-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260520111944.3424570-1-sashal@kernel.org>
-References: <20260520111944.3424570-1-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Sbwc6DT8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GAECtCPEfMJ0Xh8bjb/i883oJUbcI+RnDO83wbgy49VJ/xuMA1/o31CPzlRD1jiV12ZQeBxBIC1JgW/155svdZx5fjagrnVDDgWFsI5imTzutNjOtI2ZPcX6mpaCy2jifxTp/uhtUwZ/sPX4ViByHd7TZrBaQ27SlakpYsqF3CDvsnjDM0A7yQckakyvD8GhJ5+WIEnexQY4daivTge+qVXpn3oQixSUXxadO3Tl95IAeOTJMJ8BktX4h93MeZ3yptDuYLoWZ+RyzBqTBinFbjTeXNLb4T70FlDFBLcogGQiyfGD9cEmeXy0FU3a4roTnNtQE9ME/R/kpqlgV61Ptg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bMkdtj4/VjJmQfSS8pJtUJDtx2BMYRJ3Q2W42DaSjrQ=;
+ b=Sgk1SEYqxO03S7ASdpeODXuXMY7Z9cUaD3ec/X3YoEe0m2sPg2WOyW+WRb6LAPRWvUauXcnReQ+0kPAKZSx4MLruALwa/saCX0+DQgJEP+s6kc6x2XHCNgf21EFSapdnK6hSINgr3Fh7DK3lPrNDYXiR2ngRzcUbtqliE15bZD8lPHV+uWAGRvU6NxHpYxCmUCkwwYMxun5cWaulGGMpa4/llLvfkJftY/nwHbdMj8f0rWV6qtQI2/TiVSYrzuFuc/fc8dn3zF0dFdGNJvY1GAeHxWEhuilzGP6Cjf0EThNYZcbR9HknUygHniIiBddDUEOUgQh+K1SQHEHxPs4BuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bMkdtj4/VjJmQfSS8pJtUJDtx2BMYRJ3Q2W42DaSjrQ=;
+ b=Sbwc6DT8Brvq2BYgj2TZo4GuVbC9N7wFtywYNl9pSnDG6oYODElZKShMCSpWnSW8S/g3po7IRx5PTqh1SnUF4Pfwo55cosmq3df+YRspw9Qn+CZxHUi2jxmf5Twx6noLCLNYdS/p+2o1NEuA6NSA+77cko2qgGOEQu4fTJsLTvk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB6493.namprd12.prod.outlook.com (2603:10b6:8:b6::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
+ 2026 11:21:33 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Wed, 20 May 2026
+ 11:21:33 +0000
+Message-ID: <1e94106a-f72e-447e-9885-2d2cc8f8e722@amd.com>
+Date: Wed, 20 May 2026 13:21:26 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Xaver Hugl <xaver.hugl@kde.org>
+Cc: Julian Orth <ju.orth@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+ <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com>
+ <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
+ <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com>
+ <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
+ <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com>
+ <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
+ <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com>
+ <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
+ <dff60378-4e47-4753-8878-feec6e1c2690@amd.com>
+ <385a4d4f-fe22-41a7-8d4b-4dc6bc9930d3@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <385a4d4f-fe22-41a7-8d4b-4dc6bc9930d3@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0081.namprd13.prod.outlook.com
+ (2603:10b6:208:2b8::26) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 7.0.9
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6493:EE_
+X-MS-Office365-Filtering-Correlation-Id: d440df65-d31e-4e0b-0dd3-08deb661f296
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|4143699003|22082099003|18002099003|56012099003|3023799007|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	ze466dad6Kfj9aK4hCsQjF2BIYDSqOtT7KzTRCYSJ6YtayLNJ2oHVjkljesBAKbGmhc2wcHBPO3QXbhrx3oEHgoddE8fhdhta6XpP4pKdan7YQUVAXPFvm4kzVkW0LClY7sKVcxN5sBAbaYdMdGxrruVi/ayTd1Jg2tHCrgECxtY/iVzVI1h7PDiTBz+rn0CMEqAFh8Zclrgg46aFWbYgQzIllBjgZh162ikncWEpskluykEyu6whLp/RaFY6YS61jMyrFBUN4ZufuPKg0hN6iT9nAzziharP14n62K5QE8HIsxYociOgoscKIX/Su5Wb83J0P5qCUmag4VMD5WpyrUI32Sw2bjJZR6mBjdkomPb6Z6nLT4Xu/iIpzS7YVkr/BrOqthj04A0nn8334CRljhzstFehEPn8c1j8dyCzaTzZ6Rg23mZmDaSWJAiq62FYeoIHGHn8/7sr/erQSpGQGb+kLZRQrTnPjEJaqCMWV0KsfBOHf6YhIuSOnzzhGY1dJGBzxhiuIL0MrCFvRptFb4g/Z/YQFdfV3eIlA5O+FUMPw58hpUqUok3rnHh4jiVCHHUNmgr4JwytbZoUusLE01jyCKN9xOIz6VUvIQPaJPhMECXrjMzStJ5P9i106RtH2hpss4bLxmdxuigftD6ouBxqiqwSDOu4osqu+Kz3y7Pn8LRaoW4wiV+Zuzbq60U
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(4143699003)(22082099003)(18002099003)(56012099003)(3023799007)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b2tDOFBTZDJaV3ptbXIxT2JiS3BSM0s0QnFPRlg0a1JpQVJGbFo4YWNhUTRS?=
+ =?utf-8?B?SDI0bUJaZmZZb0FWcnB4b3hXaDkwTWpka3NMVW1jNzhXVDdBY01HWEtPa3Zs?=
+ =?utf-8?B?Zkh4aHpKMXZvUzRna1AxMW1xOThRVjJidUdvOGdwODNuZnVyODkya2dMR2pX?=
+ =?utf-8?B?b0JucWllbm9GbGFyT2RGT0lPNUZQV0dTUHI0d1JCT2FMV2x4OE5Raks4TlUv?=
+ =?utf-8?B?NkJlWUZ0bnZnSVF5RGdZd2g2MnlNTFhoWnZhSlRLTjN3VVRQKzBrL3ZOTUU5?=
+ =?utf-8?B?OFgwRjFkcVdzaWpiTGFDY1lVQ0ExMWlsVmxJYitab3VEYzk5TlBlM0tlRCtU?=
+ =?utf-8?B?T24rcXlEcllaU0lKY1ptSncxVjFiZ1hQVWZTNjh6dFZNN1VsOFphTmxPcFpD?=
+ =?utf-8?B?VGJKOXFFZkZiU25aT0VFZGRGZUNlSVZpeUpSLzljY3l3eG8xSElIbTIxN0FG?=
+ =?utf-8?B?TWJRNmxiMkV5REJ2QnJmNmxpMzFWa3ZDai9mVHRWbjd3NmpvemMxR1dsSnp3?=
+ =?utf-8?B?NURNK0R2UUdmclVFTHIybU40aTFDZ21RTTJGakhicGhHOEgxc0pZZnZXZ0lY?=
+ =?utf-8?B?UDJSRGFLblBpYzEvLzdIZUVzTUFLWEJTazdPMm90NE9jaHFjakMxd1M2dHJh?=
+ =?utf-8?B?OGpCUTMyKzQxQnYvODAxRzZjWURKNEpHNGNkRk9kQ2pPZ0svL0E0bTBEZ0gw?=
+ =?utf-8?B?ZVhEQWFGNjRuZG9RNWNJc3RNeGtXdCtNaUxORW9XNy9ZcFJYRGpIenVDZXV2?=
+ =?utf-8?B?dXVKMWl6NW55M285SGJUYnNXL2ttV0kwYWs4cGRtUC9FMHl2WmMzeFFSbURD?=
+ =?utf-8?B?Y0RaVko4V1ZkdEZ4ODV5MGpDUGMzWENIVzA5WS9kWHUrZE9xR2dya2hMMXVr?=
+ =?utf-8?B?cGJuNFhCdFFHNDB6WUZEdHdOaG9mUlNXV2lpUnA4bnBSYWp4TWMxZHhjZStX?=
+ =?utf-8?B?YkRTZlRZbkxmRzg2djR3cVNuY3h3U0h0N0hwWngzT0lYai9YRC9sL2dsODNt?=
+ =?utf-8?B?OFRscGhkeGhZVDdGbDNMSHYxcHlHRE5UdG5WK2Q1M1ZWeFA0eUtNTDMvd0RJ?=
+ =?utf-8?B?TlloYk1XblhaT0t2N0daL2pJZXMzVThuMXIwV3laVEhSUXBqWFZ0YnRRdTB4?=
+ =?utf-8?B?QjF3WHMzd1dtbmNnQXAwcVIwc21oc1JzNnZNSGp6VTZ6VDN4V1FIZ2hTUDZ0?=
+ =?utf-8?B?eWM3QTFLNE03S0FUYWxkRUVudGRyUGlqK3hudHU1TDdUdlpnVDg0NlRTRlBC?=
+ =?utf-8?B?cHFEalhFdUhoY252aGQ3aEFJZnFRNWJ2VmxiOHBJczVmeS9yMDhpdUQyYVJs?=
+ =?utf-8?B?SkFCSmU1akJtZ3luZ24xSVB2bkZEeWhCaHppeGl2V0N2Sm5oNGNNb2FlZi8r?=
+ =?utf-8?B?QnRuY2pVZnN0ZXdKVWliUm5YSTVqZ2dVWWtadndrdEQ0WUxoMWttN29aYW9X?=
+ =?utf-8?B?dDRncXkzV3d1WVdndmVNc0VyWEZFWGxBL0h4bGIzZDUwYUhYbHNJNVlPWFA5?=
+ =?utf-8?B?MkZvYkF1Z0tDOW5tM1VqbTU0QUJpOStZVVhtVDlqdGMySlBZWENjdk9xK1Y3?=
+ =?utf-8?B?VVBOUGZWS1FwMjRQMlh3QjRVQmUzNkFKVHU0VW9ER3BTS0k4YzByQzhBdkM2?=
+ =?utf-8?B?SkhOTmJ0VzU1V0lMQVBrMDVYNW5paEwvcmcvRDA2VXNUYVlhYnlxZDdkYlY5?=
+ =?utf-8?B?a09qV0lRalVuaEF2d05lS1FWam04R3VZSXh5TGVEa2MxN3dENGlSSlZxSW52?=
+ =?utf-8?B?SlVUSkk1S1J5MktBaERtbG5KMTNKci91eUY4eS9tbmZFNnJxamRpbnBkQWd0?=
+ =?utf-8?B?NDFnVytDSUQ0RW8rZk1KNlJFa0NQVnozbnlhU2ZMeXN4Tmg2MHV3Vjhhdm5K?=
+ =?utf-8?B?cGFBUWVhMkdySExVbUtibTYvRHQzdU9MeWkxbDJaTGRtbUZwR2VBZTVFUmor?=
+ =?utf-8?B?Zm5nVWlkbjh0bmhnOU1zYmV5SFRiSURYWmVhSkQ2N0pNUDE2M1FNbG12MUdw?=
+ =?utf-8?B?c3RkWGdNcVF2a2lUSXBadVppbGc3WGhWRnF0RDZhK2NPRnlDclZTc0dHbEZF?=
+ =?utf-8?B?M05rWHB0SXBQYzBTOHBFQWUvTlA3Y2ZxNk5GM1IxU2xHaTlDTHg1Q3dUc0di?=
+ =?utf-8?B?K1dwUHU4KzZ0Q2xLUkY2U0E2VEtkdXdFbFovd0huYnFlMkw4U0o5L2w2Q0RG?=
+ =?utf-8?B?cFA1MnZzTDFsN0p0WUkvZlFUMmRMbW5ra0o1NUFjZXVnSkJHb0o3eE5DOHVP?=
+ =?utf-8?B?bkFQeEozMWFQd3A5VFJKZzN4K2NtUldKOERDaG9JaGlkNlZjeGxRYzRBREZ6?=
+ =?utf-8?Q?HuXbKv1W/n9G16YLQJ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d440df65-d31e-4e0b-0dd3-08deb661f296
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 11:21:33.2919
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lN47Jq8rGKFwoiS7EC2Y2yikhmGzK/Dhfb0305PJjzdhER7rAm8IQGsgmbqVk5QX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6493
 
-From: Willy Tarreau <w@1wt.eu>
+On 5/20/26 10:13, Michel Dänzer wrote:
+> On 5/19/26 18:00, Christian König wrote:
+>> On 5/19/26 17:31, Xaver Hugl wrote:
+>>> Am Di., 19. Mai 2026 um 15:29 Uhr schrieb Christian König
+>>> <christian.koenig@amd.com>:
+>>>>> 1. This series makes the ability to manipulate syncobjs available
+>>>>> independently of attached hardware.
+>>>>> 2. It makes it available under a consistent path /dev/syncobj.
+>>>>
+>>>> Exactly that is a big no-go. This has to be under /dev/dri.
+>>> FWIW udmabuf is also under /dev directly, but I don't think any
+>>> compositor developer would complain about a different path.
+>>> What are the rules for that? Could this simply be put in /dev/dri/syncobj?
+>>
+>> The syncobj are actually the DRM specific way of doing things. The general kernel wide way is to use sync files (see drivers/dma-buf/sync_file.c).
+>>
+>> But there has already been tons of problems with those sync files. E.g. they doesn't support your use case at all since they don't have wait before submit behavior.
+>>
+>> So there are already ways to do this, but the Linux kernel so far told everybody that this is forbidden. The DRM syncobj wait before signal functionality is much better, but then basically the second try to do this.
+> 
+> I'm not quite sure what you're getting at here, just to be clear though:
+> 
+> While the syncobj Wayland protocol extension supports wait-before-submit behaviour at the Wayland protocol level, it doesn't need or cause wait-before-submit behaviour for DMA fences in the kernel. The usual rules apply to fences attached to syncobj timeline points. The wait-before-submit behaviour at the Wayland protocol level comes from allowing submit before a fence is attached to the acquire timeline point.
 
-[ Upstream commit aed3c3346765e4317bb2ec6ff872e1c952e128ab ]
+Yeah I know. I'm one of the people who came up with the idea of doing wait before signal this way in the drm_syncobj.
 
-With the increase of automated reports, the security team is dealing
-with way more messages than really needed. The reporting process works
-well with most teams so there is no need to systematically involve the
-security team in reports.
+What I wanted to say is that a lot of people used the dma_fence to implement wait before signal before and got a bloody nose from that.
 
-Let's suggest to keep it for small lists of recipients and new reporters
-only. This should continue to cover the risk of lost messages while
-reducing the volume from prolific reporters.
+> (It took me a while to realize this distinction, before which I mistakenly thought the kernel's DMA fence rules would prohibit wait-before-submit behaviour at the Wayland protocol level as well)
 
-Cc: Greg KH <gregkh@linuxfoundation.org>
-Cc: Leon Romanovsky <leon@kernel.org>
-Reviewed-by: Leon Romanovsky <leon@kernel.org>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Willy Tarreau <w@1wt.eu>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-Message-ID: <20260509094755.2838-2-w@1wt.eu>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+This is what surprised me.
 
-LLM Generated explanations, may be completely bogus:
+The drm_syncobj implementation solved the wait before signal for the kernel, but my last feedback was that we basically just moved the issue to userspace and Wayland compositors would have quite some overhead to implement it correctly.
 
-## Phase 1: Commit Message Forensics
-Record 1.1: Subsystem `Documentation/process/security-bugs`; action verb
-`do not`; intent is to update security bug reporting instructions so
-reporters do not always Cc the security team.
+That compositors now use eventfd to simplify that was news to me but makes totally sense in hindsight.
 
-Record 1.2: Tags present: `Cc: Greg KH <gregkh@linuxfoundation.org>`,
-`Cc: Leon Romanovsky <leon@kernel.org>`, `Reviewed-by: Leon Romanovsky
-<leon@kernel.org>`, `Reviewed-by: Greg Kroah-Hartman
-<gregkh@linuxfoundation.org>`, `Signed-off-by: Willy Tarreau
-<w@1wt.eu>`, `Signed-off-by: Jonathan Corbet <corbet@lwn.net>`,
-`Message-ID: <20260509094755.2838-2-w@1wt.eu>`. No `Fixes:`, no
-`Reported-by:`, no `Tested-by:`, no `Cc: stable`.
+But anyway, we need to somehow simplify the drm_syncobj -> eventfd usage in the compositor. That requirement is perfectly justified and avoiding importing the drm_syncobj fd into any DRM driver should actually be really easy to implement.
 
-Record 1.3: The body describes a process/documentation problem:
-increased automated reports create more mail to the security team than
-needed. Symptom is excess security-team involvement, not a kernel
-runtime crash or data corruption. No affected kernel versions are named.
-
-Record 1.4: This is not a hidden code bug fix. It is an explicit
-documentation/process update that corrects now-overbroad guidance.
-
-## Phase 2: Diff Analysis
-Record 2.1: One file changed: `Documentation/process/security-bugs.rst`,
-9 insertions and 1 deletion in the submitted patch. No functions are
-modified. Scope is single-file documentation-only.
-
-Record 2.2: Before: reports “must” be sent to maintainers with the
-security team in Cc. After: reports still go to maintainers, but
-security-team Cc is mandatory only for two-or-fewer recipients, advised
-for early reports or specific help, and no longer necessary for
-comfortable reporters sending to large teams.
-
-Record 2.3: Bug category is documentation/process correctness. No
-resource leak, race, memory safety, refcount, initialization, endian, or
-hardware quirk mechanism exists.
-
-Record 2.4: Fix quality is high for its scope: small, reviewed,
-documentation-only, no runtime behavior. Regression risk is limited to
-possibly changing reporter behavior; no kernel runtime regression is
-possible from the diff itself.
-
-## Phase 3: Git History Investigation
-Record 3.1: `git blame` shows the replaced sentence was introduced by
-`a72b832a482372` (“Documentation: explain how to find maintainers
-addresses for security reports”), first contained by `v7.0-rc7~8^2~2`.
-
-Record 3.2: No `Fixes:` tag is present, so there is no Fixes target to
-follow.
-
-Record 3.3: Recent history of `Documentation/process/security-bugs.rst`
-shows a series of security-reporting documentation updates by Willy
-Tarreau, including contact/process clarifications and typo fixes. This
-patch is standalone at the diff level but part of a three-patch
-documentation series.
-
-Record 3.4: The author has multiple recent commits in
-`Documentation/process/security-bugs.rst`. Maintainer lookup identifies
-`Security Officers <security@kernel.org>` and `Jonathan Corbet
-<corbet@lwn.net>` for this file.
-
-Record 3.5: No code dependencies or functions exist. The exact patch
-depends on the newer rewritten security-bugs document layout present in
-`7.0.y`; older stable branches do not contain `a72b832a482372`.
-
-## Phase 4: Mailing List And External Research
-Record 4.1: `b4 dig -c` could not be used because no candidate commit
-SHA was available locally or in the prompt, and local `master`, `docs-
-next`, and `all-next` searches did not find the commit object. Using the
-supplied Message-ID, `b4 am` found the original submission at
-`https://patch.msgid.link/20260509094755.2838-1-w@1wt.eu`.
-
-Record 4.2: `b4 am` and the mbox show v3 of a 3-patch series, 33 thread
-messages, sent to Greg KH, Leon Romanovsky, Jonathan Corbet, Shuah Khan,
-`security@kernel.org`, `workflows@vger.kernel.org`, `linux-
-doc@vger.kernel.org`, and `linux-kernel@vger.kernel.org`.
-
-Record 4.3: No bug report link, syzbot report, Bugzilla report, or user
-crash report exists. Lore WebFetch was blocked by Anubis, but `b4`
-successfully fetched the mbox.
-
-Record 4.4: Series context: patch 1/3 is this Cc guidance change; patch
-2/3 adds security-bug/threat-model documentation; patch 3/3 clarifies
-AI-assisted reports. Cover letter says v2 reworded the “when to Cc” part
-based on Greg’s feedback; v3 included wording/structure feedback and
-added reviews.
-
-Record 4.5: I found no stable-specific discussion or stable nomination
-in the fetched thread. Jonathan Corbet said he applied the series to
-`docs-fixes` after short linux-next exposure.
-
-## Phase 5: Code Semantic Analysis
-Record 5.1: No functions modified; documentation only.
-
-Record 5.2: No callers; affected audience is readers of
-`Documentation/process/security-bugs.rst`.
-
-Record 5.3: No callees or side effects.
-
-Record 5.4: Reachability is not runtime reachability. The path is
-“reporter reads stable-tree documentation and follows reporting
-instructions.”
-
-Record 5.5: `rg` found the old mandatory-Cc sentence only in
-`Documentation/process/security-bugs.rst`; related security-team
-references remain elsewhere in the same document.
-
-## Phase 6: Cross-Referencing And Stable Tree Analysis
-Record 6.1: `a72b832a482372` is an ancestor of `stable/linux-7.0.y` but
-not of local `stable/linux-5.15.y`, `stable/linux-6.1.y`,
-`stable/linux-6.6.y`, `stable/linux-6.12.y`, `stable/linux-6.18.y`, or
-`stable/linux-6.19.y`. So this exact buggy/obsolete sentence is
-confirmed in `7.0.y`; older local stable trees have older document
-layouts.
-
-Record 6.2: `b4` reports the series base applies cleanly to the current
-tree, which is `stable/linux-7.0.y`. Older stable trees would need a
-different documentation backport if maintainers wanted equivalent
-guidance there.
-
-Record 6.3: No related stable fix for this exact wording was found in
-local history.
-
-## Phase 7: Subsystem And Maintainer Context
-Record 7.1: Subsystem is documentation/process, specifically security
-bug reporting. Criticality is process-important, not runtime
-core/driver/filesystem criticality.
-
-Record 7.2: The file has active recent development, with several
-2025-2026 security-reporting documentation updates.
-
-## Phase 8: Impact And Risk Assessment
-Record 8.1: Affected population is documentation readers: security bug
-reporters, maintainers, and the kernel security team. No running kernel
-users are directly affected.
-
-Record 8.2: Trigger is following the stable tree’s security-bug
-reporting documentation. This can be done by any reporter, but it is not
-a syscall or kernel execution path.
-
-Record 8.3: Failure mode severity is low for runtime stability, but
-medium for security-process efficiency: the old wording can
-unnecessarily add the private security team to large-team reports.
-
-Record 8.4: Benefit is moderate for keeping security reporting guidance
-current and reducing unnecessary private-list traffic. Risk is very low
-because the patch is documentation-only and reviewed.
-
-## Phase 9: Final Synthesis
-Record 9.1: Evidence for backporting: documentation-only; zero runtime
-regression risk; corrects overbroad/obsolete reporting guidance;
-reviewed by Leon Romanovsky and Greg Kroah-Hartman; applied by
-documentation maintainer Jonathan Corbet; relevant to security reporting
-workflow; clean for `7.0.y`.
-
-Evidence against: it does not fix a kernel runtime bug, crash, security
-vulnerability, corruption, or deadlock; older stable trees do not
-contain the exact rewritten section, so this exact patch is mainly
-applicable to `7.0.y`.
-
-Unresolved: I could not run `b4 dig -c` without a commit SHA, and
-WebFetch of lore was blocked by Anubis. The `b4` Message-ID fetch
-supplied the needed thread content.
-
-Record 9.2: Stable rules: obviously correct and reviewed: yes. Fixes
-real user-visible runtime bug: no. Important
-crash/security/corruption/deadlock: no. Small and contained: yes, one
-documentation file. No new feature/API: yes. Applies to stable: yes for
-`7.0.y`; older branches need separate handling.
-
-Record 9.3: Exception category: documentation fix/update. This is the
-reason it qualifies despite not being a runtime bug.
-
-Record 9.4: Decision: backport where the affected documentation exists,
-especially `7.0.y`. The runtime benefit is nonexistent, but the risk is
-also nonexistent, and stable policy exceptions allow documentation fixes
-that correct obsolete guidance.
-
-## Verification
-- Phase 1: Parsed supplied commit tags and b4 patch headers; confirmed
-  no `Fixes:`, `Reported-by:`, `Tested-by`, or `Cc: stable`.
-- Phase 2: Read supplied diff and b4 patch; confirmed one documentation
-  file, 9 insertions/1 deletion, no code.
-- Phase 3: Ran `git blame -L 148,152 -- Documentation/process/security-
-  bugs.rst`; old sentence introduced by `a72b832a482372`.
-- Phase 3: Ran `git describe --contains a72b832a482372`; first contained
-  around `v7.0-rc7~8^2~2`.
-- Phase 3: Ran file and author history commands; confirmed recent
-  related docs updates by Willy Tarreau.
-- Phase 4: Local `git log` searches on current history, `master`, `docs-
-  next`, and `all-next` did not find the candidate commit object.
-- Phase 4: `b4 am -o /tmp/security-bugs-b4
-  20260509094755.2838-2-w@1wt.eu` found a v3 3-patch series, 33
-  messages, and reported clean apply to current tree.
-- Phase 4: `b4 mbox` saved the thread mbox; `rg` found no stable
-  nomination or NAK for this patch.
-- Phase 4: WebFetch of lore URLs was blocked by Anubis; not used for the
-  final decision.
-- Phase 5: `rg` over `Documentation` confirmed the exact mandatory-Cc
-  sentence appears in `Documentation/process/security-bugs.rst`.
-- Phase 6: `git merge-base --is-ancestor a72b832a482372
-  stable/linux-7.0.y` returned true; checks for `5.15.y`, `6.1.y`,
-  `6.6.y`, `6.12.y`, `6.18.y`, and `6.19.y` returned false.
-- Phase 7: `./scripts/get_maintainer.pl` identified Security Officers
-  and Jonathan Corbet for the file; `MAINTAINERS` confirms
-  `DOCUMENTATION PROCESS`, `SECURITY CONTACT`, and `STABLE BRANCH`
-  entries.
-- Phase 8: Failure mode verified from commit text and diff only:
-  documentation/process burden, not runtime failure.
-
-**YES**
-
- Documentation/process/security-bugs.rst | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index 27b028e858610..6dc525858125e 100644
---- a/Documentation/process/security-bugs.rst
-+++ b/Documentation/process/security-bugs.rst
-@@ -148,7 +148,15 @@ run additional tests.  Reports where the reporter does not respond promptly
- or cannot effectively discuss their findings may be abandoned if the
- communication does not quickly improve.
- 
--The report must be sent to maintainers, with the security team in ``Cc:``.
-+The report must be sent to maintainers.  If there are two or fewer
-+recipients in your message, you must also always Cc: the Linux kernel
-+security team who will ensure the message is delivered to the proper
-+people, and will be able to assist small maintainer teams with processes
-+they may not be familiar with.  For larger teams, Cc: the Linux kernel
-+security team for your first few reports or when seeking specific help,
-+such as when resending a message which got no response within a week.
-+Once you have become comfortable with the process for a few reports, it is
-+no longer necessary to Cc: the security list when sending to large teams.
- The Linux kernel security team can be contacted by email at
- <security@kernel.org>.  This is a private list of security officers
- who will help verify the bug report and assist developers working on a fix.
--- 
-2.53.0
-
+Regards,
+Christian.
