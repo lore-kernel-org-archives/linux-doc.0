@@ -1,223 +1,188 @@
-Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A772D371CEA
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 18:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779302285; cv=pass; b=crbL7Cn+HRJdOOFG04CrWR7xniPBHmcqP8Li3/+MScLFxkY8hqpbA3xqAuJ63XTdcwREAST11u3kUyHfK6WK3axqciBu69IAFiWnvIiI6lT1/Kx7TK4ciSvTuaUcst1YwD3lhmRCY+dEPyTf1otfdObXlrxZvfjRAZUNNchXuwM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779302285; c=relaxed/simple;
-	bh=Lio2FLXwC0TpzoBc6WCWqG3B4AhXxFIkYmOF2Ye6W3k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X0Eelg0vi2L4wpZDBbikza3OTsHhpHy1no1q1TYNln3ZO3mArE27fGDQSOBNRxMVHjMJsRGA35jleYjGBSR+7gyrv23QD7WaXJ2KPSUq2fVPdKY0a0x+vXVhlCltZCPwAIyJYDHg5kEQdbKXi4nM5JqgO/0fnWDasH72UxB58Pg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQG3xB9H; arc=pass smtp.client-ip=74.125.82.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66084014AC
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 18:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779302855; cv=none; b=nn0Y9sdeTKXOAySw7Q+qd3/2SeGwwwCnmfVV1aOswgQui/ONYOfYDzGQ1Vr8awtbcDj25hJpcVnEPZpaXIdsqKRSjkccDExE2lXODgmnOtAtrlEAMubUsGJ3BNARYRBsh5+TWhyITnJO4MgoPx5aAqeIBRxjLwrQ4vxSv41WhEM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779302855; c=relaxed/simple;
+	bh=GtWAvNoa8liocTFIE29GV3PrLzqRKVIbyQdAYPsgXsg=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gPb1VHBcOFLNqm63FIV8xNvi+4FpZN49s/ni0MuB6+Lx80enHAV7e64dGYRq9Pua1sabcu43EWdLfF3Inq/LqQG5iHUO01mQG+5yvbwFvPz6KF38pGfPxiilt0hrGHNEqQDUnsg2rWdOZG5XOlwk9OTPE+Ygm50+5cI5nv3N/rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQAVt12I; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQG3xB9H"
-Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-134ac81c445so3489179c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 11:38:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779302283; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cK092eaSuKTrn1q/2LdN6KrYsX2YzQEO2XJ9zHBQfsYdFF2shBDgDiYNkK9gza36/S
-         lr66svKtKjxJazkT/xF0M6zuECH4O6ZqU6JHVfT1MQBwM7a5Ssac5LSbBRsls7PhFXwx
-         8UYXkBEKbf0FRjbNq9/AK9l34MCh6JMKE/o4sqOAz4bxoB0E6IjKZyvkh6GknuibW+kD
-         +yo5u02q/6wwTewramixP9OK7R4OS3hdUpAVQwN/Wvb3bjIgpSVwD0JD4xRq/mVK95/c
-         cwSjFLMj6joAOFKLoAbXn63o55L5tqPSYo5bcp6PuhGAGaGah8xNeiyYAzw4p8thl6o1
-         f5Mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=BAuf7MbQZyunGAyUzpAv9eVVSXT8WNUhWVQaJEfQARA=;
-        fh=GyAusw/q3WGPx4FhLoxwjq3zgHuK09IOhb2M8eLqnUU=;
-        b=Dem/KYSeY7ys5ETmmybFU+4oM7u6/E3s3iW4VBTEwS9gkNoaTYVnDZC6Ig4HD1viVe
-         lstR+weHZqmILf/253aHsjDgtwuqmN+AKnca05dvCVheo0cxj4FIJX6/6ZBBHBnbersU
-         rIcrKn1KJKodpCN4SLrRAaKNGyfrColL3Lb8uLLQEEhs/GWEWlTbHgitSyFD95inSsce
-         VzXfuK7twz0H0gUmw3zYSj1GEXzjIE+z3szxZI5gSzq0EbiORKuADrOPaADjFxJQ4uiR
-         oWLEq/9OGJkODDnHtCFyimxAdHJ8Qq9wqzl+87894uD9Zdf/CBRktpwdvVyvaUsjrfhR
-         0VXQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQAVt12I"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-44e1860558fso3331759f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 11:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779302283; x=1779907083; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BAuf7MbQZyunGAyUzpAv9eVVSXT8WNUhWVQaJEfQARA=;
-        b=bQG3xB9HNCs2Ao/6NDD6RtQGA53+NzAtVlzHdEeJZ/CDd4mhREzNdUy0JV+O9F/ycV
-         fGT8MfAbROnWkfUXPhHYzRV1NCOzyQVeoGm0lcAzT71vn/xHeIThkCcN+HX6lvjNULUW
-         XwwmfOT6f/mrgaYnNyOWLP6XfKZKZqHT0tNMxQDaecBrWnIi8k73EAAjMj6Tkop+UVOw
-         TOpoKH7Bd2cXo3BxKo1HsjnFBRtAAVlBihwfpJM5FKhp1mrAdiVP/7+O86ZU0luq8TWD
-         Zwzl7IAI+8YDATbDG1c9hBSGXykszkc3fzYzZD7G2Am396jZNOawfh1fDVNcoL4rQqKk
-         litw==
+        d=gmail.com; s=20251104; t=1779302852; x=1779907652; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/hEwaR6TEFLYShpta6veHoxTDP0ik8niJki4wmQa0RY=;
+        b=EQAVt12IbPCrpc2rNHDrbX2HJWDPnRSLUJ3LwZMumBGjkgVcHLhN2JE9sX26byQqM1
+         fJtY9osxEJydypLMFZKL9mJiMD4ffHzmJ34EkXWh/5fEUCH/OBA8ez7e01BHYSddZz05
+         rzwzhq0tbdwbyM1J3Q8Mpmsx0og6xco2+KF65emtihqCh0DSxwvTZ65KsbJEurlYeIYz
+         kmA7J7vdlWQvKbGaDCTNlxlDS8bu1/HnSRkBIjvPPwK/jM+L3dOfcvz2tryfa8/pFCHf
+         n1w0lZxOVFwootJB/FmqRSLNDJKg6seXTr4UN3V3c+1SbJVyqm7q42tHtdzqkOGRlzVR
+         s96A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779302283; x=1779907083;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BAuf7MbQZyunGAyUzpAv9eVVSXT8WNUhWVQaJEfQARA=;
-        b=lxOkaHLgN9i1/MtbNzC32sNB56DVVuLTVI2M7+vpPTltR6jgUSuPR73yiJtLJskuzA
-         +gjSRBc14vYCdiTyCWtzEAtOEg4va9uNQK1O+oXeO2JDgVvYqZy/kL2HrAN5h4Rfcsok
-         ZMvbeKAj2+ohbpJg7mco/D1E69mnIKhEWyRyy5Vmc9umeDH6QhKTHFngcHb4D/iOrjXr
-         BrdAw2R8YfD3NIvXAUehMqA7P7N0ds4IFCw9rXv6BkTHBao2UNgKE4PE+89ciSPZq3ZQ
-         yOkdnnOJiTyOL+kyTPq9F0NvC/qjd1L2iKkWvi7jneFWnbCoGxx4bhOiYINq1ISkM0E8
-         PUSw==
-X-Forwarded-Encrypted: i=1; AFNElJ/9d2BQwmr+tBfKs7ppRTHhwVjK282ekmvveej1hq2oobTYJoHdTPqBHztkhYBJYnUD8DLzl3k2LaU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNN/cWwURZ9nCQO+8dZ2e2B+3B5xaPvBfniXwKqmx6XoCeD8xh
-	l4pbPPx7+HukN3n/RD0BdjfVY50pTIzD4oemaSL46No1fTyPhcTNvGro9g+a4d38QXz3pHS+eir
-	tgA1dMe9DQdOvDaalFGPdd/dWG3I7hg==
-X-Gm-Gg: Acq92OFfW19hO0wlLiUimknfQ54Qm4p3OcQBFSQrne2DWWVDrbimwauWDkgAx+gUYBo
-	wsTXJCR+oiCtCbPIZ0HSTfcBhWFUWLNUH1HO0nawO46sTfTFjxenPWbKoRX24ZTiLFY4UzASTYy
-	XDoUvxFlxTd/3TE014kTOYzL0cg+QZA2IQOfqKk7owQcqN8jdJdMGLY1Yz24EkAqrjx4x0iMkg6
-	C4Nm3XCzjuZzj4lJf6mSjkwhXvNtoPWCdK24zQSLQfQbU2Tut2rEc5ZWIn89A5dGl25OfA0HlmI
-	QLjq/8e8iWfIo4Br
-X-Received: by 2002:a05:7022:6b9b:b0:130:9b78:b17b with SMTP id
- a92af1059eb24-13504a4fd4amr11166328c88.38.1779302282639; Wed, 20 May 2026
- 11:38:02 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779302852; x=1779907652;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/hEwaR6TEFLYShpta6veHoxTDP0ik8niJki4wmQa0RY=;
+        b=NNDMVTZmhxFJQ+43mKNTKIkzWPMTjV3kgglQVUVzzAPx/2+W5BiwX3ZFyLvad7vRRK
+         D4zGanj8EDMk9Z3/cDhLGOFyfLgL9mMcZKGvIhhF31ydaEFXSkrlmaoyG27T7fAC2e1s
+         +uVUiUJrGGYFnD9BGhQ/KslJQBJ1hQRq3e9OafG9D+OsAdeRlxN2+X9GlzvPtiQ9VRZ0
+         mht4q0H4XIPO9JcB3/n/uxpTIVUJjAgJC37dgcM0oIcfDLiJ8GbdhNqgwTYn2B7actOu
+         YGVmmkTXGmgr6+rSlT5OfatY6RCSX9ZwGZ0HYkNl3FIu5Qu8nMUCIisccBYybX5KMvkW
+         7I4w==
+X-Forwarded-Encrypted: i=1; AFNElJ8fUw7BxivJ79kGH5XCW1zjm1pGgxmOP1GbVOssXd3A6oJbmJtYQqzjwF6Hc9d1lu7BEd4y1NGvlw8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwapzLf+7q+nXFYsauMx2UZI0ZfXNqli92viQIB+zp8Hsvj3Z1p
+	d/AQmgJVS8l8PjE41nWGpjrNzI6IkfIG+HADC/Fns8lVgnLLaza/HxVd
+X-Gm-Gg: Acq92OEb+zSDHQ1vhCJsiA53fJ88Zb4A1vw2EVgi2cOb8gfq8ui+UhYEWGYeGjWu0kF
+	CTUQfAIKDSXS18gJFrh4s5rOqhOHU6VdRCKyVbC3MjaI8k1WXY1tpyUQLYPTiZb3kGpuywx4FsG
+	EO4ZrGolAS1gV0W4XlCORYvt4GWjmF+ijP9pcqW0eXULqg3g+5CWfEwZ4Si4Wky2F4lcZZVXKab
+	9zpsXAi4XT5WtKVFp1yVcp2JaAJg6QWVYV883jT8j7pkwHbqE2KUCQHMx2vcfidkoP/wmo/zK8D
+	fqTDDI2D9QEtgNDEA4SJvuzdyK8spqnOIGG9G3hx8LJOcjcjYM2Q+2VTwhEfn0bTHyce7n2kYyr
+	1XN88LtiyHGen4OxDrhejZgBKcQzffI/8tw1LYWJ2JIJspyAK0Imi+s5SeHkzrbwFPzfB9o+9As
+	4YZwUN0/dq7c+BYvNznzMOVcl4Fd8aR1K8wkQ/Gxh3cmJhF1MJ/oFBwA1JleaUM8VilLH9MgbzV
+	+hE5l0cB0CtYd5Whk6zKMlF31cbtfJayGw0fZtYt5F3uyODrHs79CPcW6W2
+X-Received: by 2002:a05:6000:2401:b0:43d:7275:c1eb with SMTP id ffacd0b85a97d-45e5c5dadeamr41206197f8f.39.1779302851879;
+        Wed, 20 May 2026 11:47:31 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ec3acf7sm56929827f8f.12.2026.05.20.11.47.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 11:47:31 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Wed, 20 May 2026 19:47:25 +0100
+To: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hardening@vger.kernel.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v5 12/13] Documentation: ABI: testing: add docs for
+ ad9910 sysfs entries
+Message-ID: <vqqvn2cgs3fbp5mq6xfac7iyosaqfrvgngqur4x355a3at7slo@ylrtd6fhi33a>
+References: <20260517-ad9910-iio-driver-v5-0-31599c88314a@analog.com>
+ <20260517-ad9910-iio-driver-v5-12-31599c88314a@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260516210357.2247-4-ravis.opensrc@gmail.com> <20260517184705.4652-1-sj@kernel.org>
-In-Reply-To: <20260517184705.4652-1-sj@kernel.org>
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Date: Wed, 20 May 2026 11:37:50 -0700
-X-Gm-Features: AVHnY4JJcjwwRzJzIvyxW5twV6UCxEviLZFBxwk7zstZSFSrNzLAY-O0iJAod6c
-Message-ID: <CALa+Y14AKLXSP8HhOMQomXczok-BS7aderfj_tYG9qdS9bKgvg@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/5] mm/damon/core: floor effective quota size at
- minimum region size
-To: SeongJae Park <sj@kernel.org>
-Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
-	bijan311@gmail.com, ajayjoshi@micron.com, honggyu.kim@sk.com, 
-	yunjeong.mun@sk.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260517-ad9910-iio-driver-v5-12-31599c88314a@analog.com>
 
-On Sun, May 17, 2026 at 11:47=E2=80=AFAM SeongJae Park <sj@kernel.org> wrot=
-e:
->
-> On Sat, 16 May 2026 14:03:55 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail=
-.com> wrote:
->
-> > The CONSIST quota goal tuner initializes esz_bp to 0, producing an
-> > effective quota size (esz) of 1 byte on the first tick.
-> > damos_quota_is_full() rejects all regions when esz < min_region_sz
-> > (default PAGE_SIZE =3D 4096), so no regions can be tried and no
-> > feedback reaches the tuner =E2=80=94 a bootstrapping deadlock.
->
-> That depend on whether the goal is already [over]-achieved.  If the goal =
-is
-> achieved, the tuner will think no change is needed, so keep the
-> effectively-zero quota.  If the goal is over-achived, the tuner will thin=
-k the
-> DAMOS scheme should be less aggressive, but it is already effectively-zer=
-o
-> quota, so keep having effectively-zero quota.
->
-> If the ogal is under-achived, the logic will iteratively increase the int=
-ernal
-> esz (esz_bp), until it exceeds the min_region_sz, and finally start makin=
-g some
-> effects.
->
-> So, unless the goal is already [over]-achieved, there is no deadlock.  If=
- the
-> goal is already [over]-achieved, why we would want to make DAMOS do somet=
-hing?
->
-> Am I missing something?
->
+On 26/05/17 07:37PM, Rodrigo Alencar via B4 Relay wrote:
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> 
+> Add custom ABI documentation file for the DDS AD9910 with sysfs entries to
+> control Parallel Port, Digital Ramp Generator and OSK parameters.
 
-Hello SJ,
+...
 
-You're not missing anything; you're right.  Stock DAMON's
-feed-loop tuner ramps esz_bp out of the seed quickly under an
-under-achieved goal -- on the order of ten-some ticks at the
-1000ms reset_interval the in-tree DAMON modules use, so the
-floor isn't gating anything that wouldn't bootstrap on its own.
-No deadlock.
+> +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency_offset
+> +KernelVersion:
+> +Contact:	linux-iio@vger.kernel.org
+> +Description:
+> +		For a channel that allows frequency control through buffers, this
+> +		represents the base frequency value in Hz. The actual output frequency
+> +		is derived from this offset combined with the processed buffer sample
+> +		value.
+> +
+> +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency_scale
+> +KernelVersion:
+> +Contact:	linux-iio@vger.kernel.org
+> +Description:
+> +		For a channel that allows frequency control through buffers, this
+> +		represents the frequency modulation gain. This value multiplies the
+> +		buffer input sample value before it is added to a frequency offset.
+> +
+> +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_phase_offset
+> +KernelVersion:
+> +Contact:	linux-iio@vger.kernel.org
+> +Description:
+> +		For a channel that allows phase control through buffers, this
+> +		represents the base phase value in radians. The actual output phase	is
+> +		derived from this offset combined with the processed buffer sample
+> +		value.
+> +
+> +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_scale_offset
+> +KernelVersion:
+> +Contact:	linux-iio@vger.kernel.org
+> +Description:
+> +		For a channel that allows amplitude control through buffers, this
+> +		represents the value for a base amplitude scale. The actual output
+> +		amplitude scale is derived from this offset combined with the processed
+> +		buffer sample value.
+> +
 
-I owe a clearer accounting of where this patch and patch 1 came
-from, since the same origin story applies to both.  Both came
-from a parallel debug effort and should not have been carried
-into this set.
+This will become just offset with altcurrent channels. I noticed we have a IIO_PHASE
+iio_chan_type, could we have a IIO_FREQUENCY too? Parallel port needs actual raw
+frequency values in that case to be written to the dma buffer.
 
-The work that produced this series came out of an effort to
-enable hardware-sampled hotness as a DAMON access source -- the
-companion AMD IBS RFC
+Then we may have buffer capable channels for the parallel port:
 
-  https://lore.kernel.org/linux-mm/20260516223439.4033-1-ravis.opensrc@gmai=
-l.com/
+out_altcurrent120
+	offset
+out_phase120
+	offset
+out_frequency120
+	scale
+	offset
 
--- and to characterise its closed-loop convergence with the
-existing CONSIST tuner on a heterogeneous DRAM+CXL setup.  Early
-in that effort I was hitting random NMI-context hangs on the per-CPU
-report path that prevented runs from completing, and while
-debugging those hangs I wasn't sure which direction the
-convergence anomalies were coming from -- the sampling backend,
-the report-ring path, the tuner shape, or the quota controller.
+Problem is that the math for the actual frequency output is:
 
-I made two controller-side experiments as scaffolding while I
-narrowed the problem down:
+	f_OUT = f_FTW + (f_RAW * FM)
 
-  - A per-tick growth cap on the goal-feedback tuner
-    ("max_delta_bp" at 5%/tick) to slow how fast esz could grow
-    on a transient.  That cap stretches the bootstrap above
-    from ~13s to several minutes, so I added a floor at
-    min_region_sz to short-cut the bootstrap.  That landed here
-    as patch 3.
+where f_FTW is a base frequency (already scaled), FM is a
+modulation gain and f_RAW is the contribution from the parallel
+port, which is the already scaled:
 
-  - A separate access-rate seeding helper (clear-on-migration)
-    for the goal-feedback loop.  Some early versions of that
-    helper left the access-rate fields in inconsistent states
-    and damon_moving_sum() landed in an underflow path I hadn't
-    seen before.  I added a saturating-subtract guard to that
-    function.  That landed here as patch 1.
+	f_RAW = RAW * f_SYSCLK / 2^32
+	f_FTW = FTW * f_SYSCLK / 2^32
 
-Once cpuhp-related fixes on the per-CPU sampling path landed
-and the NMI stability problem was actually resolved, the
-convergence anomalies were tracked down to the sampling/ring
-side, not the controller side.  I dropped the max_delta_bp knob
-and fixed the seeding helper to maintain its invariants.
-Patches 1 and 3 were carried into this set even though their
-justifications had gone away:
+so the above becomes:
 
-  - Patch 1: with the seeding helper fixed, stock callers don't
-    reach the underflow path -- the invariant holds at every
-    aggregation boundary in stock DAMON, as you noted.  Belongs
-    with the seeding helper if and when that work goes upstream.
+	f_OUT = (FTW * f_SYSCLK / 2^32) + (RAW * f_SYSCLK / 2^32) * FM
+	f_OUT = (FTW/FM + RAW) * f_SYSCLK * FM / 2^32
 
-  - Patch 3 (this one): with max_delta_bp dropped, the slow
-    bootstrap doesn't happen -- the ~13s ramp is fast enough
-    that there's no problem to solve.  Once stability was
-    sorted I also moved the closed-loop runs in the companion
-    RFC to the temporal tuner, where the bootstrap concern
-    this patch addresses doesn't even arise (esz_bp saturates
-    to ULONG_MAX immediately when score=3D0).
+if I make:
 
-Apologies;both should have come out when
-max_delta_bp and the seeding helper did.
+	SCALE = f_SYSCLK * FM / 2^32
+	OFFSET = FTW/FM
+	f_OUT = (OFFSET + RAW) * SCALE
 
-Dropping patches 1 and 3.
+That would work for a IIO_FREQUENCY channel type, problem is that both
+scale and offset would depend on the modulation gain (FM)... I suppose
+scale should be setting that and offset assumes it is constant to act
+only on FTW.
 
-Patches 2, 4, and 5 are independent of this scaffolding; I'll
-reply on each thread separately with the relevant context.
+I suppose we can keep altcurrent for other modes as phase and frequency
+can be attributes (knobs) for them. However, in parallel mode we are effectively
+pushing frequency, phase or amplitude values into the buffer.
 
-Thanks again for the careful review.
+The polar destination is a corner case, but can be solved when both
+phase and altcurrent channels are enabled. When that happens we can
+change the scan_type with has_ext_scan_type = 1, so the 16-bit data
+bus is split between the two.
 
-Best,
-Ravi
+With the above, all of those *_offset and *_scale custom ABI can be dropped. 
 
-> I'd like to discuss this high level thing first, before digging deep into=
- the
-> details.
->
->
-> Thanks,
-> SJ
->
-> [...]
+-- 
+Kind regards,
+
+Rodrigo Alencar
