@@ -1,225 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A6E3D091B;
-	Wed, 20 May 2026 09:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A683D330A
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 09:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779270905; cv=none; b=kDcSiq2ZLYP7XvksrljRQo+a6WQB0iD8ts48vWuS2EQx4IGaYSrZ8+21A950mG2bEqXZpVqD/3x8PuVIrAGYC37vtw3jISKV1exRdh8rlEJUCb1KqdhyFJIqdP+zE5cHWrJmgKH4I3rSJ7SAwLSkEWuF3BXNSEBBPH6kB5zDI1Q=
+	t=1779270992; cv=none; b=uPN1YvBcHdj9oZfESOarYjZMVPvcQXt1G+CPXQeFiqRnPOxQsuOGv3Yp4RviB+/lUQrR5mOZdz4/ZM/dWOZJCXDfnFmSlUGKRjixljE9kLHkZxsuH922GSLaL2t4/116gzEmOGk0MJkN4VGK3Nf8BXS5BkkSPTeqSsyhM9eILxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779270905; c=relaxed/simple;
-	bh=W/ETVLQPiLWnEVzKK7qPp+AucWqlm4vH3u/jl9ung40=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m1F9ZmgLEuR9lZ35rDeQRCyMM02aM+8ThBLgf3jUsH/N/CIOpizzxrye4jWHrF4nSg1ZP35vDviMWp865M+TWv+gYAm4rZbu8fTTpn6xF/5OL8/kUlA8U1WbJwB/tSEntl43touSjZsgjs4XGyL7r1CMDX8B1GdJl6VAQC+/Rp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kubQ3jql; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779270992; c=relaxed/simple;
+	bh=lPVKnxeYZcOQBIW6ypz3E7ZufIXvKyUkwx8YZr2smpY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k/Q3uggmPdRvXwzGlqA7ua12SvUXcOUzSnCaMnnqEXMyWiyLpnXq/33tV/R7cuGN9EkrWC9IcJxEmRXved8swW7TiyPgljJis0FkAg32UIz0MenUmm9+kUbCvonEjWdMnJ5HDK8F+8y42QyCymYXceGMioYKKWM6BSheHa5xcEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eKUfxmBE; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kubQ3jql"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BEB21F000E9;
-	Wed, 20 May 2026 09:54:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779270903;
-	bh=1rR11SLMve5z99TMpOCckaXfI3pjGLYjtT01yolVcVA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=kubQ3jqlcjIHtJBWJBC/to3LSIkAaMm0l7XhtMWuGGmjExiV5CkoCbKTUfd3BvVhj
-	 eoS3nNKCqeYOwtIRPbX9yNtLX5Q0aMkyU0vxOdFjrnWPWo+D9A27XF+2A/bF71fC2/
-	 qMKLiG3fY/sZZZLYyNuL/nsSrYJQz/eEtNKr1beBxg4CPz4j4HqGkkmPj8jXYWGYUi
-	 +2s+wVVk70cgtJFgWGgQ9kcnhHkp+x97sWJ41S6cdb8sO5WKyo8D0cP2Cgy3VdKM9d
-	 6eeeQIeBT3FHMyWMXtOcnlKqyxJmAtteMMhXQe0T3nJRFXcERFCpdBcykGgGXJ07Zv
-	 k2yiMhfy9ywyQ==
-Date: Wed, 20 May 2026 10:54:50 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>,
- rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH RFC v4 09/10] Documentation: ABI: testing: add docs for
- ad9910 sysfs entries
-Message-ID: <20260520105450.7fae5de1@jic23-huawei>
-In-Reply-To: <pkx5v4od3wkyyzxomfrjf4ei7leboadzth262xnl55fvu76pf3@yqrezmo6gtq7>
-References: <20260508-ad9910-iio-driver-v4-0-d26bfd20ee3d@analog.com>
-	<20260508-ad9910-iio-driver-v4-9-d26bfd20ee3d@analog.com>
-	<20260517155843.7f833658@jic23-huawei>
-	<yrabhhhdkzmiuxlqzrrj6a47ftlzwvva7r2korzeszdy4yqrin@xl6obhhnnas4>
-	<20260518144537.7c998308@jic23-huawei>
-	<pkx5v4od3wkyyzxomfrjf4ei7leboadzth262xnl55fvu76pf3@yqrezmo6gtq7>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eKUfxmBE"
+Message-ID: <47b928ac-25d9-481c-8764-8f840c2dcafa@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1779270978;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mk2SEnfE8DoCb6Y73J9sMWTvnR47QajM1Ro5oBOMNpQ=;
+	b=eKUfxmBERs0yEGH1Boa4hUveRBD4XIziHjY6VFVb5ACA/mS4KFqQSVUGedsOBpYCXeL7zN
+	XlPrnFrsEBu5XUD702HkvgpMVIlOF4t7v6dwJBXfm2Rq48EIsLYcr2qxayCF9iAb2YS2RO
+	E3l0cqQOctyOT5kDrmXZqETJFvxwA60=
+Date: Wed, 20 May 2026 17:55:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH RESEND bpf-next v10 2/8] bpf: clear list node owner and
+ unlink before drop
+To: Eduard Zingerman <eddyz87@gmail.com>
+Cc: bpf@vger.kernel.org, Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, ast@kernel.org,
+ memxor@gmail.com, corbet@lwn.net, martin.lau@linux.dev,
+ daniel@iogearbox.net, andrii@kernel.org, song@kernel.org,
+ yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
+ sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
+ chengkaitao@kylinos.cn, skhan@linuxfoundation.org, vmalik@redhat.com,
+ linux-kselftest@vger.kernel.org, martin.lau@kernel.org, clm@meta.com,
+ ihor.solodrai@linux.dev, bot+bpf-ci@kernel.org
+References: <20260512055919.95716-3-kaitao.cheng@linux.dev>
+ <da95f45b43d94d17796b19abc4c555e35daafab7d5e1cdca3714fe0f54ab8cce@mail.kernel.org>
+ <e141699dab70282d811ec30bbf2aa8279706817b.camel@gmail.com>
+ <DII0TT9LXYCX.2GMM6QA4Q9BPZ@gmail.com>
+ <0fb2d99b-b122-44fa-a8bc-9befe6e350bc@linux.dev>
+ <7fa6794161a8bd4fdbc21dad68e86e9770c873cc.camel@gmail.com>
+ <0171629c-bdd3-4661-a4e6-2698dd623c3a@linux.dev>
+ <d5961282-d41c-4e54-8ba2-cd08823a8c77@linux.dev>
+ <782833db5da77e4aa9761fc410827e7abe8583c8.camel@gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kaitao Cheng <kaitao.cheng@linux.dev>
+In-Reply-To: <782833db5da77e4aa9761fc410827e7abe8583c8.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, 18 May 2026 16:27:23 +0100
-Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
-
-> On 26/05/18 02:45PM, Jonathan Cameron wrote:
-> > On Sun, 17 May 2026 18:30:27 +0100
-> > Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
-> >   
-> > > On 26/05/17 03:58PM, Jonathan Cameron wrote:  
-> > > > On Fri, 08 May 2026 18:00:25 +0100
-> > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> > > >     
-> > > > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > > > > 
-> > > > > Add custom ABI documentation file for the DDS AD9910 with sysfs entries to
-> > > > > control Parallel Port, Digital Ramp Generator and OSK parameters.
-> > > > > 
-> > > > > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>    
-> > > > I'm fine with phase and frequency as defined, but for the scaling it made me wonder.
-> > > > For outvoltage0 channels the assumption the value is the peak voltage so if
-> > > > we know what input to be modulated by the ramp generator can we express them
-> > > > in volts (well milivolts) rather than as a scaling multiplier?    
-> > > 
-> > > The DAC output is current-based and differential. Voltage conversion would happen
-> > > outside the device...  
-> > 
-> > Why aren't we representing this as out_altcurrentX-Y_xxxx?  
+在 2026/5/20 06:56, Eduard Zingerman 写道:
+> On Mon, 2026-05-18 at 11:02 +0800, Kaitao Cheng wrote:
 > 
-> Good point! altcurrent makes more sense than altvoltage if we want to use raw to
-> control the output level rather than scale, which would be a constant to convert
-> raw into current units (what is the one that is used in the sysfs ABI? Ampere, mA or uA?)
-
-Same as non alternating version so mA (which is a historical design error we have
-long been stuck with :()  The altvoltageY_raw docs don't give a unit either.
-If you don't mind, please send a patch adding that whilst you are here.
-Same mid to peak - hopefully that is what any users not modifying to RMS have
-been doing!
-
-Seems we either never had one or that particular bit of ABI doc is missing.
-Please add an entry for altcurrentX_raw
-
+> [...]
 > 
-> Not sure about the benefits on setting "differential" in channel spec.. the name would
-> become out_altcurrentX-altcurrentY_xxxxx...
-
-Becomes a question of whether it is useful to represent that - maybe not
-in this particular case.
-
+>>>>> The patch does have a bug, however. To fix the issues we are seeing now,
+>>>>> I propose the additional changes below and would appreciate feedback.
+>>>>>
+>>>>> --- a/kernel/bpf/helpers.c
+>>>>> +++ b/kernel/bpf/helpers.c
+>>>>> @@ -2263,8 +2263,10 @@ void bpf_list_head_free(const struct btf_field *field, void *list_head,
+>>>>>         if (!head->next || list_empty(head))
+>>>>>                 goto unlock;
+>>>>>         list_for_each_safe(pos, n, head) {
+>>>>> -               WRITE_ONCE(container_of(pos,
+>>>>> -                       struct bpf_list_node_kern, list_head)->owner, NULL);
+>>>>> +               struct bpf_list_node_kern *node;
+>>>>> +
+>>>>> +               node = container_of(pos, struct bpf_list_node_kern, list_head);
+>>>>> +               WRITE_ONCE(node->owner, BPF_PTR_POISON);
+>>>>>                 list_move_tail(pos, &drain);
+>>>>>         }
+>>>>>  unlock:
+>>>>> @@ -2272,8 +2274,12 @@ void bpf_list_head_free(const struct btf_field *field, void *list_head,
+>>>>>         __bpf_spin_unlock_irqrestore(spin_lock);
+>>>>>
+>>>>>         while (!list_empty(&drain)) {
+>>>>> +               struct bpf_list_node_kern *node;
+>>>>> +
+>>>>>                 pos = drain.next;
+>>>>> +               node = container_of(pos, struct bpf_list_node_kern, list_head);
+>>>>>                 list_del_init(pos);
+>>>>> +               WRITE_ONCE(node->owner, NULL);
 > 
-> Is there any modifier for amplitude/peak/envelope? I see IIO_MOD_RMS, which could be used
-> if adding a 1/sqrt(2) factor to the fixed scale.
+> Is CPU allowed to reorder the stores in list_del_init() and WRITE_ONCE()?
+> If it is, I think there is a race here.
 
-For altcurrent / altvoltage assumption is it's mid to peak.  Unless the modifier switches
-it to RMS as you've noted.
+Thanks for taking a close look at this. You are right that there is an
+ordering issue here, but I don't think the specific sequence illustrated
+by the example below is problematic.
 
+> Thread #1:
+>   enter bpf_list_head_free()
+>   acquire H1 lock
+>   list_move_tail(pos, &drain);             // reordered
+>   <-- ip here -->
+>   WRITE_ONCE(node->owner, BPF_PTR_POISON); // reordered
 > 
-> Then, I would consider something like out_altcurrent_rms_xxxx as a good alternative.
+> Thread #2:
 > 
-> "scale" would be a constant in the top-level phy channel
-> 
-> single tone profile channels would have:
-> - frequency
-> - phase
-> - raw
-> 
-> drg ramp up/down channels:
-> - frequency and frequency_roc
-> - phase and phase_roc
-> - raw and raw_roc
-> 
-> parallel port channel(s):
-> - frequency_scale and frequency_offset (frequency destination)
-> - phase_offset (polar destination)
-> - offset (polar destination)
-> 
-> osk channel:
-> - raw
-> - raw_roc
-> 
-> raw_roc could be just roc, but that sounds like it carries the scale and refers to
-> a current value? and maybe that breaks consistency with other destination attributes?
-> I am fine with just roc if that refers to the raw value, not (raw * scale).
+>   acquire H1 lock
+>   n = bpf_refcount_acquire()
+>   release H1 lock
+>   acquire H2 lock
+>   enter __bpf_list_add()
+>   <-- ip here -->
+>   cmpxchg(&node->owner, NULL, BPF_PTR_POISON)
 
-This is a good question.  We ran into ambiguity with events where we have to derive
-if it is _raw or _processed for the thresholds based on whether the main attribute
-is _raw or _processed.  Nice to avoid doing that again.
+Even if the stores from list_move_tail(pos, &drain) become visible before
+WRITE_ONCE(node->owner, BPF_PTR_POISON), node->owner is not NULL in that
+window. Before the WRITE_ONCE(), it still points to H1. After the WRITE_ONCE(),
+it is BPF_PTR_POISON. In both cases, __bpf_list_add() will fail:
 
-I'd be interesting in others views on this but to me raw_roc seems fine.
+	cmpxchg(&node->owner, NULL, BPF_PTR_POISON)
 
-> 
-> With all the above, still using altvoltage is not incorrect, just a matter on how
-> we want to express the units.
-
-Agreed - but to get to directly useable values we'd need to provide info on the
-external circuit - and given we are dealing with AC signals that is tricky to do
-in a compact way.
+because the old value is neither NULL nor expected to become NULL from this
+part of bpf_list_head_free().
 
 
-> Note that using raw instead of scale to control the
-> amplitude is just another option to tackle the problem. I suppose that the
-> important thing here is being technically corrent and consistent in terms of
-> usage. Maybe out_altcurrent_rms_* is more clear in terms of amplitude level.
+However, I agree that your original concern about the ordering between
+list_del_init() and WRITE_ONCE(node->owner, NULL) is valid for the later
+drain loop:
 
-Agreed.  It is always (?) possible to switch between scale and raw.
-For an ADC the distinction is clear as we can't control _raw. For a DAC it all gets
-rather value as we can logically control both and for an AC type of DAC / DDS it
-all gets less intuitive.  As you say, consistency is key.
+	list_del_init(pos);
+	WRITE_ONCE(node->owner, NULL);
 
-I'd like us to at least be consistent across DDS devices. Perhaps we need some
-general documentation on whatever the outcome of this discussion is to record
-some of the logic behind those decisions.
+Here owner == NULL is the signal that the node can be inserted into another
+list. Since WRITE_ONCE() does not provide release ordering, another CPU may
+observe owner == NULL and successfully acquire the node in __bpf_list_add()
+before the list_del_init() stores are visible. In that case __bpf_list_add()
+can link the node into H2, and the delayed stores from list_del_init() may
+then overwrite the node's list pointers and corrupt the H2 list.
 
-> 
-> > 
-> >   
-> > > using a resistor load or an op-amp transimpedance stage,
-> > > and I am no expert on that, but that often requires impedance matching so voltage
-> > > levels may depend on the frequency. Then, I suppose that voltage is not the right
-> > > unit to use.  
-> > 
-> > Understood that it can get complex!  
-> > > 
-> > > The scale here controls the amplitude of the varying signal. Assuming the peak voltage
-> > > (amplitude) is constant means we have a constant envelope, but that should not mean
-> > > we can't control it or it should not mean that the hardware can have other ways to
-> > > control it. That said, scale behaves as a "gain multiplier".  
-> > Understood. Given it's the envelope then if scale happened to be 1 always it would
-> > be presented as _processed. So this is consistent with other channel types.
-> >   
-> > >   
-> > > > 
-> > > > That seems to me like it fits better with the overall ABI.
-> > > >     
-> > > > > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_scale_offset
-> > > > > +KernelVersion:
-> > > > > +Contact:	linux-iio@vger.kernel.org
-> > > > > +Description:
-> > > > > +		For a channel that allows amplitude control through buffers, this
-> > > > > +		represents the value for a base amplitude scale. The actual output
-> > > > > +		amplitude scale is a result with the sum of this value.
-> > > > > +    
-> > > >     
-> > > > > +
-> > > > > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_scale_roc    
-> > > > 
-> > > > Silly question perhaps but can work out how this related to millivolts/sec
-> > > > That might make a more intuitive interface than scaling multiplier per sec
-> > > > Perhaps the combination with offset makes this impossible though maybe that
-> > > > could be a expressed as a voltage offset?  Afterall if the amplitude being
-> > > > scaled is 5V then 5 * (offset + scale) = 5 * offset + 5 * scale
-> > > >      
-> > > > > +KernelVersion:
-> > > > > +Contact:	linux-iio@vger.kernel.org
-> > > > > +Description:
-> > > > > +		Amplitude scale rate of change in 1/s for channels that ramp
-> > > > > +		amplitude. This value may be influenced by the channel's
-> > > > > +		sampling_frequency setting.    
-> > > > 
-> > > >     
-> > >   
-> >   
-> 
+So the fix should be to publish owner == NULL with release ordering after the
+node has been fully unlinked, for example:
+
+```
+--- a/kernel/bpf/helpers.c
++++ b/kernel/bpf/helpers.c
+@@ -2279,7 +2279,8 @@ void bpf_list_head_free(const struct btf_field *field, void *list_head,
+                pos = drain.next;
+                node = container_of(pos, struct bpf_list_node_kern, list_head);
+                list_del_init(pos);
+-               WRITE_ONCE(node->owner, NULL);
++               /* Ensure __bpf_list_add() sees the node as unlinked. */
++               smp_store_release(&node->owner, NULL);
+                /* The contained type can also have resources, including a
+                 * bpf_list_head which needs to be freed.
+                 */
+@@ -2607,7 +2608,8 @@ static struct bpf_list_node *__bpf_list_del(struct bpf_list_head *head,
+                return NULL;
+
+        list_del_init(n);
+-       WRITE_ONCE(node->owner, NULL);
++       /* Ensure __bpf_list_add() sees the node as unlinked. */
++       smp_store_release(&node->owner, NULL);
+        return (struct bpf_list_node *)n;
+ }
+```
+
+The existing cmpxchg() in __bpf_list_add() is a successful RMW with return
+value, so it is fully ordered and is sufficient on the acquire side.
+
+-- 
+Thanks
+Kaitao Cheng
 
