@@ -1,188 +1,185 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66084014AC
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 18:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DADE2701C4
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 18:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779302855; cv=none; b=nn0Y9sdeTKXOAySw7Q+qd3/2SeGwwwCnmfVV1aOswgQui/ONYOfYDzGQ1Vr8awtbcDj25hJpcVnEPZpaXIdsqKRSjkccDExE2lXODgmnOtAtrlEAMubUsGJ3BNARYRBsh5+TWhyITnJO4MgoPx5aAqeIBRxjLwrQ4vxSv41WhEM=
+	t=1779303549; cv=none; b=s2mqAXLm41gNRJWwA+gXqmNpDVogy/YvZCy4vqUeFwbZdsSYJILfn/bAtgFNd2imBfbU7WRYT/l1KXEFHiqgQD1WGlrIUzKRzB3ajhdkNojpAVcTAepSXkoXgpg1vXs/x3zvhNYCEQyhTX41FjiQ/wq0hpGEqiveQeZZEN/nFys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779302855; c=relaxed/simple;
-	bh=GtWAvNoa8liocTFIE29GV3PrLzqRKVIbyQdAYPsgXsg=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gPb1VHBcOFLNqm63FIV8xNvi+4FpZN49s/ni0MuB6+Lx80enHAV7e64dGYRq9Pua1sabcu43EWdLfF3Inq/LqQG5iHUO01mQG+5yvbwFvPz6KF38pGfPxiilt0hrGHNEqQDUnsg2rWdOZG5XOlwk9OTPE+Ygm50+5cI5nv3N/rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQAVt12I; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779303549; c=relaxed/simple;
+	bh=CAg8fHi2CXutX4k3jIaYo/3dkMGuQ6K17aloqCRhD8Q=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=O/DwvM9wLkDTzjUvD3+gtXrmfx3RKhw7op/7OO0Yf2lJuoU+ZslPKDIw1gup6NjKb0enHJsbJce0HqoQRnCYouFl2bH1+D4DIOQjAsuULzV7khQu2ZcNTEPlzNtigo+CIfdrWTXKkr0XHe1NMMIaAP3sniEsTIi4zWoi64f4LGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m8YyDR7A; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQAVt12I"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-44e1860558fso3331759f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 11:47:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m8YyDR7A"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-3663cbff31cso13099960a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 11:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779302852; x=1779907652; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/hEwaR6TEFLYShpta6veHoxTDP0ik8niJki4wmQa0RY=;
-        b=EQAVt12IbPCrpc2rNHDrbX2HJWDPnRSLUJ3LwZMumBGjkgVcHLhN2JE9sX26byQqM1
-         fJtY9osxEJydypLMFZKL9mJiMD4ffHzmJ34EkXWh/5fEUCH/OBA8ez7e01BHYSddZz05
-         rzwzhq0tbdwbyM1J3Q8Mpmsx0og6xco2+KF65emtihqCh0DSxwvTZ65KsbJEurlYeIYz
-         kmA7J7vdlWQvKbGaDCTNlxlDS8bu1/HnSRkBIjvPPwK/jM+L3dOfcvz2tryfa8/pFCHf
-         n1w0lZxOVFwootJB/FmqRSLNDJKg6seXTr4UN3V3c+1SbJVyqm7q42tHtdzqkOGRlzVR
-         s96A==
+        d=google.com; s=20251104; t=1779303546; x=1779908346; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xc+eqLu2deOuDSSfxTvMnxL/tYv4gr65bHOPW09jR0U=;
+        b=m8YyDR7Ac0n8UQMMBIbd7CSv6c3u4vMwy0xx8SEkjRLz+1GpfvaL654mwKwzw/+oAv
+         7Dy25m6z9syVWyXs5G74o++Xl27DuE9cmbU7beL252WqAt1Kwox7lje7K3XMOt+N17cu
+         wyx/wUhO5qpsJoAkNYBfCqDL6YBSOcdZk0rCEdkhyahWvT0Z1jC/EkfUOuNVew3E5qld
+         3rN+MnX6GsHBuJqCRtylxtCh8JP9vGKpNkLD/nKvK7h5GOUEBMh7sYDX5Rwdz9ae9T+H
+         FUpibkNOM66WNqqGruMvSyIjTpQnBGoHS9As0e5+12SHuOKeWOKUieZVPuwMt/a4DtqI
+         cwrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779302852; x=1779907652;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/hEwaR6TEFLYShpta6veHoxTDP0ik8niJki4wmQa0RY=;
-        b=NNDMVTZmhxFJQ+43mKNTKIkzWPMTjV3kgglQVUVzzAPx/2+W5BiwX3ZFyLvad7vRRK
-         D4zGanj8EDMk9Z3/cDhLGOFyfLgL9mMcZKGvIhhF31ydaEFXSkrlmaoyG27T7fAC2e1s
-         +uVUiUJrGGYFnD9BGhQ/KslJQBJ1hQRq3e9OafG9D+OsAdeRlxN2+X9GlzvPtiQ9VRZ0
-         mht4q0H4XIPO9JcB3/n/uxpTIVUJjAgJC37dgcM0oIcfDLiJ8GbdhNqgwTYn2B7actOu
-         YGVmmkTXGmgr6+rSlT5OfatY6RCSX9ZwGZ0HYkNl3FIu5Qu8nMUCIisccBYybX5KMvkW
-         7I4w==
-X-Forwarded-Encrypted: i=1; AFNElJ8fUw7BxivJ79kGH5XCW1zjm1pGgxmOP1GbVOssXd3A6oJbmJtYQqzjwF6Hc9d1lu7BEd4y1NGvlw8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwapzLf+7q+nXFYsauMx2UZI0ZfXNqli92viQIB+zp8Hsvj3Z1p
-	d/AQmgJVS8l8PjE41nWGpjrNzI6IkfIG+HADC/Fns8lVgnLLaza/HxVd
-X-Gm-Gg: Acq92OEb+zSDHQ1vhCJsiA53fJ88Zb4A1vw2EVgi2cOb8gfq8ui+UhYEWGYeGjWu0kF
-	CTUQfAIKDSXS18gJFrh4s5rOqhOHU6VdRCKyVbC3MjaI8k1WXY1tpyUQLYPTiZb3kGpuywx4FsG
-	EO4ZrGolAS1gV0W4XlCORYvt4GWjmF+ijP9pcqW0eXULqg3g+5CWfEwZ4Si4Wky2F4lcZZVXKab
-	9zpsXAi4XT5WtKVFp1yVcp2JaAJg6QWVYV883jT8j7pkwHbqE2KUCQHMx2vcfidkoP/wmo/zK8D
-	fqTDDI2D9QEtgNDEA4SJvuzdyK8spqnOIGG9G3hx8LJOcjcjYM2Q+2VTwhEfn0bTHyce7n2kYyr
-	1XN88LtiyHGen4OxDrhejZgBKcQzffI/8tw1LYWJ2JIJspyAK0Imi+s5SeHkzrbwFPzfB9o+9As
-	4YZwUN0/dq7c+BYvNznzMOVcl4Fd8aR1K8wkQ/Gxh3cmJhF1MJ/oFBwA1JleaUM8VilLH9MgbzV
-	+hE5l0cB0CtYd5Whk6zKMlF31cbtfJayGw0fZtYt5F3uyODrHs79CPcW6W2
-X-Received: by 2002:a05:6000:2401:b0:43d:7275:c1eb with SMTP id ffacd0b85a97d-45e5c5dadeamr41206197f8f.39.1779302851879;
-        Wed, 20 May 2026 11:47:31 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ec3acf7sm56929827f8f.12.2026.05.20.11.47.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 11:47:31 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Wed, 20 May 2026 19:47:25 +0100
-To: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hardening@vger.kernel.org
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v5 12/13] Documentation: ABI: testing: add docs for
- ad9910 sysfs entries
-Message-ID: <vqqvn2cgs3fbp5mq6xfac7iyosaqfrvgngqur4x355a3at7slo@ylrtd6fhi33a>
-References: <20260517-ad9910-iio-driver-v5-0-31599c88314a@analog.com>
- <20260517-ad9910-iio-driver-v5-12-31599c88314a@analog.com>
+        d=1e100.net; s=20251104; t=1779303546; x=1779908346;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xc+eqLu2deOuDSSfxTvMnxL/tYv4gr65bHOPW09jR0U=;
+        b=I64zX7+5wsPZ5Rt6qqF7SHyjWcC7hmYYb5nAB049QNK2Ssr/1xGXVJqniktLXANsOp
+         FVzGjgSkR5KVVHiQlGXEzgj9TLfscEmDaskwQy/nw6dX1ayHxkKAu/X3BJ+oqa6GsM0j
+         j8tBXUNeYETV1IYFC+Iy47e+5xHQ7XESumgkVXucxkhUS3ixct3vec90OnWbNqvifph4
+         dLJSHQXhF0Z7YxrSnAmRNci1ZqO5BOAHFIM6OxWavLdnlB0XraMhMJC4EYQpLfFLD8Oa
+         9XtgdJlm5xTTyHtaf6p1h0SqiuxRQUXha72ICTlhn2ibxG+CNB4IaTHBNvngV9AbMiNL
+         GB+g==
+X-Forwarded-Encrypted: i=1; AFNElJ9WykY4G7Jjx1xWaT3nsG9evO5ZOJgnSe4s/qvcSTQg5xKk20VMBbFR8/9GLejcNEvjxrdJo5DDFr8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOJrqfHETXBk3TlTdhy8QOcoPNb/IMne4jY/KLrO7k1qJHbJ0o
+	EGIUo19ZFwkFTt6m7BMHSpQIasQaSqxBFAv3qLlNmprsBaJ+seq9k2o2w21lHV/e2vFYS2DbdVs
+	NMbKNgA==
+X-Received: from pgbcz6.prod.google.com ([2002:a05:6a02:2306:b0:c79:8756:1a98])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:734a:b0:3aa:f9cb:d43a
+ with SMTP id adf61e73a8af0-3b22e67fe5emr29278600637.5.1779303545036; Wed, 20
+ May 2026 11:59:05 -0700 (PDT)
+Date: Wed, 20 May 2026 11:59:04 -0700
+In-Reply-To: <CA+EHjTw-cUM=FrJevtSDtR7K6MwUfGfOx21LMFDn7DAy5bFzYw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260517-ad9910-iio-driver-v5-12-31599c88314a@analog.com>
+Mime-Version: 1.0
+References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com>
+ <20260507-gmem-inplace-conversion-v6-5-91ab5a8b19a4@google.com> <CA+EHjTw-cUM=FrJevtSDtR7K6MwUfGfOx21LMFDn7DAy5bFzYw@mail.gmail.com>
+Message-ID: <ag4EeByDV-OtGhlk@google.com>
+Subject: Re: [PATCH v6 05/43] KVM: guest_memfd: Wire up kvm_get_memory_attributes()
+ to per-gmem attributes
+From: Sean Christopherson <seanjc@google.com>
+To: Fuad Tabba <tabba@google.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, ira.weiny@intel.com, jmattson@google.com, 
+	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
+	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
+	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, 
+	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
+	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
+	aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-On 26/05/17 07:37PM, Rodrigo Alencar via B4 Relay wrote:
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On Wed, May 20, 2026, Fuad Tabba wrote:
+> On Thu, 7 May 2026 at 21:22, Ackerley Tng via B4 Relay
+> <devnull+ackerleytng.google.com@kernel.org> wrote:
+> >
+> > From: Sean Christopherson <seanjc@google.com>
+> >
+> > Implement kvm_gmem_get_memory_attributes() for guest_memfd to allow the KVM
+> > core and architecture code to query per-GFN memory attributes.
+> >
+> > kvm_gmem_get_memory_attributes() finds the memory slot for a given GFN and
+> > queries the guest_memfd file's to determine if the page is marked as
+> > private.
+> >
+> > If vm_memory_attributes is not enabled, there is no shared/private tracking
+> > at the VM level. Install the guest_memfd implementation as long as
+> > guest_memfd is enabled to give guest_memfd a chance to respond on
+> > attributes.
+> >
+> > guest_memfd should look up attributes regardless of whether this memslot is
+> > gmem-only since attributes are now tracked by gmem regardless of whether
+> > mmap() is enabled.
+> >
+> > Signed-off-by: Sean Christopherson <seanjc@google.com>
+> > Co-developed-by: Ackerley Tng <ackerleytng@google.com>
+> > Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> > ---
+> >  include/linux/kvm_host.h |  2 ++
+> >  virt/kvm/guest_memfd.c   | 31 +++++++++++++++++++++++++++++++
+> >  virt/kvm/kvm_main.c      |  3 +++
+> >  3 files changed, 36 insertions(+)
+> >
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index c5ba2cb34e45c..28a54298d27db 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -2557,6 +2557,8 @@ bool kvm_arch_post_set_memory_attributes(struct kvm *kvm,
+> >                                          struct kvm_gfn_range *range);
+> >  #endif /* CONFIG_KVM_VM_MEMORY_ATTRIBUTES */
+> >
+> > +unsigned long kvm_gmem_get_memory_attributes(struct kvm *kvm, gfn_t gfn);
+> > +
+> >  #ifdef CONFIG_KVM_GUEST_MEMFD
+> >  int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+> >                      gfn_t gfn, kvm_pfn_t *pfn, struct page **page,
+> > diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> > index 5011d38820d0d..f055e058a3f28 100644
+> > --- a/virt/kvm/guest_memfd.c
+> > +++ b/virt/kvm/guest_memfd.c
+> > @@ -509,6 +509,37 @@ static int kvm_gmem_mmap(struct file *file, struct vm_area_struct *vma)
+> >         return 0;
+> >  }
+> >
+> > +unsigned long kvm_gmem_get_memory_attributes(struct kvm *kvm, gfn_t gfn)
+> > +{
+> > +       struct kvm_memory_slot *slot = gfn_to_memslot(kvm, gfn);
+> > +       struct inode *inode;
+> > +
+> > +       /*
+> > +        * If this gfn has no associated memslot, there's no chance of the gfn
+> > +        * being backed by private memory, since guest_memfd must be used for
+> > +        * private memory, and guest_memfd must be associated with some memslot.
+> > +        */
+> > +       if (!slot)
+> > +               return 0;
+> > +
+> > +       CLASS(gmem_get_file, file)(slot);
+> > +       if (!file)
+> > +               return 0;
+> > +
+> > +       inode = file_inode(file);
+> > +
+> > +       /*
+> > +        * Rely on the maple tree's internal RCU lock to ensure a
+> > +        * stable result. This result can become stale as soon as the
+> > +        * lock is dropped, so the caller _must_ still protect
+> > +        * consumption of private vs. shared by checking
+> > +        * mmu_invalidate_retry_gfn() under mmu_lock to serialize
+> > +        * against ongoing attribute updates.
+> > +        */
+> > +       return kvm_gmem_get_attributes(inode, kvm_gmem_get_index(slot, gfn));
+> > +}
 > 
-> Add custom ABI documentation file for the DDS AD9910 with sysfs entries to
-> control Parallel Port, Digital Ramp Generator and OSK parameters.
+> Doesn't this imply that all consumers of kvm_mem_is_private() should
+> validate the result using mmu_lock and the invalidation sequence?
+> sev_handle_rmp_fault() calls kvm_mem_is_private() without holding
+> mmu_lock and without any retry mechanism. Is that a problem?
 
-...
+Yes, but my understanding is that sev_handle_rmp_fault() can tolerate false
+positives and false negatives.  It's not optimal, but it's "fine", and already
+KVM's existing behavior, e.g. KVM gets the PFN and then smashes the RMP, without
+ensuring the PFN is fresh.
 
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency_offset
-> +KernelVersion:
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		For a channel that allows frequency control through buffers, this
-> +		represents the base frequency value in Hz. The actual output frequency
-> +		is derived from this offset combined with the processed buffer sample
-> +		value.
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency_scale
-> +KernelVersion:
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		For a channel that allows frequency control through buffers, this
-> +		represents the frequency modulation gain. This value multiplies the
-> +		buffer input sample value before it is added to a frequency offset.
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_phase_offset
-> +KernelVersion:
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		For a channel that allows phase control through buffers, this
-> +		represents the base phase value in radians. The actual output phase	is
-> +		derived from this offset combined with the processed buffer sample
-> +		value.
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_scale_offset
-> +KernelVersion:
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		For a channel that allows amplitude control through buffers, this
-> +		represents the value for a base amplitude scale. The actual output
-> +		amplitude scale is derived from this offset combined with the processed
-> +		buffer sample value.
-> +
-
-This will become just offset with altcurrent channels. I noticed we have a IIO_PHASE
-iio_chan_type, could we have a IIO_FREQUENCY too? Parallel port needs actual raw
-frequency values in that case to be written to the dma buffer.
-
-Then we may have buffer capable channels for the parallel port:
-
-out_altcurrent120
-	offset
-out_phase120
-	offset
-out_frequency120
-	scale
-	offset
-
-Problem is that the math for the actual frequency output is:
-
-	f_OUT = f_FTW + (f_RAW * FM)
-
-where f_FTW is a base frequency (already scaled), FM is a
-modulation gain and f_RAW is the contribution from the parallel
-port, which is the already scaled:
-
-	f_RAW = RAW * f_SYSCLK / 2^32
-	f_FTW = FTW * f_SYSCLK / 2^32
-
-so the above becomes:
-
-	f_OUT = (FTW * f_SYSCLK / 2^32) + (RAW * f_SYSCLK / 2^32) * FM
-	f_OUT = (FTW/FM + RAW) * f_SYSCLK * FM / 2^32
-
-if I make:
-
-	SCALE = f_SYSCLK * FM / 2^32
-	OFFSET = FTW/FM
-	f_OUT = (OFFSET + RAW) * SCALE
-
-That would work for a IIO_FREQUENCY channel type, problem is that both
-scale and offset would depend on the modulation gain (FM)... I suppose
-scale should be setting that and offset assumes it is constant to act
-only on FTW.
-
-I suppose we can keep altcurrent for other modes as phase and frequency
-can be attributes (knobs) for them. However, in parallel mode we are effectively
-pushing frequency, phase or amplitude values into the buffer.
-
-The polar destination is a corner case, but can be solved when both
-phase and altcurrent channels are enabled. When that happens we can
-change the scan_type with has_ext_scan_type = 1, so the 16-bit data
-bus is split between the two.
-
-With the above, all of those *_offset and *_scale custom ABI can be dropped. 
-
--- 
-Kind regards,
-
-Rodrigo Alencar
+Mike, is that all correct?
