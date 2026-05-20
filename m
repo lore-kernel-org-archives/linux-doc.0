@@ -1,281 +1,197 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013056.outbound.protection.outlook.com [40.107.201.56])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7809C372ECF;
-	Wed, 20 May 2026 14:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779286014; cv=fail; b=d8hAx0BUu8EqyL7HnZg4G7CG9P2GcN9rjG++ov6qsdgOWzX9szg6uB2EUgBEpsbGMWb6Wc6wruR8wv40yH20qMfJpQMtYtUEQ12bj1AvTvKZbik7HMBCpm++6NpIIDBI3nTCOUZjaDzyEKdu9LviW35pn6Upmq3XtLJoh045a/g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779286014; c=relaxed/simple;
-	bh=fVdHlykYf+Hk99r3MCnmrGFN6a57t1NgrJBhs+is+pc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=XF4bJOMaJK6vokG4Og5+a9xqoojflw8SWQSdB/aZDCXutZgn0EaiUVfGMMAKyu8rHt3YFuGWfwtno+qj7E4ynaWg6tARwvv45sOqYbHaqOevdMJNtNL2hCzq2p2tjn/KdndJ8pD97M5fd9SOc8azlxB2l5e+a6uRrinO415Ig5w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=AFMSxe8q; arc=fail smtp.client-ip=40.107.201.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E34C3E274D;
+	Wed, 20 May 2026 14:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779286140; cv=none; b=jgqTGVEGXvlFN1tjsJS558MyUaKFdUH+Y0/dpqXr4k+ZPrvR1ti2OVUO8lwwuL7+UkqQV3y+HGoXFWtVj5sl8k6xX4AclLB+HVr4QRHLmJQyAj0uJJtgdVfsZSAA38iKFFuJnjndbSmNsLujzWaUF6ui2kfxDFWDLx9LoujFYho=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779286140; c=relaxed/simple;
+	bh=QS4NMsaNSoU7MmRQD1e7M/qaWF5XdZVKlFlNM8QnvlQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Au0xwj/dd50V1Rs3EJqfnu1skn27ryqHvr1J/Ol0duSTJtBK0uOYZqSwq8txrOAbP4ui492gLZjvaeblhC/4kQksB46vc6eKuwscMv8+Fj7GZKPJ6ZWrfbZr+AfbXF9WcoUx3SqMjd80IxzCXX0hC2oUj++KprDR/+fqICaKas0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=V7NbBBRx; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="AFMSxe8q"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kpOyo+/TLANd/IcVZ9iTeCzM+iWPvIpUT1PraH4IJiApMjDU21ebv5uX91/OFUVidUMeBZc5WuItNuE64zclBaSll75/qDo8dZUpKd7N8yNGRFZFgFIgm8HmTBwrkWYHkQRqpeLmzgWloksNjMFHUbmqEMjf6eSHb5piopJe1vX5ACblS0ptxx9d9zrNo+VHLsyRtqh2OSaw7p68ZVsaiFuIX2CLdAFKmmyy/uZcdaexH2/EE9lH01F3Pmk4aFriCj1lu1NmSghWgQOVvua8hRLdYqGvrf5+UqcNn69bVvvgf2B3u+ZY/I3ugBBUYj/fjoHppS285jUFz+kVyqjw9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WwRAxA2xjM/8GXGvL0/VQ+RAkvqW6+6IFH9/uO5POT0=;
- b=We3ER79Jy2bKbnqEV1OVK42Qb1c7++5OFc+hB8FN4QQvYtZibi+hzJgeQJjgzI4+1NTWRLO732aPOdMkNv+J38pNy3u6E5SSeUNVEdIepXqRsJEPACEpXH80YqS+YcSycf+B2HScBFlDWf6a4R2PjkqmRuy39kCfQ2B7z+pNYteM1c1SJrkOi1SN9gcWqJcJDEN2/7tAHNX0gOqxLbZKOmm2XMAigKXtnZsaooFQfZOGuhNZCgQgfHtvsTrcAKRAWimociXFT4g87hq8BXh3ivBSMJUbDdMn6bKnhS1wvrM/tEkuo6zzDfotJ7z8oSudBrH7I7iKVebxo1Ke95GENQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WwRAxA2xjM/8GXGvL0/VQ+RAkvqW6+6IFH9/uO5POT0=;
- b=AFMSxe8qijd1eEjDo/2vFAidfFNFj25gumlZ+DoUrcuQ6g/BiT6N2V7IMEFXCNoMxgSqZi5+CY2NpftyJ9ioVK5RWTskS1epptapbB5pVrERRZm9yLtJAJ7op6RIk+mdtvG108W/DZsdsu74ZTCC5zixTelt/gu9454QaSn78xU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS4PR12MB9610.namprd12.prod.outlook.com (2603:10b6:8:277::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
- 2026 14:06:46 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Wed, 20 May 2026
- 14:06:46 +0000
-Message-ID: <c9fbfdaf-2a58-4423-8dc5-6e29a88f6293@amd.com>
-Date: Wed, 20 May 2026 16:06:40 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
-To: Xaver Hugl <xaver.hugl@kde.org>
-Cc: Julian Orth <ju.orth@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
- <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com>
- <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
- <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com>
- <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
- <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com>
- <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
- <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com>
- <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
- <dff60378-4e47-4753-8878-feec6e1c2690@amd.com>
- <CAFZQkGz=UJqaJ_eTwKBy1pAg5xL+PLibh7W1vYf7JD7Jrx-LZQ@mail.gmail.com>
- <53edf0b5-e733-4b96-87d7-3307275500c0@amd.com>
- <CAFZQkGxpPm081Fz8UtDuBA1PKD42+9YDA+cc6fbSpfawXwu9+g@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAFZQkGxpPm081Fz8UtDuBA1PKD42+9YDA+cc6fbSpfawXwu9+g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9P222CA0009.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:408:10c::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="V7NbBBRx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=QS4NMsaNSoU7MmRQD1e7M/qaWF5XdZVKlFlNM8QnvlQ=; b=V7NbBBRxTQzb4WZQPH0ia7W/u4
+	3ap8xYFd0M/I/URx05Sytf3MhFybq9K7GVj95D7uC2Cnm6QCUOEOGNzr+QlLj+Ju7dp8z3OdV4wZ3
+	QFCcI0S19iHHGmiwuSl9i6sU6nkpxFiBVfwyUXuxSTDVoETShIo7st29u6rBnCfU+upJiw+WHh3pk
+	rhQyUXImFihk+Ta7IZRuDthpjteHwyNnvb6mFgjTg+DTtY8n88VY6mmMSnMU8hDJpWGeB1BmYQ9ys
+	cfwlIEynsY7i992ptTzokZmqeoCoMzXgVLgwHPoMt9jXQQFI0A8ZOAs/qEjbXMu5Jp9h/8DGhKMn2
+	Hm59lBmg==;
+Received: from 54-240-197-235.amazon.com ([54.240.197.235] helo=freeip.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wPhbR-00000007ENY-3nxJ;
+	Wed, 20 May 2026 14:08:55 +0000
+Message-ID: <15b04b2640820d275d051b3dfbcd15302b93f355.camel@infradead.org>
+Subject: Re: [PATCH v4 04/30] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for
+ accurate KVM clock migration
+From: David Woodhouse <dwmw2@infradead.org>
+To: Dongli Zhang <dongli.zhang@oracle.com>, kvm@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
+ Sean Christopherson <seanjc@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>, Dave
+ Hansen <dave.hansen@linux.intel.com>, Vitaly Kuznetsov
+ <vkuznets@redhat.com>,  x86@kernel.org, Marc Zyngier <maz@kernel.org>,
+ Juergen Gross <jgross@suse.com>,  Boris Ostrovsky
+ <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, Jonathan Cameron
+ <jic23@kernel.org>,  Sascha Bischoff <Sascha.Bischoff@arm.com>, Jack
+ Allister <jalliste@amazon.com>, Joey Gouly <joey.gouly@arm.com>, 
+ joe.jin@oracle.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  xen-devel@lists.xenproject.org,
+ linux-kselftest@vger.kernel.org
+Date: Wed, 20 May 2026 15:08:52 +0100
+In-Reply-To: <08a64760-a431-4d0a-9480-562f8f38c908@oracle.com>
+References: <20260509224824.3264567-1-dwmw2@infradead.org>
+	 <20260509224824.3264567-5-dwmw2@infradead.org>
+	 <0ae8e471-db7a-4842-aca4-8ef643acde8b@oracle.com>
+	 <d3c461415e05345a9b82e6f995828c1ae64a4e61.camel@infradead.org>
+	 <935312be-9a86-49fd-8bb4-2c998a68e2df@oracle.com>
+	 <b9980333f3a310bf05e170e79c40cb2f46485caf.camel@infradead.org>
+	 <aa68ed10-15da-4368-a986-6864843a3c44@oracle.com>
+	 <32ca0a8da4bfb1e92013a7f75e0ff7541ebcd6a6.camel@infradead.org>
+	 <08a64760-a431-4d0a-9480-562f8f38c908@oracle.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-kdLl6ujEBe96tHDTmnqo"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS4PR12MB9610:EE_
-X-MS-Office365-Filtering-Correlation-Id: 88fa798b-97b9-4634-eea4-08deb6790733
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|22082099003|56012099003|18002099003|5023799004|11063799006|3023799007|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	7OpWPTtRHid9cGBpyrX1pfLsQshnFvsiAvR7eSku5pVcjPU0OCVhan2G8zBbU0WF1ewXRgO+1sMD8VQj/eP4eE1W9X1Rr4527rLkGnCtCiZsB3OYZSIi2OWGFIvyKZpiruEY/8MZfvejDY5GQesyxy3oWVGYxrZfj6E6cJlm8DD0BGbPUznYEFey+Zd4o3EiSKapgmnycWBSqiYVtsT5TlaNVzYhs5GWH04GhYQYp+zwiAhJIJhjvFhq4zQR5ilzeLJ9gPwiXxpQLO6wZS10/WgnoC50DfzqL9ds9HJKwdRKASUmDmZu1TFTyF9IOWUxi5/VxILFQx1zCVP+C7lFiOHHGLSpuEWR1velcWesuP/JagOct1ailXhT1kRRGdK3RM195neWg4heGYEsWT4hUc+XQZ79p54U4Ks4gVQfUOJsMqBLX1VK/IGksBB7o+puXup1hATyNyUTCURbzp/OvbcD3z4tRR/AIlfKS445nGS2CiABpD7XdFbDQzmSBH6ozxOdMhSIt2Veb/1a8rJjTzKzIsHv+y5/w3gSlbq7kk2CNGo6XwD63Ut+HXArm2qjjElUp03j1L4O4KINrH4ADFyQO0kapaa3TJWlYrVuNK9o9jsH8gadZ5Y/OuJG4jL3EHrT8nGFJ0ZHK6yBIN72BVGe7jrD+c31V2leuSsABUr3oPOrZWHkMGnymfU+TEtu
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(22082099003)(56012099003)(18002099003)(5023799004)(11063799006)(3023799007)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cmxkRlNWblZidkc1cTJzNGF6R3EvN2dycGExd1lZdXhDWkMxUmVMSVFlaW9N?=
- =?utf-8?B?WVNBajFVcEhwRFVjNXJLQ294L3lrQ3ltWDJiUEU0WWlLa3lEWmV3Ulp5VlZy?=
- =?utf-8?B?VGVwbnpNZ0NKNUZZZ2cwbmVyNEZHcE9zWHV6aVVNc0l6SmhXQVBDaE85TWF3?=
- =?utf-8?B?REQ2U3Q1azhtY1NuTEVOK1BpOE5nUnVWSjlnT05JcVVHa1hCeVNhL2FiNnhZ?=
- =?utf-8?B?MW1MYm1kZzhEb3RnQmk2ZGN1cFpEUVkybStZYW45R1JGZXp2QUJWc0gvamF3?=
- =?utf-8?B?aFBxRVFZdUNKZWQyZ2V6OS9mNHRib1JUN3Uwem9DSU5CamMwVUxGMUk2QTZL?=
- =?utf-8?B?eVBFcXpKR05jK1pnZUJneEZWcFM5aXRwQjhSUlEwdGR2NWJteEVRamhNMlk1?=
- =?utf-8?B?R2pLalJHT0ZJa0Z3aEJ4WlhTY0FFSWsyTzhtRXUzNDQ0ckdrNjl6VURBK0lC?=
- =?utf-8?B?eHQ3RjBVbU9FcXZrTFdJRFBMYWc3SnY1clVjZGVWVWMrS2l1akQxa2pmZmJK?=
- =?utf-8?B?cFVvT08zZWs1RW8zbTBNS3JWSkoxSFYrVGlpdXROOC9ITzNyeEZmUnVXZnEr?=
- =?utf-8?B?VlJ2TmdoaEJYeU1KUUNnQ3lNbktuSkRic3MyU1k3T1gvalgydU5DMHRKd2lT?=
- =?utf-8?B?cEs1cG01azV3RFl6UmlRbmlWT2NZVlZRdnY1bURjUEdxTUxYL3dHRnVSWFl4?=
- =?utf-8?B?aTdEMTVyV2VNQ214bm9VaDJtdTVQQ2ZkK2dZU2IrejVTWUE2VGVjaGFETG1X?=
- =?utf-8?B?MFdINFV2RWJWTHF2eVlLMVdRTGs1VExSVFJPcUJ4M05BRXdGdVFYOVI5aFNS?=
- =?utf-8?B?TTdScDR4MTlFY0pqaTZuZkd4SnZxZVloMjRRejB5a1o4S3EvV2JIa3VSZXVp?=
- =?utf-8?B?UlV1SmEzNXRwckVlME9UaFc0dGNkR01JMGZqQ01FN0M5cTl3TXFGTzROTnl3?=
- =?utf-8?B?bm5hQXVvUWV1eEN2LzVRU1F5M0djbUpSM0VkVVJZdk9PTWI5MTM1c3kwcUlD?=
- =?utf-8?B?Smt0dTJyUDF0alltNG5tbm5zYUk4VDMxRHVmQ3pnYUErK3lHRUhuaVVBb0lI?=
- =?utf-8?B?SEZvM0J5M1g2T1pCZDVrZENaOXZzUmlqMjBNQ0taVEQ2QU9BRW82MEdwK0pB?=
- =?utf-8?B?R0pFLzVCSU9hSnkzSjFTa1lRSTVNSjd1RSt1c2YyVVo4VmsxTC9aRW9scklu?=
- =?utf-8?B?WnRZTWRkWXRIMVYwZ3QzZjd4WTdLZit6QmRxcUo3T2Z2QVQrZFJjZ0hKL1Qz?=
- =?utf-8?B?TVdVWmNpb2lNL1dyVHdRTFk5ZHBGZng5dm1UbkdLSVV5OUMyNlUyUGxKRUY5?=
- =?utf-8?B?RjE2Y2dDdSs3TVJ1VVdueWgveWJ6MG8rSkY3ODQybzFQVVE5VDROa29QVlpP?=
- =?utf-8?B?NXMrQW5HNDVTbXhIWEI0MlhhQUJJTUNTbjVGWE1YbnZqT1g1RmRWWkdtZDMr?=
- =?utf-8?B?bHpnb1AzYVV3SVlJQW5aSlVOT0EzdWFFdGlwd0VURXA5S29VaC9JVlNYaUIv?=
- =?utf-8?B?enpjVU9HZzNMT1lNRDFlQitUUzZOQnJiVHZmbjcyQmpqZzF3Zml2d0hheW10?=
- =?utf-8?B?RW5jQit6aFhFM0l5VHI3RGtTZUNWWjZRei92cUN5K2dFczN3TG1QUnpUdmZM?=
- =?utf-8?B?RXhaWHRQdnNGbDdIVDNoemcvK3FSQm9tQU1pZmVpYW5BaUIvbTdLY1d6MkVQ?=
- =?utf-8?B?S0lvWm5lQnArNmoyVGVYL3JOeW1kRXI4RWdjN0I1WXVvd1hOd0huM1hHMjRN?=
- =?utf-8?B?WVVNOWovYnBOcXgvMTA3Y1N3bXJ2dGg1UTBFVDVKR054RnVURWI4T0pWd21F?=
- =?utf-8?B?M3NUUGk2ZjV2RUJQQkQyVnNZU2JkaTE0OGViNlA4bUZNMGM5eDJrMVRuT1Nw?=
- =?utf-8?B?NUN5bVFhUk03QTJQMmwxM0IrOWFtQmZLUVlaancwZzBXbEZpamtscWpGaUk5?=
- =?utf-8?B?Zm5KeHFWalFLSW1nVjh2SFFxdnhGVVhkM1BXYWw4SWJCQTFFSGFSZStFSE9J?=
- =?utf-8?B?Ukd0ZVlkRkFpVHFCNnpHOUtUQXdGM1dxaGRqd0kyeHlVNTVWdEt2SlM3QkR0?=
- =?utf-8?B?VEk4Wm00RlhQcHlTYkNkd2xidm40UnlCWDZCWG0vbUp2RzBZbDFxWDFORmVE?=
- =?utf-8?B?SDdUNzRPOU1WTjdKYlc5L3lWNGdJZEs1TVgzcjZyRmtlV1JFQWRtVXp5V1h4?=
- =?utf-8?B?OU9icXkwQkpVZS9Cak9VNDF2cXNoUkEvd0YyUTRwOGRuMFhiRHdaSDFTT2Vi?=
- =?utf-8?B?dDNXblJ4MEdZaVhzTTF1VWhOUTZBN2JnQktKUXNKeWpyei9ES3cxTVE2VXRD?=
- =?utf-8?Q?mn2Z3eq4TD/79fg6TE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88fa798b-97b9-4634-eea4-08deb6790733
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 14:06:46.2837
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JGB9x8W4fCJMLpslSV1FKUmJph2CJnYYwWDMhDm5vwzQoQELHBxmtgWnGU757T0F
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9610
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On 5/20/26 14:33, Xaver Hugl wrote:
-> Am Mi., 20. Mai 2026 um 10:08 Uhr schrieb Christian König
-> <christian.koenig@amd.com>:
->> Well I would say the other way around is a pretty common use case.
->>
->> In other words the compositors uses the internal GPU for composing and displaying the picture. And the client uses the external GPU for fast rendering.
-> Sure, but that's not what I'm talking about.
 
-Yeah sorry for that, I wasn't sure if I misunderstood your use case because it's usually the other way around.
+--=-kdLl6ujEBe96tHDTmnqo
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->>> - the buffers from the client stay valid
->>
->> Buffers from the hot plugged GPU don't stay valid. Accessing CPU mappings either result in a SIGBUS or are redirected to a dummy page.
-> Again, not what I wrote about. The buffers are on the integrated GPU.
+On Tue, 2026-05-19 at 16:34 -0700, Dongli Zhang wrote:
+>=20
+> I would really appreciate it if this document could be revived. I don't s=
+ee it
+> in your most recent v4 PATCH 7. It is very helpful as a guideline for how
+> userspace VMMs should take advantage of these APIs.
 
-General rule of thumb is that as long as the exporter stays around the buffers stay around as well.
+In the kvmclock5 branch I'm revising for the next round.
 
->>> - the syncobj stays valid on the client side
->>> - the syncobj becomes invalid on the compositor side
->>
->> Nope that's not correct. The syncobj itself stays valid even if you completely hot plug the device.
->>
->> It can just be that the fences inside the syncobj are terminated with an error.
-> What about eventfd created for a point on the syncobj?
+https://git.infradead.org/?p=3Dusers/dwmw2/linux.git;a=3Dcommitdiff;h=3Dae8=
+72d9b75
 
-The eventfd unfortunately doesn't has error handling as far as I know, so when a fence signals with an error condition then the eventfd you only sees that it is signaled.
+Now has a selftest which serves as an example of the process that was
+documented. And an extra fix right before it in the tree, to update the
+master clock on vCPU creation because otherwise otherwise KVM_GET_CLOCK
+wasn't returning the host_tsc.
 
-> Another (future) problem with hotplugs will be if the sync file hasn't
-> materialized for the timeline point when the device is hotunplugged,
-> since there can't be an error on the fence if there isn't one. Or
-> could userspace somehow set an 'artificial' fence with an error in
-> that case?
+I think I need to change that to only do so if ka->use_master_clock
+isn't *already* set though, or we risk introducing discrepancies on
+hotplug again? Will tweak that...
 
-In general the answer is yes, userspace needs to take care of inserting fences when wait before signal is used and the work can not be submitted to the HW for some reason.
 
-Currently we only have an IOCTL to insert the signaled dummy fence at some timeline sequence, but it should be trivial as well to insert a signaled fence with an error code.
 
-But the compositor needs to be able to handle that case anyway, because it can be that a malicious or just buggy client just never inserts the fence.
+--=-kdLl6ujEBe96tHDTmnqo
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-So that a device is hot plugged is not different to just a client not inserting the fence in the first place.
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCD9Aw
+ggSOMIIDdqADAgECAhAOmiw0ECVD4cWj5DqVrT9PMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0yNDAxMzAwMDAwMDBaFw0zMTEx
+MDkyMzU5NTlaMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYDVQQDExdWZXJv
+a2V5IFNlY3VyZSBFbWFpbCBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMjvgLKj
+jfhCFqxYyRiW8g3cNFAvltDbK5AzcOaR7yVzVGadr4YcCVxjKrEJOgi7WEOH8rUgCNB5cTD8N/Et
+GfZI+LGqSv0YtNa54T9D1AWJy08ZKkWvfGGIXN9UFAPMJ6OLLH/UUEgFa+7KlrEvMUupDFGnnR06
+aDJAwtycb8yXtILj+TvfhLFhafxroXrflspavejQkEiHjNjtHnwbZ+o43g0/yxjwnarGI3kgcak7
+nnI9/8Lqpq79tLHYwLajotwLiGTB71AGN5xK+tzB+D4eN9lXayrjcszgbOv2ZCgzExQUAIt98mre
+8EggKs9mwtEuKAhYBIP/0K6WsoMnQCcCAwEAAaOCAVwwggFYMBIGA1UdEwEB/wQIMAYBAf8CAQAw
+HQYDVR0OBBYEFIlICOogTndrhuWByNfhjWSEf/xwMB8GA1UdIwQYMBaAFEXroq/0ksuCMS1Ri6en
+IZ3zbcgPMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIweQYI
+KwYBBQUHAQEEbTBrMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYB
+BQUHMAKGN2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RD
+QS5jcnQwRQYDVR0fBD4wPDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0
+QXNzdXJlZElEUm9vdENBLmNybDARBgNVHSAECjAIMAYGBFUdIAAwDQYJKoZIhvcNAQELBQADggEB
+ACiagCqvNVxOfSd0uYfJMiZsOEBXAKIR/kpqRp2YCfrP4Tz7fJogYN4fxNAw7iy/bPZcvpVCfe/H
+/CCcp3alXL0I8M/rnEnRlv8ItY4MEF+2T/MkdXI3u1vHy3ua8SxBM8eT9LBQokHZxGUX51cE0kwa
+uEOZ+PonVIOnMjuLp29kcNOVnzf8DGKiek+cT51FvGRjV6LbaxXOm2P47/aiaXrDD5O0RF5SiPo6
+xD1/ClkCETyyEAE5LRJlXtx288R598koyFcwCSXijeVcRvBB1cNOLEbg7RMSw1AGq14fNe2cH1HG
+W7xyduY/ydQt6gv5r21mDOQ5SaZSWC/ZRfLDuEYwggWbMIIEg6ADAgECAhAH5JEPagNRXYDiRPdl
+c1vgMA0GCSqGSIb3DQEBCwUAMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYD
+VQQDExdWZXJva2V5IFNlY3VyZSBFbWFpbCBHMjAeFw0yNDEyMzAwMDAwMDBaFw0yODAxMDQyMzU5
+NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqGSIb3DQEBAQUAA4IC
+DwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZeYAS/SRV6zmfXlXaZ
+sNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2zkC9S7/yHDYnqegqt
+w4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qGpgFdZEk2/c//ZvUN
+i12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41vav1RhZJzYan4a1gU0
+kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0cvnO8FM6PTqsnSbcc
+0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PWPU6zfQTOMZ9uLQRR
+ci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXtREF5lLXxp+CJ6KKS
+blPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQrlR0gO3lBzuyPPArV
+hvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7IqaAovAX0d+f1YjbmC
+VsAwjhLmveFjNwIDAQABo4IBsDCCAawwHwYDVR0jBBgwFoAUiUgI6iBOd2uG5YHI1+GNZIR//HAw
+HQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3bXcyQGluZnJhZGVh
+ZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEBMA4GA1UdDwEB/wQE
+AwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwewYDVR0fBHQwcjA3oDWgM4YxaHR0
+cDovL2NybDMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDA3oDWgM4YxaHR0
+cDovL2NybDQuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDB2BggrBgEFBQcB
+AQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0
+aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNydDANBgkq
+hkiG9w0BAQsFAAOCAQEAQXc4FPiPLRnTDvmOABEzkIumojfZAe5SlnuQoeFUfi+LsWCKiB8Uextv
+iBAvboKhLuN6eG/NC6WOzOCppn4mkQxRkOdLNThwMHW0d19jrZFEKtEG/epZ/hw/DdScTuZ2m7im
+8ppItAT6GXD3aPhXkXnJpC/zTs85uNSQR64cEcBFjjoQDuSsTeJ5DAWf8EMyhMuD8pcbqx5kRvyt
+JPsWBQzv1Dsdv2LDPLNd/JUKhHSgr7nbUr4+aAP2PHTXGcEBh8lTeYea9p4d5k969pe0OHYMV5aL
+xERqTagmSetuIwolkAuBCzA9vulg8Y49Nz2zrpUGfKGOD0FMqenYxdJHgDCCBZswggSDoAMCAQIC
+EAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoT
+B1Zlcm9rZXkxIDAeBgNVBAMTF1Zlcm9rZXkgU2VjdXJlIEVtYWlsIEcyMB4XDTI0MTIzMDAwMDAw
+MFoXDTI4MDEwNDIzNTk1OVowHjEcMBoGA1UEAwwTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJ
+KoZIhvcNAQEBBQADggIPADCCAgoCggIBANqWLse95HW2F7FhfH9bugyT/danKmmXrbMnz5GZNAfj
+Jl5gBL9JFXrOZ9eVdpmw04Tp6aDxZctFLoEDvSWKi367Q7Sg+ci+fH4KwwfQ8Pi0IpIKx2n5emEg
+nbOQL1Lv/IcNiep6Cq3DiyaSpSp/RZf+CAfUNySHS8eWmhLU6jGpSD6hxTpYKye7PmrmvMWwfGEP
+WoamAV1kSTb9z/9m9Q2LXa89aKmTxNwnAfD3Ohn9mtU3JukwILRMewn9QRXK7KzM+01h5hkCE4nj
+W9q/VGFknNhqfhrWBTSQoE9CSVylASGrjzCgS7XmKy/BaH3/7mOOHQv5g1o3Qj/+cdKnpT0I5Qb1
+nRy+c7wUzo9OqydJtxzSP4ZyHA4dELto/a3m/ay1XHcpum1pgTOLgxAfGb/T4dCkwRUstSKLMmpL
+g9Y9TrN9BM4xn24tBFFyL5znGG0wQGzOVAM68RBzIQb6Fz758fjsr4yZnPbVsU1+gHEs/puNHrG0
+9e1EQXmUtfGn4InoopJuU8p5VGD9S3Ikd4UoBlc7xl5yjtNlQxUeYrRlnUSmdlucCEoTX1n4UmtA
+9CuVHSA7eUHO7I88CtWG9bGOU7tLgOZoSEvNqtaL/N7sQbBZK4jZ4Rr/zNTQg1SwYjjLB7u96lDP
+sipoCi8BfR35/ViNuYJWwDCOEua94WM3AgMBAAGjggGwMIIBrDAfBgNVHSMEGDAWgBSJSAjqIE53
+a4blgcjX4Y1khH/8cDAdBgNVHQ4EFgQUXGIam3Bs59Y60yTmWgfDu6pZQ6cwMAYDVR0RBCkwJ4ET
+ZHdtdzJAaW5mcmFkZWFkLm9yZ4EQZGF2aWRAd29vZGhvdS5zZTAUBgNVHSAEDTALMAkGB2eBDAEF
+AQEwDgYDVR0PAQH/BAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDB7BgNVHR8E
+dDByMDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMDegNaAzhjFodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMHYGCCsGAQUFBwEBBGowaDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29t
+MEAGCCsGAQUFBzAChjRodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVt
+YWlsRzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBBdzgU+I8tGdMO+Y4AETOQi6aiN9kB7lKWe5Ch
+4VR+L4uxYIqIHxR7G2+IEC9ugqEu43p4b80LpY7M4KmmfiaRDFGQ50s1OHAwdbR3X2OtkUQq0Qb9
+6ln+HD8N1JxO5nabuKbymki0BPoZcPdo+FeRecmkL/NOzzm41JBHrhwRwEWOOhAO5KxN4nkMBZ/w
+QzKEy4PylxurHmRG/K0k+xYFDO/UOx2/YsM8s138lQqEdKCvudtSvj5oA/Y8dNcZwQGHyVN5h5r2
+nh3mT3r2l7Q4dgxXlovERGpNqCZJ624jCiWQC4ELMD2+6WDxjj03PbOulQZ8oY4PQUyp6djF0keA
+MYIDuzCCA7cCAQEwVTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMX
+VmVyb2tleSBTZWN1cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJYIZIAWUDBAIBBQCg
+ggE3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDUyMDE0MDg1
+MlowLwYJKoZIhvcNAQkEMSIEIJza43h/FwgwD2EkJ+bq4stwt29DSUHRCPFBwLtsb3yXMGQGCSsG
+AQQBgjcQBDFXMFUwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoTB1Zlcm9rZXkxIDAeBgNVBAMTF1Zl
+cm9rZXkgU2VjdXJlIEVtYWlsIEcyAhAH5JEPagNRXYDiRPdlc1vgMGYGCyqGSIb3DQEJEAILMVeg
+VTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMXVmVyb2tleSBTZWN1
+cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQEBBQAEggIAFFEKdpALDqXh
+98WXtQxeMs9JtVb0zg4HAtsKc543QODPTTbvOOdM5lYBKAGoZ4oYvBU5Y3W9Erie9o+NfS8UFXBY
+8v8qn+zntuKw/C3TI94IVNUW2+FY2UiToaZXyfPJDrxpdnv6UHiWSY9Mzhve303g2rJhQgmxm2Pb
+YUF60IZch8nqSKNX9BqxEtCwjhcqPMUAd9nAWtKe9Awxsr7gLX7S26Ai7qCeJvuB56NdeHyAqObD
+wVqh3UNgJ7uNI9pUQbmjj7GF9gdfrCMkXTd5J2T9XFy0Vu67zeQihDJnIIkF176L2owSHC9kLqff
+EFNBw8OlYN2z/2EshiOqcDmIZg1uhuxfq5+O57bRdCirVIfxzAaRJOEpNFLG/m+n7F0QTSPTe0CI
+Oue1hnRyxMVwD8jElEqHyJDzG5dwmi1QYZlfPJZ08d5UalrzUQmS14qtIWivAlvhU+R7hNS1TyQH
+COT9g8/uX3KFCYRQOq3BBOPmG7ZLmqpSlz/qMhhLDBPs9QpdEgh/WCxEJq33zQVwE/ISA7ujIWl6
+bC/6OKOoT6MJu2zQpafgVWsp0ncYIkn2JRA6LZpJXtn7oeZN1ztd5ub7GJCEPc4E8V+Gxy6K8TOu
+XGNcYXljNyWlD9iYBxBaBsh7tSntuo/tVTmMJ8vTUad7MgmRNkox46SOBYeL6VYAAAAAAAA=
 
->>> "invalid" there means either
->>> - the acquire point of the client is marked as signaled, before
->>> rendering on the client side is completed
->>> - the acquire point of the client is never signaled. Since the
->>> compositor waits for the acquire point, the Wayland surface is stuck
->>> forever
->>
->> Both of those would be a *massive* violation of documented kernel rules for hot-plugging which could lead to random data corruption and/or deadlocks.
->>
->> If you see any HW driver showing behavior like that please open up a bug report and ping the relevant maintainers immediately.
-> If there are no error codes with syncobj yet, then to userspace, the
-> latter behavior is exactly what we get, isn't it?
 
-No, from userspace side you just see a signaled fence. It's just that you need to export the timeline point of the syncobj to a syncfile and then you can call the QUERY IOCTL on the syncfile to see the error code.
-
->> When a hotplug happens all operations of the device should return an -ENODEV error, even when exposed to other devices/application through syncobj or syncfile.
-> Okay, that at least gives us a way to fail imports somewhat
-> gracefully. Normally, failing to import a syncobj is a fatal error in
-> the Wayland protocol.
-
-So the task at hand would be to avoid importing the syncobj into a driver. That should be relatively trivial.
-
-The only real problem I see is if you want to create a syncobj without having any device whatsoever.
-
->> One problem is that only syncfile allows for querying such error codes at the moment, we have patches pending to add that to syncobj as well but we lack a compositor with support for that as userspace client.
-> As long as the error case can be detected with an eventfd,
-
-Yeah that's the problem. The eventfd only tells you if the operation is completed (or at least has materialized).
-
-To query the error you would need to ask the underlying syncobj or syncfile directly.
-
-> implementing that in KWin shouldn't be a challenge.
-> 
->> Well the question here is if the device the compositor is using or the client is using is gone?
->>
->> If the client device is hot removed the compositor should be perfectly capable to import the syncobj.
->>
->> If the compositor device is gone then you don't have a device to display anything any more, so generating the next frame doesn't seem to make sense either.
->>
->> What could be is that you want the compositor to be kept alive even when the display device is gone to switch over to vkms or whatever so that a VNC session or other remote desktop still works.
-> There are two GPUs in the example I gave. The compositor can use both
-> for rendering (in cosmic-comp's case) or switch between them (what I'm
-> trying to do with KWin), or use one device for rendering, and another
-> for importing the syncobj.
-
-Ah! I think I got the problem now. You basically want to avoid importing the syncobj because when the wrong device goes away you are busted.
-
-The reason we didn't considered having the IOCTLs on the FD is because if you don't import them and instead keep them around you can run out file descriptors quite quickly.
-
-When you have an use case where you receive an FD from the client and do a one shot conversion to an eventfd that will probably work, but for keeping them in the long run you need some kind of container for the syncobjs, don't you?
-
->>>>>>> 3. It removes the need to translate between syncobjs fds and handles.
->>>>>>
->>>>>> That's a pretty big no-go as well. The differentiation between FDs and handles is completely intentional.
->>>>> Could you expand on why it's needed? For compositors, the handle is
->>>>> just an intermediary thing when translating between file descriptors.
->>>>
->>>> Well what we could do is to add an IOCTL to directly attach an syncobj file descriptor to an eventfd.
->>> That would be nice.
->>
->> Take a look at drm_syncobj_file_fops and how drm_syncobj_add_eventfd() is used. Adding that functionality shouldn't be more than a typing exercise.
-> Yeah, this patchset already adds that functionality (on the new device).
-> 
->> Do I see it right that this would already solve most problems in the compositor side?
-> Skipping the syncobj handle step would only reduce the amounts of
-> ioctls the compositor does, but afaict it wouldn't solve any
-> compositor problems. At least not as long as it's still tied to a drm
-> device.
-
-Yeah, you need something like a syncobj container or dummy DRM device.
-
-> For device hotplugs, the only new thing we need for correctly handling
-> syncobj is a way to receive errors on the eventfd.
-
-I need to look into the eventfd code, could be that this is somehow possible but it's clearly not something I used before.
-
-> A device-independent way to create and use syncobj would still be
-> useful to us though, both to simplify the compositor and to improve
-> the software rendering use cases.
-
-Yeah not sure how to cleanly do that. We could have a dummy /dev/dri/rendersync or something like that, but that would be quite a hack.
-
-At least I understand the requirement now.
-
-Thanks,
-Christian.
-
-> 
-> - Xaver
-
+--=-kdLl6ujEBe96tHDTmnqo--
