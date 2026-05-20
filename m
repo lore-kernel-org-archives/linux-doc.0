@@ -1,42 +1,42 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6A23DBD48;
-	Wed, 20 May 2026 14:53:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A16F3DCD8E;
+	Wed, 20 May 2026 15:07:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779288793; cv=none; b=OqGmoB2K4kAntG31t4J5UnTrDtYzxhrAmEuD7+13jCaf0BPi5x4MX1JVomAlx1makSDLlZQjix44YorK5G43Xe57QdLoaaSOFv70Rm0cnYFwczENw7oC3I8XvKifxSIsX7LjQFL2qKwWMW0PF9PwcapjUimjgdwQyWNT7XN4AEg=
+	t=1779289662; cv=none; b=GFMmKbDOjmubA6KiGo8+NuYP4wHBTGEphGsHmIobRuYXdBxkdWyjWdES9Y6mJno4Wy/V5nd/fXDUZm2TgiG5gh1SEPFlR7Aaw8mvj8nQIWTugUteTnx2Qhlwzkcsvlep+uR+Xq3gmrUJSBajxVJX82RBFlu52l/UZXXIDD1tK+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779288793; c=relaxed/simple;
-	bh=vb99io4b1uHW4fgC/bBTGZYxfWjnea0pXihI7SMZxtE=;
+	s=arc-20240116; t=1779289662; c=relaxed/simple;
+	bh=GCHQHwl6xXxxVuOiInJNtgnL8fLTa014/s0Fh1BxdW0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QeA6SWp31nXQaK/PVX4IxmvVptjiCTt29aV0ZSd2Hk+ZwIpSV7aUwVjrSLGeag6bfE4yngVujZwEkGNtX5QAUYCC7HOnxjWcZaZpCZLMERPmUSKT3d3n7o0t8dSzM1DQXVogo5mXmlfOOgFWXMCbhR6FNFoa4vi/1bXqqJYhCAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Tb5cWw37; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FT6L1KrL; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=TYVWUvTVdsK06tFJ6jTEsDPef8PJ/O14cgrjIEE2ikd3h0gYP8RL1LpLjp0OPudUW77maB8lmAU9pNhkQrPYvqkhiWXjistzncnsizxqdPQtSQvx9zBOodqb1W78p7543K5i4ZSH1lIj5HW1CX2wA4U9LR3gUnVJfcr+74zjmmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=G/TgLuOa; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FuPsFaRt; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Tb5cWw37";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FT6L1KrL"
-Date: Wed, 20 May 2026 16:53:08 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="G/TgLuOa";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FuPsFaRt"
+Date: Wed, 20 May 2026 17:07:36 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1779288790;
+	s=2020; t=1779289658;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0mk2uML0f+DmowIUT8McBPWXKD76M6vlEQFs4dU+CHo=;
-	b=Tb5cWw373iYJzxUi63XwdH/EOQFLGovvQiB8BL4RVGvYFTMDw9jkLcj6Eac65cEmYur9xN
-	hedaMfb8R88PiK1jm0Y1Y44BHpKgX8OfDK5x/67/W5qagWOr3YFYkoyVWxfpPR2RZR1Vc/
-	L8t4a3a9Dp/HdeYav19jAYj49gbLXIh/QTfTqzRO6SQJIurAuga61jTSgtSAWfcVz/7k6Q
-	guBQ93DcgZsii0P5Ik89YGdgn3yYeDzkovSe5drUQ67UNmhBPAgqkFG3pmvDcleIgyopOT
-	dpuFVTGVgwoiaOYXZNeewYt+WZ3tic40EQLw/7JJ0GuCQ1+B/f/i3QkfXKOreA==
+	bh=KN1wvoHprQssDeR7+IQiZjcPmwBUmM9w1xfU6JNFOrw=;
+	b=G/TgLuOaBFNbegoedGpaHIgUve+xGtuBYkP+MBRC/JZnHaOPOoxXxnVK13fbwivQ/4JqeV
+	qxx7q0V0cbDZtjh1jLSWCWyMp9ZuxaIyS8b0iwPdGv6vWCTfg6AdNSAJillfyBbbrLir5Q
+	Xalz3aBVaK3Sr3Q6ElgJhiY9KCsoqmzAwhWb1r0D1HWWkNkEtN/PYINl7HDfczxs2oGu7L
+	BpNeOiufHn78OvpO4eRoJ2fcBoVxgFi5VrkMnaeVqqMVC87+4nMWpxGR//8K2hCVIs1keB
+	lcNzhF1GapHdBFXaRuB75WSY1nr0stB6Y9gOd30QTnvwR/XMr/2qXkmweDULHQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1779288790;
+	s=2020e; t=1779289658;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0mk2uML0f+DmowIUT8McBPWXKD76M6vlEQFs4dU+CHo=;
-	b=FT6L1KrLsjVwCf6fGAeFVCl5O4Mz5bZa+IM2nXsByZo7RL37YpDxOtHnx/5AkedPD+hmzd
-	PufPFmlC3Sm1dODg==
+	bh=KN1wvoHprQssDeR7+IQiZjcPmwBUmM9w1xfU6JNFOrw=;
+	b=FuPsFaRtD3udrdCoS4HkPjULODop/QjZowu6oOpwHxGMI4Yxeq03tl74tYZt2egyGksEbi
+	TKQ2oiVLeG0D5+Bg==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Leonardo Bras <leobras.c@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>,
@@ -88,10 +88,10 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev,
 	Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v4 4/4] slub: apply new pw_queue_on() interface
-Message-ID: <20260520145308.nay9zt6r@linutronix.de>
+Subject: Re: [PATCH v4 3/4] swap: apply new pw_queue_on() interface
+Message-ID: <20260520150736.HZnlFkv7@linutronix.de>
 References: <20260519012754.240804-1-leobras.c@gmail.com>
- <20260519012754.240804-5-leobras.c@gmail.com>
+ <20260519012754.240804-4-leobras.c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -100,30 +100,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260519012754.240804-5-leobras.c@gmail.com>
+In-Reply-To: <20260519012754.240804-4-leobras.c@gmail.com>
 
-On 2026-05-18 22:27:50 [-0300], Leonardo Bras wrote:
-> @@ -4733,121 +4735,121 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
->  
->  	/*
->  	 * We assume the percpu sheaves contain only local objects although it's
->  	 * not completely guaranteed, so we verify later.
+On 2026-05-18 22:27:49 [-0300], Leonardo Bras wrote:
+
+after digesting the slub patch,
+
+> @@ -882,38 +879,38 @@ static inline void __lru_add_drain_all(bool force_all_cpus)
+>  	 * If the paired barrier is done at any later step, e.g. after the
+>  	 * loop, CPU #x will just exit at (C) and miss flushing out all of its
+>  	 * added pages.
 >  	 */
->  	if (unlikely(node_requested && node != numa_mem_id())) {
->  		stat(s, ALLOC_NODE_MISMATCH);
->  		return NULL;
+>  	WRITE_ONCE(lru_drain_gen, lru_drain_gen + 1);
+>  	smp_mb();
+>  
+>  	cpumask_clear(&has_mm_work);
+>  	cpumask_clear(&has_bh_work);
+>  	for_each_online_cpu(cpu) {
+> -		struct work_struct *mm_work = &per_cpu(lru_add_drain_work, cpu);
+> +		struct pw_struct *mm_pw = &per_cpu(lru_add_drain_pw, cpu);
+>  		struct work_struct *bh_work = &per_cpu(bh_add_drain_work, cpu);
+>  
+>  		if (cpu_needs_mm_drain(cpu)) {
+> -			INIT_WORK(mm_work, lru_add_drain_per_cpu);
+> -			queue_work_on(cpu, mm_percpu_wq, mm_work);
+> +			INIT_PW(mm_pw, lru_add_drain_per_cpu, cpu);
+> +			pw_queue_on(cpu, mm_percpu_wq, mm_pw);
+>  			__cpumask_set_cpu(cpu, &has_mm_work);
+>  		}
+>  
+>  		if (cpu_needs_bh_drain(cpu)) {
+>  			INIT_WORK(bh_work, bh_add_drain_per_cpu);
+>  			queue_work_on(cpu, mm_percpu_wq, bh_work);
+>  			__cpumask_set_cpu(cpu, &has_bh_work);
+>  		}
 >  	}
 >  
-> -	if (!local_trylock(&s->cpu_sheaves->lock))
-> +	if (!pw_trylock_local(&s->cpu_sheaves->lock))
->  		return NULL;
+>  	for_each_cpu(cpu, &has_mm_work)
+> -		flush_work(&per_cpu(lru_add_drain_work, cpu));
+> +		pw_flush(&per_cpu(lru_add_drain_pw, cpu));
+>  
+>  	for_each_cpu(cpu, &has_bh_work)
+>  		flush_work(&per_cpu(bh_add_drain_work, cpu));
 
-alloc_from_pcs() can be called from kmalloc_nolock()/ NMI context.
-I don't remember why exactly local_trylock_t was introduced here instead
-of a per-CPU spinlock_t. But there should be nothing wrong with a
-trylock on it from NMI as you do here.
+Why do we have two iterations here? Is it just a proof of concept that
+is not complete yet? I am curious why it is okay/needed to "remove" the
+one workqueue but not the other. Maybe the other does not bother as much
+as the other does.
 
-One thing worth noting, on !PREEMPT_RT, spin_trylock() always succeeds
-on UP. kmalloc_nolock() checks for it, not sure about other callers.
+But essentially we can't use a spin_lock_t here because due to the
+hotpath nature of the code it will kill performance. So instead we do it
+anyway but behind a switch so that only those suffer from this that do
+not want to suffer from workqueue interruption on a NOHZ full system,
+right?
+
+I thought that this improved since commit
+  ff042f4a9b050 ("mm: lru_cache_disable: replace work queue synchronization with synchronize_rcu")
+
+Did it get worse or was it not entirely gone?
+
+>  done:
+>  	mutex_unlock(&lock);
+>  }
+>  
+>  void lru_add_drain_all(void)
+>  {
 
 Sebastian
