@@ -1,273 +1,332 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521383EA94E
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 14:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779287343; cv=pass; b=mv/wF3zWaFLcG7lZULHZlz+6Gv5KjsZkFq36diLInLa9JtdKBwd5bvxYKI9s2PBH4IKwNOfRYPJAtxyjdAgQ1q/88HBiox7uzsyUP4d6D4mkPblQAUVQkX2mtFzPb+79UwIRDuBQV+e9UrNpXTZflH0o19cEkultzAQcLCEDOQk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779287343; c=relaxed/simple;
-	bh=Tzu5wTH3o6S2Itis2xyipHfLS/Tdxrt1OgQQN3z2k/U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Lj4w8znWM0WcOnfKg+4Kad+SCFf+EH24s3A75+N2iAzy1mgN1dYx/juOxYpiyI3mzCwyJYcctivHwB4i6C1euHcLfbRV4EEhDJrC44CmaWvLLBuE5nKH61hO6Tb++7nPOGwUEu/MkDknkPtBwuDC6v67jPplKdRWDw5H6J2dj98=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=t1fw0aXM; arc=pass smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B86B3E95B8
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 14:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779287396; cv=none; b=WilFOlRRZrulW1aqes+c0wbT6HruNV/imwv8JOI8nl6B1ms0+5PtkYdONmMKJ+AKngug7MC4N31094BUiUO70Dbz/DdRZwXbjYDSZLWB4TbmCVusSDVzVRV8M1Hff6L3ddXtTVn7JUko0lGwcq+WNY7T8PzXsBLrOpuVjOE3CmQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779287396; c=relaxed/simple;
+	bh=oTAaOfFsFc8YiZ5sMXWMZAs7U4u7jgj04sZm//ztqmA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TACb3FXJ0V1rqlA/bG6pjT+R9jv/9yHhwlyV+E5c8jsEWoYtlsbaYdGo+O6SK06W034PzyR7UQFqaP4SYwbGCzh9eyddo/f8BzCBKui3/Q0AmHZmrV9oM+GT1aihlhFYi7OPyJzs9/p5k2DecuDitOoDZ/16CNGC6b6l9R1VV44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eZmVQFG/; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XY1sgy5l; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t1fw0aXM"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-515548f390fso5281cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 07:28:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779287338; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JTiYg7iHzhGz+9zt2on6/yIprRo9rhrlYDsUGu0wk/6vrN36oEnDVAPW87Z3/xjNYF
-         aZzefo7Lo4jMwxb/9g7P7/ceJdcEsQ1LPIkkzhmaWJdch5YFKbTuI/uvdQ4o8oXNl1tz
-         xyJkLfwl8Pv0E11PHjXrUQypUAll5E49m0vvjYEX3Gny7IUBP4c3RIV3awp/8MHQf8LY
-         yLVpVlZ9J6absI/vNDdOJcFTURmuoc6BZ0sFL0l72V0Dy0Wd3mlGcuRD1VrbKCUmbKLB
-         qIV6kG1u0PAOsMZL0qYFRUQ5KvhOgv+zaPlErFASl62J0KEPbhJpOjGocobhtAyYiw49
-         X7Pg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=SDMj41/pkYi0SiyY6zKgWY/JIbItQ876cBH7lhvdwcU=;
-        fh=jJ/Wp7NB85Tk9dRniW5PPMWcpejKxoxaooIYwUD0/i4=;
-        b=ObGD+4zb+GrA7FlvlDNJyTBHOpNDbrCAvHtGNGtrd9ORhXrE7ykVmNPJyuUUY7j8Wd
-         7cG8WS/2fGWwGkpbQ3FzcMkBS32eovMluDSUGDzkaoTGolqiidD44W8coC4QLXIjSbU9
-         D1Ta5zZBubIgxT6tftV/vQ2x1UDQ/n4SXSod1pmjDiS3KZc9NumNet/LFju8RQAdII/2
-         L88eLxpf7ZvxNmqEPNyA8pQxHXOmzrHEgpk1ZZ854JbNy2h+l6jQOjE0HRJRaxWgDidb
-         +KiuG12qy7OrrPHr/KQfy1JaOiqpHtJ/q4+n47jJjxnejx5Fh/6Z6ggjK4gKvvqdFtuS
-         j7zA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eZmVQFG/";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XY1sgy5l"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64K9nRox446712
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 14:29:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=pxOt6IK/i3ibZ79BpGFSHKfb
+	P+cfEih0yG4dCpDnkIo=; b=eZmVQFG/A3xV3qUS4A0vUqI9P0C7ARkGzo0UX+4z
+	ttYkvelNRt8/3mtaxRtZiGQMTYFTeZa0qD+e+bbTtQHPMtb1q4FYEuaA+E6SpUun
+	Rx865+RpRmohzVR612Om1+ptNWx/pRYRS3zumRhYDpLpUS8x9iJiLkusgJmgrPR1
+	9tIDn/ZN/vkOXo416xZlg4nJ6VktEK112DGJ6p3UWQ3vbesOi1ZExRo3Nsy/p4H2
+	WHiuTbU8kIvFlttlPUhPEDnlSV37cheZyCntY42NL/EsMEsbGpG+KF0imZCp9Peq
+	hCYYKSLFaSysZA8ODrnuxfkbMTqKpPyj8oz87joZg74c8g==
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e9anrh16e-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 14:29:52 +0000 (GMT)
+Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-575958d4e01so13204530e0c.3
+        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 07:29:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779287338; x=1779892138; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=SDMj41/pkYi0SiyY6zKgWY/JIbItQ876cBH7lhvdwcU=;
-        b=t1fw0aXM1Ap9k7oaEbUnWmIrrxYO3exbwApRFGwEWwV9gzSMxIndWDA9ACaPyiRPXX
-         xlrQvYtIEyoXspvBPOAi6CfY59OYA1D3ydIDB26dGdoKc0xRPZGfRt/UC/3I+0CWG3hM
-         eyFKYUlU7/poD35+u/7HIz+aU2Y/nC5dgZcL6xkGx31f72xwtNCDdMUyvf1XWAhKRno/
-         tBCNRgO7JPbHQeCUkfx9OVl0Kz4bTThlhp9xh0hP0RMfE7UvJIp6liSLF9HLhqemqZYJ
-         EblvFF4DZlbDe3TuBvLSCC4gWgdcaK6iEeMPtD871mgd8O6KlD7BsKDvHSHaixJG43N6
-         upjw==
+        d=oss.qualcomm.com; s=google; t=1779287392; x=1779892192; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pxOt6IK/i3ibZ79BpGFSHKfbP+cfEih0yG4dCpDnkIo=;
+        b=XY1sgy5l+3Ol6vZbV3kMcXCKv78tcGIbin8uOj24cHsgeXBwNTbSDwi9IxXakQWJdq
+         oHLL3BiJT3wVLJqaKypt3atzSpTtrGrIZJBnfyRWlPzkFo4akqguxCOh1GhoxMcpABR0
+         u8KmIQMWY08LG6h4+MMEr+P9NLWWNPRRkxJBUrPP/8b2n7r0Lus1rwIQpp52zqBUpMnt
+         BWYjH8Dh9E7SLyp3f/ot/77NbqYUhA6XBBrLf9QRWx8mHPoDtBHsDG+192c4wIVfeOJO
+         ouWPRH2Z+hsSa6DvV45e3BzdcuZKtOZZ6bxYyUJD8s/2l9z8PfgSMdOQYyJ6iAj3SAiZ
+         93Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779287338; x=1779892138;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SDMj41/pkYi0SiyY6zKgWY/JIbItQ876cBH7lhvdwcU=;
-        b=N257sUSFhyn9hUV5yJafH0zN+6eB72E40RlhoxV2xKO75w0H+lAHJsD4qSmA0E36FS
-         7oPak5drAlCs8KkWIQPpFETJefegxd+cwrvRDCv6aLDrchxxDS9UEcsz28ola0unJzPp
-         gJ2NZmsvMXu7TQkcfUNJ0eewyIOcwTM1hFdJ8ban/+BwDNGaOzJDxFiuyfks75XquKXD
-         ckyZ48CY9YCap2nyP6yumBd7vH/E9us5X3qE/bvf6TnSaoHojc6ghGRr4izPxNHhIRLV
-         8K1EAHJ77r/4YwkP76Tjg19NqE2X18x7gMv4vLBJ3v2Zn7cMQfRa+VtsQDpea7jqNodz
-         fL8A==
-X-Forwarded-Encrypted: i=1; AFNElJ9f+swMiugGsneKMX7HDBNPWa+CUm+LayK/f6EpvQmjt34PA0Vgur4I72R8H8CibE4BttE48IfycpM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWgJAqybvcGDndyMUzHJL/wbzR50QtSpAxxKEPQGzg+w/K4oIB
-	X/8q3gcNAdMliozrVv2ybUemZAboRGc8hrUcmGgt3SbZ4O9jOH0F7R7zZN08q6wGb06W4GCdjrc
-	U1Y2dy5RKTOWwQ+EeMJshBEr5c6ZFNpiLgmb8brid
-X-Gm-Gg: Acq92OHfn6G7+I0qbUmmApZPvfhOe40JZow16hAxeqO8jQYF6ubEJWWcsbSz5NxaQPV
-	OTahMUVSfdL44RKuPz1zVFN2mAG4P3DElGyDGAtHj20dE0BMYo1tzpxJUUTTuR/8bHXreqD1ZRp
-	2hIRJmxTHMvG2jZvI7y+YMMuwEZNo9cCcQxg0FYFiK2MRsY8kUvjKlJmSBjSQmyqeaQdhl65wgm
-	t2Vt1oaRdj60MobogAiycU/2i88XLAmokNi6GKLN84P4BPNji442YTh2RQgch8UgZl1Yb6/h76n
-	p/FC5V1UlddDZeqQ3Hk=
-X-Received: by 2002:a05:622a:1802:b0:501:4eae:dbfc with SMTP id
- d75a77b69052e-5167b676239mr20862401cf.5.1779287337177; Wed, 20 May 2026
- 07:28:57 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779287392; x=1779892192;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pxOt6IK/i3ibZ79BpGFSHKfbP+cfEih0yG4dCpDnkIo=;
+        b=ET58oRMHU++EwyiziP+uAoPskUyrWioUVFodz3viss5aH2TqOME0FMQTLbW5DP21+y
+         5BemFXVD9Qv2Ldnc69Amt3Vcf5So7vA8HzB/5TKBlb5rm6KIIWRGEjvr1QII1wQLOIeI
+         QQzsZvmKDegZcpPWfVIRTaeuD0Ef4Zg07TiARdSBucv6uhAmfs+O+yfAj6yeqI4gOuyG
+         KKvlsNzQFfj/u8dtvBJ53X49raWg2aGFfDlYh5RKbyFiw+2bQGIFAeZouSC34T9vN7gG
+         BwAZ1+OtiAAVIjvIxslAW5pHyc/fOBd9eTuszY7891i4bSeFHxt+ZX3iFyMuQIVZjeYj
+         QWFg==
+X-Forwarded-Encrypted: i=1; AFNElJ8hmsewfBJA434VMDiDIfVBpDDCOFJWN1kkNB2zCi+pJIXbLwdrYGdEtINdn6LWNPyy95wSXSpZZHA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuRWNUeumX/EtqVsLvfVWvyWsHx+xtH6dyusm+nA/1qskkzkHz
+	DxHOriC3l2FSmATAIqwYprMWtN1hd8TdTeqdamp7XptHreUV4mk8FzdYC6VVOozRxY8t6IURUxZ
+	RyxeDCt3NeWA6Y3sgHHywpx0WpXz3oBKnbe3nhyvXq72h0KVgRqQsp/zWU4YnhDU=
+X-Gm-Gg: Acq92OHJoW0sqDdNygxz0pmLTdRIb221CJ7XdLyPHaR/1FdyrcvKGc0XXiDzA6/KSOH
+	4XOs8kroOxN8Tc/0/fNRxEjShRPKvqYQEpTN41UjWkJrG4C1tQjYDe3GwFW+/2aul8dZBtbPk3M
+	vkKDVaCVHO+JD91bkuQJ4XyX86tl/oVFNDbTM7QgLYigTWBuqFbhy2eCKVXF9MMb8xQcmInCAeG
+	YRYzj1mGq0YgoPh9VSU58ZN6/BYUJ9Hyk+OunsYg8QMbDHXD3LAi5hBZwREDnNaBBnx1/gyZfYj
+	puDBCLRGeZKvecK4ZeGIDSrTupkzE6qK43SuJrU73OV9gX21COXUBeFSF/RsLDrQKd1pd9VPfVC
+	x3kFCq7uDXluHXakn8eQmikEVNu/vIEuILyO1EfspKR9sUwhIdmAHlUjyTM3DIbpjsGzLpR8BvO
+	BjSXjvjJbC/UPbt60Tqq2X+EttW7Fi8tKGIb4=
+X-Received: by 2002:a05:6122:910:b0:56e:e9cf:7134 with SMTP id 71dfb90a1353d-5760be33374mr13875398e0c.3.1779287391913;
+        Wed, 20 May 2026 07:29:51 -0700 (PDT)
+X-Received: by 2002:a05:6122:910:b0:56e:e9cf:7134 with SMTP id 71dfb90a1353d-5760be33374mr13875318e0c.3.1779287391196;
+        Wed, 20 May 2026 07:29:51 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a9164cf0a5sm4942878e87.75.2026.05.20.07.29.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 07:29:50 -0700 (PDT)
+Date: Wed, 20 May 2026 17:29:48 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: ekansh.gupta@oss.qualcomm.com
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>, srini@kernel.org,
+        andersson@kernel.org, konradybcio@kernel.org,
+        robin.clark@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 08/15] accel/qda: Add QUERY IOCTL and QDA UAPI header
+Message-ID: <m4zo2nkxtl5yeyo7riuata6r5saflmdgqf37cz2g2ezrwhk53m@mnad6bb7n3ik>
+References: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
+ <20260519-qda-series-v1-8-b2d984c297f8@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com> <20260507-gmem-inplace-conversion-v6-11-91ab5a8b19a4@google.com>
-In-Reply-To: <20260507-gmem-inplace-conversion-v6-11-91ab5a8b19a4@google.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Wed, 20 May 2026 15:28:19 +0100
-X-Gm-Features: AVHnY4L9O3OTsfOAqqdov--6MJhNDxaLQ7PquyLIvNtXq2pe4PNa20rghwvuehE
-Message-ID: <CA+EHjTyyah4B6RZRhp=awJ7psp-wSwSSFGyDQF0wt+J9J7aDdQ@mail.gmail.com>
-Subject: Re: [PATCH v6 11/43] KVM: guest_memfd: Ensure pages are not in use
- before conversion
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519-qda-series-v1-8-b2d984c297f8@oss.qualcomm.com>
+X-Proofpoint-GUID: ha8RkjfPIKaO_pnIFrM0kbNcGcWEM8or
+X-Proofpoint-ORIG-GUID: ha8RkjfPIKaO_pnIFrM0kbNcGcWEM8or
+X-Authority-Analysis: v=2.4 cv=UuJT8ewB c=1 sm=1 tr=0 ts=6a0dc560 cx=c_pps
+ a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
+ a=KrLRuONc4nWYnVYYFb0A:9 a=CjuIK1q_8ugA:10 a=hhpmQAJR8DioWGSBphRh:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDE0MSBTYWx0ZWRfX6PJHBUU5HPbJ
+ QpnmcvQGjW5ly7kEGgHVUSY77SR1WuMo6OfiPD+W1zUoJck8wa3KPOuMjhFQ7PM+7eiK35LcMAb
+ DYlKQmqOCTpsX6BwGfiel5jIMYYA/TRtKjy0Yb0BS4HHdQHUVkAlwRzO1PjYBCiWjhVelxzLzBR
+ skaXaWtNIaxCe0i6qVPACN/PGmbtKwoj35dgC1B+t9O65gNQk2c32LcZyCuOVS+fkAhMhwC3Ck+
+ /srQKmkjmaWbKxSIz0H0i1dB6f2wlPK9GgM1gc88ebPYQvNPIkbC01vRqP033NsNE84qlVA+TWb
+ OUYhVMuuXiV0sphATWnT7WNPq8nFzuHXWJg909MPO32477PpZYafhFAlMj4yuS1DiIeL+StNTzA
+ L0xu55Odl+52Hoh/GeoqjdkZwH3KSa5guOnA6H8+RAy6uLEAXoLnESjMufhC3ILWzHs47ak3dMJ
+ PsPaBFxMM4P/HgYdDsQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-20_02,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
+ priorityscore=1501 suspectscore=0 spamscore=0 malwarescore=0 bulkscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605200141
 
-On Thu, 7 May 2026 at 21:22, Ackerley Tng via B4 Relay
-<devnull+ackerleytng.google.com@kernel.org> wrote:
->
-> From: Ackerley Tng <ackerleytng@google.com>
->
-> When converting memory to private in guest_memfd, it is necessary to ensure
-> that the pages are not currently being accessed by any other part of the
-> kernel or userspace to avoid any current user writing to guest private
-> memory.
->
-> guest_memfd checks for unexpected refcounts to determine whether a page is
-> still in use. The only expected refcounts after unmapping the range
-> requested for conversion are those that are held by guest_memfd itself.
->
-> Update the kvm_memory_attributes2 structure to include an error_offset
-> field. This allows KVM to report the exact offset where a conversion
-> failed to userspace. If the safety check fails, return -EAGAIN and copy
-> the error_offset back to userspace so that it can potentially retry the
-> operation or handle the failure gracefully.
->
-> Suggested-by: David Hildenbrand <david@kernel.org>
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> Co-developed-by: Vishal Annapurve <vannapurve@google.com>
-> Signed-off-by: Vishal Annapurve <vannapurve@google.com>
-
-Reviewed-by: Fuad Tabba <tabba@google.com>
-
-Cheers,
-/fuad
+On Tue, May 19, 2026 at 11:45:58AM +0530, Ekansh Gupta via B4 Relay wrote:
+> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> 
+> Introduce the DRM_IOCTL_QDA_QUERY IOCTL, which allows user-space to
+> identify which DSP domain a given /dev/accel/accel* node represents
+> (e.g. "cdsp", "adsp").
+> 
+> include/uapi/drm/qda_accel.h
+>   Defines the QDA IOCTL command numbers and the associated data
+>   structures. The header follows the standard DRM UAPI conventions:
+>   __u8/__u32 types, a C++ extern "C" guard, and GPL-2.0-only WITH
+>   Linux-syscall-note licensing.
+> 
+> drivers/accel/qda/qda_ioctl.c / qda_ioctl.h
+>   Implements qda_ioctl_query(), which copies the DSP domain name
+>   stored in qda_dev.dsp_name into the user-supplied drm_qda_query
+>   buffer using strscpy().
+> 
+> drivers/accel/qda/qda_drv.c
+>   Registers the qda_ioctls[] table with the drm_driver so that the
+>   DRM core dispatches DRM_IOCTL_QDA_QUERY to qda_ioctl_query().
+> 
+> Assisted-by: Claude:claude-4-6-sonnet
+> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 > ---
->  include/uapi/linux/kvm.h |  3 ++-
->  virt/kvm/guest_memfd.c   | 65 ++++++++++++++++++++++++++++++++++++++++++++----
->  2 files changed, 62 insertions(+), 6 deletions(-)
->
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index e6bbf68a83813..0b55258573d3d 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -1658,7 +1658,8 @@ struct kvm_memory_attributes2 {
->         __u64 size;
->         __u64 attributes;
->         __u64 flags;
-> -       __u64 reserved[12];
-> +       __u64 error_offset;
-> +       __u64 reserved[11];
+>  drivers/accel/qda/Makefile    |  1 +
+>  drivers/accel/qda/qda_drv.c   |  8 +++++++
+>  drivers/accel/qda/qda_ioctl.c | 26 +++++++++++++++++++++++
+>  drivers/accel/qda/qda_ioctl.h | 13 ++++++++++++
+>  include/uapi/drm/qda_accel.h  | 49 +++++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 97 insertions(+)
+> 
+> diff --git a/drivers/accel/qda/Makefile b/drivers/accel/qda/Makefile
+> index 701fad5ffb50..b658dad35fee 100644
+> --- a/drivers/accel/qda/Makefile
+> +++ b/drivers/accel/qda/Makefile
+> @@ -8,6 +8,7 @@ obj-$(CONFIG_DRM_ACCEL_QDA)	:= qda.o
+>  qda-y := \
+>  	qda_cb.o \
+>  	qda_drv.o \
+> +	qda_ioctl.o \
+>  	qda_memory_manager.o \
+>  	qda_rpmsg.o
+>  
+> diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
+> index 0ad5d9873d7e..becd831d10be 100644
+> --- a/drivers/accel/qda/qda_drv.c
+> +++ b/drivers/accel/qda/qda_drv.c
+> @@ -8,8 +8,10 @@
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_ioctl.h>
+>  #include <drm/drm_print.h>
+> +#include <drm/qda_accel.h>
+>  
+>  #include "qda_drv.h"
+> +#include "qda_ioctl.h"
+>  #include "qda_rpmsg.h"
+>  
+>  static int qda_open(struct drm_device *dev, struct drm_file *file)
+> @@ -36,11 +38,17 @@ static void qda_postclose(struct drm_device *dev, struct drm_file *file)
+>  
+>  DEFINE_DRM_ACCEL_FOPS(qda_accel_fops);
+>  
+> +static const struct drm_ioctl_desc qda_ioctls[] = {
+> +	DRM_IOCTL_DEF_DRV(QDA_QUERY, qda_ioctl_query, 0),
+> +};
+> +
+>  static const struct drm_driver qda_drm_driver = {
+>  	.driver_features = DRIVER_COMPUTE_ACCEL,
+>  	.fops = &qda_accel_fops,
+>  	.open = qda_open,
+>  	.postclose = qda_postclose,
+> +	.ioctls = qda_ioctls,
+> +	.num_ioctls = ARRAY_SIZE(qda_ioctls),
+>  	.name = QDA_DRIVER_NAME,
+>  	.desc = "Qualcomm DSP Accelerator Driver",
 >  };
->
->  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index 91e89b188f583..9d82642a025e9 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -572,9 +572,42 @@ static int kvm_gmem_mas_preallocate(struct ma_state *mas, u64 attributes,
->         return mas_preallocate(mas, xa_mk_value(attributes), GFP_KERNEL);
->  }
->
-> +static bool kvm_gmem_is_safe_for_conversion(struct inode *inode, pgoff_t start,
-> +                                           size_t nr_pages, pgoff_t *err_index)
+> diff --git a/drivers/accel/qda/qda_ioctl.c b/drivers/accel/qda/qda_ioctl.c
+> new file mode 100644
+> index 000000000000..761d3567c33f
+> --- /dev/null
+> +++ b/drivers/accel/qda/qda_ioctl.c
+> @@ -0,0 +1,26 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> +#include <drm/drm_ioctl.h>
+> +#include <drm/qda_accel.h>
+> +#include "qda_drv.h"
+> +#include "qda_ioctl.h"
+> +
+> +/**
+> + * qda_ioctl_query() - Query DSP device information
+> + * @dev: DRM device structure
+> + * @data: User-space data (struct drm_qda_query)
+> + * @file_priv: DRM file private data
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +int qda_ioctl_query(struct drm_device *dev, void *data, struct drm_file *file_priv)
 > +{
-> +       struct address_space *mapping = inode->i_mapping;
-> +       const int filemap_get_folios_refcount = 1;
-> +       pgoff_t last = start + nr_pages - 1;
-> +       struct folio_batch fbatch;
-> +       bool safe = true;
-> +       int i;
+> +	struct drm_qda_query *args = data;
+> +	struct qda_dev *qdev;
 > +
-> +       folio_batch_init(&fbatch);
-> +       while (safe && filemap_get_folios(mapping, &start, last, &fbatch)) {
+> +	qdev = qda_dev_from_drm(dev);
 > +
-> +               for (i = 0; i < folio_batch_count(&fbatch); ++i) {
-> +                       struct folio *folio = fbatch.folios[i];
+> +	strscpy(args->dsp_name, qdev->dsp_name, sizeof(args->dsp_name));
 > +
-> +                       if (folio_ref_count(folio) !=
-> +                           folio_nr_pages(folio) + filemap_get_folios_refcount) {
-> +                               safe = false;
-> +                               *err_index = folio->index;
-> +                               break;
-> +                       }
-> +               }
-> +
-> +               folio_batch_release(&fbatch);
-> +               cond_resched();
-> +       }
-> +
-> +       return safe;
+> +	return 0;
 > +}
+> diff --git a/drivers/accel/qda/qda_ioctl.h b/drivers/accel/qda/qda_ioctl.h
+> new file mode 100644
+> index 000000000000..b8fd536a111f
+> --- /dev/null
+> +++ b/drivers/accel/qda/qda_ioctl.h
+> @@ -0,0 +1,13 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
 > +
->  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
-> -                                    size_t nr_pages, uint64_t attrs)
-> +                                    size_t nr_pages, uint64_t attrs,
-> +                                    pgoff_t *err_index)
->  {
-> +       bool to_private = attrs & KVM_MEMORY_ATTRIBUTE_PRIVATE;
->         struct address_space *mapping = inode->i_mapping;
->         struct gmem_inode *gi = GMEM_I(inode);
->         pgoff_t end = start + nr_pages;
-> @@ -588,8 +621,21 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
->
->         mas_init(&mas, mt, start);
->         r = kvm_gmem_mas_preallocate(&mas, attrs, start, nr_pages);
-> -       if (r)
-> +       if (r) {
-> +               *err_index = start;
->                 goto out;
-> +       }
+> +#ifndef __QDA_IOCTL_H__
+> +#define __QDA_IOCTL_H__
 > +
-> +       if (to_private) {
-> +               unmap_mapping_pages(mapping, start, nr_pages, false);
+> +#include "qda_drv.h"
 > +
-> +               if (!kvm_gmem_is_safe_for_conversion(inode, start, nr_pages,
-> +                                                    err_index)) {
-> +                       mas_destroy(&mas);
-> +                       r = -EAGAIN;
-> +                       goto out;
-> +               }
-> +       }
->
->         /*
->          * From this point on guest_memfd has performed necessary
-> @@ -609,9 +655,10 @@ static long kvm_gmem_set_attributes(struct file *file, void __user *argp)
->         struct gmem_file *f = file->private_data;
->         struct inode *inode = file_inode(file);
->         struct kvm_memory_attributes2 attrs;
-> +       pgoff_t err_index;
->         size_t nr_pages;
->         pgoff_t index;
-> -       int i;
-> +       int i, r;
->
->         if (copy_from_user(&attrs, argp, sizeof(attrs)))
->                 return -EFAULT;
-> @@ -635,8 +682,16 @@ static long kvm_gmem_set_attributes(struct file *file, void __user *argp)
->
->         nr_pages = attrs.size >> PAGE_SHIFT;
->         index = attrs.offset >> PAGE_SHIFT;
-> -       return __kvm_gmem_set_attributes(inode, index, nr_pages,
-> -                                        attrs.attributes);
-> +       r = __kvm_gmem_set_attributes(inode, index, nr_pages, attrs.attributes,
-> +                                     &err_index);
-> +       if (r) {
-> +               attrs.error_offset = ((uint64_t)err_index) << PAGE_SHIFT;
+> +int qda_ioctl_query(struct drm_device *dev, void *data, struct drm_file *file_priv);
 > +
-> +               if (copy_to_user(argp, &attrs, sizeof(attrs)))
-> +                       return -EFAULT;
-> +       }
+> +#endif /* __QDA_IOCTL_H__ */
+> diff --git a/include/uapi/drm/qda_accel.h b/include/uapi/drm/qda_accel.h
+> new file mode 100644
+> index 000000000000..1971a4263065
+> --- /dev/null
+> +++ b/include/uapi/drm/qda_accel.h
+> @@ -0,0 +1,49 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
 > +
-> +       return r;
->  }
->
->  static long kvm_gmem_ioctl(struct file *file, unsigned int ioctl,
->
-> --
-> 2.54.0.563.g4f69b47b94-goog
->
->
+> +#ifndef __QDA_ACCEL_H__
+> +#define __QDA_ACCEL_H__
+> +
+> +#include "drm.h"
+> +
+> +#if defined(__cplusplus)
+> +extern "C" {
+> +#endif
+> +
+> +/*
+> + * QDA IOCTL command numbers
+> + *
+> + * These define the command numbers for QDA-specific IOCTLs.
+> + * They are used with DRM_COMMAND_BASE to create the full IOCTL numbers.
+> + */
+> +#define DRM_QDA_QUERY		0x00
+> +
+> +/*
+> + * QDA IOCTL definitions
+> + *
+> + * These macros define the actual IOCTL numbers used by userspace applications.
+> + * They combine the command numbers with DRM_COMMAND_BASE and specify the
+> + * data structure and direction (read/write) for each IOCTL.
+> + */
+> +#define DRM_IOCTL_QDA_QUERY		DRM_IOR(DRM_COMMAND_BASE + DRM_QDA_QUERY, \
+> +					 struct drm_qda_query)
+> +
+> +/**
+> + * struct drm_qda_query - Device information query structure
+> + * @dsp_name: Name of DSP (e.g., "adsp", "cdsp", "cdsp1", "gdsp0", "gdsp1")
+> + *
+> + * This structure is used with DRM_IOCTL_QDA_QUERY to query device type,
+> + * allowing userspace to identify which DSP a device node represents. The
+> + * kernel provides the DSP name directly as a null-terminated string.
+> + */
+> +struct drm_qda_query {
+> +	__u8 dsp_name[16];
+
+Are you sure that you want to query only the name? No extra options, no
+attributes, no hardware capabilities?
+
+> +};
+> +
+> +#if defined(__cplusplus)
+> +}
+> +#endif
+> +
+> +#endif /* __QDA_ACCEL_H__ */
+> 
+> -- 
+> 2.34.1
+> 
+> 
+
+-- 
+With best wishes
+Dmitry
