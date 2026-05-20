@@ -1,182 +1,93 @@
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857FD3DCDA7
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 12:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.43.1.242
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677BC3E1CE1;
+	Wed, 20 May 2026 12:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779280423; cv=none; b=fZaQEhxCXkrmNGwD3kET3yF62PeWQur56Ex1pxsT/cUDDTrj/s4iLfSl88e3G7O76a4TpZ+QUEyLKm3HGuMoxfLvXoOU0KVZW16Uput0Zvt1RyUgdBd13RWrahJk/woph3VOaSU2AmBzR5ipasKLaPGdLEmCep8bxQVp6nnJIms=
+	t=1779281907; cv=none; b=fiDs/+MilbSZZhB3Gjxq4NtsAGXaOLbYLlCKjwPksM+LD10TgBzylNWK5pD/EJkKIvXWoqXCo6N4RvBZHI3V9G37M6idXi+cNgg4Cb+6cTiO0gLby3crJUHDyy8ABpDozrVwWVaHhZpebOzIxuDhb9qEehXSEBIQfMLJH5UedLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779280423; c=relaxed/simple;
-	bh=QAPUhSFoYr4bUaOZROL9kMB0XxGMQA2LYNnfIiF3fpc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KbHH6YkiewHO7ZBtaBN3Bh3KVE0hKNd9y0oNaksRvJ5Q5UDADW+oyo+WvtVzukPxQwytANFvZomz005LT2iaTQQm6h/FqSuACVu37Iv+wOy4Ooyb3SmSBpEPgafV7OFkcK1DG00Y/HrIqGxKP2CBFMzFDwaZmzv0CtArTBt8QHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org; spf=pass smtp.mailfrom=kde.org; dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b=Whq6NoHV; arc=none smtp.client-ip=46.43.1.242
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kde.org
+	s=arc-20240116; t=1779281907; c=relaxed/simple;
+	bh=SZ3XnUjpMaWStJq8rla36qMuAI4MZY2cNqWSyf0wb1E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JXlz8VD+78wXeRMSXMVfKXc2rFDn4gtX4k4POvFKz5sl+zXnZ+CgUCxjQv40VbeQDy+0SeaAMGtYO63NOEuSauNeMZ/74qgGv2agrY0VKYeGQprYV5K9eteODjoQ6ifue3MPoUKb46YHwZ7RQgcBZwUbldEyN6FwXjw2VB8zTV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NffAtSug; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b="Whq6NoHV"
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(Authenticated sender: zamundaaa)
-	by letterbox.kde.org (Postfix) with ESMTPSA id 007C432BA32
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 13:33:39 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
-	t=1779280420; bh=QAPUhSFoYr4bUaOZROL9kMB0XxGMQA2LYNnfIiF3fpc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Whq6NoHVvcJFXcYunt2by+cUOjwnj5qoXA3T2bsBSlE6re6nm2tCRX78zTQiUSpeT
-	 Z8gqcl0bxQkQ04sGGDoPKApr8jQhjYnMz4tnNztA/QPBCQO6WtOYx+H20DWNn0LWe/
-	 7RADW8TNKcBmaYESpnHv0/JYuQiiWxCcf7S6OCqalQxhVc2kZjAO3zDKdCKBlvx3BC
-	 Nui2oS88fh84B2/uTjK6axPUV0cIkLquf0d/bY8IKHQm9Md3fc1iJ/hcZpK1PY+YvN
-	 k3LQqb2/h6ZPn1RpEdanRdFYpQdwMG9QWuz4OFrJG0avYWo3hpZ2yf/qrRiD0R91W1
-	 qiumSiHGDGc+g==
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-651b4d09141so4616081d50.1
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 05:33:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9NLWW343LmYLv4E806B0mi6lODaaVfgPTdMJePu9mFFWz4pdisfDzep/z/S83RoNhQm7oHKjJoU9Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsFp0+Vbn+J+udm2inRq7HujYXDdeC624mgupOJYTAZlUJDJMz
-	wiay8GvUC2apfP73ajO5b+79xZ5GUzAD3UIEpvtaqBu3knsrYccMoNnZCoL+TIaU0ns9PdprBVP
-	vORr3agzJNI/UW6Pa7HR7ISTfRDtxKs0=
-X-Received: by 2002:a05:690e:1c05:b0:65e:9e71:7942 with SMTP id
- 956f58d0204a3-65e9e718592mr625005d50.37.1779280418541; Wed, 20 May 2026
- 05:33:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NffAtSug"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 139A21F000E9;
+	Wed, 20 May 2026 12:58:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779281906;
+	bh=YkW4pvVABxc/wOKESG2c5A2yb2O6fz7b3zhSvVthsmc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NffAtSugrfa5NSP2dageADCVoO5P1/NvBAAZ9M2cPo9QytiaLhUEQXbbGnZAnCUey
+	 KTk34rOn15zkN1A+UOc0jl9v+F8MNc1ugv4dB8L/z6XLaNESDh/RhBIjmGdcsGdC42
+	 9Q+mAkSftX4CaNHxvoEbVMlydPqd1Ie4kmZQ1FVv9OruJCBnWsPpTmBq3fZbHu/94i
+	 FC4TIlM4zD7Ee/3lQqOYuBlVDPBCryukvT9maixB6hK651FxrV4wx1Btp1YKZJ20Q1
+	 MjYSRRhDw3VDjQQKPJUR6h94cn7h5r2tJlWCqktLkqh7iw3+ky8DPENNaoVvMeO3xU
+	 8Wy0zd2DFyNLg==
+Date: Wed, 20 May 2026 15:58:16 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Sarthak Sharma <sarthak.sharma@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] tools/mm: add a standalone GUP microbenchmark
+Message-ID: <ag2v6KW8E94kl4M_@kernel.org>
+References: <20260519120506.184512-1-sarthak.sharma@arm.com>
+ <20260519120506.184512-2-sarthak.sharma@arm.com>
+ <ag13GbKcLMIoHOHj@kernel.org>
+ <9382431f-3746-4477-bbef-87abb58bf180@arm.com>
+ <67e9ecff-e532-4659-b4de-7019474af608@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
- <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com> <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
- <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com> <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
- <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com> <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
- <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com> <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
- <dff60378-4e47-4753-8878-feec6e1c2690@amd.com> <CAFZQkGz=UJqaJ_eTwKBy1pAg5xL+PLibh7W1vYf7JD7Jrx-LZQ@mail.gmail.com>
- <53edf0b5-e733-4b96-87d7-3307275500c0@amd.com>
-In-Reply-To: <53edf0b5-e733-4b96-87d7-3307275500c0@amd.com>
-From: Xaver Hugl <xaver.hugl@kde.org>
-Date: Wed, 20 May 2026 14:33:26 +0200
-X-Gmail-Original-Message-ID: <CAFZQkGxpPm081Fz8UtDuBA1PKD42+9YDA+cc6fbSpfawXwu9+g@mail.gmail.com>
-X-Gm-Features: AVHnY4Jgk8foYzRi5plZzxfmXsVMwh3FA7NaYflBHH8P8EN0Be3BzPmLSUlyKpc
-Message-ID: <CAFZQkGxpPm081Fz8UtDuBA1PKD42+9YDA+cc6fbSpfawXwu9+g@mail.gmail.com>
-Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Julian Orth <ju.orth@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	wayland-devel@lists.freedesktop.org, 
-	=?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67e9ecff-e532-4659-b4de-7019474af608@sirena.org.uk>
 
-Am Mi., 20. Mai 2026 um 10:08 Uhr schrieb Christian K=C3=B6nig
-<christian.koenig@amd.com>:
-> Well I would say the other way around is a pretty common use case.
+On Wed, May 20, 2026 at 12:58:32PM +0100, Mark Brown wrote:
+> On Wed, May 20, 2026 at 03:45:53PM +0530, Sarthak Sharma wrote:
+> > On 5/20/26 2:25 PM, Mike Rapoport wrote:
+> 
+> > > It seems that we need to better share the common code in
+> > > tools/testing/selftest.
+> 
+> > > And adding another copy of the hugetlb detection and setup code does not
+> > > seem like a great idea.
+> 
+> > Agreed, but that was the least disruptive approach I could think of.
+> 
+> > I am thinking of doing this now: should I move the
+> > hugepage_settings.[ch] to tools/lib/ and move the read_num(),
+> > write_num(), read_file() and write_file() helpers to a separate file in
+
+these might need some adjustments because they use ksft_(), but in general
+it makes sense to me.
+
+> > tools/lib/ itself without any ksft dependency? Then both
+> > tools/testing/selftests/* and tools/mm/ could share the same code.
 >
-> In other words the compositors uses the internal GPU for composing and di=
-splaying the picture. And the client uses the external GPU for fast renderi=
-ng.
-Sure, but that's not what I'm talking about.
+> Using tools/lib sounds sensible to me - as well as the sharing it makes
+> it clear that it's a library used by multiple things so avoids the
+> issues we sometimes have with selftest directories referencing each
+> other.
 
-> > - the buffers from the client stay valid
->
-> Buffers from the hot plugged GPU don't stay valid. Accessing CPU mappings=
- either result in a SIGBUS or are redirected to a dummy page.
-Again, not what I wrote about. The buffers are on the integrated GPU.
+I'd make it tools/lib/mm as most of the files tools/lib/*.c are stubs for
+the kernel functions.
 
-> > - the syncobj stays valid on the client side
-> > - the syncobj becomes invalid on the compositor side
->
-> Nope that's not correct. The syncobj itself stays valid even if you compl=
-etely hot plug the device.
->
-> It can just be that the fences inside the syncobj are terminated with an =
-error.
-What about eventfd created for a point on the syncobj?
-
-Another (future) problem with hotplugs will be if the sync file hasn't
-materialized for the timeline point when the device is hotunplugged,
-since there can't be an error on the fence if there isn't one. Or
-could userspace somehow set an 'artificial' fence with an error in
-that case?
-
-> > "invalid" there means either
-> > - the acquire point of the client is marked as signaled, before
-> > rendering on the client side is completed
-> > - the acquire point of the client is never signaled. Since the
-> > compositor waits for the acquire point, the Wayland surface is stuck
-> > forever
->
-> Both of those would be a *massive* violation of documented kernel rules f=
-or hot-plugging which could lead to random data corruption and/or deadlocks=
-.
->
-> If you see any HW driver showing behavior like that please open up a bug =
-report and ping the relevant maintainers immediately.
-If there are no error codes with syncobj yet, then to userspace, the
-latter behavior is exactly what we get, isn't it?
-
-> When a hotplug happens all operations of the device should return an -ENO=
-DEV error, even when exposed to other devices/application through syncobj o=
-r syncfile.
-Okay, that at least gives us a way to fail imports somewhat
-gracefully. Normally, failing to import a syncobj is a fatal error in
-the Wayland protocol.
-
-> One problem is that only syncfile allows for querying such error codes at=
- the moment, we have patches pending to add that to syncobj as well but we =
-lack a compositor with support for that as userspace client.
-As long as the error case can be detected with an eventfd,
-implementing that in KWin shouldn't be a challenge.
-
-> Well the question here is if the device the compositor is using or the cl=
-ient is using is gone?
->
-> If the client device is hot removed the compositor should be perfectly ca=
-pable to import the syncobj.
->
-> If the compositor device is gone then you don't have a device to display =
-anything any more, so generating the next frame doesn't seem to make sense =
-either.
->
-> What could be is that you want the compositor to be kept alive even when =
-the display device is gone to switch over to vkms or whatever so that a VNC=
- session or other remote desktop still works.
-There are two GPUs in the example I gave. The compositor can use both
-for rendering (in cosmic-comp's case) or switch between them (what I'm
-trying to do with KWin), or use one device for rendering, and another
-for importing the syncobj.
-
-> >>>>> 3. It removes the need to translate between syncobjs fds and handle=
-s.
-> >>>>
-> >>>> That's a pretty big no-go as well. The differentiation between FDs a=
-nd handles is completely intentional.
-> >>> Could you expand on why it's needed? For compositors, the handle is
-> >>> just an intermediary thing when translating between file descriptors.
-> >>
-> >> Well what we could do is to add an IOCTL to directly attach an syncobj=
- file descriptor to an eventfd.
-> > That would be nice.
->
-> Take a look at drm_syncobj_file_fops and how drm_syncobj_add_eventfd() is=
- used. Adding that functionality shouldn't be more than a typing exercise.
-Yeah, this patchset already adds that functionality (on the new device).
-
-> Do I see it right that this would already solve most problems in the comp=
-ositor side?
-Skipping the syncobj handle step would only reduce the amounts of
-ioctls the compositor does, but afaict it wouldn't solve any
-compositor problems. At least not as long as it's still tied to a drm
-device.
-For device hotplugs, the only new thing we need for correctly handling
-syncobj is a way to receive errors on the eventfd.
-
-A device-independent way to create and use syncobj would still be
-useful to us though, both to simplify the compositor and to improve
-the software rendering use cases.
-
-- Xaver
+-- 
+Sincerely yours,
+Mike.
