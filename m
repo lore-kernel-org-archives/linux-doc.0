@@ -1,51 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5C033DED9;
-	Wed, 20 May 2026 05:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16C630CDAB
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 05:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779254464; cv=none; b=ZJCyfQ8dR7P/7KRglS4+RTHe47EAiSICowDYcoy9tcPxKkPZg+awPxn65vbVbrKgktipYZtOaCyyUnshbL+bch5lacmm17N3JUPHmKn31t9RATQqCVQMnhE/0JVnpb9KAXTq1VqSPA2J2G2aDrldnQ2TtXIgwX0UeQYtiVNyRpE=
+	t=1779254864; cv=none; b=Xd8eh2fpmke6r6Cvxj8KCTDX2AeM7zT1pfGlzSA6BMQmaTAjKjPLCApFNcPCsvDH/HZQmuVWyS1dQqZe3YuaMNSZrVRZ/wAt5Vz8rtl+DgrJv+Q50qf+0iPQoWFCuS1rKJGi2KHkYOWDgJHP7yp4XDoZ2j7Ejk3EkrH7/t7NEj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779254464; c=relaxed/simple;
-	bh=Hs3Y3d8s9CyUiPAu7BFaDDPnSbwBO4g1xfjQhZOhTkA=;
+	s=arc-20240116; t=1779254864; c=relaxed/simple;
+	bh=l0zRM2r+AQUNnb8A268apqaIB3mS80ht+d+1M1KKNFE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=idjtoydndzcWAKsfPo6u5g5fQbMsRgZUpHN8a6Of7kXZVR3Wv76m5L0E8DhFyO0IpWv2AoFHmP6YLLmv4fqCMecQSzhitOEAsVFeh1aL/cYuZYX5+A9iO1P5eKWfiPx29noi1VinDfQP7K00CeaAllisAH1GO6rR2Cf8veKRkac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JUJ4xWWD; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=K3lZUOO+ZcgWk6xGJcoPBdU9PczCMMdq4SLwS5MvoDve6/i0WTAQkSZ8icAT1D00TaCluG4ovA/o4FoW1rSa9gavxsfMuDrVfPdY9PPM0uNbYyaRIEKAXM7cQDHmaXxqQuo/FJicFSG/kZL6QBsyzC1wGQfCp16tkQDUoCYlk0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VYNJtPac; arc=none smtp.client-ip=74.125.82.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JUJ4xWWD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 965601F000E9;
-	Wed, 20 May 2026 05:20:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779254462;
-	bh=0ClVNQ/qL0BwmVZSTaZ5agutkbazJYSG1buLiSM5poM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JUJ4xWWDZC7ayjgLnNw3Zv1yTxlCTSdlCac/utWchwC+t8s2xegSJt2/2HSa91wKW
-	 sOPxrrF+gZ2MjJpayu8Ois3BEWsu20rgV8zlw21fI2hh435yP6R028TsFTBsQUbdYh
-	 X27wLIOCZe+h8GXzVyTI6k7eJoJwr6Tmd+tKUoZ/XP5I85HAcHLGDapdmNqhO3M/8v
-	 0W1oJ38uMIBR/gNS3k+9/Mr5HeYJSHmoxwwuf3zD0aeQKkHSudhDmWbX60zIDrOFs8
-	 eUo7UuZXg7WnsBVBv5ahAgIn6KcCBa9aFfcXSu+0n6woCVpfudv41xLOIC2qOMylSU
-	 o3JaL2zIkNw1g==
-Date: Wed, 20 May 2026 08:20:53 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Leon Hwang <leon.hwang@linux.dev>
-Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH mm-new] Documentation/admin-guide/mm: Fix typos in
- transhuge.rst
-Message-ID: <ag1EtRBvuT9NUTOm@kernel.org>
-References: <20260520051751.74396-1-leon.hwang@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VYNJtPac"
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-1332772f6b3so5527323c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 22:27:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779254862; x=1779859662; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tWnObvvYz2jxVvNJZ4O4Otjd3qRMPJxYo5uUEck8zsM=;
+        b=VYNJtPacffiX92QpyrOU3Lyjiq8y8ThCuoAAkgBCYCptHiXE1n9o72gsaMSUmdzi+C
+         3RCRowkltdAC1/1x2ZA5jwW6rbRQYvxJ9x1v0xrJMOqh7uLemCY5uJH8ve7LsEjNnGlx
+         oV0KNVE0D9y9v/fOltAdg2TFCxTy/Q8GoUQ4QhZld4mXawtyqQkdnTakHz5gIEfuZOd4
+         do6LRUIsh+oDtslTnLsjYvUQC6neJwikmm40m8oCBmcDcJv1ZGZmLZrldMqY33lxxRQQ
+         laXNIk/ukJBcX2qLKsBrLmT/XTSnOB99uU5iOuZZS8ZGXpoL05YHG1w6L/BoiN7/7QIn
+         rjLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779254862; x=1779859662;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tWnObvvYz2jxVvNJZ4O4Otjd3qRMPJxYo5uUEck8zsM=;
+        b=reOW4tom7JbOAApzeeqCcdoed9ys+vxRVsZSrltLO4AVZhkg3dOaCCi78ccxBT2ha/
+         LOXl6wS0WEBwbuRSGq0wul3EQ5li1ToR1ZgyPzC20XzfrITlvswMefAkf1+4fNZmSQOM
+         rns4MMd/5kj8zvB9vmoi+RJy5UBtj2LpkGeylZ5E/BmYhxx4QzIhb027J59FQrJXfFFE
+         YTvdkJBD1GWCBjmhWjYsqjh9stXTgKHrkQMUApEAtoJWxmxEOCg2QQXT15LJeSg+bGam
+         WTU5a4+DKrCJFnKqNLN8uCbVH5HTRb+jbweZKdJx7JFa9kAx/avflfcvtr9eD1M+2NRA
+         IYOQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+gXKOsToXpreEyREWcx4acT19UR0JTHuZs80vDaf6PDBKJUf/ZO5S0ycFD8rt0QcgLysUqFLNhyno=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRt8gvmNeqbgc/Z9e6DBfBdIYeYB2mSbuORFqU0tufA9LfBatr
+	3CURUjENDr9fDbmF8GEBs4fI+2vHbZu9WFLc1vDRuKmnDMIjK2DYQb53
+X-Gm-Gg: Acq92OFSPja/HZ/5khKpXtc6IqfucI0xWtc3LtRiXa9YkDcgn3+pu64Txxt/ECHw5eN
+	aabQYOmHX8Kpz0dv3lKG4H0TmjkKfCQ4p6P35larUwPszW9AqWXnWuxbVleTl97bYredUNpbjCp
+	IP1Engpm5kknIUavRqirKrWd/hls0Qc4Zqjz2mHwZBd1DSEX+V/P5pQmfgv+M57A5PdpcfA8l4d
+	xk/6wXeb/dgejK6X+KZ1/6liH2zOpBU+N+FWgQ+0Gw0NzMIGOmegBqvcJnP6YG9ZFdHECzc2Bjb
+	4+gWS3k2Xo7jqm9HQQSxzoTAJOi0FEcB1MLd73TDiY8f+CFmsg3+nGpai9Bz3k0fH5YVTodKNCi
+	A/QcIkKNS/68C1ZhxTQAeYdkQWoWXuyzANWNd7CS81O5WNwcy32mQ1eV7bU1lPBIEKzo/snyroI
+	CVUbnPM8+O3FqprsPt2aoFHUzlIKUB98AQQ7Yg21lBXHATwqbSKAbH/0WBVgfn8eIZ
+X-Received: by 2002:a05:7022:e14:b0:135:d5d1:514 with SMTP id a92af1059eb24-135d5d1061cmr2290514c88.14.1779254861871;
+        Tue, 19 May 2026 22:27:41 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:7677:c3e6:c92a:e780])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cbdcf140sm25863329c88.5.2026.05.19.22.27.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 22:27:41 -0700 (PDT)
+Date: Tue, 19 May 2026 22:27:37 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Frank Rowand <frowand.list@gmail.com>, Mika Westerberg <westeri@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, 
+	Russell King <linux@armlinux.org.uk>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] gpio: remove machine hogs
+Message-ID: <ag1GJygtLgngKQqj@google.com>
+References: <20260309-gpio-hog-fwnode-v2-0-4e61f3dbf06a@oss.qualcomm.com>
+ <20260309-gpio-hog-fwnode-v2-5-4e61f3dbf06a@oss.qualcomm.com>
+ <ag0Dn66ZVnbTc7J2@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,22 +82,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260520051751.74396-1-leon.hwang@linux.dev>
+In-Reply-To: <ag0Dn66ZVnbTc7J2@google.com>
 
-On Wed, May 20, 2026 at 01:17:51PM +0800, Leon Hwang wrote:
-> Fix these two typos:
+On Tue, May 19, 2026 at 05:46:50PM -0700, Dmitry Torokhov wrote:
+> On Mon, Mar 09, 2026 at 01:42:41PM +0100, Bartosz Golaszewski wrote:
+> > With no more users, remove legacy machine hog API from the kernel.
+> > 
+> > Reviewed-by: Linus Walleij <linusw@kernel.org>
+> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 > 
-> 1. approporiately -> appropriately
-> 2. presure -> pressure
+> Argh! What is the replacement for this? I have patches for rsk7203 to
+> use them to get rid of legacy gpio use, like this:
 > 
-> Signed-off-by: Leon Hwang <leon.hwang@linux.dev>
-> ---
+> diff --git a/arch/sh/boards/mach-rsk/devices-rsk7203.c b/arch/sh/boards/mach-rsk/devices-rsk7203.c
+> index f8760a91e2f1..5bbd3b31cffb 100644
+> --- a/arch/sh/boards/mach-rsk/devices-rsk7203.c
+> +++ b/arch/sh/boards/mach-rsk/devices-rsk7203.c
+> @@ -12,7 +12,7 @@
+>  #include <linux/smsc911x.h>
+>  #include <linux/input.h>
+>  #include <linux/io.h>
+> -#include <linux/gpio.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/gpio/machine.h>
+>  #include <linux/gpio/property.h>
+>  #include <asm/machvec.h>
+> @@ -165,6 +165,19 @@ static const struct platform_device_info rsk7203_devices[] __initconst = {
+>  	},
+>  };
+>  
+> +/* The base of the function GPIOs in the flat enum */
+> +#define SH7203_FN_BASE GPIO_FN_PINT7_PB
+> +
+> +static struct gpiod_hog rsk7203_gpio_hogs[] = {
+> +	GPIO_HOG("sh7203_pfc-fn", GPIO_FN_TXD0 - SH7203_FN_BASE,
+> +		 "TXD0", GPIO_ACTIVE_HIGH, GPIOD_ASIS),
+> +	GPIO_HOG("sh7203_pfc-fn", GPIO_FN_RXD0 - SH7203_FN_BASE,
+> +		 "RXD0", GPIO_ACTIVE_HIGH, GPIOD_ASIS),
+> +	GPIO_HOG("sh7203_pfc-fn", GPIO_FN_IRQ0_PB - SH7203_FN_BASE,
+> +		 "IRQ0_PB", GPIO_ACTIVE_HIGH, GPIOD_ASIS),
+> +	{ }
+> +};
+> +
+>  static int __init rsk7203_devices_setup(void)
+>  {
+>  	struct platform_device *pd;
+> @@ -172,12 +185,10 @@ static int __init rsk7203_devices_setup(void)
+>  	int i;
+>  
+>  	/* Select pins for SCIF0 */
+> -	gpio_request(GPIO_FN_TXD0, NULL);
+> -	gpio_request(GPIO_FN_RXD0, NULL);
+> +	gpiod_add_hogs(rsk7203_gpio_hogs);
+>  
+>  	/* Setup LAN9118: CS1 in 16-bit Big Endian Mode, IRQ0 at Port B */
+>  	__raw_writel(0x36db0400, 0xfffc0008); /* CS1BCR */
+> -	gpio_request(GPIO_FN_IRQ0_PB, NULL);
+>  
+>  	error = software_node_register_node_group(rsk7203_swnodes);
+>  	if (error) {
+> 
+> 
+> If there is no replacement maybe we can resurrect this? Or shoudl we
+> have add swnode support for hogs?
 
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Hmm, I guess it is already there so I should simply switch. Sorry about
+the noise.
 
->  Documentation/admin-guide/mm/transhuge.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks.
 
 -- 
-Sincerely yours,
-Mike.
+Dmitry
