@@ -1,104 +1,112 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE443ACF01;
-	Wed, 20 May 2026 08:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CB8369D56;
+	Wed, 20 May 2026 08:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779264840; cv=none; b=jIDoXToTbpnxoCISrjcMXsDjGJMWNWDLjJ4Cwrxvsqar8dEMX6vHp5Ch3vrI5hWq7mVybjg6E/vd9d0yEsEC82xgPka6riJNPlPtF+ghRZdG3m7QaWuYJwKmJw6RH65yRPjz4IkXK3xjARgH1I8Tud2mbVmxP8BUxiWKwpyzDYA=
+	t=1779264933; cv=none; b=CL9St5yxyNMa1HdAYMpo/dbi9Jbz7IbGI9b7vNnrtXD3BMdh0JeDUkWqP4U/I3aC97UK4Oc2JCzTBZN35HcMQMFJP6ygkI74HazVSDcBUNc1wbnOvKOKhV6HxDTSxaMwHBIwjxKwNOx+mvrq/ReMDzKCibaKsVs+rE1lnREmpZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779264840; c=relaxed/simple;
-	bh=FZTrBn7fkmwsCJCTyHYiBauWuoHQJYgl2wmHWfwcWkM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W4lgYlZ2G3Nt1Ji5tSpYCSXn98NHbA+W7PUpquQjCJqgj0aQhKU7yoOQPixEFm+Vt3niWuwYAy0NzkDnimlOPdw41nsDzWm64lv3ird5Hsr4Cgmzfxrr8FOn5HVc9t6aT7qVunxq3/kKRnDpk0uU1F4/abn82cnALme0Tn3w1LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=clv5UKGK; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="clv5UKGK"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gL47J5KHPz9v1L;
-	Wed, 20 May 2026 10:13:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1779264828;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hQXDOHc4G7dDQ3kQbTmT21spqpc7LlPAUB+S3ExR0h4=;
-	b=clv5UKGKubY2vtMtbud3ZYfrqBJNr87Hwa1wylUBd92LNwEvCBU6e1tOetr8sn8iHHgpjP
-	0QgpQDMdE+Nbhx7zYTijf3Ayy1/90aJX4Os8kv88Q+/WVPpozCCY2MMPY9BWifiL4/AWgH
-	leboD+Zf7QGE4Vf9X9p4gpBTSnQD3CUVPp0TG5SpxFugxWBszWxPYFyG4jOO4VnQVOoI6G
-	QZoj/xqBhSVcB53FhMYLEZysfLSRFQd7MwARa7wRiRmcOtV7QqUC+QuuMAZSNr2q+Hdlw7
-	wUy5LXQ4bWur8dtC0QeVuLFyRsBcZ230ta29gNIuOJGV9B4zu4UzfpX0pKZuFg==
-Message-ID: <385a4d4f-fe22-41a7-8d4b-4dc6bc9930d3@mailbox.org>
-Date: Wed, 20 May 2026 10:13:42 +0200
+	s=arc-20240116; t=1779264933; c=relaxed/simple;
+	bh=oURHH/nSZlVAhWWjUg646DHoi3gG3YLL3DBukbQPeGc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=I9B85xbma/1FoF3clShglp8fGLwnXqvF5qQNjfNY9AxM8M5hOxsRoX7plS2G6l3e/e9OMz8WABcdWbGfHhYuDok/pAHrqkx86fT6h0ZqnutXVzePX9M6b8DGetNnGnJaI6LJVJfhnk07AVCBVuxxCqeTqzZBMAGiFew0tUESARw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=113.46.200.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gL41508BPznTV8;
+	Wed, 20 May 2026 16:08:25 +0800 (CST)
+Received: from kwepemf200017.china.huawei.com (unknown [7.202.181.10])
+	by mail.maildlp.com (Postfix) with ESMTPS id BD8CD40561;
+	Wed, 20 May 2026 16:15:23 +0800 (CST)
+Received: from [10.67.121.58] (10.67.121.58) by kwepemf200017.china.huawei.com
+ (7.202.181.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 20 May
+ 2026 16:15:22 +0800
+Message-ID: <dd5297cc-cf4a-4d36-b2ae-b12abb30a951@hisilicon.com>
+Date: Wed, 20 May 2026 16:15:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Xaver Hugl <xaver.hugl@kde.org>
-Cc: Julian Orth <ju.orth@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org
-References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
- <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com>
- <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
- <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com>
- <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
- <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com>
- <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
- <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com>
- <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
- <dff60378-4e47-4753-8878-feec6e1c2690@amd.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <dff60378-4e47-4753-8878-feec6e1c2690@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: jpk3endswr6szttqjbsbpohbo1sccyz9
-X-MBO-RS-ID: 17008d7d8dbc6b85f09
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] cpufreq: Remove driver default policy->min/max
+ init
+To: Pierre Gondois <pierre.gondois@arm.com>, <linux-kernel@vger.kernel.org>
+CC: Lifeng Zheng <zhenglifeng1@huawei.com>, Ionela Voinescu
+	<ionela.voinescu@arm.com>, Sumit Gupta <sumitg@nvidia.com>, Zhongqiu Han
+	<zhongqiu.han@oss.qualcomm.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Huang Rui <ray.huang@amd.com>, Mario
+ Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>, K
+ Prateek Nayak <kprateek.nayak@amd.com>, Srinivas Pandruvada
+	<srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>, Saravana
+ Kannan <saravanak@kernel.org>, <linux-pm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>
+References: <20260511135538.522653-1-pierre.gondois@arm.com>
+ <20260511135538.522653-4-pierre.gondois@arm.com>
+Content-Language: en-US
+From: Jie Zhan <zhanjie9@hisilicon.com>
+In-Reply-To: <20260511135538.522653-4-pierre.gondois@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemf200017.china.huawei.com (7.202.181.10)
 
-On 5/19/26 18:00, Christian König wrote:
-> On 5/19/26 17:31, Xaver Hugl wrote:
->> Am Di., 19. Mai 2026 um 15:29 Uhr schrieb Christian König
->> <christian.koenig@amd.com>:
->>>> 1. This series makes the ability to manipulate syncobjs available
->>>> independently of attached hardware.
->>>> 2. It makes it available under a consistent path /dev/syncobj.
->>>
->>> Exactly that is a big no-go. This has to be under /dev/dri.
->> FWIW udmabuf is also under /dev directly, but I don't think any
->> compositor developer would complain about a different path.
->> What are the rules for that? Could this simply be put in /dev/dri/syncobj?
+
+
+On 5/11/2026 9:55 PM, Pierre Gondois wrote:
+> Prior to [1], drivers were setting policy->min/max and
+> the value was used as a QoS constraint. After that change,
+> the values were only temporarily used: cpufreq_set_policy()
+> ultimately overriding them through:
+> cpufreq_policy_online()
+> \-cpufreq_init_policy()
+>   \-cpufreq_set_policy()
+>     \-/* Set policy->min/max */
 > 
-> The syncobj are actually the DRM specific way of doing things. The general kernel wide way is to use sync files (see drivers/dma-buf/sync_file.c).
+> This patch reinstate the initial behaviour. This will allow
+> drivers to request min/max QoS frequencies if desired.
+> For instance, the cppc driver advertises a lowest non-linear
+> frequency, which should be used as a min QoS value.
 > 
-> But there has already been tons of problems with those sync files. E.g. they doesn't support your use case at all since they don't have wait before submit behavior.
+> To avoid having drivers setting policy->min/max to default
+> values which are considered as QoS values (i.e. the reason
+> why [1] was introduced), remove the initialization of
+> policy->min/max in .init() callbacks wherever the
+> policy->min/max values are identical to the
+> policy->cpuinfo.min/max_freq.
 > 
-> So there are already ways to do this, but the Linux kernel so far told everybody that this is forbidden. The DRM syncobj wait before signal functionality is much better, but then basically the second try to do this.
-
-I'm not quite sure what you're getting at here, just to be clear though:
-
-While the syncobj Wayland protocol extension supports wait-before-submit behaviour at the Wayland protocol level, it doesn't need or cause wait-before-submit behaviour for DMA fences in the kernel. The usual rules apply to fences attached to syncobj timeline points. The wait-before-submit behaviour at the Wayland protocol level comes from allowing submit before a fence is attached to the acquire timeline point.
-
-(It took me a while to realize this distinction, before which I mistakenly thought the kernel's DMA fence rules would prohibit wait-before-submit behaviour at the Wayland protocol level as well)
-
-
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+> Indeed, the previous patch ("cpufreq: Set default
+> policy->min/max values for all drivers") makes this initialization
+> redundant.
+> 
+> The only drivers where these values are different are:
+> - gx-suspmod.c (min)
+> - cppc-cpufreq.c (min)
+> - longrun.c
+> 
+> [1]
+> commit 521223d8b3ec ("cpufreq: Fix initialization of min and
+> max frequency QoS requests")
+> 
+Acked-by: Jie Zhan <zhanjie9@hisilicon.com>
+for the CPPC part, though the rest looks fine but in case I miss something.
+> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
+> ---
+>  drivers/cpufreq/amd-pstate.c      | 14 ++++++--------
+>  drivers/cpufreq/cppc_cpufreq.c    |  5 ++---
+>  drivers/cpufreq/cpufreq-nforce2.c |  4 ++--
+>  drivers/cpufreq/freq_table.c      |  7 +++----
+>  drivers/cpufreq/gx-suspmod.c      |  2 +-
+>  drivers/cpufreq/intel_pstate.c    |  3 ---
+>  drivers/cpufreq/pcc-cpufreq.c     | 10 ++++------
+>  drivers/cpufreq/pxa3xx-cpufreq.c  |  5 ++---
+>  drivers/cpufreq/sh-cpufreq.c      |  6 ++----
+>  drivers/cpufreq/virtual-cpufreq.c |  5 +----
+>  10 files changed, 23 insertions(+), 38 deletions(-)
+> 
+[ ... ]
