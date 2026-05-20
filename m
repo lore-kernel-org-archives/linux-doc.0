@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C0139658D;
-	Wed, 20 May 2026 11:19:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A853D3DCD9C;
+	Wed, 20 May 2026 11:20:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779275997; cv=none; b=fnU1fLQEBvElOrB/HZg+l4YnCtUUWY3tb3ZfWZKUr2mCFSyQCrV7ogCvVuVkRWytNsCRKM5b5Lu0m0MQEv4gkv3CQLLkVT3Bx8MCinBNddCyTmo29QIai+/vrIrK4uTYHoY1hCKmuoKq6R/8XKErdus7FAKgeA6jKp/4Uv1Vnmg=
+	t=1779276012; cv=none; b=I8dNUSvUD8NIwlSOOdOnAZ57K9URAPAMV266zW8SvmvFPI3S9AT/tR3yXO+F7coigMp7OT3cN9nnBGYcGNNHfsgl+NFcSssuHE8WwbwfgMhfN639LT9F5JS6BrjazcH+QTfJNisYG4h9AgzwrTu3COsRCJn9esrkGLQkPJpUaQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779275997; c=relaxed/simple;
-	bh=RQNb7GGy+bNMh/3tLvKifE9HAoNS+QkXX2pfhribtes=;
+	s=arc-20240116; t=1779276012; c=relaxed/simple;
+	bh=v4e5a/aMz1v6YR6+cednVDxQr9k3Oa+VodsgFCUyhVw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hpEcO7vAQTSkcaii+5x/9wukBA1I1vLlC6bggq+Iof61Bc/wmg+2DSBVrzH1RpZtqZMOQTSovDjFYXQX4mY6VNWn8i9t96Cx5kyZcXo+HpmNkMdeUYHkQd7bn7M6gPdnMa8ROK6oIYq+XZLQVyYTrLkqT9uTaXEwZ+MEf1eLMTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHuMJxRP; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=g0stWTCIYrJAqDzIYp7Kid5+/0iLrJOlgJFzIQb9QrBG+lHEbEFJj2CahXKsHZlb2Z35ZSMxPksc9SH9iZbmC1xjuZdZO30u+u0+my/zq771Y3UsWM+/jRH/5kqdpBZ5ah8qxwHAiMWcWCgoOHh13Zv98T7At2MnIqk8KDspgow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k5LPF1J/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHuMJxRP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5E11F00896;
-	Wed, 20 May 2026 11:19:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k5LPF1J/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638791F00894;
+	Wed, 20 May 2026 11:20:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779275990;
-	bh=8UWgSKkIXnrTfv+q9nLslYDYdVCevJUvbhSLAj4hwo0=;
+	s=k20260515; t=1779276007;
+	bh=wh2vO+k2OhSXHw9Yg21L+HN+Ur8L1oQbLmdePBB+R98=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jHuMJxRPdYnzH6HeBPmjKHi8AtaTvt7MOIHxe68KW36WzSeTko0iZ3PfhmITyiGRI
-	 lpi5ZRBMr3Dt9AYr99cGZlm+nRt4XUcWumx+Cx2c2GmPbI8+7Mnm68cQRizGOadoU6
-	 0RGOxiZ3/v2FODpGks4b0K+anpdSQI6+rwLrr5nFMNsx12J/2HlVMCi2RbhdfU+LgZ
-	 0SL+MRdghV6SyY2Yi6tQ6q5fHD1ZrTRZdxwrf2XHE2EpfWmFiDucNse2AkXyRMVS9w
-	 J3DaI4DX+4gRSFmZsNWwk9tBsWy60v1G+nJQxQI2nqTDpFXIl4qCijI99E0T3IiZm5
-	 9r9X+4qjdS5HQ==
+	b=k5LPF1J/4TewEoUQVfXgXu+kBGKHoDoWw8ETg/KWpZh0ZQ83roQKF5Sb2LV/Do4/p
+	 1c5p9Iq6jquG2tUQr/eEbo59BEH1jdbeD73tBpw6X1VzrtJy373WkDQgyr3XRDjuhf
+	 RxS0Xc8QBqtP8SSv2VpJwWvJRPGweJJrvyz3I9mLWOfFynSxqQV0UYc5+O34IWaSkE
+	 aAjzyuPPmAzqFknLqlZGwQM+/HuJ2Ln4zSONAVHFDfVVspwuyG+PIIqTkLZgDVkqg8
+	 3vNh/utmkddK0AzpwJRvslCGdLsHusfojp81Yzx8tRe5BkC5uEmRvD6u1Chxl6Sq2C
+	 96/ncE5/qBGMg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: "T.J. Mercier" <tjmercier@google.com>,
-	Tejun Heo <tj@kernel.org>,
+Cc: Chen-Shi-Hong <eric039eric@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>,
 	Sasha Levin <sashal@kernel.org>,
-	hannes@cmpxchg.org,
-	mkoutny@suse.com,
 	corbet@lwn.net,
-	cgroups@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.6] docs: cgroup-v1: Update charge-commit section
-Date: Wed, 20 May 2026 07:18:36 -0400
-Message-ID: <20260520111944.3424570-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0] docs: hwmon: sy7636a: fix temperature sysfs attribute name
+Date: Wed, 20 May 2026 07:18:48 -0400
+Message-ID: <20260520111944.3424570-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260520111944.3424570-1-sashal@kernel.org>
 References: <20260520111944.3424570-1-sashal@kernel.org>
@@ -56,275 +54,214 @@ X-stable-base: Linux 7.0.9
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: "T.J. Mercier" <tjmercier@google.com>
+From: Chen-Shi-Hong <eric039eric@gmail.com>
 
-[ Upstream commit d8769544bde51b0ac980d10f8fe9f9fed6c95995 ]
+[ Upstream commit 51f57607e30bee282a1d40845f89a311cbb26481 ]
 
-Commit 1d8f136a421f ("memcg/hugetlb: remove memcg hugetlb
-try-commit-cancel protocol") removed mem_cgroup_commit_charge() and
-mem_cgroup_cancel_charge(), but the docs still refer to those functions.
-There is no longer any charge cancellation.
+The hwmon sysfs naming convention uses
+temp[1-*]_input for temperature channels.
 
-Update the docs to match the code.
+Documentation/hwmon/sy7636a-hwmon.rst currently documents
+temp0_input, while the driver uses the standard hwmon
+temperature channel interface.
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
-Signed-off-by: Tejun Heo <tj@kernel.org>
+Update the documentation to use temp1_input.
+
+Signed-off-by: Chen-Shi-Hong <eric039eric@gmail.com>
+Link: https://lore.kernel.org/r/20260514154108.1937-1-eric039eric@gmail.com
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
 ## Phase 1: Commit Message Forensics
-Step 1.1 Record: subsystem `docs: cgroup-v1`; action verb `Update`;
-intent: update `Documentation/admin-guide/cgroup-v1/memcg_test.rst` so
-the charge-commit section matches current memcg code.
+Record: Subsystem is `docs: hwmon: sy7636a`. Action verb is `fix`.
+Claimed intent is to correct the documented temperature sysfs attribute
+name from `temp0_input` to `temp1_input`.
 
-Step 1.2 Record: tags present: `Signed-off-by: T.J. Mercier
-<tjmercier@google.com>` and `Signed-off-by: Tejun Heo <tj@kernel.org>`.
-No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-by:`,
-`Link:`, or `Cc: stable@vger.kernel.org` tags in the committed message.
+Record: Tags present: `Signed-off-by: Chen-Shi-Hong
+<eric039eric@gmail.com>`, `Link:
+https://lore.kernel.org/r/20260514154108.1937-1-eric039eric@gmail.com`,
+`Signed-off-by: Guenter Roeck <linux@roeck-us.net>`. No `Fixes:`,
+`Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-by:`, or `Cc:
+stable`.
 
-Step 1.3 Record: the body says commit `1d8f136a421f` removed
-`mem_cgroup_commit_charge()` and `mem_cgroup_cancel_charge()`, while the
-cgroup-v1 memcg docs still name them and describe cancellation.
-Symptom/failure mode: incorrect documentation only. Version information:
-the referenced removal commit is from 2025-01-13 in the local object
-database; candidate commit is from 2026-04-30. Root cause: docs were not
-updated when the code was changed.
+Record: The commit describes a documentation bug: the sy7636a hwmon
+document names `temp0_input`, while hwmon temperature channels are named
+`temp[1-*]_input`. No crash, data corruption, or runtime bug is claimed.
 
-Step 1.4 Record: this is not a hidden runtime bug fix. It is an explicit
+Record: This is not a hidden runtime bug fix. It is an explicit
 documentation correctness fix.
 
 ## Phase 2: Diff Analysis
-Step 2.1 Record: one file changed: `Documentation/admin-
-guide/cgroup-v1/memcg_test.rst`, `2 insertions(+), 4 deletions(-)`. No
-functions modified. Scope: single-file documentation-only surgical
-change.
+Record: One file changed: `Documentation/hwmon/sy7636a-hwmon.rst`, 1
+insertion and 1 deletion. No functions modified. Scope is a single-file
+documentation-only surgical fix.
 
-Step 2.2 Record: before, the section was titled `charge-commit-cancel`,
-listed `mem_cgroup_commit_charge()` or `mem_cgroup_cancel_charge()`, and
-described `cancel()`. After, it is titled `charge-commit`, lists
-`commit_charge()`, and removes the cancellation text.
+Record: Before, the document told users to read `temp0_input`. After, it
+tells users to read `temp1_input`. No normal/error/init runtime path
+changes.
 
-Step 2.3 Record: bug category is documentation/comment correctness.
-Specific mechanism: removes stale references to APIs that are absent in
-current `6.19.y`/`7.0.y` code and in `origin/master`.
+Record: Bug category is documentation/API-description correctness.
+Verified against `Documentation/hwmon/sysfs-interface.rst`, which
+documents `temp[1-*]_input`, and `drivers/hwmon/hwmon.c`, where
+temperature attributes use `temp%d_input` with base index `1`.
 
-Step 2.4 Record: fix quality is obviously correct for trees whose memcg
-code no longer has `mem_cgroup_commit_charge()` /
-`mem_cgroup_cancel_charge()`. Regression risk is zero runtime risk, but
-there is a branch-selection concern: `stable/linux-6.12.y` still
-contains those functions, so this exact doc update would be misleading
-there.
+Record: Fix quality is obviously correct and minimal. Runtime regression
+risk is zero because no code changes.
 
 ## Phase 3: Git History Investigation
-Step 3.1 Record: `git blame` before the candidate shows the stale doc
-lines came from `f3f5edc5e41e` in this repository’s history. `git blame
-origin/master` shows the changed lines attributed to `d8769544bde51`.
+Record: `git blame` shows `temp0_input` was introduced by
+`de34a40532507` when the sy7636a hwmon driver/doc was added. Ancestry
+checks show that commit is not in `v5.17` but is in `v5.18`, so the
+documentation bug exists from v5.18 onward where the driver exists.
 
-Step 3.2 Record: no `Fixes:` tag. I still inspected referenced commit
-`1d8f136a421f26747e58c01281cba5bffae8d289`; it removed prototypes and
-implementations for `mem_cgroup_commit_charge()`,
-`mem_cgroup_cancel_charge()`, and related hugetlb try/commit/cancel
-helpers.
+Record: No `Fixes:` tag is present, so there was no Fixes target to
+follow.
 
-Step 3.3 Record: recent history for `Documentation/admin-
-guide/cgroup-v1/memcg_test.rst` on `origin/master` has only the file
-introduction/import commit and this candidate. Related path history
-shows the candidate was merged via `cgroup-for-7.1-rc2-fixes`. No
-prerequisite doc series found.
+Record: Related file history on `origin/master`: `51f57607e30be` doc
+attribute fix, `2f88425ef590b` regulator-enable leak fix,
+`68c2a8b59d231` sensor description doc fix, `80038a758b7fc` alias
+addition, `5b5d8ae019543` constification, `a96f688b4e446` underline
+warning fix, `de34a40532507` driver addition. This patch is standalone
+for trees with the current doc context.
 
-Step 3.4 Record: author `T.J. Mercier` has at least one other cgroup-
-related commit in `origin/master`; Tejun Heo is listed in `MAINTAINERS`
-as cgroup maintainer and committed the patch.
+Record: Author history under hwmon/doc paths shows only this commit from
+Chen-Shi-Hong in the checked history. Guenter Roeck, the hwmon
+maintainer, committed/applied it.
 
-Step 3.5 Record: no code dependencies for the patch itself. It can apply
-standalone to the current `stable/linux-7.0.y` checkout. Applicability
-must be gated by whether the target tree’s code has removed the old
-APIs.
+Record: No functional dependencies. For older stable trees that do not
+contain `68c2a8b59d231`, the exact patch context differs and needs a
+trivial manual backport.
 
 ## Phase 4: Mailing List And External Research
-Step 4.1 Record: `b4 dig -c d8769544bde51...` found the original
-submission at
-`https://patch.msgid.link/20260430201142.240387-1-tjmercier@google.com`.
-`b4 dig -a` found only v1 of a single-patch series. The mbox contains
-Tejun’s reply: “Applied to cgroup/for-7.1-fixes.” No NAKs or concerns
-found in the saved thread.
+Record: `b4 dig -c 51f57607e30be` found the original submission at
+`https://patch.msgid.link/20260514154108.1937-1-eric039eric@gmail.com`.
 
-Step 4.2 Record: `b4 dig -w` shows recipients included cgroup
-maintainers/list and docs list: `tj@kernel.org`, `hannes@cmpxchg.org`,
-`mkoutny@suse.com`, `cgroups@vger.kernel.org`, `corbet@lwn.net`,
-`skhan@linuxfoundation.org`, `linux-doc@vger.kernel.org`, `linux-
-kernel@vger.kernel.org`.
+Record: `b4 dig -a` found only v1 of a single-patch series. No newer
+unapplied revision found.
 
-Step 4.3 Record: no `Reported-by` or bug-report `Link:` tags. No syzbot,
-bugzilla, or user-impact bug report applies.
+Record: `b4 dig -w` showed recipients included Chen-Shi-Hong, Guenter
+Roeck, Jonathan Corbet, Shuah Khan, `linux-hwmon`, `linux-doc`, and
+`linux-kernel`.
 
-Step 4.4 Record: b4 found a standalone single-patch series, not part of
-a multi-patch dependency chain.
-
-Step 4.5 Record: web search did not find stable-list discussion for this
-exact patch. `WebFetch` to lore/patch.msgid was blocked by Anubis, but
-b4 successfully fetched the mbox.
+Record: The b4-fetched thread contains Guenter Roeck replying “Applied.”
+No NAKs, objections, or stable-specific nomination were found in that
+thread. Lore `WebFetch` was blocked by Anubis, but `b4` successfully
+retrieved the thread.
 
 ## Phase 5: Code Semantic Analysis
-Step 5.1 Record: no functions modified by the diff.
+Record: No code functions are modified.
 
-Step 5.2 Record: no callers affected by the diff. For documentation
-accuracy, I verified current `stable/linux-7.0.y` code has
-`commit_charge()` callers in `charge_memcg()`,
-`mem_cgroup_replace_folio()`, and `mem_cgroup_migrate()`.
+Record: Manual code tracing verified the documentation claim:
+`drivers/hwmon/sy7636a-hwmon.c` registers `HWMON_CHANNEL_INFO(temp,
+HWMON_T_INPUT)`. `drivers/hwmon/hwmon.c` formats temperature attributes
+with `temp%d_input`, and `hwmon_attr_base()` returns `1` for temperature
+sensors. Therefore the first temperature channel is `temp1_input`.
 
-Step 5.3 Record: no changed callees. The relevant current code has
-`commit_charge()` assigning `folio->memcg_data`, and callers also invoke
-`memcg1_commit_charge()` where appropriate.
+Record: Callers/callees are not applicable to the patch because it
+changes documentation only. The affected “path” is users reading the
+hwmon documentation.
 
-Step 5.4 Record: runtime reachability is not relevant because no
-executable code changes.
+Record: Similar pattern check found the generic hwmon documentation and
+many hwmon docs use `temp1_input`, supporting the correction.
 
-Step 5.5 Record: similar stale docs pattern exists in stable branches;
-however code state differs by branch. `6.19.y`/`7.0.y` have stale docs
-and no old API. `6.12.y` still has `mem_cgroup_commit_charge()` and
-`mem_cgroup_cancel_charge()` in code.
+## Phase 6: Stable Tree Analysis
+Record: `v5.15` does not contain `Documentation/hwmon/sy7636a-hwmon.rst`
+or `drivers/hwmon/sy7636a-hwmon.c`, so the patch is not applicable
+there.
 
-## Phase 6: Cross-Referencing And Stable Tree Analysis
-Step 6.1 Record: buggy stale documentation exists in
-`stable/linux-7.0.y`, `stable/linux-6.19.y`, `stable/linux-6.18.y`,
-`stable/linux-6.6.y`, `stable/linux-6.1.y`, `stable/linux-5.15.y`, and
-`stable/linux-5.10.y` by exact doc grep. I verified the old APIs are
-absent in several of those trees, but `stable/linux-6.12.y` still
-contains `mem_cgroup_commit_charge()` and `mem_cgroup_cancel_charge()`,
-so this exact upstream text is not universally correct for all
-maintained stable lines.
+Record: `v6.1`, `v6.6`, and `v6.12` contain the sy7636a driver and the
+wrong `temp0_input` documentation. `v7.0` contains the wrong attribute
+name with the newer “external NTC” text.
 
-Step 6.2 Record: `git apply --check` of the candidate diff succeeds on
-the current `stable/linux-7.0.y` checkout. Expected backport difficulty:
-clean for trees with matching doc context; branch-specific review needed
-for `6.12.y`.
+Record: The exact patch applies cleanly to the current
+`stable/linux-7.0.y` checkout. It does not apply cleanly to `v6.1` or
+`v6.6` because the surrounding description text differs before the later
+doc description fix; a trivial one-line context-adjusted backport is
+needed there.
 
-Step 6.3 Record: no related stable fix for this exact doc update found
-by local stable branch ancestry checks or web search.
+Record: No alternate fix for this exact documentation bug was found in
+local stable history.
 
-## Phase 7: Subsystem And Maintainer Context
-Step 7.1 Record: subsystem is cgroup-v1 memcg documentation.
-Criticality: peripheral/runtime-none; important only for documentation
-correctness.
+## Phase 7: Subsystem Context
+Record: Subsystem is hwmon documentation. Criticality is low for
+runtime, but it documents a userspace-visible sysfs ABI path for sy7636a
+hardware users.
 
-Step 7.2 Record: cgroup and memcg areas are active; recent
-`origin/master` history includes multiple cgroup/mm fixes. The candidate
-was applied by the cgroup maintainer.
+Record: The sy7636a hwmon files have low churn and only a handful of
+targeted fixes since introduction.
 
-## Phase 8: Impact And Risk Assessment
-Step 8.1 Record: affected population is documentation readers and
-developers/admins consulting old cgroup-v1 memcg internals. No kernel
-runtime users are affected.
+## Phase 8: Impact And Risk
+Record: Affected population is sy7636a hardware users and anyone writing
+scripts or instructions based on
+`Documentation/hwmon/sy7636a-hwmon.rst`.
 
-Step 8.2 Record: trigger condition is reading or relying on the stale
-documentation. Unprivileged users cannot trigger a kernel failure
-because there is no runtime behavior.
+Record: Trigger is reading/following the documentation. If followed
+literally, users look for a non-existent `temp0_input` instead of the
+actual `temp1_input`.
 
-Step 8.3 Record: failure mode is incorrect documentation. Severity: LOW.
-It can mislead developers/admins, but it does not fix crash, corruption,
-leak, deadlock, or security behavior.
+Record: Failure severity is LOW: documentation/user guidance bug, not a
+kernel crash or data corruption issue.
 
-Step 8.4 Record: benefit is low but real for documentation correctness,
-especially because the stable rules exception allows
-documentation/comment fixes and runtime risk is zero. Risk is very low
-for branches whose code matches the new text; risk is documentation-
-regression risk if applied to a branch like `6.12.y` where cancellation
-APIs still exist.
+Record: Benefit is modest but real: correct stable documentation for a
+userspace-visible hwmon attribute. Risk is effectively zero: one
+documentation line, no code, no ABI change.
 
 ## Phase 9: Final Synthesis
-Step 9.1 Record: evidence for backporting: tiny docs-only patch;
-corrects verified stale references in current `7.0.y` and `6.19.y`;
-applied by cgroup maintainer; no runtime regression risk; documentation
-fixes are allowed. Evidence against: no runtime bug or user-visible
-stability issue; not correct for every stable branch, specifically
-verified `6.12.y` still has the old commit/cancel APIs. Unresolved: I
-did not exhaustively validate every maintained stable branch’s memcg API
-state.
+Evidence for backporting: verified documentation is wrong; verified
+driver/core generate `temp1_input`; patch is one-line documentation-
+only; hwmon maintainer applied it; documentation fixes are an allowed
+stable exception with no runtime regression risk.
 
-Step 9.2 Stable rules checklist:
-1. Obviously correct and tested? Yes for matching-code branches;
-   verified by code grep, `git diff --check`, and `git apply --check` on
-   `7.0.y`.
-2. Fixes a real bug that affects users? It fixes incorrect
-   documentation, not runtime behavior.
-3. Important issue? No runtime severity; LOW documentation correctness
-   issue.
-4. Small and contained? Yes, 6-line docs-only diff in one file.
-5. No new features or APIs? Yes.
-6. Can apply to stable trees? Yes to at least current `7.0.y`; should
-   not be applied blindly to `6.12.y`.
+Evidence against backporting: it is not a serious runtime bug, security
+issue, crash, or data corruption fix. Older stable trees before the
+sensor-description doc change need a trivial context adjustment.
 
-Step 9.3 Record: exception category is documentation fix.
-
-Step 9.4 Decision: backport is acceptable for stable trees whose memcg
-implementation no longer has charge cancellation APIs. It should be
-excluded from trees like `6.12.y` where the old APIs still exist. With
-that branch-selection caveat, this qualifies under the documentation-fix
-exception.
+Stable rules checklist: obviously correct, yes; fixes a real
+documentation bug, yes; important runtime issue, no; small and
+contained, yes; no new feature/API, yes; stable applicability, yes for
+v7.0 cleanly and older applicable with minor backport adjustment.
+Exception category: documentation fix.
 
 Verification:
-- [Phase 1] Parsed candidate commit
-  `d8769544bde51b0ac980d10f8fe9f9fed6c95995`: only two Signed-off-by
-  tags, no bug/report/stable tags.
-- [Phase 2] `git show --stat --patch`: confirmed one docs file, `2
-  insertions(+), 4 deletions(-)`.
-- [Phase 3] `git show 1d8f136a421f...`: confirmed referenced commit
-  removed `mem_cgroup_commit_charge()` and `mem_cgroup_cancel_charge()`
-  from mainline code.
-- [Phase 3] `git log origin/master --grep`: found candidate and merge
-  via `cgroup-for-7.1-rc2-fixes`.
-- [Phase 4] `b4 dig`: found lore thread and exact patch-id match.
-- [Phase 4] `b4 dig -a`: only v1 single-patch series.
-- [Phase 4] `b4 dig -w`: relevant cgroup and docs maintainers/lists were
-  included.
-- [Phase 4] Saved mbox: confirmed Tejun replied “Applied to
-  cgroup/for-7.1-fixes”; no NAKs or stable nomination found.
-- [Phase 5] `rg`/`git grep`: confirmed current code uses
-  `commit_charge()` and no longer has old API names in `7.0.y`.
-- [Phase 6] `git apply --check`: candidate applies cleanly to current
-  `7.0.y`.
-- [Phase 6] Branch checks: `6.12.y` still has
-  `mem_cgroup_commit_charge()` and `mem_cgroup_cancel_charge()`, so this
-  patch must not be applied there unchanged.
-- [Phase 8] Runtime impact verified as none because only
-  `Documentation/admin-guide/cgroup-v1/memcg_test.rst` changes.
+- [Phase 1] Parsed exact commit `51f57607e30be` from `origin/master` and
+  confirmed tags/message.
+- [Phase 2] Inspected exact diff: one doc line changes `temp0_input` to
+  `temp1_input`.
+- [Phase 3] `git blame` confirmed `temp0_input` came from
+  `de34a40532507`; ancestry checks place it first in v5.18.
+- [Phase 4] `b4 dig` found the original patch; `b4 dig -a` showed v1
+  only; `b4 dig -w` showed appropriate hwmon/doc recipients; b4 mbox
+  showed Guenter replied “Applied.”
+- [Phase 5] Read sy7636a driver and hwmon core; confirmed first
+  temperature channel is named `temp1_input`.
+- [Phase 6] Checked `v5.15`, `v6.1`, `v6.6`, `v6.12`, and `v7.0`
+  content; exact patch applies to current 7.0 stable, not directly to
+  v6.1/v6.6 due context.
+- [Phase 8] Confirmed no runtime code changes, so regression risk is
+  zero.
+
+This should be backported where the sy7636a documentation exists, with
+trivial context adjustment for older trees as needed.
 
 **YES**
 
- Documentation/admin-guide/cgroup-v1/memcg_test.rst | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ Documentation/hwmon/sy7636a-hwmon.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/cgroup-v1/memcg_test.rst b/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-index 9f8e27355cba5..7c7cd457cf695 100644
---- a/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-+++ b/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-@@ -47,21 +47,19 @@ Please note that implementation details can be changed.
- 	  Called when swp_entry's refcnt goes down to 0. A charge against swap
- 	  disappears.
+diff --git a/Documentation/hwmon/sy7636a-hwmon.rst b/Documentation/hwmon/sy7636a-hwmon.rst
+index 0143ce0e5db76..03d866aba6e81 100644
+--- a/Documentation/hwmon/sy7636a-hwmon.rst
++++ b/Documentation/hwmon/sy7636a-hwmon.rst
+@@ -22,5 +22,5 @@ The following sensors are supported
+ sysfs-Interface
+ ---------------
  
--3. charge-commit-cancel
-+3. charge-commit
- =======================
- 
- 	Memcg pages are charged in two steps:
- 
- 		- mem_cgroup_try_charge()
--		- mem_cgroup_commit_charge() or mem_cgroup_cancel_charge()
-+		- commit_charge()
- 
- 	At try_charge(), there are no flags to say "this page is charged".
- 	at this point, usage += PAGE_SIZE.
- 
- 	At commit(), the page is associated with the memcg.
- 
--	At cancel(), simply usage -= PAGE_SIZE.
--
- Under below explanation, we assume CONFIG_SWAP=y.
- 
- 4. Anonymous
+-temp0_input
++temp1_input
+ 	- Temperature of external NTC (milli-degree C)
 -- 
 2.53.0
 
