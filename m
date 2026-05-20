@@ -1,263 +1,219 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7341A1A316E;
-	Wed, 20 May 2026 02:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779243669; cv=none; b=RuwhBDpGO3MQH2wyb2nQko5bWPnNzsOFfPwBzTSpP4IKk9qUvDnMDRoGR4t3TshCv2V/BMwcmOqSqGSzQTaJfzpP9VvJ2eKMGoGKxDHwYKNpQP2A1vObBaBQdtJSyihvTFd9tmThjAeCRxxN500IhXCSZjlO2jn9bv9EGM0zkM0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779243669; c=relaxed/simple;
-	bh=bIiAeNc0kLVkgd2sIX5UveMV06ZOweT+UMo4nbdCSFM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CBZChsAMyFEe9XtKSxhlPs4zZO6/BozigWac4kB3P5XeareeJCxuWYWRdRZgJl4s4Ubv47oKYF+nMQiHeJIgWSO/7ZH+xzDqL8pU+yM7XFuwtFKh76be6MbiQuKQ6D9q6jFv6TU4OSMKs+6Xa3oKfDyenLQlHAA9I/4F9zrWTwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=flpDURmk; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264B33321C1
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 03:12:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779246744; cv=pass; b=CsMiNKfY0olaBagVtAupGcgEIYRgaD10jeYRDt/Rp3n0C02MPFxmKSw9AIHpwTIPD3AcrUYpIt8oD1kO5RtDfyez0SKf58joGBa0TXLPv6ykuIDcdtgfcBpzztkpfQ8jvErN4UAThGzrFlDbprhqW4H6uA78a/oklTU4Uas1Nyc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779246744; c=relaxed/simple;
+	bh=31w5bysxtSHbCjagIfc69GHYMAiXOOKtv+UCMGhiGQY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UgA5m1kIFZGg/AJezzs72dM/426XmDTaGpRaiZ6FMwClH31JUiincudmN7bjsMDV/9OS86mHjI2mcKqNtwg5YPqpL5t40cvvD1Pbr2vsQF3bRAgxJJdm1k+R96KG8FZeOnr8US9tiQAUzryft7WvsQlMRsQURQGuAtBZfTdpKcA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YeoyhOPV; arc=pass smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="flpDURmk"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=PevU0F4jjnAvB4UOXaVhivaHCS4EgFrG2FIPKpLHig4=;
-	b=flpDURmkkSiE4eh0L3avYFvpkgh1mVtXfvsyipIUPfwmQXsCdaMUKT9eeh5b+2/gfXOGN4v3c
-	a5XRrafLzolSL8grN+yowUweQaNGL5nQCva8Ax9sS2PLc6s2/sRHGH/ufdHiapTSVUJeMYH30ou
-	5kYQuMae+60uxr6Ieuek5mI=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4gKw7G6T8dzLlTC;
-	Wed, 20 May 2026 10:13:14 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id AD994402AB;
-	Wed, 20 May 2026 10:20:55 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
- (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 20 May
- 2026 10:20:54 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <punit.agrawal@oss.qualcomm.com>,
-	<jic23@kernel.org>, <osama.abdelkader@gmail.com>, <chenl311@chinatelecom.cn>,
-	<fengchengwen@huawei.com>, <suzuki.poulose@arm.com>, <maz@kernel.org>,
-	<lpieralisi@kernel.org>, <timothy.hayes@arm.com>, <sascha.bischoff@arm.com>,
-	<arnd@arndb.de>, <mrigendra.chaubey@gmail.com>, <pierre.gondois@arm.com>,
-	<dietmar.eggemann@arm.com>, <yangyicong@hisilicon.com>,
-	<sudeep.holla@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH v3] cpu/hotplug: Fix NULL kobject warning in cpuhp_smt_enable()
-Date: Wed, 20 May 2026 10:20:23 +0800
-Message-ID: <20260520022023.126670-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YeoyhOPV"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bce57c132b2so1023475366b.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 20:12:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779246741; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fVAidqFhPsTtzxZ3RTPjoMTwHYaXHqIgn2whFrpq1ir4cAFMOPzQA1d4qzCg0kBMJH
+         ULjlnnj959lP3t+72A03PN/IGWWOokJQX2T7b6iQ5ncH6lR+H+VWz4CDR2De5OKvR1H/
+         H9me56AUN3c71MFNRQMiAt4PAYSUaBt7zVPqMhLeF51cyKxs0INrXyQ+C+BfJ5jbYS6W
+         Q7H2g54TQVFuRyolo9cNRNgq/uBb+iqDp+IOClkj34kWz/0N+z+s5O4672/dyCJrx/+a
+         p5W1FvTIollZb/WMlPRJSqq7z5yVlMiZ4cjShnuB0dxAXp7qg48ZooTR72eaj70NIp4f
+         bzhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=31w5bysxtSHbCjagIfc69GHYMAiXOOKtv+UCMGhiGQY=;
+        fh=pVTurRIXtwbBKx+spXnQx8EVJhoj/EofpFKuXFXEH44=;
+        b=b0l4asx9f57DxHxqV61AWAA/5gYbEpmCN4RI7/zyfE+/8QslAat/F6XL4UlB1aipor
+         2m2+Q9WNjz/Jsir8g9h0hPNUqbPj9dIYUhmbMQbzJ48rn+Wl8p4TV1w/7dAKnIyRRZCg
+         G3TO9pSDJ6WVv8zgLNnEInIAVlhzemkkwTKGLxSAsVCDil38cT08nqC9KXP7NhX7hIO4
+         JNAEh+tqe0H6mcZ00/6GwfZ97qUxxS6ByJKGmc3HHgg09NzBMFKlVXuEyB8FArNNEeDx
+         uEqZhJaUyLheDNVBiC2+vkLCTKzv00eXiaxaH8zGg5x+HqR4Ulj23AbkoZ50Ph1UQxGR
+         HgqA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779246741; x=1779851541; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=31w5bysxtSHbCjagIfc69GHYMAiXOOKtv+UCMGhiGQY=;
+        b=YeoyhOPV5sKrbofkwxsSxP3WPdccEUSvVpdmOdwbfcxgzaur8OSMmUykKafMs7HiNd
+         XuT2BOJmZNbSD/b5QhYrvbJN7SZ7puEVsuf/XIS1vXO4IFc5UVx2PDdiN6NvLyJEZHki
+         o6PFpUCWYPkodJ1Tr5UzX18EP4LqGHnkAj/R9+aUgepEX4cnDMcp5dADgCavEsZJxZWJ
+         0UJo6kx/sYDHD4SFuPkwDJZW7hTcaN3QfD+7s0p8YZaMTlT/q4/miW4/yINShwjbbmK6
+         d5wfRKYGdMsMthoyzRtN1qaiwFg5/Mqq/BEt3TSiulqdWJ/Xntw85YA5Ev+s7weaJbta
+         kmHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779246741; x=1779851541;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=31w5bysxtSHbCjagIfc69GHYMAiXOOKtv+UCMGhiGQY=;
+        b=U/ma2hF3B/zUqrf7FFbYJ5kRddyyieB0fg39xPcdFJ1R7K0mpZEmTvcHpHtSyJLzCE
+         l3OieOw8u8eS1WJccxxBThX80B6mkEgu5Z8fe0jTWcqq4mwYf8XaP6HmSU79Sn4B4wFG
+         gf3L1rKCOLVrg3Zp7JQh1/tOxM8IlfBtml82qRSP0P+8XNwHEHs0sECnRzUqjgW35bvY
+         9Q5dz3rEt+JkUeI/PHZiPleatiALOAqN/IYFbSAmakInxo2G4qpZJUoJUPr23LfPYdTN
+         V1RLRzNCqwklzuHKqbFgGCwDMWw7bGRZLTHKRaSFMPdPxzBzlkRZ1uaOtFDRWRzoOjpp
+         qQVg==
+X-Forwarded-Encrypted: i=1; AFNElJ+KVsMS0VypTArB+tooHzNtG5HmH9bENUWImmiQLFpBytcz3NlZdAuIH4DGYdIoMhhXyEpsLILSivQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywjjbmx1Bqn4I85oxe9UNFlgxAKpyXVsZRRHRS1s0tyJ7M2QBYl
+	Z0f8nC4s+2lf0/TJqEICYPBfBPrXUWwXKJgO5TC7bl7bX+z9fGoPdPRWa+Y/KMjkS2kmUx1chX7
+	ARFZ3n3W5EXqziwH00eZwEBmElp5qA+s=
+X-Gm-Gg: Acq92OH+JDgTALy8ayZdpw3asxMWoKJTAkZSG78tZj3yVzQt7jAEAPviVLG/4BL7Bd8
+	Qef+fN7WGeFYDxeLCd3WZ34i0oz9PSloCQr4doIWrCXAaEMu/Ldjkhq4Jj8tEmK+mRveJy/xDe1
+	7UOzAnaYh4UrliDGG3ktvMkmBUj+/VBHQRzgwwYOuSiOkgWa7ZvWycPu8o+ve/P74WNNV+J87bN
+	2Bhv0K5SG+WacDIU7TU0sbIrqsGTvXy4g6R+azIJDMPCPU5YL7D8WALzc7qi4YFGbSt4CwrWgxN
+	puJNvaY1wy2+2DNBt2pctNQhfurLNw2ksFOO4eTMLg==
+X-Received: by 2002:a17:907:1888:b0:bda:24df:21c with SMTP id
+ a640c23a62f3a-bda24df0842mr166491266b.17.1779246741329; Tue, 19 May 2026
+ 20:12:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+References: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com> <20260516182556.66af27a9c63208435911990b@uniroma2.it>
+In-Reply-To: <20260516182556.66af27a9c63208435911990b@uniroma2.it>
+From: Yuya Kusakabe <yuya.kusakabe@gmail.com>
+Date: Wed, 20 May 2026 12:12:08 +0900
+X-Gm-Features: AVHnY4KTNuJSbb9D4nUNQUegv6_rAFJNR8Egb-FQK8FpKvIA1CC8ZYCh7vjvMDc
+Message-ID: <CAGCJULPdm8jbveZsUm467_LBHRf5g=Jqd=XvCVKdNE1F2U99jg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] seg6: add SRv6 Mobile User Plane (RFC 9433) behaviors
+To: Andrea Mayer <andrea.mayer@uniroma2.it>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Justin Iurman <justin.iurman@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org, stefano.salsano@uniroma2.it, ahabdels@cisco.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On arm64, when booting with `maxcpus` greater than the number of present
-CPUs (e.g., QEMU -smp cpus=4,maxcpus=8), some CPUs are marked as 'present'
-but have not yet been registered via register_cpu(). Consequently,
-the per-cpu device objects for these CPUs are not yet initialized.
+On Sun, May 17, 2026 at 1:26=E2=80=AFAM Andrea Mayer <andrea.mayer@uniroma2=
+.it> wrote:
+> RFC 9433 Section 6 is titled "SRv6 Segment Endpoint Mobility Behaviors",
+> but Section 6.7 defines H.M.GTP4.D as "SR Policy Headend with tunnel
+> decapsulation and map to an SRv6 policy". This behavior receives IPv4
+> packets and is not bound to any SID, so it does not fit the endpoint
+> model that seg6_local implements. Placing it there required relaxing the
+> ETH_P_IPV6 guard to accept ETH_P_IP and adding input_family to
+> seg6_action_desc, for a single behavior that does not share the endpoint
+> model.
+>
+> seg6_local is not the natural place for this behavior. The UAPI cannot
+> be undone once merged, so where it should live needs discussion on the
+> list before we proceed.
+>
+> Given the volume, moving the MUP code into a separate seg6_mobile.c
+> (say CONFIG_IPV6_SEG6_MUP) would keep seg6_local focused on the RFC
+> 8986 endpoint framework.
 
-In cpuhp_smt_enable(), the code iterates over all present CPUs. Calling
-_cpu_up() for these unregistered CPUs eventually leads to
-sysfs_create_group() being called with a NULL kobject (or a kobject
-without a directory), triggering the following warning in
-fs/sysfs/group.c:
+I will move the MUP code out of seg6_local into a new
+net/ipv6/seg6_mobile.c under a new Kconfig symbol, and register the
+behaviors under a new lwtunnel encap type rather than
+LWTUNNEL_ENCAP_SEG6_LOCAL.
 
-	if (WARN_ON(!kobj || (!update && !kobj->sd)))
-		return -EINVAL;
+For naming I was thinking CONFIG_IPV6_SEG6_MOBILE and
+LWTUNNEL_ENCAP_SEG6_MOBILE to match the file name, but I have no strong
+preference over CONFIG_IPV6_SEG6_MUP if the list prefers that.
 
-When booting with ACPI, arm64 smp_prepare_cpus() currently sets all
-enumerated CPUs as "present" regardless of their status in the MADT. This
-causes issues with SMT hotplug control. For instance, with QEMU's
-"-smp 4,maxcpus=8" configuration, the MADT GICC entries are populated as
-follows: the first four CPUs are marked Enabled while the remaining four
-are marked Online Capable to support potential hot-plugging.
+Once LWTUNNEL_ENCAP_SEG6_MOBILE is its own encap type, it feels
+natural to me to put H.M.GTP4.D there too rather than adding a
+separate LWTUNNEL_ENCAP_SEG6_MOBILE_HEADEND. What do you think?
 
-Fix this by:
+> I think this patchset should be broken into smaller patchsets, one per
+> behavior, each with the behavior, its selftest, and any needed helpers as
+> separate patches. The same approach was used for End.DT4/End.DT6 and
+> End.DT46. End.M.GTP4.E alone is ~1.2k lines in a single diff.
 
-1. When booting with ACPI, checking the ACPI_MADT_ENABLED flag in the GICC
-   entry before calling set_cpu_present() during SMP initialization.
+Will do, following the End.DT4/End.DT6/End.DT46 model: one patchset
+per behavior, with the behavior, helpers, and selftest as separate
+patches. The new code will be aligned with seg6_local.c style as
+part of this rework.
 
-2. Properly managing the present mask in acpi_map_cpu() and
-   acpi_unmap_cpu() to support actual CPU hotplug events, This aligns with
-   other architectures like x86 and LoongArch.
+> The series reuses SEG6_LOCAL_NH6, SEG6_LOCAL_SRH and SEG6_LOCAL_OIF with
+> semantics that differ from the existing behaviors. NH6 today means
+> next-hop in End.X/DX6. This series reuses it as DA replacement in
+> End.MAP and as prefix template in H.M.GTP4.D.
+> SRH is inserted verbatim in End.B6/B6.Encaps but augmented per-packet in
+> the mobile behaviors. These attributes have established UAPI semantics
+> from their existing behaviors. Giving them a different meaning in new
+> behaviors is a UAPI semantic divergence.
 
-3. Update the arm64 CPU hotplug documentation to no longer state that all
-   online-capable vCPUs are marked as present by the kernel at boot time.
+The mobile behaviors will define their own SEG6_MOBILE_* attribute
+namespace under LWTUNNEL_ENCAP_SEG6_MOBILE, with no reuse of any
+SEG6_LOCAL_* attribute. That keeps the established SEG6_LOCAL_*
+semantics untouched.
 
-This ensures that only physically available or explicitly enabled CPUs
-are in the present mask, keeping the SMT control logic consistent with
-the actual hardware state.
+> The selftests use OIF on all five GTP behaviors to select a VRF for the
+> lookup, but that is what TABLE and VRFTABLE are for (End.DT4, End.DT6).
+> OIF in the existing behaviors means output interface (End.X) or L2
+> egress device (End.DX2). VRF support is a nice-to-have that can be added
+> later as a separate optional attribute.
 
-How to reproduce:
+I will drop VRF support from the initial behaviors and revisit it
+later as a separate optional attribute.
 
-	1. echo off > /sys/devices/system/cpu/smt/control
-		psci: CPU1 killed (polled 0 ms)
-		psci: CPU3 killed (polled 0 ms)
+> The user-facing parameter names and their semantics are defined in the
+> iproute2 series (where the man page lives), so that is probably the
+> better place to discuss keyword choices and attribute naming.
 
-	2. echo 2 > /sys/devices/system/cpu/smt/control
+Thanks for the pointer.
 
-	Detected PIPT I-cache on CPU1
-	GICv3: CPU1: found redistributor 1 region 0:0x00000000080c0000
-	CPU1: Booted secondary processor 0x0000000001 [0x410fd082]
-	Detected PIPT I-cache on CPU3
-	GICv3: CPU3: found redistributor 3 region 0:0x0000000008100000
-	CPU3: Booted secondary processor 0x0000000003 [0x410fd082]
-	------------[ cut here ]------------
-	WARNING: fs/sysfs/group.c:137 at internal_create_group+0x41c/0x4bc, CPU#2: sh/181
-	Modules linked in:
-	CPU: 2 UID: 0 PID: 181 Comm: sh Not tainted 7.0.0-rc1-00010-g8d13386c7624 #142 PREEMPT
-	Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
-	pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-	pc : internal_create_group+0x41c/0x4bc
-	lr : sysfs_create_group+0x18/0x24
-	sp : ffff80008078ba40
-	x29: ffff80008078ba40 x28: ffff296c980ad000 x27: ffff00007fb94128
-	x26: 0000000000000054 x25: ffffd693e845f3f0 x24: 0000000000000001
-	x23: 0000000000000001 x22: 0000000000000004 x21: 0000000000000000
-	x20: ffffd693e845fc10 x19: 0000000000000004 x18: 00000000ffffffff
-	x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-	x14: 0000000000000358 x13: 0000000000000007 x12: 0000000000000350
-	x11: 0000000000000008 x10: 0000000000000407 x9 : 0000000000000400
-	x8 : ffff00007fbf3b60 x7 : 0000000000000000 x6 : ffffd693e845f3f0
-	x5 : ffff00007fb94128 x4 : 0000000000000000 x3 : ffff000000f4eac0
-	x2 : ffffd693e7095a08 x1 : 0000000000000000 x0 : 0000000000000000
-	Call trace:
-	 internal_create_group+0x41c/0x4bc (P)
-	 sysfs_create_group+0x18/0x24
-	 topology_add_dev+0x1c/0x28
-	 cpuhp_invoke_callback+0x104/0x20c
-	 __cpuhp_invoke_callback_range+0x94/0x11c
-	 _cpu_up+0x200/0x37c
-	 cpuhp_smt_enable+0xbc/0x114
-	 control_store+0xe8/0x1d4
-	 dev_attr_store+0x18/0x2c
-	 sysfs_kf_write+0x7c/0x94
-	 kernfs_fop_write_iter+0x128/0x1b8
-	 vfs_write+0x2b0/0x354
-	 ksys_write+0x68/0xfc
-	 __arm64_sys_write+0x1c/0x28
-	 invoke_syscall+0x48/0x10c
-	 el0_svc_common.constprop.0+0x40/0xe8
-	 do_el0_svc+0x20/0x2c
-	 el0_svc+0x34/0x124
-	 el0t_64_sync_handler+0xa0/0xe4
-	 el0t_64_sync+0x198/0x19c
-	---[ end trace 0000000000000000 ]---
+> We could think about a prep patch introducing SRv6-level drop reasons
+> (SEG6_INVALID_SRH, SEG6_HMAC, etc.) that both the existing behaviors and
+> the MUP ones can share.
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Jonathan Cameron <jic23@kernel.org>
-Cc: James Morse <james.morse@arm.com>
-Cc: Yicong Yang <yangyicong@hisilicon.com>
-Cc: stable@vger.kernel.org
-Link: https://uefi.org/specs/ACPI/6.5/05_ACPI_Software_Programming_Model.html#gic-cpu-interface-gicc-structure
-Fixes: eed4583bcf9a6 ("arm64: Kconfig: Enable HOTPLUG_SMT")
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
-v3:
-- Update the arm64 cpu-hotplug documentation as Catalin suggested.
-- Update the commit message.
-v2:
-- Update the fix way.
----
- Documentation/arch/arm64/cpu-hotplug.rst | 11 +++++++----
- arch/arm64/kernel/acpi.c                 |  2 ++
- arch/arm64/kernel/smp.c                  | 12 +++++++++++-
- 3 files changed, 20 insertions(+), 5 deletions(-)
+Good idea. The prep patchset would introduce the SRv6-level reasons
+(SEG6_INVALID_SRH, SEG6_HMAC, ...) and convert the existing seg6_local
+and seg6_iptunnel call sites to use them. The mobile-specific reasons
+(BAD_SID, BAD_GTPU) would then be added together with the first
+behavior that uses them and reused by subsequent behaviors. NOMEM and
+MTU_EXCEEDED would be dropped in favor of the existing generic
+reasons, and the current INVALID_SRH_SL / BAD_INNER misuses would be
+replaced by the new SRv6-level reasons from the prep patchset.
 
-diff --git a/Documentation/arch/arm64/cpu-hotplug.rst b/Documentation/arch/arm64/cpu-hotplug.rst
-index 8fb438bf7781..60f7f51d7b96 100644
---- a/Documentation/arch/arm64/cpu-hotplug.rst
-+++ b/Documentation/arch/arm64/cpu-hotplug.rst
-@@ -47,8 +47,9 @@ ever have can be described at boot. There are no power-domain considerations
- as such devices are emulated.
- 
- CPU Hotplug on virtual systems is supported. It is distinct from physical
--CPU Hotplug as all resources are described as ``present``, but CPUs may be
--marked as disabled by firmware. Only the CPU's online/offline behaviour is
-+CPU Hotplug as all resources are described in the static configuration tables,
-+but vCPUs that are not enabled at boot are not marked as ``present`` by the
-+kernel until they are hotplugged. Only the CPU's online/offline behaviour is
- influenced by firmware. An example is where a virtual machine boots with a
- single CPU, and additional CPUs are added once a cloud orchestrator deploys
- the workload.
-@@ -68,8 +69,10 @@ redistributors.
- 
- CPUs described as ``online capable`` but not ``enabled`` can be set to enabled
- by the DSDT's Processor object's _STA method. On virtual systems the _STA method
--must always report the CPU as ``present``. Changes to the firmware policy can
--be notified to the OS via device-check or eject-request.
-+must report the CPU as ``present`` when it is activated by the firmware.
-+The kernel will then set the vCPU as ``present`` dynamically during the hotplug
-+configuration process. Changes can be notified to the OS via device-check or
-+eject-request.
- 
- CPUs described as ``enabled`` in the static table, should not have their _STA
- modified dynamically by firmware. Soft-restart features such as kexec will
-diff --git a/arch/arm64/kernel/acpi.c b/arch/arm64/kernel/acpi.c
-index 5891f92c2035..681aa2bbc399 100644
---- a/arch/arm64/kernel/acpi.c
-+++ b/arch/arm64/kernel/acpi.c
-@@ -448,12 +448,14 @@ int acpi_map_cpu(acpi_handle handle, phys_cpuid_t physid, u32 apci_id,
- 		return *pcpu;
- 	}
- 
-+	set_cpu_present(*pcpu, true);
- 	return 0;
- }
- EXPORT_SYMBOL(acpi_map_cpu);
- 
- int acpi_unmap_cpu(int cpu)
- {
-+	set_cpu_present(cpu, false);
- 	return 0;
- }
- EXPORT_SYMBOL(acpi_unmap_cpu);
-diff --git a/arch/arm64/kernel/smp.c b/arch/arm64/kernel/smp.c
-index 1aa324104afb..5932e5b30b71 100644
---- a/arch/arm64/kernel/smp.c
-+++ b/arch/arm64/kernel/smp.c
-@@ -566,6 +566,11 @@ struct acpi_madt_generic_interrupt *acpi_cpu_get_madt_gicc(int cpu)
- }
- EXPORT_SYMBOL_GPL(acpi_cpu_get_madt_gicc);
- 
-+static bool acpi_cpu_is_present(int cpu)
-+{
-+	return acpi_cpu_get_madt_gicc(cpu)->flags & ACPI_MADT_ENABLED;
-+}
-+
- /*
-  * acpi_map_gic_cpu_interface - parse processor MADT entry
-  *
-@@ -670,6 +675,10 @@ static void __init acpi_parse_and_init_cpus(void)
- 		early_map_cpu_to_node(i, acpi_numa_get_nid(i));
- }
- #else
-+static bool acpi_cpu_is_present(int cpu)
-+{
-+	return false;
-+}
- #define acpi_parse_and_init_cpus(...)	do { } while (0)
- #endif
- 
-@@ -808,7 +817,8 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
- 		if (err)
- 			continue;
- 
--		set_cpu_present(cpu, true);
-+		if (acpi_disabled || acpi_cpu_is_present(cpu))
-+			set_cpu_present(cpu, true);
- 		numa_store_cpu_info(cpu);
- 	}
- }
--- 
-2.34.1
+Would you prefer to lead on the prep patchset yourself, or would you
+like me to prepare it?
 
+> Selftests for the five GTP behaviors heavily depend on python3 and scapy
+> heredocs embedded in the shell scripts for packet construction and
+> validation, which adds an external runtime dependency. A statically
+> compiled C helper would remove it and avoid embedding python heredocs
+> in shell scripts.
+> A few cases worth covering: SRH and no-SRH input paths where the
+> behavior accepts both, missing SRH where the behavior requires
+> it, malformed SRH, and invalid attribute values.
+
+I will replace the python3/scapy heredocs with a statically compiled
+C helper for packet construction and validation, and extend the
+selftests to cover the cases you mention (SRH / no-SRH input paths,
+missing SRH where required, malformed SRH, and invalid attribute
+values).
+
+> The dst problem is pre-existing from 7a3f5b0de364 ("netfilter: add
+> netfilter hooks to SRv6 data plane") and affects seg6_iptunnel too. Both
+> issues need a robust fix before this series can go in. I want to look at
+> this myself and will Cc you when I do, as the five new behaviors may need
+> to be adjusted on top.
+
+Thanks for taking that on. Given the cb/dst issues you described, I
+am inclined to drop NF_HOOK support from the initial mobile behaviors
+and add it in a follow-up patchset once your fix lands. The initial
+behaviors would then do a direct input -> output flow without the
+cb-context/finish-callback pattern, which avoids the issues entirely
+on day one and decouples this series from the pre-existing fix. Does
+that work for you, or would you prefer NF_HOOK to be present from the
+start and rebased on top of your fix?
+
+Thanks,
+Yuya
