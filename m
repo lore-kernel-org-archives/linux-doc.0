@@ -1,175 +1,307 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9A2382367;
-	Wed, 20 May 2026 22:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793DC3B8920;
+	Wed, 20 May 2026 22:11:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779314994; cv=none; b=U3+lgW4Rg0FT3MtQKikENZrQjcgM1Ipj8aIvNh3Sl4ZVO8wNjXGFZJv4PWk+z5KAjv7l/U+qSRiQj/9xakMx65tv9ErK9HVPmOKgSWBdqDPfRpi6hVzK1L41l31+JceOm22zaL+ojgxPqKdB6XDP1TfFRdl+dQAFamGd8diXazc=
+	t=1779315117; cv=none; b=eVyoVNiNwZ++MGEIG3IHM4+5M3Q9PaQGjQgomOMBQu30xwwXiEVBn3L3WKkR0LEv2v2Q+et5wFKtspQDxBh7bXlU1FK97Sr+NmtmwQjpn0DYAuXJSqg97oaph4GIvVjERGN8IJMxPC4/dTV/cmztMNhUkfHdn0EYoUcilGlSK7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779314994; c=relaxed/simple;
-	bh=sESrtnEkiukd957DKW4R4u+5NVgNWu0Rox+HVle5NOc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NxyYzPaY3KGdrYE/FWCSXcn7asTOrVzwKENTsld1VCP0IUvPuY/bHLZ5xqciF8kndgJMzyhoE5mlPggb+hBOu42N9Y+FDLn6iBgt+WGbp/BGH3cWpddQKqhyMXRv+yNK2tSPTqPWcFqxFPO9HAYmsp8g5Ey7D3IcGT6l2wSI6OE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JY/2N9wD; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1779315117; c=relaxed/simple;
+	bh=8luQpYpHEArlHeAmKrN95fhm+q2yTqUrReGzoJt0D1s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gXAqA4ZKqopw511XTmRo1eP7RhSYKDdOxm5IsrDlW5K72Hhfde82JQBPu4sk6op8OfgwhrB566uopfM85j+07oZ3HaSQ7T0IG3KjeBnYUB5QyoL53TBxrwThmQzAZOTXs5BHC+ah8lNZ9UtxCKrxkD/Dzt6g17/0N64REodwNuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hk2DzEnO; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JY/2N9wD"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 11CE84E42D0D;
-	Wed, 20 May 2026 22:09:49 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C1E7C60019;
-	Wed, 20 May 2026 22:09:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 76A47107EA218;
-	Thu, 21 May 2026 00:09:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1779314987; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=k2dpDAzX+92g0x+C7pCYldq5Fu4ePZOO/ElZAdhgYyk=;
-	b=JY/2N9wDK5+hiyRFaCppsT37VKYC9Nb9y01lTE4KuA22D047rlTEUb13AOGEQBmw5shxad
-	bkBRv1IIsJu521Nf/g5NSdRhNGYSiuqFIAoBPSKuvBespd5kKDCdFOQKU2Xe8OgbH9ZIc5
-	9zRB/XY9AYfzVdtXlWeYze5anzwAHpE6wdJSiCvF3ubWxOS6A5S1c8FXeN0t8ZQPe+fAlU
-	cHtJnkmvtBkFAXHPnni3F4ayWnS8oYf2GDI2gRtza2xRT+t/Aqwr9qKQpGssrS9EP1iDDM
-	i81ksRtKCdl/doxaT1whcP7dxFN0SmVTLDOjLQHNdvLalfptovkYBDiGRYz/kw==
-From: =?utf-8?q?Alexis_Lothor=C3=A9_=28eBPF_Foundation=29?= <alexis.lothore@bootlin.com>
-Date: Thu, 21 May 2026 00:09:11 +0200
-Subject: [PATCH bpf-next v2] bpf, docs: add LOAD_ACQUIRE and STORE_RELEASE
- instructions
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hk2DzEnO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=yqUTc95zaXzBCvNT6iyCp5NSrSJr7kPxrBu5IuNUhLo=; b=hk2DzEnOkPmw6uDWwtI5SKtmaF
+	Qp2HCq2BmdleB3skO3PGeFvUQgPzAsL3cl+IK/9i/ljFEWWrJBnR2csiywvddD3QTKYRXFUsGQwQ/
+	teFrfqbZYVecSUyuVJ+F934TBm2BfoaO+4WRUfvdA+ReTkyq3PDexyg7uSlySUQqVU2WgEdE1doCn
+	y+wR0zGVhrTuu8BEWB/dQvWukKiD37sk1waPzXgqD+5EAaJ0iSuDl3iNJc3ZBNythSKbaXcz1wUVc
+	evUJIV9OALldGCiiMTK+WLkUDfACXzvedH9sTk/Il0kRtRJAkgxarRi5pD88XsHQlFLVq7RVfhtBe
+	9xKXr7ow==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wPp3h-00000005vta-0sHy;
+	Wed, 20 May 2026 22:06:33 +0000
+Message-ID: <fec6554d-3639-4c27-9a14-3d3914c51588@infradead.org>
+Date: Wed, 20 May 2026 15:06:30 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260521-bpf-insn-doc-v2-1-8c43c037d599@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NzQ6CMBCEX4Xs2TVQBMST72E49GeRNdqStjYYw
- rsLePU4mW++mSGQZwpwyWbwlDiws2sQhwz0IO2dkM2aQeSiziuRoxp7ZBssGqexqWpV1q2WpTj
- DOhk99TztuhtspKUpQvdrwls9SMfNtrEDh+j8Z39Oxb74f5IKLLA5mcZII1vV66tyLj7ZHrV7Q
- bcsyxcx6oKexgAAAA==
-X-Change-ID: 20260520-bpf-insn-doc-756b369ca328
-To: David Vernet <void@manifault.com>, Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
- Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: ebpf@linuxfoundation.org, 
- Bastien Curutchet <bastien.curutchet@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, bpf@vger.kernel.org, 
- bpf@ietf.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Alexis_Lothor=C3=A9_=28eBPF_Foundation=29?= <alexis.lothore@bootlin.com>
-X-Mailer: b4 0.15.2
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] Introducing pw_lock() and per-cpu queue & flush
+ work
+To: Leonardo Bras <leobras.c@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Peter Zijlstra
+ <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Waiman Long <longman@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Brendan Jackman <jackmanb@google.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
+ Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, "Borislav Petkov (AMD)" <bp@alien8.de>,
+ Feng Tang <feng.tang@linux.alibaba.com>,
+ Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
+ Marco Elver <elver@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Li RongQing <lirongqing@baidu.com>, Eric Biggers <ebiggers@kernel.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Thomas Gleixner <tglx@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ Gary Guo <gary@garyguo.net>, Christian Brauner <brauner@kernel.org>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Coiby Xu <coxu@redhat.com>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-rt-devel@lists.linux.dev,
+ Marcelo Tosatti <mtosatti@redhat.com>
+References: <20260519012754.240804-1-leobras.c@gmail.com>
+ <20260519012754.240804-2-leobras.c@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260519012754.240804-2-leobras.c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Commit 880442305a39 ("bpf: Introduce load-acquire and store-release
-instructions") instroduced the LOAD_ACQUIRE and STORE_RELEASE atomic
-instructions modifiers. Those are currently not described in the
-documentation, despite being used in the verifier and the various JIT
-compilers supporting them.
 
-Add the missing entries in the instruction set documentation.
 
-Signed-off-by: Alexis Lothoré (eBPF Foundation) <alexis.lothore@bootlin.com>
----
-Changes in v2:
-- fix commit message typo
-- clarify zero-extension and registers meaning for LOAD_ACQ
-- clarify insn encoding for LOAD_ACQ and STORE_REL
-- Link to v1: https://patch.msgid.link/20260520-bpf-insn-doc-v1-1-74d7dada9bfc@bootlin.com
+On 5/18/26 6:27 PM, Leonardo Bras wrote:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c2c6d79275c6..7102031207c9 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -21775,20 +21775,27 @@ QORIQ DPAA2 FSL-MC BUS DRIVER
+>  M:	Ioana Ciornei <ioana.ciornei@nxp.com>
+>  L:	linuxppc-dev@lists.ozlabs.org
+>  L:	linux-kernel@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/ABI/stable/sysfs-bus-fsl-mc
+>  F:	Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml
+>  F:	Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
+>  F:	drivers/bus/fsl-mc/
+>  F:	include/uapi/linux/fsl_mc.h
+>  
+> +PW Locks
+> +M:	Leonardo Bras <leobras.c@gmail.com>
+> +S:	Supported
+> +F:	Documentation/locking/pwlocks.rst
+> +F:	include/linux/pwlocks.h
+> +F:	kernel/pwlocks.c
 
-To: David Vernet <void@manifault.com>
-To: Alexei Starovoitov <ast@kernel.org>
-To: Daniel Borkmann <daniel@iogearbox.net>
-To: Andrii Nakryiko <andrii@kernel.org>
-To: Martin KaFai Lau <martin.lau@linux.dev>
-To: Eduard Zingerman <eddyz87@gmail.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-To: Song Liu <song@kernel.org>
-To: Yonghong Song <yonghong.song@linux.dev>
-To: Jiri Olsa <jolsa@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: ebpf@linuxfoundation.org
-Cc: Bastien Curutchet <bastien.curutchet@bootlin.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Cc: bpf@vger.kernel.org
-Cc: bpf@ietf.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- .../bpf/standardization/instruction-set.rst        | 27 +++++++++++++++-------
- 1 file changed, 19 insertions(+), 8 deletions(-)
+MAINTAINERS entries should be in alphabetical order: PW is not in the
+middle of the Q entries.
 
-diff --git a/Documentation/bpf/standardization/instruction-set.rst b/Documentation/bpf/standardization/instruction-set.rst
-index 39c74611752b..e8b33374bd09 100644
---- a/Documentation/bpf/standardization/instruction-set.rst
-+++ b/Documentation/bpf/standardization/instruction-set.rst
-@@ -668,7 +668,8 @@ that use the ``ATOMIC`` mode modifier as follows:
-   part of the "atomic32" conformance group.
- * ``{ATOMIC, DW, STX}`` for 64-bit operations, which are
-   part of the "atomic64" conformance group.
--* 8-bit and 16-bit wide atomic operations are not supported.
-+* ``{ATOMIC, H, STX}`` (only for LOAD_ACQ/STORE_REL)
-+* ``{ATOMIC, B, STX}`` (only for LOAD_ACQ/STORE_REL)
- 
- The 'imm' field is used to encode the actual atomic operation.
- Simple atomic operation use a subset of the values defined to encode
-@@ -695,22 +696,24 @@ arithmetic operations in the 'imm' field to encode the atomic operation:
-   *(u64 *)(dst + offset) += src
- 
- In addition to the simple atomic operations, there also is a modifier and
--two complex atomic operations:
-+four complex atomic operations:
- 
- .. table:: Complex atomic operations
- 
-   ===========  ================  ===========================
-   imm          value             description
-   ===========  ================  ===========================
--  FETCH        0x01              modifier: return old value
--  XCHG         0xe0 | FETCH      atomic exchange
--  CMPXCHG      0xf0 | FETCH      atomic compare and exchange
-+  FETCH        0x0001            modifier: return old value
-+  XCHG         0x00e0 | FETCH    atomic exchange
-+  CMPXCHG      0x00f0 | FETCH    atomic compare and exchange
-+  LOAD_ACQ     0x0100            atomic load with barrier
-+  STORE_REL    0x0110            atomic store with barrier
-   ===========  ================  ===========================
- 
- The ``FETCH`` modifier is optional for simple atomic operations, and
--always set for the complex atomic operations.  If the ``FETCH`` flag
--is set, then the operation also overwrites ``src`` with the value that
--was in memory before it was modified.
-+always set for the ``XCHG`` and ``CMPXCHG`` complex atomic operations.  If
-+the ``FETCH`` flag is set, then the operation also overwrites ``src`` with
-+the value that was in memory before it was modified.
- 
- The ``XCHG`` operation atomically exchanges ``src`` with the value
- addressed by ``dst + offset``.
-@@ -721,6 +724,14 @@ The ``CMPXCHG`` operation atomically compares the value addressed by
- value that was at ``dst + offset`` before the operation is zero-extended
- and loaded back to ``R0``.
- 
-+The ``LOAD_ACQ`` and ``STORE_REL`` operations allow using lighter load and
-+store memory barriers rather than full barriers. The corresponding accesses
-+must be aligned, but are allowed for any access size (8-bit up to 64-bit
-+operations), with 8-bit and 16-bit ``LOAD_ACQ`` loaded values being
-+zero-extended. As atomics are encoded as stores, the meaning of dst and src
-+are different for ``LOAD_ACQ``, effectively using src as memory based
-+pointer and dst as destination register for the fetched value.
-+
- 64-bit immediate instructions
- -----------------------------
- 
+> +
+>  QT1010 MEDIA DRIVER
+>  L:	linux-media@vger.kernel.org
+>  S:	Orphan
+>  W:	https://linuxtv.org
+>  Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+>  F:	drivers/media/tuners/qt1010*
+>  
+>  QUALCOMM ATH12K WIRELESS DRIVER
+>  M:	Jeff Johnson <jjohnson@kernel.org>
+>  L:	linux-wireless@vger.kernel.org
 
----
-base-commit: ceeb3aa37bff895116944acf4347fcded0b7692d
-change-id: 20260520-bpf-insn-doc-756b369ca328
 
-Best regards,
---  
-Alexis Lothoré (eBPF Foundation) <alexis.lothore@bootlin.com>
+> diff --git a/Documentation/locking/pwlocks.rst b/Documentation/locking/pwlocks.rst
+> new file mode 100644
+> index 000000000000..09f4a5417bc1
+> --- /dev/null
+> +++ b/Documentation/locking/pwlocks.rst
+> @@ -0,0 +1,76 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=========
+> +PW (Per-CPU Work) locks
+> +=========
+
+Overline and underline should be at least as long as the heading text.
+
+> +
+> +Some places in the kernel implement a parallel programming strategy
+> +consisting on local_locks() for most of the work, and some rare remote
+> +operations are scheduled on target cpu. This keeps cache bouncing low since
+
+                            on a target CPU.
+
+> +cacheline tends to be mostly local, and avoids the cost of locks in non-RT
+> +kernels, even though the very few remote operations will be expensive due
+> +to scheduling overhead.
+> +
+> +On the other hand, for RT workloads this can represent a problem:
+> +scheduling work on remote cpu that are executing low latency tasks
+
+                             CPUs
+
+> +is undesired and can introduce unexpected deadline misses.
+
+      undesirable
+?
+
+> +
+> +PW locks help to convert sites that use local_locks (for cpu local operations)
+> +and queue_work_on (for queueing work remotely, to be executed
+> +locally on the owner cpu of the lock) to a spinlocks.
+
+                                         to spinlocks.
+
+> +
+> +The lock is declared pw_lock_t type.
+> +The lock is initialized with pw_lock_init.
+> +The lock is locked with pw_lock (takes a lock and cpu as a parameter).
+> +The lock is unlocked with pw_unlock (takes a lock and cpu as a parameter).
+> +
+> +The pw_lock_irqsave function disables interrupts and saves current interrupt state,
+> +cpu as a parameter.
+> +
+> +For trylock variant, there is the pw_trylock_t type, initialized with
+> +pw_trylock_init. Then the corresponding pw_trylock and pw_trylock_irqsave.
+> +
+> +work_struct should be replaced by pw_struct, which contains a cpu parameter
+> +(owner cpu of the lock), initialized by INIT_PW.
+> +
+> +The queue work related functions (analogous to queue_work_on and flush_work) are:
+> +pw_queue_on and pw_flush.
+> +
+> +The behaviour of the PW lock functions is as follows:
+> +
+> +* !CONFIG_PWLOCKS (or CONFIG_PWLOCKS and pwlocks=off kernel boot parameter):
+> +        - pw_lock:			local_lock
+> +        - pw_lock_irqsave:		local_lock_irqsave
+> +        - pw_trylock:			local_trylock
+> +        - pw_trylock_irqsave:		local_trylock_irqsave
+> +        - pw_unlock:			local_unlock
+> +        - pw_lock_local:		local_lock
+> +        - pw_trylock_local:		local_trylock
+> +        - pw_unlock_local:		local_unlock
+> +        - pw_queue_on:         		queue_work_on
+> +        - pw_flush:	            	flush_work
+> +
+> +* CONFIG_PWLOCKS (and CONFIG_PWLOCKS_DEFAULT=y or pwlocks=on kernel boot parameter),
+> +        - pw_lock:			spin_lock
+> +        - pw_lock_irqsave:		spin_lock_irqsave
+> +        - pw_trylock:			spin_trylock
+> +        - pw_trylock_irqsave:		spin_trylock_irqsave
+> +        - pw_unlock:			spin_unlock
+> +        - pw_lock_local:		preempt_disable OR migrate_disable + spin_lock
+> +        - pw_trylock_local:		preempt_disable OR migrate_disable + spin_trylock
+> +        - pw_unlock_local:		preempt_enable OR migrate_enable + spin_unlock
+> +        - pw_queue_on:         		executes work function on caller cpu
+> +        - pw_flush:            		empty
+> +
+> +pw_get_cpu(work_struct), to be called from within per-cpu work function,
+> +returns the target cpu.
+
+                      CPU.
+
+> +
+> +On the locking functions above, there are the local locking functions
+> +(pw_lock_local, pw_trylock_local and pw_unlock_local) that must only
+> +be used to access per-CPU data from the CPU that owns that data,
+> +and never remotely. They disable preemption/migration and don't require
+> +a cpu parameter, making them a replacement for local_lock functions that
+> +does not introduce overhead.
+> +
+> +These should only be used when accessing per-CPU data of the local CPU.
+> +
+
+Running "make htmldocs" with this patch says:
+
+Documentation/locking/pwlocks.rst: WARNING: document isn't included in any toctree [toc.not_included]
+
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 2937c4d308ae..3fb751dc4530 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -764,20 +764,55 @@ config CPU_ISOLATION
+>  	depends on SMP
+>  	default y
+>  	help
+>  	  Make sure that CPUs running critical tasks are not disturbed by
+>  	  any source of "noise" such as unbound workqueues, timers, kthreads...
+>  	  Unbound jobs get offloaded to housekeeping CPUs. This is driven by
+>  	  the "isolcpus=" boot parameter.
+>  
+>  	  Say Y if unsure.
+>  
+> +config PWLOCKS
+> +	bool "Per-CPU Work locks"
+> +	depends on SMP || COMPILE_TEST
+> +	default n
+> +	help
+> +	  Allow changing the behavior on per-CPU resource sharing with cache,
+> +	  from the regular local_locks() + queue_work_on(remote_cpu) to using
+> +	  per-CPU spinlocks on both local and remote operations.
+> +
+> +	  This is useful to give user the option on reducing IPIs to CPUs, and
+
+	                 to give the user
+
+> +	  thus reduce interruptions and context switches. On the other hand, it
+> +	  increases generated code and will use atomic operations if spinlocks
+> +	  are selected.
+> +
+> +	  If set, will use the default behavior set in PWLOCKS_DEFAULT unless boot
+
+	                                                               unless the boot
+
+> +	  parameter pwlocks is passed with a different behavior.
+> +
+> +	  If unset, will use the local_lock() + queue_work_on() strategy,
+> +	  regardless of the boot parameter or PWLOCKS_DEFAULT.
+> +
+> +	  Say N if unsure.
+> +
+> +config PWLOCKS_DEFAULT
+> +	bool "Use per-CPU spinlocks by default on PWLOCKS"
+> +	depends on PWLOCKS
+> +	default n
+> +	help
+> +	  If set, will use per-CPU spinlocks as default behavior for per-CPU
+> +	  remote operations.
+> +
+> +	  If unset, will use local_lock() + queue_work_on(cpu) as default
+> +	  behavior for remote operations.
+> +
+> +	  Say N if unsure
+
+	           unsure.
+
+> +
+>  source "kernel/rcu/Kconfig"
+>  
+>  config IKCONFIG
+>  	tristate "Kernel .config support"
+>  	help
+>  	  This option enables the complete Linux kernel ".config" file
+>  	  contents to be saved in the kernel. It provides documentation
+>  	  of which kernel options are used in a running kernel or in an
+>  	  on-disk kernel.  This information can be extracted from the kernel
+>  	  image file with the script scripts/extract-ikconfig and used as
+
+-- 
+~Randy
 
