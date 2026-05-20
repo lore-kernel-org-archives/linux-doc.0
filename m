@@ -1,280 +1,133 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7368F34CFD0;
-	Wed, 20 May 2026 19:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779305956; cv=pass; b=fvhwD+quVUx5ew9V4TKUwWFdgN5cmqqb6SSO6MetTQVm0hHkvtjzYuKvcb5blR8klWIgB/SmY3hbdUQEczfTjzFgb7nwOUHsLm11gS2fx0b2dkXqlDYzBJtBuveYHLrXUhd5tr9Y8CObjnTdBPXd7AzNLwI9sVvfegJJGyBOBDs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779305956; c=relaxed/simple;
-	bh=wa/eSO51cjVraGetzoLReZjL02YLBPGbKcEZ3wzjzZw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZlXMiGmmMlhNTObyM/2Lt4jcUNIMMN3nFdG6WWAFr9GQlw2ZFi0ctw+xYFX6htP1lyzUYnBW8d8hfmJGXqpgZWuskGpz6GqY2Vp83/0kMlJMkNKhGkmgyf64/McNP2SHsvQddilB+bulOyfgw7BUGBBUNH/L7JKCmcsqBe+3tRI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=dMfkET/J; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49A0346A1F;
+	Wed, 20 May 2026 19:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779306157; cv=none; b=N+mkI90HsrbM3OMqr1Ztdojrl6qbaeHOm2ObcOHBcN14UP6KoiCnXksiAyHzfYAEu0nhe/17ZlhYxcq6wvssV5tgRHg1wfsKgGvZUekPe5gCPnwEf7gUP6WuXWgRMzqB0uj7qEYsAzT6s/ogeIpjwf/1hfOeFyAsRk/+CQrGXzs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779306157; c=relaxed/simple;
+	bh=atsaRhAHzHNADhhVMahA5E1WNAHoBYGfqIH8Gnl36Ik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FD3OT+4c/gVQBKpn7cNkcFIAoczlLcFUcnr1Dvc54Ei1YgKlgilZ9Wtg8XRpybNDERO4+ylbp5LgFARKcKhFVF8Kjl5zFqEreJ7AfyKEVgCm+Y8cq6cA8lXrGk1J5fNx3HZKLwKGc0sU6vYJ9gO88f7i3que37uQEJi9wntl1EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eTPcgHhd; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="dMfkET/J"
-ARC-Seal: i=1; a=rsa-sha256; t=1779305929; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=j7WkbUzZxmK80/mpBtA/BGjr8nZm2Ri8U0HaFIy+AEPIFTv7pRE3tzHTZb34JC7ZtzoGLM58zxT9ntF0whAjsMmw3vNqPUc4zs8qGxd/UoOz3XI0mYaw6Y8cGdchenUbRNMtchmKhhGMixMI5q26daUq6dq/Th43e8WivJxY0kA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1779305929; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=WozJt0Sg1lqTUay3cOfibv54xoEopg26MgfL9FMGpwo=; 
-	b=kPv5hxmp4JznmV7jlWqG/f89rAmWAGegRQ36mypuHKO7yd3xLvNMeA8hxj3fagg1lDYeYDYDhNegjvyjSkgBwuDIACFKN6ppRvnAnw6JhnNjkT8Lgu3mksfBfDpL6ecP30mxVBQxlsVmGdD4UcOrXk69TJr9r9czVLvLrgVufmw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779305929;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=WozJt0Sg1lqTUay3cOfibv54xoEopg26MgfL9FMGpwo=;
-	b=dMfkET/JG4ZbtfaHpqg1InqY4oXWpN/PQqrJ/F3L/SDb62IbMs/KJfg4oWf5Pey1
-	LYR5oQceEGZiDaKN9uW3bBUEL45OZMvqzmOqzInbA2rH+5aRu0SyUy7v/b1wVdm91NW
-	d+1lqCQEzh5Qe3DXMOOAqD9eSLIvwfx0XT2UnZ9Y=
-Received: by mx.zohomail.com with SMTPS id 1779305926725287.99990591929713;
-	Wed, 20 May 2026 12:38:46 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] drm/fdinfo: Add "evicted" memory accounting
-Date: Wed, 20 May 2026 21:38:41 +0200
-Message-ID: <J0t78_M-TDCxz-OeUDvFdA@collabora.com>
-In-Reply-To: <7c7242b8-eb22-41b1-8f04-f7abda62bb28@ursulin.net>
-References:
- <20260520-panthor-bo-reclaim-observability-v4-0-a47ab61cb80d@collabora.com>
- <20260520-panthor-bo-reclaim-observability-v4-1-a47ab61cb80d@collabora.com>
- <7c7242b8-eb22-41b1-8f04-f7abda62bb28@ursulin.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eTPcgHhd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779306156; x=1810842156;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=atsaRhAHzHNADhhVMahA5E1WNAHoBYGfqIH8Gnl36Ik=;
+  b=eTPcgHhdLBsIVm0hN8HXSyNF6jtmiShzVNcQIDZgE4BD3pW0TBcA0mUN
+   wLdun13KxIfbFHDXbIlzYKQi+sngLqOBGjIvC5aNkhtpeS9Za9lLdBfNK
+   t4SrBBOqshUZCONWHUfvFBfLck2m5OIzjDfwXmAUv/8vf3FdeTK+3FcpS
+   AKmGPCHSNn6hM4Wrtl1GNFWV2YEKvdKF00sEHZTIlE7Gi+pZ9ropiJ+zu
+   h3Gvz7oNPh/kcmiU0lqD0j+nIEYWOMYeKJorQykYxh5PtOcwltWV56LE9
+   sF17a0Y52+ZoymFv3Qz7AGSvFxcoJBVvKlnoo1n+KhGJ4qZqdQ8+OCtd9
+   w==;
+X-CSE-ConnectionGUID: YtbAQpjGQPGsu7QJx25XUQ==
+X-CSE-MsgGUID: t+Djqfd0QV21tM5aIY2UpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="79368580"
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="79368580"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 12:42:16 -0700
+X-CSE-ConnectionGUID: kUkCUNX4ShiKhZsXQIF7ig==
+X-CSE-MsgGUID: FHMFmU6vTSOG3+LSEfcxtw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="237687779"
+Received: from spandruv-mobl5.amr.corp.intel.com (HELO [10.125.109.190]) ([10.125.109.190])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 12:42:15 -0700
+Message-ID: <809c5752-f9de-47f4-b73d-4bfe0d6ed9a7@intel.com>
+Date: Wed, 20 May 2026 12:42:19 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 00/25] Runtime TDX module update support
+To: Chao Gao <chao.gao@intel.com>, kvm@vger.kernel.org,
+ linux-coco@lists.linux.dev, x86@kernel.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
+Cc: binbin.wu@linux.intel.com, dave.hansen@linux.intel.com, djbw@kernel.org,
+ ira.weiny@intel.com, kai.huang@intel.com, kas@kernel.org,
+ nik.borisov@suse.com, paulmck@kernel.org, pbonzini@redhat.com,
+ reinette.chatre@intel.com, rick.p.edgecombe@intel.com, sagis@google.com,
+ seanjc@google.com, tony.lindgren@linux.intel.com, vannapurve@google.com,
+ vishal.l.verma@intel.com, yilun.xu@linux.intel.com, xiaoyao.li@intel.com,
+ yan.y.zhao@intel.com, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260520133909.409394-1-chao.gao@intel.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20260520133909.409394-1-chao.gao@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello Tvrtko,
+So a little cat|sort|uniq says:
 
-On Wednesday, 20 May 2026 16:19:12 Central European Summer Time Tvrtko Ursulin wrote:
-> 
-> On 20/05/2026 14:04, Nicolas Frattaroli wrote:
-> > Currently, there's no way to know for certain how much GPU memory was
-> > swapped out. The difference between total and resident memory would
-> > include newly allocated pages, which are not resident, but also aren't
-> > swapped out.
-> > 
-> > Add a new drm_gem_object_status so drivers can signal when an object has
-> > been evicted to swap, and add a new "evicted" counter to
-> > drm_memory_stats.
-> > 
-> > Due to how the supported_flags bitmask is determined, the "evicted"
-> > count won't be printed to fdinfo if there's no swapped out pages.
-> > 
-> > Reviewed-by: Steven Price <steven.price@arm.com>
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > ---
-> >   Documentation/gpu/drm-usage-stats.rst | 6 ++++++
-> >   drivers/gpu/drm/drm_file.c            | 8 ++++++++
-> >   include/drm/drm_file.h                | 2 ++
-> >   include/drm/drm_gem.h                 | 2 ++
-> >   4 files changed, 18 insertions(+)
-> > 
-> > diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> > index 70b7cfcc194f..ac1dbf52d96d 100644
-> > --- a/Documentation/gpu/drm-usage-stats.rst
-> > +++ b/Documentation/gpu/drm-usage-stats.rst
-> > @@ -202,6 +202,12 @@ One practical example of this could be the presence of unsignaled fences in a
-> >   GEM buffer reservation object. Therefore, the active category is a subset of the
-> >   resident category.
-> >   
-> > +- drm-evicted-<region>: <uint> [KiB|MiB]
-> > +
-> > +The total size of buffers that have been evicted and are no longer pinned by the
-> > +device. Only present if there are buffers that are currently evicted, and if the
-> > +driver implements reporting of this type of memory.
-> 
-> The semantics as tricky to make work in an obvious way.
-> 
-> On one hand the text above is almost exactly the semantics of 'total' - 
-> 'resident'. Almost meaning it was resident at some point, but isn't any 
-> more. Whereas raw 'total' - 'resident' can also mean it never has been 
-> instantiated.
+     11 Reviewed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+     17 Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 
-Yes, that is the difference. You cannot tell them apart otherwise.
+We're on v10 here. There are 6 patches in here with no review tags:
 
-> You could even have a "workaround" where you report a 'swap' memory 
-> region and then don't need to add anything new to the spec.
+M:      Kiryl Shutsemau <kas@kernel.org>
+R:      Dave Hansen <dave.hansen@linux.intel.com>
+R:      Rick Edgecombe <rick.p.edgecombe@intel.com>
 
-I get the idea that technically, swap is its own memory region, but
-evicted is counting memory that panthor knows is currently evicted,
-not necessarily memory that is in swap. Counting pages that would
-*actually* be in swap would probably involve breaking several
-abstractions that shouldn't be broken.
-
-> 
-> Next problem - on paper evicted could be useful to replace driver legacy 
-> keys such as 'amd-evicted-ram'. But that "evicted" is defined as "not in 
-> a the preferred placement". While your evicted is more like "no current 
-> placement" (as in, no GPU accessible backing storage).
-> 
-> Is it possible to find a definition of this new category which makes 
-> sense for different GPUs/drivers, be it integrated or discrete.
-
-Sure, we can make this definition as loose as you need it to be to use
-it in a different driver. I think the difference between "not in a
-preferred placement" and "no current placement (but had a placement in
-the past)" is not a big one for the users of this information; the goal
-is to see how much of the GPU memory of a process has been made non-
-resident by a shrinker.
-
-> Or would simply going for 'drm-total-swap:' (or resident?) work for 
-> panthor? Advantage being it would also work unambiguously for discrete 
-> drivers.
-
-Panthor itself doesn't really know whether something is in swap or
-has just been made non-resident by the drm shrinker. It could be
-somewhere between swap and resident, as Steven Price pointed out.
-
-> 
-> Like the ones which support multiple TTM placements, for example VRAM + 
-> SYSTEM and then next step is swapping out so an extreme example on a 
-> 16GiB GPU + 16GiB RAM machine with a 32GiB gfx workload could be like:
-> 
-> drm-total-vram:		32GiB
-> drm-resident-vram:	16GiB
-> drm-resident-system:	15GiB
-> drm-total-swap:		1GiB
-> 
-> Does this look clear enough? Whereas with the "evicted" category it 
-> would be:
-> 
-> drm-total-vram:		32GiB
-> drm-resident-vram:	16GiB
-> drm-evicted-vram:	16GiB # portion which got demoted to system RAM
-> drm-resident-system:	15GiB
-> drm-evicted-system:	1GiB  # portion which got demoted to swap
-> 
-> Where drm-evicted-vram is redundant to "total - resident". And it is 
-> overloaded semantics as it where does evicted go depending on the 
-> GPU/driver/region.
-
-"drm-evicted-vram" is only redundant to "total - resident" if objects
-that have never been packed by any pages aren't counted in total. This
-is not the case, so I'm trying to fix it by adding evicted to it for
-pages that were backed at some stage, but now aren't backed anymore.
-
-I think "evicted" solves this problem generally in your second example,
-without me having to worry about whether a page is in swap or AMD's
-memory model.
-
-So, to summarise:
-- Panthor does not know how much of the memory that was reclaimed by the
-  shrinker is actually in swap space, so "drm-total-swap" wouldn't work
-  here.
-- "total - resident" measures the wrong thing. Objects that have never
-  been backed are not evicted.
-- I am completely fine with AMD not using this fdinfo memory type due
-  to having more complex eviction handling, but I don't see why it
-  could not be used in this form.
-
-> 
-> Thoughts, opinions?
-> 
-> Regards,
-> 
-> Tvrtko
-> 
-> > +
-> >   Implementation Details
-> >   ======================
-> >   
-> > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> > index ec820686b302..5078172976c0 100644
-> > --- a/drivers/gpu/drm/drm_file.c
-> > +++ b/drivers/gpu/drm/drm_file.c
-> > @@ -868,6 +868,7 @@ int drm_memory_stats_is_zero(const struct drm_memory_stats *stats)
-> >   		stats->private == 0 &&
-> >   		stats->resident == 0 &&
-> >   		stats->purgeable == 0 &&
-> > +		stats->evicted == 0 &&
-> >   		stats->active == 0);
-> >   }
-> >   EXPORT_SYMBOL(drm_memory_stats_is_zero);
-> > @@ -901,6 +902,10 @@ void drm_print_memory_stats(struct drm_printer *p,
-> >   	if (supported_status & DRM_GEM_OBJECT_PURGEABLE)
-> >   		drm_fdinfo_print_size(p, prefix, "purgeable", region,
-> >   				      stats->purgeable);
-> > +
-> > +	if (supported_status & DRM_GEM_OBJECT_EVICTED)
-> > +		drm_fdinfo_print_size(p, prefix, "evicted", region,
-> > +				      stats->evicted);
-> >   }
-> >   EXPORT_SYMBOL(drm_print_memory_stats);
-> >   
-> > @@ -954,6 +959,9 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
-> >   
-> >   		if (s & DRM_GEM_OBJECT_PURGEABLE)
-> >   			status.purgeable += add_size;
-> > +
-> > +		if (s & DRM_GEM_OBJECT_EVICTED)
-> > +			status.evicted += add_size;
-> >   	}
-> >   	spin_unlock(&file->table_lock);
-> >   
-> > diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> > index 6ee70ad65e1f..7e4cb45a52c3 100644
-> > --- a/include/drm/drm_file.h
-> > +++ b/include/drm/drm_file.h
-> > @@ -500,6 +500,7 @@ void drm_send_event_timestamp_locked(struct drm_device *dev,
-> >    * @resident: Total size of GEM objects backing pages
-> >    * @purgeable: Total size of GEM objects that can be purged (resident and not active)
-> >    * @active: Total size of GEM objects active on one or more engines
-> > + * @evicted: Total size of GEM objects that have been evicted
-> >    *
-> >    * Used by drm_print_memory_stats()
-> >    */
-> > @@ -509,6 +510,7 @@ struct drm_memory_stats {
-> >   	u64 resident;
-> >   	u64 purgeable;
-> >   	u64 active;
-> > +	u64 evicted;
-> >   };
-> >   
-> >   enum drm_gem_object_status;
-> > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> > index 86f5846154f7..799588a2762a 100644
-> > --- a/include/drm/drm_gem.h
-> > +++ b/include/drm/drm_gem.h
-> > @@ -53,6 +53,7 @@ struct drm_gem_object;
-> >    * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not unpinned)
-> >    * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspace
-> >    * @DRM_GEM_OBJECT_ACTIVE: object is currently used by an active submission
-> > + * @DRM_GEM_OBJECT_EVICTED: object is evicted and no longer pinned by driver
-> >    *
-> >    * Bitmask of status used for fdinfo memory stats, see &drm_gem_object_funcs.status
-> >    * and drm_show_fdinfo().  Note that an object can report DRM_GEM_OBJECT_PURGEABLE
-> > @@ -67,6 +68,7 @@ enum drm_gem_object_status {
-> >   	DRM_GEM_OBJECT_RESIDENT  = BIT(0),
-> >   	DRM_GEM_OBJECT_PURGEABLE = BIT(1),
-> >   	DRM_GEM_OBJECT_ACTIVE    = BIT(2),
-> > +	DRM_GEM_OBJECT_EVICTED   = BIT(3),
-> >   };
-> >   
-> >   /**
-> > 
-> 
-> 
-
-
-
-
+Are all of those 6 new patches? Or do the reviewers still have some work
+to do?
