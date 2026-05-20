@@ -1,216 +1,220 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993BC1E7660
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 15:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779292141; cv=none; b=LP7ZokCzDjB6j6AhoeX9S7vsL8t7oj/QsATVvUVCSETi5RZcFNffggsiW2p9jigDAwQwef3Mt0T/BfR02Qc8A/VfJ9+00kJVqDtY5N2DCv0pGuNn9qrTsv6Qqvy2Es6HD0clJU3JaSaNPYK43aQPgpcpeyH5vkBbZ8YLgKYDj4s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779292141; c=relaxed/simple;
-	bh=1Ym6Phb7VZgKD4TlysDshHDy0rCtFX7hTVVKpz5qsUc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LWDXfsPOxfHgJzzgcD8dwLcOIHhw6Kh6fMY0i5zbFCnaalvuRHnJ/sLYcE21WDjGIJZ4WWPO5FAeDuz+4zYTZl0q7DzkTWyxAevqLpENVzOIKY6xm6wDOCWDm6Ml/CoG+w/b244Wm8ZDLEXaHvmL7RcltGfw+dEihF7hsd/eg2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=f6JteUOl; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=H74dTk2h; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A079A3403FD
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 16:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779293276; cv=pass; b=SUakT04amr80Mv5nOddQTjby1CMEVMF6sNnMkunhRuwDez1e0fTdnnCRXw1iTzujhrZdAJF3R12YmbccQPtRJpRzRqwYZWz27/pNYBcMVSmkow5+Ne5tRKJDFBdw/D52GuSw9gDHCO2/gsXaPKCGeUoKP4CfOfTE+QPzuf6jhjA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779293276; c=relaxed/simple;
+	bh=CvXC4Kyo+V9VxvlqU7vlE27Z0xiXsRLyPCMwJRtE6jo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JkuGQ5sjD07vIws4KCyViPpUe5IRQse5UT6gE2dyvuwR9nfggTE7xMvExrW/OMtimi0UDy7dZm2kqY/wExoN3jRBC4mkMY2BUuJM5zq2bziayLHU6aORxJAiUyGsksf82TQtPay/HNRPoNKoLO/Ygo8gYL+OJQtfFycOhgY05Cc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iO7mdu/h; arc=pass smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="f6JteUOl";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="H74dTk2h"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64KCe70e316972
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 15:48:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=+zOwFsQFJkZvl38pU4tCILlNoFusalJQ0fI
-	g/UY8aA0=; b=f6JteUOlhksz26deYEmxt+pY64d/yg7lZZITEy3NRa7RWU47d2p
-	DtNCY5koL9UMO4rk8Vt3H2TD4n90Dgk920dvmqb75vAanUmqZ9V97F3S7N7OOUH5
-	bhxEt6d2hRrBDrVYK6+5MMWa7GrocfXG34Q9XfMrav2fUJ9pZeJ+y/Xem+2qzNbQ
-	294X22xXfy5gneIeFV73Cfa2kPfrj4fTWcCQBUblJtyRwPpAYwaixj51LFzQqpn1
-	sgrUV0ghRO6zPCM8qodOkx0P7v0FQ6h0GgY7vSfQALbzL3Xzc3NbWy1KYsM/jZK0
-	OMN24uYW5ZS8OtKMdUrQFpJJsOLTalHUSrw==
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com [209.85.217.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e9d5qrruf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 15:48:58 +0000 (GMT)
-Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-6312af106fcso10560642137.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 08:48:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iO7mdu/h"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d7645adbdso3463091f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 09:07:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779293273; cv=none;
+        d=google.com; s=arc-20240605;
+        b=V3YY26ap6Le+36EprXlIuh+PKLk4seyF3l2oQ2xMK5k4JzpRwEvds9W2jLQB9Lhp3B
+         EIJyY/2xE/tke2rcpRY3mKbiGJ4Gn4LOTJUI7ovWku/JveblLNQgZv97VMOJBNiKKdmC
+         lD8LNEYPbXDNXb02nkfB1e7FELFNCLiZB6Yz35aSS8iuHUDx+JatX+evSAJ55zQbHIJ0
+         b0yitjIlOCjysQZuwP99SnpPOSU+hrmamUM8K3LNqzpSOy22vx79DOzN+q/rZKMpmu9w
+         YQgezeRFRsTAiudT8lT3S6f8RJ2u3SCmvxWMn8o233GkZj3bQUwn/OFdCqpykoI7Dl2X
+         XkxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1AueEqgTUy6nsRVxmiTY07dthKJdLYGxsiOoVyUMH18=;
+        fh=A7ZGlzw5ylQzEGUSW58dFkHhoeJshkMXU67Uml6wOMo=;
+        b=Dmq5/HVAcpNkCaGI5ZmxjItd3jm/HQvqWcTaesvT6t1V7dplGgs6MKu3EFE6Igh1KR
+         xEjD70/aUHED1sJGU5hXd2gahVtqESQ4KIM6kRkaq3PknSYBBZrqO4UXCZi1sowvmYN2
+         dErkM03fA7HgU+0+xERkaLhvHRHWxWUJQSFEbZybX2IRaKMzzFmigPcjo6dyS62yebKM
+         Vs4p1kWwQYiEXE/MiwkVK6I/WVggOpafoA+SXg6NJOCs3lCx010WBskeyOJ0QfQldobC
+         Ve9Aoed7SCrovO4Rd1GXCRaiPvh9J4c+bKT175dnd7idcyPcSjs6d84XNLcbw5AAJfwB
+         JfzQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779292138; x=1779896938; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+zOwFsQFJkZvl38pU4tCILlNoFusalJQ0fIg/UY8aA0=;
-        b=H74dTk2hdPJnwjXJn8KjPQSoWa8yZNW05gtTqhON4cjy5wxVf5nttHCyX3OpZrAHK5
-         jz3ANMdUVHFJPits/tamx4fP10t9+sbDwUINThljJKURhr+rXP6yW6ZU2e2ccmGBROW/
-         9ul6VfEYnb3zQ8pqHVWRbR9E6gX9MRyomcgVVfReR1HGrV6bbTLi+jhGlSNWf6sWWbjb
-         0BbOi6EEkIDhMSaRta9E2hzQEOjMT6kegP1RzjltX6IWESToDw+wgwRfbBnJM8pt3669
-         pYNsz0DlCAagjcLGbsXij2J3W0uA+oEWoc0wtj5X4wP44LSADs+z4L9Nt/NQ8DH1ChdK
-         c6pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779292138; x=1779896938;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779293273; x=1779898073; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+zOwFsQFJkZvl38pU4tCILlNoFusalJQ0fIg/UY8aA0=;
-        b=GkxrvWic0hNsWENe5e8/ZHRX/kxU0HXSjChRpkWwefpMSA0phryVO8UcaWJiGeLOE/
-         BhkWy1rJ04n/28qMs4BOkIJAnO8NUlq77u0aeh2dtUiNII055ywNQKz/NffCWfldeh1x
-         yH1Ppp39FLfItKxKPrAEsCNCq/3dfQY/q2grzk6UVJUMlHz4a3LO1h3vq66OfR0gF2os
-         mQQRzS55CqGWIpkml8h49Y/OBbW+vJT/YMEHtkoQcoV1L/Tzm802LWNkaZF5rsUBIpMI
-         DtlnUTVR9j9QEq+gLVYnxiSSaQf2zTU6IvS8XFP6EarBxB1r6slL82x1n1N8V0yuDfO0
-         u8XQ==
-X-Forwarded-Encrypted: i=1; AFNElJ87p1t2dd0F4QPFSPAiPD5U9JpyC0vsVObDrTczCgcJXL0wrTmMmiZDkLw8ZreusrIwLZ3JUBav5Y0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/hR76FBr0p7JoMmPs7Djh3DHOxft0akTUC+sh9sgCplom72h9
-	FciSO3jgDI3vwwkJ2zyZSKsB5p1LnmZOM3zl73Oz4b7wISB2odwfUTOlWyYaRpKRW7QQbq8CgyJ
-	RcQxkIdQUBeQkkQwYJGDg0C66WQjXCc2ILkgJj617nRSBzJ2UeGJuCZSh8CFGpwU=
-X-Gm-Gg: Acq92OFVv2vZWK8pNqOVdgfdTmpsZxwmSTzcY8Xt2X0MMD4cDdMFbic/UeCuFw1XFtq
-	i2CgFPQNKWH1HbcN3cziM3Zd9nCsyC8Pp5wH+uWESzowLReajOiTEicsCODp2A+hwmS3OTBUqkA
-	yFjdSOZAK/Mnnd3oOEIGi/uK9l28yxRfZ9gxO6wXn65oF4Q4W8tvD9tYRdmGYkOhxeYVopDAiuq
-	CXXkQbZNtHN8ukGDjddFMg/iruo8ndf6fqAJZliF7EQ9CG6PHsjm9/mSjSdmdYxrNZPl5/gz38+
-	z1ziO8b9afVETPmxOlFAQcZnxoVwX+uuxUgVOzGbSNd8LnSo/0S5TTgTVXIbKuUCvEHEvhbNPFL
-	pEdV6LEmOhYE25cOxui2hpUgdsQd6e5adrb91
-X-Received: by 2002:a05:6102:511f:b0:632:137d:3ab with SMTP id ada2fe7eead31-63a403ad984mr13312397137.31.1779292137731;
-        Wed, 20 May 2026 08:48:57 -0700 (PDT)
-X-Received: by 2002:a05:6102:511f:b0:632:137d:3ab with SMTP id ada2fe7eead31-63a403ad984mr13312350137.31.1779292137241;
-        Wed, 20 May 2026 08:48:57 -0700 (PDT)
-Received: from quoll ([178.197.219.94])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49033d9edcbsm278925e9.13.2026.05.20.08.48.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 08:48:56 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Vlastimil Babka <vbabka@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>
-Subject: [PATCH v2] docs: submitting-patches: Clarify that "reviewer" is a person
-Date: Wed, 20 May 2026 17:48:47 +0200
-Message-ID: <20260520154846.162170-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
+        bh=1AueEqgTUy6nsRVxmiTY07dthKJdLYGxsiOoVyUMH18=;
+        b=iO7mdu/hblANZVvZjTA2rHE9y2iDGcx89vCnPd/aPpSatcneEAfahvEBxn6Rh/F/z4
+         x6PrpCb4dmqs42at6xHVV4KmJzsTOpr3G14GZHCeujyVdZ8lZuOt53bpGwFq8HbD7AT9
+         syGhXc9xa9pvinnvmaQ35bHThZnBm+Zr3hJ0nKSa1FOuBbbI2fbLSbsmFLyCZR0vsUbo
+         EOs10f4QpIPR5103uufD09bcx2IS3Q93sDuDpGo4huTz4ytl4zozeX3vwk0S5nYD/CiP
+         8/SQWCpILDQR+c8e6GsCn09paXnwgxTkKvkBLOue66WdGgj+q9kD3/PHNpxLNwH9KpJ4
+         QWLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779293273; x=1779898073;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1AueEqgTUy6nsRVxmiTY07dthKJdLYGxsiOoVyUMH18=;
+        b=nwAKSjIJmglsK5LkXI0gNn7kyy268gg3whz8Tu9++tNXgccF7t3wbmNVmN5+Er/oX2
+         /0VnlQY3mpaxbVnaanMPM+JYH6wfVSa8+BABiNV1OquhIGWJgEKBFLcw1wjJA2zWu5vi
+         fDGpc949ABirFHPQUaJ1T6OUq1jdbQccxIv4M8BAHFHsFpkg4IbEFbauGRysDksERvxM
+         oGarYhBUK2hD2jjThM3y2TM2wPO0mDZfp1Gsy7Hz1zN7GQOHSFzcgFBXXq8bWZEfnULs
+         U6II1fh3C41t7JaqdQmtIeg9OPc2L3Men8gryMBLf2j5LEXYXVbdJ97IlKuFTF/HYtrs
+         QLXQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9UQCyMqxbxbawJeOpFKfOVIIBxJWx+oa5v6YBex2UHApVi/+5XT90pIhcyypCExriL8sm+ArmeTcc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQYRm2xjU9bGwZNlR08e3r4lbrFpz+DewuM6J3Svw8RGQDi4Lj
+	ESIawqrI01Jpqs8ZQ7zICbCyH5k0V3sB1Lu/s88QM8RbF6/adTGU1nE4NcHgu+Z9nPtJA95MyHm
+	isZVVYVOxcl+aDwXgxJmeuytkravs8Xg=
+X-Gm-Gg: Acq92OFIKlzGLkxCTtu1RhL2L6q0SCnEAPPphIzYLAFYpubLWR3f9x8wvE+V8Nx5oj/
+	9dM4FG5MHuxFM9MhWDmaeDgBpPiMktMOYpcIROCVNtCQNSccybHYmsqQjGQnuoO0MYdpDzvtm2F
+	ROrrwoOECv9qWdim25QiLmu+6LFD7n99JL24xm7LGpoNyYPTQurG2dO97yBEBg02Tk/kp7x0hZw
+	4poxDKkEUwrghILsb4LOyU0qndlTBJkIJ6OwxmfV4xO7fgFgF10x7xyuTrKnGphc5g7ab20s/VF
+	Ca/0SB6rKkf29aZrQG9Yc6J6rA9aPdwIPuMibBVhm37zNn+f1YlJz3H5QNUzKBgW8n5oUo3KajC
+	xtKM=
+X-Received: by 2002:adf:f284:0:b0:45e:65a3:badf with SMTP id
+ ffacd0b85a97d-45e65a3bb1fmr25476267f8f.21.1779293272731; Wed, 20 May 2026
+ 09:07:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3565; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=1Ym6Phb7VZgKD4TlysDshHDy0rCtFX7hTVVKpz5qsUc=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBqDdfe6Y2/7ymkS8IyjJ/1S0XdWRCRD7le81vcn
- 2/v9b57HoCJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCag3X3gAKCRDBN2bmhouD
- 1+DpD/91pB/48RQkRicwRHEsffe4vHuZNr1gqa++XDA3H7D6jQAgnPYDJWCnbVEH/FeborJlW9b
- HNLR8+IrTYtyy+C0oBcxuWaydROY+0n6GMVgfpzitE3OnwJr/lQvblrvWTRV/JJFva6W7K064iL
- 0uqrSANoYMhsn6r+bc0R9Lid0oB2WvxPbocOww1IVrCzw5xGdnBaAuIrUwdjNq8OrBYRrgK0VEJ
- 6911CrqvDsQv9hIOJdWNboLLhrnk6tA9e/21RV4cLANmZWvd9xJZmlWn6iBoO95Ox9LvdZ9oGmN
- 4IMZO4MiRqb9lRmO8Q+1Gq6mXjCO1OoWp+qUwbkGadSAlCdKOt5zcXFtu0nM+dT4VLE43FgG8Ij
- lQVhewhKomKR7oSFmdsnJ60nYKZTG4hcO7kO8sgVIkwzJMC7aJ7RDjtgnjj/jRKp1Mojg4WdNsg
- cDeNRXYoyxveQ4LN9naaJf3IkkHk6TALrDlf6rMD6d1EfxoSTy18CsIuBvw4wgUrHDHWLmXwCML
- b857hqTIBTfU1Cn0H491/dt2FdUBJ1tg4N+O2SdF0kAXEWFs7UdKdF8zYJH/Z04t61tmISlZpf6
- OrT61xt6X5KDH3yuR2Pyzd2W9ZXL+2VYX+T8Srjjd/SOQgN6P15ft450Pzfm5HRE26vvOBw2lFW 0Z/mQ+w9coNP3Yg==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDE1MyBTYWx0ZWRfX9bmhglu3o2tW
- ITMyMR35XN+aRxdEL7+oHuu02ariw5M64wfAscWVbGf0TtZMVeiIkatPaxmbZmVEV86sVmVRGKy
- vfV/N29vmh2eokyw2hj+Bi1wftZhjnQf1t4tOBPKJngs8Daq0tkfyMSoOf/54IztmZ2pR3FQ3Gp
- USyFEoP9DVakprnVLY96d3aokuguV3ysICcwrBscU/ffVpCl1oo8JnluYG5ENIF5ruQkbfK1F7n
- WRPpnZ/ulHG0u4sIpf/+jDot4JtipONrqv6wdFKVyY/DY8KqCw8xkTMhcTHvke0W/wEfLtK+u3A
- sS7QY9E/NFcbpUcJu8E8tc52vvuDeHQRCUJGjlKSP7nEQTLX+6kydeuvIaqMbtsaQsWZwe1HG6M
- YLYUHRv4zETioF1topGN7z3l54fx2Gq5doQ7oBfOeUMDANF//HVNidzH742eH9IdyDcHUs0+vNN
- OKYl5RDfNbCJcb3w69g==
-X-Authority-Analysis: v=2.4 cv=QshuG1yd c=1 sm=1 tr=0 ts=6a0dd7ea cx=c_pps
- a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=1Qhj-OTkAAAA:8
- a=ag1SF4gXAAAA:8 a=VwQbUJbxAAAA:8 a=Z4Rwk6OoAAAA:8 a=JfrnYn6hAAAA:8
- a=EUspDBNiAAAA:8 a=hY2az1HaepqEPmBYQe8A:9 a=-aSRE8QhW-JAV6biHavz:22
- a=Yupwre4RP9_Eg_Bd0iYG:22 a=HkZW87K1Qel5hWWM3VKY:22 a=1CNFftbPRP8L7MoqJWF3:22
-X-Proofpoint-GUID: mzeH-Gb7LQZL62k9G-sVUONZ8LLh_zWt
-X-Proofpoint-ORIG-GUID: mzeH-Gb7LQZL62k9G-sVUONZ8LLh_zWt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-20_03,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 clxscore=1015 phishscore=0 spamscore=0
- suspectscore=0 bulkscore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605200153
+References: <20260520-bpf-insn-doc-v1-1-74d7dada9bfc@bootlin.com>
+ <ffe4e22a8e5d0fceefa7f9ecb378e038b4686aa417addd57d2af243b67607c0a@mail.kernel.org>
+ <DINMD7Y3ZG8Q.3GZGX7SX9CN57@bootlin.com>
+In-Reply-To: <DINMD7Y3ZG8Q.3GZGX7SX9CN57@bootlin.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Wed, 20 May 2026 09:07:40 -0700
+X-Gm-Features: AVHnY4LbSt-G1XJxIMtaJctIYbjx4r1-eMM68ioMxesYAe3uAgIIcikQLGh332g
+Message-ID: <CAADnVQJx4xTU5L21bpjN8QeJTeSoeZRMknH_ZNPnY_DA1Yb8SQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] bpf, docs: add LOAD_AQCUIRE and STORE_RELEASE instructions
+To: =?UTF-8?Q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+Cc: bot+bpf-ci@kernel.org, David Vernet <void@manifault.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, ebpf@linuxfoundation.org, 
+	"Bastien Curutchet (eBPF Foundation)" <bastien.curutchet@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, bpf <bpf@vger.kernel.org>, bpf@ietf.org, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Martin KaFai Lau <martin.lau@kernel.org>, Chris Mason <clm@meta.com>, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Common understanding of word "Reviewer" is: a person performing a review
-work [1]. Tools are not persons, thus cannot be reviewers in this term.
-Also tools cannot make statements and cannot take responsibility for the
-review.
+On Wed, May 20, 2026 at 5:46=E2=80=AFPM Alexis Lothor=C3=A9
+<alexis.lothore@bootlin.com> wrote:
+>
+> On Wed May 20, 2026 at 5:18 PM CEST, bot+bpf-ci wrote:
+> >> diff --git a/Documentation/bpf/standardization/instruction-set.rst b/D=
+ocumentation/bpf/standardization/instruction-set.rst
+> >> --- a/Documentation/bpf/standardization/instruction-set.rst
+> >> +++ b/Documentation/bpf/standardization/instruction-set.rst
+> >> @@ -695,22 +695,24 @@
+> >>    *(u64 *)(dst + offset) +=3D src
+> >>
+> >>  In addition to the simple atomic operations, there also is a modifier=
+ and
+> >> -two complex atomic operations:
+> >> +four complex atomic operations:
+> >>
+> >>  .. table:: Complex atomic operations
+> >>
+> >>    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>    imm          value             description
+> >>    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> -  FETCH        0x01              modifier: return old value
+> >> -  XCHG         0xe0 | FETCH      atomic exchange
+> >> -  CMPXCHG      0xf0 | FETCH      atomic compare and exchange
+> >> +  FETCH        0x0001            modifier: return old value
+> >> +  XCHG         0x00e0 | FETCH    atomic exchange
+> >> +  CMPXCHG      0x00f0 | FETCH    atomic compare and exchange
+> >> +  LOAD_ACQ     0x0100            atomic load with barrier
+> >> +  STORE_REL    0x0110            atomic store with barrier
+> >>    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>
+> >>  The ``FETCH`` modifier is optional for simple atomic operations, and
+> >> -always set for the complex atomic operations.  If the ``FETCH`` flag
+> >> -is set, then the operation also overwrites ``src`` with the value tha=
+t
+> >> -was in memory before it was modified.
+> >> +always set for the ``XCHG`` and ``CMPXCHG`` complex atomic operations=
+.  If
+> >> +the ``FETCH`` flag is set, then the operation also overwrites ``src``=
+ with
+> >> +the value that was in memory before it was modified.
+> >>
+> >>  The ``XCHG`` operation atomically exchanges ``src`` with the value
+> >>  addressed by ``dst + offset``.
+> >
+> > [ ... ]
+> >
+> >> @@ -721,6 +723,11 @@
+> >>  value that was at ``dst + offset`` before the operation is zero-exten=
+ded
+> >>  and loaded back to ``R0``.
+> >>
+> >> +The ``LOAD_ACQ`` and ``STORE_REL`` operations implement lighter LOAD =
+and
+> >> +STORE memory barriers than full barriers. The corresponding accesses =
+must
+> >> +be aligned, but are allowed for any access size (8-bit up to 64-bit
+> >> +operations).
+> >
+> > Does the LOAD_ACQ documentation need to clarify its non-standard regist=
+er
+> > semantics? BPF atomic operations are encoded as STX instructions, which
+> > conventionally use dst as the memory base pointer and src as the value
+> > register. However, LOAD_ACQ reverses this pattern by using src as the
+> > memory base pointer and dst as the destination register for the fetched
+> > value, acting like an LDX instruction.
+>
+> True, I can specify that both are anyway supported by a STX instruction.
+>
+> > Additionally, should the documentation clarify that the loaded value is
+> > zero-extended into the 64-bit destination register for 8, 16, and 32-bi=
+t
+> > accesses? Omitting these details might lead to incorrect implementation=
+s
+> > based on standard STX rules.
+>
+> I guess I can add this detail, yes.
+>
+> > This contradiction creates specification ambiguity: the documentation
+> > states that LOAD_ACQ and STORE_REL "are allowed for any access size
+> > (8-bit up to 64-bit operations)", but earlier in the document (line 671=
+)
+> > explicitly states "8-bit and 16-bit wide atomic operations are not
+> > supported."
+> >
+> > The instruction encoding section (lines 667-671) only defines two size
+> > encodings for ATOMIC mode:
+> > - {ATOMIC, W, STX} for 32-bit operations
+> > - {ATOMIC, DW, STX} for 64-bit operations
+> >
+> > No encoding is shown for B (byte/8-bit) or H (half-word/16-bit) with
+> > ATOMIC mode.
+> >
+> > If LOAD_ACQ/STORE_REL truly support 8-bit and 16-bit sizes, shouldn't t=
+he
+> > encoding section document how B and H size modifiers work with ATOMIC
+> > mode, and line 671 clarify the exception?
+>
+> This point, and the corresponding mentions to the "atomic32 conformance
+> group" and "atomic64 conformance group", made me realize that the kernel
+> doc seems to be in sync with the eBPF ISA RFC
+> (https://www.rfc-editor.org/rfc/rfc9669.html). It makes me wonder if
+> it's really ok to add those LOAD_ACQUIRE/STORE_RELEASE mentions in the
+> kernel doc only ?
 
-Our docs already clearly mark that "Reviewed-by" must come from a
-person:
-
- - "By offering my Reviewed-by: tag, I state that:"
-
-   Usage of first person "I" and word "state"
-
- - "A Reviewed-by tag is *a statement of opinion* that the patch is an
-    appropriate modification of the kernel without any remaining serious"
-
-   Only a person can make a statement of opinion.
-
- - "Any interested reviewer (who has done the work) can offer a
-   Reviewed-by"
-
-   A person can offer a tag thus above does not grant the tool
-   permission to offer a tag.
-
-However this might not be enough, so let's clarify that only a person
-with a known identity can state the "Reviewer's statement of oversight".
-
-Link: https://en.wiktionary.org/wiki/reviewer [1]
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Vlastimil Babka <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Mark Brown <broonie@kernel.org>
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
----
-
-Changes in v2:
-1. Add tags
-2. Rephrase/simplify a bit commit msg. Rephrase title - drop "in
-   English".
-3. Add "with known identity", suggested by David Hildenbrand. I retained
-   previous tags, assuming this change is within spirit of previous
-   version and there were no objections on the list.
----
- Documentation/process/submitting-patches.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index d7290e208e72..cc6a1f73d7f2 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -581,12 +581,12 @@ By offering my Reviewed-by: tag, I state that:
- 
- A Reviewed-by tag is a statement of opinion that the patch is an
- appropriate modification of the kernel without any remaining serious
--technical issues.  Any interested reviewer (who has done the work) can
--offer a Reviewed-by tag for a patch.  This tag serves to give credit to
--reviewers and to inform maintainers of the degree of review which has been
--done on the patch.  Reviewed-by: tags, when supplied by reviewers known to
--understand the subject area and to perform thorough reviews, will normally
--increase the likelihood of your patch getting into the kernel.
-+technical issues.  Any interested reviewer (who has done the work and is a
-+person with known identity) can offer a Reviewed-by tag for a patch.  This tag
-+serves to give credit to reviewers and to inform maintainers of the degree of
-+review which has been done on the patch.  Reviewed-by: tags, when supplied by
-+reviewers known to understand the subject area and to perform thorough reviews,
-+will normally increase the likelihood of your patch getting into the kernel.
- 
- Both Tested-by and Reviewed-by tags, once received on mailing list from tester
- or reviewer, should be added by author to the applicable patches when sending
--- 
-2.53.0
-
+It's ok. It already diverged a bit. Eventually we will do an RFC update.
