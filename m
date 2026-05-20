@@ -1,212 +1,107 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB1A3EAC9B
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 14:45:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779288329; cv=pass; b=e0806TgZU7kLrXXFQjBg/2gwGnTyICutPGVVTIWGa8VN6wx+XelxF2QKSJdyyyzx8WOSU5EAfvPpPoRtajChidvKFOrA4dFNQ3nngvYqw5x0Qm9VdsvcUVEfPPvDbUIwgWirnzxrCFEYTproyrpPB+/6i3e4lq1j9faRhKfmx/o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779288329; c=relaxed/simple;
-	bh=mWVxXGnAXrLsmeGW6dcs9mbi7yfF/v+MCyKGHC9nj44=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s9ZxSxKdZzAnn5O/6h15toBDS8b3AWOwU16tlPNn6WUuZXcGqKMtULHME8ofuoODMMU5g6g9oBvQGxd1YIyQM2lA0cO71jDh6ziTyf1dSixxYKhH+CJVdb/L9wd/GT4XNGrP3dDwuy9Pib/nuvCJIyaxmZfjgHzx+Q0cXACqg9Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HrgJw6lz; arc=pass smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557C3306B08;
+	Wed, 20 May 2026 14:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779288459; cv=none; b=d4YOWRH4SLPaP4HwAQBuVlnBUenQlQwsjEfBhgS+RNPjGtglxMCrMS8mXH4CVU6QFpHTrssNGwXwDaq6opOuDMxOSJ78PWM6qtb4j6M2IKmwIoBzn+Z+6d82I4VpetWICoARnEHRIM7MkHKdbf28pwwUEI9jqA3MvfM0/iu6yhY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779288459; c=relaxed/simple;
+	bh=pLu+up5ExjsmdYY6KizsZ7GS3/NPRMf5fOn8EHaWnQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U10b88Uk5GzTegV8k1nukLLWdkAfKaVYh+Aje/uo6eRRu5KqaIuGvIoSjoZFPO5z865M4u20boG30ut+LxmqhGEhEmeQasYWVB2n+fVxaS+cS2Ws4pb7AQvF5SAOYDqlVpDrdL3QpIhIs0hRqx9x2w5EhnX9QZRTJ40lLmRt4HU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MeB8Rmgd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HrgJw6lz"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-50d864c23bdso19451cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 07:45:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779288325; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XkxghTF4AWOqvYiG9WuBIAV6z9oMeP9g/bBvrVEmZVneYRy8MBb4fSV0tcYW+J2SpP
-         pootvpnqAk7bbz6y+0HQq9uxEvYO3Od992UF2ZU+KVTSSK7pbmWqcHA53ipvY6lfUl5x
-         HS8wyUCfxGD8gqZFSCcaiMyXXKnCZjEPotHtP5NgX4Yz7wuv6ZlkbZVUMJI6r/9l31DT
-         qsvdZ5G3WhA01OqEfMGymiYxv4m8bN4Hyc99vdVZ9P1fw/a3+2JRSnVbbPybMRpeWnSO
-         TuUrQY7ufCWAwy7DYu91QBNrVS60qDgeCFWmVVWgukV7a9x69K/CdN10z5T0PSzMsepk
-         Dmxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=BXmdRbmYCHoIn3PGJ6dUolIetDSUosv3AORcVct4e6A=;
-        fh=ihhTKsYhxWtiLKGEGXAvG765V7t/d8W0S29Mlvzhygo=;
-        b=C3OdI9VokiJBcpsiN8LRiDD65KzhHmU8YXpf2tesnGXIhroe6jtlGpn2RWGHLDopfj
-         cwunBdDqRs/KV3Uo+3Hvz5OQVRja8Ls9ER3b3/hC3N9mXod4/PVmfGrC2z9VHgzeXaX6
-         OSfdaWETZsndpB8KmttRoVRdeRXvtKF5ELmYRrpOk9vMuCpsEyQW1YKSXVxBUcrbmpL1
-         m9pFxuq2T0Ul3nbdkMRb1p/6N6wTBDGdjwKW7T5jVPPC+2Vx1WHJ0KnEp6Xgyf5cwQTM
-         yfd+pQoXuykYLMExVWh7D9FL4lkUejsVH+6QcqQWQ4UEPr8x6DZt0jprLJSh9/n9Ntj7
-         ukrw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779288325; x=1779893125; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BXmdRbmYCHoIn3PGJ6dUolIetDSUosv3AORcVct4e6A=;
-        b=HrgJw6lzSpp3OTjOPsfe07y/5/LGj41QMshFbBcCCovdB/gwd0mgKix6USycrkSb7f
-         rvgylZ5JWzygWvTi/b0MwpNN47/8Y5ePHiziLvc++o1GPEPbhdNb4kDQn/z/RxYZ8y4e
-         U6/wbsWDtsLSYsOki9uUIsSmadDDrDB1rn3oV3g5al8XmO4QM2alR8DWEZBE0ppShA9R
-         szTjJsRJqBb7H8molO7D5QofGuQKi6W9O8G8R5u9Gj+Zq93cSDV04CHIdMUJa6XfH+kU
-         GL63mQwpAev3N3npvPtVW61A6MaLJVm0DQKoN9eYGlPvg8rmjsrsdllGq7aR5MdL0Jeu
-         5d2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779288325; x=1779893125;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BXmdRbmYCHoIn3PGJ6dUolIetDSUosv3AORcVct4e6A=;
-        b=TFtFDs7nXgwMyYJugu1fdBXem99Y4wvFQrtILWEvgHmCZeUciKN7si55rnQNfQcyTn
-         /tl22U5k5MVQMHztrkAFo3duztTpm00lmtPzNUdjvspd4niuMIVcnwYCILLsnyKrRucp
-         RiT4vZvTC5aSUHPHUzncWHMWSYH2vVVUPOtv1iJiHEYBCFbBcWvfO21mzyv8VjSahkop
-         HQf2+Wf2U4ADfsvZfSHdp3wpG5kMk272qVjh2I+xWkny26J5SC5CbNJjLO7bffqwAgn2
-         dQYDqS7+CgSN22xGPe0CClUKKMJdCLHamE8yHEx7kvNkb9wXFMipYGxf4i16i4B7e1sB
-         BT6Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+bLBEukqdikzh3tKjcxaU0Zk20x7vuEVEDw95xoHtSa9da7eYx+niVgHOHf5SLCMJU9JySO25iXFk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuhZ2/sU1Hqd22CqAiv3Hd9vak0GQAKiXePjbRFemxHXxYJat8
-	b8E37tFiT0bsUacLm++Qr0XAig5GvMySf12915kslXEmTn40o2nNs8HOJo9vSToJLeIgDDroa94
-	UAy4FzqolBBB6HjKeJ5Xkku20is4RahsJ4oTK18VT
-X-Gm-Gg: Acq92OEJg7YX6k6mr4Q5Jra9eeh9KD3UmKSg2j/FfhdUTsv+BENg2hxHTDMSwDynKCe
-	w10cN6P2oKMY3cYO+GlaykV4ttdKuYDOZ+ifZMca5Svmlgx4MERdElq2bwvWANr6QE09Mz3TYMH
-	Ty98Yuk00GVdbav2bHFQ6D8lBUbRsS7L2Z10p1SddwSr0VSgHlXw3cM4wlc2vidPxENp9G420y6
-	h3u1JJj24LeJ3y0Bs8lpFjNW5bEWEYEx1TS71gR2Om4wn2TH5GyOZCqgEGPOrYoaEKMGOSx6BOA
-	lFv0TOkxbbl97uWThP72379o50gyjg==
-X-Received: by 2002:a05:622a:5d4:b0:516:4197:361 with SMTP id
- d75a77b69052e-5167937f111mr20387831cf.4.1779288323895; Wed, 20 May 2026
- 07:45:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MeB8Rmgd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FD31F000E9;
+	Wed, 20 May 2026 14:47:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779288457;
+	bh=O2RCHoSb5AXLNUZZbMLGGEDeZ4b7SlXf1yZ924yOPQ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MeB8RmgdeqXx0OiIdtL4BpvMTEFwxD54ehryvlqrGt8hWL+w8Vnguq355GGGVq126
+	 lIBvOpdEC7DMJpEFFVUBZnqx5wU7g1T85j86mA+YweTWs5JmA0mDcQ2Krb4kInQDna
+	 tI/OEb8eLhV6oVFlAg3fd8VsKpoCJ8uFldfzekI583E72sGfnKKA6FYn8S6BOopX8t
+	 2vkBwrJSeBsd0F9+TcT7sUpC+ItW2+Am0bhewJtsRV+lQNKaxNoVMIQqwCmRf3A2oP
+	 sZ+o3mi9KnTWeDYCCOODsIhCmPXD1f+IQ9FHrhwaGO54w1XdoP0F+tqpkA0ljKoMtu
+	 T6dwMMki7gRPA==
+Date: Wed, 20 May 2026 16:47:35 +0200
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Leonardo Bras <leobras.c@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
+	Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
+	Marco Elver <elver@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Li RongQing <lirongqing@baidu.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Gary Guo <gary@garyguo.net>, Christian Brauner <brauner@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Coiby Xu <coxu@redhat.com>, Masahiro Yamada <masahiroy@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev,
+	Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v4 1/4] Introducing pw_lock() and per-cpu queue & flush
+ work
+Message-ID: <ag3Jh-8iUdgKvw5y@localhost.localdomain>
+References: <20260519012754.240804-1-leobras.c@gmail.com>
+ <20260519012754.240804-2-leobras.c@gmail.com>
+ <20260520134832.WS7TrMnu@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com> <20260507-gmem-inplace-conversion-v6-13-91ab5a8b19a4@google.com>
-In-Reply-To: <20260507-gmem-inplace-conversion-v6-13-91ab5a8b19a4@google.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Wed, 20 May 2026 15:44:46 +0100
-X-Gm-Features: AVHnY4KqHADZuRuQJRLOmHo6Gq8ybi2wyD-GO9LIDMQsvWy73n-zAaUp_TqUxxQ
-Message-ID: <CA+EHjTzDx01W5Xy=eMg54DGe8-+Pfz9u8XDgfSDiAJYu8MznmQ@mail.gmail.com>
-Subject: Re: [PATCH v6 13/43] KVM: guest_memfd: Return early if range already
- has requested attributes
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260520134832.WS7TrMnu@linutronix.de>
 
-On Thu, 7 May 2026 at 21:22, Ackerley Tng via B4 Relay
-<devnull+ackerleytng.google.com@kernel.org> wrote:
->
-> From: Ackerley Tng <ackerleytng@google.com>
->
-> Extract a helper out of kvm_gmem_range_is_private() that checks that a
-> range has given attributes.
->
-> Optimize setting memory attributes by returning early if all pages in the
-> requested range already has the requested attributes.
->
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+Le Wed, May 20, 2026 at 03:48:32PM +0200, Sebastian Andrzej Siewior a écrit :
+> How likely is it, that you you had users before late_initcall()? Also
+> can it happen that one of them uses one function to lock and the other
+> unlock in this brief window? There is no check if this was used before
+> static_branch usage.
 
-Reviewed-by: Fuad Tabba <tabba@google.com>
+Or let alone initialization on the wrong member of the union.
 
-Cheers,
-/fuad
-> ---
->  virt/kvm/guest_memfd.c | 33 +++++++++++++++++++++++----------
->  1 file changed, 23 insertions(+), 10 deletions(-)
->
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index baf4b88dead1f..034b72b4947fb 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -86,6 +86,23 @@ static bool kvm_gmem_is_shared_mem(struct inode *inode, pgoff_t index)
->         return !kvm_gmem_is_private_mem(inode, index);
->  }
->
-> +static bool kvm_gmem_range_has_attributes(struct maple_tree *mt,
-> +                                         pgoff_t index, size_t nr_pages,
-> +                                         u64 attributes)
-> +{
-> +       pgoff_t end = index + nr_pages - 1;
-> +       void *entry;
-> +
-> +       lockdep_assert(mt_lock_is_held(mt));
-> +
-> +       mt_for_each(mt, entry, index, end) {
-> +               if (xa_to_value(entry) != attributes)
-> +                       return false;
-> +       }
-> +
-> +       return true;
-> +}
-> +
->  static int __kvm_gmem_prepare_folio(struct kvm *kvm, struct kvm_memory_slot *slot,
->                                     pgoff_t index, struct folio *folio)
->  {
-> @@ -649,12 +666,15 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
->         pgoff_t end = start + nr_pages;
->         struct maple_tree *mt;
->         struct ma_state mas;
-> -       int r;
-> +       int r = 0;
->
->         mt = &gi->attributes;
->
->         filemap_invalidate_lock(mapping);
->
-> +       if (kvm_gmem_range_has_attributes(mt, start, nr_pages, attrs))
-> +               goto out;
-> +
->         mas_init(&mas, mt, start);
->         r = kvm_gmem_mas_preallocate(&mas, attrs, start, nr_pages);
->         if (r) {
-> @@ -1140,20 +1160,13 @@ EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_gmem_get_pfn);
->  static bool kvm_gmem_range_is_private(struct gmem_inode *gi, pgoff_t index,
->                                       size_t nr_pages, struct kvm *kvm, gfn_t gfn)
->  {
-> -       pgoff_t end = index + nr_pages - 1;
-> -       void *entry;
-> -
->         if (vm_memory_attributes)
->                 return kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + nr_pages,
->                                                        KVM_MEMORY_ATTRIBUTE_PRIVATE,
->                                                        KVM_MEMORY_ATTRIBUTE_PRIVATE);
->
-> -       mt_for_each(&gi->attributes, entry, index, end) {
-> -               if (xa_to_value(entry) != KVM_MEMORY_ATTRIBUTE_PRIVATE)
-> -                       return false;
-> -       }
-> -
-> -       return true;
-> +       return kvm_gmem_range_has_attributes(&gi->attributes, index, nr_pages,
-> +                                            KVM_MEMORY_ATTRIBUTE_PRIVATE);
->  }
->
->  static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
->
-> --
-> 2.54.0.563.g4f69b47b94-goog
->
->
+-- 
+Frederic Weisbecker
+SUSE Labs
