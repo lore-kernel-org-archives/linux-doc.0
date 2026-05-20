@@ -1,45 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20273ED3C1;
-	Wed, 20 May 2026 11:20:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355BE3EF0D7;
+	Wed, 20 May 2026 11:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779276032; cv=none; b=rYKXclA7cuSxCEheSMIZR7TVGRMJaGf3xFXK7PcwlzMwTkUAUUwm1/lGjnz7LSojvRFHhcMPlh8hHM/exY9VkptdPQbxww7CN/4LaexdvWnjI12xUUvl8BoQWIfdJ95HBRBWRASDsoCcbJKyUJ/YMaucNZxnZCanYX4YfLJS0FU=
+	t=1779276036; cv=none; b=YNSC2EPM02qOWhLXND/bQUGsFe+VqJHXOVn+CvIZrh2pzjFiCFxmByZCjokALsH/qqytzihWZACcXZxRRgjqdEiUAH68ecaI6wmtCJ5RxL1fxvZJff5jf/SQENFgAZLHloXekCgvrvGkph1prXJRry3yct7JqsjdtuRsbHmdcwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779276032; c=relaxed/simple;
-	bh=6G8mJUruCA7qk3la4XjD6mES1+LbZxcjEMGxXtoDUQU=;
+	s=arc-20240116; t=1779276036; c=relaxed/simple;
+	bh=n1kjMAH6n1QMvxL4tue2EW0MTKmqqXgsAPBhnmI6cDc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=euQYRDxhylRV+I46NiAsYSgyR80FzF7QMRAikTBySv+rg2m3xqHAscV48aatN2mg60pk+MOgXCKZAJGUDY4SOVp5RQbDy4bGePLHB71dUuW2XHizXoWs+slFWJsZgGX9L9jjUZyQdPoqAZOdl544dxxoQMVlswOGXYePAlCktXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ur9V40zZ; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=dt87yVpMTSwCo3KwyHABYo6yas0egSaC1nV54f/kGcZohlHI2x353deCZmlsQXTgw7G4KD1tqPUhgXtJlxGxDMWKyPnv6hmwZBQHGq7NzAIpnDI4klOeWJAkI4ip1TUHI3UXHCRcGWZ64p3fjoumetpv0i5j0hqv35AlKzzBYHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g2yzupuq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ur9V40zZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EA101F00897;
-	Wed, 20 May 2026 11:20:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g2yzupuq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1F0B1F00893;
+	Wed, 20 May 2026 11:20:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779276030;
-	bh=ytUTrqgPtCXZ91Xi5mCBiWhz2KSy2GNakoWUqvng6so=;
+	s=k20260515; t=1779276035;
+	bh=RHBeMpolU18H6R9xI+OllTBmCQa7/WTbYDEkch01KQY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Ur9V40zZMiYAKdlT/lKKN5blp+ZTHZyIm/Q0hFYKWfvacgXggxMpCxyZifgt3Sv5q
-	 W/rIIk/D0VNUtf3VmTUtn+SqQCgMNVHzIjzoB11EV1VEb+FIn9e2WJZJPsN3uNRXit
-	 XHsv8u1Iu4v1ZXOI5RQSlpCwqft9GXsbQmZeVPbRXKEGHBBSI2CXoZL2sKWv9CxtCf
-	 vaed2olmyL8cEXAABShURhBW/PeEgxPmR5pSMPc1BYLftSUK+hCIQ+35l0WCXDWS6f
-	 1qt6Vd/EoPOjmj3TWf8IzIddChoIC8wj6T8a1NE5vnkinR6jGa0PE0Fosh/m1UzuEg
-	 VDahAGp16fbMA==
+	b=g2yzupuqlhDYk0ELmJvw4WZiQAlQoU9Zkc5PzktTLANeyHydFOkXLoBdH6Jol/rKa
+	 qQvjJE1VaH62EXFiFNfJvuVGE1M6XwtNBqo3JKQPJFHZdXSt0I5fldJSQEiazG4cP/
+	 hYQRznDBUie9oJLZpI3Wuy+ucRkPkYG+tAYoS/iGKYF69f6GF8994um8CsX2q8hw9h
+	 hPMvO35tKo3JD4AWWLbU9ufhQohtj0WKvv9NmqF815dkj+lKfMT0zmXKm2Pm9koiAA
+	 JMkTSlNEamaF+HSPMgaDOxy1VAZ7dB0Tt7doe6Gk3+NDAP/4LdDl230rijkoJYuXhF
+	 Yj7673rEc0tjA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Ninad Naik <ninadnaik07@gmail.com>,
-	Liam Merwick <liam.merwick@oracle.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
+	david.rhodes@cirrus.com,
+	perex@perex.cz,
+	tiwai@suse.com,
 	corbet@lwn.net,
-	kvm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.12] Documentation: kvm: update links in the references section of AMD Memory Encryption
-Date: Wed, 20 May 2026 07:19:04 -0400
-Message-ID: <20260520111944.3424570-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.18] ALSA: doc: cs35l56: Update path to HDA driver source
+Date: Wed, 20 May 2026 07:19:07 -0400
+Message-ID: <20260520111944.3424570-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260520111944.3424570-1-sashal@kernel.org>
 References: <20260520111944.3424570-1-sashal@kernel.org>
@@ -52,280 +55,224 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0.9
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Ninad Naik <ninadnaik07@gmail.com>
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-[ Upstream commit 80f4a7b8ce7513c203562191426e4d4cc635b095 ]
+[ Upstream commit 74e8409821ac8cda70bf23eb593f2c7f6e3b5a2f ]
 
-Replace non-working links in the reference section with the working ones.
+The HDA drivers were moved to sound/hda/... so update a Documentation
+reference that still pointed to the old location.
 
-Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
-Link: https://patch.msgid.link/20260511174302.811918-1-ninadnaik07@gmail.com/
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Link: https://patch.msgid.link/20260511104148.36382-1-rf@opensource.cirrus.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
 ## Phase 1: Commit Message Forensics
+Record 1.1: Subsystem `ALSA: doc: cs35l56`; action verb `Update`;
+intent: correct a stale documentation path to the HDA driver source.
 
-Step 1.1 Record: Subsystem `Documentation: kvm`; action verb `update` /
-body verb `Replace`; intent is to replace non-working AMD Memory
-Encryption reference links with working links.
+Record 1.2: Tags present in supplied message: `Signed-off-by: Richard
+Fitzgerald <rf@opensource.cirrus.com>`, `Link: https://patch.msgid.link/
+20260511104148.36382-1-rf@opensource.cirrus.com`, `Signed-off-by:
+Takashi Iwai <tiwai@suse.de>`. No `Fixes:`, `Reported-by:`, `Tested-
+by:`, `Reviewed-by:`, `Acked-by:`, or `Cc: stable`.
 
-Step 1.2 Record: Tags found: `Signed-off-by: Ninad Naik
-<ninadnaik07@gmail.com>`, `Link: https://patch.msgid.link/20260511174302
-.811918-1-ninadnaik07@gmail.com/`, `Reviewed-by: Liam Merwick
-<liam.merwick@oracle.com>`, `Signed-off-by: Paolo Bonzini
-<pbonzini@redhat.com>`. No `Fixes:`, `Reported-by:`, `Tested-by:`,
-`Acked-by:`, or `Cc: stable@vger.kernel.org`.
-
-Step 1.3 Record: The commit body describes a documentation issue only:
-reference links in `Documentation/virt/kvm/x86/amd-memory-
-encryption.rst` no longer work as intended. The user-visible symptom is
-stale/broken documentation references for AMD SEV/SEV-SNP material. No
-runtime failure, crash, data corruption, or kernel version note is
+Record 1.3: The body says the HDA drivers moved to `sound/hda/...`,
+leaving this documentation reference pointing at the old
+`sound/pci/hda/...` location. Symptom is incorrect documentation only;
+no runtime failure, crash, data corruption, or security impact is
 described.
 
-Step 1.4 Record: This is not a hidden runtime bug fix. It is a direct
-documentation fix, which is an allowed stable exception category due to
-zero runtime risk.
+Record 1.4: This is not a hidden runtime bug fix. It is a direct
+documentation correction.
 
 ## Phase 2: Diff Analysis
+Record 2.1: One file changed: `Documentation/sound/codecs/cs35l56.rst`,
+1 insertion and 1 deletion. No functions modified. Scope: single-file
+documentation-only surgical change.
 
-Step 2.1 Record: One file changed: `Documentation/virt/kvm/x86/amd-
-memory-encryption.rst`, 4 insertions and 4 deletions. No functions are
-modified. Scope classification: single-file surgical documentation
-update.
+Record 2.2: Before: HDA users were pointed to
+`sound/pci/hda/cs35l56_hda.c`. After: they are pointed to
+`sound/hda/codecs/side-codecs/cs35l56_hda.c`.
 
-Step 2.2 Record: Before, four reference labels pointed to older AMD
-URLs. After, those labels point to current AMD Technical Information
-Portal URLs, and the SNP firmware ABI reference points to a current AMD
-PDF path. Only the `References` section is affected.
+Record 2.3: Bug category: documentation correctness fix. Verified
+current tree has `sound/hda/codecs/side-codecs/cs35l56_hda.c`;
+`sound/pci/hda` does not exist in this checkout.
 
-Step 2.3 Record: Bug category is documentation correctness, specifically
-stale external references. No synchronization, memory safety, reference
-counting, initialization, type, logic, or hardware workaround code is
-involved.
-
-Step 2.4 Record: Fix quality is high: the diff only swaps URL strings,
-preserves labels, and does not touch kernel code or public APIs.
-Regression risk is effectively limited to the possibility of choosing a
-less useful URL, not runtime behavior.
+Record 2.4: Fix quality is obvious and minimal. Regression risk is
+runtime zero, but backport targeting matters: applying it to older trees
+where the driver is still under `sound/pci/hda` would make the
+documentation wrong.
 
 ## Phase 3: Git History Investigation
+Record 3.1: `git blame` shows the stale documentation line was
+introduced by `088fb4ee17fc4` (`ALSA: doc: cs35l56: Add information
+about Cirrus Logic CS35L54/56/57`). The line became stale when
+`6014e9021b28e` moved HDA codec drivers into `sound/hda/codecs`.
 
-Step 3.1 Record: `git blame` on the reference section showed the white-
-paper line came from `fbabc2eaef9fd7` in v6.3-rc1, the SNP firmware ABI
-line came from `136d8bc931c84f` in v6.11-rc1, and older reference lines
-are present in stable branches back to at least `v5.15` by direct branch
-grep. Some blame output for pre-rename lines hit a boundary attribution,
-so I did not rely on that boundary commit as the true source.
+Record 3.2: No `Fixes:` tag is present, so there was no Fixes target to
+follow.
 
-Step 3.2 Record: No `Fixes:` tag is present, so there is no specific
-introducing commit to follow.
+Record 3.3: Recent file history shows only CS35L56 documentation
+updates. Related source movement is `6014e9021b28e`, which renamed
+`sound/pci/hda/cs35l56_hda.c` to `sound/hda/codecs/side-
+codecs/cs35l56_hda.c`.
 
-Step 3.3 Record: Recent file history on `origin/master` includes KVM
-SEV/SNP documentation and API additions, including `20c3c4108d58f`,
-`dcbcc2323c806`, `ad27ce155566f`, `dee5a47cc7a45`, and `136d8bc931c84f`.
-The candidate is standalone because it only changes URL strings and does
-not depend on those code/API changes to be meaningful where the same
-reference lines exist.
+Record 3.4: Author Richard Fitzgerald has multiple recent CS35L56/HDA-
+related commits in this subsystem, including documentation and HDA
+driver fixes.
 
-Step 3.4 Record: `git log --author='Ninad Naik'` showed this author has
-other documentation link/spelling style commits, including
-`a362ae6e7e85b` for `amd-pstate` dead links and `5ed26ffe57ffc` for a
-`hwmon` link. I did not verify the author as a KVM maintainer; Paolo
-Bonzini committed/applied it and Liam Merwick reviewed it.
-
-Step 3.5 Record: No code symbols or function dependencies exist. The
-patch can apply standalone where the same documentation reference block
-exists; older stable branches may need context/path adjustments.
+Record 3.5: Dependency identified: this patch is correct only in trees
+that already contain the HDA move commit `6014e9021b28e`.
 
 ## Phase 4: Mailing List And External Research
+Record 4.1: `b4 am` using message ID
+`20260511104148.36382-1-rf@opensource.cirrus.com` found a single patch
+submission and reported no newer revision. Direct `WebFetch` to
+lore/patch.msgid.link was blocked by Anubis, but `b4` retrieved the
+mbox.
 
-Step 4.1 Record: `b4 dig -c 80f4a7b8ce751` found the original patch
-thread at `https://patch.msgid.link/20260511174302.811918-1-
-ninadnaik07@gmail.com`. `b4 dig -a` found only v1; `b4 am -c` found no
-newer revision.
+Record 4.2: `b4 dig -c` could not be run for the candidate commit
+because no candidate commit hash was supplied and the commit was not
+found on checked named branches searched. `b4 am` verified author DKIM
+signatures and the patch metadata. `b4 dig -c 6014e9021b28e -w` verified
+the prerequisite move patch was an ALSA HDA series sent to `linux-sound`
+and relevant HDA/Cirrus recipients.
 
-Step 4.2 Record: `b4 dig -w` showed the patch was sent to KVM and docs
-maintainers/lists, including Paolo Bonzini, Jonathan Corbet, Sean
-Christopherson, Michael Roth, Liam Merwick, `kvm@vger.kernel.org`, and
-`linux-doc@vger.kernel.org`.
+Record 4.3: No bug report, syzbot report, crash report, or user report
+is linked.
 
-Step 4.3 Record: There is no separate bug report or reporter tag. The
-thread contains Liam Merwick’s `Reviewed-by` and Paolo Bonzini’s
-“Applied, thanks.” I found no NAKs or concerns in the fetched thread.
+Record 4.4: Candidate is standalone as a documentation update, but
+semantically depends on the prior source-tree move.
 
-Step 4.4 Record: The patch is a one-patch series. No related required
-patches were identified.
-
-Step 4.5 Record: Web search did not find stable-specific discussion for
-this exact subject/hash. Direct WebFetch of lore stable search was
-blocked by Anubis, so stable-list search is partially unverified.
+Record 4.5: Web searches and local pending branch searches found no
+stable-specific discussion for this exact documentation patch.
 
 ## Phase 5: Code Semantic Analysis
+Record 5.1: No functions modified; documentation text only.
 
-Step 5.1 Record: No functions are modified.
+Record 5.2: No callers; this is not runtime code.
 
-Step 5.2 Record: No callers exist because this is documentation.
-Documentation references to this file exist from
-`Documentation/virt/kvm/api.rst`, `Documentation/admin-guide/kernel-
-parameters.txt`, `Documentation/virt/kvm/x86/index.rst`, and related
-documentation pages.
+Record 5.3: No callees; no allocations, locks, I/O, or side effects.
 
-Step 5.3 Record: No callees exist. The changed labels are consumed by
-Sphinx/ReST documentation rendering.
+Record 5.4: No userspace-triggerable kernel execution path. Impact is
+limited to readers of the documentation.
 
-Step 5.4 Record: No runtime call chain exists. User impact is
-documentation usability for KVM SEV/SEV-SNP developers/users.
+Record 5.5: Search found the old path only in
+`Documentation/sound/codecs/cs35l56.rst` among `.rst` files checked.
 
-Step 5.5 Record: Similar pattern exists in prior documentation link
-fixes, including `fbabc2eaef9fd7` for an AMD memory encryption white-
-paper URL and `bad0524e24201` for an x86 SEV documentation URL.
+## Phase 6: Stable Tree Analysis
+Record 6.1: Tag containment shows the documentation exists from
+`v6.13+`; the HDA move exists from `v6.17+`. Therefore the stale-path
+documentation issue exists only in trees containing both, i.e.
+approximately `v6.17+` and later.
 
-## Phase 6: Cross-Referencing And Stable Tree Analysis
+Record 6.2: `git apply --check` confirms the patch applies cleanly to
+the current `7.0.y` tree. Backport difficulty is trivial for affected
+trees, but it must not be applied to trees where the HDA driver still
+lives under `sound/pci/hda`.
 
-Step 6.1 Record: Stable branches contain affected references.
-`stable/linux-5.15.y` and `stable/linux-6.1.y` contain the old KVM AMD
-memory encryption doc with three AMD references. `stable/linux-6.6.y`
-contains the three current old references. `stable/linux-6.12.y` through
-`stable/linux-7.0.y` contain all four references, including the SNP
-firmware ABI link.
-
-Step 6.2 Record: Backport difficulty is clean for the current
-`linux-7.0.y`-based tree: `git apply --check` succeeded. Older trees
-likely need small manual adjustment: `5.15.y` uses the pre-`x86/` path,
-`5.15.y`/`6.1.y` have an older white-paper URL, and `6.6.y` lacks the
-SNP firmware ABI line.
-
-Step 6.3 Record: `stable/linux-7.0.y` does not contain this candidate
-commit by subject. I found prior related doc-link fixes, but not this
-exact KVM reference update in stable branches checked.
+Record 6.3: No related stable fix for this exact path correction was
+found in local pending branches.
 
 ## Phase 7: Subsystem And Maintainer Context
+Record 7.1: Subsystem is ALSA sound documentation for Cirrus CS35L56
+HDA/SoundWire amplifiers. Criticality: peripheral/documentation, not
+runtime core.
 
-Step 7.1 Record: Subsystem is KVM x86 documentation for AMD SEV/SEV-SNP.
-Criticality is peripheral for runtime kernel stability, but relevant to
-KVM confidential-computing documentation users.
-
-Step 7.2 Record: File history shows active KVM SEV/SNP documentation
-churn due to recent SEV-SNP commands and API documentation. The touched
-change itself is isolated documentation.
+Record 7.2: Sound documentation and HDA side-codec areas are actively
+maintained; recent logs show multiple CS35L56/HDA commits.
 
 ## Phase 8: Impact And Risk Assessment
+Record 8.1: Affected population: developers, maintainers, integrators,
+and users consulting this CS35L56 documentation in kernels where the HDA
+source has moved.
 
-Step 8.1 Record: Affected population is documentation users, especially
-KVM/SEV/SEV-SNP developers and operators consulting AMD specs from
-stable kernel docs.
+Record 8.2: Trigger condition: reading the documentation. Not
+triggerable as a kernel runtime fault.
 
-Step 8.2 Record: Trigger condition is reading the documentation
-references. It is not syscall- or runtime-triggered, and unprivileged
-runtime triggering is not applicable.
+Record 8.3: Failure mode: stale documentation path. Severity LOW, but
+documentation fixes are explicitly acceptable stable material due zero
+runtime risk.
 
-Step 8.3 Record: Failure mode is stale/non-direct documentation links.
-Severity is LOW for runtime stability, but valid under the
-documentation-fix exception.
-
-Step 8.4 Record: Benefit is modest but real: stable documentation points
-users at current AMD references. Risk is very low: 4 URL replacements in
-one `.rst` file, no code, no ABI, no behavior change. Risk-benefit ratio
-is favorable because runtime regression risk is effectively zero.
+Record 8.4: Benefit is modest but real for affected trees; risk is very
+low if limited to trees with `6014e9021b28e`, but negative for older
+trees where the old path is still correct.
 
 ## Phase 9: Final Synthesis
+Record 9.1: Evidence for backporting: fixes an objectively wrong
+documentation reference, one-line contained patch, no runtime regression
+risk, applies cleanly to current `7.0.y`, documentation/comment fixes
+are an accepted stable exception. Evidence against: no runtime bug, no
+important crash/security/corruption impact, and it must be branch-
+limited. Unresolved: exact upstream candidate commit hash was not
+available locally.
 
-Step 9.1 Record: Evidence for backporting: documentation fix exception
-applies; patch is tiny; reviewed; applied by KVM maintainer Paolo
-Bonzini; no NAKs found; affected references exist in stable trees;
-current `7.0.y` patch application check succeeds. Evidence against: no
-runtime bug, no crash/security/data-loss impact, and older stable
-branches need minor backport adjustment. Unresolved: lore stable search
-was blocked by Anubis, so I could not fully verify stable-list
-discussion.
+Record 9.2: Stable rules: obviously correct: yes; tested: `b4` says
+applies cleanly and local `git apply --check` passed; fixes a real bug:
+yes, documentation bug; important runtime issue: no; small and
+contained: yes, 1 line; no new feature/API: yes; applies to affected
+stable trees: yes, for trees after the HDA move.
 
-Step 9.2 Record: Stable rules checklist: obviously correct and reviewed:
-yes; fixes a real issue: yes, stale documentation references; important
-runtime issue: no, but documentation fixes are an allowed exception;
-small and contained: yes, 4 lines changed in one file; no new
-features/APIs: yes; can apply to stable: yes for current `7.0.y`, likely
-clean for `6.12.y+`, minor adjustment for older branches.
+Record 9.3: Exception category: documentation fix.
 
-Step 9.3 Record: Exception category: documentation fix. This is
-explicitly the kind of zero-runtime-risk update that can be accepted
-even though it is not a runtime correctness fix.
-
-Step 9.4 Record: Decision is YES. Backporting is appropriate for stable
-trees that carry the affected documentation, with minor manual
-adjustment where older branch context differs.
+Record 9.4: Decision: backport is appropriate, but only to stable trees
+that already contain the HDA source move to `sound/hda/codecs/side-
+codecs`. Do not apply to older stable trees where
+`sound/pci/hda/cs35l56_hda.c` remains the correct path.
 
 ## Verification
-
-- [Phase 1] `git show --format=fuller --stat --patch 80f4a7b8ce751`:
-  confirmed subject, tags, one-file documentation diff, and no runtime-
-  code changes.
-- [Phase 2] Diff inspection: confirmed 4 URL replacements only in
-  `Documentation/virt/kvm/x86/amd-memory-encryption.rst`.
-- [Phase 3] `git blame -L 652,664`: confirmed local history for the
-  reference block, including `fbabc2eaef9fd7` and `136d8bc931c84f`.
-- [Phase 3] `git describe --contains`: confirmed `fbabc2eaef9fd7` first
-  appears by v6.3-rc1 and `136d8bc931c84f` by v6.11-rc1.
-- [Phase 3] `git log origin/master --oneline -20 --
-  Documentation/virt/kvm/x86/amd-memory-encryption.rst`: confirmed
-  recent KVM SEV/SNP doc history and candidate placement.
-- [Phase 4] `b4 dig -c 80f4a7b8ce751`: found original patch thread by
-  patch-id.
-- [Phase 4] `b4 dig -c 80f4a7b8ce751 -a`: confirmed only v1 series.
-- [Phase 4] `b4 dig -c 80f4a7b8ce751 -w`: confirmed KVM/docs maintainers
-  and lists were included.
-- [Phase 4] `b4 mbox`/saved thread plus `rg`: confirmed `Reviewed-by:
-  Liam Merwick` and Paolo’s “Applied, thanks”; found no NAK/stable
-  request text.
-- [Phase 4] WebFetch of lore/patch URLs was blocked by Anubis; b4
-  successfully fetched the thread.
-- [Phase 5] `rg` in the doc file: confirmed changed labels are
-  referenced by SEV/SNP documentation text.
-- [Phase 5] `rg` under `Documentation`: confirmed documentation pages
-  link to `amd-memory-encryption.rst`.
-- [Phase 6] `git grep` across `stable/linux-5.15.y`, `6.1.y`, `6.6.y`,
-  `6.12.y`, `6.15.y`, `6.16.y`, `6.17.y`, `6.18.y`, `6.19.y`, and
-  `7.0.y`: confirmed affected old references exist and identified branch
-  differences.
-- [Phase 6] `git diff 80f4a7b8ce751^ 80f4a7b8ce751 | git apply --check`:
-  confirmed clean application to the current `7.0.y`-based working tree.
-- [Phase 8] URL checks with Python HEAD/WebFetch: confirmed old direct
-  AMD URLs no longer behave as direct PDF references in several cases,
-  while the new SNP ABI URL returns an AMD PDF; other new AMD TIP URLs
-  resolve to AMD documentation portal pages.
-- UNVERIFIED: full stable mailing-list history, because direct lore
-  stable WebFetch was blocked by Anubis and web search found no exact
-  stable discussion.
+- [Phase 1] Parsed supplied commit message and downloaded mbox:
+  confirmed subject, author, message ID, and one-line documentation
+  rationale.
+- [Phase 2] Read `Documentation/sound/codecs/cs35l56.rst`: confirmed old
+  path is present.
+- [Phase 2] Checked filesystem: confirmed `sound/hda/codecs/side-
+  codecs/cs35l56_hda.c` exists and `sound/pci/hda` does not in current
+  tree.
+- [Phase 3] `git blame -L 35,45`: confirmed stale line came from
+  `088fb4ee17fc4`.
+- [Phase 3] `git show 6014e9021b28e`: confirmed HDA codecs, including
+  `cs35l56_hda.c`, were moved from `sound/pci/hda` to
+  `sound/hda/codecs/side-codecs`.
+- [Phase 4] `b4 am`: retrieved the patch, found one patch, no newer
+  revision, DKIM signed.
+- [Phase 4] `b4 dig -c <msgid>`: failed because `b4 dig` requires a
+  commit-ish, not a message ID.
+- [Phase 4] WebFetch to lore/patch.msgid.link: blocked by Anubis.
+- [Phase 6] `git tag --contains`: documentation starts at `v6.13+`; HDA
+  move starts at `v6.17+`.
+- [Phase 6] `git apply --check`: candidate patch applies cleanly to
+  current tree.
+- [Phase 6] `git ls-tree`: `v6.6`/`v6.12` have old HDA source path and
+  no affected doc; `v6.18` has both affected doc and new HDA source
+  path.
+- UNVERIFIED: Candidate final upstream commit hash, because it was not
+  found on searched local named branches and was not provided.
 
 **YES**
 
- Documentation/virt/kvm/x86/amd-memory-encryption.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/sound/codecs/cs35l56.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/virt/kvm/x86/amd-memory-encryption.rst b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-index b2395dd4769de..bd04a908a8dbd 100644
---- a/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-+++ b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-@@ -656,8 +656,8 @@ References
- See [white-paper]_, [api-spec]_, [amd-apm]_, [kvm-forum]_, and [snp-fw-abi]_
- for more info.
+diff --git a/Documentation/sound/codecs/cs35l56.rst b/Documentation/sound/codecs/cs35l56.rst
+index d5363b08f5152..b3f8c1c238518 100644
+--- a/Documentation/sound/codecs/cs35l56.rst
++++ b/Documentation/sound/codecs/cs35l56.rst
+@@ -40,7 +40,7 @@ There are two drivers in the kernel
  
--.. [white-paper] https://developer.amd.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
--.. [api-spec] https://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
--.. [amd-apm] https://support.amd.com/TechDocs/24593.pdf (section 15.34)
-+.. [white-paper] https://docs.amd.com/v/u/en-US/memory-encryption-white-paper
-+.. [api-spec] https://docs.amd.com/v/u/en-US/55766_PUB_3.24_SEV_API
-+.. [amd-apm] https://docs.amd.com/v/u/en-US/24593_3.44_APM_Vol2 (section 15.34)
- .. [kvm-forum]  https://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
--.. [snp-fw-abi] https://www.amd.com/system/files/TechDocs/56860.pdf
-+.. [snp-fw-abi] https://www.amd.com/content/dam/amd/en/documents/developer/56860.pdf
+ *For systems using SoundWire*: sound/soc/codecs/cs35l56.c and associated files
+ 
+-*For systems using HDA*: sound/pci/hda/cs35l56_hda.c
++*For systems using HDA*: sound/hda/codecs/side-codecs/cs35l56_hda.c
+ 
+ Firmware
+ ========
 -- 
 2.53.0
 
