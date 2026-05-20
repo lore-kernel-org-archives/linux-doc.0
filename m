@@ -1,167 +1,182 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4522A3DEADC
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 12:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857FD3DCDA7
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 12:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.43.1.242
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779280278; cv=none; b=QPdLn+gtjG6GnmMWWEOGu3LtkUFFSYv0w8HipzyxTnonIBvUkd2cQnBC/BbA76Q57Rai5AYT/YuGFDxB/HUFaEhMzgwhAXmxvLmbl37mkOUXisGBzpbEt8sgnIOU/o662D1USB/8nH9t6c3oChPFQXu+xJVCP7mDjgvqkOtFQ2E=
+	t=1779280423; cv=none; b=fZaQEhxCXkrmNGwD3kET3yF62PeWQur56Ex1pxsT/cUDDTrj/s4iLfSl88e3G7O76a4TpZ+QUEyLKm3HGuMoxfLvXoOU0KVZW16Uput0Zvt1RyUgdBd13RWrahJk/woph3VOaSU2AmBzR5ipasKLaPGdLEmCep8bxQVp6nnJIms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779280278; c=relaxed/simple;
-	bh=7gAk2JTKbsfJYuia6suT6lU9Gcv0TRau2aV5ozbZXCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pj/HXH/ZW8zGev1Lxh8i7Vm+20C2xU8KMomA2gzq1SXv7U9orBaurExa0C0VQOzGJZxITigmyu9CKcRn4meb97l6S7UJpL6Rig18qUe0BkgO7xSGLrLoyB1wO7PMM/AjX1Glio0mglCTFXVXeKMwweV+qoT+teF6JNGfr8I24Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Tczx8/RI; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1779280423; c=relaxed/simple;
+	bh=QAPUhSFoYr4bUaOZROL9kMB0XxGMQA2LYNnfIiF3fpc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KbHH6YkiewHO7ZBtaBN3Bh3KVE0hKNd9y0oNaksRvJ5Q5UDADW+oyo+WvtVzukPxQwytANFvZomz005LT2iaTQQm6h/FqSuACVu37Iv+wOy4Ooyb3SmSBpEPgafV7OFkcK1DG00Y/HrIqGxKP2CBFMzFDwaZmzv0CtArTBt8QHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org; spf=pass smtp.mailfrom=kde.org; dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b=Whq6NoHV; arc=none smtp.client-ip=46.43.1.242
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kde.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Tczx8/RI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779280276;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CB/Z4bzbsyrd+gSXXFc5hMEcaetYVQ+7kd0CfM+SH9M=;
-	b=Tczx8/RIVMTA61GlAddKzSPvsCvbRXC5staWTqD75Nx5dBcmRqx+Q5AChClTTSXLDcmb7m
-	hz8Rf53WyGO2txG9aAiqkg159RnL1D+GDaTyu33/PS+dO1uFKrcT2P8YbfFt13tJKQxlsy
-	SODvt/UmJvB429hN1rEt3P1IpxRXspU=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-553-OFz8t6rZN3-_6eMhLI993A-1; Wed,
- 20 May 2026 08:31:13 -0400
-X-MC-Unique: OFz8t6rZN3-_6eMhLI993A-1
-X-Mimecast-MFC-AGG-ID: OFz8t6rZN3-_6eMhLI993A_1779280271
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B3E3A1956096;
-	Wed, 20 May 2026 12:31:09 +0000 (UTC)
-Received: from thinkpad (dhcp-64-111.muc.redhat.com [10.32.64.111])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 271F01800465;
-	Wed, 20 May 2026 12:31:03 +0000 (UTC)
-Date: Wed, 20 May 2026 14:31:00 +0200
-From: Felix Maurer <fmaurer@redhat.com>
-To: Luka Gejak <luka.gejak@linux.dev>
-Cc: Jakub Kicinski <kuba@kernel.org>, MD Danish Anwar <danishanwar@ti.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Roger Quadros <rogerq@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Meghana Malladi <m-malladi@ti.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	David Carlier <devnexen@gmail.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Kevin Hao <haokexin@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: Re: [PATCH net-next v2 2/2] net: ti: icssg: Add HSR and LRE PA
- statistics
-Message-ID: <ag2phK4k7PuyBo5B@thinkpad>
-References: <20260514075605.850674-1-danishanwar@ti.com>
- <20260514075605.850674-3-danishanwar@ti.com>
- <20260518184506.694c584e@kernel.org>
- <E30AAC96-01D2-4A23-B562-126087DEB7FA@linux.dev>
+	dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b="Whq6NoHV"
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+	(Authenticated sender: zamundaaa)
+	by letterbox.kde.org (Postfix) with ESMTPSA id 007C432BA32
+	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 13:33:39 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+	t=1779280420; bh=QAPUhSFoYr4bUaOZROL9kMB0XxGMQA2LYNnfIiF3fpc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Whq6NoHVvcJFXcYunt2by+cUOjwnj5qoXA3T2bsBSlE6re6nm2tCRX78zTQiUSpeT
+	 Z8gqcl0bxQkQ04sGGDoPKApr8jQhjYnMz4tnNztA/QPBCQO6WtOYx+H20DWNn0LWe/
+	 7RADW8TNKcBmaYESpnHv0/JYuQiiWxCcf7S6OCqalQxhVc2kZjAO3zDKdCKBlvx3BC
+	 Nui2oS88fh84B2/uTjK6axPUV0cIkLquf0d/bY8IKHQm9Md3fc1iJ/hcZpK1PY+YvN
+	 k3LQqb2/h6ZPn1RpEdanRdFYpQdwMG9QWuz4OFrJG0avYWo3hpZ2yf/qrRiD0R91W1
+	 qiumSiHGDGc+g==
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-651b4d09141so4616081d50.1
+        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 05:33:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9NLWW343LmYLv4E806B0mi6lODaaVfgPTdMJePu9mFFWz4pdisfDzep/z/S83RoNhQm7oHKjJoU9Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsFp0+Vbn+J+udm2inRq7HujYXDdeC624mgupOJYTAZlUJDJMz
+	wiay8GvUC2apfP73ajO5b+79xZ5GUzAD3UIEpvtaqBu3knsrYccMoNnZCoL+TIaU0ns9PdprBVP
+	vORr3agzJNI/UW6Pa7HR7ISTfRDtxKs0=
+X-Received: by 2002:a05:690e:1c05:b0:65e:9e71:7942 with SMTP id
+ 956f58d0204a3-65e9e718592mr625005d50.37.1779280418541; Wed, 20 May 2026
+ 05:33:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E30AAC96-01D2-4A23-B562-126087DEB7FA@linux.dev>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+ <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com> <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
+ <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com> <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
+ <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com> <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
+ <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com> <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
+ <dff60378-4e47-4753-8878-feec6e1c2690@amd.com> <CAFZQkGz=UJqaJ_eTwKBy1pAg5xL+PLibh7W1vYf7JD7Jrx-LZQ@mail.gmail.com>
+ <53edf0b5-e733-4b96-87d7-3307275500c0@amd.com>
+In-Reply-To: <53edf0b5-e733-4b96-87d7-3307275500c0@amd.com>
+From: Xaver Hugl <xaver.hugl@kde.org>
+Date: Wed, 20 May 2026 14:33:26 +0200
+X-Gmail-Original-Message-ID: <CAFZQkGxpPm081Fz8UtDuBA1PKD42+9YDA+cc6fbSpfawXwu9+g@mail.gmail.com>
+X-Gm-Features: AVHnY4Jgk8foYzRi5plZzxfmXsVMwh3FA7NaYflBHH8P8EN0Be3BzPmLSUlyKpc
+Message-ID: <CAFZQkGxpPm081Fz8UtDuBA1PKD42+9YDA+cc6fbSpfawXwu9+g@mail.gmail.com>
+Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Julian Orth <ju.orth@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	wayland-devel@lists.freedesktop.org, 
+	=?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi everyone,
-
-On Tue, May 19, 2026 at 07:55:55AM +0200, Luka Gejak wrote:
-> On May 19, 2026 3:45:06 AM GMT+02:00, Jakub Kicinski <kuba@kernel.org> wrote:
-> >On Thu, 14 May 2026 13:26:05 +0530 MD Danish Anwar wrote:
-> >> Add new firmware PA statistics counters for HSR and LRE to the ethtool
-> >> statistics exposed by the ICSSG driver.
-> >>
-> >> New statistics added:
-> >>  - FW_HSR_FWD_CHECK_FAIL_DROP: Packets dropped on the HSR forwarding path
-> >>  - FW_HSR_HE_CHECK_FAIL_DROP: Packets dropped on the HSR host egress path
-> >>  - FW_HSR_SKIP_HOST_DUP_DISCARD_FRAMES: Frames with duplicate discard
-> >>    skipped
-> >>  - FW_LRE_CNT_UNIQUE/DUPLICATE/MULTIPLE_RX: LRE duplicate detection
-> >>    counters
-> >>  - FW_LRE_CNT_RX/TX: LRE per-port frame counters
-> >>  - FW_LRE_CNT_OWN_RX: Own HSR tagged frames received
-> >>  - FW_LRE_CNT_ERRWRONGLAN: Frames with wrong LAN identifier (PRP)
-> >>
-> >> Document the new HSR/LRE statistics in icssg_prueth.rst.
-> >
-> >To an untrained eye these stats look like stuff that could
-> >be standardized across drivers.
-> >
-> >Luka, Felix, others on CC, do you think we should expose these
-> >from HSR over netlink as "standard" offload stats different drivers
-> >can plug into or not worth it?
+Am Mi., 20. Mai 2026 um 10:08 Uhr schrieb Christian K=C3=B6nig
+<christian.koenig@amd.com>:
+> Well I would say the other way around is a pretty common use case.
 >
-> Hi Jakub,
-> I think there is a case for standardizing part of this, but I would
-> not standardize the whole set as-is.
+> In other words the compositors uses the internal GPU for composing and di=
+splaying the picture. And the client uses the external GPU for fast renderi=
+ng.
+Sure, but that's not what I'm talking about.
+
+> > - the buffers from the client stay valid
 >
-> The LRE counters look generic enough to me, especially:
->  - unique rx
->  - duplicate rx
->  - multiple rx
->  - rx / tx
->  - own rx
->  - wrong LAN, PRP only
+> Buffers from the hot plugged GPU don't stay valid. Accessing CPU mappings=
+ either result in a SIGBUS or are redirected to a dummy page.
+Again, not what I wrote about. The buffers are on the integrated GPU.
 
-I'm very much in favor of having standardized stats for hsr hardware
-offloads that the drivers can supply. The list above looks about right,
-I'd add "frames with errors" and "(proxy) node table entry count" as
-well and that "own rx" is HSR only.
+> > - the syncobj stays valid on the client side
+> > - the syncobj becomes invalid on the compositor side
+>
+> Nope that's not correct. The syncobj itself stays valid even if you compl=
+etely hot plug the device.
+>
+> It can just be that the fences inside the syncobj are terminated with an =
+error.
+What about eventfd created for a point on the syncobj?
 
-In general, I don't think we need to standardize this ourselves but can
-adapt to the counters that the SNMP MIB for IEC 62439-3 [1] already has.
-It's part of the standard and IMHO we should gather these counters from
-offloads (and later supply the same set from our sw implementation, but
-the current netlink interface for hsr is quite messy). For reference,
-the list in the MIB is (no need to fully adopt this naming):
-- lreCntTx{A,B,C}: Sent frames per-port (for A,B only tagged frames)
-- lreCntRx{A,B,C}: Received frames per-port (for A,B only tagged frames)
-- lreCntErrWrongLan{A,B}: Received frames per-port with wrong LAN ID
-  (only for PRP)
-- lreCntErrWrongLanC: Received frames on interlink port of HSR-PRP
-  RedBox with wrong LAN ID
-- lreCntErrors{A,B,C}: Received frames with errors per-port
-- lreCnt{,Proxy}Nodes: Nodes in the (proxy) node table
-- lreCntUnique{A,B,C}: Frames only received once, per-port
-- lreCntDuplicate{A,B,C}: Frames received with exactly one duplicate,
-  per-port
-- lreCntMulti{A,B,C}: Frames received with more than one duplicate,
-  per-port
-- lreCntOwnRx{A,B}: Frames received per-port (A,B) that originated from
-  this node, only for HSR rings
+Another (future) problem with hotplugs will be if the sync file hasn't
+materialized for the timeline point when the device is hotunplugged,
+since there can't be an error on the fence if there isn't one. Or
+could userspace somehow set an 'artificial' fence with an error in
+that case?
 
-Note that we can not currently completely distinguish
-Unique/Duplicate/Multi in the kernel implementation and their meaning is
-not entirely clear to me from the MIB.
+> > "invalid" there means either
+> > - the acquire point of the client is marked as signaled, before
+> > rendering on the client side is completed
+> > - the acquire point of the client is never signaled. Since the
+> > compositor waits for the acquire point, the Wayland surface is stuck
+> > forever
+>
+> Both of those would be a *massive* violation of documented kernel rules f=
+or hot-plugging which could lead to random data corruption and/or deadlocks=
+.
+>
+> If you see any HW driver showing behavior like that please open up a bug =
+report and ping the relevant maintainers immediately.
+If there are no error codes with syncobj yet, then to userspace, the
+latter behavior is exactly what we get, isn't it?
 
-The explanations in the MIB in [1] are otherwise quite explicit for each
-of the counters but we may want to adapt the meaning of "port C" to the
-counters. For example, there is lreCntRx{A,B,C} for received HSR/PRP
-tagged frames (by the LRE). Port A and B are clear, but for port C the
-meaning is "number of frames received from the application interface of
-a DANP or DANH or the number of number of frames received on the
-interlink of a RedBox". IMHO, we should consider separating "application
-interface" (what the kernel calls master) and the interlink port because
-these two are not mutually exclusive in the kernel (nor in the NICs that
-support hardware offload).
+> When a hotplug happens all operations of the device should return an -ENO=
+DEV error, even when exposed to other devices/application through syncobj o=
+r syncfile.
+Okay, that at least gives us a way to fail imports somewhat
+gracefully. Normally, failing to import a syncobj is a fatal error in
+the Wayland protocol.
 
-Thanks,
-   Felix
+> One problem is that only syncfile allows for querying such error codes at=
+ the moment, we have patches pending to add that to syncobj as well but we =
+lack a compositor with support for that as userspace client.
+As long as the error case can be detected with an eventfd,
+implementing that in KWin shouldn't be a challenge.
 
+> Well the question here is if the device the compositor is using or the cl=
+ient is using is gone?
+>
+> If the client device is hot removed the compositor should be perfectly ca=
+pable to import the syncobj.
+>
+> If the compositor device is gone then you don't have a device to display =
+anything any more, so generating the next frame doesn't seem to make sense =
+either.
+>
+> What could be is that you want the compositor to be kept alive even when =
+the display device is gone to switch over to vkms or whatever so that a VNC=
+ session or other remote desktop still works.
+There are two GPUs in the example I gave. The compositor can use both
+for rendering (in cosmic-comp's case) or switch between them (what I'm
+trying to do with KWin), or use one device for rendering, and another
+for importing the syncobj.
 
-[1]: you can find it for example here: https://mibbrowser.online/mibdb_search.php?mib=IEC-62439-3-MIB
+> >>>>> 3. It removes the need to translate between syncobjs fds and handle=
+s.
+> >>>>
+> >>>> That's a pretty big no-go as well. The differentiation between FDs a=
+nd handles is completely intentional.
+> >>> Could you expand on why it's needed? For compositors, the handle is
+> >>> just an intermediary thing when translating between file descriptors.
+> >>
+> >> Well what we could do is to add an IOCTL to directly attach an syncobj=
+ file descriptor to an eventfd.
+> > That would be nice.
+>
+> Take a look at drm_syncobj_file_fops and how drm_syncobj_add_eventfd() is=
+ used. Adding that functionality shouldn't be more than a typing exercise.
+Yeah, this patchset already adds that functionality (on the new device).
 
+> Do I see it right that this would already solve most problems in the comp=
+ositor side?
+Skipping the syncobj handle step would only reduce the amounts of
+ioctls the compositor does, but afaict it wouldn't solve any
+compositor problems. At least not as long as it's still tied to a drm
+device.
+For device hotplugs, the only new thing we need for correctly handling
+syncobj is a way to receive errors on the eventfd.
+
+A device-independent way to create and use syncobj would still be
+useful to us though, both to simplify the compositor and to improve
+the software rendering use cases.
+
+- Xaver
