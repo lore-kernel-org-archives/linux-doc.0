@@ -1,219 +1,228 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out28-171.mail.aliyun.com (out28-171.mail.aliyun.com [115.124.28.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264B33321C1
-	for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 03:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779246744; cv=pass; b=CsMiNKfY0olaBagVtAupGcgEIYRgaD10jeYRDt/Rp3n0C02MPFxmKSw9AIHpwTIPD3AcrUYpIt8oD1kO5RtDfyez0SKf58joGBa0TXLPv6ykuIDcdtgfcBpzztkpfQ8jvErN4UAThGzrFlDbprhqW4H6uA78a/oklTU4Uas1Nyc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779246744; c=relaxed/simple;
-	bh=31w5bysxtSHbCjagIfc69GHYMAiXOOKtv+UCMGhiGQY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UgA5m1kIFZGg/AJezzs72dM/426XmDTaGpRaiZ6FMwClH31JUiincudmN7bjsMDV/9OS86mHjI2mcKqNtwg5YPqpL5t40cvvD1Pbr2vsQF3bRAgxJJdm1k+R96KG8FZeOnr8US9tiQAUzryft7WvsQlMRsQURQGuAtBZfTdpKcA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YeoyhOPV; arc=pass smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YeoyhOPV"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bce57c132b2so1023475366b.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 May 2026 20:12:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779246741; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fVAidqFhPsTtzxZ3RTPjoMTwHYaXHqIgn2whFrpq1ir4cAFMOPzQA1d4qzCg0kBMJH
-         ULjlnnj959lP3t+72A03PN/IGWWOokJQX2T7b6iQ5ncH6lR+H+VWz4CDR2De5OKvR1H/
-         H9me56AUN3c71MFNRQMiAt4PAYSUaBt7zVPqMhLeF51cyKxs0INrXyQ+C+BfJ5jbYS6W
-         Q7H2g54TQVFuRyolo9cNRNgq/uBb+iqDp+IOClkj34kWz/0N+z+s5O4672/dyCJrx/+a
-         p5W1FvTIollZb/WMlPRJSqq7z5yVlMiZ4cjShnuB0dxAXp7qg48ZooTR72eaj70NIp4f
-         bzhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=31w5bysxtSHbCjagIfc69GHYMAiXOOKtv+UCMGhiGQY=;
-        fh=pVTurRIXtwbBKx+spXnQx8EVJhoj/EofpFKuXFXEH44=;
-        b=b0l4asx9f57DxHxqV61AWAA/5gYbEpmCN4RI7/zyfE+/8QslAat/F6XL4UlB1aipor
-         2m2+Q9WNjz/Jsir8g9h0hPNUqbPj9dIYUhmbMQbzJ48rn+Wl8p4TV1w/7dAKnIyRRZCg
-         G3TO9pSDJ6WVv8zgLNnEInIAVlhzemkkwTKGLxSAsVCDil38cT08nqC9KXP7NhX7hIO4
-         JNAEh+tqe0H6mcZ00/6GwfZ97qUxxS6ByJKGmc3HHgg09NzBMFKlVXuEyB8FArNNEeDx
-         uEqZhJaUyLheDNVBiC2+vkLCTKzv00eXiaxaH8zGg5x+HqR4Ulj23AbkoZ50Ph1UQxGR
-         HgqA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779246741; x=1779851541; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=31w5bysxtSHbCjagIfc69GHYMAiXOOKtv+UCMGhiGQY=;
-        b=YeoyhOPV5sKrbofkwxsSxP3WPdccEUSvVpdmOdwbfcxgzaur8OSMmUykKafMs7HiNd
-         XuT2BOJmZNbSD/b5QhYrvbJN7SZ7puEVsuf/XIS1vXO4IFc5UVx2PDdiN6NvLyJEZHki
-         o6PFpUCWYPkodJ1Tr5UzX18EP4LqGHnkAj/R9+aUgepEX4cnDMcp5dADgCavEsZJxZWJ
-         0UJo6kx/sYDHD4SFuPkwDJZW7hTcaN3QfD+7s0p8YZaMTlT/q4/miW4/yINShwjbbmK6
-         d5wfRKYGdMsMthoyzRtN1qaiwFg5/Mqq/BEt3TSiulqdWJ/Xntw85YA5Ev+s7weaJbta
-         kmHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779246741; x=1779851541;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=31w5bysxtSHbCjagIfc69GHYMAiXOOKtv+UCMGhiGQY=;
-        b=U/ma2hF3B/zUqrf7FFbYJ5kRddyyieB0fg39xPcdFJ1R7K0mpZEmTvcHpHtSyJLzCE
-         l3OieOw8u8eS1WJccxxBThX80B6mkEgu5Z8fe0jTWcqq4mwYf8XaP6HmSU79Sn4B4wFG
-         gf3L1rKCOLVrg3Zp7JQh1/tOxM8IlfBtml82qRSP0P+8XNwHEHs0sECnRzUqjgW35bvY
-         9Q5dz3rEt+JkUeI/PHZiPleatiALOAqN/IYFbSAmakInxo2G4qpZJUoJUPr23LfPYdTN
-         V1RLRzNCqwklzuHKqbFgGCwDMWw7bGRZLTHKRaSFMPdPxzBzlkRZ1uaOtFDRWRzoOjpp
-         qQVg==
-X-Forwarded-Encrypted: i=1; AFNElJ+KVsMS0VypTArB+tooHzNtG5HmH9bENUWImmiQLFpBytcz3NlZdAuIH4DGYdIoMhhXyEpsLILSivQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywjjbmx1Bqn4I85oxe9UNFlgxAKpyXVsZRRHRS1s0tyJ7M2QBYl
-	Z0f8nC4s+2lf0/TJqEICYPBfBPrXUWwXKJgO5TC7bl7bX+z9fGoPdPRWa+Y/KMjkS2kmUx1chX7
-	ARFZ3n3W5EXqziwH00eZwEBmElp5qA+s=
-X-Gm-Gg: Acq92OH+JDgTALy8ayZdpw3asxMWoKJTAkZSG78tZj3yVzQt7jAEAPviVLG/4BL7Bd8
-	Qef+fN7WGeFYDxeLCd3WZ34i0oz9PSloCQr4doIWrCXAaEMu/Ldjkhq4Jj8tEmK+mRveJy/xDe1
-	7UOzAnaYh4UrliDGG3ktvMkmBUj+/VBHQRzgwwYOuSiOkgWa7ZvWycPu8o+ve/P74WNNV+J87bN
-	2Bhv0K5SG+WacDIU7TU0sbIrqsGTvXy4g6R+azIJDMPCPU5YL7D8WALzc7qi4YFGbSt4CwrWgxN
-	puJNvaY1wy2+2DNBt2pctNQhfurLNw2ksFOO4eTMLg==
-X-Received: by 2002:a17:907:1888:b0:bda:24df:21c with SMTP id
- a640c23a62f3a-bda24df0842mr166491266b.17.1779246741329; Tue, 19 May 2026
- 20:12:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370F43546DF;
+	Wed, 20 May 2026 03:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779247809; cv=none; b=ApEYMVw9epuIG0DG34xC/Vr4owXyC7vNFFXF+ly3zUDZzHH8BLEzonnZf4HV39ZbQhmHdDz7yvCSEbsjOkMDPmlXTbYsppPZv0GJjXqQfulFgXup/eeL+r2Pc7cEJ9tX8u/rnBhIGzxYDv+AHMS91wGIxoB6fcy0mDZlC20VmBw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779247809; c=relaxed/simple;
+	bh=8LhSbeNfQBQlS+1tuSWG4dGMDfls7EWajVv6rquJJjE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XpkW79pHWlkOjmwIEj62ClfdCKldGLWOf0mnUCcTmmB8AUlRd5zzQMBFsHL/HceQvHjCYetMQMbAIgksJUf40G/ECbu9Oks665j0cBErSXR78ebON8W6B/7HINiXWfYCYrzbEWIEcrVqqmJJ4BgOCX/VMEaqAtFPZtmnKKvcojI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.3039083|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.114224-0.0105365-0.87524;FP=464414868058410546|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033032023038;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=18;RT=18;SR=0;TI=SMTPD_---.hbYx3sK_1779247793;
+Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.hbYx3sK_1779247793 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Wed, 20 May 2026 11:29:54 +0800
+From: "illusion.wang" <illusion.wang@nebula-matrix.com>
+To: dimon.zhao@nebula-matrix.com,
+	illusion.wang@nebula-matrix.com,
+	alvin.wang@nebula-matrix.com,
+	sam.chen@nebula-matrix.com,
+	netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch,
+	corbet@lwn.net,
+	kuba@kernel.org,
+	horms@kernel.org,
+	linux-doc@vger.kernel.org,
+	pabeni@redhat.com,
+	vadim.fedorenko@linux.dev,
+	lukas.bulwahn@redhat.com,
+	edumazet@google.com,
+	enelsonmoore@gmail.com,
+	skhan@linuxfoundation.org,
+	hkallweit1@gmail.com,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v15 net-next 00/11] nbl driver for Nebulamatrix NICs
+Date: Wed, 20 May 2026 11:29:32 +0800
+Message-ID: <20260520032950.4874-1-illusion.wang@nebula-matrix.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com> <20260516182556.66af27a9c63208435911990b@uniroma2.it>
-In-Reply-To: <20260516182556.66af27a9c63208435911990b@uniroma2.it>
-From: Yuya Kusakabe <yuya.kusakabe@gmail.com>
-Date: Wed, 20 May 2026 12:12:08 +0900
-X-Gm-Features: AVHnY4KTNuJSbb9D4nUNQUegv6_rAFJNR8Egb-FQK8FpKvIA1CC8ZYCh7vjvMDc
-Message-ID: <CAGCJULPdm8jbveZsUm467_LBHRf5g=Jqd=XvCVKdNE1F2U99jg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] seg6: add SRv6 Mobile User Plane (RFC 9433) behaviors
-To: Andrea Mayer <andrea.mayer@uniroma2.it>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Justin Iurman <justin.iurman@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, stefano.salsano@uniroma2.it, ahabdels@cisco.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 17, 2026 at 1:26=E2=80=AFAM Andrea Mayer <andrea.mayer@uniroma2=
-.it> wrote:
-> RFC 9433 Section 6 is titled "SRv6 Segment Endpoint Mobility Behaviors",
-> but Section 6.7 defines H.M.GTP4.D as "SR Policy Headend with tunnel
-> decapsulation and map to an SRv6 policy". This behavior receives IPv4
-> packets and is not bound to any SID, so it does not fit the endpoint
-> model that seg6_local implements. Placing it there required relaxing the
-> ETH_P_IPV6 guard to accept ETH_P_IP and adding input_family to
-> seg6_action_desc, for a single behavior that does not share the endpoint
-> model.
->
-> seg6_local is not the natural place for this behavior. The UAPI cannot
-> be undone once merged, so where it should live needs discussion on the
-> list before we proceed.
->
-> Given the volume, moving the MUP code into a separate seg6_mobile.c
-> (say CONFIG_IPV6_SEG6_MUP) would keep seg6_local focused on the RFC
-> 8986 endpoint framework.
+This patch series represents the first phase. We plan to integrate it in
+two phases: the first phase covers mailbox and chip configuration,
+while the second phase involves net dev configuration.
+Together, they will provide basic PF-based Ethernet port transmission and
+reception capabilities.
 
-I will move the MUP code out of seg6_local into a new
-net/ipv6/seg6_mobile.c under a new Kconfig symbol, and register the
-behaviors under a new lwtunnel encap type rather than
-LWTUNNEL_ENCAP_SEG6_LOCAL.
+After that, we will consider other features, such as ethtool support,
+flow management, adminq messaging, VF support, debugfs support, etc.
 
-For naming I was thinking CONFIG_IPV6_SEG6_MOBILE and
-LWTUNNEL_ENCAP_SEG6_MOBILE to match the file name, but I have no strong
-preference over CONFIG_IPV6_SEG6_MUP if the list prefers that.
+changes v14->v15
+Link to v13:https://lore.kernel.org/netdev/20260513011649.4404-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v13->v14
+Link to v13:https://lore.kernel.org/netdev/20260428114910.2616-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v12->v13
+Link to v12:https://lore.kernel.org/netdev/20260415033608.2438-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v11->v12
+Link to v11:https://lore.kernel.org/netdev/20260408093739.56001-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v10->v11
+Link to v10:https://lore.kernel.org/netdev/20260401022318.28550-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Mohsin
+2.AI review issues
+changes v9->v10
+Link to v9:https://lore.kernel.org/netdev/20260325040048.2313-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Jakub
+2.AI review issue
+changes v8->v9
+Link to v8:https://lore.kernel.org/netdev/20260317034533.5600-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Jakub
+2.AI review issue
+Changes v7→v8
+Link to v7:https://lore.kernel.org/netdev/20260310120959.22015-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Paolo
+Changes v6->v7
+Link to v6:https://lore.kernel.org/netdev/20260306033451.5196-1-illusion.wang@nebula-matrix.com/
+1.Issue found by Jakub
+2.AI review issue
+Changes v5->v6
+Link to V5:https://lore.kernel.org/netdev/20260226073840.3222-1-illusion.wang@nebula-matrix.com/
+1.put all standard linux includes files the .c file which needs it & others
+--Andrew
+2.AI review issue
+Changes v4->v5
+Link to V4:https://lore.kernel.org/netdev/20260206021608.85381-1-illusion.wang@nebula-matrix.com/
+1.change nbl_core to nbl & change ** pointers to *pointers & others
+--Andrew
+2.AI review issue
+Changes v3->v4
+Link to v3: https://lore.kernel.org/netdev/20260123011804.31263-1-illusion.wang@nebula-matrix.com
+1.cut down to part of a mini driver(mailbox and chip init)
+--Jakub Kicinski Simon Horman(some sort of staged approached)
+2.modify issues found by ai.
+3. Reverse Christmas tree/nbl_err/devm_kfree/remove some macros/
+void type to real type/others
+--Andrew Lunn
+4.change deprecated pci_enable_msix_range to pci_alloc_irq_vectors
+5.delete service layer
+6.the style of kconfig---Randy Dunlap
+7.add to Documentation/networking/device_drivers/ethernet/index.rst
+--Simon Horman
+Changes v2 →v3
+Link to v2: https://lore.kernel.org/netdev/20260109100146.63569-1-illusion.wang@nebula-matrix.com/
+1.cut down to a mini driver:
+    delete vf support
+    use promisc mode to cut down flow management
+    drop patch15 in v2
+    delete adminq msg
+    delete abnormal handling
+    delete some unimportant interfaces
+2.modify issues found by ai review
+Changes v1->v2
+Link to v1: https://lore.kernel.org/netdev/20251223035113.31122-1-illusion.wang@nebula-matrix.com/
+1.Format Issues and Compilation Issues
+- Paolo Abeni
+2.add sysfs patch and drop coexisting patch
+- Andrew Lunn
+3.delete some unimportant ndo operations
+4.add machine generated headers patch
+5.Modify the issues found in patch1-2 and apply the same fixes to other
+patches
+6.modify issues found by nipa
 
-Once LWTUNNEL_ENCAP_SEG6_MOBILE is its own encap type, it feels
-natural to me to put H.M.GTP4.D there too rather than adding a
-separate LWTUNNEL_ENCAP_SEG6_MOBILE_HEADEND. What do you think?
+illusion.wang (11):
+  net/nebula-matrix: add minimum nbl build framework
+  net/nebula-matrix: add our driver architecture
+  net/nebula-matrix: add chip related definitions
+  net/nebula-matrix: channel msg value and msg struct
+  net/nebula-matrix: add channel layer
+  net/nebula-matrix: add common resource implementation
+  net/nebula-matrix: add intr resource implementation
+  net/nebula-matrix: add vsi resource implementation
+  net/nebula-matrix: add Dispatch layer implementation
+  net/nebula-matrix: add common/ctrl dev init/reinit operation
+  net/nebula-matrix: add common dev start/stop operation
 
-> I think this patchset should be broken into smaller patchsets, one per
-> behavior, each with the behavior, its selftest, and any needed helpers as
-> separate patches. The same approach was used for End.DT4/End.DT6 and
-> End.DT46. End.M.GTP4.E alone is ~1.2k lines in a single diff.
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../ethernet/nebula-matrix/nbl.rst            |   28 +
+ MAINTAINERS                                   |   10 +
+ drivers/net/ethernet/Kconfig                  |    1 +
+ drivers/net/ethernet/Makefile                 |    1 +
+ drivers/net/ethernet/nebula-matrix/Kconfig    |   34 +
+ drivers/net/ethernet/nebula-matrix/Makefile   |    6 +
+ .../net/ethernet/nebula-matrix/nbl/Makefile   |   16 +
+ .../nbl/nbl_channel/nbl_channel.c             |  946 ++++++
+ .../nbl/nbl_channel/nbl_channel.h             |  173 +
+ .../nebula-matrix/nbl/nbl_common/nbl_common.c |  214 ++
+ .../nebula-matrix/nbl/nbl_common/nbl_common.h |   33 +
+ .../net/ethernet/nebula-matrix/nbl/nbl_core.h |   59 +
+ .../nebula-matrix/nbl/nbl_core/nbl_dev.c      |  450 +++
+ .../nebula-matrix/nbl/nbl_core/nbl_dev.h      |   58 +
+ .../nebula-matrix/nbl/nbl_core/nbl_dispatch.c |  505 +++
+ .../nebula-matrix/nbl/nbl_core/nbl_dispatch.h |   56 +
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  |  853 +++++
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h  |  548 ++++
+ .../nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.c | 2887 +++++++++++++++++
+ .../nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.h |   11 +
+ .../nbl_hw_leonis/nbl_resource_leonis.c       |  278 ++
+ .../nbl_hw_leonis/nbl_resource_leonis.h       |   12 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h     |   73 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.c  |  267 ++
+ .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.h  |   21 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_resource.c   |  134 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_resource.h   |  110 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_vsi.c        |   26 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_vsi.h        |   12 +
+ .../nbl/nbl_include/nbl_def_channel.h         |  361 +++
+ .../nbl/nbl_include/nbl_def_common.h          |   80 +
+ .../nbl/nbl_include/nbl_def_dev.h             |   16 +
+ .../nbl/nbl_include/nbl_def_dispatch.h        |   42 +
+ .../nbl/nbl_include/nbl_def_hw.h              |   54 +
+ .../nbl/nbl_include/nbl_def_resource.h        |   37 +
+ .../nbl/nbl_include/nbl_include.h             |   79 +
+ .../nbl/nbl_include/nbl_product_base.h        |   19 +
+ .../net/ethernet/nebula-matrix/nbl/nbl_main.c |  332 ++
+ 39 files changed, 8843 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
+ create mode 100644 drivers/net/ethernet/nebula-matrix/Kconfig
+ create mode 100644 drivers/net/ethernet/nebula-matrix/Makefile
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/Makefile
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dev.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
 
-Will do, following the End.DT4/End.DT6/End.DT46 model: one patchset
-per behavior, with the behavior, helpers, and selftest as separate
-patches. The new code will be aligned with seg6_local.c style as
-part of this rework.
+-- 
+2.47.3
 
-> The series reuses SEG6_LOCAL_NH6, SEG6_LOCAL_SRH and SEG6_LOCAL_OIF with
-> semantics that differ from the existing behaviors. NH6 today means
-> next-hop in End.X/DX6. This series reuses it as DA replacement in
-> End.MAP and as prefix template in H.M.GTP4.D.
-> SRH is inserted verbatim in End.B6/B6.Encaps but augmented per-packet in
-> the mobile behaviors. These attributes have established UAPI semantics
-> from their existing behaviors. Giving them a different meaning in new
-> behaviors is a UAPI semantic divergence.
-
-The mobile behaviors will define their own SEG6_MOBILE_* attribute
-namespace under LWTUNNEL_ENCAP_SEG6_MOBILE, with no reuse of any
-SEG6_LOCAL_* attribute. That keeps the established SEG6_LOCAL_*
-semantics untouched.
-
-> The selftests use OIF on all five GTP behaviors to select a VRF for the
-> lookup, but that is what TABLE and VRFTABLE are for (End.DT4, End.DT6).
-> OIF in the existing behaviors means output interface (End.X) or L2
-> egress device (End.DX2). VRF support is a nice-to-have that can be added
-> later as a separate optional attribute.
-
-I will drop VRF support from the initial behaviors and revisit it
-later as a separate optional attribute.
-
-> The user-facing parameter names and their semantics are defined in the
-> iproute2 series (where the man page lives), so that is probably the
-> better place to discuss keyword choices and attribute naming.
-
-Thanks for the pointer.
-
-> We could think about a prep patch introducing SRv6-level drop reasons
-> (SEG6_INVALID_SRH, SEG6_HMAC, etc.) that both the existing behaviors and
-> the MUP ones can share.
-
-Good idea. The prep patchset would introduce the SRv6-level reasons
-(SEG6_INVALID_SRH, SEG6_HMAC, ...) and convert the existing seg6_local
-and seg6_iptunnel call sites to use them. The mobile-specific reasons
-(BAD_SID, BAD_GTPU) would then be added together with the first
-behavior that uses them and reused by subsequent behaviors. NOMEM and
-MTU_EXCEEDED would be dropped in favor of the existing generic
-reasons, and the current INVALID_SRH_SL / BAD_INNER misuses would be
-replaced by the new SRv6-level reasons from the prep patchset.
-
-Would you prefer to lead on the prep patchset yourself, or would you
-like me to prepare it?
-
-> Selftests for the five GTP behaviors heavily depend on python3 and scapy
-> heredocs embedded in the shell scripts for packet construction and
-> validation, which adds an external runtime dependency. A statically
-> compiled C helper would remove it and avoid embedding python heredocs
-> in shell scripts.
-> A few cases worth covering: SRH and no-SRH input paths where the
-> behavior accepts both, missing SRH where the behavior requires
-> it, malformed SRH, and invalid attribute values.
-
-I will replace the python3/scapy heredocs with a statically compiled
-C helper for packet construction and validation, and extend the
-selftests to cover the cases you mention (SRH / no-SRH input paths,
-missing SRH where required, malformed SRH, and invalid attribute
-values).
-
-> The dst problem is pre-existing from 7a3f5b0de364 ("netfilter: add
-> netfilter hooks to SRv6 data plane") and affects seg6_iptunnel too. Both
-> issues need a robust fix before this series can go in. I want to look at
-> this myself and will Cc you when I do, as the five new behaviors may need
-> to be adjusted on top.
-
-Thanks for taking that on. Given the cb/dst issues you described, I
-am inclined to drop NF_HOOK support from the initial mobile behaviors
-and add it in a follow-up patchset once your fix lands. The initial
-behaviors would then do a direct input -> output flow without the
-cb-context/finish-callback pattern, which avoids the issues entirely
-on day one and decouples this series from the pre-existing fix. Does
-that work for you, or would you prefer NF_HOOK to be present from the
-start and rebased on top of your fix?
-
-Thanks,
-Yuya
