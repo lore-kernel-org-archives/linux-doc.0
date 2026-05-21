@@ -1,158 +1,130 @@
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEC54028D3
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 14:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD283806C1
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 14:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779374415; cv=pass; b=AD4LTlFDaCge3Gj9aw1LvUxCkWunKRf8nWGkORK9EKCVcZqOl352pv6Liv0AjjpJFiZSj9g3KeRc5qZne+BfOo8RI2DSLaySOR8x1wIb0Wkty1hs9vO5dnHnKlwvEOLchZ2AlRWzx90IBVuC+uhQ6tYRmCxIUj6EBqNWTXoxvKk=
+	t=1779374463; cv=pass; b=BIQaf2jvtjrNUZuUZ/PKAQ1Ky+AogSMjGtvO8djT04Pbdy7dImJ9EYV3gl+OW3MDHBSd2jA+SsZ3hVbOaPajj98tR+phYz8FDXyUjCR+6V/6K5MjBnAE6L7hYCHQfG7hIXo5VINdG83JQ/ZzkGUgM/4UisRz+1beIOEeKb3rxX4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779374415; c=relaxed/simple;
-	bh=RPARozcT6UfC6sMpVhy6r4Aiv8XaW0DBJyjeK/ufCb4=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TpH5eG+gCcMJ9hilPohU2DtqlkxMWL8VxL3EmhXAKXECl6UHUNzL9tXSAOB3aUzIgNCRoKhjO5hyOiFt3zjPrzgLqxmmyKk3KFrdVb8LcPqmt4G3JCpviCelyoBxLJdpMhbeIywEBs8IrZxLPCMAlWnfJR7isVrsMQVSV4zO7KY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=V9p0GPMM; arc=pass smtp.client-ip=209.85.217.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1779374463; c=relaxed/simple;
+	bh=C5xgXMrPeweMUfBIT4VR8/HRGYv+heVrESlsBEK3zv8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Rfl0TMAe242bTAKm/wmeX8f7qXtJRtzWXbajzTsQv7IOEcsFbHj85RmbrqXWpoJZ6XhG/qG3BR+6cXpGwLcZ4lsI3WcYWETZ2UqGxzP/RfY2LASvw5Qnfh7Iq0iWlZigICh3UzD9e16PMniCoic1zymOQ5mnc1PcAx8tQEduNOU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=UopnBg+U; arc=pass smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V9p0GPMM"
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-636970cf66cso4698994137.1
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 07:40:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779374412; cv=none;
+	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="UopnBg+U"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2bcd730e090so48105655ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 07:41:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779374461; cv=none;
         d=google.com; s=arc-20240605;
-        b=HoDfkxoApChmzc7K+qbqwrxk5RR9qAOnluW2H6b3/nK84ZYUspgnGRo+JHfaexYEfu
-         iHaCIV5Hob0Ae9lawRQgtml4mFPx+BujgkPQ7PcbVC//PFVMasV4kh/5A9i8owtth0yK
-         zyAHqUr4am+ILR8rdf70/zEahA8DJlfybMKNJw/v1Gi8cywYw3LsGI+hwgs5PkNgAQPR
-         O9IDo/7ylqRNURGdZ53ySQS/I4DjAXOxiUXJWgTI03HwJSYVb0vWlQxzf4EJHAPGNp91
-         CqzhJu/uu+OjGlwZ8XYzdwq7dPQDO++81nda2rz1HQ25CTWj5/dyjoIk4bjMKbbCw/Ea
-         uRGw==
+        b=PhVVLen8d9zUWwzphzcuSvxbCaj8guX3/lBu9hqye7NHvy+fQ4eMJEPLvKlaeZTPGq
+         puTckEg9Z0KA/4UmGaHyO938o8w5Ifk9UZeiWQr9yEY81MlzGkXOQgPxkV3cOo0HpzWG
+         J/+i2NzLJA/KGqEAlwwGfu1d8Saikra6Igi2oh7J92cpy3udzP/5vQBDMyRXZlEUopxW
+         1Ul1NcFYxkW3Akfve4f9IrQ5izpPDsuYerv18MWfPbzr3lk1lW2AOAZh6ovcIq2k7u1W
+         AsJf2H8rWX/ww5xyb4QKpVJMTJrNTV7dm2nlkQlZP2RhI9ZMIMzDu6EnceGwT+k1JqEP
+         FYJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=pETZ8fM2HZBGp3r6phdANPEwcKJJ9mevi9pfUImaGvM=;
-        fh=eP7bdccHzCPy0jRWcl54TchSOUEGI3v6LGLiz7roYD0=;
-        b=C8GQAu9F6RRBQybZrEo1z/eJnPxOMz5JwLVXGEt77bihDhdEO1T2pv19vBvM9/UAB/
-         XJr3TBlG8F7bMy6PPGeDrnR6bBBKiL9ym5RWoaXBWq0rijUFQ0FOhiG3nU6rLJWIcmLI
-         nFu8slkH/S9CQpjmQmH355dzoKinUapvF6pptzLDSNRTZnZU9PLpWDD4rUdKvJQkbnyF
-         IptfJOsOSoEKiFRs4CoarzkjuYWDVKhyQy4SDo8un85hsQdTtXljsszxG9HKT5lYCFO8
-         JRTBXAIx7lZx2j8qvSe0RRKKTwrB5qCs3arQ3ztXhTYjwyISyGf0zRvXO5C9yA66Oh+P
-         tX1w==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=RI8RcJrMlrGpgo/P0j5rPAmC/BUqQ0jZHOTebzV+Hvs=;
+        fh=o6wCiLlmUiY0P0e/SZfjIDzw/yoPZkhQYf+5U/XzdFQ=;
+        b=NqGKOnJ3K9Rud4Jg+qZH35z5+7F2SUoqLU4z/9+9xIQjihjB11dyu/zPpWeBU+thAY
+         awEf1Z+XGCafIbXIp6mJdw4wDZgnVNyXGqlhfFi8wLT/eY+8oeeeK2bKJbucPOFnMxfZ
+         ecSoVoRO70sWUdID8H1O1qB0a5Hvh/c5GUNRjZ7l299G/MNBXw2c2XuApdJBSV4wpqy1
+         M8Ri4Fi3r5mFoh/4M2cjqTLLoD+hsMvPTq1pC6JOiMjlq79gz2xswFGqZeETU9TO/GMQ
+         W5gbvRtxQ/cNkcbdkiBhvBr7h5ClM1UGWcKokHjuTsovS59CR6ughHx65aIcRgHerJDm
+         tkqQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779374412; x=1779979212; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pETZ8fM2HZBGp3r6phdANPEwcKJJ9mevi9pfUImaGvM=;
-        b=V9p0GPMM4JoAoxY0vDgPfychMd8I2dNla96qYqWgPvlZ0DjapntWlKuDNmOjfW+/XW
-         +IMGiGnTtURerCqRqPJQrpRxyxBf/qdaQIONZqce1kHnH+9efXUw0bi5zweZjavzLg53
-         DLSTVoI/XsPLkgdTjBzww57u0BKReUP3QNqC6y9NxCJ4uigCAAqF1xD1Ckt2XEbuX4lO
-         i9MRjTpHgb+xv7cdKHe9yZJ8ko17HPICKtxup56MY8yixmjhhW5iItr94mePc3x+Dpm1
-         KM2Z+jwV41cHy6IulePecYceVwzzuxIUO1BCOuDRt+se4qKkmsh/i9pwQ0urySguHFzV
-         GvQQ==
+        d=fooishbar.org; s=google; t=1779374461; x=1779979261; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RI8RcJrMlrGpgo/P0j5rPAmC/BUqQ0jZHOTebzV+Hvs=;
+        b=UopnBg+U3cY33gVRBQelzYG7Ku9Swl3UKE3xqbmi7Syc5pC0pJ+TZM8IU7ZrwpFGnb
+         swDsaJrsfbOkaubph7hDXFQZlrEr8hypMtPSpPdLnJje8lR9N1XSxpemDq384zauoF3M
+         lcQI8whCG0xnGq8KYzZeJe8j+Bquc2SDeD9XNB/NNvklUnoL22njmAU3aW8esZ1dkZ4v
+         pVUgeIdAex2IVz/rlYrQsOOEBye/Pt2X85Rfe20RZWXRhxkcqx2HXyEjsuAOrPTG3/TR
+         vz5rMJmhmoU/kToU0h5HJSkF4Q5Rt+8FNpZoR7gPLwwJRfXpTjxffLYm+3PIlFdzvMMn
+         /FLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779374412; x=1779979212;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pETZ8fM2HZBGp3r6phdANPEwcKJJ9mevi9pfUImaGvM=;
-        b=IxRxzAjFzCs0ZgtgBz0UHKkwYcg2UUBJ65Ur6unziMcntbFvb6pcuPsIhb2avO9qWE
-         Izf+VXMUlsHzutotQUNlF/7sQRzXMi4Klfo5TlTJu3k80hgEXM236FsptVOeHG2DHQof
-         SwIQFEDTgX0M+BykKA3RaoDOjAmTxza3MuDtBUvRshm+qb67p79wc9H1Hmkq7cjUiOEn
-         RRfX0+NbQfjNuJBVS5vmQRbgzKXNHWIziryDIlXeWwpZ5qLwJmA1qhAiIyK6nxjRr0g9
-         lhB4NyjBxcaCpbqGbzWB/l6djfjZP5Ja2Ddo7vkFdWD2Ukqlup/XLrcKv8oTovLgWZqr
-         MH8w==
-X-Forwarded-Encrypted: i=1; AFNElJ/Ax4RqQGi/UI1wngpShgEt9fsTbKs9ZTdSDhCtOL3NFvmSIzQnFrAEEbyU+u1h+EJJYPdY0hv4vhE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8hxReihS7H5VTTQbD4YV7nzMB4BsrEePjFfFrtApYRgxaaKFT
-	GpD6W+0LjnpmPt26CFORbEaGBh966LpfQ6YsmpN8RaeMfYgQXU4uFeeAg8TQS+UqCEBHheCllXc
-	ytmr+6YHigwWi1NIuS/6U65X62YXRFMWpmj7MJvvt
-X-Gm-Gg: Acq92OEpLqTTC4jC/Lc3NTZRdU9qgIxLpXTdwF7FE/JYCrzMf32Cg4NIH7PRSs9gy7x
-	0tV5wV9lekZzbblNQBMSiU/xCkvK/FEZ3U6Nal5SJeCJj3AJOVDu6kff0TqrkmutBlUVZTaQwzA
-	/tEeEsw87Uzcv4lmM0czjb/sWHcOCWvUCTKMK9pXZhjVPNBis4TBe8czeYh7cNVRPmZpaAXhiOI
-	8rXJ2etPVupVeZrv296j5TyCDob5WnOLawjEVK/Uw/4dPSIImuvHaf8pTS77cqt2dGGjfRofZF0
-	DxvXrie5Eu8pOyprfi2l5cRAj05S3hVkRensFJ2IYRe5uvwPhg==
-X-Received: by 2002:a05:6102:52f:b0:634:248f:bc04 with SMTP id
- ada2fe7eead31-673cbd0ce21mr1147276137.10.1779374411627; Thu, 21 May 2026
- 07:40:11 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 21 May 2026 07:40:10 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 21 May 2026 07:40:10 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <ag8BmtzxTlcuA_zy@google.com>
-References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com>
- <20260507-gmem-inplace-conversion-v6-16-91ab5a8b19a4@google.com>
- <CA+EHjTxcadguOfOo7RpJVtAzcY5JAFZTbrAT_wcN6akMi8gCUg@mail.gmail.com> <ag8BmtzxTlcuA_zy@google.com>
+        d=1e100.net; s=20251104; t=1779374461; x=1779979261;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RI8RcJrMlrGpgo/P0j5rPAmC/BUqQ0jZHOTebzV+Hvs=;
+        b=JcKkfKQL9yhaZaBymUyYH6WWBj/uCi5/SQo2f+JTM+m9cDm9UhA5PVACjVZGsT0syT
+         cfPo5XKzAWsW8U7hQRA1yx9RFwmmms/N7hNEwkZLKu5/PL/Wre52AqZoTywr35ylMay0
+         gFDcXoSCcnzmoGr+agMmBidKFWSwJhTifCx0OXOcJBFUb9Vh30TJ9T0x2hhVIivjbri3
+         HewVaIZp8kQ0N00Gc3OwFXxDxFZl9L1SDA29YWzYg524c7KL3pKJ3LjDsZxbo6vAbChM
+         h+4y1CBy/EFTjGIzeAaXIpfGNm+NMMGJBZoMAhvStbPZlNpimL/Q61MErh6VFIhCTswQ
+         bX+A==
+X-Forwarded-Encrypted: i=1; AFNElJ9/S/kOQAnTEx+QCe0MfELlzbwdOrONCFhts6ep1NtWiJ6g9Y9xwElYWT3H4nxjH+kCI7EN7+s12Ro=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqmYfT06acwBT2HzAIAAS0llUGqt4bgLJUW37GFMsSnsV+rKIQ
+	dMmHU+2Qwi74iZ4sKdaqA5hwi6vK/1mmMVcicLYm2ukdXddSmPx5dT/j2t8BnvSX7/hgUkwCt+j
+	FMmxJ+38Qy/t/ncp3fg4h2rvRT05Ticm/z/L+7oClig==
+X-Gm-Gg: Acq92OEZt17FPmCS4JI4G8i0fNvYnCVIbqNEfW1kg0inXlqPvfpqsK14IzljOS+fUL1
+	3tHn9rRxfVZpmz1LUAbffUF0IaXL9C+kdgsVf1AJ9aCilEvEFCy+JYiV+Y6taiVQKjOHqxZqpVZ
+	m/w56CWg/A5ExAKwEPduTQ9oGDhCZS3gt4oXEonJ/3k4pDLGrnBtDLYTM4w8mzKeB5P6iVCNhqL
+	4xn/XM9grlhVvO0/wkkNZTotk76NrLjkkqGjOP3V7S8tf5hqRdzgdBrWs8xy6oN68lcY19ghb1G
+	v7+J9niMaJb9osJ0e+exXp0WZmuLjJ1cD6LwrtT8Yb5FVOf7Qg==
+X-Received: by 2002:a17:903:1b10:b0:2bc:e62a:979b with SMTP id
+ d9443c01a7336-2bea33d166emr36661465ad.30.1779374460988; Thu, 21 May 2026
+ 07:41:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 21 May 2026 07:40:10 -0700
-X-Gm-Features: AVHnY4KEEzPCaNbBUek3sDUc3FN_Enrlvw5CRgr6BoNKh9-pt1QUYC334HSuCXU
-Message-ID: <CAEvNRgGDL=_XO3z=h2RLqb_gZFe9QtxwiMFJHCzQY3HEoaUfHg@mail.gmail.com>
-Subject: Re: [PATCH v6 16/43] KVM: guest_memfd: Use actual size for
- invalidation in kvm_gmem_release()
-To: Sean Christopherson <seanjc@google.com>, Fuad Tabba <tabba@google.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev
+References: <20260423-color-format-v14-0-449a419ccbd4@collabora.com> <20260423-color-format-v14-20-449a419ccbd4@collabora.com>
+In-Reply-To: <20260423-color-format-v14-20-449a419ccbd4@collabora.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 21 May 2026 15:40:49 +0100
+X-Gm-Features: AVHnY4LM5MR-pydhp54-iciGhQnPfxKOlxWC92SZdhfzMOyTtShVga8wCcjC3D0
+Message-ID: <CAPj87rOBvjw4v+PER+6+FMuDRajXNnPSKAke8a=tVgiSRg8QTg@mail.gmail.com>
+Subject: Re: [PATCH v14 20/28] drm/rockchip: dw_hdmi_qp: Implement "color
+ format" DRM property
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	wayland-devel@lists.freedesktop.org, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Sean Christopherson <seanjc@google.com> writes:
+Hi,
 
->
-> [...snip...]
->
-> --- virt/kvm/guest_memfd.c
-> +++ virt/kvm/guest_memfd.c
-> @@ -640,9 +640,9 @@ int kvm_gmem_create(struct kvm *kvm, struct kvm_create_guest_memfd *args)
->  }
->
->  int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
-> -                 unsigned int fd, loff_t offset)
-> +                 unsigned int fd, u64 offset)
->  {
-> -       loff_t size = slot->npages << PAGE_SHIFT;
-> +       u64 size = slot->npages << PAGE_SHIFT;
->         unsigned long start, end;
->         struct gmem_file *f;
->         struct inode *inode;
->
+On Thu, 23 Apr 2026 at 20:06, Nicolas Frattaroli
+<nicolas.frattaroli@collabora.com> wrote:
+> +       bridge = drm_bridge_chain_get_first_bridge(encoder);
+> +       if (!bridge)
+> +               return 0;
+> +
+> +       bstate = drm_atomic_get_bridge_state(conn_state->state, bridge);
+> +       if (!bstate)
+> +               return 0;
 
-My mental model was:
+IS_ERR() + PTR_ERR()
 
-+ offsets => loff_t
-+ indices => pgoff_t
-+ sizes => size_t
-
-But looks like loff_t is more suitable for places where return values
-(possibly negative) matter.
-
-Good to go with u64!
-
-> [...snip...]
->
+Cheers,
+Daniel
