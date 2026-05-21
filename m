@@ -1,113 +1,253 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93E03D4107
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 18:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3864F37EFF6;
+	Thu, 21 May 2026 19:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779388138; cv=none; b=r8/tq8Yhz04vEv0EM+jHT8KJGWwGYR86B/QlwyfTg6vYhMDhfsGD/JObqDCpeurrGHbtchfPJm7WnmrgU16NpEdSoyDWyFd98LPGuvTAPVriYztJ4IoqQ3b7Gq7p9nemplvPmyo7TDQUuDFY7KFfotb/8zIpBd4aVJ9tMuRPJ1w=
+	t=1779390906; cv=none; b=gBwAfzZuptw5kW1Ol06H5GDYmQLbvgZMbJ0Dk1hgJKbL0roFF+sL9O6cgSaH1BY6HOt/W/DitHwhwOB2MomEDsoZRVjHbY7nAO4KKfq1Ml8Kjt3oyHqroBmwhPVPyQYFiLYYBIchTGFqdYnDLbwQBVOIukVGjMkQlGuU/xgp9LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779388138; c=relaxed/simple;
-	bh=hSS7F9nJhRNe2bLPAXG7P4hIqvGIIZeN9p6yOCt6LeU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZsUc7AWsFysUhCyRfid8ayZNtgG0oVdBxZs+3cY0swM565awa4aURoPpdGFAECVQOrV4g4OWcISyjS09ptA6ePsUXxUJUg77hgPXO9Zuw/8BPObvUJ6eOcBBoM/VY3jD8m4JdgTCmBUBtzHUFaYLn6tuR2gY8dygMP+qN1IqVg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=X5bFLf9u; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1779390906; c=relaxed/simple;
+	bh=Wi2ekfEdq2VlIN2zWWAPgmURTS4dCQbJ2yAB9shBbE4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CWoNqXq1fxGvFQ2r8/y8iGGvBeH7Ti6Q4XRsP8n97RFT7vDadJcvzo3/Ml+9M+aRdqt1zvhlotbU3amIxGY9CrCr350JJnyQwfrZKDbt9G1+Y12FLqXgK2D93IBYevdG9Hi0hFN3bH5yVLlhtRJhmlVQ0F9Pjh6VvAqgAq+q5tI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JQMSCeGm; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X5bFLf9u"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7e5fe62fc87so108958a34.1
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 11:28:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1779388131; x=1779992931; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G0XQG/6g75fgxZbBE/+qTXKYgHicOF73Gp8SX+DuZdw=;
-        b=X5bFLf9uPPXGD7DA7hUoRkUeiysW+lFQ8cVsQW1UPXfx+7ox8nL5vCeVj9H3Xa5p39
-         +mQvAeAKx8KBlmoRH+OYrORYpqu9q6SfWZ4SH5y3JafQYypp3tzug5dq8zTXocDstxa2
-         Yz6ntNuNxiBZiCPxhinwNrebzL2/+BHNM1WSg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779388131; x=1779992931;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G0XQG/6g75fgxZbBE/+qTXKYgHicOF73Gp8SX+DuZdw=;
-        b=GlO13LmGR3iv8j+bIL4NhXT72C5Fl+OBe/oaK+5/litrU58DZWV2Vh1juBLL8pnGwG
-         oaDzrxl0+jrruAIA8Nfa9K4R9aitkgeDM8MiSlbskxNxMWtVXQn+9t24C7yG/0gGqrww
-         yE1ExhntlrEGOXCooQABJEg3ZJiL6PRwA7TZr7TaU63wUWA7KxoR8Wj0BGyG/mvVZ8tl
-         pt0Rx/emp1YAg4ShnET4hALAwMy7AjXoMQxJGovOXyVHhCtln8/FIMWhCpEeDCB4Bvtt
-         XootchCs4doaznc/FLei270Ajg1SEYwn3WCGNS2D5+jrUAVoN2ZP+ry/mwjAP9t1Fhvr
-         x2/g==
-X-Forwarded-Encrypted: i=1; AFNElJ9ax5LEM6q4pMoAMeF9K5wYjEzrz1aVUcklA0s+KOAB/K7mFf5nzHDRuWVc3bsjYKpRFX282OQGUME=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCoC3ADBHKau73ChvJIBspKmnne51NciFDJRtt0TdmdLbYmlvs
-	8T0OVj7hUwSDzUd0oXquz21T4VRTLQ2KMlpsHMNFuiS7LD4VxMaG0cmN/slg5e1UsoH/OBx2a4J
-	jntC/
-X-Gm-Gg: Acq92OHd6wFxo/hcWlK9FKcnAUbkwi+CTHFRPPeuUa5wHu6pMGrF8xkN05kBPt2CiUq
-	nJ9O/Q5T9JWmV06/1PgXBTYFPiPei16LW9z+9iQm/uV/PVhwj3n+cZNLGut4eN8d8ij2x6SfafI
-	NFRrLxPI2QYIxTdnBv6eWrXIyqGsTq/TWZob6nwK47lgY9A5k//r3oWYxJpC29gEqOQ5SFUty+1
-	1OEBidRMJdSmYmp5q4x0JtITflKVMooYBCjFGhGGPKF2r+NlPWs55mrEy6H1OPGGVpDP2tvTnpA
-	5augNxGZ37wkoBeprQMd186EYHyCPhGk1ArjikQJ1azRQPVLenQ7h1DRAY+kJFgh+sQip906AVm
-	87COIHZqelVGCwe0J+X7vIVBaHex0eAG7lLv03XPvEUXHFIqjSdx9AGnO0kQ0OzPjfNt+q1zXh5
-	dCzRkEjuDJkojZsER1HNjo/jMZq1fZ9H7cyDjb84lbsPCHPa+DxLqqfy5do3J743tLxMv6SJcj/
-	mQdSbOgBxaWPp9jXrre7uUIpjVXnuHfaUIith9uhkm9VA==
-X-Received: by 2002:a05:6830:6d0c:b0:7d7:ed69:81b2 with SMTP id 46e09a7af769-7e5fed2964emr243419a34.5.1779388131456;
-        Thu, 21 May 2026 11:28:51 -0700 (PDT)
-Received: from [192.168.1.239] (207-181-222-53.s5939.c3-0.hnc-cbr1.chi-hnc.il.cable.rcncustomer.com. [207.181.222.53])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e5f6e78bf9sm930694a34.15.2026.05.21.11.28.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 May 2026 11:28:50 -0700 (PDT)
-Message-ID: <e81f9c62-b6ae-409d-a5a1-246bc7f9aa23@linuxfoundation.org>
-Date: Thu, 21 May 2026 12:28:49 -0600
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JQMSCeGm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=WlZfUQJHJCha00Uyb2Q/Ip5oQKZI6jLstLyrJNQoP2Q=; b=JQMSCeGm3ysq+mpZeWQM+Um9oL
+	PoGAkyQmfs4+dtj/0L+OC5O+Z8vJP9KuSErOIRVUjOKJd9cj7YUt8ly4trsJn89Uma72ADmiHft2z
+	gQMP1SDNhoeh3Z6O02X2Yz3A+zLLaZH84k5hBuokzlTxdFRj/2BpfMOAKzw1qNDglUW83AResiC8Z
+	7Dpvlxl1q/Tqxq2rjMVuOIVyt87MyinUfqduuQnCtCiXSGw3IbOKlMim0nhvIh0OGXcw04ZyoojHA
+	G4RnEvbS03YuB+eHTS52XLLtU4E04NpKAg5ydt56UgUOrLfietaoHv4PLQCGvfmD36G9jnjzfc1Vt
+	H0/fa//g==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wQ8rD-00000008sTt-3Bac;
+	Thu, 21 May 2026 19:14:59 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	=?UTF-8?q?Stefan=20D=C3=B6singer?= <stefandoesinger@gmail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] ARM: zte: clean up zx297520v3 doc. warnings
+Date: Thu, 21 May 2026 12:14:57 -0700
+Message-ID: <20260521191458.177046-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: gpu: todo: fix spelling of "fucntion"
-To: Godswill Onwusilike <onwusilikegodswill@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260516210141.42971-1-onwusilikegodswill@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260516210141.42971-1-onwusilikegodswill@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 5/16/26 15:01, Godswill Onwusilike wrote:
-> Correct the spelling of "fucntion" to "function" in todo.rst
-> documentation
-> 
-> Signed-off-by: Godswill Onwusilike <onwusilikegodswill@gmail.com>
-> ---
->   Documentation/gpu/todo.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 841e4e986c48..7526ed31b0af 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -1001,4 +1001,4 @@ DRM driver that can run X11 and Weston.
->   
->   Contact: Thomas Zimmermann <tzimmermann@suse.de>
->   
-> -Level: Advanced
-> +Level: Advanced
-> \ No newline at end of file
+Fix multiple documentation build warnings.
+Improve punctuation and formatting of the rendered output.
 
-Hmm. the patch doesn't fix the spelling in the following line mentioned
-in the commit log. Instead it removes and adds the same line.
+Documentation/arch/arm/zte/zx297520v3.rst:66: WARNING: Title underline too short.
+ 3. Building for built-in U-Boot
+ --------------------------- [docutils]
+Documentation/arch/arm/zte/zx297520v3.rst:90: WARNING: Enumerated list ends without a blank line; unexpected unindent. [docutils]
+Documentation/arch/arm/zte/zx297520v3.rst:116: WARNING: Inline literal start-string without end-string. [docutils]
+Documentation/arch/arm/zte/zx297520v3.rst:137: ERROR: Unexpected indentation. [docutils]
+Documentation/arch/arm/zte/zx297520v3.rst:138: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+Documentation/arch/arm/zte/zx297520v3.rst:164: WARNING: Inline literal start-string without end-string. [docutils]
+Documentation/arch/arm/zte/zx297520v3.rst:164: WARNING: Inline interpreted text or phrase reference start-string without end-string. [docutils]
+Documentation/arch/arm/zte/zx297520v3.rst:7: WARNING: Document or section may not begin with a transition. [docutils]
 
-"rename all inlined fucntions according to driver conventions."
+Fixes: 220ae5d36dba ("ARM: zte: Add zx297520v3 platform support")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Stefan Dösinger <stefandoesinger@gmail.com>
+Cc: Linus Walleij <linusw@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
 
-thanks,
--- Shuah
+ Documentation/arch/arm/zte/zx297520v3.rst |  119 +++++++++-----------
+ 1 file changed, 59 insertions(+), 60 deletions(-)
 
+--- linux-next.orig/Documentation/arch/arm/zte/zx297520v3.rst
++++ linux-next/Documentation/arch/arm/zte/zx297520v3.rst
+@@ -4,15 +4,13 @@
+ Booting Linux on ZTE zx297520v3 SoCs
+ ====================================
+ 
+-...............................................................................
+-
+ Author:	Stefan Dösinger
+ 
+ Date  : 27 Jan 2026
+ 
+ 1. Hardware description
+ ---------------------------
+-Zx297520v3 SoCs use a 64 bit capable Cortex-A53 CPU and GICv3, although they
++Zx297520v3 SoCs use a 64-bit capable Cortex-A53 CPU and GICv3, although they
+ run in arm32 mode only. The CPU has support EL3, but no hypervisor (EL2) and
+ it seems to lack VFP and NEON.
+ 
+@@ -27,7 +25,7 @@ Some devices, especially the stationary
+ Ethernet switch.
+ 
+ Usually the devices have LEDs for status indication, although some have SPI or
+-I2C connected displays
++I2C connected displays.
+ 
+ Some have an SD card slot. If it exists, it is a better choice for the root
+ file system because it easily outperforms the built-in NAND.
+@@ -39,7 +37,7 @@ IRQs on either ends.
+ 
+ There is also a Cortex M0 CPU, which is responsible for early HW initialization
+ and starting the Cortex A53 CPU. It does not have any essential purpose once
+-U-Boot is started. A SRAM-Based handover protocol exists to run custom code on
++U-Boot is started. An SRAM-based handover protocol exists to run custom code on
+ this CPU.
+ 
+ 2. Booting via USB
+@@ -63,13 +61,13 @@ Contains an U-Boot version that can be u
+ CPU and interrupt controller to comply with Linux's booting requirements.
+ 
+ 3. Building for built-in U-Boot
+----------------------------
++-------------------------------
+ The devices come with an ancient U-Boot that loads legacy uImages from NAND and
+ boots them without a chance for the user to interrupt. The images are stored in
+ files ap_cpuap.bin and ap_recovery.bin on a jffs2 partition named imagefs,
+ usually mtd4. A file named "fotaflag" switches between the two modes.
+ 
+-In addition to the uImage header, those files have a 384 byte signature header,
++In addition to the uImage header, those files have a 384-byte signature header,
+ which is used for authenticating the images on some devices. Most devices have
+ this authentication disabled and it is enough to pad the uImage files with 384
+ zero bytes.
+@@ -88,7 +86,7 @@ So to build an image that boots from NAN
+ 6) dd if=/dev/zero bs=1 count=384 of=ap_recovery.bin
+ 7) cat uimg >> ap_recovery.bin
+ 8) Place this file onto imagefs on the device. Delete ap_cpuap.bin if the
+-free space is not enough.
++   free space is not enough.
+ 9) Create the file fotaflag: echo -n FOTA-RECOVERY > fotaflag
+ 
+ For development, booting ap_recovery.bin is recommended because the normal boot
+@@ -113,55 +111,56 @@ the binary blobs.
+ 
+ The assembly code below is given as an example of how to achieve this:
+ 
+-```
+-#include <linux/irqchip/arm-gic-v3.h>
+-#include <asm/assembler.h>
+-#include <asm/cp15.h>
+-
+-@ Detect sane bootloaders and skip the hack
+-ldr	r3, =0xf2000000
+-ldr	r3, [r3]
+-ldr	r4, =(GICD_CTLR_ARE_NS | GICD_CTLR_DS)
+-cmp	r3, r4
+-beq	skip_zx_hack
+-@ This allows EL1 to handle ints hat are normally handled by EL2/3.
+-ldr	r3, =0xf2000000
+-str     r4, [r3]
+-
+-cps     #MON_MODE
+-
+-@ Work in non-secure physical address space: SCR_EL3.NS = 1. At least the UART
+-@ seems to respond only to non-secure addresses. I have taken insipiration from
+-@ Raspberry pi's armstub7.S here.
+-mov	r3, #0x131			@ non-secure, Make F, A bits in CPSR writeable
+-					@ Allow hypervisor call.
+-mcr     p15, 0, r3, c1, c1, 0
+-
+-@ AP_PPI_MODE_REG: Configure timer PPIs (10, 11, 13, 14) to active-low.
+-ldr	r3, =0xF22020a8
+-ldr	r4, =0x50
+-str	r4, [r3]
+-ldr	r3, =0xF22020ac
+-ldr	r4, =0x14
+-str	r4, [r3]
+-
+-@ Enable EL2 access to ICC_SRE (bit 3, ICC_SRE_EL3.Enable). Enable system reg
+-@ access to GICv3 registers (bit 0, ICC_SRE_EL3.SRE) for EL1 and EL3.
+-mrc	p15, 6, r3, c12, c12, 5         @ ICC_SRE_EL3
+-orr	r3, #0x9                        @ FIXME: No defines for SRE_EL3 values?
+-mcr	p15, 6, r3, c12, c12, 5
+-mrc	p15, 0, r3, c12, c12, 5         @ ICC_SRE_EL1
+-orr	r3, #(ICC_SRE_EL1_SRE)
+-mcr	p15, 0, r3, c12, c12, 5
+-
+-@ Like ICC_SRE_EL3, enable EL1 access to ICC_SRE and system register access
+-@ for EL2.
+-mrc	p15, 4, r3, c12, c9, 5          @ ICC_SRE_EL2 aka ICC_HSRE
+-orr	r3, r3, #(ICC_SRE_EL2_ENABLE | ICC_SRE_EL2_SRE)
+-mcr	p15, 4, r3, c12, c9, 5
+-isb
+-
+-@ Back to SVC mode
+-cps	#SVC_MODE
+-skip_zx_hack:
+-```
++::
++
++ #include <linux/irqchip/arm-gic-v3.h>
++ #include <asm/assembler.h>
++ #include <asm/cp15.h>
++
++ @ Detect sane bootloaders and skip the hack
++ ldr	r3, =0xf2000000
++ ldr	r3, [r3]
++ ldr	r4, =(GICD_CTLR_ARE_NS | GICD_CTLR_DS)
++ cmp	r3, r4
++ beq	skip_zx_hack
++ @ This allows EL1 to handle ints hat are normally handled by EL2/3.
++ ldr	r3, =0xf2000000
++ str     r4, [r3]
++
++ cps     #MON_MODE
++
++ @ Work in non-secure physical address space: SCR_EL3.NS = 1. At least the UART
++ @ seems to respond only to non-secure addresses. I have taken insipiration from
++ @ Raspberry pi's armstub7.S here.
++ mov	r3, #0x131			@ non-secure, Make F, A bits in CPSR writeable
++ @ Allow hypervisor call.
++ mcr     p15, 0, r3, c1, c1, 0
++
++ @ AP_PPI_MODE_REG: Configure timer PPIs (10, 11, 13, 14) to active-low.
++ ldr	r3, =0xF22020a8
++ ldr	r4, =0x50
++ str	r4, [r3]
++ ldr	r3, =0xF22020ac
++ ldr	r4, =0x14
++ str	r4, [r3]
++
++ @ Enable EL2 access to ICC_SRE (bit 3, ICC_SRE_EL3.Enable). Enable system reg
++ @ access to GICv3 registers (bit 0, ICC_SRE_EL3.SRE) for EL1 and EL3.
++ mrc	p15, 6, r3, c12, c12, 5         @ ICC_SRE_EL3
++ orr	r3, #0x9                        @ FIXME: No defines for SRE_EL3 values?
++ mcr	p15, 6, r3, c12, c12, 5
++ mrc	p15, 0, r3, c12, c12, 5         @ ICC_SRE_EL1
++ orr	r3, #(ICC_SRE_EL1_SRE)
++ mcr	p15, 0, r3, c12, c12, 5
++
++ @ Like ICC_SRE_EL3, enable EL1 access to ICC_SRE and system register access
++ @ for EL2.
++ mrc	p15, 4, r3, c12, c9, 5          @ ICC_SRE_EL2 aka ICC_HSRE
++ orr	r3, r3, #(ICC_SRE_EL2_ENABLE | ICC_SRE_EL2_SRE)
++ mcr	p15, 4, r3, c12, c9, 5
++ isb
++
++ @ Back to SVC mode
++ cps	#SVC_MODE
++ skip_zx_hack:
++
