@@ -1,190 +1,171 @@
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB9735674C;
-	Thu, 21 May 2026 08:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779353149; cv=none; b=DfgtiGEnlD1jgHMX9xWbh9RLHPPiGpfDUODCNY8WKiDA8jd4airMK6fDQcOZV6egFiPG613vhvIz7ClKmj9iQ14IlZyuidqB0VDlB+VdCwe9k6h7a2Qqhvl5Wpae6X13LBVaaZfvVGcyhiFcFm99RQM5mXV7gaxVb3Dkhd57tsA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779353149; c=relaxed/simple;
-	bh=XVpa3gPs4WHuWXOXdevcBTIxStwkVCXV0ajpL5/HWc4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HGmpfl/lnrLk8MODmPnNh+7cfazliQ9c1bUoxg0wgScZ53DvisBzy14gbnUqBvVv+fIdZG62f9xlnPpfltDY4mEmP4V4Y/DSDHrESRZvVJf7RS3RCPGKNoxChBOpsOwSehlMJNaSQs4gIusyYr7JC6E+wPXJ1LJ5m81rFw+pBnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.224.235])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gLhL55nbJz1HCnv;
-	Thu, 21 May 2026 16:25:17 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id A972D4056C;
-	Thu, 21 May 2026 16:30:16 +0800 (CST)
-Received: from [10.204.63.22] (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwAXyaKOwg5q4q+OAQ--.43580S2;
-	Thu, 21 May 2026 09:30:16 +0100 (CET)
-Message-ID: <760aa1c86b2c8fa3f4ceab5c65c42f4f1e1f59c1.camel@huaweicloud.com>
-Subject: Re: [PATCH v5 06/13] ima: Mediate open/release method of the
- measurements list
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Mimi Zohar <zohar@linux.ibm.com>, corbet@lwn.net,
- skhan@linuxfoundation.org,  dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com, paul@paul-moore.com,  jmorris@namei.org,
- serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com, 
-	nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
-Date: Thu, 21 May 2026 10:30:04 +0200
-In-Reply-To: <db872f810f22bf25ff0ae7fe15b44f316b078079.camel@linux.ibm.com>
-References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
-	 <20260429160319.4162918-7-roberto.sassu@huaweicloud.com>
-	 <db872f810f22bf25ff0ae7fe15b44f316b078079.camel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33ED32DB7BF
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 08:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779353646; cv=pass; b=QPymH/SQRQoXVzUyq6y7j+l5qJ/OH9gpJtJeXxDU8ziCQUdW56HSaDR5lk/flNtmzdoABeca2SOYZsI9bHcKQI7bLcHnc3v70dIlHdl0iM1OiJotGAfUfPp/oHgmlU6QvV+ymgD0ai6102QR8/tiqg6TiZZEpKw7ZoZtY7MuWos=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779353646; c=relaxed/simple;
+	bh=BlROpg/oMQ6qyw2CniwdkMcN/+oY12kcabYx5q1tsm0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LPPTwBDNOaFPKyXn23PhpaQNWzPsjIar/3M189Rvd9PZg0uUI6FUVVfqRPBPF0JbFbO9emSc6I/5NpkF0kbNuEX7K4AVlNo2HBgkeZXL5wRznsPMdukzg25IM17wc48HshJ4rHYPXms9y5Lb8E+Z8jH4ZiDMz7b073UVRrol7bo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BN5jP55N; arc=pass smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BN5jP55N"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-515548f390fso2361cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 01:54:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779353644; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XJRTB93QbgtNFz2923gkhfV2z/D8WqKcRqdd9Q4ddAhtwF+dmQJbOLLA/QH9RIb4Z3
+         Rfzae1mV8zAM/yHZcRLWxqJ4NDA+vfcdNjqRUA5oYxspLi+iBHkleA7iLn5BOqvWFWyq
+         5dDQkBnwEzPhKZXZNz0fO4dE8dxVW7f2T/+26GLR5TrFAjX/XzUzJNUQpIlF1NpgD/3C
+         fNDH3r03H5W7jzKOuE8LonCtjrLdEx9gc87OK2PXlCPOaItE+CaY6Vi2hzhjs4W5Q6Uu
+         Sdj0aAjHy93iv1ssSxa7hSI1XDPXws71a677km+YLlRuCL3Q36/Jm7/nCHR3iB5ONPHm
+         KRew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=iMVZurvnpW2R3v2VYKC4plSUzv3+qTXQO7hckbnpapU=;
+        fh=IX0LlkBUd2vNZwh54Zw1G/TyT3R5Pkr6h+uK6Yq3Oeo=;
+        b=B+GDh6hsO4pMu07RInSsz/xs1Ua47pNpq2FwqSCHZbddOpNSxaGpmxz5wz45UpnxjD
+         L17nMNS5KDi7X65ZhZ7r0XScX1E0RoYc05/sPSSnNkPI9nubwFhlNuam0DWMD7PoEo/Q
+         dTRTmrteoapf93vukaA+QdG7s7cRiB15Fvh3Leir9yBGzGmDvz0oOz+y9H0yM0mfzW58
+         H4IFWl+nDAvR/ReeibpxU8lyuu4LTLpbCNttBXZo7JnEQqTcB4NHPrm1htXRgodBONo9
+         NMYq3YiuiuOYdZLdoweyRFtIks2EEp61LuUDWV3c/xl+3yP2b6sHYI0KZONRNf5nsff6
+         HHrA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779353644; x=1779958444; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=iMVZurvnpW2R3v2VYKC4plSUzv3+qTXQO7hckbnpapU=;
+        b=BN5jP55NPPw9UIZ2qVQVKD7Av3ym/lEOMlvrQqeFmhYNXnSy49oBoJ4Rl387X8seMj
+         XJm5/p6PiZGxnb8qiNNXME6lr5o2U0E7Xw5FHeJaKmyXVTMbkXjZo/lXs73llKDnwZjY
+         TjXDU8qACJ9aOsrcDt/rYFMO8uOgqjTJJxX2DNnV9X14uQT7IwAJ+3HCHHDwseyYCpfz
+         fCl3qq+SYBr4v+yOtOHsd1EHeAuqS6s6YKUMc2c/P+Q4bRwyijR2MApo/T9BioJkSibu
+         rrvOqFCyxohOlBjgGWqa+EZznn6TY+YbknPOA96lCJO/1TwVEMPvtTwD1Cc73ydAZbVQ
+         9sEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779353644; x=1779958444;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iMVZurvnpW2R3v2VYKC4plSUzv3+qTXQO7hckbnpapU=;
+        b=Z4W+VtREfpkRv8GzXDtUA0cUft19FAkmGsTCwzAyoBtvpdGFsy0pzHy7/uuwKACSu1
+         OzNPTMXfxLCIEI016JG3UUvEIWEL3bI2LPe5lEJLD3OWtBIXXt3FQuUWtFNLY8HjvcNz
+         a/mg2i3jc/fKcgeiceZlcuFVEDeq+u45DSPScDHeoqhVn16t9PB6oH5Fqooqleh9ufop
+         AOS5acRnSnl3bLGvXIrWqRU5s1c83fXejkDO4/riTf7Ns6im0wkNGpy3mN9di9n/dOy5
+         MG54mznn0gLcjurWqvK9cq7i+TnO4ie4xl+BLTRxK2ofJuyUQj3zVUud934IvudJw0Pu
+         +XPQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+fPybY6CClBHXKJZxANoskGUZh0sGaqkilhC66vHeFldXGRxTCbSNdzY23Z/VtoYozkryxTGqwc1c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywy/6kXgYMmsX+C3hgrhJGUU/RIDyWwHPGrm2pPQPPQG/kgK0nX
+	Lj395L/gDFT7npn+0TSLQLofBmcX6/h+VOEvG+tgNgeruC9Haz+9ywiLMta4VbPVFFdHJRM3Dz2
+	7TC08N3IBjDxuGhLrb4LFSN2d4nzb38YJp8R41yLP
+X-Gm-Gg: Acq92OEaMLfWMDzT+f7OWTexJYny5pEiAce5erXQPbQhjLfYwO4p+i2aMRFRyfx2REL
+	F7opfqtRG/UiBsMGnL50hc/mT0mCg1SGu29UdkwJv2OUq31oroCTrFcaeiPrF6PTXFS9z1Va96S
+	S90HCyEW5wuqyAjf6Nl/R7tZA+QD5tddxSAwwM3lnPIMdhjnRZ9AYD2798BThYhgcgr8ULWCnXJ
+	gF+iA6mhmzH0G0piXR0cEYjM5WQmFk0OwIsPb4u28pMO3zG3fC6Qc6D7z35tEBsilkmFFUdLr9y
+	62kbHCj9HomSKLD0l/o=
+X-Received: by 2002:a05:622a:2682:b0:516:cc18:4760 with SMTP id
+ d75a77b69052e-516cc1848a3mr1318811cf.21.1779353643586; Thu, 21 May 2026
+ 01:54:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:LxC2BwAXyaKOwg5q4q+OAQ--.43580S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZw43tF15Wry3CryfAry8AFb_yoW5tr4rpa
-	yDGayrCr1kJrW7CFnrGa47ArWFv3yrGa15urn3JFy3AF1rZr9I9r4Yyry7Crnrtry8tr1f
-	tr4jqrZ8uas0yaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFk
-	u4UUUUU
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAABGoNmbQK-wABs4
+References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com> <20260507-gmem-inplace-conversion-v6-20-91ab5a8b19a4@google.com>
+In-Reply-To: <20260507-gmem-inplace-conversion-v6-20-91ab5a8b19a4@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Thu, 21 May 2026 09:54:00 +0100
+X-Gm-Features: AVHnY4JjgkDwC5Px9qxOcGZwEfL7vQEDZaLkFA7McDQJ3moR9Atjhj_tt-FGzFY
+Message-ID: <CA+EHjTwkX_K4S4CHNFvoP=vDUnzW9MyLxBFZzDrR3tM6yuKNTA@mail.gmail.com>
+Subject: Re: [PATCH v6 20/43] KVM: guest_memfd: Enable INIT_SHARED on
+ guest_memfd for x86 Coco VMs
+To: ackerleytng@google.com
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 2026-05-20 at 22:07 -0400, Mimi Zohar wrote:
-> On Wed, 2026-04-29 at 18:03 +0200, Roberto Sassu wrote:
-> > From: Roberto Sassu <roberto.sassu@huawei.com>
-> >=20
-> > Introduce the ima_measure_users counter, to implement a semaphore-like
-> > locking scheme where the binary and ASCII measurements list interfaces =
-can
-> > be concurrently open by multiple readers, or alternatively by a single
-> > writer.
-> >=20
-> > A semaphore cannot be used because the kernel cannot return to user spa=
-ce
-> > with a lock held.
-> >=20
-> > Introduce the ima_measure_lock() and ima_measure_unlock() primitives, t=
-o
-> > respectively lock/unlock the interfaces (safely with the ima_measure_us=
-ers
-> > counter, without holding a lock).
-> >=20
-> > Finally, introduce _ima_measurements_open() to lock the interface befor=
-e
-> > seq_open(), and call it from ima_measurements_open() and
-> > ima_ascii_measurements_open(). And, introduce ima_measurements_release(=
-),
-> > to unlock the interface.
-> >=20
-> > Require CAP_SYS_ADMIN if the interface is opened for write (not possibl=
-e
-> > for the current measurements interfaces, since they only have read
-> > permission).
-> >=20
-> > No functional changes: multiple readers are allowed as before.
-> >=20
-> > Link: https://github.com/linux-integrity/linux/issues/1
-> > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> > ---
-> >  security/integrity/ima/ima_fs.c | 71 +++++++++++++++++++++++++++++++--
-> >  1 file changed, 67 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/security/integrity/ima/ima_fs.c b/security/integrity/ima/i=
-ma_fs.c
-> > index 9a8dba14d82a..68edea7139d5 100644
-> > --- a/security/integrity/ima/ima_fs.c
-> > +++ b/security/integrity/ima/ima_fs.c
-> > @@ -25,6 +25,8 @@
-> >  #include "ima.h"
-> > =20
-> >  static DEFINE_MUTEX(ima_write_mutex);
-> > +static DEFINE_MUTEX(ima_measure_mutex);
-> > +static long ima_measure_users;
->=20
-> long?
+On Thu, 7 May 2026 at 21:22, Ackerley Tng via B4 Relay
+<devnull+ackerleytng.google.com@kernel.org> wrote:
+>
+> From: Sean Christopherson <seanjc@google.com>
+>
+> Now that guest_memfd supports tracking private vs. shared within gmem
+> itself, allow userspace to specify INIT_SHARED on a guest_memfd instance
+> for x86 Confidential Computing (CoCo) VMs, so long as per-VM attributes
+> are disabled, i.e. when it's actually possible for a guest_memfd instance
+> to contain shared memory.
+>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
-The limit pre process can be up to INT_MAX. Two processes could
-overflow the counter if it was int.
+Reviewed-by: Fuad Tabba <tabba@google.com>
 
-Since privileged users can bypass the system wide max-file check (see
-alloc_empty_file()), I will add an overflow check to be sure.
+Cheers,
+/fuad
 
-> > =20
-> >  bool ima_canonical_fmt;
-> >  static int __init default_canonical_fmt_setup(char *str)
-> > @@ -209,16 +211,76 @@ static const struct seq_operations ima_measurment=
-s_seqops =3D {
-> >  	.show =3D ima_measurements_show
-> >  };
-> > =20
-> > +static int ima_measure_lock(bool write)
-> > +{
-> > +	mutex_lock(&ima_measure_mutex);
-> > +	if ((write && ima_measure_users !=3D 0) ||
-> > +	    (!write && ima_measure_users < 0)) {
-> > +		mutex_unlock(&ima_measure_mutex);
-> > +		return -EBUSY;
-> > +	}
->=20
-> Thanks, Roberto. The code is really clear and well written.  However, it =
-could
-> use a comment indicating the different ima_measure_users values as a remi=
-nder.
->=20
-> ima_measure_users:  > 0 open readers
-> ima_meaasure_users: =3D=3D -1 open writer
 
-Ok.
-
-> > +
-> > +	if (write)
-> > +		ima_measure_users--;
-> > +	else
-> > +		ima_measure_users++;
-> > +	mutex_unlock(&ima_measure_mutex);
-> > +	return 0;
-> > +}
-> > +
-> > +static void ima_measure_unlock(bool write)
-> > +{
-> > +	mutex_lock(&ima_measure_mutex);
-> > +	if (write)
-> > +		ima_measure_users++;
->=20
-> There should only be one writer at a time. ima_measure_users could be set=
- to
-> zero.
-
-Sure, but I find the code more clear this way.
-
-Roberto
-
-> > +	else
-> > +		ima_measure_users--;
-> > +	mutex_unlock(&ima_measure_mutex);
-> > +}
-> > +
->=20
-> thanks,
->=20
-> Mimi
-
+> ---
+>  arch/x86/kvm/x86.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
+>
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 1560de1e95be0..6609957ecfea3 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -14172,14 +14172,13 @@ bool kvm_arch_no_poll(struct kvm_vcpu *vcpu)
+>  }
+>
+>  #ifdef CONFIG_KVM_GUEST_MEMFD
+> -/*
+> - * KVM doesn't yet support initializing guest_memfd memory as shared for VMs
+> - * with private memory (the private vs. shared tracking needs to be moved into
+> - * guest_memfd).
+> - */
+>  bool kvm_arch_supports_gmem_init_shared(struct kvm *kvm)
+>  {
+> -       return !kvm_arch_has_private_mem(kvm);
+> +       /*
+> +        * INIT_SHARED isn't supported if the memory attributes are per-VM,
+> +        * in which case guest_memfd can _only_ be used for private memory.
+> +        */
+> +       return !vm_memory_attributes || !kvm_arch_has_private_mem(kvm);
+>  }
+>
+>  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_PREPARE
+>
+> --
+> 2.54.0.563.g4f69b47b94-goog
+>
+>
