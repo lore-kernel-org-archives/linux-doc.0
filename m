@@ -1,237 +1,226 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104CD3FD130;
-	Thu, 21 May 2026 13:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779370874; cv=none; b=KhoAE8N4zv+9Y9RK17uhXlXTEvAwY6F9ZwC0BNKPSY49srNik+0NVr09j4IGZ/8HQf+4r+5Akrwdhs6uuBoYKNoKoZImqClaLeWSeIA1CyWbc9c9Mt0lenkC1y4LG3UUl/FeZHi+RFtXurapvUpaGd5agmOcG+iXkeNoyvurkgY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779370874; c=relaxed/simple;
-	bh=YvDliQ300mLow/Wuc7hrWY/877pqDGX0o1cX95+MLA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pxHQMCfhguwIz2s5Mm3iSyx8Oo/oIY8JNgqJZtORcaPpImBBvvaifMqFjxO1noOyd9OdELxAvWBuHp+eD9HgQxvLc5hYnmUfipzP+AJu6cdcq4g21670+G8T0AnAcU643IGa4R40GMHnVvvIJIpuDKrCk/zEfnBMBtY/Dxb+Wj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CPhEAPPX; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QhDyIrrB; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2C23DD850
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 13:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779371289; cv=pass; b=SsPJ9UC443V8M0/hzvso2Yp3Kp4V8IE1WpLKzp3JdlAJlltKdYzJXKnbeotsUlYQEa2ZxgXBY3wKKvkMnVxg4Qv4YrPn9CJBjRKUomuypbHWqZ8tRxiuLUI5ft9uEYXRT08SOeBWBJfHgODa2WC4FeyZ8oyZGVQeOE0q7vdcc+8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779371289; c=relaxed/simple;
+	bh=SchiGOmf2MVWPKiRNrNhUxoPmvVzWaDRWZ8BJ0appKw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=M7YSBHJokIlelsTcPnorWM5wazQNVfNDYJJdqoCqNxtlv+CF3N/QzCDshBv07SaUpTMCABS4tlwh21cr+WPVPgLfvDsiTXJkpVRpUp2Aj42AFpWbgk2TzPzln2i6hk8VdZqTV9oe74/1ObSFMw1LGAiGk+4RO8e1FFC5ji0AdwI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Lx1oqRHd; arc=pass smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CPhEAPPX";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QhDyIrrB"
-Date: Thu, 21 May 2026 15:41:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1779370870;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PaJqwkq2eOlywRq+nMAB2iAIu1V2LuK/QcmpmRhp1zk=;
-	b=CPhEAPPXZGUZ1qcYt2wG/ANRYkqmNyJi/5IW6LpahCKvgTnsDb2mldkDVYaduhKcu/4FZp
-	LAeXDB3cU1ji29bjjvSQQCyEMF6JIOEhzvUAW0hpsS0uyLMOyNwMLPLdLHc4iLl3qLJSup
-	QVkHGZMUffrPhRYaxcYUQGbO8L439tfkQ8Cr8hKKTmWE9grigqSt9qCt+lW5t6MPHQPNog
-	/sK5eIb34C2qIsnwRBK4VaR4eJ2mq3Zw9vfysRFzSfSB/1vYk72RuujP0RGws9JGM5REM0
-	O5uAylJa3yq9SyGUcua19yabIwaNXcmy43yAjcwDIvLATXriPhlxTOQwsYW1Iw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1779370870;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PaJqwkq2eOlywRq+nMAB2iAIu1V2LuK/QcmpmRhp1zk=;
-	b=QhDyIrrBgjfjdLlpFMho35sdaF10Coi0xwiddy+lFVyBRkFvVMfCMQok5DQ6VzdPu5UeWu
-	AfyMwCwJ+1TpF5BQ==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Thomas Gleixner <tglx@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	"Borislav Petkov (AMD)" <bp@alien8.de>, Andrew Morton <akpm@linux-foundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Petr Mladek <pmladek@suse.com>, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Feng Tang <feng.tang@linux.alibaba.com>, Christian Brauner <brauner@kernel.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
-	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
-	Li RongQing <lirongqing@baidu.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
-	Dragos Tatulea <dtatulea@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Shay Drori <shayd@nvidia.com>, 
-	Moshe Shemesh <moshe@nvidia.com>
-Subject: Re: [PATCH net-next 3/3] net/mlx5: Apply devlink default eswitch
- mode during init
-Message-ID: <20260521152845-11899163-df79-435c-b8c9-d3003403c6c9@linutronix.de>
-References: <20260521072434.362624-1-tariqt@nvidia.com>
- <20260521072434.362624-4-tariqt@nvidia.com>
- <3bbcf456-322c-46f9-b238-88fb8ad227b2@nvidia.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Lx1oqRHd"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-50d864c23bdso7261cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 06:48:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779371287; cv=none;
+        d=google.com; s=arc-20240605;
+        b=OAkg6iw31PBwbhsuEbCqk/SpFDX6mTzbA96OXL+tuiGEsPz3G09KM7vc0oPRHbMu88
+         jrUxcBywVnqckQibA4OuV2XNOyjDiQL26b02XYl3x1eG58XMgIMi3o4+ymHEWnEz0vBF
+         aQ0xqpTAQK4I1iMZaiZ/TlJCYuYY9YfuB3Wc+0CaYpi3BJefi6EbFehhGniqQqmPpxaR
+         HU7OQ+36tDeCJVzabUP7YyoBl1qzgiAz/mxgRy+aFYwD5XqFzm0yV6wqtLBqpL0R0Y1K
+         EXH+x4V3NWnThFq0Qyv8sTmo+1nP0rCSW4BaU9y+YRJq7Wo6vE0aRfE+d49a9mhMq9wy
+         KbWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=x8ZLZpFna8QE3sntZWYFYWQfy/d2E0NvjrGgGfpza44=;
+        fh=gGHh869eH5JjDxaLTLYOKlerk+ut6gt9QAzM9NmwWNE=;
+        b=VLyrQM0EPcCApGNyEkh77uZIiPyHFU6fRUosozSBQXdUizVdIJKPdZKfDstYQ+5Dof
+         9QTJoz/Wfp2wJSSpaH1x2IcSFHXCVr6sd1Plhg8QuxXymxglblO8zNuHSCgPXXwEbWc9
+         rbCIR8CNHx0kWCsfzAFpYiPIsHVJcBH+vz8ey846VL2wjU0Is7ir8vyYmO3jl0A4CXZ+
+         ET3IcmuYItayeR1BrkPReAFVgvJL5Ace+RoOPMdpnAjFrp4pcEDRFZ0r3IJu+W3E6NrF
+         J2ZiB/7QYV59gyw0oM55FPPZrwy7EwP7pvIK/1Hr2PC0xjKS2O2FD30qNWvETOONAeFl
+         ZQDw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779371287; x=1779976087; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=x8ZLZpFna8QE3sntZWYFYWQfy/d2E0NvjrGgGfpza44=;
+        b=Lx1oqRHdWDgVYOHOCHJys4JsK+4F7VW/ZHeh0hBX83+yoop4fyRs24a6i9uAuLooVR
+         nAV8yQQYBoLFBfIuq4w+GMTwXInZKbjfuBl0EnzQO4NUX25svESwxho6+kl6wZlp6ptC
+         /j+lMqBh4NGHbhJYl9ZRyPAia5DF94tW2W+Y+xy1YlGftVZs8OyligmT7oRpe9xDRDVd
+         XSSqOVofuAoUwdERaodTDsq6vwPBalzBNDsLOyfJkIR6mUo0k6zeTDcb7NHiTn8a9iEc
+         zhhc591pInuhfTvINnXrcK6ZM+xtQqKO+vB+2IeO9eMaJHCLPj4rK3/rtNz5UhVuYtGY
+         P/fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779371287; x=1779976087;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x8ZLZpFna8QE3sntZWYFYWQfy/d2E0NvjrGgGfpza44=;
+        b=ooh0uJ7i/0gLurprqgFinX0IHiXHnmNCgtQ7vemqWM1jLjKfL3OXwbVKnob8zMZgPW
+         r7G5X5Rp8MQilmT34IY47Uvnuxo2wjA36KdqcS2kCFtoLyFiciHatQxb+J0DKEKRNNbt
+         Fdw2D8wqNd4uH/woPFhIOUajxP3l1+ZwtAdd/lo7mwOXlo0OZo5l7HLD8Yi9amXzDBQk
+         8eg45172W2qUZVqybS9ZqWsfa1oh34hzIj0Cydj5ZGS9ic3mjA1j5J7Hye3DDPXV2eNr
+         MouIOD7YviemGylg6KetdO+U8c3r8vLPBJMV1EQgbKhMArVtrtu/uvShyEMHTiseXsqA
+         D2CA==
+X-Forwarded-Encrypted: i=1; AFNElJ8FBM0EOUyS2PA66PZpkpamcM0wLas9sQoI4UH1OzZPdY1NTX4faSqaItr2+umt51WUctHZRK3c5gk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywpp+kkuxaZvaTkC7O1qkPv7q5BXDRvORRWnoBFu9FKwfNUgSQy
+	i3g83ZNo+ewdZWZyT7RgSG7tx/SWqv12FJ1zaR8C3zRFN/NkHg/PwPFeBri2FwnefRyHHmDa8oU
+	I3RcBaR2kN+ehWyWyj0TEN/pPXvn7ahjaHg2fitve
+X-Gm-Gg: Acq92OEeH1CuseR+d3aODJmZdF5bZ+c5/LDBh8fAaPy2imbfXhS5n/o+ZwWagNpSiMh
+	lBBl+msVbvN4AR7DGg/bbYM+YPppAf4DEVYCnkJesUQmxnkUnbvrODeUFpuYQvcUPkTLMKAfZaW
+	z7qgkH7cX2T3OYPcjWh8Wy1hJZNekkKEmRaj6zGenGbQgCfBjE3QHXB4TnzOTuUFtJ9D/yM5Wt+
+	XbhaTJRi3q+OZ0Yx3wOuT4v6fxnJcQ/Xj6x6OKBqDEEz+Re8bCxcvRJvLDICQkn9Rb0HLbI1zsE
+	wU2Lg+gaQAb/BXr04PY=
+X-Received: by 2002:a05:622a:9005:b0:50f:af60:3496 with SMTP id
+ d75a77b69052e-516c53118ecmr8206941cf.1.1779371285395; Thu, 21 May 2026
+ 06:48:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <3bbcf456-322c-46f9-b238-88fb8ad227b2@nvidia.com>
+References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com>
+ <20260507-gmem-inplace-conversion-v6-5-91ab5a8b19a4@google.com>
+ <CA+EHjTw-cUM=FrJevtSDtR7K6MwUfGfOx21LMFDn7DAy5bFzYw@mail.gmail.com>
+ <CAEvNRgGQvMdDmVfbk42EY_PGN0ybTp-x21Zj+pg_X1mk9iCRtA@mail.gmail.com>
+ <CA+EHjTzLCD-dU-euZKgzwyEr2ecPqFDNutcaHm2fCDGA+MHVXA@mail.gmail.com> <ag8JIlHjohAOC3-g@google.com>
+In-Reply-To: <ag8JIlHjohAOC3-g@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Thu, 21 May 2026 14:48:00 +0100
+X-Gm-Features: AVHnY4IjTx7kpi4F7EdVLun66lc7vUTNuuJ9Vgrkm1t1onCQ9N7OW44CxOISbbA
+Message-ID: <CA+EHjTyF19FPod10EEm3pMaPvsAR6HUXOhtC83qSSqxQ2g1s2Q@mail.gmail.com>
+Subject: Re: [PATCH v6 05/43] KVM: guest_memfd: Wire up kvm_get_memory_attributes()
+ to per-gmem attributes
+To: Sean Christopherson <seanjc@google.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, ira.weiny@intel.com, jmattson@google.com, 
+	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
+	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
+	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, 
+	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
+	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
+	aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 21, 2026 at 04:16:28PM +0300, Mark Bloch wrote:
-(...)
+On Thu, 21 May 2026 at 14:31, Sean Christopherson <seanjc@google.com> wrote:
+>
+> On Thu, May 21, 2026, Fuad Tabba wrote:
+> > On Wed, 20 May 2026 at 22:44, Ackerley Tng <ackerleytng@google.com> wrote:
+> > >
+> > > Fuad Tabba <tabba@google.com> writes:
+> > >
+> > > >
+> > > > [...snip...]
+> > > >
+> > > >> +unsigned long kvm_gmem_get_memory_attributes(struct kvm *kvm, gfn_t gfn)
+> > > >> +{
+> > > >> +       struct kvm_memory_slot *slot = gfn_to_memslot(kvm, gfn);
+> > > >> +       struct inode *inode;
+> > > >> +
+> > > >> +       /*
+> > > >> +        * If this gfn has no associated memslot, there's no chance of the gfn
+> > > >> +        * being backed by private memory, since guest_memfd must be used for
+> > > >> +        * private memory, and guest_memfd must be associated with some memslot.
+> > > >> +        */
+> > > >> +       if (!slot)
+> > > >> +               return 0;
+> > > >> +
+> > > >> +       CLASS(gmem_get_file, file)(slot);
+> > > >> +       if (!file)
+> > > >> +               return 0;
+> > > >> +
+> > > >> +       inode = file_inode(file);
+> > > >> +
+> > > >> +       /*
+> > > >> +        * Rely on the maple tree's internal RCU lock to ensure a
+> > > >> +        * stable result. This result can become stale as soon as the
+> > > >> +        * lock is dropped, so the caller _must_ still protect
+> > > >> +        * consumption of private vs. shared by checking
+> > > >> +        * mmu_invalidate_retry_gfn() under mmu_lock to serialize
+> > > >> +        * against ongoing attribute updates.
+> > > >> +        */
+> > > >> +       return kvm_gmem_get_attributes(inode, kvm_gmem_get_index(slot, gfn));
+> > > >> +}
+> > > >
+> > > > Doesn't this imply that all consumers of kvm_mem_is_private() should
+> > > > validate the result using mmu_lock and the invalidation sequence?
+> > >
+> > > Let me know how I can improve the comment.
+> >
+> > Given Sean's context, the comment is good I think. I would quibble
+> > with the the "_must_ still protect" phrasing being a bit too strict.
+> >
+> > Maybe just soften it slightly to acknowledge the exception? Something like:
+> >
+> >   * lock is dropped, so callers that require a strict result _must_ protect
+> >   * consumption of private vs. shared by checking mmu_invalidate_retry_gfn()
+> >   * under mmu_lock to serialize against ongoing attribute updates. Callers
+> >   * doing lockless reads must be able to tolerate a stale result.
+> >
+> > That aligns the comment with how KVM is actually using it today. That
+> > said, this is nitpicking. Feel free to use or ignore.
+>
+> Hmm, I wonder if we can figure out a way to consolidate some documentation,
+> because this is _exactly_ the same pattern that x86's host_pfn_mapping_level()
+> deals with (see its big comment below).
+>
+> There's also the stale comment in kvm_invalidate_memslot(), which, stating the
+> obvious, speaks to the memslot+SRCU side of things.
+>
+> Maybe it makes sense to to find a central location for one giant comment about
+> how how MMU notifier events and memslot+SRCU protections work?  And then refer
+> to that in paths where some asset needs to be tied into MMU notifiers and/or
+> memslots+SRCU?
+>
+> [*] https://lore.kernel.org/all/agcbWe8s9lmPuJwG@google.com
 
-> NIPA flagged this patch with a build_allmodconfig_warn failure:
-> https://netdev-ctrl.bots.linux.dev/logs/build/1098506/14585935/build_allm=
-odconfig_warn/
->=20
-> I do not see how this mlx5 patch is related to the reported issue,
-> but I looked into it anyway.
->=20
-> After the kernel has been built once, the issue can be reproduced by reru=
-nning sparse
-> only on version.o, which filters out the unrelated noise. I had an older =
-sparse installed,
-> so I used a local copy:
->=20
-> rm -f arch/x86/boot/version.o
-> make V=3D1 C=3D1 CHECK=3D/labhome/mbloch/bin/sparse arch/x86/boot/version=
-=2Eo
->=20
-> This gives the same error reported by NIPA:
->=20
-> ...
-> ...
-> make -f ./scripts/Makefile.vmlinux
-> make -f ./scripts/Makefile.build obj=3Darch/x86/boot arch/x86/boot/bzImage
-> make -f ./scripts/Makefile.build obj=3Darch/x86/boot/compressed arch/x86/=
-boot/compressed/vmlinux
-> # CC      arch/x86/boot/version.o
->   gcc -Wp,-MMD,arch/x86/boot/.version.o.d -nostdinc -I./arch/x86/include =
--I./arch/x86/include/generated -I./include -I./include -I./arch/x86/include=
-/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/gene=
-rated/uapi -include ./include/linux/compiler-version.h -include ./include/l=
-inux/kconfig.h -include ./include/linux/compiler_types.h -D__KERNEL__ -std=
-=3Dgnu11 -fms-extensions -m16 -g -Os -DDISABLE_BRANCH_PROFILING -D__DISABLE=
-_EXPORTS -Wall -Wstrict-prototypes -march=3Di386 -mregparm=3D3 -fno-strict-=
-aliasing -fomit-frame-pointer -fno-pic -mno-mmx -mno-sse -fcf-protection=3D=
-none -ffreestanding -fno-stack-protector -Wno-address-of-packed-member -mpr=
-eferred-stack-boundary=3D2 -D_SETUP -fno-asynchronous-unwind-tables -Wimpli=
-cit-fallthrough=3D5     -DKBUILD_MODFILE=3D'"arch/x86/boot/version"' -DKBUI=
-LD_BASENAME=3D'"version"' -DKBUILD_MODNAME=3D'"version"' -D__KBUILD_MODNAME=
-=3Dversion -c -o arch/x86/boot/version.o arch/x86/boot/version.c
-> # CHECK   arch/x86/boot/version.c
->   /labhome/mbloch/bin/sparse -D__linux__ -Dlinux -D__STDC__ -Dunix -D__un=
-ix__ -Wbitwise -Wno-return-void -Wno-unknown-attribute  -D__x86_64__ --arch=
-=3Dx86 -mlittle-endian -m64 -Wp,-MMD,arch/x86/boot/.version.o.d -nostdinc -=
-I./arch/x86/include -I./arch/x86/include/generated -I./include -I./include =
--I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/u=
-api -I./include/generated/uapi -include ./include/linux/compiler-version.h =
--include ./include/linux/kconfig.h -include ./include/linux/compiler_types.=
-h -D__KERNEL__ -std=3Dgnu11 -fms-extensions -m16 -g -Os -DDISABLE_BRANCH_PR=
-OFILING -D__DISABLE_EXPORTS -Wall -Wstrict-prototypes -march=3Di386 -mregpa=
-rm=3D3 -fno-strict-aliasing -fomit-frame-pointer -fno-pic -mno-mmx -mno-sse=
- -fcf-protection=3Dnone -ffreestanding -fno-stack-protector -Wno-address-of=
--packed-member -mpreferred-stack-boundary=3D2 -D_SETUP -fno-asynchronous-un=
-wind-tables -Wimplicit-fallthrough=3D5     -DKBUILD_MODFILE=3D'"arch/x86/bo=
-ot/version"' -DKBUILD_BASENAME=3D'"version"' -DKBUILD_MODNAME=3D'"version"'=
- -D__KBUILD_MODNAME=3Dversion arch/x86/boot/version.c
-> arch/x86/boot/version.c: note: in included file (through arch/x86/include=
-/uapi/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-g=
-eneric/int-ll64.h, include/uapi/asm-generic/types.h, ...):
-> ./include/asm-generic/bitsperlong.h:23:2: error: Inconsistent word size. =
-Check asm/bitsperlong.h
-> ./include/asm-generic/bitsperlong.h:27:33: error: static assertion failed=
-: "Inconsistent word size. Check asm/bitsperlong.h"
-> # cmd_gen_symversions_c arch/x86/boot/version.o
->   if nm arch/x86/boot/version.o 2>/dev/null | grep -q ' __export_symbol_'=
-; then gcc -E -D__GENKSYMS__ -Wp,-MMD,arch/x86/boot/.version.o.d -nostdinc =
--I./arch/x86/include -I./arch/x86/include/generated -I./include -I./include=
- -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/=
-uapi -I./include/generated/uapi -include ./include/linux/compiler-version.h=
- -include ./include/linux/kconfig.h -include ./include/linux/compiler_types=
-=2Eh -D__KERNEL__ -std=3Dgnu11 -fms-extensions -m16 -g -Os -DDISABLE_BRANCH=
-_PROFILING -D__DISABLE_EXPORTS -Wall -Wstrict-prototypes -march=3Di386 -mre=
-gparm=3D3 -fno-strict-aliasing -fomit-frame-pointer -fno-pic -mno-mmx -mno-=
-sse -fcf-protection=3Dnone -ffreestanding -fno-stack-protector -Wno-address=
--of-packed-member -mpreferred-stack-boundary=3D2 -D_SETUP -fno-asynchronous=
--unwind-tables -Wimplicit-fallthrough=3D5     -DKBUILD_MODFILE=3D'"arch/x86=
-/boot/version"' -DKBUILD_BASENAME=3D'"version"' -DKBUILD_MODNAME=3D'"versio=
-n"' -D__KBUILD_MODNAME=3Dversion arch/x86/boot/version.c | ./scripts/genksy=
-ms/genksyms    >> arch/x86/boot/.version.o.cmd; fi
-> # LD      arch/x86/boot/setup.elf
->   ld -m elf_x86_64 -z noexecstack  -m elf_i386 -z noexecstack -T arch/x86=
-/boot/setup.ld arch/x86/boot/a20.o arch/x86/boot/bioscall.o arch/x86/boot/c=
-mdline.o arch/x86/boot/copy.o arch/x86/boot/cpu.o arch/x86/boot/cpuflags.o =
-arch/x86/boot/cpucheck.o arch/x86/boot/early_serial_console.o arch/x86/boot=
-/edd.o arch/x86/boot/header.o arch/x86/boot/main.o arch/x86/boot/memory.o a=
-rch/x86/boot/pm.o arch/x86/boot/pmjump.o arch/x86/boot/printf.o arch/x86/bo=
-ot/regs.o arch/x86/boot/string.o arch/x86/boot/tty.o arch/x86/boot/video.o =
-arch/x86/boot/video-mode.o arch/x86/boot/version.o arch/x86/boot/video-vga.=
-o arch/x86/boot/video-vesa.o arch/x86/boot/video-bios.o -o arch/x86/boot/se=
-tup.elf
-> # OBJCOPY arch/x86/boot/setup.bin
->   objcopy  -O binary arch/x86/boot/setup.elf arch/x86/boot/setup.bin
-> # BUILD   arch/x86/boot/bzImage
->   (dd if=3Darch/x86/boot/setup.bin bs=3D4k conv=3Dsync status=3Dnone; cat=
- arch/x86/boot/vmlinux.bin) >arch/x86/boot/bzImage
-> mkdir -p ./arch/x86_64/boot
-> ln -fsn ../../x86/boot/bzImage ./arch/x86_64/boot/bzImage
->=20
-> To me this looks like sparse is getting a conflicting set of flags.
-> The command line contains both "-D__x86_64__ -m64" and "-m16 -march=3Di38=
-6 -D_SETUP".
->=20
-> I confirmed that the following patch "fixes" the issue, but I do not know=
- whether
-> this is the right fix. This area is outside my comfort zone, so it would =
-be
-> helpful if someone more familiar with the x86 build/sparse flow could tak=
-e a
-> look:
->=20
-> diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
-> index 3f9fb3698d66..80923864f6f9 100644
-> --- a/arch/x86/boot/Makefile
-> +++ b/arch/x86/boot/Makefile
-> @@ -71,6 +71,10 @@ $(obj)/vmlinux.bin: $(obj)/compressed/vmlinux FORCE
->=20
->  SETUP_OBJS =3D $(addprefix $(obj)/,$(setup-y))
->=20
-> +realmode-checkflags-$(CONFIG_X86_64) :=3D -m32 -U__x86_64__ -D__i386__
-> +REALMODE_CHECKFLAGS :=3D $(filter-out -m64 -D__x86_64__,$(CHECKFLAGS)) $=
-(realmode-checkflags-y)
-> +$(SETUP_OBJS): CHECKFLAGS :=3D $(REALMODE_CHECKFLAGS)
-> +
->  sed-zoffset :=3D -e 's/^\([0-9a-fA-F]*\) [a-zA-Z] \(startup_32\|efi.._st=
-ub_entry\|efi\(32\)\?_pe_entry\|input_data\|kernel_info\|_end\|_ehead\|_tex=
-t\|_e\?data\|_e\?sbat\|z_.*\)$$/\#define ZO_\2 0x\1/p'
->=20
->  quiet_cmd_zoffset =3D ZOFFSET $@
-> diff --git a/arch/x86/realmode/rm/Makefile b/arch/x86/realmode/rm/Makefile
-> index a0fb39abc5c8..341b0ff20c3d 100644
-> --- a/arch/x86/realmode/rm/Makefile
-> +++ b/arch/x86/realmode/rm/Makefile
-> @@ -29,6 +29,10 @@ targets      +=3D $(realmode-y)
->=20
->  REALMODE_OBJS =3D $(addprefix $(obj)/,$(realmode-y))
->=20
-> +realmode-checkflags-$(CONFIG_X86_64) :=3D -m32 -U__x86_64__ -D__i386__
-> +REALMODE_CHECKFLAGS :=3D $(filter-out -m64 -D__x86_64__,$(CHECKFLAGS)) $=
-(realmode-checkflags-y)
-> +$(REALMODE_OBJS): CHECKFLAGS :=3D $(REALMODE_CHECKFLAGS)
-> +
-
-The idea looks good, we do something similar for the 32-bit vDSO:
-
-arch/x86/entry/vdso/vdso32/Makefile
-
-CHECKFLAGS :=3D $(subst -m64,-m32,$(CHECKFLAGS))
-CHECKFLAGS :=3D $(subst -D__x86_64__,-D__i386__,$(CHECKFLAGS))
-
-It seems the same kind of substitution would work here.
-We can add a helper function to arch/x86/Makefile and
-use that also for the compat vDSO.
-
-I am wondering why this didn't show up before.
-Are you going to send a patch or should I?
+This would fix a few related issues at once. sgtm
+/fuad
 
 
-Thomas
+/fuad
+
+>
+> /*
+>  * Lookup the mapping level for @gfn in the current mm.
+>  *
+>  * WARNING!  Use of host_pfn_mapping_level() requires the caller and the end
+>  * consumer to be tied into KVM's handlers for MMU notifier events!
+>  *
+>  * There are several ways to safely use this helper:
+>  *
+>  * - Check mmu_invalidate_retry_gfn() after grabbing the mapping level, before
+>  *   consuming it.  In this case, mmu_lock doesn't need to be held during the
+>  *   lookup, but it does need to be held while checking the MMU notifier.
+>  *
+>  * - Hold mmu_lock AND ensure there is no in-progress MMU notifier invalidation
+>  *   event for the hva.  This can be done by explicit checking the MMU notifier
+>  *   or by ensuring that KVM already has a valid mapping that covers the hva.
+>  *
+>  * - Do not use the result to install new mappings, e.g. use the host mapping
+>  *   level only to decide whether or not to zap an entry.  In this case, it's
+>  *   not required to hold mmu_lock (though it's highly likely the caller will
+>  *   want to hold mmu_lock anyways, e.g. to modify SPTEs).
+>  *
+>  * Note!  The lookup can still race with modifications to host page tables, but
+>  * the above "rules" ensure KVM will not _consume_ the result of the walk if a
+>  * race with the primary MMU occurs.
+>  */
