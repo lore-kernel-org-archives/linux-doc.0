@@ -1,253 +1,156 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11023127.outbound.protection.outlook.com [52.101.83.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3864F37EFF6;
-	Thu, 21 May 2026 19:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779390906; cv=none; b=gBwAfzZuptw5kW1Ol06H5GDYmQLbvgZMbJ0Dk1hgJKbL0roFF+sL9O6cgSaH1BY6HOt/W/DitHwhwOB2MomEDsoZRVjHbY7nAO4KKfq1Ml8Kjt3oyHqroBmwhPVPyQYFiLYYBIchTGFqdYnDLbwQBVOIukVGjMkQlGuU/xgp9LM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779390906; c=relaxed/simple;
-	bh=Wi2ekfEdq2VlIN2zWWAPgmURTS4dCQbJ2yAB9shBbE4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CWoNqXq1fxGvFQ2r8/y8iGGvBeH7Ti6Q4XRsP8n97RFT7vDadJcvzo3/Ml+9M+aRdqt1zvhlotbU3amIxGY9CrCr350JJnyQwfrZKDbt9G1+Y12FLqXgK2D93IBYevdG9Hi0hFN3bH5yVLlhtRJhmlVQ0F9Pjh6VvAqgAq+q5tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JQMSCeGm; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F8D30567F;
+	Thu, 21 May 2026 20:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.127
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779394869; cv=fail; b=WgUOfgAfEy6clIvcqOCJTH1Z02s9MFveQQ2Wmhxe839E+3TYCGw5jYu63obG+UFLvSK0tLI9uYQV3BVK/9JbcxosSZ+IbS92/F4n34m7IZyk2NXts8sptje+I1mKqs45WtHzEY3jDm9IAFgtZcTh/ZjcIwOJirL86XSr3qZouKE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779394869; c=relaxed/simple;
+	bh=Fw/7YbBKFralUiU0NSfjYir6y3HWxxFb93fnwxTyvFM=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=rtwJhj7ERMqpGfRYEZFF9MIUWcAk8zVQhLjUuVmWT8zFPrWIn1IZzDzsYUwBtgUTUslr26T6S0V+w6ORdWZmPwyyf6W/l8jrbGcZnkVoF4QyTZjxK3bUQuR5V6LIBbRTZqptnTVDhiJC2lAo3Jg25D0+mVV19nSgN8fO+cauQ9Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lnu.edu.ua; spf=pass smtp.mailfrom=lnu.edu.ua; dkim=pass (1024-bit key) header.d=lnueduua.onmicrosoft.com header.i=@lnueduua.onmicrosoft.com header.b=ILZCcrFj; arc=fail smtp.client-ip=52.101.83.127
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lnu.edu.ua
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lnu.edu.ua
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JQMSCeGm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=WlZfUQJHJCha00Uyb2Q/Ip5oQKZI6jLstLyrJNQoP2Q=; b=JQMSCeGm3ysq+mpZeWQM+Um9oL
-	PoGAkyQmfs4+dtj/0L+OC5O+Z8vJP9KuSErOIRVUjOKJd9cj7YUt8ly4trsJn89Uma72ADmiHft2z
-	gQMP1SDNhoeh3Z6O02X2Yz3A+zLLaZH84k5hBuokzlTxdFRj/2BpfMOAKzw1qNDglUW83AResiC8Z
-	7Dpvlxl1q/Tqxq2rjMVuOIVyt87MyinUfqduuQnCtCiXSGw3IbOKlMim0nhvIh0OGXcw04ZyoojHA
-	G4RnEvbS03YuB+eHTS52XLLtU4E04NpKAg5ydt56UgUOrLfietaoHv4PLQCGvfmD36G9jnjzfc1Vt
-	H0/fa//g==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQ8rD-00000008sTt-3Bac;
-	Thu, 21 May 2026 19:14:59 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	=?UTF-8?q?Stefan=20D=C3=B6singer?= <stefandoesinger@gmail.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	linux-arm-kernel@lists.infradead.org,
+	dkim=pass (1024-bit key) header.d=lnueduua.onmicrosoft.com header.i=@lnueduua.onmicrosoft.com header.b="ILZCcrFj"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TExmh9L5tm3Yar+OgLUlyvclx9YOvXMyoK64OFEwiSiBufGIy3YyNIHJ7dddSswoo7SFqDFKg/DrJVNzPPgLoG8Te56qXCRhec3x8fJh0eRZLBvefht3o5AuhEhbHHrtWWaiCp9jTA2xhCKwDyfqZvay9OnMaRP+4acMbgQcGdd5LOE5d4f4MahhBJLXQXs6w01Dnzh7EtrxuA2HGiYSfopiuH3qMJLw/BMmovrwq4daYquuybj6oDMBkObUAGluufKxMB2yThID4//naN6Cg6SkieA5VMB4XRW0nqO39eq2tB+cQvyqlWXQUYlPFDcLxl+hDdzDYnv9SZNRRqUICg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=roitmayFMFvcelhRomSWSEmbQVSW2KADKYR8+HT74NU=;
+ b=AtbcSSuZ30hpme4W4edxopAPX7V738TGaVq1kCKIsnL77L+9kxqYhgOL5aObG1fUsYLAZ+aV4QGlpcrsOk7VZa705tD62qN2pkK17Sx7K5fQtwQ1XrrbSn5szFCyYtNKBDZ1tILrb91mAjg0Lu8vW98MkwzQ4EyHKuaY6N7S1bD9OA1A88UTU+iBRxvQLsua2OmU6tV5En5GxHwCZ5htcfJJj6DYi3yu2co+1pDIL0iPuabd0LYPxdFTRqhNJX28YWrolNMY5YivOn7WD7p2F6d7FA8cl6UYFOok00mNPp5mEpkdDVASJirrpKiCvEQGlenVZ5N7PDF86WDqGdJczw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=lnu.edu.ua; dmarc=pass action=none header.from=lnu.edu.ua;
+ dkim=pass header.d=lnu.edu.ua; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lnueduua.onmicrosoft.com; s=selector2-lnueduua-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=roitmayFMFvcelhRomSWSEmbQVSW2KADKYR8+HT74NU=;
+ b=ILZCcrFj/5M93PBDyNKgCOCzqLii4P7qgMpiou4ekyNEuf3mx7jxbODraE0eDf6uyjCajKEDInAo9yoIOaJIF+uCZXAqGZ4RAogsmJ+ZYrRoJnq1QdKmXs8INEvyn7xnVKehEEnyn+SndKPbbC8ycCbD/W6MHZKDLH4dqC4WJ1M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=lnu.edu.ua;
+Received: from VI0P190MB2524.EURP190.PROD.OUTLOOK.COM (2603:10a6:800:2ca::9)
+ by VI1P190MB0655.EURP190.PROD.OUTLOOK.COM (2603:10a6:800:128::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Thu, 21 May
+ 2026 20:21:02 +0000
+Received: from VI0P190MB2524.EURP190.PROD.OUTLOOK.COM
+ ([fe80::b775:39dc:b909:e5d0]) by VI0P190MB2524.EURP190.PROD.OUTLOOK.COM
+ ([fe80::b775:39dc:b909:e5d0%5]) with mapi id 15.21.0048.013; Thu, 21 May 2026
+ 20:21:02 +0000
+From: Maksym Shcherba <maksym.shcherba@lnu.edu.ua>
+To: SeongJae Park <sj@kernel.org>
+Cc: Maksym Shcherba <maksym.shcherba@lnu.edu.ua>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] ARM: zte: clean up zx297520v3 doc. warnings
-Date: Thu, 21 May 2026 12:14:57 -0700
-Message-ID: <20260521191458.177046-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.54.0
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH v2 0/2] mm/damon: fix macro arguments and clarify quota goals doc
+Date: Thu, 21 May 2026 23:20:18 +0300
+Message-Id: <20260521202020.126500-1-maksym.shcherba@lnu.edu.ua>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: WA2P291CA0021.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1e::29) To VI0P190MB2524.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:800:2ca::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI0P190MB2524:EE_|VI1P190MB0655:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf3a56d8-40f1-40d2-8792-08deb776799e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|786006|19092799006|7416014|376014|52116014|56012099003|18002099003|38350700014|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	cx5oOkNu2eeSnY8Gj9g6TGiYFkcT6wuP4ieidllK+PTA76SEd8ILLZNydRqmKTyLL3hjhmgh5dNDjIzdo4YOeimQjGnsskWFGlnlisAhxSzoVjoWw1WW9e+dSsL52uYSuZAtMz9wsDrQ1Pq1KOOvwuiK0ObIpoO6KMRU5ZTeM+sAIPJXfEe53CS4n/XNYT9HLV91apYBfReL9UUj0YLDLPv5dRy3BqBzSM+qdVf/y5DcgP5eJz0R0wDQbT/YwKqqlglGM6BkFbJNJepxgHhsXvmJh/tnYNZe6iyGpFEwu87XEpPJDgTVkQJze2fFPGj5a9ViYELqBWs5x/evtLqAzk8/0EIfPwFzbcq405z7JWd56pliEJhl3vwLTELc4eaVPg9vgmqOk+yMHwYrxU2yyvtgBqiIEckfYJu8a5P2rTkB0W5A1SxiihvHVF5aErvHyor1/NU4/fnUyefLzZvHremeNYAvWz63QT4/drlZCnCoJsLSpuadhWjVTs2a4a6QVtqOQsaxO0X6CeTEfrkmqiiFoywOt8MGdGoR+y+pw30Em1mYs23oCLOnk1AOgnf+fq2Ys9r2Qrsz0gtmUMqvs+X+9WE5qMRwmx+s7z7a8ammAHNZVjhe618EicSgLHIUO4FhXoEEatUSbL/Spwco+gMislspTH33yyuQL0J5woHIGEfjFlLsnimtCh7YSnv+zGsS85ESIILMKr2+JSK9dfCP/k6Q4mIyw3fT+vbFLrraJop5kQAbrXGqpjssJ0Yv
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0P190MB2524.EURP190.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(786006)(19092799006)(7416014)(376014)(52116014)(56012099003)(18002099003)(38350700014)(11063799006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?uXdRmYYVdkoDEbnTJDEjfTVIsOf5wZ8+gouMoRIbxQElg2Ph4OyqS9g51PTk?=
+ =?us-ascii?Q?U8MzlBRmMBLhb4wTq9F9rOoC+uvC6vx/MuIjqjye86DdlwcIDyEIkVz5+7np?=
+ =?us-ascii?Q?4cCsukSynPZvW825ii41RhR3KCvl6FXomSid7pZcmXKAfqQNiAgAP7IxFJ9s?=
+ =?us-ascii?Q?Il3CrbwJJJ/mHSwceHg2+0C9YqNLCBOduCtAiHqjkgYmYSUkIrgioVS1+wrI?=
+ =?us-ascii?Q?rUTAPthyim+yKkKiNfl/MVxX1FHbS8zsDiI3m5+fdpOXiicRjyRqMNn6e7ig?=
+ =?us-ascii?Q?S29xJApbnXwEG6iquDyZLF2uHuL9W+S7/G3nZJPPY7Ft3djcldzX6UKi6FHE?=
+ =?us-ascii?Q?t2LOfEp/4InYMPMJ3s/BYSOwe2x5SBgoti/FnIwkifL0+HKdIYytm83EU0kN?=
+ =?us-ascii?Q?z9E1bf9bXJ6PxsnE5TeOqNuQndJiQ+Wf/b3mZI4XIlJPynpNwUJdp5G0K0/n?=
+ =?us-ascii?Q?8akJNOGEBtApT/n/93RVU3V4H/SzpN74I9G5ZgX6nDVYz1CWYKj5rmsy3kb+?=
+ =?us-ascii?Q?dn2Rz7n1bA4JR4f1bTHX7U/XoLhSSYg42mzaZE28lVYt+zD5rHXlenY9CGOd?=
+ =?us-ascii?Q?3aEQ00afzijXu3iffduCF16GL4IgKaxYTHZgfDrlXD51vdRcU9HqNCHZURfa?=
+ =?us-ascii?Q?KJglAMq52jO3Zywpt0SfbjtaiZnH6bYkUlwLJbchL9IYwwNsePTxEYCZr6Gw?=
+ =?us-ascii?Q?Pjn3saZCRnpV/+p7ufRK1QMLIMvVGb7LDwQQ7VxQCqMkBlaWi7R8GO5kAHqa?=
+ =?us-ascii?Q?arMLMLf0UYUoFE9AsmGtX0BJhpVQ7jKXNSRlb2Oh6xWqzol/F36quDD7PeZs?=
+ =?us-ascii?Q?TYb8uS1HOc+5MBQUKdcOETWs/IcJ/Pgj6dTvEnIvBnfjNnuchawUGqU+2uD0?=
+ =?us-ascii?Q?b/6v4DlaBTUqr3xxLuofExApPynmjJU2Qf4aJSf4nIXNlxb2jzEo+GOFdIGa?=
+ =?us-ascii?Q?ZmeDhEPjUIXLishwTYW/fEuuwvMyIiU70dm35qNvSca1bN2v10Lpb7EwoHyb?=
+ =?us-ascii?Q?Vh3bF98mOH5uiFzUZTSVI6II24m1xqNsuzCucxOd+S0A4/Ae7zwI1vylt0E4?=
+ =?us-ascii?Q?tQkKdaXi/WiYHBTdTWoKWYHfmiJKuxqt9AdTPhxMZCYgmfO3wjgzWWElFxjM?=
+ =?us-ascii?Q?K+C6ndCJ8iDOIvkiIYe5gBwOjo1Uy74z/fdOYDwykSB7+qzGcpYgaqYFU/Ar?=
+ =?us-ascii?Q?K7zgIqTGxRarAIFMD5qMNqLNUps0QNvt43E8k9HnE0CCs4bEtibBJARUlMB9?=
+ =?us-ascii?Q?ArGe4QLuZf+bfQ8/l+yg5dBzka2D71YVQXuaDN1FkQRLAsERxEXltERw4tF5?=
+ =?us-ascii?Q?GJBvmlVESDOF00x+rkPQP4OPElf890cfEFZwN8oGlIDKXPt0qtBwKKcwo8Hv?=
+ =?us-ascii?Q?QjVm/qMayIXPW/86mcOO4VBwwh40x9ZLmHqtaxlRWlZME+3rJW92/ote05ZA?=
+ =?us-ascii?Q?bSRJw3+RiHCRofoxaPUeppnvsTufeNBm5XR7eBlRI8o6hQQO8psmL4WLUC1k?=
+ =?us-ascii?Q?TXPzpbWTHtNym6asLzvbMi17YfQKd/MmlJN1OMBiSiwykAbIjtOSyfwN3Jcs?=
+ =?us-ascii?Q?MM3l7tAhi+aLywXGswNkRziKq7xY6YWScNTVu238MB20hD/ULG6b7/jYyDZY?=
+ =?us-ascii?Q?QMXyqFVvOziTQLlDVXjB5TwAzS+dbzjX4dybrYShsQf/fqtL0GGJQQBibAKd?=
+ =?us-ascii?Q?GsrQISLSdQtsF7KzH7lnhEsHXwfKnjKetszEAhBgYiH7DVwH0/DIz7AXw9K8?=
+ =?us-ascii?Q?NRBi2wFjnJTAZThsLuIsIX6TYV5ZPQE=3D?=
+X-OriginatorOrg: lnu.edu.ua
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf3a56d8-40f1-40d2-8792-08deb776799e
+X-MS-Exchange-CrossTenant-AuthSource: VI0P190MB2524.EURP190.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 20:21:02.2611
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 70a28522-969b-451f-bdb2-abfea3aaa5bf
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ppWqNh2swyV4w7wx1R4ifvoGB6sXYf2qJzyyjpkI9ZUCsnNietuy4R7zWvSjav72BKCFf9bZAVJX5d3NX9Nb9Yto/K0iwGzPmWQCrXqW6JI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1P190MB0655
 
-Fix multiple documentation build warnings.
-Improve punctuation and formatting of the rendered output.
+- Patch 1 fixes missing parentheses in DAMON iterator macro arguments to
+  prevent potential build failures.
+- Patch 2 clarifies in the sysfs documentation that the `current_value` of
+  quota goals is only for user input and is not updated by the kernel.
 
-Documentation/arch/arm/zte/zx297520v3.rst:66: WARNING: Title underline too short.
- 3. Building for built-in U-Boot
- --------------------------- [docutils]
-Documentation/arch/arm/zte/zx297520v3.rst:90: WARNING: Enumerated list ends without a blank line; unexpected unindent. [docutils]
-Documentation/arch/arm/zte/zx297520v3.rst:116: WARNING: Inline literal start-string without end-string. [docutils]
-Documentation/arch/arm/zte/zx297520v3.rst:137: ERROR: Unexpected indentation. [docutils]
-Documentation/arch/arm/zte/zx297520v3.rst:138: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-Documentation/arch/arm/zte/zx297520v3.rst:164: WARNING: Inline literal start-string without end-string. [docutils]
-Documentation/arch/arm/zte/zx297520v3.rst:164: WARNING: Inline interpreted text or phrase reference start-string without end-string. [docutils]
-Documentation/arch/arm/zte/zx297520v3.rst:7: WARNING: Document or section may not begin with a transition. [docutils]
+Changes from v1
+- v1: https://lore.kernel.org/r/20260518190932.42270-1-maksym.shcherba@lnu.edu.ua/
+- Drop patches 2, 3, 5, and 6 from v1 (which implemented and documented
+  update_schemes_quota_goals).
+- Clarify `current_value` behavior in the documentation (Patch 2) instead
+  of modifying the sysfs API.
+- Add SeongJae's Reviewed-by tag to the macro bugfix (Patch 1).
+- Fix checkpatch.pl email address mismatch warning.
 
-Fixes: 220ae5d36dba ("ARM: zte: Add zx297520v3 platform support")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Stefan Dösinger <stefandoesinger@gmail.com>
-Cc: Linus Walleij <linusw@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
+Maksym Shcherba (2):
+  mm/damon: fix missing parens in macro arguments
+  Docs/admin-guide/mm/damon/usage: clarify current_value of quota goals
 
- Documentation/arch/arm/zte/zx297520v3.rst |  119 +++++++++-----------
- 1 file changed, 59 insertions(+), 60 deletions(-)
+ Documentation/admin-guide/mm/damon/usage.rst | 6 ++++--
+ include/linux/damon.h                        | 8 ++++----
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
---- linux-next.orig/Documentation/arch/arm/zte/zx297520v3.rst
-+++ linux-next/Documentation/arch/arm/zte/zx297520v3.rst
-@@ -4,15 +4,13 @@
- Booting Linux on ZTE zx297520v3 SoCs
- ====================================
- 
--...............................................................................
--
- Author:	Stefan Dösinger
- 
- Date  : 27 Jan 2026
- 
- 1. Hardware description
- ---------------------------
--Zx297520v3 SoCs use a 64 bit capable Cortex-A53 CPU and GICv3, although they
-+Zx297520v3 SoCs use a 64-bit capable Cortex-A53 CPU and GICv3, although they
- run in arm32 mode only. The CPU has support EL3, but no hypervisor (EL2) and
- it seems to lack VFP and NEON.
- 
-@@ -27,7 +25,7 @@ Some devices, especially the stationary
- Ethernet switch.
- 
- Usually the devices have LEDs for status indication, although some have SPI or
--I2C connected displays
-+I2C connected displays.
- 
- Some have an SD card slot. If it exists, it is a better choice for the root
- file system because it easily outperforms the built-in NAND.
-@@ -39,7 +37,7 @@ IRQs on either ends.
- 
- There is also a Cortex M0 CPU, which is responsible for early HW initialization
- and starting the Cortex A53 CPU. It does not have any essential purpose once
--U-Boot is started. A SRAM-Based handover protocol exists to run custom code on
-+U-Boot is started. An SRAM-based handover protocol exists to run custom code on
- this CPU.
- 
- 2. Booting via USB
-@@ -63,13 +61,13 @@ Contains an U-Boot version that can be u
- CPU and interrupt controller to comply with Linux's booting requirements.
- 
- 3. Building for built-in U-Boot
-----------------------------
-+-------------------------------
- The devices come with an ancient U-Boot that loads legacy uImages from NAND and
- boots them without a chance for the user to interrupt. The images are stored in
- files ap_cpuap.bin and ap_recovery.bin on a jffs2 partition named imagefs,
- usually mtd4. A file named "fotaflag" switches between the two modes.
- 
--In addition to the uImage header, those files have a 384 byte signature header,
-+In addition to the uImage header, those files have a 384-byte signature header,
- which is used for authenticating the images on some devices. Most devices have
- this authentication disabled and it is enough to pad the uImage files with 384
- zero bytes.
-@@ -88,7 +86,7 @@ So to build an image that boots from NAN
- 6) dd if=/dev/zero bs=1 count=384 of=ap_recovery.bin
- 7) cat uimg >> ap_recovery.bin
- 8) Place this file onto imagefs on the device. Delete ap_cpuap.bin if the
--free space is not enough.
-+   free space is not enough.
- 9) Create the file fotaflag: echo -n FOTA-RECOVERY > fotaflag
- 
- For development, booting ap_recovery.bin is recommended because the normal boot
-@@ -113,55 +111,56 @@ the binary blobs.
- 
- The assembly code below is given as an example of how to achieve this:
- 
--```
--#include <linux/irqchip/arm-gic-v3.h>
--#include <asm/assembler.h>
--#include <asm/cp15.h>
--
--@ Detect sane bootloaders and skip the hack
--ldr	r3, =0xf2000000
--ldr	r3, [r3]
--ldr	r4, =(GICD_CTLR_ARE_NS | GICD_CTLR_DS)
--cmp	r3, r4
--beq	skip_zx_hack
--@ This allows EL1 to handle ints hat are normally handled by EL2/3.
--ldr	r3, =0xf2000000
--str     r4, [r3]
--
--cps     #MON_MODE
--
--@ Work in non-secure physical address space: SCR_EL3.NS = 1. At least the UART
--@ seems to respond only to non-secure addresses. I have taken insipiration from
--@ Raspberry pi's armstub7.S here.
--mov	r3, #0x131			@ non-secure, Make F, A bits in CPSR writeable
--					@ Allow hypervisor call.
--mcr     p15, 0, r3, c1, c1, 0
--
--@ AP_PPI_MODE_REG: Configure timer PPIs (10, 11, 13, 14) to active-low.
--ldr	r3, =0xF22020a8
--ldr	r4, =0x50
--str	r4, [r3]
--ldr	r3, =0xF22020ac
--ldr	r4, =0x14
--str	r4, [r3]
--
--@ Enable EL2 access to ICC_SRE (bit 3, ICC_SRE_EL3.Enable). Enable system reg
--@ access to GICv3 registers (bit 0, ICC_SRE_EL3.SRE) for EL1 and EL3.
--mrc	p15, 6, r3, c12, c12, 5         @ ICC_SRE_EL3
--orr	r3, #0x9                        @ FIXME: No defines for SRE_EL3 values?
--mcr	p15, 6, r3, c12, c12, 5
--mrc	p15, 0, r3, c12, c12, 5         @ ICC_SRE_EL1
--orr	r3, #(ICC_SRE_EL1_SRE)
--mcr	p15, 0, r3, c12, c12, 5
--
--@ Like ICC_SRE_EL3, enable EL1 access to ICC_SRE and system register access
--@ for EL2.
--mrc	p15, 4, r3, c12, c9, 5          @ ICC_SRE_EL2 aka ICC_HSRE
--orr	r3, r3, #(ICC_SRE_EL2_ENABLE | ICC_SRE_EL2_SRE)
--mcr	p15, 4, r3, c12, c9, 5
--isb
--
--@ Back to SVC mode
--cps	#SVC_MODE
--skip_zx_hack:
--```
-+::
-+
-+ #include <linux/irqchip/arm-gic-v3.h>
-+ #include <asm/assembler.h>
-+ #include <asm/cp15.h>
-+
-+ @ Detect sane bootloaders and skip the hack
-+ ldr	r3, =0xf2000000
-+ ldr	r3, [r3]
-+ ldr	r4, =(GICD_CTLR_ARE_NS | GICD_CTLR_DS)
-+ cmp	r3, r4
-+ beq	skip_zx_hack
-+ @ This allows EL1 to handle ints hat are normally handled by EL2/3.
-+ ldr	r3, =0xf2000000
-+ str     r4, [r3]
-+
-+ cps     #MON_MODE
-+
-+ @ Work in non-secure physical address space: SCR_EL3.NS = 1. At least the UART
-+ @ seems to respond only to non-secure addresses. I have taken insipiration from
-+ @ Raspberry pi's armstub7.S here.
-+ mov	r3, #0x131			@ non-secure, Make F, A bits in CPSR writeable
-+ @ Allow hypervisor call.
-+ mcr     p15, 0, r3, c1, c1, 0
-+
-+ @ AP_PPI_MODE_REG: Configure timer PPIs (10, 11, 13, 14) to active-low.
-+ ldr	r3, =0xF22020a8
-+ ldr	r4, =0x50
-+ str	r4, [r3]
-+ ldr	r3, =0xF22020ac
-+ ldr	r4, =0x14
-+ str	r4, [r3]
-+
-+ @ Enable EL2 access to ICC_SRE (bit 3, ICC_SRE_EL3.Enable). Enable system reg
-+ @ access to GICv3 registers (bit 0, ICC_SRE_EL3.SRE) for EL1 and EL3.
-+ mrc	p15, 6, r3, c12, c12, 5         @ ICC_SRE_EL3
-+ orr	r3, #0x9                        @ FIXME: No defines for SRE_EL3 values?
-+ mcr	p15, 6, r3, c12, c12, 5
-+ mrc	p15, 0, r3, c12, c12, 5         @ ICC_SRE_EL1
-+ orr	r3, #(ICC_SRE_EL1_SRE)
-+ mcr	p15, 0, r3, c12, c12, 5
-+
-+ @ Like ICC_SRE_EL3, enable EL1 access to ICC_SRE and system register access
-+ @ for EL2.
-+ mrc	p15, 4, r3, c12, c9, 5          @ ICC_SRE_EL2 aka ICC_HSRE
-+ orr	r3, r3, #(ICC_SRE_EL2_ENABLE | ICC_SRE_EL2_SRE)
-+ mcr	p15, 4, r3, c12, c9, 5
-+ isb
-+
-+ @ Back to SVC mode
-+ cps	#SVC_MODE
-+ skip_zx_hack:
-+
+
+base-commit: 85a7d9e080a3f65869f22c2d50b630462fce332b
+-- 
+2.34.1
