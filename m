@@ -1,123 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5A1390618
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 18:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93E03D4107
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 18:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779387424; cv=none; b=iYBXvTxNzfoFru8gsw1O9xFnpV2GaQBbTB8NUe6rxYxPBxZxSf3+ePpbRwVGF+wXpfFZ6fEZqWvC1fTDjZ1Yp7MOv27gNcogrqZAsKnGfJfSL2IFQpZ5StCwJgOkpWkcaBbABRd0NfDLZl0Gkl+dhpr/iLDdSamffodMD94jyxQ=
+	t=1779388138; cv=none; b=r8/tq8Yhz04vEv0EM+jHT8KJGWwGYR86B/QlwyfTg6vYhMDhfsGD/JObqDCpeurrGHbtchfPJm7WnmrgU16NpEdSoyDWyFd98LPGuvTAPVriYztJ4IoqQ3b7Gq7p9nemplvPmyo7TDQUuDFY7KFfotb/8zIpBd4aVJ9tMuRPJ1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779387424; c=relaxed/simple;
-	bh=+VWCLDENbyTrufBDf5/wO7Oma9uH1Q8L65+rax8aTO4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lAbb4uUAtXsZwMjOq6IkZAWUPkJGMRj0uQNLOaTpDBwh9wI2jIxOG8sYILBKz/fTgkkYS2Yo8iyFoPmR0q31W7zT8rquS29U0BGm7R1a92ZSel3aMOqgduIlIwvZj1LLF1yax6ALuLktk1LnzHJrJCeZQnBqFbo8OyUFufbGzck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VuyXq1tq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779388138; c=relaxed/simple;
+	bh=hSS7F9nJhRNe2bLPAXG7P4hIqvGIIZeN9p6yOCt6LeU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZsUc7AWsFysUhCyRfid8ayZNtgG0oVdBxZs+3cY0swM565awa4aURoPpdGFAECVQOrV4g4OWcISyjS09ptA6ePsUXxUJUg77hgPXO9Zuw/8BPObvUJ6eOcBBoM/VY3jD8m4JdgTCmBUBtzHUFaYLn6tuR2gY8dygMP+qN1IqVg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=X5bFLf9u; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VuyXq1tq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 569971F00A3E
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 18:17:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779387420;
-	bh=+VWCLDENbyTrufBDf5/wO7Oma9uH1Q8L65+rax8aTO4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=VuyXq1tqiHVI2YZ3Blv3BD2WCJdC9/dUivuyWddy+wydX2ooJe2bkg9Gm9++B3oEo
-	 sh0UdIEN9umrNBhjufrQIqRV3lx0D0GA8Sb7poWd0s8udQW6ciJHHeZHcCK3RrRCoQ
-	 bGWOb0NZbLBqj12BfjSZwfav5msDWT0Qq2t7Gmh4n2mSLQTSilf1F8j/1uecoi0PwC
-	 ncOg8TwZYbC16t5C2LBE0N1MO/fsA442mc1wd4TmR96Jef0gJGQbZWXmNtulPenO/u
-	 aQc0Km8pCckySifBInQIQvxQgvVAFm6CPvp2h04FbPQVgYDV+qLBCdJy5FkQDlrlXV
-	 Lr+UDPJcnr6hQ==
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-94de68feaf4so3982027241.0
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 11:17:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/IsLIAJQvy+FSk5QygcczdZVhqc+9iRSWil8PrW0BT7i6Nj4S1siQclIZcUZBDylh8eU6VlWBC+Xg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzcWkNPuaXd2uE6NaQRpx8Ys+1xkT9GML0abAl2OqV5/hekDmP
-	lDk0pUm0WkFy9d5LaNIALCebbqpT67q6reM9lZ1GIqDhNreJ9O7JPtLn/zEAbFK8to9uCM+hmLE
-	lLWrayuKNQBC6HcOXIUScboahexMYRCY=
-X-Received: by 2002:a05:6102:5a9a:b0:631:28c1:154e with SMTP id
- ada2fe7eead31-6739772de2emr3100077137.16.1779387419475; Thu, 21 May 2026
- 11:16:59 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X5bFLf9u"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7e5fe62fc87so108958a34.1
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 11:28:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1779388131; x=1779992931; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=G0XQG/6g75fgxZbBE/+qTXKYgHicOF73Gp8SX+DuZdw=;
+        b=X5bFLf9uPPXGD7DA7hUoRkUeiysW+lFQ8cVsQW1UPXfx+7ox8nL5vCeVj9H3Xa5p39
+         +mQvAeAKx8KBlmoRH+OYrORYpqu9q6SfWZ4SH5y3JafQYypp3tzug5dq8zTXocDstxa2
+         Yz6ntNuNxiBZiCPxhinwNrebzL2/+BHNM1WSg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779388131; x=1779992931;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G0XQG/6g75fgxZbBE/+qTXKYgHicOF73Gp8SX+DuZdw=;
+        b=GlO13LmGR3iv8j+bIL4NhXT72C5Fl+OBe/oaK+5/litrU58DZWV2Vh1juBLL8pnGwG
+         oaDzrxl0+jrruAIA8Nfa9K4R9aitkgeDM8MiSlbskxNxMWtVXQn+9t24C7yG/0gGqrww
+         yE1ExhntlrEGOXCooQABJEg3ZJiL6PRwA7TZr7TaU63wUWA7KxoR8Wj0BGyG/mvVZ8tl
+         pt0Rx/emp1YAg4ShnET4hALAwMy7AjXoMQxJGovOXyVHhCtln8/FIMWhCpEeDCB4Bvtt
+         XootchCs4doaznc/FLei270Ajg1SEYwn3WCGNS2D5+jrUAVoN2ZP+ry/mwjAP9t1Fhvr
+         x2/g==
+X-Forwarded-Encrypted: i=1; AFNElJ9ax5LEM6q4pMoAMeF9K5wYjEzrz1aVUcklA0s+KOAB/K7mFf5nzHDRuWVc3bsjYKpRFX282OQGUME=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCoC3ADBHKau73ChvJIBspKmnne51NciFDJRtt0TdmdLbYmlvs
+	8T0OVj7hUwSDzUd0oXquz21T4VRTLQ2KMlpsHMNFuiS7LD4VxMaG0cmN/slg5e1UsoH/OBx2a4J
+	jntC/
+X-Gm-Gg: Acq92OHd6wFxo/hcWlK9FKcnAUbkwi+CTHFRPPeuUa5wHu6pMGrF8xkN05kBPt2CiUq
+	nJ9O/Q5T9JWmV06/1PgXBTYFPiPei16LW9z+9iQm/uV/PVhwj3n+cZNLGut4eN8d8ij2x6SfafI
+	NFRrLxPI2QYIxTdnBv6eWrXIyqGsTq/TWZob6nwK47lgY9A5k//r3oWYxJpC29gEqOQ5SFUty+1
+	1OEBidRMJdSmYmp5q4x0JtITflKVMooYBCjFGhGGPKF2r+NlPWs55mrEy6H1OPGGVpDP2tvTnpA
+	5augNxGZ37wkoBeprQMd186EYHyCPhGk1ArjikQJ1azRQPVLenQ7h1DRAY+kJFgh+sQip906AVm
+	87COIHZqelVGCwe0J+X7vIVBaHex0eAG7lLv03XPvEUXHFIqjSdx9AGnO0kQ0OzPjfNt+q1zXh5
+	dCzRkEjuDJkojZsER1HNjo/jMZq1fZ9H7cyDjb84lbsPCHPa+DxLqqfy5do3J743tLxMv6SJcj/
+	mQdSbOgBxaWPp9jXrre7uUIpjVXnuHfaUIith9uhkm9VA==
+X-Received: by 2002:a05:6830:6d0c:b0:7d7:ed69:81b2 with SMTP id 46e09a7af769-7e5fed2964emr243419a34.5.1779388131456;
+        Thu, 21 May 2026 11:28:51 -0700 (PDT)
+Received: from [192.168.1.239] (207-181-222-53.s5939.c3-0.hnc-cbr1.chi-hnc.il.cable.rcncustomer.com. [207.181.222.53])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e5f6e78bf9sm930694a34.15.2026.05.21.11.28.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 May 2026 11:28:50 -0700 (PDT)
+Message-ID: <e81f9c62-b6ae-409d-a5a1-246bc7f9aa23@linuxfoundation.org>
+Date: Thu, 21 May 2026 12:28:49 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260508195749.1885522-1-sashal@kernel.org> <20260517134858.146569-1-sashal@kernel.org>
- <CAPhsuW4x8shWon8Moi5VgCq2n4E2EzaaauZ2HHpy42Rp1Y-J-g@mail.gmail.com>
- <agsVDqdALBoHEHlv@laps> <CAPhsuW44UX663Au=WwHz8MVwnQgLkjxOqpJSCKxNiv3=RpZvqw@mail.gmail.com>
- <b342c38b-7323-4b72-a239-8a574d6bc36b@iogearbox.net> <agzAwjKhOhuANz_P@laps>
- <3dd6d852-18fb-4c64-a1ae-0d79ef7c061f@iogearbox.net> <ag8lOe6dAOgnWmsQ@laps>
-In-Reply-To: <ag8lOe6dAOgnWmsQ@laps>
-From: Song Liu <song@kernel.org>
-Date: Thu, 21 May 2026 11:16:46 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW7sbt5B+ZeGW8O2JMJ0ELPU-vhZFNvbB+0Q8XhZg6pKYw@mail.gmail.com>
-X-Gm-Features: AVHnY4Ihdl75axpqRxaDxb23j1ycahjc8W-Yta5RRqXxUzFNMBCHqx-JtojbAKM
-Message-ID: <CAPhsuW7sbt5B+ZeGW8O2JMJ0ELPU-vhZFNvbB+0Q8XhZg6pKYw@mail.gmail.com>
-Subject: Re: [PATCH v3] killswitch: add per-function short-circuit mitigation primitive
-To: Sasha Levin <sashal@kernel.org>
-Cc: Daniel Borkmann <daniel@iogearbox.net>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, live-patching@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Joshua Peisach <jpeisach@ubuntu.com>, Florian Weimer <fw@deneb.enyo.de>, Breno Leitao <leitao@debian.org>, 
-	Anthony Iliopoulos <ailiop@suse.com>, Michal Hocko <mhocko@suse.com>, Jiri Olsa <jolsa@kernel.org>, 
-	John Fastabend <john.fastabend@gmail.com>, Christian Brauner <brauner@kernel.org>, 
-	KP Singh <kpsingh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: gpu: todo: fix spelling of "fucntion"
+To: Godswill Onwusilike <onwusilikegodswill@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260516210141.42971-1-onwusilikegodswill@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20260516210141.42971-1-onwusilikegodswill@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 21, 2026 at 8:31=E2=80=AFAM Sasha Levin <sashal@kernel.org> wro=
-te:
->
-> On Thu, May 21, 2026 at 11:11:16AM +0200, Daniel Borkmann wrote:
-> >On 5/19/26 9:57 PM, Sasha Levin wrote:
-> >>Sure, this would also work. How do you see this happening? Can we let a=
- certain
-> >>user/pid/etc disable the allowlist if they choose to?
-> >
-> >I don't think we should, given then we're back to square one where root
-> >or some other user would be able to just override/bypass an LSM.
->
-> killswitch already disables itself when lockdown is active. We can easily
-> disable it too when one of the LSMs that cares about this is active.
->
-> >[...]
-> >>How do you see this working with the allowlist?
-> >
-> >We should look at the underlying areas where most of the CVE-like fixes
-> >took place (these days should be more easily doable given Claude and fri=
-ends)
-> >and based on that either extend ALLOW_ERROR_INJECTION() or (better) crea=
-te
-> >new hooks which BPF LSM can consume where you can then have a policy to =
-reject
-> >requests and tighten the attack surface. For example, the AF_ALG stuff y=
-ou
->
-> So we could grow the LSM tentacles deeper into the kernel, and we can see=
- where
-> current CVEs are happening, which I suspect is the darker corners of the =
-kernel
-> (old unmaintained, rarely used code), but this definitely won't stay the =
-case,
-> right? Newer and better LLMs will discover issues elsewhere, and once the=
- low
-> hanging fruits are picked off of the current target subsystems, researche=
-rs
-> will move elsewhere. We will be dooming ourselves to an endless cat and m=
-ouse
-> game where we go add LSM hooks after some big security issue goes public.
+On 5/16/26 15:01, Godswill Onwusilike wrote:
+> Correct the spelling of "fucntion" to "function" in todo.rst
+> documentation
+> 
+> Signed-off-by: Godswill Onwusilike <onwusilikegodswill@gmail.com>
+> ---
+>   Documentation/gpu/todo.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index 841e4e986c48..7526ed31b0af 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -1001,4 +1001,4 @@ DRM driver that can run X11 and Weston.
+>   
+>   Contact: Thomas Zimmermann <tzimmermann@suse.de>
+>   
+> -Level: Advanced
+> +Level: Advanced
+> \ No newline at end of file
 
-Do we really need to add new LSM hooks for recent CVEs?
+Hmm. the patch doesn't fix the spelling in the following line mentioned
+in the commit log. Instead it removes and adds the same line.
 
-The LSM hooks are designed to cover all the user-kernel interfaces. Then
-with properly designed policies, we should have coverage for potential CVEs=
-.
-Existing LSM hooks may not be perfect, but we can improve the hooks,
-potentially with the help of smart LLMs, so that these hooks can cover
-future security issues. In some cases, we will need new policies, but I don=
-'t
-think new hooks will be needed for most of these CVEs.
+"rename all inlined fucntions according to driver conventions."
 
-Thanks,
-Song
+thanks,
+-- Shuah
+
