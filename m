@@ -1,90 +1,102 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08C986329;
-	Thu, 21 May 2026 15:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8200633A9CB;
+	Thu, 21 May 2026 15:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779376206; cv=none; b=RD650SuuFuUFzHx5oHGoty5fZdw9HriEDVhRAiL+CvIWVeJIhHUO3fAZKiWA1pakP/DDzBOuUrRuIE/LhXRe7RVwxnvBph3SSjbpluRFeMo1uGaVn5TLMREPEXI5MzXt4x5MxH3eUFj0K/M775cx7SLzN82KYx8qhSfJU0rjr08=
+	t=1779376635; cv=none; b=NPvdACOIfPR02WdhSM1Uc1wMxjIbbYVh+81Knx87nLBU467tUi68BSgcSsTtCof+r9jO0PjRfKAetPCz2M+uaqDwtDzUUatVC3T8Rv+daEZPf2K+ApLI7Klqba9Eou2xmMJd87Ovxcif7outdoTlNXv5nfQrxFq7cJqahcuQ6UU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779376206; c=relaxed/simple;
-	bh=G0G5aOL+eU/pFN2zYhXxj8RIhBwaJebA18iecgHvrDo=;
+	s=arc-20240116; t=1779376635; c=relaxed/simple;
+	bh=dRQ7wbvAkJirWmzRur/hlCx4EftiDaoSDUHVW/tWMjE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ul0g9Dihy81cenP3fR99h4NiTpU0AJ3WdLVN6F8DZTDGvwZA5+UqrB7U9DST8TNCpZczqWf3qKRiwi0LqCifUFKzYaHh/fnYZRO0JPsTxNq11bVwV594lOkQX1KORnIssghVM4ZcVhv/v7xM49kvBWliRUKXqoJx2p6HrvM5tEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=upj6C5S9; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=d6ts+tPC+5awc/TJUTwox9KCPeoms/5M/sBGRrBRoXRsz7outpPOVa2m5yUiO9mTgj5kQ7wdgpXRS/CpmpR7NbG88EnhaeRVQsxx71ikGGJnYsWhKk8Leh+pCcyF/H3+yWsT8rs3Hc5uQJmpVIbF88ulOG4Xm1CBT5NopbqquwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ggBnNLig; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="upj6C5S9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=HfKgnmkxzmNOJLZxt74jCmZIPMukmqle2YeHK8y00YQ=; b=upj6C5S9PNg5BasGyzMLk2eay5
-	kzmMWjqxrq6r3Z2kso/qvUxTL0mHvuGR+X/jksHgbq8u4wXddtU8ZF+kqcR8tn/rXegF4kKEBQEdt
-	Yltq+1WpV3NUrdqeNHFsmQMSE50B13SspoS8/YXUVLd97D+m/ssmZJvkSTCy5BsDZv5JsxSfMKMvx
-	7pCgygy8UX1dEgY0W62oijkmvV4kCwOXHFgWs02GTWVfgLTeV1bP5NlItNOoFlYN6DV+aSrfZVnDD
-	O9n/PvX9uGbxJi2fzotLNFrW7urs+VFKjXl+O+kMd5Oy7+2mlPvfcZrQ5/RShRmdQKpwFTEJOs/fP
-	so16I8bw==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wQ51Z-003yDF-2C;
-	Thu, 21 May 2026 15:09:25 +0000
-Date: Thu, 21 May 2026 08:09:19 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: linmiaohe@huawei.com, akpm@linux-foundation.org, david@kernel.org, 
-	ljs@kernel.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, shuah@kernel.org, nao.horiguchi@gmail.com, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, liam@infradead.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v7 2/6] mm/memory-failure: surface unhandlable kernel
- pages as -ENOTRECOVERABLE
-Message-ID: <ag8gDkHNWT-92Jjd@gmail.com>
-References: <agXcPleVC9LGVCmj@gmail.com>
- <20260515070353.87244-1-lance.yang@linux.dev>
- <agcbfLHT5ZWnNeN0@gmail.com>
- <f76b79d3-080a-4931-873e-99d4b3e1020f@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ggBnNLig"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DFB51F000E9;
+	Thu, 21 May 2026 15:17:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779376634;
+	bh=MJiYGSKR2Xooa6md+cNozvBYHksgw4v8W3oMC6Zadps=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ggBnNLigs+MYrxcu3lkCl0NI75vfveOsqe4q67/PhDS1RaXR4+2Zv3GULwDgmR7pb
+	 BdTOtrlx5wp0bS3CRX3bydNnTPl01m16gQ8/vQsgCZ3+XJjvcgD+4fVOe6s+DBeF9y
+	 ZWhgzPOy5g0VUrJJzGemtXk5IKlKEX/1y8Il2sa/6vVpK+oskajCWBR6/v0Y67RHmo
+	 jGBZdODmOBVw4hszRgTDNBL9jHeO27Qs39KrV9s/+JFnsnDWld9FBZqi03a1LxBEtO
+	 kEdRmpypvICqFDlrqvVzlwF9Q0InHB5D14eiorpUW1ivnacAuMd21zXtvg/rNjtET8
+	 qYjid3+pNnDNw==
+Date: Thu, 21 May 2026 16:17:07 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Oliver Upton <oupton@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v10 19/30] KVM: arm64: Provide assembly for SME register
+ access
+Message-ID: <a5226b77-636d-4e6d-acb6-b26f6276f6bd@sirena.org.uk>
+References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
+ <20260306-kvm-arm64-sme-v10-19-43f7683a0fb7@kernel.org>
+ <ag8b7oq4SFpdmlP_@J2N7QTR9R3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="XnCLFiWrG4EBMfBq"
+Content-Disposition: inline
+In-Reply-To: <ag8b7oq4SFpdmlP_@J2N7QTR9R3>
+X-Cookie: No shirt, no shoes, no service.
+
+
+--XnCLFiWrG4EBMfBq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f76b79d3-080a-4931-873e-99d4b3e1020f@linux.dev>
-X-Debian-User: leitao
 
-On Sat, May 16, 2026 at 12:06:14PM +0800, Lance Yang wrote:
-> 
-> 
-> On 2026/5/15 21:13, Breno Leitao wrote:
-> [...]
-> > > 
-> > > Wonder if it would be simpler to just do a positive check near the top
-> > > of get_any_page() instead. Something like:
-> > > 
-> > > static bool hwpoison_unrecoverable_kernel_page(struct page *page,
-> > > 						unsigned long flags)
-> > 
-> > Ack. We probably want to call it something like HWPoisonKernelOwned() to
-> > follow the same naming sematics of these helpers, such as HWPoisonHandlable()
-> > 
-> > By the way, I will re-include the self test back to this patch series,
-> > In case they are not useful, we do not merge it.
-> > 
-> 
-> Sounds good :)
-> 
-> Can you also test the relevant page types if possible, especially
-> the ones the new helper is supposed to classify?
+On Thu, May 21, 2026 at 03:51:26PM +0100, Mark Rutland wrote:
 
-Ack. I will expand the test to cover different page types as well!
+> While this specific instance is simple enough, I don't think we should
+> continue to duplicate the low level save/restore routines between the
+> main kernel and KVM hyp code.
 
-Thanks,
---breno
+> I've sent a series that avoids the need for this, and cleans up some
+> other bits):
+
+>   https://lore.kernel.org/linux-arm-kernel/20260521132556.584676-1-mark.rutland@arm.com/
+
+> Assuming Marc and Oliver are on board, I'd prefer that we do that
+> cleanup first, and build the KVM SME support atop.
+
+Yeah, I've got a laundry list of things that I want to improve with both
+the main kernel and KVM but the latency on getting anything reviewed
+with both sides and sometimes obscure implementation decisions means
+I've been waiting until this is landed first.
+
+--XnCLFiWrG4EBMfBq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoPIfIACgkQJNaLcl1U
+h9CJpwf+PVTKcbGobSIt2V1nPmtForFYSfILfE++Ovngx/OIzlSmVFC52be0sVWq
+kOnhNIA8nT6/F4EXTWuc1tbEkCuxa2iPJ7VTwNvtKU35QL7roJNU4Cap+A3yHPkL
+0C/+LQIXheQka+i6fCoqMXIWTz625keaedSH5XBMS2ktxjK+Oyka5XiUJqPmyVeQ
+YSbd87c6rzpbn+C7p4RPZX+FwVm05w/yUoAloztHmd5GqsAr8NgEJoe8uOFd4Fe4
+hoGcpIgfvhM/oqMQAXtLvCEmyPSKuDc70RM7Y3KDnvyiWQfnXh/ftNYqspba9Oic
+Ii8HVtxvR6JE450ekIq13Rx4A9d0Ug==
+=JOnr
+-----END PGP SIGNATURE-----
+
+--XnCLFiWrG4EBMfBq--
