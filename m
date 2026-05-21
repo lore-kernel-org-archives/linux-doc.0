@@ -1,136 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mta-64-133.flowmailer.net (mta-64-133.flowmailer.net [185.136.64.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CAE6364EA5;
-	Thu, 21 May 2026 15:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E6130B508
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 15:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779377467; cv=none; b=tomhQHluBQ57FE/OC7eEfQDFUCwQdAFSb6MyTv2BLPZp2lHge4AWCy8aDZZ4MPIN1D/a8kQhyEV1/pxmcfIAvknxvPFiNJrI+GwR2c1AEpEYhoV7cwudIDyyXxq3N9mm+i2OYGPZBWIIcjrQupTt/4Du6h6phUfLujntI4V/iHg=
+	t=1779378467; cv=none; b=dcB5IAsvXlYnmX38JW+y4fZ/nNO6untG3WypOzeo8pEIah5z9PUbB4j/usd72CiOnNtUnjLYFApjFWSBOQhxxJ6edp0gVcVrv2M/b5YPX8f9kfwHaOuxvXBLTc4Jrtk/XgcnBAxOqBBmX6C8KP5bh/ef8FN5jwHKCLdpUFLpOKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779377467; c=relaxed/simple;
-	bh=H6ijgxk2s1Fo45SirC0V9snxZFD/I0UxNcyKfJ3EVJY=;
+	s=arc-20240116; t=1779378467; c=relaxed/simple;
+	bh=ueEF+bxWvWqR586sT6h/9OE/noXhk1FsLD5ozFIo48g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BfXXEdniE+kFYfR/A9Fp+SzQhnjMO8kcD+SLnlRSpU4OnaCip558fONRH/upuitIzmM764Oq8n/ZAsIvgpLm/dymOzqWMeZ6ij0BNWURSGx6V+Iu8BXql/6GAQGLdsMd4EYPoTSFZe56InIMnERlYg8c2obhx7tEfckEg35VoFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SkKyGWpi; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=p6aY+jE8BC86QsLkbbFrUmxG0ujhkNEz/L3Ue8N3ZfnBuyBCLMrjoOI00B5bIT+CCJUJPBomXRZAiBNH1erFJUIx5b63XyniC2avWOgJ3IVTZJ0nifKmQi8MNiDwRJ56NhXouJUhzdKUxbgCnT1zBMeopPGEN9aNkNnPFqcoz6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com; dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b=MMFq36yT; dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b=Zq3CXr0l; arc=none smtp.client-ip=185.136.64.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SkKyGWpi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4676B1F000E9;
-	Thu, 21 May 2026 15:31:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779377466;
-	bh=SzgQopk+OJbawn6MS3++ZN/v/mlrkfJHDvOTVpisjLg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SkKyGWpiSdHqwlEW5hRU8HF957D2LfgRuejLdlkS3dkYVnNKoDiFha3xy5VruV5pQ
-	 teYXwsQBQSLpCH8VREZqyFENDwEo2GGr6hi6pHEIUAmJu+7aF4BMNAJzRn80ujIEwX
-	 ZDtFWCyjrTMifEUvFbND7kRHRpsHQBznZZBRf6rTRCX6couB9xqSb1FZ9IgkHwdfN3
-	 OUk1MZnJH3l58EQVdpEw0MAGLpTBOaJTMf6q8mhNj+7MpDIgNxTfiFYxcwv+6QcWTh
-	 TsuvaKWkGvB4YEZg98ftRP4ds4WvuqpuO+aMVWSFNgEb5mYYrwJ7AuMbu21ag/JM4c
-	 idE8BbkP3uUKw==
-Date: Thu, 21 May 2026 11:31:05 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: Song Liu <song@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	bpf@vger.kernel.org, live-patching@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Joshua Peisach <jpeisach@ubuntu.com>,
-	Florian Weimer <fw@deneb.enyo.de>, Breno Leitao <leitao@debian.org>,
-	Anthony Iliopoulos <ailiop@suse.com>,
-	Michal Hocko <mhocko@suse.com>, Jiri Olsa <jolsa@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	KP Singh <kpsingh@kernel.org>
-Subject: Re: [PATCH v3] killswitch: add per-function short-circuit mitigation
- primitive
-Message-ID: <ag8lOe6dAOgnWmsQ@laps>
-References: <20260508195749.1885522-1-sashal@kernel.org>
- <20260517134858.146569-1-sashal@kernel.org>
- <CAPhsuW4x8shWon8Moi5VgCq2n4E2EzaaauZ2HHpy42Rp1Y-J-g@mail.gmail.com>
- <agsVDqdALBoHEHlv@laps>
- <CAPhsuW44UX663Au=WwHz8MVwnQgLkjxOqpJSCKxNiv3=RpZvqw@mail.gmail.com>
- <b342c38b-7323-4b72-a239-8a574d6bc36b@iogearbox.net>
- <agzAwjKhOhuANz_P@laps>
- <3dd6d852-18fb-4c64-a1ae-0d79ef7c061f@iogearbox.net>
+	dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b="MMFq36yT";
+	dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b="Zq3CXr0l"
+Received: by mta-64-133.flowmailer.net with ESMTPSA id 202605211537322fe8c10b320019fde7
+        for <linux-doc@vger.kernel.org>;
+        Thu, 21 May 2026 17:37:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=s1;
+ d=flowmailer.net;
+ h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
+ bh=KcRzYfxPkdiV7UzaW+6lIfDEOBCRNUcUcG27X2U1VSs=;
+ b=MMFq36yTf/DJOdkiWD8dxyVJTeBb2CpUxQWl6ikCBdoeyzPO1YF1TlVatLLSDsvGHWcQd5
+ VDsmO4GbpHypEfkjO53Qz6kghqkYW63SBOu0Z3QcrtuSqWyhCWSOJvxnT/UwU+hUbYuuGM0J
+ HuZSr59c5et2+K6wbsqMmvXOzxMIc=;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm3;
+ d=siemens-energy.com; i=schuster.simon@siemens-energy.com;
+ h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
+ bh=KcRzYfxPkdiV7UzaW+6lIfDEOBCRNUcUcG27X2U1VSs=;
+ b=Zq3CXr0liSNgT0BCELoEs6XA0YM8cHIjZYr0stylqb6wFZbahGV2hbEmOBF/1TqoTWIGML
+ pQmKEA14s3UI+M6MccDXkCrApiCPspbcb8X1z4i0qqkc0XKsEuZWyaX++RCNyx2Oho4OkebH
+ CljyjSOBruD/mCsSnEVDpu/bRn9huDA1sfKAPLG4TnjoGEs76ifH2dvqbyplGH4LM/bN//MJ
+ TbAfvH9UHgJigDJ9qujRe7uPZe7uulWgnP1HXFpgW6KlqYd6iasg0kXPD7frFGW+6jdQlaQd
+ pc5Ftr3JZPBE4ZdvXY4aK24gQwmJHg5mcdt41zeDIsJIor2N0FKdzstA==;
+Date: Thu, 21 May 2026 17:37:29 +0200
+From: Simon Schuster <schuster.simon@siemens-energy.com>
+To: Arnd Bergmann <arnd@arndb.de>, Dinh Nguyen <dinguyen@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>, Peter Zijlstra
+ <peterz@infradead.org>, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, workflows@vger.kernel.org, Linux-Arch
+ <linux-arch@vger.kernel.org>, dmaengine@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, Netdev
+ <netdev@vger.kernel.org>, linux-pci@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, "linux-csky@vger.kernel.org"
+ <linux-csky@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Daniel
+ Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang
+ Mu <dzm91@hust.edu.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, Kees Cook
+ <kees@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Will Deacon
+ <will@kernel.org>, "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Nicholas Piggin
+ <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>, Frank Li
+ <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>, Andi Shyti
+ <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, =?ISO-8859-1?Q?Nuno_S=E1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof
+ WilczyDski <kwilczynski@kernel.org>, Andreas Oetken
+ <andreas.oetken@siemens-energy.com>
+Subject: Re: [PATCH] nios2: remove the architecture
+Message-ID: <20260521153729.ig2xgvskkbg3nx47@dev-vm-schuster>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+ <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
+ <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
+ <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
+ <CADkSEUjhq6HSdg4ignzbuJiN5uXATsTdxFbRJ3BMxs5=WUWLDg@mail.gmail.com>
+ <20260519103012.blot4bssgiqfer6p@dev-vm-schuster>
+ <76af64fa-7820-4d92-8aa9-826c3bd812a1@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3dd6d852-18fb-4c64-a1ae-0d79ef7c061f@iogearbox.net>
+In-Reply-To: <76af64fa-7820-4d92-8aa9-826c3bd812a1@app.fastmail.com>
 
-On Thu, May 21, 2026 at 11:11:16AM +0200, Daniel Borkmann wrote:
->On 5/19/26 9:57 PM, Sasha Levin wrote:
->>Sure, this would also work. How do you see this happening? Can we let a certain
->>user/pid/etc disable the allowlist if they choose to?
->
->I don't think we should, given then we're back to square one where root
->or some other user would be able to just override/bypass an LSM.
+Hi Arnd, Dinh, Wolfram, and Miguel,
 
-killswitch already disables itself when lockdown is active. We can easily
-disable it too when one of the LSMs that cares about this is active.
+thank you for your explanations and encouragement; I've now sent my
+application for co-maintainership for arch/nios2 to you, Dinh.
 
->[...]
->>How do you see this working with the allowlist?
->
->We should look at the underlying areas where most of the CVE-like fixes
->took place (these days should be more easily doable given Claude and friends)
->and based on that either extend ALLOW_ERROR_INJECTION() or (better) create
->new hooks which BPF LSM can consume where you can then have a policy to reject
->requests and tighten the attack surface. For example, the AF_ALG stuff you
+On Wed, May 20, 2026 at 09:06:33AM +0200, Arnd Bergmann wrote:
+> I think that is a reasonable target. We have a bunch of embedded
+> architectures that have a similarly small user base and I expect
+> that we will want to remove most of them at some point, as we did
+> for seven architectures in linux-4.17.
+> 
+> As long as there is a maintainer for nios2 and it's not actively
+> getting in the way of a specific treewide change, I don't see any
+> reason to remove this any earlier than the other ones.
+> 
+> Obviously at some point nios2 will have to get removed because
+> of the limit to gcc-14 or older, but that should not be a problem
+> for the next few LTS releases.
 
-So we could grow the LSM tentacles deeper into the kernel, and we can see where
-current CVEs are happening, which I suspect is the darker corners of the kernel
-(old unmaintained, rarely used code), but this definitely won't stay the case,
-right? Newer and better LLMs will discover issues elsewhere, and once the low
-hanging fruits are picked off of the current target subsystems, researchers
-will move elsewhere. We will be dooming ourselves to an endless cat and mouse
-game where we go add LSM hooks after some big security issue goes public.
+This all sounds quite reasonable, including the toolchain
+considerations. Thank you for the offer to keep it around a bit.
+If any issues arise with tree-wide changes I'd be happy to look into
+what can be done on the arch/nios2 side; now that the issues should
+reliably reach me via mail.
 
-One question I had here: how would we tackle security issues with BPF itself?
+> > Sure, I'd be glad to do so, but so far I refrained from it as I was a bit
+> > unsure about the netiquette (can I simply do so by self-proclamation? At
+> > least the git history seems to suggest so...).
+> 
+> Dinh already replied that he welcomes the help, and I also suggested
+> the same thing a year ago. As the only known user that has contributed
+> patches in a long time, you are obviously qualified.
+> 
+> Sending a patch for the MAINTAINERS file to Dinh is the first step,
+> once he has sent that upstream, you can (optionally) apply for
+> kernel.org account that would let you host a git tree on kernel.org
+> or have a tree that you both have access to.
 
->can already easily cover today ...
->
->#include "vmlinux.h"
->#include <bpf/bpf_helpers.h>
->#include <bpf/bpf_tracing.h>
->
->#define AF_ALG	38
->#define EPERM	1
->
->char _license[] SEC("license") = "Dual BSD/GPL";
->
->SEC("lsm/socket_create")
->int BPF_PROG(block_af_alg, int family, int type, int protocol, int kern)
->{
->	if (family == AF_ALG)
->		return -EPERM;
->	return 0;
->}
->
->... the problem is that distros enable and pull in all sort of crap which
->then non-root could pull in via request_module() as an example; similarly
->for netlink we want to have a BPF LSM policy to parse into netlink requests
->and then reject based on certain attribute matching (both on our todo list)
->which would have helped in case of exotic tc cls/act/qdisc modules to prevent
->them to be pulled from userns. I bet there are a ton more examples once we
->look further into the data.
+I've sent the patch, I'm sure we can work everything else out from
+there.
 
-I definitely agree that BPF is a much nicer hammer than the simple killswitch
-implementation. I've actually been (privately) playing with an out of tree
-killswitch that also supports BPF. I've pushed the (hacky) code I have to
-https://github.com/sashalevin/killswitch , and you can see an example of a BPF
-mitigation similar to the one you have above:
-
-https://github.com/sashalevin/killswitch/blob/master/mitigations/cve-2025-21703.sh
-
-My concern is mostly with the whitelist approach.
-
--- 
-Thanks,
-Sasha
+Best regards,
+Simon
