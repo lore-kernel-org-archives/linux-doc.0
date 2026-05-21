@@ -1,99 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-m1973187.qiye.163.com (mail-m1973187.qiye.163.com [220.197.31.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6425340A62;
-	Thu, 21 May 2026 10:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7FD383339;
+	Thu, 21 May 2026 10:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779357608; cv=none; b=OlaXV6WKiUENkI1hZpxhetR0PdpaydiqhreC9EVfLo61J7JlQw3VrjcJ4Gbo7SOup9nLo1lLd/UYiLee2/tj/oAOlsiKKQR7HcmxqHgd3MXNuz5D4J2TN3QOaHN6GgEi6gRtCSawyN7OsvyOubWKY4kiPgGPkXXh1PpXr7doaBs=
+	t=1779357647; cv=none; b=cZ3MMI+yFE1CC4jRgF135w7PbydhkPbpLysf4pBrz6q+xAOg04qkkZiTr+zk2As+U+9+JhiS4IH8uPB7u7/b7p/xPT/zImJ1/MV3YWaEgPat6hopAUBL6q3NrwTRJXYO39nRfN6lM81LLZyTMiF7yLIh1H02he/ynDYf1nZkOrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779357608; c=relaxed/simple;
-	bh=jdY9hs85Twhae/3vlnByBxA+RRCbVKD6yusjjOcEM1k=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=SXzN5ehucGPgcrRqq4x6E5jj+spt+Vc5w+WWQHyNtZ4IKolOitQ6MwsXLFXuckMF6q8MzVBx273uK7whAuQmoDmOgohu53AwkszTT1yFrPxULK/sgO7lWTpvd6mCYLn/u+VqysEbJOtgNqvErwB0EjYC3Zk/Hlq7CtHBac9mvkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jzDxdjYW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779357647; c=relaxed/simple;
+	bh=KRxTIOUjIexLfKP3OZOgHBgHd7PVT1QML4v8D6K1IKo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O5focmGDh4uo2aH5WRzouXp37mQ6RedHdQ2w/+CTGhd/rQr7LVYErufkBWWGMV2Od4iYmzLgWpSl9ze55X0U5ctGJ428cD1wjRe2d8972DcC7+eVdzda+CyCQk4vFA6RKBY3RjL+H1IfNnGVu4eoq0t8KBTMzuWfREHfGTMbnNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=DSgJPL8N; arc=none smtp.client-ip=220.197.31.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jzDxdjYW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 604721F000E9;
-	Thu, 21 May 2026 10:00:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779357607;
-	bh=EYCTLIm2++uhi2F9BBgSIQc+tlzAzzrgP0ECrTYgJQw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=jzDxdjYWPqbUrRXYT2TuhXROt13p+lP3+YTyKEJzxdxu2Ira4qmbq+KacOFWjbIeu
-	 yQUZn0pFrCwUIqzgVfcIbmULLX+VGVncJCckevSCetqyasqx8ryUWXCTHOS7jMlR8y
-	 5HnUghIcVkqll0lnsRjMaHoQg8XFWFsq1u0cRNlW3QofWkH30SY2umnfXfiFb5J+jp
-	 hcQBvqjaaUFbqH7vrkjDMQNPo59LJvekMiXAnvoU35A57nGj+C9MVZ1rcJiiKoX7eM
-	 12/z2RMISlrXaXV0oQxqtm5NCTVsflRDG0ctgIfDXRIn1CVBUxjwHtbb0meTKwkMGa
-	 jWLVlkFeqJLeg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 939213930D21;
-	Thu, 21 May 2026 10:00:18 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="DSgJPL8N"
+Received: from server001 (unknown [222.130.22.242])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3f4cebaff;
+	Thu, 21 May 2026 17:55:22 +0800 (GMT+08:00)
+From: Kefan Bai <baikefan@leap-io-kernel.com>
+To: linux-usb@vger.kernel.org,
+	si.yanteng@linux.dev
+Cc: gregkh@linuxfoundation.org,
+	seakeel@gmail.com,
+	alexs@kernel.org,
+	dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	doubled@leap-io-kernel.com
+Subject: [PATCH v7 5/8] docs/zh_CN: Add dwc3.rst translation
+Date: Thu, 21 May 2026 17:55:10 +0800
+Message-ID: <1fd5678e36ebeb4f37e224a59136ef4f4dcc8340.1779355170.git.baikefan@leap-io-kernel.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1779355170.git.baikefan@leap-io-kernel.com>
+References: <cover.1779355170.git.baikefan@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v11 0/8] bpf: Extend the bpf_list family of APIs
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177935761713.4009125.10546736561517078452.git-patchwork-notify@kernel.org>
-Date: Thu, 21 May 2026 10:00:17 +0000
-References: <20260521032306.97118-1-kaitao.cheng@linux.dev>
-In-Reply-To: <20260521032306.97118-1-kaitao.cheng@linux.dev>
-To: Kaitao Cheng <kaitao.cheng@linux.dev>
-Cc: ast@kernel.org, corbet@lwn.net, martin.lau@linux.dev,
- daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, song@kernel.org,
- yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
- sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
- chengkaitao@kylinos.cn, skhan@linuxfoundation.org, memxor@gmail.com,
- bpf@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- vmalik@redhat.com, linux-kselftest@vger.kernel.org
+X-HM-Tid: 0a9e49f60d0709d5kunm49815c9e65c9a
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDTBodVk5NTUNPGUwZHUMZH1YVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSk
+	tISk5MTlVKS0tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=DSgJPL8Ni7McqUESoJw/cPXbKfVVZOSfHAIADmXRp0s4D/rO7XkJ3OURFDUV43jEt4afGOf7VMNeBlHBSsuRdMHkQGGhoD3VUwagCVrnoXI6en1GNYLATniEWotjiiT2FHD0p+/+iK8tnwJzPdJxkkUaGgz77konnuVQ4Ut++95V3xP/3kqxX2Ac5uBBzafi8HZzwPFFpbiK9W0QfWSXtReT0PzDHA21ahZ36u2TPR4mwfhalpfPEvzBp5RKJ3mhqhNDVqU50mZgWQ9i2KLH1lBeQfmuo5H9eAmV1zZlHJuHaWN5Qhb1qaXr5PuWLIUE1SMc2WL5EbReoH3oezj6kg==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=e9o5649fqTmSCjXx6OFnrGLYW+RiulY3hU4tzlocNKk=;
+	h=date:mime-version:subject:message-id:from;
 
-Hello:
+Translate .../usb/dwc3.rst into Chinese
 
-This series was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
+Update the translation through commit ecefae6db042
+("docs: usb: rename files to .rst and add them to drivers-api")
 
-On Thu, 21 May 2026 11:22:58 +0800 you wrote:
-> In BPF, a list can only be used to implement a stack structure.
-> Due to an incomplete API set, only FIFO or LIFO operations are
-> supported. The patches enhance the BPF list API, making it more
-> list-like.
-> 
-> Five new kfuncs have been added:
-> bpf_list_del: remove a node from the list
-> bpf_list_add_impl: insert a node after a given list node
-> bpf_list_is_first: check if a node is the first in the list
-> bpf_list_is_last: check if a node is the last in the list
-> bpf_list_empty: check if the list is empty
-> 
-> [...]
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
+Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
+---
+ Documentation/translations/zh_CN/usb/dwc3.rst | 63 +++++++++++++++++++
+ .../translations/zh_CN/usb/index.rst          |  2 +-
+ 2 files changed, 64 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/usb/dwc3.rst
 
-Here is the summary with links:
-  - [bpf-next,v11,1/8] bpf: refactor __bpf_list_del to take list node pointer
-    https://git.kernel.org/bpf/bpf-next/c/cb339ac61d72
-  - [bpf-next,v11,2/8] bpf: clear list node owner and unlink before drop
-    https://git.kernel.org/bpf/bpf-next/c/cfa6afa4b931
-  - [bpf-next,v11,3/8] bpf: allow non-owning list-node args via __nonown_allowed
-    https://git.kernel.org/bpf/bpf-next/c/7c8c71591b76
-  - [bpf-next,v11,4/8] bpf: Introduce the bpf_list_del kfunc.
-    https://git.kernel.org/bpf/bpf-next/c/187baa10963a
-  - [bpf-next,v11,5/8] bpf: refactor __bpf_list_add to take insertion point via **prev_ptr
-    https://git.kernel.org/bpf/bpf-next/c/e6919ff67c1e
-  - [bpf-next,v11,6/8] bpf: Add bpf_list_add to insert node after a given list node
-    https://git.kernel.org/bpf/bpf-next/c/a3493ca504f1
-  - [bpf-next,v11,7/8] bpf: add bpf_list_is_first/last/empty kfuncs
-    https://git.kernel.org/bpf/bpf-next/c/745515d386eb
-  - [bpf-next,v11,8/8] selftests/bpf: Add test cases for bpf_list_del/add/is_first/is_last/empty
-    https://git.kernel.org/bpf/bpf-next/c/ba3dc064f406
+diff --git a/Documentation/translations/zh_CN/usb/dwc3.rst b/Documentation/translations/zh_CN/usb/dwc3.rst
+new file mode 100644
+index 000000000000..3468ce50c5ba
+--- /dev/null
++++ b/Documentation/translations/zh_CN/usb/dwc3.rst
+@@ -0,0 +1,63 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/usb/dwc3.rst
++
++:翻译:
++
++ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
++
++:校译:
++
++
++=========
++DWC3 驱动
++=========
++
++
++待办
++~~~~
++
++阅读时如果想顺手认领点任务，可以从下面挑一项 :)
++
++- 将中断处理程序改为每个端点各自使用线程化 IRQ
++
++  事实证明，有些 DWC3 命令大约需要 ``~1 ms`` 才能完成。
++  当前代码会一直自旋等待命令完成，这种设计并不好。
++
++  实现思路：
++
++  - DWC 核心实现了一个按端点对中断进行解复用的 IRQ 控制器。
++    中断号在探测（``probe``）阶段分配，并归属于该设备。
++    如果硬件通过 ``MSI`` 为每个端点提供独立中断，
++    那么这个“虚拟”IRQ 控制器就可以被真实的端点中断取代。
++
++  - 在调用 ``usb_ep_enable()`` 时请求并分配中断资源，
++    在调用 ``usb_ep_disable()`` 时释放中断资源。
++    最坏情况下需要 32 个中断，最少是 ``ep0/1`` 的两个中断。
++  - ``dwc3_send_gadget_ep_cmd()`` 将在 ``wait_for_completion_timeout()``
++    中休眠，直到命令完成。
++  - 中断处理程序分为以下几个部分：
++
++    - 设备级主中断处理程序
++      遍历每个事件，并对其调用 ``generic_handle_irq()``。
++      从 ``generic_handle_irq()`` 返回后，确认事件计数器，使中断最终消失。
++
++    - 设备级线程化处理程序
++      无。
++
++    - 端点中断的主处理程序
++      读取事件并尽量处理它。凡是需要睡眠的操作都交给线程处理。
++      事件保存在每个端点的数据结构中。
++      还要注意，一旦把某项工作交给线程处理，
++      就不要再在主处理程序里处理它，
++      以免出现优先级反转之类的问题。
++
++    - 端点中断的线程化处理程序
++      处理剩余的端点工作，这些工作可能会睡眠，例如等待命令完成。
++
++  延迟:
++
++   不应增加延迟，因为中断线程具有较高优先级，
++   会在普通用户态任务之前运行
++   （除非用户更改了调度优先级）。
+diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
+index e6d0a4fceff7..7c739627077b 100644
+--- a/Documentation/translations/zh_CN/usb/index.rst
++++ b/Documentation/translations/zh_CN/usb/index.rst
+@@ -20,10 +20,10 @@ USB 支持
+     acm
+     authorization
+     chipidea
++    dwc3
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+ Todolist:
 
+-* dwc3
+ * ehci
+ * usbmon
+ * functionfs
+--
+2.54.0
 
