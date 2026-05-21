@@ -1,610 +1,370 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011012.outbound.protection.outlook.com [40.93.194.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7A63E073E
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 13:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779369279; cv=none; b=P86Ux180XOK86Q3mnHwmxNs6oFJmHBTEAmazeWbuE07xp3zwC5knLCerKABVD+iLsewA5AQdH+yr5EguAXVrSJeI5a7lyMR3eVWt6bUrjZ9vVe13m4fZTRKJRBHo/U0p4PmKtjbVKxBRzkQytSbqusRirEYvlwl33G9VkrEqCl0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779369279; c=relaxed/simple;
-	bh=4XNB5JIGLjpANm8G9Mn+wCMnN2QbN2hJxUFucPulnHQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QtnUxbVGKAcQ809PUWIf1wJiYs8P2U2OroAy3MPhDfFpQlcYQT9R2AXVioJjdqpIMAR3AQnD+tHx/85pELuJTJEBfLWbyJKAKDR7kdee+5UGn1d/GjoYM1alCm5UzsTMneLp+nelWChQlyGN/9ATxyZ0IE/ZyWpXUMnUZG3ORpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FOramGzm; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LZgWSVyd; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090881EEA31;
+	Thu, 21 May 2026 13:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779369405; cv=fail; b=qT18gJECTXEVz58stZPYCMlfdHT5mEdTgjcueywu6pbW0qFAlkXPSRsOdFQrbmcua0pfSxABtsfpmikQ4ppTSHEJgOM2lP8d21C51cfDC5yL36s+oIRopK41ha/0URNJjgGZckcGRpVUcJr1ukqDNtSimf/MvOH5cK+H/pvLjnA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779369405; c=relaxed/simple;
+	bh=ku7r43FgiCKs+R4rAYUDf8S6SkIyjMaDMgBME4JoPQY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kG2Xu+LxjlTfbdzKlDEUd5duegp3sgX3BmfEK65oy7SRzycf31ulIKDnmivbsljCvJrTLwPdtdIxfszxYLQOHzE/eK0MZYYg0gH5Em4Aze0nCkcNQ6TVcc6LDB/F45Uk2hNqyWT5Y6eSwoL9RUrcHqxEVWgeqI3n1OonPuW5lmM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ihbMVqQ8; arc=fail smtp.client-ip=40.93.194.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FOramGzm";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LZgWSVyd"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64L99vdd3772941
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 13:14:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=wNjMyJsY5JJvxdt736Bz6x
-	bi/GKfy2/4NcKpcMc4sZ0=; b=FOramGzm8tEJF1FaRPDHX4JXoU40OwD8mM2ltv
-	p6xitA3UzPZtpgV0GW4uQFqameeOMlwJPrGEzYss/el2vWzGykuNUIhz/qBqaoLp
-	L2AdZh2/UTAtHgpQmXF/uhrP8t9ExO7EY9KOUATY1bHOb91U0z2f1vQAyo8gCmRp
-	cYbgeEFBgyxND9Y8NgWlyXYSJKUuxgSyDkmksOUxqz2AluNABmVefuu7GA/sjnxm
-	ZDHBEB4pN0XELvG9Rl6nWeG4oIzTXUY7VgAeIz84QgleueskT7hBtHYWptF5ZDtD
-	/I1ExnL/y5SHQ4qxQeGffnwO6X7C8osJv6JTaudl0ZYjxELA==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e9ma43b9u-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 13:14:36 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-c850fcc89d1so652570a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 06:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779369276; x=1779974076; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wNjMyJsY5JJvxdt736Bz6xbi/GKfy2/4NcKpcMc4sZ0=;
-        b=LZgWSVydA9TukEC9OwGCPmQsfnvIQTimMHglX2V6ZyriLv9tpKS9Xd1ezj7FAm1Bza
-         m2SDwGRGQPZ9HCi8Vu/VAWa9bJLDBfC/vvw1sqfM20AvLQaAsPZYBrUkwaaGDW+rAmQr
-         d5UjrlssY91U1QPSQYR3HRKc0bPrHJNqxNYbkfyoi3X4re+mwwJZ9Gz8I0sazb9vBK8z
-         ue6H235M7wYcSDEwk59lNL2bTTn/JeZwuFMNxmi1V5GJnKrboph3DnmdKs+WJoQA/N+5
-         UHBH9e46IohsD07BG8UkgD64tD7Ybrh2mKV12gM3b3K+/XPqDzx8tFbhgFO+8OW+rglC
-         nKXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779369276; x=1779974076;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wNjMyJsY5JJvxdt736Bz6xbi/GKfy2/4NcKpcMc4sZ0=;
-        b=qPHLk1r+mhoheKIsmNGmrHf0bL3u9nxNCzqRlafsROJiJjao59k0hhlyhLLScVm15b
-         AKtEPGELZYalGklCbwSS5FXy+xnNCcPBZN/dKCt63N4JzmDfNAOdJIh+W4SftwB1C0bV
-         XEdKtzOccdvNIqzbHRqlldED9bhJCFoeHKgqS/0gWDY/pXiebhwt7RTZ1kPXNtpaMtIP
-         mH4AREir67EYwCjfzF/JKnniuIKz+K4bE+6+uuJTuNCThRuXdV8J/Ci5/yAWcXGTHtXG
-         rcNx48pn2yZtwreU0L3lWdHVRC1dC1g+TePsuPLeFJGj+WXZWlKj+mVcyXBQdAQtCmxb
-         XJ/w==
-X-Forwarded-Encrypted: i=1; AFNElJ+zUt94XRbKxOgdaF/FdO4gShSNTbGSg3/tCVJi2ywZDYTAUMEVtLWhvjnYoLSWKQZam8uCc3yWNPc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcgMP5D7OEeX64EjTp3wH4fmUFCbKC808e7bp0y218H5jrA8ON
-	sdhBZv7zVl5AL2+mKFOPPP/71IrrE+m/80MgzTVpAuFD8xK/zcfCRYCE3CBlyHy/wEozVncAGnb
-	Eckpr0iWcTJEMo5yyAoAfPbDYJaBTyZLnWyfbVA7hAYEf7/FP4srX8iVoc/tud0c=
-X-Gm-Gg: Acq92OE93DUFRoLEtPPeOlCuY9ys2P5twl7FIyz573vhM753ECBZSsDNFuD8InZah12
-	K8VpAlNy4v9/b9VYoViZNZHi08rHWFGaKoPCODawG6OMD6ZYKqSiS7dsdrERyKcBS7debls8VWk
-	YsdZ7l34wmM58W7dyLnIo3sDCQAMQd+4PUYIvxZV6yc1/8CnMkCSYfwqY8vN9leJUiVZqQ/Ekq7
-	XT89LlLq9vVybVAEpZBl30dJWte1W1/0cf+MCVfhMTHQizAg1BiHqFFQc14sereWmzYN86iQAae
-	sco0Wv3yJPw2HvuuDdJXY48ag1tRvm+BBTec9AX2bDCvpd3e8S5nTBHlyPM9ozZHC4le5YUBKqp
-	xHZ6lpTVs3YzgDLSNGvUaQ9xpKauDMh8KeiUqn2ZqpmyXmpLHBjD11B/HKNLDeqIaI6l+MxmK8b
-	7/bke7Sw+KCXXzuA==
-X-Received: by 2002:a05:6a21:6497:b0:3b3:cea:874d with SMTP id adf61e73a8af0-3b30ceaa701mr2762003637.18.1779369275324;
-        Thu, 21 May 2026 06:14:35 -0700 (PDT)
-X-Received: by 2002:a05:6a21:6497:b0:3b3:cea:874d with SMTP id adf61e73a8af0-3b30ceaa701mr2761950637.18.1779369274722;
-        Thu, 21 May 2026 06:14:34 -0700 (PDT)
-Received: from jinlmao-gv.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c851991e83asm327045a12.25.2026.05.21.06.14.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 06:14:34 -0700 (PDT)
-From: Yingchao Deng <yingchao.deng@oss.qualcomm.com>
-Date: Thu, 21 May 2026 21:14:24 +0800
-Subject: [PATCH v6] stm: class: Add MIPI OST protocol support
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ihbMVqQ8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X99wtmp0Rlqar47UhbpVrhv4hbgmWgJjCvCL0cNyqXZw0qqeSisgUGkTRBVjY11qVuDmHmkbb5hg0nxe1ndhqVLujx38EuEB86yVLfgq5rYuJKkGeLVH/NfEUEw41o6WUHJlZmWfeuae+5ujnPbppgyl0JsjPIb4pK7JcjMNWATx8d6PgkfUCt9HxH9VeAuAHQFtIhPInkHanLTGZVXMEJSC3Qs1UaWRG9ILYg4Sc5TUv55Qr4dtyw3uoCv9437PG+EdIfuoHeQDWCdvFyhxYiIn92mO+U+n3qZRWA8rq7RbkkU+8vwevgvw265dZG6FrGht4vft8nxbq8oD9V24jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+t5AcE72z4++LgVgQmq7GMu5yvJPFq5uR9E1nKuL6mk=;
+ b=UoMmw9YRqu+dSMwmJagE1zP3wS5j/Xfn2do7DJaU1YuIuOyW/pgq5pOD6q+YTnjteUAZy3p9bGqzojGzOcJuX8noF6rylYalmNQezxZCvhj+X8ROilQEcSbuZG8OoYojogqFnGILw1xiKSLu8OiKJaQlDcsmUpraPyI3R6aVYwsyunCMJFxVsD1HrmHBsUtow25LwUa9uwg/e8lNdQj/eg3zG9fXWenh+Lp499YARojYt24bPeEIf1uEzPlzyQu1RjdnJDBW5Ux928kI0rv+HVSriuei1lv93WignZ7XWG4x2tIEJG+W916vGlyRYwufbMuWAarg8NPfXQXy4xptYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+t5AcE72z4++LgVgQmq7GMu5yvJPFq5uR9E1nKuL6mk=;
+ b=ihbMVqQ8656RGYoGFE3pMkhYAgZwLFMgzCn+yEus0hbcB3szbrK5I+qt8gj+O1hcbMYIOLBQ4uJIzy3fn0GGZpNMaaGRa65iKmkzpWXhvQ2wAoLIcpKazuO7UdvKq6P9tthAy//tjgZbo5+nr+3nIQmnab2U+yvUKFzwvxwaVhX41DTBNz1dSZLIsERMbXK+7zcPkLtVSqdL2w4m4K8o6bPykd/xdqCVqXl9hDJoChLFcX/OQK0BZSirEWrtwRtc5vJeV3xmRAuwjKY1T3EdX6PJIlcO93VMHVU3y7PsBMt1NjXGZay7CqX/bAnWgAQXOcHy2LzMNhKhnhXYRvZhIg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
+ by LV8PR12MB9357.namprd12.prod.outlook.com (2603:10b6:408:1ff::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Thu, 21 May
+ 2026 13:16:36 +0000
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de%6]) with mapi id 15.21.0048.016; Thu, 21 May 2026
+ 13:16:36 +0000
+Message-ID: <3bbcf456-322c-46f9-b238-88fb8ad227b2@nvidia.com>
+Date: Thu, 21 May 2026 16:16:28 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 3/3] net/mlx5: Apply devlink default eswitch mode
+ during init
+To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
+ <thomas.weissschuh@linutronix.de>, Thomas Gleixner <tglx@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>,
+ Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ "Borislav Petkov (AMD)" <bp@alien8.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
+ Petr Mladek <pmladek@suse.com>, "Peter Zijlstra (Intel)"
+ <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Feng Tang
+ <feng.tang@linux.alibaba.com>, Christian Brauner <brauner@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
+ Marco Elver <elver@google.com>, Li RongQing <lirongqing@baidu.com>,
+ Eric Biggers <ebiggers@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ Gal Pressman <gal@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>,
+ Jiri Pirko <jiri@nvidia.com>, Shay Drori <shayd@nvidia.com>,
+ Moshe Shemesh <moshe@nvidia.com>
+References: <20260521072434.362624-1-tariqt@nvidia.com>
+ <20260521072434.362624-4-tariqt@nvidia.com>
+Content-Language: en-US
+From: Mark Bloch <mbloch@nvidia.com>
+In-Reply-To: <20260521072434.362624-4-tariqt@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: FR4P281CA0063.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ce::10) To CH3PR12MB7548.namprd12.prod.outlook.com
+ (2603:10b6:610:144::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260521-stm_p_ost-v6-1-e557900b686b@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIADAFD2oC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyzHQUlJIzE
- vPSU3UzU4B8JSMDIzMDUyND3eKS3PiC+PziEl1jEwvLNBOjRMtUi2QloPqCotS0zAqwWdGxtbU
- A4LBz5VsAAAA=
-To: Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        quic_yingdeng@quicinc.com, tingwei.zhang@oss.qualcomm.com,
-        jinlong.mao@oss.qualcomm.com, jie.gan@oss.qualcomm.com,
-        yuanfang.zhang@oss.qualcomm.com,
-        Yingchao Deng <yingchao.deng@oss.qualcomm.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779369270; l=15483;
- i=yingchao.deng@oss.qualcomm.com; s=20260521; h=from:subject:message-id;
- bh=4XNB5JIGLjpANm8G9Mn+wCMnN2QbN2hJxUFucPulnHQ=;
- b=it+LsOxLa/DSMYiyCmbeE4wGLVzOgkyuIMxI0NWlIp/dDeEx0zxnjsTNo0fHYfCDKwFiORWk9
- tv0/++ST1K4BC36kK35V2FO8peV85qMq2PDPjvb2nC0WKf1SX7ifVLC
-X-Developer-Key: i=yingchao.deng@oss.qualcomm.com; a=ed25519;
- pk=YbHeeX0Qzqo7voZLva784lFhVChB9yF3a4sceW95ljA=
-X-Authority-Analysis: v=2.4 cv=K9kS2SWI c=1 sm=1 tr=0 ts=6a0f053c cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=56qk-FYNGTj2BDIEd0YA:9
- a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: p-u1wZmqjJ7MHl9GLX42UVrsJNOpVvoZ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDEzMiBTYWx0ZWRfXxKcv2L8/sfVz
- 8CIukkYMb6xega1OKUEKcTZi9g1hiEx+p45vT3+V0SuuxHWUT5M/Vb3+/1QFV9tcVaWLxaEWEWo
- k+vyHtakUVLU3jWYj5GsTs0LZsnUsEX6w/xMTfKjKxzp2cDC03SLRg3Cp6fl4dSU8T0DOhdI9BC
- vK5lXn1gf3FINm2b1WmwLp74VK5Pz6fbOrjIhhG4QCTmGlXjoJ2pm7KuLkgQdXa8kjEXsm9JP20
- JLG/cznkRa3MnWcr7nXuzVWQKhJBuBRT1b2ZLNG5eDeZ7BIhUEBnNld5y8GL+cWcycPodnmlIlO
- DEXX19x3UfSj5yaEwNo7lBG2Aj4LJRxFGGN+hdZU+EmuSnbt57XuhMvr1w0/GPqNEtc6Ka667G/
- XW79t9VmQHSmKf5pbfuxo4qpoJUup84lU1AfL6A6Nu/jyWOa2XXkldxuaAk2b//q58h39DIUjqO
- 4EvOnLaKVtyEIFLqfpg==
-X-Proofpoint-ORIG-GUID: p-u1wZmqjJ7MHl9GLX42UVrsJNOpVvoZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-21_02,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 bulkscore=0 adultscore=0 priorityscore=1501
- impostorscore=0 malwarescore=0 spamscore=0 clxscore=1015 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605210132
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|LV8PR12MB9357:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1cd3fb57-5994-46a2-a09a-08deb73b2f5d
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|56012099003|18002099003|22082099003|4143699003|11063799006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	o3t/UxLaBXxuFrNVdR5IHPeEBLYVFP4K1VKIDII4e87yh2nMwxYwlf2FC1NzYzmrz2S6TfRG3cTIpgRJHxTvpQygU6gSIXEw5ptJsbMXs7Sfd48V2SXXUkgYL/z9cnQSz0DbPTXmgG8Hxoop/VbRAmHf5rV7s1qlNRJPt11ImisTDwF3hfhe0rTWTi5VLqmOoxFyPjN+ub6iRyejZBect5heG8re1hHRQVOKN9FNnIyl96NEiNRo86JFslZVwZtFfbwtL4x4ievU/UAt7/P0bSZSma2OVG61OSUL1I7HNHFv5qmHKHXYinBkd9kVU6HCZnuW0E8aFOqHFl7Kw3UUED7CYf7MLpbatDTNj3GILZvgXoYsr8h1/Mmm1m3IHfjwIyQHYEt3sNuLSR4CenKw7t3dUItJPDF+na/TVUYxwCA6IcQ+B7yUJOgfAQPWTAuCjTx3kbzKnjWfsyk7ilRsGViFSqEebw997iKuOM+GMpdk+Ygp4Fw/VcQncp3WiH3VGi351u3yuQOryruMHngk7gs9uKTMuIfkVsKwlIgG28i6o207PTRIC7hXVHnFIPgZeTk7zXxY+yAuOUiWvIxYkSsZeh4TYB5W708813gK39Aub+PHEzUV8cLzx9WCMS3zIkH26n8jBcUl9h1Tq7e5FpcSaUDwOt/ixoO2o5Uachw94jgFAO8HmIi9c3Lc8mQen2iSfzc4EW+gwliOM8D3kw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7548.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(56012099003)(18002099003)(22082099003)(4143699003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Q2UwdHExMk9xemtTVmEycEtYYzZXMkJ1QjNKcFlQeVE0TlQwNWx6cTV1T2Ev?=
+ =?utf-8?B?ZTdSNFphSlExWnJyb08xOCtXb0t0TjRVU2lodlJJa0lMRGNRUFdpSkVRVnNn?=
+ =?utf-8?B?M0d3NktXQ254Z3lseXVxQTJuSS9yTWlNVjlnSktqbnV1M2x3a2JYN2dYbGpP?=
+ =?utf-8?B?ZUxZaVBnaS9DbFdGbmdVKzZiNmZWN2xkR1A3Q0dPR29GRFNiUGhSQkNFQXFs?=
+ =?utf-8?B?dlVQdCtFRXpvZzBSQzduQ0pSZXp6MTdXM1FDdjJyRjdCSmlOZDl3WjduaTNQ?=
+ =?utf-8?B?MS9SU0EraUxSckZXSFM1NjFMeU54R3czS0tUNyt1NktiUlFmOTh3a2Y0bTJo?=
+ =?utf-8?B?SEpCWXJTWUNZeitLMkVYWXdabTRJcnVvemQ3TTVVQXVHajRJbVJTMjMwZXlS?=
+ =?utf-8?B?NUpyTzdEL3RKM3F0bjdNUDdCOVd2T01ST0NRNGM3akZhT1RibXhrbm5COEFQ?=
+ =?utf-8?B?dU9RMmpMc2NqalpUR1c0cmtBbHhEYjdkOW1oc3FMN1FsVGZ6MXdybnBDNHIw?=
+ =?utf-8?B?TGZUc2hwVFViK1FYdXNpK3YxN241TklaZHdYWGtrSGloZ09IaDRjQ3pVNmYw?=
+ =?utf-8?B?RU9vOWZqbUxFT3RYZXk0UVpnKy80dGtnVXNsZ3h5TE5xeWFoWW51ajNsc0xs?=
+ =?utf-8?B?U290L3FzbGNETU9XTWFJQThuMGJ4YldBM0oycENvRFhLN3YzaEZMMWszMm1y?=
+ =?utf-8?B?c0pxYW14TjFQbjZBMVFCK0liWjZDLzB0alU5ZW85NTRMbGRramlodi9VTi80?=
+ =?utf-8?B?K2pYSkFUMEtlSVYrOHdiZkVCTnFYbVNCR2ppTmEwQVhvZ1ZaUHFiVmV1MTAr?=
+ =?utf-8?B?eVI3VGZaUXF1UGtXYTVsSzdPRnEydEx4RVk4dGN1WUFpRGo1aktLb2QvazhJ?=
+ =?utf-8?B?Q2RNczVZQnYyZnVRYWlBb0VlTWVNQ2w3TlFYZTNBeTZ4QWZhd05IWDdocTda?=
+ =?utf-8?B?Rlp2Wk5qZm83RlllWTIveUZDMGhLWStXdyt2bU00RVdIVFhrUGRFZE1PYUJU?=
+ =?utf-8?B?cnI1UzkvWGFNN3JkWDRMY2VaQ1NqSmhEQlVCTFRPeXR5L3grZnFYZEQzVHlz?=
+ =?utf-8?B?QU5UQWRLQU1LM0M3U0MvYjRva3E5d3ZwaExpbUd6ZWV0MUFjOExuVmxJdDJI?=
+ =?utf-8?B?cittcWZFLzVoM0x2MnVob0dWU1Nhelp1Mi9rSVdNd0k1azFEcjJYbGZ0RDR2?=
+ =?utf-8?B?bWpGaGFkTzFXUFA1azFQdktFUldLUUhzWkZGT3kwMVRtcWVCV29tb1ZBcGZM?=
+ =?utf-8?B?T0tHcFZqODAyWDZmVCtiUGxXdXZZdmNVMFl6RkExUS9oNE9QM2VJQUpNODFE?=
+ =?utf-8?B?ZGVjODA3SWM0dktuUi9EeWtxY3FpdGFBTEFHSENKeXVpbTNUUGMxOEZOL2hZ?=
+ =?utf-8?B?REhqemlFVm9yVGc4RUJuYTByVDJzV0lZZENUemFKdkRDWmJhNm02ditrM0dJ?=
+ =?utf-8?B?aE8zYUx1MHFQVHN5c3NKS04xYnVyUDB0aFowZ3JVY2ZqeWE0azMxLzYwVERv?=
+ =?utf-8?B?c1BWWlB1c3BhUXFvRldGb2hTeWs1STc4SXIrOWFNNVpHeGZjdjIxcnVMcFl3?=
+ =?utf-8?B?aXVtNWlpeTJGeGZzL21mNVdyMHVrS1I4QTBGZHJJWFJPWTR4OXk5c3NRUTlj?=
+ =?utf-8?B?N3gvVndRaHNGMDhDSFVRUzVIVnNWbE5LZGc3Rkx6YUsva3lkUkVvR3hiWUVI?=
+ =?utf-8?B?L3Zxdy9wcE4vQjdNTWpkVjJUYTB1UjVzV2ZUNXptd3QzVmVqUWlxU2FrNDQv?=
+ =?utf-8?B?ZE5WUUFJYjhiRm5mRVRkWVZ1UldDSjVOWlc1VEdSYWFXbkp6cElKSjVFNkV3?=
+ =?utf-8?B?T05pSU41N2FjaUN3aVE3RS9MWHBjZVh3M1FTSnE3Y2lwV0phNUlDdXl0cDQw?=
+ =?utf-8?B?UXYzR1FFalExYnlPdHAxcklkYWRqTGFEREhGemVxKzdjQzk2OE9HQjRTU3gw?=
+ =?utf-8?B?c21zV1VDRWJ2OTNBcnlVNUxkckdjSzB3alFGRlBvNW1JRkt4T1Z4d2JFZXJT?=
+ =?utf-8?B?SEpFR3NELzE0U09BbS9RVThNcis2NnpzK1lLSDRzd0RPamMrMWxvaWk5UmQx?=
+ =?utf-8?B?VVFsK2JlbWNGVitFdnpmR0dZTFZtWWJsN0UxdXpQNjE0THcySUhlNXFhaysy?=
+ =?utf-8?B?bUhWZVdaWmJnbm96eEJ2MnA2cU9NbnRxVy9SU1dNbXJSWlBVVzNpRUE0MG5r?=
+ =?utf-8?B?bnBTbWJNSHFrSEljbE9ycE56d0xWSFcyTlpZRXN1bDJqUjVWayt0RHNVMW1j?=
+ =?utf-8?B?V0RhSXhPdGFGc2VQV2NZVzdiekh3M1NyTU5VWUpMdHdYUk5EbGJzZGljc2JY?=
+ =?utf-8?B?VWdNaXpuNzZPMkE0UzF6RmZja0l5ZFlpT3JYcEF3YWZ0M2ZOcVVTZz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1cd3fb57-5994-46a2-a09a-08deb73b2f5d
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 13:16:36.0771
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YwRvgRtdqgRcOEYaK1gNOVwICbHBhdXxuffzM70VMGhf3TqpYfJNiya3eyOmCQpQlw2LbA4koi5xH6s3DRKKdw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9357
 
-Add MIPI OST (Open System Trace) protocol support for stm to format the
-traces. The OST Protocol abstracts the underlying layers from the sending
-and receiving applications, thus removing dependencies on the connection
-media and platform implementation.
 
-OST over STP packet consists of Header/Payload/End. Header is designed to
-include the information required by all OST packets. Information that is
-not shared by all packets is left to the higher layer protocols. Thus, the
-OST Protocol Header can be regarded as the first part of a complete OST
-Packet Header, while a higher layer header can be regarded as an extension
-designed for a specific purpose.
 
-+--------+--------+--------+--------+
-| start  |version |entity  |protocol|
-+--------+--------+--------+--------+
-|    stm version  |      magic      |
-+-----------------------------------+
-|                cpu                |
-+-----------------------------------+
-|              timestamp            |
-|                                   |
-+-----------------------------------+
-|                tgid               |
-|                                   |
-+-----------------------------------+
-|               payload             |
-+-----------------------------------+
-|                 ...      |  end   |
-+-----------------------------------+
+On 21/05/2026 10:24, Tariq Toukan wrote:
+> From: Mark Bloch <mbloch@nvidia.com>
+>=20
+> Apply devlink default eswitch mode for mlx5 devices after successful
+> device initialization while holding the devlink instance lock.
+>=20
+> At this point the devlink instance is registered and the mlx5 devlink
+> operations are available, so the default eswitch mode can be applied to
+> the matching PCI devlink handle.
+>=20
+> Signed-off-by: Mark Bloch <mbloch@nvidia.com>
+> Reviewed-by: Shay Drori <shayd@nvidia.com>
+> Reviewed-by: Moshe Shemesh <moshe@nvidia.com>
+> Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
+> ---
+>  drivers/net/ethernet/mellanox/mlx5/core/main.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>=20
+> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net=
+/ethernet/mellanox/mlx5/core/main.c
+> index 0c6e4efe38c8..4528097f3d84 100644
+> --- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
+> +++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+> @@ -1391,6 +1391,21 @@ static void mlx5_unload(struct mlx5_core_dev *dev)
+>  	mlx5_free_bfreg(dev, &dev->priv.bfreg);
+>  }
+> =20
+> +static void mlx5_devl_apply_default_esw_mode(struct mlx5_core_dev *dev)
+> +{
+> +	struct devlink *devlink =3D priv_to_devlink(dev);
+> +	int err;
+> +
+> +	if (!MLX5_ESWITCH_MANAGER(dev))
+> +		return;
+> +
+> +	devl_assert_locked(devlink);
+> +	err =3D devl_apply_default_esw_mode(devlink);
+> +	if (err)
+> +		mlx5_core_warn(dev, "Couldn't apply default eswitch mode, err %d\n",
+> +			       err);
+> +}
+> +
+>  int mlx5_init_one_devl_locked(struct mlx5_core_dev *dev)
+>  {
+>  	bool light_probe =3D mlx5_dev_is_lightweight(dev);
+> @@ -1437,6 +1452,7 @@ int mlx5_init_one_devl_locked(struct mlx5_core_dev =
+*dev)
+>  		mlx5_core_err(dev, "mlx5_hwmon_dev_register failed with error code %d\=
+n", err);
+> =20
+>  	mutex_unlock(&dev->intf_state_mutex);
+> +	mlx5_devl_apply_default_esw_mode(dev);
+>  	return 0;
+> =20
+>  err_register:
+> @@ -1538,6 +1554,7 @@ int mlx5_load_one_devl_locked(struct mlx5_core_dev =
+*dev, bool recovery)
+>  		goto err_attach;
+> =20
+>  	mutex_unlock(&dev->intf_state_mutex);
+> +	mlx5_devl_apply_default_esw_mode(dev);
+>  	return 0;
+> =20
+>  err_attach:
 
-In header, there will be STARTSIMPLE/VERSION/ENTITY/PROTOCOL.
-STARTSIMPLE is used to signal the beginning of a simplified OST protocol.
-The Version field is a one byte, unsigned number identifying the version
-of the OST Protocol. The Entity ID field is a one byte unsigned number
-that identifies the source.
+NIPA flagged this patch with a build_allmodconfig_warn failure:
+https://netdev-ctrl.bots.linux.dev/logs/build/1098506/14585935/build_allmod=
+config_warn/
 
-Entity ID values (0~239) are defined and controlled by the TS owner, and
-shall be unique for the whole TS. The configfs entity attribute allows the
-user to configure which Entity ID is associated with each policy node.
+I do not see how this mlx5 patch is related to the reported issue,
+but I looked into it anyway.
 
-The Protocol ID field is a one byte unsigned number identifying the higher
-layer protocol of the OST Packet, i.e. identifying the format of the data
-after the OST Protocol Header. OST Control Protocol ID value represents
-the common control protocol, the remaining Protocol ID values may be used
-by any higher layer protocols capable of being transported by the OST
-Protocol.
+After the kernel has been built once, the issue can be reproduced by rerunn=
+ing sparse
+only on version.o, which filters out the unrelated noise. I had an older sp=
+arse installed,
+so I used a local copy:
 
-Co-developed-by: Tingwei Zhang <tingwei.zhang@oss.qualcomm.com>
-Signed-off-by: Tingwei Zhang <tingwei.zhang@oss.qualcomm.com>
-Co-developed-by: Yuanfang Zhang <yuanfang.zhang@oss.qualcomm.com>
-Signed-off-by: Yuanfang Zhang <yuanfang.zhang@oss.qualcomm.com>
-Co-developed-by: Jinlong Mao <jinlong.mao@oss.qualcomm.com>
-Signed-off-by: Jinlong Mao <jinlong.mao@oss.qualcomm.com>
-Signed-off-by: Yingchao Deng <yingchao.deng@oss.qualcomm.com>
----
-Changes in v6:
-1. Rebase on top of linux-next-20260518.
-2. Fix Kconfig: 'default CONFIG_STM' -> 'default STM'.
-3. Fix documentation grammar issues.
-4. Add p_ost entry to Documentation/trace/index.rst.
-5. Add missing priv_sz field to stm_protocol_driver registration.
-6. Use kzalloc_obj() instead of kzalloc() in ost_output_open().
-7. Add mutex protection in entity configfs store handler.
-8. Keep the configfs entity attribute: entity ID values (0~239) are
-   defined and controlled by the TS owner and are deployment-specific.
-   stm_source_type only carries a small number of in-kernel source
-   classifications and cannot represent the full range of OST entity
-   assignments needed in practice. The configfs attribute allows each
-   policy node to declare its entity.
-   OST_ENTITY_TYPE_NONE is an enum sentinel (not entity ID 0) that causes
-   ost_write() to return -EINVAL when no entity is configured, preventing
-   emission of packets with an unintended entity field.
-   OST_ENTITY_DIAG (0xEE) is a TS-owner-defined value used by Qualcomm's
-   diagnostic framework as the standard entity identifier for diagnostic
-   trace sources.
-Link to v5: https://lore.kernel.org/all/20260129-p_ost-v5-1-2b14fff39428@oss.qualcomm.com/
+rm -f arch/x86/boot/version.o
+make V=3D1 C=3D1 CHECK=3D/labhome/mbloch/bin/sparse arch/x86/boot/version.o
 
-Changes in v5:
-1. Add Co-developed-by tag.
-2. Use yearless copyright for new file.
-- Link to v4: https://lore.kernel.org/all/20251024-p_ost-v4-1-3652a06fd055@oss.qualcomm.com/
+This gives the same error reported by NIPA:
 
-Changes in v4:
-1. Delete unused variable 'i'.
-2. Fix build error: call to undeclared function 'task_tgid_nr'.
-Link to v3 - https://lore.kernel.org/all/20251022071834.1658684-1-yingchao.deng@oss.qualcomm.com/
+...
+...
+make -f ./scripts/Makefile.vmlinux
+make -f ./scripts/Makefile.build obj=3Darch/x86/boot arch/x86/boot/bzImage
+make -f ./scripts/Makefile.build obj=3Darch/x86/boot/compressed arch/x86/bo=
+ot/compressed/vmlinux
+# CC      arch/x86/boot/version.o
+  gcc -Wp,-MMD,arch/x86/boot/.version.o.d -nostdinc -I./arch/x86/include -I=
+./arch/x86/include/generated -I./include -I./include -I./arch/x86/include/u=
+api -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/genera=
+ted/uapi -include ./include/linux/compiler-version.h -include ./include/lin=
+ux/kconfig.h -include ./include/linux/compiler_types.h -D__KERNEL__ -std=3D=
+gnu11 -fms-extensions -m16 -g -Os -DDISABLE_BRANCH_PROFILING -D__DISABLE_EX=
+PORTS -Wall -Wstrict-prototypes -march=3Di386 -mregparm=3D3 -fno-strict-ali=
+asing -fomit-frame-pointer -fno-pic -mno-mmx -mno-sse -fcf-protection=3Dnon=
+e -ffreestanding -fno-stack-protector -Wno-address-of-packed-member -mprefe=
+rred-stack-boundary=3D2 -D_SETUP -fno-asynchronous-unwind-tables -Wimplicit=
+-fallthrough=3D5     -DKBUILD_MODFILE=3D'"arch/x86/boot/version"' -DKBUILD_=
+BASENAME=3D'"version"' -DKBUILD_MODNAME=3D'"version"' -D__KBUILD_MODNAME=3D=
+version -c -o arch/x86/boot/version.o arch/x86/boot/version.c
+# CHECK   arch/x86/boot/version.c
+  /labhome/mbloch/bin/sparse -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix=
+__ -Wbitwise -Wno-return-void -Wno-unknown-attribute  -D__x86_64__ --arch=
+=3Dx86 -mlittle-endian -m64 -Wp,-MMD,arch/x86/boot/.version.o.d -nostdinc -=
+I./arch/x86/include -I./arch/x86/include/generated -I./include -I./include =
+-I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/u=
+api -I./include/generated/uapi -include ./include/linux/compiler-version.h =
+-include ./include/linux/kconfig.h -include ./include/linux/compiler_types.=
+h -D__KERNEL__ -std=3Dgnu11 -fms-extensions -m16 -g -Os -DDISABLE_BRANCH_PR=
+OFILING -D__DISABLE_EXPORTS -Wall -Wstrict-prototypes -march=3Di386 -mregpa=
+rm=3D3 -fno-strict-aliasing -fomit-frame-pointer -fno-pic -mno-mmx -mno-sse=
+ -fcf-protection=3Dnone -ffreestanding -fno-stack-protector -Wno-address-of=
+-packed-member -mpreferred-stack-boundary=3D2 -D_SETUP -fno-asynchronous-un=
+wind-tables -Wimplicit-fallthrough=3D5     -DKBUILD_MODFILE=3D'"arch/x86/bo=
+ot/version"' -DKBUILD_BASENAME=3D'"version"' -DKBUILD_MODNAME=3D'"version"'=
+ -D__KBUILD_MODNAME=3Dversion arch/x86/boot/version.c
+arch/x86/boot/version.c: note: in included file (through arch/x86/include/u=
+api/asm/bitsperlong.h, include/uapi/asm-generic/int-ll64.h, include/asm-gen=
+eric/int-ll64.h, include/uapi/asm-generic/types.h, ...):
+./include/asm-generic/bitsperlong.h:23:2: error: Inconsistent word size. Ch=
+eck asm/bitsperlong.h
+./include/asm-generic/bitsperlong.h:27:33: error: static assertion failed: =
+"Inconsistent word size. Check asm/bitsperlong.h"
+# cmd_gen_symversions_c arch/x86/boot/version.o
+  if nm arch/x86/boot/version.o 2>/dev/null | grep -q ' __export_symbol_'; =
+then gcc -E -D__GENKSYMS__ -Wp,-MMD,arch/x86/boot/.version.o.d -nostdinc -I=
+./arch/x86/include -I./arch/x86/include/generated -I./include -I./include -=
+I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/ua=
+pi -I./include/generated/uapi -include ./include/linux/compiler-version.h -=
+include ./include/linux/kconfig.h -include ./include/linux/compiler_types.h=
+ -D__KERNEL__ -std=3Dgnu11 -fms-extensions -m16 -g -Os -DDISABLE_BRANCH_PRO=
+FILING -D__DISABLE_EXPORTS -Wall -Wstrict-prototypes -march=3Di386 -mregpar=
+m=3D3 -fno-strict-aliasing -fomit-frame-pointer -fno-pic -mno-mmx -mno-sse =
+-fcf-protection=3Dnone -ffreestanding -fno-stack-protector -Wno-address-of-=
+packed-member -mpreferred-stack-boundary=3D2 -D_SETUP -fno-asynchronous-unw=
+ind-tables -Wimplicit-fallthrough=3D5     -DKBUILD_MODFILE=3D'"arch/x86/boo=
+t/version"' -DKBUILD_BASENAME=3D'"version"' -DKBUILD_MODNAME=3D'"version"' =
+-D__KBUILD_MODNAME=3Dversion arch/x86/boot/version.c | ./scripts/genksyms/g=
+enksyms    >> arch/x86/boot/.version.o.cmd; fi
+# LD      arch/x86/boot/setup.elf
+  ld -m elf_x86_64 -z noexecstack  -m elf_i386 -z noexecstack -T arch/x86/b=
+oot/setup.ld arch/x86/boot/a20.o arch/x86/boot/bioscall.o arch/x86/boot/cmd=
+line.o arch/x86/boot/copy.o arch/x86/boot/cpu.o arch/x86/boot/cpuflags.o ar=
+ch/x86/boot/cpucheck.o arch/x86/boot/early_serial_console.o arch/x86/boot/e=
+dd.o arch/x86/boot/header.o arch/x86/boot/main.o arch/x86/boot/memory.o arc=
+h/x86/boot/pm.o arch/x86/boot/pmjump.o arch/x86/boot/printf.o arch/x86/boot=
+/regs.o arch/x86/boot/string.o arch/x86/boot/tty.o arch/x86/boot/video.o ar=
+ch/x86/boot/video-mode.o arch/x86/boot/version.o arch/x86/boot/video-vga.o =
+arch/x86/boot/video-vesa.o arch/x86/boot/video-bios.o -o arch/x86/boot/setu=
+p.elf
+# OBJCOPY arch/x86/boot/setup.bin
+  objcopy  -O binary arch/x86/boot/setup.elf arch/x86/boot/setup.bin
+# BUILD   arch/x86/boot/bzImage
+  (dd if=3Darch/x86/boot/setup.bin bs=3D4k conv=3Dsync status=3Dnone; cat a=
+rch/x86/boot/vmlinux.bin) >arch/x86/boot/bzImage
+mkdir -p ./arch/x86_64/boot
+ln -fsn ../../x86/boot/bzImage ./arch/x86_64/boot/bzImage
 
-Changes in v3:
-1. Add more details about OST.
-2. Delete 'entity_available' node, and 'entity' node will show available
-and currently selected (shown in square brackets) entity.
-3. Removed the usage of config_item->ci_group->cg_subsys->su_mutex.
-Link to v2 - https://lore.kernel.org/all/20230419141328.37472-1-quic_jinlmao@quicinc.com/
----
- .../ABI/testing/configfs-stp-policy-p_ost          |   9 +
- Documentation/trace/index.rst                      |   1 +
- Documentation/trace/p_ost.rst                      |  39 ++++
- drivers/hwtracing/stm/Kconfig                      |  14 ++
- drivers/hwtracing/stm/Makefile                     |   2 +
- drivers/hwtracing/stm/p_ost.c                      | 241 +++++++++++++++++++++
- 6 files changed, 306 insertions(+)
+To me this looks like sparse is getting a conflicting set of flags.
+The command line contains both "-D__x86_64__ -m64" and "-m16 -march=3Di386 =
+-D_SETUP".
 
-diff --git a/Documentation/ABI/testing/configfs-stp-policy-p_ost b/Documentation/ABI/testing/configfs-stp-policy-p_ost
-new file mode 100644
-index 000000000000..8fb160b50c40
---- /dev/null
-+++ b/Documentation/ABI/testing/configfs-stp-policy-p_ost
-@@ -0,0 +1,9 @@
-+What:		/config/stp-policy/<device>:p_ost.<policy>/<node>/entity
-+Date:		May 2026
-+KernelVersion:	7.1
-+Description:
-+		Set the entity ID which identifies the trace source in the
-+		OST packet header. Entity ID values (0~239) are defined by
-+		the TS owner. Currently supported values are ftrace, console
-+		and diag. RW.
-+
-diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
-index 5d9bf4694d5d..9cd1e0b5af6d 100644
---- a/Documentation/trace/index.rst
-+++ b/Documentation/trace/index.rst
-@@ -72,6 +72,7 @@ interactions and system performance.
-    intel_th
-    stm
-    sys-t
-+   p_ost
-    coresight/index
-    rv/index
-    hisi-ptt
-diff --git a/Documentation/trace/p_ost.rst b/Documentation/trace/p_ost.rst
-new file mode 100644
-index 000000000000..2b92e2229653
---- /dev/null
-+++ b/Documentation/trace/p_ost.rst
-@@ -0,0 +1,39 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================
-+MIPI OST over STP
-+===================
-+
-+The OST (Open System Trace) driver is used with STM class devices to
-+generate standardized trace stream. Trace sources can be identified
-+by different entity IDs.
-+
-+CONFIG_STM_PROTO_OST is for p_ost driver enablement. Once this config
-+is enabled, you can select the p_ost protocol by command below:
-+
-+# mkdir /sys/kernel/config/stp-policy/stm0:p_ost.policy
-+
-+The policy name format is extended like this:
-+
-+  <device_name>:<protocol_name>.<policy_name>
-+
-+With a coresight-stm device, it will look like "stm0:p_ost.policy".
-+
-+With the MIPI OST protocol driver, the attributes for each protocol node are:
-+
-+# mkdir /sys/kernel/config/stp-policy/stm0:p_ost.policy/default
-+# ls /sys/kernel/config/stp-policy/stm0:p_ost.policy/default
-+channels  entity    masters
-+
-+The entity here is the set of entities that p_ost supports. Currently
-+p_ost supports ftrace, console and diag entities.
-+
-+Set entity:
-+# echo 'ftrace' > /sys/kernel/config/stp-policy/stm0:p_ost.policy/default/entity
-+
-+Get available and currently selected (shown in square brackets) entity:
-+# cat /sys/kernel/config/stp-policy/stm0:p_ost.policy/default/entity
-+[ftrace] console diag
-+
-+See Documentation/ABI/testing/configfs-stp-policy-p_ost for more details.
-+
-diff --git a/drivers/hwtracing/stm/Kconfig b/drivers/hwtracing/stm/Kconfig
-index cd7f0b0f3fbe..4c83da5d95a0 100644
---- a/drivers/hwtracing/stm/Kconfig
-+++ b/drivers/hwtracing/stm/Kconfig
-@@ -40,6 +40,20 @@ config STM_PROTO_SYS_T
- 
- 	  If you don't know what this is, say N.
- 
-+config STM_PROTO_OST
-+	tristate "MIPI OST STM framing protocol driver"
-+	default STM
-+	help
-+	  This is an implementation of MIPI OST protocol to be used
-+	  over the STP transport. In addition to the data payload, it
-+	  also carries additional metadata for entity, better
-+	  means of trace source identification, etc.
-+
-+	  The receiving side must be able to decode this protocol in
-+	  addition to the MIPI STP, in order to extract the data.
-+
-+	  If you don't know what this is, say N.
-+
- config STM_DUMMY
- 	tristate "Dummy STM driver"
- 	help
-diff --git a/drivers/hwtracing/stm/Makefile b/drivers/hwtracing/stm/Makefile
-index 1692fcd29277..d9c8615849b9 100644
---- a/drivers/hwtracing/stm/Makefile
-+++ b/drivers/hwtracing/stm/Makefile
-@@ -5,9 +5,11 @@ stm_core-y		:= core.o policy.o
- 
- obj-$(CONFIG_STM_PROTO_BASIC) += stm_p_basic.o
- obj-$(CONFIG_STM_PROTO_SYS_T) += stm_p_sys-t.o
-+obj-$(CONFIG_STM_PROTO_OST)   += stm_p_ost.o
- 
- stm_p_basic-y		:= p_basic.o
- stm_p_sys-t-y		:= p_sys-t.o
-+stm_p_ost-y		:= p_ost.o
- 
- obj-$(CONFIG_STM_DUMMY)	+= dummy_stm.o
- 
-diff --git a/drivers/hwtracing/stm/p_ost.c b/drivers/hwtracing/stm/p_ost.c
-new file mode 100644
-index 000000000000..d2174872b761
---- /dev/null
-+++ b/drivers/hwtracing/stm/p_ost.c
-@@ -0,0 +1,241 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+ *
-+ * MIPI OST framing protocol for STM devices.
-+ */
-+
-+#include <linux/pid.h>
-+#include <linux/sched/clock.h>
-+#include <linux/slab.h>
-+#include <linux/stm.h>
-+#include "stm.h"
-+
-+/*
-+ * OST Base Protocol Header
-+ *
-+ * Position	Bits	Field Name
-+ *      0       8       STARTSIMPLE
-+ *      1       8       Version
-+ *      2       8       Entity ID
-+ *      3       8       Protocol ID
-+ */
-+#define OST_FIELD_STARTSIMPLE		0
-+#define OST_FIELD_VERSION		8
-+#define OST_FIELD_ENTITY		16
-+#define OST_FIELD_PROTOCOL		24
-+
-+#define OST_TOKEN_STARTSIMPLE		0x10
-+#define OST_VERSION_MIPI1		0x10
-+
-+/* entity id to identify the source */
-+#define OST_ENTITY_FTRACE		0x01
-+#define OST_ENTITY_CONSOLE		0x02
-+#define OST_ENTITY_DIAG			0xEE
-+
-+#define OST_CONTROL_PROTOCOL		0x0
-+
-+#define DATA_HEADER ((OST_TOKEN_STARTSIMPLE << OST_FIELD_STARTSIMPLE) | \
-+		     (OST_VERSION_MIPI1 << OST_FIELD_VERSION) | \
-+		     (OST_CONTROL_PROTOCOL << OST_FIELD_PROTOCOL))
-+
-+#define STM_MAKE_VERSION(ma, mi)	(((ma) << 8) | (mi))
-+#define STM_HEADER_MAGIC		(0x5953)
-+
-+enum ost_entity_type {
-+	OST_ENTITY_TYPE_NONE,
-+	OST_ENTITY_TYPE_FTRACE,
-+	OST_ENTITY_TYPE_CONSOLE,
-+	OST_ENTITY_TYPE_DIAG,
-+};
-+
-+static const char * const str_ost_entity_type[] = {
-+	[OST_ENTITY_TYPE_NONE]		= "none",
-+	[OST_ENTITY_TYPE_FTRACE]	= "ftrace",
-+	[OST_ENTITY_TYPE_CONSOLE]	= "console",
-+	[OST_ENTITY_TYPE_DIAG]		= "diag",
-+};
-+
-+static const u32 ost_entity_value[] = {
-+	[OST_ENTITY_TYPE_NONE]		= 0,
-+	[OST_ENTITY_TYPE_FTRACE]	= OST_ENTITY_FTRACE,
-+	[OST_ENTITY_TYPE_CONSOLE]	= OST_ENTITY_CONSOLE,
-+	[OST_ENTITY_TYPE_DIAG]		= OST_ENTITY_DIAG,
-+};
-+
-+struct ost_policy_node {
-+	enum ost_entity_type	entity_type;
-+};
-+
-+struct ost_output {
-+	struct ost_policy_node	node;
-+};
-+
-+/* Set default entity type as none */
-+static void ost_policy_node_init(void *priv)
-+{
-+	struct ost_policy_node *pn = priv;
-+
-+	pn->entity_type = OST_ENTITY_TYPE_NONE;
-+}
-+
-+static int ost_output_open(void *priv, struct stm_output *output)
-+{
-+	struct ost_policy_node *pn = priv;
-+	struct ost_output *opriv;
-+
-+	opriv = kzalloc_obj(*opriv, GFP_ATOMIC);
-+	if (!opriv)
-+		return -ENOMEM;
-+
-+	memcpy(&opriv->node, pn, sizeof(opriv->node));
-+	output->pdrv_private = opriv;
-+	return 0;
-+}
-+
-+static void ost_output_close(struct stm_output *output)
-+{
-+	kfree(output->pdrv_private);
-+}
-+
-+static ssize_t ost_t_policy_entity_show(struct config_item *item,
-+					char *page)
-+{
-+	struct ost_policy_node *pn = to_pdrv_policy_node(item);
-+	ssize_t sz = 0;
-+	int i;
-+
-+	for (i = 1; i < ARRAY_SIZE(str_ost_entity_type); i++) {
-+		if (i == pn->entity_type)
-+			sz += sysfs_emit_at(page, sz, "[%s] ", str_ost_entity_type[i]);
-+		else
-+			sz += sysfs_emit_at(page, sz, "%s ", str_ost_entity_type[i]);
-+	}
-+
-+	sz += sysfs_emit_at(page, sz, "\n");
-+	return sz;
-+}
-+
-+static int entity_index(const char *str)
-+{
-+	int i;
-+
-+	for (i = 1; i < ARRAY_SIZE(str_ost_entity_type); i++) {
-+		if (sysfs_streq(str, str_ost_entity_type[i]))
-+			return i;
-+	}
-+
-+	return 0;
-+}
-+
-+static ssize_t
-+ost_t_policy_entity_store(struct config_item *item, const char *page,
-+			  size_t count)
-+{
-+	struct mutex *mutexp = &item->ci_group->cg_subsys->su_mutex;
-+	struct ost_policy_node *pn = to_pdrv_policy_node(item);
-+	int i;
-+
-+	i = entity_index(page);
-+	if (i) {
-+		mutex_lock(mutexp);
-+		pn->entity_type = i;
-+		mutex_unlock(mutexp);
-+	} else {
-+		return -EINVAL;
-+	}
-+
-+	return count;
-+}
-+CONFIGFS_ATTR(ost_t_policy_, entity);
-+
-+static struct configfs_attribute *ost_t_policy_attrs[] = {
-+	&ost_t_policy_attr_entity,
-+	NULL,
-+};
-+
-+static ssize_t
-+notrace ost_write(struct stm_data *data, struct stm_output *output,
-+		  unsigned int chan, const char *buf, size_t count,
-+		  struct stm_source_data *source)
-+{
-+	struct ost_output *op = output->pdrv_private;
-+	unsigned int c = output->channel + chan;
-+	unsigned int m = output->master;
-+	const unsigned char nil = 0;
-+	u32 header = DATA_HEADER;
-+	struct trc_hdr {
-+		u16 version;
-+		u16 magic;
-+		u32 cpu;
-+		u64 timestamp;
-+		u64 tgid;
-+	} hdr;
-+	ssize_t sz;
-+
-+	/*
-+	 * Identify the source by entity type.
-+	 * If entity type is not set, return error value.
-+	 */
-+	if (op->node.entity_type)
-+		header |= (ost_entity_value[op->node.entity_type] << OST_FIELD_ENTITY);
-+	else
-+		return -EINVAL;
-+
-+	/*
-+	 * STP framing rules for OST frames:
-+	 *   * the first packet of the OST frame is marked;
-+	 *   * the last packet is a FLAG with timestamped tag.
-+	 */
-+	/* Message layout: HEADER / DATA / TAIL */
-+	/* HEADER */
-+	sz = data->packet(data, m, c, STP_PACKET_DATA, STP_PACKET_MARKED,
-+			  4, (u8 *)&header);
-+	if (sz <= 0)
-+		return sz;
-+
-+	/* DATA */
-+	hdr.version	= STM_MAKE_VERSION(0, 3);
-+	hdr.magic	= STM_HEADER_MAGIC;
-+	hdr.cpu		= raw_smp_processor_id();
-+	hdr.timestamp	= sched_clock();
-+	hdr.tgid	= task_tgid_nr(current);
-+	sz = stm_data_write(data, m, c, false, &hdr, sizeof(hdr));
-+	if (sz <= 0)
-+		return sz;
-+
-+	sz = stm_data_write(data, m, c, false, buf, count);
-+
-+	/* TAIL */
-+	if (sz > 0)
-+		data->packet(data, m, c, STP_PACKET_FLAG,
-+			STP_PACKET_TIMESTAMPED, 0, &nil);
-+
-+	return sz;
-+}
-+
-+static const struct stm_protocol_driver ost_pdrv = {
-+	.owner			= THIS_MODULE,
-+	.name			= "p_ost",
-+	.priv_sz		= sizeof(struct ost_policy_node),
-+	.write			= ost_write,
-+	.policy_attr		= ost_t_policy_attrs,
-+	.output_open		= ost_output_open,
-+	.output_close		= ost_output_close,
-+	.policy_node_init	= ost_policy_node_init,
-+};
-+
-+static int ost_stm_init(void)
-+{
-+	return stm_register_protocol(&ost_pdrv);
-+}
-+module_init(ost_stm_init);
-+
-+static void ost_stm_exit(void)
-+{
-+	stm_unregister_protocol(&ost_pdrv);
-+}
-+module_exit(ost_stm_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("MIPI Open System Trace STM framing protocol driver");
+I confirmed that the following patch "fixes" the issue, but I do not know w=
+hether
+this is the right fix. This area is outside my comfort zone, so it would be
+helpful if someone more familiar with the x86 build/sparse flow could take =
+a
+look:
 
----
-base-commit: 80dd246accce631c328ea43294e53b2b2dd2aa32
-change-id: 20260521-stm_p_ost-3489f42a9e8c
+diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
+index 3f9fb3698d66..80923864f6f9 100644
+--- a/arch/x86/boot/Makefile
++++ b/arch/x86/boot/Makefile
+@@ -71,6 +71,10 @@ $(obj)/vmlinux.bin: $(obj)/compressed/vmlinux FORCE
 
-Best regards,
--- 
-Yingchao Deng <yingchao.deng@oss.qualcomm.com>
+ SETUP_OBJS =3D $(addprefix $(obj)/,$(setup-y))
+
++realmode-checkflags-$(CONFIG_X86_64) :=3D -m32 -U__x86_64__ -D__i386__
++REALMODE_CHECKFLAGS :=3D $(filter-out -m64 -D__x86_64__,$(CHECKFLAGS)) $(r=
+ealmode-checkflags-y)
++$(SETUP_OBJS): CHECKFLAGS :=3D $(REALMODE_CHECKFLAGS)
++
+ sed-zoffset :=3D -e 's/^\([0-9a-fA-F]*\) [a-zA-Z] \(startup_32\|efi.._stub=
+_entry\|efi\(32\)\?_pe_entry\|input_data\|kernel_info\|_end\|_ehead\|_text\=
+|_e\?data\|_e\?sbat\|z_.*\)$$/\#define ZO_\2 0x\1/p'
+
+ quiet_cmd_zoffset =3D ZOFFSET $@
+diff --git a/arch/x86/realmode/rm/Makefile b/arch/x86/realmode/rm/Makefile
+index a0fb39abc5c8..341b0ff20c3d 100644
+--- a/arch/x86/realmode/rm/Makefile
++++ b/arch/x86/realmode/rm/Makefile
+@@ -29,6 +29,10 @@ targets      +=3D $(realmode-y)
+
+ REALMODE_OBJS =3D $(addprefix $(obj)/,$(realmode-y))
+
++realmode-checkflags-$(CONFIG_X86_64) :=3D -m32 -U__x86_64__ -D__i386__
++REALMODE_CHECKFLAGS :=3D $(filter-out -m64 -D__x86_64__,$(CHECKFLAGS)) $(r=
+ealmode-checkflags-y)
++$(REALMODE_OBJS): CHECKFLAGS :=3D $(REALMODE_CHECKFLAGS)
++
+ sed-pasyms :=3D -n -r -e 's/^([0-9a-fA-F]+) [ABCDGRSTVW] (.+)$$/pa_\2 =3D =
+\2;/p'
+
+ quiet_cmd_pasyms =3D PASYMS  $@
+
+
+
+
+
 
