@@ -1,102 +1,229 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8200633A9CB;
-	Thu, 21 May 2026 15:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6997E2F1FF4;
+	Thu, 21 May 2026 15:18:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779376635; cv=none; b=NPvdACOIfPR02WdhSM1Uc1wMxjIbbYVh+81Knx87nLBU467tUi68BSgcSsTtCof+r9jO0PjRfKAetPCz2M+uaqDwtDzUUatVC3T8Rv+daEZPf2K+ApLI7Klqba9Eou2xmMJd87Ovxcif7outdoTlNXv5nfQrxFq7cJqahcuQ6UU=
+	t=1779376735; cv=none; b=XbaLb7ZnbLf+cPPpkx+IBMufhJUu+0hHBV35QpHIoRuRFenM7Fzr9qtBCBatjRcQMuWJaSJhlV3C+f7MnZrMq17tKkRdw3dnSMR1aJOHIn3Y6p8KfouEJ5U8OxmUG8y+m/9yd6VWH9GaOym6EEgL1MhhEFuYGRVtYGYd6kTBXyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779376635; c=relaxed/simple;
-	bh=dRQ7wbvAkJirWmzRur/hlCx4EftiDaoSDUHVW/tWMjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d6ts+tPC+5awc/TJUTwox9KCPeoms/5M/sBGRrBRoXRsz7outpPOVa2m5yUiO9mTgj5kQ7wdgpXRS/CpmpR7NbG88EnhaeRVQsxx71ikGGJnYsWhKk8Leh+pCcyF/H3+yWsT8rs3Hc5uQJmpVIbF88ulOG4Xm1CBT5NopbqquwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ggBnNLig; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779376735; c=relaxed/simple;
+	bh=xBZA5CsRVJzDN0qV96OM2/Zzfa5/4reQWlR18uIa24w=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=SigQ+hxzHiwqG/zGtvKkvke5nTqbjppy+gYxhpbMr97S1nz1FniiEgZ4C/xWEfkhMIir7J4nZXmriFYC75NQZMzVOpcv00tAFk0pml/28oxX6mQVVm4zmswl0q6wvPfAb5QOy5QLPXqte9OSmtUGChI7FE36QwLhCkt30AI1cuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=IEXyX0q9; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ggBnNLig"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DFB51F000E9;
-	Thu, 21 May 2026 15:17:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779376634;
-	bh=MJiYGSKR2Xooa6md+cNozvBYHksgw4v8W3oMC6Zadps=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ggBnNLigs+MYrxcu3lkCl0NI75vfveOsqe4q67/PhDS1RaXR4+2Zv3GULwDgmR7pb
-	 BdTOtrlx5wp0bS3CRX3bydNnTPl01m16gQ8/vQsgCZ3+XJjvcgD+4fVOe6s+DBeF9y
-	 ZWhgzPOy5g0VUrJJzGemtXk5IKlKEX/1y8Il2sa/6vVpK+oskajCWBR6/v0Y67RHmo
-	 jGBZdODmOBVw4hszRgTDNBL9jHeO27Qs39KrV9s/+JFnsnDWld9FBZqi03a1LxBEtO
-	 kEdRmpypvICqFDlrqvVzlwF9Q0InHB5D14eiorpUW1ivnacAuMd21zXtvg/rNjtET8
-	 qYjid3+pNnDNw==
-Date: Thu, 21 May 2026 16:17:07 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Oliver Upton <oupton@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v10 19/30] KVM: arm64: Provide assembly for SME register
- access
-Message-ID: <a5226b77-636d-4e6d-acb6-b26f6276f6bd@sirena.org.uk>
-References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
- <20260306-kvm-arm64-sme-v10-19-43f7683a0fb7@kernel.org>
- <ag8b7oq4SFpdmlP_@J2N7QTR9R3>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="IEXyX0q9"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64L6fYuB3442044;
+	Thu, 21 May 2026 15:18:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=HI2nZz
+	FWmsfYJxL1K0I6NvtdLfLvLyCHxjlaa9z5wtA=; b=IEXyX0q9AiyW6m26blwhuo
+	Z5uF87uuT33mHg2MujBeEtmOAi7qkd1QeNWcSOpAxNtjm+ghaKX5PFAeY7pWGVkN
+	5JSeSC80KeByBji/o1y6sed8of21kOauSpOcQV1m65imu/dek9KEFLClZa7WZnLJ
+	ATjjI6CG+c+RhS4h4geF7WdTKyuVPYNVAD8RBekzuAKmzTxd86h13k8ZQQZ/spXL
+	MhYzHxB7DA71DNvyTPFiqSYVdG+f9FRYwFEwBLlJYHGiNar8d2b3vyK0aK19fWhR
+	rVpllZwEY0qS7U3axODxr60mTuLcJCzKT3cc06CLRvcXFN9pBTB1ieBF5ngo2aKQ
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e6hawej1q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 May 2026 15:18:30 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64LEsAQg031009;
+	Thu, 21 May 2026 15:18:29 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e739w4y7v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 May 2026 15:18:29 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64LFIT3K12583570
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 May 2026 15:18:29 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 33B3758055;
+	Thu, 21 May 2026 15:18:29 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3449D5805E;
+	Thu, 21 May 2026 15:18:28 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.146.128])
+	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 21 May 2026 15:18:28 +0000 (GMT)
+Message-ID: <cf6322e0dc11ff64135f78f4eaad73eb7281f5d7.camel@linux.ibm.com>
+Subject: Re: [PATCH v5 09/13] ima: Add support for staging measurements
+ with prompt
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        skhan@linuxfoundation.org, dmitry.kasatkin@gmail.com,
+        eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
+        serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+        gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com,
+        nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
+In-Reply-To: <20260429160319.4162918-10-roberto.sassu@huaweicloud.com>
+References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
+	 <20260429160319.4162918-10-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 21 May 2026 11:18:27 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XnCLFiWrG4EBMfBq"
-Content-Disposition: inline
-In-Reply-To: <ag8b7oq4SFpdmlP_@J2N7QTR9R3>
-X-Cookie: No shirt, no shoes, no service.
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDE1MiBTYWx0ZWRfX3++jZjKBe+SO
+ VPTu8bax+B9popHzhRPJxtZAG5UWN/UJEHRNPkWMuKVvHGhd/hwI6WoRhXTm3goYOW8ZVfCl7Po
+ y6EH4muVnW2148x+YuPp7ddxYsn8uAn8AuYvG+YJ4HmR8SedrFNaN3/yC3tOX6xLatLmUuxG3RO
+ /NbSKgugy8TeU/eUyuWqzfjkDbf4Ph0RR+RUBkQJA1WOnkyGaR2qH0dvt68eF/glU/BCPNpSL2B
+ MfqD9xMo3yq3EhZ1JEirYL1inutw9+bLPqLvC9vUNM1sRmGVbhcmibi+QBsT6+KspoefDSzY+0Q
+ L5Zl14T06AiyDyf1Htge9UD4WoqTJ5n7YDoF7hERUbEpXQjjOF9JqWpCfP5T9LL/z46QjaWegms
+ iZBUNqAT57MDdhOJC80Z318eBFb6WS51WjyewnZJDNc4MhJ8yujqwhC9zIItD0iejG12ZubJwwi
+ nkWFYHAcTYa3Tl4mVTg==
+X-Authority-Analysis: v=2.4 cv=Np/htcdJ c=1 sm=1 tr=0 ts=6a0f2247 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=NEAV23lmAAAA:8
+ a=i0EeH86SAAAA:8 a=yMhMjlubAAAA:8 a=a5u0tm0crO7lR8Lkly4A:9 a=QEXdDO2ut3YA:10
+ a=O8hF6Hzn-FEA:10
+X-Proofpoint-ORIG-GUID: KK3IyZ8vGpiSNbOK52o-n2rnwNqoMk8y
+X-Proofpoint-GUID: s75_Kn3lWCeflKNh8kNDoBIp__Bv4BbE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-21_02,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 adultscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605210152
+
+On Wed, 2026-04-29 at 18:03 +0200, Roberto Sassu wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+>=20
+> Introduce the ability of staging the IMA measurement list and deleting th=
+em
+> with a prompt.
+>=20
+> Staging means moving the current content of the measurement list to a
+
+-> moving the current measurement list records ...
+
+> separate location, and allowing users to read and delete it. This causes
+> the measurement list to be atomically truncated before new measurements c=
+an
+> be added.=C2=A0
+
+The wording is a bit off - "before new measurements can be added".  One of =
+the
+main objectives of staging the measurement list is to allow new measurement
+records to continue to be added to the measurement list, while the staged
+measurements are exported.
+
+> Staging can be done only once at a time. In the event of kexec(),
+> staging is reverted and staged entries will be carried over to the new
+> kernel.
+>=20
+> Introduce ascii_runtime_measurements_<algo>_staged and
+> binary_runtime_measurements_<algo>_staged interfaces to access and delete
+> the measurements. Also, add write permission to the original measurement
+> interfaces.
+
+Wondering if adding "write" permission to the original measurement interfac=
+e
+will change based on your 9/13 comment.
+
+The patch, like others in this patch set, are well written.  There are a co=
+uple
+of inline comments.  I'll defer reviewing the rest of this patch to v6.
+
+>=20
+> Use 'echo A > <IMA original interface>' and
+> 'echo D > <IMA _staged interface>' to respectively stage and delete the
+> entire measurements list. Locking of these interfaces is also mediated wi=
+th
+> a call to _ima_measurements_open() and with ima_measurements_release().
+>=20
+> Implement the staging functionality by introducing the new global
+> measurements list ima_measurements_staged, and ima_queue_stage() and
+> ima_queue_staged_delete_all() to respectively move measurements from the
+> current measurements list to the staged one, and to move staged
+> measurements to the ima_measurements_trim list for deletion. Introduce
+> ima_queue_delete() to delete the measurements.
+>=20
+> Finally, introduce the BINARY_STAGED and BINARY_FULL binary measurements
+> list types, to maintain the counters and the binary size of staged
+> measurements and the full measurements list (including entries that were
+> staged). BINARY still represents the current binary measurements list.
+>=20
+> Use the binary size for the BINARY + BINARY_STAGED types in
+> ima_add_kexec_buffer(), since both measurements list types are copied to
+> the secondary kernel during kexec. Use BINARY_FULL in
+> ima_measure_kexec_event(), to generate a critical data record.
+>=20
+> It should be noted that the BINARY_FULL counter is not passed through
+> kexec. Thus, the number of entries included in the kexec critical data
+> records refers to the entries since the previous kexec records.
+>=20
+> Note: This code derives from the Alt-IMA Huawei project, whose license is
+>       GPL-2.0 OR MIT.
+>=20
+> Link: https://github.com/linux-integrity/linux/issues/1
+> Suggested-by: Gregory Lumen <gregorylumen@linux.microsoft.com> (staging r=
+evert)
+> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> ---
+>  security/integrity/ima/Kconfig     |  13 +++
+>  security/integrity/ima/ima.h       |   8 +-
+>  security/integrity/ima/ima_fs.c    | 181 ++++++++++++++++++++++++++---
+>  security/integrity/ima/ima_kexec.c |  24 +++-
+>  security/integrity/ima/ima_queue.c |  97 +++++++++++++++-
+>  5 files changed, 302 insertions(+), 21 deletions(-)
+>=20
+> diff --git a/security/integrity/ima/Kconfig b/security/integrity/ima/Kcon=
+fig
+> index 862fbee2b174..48c906793efb 100644
+> --- a/security/integrity/ima/Kconfig
+> +++ b/security/integrity/ima/Kconfig
+> @@ -332,4 +332,17 @@ config IMA_KEXEC_EXTRA_MEMORY_KB
+>  	  If set to the default value of 0, an extra half page of memory for th=
+ose
+>  	  additional measurements will be allocated.
+> =20
+> +config IMA_STAGING
+> +	bool "Support for staging the measurements list"
+> +	default y
+
+Exporting and deleting the IMA measurement list carries an inherent securit=
+y
+risk: if the measurements are not durably stored before deletion, they are
+permanently lost. Deletion should be treated as experimental until a truste=
+d
+service exists to guarantee safe storage.
+
+Please change the default to 'n'.
 
 
---XnCLFiWrG4EBMfBq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> +	help
+> +	  Add support for staging the measurements list.
+> +
+> +	  It allows user space to stage the measurements list for deletion and
+> +	  to delete the staged measurements after confirmation.
+> +
+> +	  On kexec, staging is reverted and staged measurements are prepended
 
-On Thu, May 21, 2026 at 03:51:26PM +0100, Mark Rutland wrote:
+-> staging is aborted and any staged measurement records are .copied ..
 
-> While this specific instance is simple enough, I don't think we should
-> continue to duplicate the low level save/restore routines between the
-> main kernel and KVM hyp code.
+> +	  to the current measurements list when measurements are copied to the
+> +	  secondary kernel.
+> +
+>  endif
 
-> I've sent a series that avoids the need for this, and cleans up some
-> other bits):
-
->   https://lore.kernel.org/linux-arm-kernel/20260521132556.584676-1-mark.rutland@arm.com/
-
-> Assuming Marc and Oliver are on board, I'd prefer that we do that
-> cleanup first, and build the KVM SME support atop.
-
-Yeah, I've got a laundry list of things that I want to improve with both
-the main kernel and KVM but the latency on getting anything reviewed
-with both sides and sometimes obscure implementation decisions means
-I've been waiting until this is landed first.
-
---XnCLFiWrG4EBMfBq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoPIfIACgkQJNaLcl1U
-h9CJpwf+PVTKcbGobSIt2V1nPmtForFYSfILfE++Ovngx/OIzlSmVFC52be0sVWq
-kOnhNIA8nT6/F4EXTWuc1tbEkCuxa2iPJ7VTwNvtKU35QL7roJNU4Cap+A3yHPkL
-0C/+LQIXheQka+i6fCoqMXIWTz625keaedSH5XBMS2ktxjK+Oyka5XiUJqPmyVeQ
-YSbd87c6rzpbn+C7p4RPZX+FwVm05w/yUoAloztHmd5GqsAr8NgEJoe8uOFd4Fe4
-hoGcpIgfvhM/oqMQAXtLvCEmyPSKuDc70RM7Y3KDnvyiWQfnXh/ftNYqspba9Oic
-Ii8HVtxvR6JE450ekIq13Rx4A9d0Ug==
-=JOnr
------END PGP SIGNATURE-----
-
---XnCLFiWrG4EBMfBq--
+Mimi
