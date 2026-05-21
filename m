@@ -1,390 +1,352 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1823812EA
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 02:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E69A368D52
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 02:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779331622; cv=none; b=N+YMVDPejWQKfrM6mYIGTMweyGclgvE2th96bAT8p08IvCB2QIKNMKF5aByptv4NWZqBRcdI8wHdQ1PMKWCODmn0sfckw1bbxH56fO40FxexR08hf6ZQRg6+eu68EuVjmECKD2+0QyW91F88ttn1SJ/dT6p3R5WPSrAK2DHmwLk=
+	t=1779332275; cv=none; b=rRuP79jRYWfnzeiGcDZ6RxB8RJTsJ1RCD9bSiVBxJlkd+67IILTYfstSDWistTklwhCVuaDMDC59wufrZDxlCcLSS+XUWlONQcd5+d/Zqakbs1tTq+b7czXKIM2hXoR4Y7W4w6IQxBQJ2PvR2h3eHBxSBzC0ozoM6fPnG/F4euw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779331622; c=relaxed/simple;
-	bh=ZnDp96FyuCukqDqJgId3EQ4/f0WQ6Jr+TqOBpmg+0Wo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tCArO4jefRXiT+oP2/v4MVQgjv9w/HxIxLUCOZqsPhhXkL0mZSoiX4iAkcajpFatF7K1/zs1TCppMAHbwXeO8zzkWDP811rogL9RRioB+wzylEoAEr+sc6SAGKIirsy1vVpfoFqkS7jAqp7nYsiMnJCacegdcv4Rr/F+RY5xAfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ocS6my+O; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779332275; c=relaxed/simple;
+	bh=PQNOucA4IrdzF2Kpmq1ZYmsr9iLUWIkqKDiWOq+Oe4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=XhXxaLBtp1SWYagVb+PJvZ8LefX+gdIlKKXHC2MdQ2Jgv3EWZHFAoC9k1/PeR5rLQMnxPfJOikEMdQ3JDPV73es2eSHC72yKupKfDaMKafSSCSjp/UJqMRYViHQcu2bhxTX1H4ofpm1/GPcgFakx9Q0QhINe1nP6a8TIeycPp9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pjht/Bkb; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ocS6my+O"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-67c4aaf76ecso9319348a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 19:46:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779331617; x=1779936417; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RWU1AGiWGGW7xe8FojAwk5LW5vZls8NTawItwlIVvnA=;
-        b=ocS6my+OMvN5D0AwXcJ3LBGDZ4I3P08Gf1OH3+lZsFzn1ECy0AqDCN7Z4XRiuKl7J4
-         89b4IBb/cJDdNMgviaAxR3FfcFX9pCSuAl86Hy60y8pjLAwZVSxfxuY0PJE2Qi9fFEsd
-         /Hif1cT60yr/LouWV9TbnV3ceD0YqxywBusUVYucdIPJbXzhl9BWuLeapszdTK1lzhmT
-         sUQAaAxvJsYuCeJD1x8w9gm0YVwRX2IWvjTxbcUD0Nx2Yx7HhIFJ2ge7qahBoo+QjX69
-         spEMUaIKqB+m9UZLoJtskWPhJWJKAdJ0a+YqYTBQb48JTPc4EVtG/pBQY8g7rlBdmw9W
-         k4wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779331617; x=1779936417;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RWU1AGiWGGW7xe8FojAwk5LW5vZls8NTawItwlIVvnA=;
-        b=K2mUlXATaVtqaooltYUtN7cQQ5/79v2ERxXBQziy4Ss3jSgY+i78QriTNZDzogNSVA
-         FHBYR91Ofmxc8GR+Z9+IG13eAfnDzY4j/djyMIEomWlBmmfiVAHQNyuNdJHGcHjq1gHI
-         trFeFGcS/hiyN8xCIO43vJNIpxTy3i+99XX11D+saPVQ6xHtZ9aGWBz67sYAOPG3qopk
-         eTG/cB7TXm3cOty8FLExFnkdyU06j7oNgEGAl5MV0T86ekP9Zn6aw2wOTxyOSW6M+Cc6
-         DpcpTMQG032ACkwbd88WKVuQ7E5jnksvni9jeNASet7HD+j7E/9I7jcsq/+hAtBYwYnr
-         mnEA==
-X-Forwarded-Encrypted: i=1; AFNElJ/FpQ8cZDbZ3TnnJjoPNvjpjZ6+yqJmaddVq278TSOba5xNbamRU0IT4rpA880+QXdIoddjA4JM7+8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQXN1nQwnwDHHeym2qh+gA90Qrj0SCOuWcJHX3oaHyoYMCeHSF
-	GIKwMJjbTYCJiQPtUcMSWQFj/BU/F0bctHltu8DJRd6UBczF0bUsrh8X
-X-Gm-Gg: Acq92OHpJGXDLXyoUf0tQ5LfRftx4mRa8ulWqim4tZV6m+SetfjWcS9ZxJyIufKFCnm
-	sDqv5Igqesm3WDNa5VyKSUja+MK5fHjBHPIvEc8CVoWEXXaL2bKCfyNq1cilEabFhoe55LlUUEu
-	XfE8XnNURETBH5o1mlKN0V+949ZYQjWVilCkN7lJ+8HifG4Ieus5GWolRZno6PsXi1J6Eml/yck
-	7euQA6PrSjjH1bJhncCnRKSq1SRHZATOtgbSbSty2Aw1cCTHe3E4IOYVSKO+5TIsi0VeNBWS7fB
-	bkhKLhSWiDA+ZPWZmKhCu/UfWlrNqcPt1AGbSQf6ZC/LlgrcnNnmhpZAU0feqdG1tRf6V46zCgP
-	PsGaVegsDQhzt8ZcYLWwFMGs+DMMcM1J8zc23GKIYjqx22h0/WocIYI5aR474z0vSCGWtnioZBX
-	JyBRzxGyOUy5ojSrPM+Rn3nHVbMRHGmh30
-X-Received: by 2002:a17:907:3cca:b0:bcc:3dd8:58da with SMTP id a640c23a62f3a-bdc14a6a24cmr41586066b.27.1779331616952;
-        Wed, 20 May 2026 19:46:56 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4e21b1esm939875966b.44.2026.05.20.19.46.54
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 20 May 2026 19:46:55 -0700 (PDT)
-Date: Thu, 21 May 2026 02:46:54 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Vernon Yang <vernon2gm@gmail.com>
-Cc: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
-	akpm@linux-foundation.org, anshuman.khandual@arm.com,
-	apopple@nvidia.com, baohua@kernel.org,
-	baolin.wang@linux.alibaba.com, byungchul@sk.com,
-	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
-	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com,
-	jack@suse.cz, jackmanb@google.com, jannh@google.com,
-	jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org,
-	lance.yang@linux.dev, liam@infradead.org, ljs@kernel.org,
-	mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
-	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com,
-	pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
-	rdunlap@infradead.org, richard.weiyang@gmail.com,
-	rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org,
-	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com,
-	surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de,
-	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com,
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org,
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com,
-	ziy@nvidia.com, zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v17 11/14] mm/khugepaged: Introduce mTHP
- collapse support
-Message-ID: <20260521024654.2a7teoe665porz76@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20260511185817.686831-1-npache@redhat.com>
- <20260511185817.686831-12-npache@redhat.com>
- <8f9834db-8981-4eb1-ae46-94908943da3d@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pjht/Bkb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779332273; x=1810868273;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=PQNOucA4IrdzF2Kpmq1ZYmsr9iLUWIkqKDiWOq+Oe4w=;
+  b=Pjht/Bkbys4nSse92hSzrsBfI4gY15QQX+e1/ArklTikCgMumV5KcSoQ
+   KPbX7t2WgJkq8Kn08+KEF24pjy4n0GWSZykcwtA20eAp5uEbx0NebG0sa
+   JpPdSC+z6vZ4qRCDGNx4ykNah1nDHDkb52fHcFyXqRb7QzVn+dfKNFqt7
+   x6bZHPhJc6TEd6xPsoz9EPzj5/dIS7SlRLJx8/7eFf+qMQAUQHUquK11c
+   I6LrfMFCZqzSKNDZs2jKDWisE8p44r72laHEV5oS/jlGGMsXFzqflCGr3
+   IS/uFEPpK1WjIIEC18mxRvReMRJPn3/Sfs/gix5F6aV+ToSJaLH3UVumX
+   w==;
+X-CSE-ConnectionGUID: Qhqk5gLXQtSD6DptPk1pIA==
+X-CSE-MsgGUID: opSyI0o5RbSCnWhhqp2bLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="102919719"
+X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
+   d="scan'208";a="102919719"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 19:57:53 -0700
+X-CSE-ConnectionGUID: NDcowklKSluXoNKM79oPng==
+X-CSE-MsgGUID: 7FeJcWbwReCxTvnMsFr1Sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
+   d="scan'208";a="270754669"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 20 May 2026 19:57:49 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wPtbX-00000000AkH-0pLH;
+	Thu, 21 May 2026 02:57:47 +0000
+Date: Thu, 21 May 2026 04:57:02 +0200
+From: kernel test robot <lkp@intel.com>
+To: "Stefan =?utf-8?Q?D=C3=B6singer"?= <stefandoesinger@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ arm@kernel.org, Linus Walleij <linusw@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-doc@vger.kernel.org
+Subject: [soc:zx/soc 1/1] htmldocs:
+ Documentation/arch/arm/zte/zx297520v3.rst:66: WARNING: Title underline too
+ short.
+Message-ID: <202605210401.8D6jRbz8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8f9834db-8981-4eb1-ae46-94908943da3d@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 21, 2026 at 10:36:15AM +0800, Vernon Yang wrote:
->On Mon, May 11, 2026 at 12:58:11PM -0600, Nico Pache wrote:
->> Enable khugepaged to collapse to mTHP orders. This patch implements the
->> main scanning logic using a bitmap to track occupied pages and a stack
->> structure that allows us to find optimal collapse sizes.
->>
->> Previous to this patch, PMD collapse had 3 main phases, a light weight
->> scanning phase (mmap_read_lock) that determines a potential PMD
->> collapse, an alloc phase (mmap unlocked), then finally heavier collapse
->> phase (mmap_write_lock).
->>
->> To enabled mTHP collapse we make the following changes:
->>
->> During PMD scan phase, track occupied pages in a bitmap. When mTHP
->> orders are enabled, we remove the restriction of max_ptes_none during the
->> scan phase to avoid missing potential mTHP collapse candidates. Once we
->> have scanned the full PMD range and updated the bitmap to track occupied
->> pages, we use the bitmap to find the optimal mTHP size.
->>
->> Implement collapse_scan_bitmap() to perform binary recursion on the bitmap
->> and determine the best eligible order for the collapse. A stack structure
->> is used instead of traditional recursion to manage the search. This also
->> prevents a traditional recursive approach when the kernel stack struct is
->> limited. The algorithm recursively splits the bitmap into smaller chunks to
->> find the highest order mTHPs that satisfy the collapse criteria. We start
->> by attempting the PMD order, then moved on the consecutively lower orders
->> (mTHP collapse). The stack maintains a pair of variables (offset, order),
->> indicating the number of PTEs from the start of the PMD, and the order of
->> the potential collapse candidate.
->>
->> The algorithm for consuming the bitmap works as such:
->>     1) push (0, HPAGE_PMD_ORDER) onto the stack
->>     2) pop the stack
->>     3) check if the number of set bits in that (offset,order) pair
->>        statisfy the max_ptes_none threshold for that order
->>     4) if yes, attempt collapse
->>     5) if no (or collapse fails), push two new stack items representing
->>        the left and right halves of the current bitmap range, at the
->>        next lower order
->>     6) repeat at step (2) until stack is empty.
->>
->> Below is a diagram representing the algorithm and stack items:
->>
->>                             offset   mid_offset
->>                             |        |
->>                             |        |
->>                             v        v
->>           ____________________________________
->>          |          PTE Page Table            |
->>          --------------------------------------
->> 			    <-------><------->
->>                              order-1  order-1
->>
->> mTHP collapses reject regions containing swapped out or shared pages.
->> This is because adding new entries can lead to new none pages, and these
->> may lead to constant promotion into a higher order mTHP. A similar
->> issue can occur with "max_ptes_none > HPAGE_PMD_NR/2" due to a collapse
->> introducing at least 2x the number of pages, and on a future scan will
->> satisfy the promotion condition once again. This issue is prevented via
->> the collapse_max_ptes_none() function which imposes the max_ptes_none
->> restrictions above.
->>
->> We currently only support mTHP collapse for max_ptes_none values of 0
->> and HPAGE_PMD_NR - 1. resulting in the following behavior:
->>
->>     - max_ptes_none=0: Never introduce new empty pages during collapse
->>     - max_ptes_none=HPAGE_PMD_NR-1: Always try collapse to the highest
->>       available mTHP order
->>
->> Any other max_ptes_none value will emit a warning and skip mTHP collapse
->> attempts. There should be no behavior change for PMD collapse.
->>
->> Once we determine what mTHP sizes fits best in that PMD range a collapse
->> is attempted. A minimum collapse order of 2 is used as this is the lowest
->> order supported by anon memory as defined by THP_ORDERS_ALL_ANON.
->>
->> Currently madv_collapse is not supported and will only attempt PMD
->> collapse.
->>
->> We can also remove the check for is_khugepaged inside the PMD scan as
->> the collapse_max_ptes_none() function handles this logic now.
->>
->> Signed-off-by: Nico Pache <npache@redhat.com>
->> ---
->>  mm/khugepaged.c | 182 +++++++++++++++++++++++++++++++++++++++++++++---
->>  1 file changed, 174 insertions(+), 8 deletions(-)
->>
->> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->> index 3492b135d667..39bf7ea8a6e8 100644
->> --- a/mm/khugepaged.c
->> +++ b/mm/khugepaged.c
->> @@ -100,6 +100,30 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
->>
->>  static struct kmem_cache *mm_slot_cache __ro_after_init;
->>
->> +#define KHUGEPAGED_MIN_MTHP_ORDER	2
->> +/*
->> + * mthp_collapse() does an iterative DFS over a binary tree, from
->> + * HPAGE_PMD_ORDER down to KHUGEPAGED_MIN_MTHP_ORDER. The max stack
->> + * size needed for a DFS on a binary tree is height + 1, where
->> + * height = HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER.
->> + *
->> + * ilog2 is used in place of HPAGE_PMD_ORDER because some architectures
->> + * (e.g. ppc64le) do not define HPAGE_PMD_ORDER until after build time.
->> + */
->> +#define MTHP_STACK_SIZE	(ilog2(MAX_PTRS_PER_PTE) - KHUGEPAGED_MIN_MTHP_ORDER + 1)
->> +
->> +/*
->> + * Defines a range of PTE entries in a PTE page table which are being
->> + * considered for mTHP collapse.
->> + *
->> + * @offset: the offset of the first PTE entry in a PMD range.
->> + * @order: the order of the PTE entries being considered for collapse.
->> + */
->> +struct mthp_range {
->> +	u16 offset;
->> +	u8 order;
->> +};
->> +
->>  struct collapse_control {
->>  	bool is_khugepaged;
->>
->> @@ -111,6 +135,12 @@ struct collapse_control {
->>
->>  	/* nodemask for allocation fallback */
->>  	nodemask_t alloc_nmask;
->> +
->> +	/* Each bit represents a single occupied (!none/zero) page. */
->> +	DECLARE_BITMAP(mthp_bitmap, MAX_PTRS_PER_PTE);
->> +	/* A mask of the current range being considered for mTHP collapse. */
->> +	DECLARE_BITMAP(mthp_bitmap_mask, MAX_PTRS_PER_PTE);
->> +	struct mthp_range mthp_bitmap_stack[MTHP_STACK_SIZE];
->>  };
->>
->>  /**
->> @@ -1404,20 +1434,140 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
->>  	return result;
->>  }
->>
->> +static void collapse_mthp_stack_push(struct collapse_control *cc, int *stack_size,
->> +				     u16 offset, u8 order)
->> +{
->> +	const int size = *stack_size;
->> +	struct mthp_range *stack = &cc->mthp_bitmap_stack[size];
->> +
->> +	VM_WARN_ON_ONCE(size >= MTHP_STACK_SIZE);
->> +	stack->order = order;
->> +	stack->offset = offset;
->> +	(*stack_size)++;
->> +}
->> +
->> +static struct mthp_range collapse_mthp_stack_pop(struct collapse_control *cc,
->> +						 int *stack_size)
->> +{
->> +	const int size = *stack_size;
->> +
->> +	VM_WARN_ON_ONCE(size <= 0);
->> +	(*stack_size)--;
->> +	return cc->mthp_bitmap_stack[size - 1];
->> +}
->> +
->> +static unsigned int collapse_mthp_count_present(struct collapse_control *cc,
->> +						u16 offset, unsigned int nr_ptes)
->> +{
->> +	bitmap_zero(cc->mthp_bitmap_mask, MAX_PTRS_PER_PTE);
->> +	bitmap_set(cc->mthp_bitmap_mask, offset, nr_ptes);
->> +	return bitmap_weight_and(cc->mthp_bitmap, cc->mthp_bitmap_mask, MAX_PTRS_PER_PTE);
->> +}
->> +
->> +/*
->> + * mthp_collapse() consumes the bitmap that is generated during
->> + * collapse_scan_pmd() to determine what regions and mTHP orders fit best.
->> + *
->> + * Each bit in cc->mthp_bitmap represents a single occupied (!none/zero) page.
->> + * A stack structure cc->mthp_bitmap_stack is used to check different regions
->> + * of the bitmap for collapse eligibility. The stack maintains a pair of
->> + * variables (offset, order), indicating the number of PTEs from the start of
->> + * the PMD, and the order of the potential collapse candidate respectively. We
->> + * start at the PMD order and check if it is eligible for collapse; if not, we
->> + * add two entries to the stack at a lower order to represent the left and right
->> + * halves of the PTE page table we are examining.
->> + *
->> + *                         offset       mid_offset
->> + *                         |         |
->> + *                         |         |
->> + *                         v         v
->> + *      --------------------------------------
->> + *      |          cc->mthp_bitmap            |
->> + *      --------------------------------------
->> + *                         <-------><------->
->> + *                          order-1  order-1
->> + *
->> + * For each of these, we determine how many PTE entries are occupied in the
->> + * range of PTE entries we propose to collapse, then we compare this to a
->> + * threshold number of PTE entries which would need to be occupied for a
->> + * collapse to be permitted at that order (accounting for max_ptes_none).
->> + *
->> + * If a collapse is permitted, we attempt to collapse the PTE range into a
->> + * mTHP.
->> + */
->> +static int mthp_collapse(struct mm_struct *mm, unsigned long address,
->> +		int referenced, int unmapped, struct collapse_control *cc,
->> +		unsigned long enabled_orders)
->> +{
->> +	unsigned int nr_occupied_ptes, nr_ptes;
->> +	int max_ptes_none, collapsed = 0, stack_size = 0;
->> +	unsigned long collapse_address;
->> +	struct mthp_range range;
->> +	u16 offset;
->> +	u8 order;
->> +
->> +	collapse_mthp_stack_push(cc, &stack_size, 0, HPAGE_PMD_ORDER);
->> +
->> +	while (stack_size) {
->> +		range = collapse_mthp_stack_pop(cc, &stack_size);
->> +		order = range.order;
->> +		offset = range.offset;
->> +		nr_ptes = 1UL << order;
->> +
->> +		if (!test_bit(order, &enabled_orders))
->> +			goto next_order;
->> +
->> +		max_ptes_none = collapse_max_ptes_none(cc, NULL, order);
->> +
->> +		if (max_ptes_none < 0)
->> +			return collapsed;
->> +
->> +		nr_occupied_ptes = collapse_mthp_count_present(cc, offset,
->> +							       nr_ptes);
->> +
->> +		if (nr_occupied_ptes >= nr_ptes - max_ptes_none) {
->> +			int ret;
->> +
->> +			collapse_address = address + offset * PAGE_SIZE;
->> +			ret = collapse_huge_page(mm, collapse_address, referenced,
->> +						 unmapped, cc, order);
->> +			if (ret == SCAN_SUCCEED) {
->> +				collapsed += nr_ptes;
->> +				continue;
->> +			}
->> +		}
->> +
->> +next_order:
->> +		if (order > KHUGEPAGED_MIN_MTHP_ORDER) {
->
->Hi Nico, thank you very much for your contributions to this series.
->
->I found a minor issue, for MADV_COLLAPSE, if collapse_huge_page() fails
->for some reason (e.g. allocate folio), it goes to next_order and
->continues splitting to the next small order. However, enabled_orders
->only supports HPAGE_PMD_ORDER, so it keeps runing the split operations
->without any effective work until KHUGEPAGED_MIN_MTHP_ORDER is reached
->before exiting. For khugepaged, e.g. setting only 2MB to always, also
->same phenomenon.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git zx/soc
+head:   220ae5d36dba278003d265aabd080ffa78553f5a
+commit: 220ae5d36dba278003d265aabd080ffa78553f5a [1/1] ARM: zte: Add zx2975=
+20v3 platform support
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f022=
+7cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260521/202605210401.8=
+D6jRbz8-lkp@intel.com/reproduce)
 
-Yes, but it does no actual work since it is checked after pop up.
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605210401.8D6jRbz8-lkp@i=
+ntel.com/
 
->
->This does not affect the overall functionality of mthp collapse, just
->redundant.
->
->The redundant operations can be easily skipped with the following
->modification. If I miss some thing, please let me know. Thanks!
->
->diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->index 1a25af3d6d0f..fa407cce525c 100644
->--- a/mm/khugepaged.c
->+++ b/mm/khugepaged.c
->@@ -1574,7 +1574,7 @@ static int mthp_collapse(struct mm_struct *mm, unsigned long address,
-> 		}
->
-> next_order:
->-		if (order > KHUGEPAGED_MIN_MTHP_ORDER) {
->+		if ((BIT(order) - 1) & enabled_orders) {
-> 			const u8 next_order = order - 1;
-> 			const u16 mid_offset = offset + (nr_ptes / 2);
->
+All warnings (new ones prefixed by >>):
 
-This would stop the iteration if there are other lower enabled order, right?
+   WARNING: Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:=
+36: abi_sys_class_reboot_mode_driver_reboot_modes doesn't have a description
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface =
+num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: D=
+ocumentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/=
+testing/sysfs-driver-hid-lenovo-go-s:234
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface =
+num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 ti=
+mes: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentatio=
+n/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface =
+num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2=
+ times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documenta=
+tion/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface =
+num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is def=
+ined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Doc=
+umentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+>> Documentation/arch/arm/zte/zx297520v3.rst:66: WARNING: Title underline t=
+oo short.
+--
+   3. Building for built-in U-Boot
+   --------------------------- [docutils]
+>> Documentation/arch/arm/zte/zx297520v3.rst:90: WARNING: Enumerated list e=
+nds without a blank line; unexpected unindent. [docutils]
+>> Documentation/arch/arm/zte/zx297520v3.rst:116: WARNING: Inline literal s=
+tart-string without end-string. [docutils]
+   Documentation/arch/arm/zte/zx297520v3.rst:137: ERROR: Unexpected indenta=
+tion. [docutils]
+>> Documentation/arch/arm/zte/zx297520v3.rst:138: WARNING: Block quote ends=
+ without a blank line; unexpected unindent. [docutils]
+   Documentation/arch/arm/zte/zx297520v3.rst:164: WARNING: Inline literal s=
+tart-string without end-string. [docutils]
+>> Documentation/arch/arm/zte/zx297520v3.rst:164: WARNING: Inline interpret=
+ed text or phrase reference start-string without end-string. [docutils]
+>> Documentation/arch/arm/zte/zx297520v3.rst:7: WARNING: Document or sectio=
+n may not begin with a transition. [docutils]
+   Documentation/arch/riscv/zicfilp.rst:79: WARNING: Inline literal start-s=
+tring without end-string. [docutils]
+   Documentation/core-api/kref:328: ./include/linux/kref.h:72: WARNING: Inv=
+alid C declaration: Expected end of definition. [error at 96]
+   int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref=
+), struct mutex *mutex) __cond_acquires(true# mutex)
+   ------------------------------------------------------------------------=
+------------------------^
+   Documentation/core-api/kref:328: ./include/linux/kref.h:94: WARNING: Inv=
+alid C declaration: Expected end of definition. [error at 92]
 
->Cheers,
->Vernon
 
--- 
-Wei Yang
-Help you, Help me
+vim +66 Documentation/arch/arm/zte/zx297520v3.rst
+
+     6=09
+   > 7	....................................................................=
+...........
+     8=09
+     9	Author:	Stefan D=C3=B6singer
+    10=09
+    11	Date  : 27 Jan 2026
+    12=09
+    13	1. Hardware description
+    14	---------------------------
+    15	Zx297520v3 SoCs use a 64 bit capable Cortex-A53 CPU and GICv3, altho=
+ugh they
+    16	run in arm32 mode only. The CPU has support EL3, but no hypervisor (=
+EL2) and
+    17	it seems to lack VFP and NEON.
+    18=09
+    19	The SoC is used in a number of cheap LTE to WiFi routers, both batte=
+ry powered
+    20	MiFis and stationary CPEs. In addition to the CPU these devices usua=
+lly have
+    21	64 MB Ram (although some is shared with the LTE chip), 128 MB NAND f=
+lash, an
+    22	SDIO connected RTL8192-type Wifi chip limited to 2.4 ghz operation, =
+USB 2,
+    23	and buttons. Devices with as low as 32 MB or as high as 128 MB ram e=
+xist, as
+    24	do devices with 8 or 16 MB of NOR flash.
+    25=09
+    26	Some devices, especially the stationary ones, have 100 mbit Ethernet=
+ and an
+    27	Ethernet switch.
+    28=09
+    29	Usually the devices have LEDs for status indication, although some h=
+ave SPI or
+    30	I2C connected displays
+    31=09
+    32	Some have an SD card slot. If it exists, it is a better choice for t=
+he root
+    33	file system because it easily outperforms the built-in NAND.
+    34=09
+    35	The LTE interface runs on a separate DSP called ZSP880. It is probab=
+ly derived
+    36	from LSI ZSPs and has an undocumented instruction set. The ZSP commu=
+nicates
+    37	with the main CPU via SRAM and DRAM and a mailbox hardware that can =
+generate
+    38	IRQs on either ends.
+    39=09
+    40	There is also a Cortex M0 CPU, which is responsible for early HW ini=
+tialization
+    41	and starting the Cortex A53 CPU. It does not have any essential purp=
+ose once
+    42	U-Boot is started. A SRAM-Based handover protocol exists to run cust=
+om code on
+    43	this CPU.
+    44=09
+    45	2. Booting via USB
+    46	---------------------------
+    47=09
+    48	The Boot ROM has support for booting custom code via USB. This mode =
+can be
+    49	entered by connecting a Boot PIN to GND or by modifying the third by=
+te on NAND
+    50	(set it to anything other than 0x5A aka 'Z'). A free software tool t=
+o start
+    51	custom U-Boot and kernels can be found here:
+    52=09
+    53	https://github.com/zx297520v3-mainline/zx297520v3-loader
+    54=09
+    55	If USB download mode is entered but no boot commands are sent throug=
+h USB, the
+    56	device will proceed to boot normally after a few seconds. It is ther=
+efore
+    57	possible to enable USB boot permanently and still leave the default =
+boot files
+    58	in place.
+    59=09
+    60	https://github.com/zx297520v3-mainline/u-boot-mainline
+    61=09
+    62	Contains an U-Boot version that can be used with the USB loader and =
+sets up the
+    63	CPU and interrupt controller to comply with Linux's booting requirem=
+ents.
+    64=09
+    65	3. Building for built-in U-Boot
+  > 66	---------------------------
+    67	The devices come with an ancient U-Boot that loads legacy uImages fr=
+om NAND and
+    68	boots them without a chance for the user to interrupt. The images ar=
+e stored in
+    69	files ap_cpuap.bin and ap_recovery.bin on a jffs2 partition named im=
+agefs,
+    70	usually mtd4. A file named "fotaflag" switches between the two modes.
+    71=09
+    72	In addition to the uImage header, those files have a 384 byte signat=
+ure header,
+    73	which is used for authenticating the images on some devices. Most de=
+vices have
+    74	this authentication disabled and it is enough to pad the uImage file=
+s with 384
+    75	zero bytes.
+    76=09
+    77	Builtin U-Boot also poorly sets up the CPU. Read the next section fo=
+r details
+    78	on this. It has no support for loading DTBs, so CONFIG_ARM_APPENDED_=
+DTB is
+    79	needed.
+    80=09
+    81	So to build an image that boots from NAND the following steps are ne=
+cessary:
+    82=09
+    83	1) Patch the assembly code from section 3 into arch/arm/kernel/head.=
+S.
+    84	2) make zx29_defconfig
+    85	3) make [-j x]
+    86	4) cat arch/arm/boot/zImage arch/arm/boot/dts/zte/[device].dtb > ker=
+nel+dtb
+    87	5) mkimage -A arm -O linux -T kernel -C none -a 0x20008000 -d kernel=
++dtb uimg
+    88	6) dd if=3D/dev/zero bs=3D1 count=3D384 of=3Dap_recovery.bin
+    89	7) cat uimg >> ap_recovery.bin
+  > 90	8) Place this file onto imagefs on the device. Delete ap_cpuap.bin i=
+f the
+    91	free space is not enough.
+    92	9) Create the file fotaflag: echo -n FOTA-RECOVERY > fotaflag
+    93=09
+    94	For development, booting ap_recovery.bin is recommended because the =
+normal boot
+    95	mode arms the watchdog before starting the kernel.
+    96=09
+    97	4. CPU and GIC Setup
+    98	---------------------------
+    99=09
+   100	Generally CPU and GICv3 need to be set up according to the requireme=
+nts spelled
+   101	out in Documentation/arch/arm64/booting.rst. For zx297520v3 this mea=
+ns:
+   102=09
+   103	1. GICD_CTLR.DS=3D1 to disable GIC security
+   104	2. Enable access to ICC_SRE
+   105	3. Disable trapping IRQs into monitor mode
+   106	4. Configure EL2 and below to run in insecure mode.
+   107	5. Configure timer PPIs to active-low.
+   108=09
+   109	The kernel sources provided by ZTE do not boot either (interrupts do=
+ not work
+   110	at all). They are incomplete in other aspects too, so it is assumed =
+that there
+   111	is some workaround similar to the one described in this document som=
+ewhere in
+   112	the binary blobs.
+   113=09
+   114	The assembly code below is given as an example of how to achieve thi=
+s:
+   115=09
+ > 116	```
+   117	#include <linux/irqchip/arm-gic-v3.h>
+   118	#include <asm/assembler.h>
+   119	#include <asm/cp15.h>
+   120=09
+   121	@ Detect sane bootloaders and skip the hack
+   122	ldr	r3, =3D0xf2000000
+   123	ldr	r3, [r3]
+   124	ldr	r4, =3D(GICD_CTLR_ARE_NS | GICD_CTLR_DS)
+   125	cmp	r3, r4
+   126	beq	skip_zx_hack
+   127	@ This allows EL1 to handle ints hat are normally handled by EL2/3.
+   128	ldr	r3, =3D0xf2000000
+   129	str     r4, [r3]
+   130=09
+   131	cps     #MON_MODE
+   132=09
+   133	@ Work in non-secure physical address space: SCR_EL3.NS =3D 1. At le=
+ast the UART
+   134	@ seems to respond only to non-secure addresses. I have taken insipi=
+ration from
+   135	@ Raspberry pi's armstub7.S here.
+   136	mov	r3, #0x131			@ non-secure, Make F, A bits in CPSR writeable
+   137						@ Allow hypervisor call.
+ > 138	mcr     p15, 0, r3, c1, c1, 0
+   139=09
+   140	@ AP_PPI_MODE_REG: Configure timer PPIs (10, 11, 13, 14) to active-l=
+ow.
+   141	ldr	r3, =3D0xF22020a8
+   142	ldr	r4, =3D0x50
+   143	str	r4, [r3]
+   144	ldr	r3, =3D0xF22020ac
+   145	ldr	r4, =3D0x14
+   146	str	r4, [r3]
+   147=09
+   148	@ Enable EL2 access to ICC_SRE (bit 3, ICC_SRE_EL3.Enable). Enable s=
+ystem reg
+   149	@ access to GICv3 registers (bit 0, ICC_SRE_EL3.SRE) for EL1 and EL3.
+   150	mrc	p15, 6, r3, c12, c12, 5         @ ICC_SRE_EL3
+   151	orr	r3, #0x9                        @ FIXME: No defines for SRE_EL3 =
+values?
+   152	mcr	p15, 6, r3, c12, c12, 5
+   153	mrc	p15, 0, r3, c12, c12, 5         @ ICC_SRE_EL1
+   154	orr	r3, #(ICC_SRE_EL1_SRE)
+   155	mcr	p15, 0, r3, c12, c12, 5
+   156=09
+   157	@ Like ICC_SRE_EL3, enable EL1 access to ICC_SRE and system register=
+ access
+   158	@ for EL2.
+   159	mrc	p15, 4, r3, c12, c9, 5          @ ICC_SRE_EL2 aka ICC_HSRE
+   160	orr	r3, r3, #(ICC_SRE_EL2_ENABLE | ICC_SRE_EL2_SRE)
+   161	mcr	p15, 4, r3, c12, c9, 5
+   162	isb
+   163=09
+ > 164	@ Back to SVC mode
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
