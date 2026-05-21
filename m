@@ -1,154 +1,98 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8334E3655C2
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 14:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779375234; cv=pass; b=Yox41HaegLPJD6gz5VteUrsKitrNg29nov2KP1JBl1FfTd18iKb0STy487fyn/OKWugaYFTCRsVOMexuA3ESeoitWRITFbP27YYQuXAugWVBkBxC19RlrJg5d7zf70FmH1rfAlHfpe5MiHX8j1UFH3Lu/0rm4wTNhUT7jLTf6Lc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779375234; c=relaxed/simple;
-	bh=bA/ypZiwvOF7bLYV81VPBE2mEbMWo9wKAEc1kqSaHPI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZVq2lJVqmrTKDS/hMD4r88bC9tYQiMo+IjSLaV5f6g2CGGneVghvg1G9VwhE4Ct3q2CfBbm7MRzZnqPlVLJO4V9RTVpt94o/kIFhZJBnRrcjvDWysdU0OLw6jSaGRDi5PYqsD9SMJmQk31zTMMYQFAeCySSmzOlsyavS9aBYMmk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=ahChxbWM; arc=pass smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FEF1A5B8A;
+	Thu, 21 May 2026 14:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779375556; cv=none; b=maVxci51mOOAPS140V26bnVW9lzvJ1iN0CbJrV2UN1QKnvHeHhTobKk6VY5uebAW8qhRjOoc2hfcH8hDP+N1LIYamkWhjUiVJF10IBKlMXPE3cn1KY3M/TPkpHG60bF/2jlYSY1EbZgXS8mq8OrO9SImshHNWrnoSlu0agHnGhs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779375556; c=relaxed/simple;
+	bh=UwTJUQEEjEAuGD/38EJAyyJEhAp/6WUIT8s9od8d5cI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q6Z062QhubEAUQnoktlqxAnRrJ9vQ9KNBwdO5TVElpnnvajqaC1CrkJObwJh83NIaZDjaXKDJOHmdHzK9mYa0ny78iWVJjtbLhgNCI3k01EjMeX7sQ/5ao3aob2DwpfO0O2c54NpryN/4F4vIr2GJIoN6cANXCJGxvyyofX+FWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QFt9uYJs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="ahChxbWM"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3665b67ed66so4023744a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 07:53:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779375233; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BMgk7SCCACEgf2y3kf6DIxQMCx02HjT9ScpVKsEWXeZKzsgiHXv0BfxquP/goM21IV
-         bLPR8nx9knzMmBWr8Gv3Ri0gZUqvScx3Gd4S+a5I5+GuFfjw3/MhmGvqcQ/B55MqOVs9
-         zwc6cVs1YJDl5gtCEn0dVX7Iyt1BqCwp08oHjE9rJKNRNQcm8YGGkubCoGll+r4X37HM
-         2Ehq1vnUqaXR64v7ULjD1Afcdr/5fkxW4EfPDgbu/VvusP/2klUfeOr9ByxK1tAPzoBz
-         HksOd7T0DoW10DdimTmauHRwLcDFRg4ZwXV3I8hWSVs/+gszf8gFlPwXQiiJrgxA7d4O
-         MESg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=bA/ypZiwvOF7bLYV81VPBE2mEbMWo9wKAEc1kqSaHPI=;
-        fh=U+DwjWR36jGlJiUmrYoaDxWGhw0nlcO6X5cAoGkIWZo=;
-        b=bfU3EumKS0wvw3ROGz8L8DoJLk3gSIx2d/ckUEW7xNI2FTQVyNlVzGk0L8lqNv8vXO
-         SMNlXB2uThLTzim9PzVJHo79MLCnYjk7fTDeZRcY+oRwL/kFLo85qUfvcuxb1oleVg7L
-         8Kszsb3/zdOnPfmWT3d5zfLwHr/XylMFu1D4f5r+zbvOqLcK6cQ7blKwsUbI6Q2/Hw2a
-         X/jtRitZXZaw+zIAZkCmyc9t4TBPMO2YkoN36fCT5LKeOf07qgovYEC/W9nelGrb0MS+
-         rA5IxQuRKfNihxwGgzuoVMsQU/hJYtJzutLBGBU4KLApwoG5BPGBjZG6b63XxBtp7fP4
-         b3Bw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar.org; s=google; t=1779375233; x=1779980033; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bA/ypZiwvOF7bLYV81VPBE2mEbMWo9wKAEc1kqSaHPI=;
-        b=ahChxbWMBoxPhzDeOQWO6ISlRddvEuvw8+Tkue06BzmRgs7KViSOpY/7wiTjy02Nno
-         YtR7KJ7q1b2rSe75tgOWUtK0gmkwJixEzmYvNkxjaaAxEFcpeFOQdjDILQN5KLj0hUaR
-         N/Nty8shG9slJpFOGtE8ZaV6ckEcUUCQ575uUyFJWYZNKn7PSIUeAo/OCSlfFoxcDweZ
-         LYBduiUew0e+y3sRoUA9zxw4LgY7ujil1xE4/t1z1zg1dECPgK/BQtNcE33Rtj+w8wuI
-         ITte4PpYJoOjjbrIcL4Im7FmckFx0lpMnYYYNPn8ZPX/cW+1eid4coSjBzZ83mCVie5F
-         mneQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779375233; x=1779980033;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bA/ypZiwvOF7bLYV81VPBE2mEbMWo9wKAEc1kqSaHPI=;
-        b=GkZw7BvhWxQMHVkvn4pwKA/P27ln6HpphBOVm0OXYMQJT1itXk+Srks4LKM08um/W+
-         7fU/Idcq8u5gAAf947LVwFmB111wPdzH7IphuudTikjwA9yBJkgTU4ugvFa0Pi0153oM
-         zi+kaVNyuUNI0+ex9Rb36iMf8lGEVR5vydrYAkor5nFvIDpT+OCgtzNUV0eZXr0jVqrs
-         sLijpzbf74PCgl7ojuSgfaVohMeI/uo9FGa1w2WouQwFHCubdrLjIWpKFq5XbtczPlsO
-         aelC6sYVyQnHjRbYifCecijIzaTo8IopTM3vpv0RnZ68juVHuCwAPK0/vlKsZXOOwi+6
-         mEFA==
-X-Forwarded-Encrypted: i=1; AFNElJ/okqa7H7wPJrVjiV1S85pntQdm/pBdkMGWs5eSU9UHnX/2n3gypIVPxyq9ajZKRwlD1wkKbOpHPT0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYN2fLylXDhZvVys6s0qGVCiZqKb/9I6mDEVu/HMrZA7/axD0V
-	cxgQNmWTuwJJX+oZl1tjdeZp15WRI5yS73LkukEOgPo8NZhg4l5WcdGT5mGRktJGM9PfSqQ3IB0
-	rhpQCstsgLj+RYfVnHcbTpqILWSOOP4mVm4ZphMpTyg==
-X-Gm-Gg: Acq92OFcDkqZkPpGm/uUR4qG0ntD/ZNAC5sH3a5pKbeI/41X8nK5hJ59rlwePB90of8
-	jXlyIgoGgG9hkYhIuGg0Wc6YPOreeGOB8qy4oaNRJ1tTJDlHEXdbo1CmFWBuHpON77tbcGV4J8R
-	fRYVL8GfMbZyTJ466JdC9oVgRM/uA08DwrMvRV+5INhwgXIs+T0rU13am+l/M5Tt4IcqbS+LpsR
-	7Yjh/m5brz3w6de76pHLTqF0kQmWSgONGpBV8eqe6DpZgTxrbwPEePklH3eU72zIz6rEX21apbP
-	i3eQN50VcK3zwTctQ1q/CtmBLn/pMdD+VbeAz4w=
-X-Received: by 2002:a17:90b:2d50:b0:368:78da:803 with SMTP id
- 98e67ed59e1d1-36a451816e0mr3680773a91.12.1779375232901; Thu, 21 May 2026
- 07:53:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QFt9uYJs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E8D71F00A3E;
+	Thu, 21 May 2026 14:59:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779375555;
+	bh=UwTJUQEEjEAuGD/38EJAyyJEhAp/6WUIT8s9od8d5cI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QFt9uYJslrjF5lm8zndfOP6s3oryviFzIwtzSew9cvovaEBxxtGMYXzbP6YEwm/FA
+	 DzwtNNflGNX7N+8nu1hbd+NJ+jQqOdI3nxhHtvXbWBMjHkTOHLFDSj8QWJTT6IDJYo
+	 uFIkB32kYEKxA5/AmPw1FtVZVCuVanyJYv+S67+Bcai0gRX6t533uIfV0YiMDM+DHD
+	 mNdELy52vF5rXrxE86yG3e1LrKQK/Q3gpbuAbTkFtthFGJNf334t+hKR6Aw/r/LV6c
+	 Q6A7crs20ItQBG5wza5dSlsdlUStwigXBDmsg/3T1ejlnsR3mnSwlXFztAe2aWPAjN
+	 9B/gYwXbsHDkA==
+Date: Thu, 21 May 2026 15:59:02 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Nico Pache <npache@redhat.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Wei Yang <richard.weiyang@gmail.com>, Lance Yang <lance.yang@linux.dev>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
+	aarcange@redhat.com, akpm@linux-foundation.org, anshuman.khandual@arm.com, 
+	apopple@nvidia.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
+	byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, 
+	hughd@google.com, jack@suse.cz, jackmanb@google.com, jannh@google.com, 
+	jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org, liam@infradead.org, 
+	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
+	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
+	rdunlap@infradead.org, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
+	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
+	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-unstable v17 04/14] mm/khugepaged: generalize
+ __collapse_huge_page_* for mTHP support
+Message-ID: <ag8dnKjkJgLgNkDv@lucifer>
+References: <20260511185817.686831-5-npache@redhat.com>
+ <20260512074202.10253-1-lance.yang@linux.dev>
+ <20260514031009.f66cgop3ctgiqxz3@master>
+ <9b33339e-157a-45b7-942e-3be3418a5142@kernel.org>
+ <agtpK1x27B-E7mMo@lucifer>
+ <CAA1CXcCNT51jeXh6Kwg1QN9e+AJB-1hg21kmeY6fTTKr2GACug@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260423-color-format-v14-0-449a419ccbd4@collabora.com>
-In-Reply-To: <20260423-color-format-v14-0-449a419ccbd4@collabora.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 21 May 2026 15:53:41 +0100
-X-Gm-Features: AVHnY4KPQYYiaRNDiAsU-wmS8JuOZnjSnShN4CXgg2DHzWx0LVSgQ_nHQROoprA
-Message-ID: <CAPj87rOFnB+csoswOOSBR2-=abtCDbsKq2uJ_PgYKPWh-G8m9w@mail.gmail.com>
-Subject: Re: [PATCH v14 00/28] Add new general DRM property "color format"
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
-	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	wayland-devel@lists.freedesktop.org, Werner Sembach <wse@tuxedocomputers.com>, 
-	Andri Yngvason <andri@yngvason.is>, Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
-	Marius Vlad <marius.vlad@collabora.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Andy Yan <andyshrk@163.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAA1CXcCNT51jeXh6Kwg1QN9e+AJB-1hg21kmeY6fTTKr2GACug@mail.gmail.com>
 
-Hi there,
+On Tue, May 19, 2026 at 01:05:13PM -0600, Nico Pache wrote:
+> On Mon, May 18, 2026 at 1:33 PM Lorenzo Stoakes <ljs@kernel.org> wrote:
+> >
+> > On Mon, May 18, 2026 at 03:16:11PM +0200, David Hildenbrand (Arm) wrote:
+> > > > For me, I would vote for fallback to 0.
+> > >
+> > > At this point I'll prefer to not return errors from collapse_max_ptes_none().
+> > > It's just rather awkward to return an error deep down in collapse code for a
+> > > configuration problem.
+> > >
+> > > For mthp collapse, we only support max_ptes_none==0 and
+> > > max_ptes_none=="HPAGE_PMD_NR - 1" (default).
+> > >
+> > > If another value is specified while collapsing mTHP, print a warning and treat
+> > > it as 0 (save value, no creep, no memory waste).
+> > >
+> > > In a sense, this is similar to how we handle max_ptes_shared + max_ptes_swap:
+> > > for mTHP: we always treat them as being 0 for mTHP collapse (and don't issue a
+> > > warning, because we would issue a warning with the default settings).
+> > >
+> > > @Lorenzo, fine with you?
+> >
+> > Yes 100%, this sounds sensible both in terms of the error and the default. Let's
+> > keep our lives simple(-ish) please :)
+>
+> Ok thank you im glad we finally came to consensus on this! phew!
+>
 
-On Thu, 23 Apr 2026 at 20:04, Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com> wrote:
-> We have an implementation in Weston at
-> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1825 that
-> adds support for this property. This patch series has been tested
-> against that MR on i915 (HDMI, DP), amdgpu (HDMI, DP) and on rockchip
-> (HDMI).
+It happens sometimes ;)
 
-This MR is R-b me.
-
-> General notes on the approach taken by me: instead of silently switching
-> to a different format than was explicitly requested, or even worse,
-> outputting something to the sink the sink doesn't support, bubble up an
-> error to userspace instead. "color format" is a "I want this" type
-> property, not a "force this" type property, i.e. the kernel will respect
-> the limits imposed by the hardware.
-
-Yes! If userspace wants a fallback chain, it should encode it itself
-through a series of test commits, rather than adding the sequential
-logic to the kernel. Doing that might work for one axis, but pretty
-quickly disintegrates when there are multiple parameters to perhaps
-fall back on.
-
-I had minor comments on 03 and 20, but they're Rb me with the obvious
-fixes. 11, 12, and 19 are Acked-by me, as I don't quite know the
-hardware specifics well enough to say. The rest are Reviewed-by me.
-
-I suggest you merge the common code and VOP2/DW-QP implementations via
-drm-misc, leaving Intel and AMD to merge through their own trees
-whenever they're ready. We'll merge the Weston implementation when it
-lands in DRM.
-
-Thanks to you and all prior cooks for all the work, and to Maxime and
-Dmitry for the help and review as well.
-
-Cheers,
-Daniel
+Cheers, Lorenzo
