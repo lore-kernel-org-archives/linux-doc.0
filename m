@@ -1,241 +1,184 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C86E39FCD8
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 08:00:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779350425; cv=none; b=H1La7EAW8jKWHv5jymeK6+47qjlTQ+RBhjYyUgcfsMIvvlQGrfpB6tLFl817EcCY8F+XS4Qo5JWArsNYnYM4DUK+QLk0zi4kL8uN5Oh5WERzB/7KHl3ahQeeJiQYdoMQ3ueSuQJeuHMFvBUzgXuPh3rrwSp3BpD2UBeWEusB2To=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779350425; c=relaxed/simple;
-	bh=Tx53MwLePeLZ23fDtjKJB5lRx3lgXxTNcSrKPTCnhJw=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=hKx2FelHNXAoGicPoPqF0tV1ilRozJNX/5Zfv0t9/GDFKsuEhu/qsy4OtEA6AH0kpN9i0HQbWddHKuNA0F4iGFlRbqgta0gKtNUFWtQo4IJNwBBMyQYX6VHmk8xx3iNdW6HgjmniF7VsgBOUxZzWzmakh6sdwf/m2TiKy5ReMF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TCWK7EVH; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C193A05C4
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 08:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779350901; cv=pass; b=rQ293JdRz8SNjFVRXjsVWiEITgHyJuHqzl9mmuAss8CapS5RoeHEbIJEOOAf+Bg4FZFS29v9IbTAAZIt7HQWjSRR2E7wrINNsy+8xRvkY9IEGVyAfOXGakwUy83cYK4B5W+NdVDavkhBji9gqTftyrRzhu4FnbhrAWuO84wCUxM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779350901; c=relaxed/simple;
+	bh=1GakT4SLC90WzEHUaDnF34eVqI2fpwRSLI5kegyTcEI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eRoSIkf2wswNibTe9VqsSJ7VzfzJNFvxrcUdy4UmcmN8DTcwCpU5yIMbiEeFz31cNkNBbYrM+5+c4dC32BwpNZIXPQsTkI0uZ/CCSbD1I+2Jgwr6UDWrafgElIQnVI2fRYhgamhfSyvwBdCQv+1Ze2fDKJgY1u9sRLMmQ+EqoNk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vNa4ncl4; arc=pass smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TCWK7EVH"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49039a8851fso2490305e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 01:00:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vNa4ncl4"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-515548f390fso3431cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 01:08:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779350898; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jlyzxsruizvs8mU9stkkF/6mBHGUDM62LxFhu1Z+IjTcUVaTqnWD3Gu2/H2emoOyVx
+         lq0xyWZapSdHbV/op0zbBrPm4xyZGRn2oTaMWOhHC6QCMHmECCrlHUHGzeoFT+XcKPtP
+         5UqwiWyiDRKFIyXlaQDfOT9rNDdpgCD65+xI2hZzu7yJOLklCQrcxoDNPtZN+F1UNl4I
+         UeiA11+0sS8otHfJRd0QrzrRljylX8QutgGCDpZImO1D2CMkeqCCClPb9KL4jdy5hLr5
+         EUj3AVuxHlq/Zr0RYOmzBBO8AybR/fcarItFmcLJe/1vVwdmfMi5SLO6AyWzmY4mIoKS
+         2Rww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=7RmlTBsfZu7jfSANKVaOagnr+/jgA52gkBUY+7wdM10=;
+        fh=Wkujt8JfJUti6OSgTfV/WWAqosCnSQjytd44vWjVUr4=;
+        b=AfQ4IIWMW5VQFctA9MGRK7LEnMPSoMYIUJ1JqCpP9XM3vrmqVVfA10XrlLnm+xMlNi
+         ontRyLC3hFq30/uaHZxf7ONOP8W3U7dadtZhw/vgu5SgzIY5Bk90vxhCWhL32bYE0sjJ
+         YBdAOc+AoBj3bsPXkehH3je6WdIbDScC+mpqoiXzJWE1iK85vbBccnEPv9ZR0XWeOdF6
+         I5+b7Al9oxD6KQMNr23fppCxZoXEug0HpALtY+/chgbbwxg/OMBQWQx33kAIbT/E6FCq
+         /lwJvpHScB1oPKbmigJrcfi0CrMMOBqtiNwI1QKv1JB0DsCmKy4q3OFXHVkai6ME7v1B
+         cEuA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779350422; x=1779955222; darn=vger.kernel.org;
-        h=to:references:message-id:cc:date:in-reply-to:from:subject
+        d=google.com; s=20251104; t=1779350898; x=1779955698; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z9PrdA31q5x8SAejtf+3EF1jeBrhc3Rg2VGzoBKR6RQ=;
-        b=TCWK7EVHMf/5GAkugSVV+3lI+EoG3kfcJnDy406vfnum1aZ8h2etHEtGxrK0yCdqWs
-         6WT7PzY342FN2oMLt/6RN4xMvpXEMswcCaDoaRKXN1QycWYAv1JlR4Td6osTn67uO2zu
-         6SqAq1Sh2da151pdZ7Thd6QjQOQbIONGzZ4sKB85xf/B/xLEJCJLMwP/Sli9a3rgYoIy
-         NosIwzNnoHrDjIturAb5+uYjgkqVxXIQGOVAejj8xWyOMTc3ELp+KhyodrfWbhw5YqrC
-         2at/1SErzn9Sq7JSPko0ZpImjvKqfUdOHuh2tnVIDQz3gq0ACSgyFucB84+EvUGtv2t0
-         BpPQ==
+        bh=7RmlTBsfZu7jfSANKVaOagnr+/jgA52gkBUY+7wdM10=;
+        b=vNa4ncl4w88J0jNq6h9uTpV/yc3viKafNMSoFRv6ne3V9rhUNFugVCeiSMRdIx/87D
+         TVFSXh25D2vRuEtzLjkCsEviLgn1jWIyr112ltrat3Ol0r9CgYXKsOz6sjZ8E+LlQxI8
+         0sbsHWLfeiKOjg5/NxkMrywhvNdMzSesGb2xdpJAc8EM4JpMQlZYtFrCu/sDiIO5i1Tb
+         sumwZJ+82jOgNXR0ZZBjdMBODKRWkxYb1xTde73+1INALPFNgnvtbTISnB566JM4Ef+x
+         RyR6IGvNcp8HCvqOy7t8rll5A3cZmb/D44ZjFB0Deqh5Pl6HH/xnGZVfChInXyOa6gWY
+         herg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779350422; x=1779955222;
-        h=to:references:message-id:cc:date:in-reply-to:from:subject
+        d=1e100.net; s=20251104; t=1779350898; x=1779955698;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Z9PrdA31q5x8SAejtf+3EF1jeBrhc3Rg2VGzoBKR6RQ=;
-        b=pIS9wk6h/w/HFNc1zIJ8zQL026qALlrP0jbZ7hZD2woO1dMN3M8qbFgbd4RYRzKzSl
-         V1OfsO0iSTZ31m62RUjiDWkiW5Ekr5oxcceZIy75ImsOTkNQ1SKa3uCVgfykOZCdsS1L
-         73P9OgCLA/cjroWN0psc1hUuLKyyczZ+GSIGk+1vaOQXXPcI5ayyD2Q8wVqN7Aary5Zu
-         oD4PJBX/icoPyoKs+Ha3VdzwiXv8u9NKdfiod+m0lHBPJww9PgapuyA86x+7jF8eCzxK
-         xFB/7KCURbcv1uhxX4bboHS92mlpSO44kBRvMK4LBDLGAivd+jCSypHOrrT1z4q85jHB
-         xmPQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+ZIemNp4pVejGV08/pOdxVGR/TyJAB8r4BFCVQb0AqT1bzQG2lCIR1p+sBRav9VSRrCZCkacrP0W4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJ/lQtjl7mTXRYRZmqbLRhgU1Xg09arrPihNpnf9E/xMYV24zm
-	QbGEJjOZHlMAWWURKxIYFWDEwkBO5mD9K0KRPmOvD3YFzxJx/2RliHDM
-X-Gm-Gg: Acq92OFyQL0h+/4dTvyV8smeVER3HllqX+pa4XVee4WnhposIHLg4OGQVlFYXHK43t8
-	dc0vDSMQ4x7jFBB6v9FdrLtR/vId/c2yprEERjvB34OhNjuEiRddhdkv4vlQxZ4dL3lNbL2jDXD
-	5g78QGECGaRvXd8jCxnid2Tuvjgxzjj5wBj3Jiu+U8Vq6idZmKHCtaTMWHwBg5HlpsIrfio09MK
-	aac8vBnywxEZoYhmPMhZlZEU45d2tWoKTmxRZEoEyhac6snG6vWLIBp4dBboUDaisAptp9Y9xIz
-	lSstnPqEWBghjH2hpBQJHQHid62wmYrADTUZ4yKjuIutVyNrCblL9XRoOT43hHn2CezeWjx22cA
-	af/+wNBKaxEmMjTejqz0jjP6yLmmkmmNglb8zFUPyABoaP1PnebFBSCizUFOw6uKB27ZvKaomC4
-	9pGbLqdpdS9T9xIRccevqgeGpOu9/9uJTk1w==
-X-Received: by 2002:a05:600c:468b:b0:488:aa33:dcbd with SMTP id 5b1f17b1804b1-490360c12cbmr24099035e9.26.1779350421276;
-        Thu, 21 May 2026 01:00:21 -0700 (PDT)
-Received: from smtpclient.apple ([197.250.51.26])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eaa92ca96sm726769f8f.19.2026.05.21.01.00.15
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 21 May 2026 01:00:19 -0700 (PDT)
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_5D209284-6E0B-4B8C-B2C6-1CF1063CB628";
-	protocol="application/pgp-signature";
-	micalg=pgp-sha256
+        bh=7RmlTBsfZu7jfSANKVaOagnr+/jgA52gkBUY+7wdM10=;
+        b=lYzlqYdHzGflvKEuw85apWFphqx09mt2QuNq5QyZrFcXysZYJJwosTCzcnl+sdbIRd
+         Jtzot3DDmwdFg+dr8g6L+pyCeSwy3PDN/A+qu+G2q+kbJ7lXPKKp4bsa0Ym4gZQvlxJ5
+         84qDyvsjs3xkUz13xBX3R8pHMDncAFfoON7o3BTrf1L+8mu/LywxM1WWcmU9lLi3kaPv
+         bqoB6d/zrfKDTNjwz8ss5dH3pXery4UURekpU22ScaBzJd6UvNZL0xq/xjVnFyOV1KHR
+         kO7yZJtMd7d7XPhHoU27/KGgOW4Ai684eCpO8EWfaE8cD6jXLtyMDC8aMBojWor25rzk
+         ygNQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9pwn/KUEJu3qtXKpu/V0xE/VILisoVBnrkspci+ZGhgUrPzkfEdnmGEpuSitnSkc2dh+JThpoOGqg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSNSwD6yntVMzJ9/qcpjA9lZEcCuSf0Z2O8WPmPPvrPWWKvrg9
+	RNMNnO0jtVvGBRCdbOmPQzO1yfWBXwObQnN936s6o/zz2jPvZs5m0ThAlzcxM14L0VPZkyGvGtG
+	A70OrLJnv7ooKzrVBRF9dW9v3QYsk05AmLKdm8zVj
+X-Gm-Gg: Acq92OEZjte7xe+d0p45VcyOlEc3XoxY/7s1aUy4p9RYaDve2IRjiaDqAlJWjfDdeTA
+	/9ObFZgOCXOJy1caGCddgtj8CG6eFEHcQ2f72WrEYagNJDGGDhh1dD5w/BEX+50Ix58wvH4KiZc
+	b8u1sKO3p8075x9JwSxG+t5Je4rrFoXh/B/5/s7k5eZ/1RyevNCWEXio3nwvqV2Loh3/XWoIJWg
+	FkDib5DmSnvRZ3rm8B01va3WEJXBhiQvPoVIJfwH3qdfvLsD+G89BVk41X3g4V4KfnGcuwmYpSQ
+	3826p1TMqaeQMjSuLsA=
+X-Received: by 2002:a05:622a:588c:b0:50f:ce97:3b84 with SMTP id
+ d75a77b69052e-516c534d1f0mr6941501cf.6.1779350897637; Thu, 21 May 2026
+ 01:08:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.500.181\))
-Subject: Re: [PATCH v5 8/8] ARM: defconfig: Add a zx29 defconfig file
-From: =?utf-8?Q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
-In-Reply-To: <30b96e0d-f296-4c31-8701-a15c568ebffc@app.fastmail.com>
-Date: Thu, 21 May 2026 11:00:01 +0300
-Cc: Linus Walleij <linusw@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Russell King <linux@armlinux.org.uk>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Drew Fustini <fustini@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org,
- soc@lists.linux.dev,
- linux-serial@vger.kernel.org
-Message-Id: <3B300E28-8603-4881-8A47-E9B86A355090@gmail.com>
-References: <20260421-send-v5-0-ace038e63515@gmail.com>
- <20260421-send-v5-8-ace038e63515@gmail.com>
- <CAD++jL=_eDY_mG_QBreSrZiho0hUrDSciedq=vrxXaTiMwrSyg@mail.gmail.com>
- <30b96e0d-f296-4c31-8701-a15c568ebffc@app.fastmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-X-Mailer: Apple Mail (2.3864.500.181)
+MIME-Version: 1.0
+References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com> <20260507-gmem-inplace-conversion-v6-18-91ab5a8b19a4@google.com>
+In-Reply-To: <20260507-gmem-inplace-conversion-v6-18-91ab5a8b19a4@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Thu, 21 May 2026 09:07:00 +0100
+X-Gm-Features: AVHnY4K_Cpc3lp6TF05Y1I39E-kRC-mXXncMC4rrkZH8FAVJjZ2CPai0rhLiTAg
+Message-ID: <CA+EHjTyiAgmBQgmrAHAHx3G1yKsP7tSgd9r-y4oPKQM4Nn_Kjg@mail.gmail.com>
+Subject: Re: [PATCH v6 18/43] KVM: Move KVM_VM_MEMORY_ATTRIBUTES config
+ definition to x86
+To: ackerleytng@google.com
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, 7 May 2026 at 21:22, Ackerley Tng via B4 Relay
+<devnull+ackerleytng.google.com@kernel.org> wrote:
+>
+> From: Sean Christopherson <seanjc@google.com>
+>
+> Bury KVM_VM_MEMORY_ATTRIBUTES in x86 to discourage other architectures
+> from adding support for per-VM memory attributes, because tracking private
+> vs. shared memory on a per-VM basis is now deprecated in favor of tracking
+> on a per-guest_memfd basis, and no other memory attributes are on the
+> horizon.
+>
+> This will also allow modifying KVM_VM_MEMORY_ATTRIBUTES to be
+> user-selectable (in x86) without creating weirdness in KVM's Kconfigs.
+> Now that guest_memfd support memory attributes, it's entirely possible to
+> run x86 CoCo VMs without support for KVM_VM_MEMORY_ATTRIBUTES.
+>
+> Leave the code itself in common KVM so that it's trivial to undo this
+> change if new per-VM attributes do come along.
+>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
---Apple-Mail=_5D209284-6E0B-4B8C-B2C6-1CF1063CB628
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
-
-Hi Arnd,
-
-I saw your reply to my defconfig pull request, but apparently never =
-received your original reply. I only found this mail here. It looks like =
-I have to look for a better E-Mail provider as gmail is choking on the =
-volume of the linux-arm-kernel mailing list.
-
-To answer your questions I found at =
-https://lore.kernel.org/all/61452117-0cdc-4ec2-83eb-dc03ccbd410b@app.fastm=
-ail.com/ :
-
-> Either way, the patch description above should at least explain
-> why you think you need your own defconfig, as we don't normally
-> take those.
-
-It was more cluelessness / being new to kernel development that gave me =
-the impression that boards should have defconfigs. Since then I ran =
-across scripts/dt_to_config. I haven't tested it yet on my DT, but if it =
-does the right thing I don't think this board needs a defconfig.
-
->> +CONFIG_CMDLINE=3D"console=3DttyAMA0 earlyprintk root=3D/dev/ram rw"
-
-> A definconfig should normall not rely on earlyprintk, just add
-> that when you actually need to debug the super-early boot
-> stages. With "earlycon" it should pick up the right console
-> from the stdout path and work almost as early.
-
->> +CONFIG_BINFMT_FLAT=3Dy
-
-> Are you actually using flat binaries? I wasn't aware that this
-> is still possible on MMU-enabled kernels.
-
->> +CONFIG_BLK_DEV_RAM=3Dy
->> +CONFIG_BLK_DEV_RAM_COUNT=3D4
-
-> The old ramdisk boot is going away in the future, please use
-> initramfs instead. This should also save a good amount of RAM.
-
-I'll fix those in my tree and keep the defconfig around just in case, =
-but otherwise drop it from the submission. We can revisit it later when =
-the board is more complete.
-
->> +CONFIG_DEVTMPFS=3Dy # FIXME: This is specific to my initrd. Remove=20=
-
->> before upstream
->stale comment?
-
-I believe I removed this in later versions though :-)
+Reviewed-by: Fuad Tabba <tabba@google.com>
 
 Cheers,
-Stefan
-
-> Am 24.04.2026 um 11:54 schrieb Arnd Bergmann <arnd@arndb.de>:
->=20
-> On Fri, Apr 24, 2026, at 09:13, Linus Walleij wrote:
->> On Tue, Apr 21, 2026 at 10:24=E2=80=AFPM Stefan D=C3=B6singer
->> <stefandoesinger@gmail.com> wrote:
->>=20
->>> This enables existing drivers that already are (UART) or will be =
-(USB,
->>> GPIO) necessary to operate this board even if they aren't declared =
-in
->>> the DTS yet.
->>>=20
->>> Signed-off-by: Stefan D=C3=B6singer <stefandoesinger@gmail.com>
->>=20
->> *I* personally (as SoC maintainer) think that having a few more =
-defconfigs
->> is fine, even helpful.
->>=20
->> But I would defer this to the more senior SoC maintainers because I =
-think
->> their stance is something like:
->>=20
->> - We have multi_v7_defconfig for compile testing
->>=20
->> - We know that binary gets way to big for your system: it's for build
->>  testing and perhaps booting in QEMU or systems with many MB of
->>  RAM, not for actually running it on products.
->>=20
->> - You are encouraged to keep your own defconfig out-of-tree.
->=20
-> Right, we clearly need to do something better than what we are with
-> the general defconfigs, as I'm sure many of the existing ones are
-> never actually used for booting a machine, and are horribly out of
-> date with the Kconfig options.
->=20
-> I wouldn't object to adding another defconfig for a new (or revived)
-> soc family, but I don't want to have more per-board ones.
-> Overall, we have about 70 defconfigs and 55 soc families that have =
-their
-> own mach-* directory (plus a few without code), and the number of
-> defconfigs alone makes it hard to keep them up to date.=20
->=20
->> However I even challenged this myself by adding a defconfig for =
-memory
->> constrained Broadcoms a while back (NACKed/ignored ;) so if it was =
-all
->> up to me I would merge this.
->=20
-> I don't even remember that discussion ;-)
->=20
-> One idea might be to have a tiny base defconfig, plus platform
-> specific fragments that add drivers. The problem is agreeing
-> what bits are essential enough to still get enabled in the
-> tiny config.
->=20
->       Arnd
-
-
---Apple-Mail=_5D209284-6E0B-4B8C-B2C6-1CF1063CB628
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEQxb0tqoFWyeVMl1sPRO8yFRPGiIFAmoOu4EACgkQPRO8yFRP
-GiL8IQ//Zm20DYooaVaVCuklde82UX5X2MHKLX3bEwoqFm8OwrwK1a0bu61uKXRd
-TTj/RVjingjzc/MWqbhSiDLM+1tvrMaa8bhi16TRYn5upIa71KlieKL5Kd/9cmoW
-fqmI+HoIIq6mQTIYJ2GMCp0/ciADEXnE41buFWzPiu7BMeVInJMaYpX6NKyXd7ZG
-oAf3t5tCMMxrRfBq7bv4JV8TAjLdibq+SNyxH6xYoZwrW7J6pLYGeHJcbUNNHJFD
-Vl5PgpflnmNhfcQk7nTKufpY44szSAwB9GmiuOemwzmUEGv3V0e4t8Rni1FlHQsR
-gAUiB04OMbDSDV9kntSrZwbEUR4UkJLZhKanfJOTv/Sy6pNZLpcS0TB5YY7TEfcy
-lr1oKB9HXUka9mhPKFmGrC0TN7jkPKmkTLK70RXVtNX/pU4dFSsm0yP76XL2KrBA
-rfvH0At+i5cU3nPYvoOm56VkiOfHsnQB9adNQ5l8GeAUpQB6HI4jr23IhD8BYvsB
-yKxccCZ4tkD05c9InZqE+lsxvB9esDjo4gKZzFWhuXY/+4rOcRowbxsFGHt/TCWn
-9U7SU0cAsuce6Ex+oPs62EkqM0yyZ0FMVlmVGI9PJ5O1sJ5W6xYOlxwnLGH6TJNE
-bOIJ4WxSJmZra+QaQXak7qAOxAV92+Du/IioWZnoXjGc0BzTjhw=
-=rcPP
------END PGP SIGNATURE-----
-
---Apple-Mail=_5D209284-6E0B-4B8C-B2C6-1CF1063CB628--
+/fuad
+> ---
+>  arch/x86/kvm/Kconfig | 4 ++++
+>  virt/kvm/Kconfig     | 4 ----
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+> index 26f6afd51bbdc..b6d65ee664d0f 100644
+> --- a/arch/x86/kvm/Kconfig
+> +++ b/arch/x86/kvm/Kconfig
+> @@ -80,6 +80,10 @@ config KVM_WERROR
+>
+>           If in doubt, say "N".
+>
+> +config KVM_VM_MEMORY_ATTRIBUTES
+> +       select KVM_MEMORY_ATTRIBUTES
+> +       bool
+> +
+>  config KVM_SW_PROTECTED_VM
+>         bool "Enable support for KVM software-protected VMs"
+>         depends on EXPERT
+> diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
+> index e371e079e2c50..663de6421eda2 100644
+> --- a/virt/kvm/Kconfig
+> +++ b/virt/kvm/Kconfig
+> @@ -103,10 +103,6 @@ config KVM_MMU_LOCKLESS_AGING
+>  config KVM_MEMORY_ATTRIBUTES
+>         bool
+>
+> -config KVM_VM_MEMORY_ATTRIBUTES
+> -       select KVM_MEMORY_ATTRIBUTES
+> -       bool
+> -
+>  config KVM_GUEST_MEMFD
+>         select XARRAY_MULTI
+>         select KVM_MEMORY_ATTRIBUTES
+>
+> --
+> 2.54.0.563.g4f69b47b94-goog
+>
+>
