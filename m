@@ -1,220 +1,136 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E02613A3F7;
-	Thu, 21 May 2026 15:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CAE6364EA5;
+	Thu, 21 May 2026 15:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779377206; cv=none; b=oQa2Mjl0UxUVd3ujNODwb48uaEzy+nkjeAw7iieCWkee8kmhaJdPdtF4lIz1UomdbeYJu/+K5q+t1ciWWQOmC4WcYJSZDGO7LYUkgs7tTYCbaz+ewp8k6MfH970NLBVLeOXlGj+1VKRjQwJoRBYjjcc53/4+Tu0eaURGLJ+LPV0=
+	t=1779377467; cv=none; b=tomhQHluBQ57FE/OC7eEfQDFUCwQdAFSb6MyTv2BLPZp2lHge4AWCy8aDZZ4MPIN1D/a8kQhyEV1/pxmcfIAvknxvPFiNJrI+GwR2c1AEpEYhoV7cwudIDyyXxq3N9mm+i2OYGPZBWIIcjrQupTt/4Du6h6phUfLujntI4V/iHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779377206; c=relaxed/simple;
-	bh=NjTV9wErr90HIRWMANQCbcIn81/Ww7SxNE3IXLcUfL8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=CK4A4kwdOUR3Sdx1P9OXf/t4UIZ25QrtSdhxG1hagO70z+3umINVNbnhmRXlvOk0q6bYbQG79qA926x0Wybbep00OtVzLJg/hMsqxtaJey56RWdIrZuWOR1LlbgboGxW2Au+t7iZz/GQxrV3cvTvkYoKwaHhtVBfWMWaVaasMQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=pczUz5ZH; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1779377467; c=relaxed/simple;
+	bh=H6ijgxk2s1Fo45SirC0V9snxZFD/I0UxNcyKfJ3EVJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BfXXEdniE+kFYfR/A9Fp+SzQhnjMO8kcD+SLnlRSpU4OnaCip558fONRH/upuitIzmM764Oq8n/ZAsIvgpLm/dymOzqWMeZ6ij0BNWURSGx6V+Iu8BXql/6GAQGLdsMd4EYPoTSFZe56InIMnERlYg8c2obhx7tEfckEg35VoFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SkKyGWpi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="pczUz5ZH"
-Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64LFCVOq602544;
-	Thu, 21 May 2026 11:26:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=FmZKf
-	l/heQb5UySQH7tRcGdMLc4r+FfsLwQUy8vSFMQ=; b=pczUz5ZHaEEUWimyhdAQD
-	JLDGtoaH32hI26LtqRgE94iHLr+KV0i1m+lWsoxulGIukAEcjdQdATm+w2XCxd0U
-	ibRGjuF2Hml7nvxEbThI/lIL/nXk6W8u2PEIQlXnCTqyxyEFzru2hpxorBPfS4d6
-	G2lDvTJDmzbpjxA+E/exGPov+6Z9d0+ejHNYah6bkn29dZjk3DeHeHj4H/vgRZfB
-	5UWor2FxrN5DXaeDklx5L+Hx+JDgyLX0seH5nuWXTLPL0IN110neCZ8dDcYySPrf
-	ThmaGHXh7Rm6ocoT6qJVlMUTloARvuYm2kulD/r5CGWkBDg/O/WwWta1ROd9n29W
-	g==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4e96srxns3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 May 2026 11:26:20 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 64LFQIfO056633
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 21 May 2026 11:26:18 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Thu, 21 May
- 2026 11:26:18 -0400
-Received: from ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912]) by
- ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912%20]) with mapi id
- 15.02.1748.037; Thu, 21 May 2026 11:26:18 -0400
-From: "Regus, Ciprian" <Ciprian.Regus@analog.com>
-To: Andrew Lunn <andrew@lunn.ch>,
-        Selvamani Rajagopal
-	<Selvamani.Rajagopal@onsemi.com>
-CC: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-        Andrew Lunn
-	<andrew+netdev@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Eric
- Dumazet" <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>,
-        Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Heiner Kallweit
-	<hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH net-next 2/5] net: ethernet: oa_tc6: Allow custom mii_bus
-Thread-Topic: [PATCH net-next 2/5] net: ethernet: oa_tc6: Allow custom mii_bus
-Thread-Index: AQHc2osAciE43cRop0O+PxH5WaJSLbX77fcAgADmRoCAAAjwAIAby2dw
-Date: Thu, 21 May 2026 15:26:17 +0000
-Message-ID: <7a533f60e3d04098bd0671ce0e925f9a@analog.com>
-References: <20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com>
- <20260503-adin1140-driver-v1-2-dd043cdd88f0@analog.com>
- <aad9cb98-8f1f-409f-8d58-0318e125210c@lunn.ch>
- <CY8PR02MB92498A398D3F05B94EEB7ED383302@CY8PR02MB9249.namprd02.prod.outlook.com>
- <77df32ed-3e22-4e9b-941b-3046de25b88f@lunn.ch>
-In-Reply-To: <77df32ed-3e22-4e9b-941b-3046de25b88f@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-adiruleop-newscl: Rule Triggered
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SkKyGWpi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4676B1F000E9;
+	Thu, 21 May 2026 15:31:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779377466;
+	bh=SzgQopk+OJbawn6MS3++ZN/v/mlrkfJHDvOTVpisjLg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SkKyGWpiSdHqwlEW5hRU8HF957D2LfgRuejLdlkS3dkYVnNKoDiFha3xy5VruV5pQ
+	 teYXwsQBQSLpCH8VREZqyFENDwEo2GGr6hi6pHEIUAmJu+7aF4BMNAJzRn80ujIEwX
+	 ZDtFWCyjrTMifEUvFbND7kRHRpsHQBznZZBRf6rTRCX6couB9xqSb1FZ9IgkHwdfN3
+	 OUk1MZnJH3l58EQVdpEw0MAGLpTBOaJTMf6q8mhNj+7MpDIgNxTfiFYxcwv+6QcWTh
+	 TsuvaKWkGvB4YEZg98ftRP4ds4WvuqpuO+aMVWSFNgEb5mYYrwJ7AuMbu21ag/JM4c
+	 idE8BbkP3uUKw==
+Date: Thu, 21 May 2026 11:31:05 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Song Liu <song@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	bpf@vger.kernel.org, live-patching@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Joshua Peisach <jpeisach@ubuntu.com>,
+	Florian Weimer <fw@deneb.enyo.de>, Breno Leitao <leitao@debian.org>,
+	Anthony Iliopoulos <ailiop@suse.com>,
+	Michal Hocko <mhocko@suse.com>, Jiri Olsa <jolsa@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	KP Singh <kpsingh@kernel.org>
+Subject: Re: [PATCH v3] killswitch: add per-function short-circuit mitigation
+ primitive
+Message-ID: <ag8lOe6dAOgnWmsQ@laps>
+References: <20260508195749.1885522-1-sashal@kernel.org>
+ <20260517134858.146569-1-sashal@kernel.org>
+ <CAPhsuW4x8shWon8Moi5VgCq2n4E2EzaaauZ2HHpy42Rp1Y-J-g@mail.gmail.com>
+ <agsVDqdALBoHEHlv@laps>
+ <CAPhsuW44UX663Au=WwHz8MVwnQgLkjxOqpJSCKxNiv3=RpZvqw@mail.gmail.com>
+ <b342c38b-7323-4b72-a239-8a574d6bc36b@iogearbox.net>
+ <agzAwjKhOhuANz_P@laps>
+ <3dd6d852-18fb-4c64-a1ae-0d79ef7c061f@iogearbox.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: EE2ERHwi83D3olTG_Kg58ltA4dJFUxU8
-X-Proofpoint-GUID: EE2ERHwi83D3olTG_Kg58ltA4dJFUxU8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDE1NSBTYWx0ZWRfX/1tPD3SIz4lV
- Ui0//c2FeOR0nLSThYlXINIQQ6Mj5FxuNNXftwa4s1dhIIuHGE2XEM8rqnHZgRB5DrcaY7GY2hj
- S3MJJZBBxzT7ubaqQDlR+A3F8DaMECtVa7mMgasQxQEFR4FXbxqN07NqLlhZ8HAPG/3l6evQQoP
- IdzaiNzZkaO36nhKVKGbfJg9vjofxp7KM1C0uABry5jw9XeILVgE+NnbkWgZRsriJGdsaj/R6v6
- gV5x7zmyV3nos1+fQZ2bEiTF1xbiyg/N/uoUKD8LNBIi0SfohHg8XK4ZNH97ePpD+G+b1Ug3KPe
- yYOPIlGgh9nI0IQSsWcWABYv2FD31JFi4mdxBdu33sjp9YVjF0tsQ5kglsdCiRnFCJaMpk6m3fS
- J2UaKtApaC6OJOrlJFnQpCieh7FE5TP/tbG7GZVtfQtZkgnZxgiByZglJl323nvFeg2cWyvZSFR
- kflW0N2kc/nYsMNlohw==
-X-Authority-Analysis: v=2.4 cv=CZs4Irrl c=1 sm=1 tr=0 ts=6a0f241c cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=xqWC_Br6kY4A:10 a=3zxtOzucoeEA:10 a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=OmVn7CZJonkx5R5zMQLL:22
- a=Kcc3aBsA6gr13z1jP8UA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-21_03,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0
- priorityscore=1501 impostorscore=0 suspectscore=0 spamscore=0 adultscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605210155
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <3dd6d852-18fb-4c64-a1ae-0d79ef7c061f@iogearbox.net>
 
-
-
-> > > This all seems pretty invasive and ugly. Please could you think what
-> > > happens if instead of passing in an mdiobus, you pass a phydev. Is th=
-e
-> > > change to the core simpler and cleaner?
-> > >
-> > > Andrew
-> >
->=20
-> > Kind of agree. Initially we were thinking about changing the
-> > existing code (Microchip's vendor code) to alloc mii_bus so that
-> > code would be same across multiple vendors. Either way, it would be
-> > invasive changes. So, we decide to go with minimal change to other
-> > vendor's code.
->=20
-> That would be wrong. The standard defines this, so it should be in the
-> core. Anything which the standard defines should be in the core, so
-> that drivers for hardware which actually follow the standard are
-> minimal. Also, we try to keep workarounds for broken hardware out of
-> the core, hide it in the driver. That is not always possible, but the
-> aim should be to make the core clean. We don't want to penalise
-> vendors which got the implementation correct because of vendors who
-> got is wrong.
->=20
-> > Trying to understand your suggestion. Are you suggesting to move
-> > entire mii_bus allocation/APIs implementation to vendor side and
-> > keep only phy dev usage in oa_tc6.c?
->=20
-> No. I'm thinking maybe extend oa_tc6_init, similar to what you
-> did. Add a quirks flag, and define TC6_QUIRK_BROKEN_PHY. And allow a
-> phydev to be passed as well.
->=20
-> If the quirk is set, don't call oa_tc6_mdiobus_register() or
-> phy_find_first(), nor oa_tc6_mdiobus_unregister().
+On Thu, May 21, 2026 at 11:11:16AM +0200, Daniel Borkmann wrote:
+>On 5/19/26 9:57 PM, Sasha Levin wrote:
+>>Sure, this would also work. How do you see this happening? Can we let a certain
+>>user/pid/etc disable the allowlist if they choose to?
 >
+>I don't think we should, given then we're back to square one where root
+>or some other user would be able to just override/bypass an LSM.
 
-The issue I can see with this approach is that we should have already regis=
-tered
-the mii_bus and read a valid PHY id from the device, before passing the phy=
-_device to
-to oa_tc_init(). Scanning the mdio bus requires OA TC6 SPI transfers (readi=
-ng registers 0xFF02
-and 0xFF03), while oa_tc6 has not yet initialized. For the ADIN1140 driver =
-this is not an issue,
-because we can return cached values for the PHY id, as you suggested. Howev=
-er, that limits
-the usefulness of the BROKEN_PHY flag, because every new driver that cannot=
- use the default
-init sequence in oa_tc6 (and wants to set the BROKEN_PHY flag) has to fit t=
-his specific case.
+killswitch already disables itself when lockdown is active. We can easily
+disable it too when one of the LSMs that cares about this is active.
 
-I think the approach which involves the least amount of changes in the core=
- would be for oa_tc6
-to skip the oa_tc6_phy_init() and oa_tc6_phy_exit() if the BROKEN_PHY quirk=
- flag is set and
-leave it to the drivers using oa_tc6 to handle the mii_bus alloc/register/u=
-nregister/free and
-phy_connect()/disconnect().
+>[...]
+>>How do you see this working with the allowlist?
+>
+>We should look at the underlying areas where most of the CVE-like fixes
+>took place (these days should be more easily doable given Claude and friends)
+>and based on that either extend ALLOW_ERROR_INJECTION() or (better) create
+>new hooks which BPF LSM can consume where you can then have a policy to reject
+>requests and tighten the attack surface. For example, the AF_ALG stuff you
 
-These would be the only changes in the core's phy handling path (besides ad=
-ding the flag itself):
+So we could grow the LSM tentacles deeper into the kernel, and we can see where
+current CVEs are happening, which I suspect is the darker corners of the kernel
+(old unmaintained, rarely used code), but this definitely won't stay the case,
+right? Newer and better LLMs will discover issues elsewhere, and once the low
+hanging fruits are picked off of the current target subsystems, researchers
+will move elsewhere. We will be dooming ourselves to an endless cat and mouse
+game where we go add LSM hooks after some big security issue goes public.
 
-@@ -585,10 +586,13 @@ static int oa_tc6_phy_init(struct oa_tc6 *tc6)
- {
-        int ret;
-=20
-+       if (tc6->quirk_flags & OA_TC6_BROKEN_PHY)
-+               return 0;
-+
-        ret =3D oa_tc6_check_phy_reg_direct_access_capability(tc6);
-        if (ret) {
-                netdev_err(tc6->netdev,
-                          "Direct PHY register access is not supported by t=
-he MAC-PHY\n");
-                return ret;
-        }
-...
-}
+One question I had here: how would we tackle security issues with BPF itself?
 
-static void oa_tc6_phy_exit(struct oa_tc6 *tc6)
-{
-+       if (tc6->quirk_flags & OA_TC6_BROKEN_PHY)
-+               return;
-+
-        phy_disconnect(tc6->phydev);
-        oa_tc6_mdiobus_unregister(tc6);
-}
+>can already easily cover today ...
+>
+>#include "vmlinux.h"
+>#include <bpf/bpf_helpers.h>
+>#include <bpf/bpf_tracing.h>
+>
+>#define AF_ALG	38
+>#define EPERM	1
+>
+>char _license[] SEC("license") = "Dual BSD/GPL";
+>
+>SEC("lsm/socket_create")
+>int BPF_PROG(block_af_alg, int family, int type, int protocol, int kern)
+>{
+>	if (family == AF_ALG)
+>		return -EPERM;
+>	return 0;
+>}
+>
+>... the problem is that distros enable and pull in all sort of crap which
+>then non-root could pull in via request_module() as an example; similarly
+>for netlink we want to have a BPF LSM policy to parse into netlink requests
+>and then reject based on certain attribute matching (both on our todo list)
+>which would have helped in case of exotic tc cls/act/qdisc modules to prevent
+>them to be pulled from userns. I bet there are a ton more examples once we
+>look further into the data.
 
-> You probably want to start with a patch which breaks oa_tc6_phy_init()
-> into two, since you still need the phy_connect_direct() and
-> phy_attached_info(). Then add the quirk, and lastly your driver making
-> use of the quirk.
->=20
-> The quirks flag could also be used for devices which have MMD 30
-> mapped into a vendor reserved MMS.
->=20
-> 	Andrew
+I definitely agree that BPF is a much nicer hammer than the simple killswitch
+implementation. I've actually been (privately) playing with an out of tree
+killswitch that also supports BPF. I've pushed the (hacky) code I have to
+https://github.com/sashalevin/killswitch , and you can see an example of a BPF
+mitigation similar to the one you have above:
 
+https://github.com/sashalevin/killswitch/blob/master/mitigations/cve-2025-21703.sh
+
+My concern is mostly with the whitelist approach.
+
+-- 
+Thanks,
+Sasha
