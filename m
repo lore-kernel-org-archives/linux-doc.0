@@ -1,278 +1,195 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF753CF05B
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 12:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB22A35674C
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 12:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779366024; cv=none; b=d+rzbSYtv0kBtCMwz9dap5hwI+9wK/5YnF1MfXKTCveDLGtpjw1kNn11yhg48A0IPqDUA7dQvmC4O6rnW8MXNVt312r50HKcdS+d33H4GZse03Bxv9n9U8WCpi9SNDWcOaUKbXvXoTrSINOU4ssS7vu7wIDh0frSp49J9gv466Q=
+	t=1779368350; cv=none; b=LKGXhVeLV3Wb+TuYghQ/7wr7MxFtMZxzYcaQ+iPIHCis3I4qpZ+Bd2PK8eJHv6JrK5XzQkfP6iL0xKa9W3z4wEjbRRE+LvnRVgsSoK2tb9dPgzU2LPFsKX45fgI7mHyE64WCYF7dw2oe6EwFf9amGxlaCafkiv1uQojx6FmJ2Kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779366024; c=relaxed/simple;
-	bh=m5vq5lzBfI3cQdgIp7nM79N6LDabjGabpgW/KV4LQy8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ktn8raK5W92G+A4nLC76fcCKfw8ZDH8lQgb2RUT1rMwVjf8ZdwAjr42/C/ti11R796P7QjsIdF3eYwP0KKx8kQ6UA5fP/2shpBW/SfO2VKgAq4bG0mcDEmtMnyM9qvZ0iCIabT3W6LJc7qBmz6hL8PBB8zWcy2Sq5VxDjI1/738=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ImEv4Ai5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cLMrNeV9; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1779368350; c=relaxed/simple;
+	bh=nCCsq+ltIsdaXwDBzz7XNCu5ikwtb6mcMp6nTD/8nUE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=UtzQql82fxqKTSiz5uuXCIMNtj2bJbJqKEvRzue69Ji4oWbQOHRROWi6SRW7xZghXlzY4QezHW74gOUpSW/l3ORq9uA0LXOMFkicCmRicsX5aqOE1kSTeMw64VDV8u84XIkKR9cnRUXsVzxUcgM3SQIY1AA+MVWOz7XJfzBvThY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vNeTSR5J; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ImEv4Ai5";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cLMrNeV9"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64LAXvsw818881
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 12:20:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TwK02OO4K1epQED36FGkSoJT4inoRnIOR99uClBefzI=; b=ImEv4Ai599CkKWct
-	28BA/t+9vRGd5MBP7ry2a53XDrFhmSAHGsRtyliCdQ5YKRfW1Bh1Gxns0N4G6ssK
-	HQET9yhe8qDT6Jy2C/JFNNPd/qE2aWrX3PEyGEQTTy8vHmvk76zfeWM7feJ3k5ga
-	RGKcE1FLRVm9bx55awCHNyRoLTicBQBYgsRo/1etey2TNkPVJX243Z6+PVqx5brP
-	qKocHiZtcdEL3XAQOUeWmmkrh8DCY2g2e844j7AFlirWv67+T15Vb3eu1Sc1fg/0
-	zZ9MMzUelSnBhh/QDqO992G3e4SyivLJq4ojL6/eu2cafltwEvyb+EILUw2EmW1J
-	zYPTCw==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ea0dkgc3q-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 12:20:21 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c827bda2e60so3553587a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 05:20:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vNeTSR5J"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2babbeff9e4so65984855ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 05:59:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779366021; x=1779970821; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TwK02OO4K1epQED36FGkSoJT4inoRnIOR99uClBefzI=;
-        b=cLMrNeV9Uh0cbmZtjrwnUReHA1vLzJ+Q+kSi8B6WTLxXsDUze+X+vbv627UMa0YCss
-         e63Bh1xM4L6X9ufiH7Ktpk1e5q0H93NJ9mbL3UaVzmj9aVdDvLxRdtz05jw1duM1sSYt
-         wOtsPLmJjrBolRQ6HwF6SNiaX8bniMgSfxwgvf85ZVgKPQPnhdlIREWcTrADlFUKYrUo
-         YZX/so/HsB/nUjm7guDF9Kzthvl9oerzKPJpx9BM64rPSij7AHapFKzUu1K8SH73FnBp
-         TkAKzVS/ad116VHg4oQx2gs1A5WxdjO9wXspQV1d5EaQFHHmvxWrSFMo8FuC9ko46/cb
-         LpLg==
+        d=google.com; s=20251104; t=1779368348; x=1779973148; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6A/WkImBLvFQtcCerZuF0HISLRf2xh2w4ZLFxLCX4+s=;
+        b=vNeTSR5JPbEo10JKP2KMs3y9nFjiSqdVB1ENtWEpq1c9R+17rT4WM8tgfMmxRwaPZf
+         n7B+qP+pEkXZ7zBj5au08+vP3FIAUs/s3FWCD797zA6bZlHD/nPAdaAVeJkLt+yYdSxx
+         ez0fZPdsg0DPhKJ0EnU/ZPae+4unt5n05rFevPxtqSBCvSn9hVE+jcLVH21AKHb5ScfP
+         hcWQeatS2T2mdTMyhcwi/9oucX9j2DaMbbIXuSchTvdLZpdelF3CgrlvfGyVZhL0f7d+
+         InFSw8y73c8AQuALmdBISP8SngbKHaa6wBvnev+8mulY2FpBOUwjQtmBc5Qps5H/XKaw
+         VLYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779366021; x=1779970821;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TwK02OO4K1epQED36FGkSoJT4inoRnIOR99uClBefzI=;
-        b=WxYX/b5DW1Fb9LtE1G+KkTppKDNumjpbeg0kEkx5nIDSlBiGqnivRmrzbsj/dy62e8
-         ikzDHcU9mggH/r4XOQaOuujo1B9jy8It61c0rNSPC8n1SlxTBX/T0XGWvOfV9YzDz3rt
-         m/JR7HuUdId98rdw4cOqT25CVJy1hbgmiSkrZjvZutC6mMRSszvOyML7HSylK4+GsG3e
-         ++Qxgh/hKUG9CUrz0YIyUKQfM8gdWaOTiLF6Yp+3vp4qWfx8jFJ7MZ1dXTIMkktA5Ega
-         5VXrbyghs1JSVzrIXeUWcz2hXkGu3CnTyTXQCnz2Z1AnrrE81a6Kz7jIiRymIJCdCeWw
-         RMrg==
-X-Forwarded-Encrypted: i=1; AFNElJ8Z3wp3edNc29LLnabCfcLozB3gKuwS/peHLIpwrXk33Gw5U2jLLK85UTAkHcJnXhjNfuBQggIqZTI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8YgubOwhzXATa8Kql7DB995OsrNm54JTeKxvf9dN+MP1EyLkU
-	D37htjSt4QhXE1n27T3NMCIZXpNBVRYN0et7pfYhCCjDnjVOdHK3TS4XMAqtV/XLBfYqmrXeyYt
-	SgVS0NXngVOM4E9c99wuy6yRd1GS5eL+EYidJ9g46UUd4diFU7UbVjDoBKroNmvI=
-X-Gm-Gg: Acq92OEHQ5Tk9jFujhevpt0b+GPvGjgka/vq96bvujX7blLUlOnijoI/BHW0b93lEEM
-	z6BpeCMEZI7zZkzlCNrDdP9g9RLmtYffNlf5AYRsU10icli8o8qFhvjjxvZ5UveN5snFcLAfCtg
-	fMn64heYsA2JnBNURDtIKEbkh9tRn4BWcyYuYV5on2gLDLRHq5bpDZ/++SxLSCaQCw9qDHGVCIE
-	MiLan7r2hcbLsQFncEo2Wdbkxcvxeait1shfwjPUd/swZ5dfaTSLAIdEBI75Lu2V53VUcMN5ZLC
-	wqlG95lyhEymH82Jz5GSxHWRDoMUuvLRY7CQVafDQKNdWXHi0RJ/R8S8LEqE3FaAxso2BJtTQbK
-	fjVbrytikF8dlJBGthwFDoe3wBrK8LobYJiNnb59lKOkiWO7XiXyDbmwLnUs=
-X-Received: by 2002:a05:6a20:9183:b0:398:6bb5:54c4 with SMTP id adf61e73a8af0-3b30854e9c4mr3264395637.5.1779366020811;
-        Thu, 21 May 2026 05:20:20 -0700 (PDT)
-X-Received: by 2002:a05:6a20:9183:b0:398:6bb5:54c4 with SMTP id adf61e73a8af0-3b30854e9c4mr3264348637.5.1779366020198;
-        Thu, 21 May 2026 05:20:20 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c851980bcdcsm240706a12.14.2026.05.21.05.20.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 05:20:19 -0700 (PDT)
-Date: Thu, 21 May 2026 17:50:02 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Eugen Hristev <eugen.hristev@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Dennis Zhou <dennis@kernel.org>,
-        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Anna-Maria Behnsen <anna-maria@linutronix.de>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
-        Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
-        David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Kees Cook <kees@kernel.org>, Brendan Jackman <jackmanb@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-        Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-        Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
-        Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>,
-        Youngjun Park <youngjun.park@lge.com>, Petr Mladek <pmladek@suse.com>,
-        John Ogness <john.ogness@linutronix.de>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 00/25] Introduce meminspect
-Message-ID: <20260521122002.etqupwnjv67didat@hu-mojha-hyd.qualcomm.com>
-References: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
- <abdnp90cC5PI9wyz@baldur>
- <20260316181647.m7x4ncmwdjho6yvr@hu-mojha-hyd.qualcomm.com>
- <abtlUQqMOxj5PwGB@baldur>
+        d=1e100.net; s=20251104; t=1779368348; x=1779973148;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6A/WkImBLvFQtcCerZuF0HISLRf2xh2w4ZLFxLCX4+s=;
+        b=AoD3sJ5yts8EAKTpDTHLFoIUBKkpNDoSc+I8KCf4ljGjljBKWkrzEPO4dFbZ05nawK
+         0xSXa/VZfxw7IAAocZeDzi4kcqg6VeRyI5P+CJRQ7Qg3eWU766Gs+TrodYuoAQO+fWb1
+         Gdg8AX3J8g2fCOhgbrJqa8YOhw4C3RFeq3OrRUL3gWBrwFOpzL2RJBCokFVXKYTRof00
+         xaYo/JHmZhyZNmMntTkWffy3k2UOqNPDlX1Jo+8BjjkYbex4UY0i4OHQjP4h9eoKb70p
+         lDNDAcvYxlnhj/WJ+JMveN3D4rzNMIcQ7Je4K9ZkAJh/WmJK7O2f8eok1PXMKFlh+ef9
+         gSiw==
+X-Forwarded-Encrypted: i=1; AFNElJ9J6eHkASw1SUNuzwKboJurgWd+tnMPUalBDw4RjKh/FbH5dnM3PMjfDCwzlYRhIW9Wuuo9S8fCUmg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKtAPM4ZzkBgoCxQYXEbuP0hHONtlDAC/I43roSI3SpXTBuj2D
+	UWD5xDVpsI2FSPAu4oa+lkkwoOJxTMIGVKCEiSrfyy2Vgvg/NS6KVEw/9Ck8hQcVR5l7yz0Zb05
+	YA7Hjhg==
+X-Received: from plbl6.prod.google.com ([2002:a17:902:eb06:b0:2bd:7dc:3354])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:e74f:b0:2b0:4f16:22f7
+ with SMTP id d9443c01a7336-2bea229c3e5mr27900055ad.16.1779368347626; Thu, 21
+ May 2026 05:59:07 -0700 (PDT)
+Date: Thu, 21 May 2026 05:59:06 -0700
+In-Reply-To: <CA+EHjTxcadguOfOo7RpJVtAzcY5JAFZTbrAT_wcN6akMi8gCUg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <abtlUQqMOxj5PwGB@baldur>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDEyMyBTYWx0ZWRfX2X/e1UZqbRO1
- R5QTLH5vAjgDLPh3yOrN6WfOCxKu2Eme/xJS3etnETpptXQfV08Wes44GaBglM+dxvqNK+hhDrU
- EduEctoATveAKROSM+gcWd4sOOvs3BOA2NIBeOvX4j6/hu7d8lnMb4Db9jWlP4VnFkJI6evrEhj
- bKyx8KH2VLFHLnTzzwVjIaG6FLvQSRhpiUjQ/KT8Q+cNVU7ijmW916qSOAhPbhnmapSxVzo3qBf
- k5UWjFTsrixicOeCem7F8elxYP2PrIm/gN0ECCchFEgrfLn5IeSs0TuD6TwjQAP3N0B/yhYuv2L
- K9X2Ys6QcW9BNcySANVCdU9NZ80AZ8lDyC79Ebc25ns8AVDmwF6PxdzE89uexvpe4bC1dFOSotl
- WuH1EBvK0bJwA9oFmpAcUxl8DR0tjbpChjCI0RUCU12D702iwJkJiDUpyqNbxxKePB6qlcrK/I+
- 90nYK9jDrKnRXWqMXRg==
-X-Authority-Analysis: v=2.4 cv=aueCzyZV c=1 sm=1 tr=0 ts=6a0ef885 cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=NEAV23lmAAAA:8 a=mDV3o1hIAAAA:8 a=0QWIX89dG7aUu2ROjmkA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
-X-Proofpoint-GUID: TlVMwii9eE6w_W83a8gAenGWebyW5sem
-X-Proofpoint-ORIG-GUID: TlVMwii9eE6w_W83a8gAenGWebyW5sem
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-21_02,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 adultscore=0 phishscore=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 clxscore=1015
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605210123
+Mime-Version: 1.0
+References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com>
+ <20260507-gmem-inplace-conversion-v6-16-91ab5a8b19a4@google.com> <CA+EHjTxcadguOfOo7RpJVtAzcY5JAFZTbrAT_wcN6akMi8gCUg@mail.gmail.com>
+Message-ID: <ag8BmtzxTlcuA_zy@google.com>
+Subject: Re: [PATCH v6 16/43] KVM: guest_memfd: Use actual size for
+ invalidation in kvm_gmem_release()
+From: Sean Christopherson <seanjc@google.com>
+To: Fuad Tabba <tabba@google.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, ira.weiny@intel.com, jmattson@google.com, 
+	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
+	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
+	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, 
+	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
+	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
+	aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Mar 18, 2026 at 09:55:29PM -0500, Bjorn Andersson wrote:
-> On Mon, Mar 16, 2026 at 11:46:47PM +0530, Mukesh Ojha wrote:
-> > On Sun, Mar 15, 2026 at 09:24:39PM -0500, Bjorn Andersson wrote:
-> > > On Wed, Mar 11, 2026 at 01:45:44AM +0530, Mukesh Ojha wrote:
-> [..]
-> > > >, to get all the regions as
-> > > > separate files.  The tool from the host computer will list the regions
-> > > > in the order they were downloaded.
-> > > > 
-> > > > Once you have all the files simply use `cat` to put them all together,
-> > > > in the order of the indexes.  For my kernel config and setup, here is my
-> > > > cat command : (you can use a script or something, I haven't done that so
-> > > > far):
-> > > 
-> > > So these need to be sorted in numerical order, by that number at the end
-> > > of the file name?
-> > > 
-> > > Do you manually punch these in? How do we make this user friendly?
-> > 
-> > Yes, manually.. but I think we can do better. We could make
-> > this more user‑friendly by using the section header and string table in
-> > the md_KELF binary both of which existed in the earlier implementation.
-> > Then, we can write an upstream‑friendly script that reads this KELF
-> > metadata file, checks whether a binary with the registered name is
-> > present, and stitches everything together to form a complete ELF that
-> > the crash tool can consume.  Let me know if you have any suggestion..
-> > 
+On Thu, May 21, 2026, Fuad Tabba wrote:
+> Hi Ackerley,
 > 
-> Can we somehow identify that these regions belong to the minidump and
-> teach QDL to build the ELF for us?
+> On Thu, 7 May 2026 at 21:22, Ackerley Tng via B4 Relay
+> <devnull+ackerleytng.google.com@kernel.org> wrote:
+> >
+> > From: Ackerley Tng <ackerleytng@google.com>
+> >
+> > __kvm_gmem_invalidate_begin() and __kvm_gmem_invalidate_end() actually do
+> > not specially handle -1ul. -1ul is used as a huge number, which legal
+> > indices do not exceed, and hence the invalidation works as expected.
+> >
+> > Since a later patch is going to make use of the exact range, calculate the
+> > size of the guest_memfd inode and use it as the end range for invalidating
+> > SPTEs.
+> >
+> > Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> 
+> Want to look at what Sashiko has to say? Seems to be a real issue:
+> 
+> https://sashiko.dev/#/patchset/20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4%40google.com?part=16
+> 
+> If I understand correctly, the fix should simple: use
+> check_add_overflow() to validate the offset and size parameters in
+> kvm_gmem_bind()
+> 
+>    int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
+>              unsigned int fd, loff_t offset)
+>    {
+>        loff_t size = slot->npages << PAGE_SHIFT;
+>    +    loff_t end;
+>        unsigned long start, end_index;
+>        struct gmem_file *f;
+> ...
+>    -    if (offset < 0 || !PAGE_ALIGNED(offset) ||
+>    -        offset + size > i_size_read(inode))
+>    +    if (offset < 0 || !PAGE_ALIGNED(offset) ||
+>    +        check_add_overflow(offset, size, &end) ||
 
-Raised PR for the QDL https://github.com/linux-msm/qdl/pull/243 which
-does not use numerating order and we can completely drop.
+Eww, TIL I'm not a fan of check_add_overflow().  Burying an out-param in an
+if-statement is nasty.
 
-With that PR, QDL will be generating minidump.elf .
+>    +        end > i_size_read(inode))
 
-And I checked the latest crash tool with no extra patching and just the
---minimal option (as we do not have everything in the minidump) and just
-dmesg.
+This is all rather silly.  @offset and and @slot->npages are fundamentally
+unsigned values.   I don't see any reason to convert them to signed values, only
+to convert them *back* to unsigned values (when stored in start/end, because xarrays
+operate on "unsigned long" indices).
 
+i_size_read() obviously has to return a positive value, so can't we just do this?
 
-$ ./crash  --minimal minidump/vmlinux ./minidump/minidump.elf
+diff --git virt/kvm/guest_memfd.c virt/kvm/guest_memfd.c
+index a35a55571a2d..9c6dbb54e800 100644
+--- virt/kvm/guest_memfd.c
++++ virt/kvm/guest_memfd.c
+@@ -640,9 +640,9 @@ int kvm_gmem_create(struct kvm *kvm, struct kvm_create_guest_memfd *args)
+ }
+ 
+ int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
+-                 unsigned int fd, loff_t offset)
++                 unsigned int fd, u64 offset)
+ {
+-       loff_t size = slot->npages << PAGE_SHIFT;
++       u64 size = slot->npages << PAGE_SHIFT;
+        unsigned long start, end;
+        struct gmem_file *f;
+        struct inode *inode;
+@@ -664,8 +664,7 @@ int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
+ 
+        inode = file_inode(file);
+ 
+-       if (offset < 0 || !PAGE_ALIGNED(offset) ||
+-           offset + size > i_size_read(inode))
++       if (!PAGE_ALIGNED(offset) || offset + size > i_size_read(inode))
+                goto err;
+ 
+        filemap_invalidate_lock(inode->i_mapping);
+diff --git virt/kvm/kvm_mm.h virt/kvm/kvm_mm.h
+index 9fcc5d5b7f8d..3cb5ef86d0d9 100644
+--- virt/kvm/kvm_mm.h
++++ virt/kvm/kvm_mm.h
+@@ -72,7 +72,7 @@ int kvm_gmem_init(struct module *module);
+ void kvm_gmem_exit(void);
+ int kvm_gmem_create(struct kvm *kvm, struct kvm_create_guest_memfd *args);
+ int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
+-                 unsigned int fd, loff_t offset);
++                 unsigned int fd, u64 offset);
+ void kvm_gmem_unbind(struct kvm_memory_slot *slot);
+ #else
+ static inline int kvm_gmem_init(struct module *module)
+@@ -80,9 +80,8 @@ static inline int kvm_gmem_init(struct module *module)
+        return 0;
+ }
+ static inline void kvm_gmem_exit(void) {};
+-static inline int kvm_gmem_bind(struct kvm *kvm,
+-                                        struct kvm_memory_slot *slot,
+-                                        unsigned int fd, loff_t offset)
++static inline int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
++                               unsigned int fd, u64 offset)
+ {
+        WARN_ON_ONCE(1);
+        return -EIO;
 
-crash 9.0.2++
-Copyright (C) 2002-2026  Red Hat, Inc.
-Copyright (C) 2004, 2005, 2006, 2010  IBM Corporation
-Copyright (C) 1999-2006  Hewlett-Packard Co
-Copyright (C) 2005, 2006, 2011, 2012  Fujitsu Limited
-Copyright (C) 2006, 2007  VA Linux Systems Japan K.K.
-Copyright (C) 2005, 2011, 2020-2024  NEC Corporation
-Copyright (C) 1999, 2002, 2007  Silicon Graphics, Inc.
-Copyright (C) 1999, 2000, 2001, 2002  Mission Critical Linux, Inc.
-Copyright (C) 2015, 2021  VMware, Inc.
-This program is free software, covered by the GNU General Public License,
-and you are welcome to change it and/or distribute copies of it under
-certain conditions.  Enter "help copying" to see the conditions.
-This program has absolutely no warranty.  Enter "help warranty" for details.
-
-GNU gdb (GDB) 16.2
-Copyright (C) 2024 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-Type "show copying" and "show warranty" for details.
-This GDB was configured as "--host=x86_64-pc-linux-gnu --target=aarch64-elf-linux".
-Type "show configuration" for configuration details.
-Find the GDB manual and other documentation resources online at:
-    <http://www.gnu.org/software/gdb/documentation/>.
-
-For help, type "help".
-Type "apropos word" to search for commands related to "word"...
-
-NOTE: minimal mode commands: log, dis, rd, sym, eval, set, extend and exit
-
-crash> log
-[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x512f0030]
-[    0.000000] Linux version 7.1.0-rc2-next-20260504-00228-g2595b97d6061 (@f134cd6ce783) (aarch64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #11 SMP PREEMPT Fri May 15 09:34:41 UTC 2026
-[    0.000000] KASLR disabled on command line
-[    0.000000] random: crng init done
-[    0.000000] Machine model: Qualcomm Technologies, Inc. XXXX
-[    0.000000] earlycon: qcom_geni0 at MMIO 0x0000000000a9c000 (options '')
-[    0.000000] printk: legacy bootconsole [qcom_geni0] enabled
-[    0.000000] efi: UEFI not found.
-...
-..
-
-
-[   48.488296] sysrq: Trigger a crash
-[   48.492004] Kernel panic - not syncing: sysrq triggered crash
-[   48.497944] CPU: 3 UID: 0 PID: 363 Comm: sh Tainted: G        W           7.1.0-rc2-next-20260504-00228-g2595b97d6061 #11 PREEMPT
-[   48.510055] Tainted: [W]=WARN
-[   48.513140] Hardware name: Qualcomm Technologies, Inc. XXXX
-[   48.519699] Call trace:
-[   48.522276]  show_stack+0x18/0x24 (C)
-[   48.526089]  dump_stack_lvl+0x34/0x8c
-[   48.529903]  dump_stack+0x18/0x24
-[   48.533366]  vpanic+0x47c/0x4dc
-[   48.536646]  do_panic_on_target_cpu+0x0/0x1c
-[   48.541078]  sysrq_reset_seq_param_set+0x0/0x94
-[   48.545788]  __handle_sysrq+0xd4/0x1b8
-[   48.549679]  write_sysrq_trigger+0xc0/0xd0
-[   48.553930]  proc_reg_write+0x9c/0xf0
-[   48.557737]  vfs_write+0xd4/0x358
-[   48.561187]  ksys_write+0x6c/0x104
-[   48.564724]  __arm64_sys_write+0x1c/0x28
-[   48.568809]  invoke_syscall+0x54/0x10c
-[   48.572704]  el0_svc_common.constprop.0+0xc0/0xe0
-[   48.577578]  do_el0_svc+0x1c/0x28
-[   48.581025]  el0_svc+0x38/0x138
-[   48.584317]  el0t_64_sync_handler+0xa0/0xe4
-[   48.588660]  el0t_64_sync+0x198/0x19c
-[   48.592474] SMP: stopping secondary CPUs
-[   48.796761] Kernel Offset: disabled
-[   48.806510] Memory Limit: none
-crash>
-
--- 
--Mukesh Ojha
