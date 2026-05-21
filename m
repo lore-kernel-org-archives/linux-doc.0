@@ -1,85 +1,150 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAC5349CC4;
-	Thu, 21 May 2026 23:33:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F91345751;
+	Thu, 21 May 2026 23:48:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779406391; cv=none; b=f2MXVDI/KGiZ7SvWSAaXk5x8BzNt+yQIKX6/wCcJ2WIhMqXj2227loNuO6VEFsDRSf2vP7b2EQPQCVdOnxA8jE8xoGFtXMwk+p0S6blDsFqzdVYfadHTs4OWj4jbnWNwBE52du5Dl6fdLQs/E0d34CbzeyyTCCi4jNQkgnJvlL4=
+	t=1779407303; cv=none; b=Wrux3On837rSNEpMEknj59VtxOhnZDwQrYrJgsWN7hyVAEaT3jFu2nbQXPlyqnjS3jw50D2gDNCwCsIXYlzMGjd+m0ZSwNEq5LEvxhdk30iieZ4t8vfH5NlYipvll+Z/F3rcIClLkDGyaqVEE2DJqCgAwu/MkpyiRD/LLmRQaA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779406391; c=relaxed/simple;
-	bh=xK2Ha68L1jsnnLSw3fkGFBma6xiILZJezBM+pkrvLHc=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=o6CowfOlV4E3Hk2rWmJpNXLJmW5ztvoPM/LfGSq8Ew2JQBs/ZzYfn8c/FdQQrfMIXmOyN1vXNVWC2sU3+BEItOZJVljh+6jEBpFg/rJU3SOaYdupm2zs0u9MRjU0aa+yEAC6n7lUO7LWLW+zq9zBAzC4mTSVIoKqcWp8xSOffUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=B5hOJ1El; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779407303; c=relaxed/simple;
+	bh=UlF9gJjEMVY+E/7L2Pp90ctu+/ripQkiR44EgY80wng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dQzqkFFEyztFxjfcjzsIExmDjVYAlCysrbM3FSw/D1tQJYkiWR2Z5njacKjeeebzSW7dvvqxHqo+YKzizzjNa9qXMlIaLvr/MBwDXFNyGfx2Us5HrTPnsUf6ys+ApWMJKKJrApIzznHl0EyZb1gADptL0oQmPTy6xXRjkmlWKc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iWhFksnX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="B5hOJ1El"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 738DB1F000E9;
-	Thu, 21 May 2026 23:33:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1779406390;
-	bh=AivDyEnvpyPmjIUTAgHTmNXJVE2IywT0hdhO6rhqLEk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=B5hOJ1ElllrFrloQ/p0k7RDgdXQc1ysB0bGPCNT9A7VTOG8AvvaU2KUKcZ1blYarq
-	 4KnL0AIvmVxxhgHg9boc5OBOlAz8JjPaGwh4C90y1ab1EnEwd+5W/ekV0Cu/NiuLMh
-	 3UQ8B7bK/3I4KDPEjTx0H4U1zc6pyHYVFUXC1d/Y=
-Date: Thu, 21 May 2026 16:33:09 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Stanislav Kinsburskii <skinsburskii@gmail.com>
-Cc: Liam.Howlett@oracle.com, david@kernel.org, jgg@ziepe.ca, corbet@lwn.net,
- leon@kernel.org, ljs@kernel.org, mhocko@suse.com, rppt@kernel.org,
- shuah@kernel.org, skhan@linuxfoundation.org, surenb@google.com,
- vbabka@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v3 0/3] mm/hmm: Add mmap lock-drop support for
- userfaultfd-backed mappings
-Message-Id: <20260521163309.c5cc5d3f6cf16bac212cf90b@linux-foundation.org>
-In-Reply-To: <177928604779.589431.14703161356676674288.stgit@skinsburskii>
-References: <177928604779.589431.14703161356676674288.stgit@skinsburskii>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iWhFksnX"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id EAB811F000E9;
+	Thu, 21 May 2026 23:48:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779407292;
+	bh=2pEEr3fcws8uQJeACuJVg46rHNKglVXFNsZQQpv51yg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=iWhFksnXX48OJ53XG/uwmKMLqm13P/1J0TwbW27HAYqrnhrA/g0ZduLLQxu5/h3G0
+	 vCgGOO0gzSwAv8Pv4kL3SmfFModOgC9XvABitcyR2FN1Ky46CTofALaYTCOWWSAEGm
+	 JCDrG2NnToB37JzMNPhq/16OEMPkT2HYIzZcfuenhJa5ErvnqWtuhMwXwyQac5asUx
+	 4Ksee/ziz4Qnu57UXabtfcDr6fREeglIf9yUorYKk7tdQGcNlaiHbqBn9pPh8cOD/W
+	 uVLMT0ptzW5oJjV3rdEUgYEe/6iD+bsZdLmeSkmPNSCMA03iFaun7ii2/Veprnj3II
+	 yCa4TP3uWSuOA==
+Date: Fri, 22 May 2026 02:48:08 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Jim Broadus <jbroadus@gmail.com>
+Cc: linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, peterhuewe@gmx.de, jgg@ziepe.ca
+Subject: Re: [PATCH] tpm: tpm_tis: Add optional delay after relinquish
+Message-ID: <ag-ZuEt4uXnrO8AK@kernel.org>
+References: <20260519060926.103727-1-jbroadus@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519060926.103727-1-jbroadus@gmail.com>
 
-On Wed, 20 May 2026 07:09:19 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
-
-> This series extends the HMM framework to support userfaultfd-backed memory
-> by allowing the mmap read lock to be dropped during hmm_range_fault().
+On Mon, May 18, 2026 at 11:09:26PM -0700, Jim Broadus wrote:
+> Some TPMs fail to grant locality when requested immediately after being
+> relinquished. In this case, the TPM_ACCESS_REQUEST_USE bit of the
+> TPM_ACCESS register is cleared immediately without setting
+> TPM_ACCESS_ACTIVE_LOCALITY.
 > 
-> Some page fault handlers — most notably userfaultfd — require the mmap lock
-> to be released so that userspace can resolve the fault. The current HMM
-> interface never sets FAULT_FLAG_ALLOW_RETRY, making it impossible to fault
-> in pages from userfaultfd-registered regions.
+> This issue can be seen at boot since tpm_chip_start, called right
+> after locality is relinquished, fails. This causes the probe to fail:
 > 
-> This series follows the established int *locked pattern from
-> get_user_pages_remote() in mm/gup.c. A new entry point,
-> hmm_range_fault_unlockable(), accepts an int *locked parameter. When the
-> mmap lock is dropped during fault resolution (VM_FAULT_RETRY or
-> VM_FAULT_COMPLETED), the function returns 0 with *locked = 0, signalling
-> the caller to restart its walk. The existing hmm_range_fault() is
-> refactored into a thin wrapper that passes NULL, preserving current
-> behavior for all existing callers.
+> tpm_tis MSFT0101:00: probe with driver tpm_tis failed with error -1
 > 
-> Faulting hugetlb pages on the unlockable path is not supported because
-> walk_hugetlb_range() unconditionally holds and releases
-> hugetlb_vma_lock_read across the callback; if the mmap lock is dropped
-> inside the callback, the VMA may be freed before the walk framework's
-> unlock. Hugetlb pages already present in page tables are handled normally.
-> Possible approaches to lift this limitation are documented in
-> Documentation/mm/hmm.rst.
+> This occurs on some older Dell Latitudes and maybe others. To work
+> around this, add a "settle" boolean param to tpm_tis. When this is
+> enabled, a delay is added after locality is relinquished.
+> 
+> Signed-off-by: Jim Broadus <jbroadus@gmail.com>
 
-Thanks.  AI review identified one possible issue, possibly a duplicate
-from the v2 series?
+It would be better idea first to replace priv->manufacturer_id with
+priv->did_vid, and make necessary changes to sites where it is used.
 
-	https://sashiko.dev/#/patchset/177928604779.589431.14703161356676674288.stgit@skinsburskii
+Then in the if-statement compare DID/VID of the device to priv->did_vid
+and apply quirk only if it matches.
 
-I'll take no action at this stage, shall await reviewer input.  Please
-poke me in a week or so if nothing has happened.
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
+>  drivers/char/tpm/tpm_tis.c                      | 7 +++++++
+>  drivers/char/tpm/tpm_tis_core.c                 | 3 +++
+>  drivers/char/tpm/tpm_tis_core.h                 | 1 +
+>  4 files changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 4d0f545fb3ec..5b7111033fbb 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -7651,6 +7651,13 @@ Kernel parameters
+>  			defined by Trusted Computing Group (TCG) see
+>  			https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
+>  
+> +	tpm_tis.settle= [HW,TPM]
+> +			Format: <bool>
+> +			When enabled, this adds a delay after locality is
+> +			relinquished. Some TPMs will fail to grant locality if
+> +			requested immediately after being relinquished. This
+> +			causes the probe to fail.
+> +
+>  	tp_printk	[FTRACE]
+>  			Have the tracepoints sent to printk as well as the
+>  			tracing ring buffer. This is useful for early boot up
+> diff --git a/drivers/char/tpm/tpm_tis.c b/drivers/char/tpm/tpm_tis.c
+> index 9aa230a63616..8ac0ea78570e 100644
+> --- a/drivers/char/tpm/tpm_tis.c
+> +++ b/drivers/char/tpm/tpm_tis.c
+> @@ -101,6 +101,10 @@ module_param(force, bool, 0444);
+>  MODULE_PARM_DESC(force, "Force device probe rather than using ACPI entry");
+>  #endif
+>  
+> +static bool settle;
+> +module_param(settle, bool, 0444);
+> +MODULE_PARM_DESC(settle, "Add settle time after relinquish");
+> +
+>  #if defined(CONFIG_PNP) && defined(CONFIG_ACPI)
+>  static int has_hid(struct acpi_device *dev, const char *hid)
+>  {
+> @@ -242,6 +246,9 @@ static int tpm_tis_init(struct device *dev, struct tpm_info *tpm_info)
+>  	if (itpm || is_itpm(ACPI_COMPANION(dev)))
+>  		set_bit(TPM_TIS_ITPM_WORKAROUND, &phy->priv.flags);
+>  
+> +	if (settle)
+> +		set_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &phy->priv.flags);
+> +
+>  	return tpm_tis_core_init(dev, &phy->priv, irq, &tpm_tcg,
+>  				 ACPI_HANDLE(dev));
+>  }
+> diff --git a/drivers/char/tpm/tpm_tis_core.c b/drivers/char/tpm/tpm_tis_core.c
+> index 21d79ad3b164..68be26fa5817 100644
+> --- a/drivers/char/tpm/tpm_tis_core.c
+> +++ b/drivers/char/tpm/tpm_tis_core.c
+> @@ -184,6 +184,9 @@ static int tpm_tis_relinquish_locality(struct tpm_chip *chip, int l)
+>  		__tpm_tis_relinquish_locality(priv, l);
+>  	mutex_unlock(&priv->locality_count_mutex);
+>  
+> +	if (test_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &priv->flags))
+> +		tpm_msleep(TPM_TIMEOUT);
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/char/tpm/tpm_tis_core.h b/drivers/char/tpm/tpm_tis_core.h
+> index 6c3aa480396b..413cac5e0f31 100644
+> --- a/drivers/char/tpm/tpm_tis_core.h
+> +++ b/drivers/char/tpm/tpm_tis_core.h
+> @@ -90,6 +90,7 @@ enum tpm_tis_flags {
+>  	TPM_TIS_DEFAULT_CANCELLATION	= 2,
+>  	TPM_TIS_IRQ_TESTED		= 3,
+>  	TPM_TIS_STATUS_VALID_RETRY	= 4,
+> +	TPM_TIS_SETTLE_AFTER_RELINQUISH	= 5,
+>  };
+>  
+>  struct tpm_tis_data {
+> -- 
+> 2.54.0
+> 
 
-Which is quite possible - things seem rather hectic at this time and
-we're almost at -rc5!
+BR, Jarkko
