@@ -1,583 +1,196 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3A433ADB5
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 08:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779351651; cv=none; b=l1xdG9AzQ+C3qQM25MT7ywe9T+jFObUq1tw6Qo6SS5RitXLpdxKb2kAiIZ6MYSmlWoy9eyntTkfClRUxjPDZsEDGiK0hrVE+iTbm63uCXQBX0ke5siXsU/5Z4kShh5jfuA6lyt4CbPMU0In495qQ0kB01JqDekAPl46Q+e3271s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779351651; c=relaxed/simple;
-	bh=E8JxVD1KkDMBIULK9hdlrTWRXAeEImY/KEKZEsw1pNo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qca12kua53WIRtoZnaVj8/6WsDddoqqx81T+1f7gzT44MKOwzsZLm4jPnMa178wAz/fuRO/70i2TPwQYaxnZ7ghNr25EOy+3nAZkBXOjLjEciJCOOuBEeORtKpkcFRdWK24e89kbL1Cuqjq7vyZpmqUafCXBU8Z5oMtpW7lVUtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qR6G6bnN; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513CF3016FC;
+	Thu, 21 May 2026 08:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779351949; cv=fail; b=irIimjkL/GcJLyOmAPTt2svWYu4MjVXGaYGN7b18Y9D4YlvHkHTGUjZZdzK6G2aTJSdJdDkcrkw3hyytA9e1ICVUsJu+AK9uYrdDxO/5ewZKQXS4nglsRufLm2UmcUh167tZef2CBoNrmRIm0LeGQtfYfWmOHVwDR2L53vHbseQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779351949; c=relaxed/simple;
+	bh=Vno1eiQ5KOMKvQNPpr4MqWKChMsbWaHmnQA7AOD3kiE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=imLyMk3VWs9BoPoYYiOTYwrLpT7KGiAzuDJB1nL1xOhlVadJ7S+izWM0iZBSRYYG1iZA3+noiqv/N8MDhicZpaf0BW/KtPScqv5Co3R480vUldJdqdtgJp+49rmbH1YmWNjSKOPcv6yCwzGx1i2DpkBlEAWB6h6i+dQTWlwefiY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R0SBYGF3; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qR6G6bnN"
-Message-ID: <b15d5320-f3ce-4b69-b6e1-b422173acbf0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779351634;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6NlNc1+nwiZFZKoNjYUpUqID0zmi9l1jkEZN2iRwBig=;
-	b=qR6G6bnNAnHQmudpOiI76lXzlTEEQG5ZwLoa9HgSekmeogYJrnyJnWMN/XhWfaVS7QMSUQ
-	myLloL5quxGqy6LCkHBjz3OxleWhms6C4V5i7yfEe2Q5Ye2BOjwvLE+HVyKGlQbx84ELWZ
-	/V0VvacCC/K0ihtpyh2DYoZnwN3DhLA=
-Date: Thu, 21 May 2026 16:19:43 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R0SBYGF3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779351947; x=1810887947;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=Vno1eiQ5KOMKvQNPpr4MqWKChMsbWaHmnQA7AOD3kiE=;
+  b=R0SBYGF3wmwrHdLZCihDj8m51SS1HCgBEjaAkWJLF+3ioCXdrO9nqHlT
+   egkJQEaKwUHGroPfjaYo9/TN6r5xBLSMj1STbkYkpgXHgGezZnnJveFbf
+   ZtrXhiCpWP9T7nR5qSaosn45zz9cGfE6QKZ0J+bjJ6l8gz+feh3xYx5Oy
+   TsTT8liz/ICEjnveZ0TN4tc7IL+WdnSrlEwljcAMVp+4q4t0sgWd1m+1P
+   O2kaI4fSKZ8iLrgpxtM7VVgCyCOZAotHuQ3Ty6jRRzd6keKOvGF59lcGd
+   QPbrkDRWcOmeNqoNAZTxf3ikAUYXCsEobgk3t3wZJJtGg9atHDY6ViKnr
+   g==;
+X-CSE-ConnectionGUID: FXi04lWpSJOBqEJ34cDsWw==
+X-CSE-MsgGUID: pE5KryyJR3KZRXhzYRFXbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="91658476"
+X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
+   d="scan'208";a="91658476"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 01:25:33 -0700
+X-CSE-ConnectionGUID: LE3SWCKAR3CKn/G/F2GkfA==
+X-CSE-MsgGUID: bWxTtDN2R6ys7FIK+uvNAA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
+   d="scan'208";a="236044529"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 01:25:33 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 21 May 2026 01:25:32 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 21 May 2026 01:25:32 -0700
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.59) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 21 May 2026 01:25:32 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IJ31sLIiBB2CWauNOsOJTlVR0iagBI4sho+IkY8h97rUrScucCUD/S6jtzyf2wiQ+J7qiLBfSzxrgOTFMXFHgjPriz6szdL5/Cdz+QyZkwOowpXdnGA0Mu+AhT94eYB1edjlo+2zwrdvPBi5ZT/14JxA8cmgMsffWZfEsTCfThQB25O0Zwo+KMv/JonCymo7ndHq/mwUB2sDGRmjSkmwoVq8LjP8Ucqb0WN4gn/0DtlCO1wTnVVGnw78fyp2pFDugt5PcNfhn2hqqxtcmdc8TWRnBfImdd+nPpwNlfvrabUIZ5kHUgxwrvzk16M5d8y1/cIpahJBLT5pLK3s3HXtYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TqxnN9EFK772KUToQHFP0eVVtPVjkOxwLCToJ8x1KC4=;
+ b=kJ0FHo53e0l/Qa/H70QkEQI0qWqQMzZ8WvCJC8pB3Cb1euWnCnPnin6OCv6xrKdAqkjkwkwgRla1Vb7b+KZcvfCNyZzarJxsFk50TsDdcjGaXNfvhlm00kgXtCd7t/6XI82wX/Z18Gx7B+3hmhqoKSf0ZZUIyMXCj6V8xio3yAM0xXSA3IcpZMs+jiE4SNIbNZxP9JoQeOiqcFISoy7KKmiKmNAHbNKSX6m7W899rp9QltDOYAujAV+sG+0z96j+TSun1vI5ER3rfBw/Y0SlsEuvQlQlOXa/v2M8DmVWtPhE2z0ihueqgHeViuKRkRLyGDH8NXM2Sbje4NxKEZ3qng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB7540.namprd11.prod.outlook.com (2603:10b6:806:340::7)
+ by LVUPR11MB9811.namprd11.prod.outlook.com (2603:10b6:408:39c::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.16; Thu, 21 May
+ 2026 08:25:30 +0000
+Received: from SN7PR11MB7540.namprd11.prod.outlook.com
+ ([fe80::2edd:5c6d:169c:389b]) by SN7PR11MB7540.namprd11.prod.outlook.com
+ ([fe80::2edd:5c6d:169c:389b%6]) with mapi id 15.21.0048.016; Thu, 21 May 2026
+ 08:25:30 +0000
+Date: Thu, 21 May 2026 10:25:16 +0200
+From: Larysa Zaremba <larysa.zaremba@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>, <davem@davemloft.net>,
+	<pabeni@redhat.com>, <edumazet@google.com>, <andrew+netdev@lunn.ch>,
+	<netdev@vger.kernel.org>, Phani R Burra <phani.r.burra@intel.com>,
+	<przemyslaw.kitszel@intel.com>, <aleksander.lobakin@intel.com>,
+	<sridhar.samudrala@intel.com>, <anjali.singhai@intel.com>,
+	<michal.swiatkowski@linux.intel.com>, <maciej.fijalkowski@intel.com>,
+	<emil.s.tantilov@intel.com>, <madhu.chittim@intel.com>,
+	<joshua.a.hay@intel.com>, <jacob.e.keller@intel.com>,
+	<jayaprakash.shanmugam@intel.com>, <jiri@resnulli.us>, <horms@kernel.org>,
+	<corbet@lwn.net>, <richardcochran@gmail.com>, <linux-doc@vger.kernel.org>,
+	Bharath R <bharath.r@intel.com>, Samuel Salin <Samuel.salin@intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Subject: Re: [PATCH net-next v3 05/14] libie: add bookkeeping support for
+ control queue messages
+Message-ID: <ag7BbB7EsMokmH7e@soc-5CG4396X81.clients.intel.com>
+References: <20260515224443.2772147-1-anthony.l.nguyen@intel.com>
+ <20260515224443.2772147-6-anthony.l.nguyen@intel.com>
+ <20260520185121.6f380ad0@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260520185121.6f380ad0@kernel.org>
+X-ClientProxiedBy: VI6PEPF0000022F.AUTP296.PROD.OUTLOOK.COM
+ (2603:10a6:808:1::8e9) To SN7PR11MB7540.namprd11.prod.outlook.com
+ (2603:10b6:806:340::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/6] alloc_tag: add ioctl to /proc/allocinfo
-To: Suren Baghdasaryan <surenb@google.com>,
- Abhishek Bapat <abhishekbapat@google.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Sourav Panda <souravpanda@google.com>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>
-References: <cover.1777936301.git.abhishekbapat@google.com>
- <d064a1a8de127c0e321f675a9966e533a0917e7e.1777936301.git.abhishekbapat@google.com>
- <2f546525-8ff6-4bbe-86ae-6f474f7cefe3@linux.dev>
- <CAL41Mv7zCEFUAD43wBRo+rno2AK-teUUaVSdx2Pd7qDU0uNwsg@mail.gmail.com>
- <c627136d-8060-4e2d-8473-0fe322ce1e6c@linux.dev>
- <CAJuCfpFn0Oefewvjp1jBhCOgxxwhHFy_RK08DwQywOjYcfr2pw@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <CAJuCfpFn0Oefewvjp1jBhCOgxxwhHFy_RK08DwQywOjYcfr2pw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB7540:EE_|LVUPR11MB9811:EE_
+X-MS-Office365-Filtering-Correlation-Id: 91476fcb-7f47-46c4-c5b2-08deb7128504
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|10070799003|366016|1800799024|22082099003|56012099003|18002099003|5023799004|11063799006|4143699003|6133799003;
+X-Microsoft-Antispam-Message-Info: beUd9OpwC2afCcRiiDwrGs/BMaHZ3GHnfKLgvk+L7dT+PH8xdJ9klQGI7o6jqDdEK8odxXrdCSu8SJqThlDLUaO6Bi3j38rWQ1pqNLIY2wp//fBbP/yOhxjsA2gIzAOYtwlRhCRn/6qTX3aA7etW2hTquJC/jNtfQumpbIiJBdVEKUr0iBQsfJfGDkHx/vkMPh9PFgfp8+dwPHRrey/1pP2pLTaiTCOg9yMyMAvqI9eiFvPnjVhdP9TozbPkMLp0D9QYOvUnbYuNJMBg1ytYYNTOeg6rtXsY2c79vUyMx2FOSc0eSIs7SsIGUe/IJt9p5Sy43s0oOF7B/KUznSsYCgzXPC8IKFjC1Ie3CGHBKqb4bHrSA5BEh/F4MsjCE4OQvcDEIEiBmONBMulINsxuyOyaKDc+qSGcN41ckwDWKoi4hB4CVrzc6BJhvvNNynDj46XAotqTZvKrlauzxewfJbDqfgNUGntEx7Bd4vO6l6VR6cDZIBOIGr0jgzAkyHrAL+PQDA6CIPTXZreasuzNOSbYt7ek9A8ineRoe7jvWZ7d6P1TRMGwQdABovFSTfLSv8tlwQspYaXvsjSkL2RrzQRS8IRVl8UkLTpbfcTlVDGpJQy7FKsdCCP3jFzU0LRhuRIE0i6I3sQf4EJL2RkWmu9E1qQAYy7o3TMo9pWyLXdpA3R5DaQ7WaD79AQNT4U2LVS9j6epzAP7HrZ2zP5GRA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7540.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(10070799003)(366016)(1800799024)(22082099003)(56012099003)(18002099003)(5023799004)(11063799006)(4143699003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+93helK4e8cVjWkgj19h62GBYl3H6/MB+gug5H7XGVYtNsQxAEPmz7XO525y?=
+ =?us-ascii?Q?5ns3rQ13H8uZ/HiTF+D3Apb8RhZ3dykvJVAiTMEIeGeXNpcNPvvStNI49MC8?=
+ =?us-ascii?Q?QDZI4ah0isl31Z8PVCxTvBVWLf2u22U6PlnQ6wvZG68/IjilIhwxxgD+f+oq?=
+ =?us-ascii?Q?kYl21HEJOXYwsSh1lyhhmsiq7A8f4wG139nUTiDxQGi08VN6RnU4IvpfNarV?=
+ =?us-ascii?Q?DT6HFEXoyfMzv3FjaukFJpWJe9u2tqfAh9CM4+2Y7T5iAGQJ65cVX5jwXj/c?=
+ =?us-ascii?Q?9UWz2I9L+MfjSD1ibe9QFyHwlhKWllZBFVKdYLDGSCLOBLrZuPI58q8hndir?=
+ =?us-ascii?Q?ZcAsnk1XFp9zTNXVPindNig+YuUWXXm5KRGqow5Z4SMHJxrEe0m+8lY0/seD?=
+ =?us-ascii?Q?F6RVKiL8VySPQceItAqjnoUztTZLnLV3rI0Fv6WrJeUtzjfuKZYjZCGIBC4b?=
+ =?us-ascii?Q?JiMYwuvQI7M2TQpJ4jEEwoEZUBhQNSCH9i1KI78B42PWaGpb2JzVL7e7yEPj?=
+ =?us-ascii?Q?8ihcRhDat/MrzGt9/44nxELJWk28vNgbJi8xmqNZ++bSuIoZNR+neKgMmN2S?=
+ =?us-ascii?Q?bYSlXjiKA8dJpejXpnJ+RLXeJimMl67KbX0YXkWRaMQvH07HuYp/gxa3ZiKd?=
+ =?us-ascii?Q?mbz7zY6R+HvaFRRnGLTBpphfVIrIsveyhpaeulFpTUycvEjllqU+fo2dqlc9?=
+ =?us-ascii?Q?0/WglBcPADq4DP5xxrkII+wvg01ud2GhsdmUXqwy0SIqKL+gmMVe30uuxXpn?=
+ =?us-ascii?Q?J52ra0l8VsL3uw3/NZdCE0GKDBItBspVwVBF6wC+37zgExoUzjW1zwPIftNL?=
+ =?us-ascii?Q?E2L99Luo8fV6H3Z+MM2LaD947UjRi6zPB2QVzjF81TikqZXmv6VASaDas/Bj?=
+ =?us-ascii?Q?+4zCpubozVZNYghPmNcgY97c+FqrjzpQG15uBKIxmAaFyHIGgsQRXt+8o9+3?=
+ =?us-ascii?Q?Zexn7H0PSsl4cnml95p5BdB10kQvM/mws3+Be2/s3KnS3frMYiHiavMi+nwb?=
+ =?us-ascii?Q?dtWGJZzH8v9Fda1Klo7G/z8609DYAT0UypeUDI73xT8x1wiXsT0uHFD9P3Ox?=
+ =?us-ascii?Q?l0IsL2qruFHuCIMvkYj4+hFGXzqCTqWKNN0p/2zSN/hh9fn7mdDlQXxBnjxZ?=
+ =?us-ascii?Q?ICd+6ol4+ClGx6eVGLXtdG0tVBAzgKN3XK6EFNaQayw5DZ4v+KY0sshZ6FZC?=
+ =?us-ascii?Q?oxCUA1+6+/qEVoaHzolyLJsy1v6vADnwcA13mKjPCSJ6F8bHU31h4DSm211p?=
+ =?us-ascii?Q?7e2abkc/jXQpBHQhrhgXIYMJUY9tbVS/ebPLsIpf7lEizlN4k8SZMoylzt9t?=
+ =?us-ascii?Q?QnYU7Df+1kecB4dc1jR3HMwf+auSfTz/QsvKcN+j3brpaPbkSXWVihA8LJLR?=
+ =?us-ascii?Q?cePYJMgtdLLEhJEHq+x4utyLlEK2AqFqv619KQzjkySHzgC15sFaFuiBP8Dk?=
+ =?us-ascii?Q?S0ls9nuQwMcm17LaabxtJ2NWSJus0yafHrlC94ODMxPi/+XswNNcEP2sliMQ?=
+ =?us-ascii?Q?SS22U6NeHfpm93ux+qlJWlf/DaiUGhZ1GTSv26XFZeBlMowVFQbmhEUqCBzw?=
+ =?us-ascii?Q?QCZeExU4twoxR5M/lQujKV/qUPYpA1VZWrNVleWEetcQOcovOcbspvbUFBEj?=
+ =?us-ascii?Q?u/9QdvKzV2xDtcffOMduWaSNMvUFJ5SsnxANuKKhBUQmQH86gdS09Qncjd3l?=
+ =?us-ascii?Q?5/VUTDONuVWaYlnTg7e7KWsqc9G2zYbTudqMx4hkcJIB/MLn3Fi2L8SiwCp/?=
+ =?us-ascii?Q?8hMUYAe93H7+cTMVorSulj53NuWISqNdWkWcVSTZ6H2FT7S6GtuRg2z51u/j?=
+X-MS-Exchange-AntiSpam-MessageData-1: fdTWiKaOBOJpjiMoTwCR6MgaHx27eOHp1aY=
+X-Exchange-RoutingPolicyChecked: qQwPse/52y6TgIjYBFPDawOdghNGeJPj7sOXiTEqOubHJ1B+GeDisH9F0RCq1hIaMpCuQZxeMczkPLDfAYXrhF2r/CMFIbMAdQE/JT1kp3cW6vAa0M7ydrEUnOfr8JBANKDEiwRaZLoJkrM68EiwuNnEwzyFc6vOOb8Ku5vWv5PLJnM7U1LUF5D/riyeeVhF3cOzeOrJkcgAckgWjeWvYn+RSqhDkFWFzdckNsq6jYx2JRYO+mxbu21MYOcA/TjTR+5nXhOVdZ0Bm0mGqwm2lQb6aMBilIOIl52Q9c9ng2CW1Lt+Gmgyd7Z0NvzR4kP5jk4+zRYm5kfqFxSGrUURbw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91476fcb-7f47-46c4-c5b2-08deb7128504
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7540.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 08:25:30.5346
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BdaWEHDwyxsCyXlPMK69fyBEaO1DIWokg7Q46SNd45SLGtDdOs1I0PJv6F5yFffShyFeMr5B5FkGUx9PjhBvCwnunWF4X010xV2C9uab4J4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LVUPR11MB9811
+X-OriginatorOrg: intel.com
 
-On 2026/5/20 01:42, Suren Baghdasaryan wrote:
-> On Mon, May 18, 2026 at 7:53 PM Hao Ge <hao.ge@linux.dev> wrote:
->> Hi Abhishek
->>
->>
->> Thanks for the follow-up.
->>
->>
->> On 2026/5/19 07:41, Abhishek Bapat wrote:
->>> On Wed, May 13, 2026 at 9:38 PM Hao Ge<hao.ge@linux.dev>  wrote:
->>>> Hi Suren and Abhishek
->>>>
->>>>
->>>> Thanks for the patch! A couple of minor comments below.
->>>>
->>>>
->>>> On 2026/5/5 07:36, Abhishek Bapat wrote:
->>>>> From: Suren Baghdasaryan<surenb@google.com>
->>>>>
->>>>> Add the following ioctl commands for /proc/allocinfo file:
->>>>>
->>>>> ALLOCINFO_IOC_CONTENT_ID - gets content identifier which can be used
->>>>> to check whether the file content has changed specifically due to module
->>>>> load/unload. Every time a module is loaded / unloaded, the returned
->>>>> value will be different. By comparing the identifier value at the
->>>>> beginning and at the end of the content retrieval operation, users can
->>>>> validate retrieved information for consistency.
->>>>>
->>>>> ALLOCINFO_IOC_GET_AT - gets the record at the specified position. This
->>>>> is the position of a record in /proc/allocinfo.
->>>>>
->>>>> ALLOCINFO_IOC_GET_NEXT - gets the record next to the last retrieved
->>>>> one. If no records were previously retrieved, returns the first
->>>>> record.
->>>>>
->>>>> Signed-off-by: Suren Baghdasaryan<surenb@google.com>
->>>>> Signed-off-by: Abhishek Bapat<abhishekbapat@google.com>
->>>>> ---
->>>>>     .../userspace-api/ioctl/ioctl-number.rst      |   2 +
->>>>>     include/linux/codetag.h                       |   1 +
->>>>>     include/uapi/linux/alloc_tag.h                |  54 ++++++
->>>>>     lib/alloc_tag.c                               | 178 +++++++++++++++++-
->>>>>     lib/codetag.c                                 |  11 ++
->>>>>     5 files changed, 244 insertions(+), 2 deletions(-)
->>>>>     create mode 100644 include/uapi/linux/alloc_tag.h
->>>>>
->>>>> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
->>>>> index 331223761fff..84f6808a8578 100644
->>>>> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
->>>>> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
->>>>> @@ -349,6 +349,8 @@ Code  Seq#    Include File                                             Comments
->>>>>                                                                            <mailto:luzmaximilian@gmail.com>
->>>>>     0xA5  20-2F  linux/surface_aggregator/dtx.h                            Microsoft Surface DTX driver
->>>>>                                                                            <mailto:luzmaximilian@gmail.com>
->>>>> +0xA6  00-0F  uapi/linux/alloc_tag.h                                    Memory allocation profiling
->>>>> +<mailto:surenb@google.com>
->>>>>     0xAA  00-3F  linux/uapi/linux/userfaultfd.h
->>>>>     0xAB  00-1F  linux/nbd.h
->>>>>     0xAC  00-1F  linux/raw.h
->>>>> diff --git a/include/linux/codetag.h b/include/linux/codetag.h
->>>>> index 8ea2a5f7c98a..2bcd4e7c809e 100644
->>>>> --- a/include/linux/codetag.h
->>>>> +++ b/include/linux/codetag.h
->>>>> @@ -76,6 +76,7 @@ struct codetag_iterator {
->>>>>
->>>>>     void codetag_lock_module_list(struct codetag_type *cttype, bool lock);
->>>>>     bool codetag_trylock_module_list(struct codetag_type *cttype);
->>>>> +unsigned long codetag_get_content_id(struct codetag_type *cttype);
->>>>>     struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype);
->>>>>     struct codetag *codetag_next_ct(struct codetag_iterator *iter);
->>>>>
->>>>> diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_tag.h
->>>>> new file mode 100644
->>>>> index 000000000000..e9a5b55fcc7a
->>>>> --- /dev/null
->>>>> +++ b/include/uapi/linux/alloc_tag.h
->>>>> @@ -0,0 +1,54 @@
->>>>> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->>>>> +/*
->>>>> + *  include/linux/alloc_tag.h
->>>>> + */
->>>>> +
->>>>> +#ifndef _UAPI_ALLOC_TAG_H
->>>>> +#define _UAPI_ALLOC_TAG_H
->>>>> +
->>>>> +#include <linux/types.h>
->>>>> +
->>>>> +#define ALLOCINFO_STR_SIZE   64
->>>>> +
->>>>> +struct allocinfo_content_id {
->>>>> +     __u64 id;
->>>>> +};
->>>>> +
->>>>> +struct allocinfo_tag {
->>>>> +     /* Longer names are trimmed */
->>>>> +     char modname[ALLOCINFO_STR_SIZE];
->>>>> +     char function[ALLOCINFO_STR_SIZE];
->>>>> +     char filename[ALLOCINFO_STR_SIZE];
->>>>> +     __u64 lineno;
->>>>> +};
->>>>> +
->>>>> +struct allocinfo_counter {
->>>>> +     __u64 bytes;
->>>>> +     __u64 calls;
->>>>> +     __u8 accurate;
->>>>> +     __u8 pad[7]; /* Add alignment to not break the 32-bit compatible interface */
->>>>> +};
->>>>> +
->>>>> +struct allocinfo_tag_data {
->>>>> +     struct allocinfo_tag tag;
->>>>> +     struct allocinfo_counter counter;
->>>>> +};
->>>>> +
->>>>> +struct allocinfo_get_at {
->>>>> +     __u64 pos;      /* input */
->>>>> +     struct allocinfo_tag_data data;
->>>>> +};
->>>>> +
->>>>> +#define _ALLOCINFO_IOC_CONTENT_ID    0
->>>>> +#define _ALLOCINFO_IOC_GET_AT                1
->>>>> +#define _ALLOCINFO_IOC_GET_NEXT              2
->>>>> +
->>>>> +#define ALLOCINFO_IOC_BASE           0xA6
->>>>> +#define ALLOCINFO_IOC_CONTENT_ID     _IOR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_CONTENT_ID,     \
->>>>> +                                          struct allocinfo_content_id)
->>>>> +#define ALLOCINFO_IOC_GET_AT         _IOWR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_GET_AT,        \
->>>>> +                                           struct allocinfo_get_at)
->>>>> +#define ALLOCINFO_IOC_GET_NEXT               _IOR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_GET_NEXT,       \
->>>>> +                                          struct allocinfo_tag_data)
->>>>> +
->>>>> +#endif /* _UAPI_ALLOC_TAG_H */
->>>>> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
->>>>> index ed1bdcf1f8ab..5c24d2f954d4 100644
->>>>> --- a/lib/alloc_tag.c
->>>>> +++ b/lib/alloc_tag.c
->>>>> @@ -14,6 +14,7 @@
->>>>>     #include <linux/string_choices.h>
->>>>>     #include <linux/vmalloc.h>
->>>>>     #include <linux/kmemleak.h>
->>>>> +#include <uapi/linux/alloc_tag.h>
->>>>>
->>>>>     #define ALLOCINFO_FILE_NAME         "allocinfo"
->>>>>     #define MODULE_ALLOC_TAG_VMAP_SIZE  (100000UL * sizeof(struct alloc_tag))
->>>>> @@ -46,6 +47,9 @@ int alloc_tag_ref_offs;
->>>>>     struct allocinfo_private {
->>>>>         struct codetag_iterator iter;
->>>>>         bool print_header;
->>>>> +     /* ioctl uses a separate iterator not to interfere with reads */
->>>>> +     struct codetag_iterator ioctl_iter;
->>>>> +     bool positioned; /* seq_open_private() sets to 0 */
->>>>>     };
->>>>>
->>>>>     static void *allocinfo_start(struct seq_file *m, loff_t *pos)
->>>>> @@ -125,6 +129,177 @@ static const struct seq_operations allocinfo_seq_op = {
->>>>>         .show   = allocinfo_show,
->>>>>     };
->>>>>
->>>>> +static int allocinfo_open(struct inode *inode, struct file *file)
->>>>> +{
->>>>> +     return seq_open_private(file, &allocinfo_seq_op,
->>>>> +                             sizeof(struct allocinfo_private));
->>>>> +}
->>>>> +
->>>>> +static int allocinfo_release(struct inode *inode, struct file *file)
->>>>> +{
->>>>> +     return seq_release_private(inode, file);
->>>>> +}
->>>>> +
->>>>> +static const char *allocinfo_str(const char *str)
->>>>> +{
->>>>> +     size_t len = strlen(str);
->>>>> +
->>>>> +     /* Keep an extra space for the trailing NULL. */
->>>>> +     if (len >= ALLOCINFO_STR_SIZE)
->>>>> +             str += (len - ALLOCINFO_STR_SIZE) + 1;
->>>>> +     return str;
->>>>> +}
->>>>> +
->>>>> +/* Copy a string and trim from the beginning if it's too long */
->>>>> +static void allocinfo_copy_str(char *dest, const char *src)
->>>>> +{
->>>>> +     strscpy(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE);
->>>>> +}
->>>>> +
->>>>> +static void allocinfo_to_params(struct codetag *ct,
->>>>> +                             struct allocinfo_tag_data *data)
->>>>> +{
->>>>> +     struct alloc_tag *tag = ct_to_alloc_tag(ct);
->>>>> +     struct alloc_tag_counters counter = alloc_tag_read(tag);
->>>>> +
->>>>> +     if (ct->modname)
->>>>> +             allocinfo_copy_str(data->tag.modname, ct->modname);
->>>>> +     else
->>>>> +             data->tag.modname[0] = '\0';
->>>> Minor nit about allocinfo_to_params():
->>>>
->>>> When modname is NULL (built-in kernel code), the current code sets it
->>>>
->>>> to an empty string:
->>>>
->>>>        if (ct->modname)
->>>>
->>>>            allocinfo_copy_str(data->tag.modname, ct->modname);
->>>>
->>>>        else
->>>>
->>>>            data->tag.modname[0] = '\0';
->>>>
->>>> This is of course workable in userspace by checking for an empty
->>>>
->>>> string, but I was wondering if it would be cleaner to use "vmlinux"
->>>>
->>>> as a default:
->>>>
->>>> else
->>>>
->>>>              allocinfo_copy_str(data->tag.modname, "vmlinux");
->>>>
->>>>
->>>> For some context, in our memory analysis workflow we often group
->>>>
->>>> allocations by module to get a quick overview of where memory goes,
->>>>
->>>> for example:
->>>>
->>>> vmlinux:    2.1 GB    (kernel core)
->>>>
->>>> nvidia:     1.2 GB    (GPU driver)
->>>>
->>>> iwlwifi:    800 MB    (WiFi driver)
->>>>
->>>> ext4:       500 MB    (filesystem)
->>>>
->>>> Having a consistent identifier for kernel built-in allocations would
->>>>
->>>> avoid each userspace tool needing to handle the empty string as a
->>>>
->>>> special case. Totally fine if this is intentional though.
->>>>
->>> Thanks for bringing this up, I can certainly make this change.
->>> However, the information is not currently exposed this way through
->>> /proc/allocinfo. /proc/allocinfo does not categorize kernel non-module
->>> allocations as vmlinux, so there will a delta between how IOCTL and
->>> /proc/allocinfo behave. Suren, could you comment on whether this
->>> recommendation is fine by you?
->>>
->> Right, /proc/allocinfo indeed doesn't categorize them as vmlinux currently.
->>
->> It's just that in practice we often group allocations by module, so
->> having "vmlinux" as a default
->>
->> would be convenient. Let's wait for Suren's input.
-> Hi Folks,
-> I would prefer to keep it empty because vmlinux is not really a module
-> and hardcoding this name also seems suboptimal (in case it ever
-> changes). Empty string also aligns with how we output /proc/allocinfo
-> data. If the symbol is in the kernel itself, we do not display the
-> module name at all. So, all in all, unless there is a strong reason
-> against it, I think we should keep it empty.
-
-Hi Suren
-
-
-Thanks for the clarification, that makes sense.
-
-For userspace tools that want to group by module, we can always map an 
-empty modname to "vmlinux" at the
-
-presentation layer — no need to hardcode that in the kernel.
-
-
-Hi Abhishek
-
-I noticed the new files (like include/uapi/linux/alloc_tag.h) were added 
-in this patchset.
-
-Should they be reflected in the MAINTAINERS file for easier future 
-maintenance?
-
-Thanks
-
-Best Regards
-
-Hao
-
->>>>> +     allocinfo_copy_str(data->tag.function, ct->function);
->>>>> +     allocinfo_copy_str(data->tag.filename, ct->filename);
->>>>> +     data->tag.lineno = ct->lineno;
->>>>> +     data->counter.bytes = counter.bytes;
->>>>> +     data->counter.calls = counter.calls;
->>>>> +     data->counter.accurate = !alloc_tag_is_inaccurate(tag);
->>>>> +}
->>>>> +
->>>>> +static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __user *arg)
->>>>> +{
->>>>> +     struct allocinfo_content_id params;
->>>>> +
->>>>> +     codetag_lock_module_list(alloc_tag_cttype, true);
->>>>> +     params.id = codetag_get_content_id(alloc_tag_cttype);
->>>>> +     codetag_lock_module_list(alloc_tag_cttype, false);
->>>>> +     if (copy_to_user(arg, &params, sizeof(params)))
->>>>> +             return -EFAULT;
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
->>>>> +{
->>>>> +     struct allocinfo_private *priv;
->>>>> +     struct codetag *ct;
->>>>> +     __u64 pos;
->>>>> +     struct allocinfo_get_at params = {0};
->>>>> +
->>>>> +     if (copy_from_user(&params, arg, sizeof(params)))
->>>>> +             return -EFAULT;
->>>>> +
->>>>> +     priv = (struct allocinfo_private *)m->private;
->>>>> +     pos = params.pos;
->>>>> +
->>>>> +     codetag_lock_module_list(alloc_tag_cttype, true);
->>>>> +
->>>>> +     /* Find the codetag */
->>>>> +     priv->ioctl_iter = codetag_get_ct_iter(alloc_tag_cttype);
->>>>> +     ct = codetag_next_ct(&priv->ioctl_iter);
->>>>> +     while (ct && pos--)
->>>>> +             ct = codetag_next_ct(&priv->ioctl_iter);
->>>> I noticed that codetag_next_ct(&priv->ioctl_iter) and
->>>>
->>>> priv->positioned are accessed without serialization in the ioctl
->>>>
->>>> path. Concurrent ioctl calls on the same fd could race on these
->>>>
->>>> fields. Just something I spotted while reading the code.
->>>>
->>>>
->>>> Thanks
->>>>
->>>> Best Regards
->>>>
->>>> Hao
->>>>
->>> I believe this should be prevented by `codetag_lock_module_list`; am I
->>> wrong in my understanding?
->> Thanks for the explanation! codetag_lock_module_list is designed to
->> protect the module list from concurrent load/unload, which it does
->>
->> correctly. However, it doesn't cover the race between concurrent ioctl
->> calls on the same fd, since it acquires cttype->mod_lock via
->>
->> down_read() and rwsem read locks allow multiple readers to proceed
->> concurrently:
->>
->> Thread A: ALLOCINFO_IOC_GET_AT
->>
->> down_read(&cttype->mod_lock)              // read lock acquired
->>
->> priv->ioctl_iter = codetag_get_ct_iter(...)
->>
->> ct = codetag_next_ct(&priv->ioctl_iter)
->>
->> priv->positioned = true;
->>
->> Thread B: ALLOCINFO_IOC_GET_NEXT            // concurrent ioctl on same fd
->>
->> down_read(&cttype->mod_lock)              // read locks don't exclude
->> each other
->>
->> if (!priv->positioned) {                  // sees partial state from
->> Thread A
->>
->> priv->ioctl_iter = ...                // overwrites Thread A's iterator
->>
->> }
->>
->> ct = codetag_next_ct(&priv->ioctl_iter)   // corrupted iterator
->>
->> priv->ioctl_iter and priv->positioned are per-fd state with no
->> serialization in the ioctl path.
-> Yep, you are right. codetag_lock_module_list() is not enough here to
-> protect from such races. I guess allocinfo_private would need another
-> lock.
-> Thanks,
-> Suren.
+On Wed, May 20, 2026 at 06:51:21PM -0700, Jakub Kicinski wrote:
+> On Fri, 15 May 2026 15:44:29 -0700 Tony Nguyen wrote:
+> > +	guard(spinlock)(&xnm->free_xns_bm_lock);
+> 
+> Quoting documentation:
+> 
+>   Using device-managed and cleanup.h constructs
+>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   
+>   Netdev remains skeptical about promises of all "auto-cleanup" APIs,
+>   including even ``devm_`` helpers, historically. They are not the preferred
+>   style of implementation, merely an acceptable one.
+>   
+>   Use of ``guard()`` is discouraged within any function longer than 20 lines,
+>   ``scoped_guard()`` is considered more readable. Using normal lock/unlock is
+>   still (weakly) preferred.
 >
->
->> Just something I spotted.
->>
->> Thanks
->>
->> Best Regards
->>
->> Hao
->>
->>>>> +     if (ct) {
->>>>> +             allocinfo_to_params(ct, &params.data);
->>>>> +             priv->positioned = true;
->>>>> +     }
->>>>> +
->>>>> +     codetag_lock_module_list(alloc_tag_cttype, false);
->>>>> +
->>>>> +     if (!ct)
->>>>> +             return -ENOENT;
->>>>> +
->>>>> +     if (copy_to_user(arg, &params, sizeof(params)))
->>>>> +             return -EFAULT;
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
->>>>> +{
->>>>> +     struct allocinfo_private *priv;
->>>>> +     struct codetag *ct;
->>>>> +     struct allocinfo_tag_data params = {0};
->>>>> +     int ret = 0;
->>>>> +
->>>>> +     priv = (struct allocinfo_private *)m->private;
->>>>> +
->>>>> +     codetag_lock_module_list(alloc_tag_cttype, true);
->>>>> +
->>>>> +     if (!priv->positioned) {
->>>>> +             priv->ioctl_iter = codetag_get_ct_iter(alloc_tag_cttype);
->>>>> +             priv->positioned = true;
->>>>> +     }
->>>>> +
->>>>> +     ct = codetag_next_ct(&priv->ioctl_iter);
->>>>> +     if (ct)
->>>>> +             allocinfo_to_params(ct, &params);
->>>>> +
->>>>> +     if (!ct) {
->>>>> +             priv->positioned = false;
->>>>> +             ret = -ENOENT;
->>>>> +     }
->>>>> +     codetag_lock_module_list(alloc_tag_cttype, false);
->>>>> +
->>>>> +     if (ret == 0) {
->>>>> +             if (copy_to_user(arg, &params, sizeof(params)))
->>>>> +                     return -EFAULT;
->>>>> +     }
->>>>> +     return ret;
->>>>> +}
->>>>> +
->>>>> +static long allocinfo_ioctl(struct file *file, unsigned int cmd,
->>>>> +                         unsigned long __arg)
->>>>> +{
->>>>> +     void __user *arg = (void __user *)__arg;
->>>>> +     int ret;
->>>>> +
->>>>> +     switch (cmd) {
->>>>> +     case ALLOCINFO_IOC_CONTENT_ID:
->>>>> +             ret = allocinfo_ioctl_get_content_id(file->private_data, arg);
->>>>> +             break;
->>>>> +     case ALLOCINFO_IOC_GET_AT:
->>>>> +             ret = allocinfo_ioctl_get_at(file->private_data, arg);
->>>>> +             break;
->>>>> +     case ALLOCINFO_IOC_GET_NEXT:
->>>>> +             ret = allocinfo_ioctl_get_next(file->private_data, arg);
->>>>> +             break;
->>>>> +     default:
->>>>> +             ret = -ENOIOCTLCMD;
->>>>> +             break;
->>>>> +     }
->>>>> +
->>>>> +     return ret;
->>>>> +}
->>>>> +
->>>>> +#ifdef CONFIG_COMPAT
->>>>> +static long allocinfo_compat_ioctl(struct file *file, unsigned int cmd,
->>>>> +                                unsigned long arg)
->>>>> +{
->>>>> +     return allocinfo_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
->>>>> +}
->>>>> +#endif
->>>>> +
->>>>> +static const struct proc_ops allocinfo_proc_ops = {
->>>>> +     .proc_open              = allocinfo_open,
->>>>> +     .proc_read_iter         = seq_read_iter,
->>>>> +     .proc_lseek             = seq_lseek,
->>>>> +     .proc_release           = allocinfo_release,
->>>>> +     .proc_ioctl             = allocinfo_ioctl,
->>>>> +#ifdef CONFIG_COMPAT
->>>>> +     .proc_compat_ioctl      = allocinfo_compat_ioctl,
->>>>> +#endif
->>>>> +
->>>>> +};
->>>>> +
->>>>>     size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sleep)
->>>>>     {
->>>>>         struct codetag_iterator iter;
->>>>> @@ -946,8 +1121,7 @@ static int __init alloc_tag_init(void)
->>>>>                 return 0;
->>>>>         }
->>>>>
->>>>> -     if (!proc_create_seq_private(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_seq_op,
->>>>> -                                  sizeof(struct allocinfo_private), NULL)) {
->>>>> +     if (!proc_create(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_proc_ops)) {
->>>>>                 pr_err("Failed to create %s file\n", ALLOCINFO_FILE_NAME);
->>>>>                 shutdown_mem_profiling(false);
->>>>>                 return -ENOMEM;
->>>>> diff --git a/lib/codetag.c b/lib/codetag.c
->>>>> index 304667897ad4..93aa30991563 100644
->>>>> --- a/lib/codetag.c
->>>>> +++ b/lib/codetag.c
->>>>> @@ -48,6 +48,17 @@ bool codetag_trylock_module_list(struct codetag_type *cttype)
->>>>>         return down_read_trylock(&cttype->mod_lock) != 0;
->>>>>     }
->>>>>
->>>>> +unsigned long codetag_get_content_id(struct codetag_type *cttype)
->>>>> +{
->>>>> +     lockdep_assert_held(&cttype->mod_lock);
->>>>> +
->>>>> +     /*
->>>>> +      * next_mod_seq is updated on every load, so can be used to identify
->>>>> +      * content changes.
->>>>> +      */
->>>>> +     return cttype->next_mod_seq;
->>>>> +}
->>>>> +
->>>>>     struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype)
->>>>>     {
->>>>>         struct codetag_iterator iter = {
->>> Note, I will be following up with a v2 patchset with your feedback
->>> included. Please bring up any other points you'd want to clarify so
->>> that I can include all the changes in the v2 patchset. Thanks for
->>> reviewing!
+
+I agree that using guard in long functions is confusing, but the longest 
+function in this patchset that uses guard() is libie_ctlq_xn_pop_free(), which 
+has 18 lines between curly braces and represents a concrete atomic operation.
+
+There is also scoped_guard() in libie_ctlq_xn_process_send(), which protects a 
+block of 22 lines, but I would consider it acceptable under the guidelines you 
+shared too.
+   
+>   Low level cleanup constructs (such as ``__free()``) can be used when building
+>   APIs and helpers, especially scoped iterators. However, direct use of
+>   ``__free()`` within networking core and drivers is discouraged.
+>   Similar guidance applies to declaring variables mid-function.
+>   
+> See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#using-device-managed-and-cleanup-h-constructs
