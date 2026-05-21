@@ -1,187 +1,245 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mail-m1973184.qiye.163.com (mail-m1973184.qiye.163.com [220.197.31.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057492798F8;
-	Thu, 21 May 2026 10:08:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779358086; cv=fail; b=gB0Hf+qJ0ddaongbVOY5EYwp8QZIISljLFw1SA5Bp4VfCXYNHHJgqqc7KJiH0tHdVGVt18snuoP6tomtFaqCn5VyK7QdEijlOTfpptQKCsP7L3+qJ9ovM9sYsqn1pT5B8orKhosHtwH2U+NSj4XSV78c/aL7084CA//B7IPjj98=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779358086; c=relaxed/simple;
-	bh=pyvmrYKJkztDg0UvQv7FqmiRR/e/+nYaWlmCi7XkO5g=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=X5GLwq7VD3SOl2Piw76SdZ4Nz+R5/Je96AMUE2HwY7KjCR4LDV9SCVr0Dgwt8TaeoZzUymxomNDk8GgEAsXiYrI0llbP7uNbezHRcwigIIrcWhnKN7XeK4oAk9g6mix2W7dad3VxU+TwirUBI3PrqXAln+ISmf1Uaupzcdd0EzQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WP+xosli; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3233F3806D9;
+	Thu, 21 May 2026 10:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.84
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779358255; cv=none; b=O+2MNXqk7fxDdtXvD8owzHGiNiz8Yl/aLRQ/BRpUf7jS6QQcSiIclsZV2nU174NmgKtcgwYv1nbwUh902mPUIleGRiojgcET3B2K7gGV/lvn3Le7r1inT2e48fFOQHpEX3mlRNk0UEdd+mD610VSPK5VEP+hrACA76yMfKWrWxw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779358255; c=relaxed/simple;
+	bh=UAv9+hfGQIf1aSwdGashyxhpMfBJSNn3lZx7r90BFXk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aKOeilmxdneKnCSZjSuWkieoZCbsX1XG7MvQByeCpWxrQiSDzJf2ED9FXssj3J4muu8N8ZSKfvpJp+mXQNKoAv67PzfahPCaP96MFFlxqRbVSWQVcrIJpXU5i1DZcS0uBH1SheyxlgUHqmQKz8JbKHH+wGlyW5YjpvZXcaxi1co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=EVG3QGlk; arc=none smtp.client-ip=220.197.31.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WP+xosli"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779358084; x=1810894084;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=pyvmrYKJkztDg0UvQv7FqmiRR/e/+nYaWlmCi7XkO5g=;
-  b=WP+xosliIu8bG5wiUMINeJzTOqpVcfmU9tDnw3dEQOhAyASPM1+0Fdmt
-   Qa0DU7JQPK2JnQhLHGwv9UZBoTFEZxavV8uXBtqgT31p0bPujdhQHqTSu
-   Ak5YSqtFIPQt38elfOWBRlu6B+c6JGLccnprJyVASofuuEmsfNL2LtbQI
-   sCs1medREf9OxQ9pDvbz9iRvMukSjtLQ3y9QrrMU1lAfMApZST7EbXVwY
-   30w62TL1FwMDWV7F6SRcSndBZQOeDlNOsfEH+wB4jbDSespFRHnxry2tO
-   wdESfn0g1xxtp5B3OpSCXwMp4G0+QAslg2No04Irylybn22e8Nc0fNZ8+
-   g==;
-X-CSE-ConnectionGUID: OvukMNi9T6GGmKbr5K6CNQ==
-X-CSE-MsgGUID: 6rB0oHQ0Qc+Ne6uBE294xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="91665412"
-X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
-   d="scan'208";a="91665412"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 03:08:01 -0700
-X-CSE-ConnectionGUID: +Vs6si/ESI2sAc5cxob64Q==
-X-CSE-MsgGUID: IDiL8BOPRHO15TtULTMH7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
-   d="scan'208";a="245473935"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 03:08:01 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 21 May 2026 03:08:00 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Thu, 21 May 2026 03:08:00 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.71) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 21 May 2026 03:07:58 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iCPE5+G1AD4veqVdq811JKGngSzcqI/a0MfBFBbZcb8qumInGsSU+oh+0kM3fVE7xm41ZvPCrfeaY3MRRA2k+cfgdf5Y4exq0Ogo1cWV3aVUKJfHp032a/vlHIHCfds6nX8PzXj7z86bP8XL2JWRnzKxQ+jtoEhCbSkxdW1CCEIscf97PDBfUAzLz8TY4+scG83mcS9hsgGOtxJooOtNE1doTuuHhZB0rQ57BB6UlQiC2lEA6bk/xGCmiq3Hg6UTCWaC70KcfAnGrJmF0OT5IWpIpu3RtIHZyMsiNfeyHgKtCNz76VRZJdC8PXyNvDGqbWtqLvHr/4LbTg9RfHA4qA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=czMNpoqoV83yDccazMCe0MYRZrsMYaIXo3qwplEmnrQ=;
- b=imOEGjEjeNJOXolhTuhk8Sl+0HUadU7Rku7nURamDcOraGVAYvRJNtdjwcPsTn/jbqhzZB7O2tbEezQzECbKKN7/udnhFfBYtPGzJ0UcegaD9PC798rD+ceVUfkSNnkpTJkhP3Nc19oAxrqxZSNkwHLJioWP4iWf7tdU1ubPGVDgQaQTpefCmlIKBj8gMNAbdryYw6UVx2XzJkkv9O9kkrZwZzGyWfa7zph7IAgryxcLdxTHuSCEbdIYaEfhf+rdiFFe4gLOGMFPztWiJ9/Cw95qFhRPiOwht6Xxxoe5xIoqcFa/F3ULGCQZ2ttVuE+kitdTJTfSmsMnlR59K7gSaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB7540.namprd11.prod.outlook.com (2603:10b6:806:340::7)
- by SJ2PR11MB8500.namprd11.prod.outlook.com (2603:10b6:a03:574::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Thu, 21 May
- 2026 10:07:51 +0000
-Received: from SN7PR11MB7540.namprd11.prod.outlook.com
- ([fe80::2edd:5c6d:169c:389b]) by SN7PR11MB7540.namprd11.prod.outlook.com
- ([fe80::2edd:5c6d:169c:389b%6]) with mapi id 15.21.0048.016; Thu, 21 May 2026
- 10:07:50 +0000
-Date: Thu, 21 May 2026 12:07:39 +0200
-From: Larysa Zaremba <larysa.zaremba@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>, <davem@davemloft.net>,
-	<pabeni@redhat.com>, <edumazet@google.com>, <andrew+netdev@lunn.ch>,
-	<netdev@vger.kernel.org>, Pavan Kumar Linga <madhu.chittim@intel.com>,
-	<przemyslaw.kitszel@intel.com>, <aleksander.lobakin@intel.com>,
-	<sridhar.samudrala@intel.com>, <anjali.singhai@intel.com>,
-	<michal.swiatkowski@linux.intel.com>, <maciej.fijalkowski@intel.com>,
-	<emil.s.tantilov@intel.com>, <joshua.a.hay@intel.com>,
-	<jacob.e.keller@intel.com>, <jayaprakash.shanmugam@intel.com>,
-	<jiri@resnulli.us>, <horms@kernel.org>, <corbet@lwn.net>,
-	<richardcochran@gmail.com>, <linux-doc@vger.kernel.org>, Bharath R
-	<bharath.r@intel.com>, Samuel Salin <Samuel.salin@intel.com>
-Subject: Re: [PATCH net-next v3 03/14] libeth: allow to create fill queues
- without NAPI
-Message-ID: <ag7Za4d6xXIJjg8-@soc-5CG4396X81.clients.intel.com>
-References: <20260515224443.2772147-1-anthony.l.nguyen@intel.com>
- <20260515224443.2772147-4-anthony.l.nguyen@intel.com>
- <20260520184922.34c36c74@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260520184922.34c36c74@kernel.org>
-X-ClientProxiedBy: VI6PEPF000001FD.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:808:1::910) To SN7PR11MB7540.namprd11.prod.outlook.com
- (2603:10b6:806:340::7)
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="EVG3QGlk"
+Received: from server001 (unknown [222.130.22.242])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3f4cebafa;
+	Thu, 21 May 2026 17:55:21 +0800 (GMT+08:00)
+From: Kefan Bai <baikefan@leap-io-kernel.com>
+To: linux-usb@vger.kernel.org,
+	si.yanteng@linux.dev
+Cc: gregkh@linuxfoundation.org,
+	seakeel@gmail.com,
+	alexs@kernel.org,
+	dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	doubled@leap-io-kernel.com
+Subject: [PATCH v7 4/8] docs/zh_CN: Add chipidea.rst translation
+Date: Thu, 21 May 2026 17:55:09 +0800
+Message-ID: <62f3a25c6695bb3b6ef61d430e5858ba6513939e.1779355170.git.baikefan@leap-io-kernel.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1779355170.git.baikefan@leap-io-kernel.com>
+References: <cover.1779355170.git.baikefan@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB7540:EE_|SJ2PR11MB8500:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8de93517-cba9-4cea-2452-08deb720d0ed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|10070799003|376014|1800799024|7416014|22082099003|18002099003|56012099003|11063799006|4143699003|6133799003;
-X-Microsoft-Antispam-Message-Info: RAOLlXHbUMGKdV+4sgx9nUpjWcrqRW7KcUZo+Iqzr3ku9ecBH9G9UqSe2rVU1LOQ9fGpTBaiPOpLLpxrwNF/FFwzES1TTUNkj6MvgimfOQ8YO1a3ydog1qGU8JUvuFWxXdzfPVJDVXIzZFGBKhP8iS/2l8dd70bBZd12g3mm7/hSl56FHx68TaQO3ZwFAZe192rrLQFvmT8lbfdy0XdsPtxJXTgSAqS+1bgGWq0TdRbLKlvmE1yfIcv6ByEZ60EeNULL0fD8k1FhRWtnJrXo05mDvc6fSGcA2BFzKNRnvvt6s0LCt6Awa90ndYqR2JSVFZG7S1lxcB46gwVh0aJpk2AZN/smc7tGpqsbVCZ6D/nN7RDSCcJ/64Rsg5sd6uJjacG6Erp6+0c/BEilEeY7mmBuGEecKjbxy95PCJYIXLeOKIu+nodt/qyUqL44IrYbJ5oOF+6odaDinz3WWLAf9F2PFt4rcLEL2OociVp1jTT+RJyFJCZA3gtzxlfP/MrvoIJYqZDv1VYUCCTJ5HmxVhU3C3gKo6v9ZPRhV4/veiSqeLpbp03LClDhQ1yxPnOljfLV9YOyNUV8E7wbPeJMQu8pWj1GjVkzvVNEplysjgc8/cck8EtBWxdcw3JZRT/t04FvN24tRmPXSew6yf4qXJLd4TgO9/ddzHuMBDU3zcuXRiiwqfpLyTpamPHhY9ta
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7540.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(376014)(1800799024)(7416014)(22082099003)(18002099003)(56012099003)(11063799006)(4143699003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?K87lY1urVEvc+lnsLGKkYB+3GIUVi1YJogn6oRlbdC2J3+ayvXYX5Su88gCa?=
- =?us-ascii?Q?hqE68Jf+RpYZf0i2R/LbAf+jcdse6FBfYGCM4o5d6aGR1+BbAqNTrKifYLds?=
- =?us-ascii?Q?s1aLtm32en6BOYFLIol+RJHGHmWEyaRojvbP/xSL5XpGchvfC9DQVSGfCpCN?=
- =?us-ascii?Q?0yyizGtSq/of+uoBugmtIUx5SFV4m1GkLlKvoeGVsCdHtHdtwLhYVccKahgL?=
- =?us-ascii?Q?FIDh9tcdNknycBaN+SXf95CPmipgJ82Nv0g6PUq6yLk6LBNLni8AMwiKOfEk?=
- =?us-ascii?Q?fpqrcPzks9iqPXSZaGdOBEY0DjtBzhUumV9xPiL8aMr4zkvmA9ldrVHVJYxO?=
- =?us-ascii?Q?XAk4WL3ablYir+Pn4i17fCbyFipIEG52EDxEYRSZIw+FcXAeI2+is0rYSIvu?=
- =?us-ascii?Q?gkjefr9goVWqD/7fyKiHkcDoamS20TsAOHKt66RjsmYeqBo9Giw5wA+NzdD5?=
- =?us-ascii?Q?zWRybPl06Qvtgukl3lB/ToePyQgFkd1MeSFngfad9ztFhbzlCdqp22PSs9Dw?=
- =?us-ascii?Q?LvoYv2sFO9Tz+23UzScotz1Pa22G9itQdIJvIXA9IYbJeW6OnTq24CEQZVkc?=
- =?us-ascii?Q?u/LaLhkEhd7hD9ulR6M78vBsQXiG3DdAWS8zsLGSjCVxpYRxnrFQE/WXms1x?=
- =?us-ascii?Q?bXmEJurxSxtF9+obVqx+dukyXcToNGwz1Iw9gmSdORMfzDIcxZdfnGWTpaOJ?=
- =?us-ascii?Q?5E6buTeDhvTAqlE2d8pjxX7VJ0cc1h5oKMRBs1euYekfYI9LPh2/81cH0cQI?=
- =?us-ascii?Q?yC5sQD8zBhX6Tao50RYAMBZ7SNqRcVSDwC7pA+GX7Mh7GkkFvTLJFkkNRcjB?=
- =?us-ascii?Q?UdbGNMpY3lPwfJI4qfR5VEUAePkenzhJ6OX+RqVHsj4KOsT3Dsukw3M4i43V?=
- =?us-ascii?Q?J5e4VxDCCD5y7qfNkwwhhGtnP5HcbVVDrjgY6m6/NDiqO0KHsT4likK8hGLg?=
- =?us-ascii?Q?LAPOiBgtLufVMs/aHN13YyTAxr0tuPbA5faaJfW8v7fwBYT6mWURM/kqmlw8?=
- =?us-ascii?Q?4Mg0HXX7saylDbJsRJ9zq54Wh9bJEar2SrVznYGkkozqGwQjZ4/lBlyr9s9M?=
- =?us-ascii?Q?rUfDTyMrUVEuRG6twwwCDhyIhWd45OAVvc9fETQKTKGwIpjJv2nAbxA8kib7?=
- =?us-ascii?Q?FkxGt+XO+vpzUBLrTGrkYjp9b2EF8ByR4fpAwBh7q6ra6vQZrrbDEok129k+?=
- =?us-ascii?Q?qexxkgU7lA29qrbTx+ekaJJpvILB9DJThOTOx7XbiNt/3R/U5jXNd2a3XyNH?=
- =?us-ascii?Q?2p/AQDrdyzois3b0ZDMt+vYU4dAOzcZIxXAU0nwEixkt12hhZud9raBSRf3+?=
- =?us-ascii?Q?6NoA1VZ28b1VrlCf/gFDLR4ZJpxlgZ1QW/gkzhG+944K6HXgpVCla2/nNBhE?=
- =?us-ascii?Q?ZkZoro/jja73PLoXYld8HDJTM30eddgkkRbhb/WgKUdulFKhQub/QV7Ib1Lb?=
- =?us-ascii?Q?X/btfYT/xgHS90YOMM7miUvKMwTlyE0vGqUFoxNGUFrHpR6tjN/ogJ5Xo0R3?=
- =?us-ascii?Q?6YC/dk9sQ6LLhQ3ve09aDdG0c0r4RyizXEmadOzEqryuaM1y6ZawKLq7M5D5?=
- =?us-ascii?Q?ivZsmLCcXXPUvaKAwUnY44wGBEIWlFOBrZa07qDgzfaZEotJbFEqz2s6EY55?=
- =?us-ascii?Q?YTO552gyo3LGmgG67oCDcy3s1jfrsZNcxm+c9y2Ar9ha46PDZ9qrZwh3bvrc?=
- =?us-ascii?Q?yCw3oqcxQY+mvW7d1+txcEFuiY7lX9r6IsCOhWSTpIa0GXnSApgnV26nJTC5?=
- =?us-ascii?Q?l36tLjS5k/ykQvHDi3+mDPENmLHWe4JdyO9Scw01R9y/dXVAPT38fhh3clKL?=
-X-MS-Exchange-AntiSpam-MessageData-1: MnM3bhUgQTfsuvpTwnZtinudfRRY+Usy4nw=
-X-Exchange-RoutingPolicyChecked: Gh8qLVGw3BKlrZNZWBSAUerx5B6/t8pWOxtJQnR08kO0TjHfFWmOiEK2NCw/Zu8xjfNe3pC1n8tIpJ6DZVsUJkNTcZdtxDGdSsnf5YsaDffSdSrr8yqaBSveQg/5Kk40Q4sLErlkuKGgPJN23YK70NzlQ8j4EdrBLZf3oVTMbIe1L6O7Np//F/NHDQYqwuS22JRAF6CJ9KoMXRhYAfM3DtMbtd3zTtmIkMZfQfqQuqfhAiUGTZRDod2NIr1yo7UTw/EhsYzcKzA+q2gOguUKqI/+ba2LQh2kZNueq7akngM/ZcY7q/A2GmDSIwVaAndk+EYj+4MgV1hL2q/gTw/xVQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8de93517-cba9-4cea-2452-08deb720d0ed
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7540.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 10:07:50.8341
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IQLuzD+5vNAqYw7J8ft9rvHIFvOQB62S5/Pf3669tQbIiF+hxJ96aB2jFWP6DQBhu6R9ukS+ktjy7I7FNmZZI++wJaILvyKpvA7qYklVm2U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8500
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9e49f6096b09d5kunm49815c9e65c8f
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCGRlPVkMeS0sYGBlNT08ZH1YVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlLVUtVS1
+	VLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=EVG3QGlkp/9o1Vov+0s1VtElYPcpn2ER4hTq7Si4kfH3Q6udlvRofg6H2JhRvgYP2tpnO2MZLhUDtJZx9R+r737e7lBYgkV/mdUl/wPP7iBPL538x40gF7idLe2cXM4Iz/4i3CKCa+zTCwvI5jkxkf62Np5Jt+99OOvVPzNwe3iTSsRtBCh5nkjdyzkaHrxOx3zEoSNwDu7mBswjxyAZUNCJjKAA+KZtVypu4Z5hyCi6ZiXd6FHfi35L/FFFkNGO5kf2NnGsCTNud+pxJoRSlHOpWTKgSSz9HN+0o+SEG9mkAD31MP5svgMG7RfvfvKQXzZOSSH6/7JZYFPNsledHQ==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=Aq6Rcm4DuL4H4iDByYc2d5vcpT+ZTDTJbg6OGpHEgYk=;
+	h=date:mime-version:subject:message-id:from;
 
-On Wed, May 20, 2026 at 06:49:22PM -0700, Jakub Kicinski wrote:
-> On Fri, 15 May 2026 15:44:27 -0700 Tony Nguyen wrote:
-> > +int libeth_rx_fq_create(struct libeth_fq *fq, void *napi_dev)
-> 
-> Why do you have to pass an opaque void pointer?
-> Just add another arg for dev.
+Translate .../usb/chipidea.rst into Chinese
 
-I agree that having type safety would be nice. But firstly, napi and dev are 
-mutually exclusive, and secondly, call sites would look pretty ugly, unless we 
-add a macro on top.
+Update the translation through commit e4157519ad46
+("Documentation: usb: correct spelling")
 
-> 
->  int libeth_rx_fq_create(struct libeth_fq *fq, struct napi_struct *napi,
-> 			 struct device *dev)
->  {
->  	struct page_pool_params pp = {
->  		.flags		= PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV,
->  		.order		= LIBETH_RX_PAGE_ORDER,
->  		.pool_size	= fq->count,
->  		.nid		= fq->nid,
-> -		.dev		= napi->dev->dev.parent,
-> -		.netdev		= napi->dev,
-> +		.dev		= dev ? dev : napi->dev->dev.parent,
-> +		.netdev		= napi ? napi->dev : NULL,
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
+Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
+---
+ .../translations/zh_CN/usb/chipidea.rst       | 150 ++++++++++++++++++
+ .../translations/zh_CN/usb/index.rst          |   2 +-
+ 2 files changed, 151 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/usb/chipidea.rst
+
+diff --git a/Documentation/translations/zh_CN/usb/chipidea.rst b/Documentation/translations/zh_CN/usb/chipidea.rst
+new file mode 100644
+index 000000000000..ea0dc3043189
+--- /dev/null
++++ b/Documentation/translations/zh_CN/usb/chipidea.rst
+@@ -0,0 +1,150 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/usb/chipidea.rst
++
++:翻译:
++
++ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
++
++:校译:
++
++
++=============================
++ChipIdea 高速双角色控制器驱动
++=============================
++
++1. 如何测试 OTG FSM（HNP 和 SRP）
++---------------------------------
++
++下面以两块 Freescale i.MX6Q Sabre SD 开发板为例，
++说明如何通过 sysfs 输入文件演示 OTG 的 HNP 和 SRP 功能。
++
++1.1 如何使能 OTG FSM
++--------------------
++
++1.1.1 在 ``menuconfig`` 中选择 ``CONFIG_USB_OTG_FSM``，并重新编译内核
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++重新构建内核镜像和模块。如果想查看 OTG FSM 的
++一些内部变量，可以挂载 ``debugfs``；其中有两个文件
++可以显示 OTG FSM 变量以及部分控制器寄存器的值::
++
++	cat /sys/kernel/debug/ci_hdrc.0/otg
++	cat /sys/kernel/debug/ci_hdrc.0/registers
++
++1.1.2 在控制器节点对应的 ``dts`` 文件中添加以下条目
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++::
++
++	otg-rev = <0x0200>;
++	adp-disable;
++
++1.2 测试步骤
++------------
++
++1) 给两块 Freescale i.MX6Q Sabre SD 开发板上电，
++   并加载 gadget 类驱动（例如 ``g_mass_storage``）。
++
++2) 用 USB 线连接两块开发板：
++   一端是 micro A 插头，另一端是 micro B 插头。
++
++   插入 micro A 插头的一端是 A 设备，它应枚举另一端的 B 设备。
++
++3) 角色切换
++
++   在 B 设备上执行::
++
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++
++   B 设备应接管主机角色并枚举 A 设备。
++
++4) A 设备切回主机角色
++
++   在 B 设备上执行::
++
++	echo 0 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++
++   或者，通过引入 HNP 轮询，B 端主机可以知道
++   A 端外设希望切换为主机角色，因此这次角色切换
++   也可以通过 A 端外设响应 B 端主机的轮询，
++   在 A 侧触发。
++   这可以通过在 A 设备上执行下面的命令来完成::
++
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_req
++
++   A 设备应切回主机角色并枚举 B 设备。
++
++5) 拔掉 B 设备（拔掉 micro B 插头），
++   并在 10 秒内重新插入；
++   A 设备应重新枚举 B 设备。
++
++6) 拔掉 B 设备（拔掉 micro B 插头），
++   并在 10 秒后重新插入；
++   A 设备不应重新枚举 B 设备。
++
++   如果 A 设备希望使用总线：
++
++   在 A 设备上执行::
++
++	echo 0 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_drop
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_req
++
++   如果 B 设备希望使用总线：
++
++   在 B 设备上执行::
++
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++
++7) A 设备关闭总线供电
++
++   在 A 设备上执行::
++
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_drop
++
++   A 设备应断开与 B 设备的连接，并关闭总线供电。
++
++8) B 设备发出 SRP 数据脉冲
++
++   在 B 设备上执行::
++
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++
++   A 设备应恢复 USB 总线并枚举 B 设备。
++
++1.3 参考文档
++------------
++《On-The-Go and Embedded Host Supplement
++to the USB Revision 2.0 Specification
++July 27, 2012 Revision 2.0 version 1.1a》
++
++2. 如何将 USB 用作系统唤醒源
++----------------------------
++下面是在 i.MX6 平台上把 USB 用作系统唤醒源的示例。
++
++2.1 使能核心控制器的唤醒功能::
++
++	echo enabled > /sys/bus/platform/devices/ci_hdrc.0/power/wakeup
++
++2.2 使能 glue 层的唤醒功能::
++
++	echo enabled > /sys/bus/platform/devices/2184000.usb/power/wakeup
++
++2.3 使能 PHY 的唤醒功能（可选）::
++
++	echo enabled > /sys/bus/platform/devices/20c9000.usbphy/power/wakeup
++
++2.4 使能根集线器的唤醒功能::
++
++	echo enabled > /sys/bus/usb/devices/usb1/power/wakeup
++
++2.5 使能相关设备的唤醒功能::
++
++	echo enabled > /sys/bus/usb/devices/1-1/power/wakeup
++
++如果系统只有一个 USB 端口，
++而你希望在该端口上启用 USB 唤醒功能，
++可以使用下面的脚本::
++
++	for i in $(find /sys -name wakeup | grep usb);do echo enabled > $i;done;
+diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
+index 3480966fee19..e6d0a4fceff7 100644
+--- a/Documentation/translations/zh_CN/usb/index.rst
++++ b/Documentation/translations/zh_CN/usb/index.rst
+@@ -19,10 +19,10 @@ USB 支持
+
+     acm
+     authorization
++    chipidea
+
+ Todolist:
+
+-* chipidea
+ * dwc3
+ * ehci
+ * usbmon
+--
+2.54.0
+
