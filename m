@@ -1,189 +1,427 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF51633BBCD
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 02:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700AE32B128;
+	Thu, 21 May 2026 02:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779329863; cv=none; b=Zx1OHNI7KW5p44Zb+U60HEdMzf+KiF+DlTD82i0a+9Wie0InyHkoO0nEi99cXvbslNoLJclwzLP0G5yJhd/+9/nke4zBRHBqxhx/fnff1tBvyCwsDQABtIVpynwOMUK9gpgcDBx7SQcW5MnUK0as6czw9DH8IS5nP/FKuJuzIcA=
+	t=1779330526; cv=none; b=boxQMpqVegMP/22VvYqhFOKLMACEQ2iIMitTDScla/AlwyzxXcHuXJvaLGIvye55FBKT+wesQvXKbp2Tcbypy+BGNFAMlcAIvMlPSu/tnAlhWycBgCl4NRCPxtoQOikDvSB4CULY/g9s+64iLIcNzWbKnyYkizRKBIrs97S7EaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779329863; c=relaxed/simple;
-	bh=NsE6nXxHo97VM1sXx6yZreG1nqdIdV6j50wdxtLFBOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mpVVVDSyFmk8TAAzeSWExJ59ASquNWKJaiQGn5uY9SKAcJp5WbS/Cpuhv+5el9g+aTiu5v9QHiGzpiP/yWPGCMWoSYEc7Xk/tLgDOUfzPy+D3BMovLX3x+/799cfwwV3HASEsUowgScgdtcLAhRiqygYbC0H9O+TeizXbWx9R2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=manifault.com; spf=pass smtp.mailfrom=manifault.com; dkim=pass (2048-bit key) header.d=manifault-com.20251104.gappssmtp.com header.i=@manifault-com.20251104.gappssmtp.com header.b=fl45xRp8; arc=none smtp.client-ip=209.85.210.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=manifault.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manifault.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manifault-com.20251104.gappssmtp.com header.i=@manifault-com.20251104.gappssmtp.com header.b="fl45xRp8"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7dca5f64e86so4613985a34.0
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 19:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=manifault-com.20251104.gappssmtp.com; s=20251104; t=1779329859; x=1779934659; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3cB1qNOTZCCYHy9Z+hs2y+VPCP5OkdeilQfyLp43YV0=;
-        b=fl45xRp8pEjZJ3xf1McdiX7eAq8DWaVG/XBYfG6JDpKLXDbdTw0ucz7ITBRgjHN3gS
-         cJKQZvSoj6sGbTBhJrgUj10YZv99vVKowrxgYv44h121XoG/sQXz4HCMAKxrU0bh8LVY
-         8Aicdt52Nxl3Til6D2Nz0UdKwqPqxPFvpVyZ4O8cJJu8GOtwdAukB+vfPGVEnYRpwo9S
-         a6dFP+iam3tc/SJgmPQ3C4h4aDVPot+BlnJj62QIvoynZd5LTWQCoCCMFD0WlTMCnKED
-         8EDWG7eL/EkoZ68bwLa+fbCEzpJniSspr7EfMNR/z27vSxwJ6MESNEBx7xtk8LfKfBEs
-         AsZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779329859; x=1779934659;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3cB1qNOTZCCYHy9Z+hs2y+VPCP5OkdeilQfyLp43YV0=;
-        b=ps4yMYdxSQoeza3eBULBhKosa6k9CFVwHNQLjxCfyxMyzSt3HW9bUb6NqjWnXHKgUW
-         jk0MxatJPMGQxFWJ5/Y+Zy9yOsppDl/eMLG5uGU5ItH3p120zuloYH+aFLADViR1Ca3M
-         iA6HoCFsZKvoUPMC1qfw/I4OE7P3pgbPS2P19oR0kZt5G6be0Ix4lKf8+cDNilc2+1YP
-         fgl7alNPx5m3cUXD7w3hGj5VHX8Zj9Vgs+x7DrGEE3nfbb8RCKt4E4xkVODVXfB85Z+6
-         wzLuwigJlYLn8Y/MMoa/5Fti3utL3rlSF089YV7tcnporc6BUltDPkwfjiMPJCm74DHL
-         V/BQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/pivPfRcuYcf5YbogWPqSQ3UZs/gRa9Ze0x3fVm8YfzMk8qKrXkW5A/1sgZ+z5TMIuVRzUPMkmgQM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYLHCWgXK24WY2epwz0Ff0AAKTPurXn3CHwOl8WNjiCufvCnMr
-	JN1HrckvWbRaZoGysHDhZ86YT7pnDGLCWflZ6nytLaYVSGU6LrOZZjZDeVerBsUd02ZD
-X-Gm-Gg: Acq92OGU17jK6n3MdVXMcPbuwrtiv4hz9JxANH5FYA57W7tf2Su7PRI1KkU7Od7brhC
-	BM5u+ZirsqtTviY3cerGFJFR8eHZnXu0WKIe3Dy9Thw+2u49+kXM5i+1DRnTNhjPwuufi+sIK0y
-	88bpJs3Par5blQHnto8/GWwYwr0gYrqbmvI5nIGIMSKRUVtEZhljGErcJFZ4Xfs6voXXTjy8jAD
-	tiVTNhWLAywFp2FcL327TsvjQXIUXyMfR8w7DFr+Bdb3Z35HUmROrZ0/fi9IQfeoHl2Z9MJrflW
-	y5f1T0xGKdHriZ3d/NbarusNmKElRLBbKddGwhodZAlP/P+w9I08wXb9gQzzcZF5QpX4AEq+Sdp
-	BGzBhHh8p6t216cMgmd26P8yjYWtENeAuC/dVbzUC4nySLGdkNCKKiEXJFO+8xtl8GM1UPz/wIl
-	QOnFmoILen6XhGHdPTl/bEPvcEpfx/2hE0a85kzr/RM5uzd6eGU8rzw1tvdOU=
-X-Received: by 2002:a05:6830:25d0:b0:7dc:d0cc:91b with SMTP id 46e09a7af769-7e5ec60237amr399495a34.26.1779329859054;
-        Wed, 20 May 2026 19:17:39 -0700 (PDT)
-Received: from localhost (c-76-141-129-107.hsd1.il.comcast.net. [76.141.129.107])
-        by smtp.gmail.com with UTF8SMTPSA id 46e09a7af769-7e55b81c8a0sm13273517a34.10.2026.05.20.19.17.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 19:17:38 -0700 (PDT)
-Date: Wed, 20 May 2026 21:17:37 -0500
-From: David Vernet <void@manifault.com>
-To: Alexis =?utf-8?Q?Lothor=C3=A9_=28eBPF_Foundation=29?= <alexis.lothore@bootlin.com>
-Cc: Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, ebpf@linuxfoundation.org, 
-	Bastien Curutchet <bastien.curutchet@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	bpf@vger.kernel.org, bpf@ietf.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next v2] bpf, docs: add LOAD_ACQUIRE and
- STORE_RELEASE instructions
-Message-ID: <iulf7fwwvfrvvspg4e5xyx3tcxe2yonfjllnze2phgfgpynrlh@kodf3fy3l32q>
-References: <20260521-bpf-insn-doc-v2-1-8c43c037d599@bootlin.com>
+	s=arc-20240116; t=1779330526; c=relaxed/simple;
+	bh=2Zf7B87TeFVRsACMrgdCHe3KYO/jbVY+kxl1WDKWFW8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gOlUZVbcaTCaXtgPkdl97A7zeIzumTYD4cCr1bordAmlw5eBZSWcxXT4UPM9ewZI5P2Tj8ozKybKYwZBw1bIZTIud4cpDBB+doeDl+fydW0RiOTrgOgyXp6zgeJFWMjSj0PUWI/FFn3d/WhGIDmUjuIkmsQ+b5j32raHsOBo0jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-03 (Coremail) with SMTP id rQCowACHa+LKbQ5qmbHAEQ--.571S2;
+	Thu, 21 May 2026 10:28:26 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>
+Subject: [PATCH v2] kconfig: add optional warnings for changed input values
+Date: Thu, 21 May 2026 10:28:24 +0800
+Message-ID: <20260521022824.38591-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xm7tw5c2mh4x3j5d"
-Content-Disposition: inline
-In-Reply-To: <20260521-bpf-insn-doc-v2-1-8c43c037d599@bootlin.com>
-User-Agent: NeoMutt/20250510
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowACHa+LKbQ5qmbHAEQ--.571S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3CryDWF18Kw43Wr4fZF15XFb_yoWktFW3pa
+	yrA345KF4kJFn3ta1Utas7WF1rurn7WrW5GF1jqw1UAF90yrWIyrsrKw1Yyry3u39FyFW5
+	AFyFgF4FyF1UAaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+	v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUFg4SDU
+	UUU
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
+When reading .config input, Kconfig stores user-provided values first and
+then resolves the final value after applying dependencies, ranges, and
+other constraints.
 
---xm7tw5c2mh4x3j5d
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH bpf-next v2] bpf, docs: add LOAD_ACQUIRE and
- STORE_RELEASE instructions
-MIME-Version: 1.0
+If the final value differs from the user's input, Kconfig already tracks
+that state internally, but it does not provide any focused diagnostic to
+show which explicit inputs were adjusted. This is particularly confusing
+for requested values that get forced down by unmet dependencies or
+clamped by ranges.
 
-On Thu, May 21, 2026 at 12:09:11AM +0200, Alexis Lothor=E9 (eBPF Foundation=
-) wrote:
+Add an opt-in diagnostic controlled by KCONFIG_WARN_CHANGED_INPUT. Emit
+the warnings from conf_write() and conf_write_defconfig() after value
+resolution and through the existing message callback path so the default
+behavior stays unchanged and interactive frontends remain usable.
 
-Hi Alexis,
+Avoid the conf_message() formatting buffer for this diagnostic so long
+warning lists are not truncated before reaching the callback, and mark
+processed symbols as written before the SYMBOL_WRITE check so duplicate
+menu nodes cannot emit duplicate warnings.
 
-Thanks for working on this.
+Document the new environment variable and add tests for both olddefconfig
+and savedefconfig.
 
-> Commit 880442305a39 ("bpf: Introduce load-acquire and store-release
-> instructions") instroduced the LOAD_ACQUIRE and STORE_RELEASE atomic
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+Changes since v1: https://lore.kernel.org/all/20260406233001.1-kconfig-warn-changed-input-pengpeng@iscas.ac.cn/
+- rename "found" to "changed_input_found" as suggested by Nicolas
+- avoid the conf_message() 4096-byte formatting buffer so long warning
+  lists are not truncated before the callback sees them
+- mark each processed symbol as SYMBOL_WRITTEN before checking
+  SYMBOL_WRITE to avoid duplicate warnings for duplicate menu nodes
+- add duplicate-definition selftest coverage
+- do not carry the Reviewed-by/Tested-by tags because v2 changes warning
+  emission and duplicate suppression
 
-introduced
+ Documentation/kbuild/kconfig.rst              |   5 +
+ scripts/kconfig/confdata.c                    | 107 +++++++++++++++++-
+ .../kconfig/tests/warn_changed_input/Kconfig  |  40 +++++++
+ .../tests/warn_changed_input/__init__.py      |  27 +++++
+ .../kconfig/tests/warn_changed_input/config   |   3 +
+ .../tests/warn_changed_input/expected_config  |   6 +
+ .../warn_changed_input/expected_defconfig     |   1 +
+ .../tests/warn_changed_input/expected_stdout  |   4 +
+ 8 files changed, 189 insertions(+), 4 deletions(-)
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/Kconfig
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/__init__.py
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/config
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_config
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_defconfig
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_stdout
 
-> instructions modifiers. Those are currently not described in the
-> documentation, despite being used in the verifier and the various JIT
-> compilers supporting them.
->=20
-> Add the missing entries in the instruction set documentation.
->=20
-> Signed-off-by: Alexis Lothor=E9 (eBPF Foundation) <alexis.lothore@bootlin=
-=2Ecom>
+diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
+index d213c4f599a4..e35dd1d5f9d3 100644
+--- a/Documentation/kbuild/kconfig.rst
++++ b/Documentation/kbuild/kconfig.rst
+@@ -59,6 +59,11 @@ Environment variables for ``*config``:
+     This environment variable makes Kconfig warn about all unrecognized
+     symbols in the config input.
+ 
++``KCONFIG_WARN_CHANGED_INPUT``
++    If set to a non-blank value, Kconfig prints optional warnings for
++    user-provided values that change after Kconfig resolves dependencies
++    or applies other constraints such as ranges.
++
+ ``KCONFIG_WERROR``
+     If set, Kconfig treats warnings as errors.
+ 
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 9599a0408862..1fe6d3644e79 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -206,6 +206,79 @@ static void conf_message(const char *fmt, ...)
+ 	va_end(ap);
+ }
+ 
++static void conf_message_raw(const char *s)
++{
++	if (conf_message_callback)
++		conf_message_callback(s);
++}
++
++static bool conf_warn_changed_input_enabled(void)
++{
++	const char *env = getenv("KCONFIG_WARN_CHANGED_INPUT");
++
++	return env && *env;
++}
++
++static const char *sym_get_user_value_string(struct symbol *sym)
++{
++	switch (sym->type) {
++	case S_BOOLEAN:
++	case S_TRISTATE:
++		switch (sym->def[S_DEF_USER].tri) {
++		case yes:
++			return "y";
++		case mod:
++			return "m";
++		default:
++			return "n";
++		}
++	default:
++		return sym->def[S_DEF_USER].val ?: "";
++	}
++}
++
++static bool sym_user_value_changed(struct symbol *sym)
++{
++	if (!sym_has_value(sym) || sym->type == S_UNKNOWN)
++		return false;
++
++	switch (sym->type) {
++	case S_BOOLEAN:
++	case S_TRISTATE:
++		return sym->def[S_DEF_USER].tri != sym_get_tristate_value(sym);
++	default:
++		return strcmp(sym_get_user_value_string(sym),
++			      sym_get_string_value(sym));
++	}
++}
++
++static void conf_clear_written_flags(void)
++{
++	struct symbol *sym;
++
++	for_all_symbols(sym)
++		sym->flags &= ~SYMBOL_WRITTEN;
++}
++
++static void conf_append_changed_input_warning(struct gstr *gs,
++					      struct symbol *sym,
++					      bool *changed_input_found)
++{
++	if (!sym_user_value_changed(sym))
++		return;
++
++	if (!*changed_input_found) {
++		str_printf(gs,
++			   "warning: user-provided values changed by Kconfig:\n");
++		*changed_input_found = true;
++	}
++
++	str_printf(gs, "  %s%s: %s -> %s\n",
++		   CONFIG_, sym->name,
++		   sym_get_user_value_string(sym),
++		   sym_get_string_value(sym));
++}
++
+ const char *conf_get_configname(void)
+ {
+ 	char *name = getenv("KCONFIG_CONFIG");
+@@ -759,11 +832,15 @@ int conf_write_defconfig(const char *filename)
+ {
+ 	struct symbol *sym;
+ 	struct menu *menu;
++	struct gstr gs;
+ 	FILE *out;
++	bool warn_changed_input = conf_warn_changed_input_enabled();
++	bool changed_input_found = false;
+ 
+ 	out = fopen(filename, "w");
+ 	if (!out)
+ 		return 1;
++	gs = str_new();
+ 
+ 	sym_clear_all_valid();
+ 
+@@ -772,10 +849,14 @@ int conf_write_defconfig(const char *filename)
+ 
+ 		sym = menu->sym;
+ 
+-		if (!sym || sym_is_choice(sym))
++		if (!sym || sym_is_choice(sym) || sym->flags & SYMBOL_WRITTEN)
+ 			continue;
+ 
+ 		sym_calc_value(sym);
++		if (warn_changed_input)
++			conf_append_changed_input_warning(&gs, sym,
++							  &changed_input_found);
++		sym->flags |= SYMBOL_WRITTEN;
+ 		if (!(sym->flags & SYMBOL_WRITE))
+ 			continue;
+ 		sym->flags &= ~SYMBOL_WRITE;
+@@ -798,6 +879,13 @@ int conf_write_defconfig(const char *filename)
+ 		print_symbol_for_dotconfig(out, sym);
+ 	}
+ 	fclose(out);
++
++	conf_clear_written_flags();
++
++	if (changed_input_found)
++		conf_message_raw(str_get(&gs));
++
++	str_free(&gs);
+ 	return 0;
+ }
+ 
+@@ -809,7 +897,10 @@ int conf_write(const char *name)
+ 	const char *str;
+ 	char tmpname[PATH_MAX + 1], oldname[PATH_MAX + 1];
+ 	char *env;
++	struct gstr gs;
+ 	bool need_newline = false;
++	bool warn_changed_input = conf_warn_changed_input_enabled();
++	bool changed_input_found = false;
+ 
+ 	if (!name)
+ 		name = conf_get_configname();
+@@ -838,6 +929,7 @@ int conf_write(const char *name)
+ 	}
+ 	if (!out)
+ 		return 1;
++	gs = str_new();
+ 
+ 	conf_write_heading(out, &comment_style_pound);
+ 
+@@ -859,13 +951,16 @@ int conf_write(const char *name)
+ 		} else if (!sym_is_choice(sym) &&
+ 			   !(sym->flags & SYMBOL_WRITTEN)) {
+ 			sym_calc_value(sym);
++			if (warn_changed_input)
++				conf_append_changed_input_warning(&gs, sym,
++								  &changed_input_found);
++			sym->flags |= SYMBOL_WRITTEN;
+ 			if (!(sym->flags & SYMBOL_WRITE))
+ 				goto next;
+ 			if (need_newline) {
+ 				fprintf(out, "\n");
+ 				need_newline = false;
+ 			}
+-			sym->flags |= SYMBOL_WRITTEN;
+ 			print_symbol_for_dotconfig(out, sym);
+ 		}
+ 
+@@ -892,8 +987,12 @@ int conf_write(const char *name)
+ 	}
+ 	fclose(out);
+ 
+-	for_all_symbols(sym)
+-		sym->flags &= ~SYMBOL_WRITTEN;
++	conf_clear_written_flags();
++
++	if (changed_input_found)
++		conf_message_raw(str_get(&gs));
++
++	str_free(&gs);
+ 
+ 	if (*tmpname) {
+ 		if (is_same(name, tmpname)) {
+diff --git a/scripts/kconfig/tests/warn_changed_input/Kconfig b/scripts/kconfig/tests/warn_changed_input/Kconfig
+new file mode 100644
+index 000000000000..69845e2f3fb3
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/Kconfig
+@@ -0,0 +1,40 @@
++# SPDX-License-Identifier: GPL-2.0
++
++config DEP
++	bool "DEP"
++	help
++	  Test dependency symbol for Kconfig warning coverage.
++	  This is used by the warn_changed_input selftest.
++	  It intentionally stays unset in the input fragment.
++	  The test checks how dependent user input is adjusted.
++
++config A
++	bool "A"
++	depends on DEP
++	help
++	  Test bool symbol for changed-input diagnostics.
++	  The input fragment requests this symbol as built-in.
++	  The unmet dependency on DEP forces the final value to n.
++	  The warning should report that downgrade.
++
++config NUM
++	int "NUM"
++	range 10 20
++	help
++	  Test integer symbol for changed-input diagnostics.
++	  The input fragment requests a value outside the allowed range.
++	  Kconfig resolves it to the constrained in-range value.
++	  The warning should report that adjustment.
++
++config DUP
++	bool "DUP"
++	depends on DEP
++	help
++	  Test duplicate-definition handling for changed-input diagnostics.
++	  The input fragment requests this symbol as built-in.
++	  The duplicate definition below must not produce a duplicate warning.
++	  This keeps the warning output stable for repeated menu entries.
++
++config DUP
++	bool
++	depends on DEP
+diff --git a/scripts/kconfig/tests/warn_changed_input/__init__.py b/scripts/kconfig/tests/warn_changed_input/__init__.py
+new file mode 100644
+index 000000000000..5a2b68fb1033
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/__init__.py
+@@ -0,0 +1,27 @@
++# SPDX-License-Identifier: GPL-2.0
++"""
++Test optional warnings for user-provided values changed by Kconfig.
++
++Warnings should stay disabled by default, and should only appear when
++KCONFIG_WARN_CHANGED_INPUT is enabled.
++"""
++
++
++def test(conf):
++    assert conf.olddefconfig('config') == 0
++    assert 'user-provided values changed by Kconfig' not in conf.stdout
++
++    assert conf._run_conf('--olddefconfig', dot_config='config',
++                          extra_env={
++                              'KCONFIG_WARN_CHANGED_INPUT': '1',
++                          }) == 0
++    assert conf.stdout_contains('expected_stdout')
++    assert conf.config_matches('expected_config')
++
++    assert conf._run_conf('--savedefconfig=defconfig', dot_config='config',
++                          out_file='defconfig',
++                          extra_env={
++                              'KCONFIG_WARN_CHANGED_INPUT': '1',
++                          }) == 0
++    assert conf.stdout_contains('expected_stdout')
++    assert conf.config_matches('expected_defconfig')
+diff --git a/scripts/kconfig/tests/warn_changed_input/config b/scripts/kconfig/tests/warn_changed_input/config
+new file mode 100644
+index 000000000000..dbe93ff26408
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/config
+@@ -0,0 +1,3 @@
++CONFIG_A=y
++CONFIG_NUM=30
++CONFIG_DUP=y
+diff --git a/scripts/kconfig/tests/warn_changed_input/expected_config b/scripts/kconfig/tests/warn_changed_input/expected_config
+new file mode 100644
+index 000000000000..fe8bbec66c53
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/expected_config
+@@ -0,0 +1,6 @@
++#
++# Automatically generated file; DO NOT EDIT.
++# Main menu
++#
++# CONFIG_DEP is not set
++CONFIG_NUM=20
+diff --git a/scripts/kconfig/tests/warn_changed_input/expected_defconfig b/scripts/kconfig/tests/warn_changed_input/expected_defconfig
+new file mode 100644
+index 000000000000..af9e34851d2a
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/expected_defconfig
+@@ -0,0 +1 @@
++CONFIG_NUM=20
+diff --git a/scripts/kconfig/tests/warn_changed_input/expected_stdout b/scripts/kconfig/tests/warn_changed_input/expected_stdout
+new file mode 100644
+index 000000000000..9ec8446b4ac2
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/expected_stdout
+@@ -0,0 +1,4 @@
++warning: user-provided values changed by Kconfig:
++  CONFIG_A: y -> n
++  CONFIG_NUM: 30 -> 20
++  CONFIG_DUP: y -> n
+-- 
+2.50.1 (Apple Git-155)
 
-Alexei et al -- if you plan to do a subsequent RFC, it will influence
-how this document needs to be structured. [0] explains the process for
-adding new instructions. To quote:
-
-> Once a conformance group is registered with a set of instructions, no
-> further instructions can be added to that conformance group. A
-> specification should instead create a new conformance group that
-> includes the original conformance group, plus any newly added
-> instructions. Inclusion of the original conformance group is done via
-> the "includes" column of the BPF Instruction Conformance Groups
-> registry, and inclusion of newly added instructions is done via the
-> "groups" column of the BPF Instruction Set registry.
-
-So you would have to create a new conformance group for these new
-atomics -- you can't just add them to the existing one. In general it
-might be easier / advised to snapshot this file to RFC 9669 and create a
-new one for the new instructions to make it easier to tease this stuff
-apart later. If that's something you want, I'm happy to get us started
-with a skeleton file. Again, though, that's only necessary if you plan
-to submit a new document to the IETF WG.
-
-[0]: https://www.rfc-editor.org/rfc/rfc9669.html#name-adding-instructions
-
-[...]
-
-> +The ``LOAD_ACQ`` and ``STORE_REL`` operations allow using lighter load a=
-nd
-> +store memory barriers rather than full barriers. The corresponding acces=
-ses
-> +must be aligned, but are allowed for any access size (8-bit up to 64-bit
-> +operations), with 8-bit and 16-bit ``LOAD_ACQ`` loaded values being
-> +zero-extended. As atomics are encoded as stores, the meaning of dst and =
-src
-
-Nit:
-
-``dst`` and ``src``
-
-``src`` below as well.
-
-Note though that as mentioned above, these instructions should probably
-go into a new conformance group that includes the existing atomics.
-
-> +are different for ``LOAD_ACQ``, effectively using src as memory based
-> +pointer and dst as destination register for the fetched value.
-> +
->  64-bit immediate instructions
->  -----------------------------
-> =20
->=20
-> ---
-> base-commit: ceeb3aa37bff895116944acf4347fcded0b7692d
-> change-id: 20260520-bpf-insn-doc-756b369ca328
->=20
-> Best regards,
-> -- =20
-> Alexis Lothor=E9 (eBPF Foundation) <alexis.lothore@bootlin.com>
->=20
-
---xm7tw5c2mh4x3j5d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRBxU1So5MTLwphjdFZ5LhpZcTzZAUCag5rQQAKCRBZ5LhpZcTz
-ZHoCAQDFWUGw9Hr99Buhk40sk2JijGKk35iz1XODpAk+Wn/yRAD/W9A37/iQvWyx
-wtmRJGU7PSSg6gN/rmsCFovizz7KMwI=
-=m4px
------END PGP SIGNATURE-----
-
---xm7tw5c2mh4x3j5d--
