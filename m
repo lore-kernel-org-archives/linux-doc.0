@@ -1,241 +1,187 @@
-Received: from mail-m19731109.qiye.163.com (mail-m19731109.qiye.163.com [220.197.31.109])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A343383333;
-	Thu, 21 May 2026 10:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.109
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779357650; cv=none; b=EMfGZ5Ulwwe0L6zA/PySmCxJJAOx9GyGsxX1wZvLfSwtyl7L4pqTi9sDGHOQGhZBP4UyX5GEsiXghmUGxHhxkS1d8kIVrR0xB+PZXe/44lKtaQmVx3EzUvASt9jWom8pWOBWquLPQjiL7W01nUhR9H/JlWGlgNfhtEJ0X3AX9DE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779357650; c=relaxed/simple;
-	bh=q4Nd4g86OVyRsmXyqsdRUlITwX42dLTgDg9h++XMzAM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NXCWRtUq5HT3GhxVgHHYB4pQdbzp1UiK9y3kFIJGhJrcFo0kHnpz8Bw3/Kqwi7Qy9OyjcdfrtUYdbW4aWU1IM+T0hibijjCcXS2b9feHj/sqiMjuFsmtvsasCuPcXA99uPhtEaFBYF8y09QLQdUZOkdhNV/xXEDY2jd/t53Ks3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=PqmSQ0hA; arc=none smtp.client-ip=220.197.31.109
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057492798F8;
+	Thu, 21 May 2026 10:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779358086; cv=fail; b=gB0Hf+qJ0ddaongbVOY5EYwp8QZIISljLFw1SA5Bp4VfCXYNHHJgqqc7KJiH0tHdVGVt18snuoP6tomtFaqCn5VyK7QdEijlOTfpptQKCsP7L3+qJ9ovM9sYsqn1pT5B8orKhosHtwH2U+NSj4XSV78c/aL7084CA//B7IPjj98=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779358086; c=relaxed/simple;
+	bh=pyvmrYKJkztDg0UvQv7FqmiRR/e/+nYaWlmCi7XkO5g=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=X5GLwq7VD3SOl2Piw76SdZ4Nz+R5/Je96AMUE2HwY7KjCR4LDV9SCVr0Dgwt8TaeoZzUymxomNDk8GgEAsXiYrI0llbP7uNbezHRcwigIIrcWhnKN7XeK4oAk9g6mix2W7dad3VxU+TwirUBI3PrqXAln+ISmf1Uaupzcdd0EzQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WP+xosli; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="PqmSQ0hA"
-Received: from server001 (unknown [222.130.22.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 3f4cebb11;
-	Thu, 21 May 2026 17:55:25 +0800 (GMT+08:00)
-From: Kefan Bai <baikefan@leap-io-kernel.com>
-To: linux-usb@vger.kernel.org,
-	si.yanteng@linux.dev
-Cc: gregkh@linuxfoundation.org,
-	seakeel@gmail.com,
-	alexs@kernel.org,
-	dzm91@hust.edu.cn,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	doubled@leap-io-kernel.com
-Subject: [PATCH v7 8/8] docs/zh_CN: Add CREDITS translation
-Date: Thu, 21 May 2026 17:55:13 +0800
-Message-ID: <634084009a0833a70efd269229919476ffe81b22.1779355170.git.baikefan@leap-io-kernel.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1779355170.git.baikefan@leap-io-kernel.com>
-References: <cover.1779355170.git.baikefan@leap-io-kernel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WP+xosli"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779358084; x=1810894084;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=pyvmrYKJkztDg0UvQv7FqmiRR/e/+nYaWlmCi7XkO5g=;
+  b=WP+xosliIu8bG5wiUMINeJzTOqpVcfmU9tDnw3dEQOhAyASPM1+0Fdmt
+   Qa0DU7JQPK2JnQhLHGwv9UZBoTFEZxavV8uXBtqgT31p0bPujdhQHqTSu
+   Ak5YSqtFIPQt38elfOWBRlu6B+c6JGLccnprJyVASofuuEmsfNL2LtbQI
+   sCs1medREf9OxQ9pDvbz9iRvMukSjtLQ3y9QrrMU1lAfMApZST7EbXVwY
+   30w62TL1FwMDWV7F6SRcSndBZQOeDlNOsfEH+wB4jbDSespFRHnxry2tO
+   wdESfn0g1xxtp5B3OpSCXwMp4G0+QAslg2No04Irylybn22e8Nc0fNZ8+
+   g==;
+X-CSE-ConnectionGUID: OvukMNi9T6GGmKbr5K6CNQ==
+X-CSE-MsgGUID: 6rB0oHQ0Qc+Ne6uBE294xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="91665412"
+X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
+   d="scan'208";a="91665412"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 03:08:01 -0700
+X-CSE-ConnectionGUID: +Vs6si/ESI2sAc5cxob64Q==
+X-CSE-MsgGUID: IDiL8BOPRHO15TtULTMH7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
+   d="scan'208";a="245473935"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 03:08:01 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 21 May 2026 03:08:00 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 21 May 2026 03:08:00 -0700
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.71) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 21 May 2026 03:07:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iCPE5+G1AD4veqVdq811JKGngSzcqI/a0MfBFBbZcb8qumInGsSU+oh+0kM3fVE7xm41ZvPCrfeaY3MRRA2k+cfgdf5Y4exq0Ogo1cWV3aVUKJfHp032a/vlHIHCfds6nX8PzXj7z86bP8XL2JWRnzKxQ+jtoEhCbSkxdW1CCEIscf97PDBfUAzLz8TY4+scG83mcS9hsgGOtxJooOtNE1doTuuHhZB0rQ57BB6UlQiC2lEA6bk/xGCmiq3Hg6UTCWaC70KcfAnGrJmF0OT5IWpIpu3RtIHZyMsiNfeyHgKtCNz76VRZJdC8PXyNvDGqbWtqLvHr/4LbTg9RfHA4qA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=czMNpoqoV83yDccazMCe0MYRZrsMYaIXo3qwplEmnrQ=;
+ b=imOEGjEjeNJOXolhTuhk8Sl+0HUadU7Rku7nURamDcOraGVAYvRJNtdjwcPsTn/jbqhzZB7O2tbEezQzECbKKN7/udnhFfBYtPGzJ0UcegaD9PC798rD+ceVUfkSNnkpTJkhP3Nc19oAxrqxZSNkwHLJioWP4iWf7tdU1ubPGVDgQaQTpefCmlIKBj8gMNAbdryYw6UVx2XzJkkv9O9kkrZwZzGyWfa7zph7IAgryxcLdxTHuSCEbdIYaEfhf+rdiFFe4gLOGMFPztWiJ9/Cw95qFhRPiOwht6Xxxoe5xIoqcFa/F3ULGCQZ2ttVuE+kitdTJTfSmsMnlR59K7gSaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB7540.namprd11.prod.outlook.com (2603:10b6:806:340::7)
+ by SJ2PR11MB8500.namprd11.prod.outlook.com (2603:10b6:a03:574::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Thu, 21 May
+ 2026 10:07:51 +0000
+Received: from SN7PR11MB7540.namprd11.prod.outlook.com
+ ([fe80::2edd:5c6d:169c:389b]) by SN7PR11MB7540.namprd11.prod.outlook.com
+ ([fe80::2edd:5c6d:169c:389b%6]) with mapi id 15.21.0048.016; Thu, 21 May 2026
+ 10:07:50 +0000
+Date: Thu, 21 May 2026 12:07:39 +0200
+From: Larysa Zaremba <larysa.zaremba@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>, <davem@davemloft.net>,
+	<pabeni@redhat.com>, <edumazet@google.com>, <andrew+netdev@lunn.ch>,
+	<netdev@vger.kernel.org>, Pavan Kumar Linga <madhu.chittim@intel.com>,
+	<przemyslaw.kitszel@intel.com>, <aleksander.lobakin@intel.com>,
+	<sridhar.samudrala@intel.com>, <anjali.singhai@intel.com>,
+	<michal.swiatkowski@linux.intel.com>, <maciej.fijalkowski@intel.com>,
+	<emil.s.tantilov@intel.com>, <joshua.a.hay@intel.com>,
+	<jacob.e.keller@intel.com>, <jayaprakash.shanmugam@intel.com>,
+	<jiri@resnulli.us>, <horms@kernel.org>, <corbet@lwn.net>,
+	<richardcochran@gmail.com>, <linux-doc@vger.kernel.org>, Bharath R
+	<bharath.r@intel.com>, Samuel Salin <Samuel.salin@intel.com>
+Subject: Re: [PATCH net-next v3 03/14] libeth: allow to create fill queues
+ without NAPI
+Message-ID: <ag7Za4d6xXIJjg8-@soc-5CG4396X81.clients.intel.com>
+References: <20260515224443.2772147-1-anthony.l.nguyen@intel.com>
+ <20260515224443.2772147-4-anthony.l.nguyen@intel.com>
+ <20260520184922.34c36c74@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260520184922.34c36c74@kernel.org>
+X-ClientProxiedBy: VI6PEPF000001FD.AUTP296.PROD.OUTLOOK.COM
+ (2603:10a6:808:1::910) To SN7PR11MB7540.namprd11.prod.outlook.com
+ (2603:10b6:806:340::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e49f6183109d5kunm49815c9e65cb7
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCHkJJVk5NSEwdGh5OHkhPSlYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSk
-	tJQkNDTFVKS0tVS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=PqmSQ0hARSbARSpIoUBIwAfDj56IKDRNDFR4C90eSXm1KeiTA/iBZSuA1XJUPUSHxVtZa3ZIIlJe3ZIcoULRnItmhcEdltoRwyQS0gYfq+dBuwfiSYgOujpNjzfYqYvcSbosk2gLLdnKFbGE+UvJ8WEWDdb81ILvQrCLXSnxyPS/Enx2eW7JnIRmUhr0J4CXcqrj1bCEbeAnHYDQzFih3WO5UDPJM6TI/zR704HGkuX4vqng+s68thTQBRwKzOF5pGcLOP8+3nXNWfROQ/6Bg7OtA5VSd0lRYx5Liux86O/+ycZ3ktNVVsP6nIMJdWlyFo5zIGCq8T1StZNzTN3bkQ==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=eJ7Mk4dT0iryUbzjIwTC89RoXiislC6Dm4WJZ1Q0MiI=;
-	h=date:mime-version:subject:message-id:from;
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB7540:EE_|SJ2PR11MB8500:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8de93517-cba9-4cea-2452-08deb720d0ed
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|10070799003|376014|1800799024|7416014|22082099003|18002099003|56012099003|11063799006|4143699003|6133799003;
+X-Microsoft-Antispam-Message-Info: RAOLlXHbUMGKdV+4sgx9nUpjWcrqRW7KcUZo+Iqzr3ku9ecBH9G9UqSe2rVU1LOQ9fGpTBaiPOpLLpxrwNF/FFwzES1TTUNkj6MvgimfOQ8YO1a3ydog1qGU8JUvuFWxXdzfPVJDVXIzZFGBKhP8iS/2l8dd70bBZd12g3mm7/hSl56FHx68TaQO3ZwFAZe192rrLQFvmT8lbfdy0XdsPtxJXTgSAqS+1bgGWq0TdRbLKlvmE1yfIcv6ByEZ60EeNULL0fD8k1FhRWtnJrXo05mDvc6fSGcA2BFzKNRnvvt6s0LCt6Awa90ndYqR2JSVFZG7S1lxcB46gwVh0aJpk2AZN/smc7tGpqsbVCZ6D/nN7RDSCcJ/64Rsg5sd6uJjacG6Erp6+0c/BEilEeY7mmBuGEecKjbxy95PCJYIXLeOKIu+nodt/qyUqL44IrYbJ5oOF+6odaDinz3WWLAf9F2PFt4rcLEL2OociVp1jTT+RJyFJCZA3gtzxlfP/MrvoIJYqZDv1VYUCCTJ5HmxVhU3C3gKo6v9ZPRhV4/veiSqeLpbp03LClDhQ1yxPnOljfLV9YOyNUV8E7wbPeJMQu8pWj1GjVkzvVNEplysjgc8/cck8EtBWxdcw3JZRT/t04FvN24tRmPXSew6yf4qXJLd4TgO9/ddzHuMBDU3zcuXRiiwqfpLyTpamPHhY9ta
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7540.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(376014)(1800799024)(7416014)(22082099003)(18002099003)(56012099003)(11063799006)(4143699003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?K87lY1urVEvc+lnsLGKkYB+3GIUVi1YJogn6oRlbdC2J3+ayvXYX5Su88gCa?=
+ =?us-ascii?Q?hqE68Jf+RpYZf0i2R/LbAf+jcdse6FBfYGCM4o5d6aGR1+BbAqNTrKifYLds?=
+ =?us-ascii?Q?s1aLtm32en6BOYFLIol+RJHGHmWEyaRojvbP/xSL5XpGchvfC9DQVSGfCpCN?=
+ =?us-ascii?Q?0yyizGtSq/of+uoBugmtIUx5SFV4m1GkLlKvoeGVsCdHtHdtwLhYVccKahgL?=
+ =?us-ascii?Q?FIDh9tcdNknycBaN+SXf95CPmipgJ82Nv0g6PUq6yLk6LBNLni8AMwiKOfEk?=
+ =?us-ascii?Q?fpqrcPzks9iqPXSZaGdOBEY0DjtBzhUumV9xPiL8aMr4zkvmA9ldrVHVJYxO?=
+ =?us-ascii?Q?XAk4WL3ablYir+Pn4i17fCbyFipIEG52EDxEYRSZIw+FcXAeI2+is0rYSIvu?=
+ =?us-ascii?Q?gkjefr9goVWqD/7fyKiHkcDoamS20TsAOHKt66RjsmYeqBo9Giw5wA+NzdD5?=
+ =?us-ascii?Q?zWRybPl06Qvtgukl3lB/ToePyQgFkd1MeSFngfad9ztFhbzlCdqp22PSs9Dw?=
+ =?us-ascii?Q?LvoYv2sFO9Tz+23UzScotz1Pa22G9itQdIJvIXA9IYbJeW6OnTq24CEQZVkc?=
+ =?us-ascii?Q?u/LaLhkEhd7hD9ulR6M78vBsQXiG3DdAWS8zsLGSjCVxpYRxnrFQE/WXms1x?=
+ =?us-ascii?Q?bXmEJurxSxtF9+obVqx+dukyXcToNGwz1Iw9gmSdORMfzDIcxZdfnGWTpaOJ?=
+ =?us-ascii?Q?5E6buTeDhvTAqlE2d8pjxX7VJ0cc1h5oKMRBs1euYekfYI9LPh2/81cH0cQI?=
+ =?us-ascii?Q?yC5sQD8zBhX6Tao50RYAMBZ7SNqRcVSDwC7pA+GX7Mh7GkkFvTLJFkkNRcjB?=
+ =?us-ascii?Q?UdbGNMpY3lPwfJI4qfR5VEUAePkenzhJ6OX+RqVHsj4KOsT3Dsukw3M4i43V?=
+ =?us-ascii?Q?J5e4VxDCCD5y7qfNkwwhhGtnP5HcbVVDrjgY6m6/NDiqO0KHsT4likK8hGLg?=
+ =?us-ascii?Q?LAPOiBgtLufVMs/aHN13YyTAxr0tuPbA5faaJfW8v7fwBYT6mWURM/kqmlw8?=
+ =?us-ascii?Q?4Mg0HXX7saylDbJsRJ9zq54Wh9bJEar2SrVznYGkkozqGwQjZ4/lBlyr9s9M?=
+ =?us-ascii?Q?rUfDTyMrUVEuRG6twwwCDhyIhWd45OAVvc9fETQKTKGwIpjJv2nAbxA8kib7?=
+ =?us-ascii?Q?FkxGt+XO+vpzUBLrTGrkYjp9b2EF8ByR4fpAwBh7q6ra6vQZrrbDEok129k+?=
+ =?us-ascii?Q?qexxkgU7lA29qrbTx+ekaJJpvILB9DJThOTOx7XbiNt/3R/U5jXNd2a3XyNH?=
+ =?us-ascii?Q?2p/AQDrdyzois3b0ZDMt+vYU4dAOzcZIxXAU0nwEixkt12hhZud9raBSRf3+?=
+ =?us-ascii?Q?6NoA1VZ28b1VrlCf/gFDLR4ZJpxlgZ1QW/gkzhG+944K6HXgpVCla2/nNBhE?=
+ =?us-ascii?Q?ZkZoro/jja73PLoXYld8HDJTM30eddgkkRbhb/WgKUdulFKhQub/QV7Ib1Lb?=
+ =?us-ascii?Q?X/btfYT/xgHS90YOMM7miUvKMwTlyE0vGqUFoxNGUFrHpR6tjN/ogJ5Xo0R3?=
+ =?us-ascii?Q?6YC/dk9sQ6LLhQ3ve09aDdG0c0r4RyizXEmadOzEqryuaM1y6ZawKLq7M5D5?=
+ =?us-ascii?Q?ivZsmLCcXXPUvaKAwUnY44wGBEIWlFOBrZa07qDgzfaZEotJbFEqz2s6EY55?=
+ =?us-ascii?Q?YTO552gyo3LGmgG67oCDcy3s1jfrsZNcxm+c9y2Ar9ha46PDZ9qrZwh3bvrc?=
+ =?us-ascii?Q?yCw3oqcxQY+mvW7d1+txcEFuiY7lX9r6IsCOhWSTpIa0GXnSApgnV26nJTC5?=
+ =?us-ascii?Q?l36tLjS5k/ykQvHDi3+mDPENmLHWe4JdyO9Scw01R9y/dXVAPT38fhh3clKL?=
+X-MS-Exchange-AntiSpam-MessageData-1: MnM3bhUgQTfsuvpTwnZtinudfRRY+Usy4nw=
+X-Exchange-RoutingPolicyChecked: Gh8qLVGw3BKlrZNZWBSAUerx5B6/t8pWOxtJQnR08kO0TjHfFWmOiEK2NCw/Zu8xjfNe3pC1n8tIpJ6DZVsUJkNTcZdtxDGdSsnf5YsaDffSdSrr8yqaBSveQg/5Kk40Q4sLErlkuKGgPJN23YK70NzlQ8j4EdrBLZf3oVTMbIe1L6O7Np//F/NHDQYqwuS22JRAF6CJ9KoMXRhYAfM3DtMbtd3zTtmIkMZfQfqQuqfhAiUGTZRDod2NIr1yo7UTw/EhsYzcKzA+q2gOguUKqI/+ba2LQh2kZNueq7akngM/ZcY7q/A2GmDSIwVaAndk+EYj+4MgV1hL2q/gTw/xVQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8de93517-cba9-4cea-2452-08deb720d0ed
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7540.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 10:07:50.8341
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IQLuzD+5vNAqYw7J8ft9rvHIFvOQB62S5/Pf3669tQbIiF+hxJ96aB2jFWP6DQBhu6R9ukS+ktjy7I7FNmZZI++wJaILvyKpvA7qYklVm2U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8500
+X-OriginatorOrg: intel.com
 
-Translate .../usb/CREDITS into Chinese
+On Wed, May 20, 2026 at 06:49:22PM -0700, Jakub Kicinski wrote:
+> On Fri, 15 May 2026 15:44:27 -0700 Tony Nguyen wrote:
+> > +int libeth_rx_fq_create(struct libeth_fq *fq, void *napi_dev)
+> 
+> Why do you have to pass an opaque void pointer?
+> Just add another arg for dev.
 
-Update the translation through commit 7b2328c5a009
-("docs: Fix typo in usb/CREDITS")
+I agree that having type safety would be nice. But firstly, napi and dev are 
+mutually exclusive, and secondly, call sites would look pretty ugly, unless we 
+add a macro on top.
 
-Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
-Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
----
- Documentation/translations/zh_CN/usb/CREDITS | 163 +++++++++++++++++++
- 1 file changed, 163 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/usb/CREDITS
-
-diff --git a/Documentation/translations/zh_CN/usb/CREDITS b/Documentation/translations/zh_CN/usb/CREDITS
-new file mode 100644
-index 000000000000..c133b1a5daff
---- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/CREDITS
-@@ -0,0 +1,163 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/usb/CREDITS
-+
-+:翻译:
-+
-+ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
-+
-+:校译:
-+
-+
-+简易 Linux USB 驱动的致谢名单：
-+
-+以下人员都为 Linux USB 驱动代码作出了贡献
-+（按姓氏字母顺序排列）。我相信这份名单本应
-+更长一些，但确实不容易维护。
-+如需将自己加入名单，请提交补丁。
-+
-+  Georg Acher <acher@informatik.tu-muenchen.de>
-+  David Brownell <dbrownell@users.sourceforge.net>
-+  Alan Cox <alan@lxorguk.ukuu.org.uk>
-+  Randy Dunlap <randy.dunlap@intel.com>
-+  Johannes Erdfelt <johannes@erdfelt.com>
-+  Deti Fliegl <deti@fliegl.de>
-+  ham <ham@unsuave.com>
-+  Bradley M Keryan <keryan@andrew.cmu.edu>
-+  Greg Kroah-Hartman <greg@kroah.com>
-+  Pavel Machek <pavel@suse.cz>
-+  Paul Mackerras <paulus@cs.anu.edu.au>
-+  Petko Manlolov <petkan@dce.bg>
-+  David E. Nelson <dnelson@jump.net>
-+  Vojtech Pavlik <vojtech@suse.cz>
-+  Bill Ryder <bryder@sgi.com>
-+  Thomas Sailer <sailer@ife.ee.ethz.ch>
-+  Gregory P. Smith <greg@electricrain.com>
-+  Linus Torvalds <torvalds@linux-foundation.org>
-+  Roman Weissgaerber <weissg@vienna.at>
-+  <Kazuki.Yasumatsu@fujixerox.co.jp>
-+
-+特别感谢：
-+
-+  Inaky Perez Gonzalez <inaky@peloncho.fis.ucm.es>
-+  感谢他发起了 Linux USB 驱动开发工作，并编写了体量较大的 uusbd
-+  驱动中的大部分代码。我们从那项工作中学到了很多。
-+
-+  NetBSD 和 FreeBSD 的 USB 开发者们
-+  感谢他们加入 Linux USB 邮件列表，提供建议并分享实现经验。
-+
-+附加感谢：
-+  还要感谢以下公司与个人在硬件、支持、时间投入和开发方面提供的捐赠与帮助
-+  （摘自 Inaky 驱动原始的 THANKS 文件）：
-+
-+    以下公司曾帮助我们开发 Linux USB / UUSBD：
-+
-+        - 3Com GmbH 捐赠了一台 ISDN Pro TA，并在技术问题和测试设备方面为我
-+          提供支持。没想到能得到这么大的帮助。
-+
-+        - USAR Systems 向我们提供了他们出色的 USB 评估套件，
-+          使我们能够测试 Linux USB 驱动对最新 USB 规范的符合性。
-+          USAR Systems 认识到保持开放操作系统与时俱进的重要性，
-+          并以硬件支持这个项目。感谢！
-+
-+        - 感谢英特尔提供的宝贵帮助。
-+
-+        - 我们与 Cherry 合作，使 Linux 成为首个内置 USB 支持的操作系统。
-+          Cherry 是全球最大的键盘制造商之一。
-+
-+        - CMD Technology, Inc. 慷慨捐赠了一块 CSA-6700 PCI-to-USB
-+          控制卡，用于测试 OHCI 实现。
-+
-+        - 由于他们对我们的支持，Keytronic 可以放心，
-+          他们的键盘能卖给至少 300 万 Linux 用户中的一部分。
-+
-+        - ing büro h doran [http://www.ibhdoran.com]!
-+          在欧洲，想给主板买一个 PC 背板 USB 连接器几乎是不可能的
-+          （我自己做的那个相当糟糕 :)）。现在我知道该去哪里买漂亮的 USB
-+          配件了！
-+
-+        - Genius Germany 捐赠了一只 USB 鼠标，用于测试鼠标启动协议；
-+          他们还捐赠了 F-23 数字摇杆和 NetMouse Pro。感谢！
-+
-+        - AVM GmbH Berlin 支持我们开发 Linux 下的 AVM ISDN Controller B1 USB 驱动。
-+          AVM 是领先的 ISDN 控制器制造商，其主动式设计对包括 Linux 在内的
-+          所有操作系统平台开放。
-+
-+        - 非常感谢 Y-E Data, Inc 捐赠的 FlashBuster-U USB 软驱，
-+          使我们能够测试批量传输代码。
-+
-+        - 感谢 Logitech 捐赠了一只三轴 USB 鼠标。
-+
-+          Logitech 负责设计、制造并销售各种人机接口设备，
-+          在键盘、鼠标、轨迹球、摄像头、扬声器，以及面向游戏和专业用途的
-+          控制设备方面拥有悠久历史和丰富经验。
-+
-+          作为这些设备广为人知的供应商和销售商，他们捐赠了 USB 鼠标、
-+          摇杆和扫描仪，以表明 Linux 的重要性，也让 Logitech 的客户
-+          能在自己喜欢的操作系统上获得支持，并让所有 Linux 用户都能使用
-+          Logitech 以及其他 USB 硬件。
-+
-+          Logitech 也是 1999 年 2 月 11 日维也纳 Linux 大会的官方赞助商，
-+          我们将在会上展示 Linux USB 工作的最新进展。
-+
-+        - 感谢 CATC 提供 USB Inspector，帮助我们揭开 UHCI 内部实现中
-+          那些不为人知的角落。
-+
-+        - 感谢 Entrega 为开发工作提供 PCI 转 USB 卡、集线器和转换器产品。
-+
-+        - 感谢 ConnectTech 提供 WhiteHEAT USB 转串口转换器以及相关文档，
-+          让这个驱动得以写成。
-+
-+        - 感谢 ADMtek 提供 Pegasus 和 Pegasus II 评估板、规格说明，
-+          以及驱动开发过程中的宝贵建议。
-+
-+    另外还要感谢以下个人（嘿，顺序不分先后 :)）
-+
-+        - Oren Tirosh <orenti@hishome.net>,
-+          他非常耐心地听我唠叨各种 USB 疑问，还给了很多很酷的想法。
-+
-+        - Jochen Karrer <karrer@wpfd25.physik.uni-wuerzburg.de>,
-+          指出了致命 bug，并给出了宝贵建议。
-+
-+        - Edmund Humemberger <ed@atnet.at>，他在公共关系与项目管理方面
-+          为 Linux-USB 项目付出了巨大的努力。
-+
-+        - Alberto Menegazzi <flash@flash.iol.it> 正在着手编写 UUSBD 文档，加油！
-+
-+        - Ric Klaren <ia_ric@cs.utwente.nl> 编写了很好的入门文档，
-+          与 Alberto 的作品形成良性竞争：）。
-+
-+        - Christian Groessler <cpg@aladdin.de>，感谢他在那些棘手细节上的帮助。
-+
-+        - Paul MacKerras 改进了 OHCI 实现，推动了对 iMac 的支持，
-+          并提供了大量的改进意见。
-+
-+        - Fernando Herrera <fherrera@eurielec.etsit.upm.es>
-+          负责撰写、维护并不断补充那份期待已久、独一无二又精彩的
-+          UUSBD FAQ！太棒了！
-+
-+        - Rasca Gmelch <thron@gmx.de> 重新启用了 raw 驱动，
-+          指出了一些错误，并启动了 uusbd-utils 软件包。
-+
-+        - Peter Dettori <dettori@ozy.dec.com>，像疯了一样挖掘 bug，
-+          还提出了很多很酷的建议，太棒了！
-+
-+        - 自由软件与 Linux 社区的所有成员，包括 FSF、GNU 项目、
-+          MIT X 联盟、TeX 社区等等，谢谢你们！
-+
-+        - 特别感谢 Richard Stallman 创造了 Emacs！
-+
-+        - 感谢 linux-usb 邮件列表的所有成员，读了那么多邮件——不开玩笑了，
-+          感谢你们提出的所有建议！
-+
-+        - 感谢 USB Implementers Forum 成员们的帮助与支持。
-+
-+        - Nathan Myers <ncm@cantrip.org>，感谢他的建议！
-+          （希望你喜欢 Cibeles 的派对。）
-+
-+        - 感谢 Linus Torvalds 创建、开发并管理 Linux。
-+
-+        - Mike Smith、Craig Keithley、Thierry Giron 和 Janet Schank
-+          感谢他们让我认识到标准 USB 集线器其实也没那么“标准”，
-+          这有助于我们在标准集线器驱动中加入厂商特定的特殊处理。
---
-2.54.0
-
+> 
+>  int libeth_rx_fq_create(struct libeth_fq *fq, struct napi_struct *napi,
+> 			 struct device *dev)
+>  {
+>  	struct page_pool_params pp = {
+>  		.flags		= PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV,
+>  		.order		= LIBETH_RX_PAGE_ORDER,
+>  		.pool_size	= fq->count,
+>  		.nid		= fq->nid,
+> -		.dev		= napi->dev->dev.parent,
+> -		.netdev		= napi->dev,
+> +		.dev		= dev ? dev : napi->dev->dev.parent,
+> +		.netdev		= napi ? napi->dev : NULL,
