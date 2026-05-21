@@ -1,104 +1,107 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164643CB91E
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 17:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029CD360ECF
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 18:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779383226; cv=none; b=bCcnvUfmDIFSRXTEszX3Nfb4SIYzWbhx1HEbcpkQzb5krb9KPRXFs1qqofoEPAEeV66DJAylb1g0A212i8ZtLfiHkY1OB+fgd+k3ZaUXKlUyZgmecSlBRK0+KnvjHbxEFd4oJW0gysMcZGQnkPLtAK+RLvmHfzG7qfcoGUPxs8g=
+	t=1779386534; cv=none; b=XBARXK1ZmJaWINw4MZrB+RpHXTclHCRb0pHRVIQVKq26gfgr5yaU9DWZnn79K0HXMdu8sQp0RXjkY6xOvyw998xLxShZNrC6ernXOT4Ed3vK6kJEa0wkiqvYuhL2SrI1DmlGEJ2mUOMZKFYHAEMkP7xYBFUWIuB/aRmS4eiuptE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779383226; c=relaxed/simple;
-	bh=n73Py4tX0x6CbDtrVaVKUT6jP8Hb5QmRT3SSw45fPfc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b8Zt3BLKcwVilYsh9iXYD50zyvz7TEzKadgBLD00U4mJLcGnCdaPGWgNRUaUVCGBjMAVQ5uJLrApy5nhI87fvqEItt1RLGPX2aE4OXnWgUMzGF50i0rwKC7Ku1Dx5iU1rcwD2ENNns51ZEIA9T7oVL8PGhJmmtbV2twowilYnps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZGLiUCmB; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1779386534; c=relaxed/simple;
+	bh=uLPZQ9vUr/4uTv8PfAlMmoLOrphUtX99fCwYRINzO4I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kgNU3I7sR2USow7U7IescUVmjTpvdt5h/qVpE+hUhdEBKcCwMzqQoELuSGGBG/SUR6Lto2EKR9uBp9xRYV4onXfAV9rGg2HlNQJGIvh2q5zJnDZ+KbOvQpOoIo8lMxa1uGpuGHhV+DEYXh8XIeltQNk3NrTG1RU3BGKItsD3R78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PE6S/s9s; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZGLiUCmB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779383224;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aqtx7/ZgZtJqtGmUDilhAq3QEZVyLamVBnXprfT/w7Y=;
-	b=ZGLiUCmB4ka6ubeGgG6ez7SjuN0KmGjR4kuz8JuNg3eblfNtOBS/SQPHgyNasD1EcbWp+J
-	MBQtAJfhWLstnsWhkWh//0h8qqOJXmz2M+1bxBZCFnj1REYIdX1wdQOdmWyMrHOhEru0dp
-	nlGVwtuZkwfnEJgTg8UPqagP5JvfrA8=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-304-Si519SFBP5myV1KRA88w4Q-1; Thu,
- 21 May 2026 13:06:57 -0400
-X-MC-Unique: Si519SFBP5myV1KRA88w4Q-1
-X-Mimecast-MFC-AGG-ID: Si519SFBP5myV1KRA88w4Q_1779383215
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 41B4219560A3;
-	Thu, 21 May 2026 17:06:54 +0000 (UTC)
-Received: from thinkpad (headnet01.pony-001.prod.iad2.dc.redhat.com [10.2.32.101])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E07CA1685;
-	Thu, 21 May 2026 17:06:47 +0000 (UTC)
-Date: Thu, 21 May 2026 19:06:44 +0200
-From: Felix Maurer <fmaurer@redhat.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: MD Danish Anwar <danishanwar@ti.com>, Luka Gejak <luka.gejak@linux.dev>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Roger Quadros <rogerq@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Meghana Malladi <m-malladi@ti.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	David Carlier <devnexen@gmail.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Kevin Hao <haokexin@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: Re: [PATCH net-next v2 2/2] net: ti: icssg: Add HSR and LRE PA
- statistics
-Message-ID: <ag87pBZfOyccPZTc@thinkpad>
-References: <20260514075605.850674-1-danishanwar@ti.com>
- <20260514075605.850674-3-danishanwar@ti.com>
- <20260518184506.694c584e@kernel.org>
- <E30AAC96-01D2-4A23-B562-126087DEB7FA@linux.dev>
- <20260519165646.09b0783f@kernel.org>
- <1d8ab51a-6943-4978-88cf-adda8cc57f7e@ti.com>
- <20260520153303.33692fe3@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PE6S/s9s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADA081F01560
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 18:02:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779386532;
+	bh=uLPZQ9vUr/4uTv8PfAlMmoLOrphUtX99fCwYRINzO4I=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=PE6S/s9sd0mSPmBeb70+EozqZRA4T1mvNxnlUCE5EebvYUJojOEw7Fpw9ddGli/kl
+	 awZHd2fHG/VeDlDf/6c7YW5LTGZfSjRtUa/96H4h1QorCjWWCRDmuwhsO1mUrQpkqE
+	 YhqF8erFyZAU5gPRY6tn/qIILJHW4cC3sUUkX/Evagk+7vt7C8asqSU17rxiCNRFRI
+	 9eegBoWp5PsqHl/aHBNKNS3duNbZzmpBCTjDPYvo83QCFZtWTKTMGepo5XutvGtGl0
+	 LZJhqtuh180NVXBtsVKMyceRCdTbwerJaigc8CMHx15XS39ufuiolqMoUO3jqUVAcT
+	 ei/qrJbdoqNvw==
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-36a3aff302aso1205926a91.1
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 11:02:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+ZTQOk6sK2ip12KEzlERUPR2osr7ucQY+gZo4A4YeJ5I0jOhANXouQvGuoLANSvZidhvelEUHdjEo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzraRnCCMJt+/czXpiXnAWfAP28nfusg2B7EQS0tjMeoVVmD0Cg
+	5mh2Pg6aew47br76H5OUcsWGBRqVs2F8x60xaYtEixOIgHPJgIbdWt9dpptUyJFiEEBdrSubW6h
+	qYfGN/7zeO/QwGIufx/Gjc77bRgRV4CU=
+X-Received: by 2002:a17:90b:5845:b0:368:d8a1:3bd4 with SMTP id
+ 98e67ed59e1d1-36a6741da05mr328033a91.3.1779386532181; Thu, 21 May 2026
+ 11:02:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260520153303.33692fe3@kernel.org>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+References: <20260508195749.1885522-1-sashal@kernel.org> <20260517134858.146569-1-sashal@kernel.org>
+ <CAPhsuW4x8shWon8Moi5VgCq2n4E2EzaaauZ2HHpy42Rp1Y-J-g@mail.gmail.com>
+ <agsVDqdALBoHEHlv@laps> <CAPhsuW44UX663Au=WwHz8MVwnQgLkjxOqpJSCKxNiv3=RpZvqw@mail.gmail.com>
+ <b342c38b-7323-4b72-a239-8a574d6bc36b@iogearbox.net> <agzAwjKhOhuANz_P@laps>
+ <CAPhsuW6C3hyciA4=z+V0BkQ9EEubuNCKLwoxtXorSbnhkUxdJQ@mail.gmail.com> <ag8Y8L2WCcSEDPkG@laps>
+In-Reply-To: <ag8Y8L2WCcSEDPkG@laps>
+From: Song Liu <song@kernel.org>
+Date: Thu, 21 May 2026 11:02:00 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW5tUQ3J6hgdqXWiLEGV5zpJm+nuqy_dXovRvFkUHEyg=g@mail.gmail.com>
+X-Gm-Features: AVHnY4JBfdUFRyhiKfJw5pxU2Y29FHkTxkEQ7Mu2Iqr9cDc-c-vLuUobNPxFRro
+Message-ID: <CAPhsuW5tUQ3J6hgdqXWiLEGV5zpJm+nuqy_dXovRvFkUHEyg=g@mail.gmail.com>
+Subject: Re: [PATCH v3] killswitch: add per-function short-circuit mitigation primitive
+To: Sasha Levin <sashal@kernel.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, live-patching@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Joshua Peisach <jpeisach@ubuntu.com>, Florian Weimer <fw@deneb.enyo.de>, Breno Leitao <leitao@debian.org>, 
+	Anthony Iliopoulos <ailiop@suse.com>, Michal Hocko <mhocko@suse.com>, Jiri Olsa <jolsa@kernel.org>, 
+	John Fastabend <john.fastabend@gmail.com>, Christian Brauner <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 20, 2026 at 03:33:03PM -0700, Jakub Kicinski wrote:
-> On Wed, 20 May 2026 15:30:24 +0530 MD Danish Anwar wrote:
-> > What should be the next steps here? Is there any existing defined set of
-> > stats where I could populate stats from ICSSG firmware for HSR (similar
-> > to ndo_get_stats64 callback). Or de we need to implement a new callback
-> > that will do this for HSR.
+On Thu, May 21, 2026 at 7:38=E2=80=AFAM Sasha Levin <sashal@kernel.org> wro=
+te:
 >
-> I'd try to plumb this thru ndo_get_offload_stats
-> Close enough for my taste, let's see if anyone objects.
+> On Tue, May 19, 2026 at 03:00:15PM -0700, Song Liu wrote:
+> >On Tue, May 19, 2026 at 12:57=E2=80=AFPM Sasha Levin <sashal@kernel.org>=
+ wrote:
+> >[...]
+> >> >Fully agree with Song here that there is no clear boundary, and that =
+the
+> >> >killswitch could lead to arbitrary, hard to debug breakage if applied=
+ to
+> >> >the wrong function.. introducing worse bugs than the one being mitiga=
+ted
+> >> >or even /short-circuit LSM enforcement/ (engage security_file_open 0,
+> >> >engage cap_capable 0, engage apparmor_* etc).
+> >>
+> >> This is similar to livepatch, right? Do we need guardrails there too?
+> >
+> >livepatch has the same guardrails as other kernel modules:
+> >CONFIG_MODULE_SIG, CONFIG_MODULE_SIG_FORCE, etc.
+>
+> Which the user can choose to enable or disable. Livepatches will work jus=
+t fine
+> with CONFIG_MODULE_SIG=3Dn, right?
+>
+> With the whitelist approach, the user has no choice but to accept it.
+>
+> Would it make sense to allow disabling the whitelist via a kernel config =
+or
+> some runtime flag?
 
-I'm not super well versed with the different options for stats we have
-at the moment, so I'm definitely not going to object. I'm just going to
-note that the stats I listed are applicable to all HSR/PRP interfaces,
-not just the ones with hardware offloads. Therefore, it would IMHO be
-nice if the two didn't diverge too much in the end and (best case)
-userspace can ask for either the one or the other but get the same
-structure back (no need to implement it for the software-only interfaces
-in this patch series, I can do that afterwards as well).
+I personally think it makes sense to have options to allow bypassing/blocki=
+ng
+more kernel functions than the current allow list. But I don't know whether
+we would like to go all the way to allow it for all the ftrace-able functio=
+ns.
+I think we will need some careful analysis on this.
 
 Thanks,
-   Felix
-
+Song
