@@ -1,132 +1,154 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234542DE702;
-	Thu, 21 May 2026 14:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779375096; cv=none; b=qx/NPgbD+debyVKoAn4JoBpyc3OMpMyZM0mq/glMuZkYSQU0Ifk7LxWikVPB7nxpYZWraaKgxh96O/rAGbf2kePtJ22C3JTojYvUXRHnZijjFd4XF+gM0Zy6qYT8bmdh//UwVwJfk++tfgh9jtoq+4YR3UYqi6kgKna5yA+rmeo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779375096; c=relaxed/simple;
-	bh=/M7Oaxr332HfiR3rrZsNI2QRSJu4XHbFyuBl33Utx2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DKGi6bIudECl7Z4Mta05aAVQ7sirt9dqwej38lzUoOsGVC6Ln2cSk5u/Z4NyGKwihNGTZfCL/sORYlcQkwriXbAkqf3ogzAi+dxjo3ANimdGHsxD0AlFc/dnLoeozB0ZdG2nJIzmf5C6QTIMlygyqsZttWk/BSgNlOHgKXwkUpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=KUnLOgdZ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8334E3655C2
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 14:53:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779375234; cv=pass; b=Yox41HaegLPJD6gz5VteUrsKitrNg29nov2KP1JBl1FfTd18iKb0STy487fyn/OKWugaYFTCRsVOMexuA3ESeoitWRITFbP27YYQuXAugWVBkBxC19RlrJg5d7zf70FmH1rfAlHfpe5MiHX8j1UFH3Lu/0rm4wTNhUT7jLTf6Lc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779375234; c=relaxed/simple;
+	bh=bA/ypZiwvOF7bLYV81VPBE2mEbMWo9wKAEc1kqSaHPI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZVq2lJVqmrTKDS/hMD4r88bC9tYQiMo+IjSLaV5f6g2CGGneVghvg1G9VwhE4Ct3q2CfBbm7MRzZnqPlVLJO4V9RTVpt94o/kIFhZJBnRrcjvDWysdU0OLw6jSaGRDi5PYqsD9SMJmQk31zTMMYQFAeCySSmzOlsyavS9aBYMmk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=ahChxbWM; arc=pass smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="KUnLOgdZ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 71BCC3585;
-	Thu, 21 May 2026 07:51:29 -0700 (PDT)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 571793F85F;
-	Thu, 21 May 2026 07:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779375094; bh=/M7Oaxr332HfiR3rrZsNI2QRSJu4XHbFyuBl33Utx2s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KUnLOgdZDj5O2qLZxcb3etfFl0vMdre9eNHzbKWYDMT3m9sHuHIO0cgLCBgIp42TQ
-	 IZM6e8EoCXvtdhMM9qtbMhcxxB5FjiL8yAp1GfSkw2oJU/PDEqPUTGOs7a6iwWybag
-	 +wmqnJdkv/VNnqs0N1DPop4L2zgnv9+EJyxESFtQ=
-Date: Thu, 21 May 2026 15:51:26 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Mark Brown <broonie@kernel.org>, Oliver Upton <oupton@kernel.org>,
-	Marc Zyngier <maz@kernel.org>
-Cc: Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v10 19/30] KVM: arm64: Provide assembly for SME register
- access
-Message-ID: <ag8b7oq4SFpdmlP_@J2N7QTR9R3>
-References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
- <20260306-kvm-arm64-sme-v10-19-43f7683a0fb7@kernel.org>
+	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="ahChxbWM"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3665b67ed66so4023744a91.1
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 07:53:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779375233; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BMgk7SCCACEgf2y3kf6DIxQMCx02HjT9ScpVKsEWXeZKzsgiHXv0BfxquP/goM21IV
+         bLPR8nx9knzMmBWr8Gv3Ri0gZUqvScx3Gd4S+a5I5+GuFfjw3/MhmGvqcQ/B55MqOVs9
+         zwc6cVs1YJDl5gtCEn0dVX7Iyt1BqCwp08oHjE9rJKNRNQcm8YGGkubCoGll+r4X37HM
+         2Ehq1vnUqaXR64v7ULjD1Afcdr/5fkxW4EfPDgbu/VvusP/2klUfeOr9ByxK1tAPzoBz
+         HksOd7T0DoW10DdimTmauHRwLcDFRg4ZwXV3I8hWSVs/+gszf8gFlPwXQiiJrgxA7d4O
+         MESg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=bA/ypZiwvOF7bLYV81VPBE2mEbMWo9wKAEc1kqSaHPI=;
+        fh=U+DwjWR36jGlJiUmrYoaDxWGhw0nlcO6X5cAoGkIWZo=;
+        b=bfU3EumKS0wvw3ROGz8L8DoJLk3gSIx2d/ckUEW7xNI2FTQVyNlVzGk0L8lqNv8vXO
+         SMNlXB2uThLTzim9PzVJHo79MLCnYjk7fTDeZRcY+oRwL/kFLo85qUfvcuxb1oleVg7L
+         8Kszsb3/zdOnPfmWT3d5zfLwHr/XylMFu1D4f5r+zbvOqLcK6cQ7blKwsUbI6Q2/Hw2a
+         X/jtRitZXZaw+zIAZkCmyc9t4TBPMO2YkoN36fCT5LKeOf07qgovYEC/W9nelGrb0MS+
+         rA5IxQuRKfNihxwGgzuoVMsQU/hJYtJzutLBGBU4KLApwoG5BPGBjZG6b63XxBtp7fP4
+         b3Bw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fooishbar.org; s=google; t=1779375233; x=1779980033; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bA/ypZiwvOF7bLYV81VPBE2mEbMWo9wKAEc1kqSaHPI=;
+        b=ahChxbWMBoxPhzDeOQWO6ISlRddvEuvw8+Tkue06BzmRgs7KViSOpY/7wiTjy02Nno
+         YtR7KJ7q1b2rSe75tgOWUtK0gmkwJixEzmYvNkxjaaAxEFcpeFOQdjDILQN5KLj0hUaR
+         N/Nty8shG9slJpFOGtE8ZaV6ckEcUUCQ575uUyFJWYZNKn7PSIUeAo/OCSlfFoxcDweZ
+         LYBduiUew0e+y3sRoUA9zxw4LgY7ujil1xE4/t1z1zg1dECPgK/BQtNcE33Rtj+w8wuI
+         ITte4PpYJoOjjbrIcL4Im7FmckFx0lpMnYYYNPn8ZPX/cW+1eid4coSjBzZ83mCVie5F
+         mneQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779375233; x=1779980033;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bA/ypZiwvOF7bLYV81VPBE2mEbMWo9wKAEc1kqSaHPI=;
+        b=GkZw7BvhWxQMHVkvn4pwKA/P27ln6HpphBOVm0OXYMQJT1itXk+Srks4LKM08um/W+
+         7fU/Idcq8u5gAAf947LVwFmB111wPdzH7IphuudTikjwA9yBJkgTU4ugvFa0Pi0153oM
+         zi+kaVNyuUNI0+ex9Rb36iMf8lGEVR5vydrYAkor5nFvIDpT+OCgtzNUV0eZXr0jVqrs
+         sLijpzbf74PCgl7ojuSgfaVohMeI/uo9FGa1w2WouQwFHCubdrLjIWpKFq5XbtczPlsO
+         aelC6sYVyQnHjRbYifCecijIzaTo8IopTM3vpv0RnZ68juVHuCwAPK0/vlKsZXOOwi+6
+         mEFA==
+X-Forwarded-Encrypted: i=1; AFNElJ/okqa7H7wPJrVjiV1S85pntQdm/pBdkMGWs5eSU9UHnX/2n3gypIVPxyq9ajZKRwlD1wkKbOpHPT0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYN2fLylXDhZvVys6s0qGVCiZqKb/9I6mDEVu/HMrZA7/axD0V
+	cxgQNmWTuwJJX+oZl1tjdeZp15WRI5yS73LkukEOgPo8NZhg4l5WcdGT5mGRktJGM9PfSqQ3IB0
+	rhpQCstsgLj+RYfVnHcbTpqILWSOOP4mVm4ZphMpTyg==
+X-Gm-Gg: Acq92OFcDkqZkPpGm/uUR4qG0ntD/ZNAC5sH3a5pKbeI/41X8nK5hJ59rlwePB90of8
+	jXlyIgoGgG9hkYhIuGg0Wc6YPOreeGOB8qy4oaNRJ1tTJDlHEXdbo1CmFWBuHpON77tbcGV4J8R
+	fRYVL8GfMbZyTJ466JdC9oVgRM/uA08DwrMvRV+5INhwgXIs+T0rU13am+l/M5Tt4IcqbS+LpsR
+	7Yjh/m5brz3w6de76pHLTqF0kQmWSgONGpBV8eqe6DpZgTxrbwPEePklH3eU72zIz6rEX21apbP
+	i3eQN50VcK3zwTctQ1q/CtmBLn/pMdD+VbeAz4w=
+X-Received: by 2002:a17:90b:2d50:b0:368:78da:803 with SMTP id
+ 98e67ed59e1d1-36a451816e0mr3680773a91.12.1779375232901; Thu, 21 May 2026
+ 07:53:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260306-kvm-arm64-sme-v10-19-43f7683a0fb7@kernel.org>
+References: <20260423-color-format-v14-0-449a419ccbd4@collabora.com>
+In-Reply-To: <20260423-color-format-v14-0-449a419ccbd4@collabora.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 21 May 2026 15:53:41 +0100
+X-Gm-Features: AVHnY4KPQYYiaRNDiAsU-wmS8JuOZnjSnShN4CXgg2DHzWx0LVSgQ_nHQROoprA
+Message-ID: <CAPj87rOFnB+csoswOOSBR2-=abtCDbsKq2uJ_PgYKPWh-G8m9w@mail.gmail.com>
+Subject: Re: [PATCH v14 00/28] Add new general DRM property "color format"
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	wayland-devel@lists.freedesktop.org, Werner Sembach <wse@tuxedocomputers.com>, 
+	Andri Yngvason <andri@yngvason.is>, Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+	Marius Vlad <marius.vlad@collabora.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Andy Yan <andyshrk@163.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Mar 06, 2026 at 05:01:11PM +0000, Mark Brown wrote:
-> Provide versions of the SME state save and restore functions for the
-> hypervisor to allow it to restore ZA and ZT for guests.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/include/asm/kvm_hyp.h |  2 ++
->  arch/arm64/kvm/hyp/fpsimd.S      | 23 +++++++++++++++++++++++
->  2 files changed, 25 insertions(+)
+Hi there,
 
-While this specific instance is simple enough, I don't think we should
-continue to duplicate the low level save/restore routines between the
-main kernel and KVM hyp code.
+On Thu, 23 Apr 2026 at 20:04, Nicolas Frattaroli
+<nicolas.frattaroli@collabora.com> wrote:
+> We have an implementation in Weston at
+> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1825 that
+> adds support for this property. This patch series has been tested
+> against that MR on i915 (HDMI, DP), amdgpu (HDMI, DP) and on rockchip
+> (HDMI).
 
-I've sent a series that avoids the need for this, and cleans up some
-other bits):
+This MR is R-b me.
 
-  https://lore.kernel.org/linux-arm-kernel/20260521132556.584676-1-mark.rutland@arm.com/
+> General notes on the approach taken by me: instead of silently switching
+> to a different format than was explicitly requested, or even worse,
+> outputting something to the sink the sink doesn't support, bubble up an
+> error to userspace instead. "color format" is a "I want this" type
+> property, not a "force this" type property, i.e. the kernel will respect
+> the limits imposed by the hardware.
 
-Assuming Marc and Oliver are on board, I'd prefer that we do that
-cleanup first, and build the KVM SME support atop.
+Yes! If userspace wants a fallback chain, it should encode it itself
+through a series of test commits, rather than adding the sequential
+logic to the kernel. Doing that might work for one axis, but pretty
+quickly disintegrates when there are multiple parameters to perhaps
+fall back on.
 
-Mark.
+I had minor comments on 03 and 20, but they're Rb me with the obvious
+fixes. 11, 12, and 19 are Acked-by me, as I don't quite know the
+hardware specifics well enough to say. The rest are Reviewed-by me.
 
-> 
-> diff --git a/arch/arm64/include/asm/kvm_hyp.h b/arch/arm64/include/asm/kvm_hyp.h
-> index 0317790dd3b7..9b1354d1122c 100644
-> --- a/arch/arm64/include/asm/kvm_hyp.h
-> +++ b/arch/arm64/include/asm/kvm_hyp.h
-> @@ -116,6 +116,8 @@ void __fpsimd_save_state(struct user_fpsimd_state *fp_regs);
->  void __fpsimd_restore_state(struct user_fpsimd_state *fp_regs);
->  void __sve_save_state(void *sve_pffr, u32 *fpsr, int save_ffr);
->  void __sve_restore_state(void *sve_pffr, u32 *fpsr, int restore_ffr);
-> +void __sme_save_state(void const *state, bool save_zt);
-> +void __sme_restore_state(void const *state, bool restore_zt);
->  
->  u64 __guest_enter(struct kvm_vcpu *vcpu);
->  
-> diff --git a/arch/arm64/kvm/hyp/fpsimd.S b/arch/arm64/kvm/hyp/fpsimd.S
-> index 6e16cbfc5df2..18b7a666016c 100644
-> --- a/arch/arm64/kvm/hyp/fpsimd.S
-> +++ b/arch/arm64/kvm/hyp/fpsimd.S
-> @@ -29,3 +29,26 @@ SYM_FUNC_START(__sve_save_state)
->  	sve_save 0, x1, x2, 3
->  	ret
->  SYM_FUNC_END(__sve_save_state)
-> +
-> +SYM_FUNC_START(__sme_save_state)
-> +	// Caller needs to ensure SMCR updates are visible
-> +	_sme_rdsvl	2, 1		// x2 = VL/8
-> +	sme_save_za 0, x2, 12		// Leaves x0 pointing to the end of ZA
-> +
-> +	cbz	x1, 1f
-> +	_str_zt 0
-> +1:
-> +	ret
-> +SYM_FUNC_END(__sme_save_state)
-> +
-> +SYM_FUNC_START(__sme_restore_state)
-> +	// Caller needs to ensure SMCR updates are visible
-> +	_sme_rdsvl	2, 1		// x2 = VL/8
-> +	sme_load_za	0, x2, 12	// Leaves x0 pointing to end of ZA
-> +
-> +	cbz	x1, 1f
-> +	_ldr_zt 0
-> +
-> +1:
-> +	ret
-> +SYM_FUNC_END(__sme_restore_state)
-> 
-> -- 
-> 2.47.3
-> 
+I suggest you merge the common code and VOP2/DW-QP implementations via
+drm-misc, leaving Intel and AMD to merge through their own trees
+whenever they're ready. We'll merge the Weston implementation when it
+lands in DRM.
+
+Thanks to you and all prior cooks for all the work, and to Maxime and
+Dmitry for the help and review as well.
+
+Cheers,
+Daniel
