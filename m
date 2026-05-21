@@ -1,219 +1,208 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010032.outbound.protection.outlook.com [52.101.84.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E743C37A2;
-	Thu, 21 May 2026 11:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.32
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779364785; cv=fail; b=VxU+FzOtOXaNpXN3GO1iRU62qvJdM8vHZjKa2scvl4yq6n9tO2IRCCi3i6gJHLuNDR8z4beoYvk0neQR6KF37sdJWmgWPXg6uwoW1BMqibXp2GIejigp5ZqH8Bsm7/UqSZlReh6sucytc/YKrOyhhpvdthd3VIYdyDVRWc5S3Fo=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779364785; c=relaxed/simple;
-	bh=ma8W+Zp+XJt3JApwmtsscoz3vdgpQPVU0dqvEq9zgYQ=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=UGE70R4fmIg8VaEqL+6LdJ8Ngs/ppQ1W21X+s/nS1wTF42+W4BSmRbyMIqPAdd7Dl2e+7zTm0VGq4x2DIvSwuD+z/Pu/iFcyT2LPM80HTvEXhuCTbKnBEWiwuMSPmd77dsSiDDy62q1btVIonmOzZdX/O6IyvVRdRw/JqihiV6I=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=K90jfo3L; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=K90jfo3L; arc=fail smtp.client-ip=52.101.84.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219D23A1A2D
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 12:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779365552; cv=pass; b=kvdxGryTrGDHfh+0roa4JSgNXlAsAMuFp5IIcGWDflaxzbj15vAYVcr6n2TB8QNOuLK/rZccomKhtzKRZbJPUwtQoR5Fc0UKRX8vBtvWAFFhkKje57WsTE8fJ3Vr47VCdzehCQhG1NcKwVNeAO7Q53KE11EEF3MQFuzjXvk+Jus=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779365552; c=relaxed/simple;
+	bh=mUWTvSyqIoqkETcgZuIds2FYkJwuokmb9q2VYy+exYk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d9wD8jkZ9FpU2Yz7rZoFbTy4UnigVgcsRNYbxsuPSkZbn2QtKk3zyRGcDkUIFeBxQwRgIPX+bGFkl9EVrtvCliLracR5PMcrEBdjjj06hPzwog+/pWW/sZEcnG42kKTVAeULJUih7iL/ZRMjZfxY9/ZY5ylOHMZlJkHZUQe7Rbk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZMXq191O; arc=pass smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="K90jfo3L";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="K90jfo3L"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=fail;
- b=vieEyD1g/a9pnZEXg4twjzAweRGCxAR/nAb1objUXDlKMWU1sO27Eg4lUsi1k99FKrn5EIh3K2CPRXUNiPZ8bIxqWyrLXq0wqs0n+6u7Na1t9nwVYuVrdn0nMjr3l4/L0Wye5kkF5SFDDPP/ARR3tTzSDUr2ZzXDhaElPSD0iGgxmKoxDpPK9jkyuiFVcH8g8ONy4ut1PB7kyl7TIKQdz+RwY3P/bwLdfwBqfLO9JmnsZxoPI9DsBS/v2QWPeEHNzNT7z14KdNQlJuKQcX6+PuMfwrotU6X+BPAMqcG33N/yFLd2Uyavdd3LgmvHaMy35PoxkqfxviOS6C+B2Q+ZQg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VYYxeYE1wE5QB+8BybFNlQK9AQl0sqfZb2fPpXzTL3U=;
- b=l40PBz53xUuQ726DW4FnkPWdaeQBN05oXvI3PciW73liCzC4oRpJyA5xA0g0DkljoglgOuIb8LwC4cgxgDUU07TUzCyC1Oj3bVG+WC8evUnRom0Q7wlXhLrWOCOHMTRHhgUEQ0n1cIQy159MNJFfrrthQJmirs4n0xL8eldm/HQ5sOqKxqAupqMxQhrfRug7Q8DpIVq6HcXDcod0VZ7SZ1n2yA3QJLppCi3Iw5Jys60dks09RXlMdEV3nltIShzQ7Q4LQf1mN0YEXTij2+Po7a68O3PObBQn5m3ZxCumruzMVVSia0rWuZBGd3DXGgEBiIf5DSjyy626AGMq19SdUA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=hisilicon.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=fail (48)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VYYxeYE1wE5QB+8BybFNlQK9AQl0sqfZb2fPpXzTL3U=;
- b=K90jfo3L8dZTUweV4LELxbPpKshqaXRZSjg5hdls0tp8dJsrB4UhVJJUyw0nex0FBDn/DFLrQiQxQiLM+pS0E945zqgmIlyR+Yi9jUY4zFVki3qtEKZhL+qVyLQMBadnbbRD1zJaRiP4GSfoRlF7pwy02Ta4BYyXTy3nQn6yN9E=
-Received: from AM0PR02CA0115.eurprd02.prod.outlook.com (2603:10a6:20b:28c::12)
- by AS2PR08MB9524.eurprd08.prod.outlook.com (2603:10a6:20b:60c::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Thu, 21 May
- 2026 11:59:36 +0000
-Received: from AM4PEPF00027A61.eurprd04.prod.outlook.com
- (2603:10a6:20b:28c:cafe::6e) by AM0PR02CA0115.outlook.office365.com
- (2603:10a6:20b:28c::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.48.17 via Frontend Transport; Thu, 21
- May 2026 11:59:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM4PEPF00027A61.mail.protection.outlook.com (10.167.16.70) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.48.11
- via Frontend Transport; Thu, 21 May 2026 11:59:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=femEa2BU9bKxQVAHPsvGxp6mQlQjuG1WltR9MpAjJJ1yze+NwEE3K7nKbrmQvHPUfOYwpFQz2e1M26HSoGh7Q19PqvaXLBfBv8oIKZxR40/Z0jsTz06pVb/Tw921hQRte/jNS3uA9E5AtoQXIHP3x5lOcFD0JGJuTb/xZG/ag+vxpDjYNYhisw3+R+VLqrFVSfPJC9kX0RKjlyzKsVgRWhLC/kLxwis8PYrAM7jlkSZjvUu/f+wYKpadvEh2lHVo2z2Uic8kHVJagdyklDG70d2VQHuSdauogzFOrUrSF29qrVgShxllhKEOsDXUnjWQz35PKrHDmMc+hDdSIHf87A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VYYxeYE1wE5QB+8BybFNlQK9AQl0sqfZb2fPpXzTL3U=;
- b=B1pF6jqRmK8kdL0S2otPkLUiAGi72SHHlcpY79svl2efyPtcPGsueVNbKBuxXSL0R+/cNgyTn7hq4be2ZAnRWU7f+BBupqXAmBDIKzqMamRuoqzhMpQNSw8A4UpehLb/0fdBPCQGvnBUztMRLj2OK6at136Oaos3i91xN2sjBYN2qn428mVPe2WOhQUB9A+PXw11rF4WfmAP1bf5ChUxJ2uGrXft4xIFrzDLq4hj7p+rrIS7P6rtlX9qleWQIQYj2IN38wlXNwCWNNS0rigKuLJ5GF6YKo1kw8I6B9C/O9+H2mzf2MX9JPF9XmZRSu5zktJWN8AlnefKCJCz7gWtcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VYYxeYE1wE5QB+8BybFNlQK9AQl0sqfZb2fPpXzTL3U=;
- b=K90jfo3L8dZTUweV4LELxbPpKshqaXRZSjg5hdls0tp8dJsrB4UhVJJUyw0nex0FBDn/DFLrQiQxQiLM+pS0E945zqgmIlyR+Yi9jUY4zFVki3qtEKZhL+qVyLQMBadnbbRD1zJaRiP4GSfoRlF7pwy02Ta4BYyXTy3nQn6yN9E=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI0PR08MB10391.eurprd08.prod.outlook.com (2603:10a6:800:20c::6)
- by GVXPR08MB10500.eurprd08.prod.outlook.com (2603:10a6:150:155::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Thu, 21 May
- 2026 11:58:30 +0000
-Received: from VI0PR08MB10391.eurprd08.prod.outlook.com
- ([fe80::fa6b:9ba8:5c2f:ac91]) by VI0PR08MB10391.eurprd08.prod.outlook.com
- ([fe80::fa6b:9ba8:5c2f:ac91%3]) with mapi id 15.21.0048.013; Thu, 21 May 2026
- 11:58:30 +0000
-Message-ID: <9a8065c7-249d-4a48-96a3-460048f1f94b@arm.com>
-Date: Thu, 21 May 2026 13:58:28 +0200
-User-Agent: Mozilla Thunderbird
-From: Pierre Gondois <pierre.gondois@arm.com>
-Subject: Re: [PATCH v2 4/4] cpufreq: Use policy->min/max init as QoS request
-To: Jie Zhan <zhanjie9@hisilicon.com>, linux-kernel@vger.kernel.org
-Cc: Lifeng Zheng <zhenglifeng1@huawei.com>,
- Ionela Voinescu <ionela.voinescu@arm.com>, Sumit Gupta <sumitg@nvidia.com>,
- Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Huang Rui <ray.huang@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Perry Yuan <perry.yuan@amd.com>, K Prateek Nayak <kprateek.nayak@amd.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Len Brown <lenb@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
- linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260511135538.522653-1-pierre.gondois@arm.com>
- <20260511135538.522653-5-pierre.gondois@arm.com>
- <112c6947-d496-46a9-8561-bbc23793e615@hisilicon.com>
-Content-Language: en-US
-In-Reply-To: <112c6947-d496-46a9-8561-bbc23793e615@hisilicon.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P123CA0099.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:191::14) To VI0PR08MB10391.eurprd08.prod.outlook.com
- (2603:10a6:800:20c::6)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZMXq191O"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-50d864c23bdso30801cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 05:12:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779365548; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GggoDiAGzZYLCorWxS2Ws+/zPl1b83TLyF+h3fXWiSuqTaOnlJSwOaZIGHOaGZ31ZR
+         xfuEpVRbo5jpFg5PdO8Mh6P/SkRpN9zArGp7AFv6t3igWXt/zgMjNyK6NZNFl7bZmsnF
+         qgJwxYwemNnk73nNl+gLnD2ezgqJw2bWdVTzmL3RKcfHOf2gnLUjvO2VHnDBhxahLKuM
+         dnlYZoF7ykAJRGujH2MuRkupAHlCKGSK99QZff8K0IxODx2eaBcrEaDnJy87w9I4Z4Z8
+         xZabAZfmIy6Rov16ylSt9GVZ1VMNMtVVYhQPtVSzkE6SsH/yptk8MvjuYuugQZrMtYne
+         h0bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=F1wmmG0cNegB4E+dlRzmEOWoIo3QXb0mRCuTWAZdGJs=;
+        fh=SznFqdB1HtVSqhwTsfbkiqfiqZdofcOlQZZtSAh3+6o=;
+        b=PmIJlbWlpzbPAst1jyOQdQ84uVKeP0MM3Ao5mGio1f5K5CVbH80nOWqr+TbRwqtmRe
+         NrFLNMpNnyjqlpHbojRGbY6MbqzT+dIPHR6UGljdCQ1ZKPNzt14BiscTpOLHb8uf87OU
+         xSYDsGcRGOqlRsv5MCD5PdGZX76OeAYLt3XWlC/b/jlWsXJkob11CabpDYkX2c3Td/HE
+         p7bxB42+ooqiV9WtsnRgy2cU3cfAqR5B3RBZt3zuvv6tmFFOH0SWKpEkhfQgnTyEfE7d
+         LgjNdT2TLoT48Q+3U7noOrqPN7kSpqR7CKIE1UyO5n7KVxEZkaKRagurJKpQcO8U2toG
+         DGDw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779365548; x=1779970348; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=F1wmmG0cNegB4E+dlRzmEOWoIo3QXb0mRCuTWAZdGJs=;
+        b=ZMXq191OZ0ewgz/38yO4xoFcWd3BfNqgLDROwws0TDhQLamZtSsRTzrbGaf3bXsuu2
+         DZd48Qi+/dzZ1Xga+l++OmodGBoY2F9b1gSWkITA29iTX0aSBirp47+9YNqEhhgAJzZl
+         VvN+4E9QIQlQqDNqzKadhMMxECjlY/jAfzkIwJmGhbdGFYIhcFaT/xLoem7fGyMQKMrf
+         txUDc04l0J//dOf4QdBUzV+Dlr4G4DjN6C/uIj5rbLxY+KSm692iLqeaPJ/smp0e5IkE
+         wM3m8zg4wUdoWpoh5HY48FHZmSgODqJENbmsjBjqJ2EBmvfwmsyzdhZq+EaIP1uld0jd
+         F70g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779365548; x=1779970348;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F1wmmG0cNegB4E+dlRzmEOWoIo3QXb0mRCuTWAZdGJs=;
+        b=Yo//Oa6ouxLB9Q5vIlwQVOdVCNmCktP+F6pQqqDtsW4EsTLXj7Kf//lO1OIQSBvvI1
+         UvDyx6XnxoBrv/36Zt3bNkuMWLpv9pUeSGGNQJNwIDQSZ5J6ujVLM80zCwLiTZT8JBb9
+         N9agcy53lf14Qf0aTlC9KdDzyeXjkTzkKfMUbZ+3HMqU5BxR/UnHSrGSkOU9YuEWnOs5
+         iIaqKDBakwGLB9C3++K2pV34LaqzGX80Q9FOgk/NPEegjChnPUdl7NFDZ9y/d8KdmGNy
+         lkTSXqUdYJ8DiFFNDHlkjJSgf7jlVuLcQUZMbQxfmaVgB6UtKm7UEoPguc1mcbGG672s
+         wvDA==
+X-Forwarded-Encrypted: i=1; AFNElJ+6es6rn9wgnEPf+6wvk/8kkP7dE4EmDd7qsA4D+v2ERN4ihVzy9qk3otzYPsRyxe/vUmR7zvbHsT4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2cSmA2K+9a9KxraU6262Fel34tzX8ZocMxOMp6y/3iPNofsOt
+	UtvkNsqUt5SIlQ+Y4SUJF5VNMoDxGrFslUEPxFk+sink9yrqMTJAYyAGOXwjSVwDkeoely5r6jb
+	RDUx+U52IfI34GwXqDmKQzrCEWBU9uYFmx+HRcZAO
+X-Gm-Gg: Acq92OHXT4usv3m55uJshIL6njjgJ+e1YhoQx5ThlzbSQuRsqBFydZueut9Hg+oDM+v
+	IPs8ONeN/twHIkfVAMNDTMUJUJFr5Y5pKqREAu43BQB3UF9RIeYUI38V6K63J0saVMMtePzd7zF
+	GUEYIHV67qr6LuRTrzh6Vvjan6GHmqm9EgKLlO0ZVA4vr237Pr4OyfViY2ok+T7X4IrzyhdTffL
+	2clMq24lCRwjvppFheaBVOGFvebCbkBvJsTLiwjw87ovMW64Bg2VPG8Be7TQI4vcXx78ePGVx2x
+	5Nf+zVvF7OC/a3H7eo9bZ2PDVvT7dA==
+X-Received: by 2002:a05:622a:995:b0:514:c25e:c164 with SMTP id
+ d75a77b69052e-516c545d403mr10074811cf.10.1779365546829; Thu, 21 May 2026
+ 05:12:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	VI0PR08MB10391:EE_|GVXPR08MB10500:EE_|AM4PEPF00027A61:EE_|AS2PR08MB9524:EE_
-X-MS-Office365-Filtering-Correlation-Id: 630edcc9-a8b2-4789-ff5e-08deb7306dcd
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|1800799024|366016|7416014|376014|22082099003|18002099003|56012099003|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info-Original:
- llYQx2+HNAVqS6tygKjtDoMVMbXrjGJ5d1MIgkenjnZ9C9+s2LsGFGjCffowQe1guzqbj3RONDXDc0hIz9E9+RFoUexXazqKvX/GNdNtIf9HfpU52vSY3EGUXkIkzeBCT7p3s0mLR7JMPz5MI1MjaTJl2oVXfsY1S5TJ+EwrQq8A5Hzf4rHAF7ORgJ6hdzdq/TMr8Ym8jM02iJMFlGOB79B/u3HPPXcN03aY5ct/B9XKxMsqfDvQSzyyMUSEnmgIPR2qg7F+svSEal5R9pj4VHpKQQTffdpSXWq9hTKbqPoILI6kOM2GrWPek3KN47nonE912aae5dBNNcEeytrfnQ4/0KkIEZEjpavJqpLDeKCfzYSXQanrRhQ/fvFKSsr6AIEAr2FITMmgVbPp7fDN1oP93PfufjR9pfpoSM51oZ0hVYUNjxU+hdpHVDjaKZczDJ3N+ObHinEr4VsFPGH0sxnFaoZ6NuT3JfdDQNuDWrlQDNteEJ6S4lyzGdonvHwsn2Ov1avPrUyOmnL3pTFqPZdFwxxShMXz2v2Ldmqp3bdLXSUelil0u91trCiNjTEPlJDE6oQlt7s28a0HW3FdUsjGqdXk2F1358YUQf+07CvEk82rK8BouqZDgQtfe+jdEXa0GWj9Y9T9MXQWs1RpnQ==
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR08MB10391.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(22082099003)(18002099003)(56012099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- HGJDmm2ntuTptQep459nktCZ7WWMRiittdj42s1jvxa6XInw8CRqfXdDZrC0j4CX+015CxBMRa6azrKlniHZQFU7BqoVSrOPUMjRAOEl7IR291WZF9pn9dp69FZ1SVu+ReUF61GgVA+F7QMwqfeYb+ZSdIhOtNRvr0ejZHsHvnto/HaKV26cbsFB+3suaQFrVf2+e8c5QoomA2SR9ynzm6gY27dhykAB8OwrtU04TnHwfggAM+CcPJyDFDFMf/UcnoxuLR4pvmVbek3vZCnpadxEgKIbJGmFLA98gXm4yMyEVReUpkRLCfJR2tD/USNUDn4ieSR1TJozd+RGASqFbQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB10500
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AM4PEPF00027A61.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	e0dc5526-623e-4886-a9cd-08deb7304693
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|7416014|36860700016|35042699022|14060799003|1800799024|13003099007|4143699003|56012099003|18002099003|22082099003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	YUZhJIA7KSJ1iU9dQucx0cmT1ZmA8Drh8Q+iYzLnh30w7vJLw2+JZm4gixYVIhcEDelALeDnGKcVNSdnYOV6S73/IPQKINQWJjfp4IRQuXLSduOPY7w3WDtxZ5wkyVhK2fOs312q1I1BKV+YuTT7IRJ3ZxOoQI+MScMd4tOjxQ5u4QP55kxd2TDKTD+0jmUXIzCR9wei2ELrzZYIN0Vmw6g1EqAY7RYeyc61cT7UeBPA1rI8GJu4KwdE3Y6AfNIDn5R38J+WsAxCf9VJtCXQGIgAcB3Cdrh/REcFk5Wej5+dKHfXAL1MS3cTwyqD/IBxcelkafRSkrtzmkmJT+U0/vDbne4mVaO0fxqdoqymc392vrGbuDvV3amcTVXL76M57hPUTNdeS41VJONOwuAawt8ap0GvEHXM6u81F2W0irnNZ3mAOQmKO2z6i3hLQYgcJseajjNTao1D4/Wjmew0Qoe+Wv46tMe8AaoudHDIfh7HHTKttXK43bJCA7UtYD4S9OqMpdG/PNNolpdBmDa3N/9cRUcjpcuLnHN/6B9QG9xXCvGUTS85QymI8QPL0BhYnrmOiMOS/nsTzsxxYy33bElU5Edr0Io05aH2v26MDtiGZpEwANpHitZ34EqwcgUdC5FGq2zhPM41uwUUHk1AT69yy4YmTSVrt751P9+WIDeauDRkII7EHUjsikpGAFND
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(36860700016)(35042699022)(14060799003)(1800799024)(13003099007)(4143699003)(56012099003)(18002099003)(22082099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	hhvTBpe3XOuVv/bUTXlPRB27JANchwRGVNBPnkbC0awVukJrRkXIfoHufGA5wXN5Q5LsWUXHxpZDCS1yZlaZYOMPUvtH/ddloS8kBV5V3X8DZfE1d1RXGyf8jbWplF+opgKwX4EDRlhIH48DwUt5PyYrbdLIEzpgBYAFh4eO3dA6hldCvi71n4M+7ZUvPflfxiS7potb78c9tW+HTiWKSLHLZhRhAJuNnefDdMW6mQ/nPDH+iU02E3bwbL/R8/189WTg+Mox9Gyz6qjJNxgISUAC7TBZCaQx7UQdPrM3mZBQLkpXBzI8cR/uOUKKVixfvwB6wmtCxdvR8wq9X2CMXd5vEyzh+9//+dLSmlv3yJoRAW5+ZfEX+ElPaYrDoDr9iGq3TH6h5ENdMNJxjNIuA32oEDKniOPkBoMbfAp6sE7tUSskE0+a4xdv4JK0aOpI
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 11:59:36.0836
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 630edcc9-a8b2-4789-ff5e-08deb7306dcd
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM4PEPF00027A61.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9524
+References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com> <20260507-gmem-inplace-conversion-v6-23-91ab5a8b19a4@google.com>
+In-Reply-To: <20260507-gmem-inplace-conversion-v6-23-91ab5a8b19a4@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Thu, 21 May 2026 13:11:49 +0100
+X-Gm-Features: AVHnY4I9MwIePcJowBi5yVnmSFDQMJen-Uv4dVyPJ1sLPspDsU0lqTAnhNGKza0
+Message-ID: <CA+EHjTyftaGzz5-NgZGHZvgvuKDCBVSuhSsWSQ=niP_giotk7w@mail.gmail.com>
+Subject: Re: [PATCH v6 23/43] KVM: selftests: Create gmem fd before "regular"
+ fd when adding memslot
+To: ackerleytng@google.com
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hello Jie,
-
-On 5/20/26 10:38, Jie Zhan wrote:
-> On 5/11/2026 9:55 PM, Pierre Gondois wrote:
->> Consider policy->min/max being set in the driver .init()
->> callback as a QoS request. Impacted driver are:
->> - gx-suspmod.c (min)
->> - cppc-cpufreq.c (min)
->> - longrun.c (min/max)
->>
->> Update the documentation accordingly.
->>
->> Signed-off-by: Pierre Gondois<pierre.gondois@arm.com>
->> ---
->>   Documentation/cpu-freq/cpu-drivers.rst | 10 ++++++++--
->>   drivers/cpufreq/cpufreq.c              | 12 ++++++++++--
->>   2 files changed, 18 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/cpu-freq/cpu-drivers.rst b/Documentation/cpu-freq/cpu-drivers.rst
->> index c5635ac3de547..ab4f3c0f3a89b 100644
->> --- a/Documentation/cpu-freq/cpu-drivers.rst
->> +++ b/Documentation/cpu-freq/cpu-drivers.rst
->> @@ -114,8 +114,14 @@ Then, the driver must fill in the following values:
->>   |policy->cur			    | The current operating frequency of   |
->>   |				    | this CPU (if appropriate)		   |
->>   +-----------------------------------+--------------------------------------+
->> -|policy->min,			    |					   |
->> -|policy->max,			    |					   |
->> +|policy->min			    | If set by the driver in ->init(),    |
->> +|				    | used as initial minimum frequency	   |
->> +|				    | QoS request.			   |
->> ++-----------------------------------+--------------------------------------+
->> +|policy->max			    | If set by the driver in ->init(),    |
->> +|				    | used as initial maximum frequency	   |
->> +|				    | QoS request.			   |
->> ++-----------------------------------+--------------------------------------+
-> Hi Pierre,
+On Thu, 7 May 2026 at 21:23, Ackerley Tng via B4 Relay
+<devnull+ackerleytng.google.com@kernel.org> wrote:
 >
-> Trivial bit: add the general meaning alongside its driver usage at the init
-> stage, and mention it defaults to cpuinfo_min/max_freq if not set?
+> From: Sean Christopherson <seanjc@google.com>
 >
-> I mean something like:
-> The minimum/maximum scaling frequency.  If set by the driver in ->init(),
-> used as initial minimum/maximum frequency QoS request; otherwise, follow
-> policy->cpuinfo.min/max_freq.
+> When adding a memslot associated a guest_memfd instance, create/dup the
+> guest_memfd before creating the "normal" backing file.  This will allow
+> dup'ing the gmem fd as the normal fd when guest_memfd supports mmap(),
+> i.e. to make guest_memfd the _only_ backing source for the memslot.
+>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
-Just one NIT, policy->min/max should follow the min/max allowed freq.
+Reviewed-by: Fuad Tabba <tabba@google.com>
 
-the cpufreq driver can set. E.g. a thermal constraint can impact it (cf. 
-dtpm_cpu.c).
+Cheers,
+/fuad
 
-Would this fit ?
-
-The minimum/maximum scaling frequency.  If set by the driver in ->init(),
-used as initial minimum/maximum frequency QoS request; otherwise, follow
-the min/max allowed freq. the cpufreq driver can set.
-
-
-> Thanks,
-> Jie
->>   |policy->policy and, if necessary,  |					   |
->>   |policy->governor		    | must contain the "default policy" for|
->>   |				    | this CPU. A few moments later,       |
-> [ ... ]
+> ---
+>  tools/testing/selftests/kvm/lib/kvm_util.c | 45 +++++++++++++++---------------
+>  1 file changed, 23 insertions(+), 22 deletions(-)
+>
+> diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
+> index 2a76eca7029d3..df73b23a4c66a 100644
+> --- a/tools/testing/selftests/kvm/lib/kvm_util.c
+> +++ b/tools/testing/selftests/kvm/lib/kvm_util.c
+> @@ -1054,6 +1054,29 @@ void vm_mem_add(struct kvm_vm *vm, enum vm_mem_backing_src_type src_type,
+>         if (alignment > 1)
+>                 region->mmap_size += alignment;
+>
+> +       if (flags & KVM_MEM_GUEST_MEMFD) {
+> +               if (guest_memfd < 0) {
+> +                       u32 guest_memfd_flags = 0;
+> +
+> +                       TEST_ASSERT(!guest_memfd_offset,
+> +                                   "Offset must be zero when creating new guest_memfd");
+> +                       guest_memfd = vm_create_guest_memfd(vm, mem_size, guest_memfd_flags);
+> +               } else {
+> +                       /*
+> +                        * Install a unique fd for each memslot so that the fd
+> +                        * can be closed when the region is deleted without
+> +                        * needing to track if the fd is owned by the framework
+> +                        * or by the caller.
+> +                        */
+> +                       guest_memfd = kvm_dup(guest_memfd);
+> +               }
+> +
+> +               region->region.guest_memfd = guest_memfd;
+> +               region->region.guest_memfd_offset = guest_memfd_offset;
+> +       } else {
+> +               region->region.guest_memfd = -1;
+> +       }
+> +
+>         region->fd = -1;
+>         if (backing_src_is_shared(src_type))
+>                 region->fd = kvm_memfd_alloc(region->mmap_size,
+> @@ -1083,28 +1106,6 @@ void vm_mem_add(struct kvm_vm *vm, enum vm_mem_backing_src_type src_type,
+>
+>         region->backing_src_type = src_type;
+>
+> -       if (flags & KVM_MEM_GUEST_MEMFD) {
+> -               if (guest_memfd < 0) {
+> -                       u32 guest_memfd_flags = 0;
+> -                       TEST_ASSERT(!guest_memfd_offset,
+> -                                   "Offset must be zero when creating new guest_memfd");
+> -                       guest_memfd = vm_create_guest_memfd(vm, mem_size, guest_memfd_flags);
+> -               } else {
+> -                       /*
+> -                        * Install a unique fd for each memslot so that the fd
+> -                        * can be closed when the region is deleted without
+> -                        * needing to track if the fd is owned by the framework
+> -                        * or by the caller.
+> -                        */
+> -                       guest_memfd = kvm_dup(guest_memfd);
+> -               }
+> -
+> -               region->region.guest_memfd = guest_memfd;
+> -               region->region.guest_memfd_offset = guest_memfd_offset;
+> -       } else {
+> -               region->region.guest_memfd = -1;
+> -       }
+> -
+>         region->unused_phy_pages = sparsebit_alloc();
+>         if (vm_arch_has_protected_memory(vm))
+>                 region->protected_phy_pages = sparsebit_alloc();
+>
+> --
+> 2.54.0.563.g4f69b47b94-goog
+>
+>
