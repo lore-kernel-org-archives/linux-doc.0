@@ -1,170 +1,219 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73A839D3FB
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 07:37:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779349044; cv=none; b=ouLOQ7WD3E/BBXmHj9Yg+50Xlcw0wTW1cfsZgcsN0EK3jJwT41EZ0+WBf4QjxI10w6JWookT7M4OE4WczGRaKlW3DYRmwZPicbTItfilQo2xW4Rs9xrOEMNbeoVy971hkaxUXcD9FZv0Z2EAYt7VA5OX83/emJ9SpckMV3RtHsI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779349044; c=relaxed/simple;
-	bh=R8pP1d8ekCrIzeVrljMRYUBnWOGmUkz6ksI2SX7JeBs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=USayyNlWKm9BVrbfdo9UyvtOnjygu4lsNJc16/pMUtpn71I2Z/VE7x7THfFcWzLUSLmLIpAltG2LPnhO0sl84PhzJC8mpZCR5HFFTJfp6yfjdsKMi7ZeqlO7+kL58LaOnQRyjkOhi+2U8Nlfm17fc/POH/c4Iz1damGWCNIs+68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iRpekRVh; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B78939E9CB
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 07:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779350265; cv=pass; b=ld4EhQcjw5Bxk2FB9CCKJ2aFx2cnjIMHJvzE4Iza8foG3+0Xd35fDfRoguHKHGjIoTddFDqVXWbFdIHoLLLvy0R3Ux9wdAcJEdKpJ0lHQpMF2UGvFc411DUqG/Nnr0eLdFKb7PHzz3JGqd5pUld7f5J5gQWIpHRDNpDNVy3qqIc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779350265; c=relaxed/simple;
+	bh=4KcT8rdA6d07iJNq3wBXNazPyISKqsHOcKPYno1GuIA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QaD2QnmVqvHI7LJYtUO8NGoGOi6FktW7Ia2ZHHxh33vyHykHsZR0s7vjADTetC/8HsG0nM2/uzNocizSXbaSlKTanLnruYd1usolgCFiXL8P54r8dcAm3+nz65KnelHfxmywZqpuLZRLjYEv+kwrROdqzdgCOU2i/NRH5Uz1Jq0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PkK3X4dc; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iRpekRVh"
-Message-ID: <db0be5c8-13cb-4007-be06-bee3e1cbafbf@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779349022;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M14ZvRYGbbDChleEwMkrlZeua+SBBNOi/r7kAJG70c4=;
-	b=iRpekRVh0ABAaNsYeytGvVAJzme6ykXDAKtDQU/Su+oZ4UrsAVvvjxLYYC0VmKW96eDF6p
-	qFnQ21/Jar59VsHhrpKgp8J//prkhveEhiyZazjVin9D9FRH2LJ1nByaQAOHnPKb4J2Wmv
-	EiK2cm3aPnDbHwp3/xcdCxlvt0n+GRY=
-Date: Thu, 21 May 2026 15:35:52 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PkK3X4dc"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-515548f390fso791cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 00:57:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779350261; cv=none;
+        d=google.com; s=arc-20240605;
+        b=biNoT9I2c11qy4A49+hI04pwKag04ME6RjPd4s/DFFsggX3+gXdoP3IdKsyU3sqW3t
+         qBSu8lxPlPu0YnLfMK72/fND+NIbMwdKyHunibp3SH1d3f079tPZyPMQHjXrKkv2Lb+3
+         8CTll1iM7jx5wizrhxiGCtNTkkUDjQkNTMAKbAC+ytu+tvqlAHvfM7qWDtOWPOvsxGLM
+         bEDEwew53LwHZLQO6NmYm+4ya7ZTGqwTK0ujO26h5Xw2XCzJIIH7rxaMSkqQogUvgMWj
+         ge+JaNpg799U0YGqfkDrjxnimSMPxgnHUiOIE2q0HVnKf3sG8IZBBBusuWWINk+c5rg8
+         BYhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=tSn2g3kUTBO9UyvrMevDMplllFpiZxqy7FxTUXL/Xlw=;
+        fh=Fr2gCeq6BcM+4wNCHYpRondWRKL3+Vp3hv8W+c2Gk18=;
+        b=PKzKar2NgEB1eCF1+55pIpk9EK62/U9T1qs++TX17C2dPxPUX8mHwq6TLd35y+6nmf
+         kRPWU++Axjp7xI4A8i1dfGdgOuVTmvRzgWy9UiFugDG5+ZQXz4y/ijOQg+7hd2IQ4PgX
+         4CGG5K3fcKlO1UwyhXE6Pw0hg3WcmtSryWADb8EkYuZ+WnyiVm9OEIvfz4o4Sn4YirZ3
+         HStXI3xzHD15bMIsWElh5AnIzjVyMM7/FdANzToOZszG/54GHjYRa39uiP1YTVRC3Pa0
+         GeBHh93s22xT6PyFv4Ertoy9+1XJc/YOPn3XOpTHbL8LRsLqpKesMYgCftjs9/bLwMc+
+         HSgw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779350261; x=1779955061; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tSn2g3kUTBO9UyvrMevDMplllFpiZxqy7FxTUXL/Xlw=;
+        b=PkK3X4dcbhXxrjoJ1fcTfQCLtnoA6MwpGGLw/Nqy69HN+eFeKKnsX92ARB5CK7/YrG
+         DXfmjOlnO6qjQFt8qZ5I85bxhc9gbSWZUx+RKVeYhiN+IIakoeunnIow5DYBRSJzH9fY
+         EWEeu3gHxlH8+iQ3eU1Y16A1prp7cTfIfVAjjpEESLlYX02fqBvuN+Gi2EfEQPy+Liqx
+         xrAI64RCYUX8ZKse/1yUNRQ1NCZHtjtkDWnZCN0ZXeR8MQwI3fKs/Jefh8hQfSmvQvwf
+         QCZantvkGbwFbT4UqXcxyf3i05FWqvJezxEtDZ86TnXNGIPY5UR1qmgHsWC7T5pUHsGl
+         PTkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779350261; x=1779955061;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tSn2g3kUTBO9UyvrMevDMplllFpiZxqy7FxTUXL/Xlw=;
+        b=fLMtgsaTX601bPzUmUhtRStyGn9yJfFOGRNGTS3QnqNGvjGJt8XUb85fzJAEKnreWn
+         uQT4a+zcjKRMSoN8gECN+cAOJUnAqCuXacOuKmvkx8OHm6gWnqU63ZJuTpe2j2g+Q0wX
+         fFdXm4/zQAj+be+AXWy8WkpfH12dFu/abzGerT/m0yeu9/B54E442KG0mMtrKGZWezMz
+         8oX4sTk4PIIXjeeDleLEUHIx+sNBWESaRK4wW7H2M8dXB3Hr9UywXlljyGL44Wbo5ap3
+         Y2o3qNlpdkbIJh56l55g0PTU02Q3O3I3Oh2mANdQIXG9jJSw/7tJV9QqgzXhd/SiVcxI
+         TfTg==
+X-Forwarded-Encrypted: i=1; AFNElJ9QN+jmVb3p+d28GpRDVCZ0p9J1CRjVPKa9g9lNMfPG0SqoNNOxrDyUIMRbS8FOzKFsflvqcJpiI2g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRm+wCk2OCRVAMjPB0IebFdjNbSY2DP1t+nyC5FQi6GEKOvJqc
+	K0uV//uB8eG0JmThhF/GT/ROl7Qm5dNbqrjpPmp24n1fLjKZb/bJ/4/6tg2o21qoJrKu0xVFNhj
+	Mu6t1f59fVWcxQRUL4gQqMb/RxTgVdOK8ijNgs/Dd
+X-Gm-Gg: Acq92OGUDnc9PLyUugVN1ks/CI8yQfAPAh1JGUnSlcJbHIMb59luWNhsE0U9n59e27u
+	H3P3dUwUk4cgjutAufz65QtWwPQ4i958aakCi3UQo/80HZf7NIvMQlmBSbjo4NNt/vCV6GP1PG9
+	hLjG4mTgwJc1hfOzSkp8EnWc9xSYz9T7ZnqjBSGwf2NGvqwvhykLcb+yKK4oxfKhrZwQ1Nn38k+
+	Mt0mxR9HUVeteeMo82QcUi9Vq5pNoVG8CCBg6ajcBKQW58QnnOpAmDsvhtf8pNuXVfeWnhTUtXe
+	0dsXBKZpzVDXZ2Wo4ss5B8UcVlEt+Q==
+X-Received: by 2002:a05:622a:9005:b0:50f:af60:3496 with SMTP id
+ d75a77b69052e-516c53118ecmr5321871cf.1.1779350260836; Thu, 21 May 2026
+ 00:57:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v11 6/8] bpf: Add bpf_list_add to insert node
- after a given list node
-To: bot+bpf-ci@kernel.org
-Cc: bpf@vger.kernel.org, ast@kernel.org, corbet@lwn.net,
- martin.lau@linux.dev, daniel@iogearbox.net, andrii@kernel.org,
- eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
- haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
- chengkaitao@kylinos.cn, skhan@linuxfoundation.org, memxor@gmail.com,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, vmalik@redhat.com,
- linux-kselftest@vger.kernel.org, martin.lau@kernel.org, clm@meta.com,
- ihor.solodrai@linux.dev
-References: <20260521032306.97118-7-kaitao.cheng@linux.dev>
- <61871735d9151729b3092d42209dad08b1e38fa930bc1c9e452645240efbc40e@mail.kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kaitao Cheng <kaitao.cheng@linux.dev>
-In-Reply-To: <61871735d9151729b3092d42209dad08b1e38fa930bc1c9e452645240efbc40e@mail.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com> <20260507-gmem-inplace-conversion-v6-17-91ab5a8b19a4@google.com>
+In-Reply-To: <20260507-gmem-inplace-conversion-v6-17-91ab5a8b19a4@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Thu, 21 May 2026 08:56:00 +0100
+X-Gm-Features: AVHnY4ISxUZam6iBDjV_4hOaNzbNB8xZ_iFXhRAdE4nHy2L3vqI7KoUo1cTBaB4
+Message-ID: <CA+EHjTyArkNd7cWC+OAkvkcPyM9=XUxzjg1fxFFV4GSP4wLALQ@mail.gmail.com>
+Subject: Re: [PATCH v6 17/43] KVM: guest_memfd: Determine invalidation filter
+ from memory attributes
+To: ackerleytng@google.com
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-在 2026/5/21 12:08, bot+bpf-ci@kernel.org 写道:
->> diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
->> index 1c69476c8a09..89579165ef4d 100644
->> --- a/kernel/bpf/helpers.c
->> +++ b/kernel/bpf/helpers.c
->> @@ -2577,6 +2577,16 @@ __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
->>  	return bpf_list_push_back(head, node, meta__ign, off);
->>  }
->>
->> +__bpf_kfunc int bpf_list_add(struct bpf_list_head *head, struct bpf_list_node *new,
->> +			     struct bpf_list_node *prev__nonown_allowed,
->> +			     struct btf_struct_meta *meta, u64 off)
->> +{
->> +	struct bpf_list_node_kern *n = (void *)new, *p = (void *)prev__nonown_allowed;
->> +	struct list_head *prev_ptr = &p->list_head;
->> +
->> +	return __bpf_list_add(n, head, &prev_ptr, meta ? meta->record : NULL, off);
->> +}
-> 
-> If __bpf_list_add() fails at runtime (e.g., because prev is not in the
-> list indicated by head), it drops the 'new' node via __bpf_obj_drop_impl
-> in the fail path.
-> 
-> However, the verifier unconditionally converts 'new' into a non-owning
-> reference during check_kfunc_call(). If __bpf_list_add() fails, the BPF
-> program retains this non-owning reference to a freed node.
-> 
-> Could this allow the program to trigger a use-after-free within the lock
-> critical section?
-> 
-> (sashiko-bot@kernel.org, v10 RESEND)
-> https://lore.kernel.org/bpf/20260513204420.2BB22C19425@smtp.kernel.org/
+On Thu, 7 May 2026 at 21:22, Ackerley Tng via B4 Relay
+<devnull+ackerleytng.google.com@kernel.org> wrote:
+>
+> From: Ackerley Tng <ackerleytng@google.com>
+>
+> Before conversion, the range filter doesn't really matter:
+>
+> + For non-CoCo VMs that use guest_memfd, they have no mirrored tdp, so
+>   KVM_DIRECT_ROOTS would have been invalidated anyway.
+> + CoCo VMs could not use INIT_SHARED, and there's no conversion support, so
+>   always using KVM_FILTER_PRIVATE would have worked.
+>
+> Now with conversion support, update kvm_gmem_get_invalidate_filter to
+> inspect the memory attributes maple tree for a given range.
+>
+> Instead of determining the invalidation filter based on static inode
+> flags, iterate through the attributes maple tree for the specific range
+> being invalidated. This allows KVM to identify if the range contains
+> private pages, shared pages, or both, and set the filter bits
+> accordingly.
+>
+> Update kvm_gmem_invalidate_begin and kvm_gmem_release to pass the range
+> parameters to the filter helper to ensure invalidation accurately
+> targets the memory types present in the affected range.
+>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
-This should be an acceptable case within the current design framework.
+Reviewed-by: Fuad Tabba <tabba@google.com>
 
->>  static struct bpf_list_node *__bpf_list_del(struct bpf_list_head *head,
->>  					    struct list_head *n)
-> 
-> [ ... ]
-> 
->> @@ -4756,6 +4766,7 @@ BTF_ID_FLAGS(func, bpf_list_push_front, KF_IMPLICIT_ARGS)
->>  BTF_ID_FLAGS(func, bpf_list_push_front_impl)
->>  BTF_ID_FLAGS(func, bpf_list_push_back, KF_IMPLICIT_ARGS)
->>  BTF_ID_FLAGS(func, bpf_list_push_back_impl)
->> +BTF_ID_FLAGS(func, bpf_list_add, KF_IMPLICIT_ARGS)
-> 
-> Since bpf_list_add is marked with KF_IMPLICIT_ARGS, won't the verifier
-> look for a bpf_list_add_impl counterpart during program load?
-> 
-> Without defining and registering a bpf_list_add_impl function,
-> find_kfunc_impl_proto() will fail to find the required _impl suffix in
-> the vmlinux BTF.
-> 
-> Will this cause the verifier to unconditionally reject the kfunc?
-> 
-> (sashiko-bot@kernel.org, v10 RESEND)
-> https://lore.kernel.org/bpf/20260513204420.2BB22C19425@smtp.kernel.org/
-
-The target prototype with the _impl suffix has already been deprecated.
-
->>  BTF_ID_FLAGS(func, bpf_list_pop_front, KF_ACQUIRE | KF_RET_NULL)
->>  BTF_ID_FLAGS(func, bpf_list_pop_back, KF_ACQUIRE | KF_RET_NULL)
->>  BTF_ID_FLAGS(func, bpf_list_del, KF_ACQUIRE | KF_RET_NULL)
-> 
-> [ ... ]
-> 
->> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
->> index 35eebb5e7769..662ad7312697 100644
->> --- a/kernel/bpf/verifier.c
->> +++ b/kernel/bpf/verifier.c
-> 
-> [ ... ]
-> 
->> @@ -19524,8 +19527,11 @@ int bpf_fixup_kfunc_call(struct bpf_verifier_env *env, struct bpf_insn *insn,
->>  		int struct_meta_reg = BPF_REG_3;
->>  		int node_offset_reg = BPF_REG_4;
->>
->> -		/* rbtree_add has extra 'less' arg, so args-to-fixup are in diff regs */
->> -		if (is_bpf_rbtree_add_kfunc(desc->func_id)) {
->> +		/* list_add/rbtree_add have an extra arg (prev/less),
->> +		 * so args-to-fixup are in diff regs.
->> +		 */
-> 
-> This isn't a bug, but the multi-line comment format doesn't follow the
-> BPF subsystem style. The preferred form in kernel/bpf/ has the opening
-> /* on its own line.
-> 
-> Additionally, consider adding an is_bpf_list_add_kfunc() helper instead
-> of direct comparison with special_kfunc_list[KF_bpf_list_add].
-> 
-> (bot+bpf-ci@kernel.org and Eduard Zingerman, v10 RESEND)
-> https://lore.kernel.org/bpf/f573f7e0a5140fe6254d2ddfd3f69add455fa25c67c020c0312e2c2ceeca7c69@mail.kernel.org/
-
-I provided a more detailed explanation in the link below.
-https://lore.kernel.org/all/9e300669-8793-41a2-84a1-98fb8195e263@linux.dev/
-
->> +		if (desc->func_id == special_kfunc_list[KF_bpf_list_add] ||
->> +		    is_bpf_rbtree_add_kfunc(desc->func_id)) {
->>  			struct_meta_reg = BPF_REG_4;
->>  			node_offset_reg = BPF_REG_5;
->>  		}
-> 
-> 
+Cheers,
+/fuad
 > ---
-> AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-> 
-> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/26204125015
-
--- 
-Thanks
-Kaitao Cheng
-
+>  virt/kvm/guest_memfd.c | 27 ++++++++++++++++++++-------
+>  1 file changed, 20 insertions(+), 7 deletions(-)
+>
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index 9f6eebfb68f6b..c9f155c2dc5c5 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -193,12 +193,24 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+>         return folio;
+>  }
+>
+> -static enum kvm_gfn_range_filter kvm_gmem_get_invalidate_filter(struct inode *inode)
+> +static enum kvm_gfn_range_filter kvm_gmem_get_invalidate_filter(
+> +               struct inode *inode, pgoff_t start, pgoff_t end)
+>  {
+> -       if (GMEM_I(inode)->flags & GUEST_MEMFD_FLAG_INIT_SHARED)
+> -               return KVM_FILTER_SHARED;
+> +       struct gmem_inode *gi = GMEM_I(inode);
+> +       enum kvm_gfn_range_filter filter = 0;
+> +       void *entry;
+> +
+> +       lockdep_assert(mt_lock_is_held(&gi->attributes));
+> +
+> +       mt_for_each(&gi->attributes, entry, start, end - 1) {
+> +               filter |= (xa_to_value(entry) & KVM_MEMORY_ATTRIBUTE_PRIVATE) ?
+> +                         KVM_FILTER_PRIVATE : KVM_FILTER_SHARED;
+> +
+> +               if (filter == (KVM_FILTER_PRIVATE | KVM_FILTER_SHARED))
+> +                       break;
+> +       }
+>
+> -       return KVM_FILTER_PRIVATE;
+> +       return filter;
+>  }
+>
+>  static void __kvm_gmem_invalidate_begin(struct gmem_file *f, pgoff_t start,
+> @@ -244,7 +256,7 @@ static void kvm_gmem_invalidate_begin(struct inode *inode, pgoff_t start,
+>         enum kvm_gfn_range_filter attr_filter;
+>         struct gmem_file *f;
+>
+> -       attr_filter = kvm_gmem_get_invalidate_filter(inode);
+> +       attr_filter = kvm_gmem_get_invalidate_filter(inode, start, end);
+>
+>         kvm_gmem_for_each_file(f, inode)
+>                 __kvm_gmem_invalidate_begin(f, start, end, attr_filter);
+> @@ -367,6 +379,7 @@ static long kvm_gmem_fallocate(struct file *file, int mode, loff_t offset,
+>  static int kvm_gmem_release(struct inode *inode, struct file *file)
+>  {
+>         struct gmem_file *f = file->private_data;
+> +       enum kvm_gfn_range_filter filter;
+>         struct kvm_memory_slot *slot;
+>         struct kvm *kvm = f->kvm;
+>         unsigned long index;
+> @@ -398,8 +411,8 @@ static int kvm_gmem_release(struct inode *inode, struct file *file)
+>          * memory, as its lifetime is associated with the inode, not the file.
+>          */
+>         end = i_size_read(inode) >> PAGE_SHIFT;
+> -       __kvm_gmem_invalidate_begin(f, 0, end,
+> -                                   kvm_gmem_get_invalidate_filter(inode));
+> +       filter = kvm_gmem_get_invalidate_filter(inode, 0, end);
+> +       __kvm_gmem_invalidate_begin(f, 0, end, filter);
+>         __kvm_gmem_invalidate_end(f, 0, end);
+>
+>         list_del(&f->entry);
+>
+> --
+> 2.54.0.563.g4f69b47b94-goog
+>
+>
