@@ -1,120 +1,189 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D49319601;
-	Thu, 21 May 2026 02:08:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF51633BBCD
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 02:17:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779329283; cv=none; b=XeFxqYdqO0CULAWyiYmB3GScZouE0roww5F7yYVqiCpZ5acDy2Jt3RwGCriF1sBQ6zzODfv8Du7BDT2Y+vBB1sj1TZRBTcv3G2vSI1GWPTeeJ9TvQaAt89kRc+08dk+yLIzlkXfkAMacAaapMU4U1MHskT7rTkqkneA5Q8EK444=
+	t=1779329863; cv=none; b=Zx1OHNI7KW5p44Zb+U60HEdMzf+KiF+DlTD82i0a+9Wie0InyHkoO0nEi99cXvbslNoLJclwzLP0G5yJhd/+9/nke4zBRHBqxhx/fnff1tBvyCwsDQABtIVpynwOMUK9gpgcDBx7SQcW5MnUK0as6czw9DH8IS5nP/FKuJuzIcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779329283; c=relaxed/simple;
-	bh=vqw1bAHhTOr2QUk6EvDUyoK2Ln7dQd1QaTuNg7SAYhk=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=UOIuFY/Or+V1jWMvdmMNlel4zSCI0eusJ9KFswjRZSUrv+SE02AkXWfzepmF9aue79NJ8WJ5iWXG7M5YSS5ThSqtRBzyY5JX8SDY67KoWFw9o6feScx1Cq0NwE0jSRCxfspfOnz7shFsM8i5zWVlJbuy92XHfpk2WIBKl93IzvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ioLSKPOl; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1779329863; c=relaxed/simple;
+	bh=NsE6nXxHo97VM1sXx6yZreG1nqdIdV6j50wdxtLFBOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mpVVVDSyFmk8TAAzeSWExJ59ASquNWKJaiQGn5uY9SKAcJp5WbS/Cpuhv+5el9g+aTiu5v9QHiGzpiP/yWPGCMWoSYEc7Xk/tLgDOUfzPy+D3BMovLX3x+/799cfwwV3HASEsUowgScgdtcLAhRiqygYbC0H9O+TeizXbWx9R2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=manifault.com; spf=pass smtp.mailfrom=manifault.com; dkim=pass (2048-bit key) header.d=manifault-com.20251104.gappssmtp.com header.i=@manifault-com.20251104.gappssmtp.com header.b=fl45xRp8; arc=none smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=manifault.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manifault.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ioLSKPOl"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64KJZC8C2191659;
-	Thu, 21 May 2026 02:07:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=vqw1bA
-	HhTOr2QUk6EvDUyoK2Ln7dQd1QaTuNg7SAYhk=; b=ioLSKPOlGN/SffPhxuwRKL
-	HIq0gYB4W8QY02xqUKvXKlSxEWjL/P+x8lnumsIoTfuVKxfiJCYew/qzUn6f+JYN
-	GSKDCiFaxC+GWz6pKwoVUgVC3MlWCtgajsMsH3YykevkAmz8H3OkWbh+6kuT94PS
-	f4WIiTZ8cxSXYc6WR0sYUHq3c00JeLUOHumlahjrXuOUc2oUTK4yR6xLSGE9OXba
-	4UtQYiF+VFKIPVhkMWLbC4Jm7pttsuKGEbq4O2djF/nyBzFGkPMrZeXwPaNw5m8Q
-	grkqYkGCXV684jdrSCQXOSM1rkQJGl7wb2rOjBe3KOKzHP94pBd4A2Cz60WH5uLQ
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e6hawbnx0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 May 2026 02:07:42 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64L1sAxF008029;
-	Thu, 21 May 2026 02:07:41 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e739w25ge-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 May 2026 02:07:41 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64L27f7L41157336
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 21 May 2026 02:07:41 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 37F1F58055;
-	Thu, 21 May 2026 02:07:41 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3F3AB58043;
-	Thu, 21 May 2026 02:07:40 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.96.83])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 21 May 2026 02:07:40 +0000 (GMT)
-Message-ID: <82a948ee4ab80e303ed25065a17c96dfc5e9e588.camel@linux.ibm.com>
-Subject: Re: [PATCH v5 08/13] ima: Introduce ima_dump_measurement()
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
-        skhan@linuxfoundation.org, dmitry.kasatkin@gmail.com,
-        eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
-        serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
-        gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com,
-        nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
-In-Reply-To: <20260429160319.4162918-9-roberto.sassu@huaweicloud.com>
-References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
-	 <20260429160319.4162918-9-roberto.sassu@huaweicloud.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 20 May 2026 22:07:39 -0400
+	dkim=pass (2048-bit key) header.d=manifault-com.20251104.gappssmtp.com header.i=@manifault-com.20251104.gappssmtp.com header.b="fl45xRp8"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7dca5f64e86so4613985a34.0
+        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 19:17:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=manifault-com.20251104.gappssmtp.com; s=20251104; t=1779329859; x=1779934659; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3cB1qNOTZCCYHy9Z+hs2y+VPCP5OkdeilQfyLp43YV0=;
+        b=fl45xRp8pEjZJ3xf1McdiX7eAq8DWaVG/XBYfG6JDpKLXDbdTw0ucz7ITBRgjHN3gS
+         cJKQZvSoj6sGbTBhJrgUj10YZv99vVKowrxgYv44h121XoG/sQXz4HCMAKxrU0bh8LVY
+         8Aicdt52Nxl3Til6D2Nz0UdKwqPqxPFvpVyZ4O8cJJu8GOtwdAukB+vfPGVEnYRpwo9S
+         a6dFP+iam3tc/SJgmPQ3C4h4aDVPot+BlnJj62QIvoynZd5LTWQCoCCMFD0WlTMCnKED
+         8EDWG7eL/EkoZ68bwLa+fbCEzpJniSspr7EfMNR/z27vSxwJ6MESNEBx7xtk8LfKfBEs
+         AsZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779329859; x=1779934659;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3cB1qNOTZCCYHy9Z+hs2y+VPCP5OkdeilQfyLp43YV0=;
+        b=ps4yMYdxSQoeza3eBULBhKosa6k9CFVwHNQLjxCfyxMyzSt3HW9bUb6NqjWnXHKgUW
+         jk0MxatJPMGQxFWJ5/Y+Zy9yOsppDl/eMLG5uGU5ItH3p120zuloYH+aFLADViR1Ca3M
+         iA6HoCFsZKvoUPMC1qfw/I4OE7P3pgbPS2P19oR0kZt5G6be0Ix4lKf8+cDNilc2+1YP
+         fgl7alNPx5m3cUXD7w3hGj5VHX8Zj9Vgs+x7DrGEE3nfbb8RCKt4E4xkVODVXfB85Z+6
+         wzLuwigJlYLn8Y/MMoa/5Fti3utL3rlSF089YV7tcnporc6BUltDPkwfjiMPJCm74DHL
+         V/BQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/pivPfRcuYcf5YbogWPqSQ3UZs/gRa9Ze0x3fVm8YfzMk8qKrXkW5A/1sgZ+z5TMIuVRzUPMkmgQM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYLHCWgXK24WY2epwz0Ff0AAKTPurXn3CHwOl8WNjiCufvCnMr
+	JN1HrckvWbRaZoGysHDhZ86YT7pnDGLCWflZ6nytLaYVSGU6LrOZZjZDeVerBsUd02ZD
+X-Gm-Gg: Acq92OGU17jK6n3MdVXMcPbuwrtiv4hz9JxANH5FYA57W7tf2Su7PRI1KkU7Od7brhC
+	BM5u+ZirsqtTviY3cerGFJFR8eHZnXu0WKIe3Dy9Thw+2u49+kXM5i+1DRnTNhjPwuufi+sIK0y
+	88bpJs3Par5blQHnto8/GWwYwr0gYrqbmvI5nIGIMSKRUVtEZhljGErcJFZ4Xfs6voXXTjy8jAD
+	tiVTNhWLAywFp2FcL327TsvjQXIUXyMfR8w7DFr+Bdb3Z35HUmROrZ0/fi9IQfeoHl2Z9MJrflW
+	y5f1T0xGKdHriZ3d/NbarusNmKElRLBbKddGwhodZAlP/P+w9I08wXb9gQzzcZF5QpX4AEq+Sdp
+	BGzBhHh8p6t216cMgmd26P8yjYWtENeAuC/dVbzUC4nySLGdkNCKKiEXJFO+8xtl8GM1UPz/wIl
+	QOnFmoILen6XhGHdPTl/bEPvcEpfx/2hE0a85kzr/RM5uzd6eGU8rzw1tvdOU=
+X-Received: by 2002:a05:6830:25d0:b0:7dc:d0cc:91b with SMTP id 46e09a7af769-7e5ec60237amr399495a34.26.1779329859054;
+        Wed, 20 May 2026 19:17:39 -0700 (PDT)
+Received: from localhost (c-76-141-129-107.hsd1.il.comcast.net. [76.141.129.107])
+        by smtp.gmail.com with UTF8SMTPSA id 46e09a7af769-7e55b81c8a0sm13273517a34.10.2026.05.20.19.17.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 19:17:38 -0700 (PDT)
+Date: Wed, 20 May 2026 21:17:37 -0500
+From: David Vernet <void@manifault.com>
+To: Alexis =?utf-8?Q?Lothor=C3=A9_=28eBPF_Foundation=29?= <alexis.lothore@bootlin.com>
+Cc: Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, ebpf@linuxfoundation.org, 
+	Bastien Curutchet <bastien.curutchet@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	bpf@vger.kernel.org, bpf@ietf.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next v2] bpf, docs: add LOAD_ACQUIRE and
+ STORE_RELEASE instructions
+Message-ID: <iulf7fwwvfrvvspg4e5xyx3tcxe2yonfjllnze2phgfgpynrlh@kodf3fy3l32q>
+References: <20260521-bpf-insn-doc-v2-1-8c43c037d599@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDAxOCBTYWx0ZWRfX60HtXsYQRo06
- Umru3kV/WBv0aWcQhRBJ/3xj0qHFPSlN5MTtKnH/yHumDcjf52S40vqtXgs6XzV5NBd3dYx+dbL
- BXTSPxiwg9S0uPzT7wgbPJko0+hMj0/6LrWzBRUnGHboofZI0drvfdqED/0+iGkg5indCy3voO/
- sFn5OiyzTCevc3pzhZtcveaReLdy64tDushTyigePtwcB5WlKY5TsXxA7lyDC8s4gjkjoQijOFT
- FL20Igq8gxdDxwSzlfIPlNw/PDdOHglVNvL3KDlfS2MJ7DbgxhU7XmD0yddRsIrD86YfuKU7kYr
- /+BVASL1JwC7ylVACLyEdZGeumJNQq+oN5YVGzKSUsZeHe+WAcp/MDVX2bK0CZfN42I4+h8N8hE
- Z0r8C+dI/5Ms8eqqovSNN0EWkevm4IkyOnS6jY9KmxuuJnX5qPlMNErabp5Th+Ovzs95h2UVZ7m
- 1Ti66prTL4kQqfXou+g==
-X-Authority-Analysis: v=2.4 cv=Np/htcdJ c=1 sm=1 tr=0 ts=6a0e68ef cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=NEAV23lmAAAA:8
- a=i0EeH86SAAAA:8 a=VnNF1IyMAAAA:8 a=3t8diSVONHxdbtUu-HYA:9 a=QEXdDO2ut3YA:10
- a=zZCYzV9kfG8A:10
-X-Proofpoint-ORIG-GUID: XAY20XtEsyEWjfYTRN5dv2-3Zr1_T8ii
-X-Proofpoint-GUID: f7ZKAXmnQKsO_yk6gWOvu0smBSZGt2U3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-20_03,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0 clxscore=1011 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 suspectscore=0 adultscore=0 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605210018
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xm7tw5c2mh4x3j5d"
+Content-Disposition: inline
+In-Reply-To: <20260521-bpf-insn-doc-v2-1-8c43c037d599@bootlin.com>
+User-Agent: NeoMutt/20250510
 
-On Wed, 2026-04-29 at 18:03 +0200, Roberto Sassu wrote:
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->=20
-> Introduce ima_dump_measurement() to simplify the code of
-> ima_dump_measurement_list() and to avoid repeating the
-> ima_dump_measurement() code block if iteration occurs on multiple lists.
->=20
-> No functional change: only code moved to a separate function.
->=20
-> Link: https://github.com/linux-integrity/linux/issues/1
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
 
-Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+--xm7tw5c2mh4x3j5d
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH bpf-next v2] bpf, docs: add LOAD_ACQUIRE and
+ STORE_RELEASE instructions
+MIME-Version: 1.0
 
+On Thu, May 21, 2026 at 12:09:11AM +0200, Alexis Lothor=E9 (eBPF Foundation=
+) wrote:
+
+Hi Alexis,
+
+Thanks for working on this.
+
+> Commit 880442305a39 ("bpf: Introduce load-acquire and store-release
+> instructions") instroduced the LOAD_ACQUIRE and STORE_RELEASE atomic
+
+introduced
+
+> instructions modifiers. Those are currently not described in the
+> documentation, despite being used in the verifier and the various JIT
+> compilers supporting them.
+>=20
+> Add the missing entries in the instruction set documentation.
+>=20
+> Signed-off-by: Alexis Lothor=E9 (eBPF Foundation) <alexis.lothore@bootlin=
+=2Ecom>
+
+Alexei et al -- if you plan to do a subsequent RFC, it will influence
+how this document needs to be structured. [0] explains the process for
+adding new instructions. To quote:
+
+> Once a conformance group is registered with a set of instructions, no
+> further instructions can be added to that conformance group. A
+> specification should instead create a new conformance group that
+> includes the original conformance group, plus any newly added
+> instructions. Inclusion of the original conformance group is done via
+> the "includes" column of the BPF Instruction Conformance Groups
+> registry, and inclusion of newly added instructions is done via the
+> "groups" column of the BPF Instruction Set registry.
+
+So you would have to create a new conformance group for these new
+atomics -- you can't just add them to the existing one. In general it
+might be easier / advised to snapshot this file to RFC 9669 and create a
+new one for the new instructions to make it easier to tease this stuff
+apart later. If that's something you want, I'm happy to get us started
+with a skeleton file. Again, though, that's only necessary if you plan
+to submit a new document to the IETF WG.
+
+[0]: https://www.rfc-editor.org/rfc/rfc9669.html#name-adding-instructions
+
+[...]
+
+> +The ``LOAD_ACQ`` and ``STORE_REL`` operations allow using lighter load a=
+nd
+> +store memory barriers rather than full barriers. The corresponding acces=
+ses
+> +must be aligned, but are allowed for any access size (8-bit up to 64-bit
+> +operations), with 8-bit and 16-bit ``LOAD_ACQ`` loaded values being
+> +zero-extended. As atomics are encoded as stores, the meaning of dst and =
+src
+
+Nit:
+
+``dst`` and ``src``
+
+``src`` below as well.
+
+Note though that as mentioned above, these instructions should probably
+go into a new conformance group that includes the existing atomics.
+
+> +are different for ``LOAD_ACQ``, effectively using src as memory based
+> +pointer and dst as destination register for the fetched value.
+> +
+>  64-bit immediate instructions
+>  -----------------------------
+> =20
+>=20
+> ---
+> base-commit: ceeb3aa37bff895116944acf4347fcded0b7692d
+> change-id: 20260520-bpf-insn-doc-756b369ca328
+>=20
+> Best regards,
+> -- =20
+> Alexis Lothor=E9 (eBPF Foundation) <alexis.lothore@bootlin.com>
+>=20
+
+--xm7tw5c2mh4x3j5d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRBxU1So5MTLwphjdFZ5LhpZcTzZAUCag5rQQAKCRBZ5LhpZcTz
+ZHoCAQDFWUGw9Hr99Buhk40sk2JijGKk35iz1XODpAk+Wn/yRAD/W9A37/iQvWyx
+wtmRJGU7PSSg6gN/rmsCFovizz7KMwI=
+=m4px
+-----END PGP SIGNATURE-----
+
+--xm7tw5c2mh4x3j5d--
