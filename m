@@ -1,148 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDB51CEADB;
-	Thu, 21 May 2026 18:10:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5A1390618
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 18:17:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779387019; cv=none; b=QtOuQ0QlndTxI3O6t+5Vvcy4NoXXcAt079VMjSNzWVRCxACrz/+SB6A2bpnZT5EQ2XYSg1HlBmVxDY615S4cZgcK0zB5saFO3zrx424X3e+xS/0veB9is0vn2h2viLX181L8FJ9Cj3nJNRg9cNNDznkwh/3XbikY/oSpCEUS8Ng=
+	t=1779387424; cv=none; b=iYBXvTxNzfoFru8gsw1O9xFnpV2GaQBbTB8NUe6rxYxPBxZxSf3+ePpbRwVGF+wXpfFZ6fEZqWvC1fTDjZ1Yp7MOv27gNcogrqZAsKnGfJfSL2IFQpZ5StCwJgOkpWkcaBbABRd0NfDLZl0Gkl+dhpr/iLDdSamffodMD94jyxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779387019; c=relaxed/simple;
-	bh=IFcxYqgTlpRto9ZnWOz7pV5uynzI+jzkHNYxPxI9sUk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CP/myv5RdQcgWPtupEGi2AcpaTxJa49qJNMSsfg/GRFRiYCz69A2LPq09bmAnX5dqNELkp/2dVGG4aCsSNjYl88YZYrsCEiAirAcM6AZT+MJ1PK9z6RsPqa7U12rFIZUhAWInN0p9wuvz4tfoC2V3aFWPv41ADNqobFKJ6/aHXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBshHZmZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779387424; c=relaxed/simple;
+	bh=+VWCLDENbyTrufBDf5/wO7Oma9uH1Q8L65+rax8aTO4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lAbb4uUAtXsZwMjOq6IkZAWUPkJGMRj0uQNLOaTpDBwh9wI2jIxOG8sYILBKz/fTgkkYS2Yo8iyFoPmR0q31W7zT8rquS29U0BGm7R1a92ZSel3aMOqgduIlIwvZj1LLF1yax6ALuLktk1LnzHJrJCeZQnBqFbo8OyUFufbGzck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VuyXq1tq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBshHZmZ"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 4C5DB1F000E9;
-	Thu, 21 May 2026 18:10:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VuyXq1tq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 569971F00A3E
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 18:17:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779387017;
-	bh=7DokcUkQYWxffrlYX00vg2Zeu4i7RlvhyEfxsS4J+FE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nBshHZmZiLEksnOhYvnnj3Lnlc3FT7Pivdpel86TAIfYGqNrfYnLHohUs5MSlMdjn
-	 ZKXYOz30u1Znv5aLOTxOi4hmjR9x0K/zbQQPomvw3Zc4wSn8G4TBL+LLXR7oU97fKd
-	 hJOE55i1fxKOQx+ueC/AgIkoPNoow8Vu5s7mr/NE8fz2k3e5mZ88Gg6dL//JqZJEC/
-	 5UuOJh881pt8rMWEGsZ20FGWyTt3XqAU1LI9UEls36W4LI/drc6W09JW4fPSJFb2hZ
-	 cY4szys8QOMLohwemWyR/84QEdIswI+VjrCPjpBwr9CncFaHsWCl4IW4H492c4xI6O
-	 jPaZ9Lz59fuvA==
-Date: Thu, 21 May 2026 20:09:58 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kconfig: add optional warnings for changed input
- values
-Message-ID: <ag9KdrSivC1Lp4RO@levanger>
-Mail-Followup-To: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20260521022824.38591-1-pengpeng@iscas.ac.cn>
+	s=k20260515; t=1779387420;
+	bh=+VWCLDENbyTrufBDf5/wO7Oma9uH1Q8L65+rax8aTO4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=VuyXq1tqiHVI2YZ3Blv3BD2WCJdC9/dUivuyWddy+wydX2ooJe2bkg9Gm9++B3oEo
+	 sh0UdIEN9umrNBhjufrQIqRV3lx0D0GA8Sb7poWd0s8udQW6ciJHHeZHcCK3RrRCoQ
+	 bGWOb0NZbLBqj12BfjSZwfav5msDWT0Qq2t7Gmh4n2mSLQTSilf1F8j/1uecoi0PwC
+	 ncOg8TwZYbC16t5C2LBE0N1MO/fsA442mc1wd4TmR96Jef0gJGQbZWXmNtulPenO/u
+	 aQc0Km8pCckySifBInQIQvxQgvVAFm6CPvp2h04FbPQVgYDV+qLBCdJy5FkQDlrlXV
+	 Lr+UDPJcnr6hQ==
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-94de68feaf4so3982027241.0
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 11:17:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/IsLIAJQvy+FSk5QygcczdZVhqc+9iRSWil8PrW0BT7i6Nj4S1siQclIZcUZBDylh8eU6VlWBC+Xg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzcWkNPuaXd2uE6NaQRpx8Ys+1xkT9GML0abAl2OqV5/hekDmP
+	lDk0pUm0WkFy9d5LaNIALCebbqpT67q6reM9lZ1GIqDhNreJ9O7JPtLn/zEAbFK8to9uCM+hmLE
+	lLWrayuKNQBC6HcOXIUScboahexMYRCY=
+X-Received: by 2002:a05:6102:5a9a:b0:631:28c1:154e with SMTP id
+ ada2fe7eead31-6739772de2emr3100077137.16.1779387419475; Thu, 21 May 2026
+ 11:16:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="u0AQIKWnEWNmox87"
-Content-Disposition: inline
-In-Reply-To: <20260521022824.38591-1-pengpeng@iscas.ac.cn>
-
-
---u0AQIKWnEWNmox87
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260508195749.1885522-1-sashal@kernel.org> <20260517134858.146569-1-sashal@kernel.org>
+ <CAPhsuW4x8shWon8Moi5VgCq2n4E2EzaaauZ2HHpy42Rp1Y-J-g@mail.gmail.com>
+ <agsVDqdALBoHEHlv@laps> <CAPhsuW44UX663Au=WwHz8MVwnQgLkjxOqpJSCKxNiv3=RpZvqw@mail.gmail.com>
+ <b342c38b-7323-4b72-a239-8a574d6bc36b@iogearbox.net> <agzAwjKhOhuANz_P@laps>
+ <3dd6d852-18fb-4c64-a1ae-0d79ef7c061f@iogearbox.net> <ag8lOe6dAOgnWmsQ@laps>
+In-Reply-To: <ag8lOe6dAOgnWmsQ@laps>
+From: Song Liu <song@kernel.org>
+Date: Thu, 21 May 2026 11:16:46 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW7sbt5B+ZeGW8O2JMJ0ELPU-vhZFNvbB+0Q8XhZg6pKYw@mail.gmail.com>
+X-Gm-Features: AVHnY4Ihdl75axpqRxaDxb23j1ycahjc8W-Yta5RRqXxUzFNMBCHqx-JtojbAKM
+Message-ID: <CAPhsuW7sbt5B+ZeGW8O2JMJ0ELPU-vhZFNvbB+0Q8XhZg6pKYw@mail.gmail.com>
+Subject: Re: [PATCH v3] killswitch: add per-function short-circuit mitigation primitive
+To: Sasha Levin <sashal@kernel.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, live-patching@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Joshua Peisach <jpeisach@ubuntu.com>, Florian Weimer <fw@deneb.enyo.de>, Breno Leitao <leitao@debian.org>, 
+	Anthony Iliopoulos <ailiop@suse.com>, Michal Hocko <mhocko@suse.com>, Jiri Olsa <jolsa@kernel.org>, 
+	John Fastabend <john.fastabend@gmail.com>, Christian Brauner <brauner@kernel.org>, 
+	KP Singh <kpsingh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 21, 2026 at 10:28:24AM +0800, Pengpeng Hou wrote:
-> When reading .config input, Kconfig stores user-provided values first and
-> then resolves the final value after applying dependencies, ranges, and
-> other constraints.
->=20
-> If the final value differs from the user's input, Kconfig already tracks
-> that state internally, but it does not provide any focused diagnostic to
-> show which explicit inputs were adjusted. This is particularly confusing
-> for requested values that get forced down by unmet dependencies or
-> clamped by ranges.
->=20
-> Add an opt-in diagnostic controlled by KCONFIG_WARN_CHANGED_INPUT. Emit
-> the warnings from conf_write() and conf_write_defconfig() after value
-> resolution and through the existing message callback path so the default
-> behavior stays unchanged and interactive frontends remain usable.
->=20
-> Avoid the conf_message() formatting buffer for this diagnostic so long
-> warning lists are not truncated before reaching the callback, and mark
-> processed symbols as written before the SYMBOL_WRITE check so duplicate
-> menu nodes cannot emit duplicate warnings.
->=20
-> Document the new environment variable and add tests for both olddefconfig
-> and savedefconfig.
->=20
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-> ---
-> Changes since v1: https://lore.kernel.org/all/20260406233001.1-kconfig-wa=
-rn-changed-input-pengpeng@iscas.ac.cn/
-> - rename "found" to "changed_input_found" as suggested by Nicolas
-> - avoid the conf_message() 4096-byte formatting buffer so long warning
->   lists are not truncated before the callback sees them
-> - mark each processed symbol as SYMBOL_WRITTEN before checking
->   SYMBOL_WRITE to avoid duplicate warnings for duplicate menu nodes
-> - add duplicate-definition selftest coverage
-> - do not carry the Reviewed-by/Tested-by tags because v2 changes warning
->   emission and duplicate suppression
->=20
->  Documentation/kbuild/kconfig.rst              |   5 +
->  scripts/kconfig/confdata.c                    | 107 +++++++++++++++++-
->  .../kconfig/tests/warn_changed_input/Kconfig  |  40 +++++++
->  .../tests/warn_changed_input/__init__.py      |  27 +++++
->  .../kconfig/tests/warn_changed_input/config   |   3 +
->  .../tests/warn_changed_input/expected_config  |   6 +
->  .../warn_changed_input/expected_defconfig     |   1 +
->  .../tests/warn_changed_input/expected_stdout  |   4 +
->  8 files changed, 189 insertions(+), 4 deletions(-)
->  create mode 100644 scripts/kconfig/tests/warn_changed_input/Kconfig
->  create mode 100644 scripts/kconfig/tests/warn_changed_input/__init__.py
->  create mode 100644 scripts/kconfig/tests/warn_changed_input/config
->  create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_con=
-fig
->  create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_def=
-config
->  create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_std=
-out
->=20
+On Thu, May 21, 2026 at 8:31=E2=80=AFAM Sasha Levin <sashal@kernel.org> wro=
+te:
+>
+> On Thu, May 21, 2026 at 11:11:16AM +0200, Daniel Borkmann wrote:
+> >On 5/19/26 9:57 PM, Sasha Levin wrote:
+> >>Sure, this would also work. How do you see this happening? Can we let a=
+ certain
+> >>user/pid/etc disable the allowlist if they choose to?
+> >
+> >I don't think we should, given then we're back to square one where root
+> >or some other user would be able to just override/bypass an LSM.
+>
+> killswitch already disables itself when lockdown is active. We can easily
+> disable it too when one of the LSMs that cares about this is active.
+>
+> >[...]
+> >>How do you see this working with the allowlist?
+> >
+> >We should look at the underlying areas where most of the CVE-like fixes
+> >took place (these days should be more easily doable given Claude and fri=
+ends)
+> >and based on that either extend ALLOW_ERROR_INJECTION() or (better) crea=
+te
+> >new hooks which BPF LSM can consume where you can then have a policy to =
+reject
+> >requests and tighten the attack surface. For example, the AF_ALG stuff y=
+ou
+>
+> So we could grow the LSM tentacles deeper into the kernel, and we can see=
+ where
+> current CVEs are happening, which I suspect is the darker corners of the =
+kernel
+> (old unmaintained, rarely used code), but this definitely won't stay the =
+case,
+> right? Newer and better LLMs will discover issues elsewhere, and once the=
+ low
+> hanging fruits are picked off of the current target subsystems, researche=
+rs
+> will move elsewhere. We will be dooming ourselves to an endless cat and m=
+ouse
+> game where we go add LSM hooks after some big security issue goes public.
 
-Thanks a lot!
+Do we really need to add new LSM hooks for recent CVEs?
 
-Tested-by: Nicolas Schier <nsc@kernel.org>
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
+The LSM hooks are designed to cover all the user-kernel interfaces. Then
+with properly designed policies, we should have coverage for potential CVEs=
+.
+Existing LSM hooks may not be perfect, but we can improve the hooks,
+potentially with the help of smart LLMs, so that these hooks can cover
+future security issues. In some cases, we will need new policies, but I don=
+'t
+think new hooks will be needed for most of these CVEs.
 
---u0AQIKWnEWNmox87
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmoPSm4ACgkQB1IKcBYm
-EmnAfxAAypsh86H6bp6AlgVjU3kcaVQ8CALAZ/jajg5Xie9qYLnwJLSwj8OnkkJB
-EDpMjePcfJtdJIe8eE/b3P4KIfEerSts5vev6wLtMrwTdhMrfjg30TE2ftEmBRXL
-Hgb3KFbU5WABzwAwW3FODJkcrBq8bx4S1nbmhPyN13+GJZpky9ERTL0ZzIcb5zqc
-+EWdhMyqkVfwJchPsiwTBkPfQIFxxsimU4J9Cs8wQHuechMuWgLgzxl/RbCJK+DL
-svzOgcX1Ofl3iIWeTBWVg4aq3jdN/lkJsv2z7wsd4ijDSbH2EA8RI/q0aLfEQVRY
-3/ps+X8llp8yLaXwv6PgRckkyQra0ugM4R0Z4+T7LE7GMBrjR3vSeEqWYdbpo9gf
-k9IPT1wyVkn67hW7ANU/nNujHeSyBAfu2eJd8TI+MkSLUhIDNYpTnVdY0RUHoL8w
-v7W/1xjMwAv80zHGFzuMt1ilFZ6TQ9LeCoIfWgckd2NrwlQLTdTQ+SG5HHzIyB49
-jCQICF28oWVHOKHwKR5rtXlfdfu4UXyhlfV3MUPWHU9CXRi9T7EEPaJ+lDV0nbTg
-aXKs9intuGfHCrSpEspVK8tArhIUjzSrmd+YGKXpiodEyMjlWh1Pqhu9EAB880os
-GxRtkvKPvJ4Zl8sR08knNp6TdkxGRG38zoD5Wzg4vDBsPY4vmkA=
-=H1uv
------END PGP SIGNATURE-----
-
---u0AQIKWnEWNmox87--
+Thanks,
+Song
