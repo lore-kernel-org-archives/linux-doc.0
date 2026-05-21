@@ -1,275 +1,393 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525C835B63B
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 04:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3B2334C1D
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 05:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779339421; cv=none; b=ukQvUdkjn/tvEJXhDMpcZ8Wa6DUz4Svl1X5RSdwkUPMXNoqaRG1HDSrzKAmuIWK55uGebE3nDFOKJD+wzox00QpwV8y+8/rtqXCg1sWN7dnSbN9Sqx5ouflu9Og6VjxmjJ9hVoaq1Wz5MGij+aFmIl3z7/BXs1VCbQgG7orp+vE=
+	t=1779340309; cv=none; b=ROzo5sHZTMeWydh0tZrcgJW2n7UB/w3jII0bnPBF+OGdO2c1DP3V7sktcbLgY+kVnQBjVcRz0uJxM/IeaJZuiScwUjvGbe4TqIyOszLykcL4+FEEMemH4PwPAMyDwNsUlHWfTyhORHwzYBAS8DK7VG0UjE1WjeL9ztSNkK24qTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779339421; c=relaxed/simple;
-	bh=clZocPYahXOIq+s4V3WQfYa/rc3dgnQQxWB9110dPNE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=dZdBh3fckxwoV3DuUxfhP7qFj9xNuxJKtJdaM7StdbuQGb4KpRO7efi++wME6/DzQLaSN4wR7lYVdbCCNBECbYCQ7T4Jy+rVGMfKiFtkDxt4BY+H+fUgJAcK8BvYzBuzDuu3QEkBjuh0MP0G/VORFLHhzAKgKrU86YdBXZ34kVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=AG2sjvvN; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etsalapatis.com
+	s=arc-20240116; t=1779340309; c=relaxed/simple;
+	bh=ZWhDn0k7tTBB+z70Widr/hn+wgDTKpoW6xeVI/dQ0/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dIYtOGLewHE1FdH3vet1RmbNXFRi8EiYYeS9mF2r2VxqMqMmS+m8ikYBkbiqoFpkO96gcSTJMFFzwrwzDrNAqU7CDkOI2m4NuZiigRnYNA+Z93MneU3hTqQDJVEGY6eQaEiayG9rz97eilj5pmt4d6mzWbLZfJi9NgMLgAxzeds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xq03vToX; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="AG2sjvvN"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-835386ff122so5811471b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 21:57:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xq03vToX"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3699cdeec05so2203918a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 22:11:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1779339419; x=1779944219; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/+wWjZ/53iRyZK/xmDFaek94wEFKccAvhQMtnqakHR4=;
-        b=AG2sjvvNTeJtSLCu7luyNGzUgt+HsuFv/eQ6qciJxdK6i894z2PgfipFOizZ0n9HG5
-         0fbZjYebe+RrA2FSSpWqlqJYhMYKSx1OvvinHbD5xWc+H3TZTBReC1ghbiasRgRV6Asc
-         HGDW8Tn36w9lrHg8UZCvVbRjvLYEGelXuJ22F91ey2QvG/yiKBJDrTZz+u2IMk6Cy0wA
-         o+2c7kN1dll2Y9PwKOgvqYFzvAjMje/pO/SaetFWWgvoj1QADqqno0etYxN+tjnrvrTe
-         trjYGyGZhOKukCT1ZgbVUMOcW/mDp1AMTKXSljEmm8hTn16QjzFiwQzRcsAsKA92leDK
-         G+QQ==
+        d=gmail.com; s=20251104; t=1779340306; x=1779945106; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QavOmsmCk8wHSsJYb+7V6gDDdoRFfxnn/DpXYtvAfIs=;
+        b=Xq03vToXPMKd43+8eVqeohDKpe/qT2+sabZQu9QKh416AUqwOmqOxtryqTSEiz78XF
+         OjDp0jLIsSN7Ldh4Obwl3elb0cQD+iJvPDOecojHc6s1BJfQa3ioFDd17gi+0QsxVI8o
+         crYCC9q2eqDKVChtGR2YKMFt3ktWzvDOl3EfD1CKSLobzX7b92/sMl6Hw2pn/3AfB7S4
+         6s+iu3nTR8txScXO8tgI+tcy+zHN5JGJas4FxsfeQPft/AfYpkvOh9pG8LQMDKE8GFTf
+         32Ls36g5fEuVG+416OTHXQ3RtFKiPZBZhzO3J8yjrBB2+p2KeXvQ9zxrUN5TYGAA2xtE
+         AuQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779339419; x=1779944219;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/+wWjZ/53iRyZK/xmDFaek94wEFKccAvhQMtnqakHR4=;
-        b=sWFX5g0I+sJcx7pb96B2QNXNxy328KUGuiseUNGfmM9H+km8JSf2adAFdiCOjpGupF
-         6U2sBQ4+5u8KKfvqTaJrm5ICnmYYQ6mtKYrWSidgixh+3acZanFI1Bm4jJqG/DCwLtDj
-         1kIQ29nlXiykKg382DYcZQ6FNt3Ox1g4PL1RGPmi3BJ8IzpBlZXT3u1BVA4lhQiQP1Ji
-         ymPOnAw+8TYcryeWUbJDOQiKCXL+4sMQfu159HTxOooSJW4a6Ic3MrzWGO4o2vPPDStU
-         sWnCTc2YYVskS/UdM5P5sBASGzrB7iBOnmo8a9buC0dKdqq/1UqvUPCbFK/305NUTHsy
-         Xrcw==
-X-Forwarded-Encrypted: i=1; AFNElJ9GE74sLeSvpDf49GRkHy6fGIYq5ub0L1ANgpuAy9oRNjp1hhrS7gx+FEx7j+oUkCT6fKrzoGab+DM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yye/pZSbrfy58hdWFokXgKxceOQ+8/LX9QflfudCKBq+GbUEsO3
-	vu9luYF7CyelPLqkh1mEb34ogVY49OHapZG8owCnzeZyQBxcNSGorMqlYUmJ1ZFoI9M=
-X-Gm-Gg: Acq92OHsyujITVfGj9CLfQu69b6hYEvorETT0+AsJZH92PrN7YUistpIpudusUoOcww
-	ae1O2bBABKN85lpggO8ug1pXoHRgeK3Pty8wPywH7jUf4pg6E/vyyvasR21c0CAPIp9qIabqiLx
-	6wh1QyoVwPGttgq04ENIB6fyUxHHjxD/lf1OPN9cbxaTccduuhx8tl+IEugHh/wdseByZfRrpSE
-	Tpjc0nTg8LU5zOFBqdnGDl621XmMBIpL0aailG0nLOvP4qrNYXSCNTGkTRLl9OqAffC5sPsefpK
-	4wPJT0CO9GRRa82+TK95Sq9SdjkKKW5cttbZQW4URyQKmYVr06iU0WrfGzFKwBYq4yl9Zap3FEM
-	EgRMn05ZA27K0ENPpkvFPSGkF03s5A7w/Qs922yyXhgCLVu4Wq88uHOh720/O5njCImMpU9oAtq
-	L5uTQIYEuVcxU4WuLOVaHCUKHrRh96lMHz32P8oUpsAgIqnw==
-X-Received: by 2002:aa7:88d0:0:b0:83e:c8fb:54df with SMTP id d2e1a72fcca58-8414ac7f1f3mr1535453b3a.2.1779339419533;
-        Wed, 20 May 2026 21:56:59 -0700 (PDT)
-Received: from localhost ([2001:569:58a0:da00:a5c8:c4ce:f7c1:40c1])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19c5c020sm22849542b3a.30.2026.05.20.21.56.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 May 2026 21:56:59 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779340306; x=1779945106;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QavOmsmCk8wHSsJYb+7V6gDDdoRFfxnn/DpXYtvAfIs=;
+        b=bwrxNUMK5D3HoplfLtrIsbIx21yfTZHuPNFM7xDCt0GMuJf65KXSTxR0Zj44FwadTQ
+         7dYOPYOfXX4ntqAIn3CX34dVwwFXi5/3Y8ifAkneuJc99AVPzsGpnZ3e6x2HHYpHAnLT
+         b2LCT18Kvz67tA2w/aFi0GcBjYTP/i52ApGtac50+kiC/+6RLWgsyEI191dM9/RVZlZN
+         Y0KAncmFqDsWVAiTjTYgQ+Tw32rCPoksIJ3vXttUUuavzhO4+60btuNxv9giBoph57Zu
+         khPB9Q2VuqScs6r7j30ZXfkElt/efikRGmXsacIyVs2dX0eIOXsDhUhUlUgF6gI1yWJw
+         mKGQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9FH9WhCN7VbyIv29s0irINj0XB4U8cS8UhWuCVPzSQ8OmiagLAXIpQef7+RYKBc0hCGWmXBGUQjzc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzf7iJAoZeYxEZtYDK3M9dL5bUpNvlUD9EWsl7BphIm3kezkXh8
+	KpRW4CkHmNf3U8XltvGJdcC6Rbt9/erBJN+JkgdfH3wHytsqHCpoa63m
+X-Gm-Gg: Acq92OFk0IGzDoj+VDAP1tL8yQFNatnT4FgQQHYKYWOzXST9ClJLTYWyRUQ5rX+eqGi
+	tFA6/zrBB6MlD5/GOObEjirU6tDxSJh9He5PJ0it4zHlcWho1/OKV4QOwvXbwGwP7OAjpYKKdY1
+	JnoGbsMqcgJnNx4iLwFf0cTjs+mgZokqJez/6vw92uxCMdV36eW+neGsq2tXkInDxHJgPejQiGO
+	w+U3ZgH3VsGIMC1LqlD9zCQTaVRoD5cYOEEVpsxg7eeDMxwEEzCGQve5V7ISBrhDo3Yu+SSOf7Q
+	x1A2LLtc/2mjYKhy5oCzdXR3Q9Zllu+Ng6u+sKSux0how1vuTG9nzJHKqo7YQVXj3/k+u73qyrL
+	yyeJobaTh4KX9C7MzU/1NIje8QqCA2v4CDmIE/eyEFJDstQge9FlSHxwZMnyXIAfEbn94pGT+yl
+	NV7cEmjOV9+3LN/XmRZkHMfFESbuGLlvwG852dXQ==
+X-Received: by 2002:a17:90b:5241:b0:366:479e:63a5 with SMTP id 98e67ed59e1d1-36a44f11de4mr1461841a91.2.1779340305728;
+        Wed, 20 May 2026 22:11:45 -0700 (PDT)
+Received: from localhost.localdomain ([155.254.122.134])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36a3d206162sm1296571a91.14.2026.05.20.22.11.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 22:11:45 -0700 (PDT)
+Date: Thu, 21 May 2026 13:11:18 +0800
+From: Vernon Yang <vernon2gm@gmail.com>
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
+	aarcange@redhat.com, akpm@linux-foundation.org, anshuman.khandual@arm.com, 
+	apopple@nvidia.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
+	byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, gourry@gourry.net, 
+	hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com, 
+	jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org, 
+	lance.yang@linux.dev, liam@infradead.org, ljs@kernel.org, 
+	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
+	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
+	rdunlap@infradead.org, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
+	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
+	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-unstable v17 11/14] mm/khugepaged: Introduce mTHP
+ collapse support
+Message-ID: <91015820-f39a-4b06-89de-b49e5ca465fd@gmail.com>
+References: <20260511185817.686831-1-npache@redhat.com>
+ <20260511185817.686831-12-npache@redhat.com>
+ <8f9834db-8981-4eb1-ae46-94908943da3d@gmail.com>
+ <20260521024654.2a7teoe665porz76@master>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 21 May 2026 00:56:58 -0400
-Message-Id: <DIO36K7NMKCI.1M7YER0754VUW@etsalapatis.com>
-Subject: Re: [PATCH bpf-next] bpf: Add kernel-doc for arena page kfuncs
-From: "Emil Tsalapatis" <emil@etsalapatis.com>
-To: "Dhiraj Shah" <find.dhiraj@gmail.com>, <bpf@vger.kernel.org>
-Cc: <ast@kernel.org>, <daniel@iogearbox.net>, <andrii@kernel.org>,
- <martin.lau@linux.dev>, <eddyz87@gmail.com>, <memxor@gmail.com>,
- <song@kernel.org>, <yonghong.song@linux.dev>, <jolsa@kernel.org>,
- <corbet@lwn.net>, <skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260521043553.199781-1-find.dhiraj@gmail.com>
-In-Reply-To: <20260521043553.199781-1-find.dhiraj@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260521024654.2a7teoe665porz76@master>
 
-On Thu May 21, 2026 at 12:35 AM EDT, Dhiraj Shah wrote:
-> The page-management kfuncs exposed by BPF arena -
-> bpf_arena_alloc_pages(), bpf_arena_free_pages() and
-> bpf_arena_reserve_pages() - are part of the BPF kfunc ABI but lack
-> rendered documentation. Their contracts (valid argument ranges,
-> sleepable-only context, and the set of error returns) are today only
-> discoverable by reading kernel/bpf/arena.c.
+On Thu, May 21, 2026 at 02:46:54AM +0000, Wei Yang wrote:
+> On Thu, May 21, 2026 at 10:36:15AM +0800, Vernon Yang wrote:
+> >On Mon, May 11, 2026 at 12:58:11PM -0600, Nico Pache wrote:
+> >> Enable khugepaged to collapse to mTHP orders. This patch implements the
+> >> main scanning logic using a bitmap to track occupied pages and a stack
+> >> structure that allows us to find optimal collapse sizes.
+> >>
+> >> Previous to this patch, PMD collapse had 3 main phases, a light weight
+> >> scanning phase (mmap_read_lock) that determines a potential PMD
+> >> collapse, an alloc phase (mmap unlocked), then finally heavier collapse
+> >> phase (mmap_write_lock).
+> >>
+> >> To enabled mTHP collapse we make the following changes:
+> >>
+> >> During PMD scan phase, track occupied pages in a bitmap. When mTHP
+> >> orders are enabled, we remove the restriction of max_ptes_none during the
+> >> scan phase to avoid missing potential mTHP collapse candidates. Once we
+> >> have scanned the full PMD range and updated the bitmap to track occupied
+> >> pages, we use the bitmap to find the optimal mTHP size.
+> >>
+> >> Implement collapse_scan_bitmap() to perform binary recursion on the bitmap
+> >> and determine the best eligible order for the collapse. A stack structure
+> >> is used instead of traditional recursion to manage the search. This also
+> >> prevents a traditional recursive approach when the kernel stack struct is
+> >> limited. The algorithm recursively splits the bitmap into smaller chunks to
+> >> find the highest order mTHPs that satisfy the collapse criteria. We start
+> >> by attempting the PMD order, then moved on the consecutively lower orders
+> >> (mTHP collapse). The stack maintains a pair of variables (offset, order),
+> >> indicating the number of PTEs from the start of the PMD, and the order of
+> >> the potential collapse candidate.
+> >>
+> >> The algorithm for consuming the bitmap works as such:
+> >>     1) push (0, HPAGE_PMD_ORDER) onto the stack
+> >>     2) pop the stack
+> >>     3) check if the number of set bits in that (offset,order) pair
+> >>        statisfy the max_ptes_none threshold for that order
+> >>     4) if yes, attempt collapse
+> >>     5) if no (or collapse fails), push two new stack items representing
+> >>        the left and right halves of the current bitmap range, at the
+> >>        next lower order
+> >>     6) repeat at step (2) until stack is empty.
+> >>
+> >> Below is a diagram representing the algorithm and stack items:
+> >>
+> >>                             offset   mid_offset
+> >>                             |        |
+> >>                             |        |
+> >>                             v        v
+> >>           ____________________________________
+> >>          |          PTE Page Table            |
+> >>          --------------------------------------
+> >> 			    <-------><------->
+> >>                              order-1  order-1
+> >>
+> >> mTHP collapses reject regions containing swapped out or shared pages.
+> >> This is because adding new entries can lead to new none pages, and these
+> >> may lead to constant promotion into a higher order mTHP. A similar
+> >> issue can occur with "max_ptes_none > HPAGE_PMD_NR/2" due to a collapse
+> >> introducing at least 2x the number of pages, and on a future scan will
+> >> satisfy the promotion condition once again. This issue is prevented via
+> >> the collapse_max_ptes_none() function which imposes the max_ptes_none
+> >> restrictions above.
+> >>
+> >> We currently only support mTHP collapse for max_ptes_none values of 0
+> >> and HPAGE_PMD_NR - 1. resulting in the following behavior:
+> >>
+> >>     - max_ptes_none=0: Never introduce new empty pages during collapse
+> >>     - max_ptes_none=HPAGE_PMD_NR-1: Always try collapse to the highest
+> >>       available mTHP order
+> >>
+> >> Any other max_ptes_none value will emit a warning and skip mTHP collapse
+> >> attempts. There should be no behavior change for PMD collapse.
+> >>
+> >> Once we determine what mTHP sizes fits best in that PMD range a collapse
+> >> is attempted. A minimum collapse order of 2 is used as this is the lowest
+> >> order supported by anon memory as defined by THP_ORDERS_ALL_ANON.
+> >>
+> >> Currently madv_collapse is not supported and will only attempt PMD
+> >> collapse.
+> >>
+> >> We can also remove the check for is_khugepaged inside the PMD scan as
+> >> the collapse_max_ptes_none() function handles this logic now.
+> >>
+> >> Signed-off-by: Nico Pache <npache@redhat.com>
+> >> ---
+> >>  mm/khugepaged.c | 182 +++++++++++++++++++++++++++++++++++++++++++++---
+> >>  1 file changed, 174 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> >> index 3492b135d667..39bf7ea8a6e8 100644
+> >> --- a/mm/khugepaged.c
+> >> +++ b/mm/khugepaged.c
+> >> @@ -100,6 +100,30 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
+> >>
+> >>  static struct kmem_cache *mm_slot_cache __ro_after_init;
+> >>
+> >> +#define KHUGEPAGED_MIN_MTHP_ORDER	2
+> >> +/*
+> >> + * mthp_collapse() does an iterative DFS over a binary tree, from
+> >> + * HPAGE_PMD_ORDER down to KHUGEPAGED_MIN_MTHP_ORDER. The max stack
+> >> + * size needed for a DFS on a binary tree is height + 1, where
+> >> + * height = HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER.
+> >> + *
+> >> + * ilog2 is used in place of HPAGE_PMD_ORDER because some architectures
+> >> + * (e.g. ppc64le) do not define HPAGE_PMD_ORDER until after build time.
+> >> + */
+> >> +#define MTHP_STACK_SIZE	(ilog2(MAX_PTRS_PER_PTE) - KHUGEPAGED_MIN_MTHP_ORDER + 1)
+> >> +
+> >> +/*
+> >> + * Defines a range of PTE entries in a PTE page table which are being
+> >> + * considered for mTHP collapse.
+> >> + *
+> >> + * @offset: the offset of the first PTE entry in a PMD range.
+> >> + * @order: the order of the PTE entries being considered for collapse.
+> >> + */
+> >> +struct mthp_range {
+> >> +	u16 offset;
+> >> +	u8 order;
+> >> +};
+> >> +
+> >>  struct collapse_control {
+> >>  	bool is_khugepaged;
+> >>
+> >> @@ -111,6 +135,12 @@ struct collapse_control {
+> >>
+> >>  	/* nodemask for allocation fallback */
+> >>  	nodemask_t alloc_nmask;
+> >> +
+> >> +	/* Each bit represents a single occupied (!none/zero) page. */
+> >> +	DECLARE_BITMAP(mthp_bitmap, MAX_PTRS_PER_PTE);
+> >> +	/* A mask of the current range being considered for mTHP collapse. */
+> >> +	DECLARE_BITMAP(mthp_bitmap_mask, MAX_PTRS_PER_PTE);
+> >> +	struct mthp_range mthp_bitmap_stack[MTHP_STACK_SIZE];
+> >>  };
+> >>
+> >>  /**
+> >> @@ -1404,20 +1434,140 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
+> >>  	return result;
+> >>  }
+> >>
+> >> +static void collapse_mthp_stack_push(struct collapse_control *cc, int *stack_size,
+> >> +				     u16 offset, u8 order)
+> >> +{
+> >> +	const int size = *stack_size;
+> >> +	struct mthp_range *stack = &cc->mthp_bitmap_stack[size];
+> >> +
+> >> +	VM_WARN_ON_ONCE(size >= MTHP_STACK_SIZE);
+> >> +	stack->order = order;
+> >> +	stack->offset = offset;
+> >> +	(*stack_size)++;
+> >> +}
+> >> +
+> >> +static struct mthp_range collapse_mthp_stack_pop(struct collapse_control *cc,
+> >> +						 int *stack_size)
+> >> +{
+> >> +	const int size = *stack_size;
+> >> +
+> >> +	VM_WARN_ON_ONCE(size <= 0);
+> >> +	(*stack_size)--;
+> >> +	return cc->mthp_bitmap_stack[size - 1];
+> >> +}
+> >> +
+> >> +static unsigned int collapse_mthp_count_present(struct collapse_control *cc,
+> >> +						u16 offset, unsigned int nr_ptes)
+> >> +{
+> >> +	bitmap_zero(cc->mthp_bitmap_mask, MAX_PTRS_PER_PTE);
+> >> +	bitmap_set(cc->mthp_bitmap_mask, offset, nr_ptes);
+> >> +	return bitmap_weight_and(cc->mthp_bitmap, cc->mthp_bitmap_mask, MAX_PTRS_PER_PTE);
+> >> +}
+> >> +
+> >> +/*
+> >> + * mthp_collapse() consumes the bitmap that is generated during
+> >> + * collapse_scan_pmd() to determine what regions and mTHP orders fit best.
+> >> + *
+> >> + * Each bit in cc->mthp_bitmap represents a single occupied (!none/zero) page.
+> >> + * A stack structure cc->mthp_bitmap_stack is used to check different regions
+> >> + * of the bitmap for collapse eligibility. The stack maintains a pair of
+> >> + * variables (offset, order), indicating the number of PTEs from the start of
+> >> + * the PMD, and the order of the potential collapse candidate respectively. We
+> >> + * start at the PMD order and check if it is eligible for collapse; if not, we
+> >> + * add two entries to the stack at a lower order to represent the left and right
+> >> + * halves of the PTE page table we are examining.
+> >> + *
+> >> + *                         offset       mid_offset
+> >> + *                         |         |
+> >> + *                         |         |
+> >> + *                         v         v
+> >> + *      --------------------------------------
+> >> + *      |          cc->mthp_bitmap            |
+> >> + *      --------------------------------------
+> >> + *                         <-------><------->
+> >> + *                          order-1  order-1
+> >> + *
+> >> + * For each of these, we determine how many PTE entries are occupied in the
+> >> + * range of PTE entries we propose to collapse, then we compare this to a
+> >> + * threshold number of PTE entries which would need to be occupied for a
+> >> + * collapse to be permitted at that order (accounting for max_ptes_none).
+> >> + *
+> >> + * If a collapse is permitted, we attempt to collapse the PTE range into a
+> >> + * mTHP.
+> >> + */
+> >> +static int mthp_collapse(struct mm_struct *mm, unsigned long address,
+> >> +		int referenced, int unmapped, struct collapse_control *cc,
+> >> +		unsigned long enabled_orders)
+> >> +{
+> >> +	unsigned int nr_occupied_ptes, nr_ptes;
+> >> +	int max_ptes_none, collapsed = 0, stack_size = 0;
+> >> +	unsigned long collapse_address;
+> >> +	struct mthp_range range;
+> >> +	u16 offset;
+> >> +	u8 order;
+> >> +
+> >> +	collapse_mthp_stack_push(cc, &stack_size, 0, HPAGE_PMD_ORDER);
+> >> +
+> >> +	while (stack_size) {
+> >> +		range = collapse_mthp_stack_pop(cc, &stack_size);
+> >> +		order = range.order;
+> >> +		offset = range.offset;
+> >> +		nr_ptes = 1UL << order;
+> >> +
+> >> +		if (!test_bit(order, &enabled_orders))
+> >> +			goto next_order;
+> >> +
+> >> +		max_ptes_none = collapse_max_ptes_none(cc, NULL, order);
+> >> +
+> >> +		if (max_ptes_none < 0)
+> >> +			return collapsed;
+> >> +
+> >> +		nr_occupied_ptes = collapse_mthp_count_present(cc, offset,
+> >> +							       nr_ptes);
+> >> +
+> >> +		if (nr_occupied_ptes >= nr_ptes - max_ptes_none) {
+> >> +			int ret;
+> >> +
+> >> +			collapse_address = address + offset * PAGE_SIZE;
+> >> +			ret = collapse_huge_page(mm, collapse_address, referenced,
+> >> +						 unmapped, cc, order);
+> >> +			if (ret == SCAN_SUCCEED) {
+> >> +				collapsed += nr_ptes;
+> >> +				continue;
+> >> +			}
+> >> +		}
+> >> +
+> >> +next_order:
+> >> +		if (order > KHUGEPAGED_MIN_MTHP_ORDER) {
+> >
+> >Hi Nico, thank you very much for your contributions to this series.
+> >
+> >I found a minor issue, for MADV_COLLAPSE, if collapse_huge_page() fails
+> >for some reason (e.g. allocate folio), it goes to next_order and
+> >continues splitting to the next small order. However, enabled_orders
+> >only supports HPAGE_PMD_ORDER, so it keeps runing the split operations
+> >without any effective work until KHUGEPAGED_MIN_MTHP_ORDER is reached
+> >before exiting. For khugepaged, e.g. setting only 2MB to always, also
+> >same phenomenon.
 >
-> Add a kernel-doc comment block above each of the three kfuncs and
-> render them under a new "BPF arena kfuncs" subsection in
-> Documentation/bpf/kfuncs.rst, alongside the existing core kfunc
-> subsections.
+> Yes, but it does no actual work since it is checked after pop up.
 >
-> No functional change.
+> >
+> >This does not affect the overall functionality of mthp collapse, just
+> >redundant.
+> >
+> >The redundant operations can be easily skipped with the following
+> >modification. If I miss some thing, please let me know. Thanks!
+> >
+> >diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> >index 1a25af3d6d0f..fa407cce525c 100644
+> >--- a/mm/khugepaged.c
+> >+++ b/mm/khugepaged.c
+> >@@ -1574,7 +1574,7 @@ static int mthp_collapse(struct mm_struct *mm, unsigned long address,
+> > 		}
+> >
+> > next_order:
+> >-		if (order > KHUGEPAGED_MIN_MTHP_ORDER) {
+> >+		if ((BIT(order) - 1) & enabled_orders) {
+> > 			const u8 next_order = order - 1;
+> > 			const u16 mid_offset = offset + (nr_ptes / 2);
+> >
 >
-> Signed-off-by: Dhiraj Shah <find.dhiraj@gmail.com>
-> ---
->  Documentation/bpf/kfuncs.rst | 27 +++++++++++++++
->  kernel/bpf/arena.c           | 64 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 91 insertions(+)
->
-> diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
-> index 75e6c078e0e7..fe0df1e16453 100644
-> --- a/Documentation/bpf/kfuncs.rst
-> +++ b/Documentation/bpf/kfuncs.rst
-> @@ -732,3 +732,30 @@ the verifier. bpf_cgroup_ancestor() can be used as f=
-ollows:
->  BPF provides a set of kfuncs that can be used to query, allocate, mutate=
-, and
->  destroy struct cpumask * objects. Please refer to :ref:`cpumasks-header-=
-label`
->  for more details.
-> +
-> +4.4 BPF arena kfuncs
-> +--------------------
-> +
-> +A BPF arena (``BPF_MAP_TYPE_ARENA``) is a sparsely-populated shared memo=
-ry
-> +region that a BPF program and a user-space process can both address. The
-> +following kfuncs allow a sleepable BPF program to allocate, free, and re=
-serve
-> +pages within an arena:
-> +
-> +.. kernel-doc:: kernel/bpf/arena.c
-> +   :identifiers: bpf_arena_alloc_pages bpf_arena_free_pages bpf_arena_re=
-serve_pages
-> +
-> +A typical pattern is to allocate one or more pages, write to them from B=
-PF,
-> +and let user space observe the same memory after a page fault populates =
-its
-> +VMA:
+> This would stop the iteration if there are other lower enabled order, right?
+             ^^^^                                  ^^^^^^^^^^^^^^^^^^^
 
-Maybe slight rephrase? This description is a bit dense. E.g.,
+NO :)
 
-"...and let user space access the pages through a mapping in its address sp=
-ace."
+For more details, please refer to the following information.
 
-> +
-> +.. code-block:: c
-> +
-> +	void __arena *page;
-> +
-> +	page =3D bpf_arena_alloc_pages(&arena, NULL, 1, NUMA_NO_NODE, 0);
-> +	if (!page)
-> +		return -ENOMEM;
-> +
-> +	/* ... use the page from BPF; user space sees the same bytes ... */
-> +
-> +	bpf_arena_free_pages(&arena, page, 1);
-> diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
-> index 49a8f7b1beef..b8ec2953dee6 100644
-> --- a/kernel/bpf/arena.c
-> +++ b/kernel/bpf/arena.c
-> @@ -870,6 +870,33 @@ static void arena_free_irq(struct irq_work *iw)
-> =20
->  __bpf_kfunc_start_defs();
-> =20
-> +/**
-> + * bpf_arena_alloc_pages() - Allocate pages within a BPF arena.
-> + * @p__map: Pointer to a ``BPF_MAP_TYPE_ARENA`` map.
-> + * @addr__ign: Page-aligned user-space address within the arena at which=
- to
-> + *	       place the allocation, or %NULL to let the kernel choose. When
-> + *	       non-NULL the address must fall inside the arena's user VMA
-> + *	       range; otherwise the allocation fails.
-> + * @page_cnt: Number of pages to allocate. Must be non-zero and no great=
-er
-> + *	      than the arena's configured size in pages.
-> + * @node_id: NUMA node hint for the backing pages, or %NUMA_NO_NODE.
-> + * @flags: Reserved for future use; must be 0.
-> + *
-> + * Allocates @page_cnt physically-backed pages and inserts them into the
-> + * arena's kernel VMA at the offset corresponding to @addr__ign (or at a=
-n
-> + * arbitrary free offset when @addr__ign is %NULL). A subsequent user-sp=
-ace
-> + * page fault on the matching user address populates the user VMA with t=
-he
-> + * same pages, giving BPF and user space a shared view of the region.
-> + *
-> + * The underlying allocator may sleep, so this kfunc is only callable fr=
-om
-> + * sleepable BPF programs.
+|              Scenario               | Old Behavior (order > 2) | New Behavior ((BIT(order)-1) & enabled_orders) |
+|-------------------------------------|--------------------------|------------------------------------------------|
+| MADV_COLLAPSE                       | Splits 9,8,7,...,3       | No split                                       |
+| khugepaged, only 2MB enabled        | Splits 9,8,7,...,3       | No split                                       |
+| khugepaged, only 2MB + 64KB enabled | Splits 9,8,7,...,3       | Splits 9,8,7,...,5                             |
+| khugepaged, only 32KB enabled       | Splits 9,8,7,...,3       | Splits 9,8,7,...,4                             |
+| khugepaged, only 16KB enabled       | Splits 9,8,7,...,3       | Splits 9,8,7,...,3                             |
+| khugepaged, all mTHP enabled        | Splits 9,8,7,...,3       | Splits 9,8,7,...,3                             |
 
-I think this is half the story, since the verifier adjusts the call to
-the function to the non-sleepable version when necessary. So the kfunc
-is technically only callable from sleepable BPF programs but it never
-will be thanks to the verifier.
-
-> + *
-> + * Return:
-> + * * Kernel pointer to the start of the allocated region on success.
-> + * * %NULL if @p__map is not an arena, @flags is non-zero, @page_cnt is =
-zero
-> + *   or exceeds the arena size, @addr__ign is misaligned or outside the
-> + *   arena, @node_id is invalid, or the kernel is out of memory.
-> + */
->  __bpf_kfunc void *bpf_arena_alloc_pages(void *p__map, void *addr__ign, u=
-32 page_cnt,
->  					int node_id, u64 flags)
->  {
-> @@ -893,6 +920,23 @@ void *bpf_arena_alloc_pages_non_sleepable(void *p__m=
-ap, void *addr__ign, u32 pag
-> =20
->  	return (void *)arena_alloc_pages(arena, (long)addr__ign, page_cnt, node=
-_id, false);
->  }
-> +
-> +/**
-> + * bpf_arena_free_pages() - Free a range of pages within a BPF arena.
-> + * @p__map: Pointer to a ``BPF_MAP_TYPE_ARENA`` map.
-> + * @ptr__ign: User-space virtual address of the first page to free, as u=
-sed
-> + *	      to address the arena from BPF and user space. Typically the
-> + *	      same address that was previously returned (in user-space form)
-> + *	      by bpf_arena_alloc_pages().
-> + * @page_cnt: Number of pages to free.
-> + *
-> + * Releases the backing pages, unmapping them from the arena's kernel VM=
-A
-> + * and from any user-space VMA that previously faulted them in. May slee=
-p,
-> + * so the kfunc is callable only from sleepable BPF programs.
-
-Same here.
-
-> + *
-> + * The call is a no-op when @p__map is not an arena, when @page_cnt is z=
-ero,
-> + * or when @ptr__ign is %NULL.
-> + */
->  __bpf_kfunc void bpf_arena_free_pages(void *p__map, void *ptr__ign, u32 =
-page_cnt)
->  {
->  	struct bpf_map *map =3D p__map;
-> @@ -913,6 +957,26 @@ void bpf_arena_free_pages_non_sleepable(void *p__map=
-, void *ptr__ign, u32 page_c
->  	arena_free_pages(arena, (long)ptr__ign, page_cnt, false);
->  }
-> =20
-> +/**
-> + * bpf_arena_reserve_pages() - Reserve a page range within a BPF arena.
-> + * @p__map: Pointer to a ``BPF_MAP_TYPE_ARENA`` map.
-> + * @ptr__ign: Page-aligned user-space virtual address of the start of th=
-e
-> + *	      range to reserve.
-> + * @page_cnt: Number of pages to reserve. Zero is permitted and is a no-=
-op.
-> + *
-> + * Marks @page_cnt pages starting at @ptr__ign as reserved so that subse=
-quent
-> + * bpf_arena_alloc_pages() calls will not place allocations in that rang=
-e.
-> + * No physical pages are allocated by this kfunc; the range is simply
-> + * excluded from the arena's free space.
-> + *
-> + * Return:
-> + * * 0 on success, or when @page_cnt is zero.
-> + * * -EINVAL if @p__map is not an arena or the requested range falls out=
-side
-> + *   the arena's user VMA.
-> + * * -EBUSY if any page in the requested range is already allocated, or =
-if
-> + *   contention on the arena's internal spinlock prevents the operation =
-from
-> + *   completing.
-> + */
->  __bpf_kfunc int bpf_arena_reserve_pages(void *p__map, void *ptr__ign, u3=
-2 page_cnt)
->  {
->  	struct bpf_map *map =3D p__map;
-
+--
+Cheers,
+Vernon
