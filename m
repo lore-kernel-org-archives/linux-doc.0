@@ -1,233 +1,275 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759B6351C1E
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 04:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525C835B63B
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 04:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779338187; cv=none; b=E95bRLm1kM+2td/B4aqdLbpNfYLLfMNpkUVvDFqejuHSRWne3oIuL6BJE4XT8kFuVxauJVVJ7Pmcx3cCudz+w8/Alo9L6tdLeksCH4NRH2epa5yC3ll3N0xSevyH2GU4gfwzBY4sd1da6UBTZMiZNgapsKTnWkXKCr+dI0/z2uQ=
+	t=1779339421; cv=none; b=ukQvUdkjn/tvEJXhDMpcZ8Wa6DUz4Svl1X5RSdwkUPMXNoqaRG1HDSrzKAmuIWK55uGebE3nDFOKJD+wzox00QpwV8y+8/rtqXCg1sWN7dnSbN9Sqx5ouflu9Og6VjxmjJ9hVoaq1Wz5MGij+aFmIl3z7/BXs1VCbQgG7orp+vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779338187; c=relaxed/simple;
-	bh=C2bcxia+RzIq6VwX3Iqc8sIBkaQ3Nw5dYPHjeN2Ba34=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AKSJKK8Ql3HxbuFFI579xLTvU6ciDdxmxBsXzO8TbYw3mW1Yqux4/SSozLDBBoo3q+fRLMSkZLycf6wDlEjzTtXMvazseawHk460FSkyISeAsQ8MZggnwac40GykLt6KX7Bl+DGYqgfmB7JlwwK1jXbqHKSsGvf4EB9yWZIgTlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ON4RGCNr; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779339421; c=relaxed/simple;
+	bh=clZocPYahXOIq+s4V3WQfYa/rc3dgnQQxWB9110dPNE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=dZdBh3fckxwoV3DuUxfhP7qFj9xNuxJKtJdaM7StdbuQGb4KpRO7efi++wME6/DzQLaSN4wR7lYVdbCCNBECbYCQ7T4Jy+rVGMfKiFtkDxt4BY+H+fUgJAcK8BvYzBuzDuu3QEkBjuh0MP0G/VORFLHhzAKgKrU86YdBXZ34kVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=AG2sjvvN; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etsalapatis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ON4RGCNr"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso45377865e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 21:36:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="AG2sjvvN"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-835386ff122so5811471b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 21:57:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779338183; x=1779942983; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b0l6Y+cSVP8EYJCr5270r/xmwOSYiPyih1GwoM0BYiM=;
-        b=ON4RGCNr4eILQJw+hT0b2iztp4oXud7My+Oxl+qSFx6fYvi+uaWU1/Ru5S4fYiYYLb
-         sKNQS/egD5v6xhieisyWABao37gjpgoRmS4PUvR7ZYYbNr26tlQfU6GhS1DSYi7gIBPx
-         oDzKUpnX2TEhxI04ER0UBmsN0lmGINvjLnNn1ldvNzgICc+NWaLeq14umbd8C9h41OwU
-         zV8FgZL/v+zgRV+7E/GkwSd19kgkspq1kJMC+pRhbkEn7kcK4HRx7/6iQReKwIDzAYHO
-         /XybP5uetf+b16fC2TB+wiwnAlvsb3YLOhm67vQA4Brv0sTiZ2CBC591t/mOMcwm46bk
-         F9Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779338183; x=1779942983;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1779339419; x=1779944219; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=b0l6Y+cSVP8EYJCr5270r/xmwOSYiPyih1GwoM0BYiM=;
-        b=Mx7ZXfWhf3A5wlwnli4PUZoUVgbHAYyvACHdq0YyCT6qC3kEf2gLwZbA4zigWaaiHW
-         JMkubj30T/btLYMvCJgBi4MUkP/oYFmb+F44E0NwCPoLat8DLz/PKmpBiGEKMgtkA+8A
-         7f1SYLfHzEKapQlyxJqoyJLHmRf4OE8zHfU08er6tU6Ac3sX65TRWs9xiZPr6ngq0+ix
-         QO4RD6obvxHI3SgkRURdx6JJb1/Nvnz1fKgXA9S8mXrdT4F0T5xdmu8NbOpcYIDrA06N
-         n1Pfm3JIjyUIByOeryqohKyaG1zsOfkX64JU1EsA8sS5tPGI5CxxrHl0VyhT9c/amKHu
-         AdJA==
-X-Forwarded-Encrypted: i=1; AFNElJ9YwnqhYVQIaPac6c8YlHooHyPwMZdJd9HlZuWjPUdIZY84JfS8m2S/nJCl4R7Hnbu+pJZHZr4pGNE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFMt4Sj2kexj2/lI6xqUy896MLi5pAiBl4ws2Id3m42tdwjDbk
-	WqfL8IsecBKORBrnbxDLJQs7nc3kij+wnwryGY+qckfA8bdzKpf2FehSLX0zkkwhkOw=
-X-Gm-Gg: Acq92OGsHZhF2CWiJdM8m9g3LLtGObOqqw8g5BFAHxtLeUYvCNPJOhFoI1QeP6q3dXc
-	wokWyVD/KO/qGhG/HPEcVktcCH5gJDC2sIIWuKJ7Qsu/orKvK5N0MpQs/KuHOqrVznjHZK63WqE
-	C8x0ij3y8n6cqu280j5rkuOl/FA8w3OL2HB4/5DjFrA4J7uRB3/NNMpO1j6VvUXthy8JdxOTU7P
-	m60jR+T/bgsgayEPVQpVgKwqixIOfMbMqQHLo/i77LKKLjBMwl2F3Xe8GEJE2ldUAMBbjOnVJgY
-	op+tM4mDwX65o+1+WkOZieqiSBVt0hqJ4z9/jJzDqP/bdPZUDNr4ObB3uQCFModcZLwAi1zpu3J
-	iQ2c34SZkShnXL4IBJeFO0DxSWrv3RRpduXi/fLBp2ory2Nr/Q4WQiJ2Bqyv+mn4YhOZhh6bRT4
-	Zj3B90ybglJoyNrbY5auOjnn8w0KD9OKT12c83Op9cS0VkFY/QvXXuuLdwf32h6J71XuuMiEMbB
-	g==
-X-Received: by 2002:a05:600c:2b06:b0:48f:d1c0:5cd3 with SMTP id 5b1f17b1804b1-490360830d1mr9060555e9.13.1779338182648;
-        Wed, 20 May 2026 21:36:22 -0700 (PDT)
-Received: from ds-pc.. (host86-149-62-231.range86-149.btcentralplus.com. [86.149.62.231])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49035f52a0dsm6631635e9.24.2026.05.20.21.36.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 21:36:22 -0700 (PDT)
-From: Dhiraj Shah <find.dhiraj@gmail.com>
-To: bpf@vger.kernel.org
-Cc: ast@kernel.org,
-	daniel@iogearbox.net,
-	andrii@kernel.org,
-	martin.lau@linux.dev,
-	eddyz87@gmail.com,
-	memxor@gmail.com,
-	song@kernel.org,
-	yonghong.song@linux.dev,
-	jolsa@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next] bpf: Add kernel-doc for arena page kfuncs
-Date: Thu, 21 May 2026 05:35:53 +0100
-Message-ID: <20260521043553.199781-1-find.dhiraj@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=/+wWjZ/53iRyZK/xmDFaek94wEFKccAvhQMtnqakHR4=;
+        b=AG2sjvvNTeJtSLCu7luyNGzUgt+HsuFv/eQ6qciJxdK6i894z2PgfipFOizZ0n9HG5
+         0fbZjYebe+RrA2FSSpWqlqJYhMYKSx1OvvinHbD5xWc+H3TZTBReC1ghbiasRgRV6Asc
+         HGDW8Tn36w9lrHg8UZCvVbRjvLYEGelXuJ22F91ey2QvG/yiKBJDrTZz+u2IMk6Cy0wA
+         o+2c7kN1dll2Y9PwKOgvqYFzvAjMje/pO/SaetFWWgvoj1QADqqno0etYxN+tjnrvrTe
+         trjYGyGZhOKukCT1ZgbVUMOcW/mDp1AMTKXSljEmm8hTn16QjzFiwQzRcsAsKA92leDK
+         G+QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779339419; x=1779944219;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/+wWjZ/53iRyZK/xmDFaek94wEFKccAvhQMtnqakHR4=;
+        b=sWFX5g0I+sJcx7pb96B2QNXNxy328KUGuiseUNGfmM9H+km8JSf2adAFdiCOjpGupF
+         6U2sBQ4+5u8KKfvqTaJrm5ICnmYYQ6mtKYrWSidgixh+3acZanFI1Bm4jJqG/DCwLtDj
+         1kIQ29nlXiykKg382DYcZQ6FNt3Ox1g4PL1RGPmi3BJ8IzpBlZXT3u1BVA4lhQiQP1Ji
+         ymPOnAw+8TYcryeWUbJDOQiKCXL+4sMQfu159HTxOooSJW4a6Ic3MrzWGO4o2vPPDStU
+         sWnCTc2YYVskS/UdM5P5sBASGzrB7iBOnmo8a9buC0dKdqq/1UqvUPCbFK/305NUTHsy
+         Xrcw==
+X-Forwarded-Encrypted: i=1; AFNElJ9GE74sLeSvpDf49GRkHy6fGIYq5ub0L1ANgpuAy9oRNjp1hhrS7gx+FEx7j+oUkCT6fKrzoGab+DM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yye/pZSbrfy58hdWFokXgKxceOQ+8/LX9QflfudCKBq+GbUEsO3
+	vu9luYF7CyelPLqkh1mEb34ogVY49OHapZG8owCnzeZyQBxcNSGorMqlYUmJ1ZFoI9M=
+X-Gm-Gg: Acq92OHsyujITVfGj9CLfQu69b6hYEvorETT0+AsJZH92PrN7YUistpIpudusUoOcww
+	ae1O2bBABKN85lpggO8ug1pXoHRgeK3Pty8wPywH7jUf4pg6E/vyyvasR21c0CAPIp9qIabqiLx
+	6wh1QyoVwPGttgq04ENIB6fyUxHHjxD/lf1OPN9cbxaTccduuhx8tl+IEugHh/wdseByZfRrpSE
+	Tpjc0nTg8LU5zOFBqdnGDl621XmMBIpL0aailG0nLOvP4qrNYXSCNTGkTRLl9OqAffC5sPsefpK
+	4wPJT0CO9GRRa82+TK95Sq9SdjkKKW5cttbZQW4URyQKmYVr06iU0WrfGzFKwBYq4yl9Zap3FEM
+	EgRMn05ZA27K0ENPpkvFPSGkF03s5A7w/Qs922yyXhgCLVu4Wq88uHOh720/O5njCImMpU9oAtq
+	L5uTQIYEuVcxU4WuLOVaHCUKHrRh96lMHz32P8oUpsAgIqnw==
+X-Received: by 2002:aa7:88d0:0:b0:83e:c8fb:54df with SMTP id d2e1a72fcca58-8414ac7f1f3mr1535453b3a.2.1779339419533;
+        Wed, 20 May 2026 21:56:59 -0700 (PDT)
+Received: from localhost ([2001:569:58a0:da00:a5c8:c4ce:f7c1:40c1])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19c5c020sm22849542b3a.30.2026.05.20.21.56.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 May 2026 21:56:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 21 May 2026 00:56:58 -0400
+Message-Id: <DIO36K7NMKCI.1M7YER0754VUW@etsalapatis.com>
+Subject: Re: [PATCH bpf-next] bpf: Add kernel-doc for arena page kfuncs
+From: "Emil Tsalapatis" <emil@etsalapatis.com>
+To: "Dhiraj Shah" <find.dhiraj@gmail.com>, <bpf@vger.kernel.org>
+Cc: <ast@kernel.org>, <daniel@iogearbox.net>, <andrii@kernel.org>,
+ <martin.lau@linux.dev>, <eddyz87@gmail.com>, <memxor@gmail.com>,
+ <song@kernel.org>, <yonghong.song@linux.dev>, <jolsa@kernel.org>,
+ <corbet@lwn.net>, <skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260521043553.199781-1-find.dhiraj@gmail.com>
+In-Reply-To: <20260521043553.199781-1-find.dhiraj@gmail.com>
 
-The page-management kfuncs exposed by BPF arena -
-bpf_arena_alloc_pages(), bpf_arena_free_pages() and
-bpf_arena_reserve_pages() - are part of the BPF kfunc ABI but lack
-rendered documentation. Their contracts (valid argument ranges,
-sleepable-only context, and the set of error returns) are today only
-discoverable by reading kernel/bpf/arena.c.
+On Thu May 21, 2026 at 12:35 AM EDT, Dhiraj Shah wrote:
+> The page-management kfuncs exposed by BPF arena -
+> bpf_arena_alloc_pages(), bpf_arena_free_pages() and
+> bpf_arena_reserve_pages() - are part of the BPF kfunc ABI but lack
+> rendered documentation. Their contracts (valid argument ranges,
+> sleepable-only context, and the set of error returns) are today only
+> discoverable by reading kernel/bpf/arena.c.
+>
+> Add a kernel-doc comment block above each of the three kfuncs and
+> render them under a new "BPF arena kfuncs" subsection in
+> Documentation/bpf/kfuncs.rst, alongside the existing core kfunc
+> subsections.
+>
+> No functional change.
+>
+> Signed-off-by: Dhiraj Shah <find.dhiraj@gmail.com>
+> ---
+>  Documentation/bpf/kfuncs.rst | 27 +++++++++++++++
+>  kernel/bpf/arena.c           | 64 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 91 insertions(+)
+>
+> diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
+> index 75e6c078e0e7..fe0df1e16453 100644
+> --- a/Documentation/bpf/kfuncs.rst
+> +++ b/Documentation/bpf/kfuncs.rst
+> @@ -732,3 +732,30 @@ the verifier. bpf_cgroup_ancestor() can be used as f=
+ollows:
+>  BPF provides a set of kfuncs that can be used to query, allocate, mutate=
+, and
+>  destroy struct cpumask * objects. Please refer to :ref:`cpumasks-header-=
+label`
+>  for more details.
+> +
+> +4.4 BPF arena kfuncs
+> +--------------------
+> +
+> +A BPF arena (``BPF_MAP_TYPE_ARENA``) is a sparsely-populated shared memo=
+ry
+> +region that a BPF program and a user-space process can both address. The
+> +following kfuncs allow a sleepable BPF program to allocate, free, and re=
+serve
+> +pages within an arena:
+> +
+> +.. kernel-doc:: kernel/bpf/arena.c
+> +   :identifiers: bpf_arena_alloc_pages bpf_arena_free_pages bpf_arena_re=
+serve_pages
+> +
+> +A typical pattern is to allocate one or more pages, write to them from B=
+PF,
+> +and let user space observe the same memory after a page fault populates =
+its
+> +VMA:
 
-Add a kernel-doc comment block above each of the three kfuncs and
-render them under a new "BPF arena kfuncs" subsection in
-Documentation/bpf/kfuncs.rst, alongside the existing core kfunc
-subsections.
+Maybe slight rephrase? This description is a bit dense. E.g.,
 
-No functional change.
+"...and let user space access the pages through a mapping in its address sp=
+ace."
 
-Signed-off-by: Dhiraj Shah <find.dhiraj@gmail.com>
----
- Documentation/bpf/kfuncs.rst | 27 +++++++++++++++
- kernel/bpf/arena.c           | 64 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 91 insertions(+)
+> +
+> +.. code-block:: c
+> +
+> +	void __arena *page;
+> +
+> +	page =3D bpf_arena_alloc_pages(&arena, NULL, 1, NUMA_NO_NODE, 0);
+> +	if (!page)
+> +		return -ENOMEM;
+> +
+> +	/* ... use the page from BPF; user space sees the same bytes ... */
+> +
+> +	bpf_arena_free_pages(&arena, page, 1);
+> diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
+> index 49a8f7b1beef..b8ec2953dee6 100644
+> --- a/kernel/bpf/arena.c
+> +++ b/kernel/bpf/arena.c
+> @@ -870,6 +870,33 @@ static void arena_free_irq(struct irq_work *iw)
+> =20
+>  __bpf_kfunc_start_defs();
+> =20
+> +/**
+> + * bpf_arena_alloc_pages() - Allocate pages within a BPF arena.
+> + * @p__map: Pointer to a ``BPF_MAP_TYPE_ARENA`` map.
+> + * @addr__ign: Page-aligned user-space address within the arena at which=
+ to
+> + *	       place the allocation, or %NULL to let the kernel choose. When
+> + *	       non-NULL the address must fall inside the arena's user VMA
+> + *	       range; otherwise the allocation fails.
+> + * @page_cnt: Number of pages to allocate. Must be non-zero and no great=
+er
+> + *	      than the arena's configured size in pages.
+> + * @node_id: NUMA node hint for the backing pages, or %NUMA_NO_NODE.
+> + * @flags: Reserved for future use; must be 0.
+> + *
+> + * Allocates @page_cnt physically-backed pages and inserts them into the
+> + * arena's kernel VMA at the offset corresponding to @addr__ign (or at a=
+n
+> + * arbitrary free offset when @addr__ign is %NULL). A subsequent user-sp=
+ace
+> + * page fault on the matching user address populates the user VMA with t=
+he
+> + * same pages, giving BPF and user space a shared view of the region.
+> + *
+> + * The underlying allocator may sleep, so this kfunc is only callable fr=
+om
+> + * sleepable BPF programs.
 
-diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
-index 75e6c078e0e7..fe0df1e16453 100644
---- a/Documentation/bpf/kfuncs.rst
-+++ b/Documentation/bpf/kfuncs.rst
-@@ -732,3 +732,30 @@ the verifier. bpf_cgroup_ancestor() can be used as follows:
- BPF provides a set of kfuncs that can be used to query, allocate, mutate, and
- destroy struct cpumask * objects. Please refer to :ref:`cpumasks-header-label`
- for more details.
-+
-+4.4 BPF arena kfuncs
-+--------------------
-+
-+A BPF arena (``BPF_MAP_TYPE_ARENA``) is a sparsely-populated shared memory
-+region that a BPF program and a user-space process can both address. The
-+following kfuncs allow a sleepable BPF program to allocate, free, and reserve
-+pages within an arena:
-+
-+.. kernel-doc:: kernel/bpf/arena.c
-+   :identifiers: bpf_arena_alloc_pages bpf_arena_free_pages bpf_arena_reserve_pages
-+
-+A typical pattern is to allocate one or more pages, write to them from BPF,
-+and let user space observe the same memory after a page fault populates its
-+VMA:
-+
-+.. code-block:: c
-+
-+	void __arena *page;
-+
-+	page = bpf_arena_alloc_pages(&arena, NULL, 1, NUMA_NO_NODE, 0);
-+	if (!page)
-+		return -ENOMEM;
-+
-+	/* ... use the page from BPF; user space sees the same bytes ... */
-+
-+	bpf_arena_free_pages(&arena, page, 1);
-diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
-index 49a8f7b1beef..b8ec2953dee6 100644
---- a/kernel/bpf/arena.c
-+++ b/kernel/bpf/arena.c
-@@ -870,6 +870,33 @@ static void arena_free_irq(struct irq_work *iw)
- 
- __bpf_kfunc_start_defs();
- 
-+/**
-+ * bpf_arena_alloc_pages() - Allocate pages within a BPF arena.
-+ * @p__map: Pointer to a ``BPF_MAP_TYPE_ARENA`` map.
-+ * @addr__ign: Page-aligned user-space address within the arena at which to
-+ *	       place the allocation, or %NULL to let the kernel choose. When
-+ *	       non-NULL the address must fall inside the arena's user VMA
-+ *	       range; otherwise the allocation fails.
-+ * @page_cnt: Number of pages to allocate. Must be non-zero and no greater
-+ *	      than the arena's configured size in pages.
-+ * @node_id: NUMA node hint for the backing pages, or %NUMA_NO_NODE.
-+ * @flags: Reserved for future use; must be 0.
-+ *
-+ * Allocates @page_cnt physically-backed pages and inserts them into the
-+ * arena's kernel VMA at the offset corresponding to @addr__ign (or at an
-+ * arbitrary free offset when @addr__ign is %NULL). A subsequent user-space
-+ * page fault on the matching user address populates the user VMA with the
-+ * same pages, giving BPF and user space a shared view of the region.
-+ *
-+ * The underlying allocator may sleep, so this kfunc is only callable from
-+ * sleepable BPF programs.
-+ *
-+ * Return:
-+ * * Kernel pointer to the start of the allocated region on success.
-+ * * %NULL if @p__map is not an arena, @flags is non-zero, @page_cnt is zero
-+ *   or exceeds the arena size, @addr__ign is misaligned or outside the
-+ *   arena, @node_id is invalid, or the kernel is out of memory.
-+ */
- __bpf_kfunc void *bpf_arena_alloc_pages(void *p__map, void *addr__ign, u32 page_cnt,
- 					int node_id, u64 flags)
- {
-@@ -893,6 +920,23 @@ void *bpf_arena_alloc_pages_non_sleepable(void *p__map, void *addr__ign, u32 pag
- 
- 	return (void *)arena_alloc_pages(arena, (long)addr__ign, page_cnt, node_id, false);
- }
-+
-+/**
-+ * bpf_arena_free_pages() - Free a range of pages within a BPF arena.
-+ * @p__map: Pointer to a ``BPF_MAP_TYPE_ARENA`` map.
-+ * @ptr__ign: User-space virtual address of the first page to free, as used
-+ *	      to address the arena from BPF and user space. Typically the
-+ *	      same address that was previously returned (in user-space form)
-+ *	      by bpf_arena_alloc_pages().
-+ * @page_cnt: Number of pages to free.
-+ *
-+ * Releases the backing pages, unmapping them from the arena's kernel VMA
-+ * and from any user-space VMA that previously faulted them in. May sleep,
-+ * so the kfunc is callable only from sleepable BPF programs.
-+ *
-+ * The call is a no-op when @p__map is not an arena, when @page_cnt is zero,
-+ * or when @ptr__ign is %NULL.
-+ */
- __bpf_kfunc void bpf_arena_free_pages(void *p__map, void *ptr__ign, u32 page_cnt)
- {
- 	struct bpf_map *map = p__map;
-@@ -913,6 +957,26 @@ void bpf_arena_free_pages_non_sleepable(void *p__map, void *ptr__ign, u32 page_c
- 	arena_free_pages(arena, (long)ptr__ign, page_cnt, false);
- }
- 
-+/**
-+ * bpf_arena_reserve_pages() - Reserve a page range within a BPF arena.
-+ * @p__map: Pointer to a ``BPF_MAP_TYPE_ARENA`` map.
-+ * @ptr__ign: Page-aligned user-space virtual address of the start of the
-+ *	      range to reserve.
-+ * @page_cnt: Number of pages to reserve. Zero is permitted and is a no-op.
-+ *
-+ * Marks @page_cnt pages starting at @ptr__ign as reserved so that subsequent
-+ * bpf_arena_alloc_pages() calls will not place allocations in that range.
-+ * No physical pages are allocated by this kfunc; the range is simply
-+ * excluded from the arena's free space.
-+ *
-+ * Return:
-+ * * 0 on success, or when @page_cnt is zero.
-+ * * -EINVAL if @p__map is not an arena or the requested range falls outside
-+ *   the arena's user VMA.
-+ * * -EBUSY if any page in the requested range is already allocated, or if
-+ *   contention on the arena's internal spinlock prevents the operation from
-+ *   completing.
-+ */
- __bpf_kfunc int bpf_arena_reserve_pages(void *p__map, void *ptr__ign, u32 page_cnt)
- {
- 	struct bpf_map *map = p__map;
--- 
-2.43.0
+I think this is half the story, since the verifier adjusts the call to
+the function to the non-sleepable version when necessary. So the kfunc
+is technically only callable from sleepable BPF programs but it never
+will be thanks to the verifier.
+
+> + *
+> + * Return:
+> + * * Kernel pointer to the start of the allocated region on success.
+> + * * %NULL if @p__map is not an arena, @flags is non-zero, @page_cnt is =
+zero
+> + *   or exceeds the arena size, @addr__ign is misaligned or outside the
+> + *   arena, @node_id is invalid, or the kernel is out of memory.
+> + */
+>  __bpf_kfunc void *bpf_arena_alloc_pages(void *p__map, void *addr__ign, u=
+32 page_cnt,
+>  					int node_id, u64 flags)
+>  {
+> @@ -893,6 +920,23 @@ void *bpf_arena_alloc_pages_non_sleepable(void *p__m=
+ap, void *addr__ign, u32 pag
+> =20
+>  	return (void *)arena_alloc_pages(arena, (long)addr__ign, page_cnt, node=
+_id, false);
+>  }
+> +
+> +/**
+> + * bpf_arena_free_pages() - Free a range of pages within a BPF arena.
+> + * @p__map: Pointer to a ``BPF_MAP_TYPE_ARENA`` map.
+> + * @ptr__ign: User-space virtual address of the first page to free, as u=
+sed
+> + *	      to address the arena from BPF and user space. Typically the
+> + *	      same address that was previously returned (in user-space form)
+> + *	      by bpf_arena_alloc_pages().
+> + * @page_cnt: Number of pages to free.
+> + *
+> + * Releases the backing pages, unmapping them from the arena's kernel VM=
+A
+> + * and from any user-space VMA that previously faulted them in. May slee=
+p,
+> + * so the kfunc is callable only from sleepable BPF programs.
+
+Same here.
+
+> + *
+> + * The call is a no-op when @p__map is not an arena, when @page_cnt is z=
+ero,
+> + * or when @ptr__ign is %NULL.
+> + */
+>  __bpf_kfunc void bpf_arena_free_pages(void *p__map, void *ptr__ign, u32 =
+page_cnt)
+>  {
+>  	struct bpf_map *map =3D p__map;
+> @@ -913,6 +957,26 @@ void bpf_arena_free_pages_non_sleepable(void *p__map=
+, void *ptr__ign, u32 page_c
+>  	arena_free_pages(arena, (long)ptr__ign, page_cnt, false);
+>  }
+> =20
+> +/**
+> + * bpf_arena_reserve_pages() - Reserve a page range within a BPF arena.
+> + * @p__map: Pointer to a ``BPF_MAP_TYPE_ARENA`` map.
+> + * @ptr__ign: Page-aligned user-space virtual address of the start of th=
+e
+> + *	      range to reserve.
+> + * @page_cnt: Number of pages to reserve. Zero is permitted and is a no-=
+op.
+> + *
+> + * Marks @page_cnt pages starting at @ptr__ign as reserved so that subse=
+quent
+> + * bpf_arena_alloc_pages() calls will not place allocations in that rang=
+e.
+> + * No physical pages are allocated by this kfunc; the range is simply
+> + * excluded from the arena's free space.
+> + *
+> + * Return:
+> + * * 0 on success, or when @page_cnt is zero.
+> + * * -EINVAL if @p__map is not an arena or the requested range falls out=
+side
+> + *   the arena's user VMA.
+> + * * -EBUSY if any page in the requested range is already allocated, or =
+if
+> + *   contention on the arena's internal spinlock prevents the operation =
+from
+> + *   completing.
+> + */
+>  __bpf_kfunc int bpf_arena_reserve_pages(void *p__map, void *ptr__ign, u3=
+2 page_cnt)
+>  {
+>  	struct bpf_map *map =3D p__map;
 
