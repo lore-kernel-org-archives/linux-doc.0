@@ -1,433 +1,213 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9546623D291
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 01:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F27217555;
+	Thu, 21 May 2026 02:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779328517; cv=none; b=N2CgH1hPsFzsX6NTF++lLCwbOWfUXmum5DeT1InKFDJMdvIs6cWkDhTrohY2ZfpKuckK4tuJssw95lJ5zlIJHG3qMPkiY/WdH2pdt1yLMJ7NbyYFMehHTjHFunedxXcY6z+aVU3NRrnAF2nqdpuBidUj0d9JMwC3CR9j8XvYa0Y=
+	t=1779328961; cv=none; b=PSxXRczvO3Iac4bdDgh7yNVxP4jPiL6GYrBn+lNQztOwlhwo2CDmwVa6WUyoaxHLIS6wOCWnZ+xhDGWtzyGWTLOiHy+xKXCP8RKshAJmgXoizMMhgJITb1MrmoZijJaiAm0ZKre8ZCmQjTGML+459sZp2aX8Uw5UEI9+KFnGpo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779328517; c=relaxed/simple;
-	bh=pDmtxZvWMndQMlpiaVRm9EOzPgwLltPa75eFhw4CVVs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=URamSJYS1hiZ0kXwmJyKmOmhW+GbBv+MM1ldB5/Y6y8AOoI9XoEb8mI+OFnYI0X/rKEazFJvb4to/Arb5ORSAvLxXjHCRTL3JvJuJYq5g9dUkmfmf5NbzjAfmF3A44f/bVawoD+NEeBloGZ3JrOyR9aGQ1hNuwN8jDcQE1VUznU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o9sR2kzs; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779328961; c=relaxed/simple;
+	bh=xaDH7r5wz2FNtVm+Zdzxosg+2AztLAsp1nywotLDtEg=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=QosiDpq3MtduT/qPGnhiCePV/Um7UbuVkAJBNWsF/rVW7GzJlbpBdoMb4KPOnOLPG4J1oga6p2QWAxhea3Yk8I0wHUHp3ZadSnJE0G6eBk+r0aGa7+ove87kX0qu1wX7qp6V5LN838j3KaI6tFvCyTifuGF7fYFj89DLZUPCcb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=nI9c5SIu; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o9sR2kzs"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-67e9e343b22so8205889a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 20 May 2026 18:55:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779328514; x=1779933314; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dx+EA16FOvOOYuZb6isfGNz8chKsPLjR9rgc7G5/NOE=;
-        b=o9sR2kzsPEhAGeJ1aWy0NHsG2k2Q659GF4IqAt6UtNZ1uY4YoBFPd6eYoD1Yl8SDFr
-         wqzvXCArRZpNxVJS3TFp+V0NG1+PEKr/khTQ7GI3UkQ7+6vJGj8tgp3t6OtkKDkV4crn
-         VMmS0qHwKb5ZLeDdEfHynEjsLdjnqqtOJcYJ7KQDaIcbLhA7CWx3GS5UevkaZ2HteMKm
-         Hq0O2R2g95rkduxbjb9crwsGQR1jTBMh6vY3Kr+W6lGZ2OZtuUAbL59aG2WQZraboGKx
-         4QqTTPIv1JRiaTF+lmOlOkI7hbUUlcpZxxNVqHjvE06CqAva12Su6cO97sYNQawnCp65
-         j5Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779328514; x=1779933314;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dx+EA16FOvOOYuZb6isfGNz8chKsPLjR9rgc7G5/NOE=;
-        b=Xm/53lDwxjSzJtq5e0DoFloFvyJNuynRs8fVKN5MAvMtUoQT7+sOZNySsL+2eJ34rS
-         quX0JZ1r0dGDTTSCzoShH8EUMBhdr/eXKTXvpFzaQqEFC05raepXnVqeQOZArxx2R3Bf
-         KfgKM7xVWyElu4xKBGU3LZIeFu95vFuDmCRHGfUEMFmPCGvgwozO/I/LoSY7j405eR7n
-         MzWZiUkFWTB9gTOvhVOU1RLfHfKHj9CbKGySaRoacGEh+dCLJ26a3WzbtQ4aslxsdreD
-         WXfvvdQDGm/nZIMIZmVZp6URzx6SJU3jnUiR9pRZlPWiVQTKLhYYSMYT3oU+kPTTI3UN
-         h7Zg==
-X-Forwarded-Encrypted: i=1; AFNElJ8bNjHBrn9E2KO0wBBiP1oGOU32gmTobdXelQJn1czyjZ8cu8JEENKBsskWJ7fM+MOUJoIBjIGML38=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzk+v6UmkYhuF+J/x0/icrytHajUmVgOexOd3osVIEe0PqMkpH5
-	rtIsB41dDpbdrBTr8B7MQk+FTnrq2Q20VK3L+rP6rjfjSQy5fR4h2mFZ
-X-Gm-Gg: Acq92OHEFsRSIoan4uy3TdVBhQI+lzEDyxNfcYqpu2KClunNOWdjCtlPfNf1mCkSIKd
-	FWhRY9TB7a+uR/2Y7HHRqFzhMOUolNU1zxRRmLzsmsbQajpROyMw6oZro9j/lRv8jShg+/tR0GL
-	IjhAGWIaWLegzzkULMkpbZrDr30xRFy/hRb1YEM8oectCvktCmUdN6r9yipxUye5deKZNnimLt1
-	45MLULhnEjtikxXxsbWUSDLEG7aJwdKdqyxBL5JjSLYfugK36r/54PGgoWFXeEwl0mqidjKz2Vm
-	N+HJ0ooB2+LOZB8Nakzn0Qg9P7V/RtpWyeE4xTyBFMG8z/X95oNKxio13UtlAd37Y816ENQGP+7
-	KI2RXNM/TzG6TjgPuyfngUJfj1t8lG8/fqXa3KQkc+ik5pjXtEV5NUxNp0yv2C42K0SybK+sg3S
-	3asEb/hhXL86c4FjCQzEeRUg==
-X-Received: by 2002:a17:907:a2cf:b0:bd0:125b:cbb2 with SMTP id a640c23a62f3a-bdc1357047bmr30416366b.7.1779328513576;
-        Wed, 20 May 2026 18:55:13 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4bd1116sm929340166b.10.2026.05.20.18.55.11
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 20 May 2026 18:55:12 -0700 (PDT)
-Date: Thu, 21 May 2026 01:55:10 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Nico Pache <npache@redhat.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
-	akpm@linux-foundation.org, anshuman.khandual@arm.com,
-	apopple@nvidia.com, baohua@kernel.org,
-	baolin.wang@linux.alibaba.com, byungchul@sk.com,
-	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
-	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com,
-	jack@suse.cz, jackmanb@google.com, jannh@google.com,
-	jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org,
-	lance.yang@linux.dev, liam@infradead.org, ljs@kernel.org,
-	mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
-	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com,
-	pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
-	rdunlap@infradead.org, rientjes@google.com, rostedt@goodmis.org,
-	rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
-	sunnanyong@huawei.com, surenb@google.com,
-	thomas.hellstrom@linux.intel.com, tiwai@suse.de,
-	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com,
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org,
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com,
-	ziy@nvidia.com, zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v17 11/14] mm/khugepaged: Introduce mTHP
- collapse support
-Message-ID: <20260521015510.k4p22m365q2wqkro@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20260511185817.686831-1-npache@redhat.com>
- <20260511185817.686831-12-npache@redhat.com>
- <20260512154431.jxcs632mqqatqtsw@master>
- <CAA1CXcD2KPKFrwCZd2PatQhf_e1nrvCguPD77GcNOVPFZLvsew@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="nI9c5SIu"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64KIaR2B709576;
+	Thu, 21 May 2026 02:02:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=zVBuga
+	HWtQ53g0hZ5T3aHloUw5myu0rBlE6vJ3zS8+o=; b=nI9c5SIufK0PbaqMLTQLTu
+	ZYRJCU4pWnT3gcIkQcQzdNv1lOOWfnCuBLqTP17wKtnUVH1JbbHWmNBJzIDePzF0
+	U7gwte/s2YS/W2YkWQkNjhFgs0+RjzzO40Kgc7zBmVmbpI7RI5N6xcUb8vcL7ejl
+	hCGIVK7MCN+JrZwDFGpdke9edbSJrLLpmkD+8pjO99yC5MGvhd2NVI712AVV6wKC
+	8xlhblB3Yck6El6AtzVxbd+COF06C7MVF9P2/jPTxv0PSEiRJNdJpHh9c2uqqVkf
+	ezmEqnGiQONF/lLe3SFMK8meM0ULT3ucIuGJwmuXY0i89S3buaKrOeqX/wRffo/g
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e6h754r52-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 May 2026 02:02:10 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64L1sLCf025392;
+	Thu, 21 May 2026 02:02:09 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e73wka1bq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 May 2026 02:02:09 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64L228sF30343848
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 May 2026 02:02:08 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 993CE58059;
+	Thu, 21 May 2026 02:02:08 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9EBBA58057;
+	Thu, 21 May 2026 02:02:07 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.96.83])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 21 May 2026 02:02:07 +0000 (GMT)
+Message-ID: <c5d8efb1832ed140e38a3b449dab17ed2f1465d4.camel@linux.ibm.com>
+Subject: Re: [PATCH v5 00/13] ima: Introduce staging mechanism
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        skhan@linuxfoundation.org, dmitry.kasatkin@gmail.com,
+        eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
+        serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+        gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com,
+        nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
+In-Reply-To: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
+References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 20 May 2026 22:02:07 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA1CXcD2KPKFrwCZd2PatQhf_e1nrvCguPD77GcNOVPFZLvsew@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=ffCdDUQF c=1 sm=1 tr=0 ts=6a0e67a3 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=i0EeH86SAAAA:8
+ a=fv3Zbqo8pTZ8U2gEJioA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: 1Z3me4yVwJakz14vsPn95WkFPA9Qz1jb
+X-Proofpoint-GUID: --aJXFcmkz5FWRGVsU-HIhotGWfMVQt4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDAwOCBTYWx0ZWRfX55rdM0qKWIh8
+ +vVZrs7sDnTzogB1Q3AxnlgclZyBJFQhYj9KsE+7SmHfOJMwIrLaQfj8+IpKb0wCpY1/kBuZ66u
+ IRwf6U9DixotAUAksJMpjeGnT6E5Ydig4ApEjfSGPIKhH7ZnBTjvc4bHqvlmzCqXG0HGwra55cd
+ pGek9LxIQU+DVPHK0ry67ZwPkHwNLXnxx4scbASZ0dZ4O9pOzRFxfH8pxl4gNmZj3WcGWdNcVXL
+ 9DVobiI3khrV/BeaH9a8ErAFn8Qd7OiIut/vnPvl/NwNUmDPjrUgywoLMDz0dG7oC+1J7Jd04GJ
+ HgBvHWx3z4QMF8//vaeGDWAkmgmqHQSVAk4WvtUIHmWeg2KrY1KZ6i2WBz8zb6jybtx/sU/8G5x
+ GvVxT7c3YX+4mDgeaFbXj6aEv+C2QZZXf+5LeD9Q/sTb3sY01MyBK0HHK0KR/KiMjaAcGK2SZ5X
+ Xu0jImNl+mD//YyNyWg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-20_03,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 phishscore=0 suspectscore=0 adultscore=0
+ clxscore=1011 impostorscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605210008
 
-On Wed, May 20, 2026 at 06:05:31AM -0600, Nico Pache wrote:
->On Tue, May 12, 2026 at 9:44 AM Wei Yang <richard.weiyang@gmail.com> wrote:
->>
->> On Mon, May 11, 2026 at 12:58:11PM -0600, Nico Pache wrote:
->> >Enable khugepaged to collapse to mTHP orders. This patch implements the
->> >main scanning logic using a bitmap to track occupied pages and a stack
->> >structure that allows us to find optimal collapse sizes.
->> >
->> >Previous to this patch, PMD collapse had 3 main phases, a light weight
->> >scanning phase (mmap_read_lock) that determines a potential PMD
->> >collapse, an alloc phase (mmap unlocked), then finally heavier collapse
->> >phase (mmap_write_lock).
->> >
->> >To enabled mTHP collapse we make the following changes:
->> >
->> >During PMD scan phase, track occupied pages in a bitmap. When mTHP
->> >orders are enabled, we remove the restriction of max_ptes_none during the
->> >scan phase to avoid missing potential mTHP collapse candidates. Once we
->> >have scanned the full PMD range and updated the bitmap to track occupied
->> >pages, we use the bitmap to find the optimal mTHP size.
->> >
->> >Implement collapse_scan_bitmap() to perform binary recursion on the bitmap
->> >and determine the best eligible order for the collapse. A stack structure
->> >is used instead of traditional recursion to manage the search. This also
->> >prevents a traditional recursive approach when the kernel stack struct is
->> >limited. The algorithm recursively splits the bitmap into smaller chunks to
->> >find the highest order mTHPs that satisfy the collapse criteria. We start
->> >by attempting the PMD order, then moved on the consecutively lower orders
->> >(mTHP collapse). The stack maintains a pair of variables (offset, order),
->> >indicating the number of PTEs from the start of the PMD, and the order of
->> >the potential collapse candidate.
->> >
->> >The algorithm for consuming the bitmap works as such:
->> >    1) push (0, HPAGE_PMD_ORDER) onto the stack
->> >    2) pop the stack
->> >    3) check if the number of set bits in that (offset,order) pair
->> >       statisfy the max_ptes_none threshold for that order
->> >    4) if yes, attempt collapse
->> >    5) if no (or collapse fails), push two new stack items representing
->> >       the left and right halves of the current bitmap range, at the
->> >       next lower order
->> >    6) repeat at step (2) until stack is empty.
->> >
->> >Below is a diagram representing the algorithm and stack items:
->> >
->> >                            offset   mid_offset
->> >                            |        |
->> >                            |        |
->> >                            v        v
->> >          ____________________________________
->> >         |          PTE Page Table            |
->> >         --------------------------------------
->> >                           <-------><------->
->> >                             order-1  order-1
->> >
->> >mTHP collapses reject regions containing swapped out or shared pages.
->> >This is because adding new entries can lead to new none pages, and these
->> >may lead to constant promotion into a higher order mTHP. A similar
->> >issue can occur with "max_ptes_none > HPAGE_PMD_NR/2" due to a collapse
->> >introducing at least 2x the number of pages, and on a future scan will
->> >satisfy the promotion condition once again. This issue is prevented via
->> >the collapse_max_ptes_none() function which imposes the max_ptes_none
->> >restrictions above.
->> >
->> >We currently only support mTHP collapse for max_ptes_none values of 0
->> >and HPAGE_PMD_NR - 1. resulting in the following behavior:
->> >
->> >    - max_ptes_none=0: Never introduce new empty pages during collapse
->> >    - max_ptes_none=HPAGE_PMD_NR-1: Always try collapse to the highest
->> >      available mTHP order
->> >
->> >Any other max_ptes_none value will emit a warning and skip mTHP collapse
->> >attempts. There should be no behavior change for PMD collapse.
->> >
->> >Once we determine what mTHP sizes fits best in that PMD range a collapse
->> >is attempted. A minimum collapse order of 2 is used as this is the lowest
->> >order supported by anon memory as defined by THP_ORDERS_ALL_ANON.
->> >
->> >Currently madv_collapse is not supported and will only attempt PMD
->> >collapse.
->> >
->> >We can also remove the check for is_khugepaged inside the PMD scan as
->> >the collapse_max_ptes_none() function handles this logic now.
->> >
->> >Signed-off-by: Nico Pache <npache@redhat.com>
->>
->> [...]
->>
->> >+static int mthp_collapse(struct mm_struct *mm, unsigned long address,
->> >+              int referenced, int unmapped, struct collapse_control *cc,
->> >+              unsigned long enabled_orders)
->> >+{
->> >+      unsigned int nr_occupied_ptes, nr_ptes;
->> >+      int max_ptes_none, collapsed = 0, stack_size = 0;
->> >+      unsigned long collapse_address;
->> >+      struct mthp_range range;
->> >+      u16 offset;
->> >+      u8 order;
->> >+
->> >+      collapse_mthp_stack_push(cc, &stack_size, 0, HPAGE_PMD_ORDER);
->> >+
->> >+      while (stack_size) {
->> >+              range = collapse_mthp_stack_pop(cc, &stack_size);
->> >+              order = range.order;
->> >+              offset = range.offset;
->> >+              nr_ptes = 1UL << order;
->> >+
->> >+              if (!test_bit(order, &enabled_orders))
->> >+                      goto next_order;
->> >+
->> >+              max_ptes_none = collapse_max_ptes_none(cc, NULL, order);
->>
->> I am thinking whether there is a behavioral change for userfaultfd_armed(vma).
->>
->> collapse_single_pmd()
->>     collapse_scan_pmd
->>         max_ptes_none = collapse_max_ptes_none(cc, vma)
->>         max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT                --- (1)
->>         mthp_collapse
->>             max_ptes_none = collapse_max_ptes_none(cc, NULL)     --- (2)
->>             collapse_huge_page(mm)
->>                 hugepage_vma_revalidate(&vma)
->>                 __collapse_huge_page_isolate(vma)
->>                     max_ptes_none = collapse_max_ptes_none(cc, vma)
->>
->> Before mthp_collapse() introduced, userfaultfd_armed(vma) is skipped if there
->> is any pte_none_or_zero() in collapse_scan_pmd().
->>
->> But now, max_ptes_none could be set to KHUGEPAGED_MAX_PTES_LIMIT at (1), so
->> that we can scan all the pte to get the bitmap. This means
->> userfaultfd_armed(vma) could continue even with pte_none_or_zero().
->>
->> Then in mthp_collapse(), collapse_max_ptes_none() at (2) ignores
->> userfaultfd_armed(vma), which means it will continue to collapse a
->> userfaultfd_armed(vma) when there is pte_none_or_zero().
->>
->> The good news is we will stop at __collapse_huge_page_isolate(), where we
->> get collapse_max_ptes_none() with vma. But we already did a lot of work.
->
->Good catch!
->
->As you stated we eventually ensure we respect the uffd checks. So
->there are no correctness issues, just the potential for wasted cycles.
->
->At (1) we only do this if mTHPs are enabled. If that is the case, the
->only waste that can arise is at the PMD order, as that order respects
->the max_ptes_none value.
->
->I think one approach is to gate (1) with the uffd check as well. That
->way, if mTHPs are enabled and its uffd-armed, max_ptes_none will stay
->at 0, and we bail early on the scan early if any none_ptes are hit.
->
->But then we lose the ability to collapse to mTHPs that are uffd-armed,
->where the PMD has none/zero-ptes and the mTHP fully has 0
->non-none/zero-ptes.
->
->ie) assume a PMD is 16 x's [xxxxxxxx00000000]
->where x is a populated pte and 0 is not
->If we guard this scan (1), then we will never check if its possible to
->collapse to the smaller orders.
->
->Let me know if you see a flaw in my logic, I think it's best to keep it as is?
->
+On Wed, 2026-04-29 at 18:03 +0200, Roberto Sassu wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+>=20
+> Introduction
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> The IMA measurements list is currently stored in the kernel memory.
+> Memory occupation grows linearly with the number of entries, and can
+> become a problem especially in environments with reduced resources.
+>=20
+> While there is an advantage in keeping the IMA measurements list in
+> kernel memory, so that it is always available for reading from the
+> securityfs interfaces, storing it elsewhere would make it possible to
+> free precious memory for other kernel components.
 
-Yes, gate it at (1) is not a proper place.
+-> for other kernel usage.
 
-I am thinking whether we could pass vma to (2)? So that we could respect
-uffd-armed?
 
->>
->> Not sure if I missed something.
->>
->> >+
->> >+              if (max_ptes_none < 0)
->> >+                      return collapsed;
->> >+
->> >+              nr_occupied_ptes = collapse_mthp_count_present(cc, offset,
->> >+                                                             nr_ptes);
->> >+
->> >+              if (nr_occupied_ptes >= nr_ptes - max_ptes_none) {
->> >+                      int ret;
->> >+
->> >+                      collapse_address = address + offset * PAGE_SIZE;
->> >+                      ret = collapse_huge_page(mm, collapse_address, referenced,
->> >+                                               unmapped, cc, order);
->> >+                      if (ret == SCAN_SUCCEED) {
->> >+                              collapsed += nr_ptes;
->> >+                              continue;
->> >+                      }
->> >+              }
->> >+
->> >+next_order:
->> >+              if (order > KHUGEPAGED_MIN_MTHP_ORDER) {
->> >+                      const u8 next_order = order - 1;
->> >+                      const u16 mid_offset = offset + (nr_ptes / 2);
->> >+
->> >+                      collapse_mthp_stack_push(cc, &stack_size, mid_offset,
->> >+                                               next_order);
->> >+                      collapse_mthp_stack_push(cc, &stack_size, offset,
->> >+                                               next_order);
->> >+              }
->> >+      }
->> >+      return collapsed;
->> >+}
->> >+
->> > static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->> >               struct vm_area_struct *vma, unsigned long start_addr,
->> >               bool *lock_dropped, struct collapse_control *cc)
->> > {
->> >-      const int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
->> >+      int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
->> >       const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER);
->> >       const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
->> >+      enum tva_type tva_flags = cc->is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
->> >       pmd_t *pmd;
->> >-      pte_t *pte, *_pte;
->> >-      int none_or_zero = 0, shared = 0, referenced = 0;
->> >+      pte_t *pte, *_pte, pteval;
->> >+      int i;
->> >+      int none_or_zero = 0, shared = 0, nr_collapsed = 0, referenced = 0;
->> >       enum scan_result result = SCAN_FAIL;
->> >       struct page *page = NULL;
->> >       struct folio *folio = NULL;
->> >       unsigned long addr;
->> >+      unsigned long enabled_orders;
->> >       spinlock_t *ptl;
->> >       int node = NUMA_NO_NODE, unmapped = 0;
->> >
->> >@@ -1429,8 +1579,19 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->> >               goto out;
->> >       }
->> >
->> >+      bitmap_zero(cc->mthp_bitmap, MAX_PTRS_PER_PTE);
->> >       memset(cc->node_load, 0, sizeof(cc->node_load));
->> >       nodes_clear(cc->alloc_nmask);
->> >+
->> >+      enabled_orders = collapse_allowable_orders(vma, vma->vm_flags, tva_flags);
->>
->> Would it be 0 at this point?
->
->If your question relates to the issue you brought up above, then yes,
->max_ptes_none would be 0 if it's uffd-armed. We must recheck the
->uffd-armed status before modifying it to 511.
->
->>
->> >+
->> >+      /*
->> >+       * If PMD is the only enabled order, enforce max_ptes_none, otherwise
->> >+       * scan all pages to populate the bitmap for mTHP collapse.
->> >+       */
->> >+      if (enabled_orders != BIT(HPAGE_PMD_ORDER))
->> >+              max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT;
->> >+
->> >       pte = pte_offset_map_lock(mm, pmd, start_addr, &ptl);
->> >       if (!pte) {
->> >               cc->progress++;
->> >@@ -1438,11 +1599,13 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->> >               goto out;
->> >       }
->> >
->> >-      for (addr = start_addr, _pte = pte; _pte < pte + HPAGE_PMD_NR;
->> >-           _pte++, addr += PAGE_SIZE) {
->> >+      for (i = 0; i < HPAGE_PMD_NR; i++) {
->> >+              _pte = pte + i;
->> >+              addr = start_addr + i * PAGE_SIZE;
->> >+              pteval = ptep_get(_pte);
->> >+
->> >               cc->progress++;
->> >
->> >-              pte_t pteval = ptep_get(_pte);
->> >               if (pte_none_or_zero(pteval)) {
->> >                       if (++none_or_zero > max_ptes_none) {
->> >                               result = SCAN_EXCEED_NONE_PTE;
->> >@@ -1522,6 +1685,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->> >                       }
->> >               }
->> >
->> >+              /* Set bit for occupied pages */
->> >+              __set_bit(i, cc->mthp_bitmap);
->> >               /*
->> >                * Record which node the original page is from and save this
->> >                * information to cc->node_load[].
->> >@@ -1580,10 +1745,11 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->> >       if (result == SCAN_SUCCEED) {
->> >               /* collapse_huge_page expects the lock to be dropped before calling */
->> >               mmap_read_unlock(mm);
->> >-              result = collapse_huge_page(mm, start_addr, referenced,
->> >-                                          unmapped, cc, HPAGE_PMD_ORDER);
->> >+              nr_collapsed = mthp_collapse(mm, start_addr, referenced, unmapped,
->> >+                                            cc, enabled_orders);
->> >               /* collapse_huge_page will return with the mmap_lock released */
->>
->> collapse_huge_page will return with mmap_lock released, but mthp_collapse()
->> may not?
->
->We are now releasing the lock before calling mthp_collapse, which
->subsequently calls collapse_huge_page. Even if `collapse_huge_page` is
->never called-- say, because enabled_orders is 0 (which should not
->happen) and all collapse orders are skipped (never calling
->collapse_huge_page)-- we still return here with the lock dropped.
->
->I think this is sound. Let me know if you think differently.
->
+Prefix the following paragraph with:
+The IMA measurement list needs to be retained and safely stored for new
+attestation servers to validate the entire measurement list.  Assuming the =
+IMA
+measurement list is properly saved, storing ...
 
-You are right. I missed the lock is released in previous patch.
+> Storing the IMA measurements list outside the kernel does not introduce
+> security issues, since its integrity is anyway protected by the TPM.
+>=20
+> Hence, the new IMA staging mechanism is introduced to allow user space
+> to remove the desired portion of the measurements list from the kernel.
 
->Cheers :)
->-- Nico
->
->>
->> >               *lock_dropped = true;
->> >+              result = nr_collapsed ? SCAN_SUCCEED : SCAN_FAIL;
->> >       }
->> > out:
->> >       trace_mm_khugepaged_scan_pmd(mm, folio, referenced,
->> >--
->> >2.54.0
->>
->> --
->> Wei Yang
->> Help you, Help me
->>
+"desired portion" could be misconstrued as any subset of the measurement li=
+st.
 
--- 
-Wei Yang
-Help you, Help me
+-> to remove the entire or a portion of the measurement list ...
+
+>=20
+> Usage
+> =3D=3D=3D=3D=3D
+
+> The IMA staging mechanism can be enabled from the kernel configuration
+> with the CONFIG_IMA_STAGING option.
+
+Continue with:
+This option prevents inadvertently removing the IMA measurement list on sys=
+tems
+which do not properly save it.
+
+>=20
+> If it is enabled, IMA duplicates the current measurements interfaces
+
+-> duplicates the current securityfs measurement list interfaces
+
+> (both binary and ASCII), by adding the _staged file suffix. Both the
+> original and the staging interfaces gain the write permission for the
+> root user and group, but require the process to have CAP_SYS_ADMIN set.
+>=20
+> The staging mechanism supports two flavors.
+>=20
+> Staging with prompt
+> ~~~~~~~~~~~~~~~~~~~
+>=20
+> The current measurements list is moved to a temporary staging area, and
+> staged measurements are deleted upon confirmation.
+
+-> The current measurement list is moved to a temporary staging area, allow=
+ing
+it to be saved to external storage, before being deleted upon confirmation.
+>=20
+> This staging process is achieved with the following steps.
+>=20
+>   1.  echo A > <original interface>: the user requests IMA to stage the
+>       entire measurements list;
+>   2.  cat <_staged interface>: the user reads the staged measurements;
+>   3.  echo D > <_staged interface>: the user requests IMA to delete
+>       staged measurements.
+>=20
+> Staging and deleting
+> ~~~~~~~~~~~~~~~~~~~~
+>=20
+> N measurements are staged to a temporary staging area, and immediately
+> deleted without further confirmation.
+>=20
+> This staging process is achieved with the following steps.
+>=20
+>   1.  cat <original interface>: the user reads the current measurements
+>       list and determines what the value N for staging should be;
+>   2.  echo N > <original interface>: the user requests IMA to delete N
+>       measurements from the current measurements list.
+>=20
+>=20
+> Management of Staged Measurements
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> Since with the staging mechanism measurement entries are removed from
+> the kernel, the user needs to save the staged ones in a storage and
+> concatenate them together, so that it can present them to remote
+> attestation agents as if staging was never done.
+
+"the user needs to save the staged ones" -> the staged measurements need to=
+ be
+saved ....
+
+Please mention this could be a system service.
+
+thanks,
+
+Mimi
+
