@@ -1,219 +1,241 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B78939E9CB
-	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 07:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779350265; cv=pass; b=ld4EhQcjw5Bxk2FB9CCKJ2aFx2cnjIMHJvzE4Iza8foG3+0Xd35fDfRoguHKHGjIoTddFDqVXWbFdIHoLLLvy0R3Ux9wdAcJEdKpJ0lHQpMF2UGvFc411DUqG/Nnr0eLdFKb7PHzz3JGqd5pUld7f5J5gQWIpHRDNpDNVy3qqIc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779350265; c=relaxed/simple;
-	bh=4KcT8rdA6d07iJNq3wBXNazPyISKqsHOcKPYno1GuIA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QaD2QnmVqvHI7LJYtUO8NGoGOi6FktW7Ia2ZHHxh33vyHykHsZR0s7vjADTetC/8HsG0nM2/uzNocizSXbaSlKTanLnruYd1usolgCFiXL8P54r8dcAm3+nz65KnelHfxmywZqpuLZRLjYEv+kwrROdqzdgCOU2i/NRH5Uz1Jq0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PkK3X4dc; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C86E39FCD8
+	for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 08:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779350425; cv=none; b=H1La7EAW8jKWHv5jymeK6+47qjlTQ+RBhjYyUgcfsMIvvlQGrfpB6tLFl817EcCY8F+XS4Qo5JWArsNYnYM4DUK+QLk0zi4kL8uN5Oh5WERzB/7KHl3ahQeeJiQYdoMQ3ueSuQJeuHMFvBUzgXuPh3rrwSp3BpD2UBeWEusB2To=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779350425; c=relaxed/simple;
+	bh=Tx53MwLePeLZ23fDtjKJB5lRx3lgXxTNcSrKPTCnhJw=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=hKx2FelHNXAoGicPoPqF0tV1ilRozJNX/5Zfv0t9/GDFKsuEhu/qsy4OtEA6AH0kpN9i0HQbWddHKuNA0F4iGFlRbqgta0gKtNUFWtQo4IJNwBBMyQYX6VHmk8xx3iNdW6HgjmniF7VsgBOUxZzWzmakh6sdwf/m2TiKy5ReMF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TCWK7EVH; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PkK3X4dc"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-515548f390fso791cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 00:57:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779350261; cv=none;
-        d=google.com; s=arc-20240605;
-        b=biNoT9I2c11qy4A49+hI04pwKag04ME6RjPd4s/DFFsggX3+gXdoP3IdKsyU3sqW3t
-         qBSu8lxPlPu0YnLfMK72/fND+NIbMwdKyHunibp3SH1d3f079tPZyPMQHjXrKkv2Lb+3
-         8CTll1iM7jx5wizrhxiGCtNTkkUDjQkNTMAKbAC+ytu+tvqlAHvfM7qWDtOWPOvsxGLM
-         bEDEwew53LwHZLQO6NmYm+4ya7ZTGqwTK0ujO26h5Xw2XCzJIIH7rxaMSkqQogUvgMWj
-         ge+JaNpg799U0YGqfkDrjxnimSMPxgnHUiOIE2q0HVnKf3sG8IZBBBusuWWINk+c5rg8
-         BYhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=tSn2g3kUTBO9UyvrMevDMplllFpiZxqy7FxTUXL/Xlw=;
-        fh=Fr2gCeq6BcM+4wNCHYpRondWRKL3+Vp3hv8W+c2Gk18=;
-        b=PKzKar2NgEB1eCF1+55pIpk9EK62/U9T1qs++TX17C2dPxPUX8mHwq6TLd35y+6nmf
-         kRPWU++Axjp7xI4A8i1dfGdgOuVTmvRzgWy9UiFugDG5+ZQXz4y/ijOQg+7hd2IQ4PgX
-         4CGG5K3fcKlO1UwyhXE6Pw0hg3WcmtSryWADb8EkYuZ+WnyiVm9OEIvfz4o4Sn4YirZ3
-         HStXI3xzHD15bMIsWElh5AnIzjVyMM7/FdANzToOZszG/54GHjYRa39uiP1YTVRC3Pa0
-         GeBHh93s22xT6PyFv4Ertoy9+1XJc/YOPn3XOpTHbL8LRsLqpKesMYgCftjs9/bLwMc+
-         HSgw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TCWK7EVH"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49039a8851fso2490305e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 01:00:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779350261; x=1779955061; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
+        d=gmail.com; s=20251104; t=1779350422; x=1779955222; darn=vger.kernel.org;
+        h=to:references:message-id:cc:date:in-reply-to:from:subject
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tSn2g3kUTBO9UyvrMevDMplllFpiZxqy7FxTUXL/Xlw=;
-        b=PkK3X4dcbhXxrjoJ1fcTfQCLtnoA6MwpGGLw/Nqy69HN+eFeKKnsX92ARB5CK7/YrG
-         DXfmjOlnO6qjQFt8qZ5I85bxhc9gbSWZUx+RKVeYhiN+IIakoeunnIow5DYBRSJzH9fY
-         EWEeu3gHxlH8+iQ3eU1Y16A1prp7cTfIfVAjjpEESLlYX02fqBvuN+Gi2EfEQPy+Liqx
-         xrAI64RCYUX8ZKse/1yUNRQ1NCZHtjtkDWnZCN0ZXeR8MQwI3fKs/Jefh8hQfSmvQvwf
-         QCZantvkGbwFbT4UqXcxyf3i05FWqvJezxEtDZ86TnXNGIPY5UR1qmgHsWC7T5pUHsGl
-         PTkQ==
+        bh=Z9PrdA31q5x8SAejtf+3EF1jeBrhc3Rg2VGzoBKR6RQ=;
+        b=TCWK7EVHMf/5GAkugSVV+3lI+EoG3kfcJnDy406vfnum1aZ8h2etHEtGxrK0yCdqWs
+         6WT7PzY342FN2oMLt/6RN4xMvpXEMswcCaDoaRKXN1QycWYAv1JlR4Td6osTn67uO2zu
+         6SqAq1Sh2da151pdZ7Thd6QjQOQbIONGzZ4sKB85xf/B/xLEJCJLMwP/Sli9a3rgYoIy
+         NosIwzNnoHrDjIturAb5+uYjgkqVxXIQGOVAejj8xWyOMTc3ELp+KhyodrfWbhw5YqrC
+         2at/1SErzn9Sq7JSPko0ZpImjvKqfUdOHuh2tnVIDQz3gq0ACSgyFucB84+EvUGtv2t0
+         BpPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779350261; x=1779955061;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
+        d=1e100.net; s=20251104; t=1779350422; x=1779955222;
+        h=to:references:message-id:cc:date:in-reply-to:from:subject
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tSn2g3kUTBO9UyvrMevDMplllFpiZxqy7FxTUXL/Xlw=;
-        b=fLMtgsaTX601bPzUmUhtRStyGn9yJfFOGRNGTS3QnqNGvjGJt8XUb85fzJAEKnreWn
-         uQT4a+zcjKRMSoN8gECN+cAOJUnAqCuXacOuKmvkx8OHm6gWnqU63ZJuTpe2j2g+Q0wX
-         fFdXm4/zQAj+be+AXWy8WkpfH12dFu/abzGerT/m0yeu9/B54E442KG0mMtrKGZWezMz
-         8oX4sTk4PIIXjeeDleLEUHIx+sNBWESaRK4wW7H2M8dXB3Hr9UywXlljyGL44Wbo5ap3
-         Y2o3qNlpdkbIJh56l55g0PTU02Q3O3I3Oh2mANdQIXG9jJSw/7tJV9QqgzXhd/SiVcxI
-         TfTg==
-X-Forwarded-Encrypted: i=1; AFNElJ9QN+jmVb3p+d28GpRDVCZ0p9J1CRjVPKa9g9lNMfPG0SqoNNOxrDyUIMRbS8FOzKFsflvqcJpiI2g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRm+wCk2OCRVAMjPB0IebFdjNbSY2DP1t+nyC5FQi6GEKOvJqc
-	K0uV//uB8eG0JmThhF/GT/ROl7Qm5dNbqrjpPmp24n1fLjKZb/bJ/4/6tg2o21qoJrKu0xVFNhj
-	Mu6t1f59fVWcxQRUL4gQqMb/RxTgVdOK8ijNgs/Dd
-X-Gm-Gg: Acq92OGUDnc9PLyUugVN1ks/CI8yQfAPAh1JGUnSlcJbHIMb59luWNhsE0U9n59e27u
-	H3P3dUwUk4cgjutAufz65QtWwPQ4i958aakCi3UQo/80HZf7NIvMQlmBSbjo4NNt/vCV6GP1PG9
-	hLjG4mTgwJc1hfOzSkp8EnWc9xSYz9T7ZnqjBSGwf2NGvqwvhykLcb+yKK4oxfKhrZwQ1Nn38k+
-	Mt0mxR9HUVeteeMo82QcUi9Vq5pNoVG8CCBg6ajcBKQW58QnnOpAmDsvhtf8pNuXVfeWnhTUtXe
-	0dsXBKZpzVDXZ2Wo4ss5B8UcVlEt+Q==
-X-Received: by 2002:a05:622a:9005:b0:50f:af60:3496 with SMTP id
- d75a77b69052e-516c53118ecmr5321871cf.1.1779350260836; Thu, 21 May 2026
- 00:57:40 -0700 (PDT)
+        bh=Z9PrdA31q5x8SAejtf+3EF1jeBrhc3Rg2VGzoBKR6RQ=;
+        b=pIS9wk6h/w/HFNc1zIJ8zQL026qALlrP0jbZ7hZD2woO1dMN3M8qbFgbd4RYRzKzSl
+         V1OfsO0iSTZ31m62RUjiDWkiW5Ekr5oxcceZIy75ImsOTkNQ1SKa3uCVgfykOZCdsS1L
+         73P9OgCLA/cjroWN0psc1hUuLKyyczZ+GSIGk+1vaOQXXPcI5ayyD2Q8wVqN7Aary5Zu
+         oD4PJBX/icoPyoKs+Ha3VdzwiXv8u9NKdfiod+m0lHBPJww9PgapuyA86x+7jF8eCzxK
+         xFB/7KCURbcv1uhxX4bboHS92mlpSO44kBRvMK4LBDLGAivd+jCSypHOrrT1z4q85jHB
+         xmPQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+ZIemNp4pVejGV08/pOdxVGR/TyJAB8r4BFCVQb0AqT1bzQG2lCIR1p+sBRav9VSRrCZCkacrP0W4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJ/lQtjl7mTXRYRZmqbLRhgU1Xg09arrPihNpnf9E/xMYV24zm
+	QbGEJjOZHlMAWWURKxIYFWDEwkBO5mD9K0KRPmOvD3YFzxJx/2RliHDM
+X-Gm-Gg: Acq92OFyQL0h+/4dTvyV8smeVER3HllqX+pa4XVee4WnhposIHLg4OGQVlFYXHK43t8
+	dc0vDSMQ4x7jFBB6v9FdrLtR/vId/c2yprEERjvB34OhNjuEiRddhdkv4vlQxZ4dL3lNbL2jDXD
+	5g78QGECGaRvXd8jCxnid2Tuvjgxzjj5wBj3Jiu+U8Vq6idZmKHCtaTMWHwBg5HlpsIrfio09MK
+	aac8vBnywxEZoYhmPMhZlZEU45d2tWoKTmxRZEoEyhac6snG6vWLIBp4dBboUDaisAptp9Y9xIz
+	lSstnPqEWBghjH2hpBQJHQHid62wmYrADTUZ4yKjuIutVyNrCblL9XRoOT43hHn2CezeWjx22cA
+	af/+wNBKaxEmMjTejqz0jjP6yLmmkmmNglb8zFUPyABoaP1PnebFBSCizUFOw6uKB27ZvKaomC4
+	9pGbLqdpdS9T9xIRccevqgeGpOu9/9uJTk1w==
+X-Received: by 2002:a05:600c:468b:b0:488:aa33:dcbd with SMTP id 5b1f17b1804b1-490360c12cbmr24099035e9.26.1779350421276;
+        Thu, 21 May 2026 01:00:21 -0700 (PDT)
+Received: from smtpclient.apple ([197.250.51.26])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eaa92ca96sm726769f8f.19.2026.05.21.01.00.15
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 21 May 2026 01:00:19 -0700 (PDT)
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_5D209284-6E0B-4B8C-B2C6-1CF1063CB628";
+	protocol="application/pgp-signature";
+	micalg=pgp-sha256
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com> <20260507-gmem-inplace-conversion-v6-17-91ab5a8b19a4@google.com>
-In-Reply-To: <20260507-gmem-inplace-conversion-v6-17-91ab5a8b19a4@google.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Thu, 21 May 2026 08:56:00 +0100
-X-Gm-Features: AVHnY4ISxUZam6iBDjV_4hOaNzbNB8xZ_iFXhRAdE4nHy2L3vqI7KoUo1cTBaB4
-Message-ID: <CA+EHjTyArkNd7cWC+OAkvkcPyM9=XUxzjg1fxFFV4GSP4wLALQ@mail.gmail.com>
-Subject: Re: [PATCH v6 17/43] KVM: guest_memfd: Determine invalidation filter
- from memory attributes
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.500.181\))
+Subject: Re: [PATCH v5 8/8] ARM: defconfig: Add a zx29 defconfig file
+From: =?utf-8?Q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
+In-Reply-To: <30b96e0d-f296-4c31-8701-a15c568ebffc@app.fastmail.com>
+Date: Thu, 21 May 2026 11:00:01 +0300
+Cc: Linus Walleij <linusw@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Drew Fustini <fustini@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org,
+ soc@lists.linux.dev,
+ linux-serial@vger.kernel.org
+Message-Id: <3B300E28-8603-4881-8A47-E9B86A355090@gmail.com>
+References: <20260421-send-v5-0-ace038e63515@gmail.com>
+ <20260421-send-v5-8-ace038e63515@gmail.com>
+ <CAD++jL=_eDY_mG_QBreSrZiho0hUrDSciedq=vrxXaTiMwrSyg@mail.gmail.com>
+ <30b96e0d-f296-4c31-8701-a15c568ebffc@app.fastmail.com>
+To: Arnd Bergmann <arnd@arndb.de>
+X-Mailer: Apple Mail (2.3864.500.181)
 
-On Thu, 7 May 2026 at 21:22, Ackerley Tng via B4 Relay
-<devnull+ackerleytng.google.com@kernel.org> wrote:
->
-> From: Ackerley Tng <ackerleytng@google.com>
->
-> Before conversion, the range filter doesn't really matter:
->
-> + For non-CoCo VMs that use guest_memfd, they have no mirrored tdp, so
->   KVM_DIRECT_ROOTS would have been invalidated anyway.
-> + CoCo VMs could not use INIT_SHARED, and there's no conversion support, so
->   always using KVM_FILTER_PRIVATE would have worked.
->
-> Now with conversion support, update kvm_gmem_get_invalidate_filter to
-> inspect the memory attributes maple tree for a given range.
->
-> Instead of determining the invalidation filter based on static inode
-> flags, iterate through the attributes maple tree for the specific range
-> being invalidated. This allows KVM to identify if the range contains
-> private pages, shared pages, or both, and set the filter bits
-> accordingly.
->
-> Update kvm_gmem_invalidate_begin and kvm_gmem_release to pass the range
-> parameters to the filter helper to ensure invalidation accurately
-> targets the memory types present in the affected range.
->
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
-Reviewed-by: Fuad Tabba <tabba@google.com>
+--Apple-Mail=_5D209284-6E0B-4B8C-B2C6-1CF1063CB628
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
+
+Hi Arnd,
+
+I saw your reply to my defconfig pull request, but apparently never =
+received your original reply. I only found this mail here. It looks like =
+I have to look for a better E-Mail provider as gmail is choking on the =
+volume of the linux-arm-kernel mailing list.
+
+To answer your questions I found at =
+https://lore.kernel.org/all/61452117-0cdc-4ec2-83eb-dc03ccbd410b@app.fastm=
+ail.com/ :
+
+> Either way, the patch description above should at least explain
+> why you think you need your own defconfig, as we don't normally
+> take those.
+
+It was more cluelessness / being new to kernel development that gave me =
+the impression that boards should have defconfigs. Since then I ran =
+across scripts/dt_to_config. I haven't tested it yet on my DT, but if it =
+does the right thing I don't think this board needs a defconfig.
+
+>> +CONFIG_CMDLINE=3D"console=3DttyAMA0 earlyprintk root=3D/dev/ram rw"
+
+> A definconfig should normall not rely on earlyprintk, just add
+> that when you actually need to debug the super-early boot
+> stages. With "earlycon" it should pick up the right console
+> from the stdout path and work almost as early.
+
+>> +CONFIG_BINFMT_FLAT=3Dy
+
+> Are you actually using flat binaries? I wasn't aware that this
+> is still possible on MMU-enabled kernels.
+
+>> +CONFIG_BLK_DEV_RAM=3Dy
+>> +CONFIG_BLK_DEV_RAM_COUNT=3D4
+
+> The old ramdisk boot is going away in the future, please use
+> initramfs instead. This should also save a good amount of RAM.
+
+I'll fix those in my tree and keep the defconfig around just in case, =
+but otherwise drop it from the submission. We can revisit it later when =
+the board is more complete.
+
+>> +CONFIG_DEVTMPFS=3Dy # FIXME: This is specific to my initrd. Remove=20=
+
+>> before upstream
+>stale comment?
+
+I believe I removed this in later versions though :-)
 
 Cheers,
-/fuad
-> ---
->  virt/kvm/guest_memfd.c | 27 ++++++++++++++++++++-------
->  1 file changed, 20 insertions(+), 7 deletions(-)
->
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index 9f6eebfb68f6b..c9f155c2dc5c5 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -193,12 +193,24 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
->         return folio;
->  }
->
-> -static enum kvm_gfn_range_filter kvm_gmem_get_invalidate_filter(struct inode *inode)
-> +static enum kvm_gfn_range_filter kvm_gmem_get_invalidate_filter(
-> +               struct inode *inode, pgoff_t start, pgoff_t end)
->  {
-> -       if (GMEM_I(inode)->flags & GUEST_MEMFD_FLAG_INIT_SHARED)
-> -               return KVM_FILTER_SHARED;
-> +       struct gmem_inode *gi = GMEM_I(inode);
-> +       enum kvm_gfn_range_filter filter = 0;
-> +       void *entry;
-> +
-> +       lockdep_assert(mt_lock_is_held(&gi->attributes));
-> +
-> +       mt_for_each(&gi->attributes, entry, start, end - 1) {
-> +               filter |= (xa_to_value(entry) & KVM_MEMORY_ATTRIBUTE_PRIVATE) ?
-> +                         KVM_FILTER_PRIVATE : KVM_FILTER_SHARED;
-> +
-> +               if (filter == (KVM_FILTER_PRIVATE | KVM_FILTER_SHARED))
-> +                       break;
-> +       }
->
-> -       return KVM_FILTER_PRIVATE;
-> +       return filter;
->  }
->
->  static void __kvm_gmem_invalidate_begin(struct gmem_file *f, pgoff_t start,
-> @@ -244,7 +256,7 @@ static void kvm_gmem_invalidate_begin(struct inode *inode, pgoff_t start,
->         enum kvm_gfn_range_filter attr_filter;
->         struct gmem_file *f;
->
-> -       attr_filter = kvm_gmem_get_invalidate_filter(inode);
-> +       attr_filter = kvm_gmem_get_invalidate_filter(inode, start, end);
->
->         kvm_gmem_for_each_file(f, inode)
->                 __kvm_gmem_invalidate_begin(f, start, end, attr_filter);
-> @@ -367,6 +379,7 @@ static long kvm_gmem_fallocate(struct file *file, int mode, loff_t offset,
->  static int kvm_gmem_release(struct inode *inode, struct file *file)
->  {
->         struct gmem_file *f = file->private_data;
-> +       enum kvm_gfn_range_filter filter;
->         struct kvm_memory_slot *slot;
->         struct kvm *kvm = f->kvm;
->         unsigned long index;
-> @@ -398,8 +411,8 @@ static int kvm_gmem_release(struct inode *inode, struct file *file)
->          * memory, as its lifetime is associated with the inode, not the file.
->          */
->         end = i_size_read(inode) >> PAGE_SHIFT;
-> -       __kvm_gmem_invalidate_begin(f, 0, end,
-> -                                   kvm_gmem_get_invalidate_filter(inode));
-> +       filter = kvm_gmem_get_invalidate_filter(inode, 0, end);
-> +       __kvm_gmem_invalidate_begin(f, 0, end, filter);
->         __kvm_gmem_invalidate_end(f, 0, end);
->
->         list_del(&f->entry);
->
-> --
-> 2.54.0.563.g4f69b47b94-goog
->
->
+Stefan
+
+> Am 24.04.2026 um 11:54 schrieb Arnd Bergmann <arnd@arndb.de>:
+>=20
+> On Fri, Apr 24, 2026, at 09:13, Linus Walleij wrote:
+>> On Tue, Apr 21, 2026 at 10:24=E2=80=AFPM Stefan D=C3=B6singer
+>> <stefandoesinger@gmail.com> wrote:
+>>=20
+>>> This enables existing drivers that already are (UART) or will be =
+(USB,
+>>> GPIO) necessary to operate this board even if they aren't declared =
+in
+>>> the DTS yet.
+>>>=20
+>>> Signed-off-by: Stefan D=C3=B6singer <stefandoesinger@gmail.com>
+>>=20
+>> *I* personally (as SoC maintainer) think that having a few more =
+defconfigs
+>> is fine, even helpful.
+>>=20
+>> But I would defer this to the more senior SoC maintainers because I =
+think
+>> their stance is something like:
+>>=20
+>> - We have multi_v7_defconfig for compile testing
+>>=20
+>> - We know that binary gets way to big for your system: it's for build
+>>  testing and perhaps booting in QEMU or systems with many MB of
+>>  RAM, not for actually running it on products.
+>>=20
+>> - You are encouraged to keep your own defconfig out-of-tree.
+>=20
+> Right, we clearly need to do something better than what we are with
+> the general defconfigs, as I'm sure many of the existing ones are
+> never actually used for booting a machine, and are horribly out of
+> date with the Kconfig options.
+>=20
+> I wouldn't object to adding another defconfig for a new (or revived)
+> soc family, but I don't want to have more per-board ones.
+> Overall, we have about 70 defconfigs and 55 soc families that have =
+their
+> own mach-* directory (plus a few without code), and the number of
+> defconfigs alone makes it hard to keep them up to date.=20
+>=20
+>> However I even challenged this myself by adding a defconfig for =
+memory
+>> constrained Broadcoms a while back (NACKed/ignored ;) so if it was =
+all
+>> up to me I would merge this.
+>=20
+> I don't even remember that discussion ;-)
+>=20
+> One idea might be to have a tiny base defconfig, plus platform
+> specific fragments that add drivers. The problem is agreeing
+> what bits are essential enough to still get enabled in the
+> tiny config.
+>=20
+>       Arnd
+
+
+--Apple-Mail=_5D209284-6E0B-4B8C-B2C6-1CF1063CB628
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEQxb0tqoFWyeVMl1sPRO8yFRPGiIFAmoOu4EACgkQPRO8yFRP
+GiL8IQ//Zm20DYooaVaVCuklde82UX5X2MHKLX3bEwoqFm8OwrwK1a0bu61uKXRd
+TTj/RVjingjzc/MWqbhSiDLM+1tvrMaa8bhi16TRYn5upIa71KlieKL5Kd/9cmoW
+fqmI+HoIIq6mQTIYJ2GMCp0/ciADEXnE41buFWzPiu7BMeVInJMaYpX6NKyXd7ZG
+oAf3t5tCMMxrRfBq7bv4JV8TAjLdibq+SNyxH6xYoZwrW7J6pLYGeHJcbUNNHJFD
+Vl5PgpflnmNhfcQk7nTKufpY44szSAwB9GmiuOemwzmUEGv3V0e4t8Rni1FlHQsR
+gAUiB04OMbDSDV9kntSrZwbEUR4UkJLZhKanfJOTv/Sy6pNZLpcS0TB5YY7TEfcy
+lr1oKB9HXUka9mhPKFmGrC0TN7jkPKmkTLK70RXVtNX/pU4dFSsm0yP76XL2KrBA
+rfvH0At+i5cU3nPYvoOm56VkiOfHsnQB9adNQ5l8GeAUpQB6HI4jr23IhD8BYvsB
+yKxccCZ4tkD05c9InZqE+lsxvB9esDjo4gKZzFWhuXY/+4rOcRowbxsFGHt/TCWn
+9U7SU0cAsuce6Ex+oPs62EkqM0yyZ0FMVlmVGI9PJ5O1sJ5W6xYOlxwnLGH6TJNE
+bOIJ4WxSJmZra+QaQXak7qAOxAV92+Du/IioWZnoXjGc0BzTjhw=
+=rcPP
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_5D209284-6E0B-4B8C-B2C6-1CF1063CB628--
