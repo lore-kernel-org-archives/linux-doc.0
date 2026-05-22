@@ -1,163 +1,403 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E0A389443
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 20:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA7C25B09E;
+	Fri, 22 May 2026 20:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779481465; cv=none; b=sBrKcyLUq9Z5kKm6TCyl6G2+3h82N6NNYekLyxOcpiNm5pNOfEhoUgMubg9U5E90P5LczLevJdLyroqoNfbqPyfsuogX/uSLqE2/a3gj5qZQ20btrMOKOM6FcGDwMw17bTGySgmXQoDoWqPyQqoFvFomrtRgs/++D20F/0zqYgY=
+	t=1779482848; cv=none; b=rOp2aKYEM0BEnk1JRuZ/uIUifhpCafsymMppcjzCEd6nJeBb5PBx293BRgBnZimjKwn8bm2T+J4J3b4a3BHMLYs8xnWgwPcvWrNEXyJ2OyB2GZ9zfZlsoQToeDhegbnEWqVkaIyAQYuxT6HwVWaskORFbS+e03YMgpkmPNO3HYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779481465; c=relaxed/simple;
-	bh=6ZVk6YJvJGNI1hdkC2SsSYmezEigbBslp8F9CBARniw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=KtGSQswthhzoEmjefWRlIyq8MpSBbFzezYJj4e0NL6GapwpGJB6BqT4ng6ETau1mcb596z9GjaTt9IhkoxAGhGwzuG+ouAyGXjztF7syViC/+0AotCiGUjGQo1AV5xR75r8gMnJ+IUduznvaByu5OZ0Oxo/VZ7A1wQ6/PmPQUG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=apcKP8Zb; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
+	s=arc-20240116; t=1779482848; c=relaxed/simple;
+	bh=PwUkc5WBoTvQu4zwbPERYVBBD8vFVBvQS2QIk9uteV0=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=dDoHnhsqCfP4p/IlhyvKipPDJhOZxmVeNN7UtWSPRUaZ0SKTWlzAytu8OOd4wQYl05JmFMQoxz23cU7aSC3fYSiDE69h4PFY5tIzAmcEgYFr5DPBA0u37fN6go2xpbOGIs2z0m+Z+SyFWOhHjUF/j64XRP7xwieVFCQ34g+9xbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=f0+AmlY/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="apcKP8Zb"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-82fa2165c3eso4872149b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 13:24:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="f0+AmlY/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1733B1F000E9;
+	Fri, 22 May 2026 20:47:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779481463; x=1780086263; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jD8Dp8WjVDfBtyvW+7yZYOtj2UMzN2TZIRigqz140zs=;
-        b=apcKP8ZbFfxk9mW1Z5BZ2RJ8HInvFGwLKvWm7oStZiScZvCS+yRmuAqKefsLHXODpt
-         kfQzQYFv3G78oXA6ieimPMuTBOf3fquOUeTAonleDpfSopLeOLYI9Ai04tfBRV7Q5m1V
-         xx8kMNFxrUtlCjlWgZzHHSusyZThTJq7mEQxec/yOCizDms/jQvSH1SxsiBXixNr3jGd
-         OosnbBOcW+kDyWUbG5DVuN0Wh4e82+QM8JRHy0nFZGN84oI/Dq1/PkodTQovc9F68JDr
-         sUvSdcDGdRZx53ddkiokKOY6y0WikVZ9qyEYaIjwtzpC1fXuKodsJnfWAFTYa9fowxBi
-         yGyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779481463; x=1780086263;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jD8Dp8WjVDfBtyvW+7yZYOtj2UMzN2TZIRigqz140zs=;
-        b=QHqTnvFZG+28qQv7nxb2UvGZC/icU3/Ycm+wJvPuWJjtwIGJHvzD5UZXOnXfh3v8hm
-         6NLfOR0p/l2e4RtNF3rWuY4funMex5RoCqvweaJvPA1vnqrh9Q7tCDSFshIF78VLThJT
-         efYJkqiq4oru1hndUj7vHHJpQQ+RT5oh18I6y1jS/XpsyzUzERHm/XmtpqKXpQW5wuFM
-         IYvFMgNQ5i1jlebdLYBSHZZM/fyRjBq41avX7OP57EOG8MpGBSzfd4fylpI9GHfrU1cq
-         T999x25/TNmzUmILrjF7ud64ysbcPlqdORKB6zJw5pHF2fGitf1DVFfZEqe117dMNCUA
-         3b/Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/FBX8bDlffOgJkBj3etM8SZChl+af9gc6SUYRq6s4fp4gGug2j+wOj5VYK/F08frc3eaHiPBVrkZc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcVh/qSzexHwu/z0G1QNMnJeLTBCku4jbfNHR5Zh755AoEohzo
-	3/9zMYcceqsVuN5Lhrokh/PfaBI81CzZ65bYZ8ev5vLR8BYc9uWWiRZqyEpxaorqbRJZ9M3yFjY
-	8p23mI8GcDk+zGQ==
-X-Received: from pfcs23.prod.google.com ([2002:a05:6a00:6fd7:b0:82f:6a57:a9aa])
- (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:1c8b:b0:82c:7f08:8826 with SMTP id d2e1a72fcca58-8415f15b50emr4877330b3a.17.1779481462682;
- Fri, 22 May 2026 13:24:22 -0700 (PDT)
-Date: Fri, 22 May 2026 20:24:10 +0000
-In-Reply-To: <20260522202410.3104264-1-dmatlack@google.com>
+	d=linux-foundation.org; s=korg; t=1779482846;
+	bh=5i7QPODMLrxZnmiREAIuBEYGYbpe74GrBuxM8qMSb8U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=f0+AmlY/ShT2/hpXajnodxaUa5AAFQFk5ixmYQ8axR/pndLRRMHuif4PUOb5XCAEm
+	 MxEvzk7xP3oldzwRS2Ih+XxQPGuLMQUylC9mf0PumzUs8tHCmKwTvzeF6wR2wZw2Nn
+	 U+tEF6psyus2ZJpUHECfLIqG7f6SioONFBd54JfE=
+Date: Fri, 22 May 2026 13:47:24 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
+ aarcange@redhat.com, anshuman.khandual@arm.com, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
+ catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
+ dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
+ gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz,
+ jackmanb@google.com, jannh@google.com, jglisse@google.com,
+ joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
+ liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com,
+ matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
+ peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
+ rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
+ rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com,
+ shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com,
+ thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com,
+ vbabka@suse.cz, vishal.moola@gmail.com, wangkefeng.wang@huawei.com,
+ will@kernel.org, willy@infradead.org, yang@os.amperecomputing.com,
+ ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-hotfixes-unstable v18 00/14] khugepaged: add mTHP
+ collapse support
+Message-Id: <20260522134724.f4f11941a85ef18b307d16ae@linux-foundation.org>
+In-Reply-To: <20260522150009.121603-1-npache@redhat.com>
+References: <20260522150009.121603-1-npache@redhat.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260522202410.3104264-1-dmatlack@google.com>
-X-Mailer: git-send-email 2.54.0.746.g67dd491aae-goog
-Message-ID: <20260522202410.3104264-13-dmatlack@google.com>
-Subject: [PATCH v6 12/12] Documentation: PCI: Add documentation for Live Update
-From: David Matlack <dmatlack@google.com>
-To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
-	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, 
-	Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add documentation files for the PCI subsystem's participation in Live
-Update.
+On Fri, 22 May 2026 08:59:55 -0600 Nico Pache <npache@redhat.com> wrote:
 
-These documentation files are generated from the kernel-doc comments
-in the PCI Live Update source code. They describe the File-Lifecycle
-Bound (FLB) API, the device tracking API, and the specific policies
-applied to preserved devices (such as bus number inheritance and bus
-mastering preservation).
+> The following series provides khugepaged with the capability to collapse
+> anonymous memory regions to mTHPs.
 
-Signed-off-by: David Matlack <dmatlack@google.com>
----
- Documentation/PCI/index.rst           |  1 +
- Documentation/PCI/liveupdate.rst      | 29 +++++++++++++++++++++++++++
- Documentation/core-api/liveupdate.rst |  1 +
- MAINTAINERS                           |  1 +
- 4 files changed, 32 insertions(+)
- create mode 100644 Documentation/PCI/liveupdate.rst
+Thanks, I've update mm.git's mm-unstable branch to this version.
 
-diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
-index 5d720d2a415e..23fb737ac969 100644
---- a/Documentation/PCI/index.rst
-+++ b/Documentation/PCI/index.rst
-@@ -20,3 +20,4 @@ PCI Bus Subsystem
-    controller/index
-    boot-interrupts
-    tph
-+   liveupdate
-diff --git a/Documentation/PCI/liveupdate.rst b/Documentation/PCI/liveupdate.rst
-new file mode 100644
-index 000000000000..eba55f8a92ae
---- /dev/null
-+++ b/Documentation/PCI/liveupdate.rst
-@@ -0,0 +1,29 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+===========================
-+PCI Support for Live Update
-+===========================
-+
-+.. kernel-doc:: drivers/pci/liveupdate.c
-+   :doc: PCI Live Update
-+
-+Driver API
-+==========
-+
-+.. kernel-doc:: drivers/pci/liveupdate.c
-+   :export:
-+
-+Live Update ABI
-+===============
-+
-+.. kernel-doc:: include/linux/kho/abi/pci.h
-+   :doc: PCI File-Lifecycle Bound (FLB) Live Update ABI
-+
-+.. kernel-doc:: include/linux/kho/abi/pci.h
-+   :internal:
-+
-+See Also
-+========
-+
-+ * :doc:`/core-api/liveupdate`
-+ * :doc:`/core-api/kho/index`
-diff --git a/Documentation/core-api/liveupdate.rst b/Documentation/core-api/liveupdate.rst
-index 5a292d0f3706..d56a7760978a 100644
---- a/Documentation/core-api/liveupdate.rst
-+++ b/Documentation/core-api/liveupdate.rst
-@@ -70,3 +70,4 @@ See Also
+It sounds like I might be dropping it soon, haven't started looking at
+that yet.  But let's at least eyeball the latest version at this time.
+
+Sashiko was able to apply this, so the base-it-on-hotfixes thing worked
+well, thanks.  The AI checking made a few allegations:
+
+	https://sashiko.dev/#/patchset/20260522150009.121603-1-npache@redhat.com
+
+> V18 Changes:
+> - Added RBs/Acks
+> - [patch 02] Guard count_memcg_folio_events with is_pmd_order() to keep
+>   THP_COLLAPSE_ALLOC PMD-only (Usama, Lance)
+> - [patch 03] Convert C++ comments to C-style; fix "none-page" terminology
+>   to "empty PTEs or PTEs mapping the shared zeropage"; drop unnecessary
+>   userfaultfd comment; add const to local max_ptes_* variables; fix
+>   "repect" typo (Lance, David)
+> - [patch 04] collapse_max_ptes_none() now returns 0 instead of -EINVAL for
+>   unsupported values; remove SCAN_INVALID_PTES_NONE; change return type
+>   from int to unsigned int and propagate to all callers; add comment above
+>   __collapse_huge_page_swapin explaining mTHP swap bail-out (David,
+>   Lorenzo, Lance, Wei Yang, Usama)
+> - [patch 05] Rewrite collapse_huge_page lock comment to David's suggested
+>   wording (David)
+> - [patch 11] Propagate unsigned int return type for max_ptes_none; remove
+>   the now-unnecessary negative return check (consequence of patch 04);
+>   Add optimization to the next_order goto that will prevent unnecessary
+>   iterations if there are no lower orders enabled (Vernon); update locking
+>   comment; pass VMA to mthp_collapse to improve uffd-armed detection, and
+>   prevent unnecessary work. (Wei)
+> - [patch 14] Update documentation to reflect fallback-to-0 behavior
+> 
+
+Below is how v18 altered mm.git.
+
+Quite a lot of it seems to be replacement of "//"-style comments.  It's
+unfortunate that this work isn't separated from the substantive
+changes.  We could have done that with a few followup fixes rather than
+a wholesale replacement of the series.
+
+
+ Documentation/admin-guide/mm/transhuge.rst |    5 
+ include/trace/events/huge_memory.h         |    3 
+ mm/khugepaged.c                            |  121 +++++++++----------
+ 3 files changed, 66 insertions(+), 63 deletions(-)
+
+--- a/Documentation/admin-guide/mm/transhuge.rst~b
++++ a/Documentation/admin-guide/mm/transhuge.rst
+@@ -312,8 +312,9 @@ when collapsing a group of small pages i
+ For PMD-sized THP collapse, this directly limits the number of empty pages
+ allowed in the 2MB region.
  
- - :doc:`Live Update uAPI </userspace-api/liveupdate>`
- - :doc:`/core-api/kho/index`
-+- :doc:`PCI </PCI/liveupdate>`
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0e262c0ceb43..6f0b0ebf67cd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20536,6 +20536,7 @@ L:	kexec@lists.infradead.org
- L:	linux-pci@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git
-+F:	Documentation/PCI/liveupdate.rst
- F:	drivers/pci/liveupdate.c
- F:	drivers/pci/liveupdate.h
- F:	include/linux/kho/abi/pci.h
--- 
-2.54.0.746.g67dd491aae-goog
+-For mTHP collapse, only 0 or (HPAGE_PMD_NR - 1) are supported. Any other value
+-will emit a warning and no mTHP collapse will be attempted.
++For mTHP collapse, only 0 or (HPAGE_PMD_NR - 1) are supported. At
++HPAGE_PMD_NR - 1, we collapse to the highest possible order. Any intermediate
++value will emit a warning and mTHP collapse will default to max_ptes_none=0.
+ 
+ A higher value allows more empty pages, potentially leading to more memory
+ usage but better THP performance. A lower value is more conservative and
+--- a/include/trace/events/huge_memory.h~b
++++ a/include/trace/events/huge_memory.h
+@@ -39,8 +39,7 @@
+ 	EM( SCAN_STORE_FAILED,		"store_failed")			\
+ 	EM( SCAN_COPY_MC,		"copy_poisoned_page")		\
+ 	EM( SCAN_PAGE_FILLED,		"page_filled")			\
+-	EM(SCAN_PAGE_DIRTY_OR_WRITEBACK, "page_dirty_or_writeback")	\
+-	EMe(SCAN_INVALID_PTES_NONE,	"invalid_ptes_none")
++	EMe(SCAN_PAGE_DIRTY_OR_WRITEBACK, "page_dirty_or_writeback")
+ 
+ #undef EM
+ #undef EMe
+--- a/mm/khugepaged.c~b
++++ a/mm/khugepaged.c
+@@ -61,7 +61,6 @@ enum scan_result {
+ 	SCAN_COPY_MC,
+ 	SCAN_PAGE_FILLED,
+ 	SCAN_PAGE_DIRTY_OR_WRITEBACK,
+-	SCAN_INVALID_PTES_NONE,
+ };
+ 
+ #define CREATE_TRACE_POINTS
+@@ -380,41 +379,43 @@ static bool pte_none_or_zero(pte_t pte)
+ }
+ 
+ /**
+- * collapse_max_ptes_none - Calculate maximum allowed none-page or zero-page
+- * PTEs for the given collapse operation.
++ * collapse_max_ptes_none - Calculate maximum allowed empty PTEs or PTEs mapping
++ * the shared zeropage for the given collapse operation.
+  * @cc: The collapse control struct
+  * @vma: The vma to check for userfaultfd
+  * @order: The folio order being collapsed to
+  *
+- * Return: Maximum number of none-page or zero-page PTEs allowed for the
+- * collapse operation.
++ * Return: Maximum number of empty/shared zeropage PTEs for the collapse operation
+  */
+-static int collapse_max_ptes_none(struct collapse_control *cc,
++static unsigned int collapse_max_ptes_none(struct collapse_control *cc,
+ 		struct vm_area_struct *vma, unsigned int order)
+ {
+ 	unsigned int max_ptes_none = khugepaged_max_ptes_none;
+-	// If the vma is userfaultfd-armed, allow no none-page or zero-page PTEs.
++
+ 	if (vma && userfaultfd_armed(vma))
+ 		return 0;
+-	// for MADV_COLLAPSE, allow any none-page or zero-page PTEs.
++	/* for MADV_COLLAPSE, allow any empty/shared zeropage PTEs */
+ 	if (!cc->is_khugepaged)
+ 		return HPAGE_PMD_NR;
+-	// for PMD collapse, respect the user defined maximum.
++	/* for PMD collapse, respect the user defined maximum */
+ 	if (is_pmd_order(order))
+ 		return max_ptes_none;
+-	/* Zero/non-present collapse disabled. */
+-	if (!max_ptes_none)
+-		return 0;
+-	// for mTHP collapse with the sysctl value set to KHUGEPAGED_MAX_PTES_LIMIT,
+-	// scale the maximum number of PTEs to the order of the collapse.
++	/*
++	 * for mTHP collapse with the sysctl value set to KHUGEPAGED_MAX_PTES_LIMIT,
++	 * scale the maximum number of PTEs to the order of the collapse.
++	 */
+ 	if (max_ptes_none == KHUGEPAGED_MAX_PTES_LIMIT)
+ 		return (1 << order) - 1;
+-
+-	// We currently only support max_ptes_none values of 0 or KHUGEPAGED_MAX_PTES_LIMIT.
+-	// Emit a warning and return -EINVAL.
+-	pr_warn_once("mTHP collapse only supports max_ptes_none values of 0 or %u\n",
+-		      KHUGEPAGED_MAX_PTES_LIMIT);
+-	return -EINVAL;
++	if (!max_ptes_none)
++		return 0;
++	/*
++	 * For mTHP collapse of values other than 0 or KHUGEPAGED_MAX_PTES_LIMIT,
++	 * emit a warning and return 0.
++	 */
++	pr_warn_once("mTHP collapse does not support max_ptes_none values"
++		     " other than 0 or %u, defaulting to 0.\n",
++		     KHUGEPAGED_MAX_PTES_LIMIT);
++	return 0;
+ }
+ 
+ /**
+@@ -429,15 +430,19 @@ static int collapse_max_ptes_none(struct
+ static unsigned int collapse_max_ptes_shared(struct collapse_control *cc,
+ 		unsigned int order)
+ {
+-	// for MADV_COLLAPSE, do not restrict the number of PTEs that map shared
+-	// anonymous pages.
++	/*
++	 * For MADV_COLLAPSE, do not restrict the number of PTEs that map shared
++	 * anonymous pages.
++	 */
+ 	if (!cc->is_khugepaged)
+ 		return HPAGE_PMD_NR;
+-	// for mTHP collapse do not allow collapsing anonymous memory pages that
+-	// are shared between processes.
++	/*
++	 * for mTHP collapse do not allow collapsing anonymous memory pages that
++	 * are shared between processes.
++	 */
+ 	if (!is_pmd_order(order))
+ 		return 0;
+-	// for PMD collapse, respect the user defined maximum.
++	/* for PMD collapse, respect the user defined maximum */
+ 	return khugepaged_max_ptes_shared;
+ }
+ 
+@@ -453,14 +458,16 @@ static unsigned int collapse_max_ptes_sh
+ static unsigned int collapse_max_ptes_swap(struct collapse_control *cc,
+ 		unsigned int order)
+ {
+-	// for MADV_COLLAPSE, do not restrict the number PTEs entries or
+-	// pagecache entries that are non-present.
++	/*
++	 * For MADV_COLLAPSE, do not restrict the number PTEs entries or
++	 * pagecache entries that are non-present.
++	 */
+ 	if (!cc->is_khugepaged)
+ 		return HPAGE_PMD_NR;
+-	// for mTHP collapse do not allow any non-present PTEs or pagecache entries.
++	/* for mTHP collapse do not allow any non-present PTEs or pagecache entries */
+ 	if (!is_pmd_order(order))
+ 		return 0;
+-	// for PMD collapse, respect the user defined maximum.
++	/* for PMD collapse, respect the user defined maximum */
+ 	return khugepaged_max_ptes_swap;
+ }
+ 
+@@ -593,9 +600,8 @@ static unsigned long collapse_allowable_
+ void khugepaged_enter_vma(struct vm_area_struct *vma,
+ 			  vm_flags_t vm_flags)
+ {
+-	if (!mm_flags_test(MMF_VM_HUGEPAGE, vma->vm_mm) &&
+-	    collapse_allowable_orders(vma, vm_flags, TVA_KHUGEPAGED) &&
+-	    hugepage_enabled())
++	if (!mm_flags_test(MMF_VM_HUGEPAGE, vma->vm_mm) && hugepage_enabled()
++	    && collapse_allowable_orders(vma, vm_flags, TVA_KHUGEPAGED))
+ 		__khugepaged_enter(vma->vm_mm);
+ }
+ 
+@@ -670,6 +676,8 @@ static enum scan_result __collapse_huge_
+ 		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
+ 		unsigned int order, struct list_head *compound_pagelist)
+ {
++	const unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma, order);
++	const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, order);
+ 	const unsigned long nr_pages = 1UL << order;
+ 	struct page *page = NULL;
+ 	struct folio *folio = NULL;
+@@ -677,11 +685,6 @@ static enum scan_result __collapse_huge_
+ 	pte_t *_pte;
+ 	int none_or_zero = 0, shared = 0, referenced = 0;
+ 	enum scan_result result = SCAN_FAIL;
+-	int max_ptes_none = collapse_max_ptes_none(cc, vma, order);
+-	unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, order);
+-
+-	if (max_ptes_none < 0)
+-		return SCAN_INVALID_PTES_NONE;
+ 
+ 	for (_pte = pte; _pte < pte + nr_pages;
+ 	     _pte++, addr += PAGE_SIZE) {
+@@ -1136,6 +1139,10 @@ static enum scan_result check_pmd_still_
+  * Bring missing pages in from swap, to complete THP collapse.
+  * Only done if khugepaged_scan_pmd believes it is worthwhile.
+  *
++ * For mTHP orders the function bails on the first swap entry, because
++ * faulting pages back in during collapse could re-populate PTEs that
++ * push a later scan over the threshold for a higher-order collapse.
++ *
+  * Called and returns without pte mapped or spinlocks held.
+  * Returns result: if not SCAN_SUCCEED, mmap_lock has been released.
+  */
+@@ -1257,19 +1264,18 @@ static enum scan_result alloc_charge_fol
+ 		return SCAN_CGROUP_CHARGE_FAIL;
+ 	}
+ 
+-	count_memcg_folio_events(folio, THP_COLLAPSE_ALLOC, 1);
++	if (is_pmd_order(order))
++		count_memcg_folio_events(folio, THP_COLLAPSE_ALLOC, 1);
+ 
+ 	*foliop = folio;
+ 	return SCAN_SUCCEED;
+ }
+ 
+ /*
+- * collapse_huge_page expects the mmap_read_lock to be dropped before
+- * entering this function. The function will also always return with the lock
+- * dropped. The function starts by allocation a folio, which can potentially
+- * take a long time if it involves sync compaction, and we do not need to hold
+- * the mmap_lock during that. We must recheck the vma after taking it again in
+- * write mode.
++ * collapse_huge_page expects the mmap_lock to be unlocked before entering and
++ * will always return with the lock unlocked, to avoid holding the mmap_lock
++ * while allocating a THP, as that could trigger direct reclaim/compaction.
++ * Note that the VMA must be rechecked after grabbing the mmap_lock again.
+  */
+ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long start_addr,
+ 		int referenced, int unmapped, struct collapse_control *cc,
+@@ -1500,12 +1506,12 @@ static unsigned int collapse_mthp_count_
+  * If a collapse is permitted, we attempt to collapse the PTE range into a
+  * mTHP.
+  */
+-static int mthp_collapse(struct mm_struct *mm, unsigned long address,
+-		int referenced, int unmapped, struct collapse_control *cc,
+-		unsigned long enabled_orders)
++static int mthp_collapse(struct mm_struct *mm, struct vm_area_struct *vma,
++		unsigned long address, int referenced, int unmapped,
++		struct collapse_control *cc, unsigned long enabled_orders)
+ {
+-	unsigned int nr_occupied_ptes, nr_ptes;
+-	int max_ptes_none, collapsed = 0, stack_size = 0;
++	unsigned int nr_occupied_ptes, nr_ptes, max_ptes_none;
++	int collapsed = 0, stack_size = 0;
+ 	unsigned long collapse_address;
+ 	struct mthp_range range;
+ 	u16 offset;
+@@ -1522,10 +1528,7 @@ static int mthp_collapse(struct mm_struc
+ 		if (!test_bit(order, &enabled_orders))
+ 			goto next_order;
+ 
+-		max_ptes_none = collapse_max_ptes_none(cc, NULL, order);
+-
+-		if (max_ptes_none < 0)
+-			return collapsed;
++		max_ptes_none = collapse_max_ptes_none(cc, vma, order);
+ 
+ 		nr_occupied_ptes = collapse_mthp_count_present(cc, offset,
+ 							       nr_ptes);
+@@ -1565,7 +1568,7 @@ static int mthp_collapse(struct mm_struc
+ 		}
+ 
+ next_order:
+-		if (order > KHUGEPAGED_MIN_MTHP_ORDER) {
++		if ((BIT(order) - 1) & enabled_orders) {
+ 			const u8 next_order = order - 1;
+ 			const u16 mid_offset = offset + (nr_ptes / 2);
+ 
+@@ -1582,9 +1585,9 @@ static enum scan_result collapse_scan_pm
+ 		struct vm_area_struct *vma, unsigned long start_addr,
+ 		bool *lock_dropped, struct collapse_control *cc)
+ {
+-	int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
+ 	const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER);
+ 	const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
++	unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
+ 	enum tva_type tva_flags = cc->is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
+ 	pmd_t *pmd;
+ 	pte_t *pte, *_pte, pteval;
+@@ -1772,9 +1775,9 @@ out_unmap:
+ 	if (result == SCAN_SUCCEED) {
+ 		/* collapse_huge_page expects the lock to be dropped before calling */
+ 		mmap_read_unlock(mm);
+-		nr_collapsed = mthp_collapse(mm, start_addr, referenced, unmapped,
+-					      cc, enabled_orders);
+-		/* collapse_huge_page will return with the mmap_lock released */
++		nr_collapsed = mthp_collapse(mm, vma, start_addr, referenced,
++					     unmapped, cc, enabled_orders);
++		/* mmap_lock was released above, set lock_dropped */
+ 		*lock_dropped = true;
+ 		result = nr_collapsed ? SCAN_SUCCEED : SCAN_FAIL;
+ 	}
+@@ -2665,7 +2668,7 @@ static enum scan_result collapse_scan_fi
+ 		unsigned long addr, struct file *file, pgoff_t start,
+ 		struct collapse_control *cc)
+ {
+-	const int max_ptes_none = collapse_max_ptes_none(cc, NULL, HPAGE_PMD_ORDER);
++	const unsigned int max_ptes_none = collapse_max_ptes_none(cc, NULL, HPAGE_PMD_ORDER);
+ 	const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
+ 	struct folio *folio = NULL;
+ 	struct address_space *mapping = file->f_mapping;
+_
 
