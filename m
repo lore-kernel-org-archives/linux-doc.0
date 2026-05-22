@@ -1,77 +1,303 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B933563C7;
-	Fri, 22 May 2026 18:08:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE6336C9EB;
+	Fri, 22 May 2026 18:19:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779473294; cv=none; b=cLY1M+cm6Tqtl632Cy5kk+6OPYSayGpy6jj1aK0JvARTgXWmKatXsx4xzft6mDOeVad0PaiYZroaqLm/cm2PzBPP//GkdUltZIK+adlcF2433M7QdSYXajiivjegkR6Nz9bkkid1RtRatdGVzInw1DbpOn/U9nRzG54VZwA37zE=
+	t=1779473987; cv=none; b=jWa5raKcA4X19nxR7DRK8pqdRqjdeo3IIocvEa1R43zAV3TzbM3xdtJeA6qMd/b8hfXt6+VcP0R6B7BObwBDfyjGq2MtGMJ85wHI+qnqIK1kP6Yk9DZseH+vQfxIcEAortAaqYWGF/EK8U8ToDWwvoV5OpcFJt4jdLubkOv1BXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779473294; c=relaxed/simple;
-	bh=D+QlwgyspGCxRrFsO0ZnTGhtWwf3XXksBQG1mD/ntFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AbnRFkM8CMOnZOIWK9r6UN5Dk+nxeU9Ds+9+1ySzWi/zkUz4igfHZ5m0tCMhb2G6slYVnMM/OEmQVcsOeC4ytty0vXoS7UBH6KBO4v5B/CYEN7SziYIr+gwMHk5+6q03KRNRV/riAD94s7oCJ5JFp6grszJ7dEscgkR20uk8mTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P9ViQnfR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779473987; c=relaxed/simple;
+	bh=M9I0noxrTUL68HDfYD0HwCW/nObwsQJ0bgl9RUEqbRE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fCrza6FBwoxHsg8HCXxRUyFT78474NWcAVIGTY/JNW3c2JGaafH/6Y3PvVpdZc8Jv6qytTHv2cx9SoXyOuFII2KwMQZV009evTQTTrpqLsmhaSMpQx2l6PlafdNvjLt8ASeupG25I+veAMcuqjCIxKdurkEJNqmY5yUmhMt+aVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hpZMAUki; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P9ViQnfR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F38C21F000E9;
-	Fri, 22 May 2026 18:07:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hpZMAUki"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 873961F000E9;
+	Fri, 22 May 2026 18:19:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779473277;
-	bh=HYE2un0+Wolz9Xbz/PTK0lTQWAFkFE1pz8lK5GQKOns=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=P9ViQnfROsULbADXDJLeYrUzNXQJuOoKl8GUvCGqEwJdJD3Pg1StMt9WqyNRYWcv4
-	 GPLN+l+4VDfxU7MUdBj2xwUbhkyodFnOkJ3JybK0Mb96EZChjTokabOu8m7buT7SGQ
-	 qUU6TH4UicB1VAOnrq10n2CLS3Wh4QTW+gx20USneS0mFMxB8sMFTMwZ5fWUjnn5yO
-	 1mdsHa60i03rqbSWuI2A/yDqZy6bJdvFW8O+IOvBc+9iLBuZKtFRVcDj9v9yzlqxc6
-	 8rOeb8LMBPMRmo/M8Mm6DblEOLbXdz0pXA7W/lq6ZAgZtkLvBfrynmWnodGbj9dx+1
-	 8E+jR6w8ZV6ig==
-Date: Fri, 22 May 2026 19:07:46 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v5 11/13] iio: frequency: ad9910: show channel priority
- in debugfs
-Message-ID: <20260522190746.4c802584@jic23-huawei>
-In-Reply-To: <20260517-ad9910-iio-driver-v5-11-31599c88314a@analog.com>
-References: <20260517-ad9910-iio-driver-v5-0-31599c88314a@analog.com>
-	<20260517-ad9910-iio-driver-v5-11-31599c88314a@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1779473985;
+	bh=8SjMrL9BQuJAplU4F2qtA3QLg7Gv2hZ7w4WdFbn90pY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=hpZMAUkiG93ieiEyh+FqxKOBo9MNKI+CoRx5wDcscpRGAkSY+09k2REmAx9mytA9O
+	 zUmc3eLybhHjZ7/KieMSjV+fdEWjMqgHhkRucPfD5FUQLyeE/xCHhTGH+ehHcv2iUa
+	 bTeOmcIm0OvlWNnfQcXpg99+SzZpfNAxFtkS69+vGpSxoUY70y5PC76Kn3oJAgpxEe
+	 3oaMuCgQrmqGlAzi48g5pgxoNNBB6Bl8qdgb9zQPXortnGjPQ8WPyCFv1a5DUF1Mkp
+	 nS9+bYom4JihQyJXdcR2APISGF7dZU/kLhvLvghe1VspDS/fhirJ4nu24YU8BI/DG5
+	 YnMmPsOwTMTMw==
+From: Jakub Kicinski <kuba@kernel.org>
+To: tariqt@nvidia.com
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	jiri@resnulli.us,
+	horms@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	saeedm@nvidia.com,
+	leon@kernel.org,
+	mbloch@nvidia.com,
+	vdumitrescu@nvidia.com,
+	aleksandr.loktionov@intel.com,
+	daniel.zahka@gmail.com,
+	dsahern@kernel.org,
+	razor@blackwall.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	gal@nvidia.com,
+	dtatulea@nvidia.com,
+	jiri@nvidia.com,
+	nikolay@nvidia.com
+Subject: Re: [PATCH net-next V2 2/2] net/mlx5: implement max_sfs parameter
+Date: Fri, 22 May 2026 11:19:42 -0700
+Message-ID: <20260522181943.1495576-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260519200436.353249-3-tariqt@nvidia.com>
+References: <20260519200436.353249-3-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 17 May 2026 19:37:55 +0100
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+---
+net/mlx5: implement max_sfs parameter
 
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> 
-> Expose frequency_source, phase_source and amplitude_source attributes in
-> debugfs. Those indicate from which channel the specific DDS parameter is
-> being sourced by returning its label. The implementation follows the
-> priority table found in the datasheet.
-> 
+This patch adds a generic devlink permanent parameter named max_sfs to
+the mlx5 driver so users can cap the number of light-weight NIC
+subfunctions via devlink instead of vendor tooling. The setter rewrites
+non-volatile firmware fields in nv_global_pci_conf and nv_pf_pci_conf,
+and a reboot is required for the change to take effect.
 
-Examples here would be good.
+A few questions on the implementation below.
 
-I guess maybe this suffers the same label problem as the parent stuff.
-Same solution?
+> diff --git a/Documentation/networking/devlink/mlx5.rst b/Documentation/networking/devlink/mlx5.rst
+> index 4bba4d780a4a..f5e2dccafa5a 100644
+> --- a/Documentation/networking/devlink/mlx5.rst
+> +++ b/Documentation/networking/devlink/mlx5.rst
+> @@ -45,8 +45,13 @@ Parameters
+>       - The range is between 1 and a device-specific max.
+>       - Applies to each physical function (PF) independently, if the device
+>         supports it. Otherwise, it applies symmetrically to all PFs.
+> +   * - ``max_sfs``
+> +     - permanent
+> +     - The range is between 0 and a device-specific max.
+> +     - Applies to each physical function (PF) independently.
 
+[Medium, Medium]
+The documentation states the range is "between 0 and a device-specific
+max", and the entry says max_sfs "Applies to each physical function (PF)
+independently" with no "if the device supports it" qualifier like
+total_vfs has.
 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Looking at the implementation in mlx5_devlink_max_sfs_set(), there is no
+read of any nv_global_pci_cap field to obtain a device-reported maximum,
+and the registration uses NULL for the validate callback:
 
+  DEVLINK_PARAM_GENERIC(MAX_SFS, BIT(DEVLINK_PARAM_CMODE_PERMANENT),
+                        mlx5_devlink_max_sfs_get,
+                        mlx5_devlink_max_sfs_set, NULL),
+
+Should there be a validate callback analogous to
+mlx5_devlink_total_vfs_validate() that reads the cap and rejects values
+above the device-reported maximum, so the documented "device-specific
+max" is actually enforced?
+
+Should the doc also include the "if the device supports it" qualifier
+to match how the setter behaves on devices without the relevant
+capability?
+
+> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c b/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c
+> index 19bb620b7436..eff3a67e4ca0 100644
+> --- a/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c
+> +++ b/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c
+> @@ -68,7 +68,9 @@ struct mlx5_ifc_mnvda_reg_bits {
+>  
+>  struct mlx5_ifc_nv_global_pci_conf_bits {
+>  	u8         sriov_valid[0x1];
+> -	u8         reserved_at_1[0x10];
+> +	u8         reserved_at_1[0xa];
+> +	u8         per_pf_num_sf[0x1];
+> +	u8         reserved_at_c[0x5];
+>  	u8         per_pf_total_vf[0x1];
+>  	u8         reserved_at_12[0xe];
+
+[ ... ]
+
+> @@ -93,9 +95,11 @@ struct mlx5_ifc_nv_global_pci_cap_bits {
+>  };
+>  
+>  struct mlx5_ifc_nv_pf_pci_conf_bits {
+> -	u8         reserved_at_0[0x9];
+> +	u8         log_sf_bar_size[0x8];
+> +	u8         pf_total_sf_en[0x1];
+>  	u8         pf_total_vf_en[0x1];
+> -	u8         reserved_at_a[0x16];
+> +	u8         reserved_at_a[0x6];
+> +	u8         total_sf[0x10];
+>  
+>  	u8         reserved_at_20[0x20];
+
+[Medium]
+The on-wire field total_sf is 16 bits wide, but the devlink parameter
+is registered as DEVLINK_PARAM_TYPE_U32 (max_sfs uses
+DEVLINK_PARAM_GENERIC_MAX_SFS_TYPE, which is u32) and the setter writes
+ctx->val.vu32 directly via MLX5_SET(nv_pf_pci_conf, data, total_sf,
+ctx->val.vu32).
+
+MLX5_SET masks the value with __mlx5_mask(typ, fld) before storing, so
+any user-supplied value above 0xffff is silently truncated.  For
+example, "devlink dev param set ... name max_sfs value 70000" would
+persistently store 4464.
+
+Without a validate callback, is there anything that prevents this
+silent truncation, and should the setter or a validate hook reject
+values that do not fit in 16 bits?
+
+> @@ -755,6 +759,76 @@ static int mlx5_devlink_total_vfs_validate(struct devlink *devlink, u32 id,
+>  	return 0;
+>  }
+>  
+> +static int mlx5_devlink_max_sfs_get(struct devlink *devlink, u32 id,
+> +				    struct devlink_param_gset_ctx *ctx,
+> +				    struct netlink_ext_ack *extack)
+> +{
+> +	struct mlx5_core_dev *dev = devlink_priv(devlink);
+> +	u32 mnvda[MLX5_ST_SZ_DW(mnvda_reg)] = {};
+> +	void *data;
+> +	int err;
+> +
+> +	err = mlx5_nv_param_read_per_host_pf_conf(dev, mnvda, sizeof(mnvda));
+> +	if (err) {
+> +		NL_SET_ERR_MSG_MOD(extack, "Failed to read PF configuration");
+> +		return err;
+> +	}
+> +
+> +	data = MLX5_ADDR_OF(mnvda_reg, mnvda, configuration_item_data);
+> +	ctx->val.vu32 = MLX5_GET(nv_pf_pci_conf, data, total_sf);
+> +
+> +	return 0;
+> +}
+
+[Medium]
+Should max_sfs_get() mirror mlx5_devlink_total_vfs_get() and consult
+nv_global_pci_conf.per_pf_num_sf before reporting nv_pf_pci_conf.total_sf?
+
+The setter explicitly conditions the meaning of per-PF total_sf on
+per_pf_num_sf:
+
+  MLX5_SET(nv_global_pci_conf, data, per_pf_num_sf, !!ctx->val.vu32);
+  ...
+  MLX5_SET(nv_pf_pci_conf, data, total_sf, ctx->val.vu32);
+
+But the getter reads total_sf unconditionally, so on a device whose
+firmware was previously configured by another tool with per_pf_num_sf=0
+and a stale per-host total_sf, "devlink dev param show" would return a
+non-zero value that does not represent the active SF policy.  Is that
+intentional?
+
+> +static int mlx5_devlink_max_sfs_set(struct devlink *devlink, u32 id,
+> +				    struct devlink_param_gset_ctx *ctx,
+> +				    struct netlink_ext_ack *extack)
+> +{
+> +	struct mlx5_core_dev *dev = devlink_priv(devlink);
+> +	u32 mnvda[MLX5_ST_SZ_DW(mnvda_reg)] = {};
+> +	void *data;
+> +	int err;
+> +
+> +	err = mlx5_nv_param_read_global_pci_conf(dev, mnvda, sizeof(mnvda));
+> +	if (err) {
+> +		NL_SET_ERR_MSG_MOD(extack,
+> +				   "Failed to read global PCI configuration");
+> +		return err;
+> +	}
+> +
+> +	data = MLX5_ADDR_OF(mnvda_reg, mnvda, configuration_item_data);
+> +	MLX5_SET(nv_global_pci_conf, data, per_pf_num_sf, !!ctx->val.vu32);
+> +
+> +	err = mlx5_nv_param_write(dev, mnvda, sizeof(mnvda));
+> +	if (err) {
+> +		NL_SET_ERR_MSG_MOD(extack,
+> +				   "Failed to change per_pf_num_sf global PCI configuration");
+> +		return err;
+> +	}
+
+[Medium]
+Should this path first read nv_global_pci_cap and reject the operation
+when the device does not advertise SF NV configuration, the way
+mlx5_devlink_total_vfs_set() does for SR-IOV?
+
+mlx5_devlink_total_vfs_set() rejects with -EOPNOTSUPP and an extack
+"SRIOV is not per PF on this device" when sriov_support or
+per_pf_total_vf_supported is clear, but no equivalent
+per_pf_num_sf_supported (or any SF-related) capability bit is added to
+nv_global_pci_cap_bits or queried here.  On hardware that lacks the
+feature, the user only sees the generic firmware error "Failed to
+change ... global PCI configuration".
+
+[Medium]
+At this point, a successful write of per_pf_num_sf has already been
+committed to non-volatile firmware storage.  If the subsequent
+mlx5_nv_param_read_per_host_pf_conf() or the second mlx5_nv_param_write()
+fails (for example, transient firmware/PCIe issue), is there a path that
+rolls back per_pf_num_sf?
+
+Because these are permanent parameters that "require a reboot to take
+effect", a half-applied state (e.g., per_pf_num_sf=1 but
+pf_total_sf_en=0/total_sf=0) appears to persist across reboots until
+the user issues another successful set.
+
+> +
+> +	memset(mnvda, 0, sizeof(mnvda));
+> +	err = mlx5_nv_param_read_per_host_pf_conf(dev, mnvda, sizeof(mnvda));
+> +	if (err) {
+> +		NL_SET_ERR_MSG_MOD(extack, "Failed to read PF configuration");
+> +		return err;
+> +	}
+> +
+> +	data = MLX5_ADDR_OF(mnvda_reg, mnvda, configuration_item_data);
+> +	MLX5_SET(nv_pf_pci_conf, data, log_sf_bar_size, ctx->val.vu32 ? 12 : 0);
+
+[Low]
+What is the meaning of the literal 12 here, and why is it correct on
+all supported devices?
+
+Elsewhere in the driver, the SF BAR length is computed from a
+hardware-reported capability rather than a fixed value:
+
+  drivers/net/ethernet/mellanox/mlx5/core/sf/dev/dev.c:
+      sf_bar_length = 1 << (MLX5_CAP_GEN(dev, log_min_sf_size) + 12);
+
+Should log_sf_bar_size be derived from MLX5_CAP_GEN(dev,
+log_min_sf_size) (or another cap) rather than hardcoded?
+
+The commit message says max_sfs is to "control the total light-weight
+NIC subfunctions"; the BAR-size side-effect is not mentioned, and any
+previously configured log_sf_bar_size is overwritten on every
+max_sfs set.  Should that behavior be documented or split out from the
+count knob?
+
+> +	MLX5_SET(nv_pf_pci_conf, data, pf_total_sf_en, !!ctx->val.vu32);
+> +	MLX5_SET(nv_pf_pci_conf, data, total_sf, ctx->val.vu32);
+> +
+> +	err = mlx5_nv_param_write(dev, mnvda, sizeof(mnvda));
+> +	if (err) {
+> +		NL_SET_ERR_MSG_MOD(extack,
+> +				   "Failed to change PF PCI configuration");
+> +		return err;
+> +	}
+> +	NL_SET_ERR_MSG(extack, "Modifying max_sfs requires a reboot");
+> +
+> +	return 0;
+> +}
+-- 
+pw-bot: cr
