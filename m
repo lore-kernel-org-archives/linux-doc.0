@@ -1,353 +1,300 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013028.outbound.protection.outlook.com [40.93.196.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD141A6815;
-	Fri, 22 May 2026 04:16:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779423391; cv=none; b=bLcb4wIQkeTJrq+5z4GncgoC93HQdGqCIQJY07mO4xDY+CdFJwwd6eTAGdbd5p8Bh+rYO4GdBNX2U7shgmKGkk/1xQSTeNoXKHVXrWIskqSnQm0cByyxkzV/S7dhA5xEGjXmUtR2ZTXBnvtuw9VnXz3wcG3rJR8UTaNlrUFk0+s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779423391; c=relaxed/simple;
-	bh=e8DE6IUx6FSR2ZffYvMccjUpv8nxYHv5SjUx1D56mTk=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=f72mxFPusQw7mn2Ap76wn+VxRN7iEg8DKgbjihhv+r3xcU+Jr4fYNi0qqAy0pkMFmkMZmRe92XkWy1hXiSItWlvcJMGvPOg1sbmAeTy/if3sM4+xjYgzcOefUg3Mt2uDVBtA2W9mq+T9nUkOu1PYBVITDuxkq7vaV9x/cLAO/iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=OYxpQTA3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WnrJrEtL; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B526C3115A5;
+	Fri, 22 May 2026 05:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779427488; cv=fail; b=qbz22SIXAjAgqDqetR+dZNfJsKk9jpOzYr56BFIMoBTN8nxNl5spWO3f0IrAba+dMR30dqB5zT1vKO2URAjrYPx3LgjhI5v8sp18JYaxliQLEmdy//s753D6V9WEHiN8MtbybGpFIgm3E9a1sLEg6ew5ZFto9bj9lmCwggYLAtM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779427488; c=relaxed/simple;
+	bh=xoqbA/iZAaeVTiwosyaBiJvf+fXownsmX1ExOiw3hqU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jSXZbie8ahHMfhvCCZzb3KaBC1ZuWCMkiMDYpSc71WiNbixK1votjO0SkKAWKLLBPCgNGVDE2CjomcKMyVaZek71/xxQs2Uwd6zwlLzC+F3L27ZXvgSVf3iMo5Ns5fPlMdDWr8X9eiyw94VEvKn/L5yzprAzI80qp1gA3SWHLpE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=FM+idV8U; arc=fail smtp.client-ip=40.93.196.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="OYxpQTA3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WnrJrEtL"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 35D6E1D00013;
-	Fri, 22 May 2026 00:16:27 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Fri, 22 May 2026 00:16:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1779423386; x=1779509786; bh=Q6kX+CGPIjcycczuR9Ih0lQn0HMsEucKCPf
-	fGw0bT3E=; b=OYxpQTA3AUUdK6frGTDxdjmQ4pQfbHAbZfGwBXJVm4uVIrFM719
-	etwqJs8mKlPK2DAAROUtuv6crx5Wp2dFExJ0/80LQcA2Zc4udHSqv9n2PSNx8KqO
-	3t1IOXPpqORwq6ykHfERu+e4/fCav2n2wc1kcJN9d7/jbHCAPtg8j/Ic3lXrAsmf
-	NI+NKDMzQI+MxlFUjP2vkLtA/43yQaDJwb+yEFXb3kXTMjVK+nUX96YAxuAtZNh7
-	jXyeX9epdMHjCcF0AzMztiNfxnCjFRcYGHSD0I9rMOuZI9bsMc6bWMGi5D+ygO5N
-	5jO/pYVg98tD7ciYDbOC1grsG3WwuexUlcQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779423386; x=
-	1779509786; bh=Q6kX+CGPIjcycczuR9Ih0lQn0HMsEucKCPffGw0bT3E=; b=W
-	nrJrEtLVYOfZLucthei+1j1HXqsTSS4bAqbkk8yDv/Urlw1/BJHdNUWPaPfCvht4
-	mDpXFsOFTUdBSQCgSu2MTVkuIyrSwzu4hGLjUgHo5mKhJkB4qANbw8vHOfTyqDJY
-	neAseVjbvYfpt9VbHVfVY+owMMmOGgypbIVF6Sc3UxNOqIuPFzsQmM8+sOhdnrNP
-	5Rojyk9ylD4zOTPNw7xNGc9cuVMGR+g6T0HiC7+uAK36yzuaCM9aawIGyydawxkN
-	ucqEXaXpXPM8fOiGJinZe71sjTf3DCZsiTNEgxauWgt81ntLADqKK0nusZaCi1jN
-	da5ajbMDg5ZTIZpuYD4sA==
-X-ME-Sender: <xms:mtgPamM2pGD9lB-OVbAMawYF70eaeZ-4RPROvsKkDj9HjjiFCqltZA>
-    <xme:mtgPaqJhjNwFaf6B17MKTOHvyGiA4puvBkzTy4eaZ19tpd0CSe48-Dw4dFmwGZNT5
-    iI0EtNaR7ORWFVCHGoTQZvn2JHBx5WaU6y8rv72EBEpVwsyBQ>
-X-ME-Received: <xmr:mtgPagqmP6QD11l7O7fpeC1FI3pOtjCIxjHthGXB_0-m5jENCYW5uvgr-Q3_K7l8ng6ETKZb15jtQu4fgLA1pk6NskAvo4c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeelfeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epleejtdefgeeukeeiteduveehudevfeffvedutefgteduhfegvdfgtdeigeeuudejnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsg
-    esohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepudefpdhmohguvgepshhmthhp
-    ohhuthdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpd
-    hrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtoheprhgrvhgvnhesthhhvghmrgifrdhnvghtpdhrtghpthhtohepmhhikh
-    hlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehjrggtkhesshhushgvrdgtiidp
-    rhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehskhhhrghnse
-    hlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
-X-ME-Proxy: <xmx:mtgPamPtnHl3XxwSPJzZWxhPRUwRwCJsqhnxq2Otw0WE5TGsqL2sWw>
-    <xmx:mtgPapiY11hPn8086Q0jY-K9y4wtDkDPNaInGDylA5P5JcerVCpL4Q>
-    <xmx:mtgPaqYI5UNqE9NKyAGAWXxncFsEGXNpSMIpufk3COJPhLKP5lPi9w>
-    <xmx:mtgPathjDd7-oUvh6C1ZP_rm27EDjvBJ8pzCDe_KHdw_6LY9E1-vdw>
-    <xmx:mtgPasb3PQ-JDBg6OsGw6ckUQTIUzLGy56ZVnkFJzeP7-jr0K77-3eH0>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 22 May 2026 00:16:22 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="FM+idV8U"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TGut/lc8d53oF7IHgXt/BVyLFx/lGGmfHzw8Lljhwb4Vtfte6nrlkI9r93hmmivrwhRtcVKGtQmRC5T3ASFTHTVvhEkr+sH2yI5FdFzo6Gmi+IOak7GENBm5tEjcJHclVhtYLC77iW3m1zB33aZTaafO7XYhubUWQWoHCtRFbOOSO0BgmU67F41bXrp2aGOhilD37wgwgLzhs4r+3tKx5Yuz9PlpjQaW3D2eJDKYqja1IJAPs25NY+EkPYTk5L1p2Pw8ud5boP24n6ULZoh9Z5EhUaqpVTGVzclEnxx4pQNf0PQt7gYmErBVJhk1W6vhaUCXpvhQSeDM2eTTTPxYIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UyegXvSY4GdAXMkYzbm/vCYF3nn4dAH9nr2mE60uoZE=;
+ b=IrmRvNNhW327u/7i8jhMEeYNNkUE+GTwyTOnrbgV+Hfup0Hb8wLTkc1fljikvjLDRHVdbFCg7WfOrWzxs4xORlqobA+5VWmguBsVfRf6vjJU/LMmqLMWdGHNBlWSx6lskrKUrgYbVIACPAp8qCDHKv1cZ66LKN5JCbCJrT9BXu86F4XT9tISmCJcdjXZE/tmFeCFyiyNvFCfS+LJmwqV9oHup359YpLWK/0ieiBxG9l7u8S4IOi0nM2H3IoTIjgyfdTqHt0usbR6EbKSN4JWFz0siUvaNyvKvwsgPjj88yYMtcWLMIPL9V6xpX85Sd7H1OvsSr9jh79C8ZVATw0rng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UyegXvSY4GdAXMkYzbm/vCYF3nn4dAH9nr2mE60uoZE=;
+ b=FM+idV8UJPSIv+RZT2Zr+ahnNj9yYuJjnkvUOQaXY6RwHGXKfJTwDeJ52o+bYYGzE8bNPx8rad+ggmiS63Go3VDHKLcYB0aA9jXSDM7N8rJViKjMc++jroGt/XACZe8m4WbGcc9rMxkcUzLgBMySjQoPoJKMEO6Mq0ybK2PTq48=
+Received: from BY5PR13CA0022.namprd13.prod.outlook.com (2603:10b6:a03:180::35)
+ by DS4PPF0FF25AAD9.namprd10.prod.outlook.com (2603:10b6:f:fc00::d09) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Fri, 22 May
+ 2026 05:24:43 +0000
+Received: from MWH0EPF000A6735.namprd04.prod.outlook.com
+ (2603:10b6:a03:180:cafe::d) by BY5PR13CA0022.outlook.office365.com
+ (2603:10b6:a03:180::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.7 via Frontend Transport; Fri, 22
+ May 2026 05:24:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ MWH0EPF000A6735.mail.protection.outlook.com (10.167.249.27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.71.7 via Frontend Transport; Fri, 22 May 2026 05:24:41 +0000
+Received: from DFLE201.ent.ti.com (10.64.6.59) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 22 May
+ 2026 00:24:40 -0500
+Received: from DFLE207.ent.ti.com (10.64.6.65) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 22 May
+ 2026 00:24:40 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE207.ent.ti.com
+ (10.64.6.65) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
+ Transport; Fri, 22 May 2026 00:24:40 -0500
+Received: from a0507033-hp.dhcp.ti.com (a0507033-hp.dhcp.ti.com [10.24.68.129])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 64M5OZpV1350956;
+	Fri, 22 May 2026 00:24:36 -0500
+From: Aksh Garg <a-garg7@ti.com>
+To: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<mani@kernel.org>, <kwilczynski@kernel.org>, <bhelgaas@google.com>,
+	<corbet@lwn.net>, <kishon@kernel.org>, <skhan@linuxfoundation.org>,
+	<lukas@wunner.de>, <cassel@kernel.org>, <alistair@alistair23.me>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<s-vadapalli@ti.com>, <danishanwar@ti.com>, <srk@ti.com>, <a-garg7@ti.com>
+Subject: [PATCH v4 0/4] PCI: Add DOE support for endpoint
+Date: Fri, 22 May 2026 10:54:30 +0530
+Message-ID: <20260522052434.802034-1-a-garg7@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Amir Goldstein" <amir73il@gmail.com>
-Cc: "Ian Kent" <raven@themaw.net>, "Jan Kara" <jack@suse.cz>,
- "Horst Birthelmer" <horst@birthelmer.com>,
- "Miklos Szeredi" <miklos@szeredi.hu>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- "Horst Birthelmer" <hbirthelmer@ddn.com>
-Subject:
- Re: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first reaper
-In-reply-to:
- <CAOQ4uxg-7Tsb0GWF4LN3iFBaY7uGxR5_7PwBF+GfMWtCdfi4xw@mail.gmail.com>
-References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
-  <177906210551.3947082.4313294634549021141@noble.neil.brown.name>
-  <bc359831-e653-4269-9d57-742b48d56d9f@themaw.net>
-  <yk2hem4zwinm4glenpc74to7sm5kyriksgwn6mxh7t4saotiba@7zik7jcnbs5m>
-  <b320ff9a-7f6f-44c3-940f-33f79cc5569f@themaw.net>
-  <fglq7n2brxwdsu7and6nt6xpgdziua754yzgxkmd33pmk6tor4@noxa5ajva7wg>
-  <27a5593e-ffb8-4471-996f-7983bac0b1ab@themaw.net>
-  <CAOQ4uxg-7Tsb0GWF4LN3iFBaY7uGxR5_7PwBF+GfMWtCdfi4xw@mail.gmail.com>
-Date: Fri, 22 May 2026 14:16:14 +1000
-Message-id: <177942337499.2234587.15757857859187727669@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6735:EE_|DS4PPF0FF25AAD9:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6aae50e3-567c-4815-2088-08deb7c26d15
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|7416014|376014|1800799024|82310400026|18002099003|56012099003|921020|6133799003|5023799004;
+X-Microsoft-Antispam-Message-Info:
+	VnXYTPtPM5uRgbBrsGz0DU/lZQ+9duQoVGu1kYxli+vK5JYaXzRhCvIetSHVOPe3KtHPP2nR9FkT9QjASgeoTlFd1wvJXD8TyGoNw1vmlKzXNxi2HTzYxZhkqokMLzK0Zo8jielRNB4YEbnB2CSGGGE1FC8bXqfqq5Xlc+xZ0UTnu9XN+7JuW5QkGuJiC36pyh+XuUDBiKIgsJPNyOdRO9sAKiNFEWGVpXy8wq2k5bccX3IdyGAvsAqgE/BjYlpjS7VxEM3sP4Rf29xGO7WfMr288hyYJCtgV2IuRDNFprmeLbuUDkC2JUSwwrG9m2AHYUvLnlmhrepzgteaRFh4LzwliSOaleKMeK7DiJMA4UKeC52bbqwFSHL/slSV516LVJ1sWSvrbifDobhOQEiJFt3ZqQBy7sH9u0BaeLxEiQa9b5m7vvdF3skfTlHXL/fDeyKZ4uO2sOWSj1nqO61jtCXi+u5GfeJUrNLBXudWLWwVtvP8oQ3beoIdG91zdxV4JAIIxbtNkuAYuopshLrnyCcprmbsXR1oBwfrn97qkyIvJg9Rkdsoqc1EXKoJHH8qbGdZPXLsL1/Iwygy5BEvmQosVMcGr16yESYkLjUmJRilmrokTDk+13nKLPLCcjjMeQXzmnl6PSubeA/pkrj5TfiPs4Nqn2RxDCrSrzDDFAZU8k6uyKbD5cYnPIgm6fzknfgbRExoipjJAwAJ4gEZA/qOTKQEWI1qesVY/bA5J68uNguRyCnF33WUB/Ol1dXx9X4uiTS99XiqXRsHKIAMZWIH/Lv+TGrR8BFJgD/fXsU=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700016)(7416014)(376014)(1800799024)(82310400026)(18002099003)(56012099003)(921020)(6133799003)(5023799004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	VOjZ1mMDQQngXt2vgloQ8B2Vk/WGpP2DqqEvvSDx04Btjz9fDvrnITtbJ7wozTFABYQX+I2C/a/fDmowtI1Vei16r3fYur5+6abvc3nXFZuUPj9TquuI+OlUSqn1gCWYSeFprASvph+/KVCT9GEGGveY9wG9f7I1C5iNqqn96Xo9HGg0KCOUqP0jWhsNANzNmDMULXERWfpzs5zGGS0edVQWVjUSJNiBhILoqHrPp+RgBV6lU4j2sDIkD3hHF16K0aaCAAZIhYUBVXUXhrszh+BPaKayjQKUploLqSYDIKtfEMtXXn1QFZ25CvqSCYGdEj3GZP9v0r8G+wCyH712dAupEMeem/N3F5x1fdDgxDR9Bjwncut42elDCC8TStVb20ow+5QGXsxudwkLJhMTVhZSnggY8l1pR+h06CQ53Y8v2GUaZaOUKjxchw4wkfTx
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2026 05:24:41.3541
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6aae50e3-567c-4815-2088-08deb7c26d15
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000A6735.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF0FF25AAD9
 
-On Wed, 20 May 2026, Amir Goldstein wrote:
-> On Wed, May 20, 2026 at 9:16=E2=80=AFAM Ian Kent <raven@themaw.net> wrote:
-> >
-> > On 19/5/26 17:12, Jan Kara wrote:
-> > > On Mon 18-05-26 21:39:13, Ian Kent wrote:
-> > >> On 18/5/26 16:19, Jan Kara wrote:
-> > >>> Hi Ian,
-> > >>>
-> > >>> On Mon 18-05-26 10:55:43, Ian Kent wrote:
-> > >>>> On 18/5/26 07:55, NeilBrown wrote:
-> > >>>>> On Fri, 15 May 2026, Horst Birthelmer wrote:
-> > >>>>> According to the email you linked, a problem arises when a director=
-y has
-> > >>>>> a great many negative children.  Code which walks the list of child=
-ren
-> > >>>>> (such as fsnotify) while holding a lock can suffer unpredictable de=
-lays
-> > >>>>> and result in long lock-hold times.  So maybe a limit on negative
-> > >>>>> dentries for any parent is what we really want.  That would be clum=
-sy to
-> > >>>>> implement I imagine.
-> > >>>> But the notion of dropping the dentry in ->d_delete() on last dput()=
- is
-> > >>>> simple enough but did see regressions (the only other place in the V=
-FS
-> > >>>> besides dentry_kill() that the inode is unlinked from the dentry on
-> > >>>> dput()). I wonder if the regression was related to the test itself
-> > >>>> deliberately recreating deleted files and if that really is normal
-> > >>>> behaviour. By itself that should prevent almost all negative dentries
-> > >>>> being retained. Although file systems could do this as well (think X=
-FS
-> > >>>> inode recycling) it should be reasonable to require it be left to the
-> > >>>> VFS.
-> > >>>>
-> > >>>> But even that's not enough given that, in my case, there would still=
- be
-> > >>>> around 4 million dentries in the LRU cache and in fsnotify there are
-> > >>>> directory child traversals holding the parent i_lock "spinlock" that=
- are
-> > >>>> going to cause problems.
-> > >>> Do you mean there are very many positive children of a directory?
-> > >> Didn't quantify that.
-> > >>
-> > >> The symptom is the "Spinlock held for more than ... seconds" occurring=
- in
-> > >> the log. So there are certainly a lot of children in the list, but it's
-> > >> an assumption the ratio of positive to negative entries is roughly the
-> > >> same as the overall ratio in the dcache.
-> > > OK, but that's not necessarily true. I have seen these complaints from =
-the
-> > > kernel but in all the cases I remember it was due to negative dentries
-> > > accumultating in a particular directory. There are certain apps such as
-> > > ElasticSearch which really do like creating huge amounts of negative
-> > > dentries in one directory - they use hashes as filenames and use direct=
-ory
-> > > lookup instead of a DB table lookup and lookup lots of non-existent key=
-s...
-> >
-> > Umm ... that's a good point, I hadn't paid much attention to ENOENT result
-> >
-> > lookups, I'll need to check on the like cycle of those, I think they do g=
-et
-> >
-> > hashed. That has to be the other source of negative dentries that I've
-> >
-> > neglected ...
-> >
->=20
-> Yes, it has been claimed that some real life workloads create a lot of thos=
-e.
->=20
-> If we can keep those at the tail of the children list, it will be best
-> for the fsnotify
-> iteration, which only cares about positive dentries.
->=20
-> > >
-> > >>>> so why is this traversal even retained in fsnotify?
-> > >>> Not sure which traversal you mean but if you set watch on a parent, y=
-ou
-> > >>> have to walk all children to set PARENT_WATCHED flag so that you don'=
-t miss
-> > >>> events on children...
-> > >> Yes, that traversal is what I'm questioning ... again thanks.
-> > >>
-> > >> I think the function name is still fsnotify_set_children_dentry_flags()
-> > >> in recent kernels, the subject of commit 172e422ffea2 I mentioned abov=
-e.
-> > > OK, thanks.
-> > >
-> > >> When you say miss events are you saying that accessing the parent dent=
-ry to
-> > >> work out if the child needs to respond to an event is quite expensive =
-in the
-> > >> overall event processing context, that might make more sense to me ...=
- or do
-> > >> I completely not yet understand the reasoning behind the need for the =
-flag?
-> > > Close but not quite. The cost is the overhead of dget_parent() in
-> > > fsnotify_parent() which is often a couple of cache cold loads and atomic
-> > > instructions to find out we don't need to send any event for the current
-> > > write(2) or read(2) call. It gets worse if there are many IOs happening=
- to
-> > > dentries in the same directory from multiple CPUs because instead of
-> > > cache-cold loads you get a cacheline contention on the parent.
-> > >
-> > >>>>> But what if we move dentries to the end of the list when they become
-> > >>>>> negative, and to the start of the list when they become positive?  =
-Then
-> > >>>>> code which walks the child list could simply abort on the first
-> > >>>>> negative.
-> > >>>>>
-> > >>>>> I doubt that would be quite as easy as it sounds, but it would at l=
-east
-> > >>>>> be more focused on the observed symptom rather than some whole-syst=
-em
-> > >>>>> number which only vaguely correlates with the observed symptom.
-> > >>>>>
-> > >>>>> Maybe a completely different approach: change children-walking code=
- to
-> > >>>>> drop and retake the lock (with appropriate validation) periodically.
-> > >>>>> What too would address the specific symptom.
-> > >>>> Another good question.
-> > >>>>
-> > >>>> I have assumed that dropping and re-taking the lock cannot be done b=
-ut
-> > >>>> this is a question I would like answered as well. Dropping and re-ta=
-king
-> > >>>> lock would require, as Miklos pointed out to me off-list, recording =
-the
-> > >>>> list position with say a cursor, introducing unwanted complexity whe=
-n it
-> > >>>> would be better to accept the cost of a single extra access to the p=
-arent
-> > >>>> flags (which I assume is one reason to set the flag in the child).
-> > >>> The parent access is actually more expensive than you might think. Ba=
-sed on
-> > >>> experience with past fsnotify related performance regression I expect=
- some
-> > >>> 20% performance hit for small tmpfs writes if you add unconditional p=
-arent
-> > >>> access to the write path.
-> > >> That sounds like a lot for what should be a memory access of an alread=
-y in
-> > >> memory structure since the parent must be accessed to traverse the lis=
-t of
-> > >> child entries. I clearly don't fully understand the implications of wh=
-at
-> > >> I'm saying but there has been mention of another context ...
-> > > Parent dentry is of course in memory but often cache cold - you don't n=
-eed
-> > > the parent to do e.g. write(2) to an already open file. You seem to be
-> > > somewhat confused about the child dentry list traversal (or maybe I'm
-> > > misunderstanding) - that happens only when placing the notification mark
-> > > but definitely not for each IO operation.
-> >
-> > LOL, confusion is a pretty common state of mind for me!
-> >
-> >
-> > I do get your point though and I am confusing the traversal with other
-> >
-> > operations. I think this answers the question I've been asking (maybe
-> >
-> > that wasn't obvious) about the reason for the traversal (ie. the reason
-> >
-> > to maintain a flag in the child).
-> >
-> >
-> > While I have looked at the code here I haven't absorbed it and I
-> >
-> > definitely don't understand it, your continued patience is appreciated
-> >
-> > and will be beneficial when I get time to look at it a bit closer. I
-> >
-> > do still need to use a notifications mechanism to match up with Miklos's
-> >
-> > statmount implementation to get the full benefit of that in user space,
-> >
-> > if I ever get a chance to work on that again.
-> >
-> >
-> > So it sounds like it would be worth while considering a traversal that's
-> >
-> > based on taking a reference on each dentry rather than a spinlock for
-> >
-> > the duration. It would be tricky though, for obvious reasons, like
-> >
-> > children added during the traversal, added overhead of getting the next
-> >
-> > entry reference, etc.
->=20
-> Didn't look closely, but it feels like RCU traversal should be
-> possible if entries are added to the tail, or to the END_OF_POSITIVE
-> location.
->=20
-> When we discussed the "negavites at tail" at LSFMM
-> it was said that managing the transitions positive<->negative
-> would be challenging, but I don't know that anyone tried to look closer at =
-this.
+This patch series introduces the framework for supporting the Data
+Object Exchange (DOE) feature for PCIe endpoint devices. Please refer
+to the documentation added in patch 4 for details on the feature and
+implementation architecture.
 
-I had a quick look.  Most users of d_sib walk from the parent->d_children
-with the parent ->d_lock held, so they shouldn't notice a movement in
-the list.
-The two exceptions I could find are d_walk() and the readdir code in
-libfs.c.
-I think the main problem case would be if they were holding a dentry as
-a cursor which transitioned when the parent d_lock is dropped and retaken.
+The implementation provides a common framework for all PCIe endpoint
+controllers, not specific to any particular SoC vendor.
 
-d_walk already needs to cope with a concurrent rename messing with
-its cursor so possibly something similar could be used to trigger a
-restart.
+The changes since v1 are documented in the respective patch descriptions.
 
-libfs readdir walks from a DCACHE_DENTRY_CURSOR which will never
-transition and so won't move spontaneously.  That is exactly as safe as
-walking from the parent.
+v3: https://lore.kernel.org/all/20260427051725.223704-1-a-garg7@ti.com/
+v2: https://lore.kernel.org/all/20260401073022.215805-1-a-garg7@ti.com/
+v1 (RFC): https://lore.kernel.org/all/20260213123603.420941-1-a-garg7@ti.com/
 
-So I think d_walk() might need some help to avoid getting lost.  It could
-probably simply check if its cursor changed ->d_inode between dropping
-->d_lock and retaking it.  If it did, then restart.
+Below is a code demonstration showing the integration of DOE-EP APIs with
+EPC drivers.
 
-It isn't clear to me that we can track a "end of positive" location.  I
-think we would need to move negatives to the end and positives to the
-start.  Can you see a down-side with doing that?
+Note: The provided code is just to show how an EPC driver is expected to
+      utilize the pci_ep_doe_process_request() and pci_ep_doe_abort() APIs,
+      and might not cover all the corner cases. The below implementation
+      also expects the EPC hardware to have some memory buffer to store the
+      data from(for) write_mailbox(read_mailbox) DOE capability registers.
 
-Thanks,
-NeilBrown
+============================================================================
 
+/* ========== DOE Completion Callback (invoked by DOE-EP core) ========== */
 
+static void doe_completion_cb(struct pci_epc *epc, u8 func_no, u16 cap_offset,
+			       int status, u16 vendor, u8 type,
+			       void *response_pl, size_t response_pl_sz)
+{
+	struct epc_driver *drv = epc_get_drvdata(epc);
+	u32 *response = (u32 *)response_pl;
+	u32 header1, header2;
+	int payload_dw, i;
 
->=20
-> At least for fsnotify, positive->negative transition is not a problem
-> w.r.t skipping entry and observing entry twice during positive iteration.
->=20
-> If negative->positive transitions inserts at END_OF_POSITIVE
-> location, then should be fine as well?
->=20
-> Iterators that need to iterate all children can do this under lock.
->=20
-> Does that make sense?
->=20
-> Thanks,
-> Amir.
->=20
+	if (status < 0) {
+		/* Error: set ERROR bit in DOE Status register */
+		writel(1 << DOE_STATUS_ERROR,
+		       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+		goto free;
+	}
+
+	if (readl(drv->base + PF_DOE_CTRL_REG(func_no, cap_offset)) & DOE_CTRL_ABORT) {
+		/* Aborted: do not send response */
+		goto free;
+	}
+
+	/* Success: write DOE headers first, then response to the read memory */
+
+	/* Header 1: Vendor ID (bits 15:0) | Type (bits 23:16) */
+	header1 = (type << 16) | vendor;
+	writel(header1, drv->base + PF_DOE_RD_MEMORY_WR_REG(func_no, cap_offset));
+
+	/* Header 2: Length in DW (including 2 DW of headers + payload) */
+	payload_dw = DIV_ROUND_UP(response_pl_sz, sizeof(u32));
+	header2 = 2 + payload_dw;  /* 2 header DWs + payload */
+	writel(header2, drv->base + PF_DOE_RD_MEMORY_WR_REG(func_no, cap_offset));
+	
+	/* Set READY bit to signal response ready */
+	writel(1 << DOE_STATUS_READY,
+	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+
+	/* Write response payload DWORDs to Read memory */
+	for (i = 0; i < payload_dw; i++)
+		writel(response[i],
+		       drv->base + PF_DOE_RD_MEMORY_WR_REG(func_no, cap_offset));
+
+	/* Wait for the memory to empty before clearing the READY bit */
+	while (!RD_MEMORY_EMPTY()) {/* wait */}
+
+	writel(0 << DOE_STATUS_READY,
+	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+	
+	/* unset BUSY bit */
+	writel(0 << DOE_STATUS_BUSY,
+	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+free:
+	kfree(response_pl);
+}
+
+/* ========== DOE Interrupt Handler (triggered on GO bit from root complex) ========== */
+
+static irqreturn_t doe_interrupt_handler(int irq, void *priv)
+{
+	struct epc_driver *drv = priv;
+	u16 cap_offset = extract_cap_offset_from_irq(irq);
+	u8 func_no = extract_func_from_irq(irq);
+	u32 header1, header2, length_dw, *request;
+	u16 vendor;
+	u8 type;
+	int i, ret;
+
+	/* Read first header DWORD: Vendor ID (bits 15:0) | Type (bits 23:16) */
+	header1 = readl(drv->base + PF_DOE_WR_MEMORY_RD_REG(func_no, cap_offset));
+	vendor = header1 & 0xFFFF;
+	type = (header1 >> 16) & 0xFF;
+
+	/* Read second header DWORD: Length in DW (includes 2 DW of headers) */
+	header2 = readl(drv->base + PF_DOE_WR_MEMORY_RD_REG(func_no, cap_offset));
+	length_dw = header2 & 0x3FFFF;  /* Bits 17:0 */
+
+	if (!length_dw)
+		length_dw = PCI_DOE_MAX_LENGTH;
+
+	length_dw -= 2;  /* Subtract 2 DW of headers to get payload length */
+	/* Allocate buffer for complete request (headers + payload) */
+	request = kzalloc(length_dw * sizeof(u32), GFP_ATOMIC);
+	if (!request) {
+		writel(1 << DOE_STATUS_ERROR,
+		       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+		return IRQ_HANDLED;
+	}
+
+	/* Read remaining payload DWORDs from Write memory */
+	for (i = 0; i < length_dw; i++) {
+		while (WR_MEMORY_EMPTY()) { /* wait */ }
+		request[i] = readl(drv->base + PF_DOE_WR_MEMORY_RD_REG(func_no, cap_offset));
+	}
+	/* Set BUSY bit */
+	writel(1 << DOE_STATUS_BUSY,
+	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+
+	/* Hand off to DOE-EP core for asynchronous processing */
+	ret = pci_ep_doe_process_request(drv->epc, func_no, cap_offset,
+					 vendor, type, (void *)request,
+					 length_dw * sizeof(u32),
+					 doe_completion_cb);
+	if (ret) {
+		writel(1 << DOE_STATUS_ERROR,
+		       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+		kfree(request);
+	}
+
+	return IRQ_HANDLED;
+}
+
+/* ========== Abort Handler (triggered on ABORT bit from root complex) ========== */
+
+static irqreturn_t doe_abort_handler(int irq, void *priv)
+{
+	struct epc_driver *drv = priv;
+	u16 cap_offset = extract_cap_offset_from_irq(irq);
+	u8 func_no = extract_func_from_irq(irq);
+
+	/* Abort pending/in-flight operations in DOE-EP core */
+	pci_ep_doe_abort(drv->epc, func_no, cap_offset);
+
+	/* Discard Write memory contents */
+	writel(DOE_WR_MEMORY_CTRL_DISCARD,
+	       drv->base + PF_DOE_WR_MEMORY_CTRL_REG(func_no, cap_offset));
+
+	/* Clear status bits */
+	writel((0 << DOE_STATUS_ERROR) | (0 << DOE_STATUS_BUSY) |
+	       (0 << DOE_STATUS_READY),
+	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+
+	return IRQ_HANDLED;
+}
+
+====================================================================================
+
+Aksh Garg (4):
+  PCI/DOE: Move common definitions to the header file
+  PCI: endpoint: Add DOE mailbox support for endpoint functions
+  PCI: endpoint: Add support for DOE initialization and setup in EPC
+    core
+  Documentation: PCI: Add documentation for DOE endpoint support
+
+ Documentation/PCI/endpoint/index.rst          |   1 +
+ .../PCI/endpoint/pci-endpoint-doe.rst         | 329 +++++++++++
+ drivers/pci/doe.c                             |  11 -
+ drivers/pci/endpoint/Kconfig                  |  14 +
+ drivers/pci/endpoint/Makefile                 |   1 +
+ drivers/pci/endpoint/pci-ep-doe.c             | 553 ++++++++++++++++++
+ drivers/pci/endpoint/pci-epc-core.c           |  92 +++
+ drivers/pci/pci.h                             |  48 ++
+ include/linux/pci-doe.h                       |   8 +
+ include/linux/pci-epc.h                       |   9 +
+ 10 files changed, 1055 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/PCI/endpoint/pci-endpoint-doe.rst
+ create mode 100644 drivers/pci/endpoint/pci-ep-doe.c
+
+-- 
+2.34.1
 
