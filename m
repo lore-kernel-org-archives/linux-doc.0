@@ -1,151 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027A33E9C06
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 11:51:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C163EDE59;
+	Fri, 22 May 2026 11:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779450682; cv=none; b=drBR8gX17XjwYC8tC6M8gBtuT94lEAaDFASu8RmuBFSmQQQ4VSTBazVutEwbTe0crPuHo5cRknukpX9BuFV0IPgXNhS1wWZ/P/oo/5RrqObfPQZu/yFEyZTXS3Oeak/DYOqj1HdQH5Kpl/CUa4LCtmQI5jYfthRhn/0YMMgok3I=
+	t=1779450710; cv=none; b=qt8L1rfMgmFy+kthxP6u3XyoqpLi8cK1wnyliiMcp0Ih1RSr6DMqu1yaLbLCpHHwFmyahm5dxoUTN02CYmnjlRrxk7ut/V+p4kJR6TspeqeRskr8v+YD/6Lm7iFgr+NkkVi34uJHjYKcu7Gxk+5dN8tZ+reHWtPltYO1M9LNmS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779450682; c=relaxed/simple;
-	bh=muRkgjwO38S4SXvbIs3kFYWkJf7gwztLqAjDhEqnass=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pcWBs1Dzc3+KJ4pLQCi9yMGTR4t1HGkZPjFH2KmpDynxs2khANehqZ69Cd36pwsmcljLz3IMWLpqC9CtndBC5/IV7Wu/716DD5DBQhdrp8zIQDeoE3P3Yq28LdCg6Bn+NLz5q0nLwHTuLkDEGdI1Y0fgNyUw3nooaVkTj9ShC6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wx/KGeJW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779450710; c=relaxed/simple;
+	bh=O3mqvPkhqd+GsS4Bpyt7Ogm0/URY4Hj/vfoA2RvW9Cc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u7EPPSsqiYXLTMqmmVzsNz5cZGDRJvBRSzs9hzeDous4rkjdjsbCVwhFhiJCejxA/uD7NgPKM/o/q6p5ivJp2e4zMIf/JdWsOlk/U1IfkN09K1gUpVR63HqCWC8UsJLHMFPpNPXI1dy9cHMISI7mcaM6VZcxezk/KXdxbieYwNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oPqhBdoc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wx/KGeJW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59D051F00A3E;
-	Fri, 22 May 2026 11:51:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oPqhBdoc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE1F71F000E9;
+	Fri, 22 May 2026 11:51:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779450680;
-	bh=Mb5pSbbAGYerWjfqxHgQXJ81h4yET5l0OQn5Vn752FE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Wx/KGeJWlF2Zr6qrDmGOviCunxl1pvuPYJEtXPnsRc2sv+cGOfWuDkQYe19P/XgJF
-	 DV4ABfqKzI442PvPYQnd9Vmk9AxeGfMHFmWM/Wzl8bYf4qGE0bmWaF5sbfCG/WnhYd
-	 kKwiC4iHkWe+3F42VZBVVk6fmGl/kxOdyNplrMsBCf2xgwv3R+QWwmgUlKWMW1wUh6
-	 jBzUqzZU7c/GwdKUhbtdHdjIZMYtAo0Ym4p2oGPJie57LP1Gw3XNGWdxDWYsLrXwLB
-	 Lb/gfSY7moaLGg5LTDQFGc2AG1Do73RgBKnbeWLhA9dUVxG7I2UEYsw0EekOxOBVkj
-	 IifVwtTpGehhA==
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfauth.phl.internal (Postfix) with ESMTP id AE3E0F40068;
-	Fri, 22 May 2026 07:51:19 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Fri, 22 May 2026 07:51:19 -0400
-X-ME-Sender: <xms:N0MQapH0gLwDJI__35OKvJth67Ha3nR1wdvsv1zLJL3IWZtweRMw1Q>
-    <xme:N0MQanUtxak6SesOPQP3HgcrreB0y8_Xd-dUWqXkHPGdn2yl0GjeMBc4dR8C3r-Wi
-    DFgQ3vM_Kgq-ECvNFJNfIwTTU1PGGhhdQTqHkElWB9gH9D8B8w1Wg>
-X-ME-Received: <xmr:N0MQak2MhIRZ3lgbP8ND-jp0bHJkZdymfONgudbUgPZJEUx7QW0_TrHSQMiAHw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduhedttdelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttdertd
-    dttddvnecuhfhrohhmpefmihhrhihlucfuhhhuthhsvghmrghuuceokhgrsheskhgvrhhn
-    vghlrdhorhhgqeenucggtffrrghtthgvrhhnpeeuieejieffkeehfeffffdtkeelfeelhe
-    fhfefhudehjeehvdffleeuvddufefgkeenucevlhhushhtvghrufhiiigvpedtnecurfgr
-    rhgrmhepmhgrihhlfhhrohhmpehkihhrihhllhdomhgvshhmthhprghuthhhphgvrhhsoh
-    hnrghlihhthidqudeiudduiedvieehhedqvdekgeeggeejvdekqdhkrghspeepkhgvrhhn
-    vghlrdhorhhgsehshhhuthgvmhhovhdrnhgrmhgvpdhnsggprhgtphhtthhopeegiedpmh
-    houggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtg
-    hpthhtohepphgvthgvrhigsehrvgguhhgrthdrtghomhdprhgtphhtthhopegurghvihgu
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehljhhssehkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehsuhhrvghnsgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepvhgsrggs
-    khgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihgrmhdrhhhofihlvghtthesoh
-    hrrggtlhgvrdgtohhmpdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhm
-X-ME-Proxy: <xmx:N0MQamA6xcPZ2enBG8ATaG1l-44q1U1b_Z8XaC_Y2QWUsJ1Y3MXkLw>
-    <xmx:N0MQaiA3s1_YF5dn0lHOrYYa6j-OO5im0VQ1yezOxMfjFu-5krD6_Q>
-    <xmx:N0MQaiPHbQnKG_OjOoKC56SQXRkxrPjnxVyHri_a-3dZjsLGi964ug>
-    <xmx:N0MQamxORNj8tqUVmusmgUUfz6gouopBZbkbrfW_Gf6roJKMWYB2KA>
-    <xmx:N0MQaumlmq4j3in0tsehuAZz0iXPYkizdPmSpbAz-_qNRiDf7e-0-V3N>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 22 May 2026 07:51:18 -0400 (EDT)
-Date: Fri, 22 May 2026 12:51:16 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: akpm@linux-foundation.org, peterx@redhat.com, david@kernel.org, 
-	ljs@kernel.org, surenb@google.com, vbabka@kernel.org, Liam.Howlett@oracle.com, 
-	ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com, 
-	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, sj@kernel.org, 
-	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v2 09/14] mm/userfaultfd: add RWP fault delivery and
- expose UFFDIO_REGISTER_MODE_RWP
-Message-ID: <ahBDF8JMCEIuT-Xa@thinkstation>
-References: <cover.1778254670.git.kas@kernel.org>
- <454b3381cb7ead65291b2d7e24c0bff62e55c41b.1778254670.git.kas@kernel.org>
- <agNjXmuEHSaWKrv9@kernel.org>
+	s=k20260515; t=1779450701;
+	bh=wBqHjWiZ3zmMg1tF3GnJt73oO7+ylN0UOYGY3kvTrAs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=oPqhBdocL3nUrJBHhPMtQ1xcvcRiJ4LjiFEWZXS/7jJA2Oq+Gk0+/o6FUO73KicKB
+	 NIlcyJ4SK2Z5WKdjzlkWgb3XuWDkWyIfsQ2UGh+m9kYamXGdM8el/EzRnpU2dJfYYw
+	 53K7OfQCOEWvLyk8NNeIah+OUkd5e8llYJXBVs7IK/twofGT4I3Pmy7qy5ypTvyStq
+	 5KzQxhxAfgu7E/4bQRe3PLeWAVMId7nBcYZDX87k9hFMp+avjXQHx/MQenZ64tOxQn
+	 4Vx2EnhuTc4Y7WKgZsT0b+/xBd6OwGYD5ECcPnDIGWIa4lnffi5deRuD8YzktKlHQ3
+	 whDj/IGJJ4aow==
+Date: Fri, 22 May 2026 12:51:28 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
+ <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v12 0/6] iio: adc: ad4691: add driver for AD4691
+ multichannel SAR ADC family
+Message-ID: <20260522125128.46a9e621@jic23-huawei>
+In-Reply-To: <20260519-ad4692-multichannel-sar-adc-driver-v12-0-5b335162aa51@analog.com>
+References: <20260519-ad4692-multichannel-sar-adc-driver-v12-0-5b335162aa51@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agNjXmuEHSaWKrv9@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 12, 2026 at 08:29:02PM +0300, Mike Rapoport wrote:
-> On Fri, May 08, 2026 at 04:55:21PM +0100, Kiryl Shutsemau (Meta) wrote:
-> > Wire the fault side of read-write protection tracking and turn the
-> > userspace interface on.
-> > 
-> > An RWP-protected PTE is PAGE_NONE with the uffd bit set. The
-> > PROT_NONE triggers a fault on any access; the uffd bit distinguishes
-> > it from plain mprotect(PROT_NONE) or NUMA hinting.
-> > 
-> > Fault dispatch, per level:
-> > 
-> >   PTE     handle_pte_fault()    -> do_uffd_rwp()
-> >   PMD     __handle_mm_fault()   -> do_huge_pmd_uffd_rwp()
-> >   hugetlb hugetlb_fault()       -> hugetlb_handle_userfault()
-> > 
-> > The RWP branches gate on userfaultfd_pte_rwp() / userfaultfd_huge_pmd_rwp()
-> > (VM_UFFD_RWP plus the uffd bit) and fall through to do_numa_page() /
-> > do_huge_pmd_numa_page() otherwise. Each delivers a
-> > UFFD_PAGEFAULT_FLAG_RWP message through handle_userfault(); the handler
-> > resolves it with UFFDIO_RWPROTECT clearing MODE_RWP.
-> > 
-> > userfaultfd_must_wait() and userfaultfd_huge_must_wait() add matching
-> > protnone+uffd waiters so sync-mode fault handlers block correctly.
-> > 
-> > Expose the UAPI:
-> > 
-> >   UFFDIO_REGISTER_MODE_RWP   -> UFFD_API_REGISTER_MODES
-> >   UFFD_FEATURE_RWP           -> UFFD_API_FEATURES
-> >   _UFFDIO_RWPROTECT          -> UFFD_API_RANGE_IOCTLS
-> >                                 UFFD_API_RANGE_IOCTLS_BASIC
-> > 
-> > UFFD_FEATURE_RWP is masked out at UFFDIO_API time when PROT_NONE is
-> > not available or VM_UFFD_RWP aliases VM_NONE (32-bit), so userspace
-> > never sees an advertised-but-broken feature.
-> > 
-> > Works on anonymous, shmem, and hugetlb memory.
-> > 
-> > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> > Assisted-by: Claude:claude-opus-4-6
-> 
-> A small nit below, other than that
-> 
-> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+On Tue, 19 May 2026 15:20:21 +0300
+Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
 
-Thanks!
+> This series adds support for the Analog Devices AD4691 family of
+> high-speed, low-power multichannel successive approximation register
+> (SAR) ADCs with an SPI-compatible serial interface.
+>=20
+> The family includes:
+>   - AD4691: 16-channel, 500 kSPS
+>   - AD4692: 16-channel, 1 MSPS
+>   - AD4693: 8-channel, 500 kSPS
+>   - AD4694: 8-channel, 1 MSPS
+>=20
+> The devices support two operating modes, auto-detected from the device
+> tree:
+>   - CNV Burst Mode: external PWM drives CNV independently of SPI;
+>                     DATA_READY on a GP pin signals end of conversion
+>   - Manual Mode: CNV tied to SPI CS; each SPI transfer reads
+>                  the previous conversion result and starts the
+>                  next (pipelined N+1 scheme)
+>=20
+> A new driver is warranted rather than extending ad4695: the AD4691
+> data path uses an accumulator-register model =E2=80=94 results are read f=
+rom
+> AVG_IN registers, with ACC_MASK, ADC_SETUP, DEVICE_SETUP, and
+> GPIO_MODE registers controlling the sequencer =E2=80=94 none of which exi=
+st
+> in AD4695. CNV Burst Mode (PWM drives CNV independently of SPI) and
+> Manual Mode (pipelined N+1 transfers) also have no equivalent in
+> AD4695's command-embedded single-cycle protocol.
+>=20
+> The series is structured as follows:
+>   1/6 - DT bindings (YAML schema) and MAINTAINERS entry
+>   2/6 - Initial driver: register map via custom regmap callbacks,
+>         IIO read_raw/write_raw, both operating modes, single-channel
+>         reads via internal oscillator (Autonomous Mode)
+>   3/6 - Triggered buffer support: IRQ-driven (DATA_READY on a GP pin
+>         selected via interrupt-names) for CNV Burst Mode; external IIO
+>         trigger for Manual Mode to handle the pipelined N+1 SPI protocol
+>   4/6 - SPI Engine offload support: DMA-backed high-throughput
+>         capture path using the SPI offload subsystem
+>   5/6 - Per-channel oversampling ratio support for CNV Burst Mode
+>   6/6 - Driver documentation (Documentation/iio/ad4691.rst)
+>=20
+> Datasheets:
+>   https://www.analog.com/en/products/ad4691.html
+>   https://www.analog.com/en/products/ad4692.html
+>   https://www.analog.com/en/products/ad4693.html
+>   https://www.analog.com/en/products/ad4694.html
+>=20
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
 
-> > @@ -347,6 +359,14 @@ static inline bool userfaultfd_must_wait(struct userfaultfd_ctx *ctx,
-> >  	 */
-> >  	if (!pte_write(ptent) && (reason & VM_UFFD_WP))
-> >  		goto out;
-> > +	/*
-> > +	 * PTE is still RW-protected (protnone with uffd bit), wait for
-> > +	 * userspace to resolve. Plain PROT_NONE without the marker is not
-> > +	 * an RWP fault.
-> > +	 */
-> > +	if (pte_protnone(ptent) && pte_uffd(ptent) &&
-> > +	    (reason & VM_UFFD_RWP))
-> 
-> Nit: this fits even in 80-chars line
+I only plan to check the bit you've called out for v13. Series looks very
+nice to me.  Hopefully I'll remember that and not reread the whole thing
+again!  FWIW I'll be offline from end of today until Tuesday so it won't
+get queued up until then at the earliest.
 
-Ack.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Jonathan
