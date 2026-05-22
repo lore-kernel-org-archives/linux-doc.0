@@ -1,225 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f202.google.com (mail-dy1-f202.google.com [74.125.82.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30EED346771;
-	Fri, 22 May 2026 17:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F577358381
+	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 17:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779471920; cv=none; b=ajhHT8VV1Phzsn0U1WjA4dsUPLquQ0s84rJm0rgDFBLgRfj3Q9h9ftta2EGEVxR+QDT60oGy3nwziCrtZTSF0JwM2cCsEmb0XoVBKvDT9j5K5ETyXdKF8M/cn0dEEapovEmUZJOMjn0aecKewioEnh7s1pSIC5NoyIbALae+i3o=
+	t=1779471946; cv=none; b=bA7xsbaPpAsK++X3slkMAArW9YPuOmm5to5ccmFy24AQK5a+fHwlMKglwn5pt6MpqnFSdyQlMjfLvzKsBoy9q7Ac/SBZ8CMJz84eIyRstCbcjS53KvEx2Rz3BiKeOQg5fBFtbCtPBNUN6150Dw95PZbrNCVoIn6oYeNBkdHzaaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779471920; c=relaxed/simple;
-	bh=cvdE9TL8Qd8dUF9NTxwef98WEoJRHFSpJRmRu1+yFNA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R9kS8mb667kgmhHipzR60H5oddPn/k5Aia/U9cThhbwZ2hsmSo+5/hHF0bwyNcNvCjzTXxyLya5eZeZKLa+hckL+jbFmhdKzj6wQA4wwQ7olTMTTEjtxQqPKVTMYiOgF4iTkEZmYgPVo/6+Umv3iacS/mM9Y1dL9ZXpM2AO2kyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EES70m+E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779471946; c=relaxed/simple;
+	bh=fjUUJbkfAqezKdE6dfx0M8Oahe/zQdqsRRNlhXBgI3o=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=cWyVVXDASdTc/P37krn44UU1AER+WWiPvnJ8wyK7s+nkEedqQQHr8UNH0jTuQxQ+doOJ6/oqStiuL6sv5RvkUEzCKh+phUoauATZ3pstcduuR3XhXzkFr39hfC452uv1mMBbMXxPQT4djFXK9SAx4+aqCSDqrQIFTOmQk2QjwK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abhishekbapat.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P56lvFQl; arc=none smtp.client-ip=74.125.82.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abhishekbapat.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EES70m+E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F011F000E9;
-	Fri, 22 May 2026 17:45:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779471918;
-	bh=NYwdXtmvsKZ8LQl603GUa7DsPedjDzeXfQhmEHt0feY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=EES70m+EzaXNLvym+V6cFP1YoNQm1Vw45nV8Zx224Vex+glywnwoSddrICYrBWLe4
-	 l9XuqzCfdM/ZD1eI+0b2/wKiJFD4WxVyojk1jq0EHMuhDo3ppz/Of9lYtxE5vOTo8x
-	 +53UQOVwZSQhBkDTV3OtFPFkAo6SMdigNnlCnsEhbc1T65/zFGkq6j4YYjShYafT60
-	 8usRv4MeWNeUgRyuyeFwZoep8ocgOf1e/qWayIdBX33puL7r9aOaFLdSDgXiDWj9rf
-	 ZA4TwE+lGHSkNXohKLlubEEPWTWGV4nssRgnPI3G9M5jlEQ5F2YIYNVorc9zWtKX9g
-	 ahCn8HrXXlf1A==
-Date: Fri, 22 May 2026 18:45:06 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v5 03/13] iio: core: add hierarchical channel
- relationships
-Message-ID: <20260522184506.51690ac5@jic23-huawei>
-In-Reply-To: <hjv4uuudhkueaotpyuzj3u3jg2rkr73jmrx2vxi37w3po5xk5x@3fhfebj6a3wt>
-References: <20260517-ad9910-iio-driver-v5-0-31599c88314a@analog.com>
-	<20260517-ad9910-iio-driver-v5-3-31599c88314a@analog.com>
-	<hjv4uuudhkueaotpyuzj3u3jg2rkr73jmrx2vxi37w3po5xk5x@3fhfebj6a3wt>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P56lvFQl"
+Received: by mail-dy1-f202.google.com with SMTP id 5a478bee46e88-2fe1cf409a1so12590739eec.1
+        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 10:45:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779471943; x=1780076743; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RUhGNhxD0QOUIs2ABS/Rux/YDmNy6ndLUdXOBB/mJ3M=;
+        b=P56lvFQl6VgPHwAVrtIzXCd7BfJQZTFp74nE0FQJCWPH5HTLtOnOXh9iah5odNsSI2
+         zgHhnhAvnFHAB3+a0KTgibfM/UrgNrLTtwJWWn/Dk5V2phnorCizzwFeZDGsWX+K0ZxU
+         s3QsyMpRRXTF2Ggij4WeOxVVYF961Erd85z6bOo0npHlJfiEJP8Eb12ij/XlpHSLouHU
+         RZHbXYwqzCHi9cNf79FBxQnOLmC3wHpN1cS72Z6bascMfEVER3O5A8kiTILthydu+Yj8
+         Fe85CkIdkplz0TfGts4L/8C2da9Bi5HfXnwiSltNdAAZv2Yxu+4I1OIPrIDN1s7ZertF
+         69vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779471944; x=1780076744;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RUhGNhxD0QOUIs2ABS/Rux/YDmNy6ndLUdXOBB/mJ3M=;
+        b=T0Oe5AjM7gFWkvZupO9sKkPOTmxs3fKNVvvu9g15XZaHwQKXdNyWY8PgFtZdzgiG+/
+         fcDGnXbCyzVJ50iinqmQfZA3hV1RrFgbNlYz8a7nP2cUcB5KOuVWb3JVv4HmZmH1kWl/
+         mbtcXO4EooBBxBsbjcIn336KPVlgoHakLhOF/4F3FEyO/fSuQzQuxx9AeEiZmy+cUiWc
+         rDHzb3d1XgvH38TAXJoF3A4zMyS7WKZsgX9jnEJ7UVhF4Dz4+xl+7rV+/HAbj83p9hfX
+         BkoL7eyROBPn1+ABNH5pniF0MsYEGo5zYpO6OnmE5X61YPpO1YMC2rkQQVCCK4vZSPG6
+         iP3A==
+X-Forwarded-Encrypted: i=1; AFNElJ/EDLfNrCAaUMTXRoybQrdGS4p/besl2Rtn6mhBjUbTA/3dhzh2D6JNrUr33IkfMwUvEbxQLDBZ/eE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHF2Rehdh7uJZbMORHOlP7A9P2xadVX3UD5Qy5wozM8VwVfXEj
+	tp0LoIcCBKUMCRI3zBN1YjNEFGjN0+NonhNv11TdBzJ2mhpkIIIt64f7z78ljgIYfUrfJZjyWl/
+	3IDNYB4neNt5MNFPcAP1Y90vZVKQP1uI1Iw==
+X-Received: from dyev16.prod.google.com ([2002:a05:7300:4310:b0:303:c170:9611])
+ (user=abhishekbapat job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7301:6588:b0:2f2:1b3c:d824 with SMTP id 5a478bee46e88-3044904df42mr2422519eec.7.1779471943340;
+ Fri, 22 May 2026 10:45:43 -0700 (PDT)
+Date: Fri, 22 May 2026 17:45:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.54.0.746.g67dd491aae-goog
+Message-ID: <cover.1779471082.git.abhishekbapat@google.com>
+Subject: [PATCH v2 0/6] alloc_tag: introduce IOCTL-based filtering for MAP
+From: Abhishek Bapat <abhishekbapat@google.com>
+To: Suren Baghdasaryan <surenb@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kent Overstreet <kent.overstreet@linux.dev>, Hao Ge <hao.ge@linux.dev>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Sourav Panda <souravpanda@google.com>, Abhishek Bapat <abhishekbapat@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 21 May 2026 14:48:30 +0100
-Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
+Currently, memory allocation profiling data is primarily exposed through
+/proc/allocinfo. While useful for manual inspection, this text-based
+interface poses challenges for production monitoring and large-scale
+analysis:
 
-> On 26/05/18 03:26PM, Rodrigo Alencar wrote:
-> > On 26/05/17 06:56PM, sashiko-bot@kernel.org wrote: =20
-> > > Thank you for your contribution! Sashiko AI review found 1 potential =
-issue(s) to consider:
-> > > - [Medium] Exposing the hierarchical relationship via channel labels =
-creates an ambiguous UAPI for userspace.
-> > > --
-> > >=20
-> > > commit 64c6f961f1d7645c58f732e4bd4c11200b999e93
-> > > Author: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > >=20
-> > > iio: core: add hierarchical channel relationships
-> > >=20
-> > > This commit introduces a parent-child relationship between IIO channe=
-ls.
-> > > It adds a parent pointer to the iio_chan_spec struct and exposes this
-> > > relationship to userspace through a new "parent" sysfs attribute that
-> > > returns the parent channel's label.
-> > >  =20
-> > > > diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industri=
-alio-core.c
-> > > > index 5c8404efd0a56..348ac7a597385 100644
-> > > > --- a/drivers/iio/industrialio-core.c
-> > > > +++ b/drivers/iio/industrialio-core.c =20
-> > >=20
-> > > [ ... ]
-> > >  =20
-> > > > @@ -1263,6 +1271,31 @@ static int iio_device_add_channel_label(stru=
-ct iio_dev *indio_dev,
-> > > >  	return 1;
-> > > >  }
-> > > > =20
-> > > > +static int iio_device_add_channel_parent(struct iio_dev *indio_dev,
-> > > > +					 struct iio_chan_spec const *chan)
-> > > > +{
-> > > > +	struct iio_dev_opaque *iio_dev_opaque =3D to_iio_dev_opaque(indio=
-_dev);
-> > > > +	int ret;
-> > > > +
-> > > > +	if (!chan->parent || (!indio_dev->info->read_label &&
-> > > > +			      !chan->parent->extend_name))
-> > > > +		return 0; =20
-> > >=20
-> > > Is relying on channel labels robust enough for programmatic parent re=
-solution?
-> > >=20
-> > > IIO channel labels are optional, human-readable descriptors and are n=
-ot
-> > > guaranteed by the core to be unique. If multiple channels within a de=
-vice
-> > > share the same label, how can userspace definitively resolve which sp=
-ecific
-> > > channel is the parent?
-> > >=20
-> > > Also, if a driver establishes a hierarchy where chan->parent is set, =
-but the
-> > > parent channel lacks a label, this attribute is silently omitted, hid=
-ing the
-> > > relationship entirely.
-> > >=20
-> > > Would it be more reliable to expose a definitive, unique identifier (=
-such as
-> > > the parent channel's sysfs prefix or index) rather than relying on an=
- optional
-> > > descriptive string? =20
-> >=20
-> > A bit impressive that sashiko can comment on that architecture level.
-> >=20
-> > Those are all good points. I suppose I went for this because otherwise =
-it would
-> > require refactoring core code to get the needed parts from __iio_device=
-_attr_init()
-> > that gets you the channel name without the attribute part.
-> >=20
-> > Maybe we should have a function that outputs a channel name into a buff=
-er based on
-> > __iio_device_attr_init() behavior, and that could be reused. =20
->=20
-> This is the function with behavior extracted from __iio_device_attr_init(=
-):
->=20
-> 	static int __iio_chan_prefix_emit(const struct iio_chan_spec *chan,
-> 					  enum iio_shared_by shared_by,
-> 					  char *buf, size_t len)
-> 	{
-> 		const char *dir =3D iio_direction[chan->output];
-> 		const char *type =3D iio_chan_type_name_spec[chan->type];
-> 		int n =3D 0;
->=20
-> 		switch (shared_by) {
-> 		case IIO_SHARED_BY_ALL:
-> 			break;
-> 		case IIO_SHARED_BY_DIR:
-> 			n =3D scnprintf(buf, len, "%s", dir);
-> 			break;
-> 		case IIO_SHARED_BY_TYPE:
-> 			n =3D scnprintf(buf, len, "%s_%s", dir, type);
-> 			if (chan->differential)
-> 				n +=3D scnprintf(buf + n, len - n, "-%s", type);
-> 			break;
-> 		case IIO_SEPARATE:
-> 			if (chan->indexed) {
-> 				n =3D scnprintf(buf, len, "%s_%s%d", dir, type,
-> 					      chan->channel);
-> 				if (chan->differential)
-> 					n +=3D scnprintf(buf + n, len - n, "-%s%d", type,
-> 						       chan->channel2);
-> 			} else {
-> 				if (chan->differential) {
-> 					WARN(1, "Differential channels must be indexed\n");
-> 					return -EINVAL;
-> 				}
-> 				n =3D scnprintf(buf, len, "%s_%s", dir, type);
-> 			}
->=20
-> 			if (chan->modified) {
-> 				if (chan->differential) {
-> 					WARN(1, "Differential channels can not have modifier\n");
-> 					return -EINVAL;
-> 				}
-> 				n +=3D scnprintf(buf + n, len - n, "_%s",
-> 					       iio_modifier_names[chan->channel2]);
-> 			}
->=20
-> 			if (chan->extend_name)
-> 				n +=3D scnprintf(buf + n, len - n, "_%s", chan->extend_name);
-> 			break;
-> 		}
->=20
-> 		return n;
-> 	}
->=20
-> I think it is clear and reusable.
+1. Userspace must parse large amounts of text to extract specific
+fields.
+2. To find specific tags, userspace must read the entire dataset,
+requiring many context switches and high data copying.
+3. The kernel currently aggregates per-CPU counters for every allocation
+size, even those the user intends to filter out immediately.
 
-You only what the SEPARATE case but given the rest is much simpler anyway p=
-robably fine
-to just use this function.
+This series introduces a new IOCTL-based binary interface for allocinfo
+that supports kernel-side filtering. By allowing the user to specify a
+filter mask, we significantly reduce the work performed in-kernel and
+the amount of data transferred to userspace.
 
-Jonathan
+Performance measurements were conducted on an Intel Xeon Platinum 8481C
+(224 CPUs) with caches dropped before each run.
 
+The IOCTL mechanism shows a ~20x performance improvement for
+filtered queries. The kernel avoids the expensive per-CPU counter
+aggregation (alloc_tag_read) for any tags that fail the initial string
+or location filters.
 
+Scenario 1: Specific File Filtering (arch/x86/events/rapl.c)
+1. Traditional (cat /proc/allocinfo | grep): 22ms (sys)
+2. IOCTL Interface: 1ms (sys)
 
->=20
-> > > > +
-> > > > +	ret =3D __iio_add_chan_devattr("parent",
-> > > > +				     chan,
-> > > > +				     &iio_read_channel_parent,
-> > > > +				     NULL,
-> > > > +				     0,
-> > > > +				     IIO_SEPARATE,
-> > > > +				     &indio_dev->dev,
-> > > > +				     NULL,
-> > > > +				     &iio_dev_opaque->channel_attr_list);
-> > > > +	if (ret < 0)
-> > > > +		return ret;
-> > > > +
-> > > > +	return 1;
-> > > > +} =20
-> > >=20
-> > > --=20
-> > > Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260517-ad99=
-10-iio-driver-v5-0-31599c88314a@analog.com?part=3D3 =20
->=20
+Scenario 2: Compound Filtering (Filename + Size)
+1. Traditional: (cat ... | grep | awk): 21ms (sys)
+2. IOCTL Interface: 1ms (sys)
+
+Scenario 3: Size-Based Filtering (min_size = 1MB)
+1. Traditional: (cat ... | awk): 21ms (sys)
+2. IOCTL Interface: 14ms (sys)
+
+v2 changes:
+- Patch 1/6: Introduced locking for m->private. Also included the new uapi
+header file in MAINTAINERS list.
+- Patch 2/6: Handled the case where ALLOCINFO_FILTER_MASK_MODNAME is
+passed but ct->modname is NULL.
+- Patch 3/6: Moved min_size and max_size outside of struct allocinfo_tag
+into struct allocinfo_filter. Added validation that min_size <=
+max_size. Prefetched alloc_tag_counters if size based filter masks are
+provided to avoid assimilating per-cpu counters twice.
+- Patch 5/6: Removed the hardcoded logic to skip the header, instead the
+test will skip lines that don't match the format. Also included the
+newly added alloc_tag selftests directory in MAINTAINERS list.
+
+Abhishek Bapat (5):
+  alloc_tag: add ioctl filters to /proc/allocinfo
+  alloc_tag: add size-based filtering to ioctl
+  alloc_tag: add accuracy based filtering to ioctl
+  kselftest: alloc_tag: add kselftest for ioctl interface
+  kselftest: alloc_tag: extend the allocinfo ioctl kselftest
+
+Suren Baghdasaryan (1):
+  alloc_tag: add ioctl to /proc/allocinfo
+
+ .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+ MAINTAINERS                                   |   2 +
+ include/linux/codetag.h                       |   1 +
+ include/uapi/linux/alloc_tag.h                |  87 +++
+ lib/alloc_tag.c                               | 303 ++++++++++-
+ lib/codetag.c                                 |  11 +
+ tools/testing/selftests/alloc_tag/Makefile    |   9 +
+ .../alloc_tag/allocinfo_ioctl_test.c          | 505 ++++++++++++++++++
+ 8 files changed, 918 insertions(+), 2 deletions(-)
+ create mode 100644 include/uapi/linux/alloc_tag.h
+ create mode 100644 tools/testing/selftests/alloc_tag/Makefile
+ create mode 100644 tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+
+-- 
+2.54.0.746.g67dd491aae-goog
 
