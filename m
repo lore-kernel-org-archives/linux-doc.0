@@ -1,67 +1,66 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDC73BB11C
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 09:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FF036DA03
+	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 09:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779442648; cv=none; b=GEp7JKhPRVA0cR2d0lu//0qj3vPf350HsqGJ1rJ2mVfr8IqOskwAKvFLkw6fnjG/L7KK9oGgMtL1wH2cU52WIZICTQpHHHb7H2iEpySdddKT0LhE1AUKy7JI35zAIZJ7BGgq6YWIjsMTzsf1S+KxbHhFqakalhdk8upZiGvaZAA=
+	t=1779442796; cv=none; b=I7O7Bz8Gcgqhm2EWprRB3wsfKxh3j8BXU5n2DZ6rsOgGi0WGe5nFhzvvoFf89LqYdT1Jh0XetfsH54CF7SZM9tYHNUfFR2pGikqJo67BZoCs+se9zEliAAH8V26ZbUNcL49jHUjO+fm0s5fjua38W6de7dEGmsjMmtdLdVXL2hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779442648; c=relaxed/simple;
-	bh=Yyfk8X7hQAsUD9G+4fe4CzUE4boCyIRsCV8/4Z21Gnc=;
+	s=arc-20240116; t=1779442796; c=relaxed/simple;
+	bh=9oCu4Lneu99co+mYBGu/auRMtfjyl07++3cN/bPv5F8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mQ+18qjg1CrmeDF1mLblapiSynf9RC3Iw2gCYJLllMBZYq0hOGpTRz9ecp6b+ck41IZ/zmnYpJTtEOIWIJKWeMTMTOisrxjkeyLIt105XNM7bquS4w9T/la3puRzaYv90iNILrJfhplCYTL5k1YVA26iMpzv0d1FvXQd604LAEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j2iOGuPr; arc=none smtp.client-ip=209.85.128.51
+	 In-Reply-To:Content-Type; b=rdfeqagUuS3h7PART7VS6dfhbOUmu7LoTsk3aSAiypTp1zUbG3AqdXnEaqjjpI1stKAl5qr786Oqgng65uZSifmfCnh/vz/uiOwAz30yxCOFI4VMg2LL/vWo00Bod7RIak4//CKdKSRMy0ccSFRR16Eh9xvwtH0n4YaUXvQmxqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D6X7woR3; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j2iOGuPr"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49041fb8c23so5082545e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 02:37:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D6X7woR3"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4526a8170ceso3523733f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 02:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1779442646; x=1780047446; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1779442793; x=1780047593; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Yyfk8X7hQAsUD9G+4fe4CzUE4boCyIRsCV8/4Z21Gnc=;
-        b=j2iOGuPrQ9dJfNkbKDZbJHYZBDsPpGbQxgG5SZwJ73aQefWo2i9q0SC6a6e8MkBh5m
-         CUJiLItqV9dPYLLiaqtK3s0EQIjkACaCErha2qDUdkXfzNI6dbJ62CxyY4caHS+dbX04
-         57xuN6SZz9F0RG1SF5DBC1rfhL1XPkx0gF1HCeA86wHASwWrzGy+vsTxSTgYcY+XYLqU
-         l4gni8p1iHrZKcnPE+0UtS3jz+RHqSXA8AZmf8ORmQamstPrtEjInSKtWsuQ6NI2mvs3
-         qSkj6HT6Z4Odwuee86eO/daUfQmrXtR1nvsgyuwn7DR9LKnxiyYtt6UlUwTTnt29mj5r
-         dBUw==
+        bh=T4EjzCYBZo6gDDp6/NnHFvlpvgywvXkHrB1KsgSmjjY=;
+        b=D6X7woR32k3X6bkMCcE8/Awx3scNlV7W+5yCVGwsMjUy0XpeyZ1YL/KfBl96RKUI9E
+         tA9HNEVUV/MnIbA0wrhEzIhznUQlZeuz/tvTVAVii/YFR2Z8nzMnUr6B0tZ5n1rTGUqE
+         eM0YS9WNWFH/7qtyyE5VPRzGHVd0K+b65LLn+4OeiDYzSY/Qb05IOMZjnIVIA0oggPEY
+         zWsIJfVITGAaXrmrGDQj139K2xwU6laD7Ywghyyx0eb/5eZwLu28E7tkmmpgu18raSjS
+         2UQmJ9mp4ZocucI5y35McyFCvmAQaGIts7TwGZebi4t2Ua0jcfKwYwLUAf9g7rDek66h
+         +2gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779442646; x=1780047446;
+        d=1e100.net; s=20251104; t=1779442793; x=1780047593;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Yyfk8X7hQAsUD9G+4fe4CzUE4boCyIRsCV8/4Z21Gnc=;
-        b=Hy62mIANSBP+eltotH9eunDLouol+37AFryow6HFolzVtlUf3ZXpbLDTh85XjqNHyE
-         yT+K8+8D7JgtME7noMDk4Y8RXYgYUIoJyFjieAsrkoZY8z40jRT913rEt8aHUBvTlQDl
-         E8uXHoF3j+Q2m1yOM44uJcNrDt+epobBexSey8EjQemA67ozdId5h9EcgiU+DBr5z+N7
-         55t6sTllpNJupb7tKlA3zwWdGgRS3Bw1ZDmSiNo0ikaHkY3qxmPtcZ1/C2FbY6v/WKp1
-         PVD/7qWIb0VyMEddkgEyIXLD8flVxcmsNRKlC98Xom3zEWdE7bmyJkFkJkI44mXGJ/q6
-         HtPA==
-X-Forwarded-Encrypted: i=1; AFNElJ9CunTGvXWta9HEiHZkoxq1ZOAZfz6zT3pzNcAKRXHO/CIXY7G31qTdI9+Di4/gVd7ndptvwHxNV+s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw936N/dtbh6IenHZY+9IsSrd5WIx5Tl0AIdxlOfO0IzQuA90HE
-	uh3vOu6WmSUMWNzBogUdoFHi/CE9Zc/4ucNSq/nFPaycztswbQKgF4IGzxeo5Si0d5PDf9hfKc9
-	jOt2s
-X-Gm-Gg: Acq92OHzptNcYkO6PY6dTBo9JWZO+MTOy+0KpZHk4uFyu9gzHGqFbpLP/2daYMYyfEb
-	ivzoeNqJaNTJ4CN9Kh1C9S4EL+znGTTcfrWWt0pfDWbZF8faNYZIbum7GQOD1yyJOYMhzhnsGJe
-	1u8IdCWo+NorNmOUjl6dsx+NZpaN8rcN8VENhm7s0XVRP9PafVW2/Mm/T/Kht5VVSrGAkHqQ2Wg
-	C8QxGNYAb0ZaQkiAkp415H1XZTC6QeXvYzMN8OtKCoVgCobsCMhmBIaCCiYnzyAPMcNfbaClTcf
-	Ule0I+iFPPgDIPH3412eNAc/QFHYl5/IYjJN1MIEoOX3xLF/P6JwFnGAEqLLY/qDN/IFXqz/dly
-	JLcqaKiFtOSGZLLtnvxPlN7xp0wWDhRmB/bpPArRcnZnsWVWs2YP8n6XmdSsDPFX4CS7XduQzDJ
-	LwoFAOcLgSKYIVFe7pwnLMistxCj3gQ3SbwM9VcHWgVQ==
-X-Received: by 2002:a05:600c:6383:b0:490:4717:970f with SMTP id 5b1f17b1804b1-4904717984dmr22094235e9.14.1779442645761;
-        Fri, 22 May 2026 02:37:25 -0700 (PDT)
+        bh=T4EjzCYBZo6gDDp6/NnHFvlpvgywvXkHrB1KsgSmjjY=;
+        b=VWElFHyh48cOm7RluALS8RSDkyLrD/V2dTTBRb/2rSK4weGayXhPdlb/MPq7IF6dE5
+         pTS/ueEsACsJW6HBQ7RP2H0/qpnFBUJEX7Rfg7RkuO5Pn2Wnb7qQUPz0AaINjVyhkXB7
+         hT96wgZDYOyAKRutKYVT9SxY80Cw9fW5dsti1cUhYYywbd5sl7rZSIDyaRt1KMTV/gaY
+         Ttg1oj8nVPd7cIYOdOZluJsWPB4iLjjIFx7Y+jn6cMpdUmfST+juafDB8GgGT8aTigRl
+         wXFnlT273DP2kwzAj1n2QhYKV9jn7LVrz/yoUk0691GhHnSqzFX7fDFWyb5xTK6BreIj
+         R38A==
+X-Forwarded-Encrypted: i=1; AFNElJ+YwMPZef/reBD7MLVAwwxzCgXrh24WpPoL02fZ+CffDFxjYOy/93mElVISOi6H8m+ZwTVg+gCWUNE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfQeaSF8X65ZZLZigQYimVKiDzaFP204euo/KM+RLfDIhIiWCZ
+	Yb1/QFgT0RCtc6ews2JSGx5fgxEdS+2fsHh/1XeSSHyqtcN/ELFhVbM7GbAAyO0UjyE=
+X-Gm-Gg: Acq92OFKAQF6lTNXXww5p5Z8RfB2bRcsLdHzvevL/K9+gWP8LDZPA9y8EcPbFXHrTCS
+	BBkcwPjAWo+1jtsk4PitB0elKAbbhWvGroGQbXEUW67bj4YAGbBha4v6tzbmGFVDRBG+Gx8iUgr
+	MDjDur456BSj+k/wXYJaGTQoSAOec8e0Pd8GUZ0T08i8FSBsIGCZvr474nGoNkKKQmY/lD1Telq
+	8rPbmJkP6frAkBl1oGMMB3YfuB7qM534MjsAIifAjKiW/Fz3jazEIZNbpN+tjKLtD3wMqmJbjVk
+	q/9+tNv2RRjaCmDR5BKEHXKSQuSwwbb4U/lVREDpCk1FD/PTAouM9DeVhyIi76dJpRFg7VWd5rs
+	xKXr6htuMz5hsJoTMrB4ca8NXOyvHWBrzZPxa7jKKwqTCYnJ3lNmnUUCZ3fA/FwI5CouJHQIIOf
+	TcgqKfjPNPeNpxq08u9QPZCqG3ELfG2IC/eTPxUnYh0Q==
+X-Received: by 2002:a05:6000:290c:b0:455:d927:1b30 with SMTP id ffacd0b85a97d-45eb38af531mr4204251f8f.28.1779442792871;
+        Fri, 22 May 2026 02:39:52 -0700 (PDT)
 Received: from [10.11.12.110] ([82.76.215.73])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490454ac6a6sm30570835e9.12.2026.05.22.02.37.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6c9f6ffsm2725005f8f.1.2026.05.22.02.39.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 May 2026 02:37:25 -0700 (PDT)
-Message-ID: <0ec636a1-5e12-46b8-a172-1b3537968fe6@linaro.org>
-Date: Fri, 22 May 2026 12:37:16 +0300
+        Fri, 22 May 2026 02:39:52 -0700 (PDT)
+Message-ID: <a54562a0-1a75-401c-9508-8e0322d81a3f@linaro.org>
+Date: Fri, 22 May 2026 12:39:48 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +68,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 12/28] mtd: spi-nor: swp: Rename a mask
+Subject: Re: [PATCH v5 13/28] mtd: spi-nor: swp: Create a TB intermediate
+ variable
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>,
  Takahiro Kuwano <takahiro.kuwano@infineon.com>,
@@ -80,12 +80,47 @@ Cc: Sean Anderson <sean.anderson@linux.dev>,
  Steam Lin <STLin2@winbond.com>, linux-mtd@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597@bootlin.com>
- <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-12-93453e1a9597@bootlin.com>
+ <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-13-93453e1a9597@bootlin.com>
 Content-Language: en-US
 From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-12-93453e1a9597@bootlin.com>
+In-Reply-To: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-13-93453e1a9597@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
-Reviewed-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+
+On 5/7/26 7:46 PM, Miquel Raynal wrote:
+> Ease the future reuse of the tb (Top/Bottom) boolean by creating an
+> intermediate variable.
+
+Please squash this in the patch that needs it.
+
+> 
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+>  drivers/mtd/spi-nor/swp.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/mtd/spi-nor/swp.c b/drivers/mtd/spi-nor/swp.c
+> index 07269e09370a..540cd221c455 100644
+> --- a/drivers/mtd/spi-nor/swp.c
+> +++ b/drivers/mtd/spi-nor/swp.c
+> @@ -62,6 +62,7 @@ static void spi_nor_get_locked_range_sr(struct spi_nor *nor, const u8 *sr, loff_
+>  	u8 bp_mask = spi_nor_get_sr_bp_mask(nor);
+>  	u8 tb_mask = spi_nor_get_sr_tb_mask(nor);
+>  	u8 bp, val = sr[0] & bp_mask;
+> +	bool tb = (nor->flags & SNOR_F_HAS_SR_TB) ? sr[0] & tb_mask : 0;
+>  
+>  	if (nor->flags & SNOR_F_HAS_SR_BP3_BIT6 && val & SR_BP3_BIT6)
+>  		val = (val & ~SR_BP3_BIT6) | SR_BP3;
+> @@ -81,7 +82,7 @@ static void spi_nor_get_locked_range_sr(struct spi_nor *nor, const u8 *sr, loff_
+>  	if (*len > nor->params->size)
+>  		*len = nor->params->size;
+>  
+> -	if (nor->flags & SNOR_F_HAS_SR_TB && sr[0] & tb_mask)
+> +	if (tb)
+>  		*ofs = 0;
+>  	else
+>  		*ofs = nor->params->size - *len;
+> 
+
