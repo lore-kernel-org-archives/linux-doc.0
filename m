@@ -1,35 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78EE396B9A;
-	Fri, 22 May 2026 12:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9391D25B097;
+	Fri, 22 May 2026 12:32:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779452987; cv=none; b=NjyxdpyXGYV+lBIq3tsrFIFwEV+gYwhncgJtsUCS8DwAi71A9K54FdT3kqu0rcKqg7mSeoSYeQ/IR0z6vIGwM8vqXkMgNSx8FICqiRHAPDhloONLmX3fnS9hDvcaH1cVdZbCF7AU1HYKWUrSU3sNiCSPQriTjQ1PJUOTDnXzNw0=
+	t=1779453138; cv=none; b=kntu+tqmTa+0iG1yLEcg59mNwOJbouz4EwGNSN1TiAUrL5MDD4fyCqwO4q2LUtlWDqhE4gWSfTTPpu2vTDXB9XyW0Xdb64DgBCOLshwTmOTtx3VaJdbND/zaGwOm24D1aUuIyFMD30lnPK8nICg3xTbu8zTORlajFUrvtKrfmwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779452987; c=relaxed/simple;
-	bh=n094Y6iJ3spWbyVj9NXLGKhtNg67cBauAd1DvKPlUTY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cxMu6lQt6koQ+8Ut9KeVq2mYlKTh+1TLgrpskq6TalcEMOl4Qi0FcHdfmMG+d06t+SI+Wm11igRsOAoBI/4FFv+/XmroxJENiPhUT5ryCVs7LIQSC0rJcBl7TtuXTsqydi/qCCBgRRPgoYtgEGDVzZd0VohalLootlrSINBdKLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lftIQpqQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779453138; c=relaxed/simple;
+	bh=Bgs5NCZF2LaVX1o1TR4xkMZMXmk2eUMzPFETrWEm5Ck=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OAVYLjIlJPn2PH7xT6XMdv1xQ/Z41+zH6x2gIrVp0TjAurfVduTgGzU7+pnzNd4C9yPsgp+OQ69+MD4jvgbNspAtzamGDtFw+eiy7CAoK9IBCEWVLKhdHdRWZWx8rQZH53rTzX6jN6eKNs7X4IER1cKibZwwkp7wvnC2mIU8nmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KhpOuuCs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lftIQpqQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2CAA1F000E9;
-	Fri, 22 May 2026 12:29:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KhpOuuCs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4308F1F000E9;
+	Fri, 22 May 2026 12:32:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779452985;
-	bh=bWyWQkGX486MPJv66TllLqijhqa59fSqHuKYh3opB4Y=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=lftIQpqQtVuYUtUe2lX7etHBqXQ3dNhGxA2ymRYJOYZMWiYpS/8uszccJVVW+RkVW
-	 5sGnqzNdQF3nUF/rZBIS0GMfCWvzm5fq0ViGclhXZrvYENllYjqURzNvcYdqZPRgfI
-	 TsiYV+qJa+1ROnBKm+m0uAR158HAeZiq3MuZUeZm9ol3kDh70ddR/u7fNwvIeeORBX
-	 0ASQNdDRpYsFdzjAyAq+uByOCVTLduwcsb1H/w2SVwTTy28/upjQciBFN1FAjIEzEX
-	 aq9uK15Rwo8b6MDvMz9BrV1x57qYcMSXFq5JWmxexMF9cEfpaUy5jsC6fYen+X2Amz
-	 X+TzUWh5KZe3g==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Fri, 22 May 2026 08:29:10 -0400
-Subject: [PATCH v4 21/21] nfsd: add support to CB_NOTIFY for dir attribute
- changes
+	s=k20260515; t=1779453137;
+	bh=nkKU7Veh30e2hLaVfjOpTm4lE716g4y/Nzf3HA2f4Iw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=KhpOuuCs6H58GeBWQuSk0c4EkqeG/EzvUVoTPrXGQaiOrTZ3fVpdKuHMuyWvhEL7h
+	 7DA/+VYpxMCz6sCt/6K6pM3ExoOrc1ufG12yjt5DcMovbEdYCBF/e2M6EMmnzHCGPZ
+	 ErARyj4jqGn/UkxA6yxvp7VBjgKVAmme6t+f1e7G+3kqABFUsd0+acyCBkliwPUYby
+	 Qd45MGgK3aE/YJXhAQ+E2Om6FqFKKaAFZ36l9ssTpZ6Ky3BaC2S0Ny8aQ8cqC1SOFE
+	 d9YtJmv3HxQOMaGgBZUOwcIrq8sdyT4FlaAp7YKK0YuJmEOb2mK9GBQabK5Bc6GC5l
+	 v/rsBegGHdEYQ==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] eventpoll: add missing kernel-doc for @ctx function parameters
+Date: Fri, 22 May 2026 14:32:11 +0200
+Message-ID: <20260522-pfand-enkel-ironie-175e56267273@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260519042314.124041-1-rdunlap@infradead.org>
+References: <20260519042314.124041-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,216 +48,34 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260522-dir-deleg-v4-21-2acb883ac6bc@kernel.org>
-References: <20260522-dir-deleg-v4-0-2acb883ac6bc@kernel.org>
-In-Reply-To: <20260522-dir-deleg-v4-0-2acb883ac6bc@kernel.org>
-To: Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Tom Talpey <tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>, 
- Anna Schumaker <anna@kernel.org>
-Cc: Alexander Aring <alex.aring@gmail.com>, 
- Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Calum Mackay <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6108; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=n094Y6iJ3spWbyVj9NXLGKhtNg67cBauAd1DvKPlUTY=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBqEEwTaTKb0Q8gBI05oUpUIRLP3Up50YMyqYWJq
- aoetENq7KyJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCahBMEwAKCRAADmhBGVaC
- FRerD/4sXAbqO20EYs5tLpzmsVsSlqkOL6oM7+qPEDdOXLP8HM1yMuBfjo2Lej6nnaCkxGrkgmY
- a79V7WxOJ9M6ONzIXhDffgQd7qi7QX9PJSYeTPYOfUv7IhSKxY/3m7lpjCFIt235gk7E8SwT/v5
- PGSkRQiPnxfiCOu3tXloGqkryzR/jLqZLGTKIo5tBUoXeZUOZu8/41tb20HTNeO/n97z1aHVFtx
- 4jSZ9mLyVX9rjgKMIGG/asPbLtqL81VNRgCCBwwSxr1XvOBfL1fGe4pA/pyLEIWJVSq4GYj6tCP
- f5sX4d6doQwPB/AEpi30VUg5p1S4GKHhoZn4VvWpnhMqHjIRD09HyUXuOJzjOJib9TARNh0zkTZ
- nbGBL1o+rtmBbiqjHm0aaSbKyTTgRa9I6jmgXMajPgvrKSgWhmv7mhScjTrrT4+/i8nj3B4S39Q
- IShyN7V3DxtlsP+SSM/6HXRL3vPNo/8BIISXzEaN+nnnKbCTk/CLbAr9d78bIg8z3EgBGJxHgqH
- 8rOX6OawNHJZlupkGVixSWrJ9694cmtU4ssCpBt6g71G/C6C7BAeYczcFKLMZc6wSe0ri6mnHhB
- 4QH8vhH/HIfDok+SkqBpt+xnG4zxEdHxbWSjjwEOO5BOwSCFeoMGHCZaapPTwc/EexD6QoxqF6z
- nO+wAEh6NldwVsw==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1182; i=brauner@kernel.org; h=from:subject:message-id; bh=Bgs5NCZF2LaVX1o1TR4xkMZMXmk2eUMzPFETrWEm5Ck=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQJ+JzJzuaVd3rLvvGENLN+yIRodr/N9r3FvvMKVoj4G yWUVYZ1lLIwiHExyIopsji0m4TLLeep2GyUqQEzh5UJZAgDF6cATKRfleGfUvD7w6bxc4UnKjMc t1Rc/D98i5e50vsMwW2TtbX7jr19wshwobpT5ZP7t5mSvFq7uqxcS+cuVun9+so6cofq/PbO0C5 WAA==
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-If the client requested dir attribute change notifications, send those
-alongside any set of add/remove/rename events. Note that the server will
-still recall the delegation on a SETATTR, so these are only sent for
-changes to child dirents.
+On Mon, 18 May 2026 21:23:14 -0700, Randy Dunlap wrote:
+> Add the missing kernel-doc comments to prevent kernel-doc build
+> warnings while building the documentation.
+> 
+> WARNING: fs/eventpoll.c:1684 function parameter 'ctx' not described in 'reverse_path_check'
+> WARNING: fs/eventpoll.c:2349 function parameter 'ctx' not described in 'ep_loop_check_proc'
+> 
+> 
+> [...]
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/nfsd/nfs4state.c | 25 ++++++++++++++++++++--
- fs/nfsd/nfs4xdr.c   | 61 +++++++++++++++++++++++++++++++++++++++++++++--------
- fs/nfsd/xdr4.h      |  2 ++
- 3 files changed, 77 insertions(+), 11 deletions(-)
+Applied to the vfs-7.2.eventpoll branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.eventpoll branch should appear in linux-next soon.
 
-diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-index 4a078b51506b..34728aa3161e 100644
---- a/fs/nfsd/nfs4state.c
-+++ b/fs/nfsd/nfs4state.c
-@@ -3487,10 +3487,15 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 	struct nfsd_notify_event *events[NOTIFY4_EVENT_QUEUE_SIZE];
- 	struct xdr_buf xdr = { .buflen = PAGE_SIZE * NOTIFY4_PAGE_ARRAY_SIZE,
- 			       .pages  = ncn->ncn_pages };
-+	int limit = NOTIFY4_EVENT_QUEUE_SIZE;
- 	struct xdr_stream stream;
- 	struct nfsd_file *nf;
--	int count, i;
- 	bool error = false;
-+	int count, i;
-+
-+	/* Save a slot for dir attr update if requested */
-+	if (dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS))
-+		--limit;
- 
- 	xdr_init_encode_pages(&stream, &xdr);
- 
-@@ -3504,7 +3509,7 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 	}
- 
- 	/* we can't keep up! */
--	if (count > NOTIFY4_EVENT_QUEUE_SIZE) {
-+	if (count > limit) {
- 		spin_unlock(&ncn->ncn_lock);
- 		goto out_recall;
- 	}
-@@ -3551,6 +3556,22 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 		nfsd_notify_event_put(nne);
- 	}
- 	if (!error) {
-+		if (dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS)) {
-+			u32 *maskp = (u32 *)xdr_reserve_space(&stream, sizeof(*maskp));
-+
-+			if (maskp) {
-+				u8 *p = nfsd4_encode_dir_attr_change(&stream, dp, nf);
-+
-+				if (p) {
-+					*maskp = BIT(NOTIFY4_CHANGE_DIR_ATTRS);
-+					ncn->ncn_nf[count].notify_mask.count = 1;
-+					ncn->ncn_nf[count].notify_mask.element = maskp;
-+					ncn->ncn_nf[count].notify_vals.data = p;
-+					ncn->ncn_nf[count].notify_vals.len = (u8 *)stream.p - p;
-+					++count;
-+				}
-+			}
-+		}
- 		ncn->ncn_nf_cnt = count;
- 		nfsd_file_put(nf);
- 		return true;
-diff --git a/fs/nfsd/nfs4xdr.c b/fs/nfsd/nfs4xdr.c
-index 4fe697bf34e7..2143fb6d5e3f 100644
---- a/fs/nfsd/nfs4xdr.c
-+++ b/fs/nfsd/nfs4xdr.c
-@@ -4227,11 +4227,11 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 			  struct nfsd_file *nf, char *name, u32 namelen)
- {
- 	struct nfs4_file *fi = dp->dl_stid.sc_file;
--	struct path path =  { .mnt = nf->nf_file->f_path.mnt,
--			      .dentry = dentry };
-+	struct path path = nf->nf_file->f_path;
- 	struct nfsd4_fattr_args args = { };
- 	uint32_t *attrmask;
- 	__be32 status;
-+	bool parent;
- 	int ret;
- 
- 	/* Reserve space for attrmask */
-@@ -4243,6 +4243,9 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 	ne->ne_file.len = namelen;
- 	ne->ne_attrs.attrmask.element = attrmask;
- 
-+	parent = (dentry == path.dentry);
-+	path.dentry = dentry;
-+
- 	/* FIXME: d_find_alias for inode ? */
- 	if (!path.dentry || !d_inode(path.dentry))
- 		goto noattrs;
-@@ -4258,15 +4261,20 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 
- 	args.change_attr = nfsd4_change_attribute(&args.stat);
- 
--	attrmask[0] = dp->dl_child_attrs[0];
--	attrmask[1] = dp->dl_child_attrs[1];
--	attrmask[2] = 0;
-+	if (parent) {
-+		attrmask[0] = dp->dl_dir_attrs[0];
-+		attrmask[1] = dp->dl_dir_attrs[1];
-+	} else {
-+		attrmask[0] = dp->dl_child_attrs[0];
-+		attrmask[1] = dp->dl_child_attrs[1];
- 
--	if (!setup_notify_fhandle(dentry, fi, nf, &args))
--		attrmask[0] &= ~FATTR4_WORD0_FILEHANDLE;
-+		if (!setup_notify_fhandle(dentry, fi, nf, &args))
-+			attrmask[0] &= ~FATTR4_WORD0_FILEHANDLE;
- 
--	if (!(args.stat.result_mask & STATX_BTIME))
--		attrmask[1] &= ~FATTR4_WORD1_TIME_CREATE;
-+		if (!(args.stat.result_mask & STATX_BTIME))
-+			attrmask[1] &= ~FATTR4_WORD1_TIME_CREATE;
-+	}
-+	attrmask[2] = 0;
- 
- 	ne->ne_attrs.attrmask.count = 2;
- 	ne->ne_attrs.attr_vals.data = (u8 *)xdr->p;
-@@ -4383,6 +4391,41 @@ u8 *nfsd4_encode_notify_event(struct xdr_stream *xdr, struct nfsd_notify_event *
- 	return NULL;
- }
- 
-+/**
-+ * nfsd4_encode_dir_attr_change
-+ * @xdr: stream to which to encode the fattr4
-+ * @dp: delegation where the event occurred
-+ * @nf: nfsd_file opened on the directory
-+ *
-+ * Encode a dir attr change event.
-+ */
-+u8 *nfsd4_encode_dir_attr_change(struct xdr_stream *xdr, struct nfs4_delegation *dp,
-+				 struct nfsd_file *nf)
-+{
-+	struct dentry *dentry = nf->nf_file->f_path.dentry;
-+	struct notify_attr4 na = { };
-+	struct name_snapshot n;
-+	bool ret;
-+	u8 *p = NULL;
-+
-+	if (!(dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS)))
-+		return NULL;
-+
-+	take_dentry_name_snapshot(&n, dentry);
-+	ret = nfsd4_setup_notify_entry4(&na.na_changed_entry, xdr,
-+					dentry, dp, nf, (char *)n.name.name,
-+					n.name.len);
-+
-+	/* Don't bother with the event if we're not encoding attrs */
-+	if (ret && na.na_changed_entry.ne_attrs.attr_vals.len) {
-+		p = (u8 *)xdr->p;
-+		if (!xdrgen_encode_notify_attr4(xdr, &na))
-+			p = NULL;
-+	}
-+	release_dentry_name_snapshot(&n);
-+	return p;
-+}
-+
- static void svcxdr_init_encode_from_buffer(struct xdr_stream *xdr,
- 				struct xdr_buf *buf, __be32 *p, int bytes)
- {
-diff --git a/fs/nfsd/xdr4.h b/fs/nfsd/xdr4.h
-index 62ac790428be..805c7122eb93 100644
---- a/fs/nfsd/xdr4.h
-+++ b/fs/nfsd/xdr4.h
-@@ -973,6 +973,8 @@ __be32 nfsd4_encode_fattr_to_buf(__be32 **p, int words,
- u8 *nfsd4_encode_notify_event(struct xdr_stream *xdr, struct nfsd_notify_event *nne,
- 			      struct nfs4_delegation *dd, struct nfsd_file *nf,
- 			      u32 *notify_mask);
-+u8 *nfsd4_encode_dir_attr_change(struct xdr_stream *xdr, struct nfs4_delegation *dp,
-+				 struct nfsd_file *nf);
- extern __be32 nfsd4_setclientid(struct svc_rqst *rqstp,
- 		struct nfsd4_compound_state *, union nfsd4_op_u *u);
- extern __be32 nfsd4_setclientid_confirm(struct svc_rqst *rqstp,
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
--- 
-2.54.0
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.eventpoll
+
+[1/1] eventpoll: add missing kernel-doc for @ctx function parameters
+      https://git.kernel.org/vfs/vfs/c/70a03a385de2
