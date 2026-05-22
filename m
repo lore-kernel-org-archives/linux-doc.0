@@ -1,94 +1,117 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D177E3A48F1
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 05:45:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8092C35674E;
+	Fri, 22 May 2026 05:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779428729; cv=none; b=SeQVXD9/0QT4dUHFVNkes8Yz/bCd1bRakdUUGRnnOSZdwNUN4TEDbJh1VTb1WhXpYmTIce/UmwlQHf7E14wPpX//VpjSu7T06xVroU2NjrPkVZ3VkEFRg8ebKniCit9BSyAb7ZGSHPEWovMfsGkh9mtofHDu0sl3wdWWAH67y28=
+	t=1779428975; cv=none; b=cG+Vof4tGzfhASgCZ7z1obsT8OHk/d0xZonQebbov/0oyQ9PcJ18Od8CixoT0EdiX/cIuNR8yR8v2/wTeD6vZoAYj5HZvB/azeXS3+PkpL0cbTDtQEjNJxxP2EqdyEaJQnUXgC8WKpaLaG4eIvh6yhl4sxR9QuTPvQ3bXBqGR04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779428729; c=relaxed/simple;
-	bh=ql10Or8hiZY36+yC6GIP6J3uCWm53wVebObAMuxnouo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o9UM5nKpCqW7mZZbctdpv5yGxpLsjnDzq9SocgmwELcEv8ahQXhbdlouVqQjQxSPOR+rPupGfOK/04ejU0kvVmMGj8hB1usmJTprCNGbdgG1sEVTbqnkCg1fI5DbzfcAx/sXXIAblAKiYDYFzpAcE5yL5kGb0IA+BLlFOFU93zQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=v8GSlpBv; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1779428975; c=relaxed/simple;
+	bh=aqxmJYVgnYnTy7ATYKVKzwjKYdEPS8ByUDPImULyrGc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t1Cf+dDrfmm7nI/m8DNl4D0dT27Luxm4apyreTJvr0jywk6g+gUSya5NCYGtJ2natJnIFOlzcQ0IaG+cShmd8BTHWXWM19Y1d0kemwQm2MU0ldwg4ZQug59PQpB45nn6Ub6TOiw+TBOEDMc3XrStFywW+LHFZt8abitodkDpN+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jk4Ks+BI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v8GSlpBv"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-36974220e45so2936746a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 22:45:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1779428727; x=1780033527; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/AdTiE2vtDA78mvf7eekNgfm+Kot3vVx+O2IbULE3WY=;
-        b=v8GSlpBvs2fHCgzvmATa4KCdIG8EGF5eOEdgwDHBPsGMGcmMoagZsTgF7Imnl0zKco
-         EJ9Wu6xK4RLTsOxATaUujP+0gt1m0RDTImRUbtFCGeTAyzt53Q11gRJQX2DismUdjLnK
-         pl56jmHU4T576rZZ7JLnuOzMxog6zQyyPKNqhU0Ydp9APOguTnuwFZgnyVIEeT3lhA3I
-         kqqyGdotQ3IM3LUkAemNuQWKzru0yEhpAJb/XpemW8SKs6dOyBlRt5TjmP2oyJC8mu0M
-         4jIxW3x+rYeJrZH9I016CozUIajRsg4V9HG//IBlXIAGu6Ce3FnlJqKw+wx5T9z45Ieh
-         XTOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779428727; x=1780033527;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/AdTiE2vtDA78mvf7eekNgfm+Kot3vVx+O2IbULE3WY=;
-        b=j0Cow+dclia/2qM1rIXteWnVYw0Nck/ghLgpTNeEaU3UMWX6Y/dn2AyCQdPIrkmXtU
-         l3Rg2qUEnQ4RmzP9rBK+/GjNaF0SaQlcL5q6I+lOriD/Yklgxno/thbvwsPGa+OFxVBe
-         HrdYhiH/JLK9kv1C6iMRuDDS9a+15VvDTUmPQhRLM1OvGBJrJ/6AGnDCeyAnFSZ/vb1g
-         VBHhHy8snptkWLyelASvwTwYbYu3KWkUGtiivjZ+o7S/2lKEKYcsKV6b+JH/UNWbZ5iU
-         IsbGRWHTwf5zTgmOeJk00RA63pfH1DrzLJ6oWXpOku9p1eyDgyuDbr9ftvFRFhQSMe/9
-         9z/w==
-X-Forwarded-Encrypted: i=1; AFNElJ/wpcj4OOYhcV+eGQc4uR8t3oVJwjyD91VgAeZSCtfxzeDv6JbUr+DKiFLHpLwOKx1dVEqbQKQb0+Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwltECpWVLLvbs1s9/ws8AmgjOo5bt/QiU1rRxRlPvPyUsta05J
-	6Bm3pHQJ0M2JyzDAwag1XV7v9I+w/BJR/rsnqlaR0U32QdkVWijd6ehVu9Q1ei3E8pA=
-X-Gm-Gg: Acq92OE0X4nLA9ZNokZIzBVJGe6m7IdIZs8aoHFgl0C2DcT56R+INCNmKuH6tlmouD/
-	kI5jUyum1Qf6WyFSRAjouEhiquiXT0PEpyDQIuI+XSsQAZQsVQd5wPwtz1+wF+QHl6U06MsjqOT
-	aF/W8MzYReyBkzg/JAcMtz670rkp/25aLitF4+AcojlqfnXvqlHCE8v93y64nrbawuyxqRgFgsN
-	hIgJ5q8eOW9QTxNUYxOb1NUo4VLrIiBOHoZgQ5i+p72xgdgPu/BKexWqCJ71SIc9tZ9jJtd7qWl
-	EyZSV0SUk0btyp6gsIXgM9GIsLh1sK6jgXO1NEZVkjcq16H6hMIixSJKuvKZYXANQNU/Z9nh+SB
-	GgVj2EUcnIvAcXFAduXlRJw55xHVTbl0nZqT4PIqDqSnW3EgjqIyfK/NP4QSih/IdAisJkPaGv+
-	qJqbgqwaR+ddt+RIR/izRd7zY=
-X-Received: by 2002:a17:90b:4d10:b0:368:3830:a8bd with SMTP id 98e67ed59e1d1-36a476e8096mr5157885a91.7.1779428726951;
-        Thu, 21 May 2026 22:45:26 -0700 (PDT)
-Received: from localhost ([122.172.82.94])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c852054c8absm434491a12.16.2026.05.21.22.45.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 22:45:25 -0700 (PDT)
-Date: Fri, 22 May 2026 11:15:23 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Pierre Gondois <pierre.gondois@arm.com>
-Cc: linux-kernel@vger.kernel.org, Jie Zhan <zhanjie9@hisilicon.com>, 
-	Lifeng Zheng <zhenglifeng1@huawei.com>, Ionela Voinescu <ionela.voinescu@arm.com>, 
-	Sumit Gupta <sumitg@nvidia.com>, Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Huang Rui <ray.huang@amd.com>, 
-	Mario Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>, 
-	K Prateek Nayak <kprateek.nayak@amd.com>, Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
-	Len Brown <lenb@kernel.org>, Saravana Kannan <saravanak@kernel.org>, linux-pm@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] cpufreq: Set policy->min and max as real QoS
- constraints
-Message-ID: <jwr2oiydbpebemo73ylwynwopeujc7mkb2nrqhugmoq2y52via@yspktx7mszkb>
-References: <20260511135538.522653-1-pierre.gondois@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jk4Ks+BI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AA9F1F000E9;
+	Fri, 22 May 2026 05:49:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779428974;
+	bh=E5sM9AUvuYdbGB4g9k8H+Hv5ClFSOJXofYXrX9huibQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Jk4Ks+BI5b0v7Yq8P3JkHDjP1tsuruhcAbMdrFykwvGKU9wIHCcA0ppRRW9rWFErC
+	 N313Qt4P9HfEHxJJ+iTL9iZCqTUKUNtfMqFXScwk6BQw6X72h4Py/ZGeLRI5DRzTpH
+	 xncgim7ZoYUFgXoLFuTyL+bw78Ka7/SiliBzPLoGFY/d2tGK/zz24hEU1gouQzxbPI
+	 /lfYgnfpWcPZMPPtcj3IrPVtcPURdw5oet2RYP+QKt56i/JbnN7kBmnmIifRiVzmhJ
+	 HEhskgWEfhGs8Equp0nlEkkrzubybTUeRaB2L8Tn95VxTukZhsjz6TCOWDGqIq7pNK
+	 /+8Eo1uwZpKKg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1wQIlH-000000056jh-2DhW;
+	Fri, 22 May 2026 05:49:31 +0000
+Date: Fri, 22 May 2026 06:52:48 +0100
+Message-ID: <87lddc9ej3.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v10 19/30] KVM: arm64: Provide assembly for SME register access
+In-Reply-To: <ag8b7oq4SFpdmlP_@J2N7QTR9R3>
+References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
+	<20260306-kvm-arm64-sme-v10-19-43f7683a0fb7@kernel.org>
+	<ag8b7oq4SFpdmlP_@J2N7QTR9R3>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511135538.522653-1-pierre.gondois@arm.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: mark.rutland@arm.com, broonie@kernel.org, oupton@kernel.org, joey.gouly@arm.com, catalin.marinas@arm.com, suzuki.poulose@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, Dave.Martin@arm.com, tabba@google.com, ben.horgan@arm.com, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, peter.maydell@linaro.org, eric.auger@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 11-05-26, 15:55, Pierre Gondois wrote:
-> This patch is a follow-up from the serie:
-> - [PATCH v6 0/4] cpufreq: Introduce boost frequency QoS
-> https://lore.kernel.org/lkml/20260317101753.2284763-1-pierre.gondois@arm.com/
+On Thu, 21 May 2026 15:51:26 +0100,
+Mark Rutland <mark.rutland@arm.com> wrote:
+> 
+> On Fri, Mar 06, 2026 at 05:01:11PM +0000, Mark Brown wrote:
+> > Provide versions of the SME state save and restore functions for the
+> > hypervisor to allow it to restore ZA and ZT for guests.
+> > 
+> > Signed-off-by: Mark Brown <broonie@kernel.org>
+> > ---
+> >  arch/arm64/include/asm/kvm_hyp.h |  2 ++
+> >  arch/arm64/kvm/hyp/fpsimd.S      | 23 +++++++++++++++++++++++
+> >  2 files changed, 25 insertions(+)
+> 
+> While this specific instance is simple enough, I don't think we should
+> continue to duplicate the low level save/restore routines between the
+> main kernel and KVM hyp code.
+> 
+> I've sent a series that avoids the need for this, and cleans up some
+> other bits):
+> 
+>   https://lore.kernel.org/linux-arm-kernel/20260521132556.584676-1-mark.rutland@arm.com/
+> 
+> Assuming Marc and Oliver are on board, I'd prefer that we do that
+> cleanup first, and build the KVM SME support atop.
 
-Apart from a minor change in patch 2, looks fine now.
+Absolutely. The whole FP/SVE is still way too complicated, full of
+esoteric constructs, hard to audit, and I would really like to see it
+cleaned-up before stacking another layer on top.
+
+I've quickly eyeballed the KVM-specific patches yesterday, and nothing
+seem outlandish, so there is a good chance some of that could make it
+into 7.2. I plan to look at it again shortly.
+
+Thanks,
+
+	M.
 
 -- 
-viresh
+Jazz isn't dead. It just smells funny.
