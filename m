@@ -1,104 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C682EC081
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 15:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FD947886E;
+	Fri, 22 May 2026 15:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779464000; cv=none; b=JAluJpFYphemiYAc4EVFj6qf+LoR+SyqGONFagGLQlfXkIw6wmwRy/aNz5Y81DLdIrsB22XX3mNx1uoPIUomNbuTYMzMwlRpXTNS9s4HzYrvYyjf7ScD90HGcORR5dZe+4fFaLNWGYJh0/T4pcW0C2WyRTo6qjs55I0ZM3j1peY=
+	t=1779464454; cv=none; b=Z74Aimy63QK4OMLaH830Q6PoSo45DEw98N/hVL9skQ/w2wnGgx8sMBXRJ5Jj1hybC0dD/HyK1MgSY2/qSNDSPPGwTIOo/YeUop8StcEnRASwdRYV2L6Q0mF6n23gv9lIJM8/EYZFB93qFz3SJ7kYj41xYbpZ5sRtEtRyptGHjbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779464000; c=relaxed/simple;
-	bh=Tu2dSrBQnavKqtFMzRV2jXUSSDx9ZygUM22V3o+37e0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CxzcnVIOqWQcqBXhpUh5Oz1LYFJ5TyayxNxlKwct9CvbZ2rHXqrmVJ5gzTT1uTK0JhQMmcwQaaY7vvfocRRdcJJzcPDvFHWM3Q0wIpnBAPclOC50N64KIfHauZaS+4aHSQ8mvuKTUvSztODgBUrscNKoAp6dWb1dtiIwewdBuW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l0i2LBA7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779464454; c=relaxed/simple;
+	bh=3qj4sp2Ygz+GWSr0uS4CCK2PDHsALrwUnuiNRcnu8Zs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jqjzacEsUacc6XjXxGpytqZDGiXZ2K7NVljyCh1LEFeQ4Bl/xSlUelA6E0b5FfxYyprhOSzuYq48BTbjRzVluCn414prZjs3SFWEhFUeIphNCXGMHTJavCbsrsJ2SaatE0dL7DYaT6De4b7Bf0vBJXhJ2cmZTN5WnRKSmc06ReE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BcTp1XiC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l0i2LBA7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 065371F00A3D
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 15:33:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BcTp1XiC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 807471F000E9;
+	Fri, 22 May 2026 15:40:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779463999;
-	bh=ckkZ9rPSDdVH84BUrlor3t95Yr0kGa1Cl9MeWzIX5aw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=l0i2LBA70LUn9XV7oS+GDlKykoUrEraKD0B5u0cESrImBJfunqUVPP7tF4Xa1Et5K
-	 CBQ4sEk/j99jsVEdOG2GKr7nwlha0AvZODnWPqO37gWglT3GoJfYLCDb4HvYJvIY6a
-	 70udBjCl/PAONCGBpMvdKQfuXMMSTAjliw0ZEWYwqub8TOvXs4C1dl9G5XBjKF9Unz
-	 FLdgmfM1JkIu1ctkAr9EIz7uWSuIGCPREUjI1ccWvewJjXlBRtxhsh83g0hiiWLdMt
-	 7auugvH/Hh66Z22ED3BJSWhkzQqjkAuEpBB++FEGbNC14ShWCEjfso+0neUq1tjyHc
-	 0FpFKENy5wm7g==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aa0cf8bca3so7142270e87.0
-        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 08:33:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/sOPG7GOmKZpGVqLdQToCZC4hrb7gxLlP5avetzSOtbexMBi1d6xcRTD5gWcPUkHkDSI4Q+zKW3iU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtaOt+m+mPAiVQnozaHh5boCEZ91H7CMShv/rODxVlRhBoU7GX
-	vU/MtlMvc2KlmQABTVHJETDh6/d7dfGbGuXigtvHDKrGsaZ7QTG/JLGjSpuwJyy6EUzAtMtK9Ae
-	p/wW6yPgcI0YGm+wwTzs9s93qbI/WM3Y=
-X-Received: by 2002:ac2:4c4e:0:b0:5a8:89d6:93c3 with SMTP id
- 2adb3069b0e04-5aa323bc5dbmr1225669e87.21.1779463997519; Fri, 22 May 2026
- 08:33:17 -0700 (PDT)
+	s=k20260515; t=1779464452;
+	bh=kK1Z8+G5JdzrtL4yJcz0BSXEx9OH0SiwFwGqYTVQ8SY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=BcTp1XiCPzBqdBetmpMEKQsoJCjoKq1KCqPblX+GuDLN6HLCTiYJy+Ncaw6zBdTLj
+	 aj9LthNxvTVZind+bRZ8Nj9rxma1ZZdpt9wYUJdj0pWkbHzM8yqP5yKnPJht785Pww
+	 NYLSIsxJqhFxsJ+YngCvSkL8fwliNNpjIhKSIxsJyc80ikI8Y8HbFGgnfYJ31ZnFSf
+	 EsLAllrN3L6cN9oGbLZPndMqOATS0Bf0XPHHGe2CZc6sK3mSLc0uuE89dKC/HoJLEm
+	 bHh5wf1pOcTaAcCn4wNUEvbPK7A6xVCFhvQ+ZgTg/banKd0TpH2CdJAHB91alOrq2K
+	 I3/YTuS9bwygA==
+Date: Fri, 22 May 2026 08:40:50 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: Larysa Zaremba <larysa.zaremba@intel.com>, Tony Nguyen
+ <anthony.l.nguyen@intel.com>, <davem@davemloft.net>, <pabeni@redhat.com>,
+ <edumazet@google.com>, <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>,
+ <przemyslaw.kitszel@intel.com>, <sridhar.samudrala@intel.com>,
+ <anjali.singhai@intel.com>, <michal.swiatkowski@linux.intel.com>,
+ <maciej.fijalkowski@intel.com>, <emil.s.tantilov@intel.com>,
+ <madhu.chittim@intel.com>, <joshua.a.hay@intel.com>,
+ <jacob.e.keller@intel.com>, <jayaprakash.shanmugam@intel.com>,
+ <jiri@resnulli.us>, <horms@kernel.org>, <corbet@lwn.net>,
+ <richardcochran@gmail.com>, <linux-doc@vger.kernel.org>,
+ <tatyana.e.nikolova@intel.com>, <krzysztof.czurylo@intel.com>,
+ <jgg@ziepe.ca>, <leon@kernel.org>, <linux-rdma@vger.kernel.org>, Samuel
+ Salin <Samuel.salin@intel.com>, Aleksandr Loktionov
+ <aleksandr.loktionov@intel.com>
+Subject: Re: [PATCH net-next v3 01/14] virtchnl: create
+ 'include/linux/intel' and move necessary header files
+Message-ID: <20260522084050.5ba31f38@kernel.org>
+In-Reply-To: <5426379b-1201-4707-8d18-21dca3d1424e@intel.com>
+References: <20260515224443.2772147-1-anthony.l.nguyen@intel.com>
+	<20260515224443.2772147-2-anthony.l.nguyen@intel.com>
+	<20260520175201.72f83c4a@kernel.org>
+	<ag7QUgfpM5UAAE2z@soc-5CG4396X81.clients.intel.com>
+	<20260521065609.248c7009@kernel.org>
+	<5426379b-1201-4707-8d18-21dca3d1424e@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260518133457.2408463-1-zhangpengjie2@huawei.com>
-In-Reply-To: <20260518133457.2408463-1-zhangpengjie2@huawei.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 22 May 2026 17:33:05 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gj2Qa_gy91QQ-wwWH6zGBhuO1SujSVXvr8UYp935btoQ@mail.gmail.com>
-X-Gm-Features: AVHnY4IvMxnx-fW5FH7lORMWVquEvE-K5lCPGGtA6lPS_7Da8kE-OIFWKujdpAE
-Message-ID: <CAJZ5v0gj2Qa_gy91QQ-wwWH6zGBhuO1SujSVXvr8UYp935btoQ@mail.gmail.com>
-Subject: Re: [PATCH v2] cpufreq: Documentation: fix sampling_down_factor range
-To: Pengjie Zhang <zhangpengjie2@huawei.com>
-Cc: rafael@kernel.org, viresh.kumar@linaro.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, zhongqiu.han@oss.qualcomm.com, 
-	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, zhanjie9@hisilicon.com, 
-	zhenglifeng1@huawei.com, lihuisong@huawei.com, yubowen8@huawei.com, 
-	linhongye@h-partners.com, linuxarm@huawei.com, wangzhi12@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 18, 2026 at 3:35=E2=80=AFPM Pengjie Zhang <zhangpengjie2@huawei=
-.com> wrote:
->
-> The ondemand governor implementation accepts sampling_down_factor values
-> from 1 to 100000 via MAX_SAMPLING_DOWN_FACTOR, but the documentation in
-> admin-guide/pm/cpufreq.rst still says the valid range is 1 to 100.
->
-> Update the documentation to match the actual code.
->
-> Fixes: 2a0e49279850 ("cpufreq: User/admin documentation update and consol=
-idation")
-> Reviewed-by: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
-> Signed-off-by: Pengjie Zhang <zhangpengjie2@huawei.com>
-> ---
-> Changes in v2:
-> - Modify the title.
-> - Add Reviewed-by tag.
-> Link to v1:https://lore.kernel.org/all/20260515094930.273599-1-zhangpengj=
-ie2@huawei.com/
-> ---
->  Documentation/admin-guide/pm/cpufreq.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/adm=
-in-guide/pm/cpufreq.rst
-> index dbe6d23a5d67..fdca59c955dc 100644
-> --- a/Documentation/admin-guide/pm/cpufreq.rst
-> +++ b/Documentation/admin-guide/pm/cpufreq.rst
-> @@ -516,7 +516,7 @@ This governor exposes the following tunables:
->         of those tasks above 0 and set this attribute to 1.
->
->  ``sampling_down_factor``
-> -       Temporary multiplier, between 1 (default) and 100 inclusive, to a=
-pply to
-> +       Temporary multiplier, between 1 (default) and 100000 inclusive, t=
-o apply to
->         the ``sampling_rate`` value if the CPU load goes above ``up_thres=
-hold``.
->
->         This causes the next execution of the governor's worker routine (=
-after
-> --
+On Fri, 22 May 2026 13:08:08 +0200 Alexander Lobakin wrote:
+> >> There are at least
+> >>
+> >> include/linux/mlx4, include/linux/mlx5 and include/linux/bnxt.
+> >>
+> >> Those are per-driver and not per-vendor, but intel ethernet has too many drivers 
+> >> to have separate folders for them.
+> >>
+> >> I just do not think this creates a precedent neccessarily.  
+> > 
+> > You just said the other ones are for specific drivers.  
+> 
+> Right, but according to your earlier suggestion they belong to
+> include/net, not include/linux.
+> 
+> My understanding is that they're under include/linux, not include/net as
+> mlx5 is not only about Ethernet, but also RDMA etc. The same applies to
+> Intel's headers.
+> 
+> What's your position after all this? Still include/net/intel? This
+> commit is about stopping scattering Intel headers all over include/linux
+> and set one place for them.
 
-Applied as 7.1-rc material, thanks!
+I strongly dislike the idea there are "intel" headers. Header files
+are not sorted by vendors. That gives off way too much "Intel's corner
+of the kernel" vibe. "net+Intel" is fine, but Intel by itself is too
+broad.
+
+So IDK. include/net/intel is fine. So is the current layout. Or stick 
+to driver / module by module like other vendors.
+
+> >> Folder structure is for you to decide as a maintainer, but it would be nice to 
+> >> have known about such doubts earlier.  
+> > 
+> > I'd love to know if you any suggestions for improving the process.
+> > Otherwise please keep your venting off list.  
+> 
+> I think Larysa just wanted to say that you disliked this commit after
+> the series went through several iterations on IWL and 3 iterations here,
+> nothing more. It's not about the overall process.
+
+Intel has a strongly negative reviewer score right now.
+IMHO it's not appropriate for y'all to complain about upstream
+reviews, or how long it takes to get your patches merged...
