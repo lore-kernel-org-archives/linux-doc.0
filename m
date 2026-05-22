@@ -1,283 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1887E3E9C3F;
-	Fri, 22 May 2026 11:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B14A265CD9;
+	Fri, 22 May 2026 11:46:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779450278; cv=none; b=KcF32TsYadkFIn3Bc9NmYycnHCw67hE4A6p8z+SBI19tx/Kcue19lpkX3CA9eXqz5K/UmqHkR3R5onm8ZPlBUIEk7Iij2qm/6t5shOwmanYF1WYqrUzWVYdh672HLLmZ4iuQiZ6I3G444Ye/X42/DMRKzz/19Qvzcz6v6kg8Lus=
+	t=1779450398; cv=none; b=PxfmTmp7QZ0fN2JxcbcXq8opEvLjt4EM1B7GUThqnEGbZZAglA9NJgebV5udeAKYzwVV70kCduaSz0d02Kw+JZLcBppqjgTf24a/Of3RPygS7WUNbgPvPjIsKfjX12EzQLSxBbwS5jspxZmK4SG2HOH7L+xeCwxj9RyaHC37BpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779450278; c=relaxed/simple;
-	bh=HbRSjpP6pq1GX7FNbHSwbMJ77qs/NEnjH+zX7DSg0tg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fptQjMEQZof/YxI1Ck3eT27B7NPp4aEpooGR7R19nIVSo6lVdfVpAec48mouHFed+qRQ2/xq6j14Ia06pq94p2IKFDpHpl8K4+LQ1jviC4qcn+C12eerSE/Nz/1m3nShWOL/9cowfD14rtaRm5QvpIofd8HKzh6+EiJyLjm4xHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qt841VlS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779450398; c=relaxed/simple;
+	bh=g6vD/koq/YQFvJ1hHOoVO2KTYjPZ3MlR5w8GxczYSGI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lNLAOTxU9Rfw1zVfBVnlIQogHP6paJFLQ390s4FbGEx0QIxUICbmPlCC4IK2NjM2bABAbUZ6UeCODx7Ne0EVCZNhWhK13L6a0AKF6FB9+s+o2p0c8o6OJG5lLXcLv1D4q1ovdIZbuXqxDNlB/jZxwKluIhQUX1AzWImRDJQftu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NG9+ntPn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qt841VlS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 629B11F00A3D;
-	Fri, 22 May 2026 11:44:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NG9+ntPn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27CAE1F000E9;
+	Fri, 22 May 2026 11:46:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779450273;
-	bh=7R5NDp5rIQEKgmx6ff9T0EAO9NIuV9zvssCRGuN2Nxg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Qt841VlSj3QS3Bxsc4RBFCcw1ZwOuFFG/ekVzzSD2g06cK7CnOAsRnliahxM3J0Fj
-	 2gOPmEAmhXXTRWp6Fr1vIl1h3ne1i78pqR/tKSykwptOt9q86CnD+dUhzWR7WT/uVr
-	 LoZgJ1gkqVQhiSl1oZ/Whr3T3yXe+jni+tbBuCPAUTRFvht5T39oCd1ejnq1b/ltpP
-	 UA2SddoVQc/JL62WZTWLWfKIPPXSKjzIJW8p/m538JGt3022rApPm3IPElJyr5kEMz
-	 Pft75V3aTWFsYeoNE+aHTW5nX0aEQASkT0Xp0WFmNOASbvkCsmhgGdZ19hnhfgEChE
-	 c8/68j9Z5uNfg==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 94B66F40069;
-	Fri, 22 May 2026 07:44:31 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Fri, 22 May 2026 07:44:31 -0400
-X-ME-Sender: <xms:n0EQajzaWUAL9foVl3iSXLRppyszmKHlcbKTz09aNBDzWda9abzdIQ>
-    <xme:n0EQao5eWXQxAc48kc28joC7NhC70-iZIgZZMD5N4dFWaBAHcfHEnmrcj_6Av666R
-    fI_7XdS2f_fMSJERkvvdEGk3OLU2fRi7Zq80Q10QApSbteW73137A>
-X-ME-Received: <xmr:n0EQai6cX3uF_gHjNw4yHL8-AiiXt58FoNSXQFsrEwMygLFEdtb141KYHBxPBA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduhedttdekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttdertd
-    dttddvnecuhfhrohhmpefmihhrhihlucfuhhhuthhsvghmrghuuceokhgrsheskhgvrhhn
-    vghlrdhorhhgqeenucggtffrrghtthgvrhhnpeeuieejieffkeehfeffffdtkeelfeelhe
-    fhfefhudehjeehvdffleeuvddufefgkeenucevlhhushhtvghrufhiiigvpedtnecurfgr
-    rhgrmhepmhgrihhlfhhrohhmpehkihhrihhllhdomhgvshhmthhprghuthhhphgvrhhsoh
-    hnrghlihhthidqudeiudduiedvieehhedqvdekgeeggeejvdekqdhkrghspeepkhgvrhhn
-    vghlrdhorhhgsehshhhuthgvmhhovhdrnhgrmhgvpdhnsggprhgtphhtthhopeegiedpmh
-    houggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtg
-    hpthhtohepphgvthgvrhigsehrvgguhhgrthdrtghomhdprhgtphhtthhopegurghvihgu
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehljhhssehkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehsuhhrvghnsgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepvhgsrggs
-    khgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihgrmhdrhhhofihlvghtthesoh
-    hrrggtlhgvrdgtohhmpdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhm
-X-ME-Proxy: <xmx:n0EQahLnSwNCQtzwgiyBDyXM6QXTIzHcpKJRL_cw5-UfKWI_ZtGPiA>
-    <xmx:n0EQakHez12dNbwMmUO0uVj63cxI2c1kiERawUYVAtNB9Hoqj8ZlOQ>
-    <xmx:n0EQau0j47Y2kYXSFKvkmNASmGHslIn1RQnBuGHsbGerJDymGXmi8w>
-    <xmx:n0EQamzIkUog0A3bQiC44FAMQf1ZKLmSZ2mXYsJouisWgBpHyQv9hA>
-    <xmx:n0EQaoFwDGvWKyiuxNInuwchtGw0QVDFOFHNPlTYuyd4gM6cWXlxSGh_>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 22 May 2026 07:44:29 -0400 (EDT)
-Date: Fri, 22 May 2026 12:44:25 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: akpm@linux-foundation.org, peterx@redhat.com, david@kernel.org, 
-	ljs@kernel.org, surenb@google.com, vbabka@kernel.org, Liam.Howlett@oracle.com, 
-	ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com, 
-	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, sj@kernel.org, 
-	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v2 05/14] mm: add MM_CP_UFFD_RWP change_protection() flag
-Message-ID: <ahA2Oy0NVaB8I8GR@thinkstation>
-References: <cover.1778254670.git.kas@kernel.org>
- <ff3420fdd75f58d56827ff3d2eaffc0d74154627.1778254670.git.kas@kernel.org>
- <agNZE49m8Pkn8CeW@kernel.org>
+	s=k20260515; t=1779450393;
+	bh=SRSNrMsPebt6Vg+4fLWYKnEZZvhbUhBLws7+1vBhpKs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=NG9+ntPn5mUtEzY2YjQtDl4PqoXUyUc0Gf32aEgat1UwjtU0bEOUCItf09wZXKgv6
+	 yTagpqs7DFwZqUj1UCeqSM8FDcdkP66jubFjKfIlqKP5D4dTL3LyyFguU6oU++9QYA
+	 IZfV7iugGDjN+dGN5EL11yvONhyy2HSb2bUs2fZcg7vO8siGs7qvYG+0/iTiEk0+fm
+	 uZca7hCIVHPlqPcYqvrRkx4IOpT5X97HHmLcoNOEG0MLwo6F4aa9xUuTbew9zs2mub
+	 hHL+Zh+v+57gCHtII0hawlFahVq4GNlNsyHtVvAHZCKlXmnuCIjy4imVLgQpX3W5iX
+	 5suOGNIRxoIsQ==
+Date: Fri, 22 May 2026 12:46:20 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
+ <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v12 3/6] iio: adc: ad4691: add triggered buffer support
+Message-ID: <20260522124620.35b03d73@jic23-huawei>
+In-Reply-To: <20260519-ad4692-multichannel-sar-adc-driver-v12-3-5b335162aa51@analog.com>
+References: <20260519-ad4692-multichannel-sar-adc-driver-v12-0-5b335162aa51@analog.com>
+	<20260519-ad4692-multichannel-sar-adc-driver-v12-3-5b335162aa51@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agNZE49m8Pkn8CeW@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 12, 2026 at 07:45:07PM +0300, Mike Rapoport wrote:
-> On Fri, May 08, 2026 at 04:55:17PM +0100, Kiryl Shutsemau (Meta) wrote:
-> > Preparatory patch. Add the change_protection() primitive that
-> > userfaultfd RWP will use.
-> > 
-> > An RWP-protected PTE is PAGE_NONE with the uffd PTE bit set. The
-> > PROT_NONE half makes the CPU fault on any access; the uffd bit
-> > distinguishes an RWP fault from a plain mprotect(PROT_NONE) or NUMA
-> > hinting fault. MM_CP_UFFD_WP and MM_CP_UFFD_RWP share the same PTE
-> > bit, so the two cannot be used together on the same range.
-> > 
-> > Two new change_protection() flags:
-> > 
-> >   MM_CP_UFFD_RWP            install PAGE_NONE and set the uffd bit
-> >   MM_CP_UFFD_RWP_RESOLVE    restore vma->vm_page_prot, clear the uffd bit
-> > 
-> > Both are wired through change_pte_range(), change_huge_pmd(), and
-> > hugetlb_change_protection() so anon, shmem, THP, and hugetlb all
-> > share the same semantics.
-> > 
-> > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> > Assisted-by: Claude:claude-opus-4-6
-> > ---
-> >  include/linux/mm.h            |  5 +++++
-> >  include/linux/userfaultfd_k.h |  1 -
-> >  mm/huge_memory.c              | 20 ++++++++++++------
-> >  mm/hugetlb.c                  | 25 ++++++++++++++++------
-> >  mm/mprotect.c                 | 40 +++++++++++++++++++++++++++++------
-> >  5 files changed, 71 insertions(+), 20 deletions(-)
-> > 
-> > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > index 3f53d1e978c0..2b65416bb760 100644
-> > --- a/include/linux/mm.h
-> > +++ b/include/linux/mm.h
-> > @@ -3291,6 +3291,11 @@ int get_cmdline(struct task_struct *task, char *buffer, int buflen);
-> >  #define  MM_CP_UFFD_WP_RESOLVE             (1UL << 3) /* Resolve wp */
-> >  #define  MM_CP_UFFD_WP_ALL                 (MM_CP_UFFD_WP | \
-> >  					    MM_CP_UFFD_WP_RESOLVE)
-> > +/* Whether this change is for uffd RWP */
-> > +#define  MM_CP_UFFD_RWP                    (1UL << 4) /* do rwp */
-> > +#define  MM_CP_UFFD_RWP_RESOLVE            (1UL << 5) /* Resolve rwp */
-> 
-> Nit: any reason except copy/paset to use different case in "do rwp" and
-> "Resolve rwp"? ;-)
+On Tue, 19 May 2026 15:20:24 +0300
+Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
 
-copy/paste it is. Will use "resolve rwp"
+> From: Radu Sabau <radu.sabau@analog.com>
+>=20
+> Add buffered capture support using the IIO triggered buffer framework.
+>=20
+> CNV Burst Mode: the GP pin identified by interrupt-names in the device
+> tree is configured as DATA_READY output. The IRQ handler stops
+> conversions and fires the IIO trigger; the trigger handler executes a
+> pre-built SPI message that reads all active channels from the AVG_IN
+> accumulator registers and then resets accumulator state and restarts
+> conversions for the next cycle.
+>=20
+> Manual Mode: CNV is tied to SPI CS so each transfer simultaneously
+> reads the previous result and starts the next conversion (pipelined
+> N+1 scheme). At preenable time a pre-built, optimised SPI message of
+> N+1 transfers is constructed (N channel reads plus one NOOP to drain
+> the pipeline). The trigger handler executes the message in a single
+> spi_sync() call and collects the results. An external trigger (e.g.
+> iio-trig-hrtimer) is required to drive the trigger at the desired
+> sample rate.
+>=20
+> Both modes share the same trigger handler and push a complete scan =E2=80=
+=94
+> one big-endian 16-bit (__be16) slot per active channel, densely packed
+> in scan_index order, followed by a timestamp.
+>=20
+> The CNV Burst Mode sampling frequency (PWM period) is exposed as a
+> buffer-level attribute via IIO_DEVICE_ATTR.
+>=20
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+I didn't spot anything in my read through and most of what Sashiko
+is commenting on is wrong or not a driver specific problem
+(the trigger leak is a core problem)
 
-> > +#define  MM_CP_UFFD_RWP_ALL                (MM_CP_UFFD_RWP | \
-> > +					    MM_CP_UFFD_RWP_RESOLVE)
-> >  
-> >  bool can_change_pte_writable(struct vm_area_struct *vma, unsigned long addr,
-> >  			     pte_t pte);
-> > diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> > index fcf308dba311..3725e61a7041 100644
-> > --- a/include/linux/userfaultfd_k.h
-> > +++ b/include/linux/userfaultfd_k.h
-> > @@ -397,7 +397,6 @@ static inline bool userfaultfd_huge_pmd_wp(struct vm_area_struct *vma,
-> >  	return false;
-> >  }
-> >  
-> > -
-> >  static inline bool userfaultfd_armed(struct vm_area_struct *vma)
-> >  {
-> >  	return false;
-> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > index d88fcccd386d..2537dca63c6c 100644
-> > --- a/mm/huge_memory.c
-> > +++ b/mm/huge_memory.c
-> > @@ -2665,6 +2665,8 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
-> >  	spinlock_t *ptl;
-> >  	pmd_t oldpmd, entry;
-> >  	bool prot_numa = cp_flags & MM_CP_PROT_NUMA;
-> > +	bool uffd_rwp = cp_flags & MM_CP_UFFD_RWP;
-> > +	bool uffd_rwp_resolve = cp_flags & MM_CP_UFFD_RWP_RESOLVE;
-> >  	bool uffd_wp = cp_flags & MM_CP_UFFD_WP;
-> >  	bool uffd_wp_resolve = cp_flags & MM_CP_UFFD_WP_RESOLVE;
-> 
-> It looks like uffd_wp* are always ORed with uffd_rwp, we could fold this to
-> e.g.
-> 
-> 	bool uffd_prot = cp_flags & (MM_CP_UFFD_WP | MM_CP_UFFD_RWP);
+One small thing Sashiko did pick up on though that I think could be a littl=
+e nicer.
+You may well already have this in hand as I know you are checking there
+as well!
 
-Makes sense.
+> +static void ad4691_read_scan(struct iio_dev *indio_dev, s64 ts)
+> +{
+> +	struct ad4691_state *st =3D iio_priv(indio_dev);
+> +
+> +	guard(mutex)(&st->lock);
+> +
+> +	spi_sync(st->spi, &st->scan_msg);
 
-> >  	int ret = 1;
-> > @@ -2679,11 +2681,18 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
-> >  		return 0;
-> >  
-> >  	if (thp_migration_supported() && pmd_is_valid_softleaf(*pmd)) {
-> > -		change_non_present_huge_pmd(mm, addr, pmd, uffd_wp,
-> > -					    uffd_wp_resolve);
-> > +		change_non_present_huge_pmd(mm, addr, pmd,
-> > +					    uffd_wp || uffd_rwp,
-> > +					    uffd_wp_resolve || uffd_rwp_resolve);
-> >  		goto unlock;
-> >  	}
-> >  
-> > +	/* Already in the desired state */
-> > +	if (prot_numa && pmd_protnone(*pmd))
-> > +		goto unlock;
-> > +	if (uffd_rwp && pmd_protnone(*pmd) && pmd_uffd(*pmd))
-> > +		goto unlock;
-> > +
-> >  	if (prot_numa) {
-> >  
-> >  		/*
-> > @@ -2694,9 +2703,6 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
-> >  		if (is_huge_zero_pmd(*pmd))
-> >  			goto unlock;
-> >  
-> > -		if (pmd_protnone(*pmd))
-> > -			goto unlock;
-> > -
-> >  		if (!folio_can_map_prot_numa(pmd_folio(*pmd), vma,
-> >  					     vma_is_single_threaded_private(vma)))
-> >  			goto unlock;
-> > @@ -2725,9 +2731,9 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
-> >  	oldpmd = pmdp_invalidate_ad(vma, addr, pmd);
-> >  
-> >  	entry = pmd_modify(oldpmd, newprot);
-> > -	if (uffd_wp)
-> > +	if (uffd_wp || uffd_rwp)
-> >  		entry = pmd_mkuffd(entry);
-> > -	else if (uffd_wp_resolve)
-> > +	else if (uffd_wp_resolve || uffd_rwp_resolve)
-> >  		/*
-> >  		 * Leave the write bit to be handled by PF interrupt
-> >  		 * handler, then things like COW could be properly
-> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> > index 61cda9992043..63f6b19418b9 100644
-> > --- a/mm/hugetlb.c
-> > +++ b/mm/hugetlb.c
-> > @@ -6434,6 +6436,11 @@ long hugetlb_change_protection(struct vm_area_struct *vma,
-> >  
-> >  		ptep = hugetlb_walk(vma, address, psize);
-> >  		if (!ptep) {
-> > +			/*
-> > +			 * uffd_wp installs a pte marker on the unpopulated
-> > +			 * entry; RWP does not install markers so the
-> 
-> Nit:                              uffd_rwp
+One thing from sashiko. If this fails we shouldn't push data and we should
+make it clear somewhere (rate limited print or similar).
 
-Ack.
-
-> 
-> > +			 * allocation is unnecessary for it.
-> > +			 */
-> >  			if (!uffd_wp) {
-> >  				address |= last_addr_mask;
-> >  				continue;
-> > diff --git a/mm/mprotect.c b/mm/mprotect.c
-> > index 8340c8b228c6..23e71f68cf7a 100644
-> > --- a/mm/mprotect.c
-> > +++ b/mm/mprotect.c
-> > @@ -216,6 +216,8 @@ static long change_softleaf_pte(struct vm_area_struct *vma,
-> >  {
-> >  	const bool uffd_wp = cp_flags & MM_CP_UFFD_WP;
-> >  	const bool uffd_wp_resolve = cp_flags & MM_CP_UFFD_WP_RESOLVE;
-> > +	const bool uffd_rwp = cp_flags & MM_CP_UFFD_RWP;
-> > +	const bool uffd_rwp_resolve = cp_flags & MM_CP_UFFD_RWP_RESOLVE;
-> 
-> And here a single pair of bools should be enough I think.
-
-Yep.
-
-> 
-> >  	softleaf_t entry = softleaf_from_pte(oldpte);
-> >  	pte_t newpte;
-> >  
-> > @@ -256,7 +258,7 @@ static long change_softleaf_pte(struct vm_area_struct *vma,
-> >  		 * to unprotect it, drop it; the next page
-> >  		 * fault will trigger without uffd trapping.
-> >  		 */
-> > -		if (uffd_wp_resolve) {
-> > +		if (uffd_wp_resolve || uffd_rwp_resolve) {
-> >  			pte_clear(vma->vm_mm, addr, pte);
-> >  			return 1;
-> >  		}
-> > @@ -265,9 +267,9 @@ static long change_softleaf_pte(struct vm_area_struct *vma,
-> >  		newpte = oldpte;
-> >  	}
-> >  
-> > -	if (uffd_wp)
-> > +	if (uffd_wp || uffd_rwp)
-> >  		newpte = pte_swp_mkuffd(newpte);
-> > -	else if (uffd_wp_resolve)
-> > +	else if (uffd_wp_resolve || uffd_rwp_resolve)
-> >  		newpte = pte_swp_clear_uffd(newpte);
-> >  
-> >  	if (!pte_same(oldpte, newpte)) {
-> 
-> -- 
-> Sincerely yours,
-> Mike.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+> +
+> +	/*
+> +	 * rx_buf pointers in scan_xfers point directly into scan.vals, so no
+> +	 * copy is needed. The scan_msg already includes a STATE_RESET at the
+> +	 * end (appended in preenable), so no explicit reset is needed here.
+> +	 */
+> +	iio_push_to_buffers_with_ts(indio_dev, st->vals, sizeof(st->vals), ts);
+> +}
