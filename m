@@ -1,131 +1,226 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F1E2222CC;
-	Fri, 22 May 2026 17:02:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDCB372675;
+	Fri, 22 May 2026 17:13:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779469340; cv=none; b=O5pSA5mMBZAyV9odCKhQWxr8o6SZiUnSckYNuiARQLQnX/g6In9pkBq8gA5gBqaBmtiay35v5aglsx3TWFPClY1L1dfdYFpOA9mV9mnIOdZWzp5//XrHhd8/NBrGmTML7YJY540I2Qb9x1Jaj7bDG5oYZTeVE9ujJo5VPY2cGjM=
+	t=1779469981; cv=none; b=YHPApOH2P8vnqvNKSHhRQKmxzS+SX/H/rnhsiUEcw/TSgxDf5m5Vo8BpUD884naFeuxkGH3NbVWN7ufPHkxS9CnedhAsZj7U3YcDvfq2NVhf2SbjcPIJ8F2H1JaYi9PPniffhhhGQ1VTIW+mny6K7JGxGTHZ0ouoyrYnWJ/cL/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779469340; c=relaxed/simple;
-	bh=ZT438QpfdkV342To8rC4e986CAHRHP03DGVC4RwMVEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L/VaknVIP+DAp9PZbjXIA1viyLS2ftbgbjzKdL6Qub4kalTm3XpkRUfRuINr/WUukfuWjaIJMXdIbFV2og6z6Assd5WyKURiiv5CR08hQZN87XcX6V1vtaBOhatNu9R80YyUtFESk9wSVonyIhB2/4sX3hlN0GtGaM7wwY/w7as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cOXAnMSw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779469981; c=relaxed/simple;
+	bh=27h0jJZ7w7I8jAScI48gEhMwRLBkmhtjZjLyPmjs3Hg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HZGjZZqilBlKVOiohoGc90313feT0tJUO+iOif5lUmVcxeVkxzx77Ow7tOsJgqpfakCtO8cQCZ+LfKQVcGJj2S/tyyy8yy3l1mFkuoJgOecriCEp4huqfA6gdBnOEOjw/9p9wDpfJMvUS+nyaUBLMDtAaCgmhHhyuK5kzdX0iVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rwju4gJq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cOXAnMSw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C1891F000E9;
-	Fri, 22 May 2026 17:02:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rwju4gJq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E0BE1F000E9;
+	Fri, 22 May 2026 17:12:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779469338;
-	bh=dFLeOAy+lG1jO24092Be2VYCeGNtREL/YhJ4BDlk35k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=cOXAnMSwXLS3Cx3pmWGfedk+qEDsnZLs9wI9mY6XdGLGV7mnkq2qaoUdVvE98nzg6
-	 UUAJWPxIKx2vMulFJ7HTK2hVGOIyk6oCM9kiJPWQQoc/B9gciTAn8XgpIlnB58Czsk
-	 6x+TO1BagE67DgE8xfeSPH89ni4PCj0tknYszJ5rx+i0VAQiR3CdZhzjEO+DI8XGLZ
-	 jKjaaTWN1FEI97QdfeYdM6TyujUjW8Dcp8Kafc7RleP1ETcp4FD/50Y2VuenfvhcxL
-	 7vpkfIZnEK2HJ+FQcLb+DtWSJ2WrSeKunLE6Xg2enYXwi0eFut2JVce04Z80HPkS1q
-	 1qgixNQS2FnEQ==
-Date: Fri, 22 May 2026 18:02:07 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Janani Sunil
- <jan.sun97@gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
-Message-ID: <20260522180207.63b725fb@jic23-huawei>
-In-Reply-To: <20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
-References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
-	<20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1779469980;
+	bh=xiyUFzZqN9pslbNTfSLwhf195Bg0GoCgngfEHT8mMw0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Rwju4gJqo6X1kuG/alZGdb8qj4XKrN6BeadFhi6a0JPO+wNw1dtRc2RLZg5P6ha2d
+	 XqclErO1kvpWmoLCalNTwEUA9/C0qUpSHHOQFnGNMmqfdsap2UB5iBMMOBZRIcTQbl
+	 OqqpJ270JMx3f3360gBWgYv0gFL+Q2R506NoBgZWcUzoQwyXvOuwIXk53kY+DcK9mg
+	 ZaleTCjdvABCBuqe6tAC5FtnGGM/7UQqzM5z3gha9yX4WQrWhvQ80Fnox7mFoqSI/o
+	 FYJddHUP8I5dbmiFUqHx3lASyRJ/zyQ+AqcXMj0lhFtgUXOalRWryX6DuxwmlU1RBt
+	 ZVtnlemjeZ6ww==
+Date: Fri, 22 May 2026 18:12:45 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-doc@vger.kernel.org, akpm@linux-foundation.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
+	aarcange@redhat.com, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
+	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
+	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
+	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
+	kas@kernel.org, lance.yang@linux.dev, liam@infradead.org, 
+	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
+	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
+	rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com, 
+	rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
+	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
+	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
+	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-hotfixes-unstable v18 00/14] khugepaged: add mTHP
+ collapse support
+Message-ID: <ahCFIDuyrvEfB9jv@lucifer>
+References: <20260522150009.121603-1-npache@redhat.com>
+ <CAA1CXcCoDU_pnp0SmMzRi8wPGB1OBjbbokevq2X_03X1vpWtOw@mail.gmail.com>
+ <ahByO_HWn6MB8z-u@lucifer>
+ <CAA1CXcDoFdZZ4aBx0BPA7QXYKYBYDoqUiLTLYe3L5opJ0LsJGg@mail.gmail.com>
+ <ahB_hae8coGvf12Z@lucifer>
+ <CAA1CXcCoyGzEyeFPW+zKiA2AOj=0Lm7R=odLtVru+dQa0P_2cQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAA1CXcCoyGzEyeFPW+zKiA2AOj=0Lm7R=odLtVru+dQa0P_2cQ@mail.gmail.com>
 
-On Tue, 19 May 2026 17:42:58 +0200
-Janani Sunil <janani.sunil@analog.com> wrote:
+On Fri, May 22, 2026 at 10:31:41AM -0600, Nico Pache wrote:
+> On Fri, May 22, 2026 at 10:20 AM Lorenzo Stoakes <ljs@kernel.org> wrote:
+> > There's some kind of confusion here.
+> >
+> > This series isn't suited for 7.2.
+> >
+> > Sorry but Zi's series, unless it depends on functionality here, will have
+> > to be rebased.
+> >
+> > People have been at conferences, people have been on leave, I've had to
+> > pace myself for health reasons and it seems there's been more than simply
+> > review comment-based changes happening here.
+> >
+> > (Again I strongly encourage, at this stage, to ONLY be making changes based
+> > on review, not adding ANYTHING else or changing ANYTHING else to avoid
+> > delays :)
+>
+> All the changes are based on review points. Very small changes in this
+> version; the largest being the one that you specifically argeed too.
 
-> Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
-> buffered voltage output digital-to-analog converter (DAC) with an
-> integrated precision reference.
+16->17
 
-Note that I'm seeing this as Changes Requested in the DT-binding patchwork
-but didn't see any replies.
+ Documentation/admin-guide/mm/transhuge.rst |  24 +++++-------------
+ include/linux/khugepaged.h                 |   7 ++---
+ include/trace/events/huge_memory.h         |   3 ++-
+ mm/huge_memory.c                           |   2 +-
+ mm/khugepaged.c                            | 168 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------------------------------------------------
+ mm/vma.c                                   |   6 ++---
+ tools/testing/vma/include/stubs.h          |   3 ++-
+ 7 files changed, 103 insertions(+), 110 deletions(-)
 
-Seems I didn't get the sashiko reply - nor did the IIO patchwork.
-Hopefully Janani did!
-https://patchwork.kernel.org/project/devicetree/patch/20260519-ad5529r-driv=
-er-v3-1-267c0731aa68@analog.com/
+17->18
 
->=20
-> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> ---
->  .../devicetree/bindings/iio/dac/adi,ad5529r.yaml   | 217 +++++++++++++++=
-++++++
->  MAINTAINERS                                        |   7 +
->  2 files changed, 224 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml b=
-/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
-> new file mode 100644
-> index 000000000000..eb66f6ca063d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
-> @@ -0,0 +1,217 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/dac/adi,ad5529r.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analog Devices AD5529R 16-Channel 12/16-bit High Voltage DAC
-> +
-> +maintainers:
-> +  - Janani Sunil <janani.sunil@analog.com>
-> +
-> +description: |
-> +  The AD5529R is a 16-channel, 12-bit or 16-bit, high voltage, buffered =
-voltage output
+ Documentation/admin-guide/mm/transhuge.rst |   5 +++--
+ include/trace/events/huge_memory.h         |   3 +--
+ mm/khugepaged.c                            | 121 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------------------------------------
+ 3 files changed, 66 insertions(+), 63 deletions(-)
 
-Long line. Check the wrap.
+These are not small 'very small changes'.
 
-> +  digital-to-analog converter (DAC) with an integrated precision referen=
-ce.
-> +  The device operates from unipolar and bipolar supplies. It is guarante=
-ed
-> +  monotonic and has built-in rail-to-rail output buffers that can source=
- or
-> +  sink up to 25mA.
-> +
-> +  Specifications:
-> +  * 16 independent 12-bit or 16-bit DAC channels
-> +  * Independently programmable output ranges: 0V to 5V, 0V to 10V, 0V to=
- 20V,
-> +    0V to 40V, =C2=B15V, =C2=B110V, =C2=B115V, and =C2=B120V
-> +  * The device supports SPI communication with Mode 0 and Mode 3.
-> +  * 4.096V precision reference, 12ppm/=C2=B0C maximum
-> +  * Built-in function generation: Toggle, Sinusoidal Dither, and Ramp wa=
-veforms
-> +  * Multiplexer for output voltage, load current sense and die temperatu=
-re
-> +
-> +  Datasheet: https://www.analog.com/media/en/technical-documentation/dat=
-a-sheets/ad5529r.pdf
-> +
+We're nearly at rc-5, and this is a major, invasive, dangerous change that
+we have to get right.
 
-> +patternProperties:
-> +  "^channel@([0-9]|1[0-5])$":
+You've also made changes unrelated to review, repeatedly, throughout this
+process, which as I've told you, is causing delays.
 
-Sashiko commented that this should be hex.  Why the forcing to decimal?
+You've also throughout the review of this series done stuff like make MAJOR
+changes to things and _kept review tags_.
 
+You're forcing us to use git range-diff etc. to forensically check that the
+series is what is claimed.
+
+Dude I mean you switched to using // comment style which is not used in mm
+anywhere for instance? Don't do things like that and complain about
+delays. Honestly.
+
+Also, again, LSF happened. Other confeerences happened. Bandwidth is
+reduced.
+
+So again, I'm sorry, but you've been hit with some bad luck here.
+
+I really wanted this in for 7.2, and I feel bad that we couldn't make it,
+but you're also doing thing that's making it difficult for us.
+
+I've spent double-digits hours on your series, and I've also had work
+pushed out becasue of that leading me to work evenings and weekends as a
+result.
+
+And I'm not even going to get any credit for it :))
+
+So while I sypmathise, really, please have empathy and realise it goes both
+ways, please.
+
+I'm not being mean for the sake of it, I'm pushing back because I feel this
+is not at a stage where I'd feel confident in this being merged at this
+time.
+
+And it's very much a regret, as I _really_ wanted us to have it in this
+time. But life and circumstances and the issues mentioned above have
+intervened, sadly.
+
+>
+> >
+> > Also - shouldn't mm-unstable already have mm-hotfixes-unstable in it?
+> >
+> > I think in mm-next we will have an stable branch, that everything is
+> > based on, where things go once review is complete and things are mergeable.
+> >
+> > And a separate hotfixes branch based on Linus's tree.
+> >
+> > That would avoid issues like this :)
+>
+> Im sorry im new to this, but I really dont think this tiny error, and
+> something that I'd confirmed with Andrew beforehand deserves NAKing
+> and defering it. Ive worked through my PTO to clean up some of these
+> review nits just to get it in 7.2. I even through this through my
+> rounds of testing today before resending.
+
+The issue wasn't the error (though it wasn't tiny...!), it's the state of
+review. There was fresh review comments from a few days ago, and there's
+big diffs between revisions.
+
+You've also made unrelated changes as you have done throughout the series.
+
+As I said above, I'm sorry that you spent time in your PTO on this, but we
+cannot rush this in when things are not clearly ready yet, and I am not
+confident in this being ready at this stage.
+
+>
+> >
+> > >
+> > > The intent wasn't that this is a hotfix, just that this was the
+> > > closest base before the v17 that is already in the tree.
+> >
+> > The convention is that [PATCH ... <branch>] indicates the target of the
+> > changes. Putting the hotfixes branch there implies it's a hotfix.
+>
+> Sorry I thought the <branch> was what base you used.
+
+I mean, sure there's clearly confusion here as you sent [PATCH 7.2 v16 ...]
+(against an unreleased kernel version) then a branch specifier then the
+hotfixes one...
+
+Anyway sure, it's fine, I've made vastly more dumb mistakes than that
+myself, nobody minds, but it's concerning as by convention [PATCH
+... <mm->hotfixes<whatever>] generally is taken to mean 'please rush this
+to hotfixes!' :)
+
+So be careful with that please!
+
+>
+> >
+> > So please be careful with that in future :)
+>
+> Yes will do for sure.
+
+Thanks!
+
+>
+> >
+> > >
+> > > Sorry for the confusion, hopefully Andrew can still apply it to the
+> > > correct tree.
+> >
+> > I'm not even sure what's best for that at this stage given we have
+> > conflicts and this has to be delayed until 7.3.
+> >
+> > I wonder if given that we should not have this in mm-unstable at all and
+> > just wait it out until the next cycle begins? Review can happen
+> > concurrently.
+>
+> I still dont see why this has to be deferred, I was working with
+> Andrew to prevent merge headaches.
+
+I've explained the why above, and David and I co-maintain THP so I feel
+that ultimately given the blood, sweat and tears we've put into THP review
+we ought to have some input on this :)
+
+Thanks, Lorenzo
