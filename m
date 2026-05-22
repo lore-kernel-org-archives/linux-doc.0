@@ -1,119 +1,176 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B14A265CD9;
-	Fri, 22 May 2026 11:46:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3B33E9C06;
+	Fri, 22 May 2026 11:50:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779450398; cv=none; b=PxfmTmp7QZ0fN2JxcbcXq8opEvLjt4EM1B7GUThqnEGbZZAglA9NJgebV5udeAKYzwVV70kCduaSz0d02Kw+JZLcBppqjgTf24a/Of3RPygS7WUNbgPvPjIsKfjX12EzQLSxBbwS5jspxZmK4SG2HOH7L+xeCwxj9RyaHC37BpA=
+	t=1779450613; cv=none; b=NfgN07LmvPLtzYZ6SyAv6lci9qowCfqukCVMpU/HzbOHhjr//srZy78gOdL98+vrrzW+RP1Fvm/4OS1z+Xp4eOu5h/JicC73sDU61uDMT8WUcKR/oq1cikmJYhLL2LNobGMmZXx1b6AtLxEzefaWpz5pVeWMQWl0IWsIageFlkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779450398; c=relaxed/simple;
-	bh=g6vD/koq/YQFvJ1hHOoVO2KTYjPZ3MlR5w8GxczYSGI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lNLAOTxU9Rfw1zVfBVnlIQogHP6paJFLQ390s4FbGEx0QIxUICbmPlCC4IK2NjM2bABAbUZ6UeCODx7Ne0EVCZNhWhK13L6a0AKF6FB9+s+o2p0c8o6OJG5lLXcLv1D4q1ovdIZbuXqxDNlB/jZxwKluIhQUX1AzWImRDJQftu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NG9+ntPn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779450613; c=relaxed/simple;
+	bh=eId48uiccv8Rjl3uAZ1YzghxWgp48Xvi7OeNP6O7Q+0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DnFwV4hC1rCcR5I60oHiTM3Biat+4m0RFxxwGSJ9cHt7I4BqYVrEbb+gulscwDmMlE2H8WRXvbjeNCcswC7EZvzdpZm2dEWbSmegGP/mSzFQQvbSEBfzbqT2wiYMd4Su1dt2gmonvTlhWLecew4Kx1g0r+dLc/ng9fdzQrZvzpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lqZ2x3oR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NG9+ntPn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27CAE1F000E9;
-	Fri, 22 May 2026 11:46:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lqZ2x3oR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D62AA1F00A3E;
+	Fri, 22 May 2026 11:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779450393;
-	bh=SRSNrMsPebt6Vg+4fLWYKnEZZvhbUhBLws7+1vBhpKs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=NG9+ntPn5mUtEzY2YjQtDl4PqoXUyUc0Gf32aEgat1UwjtU0bEOUCItf09wZXKgv6
-	 yTagpqs7DFwZqUj1UCeqSM8FDcdkP66jubFjKfIlqKP5D4dTL3LyyFguU6oU++9QYA
-	 IZfV7iugGDjN+dGN5EL11yvONhyy2HSb2bUs2fZcg7vO8siGs7qvYG+0/iTiEk0+fm
-	 uZca7hCIVHPlqPcYqvrRkx4IOpT5X97HHmLcoNOEG0MLwo6F4aa9xUuTbew9zs2mub
-	 hHL+Zh+v+57gCHtII0hawlFahVq4GNlNsyHtVvAHZCKlXmnuCIjy4imVLgQpX3W5iX
-	 5suOGNIRxoIsQ==
-Date: Fri, 22 May 2026 12:46:20 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
-Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
- <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v12 3/6] iio: adc: ad4691: add triggered buffer support
-Message-ID: <20260522124620.35b03d73@jic23-huawei>
-In-Reply-To: <20260519-ad4692-multichannel-sar-adc-driver-v12-3-5b335162aa51@analog.com>
-References: <20260519-ad4692-multichannel-sar-adc-driver-v12-0-5b335162aa51@analog.com>
-	<20260519-ad4692-multichannel-sar-adc-driver-v12-3-5b335162aa51@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1779450612;
+	bh=j2vayHA2pDYFLAPbwncK84YIqa/P2SCX3YMOZE3SU/Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lqZ2x3oR9rvIWIKTvs3eEJaZM0B1KUAu4MCMIakAcS/alZOSObzCDlnUZ0Cxdb6Ao
+	 X3RsxPYdk7CPteE3Hso5TxN7XTq/Y+icwtTtIJ94cGlq/Z1x1K9YpJBPA+grthrsNU
+	 wg3hvnQQ3B9jP6UU5k/6k6MIjf71IeMklo17xWj1Y3tPFTzq14T3Wk5N6LMiKuEuLD
+	 Du90KIDZxlAEtjZwjzRTOFiVnAxYLc3QcWEcXsiQkGsluAUcJaIO25cGbUYEa4aoSe
+	 wK/Y21iFl47Fl+lvhNZFQEcdPdhfP+Q5RbgSQyKhV3pUMKtV13z5EHEWYyXLsO4m11
+	 y0ljwU2dFR1iQ==
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 39114F40072;
+	Fri, 22 May 2026 07:50:11 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Fri, 22 May 2026 07:50:11 -0400
+X-ME-Sender: <xms:80IQarAYM2hvp8HOxoSyg_dyVjc5Wt-pWnG1AdvbNg-UIgPAiKWGRg>
+    <xme:80IQavIt5cSIYHdgCxwi29nUMzhqmZtqUuUIc-WBzgJnq-MSu6V4EvOW2JE779Kx5
+    TiV4ufezWK8EkMhF6nV8dNC1dnR8bp772KizyMt2_zBCfbHuxnBTJ4>
+X-ME-Received: <xmr:80IQasLBakt9LIZBvflPkG368oH48F3Em1fyF1r0mAhxVzm86T0-eEpBjZtOwQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduhedttdelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttdertd
+    dttddvnecuhfhrohhmpefmihhrhihlucfuhhhuthhsvghmrghuuceokhgrsheskhgvrhhn
+    vghlrdhorhhgqeenucggtffrrghtthgvrhhnpeeuieejieffkeehfeffffdtkeelfeelhe
+    fhfefhudehjeehvdffleeuvddufefgkeenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehkihhrihhllhdomhgvshhmthhprghuthhhphgvrhhsoh
+    hnrghlihhthidqudeiudduiedvieehhedqvdekgeeggeejvdekqdhkrghspeepkhgvrhhn
+    vghlrdhorhhgsehshhhuthgvmhhovhdrnhgrmhgvpdhnsggprhgtphhtthhopeegiedpmh
+    houggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtg
+    hpthhtohepphgvthgvrhigsehrvgguhhgrthdrtghomhdprhgtphhtthhopegurghvihgu
+    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehljhhssehkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehsuhhrvghnsgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepvhgsrggs
+    khgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihgrmhdrhhhofihlvghtthesoh
+    hrrggtlhgvrdgtohhmpdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhm
+X-ME-Proxy: <xmx:80IQahbfPZhjnJhAJa_Xr8W7MnZI55cKDzodtxt87Y6Tes50KPGfWA>
+    <xmx:80IQavUPWkle32wivFkV2vO6nM6nrI1RBrW-cJyTUthQmGuQb_2S0g>
+    <xmx:80IQapEFUhOq6OEHMuX7-Tlph8vWPArIVADbLzuXugJfBybAWKygfQ>
+    <xmx:80IQakAzsX97XJsDNs4Lo25QO2tceqg08I7lNDTlGG2YkKV7EvthKA>
+    <xmx:80IQasVk15a2dTKbMQ2Z6YCmmFN3MKLygFdAS1GK3EX5mqkutuyw41Kq>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 22 May 2026 07:50:09 -0400 (EDT)
+Date: Fri, 22 May 2026 12:50:04 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: akpm@linux-foundation.org, peterx@redhat.com, david@kernel.org, 
+	ljs@kernel.org, surenb@google.com, vbabka@kernel.org, Liam.Howlett@oracle.com, 
+	ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com, 
+	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, sj@kernel.org, 
+	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v2 08/14] userfaultfd: add UFFDIO_REGISTER_MODE_RWP and
+ UFFDIO_RWPROTECT plumbing
+Message-ID: <ahBC1PV5Bk0_nZkv@thinkstation>
+References: <cover.1778254670.git.kas@kernel.org>
+ <1ad0cb61a7b5a33a5375baadbd0720ba2ba43d2f.1778254670.git.kas@kernel.org>
+ <agNhTvqeOD1eo8mD@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <agNhTvqeOD1eo8mD@kernel.org>
 
-On Tue, 19 May 2026 15:20:24 +0300
-Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
+On Tue, May 12, 2026 at 08:20:14PM +0300, Mike Rapoport wrote:
+> On Fri, May 08, 2026 at 04:55:20PM +0100, Kiryl Shutsemau (Meta) wrote:
+> > Add the userspace interface for read-write protection tracking:
+> > 
+> >   - UFFDIO_REGISTER_MODE_RWP      register a range for RWP tracking
+> >   - UFFD_FEATURE_RWP              capability bit
+> >   - UFFDIO_RWPROTECT              install / remove RWP on a range
+> > 
+> > Registration sets VM_UFFD_RWP on the VMA. Combining MODE_WP with
+> > MODE_RWP is rejected because both modes claim the uffd PTE bit.
+> > 
+> > UFFDIO_RWPROTECT is the bidirectional counterpart of
+> > UFFDIO_WRITEPROTECT:
+> > 
+> >   - MODE_RWP              change_protection() with MM_CP_UFFD_RWP
+> >                           installs PAGE_NONE and sets the uffd bit on
+> >                           present PTEs
+> >   - !MODE_RWP             change_protection() with MM_CP_UFFD_RWP_RESOLVE
+> >                           restores vma->vm_page_prot and clears the bit
+> > 
+> > userfaultfd_clear_vma() runs the same resolve pass on unregister so
+> > RWP state cannot outlive the uffd.
+> > 
+> > Re-registering a range must not drop a mode that installs per-PTE
+> > markers (WP or RWP); doing so returns -EBUSY. This also closes a
+> > pre-existing window where re-registering without MODE_WP would strand
+> > uffd-wp markers: before, those caused extra write-faults but were
+> > otherwise benign; with RWP preservation in place, a subsequent
+> > mprotect() on a VM_UFFD_RWP VMA would silently promote the stale
+> > markers to RWP.
+> > 
+> > The feature is not yet advertised. UFFDIO_REGISTER_MODE_RWP,
+> > UFFD_FEATURE_RWP, and _UFFDIO_RWPROTECT are intentionally absent from
+> > UFFD_API_REGISTER_MODES, UFFD_API_FEATURES, and UFFD_API_RANGE_IOCTLS,
+> > so UFFDIO_API masks them out and the register-mode validator rejects
+> > the bit. The follow-up patch adds fault dispatch and exposes the UAPI.
+> > 
+> > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> > Assisted-by: Claude:claude-opus-4-6
+> 
+> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-> From: Radu Sabau <radu.sabau@analog.com>
->=20
-> Add buffered capture support using the IIO triggered buffer framework.
->=20
-> CNV Burst Mode: the GP pin identified by interrupt-names in the device
-> tree is configured as DATA_READY output. The IRQ handler stops
-> conversions and fires the IIO trigger; the trigger handler executes a
-> pre-built SPI message that reads all active channels from the AVG_IN
-> accumulator registers and then resets accumulator state and restarts
-> conversions for the next cycle.
->=20
-> Manual Mode: CNV is tied to SPI CS so each transfer simultaneously
-> reads the previous result and starts the next conversion (pipelined
-> N+1 scheme). At preenable time a pre-built, optimised SPI message of
-> N+1 transfers is constructed (N channel reads plus one NOOP to drain
-> the pipeline). The trigger handler executes the message in a single
-> spi_sync() call and collects the results. An external trigger (e.g.
-> iio-trig-hrtimer) is required to drive the trigger at the desired
-> sample rate.
->=20
-> Both modes share the same trigger handler and push a complete scan =E2=80=
-=94
-> one big-endian 16-bit (__be16) slot per active channel, densely packed
-> in scan_index order, followed by a timestamp.
->=20
-> The CNV Burst Mode sampling frequency (PWM period) is exposed as a
-> buffer-level attribute via IIO_DEVICE_ATTR.
->=20
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
-I didn't spot anything in my read through and most of what Sashiko
-is commenting on is wrong or not a driver specific problem
-(the trigger leak is a core problem)
+Thanks!
 
-One small thing Sashiko did pick up on though that I think could be a littl=
-e nicer.
-You may well already have this in hand as I know you are checking there
-as well!
+> 
+> with a comment below
+> 
+> > ---
+> >  Documentation/admin-guide/mm/userfaultfd.rst | 10 ++
+> >  fs/userfaultfd.c                             | 84 +++++++++++++++++
+> >  include/linux/userfaultfd_k.h                |  2 +
+> >  include/uapi/linux/userfaultfd.h             | 19 ++++
+> >  mm/userfaultfd.c                             | 97 +++++++++++++++++++-
+> >  5 files changed, 209 insertions(+), 3 deletions(-)
+> > 
+> > +	/*
+> > +	 * Pre-scan the range: validate every spanned VMA before applying
+> > +	 * any change_protection() so a partial failure cannot leave the
+> > +	 * process with only a prefix of the range re-protected.
+> > +	 */
+> > +	err = -ENOENT;
+> > +	for_each_vma_range(vmi, dst_vma, end) {
+> > +		if (!userfaultfd_rwp(dst_vma))
+> > +			return -ENOENT;
+> > +
+> > +		if (is_vm_hugetlb_page(dst_vma)) {
+> > +			unsigned long page_mask;
+> > +
+> > +			page_mask = vma_kernel_pagesize(dst_vma) - 1;
+> > +			if ((start & page_mask) || (len & page_mask))
+> > +				return -EINVAL;
+> > +		}
+> > +		err = 0;
+> > +	}
+> > +	if (err)
+> > +		return err;
+> 
+> It's an interesting way to say "no VMA found in range" :)
+> I think bool found and
+> 	
+> 	if (!found)
+> 		return -ENOENT;
+> 
+> looks more readable.
 
-> +static void ad4691_read_scan(struct iio_dev *indio_dev, s64 ts)
-> +{
-> +	struct ad4691_state *st =3D iio_priv(indio_dev);
-> +
-> +	guard(mutex)(&st->lock);
-> +
-> +	spi_sync(st->spi, &st->scan_msg);
+Fair enough. Will do.
 
-One thing from sashiko. If this fails we shouldn't push data and we should
-make it clear somewhere (rate limited print or similar).
-
-> +
-> +	/*
-> +	 * rx_buf pointers in scan_xfers point directly into scan.vals, so no
-> +	 * copy is needed. The scan_msg already includes a STATE_RESET at the
-> +	 * end (appended in preenable), so no explicit reset is needed here.
-> +	 */
-> +	iio_push_to_buffers_with_ts(indio_dev, st->vals, sizeof(st->vals), ts);
-> +}
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
