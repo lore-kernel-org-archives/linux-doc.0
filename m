@@ -1,33 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C856C306742;
-	Fri, 22 May 2026 21:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19416391836;
+	Fri, 22 May 2026 22:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779487156; cv=none; b=H9UyKLY/U8/x7s+45t80V/KL/F4BqUNgJpa12nNBsG5rn4CGfzbHh06GNUxTtXRoWF+OzBtVtffzHr2abdihac8ezDty0EeBNOhS14Z/2G/IWji6EusOZWYo4Ag9ItDEbj008Og2HdkWLDArXMpWW6WAXnWbFU0tydv1+BGuHw0=
+	t=1779487527; cv=none; b=HXHklmYeGHK7OjEMnlNLsGYPJ8eT5bimSxJhvuyQGHTtmcjMJkTQOKXFiQZ61VIaELyAG+Z48Vnm7Z+Yq45wEGAfdl8FfgBNBwf6NpHt1ARJaKYScpKxKOQJ4UFHhOSXN2G+sHD6y8Up4UA1P1vTFLH6dnK7cQM0SS4pD7MbSTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779487156; c=relaxed/simple;
-	bh=NkNOcxD6DLIrr69bs8UBm9hSwKsinFHmc2qoQm33GkI=;
+	s=arc-20240116; t=1779487527; c=relaxed/simple;
+	bh=uHnwarFhuXnwravMKVl+W4jSTorAn9zniB+LrmVc32o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iB6VChlrGEgKPhhdroSDRbd4UeKunmzW2ECgCFKUg2DRSrdunWFC0iLtqiKFMnnzqUlN/Wzx7xOLPIPB/2B0KXdR2g1HUsvQaOmsF6ZTqPX/fzEa6gFsvvB7x+IchUMx1rdxDzzc3c9/ptvtArwdIR4ifU3IXIIComt+TMF+f1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EYAaq802; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=c+I7tSMZ+v/ry5d49kbfh6E+T/JqVZ5GE6IYTMNHCzly8bsxCy+HsfnWQV2HAzqXRLUljj64roVow5R8HTPGTC++sFqGOL5crejJedxMDG1siwi+pgsztS/Zf3UCFOoMuPWptpj323ZetVyBMLIiz5moUnx2DqoRZJz0XP4TNWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=c/Rj7lYb; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EYAaq802"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 830F51F000E9;
-	Fri, 22 May 2026 21:59:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779487155;
-	bh=Jr/Z2AKz/S6GO5hNUPCMB+wOkCX8/5qQhPyUJDn/qd0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=EYAaq802O2za9BCFbi4Cl+SfNKnQlkvaAfjcYaiPPCp/SLXcgTk2WxuFGNK4P7Vtm
-	 58kRCm6uAsnRbVMHG24BLYCP8pT1OQWsjYwelrK5wU2OE9cVMEIxP994QK0VEj7OWP
-	 ZrxeicvQHidzeg1aJp5NkML6Man4qqdbQEdvbLQGx/mc7to2/AEmHe7SildFkaC0ZS
-	 wd76BFBYJeDXmYJDMCcekBFIf94k8AbcgfeXG/GV539bRLikd2C3RzglpxWPVtXMUJ
-	 xekiBJoZHOUHKIkirn961KEs58FLMF2NVuDTM+Hw3zX00254bIEv4I12WmsihPKjsv
-	 I2YIuvCjeb3Cw==
-Message-ID: <94f759f8-e2ed-4f22-b9e7-4693ad005509@kernel.org>
-Date: Fri, 22 May 2026 23:58:59 +0200
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="c/Rj7lYb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1779487523; x=1780092323; i=w_armin@gmx.de;
+	bh=7k38GJnUyVkHgLdrzdqfkeITmzNOuivOyCmylY3WnNQ=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=c/Rj7lYboLvIx6+b46vyr2uumxzpwfcWHI9mm4erZMBqZZ1pLfxaqvkyIpkGZGz7
+	 I7/wE5nbB8Y2xO27IUC3XSN5X52xTtjzcfT1z6/Qgfo0O72aEOtGit63wMgXrRPqC
+	 ms/Mt6syI5uobrQMvkWvgOXNrWkRIk2v15fX7Puygk0xbynkr6XVsdCHCRxr9ZHxX
+	 1K2ONutFSZ0NKlBfDpEFulJPzUXGQGqhBs83+g+h7bSDTAZ8kS95rsbZroRJDK1/W
+	 sazorfB2uBWBWDtO7UD31DJ3M7a9irTyEIRrS19sF9PYl4qIpnR72dQM6stuCEVN5
+	 BSHb/fBGFp5Ms3Wikw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N0oBx-1xE6FS0Flt-00u7S1; Sat, 23
+ May 2026 00:05:23 +0200
+Message-ID: <b04d64b7-1a50-4b3d-95f3-2bcb502c0a5b@gmx.de>
+Date: Sat, 23 May 2026 00:05:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,97 +43,137 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-unstable v18 14/14] Documentation: mm: update the admin
- guide for mTHP collapse
-To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org
-Cc: aarcange@redhat.com, akpm@linux-foundation.org,
- anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org,
- baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com,
- cl@gentwo.org, corbet@lwn.net, dave.hansen@linux.intel.com,
- dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com,
- jack@suse.cz, jackmanb@google.com, jannh@google.com, jglisse@google.com,
- joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
- liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com,
- matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
- peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
- rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
- rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com,
- shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com,
- thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com,
- vbabka@suse.cz, vishal.moola@gmail.com, wangkefeng.wang@huawei.com,
- will@kernel.org, willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com,
- Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20260522150009.121603-1-npache@redhat.com>
- <20260522150009.121603-15-npache@redhat.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: (subset) [PATCH v4 1/1] leds: Introduce the multi_max_intensity
+ sysfs attribute
+To: Lee Jones <lee@kernel.org>, pavel@kernel.org
+Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
+ wse@tuxedocomputers.com, jacek.anaszewski@gmail.com, pobrn@protonmail.com,
+ m.tretter@pengutronix.de
+References: <20260509214603.262368-2-W_Armin@gmx.de>
+ <177928768282.2811520.3177179770372088870.b4-ty@b4>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260522150009.121603-15-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <177928768282.2811520.3177179770372088870.b4-ty@b4>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:JeZvLXTT4QjW4fquqYrzhc268O6wqPE9OiftuK0YyXGIccKD9Mv
+ 8O9ZxDNK0WnWSawNEkWCHc/+5ZuqAFQXanjqWUrFjGgUmVUO2bHavPMazdIGnVxjtywm0NL
+ oRZRy8sikdZwCh7+/j0uuKOKw1tBfE52VjKEMb2+nikpT+KNRJlG8hT1oA+fiP1nrG6K9HU
+ 16yaThFg11N1XQBBIZ9Kg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:x/Fw9JuZFLA=;Y9AlSqiuftqTot4YB6ZHqsmdsek
+ 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
 
+Am 20.05.26 um 16:34 schrieb Lee Jones:
 
->  
->  process THP controls
-> @@ -264,11 +265,6 @@ support the following arguments::
->  Khugepaged controls
->  -------------------
->  
-> -.. note::
-> -   khugepaged currently only searches for opportunities to collapse to
-> -   PMD-sized THP and no attempt is made to collapse to other THP
-> -   sizes.
+> On Sat, 09 May 2026 23:46:03 +0200, Armin Wolf wrote:
+>> Some multicolor LEDs support global brightness control in hardware,
+>> meaning that the maximum intensity of the color components is not
+>> connected to the maximum global brightness. Such LEDs cannot be
+>> described properly by the current multicolor LED class interface,
+>> because it assumes that the maximum intensity of each color component
+>> is described by the maximum global brightness of the LED.
+>>
+>> [...]
+> Applied, thanks!
+>
+> [1/1] leds: Introduce the multi_max_intensity sysfs attribute
+>        commit: b1a9b7a904af2c793850f83a4801a013a718fc47
 
-Should we maybe leave this here and clarify that for file/shmem, it will still
-only collapse to PMD-sized THPs?
+Thank you :)
 
--- 
-Cheers,
+I just noticed that i forgot to update the Date field inside the sysfs doc=
+umentation, it should
+have been:
 
-David
+Date: May 2026
+KernelVersion: 7.2
+
+Should i send a separate patch for this or can you edit the patch inplace?
+
+Thanks,
+Armin Wolf
+
+>
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+>
