@@ -1,149 +1,111 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3C4394464
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 13:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864843B1025
+	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 13:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779455341; cv=none; b=qAHdrzQ2aWYJrBCtv+pXk2/WgS8mRnm1BF6jKKx7qb7IN+aA2Yz/x1R8hoUFdyse8epS2Ohlarsgl2pVWqIkgn5pxL4m+LDV38Pqrscm1Cyyj42+ENAMsnM5i6H4MwyLd5nCoQbuD6Ind9E3XVecBql9NG2dtM4qX08KMv/3K5s=
+	t=1779456284; cv=none; b=Y9wBjRPL51m+Mm6hXlJ+l4ABZ0xj6JAezsL6dFXHziHuo/tRw+aqn2ibfmEHEZag2aABMMFf8jwZ9eUqH3jIeBj5G5zndVUrgsQmCoxZghH/9esQr7ZY8PZ8e2HQtkqE6O2D5T1rMY3vYxa75ViwMDq08vVLEUTnZDRxCCnHXLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779455341; c=relaxed/simple;
-	bh=Nnkh6cEEv9vtxmnrirlQm5frPTNIjN27Iy7obA4FAzA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=j8J8U9C5k74kwVk6bcHVmcJqB04F5WFvRqdzD933SXrLFe+2suBnqdbITzuQTlz7Izaw4mHvNq/MkMCZ+N/Qwy5jgnLOV8POQqavCw2UC7ioFo9TkXj3VXLU6kJ+uLppGvPaAQZj4dbiQ/kqY2gGNw8OxpPoX7wTeFPM8ENdEHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CkNMB2u7; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1779456284; c=relaxed/simple;
+	bh=S0TQlTS9Waa8R50WM3+GqCpY+opXgwoEVdhYPjKC2Mg=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=qDmgSO5joKqyNNJdX66YOIWNHomSrb3q+31w1/6qHOmm/sowmkveqHLxGFJW+eCdT7Ezj940v4Xfvf/+boNrLate2AMIcf1ZcDxLcg8PuCfmlWVqwPq1LxBO4oa2WeT+HYqfrf5Y87J0Srtga4zlvV18kJnf3DCWOLfLan36Qlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJ7GjmfQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CkNMB2u7"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2ba224c3ffdso174981475ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 06:09:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779455339; x=1780060139; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LWpFds4KLS7xuznWHwB8ePqzzdmaeh02IGD1amL7VKc=;
-        b=CkNMB2u77fbFNZvUlG9oIRu7fzdzwvrzm2ioJUFXb+v3VwVG9Q7Gcu3wBa040lGszd
-         OnHyxx5Dl5+zv4Hr4sbLpuzu0S9ddO9O520XbbHz/vWz9Ik2VZXmowi7Mm8Nby0QBVfm
-         w61MOZy6YwHWYdpXyu8vBWHtJrSt6HtXmk9e0xdOEJwIv5XlTQCOzDcU9RNKg941iV/0
-         CwSjpoYW+T7lvY5/0zAealgdYEM3DC3U+HCaIZydESOpNgqe1W6QLJQ3/F7gmc3/6gDS
-         cCd14Eid5hvpwrQXe7NHPKIPrVac9dp4HOxo2FtO5e0V1A0DutWwXDqg/mWoT3GruToz
-         2Vpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779455339; x=1780060139;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LWpFds4KLS7xuznWHwB8ePqzzdmaeh02IGD1amL7VKc=;
-        b=IMOdd5fJtCgIhtzEaoxN4xh8gwj927mo28/2wwbloBsLCpd4SREPp+dMqM3z3xH83L
-         Lzaex42tGPJPdS1Hn+c+jBPYBqMX3hlcE4nuyYncFHFhRnWrWvJNLEexBDTO3gSl5I6M
-         37+i0ge9gG5m8uTGpETiQOc85eyvK/oggaSBZ9j6GYTd37/aUrJjVTAXud5ApwXw6jYi
-         OAGNewFysPG4XXELiqbVd2uNkutmKzWf8uSfsBZ5y9MID4qb1apCUVyxS/ITfmbkeRvV
-         bZU9+dAJaIs7lHp5hqy1wtogSx3rUIb3Ess3zkBsiKj1gSOWUASFL/xHGoJmh3yV9V2V
-         rcpg==
-X-Forwarded-Encrypted: i=1; AFNElJ+QdNuhoJDrK2Tfmjad6MXSroA08C8HaCJSOBdaYNEue7NhYEjbkQMu4wU5SI1QQ9/+Pj8bOfX7BFg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYq4KRFfGBjME3su2toDm/QxN6yERPIhEoT+T8YgPQCx6xXWpp
-	tL4FaaLfQidCgH4wdK2rWDPgoE19hBtqQg/XRts2PixQgN8JEnSJq/QV3eeF7RnDY67L38yOSlm
-	YCd88Sw==
-X-Received: from pllk9.prod.google.com ([2002:a17:902:7609:b0:2b4:5bcc:fc4a])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:1246:b0:2bc:90b6:3e6f
- with SMTP id d9443c01a7336-2beb0347191mr37692105ad.4.1779455338970; Fri, 22
- May 2026 06:08:58 -0700 (PDT)
-Date: Fri, 22 May 2026 06:08:58 -0700
-In-Reply-To: <CAEvNRgFB8ydih9JTmsH06H32j38tH-iViZqN_eZ_gQAmXpw+Dw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJ7GjmfQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCE111F000E9;
+	Fri, 22 May 2026 13:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779456282;
+	bh=djYZO7B6j5qfNS44WlyM0vd6bnxsw4yR0MQCeW99vcQ=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=IJ7GjmfQxiYksrTt6Hl3/nRvGK+Qi3ACGJhjImBtJ77w+nNR7Htzhtb7uzM3qiZH+
+	 3QC5qg3tUM0KpVqlyg7rLslBKa9wNGoifpQvog5x1+FASI1PpaL1Sdp/OwOML30Cb8
+	 sp5/I1Bo4NKP0JYG2v0O2d1bOmwQceDroHH906hhvm2+TeXvJWRhdtX6s4zWyE9rzp
+	 OMm52flYER0TYAPD2bxYDH+MQPzdVAkvq8UW7uCBj88d9E+FIO7/q/UVQCH+TnCrec
+	 AjZRPlhVBAkMPapjSQ+V3U5H86nmIw7w6//aoHlUngPmXZjfBjV/UGclfAo4ZNOBUu
+	 gxnBmxUtaVnKQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id E829BF40078;
+	Fri, 22 May 2026 09:24:40 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Fri, 22 May 2026 09:24:40 -0400
+X-ME-Sender: <xms:GFkQavj7efyhifdMwh71DEQiXDN7cvfq0ygod7hayWWyG_xEyqm1bw>
+    <xme:GFkQam3sf0zxjbynVkLidTq1o1VmxwIwNgO12pDv1AhJRL0b57Gxj3hJG_IxM8Nz2
+    bNHWpiz4AR5SIRVq9F5DFEVbBvuhwGuaJs3eF6wKyW42KJRMve-YOE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduhedtvdekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
+    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
+    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
+    hilhdrtghomhdpnhgspghrtghpthhtohepudejpdhmohguvgepshhmthhpohhuthdprhgt
+    phhtthhopehnvghilhessghrohifnhdrnhgrmhgvpdhrtghpthhtoheprghlvgigrdgrrh
+    hinhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhl
+    rdgtohhmpdhrtghpthhtoheprghnnhgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    gsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjlhgrhihtohhnsehk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehtrhhonhgumhihsehkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopegurghirdhnghhosehorhgrtghlvgdrtghomhdprhgtphhtthhopegt
+    rghluhhmrdhmrggtkhgrhiesohhrrggtlhgvrdgtohhm
+X-ME-Proxy: <xmx:GFkQaomfvyepbhCcp14jV2zLQQ1ff9dUHXLOwwbWsz2EBlO6t8lauw>
+    <xmx:GFkQaiG29wJHigWEuDDC_T4-deB1c7DMbI5ZbNEcd_FWPTDlfWCXCw>
+    <xmx:GFkQasHNrvJAmleWa_bwDDQLu0acstQLhLqLafWVbSLgRU0gboqhfw>
+    <xmx:GFkQaq0g1Ld9TFhi-N3czujn4zUWrd30EPICfNWduZ4YdpxgbPJO6A>
+    <xmx:GFkQaufuQ2JzLddd-qtXseskjuvJP9Glt3j_KbSww7DbqUgPcVtADhiw>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 9D081780070; Fri, 22 May 2026 09:24:40 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com>
- <20260507-gmem-inplace-conversion-v6-21-91ab5a8b19a4@google.com>
- <CA+EHjTwrygfMrZZSw4y7-ry8fidW2x0C7iuF2Q=dnPNHUmNtUg@mail.gmail.com>
- <ag8G7Wq5PbEdKloG@google.com> <CAEvNRgFB8ydih9JTmsH06H32j38tH-iViZqN_eZ_gQAmXpw+Dw@mail.gmail.com>
-Message-ID: <ahBVajalNaHkNYdV@google.com>
-Subject: Re: [PATCH v6 21/43] KVM: SEV: Make 'uaddr' parameter optional for KVM_SEV_SNP_LAUNCH_UPDATE
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Fuad Tabba <tabba@google.com>, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, ira.weiny@intel.com, jmattson@google.com, 
-	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
-	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
-	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, 
-	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
-	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
-	aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+X-ThreadId: AfCo-GjsFSDg
+Date: Fri, 22 May 2026 09:24:20 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>,
+ "Chuck Lever" <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>
+Cc: "Alexander Aring" <alex.aring@gmail.com>,
+ "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Calum Mackay" <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <be0feab5-5be2-495f-beb4-bae9cd876e30@app.fastmail.com>
+In-Reply-To: <20260522-dir-deleg-v4-20-2acb883ac6bc@kernel.org>
+References: <20260522-dir-deleg-v4-0-2acb883ac6bc@kernel.org>
+ <20260522-dir-deleg-v4-20-2acb883ac6bc@kernel.org>
+Subject: Re: [PATCH v4 20/21] nfsd: track requested dir attributes
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 21, 2026, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
-> 
-> > On Thu, May 21, 2026, Fuad Tabba wrote:
-> >> Hi,
-> >>
-> >> On Thu, 7 May 2026 at 21:22, Ackerley Tng via B4 Relay
-> > diff --git include/linux/kvm_host.h include/linux/kvm_host.h
-> > index 61a3430957f2..b83cda2870ba 100644
-> > --- include/linux/kvm_host.h
-> > +++ include/linux/kvm_host.h
-> > @@ -2596,7 +2596,8 @@ int kvm_arch_gmem_prepare(struct kvm *kvm, gfn_t gfn, kvm_pfn_t pfn, int max_ord
-> >  typedef int (*kvm_gmem_populate_cb)(struct kvm *kvm, gfn_t gfn, kvm_pfn_t pfn,
-> >                                     struct page *page, void *opaque);
-> >
-> > -long kvm_gmem_populate(struct kvm *kvm, gfn_t gfn, void __user *src, long npages,
-> > +long kvm_gmem_populate(struct kvm *kvm, gfn_t start_gfn, void __user *src,
-> > +                      long npages, bool writable,
-> 
-> What do you think of need_writable_src instead of just writable for the
-> variable name?
 
-How about "may_write_src" or "may_writeback_src"?
+On Fri, May 22, 2026, at 8:29 AM, Jeff Layton wrote:
+> Track the union of requested and supported dir attributes in the
+> delegation, and only encode the attributes in that union when sending
+> add/remove/rename updates.
 
-> >                        kvm_gmem_populate_cb post_populate, void *opaque);
-> >  #endif
-> >
-> > diff --git virt/kvm/guest_memfd.c virt/kvm/guest_memfd.c
-> > index a35a55571a2d..6553d4e032ce 100644
-> > --- virt/kvm/guest_memfd.c
-> > +++ virt/kvm/guest_memfd.c
-> > @@ -858,7 +858,8 @@ static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
-> >         return ret;
-> >  }
-> >
-> > -long kvm_gmem_populate(struct kvm *kvm, gfn_t start_gfn, void __user *src, long npages,
-> > +long kvm_gmem_populate(struct kvm *kvm, gfn_t start_gfn, void __user *src,
-> > +                      long npages, bool writable,
-> >                        kvm_gmem_populate_cb post_populate, void *opaque)
-> >  {
-> >         struct kvm_memory_slot *slot;
-> > @@ -892,8 +893,9 @@ long kvm_gmem_populate(struct kvm *kvm, gfn_t start_gfn, void __user *src, long
-> >
-> >                 if (src) {
-> >                         unsigned long uaddr = (unsigned long)src + i * PAGE_SIZE;
-> > +                       unsigned int flags = writable ? FOLL_WRITE : 0;
-> 
-> How about using FOLL_WRITE | FOLL_NOFAULT so if it weren't writable to
-> start with, don't CoW, just error out?
+Nit: The encode-time use of dl_notify_mask for NOTIFY4_CHANGE_DIR_ATTRS
+is wired up in 21/21. This patch adds only the tracking; the per-event
+encoder change lives in the subsequent patch.
 
-Eh, I don't see any value in value in erroring out if userspace is doing something
-unusual.  If breaking CoW was actually problematic somehow, then sure.  But AFAICT
-it's overall harmless.
 
-> Like you said above the CPUID page provided as src_page would have been
-> written to before, so it should have been mapped as writable.
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  fs/nfsd/nfs4proc.c  |  9 ++++++---
+>  fs/nfsd/nfs4state.c | 14 +++++++++++++-
+>  fs/nfsd/state.h     |  2 ++
+>  3 files changed, 21 insertions(+), 4 deletions(-)
+
+
+-- 
+Chuck Lever
