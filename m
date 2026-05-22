@@ -1,150 +1,318 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0753FA5DA;
-	Fri, 22 May 2026 13:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7F93FFAAD;
+	Fri, 22 May 2026 13:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779457124; cv=none; b=Yh3S3KoS6sEbzjiJts/T6ZG1j4Uw6bz17aK04wTMvcMi11ZDBCZesghrpciJyWfKxFfvTF3t8YvHwrKgq7cFN8SJzUQjL/DvKcssTtyZM9TLkPoiI9H3l7yk0N116E5eY6NGRe+xfn+sXZo8vwsVFh7bL/2RRrs7V2AEkuUSMiE=
+	t=1779457153; cv=none; b=r7MnccQE/sJ4IujudS23MFBTBKK4iJBftEAcxHleMP1kYJfj+gSEZm83fZwTwMa3HgNCUP8mZEMN5IxMY2FVF+T9rzgsncJjRSbPvdJyw6VXHMBQHbMp3sNrR59s6d6wUolG1R/5XC4ocJcdvY881fPg8W+x+08fcSpQUr77sE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779457124; c=relaxed/simple;
-	bh=VTIq37iy9DUOokRQnz3PLEP+l6B+THmSP5B+u2rjDgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rn7aI0UqVsymVvuFR4Nj+ErXbsTsQ3jLz0tucwDjCiZqW7z53qNUma3QSgHtBwUk1sJYXTuRqGwQzeRz2OCpx0p6Axb3tAx27yP5ZkSHO0TKPdN75sjVPx1LFCWcZG70KX67uSqE9/vw7IbyL7T4/6l0cS+HvPwMXqDvfBJy62Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ipeDJUhq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779457153; c=relaxed/simple;
+	bh=CzDsO3eba2UdOF6qF2Vh5B5OJHCW3X302UlPr8/cg08=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=scZE0FJW9U3V2tIhxUpJ80F2GEv2ZZR4fwANDK1Xoc1BqAibZlDUGbm/Le9iV22IOrhK185EYA7f+tMI39B66qx+pGRfZARXBSIPW3yWApJb++v4di1mEUry8RlrtJPNYPNDudJNLX2E4YAtAgyzA3wsuQTthjaLZ68ONWVzH8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=g0SM78QP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qmqs2E2j; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ipeDJUhq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACCAB1F000E9;
-	Fri, 22 May 2026 13:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779457120;
-	bh=2sEt+pfVTqi62XRpqK9+If4oDJrLR/RRwahq5GJ1eB4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ipeDJUhqXzLNXV3/kjrZjDcIBrdBMJrwhEHGT2yPJuyIrzQGmgeY0+FCUspfdVakj
-	 tKtadiizz3RYaUAl/qxmetY8aUqVwRKhcKNnc1UI81X9WPjCQRGX6uGy833WAmoo/v
-	 pNs2OGjecBi4w8XzEExuumnilUumrLyq9oDY2pxIVNPb3cpXP7UZ/fukc76kkcUo0P
-	 mg2BrZCa+bsYI8JnwmJqXAVkVk/Fh+gS7rXE2XYI9rK2/aMGjNny/SRXRLUZoUk2zU
-	 052gpvCVoi3e4HmokXZA8wMezUzWEmpRXkWs489liV+CIW+dh1/Jh3ozRFoy42sjMZ
-	 GV2/wMk0o5l7w==
-Date: Fri, 22 May 2026 14:38:27 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, "Hennerich, Michael"
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, "Sa,
- Nuno" <Nuno.Sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, Bartosz
- Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v12 5/6] iio: adc: ad4691: add oversampling support
-Message-ID: <20260522143827.013a985c@jic23-huawei>
-In-Reply-To: <LV9PR03MB8414E63DA5C2C22A46E98215F70F2@LV9PR03MB8414.namprd03.prod.outlook.com>
-References: <20260519-ad4692-multichannel-sar-adc-driver-v12-0-5b335162aa51@analog.com>
-	<20260519-ad4692-multichannel-sar-adc-driver-v12-5-5b335162aa51@analog.com>
-	<LV9PR03MB8414CA3DB26235605C9323E5F70E2@LV9PR03MB8414.namprd03.prod.outlook.com>
-	<20260522121628.21bf03f9@jic23-huawei>
-	<LV9PR03MB8414E63DA5C2C22A46E98215F70F2@LV9PR03MB8414.namprd03.prod.outlook.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="g0SM78QP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qmqs2E2j"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 7E8801D00072;
+	Fri, 22 May 2026 09:39:09 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Fri, 22 May 2026 09:39:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:message-id:mime-version
+	:reply-to:subject:subject:to:to; s=fm2; t=1779457149; x=
+	1779543549; bh=60TM9NRLcDxoLP/n4ee+semPNu4DhUvbIg8bvNUrqi4=; b=g
+	0SM78QPPZ8Oo9MTi/aqHJBBQiJUbflFBPUIbImkl9HTX8KN9SS7RvIafM/dGK/lQ
+	BsTl+TLxrpPYHrAAmpCROTpHjkGMFB+Q13tGBdguErqtr+dp8sqvj+CU7twMEd9K
+	sFiQelyFRbDVGzPxNcwhpTGy/41HpPcPs9PXirMrzj2DBtlNxQxGdUtG7k+rCO3r
+	lBxjdnWXiUyz0AATnXGvKg63GpaPBJ7KgKHE2r8ipVftJtGbUY2coHh9ZLJNAUQz
+	nvvxK/e08tKI62yW8oJJut9+C3tukT6I9Z2zsToYTJSpWYCn2D0DOltUZtASaFQo
+	+AejVbWf81Gwo6ftXjERw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1779457149; x=1779543549; bh=60TM9NRLcDxoLP/n4ee+semPNu4D
+	hUvbIg8bvNUrqi4=; b=qmqs2E2jze8pqhsy4cfzmYRldy3j6mC8xGjucE6TWyjp
+	9dM+t7NEaX+v+94rWolbGTOEcxgNAdUwNqonR9DcsFPkS0mI/AZZho2wE8pxcUgi
+	qTA/5NXzwaBIB3UVDQAERUoT7p0ioGjRZoh584GxTC2zK1x4LqG21X21hVYlBfBP
+	aw8AEwa7TjtNJ5WmoFX9UtKSVuwEoPGD7cmL6T8kKXuZHcGqv5ZmElM+BilJhJ1J
+	ncetrLgZ1epYFfnfVK+h65E7xKd85qIu6iQ0F1gpgwdazVQpWolDWy3J+/L/ctQu
+	ZfIpTBiMolVI9YMHuFkTKg+Bexb0b+Xb9Ek4ZnWwAA==
+X-ME-Sender: <xms:fFwQaqs9Hf1sa2lok2s5q_gTa130KuC8aVjRqsd0tbWv1MK-QSxLJA>
+    <xme:fFwQagibLxasFfYptt8TVlaDZ8V2OibFa0_cV-rPfVKCRG7gsa8JdOr4qCElffI6p
+    IyOa8Fv9vUUbM-Cv5WfrlynardUghqnbc9szUwL-s3P8ygRxws-uA>
+X-ME-Received: <xmr:fFwQaosHdknRjB_nDut5r3QA3Q_n93kWldDvEClgL2k9_q_R_emn4TMXJsl5SA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduhedtfedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtre
+    dtjeenucfhrhhomhepmfhirhihlhcuufhhuhhtshgvmhgruhcuoehkihhrihhllhesshhh
+    uhhtvghmohhvrdhnrghmvgeqnecuggftrfgrthhtvghrnhepueeltedvledugffghfehie
+    dufeekheeijeeiveeigfdvudeifffghfeftdeltdegnecuffhomhgrihhnpehkvghrnhgv
+    lhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvgdpnhgspghrtghpthhtohepvdei
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouh
+    hnuggrthhiohhnrdhorhhgpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehpvghtvghrgiesrhgvughhrghtrdgtohhmpdhrtghpthhtohepuggrvh
+    hiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhjsheskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepshhurhgvnhgssehgohhoghhlvgdrtghomhdprhgtphhtthhopehvsg
+    grsghkrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhirghmrdhhohiflhgvthht
+    sehorhgrtghlvgdrtghomhdprhgtphhtthhopeiiihihsehnvhhiughirgdrtghomh
+X-ME-Proxy: <xmx:fFwQai5eBiMnN667hBm3cDiOGpL9jEKsPNrWB9m3QQGGcd2E2EeL3w>
+    <xmx:fFwQajspDHcV6GCykoxP7SQTwmb1tiBBgWKt6bTvEXr9s--zDFFTOQ>
+    <xmx:fFwQas0o4TNpJTwLNCJtAN3Ssn_8NsZ2wUOdK_YqSpTHvUbjJhfNQg>
+    <xmx:fFwQao_lRu8vcvZlmrSu0bywGqfgFQVxHmJpqiJCDXH_roX6-gvMoQ>
+    <xmx:fVwQamjbMWSs4iStWlBnShbnjZTbmtwqNloUMhgcM2KzqQW_S-N5knfG>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 22 May 2026 09:39:08 -0400 (EDT)
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: akpm@linux-foundation.org,
+	rppt@kernel.org,
+	peterx@redhat.com,
+	david@kernel.org
+Cc: ljs@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	Liam.Howlett@oracle.com,
+	ziy@nvidia.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	seanjc@google.com,
+	pbonzini@redhat.com,
+	jthoughton@google.com,
+	aarcange@redhat.com,
+	sj@kernel.org,
+	usama.arif@linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kernel-team@meta.com,
+	linux-man@vger.kernel.org,
+	alx@kernel.org,
+	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Subject: [PATCH v3 00/16] userfaultfd: working set tracking for VM guest memory
+Date: Fri, 22 May 2026 14:38:41 +0100
+Message-ID: <20260522133857.552279-1-kirill@shutemov.name>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 22 May 2026 11:38:55 +0000
-"Sabau, Radu bogdan" <Radu.Sabau@analog.com> wrote:
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 
-> > -----Original Message-----
-> > From: Jonathan Cameron <jic23@kernel.org>
-> > Sent: Friday, May 22, 2026 2:16 PM  
-> 
-> ...
-> 
-> > > >
-> > > > +	iio_for_each_active_channel(indio_dev, bit) {
-> > > > +		ret = regmap_write(st->regmap,
-> > > > AD4691_ACC_DEPTH_IN(bit), st->osr[bit]);  
-> > >
-> > > Unfortunately enough, I think a v13 will come, too...
-> > >
-> > > Had a look again on what Sashiko had to say, and seeing the sampling  
-> > frequency  
-> > > shared_by_all comment again made me have a deeper look see how the  
-> > code could  
-> > > be commented so he wouldn't complain about this anymore, and...
-> > >
-> > > Perhaps he is a bit right after all. I found a section stating that in standard
-> > > sequencer mode (which the driver uses right now), all the channels actually  
-> > use  
-> > > the ACC_DEPTH_IN0 for osr, and so changing ACC_DEPTH_INn for other  
-> > channels  
-> > > doesn't really do much. And so I tested this selecting both voltage0 and  
-> > voltage1  
-> > > for sampling with osr4 for voltage0 and osr1 for voltage1 and with a 100kHz  
-> > osc freq  
-> > > indeed DR fell after approximately 80us which points out both channels were  
-> > actually  
-> > > using OSR of 4. Perhaps the OSR should be shared by all and therefore the
-> > > sampling frequency would also be shared by all, right?  
-> > 
-> > I kind of lost track on the modes. What are the chances we later move to or
-> > add
-> > support for a mode where the different OSRs do matter?  If that's a possibility
-> > we should avoid ABI change by allowing for it from the start.
-> > 
-> > Then if we are in this mode, they'll have separate controls but change any,
-> > changes
-> > them all, if we are in a different mode that connection breaks.
-> > If that's the case, just throw in a comment saying something to the effect this
-> > may change.
-> > 
-> > It's not wrong ABI to do this, it's just less intuitive for users which is why
-> > we prefer the shared_by stuff where there isn't a disadvantage.  That is at
-> > most
-> > a hint to what actually happens.   A simple example is where different
-> > channels have one OSR field but they aren't the same - i.e. channel 1 is twice
-> > the OSR of channel 2.  Hence we can't share the attribute but any change
-> > effects
-> > both.
-> >   
-> 
-> Hi Jonathan,
-> 
-> I don't think a mode where different OSR will matter will be added in the future. Better
-> yet, this advanced sequencer functionality is not really mode dependent and is actually
-> something that allows you to manually rearrange channels and samples in the
-> sequence, and unless this functionality is active (it is not by default nor is it used by
-> the driver, since we use the standard sequencer).
-> 
-> Personally, I don't see any reason to have this advanced sequencer stuff implemented
-> since DR is only falling at the end of the sequence no matter if it is standard config or not,
-> the only "disadvantage" to say so is that the standard sequencer uses the same OSR field
-> for all channels. But that advanced sequencer stuff would only complicate the buffer
-> enable/disable functions even more, which I don't think it's worth the effort.
-> 
-> So, with this in mind. Letting the driver use standard sequencer would ultimately mean
-> that the osr would be the same for all the channels, and then effective rate the same for
-> all channels, which I suggest having it like that from initial driver patch to the end, so no
-> ABI change mid-patch series. This change will simplify the driver.
+This series adds userfaultfd support for tracking the working set of
+VM guest memory, so a VMM can identify cold pages and evict them to
+tiered or remote storage.
 
-Ok.  Thanks for the analysis.  It may well be that those fancy sequencer things are
-only really useful for very specific use cases we won't see in Linux.
+v1: https://lore.kernel.org/all/20260427114607.4068647-1-kas@kernel.org/
+v2: https://lore.kernel.org/all/cover.1778254670.git.kas@kernel.org/
 
-So I'm fine with following the simple path!
+== Changes since v2 ==
 
-Jonathan
+Review feedback from Mike Rapoport and SeongJae Park; tags folded in.
 
-> 
-> Radu
+  - 03/16: rename uffd_wp local in copy_hugetlb_page_range() (SJ).
+  - 04/16: group mode and protection bits in __VM_UFFD_FLAGS et al;
+    move CONFIG_USERFAULTFD_RWP to 08/16 where the UAPI lands.
+  - 05/16: fold uffd_wp/uffd_rwp bool pairs into uffd_prot in
+    change_huge_pmd(), change_softleaf_pte(), change_present_ptes();
+    nit fixes in comments.
+  - 08/16: pre-scan rewritten as bool found; CONFIG_USERFAULTFD_RWP
+    moved here from 04/16.
+  - 09/16: line reflow.
+  - 13/16: rewrite uffd_rwp_gup_test() with vmsplice() -- write()
+    went through copy_from_user(), not gup_can_follow_protnone();
+    plus selftest cleanups.
+  - 14/16: documentation wording fixes.
+
+Patches 15-16 are the matching userfaultfd(2) and ioctl_userfaultfd(2)
+man-page updates against the linux-man tree. Apply with
+"git am --directory=" or by hand in the man-pages repo.
+
+== Problem ==
+
+A VMM managing guest memory needs to:
+
+  1. detect which pages are still being touched (working-set
+     tracking);
+  2. safely evict cold pages to slower tiered or remote storage;
+  3. fetch them back on demand when accessed again.
+
+== Approach ==
+
+UFFDIO_REGISTER_MODE_RWP is a new userfaultfd registration mode, in
+parallel with the existing MODE_MISSING / MODE_WP / MODE_MINOR. It
+uses the same mechanism on every backing -- anon, shmem, hugetlbfs:
+
+  - PAGE_NONE on the PTE (the same primitive NUMA balancing uses)
+    makes the page inaccessible while keeping it resident;
+  - the uffd PTE bit (the one MODE_WP already owns) marks the entry
+    as "userfaultfd-tracked" so the protnone fault path can tell an
+    RWP fault apart from an mprotect(PROT_NONE) or NUMA hinting
+    fault.
+
+VM_UFFD_WP and VM_UFFD_RWP are mutually exclusive per VMA, so the
+same PTE bit safely carries both meanings depending on the
+registered VMA flag.
+
+In sync mode, the kernel delivers a UFFD_PAGEFAULT_FLAG_RWP message
+to the registered handler, and the handler resolves the fault with
+UFFDIO_RWPROTECT clearing MODE_RWP. In async mode
+(UFFD_FEATURE_RWP_ASYNC), the fault is auto-resolved in-place: the
+kernel restores the original PTE permissions and the faulting thread
+continues without a userfaultfd message ever being delivered.
+Userspace then learns which pages were touched by reading
+PAGE_IS_ACCESSED out of PAGEMAP_SCAN -- pages whose uffd bit is
+still set were not re-accessed since the last RWP cycle.
+
+UFFDIO_RWPROTECT is the protect/unprotect ioctl, mirroring
+UFFDIO_WRITEPROTECT.
+
+UFFDIO_SET_MODE flips RWP_ASYNC <-> sync at runtime under
+mmap_write_lock(), so a VMM can run in async mode for detection and
+switch to sync for race-free eviction without re-registering the
+userfaultfd.
+
+== Typical VMM workflow ==
+
+  /* arm */
+  UFFDIO_API(features = RWP | RWP_ASYNC)
+  UFFDIO_REGISTER(MODE_RWP)
+
+  /* detection cycle */
+  UFFDIO_RWPROTECT(range, RWP)
+  sleep(interval)
+  PAGEMAP_SCAN(!PAGE_IS_ACCESSED) -> cold pages
+
+  /* eviction */
+  UFFDIO_SET_MODE(disable = RWP_ASYNC)                  /* sync */
+  pwrite(cold) + fallocate(FALLOC_FL_PUNCH_HOLE, cold)  /* races trapped */
+  UFFDIO_SET_MODE(enable  = RWP_ASYNC)                  /* resume */
+
+== Series layout ==
+
+Patches 1 to 3 are preparatory:
+
+  1: decouple protnone helpers from CONFIG_NUMA_BALANCING.
+  2-3: rename _PAGE_BIT_UFFD_WP, pte_uffd_wp() and friends to drop
+       the _WP suffix, since the bit now carries WP and RWP meaning
+       depending on the VMA flag. The SCAN_PTE_UFFD enum's ftrace
+       output string is intentionally kept as "pte_uffd_wp" so
+       trace-based tooling does not silently break.
+
+Patches 4 to 7 add the in-kernel mechanism:
+
+  4: VM_UFFD_RWP VMA flag (aliased to VM_NONE until 8/16 introduces
+     CONFIG_USERFAULTFD_RWP together with the UAPI).
+  5: MM_CP_UFFD_RWP change_protection() primitive (PAGE_NONE +
+     uffd bit, plus a RESOLVE counterpart).
+  6: marker preservation across swap, device-exclusive, migration,
+     fork, mremap, UFFDIO_MOVE, hugetlb copy, and mprotect().
+  7: handle VM_UFFD_RWP in khugepaged, rmap, and GUP.
+
+Patches 8 to 12 wire the userspace surface:
+
+   8: UFFDIO_REGISTER_MODE_RWP and UFFDIO_RWPROTECT plumbing
+      (introduces CONFIG_USERFAULTFD_RWP).
+   9: RWP fault delivery and exposure of UFFDIO_REGISTER_MODE_RWP.
+  10: PAGE_IS_ACCESSED in PAGEMAP_SCAN.
+  11: UFFD_FEATURE_RWP_ASYNC for async fault resolution.
+  12: UFFDIO_SET_MODE for runtime sync/async toggle.
+
+Patches 13 and 14 are kernel tests and Documentation/. Patches 15 and
+16 update userfaultfd(2) and ioctl_userfaultfd(2) in the linux-man
+tree.
+
+Kiryl Shutsemau (Meta) (16):
+  mm: decouple protnone helpers from CONFIG_NUMA_BALANCING
+  mm: rename uffd-wp PTE bit macros to uffd
+  mm: rename uffd-wp PTE accessors to uffd
+  mm: add VM_UFFD_RWP VMA flag
+  mm: add MM_CP_UFFD_RWP change_protection() flag
+  mm: preserve RWP marker across PTE rewrites
+  mm: handle VM_UFFD_RWP in khugepaged, rmap, and GUP
+  userfaultfd: add UFFDIO_REGISTER_MODE_RWP and UFFDIO_RWPROTECT
+    plumbing
+  mm/userfaultfd: add RWP fault delivery and expose
+    UFFDIO_REGISTER_MODE_RWP
+  mm/pagemap: add PAGE_IS_ACCESSED for RWP tracking
+  userfaultfd: add UFFD_FEATURE_RWP_ASYNC for async fault resolution
+  userfaultfd: add UFFDIO_SET_MODE for runtime sync/async toggle
+  selftests/mm: add userfaultfd RWP tests
+  Documentation/userfaultfd: document RWP working set tracking
+  userfaultfd.2: Add read-write protect mode
+  ioctl_userfaultfd.2: Add read-write protect mode docs
+
+ Documentation/admin-guide/mm/pagemap.rst     |  13 +-
+ Documentation/admin-guide/mm/userfaultfd.rst | 236 +++++-
+ Documentation/filesystems/proc.rst           |   1 +
+ arch/arm64/Kconfig                           |   1 +
+ arch/arm64/include/asm/pgtable-prot.h        |   8 +-
+ arch/arm64/include/asm/pgtable.h             |  47 +-
+ arch/loongarch/Kconfig                       |   1 +
+ arch/loongarch/include/asm/pgtable.h         |   4 +-
+ arch/powerpc/include/asm/book3s/64/pgtable.h |   8 +-
+ arch/powerpc/platforms/Kconfig.cputype       |   1 +
+ arch/riscv/Kconfig                           |   1 +
+ arch/riscv/include/asm/pgtable-bits.h        |  12 +-
+ arch/riscv/include/asm/pgtable.h             |  59 +-
+ arch/s390/Kconfig                            |   1 +
+ arch/s390/include/asm/hugetlb.h              |  12 +-
+ arch/s390/include/asm/pgtable.h              |   4 +-
+ arch/x86/Kconfig                             |   1 +
+ arch/x86/include/asm/pgtable.h               |  56 +-
+ arch/x86/include/asm/pgtable_types.h         |  16 +-
+ fs/proc/task_mmu.c                           | 108 ++-
+ fs/userfaultfd.c                             | 263 ++++++-
+ include/asm-generic/hugetlb.h                |  18 +-
+ include/asm-generic/pgtable_uffd.h           |  32 +-
+ include/linux/huge_mm.h                      |   7 +
+ include/linux/leafops.h                      |   4 +-
+ include/linux/mm.h                           |  46 +-
+ include/linux/mm_inline.h                    |   4 +-
+ include/linux/pgtable.h                      |  32 +-
+ include/linux/swapops.h                      |   4 +-
+ include/linux/userfaultfd_k.h                |  78 +-
+ include/trace/events/huge_memory.h           |   2 +-
+ include/trace/events/mmflags.h               |   7 +
+ include/uapi/linux/fs.h                      |   1 +
+ include/uapi/linux/userfaultfd.h             |  54 +-
+ init/Kconfig                                 |   8 +
+ mm/Kconfig                                   |   9 +
+ mm/debug_vm_pgtable.c                        |   4 +-
+ mm/huge_memory.c                             | 155 +++-
+ mm/hugetlb.c                                 | 146 +++-
+ mm/internal.h                                |   4 +-
+ mm/khugepaged.c                              |  38 +-
+ mm/memory.c                                  | 123 ++-
+ mm/migrate.c                                 |  20 +-
+ mm/migrate_device.c                          |   8 +-
+ mm/mprotect.c                                |  68 +-
+ mm/mremap.c                                  |  17 +-
+ mm/page_table_check.c                        |   8 +-
+ mm/rmap.c                                    |  18 +-
+ mm/swapfile.c                                |   9 +-
+ mm/userfaultfd.c                             | 112 ++-
+ tools/include/uapi/linux/fs.h                |   1 +
+ tools/testing/selftests/mm/uffd-unit-tests.c | 766 +++++++++++++++++++
+ man2/ioctl_userfaultfd.2                     | 209 ++++++++++++++++++++++++++++++++++++++-
+ man2/userfaultfd.2                           | 147 ++++++++++++++++++++++++++-
+ 54 files changed, 2586 insertions(+), 426 deletions(-)
+
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+-- 
+2.51.2
 
