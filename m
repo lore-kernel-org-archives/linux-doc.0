@@ -1,92 +1,106 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894F62C031E
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 15:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698D231B828
+	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 15:56:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779465313; cv=none; b=EUi3lAbSTvYvXeTP57BwD6tIcLDI716jtIkITsPR5nkKzbMj4Qh59KN3yQjYu20GMVAfK5z+go6F1XL39bWNmR/kPjHz4w6zFWHW3r5/reKRcvFT9TmOI1nBolOmLn1itZ4q14/JALvUthedhvQNKYfn3EdHqbmR4kFM+n20ivQ=
+	t=1779465371; cv=none; b=QXinBReQT5lJ2wcthGcuPXZ9+1KUtnAs0Pisvw3ZDYFg5gg5G0f3dTsrTmIm+Ksk2WhhmW2nBJqt3BduXE16eVivTmI2MqE6jwH4/17u9M4O4miIN+sqW7l3fc8r52vUiqBF3WBU8UbPTa1dBp5vZWjfVILwfnMvqM5uIlY2k9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779465313; c=relaxed/simple;
-	bh=VBHCCrIT6aJTUQLBZidYi9sgYkOpDfnCQeYwsTA2g9U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=q+pREU7hRztkcuFR+kXnSXP+HgZ5PiamKDWxrsRHlE9PQ1OJKntgLc6o8nyMBLnh6qiQ3dV/b7J1jQS7xFbX6UD9ofQPliN6DTkJkGjhM2ELORHTxkmM1HCgODwOGIU4YIMz+BhSmDAhTm9z27mSUE77plcPEuUMv55U0tiE2+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=njWClgMq; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1779465371; c=relaxed/simple;
+	bh=gTVthNgOJOmOJQWKh7aeuLchxsyZZu2j6TtO+++AeOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nKYEEeGUlxvif6Bht/HjqPXPZXI0/IGhwyx1XiyxpFriBZN1eRBQ4R17F6Jy7NxmfD68MGW5ktSvS/nTCjPKyZRFPyPtXRgqku9CgabFB8s7kshH71kgTWKRDYC716OWwkf4Cm4ggs0vCYtFY47ttcxzzskbWQZyEGnVKfUoWqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DLLwgfn3; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="njWClgMq"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 92068C2C65B;
-	Fri, 22 May 2026 15:56:03 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C2E1A6003C;
-	Fri, 22 May 2026 15:55:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 13B7B108115FB;
-	Fri, 22 May 2026 17:55:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1779465307; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=VBHCCrIT6aJTUQLBZidYi9sgYkOpDfnCQeYwsTA2g9U=;
-	b=njWClgMqEAgLUk1EtuycW1xHkCJfoqB0ww/YhqrzC7MedSwoErbd56BDT6iuWowNPVfuZj
-	ifZ1Y4zSEmpNoP3U20CbKhT/yCYEC6djYz93snsFhSOU/4tqmEi1POJ6YvSKEzdj2cZ4yJ
-	srDybx7RHTyxkWmnTRRoaxfWwj5Au94QsiSvpSXOTe9vP1wSwEM5WzK90l0OE3mcYSnc57
-	HuXtGA6xxlGYDxzA8qgMCUn8gq6+ukAk//c1379ak1AUS0dMagywSwtzCzKrCZO7lcWH1i
-	gGJ2MQi2Q1WelBLRh6KZdwZ7d/Wtndhd+4AI2O/SAn5zgT7SxLBBYs5uxAPbTQ==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Michael Walle
- <mwalle@kernel.org>,  Takahiro Kuwano <takahiro.kuwano@infineon.com>,
-  Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
- <vigneshr@ti.com>,  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
- <skhan@linuxfoundation.org>,  Sean Anderson <sean.anderson@linux.dev>,
-  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,  Steam Lin
- <STLin2@winbond.com>,  linux-mtd@lists.infradead.org,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  stable@kernel.org
-Subject: Re: [PATCH v5 04/28] mtd: spi-nor: swp: Improve locking user
- experience
-In-Reply-To: <9432f07f-3724-4257-b6ab-84721e619f78@linaro.org> (Tudor
-	Ambarus's message of "Fri, 22 May 2026 12:10:45 +0300")
-References: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597@bootlin.com>
-	<20260507-winbond-v6-18-rc1-spi-nor-swp-v5-4-93453e1a9597@bootlin.com>
-	<9432f07f-3724-4257-b6ab-84721e619f78@linaro.org>
-User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Fri, 22 May 2026 17:55:00 +0200
-Message-ID: <875x4fphgr.fsf@bootlin.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DLLwgfn3"
+Date: Fri, 22 May 2026 08:55:47 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1779465367;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HPSb2CFFD2Mx/U8TkBhKdYznfpouLwmrB1wpwkrvRlU=;
+	b=DLLwgfn3zamt0KOTjOJsQrjCumqI5g0pw3M+sc1H23Reczm/g6BnVx6n82nqbHGNdQcw+9
+	mQ6g1ovyGU9uguzlNk8c6ewC0+hWaPbb+fqRFQui1CP4pwOxfebWERMoBeUAyKOkipNQkc
+	RdOJlqwu/CiIyhBmejVUjbyGNOi6Yb4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Eric Chanudet <echanude@redhat.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Maarten Lankhorst <dev@lankhorst.se>, 
+	Maxime Ripard <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>, 
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, 
+	Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] mm/memcontrol: add dmem charge/uncharge functions
+Message-ID: <ahB8OhgdPgOkzuS9@linux.dev>
+References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
+ <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
+ <ahB7pCu_G4vuswc0@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ahB7pCu_G4vuswc0@linux.dev>
+X-Migadu-Flow: FLOW_OUT
 
-On 22/05/2026 at 12:10:45 +03, Tudor Ambarus <tudor.ambarus@linaro.org> wro=
-te:
+On Fri, May 22, 2026 at 08:53:10AM -0700, Shakeel Butt wrote:
+> On Tue, May 19, 2026 at 11:59:01AM -0400, Eric Chanudet wrote:
+> > Add mem_cgroup_dmem_charge() and mem_cgroup_dmem_uncharge() to allow
+> > dmem pool allocations to optionally be double-charged against the memory
+> > controller. Take the struct cgroup from the dmem pool's css as there is
+> > no convenient object exported to represent these allocations. These will
+> > resolve the effective memory css from that cgroup and perform the
+> > charge.
+> > 
+> > Introduce a MEMCG_DMEM stat counter to memory.stat to make the cgroup's
+> > dmem charge visible.
+> > 
+> > Signed-off-by: Eric Chanudet <echanude@redhat.com>
+> > ---
+> >  include/linux/memcontrol.h | 16 ++++++++++++
+> >  mm/memcontrol.c            | 65 ++++++++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 81 insertions(+)
+> > 
+> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> > index dc3fa687759b45748b2acee6d7f43da325eb50c1..8e1d49b87fb64e6114f3eb920293e14920290fe7 100644
+> > --- a/include/linux/memcontrol.h
+> > +++ b/include/linux/memcontrol.h
+> > @@ -39,6 +39,7 @@ enum memcg_stat_item {
+> >  	MEMCG_ZSWAP_B,
+> >  	MEMCG_ZSWAPPED,
+> >  	MEMCG_ZSWAP_INCOMP,
+> > +	MEMCG_DMEM,
+> >  	MEMCG_NR_STAT,
+> >  };
+> >  
+> > @@ -1872,6 +1873,21 @@ static inline bool mem_cgroup_zswap_writeback_enabled(struct mem_cgroup *memcg)
+> >  }
+> >  #endif
+> >  
+> > +#if defined(CONFIG_MEMCG) && defined(CONFIG_CGROUP_DMEM)
+> > +bool mem_cgroup_dmem_charge(struct cgroup *cgrp, unsigned int nr_pages,
+> > +			    gfp_t gfp_mask);
+> > +void mem_cgroup_dmem_uncharge(struct cgroup *cgrp, unsigned int nr_pages);
+> > +#else
+> > +static inline bool mem_cgroup_dmem_charge(struct cgroup *cgrp,
+> > +					  unsigned int nr_pages, gfp_t gfp_mask)
+> 
+> Please follow Johannes's request to pass the actually memory object instead of
+> naked numbers.
+> 
 
-> On 5/7/26 7:46 PM, Miquel Raynal wrote:
->> Fixes: 3dd8012a8eeb ("mtd: spi-nor: add TB (Top/Bottom) protect support")
->> Cc: stable@kernel.org
-> Fixes shall be the first patches in the set.
-
-Technically speaking all four first patches are fixes, except I don't
-ask the first one to be backported. The reason why we ask fixes to be
-first in the series is because we want them to be as independent as
-possible from previous cleanups/changes. Here each four first patch are
-targeting completely different places and should not interact with each
-other. Anyway, I will re-shuffle the patches.
-
-As for Sashiko's feedback, the AI raises the same point as our previous
-discussion: the QE bit handling is really bad, and I am working on
-improving this, in another series which waits for this one to land.
-
-However the other warning it raises is IMO wrong: mixed-modes chips
-(either read or write working in quad mode, and the other in single
-mode) should enable their QE bit anyway. Please raise a warning if you
-think this assumption is wrong.
-
-Thanks,
-Miqu=C3=A8l
+Also what exactly is the backing memory here? Is it system memory? If yes, then
+you need to pass struct page. For non-system memory, I am not sure memcg is the
+right place to charge such memory.
