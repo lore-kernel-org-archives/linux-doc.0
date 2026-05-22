@@ -1,222 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A73332913;
-	Fri, 22 May 2026 21:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779485082; cv=none; b=QNztUuHRIZMIZKM1nCJT5pzWIVsmUuWqQi3dBVDOOOCDd0Lqr86BVKjde38NJir8mWkJThYf+YHBisKEHK6pOq1k+oit193/aA7gJ05FEmtPmxNxiOlyau/TGj/qrHVamsLXxK3CJr+NcwjQrU4lNVXFOca2U7OXbHdrU/Ic0zw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779485082; c=relaxed/simple;
-	bh=Gg2Rkrz/C3O5mNC1uC0BufDHhrM3QVEXTwgQ36XjnYU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UfSck91CskiHvdLzcrGUXmgxMiWb0ced2lTBIn+QZiAS/aZ3U6nFpgN5bMKjcRDIgnSsaV1CyaZWzhckzfzoinjVxrd6wz6MvImLI8cU/3J4IQX5bLwh3MMOz1UsXzfZRlcZZIomRmv5njZPGHcJgv1UVk2HS1TVRWot8l6PM3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BqYg8XWu; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CAD38D415
+	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 21:45:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779486356; cv=pass; b=mTFlcB4BZWwypRaMhUybO8MjC2wcOO6h0UjyTflH4+LNQhdTQDVrZJIS7gzZQS5IJk94yQ5wcGMgpeoO2RcJsNNwv6yrt+MdzvwYEYxIV/ZY/oyyVUCfvrEpntdz30eTzSGxzsEwY5ZjlTP/0B1D1UsN8meTILSbcjnFu28wYqo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779486356; c=relaxed/simple;
+	bh=yeXSyELI1E2yiYIHqqHrMC7NqZzRTFrVfjXKk8f/rzo=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qdO8jON4ieH9LTi4gofcj5mrWwdZ/HUPfZFKdc+9E/8FsXzdiu6OCQWL7JDJ7RTKm/J5GeUcMOWzNwb3HaRBea/uWyD/ZIBcb5xrUdjHAvtXbxplNaPoX3vNw7iNyP46ckdmHKoAWEmqGAfE2liNuCM9U35i/1mBZ7QjwrvC2tg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RrAiuOtq; arc=pass smtp.client-ip=209.85.222.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BqYg8XWu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 981681F000E9;
-	Fri, 22 May 2026 21:24:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779485080;
-	bh=kj+AcNSaVbXFkwBDds8y0U5mnhTG0bXrSzeVbSwlnsU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=BqYg8XWuwX142KZEjOt0ILzzc1PvRWabcF/izUWJ72StQyRTaARj0b5SqqFH91qvg
-	 TOvD3RzjeZ2/is9H4DcAYd3Mb4KYH99GKWB1jgk4kj8oRj1Luz7iTUc8GqtTQtM4qW
-	 D62N9LUyD28ffxr86RTJFlxERkWkFTthLIlKaa4BlBTuwuzwfn5Tm9pmaJf/JUjur7
-	 caNVtyNDzLL0IRQMuKuIixclP1QyuGybZkzagrH3CmxaSQHUgt7UA0XwWmyCkadIS8
-	 ySVcY3hyKS6n1GMihcMkiiDdpZ/exsuU35/oHnxnsyMprbSSywSV1LKRjBOeoDb3lu
-	 4t1Nfz+elKnOg==
-Message-ID: <6962d78e-ed39-4dca-b7f1-c531292727f2@kernel.org>
-Date: Fri, 22 May 2026 23:24:25 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RrAiuOtq"
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-95d439bd3a5so1982734241.3
+        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 14:45:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779486353; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RsN5qTo0wtGRioS865CIOtVmV82R085ajXdQ6p0oeH+nVN8lScOAoLsYbkoEZACcgm
+         iDmeKBjouC02GnyPG0a6I0q0WwoWBfA3YwK7Jnr+B4cCBzVg0m2Z+3bfppM7B3Hkqlc3
+         Qq7SUpv//Rhe3UuniEj7pcvUBv20OfpsLkqI4wlOcWbjjSWMO4eaDpgN7cU8ska7UuHT
+         tor2XYtRdWdxu4GBUVk054wRxz3CPMaBAGETsyI9JlzgSSllcbgrqtCJ5ah15h9bfKu2
+         qt4p61AjczVEKyd4FK9A5hxVWBAoE7T1Rn/6Z0HBM1gJpYfoFisZyMYzrql2n/MR1nJc
+         2ZCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=HF/NjXSXWmsZ2MTdon58/xGzT4WCBzILiqAAQFlOD1k=;
+        fh=NH8w8gPgvs0OV2wFVbfDOHmzr5Ts3KuFOZcdaX9Bzcg=;
+        b=L//YWnVRPSpJT0OWkmNNMcQk92zH8UBnh+9krJYXYePtD9dbP2e64YgmAFip9S/cVJ
+         JGQgBvaAh3pQ8ywU5IH49LY3m169xZqC3+M6VLlURITnuSpBADq0ZOftFGU+0ONhTS0n
+         qFh0Nbzlqh+zln0IOCbYaCn7jHQ0md40sQNEJn2+li0OembgNS38/3B0V6WkWEWkwZeH
+         oKfmUFbUDfUwlFGxEQJSjEvcJ/+TlK6S8u0CCi8C/brkPlOUwRhh8fjLpJPjJVWPUF+H
+         pzOcXP/IU+MIOblyINj53N3St4WdhFIVO2VL0lfHCfoMAYAMK4N7gCOzL2DEvkawpIXE
+         hYzQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779486353; x=1780091153; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HF/NjXSXWmsZ2MTdon58/xGzT4WCBzILiqAAQFlOD1k=;
+        b=RrAiuOtqBcUqVZiRfph8W6B1cp6RwD4bLszq0B+KL/5CDkhs50X+q+b6/IeuOhYEi0
+         7A1cexEvgfOT4NE5bpUHLqTUdnacaFMctWqkINpMx72OlqZQedIFbRT6XffoRYH35ORn
+         8drIzuNRFAI1vZVgobXbhY23GshQb4c3HK2zKv+I7jU/T2uLUNIidUzxSyIebSytyGOV
+         K0qfncmYSEfdypSK51lpTKuYNMowqTbl9eSqfx0pjru0Zj/f8mQXZXHRxh7KUsz2EtbA
+         G6PHgaOYLzbWIFXIye4VlF55w4qXCUsC3kED7AfpnrfpEMT4fgDu9lb8UsJvKiJka29N
+         gybA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779486353; x=1780091153;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HF/NjXSXWmsZ2MTdon58/xGzT4WCBzILiqAAQFlOD1k=;
+        b=qL1DViYZ83EtUgId34n9jMDzmHbKw0E7BeBa+foNrDLvsDCSmRL0BAIz322l4Kf70t
+         IUfKfxyNtN1l9366vGRQkTM5DTSLXQMmC0/htdtwV+beeY0rOJFnRoJ6CuwdJ3HFgANh
+         VyNNqR8f/1N91eIOi3vYGXIZeOWlx9P6mntCcD4IadgmgenxxqHWCv8XH+a0XMkAcNbA
+         fNDf8vK9XzJ60IfuB9aXjODZORCTh5qmB2es+jMBBAvYl15hshewPWw3l10WEq3XNTuC
+         h3rci5BgHVmysxY6n8pDB76v5V0U17VdfUcjm7a4m1dm+nXNXkKfnLqag2m9zrxWvDMH
+         rf1g==
+X-Forwarded-Encrypted: i=1; AFNElJ/+fx/K6rnOtYLOODwddouZE591LWWxWFEHb7bzJ+p9K5YFtMi6Tp/75832AHLxQtw3eSIY032+fdE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywo/+4JdtCAnrj1Bx2WlLslvpP+/KKH7aS/ZLVDokTnwBtBdEHC
+	RMUlOeu6c+Ar3rGPwkYxPo8aTgrx+Rle5KLsGQEhScbJmtJ8tFEeBV3ASWucA5ArwgGuGH5cPhe
+	0/Y8RWtCDgfEtWtTwJyFHCRN/dwWAaHI2FiYqJDuL
+X-Gm-Gg: Acq92OGbiwDa3Fe2+i4tndn2L2Y4T8L3H5Zol/w4Nyo8VsZjjAom4y/xAYRaKD7Rq7j
+	xm1pTzc3ubsJ37Jy4uXXyJ0m3HHCVZz+X7WSFAa0tvnlCZx4pcfG/EkKkZiYn3soMgNSKHw6Lxb
+	RpMC0qUls6bJDlDzL+2Q/FhxpLvROJO+Q9rAfbnswEhiiASdRHpiFO3KDPxLilXQ68t1DcUt+vj
+	yXjZS8JEbcFRAndWcyhibWWGyZkV9Ly9if0MrT7v4kyQmB1XJi745qUBRTp/PDotVKS3t/qqOna
+	Bjcpmo9Z/yVoyzswJ42WDrPcD9vwdWO8zkCT9qcM12zCYHJ+jVabUhJN7JpGbI/aVBiP/YXz0yi
+	RAIZP
+X-Received: by 2002:a05:6102:3e28:b0:62d:b0b2:88b1 with SMTP id
+ ada2fe7eead31-67c7405ef67mr3506832137.4.1779486353069; Fri, 22 May 2026
+ 14:45:53 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 22 May 2026 14:45:52 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 22 May 2026 14:45:52 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20260507-gmem-inplace-conversion-v6-1-91ab5a8b19a4@google.com>
+References: <20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com> <20260507-gmem-inplace-conversion-v6-1-91ab5a8b19a4@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-unstable v18 04/14] mm/khugepaged: generalize
- __collapse_huge_page_* for mTHP support
-To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org
-Cc: aarcange@redhat.com, akpm@linux-foundation.org,
- anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org,
- baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com,
- cl@gentwo.org, corbet@lwn.net, dave.hansen@linux.intel.com,
- dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com,
- jack@suse.cz, jackmanb@google.com, jannh@google.com, jglisse@google.com,
- joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
- liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com,
- matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
- peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
- rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
- rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com,
- shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com,
- thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com,
- vbabka@suse.cz, vishal.moola@gmail.com, wangkefeng.wang@huawei.com,
- will@kernel.org, willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-References: <20260522150009.121603-1-npache@redhat.com>
- <20260522150009.121603-5-npache@redhat.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260522150009.121603-5-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Fri, 22 May 2026 14:45:52 -0700
+X-Gm-Features: AVHnY4JHUcmHMeS0I0OECBQE9WDOiwFNaDvy5ucV_o_GqQwFVlnoZJcBRTb3Ibk
+Message-ID: <CAEvNRgEjogBVDRNs2KmA--u9vHY1Jex-ERUuvK5idUrfoUBmmQ@mail.gmail.com>
+Subject: Re: [PATCH v6 01/43] KVM: guest_memfd: Introduce per-gmem attributes,
+ use to guard user mappings
+To: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>, aik@amd.com, 
+	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
+	chao.p.peng@linux.intel.com, david@kernel.org, ira.weiny@intel.com, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 5/22/26 16:59, Nico Pache wrote:
-> generalize the order of the __collapse_huge_page_* and collapse_max_*
-> functions to support future mTHP collapse.
-> 
-> The current mechanism for determining collapse with the
-> khugepaged_max_ptes_none value is not designed with mTHP in mind. This
-> raises a key design issue: if we support user defined max_pte_none values
-> (even those scaled by order), a collapse of a lower order can introduces
-> an feedback loop, or "creep", when max_ptes_none is set to a value greater
-> than HPAGE_PMD_NR / 2. [1]
-> 
-> With this configuration, a successful collapse to order N will populate
-> enough pages to satisfy the collapse condition on order N+1 on the next
-> scan. This leads to unnecessary work and memory churn.
-> 
-> To fix this issue introduce a helper function that will limit mTHP
-> collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
-> This effectively supports two modes: [2]
-> 
-> - max_ptes_none=0: never collapses if it encounters an empty PTE or a PTE
->   that maps the shared zeropage. Consequently, no memory bloat.
-> - max_ptes_none=511 (on 4k pagesz): Always collapse to the highest
->   available mTHP order.
-> 
-> This removes the possibility of "creep", and a warning will be emitted if
-> any non-supported max_ptes_none value is configured with mTHP enabled.
-> Any intermediate value will default mTHP collapse to max_ptes_none=0.
-> 
-> mTHP collapse will not honor the khugepaged_max_ptes_shared or
-> khugepaged_max_ptes_swap parameters, and will fail if it encounters a
-> shared or swapped entry.
-> 
-> No functional changes in this patch; however it defines future behavior
-> for mTHP collapse.
-> 
-> [1] - https://lore.kernel.org/all/e46ab3ab-a3d7-4fb7-9970-d0704bd5d05a@arm.com
-> [2] - https://lore.kernel.org/all/37375ace-5601-4d6c-9dac-d1c8268698e9@redhat.com
-> 
-> Reviewed-by: Lance Yang <lance.yang@linux.dev>
-> Co-developed-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  mm/khugepaged.c | 121 +++++++++++++++++++++++++++++++++++-------------
->  1 file changed, 88 insertions(+), 33 deletions(-)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 116f39518948..e98ba5b15163 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -353,30 +353,52 @@ static bool pte_none_or_zero(pte_t pte)
->   * the shared zeropage for the given collapse operation.
->   * @cc: The collapse control struct
->   * @vma: The vma to check for userfaultfd
-> + * @order: The folio order being collapsed to
->   *
->   * Return: Maximum number of empty/shared zeropage PTEs for the collapse operation
->   */
->  static unsigned int collapse_max_ptes_none(struct collapse_control *cc,
-> -		struct vm_area_struct *vma)
-> +		struct vm_area_struct *vma, unsigned int order)
->  {
-> +	unsigned int max_ptes_none = khugepaged_max_ptes_none;
+Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
+writes:
 
-Can be const, right?
+>
+> [...snip...]
+>
+> +static int kvm_gmem_init_inode(struct inode *inode, loff_t size, u64 flags)
+> +{
+>
+> [...snip...]
+>
+> +	filemap_invalidate_lock(inode->i_mapping);
+> +	r = mas_store_gfp(&mas, xa_mk_value(attrs), GFP_KERNEL);
 
+Sashiko says using GFP_KERNEL with this attributes maple_tree could
+allow a process creating a very fragmented maple tree to consume lots of
+memory not charged to some memcg and proposed using GFP_KERNEL_ACCOUNT.
+
+The problem with using GFP_KERNEL_ACCOUNT is that the maple tree nodes
+are allocated from a shared kmem_cache maple_node_cache. Allocating the
+maple tree nodes using GFP_KERNEL_ACCOUNT would mean that the node could
+be reused by other maple trees unrelated to this process, and so the
+nodes might long outlive the process using this guest_memfd, keeping the
+memcg alive far longer than the VM.
+
+For now I think it's okay to stick with GFP_KERNEL? Does anyone else
+have suggestions on how to solve this?
+
+> +	filemap_invalidate_unlock(inode->i_mapping);
 > +
->  	if (vma && userfaultfd_armed(vma))
->  		return 0;
->  	/* for MADV_COLLAPSE, allow any empty/shared zeropage PTEs */
->  	if (!cc->is_khugepaged)
->  		return HPAGE_PMD_NR;
-> -	/* For all other cases respect the user defined maximum */
-> -	return khugepaged_max_ptes_none;
-> +	/* for PMD collapse, respect the user defined maximum */
-> +	if (is_pmd_order(order))
-> +		return max_ptes_none;
-> +	/*
-> +	 * for mTHP collapse with the sysctl value set to KHUGEPAGED_MAX_PTES_LIMIT,
-> +	 * scale the maximum number of PTEs to the order of the collapse.
-> +	 */
-> +	if (max_ptes_none == KHUGEPAGED_MAX_PTES_LIMIT)
-> +		return (1 << order) - 1;
-> +	if (!max_ptes_none)
-> +		return 0;
-> +	/*
-> +	 * For mTHP collapse of values other than 0 or KHUGEPAGED_MAX_PTES_LIMIT,
-> +	 * emit a warning and return 0.
-> +	 */
-> +	pr_warn_once("mTHP collapse does not support max_ptes_none values"
-> +		     " other than 0 or %u, defaulting to 0.\n",
-> +		     KHUGEPAGED_MAX_PTES_LIMIT);
-> +	return 0;
-
-This might read slightly clearer as
-
-/*
- * For mTHP ...
- */
-if (max_ptes_none)
-		pr_warn_once(...)
-return 0;
-
-IOW, have a single "return 0" label here and only special-case when to warn.
-
-Acked-by: David Hildenbrand (arm) <david@kernel.org>
-
--- 
-Cheers,
-
-David
+> +	return r;
+> +}
+>
+> [...snip...]
+>
