@@ -1,126 +1,96 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA6881724;
-	Fri, 22 May 2026 08:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9493B841F
+	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 09:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779438931; cv=none; b=S1VBTDm/Vs8zIsWDUhPSZQuo/nAQNaZnSxtRSPuAF2FG+L9Gsxx04gB5snsBgTd90180YUsxVRD4ZmJQMxRnwN4hoIWGhai4vrqzPvayAB7EPkzgFFlXxqFRGjHFNMX/CgkbTaCfKp3qfM9qJVZuOhDOfW7VRSOue67cdgwTB1Y=
+	t=1779440881; cv=none; b=RyzcfghUTscZqfa3mZlOWiyrCDD3+M2dJWWh8T3/6erspUmLfq8binihQ3bh1QuIHhVRbeaTa/3hZcAkV0BiwR7mBwYvZwTY2jAdcqPlpb1ohAPEwI4YIs1o6dNvzrXjUx1J2k0faPvSVxOw4+XfWOfE6h5zNCln/CRmQh00NAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779438931; c=relaxed/simple;
-	bh=LmAISd4ebyhJ9FVXp8zS8g49akLmSgWRCgJZkG99Ad8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=Vea0CFloWwILlKPZrzZihppOpG1KJckdZwkpjIl6Ko0w7FEKM8mJLlMWTPRjm1ZvUhBSwc9Aq5x8FrD8DcOAS+PuJvnglZKuxOKT86d/CnT9QRFIqbjcbnGl1gVdIORGtKQy4ut3WBJYerFl/qbQlG/GI81BUiTfichMdnQ7/qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iSWlrrrf; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1779440881; c=relaxed/simple;
+	bh=K2X1CEY3hqLVsjasNeGeSp1UXS0hl5ED+Udw9ATF5Z8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HSyQPhQanrik5pHH76iOBhss0FcIDR/qtxA1pS4KflsuHvjfq4rAv2sf0SKhD72ChBtH7LbxX83GXYgVqj+0FjsOWb6bkH5or0fmm0bErYucJBVzUhOKCHfLhQsl1wD9+qXWg6Lprt0PqGMr6KDFIQzxM3Ncz1m1XzMBIP4eIx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iG2+sOCe; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iSWlrrrf"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id EB7DAC2C658;
-	Fri, 22 May 2026 08:36:20 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 605016003C;
-	Fri, 22 May 2026 08:35:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 112AF107E8C99;
-	Fri, 22 May 2026 10:35:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1779438925; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=LmAISd4ebyhJ9FVXp8zS8g49akLmSgWRCgJZkG99Ad8=;
-	b=iSWlrrrfXmy+lWXhawqaGpYEiJ30wtFRKRUfb8mhYrOMLLPuo/cYatFTxvnUWyKLxGVrBk
-	TjYj3La+MguZ1oomkRcsMD29RefU8hX3ZxXrkAsDlLz4L4iUSLfS5PBaZQyi6/X87uM1cu
-	4HxyVKGz0QXF9F2qtWmFVFttLnU5C4ExBS+8bZmKaCfotkONfBqKs45dJwmqZmLnoLK0/v
-	pj4Ltp67XP6oIuMFumNyToPVAZ333lRCpFZn4zIhgrFGgw/fnbTpkm7gv3CSVkzryxasu5
-	I9TcJxHAu44dOq4QXvDTcBGOkK3YvKE4pv1GX8Z+CPY1VrRXMQ8eIIopHiITDg==
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iG2+sOCe"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-45e6a4d0be0so3123403f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 02:07:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1779440878; x=1780045678; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K2X1CEY3hqLVsjasNeGeSp1UXS0hl5ED+Udw9ATF5Z8=;
+        b=iG2+sOCeNdYHUUY1YMq283A78DHZVpkj7GqI1uUGCpKMCpDy86bZ71jNyi87BTTXzL
+         s5caC2eqTZWLBpphHWgM2sINq6BM1l4fStaCmIu2WD49BOQMuM/UTqnLkMqeafKN09eG
+         8lZidnF71ZFc0z7bgNxjqYI26mIIca2jHTa60Qr6MT4vUPFpA8H+xStgD1xIs/Em0TE1
+         m6CFTtRcxkZvNNxdaJ/MXJdtl7N2MqYPavVmkivKCQMDhW8pVDn2n8ipQgNzcXD3GeGR
+         2yr8UjKZLCtQxSNdHeKof0ru8ZRqxwtnwNVXt4ZQr2CgeLW7t8Xk+tvW1czdwwjNqG7k
+         Dldg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779440878; x=1780045678;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K2X1CEY3hqLVsjasNeGeSp1UXS0hl5ED+Udw9ATF5Z8=;
+        b=j/WTVYKBm4rYbzXnJy0gZ5eQBIFJfXsJ+kqETZ0/mFs8nVWLs27Z0Yzk7nUkn5Pwj9
+         BJiQAKLchK7lhAp6HCJg9muQODFmK5fJmaPPhnaxQGbzURpyjDbX4Vp8CrD5Do6McgZe
+         p/rQg+Y7MUKPlFhZIKki7Elv/TV7JaJqJmf7p9HMub7CmkrC2YLqyXROawchRTxZ4cUs
+         ve3UYOomHspH8TOeapiGEWJKPQT91pfoxyq04ZGkN3zaJo/qiyGMS1Da2q2i/bM10D4B
+         idCqpjJGRGKRte4zzR7xzRCNg4IxZcf3mPp2nORoyA/zf6aTbWqxefAk7KiaMdgw1cQp
+         wQ/g==
+X-Forwarded-Encrypted: i=1; AFNElJ+eS2JU4RnwkpqjfdivyJpxcLIrShC2Ptkv3CdmiwbYgjNr0EUtj9kkzt5iOe2SnBdD6HgqQt7eDg4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNvP7O8GTt+FmmSobiZGhGy5h919LMoZXqIBdkmxsBZ1/G0x0f
+	Gpq1ibW60naP6xjVTtH5TKxbCNttmnMxlugcCXbqgUbAN/9zZ+5/2oaCxadzmEzMoghJC0uQ5KW
+	UAhHk
+X-Gm-Gg: Acq92OHcG3Lggwc7Q68QtQes0Ys5vYE1YEvfJscwc2HNhojDGYHFbv9Z6F/UUfG8puK
+	OX4rfxZq4111haBmaZIWK4nzas+wR6cUvAYWZXHodnpX1geny/MjLnM0Eutenzo9V5VQBV15uhF
+	51KdjbikqGlQj4Yyk6Q0fc/JI/Oe/KgrZZ9PVB/3o/nEOIQGXRMIZvKXHhEtR4om2Wky54/lXuH
+	G7jaADRbfAtk7BR8C23znaBOt8iECEj6lwu9YgWJ7OFIA/gCyKE3hTAYG1BVhGUxZr+NRtbZXkZ
+	Y58MNPWPLDSMuYzjPMp+jNXqzfEH08JYBhMqC/QomBPeoy3B84vV8e+BeXFqxMJhVK7O17tipaU
+	aozXPlTJFsAwfA10Fj/gnnv/1oSa8j8xykgK6Jo66h2/IK6AUJBu9lBzVa4RUBKZUjtI7IKBHDP
+	jiQCuenVA8QC+IruxjyFGCfR3IjhRbwwPNZc6ADFDGOA==
+X-Received: by 2002:a05:600c:4fc9:b0:48a:93d2:60d2 with SMTP id 5b1f17b1804b1-4904225331amr33408155e9.0.1779440877028;
+        Fri, 22 May 2026 02:07:57 -0700 (PDT)
+Received: from [10.11.12.110] ([82.76.215.73])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490452765f5sm27791555e9.5.2026.05.22.02.07.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 May 2026 02:07:56 -0700 (PDT)
+Message-ID: <fd735de4-3758-4090-a073-53bf43c80af9@linaro.org>
+Date: Fri, 22 May 2026 12:07:53 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/28] mtd: spi-nor: Enhance software protection
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>,
+ Takahiro Kuwano <takahiro.kuwano@infineon.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Sean Anderson <sean.anderson@linux.dev>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Steam Lin <STLin2@winbond.com>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, stable@kernel.org
+References: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597@bootlin.com>
+Content-Language: en-US
+From: Tudor Ambarus <tudor.ambarus@linaro.org>
+In-Reply-To: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 22 May 2026 10:35:20 +0200
-Message-Id: <DIP2GAUG3O18.29B8U0FOVEVET@bootlin.com>
-Subject: Re: [PATCH bpf-next v2] bpf, docs: add LOAD_ACQUIRE and
- STORE_RELEASE instructions
-Cc: "Alexei Starovoitov" <ast@kernel.org>, "Daniel Borkmann"
- <daniel@iogearbox.net>, "Andrii Nakryiko" <andrii@kernel.org>, "Martin
- KaFai Lau" <martin.lau@linux.dev>, "Eduard Zingerman" <eddyz87@gmail.com>,
- "Kumar Kartikeya Dwivedi" <memxor@gmail.com>, "Song Liu" <song@kernel.org>,
- "Yonghong Song" <yonghong.song@linux.dev>, "Jiri Olsa" <jolsa@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <skhan@linuxfoundation.org>, <ebpf@linuxfoundation.org>, "Bastien
- Curutchet" <bastien.curutchet@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, <bpf@vger.kernel.org>, <bpf@ietf.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-From: =?utf-8?q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-To: "David Vernet" <void@manifault.com>,
- =?utf-8?b?QWxleGlzIExvdGhvcsOpIChlQlBGIEZvdW5kYXRpb24p?=
- <alexis.lothore@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260521-bpf-insn-doc-v2-1-8c43c037d599@bootlin.com>
- <iulf7fwwvfrvvspg4e5xyx3tcxe2yonfjllnze2phgfgpynrlh@kodf3fy3l32q>
-In-Reply-To: <iulf7fwwvfrvvspg4e5xyx3tcxe2yonfjllnze2phgfgpynrlh@kodf3fy3l32q>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
 
-Hi David,
+Hi, Miquel,
 
-On Thu May 21, 2026 at 4:17 AM CEST, David Vernet wrote:
-> On Thu, May 21, 2026 at 12:09:11AM +0200, Alexis Lothor=C3=A9 (eBPF Found=
-ation) wrote:
->
-> Hi Alexis,
->
-> Thanks for working on this.
->
->> Commit 880442305a39 ("bpf: Introduce load-acquire and store-release
->> instructions") instroduced the LOAD_ACQUIRE and STORE_RELEASE atomic
->
-> introduced
->
->> instructions modifiers. Those are currently not described in the
->> documentation, despite being used in the verifier and the various JIT
->> compilers supporting them.
->>=20
->> Add the missing entries in the instruction set documentation.
->>=20
->> Signed-off-by: Alexis Lothor=C3=A9 (eBPF Foundation) <alexis.lothore@boo=
-tlin.com>
->
-> Alexei et al -- if you plan to do a subsequent RFC, it will influence
-> how this document needs to be structured. [0] explains the process for
-> adding new instructions. To quote:
->
->> Once a conformance group is registered with a set of instructions, no
->> further instructions can be added to that conformance group. A
->> specification should instead create a new conformance group that
->> includes the original conformance group, plus any newly added
->> instructions. Inclusion of the original conformance group is done via
->> the "includes" column of the BPF Instruction Conformance Groups
->> registry, and inclusion of newly added instructions is done via the
->> "groups" column of the BPF Instruction Set registry.
->
-> So you would have to create a new conformance group for these new
-> atomics -- you can't just add them to the existing one. In general it
-> might be easier / advised to snapshot this file to RFC 9669 and create a
-> new one for the new instructions to make it easier to tease this stuff
-> apart later. If that's something you want, I'm happy to get us started
-> with a skeleton file. Again, though, that's only necessary if you plan
-> to submit a new document to the IETF WG.
->
-> [0]: https://www.rfc-editor.org/rfc/rfc9669.html#name-adding-instructions
+Please consider sashiko's review feedback and let us know whether there's
+going to be a v6 or this set is good as it is:
+https://sashiko.dev/#/patchset/20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597%40bootlin.com
 
-I don't know how heavy/long the process is to submit this kind of RFC
-update, but your point makes it sound like it makes more sense to just
-go directly for the proper way, ie adding the conformance group and then
-adding those new ops in there, rather than updating the kernel doc as my
-series is proposing, and then later reverting to a proper conformance
-group.
-
---=20
-Alexis Lothor=C3=A9, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Cheers,
+ta
