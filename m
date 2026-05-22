@@ -1,108 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FD947886E;
-	Fri, 22 May 2026 15:40:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4203B2836E
+	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 15:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779464454; cv=none; b=Z74Aimy63QK4OMLaH830Q6PoSo45DEw98N/hVL9skQ/w2wnGgx8sMBXRJ5Jj1hybC0dD/HyK1MgSY2/qSNDSPPGwTIOo/YeUop8StcEnRASwdRYV2L6Q0mF6n23gv9lIJM8/EYZFB93qFz3SJ7kYj41xYbpZ5sRtEtRyptGHjbY=
+	t=1779465211; cv=none; b=lml9g/ZsmfKMaeZ9cMR+daR9LDLrq50zP987I7Z+Pm4PGFHEpgqKHF3DO3orTY2MCpdqB9/7Ek3OmI/CUMjCmgksxn8j2Xr1g58Fi46YIbM8mkYK8WO2XvhrR4AdAiwCH1fmD8DxrMKUlHeWunFuwT0kxfWRJHANPuw/DRvzmZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779464454; c=relaxed/simple;
-	bh=3qj4sp2Ygz+GWSr0uS4CCK2PDHsALrwUnuiNRcnu8Zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jqjzacEsUacc6XjXxGpytqZDGiXZ2K7NVljyCh1LEFeQ4Bl/xSlUelA6E0b5FfxYyprhOSzuYq48BTbjRzVluCn414prZjs3SFWEhFUeIphNCXGMHTJavCbsrsJ2SaatE0dL7DYaT6De4b7Bf0vBJXhJ2cmZTN5WnRKSmc06ReE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BcTp1XiC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779465211; c=relaxed/simple;
+	bh=kUDdYKQJRuSyELyHCrcRcrVqLZiSl+J2yY4EH3oO/j8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ktATDGExqUtvQxotpVEly+UEW3/riD5GUmfAPl2iwlkDhGuGp7EptY5cqlsV+wmBL2cVrR2hCDx/oRS2u+gVgFnF+LyvZXo9iElLVSzfQnVe1ceTJcRazecs1Q3jAURoRtmh/gvd0W9xBaxVwptThrAgUFtWDNlHZWOdQakB+vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MuXsjjQg; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BcTp1XiC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 807471F000E9;
-	Fri, 22 May 2026 15:40:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779464452;
-	bh=kK1Z8+G5JdzrtL4yJcz0BSXEx9OH0SiwFwGqYTVQ8SY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=BcTp1XiCPzBqdBetmpMEKQsoJCjoKq1KCqPblX+GuDLN6HLCTiYJy+Ncaw6zBdTLj
-	 aj9LthNxvTVZind+bRZ8Nj9rxma1ZZdpt9wYUJdj0pWkbHzM8yqP5yKnPJht785Pww
-	 NYLSIsxJqhFxsJ+YngCvSkL8fwliNNpjIhKSIxsJyc80ikI8Y8HbFGgnfYJ31ZnFSf
-	 EsLAllrN3L6cN9oGbLZPndMqOATS0Bf0XPHHGe2CZc6sK3mSLc0uuE89dKC/HoJLEm
-	 bHh5wf1pOcTaAcCn4wNUEvbPK7A6xVCFhvQ+ZgTg/banKd0TpH2CdJAHB91alOrq2K
-	 I3/YTuS9bwygA==
-Date: Fri, 22 May 2026 08:40:50 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: Larysa Zaremba <larysa.zaremba@intel.com>, Tony Nguyen
- <anthony.l.nguyen@intel.com>, <davem@davemloft.net>, <pabeni@redhat.com>,
- <edumazet@google.com>, <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>,
- <przemyslaw.kitszel@intel.com>, <sridhar.samudrala@intel.com>,
- <anjali.singhai@intel.com>, <michal.swiatkowski@linux.intel.com>,
- <maciej.fijalkowski@intel.com>, <emil.s.tantilov@intel.com>,
- <madhu.chittim@intel.com>, <joshua.a.hay@intel.com>,
- <jacob.e.keller@intel.com>, <jayaprakash.shanmugam@intel.com>,
- <jiri@resnulli.us>, <horms@kernel.org>, <corbet@lwn.net>,
- <richardcochran@gmail.com>, <linux-doc@vger.kernel.org>,
- <tatyana.e.nikolova@intel.com>, <krzysztof.czurylo@intel.com>,
- <jgg@ziepe.ca>, <leon@kernel.org>, <linux-rdma@vger.kernel.org>, Samuel
- Salin <Samuel.salin@intel.com>, Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>
-Subject: Re: [PATCH net-next v3 01/14] virtchnl: create
- 'include/linux/intel' and move necessary header files
-Message-ID: <20260522084050.5ba31f38@kernel.org>
-In-Reply-To: <5426379b-1201-4707-8d18-21dca3d1424e@intel.com>
-References: <20260515224443.2772147-1-anthony.l.nguyen@intel.com>
-	<20260515224443.2772147-2-anthony.l.nguyen@intel.com>
-	<20260520175201.72f83c4a@kernel.org>
-	<ag7QUgfpM5UAAE2z@soc-5CG4396X81.clients.intel.com>
-	<20260521065609.248c7009@kernel.org>
-	<5426379b-1201-4707-8d18-21dca3d1424e@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MuXsjjQg"
+Date: Fri, 22 May 2026 08:53:10 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1779465198;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AwTt7VfN0tnXd1ZqN8u19c+a+Qxdue+k49zPjLSV3ZY=;
+	b=MuXsjjQgauUbq6p7cS5X7gF5Z6HEZ2T6QHo3Z+tfEZAPeGfOfiun15kqxaardGLnl0Zz4b
+	mTHGPWLoISi8nc4sgxwqejS7QzEnX572JGU6D0A9CSPWg7wtkhV/8dnteZkKgY77lgztYK
+	TMV+2hhiahKs40JSX0J9m6xncftzo8k=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Eric Chanudet <echanude@redhat.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Maarten Lankhorst <dev@lankhorst.se>, 
+	Maxime Ripard <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>, 
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, 
+	Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] mm/memcontrol: add dmem charge/uncharge functions
+Message-ID: <ahB7pCu_G4vuswc0@linux.dev>
+References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
+ <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 22 May 2026 13:08:08 +0200 Alexander Lobakin wrote:
-> >> There are at least
-> >>
-> >> include/linux/mlx4, include/linux/mlx5 and include/linux/bnxt.
-> >>
-> >> Those are per-driver and not per-vendor, but intel ethernet has too many drivers 
-> >> to have separate folders for them.
-> >>
-> >> I just do not think this creates a precedent neccessarily.  
-> > 
-> > You just said the other ones are for specific drivers.  
+On Tue, May 19, 2026 at 11:59:01AM -0400, Eric Chanudet wrote:
+> Add mem_cgroup_dmem_charge() and mem_cgroup_dmem_uncharge() to allow
+> dmem pool allocations to optionally be double-charged against the memory
+> controller. Take the struct cgroup from the dmem pool's css as there is
+> no convenient object exported to represent these allocations. These will
+> resolve the effective memory css from that cgroup and perform the
+> charge.
 > 
-> Right, but according to your earlier suggestion they belong to
-> include/net, not include/linux.
+> Introduce a MEMCG_DMEM stat counter to memory.stat to make the cgroup's
+> dmem charge visible.
 > 
-> My understanding is that they're under include/linux, not include/net as
-> mlx5 is not only about Ethernet, but also RDMA etc. The same applies to
-> Intel's headers.
+> Signed-off-by: Eric Chanudet <echanude@redhat.com>
+> ---
+>  include/linux/memcontrol.h | 16 ++++++++++++
+>  mm/memcontrol.c            | 65 ++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 81 insertions(+)
 > 
-> What's your position after all this? Still include/net/intel? This
-> commit is about stopping scattering Intel headers all over include/linux
-> and set one place for them.
+> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> index dc3fa687759b45748b2acee6d7f43da325eb50c1..8e1d49b87fb64e6114f3eb920293e14920290fe7 100644
+> --- a/include/linux/memcontrol.h
+> +++ b/include/linux/memcontrol.h
+> @@ -39,6 +39,7 @@ enum memcg_stat_item {
+>  	MEMCG_ZSWAP_B,
+>  	MEMCG_ZSWAPPED,
+>  	MEMCG_ZSWAP_INCOMP,
+> +	MEMCG_DMEM,
+>  	MEMCG_NR_STAT,
+>  };
+>  
+> @@ -1872,6 +1873,21 @@ static inline bool mem_cgroup_zswap_writeback_enabled(struct mem_cgroup *memcg)
+>  }
+>  #endif
+>  
+> +#if defined(CONFIG_MEMCG) && defined(CONFIG_CGROUP_DMEM)
+> +bool mem_cgroup_dmem_charge(struct cgroup *cgrp, unsigned int nr_pages,
+> +			    gfp_t gfp_mask);
+> +void mem_cgroup_dmem_uncharge(struct cgroup *cgrp, unsigned int nr_pages);
+> +#else
+> +static inline bool mem_cgroup_dmem_charge(struct cgroup *cgrp,
+> +					  unsigned int nr_pages, gfp_t gfp_mask)
 
-I strongly dislike the idea there are "intel" headers. Header files
-are not sorted by vendors. That gives off way too much "Intel's corner
-of the kernel" vibe. "net+Intel" is fine, but Intel by itself is too
-broad.
+Please follow Johannes's request to pass the actually memory object instead of
+naked numbers.
 
-So IDK. include/net/intel is fine. So is the current layout. Or stick 
-to driver / module by module like other vendors.
-
-> >> Folder structure is for you to decide as a maintainer, but it would be nice to 
-> >> have known about such doubts earlier.  
-> > 
-> > I'd love to know if you any suggestions for improving the process.
-> > Otherwise please keep your venting off list.  
-> 
-> I think Larysa just wanted to say that you disliked this commit after
-> the series went through several iterations on IWL and 3 iterations here,
-> nothing more. It's not about the overall process.
-
-Intel has a strongly negative reviewer score right now.
-IMHO it's not appropriate for y'all to complain about upstream
-reviews, or how long it takes to get your patches merged...
