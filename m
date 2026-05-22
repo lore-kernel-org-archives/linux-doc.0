@@ -1,132 +1,96 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9391D360EE2
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 07:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E3FE21CFEF;
+	Fri, 22 May 2026 07:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779433786; cv=none; b=bg7ctcTuQTUIz6PyYXNObKWn40qW7Ft4LHs1l59pWD0WZCqy31l51DXqlkE+RMI6neJAFlg80d9zQhZ5ypQIAMjs5zOG/Yy7yozWAwxsFea0yfQf33EP8LuMg7HsVFZg9yh//SzfuqcEWHAtizkWoWMaUDXWcYP7Xmx/FcP6TBI=
+	t=1779436689; cv=none; b=l7GugixlU5o4xKHovY7IV7IPjf9bb4ZIuqGXT5Cu4tnIS7p5D+VxyLkv5oSOwbCXbT59ZYeIxtp6Lxvc8N/2ukRV00TBe1g0kxE5EvySCXD8aTSF6Fx0aDkwiIZjIyrJSDQvFb3ISnZiebkr7mlvUeFFWtFxTVardh0cK0BlR5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779433786; c=relaxed/simple;
-	bh=ITud2w1YmfwAO2VG3810GZ12MSpFc0lANmn3XqSQLCI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UTXeUna4rOVpoBXuiA9nFB1zsBeVyHrgCa0WFTgq7jNAKnYhlO2DCZyCZBbnP8oxltXMtTf+pZCbw5SoxojI2KrHazPsms0b/wZrBqGgrWgL/uNzg/m1kgDXSwQ6dxh8Xw2nnOLInRrBbXLeCPQv6ibc7rm6N65dsX0etfIu6d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fF3US9QS; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779436689; c=relaxed/simple;
+	bh=6DH+9GzQNL4JgPdR+fLOz+zXu0Y8QxxWz1x9Tzd67aE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=V+TA2Ej3nlr6MsOED85TU5WMYWykhVI7I/FCx9kJKh0UBiNx4WOuuhUnO8icg9SUuhcymPyZkG0fycfk/8KKh1ZNVjwdEQhJTpd6rBiZCJV+Oxc1cojQpXQlAIKoG4xyP2G4P0oTK1RNcCTmEAHTOFbYGY3ImbiaZrhy3k4XRt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chengyaqiang.com; spf=pass smtp.mailfrom=tsinghua.edu.cn; dkim=pass (1024-bit key) header.d=tsinghua.edu.cn header.i=@tsinghua.edu.cn header.b=BeLBGwoY; arc=none smtp.client-ip=207.46.229.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chengyaqiang.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tsinghua.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fF3US9QS"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43d7e23defbso3889632f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 00:09:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=tsinghua.edu.cn header.i=@tsinghua.edu.cn header.b="BeLBGwoY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779433783; x=1780038583; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ITud2w1YmfwAO2VG3810GZ12MSpFc0lANmn3XqSQLCI=;
-        b=fF3US9QSOg0jR7mg8bVvFDg4FAOM/oeby6dPHfhzLlsMYMDQTeVnksFjWi+hiQQOHN
-         YnKstYwJWBPMR9G7j3jGc8lXB+426si++WGQW5pH1NE57mfbhG/Qqx1V9Ekz+5iJ7y+2
-         cX6+aJ4b0IyCAs72cKGRhxjb7LVAdCQrGEGXasQTJen5+Q0pBQeySpGUqPdBgtRjA78w
-         G80VTfGsFjBlVxUTzCGQwV+geZqsjwTK/oU7ADUp7x9EBp+XZ3fGnmVGuFwGZ3aMNoDQ
-         IX1TT94x+oE5PxW+JhIa5JNNxTIsmm3hGCMtsJnG7seAEMQBhS+sw7BUsr/w2oy7DOnR
-         LOYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779433783; x=1780038583;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ITud2w1YmfwAO2VG3810GZ12MSpFc0lANmn3XqSQLCI=;
-        b=GJSF42NECg9MTGGR78AjMrPRO7UzqrA+CZHzBRfQj64G1fHjwEaIKU5vOiYsVMeSIV
-         PuyDQ/0+PY9KrF99PvJ47FfFVj+FR229yb7EV6AhzibSE8MbMBjemWHJBtIJ6WMDy2Zl
-         P7Jk3CTXoU+FPYPI0mDdMMmK4P9oHKAjheK70+QD7E1b+qkKqG0/3FUtbXdVUrVg+6DH
-         uUH+6cr4eXaXdrv1gBE3XTjAwB6L1IylEJKrnlTHBgOYAz+a12i5hvv19nUFiD+JMYqm
-         X1BhyVI8Rfi72eJ3hbFYQ+qvLQMBRVFcnnLH+cG2exIFGZBLit8evEDBD0C84we8kdc9
-         LvVA==
-X-Forwarded-Encrypted: i=1; AFNElJ9HP7RLVYoPEeS7uMNZ1BdDAiuCe5BWwDhRYlCFnpY7l7JaPOyyjGEiiwGAcjKlMcWjIjQ41T3JPos=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSEq0c5YUcZWWJTp+QcnBmQV0CaL86ty6QPxHhWpLm5Ji1Fzni
-	8LHCbvKPILeB+YjJ+jjB2zivrioqHcd5YwcUoDEoCgQ5uNrm/u7r89kR
-X-Gm-Gg: Acq92OFal0kesN7DMnELBD1zA3oIVRvsQWqTTa9R9buzaVWADQ18NkiU0GKsJ1JAHCC
-	eZj/rdAt4d363MIthTjtYfXpyJsx4iUgc9DDzg1oVn2Kolg5mlgZ24wuPOAzeYbaxdmV4RJYdHk
-	Tvj5PkrzwmR2hihDHwMGwSGoCte0x4F45mZLj+SZJV34oyrGkkusycXxvzCFx+FvLaKpsOznaGJ
-	NpkQcIuu9HK17ssUG/GayXMb2i0Q/G2C9pLqF2a51ZAdtS8Zd2/wsbKpEa936nvQdaJvqWe8ZKR
-	+DCsP6JywAqjCHs+6T9zOqm1/l7ciEEqlxSuvxocslKb2T5Vc520uWNTR+EyvxMMiYZUqz88Wgn
-	tKZl3HfI3Ojnoz3AbQj98Lkujm6AJSlvresvg0vhlf9nT5R7Q0BeBm9syLCS4aQGDMV+XzrU5ri
-	RWvdxGhBTHRHGX7Y/NmfmM1BbHBphQn/A=
-X-Received: by 2002:a05:6000:290c:b0:455:d927:1b30 with SMTP id ffacd0b85a97d-45eb38af531mr3150303f8f.28.1779433782717;
-        Fri, 22 May 2026 00:09:42 -0700 (PDT)
-Received: from strix.localnet ([197.250.51.26])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6ccd211sm2307866f8f.10.2026.05.22.00.09.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2026 00:09:41 -0700 (PDT)
-From: Stefan =?UTF-8?B?RMO2c2luZ2Vy?= <stefandoesinger@gmail.com>
-To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Linus Walleij <linusw@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- linux-arm-kernel@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] ARM: zte: clean up zx297520v3 doc. warnings
-Date: Fri, 22 May 2026 10:09:31 +0300
-Message-ID: <13240501.O9o76ZdvQC@strix>
-In-Reply-To: <20260521191458.177046-1-rdunlap@infradead.org>
-References: <20260521191458.177046-1-rdunlap@infradead.org>
+	d=tsinghua.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Sender; bh=8VgIbpLspPVuSJVo2v5T1RA0Ear2/5R2/IA8MuULdwA=; b=BeLBG
+	woYl/D98nGbncrLGXxaV9QuwBbrukrFyVBMPwu0In6gugYEs2zEqT/xbXdgFyPTw
+	q4D+fp5gPTuXvyWZ5COZ5WXnuCpBt2JKUPYr3mbPg2RCso1JuABEcL7o3RGcDssF
+	LIKURrbp75RKSjkcBZwrUhi6EFoiejVcYsHlyg=
+Received: from mail.tsinghua.edu.cn (unknown [114.244.130.223])
+	by web2 (Coremail) with SMTP id yQQGZQD3hJxwDBBqRpm0AQ--.15810S2;
+	Fri, 22 May 2026 15:57:37 +0800 (CST)
+From: chengyaqiang <chengyaqiang@chengyaqiang.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	chengyaqiang@tsinghua.edu.cn
+Subject: [PATCH] docs/zh_CN: fix KASAN SW_TAGS mode description
+Date: Fri, 22 May 2026 15:57:35 +0800
+Message-Id: <20260522075735.2022734-1-chengyaqiang@chengyaqiang.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart6337413.DvuYhMxLoT";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:yQQGZQD3hJxwDBBqRpm0AQ--.15810S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4fKFyDJFy3JrWDuw47XFb_yoW8XF13pF
+	y0krWIyF1Ivr15GrW8CF4DGryUGFn3GFW5G3ZxXa4Yqrs5J39Yyr1Ykr9FqFyxuwn3AFWY
+	yFsakryavryqywUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Gb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4
+	CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26r4r
+	Kr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0aVACjI8F5VA0II
+	8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6r4xMxAIw28IcxkI
+	7VAKI48JMxAIw28IcVAKzI0EY4vE52x082I5MxAIw28IcVCjz48v1sIEY20_GrWkJr1UJw
+	CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
+	14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
+	IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxK
+	x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+	0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IUUqXdUUUUUU==
+Sender: chengyaqiang@tsinghua.edu.cn
+X-CM-SenderInfo: xfkh0w51dtxttqj632xlqjx3vdohv3gofq/1tbiAgMPB2oP+G0oeAABso
 
---nextPart6337413.DvuYhMxLoT
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
-From: Stefan =?UTF-8?B?RMO2c2luZ2Vy?= <stefandoesinger@gmail.com>
-To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] ARM: zte: clean up zx297520v3 doc. warnings
-Date: Fri, 22 May 2026 10:09:31 +0300
-Message-ID: <13240501.O9o76ZdvQC@strix>
-In-Reply-To: <20260521191458.177046-1-rdunlap@infradead.org>
-References: <20260521191458.177046-1-rdunlap@infradead.org>
-MIME-Version: 1.0
+From: chengyaqiang <chengyaqiang@tsinghua.edu.cn>
 
-Hi,
+CONFIG_KASAN_SW_TAGS enables Software Tag-Based KASAN mode, not Hardware
+Tag-Based mode. Fix the incorrect translation in the Chinese documentation.
 
-Am Donnerstag, 21. Mai 2026, 22:14:57 Ostafrikanische Zeit schrieben Sie:
-> Fix multiple documentation build warnings.
-> Improve punctuation and formatting of the rendered output.
->=20
-> Documentation/arch/arm/zte/zx297520v3.rst:66: WARNING: Title underline too
-> short. 3. Building for built-in U-Boot
+The original text incorrectly described both CONFIG_KASAN_SW_TAGS and
+CONFIG_KASAN_HW_TAGS as "基于硬件标签" (hardware tag-based).  Correct
+CONFIG_KASAN_SW_TAGS to "基于软件标签" (software tag-based).
 
-I am sorry for the mess. I'll look into doc building before I send clock=20
-documentation...
+Signed-off-by: chengyaqiang <chengyaqiang@tsinghua.edu.cn>
+---
+ Documentation/translations/zh_CN/dev-tools/kasan.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Stefan D=C3=B6singer <stefandoesinger@gmail.com>
-
---nextPart6337413.DvuYhMxLoT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEQxb0tqoFWyeVMl1sPRO8yFRPGiIFAmoQASsbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJED0TvMhUTxoi9S8P/0ouABngGtPJ84cmw4RC
-cbqM4oJrW6XF5yNOG46jKfbkPVNxVF38uLq9j1Cs/A3pMEjSVZTw6TaD+Hy9KQyz
-aav5x5GvppMQZsKkN450SjSQ7XMPs6oME4/a+EWjxoHkI5U6WqHmCFs2U0c4kDsE
-rvAc7fjpHKmhwJDcju8G6vDLM5kROmPTOjUSF6XVlCh7Tv3JkIyTTEmc3nmeuOtO
-dN6SQFL7CfIFDjDGD47YCd70ULmdQEO3JA1Dk9+/svi1TzT+ChofOUWiv+MVLLxr
-yfPFVwAln76gKjl72l9I5Z+nT66iyAZaKbVEXWHLoIluN9A3HcvTvu038WksdrF9
-9pwMl2HGWHmjkKap5gvNliNO9vCLoP6a3PZQ2dKi+StACqwPcr5aSmjZ0Se5jaoP
-QBSNuUKuymsgfmMxXm5LpBA2jo5TO69zpzVS1z/q0Qo5f0de+WYlCgORFR/NWgbN
-yijb3xgCbQvGdjWneTakUmwJ9YnTXhxo5rHGnSOLOQl8PVDljl19nCF9eKvyWT0o
-1YkP1K4zl35l1pM9Bfl03xeCKxGXxv13vXmsUEkpJ+wLjahSB7qgq0o1IT1Sto0b
-2GOk33H1rDPuOtaWFm+GGQlIF8ePYD3pj35T0qmibb1emFFg2M+rxgRpo8L+gJJ+
-P+clcDXhcoEhSIUTevSmqOiS
-=kFBP
------END PGP SIGNATURE-----
-
---nextPart6337413.DvuYhMxLoT--
-
-
+diff --git a/Documentation/translations/zh_CN/dev-tools/kasan.rst b/Documentation/translations/zh_CN/dev-tools/kasan.rst
+index fd2e3afbdfad..767b280d8af0 100644
+--- a/Documentation/translations/zh_CN/dev-tools/kasan.rst
++++ b/Documentation/translations/zh_CN/dev-tools/kasan.rst
+@@ -79,7 +79,7 @@ KASAN只支持SLUB。
+ 	  CONFIG_KASAN=y
+ 
+ 同时在 ``CONFIG_KASAN_GENERIC`` (启用通用KASAN模式)， ``CONFIG_KASAN_SW_TAGS``
+-(启用基于硬件标签的KASAN模式)，和 ``CONFIG_KASAN_HW_TAGS`` (启用基于硬件标签
++(启用基于软件标签的KASAN模式)，和 ``CONFIG_KASAN_HW_TAGS`` (启用基于硬件标签
+ 的KASAN模式)之间进行选择。
+ 
+ 对于软件模式，还可以在 ``CONFIG_KASAN_OUTLINE`` 和 ``CONFIG_KASAN_INLINE``
+-- 
+2.39.5
 
