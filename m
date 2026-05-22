@@ -1,111 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864843B1025
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 13:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C303AEB49;
+	Fri, 22 May 2026 13:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779456284; cv=none; b=Y9wBjRPL51m+Mm6hXlJ+l4ABZ0xj6JAezsL6dFXHziHuo/tRw+aqn2ibfmEHEZag2aABMMFf8jwZ9eUqH3jIeBj5G5zndVUrgsQmCoxZghH/9esQr7ZY8PZ8e2HQtkqE6O2D5T1rMY3vYxa75ViwMDq08vVLEUTnZDRxCCnHXLI=
+	t=1779456601; cv=none; b=R5ugbH/ZBoEOHalpAn4pbU041hMwXZsg48yZEL3f9uau5WJLc5nudzfJeurRi3uKoqW1NPCNmLOPV1awDLtX7D/w6e6Tww5CYd5l22BlSy7a5L/b1K7FKnsQeDJ8AVjRBHdv57mSOV2xeTMoyEFlgGndCDU1nEi3uDogiXwpNvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779456284; c=relaxed/simple;
-	bh=S0TQlTS9Waa8R50WM3+GqCpY+opXgwoEVdhYPjKC2Mg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=qDmgSO5joKqyNNJdX66YOIWNHomSrb3q+31w1/6qHOmm/sowmkveqHLxGFJW+eCdT7Ezj940v4Xfvf/+boNrLate2AMIcf1ZcDxLcg8PuCfmlWVqwPq1LxBO4oa2WeT+HYqfrf5Y87J0Srtga4zlvV18kJnf3DCWOLfLan36Qlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJ7GjmfQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779456601; c=relaxed/simple;
+	bh=rCyOu9JLzXkaUjqAe9b9lMev4R9PVVH7ZFa06IgU2bA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=BMBRIh+ChmUL5WypRuSpfJLnAlf7RpWhgA3X/dKt37XNgOGHp2VkfuTbiLNKwW+9cY0zUpLIAw8TtPEyBSiB4iLiY2JUXX1I+q7bfBQHQrWe2b7mx8332Ay4hcU4MYBcyFMwKcXfSz4BX11QRwX1/mjRflai4nmeItQKF1Ln6WA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ekdqRlxI; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJ7GjmfQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCE111F000E9;
-	Fri, 22 May 2026 13:24:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779456282;
-	bh=djYZO7B6j5qfNS44WlyM0vd6bnxsw4yR0MQCeW99vcQ=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=IJ7GjmfQxiYksrTt6Hl3/nRvGK+Qi3ACGJhjImBtJ77w+nNR7Htzhtb7uzM3qiZH+
-	 3QC5qg3tUM0KpVqlyg7rLslBKa9wNGoifpQvog5x1+FASI1PpaL1Sdp/OwOML30Cb8
-	 sp5/I1Bo4NKP0JYG2v0O2d1bOmwQceDroHH906hhvm2+TeXvJWRhdtX6s4zWyE9rzp
-	 OMm52flYER0TYAPD2bxYDH+MQPzdVAkvq8UW7uCBj88d9E+FIO7/q/UVQCH+TnCrec
-	 AjZRPlhVBAkMPapjSQ+V3U5H86nmIw7w6//aoHlUngPmXZjfBjV/UGclfAo4ZNOBUu
-	 gxnBmxUtaVnKQ==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id E829BF40078;
-	Fri, 22 May 2026 09:24:40 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Fri, 22 May 2026 09:24:40 -0400
-X-ME-Sender: <xms:GFkQavj7efyhifdMwh71DEQiXDN7cvfq0ygod7hayWWyG_xEyqm1bw>
-    <xme:GFkQam3sf0zxjbynVkLidTq1o1VmxwIwNgO12pDv1AhJRL0b57Gxj3hJG_IxM8Nz2
-    bNHWpiz4AR5SIRVq9F5DFEVbBvuhwGuaJs3eF6wKyW42KJRMve-YOE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduhedtvdekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
-    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
-    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
-    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
-    hilhdrtghomhdpnhgspghrtghpthhtohepudejpdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehnvghilhessghrohifnhdrnhgrmhgvpdhrtghpthhtoheprghlvgigrdgrrh
-    hinhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhl
-    rdgtohhmpdhrtghpthhtoheprghnnhgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    gsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjlhgrhihtohhnsehk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehtrhhonhgumhihsehkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopegurghirdhnghhosehorhgrtghlvgdrtghomhdprhgtphhtthhopegt
-    rghluhhmrdhmrggtkhgrhiesohhrrggtlhgvrdgtohhm
-X-ME-Proxy: <xmx:GFkQaomfvyepbhCcp14jV2zLQQ1ff9dUHXLOwwbWsz2EBlO6t8lauw>
-    <xmx:GFkQaiG29wJHigWEuDDC_T4-deB1c7DMbI5ZbNEcd_FWPTDlfWCXCw>
-    <xmx:GFkQasHNrvJAmleWa_bwDDQLu0acstQLhLqLafWVbSLgRU0gboqhfw>
-    <xmx:GFkQaq0g1Ld9TFhi-N3czujn4zUWrd30EPICfNWduZ4YdpxgbPJO6A>
-    <xmx:GFkQaufuQ2JzLddd-qtXseskjuvJP9Glt3j_KbSww7DbqUgPcVtADhiw>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9D081780070; Fri, 22 May 2026 09:24:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ekdqRlxI"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 53DE340E24
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1779456593; bh=0IE3ADjOn6A63eoEwUFCog4etJknRGr4fBE0QDME9NA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ekdqRlxIqDCU40U8uQ69u0A4BddD5Jx1Lf/Fat7KfU+seye680QGTXbUKQYlMo09N
+	 EcoQ6dLTPZqViWcJOZFSVVVDLGGUwham58zAiNBynQR1i+L0ntcUSlfzh9+oesB29r
+	 OvJ/wWAbCM7C50K9TPIOS8Ih3AQ08eJKOZN1EimzO8MKmju9bvRbwhafHlPagj5mKD
+	 EascH/vCPevMY22ZbqOsR2SYbpjyf3/R0ZB8HzA2bs+OYShr0IxhsQMV1QfnLEV/Wq
+	 1rLee8azS39oBqpDEh+0PhhZjqEZOanVLPTjtrvQjbgqxrSNIurJBridpl9uq2ZSw3
+	 xHk5jtiptMiWQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 53DE340E24;
+	Fri, 22 May 2026 13:29:53 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: omkarbhor4011@gmail.com
+Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Omkarbhor4011@gmail.com
+Subject: Re: [PATCH] docs: fix typo in Sphinx custom CSS
+In-Reply-To: <20260522003156.70389-1-omkarbhor4011@gmail.com>
+References: <20260522003156.70389-1-omkarbhor4011@gmail.com>
+Date: Fri, 22 May 2026 07:29:52 -0600
+Message-ID: <87ik8f4lnz.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AfCo-GjsFSDg
-Date: Fri, 22 May 2026 09:24:20 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jeff Layton" <jlayton@kernel.org>,
- "Chuck Lever" <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>
-Cc: "Alexander Aring" <alex.aring@gmail.com>,
- "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>,
- "Calum Mackay" <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Message-Id: <be0feab5-5be2-495f-beb4-bae9cd876e30@app.fastmail.com>
-In-Reply-To: <20260522-dir-deleg-v4-20-2acb883ac6bc@kernel.org>
-References: <20260522-dir-deleg-v4-0-2acb883ac6bc@kernel.org>
- <20260522-dir-deleg-v4-20-2acb883ac6bc@kernel.org>
-Subject: Re: [PATCH v4 20/21] nfsd: track requested dir attributes
 Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
+omkarbhor4011@gmail.com writes:
 
-On Fri, May 22, 2026, at 8:29 AM, Jeff Layton wrote:
-> Track the union of requested and supported dir attributes in the
-> delegation, and only encode the attributes in that union when sending
-> add/remove/rename updates.
+> From: omkarbhor4011 <Omkarbhor4011@gmail.com>
+>
+> Signed-off-by: omkarbhor4011 <Omkarbhor4011@gmail.com>
 
-Nit: The encode-time use of dl_notify_mask for NOTIFY4_CHANGE_DIR_ATTRS
-is wired up in 21/21. This patch adds only the tracking; the per-event
-encoder change lives in the subsequent patch.
+For future reference, please include a proper changelog and your full
+name in the signoff.  That said,
 
-
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 > ---
->  fs/nfsd/nfs4proc.c  |  9 ++++++---
->  fs/nfsd/nfs4state.c | 14 +++++++++++++-
->  fs/nfsd/state.h     |  2 ++
->  3 files changed, 21 insertions(+), 4 deletions(-)
+>  Documentation/sphinx-static/custom.css | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+> index f91393426..5aa0a1ed9 100644
+> --- a/Documentation/sphinx-static/custom.css
+> +++ b/Documentation/sphinx-static/custom.css
+> @@ -30,7 +30,7 @@ img.logo {
+>      margin-bottom: 20px;
+>  }
+>  
+> -/* The default is to use -1em, wich makes it override text */
+> +/* The default is to use -1em, which makes it override text */
+>  li { text-indent: 0em; }
 
+This one is already fixed in docs-next; that (or linux-next) is where
+you should be preparing documentation patches.
 
--- 
-Chuck Lever
+Thanks,
+
+jon
