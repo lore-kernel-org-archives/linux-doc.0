@@ -1,219 +1,132 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA336360EF6
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 06:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779429825; cv=pass; b=SLz4C6p9yx4IiPEPoHJvolS5DkpSLxVQ9gdUdAoKBMdEqc7p7HZqrAMI+JaRdwnFg4EsEz15fyzpB5taOEzlqa1cKePCZY6J3OMI9G2goKFvFF9R/lV3VI7lY1IHUjwkMn7bL8W2NX1+wGhZoV5cvMRSydx86W4jfq4kx6aJIhY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779429825; c=relaxed/simple;
-	bh=HhLz431XC/1SBtKZs6jOZJe1J0Hy0TUDih2j/njNowo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AQwQKOr9lcOfvXDyB3RVflkFH6+6H51PEhOS3joQpFNqB2FiPQEZNhbzTr3xmIS9FEJvQ2SPaPFKPC1zkSjDJqLQmxRxpT4dgs2TJabArBJWgwCxcgWhVDVJGhqGQR0l/DlblACkEneehiBIF+G6fFR55glFI1rDuBKpHFX75AM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m79J9SIe; arc=pass smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9391D360EE2
+	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 07:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779433786; cv=none; b=bg7ctcTuQTUIz6PyYXNObKWn40qW7Ft4LHs1l59pWD0WZCqy31l51DXqlkE+RMI6neJAFlg80d9zQhZ5ypQIAMjs5zOG/Yy7yozWAwxsFea0yfQf33EP8LuMg7HsVFZg9yh//SzfuqcEWHAtizkWoWMaUDXWcYP7Xmx/FcP6TBI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779433786; c=relaxed/simple;
+	bh=ITud2w1YmfwAO2VG3810GZ12MSpFc0lANmn3XqSQLCI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UTXeUna4rOVpoBXuiA9nFB1zsBeVyHrgCa0WFTgq7jNAKnYhlO2DCZyCZBbnP8oxltXMtTf+pZCbw5SoxojI2KrHazPsms0b/wZrBqGgrWgL/uNzg/m1kgDXSwQ6dxh8Xw2nnOLInRrBbXLeCPQv6ibc7rm6N65dsX0etfIu6d0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fF3US9QS; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m79J9SIe"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2f03d6cf77bso7045314eec.0
-        for <linux-doc@vger.kernel.org>; Thu, 21 May 2026 23:03:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779429823; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dNrw4sMnCeuW0TjnRV/+OwQoJiqzTpuqFQydaHZqZuBKDahZoeXsXnLGaYMrZemU4V
-         PEScYHmLNBqtf/dYwPkpGjmUG2p022IKsBEYe7Sa6oRUith/1vwv8DSB5eoLjV2Dpn/x
-         behitoy1KwConS6NAQAnDwsRAuO1jiLoZdjKPl4G+pYJMc42tc2QHjC0Sr1SnW2IwmjU
-         OuZjRs96t2lNOKMynsqPF4UpegNWpQOEpbalMgsngVR5W1ISb1nDiLGWcpORN4mnOt8U
-         SC62CrqzOyeVQgoo4YSfDYTPz32WKqNBT/gU7LQ3IwDIVqNgmRkjZqMCmJ3jC5JQxTtK
-         CEAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dQ6hVnT8+IvfQww+UWuTp0nQS0/uDMuAD01ImXMAqTM=;
-        fh=oWWyytKhcIPQKm624e9LgqdbQwyjtX6JHKuiWVYW5sY=;
-        b=V4Ea28n7UvI1DT+SDuC67nGepRudAIsAwZomG21RppSVnmF4dNwEEc+Wj/u/w/Fy3I
-         X7V1tqlUGXGtqwv/kVzeJUKoxfwPovzDEIxLP7bEIKei+8FuyM0n6aTTH2IyTNXuGFp9
-         GI+RJ6kHfu81m8GqRsviL/rpZqpVqLNmvAAHiF8pG2ZDX6n8k/nnUYKA1W8K8zLpoMc5
-         Ly9khTXD23DF9HU8zUrGvZps0/mmiITd68U1ebJHEK5pC1tQX40QPH/vsK79HF8c+uFh
-         3bVhVgO9z+VzuKeSVz9D/hpnDZHKzqlXGmxeSNNZL0Sq2LPrG7LJiI+CqGPetuzvpJjy
-         TVsQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fF3US9QS"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43d7e23defbso3889632f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 00:09:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779429823; x=1780034623; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dQ6hVnT8+IvfQww+UWuTp0nQS0/uDMuAD01ImXMAqTM=;
-        b=m79J9SIeYJVw+fQtfY7IjR5CxEzgTT0XMaFULHPp4eWRK9UX4oCciHJkykyDXx8iTj
-         uhlfjH/HOXznWzetoZbEqNoVhVyzBJ+vYkVcQvnGyeN9mJiufKkt9dv4qQ4V4rjJUgCV
-         +IC1fWbZEiOqRmGSQD/YF2vxnDniLh0Attw2w2t3bjS9DevywxkRfZ9MU82XQCi+eqK4
-         BeQr9ne7R6OZiThcEeAZDYkfdzBfaPLlcQZw0rPlkGA1T5cu9QWisc4YRlqgY5cgglGu
-         O0vy98ybuRYcm/ZX4A131awzxC3/oCd4SWVvsW+3XoJad6a2mGzVr2IMre+NM+IteFGX
-         Kwxw==
+        d=gmail.com; s=20251104; t=1779433783; x=1780038583; darn=vger.kernel.org;
+        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ITud2w1YmfwAO2VG3810GZ12MSpFc0lANmn3XqSQLCI=;
+        b=fF3US9QSOg0jR7mg8bVvFDg4FAOM/oeby6dPHfhzLlsMYMDQTeVnksFjWi+hiQQOHN
+         YnKstYwJWBPMR9G7j3jGc8lXB+426si++WGQW5pH1NE57mfbhG/Qqx1V9Ekz+5iJ7y+2
+         cX6+aJ4b0IyCAs72cKGRhxjb7LVAdCQrGEGXasQTJen5+Q0pBQeySpGUqPdBgtRjA78w
+         G80VTfGsFjBlVxUTzCGQwV+geZqsjwTK/oU7ADUp7x9EBp+XZ3fGnmVGuFwGZ3aMNoDQ
+         IX1TT94x+oE5PxW+JhIa5JNNxTIsmm3hGCMtsJnG7seAEMQBhS+sw7BUsr/w2oy7DOnR
+         LOYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779429823; x=1780034623;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dQ6hVnT8+IvfQww+UWuTp0nQS0/uDMuAD01ImXMAqTM=;
-        b=S+Zi9So7MsUUORdVU1K3oFjzUhO66xPsrDiyQHkPm8/pO9hFAniNHVUMzualMifmev
-         3v4I4T5B/iM4v14wQuvdcFo2FBOiD9kPPPUCQA8N3t2xMLBxOSizgql2F/humDR9y12Z
-         7oQ+/w0nAjpJfg2iGed6OMbA7/gHGho/hd0LfFuHRdmsUEs8XRCw5IUBkMTVWR/r4hgL
-         OWf+jQvvTBbRRKEvGbn/78YETrVoRWa20/syAExoB9zbQ9JXZ/OyxRAwyI1NXvxNn2Ne
-         15gFb7zaufdVEchJOZB9WxkBuvXXaXmh23svPnI1eovnOqnk26SeywS1SMMXR3lfhNsY
-         Iztw==
-X-Forwarded-Encrypted: i=1; AFNElJ9+CjR7kCUrjnZuG8L7PX2/S9+pAPL0fjo0eGm+arYY7EqguiHeYsdNyygtLE15NG+OTRr/EibK9L8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzrbT/YWaSycAlBwQVYT0FCmhA4ALf5UDmqkm42TJZ5io0o/ZT
-	I/aO0iWZ2gz5Sa1d1X5YNvgPgaDF0zMAJELO23DTaB6PpPUHv3XliKQVL+rgZLmJhG9zpiUGUVy
-	J2QZt28Sdek60kgi48a4LxR8HC1IZwAk=
-X-Gm-Gg: Acq92OHwRBN88cAragcqwALwgApyzN4lDxQjaBrVHIONwHGtTNKD4eqNYIS12TgJdaW
-	SWOThfJjm4wWU0aRttgie2a/nxgly1hn9wP7jzAhvxMlN3KAJ6O8PaVKGbdJLLE33sBBad/x4sV
-	JpwyAI4ufHflx8K5in14rgDueml1LhDwbDG22eMVqDgb6sU6MgfSyUqKGjrHXdO+b5/JjZCVRSE
-	GTXYd+bWJsIfDIU9BiajXqX+zpIeo7iAf6IyvCm9aaxcijW5W0gNZJDgYTo8G3YuW/7hRjP9RRE
-	BrSLNQ==
-X-Received: by 2002:a05:7300:a509:b0:2da:2ec2:64e5 with SMTP id
- 5a478bee46e88-304491840e6mr1102704eec.18.1779429822576; Thu, 21 May 2026
- 23:03:42 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779433783; x=1780038583;
+        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ITud2w1YmfwAO2VG3810GZ12MSpFc0lANmn3XqSQLCI=;
+        b=GJSF42NECg9MTGGR78AjMrPRO7UzqrA+CZHzBRfQj64G1fHjwEaIKU5vOiYsVMeSIV
+         PuyDQ/0+PY9KrF99PvJ47FfFVj+FR229yb7EV6AhzibSE8MbMBjemWHJBtIJ6WMDy2Zl
+         P7Jk3CTXoU+FPYPI0mDdMMmK4P9oHKAjheK70+QD7E1b+qkKqG0/3FUtbXdVUrVg+6DH
+         uUH+6cr4eXaXdrv1gBE3XTjAwB6L1IylEJKrnlTHBgOYAz+a12i5hvv19nUFiD+JMYqm
+         X1BhyVI8Rfi72eJ3hbFYQ+qvLQMBRVFcnnLH+cG2exIFGZBLit8evEDBD0C84we8kdc9
+         LvVA==
+X-Forwarded-Encrypted: i=1; AFNElJ9HP7RLVYoPEeS7uMNZ1BdDAiuCe5BWwDhRYlCFnpY7l7JaPOyyjGEiiwGAcjKlMcWjIjQ41T3JPos=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSEq0c5YUcZWWJTp+QcnBmQV0CaL86ty6QPxHhWpLm5Ji1Fzni
+	8LHCbvKPILeB+YjJ+jjB2zivrioqHcd5YwcUoDEoCgQ5uNrm/u7r89kR
+X-Gm-Gg: Acq92OFal0kesN7DMnELBD1zA3oIVRvsQWqTTa9R9buzaVWADQ18NkiU0GKsJ1JAHCC
+	eZj/rdAt4d363MIthTjtYfXpyJsx4iUgc9DDzg1oVn2Kolg5mlgZ24wuPOAzeYbaxdmV4RJYdHk
+	Tvj5PkrzwmR2hihDHwMGwSGoCte0x4F45mZLj+SZJV34oyrGkkusycXxvzCFx+FvLaKpsOznaGJ
+	NpkQcIuu9HK17ssUG/GayXMb2i0Q/G2C9pLqF2a51ZAdtS8Zd2/wsbKpEa936nvQdaJvqWe8ZKR
+	+DCsP6JywAqjCHs+6T9zOqm1/l7ciEEqlxSuvxocslKb2T5Vc520uWNTR+EyvxMMiYZUqz88Wgn
+	tKZl3HfI3Ojnoz3AbQj98Lkujm6AJSlvresvg0vhlf9nT5R7Q0BeBm9syLCS4aQGDMV+XzrU5ri
+	RWvdxGhBTHRHGX7Y/NmfmM1BbHBphQn/A=
+X-Received: by 2002:a05:6000:290c:b0:455:d927:1b30 with SMTP id ffacd0b85a97d-45eb38af531mr3150303f8f.28.1779433782717;
+        Fri, 22 May 2026 00:09:42 -0700 (PDT)
+Received: from strix.localnet ([197.250.51.26])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6ccd211sm2307866f8f.10.2026.05.22.00.09.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 May 2026 00:09:41 -0700 (PDT)
+From: Stefan =?UTF-8?B?RMO2c2luZ2Vy?= <stefandoesinger@gmail.com>
+To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Linus Walleij <linusw@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ linux-arm-kernel@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] ARM: zte: clean up zx297520v3 doc. warnings
+Date: Fri, 22 May 2026 10:09:31 +0300
+Message-ID: <13240501.O9o76ZdvQC@strix>
+In-Reply-To: <20260521191458.177046-1-rdunlap@infradead.org>
+References: <20260521191458.177046-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260519060926.103727-1-jbroadus@gmail.com> <ag-ZuEt4uXnrO8AK@kernel.org>
-In-Reply-To: <ag-ZuEt4uXnrO8AK@kernel.org>
-From: Jim Broadus <jbroadus@gmail.com>
-Date: Thu, 21 May 2026 23:03:29 -0700
-X-Gm-Features: AVHnY4LA3QImdAO1-9EbSoxvRtYQWmfgsDIstzlg6YCBI-BFraaiDzGtwN3bdiw
-Message-ID: <CAKgEEwswj4in29_hoy_dQQ18+GF=Uwf0LnwS=w7bwZCSW=mwjw@mail.gmail.com>
-Subject: Re: [PATCH] tpm: tpm_tis: Add optional delay after relinquish
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, peterhuewe@gmx.de, jgg@ziepe.ca
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="nextPart6337413.DvuYhMxLoT";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+
+--nextPart6337413.DvuYhMxLoT
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Stefan =?UTF-8?B?RMO2c2luZ2Vy?= <stefandoesinger@gmail.com>
+To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] ARM: zte: clean up zx297520v3 doc. warnings
+Date: Fri, 22 May 2026 10:09:31 +0300
+Message-ID: <13240501.O9o76ZdvQC@strix>
+In-Reply-To: <20260521191458.177046-1-rdunlap@infradead.org>
+References: <20260521191458.177046-1-rdunlap@infradead.org>
+MIME-Version: 1.0
 
-Thank you Jarkko. I'll do that.
+Hi,
 
-Jim
+Am Donnerstag, 21. Mai 2026, 22:14:57 Ostafrikanische Zeit schrieben Sie:
+> Fix multiple documentation build warnings.
+> Improve punctuation and formatting of the rendered output.
+>=20
+> Documentation/arch/arm/zte/zx297520v3.rst:66: WARNING: Title underline too
+> short. 3. Building for built-in U-Boot
 
-On Thu, May 21, 2026 at 4:48=E2=80=AFPM Jarkko Sakkinen <jarkko@kernel.org>=
- wrote:
->
-> On Mon, May 18, 2026 at 11:09:26PM -0700, Jim Broadus wrote:
-> > Some TPMs fail to grant locality when requested immediately after being
-> > relinquished. In this case, the TPM_ACCESS_REQUEST_USE bit of the
-> > TPM_ACCESS register is cleared immediately without setting
-> > TPM_ACCESS_ACTIVE_LOCALITY.
-> >
-> > This issue can be seen at boot since tpm_chip_start, called right
-> > after locality is relinquished, fails. This causes the probe to fail:
-> >
-> > tpm_tis MSFT0101:00: probe with driver tpm_tis failed with error -1
-> >
-> > This occurs on some older Dell Latitudes and maybe others. To work
-> > around this, add a "settle" boolean param to tpm_tis. When this is
-> > enabled, a delay is added after locality is relinquished.
-> >
-> > Signed-off-by: Jim Broadus <jbroadus@gmail.com>
->
-> It would be better idea first to replace priv->manufacturer_id with
-> priv->did_vid, and make necessary changes to sites where it is used.
->
-> Then in the if-statement compare DID/VID of the device to priv->did_vid
-> and apply quirk only if it matches.
->
-> > ---
-> >  Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
-> >  drivers/char/tpm/tpm_tis.c                      | 7 +++++++
-> >  drivers/char/tpm/tpm_tis_core.c                 | 3 +++
-> >  drivers/char/tpm/tpm_tis_core.h                 | 1 +
-> >  4 files changed, 18 insertions(+)
-> >
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
-ation/admin-guide/kernel-parameters.txt
-> > index 4d0f545fb3ec..5b7111033fbb 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -7651,6 +7651,13 @@ Kernel parameters
-> >                       defined by Trusted Computing Group (TCG) see
-> >                       https://trustedcomputinggroup.org/resource/pc-cli=
-ent-platform-tpm-profile-ptp-specification/
-> >
-> > +     tpm_tis.settle=3D [HW,TPM]
-> > +                     Format: <bool>
-> > +                     When enabled, this adds a delay after locality is
-> > +                     relinquished. Some TPMs will fail to grant locali=
-ty if
-> > +                     requested immediately after being relinquished. T=
-his
-> > +                     causes the probe to fail.
-> > +
-> >       tp_printk       [FTRACE]
-> >                       Have the tracepoints sent to printk as well as th=
-e
-> >                       tracing ring buffer. This is useful for early boo=
-t up
-> > diff --git a/drivers/char/tpm/tpm_tis.c b/drivers/char/tpm/tpm_tis.c
-> > index 9aa230a63616..8ac0ea78570e 100644
-> > --- a/drivers/char/tpm/tpm_tis.c
-> > +++ b/drivers/char/tpm/tpm_tis.c
-> > @@ -101,6 +101,10 @@ module_param(force, bool, 0444);
-> >  MODULE_PARM_DESC(force, "Force device probe rather than using ACPI ent=
-ry");
-> >  #endif
-> >
-> > +static bool settle;
-> > +module_param(settle, bool, 0444);
-> > +MODULE_PARM_DESC(settle, "Add settle time after relinquish");
-> > +
-> >  #if defined(CONFIG_PNP) && defined(CONFIG_ACPI)
-> >  static int has_hid(struct acpi_device *dev, const char *hid)
-> >  {
-> > @@ -242,6 +246,9 @@ static int tpm_tis_init(struct device *dev, struct =
-tpm_info *tpm_info)
-> >       if (itpm || is_itpm(ACPI_COMPANION(dev)))
-> >               set_bit(TPM_TIS_ITPM_WORKAROUND, &phy->priv.flags);
-> >
-> > +     if (settle)
-> > +             set_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &phy->priv.flags=
-);
-> > +
-> >       return tpm_tis_core_init(dev, &phy->priv, irq, &tpm_tcg,
-> >                                ACPI_HANDLE(dev));
-> >  }
-> > diff --git a/drivers/char/tpm/tpm_tis_core.c b/drivers/char/tpm/tpm_tis=
-_core.c
-> > index 21d79ad3b164..68be26fa5817 100644
-> > --- a/drivers/char/tpm/tpm_tis_core.c
-> > +++ b/drivers/char/tpm/tpm_tis_core.c
-> > @@ -184,6 +184,9 @@ static int tpm_tis_relinquish_locality(struct tpm_c=
-hip *chip, int l)
-> >               __tpm_tis_relinquish_locality(priv, l);
-> >       mutex_unlock(&priv->locality_count_mutex);
-> >
-> > +     if (test_bit(TPM_TIS_SETTLE_AFTER_RELINQUISH, &priv->flags))
-> > +             tpm_msleep(TPM_TIMEOUT);
-> > +
-> >       return 0;
-> >  }
-> >
-> > diff --git a/drivers/char/tpm/tpm_tis_core.h b/drivers/char/tpm/tpm_tis=
-_core.h
-> > index 6c3aa480396b..413cac5e0f31 100644
-> > --- a/drivers/char/tpm/tpm_tis_core.h
-> > +++ b/drivers/char/tpm/tpm_tis_core.h
-> > @@ -90,6 +90,7 @@ enum tpm_tis_flags {
-> >       TPM_TIS_DEFAULT_CANCELLATION    =3D 2,
-> >       TPM_TIS_IRQ_TESTED              =3D 3,
-> >       TPM_TIS_STATUS_VALID_RETRY      =3D 4,
-> > +     TPM_TIS_SETTLE_AFTER_RELINQUISH =3D 5,
-> >  };
-> >
-> >  struct tpm_tis_data {
-> > --
-> > 2.54.0
-> >
->
-> BR, Jarkko
+I am sorry for the mess. I'll look into doc building before I send clock=20
+documentation...
+
+Reviewed-by: Stefan D=C3=B6singer <stefandoesinger@gmail.com>
+
+--nextPart6337413.DvuYhMxLoT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAABCAA5FiEEQxb0tqoFWyeVMl1sPRO8yFRPGiIFAmoQASsbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJED0TvMhUTxoi9S8P/0ouABngGtPJ84cmw4RC
+cbqM4oJrW6XF5yNOG46jKfbkPVNxVF38uLq9j1Cs/A3pMEjSVZTw6TaD+Hy9KQyz
+aav5x5GvppMQZsKkN450SjSQ7XMPs6oME4/a+EWjxoHkI5U6WqHmCFs2U0c4kDsE
+rvAc7fjpHKmhwJDcju8G6vDLM5kROmPTOjUSF6XVlCh7Tv3JkIyTTEmc3nmeuOtO
+dN6SQFL7CfIFDjDGD47YCd70ULmdQEO3JA1Dk9+/svi1TzT+ChofOUWiv+MVLLxr
+yfPFVwAln76gKjl72l9I5Z+nT66iyAZaKbVEXWHLoIluN9A3HcvTvu038WksdrF9
+9pwMl2HGWHmjkKap5gvNliNO9vCLoP6a3PZQ2dKi+StACqwPcr5aSmjZ0Se5jaoP
+QBSNuUKuymsgfmMxXm5LpBA2jo5TO69zpzVS1z/q0Qo5f0de+WYlCgORFR/NWgbN
+yijb3xgCbQvGdjWneTakUmwJ9YnTXhxo5rHGnSOLOQl8PVDljl19nCF9eKvyWT0o
+1YkP1K4zl35l1pM9Bfl03xeCKxGXxv13vXmsUEkpJ+wLjahSB7qgq0o1IT1Sto0b
+2GOk33H1rDPuOtaWFm+GGQlIF8ePYD3pj35T0qmibb1emFFg2M+rxgRpo8L+gJJ+
+P+clcDXhcoEhSIUTevSmqOiS
+=kFBP
+-----END PGP SIGNATURE-----
+
+--nextPart6337413.DvuYhMxLoT--
+
+
+
