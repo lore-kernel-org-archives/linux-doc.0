@@ -1,96 +1,157 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB06E35DA7B
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 16:39:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20557413247
+	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 16:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779468000; cv=none; b=UEbaaHqPoga65XrhHRUDP8bOU3rNA9xoDT+nicC+frcvd4SSUOi2XPyyCgmiPToPpjnW1xSCdJTS54RGRZGewr8ZYeBTGU1vrINayRJcnjwF0awxau32e12Rh/6qT48hwXzYDxPnx/UaEXePpQ70tk+qhPGsM1EFhXDRQ5Hjg6E=
+	t=1779468519; cv=none; b=TucxegfzWIlb8sr/3AYyrvddS8mXcmye3WxDz2Y5ioYExGhYjhjyRIdt3nLCjz1AHXWmax3t3m1mW59jy2TSu1ACY17hMN0ukb6LgkABnoywB6NuLfwKvURB/RRxXRR/kAm5taPLDJAVWm5BEyhjOtSDhWa7sMhLPKlo45GV7MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779468000; c=relaxed/simple;
-	bh=8Z3pH1U+yOD8zh30CE+DCdzyq1ZMpaHbgFEs1Oecjss=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OJhoSh6QWlyc6uvAj/ORY5LfIe2HzGWphP2Zd5EJtGw3DIFLBmAZAmOYbcK88G4N+a9rsUPTjraUe+gyfo7eLQWTFn7coJBnTkncrod2F4VibftbvwZoWMYMBk7JjlYR5KGbHVkdfygXWHZqbBh9XgNmr9TCz6lRUhDzxjihMAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=dPvA3g98; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1779468519; c=relaxed/simple;
+	bh=suCtCBavrXUoNe3sv+YiS2FLcvPEDoDUlPhXLWb7rgk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HeCf85Urb/kYWoxxZ3AVTyw/I7gWRsOnzPAR8FOy54/3QG/+etSvt+A+TSA17XYldsw6oDdQKWn2fM5dZ0U1NynnNIWVCAYM3ZYGFkIY27Q/EANl/AZxHTO4Y+LdBHWa+pReLA2lzkEkW9fFiEHPD32if4zyZYkMGFsuxAtX364=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UUxVu4JO; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dPvA3g98"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 4FDDBC5E179;
-	Fri, 22 May 2026 16:40:50 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 977756003C;
-	Fri, 22 May 2026 16:39:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D437A1081162F;
-	Fri, 22 May 2026 18:39:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1779467994; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=8Z3pH1U+yOD8zh30CE+DCdzyq1ZMpaHbgFEs1Oecjss=;
-	b=dPvA3g98wV2u7+CgavHPeGmJ4MnDYlqe8UHyr32YpC5WEPoAMZj0M1TFLbmf3wl+ZSrfJb
-	QhzNnPg76i/sUD012bP8UKoNLLqUx2M1NVzvXHuhoWIEjTVmM81K6lRUcirIJ72tK/NSoW
-	uJ9zxfzupYNDVuuD+omEWD9VaqDzly0kylm4Lmq5s+tnjVAvJ9aWpYUXnlobfak7eirZcR
-	6Crge4ZtqfcAoJea3LLow9GSQGm0xxn7DfB8a93dyk8JOQQ7vF5YIvj1WIoxf7Tjj/erWV
-	AqKVq4LE65VrvYN2by4rRymXZ1W/pSavIQX8YvGHcMbtX2DTvZYqvAHLsLf+Bw==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Michael Walle
- <mwalle@kernel.org>,  Takahiro Kuwano <takahiro.kuwano@infineon.com>,
-  Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
- <vigneshr@ti.com>,  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
- <skhan@linuxfoundation.org>,  Sean Anderson <sean.anderson@linux.dev>,
-  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,  Steam Lin
- <STLin2@winbond.com>,  linux-mtd@lists.infradead.org,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
-  stable@kernel.org
-Subject: Re: [PATCH v5 04/28] mtd: spi-nor: swp: Improve locking user
- experience
-In-Reply-To: <779f2680-2c67-4bbd-9576-bde8e83d111d@linaro.org> (Tudor
-	Ambarus's message of "Fri, 22 May 2026 19:07:53 +0300")
-References: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597@bootlin.com>
-	<20260507-winbond-v6-18-rc1-spi-nor-swp-v5-4-93453e1a9597@bootlin.com>
-	<9432f07f-3724-4257-b6ab-84721e619f78@linaro.org>
-	<875x4fphgr.fsf@bootlin.com>
-	<779f2680-2c67-4bbd-9576-bde8e83d111d@linaro.org>
-User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Fri, 22 May 2026 18:39:52 +0200
-Message-ID: <87o6i7o0tj.fsf@bootlin.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UUxVu4JO"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-44e1ebb3122so4718162f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 09:48:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1779468516; x=1780073316; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RkkB0hffRR69qMLvhInPQn8c5SMOFLnLZE8s1HedbWk=;
+        b=UUxVu4JO7lcnC3jau98SkjDJvQAL34n/r/ySMVSN2psUVDmiOp8kxuBCkbgKsSBthv
+         NWHOnqLLhKmyro+ubhGc0rLno/U/4iTCLYB1OT6cjUiSykXcjxuBre0tCM06OI9H+O3X
+         r/Dpu/Lq14iQvlXpnLhz/enndwK+VXPJpELWpFDoH99hJ9mY5yD0kp8ZaThhNFmYOyfU
+         CdwNIjFOGQsgO7cDB7d5tiT+A3itikNTuGoUSnl7p60UmrwOmpIhS8A6TIf7vh1Wj1Ep
+         I0V9Qqda5eR9Lnk1C5gWd1j8BOsSXwNewqfl6Sn5Yhyxbt5RhPHF0Wkh+ndEwVHvyJIZ
+         40MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779468516; x=1780073316;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RkkB0hffRR69qMLvhInPQn8c5SMOFLnLZE8s1HedbWk=;
+        b=lBBRiOjAN8ITMWu/jMUkdzfGIqBFpq00lEfFyQ25OppO8VGyHp2nGI1D81kZL0NrlZ
+         bVakzv36U33bCWew43s7nb1uUlRi6gV5WYTvXWb0S86jcwWJRCwtpUAoLfMQomrPER7c
+         CK+0KxFvrlzN2gt2bb9PWTqGJSG4mqCF53Q+JoG/tD/m1SlDzavjq0ROXeVmJBxQ6zHA
+         8zuBv8uAYo1GlsHEqwkaruqjlhkHc45uiM2G5bMNRHxZIzghuHKb9dbaqxY+6iFKdOUI
+         hs/U6EE2jpdQYNEEanF2qRYLV2b/S2aiD6q8wijZdfAKlXUKYg5rVMRPVUjLJlIJJNxQ
+         KoaA==
+X-Forwarded-Encrypted: i=1; AFNElJ+/MK2c+t9/5wmfH6h98qfCauZh2Zn6KcrKPxDW01K/DDDa6dxBSB/HupjRqEyfoBiN11ZG5ijA+bI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhsAWcRHujm4GtyT90PeFRvkUoiyWOs9uzxtRkOT4nCnSryv6L
+	lb509PFypIaZg1f/Hq+Z2IGBBJh/Gd7k310PMm8o9NMlbut/gAIhCPOJiY7CabQqxxPJ9qWdiZK
+	mu55N
+X-Gm-Gg: Acq92OHmqnzsetFPuP5GnOl64h5sDa7LsnC50FzV55ASmSlLSKS1tjJ+njOKKYwQHSE
+	UVNKpAdlahvchTY4hsL5pVNBXQPMPwpMe7zNmYcASTMuKl7qCtDvvynZ8wiR/WbbpX4+Z/kru1H
+	G1Gh6AyTKJ7OaalL9/LBBYJyvlCph2wyq9oaUw5VKUeleK17cINOFVQP47XgjS5C0VX1B+LWLPE
+	CEh1d2qcATeUnF2wXERA9AItgz80ptQ/ZOWZ/Uqtd2Hquv3HMV36SqyFpfTBePDmvdPqsOzfAfb
+	G7mgvTAD6yfkUZ6G23l+WPqh2s17oLH281x26ea0I920T873FPfP0SfvcvZ3evirB3YZxQz3dFK
+	BHnzovMnCi+BMhPLmh35kWexoEXRu5DXi2hBDHimFrJN1Cyfd+2jw9ovUTm2ProoY7yOkGogvkK
+	QNintZVU2fNqt73X7GyvMOTzYGw7qGMrPEtx/t+cVlDf/09lhA
+X-Received: by 2002:a05:6000:4283:b0:45d:8c16:5566 with SMTP id ffacd0b85a97d-45eb38baadbmr7082103f8f.18.1779468516497;
+        Fri, 22 May 2026 09:48:36 -0700 (PDT)
+Received: from localhost.localdomain (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6d70d89sm5769908f8f.37.2026.05.22.09.48.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 May 2026 09:48:35 -0700 (PDT)
+Date: Fri, 22 May 2026 18:48:33 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Maarten Lankhorst <dev@lankhorst.se>, 
+	Maxime Ripard <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>, 
+	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	kernel-dev@igalia.com
+Subject: Re: [PATCH v3] cgroup/dmem: introduce a peak file
+Message-ID: <ahCISfTlN10gD8e6@localhost.localdomain>
+References: <20260514-dmem_peak-v3-1-b64ce5d3ac38@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="27zcqpjzhteuelt3"
+Content-Disposition: inline
+In-Reply-To: <20260514-dmem_peak-v3-1-b64ce5d3ac38@igalia.com>
+
+
+--27zcqpjzhteuelt3
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Subject: Re: [PATCH v3] cgroup/dmem: introduce a peak file
+MIME-Version: 1.0
 
->> Technically speaking all four first patches are fixes, except I don't
->> ask the first one to be backported. The reason why we ask fixes to be
->> first in the series is because we want them to be as independent as
->> possible from previous cleanups/changes. Here each four first patch are
->> targeting completely different places and should not interact with each
->> other. Anyway, I will re-shuffle the patches.
->
-> you don't need to resend just for that I think. Pratyush or Michael can
-> re-shuffle when applying.
+On Thu, May 14, 2026 at 02:36:08PM -0300, Thadeu Lima de Souza Cascardo <ca=
+scardo@igalia.com> wrote:
+> Just like we have memory.peak, introduce a dmem.peak, which uses the
+> page_counter support for that.
+>=20
+> For now, make it read-only.
+>=20
+> This allows for memory usage monitoring without polling dmem.current when
+> the information needed is the maximum device memory used. That can be used
+> for capacity planning, such that dmem.max can be properly setup for a giv=
+en
+> workload. It can also be used for debugging to determine whether a given
+> workload would have caused eviction or system memory use.
+>=20
+> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> ---
+> Changes in v3:
+> - EDITME: describe what is new in this series revision.
+> - EDITME: use bulletpoints and terse descriptions.
+> - Link to v2: https://patch.msgid.link/20260513-dmem_peak-v2-1-dac06999db=
+9e@igalia.com
+>=20
+> Changes in v2:
+> - Make it read-only for now and adjust documentation accordingly.
+> - Link to v1: https://patch.msgid.link/20260506-dmem_peak-v1-0-8d803eb344=
+9c@igalia.com
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst |  6 ++++++
+>  kernel/cgroup/dmem.c                    | 15 +++++++++++++++
+>  2 files changed, 21 insertions(+)
+>=20
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
+n-guide/cgroup-v2.rst
+> index 6efd0095ed99..d103623b2be4 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -2808,6 +2808,12 @@ DMEM Interface Files
+>  	The semantics are the same as for the memory cgroup controller, and are
+>  	calculated in the same way.
+> =20
+> +  dmem.peak
+> +	A read-only nested-keyed file that exists on non-root cgroups.
 
-It's a bit painful to do while applying, I will send a v6.
+s/nested-keyed/flat-keyed/
 
->> As for Sashiko's feedback, the AI raises the same point as our previous
->> discussion: the QE bit handling is really bad, and I am working on
->
-> I forgot what we talked about, sorry.
 
-The fact that there is a helper in the core that blindly sets a
-particular QE bit, but this helper might (theoretically) be used by
-chips which have the QE bit somewhere else.
+With that
 
-I plan on reworking this by storing the location of the QE bit during
-SFDP parsing. Then I will use that location in a helper to set or clear
-it, which will also be dependent on the QER bitfield. But that field is
-a real mess, so I'm not sure it's gonna work :-)
+Reviewed-by: Michal Koutn=FD <mkoutny@suse.com>
 
-Cheers,
-Miqu=C3=A8l
+--27zcqpjzhteuelt3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCahCI3RsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ah3WAEA8jNoGbM+jfh2AQM8AaCh
+AP+xdJvR4lj+FHVIyhs6qukA/0scDz7iwckNV/NU40VipKTbHw6vIv1Uo6Y97PJu
+d5kF
+=dGdF
+-----END PGP SIGNATURE-----
+
+--27zcqpjzhteuelt3--
