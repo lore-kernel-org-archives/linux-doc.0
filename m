@@ -1,226 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDCB372675;
-	Fri, 22 May 2026 17:13:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCC73563E8;
+	Fri, 22 May 2026 17:16:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779469981; cv=none; b=YHPApOH2P8vnqvNKSHhRQKmxzS+SX/H/rnhsiUEcw/TSgxDf5m5Vo8BpUD884naFeuxkGH3NbVWN7ufPHkxS9CnedhAsZj7U3YcDvfq2NVhf2SbjcPIJ8F2H1JaYi9PPniffhhhGQ1VTIW+mny6K7JGxGTHZ0ouoyrYnWJ/cL/o=
+	t=1779470172; cv=none; b=kHREigv7ltZtqTf1q0vNcEgSshnPcPBGD2I4HKfQ3Wmkq5/sNPeVk0HbgGA7Pirx0rlKt+hBpIIUe+zxZltz/IuZaMgM6yZtdWrnB4zwjIjRP5GP4uB/Qy6V+JKxGohKE+aRjV+T9sv85/C96/8gA8mfGF9OwGOy5MECfcP6oBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779469981; c=relaxed/simple;
-	bh=27h0jJZ7w7I8jAScI48gEhMwRLBkmhtjZjLyPmjs3Hg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HZGjZZqilBlKVOiohoGc90313feT0tJUO+iOif5lUmVcxeVkxzx77Ow7tOsJgqpfakCtO8cQCZ+LfKQVcGJj2S/tyyy8yy3l1mFkuoJgOecriCEp4huqfA6gdBnOEOjw/9p9wDpfJMvUS+nyaUBLMDtAaCgmhHhyuK5kzdX0iVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rwju4gJq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779470172; c=relaxed/simple;
+	bh=7zuIagNO9CQs6+XKSfea4mVEde0AxdKz46kE2iVjUks=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mZvTRDiwqQXw4KjJorAJHIKBsY23O6Vs2hE/CqntPUHjvtzEsJ5h32D1llfwj1Ui5k1tWOhf8SIXoj3CPof7CtnGJMm51+y2lf43uDWMDMMFCGEOgtKVePqvLua87YGgBTjpd826tvuMLX2QW9cnMxl1MbXnmLejiA4+bjAALB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E5IlDXJk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rwju4gJq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E0BE1F000E9;
-	Fri, 22 May 2026 17:12:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E5IlDXJk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A4541F000E9;
+	Fri, 22 May 2026 17:16:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779469980;
-	bh=xiyUFzZqN9pslbNTfSLwhf195Bg0GoCgngfEHT8mMw0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Rwju4gJqo6X1kuG/alZGdb8qj4XKrN6BeadFhi6a0JPO+wNw1dtRc2RLZg5P6ha2d
-	 XqclErO1kvpWmoLCalNTwEUA9/C0qUpSHHOQFnGNMmqfdsap2UB5iBMMOBZRIcTQbl
-	 OqqpJ270JMx3f3360gBWgYv0gFL+Q2R506NoBgZWcUzoQwyXvOuwIXk53kY+DcK9mg
-	 ZaleTCjdvABCBuqe6tAC5FtnGGM/7UQqzM5z3gha9yX4WQrWhvQ80Fnox7mFoqSI/o
-	 FYJddHUP8I5dbmiFUqHx3lASyRJ/zyQ+AqcXMj0lhFtgUXOalRWryX6DuxwmlU1RBt
-	 ZVtnlemjeZ6ww==
-Date: Fri, 22 May 2026 18:12:45 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, akpm@linux-foundation.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
-	aarcange@redhat.com, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
-	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
-	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
-	kas@kernel.org, lance.yang@linux.dev, liam@infradead.org, 
-	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
-	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
-	rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com, 
-	rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
-	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
-	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-Subject: Re: [PATCH mm-hotfixes-unstable v18 00/14] khugepaged: add mTHP
- collapse support
-Message-ID: <ahCFIDuyrvEfB9jv@lucifer>
-References: <20260522150009.121603-1-npache@redhat.com>
- <CAA1CXcCoDU_pnp0SmMzRi8wPGB1OBjbbokevq2X_03X1vpWtOw@mail.gmail.com>
- <ahByO_HWn6MB8z-u@lucifer>
- <CAA1CXcDoFdZZ4aBx0BPA7QXYKYBYDoqUiLTLYe3L5opJ0LsJGg@mail.gmail.com>
- <ahB_hae8coGvf12Z@lucifer>
- <CAA1CXcCoyGzEyeFPW+zKiA2AOj=0Lm7R=odLtVru+dQa0P_2cQ@mail.gmail.com>
+	s=k20260515; t=1779470171;
+	bh=z6QLuZNUqmNP1TFC2UOy0mu4kXtWEnNnABsYAZIDhPg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=E5IlDXJk/C2DeA6VJkPIWc5aOIgpYxcyn3uN36FL24MutRANkpFiWwSXAN/RPkzes
+	 kiYPhxAbgwcSbY1mIS9Dhpzh8FPUwz5O93HVB/E5LaJwntWVKVCii2a8coPj5UA+W/
+	 AE8eeF8+sYI8NBAL/JMK1fq5BJU10C+43EGXqxD2dZFuc+flz08NekeZTiwjyfOiBu
+	 SHBLe2TpdMKvI4w6frBMYh1UMvKJTCS1OLHsNjwnaxmDzO6/RYuLVymeJh52lZrLmO
+	 7FVz/GTUKrV/hWbK+mKzinQc3AgeK9Jq2Zm6bbW108qXi0GgCqlcAj5iVlFUnEm26W
+	 Jh1AwcvvXS3Xg==
+Date: Fri, 22 May 2026 10:16:09 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: "illusion.wang" <illusion.wang@nebula-matrix.com>
+Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
+ sam.chen@nebula-matrix.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
+ corbet@lwn.net, horms@kernel.org, linux-doc@vger.kernel.org,
+ pabeni@redhat.com, vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
+ edumazet@google.com, enelsonmoore@gmail.com, skhan@linuxfoundation.org,
+ hkallweit1@gmail.com, linux-kernel@vger.kernel.org (open list)
+Subject: Re: [PATCH v15 net-next 05/11] net/nebula-matrix: add channel layer
+Message-ID: <20260522101609.7c2adfad@kernel.org>
+In-Reply-To: <20260520032950.4874-6-illusion.wang@nebula-matrix.com>
+References: <20260520032950.4874-1-illusion.wang@nebula-matrix.com>
+	<20260520032950.4874-6-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA1CXcCoyGzEyeFPW+zKiA2AOj=0Lm7R=odLtVru+dQa0P_2cQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 22, 2026 at 10:31:41AM -0600, Nico Pache wrote:
-> On Fri, May 22, 2026 at 10:20 AM Lorenzo Stoakes <ljs@kernel.org> wrote:
-> > There's some kind of confusion here.
-> >
-> > This series isn't suited for 7.2.
-> >
-> > Sorry but Zi's series, unless it depends on functionality here, will have
-> > to be rebased.
-> >
-> > People have been at conferences, people have been on leave, I've had to
-> > pace myself for health reasons and it seems there's been more than simply
-> > review comment-based changes happening here.
-> >
-> > (Again I strongly encourage, at this stage, to ONLY be making changes based
-> > on review, not adding ANYTHING else or changing ANYTHING else to avoid
-> > delays :)
->
-> All the changes are based on review points. Very small changes in this
-> version; the largest being the one that you specifically argeed too.
+On Wed, 20 May 2026 11:29:37 +0800 illusion.wang wrote:
+> A channel management layer provides a structured approach to handle
+> communication between different components and drivers. Here's a summary
+> of its key functionalities:
 
-16->17
-
- Documentation/admin-guide/mm/transhuge.rst |  24 +++++-------------
- include/linux/khugepaged.h                 |   7 ++---
- include/trace/events/huge_memory.h         |   3 ++-
- mm/huge_memory.c                           |   2 +-
- mm/khugepaged.c                            | 168 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------------------------------------------------
- mm/vma.c                                   |   6 ++---
- tools/testing/vma/include/stubs.h          |   3 ++-
- 7 files changed, 103 insertions(+), 110 deletions(-)
-
-17->18
-
- Documentation/admin-guide/mm/transhuge.rst |   5 +++--
- include/trace/events/huge_memory.h         |   3 +--
- mm/khugepaged.c                            | 121 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------------------------------------
- 3 files changed, 66 insertions(+), 63 deletions(-)
-
-These are not small 'very small changes'.
-
-We're nearly at rc-5, and this is a major, invasive, dangerous change that
-we have to get right.
-
-You've also made changes unrelated to review, repeatedly, throughout this
-process, which as I've told you, is causing delays.
-
-You've also throughout the review of this series done stuff like make MAJOR
-changes to things and _kept review tags_.
-
-You're forcing us to use git range-diff etc. to forensically check that the
-series is what is claimed.
-
-Dude I mean you switched to using // comment style which is not used in mm
-anywhere for instance? Don't do things like that and complain about
-delays. Honestly.
-
-Also, again, LSF happened. Other confeerences happened. Bandwidth is
-reduced.
-
-So again, I'm sorry, but you've been hit with some bad luck here.
-
-I really wanted this in for 7.2, and I feel bad that we couldn't make it,
-but you're also doing thing that's making it difficult for us.
-
-I've spent double-digits hours on your series, and I've also had work
-pushed out becasue of that leading me to work evenings and weekends as a
-result.
-
-And I'm not even going to get any credit for it :))
-
-So while I sypmathise, really, please have empathy and realise it goes both
-ways, please.
-
-I'm not being mean for the sake of it, I'm pushing back because I feel this
-is not at a stage where I'd feel confident in this being merged at this
-time.
-
-And it's very much a regret, as I _really_ wanted us to have it in this
-time. But life and circumstances and the issues mentioned above have
-intervened, sadly.
-
->
-> >
-> > Also - shouldn't mm-unstable already have mm-hotfixes-unstable in it?
-> >
-> > I think in mm-next we will have an stable branch, that everything is
-> > based on, where things go once review is complete and things are mergeable.
-> >
-> > And a separate hotfixes branch based on Linus's tree.
-> >
-> > That would avoid issues like this :)
->
-> Im sorry im new to this, but I really dont think this tiny error, and
-> something that I'd confirmed with Andrew beforehand deserves NAKing
-> and defering it. Ive worked through my PTO to clean up some of these
-> review nits just to get it in 7.2. I even through this through my
-> rounds of testing today before resending.
-
-The issue wasn't the error (though it wasn't tiny...!), it's the state of
-review. There was fresh review comments from a few days ago, and there's
-big diffs between revisions.
-
-You've also made unrelated changes as you have done throughout the series.
-
-As I said above, I'm sorry that you spent time in your PTO on this, but we
-cannot rush this in when things are not clearly ready yet, and I am not
-confident in this being ready at this stage.
-
->
-> >
-> > >
-> > > The intent wasn't that this is a hotfix, just that this was the
-> > > closest base before the v17 that is already in the tree.
-> >
-> > The convention is that [PATCH ... <branch>] indicates the target of the
-> > changes. Putting the hotfixes branch there implies it's a hotfix.
->
-> Sorry I thought the <branch> was what base you used.
-
-I mean, sure there's clearly confusion here as you sent [PATCH 7.2 v16 ...]
-(against an unreleased kernel version) then a branch specifier then the
-hotfixes one...
-
-Anyway sure, it's fine, I've made vastly more dumb mistakes than that
-myself, nobody minds, but it's concerning as by convention [PATCH
-... <mm->hotfixes<whatever>] generally is taken to mean 'please rush this
-to hotfixes!' :)
-
-So be careful with that please!
-
->
-> >
-> > So please be careful with that in future :)
->
-> Yes will do for sure.
-
-Thanks!
-
->
-> >
-> > >
-> > > Sorry for the confusion, hopefully Andrew can still apply it to the
-> > > correct tree.
-> >
-> > I'm not even sure what's best for that at this stage given we have
-> > conflicts and this has to be delayed until 7.3.
-> >
-> > I wonder if given that we should not have this in mm-unstable at all and
-> > just wait it out until the next cycle begins? Review can happen
-> > concurrently.
->
-> I still dont see why this has to be deferred, I was working with
-> Andrew to prevent merge headaches.
-
-I've explained the why above, and David and I co-maintain THP so I feel
-that ultimately given the blood, sweat and tears we've put into THP review
-we ought to have some input on this :)
-
-Thanks, Lorenzo
+In file included from ../include/linux/device.h:15,
+                 from ../drivers/net/ethernet/nebula-matrix/nbl/nbl_channel=
+/nbl_channel.c:6:
+../drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c: In fun=
+ction =E2=80=98nbl_chan_recv_msg=E2=80=99:
+../drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c:502:38:=
+ warning: format =E2=80=98%lu=E2=80=99 expects argument of type =E2=80=98lo=
+ng unsigned int=E2=80=99, but argument 4 has type =E2=80=98unsigned int=E2=
+=80=99 [-Wformat=3D]
+  502 |                         dev_err(dev, "buf_len=3D%u exceeds external=
+ buffer size=3D%lu\n",
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+../include/linux/dev_printk.h:110:30: note: in definition of macro =E2=80=
+=98dev_printk_index_wrap=E2=80=99
+  110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                  =
+     \
+      |                              ^~~
+../include/linux/dev_printk.h:154:56: note: in expansion of macro =E2=80=98=
+dev_fmt=E2=80=99
+  154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt)=
+, ##__VA_ARGS__)
+      |                                                        ^~~~~~~
+../drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c:502:25:=
+ note: in expansion of macro =E2=80=98dev_err=E2=80=99
+  502 |                         dev_err(dev, "buf_len=3D%u exceeds external=
+ buffer size=3D%lu\n",
+      |                         ^~~~~~~
+../drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c:502:81:=
+ note: format string is defined here
+  502 |                         dev_err(dev, "buf_len=3D%u exceeds external=
+ buffer size=3D%lu\n",
+      |                                                                    =
+           ~~^
+      |                                                                    =
+             |
+      |                                                                    =
+             long unsigned int
+      |                                                                    =
+           %u
+--=20
+pw-bot: cr
