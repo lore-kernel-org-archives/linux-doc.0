@@ -1,180 +1,226 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C45B356756;
-	Fri, 22 May 2026 10:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779447287; cv=none; b=LvQMkq1ufZNIt9hSFVa1mzkQGojmUQsxlIGs1t9uaxzfARtc7GoGVQtyNJFJoyQgSr5yOcenFXSrdBbZ3o11+NgS60Xt3iKn6sn0zE0lkHnBPJ9oMEK65cDRhTOUssqcXXxmOPY1+2wJANN+zn3Yod1iD6bULEhu94of8ek0ZJo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779447287; c=relaxed/simple;
-	bh=b3P2hBjSQh19IUuIUM2fF0JGVEHnP7/F+/Pk0IYDPiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rLbw9phdb18zyiRNKpD8iMztnowjAnjTvQ0+yWgPnQ5iS/FNUEwk7UfLHnfxPOuI/iAdNmFajG7sB9OeTxC5YFgk3iUkYgWg4aACFHbLlz6K+1cKxnuQdEBYApexCNWhXfGk9O9UVzHT0H+OnE+m5hRyjctdtkJ6NcUBmdPghlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fcayLb8m; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5143947B8;
+	Fri, 22 May 2026 11:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779448110; cv=fail; b=SUAJvsgxe/BSVWYVRdFAL4ZBwwbbb2dXtUlGVyZispJ8O92p/vWQwxk/I57mZ2wpCaw7J/520967iPl7xXGX9aJoB9/5FvwYhwDc6B1DHM0K7gZYTxEXXadOMB04NPP3A71Z1+iq+ETZr38prW9QK14jfMNbLBaepbA+oI6vdV8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779448110; c=relaxed/simple;
+	bh=XQRnxOEMV1R0Gy//YCsa6yKM5h8o1Hrt3mY8iXXSH6E=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=bpRaiMcspaXUPJvtbmeu3SroT0f7a8rh4JYW7xdN++OWZ5fE1PTCaNaetN+U87HYjWD4aJLMzK3hNZy0tmpc980P8H0yzeYJyzl4IffMnnv7PaQatFlijFFFBtYoGKRJSNQenT3KjzkakprEhArlLGaCaFIB7n3xhO/184iGivs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QMbVUmi0; arc=fail smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fcayLb8m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82FB61F00A3E;
-	Fri, 22 May 2026 10:54:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779447286;
-	bh=I485ulN9sXiuaxr3hxPza2zN7Bv6l4bsoi/xIZYLS2w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fcayLb8mD9Bodq9rqnJKCW5J/CYwMkGahp883O2LFlT7soZPV8M3KIGbp3jrIiFMp
-	 kIIiJbrpRj8pc7ZhCAcZ0Qzqqhjp/1G5xc1j8E+scvDoy1aIfkxKzG+zJUlonHhs3o
-	 Md4jR7za4bQkYIOA1c9aku3LIY8YRaum4vvVb8AO1193uC/ZvAt2nZNIlftNcIYO1d
-	 7mBMNZISoTGnxzj6kZYrR2AwJ3invVFqui8UKCJAALyz/qtajJRfmdliTOGJAscYQV
-	 SU/24I0DnSXW8jvOayHuuFzW2HNQ3QUcZmvs71lYpuqjRodehb1jJI5SCnuMN4OZYO
-	 KixTHkG7OfGqQ==
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfauth.phl.internal (Postfix) with ESMTP id BAAF0F4007C;
-	Fri, 22 May 2026 06:54:44 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Fri, 22 May 2026 06:54:44 -0400
-X-ME-Sender: <xms:9DUQatKIw8pHtuL_uqOaivYUQcb6w8lDWDXW4u2T4qRJnm98l2gfiQ>
-    <xme:9DUQaiKzPJe6e9bA5ywcoJ5ZRy-ppHZ2O5X-CHMV23TgVx94H6cZSLVahiyeltw2R
-    IhajtMUfA0Hs3m8RqK1WuIusqANdavHKiMZPeSLe8TzWkcoazhAIw>
-X-ME-Received: <xmr:9DUQavbk_UOPlqFSDOiCbSnF83Zth4S2PpnwOncelc7CbcknO2le0z71kCk3CA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeelleekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttdertd
-    dttddvnecuhfhrohhmpefmihhrhihlucfuhhhuthhsvghmrghuuceokhgrsheskhgvrhhn
-    vghlrdhorhhgqeenucggtffrrghtthgvrhhnpeeuieejieffkeehfeffffdtkeelfeelhe
-    fhfefhudehjeehvdffleeuvddufefgkeenucevlhhushhtvghrufhiiigvpedtnecurfgr
-    rhgrmhepmhgrihhlfhhrohhmpehkihhrihhllhdomhgvshhmthhprghuthhhphgvrhhsoh
-    hnrghlihhthidqudeiudduiedvieehhedqvdekgeeggeejvdekqdhkrghspeepkhgvrhhn
-    vghlrdhorhhgsehshhhuthgvmhhovhdrnhgrmhgvpdhnsggprhgtphhtthhopeegiedpmh
-    houggvpehsmhhtphhouhhtpdhrtghpthhtohepshhjsehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpth
-    htoheprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehpvghtvghrgiesrhgv
-    ughhrghtrdgtohhmpdhrtghpthhtohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhjsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhurhgvnhgssehg
-    ohhoghhlvgdrtghomhdprhgtphhtthhopehvsggrsghkrgeskhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtoheplhhirghmrdhhohiflhgvthhtsehorhgrtghlvgdrtghomh
-X-ME-Proxy: <xmx:9DUQalXQ45nNeLCORY2mKnQqw6SnE982YJ4qYQ2t6SoOeMI2y0BbBg>
-    <xmx:9DUQanEuT7mr9cBWathBzxbeRi39QSnTdc0DqsHOhyvnzvLZtl0uyA>
-    <xmx:9DUQaqDatI1DSjaKH9-vRnSfjvKFSWa1lGXfYaszChiPPIrjcIbqnQ>
-    <xmx:9DUQaqXoRWOs6Pe2jV5X2u3ECEO_XG2VZUU8UrJ5LBmWlfWPZQSSHg>
-    <xmx:9DUQai6GZOnuhag9McN737qpIDRxxOugkk-glWd-hou_D78sncHzieP5>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 22 May 2026 06:54:43 -0400 (EDT)
-Date: Fri, 22 May 2026 11:54:41 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: akpm@linux-foundation.org, rppt@kernel.org, peterx@redhat.com, 
-	david@kernel.org, ljs@kernel.org, surenb@google.com, vbabka@kernel.org, 
-	Liam.Howlett@oracle.com, ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	seanjc@google.com, pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, 
-	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v2 04/14] mm: add VM_UFFD_RWP VMA flag
-Message-ID: <ahAzY0CKNzE-SOd2@thinkstation>
-References: <b47d8d5681fd8730f6090ebfdb72f219a8edef1e.1778254670.git.kas@kernel.org>
- <20260515002932.124892-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QMbVUmi0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779448107; x=1810984107;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=XQRnxOEMV1R0Gy//YCsa6yKM5h8o1Hrt3mY8iXXSH6E=;
+  b=QMbVUmi07d3nvcA7EtmFb4UnVJwji0RsCROvJ5k5xr2N2vKQWDcgwt08
+   gr3taceFascdUXS/emu/5weUV6mDUHBuYJFgfV9yIHTEmB2E7a7hxhKcE
+   qazL6x3FCeo8aGH+GCF9eeSWsQs8rDQjb/8JIjVn7cMvjsFpbz335My1h
+   UoYAGpjimJf/sH3AePzEi+y87aRyB0se85+FM+RcOWjizvr69HYUsA/ID
+   F42cXw+m9/0aZNqfSI2yGFVukLmU0eDW0oempVZX18PJtyTgOIX5YmTlT
+   o3M8DzyxSkrUsPZR6npaGqmsGkJ29Z9NdhC1XYNpk7SehHJnFkxRnuUtX
+   A==;
+X-CSE-ConnectionGUID: aeAzqtfkTh2AGjaYE7IgiQ==
+X-CSE-MsgGUID: 07ObPb4nTsW0fWMQ6awE/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="84231961"
+X-IronPort-AV: E=Sophos;i="6.24,162,1774335600"; 
+   d="scan'208";a="84231961"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 04:08:27 -0700
+X-CSE-ConnectionGUID: bIRAEN24T+21PFYBELBwOA==
+X-CSE-MsgGUID: s6zGmp7pSie9SeMtzBaM+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,162,1774335600"; 
+   d="scan'208";a="245948931"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 04:08:26 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 22 May 2026 04:08:25 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Fri, 22 May 2026 04:08:25 -0700
+Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.70) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 22 May 2026 04:08:24 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=I8OiWsMyoHwPlpQQVbLsgQ8Dc1zrNH5jSkKsFKk2agDgY76S3g3TGnKNcO3FXSQgcTlQh9tqvUE+r55IBG3YXhvE4PSZMQ8EedW7YtYJbKKzyKT2+rEgyvd813cQR6fhAC2WxhJF3Q9QB/ywj1fJWDGcxd/0ZIC2nfZZ3v90qWsJHtms9m6tzeL8vr69Eu0n0ktjfZ59DAEUvKGERkq4X2EeyrzgKydgISHVGbTa7xufrfftjYJETK+RQDKRkva5FP4wfFzGaKg2suUUUVZaVRQqIQnoUYrHdoi8P6VP++JlNxedO+hmbW1MY0bC5QskOMxiDpCjoIyAOC55jdVwzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q74iJH4XQtrdTE5zhyRZsju9ObjRwIOIDZaZl9KWjOs=;
+ b=NT+ub3Ij/aGCY1Z7r9aYGRAjl+BZ9c2PevBQrHFmP8KJMzgxCevAFB5Xyb+13uv5kPAE/UyCY+LDZfynsJ9zcZumzBhCfyzXqr67yCFrsv3T0gDYJDcLiGy77ZKr59sogp0JS73VOQhTebyc3WiebBDuRcWS3hxvvX2pC7XnfMELOurikWAEzb9p+DQtMmCSe2KA/cu5VNzeySGZbpXUGaunmFyr2CnGviHjChmA3Z8yhi3JMsUwm8FkqUT8JsXjT/MQbXIwNZcOZpRA5L6LtdKH3ZXYAFtu0MFnVmZMXcBFMLBt0AYtatkQ5FahueCNj6lw2u8RwvW+RfDO+JaloA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8718.namprd11.prod.outlook.com (2603:10b6:8:1b9::20)
+ by PH7PR11MB5819.namprd11.prod.outlook.com (2603:10b6:510:13b::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.21; Fri, 22 May
+ 2026 11:08:20 +0000
+Received: from DS0PR11MB8718.namprd11.prod.outlook.com
+ ([fe80::6aa:411d:4bfa:619c]) by DS0PR11MB8718.namprd11.prod.outlook.com
+ ([fe80::6aa:411d:4bfa:619c%5]) with mapi id 15.21.0048.013; Fri, 22 May 2026
+ 11:08:19 +0000
+Message-ID: <5426379b-1201-4707-8d18-21dca3d1424e@intel.com>
+Date: Fri, 22 May 2026 13:08:08 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 01/14] virtchnl: create 'include/linux/intel'
+ and move necessary header files
+To: Jakub Kicinski <kuba@kernel.org>, Larysa Zaremba
+	<larysa.zaremba@intel.com>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>, <davem@davemloft.net>,
+	<pabeni@redhat.com>, <edumazet@google.com>, <andrew+netdev@lunn.ch>,
+	<netdev@vger.kernel.org>, <przemyslaw.kitszel@intel.com>,
+	<sridhar.samudrala@intel.com>, <anjali.singhai@intel.com>,
+	<michal.swiatkowski@linux.intel.com>, <maciej.fijalkowski@intel.com>,
+	<emil.s.tantilov@intel.com>, <madhu.chittim@intel.com>,
+	<joshua.a.hay@intel.com>, <jacob.e.keller@intel.com>,
+	<jayaprakash.shanmugam@intel.com>, <jiri@resnulli.us>, <horms@kernel.org>,
+	<corbet@lwn.net>, <richardcochran@gmail.com>, <linux-doc@vger.kernel.org>,
+	<tatyana.e.nikolova@intel.com>, <krzysztof.czurylo@intel.com>,
+	<jgg@ziepe.ca>, <leon@kernel.org>, <linux-rdma@vger.kernel.org>, Samuel Salin
+	<Samuel.salin@intel.com>, Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+References: <20260515224443.2772147-1-anthony.l.nguyen@intel.com>
+ <20260515224443.2772147-2-anthony.l.nguyen@intel.com>
+ <20260520175201.72f83c4a@kernel.org>
+ <ag7QUgfpM5UAAE2z@soc-5CG4396X81.clients.intel.com>
+ <20260521065609.248c7009@kernel.org>
+Content-Language: en-US
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
+In-Reply-To: <20260521065609.248c7009@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TL0P290CA0014.ISRP290.PROD.OUTLOOK.COM (2603:1096:950:5::8)
+ To DS0PR11MB8718.namprd11.prod.outlook.com (2603:10b6:8:1b9::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260515002932.124892-1-sj@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8718:EE_|PH7PR11MB5819:EE_
+X-MS-Office365-Filtering-Correlation-Id: 42c1f0e7-d3d8-460f-c979-08deb7f26e3f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|4143699003|11063799006|18002099003|5023799004|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info: CohmaVs9e+js5mhG2j6/FchnYXHV8bn0R6P7hxUmKuFh2OZ83e63nKmJheWfibvCirIPWF3L+by8U7zuFMxhbKlEEOIsVrLS4Ge8qxeTXAcytn5jhV0R3QDSGxDHLR0wCVbCg6wWBC81bB9B5nRb+LFIi7p9nysAXamy0WOjTZ/1RlkTUo77FlODeVyXaUBENAZL1loZM3X4n7Ag6BRGdBIUbQmsZ4kiEecU2M6R6Mlt4EZ4qI8MPIeVAtDx+E+sxq3IXMlShOfs4mw8XsmkOebQxSkPDjJVuf6jXcG9ohpInpG6NI/fRa1y1Rw1teOFBBIVlPQUjKNv36OT8YFZ5CGX0gE+ybgIvmPXn+2w+sAUP55fhCL6sI/ttnPMZBMw4fnSqO8iulfUb6tPQ6v+7Wk0PudcF4tD2TwNIPQrufW8VEaj6Ie7LQHyxMDoUkxnEylFDZuX8uxBXfpDq1GOsJ/PdW3LB2Opvs6bQDSIGfYedSOGiR/gYRKAB3BTf4Al6RD7qnx+ob6KEdPBuY+ylD4IQATXV3DA4osTMmZ4uAjHMnElABuda4HtZs7SFQMy1QeJ3bUXbIagkoCU/vU2CXD3nZebgp0+yeu2HifX85CqtdVu8rNiixlzbR6wG9OKLVOxrBMLozMMx1S8/30z2Osw4Ek7Eb+GbTo14Tw00MM/bhInwYLjAW4EWGc+bRMQ
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB8718.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(4143699003)(11063799006)(18002099003)(5023799004)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eTNReTJiUjVHM21KaS9GMnNSYmlQbXBZYXk3aitvTmhycWI4QWR5MWpUUFpn?=
+ =?utf-8?B?dWdCb3U2RUtSN2tIYmNKbG8zWTJ1eDZlMnI4dW1GWE05SGVUQld5R1VVVWl0?=
+ =?utf-8?B?WndtSEhKVGhkTWJWQy9tOG1Ta0NGMDNwbmtKK1IzaitxcHZ4MUtKTzdkcmhP?=
+ =?utf-8?B?eTZaWjdUVFY1QjdiV1ZUNUFSU3VyZ3BaREFRekQvdmFOWHhTOENaU1dFSzNM?=
+ =?utf-8?B?UGJrT0hzU09qUmk0OFczMFVSbkF0clo0bUw3em10Y3VLMGwyaEs4Nks3a2RH?=
+ =?utf-8?B?MnNzdk14VWFsOXpDeFBla09TaTdmemhWNkJGQVdxNGlwek9tQzBBTTNuTGF2?=
+ =?utf-8?B?elhaa29Ha2Q5QWNNeGY5VnluTng1dUMrcUplMWRaWmRUaUdHTlJvejN6RUYx?=
+ =?utf-8?B?ZDZVNmxFa2tZb2lHRjVxa1lub2tOczZNeU0yUjdkWW1JdzNVckxnazU5eklM?=
+ =?utf-8?B?Y1NxVEduNjZHSEZaNHQ4RU9Kd2VUMzNyVGxKVmVUK0c5NkhSYTR6eHR4dkRs?=
+ =?utf-8?B?VDVQN00zUHhWdzF2WUI4cGhnSWVGOHYrQURGRDVjNGtRcHVDUlA4cE4vaWlU?=
+ =?utf-8?B?dGVoRVd5RUsrL2JGelhCWTFDbm1iZnAyaEVPR1ZSMm84UE5ZQ3kweVRUd0JE?=
+ =?utf-8?B?UU9iK0RRS213bHgzd1RSYjRLMTFNeG9FaVZKTHNsTzNHR2ZJeVhIWHplMkxE?=
+ =?utf-8?B?MWh4S1NaZk1HRWd4cnkvZTh4V3Qzb0xuenVRRkQxbTdGdzdDdmRVZ0VPNEZD?=
+ =?utf-8?B?ZEJiRzZyS3c0d2R2dDh6WldaRytzcjF0NDJ0Tm5KVGFDL2JWVDNlZHUrRUFp?=
+ =?utf-8?B?dHhVL3d3RTNTZVRSNndmd0FBZ3FmRWNBWk8yUkhUTzEyYmdDWXRTd3RrV1hh?=
+ =?utf-8?B?Mlpkd2RBeWJ0b2JqM0FKL01UTkpmb3FwZnJISVBlODJYbGFrTzQvOEQ1Kzc1?=
+ =?utf-8?B?U2Y1YU9wUnNmUHhhbGNxcmx2dDJxMElxOEFMaHRFVUppa01mcjc1VStwODdX?=
+ =?utf-8?B?eEpuWkFHbExKL3c0SDdhaWtOdUtzalBpMU9nUWRWSlZxQndzTjdMZUdZMVdm?=
+ =?utf-8?B?bWdVbExpZWpBcmwrd3hMMWZ2T3ZtNjBJYVR2MGhqazJvQ2Frd2dxWlc5cEJL?=
+ =?utf-8?B?cW0yY254cGRZTHd4ZXpuWjc2YXExMmpsZzZTZ21SMkJWT0l2bm04S0FEdmI5?=
+ =?utf-8?B?QnpyUDU0MHp6cnk3R0RRbmtVdnBrZDN2dU1HMDBTOG9ONDR5SG1BZ1dyWGhw?=
+ =?utf-8?B?YVlGQWR5U2o4NWtyVEZwUXJVcysvSGZMT0o5Q1FwODNxSkpDb2ZLd3MrUTBH?=
+ =?utf-8?B?aTBKcnd1dWJvZFR6bVBhcW1uWlBVSkJYT3BHN3I2bVo0MHZVSlpxY0w5YklV?=
+ =?utf-8?B?RjI1U3FMOVpnZlFHN0ZROFFGY2huYXd5TWxyQVhxVzZ0Z3M3aEpwZGhVeTFu?=
+ =?utf-8?B?NDV2NjE1M0EvK0x5LzZCSU9ob3JvbnFleWo2cm1hbzhpZEhjVVF3M2lHaHpU?=
+ =?utf-8?B?QWliQ3JPYlFmZ2ZWSXpDSmVhL0M4MXJvbXRlNUdXRFNrTEV5MWhJUFFhYWQw?=
+ =?utf-8?B?aHNuTTBEWkVPUHNpdGR4ZTNBRFJZUTdGdnJOdVA4R04xdnBZYzNlSEtEaklC?=
+ =?utf-8?B?VW94Q0ZqbXJKV3BZTXZDcHhydXRnZ0NXL1p5T054a05jNVlmMzZ6dXBpNzJx?=
+ =?utf-8?B?MzJuZFpBbVFQVElmWFZNTGxoQmduK3ZGKzN6THFYU0Q2SEJubHZsV21zaG01?=
+ =?utf-8?B?RGdzTzl0dE1TeFY0MVBEcXVnMUVSY0NzNTh0OFA3NmJmZ1RvZ1NzdGlTbnhP?=
+ =?utf-8?B?MDZxcHViNjZNcU0yeXpvTVdZb0JueXR1NzF6dkh5RCtDNStaMlhpa2NFaER6?=
+ =?utf-8?B?TU81Vmo5R0h5Ykx4UDdqNElKcnNwRElyN1BReUlVNktvMkYvdmFwUVFxNktj?=
+ =?utf-8?B?dUo0emlhMTh1aFhLdU9md2FxTWN6eVdtVHFLcGRpYzZZTUYvRVFSNmNJSWJX?=
+ =?utf-8?B?SnF6SURaWGI1UFZHQUNiM0QxbU9EZFc3SXQ5TUhsaDUwZWd2RDRrWUdBbG5J?=
+ =?utf-8?B?bFpjNDJ0TWlkQmlBc2Y0d2FjNTVubE82MEsxc054dTVLNnQ5Z2Eza0FqSWlC?=
+ =?utf-8?B?cmYrWkRXU3FvNnVBcko5enpON05TTGc1Y3ZoSmxnRzFrdklJdTdqNWJwZ2Mr?=
+ =?utf-8?B?Z3d6SmlMaTh2amNMRXVaUEVrWWRSQjNHdXY1YUt5WXp0Uks1NzBVMk16VVVT?=
+ =?utf-8?B?cDAzZ2FOMUZraVI0YjZtVWtrMXhINTdwa1NTNGp6aUlmcEVYVUdETEk2dGEv?=
+ =?utf-8?B?WGt2NUZTOFp0djROQ1l1bGhEaWV5eTFsaDIyWG43aTl5b2Y1Mm93d1hzU3U4?=
+ =?utf-8?Q?/GY2nDYIv3hZs7UY=3D?=
+X-Exchange-RoutingPolicyChecked: P7F7Y3PRTc35srEg7eaXXn43kjbg6CMBZ1YcVyxzA4u+EwVjx54PsZ6opH1O5qrvPqpRZkzTjT+M3SCPsJjGRY54ZuraIXpq2E2b3E8w9jSHjMs0CCCCUBWR5SaTWUFEr+nAYXXkGxKcrDuYZv8+RvvF1gQPpA50ifVNRe1y/apNxbmBgW/u0lmWCn8doLKYGR/66s3oLUQm818saaXsGHQMEWSTWl5fbM74N7Rvo5zWRJlb7/W79SOjlm/qtZjq84utTru7SVpK4txNJAoDjLY3GJtkqVFYor4rtD63cfsj721LrzuE3XQiMFj/uttVcVeUxMjqhyfuXb/MISa0ag==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42c1f0e7-d3d8-460f-c979-08deb7f26e3f
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8718.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2026 11:08:19.6701
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IXb7qMl4g32oezDrmyxodC86izGkUKMkVL1qBBzcKRwDfqYa7dEZN8IRFLxOI8VDBkdaBkMM6NkB9JciPnjqXKMwkgIcp++WSzvTiFPFE4s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5819
+X-OriginatorOrg: intel.com
 
-On Thu, May 14, 2026 at 05:29:31PM -0700, SeongJae Park wrote:
-> On Fri,  8 May 2026 16:55:16 +0100 "Kiryl Shutsemau (Meta)" <kas@kernel.org> wrote:
+From: Jakub Kicinski <kuba@kernel.org>
+Date: Thu, 21 May 2026 06:56:09 -0700
+
+> On Thu, 21 May 2026 11:28:50 +0200 Larysa Zaremba wrote:
+>> On Wed, May 20, 2026 at 05:52:01PM -0700, Jakub Kicinski wrote:
+>>> On Fri, 15 May 2026 15:44:25 -0700 Tony Nguyen wrote:  
+>>>> include/linux/intel is vacant  
+>>>
+>>> I don't see any other vendor directory under include/linux  
+>>
+>> There are at least
+>>
+>> include/linux/mlx4, include/linux/mlx5 and include/linux/bnxt.
+>>
+>> Those are per-driver and not per-vendor, but intel ethernet has too many drivers 
+>> to have separate folders for them.
+>>
+>> I just do not think this creates a precedent neccessarily.
 > 
-> > Preparatory patch for userfaultfd read-write protection (RWP). RWP
-> > extends userfaultfd protection from plain write-protection (WP) to
-> > full read-write protection: accesses to an RWP-protected range --
-> > reads as well as writes -- trap through userfaultfd.
-> > 
-> > RWP marks ranges by combining PAGE_NONE with the uffd PTE bit, so
-> > the flag is only meaningful when both primitives exist. A new
-> > CONFIG_USERFAULTFD_RWP Kconfig symbol auto-selects when CONFIG_64BIT,
-> > CONFIG_ARCH_HAS_PTE_PROTNONE, and CONFIG_HAVE_ARCH_USERFAULTFD_WP
-> > are all set; call sites that gate on the flag depend on the symbol.
-> > Elsewhere VM_UFFD_RWP aliases VM_NONE and every downstream check
-> > folds to dead code.
-> > 
-> > Nothing sets the flag yet.
-> > 
-> > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> > Assisted-by: Claude:claude-opus-4-6
+> You just said the other ones are for specific drivers.
+
+Right, but according to your earlier suggestion they belong to
+include/net, not include/linux.
+
+My understanding is that they're under include/linux, not include/net as
+mlx5 is not only about Ethernet, but also RDMA etc. The same applies to
+Intel's headers.
+
+What's your position after all this? Still include/net/intel? This
+commit is about stopping scattering Intel headers all over include/linux
+and set one place for them.
+
 > 
-> A silly but loud thought.  Would it make more sense to put Signed-off-by: after
-> Assisted-by: ?
-
-I am not sure. I see it both ways in git log. And I don't have strong
-opinion on the order here. Keeping as is.
-
-> > ---
-> >  Documentation/filesystems/proc.rst |  1 +
-> >  fs/proc/task_mmu.c                 |  3 +++
-> >  include/linux/mm.h                 | 28 +++++++++++++++++----------
-> >  include/linux/userfaultfd_k.h      | 31 +++++++++++++++++++++++++-----
-> >  include/trace/events/mmflags.h     |  7 +++++++
-> >  mm/Kconfig                         |  9 +++++++++
-> >  6 files changed, 64 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> > index db6167befb7b..db28207c5290 100644
-> > --- a/Documentation/filesystems/proc.rst
-> > +++ b/Documentation/filesystems/proc.rst
-> > @@ -607,6 +607,7 @@ encoded manner. The codes are the following:
-> >      um    userfaultfd missing tracking
-> >      uw    userfaultfd wr-protect tracking
-> >      ui    userfaultfd minor fault
-> > +    ur    userfaultfd read-write-protect tracking
+>> Folder structure is for you to decide as a maintainer, but it would be nice to 
+>> have known about such doubts earlier.
 > 
-> Yet another silly but loud thought.  My first feeling on this was that this
-> reads like 'u'serfaultfd 'r'ead-protect.  And was further thinking 'uf' for
-> just 'u'seffaultfd 'f'ault or 'up' for 'u'serfault-'p'rotect might make sense.
-> But ended up thinking this is too trivial and ain't really matter.
+> I'd love to know if you any suggestions for improving the process.
+> Otherwise please keep your venting off list.
 
-I will keep it. It's "u" + the first distinguishing letter of the mode
-name. r distinguishes RWP from WP cleanly.
+I think Larysa just wanted to say that you disliked this commit after
+the series went through several iterations on IWL and 3 iterations here,
+nothing more. It's not about the overall process.
 
-> [...]
-> > diff --git a/mm/Kconfig b/mm/Kconfig
-> > index e8bf1e9e6ad9..ccf534a8cbc9 100644
-> > --- a/mm/Kconfig
-> > +++ b/mm/Kconfig
-> > @@ -1347,6 +1347,15 @@ config HAVE_ARCH_USERFAULTFD_MINOR
-> >  	help
-> >  	  Arch has userfaultfd minor fault support
-> >  
-> > +config USERFAULTFD_RWP
-> > +	def_bool y
-> > +	depends on 64BIT && ARCH_HAS_PTE_PROTNONE && HAVE_ARCH_USERFAULTFD_WP
-> > +	help
-> > +	  Userfaultfd read-write protection (UFFDIO_RWPROTECT) delivers a
-> 
-> Seems UFFDIO_RWPROTECT will be introduced later.  Would it make more sense to
-> add this config together with the patch?
+I also had a couple such moments in the past, but well, a review or a
+comment can happen (and are valid) anytime before the patch is taken to
+the tree, sometimes even afterwards and then we send fixups.
 
-
-Okay, I will move later in the patchset.
-
-> > +	  userfaultfd notification on every access -- read or write -- to a
-> > +	  protected range, letting userspace observe the working set of a
-> > +	  process.
-> > +
-> >  menuconfig USERFAULTFD
-> >  	bool "Enable userfaultfd() system call"
-> >  	depends on MMU
-> > -- 
-> > 2.51.2
-> > 
-> > 
-> 
-> None of my comments is a blocker.
-> 
-> Reviewed-by: SeongJae Park <sj@kernel.org>
-
-Thanks!
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Thanks,
+Olek
