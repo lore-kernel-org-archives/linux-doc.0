@@ -1,157 +1,131 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20557413247
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 16:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F1E2222CC;
+	Fri, 22 May 2026 17:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779468519; cv=none; b=TucxegfzWIlb8sr/3AYyrvddS8mXcmye3WxDz2Y5ioYExGhYjhjyRIdt3nLCjz1AHXWmax3t3m1mW59jy2TSu1ACY17hMN0ukb6LgkABnoywB6NuLfwKvURB/RRxXRR/kAm5taPLDJAVWm5BEyhjOtSDhWa7sMhLPKlo45GV7MY=
+	t=1779469340; cv=none; b=O5pSA5mMBZAyV9odCKhQWxr8o6SZiUnSckYNuiARQLQnX/g6In9pkBq8gA5gBqaBmtiay35v5aglsx3TWFPClY1L1dfdYFpOA9mV9mnIOdZWzp5//XrHhd8/NBrGmTML7YJY540I2Qb9x1Jaj7bDG5oYZTeVE9ujJo5VPY2cGjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779468519; c=relaxed/simple;
-	bh=suCtCBavrXUoNe3sv+YiS2FLcvPEDoDUlPhXLWb7rgk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HeCf85Urb/kYWoxxZ3AVTyw/I7gWRsOnzPAR8FOy54/3QG/+etSvt+A+TSA17XYldsw6oDdQKWn2fM5dZ0U1NynnNIWVCAYM3ZYGFkIY27Q/EANl/AZxHTO4Y+LdBHWa+pReLA2lzkEkW9fFiEHPD32if4zyZYkMGFsuxAtX364=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UUxVu4JO; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1779469340; c=relaxed/simple;
+	bh=ZT438QpfdkV342To8rC4e986CAHRHP03DGVC4RwMVEI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=L/VaknVIP+DAp9PZbjXIA1viyLS2ftbgbjzKdL6Qub4kalTm3XpkRUfRuINr/WUukfuWjaIJMXdIbFV2og6z6Assd5WyKURiiv5CR08hQZN87XcX6V1vtaBOhatNu9R80YyUtFESk9wSVonyIhB2/4sX3hlN0GtGaM7wwY/w7as=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cOXAnMSw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UUxVu4JO"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-44e1ebb3122so4718162f8f.2
-        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 09:48:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1779468516; x=1780073316; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RkkB0hffRR69qMLvhInPQn8c5SMOFLnLZE8s1HedbWk=;
-        b=UUxVu4JO7lcnC3jau98SkjDJvQAL34n/r/ySMVSN2psUVDmiOp8kxuBCkbgKsSBthv
-         NWHOnqLLhKmyro+ubhGc0rLno/U/4iTCLYB1OT6cjUiSykXcjxuBre0tCM06OI9H+O3X
-         r/Dpu/Lq14iQvlXpnLhz/enndwK+VXPJpELWpFDoH99hJ9mY5yD0kp8ZaThhNFmYOyfU
-         CdwNIjFOGQsgO7cDB7d5tiT+A3itikNTuGoUSnl7p60UmrwOmpIhS8A6TIf7vh1Wj1Ep
-         I0V9Qqda5eR9Lnk1C5gWd1j8BOsSXwNewqfl6Sn5Yhyxbt5RhPHF0Wkh+ndEwVHvyJIZ
-         40MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779468516; x=1780073316;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RkkB0hffRR69qMLvhInPQn8c5SMOFLnLZE8s1HedbWk=;
-        b=lBBRiOjAN8ITMWu/jMUkdzfGIqBFpq00lEfFyQ25OppO8VGyHp2nGI1D81kZL0NrlZ
-         bVakzv36U33bCWew43s7nb1uUlRi6gV5WYTvXWb0S86jcwWJRCwtpUAoLfMQomrPER7c
-         CK+0KxFvrlzN2gt2bb9PWTqGJSG4mqCF53Q+JoG/tD/m1SlDzavjq0ROXeVmJBxQ6zHA
-         8zuBv8uAYo1GlsHEqwkaruqjlhkHc45uiM2G5bMNRHxZIzghuHKb9dbaqxY+6iFKdOUI
-         hs/U6EE2jpdQYNEEanF2qRYLV2b/S2aiD6q8wijZdfAKlXUKYg5rVMRPVUjLJlIJJNxQ
-         KoaA==
-X-Forwarded-Encrypted: i=1; AFNElJ+/MK2c+t9/5wmfH6h98qfCauZh2Zn6KcrKPxDW01K/DDDa6dxBSB/HupjRqEyfoBiN11ZG5ijA+bI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhsAWcRHujm4GtyT90PeFRvkUoiyWOs9uzxtRkOT4nCnSryv6L
-	lb509PFypIaZg1f/Hq+Z2IGBBJh/Gd7k310PMm8o9NMlbut/gAIhCPOJiY7CabQqxxPJ9qWdiZK
-	mu55N
-X-Gm-Gg: Acq92OHmqnzsetFPuP5GnOl64h5sDa7LsnC50FzV55ASmSlLSKS1tjJ+njOKKYwQHSE
-	UVNKpAdlahvchTY4hsL5pVNBXQPMPwpMe7zNmYcASTMuKl7qCtDvvynZ8wiR/WbbpX4+Z/kru1H
-	G1Gh6AyTKJ7OaalL9/LBBYJyvlCph2wyq9oaUw5VKUeleK17cINOFVQP47XgjS5C0VX1B+LWLPE
-	CEh1d2qcATeUnF2wXERA9AItgz80ptQ/ZOWZ/Uqtd2Hquv3HMV36SqyFpfTBePDmvdPqsOzfAfb
-	G7mgvTAD6yfkUZ6G23l+WPqh2s17oLH281x26ea0I920T873FPfP0SfvcvZ3evirB3YZxQz3dFK
-	BHnzovMnCi+BMhPLmh35kWexoEXRu5DXi2hBDHimFrJN1Cyfd+2jw9ovUTm2ProoY7yOkGogvkK
-	QNintZVU2fNqt73X7GyvMOTzYGw7qGMrPEtx/t+cVlDf/09lhA
-X-Received: by 2002:a05:6000:4283:b0:45d:8c16:5566 with SMTP id ffacd0b85a97d-45eb38baadbmr7082103f8f.18.1779468516497;
-        Fri, 22 May 2026 09:48:36 -0700 (PDT)
-Received: from localhost.localdomain (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6d70d89sm5769908f8f.37.2026.05.22.09.48.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2026 09:48:35 -0700 (PDT)
-Date: Fri, 22 May 2026 18:48:33 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Maarten Lankhorst <dev@lankhorst.se>, 
-	Maxime Ripard <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>, 
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	kernel-dev@igalia.com
-Subject: Re: [PATCH v3] cgroup/dmem: introduce a peak file
-Message-ID: <ahCISfTlN10gD8e6@localhost.localdomain>
-References: <20260514-dmem_peak-v3-1-b64ce5d3ac38@igalia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cOXAnMSw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C1891F000E9;
+	Fri, 22 May 2026 17:02:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779469338;
+	bh=dFLeOAy+lG1jO24092Be2VYCeGNtREL/YhJ4BDlk35k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=cOXAnMSwXLS3Cx3pmWGfedk+qEDsnZLs9wI9mY6XdGLGV7mnkq2qaoUdVvE98nzg6
+	 UUAJWPxIKx2vMulFJ7HTK2hVGOIyk6oCM9kiJPWQQoc/B9gciTAn8XgpIlnB58Czsk
+	 6x+TO1BagE67DgE8xfeSPH89ni4PCj0tknYszJ5rx+i0VAQiR3CdZhzjEO+DI8XGLZ
+	 jKjaaTWN1FEI97QdfeYdM6TyujUjW8Dcp8Kafc7RleP1ETcp4FD/50Y2VuenfvhcxL
+	 7vpkfIZnEK2HJ+FQcLb+DtWSJ2WrSeKunLE6Xg2enYXwi0eFut2JVce04Z80HPkS1q
+	 1qgixNQS2FnEQ==
+Date: Fri, 22 May 2026 18:02:07 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Janani Sunil
+ <jan.sun97@gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
+Message-ID: <20260522180207.63b725fb@jic23-huawei>
+In-Reply-To: <20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
+References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
+	<20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="27zcqpjzhteuelt3"
-Content-Disposition: inline
-In-Reply-To: <20260514-dmem_peak-v3-1-b64ce5d3ac38@igalia.com>
-
-
---27zcqpjzhteuelt3
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3] cgroup/dmem: introduce a peak file
-MIME-Version: 1.0
 
-On Thu, May 14, 2026 at 02:36:08PM -0300, Thadeu Lima de Souza Cascardo <ca=
-scardo@igalia.com> wrote:
-> Just like we have memory.peak, introduce a dmem.peak, which uses the
-> page_counter support for that.
+On Tue, 19 May 2026 17:42:58 +0200
+Janani Sunil <janani.sunil@analog.com> wrote:
+
+> Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
+> buffered voltage output digital-to-analog converter (DAC) with an
+> integrated precision reference.
+
+Note that I'm seeing this as Changes Requested in the DT-binding patchwork
+but didn't see any replies.
+
+Seems I didn't get the sashiko reply - nor did the IIO patchwork.
+Hopefully Janani did!
+https://patchwork.kernel.org/project/devicetree/patch/20260519-ad5529r-driv=
+er-v3-1-267c0731aa68@analog.com/
+
 >=20
-> For now, make it read-only.
->=20
-> This allows for memory usage monitoring without polling dmem.current when
-> the information needed is the maximum device memory used. That can be used
-> for capacity planning, such that dmem.max can be properly setup for a giv=
-en
-> workload. It can also be used for debugging to determine whether a given
-> workload would have caused eviction or system memory use.
->=20
-> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
 > ---
-> Changes in v3:
-> - EDITME: describe what is new in this series revision.
-> - EDITME: use bulletpoints and terse descriptions.
-> - Link to v2: https://patch.msgid.link/20260513-dmem_peak-v2-1-dac06999db=
-9e@igalia.com
+>  .../devicetree/bindings/iio/dac/adi,ad5529r.yaml   | 217 +++++++++++++++=
+++++++
+>  MAINTAINERS                                        |   7 +
+>  2 files changed, 224 insertions(+)
 >=20
-> Changes in v2:
-> - Make it read-only for now and adjust documentation accordingly.
-> - Link to v1: https://patch.msgid.link/20260506-dmem_peak-v1-0-8d803eb344=
-9c@igalia.com
-> ---
->  Documentation/admin-guide/cgroup-v2.rst |  6 ++++++
->  kernel/cgroup/dmem.c                    | 15 +++++++++++++++
->  2 files changed, 21 insertions(+)
->=20
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
-n-guide/cgroup-v2.rst
-> index 6efd0095ed99..d103623b2be4 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -2808,6 +2808,12 @@ DMEM Interface Files
->  	The semantics are the same as for the memory cgroup controller, and are
->  	calculated in the same way.
-> =20
-> +  dmem.peak
-> +	A read-only nested-keyed file that exists on non-root cgroups.
+> diff --git a/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml b=
+/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
+> new file mode 100644
+> index 000000000000..eb66f6ca063d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
+> @@ -0,0 +1,217 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/dac/adi,ad5529r.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices AD5529R 16-Channel 12/16-bit High Voltage DAC
+> +
+> +maintainers:
+> +  - Janani Sunil <janani.sunil@analog.com>
+> +
+> +description: |
+> +  The AD5529R is a 16-channel, 12-bit or 16-bit, high voltage, buffered =
+voltage output
 
-s/nested-keyed/flat-keyed/
+Long line. Check the wrap.
 
+> +  digital-to-analog converter (DAC) with an integrated precision referen=
+ce.
+> +  The device operates from unipolar and bipolar supplies. It is guarante=
+ed
+> +  monotonic and has built-in rail-to-rail output buffers that can source=
+ or
+> +  sink up to 25mA.
+> +
+> +  Specifications:
+> +  * 16 independent 12-bit or 16-bit DAC channels
+> +  * Independently programmable output ranges: 0V to 5V, 0V to 10V, 0V to=
+ 20V,
+> +    0V to 40V, =C2=B15V, =C2=B110V, =C2=B115V, and =C2=B120V
+> +  * The device supports SPI communication with Mode 0 and Mode 3.
+> +  * 4.096V precision reference, 12ppm/=C2=B0C maximum
+> +  * Built-in function generation: Toggle, Sinusoidal Dither, and Ramp wa=
+veforms
+> +  * Multiplexer for output voltage, load current sense and die temperatu=
+re
+> +
+> +  Datasheet: https://www.analog.com/media/en/technical-documentation/dat=
+a-sheets/ad5529r.pdf
+> +
 
-With that
+> +patternProperties:
+> +  "^channel@([0-9]|1[0-5])$":
 
-Reviewed-by: Michal Koutn=FD <mkoutny@suse.com>
+Sashiko commented that this should be hex.  Why the forcing to decimal?
 
---27zcqpjzhteuelt3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCahCI3RsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ah3WAEA8jNoGbM+jfh2AQM8AaCh
-AP+xdJvR4lj+FHVIyhs6qukA/0scDz7iwckNV/NU40VipKTbHw6vIv1Uo6Y97PJu
-d5kF
-=dGdF
------END PGP SIGNATURE-----
-
---27zcqpjzhteuelt3--
