@@ -1,677 +1,101 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239FC35F5E1
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 17:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6CF2D839C;
+	Fri, 22 May 2026 17:59:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779472290; cv=none; b=Px3GADXejMN23ykjbOMBa11msYCOlP8XHFT+HufqtAuLS0J+dtMgKpIf3saLEJLT/P4Zk6qvnS9lzj5mR5LThwFq6KbwEmGeItpo8WcOKmfTuKfog3BMpHInivl7tRtXd7PANwxdC9td5jjDrxSrByF5y4L5w4C9E/f4kddwef4=
+	t=1779472743; cv=none; b=h5Dw+Au50Qq8BqQfQyLPVUHyyhBWF6kJpl8Qq1qK0ndHFnXsWev+ksoZg2WTwgpv9c+jZ9pshSInWX3LeqdkcntvJJXJYGlrYCRoCelA7XLHJzvxNNSXVwgpMHhayykjlSTpVmHwjlztyWCJCkrZAB4uHbtVpauWatIn3ogbncc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779472290; c=relaxed/simple;
-	bh=Lmd3fat+iy05VFwDV9OkZ+dPUBIpXT1swfKuILj553k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HPNj51yKOY0eCkSXqmf4NEgTBwi0p+NAJEwDyYGQnIqWtmWNKTSv9JX/yQ91ypdCkA8rMfWVvYhuXf2Dvqb/KmWAOKmAtcnmPeWVN730FwDjsODUGgAJFdx1V5bJBu271MZJWIi7M+gsd12mlTqcv6+HFRBV5SqZSdOpaOvQAKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TfhnLQ/U; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1779472743; c=relaxed/simple;
+	bh=Tz9TJtuJuplhHjilsZjAm/P8Nuqusyn1jja1lo1ESgs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Sek0TN7N20YKS2PGV8HIHRP8qa0zvdhAe5rF300IJVLyfe7UUzHmAVSDrtKxaK/nCSyKB/6mgUX4bLp1OEQYarSnPoE3fqF52pvlEkXV6WmYNrpNq9+VmmeiMHbVr5B2y6UYYy/HmXqWmFuTVUbfYDHn5DyUPvLnjnS3+6s/QhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Higw7MlK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TfhnLQ/U"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 1313EC5E179;
-	Fri, 22 May 2026 17:52:19 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 411026003C;
-	Fri, 22 May 2026 17:51:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E8582108116E6;
-	Fri, 22 May 2026 19:51:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1779472283; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=yZgvA1gYQFIbvg6/jrRfXrn5G7Mjdvv4QrFMezU1bZo=;
-	b=TfhnLQ/Ul+9LpYRg5sMzSfq880lKK1goD415ZCkyzjccrSd1l9y/RFVfsA5MdLwPfRIevj
-	0iM8wKzvaOiD8mhq55z5nKBFfCt56U/O1BDbrg8Qe8zlePcYhWxURRIDVqa7NF5llJloYJ
-	5lv1KI9+CaqqMhVCFHVsPpfti9P9JuYUo+CyUmEgf5DrbzY5JFXYouh1Gzk9rpxPf0d+dU
-	2W+PnDi3IoM4ELdOwSnsD567Rak7O06ieidD6G5djJoQ9Iok5JG10cvwGK0as/kXehxrtr
-	WPNwIkTTBSUs9sM2Gmtb8Sn1buDdJqD9s41QYcYTh3SF8v8Lfs25anPQhRfawA==
-From: "Maxime Chevallier (Netdev Foundation)" <maxime.chevallier@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Jakub Kicinski <kuba@kernel.org>,
-	davem@davemloft.net,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: "Maxime Chevallier (Netdev Foundation)" <maxime.chevallier@bootlin.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	thomas.petazzoni@bootlin.com,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net-next] Documentation: networking: Add a test plan for ethtool pause validation
-Date: Fri, 22 May 2026 19:51:06 +0200
-Message-ID: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Higw7MlK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3E261F00A3F;
+	Fri, 22 May 2026 17:58:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779472741;
+	bh=ulTeLZZui4DXY5+bPBSyvsoljPtiPS3qEpLr1gm+xqU=;
+	h=From:Subject:Date:To:Cc;
+	b=Higw7MlK+QiJ3tTZk76VtzSP4xJarhtLKV0ktTGRxnWu0WHKaoMRJIqDw3HwZqvd4
+	 Q86cwJBHR+E89nj1Cm2WD207PwLbaKmPUWE3tktlsILdhCvoqUMs5hw+KUsjU75+y1
+	 /8pcNkRYGSgEUC3fHIXDyKH3XTGBk7mntEH4+gn9CEzwQFftWED2UswKDDKvi3C3W6
+	 DrHz/Q03CbsY+na2xMT6a7aiY1JPJydDVeiFy7bSFnM/XXMN/W3ZGVT2ypctOHtVBn
+	 fqVSH6LlaEHz080dDCHAa0GcNc/I2J0xSNjkz4MCIMrSLF/ww2eS+uoj1zmHHxiUeQ
+	 nYvc1Qrn0QITA==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH 0/3] arm64: Fixes and cleanups for
+ cpu-feature-registers.rst
+Date: Fri, 22 May 2026 18:58:36 +0100
+Message-Id: <20260522-arm64-cpu-ftr-regs-v1-0-19775b40faf0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEyZEGoC/yXMTQqEMAxA4atI1ga0agWvIi5sTZ0M+EOiIoh3n
+ zouv8V7FygJk0KTXCB0sPIyR+RpAv7TzyMhD9FgMmOzyuTYy2RL9OuOYRMUGhWdJ2eGoixqGyC
+ Gq1Dg8z9tu9e6uy/57TnBff8AKCmDhXYAAAA=
+X-Change-ID: 20260521-arm64-cpu-ftr-regs-bceb2d34376f
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, 
+ Joey Gouly <joey.gouly@arm.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1727; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Tz9TJtuJuplhHjilsZjAm/P8Nuqusyn1jja1lo1ESgs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEJlg0aL13XInKmE8AjuzI7PVsxSiKfTjhU9It
+ 8VnYbccg5qJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahCZYAAKCRAk1otyXVSH
+ 0K9WB/9heBgyBlfdjtOv6yWMMddPKSY0wOSpogauWmTUeCc8Vr8kEReSzpU9RUkwxJ6n6BoLoVC
+ eVnTK/dUOvrmSnNWSHM6qecCEvI7cAyhaDpgTg2G5S18NgZlcRmhTNUR8y4bAO//d/RwGHekGOP
+ /9J4b18SdU4nCK6UJW64E5UNAHUIFqJoFNdavU/QM8L/VwIpi/DUgM1LCNgSpqpYVdfd87HoZTk
+ qE6msWukmVxPrR+nAJHd7wMgSEoLK6Opa1AFrNTO9ZLxK27Uq+kKC4Ky/GXon2HKgBBwGvdiAvU
+ QrNBwLMJ+cMB0uuwcAvlp2cZo0ssEreoDfbhqQne7+dx2XhB
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Flow control configuration through Ethernet Pause frames is not
-straightforward to get right when implementing a MAC or a PHY driver.
+Peter Maydell noticed some missing updates to cpu-feature-registers.rst,
+while looking at these a number of other other omissions and some
+maintainability problems were observed.  Several registers and many
+bitfields have not been added.  
 
-This is often a feature that's poorly tested during development, and
-getting it right requires correct configuration both in MAC drivers,
-that implement the flow-control, and the PHY drivers, which deal with
-the negotiation of the pause parameters.
+Following discussion with Catalin we remove the numbering of the
+registers in the first patch so that when we add the registers we can
+add them in a roughly sorted order, then fix up the missing
+documentation before sorting the existing entries in the file.
 
-As part of the Netdev Foundation effort to improve driver testing, and to ease
-the development and review effort, The netdev mailing list has been surveyed
-to identify the common pitfalls. This testing plan has been written to try and
-catch most of the common problems.
+This whole area should have much better tooling, rather than having to
+update multiple places and manually cross check several different places
+including rarely used documentation we should be marking up the sysreg
+descriptions and then either generating the data or validating against
+manually updated copies.  Manually updated copies seem like a good idea
+for the ABI documentation since while it's more work that would force
+review.  I did start on some sketches, it seemed like it might make
+sense to tackle along with using the MRS but the libraries for that
+seem not to be progressing at any great rate, I'll dig the sketches out.
 
-This document is aimed as being a human readable basis we can adjust and
-discuss before diving into the actual tests implementation, it may not
-necessarily have to live in the kernel doc forever, especially once
-tests are implemented.
-
-Note that Oleksij Rempel made some attempts at documenting Ethernet Flow-control
-before [1], this current work isn't meant to superseed it but rather
-complement it with a testing protocol.
-
-[1] : https://lore.kernel.org/netdev/20260304094811.2779953-1-o.rempel@pengutronix.de/
-
-Signed-off-by: Maxime Chevallier (Netdev Foundation) <maxime.chevallier@bootlin.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
+Mark Brown (3):
+      arm64: Don't number registers in cpu-feature-registers.rst
+      arm64: Document missing bitfields in cpu-feature-registers.rst
+      arm64: Sort registers in cpu-feature-registers.rst
 
-Temptative approach to send that as part of the kdoc, this may not be
-the best path, as this could simply be some email thread.
+ Documentation/arch/arm64/cpu-feature-registers.rst | 281 ++++++++++++++++-----
+ 1 file changed, 214 insertions(+), 67 deletions(-)
+---
+base-commit: 5200f5f493f79f14bbdc349e402a40dfb32f23c8
+change-id: 20260521-arm64-cpu-ftr-regs-bceb2d34376f
 
- Documentation/networking/index.rst           |   1 +
- Documentation/networking/pause_test_plan.rst | 556 +++++++++++++++++++
- 2 files changed, 557 insertions(+)
- create mode 100644 Documentation/networking/pause_test_plan.rst
-
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 44a422ad3b05..fef54999267d 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -91,6 +91,7 @@ Contents:
-    openvswitch
-    operstates
-    packet_mmap
-+   pause_test_plan
-    phonet
-    phy-link-topology
-    phy-port
-diff --git a/Documentation/networking/pause_test_plan.rst b/Documentation/networking/pause_test_plan.rst
-new file mode 100644
-index 000000000000..5ff9860efbe5
---- /dev/null
-+++ b/Documentation/networking/pause_test_plan.rst
-@@ -0,0 +1,556 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Ethtool Pause testing
-+=====================
-+
-+This document describes the test plan to be used for the ethtool selftest, aimed
-+at providing a validation framework for Ethernet drivers that implement flow-control.
-+
-+To ease readability, the document uses the "ethtool" command to describe test cases,
-+actual tests may use the netlink API directly.
-+
-+This document was written after surveying the common error patterns for pause-related
-+patches on the netdev mailing list. The common mistakes are usually found in either
-+MAC drivers that don't make use of phylink, or PHY drivers that interfere with
-+pause settings.
-+
-+The main classes of problems are :
-+
-+ - MAC drivers incorrectly configuring the Pause/Asym capabilities in the attached
-+   PHY device through calling phy_support_asym_pause() and phy_support_sym_pause().
-+
-+   These are used to allow the PHY do know what Pause settings the MAC supports, in
-+   order to advertise it to the LP.
-+
-+   They aren't to be used to configure the Pause advertisement, and the MAC driver
-+   needs to actually configure Pause on its side after negotiation finishes.
-+
-+   Using phylink is the easiest fix for this kind of problem.
-+
-+ - PHY drivers overriding the Pause/AsymPause bits in the supported/advertising
-+   fields. Pause is a MAC feature, but the PHY negotiates the settings with the
-+   partner. The PHY driver shouldn't have to tweak Pause settings, only advertise
-+   them and report the negotiation results.
-+
-+ - MAC drivers confusing phydev->autoneg and pause autoneg. Pause autoneg is about
-+   whether or not we want to negotiate the Pause settings with the partner, or use
-+   locally enforced settings. phydev->autoneg, also referred to as link-wide autoneg
-+   is about whether or not we want to negotiate anything with the link partner,
-+   including speed, duplex, pause, etc. Both phydev->autoneg and pause autoneg can
-+   be configured independently.
-+
-+ - MAC drivers mishandling the pause parameters in the ethtool get/set_pauseparam
-+   callbacks, usually by ignoring the pause autoneg settings.
-+
-+The hardware capabilities regarding Pause support are reported through the
-+linkmodes bits 'ETHTOOL_LINK_MODE_Pause' and 'ETHTOOL_LINK_MODE_Asym_Pause', the
-+four different combinations are accepted and together describe the ability for
-+the hardware to send TX pause frames, and process the received ones :
-+
-+ - **Pause** bit : the interface has the ability to Receive and process Pause frames
-+ - **Asym** bit (Or AsymDir) : The TX and RX pause setting can be different.
-+
-+This translates to :
-+
-+ - **Pause** & **Asym** : We can support **ALL** combinations of rx/tx
-+
-+ - **Pause only** : only **rx == tx** configurations are valid
-+
-+ - **Asym** only : **rx** must be **off**, **tx** can be **on or off**
-+
-+Similarly, the link partner can advertise its capabilities through the same
-+bits. These parameters are exchanged through the negotiation process, but can
-+also be enforced locally by disabling **pause autoneg**, thus ignoring the
-+link partner's capabilities.
-+
-+The local resolution of the pause configuration after receiving the link-partner
-+abilities is done according to the following table, from 802.3 Annex 28B.3 :
-+
-++-------------+--------------+--------------------------+
-+|Local device | Link partner | Pause settings resolution|
-++------+------+-------+------+-----------+--------------+
-+|Pause | Asym | Pause | Asym | RX        | TX           |
-++======+======+=======+======+===========+==============+
-+| 0    | 0    | Any   | Any  | No        | No           |
-++------+------+-------+------+-----------+--------------+
-+| 0    | 1    | 0     | Any  | No        | No           |
-++------+------+-------+------+-----------+--------------+
-+| 0    | 1    | 1     | 0    | No        | No           |
-++------+------+-------+------+-----------+--------------+
-+| 0    | 1    | 1     | 1    | No        | Yes          |
-++------+------+-------+------+-----------+--------------+
-+| 1    | 0    | 0     | Any  | No        | No           |
-++------+------+-------+------+-----------+--------------+
-+| 1    | Any  | 1     | Any  | Yes       | Yes          |
-++------+------+-------+------+-----------+--------------+
-+| 1    | 1    | 0     | 0    | No        | No           |
-++------+------+-------+------+-----------+--------------+
-+| 1    | 1    | 0     | 1    | Yes       | No           |
-++------+------+-------+------+-----------+--------------+
-+
-+The currently configured and advertised settings can be queried with ::
-+
-+  ethtool <iface>
-+
-+  Settings for eth0:
-+        ...
-+	Supported pause frame use: Symmetric Receive-only
-+        ...
-+	Advertised pause frame use: Symmetric Receive-only
-+        ...
-+	Link partner advertised pause frame use: Symmetric Receive-only
-+
-+While testing can be done directly with the Netlink API, as a reminder here's
-+what the ethtool output translates to :
-+
-++------------------------+-------+---------+
-+|     Ethtool output     | Pause | AsymDir |
-++========================+=======+=========+
-+|          No            |   0   |    0    |
-++------------------------+-------+---------+
-+|     Transmit-only      |   0   |    1    |
-++------------------------+-------+---------+
-+|       Symmetric        |   1   |    0    |
-++------------------------+-------+---------+
-+| Symmetric Receive-only |   1   |    1    |
-++------------------------+-------+---------+
-+
-+Mac drivers's current pause behaviour is reported through the
-+ethtool -a/--show-pause command, e.g.::
-+
-+        ethtool -a <iface>
-+
-+        Autonegotiate:	on
-+        RX:		off
-+        TX:		off
-+        RX negotiated: on
-+        TX negotiated: on
-+
-+When **pause autoneg** is on, the currently used pause parameters are the
-+*negotiated* ones, that may differ from the user-specified rx and tx values.
-+
-+When **pause autoneg** is off, the rx and tx values are the ones used by the
-+hardware.
-+
-+A : Standalone driver testing
-+=============================
-+
-+Requirements : The interface under test must be connected to a link-partner whose
-+interface is admin-up. We don't require the link-partner to be configured in any
-+other specific manner for these tests.
-+
-+A.1 : Sanity Checks
-+~~~~~~~~~~~~~~~~~~~
-+
-+Pause autoneg is set to off::
-+
-+  ethtool -A <iface> autoneg off
-+
-+The 'supported' fields retrieved using the ETHTOOL_MSG_LINKMODES_GET includes
-+a "Pause" bit and an "Asym" bit.
-+
-+The ETHTOOL_MSG_PAUSE_GET command returns the currently configured pause modes
-+in the "tx" and "rx" attributes.
-+
-+These parameters must validate against the following truth table :
-+
-+   +--------------+-----------------+
-+   | linkmodes    | pauseparam      |
-+   +-------+------+--------+--------+
-+   | Pause | Asym | rx     | tx     |
-+   +=======+======+========+========+
-+   | 0     | 0    | 0      | 0      |
-+   +-------+------+--------+--------+
-+   | 0     | 1    | 0      | 0 or 1 |
-+   +-------+------+--------+--------+
-+   | 1     | 0    |     rx == tx    |
-+   +-------+------+--------+--------+
-+   | 1     | 1    | 0 or 1 | 0 or 1 |
-+   +-------+------+--------+--------+
-+
-+Test scenario
-+-------------
-+
-+Following the reported value from::
-+
-+        ethtool <iface>
-+        Settings for <iface>:
-+                ...
-+	        Supported pause frame use: <value>
-+
-+Iterate over all the 4 combinations of rx and tx pause parameters::
-+
-+        ethtool -A <iface> autoneg off rx <rx_val> tx <tx_val>
-+
-+The settings must be accepted or rejected, according to the above truth table.
-+
-+Failing this test likely means the MAC driver is incorrectly setting the PHY's
-+Pause and AsymDir bits, or that the PHY driver overwrites the Pause and AsymDir
-+supported bits.
-+
-+A.2 : Half-duplex operation
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Pause settings as exposed with the ethtool API only concern full-duplex modes.
-+
-+Test scenario:
-+--------------
-+
-+Set the interface under test in half-duplex mode with::
-+
-+  ethtool -s <iface> duplex half
-+
-+Expected behaviour::
-+
-+ - ethtool <iface>
-+
-+shows no Pause settings advertised.
-+
-+Should this test fail, it likely means that either the MAC driver incorrectly
-+calls phydev_set_asym_pause(), or that the PHY driver overrides the settings.
-+
-+B : Combined devices testing
-+============================
-+
-+Requirements : The interface under test must be connected to a link-partner that
-+can be actively configured during the tests. It must at least support full-duplex
-+modes, and optionally (but ideally) symmetric and asymmetric flow-control, as
-+well as autonegotiation of the Pause parameters.
-+
-+B.1 : Autoneg advertising
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Goal: Validate that the *advertised* Pause and AsymDir bits match the configured
-+pausemarams.
-+
-+The link-level autonegotiation must be enabled::
-+
-+  ethtool <iface> autoneg on
-+
-+Pause parameters are set with::
-+
-+  ethtool -A <iface> rx <val> tx <val> autoneg on
-+
-+Pause advertising is retrieved with::
-+
-+  ethtool <iface>
-+
-+Case 1
-+------
-+
-+Pause parameters : rx **off** tx **off**
-+
-+Expected advertisement : **None** (Pause = 0, AsymDir = 0)
-+
-+Case 2
-+------
-+
-+Pause parameters : rx **off** tx **on**
-+
-+Expected advertisement : **Transmit-only** (Pause = 0, AsymDir = 1)
-+
-+Case 3
-+------
-+
-+Pause parameters : rx **on** tx **off**
-+
-+Expected advertisement : **Symmetric receive-only** (Pause = 1, Asymdir = 1)
-+
-+Case 4
-+------
-+
-+Pause parameters : rx **on** tx **on**
-+
-+Expected advertisement : **Symmetric** (Pause = 1, Asymdir = 0)
-+
-+B.2 : Autoneg resolution
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Goal: Validate that the Pause and AsymDir negotiation translates to the right
-+TX and RX pause parameters.
-+
-+The following table, from the 802.3 standard, exposes the autoneg resolution
-+result for the advertised pause parameters by each link partner.
-+
-++-------------+--------------+--------------------------+
-+|Local device | Link partner | Pause settings resolution|
-++------+------+-------+------+-----------+--------------+
-+|Pause | Asym | Pause | Asym | RX        | TX	        |
-++======+======+=======+======+===========+==============+
-+| 0    | 0    | Any   | Any  | No        | No           |
-++------+------+-------+------+-----------+--------------+
-+| 0    | 1    | 0     | Any  | No        | No           |
-++------+------+-------+------+-----------+--------------+
-+| 0    | 1    | 1     | 0    | No        | No           |
-++------+------+-------+------+-----------+--------------+
-+| 0    | 1    | 1     | 1    | No        | Yes          |
-++------+------+-------+------+-----------+--------------+
-+| 1    | 0    | 0     | Any  | No        | No           |
-++------+------+-------+------+-----------+--------------+
-+| 1    | Any  | 1     | Any  | Yes       | Yes          |
-++------+------+-------+------+-----------+--------------+
-+| 1    | 1    | 0     | 0    | No        | No           |
-++------+------+-------+------+-----------+--------------+
-+| 1    | 1    | 0     | 1    | Yes       | No           |
-++------+------+-------+------+-----------+--------------+
-+
-+The mapping between the configured pause parameters and advertised modes follow
-+the following truth table :
-+
-++----+----+-------+---------+
-+| tx | rx | Pause | AsymDir |
-++====+====+=======+=========+
-+| 0  | 0  | 0     | 0       |
-++----+----+-------+---------+
-+| 0  | 1  | 1     | 1       |
-++----+----+-------+---------+
-+| 1  | 0  | 0     | 1       |
-++----+----+-------+---------+
-+| 1  | 1  | 1     | 0       |
-++----+----+-------+---------+
-+
-+We can boil that down to the following cases to test, keeping the number small
-+to avoid dealing with the whole combinatory::
-+
-+        ethtool -A <iface> autoneg on rx <rx_param> tx <tx_param>
-+
-+Failing tests here would likely indicate that the MAC driver doesn't correctly
-+accounts for the negotiated Pause parameters in its .adjust_link() callback. A
-+MAC driver that uses phylink should pass these tests.
-+
-+Case 1
-+------
-+
-+Local device : rx **off**, tx **off**
-+Remote device : rx **on** tx **on**
-+
-+Expected result on local device after autonegotiation completes :
-+        rx negotiated **off**
-+        tx negotiated **off**
-+
-+Case 2
-+------
-+
-+Local device : rx **off** tx **on**
-+Remote device : rx **off** tx **on**
-+
-+Expected result on local device after autonegotiation completes :
-+        rx negotiated **off**
-+        tx negotiated **off**
-+
-+Case 3
-+------
-+
-+Local device : rx **off** tx **on**
-+Remote device : rx **on** tx **off**
-+
-+Expected result on local device after autonegotiation completes :
-+        rx negotiated **off**
-+        tx negotiated **on**
-+
-+Case 4
-+------
-+
-+Local device : rx **off** tx **on**
-+Remote device : rx **on** tx **on**
-+
-+Expected result on local device after autonegotiation completes :
-+        rx negotiated **off**
-+        tx negotiated **off**
-+
-+This case looks surprising but boils down to the fact that we advertise Asym only,
-+whereas the LP is advertising Pause (and not Pause + Asym).
-+
-+As per 802.3 this resolves to all "Off".
-+
-+Case 5
-+------
-+
-+Local device : rx **on** tx **off**
-+Remote device : rx **off** tx **on**
-+
-+Expected result on local device after autonegotiation completes :
-+        rx negotiated **on**
-+        tx negotiated **off**
-+
-+Case 6
-+------
-+
-+Local device : rx **on** tx **on**
-+Remote device : rx **on** tx **off**
-+
-+Expected result on local device after autonegotiation completes :
-+        rx negotiated **on**
-+        tx negotiated **on**
-+
-+This is also not an obvious result. We advertise Pause, the Link partner advertises
-+Pause + Asym, so it resolves to all "On".
-+
-+Case 7
-+------
-+
-+Local device : rx **on** tx **on**
-+Remote device : rx **off** tx **off**
-+
-+Expected result on local device after autonegotiation completes :
-+        rx negotiated **off**
-+        tx negotiated **off**
-+
-+Case 8
-+------
-+
-+Local device : rx **on** tx **on**
-+Remote device : rx **off** tx **on**
-+
-+Expected result on local device after autonegotiation completes :
-+        rx negotiated **on**
-+        tx negotiated **off**
-+
-+B.3 : Pause Autoneg
-+~~~~~~~~~~~~~~~~~~~
-+
-+Goal: Validate that the Pause autonegotiation flag correctly toggles the
-+advertised Pause and AsymDir link parameters.
-+
-+Test scenario:
-+--------------
-+
-+ - Enable pause autoneg and at least rx or tx pause::
-+
-+        ethtool -A <iface> rx on tx on autoneg on
-+
-+ - Check the Advertised pause frame use::
-+
-+        ethtool <iface>
-+
-+        ...
-+        Advertised pause frame use: Symmetric Receive-only
-+
-+ - Disable pause autoneg::
-+
-+        ethtool -A <iface> autoneg off
-+
-+ - Check the Advertised pause frame use, which must be 'No'::
-+
-+        ethtool <iface>
-+
-+        ...
-+        Advertised pause frame use: No
-+
-+B.4 : Pause autoneg transition
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Goal: Validate the advertising and pause parameters upon toggling pause
-+      autonegotiation. When pause autoneg is disabled, the local pause settings
-+      are dictated by the user configuration, without relying on negotiated
-+      parameters.
-+
-+This validation focuses on cases where the pause autoneg result differs from the
-+user-specified rx and tx pauseparams, e.g. :
-+
-+Local device : rx **on** tx **off**
-+Remote device : rx **on** tx **on**
-+
-+This will negotiate into rx and tx being **on**, contrary to the user intent.
-+
-+Test scenario:
-+--------------
-+
-+ - Enable link-wide autonegotiation::
-+
-+        ethtool -s <iface> autoneg on
-+
-+ - Enable Pause autonegotiation, setting RX on and TX off::
-+
-+        ethtool -A <iface> rx on tx off autoneg on
-+
-+ - Expected result::
-+
-+        ethtool -a <iface>
-+
-+        Pause parameters for <iface>:
-+        Autonegotiate:	on
-+        RX:		on
-+        TX:		off
-+        RX negotiated: on
-+        TX negotiated: on
-+
-+Note that the currently applied configuration here is expressed by the "negotiated"
-+parameters, so the link is currently using RX and TX Pauses.
-+
-+ - Disable pause autonegotiation::
-+
-+        ethtool -A <iface> autoneg off
-+
-+ - Expected result::
-+
-+        ethtool -a <iface>
-+
-+        Pause parameters for <iface>:
-+        Autonegotiate:	off
-+        RX:		on
-+        TX:		off
-+
-+Note that now, the currently applied configuration really is RX on TX off. It is
-+expected that upon running the above command, the link flips down and up again
-+as flow-control parameters are updated.
-+
-+ - Re-enable pause autonegotiation::
-+
-+        ethtool -A <iface> autoneg on
-+
-+ - Expected result::
-+
-+        ethtool -a <iface>
-+
-+        Pause parameters for <iface>:
-+        Autonegotiate:	on
-+        RX:		on
-+        TX:		off
-+        RX negotiated: on
-+        TX negotiated: on
-+
-+The user-defined pause parameters needs to be again converted to advertised Pause
-+and Asym parameters, negotiated and the final outcome must be the same as the original
-+conditions.
-+
-+B.5 : Pause autoneg only to Pause and Link autoneg transition
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Goal: Validate that drivers store the user intent in the pause rx/tx attributes
-+when disabling link autoneg, but *keeping the pause autoneg enabled*.
-+
-+When pause autoneg is enabled, the rx and tx pause parameters are the user intent,
-+but can be different to the actual pause parameters actively in use.
-+
-+Test scenario:
-+--------------
-+
-+ - Configure rx and tx pause parameters to **on** and pause autoneg to **on**::
-+
-+        ethtool -A <iface> autoneg on rx on tx on
-+
-+ - Disable link autonegotiation::
-+
-+        ethtool -s <iface> autoneg off
-+
-+ - Configure rx and tx pause to **rx off**, **tx on** and autoneg to **on**::
-+
-+        ethtool -A <iface> autoneg on rx off tx on
-+
-+ - No change in the pause parameters should occur
-+ - Re-enable link negotiation::
-+
-+        ethtool -s <iface> autoneg on
-+
-+ - Link must now re-negotiate pause to **rx off** and **tx on**::
-+
-+        ethtool -a <iface>
-+
-+        Pause parameters for <iface>:
-+        Autonegotiate:	on
-+        RX:		off
-+        TX:		on
-+        RX negotiated: off
-+        TX negotiated: on
-+
--- 
-2.54.0
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
 
