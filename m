@@ -1,54 +1,54 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA7D357D0A
-	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 20:24:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A002D383990
+	for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 20:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779481457; cv=none; b=F8V8AtEoVXig84aDKR0nmZjcZfZYjqxxXLVZOrmwGJuiTGYkKOuZaluVO6DsGr3y0S3CwuQmT5edAh11J44u8110QZyDHyfKlreEw9x0yTO7URXd6kotExhDFLpR453HQ+ONbcnrU+JPMdyXhSrSKZ0YttexsWyxyh2JK6PKigk=
+	t=1779481457; cv=none; b=HS2ciAmTecGed/HblBvPns9IWdzqPQeWlh7YJz6D9BvhWkzptx62yw8bb8Lw4HL08rJRJv9ZnVOhPlCKdBz1B0Vsl3eSr+VkRNz9+6Crp3gW6iMg941ZB92vCZ5mZBDyYDanRFaZGelPk5kBvtdMEFDauVXKMRlPO5hZ8ZpftFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779481457; c=relaxed/simple;
-	bh=I2+gT++65lvtozlVKIs++3OD+iHIOOhS9g2DosLpoBI=;
+	bh=dhC8rqI3i9ihTMWh3pEZNZs1wxVxws/nIw7f91D26B8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=UbNH+RoMik/YthYulhwvSxWugfqsYvV1O1yiCrfv5/FV2PZJGd67yW9hJZSoH0X5/aWE4nTzlsCROy+pglL53oaV6q2qPfD+7S0IxPT3Tf32J4X4NIZ9n/0f0/8ZP1srmekY5tLL92n4ZcSjx9Ys0MnxDlduC90PHFHkFpVIDqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=M45G7cqM; arc=none smtp.client-ip=209.85.216.73
+	 To:Cc:Content-Type; b=ceDZ5iLbEpEVrDFt2VAn0tQRBr3gP87fQn0X2qRrVhH2xHg6YJymdiTadzGNEmHu8+tzUjhy+jfEkqlnO4AgboVd90v1mEv1rMshQfw2PORtlRlrF5ku9/YQOQ/GF798MBpAj7YBDk61pf63qmHgMug90Y4ER8dFELh51uOwkvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=q5GxOwAq; arc=none smtp.client-ip=209.85.214.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="M45G7cqM"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-367bb9caa54so6859770a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 13:24:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="q5GxOwAq"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2babc42244aso180264085ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 22 May 2026 13:24:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779481453; x=1780086253; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1779481455; x=1780086255; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=knIrKIlKmxQWCfX61YATY4qsIQQ1NYNHXNjPVJJrvCw=;
-        b=M45G7cqMeM+VVPmIw+Gmye4vjOI1dC5NmfXNIcYJX3ERePh8OF9mA4QQSuKJclKbHu
-         v6OYc/5XRkBEPdxdqSjFGITP767jycAZsq2td8adOxzffRny6p7Xqmensu18UtiRkBG9
-         HldDI2tm+qv4UFm7DM79AWIS7Lv+UYsJM0NCr8YeFR9CzZRwtSLb7af/vJhUTSNNkMLJ
-         UCa17TCoPYs10ftHXG4aON1Ahn3QEA1QWJDOl3mWmlQtlk+v+tHEvfEgYPIea6IZ9QfQ
-         O39YuPTRbTScyzldbyuuzRek+Yhp7moJ6pez3zopOM3vQJMPkYUXjRTlcTbw1hR+3T7i
-         68UA==
+        bh=O7EM8yO5UABmCYyvloFksBNZ5H9Ralyj3Xc5krkoLm8=;
+        b=q5GxOwAqwH3qYvcSCYbOPedCPth67HYif8Zp3dNXFJlICx6a8acSLAz71ywK+7ZNr8
+         oqQd5gszhDlhtJAN/rIZM5uuhHWKJlBWy69G4LpBoNvCYYV8a4gBjMCeVGzqI6b+L01q
+         vn8epwZ8m8a5H5P0uUpTmvoHZuaj74FBGnhydUVRCtewW92seIFbUNuciLjfgKgiN7nt
+         6jlBduSsKOok+IHu7LkOn5RPxtlOX5php4rHwyCnM/9G5tUV9rVBjinTsNQCRz0CAVmQ
+         Sy5jfaXcLiNIbUeV1OUc4kaxWyuKpG25sHOQtEXWB8GzFDa1mje5rs/PtwdNJDoh6Kuf
+         svqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779481453; x=1780086253;
+        d=1e100.net; s=20251104; t=1779481455; x=1780086255;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=knIrKIlKmxQWCfX61YATY4qsIQQ1NYNHXNjPVJJrvCw=;
-        b=Nyb2Vn3afSyi5NbzYDp01setMCO2bJ7fZP64MzNnMBMwZmLud0g1I6evgghuar/2+6
-         gXwgm8h9NdAfvoa5LReY6AGsDWNpmaKzLElD9n2djLbHAwvTUMrlOSUot6XdHyEbSkEp
-         pQqneQMuMQ5lDCQrDi/Btkqc0mZHLFjKLLdwxWvlO5DY6LRlhIIwTtTg7w3UD2+u3Thr
-         i6uj2cnYoesXoccPLyS01IlqTUbWT0CAMqwgJgN1qoLH6p205/sePg3et+AF0oXIL/ue
-         LDBRFetFM33QOMb6spumaXzZgMbRGF078d+QeLGlGtEnNVbLNQGoZf2TVzTrqmalCysI
-         Uj1w==
-X-Forwarded-Encrypted: i=1; AFNElJ97vtYeqHiI/dDaO8scxV4Oo7aEW3BcAkyBWCNeUllLF85NwjEnwysI70uQKnE9Qe2A9AVAXFlWYCA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx54ruat6tiOaXNopZjehBOYdVMZjRJG8h3a5nzqY81nDM6Hb46
-	05U2PbsSvUv1v/DTTYAr+OnLTIVw+E9O+0N2t8FaWrKMqBo4jzrVrEakh3hj92zQBY0BmSfi8Ro
-	/pslyAtWWFoAcMA==
-X-Received: from pjbqx3.prod.google.com ([2002:a17:90b:3e43:b0:366:2773:30a2])
+        bh=O7EM8yO5UABmCYyvloFksBNZ5H9Ralyj3Xc5krkoLm8=;
+        b=ZVZHCwkSZq4s06EKIwfv75F1oFS0xNwSbw8yljnmtrASaQpl6IbtGmZoozjk5K3vPg
+         H/U7QsbXOrcRHz0cvh4dkEAoOJYfpP2592N/L5KA//2E1qHmd28H8NnU+Fflr9TZP41h
+         nOe80gQCG2MaWXxjwPDypTCiqTFOKx6lMryFBy/iiTYJ5HVFB22yNqbIim5EWpwUlFt2
+         VHjb7afgR+HEogg4bCfMfrpdFGRzCvd1H2qZ7e/b12l2hTmsZR1wFncAAuUPqHS6783f
+         1HtRz03/OSoxUawRc8L3XB3wdcxImAGv/6QuDk/BCP6d+zyEqbQ5xb4BmsJtgGskZxW5
+         oSVQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/5l7y606n7DtZE6VqtxNnrsYn3blGBJhEFeBRKuD9pZs/enep8oXQ1qTAqCQgc3xv2xPRUTkl5c0g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxnXwd4jeNjAIwmRVIG5hLUNwjpuK0z/zyU5eADcnv9MVXuXdG
+	8DinTDhWM2uIVrl/g7bp+Ce+DM3brADcghzmPgnivU07PdO1EPob+vbqtLFVVVaVGCKGNqJFQAP
+	ssHr7rihnc/dAOw==
+X-Received: from pldw18.prod.google.com ([2002:a17:902:ca12:b0:2be:22cf:75b2])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:3fc7:b0:35b:9894:f6f9 with SMTP id 98e67ed59e1d1-36a6765a2e6mr5125973a91.18.1779481452889;
- Fri, 22 May 2026 13:24:12 -0700 (PDT)
-Date: Fri, 22 May 2026 20:23:59 +0000
+ 2002:a17:903:1b43:b0:2b7:abc0:3bd7 with SMTP id d9443c01a7336-2beb035b8edmr57115215ad.9.1779481454632;
+ Fri, 22 May 2026 13:24:14 -0700 (PDT)
+Date: Fri, 22 May 2026 20:24:01 +0000
 In-Reply-To: <20260522202410.3104264-1-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260522202410.3104264-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.54.0.746.g67dd491aae-goog
-Message-ID: <20260522202410.3104264-2-dmatlack@google.com>
-Subject: [PATCH v6 01/12] PCI: liveupdate: Set up FLB handler for the PCI core
+Message-ID: <20260522202410.3104264-4-dmatlack@google.com>
+Subject: [PATCH v6 03/12] PCI: liveupdate: Track incoming preserved PCI devices
 From: David Matlack <dmatlack@google.com>
 To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org
@@ -75,381 +75,422 @@ Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.
 	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Set up a File-Lifecycle-Bound (FLB) handler for the PCI core to enable
-it to participate in the preservation of PCI devices across Live Update.
-Essentially, this commit enables the PCI core to allocate a struct
-(struct pci_ser) and preserve it across a Live Update whenever at least
-one device is preserved.
+During PCI enumeration, the previous kernel might have passed state about
+devices that were preserved across kexec. The PCI core needs to fetch
+this state to identify which devices are "incoming" and require special
+handling.
 
-Preserving PCI devices across Live Update is built on top of the Live
-Update Orchestrator's (LUO) support for file preservation. Drivers are
-expected to expose a file to userspace to represent a single PCI device
-and support preservation of that file. This is intended primarily to
-support preservation of PCI devices bound to VFIO drivers.
+Add pci_liveupdate_setup_device() which is called during device setup
+to fetch the serialized state (struct pci_ser) from the Live Update
+Orchestrator. The first time this happens, pci_flb_retrieve() will run
+and convert the array of pci_dev_ser structs into an xarray so that it
+can be looked up efficiently.
 
-This commit enables drivers to register their liveupdate_file_handler
-with the PCI core so that the PCI core can do its own tracking and
-enforcement of which devices are preserved.
+If a device is found in the xarray, the PCI core stores a pointer to its
+state in dev->liveupdate_incoming and holds a reference to the incoming
+FLB until pci_liveupdate_finish() is called by the driver.
 
-  pci_liveupdate_register_flb(driver_file_handler);
-  pci_liveupdate_unregister_flb(driver_file_handler);
+This ensures proper lifecycle management for incoming preserved devices
+and allows the PCI core and drivers to apply specific Live Update
+logic to them in subsequent commits.
 
-When the first file (with a handler registered with the PCI core) is
-preserved, the PCI core will be notified to allocate its tracking struct
-(pci_ser). When the last file is unpreserved (i.e. preservation
-cancelled) the PCI core will be notified to free struct pci_ser.
+Drivers can check if a device is an incoming preserved device (e.g.
+during probe) by calling pci_liveupdate_is_incoming().
 
-This struct is preserved across a Live Update using KHO and can be
-fetched by the PCI core during early boot (e.g. during device
-enumeration) so that it knows which devices were preserved.
-
-Note: This commit only allocates struct pci_ser and preserves it across
-Live Update. A subsequent commit will add an API for drivers to tell the
-PCI core exactly which devices are being preserved.
-
-Note: There is no reason to check for kho_is_enabled() since it can be
-assumed to return true. If KHO was not enabled then Live Update would
-not be enabled and these routines would never run.
+CONFIG_64BIT is now required to enable CONFIG_PCI_LIVEUPDATE so that the
+domain and bdf can be guaranteed to fit in an unsigned long and be used
+as the xarray key.
 
 Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- MAINTAINERS                    |  10 +++
- drivers/pci/Kconfig            |  15 ++++
- drivers/pci/Makefile           |   1 +
- drivers/pci/liveupdate.c       | 145 +++++++++++++++++++++++++++++++++
- include/linux/kho/abi/pci.h    |  61 ++++++++++++++
- include/linux/pci.h            |   1 +
- include/linux/pci_liveupdate.h |  30 +++++++
- 7 files changed, 263 insertions(+)
- create mode 100644 drivers/pci/liveupdate.c
- create mode 100644 include/linux/kho/abi/pci.h
- create mode 100644 include/linux/pci_liveupdate.h
+ MAINTAINERS                    |   1 +
+ drivers/pci/Kconfig            |   2 +-
+ drivers/pci/liveupdate.c       | 230 ++++++++++++++++++++++++++++++++-
+ drivers/pci/liveupdate.h       |   5 +
+ drivers/pci/probe.c            |   3 +
+ include/linux/pci_liveupdate.h |  13 ++
+ 6 files changed, 251 insertions(+), 3 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 2fb1c75afd16..6c618830cf61 100644
+index 6c618830cf61..0e262c0ceb43 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -20530,6 +20530,16 @@ L:	linux-pci@vger.kernel.org
- S:	Supported
- F:	Documentation/PCI/pci-error-recovery.rst
+@@ -20537,6 +20537,7 @@ L:	linux-pci@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git
+ F:	drivers/pci/liveupdate.c
++F:	drivers/pci/liveupdate.h
+ F:	include/linux/kho/abi/pci.h
+ F:	include/linux/pci_liveupdate.h
  
-+PCI LIVE UPDATE
-+M:	David Matlack <dmatlack@google.com>
-+L:	kexec@lists.infradead.org
-+L:	linux-pci@vger.kernel.org
-+S:	Maintained
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git
-+F:	drivers/pci/liveupdate.c
-+F:	include/linux/kho/abi/pci.h
-+F:	include/linux/pci_liveupdate.h
-+
- PCI MSI DRIVER FOR ALTERA MSI IP
- L:	linux-pci@vger.kernel.org
- S:	Orphan
 diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
-index 33c88432b728..10c9b65aa242 100644
+index 10c9b65aa242..e68ae5c172d4 100644
 --- a/drivers/pci/Kconfig
 +++ b/drivers/pci/Kconfig
-@@ -328,6 +328,21 @@ config VGA_ARB_MAX_GPUS
- 	  Reserves space in the kernel to maintain resource locking for
- 	  multiple GPUS.  The overhead for each GPU is very small.
+@@ -330,7 +330,7 @@ config VGA_ARB_MAX_GPUS
  
-+config PCI_LIVEUPDATE
-+	bool "PCI Live Update Support"
-+	depends on PCI && LIVEUPDATE
-+	help
-+	  Enable PCI core support for preserving PCI devices across Live
-+	  Update. This, in combination with support in a device's driver,
-+	  enables PCI devices to run and perform memory transactions
-+	  uninterrupted during a kexec for Live Update.
-+
-+	  This option should only be enabled by users who plan to use Live
-+	  Update for kernel upgrades and require preserving PCI devices during
-+	  those upgrades.
-+
-+	  If unsure, say N.
-+
- source "drivers/pci/hotplug/Kconfig"
- source "drivers/pci/controller/Kconfig"
- source "drivers/pci/endpoint/Kconfig"
-diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
-index 41ebc3b9a518..e8d003cb6757 100644
---- a/drivers/pci/Makefile
-+++ b/drivers/pci/Makefile
-@@ -16,6 +16,7 @@ obj-$(CONFIG_PROC_FS)		+= proc.o
- obj-$(CONFIG_SYSFS)		+= pci-sysfs.o slot.o
- obj-$(CONFIG_ACPI)		+= pci-acpi.o
- obj-$(CONFIG_GENERIC_PCI_IOMAP) += iomap.o
-+obj-$(CONFIG_PCI_LIVEUPDATE)	+= liveupdate.o
- endif
- 
- obj-$(CONFIG_OF)		+= of.o
+ config PCI_LIVEUPDATE
+ 	bool "PCI Live Update Support"
+-	depends on PCI && LIVEUPDATE
++	depends on PCI && LIVEUPDATE && 64BIT
+ 	help
+ 	  Enable PCI core support for preserving PCI devices across Live
+ 	  Update. This, in combination with support in a device's driver,
 diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
-new file mode 100644
-index 000000000000..737e7b9366db
---- /dev/null
+index 065d5af822f7..96c43b84532c 100644
+--- a/drivers/pci/liveupdate.c
 +++ b/drivers/pci/liveupdate.c
-@@ -0,0 +1,145 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Copyright (c) 2026, Google LLC.
-+ * David Matlack <dmatlack@google.com>
-+ */
-+
+@@ -49,6 +49,20 @@
+  * This allows the PCI core to keep its FLB data (struct pci_ser) up to date
+  * with the list of **outgoing** preserved devices for the next kernel.
+  *
++ * After kexec, whenever a device is enumerated, the PCI core will check if it
++ * is an **incoming** preserved device (i.e. preserved by the previous kernel)
++ * by checking the incoming FLB data (struct pci_ser).
++ *
++ * Drivers must notify the PCI core when an **incoming** device is done
++ * participating in the incoming Live Update with the following API:
++ *
++ *  * ``pci_liveupdate_finish(pci_dev)``
++ *
++ * The PCI core does not enforce any ordering of ``pci_liveupdate_finish()`` and
++ * ``pci_liveupdate_preserve()``. i.e. A PCI device can be **outgoing**
++ * (preserved for next kernel) and **incoming** (preserved by previous kernel)
++ * at the same time.
++ *
+  * Restrictions
+  * ============
+  *
+@@ -83,6 +97,21 @@ static struct pci_liveupdate_global pci_liveupdate = {
+ 	.rwsem = __RWSEM_INITIALIZER(pci_liveupdate.rwsem),
+ };
+ 
 +/**
-+ * DOC: PCI Live Update
-+ *
-+ * The PCI subsystem participates in the Live Update process to enable drivers
-+ * to preserve their PCI devices across kexec.
-+ *
-+ * File-Lifecycle-Bound (FLB) Data
-+ * ===============================
-+ *
-+ * PCI device preservation across Live Update is built on top of the Live Update
-+ * Orchestrator's (LUO) support for file preservation across kexec. Drivers
-+ * are expected to expose a file to represent a single PCI device and support
-+ * preservation of that file with ``ioctl(LIVEUPDATE_SESSION_PRESERVE_FD)``.
-+ * This allows userspace to control the preservation of devices and ensure
-+ * proper lifecycle management while a device is preserved. The first intended
-+ * use-case is preserving vfio-pci device files.
-+ *
-+ * The PCI core maintains its own state about what devices are being preserved
-+ * across Live Update using a feature called File-Lifecycle-Bound (FLB) data in
-+ * LUO.  Essentially, this allows the PCI core to allocate struct pci_ser when
-+ * the first device (file) is preserved and free it when the last device (file)
-+ * is unpreserved. After kexec, the PCI core can fetch the struct pci_ser (which
-+ * was constructed by the previous kernel) from LUO at any time (e.g. during
-+ * enumeration) so that it knows which devices were preserved.
-+ *
-+ * To enable the PCI core to be notified whenever a file representing a device
-+ * is preserved, drivers must register their struct liveupdate_file_handler with
-+ * the PCI core by using the following APIs:
-+ *
-+ *  * ``pci_liveupdate_register_flb(driver_file_handler)``
-+ *  * ``pci_liveupdate_unregister_flb(driver_file_handler)``
++ * struct pci_flb_incoming - Incoming PCI FLB object
++ * @ser: The incoming struct pci_ser from the previous kernel.
++ * @xa: Xarray used to quickly lookup devices in @ser.
 + */
-+
-+#define pr_fmt(fmt) "PCI: liveupdate: " fmt
-+
-+#include <linux/io.h>
-+#include <linux/kexec_handover.h>
-+#include <linux/kho/abi/pci.h>
-+#include <linux/liveupdate.h>
-+#include <linux/mutex.h>
-+#include <linux/mm.h>
-+#include <linux/pci.h>
-+
-+static int pci_flb_preserve(struct liveupdate_flb_op_args *args)
-+{
-+	struct pci_dev *dev = NULL;
-+	u32 max_nr_devices = 0;
++struct pci_flb_incoming {
 +	struct pci_ser *ser;
-+	unsigned long size;
++	struct xarray xa;
++};
++
++static unsigned long pci_ser_xa_key(u32 domain, u16 bdf)
++{
++	return (unsigned long)domain << 16 | bdf;
++}
++
+ static int pci_flb_preserve(struct liveupdate_flb_op_args *args)
+ {
+ 	struct pci_dev *dev = NULL;
+@@ -128,13 +157,49 @@ static void pci_flb_unpreserve(struct liveupdate_flb_op_args *args)
+ 
+ static int pci_flb_retrieve(struct liveupdate_flb_op_args *args)
+ {
+-	args->obj = phys_to_virt(args->data);
++	struct pci_ser *ser = phys_to_virt(args->data);
++	struct pci_flb_incoming *incoming;
++	int ret = -ENOMEM;
++	u32 i;
++
++	incoming = kmalloc_obj(*incoming);
++	if (!incoming)
++		goto err_restore_free;
++
++	incoming->ser = ser;
++	xa_init(&incoming->xa);
++
++	for (i = 0; i < incoming->ser->max_nr_devices; i++) {
++		struct pci_dev_ser *dev_ser = &incoming->ser->devices[i];
++		unsigned long key;
++
++		if (!dev_ser->refcount)
++			continue;
++
++		key = pci_ser_xa_key(dev_ser->domain, dev_ser->bdf);
++		ret = xa_insert(&incoming->xa, key, dev_ser, GFP_KERNEL);
++		if (ret)
++			goto err_xa_destroy;
++	}
++
++	args->obj = incoming;
+ 	return 0;
++
++err_xa_destroy:
++	xa_destroy(&incoming->xa);
++	kfree(incoming);
++err_restore_free:
++	kho_restore_free(ser);
++	return ret;
+ }
+ 
+ static void pci_flb_finish(struct liveupdate_flb_op_args *args)
+ {
+-	kho_restore_free(args->obj);
++	struct pci_flb_incoming *incoming = args->obj;
++
++	xa_destroy(&incoming->xa);
++	kho_restore_free(incoming->ser);
++	kfree(incoming);
+ }
+ 
+ static struct liveupdate_flb_ops pci_liveupdate_flb_ops = {
+@@ -270,6 +335,91 @@ void pci_liveupdate_unpreserve(struct pci_dev *dev)
+ }
+ EXPORT_SYMBOL_GPL(pci_liveupdate_unpreserve);
+ 
++static struct pci_flb_incoming *pci_liveupdate_flb_get_incoming(void)
++{
++	struct pci_flb_incoming *incoming = NULL;
++	int ret;
++
++	ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)&incoming);
++
++	/* Live Update is not enabled. */
++	if (ret == -EOPNOTSUPP)
++		return NULL;
++
++	/* Live Update is enabled, but there is no incoming FLB data. */
++	if (ret == -ENODATA)
++		return NULL;
 +
 +	/*
-+	 * Allocate enough space to preserve all devices that are currently
-+	 * present on the system. Extra padding can be added to this in the
-+	 * future to increase the chances that there is enough room to preserve
-+	 * devices that are not yet present on the system (e.g. VFs, hot-plugged
-+	 * devices).
++	 * Live Update is enabled and there is incoming FLB data, but none of it
++	 * matches pci_liveupdate_flb.compatible.
++	 *
++	 * This could mean that no PCI FLB data was passed by the previous
++	 * kernel, but it could also mean the previous kernel used a different
++	 * compatibility string (i.e. a different ABI).
 +	 */
-+	for_each_pci_dev(dev)
-+		max_nr_devices++;
++	if (ret == -ENOENT) {
++		pr_info_once("No incoming FLB matched %s\n", pci_liveupdate_flb.compatible);
++		return NULL;
++	}
 +
-+	size = struct_size_t(struct pci_ser, devices, max_nr_devices);
++	/*
++	 * There is incoming FLB data that matches pci_liveupdate_flb.compatible
++	 * but it cannot be retrieved.
++	 */
++	if (ret) {
++		WARN_ONCE(ret, "Failed to retrieve incoming FLB data\n");
++		return NULL;
++	}
 +
-+	ser = kho_alloc_preserve(size);
-+	if (IS_ERR(ser))
-+		return PTR_ERR(ser);
-+
-+	pr_debug("Preserved struct pci_ser with room for %u devices\n",
-+		 max_nr_devices);
-+
-+	ser->max_nr_devices = max_nr_devices;
-+	ser->nr_devices = 0;
-+
-+	args->obj = ser;
-+	args->data = virt_to_phys(ser);
-+	return 0;
++	return incoming;
 +}
 +
-+static void pci_flb_unpreserve(struct liveupdate_flb_op_args *args)
++static void pci_liveupdate_flb_put_incoming(void)
 +{
-+	struct pci_ser *ser = args->obj;
-+
-+	WARN_ON(ser->nr_devices);
-+	kho_unpreserve_free(ser);
-+	pr_debug("Unpreserved struct pci_ser\n");
++	liveupdate_flb_put_incoming(&pci_liveupdate_flb);
 +}
 +
-+static int pci_flb_retrieve(struct liveupdate_flb_op_args *args)
++void pci_liveupdate_setup_device(struct pci_dev *dev)
 +{
-+	args->obj = phys_to_virt(args->data);
-+	return 0;
++	struct pci_flb_incoming *incoming;
++	struct pci_dev_ser *dev_ser;
++	unsigned long key;
++
++	guard(rwsem_write)(&pci_liveupdate.rwsem);
++
++	incoming = pci_liveupdate_flb_get_incoming();
++	if (!incoming)
++		return;
++
++	key = pci_ser_xa_key(pci_domain_nr(dev->bus), pci_dev_id(dev));
++	dev_ser = xa_load(&incoming->xa, key);
++
++	/* This device was not preserved across Live Update */
++	if (!dev_ser) {
++		pci_liveupdate_flb_put_incoming();
++		return;
++	}
++
++	/*
++	 * This device was preserved, but has already been probed and gone
++	 * through pci_liveupdate_finish(). This can happen if PCI core probes
++	 * the same device multiple times, e.g. due to hotplug.
++	 */
++	if (!dev_ser->refcount) {
++		pci_liveupdate_flb_put_incoming();
++		return;
++	}
++
++	pci_info(dev, "Device was preserved by previous kernel across Live Update\n");
++	dev->liveupdate.incoming = dev_ser;
++
++	/*
++	 * Hold the ref on the incoming FLB until pci_liveupdate_finish() so
++	 * that dev->liveupdate.incoming does not get freed while it is in use.
++	 */
 +}
 +
-+static void pci_flb_finish(struct liveupdate_flb_op_args *args)
+ void pci_liveupdate_cleanup_device(struct pci_dev *dev)
+ {
+ 	/*
+@@ -280,7 +430,83 @@ void pci_liveupdate_cleanup_device(struct pci_dev *dev)
+ 		pci_WARN(dev, 1, "Destroying outgoing-preserved device!\n");
+ 		pci_liveupdate_unpreserve(dev);
+ 	}
++
++	if (READ_ONCE(dev->liveupdate.incoming)) {
++		pci_WARN(dev, 1, "Destroying incoming-preserved device!\n");
++		pci_liveupdate_finish(dev);
++	}
++}
++
++static void pci_liveupdate_finish_device(struct pci_ser *ser, struct pci_dev *dev)
 +{
-+	kho_restore_free(args->obj);
++	if (!dev->liveupdate.incoming) {
++		pci_warn(dev, "Cannot finish preserving an unpreserved device\n");
++		return;
++	}
++
++	if (dev->liveupdate.incoming->refcount != 1) {
++		pci_WARN(dev, 1, "Preserved device has a corrupted refcount!\n");
++		return;
++	}
++
++	/*
++	 * Drop the refcount so this device does not get treated as an incoming
++	 * device again, e.g. in case pci_liveupdate_setup_device() gets called
++	 * again because the device is hot-plugged.
++	 */
++	dev->liveupdate.incoming->refcount = 0;
++
++	pci_info(dev, "Device is finished participating in Live Update\n");
++	dev->liveupdate.incoming = NULL;
++	ser->nr_devices--;
++	pci_liveupdate_flb_put_incoming();
 +}
-+
-+static struct liveupdate_flb_ops pci_liveupdate_flb_ops = {
-+	.preserve = pci_flb_preserve,
-+	.unpreserve = pci_flb_unpreserve,
-+	.retrieve = pci_flb_retrieve,
-+	.finish = pci_flb_finish,
-+	.owner = THIS_MODULE,
-+};
-+
-+static struct liveupdate_flb pci_liveupdate_flb = {
-+	.ops = &pci_liveupdate_flb_ops,
-+	.compatible = PCI_LUO_FLB_COMPATIBLE,
-+};
 +
 +/**
-+ * pci_liveupdate_register_flb() - Register a file handler with the PCI core
-+ * @fh: The file handler to register.
++ * pci_liveupdate_finish() - Finish the preservation of a PCI device
++ * @dev: The PCI device
 + *
-+ * Drivers should call pci_liveupdate_register_flb() to register their
-+ * struct liveupdate_file_handler with the PCI core. This enables the PCI core
-+ * to allocate its outgoing struct pci_ser whenever the first device is
-+ * preserved, and free it when the last device is unpreserved.
-+ *
-+ * Return: 0 on success, <0 on failure.
++ * pci_liveupdate_finish() notifies the PCI core that a PCI device that was
++ * preserved across the previous Live Update has finished participating in Live
++ * Update. Drivers must call pci_liveupdate_finish() from their struct
++ * liveupdate_file_handler finish() callback to ensure the incoming struct
++ * pci_ser is allocated.
 + */
-+int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh)
++void pci_liveupdate_finish(struct pci_dev *dev)
 +{
-+	pr_debug("Registering file handler \"%s\"\n", fh->compatible);
-+	return liveupdate_register_flb(fh, &pci_liveupdate_flb);
++	struct pci_flb_incoming *incoming;
++
++	guard(rwsem_write)(&pci_liveupdate.rwsem);
++
++	incoming = pci_liveupdate_flb_get_incoming();
++	if (!incoming) {
++		pci_warn(dev, "Cannot finish preserving device without incoming FLB\n");
++		return;
++	}
++
++	pci_liveupdate_finish_device(incoming->ser, dev);
++	pci_liveupdate_flb_put_incoming();
 +}
-+EXPORT_SYMBOL_GPL(pci_liveupdate_register_flb);
++EXPORT_SYMBOL_GPL(pci_liveupdate_finish);
 +
 +/**
-+ * pci_liveupdate_unregister_flb() - Unregister a file handler with the PCI core
-+ * @fh: The file handler to unregister.
++ * pci_liveupdate_is_incoming() - Check if a device is incoming-preserved
++ * @dev: The PCI device to check
++ *
++ * Check if a device was preserved across Live Update by the previous kernel,
++ * i.e. the device is incoming-preserved. Note that a device is only considered
++ * incoming-preserved prior to pci_liveupdate_finish(). It is up to drivers to
++ * synchronize usage of pci_liveupdate_is_incoming() with their own call to
++ * pci_liveupdate_finish() to avoid acting on stale data.
++ *
++ * Returns: True if the device is incoming-preserved, false otherwise.
 + */
-+void pci_liveupdate_unregister_flb(struct liveupdate_file_handler *fh)
++bool pci_liveupdate_is_incoming(struct pci_dev *dev)
 +{
-+	pr_debug("Unregistering file handler \"%s\"\n", fh->compatible);
-+	liveupdate_unregister_flb(fh, &pci_liveupdate_flb);
-+}
-+EXPORT_SYMBOL_GPL(pci_liveupdate_unregister_flb);
-diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
-new file mode 100644
-index 000000000000..6ebcf817fff4
---- /dev/null
-+++ b/include/linux/kho/abi/pci.h
-@@ -0,0 +1,61 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Copyright (c) 2026, Google LLC.
-+ * David Matlack <dmatlack@google.com>
-+ */
-+
-+#ifndef _LINUX_KHO_ABI_PCI_H
-+#define _LINUX_KHO_ABI_PCI_H
-+
-+#include <linux/bug.h>
-+#include <linux/compiler.h>
-+#include <linux/types.h>
-+
-+/**
-+ * DOC: PCI File-Lifecycle Bound (FLB) Live Update ABI
-+ *
-+ * This header defines the ABI for preserving core PCI state across kexec using
-+ * Live Update File-Lifecycle Bound (FLB) data.
-+ *
-+ * This interface is a contract. Any modification to any of the serialization
-+ * structs defined here constitutes a breaking change. Such changes require
-+ * incrementing the version number in the PCI_LUO_FLB_COMPATIBLE string.
-+ */
-+
-+#define PCI_LUO_FLB_COMPATIBLE "pci-v1"
-+
-+/**
-+ * struct pci_dev_ser - Serialized state about a single PCI device.
-+ *
-+ * @domain: The device's PCI domain number (segment).
-+ * @bdf: The device's PCI bus, device, and function number.
-+ * @padding: Padding to naturally align struct pci_dev_ser.
-+ */
-+struct pci_dev_ser {
-+	u32 domain;
-+	u16 bdf;
-+	u16 padding;
-+} __packed;
-+
-+/**
-+ * struct pci_ser - PCI Subsystem Live Update State
-+ *
-+ * This struct tracks state about all devices that are being preserved across
-+ * a Live Update for the next kernel.
-+ *
-+ * @max_nr_devices: The length of the devices[] flexible array.
-+ * @nr_devices: The number of devices that were preserved.
-+ * @devices: Flexible array of pci_dev_ser structs for each device.
-+ */
-+struct pci_ser {
-+	u32 max_nr_devices;
-+	u32 nr_devices;
-+	struct pci_dev_ser devices[];
-+} __packed;
-+
-+/* Ensure all elements of devices[] are naturally aligned. */
-+static_assert(offsetof(struct pci_ser, devices) % sizeof(unsigned long) == 0);
-+static_assert(sizeof(struct pci_dev_ser) % sizeof(unsigned long) == 0);
-+
-+#endif /* _LINUX_KHO_ABI_PCI_H */
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 2c4454583c11..8cadeeab86fd 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -42,6 +42,7 @@
- #include <uapi/linux/pci.h>
++	guard(rwsem_read)(&pci_liveupdate.rwsem);
++	return dev->liveupdate.incoming;
+ }
++EXPORT_SYMBOL_GPL(pci_liveupdate_is_incoming);
  
- #include <linux/pci_ids.h>
-+#include <linux/pci_liveupdate.h>
+ /**
+  * pci_liveupdate_register_flb() - Register a file handler with the PCI core
+diff --git a/drivers/pci/liveupdate.h b/drivers/pci/liveupdate.h
+index b2335581f8d0..eaaa3559fd77 100644
+--- a/drivers/pci/liveupdate.h
++++ b/drivers/pci/liveupdate.h
+@@ -11,8 +11,13 @@
+ #include <linux/pci.h>
  
- #define PCI_STATUS_ERROR_BITS (PCI_STATUS_DETECTED_PARITY  | \
- 			       PCI_STATUS_SIG_SYSTEM_ERROR | \
+ #ifdef CONFIG_PCI_LIVEUPDATE
++void pci_liveupdate_setup_device(struct pci_dev *dev);
+ void pci_liveupdate_cleanup_device(struct pci_dev *dev);
+ #else
++static inline void pci_liveupdate_setup_device(struct pci_dev *dev)
++{
++}
++
+ static inline void pci_liveupdate_cleanup_device(struct pci_dev *dev)
+ {
+ }
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index b88109a8dfe4..2e2be8af6976 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -2070,6 +2070,8 @@ int pci_setup_device(struct pci_dev *dev)
+ 	if (pci_early_dump)
+ 		early_dump_pci_device(dev);
+ 
++	pci_liveupdate_setup_device(dev);
++
+ 	/* Need to have dev->class ready */
+ 	dev->cfg_size = pci_cfg_space_size(dev);
+ 
+@@ -2193,6 +2195,7 @@ int pci_setup_device(struct pci_dev *dev)
+ 	default:				    /* unknown header */
+ 		pci_err(dev, "unknown header type %02x, ignoring device\n",
+ 			dev->hdr_type);
++		pci_liveupdate_cleanup_device(dev);
+ 		pci_release_of_node(dev);
+ 		return -EIO;
+ 
 diff --git a/include/linux/pci_liveupdate.h b/include/linux/pci_liveupdate.h
-new file mode 100644
-index 000000000000..8ec98beefcb4
---- /dev/null
+index cfcfbfa73af7..cfdc3d62ec02 100644
+--- a/include/linux/pci_liveupdate.h
 +++ b/include/linux/pci_liveupdate.h
-@@ -0,0 +1,30 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * PCI Live Update support (Public/Driver API)
-+ *
-+ * Copyright (c) 2026, Google LLC.
-+ * David Matlack <dmatlack@google.com>
-+ */
-+#ifndef LINUX_PCI_LIVEUPDATE_H
-+#define LINUX_PCI_LIVEUPDATE_H
+@@ -16,9 +16,11 @@
+ /**
+  * struct pci_liveupdate - PCI Live Update state for a struct pci_dev
+  * @outgoing: State preserved for the next kernel.
++ * @incoming: State preserved by the previous kernel.
+  */
+ struct pci_liveupdate {
+ 	struct pci_dev_ser *outgoing;
++	struct pci_dev_ser *incoming;
+ };
+ 
+ struct pci_dev;
+@@ -28,6 +30,8 @@ int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh);
+ void pci_liveupdate_unregister_flb(struct liveupdate_file_handler *fh);
+ int pci_liveupdate_preserve(struct pci_dev *dev);
+ void pci_liveupdate_unpreserve(struct pci_dev *dev);
++void pci_liveupdate_finish(struct pci_dev *dev);
++bool pci_liveupdate_is_incoming(struct pci_dev *dev);
+ #else
+ static inline int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh)
+ {
+@@ -46,6 +50,15 @@ static inline int pci_liveupdate_preserve(struct pci_dev *dev)
+ static inline void pci_liveupdate_unpreserve(struct pci_dev *dev)
+ {
+ }
 +
-+#include <linux/liveupdate.h>
-+#include <linux/types.h>
-+
-+struct pci_dev;
-+
-+#ifdef CONFIG_PCI_LIVEUPDATE
-+int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh);
-+void pci_liveupdate_unregister_flb(struct liveupdate_file_handler *fh);
-+#else
-+static inline int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh)
++static inline void pci_liveupdate_finish(struct pci_dev *dev)
 +{
-+	return -EOPNOTSUPP;
 +}
 +
-+static inline void pci_liveupdate_unregister_flb(struct liveupdate_file_handler *fh)
++static inline bool pci_liveupdate_is_incoming(struct pci_dev *dev)
 +{
++	return false;
 +}
-+#endif
-+
-+#endif /* LINUX_PCI_LIVEUPDATE_H */
+ #endif
+ 
+ #endif /* LINUX_PCI_LIVEUPDATE_H */
 -- 
 2.54.0.746.g67dd491aae-goog
 
