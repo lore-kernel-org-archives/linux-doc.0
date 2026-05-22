@@ -1,82 +1,150 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C303AEB49;
-	Fri, 22 May 2026 13:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0753FA5DA;
+	Fri, 22 May 2026 13:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779456601; cv=none; b=R5ugbH/ZBoEOHalpAn4pbU041hMwXZsg48yZEL3f9uau5WJLc5nudzfJeurRi3uKoqW1NPCNmLOPV1awDLtX7D/w6e6Tww5CYd5l22BlSy7a5L/b1K7FKnsQeDJ8AVjRBHdv57mSOV2xeTMoyEFlgGndCDU1nEi3uDogiXwpNvg=
+	t=1779457124; cv=none; b=Yh3S3KoS6sEbzjiJts/T6ZG1j4Uw6bz17aK04wTMvcMi11ZDBCZesghrpciJyWfKxFfvTF3t8YvHwrKgq7cFN8SJzUQjL/DvKcssTtyZM9TLkPoiI9H3l7yk0N116E5eY6NGRe+xfn+sXZo8vwsVFh7bL/2RRrs7V2AEkuUSMiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779456601; c=relaxed/simple;
-	bh=rCyOu9JLzXkaUjqAe9b9lMev4R9PVVH7ZFa06IgU2bA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BMBRIh+ChmUL5WypRuSpfJLnAlf7RpWhgA3X/dKt37XNgOGHp2VkfuTbiLNKwW+9cY0zUpLIAw8TtPEyBSiB4iLiY2JUXX1I+q7bfBQHQrWe2b7mx8332Ay4hcU4MYBcyFMwKcXfSz4BX11QRwX1/mjRflai4nmeItQKF1Ln6WA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ekdqRlxI; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1779457124; c=relaxed/simple;
+	bh=VTIq37iy9DUOokRQnz3PLEP+l6B+THmSP5B+u2rjDgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rn7aI0UqVsymVvuFR4Nj+ErXbsTsQ3jLz0tucwDjCiZqW7z53qNUma3QSgHtBwUk1sJYXTuRqGwQzeRz2OCpx0p6Axb3tAx27yP5ZkSHO0TKPdN75sjVPx1LFCWcZG70KX67uSqE9/vw7IbyL7T4/6l0cS+HvPwMXqDvfBJy62Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ipeDJUhq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ekdqRlxI"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 53DE340E24
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1779456593; bh=0IE3ADjOn6A63eoEwUFCog4etJknRGr4fBE0QDME9NA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ekdqRlxIqDCU40U8uQ69u0A4BddD5Jx1Lf/Fat7KfU+seye680QGTXbUKQYlMo09N
-	 EcoQ6dLTPZqViWcJOZFSVVVDLGGUwham58zAiNBynQR1i+L0ntcUSlfzh9+oesB29r
-	 OvJ/wWAbCM7C50K9TPIOS8Ih3AQ08eJKOZN1EimzO8MKmju9bvRbwhafHlPagj5mKD
-	 EascH/vCPevMY22ZbqOsR2SYbpjyf3/R0ZB8HzA2bs+OYShr0IxhsQMV1QfnLEV/Wq
-	 1rLee8azS39oBqpDEh+0PhhZjqEZOanVLPTjtrvQjbgqxrSNIurJBridpl9uq2ZSw3
-	 xHk5jtiptMiWQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 53DE340E24;
-	Fri, 22 May 2026 13:29:53 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: omkarbhor4011@gmail.com
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Omkarbhor4011@gmail.com
-Subject: Re: [PATCH] docs: fix typo in Sphinx custom CSS
-In-Reply-To: <20260522003156.70389-1-omkarbhor4011@gmail.com>
-References: <20260522003156.70389-1-omkarbhor4011@gmail.com>
-Date: Fri, 22 May 2026 07:29:52 -0600
-Message-ID: <87ik8f4lnz.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ipeDJUhq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACCAB1F000E9;
+	Fri, 22 May 2026 13:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779457120;
+	bh=2sEt+pfVTqi62XRpqK9+If4oDJrLR/RRwahq5GJ1eB4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ipeDJUhqXzLNXV3/kjrZjDcIBrdBMJrwhEHGT2yPJuyIrzQGmgeY0+FCUspfdVakj
+	 tKtadiizz3RYaUAl/qxmetY8aUqVwRKhcKNnc1UI81X9WPjCQRGX6uGy833WAmoo/v
+	 pNs2OGjecBi4w8XzEExuumnilUumrLyq9oDY2pxIVNPb3cpXP7UZ/fukc76kkcUo0P
+	 mg2BrZCa+bsYI8JnwmJqXAVkVk/Fh+gS7rXE2XYI9rK2/aMGjNny/SRXRLUZoUk2zU
+	 052gpvCVoi3e4HmokXZA8wMezUzWEmpRXkWs489liV+CIW+dh1/Jh3ozRFoy42sjMZ
+	 GV2/wMk0o5l7w==
+Date: Fri, 22 May 2026 14:38:27 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, "Hennerich, Michael"
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, "Sa,
+ Nuno" <Nuno.Sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, Bartosz
+ Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v12 5/6] iio: adc: ad4691: add oversampling support
+Message-ID: <20260522143827.013a985c@jic23-huawei>
+In-Reply-To: <LV9PR03MB8414E63DA5C2C22A46E98215F70F2@LV9PR03MB8414.namprd03.prod.outlook.com>
+References: <20260519-ad4692-multichannel-sar-adc-driver-v12-0-5b335162aa51@analog.com>
+	<20260519-ad4692-multichannel-sar-adc-driver-v12-5-5b335162aa51@analog.com>
+	<LV9PR03MB8414CA3DB26235605C9323E5F70E2@LV9PR03MB8414.namprd03.prod.outlook.com>
+	<20260522121628.21bf03f9@jic23-huawei>
+	<LV9PR03MB8414E63DA5C2C22A46E98215F70F2@LV9PR03MB8414.namprd03.prod.outlook.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-omkarbhor4011@gmail.com writes:
+On Fri, 22 May 2026 11:38:55 +0000
+"Sabau, Radu bogdan" <Radu.Sabau@analog.com> wrote:
 
-> From: omkarbhor4011 <Omkarbhor4011@gmail.com>
->
-> Signed-off-by: omkarbhor4011 <Omkarbhor4011@gmail.com>
+> > -----Original Message-----
+> > From: Jonathan Cameron <jic23@kernel.org>
+> > Sent: Friday, May 22, 2026 2:16 PM  
+> 
+> ...
+> 
+> > > >
+> > > > +	iio_for_each_active_channel(indio_dev, bit) {
+> > > > +		ret = regmap_write(st->regmap,
+> > > > AD4691_ACC_DEPTH_IN(bit), st->osr[bit]);  
+> > >
+> > > Unfortunately enough, I think a v13 will come, too...
+> > >
+> > > Had a look again on what Sashiko had to say, and seeing the sampling  
+> > frequency  
+> > > shared_by_all comment again made me have a deeper look see how the  
+> > code could  
+> > > be commented so he wouldn't complain about this anymore, and...
+> > >
+> > > Perhaps he is a bit right after all. I found a section stating that in standard
+> > > sequencer mode (which the driver uses right now), all the channels actually  
+> > use  
+> > > the ACC_DEPTH_IN0 for osr, and so changing ACC_DEPTH_INn for other  
+> > channels  
+> > > doesn't really do much. And so I tested this selecting both voltage0 and  
+> > voltage1  
+> > > for sampling with osr4 for voltage0 and osr1 for voltage1 and with a 100kHz  
+> > osc freq  
+> > > indeed DR fell after approximately 80us which points out both channels were  
+> > actually  
+> > > using OSR of 4. Perhaps the OSR should be shared by all and therefore the
+> > > sampling frequency would also be shared by all, right?  
+> > 
+> > I kind of lost track on the modes. What are the chances we later move to or
+> > add
+> > support for a mode where the different OSRs do matter?  If that's a possibility
+> > we should avoid ABI change by allowing for it from the start.
+> > 
+> > Then if we are in this mode, they'll have separate controls but change any,
+> > changes
+> > them all, if we are in a different mode that connection breaks.
+> > If that's the case, just throw in a comment saying something to the effect this
+> > may change.
+> > 
+> > It's not wrong ABI to do this, it's just less intuitive for users which is why
+> > we prefer the shared_by stuff where there isn't a disadvantage.  That is at
+> > most
+> > a hint to what actually happens.   A simple example is where different
+> > channels have one OSR field but they aren't the same - i.e. channel 1 is twice
+> > the OSR of channel 2.  Hence we can't share the attribute but any change
+> > effects
+> > both.
+> >   
+> 
+> Hi Jonathan,
+> 
+> I don't think a mode where different OSR will matter will be added in the future. Better
+> yet, this advanced sequencer functionality is not really mode dependent and is actually
+> something that allows you to manually rearrange channels and samples in the
+> sequence, and unless this functionality is active (it is not by default nor is it used by
+> the driver, since we use the standard sequencer).
+> 
+> Personally, I don't see any reason to have this advanced sequencer stuff implemented
+> since DR is only falling at the end of the sequence no matter if it is standard config or not,
+> the only "disadvantage" to say so is that the standard sequencer uses the same OSR field
+> for all channels. But that advanced sequencer stuff would only complicate the buffer
+> enable/disable functions even more, which I don't think it's worth the effort.
+> 
+> So, with this in mind. Letting the driver use standard sequencer would ultimately mean
+> that the osr would be the same for all the channels, and then effective rate the same for
+> all channels, which I suggest having it like that from initial driver patch to the end, so no
+> ABI change mid-patch series. This change will simplify the driver.
 
-For future reference, please include a proper changelog and your full
-name in the signoff.  That said,
+Ok.  Thanks for the analysis.  It may well be that those fancy sequencer things are
+only really useful for very specific use cases we won't see in Linux.
 
-> ---
->  Documentation/sphinx-static/custom.css | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-> index f91393426..5aa0a1ed9 100644
-> --- a/Documentation/sphinx-static/custom.css
-> +++ b/Documentation/sphinx-static/custom.css
-> @@ -30,7 +30,7 @@ img.logo {
->      margin-bottom: 20px;
->  }
->  
-> -/* The default is to use -1em, wich makes it override text */
-> +/* The default is to use -1em, which makes it override text */
->  li { text-indent: 0em; }
+So I'm fine with following the simple path!
 
-This one is already fixed in docs-next; that (or linux-next) is where
-you should be preparing documentation patches.
+Jonathan
 
-Thanks,
+> 
+> Radu
 
-jon
