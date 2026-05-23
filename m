@@ -1,252 +1,253 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D253A2546;
-	Sat, 23 May 2026 14:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779545740; cv=fail; b=VH6A5lZkfEBOIBV4a5z/NWX9WHV2lukK7yOufD/YwGH/4Fi+94Cc1EtX1ZI87sDYmraaix1ZQvEyaAw6Godtn10k3z3hwEmny1E0FoMaZP/02amCA4Y5X+8DUz956/3cJSumdMKkPPbjOfI0l2yiEHUjj3OK0CzqlHDY3BdK/R4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779545740; c=relaxed/simple;
-	bh=40vVY6I1K5KPwLo/nHydodxKdqths0Rp8slCPcrNt6I=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=MUBahSJiWFFrSiSEh1aLBUYk15A39CeFm6M4lj1YyiFT0HkGyE2CgbsyV2rCgNHt7+wi4W1GXzdz7qIIj6gR5vUggAAc22gtYGQ28X+zOi1yXAwyzpEAkmoxs8WXXKvIsExxvMHJrcMpw9kgyIn7XIBvN4iFaxOGm847Q/zvTdU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ImzLcn4V; arc=fail smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2046B3A383E
+	for <linux-doc@vger.kernel.org>; Sat, 23 May 2026 14:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779545869; cv=none; b=DlDYnLknHtxjeB2EEP0klA0nk2Fl/fxK0xtMslInsCzlxoSX++WW7du+oL0ZyyZGVklAgum7lJ2v1lzJY0gb7cbPQ3Dj98LxojGSmrnxT1PYVp4ypDQ9rg+yWKv3CkPoffHVIhCTYpytCSymC47Ph+ZBY0WVSYhK05utTf3JSW0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779545869; c=relaxed/simple;
+	bh=HTcufpixSFvsos10KMatl2USvpTpbTqhl9ZbNxpNKpY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c2kcENm0VTE/nSRuP1L7f0WpWztdJJUzMrmNQPDcRKV0w27tT9J44TbQaWVX6GKhSvA9o5aFdl/kK7W9P80D5jSGJoaN51dWO5o2ydwMpglLHhU+K79om3AFNZWtYjyfqkJQCW8Yb/4ySiQrC6FzSBPu8LhHh5Vs9VjDNjDwPkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T40TDdY/; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ImzLcn4V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779545737; x=1811081737;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=40vVY6I1K5KPwLo/nHydodxKdqths0Rp8slCPcrNt6I=;
-  b=ImzLcn4VkXmZsfXvip1sKbt3lwZ06gwDr0loiW7pwzxznN6B0nC6bavW
-   opSEzLZH5hEKyIT22o0H789eNIcp8b//D3V0gsmUntOMPrxHdbSobQciu
-   J5kJZxyL1FntjVCYX3pvu9opV5xo6lWpc5H7pF/GkI0DdXzx0L14BuAH1
-   lS3nHX/nbVC43QUXka+zPZyy80MHEDMFnXddAv9IbfwCFqL2vjbS5qbye
-   30/D3HcD8q7K3/kXshNUev4B7KnR+rDuxh1/hTFRKMHJJdAWkCRcjaTww
-   /YlJZniHJ6M0aLjiYn7lc1evVQlcBLmRKaZIDToTINQjBudyFgluQWc+q
-   w==;
-X-CSE-ConnectionGUID: 8kFeDNitTc2WmRmwU+9OkQ==
-X-CSE-MsgGUID: PFjgMdFeQr6P0B/U8lVwJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11795"; a="84331263"
-X-IronPort-AV: E=Sophos;i="6.24,164,1774335600"; 
-   d="scan'208";a="84331263"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2026 07:15:36 -0700
-X-CSE-ConnectionGUID: VigecSWsTYaqReTxVuYyrg==
-X-CSE-MsgGUID: D55YbD4qS12JZru36ZvTOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,164,1774335600"; 
-   d="scan'208";a="246147479"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2026 07:15:36 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Sat, 23 May 2026 07:15:35 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Sat, 23 May 2026 07:15:35 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.1) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Sat, 23 May 2026 07:15:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Bu6wuEvVD0g7oBu6MX6wLtMWqQmqrqGKxUh+OzdPHzO8UK1+0kbd0P4TBO1PLGIt3t9kH6D6UqvKvlk4TGQYtQR/+anqt1w4P5Ys2yI/SsbKy1x2ZX8Nq1TSBUwFpvTzqUMs/GLNEXkUXiNnFBbAmazRMfv55YtMcW6Bj/tX5VK2kL3dX95V+2KpRI3vYBGXo+grfkOftwZ56gWoX1O6HoM78Hjf1bNwn/8mng50Gzo5hOczWW0/4rwSQ2ocnea5sIb1RhBsD5QqqWMYfbSz35MY3x8PdSWqyHKD25j+oVBo57MrIaxIQw8EuHuFkXHR/vzndm1I+QCwmOde4VowuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jSEE8d4H3GATT0SQwQ/nyKyGZEnjhRMDrHKZLN22KW8=;
- b=C79mmLGphReT2/aRfIy7tyfkbmMskIP7DmocdNXXitDxj8jPNspwrYWDGCQEAStt6ZFVii/bzExBDEI38L1OdvkiNqaxjrSaorlljFj1HCL+TGU8hUrpntSoPcUEj8OfbdHEc0yvGl1ymPi+x5+Bk0CVH/sJkWMWgpPFtL80k8LQVzUFVz7y8bWO9+07Alkq4IJfmIZXdc8ZXkI9XF9VzSg5zLV7u9EU9O22oc63VqTQ0KccBGxldccMEbhfmEW8+exNwfZJE2+geAHEFlmewtzThIg6VYAkL6euLuW32jDXJQUJ1rIlTtBq6XLbTKkyD3Ic8oW6OEPmOOBq9NMTvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5832.namprd11.prod.outlook.com (2603:10b6:510:141::7)
- by DM4PR11MB7280.namprd11.prod.outlook.com (2603:10b6:8:108::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.12; Sat, 23 May
- 2026 14:13:53 +0000
-Received: from PH0PR11MB5832.namprd11.prod.outlook.com
- ([fe80::106e:78dd:4c96:d707]) by PH0PR11MB5832.namprd11.prod.outlook.com
- ([fe80::106e:78dd:4c96:d707%3]) with mapi id 15.21.0048.016; Sat, 23 May 2026
- 14:13:53 +0000
-Date: Sat, 23 May 2026 22:13:41 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <driver-core@lists.linux.dev>,
-	Danilo Krummrich <dakr@kernel.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Mark Brown <broonie@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-iio@vger.kernel.org>, <linux-spi@vger.kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>, Jonathan Cameron
-	<jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
-	=?us-ascii?B?PT9VVEYtOD9xP051bm89MjBTPUMzPUExPz0=?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, <oliver.sang@intel.com>
-Subject: Re: [PATCH v1 1/4] driver core: allow certain drivers prohibit
- override via sysfs
-Message-ID: <202605231602.b6990b2a-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260508095224.1275645-2-andriy.shevchenko@linux.intel.com>
-X-ClientProxiedBy: SG2P153CA0033.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::20)
- To PH0PR11MB5832.namprd11.prod.outlook.com (2603:10b6:510:141::7)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T40TDdY/"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c802803ac17so3546737a12.1
+        for <linux-doc@vger.kernel.org>; Sat, 23 May 2026 07:17:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779545864; x=1780150664; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=IGQq1yhYm6aObOVGgJk1IPE6ojqXxlF3lV8nupT/5m4=;
+        b=T40TDdY/UPmscUfpAWoJ4eKxivRIOHBgnDI61X5Ac5vPpYSdMOSkxkh52Gu9XamsGk
+         l6sQRNidxq6obJzSUUh0qBly17LJiByR64ylTcqbmGcNPuLLwEZP9/aC3+lpViWUfH9k
+         hTC7eeAwQdV64nkSyArSU1KAv16g2hMPze4cNkepaCtd/lpwrCKwVW4ZVxKJ3weOKNgV
+         9PYln1WNX0YgYJJ65MaG9dJRcnN5S0qfR9xX4QdshqTsOhVuCIaz0yzl8pMMssw41/aH
+         wKdDQWAR9pl25jD683osj0WpiJ/iCJEf0QbhnBRRvJoCasecEB1TwoCgZ+1955tHQwKQ
+         vi/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779545864; x=1780150664;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IGQq1yhYm6aObOVGgJk1IPE6ojqXxlF3lV8nupT/5m4=;
+        b=l16VOtUImXrQJMfa4vHQ7wuPs12fFokVkkx6OLlgnxY3tDGR2O9EZdawYYjAImZVda
+         NiGkQAuE+XTikHRMj9GJJ96ZRxwQR8U5lqhO8u3XMN43gadslI1ol1ZtbFEmJCsBouOu
+         cfhAvn4SJ7IPEYqFv6CcwK2prg1i+bYSMuT1mAlCIltucOtTD9TcQpacy5jij5DUfbDM
+         noGHzqg+RRYaF38Fc0mKDZNNGJ+0mmgprzKBahoYOMFELi3+94/uh09XDpDBLjpQqR15
+         6OJKvDiUzrpp8fStBMiEj9plfLVZrJvQ2EXEeSalPbsfkEgW1gWQLtQn84Q/eu0L6lUh
+         ZxNg==
+X-Forwarded-Encrypted: i=1; AFNElJ/MFQE1BR6niMGasQucDfI4bp/u8Y2G68V9XhrmBDn7e7Lm/i6bxDdaXWmKtdObRBpR9f0QzW1McRM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynVgG/hvHF8vo9ZlfF3ZyoyQuQcrLMhtNaBDR1fXpFFldU659l
+	YSN+FQMMUt3NthkUbm/IxO1hYyAUIZNyEm72FUKLG00JKZWLYWQKSIHA
+X-Gm-Gg: Acq92OF0G2loWH1WncDVLLx/CgBw5dKu+XnMknokvMsZZUWf5YcBd3P1cWQjyxUMnUT
+	VU0euC+QmZrp0sHHym+16HWqoAvj2DZYzTnxULcACw0yaz3FptsD/Ou/8IxdjbT5YuVkc7RNUo6
+	NifBf1FjZ2X9vn2rUj06FGEdHLpU/nctYE1WXKNN7iscDu/1Pt1X+dywrG2jOUnkMQ3h/+YTCkq
+	pXujNZEBLFZQEeHn5K5IgFOsOJAt2adDtLMXGlSXouk09kE+iZ/E8vwz0HzsJ0LsfmBWfP49ZKc
+	nWhqrz8QWtlnwsDQTKSt6ERZ15VHQBhkos1KziwVcrZRMClpV2mLBvjjQG5rtOa8h1YZsPjORBk
+	A7tlt8M5DC6qsAeLXN4RLBp8oc/Lo6w2mxC8oLcILXx2kJMGp0eJ+lahIcjTPoKwyLD9INrsUYI
+	K8QzmW5uIyUh5k5cJrgBZuFLlCuhoZJiMtqqCRGW1NsghDO29C/vvgTRrItUPZMPgBT9Wl8xZB
+X-Received: by 2002:a05:6a00:1818:b0:83a:78ac:edb7 with SMTP id d2e1a72fcca58-8415f1dcfacmr7897643b3a.5.1779545863767;
+        Sat, 23 May 2026 07:17:43 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164e9e635sm5451255b3a.38.2026.05.23.07.17.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 May 2026 07:17:43 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <66c665fc-5dc7-4323-8439-1afa1ad1be4d@roeck-us.net>
+Date: Sat, 23 May 2026 07:17:41 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5832:EE_|DM4PR11MB7280:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8f197f4a-56ef-4a05-8361-08deb8d584ce
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016|3023799007|56012099003|18002099003|11063799006|22082099003;
-X-Microsoft-Antispam-Message-Info: Utdt3U1o4EpUT9V94+YmkxqoeuKH18OG863DBXBRhcwPM8yJbeJCUNSi7ij0Yd1UpxIcn1vXnT1F/BpXsD0iw5IbKtRaruBckxYmo8RaARAOV9M/wCRp/I6i5nqjSqJrNsWh1wZzAvDfcZYwpSEEgji9LpJmk2RS+Tx3gXHKyUEbMfsOtUcajbwkkhZHM2fLb41a7vHH0TpMbd8CwzlfEnXmn4AwnHdMglpfDTp6GV9QMGVwOtjDc25QmbEasR8kIWmTbJvflOAKwlpCZpN8OY4tjg6MkhoPmxKzmAWXhOeS2IkOmDwMfZ86ewD6UEjlJSmWlkrG1OKYxN2KuHbHH/iDx+/CSevUBxmtQFN2zixEYA3BNf1wR20BpvxR+SsEs9ALyBb5tH4ffbofECdLw0Uflyu/P0pS1cdIEZ/lVpgnMYMWNDQ7VSMYhYkU34snOynV47OKZZ2WNRHb79d0MfSkrJ5xmCGdbp9Z1HYPDW22dlDP8UAG82JDgEAJ1A9vsGpPatffcvL9Hz04BVpTuh5FEobc1UNi6qgynSMVKLdmTjdfCHUigdBqgPZS41r7O/K1iVJ2O2gBEzZsnUu77vW66g6/hlzX17ma+UjA/AhtSR7JPpLPcwH5t14dWyiv0/xC51CKH3DWV5EFLliD1A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5832.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(3023799007)(56012099003)(18002099003)(11063799006)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9CT55bhntmmUMKs224PUyyOeXThWgRc7tV0M9d5tASTWktQrWicaZVJ+5eUu?=
- =?us-ascii?Q?nbhNPRFUrJe8ILwe58b+dfQcgnnrqOvHiCDL10vMJEnTaQeJIma4IfvFYLt5?=
- =?us-ascii?Q?tDmACB1bTTrTZdprI6Jce3K7Hr7HTNKKrpZi68ujnqG67CotljTkCxlpKMex?=
- =?us-ascii?Q?jI9APkS51nK1CEALe3Vx5Zf6Q5dgtR7d1/uFAyTCiGW2SHEpVfwvNIkm8iXm?=
- =?us-ascii?Q?JiZDohARVkvjD3ors0mg3H0twqVuF/HJlOiD5GHZo+JMfejeFvqe9L+AiYj5?=
- =?us-ascii?Q?ecXxYMgs1e2xDRSFI6pgz/fsy9LmWTJzg1yLZXhkTUEmvj4bjNEh5rKZx+r3?=
- =?us-ascii?Q?e+s3b8wLggE6RSkWcB8idi8IRFwBhjKCUkuxhQhd0WaGbs8/rZcx8uWsCb3b?=
- =?us-ascii?Q?Ug9rKaPeuxSHQ1mVNvlXxXwHibbprX+f8G7+Zc6ixMYuqRZ3u8c7o1vuFCY2?=
- =?us-ascii?Q?PnOxZp21U5eS61QaHK7VsV5TlTVP6ww+mfJFjKpfl4USaZCwYBTuMqno8c+V?=
- =?us-ascii?Q?YQa6pMecRdv32GjcpgY/8kZxTn0aBAExn88H79/L4K8Ni90Fvfty7C2MZp0q?=
- =?us-ascii?Q?42oyOn+Qz44U8zH/jOmygPNiQ6mVuwffqzvV6D9Pz/S/FOTkE6lz3YxaBNIQ?=
- =?us-ascii?Q?L9/Pxxv9VTmjjdmpmy3J0gVVfrV2KyqzPzdu7/SIr/pJdbsbxpIwn6Dfkqda?=
- =?us-ascii?Q?B7wpi3MgSazs7Z6TUOpPyFtlANs4UqptuIJrTKbcyPcGx0ZA1IxTrp0vK3hW?=
- =?us-ascii?Q?/O12+gWXeoo5pvDv3Zd79twpz6NE4eOLP47/O3ou07C+U/oVohIqBQaIUjZ4?=
- =?us-ascii?Q?zw0QV7SfYmEJgZ2ul5CKQiUXZl5ofhpS+/V8qwgCUY28XdQy0Jmubt6ih8SE?=
- =?us-ascii?Q?+MYs5cW1xQJ+FS9Jz54xjJ6ts+GVeO39QVXHcLfw5Bet7UjA8oyrE73+Nbhx?=
- =?us-ascii?Q?rsheNPl6eZYkTTQvFU5PvVocF7opCFp5BHs+ri4gmx/8Z5gzzZ/SrdoqB7b6?=
- =?us-ascii?Q?+g8HwIxZ3FctQd7DVOOZxYAMBENo40GbwlydZRiLbzCEvuR1MixBDydw3sTY?=
- =?us-ascii?Q?VL4xDb4QTTwbWDRsjybAKZaUJ8XkxgCkwy9Bivp6DC6EmAUjBTBKgT9fPjxp?=
- =?us-ascii?Q?qIj6qDVPMlRfi5xCiJJ6Ae66wG7gqzBg0vHCjNSw68iaC8awiHnXfyKZpgsd?=
- =?us-ascii?Q?Ute5LyY6Li9Uc2ho+fiy0uuYJlCkUNQ5PSdK3AbhbSZO2y0mJwpcSiNg7tfs?=
- =?us-ascii?Q?X3D8ZnL6XfyTyjL9w5XlrIdwrQCwXPnLjfZiujsea5sgWELF5vIJLRURIbXW?=
- =?us-ascii?Q?ghXD+tcyqMigYbQEYDcRUkANzj8dHeDi3+sqWN+tCYJnKWuVA1aLJWnMiwtO?=
- =?us-ascii?Q?PUzOSPSLojF7ETgjZrssEZ/DGQS0V6gtk7g4mU97R7jHt/68g6LMZOuU8nG7?=
- =?us-ascii?Q?l2QegkRXakwIBfQk+84bpYfiKIZeuAa13prOde8HautLrVFuRxntvOk69lo4?=
- =?us-ascii?Q?75uUGY6Ywyj3ZM/4Rdh5hkOAitaVKKGIjz7uQRBhWQrw31ukFNYjaOHGp5QD?=
- =?us-ascii?Q?LTURnE1LRcDI3AzsTEkTLmNU42bk6vCMsVCOw6PcC1KepaNyB7MykZl89/ie?=
- =?us-ascii?Q?7c7D3aLN5N1qqP3zNWn1rcwe7hS1TRCaJ/2H34nhhU+GQMXg+dTy/jsIVKuK?=
- =?us-ascii?Q?OWqLfwdcohtaMYnJpEd132eBeqeYzT/rPBZwEsXAWBnxpjxp1fxyCKISKj7m?=
- =?us-ascii?Q?jlboGhYivA=3D=3D?=
-X-Exchange-RoutingPolicyChecked: sTVdrtYYanBZEYBOZiRgiCUgPr/LfMM58gvNx5H1cHObYvs8m8YISRQ2E0blP3bTJvDONS7wcN27DXT3dV2LQfkGCJT1Xp0g7cB/JE/U1kGqHlcm3+dyglnEfR4eEg7NisVGgazZh5w5W18I17gzRZ5Yo5kfw2GXjDttKuK8JIKC+bwyXXHgrCb4uGpZhzcFNSix7LWSqaXUG07mFuaYNuMQyaUdI6QzsGsTih6W+m5BFF8fxpjo13M+jldJ7N6Og5JhW4QfhmOWe1ni9Is7cg+COp54tBx1J5ORiBhH6rUtnnSrF06E2baxSmWjr2lF6vQKvs41fQmyRFYAXFiEzA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f197f4a-56ef-4a05-8361-08deb8d584ce
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5832.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2026 14:13:53.0863
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NgxoM9gcFMTVz1kxQpU74m1XmSlOlugIDh1AUh9JESuUQk1JAlVvAT7kFelBrofv385jq0xkULp75NIt4Ef0Ww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7280
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] hwmon: (pmbus/tps25990): Rework TPS25990 direct
+ conversion handling
+To: Stoyan Bogdanov <sbogdanov@baylibre.com>, jbrunet@baylibre.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260522082349.2749970-1-sbogdanov@baylibre.com>
+ <20260522082349.2749970-3-sbogdanov@baylibre.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260522082349.2749970-3-sbogdanov@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 5/22/26 01:23, Stoyan Bogdanov wrote:
+> Rework the existing implementation of direct format conversion for
+> TPS25990 non-standard parameters to improve code reusability and
+> integration with the PMBus direct conversion helpers.
+> 
+> Changes include:
+>   - Add an enum describing the supported parameters
+>   - Add structure to hold m, b, R per-device coefficients
+>   - Add data structures for pmbus_driver_info and local direct values
+>   - Use the generic PMBus conversion helpers:
+>       pmbus_reg2data_direct_calc()
+>       pmbus_data2reg_direct_calc()
+>   - Replace previously used defines with structured data
+> 
+> This reduces duplicated conversion logic and makes handling of
+> non-standard parameters more maintainable.
+> 
+> Signed-off-by: Stoyan Bogdanov <sbogdanov@baylibre.com>
+> ---
+>   drivers/hwmon/pmbus/tps25990.c | 197 +++++++++++++++++++++------------
+>   1 file changed, 127 insertions(+), 70 deletions(-)
+> 
+> diff --git a/drivers/hwmon/pmbus/tps25990.c b/drivers/hwmon/pmbus/tps25990.c
+> index 05c6288ecafc..1e252844217b 100644
+> --- a/drivers/hwmon/pmbus/tps25990.c
+> +++ b/drivers/hwmon/pmbus/tps25990.c
+> @@ -36,17 +36,63 @@
+>   #define  TPS25990_UNLOCKED		BIT(7)
+>   
+>   #define TPS25990_8B_SHIFT		2
+> -#define TPS25990_VIN_OVF_NUM		525100
+> -#define TPS25990_VIN_OVF_DIV		10163
+> -#define TPS25990_VIN_OVF_OFF		155
+> -#define TPS25990_IIN_OCF_NUM		953800
+> -#define TPS25990_IIN_OCF_DIV		129278
+> -#define TPS25990_IIN_OCF_OFF		157
+>   
+>   #define PK_MIN_AVG_RST_MASK		(PK_MIN_AVG_RST_PEAK | \
+>   					 PK_MIN_AVG_RST_AVG  | \
+>   					 PK_MIN_AVG_RST_MIN)
+>   
+> +enum chips {
+> +	tps25990,
+> +};
+> +
+> +enum tps25990_parameters {
+> +	TPS25990_VIN_OVF = 0, /* VIN over volatage fault */
+> +	TPS25990_IIN_OCF, /* IIN Over currect fault */
+> +	TPS25990_DIRECT_VALUES_COUNT,
+> +};
+> +
+> +struct tps25990_local_direct_value {
+> +	int m[TPS25990_DIRECT_VALUES_COUNT]; /* mantissa */
+> +	int b[TPS25990_DIRECT_VALUES_COUNT]; /* offset */
+> +	int R[TPS25990_DIRECT_VALUES_COUNT]; /* exponent */
+> +};
+> +
+> +struct tps25990_data {
+> +	struct pmbus_driver_info info;
+> +	struct tps25990_local_direct_value info_local;
+> +};
+> +
+> +static s64 tps25990_reg2data_direct(struct i2c_client *client, int param, s32 raw)
+> +{
+> +	struct pmbus_driver_info *info = i2c_get_clientdata(client);
+> +	struct tps25990_data *data = container_of(info, struct tps25990_data, info);
+> +	struct tps25990_local_direct_value *info_local = &data->info_local;
+> +	s64 b, val;
+> +	s32 m, R;
+> +
+> +	val = (s16)raw;
+> +	m = info_local->m[param];
+> +	b = info_local->b[param];
+> +	R = info_local->R[param];
+> +
+> +	return pmbus_reg2data_direct_calc(val, b, m, R);
+> +}
+> +
+> +static u16 tps25990_data2reg_direct(struct i2c_client *client, int param, s64 val)
+> +{
+> +	struct pmbus_driver_info *info = i2c_get_clientdata(client);
+> +	struct tps25990_data *data = container_of(info, struct tps25990_data, info);
+> +	struct tps25990_local_direct_value *info_local = &data->info_local;
+> +	s32 m, R;
+> +	s64 b;
+> +
+> +	m = info_local->m[param];
+> +	b = info_local->b[param];
+> +	R = info_local->R[param];
+> +
+> +	return pmbus_data2reg_direct_calc(val, b, m, R);
+> +}
+> +
+>   /*
+>    * Arbitrary default Rimon value: 1kOhm
+>    * This correspond to an overcurrent limit of 55A, close to the specified limit
+> @@ -184,9 +230,7 @@ static int tps25990_read_word_data(struct i2c_client *client,
+>   		ret = pmbus_read_word_data(client, page, phase, reg);
+>   		if (ret < 0)
+>   			break;
+> -		ret = DIV_ROUND_CLOSEST(ret * TPS25990_VIN_OVF_NUM,
+> -					TPS25990_VIN_OVF_DIV);
+> -		ret += TPS25990_VIN_OVF_OFF;
+> +		ret = tps25990_reg2data_direct(client, TPS25990_VIN_OVF, ret);
 
+The result is again evaluated by the PMBus core as direct register value,
+not as calculated fault limit. I don't think this works as expected.
+This isn't about converting a register value to a voltage, it is about
+converting one direct format into another. Using (or trying to use)
+reg2data_direct is at the very least misleading, if not completely wrong.
 
-Hello,
+The m/b/R parameters below are the coefficients from the datasheet to convert
+the register values into voltages. The PMBus core will take that value and
+convert it again into a voltage, this time using the m/b/R coefficients
+for input voltages. This can not be correct. To be technically correct,
+the core would have to convert the register value to a voltage using one
+set of m/b/R coefficients and then convert it back to direct format using
+the other set of m/b/R coefficients. The current code does that by adjusting
+the values directly. I don't think changing is really beneficial. If anything,
+documenting it would be more helpful.
 
-kernel test robot noticed "Oops:general_protection_fault,probably_for_non-canonical_address#:#[##]SMP_KASAN_PTI" on:
-
-commit: f93c013feebc74afe81ce1ffd045c1625b86c4ce ("[PATCH v1 1/4] driver core: allow certain drivers prohibit override via sysfs")
-url: https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/driver-core-allow-certain-drivers-prohibit-override-via-sysfs/20260513-124947
-patch link: https://lore.kernel.org/all/20260508095224.1275645-2-andriy.shevchenko@linux.intel.com/
-patch subject: [PATCH v1 1/4] driver core: allow certain drivers prohibit override via sysfs
-
-in testcase: boot
-
-config: x86_64-rhel-9.4-kunit
-compiler: gcc-14
-test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 32G
-
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202605231602.b6990b2a-lkp@intel.com
-
-
-
-[   98.674811][ T2697] ppdev: user-space parallel port driver
-[   98.682051][ T2693] RAPL PMU: API unit is 2^-32 Joules, 0 fixed counters, 10737418240 ms ovfl timer
-[   98.749342][ T2701] Error: Driver 'pcspkr' is already registered, aborting...
-[   98.754059][ T2699] sr 1:0:0:0: [sr0] scsi3-mmc drive: 4x/4x cd/rw xa/form2 tray
-[   98.754984][ T2699] cdrom: Uniform CD-ROM driver Revision: 3.20
-[   98.756646][ T2690] Oops: general protection fault, probably for non-canonical address 0xdffffc0000000004: 0000 [#1] SMP KASAN PTI
-[   98.757883][ T2690] KASAN: null-ptr-deref in range [0x0000000000000020-0x0000000000000027]
-[   98.758816][ T2690] CPU: 1 UID: 0 PID: 2690 Comm: udevd Not tainted 7.1.0-rc1+ #1 PREEMPT(lazy)
-[   98.759772][ T2690] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[   98.760884][ T2690] RIP: 0010:bus_remove_device (kbuild/src/drivers/base/bus.c:656 (discriminator 1))
-[   98.761606][ T2690] Code: 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 dc 01 00 00 48 ba 00 00 00 00 00 fc ff df 48 8b 43 68 48 8d 78 21 48 89 f9 48 c1 e9 03 <0f> b6 14 11 48 89 f9 83 e1 07 38 ca 7f 08 84 d2 0f 85 84 01 00 00
-All code
-========
-   0:	48 89 fa             	mov    %rdi,%rdx
-   3:	48 c1 ea 03          	shr    $0x3,%rdx
-   7:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   b:	0f 85 dc 01 00 00    	jne    0x1ed
-  11:	48 ba 00 00 00 00 00 	movabs $0xdffffc0000000000,%rdx
-  18:	fc ff df 
-  1b:	48 8b 43 68          	mov    0x68(%rbx),%rax
-  1f:	48 8d 78 21          	lea    0x21(%rax),%rdi
-  23:	48 89 f9             	mov    %rdi,%rcx
-  26:	48 c1 e9 03          	shr    $0x3,%rcx
-  2a:*	0f b6 14 11          	movzbl (%rcx,%rdx,1),%edx		<-- trapping instruction
-  2e:	48 89 f9             	mov    %rdi,%rcx
-  31:	83 e1 07             	and    $0x7,%ecx
-  34:	38 ca                	cmp    %cl,%dl
-  36:	7f 08                	jg     0x40
-  38:	84 d2                	test   %dl,%dl
-  3a:	0f 85 84 01 00 00    	jne    0x1c4
-
-Code starting with the faulting instruction
-===========================================
-   0:	0f b6 14 11          	movzbl (%rcx,%rdx,1),%edx
-   4:	48 89 f9             	mov    %rdi,%rcx
-   7:	83 e1 07             	and    $0x7,%ecx
-   a:	38 ca                	cmp    %cl,%dl
-   c:	7f 08                	jg     0x16
-   e:	84 d2                	test   %dl,%dl
-  10:	0f 85 84 01 00 00    	jne    0x19a
-[   98.763619][ T2690] RSP: 0018:ffffc9000075efd0 EFLAGS: 00010202
-[   98.764294][ T2690] RAX: 0000000000000000 RBX: ffff8881d0677010 RCX: 0000000000000004
-[   98.765179][ T2690] RDX: dffffc0000000000 RSI: 0000000000000008 RDI: 0000000000000021
-[   98.766066][ T2690] RBP: ffff888100348c00 R08: 0000000000000001 R09: ffffed1020060f55
-[   98.766979][ T2690] R10: ffff888100307aaf R11: fffffffface0012b R12: ffffffffb0964be0
-[   98.767842][ T2690] R13: 1ffff920000ebdfc R14: ffff888100348c58 R15: ffff8881d0677060
-[   98.768702][ T2690] FS:  00007fb9b77bc300(0000) GS:ffff88876b59b000(0000) knlGS:0000000000000000
-[   98.769674][ T2690] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   98.770377][ T2690] CR2: 00007fb9b77898e0 CR3: 000000023c500000 CR4: 00000000000406f0
-[   98.771294][ T2690] Call Trace:
-[   98.771694][ T2690]  <TASK>
-[   98.772063][ T2690]  ? __pfx_bus_remove_device (kbuild/src/drivers/base/bus.c:623)
-[   98.772686][ T2690]  ? __pfx_device_remove_attrs (kbuild/src/drivers/base/core.c:3073)
-[   98.773297][ T2690]  device_del (kbuild/src/drivers/base/core.c:3891)
-[   98.773787][ T2690]  ? __pfx_device_del (kbuild/src/include/linux/kobject.h:89)
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20260523/202605231602.b6990b2a-lkp@intel.com
-
-
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Guenter
 
