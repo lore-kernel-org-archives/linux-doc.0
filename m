@@ -1,237 +1,119 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B872368D73
-	for <linux-doc@vger.kernel.org>; Sat, 23 May 2026 07:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2648C38837D
+	for <linux-doc@vger.kernel.org>; Sat, 23 May 2026 09:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779520546; cv=none; b=RO6Hy2WIpErEGQaQWll/5FgFCLj7sS4pYMj6ayEYu/Cg8C4V3P2szMpbqragYzJ6EIiC01PUegSRuhtdG7JLpKlYkQavXWWBHiq5TLEJ3FR3lOTnrLN2FAuurivcGrG+5P+XC9OHdUpzsqCl5EhOoeQgtDFCl1kT5mIxq+LUE1U=
+	t=1779529466; cv=none; b=k7qUa27cL2g5zE8unsKNfgX3IeZYrq/bQrz8GwQuGum5/uPPWLj1RJvknsNXZBdoYJ3QONmooQTpsizKkViRbGyb3TyeqPxip+/dz5iU3yrqpNHuQL4tFxNdtWw0UkrwA5pl1WDeBwNS3MmT/7/Y0qtrryUhcpATZ4qWa5/n1uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779520546; c=relaxed/simple;
-	bh=M80+fNO6OBurAzoDghArAT2ZgkzXj59Sg4wMHAAZH/c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tw13WkCp2yQg/2YtFTgWzDDHh46jNaxfBo4MYBUUX2PAjxS9DqT/CGcjLXCRBisYfeKoYYxYA5rh4Yi7bdljWPHW4JeNJWCKvMqPRGFyzvFbVAYpmop8mreFXxZtPwRQFXB+s96xUDiiUE5HvRsEfEAUGQoQM1/IgSFrc1MmElo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ok/XYjGG; arc=none smtp.client-ip=209.85.221.52
+	s=arc-20240116; t=1779529466; c=relaxed/simple;
+	bh=2X6F7vnlTVLHYY6WdIPCxcHQmhWN0eMKVSV2hTb1Jrk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AlQ+90faj36N9Wr9/Wa1htzNqHJq64nZhZ8XtWw7LUR20QovL0SC0DM4LGdw39NXL5ApN0ZGJnDz7ubuImSqzwbVbU9pbHZP/RS2UioWhqZkxayfh3bku7BZBhlaKlpj+rTEXzWChd8v8/LpgkkmGsu/0myXSYi+2FtG0+KvCgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T2eXJ6HE; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ok/XYjGG"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-45e6a4d0be0so3571178f8f.1
-        for <linux-doc@vger.kernel.org>; Sat, 23 May 2026 00:15:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T2eXJ6HE"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48d10c981e4so9401405e9.0
+        for <linux-doc@vger.kernel.org>; Sat, 23 May 2026 02:44:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779520543; x=1780125343; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wCBDtFYH6irn68vEcfgObGsGHdxoBTw2InqF805Jo2w=;
-        b=ok/XYjGGYqAhEicSNuybCnnfsy8bqOXgCc06ot6kit+8FPh4pLs0Avlh2sk0BnDsX+
-         MzL8mRgOhcH9AwrMrX1SlHBOQPg6o1LJ9dQeytRgccg4LV9IimeJOgVSUEm7Ag4XjZoM
-         PXiUt9MPkO7k5cFzHIuRJVfa67B4exvMhBgWex1g4nhTEC1RoK9uZdyXtTLrcsG9PTY3
-         8jmaoepoKpk6ilkAndTRjTenhHt54uNbgEPXedLZJ+e2DcI8eqNSTOYC3ZnNN6vab+8G
-         V+bWn3h4CeY088xxYi+rkLnco8ruh3yRDqWa9uX4MLNqZ45muvMlP09oYIAknGwSxxm4
-         x81Q==
+        d=gmail.com; s=20251104; t=1779529463; x=1780134263; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+33Jnfl9EuHdW/5UYwACzrSC7m7tmZqoG76Vyj9VhpI=;
+        b=T2eXJ6HEdOfdHP6g/sr9KTuLiBcbsskXgz8p0WP+CNSv2OqDspq/Z0m/yb9fvwRuOP
+         9vC2zCwmkeyfF6Cy4QvFD7HZPTocgKKQ4LrW0myuoEoGpsRTlxM7gJ21uFM3DTWUN8Nj
+         t6pg6CTRpAeM0RvL1+/PuA5y/64j32aaOCA5B5DYkwEZcLuDs8A++Ge/AYO5vY4ydvvc
+         zL69jSuH7isA3VIaQEbE6KDNtDqRvcdVEh9AfYtVv9mJaYAdSxB0S8Ly5T+n0IK3G2MQ
+         fPqt4DGOSHeJX02EJaPJjTqpwdLZx0sJdPdbsSXzqMXwhd6UBw/CiTGHiOGiHsFPbpKm
+         Wn0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779520543; x=1780125343;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wCBDtFYH6irn68vEcfgObGsGHdxoBTw2InqF805Jo2w=;
-        b=mep1APtNCvhW8WGnLYu0nzx22WNFlIKj9nuz5CmTmJH4nJw9nYFSZ4vTSGt+ME6xNr
-         zcqtps+kUUK+PigAWSBKJVr71bRSVFg2NUJTi8git1HUkQxnya4JMPL0/c0dgmPVzPzY
-         dhNkMbWtZZ7udg+Ll08KevwgNIJIfQ784C44ih7r57IeJNA5McNzxpOHvX6ZqYhal1Fy
-         r5nLtT2UjE6xSIIL540SBYljubV68buSbsxbum3hW2HT9YDDkLVD6nwW93HvepcdKZx+
-         enih7vzc76ZNYkyXb4A0WEgdefh5+IY4nSN4HYkO+PecjZFkgY12xzgMkDvMVZp7kYBM
-         ezZg==
-X-Gm-Message-State: AOJu0Yz9Ip+NwIpZYZpL9xunalsZ6UH31o311VbvYMcnm1sySrYE9/m8
-	tSKe++/9GsZgkHyrux5+qdIVHZcPFEZ3Uq7xGODGQAiJw7icp91usWtb
-X-Gm-Gg: Acq92OE4zyvqdvPZftGeJr+6ztmnSY/iWVC9MNN9r8QGaJIBt8pozR9BbmpZ1dMeqma
-	FE5Az9VoVX1bm4SuYmjfR1v/LakZ9Ure5kNX0OM1LG3VQiadjr03d3DI0RK+SmUrzOBQ1HLrtWr
-	B1Nv+uQ7R3JfSBSxfU3Wsk+jTEHLjbf4vLF1lplDUpnPUjSDW2DgdQ2Gly5RNxxsOc0gWrsITVj
-	oEs673k7MrkfvIk5YoJw4RIbdz/5dbxUmPhUuz/dAoFSxX2SBFRmEKFinVW/JOQcRtcwCwos236
-	As6iax6QX7C6TSeQGaDVPh7Ag4K5AaTwpIjS3bW5XHd/HUETwMPh7ltKJ0SF3eM8G5zy/9QOk7Y
-	IJ7tt2hkEF3ifoDBQZ5Hm2cKU5XE8jy3pZycpzvkz21JfxRD/ZdgcqBjNFIU3u99AFylSK+n5u4
-	Jzu4CawIPDXczN0Eeq+oZMAmI9vfHD
-X-Received: by 2002:a05:6000:25e3:b0:43d:68ad:3b7f with SMTP id ffacd0b85a97d-45eb38af5c7mr10081766f8f.21.1779520543058;
-        Sat, 23 May 2026 00:15:43 -0700 (PDT)
-Received: from [192.168.0.174] ([31.96.183.250])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-45eb6d5cb76sm8639838f8f.25.2026.05.23.00.15.40
+        d=1e100.net; s=20251104; t=1779529463; x=1780134263;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+33Jnfl9EuHdW/5UYwACzrSC7m7tmZqoG76Vyj9VhpI=;
+        b=FPqh2ZooNx5wBhuiGoIFqRAj63v1QEhpgPat/cSx1Gk05wt8CmPpntEWLxBmSPYEHs
+         zP3WbUL6yLhbsNUeYh4gnFs5GLK6XzGC/UOK96z7auovpRYve01L7/TyQGuX6vRJl3VF
+         BOKmvREqf2o5Kh8SSA8vydRuYZHtf+6IgsZA3DJXKxDmcpbkOJX/vMzF5mGa3FUtqbwp
+         dSjYJcXBCEaIHRtDarfLhrl7dO5mkT3VNt7DMNk8SJUdOQ7msjTgaKNjpf2zV6/b5E3N
+         p1TSCugVTyiVkmyghbSBWU2dL5ih0GmZMNkPUCh6oS9SctxRiF7agEyGZbqP3ZXZa2W8
+         auNQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/OAFjMRqjBxDrgqpRaXekRPYDioSlTDXfiXNUcT/DlJXzUzLeQAdiwR1j/TDsiJwV2mRmE8nHhszc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzROn/xOLhwiW7/L5sCkf4p+hCec2Tr9GMtRpktjzRwr7a+BgSf
+	IPZhywVVS2sSgaOQ4Cx44bVN5kgLQ74nrvz/9x0oAD977DAR7TIF2zeD
+X-Gm-Gg: Acq92OGU5c6uq6l4fNRCUO6SxWV9dgsdYUed8ZvPssz3UtFOyjr1F5Q5aFhEBWSR+h/
+	T13vxsrlFQeUKqYYOfd5gRyNW0VzfVRW+I6/dpEmJgLxgKigBgTczsnviQX5nzd9X1kBSdqcLm3
+	jsCeWq6UXXVqQRHi2Zmn3fFdx+a4Nspir2DlPVzMGyCJe5VieaMi+CoBjO/fUpmo7HJquOHcG4T
+	VygPn+sADZu809lzG7Hk6qBUTGXp/Hei+/eJz8byY14LaeiRmH+WcrCrvSKypcTIpOMHF144ZH0
+	+4M00QiKlw6neftdSMYW8IcjOJIq28q5xi6sh1LqyKrTJTVn/TAC+w+aV7VLVtDprLQX+75tPwh
+	PM8NQFEG5nMbt9SrE/8Gh/VFeSafRtBIucHdkjxm9KkzF1VnQG48DlVrpkOp2eGiY6LpduvM4vU
+	agfbcbWd+gWWbjYY7qa0YfXad3gaD/Dz664t5aeO6CSKT8DZnelE6uXHI2GSL2m8XL9e/E07Gj8
+	nafb0uAaDfsotGlSWawIruhV6bhsC6TtA0uWg==
+X-Received: by 2002:a05:600c:3e0c:b0:490:4175:4bf4 with SMTP id 5b1f17b1804b1-49042cfe362mr54726165e9.8.1779529463267;
+        Sat, 23 May 2026 02:44:23 -0700 (PDT)
+Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6d48e23sm10387044f8f.20.2026.05.23.02.44.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2026 00:15:41 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-Date: Sat, 23 May 2026 01:14:57 -0600
-Subject: [PATCH v2 24/24] dyndbg: improve section names
+        Sat, 23 May 2026 02:44:22 -0700 (PDT)
+From: Doehyun Baek <doehyunbaek@gmail.com>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	SeongJae Park <sj@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	damon@lists.linux.dev,
+	Doehyun Baek <doehyunbaek@gmail.com>
+Subject: [PATCH 0/2] docs/zh: update DAMON usage sysfs documentation
+Date: Sat, 23 May 2026 09:44:17 +0000
+Message-ID: <20260523094420.741003-1-doehyunbaek@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260523-dd-maint-2-v2-24-b937312aa083@gmail.com>
-References: <20260523-dd-maint-2-v2-0-b937312aa083@gmail.com>
-In-Reply-To: <20260523-dd-maint-2-v2-0-b937312aa083@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
- Jason Baron <jbaron@akamai.com>, Luis Chamberlain <mcgrof@kernel.org>, 
- Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779520485; l=5623;
- i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=M80+fNO6OBurAzoDghArAT2ZgkzXj59Sg4wMHAAZH/c=;
- b=IPLjgcIxtWsAYl+aBjchTE9EychEIqrxQak1IFTHfNKzY4NcwzKCPKwEW2llTS3/AdszaVr7i
- N1vE4tjKZfgDbjInXaxKzrJqaN4Ut9tfGi7eVcksJB+R0JuwRT+4HCD
-X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
- pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
+Content-Transfer-Encoding: 8bit
 
-change __dyndbg to __dyndbg_descs
-change __dyndbg_classes to __dyndbg_class_maps
+Hi,
 
-this sets up for adding __dyndbg_class_users
+The Simplified and Traditional Chinese DAMON usage translations are
+missing selected updates that are already documented in the English file.
+As a result, parts of the translated sysfs hierarchy and descriptions are
+stale, and the translations also lack the newer introduction of DAMON's
+special-purpose modules.
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- include/asm-generic/dyndbg.lds.h | 14 +++++++-------
- include/linux/dynamic_debug.h    |  4 ++--
- kernel/module/main.c             |  2 +-
- lib/dynamic_debug.c              | 24 ++++++++++++------------
- 4 files changed, 22 insertions(+), 22 deletions(-)
+The gaps correspond to the following English documentation commits:
 
-diff --git a/include/asm-generic/dyndbg.lds.h b/include/asm-generic/dyndbg.lds.h
-index 9d8951bef688..ec661f9f3793 100644
---- a/include/asm-generic/dyndbg.lds.h
-+++ b/include/asm-generic/dyndbg.lds.h
-@@ -3,16 +3,16 @@
- #define __ASM_GENERIC_DYNDBG_LDS_H
- 
- #include <asm-generic/bounded_sections.lds.h>
--#define DYNDBG_SECTIONS()					\
--	BOUNDED_SECTION_BY(__dyndbg, ___dyndbg)			\
--	BOUNDED_SECTION_BY(__dyndbg_classes, ___dyndbg_classes)
-+#define DYNDBG_SECTIONS()						\
-+	BOUNDED_SECTION_BY(__dyndbg_descs, ___dyndbg_descs)		\
-+	BOUNDED_SECTION_BY(__dyndbg_class_maps, ___dyndbg_class_maps)
- 
- #define MOD_DYNDBG_SECTIONS()						\
--	__dyndbg 0 : ALIGN(8) {						\
--		KEEP(*(__dyndbg))					\
-+	__dyndbg_descs 0 : ALIGN(8) {					\
-+		KEEP(*(__dyndbg_descs))					\
- 	}								\
--	__dyndbg_classes 0 : ALIGN(8) {					\
--		KEEP(*(__dyndbg_classes))				\
-+	__dyndbg_class_maps 0 : ALIGN(8) {				\
-+		KEEP(*(__dyndbg_class_maps))				\
- 	}
- 
- #endif /* __ASM_GENERIC_DYNDBG_LDS_H */
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index fe73aa27b350..206337af71e9 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -128,7 +128,7 @@ struct _ddebug_class_param {
- #define DECLARE_DYNDBG_CLASSMAP(_var, _maptype, _base, ...)		\
- 	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
- 	static struct _ddebug_class_map __aligned(8) __used		\
--		__section("__dyndbg_classes") _var = {			\
-+		__section("__dyndbg_class_maps") _var = {			\
- 		.mod = THIS_MODULE,					\
- 		.mod_name = KBUILD_MODNAME,				\
- 		.base = _base,						\
-@@ -168,7 +168,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
- 
- #define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)	\
- 	static struct _ddebug  __aligned(8)			\
--	__section("__dyndbg") name = {				\
-+	__section("__dyndbg_descs") name = {			\
- 		.modname = KBUILD_MODNAME,			\
- 		.function = __func__,				\
- 		.filename = __FILE__,				\
-diff --git a/kernel/module/main.c b/kernel/module/main.c
-index c2b6e70f2e77..bd7899a91755 100644
---- a/kernel/module/main.c
-+++ b/kernel/module/main.c
-@@ -2774,7 +2774,7 @@ static int find_module_sections(struct module *mod, struct load_info *info)
- 		pr_warn("%s: Ignoring obsolete parameters\n", mod->name);
- 
- #ifdef CONFIG_DYNAMIC_DEBUG_CORE
--	mod->dyndbg_info.descs.start = section_objs(info, "__dyndbg_descriptors",
-+	mod->dyndbg_info.descs.start = section_objs(info, "__dyndbg_descs",
- 						    sizeof(*mod->dyndbg_info.descs.start),
- 						    &mod->dyndbg_info.descs.len);
- 	mod->dyndbg_info.maps.start = section_objs(info, "__dyndbg_class_maps",
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index b877f4c6d778..ce70cfee50c5 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -40,10 +40,10 @@
- 
- #include <rdma/ib_verbs.h>
- 
--extern struct _ddebug __start___dyndbg[];
--extern struct _ddebug __stop___dyndbg[];
--extern struct _ddebug_class_map __start___dyndbg_classes[];
--extern struct _ddebug_class_map __stop___dyndbg_classes[];
-+extern struct _ddebug __start___dyndbg_descs[];
-+extern struct _ddebug __stop___dyndbg_descs[];
-+extern struct _ddebug_class_map __start___dyndbg_class_maps[];
-+extern struct _ddebug_class_map __stop___dyndbg_class_maps[];
- 
- struct ddebug_table {
- 	struct list_head link;
-@@ -1379,10 +1379,10 @@ static int __init dynamic_debug_init(void)
- 	char *cmdline;
- 
- 	struct _ddebug_info di = {
--		.descs.start = __start___dyndbg,
--		.maps.start  = __start___dyndbg_classes,
--		.descs.len = __stop___dyndbg - __start___dyndbg,
--		.maps.len  = __stop___dyndbg_classes - __start___dyndbg_classes,
-+		.descs.start = __start___dyndbg_descs,
-+		.maps.start  = __start___dyndbg_class_maps,
-+		.descs.len = __stop___dyndbg_descs - __start___dyndbg_descs,
-+		.maps.len  = __stop___dyndbg_class_maps - __start___dyndbg_class_maps,
- 	};
- 
- #ifdef CONFIG_MODULES
-@@ -1393,7 +1393,7 @@ static int __init dynamic_debug_init(void)
- 	}
- #endif /* CONFIG_MODULES */
- 
--	if (&__start___dyndbg == &__stop___dyndbg) {
-+	if (&__start___dyndbg_descs == &__stop___dyndbg_descs) {
- 		if (IS_ENABLED(CONFIG_DYNAMIC_DEBUG)) {
- 			pr_warn("_ddebug table is empty in a CONFIG_DYNAMIC_DEBUG build\n");
- 			return 1;
-@@ -1403,11 +1403,11 @@ static int __init dynamic_debug_init(void)
- 		return 0;
- 	}
- 
--	iter = iter_mod_start = __start___dyndbg;
-+	iter = iter_mod_start = __start___dyndbg_descs;
- 	modname = iter->modname;
- 	i = mod_sites = mod_ct = 0;
- 
--	for (; iter < __stop___dyndbg; iter++, i++, mod_sites++) {
-+	for (; iter < __stop___dyndbg_descs; iter++, i++, mod_sites++) {
- 
- 		if (strcmp(modname, iter->modname)) {
- 			mod_ct++;
-@@ -1431,7 +1431,7 @@ static int __init dynamic_debug_init(void)
- 		goto out_err;
- 
- 	ddebug_init_success = 1;
--	vpr_info("%d prdebugs in %d modules, %d KiB in ddebug tables, %d kiB in __dyndbg section\n",
-+	vpr_info("%d prdebugs in %d modules, %d KiB in ddebug tables, %d kiB in __dyndbg_descs section\n",
- 		 i, mod_ct, (int)((mod_ct * sizeof(struct ddebug_table)) >> 10),
- 		 (int)((i * sizeof(struct _ddebug)) >> 10));
- 
+  commit a7bb1e754559 ("Docs/admin-guide/mm/damon/usage: document 'nid' file")
+  commit e85e965bdbec ("Docs/admin-guide/mm/damon/usage: document refresh_ms file")
+  commit e0c725455fd5 ("Docs/admin-guide/mm/damon/usage: document addr_unit file")
+  commit e06469cdf1fd ("Docs/admin-guide/mm/damon/usage: document obsolete_target file")
+  commit 2584dd7496c5 ("Docs/admin-guide/mm/damon/usage: update for max_nr_snapshots")
+  commit 652fd06d20da ("Docs/admin-guide/mm/damon/usage: update stats update process for refresh_ms")
+  commit e7df7a0bfc90 ("Docs/admin-guide/mm/damon/usage: introduce DAMON modules at the beginning")
+  commit d9cfe515d36e ("Docs/admin-guide/mm/damon/usage: document goal_tuner sysfs file")
 
+Update both translations only for those stale DAMON usage entries,
+including refresh_ms, addr_unit, obsolete_target, goal_tuner, nid, and
+max_nr_snapshots.
+
+Doehyun Baek (2):
+  docs/zh_CN: update DAMON usage sysfs documentation
+  docs/zh_TW: update DAMON usage sysfs documentation
+
+ .../zh_CN/admin-guide/mm/damon/usage.rst      | 56 +++++++++++++------
+ .../zh_TW/admin-guide/mm/damon/usage.rst      | 56 +++++++++++++------
+ 2 files changed, 80 insertions(+), 32 deletions(-)
+
+
+base-commit: 79bd2dded182b1d458b18e62684b7f82ffc682e5
 -- 
-2.54.0
+2.43.0
 
