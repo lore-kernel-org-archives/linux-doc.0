@@ -1,37 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C892D30C606;
-	Sat, 23 May 2026 19:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779565389; cv=none; b=rubHpQB+2r/SRLmCleTOplK/txevwF3folcK+Lra66WIWxDSaNY4gPG/dVGIsT9CVuQDdABoshARVlsYHzrht/6kYGlD7aQxS/fAwDW9kk0sQ8zP0e7ZFIhQpZVM27moBpTI/BL6QHPn5JoMtUqAqSmL7Rri2SpHGyzQsgHEleI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779565389; c=relaxed/simple;
-	bh=D3zxq48jpNb8NeX8OBIi5fswzSbQEgmlY+KRsUrVG/o=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=asEtAFrckqqDcFDg6itGW9DzD0bHrX4SUHx4AuL9f8nGiXDWzQyQqmdX6ndj7xM6/8gRIJRM+XC8Au6sChjyUmC+Tbt/QaYMnut3iCOWYsnUXKY6/4Wa0wrebWHyB/n1GoF1PYnKvBM4ERuq7O0VvBN5zmnxq20F38hQlRPWGa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N1W7libw; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5030A30676C;
+	Sat, 23 May 2026 19:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779565541; cv=pass; b=Q158BVTq+bClWz/HVODUVmbpsJ9xQffwi83annehpwxV9jF5+QXs2+YWUsY8fQ7bGXul+4r8eiSU/tGzYJK7A3fHt5CyDF0mP4gQpCnZ/u5xdn/jRVomw1EaTfln+rL/uDB1Fyxi00GXa70uZKrfIRe5Hdzh2MCcRxA4fdVh2QU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779565541; c=relaxed/simple;
+	bh=f4bvB+xBvgXE3NXJVtQocdi4wlyhWDs2k5QCvnMUyvc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=a/BIx1xsQF4QmH9++Wq+r92kqPt2qxtAmrUcg2/w0fJHCIaCK3xLO43HRF0j0LAJZF5wnja6dpRetW48bRd5mqZYTzkB7rvcnqJYRjMgp1iyYWTYQ3fNXyFaaTp6oypERnoQ0CvSIseYdzg/GZFTjc0DZCRvZ148k2+/7hIFnic=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=aKzytCsu; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N1W7libw"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 636C6C2BCB0;
-	Sat, 23 May 2026 19:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779565389;
-	bh=D3zxq48jpNb8NeX8OBIi5fswzSbQEgmlY+KRsUrVG/o=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=N1W7libwE4pGw34rdpUaYygrGuVgH4XFm8AxUcVSxmj6nqnanNSxFh/uEz+Xvxfab
-	 /ouAj5rlypPe3VJNhi/k8FHRELxD35Rs/PapDF35s/pIK2yOBQlEDa9uej9bHhZASA
-	 yGObZxnEwTxKrBuQu+MUpt3Bml7vRUG1zDQJSOTnuR9eim9WFj9X2xz/cDIdXzHdp3
-	 ndtRItrgtK24O4qaxecV1luOdQvmAYr3jpFIekM+AyEhjsNUf5B+FYAQtiSHaqeyPB
-	 ok3SQGNyuZEOdRhuQJxm8jVWcC8jKtG1wgb/GzbIzMJM+tnokdV7FPiwj+hyNQOVvt
-	 dGJYiO73DRmBQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B0DCD5BC6;
-	Sat, 23 May 2026 19:43:09 +0000 (UTC)
-From: Demi Marie Obenour via B4 Relay <devnull+demiobenour.gmail.com@kernel.org>
-Subject: [PATCH 0/3] AF_ALG: Remove support for AIO and old-style drivers
-Date: Sat, 23 May 2026 15:43:01 -0400
-Message-Id: <20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="aKzytCsu"
+ARC-Seal: i=1; a=rsa-sha256; t=1779565496; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=FHPceuywvCiBetJgEwUy/9rXO6+RwlVK5C+h3gLHPAxDxtsDZnxHwRoLZfavFEBztj2Gs1UthK7PyDRo3hlGvylIDQkeLIrY9Ptul2Tfb5S65I66ThxZDn7L6EP+8rCkqkUB2fsLsfvPBUJTEvOxKiBsEpuCp3M6en6Bdz80koA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1779565496; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=rn3P+1HjcNDik0Ghl9x1nmsSuObudzrApaXdu1dLsLg=; 
+	b=FeLnC/2iepU9/E6pYCL18up3LdthdrPcHfK/ko/V6Jwp0lUUWdGwEr9eZOQxoLdk9GfisV1TTkyEuJzfGqhVYPuKoJDO+MBipyFAX299zAa17Yq2OeteufThDeinQcY3t6ZfHVtnqsdOK+D2mF0BnpYIWc4S2smwSEq+5PnGMyk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779565495;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+	bh=rn3P+1HjcNDik0Ghl9x1nmsSuObudzrApaXdu1dLsLg=;
+	b=aKzytCsuyL/wcYRFh5feSndFukalu0ohumdg2PfNsQihX0K9zP8t5FbchRRS3dks
+	iPU66q1uOXiP0aMDdvC9lgBoMWzI03+HW8xl5hALVziKMtS1eKNHd8rguYIYvonp/8Z
+	IwVpd5H0fCaulBGfu45Geknt2JyLytINFwklCVWA=
+Received: by mx.zohomail.com with SMTPS id 1779565494537845.7980813429721;
+	Sat, 23 May 2026 12:44:54 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Date: Sat, 23 May 2026 21:43:37 +0200
+Subject: [PATCH v16 02/28] drm/display: hdmi-state-helper: Use default case
+ for unsupported formats
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,76 +48,78 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDUwMj3cQ03cScdN2MxKKU1DxdSwMDCxNLE1NDM1NjJaCegqLUtMwKsHn
- RsbW1AAl0ZOpfAAAA
-X-Change-ID: 20260502-af-alg-harden-900849451653
-To: Herbert Xu <herbert@gondor.apana.org.au>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
- Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- James Clark <james.clark@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Eric Biggers <ebiggers@google.com>, 
- Ard Biesheuvel <ardb@kernel.org>
-Cc: linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org, 
- io-uring@vger.kernel.org, netdev@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, 
- Demi Marie Obenour <demiobenour@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779565388; l=1545;
- i=demiobenour@gmail.com; s=20250731; h=from:subject:message-id;
- bh=D3zxq48jpNb8NeX8OBIi5fswzSbQEgmlY+KRsUrVG/o=;
- b=UWO/qocMd43s589G/tauUvyAgol1bxSgtpx423ChGfzN9f//3VW16eJhzkctofOPU6zoYSfaG
- lOI3O1+/rnwA0dZf4yBziamZeyECAINgeTNroGcSZIlvhNlXeYFNVWc
-X-Developer-Key: i=demiobenour@gmail.com; a=ed25519;
- pk=4iGY+ynEKxIfs+fIUK9EzsvZ44yGE0GvXLeLTPKKPhI=
-X-Endpoint-Received: by B4 Relay for demiobenour@gmail.com/20250731 with
- auth_id=473
-X-Original-From: Demi Marie Obenour <demiobenour@gmail.com>
-Reply-To: demiobenour@gmail.com
+Message-Id: <20260523-color-format-v16-2-24340c5e4732@collabora.com>
+References: <20260523-color-format-v16-0-24340c5e4732@collabora.com>
+In-Reply-To: <20260523-color-format-v16-0-24340c5e4732@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Daniel Stone <daniel@fooishbar.org>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+X-Mailer: b4 0.15.2
 
-AF_ALG is a deprecated API only useful for compatibility with existing
-userspace.  It has had a lot of vulnerabilities, including the infamous
-CopyFail.
+Switch statements that do not handle all possible values of an
+enumeration will generate a warning during compilation. In preparation
+for adding a COUNT value to the end of the enum, this needs to be dealt
+with.
 
-Rip out support for offload drivers, which tend to be buggy.  Also rip
-out support for AIO, which actually bloats the entire socket subsystem.
+Add a default case to sink_supports_format_bpc's DRM_OUTPUT_COLOR_FORMAT
+switch statement, and move the log-and-return unknown pixel format
+handling into it.
 
-Only compile-tested.
+No functional change.
 
-Signed-off-by: Demi Marie Obenour <demiobenour@gmail.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Reviewed-by: Daniel Stone <daniel@fooishbar.org>
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
-Demi Marie Obenour (3):
-      net: Remove support for AIO on sockets
-      AF_ALG: Drop support for off-CPU cryptography
-      AF_ALG: Document that it is *always* slower
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
- Documentation/crypto/userspace-if.rst          | 26 ++++++++--
- crypto/af_alg.c                                | 35 ++------------
- crypto/algif_aead.c                            | 43 ++++-------------
- crypto/algif_hash.c                            |  4 +-
- crypto/algif_rng.c                             |  4 +-
- crypto/algif_skcipher.c                        | 66 ++++++--------------------
- include/crypto/if_alg.h                        | 19 ++++++--
- include/linux/socket.h                         |  1 -
- io_uring/net.c                                 |  1 -
- net/compat.c                                   |  1 -
- net/socket.c                                   |  7 +--
- tools/perf/trace/beauty/include/linux/socket.h |  1 -
- 12 files changed, 70 insertions(+), 138 deletions(-)
----
-base-commit: 49e05bb00f2e8168695f7af4d694c39e1423e8a2
-change-id: 20260502-af-alg-harden-900849451653
+diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+index 4867edbf2622..3ba47564caad 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+@@ -541,10 +541,11 @@ sink_supports_format_bpc(const struct drm_connector *connector,
+ 		drm_dbg_kms(dev, "YUV444 format supported in that configuration.\n");
+ 
+ 		return true;
+-	}
+ 
+-	drm_dbg_kms(dev, "Unsupported pixel format.\n");
+-	return false;
++	default:
++		drm_dbg_kms(dev, "Unsupported pixel format.\n");
++		return false;
++	}
+ }
+ 
+ static enum drm_mode_status
 
-Best regards,
 -- 
-Demi Marie Obenour <demiobenour@gmail.com>
-
+2.54.0
 
