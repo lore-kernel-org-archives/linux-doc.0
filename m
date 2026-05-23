@@ -1,66 +1,66 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307AB345752
-	for <linux-doc@vger.kernel.org>; Sat, 23 May 2026 07:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065DB3451AF
+	for <linux-doc@vger.kernel.org>; Sat, 23 May 2026 07:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779520513; cv=none; b=X0XQ8LFX9Emw0eUs4mbQw4U5C4rybw9hVUKSlC4cA2j7KSE8KQH+HY3XndLlrbS5RvgKIMHxLxawpfXXsjLQRiaGYfv/VtBazM6SYAHo6UczgGQYoqp/xFPUFm0OLCzksMzTH44LsupRlqI9WNTLXaKm228BaZYz51qJdbJT13I=
+	t=1779520515; cv=none; b=LF9zk1qKksJhANLoD5xEZDC0CsRtXtKOaFitPA1M6OJ4HWbEYBQ1+G2+0IR4IV38e+2AsZ9oe3yaL3JpT5+2CM4ChPcXgrSY5kYDOfdadwd6XqcHbfTpDGg0yrZ7uu5VVcOW9p6fWqMOWmu5zVQP/G8bAvtuBZik5IGFnqPiHEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779520513; c=relaxed/simple;
-	bh=ytc0P/UZw6i8hpySK2Au28vrT+KoK4/4tvvmOq28NjE=;
+	s=arc-20240116; t=1779520515; c=relaxed/simple;
+	bh=ifMjdOv9s5iBVhpB9m4hzA/NaIvmwyfWNqe78zgQbz8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NjH/Ftg25z77nZPt7hysrKoXouzBzZTmQaAYnr+U0n30wZHzrMxqK94jWB4IpsUk3nFFOAocNqVRCzkJ8BJRQV4MNv7w90T7EB1A8KRULXSzQELMcUnUklqLT9FykAH9It46pJ5hgrJMbwlNAWnfe10xZljXrvv7s54ohymKPiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KOHk0v/Y; arc=none smtp.client-ip=209.85.221.49
+	 In-Reply-To:To:Cc; b=JpeGY7EIYOvJwDHEmKP5IMnolU0V5BmF0gZxNPmErLHef/jFktkwUtKGz7tPlgna7CUTX/rip5dEOXBcbdhM+bu0u6ivzUzKfiK4TtfwcfXm+9Z4N3+yP2GO4/f4nvL6elUGzDyN4u3ZOkZrxa9Hv99NB91AFlIg66i0glAt3dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qZUgjL3i; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KOHk0v/Y"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-45d96d21e82so4539989f8f.0
-        for <linux-doc@vger.kernel.org>; Sat, 23 May 2026 00:15:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qZUgjL3i"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-449de065cb3so7666871f8f.2
+        for <linux-doc@vger.kernel.org>; Sat, 23 May 2026 00:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779520505; x=1780125305; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779520507; x=1780125307; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BdDKIkZQT8kN6q6EUNEFoTcvXlPCpXkuxCaw1ETC1j0=;
-        b=KOHk0v/Y4BkDZjDkXwM5TOzSZqZvmt0+9xV2btspHIs4du5ytuXuYMsD9nVpRMd/Qz
-         c3oydRjROCKmlz3tJmR4okd0XcQ4h/lICfDAzDy0GXUMkHL40u9J+8T02Mt4DSTn8im2
-         ZUQAmqXO2u0qzC0AZ7iEyxXUAqMtqdyhT9okDiVZoUFYnCwtv8hPOZsTNSreNp1E973c
-         Y08eNIvVX1UZejXQUIOMNL9exAWtBVZJ0V7oArty5/yZ/MVcPG2QE9jnx+UCP/lIRVMO
-         pzez8YShVoFIQbvNSBQxj+jBvc2LqKeQ2zzPvcV0YtZ4+lXN2kR/cEpDy83mPCoBVq1x
-         Zzag==
+        bh=x+DQN3gI8cDIPCl5342KuGjmmS7ZUCk1xMik8PQu+to=;
+        b=qZUgjL3iv//xwuJlIrY389JLxW3S6fZBEJgpnFbI35vm+BN4NMXNWVQk1zap98s4F8
+         E0Mh9Vm2ddKzFl4ZtWTjaYVWJ2y4kNXgZSXks7VznjJoRAbHux5b5yMkLZ5JXn12gLL7
+         AvzWg02SKE/AUZZPn+AepYaTPIBDjVGibYJQRpDXJvIUHXcA5rrS6z7ipP4/nCv8vgWJ
+         a6gPgvH+CM1Q4nPqFwnvQCEQBGrRIaH1znz3DX8zC0hbXy2obrFr7pstshsDhnA3ebiu
+         aYXiKsNFpWqpHAcKFMtyz603HObbilaLSm4hyVOYadJx6atfSVkon8XI8bt1n5FYqR5s
+         PTMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779520505; x=1780125305;
+        d=1e100.net; s=20251104; t=1779520507; x=1780125307;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=BdDKIkZQT8kN6q6EUNEFoTcvXlPCpXkuxCaw1ETC1j0=;
-        b=qEXwIgC/1gtPcLqlpCCUtoXYGaL0JVFK2fpXTcVfhtNUuQg6PtpI0Unnk8YbRCQLsh
-         yziPuUM5X5Q0zbYmUjZZhaLoBCoZV9Rv5wWNPTftM7Bv/VONrn2dCt0XDNZWKf4I4x4q
-         z3fdtFYKqHOFJE/lDznN4r8IICMtwhNayWRQOxUDu+i8Yvd8yUDAM39ViLAcz6ulqSIG
-         +Zvz0lrjcafncNwRohRo/glb24cNgpGDQkgpbRMOrx2WrpE5+wwuO9/SMh7LB9Ju6zeb
-         C4rTGjxSzLbPPRViGoYIqjtGy08/X5NHLnT7ChxRNSB5oInWZlHGhxdJOGix7fQnXz+U
-         OGSg==
-X-Gm-Message-State: AOJu0Yx0xniOJ30lRoUrDBGZRpdi/5MHlEUunw+gcDlMHOl6h3lC2erW
-	BjpFv3CX09yqlLjXfUMdLr7EPRmWYvmo0bc771gnZj9LmunX1BIS+TTz
-X-Gm-Gg: Acq92OEa5oa/2Sb5AsysLw4N2Tb0zUd+AOg+9tqeCDqbh4xUtxrzOoXbkYyz90ID2NJ
-	e2zUlP9NH3P/HxLKSUy8LQ7TwFpKy5uhsIsOpd6AWVxAUoN8JIG3yDbFMOC34Tcoz9SjUPLbYnS
-	9nVd/a+vUGEnJbqXlqAJClK/bAhLhmNAgNIbY9pX8YbSfFF31/A5E/c17/zWbanhpMoQK5xQGNn
-	nmM4VWBgcyeWOgr+HwvE7gS+DtIywUSNjJFENCszCXXCtQigTySgNvCo+QR/K/+ghGx7AUBAPYz
-	X0Cmd8ulMXDr2147t7e1XntPs3oephiR0p3EBobo23OuvCTLDChgzwdlKaYKd0M8fQR/hGfoe5x
-	edo6ZqfUVD7OLJri8DWSQA2c6GIwzwXm6x3vWs46CYlcQto/1gg5DLMaz5ZaozWWjlk8G8pitBb
-	CF1+Nt3S985ZRruGZMWB2FcdEZEDdI
-X-Received: by 2002:a05:6000:41ee:b0:43f:e94a:e773 with SMTP id ffacd0b85a97d-45eb36b0818mr10298365f8f.27.1779520503105;
-        Sat, 23 May 2026 00:15:03 -0700 (PDT)
+        bh=x+DQN3gI8cDIPCl5342KuGjmmS7ZUCk1xMik8PQu+to=;
+        b=Q800w3H3BFsIZygwfdVzzER/55ixtpT4LTAUCqmWcj73WTGuWMFZ9KH/7InfcoolpO
+         R5pFAWQOeIxVXu39YYlv4atTV1dNA3o//t6pRgqh82ZpX3jTUZcn8DhLLi3oOfr9onpw
+         EIcwHU+9f4J04zBBcKeZXVbrs7SX/ALu+/6f1XyrevU8oybwZ+bhrrZ1yWCjKtq3FiGV
+         uxP6Cqu+v85TXtXJ1HCnbApir8XYZXt7R1FWl4xU/aLDjmVDrnGUe3VwXQVt/wTfL0re
+         9O7IMi6IOLmLERYZbYAPpkhyCJtu5BVD1XpPlDq93D0R5OQl51L8/j+AhDjbmT5djbUk
+         pAZw==
+X-Gm-Message-State: AOJu0YyKPHsEqD1997bbErz+xgp4QGJGAiThG/iawFpKr1T9iU7WFeDz
+	yRUKYCccwPgOqoyACa5xOFGmqzXO5uOlVJm98LJSPTMOn0Cygp7Xjl2O
+X-Gm-Gg: Acq92OGQxbZUr5rymvH5dXrTkHlArrxJmDsd4KZ95oNinWXKPZH2Flerx9qYYfweQYc
+	Ye2SGrwUH2dYOUlfGzJm1JMAkqfwNOn6KNmwvSEdDHthsJmtMDKFeae4/tEQbFfYFmDANvh/JWv
+	L4N9okzyh2qYBQ8v5x3XQdw+qp8MF0pG/MuNT256+m6IrNGUS0wl3cfw5k2m5U/0AnMdNKiuDXX
+	6CR1x2Qvo1cUGCmcJ+sVc2jNLaMtuLz0hzcpzKlfP3e7W5rOyfvqVmlZYF924nhwdSowNDuzc1g
+	sVFsZxlRoAanRaRXzoWpInpPGqetToNJwLf+cgIy+GHsA7qjFAu0XrMga4qeaqSTNQYR4740Rjc
+	InIp9DmVB1TqL8dLHL+kk9qsFdEsiJQSytMVAfse4nXUYw8QgDGd5PzseDHt2iv1TL9rBRG8VpY
+	tHpt6//67EHtBK9Tf8Fu6ou7qzHAuz
+X-Received: by 2002:a05:600c:a402:b0:488:a882:c7 with SMTP id 5b1f17b1804b1-490426ddc0fmr71710015e9.25.1779520506947;
+        Sat, 23 May 2026 00:15:06 -0700 (PDT)
 Received: from [192.168.0.174] ([31.96.183.250])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-45eb6d5cb76sm8639838f8f.25.2026.05.23.00.15.01
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-45eb6d5cb76sm8639838f8f.25.2026.05.23.00.15.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2026 00:15:02 -0700 (PDT)
+        Sat, 23 May 2026 00:15:05 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
-Date: Sat, 23 May 2026 01:14:41 -0600
-Subject: [PATCH v2 08/24] dyndbg: factor ddebug_match_desc out from
- ddebug_change
+Date: Sat, 23 May 2026 01:14:42 -0600
+Subject: [PATCH v2 09/24] dyndbg: add stub macro for
+ DECLARE_DYNDBG_CLASSMAP
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260523-dd-maint-2-v2-8-b937312aa083@gmail.com>
+Message-Id: <20260523-dd-maint-2-v2-9-b937312aa083@gmail.com>
 References: <20260523-dd-maint-2-v2-0-b937312aa083@gmail.com>
 In-Reply-To: <20260523-dd-maint-2-v2-0-b937312aa083@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>, 
@@ -80,146 +80,93 @@ To: Jonathan Corbet <corbet@lwn.net>,
  Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>
+ linux-kselftest@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779520485; l=4346;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779520485; l=3163;
  i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=ytc0P/UZw6i8hpySK2Au28vrT+KoK4/4tvvmOq28NjE=;
- b=0FjUNJKqj7zcKpWVRK2n6ovvyNH2+oda32OW1WLwtDuWRnsuT5scN/UPpoLhYifa4yWRrthJy
- aTwPMijUnb1DvrrA+go89tdgBJwSTv77BQa50TUt4C4cH9JveciLEG8
+ bh=ifMjdOv9s5iBVhpB9m4hzA/NaIvmwyfWNqe78zgQbz8=;
+ b=LeMzd2IbaJ/MfJTQ8bBott6YzzK/865ef38iQIRe1CPdRfS1+ivfNf7LDpy3XOiDG+YorXBjg
+ f4f4T/LpU6FCIfIwOpBiTzv+K7o8iQSsvt2GsNwVVpUWk1TbcwvciNF
 X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
  pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
 
-ddebug_change() is a big (~100 lines) function with a nested for loop.
-
-The outer loop walks the per-module ddebug_tables list, and does
-module stuff: it filters on a query's "module FOO*" and "class BAR",
-failures here skip the entire inner loop.
-
-The inner loop (60 lines) scans a module's descriptors.  It starts
-with a long block of filters on function, line, format, and the
-validated "BAR" class (or the legacy/_DPRINTK_CLASS_DFLT).
-
-These filters "continue" past pr_debugs that don't match the query
-criteria, before it falls through the code below that counts matches,
-then adjusts the flags and static-keys.  This is unnecessarily hard to
-think about.
-
-So move the per-descriptor filter-block into a boolean function:
-ddebug_match_desc(desc), and change each "continue" to "return false".
-This puts a clear interface in place, so any future changes are either
-inside, outside, or across this interface.
-
-also fix checkpatch complaints about spaces and braces.
+Add the stub macro for !DYNAMIC_DEBUG builds, after moving the
+original macro-defn down under the big ifdef.  Do it now so future
+changes have a cleaner starting point.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- lib/dynamic_debug.c | 83 ++++++++++++++++++++++++++++++-----------------------
- 1 file changed, 47 insertions(+), 36 deletions(-)
+ include/linux/dynamic_debug.h | 43 ++++++++++++++++++++++---------------------
+ 1 file changed, 22 insertions(+), 21 deletions(-)
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 18a71a9108d3..6b1e983cfedc 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -172,6 +172,52 @@ static struct ddebug_class_map *ddebug_find_valid_class(struct ddebug_table cons
-  * callsites, normally the same as number of changes.  If verbose,
-  * logs the changes.  Takes ddebug_lock.
-  */
-+static bool ddebug_match_desc(const struct ddebug_query *query,
-+			      struct _ddebug *dp,
-+			      int valid_class)
-+{
-+	/* match site against query-class */
-+	if (dp->class_id != valid_class)
-+		return false;
-+
-+	/* match against the source filename */
-+	if (query->filename &&
-+	    !match_wildcard(query->filename, dp->filename) &&
-+	    !match_wildcard(query->filename,
-+			    kbasename(dp->filename)) &&
-+	    !match_wildcard(query->filename,
-+			    trim_prefix(dp->filename)))
-+		return false;
-+
-+	/* match against the function */
-+	if (query->function &&
-+	    !match_wildcard(query->function, dp->function))
-+		return false;
-+
-+	/* match against the format */
-+	if (query->format) {
-+		if (*query->format == '^') {
-+			char *p;
-+			/* anchored search. match must be at beginning */
-+			p = strstr(dp->format, query->format + 1);
-+			if (p != dp->format)
-+				return false;
-+		} else if (!strstr(dp->format, query->format)) {
-+			return false;
-+		}
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index 05743900a116..a10adac8e8f0 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -93,27 +93,6 @@ struct ddebug_class_map {
+ 	enum class_map_type map_type;
+ };
+ 
+-/**
+- * DECLARE_DYNDBG_CLASSMAP - declare classnames known by a module
+- * @_var:   a struct ddebug_class_map, passed to module_param_cb
+- * @_type:  enum class_map_type, chooses bits/verbose, numeric/symbolic
+- * @_base:  offset of 1st class-name. splits .class_id space
+- * @classes: class-names used to control class'd prdbgs
+- */
+-#define DECLARE_DYNDBG_CLASSMAP(_var, _maptype, _base, ...)		\
+-	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
+-	static struct ddebug_class_map __aligned(8) __used		\
+-		__section("__dyndbg_classes") _var = {			\
+-		.mod = THIS_MODULE,					\
+-		.mod_name = KBUILD_MODNAME,				\
+-		.base = _base,						\
+-		.map_type = _maptype,					\
+-		.length = NUM_TYPE_ARGS(char*, __VA_ARGS__),		\
+-		.class_names = _var##_classnames,			\
+-	}
+-#define NUM_TYPE_ARGS(eltype, ...)				\
+-        (sizeof((eltype[]){__VA_ARGS__}) / sizeof(eltype))
+-
+ /* encapsulate linker provided built-in (or module) dyndbg data */
+ struct _ddebug_info {
+ 	struct _ddebug *descs;
+@@ -138,6 +117,27 @@ struct ddebug_class_param {
+ #if defined(CONFIG_DYNAMIC_DEBUG) || \
+ 	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
+ 
++/**
++ * DECLARE_DYNDBG_CLASSMAP - declare classnames known by a module
++ * @_var:   a struct ddebug_class_map, passed to module_param_cb
++ * @_type:  enum class_map_type, chooses bits/verbose, numeric/symbolic
++ * @_base:  offset of 1st class-name. splits .class_id space
++ * @classes: class-names used to control class'd prdbgs
++ */
++#define DECLARE_DYNDBG_CLASSMAP(_var, _maptype, _base, ...)		\
++	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
++	static struct ddebug_class_map __aligned(8) __used		\
++		__section("__dyndbg_classes") _var = {			\
++		.mod = THIS_MODULE,					\
++		.mod_name = KBUILD_MODNAME,				\
++		.base = _base,						\
++		.map_type = _maptype,					\
++		.length = NUM_TYPE_ARGS(char*, __VA_ARGS__),		\
++		.class_names = _var##_classnames,			\
 +	}
++#define NUM_TYPE_ARGS(eltype, ...)				\
++	(sizeof((eltype[]) {__VA_ARGS__}) / sizeof(eltype))
 +
-+	/* match against the line number range */
-+	if (query->first_lineno &&
-+	    dp->lineno < query->first_lineno)
-+		return false;
-+	if (query->last_lineno &&
-+	    dp->lineno > query->last_lineno)
-+		return false;
-+
-+	return true;
-+}
-+
- static int ddebug_change(const struct ddebug_query *query,
- 			 struct flag_settings *modifiers)
- {
-@@ -204,42 +250,7 @@ static int ddebug_change(const struct ddebug_query *query,
- 		for (i = 0; i < dt->num_ddebugs; i++) {
- 			struct _ddebug *dp = &dt->ddebugs[i];
+ extern __printf(2, 3)
+ void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...);
  
--			/* match site against query-class */
--			if (dp->class_id != valid_class)
--				continue;
--
--			/* match against the source filename */
--			if (query->filename &&
--			    !match_wildcard(query->filename, dp->filename) &&
--			    !match_wildcard(query->filename,
--					   kbasename(dp->filename)) &&
--			    !match_wildcard(query->filename,
--					   trim_prefix(dp->filename)))
--				continue;
--
--			/* match against the function */
--			if (query->function &&
--			    !match_wildcard(query->function, dp->function))
--				continue;
--
--			/* match against the format */
--			if (query->format) {
--				if (*query->format == '^') {
--					char *p;
--					/* anchored search. match must be at beginning */
--					p = strstr(dp->format, query->format+1);
--					if (p != dp->format)
--						continue;
--				} else if (!strstr(dp->format, query->format))
--					continue;
--			}
--
--			/* match against the line number range */
--			if (query->first_lineno &&
--			    dp->lineno < query->first_lineno)
--				continue;
--			if (query->last_lineno &&
--			    dp->lineno > query->last_lineno)
-+			if (!ddebug_match_desc(query, dp, valid_class))
- 				continue;
+@@ -314,6 +314,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
  
- 			nfound++;
+ #define DEFINE_DYNAMIC_DEBUG_METADATA(name, fmt)
+ #define DYNAMIC_DEBUG_BRANCH(descriptor) false
++#define DECLARE_DYNDBG_CLASSMAP(...)
+ 
+ #define dynamic_pr_debug(fmt, ...)					\
+ 	no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
 
 -- 
 2.54.0
