@@ -1,102 +1,181 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6D32F83A2;
-	Sat, 23 May 2026 03:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BB01DF75B;
+	Sat, 23 May 2026 03:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779506128; cv=none; b=gGCUuTCx29WZXQiAM14qwCcoVOip2YHIUVqRaJIWagloCvNSfE+TYVlSjF13OajaIRtxJVmpZOAXod/mRVmCRcNtrf6MnuHk1T41/bljWlDf0eql0eAx00gYl+cByNSEe84TiU9aS8Fe026BlR5yOrO9uuR6cHJbwhRvm0di8Cc=
+	t=1779507273; cv=none; b=W6KytM0CbxybhV8p/OTjNkVX4pVyykPm2VKKSQXlv4049k84xoRZ0QzG3Adi49pL2h2q787JwScvEgdXz5R0NmAqIIFUK5AU1H5VB7zn3BeuiHIifukPFyFGZABAJFy2LeU1rfrHY16lroQACe8tF6aIKyvix89N1ljp4ShJINA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779506128; c=relaxed/simple;
-	bh=cE0OeMahesAHNp7HYEXl6ZEA0IDJD+WyhAFV5Z57H28=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kn1UKpLCxZVs0htgbOhvxa+QWK0MLUKPNmYNiSpmQmtirmOHVyiZylNdIpwHDStnbxEyocDOlBIvQdC0vV0TOz77lQtxg0yXvkUJpGWBZWTp3SfVaBOC8jQWH4V8T56/qFins8UO5QNgql2pJ13DlRiY5trLb6FDLbWVrPiVDDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=kM8+KTUu; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1779507273; c=relaxed/simple;
+	bh=yAHUx9qOBhWRWLyWrle1ZFuyeDrR76+YVL2i8bDyMoE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NLNukVwwmjayymS/d02t0DUTL69Art6lSKxBxHmqvnI+ZV4FNznJ5HfZqIAyHv80KMUceDBZf5eaeYvRox+IOvgmoC2l7Eo1H1Pf6J9y2zJ4J4rKmY0Guj9RLi75ukl1K3b0F03K14iyLkxELxsltPfIGOiVtSKqFUhXhKxwoCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=CJ34+Ekr; arc=none smtp.client-ip=211.125.140.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="kM8+KTUu"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64N1VwUE2119365;
-	Sat, 23 May 2026 03:15:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=LoL94/ZgEB7JbkBLLExzFUq+6cEWfAur38v5yiIei3Q=; b=
-	kM8+KTUuZDqjAB7zb3MGB+cm/qKXnqJtr4dyT7swuXMbK5JYwL+cS5DG0PeG3Lba
-	V/5KXTFv9qmHS1z68aPAByrMyzilIJJphvTpk6oUpFuZw6KAoh0v9S3q9/bPIUrf
-	E6m633O4C6NFa1qAjDYC47PJDSVWMb9yTlXMa0HDBTYkSVUUE+6ulrpR/F69qfwt
-	+G9BwLKkVDuA4Zmzq2bJe4UtKYB0c+xZw4RccCo8Y59wkTYcffz6ZDKbXzLvglhL
-	9heNIGKzTRfPzE8lE/vK3QG3Mnz90V4ZliOkJqik/bfJ6i/bSASjE2dOiLvDXuDj
-	2MYgYql1npu1aKxU0lyMnw==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4eb2nb88k9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 23 May 2026 03:15:15 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 64N3F698032365;
-	Sat, 23 May 2026 03:15:14 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4eb2p6hsed-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 23 May 2026 03:15:14 +0000 (GMT)
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 64N3F9e2032824;
-	Sat, 23 May 2026 03:15:14 GMT
-Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 4eb2p6hs6k-5;
-	Sat, 23 May 2026 03:15:13 +0000 (GMT)
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-To: Kai.Makisara@kolumbus.fi, Wang Zihan <jiyu03@qq.com>
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] scsi: st: fix typo in documentation
-Date: Fri, 22 May 2026 23:14:19 -0400
-Message-ID: <177913641778.1181900.3176272497636019002.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <tencent_818C822F215676B9B14011B88848609BD309@qq.com>
-References: <tencent_818C822F215676B9B14011B88848609BD309@qq.com>
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="CJ34+Ekr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1779507271; x=1811043271;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/PI3FmT1/Yi4DE7+lMDULD4fdLB7X6k2BakvtD3RsQA=;
+  b=CJ34+EkrdvS8TLCU1GMDd9XiSFGc42qAwqqAJzakA6x4hxJES5TQTyDH
+   AauetdpPKtrS0L9E/8IAFRpjLmGFEX2ivinNIgEnITZbPDqOFC60TVrZU
+   VsvwAsd3ogR5zeVXjHGgfsIedMFgAw/hcnnrxvJWSB+13XodZyPHKk2k5
+   NTEDv819lDKG4a+6NCVw0O+/+tRczdM+eTNzo5Fw2NYxk8vopj/RFOd9V
+   grTsucMJB+xgLR4dqU7TEgEh4cDzlj6hQuqV5iYDFL/9XgIgsBY2NQ8Zr
+   +hu7RoXUOmnz25Mn5u/iL/bxnPhm7ZKWc3Au2qlssP/pw7jKXp1k/Tb3H
+   A==;
+X-CSE-ConnectionGUID: W/RIScbkTxKp9xbcw93A8A==
+X-CSE-MsgGUID: SSH56JXnQYyCD+s9Irbv0w==
+Received: from unknown (HELO jpmta-ob1.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::6])
+  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2026 12:24:20 +0900
+X-CSE-ConnectionGUID: O/SdfXAXTci1J18nuI/Q/A==
+X-CSE-MsgGUID: JQfr130jQ/m+0PdF94fS/g==
+X-IronPort-AV: E=Sophos;i="6.24,163,1774278000"; 
+   d="scan'208";a="639353636"
+Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob1.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2026 12:24:18 +0900
+Date: Sat, 23 May 2026 12:24:18 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>,
+	Leo Yan <leo.yan@arm.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Rahul Bukte <rahul.bukte@sony.com>, linux-kernel@vger.kernel.org,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org, Daniel Palmer <daniel.palmer@sony.com>,
+	Tim Bird <tim.bird@sony.com>, linux-modules@vger.kernel.org,
+	linux-tegra@vger.kernel.org, Sumit Gupta <sumitg@nvidia.com>
+Subject: Re: [PATCH v5 2/4] kernel: param: initialize module_kset in a
+ pure_initcall
+Message-ID: <ahEd4iC-2hqUbMy3@JPC00244420>
+References: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
+ <20260518-acpi_mod_name-v5-2-705ccc430885@sony.com>
+ <a0b17be8-f7dd-4d05-bc6f-28b32d0b0785@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-23_01,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0 malwarescore=0 spamscore=0 phishscore=0 lowpriorityscore=0
- mlxlogscore=989 bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2605130000 definitions=main-2605230029
-X-Authority-Analysis: v=2.4 cv=bPcm5v+Z c=1 sm=1 tr=0 ts=6a111bc3 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=x4eqshVgHu-cdnggieHk:22 a=VwQbUJbxAAAA:8
- a=azPL76DtyQRYvY0si6YA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: EkWgFJvIErstOhmsmvjChAd-v_REdt-2
-X-Proofpoint-ORIG-GUID: EkWgFJvIErstOhmsmvjChAd-v_REdt-2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIzMDAyOSBTYWx0ZWRfX4M+RmxikmKPG
- kPmb6HK2ohlt+ZOP6KLSzT3ls5uO/zQiyh3sKqky3+oD6K0BVauPEamUktsaFHVTXGTVPYkC9/N
- XKbk9gEIE1sRUMShLlCz5HQJhefZBe49m6tB0kzzmPALBrx0rNV3QnryETlsbSTbJDHXhtZR9Tb
- l7evMGsgF/2AljXuExW7jbc70IZYuwFEQKShwBg/7awJoWCu2xpQi/58Z2fBZAl18k/s9qWm9Vn
- Pbv1fH0utn46me6Xe9ZcnKzQdRiLA/mfClJIBixjgEZT7mZIbfTuY5arEHRtw2j2C9ApWRVIAiY
- kWexSV1emgKA4irWODgZdQCphcnrNY20/GoGkvkPD48O1c2vroUJARj535z3HhS9GlW5Zh3BTAM
- ObNso6IJTNdR3QfVlvurWk5X25FnNEm8Kp+xcuA4ruXfe10JTHIUjmUaOiSDKqtYnUP/nxpQqH0
- vuBQWmvJjRFRNEtoQAg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a0b17be8-f7dd-4d05-bc6f-28b32d0b0785@suse.com>
 
-On Sat, 02 May 2026 14:07:03 +0800, Wang Zihan wrote:
+Hi Petr,
 
-> Correct "form" to "from" in drive buffers description.
+Thanks for the feedback!
+
+On Fri, May 22, 2026 at 03:06:04PM +0200, Petr Pavlu wrote:
+> On 5/18/26 12:19 PM, Shashank Balaji wrote:
+> > Commit "driver core: platform: set mod_name in driver registration" will set
+> > struct device_driver's mod_name member for platform driver registration. For a
+> > driver to be registered with its mod_name set, module_kset needs to be
+> > initialized, which currently happens in a subsys_initcall in param_sysfs_init().
+> > The tegra cbb drivers register themselves before module_kset init, in a
+> > core_initcall. This works currently because lookup_or_create_module_kobject(),
+> > which dereferences module_kset via kset_find_obj(), is not called if mod_name
+> > is not set, which is the case now.
+> > 
+> > So in preparation for the commit "driver core: platform: set mod_name in driver registration",
+> > move module_kset init to pure_initcall level, ensuring it happens before tegra
+> > cbb driver registration.
+> > 
+> > Suggested-by: Gary Guo <gary@garyguo.net>
+> > Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+> > Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+> > Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+> > ---
+> > Patch 4 depends on this patch
+> > ---
+> >  kernel/params.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/kernel/params.c b/kernel/params.c
+> > index 74d620bc2521..ac088d4b09a9 100644
+> > --- a/kernel/params.c
+> > +++ b/kernel/params.c
+> > @@ -957,7 +957,7 @@ static int __init param_sysfs_init(void)
+> >  
+> >  	return 0;
+> >  }
+> > -subsys_initcall(param_sysfs_init);
+> > +pure_initcall(param_sysfs_init);
+> >  
+> >  /*
+> >   * param_sysfs_builtin_init - add sysfs version and parameter
+> > 
 > 
+> The change looks ok to me functionality-wise. Sysfs is initialized
+> earlier in do_basic_setup() and other code, such as classes_init(),
+> calls kset_create_and_add() similarly early.
 > 
+> One minor issue is that pure_initcall() was originally intended for
+> static variable initialization. The file include/linux/init.h says:
+> 
+> | /*
+> |  * A "pure" initcall has no dependencies on anything else, and purely
+> |  * initializes variables that couldn't be statically initialized.
+> |  *
+> |  * This only exists for built-in code, not for modules.
+> |  * Keep main.c:initcall_level_names[] in sync.
+> |  */
+> | #define pure_initcall(fn)		__define_initcall(fn, 0)
+> 
+> The patch stretches the intended use of pure_initcall() somewhat in this
+> regard. However, other code already appears to do the same, so I guess
+> this is ok.
 
-Applied to 7.2/scsi-queue, thanks!
+Ah yeah, I thought of this too, but it seems like everyone else is doing
+it. Linus introduced pure_initcall in b3438f8266cb
+("Add "pure_initcall" for static variable initialization") with the
+comment, and he introduced another user of it in 140d0b2108fa
+("Do 'shm_init_ns()' in an early pure_initcall") which already stretches
+the intended use as per the comment.
 
-[1/1] scsi: st: fix typo in documentation
-      https://git.kernel.org/mkp/scsi/c/53f5cce2efc7
+Given that it's just being used for "run me before core_initcall;
+early_initcall is too early for me" without any "pureness" requirements, I
+suppose the comment is due for a revision?
 
--- 
-Martin K. Petersen
+> Additionally, I think it would be good to update the comment preceding
+> param_sysfs_init(). It currently says:
+> 
+> | /*
+> |  * param_sysfs_init - create "module" kset
+> |  *
+> |  * This must be done before the initramfs is unpacked and
+> |  * request_module() thus becomes possible, because otherwise the
+> |  * module load would fail in mod_sysfs_init.
+> |  */
+> 
+> I suggest changing it to something like follows:
+> 
+> This must be done before any driver registration so that when a driver comes
+> from a built-in module, the driver core can add the module under /sys/module
+> and create the associated driver symlinks.
+
+Thanks for catching this! I'll add it in the next revision.
+
+Thanks,
+Shashank
