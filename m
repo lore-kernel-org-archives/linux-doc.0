@@ -1,45 +1,45 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B34B330641;
-	Sat, 23 May 2026 19:49:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2BD33D6E6;
+	Sat, 23 May 2026 19:49:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779565762; cv=pass; b=QLnFx1DhgXLVXThjKGugAlPlM/rItuGMRK6nFyWhlnEcGagET/B7+GdX27ZiBRxOpBgYotxcBco26lV6rQFtSzSve3SzYLuQ8wRUJY7LctPjy+PAdhPR3xr2DmMcOlQYzNF8cPHO9Q8zWjc+ekPVJ6xaOpMlAOx8U73XnJQ3LQk=
+	t=1779565765; cv=pass; b=jVsR8RU3X/tsTUwxk8tK702T1CRAQ83Iu1KnilemqAmS8Rkbc7MQLRWqoQhQAnMfLdgzjJplCYBOGFDuw6gCI0CoWmV8VHMpinb3hyXTnMPuHYCF547GbMVbG4dUyI+1QMsYyPceIehWEOyrzFTsYOYGx2pbMSDfTlsc2RTnjx0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779565762; c=relaxed/simple;
-	bh=z4RXEsd6Ao5DOWM+ZKce9PLIZCFJrRPbxnbw+2GsZ/4=;
+	s=arc-20240116; t=1779565765; c=relaxed/simple;
+	bh=SzB+VQqu5xtkzjb34ltqNeBCTQdZiV9iNLlZ/29ra6g=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cayqsv3AXhd8Mf0bfmvhfLFiKpp2y3F664vF3r4XdMLyn3uUe+6FaxTKVeIa2HphK1HFIhwRohya9Z6d+q3RLoSR5XlfN5eFNEvXZaQEQ2LNQ8/1gdTTWLy40YrkjgskIdaF/cDIZ3B2vnfw1loRZX9yto1+v0DgN3sTxeiDm/g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=JrEbsDdz; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:To:Cc; b=alFyKhkYxyXtQ4moAy1TnQYMfeHpZu7KiB/7jFcTZTMnjK2UZo4U5f9To+edtcF+e9An2OjXUaHEgwSGJlGrmd/Jr+KG9cNS57HxxWVh0+lgB/qYQsKmwCqjCsfKIcp+n8m9kbPof7ADkNta/5KT46B6hzmzGsXGtHyA7WTNOWE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=DHJpKuP0; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="JrEbsDdz"
-ARC-Seal: i=1; a=rsa-sha256; t=1779565718; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="DHJpKuP0"
+ARC-Seal: i=1; a=rsa-sha256; t=1779565726; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=iS1XKWee5Q8UjkjGM+ZWQhLMA23nQNlWAlo+em12zPo/HyC5MA4o77xTUh/y1Dn6fe/MmP6p1n/comOCvE8LOjqRqWvHc+BwthkOrRwl7kVI8GPs+VcnvoM12ti40hlp9xn0MMXkqoaWRfJRISLHg0bl8D3eo97ZYkYEgFs/xFw=
+	b=YivRdyVdIUyefuyRo7wM018X8HLm1qVWQ9Hbl73R7Qb+sM4fwrqfQrccVXONNbNPudCu7CKKmlAOXzUTpT3sYqzgzK4coTMRVxwOxEOOA8US0QS1MMiUZ87iugfBWw7V8SKrB7P0T/JejsY0OyEEyyoGsUW7R/bqVUzYM+a4fLo=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1779565718; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Xfpcy5Pc7GXDdgpxKAx9vJpVILZgmDMu0yUlgXlNu5c=; 
-	b=Z3vkRD2rYqMy+j6d0KsZs3SqJJhtEjRECuULzNIO+knjRrob0hX5JUytBbKKPT6yh774besYSQouN9keSpJW4YSI0CTStug5A7hkr4al3PED6ZIz69u4PcbA9GpE7yIJvNLt1jwmKl0ZeW3nBIajCTYKk9BrRq921zPx9SAAfOo=
+	t=1779565726; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=26EFTuIhlqnsc4uUzyuaHx+9wSdJArl+zaLC9veBaX4=; 
+	b=BXYniJO0Clx+DFYzVCJmbmcziRtNTI6T9eHiSp+LkDpp3YMyKJC/arcT1M2JJFUSpyD6zNlVOpiLO5JKxnHQyizdwMcLLRs/TsjYRPO00CxyqBxwH8p6mRKnVvWo/Vd2OyxzMuSVBt2TZXV7oNIjQeaeAKlR+wxIk39hOsLdrpY=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
 	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779565718;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779565726;
 	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=Xfpcy5Pc7GXDdgpxKAx9vJpVILZgmDMu0yUlgXlNu5c=;
-	b=JrEbsDdz8qXxpwr7rSVFTFDX8VcwRuc7quGh4jGcc3++ipvzmNhYFq2XUcmLCmiM
-	QaGGO7DfYRnCQJ+QZdrbPyzbJxS5U0YgyY12m+HO7AAv8DMUlyl8RPSX7Cg8BMnGSu6
-	UzdI7ElDxr9rnNZn301DVhB8Sy9mXUB4m75cK5Uk=
-Received: by mx.zohomail.com with SMTPS id 1779565715787918.2798085690775;
-	Sat, 23 May 2026 12:48:35 -0700 (PDT)
+	bh=26EFTuIhlqnsc4uUzyuaHx+9wSdJArl+zaLC9veBaX4=;
+	b=DHJpKuP0sXDC1x7Nl/iQacLFQF9x8ET0NvL/bls/uu+59nJ9K7HxFhCJAKCosk3o
+	Ck9w5iITProSiAUZVc8NkadC5s7XzRbD/IHjRW5WWH4gjcaqojvM6UreaNhIdQHEJ7E
+	lJlHd5ZnXFDWpvR5Cj5oNOif8XII3xByZGWaQFlQ=
+Received: by mx.zohomail.com with SMTPS id 177956572445825.918389143356876;
+	Sat, 23 May 2026 12:48:44 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Sat, 23 May 2026 21:44:02 +0200
-Subject: [PATCH v16 27/28] drm/bridge: Document bridge chain format
- selection
+Date: Sat, 23 May 2026 21:44:03 +0200
+Subject: [PATCH v16 28/28] drm/connector: Update docs of "colorspace" for
+ color format prop
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,7 +48,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260523-color-format-v16-27-24340c5e4732@collabora.com>
+Message-Id: <20260523-color-format-v16-28-24340c5e4732@collabora.com>
 References: <20260523-color-format-v16-0-24340c5e4732@collabora.com>
 In-Reply-To: <20260523-color-format-v16-0-24340c5e4732@collabora.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -80,91 +80,36 @@ Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
  Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 X-Mailer: b4 0.15.2
 
-The bridge chain format selection behaviour was, until now,
-undocumented. With the addition of the "color format" DRM property, it's
-not sufficiently complex enough that documentation is warranted,
-especially for driver authors trying to do the right thing.
+The colorspace property's documentation states that BT2020_RGB and
+BT2020_YCC are equivalent, and the output format depends on the driver.
 
-Add a high-level overview of how the process is supposed to work, and
-mention what the display driver is supposed to do if it wants to make
-use of this functionality.
+Now that there is a "color format" property that userspace can use to
+explicitly set a format, update the colorspace docs to mention this.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+The behaviour here is not changed for userspace that doesn't know about
+the color format property yet, as the color format property defaults to
+"AUTO", where the choice of output format is left up to drivers.
+
 Reviewed-by: Daniel Stone <daniel@fooishbar.org>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- Documentation/gpu/drm-kms-helpers.rst |  6 ++++++
- drivers/gpu/drm/drm_bridge.c          | 40 +++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
+ drivers/gpu/drm/drm_connector.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index 80453dda33b8..94cfc26acecc 100644
---- a/Documentation/gpu/drm-kms-helpers.rst
-+++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -171,6 +171,12 @@ Bridge Operations
- .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-    :doc: bridge operations
- 
-+Bridge Chain Format Selection
-+-----------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-+   :doc: bridge chain format selection
-+
- Bridge Connector Helper
- -----------------------
- 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 6ec8c23b36b5..5cb170328850 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -198,6 +198,46 @@
-  * driver.
-  */
- 
-+/**
-+ * DOC: bridge chain format selection
-+ *
-+ * A bridge chain, from display output processor to connector, may contain
-+ * bridges capable of converting between bus formats on their inputs, and
-+ * output formats on their outputs. For example, a bridge may be able to convert
-+ * from RGB to YCbCr 4:4:4, and pass through YCbCr 4:2:0 as-is, but not convert
-+ * from RGB to YCbCr 4:2:0. This means not all input formats map to all output
-+ * formats.
-+ *
-+ * Further adding to this, a desired output color format, as specified with the
-+ * "color format" DRM property, might not correspond 1:1 to what the display
-+ * driver should set at its output. The bridge chain it feeds into may only be
-+ * able to reach the desired output format, if a conversion from a different
-+ * starting format is performed.
-+ *
-+ * To deal with this complexity, the recursive bridge chain bus format selection
-+ * logic starts with the last bridge in the chain, usually the connector, and
-+ * then recursively walks the chain of bridges backwards to the first bridge,
-+ * trying to find a path.
-+ *
-+ * For a display driver to work in such a scenario, it should read the first
-+ * bridge's bridge state to figure out which bus format the chain resolved to.
-+ * If the first bridge's input format resolved to %MEDIA_BUS_FMT_FIXED, then its
-+ * output format should be used.
-+ *
-+ * Special handling is done for HDMI as it relates to format selection. Instead
-+ * of directly using the "color format" DRM property for bridge chains that end
-+ * in HDMI bridges, the bridge chain format selection logic will trust the logic
-+ * that set the HDMI output format. For the common HDMI state helper
-+ * functionality, this means that %DRM_CONNECTOR_COLOR_FORMAT_AUTO will allow
-+ * fallbacks to YCBCr 4:2:0 if the bandwidth requirements would otherwise be too
-+ * high but the mode and connector allow it.
-+ *
-+ * For bridge chains that do not end in an HDMI bridge,
-+ * %DRM_CONNECTOR_COLOR_FORMAT_AUTO will be satisfied with the first output
-+ * format on the last bridge for which it can find a path back to the first
-+ * bridge.
-+ */
-+
- /* Protect bridge_list and bridge_lingering_list */
- static DEFINE_MUTEX(bridge_lock);
- static LIST_HEAD(bridge_list);
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index b91c1f76355e..52f9a6a8daf7 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -2573,7 +2573,8 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_property);
+  *		conversion matrix and convert to the appropriate quantization
+  *		range.
+  *		The variants BT2020_RGB and BT2020_YCC are equivalent and the
+- *		driver chooses between RGB and YCbCr on its own.
++ *		driver chooses between RGB and YCbCr based on the color format
++ *		property.
+  *
+  *	SMPTE_170M_YCC:
+  *	BT709_YCC:
 
 -- 
 2.54.0
