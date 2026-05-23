@@ -1,58 +1,37 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FF231AF2D;
-	Sat, 23 May 2026 17:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88312D3EC7;
+	Sat, 23 May 2026 19:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779555609; cv=none; b=pS+CGZlTDL8U5CdlHNMpKGp3rei88CHA/h01GJfdNFcKz1rGyhu6OaE3HDmUWBmJ/s+x3xxhDLSqE0d0BuiwjxXSvCFOOOLFHsl6sG+mrNqM1EpTzQiXVlkZ5geqOSGUNJYrLrJ/hKh4Abn1zCDtWGkgyk0rFySF0dO8hVAYFWs=
+	t=1779565389; cv=none; b=NDAv0se93hvBdmakv75t4PralmPnwH9S6E3qM8+3Kpo/MzFOOmiaAwDRQ9uRDuE/84E7Y7cl76AyWdTzVtrjtFCiRk+FQYqi/oOtqRpdKtYVNW9mF4aNLslLRCgUFvuncpSI9G6kgv+xH02qvPzHe86kaI/FOw5kGeWeLXsfGDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779555609; c=relaxed/simple;
-	bh=lUzKLMZj8MsL+y7pHox+0ri4OgWIAwWmb8p4bETu5t4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FD3cdtwvOutJNBGl0ZeGnZwnLGMCGe3eAceSKTROT/NdUIIfkVlteW/Huyj/Gpd2DTOc2D2c4h6vOrzhWOHINfDxcKsnqqbwiJlhGFMf2rPsURZeVb9aNPO6Uz7HEywMnRhxwneaHySf+MmTHL3qWlhyE6kjKq7SZm61/yQvb3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ViGMJGZP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779565389; c=relaxed/simple;
+	bh=DIqx3AgEaekumcir7z4dd96izRL4ntx2FIL2t/OUE5E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=aEP2+XNlgVfamXVPuoFttppAywCHRe29LLF/UUCH5zShH5R8ZaVFNocl2oF5+c7Tp1bZjUQnjsCiNLeV6KgPcdahRfkYzhS9Y+Frm59JrbsNDCeC2UoI0KNQsc4TTkFJf2u/QurfRAN2BSl5YgDTyHeHfxwag8IZJgnyAHsv6og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J3DuJEtx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ViGMJGZP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 488F71F000E9;
-	Sat, 23 May 2026 17:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779555605;
-	bh=tUz/r2x3Ay9kJJTJGPtGiAVFYhnbDs4b1fzpZC1g9s0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ViGMJGZPqTn9uMBo/AUvQ2VVsdNkbnTCgGVGIYsgB5aDU57iXuJEAljNCGvYDmtup
-	 q1soLrsW8XSyLZriEwWDkIrAoy94MFL0g3uDvemIGJyNpMsXEF+37fjalopfMnox8b
-	 xZXJweHQMMH+4LkUOjq3IY4Qo1XSwMTCvmd9dWyCQhv2FN/9BshaPQNZRivLOaDf1m
-	 0/VtIHrW2dmsA2cz1TwV6MT3DFAepdE+IaSJoVMcDWd6hz9b/FGlgz6w3ZXgg7LJvp
-	 ghw+w7kt5jf+hNGyq09apRJyaFWMNPuykfQMV8RMcrNjTJConb/diuiyjeD4Dq49vW
-	 G7NupIwD9DgyA==
-From: Chuck Lever <cel@kernel.org>
-To: NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: Chuck Lever <chuck.lever@oracle.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Calum Mackay <calum.mackay@oracle.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-nfs@vger.kernel.org
-Subject: Re: [PATCH v5 00/21] nfsd: add support for CB_NOTIFY callbacks in directory delegations
-Date: Sat, 23 May 2026 13:00:01 -0400
-Message-ID: <177955559084.514471.1679258468809800547.b4-ty@b4>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260522-dir-deleg-v5-0-542cddfad576@kernel.org>
-References: <20260522-dir-deleg-v5-0-542cddfad576@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J3DuJEtx"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7EA40C2BCB8;
+	Sat, 23 May 2026 19:43:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779565389;
+	bh=DIqx3AgEaekumcir7z4dd96izRL4ntx2FIL2t/OUE5E=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=J3DuJEtxIXXpFTZFQjzaAjJ5zgn8UQpRrk3PWGoAszcTes5rQHxlw09TcFrVa/NKV
+	 3GUMCy/GjwP+MK52USEqXxM+44et3pZ1+D47P5oTGVhetlgprv+nYBra5gEVoY6pbI
+	 qBELdNBR1uluDuXzT20tf27EHoYHLSQbfmxCFZO4YcB8JEfsmUP/wDow9VffgfzBXt
+	 jdDQOE7tor58AHh4KOPQMEPO4mYB3ibkHeLp/r+gNC7Pa1m7iAbH0g3NkTO4l22x5n
+	 MyjJqnPetj2dEz+AT6dy+qsrcQ8HNzoh2c4m2YI7PJY84B/hCrtaprU00i4VNQnI9g
+	 YsyvvmAkdLNYA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D3FCD5BB1;
+	Sat, 23 May 2026 19:43:09 +0000 (UTC)
+From: Demi Marie Obenour via B4 Relay <devnull+demiobenour.gmail.com@kernel.org>
+Date: Sat, 23 May 2026 15:43:02 -0400
+Subject: [PATCH 1/3] net: Remove support for AIO on sockets
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,64 +39,366 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260523-af-alg-harden-v1-1-c76755c3a5c5@gmail.com>
+References: <20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com>
+In-Reply-To: <20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ James Clark <james.clark@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Eric Biggers <ebiggers@google.com>, 
+ Ard Biesheuvel <ardb@kernel.org>
+Cc: linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ io-uring@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Demi Marie Obenour <demiobenour@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779565388; l=11844;
+ i=demiobenour@gmail.com; s=20250731; h=from:subject:message-id;
+ bh=X4VpiwrEjiilqzmO26Lw8ocnY8n8PVtOcMW3zv/PW5M=;
+ b=6qKjn9u6wn2u2hWtWsysheyBTd7UHG7kVKQYGIioKUJEsOegRhNcWJ72Cy0OEOte+9lRHK87v
+ VdyS6TDXuZTC3+VOVpU6lzm4DVDbHFqXMnPDORctVqwON1KrrE4pf1H
+X-Developer-Key: i=demiobenour@gmail.com; a=ed25519;
+ pk=4iGY+ynEKxIfs+fIUK9EzsvZ44yGE0GvXLeLTPKKPhI=
+X-Endpoint-Received: by B4 Relay for demiobenour@gmail.com/20250731 with
+ auth_id=473
+X-Original-From: Demi Marie Obenour <demiobenour@gmail.com>
+Reply-To: demiobenour@gmail.com
 
-From: Chuck Lever <chuck.lever@oracle.com>
+From: Demi Marie Obenour <demiobenour@gmail.com>
 
-On Fri, 22 May 2026 15:42:05 -0400, Jeff Layton wrote:
-> This patchset builds on the directory delegation work we did a few
-> months ago, to add support for CB_NOTIFY callbacks for some events. In
-> particular, creates, unlinks and renames. The server also sends updated
-> directory attributes in the notifications. With this support, the client
-> can register interest in a directory and get notifications about changes
-> within it without losing its lease.
-> 
-> [...]
+The only user of msg->msg_iocb was AF_ALG, but that's deprecated.
+It can be removed entirely at the cost of only supporting synchronous
+operations.  This doesn't break userspace, which will silently block
+(for a bounded amount of time) in io_submit instead of operating
+asynchronously.
 
-Applied to nfsd-testing, thanks!
+This also makes struct msghdr smaller, helping every other caller of
+sendmsg().
 
-[01/21] nfsd: check fl_lmops in nfsd_breaker_owns_lease()
-        commit: 106d7871db32223d589617d9be914ff2ba51727a
-[02/21] nfsd: add protocol support for CB_NOTIFY
-        commit: 06688aedf70b8da555a5c1d9f7feb786eb329eb4
-[03/21] nfs_common: add new NOTIFY4_* flags proposed in RFC8881bis
-        commit: 1bdad6b6988d15ae56c97a94802cb2a603492a30
-[04/21] nfsd: allow nfsd to get a dir lease with an ignore mask
-        commit: 6d767c6080b49d8c3d0a4971d5c30d0ad9345622
-[05/21] nfsd: update the fsnotify mark when setting or removing a dir delegation
-        commit: b8d98337e97ca91b057abf2374dbd2a846663f68
-[06/21] nfsd: make nfsd4_callback_ops->prepare operation bool return
-        commit: 35b3e3c47909fba5ad04349fb6ba3287c2c70d81
-[07/21] nfsd: add callback encoding and decoding linkages for CB_NOTIFY
-        commit: 920a750c30c51ac7a884fbe93e9dc42b2ba37992
-[08/21] nfsd: use RCU to protect fi_deleg_file
-        commit: 1b21b493326b3a782c7f0ede6d8cd47b9af662d1
-[09/21] nfsd: add data structures for handling CB_NOTIFY
-        commit: c1810ecdb4e5c9205a6c88c86cf61689115d696f
-[10/21] nfsd: add notification handlers for dir events
-        commit: e38c39f77041388190ebdcde9230371c180769a0
-[11/21] nfsd: add tracepoint to dir_event handler
-        commit: cc1687d186b0542390badca86c6a87e17c95b378
-[12/21] nfsd: apply the notify mask to the delegation when requested
-        commit: 552de5c66f1cd234bff61b5afc802cbb58928e36
-[13/21] nfsd: add helper to marshal a fattr4 from completed args
-        commit: c452947ca425c5e5bb21382f58db015df37bb007
-[14/21] nfsd: allow nfsd4_encode_fattr4_change() to work with no export
-        commit: ae845b96ebda28672ae1ea1ade51954cea62c2c8
-[15/21] nfsd: send basic file attributes in CB_NOTIFY
-        commit: 259bcf6151f873f5476412140fd423a96dca7302
-[16/21] nfsd: allow encoding a filehandle into fattr4 without a svc_fh
-        commit: 772fb85f866cb7e90a1603052416122ccdd48403
-[17/21] nfsd: add a fi_connectable flag to struct nfs4_file
-        commit: 465b30cd8c24b04f2dcdf1e644ecae87cf847e8b
-[18/21] nfsd: add the filehandle to returned attributes in CB_NOTIFY
-        commit: b146f3a075b320e76fccecc0dcebef7cd894364f
-[19/21] nfsd: properly track requested child attributes
-        commit: 8a5ceb0668d694dd8370ee1d702800e730c862b7
-[20/21] nfsd: track requested dir attributes
-        commit: 824c7f03f1fbeea6f92d0f4da7dca3ecad27cc3a
-[21/21] nfsd: add support to CB_NOTIFY for dir attribute changes
-        commit: 9e0982d08e135a46aab2bd6d7fe8609c27a8806e
+Signed-off-by: Demi Marie Obenour <demiobenour@gmail.com>
+---
+ crypto/af_alg.c                                | 33 +-------------
+ crypto/algif_aead.c                            | 39 ++++------------
+ crypto/algif_skcipher.c                        | 62 +++++---------------------
+ include/crypto/if_alg.h                        |  5 +--
+ include/linux/socket.h                         |  1 -
+ io_uring/net.c                                 |  1 -
+ net/compat.c                                   |  1 -
+ net/socket.c                                   |  7 +--
+ tools/perf/trace/beauty/include/linux/socket.h |  1 -
+ 9 files changed, 25 insertions(+), 125 deletions(-)
 
---
-Chuck Lever <chuck.lever@oracle.com>
+diff --git a/crypto/af_alg.c b/crypto/af_alg.c
+index 48c53f488e0fd30818e72439fe0c0d7e4cee1432..8ccf7a737cd6ca9a5d5bf47050c9afea0dfd61bf 100644
+--- a/crypto/af_alg.c
++++ b/crypto/af_alg.c
+@@ -1085,35 +1085,6 @@ void af_alg_free_resources(struct af_alg_async_req *areq)
+ }
+ EXPORT_SYMBOL_GPL(af_alg_free_resources);
+ 
+-/**
+- * af_alg_async_cb - AIO callback handler
+- * @data: async request completion data
+- * @err: if non-zero, error result to be returned via ki_complete();
+- *       otherwise return the AIO output length via ki_complete().
+- *
+- * This handler cleans up the struct af_alg_async_req upon completion of the
+- * AIO operation.
+- *
+- * The number of bytes to be generated with the AIO operation must be set
+- * in areq->outlen before the AIO callback handler is invoked.
+- */
+-void af_alg_async_cb(void *data, int err)
+-{
+-	struct af_alg_async_req *areq = data;
+-	struct sock *sk = areq->sk;
+-	struct kiocb *iocb = areq->iocb;
+-	unsigned int resultlen;
+-
+-	/* Buffer size written by crypto operation. */
+-	resultlen = areq->outlen;
+-
+-	af_alg_free_resources(areq);
+-	sock_put(sk);
+-
+-	iocb->ki_complete(iocb, err ? err : (int)resultlen);
+-}
+-EXPORT_SYMBOL_GPL(af_alg_async_cb);
+-
+ /**
+  * af_alg_poll - poll system call handler
+  * @file: file pointer
+@@ -1154,8 +1125,8 @@ struct af_alg_async_req *af_alg_alloc_areq(struct sock *sk,
+ 	struct af_alg_ctx *ctx = alg_sk(sk)->private;
+ 	struct af_alg_async_req *areq;
+ 
+-	/* Only one AIO request can be in flight. */
+-	if (ctx->inflight)
++	/* Only one request can be in flight. */
++	if (WARN_ON_ONCE(ctx->inflight))
+ 		return ERR_PTR(-EBUSY);
+ 
+ 	areq = sock_kmalloc(sk, areqlen, GFP_KERNEL);
+diff --git a/crypto/algif_aead.c b/crypto/algif_aead.c
+index c6c2ce21895dd7df51dc825ed886ba7e1aa37130..60f06597cb0b13036bc975641a0b02ea8a41ad03 100644
+--- a/crypto/algif_aead.c
++++ b/crypto/algif_aead.c
+@@ -197,37 +197,14 @@ static int _aead_recvmsg(struct socket *sock, struct msghdr *msg,
+ 	aead_request_set_ad(&areq->cra_u.aead_req, ctx->aead_assoclen);
+ 	aead_request_set_tfm(&areq->cra_u.aead_req, tfm);
+ 
+-	if (msg->msg_iocb && !is_sync_kiocb(msg->msg_iocb)) {
+-		/* AIO operation */
+-		sock_hold(sk);
+-		areq->iocb = msg->msg_iocb;
+-
+-		/* Remember output size that will be generated. */
+-		areq->outlen = outlen;
+-
+-		aead_request_set_callback(&areq->cra_u.aead_req,
+-					  CRYPTO_TFM_REQ_MAY_SLEEP,
+-					  af_alg_async_cb, areq);
+-		err = ctx->enc ? crypto_aead_encrypt(&areq->cra_u.aead_req) :
+-				 crypto_aead_decrypt(&areq->cra_u.aead_req);
+-
+-		/* AIO operation in progress */
+-		if (err == -EINPROGRESS)
+-			return -EIOCBQUEUED;
+-
+-		sock_put(sk);
+-	} else {
+-		/* Synchronous operation */
+-		aead_request_set_callback(&areq->cra_u.aead_req,
+-					  CRYPTO_TFM_REQ_MAY_SLEEP |
+-					  CRYPTO_TFM_REQ_MAY_BACKLOG,
+-					  crypto_req_done, &ctx->wait);
+-		err = crypto_wait_req(ctx->enc ?
+-				crypto_aead_encrypt(&areq->cra_u.aead_req) :
+-				crypto_aead_decrypt(&areq->cra_u.aead_req),
+-				&ctx->wait);
+-	}
+-
++	aead_request_set_callback(&areq->cra_u.aead_req,
++				  CRYPTO_TFM_REQ_MAY_SLEEP |
++				  CRYPTO_TFM_REQ_MAY_BACKLOG,
++				  crypto_req_done, &ctx->wait);
++	err = crypto_wait_req(ctx->enc ?
++			crypto_aead_encrypt(&areq->cra_u.aead_req) :
++			crypto_aead_decrypt(&areq->cra_u.aead_req),
++			&ctx->wait);
+ 
+ free:
+ 	af_alg_free_resources(areq);
+diff --git a/crypto/algif_skcipher.c b/crypto/algif_skcipher.c
+index ba0a17fd95aca22aa58ebf510c7d9b5f0cea2c2e..9dbccabd87b13920c27aff5a450a235cc6a27d59 100644
+--- a/crypto/algif_skcipher.c
++++ b/crypto/algif_skcipher.c
+@@ -79,20 +79,6 @@ static int algif_skcipher_export(struct sock *sk, struct skcipher_request *req)
+ 	return err;
+ }
+ 
+-static void algif_skcipher_done(void *data, int err)
+-{
+-	struct af_alg_async_req *areq = data;
+-	struct sock *sk = areq->sk;
+-
+-	if (err)
+-		goto out;
+-
+-	err = algif_skcipher_export(sk, &areq->cra_u.skcipher_req);
+-
+-out:
+-	af_alg_async_cb(data, err);
+-}
+-
+ static int _skcipher_recvmsg(struct socket *sock, struct msghdr *msg,
+ 			     size_t ignored, int flags)
+ {
+@@ -171,43 +157,19 @@ static int _skcipher_recvmsg(struct socket *sock, struct msghdr *msg,
+ 		cflags |= CRYPTO_SKCIPHER_REQ_CONT;
+ 	}
+ 
+-	if (msg->msg_iocb && !is_sync_kiocb(msg->msg_iocb)) {
+-		/* AIO operation */
+-		sock_hold(sk);
+-		areq->iocb = msg->msg_iocb;
++	skcipher_request_set_callback(&areq->cra_u.skcipher_req,
++				      cflags |
++				      CRYPTO_TFM_REQ_MAY_SLEEP |
++				      CRYPTO_TFM_REQ_MAY_BACKLOG,
++				      crypto_req_done, &ctx->wait);
++	err = crypto_wait_req(ctx->enc ?
++		crypto_skcipher_encrypt(&areq->cra_u.skcipher_req) :
++		crypto_skcipher_decrypt(&areq->cra_u.skcipher_req),
++					 &ctx->wait);
+ 
+-		/* Remember output size that will be generated. */
+-		areq->outlen = len;
+-
+-		skcipher_request_set_callback(&areq->cra_u.skcipher_req,
+-					      cflags |
+-					      CRYPTO_TFM_REQ_MAY_SLEEP,
+-					      algif_skcipher_done, areq);
+-		err = ctx->enc ?
+-			crypto_skcipher_encrypt(&areq->cra_u.skcipher_req) :
+-			crypto_skcipher_decrypt(&areq->cra_u.skcipher_req);
+-
+-		/* AIO operation in progress */
+-		if (err == -EINPROGRESS)
+-			return -EIOCBQUEUED;
+-
+-		sock_put(sk);
+-	} else {
+-		/* Synchronous operation */
+-		skcipher_request_set_callback(&areq->cra_u.skcipher_req,
+-					      cflags |
+-					      CRYPTO_TFM_REQ_MAY_SLEEP |
+-					      CRYPTO_TFM_REQ_MAY_BACKLOG,
+-					      crypto_req_done, &ctx->wait);
+-		err = crypto_wait_req(ctx->enc ?
+-			crypto_skcipher_encrypt(&areq->cra_u.skcipher_req) :
+-			crypto_skcipher_decrypt(&areq->cra_u.skcipher_req),
+-						 &ctx->wait);
+-
+-		if (!err)
+-			err = algif_skcipher_export(
+-				sk, &areq->cra_u.skcipher_req);
+-	}
++	if (!err)
++		err = algif_skcipher_export(
++			sk, &areq->cra_u.skcipher_req);
+ 
+ free:
+ 	af_alg_free_resources(areq);
+diff --git a/include/crypto/if_alg.h b/include/crypto/if_alg.h
+index 0cc8fa749f68d2356789f72771c9e550b79e0b3d..62867daca47d76c9ea1a7ed233188788c5f6c3c0 100644
+--- a/include/crypto/if_alg.h
++++ b/include/crypto/if_alg.h
+@@ -80,7 +80,6 @@ struct af_alg_rsgl {
+ 
+ /**
+  * struct af_alg_async_req - definition of crypto request
+- * @iocb:		IOCB for AIO operations
+  * @sk:			Socket the request is associated with
+  * @first_rsgl:		First RX SG
+  * @last_rsgl:		Pointer to last RX SG
+@@ -92,7 +91,6 @@ struct af_alg_rsgl {
+  * @cra_u:		Cipher request
+  */
+ struct af_alg_async_req {
+-	struct kiocb *iocb;
+ 	struct sock *sk;
+ 
+ 	struct af_alg_rsgl first_rsgl;
+@@ -138,7 +136,7 @@ struct af_alg_async_req {
+  * @write:		True if we are in the middle of a write.
+  * @init:		True if metadata has been sent.
+  * @len:		Length of memory allocated for this data structure.
+- * @inflight:		Non-zero when AIO requests are in flight.
++ * @inflight:		Non-zero when requests are in flight, for debugging only.
+  */
+ struct af_alg_ctx {
+ 	struct list_head tsgl_list;
+@@ -237,7 +235,6 @@ int af_alg_wait_for_data(struct sock *sk, unsigned flags, unsigned min);
+ int af_alg_sendmsg(struct socket *sock, struct msghdr *msg, size_t size,
+ 		   unsigned int ivsize);
+ void af_alg_free_resources(struct af_alg_async_req *areq);
+-void af_alg_async_cb(void *data, int err);
+ __poll_t af_alg_poll(struct file *file, struct socket *sock,
+ 			 poll_table *wait);
+ struct af_alg_async_req *af_alg_alloc_areq(struct sock *sk,
+diff --git a/include/linux/socket.h b/include/linux/socket.h
+index ec4a0a0257939a5363c55bed3ccb20182965b2e3..3ffdfe184b23d0a739e095407e956885d116c299 100644
+--- a/include/linux/socket.h
++++ b/include/linux/socket.h
+@@ -89,7 +89,6 @@ struct msghdr {
+ 	bool		msg_get_inq : 1;/* return INQ after receive */
+ 	unsigned int	msg_flags;	/* flags on received message */
+ 	__kernel_size_t	msg_controllen;	/* ancillary data buffer length */
+-	struct kiocb	*msg_iocb;	/* ptr to iocb for async requests */
+ 	struct ubuf_info *msg_ubuf;
+ 	int (*sg_from_iter)(struct sk_buff *skb,
+ 			    struct iov_iter *from, size_t length);
+diff --git a/io_uring/net.c b/io_uring/net.c
+index 30cd22c0b934b97ce6e265756b24daca7d398361..22100933966af547dfe6a52e69fc6882b4197234 100644
+--- a/io_uring/net.c
++++ b/io_uring/net.c
+@@ -771,7 +771,6 @@ static int io_recvmsg_prep_setup(struct io_kiocb *req)
+ 		kmsg->msg.msg_control = NULL;
+ 		kmsg->msg.msg_get_inq = 1;
+ 		kmsg->msg.msg_controllen = 0;
+-		kmsg->msg.msg_iocb = NULL;
+ 		kmsg->msg.msg_ubuf = NULL;
+ 
+ 		if (req->flags & REQ_F_BUFFER_SELECT)
+diff --git a/net/compat.c b/net/compat.c
+index 2c9bd0edac997bc8c6ebd1bc8b92d8437ff32ea4..d68cf9c3aad5f7f1de84edbfffcf99d71e89292a 100644
+--- a/net/compat.c
++++ b/net/compat.c
+@@ -75,7 +75,6 @@ int __get_compat_msghdr(struct msghdr *kmsg,
+ 	if (msg->msg_iovlen > UIO_MAXIOV)
+ 		return -EMSGSIZE;
+ 
+-	kmsg->msg_iocb = NULL;
+ 	kmsg->msg_ubuf = NULL;
+ 	return 0;
+ }
+diff --git a/net/socket.c b/net/socket.c
+index 22a412fdec079cf8fd829a15236de9daea09d2f2..9785363858cef0c4e6f0efc45b17c3d2add5a53c 100644
+--- a/net/socket.c
++++ b/net/socket.c
+@@ -1213,8 +1213,7 @@ static ssize_t sock_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ {
+ 	struct file *file = iocb->ki_filp;
+ 	struct socket *sock = file->private_data;
+-	struct msghdr msg = {.msg_iter = *to,
+-			     .msg_iocb = iocb};
++	struct msghdr msg = {.msg_iter = *to};
+ 	ssize_t res;
+ 
+ 	if (file->f_flags & O_NONBLOCK || (iocb->ki_flags & IOCB_NOWAIT))
+@@ -1235,8 +1234,7 @@ static ssize_t sock_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ {
+ 	struct file *file = iocb->ki_filp;
+ 	struct socket *sock = file->private_data;
+-	struct msghdr msg = {.msg_iter = *from,
+-			     .msg_iocb = iocb};
++	struct msghdr msg = {.msg_iter = *from};
+ 	ssize_t res;
+ 
+ 	if (iocb->ki_pos != 0)
+@@ -2612,7 +2610,6 @@ int __copy_msghdr(struct msghdr *kmsg,
+ 	if (msg->msg_iovlen > UIO_MAXIOV)
+ 		return -EMSGSIZE;
+ 
+-	kmsg->msg_iocb = NULL;
+ 	kmsg->msg_ubuf = NULL;
+ 	return 0;
+ }
+diff --git a/tools/perf/trace/beauty/include/linux/socket.h b/tools/perf/trace/beauty/include/linux/socket.h
+index ec715ad4bf25f5f759d2cab3c6b796fed84df932..2a0a50fd66f41589f2699f7288a143873ce1bba6 100644
+--- a/tools/perf/trace/beauty/include/linux/socket.h
++++ b/tools/perf/trace/beauty/include/linux/socket.h
+@@ -89,7 +89,6 @@ struct msghdr {
+ 	bool		msg_get_inq : 1;/* return INQ after receive */
+ 	unsigned int	msg_flags;	/* flags on received message */
+ 	__kernel_size_t	msg_controllen;	/* ancillary data buffer length */
+-	struct kiocb	*msg_iocb;	/* ptr to iocb for async requests */
+ 	struct ubuf_info *msg_ubuf;
+ 	int (*sg_from_iter)(struct sk_buff *skb,
+ 			    struct iov_iter *from, size_t length);
+
+-- 
+2.54.0
+
+
