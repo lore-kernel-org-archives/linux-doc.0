@@ -1,162 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E4E126BF7;
-	Sun, 24 May 2026 12:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113B7393DD3
+	for <linux-doc@vger.kernel.org>; Sun, 24 May 2026 12:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779625386; cv=none; b=fxKfYHtfHnkfNQ5Tal+99sKd3vbMvBTkacWdh/2YoAeLiX52ifR+8ASKcI4gdv8picy/vJ4zJ9mzq645fAnj5N7qmTXdjxrg+k0H5OlrksCnO22mEXIBbUE8Xoq5fCCytc0V/kga9wOqutXT10if02g8QJ0dGCkTBYpYtoBq8Yg=
+	t=1779625807; cv=none; b=KzQxw/eghiRCUjY0LclUDNgnE1Sbwyj39gohMrQYtJAXcu9HLGetNBUpgTQKtndkaTo81bxzyFh3CUo5JleoOvIt9p4cIoov9ujJXCCB1LodxXra+BfO8sy0FQj3XNNb/9BXgVL6HTzmbHmX5twL2LY4611NDJuELRDD8pcdmhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779625386; c=relaxed/simple;
-	bh=QUVCPf2q2cWrRc96veEM2vYj0iLPBZpk0+f/qtJE6u8=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=e/q1b1IQLM49m4jOaNPE7PLdZFJzGdUBnMtA1Y2NQYcEsMC0cbj7wa89MtDiTF5MmDAV8ZAcd3rmr3Jnrl0c6Ec6vvFLar0DHrOG+uhmyZu0ES5qA9jdmasB07OD6fNgXVsW8/IA+p1gwBtdPWb1dAMHjoD9NlbFs4BHzK6wMgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LPnaLy1c; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779625807; c=relaxed/simple;
+	bh=ERoTsAxoECnJLoZkCdSBrxZOe8Upzt4O9Uj+YfgixCw=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EWVCniRdFr7swBYd3wnrVcjoKhed8GPIbO4jBkzKvGPqcr3rSHhLYGYPRltFstD8YdAN5aNS/9bLP33uSP/Pb0hJoERbB9DQeINTCpjldMXKLE/nD4wTWPVnQKkjJq6CmxpRGfDqdTjIjdAeA/+b0vm3xfDj6Ql6IWSLlLLRcGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fNjesyUx; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LPnaLy1c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5E5A1F000E9;
-	Sun, 24 May 2026 12:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779625385;
-	bh=gx/zHL+zQGX1U1zL7cCY4B8oehpkgV/+a8Y6IQr6t9E=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=LPnaLy1cs3dFl4TZ8j3xxaGzjorWGiGAYczqK0WIhuljgk1pqBLp6CYms6jjCO2mI
-	 b3YL2FjJ/EN4kLSFABbl8amMN19Ii3Jmxb6RHpCVPfeZ0f7n9Qfaq5Y1dylNToPjS7
-	 efqoOc8gLQsEJFdpVpVzvuGwkAywStR+hO3XR71uaSk5zgDCaUQZEw0N0Z6U2QXI6a
-	 hzUPujagJZoKT41ZS5p2HQwAhcKCjhbp6NYcjoh9LDpUvEFtLWejOH3W/Pp7QOISs4
-	 wftmcmVwFRlINXz64hpFtPFjd5W2rvvfmg0OoORU4+gyx6PW7AGe6de8lppnIYqke2
-	 p9LNYbgFXwBUg==
-Content-Type: multipart/mixed; boundary="===============7443696486554360034=="
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fNjesyUx"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49050bfe053so12878795e9.3
+        for <linux-doc@vger.kernel.org>; Sun, 24 May 2026 05:30:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779625803; x=1780230603; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=T1o+DvC19PR6GkTpTccEfjTify4jzFt0w17PhEVHA98=;
+        b=fNjesyUxCwzSP6/O1jV8L47nm3Lc8Rb3gKfxQztn+6mSVAn7FXb8Rz7msnnsH07K0M
+         GIr6IkNtzF+VPW4hCYyLy77k5+C0YiS4Qcj/G4Dtv0dLevVnaUz4laIPGVh2uek3p963
+         b2PDIRvK+Z4WLlJH88vrrRFJsmXj7wsImj9wP+eLi16vtmHg0uiy3GCEeSPC5UxtSsnL
+         EaqldWS6jq4Q4D8pgj5v/LWSrAnzlsJ0KHU/DOxC0fmxcIgroo49EAFiAAm+7ouKBUnC
+         qfBBFdo5mdOdpEG4DJwJVweteUneN9sAlEa25HKkLOZqidGjFGj33EPTBJlWcGjyBF2x
+         Fj0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779625803; x=1780230603;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=T1o+DvC19PR6GkTpTccEfjTify4jzFt0w17PhEVHA98=;
+        b=V3CGHgeEFj8k+etreK2Z5Xb45gifvV2u1YcC+Rdy3OhZp48uIzRqYBKIZKZvcCs4Ym
+         Y+Aw5NqKb/SnSIwqKvG5RkgnWP0r8gVYlM86QImUMthKzb4YbCugtp2aP4DlMpNxcSWl
+         hlQfH1Dki9nAQrI8tJC5VLphorZdJEvHYon2QHrg1Ksw2JGuQ4QlAre6H+2AlfwYd1Lp
+         e/yN5ijkArZErClzhGaa7vCb1Sq7gUUvN/BuLrTTkky1igatjQMOFlBe8QbvWjpwVYN5
+         eZ30KXEMmfozuapdw7ANNLgMJ92Vf5DBfHmdztmDQDVngGwMWMNROWdVOMMOyQwSotDM
+         qlYg==
+X-Forwarded-Encrypted: i=1; AFNElJ82VtGcolMo5JdhmAxm6wtNV7qLBSBQRonHtNSsUEnGGi2qZEsUq2my4In7AxGkTv+LuixptXGF/m0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJnamxVJJlLdAAQ5TxR9MhNKBqlaCXC4UWvZG61xdEuss2yVr2
+	qAc6O7sd1EWBFlY62tjrXJAZJ1+eXx/28cORvuM4CpKVGt2SGbO+ICSS
+X-Gm-Gg: Acq92OFbRjqshxS94vGO8J9AJHNKiDL+8dRdzgZcCumgVcS+UGV5ITbTFnOZ79URzi3
+	G/XD2CK3kl7Adca0BOVIhJDEyMwIyMWxvlrZMzihcXq8OIvwpvysT0zc0PJiBH2IZJ7mdaBxGF/
+	O0YG6/cLdck3AiXTpDql5drjSXU91tUplzKxarEp87nRtrKyn7CEeDDcWjEquxkFJ0uMYCRTBOX
+	YU8X0pZPJPn6s7UY6Tv/dqWsrEvvRpyk0g14d5FasqbnVyBMIyg1Y9CrHcctVzrPYN34QCnVXxI
+	jN/z4WIKkwtVjfy/iIumx1wHkgO59MHCsBYRokUT8JG23fFZhl+ogh4tmw+OPTB74zW2G0nskSV
+	BPQS76tiQy6EyDRkhNRCfzQm33QL5TgYT0klM/IrqoLcxDF039OiNl+3QqlerjrkF+nSCmFO3U8
+	7/+54k2ScugsTPk8shRvbHiEWAhhZPHJcNuI7AmcNB0xv5FdMK1UupzUCqFY5tPM6oy5FFp7rL1
+	zg2ucoKM5yiN2xRvMZV2MRdcKxoFZ9O+dWczNqE/nVz2bhBildjDHaoItsj
+X-Received: by 2002:a05:600c:3547:b0:48f:e6b9:c740 with SMTP id 5b1f17b1804b1-490428f30bcmr180656565e9.30.1779625803084;
+        Sun, 24 May 2026 05:30:03 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490424aa561sm84023815e9.5.2026.05.24.05.30.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 May 2026 05:30:01 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Sun, 24 May 2026 13:29:59 +0100
+To: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v14 10/12] iio: frequency: adf41513: features on
+ frequency change
+Message-ID: <ivren25tav5pgaynyrsujqo5zqfp4l52wu7jtlk5cotc62vbjs@nop6xcq6gjyj>
+References: <20260524-adf41513-iio-driver-v14-0-06824d9c15f4@analog.com>
+ <20260524-adf41513-iio-driver-v14-10-06824d9c15f4@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <a0b9a09127618cb4e3dd1aae92ef25aab9beb90bd533490ec5be7789420d9ef4@mail.kernel.org>
-In-Reply-To: <20260524114243.259916-1-find.dhiraj@gmail.com>
-References: <20260524114243.259916-1-find.dhiraj@gmail.com>
-Subject: Re: [PATCH bpf-next v2] bpf: Add kernel-doc for arena page kfuncs
-From: bot+bpf-ci@kernel.org
-To: find.dhiraj@gmail.com,bpf@vger.kernel.org
-Cc: ast@kernel.org,alexei.starovoitov@gmail.com,daniel@iogearbox.net,andrii@kernel.org,martin.lau@linux.dev,eddyz87@gmail.com,memxor@gmail.com,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,corbet@lwn.net,skhan@linuxfoundation.org,emil@etsalapatis.com,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Sun, 24 May 2026 12:23:04 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260524-adf41513-iio-driver-v14-10-06824d9c15f4@analog.com>
 
---===============7443696486554360034==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On 26/05/24 11:15AM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [High] Bleed current is not computed or updated when switching from Integer-N to Fractional-N mode if the PFD frequency remains unchanged.
+> --
+> 
+> commit 299bd27511dd5b2a2354c749631d53bcff158e2b
+> Author: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> 
+> iio: frequency: adf41513: features on frequency change
+> 
+> This commit adds bleed current configuration, lock detector window adjustments,
+> and phase resync support to the ADF41513 driver when changing the PFD
+> frequency.
+> 
+> > diff --git a/drivers/iio/frequency/adf41513.c b/drivers/iio/frequency/adf41513.c
+> > --- a/drivers/iio/frequency/adf41513.c
+> > +++ b/drivers/iio/frequency/adf41513.c
+> 
+> [ ... ]
+> 
+> > +static void adf41513_set_bleed_val(struct adf41513_state *st)
+> > +{
+> > +	u32 bleed_value, cp_index;
+> > +
+> > +	if (!(st->regs[ADF41513_REG6] & ADF41513_REG6_BLEED_ENABLE_MSK))
+> > +		return;
+> 
+> [ ... ]
+> 
+> > @@ -630,6 +725,14 @@ static int adf41513_set_frequency(struct adf41513_state *st, u64 freq_uhz, u16 s
+> >  		st->regs[ADF41513_REG6] |= ADF41513_REG6_BLEED_ENABLE_MSK;
+> >  	}
+> >  
+> > +	if (pfd_change) {
+> > +		adf41513_set_bleed_val(st);
+> 
+> [Severity: High]
+> Will the bleed current be properly configured if the device switches
+> from Integer-N to Fractional-N mode without changing the PFD frequency?
+> 
+> In adf41513_set_bleed_val(), if the device is previously in Integer-N mode,
+> ADF41513_REG6_BLEED_ENABLE_MSK is cleared. If the PFD frequency changes
+> while in Integer-N mode, adf41513_set_bleed_val() returns early without
+> updating the register.
+> 
+> If a subsequent frequency change switches the PLL to Fractional-N mode but
+> maintains the exact same PFD frequency, pfd_change will be false. Since
+> adf41513_set_bleed_val() is only called when pfd_change is true, the bleed
+> value configuration gets skipped entirely.
+> 
+> Could this leave the bleed circuit enabled with a stale or uninitialized
+> current value, potentially preventing the PLL from locking?
 
-> The page-management kfuncs exposed by BPF arena -
-> bpf_arena_alloc_pages(), bpf_arena_free_pages() and
-> bpf_arena_reserve_pages() - are part of the BPF kfunc ABI but lack
-> rendered documentation. Their contracts (valid argument ranges,
-> sleepable-only context, and the set of error returns) are today only
-> discoverable by reading kernel/bpf/arena.c.
+This make sense. After adding the suggested guard for bleed enabled I should
+have move adf41513_set_bleed_val() to be called bellow...
 
-Is the description 'sleepable-only context' accurate here? The BPF
-verifier supports calling bpf_arena_alloc_pages() and bpf_arena_free_pages()
-in non-sleepable contexts by dynamically replacing the calls with their
-non-sleepable variants. Looking at the BTF_ID_FLAGS definitions, they do not
-include KF_SLEEPABLE. While the code documentation was fixed in v2 to reflect
-this, the commit message text was not updated.
+> > +		adf41513_set_phase_resync(st);
+> > +	}
+> > +
+> > +	if (pfd_change || mode_change)
+here..
+> > +		adf41513_set_ld_window(st);
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20260524-adf41513-iio-driver-v14-0-06824d9c15f4@analog.com?part=10
 
-> diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
-> index 49a8f7b1beef..948a43159106 100644
-> --- a/kernel/bpf/arena.c
-> +++ b/kernel/bpf/arena.c
-> @@ -870,6 +870,31 @@ static void arena_free_irq(struct irq_work *iw)
->
->  __bpf_kfunc_start_defs();
->
-> +/**
-> + * bpf_arena_alloc_pages() - Allocate pages within a BPF arena.
-> + * @p__map: Pointer to a ``BPF_MAP_TYPE_ARENA`` map.
-> + * @addr__ign: Page-aligned user-space address within the arena at which to
-> + *	       place the allocation, or %NULL to let the kernel choose. When
-> + *	       non-NULL the address must fall inside the arena's user VMA
-> + *	       range; otherwise the allocation fails.
-> + * @page_cnt: Number of pages to allocate. Must be non-zero and no greater
-> + *	      than the arena's configured size in pages.
-> + * @node_id: NUMA node hint for the backing pages, or %NUMA_NO_NODE.
-> + * @flags: Reserved for future use; must be 0.
-> + *
-> + * Allocates @page_cnt pages and inserts them into the arena at the offset
-> + * corresponding to @addr__ign (or at an arbitrary free offset when
-> + * @addr__ign is %NULL). The pages become accessible to the BPF program
-> + * immediately and to user space through the arena's mmap()ed region.
-> + *
-> + * Return:
-> + * * The user-space virtual address of the start of the allocated region on
-> + *   success. The BPF JIT translates this address for accesses from the BPF
-> + *   program.
-> + * * %NULL if @p__map is not an arena, @flags is non-zero, @page_cnt is zero
-> + *   or exceeds the arena size, @addr__ign is misaligned or outside the
-> + *   arena, @node_id is invalid, or the kernel is out of memory.
-> + */
+At least, that would be a quick one. We can have another round of reviews on
+the decimal parse function... worst case, we can have another week.
 
-Are there missing failure conditions in this documentation? It appears
-bpf_arena_alloc_pages() can also return NULL if the requested address is
-already allocated, or if there is no contiguous free space of the requested
-size in the arena.
+-- 
+Kind regards,
 
-[ ... ]
-
-> @@ -913,6 +952,26 @@ void bpf_arena_free_pages_non_sleepable(void *p__map, void *ptr__ign, u32 page_c
->  	arena_free_pages(arena, (long)ptr__ign, page_cnt, false);
->  }
->
-> +/**
-> + * bpf_arena_reserve_pages() - Reserve a page range within a BPF arena.
-> + * @p__map: Pointer to a ``BPF_MAP_TYPE_ARENA`` map.
-> + * @ptr__ign: Page-aligned user-space virtual address of the start of the
-> + *	      range to reserve.
-> + * @page_cnt: Number of pages to reserve. Zero is permitted and is a no-op.
-> + *
-> + * Marks @page_cnt pages starting at @ptr__ign as reserved so that subsequent
-> + * bpf_arena_alloc_pages() calls will not place allocations in that range.
-> + * No physical pages are allocated by this kfunc; the range is simply
-> + * excluded from the arena's free space.
-> + *
-> + * Return:
-> + * * 0 on success, or when @page_cnt is zero.
-> + * * -EINVAL if @p__map is not an arena or the requested range falls outside
-> + *   the arena's user VMA.
-> + * * -EBUSY if any page in the requested range is already allocated, or if
-> + *   contention on the arena's internal spinlock prevents the operation from
-> + *   completing.
-> + */
-
-Does this documentation correctly describe the error returns? Looking at
-arena_reserve_pages() in kernel/bpf/arena.c, there's a mismatch between the
-documented -EINVAL return for misaligned addresses and the actual
-implementation:
-
-arena_reserve_pages() {
-    ...
-    if (uaddr & ~PAGE_MASK)
-        return 0;
-    ...
-}
-
-The documentation implies that misalignment should return -EINVAL (as it's
-a validation error), but the code silently succeeds with return 0.
-
-For consistency, bpf_arena_alloc_pages() has the same behavior (returns
-NULL for misalignment) and its documentation correctly states it returns
-NULL for misaligned addresses. Should either the code be changed to return
--EINVAL for misalignment to match the new documentation, or should the
-documentation be updated to state that misaligned addresses result in
-returning 0 (no-op)?
-
-Also, does this need to document -ENOMEM? If range_tree_clear() fails to
-allocate a new node during a split operation, it seems this can return
--ENOMEM.
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/26360590766
---===============7443696486554360034==--
+Rodrigo Alencar
