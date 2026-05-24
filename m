@@ -1,77 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865CB23EA84;
-	Sun, 24 May 2026 20:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D24C39B971;
+	Sun, 24 May 2026 22:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779655766; cv=none; b=ngO0TAlJu2Fzo4Kml9To+SKp+i9Sve7DJgd8tFoH3GzFxMYHFv36iRaOY3GwPZVM0VjFCykdnQvIeAJ3RQJyANN/qRawPlrbqcYFkF1uLBnYdLwRlRXPE/n3ioE8CyKcHKiahOMEz42pYv51A/aE8vWP01HrC7XdAbf56zUQw9M=
+	t=1779662890; cv=none; b=N4igUe/F99zjbw+K0+ZGEWmH0gbCcgYW+72CmuBx3f/q2RXDIzBl8rDlpdekpu4kHtTb54fX94m/ErRzhSyTz5G5WpilnWcOAFAxJT2fp+X/mbvObZGWrxwmKIKq4GBQprURMW/ZCd0JR8ZRxCebBWi5jT7PdXt9/DagyGozbtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779655766; c=relaxed/simple;
-	bh=Xz39HGPIj1XGcn93mkn7Xwcg+K/3bMCE3fSU0yP2wos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d4GRcfO05Xl4FLzMGHBJzqFQlBMh1lUcAT2wPKS6fFjOM2+CWQvFVMyAwg7Y3Gsqxsm/D4GQhi6WR6DF7TdqkKdGA9LRPhau8jYrW4GrYfZcFVzjsLP+dATVGfRdJkWqEAbEvSY2jpPReLbzNsEuAveDK7BfKN9s97GSwT6I6d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P1TUsjwI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779662890; c=relaxed/simple;
+	bh=mD0gNpVAUkSkL0hg7Ggs6OpxwXKGMnP+lGaapPLk3ew=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Um4rxX96NszXBAfYLVhe7gszQ/OxNJb/Ol+7gx5B1uJGfKW6F9LLoGOJ2y8oUHEOz4uif3uej6OvIm5PlBRQY4By0npO4wzDriGRaqv28fyw0lGlclss82KMMBYX5UEwgfVgyyeaUukBpSD3mO3HcW6vv/86m5h5tqPBN2gQC28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Qct1oUeD; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P1TUsjwI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EE921F000E9;
-	Sun, 24 May 2026 20:49:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779655765;
-	bh=SvFC+azNSDIKH1JXxHAf/KqgxPmhn9ag8hvuKL1foNs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=P1TUsjwIBYKCMnwkSwDiyEF5pn3BuYlptPZEjNPwbze+umSA1x7/1EpW/DxDNxdxN
-	 hWN3I4mEaRTvJwdDA89F077EbnmLYC4ffFITQZqT56xYldvGs1QuqpB/TeJ8IbhKJb
-	 TsfkBslAS6whFYIRgXMrIYCGaVbwcq2RHndOqmLP0r7Eu5jcaG6pMPP3sM6iAmfxCL
-	 G6ORx4yMPBU5jAesSFupJmILzCBZMyt0G42wJ6Hp5AQDED4c98frirIZahAsiKjT+Z
-	 YXkR7WIsVKO5I9sztPCBXTUOkpbi/qV66DKHN6gnXNC5bOqR0dcz5nEjJZjFaxlU57
-	 GM7Z4bf2Bl1sg==
-Date: Sun, 24 May 2026 15:49:21 -0500
-From: Eric Biggers <ebiggers@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Udit Tiwari <quic_utiwari@quicinc.com>,
-	Md Sadre Alam <mdalam@qti.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
-	Andy Gross <agross@codeaurora.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	brgl@kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v18 00/14] crypto/dmaengine: qce: introduce BAM locking
- and use DMA for register I/O
-Message-ID: <20260524204921.GC110177@quark>
-References: <20260522-qcom-qce-cmd-descr-v18-0-99103926bafc@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Qct1oUeD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=UufSwSgpRgsAqIYOsS0l8pXjHiLkYpufOZ9F11/DJSA=; b=Qct1oUeDOPS+yRcmYdthiNtFuM
+	3j5XmZ3LMMYoHSh4rX8UxTQxfFBsoKE8B5cj2TbaAQB0+4MiLukcxpNcoENt0d3wX9G0SfjDpnHnx
+	BnU5t7677x7cT0bdgbJ+eJ64m9q+QmRuGJxGjwZ2ppJ0Y0FQdPdP07HcCVuw/qUR2aFFqgPwuzvHy
+	FbjoNvs3tH2g0UpfTd0m0LMtfV1fyOaVLrUzbv9OFuJrYi8Q8lzxXb9c0D4ka9/QY8yt3e3UJ6WUs
+	Spsg/QYV47S75uQv/ohh7QqVuIC78+XmYs5rEFT2WitTaxUAIaPiTEEPbbTc409UXAd2T31LJzoVh
+	XPo9YXIw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wRHc3-0000000FnRw-0sHy;
+	Sun, 24 May 2026 22:48:03 +0000
+Message-ID: <d7cd7bb3-520f-4e80-8242-583f689f60db@infradead.org>
+Date: Sun, 24 May 2026 15:48:01 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260522-qcom-qce-cmd-descr-v18-0-99103926bafc@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: ABI: sysfs-class-reboot-mode-reboot_modes:
+ fix doc warnings
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260426232705.422938-1-rdunlap@infradead.org>
+ <CAMRc=McUr8Tuv9+LNQ0=ufj1z4Tstp_ujmL=r7bXrLaBXg4E5g@mail.gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAMRc=McUr8Tuv9+LNQ0=ufj1z4Tstp_ujmL=r7bXrLaBXg4E5g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 22, 2026 at 03:39:53PM +0200, Bartosz Golaszewski wrote:
-> Currently the QCE crypto driver accesses the crypto engine registers
-> directly via CPU. Trust Zone may perform crypto operations simultaneously
-> resulting in a race condition.
+Sebastian,
 
-So this driver is just critically broken currently?  Yet it's still not
-marked as BROKEN?
+On 4/27/26 2:11 AM, Bartosz Golaszewski wrote:
+> On Mon, 27 Apr 2026 01:27:05 +0200, Randy Dunlap <rdunlap@infradead.org> said:
+>> Repair the docs build warnings in this file by unindenting the description,
+>> adding blank lines, and using `` to quote *arg.
+>>
+>> WARNING: Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:36: abi_sys_class_reboot_mode_driver_reboot_modes doesn't have a description
+>> Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:1: ERROR: Unexpected indentation. [docutils]
+>> Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:1: ERROR: Unexpected indentation. [docutils]
+>> Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:1: WARNING: Inline emphasis start-string without end-string. [docutils]
+>> Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:1: ERROR: Unexpected indentation. [docutils]
+>>
+>> Fixes: d3da03025e6d ("Documentation: ABI: Add sysfs-class-reboot-mode-reboot_modes")
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> ---
+> 
+> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-What are we even doing?
+This build warning is now in mainline.
+Will you be merging this patch soon?
 
-- Eric
+thanks.
+-- 
+~Randy
+
