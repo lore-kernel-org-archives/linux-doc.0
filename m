@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8FA38F658;
-	Sun, 24 May 2026 10:35:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD89391E49;
+	Sun, 24 May 2026 10:35:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779618939; cv=none; b=F4haujFaVjG/vCTbKjbWaqKPNo6SLWYxaCxgIzJXUboRSSyF7NBPvLTBpmnPGDb71LciaMOr7e24pRlG7bqiX1pZyN6U8uFyhG/yjmox1n5CAUaE1o7a2ZBrVrjrU4Lc6zN7REteqNjWLUq9UrXDQ12+VRISEBl17edzQ87Ko4Q=
+	t=1779618940; cv=none; b=UszUPaIxHa6bq5b0ReqB0qSfELIhGIFzkI9k97lbg1H/s3fyHVz/wQoyhadF2IxrcJzhOAxWPeWq2DwscQkzSGuQrYVyPBfcgzcErnhn46MvX9qCsePWQfD83qjj+rLPScYDYr/FMJ7+PaT8cvptVgjUV1pJrXQ8bDnDlghB7kU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779618939; c=relaxed/simple;
-	bh=fEpQ52qwEX2E5hNxyn7ssHZ/AkOROrSM19L+xOMsKpE=;
+	s=arc-20240116; t=1779618940; c=relaxed/simple;
+	bh=0MiPE4pAGNIHkDMT5fwtfqtbshqWVCMkNClPirEcpH4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tGzHmY4nvDXXuxSQMHf7yVfeOCJnXaMVGeVKhExEUeyKwq1j3eEpzIcj0Q2CiQX7+LLPAr4dHIreaPMDnDvUHmZe/bQMXECBuc+NM9vFGsB8u6PfZgy+OqxfVF6m4qPRJqTTZ3MVLCe1cmHUq/2aLfLqX4mJ1wj0ldEMJrrBre4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQepbM3O; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=Jhht3wja8lQFPSIhSYGLFqatFHyeilXGjRZXQNjZ3KXGyQoRxVFT0VEFPZvHGz0jDK+5GlVk1f5xU1kMs6yuiItFAAgQUxT90X6bTCylv5hvfmCLg5DQYdEN5M/T7BnI258ZUSQX0304pjDmbFkmYNFXBM29d/jK45zwihXb1X8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jkLJDzTU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQepbM3O"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A8CBC2BCC7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jkLJDzTU"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B5550C2BCFD;
 	Sun, 24 May 2026 10:35:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1779618939;
-	bh=fEpQ52qwEX2E5hNxyn7ssHZ/AkOROrSM19L+xOMsKpE=;
+	bh=0MiPE4pAGNIHkDMT5fwtfqtbshqWVCMkNClPirEcpH4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=ZQepbM3O0ZgBRhWr6X/n0TfT9/1QcA2vDVhAQLpxFlGhA7w/ffTXBNiR5O3pe+GeI
-	 cyZ4L9JlPakyXEDrY+mKG4rVHFUhIoWOBRDRRIgS36rO/Z1HxojwpzPN8m9I62jBxZ
-	 3eGgRtbxW1MQ2xs11ZOVTFEQsHZpWcijR8XI3G6t/BsJeH8c2ryBFcshvUAw0FbD/N
-	 ZEbjBcZh3ve3J5j3rH1s4v/RHpGOB9yWU8k4MPWM5oDJDUFiUa3Dd1tXK3M/jdiORQ
-	 F3jeNQu6uNSHXH+E2p1hzgj8uJVISk79WDyfAasvbrZaTRN0AY8p+5GzpfYfe4HsaC
-	 VeSudqOKzdO4A==
+	b=jkLJDzTUL+gBGYOIaiFjuI0yhqHTKco6TPkNF+rAH6gbzFhR62u/nG/RrcXYIoZaV
+	 Yt0vP4m/9IYC/KzTqr/K7H2xSoOEcVuaHXlJzvNjtxq9WpEoTjpT5q2SA9gndpp1Hh
+	 sLyJNpSkA+qPMyItHzzDj8pa/x088Aonv23TAO1v7Pm0U3YYzVMaI+Uscr3KquGCX9
+	 h85Z5j9PcSmvgSIKjUiScVP5aX6yQHgEljLFUJdZNIkACUtJQ/QFNokTUyQT7pyNJr
+	 29qpq5i4a9bVCn/MXtk3dY+xH36StjmkRFb5y9CR7g8tPKIFGr1viPZ1MFAngSHnuZ
+	 6fIP+w27cXOBw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 758F4CD5BB1;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A23FDCD5BCA;
 	Sun, 24 May 2026 10:35:39 +0000 (UTC)
 From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Sun, 24 May 2026 11:35:19 +0100
-Subject: [PATCH v14 02/12] lib: kstrtox: add local
- _parse_integer_limit_init() helper
+Date: Sun, 24 May 2026 11:35:22 +0100
+Subject: [PATCH v14 05/12] lib: math: div64: add div64_s64_rem()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260524-adf41513-iio-driver-v14-2-06824d9c15f4@analog.com>
+Message-Id: <20260524-adf41513-iio-driver-v14-5-06824d9c15f4@analog.com>
 References: <20260524-adf41513-iio-driver-v14-0-06824d9c15f4@analog.com>
 In-Reply-To: <20260524-adf41513-iio-driver-v14-0-06824d9c15f4@analog.com>
 To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
@@ -60,11 +59,11 @@ Cc: Jonathan Cameron <jic23@kernel.org>,
  Shuah Khan <skhan@linuxfoundation.org>, 
  Rodrigo Alencar <rodrigo.alencar@analog.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779618938; l=2791;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779618938; l=2327;
  i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=UxUL9EGcYZLlZrE68BZiyyEJoU0744KsS7KUqiWM08U=;
- b=XEe/ZsJtxx7p3Xh8mIq6R0eAnYwC+N5/ll9mzNpjifP1PQhy+bPzRMs61Dtkk+7biiIUSP0x0
- KgtKG9yxHeNCh+zB2XJF+7knAW1xDp3jrzXBWoEh8DoCuEAr62+cgCx
+ bh=ROKa5iAD0w5bgrXddKrko8IjoFXS2V0nXvPl5DFoZoI=;
+ b=TTPDdayI072fUDtInDbn7l1LhIxuC1ll5ixSwLmS7xwzjbRdggfd09rwzTvGCmHWFZAhNODSl
+ lJdQ3/nfsVmBmaDbnWI6dpR1GRTTWVsg7XsduFgysWUD1547NJ+wkio
 X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
  pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
 X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
@@ -74,80 +73,78 @@ Reply-To: rodrigo.alencar@analog.com
 
 From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-Add parsing helper that accepts an initial value for the accumulated
-result when parsing an 64-bit integer. It reuses current implementation
-for _parse_integer_limit(), which now consumes the new function with
-init = 0. The diff algorithm would have the documentation header and
-prototype of _parse_integer_limit() moved around so it is adjusted
-according to guidelines.
+Add div64_s64_rem() function, with 32-bit implementation that uses
+div64_u64_rem() and a branchless approach to resolve the sign of the
+remainder and quotient (negation in two's complement).
 
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 ---
- lib/kstrtox.c | 41 ++++++++++++++++++++++++++++-------------
- 1 file changed, 28 insertions(+), 13 deletions(-)
+ include/linux/math64.h | 18 ++++++++++++++++++
+ lib/math/div64.c       | 15 +++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/lib/kstrtox.c b/lib/kstrtox.c
-index 97be2a39f537..bd63c55b8490 100644
---- a/lib/kstrtox.c
-+++ b/lib/kstrtox.c
-@@ -39,23 +39,15 @@ const char *_parse_integer_fixup_radix(const char *s, unsigned int *base)
- 	return s;
- }
- 
--/*
-- * Convert non-negative integer string representation in explicitly given radix
-- * to an integer. A maximum of max_chars characters will be converted.
-- *
-- * Return number of characters consumed maybe or-ed with overflow bit.
-- * If overflow occurs, result integer (incorrect) is still returned.
-- *
-- * Don't you dare use this function.
-- */
--noinline
--unsigned int _parse_integer_limit(const char *s, unsigned int base, unsigned long long *p,
--				  size_t max_chars)
-+static unsigned int _parse_integer_limit_init(const char *s, unsigned int base,
-+					      unsigned long long init,
-+					      unsigned long long *p,
-+					      size_t max_chars)
- {
- 	unsigned long long res;
- 	unsigned int rv;
- 
--	res = 0;
-+	res = init;
- 	rv = 0;
- 	while (max_chars--) {
- 		unsigned int c = *s;
-@@ -87,6 +79,29 @@ unsigned int _parse_integer_limit(const char *s, unsigned int base, unsigned lon
- 	return rv;
+diff --git a/include/linux/math64.h b/include/linux/math64.h
+index cc305206d89f..99189410d4bb 100644
+--- a/include/linux/math64.h
++++ b/include/linux/math64.h
+@@ -57,6 +57,20 @@ static inline u64 div64_u64_rem(u64 dividend, u64 divisor, u64 *remainder)
+ 	return dividend / divisor;
  }
  
 +/**
-+ * _parse_integer_limit() - Convert integer string representation to an integer
-+ *			    limiting the number of characters parsed.
-+ * @s: The start of the string.
-+ * @base: The number base to use.
-+ * @p: Where to write the result of the conversion.
-+ * @max_chars: Maximum amount of characters to consume.
++ * div64_s64_rem - signed 64bit divide with 64bit divisor and remainder
++ * @dividend: signed 64bit dividend
++ * @divisor: signed 64bit divisor
++ * @remainder: pointer to signed 64bit remainder
 + *
-+ * Convert non-negative integer string representation in explicitly given radix
-+ * to an integer. A maximum of max_chars characters will be converted.
-+ *
-+ * Avoid using this function directly, consider kstrto*() functions instead.
-+ *
-+ * Return: Number of characters consumed maybe or-ed with overflow bit.
-+ *	   If overflow occurs, result integer (incorrect) is still returned.
++ * Return: sets ``*remainder``, then returns dividend / divisor
 + */
-+noinline
-+unsigned int _parse_integer_limit(const char *s, unsigned int base,
-+				  unsigned long long *p, size_t max_chars)
++static inline s64 div64_s64_rem(s64 dividend, s64 divisor, s64 *remainder)
 +{
-+	return _parse_integer_limit_init(s, base, 0, p, max_chars);
++	*remainder = dividend % divisor;
++	return dividend / divisor;
 +}
 +
- noinline
- unsigned int _parse_integer(const char *s, unsigned int base, unsigned long long *p)
+ /**
+  * div64_u64 - unsigned 64bit divide with 64bit divisor
+  * @dividend: unsigned 64bit dividend
+@@ -102,6 +116,10 @@ extern s64 div_s64_rem(s64 dividend, s32 divisor, s32 *remainder);
+ extern u64 div64_u64_rem(u64 dividend, u64 divisor, u64 *remainder);
+ #endif
+ 
++#ifndef div64_s64_rem
++extern s64 div64_s64_rem(s64 dividend, s64 divisor, s64 *remainder);
++#endif
++
+ #ifndef div64_u64
+ extern u64 div64_u64(u64 dividend, u64 divisor);
+ #endif
+diff --git a/lib/math/div64.c b/lib/math/div64.c
+index d1e92ea24fce..0b10ded09a9b 100644
+--- a/lib/math/div64.c
++++ b/lib/math/div64.c
+@@ -158,6 +158,21 @@ u64 div64_u64(u64 dividend, u64 divisor)
+ EXPORT_SYMBOL(div64_u64);
+ #endif
+ 
++#ifndef div64_s64_rem
++s64 div64_s64_rem(s64 dividend, s64 divisor, s64 *remainder)
++{
++	s64 quot, t, rem;
++
++	quot = div64_u64_rem(abs(dividend), abs(divisor), (u64 *)&rem);
++	t = dividend >> 63;
++	*remainder = (rem ^ t) - t;
++	t = (dividend ^ divisor) >> 63;
++
++	return (quot ^ t) - t;
++}
++EXPORT_SYMBOL(div64_s64_rem);
++#endif
++
+ #ifndef div64_s64
+ s64 div64_s64(s64 dividend, s64 divisor)
  {
 
 -- 
