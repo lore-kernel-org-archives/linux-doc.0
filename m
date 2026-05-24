@@ -1,133 +1,196 @@
-Received: from flow-b8-smtp.messagingengine.com (flow-b8-smtp.messagingengine.com [202.12.124.143])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083EEE555;
-	Sun, 24 May 2026 00:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.143
+Received: from outbound.baidu.com (mx15.baidu.com [111.202.115.100])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 022491EEE6;
+	Sun, 24 May 2026 03:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.115.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779581298; cv=none; b=S4hBtfvxIZvi+qPzaORzzz5Dkjf1is6iJlBhFL1NiOHzULD5h8QHXVMMmQUstX2ghaz6hw39fGQVx6wT5poZLlojqPx5yMaNZkuVvF9Ht/O6NI1qBuTwjg94WlAqJ+orsdwwWBtsPbKEEt+U3gkkPpbMH0+soBi/NbM70WGA3Ww=
+	t=1779594047; cv=none; b=r5LL6Imlm7XxHMbKC2/GMawOCcZHkBx14lIFi6V1d0KH19DTg2CV3wXqV7m242Rex3yRqDx/7AkMKaTIO+ZF9LA9lmlD/2yQy27jEdhBOGDLvtP+q5EPh5aU03GY0lfo7RKXnpnHCOz3jSbXUUltSgBXJrXKjlHXSN23N6Dow4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779581298; c=relaxed/simple;
-	bh=ibOXMmyPy1OAlADs6YJhAT6SpQm5cY3R9sMM7pbe7A0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eMe6+63QAEl5gT5goUS+HWTQwYoBC+Cd6yUf6kCSvacIZgifG4GPLUKVeT69W+GZkhhdLyleD3Njk/P4z6UVXKKn1u6WDWp2xmX2xUDDmPrcsSb6HGYab/lzwnsXlrCgxTEMlWKmxKWfLT/0ynaSQIAFX63xHgnX72DUClYcfJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=Gz2Mjnyy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=P66W112j; arc=none smtp.client-ip=202.12.124.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
+	s=arc-20240116; t=1779594047; c=relaxed/simple;
+	bh=TTMcFEgS05TesDbxW/WAMF5khbNWWESvl8qqMzSMtso=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i6AYfaxh1gCdQC41lk0DWZ5cuGe8ev14U4ElR86HHC9o7THKQHEubAI0PdRJhAjDTwM8XKn1kwJn0kM39ds9MJKvXmhONMiYIOwTgIdSAlwOYVbHDcJjWJPlrt+Ev64SJ2yldM4dEMIg/9antJ0+pXF8WjYeNNY5Jx32eTWXP9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b=QE3QCUwG; arc=none smtp.client-ip=111.202.115.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="Gz2Mjnyy";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="P66W112j"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.stl.internal (Postfix) with ESMTP id 932CD130006C;
-	Sat, 23 May 2026 20:08:13 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Sat, 23 May 2026 20:08:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1779581293; x=
-	1779588493; bh=bOW3L8R72QTY5Nd5WS70HCXZ0iclOnm9lq7EioHVhjE=; b=G
-	z2Mjnyy3ZUQAyP+kZpFy4wEXbtv0zxxnMI6FV69F+8GKCYhtKaiDlsMJG7jY9awP
-	odBNaWeImYySll7F/C1d34/zqHhu+qsMrTtmOfbsxdZk+hayWEt6AoBrYTPQH26d
-	aeHldZrblVRhSCJu147s35HSgt7FXr6ofwCOTH0r5Sd2fWvcBSYwbC5sKbZZpowV
-	ekwysBPN/34GBSaXKCFJDSkLrv3Iierrpn8VldIcS5bRmtl85SmCKBI2RG6vbs4O
-	Vn1Y2uSKbdFZ3VIv7kmp/puc9kRBTQZLpCg0x969TJJr/DdmwZ0AAF8EoW2zo3jv
-	ILqCxHY2SrYJbagitsVgw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1779581293; x=1779588493; bh=bOW3L8R72QTY5Nd5WS70HCXZ0iclOnm9lq7
-	EioHVhjE=; b=P66W112jOXxtTt1/jIy4NYcASQN652h2lmLJHJxnzyIkd6LSDHS
-	q+9rbiNxvG0zVVExqVdFthlE4GioU4qqIFcKXHiaR/ZevjEkAZruUCSxUTLx9nUS
-	cg7LdRV0lxscEx2CiIFFFjre5ByxgXPsrviUlnoNTeMR35vDjoblNmgyNMoiGl48
-	CLN2lJbQq+P+WvI0Y6u6pKkkvK/W3dOm4rc81VUKX2ExdlVi/+M0r6LBJZRvTzq/
-	PLlHafce62O8Ae7clkqIbWNoHKA6fOdUzOnzQj85aZPxpbVOdw4X1svwMWxcCetE
-	S57k0MBOGDhp7iwPkzeynimC1BgTWRIXdpg==
-X-ME-Sender: <xms:bEESaughE1L8wNAw6-Tboi_OTEbrkiBPfWphC1gVg1RQ0KrCDmoFUw>
-    <xme:bEESatfw7OYcKZuldoKZDe_ZkA6LtlHFpKmNTkcclHawnla2-c5qAYXlfJUrW4bl2
-    DH3PD5U6wdkFSy4Vq9eVmGtMo2rnyzUuOfqrBnmoc4fvupH3E7v704>
-X-ME-Received: <xmr:bEESatM85Kp8Ys-ayUtcBSyAEHje2dFDj7owp50PnBRNkrl7PRqsbpsYMjNjZw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduheeggeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttdertd
-    dttddvnecuhfhrohhmpefmihhrhihlucfuhhhuthhsvghmrghuuceokhhirhhilhhlsehs
-    hhhuthgvmhhovhdrnhgrmhgvqeenucggtffrrghtthgvrhhnpeeiveekgedugeetjefgue
-    egjeejkeetvdeuvdeifffftdfhvedvffeuieegleegvdenucffohhmrghinhepkhgvrhhn
-    vghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgvpdhnsggprhgtphhtthhopeeh
-    tddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhg
-    pdhrtghpthhtohepphgvthgvrhigsehrvgguhhgrthdrtghomhdprhgtphhtthhopegurg
-    hvihgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehljhhssehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehsuhhrvghnsgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepvh
-    gsrggskhgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihgrmhdrhhhofihlvght
-    thesohhrrggtlhgvrdgtohhmpdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhm
-X-ME-Proxy: <xmx:bEESaq0skpAwg1PDaGi8DjW_QLmZtPVZCUawJOQjS0k8IqvCgw_WBA>
-    <xmx:bEESavKPwDlFOe7kGEZEbtj_Uc_XsLeXS-q16eVt-Aw1hmkTnjbnZQ>
-    <xmx:bEESajZrCvLqVpD38kQ94zW1JHxmFlUZkVDJOddnEjnU-6y2pADqmQ>
-    <xmx:bEESagnduI5E4gsBSx_8kraDKWUi1jSseknqfEBu3ikHn6oihztVYw>
-    <xmx:bUESahUyLmGaTkuebIyTdGRJozup0-YDPiaBE8kJpo5RZGkYcDDzF81d>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 23 May 2026 20:08:12 -0400 (EDT)
-Date: Sun, 24 May 2026 01:08:11 +0100
-From: Kiryl Shutsemau <kirill@shutemov.name>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: akpm@linux-foundation.org, peterx@redhat.com, david@kernel.org, 
-	ljs@kernel.org, surenb@google.com, vbabka@kernel.org, Liam.Howlett@oracle.com, 
-	ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com, 
-	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, sj@kernel.org, 
-	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	kernel-team@meta.com, linux-man@vger.kernel.org, alx@kernel.org
-Subject: Re: [PATCH v3 15/16] userfaultfd.2: Add read-write protect mode
-Message-ID: <ahJBTaobKD9XdT33@thinkstation>
-References: <20260522133857.552279-1-kirill@shutemov.name>
- <20260522133857.552279-16-kirill@shutemov.name>
- <ahGDbKr2u6sqoc3f@kernel.org>
+	dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b="QE3QCUwG"
+X-MD-Sfrom: lirongqing@baidu.com
+X-MD-SrcIP: 172.31.50.47
+From: lirongqing <lirongqing@baidu.com>
+To: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+	<david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+	<liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>
+CC: Li RongQing <lirongqing@baidu.com>
+Subject: [PATCH] mm/dmapool: use static key for boot-time debug enablement
+Date: Sat, 23 May 2026 23:40:15 -0400
+Message-ID: <20260524034015.1830-1-lirongqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ahGDbKr2u6sqoc3f@kernel.org>
+Content-Type: text/plain
+X-ClientProxiedBy: bjkjy-exc5.internal.baidu.com (172.31.50.49) To
+ bjkjy-exc3.internal.baidu.com (172.31.50.47)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=baidu.com;
+	s=selector1; t=1779594034;
+	bh=auEp3spqgbRyV4sCde7hRJzHFuKPJdXALEUCtoAvLcE=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type;
+	b=QE3QCUwGI/DujzhE8vDKfe9pde7/bghEybQBvcw4mcs/xnn+LyfJaVL8SqWLL7iDA
+	 zg6Lzqxx3nCTOFbKqdhiwPmCKrcMQslcYUfFk/lpepWe0bhFwYGosIdqJ+tfdkiXf8
+	 oDYvHCVLi3Ajb9g/tGke6RMoCeRowoucTLqYvkFF7zNqYiqoXY18VYPJbV5r7Wld9n
+	 oFgVoIKRczD6+Ix9M1w4Zq9W9LwNjaBqlopFnyIo+k9JvIh2RMkvs8l92lVz9a+Yhj
+	 ybEo0YAPGiVzhmmqk5Cxo7KevrvwvzwDtLI6wWl0AXV+1pDIRH5Z70YkxhglqiWdWX
+	 VzH248hBxeSDQ==
 
-On Sat, May 23, 2026 at 01:37:32PM +0300, Mike Rapoport wrote:
-> On Fri, May 22, 2026 at 02:38:56PM +0100, Kiryl Shutsemau wrote:
-> > From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-> > 
-> > Read-write protect mode (UFFDIO_REGISTER_MODE_RWP) is supported starting
-> > from Linux 7.2. It traps every access -- read or write -- to a present
-> > page within a registered range. The matching UAPI consists of:
-> > 
-> >   - UFFDIO_REGISTER_MODE_RWP   registration-mode bit
-> >   - UFFD_FEATURE_RWP           capability bit
-> >   - UFFD_FEATURE_RWP_ASYNC     async (in-kernel) fault resolution
-> >   - UFFDIO_RWPROTECT           install / remove RWP on a range
-> >   - UFFDIO_SET_MODE            runtime sync/async toggle
-> >   - UFFD_PAGEFAULT_FLAG_RWP    new pagefault.flags bit
-> > 
-> > Document the new registration-mode entry, the "Userfaultfd read-write
-> > protect mode" section, the new pagefault flag, and a VERSIONS line.
-> > 
-> > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> > ---
-> >  man2/userfaultfd.2 | 147 ++++++++++++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 146 insertions(+), 1 deletion(-)
-> 
-> This doesn't apply to the current man-pages tree
-> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-> 
-> and reading raw groff hurts eyes too much.
-> 
-> What linux-man tree did you use to generate those?
+From: Li RongQing <lirongqing@baidu.com>
 
-Ughh.. Used old github mirror. Will rebase.
+Replace the #ifdef CONFIG_SLUB_DEBUG_ON conditional compilation with a
+static key (dmapool_debug_enabled). This allows enabling dmapool debugging
+at boot time via:
 
+    dmapool_debug
+
+Instead of requiring CONFIG_SLUB_DEBUG_ON at compile time. Benefits:
+
+- Debugging can be enabled without rebuilding the kernel
+- Uses standard kernel static_key mechanism with minimal overhead
+
+Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Signed-off-by: Li RongQing <lirongqing@baidu.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Liam R. Howlett <liam@infradead.org>
+Cc: Vlastimil Babka <vbabka@kernel.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  5 +++
+ mm/dmapool.c                                    | 52 ++++++++++++++-----------
+ 2 files changed, 34 insertions(+), 23 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 4d0f545..35ed9dc 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1333,6 +1333,11 @@ Kernel parameters
+ 
+ 	dis_ucode_ldr	[X86] Disable the microcode loader.
+ 
++	dmapool_debug	[MM]
++			Enable DMA pool debugging. This enables memory
++			poisoning and validation for DMA pool allocations.
++			Useful for debugging DMA API misuse.
++
+ 	dma_debug=off	If the kernel is compiled with DMA_API_DEBUG support,
+ 			this option disables the debugging code at boot.
+ 
+diff --git a/mm/dmapool.c b/mm/dmapool.c
+index 5d8af6e..d26f19c 100644
+--- a/mm/dmapool.c
++++ b/mm/dmapool.c
+@@ -35,10 +35,23 @@
+ #include <linux/string.h>
+ #include <linux/types.h>
+ #include <linux/wait.h>
++#include <linux/static_key.h>
++#include <linux/init.h>
+ 
+-#ifdef CONFIG_SLUB_DEBUG_ON
+-#define DMAPOOL_DEBUG 1
+-#endif
++/*
++ * Debugging support for dmapool using static key.
++ *
++ * This allows enabling dmapool debug at boot time via:
++ *   dmapool_debug
++ */
++static DEFINE_STATIC_KEY_FALSE(dmapool_debug_enabled);
++
++static int __init dmapool_debug_setup(char *str)
++{
++	static_branch_enable(&dmapool_debug_enabled);
++	return 1;
++}
++__setup("dmapool_debug", dmapool_debug_setup);
+ 
+ struct dma_block {
+ 	struct dma_block *next_block;
+@@ -92,13 +105,15 @@ static ssize_t pools_show(struct device *dev, struct device_attribute *attr, cha
+ 
+ static DEVICE_ATTR_RO(pools);
+ 
+-#ifdef DMAPOOL_DEBUG
+ static void pool_check_block(struct dma_pool *pool, struct dma_block *block,
+ 			     gfp_t mem_flags)
+ {
+ 	u8 *data = (void *)block;
+ 	int i;
+ 
++	if (!static_branch_unlikely(&dmapool_debug_enabled))
++		return;
++
+ 	for (i = sizeof(struct dma_block); i < pool->size; i++) {
+ 		if (data[i] == POOL_POISON_FREED)
+ 			continue;
+@@ -133,8 +148,14 @@ static struct dma_page *pool_find_page(struct dma_pool *pool, dma_addr_t dma)
+ 
+ static bool pool_block_err(struct dma_pool *pool, void *vaddr, dma_addr_t dma)
+ {
+-	struct dma_block *block = pool->next_block;
+ 	struct dma_page *page;
++	struct dma_block *block;
++
++	if (!static_branch_unlikely(&dmapool_debug_enabled)) {
++		if (want_init_on_free())
++			memset(vaddr, 0, pool->size);
++		return false;
++	}
+ 
+ 	page = pool_find_page(pool, dma);
+ 	if (!page) {
+@@ -143,6 +164,7 @@ static bool pool_block_err(struct dma_pool *pool, void *vaddr, dma_addr_t dma)
+ 		return true;
+ 	}
+ 
++	block = pool->next_block;
+ 	while (block) {
+ 		if (block != vaddr) {
+ 			block = block->next_block;
+@@ -159,25 +181,9 @@ static bool pool_block_err(struct dma_pool *pool, void *vaddr, dma_addr_t dma)
+ 
+ static void pool_init_page(struct dma_pool *pool, struct dma_page *page)
+ {
+-	memset(page->vaddr, POOL_POISON_FREED, pool->allocation);
+-}
+-#else
+-static void pool_check_block(struct dma_pool *pool, struct dma_block *block,
+-			     gfp_t mem_flags)
+-{
+-}
+-
+-static bool pool_block_err(struct dma_pool *pool, void *vaddr, dma_addr_t dma)
+-{
+-	if (want_init_on_free())
+-		memset(vaddr, 0, pool->size);
+-	return false;
+-}
+-
+-static void pool_init_page(struct dma_pool *pool, struct dma_page *page)
+-{
++	if (static_branch_unlikely(&dmapool_debug_enabled))
++		memset(page->vaddr, POOL_POISON_FREED, pool->allocation);
+ }
+-#endif
+ 
+ static struct dma_block *pool_block_pop(struct dma_pool *pool)
+ {
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.9.4
+
