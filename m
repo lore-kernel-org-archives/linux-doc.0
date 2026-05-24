@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7BC2BE7BE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD8239060B;
 	Sun, 24 May 2026 10:35:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779618939; cv=none; b=oUkRWKNrNvNmKYQRCSi8nFX15hgOfT/Og6yI7AuKp526KP4ORQh5d9V/2EQVH+yczysvEKoAyaBki6CmoQ+w349uNjWhjwDTFG+yHUK9cVYFpQiO4OmvNNdl9aeuzHFDZVJXoKG5Y4KmgzElW0rnLU7UfERGDX49Q4LdYxazf3c=
+	t=1779618939; cv=none; b=iAFRDUNgARwLLGoOTCj9ybIos7XKnaJLbo4M+LRtr6SurXA3Brv/pK5rWi1ZL777glx95TNPvVDRdpGT536orDBerg2PnwKNVvXfKuaM1wzE3xmjbGxpcyPaND5DlNYS7ZVmZZd1Iu4+90W8xrDyWESFwQZfQLY8UUIZz98CfiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779618939; c=relaxed/simple;
-	bh=JP9yAolJiOrwXNuPwy4WbEBdkgro4p5XQDY8BiW912A=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XoenP1sORemTxr/53AbVZVsTZYMVqMeuNq71eeAEt1NkKA5JNc5mevBvdV3HBGXF7VGGCA8EUm8RylxLY4MLXabnQUI/9+8+SgoM1qPPpC3fFdEE2roapMyPa5huV8ZENxZ3y5v/lJEmBC0uAJsU1wlAYf2HNFAh1Gy5Hh5vfyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tJu6fUum; arc=none smtp.client-ip=10.30.226.201
+	bh=ydOOETwVPIVdxokFO0pLH6Pbvwwut/iLOoUl42GwnbI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ubQ/yHy0W5rIle60Cs0Pb8QiFJQpQTmJ31hIDsEdRHYQSqUxvnN0p5lIW2C/AGtY0i7THwE9mT1eM6nXutiNtW2kZcYVja8pN/IdwmXE+zTdRCO3KURyO1eVHI2UE2iIKgnnvF5d6ACZGCu43cnlXQmgy2eLGuY8CmdDLFOAeFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mQ1gTFdI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tJu6fUum"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 723AAC2BCB4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mQ1gTFdI"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9CD7AC2BCF5;
 	Sun, 24 May 2026 10:35:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1779618939;
-	bh=JP9yAolJiOrwXNuPwy4WbEBdkgro4p5XQDY8BiW912A=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=tJu6fUumTnRN8SThHTl/q6wW2EY2dwiP0LNd25UjLJaZGdDkJWuBhNXOD6s2fadj7
-	 SXf06xuPnJTAN7PMck2THepm4F3CUgIXzZqTnL7DOgYnVvhkCokwEYcXPz2iIw/1IX
-	 E0oXoa+W3MXX6hJoO946tNncsE2y4Tm9MpjqrfHO7IL6uG/Vwr37pqaQ3zpdSuihWp
-	 VwpDq/+vrxl7bFqFwwlq369NkR6KIHWK/NBJAFQbZINg0mfkGNVis3WzDum1TAJFe6
-	 rPRowTFVRARKQKuA4c6Dk/PxV4oUVZHA2uwSVjhbUvl0vASVBVWQ3QyJ+EYyN7tnYJ
-	 qEMHglGwyy7qw==
+	bh=ydOOETwVPIVdxokFO0pLH6Pbvwwut/iLOoUl42GwnbI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=mQ1gTFdInnRyGvUdsl5r2Ge65GAvBp+5xtrtkzqjSN6o36n17Wx6BKVgZ0ZHyqrxn
+	 ajwIoI1TzaCkmm8EjDTCUhp2LXhwzx2riuEAzNe+L/YskD5zWioyboIwxVoN6poENP
+	 MTvnNCc3gMsMtweNGyYQL1RodC9QLdhWuG/koiw2dZo4QmkSyjgh/jeDYc6a0NtQR6
+	 mLVt3DkH2BHDFdFW3iz/xL2Txq4ToB3wHlPSa1/7c2gwex0PS+qj4v9Yz9fqRMZXMl
+	 4WTq4zaaUpnvZCBlwLlRph8koHwD8+PdMgMnHOFkfXfxTt5omGHMSnG5XoUFOxBOtc
+	 gMiE5RV9YYjHA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 577BFCD5BC7;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93530CD5BC8;
 	Sun, 24 May 2026 10:35:39 +0000 (UTC)
 From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Subject: [PATCH v14 00/12] ADF41513/ADF41510 PLL frequency synthesizers
-Date: Sun, 24 May 2026 11:35:17 +0100
-Message-Id: <20260524-adf41513-iio-driver-v14-0-06824d9c15f4@analog.com>
+Date: Sun, 24 May 2026 11:35:21 +0100
+Subject: [PATCH v14 04/12] lib: test-kstrtox: tests for kstrtodec64() and
+ kstrtoudec64()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,14 +41,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGXUEmoC/33SzU7kMAwH8FdBPVMU2/ncE++BOCSxA5GW6aqDK
- hCadycdCbUo0z0min+Jnf/XcJa5ynn4c/c1zLLUc51ObQH6/m7Ir/H0ImPltjGgQgMAaoxcNBi
- gsdZp5LkuMo8x5uijK155GVrlv1lK/biyT89t/VrP79P8eb1lgXX3/94CoxqRi0+iCmcrj/EU/
- 04vD3l6G1ZwwQ1BCLcRbEgSDNETGxeoQ+gHsQqUv43Q+hJiIAdRivYdoncI2NuIbgin5Ng6jwi
- uQ8wOQbqNmOtMsnjAiMyxQ+wOoYPB2obkoi1SaOdS7hC3IXjUjlsHq4TJu5iMCR3iN4TUQTu+I
- Z4ZNbictTUdEnYIHrQTGgKERbFylpzuEFCb0soP0qbW/ykWlLZstOn/B2BjjDoYC1xTm5yEkIv
- 4gj2DO+Yw+2tuSceCwuhcKD1De8YdMGtyU7ICzSKrfjOXy+Ub7gPay/wDAAA=
-X-Change-ID: 20251110-adf41513-iio-driver-aaca8a7f808e
+Message-Id: <20260524-adf41513-iio-driver-v14-4-06824d9c15f4@analog.com>
+References: <20260524-adf41513-iio-driver-v14-0-06824d9c15f4@analog.com>
+In-Reply-To: <20260524-adf41513-iio-driver-v14-0-06824d9c15f4@analog.com>
 To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-doc@vger.kernel.org
 Cc: Jonathan Cameron <jic23@kernel.org>, 
@@ -62,14 +58,13 @@ Cc: Jonathan Cameron <jic23@kernel.org>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
  Sergey Senozhatsky <senozhatsky@chromium.org>, 
  Shuah Khan <skhan@linuxfoundation.org>, 
- Rodrigo Alencar <rodrigo.alencar@analog.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779618938; l=7005;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779618938; l=5961;
  i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=JP9yAolJiOrwXNuPwy4WbEBdkgro4p5XQDY8BiW912A=;
- b=MmNaYimUdSltwKaOPUSRalrFPAyVCMrdJljfPlLIYx2T4/1sugvq6xI3369f4BkRswxtpvO0O
- +oO+OMQF47JA70DfqdI8ItwfpMZqhVA1/Ak2BIB9q6sb/2+iSgef9I8
+ bh=ILKtuoSEjAYtcOeMxSGbbH39S1bSrTsjARVlbHrXTsc=;
+ b=6wNfjMN/cJaDXnAal7rirsALXl5zm8yAEp+XJRAxB/XR4GAVMROqjnJSMXf/cYtMfN5sOPPKD
+ 31mtbw/TbYBAQG4EDk8Ak4jTAjIKy/I9K/LAqtPtwhVFAk2njadd2Dl
 X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
  pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
 X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
@@ -77,154 +72,221 @@ X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
 X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 Reply-To: rodrigo.alencar@analog.com
 
-This patch series adds support for the Analog Devices ADF41513 and ADF41510
-ultralow noise PLL frequency synthesizers. These devices are designed for
-implementing local oscillators (LOs) in high-frequency applications.
-The ADF41513 covers frequencies from 1 GHz to 26.5 GHz, while the ADF41510
-operates from 1 GHz to 10 GHz.
+From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-Key features supported by this driver:
-- Integer-N and fractional-N operation modes
-- High maximum PFD frequency (250 MHz integer-N, 125 MHz fractional-N)
-- 25-bit fixed modulus or 49-bit variable modulus fractional modes
-- Digital lock detect functionality
-- Phase resync capability for consistent output phase
-- Load Enable vs Reference signal syncronization
+Add tests for decimal parsing helpers kstrtodec64() and kstrtoudec64().
+The test infrastructure is reused from other kstrto*() functions, i.e.,
+the decimal parsers have fixed base of 10, so base field is used as
+scale input for the helpers.
 
-The series includes:
-1. PLL driver implementation
-2. Device tree bindings documentation
-3. IIO ABI documentation
-
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 ---
-Changes in v14:
-- Review include headers.
-- Use named fields in spi device table.
-- Address relevant sashiko's feedback.
-- Minor tweaks to iio core changes.
-- Link to v13: https://lore.kernel.org/r/20260517-adf41513-iio-driver-v13-0-bb6e134a360f@analog.com
+ lib/test-kstrtox.c | 182 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 182 insertions(+)
 
-Changes in v13:
-- Introduce _parse_integer_limit_init()
-- Better support for 0 and larger scales in kstrtodec64()
-- Increase test scope for kstrtodec64()
-- Fix LSB_P1 check at startup when going for fixed modulus mode.
-- Clear phase adjust when setting phase (It turns out sashiko was correct).
-- Make sure Load Enable is not selected when powering up.
-- Address some minor comments.
-- Link to v12: https://lore.kernel.org/r/20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com
+diff --git a/lib/test-kstrtox.c b/lib/test-kstrtox.c
+index ee87fef66cb5..145d268bbccc 100644
+--- a/lib/test-kstrtox.c
++++ b/lib/test-kstrtox.c
+@@ -703,6 +703,182 @@ static void __init test_kstrtos8_fail(void)
+ 	TEST_FAIL(kstrtos8, s8, "%hhd", test_s8_fail);
+ }
+ 
++static void __init test_kstrtoudec64_ok(void)
++{
++	DECLARE_TEST_OK(u64, struct test_udec64);
++	static DEFINE_TEST_OK(struct test_udec64, test_udec64_ok) = {
++		/* basic: integer.fraction, exact digits */
++		{"0.0",			1,	0},
++		{"1.5",			1,	15},
++		{"1.234",		3,	1234},
++		{"42.0",		1,	420},
++		/* zero */
++		{"0.0",			1,	0},
++		{"0.000",		3,	0},
++		/* integer only */
++		{"0",			1,	0},
++		{"42",			3,	42000},
++		{"123.",		2,	12300},
++		{"1",			1,	10},
++		/* fractional only (leading dot) */
++		{".5",			1,	5},
++		{".5",			0,	0},
++		{".123",		3,	123},
++		{".001",		3,	1},
++		/* zero padding: fewer fractional digits than scale */
++		{"1.2",			3,	1200},
++		{"1.2",			6,	1200000},
++		{"0.01",		3,	10},
++		{"0.1",			9,	100000000ULL},
++		{"0.01",		9,	10000000},
++		/* truncation: more fractional digits than scale */
++		{"1.23456",		3,	1234},
++		{"3.1415926535",	6,	3141592},
++		{"0.999999999",		3,	999},
++		{"1.99",		1,	19},
++		{"1.234",		0,	1},
++		/* trailing newline */
++		{"1.5\n",		1,	15},
++		{"42\n",		3,	42000},
++		/* plus sign */
++		{"+1.5",		1,	15},
++		{"+.5",			1,	5},
++		/* scale progression */
++		{"1.",			0,	1},
++		{"1.0",			1,	10},
++		{"1.00",		2,	100},
++		{"1.000",		3,	1000},
++		{"1.000000",		6,	1000000},
++		{"1.000000000",		9,	1000000000ULL},
++		/* max limit check */
++		{"18446744073.709551615",	9,	ULLONG_MAX},
++		{"18446744073709.551615",	6,	ULLONG_MAX},
++		{"0.18446744073709551615",	20,	ULLONG_MAX},
++		/* scale > 19: representable when integer part is small */
++		{"0.00000000000000000001",	20,	1},
++		{"0.1",				20,	10000000000000000000ULL},
++		{"0.00000000000000000000001",	23,	1},
++		/* truncation with scale > 19 */
++		{"0.0000000000000000000012345",	23,	123},
++		/* truncation with many excess digits */
++		{"0.00000000000000000000000000000000423",	34,	42},
++		{"1.99999999999999999999999999999999999",	3,	1999},
++	};
++	TEST_OK(kstrtoudec64, u64, "%llu", test_udec64_ok);
++}
++
++static void __init test_kstrtoudec64_fail(void)
++{
++	static DEFINE_TEST_FAIL(test_udec64_fail) = {
++		/* empty / whitespace */
++		{"",		3},
++		{"\n",		3},
++		/* minus sign (unsigned) */
++		{"-1.5",	1},
++		{"-0.5",	1},
++		/* only a decimal point */
++		{".",		3},
++		{".",		0},
++		/* only a sign */
++		{"+",		3},
++		/* non-digit characters */
++		{"abc",		3},
++		{"1.2x",	3},
++		/* leading/trailing space */
++		{" 1.5",	1},
++		{"1.5 ",	1},
++		/* overflow */
++		{"18446744073710.551615",	6},
++		{"99999999999999999999",	1},
++		/* overflow with scale > 19 */
++		{"1.0",				21},
++		{"0.2",				20},
++		{"0.18446744073709551616",	20},
++		{"1",				20},
++	};
++	TEST_FAIL(kstrtoudec64, u64, "%llu", test_udec64_fail);
++}
++
++static void __init test_kstrtodec64_ok(void)
++{
++	DECLARE_TEST_OK(s64, struct test_dec64);
++	static DEFINE_TEST_OK(struct test_dec64, test_dec64_ok) = {
++		/* basic positive */
++		{"0.0",			1,	0},
++		{"1.5",			1,	15},
++		{"1.234",		3,	1234},
++		/* basic negative */
++		{"-1.5",		1,	-15},
++		{"-1.234",		3,	-1234},
++		{"-0.5",		1,	-5},
++		{"-0.001",		3,	-1},
++		/* zero (signed) */
++		{"-0",			1,	0},
++		{"-0.0",		1,	0},
++		{"0.000",		3,	0},
++		/* integer only */
++		{"42",			3,	42000},
++		{"-42",			3,	-42000},
++		/* fractional only */
++		{".5",			1,	5},
++		{"-.5",			1,	-5},
++		/* zero padding */
++		{"1.2",			3,	1200},
++		{"-1.2",		3,	-1200},
++		{"0.01",		3,	10},
++		{"-0.01",		3,	-10},
++		/* truncation */
++		{"1.23456",		3,	1234},
++		{"-1.23456",		3,	-1234},
++		{"0.999999999",		3,	999},
++		{"-0.999999999",	3,	-999},
++		/* trailing newline */
++		{"1.5\n",		1,	15},
++		{"-1.5\n",		1,	-15},
++		/* plus sign */
++		{"+1.5",		1,	15},
++		/* limits */
++		{"9223372036.854775807",	9,	LLONG_MAX},
++		{"-9223372036.854775808",	9,	LLONG_MIN},
++		/* scale > 19 */
++		{"0.0",				20,	0},
++		{"-0.0",			20,	0},
++		{"0.00000000000000000001",	20,	1},
++		{"-0.00000000000000000001",	20,	-1},
++		{"0.009223372036854775807",	21,	LLONG_MAX},
++		{"-0.009223372036854775808",	21,	LLONG_MIN},
++	};
++	TEST_OK(kstrtodec64, s64, "%lld", test_dec64_ok);
++}
++
++static void __init test_kstrtodec64_fail(void)
++{
++	static DEFINE_TEST_FAIL(test_dec64_fail) = {
++		/* empty / whitespace */
++		{"",		3},
++		{"\n",		3},
++		/* no digits after dot */
++		{".",		3},
++		{"-.",		3},
++		/* no digits at all */
++		{"+",		3},
++		{"-",		3},
++		/* non-digit characters */
++		{"abc",		3},
++		{"-1.2x",	3},
++		/* signed overflow */
++		{"9223372036.854775808",	9},
++		{"-9223372036.854775809",	9},
++		{"99999999999999999999",	1},
++		/* signed overflow with scale > 19 */
++		{"0.1",				20},
++		{"-0.1",			20},
++		{"0.09223372036854775808",	20},
++		{"-0.09223372036854775809",	20},
++	};
++	TEST_FAIL(kstrtodec64, s64, "%lld", test_dec64_fail);
++}
++
+ static int __init test_kstrtox_init(void)
+ {
+ 	test_kstrtoull_ok();
+@@ -729,6 +905,12 @@ static int __init test_kstrtox_init(void)
+ 	test_kstrtou8_fail();
+ 	test_kstrtos8_ok();
+ 	test_kstrtos8_fail();
++
++	test_kstrtoudec64_ok();
++	test_kstrtoudec64_fail();
++	test_kstrtodec64_ok();
++	test_kstrtodec64_fail();
++
+ 	return -EINVAL;
+ }
+ module_init(test_kstrtox_init);
 
-Changes in v12:
-- Contraint charge pump current.
-- Fix division-by-zero issues.
-- Address PM and sysfs powerdown conflicts.
-- Program proper phase resync value in clk divider mode.
-- Link to v11: https://lore.kernel.org/r/20260506-adf41513-iio-driver-v11-0-2b7e99cfe8f2@analog.com
-
-Changes in v11:
-- Cleanup ext info attribute read/write callbacks.
-- Adjust attribute names in the documentation.
-- Turn s64 compose macros into static inline functions.
-- Link to v10: https://lore.kernel.org/r/20260415-adf41513-iio-driver-v10-0-df61046d5457@analog.com
-
-Changes in v10:
-- Drop simple_strntoull() changes
-- Create kstrtodec64() and kstrtoudec64() helpers. 
-- Add IIO value format for 64-bit decimal values.
-- PLL driver code implements new decimal format for frequency attr. 
-- Link to v9: https://lore.kernel.org/r/20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com
-
-Changes in v9:
-- Expose simple_strntoull() in a safer prototype instead of new kstrntoull()
-- Link to v8: https://lore.kernel.org/r/20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com
-
-Changes in v8:
-- Add new function kstrntoull() to lib/kstrtox.c and tests to lib/test-kstrtox.c.
-- Drop custom iio u64 parser, replacing it for kstrntoull().
-- Dedicated MAINTAINERS entry for drivers/iio/test/iio-test-fixpoint-parse.c.
-- Link to v7: https://lore.kernel.org/r/20260216-adf41513-iio-driver-v7-0-b0ed387ab559@analog.com
-
-Changes in v7:
-- Addressed minor suggestions.
-- frequency_resolution ABI for AD4350 removed in favor of generic one.
-- Link to v6: https://lore.kernel.org/r/20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com
-
-Changes in v6:
-- Drop usage of simple_strtoull().
-- Implement better overflow checks with iio_safe_strntou64().
-- Link to v5: https://lore.kernel.org/r/20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com
-
-Changes in v5:
-- Drop local parsing of 64-bit plus fractional parts
-- Add iio_str_to_fixpoint64() to iio core with parsing tests
-- Add DT property dependency for adi,charge-pump-resistor-ohms
-- Add local definition for ADF41513_HZ_PER_GHZ and drop units.h patch
-- Link to v4: https://lore.kernel.org/r/20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com
-
-Changes in v4:
-- Proper usage of units.h macros
-- Simplifications to DT property parsing
-- Adjustments to return value handling
-- Drop of simple DT property node example
-- Link to v3: https://lore.kernel.org/r/20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com
-
-Changes in v3:
-- Use FIELD_MODIFY macro in driver implementation
-- Drop refin_frequency iio attribute
-- Drop muxout-select property from dt-bindings (and rename logic-level property)
-- Use -mhz suffix in power-up frequency property
-- Address documentation issues
-- Link to v2: https://lore.kernel.org/r/20251219-adf41513-iio-driver-v2-0-be29a83d5793@analog.com
-
-Changes in v2:
-- separate driver implementation from extra features and improve commit messages
-- use macros from units.h
-- explanation of custom parse function: adf41513_parse_uhz
-- reorganize driver data structures
-- drop clock framework support for now
-- reorganize documentation
-- Link to v1: https://lore.kernel.org/r/20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com
-
----
-Rodrigo Alencar (12):
-      dt-bindings: iio: frequency: add adf41513
-      lib: kstrtox: add local _parse_integer_limit_init() helper
-      lib: kstrtox: add kstrtoudec64() and kstrtodec64()
-      lib: test-kstrtox: tests for kstrtodec64() and kstrtoudec64()
-      lib: math: div64: add div64_s64_rem()
-      iio: core: add decimal value formatting into 64-bit value
-      iio: test: iio-test-format: add test case for decimal format
-      iio: frequency: adf41513: driver implementation
-      iio: frequency: adf41513: handle LE synchronization feature
-      iio: frequency: adf41513: features on frequency change
-      docs: iio: add documentation for adf41513 driver
-      Documentation: ABI: testing: add common ABI file for iio/frequency
-
- Documentation/ABI/testing/sysfs-bus-iio-frequency  |   11 +
- .../ABI/testing/sysfs-bus-iio-frequency-adf4350    |   10 -
- .../bindings/iio/frequency/adi,adf41513.yaml       |  227 ++++
- Documentation/iio/adf41513.rst                     |  199 ++++
- Documentation/iio/index.rst                        |    1 +
- MAINTAINERS                                        |    9 +
- drivers/iio/frequency/Kconfig                      |   10 +
- drivers/iio/frequency/Makefile                     |    1 +
- drivers/iio/frequency/adf41513.c                   | 1246 ++++++++++++++++++++
- drivers/iio/industrialio-core.c                    |   47 +-
- drivers/iio/test/iio-test-format.c                 |   97 +-
- include/linux/iio/types.h                          |   30 +
- include/linux/kstrtox.h                            |    3 +
- include/linux/math64.h                             |   18 +
- lib/kstrtox.c                                      |  141 ++-
- lib/math/div64.c                                   |   15 +
- lib/test-kstrtox.c                                 |  182 +++
- 17 files changed, 2193 insertions(+), 54 deletions(-)
----
-base-commit: 1548c54e9adc32a719499216f63fba14b2fc07c3
-change-id: 20251110-adf41513-iio-driver-aaca8a7f808e
-
-Best regards,
 -- 
-Rodrigo Alencar <rodrigo.alencar@analog.com>
+2.43.0
 
 
