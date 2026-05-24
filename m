@@ -1,116 +1,133 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from flow-b8-smtp.messagingengine.com (flow-b8-smtp.messagingengine.com [202.12.124.143])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2BD33D6E6;
-	Sat, 23 May 2026 19:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779565765; cv=pass; b=jVsR8RU3X/tsTUwxk8tK702T1CRAQ83Iu1KnilemqAmS8Rkbc7MQLRWqoQhQAnMfLdgzjJplCYBOGFDuw6gCI0CoWmV8VHMpinb3hyXTnMPuHYCF547GbMVbG4dUyI+1QMsYyPceIehWEOyrzFTsYOYGx2pbMSDfTlsc2RTnjx0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779565765; c=relaxed/simple;
-	bh=SzB+VQqu5xtkzjb34ltqNeBCTQdZiV9iNLlZ/29ra6g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=alFyKhkYxyXtQ4moAy1TnQYMfeHpZu7KiB/7jFcTZTMnjK2UZo4U5f9To+edtcF+e9An2OjXUaHEgwSGJlGrmd/Jr+KG9cNS57HxxWVh0+lgB/qYQsKmwCqjCsfKIcp+n8m9kbPof7ADkNta/5KT46B6hzmzGsXGtHyA7WTNOWE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=DHJpKuP0; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083EEE555;
+	Sun, 24 May 2026 00:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.143
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779581298; cv=none; b=S4hBtfvxIZvi+qPzaORzzz5Dkjf1is6iJlBhFL1NiOHzULD5h8QHXVMMmQUstX2ghaz6hw39fGQVx6wT5poZLlojqPx5yMaNZkuVvF9Ht/O6NI1qBuTwjg94WlAqJ+orsdwwWBtsPbKEEt+U3gkkPpbMH0+soBi/NbM70WGA3Ww=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779581298; c=relaxed/simple;
+	bh=ibOXMmyPy1OAlADs6YJhAT6SpQm5cY3R9sMM7pbe7A0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eMe6+63QAEl5gT5goUS+HWTQwYoBC+Cd6yUf6kCSvacIZgifG4GPLUKVeT69W+GZkhhdLyleD3Njk/P4z6UVXKKn1u6WDWp2xmX2xUDDmPrcsSb6HGYab/lzwnsXlrCgxTEMlWKmxKWfLT/0ynaSQIAFX63xHgnX72DUClYcfJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=Gz2Mjnyy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=P66W112j; arc=none smtp.client-ip=202.12.124.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="DHJpKuP0"
-ARC-Seal: i=1; a=rsa-sha256; t=1779565726; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YivRdyVdIUyefuyRo7wM018X8HLm1qVWQ9Hbl73R7Qb+sM4fwrqfQrccVXONNbNPudCu7CKKmlAOXzUTpT3sYqzgzK4coTMRVxwOxEOOA8US0QS1MMiUZ87iugfBWw7V8SKrB7P0T/JejsY0OyEEyyoGsUW7R/bqVUzYM+a4fLo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1779565726; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=26EFTuIhlqnsc4uUzyuaHx+9wSdJArl+zaLC9veBaX4=; 
-	b=BXYniJO0Clx+DFYzVCJmbmcziRtNTI6T9eHiSp+LkDpp3YMyKJC/arcT1M2JJFUSpyD6zNlVOpiLO5JKxnHQyizdwMcLLRs/TsjYRPO00CxyqBxwH8p6mRKnVvWo/Vd2OyxzMuSVBt2TZXV7oNIjQeaeAKlR+wxIk39hOsLdrpY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779565726;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=26EFTuIhlqnsc4uUzyuaHx+9wSdJArl+zaLC9veBaX4=;
-	b=DHJpKuP0sXDC1x7Nl/iQacLFQF9x8ET0NvL/bls/uu+59nJ9K7HxFhCJAKCosk3o
-	Ck9w5iITProSiAUZVc8NkadC5s7XzRbD/IHjRW5WWH4gjcaqojvM6UreaNhIdQHEJ7E
-	lJlHd5ZnXFDWpvR5Cj5oNOif8XII3xByZGWaQFlQ=
-Received: by mx.zohomail.com with SMTPS id 177956572445825.918389143356876;
-	Sat, 23 May 2026 12:48:44 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Sat, 23 May 2026 21:44:03 +0200
-Subject: [PATCH v16 28/28] drm/connector: Update docs of "colorspace" for
- color format prop
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="Gz2Mjnyy";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="P66W112j"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailflow.stl.internal (Postfix) with ESMTP id 932CD130006C;
+	Sat, 23 May 2026 20:08:13 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Sat, 23 May 2026 20:08:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1779581293; x=
+	1779588493; bh=bOW3L8R72QTY5Nd5WS70HCXZ0iclOnm9lq7EioHVhjE=; b=G
+	z2Mjnyy3ZUQAyP+kZpFy4wEXbtv0zxxnMI6FV69F+8GKCYhtKaiDlsMJG7jY9awP
+	odBNaWeImYySll7F/C1d34/zqHhu+qsMrTtmOfbsxdZk+hayWEt6AoBrYTPQH26d
+	aeHldZrblVRhSCJu147s35HSgt7FXr6ofwCOTH0r5Sd2fWvcBSYwbC5sKbZZpowV
+	ekwysBPN/34GBSaXKCFJDSkLrv3Iierrpn8VldIcS5bRmtl85SmCKBI2RG6vbs4O
+	Vn1Y2uSKbdFZ3VIv7kmp/puc9kRBTQZLpCg0x969TJJr/DdmwZ0AAF8EoW2zo3jv
+	ILqCxHY2SrYJbagitsVgw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1779581293; x=1779588493; bh=bOW3L8R72QTY5Nd5WS70HCXZ0iclOnm9lq7
+	EioHVhjE=; b=P66W112jOXxtTt1/jIy4NYcASQN652h2lmLJHJxnzyIkd6LSDHS
+	q+9rbiNxvG0zVVExqVdFthlE4GioU4qqIFcKXHiaR/ZevjEkAZruUCSxUTLx9nUS
+	cg7LdRV0lxscEx2CiIFFFjre5ByxgXPsrviUlnoNTeMR35vDjoblNmgyNMoiGl48
+	CLN2lJbQq+P+WvI0Y6u6pKkkvK/W3dOm4rc81VUKX2ExdlVi/+M0r6LBJZRvTzq/
+	PLlHafce62O8Ae7clkqIbWNoHKA6fOdUzOnzQj85aZPxpbVOdw4X1svwMWxcCetE
+	S57k0MBOGDhp7iwPkzeynimC1BgTWRIXdpg==
+X-ME-Sender: <xms:bEESaughE1L8wNAw6-Tboi_OTEbrkiBPfWphC1gVg1RQ0KrCDmoFUw>
+    <xme:bEESatfw7OYcKZuldoKZDe_ZkA6LtlHFpKmNTkcclHawnla2-c5qAYXlfJUrW4bl2
+    DH3PD5U6wdkFSy4Vq9eVmGtMo2rnyzUuOfqrBnmoc4fvupH3E7v704>
+X-ME-Received: <xmr:bEESatM85Kp8Ys-ayUtcBSyAEHje2dFDj7owp50PnBRNkrl7PRqsbpsYMjNjZw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduheeggeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttdertd
+    dttddvnecuhfhrohhmpefmihhrhihlucfuhhhuthhsvghmrghuuceokhhirhhilhhlsehs
+    hhhuthgvmhhovhdrnhgrmhgvqeenucggtffrrghtthgvrhhnpeeiveekgedugeetjefgue
+    egjeejkeetvdeuvdeifffftdfhvedvffeuieegleegvdenucffohhmrghinhepkhgvrhhn
+    vghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgvpdhnsggprhgtphhtthhopeeh
+    tddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhg
+    pdhrtghpthhtohepphgvthgvrhigsehrvgguhhgrthdrtghomhdprhgtphhtthhopegurg
+    hvihgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehljhhssehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehsuhhrvghnsgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepvh
+    gsrggskhgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihgrmhdrhhhofihlvght
+    thesohhrrggtlhgvrdgtohhmpdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhm
+X-ME-Proxy: <xmx:bEESaq0skpAwg1PDaGi8DjW_QLmZtPVZCUawJOQjS0k8IqvCgw_WBA>
+    <xmx:bEESavKPwDlFOe7kGEZEbtj_Uc_XsLeXS-q16eVt-Aw1hmkTnjbnZQ>
+    <xmx:bEESajZrCvLqVpD38kQ94zW1JHxmFlUZkVDJOddnEjnU-6y2pADqmQ>
+    <xmx:bEESagnduI5E4gsBSx_8kraDKWUi1jSseknqfEBu3ikHn6oihztVYw>
+    <xmx:bUESahUyLmGaTkuebIyTdGRJozup0-YDPiaBE8kJpo5RZGkYcDDzF81d>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 23 May 2026 20:08:12 -0400 (EDT)
+Date: Sun, 24 May 2026 01:08:11 +0100
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: akpm@linux-foundation.org, peterx@redhat.com, david@kernel.org, 
+	ljs@kernel.org, surenb@google.com, vbabka@kernel.org, Liam.Howlett@oracle.com, 
+	ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com, 
+	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, sj@kernel.org, 
+	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
+	kernel-team@meta.com, linux-man@vger.kernel.org, alx@kernel.org
+Subject: Re: [PATCH v3 15/16] userfaultfd.2: Add read-write protect mode
+Message-ID: <ahJBTaobKD9XdT33@thinkstation>
+References: <20260522133857.552279-1-kirill@shutemov.name>
+ <20260522133857.552279-16-kirill@shutemov.name>
+ <ahGDbKr2u6sqoc3f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260523-color-format-v16-28-24340c5e4732@collabora.com>
-References: <20260523-color-format-v16-0-24340c5e4732@collabora.com>
-In-Reply-To: <20260523-color-format-v16-0-24340c5e4732@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Daniel Stone <daniel@fooishbar.org>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.15.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ahGDbKr2u6sqoc3f@kernel.org>
 
-The colorspace property's documentation states that BT2020_RGB and
-BT2020_YCC are equivalent, and the output format depends on the driver.
+On Sat, May 23, 2026 at 01:37:32PM +0300, Mike Rapoport wrote:
+> On Fri, May 22, 2026 at 02:38:56PM +0100, Kiryl Shutsemau wrote:
+> > From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+> > 
+> > Read-write protect mode (UFFDIO_REGISTER_MODE_RWP) is supported starting
+> > from Linux 7.2. It traps every access -- read or write -- to a present
+> > page within a registered range. The matching UAPI consists of:
+> > 
+> >   - UFFDIO_REGISTER_MODE_RWP   registration-mode bit
+> >   - UFFD_FEATURE_RWP           capability bit
+> >   - UFFD_FEATURE_RWP_ASYNC     async (in-kernel) fault resolution
+> >   - UFFDIO_RWPROTECT           install / remove RWP on a range
+> >   - UFFDIO_SET_MODE            runtime sync/async toggle
+> >   - UFFD_PAGEFAULT_FLAG_RWP    new pagefault.flags bit
+> > 
+> > Document the new registration-mode entry, the "Userfaultfd read-write
+> > protect mode" section, the new pagefault flag, and a VERSIONS line.
+> > 
+> > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> > ---
+> >  man2/userfaultfd.2 | 147 ++++++++++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 146 insertions(+), 1 deletion(-)
+> 
+> This doesn't apply to the current man-pages tree
+> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+> 
+> and reading raw groff hurts eyes too much.
+> 
+> What linux-man tree did you use to generate those?
 
-Now that there is a "color format" property that userspace can use to
-explicitly set a format, update the colorspace docs to mention this.
-
-The behaviour here is not changed for userspace that doesn't know about
-the color format property yet, as the color format property defaults to
-"AUTO", where the choice of output format is left up to drivers.
-
-Reviewed-by: Daniel Stone <daniel@fooishbar.org>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/drm_connector.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index b91c1f76355e..52f9a6a8daf7 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2573,7 +2573,8 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_property);
-  *		conversion matrix and convert to the appropriate quantization
-  *		range.
-  *		The variants BT2020_RGB and BT2020_YCC are equivalent and the
-- *		driver chooses between RGB and YCbCr on its own.
-+ *		driver chooses between RGB and YCbCr based on the color format
-+ *		property.
-  *
-  *	SMPTE_170M_YCC:
-  *	BT709_YCC:
+Ughh.. Used old github mirror. Will rebase.
 
 -- 
-2.54.0
-
+  Kiryl Shutsemau / Kirill A. Shutemov
