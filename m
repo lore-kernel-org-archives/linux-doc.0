@@ -1,151 +1,303 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FE53E3C5A
-	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 09:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8BD33F5AE;
+	Mon, 25 May 2026 10:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779701088; cv=none; b=vEFw3JHsK/ysbFPSbuLrZUJJra7YEbG27U8/2eAipScvzic4meuIKKlcHyaN/pMesjNPbfJfVozA4PWOj8b8g6PfUHPyM06nX7KiOl/3lqG3//7LqWCoq0UepvDowlUo6R+ELop2J6L+O2GpW5Ha98UNlkcvUwof34jxdCCfc8k=
+	t=1779703813; cv=none; b=h4rJ1K25sIebR6x0yhU4lqJppeBa2pRvAzrEtArskQXD7cvvux17ogU0+a+wZXLkkJtXim0g3VBZM168B57rcxNPbMfCmNNSWKcPw0bPXysn9MHKG3jOJ15av0M8oxsCFM5saHOdxV3yAHtRtf5aptRpZGjGOgqWRg84VBQb0k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779701088; c=relaxed/simple;
-	bh=Usv9zpYi4do2lifC/zfE8nnMvp61yptX2XkYnVZEyU4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VqjVIWqKTh2yiaSgzDkiiDom5SwaekHCUfJMU5paIcqZPlEywBD1PzKn05cY7E6sFUbqlmGrke5GaT2+BAhEUZasawjJHh1b4rjea6j/1GvwF+HJ1FACKVtyxGEf9dGMKiy0cP6Nxfi3K8dCoxsb3QtNpxY3ojTd1ZyUPFAPM2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=GVaBy0+a; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1779703813; c=relaxed/simple;
+	bh=sCoIkMZrQKZqpqiSlqV0xKJ4w5uGKSmTk1wzZeLidXw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=dNXXsT0zYI3FnYv6bc1J0170NH6GeeGr/rY14+uqUBeVkBdPwLYfPt7bTopTTj/nca+xoLwJyNxJCFYZXaQPSBpRbJSkL+2omNuDJf9WDoxmjtGGdCklMBC4RQRz1nMQ36ME70mz8ffLdv3GqgmOu3ZIFk+HzFmEDsltNER1wgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=idoxYYKW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="GVaBy0+a"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43d7645adbdso5989847f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 02:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1779701084; x=1780305884; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dXIop8scfYA59+iIi8F9PKH/sL+IWlJPcxqiOfC7myM=;
-        b=GVaBy0+al/3PPx4qotsRTWKFITYfcIsLX9GnH91MlkDd+F5uUyBXskAyv9Z+pCrPbp
-         WsDIheZgEkK4oIMUK+xU7hqwaFWEHTVZJxlo8H8wmZUBeKl/o6HlBWVJNBgSM3W++joU
-         NG+qE3LCcnk5lpC7jDWvC0IQDSwFd/DadFbl16wYuLEOodshw/HKzOkOvW5lEeocAFUg
-         y7Sb3MT64pW6sAdB3RrntmfgvGfIk1XdXsKfLTaENamM9bhWXZqdnTi/+4JisqaoWayR
-         UpKJz3Ldt2uzmzN/WA0ALeDIbB4w76qzkmYffZnHX6wiWMbVjCZT66HWlhjBoZ166Nju
-         qlfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779701084; x=1780305884;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dXIop8scfYA59+iIi8F9PKH/sL+IWlJPcxqiOfC7myM=;
-        b=BwGeFBhZvRMU9KGJzOzeNWelRKV3xFSjhwxxr/xRWI224Rt8QJXMzi0nmHH4LuMIcC
-         r5yBDI7+rWYCnbI8n1Ohwl0TpJlytxXuvtVUsF3ZRkBG/9grbR8SGM1/m9399M6AnuTf
-         TK8esO2Sh7ELSUnrI6MbkMw3dNlwxey7lcqRIuuSIvY2J/lvTe5hfUw6rrn34r/lji3w
-         8gUb+mkIarGEUuRb1YU+Gzx3kI6hFNLV2606XXnZXdYCpqj6+f11MYSDiFdnq4Tz4/iD
-         T7mAgAhos35tf8LstIOibzD9r9cYg2sELqSzlK/gx7bp1iHp55ndCOdcm6K25pZlcPU7
-         lmFg==
-X-Forwarded-Encrypted: i=1; AFNElJ/W5axZ3Xhz79c3HzvHWeK/ibtfRPpoAJ2HpXnJ071Nuja+duq7ViZabojiFHGS8/DXxMqabfF4PBk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz9mM90EGiawCKco3KnQM0HM4PAcBnPoFdM4uqI/1AYVOqGO6i
-	NmBOlRLQthqsQX7fKPgdgHlVPPTsWDxhjuX27tZYsS3dPZIJqrksx5jXMhW6xrhqA6c=
-X-Gm-Gg: Acq92OHyKp1CR+ptp6aNNeUBCT0SD6S0d8qeLacPK5lRM7czq6F27lgw+6OF21zkm+g
-	zAsO/vISwNFIkztAmQeYf4AH+rkUOyU5+QtRfcvxbbmxQy2Fr6VnRTbnahZBSWRdpAKcNbXMHPY
-	Esx5bf+4tKvFlEw4IlZnVwbxBQpvWULK6VePiEGm5FiZHdFiERO7jKkw+gD7djdJE9sLzCd9HfN
-	6ZOcjb3R9fn0LFj31DA/ZkYQvz3vWSZA3yCr/PodSdGzV8ahdmfKTRMguSPYQYX5TDAy8u9+WW9
-	+Dfem5jMwIoZwkTz8bH4EEnjBHk4FvR1c0jPs4M/9x3YKFM7CFIFRKVBCXK4IZ5Vn1jj3E8aLnB
-	kpkgNSSyUCY3YDS5kQyHslrLC8Rx7X/Vj2yjwGicCL0vB7HseOhshrDghPupyNgT3cTLXwIpeWB
-	7HEdtdNQ04FiENbr6TII2Blk6FUIwxIxvIh88NdYLoQ5hHUNPApuAQ955tueAvJkd85CMH9L5ZF
-	cMZXoX3D3Ov6fBUrGeXnaY81CCi5BPnOmLpbfkJ0QwvSJ2+P4ESAIHIoM+5t0cD/o1MUA==
-X-Received: by 2002:a05:6000:4b04:b0:45e:9420:ed16 with SMTP id ffacd0b85a97d-45eb38b0045mr22939460f8f.10.1779701084065;
-        Mon, 25 May 2026 02:24:44 -0700 (PDT)
-Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6c9f598sm26426853f8f.6.2026.05.25.02.24.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 May 2026 02:24:43 -0700 (PDT)
-Message-ID: <ba0135a1-f03b-433f-96d0-39665bca1557@suse.com>
-Date: Mon, 25 May 2026 11:24:42 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="idoxYYKW"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F1345C2BCB7;
+	Mon, 25 May 2026 10:10:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779703813;
+	bh=sCoIkMZrQKZqpqiSlqV0xKJ4w5uGKSmTk1wzZeLidXw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=idoxYYKWasylnANEwpyGcS6QZpxCJt/VmDHYsocoK3VGvG4n7hOc+AOD8GYoiYchf
+	 jF04tD3e153kO4Q4MWNWH1fgnfpC+kBUUqm7UqwfRSQq3/iTHG/YJsAZfnCqiaFkxH
+	 2sJrzH71YJxp+3sMucSVH/C3deNCEnxkM87C8lk51xS7OHHq0Q6F/qkl08Ai0+Ooxp
+	 7hZ1U2y1qiuHe+PqrRCmLXxWvzjhzAeHgejrJWsZ4ptoCDd1gayKUaKuP/wVijHHEh
+	 O0KYekIUr9YoDO9QVdPA0Nh4flwCJnAkpf2ytvIGiAXVS9XMqmSQLXnHIZ+it5Mu3y
+	 s6l5HKE7olrPA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D83E6CD5BC8;
+	Mon, 25 May 2026 10:10:12 +0000 (UTC)
+From: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Date: Mon, 25 May 2026 13:10:10 +0300
+Subject: [PATCH v13 1/6] dt-bindings: iio: adc: add AD4691 family
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 19/24] dyndbg,module: make proper substructs in
- _ddebug_info
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Arnd Bergmann <arnd@arndb.de>, Jason Baron <jbaron@akamai.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
-References: <20260523-dd-maint-2-v2-0-b937312aa083@gmail.com>
- <20260523-dd-maint-2-v2-19-b937312aa083@gmail.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260523-dd-maint-2-v2-19-b937312aa083@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260525-ad4692-multichannel-sar-adc-driver-v13-1-1b7626d3b35c@analog.com>
+References: <20260525-ad4692-multichannel-sar-adc-driver-v13-0-1b7626d3b35c@analog.com>
+In-Reply-To: <20260525-ad4692-multichannel-sar-adc-driver-v13-0-1b7626d3b35c@analog.com>
+To: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Radu Sabau <radu.sabau@analog.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779703810; l=6714;
+ i=radu.sabau@analog.com; s=20260220; h=from:subject:message-id;
+ bh=2rK1sDwnL7PyjX6fLx0cJ4e5bVyRij/XtrvE54Bw3PE=;
+ b=HNp4xVI/zStGclQ6eQU/JRP2AY/J/jSO+MJqzG1veOzgGn8VirKzrsYlU0M6ru06tl9a9qTNo
+ hHIpAyxnOnlC3wuyVrv5EZYT1k0tmzL0lYvIIkPRWrR86SlrUwU4NkP
+X-Developer-Key: i=radu.sabau@analog.com; a=ed25519;
+ pk=lDPQHgn9jTdt0vo58Na9lLxLaE2mb330if71Cn+EvFU=
+X-Endpoint-Received: by B4 Relay for radu.sabau@analog.com/20260220 with
+ auth_id=642
+X-Original-From: Radu Sabau <radu.sabau@analog.com>
+Reply-To: radu.sabau@analog.com
 
-On 5/23/26 9:14 AM, Jim Cromie wrote:
-> recompose struct _ddebug_info, inserting proper sub-structs.
-> 
-> The struct _ddebug_info has 2 pairs of _vec, num_##_vec fields, for
-> descs and classes respectively.  for_subvec() makes walking these
-> vectors less cumbersome, now lets move those field pairs into their
-> own "vec" structs: _ddebug_descs & _ddebug_class_maps, and re-compose
-> struct _ddebug_info to contain them cleanly.  This also lets us get
-> rid of for_subvec()'s num_##_vec paste-up.
-> 
-> Also recompose struct ddebug_table to contain a _ddebug_info.  This
-> reinforces its use as a cursor into relevant data for a builtin
-> module, and access to the full _ddebug state for modules.
-> 
-> NOTES:
-> 
-> Fixup names: Normalize all struct names to "struct _ddebug_*"
-> eliminating the minor/stupid variations created in classmaps-v1.
-> 
-> Invariant: These vectors ref a contiguous subrange of __section memory
-> in builtin/DATA or in loadable modules via mod->dyndbg_info; with
-> guaranteed life-time for us.
-> 
-> struct module contains a _ddebug_info field and module/main.c sets it
-> up, so that gets adjusted rather obviously.
-> 
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
-> [...]
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index 46dd8d25a605..c2b6e70f2e77 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -2774,12 +2774,12 @@ static int find_module_sections(struct module *mod, struct load_info *info)
->  		pr_warn("%s: Ignoring obsolete parameters\n", mod->name);
->  
->  #ifdef CONFIG_DYNAMIC_DEBUG_CORE
-> -	mod->dyndbg_info.descs = section_objs(info, "__dyndbg",
-> -					      sizeof(*mod->dyndbg_info.descs),
-> -					      &mod->dyndbg_info.num_descs);
-> -	mod->dyndbg_info.classes = section_objs(info, "__dyndbg_classes",
-> -						sizeof(*mod->dyndbg_info.classes),
-> -						&mod->dyndbg_info.num_classes);
-> +	mod->dyndbg_info.descs.start = section_objs(info, "__dyndbg_descriptors",
-> +						    sizeof(*mod->dyndbg_info.descs.start),
-> +						    &mod->dyndbg_info.descs.len);
-> +	mod->dyndbg_info.maps.start = section_objs(info, "__dyndbg_class_maps",
-> +						   sizeof(*mod->dyndbg_info.maps.start),
-> +						   &mod->dyndbg_info.maps.len);
->  #endif
->  
->  	return 0;
+From: Radu Sabau <radu.sabau@analog.com>
 
-The update changes the names of dyndbg sections that the module loader
-looks up. However, the actual rename is not done until patch 24. It
-would be good to clean this up to avoid potential bisection issues.
+Add DT bindings for the Analog Devices AD4691 family of multichannel
+SAR ADCs (AD4691, AD4692, AD4693, AD4694).
+
+The four variants are not compatible with each other: AD4691/AD4692 have
+16 analog input channels while AD4693/AD4694 have 8, and AD4691/AD4693
+top out at 500 kSPS while AD4692/AD4694 reach 1 MSPS. These differences
+in channel count and maximum sample rate require distinct compatible
+strings so the driver can select the correct channel configuration and
+rate limits.
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+---
+ .../devicetree/bindings/iio/adc/adi,ad4691.yaml    | 180 +++++++++++++++++++++
+ MAINTAINERS                                        |   7 +
+ 2 files changed, 187 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
+new file mode 100644
+index 000000000000..af28a0c1cfa9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
+@@ -0,0 +1,180 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/adc/adi,ad4691.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices AD4691 Family Multichannel SAR ADCs
++
++maintainers:
++  - Radu Sabau <radu.sabau@analog.com>
++
++description: |
++  The AD4691 family are high-speed, low-power, multichannel successive
++  approximation register (SAR) analog-to-digital converters (ADCs) with
++  an SPI-compatible serial interface. The ADC supports CNV Burst Mode,
++  where an external PWM drives the CNV pin, and Manual Mode, where CNV
++  is directly tied to the SPI chip-select.
++
++  Datasheets:
++    * https://www.analog.com/en/products/ad4691.html
++    * https://www.analog.com/en/products/ad4692.html
++    * https://www.analog.com/en/products/ad4693.html
++    * https://www.analog.com/en/products/ad4694.html
++
++$ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    enum:
++      - adi,ad4691
++      - adi,ad4692
++      - adi,ad4693
++      - adi,ad4694
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 40000000
++
++  spi-cpol: true
++  spi-cpha: true
++
++  avdd-supply:
++    description: Analog power supply (4.5V to 5.5V).
++
++  vdd-supply:
++    description:
++      External 1.8V digital core supply. When present, the internal LDO is
++      disabled (LDO_EN = 0). Mutually exclusive with ldo-in-supply.
++
++  ldo-in-supply:
++    description:
++      LDO input supply (2.4V to 5.5V). When present and vdd-supply is absent,
++      the internal LDO generates 1.8V VDD from this input (LDO_EN = 1).
++      Mutually exclusive with vdd-supply.
++
++  vio-supply:
++    description: I/O voltage supply (1.71V to 1.89V or VDD).
++
++  ref-supply:
++    description: External reference voltage supply (2.4V to 5.25V).
++
++  refin-supply:
++    description: Internal reference buffer input supply.
++
++  reset-gpios:
++    description:
++      GPIO line controlling the hardware reset pin (active-low).
++    maxItems: 1
++
++  pwms:
++    description:
++      PWM connected to the CNV pin. When present, selects CNV Burst Mode where
++      the PWM drives the conversion rate. When absent, Manual Mode is used
++      (CNV tied to SPI CS).
++    maxItems: 1
++
++  interrupts:
++    description:
++      Interrupt lines connected to the ADC GP pins. Each GP pin can be
++      physically wired to an interrupt-capable input on the SoC.
++    maxItems: 4
++
++  interrupt-names:
++    description: Names of the interrupt lines, matching the GP pin names.
++    minItems: 1
++    maxItems: 4
++    items:
++      enum:
++        - gp0
++        - gp1
++        - gp2
++        - gp3
++
++  gpio-controller: true
++
++  '#gpio-cells':
++    const: 2
++
++  '#trigger-source-cells':
++    description:
++      This node can act as a trigger source. The single cell in a consumer
++      reference specifies the GP pin number (0-3) used as the trigger output.
++    const: 1
++
++required:
++  - compatible
++  - reg
++  - avdd-supply
++  - vio-supply
++
++allOf:
++  # vdd-supply and ldo-in-supply are mutually exclusive, one is required:
++  # either an external 1.8V VDD is provided or the internal LDO is fed from
++  # ldo-in-supply to generate VDD.
++  - oneOf:
++      - required:
++          - vdd-supply
++      - required:
++          - ldo-in-supply
++  # ref-supply and refin-supply are mutually exclusive, one is required
++  - oneOf:
++      - required:
++          - ref-supply
++      - required:
++          - refin-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    /* AD4692 in CNV Burst Mode with SPI offload */
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        adc@0 {
++            compatible = "adi,ad4692";
++            reg = <0>;
++            spi-cpol;
++            spi-cpha;
++            spi-max-frequency = <40000000>;
++
++            avdd-supply = <&avdd_supply>;
++            ldo-in-supply = <&avdd_supply>;
++            vio-supply = <&vio_supply>;
++            ref-supply = <&ref_5v>;
++
++            reset-gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
++
++            pwms = <&pwm_gen 0 0>;
++
++            #trigger-source-cells = <1>;
++        };
++    };
++
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    /* AD4692 in Manual Mode (CNV tied to SPI CS) */
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        adc@0 {
++            compatible = "adi,ad4692";
++            reg = <0>;
++            spi-cpol;
++            spi-cpha;
++            spi-max-frequency = <31250000>;
++
++            avdd-supply = <&avdd_supply>;
++            ldo-in-supply = <&avdd_supply>;
++            vio-supply = <&vio_supply>;
++            refin-supply = <&refin_supply>;
++
++            reset-gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c2c6d79275c6..7d31c38921e8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1482,6 +1482,13 @@ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/devicetree/bindings/iio/adc/adi,ad4170-4.yaml
+ F:	drivers/iio/adc/ad4170-4.c
+ 
++ANALOG DEVICES INC AD4691 DRIVER
++M:	Radu Sabau <radu.sabau@analog.com>
++L:	linux-iio@vger.kernel.org
++S:	Supported
++W:	https://ez.analog.com/linux-software-drivers
++F:	Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
++
+ ANALOG DEVICES INC AD4695 DRIVER
+ M:	Michael Hennerich <michael.hennerich@analog.com>
+ M:	Nuno Sá <nuno.sa@analog.com>
 
 -- 
-Thanks,
-Petr
+2.43.0
+
+
