@@ -1,40 +1,40 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914DF1FC7FB
-	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 02:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF2919D8A8
+	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 03:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779675656; cv=none; b=dw2ifHL8BhwKKubEtIMBRyqhrdwdh7CuaHZWPC2+fGI0e8LFkytCuBBWNkwNIl4KivypU4RJtQDU6XVFLfBQGBe7Pv2NcIHMWCV48XtRRQCK0Vu8R0tZSNuOPQsUg9GYaEmQU/GC5HM72QUzB9hVljJn1rfxigYg+SNdoEieN8E=
+	t=1779678049; cv=none; b=SnIjCHwNSELiZp+1K0bqlplyBPwQ0rI9LwBL6amH15hPlOUe3151rfLK1/NcQPEujV7PJTQaa2utonMlv6NP/wb5yv7ccx/GTPBz+2brMu7Uh0JA3oIVR2bfztOwgMxmdL5WAg5iOPPmXGJKZqbIz/k9i/POttw7/BTu+ciiooo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779675656; c=relaxed/simple;
-	bh=83Ax9wk0TAskrP/WWtDWI5922H1rPuPaMno0UeEYCPQ=;
+	s=arc-20240116; t=1779678049; c=relaxed/simple;
+	bh=3MY7N95JCk7amtourd9Vmk/l4tLv6TWs739xKXOavZs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PjKuA0hIPGhAiEi6zUR7hvWSbgg2T7d696x/6WtH1VLEG6koapqUqGbff7RBqTIQPJuxO6U18JAnOqSYSFi57zzMjD/pPbLrMsQrklBVBO8xiyyGHyHz/Quj5b5YsjijBTevbadsEtdW+ftpcAd5FI0daX+Yj8QC8CQN2lwwZNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JJ5IzaFU; arc=none smtp.client-ip=95.215.58.170
+	 In-Reply-To:Content-Type; b=b3PAFlknOJ5SHAsB9kLtzteYg+nK8YK4nC0P/FzC1Qb5KS1w+96mu0MwFOvVHLB9R+aUEWYzIkNYJy7Z1Y4ZLMTTMZPD1k2P1Khn5J6YN1mORRnkQ4P7hTTn/NyD4GW/duczP4+R/x7IypBomjzJ++jJ/tgi0xBmsquQH0qwcBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PADIikT6; arc=none smtp.client-ip=91.218.175.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JJ5IzaFU"
-Message-ID: <e878da5b-6426-4bc0-924c-ecda72e08813@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PADIikT6"
+Message-ID: <aba73999-dc29-45c1-b6cd-54a7c1b824fa@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779675651;
+	t=1779678043;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=72J63drG56sfRi5dGjQE8gXc5sOOPTrEY6cYtD2rlWM=;
-	b=JJ5IzaFUQFKP13CMr/Kkf7tfqcXixlihUa0HcNKOiyZF9Cmurdwaim43b4jWQ+yUbD1N2Q
-	ZTXBrMQzjQHtFATKgjDiUZjMNlk1L2FCj5ZQlQYWDqt2sERfBHWFV78CpM5inoL+RDbPIS
-	hJPgrL80k6+v/4LYXiW4FoVKv+EqeFQ=
-Date: Mon, 25 May 2026 10:20:01 +0800
+	bh=L/vfFUAUvvzoN2lU2+u7hA3dbwyNyJR1IImbRDNj9+w=;
+	b=PADIikT6imgTJUGlmhoiLnsI4UwjhCyANuEDOb9Or4Ke1HY1P0qsbbsC6qUNRsSFdEPm4t
+	VA8ZAt94OfjHC/RqK+Intb/zt++crwxRFOyp045rVGCMehtteMs6/I3J8Swmwu9BNgpUP7
+	q/nejSFaamNfADN24GqeVw2wD+y4k3Q=
+Date: Mon, 25 May 2026 10:59:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/6] alloc_tag: add ioctl to /proc/allocinfo
+Subject: Re: [PATCH v2 2/6] alloc_tag: add ioctl filters to /proc/allocinfo
 To: Abhishek Bapat <abhishekbapat@google.com>,
  Suren Baghdasaryan <surenb@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -43,11 +43,11 @@ Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  Sourav Panda <souravpanda@google.com>
 References: <cover.1779471082.git.abhishekbapat@google.com>
- <8ffa0cef49b10026f2171d41b963c39201c9bd5b.1779471082.git.abhishekbapat@google.com>
+ <f177efebdfda5c2a179d7cd6768e0c6f37efb9c4.1779471082.git.abhishekbapat@google.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <8ffa0cef49b10026f2171d41b963c39201c9bd5b.1779471082.git.abhishekbapat@google.com>
+In-Reply-To: <f177efebdfda5c2a179d7cd6768e0c6f37efb9c4.1779471082.git.abhishekbapat@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -55,447 +55,198 @@ X-Migadu-Flow: FLOW_OUT
 Hi Abhishek
 
 
-Thanks for this patch. I had a few questions/comments after going
-
-through it.
-
-
 On 2026/5/23 01:45, Abhishek Bapat wrote:
-> From: Suren Baghdasaryan <surenb@google.com>
+> Extend the capability of the IOCTL mechanism to filter allocations based
+> on tag's module name, function name, file name and line number.
 >
-> Add the following ioctl commands for /proc/allocinfo file:
->
-> ALLOCINFO_IOC_CONTENT_ID - gets content identifier which can be used
-> to check whether the file content has changed specifically due to module
-> load/unload. Every time a module is loaded / unloaded, the returned
-> value will be different. By comparing the identifier value at the
-> beginning and at the end of the content retrieval operation, users can
-> validate retrieved information for consistency.
-
-codetag_get_content_id() does not reflect module unload
-
-codetag_get_content_id() returns cttype->next_mod_seq:
-
-unsigned long codetag_get_content_id(struct codetag_type *cttype)
-
-{
-
-     return cttype->next_mod_seq;
-
-}
-
-However, next_mod_seq is only bumped in codetag_module_init(),
-
-i.e.the module load path:
-
-https://elixir.bootlin.com/linux/v7.1-rc4/source/lib/codetag.c#L204
-
-codetag_unload_module() does not increment next_mod_seq. This means
-
-that if only a module unload happens (without a subsequent load),
-
-content_id stays the same, so users comparing the id before and after
-
-won't detect that the content has changed. The commit message says
-
-"Every time a module is loaded / unloaded" -- I was wondering if this
-
-is intentional? If not, would it make sense to also bump next_mod_seq
-
-in the unload path?
-
-
->
-> ALLOCINFO_IOC_GET_AT - gets the record at the specified position. This
-> is the position of a record in /proc/allocinfo.
->
-> ALLOCINFO_IOC_GET_NEXT - gets the record next to the last retrieved
-> one. If no records were previously retrieved, returns the first
-> record.
->
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 > Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
 > ---
->   .../userspace-api/ioctl/ioctl-number.rst      |   2 +
->   MAINTAINERS                                   |   1 +
->   include/linux/codetag.h                       |   1 +
->   include/uapi/linux/alloc_tag.h                |  54 +++++
->   lib/alloc_tag.c                               | 193 +++++++++++++++++-
->   lib/codetag.c                                 |  11 +
->   6 files changed, 260 insertions(+), 2 deletions(-)
->   create mode 100644 include/uapi/linux/alloc_tag.h
+>   include/uapi/linux/alloc_tag.h | 26 ++++++++++++++-
+>   lib/alloc_tag.c                | 58 ++++++++++++++++++++++++++++++++--
+>   2 files changed, 80 insertions(+), 4 deletions(-)
 >
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 331223761fff..84f6808a8578 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -349,6 +349,8 @@ Code  Seq#    Include File                                             Comments
->                                                                          <mailto:luzmaximilian@gmail.com>
->   0xA5  20-2F  linux/surface_aggregator/dtx.h                            Microsoft Surface DTX driver
->                                                                          <mailto:luzmaximilian@gmail.com>
-> +0xA6  00-0F  uapi/linux/alloc_tag.h                                    Memory allocation profiling
-> +                                                                       <mailto:surenb@google.com>
->   0xAA  00-3F  linux/uapi/linux/userfaultfd.h
->   0xAB  00-1F  linux/nbd.h
->   0xAC  00-1F  linux/raw.h
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 46ed0f0e76d8..d176bde8fbfc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16709,6 +16709,7 @@ S:	Maintained
->   F:	Documentation/mm/allocation-profiling.rst
->   F:	include/linux/alloc_tag.h
->   F:	include/linux/pgalloc_tag.h
-> +F:	include/uapi/linux/alloc_tag.h
->   F:	lib/alloc_tag.c
->   
->   MEMORY CONTROLLER DRIVERS
-> diff --git a/include/linux/codetag.h b/include/linux/codetag.h
-> index 8ea2a5f7c98a..2bcd4e7c809e 100644
-> --- a/include/linux/codetag.h
-> +++ b/include/linux/codetag.h
-> @@ -76,6 +76,7 @@ struct codetag_iterator {
->   
->   void codetag_lock_module_list(struct codetag_type *cttype, bool lock);
->   bool codetag_trylock_module_list(struct codetag_type *cttype);
-> +unsigned long codetag_get_content_id(struct codetag_type *cttype);
->   struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype);
->   struct codetag *codetag_next_ct(struct codetag_iterator *iter);
->   
 > diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_tag.h
-> new file mode 100644
-> index 000000000000..e9a5b55fcc7a
-> --- /dev/null
+> index e9a5b55fcc7a..0cc9db5298c6 100644
+> --- a/include/uapi/linux/alloc_tag.h
 > +++ b/include/uapi/linux/alloc_tag.h
-> @@ -0,0 +1,54 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +/*
-> + *  include/linux/alloc_tag.h
-nit: it should be include/uapi/linux/alloc_tag.h
-> + */
-> +
-> +#ifndef _UAPI_ALLOC_TAG_H
-> +#define _UAPI_ALLOC_TAG_H
-> +
-> +#include <linux/types.h>
-> +
-> +#define ALLOCINFO_STR_SIZE	64
-> +
-> +struct allocinfo_content_id {
-> +	__u64 id;
+> @@ -34,8 +34,32 @@ struct allocinfo_tag_data {
+>   	struct allocinfo_counter counter;
+>   };
+>   
+> +enum {
+> +	ALLOCINFO_FILTER_MODNAME,
+> +	ALLOCINFO_FILTER_FUNCTION,
+> +	ALLOCINFO_FILTER_FILENAME,
+> +	ALLOCINFO_FILTER_LINENO,
+> +	__ALLOCINFO_FILTER_LAST = ALLOCINFO_FILTER_LINENO
 > +};
 > +
-> +struct allocinfo_tag {
-> +	/* Longer names are trimmed */
-> +	char modname[ALLOCINFO_STR_SIZE];
-> +	char function[ALLOCINFO_STR_SIZE];
-> +	char filename[ALLOCINFO_STR_SIZE];
-> +	__u64 lineno;
+> +#define ALLOCINFO_FILTER_MASK_MODNAME		(1 << ALLOCINFO_FILTER_MODNAME)
+> +#define ALLOCINFO_FILTER_MASK_FUNCTION		(1 << ALLOCINFO_FILTER_FUNCTION)
+> +#define ALLOCINFO_FILTER_MASK_FILENAME		(1 << ALLOCINFO_FILTER_FILENAME)
+> +#define ALLOCINFO_FILTER_MASK_LINENO		(1 << ALLOCINFO_FILTER_LINENO)
+> +
+> +#define ALLOCINFO_FILTER_MASKS \
+> +	((1 << (__ALLOCINFO_FILTER_LAST + 1)) - 1)
+> +
+> +struct allocinfo_filter {
+> +	__u64 mask; /* bitmask of the filter fields used */
+> +	struct allocinfo_tag fields;
 > +};
 > +
-> +struct allocinfo_counter {
-> +	__u64 bytes;
-> +	__u64 calls;
-> +	__u8 accurate;
-> +	__u8 pad[7]; /* Add alignment to not break the 32-bit compatible interface */
-> +};
-> +
-> +struct allocinfo_tag_data {
-> +	struct allocinfo_tag tag;
-> +	struct allocinfo_counter counter;
-> +};
-> +
-> +struct allocinfo_get_at {
-> +	__u64 pos;	/* input */
-> +	struct allocinfo_tag_data data;
-> +};
-> +
-> +#define _ALLOCINFO_IOC_CONTENT_ID	0
-> +#define _ALLOCINFO_IOC_GET_AT		1
-> +#define _ALLOCINFO_IOC_GET_NEXT		2
-> +
-> +#define ALLOCINFO_IOC_BASE		0xA6
-> +#define ALLOCINFO_IOC_CONTENT_ID	_IOR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_CONTENT_ID,	\
-> +					     struct allocinfo_content_id)
-> +#define ALLOCINFO_IOC_GET_AT		_IOWR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_GET_AT,	\
-> +					      struct allocinfo_get_at)
-> +#define ALLOCINFO_IOC_GET_NEXT		_IOR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_GET_NEXT,	\
-> +					     struct allocinfo_tag_data)
-> +
-> +#endif /* _UAPI_ALLOC_TAG_H */
+>   struct allocinfo_get_at {
+> -	__u64 pos;	/* input */
+> +	/* inputs */
+> +	__u64 pos;
+> +	struct allocinfo_filter filter;
+> +	/* output */
+>   	struct allocinfo_tag_data data;
+>   };
+>   
 > diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-> index b9ca95d1f506..3598735b6c93 100644
+> index 3598735b6c93..56c394ef721f 100644
 > --- a/lib/alloc_tag.c
 > +++ b/lib/alloc_tag.c
-> @@ -5,6 +5,7 @@
->   #include <linux/gfp.h>
->   #include <linux/kallsyms.h>
->   #include <linux/module.h>
-> +#include <linux/mutex.h>
->   #include <linux/page_ext.h>
->   #include <linux/pgalloc_tag.h>
->   #include <linux/proc_fs.h>
-> @@ -14,6 +15,7 @@
->   #include <linux/string_choices.h>
->   #include <linux/vmalloc.h>
->   #include <linux/kmemleak.h>
-> +#include <uapi/linux/alloc_tag.h>
->   
->   #define ALLOCINFO_FILE_NAME		"allocinfo"
->   #define MODULE_ALLOC_TAG_VMAP_SIZE	(100000UL * sizeof(struct alloc_tag))
-> @@ -46,6 +48,10 @@ int alloc_tag_ref_offs;
+> @@ -48,6 +48,7 @@ int alloc_tag_ref_offs;
 >   struct allocinfo_private {
 >   	struct codetag_iterator iter;
 >   	bool print_header;
-> +	/* ioctl uses a separate iterator not to interfere with reads */
-> +	struct codetag_iterator ioctl_iter;
-> +	bool positioned; /* seq_open_private() sets to 0 */
-> +	struct mutex ioctl_lock;
->   };
+> +	struct allocinfo_filter filter;
+>   	/* ioctl uses a separate iterator not to interfere with reads */
+>   	struct codetag_iterator ioctl_iter;
+>   	bool positioned; /* seq_open_private() sets to 0 */
+> @@ -167,6 +168,11 @@ static void allocinfo_copy_str(char *dest, const char *src)
+>   	strscpy(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE);
+>   }
 >   
->   static void *allocinfo_start(struct seq_file *m, loff_t *pos)
-> @@ -125,6 +131,190 @@ static const struct seq_operations allocinfo_seq_op = {
->   	.show	= allocinfo_show,
->   };
->   
-> +static int allocinfo_open(struct inode *inode, struct file *file)
+> +static int allocinfo_cmp_str(const char *str, const char *template)
 > +{
-> +	int ret;
+> +	return strncmp(allocinfo_str(str), template, ALLOCINFO_STR_SIZE);
+> +}
 > +
-> +	ret = seq_open_private(file, &allocinfo_seq_op,
-> +			       sizeof(struct allocinfo_private));
-> +	if (!ret) {
-> +		struct seq_file *m = file->private_data;
-> +		struct allocinfo_private *priv = m->private;
+>   static void allocinfo_to_params(struct codetag *ct,
+>   				struct allocinfo_tag_data *data)
+>   {
+> @@ -198,27 +204,71 @@ static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __user *arg)
+>   	return 0;
+>   }
+>   
+> +static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter)
+> +{
+> +	if (!filter || !filter->mask)
+> +		return true;
 > +
-> +		mutex_init(&priv->ioctl_lock);
+> +	if (filter->mask & ALLOCINFO_FILTER_MASK_MODNAME) {
+> +		if (!ct->modname)
+> +			return false;
+> +		if (allocinfo_cmp_str(ct->modname, filter->fields.modname))
+> +			return false;
 > +	}
-> +	return ret;
-> +}
 > +
-> +static int allocinfo_release(struct inode *inode, struct file *file)
-> +{
-> +	return seq_release_private(inode, file);
-> +}
-> +
-> +static const char *allocinfo_str(const char *str)
-> +{
-> +	size_t len = strlen(str);
-> +
-> +	/* Keep an extra space for the trailing NULL. */
-> +	if (len >= ALLOCINFO_STR_SIZE)
-> +		str += (len - ALLOCINFO_STR_SIZE) + 1;
-> +	return str;
-> +}
-> +
-> +/* Copy a string and trim from the beginning if it's too long */
-> +static void allocinfo_copy_str(char *dest, const char *src)
-> +{
-> +	strscpy(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE);
-> +}
-> +
-> +static void allocinfo_to_params(struct codetag *ct,
-> +				struct allocinfo_tag_data *data)
-> +{
-> +	struct alloc_tag *tag = ct_to_alloc_tag(ct);
-> +	struct alloc_tag_counters counter = alloc_tag_read(tag);
-> +
-> +	if (ct->modname)
-> +		allocinfo_copy_str(data->tag.modname, ct->modname);
-> +	else
-> +		data->tag.modname[0] = '\0';
-> +	allocinfo_copy_str(data->tag.function, ct->function);
-> +	allocinfo_copy_str(data->tag.filename, ct->filename);
-> +	data->tag.lineno = ct->lineno;
-> +	data->counter.bytes = counter.bytes;
-> +	data->counter.calls = counter.calls;
-> +	data->counter.accurate = !alloc_tag_is_inaccurate(tag);
-> +}
-> +
-> +static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __user *arg)
-> +{
-> +	struct allocinfo_content_id params;
-> +
-> +	codetag_lock_module_list(alloc_tag_cttype, true);
-> +	params.id = codetag_get_content_id(alloc_tag_cttype);
-> +	codetag_lock_module_list(alloc_tag_cttype, false);
-> +	if (copy_to_user(arg, &params, sizeof(params)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
-> +static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
-> +{
-> +	struct allocinfo_private *priv;
-> +	struct codetag *ct;
-> +	__u64 pos;
-> +	struct allocinfo_get_at params = {0};
-> +
-> +	if (copy_from_user(&params, arg, sizeof(params)))
-> +		return -EFAULT;
-> +
-> +	priv = (struct allocinfo_private *)m->private;
-> +	pos = params.pos;
-> +
-> +	mutex_lock(&priv->ioctl_lock);
-> +	codetag_lock_module_list(alloc_tag_cttype, true);
-> +
-> +	/* Find the codetag */
-> +	priv->ioctl_iter = codetag_get_ct_iter(alloc_tag_cttype);
-> +	ct = codetag_next_ct(&priv->ioctl_iter);
-> +	while (ct && pos--)
-> +		ct = codetag_next_ct(&priv->ioctl_iter);
 
-No upper bound check on pos in ALLOCINFO_IOC_GET_AT:
+Apologies -- I previously suggested the "!ct->modname ->
 
-pos comes straight from userspace (__u64) with no validation.
+return false" approach, but I realized we broke the ability to
 
-If the system has 10000 tags and someone passes pos=10001,
+filter for built-in allocations.  allocinfo_to_params() returns
 
-the loop will still walk all 10000 tags just to return ENOENT
+modname="" for those, so a user would naturally try to filter
 
--- all while holding ioctl_lock and mod_lock. It might be worth
+by modname="" -- except it never matches because ct->modname is
 
-checking pos against the total tag count early. struct codetag_type
+NULL, not an empty string.
 
-is not exposed outside codetag.c though, so this would need a small helper.
+Maybe something like this instead?
 
+if (filter->mask & ALLOCINFO_FILTER_MASK_MODNAME) {
+
+     if (ct->modname) {
+
+         if (allocinfo_cmp_str(ct->modname, filter->fields.modname))
+
+             return false;
+
+         } else if (filter->fields.modname[0] != '\0') {
+
+             return false;
+
+         }
+
+}
+
+That way modname="" matches built-in tags, which lines up with
+
+what the API actually returns.
 
 Thanks
 
-Best Regards
-
 Hao
 
-> +	if (ct) {
-> +		allocinfo_to_params(ct, &params.data);
-> +		priv->positioned = true;
-> +	}
+> +	if ((filter->mask & ALLOCINFO_FILTER_MASK_FUNCTION) &&
+> +	    ct->function && (allocinfo_cmp_str(ct->function, filter->fields.function)))
+> +		return false;
 > +
-> +	codetag_lock_module_list(alloc_tag_cttype, false);
-> +	mutex_unlock(&priv->ioctl_lock);
+> +	if ((filter->mask & ALLOCINFO_FILTER_MASK_FILENAME) &&
+> +	    ct->filename && (allocinfo_cmp_str(ct->filename, filter->fields.filename)))
+> +		return false;
 > +
-> +	if (!ct)
-> +		return -ENOENT;
+> +	if ((filter->mask & ALLOCINFO_FILTER_MASK_LINENO) &&
+> +	    ct->lineno != filter->fields.lineno)
+> +		return false;
 > +
-> +	if (copy_to_user(arg, &params, sizeof(params)))
-> +		return -EFAULT;
-> +
-> +	return 0;
+> +	return true;
 > +}
 > +
-> +static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
-> +{
-> +	struct allocinfo_private *priv;
-> +	struct codetag *ct;
-> +	struct allocinfo_tag_data params = {0};
-> +	int ret = 0;
-> +
-> +	priv = (struct allocinfo_private *)m->private;
-> +
-> +	mutex_lock(&priv->ioctl_lock);
-> +	codetag_lock_module_list(alloc_tag_cttype, true);
-> +
-> +	if (!priv->positioned) {
-> +		priv->ioctl_iter = codetag_get_ct_iter(alloc_tag_cttype);
-> +		priv->positioned = true;
-> +	}
-> +
-> +	ct = codetag_next_ct(&priv->ioctl_iter);
-> +	if (ct)
-> +		allocinfo_to_params(ct, &params);
-> +
-> +	if (!ct) {
-> +		priv->positioned = false;
-> +		ret = -ENOENT;
-> +	}
-> +	codetag_lock_module_list(alloc_tag_cttype, false);
-> +	mutex_unlock(&priv->ioctl_lock);
-> +
-> +	if (ret == 0) {
-> +		if (copy_to_user(arg, &params, sizeof(params)))
-> +			return -EFAULT;
-> +	}
-> +	return ret;
-> +}
-> +
-> +static long allocinfo_ioctl(struct file *file, unsigned int cmd,
-> +			    unsigned long __arg)
-> +{
-> +	void __user *arg = (void __user *)__arg;
-> +	int ret;
-> +
-> +	switch (cmd) {
-> +	case ALLOCINFO_IOC_CONTENT_ID:
-> +		ret = allocinfo_ioctl_get_content_id(file->private_data, arg);
-> +		break;
-> +	case ALLOCINFO_IOC_GET_AT:
-> +		ret = allocinfo_ioctl_get_at(file->private_data, arg);
-> +		break;
-> +	case ALLOCINFO_IOC_GET_NEXT:
-> +		ret = allocinfo_ioctl_get_next(file->private_data, arg);
-> +		break;
-> +	default:
-> +		ret = -ENOIOCTLCMD;
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +#ifdef CONFIG_COMPAT
-> +static long allocinfo_compat_ioctl(struct file *file, unsigned int cmd,
-> +				   unsigned long arg)
-> +{
-> +	return allocinfo_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-> +}
-> +#endif
-> +
-> +static const struct proc_ops allocinfo_proc_ops = {
-> +	.proc_open		= allocinfo_open,
-> +	.proc_read_iter		= seq_read_iter,
-> +	.proc_lseek		= seq_lseek,
-> +	.proc_release		= allocinfo_release,
-> +	.proc_ioctl		= allocinfo_ioctl,
-> +#ifdef CONFIG_COMPAT
-> +	.proc_compat_ioctl	= allocinfo_compat_ioctl,
-> +#endif
-> +
-> +};
-> +
->   size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sleep)
+>   static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
 >   {
->   	struct codetag_iterator iter;
-> @@ -989,8 +1179,7 @@ static int __init alloc_tag_init(void)
->   		return 0;
+>   	struct allocinfo_private *priv;
+>   	struct codetag *ct;
+> -	__u64 pos;
+>   	struct allocinfo_get_at params = {0};
+> +	__u64 skip_count;
+>   
+>   	if (copy_from_user(&params, arg, sizeof(params)))
+>   		return -EFAULT;
+>   
+> +	if (params.filter.mask & ~ALLOCINFO_FILTER_MASKS)
+> +		return -EINVAL;
+> +
+>   	priv = (struct allocinfo_private *)m->private;
+> -	pos = params.pos;
+> +
+> +	skip_count = params.pos;
+>   
+>   	mutex_lock(&priv->ioctl_lock);
+>   	codetag_lock_module_list(alloc_tag_cttype, true);
+>   
+> +	if (params.filter.mask)
+> +		priv->filter = params.filter;
+> +	else
+> +		priv->filter.mask = 0;
+> +
+>   	/* Find the codetag */
+>   	priv->ioctl_iter = codetag_get_ct_iter(alloc_tag_cttype);
+>   	ct = codetag_next_ct(&priv->ioctl_iter);
+> -	while (ct && pos--)
+> +
+> +	while (ct) {
+> +		if (matches_filter(ct, &priv->filter)) {
+> +			if (skip_count == 0)
+> +				break;
+> +			skip_count--;
+> +		}
+>   		ct = codetag_next_ct(&priv->ioctl_iter);
+> +	}
+> +
+>   	if (ct) {
+>   		allocinfo_to_params(ct, &params.data);
+>   		priv->positioned = true;
+> @@ -254,6 +304,8 @@ static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
 >   	}
 >   
-> -	if (!proc_create_seq_private(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_seq_op,
-> -				     sizeof(struct allocinfo_private), NULL)) {
-> +	if (!proc_create(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_proc_ops)) {
->   		pr_err("Failed to create %s file\n", ALLOCINFO_FILE_NAME);
->   		shutdown_mem_profiling(false);
->   		return -ENOMEM;
-> diff --git a/lib/codetag.c b/lib/codetag.c
-> index 304667897ad4..93aa30991563 100644
-> --- a/lib/codetag.c
-> +++ b/lib/codetag.c
-> @@ -48,6 +48,17 @@ bool codetag_trylock_module_list(struct codetag_type *cttype)
->   	return down_read_trylock(&cttype->mod_lock) != 0;
->   }
+>   	ct = codetag_next_ct(&priv->ioctl_iter);
+> +	while (ct && !matches_filter(ct, &priv->filter))
+> +		ct = codetag_next_ct(&priv->ioctl_iter);
+>   	if (ct)
+>   		allocinfo_to_params(ct, &params);
 >   
-> +unsigned long codetag_get_content_id(struct codetag_type *cttype)
-> +{
-> +	lockdep_assert_held(&cttype->mod_lock);
-> +
-> +	/*
-> +	 * next_mod_seq is updated on every load, so can be used to identify
-> +	 * content changes.
-> +	 */
-> +	return cttype->next_mod_seq;
-> +}
-> +
->   struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype)
->   {
->   	struct codetag_iterator iter = {
