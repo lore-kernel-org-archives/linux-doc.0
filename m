@@ -1,282 +1,234 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F181DB551
-	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 02:05:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED8D1DED40
+	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 02:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779674731; cv=none; b=QH6JSheJQ8VzIKeqRmzIFKbDNwnUsp2e7RGNAmmX8RUQHPIPncmrYdD1PULKtijRjcOFdL79hexN4G3MhSVZrsCkd5dzz0xwJQ1Nbr+btDHxUjt8YRZkHkn8Jt0apRAuOH/StAXYM4WLfCPV48kYjUY7sycwb43mfAcnCUOFy9g=
+	t=1779674756; cv=none; b=AMeGclCCaz3yXwN7PP8qfzwiexNcrash9JLn6xu+LElJEJpVDOkXwAE9vbwJFErtIwqEzbZTXP+eEQvIhQVYJIf/Bo+upuZmFiMas7LkZq6yilR4PuM8sgXhjJKfNDisTLLd2iv8EriG9pr6ipGE+RwSkzQHHsLQnOMeQP04crs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779674731; c=relaxed/simple;
-	bh=60uL1EAd77dkMqJ+ReLfFWYgWr/SH/+UsONUBuWU3vI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j5RHdqfiNHgaW5mEMxTgO76XLjLPaqBpIgAnXhla+QXkOcOFggySznI+z8i38HeINDoURCnx+N8YrHXc5jVieBTP5/ZFeaDVe9Y/phSJJKzH8QlM9Lxz4m5+YnIOyGg6Wteo4GAL5vqj2SasnwwvTWcM50TUJIh/gWJ67W9gvDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zdp4sgY5; arc=none smtp.client-ip=209.85.210.171
+	s=arc-20240116; t=1779674756; c=relaxed/simple;
+	bh=OBMMmp+YTMAm7U85146xnrw24q4YjUbI18Q2uM1E0fE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qOp7QBC0iNK/Lhs5ytoOwYz1TduqbBfguS0fwgHDJ6s2VxpZh6ugbdqOKA0HJsIeZng1IMYZKzxc8cA1DKc1XLqHrtwWmVb79kFWQBgHR4QcxJGEOz7PmpoHsR9ZBriw9tSv6XopIY/rF2fL5Wo1LP2FjUiuwYBmjWyNOXTh6y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ed5gPJKu; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zdp4sgY5"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-83945063f70so4671748b3a.0
-        for <linux-doc@vger.kernel.org>; Sun, 24 May 2026 19:05:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ed5gPJKu"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8353fd1cb5fso4450819b3a.0
+        for <linux-doc@vger.kernel.org>; Sun, 24 May 2026 19:05:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779674729; x=1780279529; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m7jUX/Rr8JLpxFAZIW/CZdht7Ee+xnPqCKmwzhxjfF8=;
-        b=Zdp4sgY5TB8EnYbheelm+2L7Bz4yP/aRy043ReRdmNxS3lbQPC2QrETJgLQbw4ZKi7
-         AaU+4o5dlEbpne9uwyHVg875QdoxoDHUgSJzBKZldufa4DfQVPh/48EWxTTE78pV4W9w
-         Zih/dw7az5ixkQwuxPIORfelRPEnxkuycB8rsVJ2jmW8vhbu8Xi3Y1OBV2mFIrhZibud
-         J/SmUCKWRENu7KuLncB1YkXrpbceljAu1wvEbYDgG2MocTsWCxNgPXqKNPWTTUf3Sfmv
-         9TbA44GqCq4FnnIEOmkNGFvWDZ2TveUi775Jl4KpUKN68a1S9ix5CurRS9FjasXRsQB0
-         e2+w==
+        d=gmail.com; s=20251104; t=1779674754; x=1780279554; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WaPWQoiiTkAlBxuWrZfPdKnM+hMsBzcJp27fLs5FejY=;
+        b=ed5gPJKunrNXf1xx9ADjC/otbsr3ysPgDK7JsakIRzEUvCZ0k7Kdz2MATpmilyAR4u
+         f37XFf4duaB3j/lCpt8Zc/dcOFKwWODM29EOLwmmT5CGPkq6KfJO7VGGyOFKOhex/s1O
+         40Ux1+M5UZytGxlr7sSIa0HKCC02s50uHc/MXBgvPbdtzSDanFqlEFagV0BkK0vDhwOh
+         tsknTGY18MEK16nqiz/7E9BdHludLqq0fqGdSUJEXYLVphEie2WYJEJdC+0dkZOLzjxP
+         BVg3HL9L5yXV8x8bW31B39dViJmgDJFrDvErhAfnBnAIauBWRdOBrcB+ZrN3AkOzuEgf
+         Kd8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779674729; x=1780279529;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m7jUX/Rr8JLpxFAZIW/CZdht7Ee+xnPqCKmwzhxjfF8=;
-        b=FRMl+b61ipqN2+GdL7X4A7GHt4w32nfL2+KZoZSukWZzzoosrHM7+ULFy3El4PZMuA
-         q8QW0Zhv2ENm2SmdjmHZ1hoPfC6va4nj2dHtoTAq1dLHGPWF5ZUATKAHkxmV01KSVACc
-         VUW/JDRGihCBOy7QxbsM739/+oXkGVLIAfM7pWdE4VD1xBYT9GFnC6xNGkOT1o23Bjdo
-         q2Aw2lmjLhGZkgDd8wsTFOEQLV3oxvG5v2qZ38hgUKgSiHXxY8agcTMNtxKfNOTZujPa
-         GMCOHO6AOo34VFYZU+sHgf0eSlMeTjOpHSb6nl3XWSI7/u/YL783pOC3ttuVHoNqTXw+
-         YQ+g==
-X-Forwarded-Encrypted: i=1; AFNElJ8h7TNtQoo4Tu713xaFKlfTVAb44a6eLdZCxO/y7y7FK3fQiOk+99Q9Zq0EYoCs+OGrpkc6m3ZITcQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxB2+v5jTC53soEthzOZkr8Q07aS0w7jm8eDVInGqvMJEpzlUAs
-	0Xa17Ej8rgRORGp1TrHiX3MqTmHc8KD8sjIBW9bu5VN+WpAKNJkM+qik
-X-Gm-Gg: Acq92OGfPGlL+Kwt3VQidCqT8udFdb0OYu/jtvP7F6IrMWQ63w+iTOKriglGXuMfri4
-	2doQ0lA719EK8AqQogc8pwsnJEW4hiYHuhsDvBjXHAsagu5r/trhBmkA6fdSgPOah0lbOMky4PP
-	Lu/42jJ/tX0rRmTzLylBi18ud3nLnwAM/Rwy7dS95zXxJ0Jom0nBcKRKbWe2VEp9Rxc8DTXQjM0
-	hVNUak1tGY5yMS5NyRG34SECQ36dy7kqeQ/fimhggpgfsosgHLXuYcgHv0Mv8rdtWLtrNyKYiHA
-	J31MFjaXrARTmVbrj0+qTtx8x/3+w2sZDxn5lRgqS0Ewfe208Zd4TjaAyKE4jQlr7ZUw9XuuCBD
-	gaYOSJAtkOsbF7IRURConSnptdAZwb86NwBgjyKZ1OgGYOkNo07yIxpvLm8iidSWWIynNyFQL28
-	x1u+3dnEQxFbMZG8z5O43Axu4V2699xXLGdIoM3IeDJnEXXezkCViuBCi5oy3TwV3R4uRoxd8iO
-	Xs=
-X-Received: by 2002:a05:6a20:a10c:b0:3a1:785:a567 with SMTP id adf61e73a8af0-3b3297d027amr10105654637.26.1779674728937;
-        Sun, 24 May 2026 19:05:28 -0700 (PDT)
-Received: from ?IPV6:240e:38b:e68:2f00:658e:df8e:c08a:e98c? ([240e:38b:e68:2f00:658e:df8e:c08a:e98c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85202a337fsm6471118a12.8.2026.05.24.19.05.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 May 2026 19:05:28 -0700 (PDT)
-Message-ID: <a6752fa9-b15b-4b50-baef-53c36460311e@gmail.com>
-Date: Mon, 25 May 2026 10:05:23 +0800
+        d=1e100.net; s=20251104; t=1779674754; x=1780279554;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WaPWQoiiTkAlBxuWrZfPdKnM+hMsBzcJp27fLs5FejY=;
+        b=YlGfpM1/GF0IJgybMm7SQZZZcJ84hrO9erZ/GZEaCs2MmG1uaMbL5Dog4fiJJkAM4f
+         7VMLV704etp3LFoIR0pgEbmC60m6bmhRDC3D/TnSn3hcZ+I411wAR5qBPMKx8UDcWIUh
+         weOZHvCuzj1iWWXr0VlTp6Id+hUcgmClRmMwBe9NPfsMgTkORThyXGR8AdD3t9ASovPV
+         6IZNLQlqeWJNWec4VubtxeMhcASzF2dpFn+o/jmSJ/uyy+VAl1eiX9U7wvnPzQ5fbe5u
+         +BMMHW28klW+HjC+WyLNMyf0oSP3+brO/wwUA1tKgNWRhYcmfUQZ3FOLj54gkJ4A8EZR
+         7h6w==
+X-Forwarded-Encrypted: i=1; AFNElJ+fdyV4lwOI+DhI1wVBYvOYqieO9iYYr8B1MkjzEzv/HdBcvVzmnAHwsirMMV+mR+oa+D4A1Y3XnS0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtQ8H7M1pibWgDDY1SoDibP2q3XzUwFacCVjBRMoSMUt8AtxB1
+	j9BK6ritcw01Ys69A0B0KHwtouiKm91MVuhMqeetrSCQMLWxbPaFAuBR
+X-Gm-Gg: Acq92OEG15rosU9+RM9biNO+YTVRvUTrR7JisacSLEBuuhx58sVgo6IJTu1uEU+eMQw
+	CGOzJjD5jkCIiCtx8HwAzeAcMsTOfNt1iRjg/Vtfxi0TJhggFQV+E0/a60x/Mg5uAzQCm0rTs48
+	cm5yoiqCQXBnJkqkMA0jV7hebQT8TxSncIgcvM0aAOl0eHjdzscSduNukCBDNezCD9ckRRyNdX7
+	dOT2w48260m80UOZ8lEZrHPctwZP/zasE5w6dUaNaSxyYGuke8pi8QCmRAdEVxyCZgqkOuvKg+l
+	dbnSZmYSMBsTjQp9Ce5FVv5iLblgjIjsWoIpeaGTDZZhP1pUJM7H35efrk3m7NvTrCerm2mg13C
+	BE8c/nDEZTrPawmyJaKkI8FmbusKNuj5RpPmiPzduGBmxwtGBKmDSIZ36H3c86rnrIDvJBQ6lhr
+	rGT6tZoqfLvRs/IpK4tYj9KNpbtjk6XDxGq73BcV8vaCH2
+X-Received: by 2002:a05:6a00:4c8e:b0:838:1f6b:dcbc with SMTP id d2e1a72fcca58-8414b3e1e7cmr12310242b3a.6.1779674753927;
+        Sun, 24 May 2026 19:05:53 -0700 (PDT)
+Received: from lappy ([203.105.74.20])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164ac9df3sm9369587b3a.9.2026.05.24.19.05.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 May 2026 19:05:53 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	Denis Benato <denis.benato@linux.dev>,
+	Zhouwang Huang <honjow311@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v9 0/4] Add MSI Claw HID Configuration Driver
+Date: Mon, 25 May 2026 02:05:39 +0000
+Message-ID: <20260525020543.519082-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/8] docs/zh_CN: Add acm.rst translation
-To: Kefan Bai <baikefan@leap-io-kernel.com>, linux-usb@vger.kernel.org,
- si.yanteng@linux.dev
-Cc: gregkh@linuxfoundation.org, alexs@kernel.org, dzm91@hust.edu.cn,
- corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- doubled@leap-io-kernel.com
-References: <cover.1779355170.git.baikefan@leap-io-kernel.com>
- <9f865599e837c90d3048b9a8004efd65b2e3f9d3.1779355170.git.baikefan@leap-io-kernel.com>
-From: Alex Shi <seakeel@gmail.com>
-Content-Language: en-US
-In-Reply-To: <9f865599e837c90d3048b9a8004efd65b2e3f9d3.1779355170.git.baikefan@leap-io-kernel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+This series adds an HID Configuration driver for the MSI Claw line of
+Handheld Gaming PC's. The MSI Claw HID interface provides multiple
+features, such as the ability to switch between xinput, dinput, and a
+desktop mode, RGB control, rumble intensity, and mapping of the rear "M"
+keys. There are additional gamepad modes that are not included in this
+driver as they appear to be used in assembly line testing or are
+incomplete in the firmware. During my testing I found them to be unstable.
 
+The initial version of this driver was written by Denis Benato, which
+contained the initial reverse-engineering and implementation for the
+gamepad mode switching. This work was later expanded by Zhouwang Huang
+to include more gamepad modes and additional features. Finally, I
+refactored the entire driver, fixed multiple bugs, and refined the overall
+format to conform to kernel driver best practices and style guide.
 
-On 2026/5/21 17:55, Kefan Bai wrote:
-> Translate .../usb/acm.rst into Chinese
-> 
-> Update the translation through commit ecefae6db042
-> ("docs: usb: rename files to .rst and add them to drivers-api")
-> 
-> Reviewed-by: Yanteng Si<siyanteng@cqsoftware.com.cn>
-> Signed-off-by: Kefan Bai<baikefan@leap-io-kernel.com>
-> ---
->   Documentation/translations/zh_CN/usb/acm.rst  | 147 ++++++++++++++++++
->   .../translations/zh_CN/usb/index.rst          |   2 +-
->   2 files changed, 148 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/usb/acm.rst b/Documentation/translations/zh_CN/usb/acm.rst
-> new file mode 100644
-> index 000000000000..51d6eb8f5660
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/usb/acm.rst
-> @@ -0,0 +1,147 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/usb/acm.rst
-> +
-> +:翻译:
-> +
-> + 白钶凡 Kefan Bai<baikefan@leap-io-kernel.com>
-> +
-> +:校译:
-> +
-> +
-> +====================
-> +Linux ACM 驱动 v0.16
-> +====================
-> +
-> +版权所有 (c) 1999 Vojtech Pavlik<vojtech@suse.cz>
-> +
-> +由 SuSE 赞助
-> +
-> +0. 免责声明
-> +~~~~~~~~~~~
-> +本程序是自由软件；你可以在自由软件基金会发布的
-> +GNU 通用公共许可证第 2 版，或者（按你的选择）
-> +任何后续版本的条款下重新发布和/或修改它。
-> +
-> +发布本程序是希望它能发挥作用，但它不附带任何担保；
-> +甚至不包括对适销性或特定用途适用性的默示担保。
-> +详情见 GNU 通用公共许可证。
+Claude was used initially by Zhouwang Huang to quickly parse HID captures
+during the reverse-engineering of some of the features. Since Claude had
+already been used, as a test of its capabilities I had it implement the
+rumble intensity attribute after I had already rewritten most of the
+driver, which I then manually edited to fix some mistakes. I also used
+Claude to review the driver and these patches for any mistakes and bugs.
 
-Hi Kefan,
+Assisted-by: Claude:claude-sonnet-4-6
+Co-developed-by: Denis Benato <denis.benato@linux.dev>
+Signed-off-by: Denis Benato <denis.benato@linux.dev>
+Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
+Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+---
+v9:
+  - Don't use devm_* functions in cfg_setup_fn, do manual adding
+    and cleanup to prevent possible use after free.
+  - Use scoped_guard instead of guard in claw_remove.
+  - Rename gamepad_registered to gp_registered for brevity.
+  - Check for drvdata in rgb_queue_fn to avoid use after free during
+    teardown.
+  - Ensure rgb_queue work is canceled during suspend.
+  - Limit guard usage in cfg_setup_fn to avoid holding a lock during
+    registration and add group events.
+v8:
+  - Use spinlock when accessing gamepad_registered.
+  - Clear state machine on all errors in claw_hw_output_report.
+  - Wrap all branches under single cmd_lock guard in claw_raw_event.
+  - Reject generic ACK in claw_raw_event if waiting_cmd is for another
+    branch.
+  - Wrap all branches under single cmd_lock guard in claw_raw_event.
+  - Reject generic ACK in claw_raw_event if waiting_cmd is for another
+    branch.
+  - Don't close hid devices that couldn't have been opened.
+  - Ensure led_classdev is unregistered if adding attribute group fails.
+  - Reorder remove actions to ensure no use-after free or rearming cleared
+    flags.
+v7: https://lore.kernel.org/linux-input/20260520013158.3633277-1-derekjohn.clark@gmail.com/
+  - Use smp_[store_release|load_acquire] pattern for checking
+    gamepad_registered and rgb_registered to avoid possible races during
+    teardown.
+  - Reorder reinit_completion in claw_hw_output_report to avoid race
+    with possible incoming ACKs.
+  - Reorder cancel_delayed_work_sync to ensure setup can't be re-armed
+    after cancel.
+  - Reset command state machine if hw_output_report has an error.
+  - Add comments to (hopefully) silence sashinko-bot warnings about the
+    use of endpoint matching and the impossible scenario of switching to
+    the alternate endpoint from userspace while the driver is bound.
+  - Don't use spinlock_irqsave when already in irq context.
+  - Add profile_lock for read/write profile_pending.
+  - Use struct for mkey reports and rumble reports, following the
+    pattern established by rgb reports previously.
+  - Add gating to cfg_setup_fn, allowing either gamepad settings or rgb
+    settings to populate if the other fails for any reason.
+  - Match on write address for rumble and mkey reports to prevent late
+    ACK from causing synchronization errors.
 
-The alignment means we will try use the width for each of lines, not 
-just stop for each of punctuation. Please fix all patches alignment, try 
-to expand the whole width for lines unless it's broken a word or unreadable.
+v6: https://lore.kernel.org/linux-input/20260518222935.1802071-1-derekjohn.clark@gmail.com/
+  - Add send/ack pattern to ensure synchronous acks.
+  - Use spinlock_irqsave instead of mutex for read/write MODE event
+    data.
+  - add select NEW_LEDS to kconfig.
+  - Make all timeouts 25ms to ensure at least 2 jiffies in a 100Hz
+    config.
+  - Gate all attribute show/store functions with gamepad_registered or
+    rgb_registered, enabling use of devm_device_add_group and ending
+    the need to hold a mutex during remove.
+  - Don't set gamepad_mode on resume, MCU preserves state.
+  - Ensure all count variables are checked for > 0 characters before
+    setting buf - 1 to \n.
+  - Re-arm cfg_setup in resume if it was canceled in an early suspend.
+  - Remove duplicated argv_free macro.
+  - Add spinlock_irqsave vice mutex for read/write access on attribute
+    variables.
+v5: https://lore.kernel.org/linux-input/20260517013925.3120314-1-derekjohn.clark@gmail.com/
+  - Swap disabled & combination mkeys_function enum values.
+  - Fix bug introduced in v5 where claw_buttons_store would return
+    -EINVAL on all valid key entries.
+  - Ensure mode_mutex is properly init.
+  - Ensure claw_remove is calling hid_hw_close and not hid_hw_stop for
+    all paths.
+  - Ensure adding "DISABLED" key to valid entries is done in the correct
+    patch.
+  - Re-enable sending an empty string to clear button mappings in
+    addition to setting DISABLED.
+  - Move adding the RGB device into cfg_setup to prevent led core
+    attributes from being written to prior to setup completing.
+  - Ensure frame_lock is properly init.
+  - Change variable names in RGB functions from frame and zone to f and
+    z respectively to fit all scoped_guard actions in 100 columns.
+v4: https://lore.kernel.org/linux-input/20260516042841.500299-1-derekjohn.clark@gmail.com/
+  - Add msi_suspend/claw_suspend.
+  - Reorder claw_remove to cancel all work before removing sysfs.
+  - Add mutex lock for removing sysfs attributes.
+  - Add mutex lock for MODE command data read/write.
+  - Change dev_warn to dev_dbg in claw_profile_event.
+  - use __free with DEFINE_FREE macro for argv instead of manually
+    running argv_free, cleaining up scoped_guard goto.
+  - Fix frame_calc validity check to use >=.
+  - Use spinlock instead of mutex in raw_event and related attribute
+    _store function.
+  - Ensure delayed work is canceled in suspend & canceled before sysfs
+    attribute removal.
+v3: https://lore.kernel.org/linux-input/20260515033622.2095277-1-derekjohn.clark@gmail.com/
+  - Add mutex for read/write if rgb frame data.
+  - Ensure claw_hw_output_report is properly guarded.
+  - Remove setting rgb_frame_count when reading rgb profiles as it always
+    returns garbage data.
+  - Ensure rgb_speed is getting drvdata from a valid lookup (not hdev).
+  - Use scoped_guard where necessary.
+  - Reoder claw_probe to ensure all mutex, completion, and variable
+    assignments are in place prior to setting drvdata.
+  - Ensure gamepad_mode is set to a valid enum value in claw_probe.
+v2: https://lore.kernel.org/linux-input/20260513231445.3213501-1-derekjohn.clark@gmail.com/
+  - Use mutexes to guard SYNC_TO_ROM calls and pending_profile calls.
+  - Rename driver to hid-msi and add generic entrypoints for
+    probe/resume/remove that call claw specific functions in order to
+    future proof the driver for other MSI HID interfaces.
+  - Fix various bugs and formatting issues.
+v1: https://lore.kernel.org/linux-input/20260510043510.442807-1-derekjohn.clark@gmail.com/
 
-Thanks
-> +
-> +你应该已经随本程序收到了 GNU 通用公共许可证的副本；
-> +如果没有，请致信：Free Software Foundation, Inc., 59
-> +Temple Place, Suite 330, Boston, MA 02111-1307 USA。
-> +
-> +如需联系作者，可发送电子邮件至vojtech@suse.cz，
-> +或邮寄至：
-> +Vojtech Pavlik, Ucitelska 1576, Prague 8,
-> +182 00, Czech Republic。
-> +
-> +为方便起见，软件包中已附带 GNU 通用公共许可证
-> +第 2 版：见 COPYING 文件。
-> +
-> +1. 使用方法
-> +~~~~~~~~~~~
-> +``drivers/usb/class/cdc-acm.c`` 驱动可用于符合 USB
-> +通信设备类抽象控制模型（USB CDC ACM）规范的
-> +USB 调制解调器和 USB ISDN 终端适配器。
-> +
-> +许多调制解调器支持此驱动，以下是我所知道的一些型号：
-> +
-> +	- 3Com OfficeConnect 56k
-> +	- 3Com Voice FaxModem Pro
-> +	- 3Com Sportster
-> +	- MultiTech MultiModem 56k
-> +	- Zoom 2986L FaxModem
-> +	- Compaq 56k FaxModem
-> +	- ELSA Microlink 56k
-> +
-> +我知道有一款 ISDN 终端适配器可以与 ACM 驱动一起使用：
-> +
-> +	- 3Com USR ISDN Pro TA
-> +
-> +一些手机也可以通过 USB 连接。
-> +我知道以下机型可以正常工作：
-> +
-> +	- SonyEricsson K800i
-> +
-> +遗憾的是，许多调制解调器和大多数 ISDN TA
-> +都使用专有接口，因此无法与此驱动配合工作。
-> +购买前请先确认设备是否符合 ACM 规范。
-> +
-> +要使用这些调制解调器，需要加载以下模块::
-> +
-> +	usbcore.ko
-> +	uhci-hcd.ko ohci-hcd.ko or ehci-hcd.ko
-> +	cdc-acm.ko
-> +
-> +之后就应该可以访问这些调制解调器了。
-> +应当可以使用 ``minicom``、``ppp`` 和 ``mgetty``
-> +与它们通信。
-> +
-> +2. 验证驱动是否正常工作
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +第一步是检查 ``/sys/kernel/debug/usb/devices``，
-> +其内容应该类似如下::
-> +
-> +  T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=12  MxCh= 2
-> +  B:  Alloc=  0/900 us ( 0%), #Int=  0, #Iso=  0
-> +  D:  Ver= 1.00 Cls=09(hub  ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
-> +  P:  Vendor=0000 ProdID=0000 Rev= 0.00
-> +  S:  Product=USB UHCI Root Hub
-> +  S:  SerialNumber=6800
-> +C:* #Ifs= 1 Cfg#= 1 Atr=40 MxPwr=  0mA
-> +  I:  If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
-> +  E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=255ms
-> +  T:  Bus=01 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  2 Spd=12  MxCh= 0
-> +  D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
-> +  P:  Vendor=04c1 ProdID=008f Rev= 2.07
-> +  S:  Manufacturer=3Com Inc.
-> +  S:  Product=3Com U.S. Robotics Pro ISDN TA
-> +  S:  SerialNumber=UFT53A49BVT7
-> +  C:  #Ifs= 1 Cfg#= 1 Atr=60 MxPwr=  0mA
-> +  I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=acm
-> +  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-> +  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-> +  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
-> +C:* #Ifs= 2 Cfg#= 2 Atr=60 MxPwr=  0mA
-> +  I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
-> +  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
-> +  I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
-> +  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-> +  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-> +
-> +这三行的存在很关键（以及 ``Cls=`` 字段里出现的
-> +``comm`` 和 ``data`` 类）；它说明这是一个 ACM
-> +设备。``Driver=acm`` 表示该设备正在使用 acm 驱动。
-> +如果只看到 ``Cls=ff(vend.)``，那就无能为力了：
-> +这说明你手上的设备使用的是厂商专有接口::
-> +
-> +    D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
-> +    I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
-> +    I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
-> +
-> +在系统日志中应该可以看到::
-> +
-> +  usb.c: USB new device connect, assigned device number 2
-> +  usb.c: kmalloc IF c7691fa0, numif 1
-> +  usb.c: kmalloc IF c7b5f3e0, numif 2
-> +  usb.c: skipped 4 class/vendor specific interface descriptors
-> +  usb.c: new device strings: Mfr=1, Product=2, SerialNumber=3
-> +  usb.c: USB device number 2 default language ID 0x409
-> +  Manufacturer: 3Com Inc.
-> +  Product: 3Com U.S. Robotics Pro ISDN TA
-> +  SerialNumber: UFT53A49BVT7
-> +  acm.c: probing config 1
-> +  acm.c: probing config 2
-> +  ttyACM0: USB ACM device
-> +  acm.c: acm_control_msg: rq: 0x22 val: 0x0 len: 0x0 result: 0
-> +  acm.c: acm_control_msg: rq: 0x20 val: 0x0 len: 0x7 result: 7
-> +  usb.c: acm driver claimed interface c7b5f3e0
-> +  usb.c: acm driver claimed interface c7b5f3f8
-> +  usb.c: acm driver claimed interface c7691fa0
-> +
-> +如果以上都正常，请启动 ``minicom``，
-> +把它配置为连接 ``ttyACM`` 设备，然后
-> +尝试输入 ``at``。如果返回 ``OK``，说明一切工作正常。
-> diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
-> index b4cb0ccaa39b..686e5b0a9384 100644
-> --- a/Documentation/translations/zh_CN/usb/index.rst
-> +++ b/Documentation/translations/zh_CN/usb/index.rst
-> @@ -17,10 +17,10 @@ USB 支持
->   .. toctree::
->       :maxdepth: 1
-> 
-> +    acm
-> 
->   Todolist:
-> 
-> -* acm
->   * authorization
->   * chipidea
->   * dwc3
-> --
-> 2.54.0
-> 
+Derek J. Clark (4):
+  HID: hid-msi: Add MSI Claw configuration driver
+  HID: hid-msi: Add M-key mapping attributes
+  HID: hid-msi: Add RGB control interface
+  HID: hid-msi: Add Rumble Intensity Attributes
+
+ MAINTAINERS           |    6 +
+ drivers/hid/Kconfig   |   13 +
+ drivers/hid/Makefile  |    1 +
+ drivers/hid/hid-ids.h |    5 +
+ drivers/hid/hid-msi.c | 1998 +++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 2023 insertions(+)
+ create mode 100644 drivers/hid/hid-msi.c
+
+-- 
+2.53.0
 
