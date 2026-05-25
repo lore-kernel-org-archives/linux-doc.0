@@ -1,130 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B183E3DA8;
-	Mon, 25 May 2026 08:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4843D34A2;
+	Mon, 25 May 2026 08:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779698154; cv=none; b=HyYKVJLt0hJOntP267kmR3SBFE6YxdIUbjFz9+goh+aFD7hd3fC2EWsjG0iJLvswXHKDa7oN8VGG6aYp338I+cPpvDxM/rERAyc7m+kvEora1rPCN+koi62TN0PzuesBU61ma7qC8bRxzo0OUm6JddvgJPdSM8CDAM6zEw8dYow=
+	t=1779699022; cv=none; b=YmjPqk6x3rNTJZ30QWbHqPyfPGdzEh1X0hm1LLefPEJQoiRcqiWRgsICHMYI1TF8YImvCmV9WAt9X71Rpqbvp6co2zKJBf1XPdU5sztgthJQNsj68wRn5ZgMgofxksE1RyAIZYYS5f4D50I8LShkJfKdKjySV2B6i1zXcWNRPNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779698154; c=relaxed/simple;
-	bh=cWGHMjYYFvv9ikdhkbkpx3TAnmqIeAE6bFaAbcy+UNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tNNn23yiWj51n8z1Ik2HiFlgeVhy17iWFBc+OvWGdDiYt1XFICnKYy8j+t53Kx4weJv0GHFXRG6rKvCURyigJVMV484T0zWt34aNxqzAwXoq5jgu0BNbWdegZG14AdS3xHY1QId6B79GbjefQ/UakzAhtOFDIroFxQ1dCT23nn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QuLi6Dzr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779699022; c=relaxed/simple;
+	bh=mTUcFKsbwiD0LIrg49RZV6ZL6jdqAvgndaKIqOJxJTc=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mnBrO+Aj0UmnGHtS1uIvAgQfaRX/bl8HL21PqgiefF86O6q8otHQCaIWg08OVsEUf1kqAYbgW5xzjw1SGC8RSxJSWpq/N6u2WgNECv1S5AYWwuY9o3zULfTWbcQTPR+4JaqrOHoNnZzsP3y3npeP1XNasE4lWvsZa0XcqZc0BKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=xXm5VJ0g; arc=none smtp.client-ip=113.46.200.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QuLi6Dzr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C71401F00A3E;
-	Mon, 25 May 2026 08:35:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779698152;
-	bh=WhhFXKFog9xZdGtrRmo6Zl9SceNoNBHUujnjb1u7fNk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QuLi6Dzrc7bh5qbnYhaFhJT3MdPKKXL+L6SQ47xKSdgP2IZLGFEyyo+cZS9+BoTEM
-	 iSKZElexdjTI7IN1Qp/9S7s5Q4IARAjXCNxelIF3+jvEVaXcyjFgmDpqo2gdVwYiNQ
-	 VftColp+LbeFiUodSOCt/+ygM9MqeZdtRONbf/H88mTQXSwv0Cvci2uzesP0Q0Ywcr
-	 feo5a/oi46ay/27pXszQ/L0RKj1K07EelMT9o4l9Ip8bkT/jfUSvPXFpEUauIg2rQE
-	 0sFUXc/H4DOMhis+iDw/GCSkE4CcMiwRbtmDAGrqkti67orn79v6gEGOxDR6O2QkV1
-	 yLiiZGtjARCaw==
-Date: Mon, 25 May 2026 10:35:46 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Frank Li <Frank.Li@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] PCI: endpoint: Add PCI DMA endpoint function
- (part 3/3)
-Message-ID: <ahQJ4kuaBKMhj52L@ryzen>
-References: <20260525063456.3317509-1-den@valinux.co.jp>
- <xnfnxv64hpil6if4ikyohxnarvsekbmjcc37k5zej264ix46z3@qtu6xj2uy3xi>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="xXm5VJ0g"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=MS+svJjwX+WERXmMYEnQYyI5Mc94faKy2CdWQtmAb8o=;
+	b=xXm5VJ0gzjFo5FI6ifJNt2lYYB9fpiEFwKvKrblrK5cZ5X5QR0VEIsC4iprJlRC3urHXpb75e
+	XRqctvGI7uS/yew73xY6QXp4G2a2n8T+yKdd4nuZDj5kccyoaXIEo3Ic4MOgmKWA5NZ5J2KJg3p
+	VaGi5GtRXJK44kah7P/dE2Q=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4gP8Wp315lz12LCf;
+	Mon, 25 May 2026 16:42:14 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 46EDE40537;
+	Mon, 25 May 2026 16:50:15 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
+ (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 25 May
+ 2026 16:50:11 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
+	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>,
+	<akpm@linux-foundation.org>, <bhe@redhat.com>, <rppt@kernel.org>,
+	<pasha.tatashin@soleen.com>, <pratyush@kernel.org>, <ruirui.yang@linux.dev>,
+	<rdunlap@infradead.org>, <pmladek@suse.com>, <feng.tang@linux.alibaba.com>,
+	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
+	<kuba@kernel.org>, <lirongqing@baidu.com>, <ebiggers@kernel.org>,
+	<paulmck@kernel.org>, <thuth@redhat.com>, <ardb@kernel.org>,
+	<masahiroy@kernel.org>, <mark.rutland@arm.com>, <maz@kernel.org>,
+	<james.morse@arm.com>, <leitao@debian.org>, <sourabhjain@linux.ibm.com>,
+	<yeoreum.yun@arm.com>, <coxu@redhat.com>, <jbohac@suse.cz>,
+	<ryan.roberts@arm.com>, <cfsworks@gmail.com>, <tangyouling@kylinos.cn>,
+	<ritesh.list@gmail.com>, <songshuaishuai@tinylab.org>,
+	<junhui.liu@pigmoral.tech>, <vishal.moola@gmail.com>, <kas@kernel.org>,
+	<debug@rivosinc.com>, <namcao@linutronix.de>, <liaoyuanhong@vivo.com>,
+	<fuqiang.wang@easystack.cn>, <seanjc@google.com>, <guoren@kernel.org>,
+	<chenjiahao16@huawei.com>, <hbathini@linux.ibm.com>, <bgwin@google.com>,
+	<takahiro.akashi@linaro.org>, <lizhengyu3@huawei.com>, <x86@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
+	<linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
+	<devicetree@vger.kernel.org>, <kexec@lists.infradead.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH v14 01/17] riscv: kexec_file: Fix crashk_low_res not exclude bug
+Date: Mon, 25 May 2026 16:49:16 +0800
+Message-ID: <20260525084932.934910-2-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260525084932.934910-1-ruanjinjie@huawei.com>
+References: <20260525084932.934910-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <xnfnxv64hpil6if4ikyohxnarvsekbmjcc37k5zej264ix46z3@qtu6xj2uy3xi>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-On Mon, May 25, 2026 at 04:05:02PM +0900, Koichiro Den wrote:
-> 
-> I would like to ask you for your high-level opinion on the direction of this
-> series.
-> 
-> Previously, I have tried two different approaches for the same objective:
-> avoiding the extra CPU memcpy (or local DMA memcpy) in NTB transport on both EP
-> and RC sides.
-> 
-> 1. Put dw-edma-specific handling under drivers/ntb/hw and let the (new) NTB
->    driver carry the metadata needed for channel delegation.
-> 
->    [RFC PATCH v4 00/38] NTB transport backed by PCI EP embedded DMA
->    https://lore.kernel.org/all/20260118135440.1958279-1-den@valinux.co.jp/
-> 
-> 2. Treat endpoint DMA as a first-class part of vNTB. The RC-side ntb_hw_epf
->    would create an auxiliary device, and a new dw-edma-aux driver would create
->    the delegated DMA channels on the RC side.
-> 
->    [PATCH 00/15] PCI: endpoint: Remote DMA support via vNTB
->    https://lore.kernel.org/linux-pci/20260312165005.1148676-1-den@valinux.co.jp/
-> 
->    I added an ASCII diagram for the overview as a follow-up comment here:
->    https://lore.kernel.org/all/sn67hi7kljh7cgmgodatb3naz2astlaklqfobdbxyyzgoohxqb@4nnetbhqwba4/)
-> 
-> Now, this v2 series takes a third direction. It moves the DMA controller out of
-> vNTB/NTB-specific ABI and exposes it as a separate PCI endpoint DMA function.
-> The host then discovers it as a DMA controller function. The initial host-side
-> driver is the existing dw-edma-pcie driver, and dw-edma-aux is no longer needed.
-> 
-> My current thinking is that this is the cleanest among the previous attempts.
-> But this is mostly an architecture question, so I would like to know whether
-> this direction looks acceptable to you.
-> 
-> In short, do you agree with the direction of this series, that endpoint DMA
-> channel delegation should be modeled as a separate PCI endpoint DMA function?
-> 
-> If you think the vNTB-integrated direction is preferable, or if this should be
-> modeled differently in the endpoint framework, I would rather adjust the
-> direction as early as possible, before building the NTB transport on top of it.
+As done in commit 944a45abfabc ("arm64: kdump: Reimplement crashkernel=X")
+and commit 4831be702b95 ("arm64/kexec: Fix missing extra range for
+crashkres_low.") for arm64, while implementing crashkernel=X,[high,low],
+riscv should have excluded the "crashk_low_res" reserved ranges from
+the crash kernel memory to prevent them from being exported through
+/proc/vmcore, and the exclusion would need an extra crash_mem range.
 
-Hello Koichiro,
+Just simply tested on qemu with crashkernel=4G with kexec in [1] mentioned
+in [2]. And the second kernel can be started normally.
 
-I think it would have been nice if your overall goal was more clearly
-described in the cover letter.
+	# dmesg | grep crash
+	[    0.000000] crashkernel low memory reserved: 0xf8000000 - 0x100000000 (128 MB)
+	[    0.000000] crashkernel reserved: 0x000000017fe00000 - 0x000000027fe00000 (4096 MB)
 
-AFAICT, you goal is for "upper layer NTB consumers" to be able to use these
-DMA channels.
+Cc: Guo Ren <guoren@kernel.org>
+Cc: Baoquan He <bhe@redhat.com>
+[1]: https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
+[2]: https://lore.kernel.org/all/20230726175000.2536220-1-chenjiahao16@huawei.com/
+Fixes: 5882e5acf18d ("riscv: kdump: Implement crashkernel=X,[high,low]")
+Reviewed-by: Guo Ren <guoren@kernel.org>
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+ arch/riscv/kernel/machine_kexec_file.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
+diff --git a/arch/riscv/kernel/machine_kexec_file.c b/arch/riscv/kernel/machine_kexec_file.c
+index 54e2d9552e93..3f7766057cac 100644
+--- a/arch/riscv/kernel/machine_kexec_file.c
++++ b/arch/riscv/kernel/machine_kexec_file.c
+@@ -61,7 +61,7 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+ 	unsigned int nr_ranges;
+ 	int ret;
+ 
+-	nr_ranges = 1; /* For exclusion of crashkernel region */
++	nr_ranges = 2; /* For exclusion of crashkernel region */
+ 	walk_system_ram_res(0, -1, &nr_ranges, get_nr_ram_ranges_callback);
+ 
+ 	cmem = kmalloc_flex(*cmem, ranges, nr_ranges);
+@@ -76,8 +76,16 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+ 
+ 	/* Exclude crashkernel region */
+ 	ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
+-	if (!ret)
+-		ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
++	if (ret)
++		goto out;
++
++	if (crashk_low_res.end) {
++		ret = crash_exclude_mem_range(cmem, crashk_low_res.start, crashk_low_res.end);
++		if (ret)
++			goto out;
++	}
++
++	ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
+ 
+ out:
+ 	kfree(cmem);
+-- 
+2.34.1
 
-Since these DMAengine channels will exposed on the host side, I assume that
-these "upper layer NTB consumers" are also on the host side.
-Could you perhaps give some specific examples of drivers on the host side
-that will use these DMA channels?
-
-How will these drivers on the host side know to use the correct DMA channel,
-i.e. the DMA channel that is backed by this new PCI DMA EPF?
-(And not some other random DMA channel, in case the SoC has multiple DMA
-channels.)
-
-If you need to configure your endpoint SoC to bind to the PCI DMA EPF,
-don't you need the endpoint SoC to bind to the pci-epf-ntb or pci-epf-vntb
-driver? I know that some endpoint controllers can bind to multiple EPFs.
-Is the intention for the endpoint SoC to bind both to this new and PCI
-DMA EPF and pci-epf-vntb ?
-
-If so, but do really all endpoint controllers / endpoint controller drivers
-support binding to multiple EPFs?
-
-
-Kind regards,
-Niklas
