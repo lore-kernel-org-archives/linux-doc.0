@@ -1,292 +1,249 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11020137.outbound.protection.outlook.com [52.101.229.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1C4385D66
-	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 13:33:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779716039; cv=none; b=MiXHIGCymBDSF0qkgHXzqVst3nWQlkaZewl2yE9IoqlB6rXrOCugTIzWtFnMgRN/xLj5RvysB6oMx8M+1e59kt3iDxM4dZc/HbgxYEd2FQFZBKeHY0W+zYhMVmULnptUb308tzdeNnrJ2RwyNojNE+iZTUkfOO7xX3UGu8/kq90=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779716039; c=relaxed/simple;
-	bh=E9mJ0ZSaqPkh3BkO8yS/DfFowBkoUmjAGTIbFIbX2Ws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=biGXsKaKVfqg1xMyqxIvbA89P2BgDYXppBadJVIFc5CDVhp6MYe2/826oD+BBa+karzk66GL7ztPFAiPPYEEl2j3wddtFh7FIYhp1b5vQW35Lbtt/DW/ZxEvoK8VYzwKDAikMm+U0pwK1bI4r+/u98v6w6NUHTDgPRGjlE1QRgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QSVSSdZX; arc=none smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CC838642A;
+	Mon, 25 May 2026 14:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.137
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779717824; cv=fail; b=MNTJJoosxsOOyODTfBlYj5Szaf5cmxKD15zO6C7l3z8ajLFMobNIg/qgKgcSZGDe/7k2zd6NHKnfeBZJHjs3aUxyJ1Y6/97GAQ/1sNGC5xL8SSipNZM6nriCZGAOvfWBtUghjScnTG5+JCoH4shy4ixx5r61PeC+hi8VskKEnJQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779717824; c=relaxed/simple;
+	bh=HHD6glqpD4k/VBrB38g8fRMwVliR9p2GCUUaRqV9rPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=rBDakS4nmStNS1feB9wYcSlCrTUP99hU/p8++bH8Qb53pmDP615HhoCB6LoVyMonwNvLeUy3GGOGCCxp1kULcgIuqxC0xnvqLgfhd0eueRdDAfeN1S4TEF4ldE2BCPXCeX58jiDSL90hzFGHTKUQuTGg2dFbqYjQkI1sZ8QveoE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=ZnjctMiF; arc=fail smtp.client-ip=52.101.229.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QSVSSdZX"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1329fc4bf77so6961800c88.1
-        for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 06:33:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779716036; x=1780320836; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WnFay5PIcb5rM2eujuo4gD1l7YH3IarEX6qo/MN+h1g=;
-        b=QSVSSdZXMpOZsTXzmtKO2u56khRZe839rkg5G7yxDItAWI7fd4pQ4MBH/3Xb5HRqLy
-         qt7u7hYFUOfV2r9J4VrnXyGI9quIsRyUi0+AKNHwoebSnnMBfu769e0vBkRWDBEKbR2N
-         KCH28frXR8RXjDNmo5IUviAHaQ6bUsWNalLVCplJPJACBNs/Ay5NxXLUeQtJmpgNsA4S
-         Q3GPugvDzdJwWBhaJ37m/1EhPAnaRs1ZCvlDI9USQlm8cudcUD1NL3EKJt7wU0yXMP8a
-         qp610N+8tFyF0SvD/iuFstEHBkGkvqeFeNmnYsPVB2bq5oQXffZxex/Cos5yTEDTcH2l
-         Lhsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779716036; x=1780320836;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WnFay5PIcb5rM2eujuo4gD1l7YH3IarEX6qo/MN+h1g=;
-        b=b3lYsnoWVtZeuNM/rPCiwzEGQRJJpqvIAN8lOtNTpSYVpxmBXgRQX5Bx3auqUPOU4o
-         HvpA/zWRRO1nSa6m/8lxVFsb8DboRX5QtzkP3wER8VprPa6DUaDS7yriXo8p0mhWSIRT
-         c7+g7PaJOGD9kd39H7PzZbd5lUzrRxFQmm3Pj8w2PBRV7D8vLeBjtypoGTQIrrOKpoiw
-         IHZhKwy6yE9I2XNFkMj+afW5nlrcMCKfRsWdgGpdeDuoKAklMxKdD7+93Vezhi+FkOd5
-         ai/V9JLYjsTHEFfSu+WAsbCSTFX5lxX2OnWm7arODGgZVFbvraoQj6nzDhxUg/HVqibe
-         Gd6A==
-X-Forwarded-Encrypted: i=1; AFNElJ8LbFmtLjWn3d2FVXXl2TD5FJz8RzEUTulUca2CRmHYD+KujKS+oeeBT5jJ4d2qP7/CBw8CL4XJJJg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRIeKpeTORGVWLaZccK+9UW/eqRe68lE5S45GsfMUdE9rnMZLO
-	0oAIoiTo5qkzBaQA4SOlvi6U3Y81dxSbbGhySyOYXaR4SQidrKDimEIO
-X-Gm-Gg: Acq92OH8NfXw2SncKHmrbxfFuuw2rR/f8Edq1T+uw6H7vJ0EOARKwfNnpKAR0zk4db7
-	w6KyziyBBydynfxg+B4frWtxelIC8RAQX+pmj5JPOvHtxDDpkDbdcN/RAH5R+hrXc+KJ8lWy7/O
-	yBFGxocPpYhSXHN19mbXgQ5PAGgirwH4oz2dZfmkAJgZcxUwLGAZwxIW2LPv6FGQBh0wQpo596f
-	0bqU9SlsBMYU/yrxp2SzjVk/T17EGyq/X37W2hU0NqDLMijGi+1CiXzG7e2cZmELlaKdrFSOQmj
-	yH20g+9oeOBpcD17Tfij5WOIazu3IU0egXZf/N0lA2HgRafpLfUTA5lA+MHNZYC+63nUKhTwgzc
-	0q+B/YwtoRoCJ5wGm1zQ8cuwpC1UGq84Zc39uImDm9MxuuNAoGgHemOMVxfBJ8lAE8FOCHnzyRc
-	JNCD/bmE3QGS8K8ihHdbkeZdm09Aqb3snWqLGq
-X-Received: by 2002:a05:7022:4393:b0:12a:949b:b9b with SMTP id a92af1059eb24-1365fb526d4mr5122952c88.23.1779716035456;
-        Mon, 25 May 2026 06:33:55 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-136b3706ad6sm3785990c88.13.2026.05.25.06.33.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 06:33:54 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 25 May 2026 06:33:53 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 02/11] dt-bindings: hwmon: Add Apple System Management
- Controller hwmon schema
-Message-ID: <2571c780-7bb7-4519-92bd-52b82ae6a965@roeck-us.net>
-References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
- <20251112-macsmc-subdevs-v5-2-728e4b91fe81@gmail.com>
+	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="ZnjctMiF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a6w++yTb46zzx0pEmJP2fEmeTK3C0Zvx0NZON5/hVP1fdYRoi1v5ufZlLLUFMVH6i4dyUcGKPwWGYWG0rvGN2fEII+TEvXNnqMzNYeemrir/ML/2qNRtYOIm9ntdCv306WMofKVM/0HMOmufjQ+ob6oDV12nxEqcTfocAmqa7A0LGEzq/IEq0ddGYhpWebyA8G8ir5ff//lO05mWQ1nopTDhmetaKJOnJopq5tqpyLIk2CqvDQO+aTK8V9tRbkUhDZ5fr1+UCZ6uSiCjoLq3sLCaSRUhx738FNgaYD1a++Mh8n9pCs/LE0dtaeLiE5ifVllscguUTttyelTemTP5rA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tORnXhkv91dWwGALTNn1f864aWvDre6LK7oUGhqXdzs=;
+ b=UqGMnvkZiw3GIFYB4RHaskgytaQ5ltHDnWhpm0kqKHX9AnVgwY2+qUrxcbqyMRtpZcy/5+8pPlTRTMQba0vsrfmZl+dBfAyFNumrEfvQxG6E5nGRq6ltMfbRmK+VyyLb7Qkx7xOa/OToKJ7pM4dITDhn9Tz6/bBU+N0BRcAiYlK7ynU8FY4h7F2fHc/ZhGwTJW+dxz9ppxUi0Rlbn6sNMIsPv53WluHGQi1ChJP3dq+lSd6+GyGbwIzBJl3Uw47HkJ6/zimH67bZAh72/Zzr97qgS5OjyFQWcrPdgj9tPU/ZX04Jl8rhzULuXDmYenlwuVe4gG0u4QWb7rKrcTmNqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tORnXhkv91dWwGALTNn1f864aWvDre6LK7oUGhqXdzs=;
+ b=ZnjctMiFp0UQiN1hA+lIHT4Rh1oIDtUV7pU88bjdmcwBl1fZNIkpqYNt7SdJ8xHcn37ZqlULLfyEgOcPCjK9SrFQZ2mjaBqqSYXTc89YPRvFIW27VpGSSyc5/X75SpMdtoRVETr22zOWo55D47oyFuko71PA3GEw7doucGOXcls=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by TYCP286MB3234.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:2c7::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Mon, 25 May
+ 2026 14:03:37 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.21.0048.016; Mon, 25 May 2026
+ 14:03:37 +0000
+Date: Mon, 25 May 2026 23:03:35 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, 
+	Frank Li <Frank.Li@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Damien Le Moal <dlemoal@kernel.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] PCI: endpoint: Add PCI DMA endpoint function
+ (part 3/3)
+Message-ID: <3dkicfydmrlm2i6ks34kwjdmlvb22ryftkfw2yj62o4rtj5xvl@f4gby5vlwtdf>
+References: <20260525063456.3317509-1-den@valinux.co.jp>
+ <xnfnxv64hpil6if4ikyohxnarvsekbmjcc37k5zej264ix46z3@qtu6xj2uy3xi>
+ <ahQJ4kuaBKMhj52L@ryzen>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ahQJ4kuaBKMhj52L@ryzen>
+X-ClientProxiedBy: TYCP286CA0169.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c6::12) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251112-macsmc-subdevs-v5-2-728e4b91fe81@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TYCP286MB3234:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a4f21a1-2233-4a56-d387-08deba666a75
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|7416014|10070799003|366016|56012099003|3023799007|4143699003|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	OTf1X/AhIp2WKYuXGYIXgPQ0pSjcsT8a7265yPnaUBWaCSt3XEXvFRHwjfg/jTtcg5mTlVakNlA6Zl/UgZ7jmyBQdrQsQAHaPBbsyljc6frixExb/SL+4cpmDDrbyWYDcroPRp7NkjvxwE8E4clrNT8tPVcmJRIJU6OA7b4HRJQDU+Ba+Jdi4yFVX1l5avpDX/ALSU8qmdx7P7MO7wz8o9ZEw6Zj6AOBJCxA4jVSxS0QaKXqO8p+k6XdY2ynrs2nH54KCdrI4f5C511nqBCh+lCES1LyPI46tLPn+T0ESMQKZJ+5Fnku0I6ApCbSWN+yx87lUbD1P3sQhqSgMUopIwgeIdYGI2Tp3C9ReUZlDs/S//zRIrS2XgpqdokTMtNAcDnDRVcigMJe8BTScrG8B8kKIUUhz1yjhbezXaRu9scsJ/8V3pngWBz2hUF55NR8xS6pPgzyeiwaEx+mZIPlpfll2wkLjh9vx6qIqz2PaDyUdD3NhEcPo0tu8lT6H8tNopZ5b94+ezVxenN3qcf+6vTLQrOpstCDoOLnsaPwkNq78PyueoLHuh5IxLUWLTjk/T9RWXhVXcBkD+kiOc5JCU70Ee1cYxoPL5v64PgslY+Oho55jxSurlMGmNpdRhbGZYHsZA0nlyqESfqfK4TQmZaNVBDHkt1RZ3phhvVZOQPomwZ3Q7/zzMz8lYM0wdHSOU0iRCMW9uOUhuo74kSLiw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(10070799003)(366016)(56012099003)(3023799007)(4143699003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3JLeh94EdqwPNueE7YnMjIuZvCD518ms6/XRJ2vQ6iXGsYbH7A/uNH1fsbzf?=
+ =?us-ascii?Q?kS9TM9vF25xFJSvEnx44fcjq8ap3mhC2ckRNtlNVYosuwKMG1ZDbTuG4sgBI?=
+ =?us-ascii?Q?wX4294a2DbjivTgFEbU7Wi37r9hajgO3Tz708GGR8oX3SVCDErsD52MAqJeh?=
+ =?us-ascii?Q?Yqun0gu58b/ZoISTaF5D/5b6vpWU+5s054WeggICx+Ser5GpcWLyfvDTkEyd?=
+ =?us-ascii?Q?FDgi2ia2oIo4kInKQpaQEZ2ZcUBe5u8WoBcEioUGxT7xhnMw0IiFxEjiEjW5?=
+ =?us-ascii?Q?X0QISr+GToqJQmKVzj/5yEQHdVPVroV7x+H1gCDUzSVowFhu3hq5Sq8t4WCb?=
+ =?us-ascii?Q?VTlaH8ptjLC2M9JCfDsR7KXwuaytkPQ3y7upcYSzGr/Npe6sfm27QuKorH8h?=
+ =?us-ascii?Q?eC8ZDHHPocNluPNifPFBalb9yg1bA1L7V9ne0YSoUFYCgD4KRR24HcuHj9fR?=
+ =?us-ascii?Q?arU7bAcEGoz48ZOQvI294L2w7H+yXQMUv8KT4xga609xVAjH1Jcyp6ocHeVt?=
+ =?us-ascii?Q?WNi1PS+fFu4yexaXktnX5hG3r3n6v3bd+ivo9ALqN/8oI4OoIZkNM7tWUUF0?=
+ =?us-ascii?Q?Q8Qce2PcwiJahRJdfSzkA+F9+GDQ/nE4dg5MyzMj0g1X7rMKZBzIOhmiMDL1?=
+ =?us-ascii?Q?qP9nRNjmJL1Id+KTLien0lCpx1KfxXGNSs4KoweYp+kfM4rH0SzlRlLCitdU?=
+ =?us-ascii?Q?dSP6c7d7LmTKw44fZ1v/SmLD2W1+jWACjpEKa7XEa6NuzXtUmX81ZVWaS+l+?=
+ =?us-ascii?Q?V7fDWgeH8FXZVSRx80m1mYg4xb5HpPDwRJjN/oygOl0OIl6G0TRIBRw/njSz?=
+ =?us-ascii?Q?EI2zd9hjrJcEQB1WOrMNrj3pwZMIc+9dj6l6pc+N3JZeHvVrWWu89loN6bES?=
+ =?us-ascii?Q?pSRYapVEsHwzoVobMvoUnPkJj1br/RIcrm0DA0fhX+m/5KXeIVXk8V0Z6gPL?=
+ =?us-ascii?Q?ZtCILgiwJT1BV4Rj/5li6DzNq/Nqs38ytmVZXiuHHQXfqDE6Jm5sZNIShXcw?=
+ =?us-ascii?Q?pv8m6y+jJblXb+mnlCwvjUJuNiMXVfqFVazkCjfktrm2KG7vM8zGHkiWDsyi?=
+ =?us-ascii?Q?nizBwWmr4etLpAnp6+ks5mdBKA0L9TZBcXQVxLihUHZ5fiYG+1gUyqLpJ25L?=
+ =?us-ascii?Q?Xjq8V/TsVsHJPA9HMeUR10Rm1FYSAx4RHfaqsjiE3d2Ola72X/hYLtgBWjY8?=
+ =?us-ascii?Q?D4pddakRy9uAXbsWgdKqZSUc5cNKXkGaZmYh6n8QVEC8ninVnqLRdWvNQQ2W?=
+ =?us-ascii?Q?53a64j7IuMK32HeY23F3rzYjdRSq5abvU9lHrwdvQs/GtNqu5irlZpcwdUwo?=
+ =?us-ascii?Q?UFOIvgFrkQulZThIoro/mlzXSny6qNOP9QjeaBSsNa5drb5NNfGnOhDASc1H?=
+ =?us-ascii?Q?UjQiIT+GxWnWElb2faZ3ABQmTj8wenH4+dfpyitxRbUtk63dDPHp5lzzPbm1?=
+ =?us-ascii?Q?47VyF1y0TbRAZV5ikaeGczXLi52QuHz5AaSFqVZ8J3RPanE3z4bXocA7z3b6?=
+ =?us-ascii?Q?PapvOT7yStSLEC8xZ9ORdU6U9l/KiuJxJg5QrKfUJqrnukr4bYuelTiGWILu?=
+ =?us-ascii?Q?xNK4SUs/HbHoszBkPfsqTfRKjCCny7UhR+yBBG0irlxILSuTMd8QmmqeBNfk?=
+ =?us-ascii?Q?DpVLkOw1jo4mGPBrXK00lQXCZHwoETH08F1v3SYBrvn9KoC2DIZRmUsQIcFd?=
+ =?us-ascii?Q?Ju/oduegSWJJqPECXaU5YsIOa2GxwI3pAQ8Y10+/J1WYNHoRnxIa2I9DwsOd?=
+ =?us-ascii?Q?KvdrMyMmh2ItuFjsm12fRfb2xD14PfRkVs4MO6Ws74FpbOuT/AX6?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a4f21a1-2233-4a56-d387-08deba666a75
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 14:03:36.9834
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uIrkbCU3bYwYxPHOYqfog0Yh6+U4S9gl8VZSZ7q9L5XNjOzq5LNmEuUIfheQR3ayWor5Ew7siKEO+VYPNMi6Hg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB3234
 
-On Wed, Nov 12, 2025 at 09:16:48PM +1000, James Calligeros wrote:
-> Apple Silicon devices integrate a vast array of sensors, monitoring
-> current, power, temperature, and voltage across almost every part of
-> the system. The sensors themselves are all connected to the System
-> Management Controller (SMC). The SMC firmware exposes the data
-> reported by these sensors via its standard FourCC-based key-value
-> API. The SMC is also responsible for monitoring and controlling any
-> fans connected to the system, exposing them in the same way.
+On Mon, May 25, 2026 at 10:35:46AM +0200, Niklas Cassel wrote:
+> On Mon, May 25, 2026 at 04:05:02PM +0900, Koichiro Den wrote:
+> > 
+> > I would like to ask you for your high-level opinion on the direction of this
+> > series.
+> > 
+> > Previously, I have tried two different approaches for the same objective:
+> > avoiding the extra CPU memcpy (or local DMA memcpy) in NTB transport on both EP
+> > and RC sides.
+> > 
+> > 1. Put dw-edma-specific handling under drivers/ntb/hw and let the (new) NTB
+> >    driver carry the metadata needed for channel delegation.
+> > 
+> >    [RFC PATCH v4 00/38] NTB transport backed by PCI EP embedded DMA
+> >    https://lore.kernel.org/all/20260118135440.1958279-1-den@valinux.co.jp/
+> > 
+> > 2. Treat endpoint DMA as a first-class part of vNTB. The RC-side ntb_hw_epf
+> >    would create an auxiliary device, and a new dw-edma-aux driver would create
+> >    the delegated DMA channels on the RC side.
+> > 
+> >    [PATCH 00/15] PCI: endpoint: Remote DMA support via vNTB
+> >    https://lore.kernel.org/linux-pci/20260312165005.1148676-1-den@valinux.co.jp/
+> > 
+> >    I added an ASCII diagram for the overview as a follow-up comment here:
+> >    https://lore.kernel.org/all/sn67hi7kljh7cgmgodatb3naz2astlaklqfobdbxyyzgoohxqb@4nnetbhqwba4/)
+> > 
+> > Now, this v2 series takes a third direction. It moves the DMA controller out of
+> > vNTB/NTB-specific ABI and exposes it as a separate PCI endpoint DMA function.
+> > The host then discovers it as a DMA controller function. The initial host-side
+> > driver is the existing dw-edma-pcie driver, and dw-edma-aux is no longer needed.
+> > 
+> > My current thinking is that this is the cleanest among the previous attempts.
+> > But this is mostly an architecture question, so I would like to know whether
+> > this direction looks acceptable to you.
+> > 
+> > In short, do you agree with the direction of this series, that endpoint DMA
+> > channel delegation should be modeled as a separate PCI endpoint DMA function?
+> > 
+> > If you think the vNTB-integrated direction is preferable, or if this should be
+> > modeled differently in the endpoint framework, I would rather adjust the
+> > direction as early as possible, before building the NTB transport on top of it.
 > 
-> For reasons known only to Apple, each device exposes its sensors with
-> an almost totally unique set of keys. This is true even for devices
-> which share an SoC. An M1 Mac mini, for example, will report its core
-> temperatures on different keys to an M1 MacBook Pro. Worse still, the
-> SMC does not provide a way to enumerate the available keys at runtime,
-> nor do the keys follow any sort of reasonable or consistent naming
-> rules that could be used to deduce their purpose. We must therefore
-> know which keys are present on any given device, and which function
-> they serve, ahead of time.
+> Hello Koichiro,
+
+Hello Niklas,
+
 > 
-> Add a schema so that we can describe the available sensors for a given
-> Apple Silicon device in the Devicetree.
+> I think it would have been nice if your overall goal was more clearly
+> described in the cover letter.
+
+Fair enough. Part 1 describes the use case:
+https://lore.kernel.org/dmaengine/20260525062420.3315904-1-den@valinux.co.jp/
+but part 3 should probably have stated the overall goal as well.
+
 > 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  .../bindings/hwmon/apple,smc-hwmon.yaml  | 86 +++++++++++++++++++++++++
->  .../bindings/mfd/apple,smc.yaml          | 36 +++++++++++
-
-I see that the rest of this series is going to be applied. This patch
-touches bindings in mfd, which I can not apply.
-
-With the assumption that the patch will be applied through some other tree,
-presumably mfd:
-
-Acked-by: Guenter Roeck <linux@roeck-us.net>
-
-Guenter
-
->  MAINTAINERS                              |  1 +
->  3 files changed, 123 insertions(+)
+> AFAICT, you goal is for "upper layer NTB consumers" to be able to use these
+> DMA channels.
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
-> new file mode 100644
-> index 000000000000..2eec317bc4b3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
-> @@ -0,0 +1,86 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/apple,smc-hwmon.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Apple SMC Hardware Monitoring
-> +
-> +description:
-> +  Apple's System Management Controller (SMC) exposes a vast array of
-> +  hardware monitoring sensors, including temperature probes, current and
-> +  voltage sense, power meters, and fan speeds. It also provides endpoints
-> +  to manually control the speed of each fan individually. Each Apple
-> +  Silicon device exposes a different set of endpoints via SMC keys. This
-> +  is true even when two machines share an SoC. The CPU core temperature
-> +  sensor keys on an M1 Mac mini are different to those on an M1 MacBook
-> +  Pro, for example.
-> +
-> +maintainers:
-> +  - James Calligeros <jcalligeros99@gmail.com>
-> +
-> +$defs:
-> +  sensor:
-> +    type: object
-> +
-> +    properties:
-> +      apple,key-id:
-> +        $ref: /schemas/types.yaml#/definitions/string
-> +        pattern: "^[A-Za-z0-9]{4}$"
-> +        description: The SMC FourCC key of the desired sensor.
-> +          Must match the node's suffix.
-> +
-> +      label:
-> +        description: Human-readable name for the sensor
-> +
-> +    required:
-> +      - apple,key-id
-> +
-> +properties:
-> +  compatible:
-> +    const: apple,smc-hwmon
-> +
-> +patternProperties:
-> +  "^current-[A-Za-z0-9]{4}$":
-> +    $ref: "#/$defs/sensor"
-> +    unevaluatedProperties: false
-> +
-> +  "^fan-[A-Za-z0-9]{4}$":
-> +    $ref: "#/$defs/sensor"
-> +    unevaluatedProperties: false
-> +
-> +    properties:
-> +      apple,fan-minimum:
-> +        $ref: /schemas/types.yaml#/definitions/string
-> +        pattern: "^[A-Za-z0-9]{4}$"
-> +        description: SMC key containing the fan's minimum speed
-> +
-> +      apple,fan-maximum:
-> +        $ref: /schemas/types.yaml#/definitions/string
-> +        pattern: "^[A-Za-z0-9]{4}$"
-> +        description: SMC key containing the fan's maximum speed
-> +
-> +      apple,fan-target:
-> +        $ref: /schemas/types.yaml#/definitions/string
-> +        pattern: "^[A-Za-z0-9]{4}$"
-> +        description: Writeable endpoint for setting desired fan speed
-> +
-> +      apple,fan-mode:
-> +        $ref: /schemas/types.yaml#/definitions/string
-> +        pattern: "^[A-Za-z0-9]{4}$"
-> +        description: Writeable key to enable/disable manual fan control
-> +
-> +
-> +  "^power-[A-Za-z0-9]{4}$":
-> +    $ref: "#/$defs/sensor"
-> +    unevaluatedProperties: false
-> +
-> +  "^temperature-[A-Za-z0-9]{4}$":
-> +    $ref: "#/$defs/sensor"
-> +    unevaluatedProperties: false
-> +
-> +  "^voltage-[A-Za-z0-9]{4}$":
-> +    $ref: "#/$defs/sensor"
-> +    unevaluatedProperties: false
-> +
-> +additionalProperties: false
-> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> index 0410e712c900..34ce048619f5 100644
-> --- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> @@ -49,6 +49,9 @@ properties:
->    rtc:
->      $ref: /schemas/rtc/apple,smc-rtc.yaml
->  
-> +  hwmon:
-> +    $ref: /schemas/hwmon/apple,smc-hwmon.yaml
-> +
->  additionalProperties: false
->  
->  required:
-> @@ -89,5 +92,38 @@ examples:
->            nvmem-cells = <&rtc_offset>;
->            nvmem-cell-names = "rtc_offset";
->         };
-> +
-> +        hwmon {
-> +          compatible = "apple,smc-hwmon";
-> +
-> +          current-ID0R {
-> +            apple,key-id = "ID0R";
-> +            label = "AC Input Current";
-> +          };
-> +
-> +          fan-F0Ac {
-> +            apple,key-id = "F0Ac";
-> +            apple,fan-minimum = "F0Mn";
-> +            apple,fan-maximum = "F0Mx";
-> +            apple,fan-target = "F0Tg";
-> +            apple,fan-mode = "F0Md";
-> +            label = "Fan 1";
-> +          };
-> +
-> +          power-PSTR {
-> +            apple,key-id = "PSTR";
-> +            label = "Total System Power";
-> +          };
-> +
-> +          temperature-TW0P {
-> +            apple,key-id = "TW0P";
-> +            label = "WiFi/BT Module Temperature";
-> +          };
-> +
-> +          voltage-VD0R {
-> +            apple,key-id = "VD0R";
-> +            label = "AC Input Voltage";
-> +          };
-> +        };
->        };
->      };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 51942a9a9b43..6e5e219c5fe6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2422,6 +2422,7 @@ F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
->  F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
->  F:	Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
->  F:	Documentation/devicetree/bindings/gpu/apple,agx.yaml
-> +F:	Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
->  F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
->  F:	Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
->  F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
+> 
+> Since these DMAengine channels will exposed on the host side, I assume that
+> these "upper layer NTB consumers" are also on the host side.
+> Could you perhaps give some specific examples of drivers on the host side
+> that will use these DMA channels?
+
+I have not submitted the first real consumer code (= NTB transport backed by PCI
+EP DMA) yet. I plan to do that after checking whether the direction taken by
+this series is acceptable.
+
+That said, the consumer would be something like:
+https://lore.kernel.org/ntb/20260118135440.1958279-27-den@valinux.co.jp/
+although the naming "ntb_transport_edma" is no longer suitable (it would be
+"ntb_transport_ep_dma" or something similar). Also, the old RFC holds
+dw-edma-specific handling under drivers/ntb/hw, which is what I am trying to
+avoid with this series, so the whole drivers/ntb/hw/edma/ would no longer be
+needed.
+
+With this direction, the NTB transport would use a DMA engine provider exposed
+by the separate PCI DMA EPF, while the data path would still be very close to
+the old RFC.
+
+> 
+> How will these drivers on the host side know to use the correct DMA channel,
+> i.e. the DMA channel that is backed by this new PCI DMA EPF?
+> (And not some other random DMA channel, in case the SoC has multiple DMA
+> channels.)
+
+I believe the NTB transport client driver should not request a channel by
+capability mask alone, even if a specific dma_transaction_type for this sort of
+transfer is added. It will need to know the specific PCI DMA EPF device to use,
+for example through configuration. One option would be to let the admin specify
+the PCI BDF of the DMA function when loading/configuring the NTB transport
+client.
+
+> 
+> If you need to configure your endpoint SoC to bind to the PCI DMA EPF,
+> don't you need the endpoint SoC to bind to the pci-epf-ntb or pci-epf-vntb
+> driver? I know that some endpoint controllers can bind to multiple EPFs.
+> Is the intention for the endpoint SoC to bind both to this new and PCI
+> DMA EPF and pci-epf-vntb ?
+
+Yes, for the NTB transport backed by PCI EP DMA, the endpoint side would expose
+both functions, vNTB and PCI DMA EPF.
+
+> 
+> If so, but do really all endpoint controllers / endpoint controller drivers
+> support binding to multiple EPFs?
+
+No. For example, R-Car S4's PCIe controller supports multi-functions, while
+RK3588's PCIe controller seems not. So with this scheme, RK3588 would not
+support the NTB transport backed by PCI EP DMA.
+
+That restriction should be documented with the new NTB transport, which I will
+submit if the direction taken by this series is acceptable.
+
+Best regards,
+Koichiro
+
+> 
+> 
+> Kind regards,
+> Niklas
