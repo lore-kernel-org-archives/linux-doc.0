@@ -1,76 +1,92 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFE833F8BE
-	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 20:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50EC839C63E;
+	Mon, 25 May 2026 20:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779741024; cv=none; b=cxhjX/5yfHGZ49RF8Aav9tCBiu/RIl/CPjgnAFynvw+yWRKQZlmBtB0SeBj5WYT+G6Vju+jwT/yXdTfWa6tRWAVahHGynjC2CWpHHK327lRMnSOzw53nCmTuUYnmssxCxuzNECNDD89DfWJ9jTausvpnlNgeO245GlPl2Y//8Xo=
+	t=1779741131; cv=none; b=DloYS/3KG5hl13BLHLQX37gwO8ppMIBfl06WUFk10ClyudSc804XKpSa8MstzRHKwXuLAe5DiRFan6utsYdCFtJ+BqeSiDEIGV+8XrxMRdmfpsr6KcQxlVpFcqpif3j2iD9VvLKDK0rIoI6zQMo431uWNvdUPjus1Yxbh+eKFCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779741024; c=relaxed/simple;
-	bh=v4j9bY/kMiAtO2nDdNwx+6gBc1BAFW7j6HFZ+YEgTr0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KOe3r+d6c/35c2Gwu1eIV49kn8KtDFMW/lfpxnw4Bg+Rki66aZIm71ENEZC7HuiESs8vtPg0HArd4iWBwJAiGfxQuB4rk7rcl/80nLSs94VK5Y6C3UaK4iijk6i22H812q/S4F1kkBAcMJK0u/t76eNJxZVwmO4zRjLstKl39b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=A4DMzf+D; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1779741131; c=relaxed/simple;
+	bh=h3kNNf9bQmpIEMHsGOEF4OitjEbuQUeFi9LDNYzBmc4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=nzfyQqddWShi0Ds/Y0Rby2pRA1kIOgu9BBt+54OqEkgXKwI4YuDJts3KVyLr/5/EKZqWQ7Xd7UpsKmKybUJcf7ZQIWLxA7TKWvdgiKMoIVlM2w9Zolc7kXs7Sm4n0PleqIykSvOGTJ4o9Zj7abYE3DhBrzGhMXLUK7A2aYswPgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OQXg9+0g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="A4DMzf+D"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0EA7640E36
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1779741023; bh=RI22rL46qxxVBJF6GrglodTaqHnl/WjRmCsdJfrWeCA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=A4DMzf+DiHzv72dIwdZ5lAtAZsC4Sqg5UoNnIwzmn4hCRYV2MIYo4syR6QQqqz2dX
-	 EELlgFjA9GUBSatBTAWKrXyUJQHf39woJ2KUdpITIgOPoQOP1L5bbBohaWMNcWUjN3
-	 Azsx+j0bMQVNsMgmcZe4o34g1vjaoWnTV1qb4PfnCsjxicR1ljymKNK5JnNjsXlADf
-	 GqKYFtV0K0cPZA6Y3GJPaAsaE0UZgvYM2chL5hIY0tbB1gS+xFwbls0SWyChxvifPf
-	 YmkLh9iyUbkTxgYI9wiL3de8UkUamcrJaEphTvJmb2SqnLy5m1o8K5NeTUQH21v2x5
-	 fYVun51jc0Dig==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0EA7640E36;
-	Mon, 25 May 2026 20:30:23 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: linux-doc@vger.kernel.org, Daniel Pereira <danielmaraboo@gmail.com>
-Subject: Re: [PATCH v2] docs: pt_BR: update minimal software requirements in
- changes.rst
-In-Reply-To: <20260515182200.654324-1-danielmaraboo@gmail.com>
-References: <20260515182200.654324-1-danielmaraboo@gmail.com>
-Date: Mon, 25 May 2026 14:30:22 -0600
-Message-ID: <87ik8bz0yp.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OQXg9+0g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339801F00A3A;
+	Mon, 25 May 2026 20:32:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779741130;
+	bh=h3kNNf9bQmpIEMHsGOEF4OitjEbuQUeFi9LDNYzBmc4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References;
+	b=OQXg9+0gBgVvIfqDGCcwOipVvzHltjs1bqpls3vPAz8N44CvRFNDtNwIu9hXODWgr
+	 k7vkypfYfp0ftClTxflM7Xl3RmPknAACAwXkRPXpzN9hgYQ9XWWxo8GkTQI3lvu76D
+	 kB4K7UxIvXuEAMZc0hC7zird+pw4vlZ92t9txln80Wi5NfjXZh6Edg34Z7QDv+Gh/r
+	 Ro+97wk90VkdyixHl01L4LGYTuErJXaBbJJ1Du0NJCseYZ8qu0gukwI0/79VdCUkm3
+	 TD0oWz8vnd7XC4N7wX8xDwuClwCG/2aNISAwHgz/P9BIuPI4khVX9nEWhxuWDStH7S
+	 R3DCHRFBh0rgA==
+Date: Mon, 25 May 2026 22:32:06 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Koichiro Den <den@valinux.co.jp>
+CC: Manivannan Sadhasivam <mani@kernel.org>, Frank Li <Frank.Li@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Vinod Koul <vkoul@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Damien Le Moal <dlemoal@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_0/3=5D_PCI=3A_endpoint=3A_Add?=
+ =?US-ASCII?Q?_PCI_DMA_endpoint_function_=28part_3/3=29?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <3dkicfydmrlm2i6ks34kwjdmlvb22ryftkfw2yj62o4rtj5xvl@f4gby5vlwtdf>
+References: <20260525063456.3317509-1-den@valinux.co.jp> <xnfnxv64hpil6if4ikyohxnarvsekbmjcc37k5zej264ix46z3@qtu6xj2uy3xi> <ahQJ4kuaBKMhj52L@ryzen> <3dkicfydmrlm2i6ks34kwjdmlvb22ryftkfw2yj62o4rtj5xvl@f4gby5vlwtdf>
+Message-ID: <F31848F5-5481-4402-9B45-9EC7BCC8B0B6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Daniel Pereira <danielmaraboo@gmail.com> writes:
-
-> Update the Brazilian Portuguese translation of changes.rst to align with
-> the latest English version.
+On 25 May 2026 16:03:35 CEST, Koichiro Den <den@valinux=2Eco=2Ejp> wrote:
+>On Mon, May 25, 2026 at 10:35:46AM +0200, Niklas Cassel wrote:
+>> On Mon, May 25, 2026 at 04:05:02PM +0900, Koichiro Den wrote:
+>>=20
+>> If so, but do really all endpoint controllers / endpoint controller dri=
+vers
+>> support binding to multiple EPFs?
 >
-> Key changes include:
-> - Updated minimum versions for Rust (1.85.0), bindgen (0.71.1), and
->   pahole (1.22).
-> - Fixed ReST syntax for internal references (:ref:) and external links.
-> - Corrected formatting for tool names and config options using inline
->   code backticks.
-> - Synchronized technical descriptions for udev, kmod, and NFS-utils.
->
-> v2:
-> - Fix alignment in the minimal software requirements table that broke the build.
-> - Fix Sphinx footnote syntax.
->
-> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
-> ---
->  .../translations/pt_BR/process/changes.rst    | 56 +++++++++----------
->  1 file changed, 28 insertions(+), 28 deletions(-)
+>No=2E For example, R-Car S4's PCIe controller supports multi-functions, w=
+hile
+>RK3588's PCIe controller seems not=2E So with this scheme, RK3588 would n=
+ot
+>support the NTB transport backed by PCI EP DMA=2E
 
-Applied, thanks.
+I guess it depends on 'max-functions' being set in device tree or not:
+https://github=2Ecom/torvalds/linux/blob/master/drivers/pci/controller/dwc=
+/pcie-designware-ep=2Ec#L1365-L1367
 
-jon
+AFAICT, this value depends on how the DWC PCI controller hardware configur=
+ation=2E
+
+
+>
+>That restriction should be documented with the new NTB transport, which I=
+ will
+>submit if the direction taken by this series is acceptable=2E
+
+This is easy for me to say, since I am not the NTB maintainer, but it woul=
+d be nice if we could somehow come up with a design where we don't only sup=
+port EPCs that have 'max-functions' !=3D 1, because IIRC, most PCI EPCs hav=
+e 'max-functions' =3D=3D 1=2E
+
+
+Kind regards,
+Nikla
