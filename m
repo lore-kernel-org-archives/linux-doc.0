@@ -1,176 +1,135 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58814347C7;
-	Mon, 25 May 2026 18:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5626C3254BD;
+	Mon, 25 May 2026 19:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779732312; cv=none; b=DAfM28+BJHUvZPUvWffzIZyFG6wJP2Y6aCFgCUa8dBUIt1PiS3JKP7p9ddnx1aXcytR+xn3D7yCj6c9Z5MTQ0TjeyplT4KDUxN0b1ziPH1CTLnXNHdk5Jy/EaaFQZireO05xwzjsrNyS3d5jSd9RoMk40ZpGuF9Zq5WB9MLn6tg=
+	t=1779736245; cv=none; b=UNdsXaZfsZ63Giblc16NZ/JH0T7iunzeOatud3ItTv8VaRfS4Tbs06x+noXq/ktXPYb3S16kru5L+Y2pG+I7T/UggeSa6qOi6S5zNUBlNUGh/rUDycioUzOUQJf4PpOIAnpVk4iF6Z2hgdMsnKc8RRi+DbdITZc1XJEmq1Dvb4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779732312; c=relaxed/simple;
-	bh=EmfQ1yxbMEGRoizCR7X16Wqm+GBbblI/+aYBZGYvyx8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rF3Be/d12iTsB/wtYSMnJO3ma2NhzTBd14JluIOs0s0razuzzunejPvJUfOTUQN9z+gGQGFFh3MTQO7BbeMARMwL+Hf0MTae/e9DlB5vkerYaXqH87CVbUGIxDfHyHlHbHsgXZNPVLnERteVggWW9wRU7kM75iOH/MqsLIDPO60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=S+C1NYdp; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1779736245; c=relaxed/simple;
+	bh=3zvRuyEGtB5onyH9z+1KBefEZNzGcmzbH91/tGZPqF8=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=RDpzCYWZy765JPFY8x/nRVm58fXUiyKNe3akeih1R/E4doEDVcB+wCq445tSRrb9RwPLHZi1UlsiUPhPvdSlZJ9t5LCeoEavi+pF/PHG8qP20+Qdol3Y0yQ2On/TIS+4QgSLl8O0dI1M/9+i9lP2m4+C08zvJGpP+6DkH53nc78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=bJyrtF7/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S+C1NYdp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8csN7nMG9tYLUa25VgCwIGRZ1Qs1kAYsX1P7s60cOCE=; b=S+C1NYdpjT4Kvjwgp5z5FP9evs
-	WM2vXyxqmgscRgrhj4NIH37uOgF7GyepuJ2XharM9IdHRmn93G3AaZnDKW+SATK+oxrpbA85MaLxR
-	Tac0HSqR1dfvRoRF7gcgS0HGKZDUouBsO9gV3ZARj96Q0wAU8RT+HOziU/bx4elZ5jhcwDyUt6ijN
-	HHbIHQxjjKthUVWgFmQmtdKkODWekgVP9IiCL71yDabeLkwlUECkzo8F6O4MA+cbAMy66nhwCsxuN
-	UJ1LmqBMZb7b4gH/qeg/LJHfNGR3kpFaS1/gCgh0G3BROEOvOhZ9mdymdEWQL+vBLh6kcwxgxDYW3
-	bw8PuU9w==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRZfn-00000000Bpu-1Sjt;
-	Mon, 25 May 2026 18:05:07 +0000
-Message-ID: <98d30903-e456-4cb6-adaa-35b98ee7008b@infradead.org>
-Date: Mon, 25 May 2026 11:05:05 -0700
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="bJyrtF7/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14C011F000E9;
+	Mon, 25 May 2026 19:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1779736243;
+	bh=AVOvhANuc/qDLfDQ+IdQxPRPdA0dhJZiZGIRxYHlRHs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=bJyrtF7/OFk+pS/31wbvaD/xB7Rv/k9KDyiU6nymD22iIq9ByUeQhJMkhcoxZxBvF
+	 T8XbpglCc0oyk5HIVB0rFQEQi4FYz25Tjhg9LazpnjtwnljsZVdPxfdkkBEpY4phyg
+	 +1pQAolnanUVT5H5FyT1s9kkMj6evH1jJP7gJpiQ=
+Date: Mon, 25 May 2026 12:10:41 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
+ aarcange@redhat.com, anshuman.khandual@arm.com, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
+ catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
+ dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
+ gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz,
+ jackmanb@google.com, jannh@google.com, jglisse@google.com,
+ joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
+ liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com,
+ matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
+ peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
+ rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
+ rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com,
+ shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com,
+ thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com,
+ vbabka@suse.cz, vishal.moola@gmail.com, wangkefeng.wang@huawei.com,
+ will@kernel.org, willy@infradead.org, yang@os.amperecomputing.com,
+ ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-unstable v18 11/14] mm/khugepaged: Introduce mTHP
+ collapse support
+Message-Id: <20260525121041.2f2508a4f627c338cddd837a@linux-foundation.org>
+In-Reply-To: <2b2cda8c-358a-4a5c-989c-ae42593ef2ea@redhat.com>
+References: <20260522150009.121603-1-npache@redhat.com>
+	<20260522150009.121603-12-npache@redhat.com>
+	<2b2cda8c-358a-4a5c-989c-ae42593ef2ea@redhat.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] Documentation: PCI: Add PCI DMA endpoint function
- documentation
-To: Koichiro Den <den@valinux.co.jp>, Manivannan Sadhasivam
- <mani@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Vinod Koul <vkoul@kernel.org>,
- Frank Li <Frank.Li@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org
-References: <20260525063456.3317509-1-den@valinux.co.jp>
- <20260525063456.3317509-4-den@valinux.co.jp>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260525063456.3317509-4-den@valinux.co.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, 25 May 2026 08:15:53 -0600 Nico Pache <npache@redhat.com> wrote:
 
-On 5/24/26 11:34 PM, Koichiro Den wrote:
-> Add a function description and a user guide for pci-epf-dma. Describe
-> the BAR-resident metadata consumed by dw-edma-pcie, the configfs
-> attributes, endpoint controller requirements and the host-side DMAengine
-> usage model.
-> 
-> Signed-off-by: Koichiro Den <den@valinux.co.jp>
-> ---
->  Documentation/PCI/endpoint/index.rst          |   2 +
->  .../PCI/endpoint/pci-dma-function.rst         | 182 ++++++++++++++++
->  Documentation/PCI/endpoint/pci-dma-howto.rst  | 200 ++++++++++++++++++
->  3 files changed, 384 insertions(+)
->  create mode 100644 Documentation/PCI/endpoint/pci-dma-function.rst
->  create mode 100644 Documentation/PCI/endpoint/pci-dma-howto.rst
+> Can you please append the following fixup that reverts one of the
+> changes requested in V17. The issue with the change is described
+> below.
+
+OK.  fyi, what I received was badly mangled: wordwrapping, tabs messed
+up, etc.
+
+Here's my reconstruction:
 
 
-> diff --git a/Documentation/PCI/endpoint/pci-dma-function.rst b/Documentation/PCI/endpoint/pci-dma-function.rst
-> new file mode 100644
-> index 000000000000..54caf4fafe00
-> --- /dev/null
-> +++ b/Documentation/PCI/endpoint/pci-dma-function.rst
-> @@ -0,0 +1,182 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +================
-> +PCI DMA Function
-> +================
-> +
-> +:Author: Koichiro Den <den@valinux.co.jp>
-> +
-> +The PCI DMA endpoint function exposes an endpoint-integrated DMA controller
-> +to the PCI host as a PCI DMA controller.  A matching host-side driver
-> +discovers the endpoint DMA metadata and registers the delegated channels with
-> +the Linux DMAengine framework, so host DMAengine clients can submit
-> +transfers.
-> +
-> +An endpoint Linux system can already use an endpoint-integrated DMA
-> +controller locally through the normal DMAengine API, for example to transfer
-> +data between endpoint memory and host addresses reachable over PCI.  The PCI
-> +DMA function provides a different ownership model: it delegates selected
-> +local DMA channels to the host, so a host DMAengine client can request and
-> +program those endpoint-side channels through the host's DMAengine API.
-> +
-> +To make that possible, the endpoint function publishes the DMA controller
-> +register window and descriptor memory layout to the host, reserves the
-> +selected local DMA channels on the endpoint side, and lets the host program
-> +those channels directly.
-> +
-> +Constructs Used for Implementing DMA
-> +====================================
-> +
-> +The PCI DMA function uses the following endpoint-side resources and
-> +configuration:
-> +
-> +	1) DMA controller register window
-> +	2) DMA descriptor memory for endpoint-to-RC channels
-> +	3) DMA descriptor memory for RC-to-endpoint channels
-> +	4) MSI or MSI-X interrupt vectors selected through configfs
-> +	5) One endpoint BAR used to publish metadata
-> +	6) If needed, one endpoint BAR used for dynamically mapped DMA windows
-> +
-> +The endpoint controller reports the DMA controller register and descriptor
-> +resources through the endpoint auxiliary resource interface.  The PCI DMA
-> +function uses those descriptions to build the host-visible metadata and to map
-> +resources that are not already visible to the host.
-> +
+Author: Nico Pache <npache@redhat.com>
+Subject: fix potential use-after-free of vma in mthp_collapse()
+Date:=A0Mon May 25 07:38:59 2026 -0600
 
-Most of the headings/titles in these 2 documentation files don't use ':' at the
-end of the headings. I suppose that we don't have any explicit docs guidelines
-for that[*], but these (below) stand out as unusual to me (mostly due to the overall
-inconsistency but also because headings just don't typically end with a colon
-IME.
+Between V17 and v18, one reviewer (Wei) brought up that we are not doing
+the uffd-armed check until deep in the collapse operation.  While not
+functionally incorrect, it can lead to unnecessary work.
 
-> +DMA Controller Register Window:
-> +-------------------------------
-> +
-> +It contains the DMA controller registers programmed by the host-side driver
-> +to submit transfers, control channels and handle DMA interrupts.
-> +
-> +DMA Descriptor Memory:
-> +----------------------
-> +
-> +It contains the descriptor memory used by the DMA controller.  The PCI DMA
-> +function exposes descriptor memory for the delegated endpoint-to-RC and
-> +RC-to-endpoint channels.
-> +
-> +MSI/MSI-X Interrupt Vectors:
-> +----------------------------
-> +
-> +They are used by the delegated DMA channels to signal completion and error
-> +conditions to the host-side driver.
-> +
-> +Metadata BAR:
-> +-------------
-> +
-> +It is the endpoint BAR used to publish the endpoint DMA metadata and handshake
-> +bits.  The BAR remains stable while the endpoint function programs the DMA
-> +windows.
-> +
-> +DMA Window BAR:
-> +---------------
-> +
-> +It is the endpoint BAR used for DMA resources that are not already visible
-> +through a fixed BAR.  The endpoint function may switch this BAR to subrange
-> +mapping after the host-side driver has found the metadata BAR.
+We optimized this by passing the vma variable to mthp_collapse() and using
+the collapse_max_ptes_none() function to check the state of uffd-armed
+preventing the wasted work later in the collapse.
 
-*: other than Documentation/doc-guide/sphinx.rst, where heading styles are listed
-   without colons.
+mthp_collapse() is called after mmap_read_unlock(), so the vma pointer can
+become stale.  Remove the vma parameter and pass NULL to
+collapse_max_ptes_none() instead.
 
--- 
-~Randy
+Link: https://lore.kernel.org/2b2cda8c-358a-4a5c-989c-ae42593ef2ea@redhat.c=
+om
+Signed-off-by: Nico Pache <npache@redhat.com>
+...
+
+ mm/khugepaged.c |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+--- a/mm/khugepaged.c~mm-khugepaged-introduce-mthp-collapse-support-fix
++++ a/mm/khugepaged.c
+@@ -1502,9 +1502,9 @@ static unsigned int collapse_mthp_count_
+  * If a collapse is permitted, we attempt to collapse the PTE range into a
+  * mTHP.
+  */
+-static int mthp_collapse(struct mm_struct *mm, struct vm_area_struct *vma,
+-		unsigned long address, int referenced, int unmapped,
+-		struct collapse_control *cc, unsigned long enabled_orders)
++static int mthp_collapse(struct mm_struct *mm, unsigned long address,
++		int referenced, int unmapped, struct collapse_control *cc,
++		unsigned long enabled_orders)
+ {
+ 	unsigned int nr_occupied_ptes, nr_ptes, max_ptes_none;
+ 	int collapsed =3D 0, stack_size =3D 0;
+@@ -1524,7 +1524,7 @@ static int mthp_collapse(struct mm_struc
+ 		if (!test_bit(order, &enabled_orders))
+ 			goto next_order;
+=20
+-		max_ptes_none =3D collapse_max_ptes_none(cc, vma, order);
++		max_ptes_none =3D collapse_max_ptes_none(cc, NULL, order);
+=20
+ 		nr_occupied_ptes =3D collapse_mthp_count_present(cc, offset,
+ 							       nr_ptes);
+@@ -1749,7 +1749,7 @@ out_unmap:
+ 	if (result =3D=3D SCAN_SUCCEED) {
+ 		/* collapse_huge_page expects the lock to be dropped before calling */
+ 		mmap_read_unlock(mm);
+-		nr_collapsed =3D mthp_collapse(mm, vma, start_addr, referenced,
++		nr_collapsed =3D mthp_collapse(mm, start_addr, referenced,
+ 					     unmapped, cc, enabled_orders);
+ 		/* mmap_lock was released above, set lock_dropped */
+ 		*lock_dropped =3D true;
+_
 
