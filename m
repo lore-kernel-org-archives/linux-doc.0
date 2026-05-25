@@ -1,114 +1,110 @@
-Received: from flow-b8-smtp.messagingengine.com (flow-b8-smtp.messagingengine.com [202.12.124.143])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3CE3F4118;
-	Mon, 25 May 2026 15:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.143
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF6A2F7EEC;
+	Mon, 25 May 2026 15:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779722976; cv=none; b=vD8RFUGxe95SoZe5zlkt4oP3YiUvdRNW3LFVFOqe8qC9N3qYjIP76m3nEJX/4NJEKSA1uuThqK1kvWONYbBi+TIL5+rABG8I3sQG6RdMb5aIMZJ6xZ/p9wCBbx5njGaWmtB2ilhaNlmKWy3jvO0FfEWzd9I+tBRe24NuqKqY5xY=
+	t=1779723327; cv=none; b=QT2Cxol17lD4YuIccwOpEVEpF4UTrzVWMz7v7Qkkdpe6FV04TclW55AwP7++m5iBcXigY4wS4w/P515jo9vCoSw1+XEGDmgDsaGS1ijLRb7H0Lt/CLAHl7oRyoeszZvHgZI9upFlSBCwT7WAe88va3HxXXtw/EHvrKFFtEDXo9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779722976; c=relaxed/simple;
-	bh=koERo+4Y3qdd0524f0iQzC6a53FijMr9oIq7gaxxlSM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aLJp3+LpzfMN3IZBLuj/mSCYva9C6M597mbnguQ+c84jJa1cqnYnibqVubDZ9e35+CRUu+BYodeRDJcPSy4ug6yYBd+tzOPoMXPXWzJhH4XCzDtaCH8kkrwTeUyHXOoQ2p7J9N427ESu2JOagf2t7ndSSD8lpm5XlY2TGy7Hr5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=mQNEqOkf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bAK4oyEk; arc=none smtp.client-ip=202.12.124.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
+	s=arc-20240116; t=1779723327; c=relaxed/simple;
+	bh=kAWwXurdh8RCSR0nMQKqMeVKRqx6CMQmUhD5HGww6Dw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=oQg5cmFfzqY5XlPBiICww0UYBHaYa/G2K27SmJM5dGYrpROmcmRc3cEd6a587BnNr0Dkuc0rSYoV4m3eKcMfL7LHHjjGTLJ8vBkoYJfwraWHZdR1etDxW7FGBZO+GsPzrerAGvU2IKsUITxNeixfPeLUsn+m6xmtbMha5mTL/I4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m9G55K0g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="mQNEqOkf";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bAK4oyEk"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.stl.internal (Postfix) with ESMTP id A081E13006FB;
-	Mon, 25 May 2026 11:29:33 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Mon, 25 May 2026 11:29:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1779722973; x=1779730173; bh=koqpQdEmzECFo5R13UjpmYRDc4hRc7E7
-	6rF4OR1LfuM=; b=mQNEqOkf7IpGi3vGbbjzUi4EdXEo6i6Mjljoo1lxF66paGpA
-	1dpprCzpnhoTyreHsdhzPSubEh2iCQaU0g/Fy7yYQpDKCDJpN3NCbPBkfrCPn1nm
-	ignGr3nmVkxHGLfC/JvdiRa6n1k1m5So5a1R2iYxE55BZpOyTbcXSp/YGorUlUeE
-	ALMEwrfiZA+sW9aViJx19V4aHfwIJNtMa7o3xuujvD+GzoH7cLOIaD6oCjsMHATt
-	p6gASQT1eemlldTDOwD0nxu5qXs6FOVSvxJ0txs0N0dYoS157NY9zovux65vz7zT
-	kHml1WbnYs5ThOUxS0Sv0+AC4Ssd63zPsLSyTw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779722973; x=
-	1779730173; bh=koqpQdEmzECFo5R13UjpmYRDc4hRc7E76rF4OR1LfuM=; b=b
-	AK4oyEk51g45pbTr6y1pt8ZOLG1Q1UsRKZsh+WZpF9b71ZKYMhnqdbDxGsoEg2kO
-	ZYytwgWkJJ3TClxzvmr/7kFPk5Z3cy6yWo74nB+sdJjbJ0MdZlxUncRcU5iYj/Bg
-	JEFN6y5ZaVYwXW94iSd5taqg7KyMHT/9NacQLs2v4TsiLPrghmMxz+rcEynIZhtD
-	4jfN0WmtllBsCBYM/0YQ27Ek8EITHTEUf0GmByNXxkkvF112UbTS8+lzgET/3Qzr
-	jwjPglY35fmWwOHt0ba16zwTsoD61jaX5mfRq4Lcwaku5nW6lQTVVnx94cfd1fOe
-	wD2atHYen7DsfNsGeOUJA==
-X-ME-Sender: <xms:3WoUauZwniadSV_0XJQRR3GfbfqezAgVOnEiJXQvVGpDxxbEcg-8ww>
-    <xme:3WoUarX7I_TM33rJvpXWGdacq2w_BXWHKYsKrDtT4MqMNZuGuyvszFk_XbJRiYcpM
-    ITuA0dRxGnyQ0Gv1AsiXpaRtcU4LdLYpXaHIIGKxK5Q3609Zv3qDj0>
-X-ME-Received: <xmr:3WoUaq3TMWAAgMf8vwCjKN6t-AtgQq3AYWTp4Zx9wziGwgpipvalglWr7wgoYg>
-X-ME-Proxy-Cause: dmFkZTFSztvldXVRZEX/sh1yXy8WVaJ330r2bAU/myjOo0zHQHyhaQcNvZ+pEoT1dFLitq
-    y9M/24rkaHAXtyxJ8+YKwCOK5OI+TxBImPalB+hF93G//nOGkpwin3NA+Xhgw0dprXVYJd
-    OlxJsf+n+k0eK5y68GajmHiELU44SlxGcmIWwYVJzM2LiyPtdPpv8KWzen85uN8aL9q2gC
-    ACJiqgb+7E7PFVNiU+XMNhLKGxaUtcBWLPmyA7Crz0BpRKvP7IYztEWEggnISgXD22dJXN
-    qy0iXTQU2ZIC5hEXp41L/fgWtwkvSLwzwODrxIvGKMgxGwmdLTalZ1mj7jeAiLk4m9LdPM
-    /mk7fYPYgsZgbWYqVddSXwx0bpB0rF1U0eGSxOsGKQJOGmlu9RA+BNOgIAMlY1JkYef/6n
-    gRxko25ObTCU8piLty0JYHtbTDEkXe2qxSFpYtCcjj2niIPen9VcygMVt7xm+ZR/A+RXaj
-    3zKfrkQ3nU+lleC+rxPLnmHTlV0KL+0aMeY74mmoZjh0sP3KIbPOMD/p73DF1/b6pr9Ang
-    /cFLnkCsXwRrIkajp6uUYf9eSjOLmDIoRa/WSPV8ZSkjt+T4sbHnzLdz2Nyq5vZi1KuhCe
-    ToGk/UwYCgmZ+OMsUIYDTVI5kx8eei2qnuHFQgVRWuu2UDZ8Ha6vRrVcYIeQ
-X-ME-Proxy: <xmx:3WoUasEN6LhIkvyVDGDHLBmki234R04Rze_yFsGsgfwezUtJjZZwKw>
-    <xmx:3WoUajAhcewLM2mBs-bYnzhjRx9suE8c1ZWBT_7hb3eGcfG4guupuw>
-    <xmx:3WoUauMoy_ZRzMXlcCosqpFVASZnRe4r0oLoV4mnoS89y9y9rNfl4A>
-    <xmx:3WoUamc98WHaFJlzMMrOOsufxmvDJruVtd3npP0G3rZ1SfXRnRbcDg>
-    <xmx:3WoUaiO6L2fCVXg-dfMrikcfQFbyI6ML7eWFPiiFicp7NxgUbKu-uTpC>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 May 2026 11:29:31 -0400 (EDT)
-Date: Mon, 25 May 2026 16:29:24 +0100
-From: Kiryl Shutsemau <kirill@shutemov.name>
-To: sashiko-reviews@lists.linux.dev
-Cc: kvm@vger.kernel.org, akpm@linux-foundation.org, rppt@kernel.org, 
-	peterx@redhat.com, david@kernel.org, ljs@kernel.org, surenb@google.com, 
-	vbabka@kernel.org, Liam.Howlett@oracle.com, ziy@nvidia.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, seanjc@google.com, pbonzini@redhat.com, jthoughton@google.com, 
-	aarcange@redhat.com, sj@kernel.org, usama.arif@linux.dev, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v4 10/14] mm/pagemap: add PAGE_IS_ACCESSED for RWP
- tracking
-Message-ID: <ahRqq3NBCEVx9BTU@thinkstation>
-References: <20260525113737.1942478-11-kas@kernel.org>
- <20260525122659.BB52A1F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m9G55K0g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75D641F000E9;
+	Mon, 25 May 2026 15:35:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779723323;
+	bh=4RU4mhDc8qVs92H5+4lAVgCVBlE9tWSHjhCyliyrIDc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=m9G55K0gx7YOL4cj4gOb2FGACR+7Bfe15lfJS/RfnYvFNkyHit4NSk1tP58/sP/tB
+	 I6BOAYqUijW0t3roijovmeXpwe+RYWH4i0wH4oy+ac1ZmzLdvi66K+wjlpUQYpNELv
+	 1lKvOPvFAcdMFR7xUTT8lv/k3BEsHVZjwLIy4VZsl7ih4LD+H4fnh6ZTddSBJ7KQJw
+	 tzMDh6byuS6tJ5F0VQVYeWFeuc/ElBGk2PStD2NUvnfeS5t3Zrq8qkwLCKvMmrrO5Z
+	 fErvA3e6nOrwsEakVqIgbbUUd47FrMMe1YW6ktTI03sm1dOOu/0NjeGsKqitzfLIP0
+	 aKLB5Pny4Xk8Q==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
+  linux-pci@vger.kernel.org,  Adithya Jayachandran
+ <ajayachandra@nvidia.com>,  Alexander Graf <graf@amazon.com>,  Alex
+ Williamson <alex@shazbot.org>,  Bjorn Helgaas <bhelgaas@google.com>,
+  Chris Li <chrisl@kernel.org>,  David Rientjes <rientjes@google.com>,
+  Jacob Pan <jacob.pan@linux.microsoft.com>,  Jason Gunthorpe
+ <jgg@nvidia.com>,  Jonathan Corbet <corbet@lwn.net>,  Josh Hilke
+ <jrhilke@google.com>,  Leon Romanovsky <leonro@nvidia.com>,  Lukas Wunner
+ <lukas@wunner.de>,  Mike Rapoport <rppt@kernel.org>,  Parav Pandit
+ <parav@nvidia.com>,  Pasha Tatashin <pasha.tatashin@soleen.com>,  Pranjal
+ Shrivastava <praan@google.com>,  Pratyush Yadav <pratyush@kernel.org>,
+  Saeed Mahameed <saeedm@nvidia.com>,  Samiullah Khawaja
+ <skhawaja@google.com>,  Shuah Khan <skhan@linuxfoundation.org>,  Vipin
+ Sharma <vipinsh@google.com>,  William Tu <witu@nvidia.com>,  Yi Liu
+ <yi.l.liu@intel.com>
+Subject: Re: [PATCH v6 04/12] PCI: liveupdate: Document driver binding
+ responsibilities
+In-Reply-To: <20260522202410.3104264-5-dmatlack@google.com> (David Matlack's
+	message of "Fri, 22 May 2026 20:24:02 +0000")
+References: <20260522202410.3104264-1-dmatlack@google.com>
+	<20260522202410.3104264-5-dmatlack@google.com>
+Date: Mon, 25 May 2026 17:35:16 +0200
+Message-ID: <2vxzbje37b9n.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260525122659.BB52A1F000E9@smtp.kernel.org>
+Content-Type: text/plain
 
-On Mon, May 25, 2026 at 12:26:59PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] Returning -EINVAL from pagemap_scan_test_walk() aborts the
-> scan destructively, permanently losing read results for already
-> write-protected pages in preceding VMAs.
+On Fri, May 22 2026, David Matlack wrote:
 
-Confirmed. The non-wp-allowed branch right below already follows the
-right convention -- silently skip with `return 1` so the walk continues.
-Will fix in v5 the same way:
+> Document how driver binding works during a Live Update and what the PCI
+> core expects of drivers and users. Note that this is only a description
+> of the current division of responsibilities. These can change in the
+> future if we decide.
 
-      -       return -EINVAL;
-      +       return 1;
+Nit: Should you also note this in the documentation that this can change
+in the future?
 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260525113737.1942478-1-kas@kernel.org?part=10
+>
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>  drivers/pci/liveupdate.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> index 96c43b84532c..4f2ec6ffdd16 100644
+> --- a/drivers/pci/liveupdate.c
+> +++ b/drivers/pci/liveupdate.c
+> @@ -70,6 +70,22 @@
+>   * preserved. These may be relaxed in the future:
+>   *
+>   *  * The device cannot be a Virtual Function (VF).
+> + *
+> + * Driver Binding
+> + * ==============
+> + *
+> + * In the outgoing kernel, it is the driver's responsibility to ensure that it
+> + * does not release a device between pci_liveupdate_preserve() and
+> + * pci_liveupdate_unpreserve().
+> + *
+> + * In the incoming kernel, it is the driver's responsibility to ensure that it
+> + * does not release a preserved device between probe() and
+> + * pci_liveupdate_finish().
+> + *
+> + * It is the user's responsibility to ensure that incoming preserved devices are
+> + * bound to the correct driver. i.e. The PCI core does not protect against a
+> + * device getting preserved by driver A in the outgoing kernel and then getting
+> + * bound to driver B in the incoming kernel.
+>   */
+>  
+>  #define pr_fmt(fmt) "PCI: liveupdate: " fmt
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Regards,
+Pratyush Yadav
