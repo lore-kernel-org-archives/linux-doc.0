@@ -1,349 +1,260 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8DB3451B3;
-	Mon, 25 May 2026 10:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C165344025
+	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 10:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779703813; cv=none; b=HIY4YWs0JgjztyZvWRzFidoKYO0tVM+4LbDcTA6CKui7uIOOrqwsXbIlay2h/oiUNy2p0BTdms8o8goKVdsb9GXXAgU3s9pN6OYz3g4l63QFNmPT7NZ7HqoXwLxrU47OGGu3xoirZ679i37aYsmJDDkudptEN9sXwvw5+batAS0=
+	t=1779704074; cv=none; b=YEP44mmjbV514bb6AtENKdL+ZFf/ddXz31PtkqvFT7s+EK8zycQhBq6MKRTfXiXFWAv608iKZABp1qz6xuNFLXvEojuGp0lxscv7rNG+viYmS7BlsQeWoqX3vdvCD0o87U/NC2sPqFa0jk9iThVmXHAlX31UhCAzXrPw1A+icnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779703813; c=relaxed/simple;
-	bh=pQNu2xlleloQc/oJIVszUd8RXaJcV1q3jy3qy+cE3Dg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rOXjqNLCBV0FmrBoYwGoj2y7cYomw8GOfe0d4R9+MCXzuQjQ1L+QgYPrfiJ/oXHulhjeZlapg8+iAicHkjsZR6kjQlRk+AuRzbMfCJuzDvLauIPYtgMEo7yAjp15AXa2sCYlieT4Yxu7jVwJIpnS2HzosdQP0fJwfhUpy40MURA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VrJfqANA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779704074; c=relaxed/simple;
+	bh=9Shut4LwPg9RzL3C6q88DWP2Od0SPEgIQJhuLRUCubA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZYYMfkopLHYUNcSSN8zSKUgrxVFX+I+fw//Dy3h49z1gQJ+2ikh4YyF4BDP8ciszN/D8dkkEAuffzLs07bcBJOagOOfj45ARwi8Ogs6uoRisWLcdpxUm6U7fs/BFFtZZnr8k3NjMq41AWv7C09ihyUW19x1qPYGkjfdjPqnIHeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LHnV7AZC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VrJfqANA"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4D4D4C2BCFF;
-	Mon, 25 May 2026 10:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779703813;
-	bh=pQNu2xlleloQc/oJIVszUd8RXaJcV1q3jy3qy+cE3Dg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=VrJfqANAQ/yYou5CZWknFH2XZqbm5TcEsMTzAiUrePvZKrkKCCEyi91Ci9t2Vs+St
-	 TJMz1ridjo/67dNzl9jStiYk4bgqseJhYDUhyKBom0Wcg29QwiVJOUNQa8Vfwf6hNj
-	 hFmzsD1Cs4rFInT15W2CAH0nPlSLzVxrXSDavYDaKZwgAjUC6uiEoKyBgPgT6VngWP
-	 sJK+hCn/1/3U1YAFXrDELwMGwp55HGsNAIUo0SdWarq0/6Q1tHC1DulDxidDVVThuP
-	 Tzz+HTVXMV2dHKLQRkiSIuoosyebzV6TPy3evKediqIUVpTelufujn7bUTjG9lSmn5
-	 YaPsPqbuQzy5w==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 424ADCD5BD0;
-	Mon, 25 May 2026 10:10:13 +0000 (UTC)
-From: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
-Date: Mon, 25 May 2026 13:10:15 +0300
-Subject: [PATCH v13 6/6] docs: iio: adc: ad4691: add driver documentation
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LHnV7AZC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 812281F00ACF
+	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 10:14:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779704073;
+	bh=dUAZrkQxlHQuaRMGZ2OHSU2/UxEYnmUpWIrg2lUbNJc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=LHnV7AZCpFqA7v0O11Qux6vGoP7MUrZ5B8+7OJF3ZtbTtFkoD/WDKbYCi87IbIiVL
+	 Hs/fId7nTHciiKCdw86sMGMYLTloY3Jgnc8j4bEHa55Bb9cjJrcDFamGTDK4gfn4ZV
+	 bKieHq0rbln1f7qR5TTRuQ6q46RB4aMfDm7u6Mdclyxg3rhpSdZIECA4pfZT22ZXVV
+	 kupzSUQyMK+64sf4AmFMfD1sq5Q+RbVZPQol1IvPhjzsnjZADPkWe4cfHGIH/vIXQ1
+	 VcZHW0Y2LvPMGVNUk60iMAFFSsjVA/D6rb0vxrhPIv3Vzs7b/fh9auJk0ARZJa4rAG
+	 uym5uWJn3pq4A==
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-67be41d5eeeso14496091a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 03:14:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ91qpq1pzX7TGKZ4JprEbUeSrjA651O1GuaJKEc4wOH9vwJYZ2//FPukJRpBZ1RN0eqSW8+iG4AtEc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDvdkbxrw6wi7Kipuv+HX0WFZbUjbkGASajb2tz5NNPuhWlSsw
+	0XOnu54TDVcwDQe11RUpqsj5hS7Ti0TuhzLv90gnMIF95GbXOZIDCiF0hV9tUJ89t8eFbMlTna3
+	ii4JRpCix3CueruRhGYUKcrNu8p9ONyU=
+X-Received: by 2002:a17:907:3f13:b0:bc5:1329:a1c8 with SMTP id
+ a640c23a62f3a-bdd25ce8c6bmr701925566b.31.1779704071168; Mon, 25 May 2026
+ 03:14:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260525-ad4692-multichannel-sar-adc-driver-v13-6-1b7626d3b35c@analog.com>
-References: <20260525-ad4692-multichannel-sar-adc-driver-v13-0-1b7626d3b35c@analog.com>
-In-Reply-To: <20260525-ad4692-multichannel-sar-adc-driver-v13-0-1b7626d3b35c@analog.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
- Radu Sabau <radu.sabau@analog.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779703810; l=9992;
- i=radu.sabau@analog.com; s=20260220; h=from:subject:message-id;
- bh=ehwgFuZ34Caajsb+Ayq3e7A4CqJo1K5DtYhNAHIum9A=;
- b=7XiuaAQtr6fSwYdafQbobvWmnfaLvUoa1JZFa0MNwhRK2Xe27ZKljBzNjpSt2mn8xHOot7f/m
- 4/JDFDIjdHoB0BiQ9q6RclFQEZCBkrckWh2g0Yt48wi5YPaaqGlEN+v
-X-Developer-Key: i=radu.sabau@analog.com; a=ed25519;
- pk=lDPQHgn9jTdt0vo58Na9lLxLaE2mb330if71Cn+EvFU=
-X-Endpoint-Received: by B4 Relay for radu.sabau@analog.com/20260220 with
- auth_id=642
-X-Original-From: Radu Sabau <radu.sabau@analog.com>
-Reply-To: radu.sabau@analog.com
+References: <20260525084932.934910-1-ruanjinjie@huawei.com>
+In-Reply-To: <20260525084932.934910-1-ruanjinjie@huawei.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Mon, 25 May 2026 18:14:52 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4NA7vgyxKnK+N_3C6pWBnwXc2URUyLh_h1m-MO=MnsGQ@mail.gmail.com>
+X-Gm-Features: AVHnY4JdnTdCqWcFn0MbwORLZN7izpJL9xjUY_iGyTtHymhcSRhMVmbA2oKRU5I
+Message-ID: <CAAhV-H4NA7vgyxKnK+N_3C6pWBnwXc2URUyLh_h1m-MO=MnsGQ@mail.gmail.com>
+Subject: Re: [PATCH v14 00/17] arm64/riscv: Add support for crashkernel CMA reservation
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com, 
+	will@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com, mpe@ellerman.id.au, 
+	npiggin@gmail.com, chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com, 
+	aou@eecs.berkeley.edu, alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org, 
+	saravanak@kernel.org, akpm@linux-foundation.org, bhe@redhat.com, 
+	rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org, 
+	ruirui.yang@linux.dev, rdunlap@infradead.org, pmladek@suse.com, 
+	feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com, kees@kernel.org, 
+	elver@google.com, kuba@kernel.org, lirongqing@baidu.com, ebiggers@kernel.org, 
+	paulmck@kernel.org, thuth@redhat.com, ardb@kernel.org, masahiroy@kernel.org, 
+	mark.rutland@arm.com, maz@kernel.org, james.morse@arm.com, leitao@debian.org, 
+	sourabhjain@linux.ibm.com, yeoreum.yun@arm.com, coxu@redhat.com, 
+	jbohac@suse.cz, ryan.roberts@arm.com, cfsworks@gmail.com, 
+	tangyouling@kylinos.cn, ritesh.list@gmail.com, songshuaishuai@tinylab.org, 
+	junhui.liu@pigmoral.tech, vishal.moola@gmail.com, kas@kernel.org, 
+	debug@rivosinc.com, namcao@linutronix.de, liaoyuanhong@vivo.com, 
+	fuqiang.wang@easystack.cn, seanjc@google.com, guoren@kernel.org, 
+	chenjiahao16@huawei.com, hbathini@linux.ibm.com, bgwin@google.com, 
+	takahiro.akashi@linaro.org, lizhengyu3@huawei.com, x86@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev, 
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org, kexec@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Radu Sabau <radu.sabau@analog.com>
+Hi, Jinjie,
 
-Add RST documentation for the AD4691 family ADC driver covering
-supported devices, IIO channels, operating modes, oversampling,
-reference voltage, LDO supply, reset, GP pins, SPI offload support,
-and buffer data format.
+On Mon, May 25, 2026 at 4:50=E2=80=AFPM Jinjie Ruan <ruanjinjie@huawei.com>=
+ wrote:
+>
+> The crash memory allocation, and the exclude of crashk_res, crashk_low_re=
+s
+> and crashk_cma memory are almost identical across different architectures=
+,
+> This patch set handle them in crash core in a general way, which eliminat=
+e
+> a lot of duplication code.
+>
+> And add support for crashkernel CMA reservation for arm64 and riscv.
+>
+> Also add support for arm64 crash hotplug.
+>
+> This patch set is rebased on v7.1-rc1.
+>
+> Basic second kernel boot test were performed on QEMU platforms for x86,
+> ARM64 and RISC-V architectures with the following parameters:
+>
+>         "cma=3D256M crashkernel=3D4G crashkernel=3D64M,cma"
+>
+> For first kernel, there will be such log:
+>
+>         # dmesg | grep crash
+>         [    0.000000] crashkernel low memory reserved: 0xe8000000 - 0xf0=
+000000 (128 MB)
+>         [    0.000000] crashkernel reserved: 0x000000023e600000 - 0x00000=
+0033e600000 (4096 MB)
+>         [    0.000000] crashkernel CMA reserved: 64 MB in 1 ranges
+>
+>         # dmesg | grep cma
+>         [    0.000000] cma: Reserved 256 MiB at 0x00000000f0000000
+>         [    0.000000] cma: Reserved 64 MiB at 0x0000000100000000
+>
+> For second kernel, there will be such log:
+>
+>         [    0.000000] OF: fdt: Looking for usable-memory-range property.=
+..
+>         [    0.000000] OF: fdt: cap_mem_regions[0]: base=3D0x000000023e60=
+0000, size=3D0x0000000100000000
+>         [    0.000000] OF: fdt: cap_mem_regions[1]: base=3D0x00000000e800=
+0000, size=3D0x0000000008000000
+>         [    0.000000] OF: fdt: cap_mem_regions[2]: base=3D0x000000010000=
+0000, size=3D0x0000000004000000
+>
+> Changes in v14:
+> - Fix image->elf_headers memory leak during retry loop for arm64 as Sashi=
+ko
+>   AI code review pointed out.
+> - Solve the hotplug notifier arch_crash_handle_hotplug_event() AA
+>   self-deadlock problem as Sashiko AI code review pointed out.
+> - Fix the TOCTOU issue in prepare_elf_headers() by get_online_mems().
+> - -ENOMEM -> -EAGAIN as Breno suggested.
+> - Add support for arm64 crash hotplug.
+> - Link to v13: https://lore.kernel.org/all/20260511030454.1730881-1-ruanj=
+injie@huawei.com/
+>
+> Changes in v13:
+> - Rebased on v7.1-rc1.
+> - Update the commit message.
+> - Add Reviewed-by.
+> - Link to v12: https://lore.kernel.org/all/20260402072701.628293-1-ruanji=
+njie@huawei.com/
+>
+> Changes in v12:
+> - Remove the unused "nr_mem_ranges" for x86.
+> - Add "Fix crashk_low_res not exclude bug" test log.
+> - Provide a separate patch for each architecture for using
+>   crash_prepare_headers(), which will make the review more convenient.
+> - Add Reviewed-by and Tested-by.
+> - Link to v11: https://lore.kernel.org/all/20260328074013.3589544-1-ruanj=
+injie@huawei.com/
+>
+> Changes in v11:
+> - Avoid silently drop crash memory if the crash kernel is built without
+>   CONFIG_CMA.
+> - Remove unnecessary "cmem->nr_ranges =3D 0" for arch_crash_populate_cmem=
+()
+>   as we use kvzalloc().
+> - Provide a separate patch for each architecture to fix the existing
+>   buffer overflow issue.
+> - Add Acked-bys for arm64.
+>
+> Changes in v10:
+> - Fix crashk_low_res not excluded bug in the existing
+>   RISC-V code.
+> - Fix an existing memory leak issue in the existing PowerPC code.
+> - Fix the ordering issue of adding CMA ranges to
+>   "linux,usable-memory-range".
+> - Fix an existing concurrency issue. A Concurrent memory hotplug may occu=
+r
+>   between reading memblock and attempting to fill cmem during kexec_load(=
+)
+>   for almost all existing architectures.
+> - Link to v9: https://lore.kernel.org/all/20260323072745.2481719-1-ruanji=
+njie@huawei.com/
+>
+> Changes in v9:
+> - Collect Reviewed-by and Acked-by, and prepare for Sashiko AI review.
+> - Link to v8: https://lore.kernel.org/all/20260302035315.3892241-1-ruanji=
+njie@huawei.com/
+>
+> Changes in v8:
+> - Fix the build issues reported by kernel test robot and Sourabh.
+> - Link to v7: https://lore.kernel.org/all/20260226130437.1867658-1-ruanji=
+njie@huawei.com/
+>
+> Changes in v7:
+> - Correct the inclusion of CMA-reserved ranges for kdump kernel in of/kex=
+ec
+>   for arm64 and riscv.
+> - Add Acked-by.
+> - Link to v6: https://lore.kernel.org/all/20260224085342.387996-1-ruanjin=
+jie@huawei.com/
+>
+> Changes in v6:
+> - Update the crash core exclude code as Mike suggested.
+> - Rebased on v7.0-rc1.
+> - Add acked-by.
+> - Link to v5: https://lore.kernel.org/all/20260212101001.343158-1-ruanjin=
+jie@huawei.com/
+>
+> Jinjie Ruan (16):
+>   riscv: kexec_file: Fix crashk_low_res not exclude bug
+>   powerpc/crash: Fix possible memory leak in update_crash_elfcorehdr()
+>   arm64: kexec: Fix image->elf_headers memory leak during retry loop
+>   x86/kexec: Fix potential buffer overflow in prepare_elf_headers()
+>   arm64: kexec_file: Fix potential buffer overflow in
+>     prepare_elf_headers()
+>   riscv: kexec_file: Fix potential buffer overflow in
+>     prepare_elf_headers()
+>   LoongArch: kexec: Fix potential buffer overflow in
+>     prepare_elf_headers()
+>   crash: Add crash_prepare_headers() to exclude crash kernel memory
+>   arm64: kexec_file: Use crash_prepare_headers() helper to simplify code
+>   x86/kexec: Use crash_prepare_headers() helper to simplify code
+>   riscv: kexec_file: Use crash_prepare_headers() helper to simplify code
+>   LoongArch: kexec: Use crash_prepare_headers() helper to simplify code
+>   crash: Use crash_exclude_core_ranges() on powerpc
+>   arm64: kexec: Add support for crashkernel CMA reservation
+>   riscv: kexec: Add support for crashkernel CMA reservation
+>   arm64/crash: Add crash hotplug support
+I have some bikesheedings about the subjects. Can we unify the prefix forma=
+ts?
+x86/kexec, arm64: kexec_file, riscv: kexec_file, LoongArch: kexec .....
 
-Signed-off-by: Radu Sabau <radu.sabau@analog.com>
----
- Documentation/iio/ad4691.rst | 226 +++++++++++++++++++++++++++++++++++++++++++
- Documentation/iio/index.rst  |   1 +
- MAINTAINERS                  |   1 +
- 3 files changed, 228 insertions(+)
+Huacai
 
-diff --git a/Documentation/iio/ad4691.rst b/Documentation/iio/ad4691.rst
-new file mode 100644
-index 000000000000..362baabed6b3
---- /dev/null
-+++ b/Documentation/iio/ad4691.rst
-@@ -0,0 +1,226 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+=============
-+AD4691 driver
-+=============
-+
-+ADC driver for Analog Devices Inc. AD4691 family of multichannel SAR ADCs.
-+The module name is ``ad4691``.
-+
-+
-+Supported devices
-+=================
-+
-+The following chips are supported by this driver:
-+
-+* `AD4691 <https://www.analog.com/en/products/ad4691.html>`_ — 16-channel, 500 kSPS
-+* `AD4692 <https://www.analog.com/en/products/ad4692.html>`_ — 16-channel, 1 MSPS
-+* `AD4693 <https://www.analog.com/en/products/ad4693.html>`_ — 8-channel, 500 kSPS
-+* `AD4694 <https://www.analog.com/en/products/ad4694.html>`_ — 8-channel, 1 MSPS
-+
-+
-+IIO channels
-+============
-+
-+Each physical ADC input maps to one IIO voltage channel. The AD4691 and AD4692
-+expose 16 channels (``voltage0`` through ``voltage15``); the AD4693 and AD4694
-+expose 8 channels (``voltage0`` through ``voltage7``).
-+
-+All channels share a common scale (``in_voltage_scale``), derived from the
-+reference voltage. Each channel exposes:
-+
-+* ``in_voltageN_raw`` — single-shot ADC result
-+
-+The following attributes are shared across all channels:
-+
-+* ``in_voltage_sampling_frequency`` — effective output rate, defined as the
-+  internal oscillator frequency divided by the oversampling ratio. Writing this
-+  attribute selects the nearest achievable rate for the current OSR; the value
-+  read back reflects the actual rate after snapping to the closest valid
-+  oscillator entry.
-+* ``in_voltage_sampling_frequency_available`` — list of achievable effective
-+  rates for the current oversampling ratio. The list updates dynamically when
-+  the oversampling ratio changes.
-+
-+The following attributes are shared across all channels and only available in
-+CNV Burst Mode:
-+
-+* ``in_voltage_oversampling_ratio`` — hardware oversampling depth applied to
-+  all channels; see `Oversampling`_ below.
-+* ``in_voltage_oversampling_ratio_available`` — valid ratios: 1, 2, 4, 8, 16,
-+  32.
-+
-+
-+Operating modes
-+===============
-+
-+The driver supports two operating modes, selected automatically from the
-+device tree at probe time.
-+
-+Manual Mode
-+-----------
-+
-+Selected when no ``pwms`` property is present in the device tree. The CNV pin
-+is tied to the SPI chip-select: every CS assertion triggers a conversion and
-+returns the previous result. A user-defined IIO trigger (e.g. hrtimer trigger)
-+drives the buffer.
-+
-+Oversampling is not supported in Manual Mode.
-+
-+CNV Burst Mode
-+--------------
-+
-+Selected when a ``pwms`` property is present in the device tree. A PWM drives
-+the CNV pin at the configured conversion rate. A GP pin wired to the SoC and
-+declared in the device tree signals DATA_READY at the end of each burst,
-+triggering a readout of all active channel results into the IIO buffer.
-+
-+The buffer output rate is controlled by the ``sampling_frequency`` attribute
-+on the IIO buffer. In practice the PWM rate should be set low enough to allow
-+the SPI readout to complete before the next conversion burst begins.
-+
-+Autonomous Mode (idle / single-shot)
-+-------------------------------------
-+
-+When the IIO buffer is disabled, ``in_voltageN_raw`` reads perform a single
-+conversion on the requested channel using the internal oscillator. The
-+oscillator is started and stopped around each read to save power.
-+
-+
-+Oversampling
-+============
-+
-+In CNV Burst Mode a shared hardware accumulator averages a configurable number
-+of successive conversions across all active channels. The result is always a
-+16-bit mean, so the buffer data type (shown in ``buffer0/in_voltageN_type``)
-+is unaffected by the oversampling ratio. Valid ratios are 1, 2, 4, 8, 16 and
-+32; the default is 1 (no averaging). Oversampling is not supported in Manual
-+Mode.
-+
-+.. code-block:: bash
-+
-+    # Set oversampling ratio to 16 (shared across all channels)
-+    echo 16 > /sys/bus/iio/devices/iio:device0/in_voltage_oversampling_ratio
-+
-+    # Read the resulting effective sampling frequency
-+    cat /sys/bus/iio/devices/iio:device0/in_voltage_sampling_frequency
-+
-+Writing ``in_voltage_oversampling_ratio`` stores the new shared depth and snaps
-+the internal oscillator to the largest valid table entry that is both less than
-+or equal to ``old_effective_rate × new_osr`` and evenly divisible by
-+``new_osr``. This preserves an integer read-back of
-+``in_voltage_sampling_frequency`` after the change and keeps the oscillator as
-+close as possible to the previous effective rate.
-+
-+
-+Reference voltage
-+=================
-+
-+The driver supports two reference configurations, mutually exclusive:
-+
-+* **External reference** (``ref-supply``): a voltage between 2.4 V and 5.25 V
-+  supplied externally.
-+* **Buffered internal reference** (``refin-supply``): an internal reference
-+  buffer is enabled by the driver.
-+
-+Exactly one of ``ref-supply`` or ``refin-supply`` must be present in the
-+device tree. The reference voltage determines the full-scale range reported
-+via ``in_voltage_scale``.
-+
-+
-+LDO supply
-+==========
-+
-+The chip contains an internal LDO that powers part of the analog front-end.
-+The supply configuration is mutually exclusive:
-+
-+* **External VDD** (``vdd-supply``): an external 1.8 V supply is used directly;
-+  the internal LDO is disabled.
-+* **Internal LDO** (``ldo-in-supply``): the internal LDO is enabled and fed
-+  from the ``ldo-in`` regulator. Use this when no external 1.8 V VDD is present.
-+
-+Exactly one of ``vdd-supply`` or ``ldo-in-supply`` must be provided.
-+
-+
-+Reset
-+=====
-+
-+The driver supports two reset mechanisms:
-+
-+* **Hardware reset** (``reset-gpios`` in device tree): the GPIO line is
-+  asserted for at least 300 µs then deasserted at probe.
-+* **Software reset** (fallback when ``reset-gpios`` is absent): written
-+  automatically at probe.
-+
-+
-+GP pins and interrupts
-+======================
-+
-+The chip exposes up to four general-purpose (GP) pins. In CNV Burst Mode
-+(non-offload), one GP pin must be wired to an interrupt-capable SoC input and
-+declared in the device tree using the ``interrupts`` and ``interrupt-names``
-+properties. The ``interrupt-names`` value identifies which GP pin is used
-+(``"gp0"`` through ``"gp3"``).
-+
-+Example device tree fragment::
-+
-+    adc@0 {
-+        compatible = "adi,ad4692";
-+        ...
-+        interrupt-parent = <&gpio0>;
-+        interrupts = <17 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "gp0";
-+    };
-+
-+
-+SPI offload support
-+===================
-+
-+When a SPI offload engine (e.g. the AXI SPI Engine) is present, the driver
-+uses DMA-backed transfers for CPU-independent, high-throughput data capture.
-+SPI offload is detected automatically at probe; if no offload hardware is
-+available the driver falls back to the software triggered-buffer path.
-+
-+Two SPI offload sub-modes exist:
-+
-+CNV Burst offload
-+-----------------
-+
-+Used when a ``pwms`` property is present and SPI offload is available. The PWM
-+drives CNV at the configured rate; on DATA_READY the offload engine reads all
-+active channel results and streams them directly to the IIO DMA buffer with no
-+CPU involvement. The GP pin used as DATA_READY trigger is supplied by the
-+trigger-source consumer at buffer enable time; no ``interrupt-names`` entry is
-+required.
-+
-+Manual offload
-+--------------
-+
-+Used when no ``pwms`` property is present and SPI offload is available. A
-+periodic SPI offload trigger controls the conversion rate and the offload engine
-+streams results directly to the IIO DMA buffer.
-+
-+The ``sampling_frequency`` attribute on the IIO buffer controls the trigger
-+rate (in Hz). The initial rate is 100 kHz.
-+
-+Oversampling is not supported in Manual Mode.
-+
-+
-+Buffer data format
-+==================
-+
-+The sample format in the IIO buffer depends on whether SPI offload is in use.
-+
-+Software triggered-buffer path (no SPI offload)
-+------------------------------------------------
-+
-+Each active channel occupies one 16-bit big-endian slot (``storagebits=16``,
-+``endianness=be``). Active channels are packed densely in scan-index order,
-+followed by a 64-bit software timestamp appended by the IIO core.
-+
-+SPI offload path
-+----------------
-+
-+Each active channel occupies one 16-bit CPU-native slot (``storagebits=16``,
-+``endianness=cpu``). The SPI offload engine streams 16-bit words directly from
-+the SPI Engine into the DMA buffer; no software timestamp is appended.
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index ba3e609c6a13..007e0a1fcc5a 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -23,6 +23,7 @@ Industrial I/O Kernel Drivers
-    ad4000
-    ad4030
-    ad4062
-+   ad4691
-    ad4695
-    ad7191
-    ad7380
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 020c1ffae31b..3fbac296b667 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1488,6 +1488,7 @@ L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
-+F:	Documentation/iio/ad4691.rst
- F:	drivers/iio/adc/ad4691.c
- 
- ANALOG DEVICES INC AD4695 DRIVER
-
--- 
-2.43.0
-
-
+>
+> Sourabh Jain (1):
+>   powerpc/crash: sort crash memory ranges before preparing elfcorehdr
+>
+>  .../admin-guide/kernel-parameters.txt         |  16 +--
+>  arch/arm64/Kconfig                            |   3 +
+>  arch/arm64/include/asm/kexec.h                |  14 +-
+>  arch/arm64/kernel/Makefile                    |   1 +
+>  arch/arm64/kernel/crash.c                     | 125 ++++++++++++++++++
+>  arch/arm64/kernel/kexec_image.c               |  22 ++-
+>  arch/arm64/kernel/machine_kexec_file.c        |  78 ++++++-----
+>  arch/arm64/mm/init.c                          |   5 +-
+>  arch/loongarch/kernel/machine_kexec_file.c    |  43 +++---
+>  arch/powerpc/include/asm/kexec_ranges.h       |   1 -
+>  arch/powerpc/kexec/crash.c                    |   7 +-
+>  arch/powerpc/kexec/ranges.c                   | 101 +-------------
+>  arch/riscv/kernel/machine_kexec_file.c        |  42 +++---
+>  arch/riscv/mm/init.c                          |   5 +-
+>  arch/x86/kernel/crash.c                       |  92 ++-----------
+>  drivers/of/fdt.c                              |   9 +-
+>  drivers/of/kexec.c                            |   9 ++
+>  include/linux/crash_core.h                    |  11 ++
+>  include/linux/crash_reserve.h                 |   4 +-
+>  kernel/crash_core.c                           | 102 +++++++++++++-
+>  20 files changed, 392 insertions(+), 298 deletions(-)
+>  create mode 100644 arch/arm64/kernel/crash.c
+>
+> --
+> 2.34.1
+>
