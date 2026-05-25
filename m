@@ -1,58 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812383815CF;
-	Mon, 25 May 2026 11:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4412F38228E
+	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 11:39:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779709158; cv=none; b=oKk9iWbKHjIZE3D/Ty8zUpG3Isj64LCkeb7Awsjc/jlG/7jPEQOrgPV2d+ARW7zx/q1P+ROgp2xfvzC43x6O40zGCOBjzv0MQoWp8ITZpSXaycTtpiiV55psq0+ybrV+CjDQyQk+d5tP2IV/h92UXfAuFOFrXRAung2/T703GM0=
+	t=1779709161; cv=none; b=XvC5ducnQmpxWfPhRo46e5a0810H8DIoHv1cd5oS8tGC6Ms6EBnNkv1WB4E3ox14UihHiM56yisIbwDQt7fIY97E2y7yW0gXmsh7WyPB3A/vBEqoHbFAIox8j7G/eWSAM92DVzEj+CxRP+DH3GYNsl++lcnTyCs5QLjP5IpXwTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779709158; c=relaxed/simple;
-	bh=mctcQ/FJGtncFlKppsIgH+mn3mHj9FbVyJUEWoObBIY=;
+	s=arc-20240116; t=1779709161; c=relaxed/simple;
+	bh=hc7/zb6iIKC/wUNS0C+7ujoKavF01OcggctcJTryLpg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RII+noss+5O+eZf604ABIxiC5DcRHt9qJKRUUoxnqVp70RwX4ZH3357K3JLXdBnksf+E20pv5TwFpg3ARt8DQVcYpmHLH/Q50T+ugkyigvtSOd8qOamZJ67EEh5P2u444PQU/oiZrarG6FgH1mkiq2c5Za626bW15tdvU8cCx20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XVMFF+sX; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=bJ5p+USv+89arc0z0Zw/sJ/T+vblbaySA0C5DjUkpbZnEKIbuvQl/e9N03ji2o/JKsMUDNjPKVoyQeB+bf2ql7O7dLd7TUDwsHuR/aSNu5GhIKZ1r3S51kkW0ioif83KYh11QhpG9FxwvBcfI25lliyz5KVphHsjE45RTwdZyD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GzgP1Lhn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XVMFF+sX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856601F00A3F;
-	Mon, 25 May 2026 11:39:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GzgP1Lhn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C46DA1F00A3A;
+	Mon, 25 May 2026 11:39:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779709156;
-	bh=VJiLnnmxKx1AqdCXsILEaQEuBxwUu2dxhQnKdI014eI=;
+	s=k20260515; t=1779709159;
+	bh=Hye5fxZW50CCDqJ7YyOB92+pBAmmJOZ9B6SG4ApV+6E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=XVMFF+sX4StSiQ06wtHszuJChE0tmiL0oaL4TgEg5vBgnOCciuOEoUVq8SajUq3yO
-	 eEr1Yej9aB6JUmeXV7HYUrSiXQJqWC6pxp1SQgXsib2rv3V9/uKO+pGqfNxcFxC3OI
-	 BXS+VLmNp0Za7Yf8V9JKFbbjxYWA3r9SEBhoIeGbbAjbX64q1Xsc9DqRh9Md5haRry
-	 /TIzkSE3CIr8izT6JW6Q/u3VCnH2JtgF6bP66vx+Oso70pLllfdvsHiMV+RuEPNkpP
-	 Bg4OlmhfNKAnhBzWdLIIhvtyFDA3p7xQ0CkSy3OeqMMq4bn2ljrHfxfJUnttFd6lCg
-	 xOjLJGzPvlvdw==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id E2944F40082;
-	Mon, 25 May 2026 07:39:14 -0400 (EDT)
+	b=GzgP1Lhnu3O3HWiuWZMBAVRfKCjBecJEVeWgmUGTL8+Piu6qwFOvlRudwW26q59vX
+	 NAf49XSTGqp0y2ovf29vm7WQ6bm5m3XkB9WyqAqJclcl7H6GkSwQgRl/XboxGa4wLT
+	 zOpt3wCNAdcLEUdrRXLRDrwpQKmBFt+d4SQ8MTpzLRgVTEOW5KaEOZ+jAKJPzgDsnp
+	 nlgIducUAvNV4eKxURNLf+11t60uMh/n/6BQFwRjeqJnHH0zFJqo0Cc5YgCOq6TDlP
+	 rJ50pH7WAUiJcFd+PrNQPPHDwDXfCFg3IlNMz2eEwMJ3KByuqK5DvX02njU47nyXRq
+	 UvEKJcZVqQRCw==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 30278F40082;
+	Mon, 25 May 2026 07:39:18 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Mon, 25 May 2026 07:39:14 -0400
-X-ME-Sender: <xms:4jQUaomlLMT3f2VicKLG5B9DAv9kW9Bf_TbZECqWUmEXyYPHsHgDlw>
-    <xme:4jQUarzYMdqqBQjtQT2SZXtTq8wN5hXjfl5SMF89a4QckwBwQFkuGxUnY25902diL
-    xtic5bOv_oNM1goxCU0KYVMBWjODcAYNrIO-38oXUCJtMT9kEhj3w>
-X-ME-Received: <xmr:4jQUavJv_82IYATNHHoWhLLba5Dc6OQuRn1G73nZtwKzZA1or7NubStU9YGuww>
-X-ME-Proxy-Cause: dmFkZTFnTuEJhvyD+myNg4p794atgQHzdZOXs2A3gxvR3FSD7M0iqWwHWhOfEG1IgnscR2
-    dpWEnUQHTt04gBiZJ6FOYLwJWkueK3/2x7yPKsRIizx2ATY4cFZISTDZP9EiTwl/39cNmM
-    OA0CsMrDRjxwva2a2lWcAgzMzYsZoGkumkodmX+5ok307LF0rRD0oLFOgPIpccglfJ7Cmv
-    AURvPb/dWg6Eh/o3LACLo5CgxqvMM0m0aATVsjZcPfM5Eqk+WNKfRQ8GkDG8MvyLCL9P+n
-    Ffx6yvOWdEN3fPIKUkuyF3PJ8RYaK5VmWWEYQaxtLNJTEh5sz7hSNo8ZFBfkwknbfQV6HA
-    7SIS4yYDrm7L/JyPwzoUh/jhVh8fTVT6g27fnKgicpk86vK9a+0Gke1AfOkjM+6TDjHjVb
-    fNKLEKArXXTuzvROeBsxd9FXHQjGTxjvBjnkm8Ggf6DzqfgOycjNsGDy/TzWnbSS1vbbVo
-    /BBpYUUqtwJrP3ujfvaq/a4LYgi9p7yt07xwmPlqwQHyqbUp+9hXF9zxPMSPHZB7iuDeWn
-    C5rF9J8xyX7m27pqToy+P7UD7UA7a2SlYIYmmPTlo+C7r5OxT0rcGXSs80ECVaoqaOgSMG
-    pYsrF2sXk2BI4xWyuyWQtQgrXPE/nN6dVL1YbLMMmMFxPfglk91Y7iNhsJcQ
-X-ME-Proxy: <xmx:4jQUauImSrUZAyR4Oct02FTPWQbYwnfa5tZ68GJwKQjtHnKqeuz__g>
-    <xmx:4jQUauXsoXIksiVJJiftYV40SY2SyNwn_i-aAPuvvCY83sZEtG3nbQ>
-    <xmx:4jQUamCtLEJo8WZLFr_BoPc-G3aphUCQGn5lVXjTOfm9vdi6W4zAEA>
-    <xmx:4jQUahE4O7X7-QOP-NUW8R5B0Bi0X0lxMD7PE-dZwxCJQ6jqt-bUsQ>
-    <xmx:4jQUaidU5CRnl6gisyo32K_cWkZv5JR7vjmnNKNqMN1YNhKXZnU-8FOj>
+  by phl-compute-10.internal (MEProxy); Mon, 25 May 2026 07:39:18 -0400
+X-ME-Sender: <xms:5jQUanLcj6vaFQSvVZHMK7QxkwC_C5NGiXOY4JbZB8vNzCbmCyPlzg>
+    <xme:5jQUanCIJKpHxbHN4DslGv4TmTcorNg3WHPAoB8agflElwZ3g4qtHRolfjGHHuQwn
+    blcrV3Wf6ZhLxA9zRtTVdGzv6QBYfSnmHBHpdXsKWEkL-pWaO784g>
+X-ME-Received: <xmr:5jQUaojIPp35bveYwTcnZsX_hZxVmBYoBoS7kVoKxBD6qr8KzljceZ1mU-Fkpw>
+X-ME-Proxy-Cause: dmFkZTEfoRdVBJYWBUADV7d9kIV+Nxm/pVUcgu2VEqiWnj8eQrxuVRmWJvpc9q3Oqv2JCI
+    in3fN4Zd8kb+AIzxXT1aE8XhYzXjllPczHZpsDuave1RqUEJt2aM8NK4F+1xGB1lHbYgSB
+    4+lR3LF0kMycZigQtO5w6VfLN0Aex+LApk+NDe4mN/AQtgEH82UY4yLdpanr1nUEhfYRPX
+    qXaeB8tr6YycPJO/GKcHBfWh4XfvSwFXkiL84UUAHkAJqW6Bc0LpWOIYef91VRiFvO85Cg
+    Xd8jmXx4jYBCkCANHtSsVLhpCbXIiIojLruOFr51QxylDrx8yfg2/g0kqIsUfNxsLFZyah
+    1WtxIfMz6ZJeAiukcR6qxW5tDZd9mgUWB1AYzbt8FmzNd+EULMeBTFxo3MJeE5u3XNcdz7
+    9fNnkSAm2foNSPwXtjawGXMPzu4aqtee6dQTx434U/aed7rDhTKhJccM6Na59r1bxSXJ8T
+    ZQqXqvcAceMCMygwQ9LJTTduSFpyXfd1GZsCMTS9dgOfy81em/bT8UPWe4B6E3QJbHl2+7
+    3/tofNLSdsio67XkIktCbDOaE/hQgFLvSTctuQb4Gnsh5pgiWiFAeXh/1m8qL1d0VxFIhQ
+    etLKKCAmFyJJs2NPy5ZXhaQ781Zidp3SKMrxniyfznYg7kcaR9mrsXXu3Ikw
+X-ME-Proxy: <xmx:5jQUapPkDfg8fSTzIioiXpMOlDwi4l5b14YdIrF_nrS60D8aM1bIGA>
+    <xmx:5jQUanZ2E0ps6kEx8M_WdADC19wexbc7IUIt82kaUq-szInQMGVFnQ>
+    <xmx:5jQUam-acN8p7pIKgkBk-qLGhP8kFQovTL-1pePfr2sPMBnDaACl7A>
+    <xmx:5jQUai2qp0ZVS3ws3uEgR66g2NGaxDpubGLp8hBaykitvEcQHZt2OQ>
+    <xmx:5jQUan0vDsixTwhRPUzoq-ZFPiEuvVjavpMX8lzAaFtisEAXzy1UNPkF>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 May 2026 07:39:14 -0400 (EDT)
+ 25 May 2026 07:39:17 -0400 (EDT)
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 To: akpm@linux-foundation.org,
 	rppt@kernel.org,
@@ -78,9 +78,9 @@ Cc: ljs@kernel.org,
 	kvm@vger.kernel.org,
 	kernel-team@meta.com,
 	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Subject: [PATCH v4 12/14] userfaultfd: add UFFDIO_SET_MODE for runtime sync/async toggle
-Date: Mon, 25 May 2026 12:37:26 +0100
-Message-ID: <20260525113737.1942478-13-kas@kernel.org>
+Subject: [PATCH v4 14/14] Documentation/userfaultfd: document RWP working set tracking
+Date: Mon, 25 May 2026 12:37:28 +0100
+Message-ID: <20260525113737.1942478-15-kas@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260525113737.1942478-1-kas@kernel.org>
 References: <20260525113737.1942478-1-kas@kernel.org>
@@ -90,292 +90,273 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add an ioctl to toggle async mode at runtime without re-registering
-the userfaultfd. This allows a VMM to switch between sync and async
-RWP modes on-the-fly -- for example, starting in async mode for
-working set scanning, then switching to sync mode to intercept faults
-during page eviction.
+Add an admin-guide section covering UFFDIO_REGISTER_MODE_RWP:
 
-UFFDIO_SET_MODE takes an enable/disable bitmask of UFFD_FEATURE_*
-flags. Only UFFD_FEATURE_RWP_ASYNC is toggleable today; the ioctl
-rejects any other bit with -EINVAL. Enabling RWP_ASYNC also requires
-RWP to have been negotiated at UFFDIO_API time, mirroring the
-UFFDIO_API invariant.
+  - sync and async fault models;
+  - UFFDIO_RWPROTECT semantics;
+  - UFFD_FEATURE_RWP_ASYNC;
+  - UFFDIO_SET_MODE runtime mode flips.
 
-Fault-path readers of ctx->features run under mmap_read_lock or a
-per-VMA lock; the RMW takes mmap_write_lock and calls
-vma_start_write() on every UFFD-armed VMA, so those readers are fully
-excluded. userfaultfd_show_fdinfo(), however, reads ctx->features
-without any lock, so the RMW is written as a single WRITE_ONCE and
-fdinfo reads it with READ_ONCE. That keeps the lockless observer from
-seeing a mid-RMW intermediate and removes the audit burden when new
-toggleable bits are added later.
+It also covers typical VMM working-set-tracking workflow from detection
+loop through sync-mode eviction and back to async.
 
-When switching to async, pending sync waiters are woken so they retry
-and auto-resolve under the new mode.
-
-Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
 Assisted-by: Claude:claude-opus-4-6
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 ---
- include/uapi/linux/userfaultfd.h |  14 +++
- mm/userfaultfd.c                 | 150 +++++++++++++++++++++++++------
- 2 files changed, 136 insertions(+), 28 deletions(-)
+ Documentation/admin-guide/mm/userfaultfd.rst | 226 ++++++++++++++++++-
+ 1 file changed, 220 insertions(+), 6 deletions(-)
 
-diff --git a/include/uapi/linux/userfaultfd.h b/include/uapi/linux/userfaultfd.h
-index c10f08f8a618..cea11aad6b54 100644
---- a/include/uapi/linux/userfaultfd.h
-+++ b/include/uapi/linux/userfaultfd.h
-@@ -49,6 +49,7 @@
- #define UFFD_API_IOCTLS				\
- 	((__u64)1 << _UFFDIO_REGISTER |		\
- 	 (__u64)1 << _UFFDIO_UNREGISTER |	\
-+	 (__u64)1 << _UFFDIO_SET_MODE |		\
- 	 (__u64)1 << _UFFDIO_API)
- #define UFFD_API_RANGE_IOCTLS			\
- 	((__u64)1 << _UFFDIO_WAKE |		\
-@@ -85,6 +86,7 @@
- #define _UFFDIO_CONTINUE		(0x07)
- #define _UFFDIO_POISON			(0x08)
- #define _UFFDIO_RWPROTECT		(0x09)
-+#define _UFFDIO_SET_MODE		(0x0A)
- #define _UFFDIO_API			(0x3F)
+diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
+index 1e533639fd50..cb5d0e0c9fff 100644
+--- a/Documentation/admin-guide/mm/userfaultfd.rst
++++ b/Documentation/admin-guide/mm/userfaultfd.rst
+@@ -275,16 +275,16 @@ tracking and it can be different in a few ways:
+   - Dirty information will not get lost if the pte was zapped due to
+     various reasons (e.g. during split of a shmem transparent huge page).
  
- /* userfaultfd ioctl ids */
-@@ -111,6 +113,8 @@
- 				      struct uffdio_poison)
- #define UFFDIO_RWPROTECT	_IOWR(UFFDIO, _UFFDIO_RWPROTECT,	\
- 				      struct uffdio_rwprotect)
-+#define UFFDIO_SET_MODE		_IOW(UFFDIO, _UFFDIO_SET_MODE,	\
-+				     struct uffdio_set_mode)
+-  - Due to a reverted meaning of soft-dirty (page clean when uffd-wp bit
+-    set; dirty when uffd-wp bit cleared), it has different semantics on
+-    some of the memory operations.  For example: ``MADV_DONTNEED`` on
++  - Due to a reverted meaning of soft-dirty (page clean when the uffd bit
++    is set; dirty when the uffd bit is cleared), it has different semantics
++    on some of the memory operations.  For example: ``MADV_DONTNEED`` on
+     anonymous (or ``MADV_REMOVE`` on a file mapping) will be treated as
+-    dirtying of memory by dropping uffd-wp bit during the procedure.
++    dirtying of memory by dropping the uffd bit during the procedure.
  
- /* read() structure */
- struct uffd_msg {
-@@ -406,6 +410,16 @@ struct uffdio_move {
- 	__s64 move;
- };
+ The user app can collect the "written/dirty" status by looking up the
+-uffd-wp bit for the pages being interested in /proc/pagemap.
++uffd bit for the pages being interested in /proc/pagemap.
  
-+struct uffdio_set_mode {
-+	/*
-+	 * Toggle async mode for features at runtime.
-+	 * Supported: UFFD_FEATURE_RWP_ASYNC.
-+	 * Setting a bit in both enable and disable is invalid.
-+	 */
-+	__u64 enable;
-+	__u64 disable;
-+};
-+
- /*
-  * Flags for the userfaultfd(2) system call itself.
-  */
-diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-index 20478bb37311..680ef9bd57fd 100644
---- a/mm/userfaultfd.c
-+++ b/mm/userfaultfd.c
-@@ -2468,19 +2468,29 @@ struct userfaultfd_wake_range {
- /* internal indication that UFFD_API ioctl was successfully executed */
- #define UFFD_FEATURE_INITIALIZED		(1u << 31)
+-The page will not be under track of uffd-wp async mode until the page is
++The page will not be under track of userfaultfd-wp async mode until the page is
+ explicitly write-protected by ``ioctl(UFFDIO_WRITEPROTECT)`` with the mode
+ flag ``UFFDIO_WRITEPROTECT_MODE_WP`` set.  Trying to resolve a page fault
+ that was tracked by async mode userfaultfd-wp is invalid.
+@@ -307,6 +307,220 @@ transparent to the guest, we want that same address range to act as if it was
+ still poisoned, even though it's on a new physical host which ostensibly
+ doesn't have a memory error in the exact same spot.
  
-+/*
-+ * UFFDIO_SET_MODE updates ctx->features under mmap_write_lock with
-+ * WRITE_ONCE; readers that run outside mmap_read_lock or the per-VMA
-+ * lock (poll/read_iter/ioctl, fdinfo) must pair with READ_ONCE.
-+ */
-+static unsigned int userfaultfd_features(struct userfaultfd_ctx *ctx)
-+{
-+	return READ_ONCE(ctx->features);
-+}
++Read-Write Protection
++---------------------
 +
- static bool userfaultfd_is_initialized(struct userfaultfd_ctx *ctx)
- {
--	return ctx->features & UFFD_FEATURE_INITIALIZED;
-+	return userfaultfd_features(ctx) & UFFD_FEATURE_INITIALIZED;
- }
++``UFFDIO_REGISTER_MODE_RWP`` enables read-write protection tracking on a
++memory range. It is similar to (but faster than) ``mprotect(PROT_NONE)``
++combined with a signal handler; unlike ``mprotect(PROT_NONE)``, RWP only
++traps accesses to *present* PTEs, so accesses to unpopulated addresses in a
++protected range fall through to the normal missing-page path. It uses the
++PROT_NONE hinting mechanism (same as NUMA balancing) to make pages
++inaccessible while keeping them resident in memory. Works on anonymous,
++shmem, and hugetlbfs memory.
++
++RWP is designed for VM memory managers that need to track the working set
++of guest memory for cold page eviction to tiered or remote storage.
++
++**Setup:**
++
++1. Open a userfaultfd and enable ``UFFD_FEATURE_RWP`` via ``UFFDIO_API``.
++   Optionally request ``UFFD_FEATURE_RWP_ASYNC`` as well — it requires
++   ``UFFD_FEATURE_RWP`` to be set in the same ``UFFDIO_API`` call.
++
++2. Register the guest memory range with ``UFFDIO_REGISTER_MODE_RWP``
++   (and ``UFFDIO_REGISTER_MODE_MISSING`` if evicted pages will need to be
++   fetched back from storage).
++
++**Feature availability:**
++
++RWP is built on top of two kernel primitives: a spare PTE bit owned by
++userfaultfd (``CONFIG_HAVE_ARCH_USERFAULTFD_WP``) and architecture support
++for present-but-inaccessible PTEs (``CONFIG_ARCH_HAS_PTE_PROTNONE``). When both
++are available on a 64-bit kernel, the build selects
++``CONFIG_USERFAULTFD_RWP=y`` and the ``VM_UFFD_RWP`` VMA flag becomes
++available.
++
++``UFFD_FEATURE_RWP`` and ``UFFD_FEATURE_RWP_ASYNC`` are masked out of the
++features returned by ``UFFDIO_API`` when the running kernel or architecture
++cannot support them — for example 32-bit kernels (where ``VM_UFFD_RWP`` is
++unavailable), kernels built without ``CONFIG_USERFAULTFD_RWP``, and
++architectures whose ptes cannot carry the uffd bit at runtime (e.g. riscv
++without the ``SVRSW60T59B`` extension). ``UFFDIO_API`` does not fail;
++unsupported bits are simply absent from ``uffdio_api.features`` on return.
++Callers should inspect the returned ``features`` after ``UFFDIO_API`` and
++fall back to another tracking method when RWP is unavailable.
++
++**Protecting and Unprotecting:**
++
++Use ``UFFDIO_RWPROTECT`` to protect or unprotect a range, mirroring the
++``UFFDIO_WRITEPROTECT`` interface::
++
++    struct uffdio_rwprotect rwp = {
++        .range = { .start = addr, .len = len },
++        .mode = UFFDIO_RWPROTECT_MODE_RWP,  /* protect */
++    };
++    ioctl(uffd, UFFDIO_RWPROTECT, &rwp);
++
++Setting ``UFFDIO_RWPROTECT_MODE_RWP`` sets PROT_NONE on present PTEs in the
++range. Pages stay resident and their physical frames are preserved — only
++access permissions are removed.
++
++Clearing ``UFFDIO_RWPROTECT_MODE_RWP`` restores normal VMA permissions and
++wakes any faulting threads (unless ``UFFDIO_RWPROTECT_MODE_DONTWAKE`` is set).
++
++**Scope of protection:**
++
++RWP protection is a property of *present* PTEs. ``UFFDIO_RWPROTECT`` only
++affects entries that are already populated. Unpopulated addresses within
++the range remain unpopulated; when first accessed they fault through the
++normal missing path (``do_anonymous_page()``, ``do_swap_page()``,
++``finish_fault()``) and the resulting PTE is not RWP-protected. To observe
++the population itself, co-register the range with
++``UFFDIO_REGISTER_MODE_MISSING``.
++
++Protection is preserved across page reclaim: a page swapped out while
++RWP-protected carries the marker on its swap entry, and swap-in restores
++the PROT_NONE state so the first access after swap-in still faults. The
++same applies to pages temporarily replaced by migration entries.
++
++Operations that drop the PTE entirely — ``MADV_DONTNEED`` on anonymous
++memory, hole-punch on shmem, truncation of a file mapping — also drop the
++RWP marker: the next access re-populates the range without protection.
++Unlike WP (which persists via ``PTE_MARKER_UFFD_WP``), there is no
++persistent RWP marker today. The user needs to re-arm the range with
++``UFFDIO_RWPROTECT`` after any operation that explicitly frees PTEs.
++
++**Fault Handling:**
++
++When a protected page is accessed:
++
++- **Sync mode** (default): The faulting thread blocks and a
++  ``UFFD_PAGEFAULT_FLAG_RWP`` message is delivered to the userfaultfd
++  handler. The handler resolves the fault with ``UFFDIO_RWPROTECT``
++  (clearing ``MODE_RWP``), which restores the PTE permissions and wakes
++  the faulting thread.
++
++- **Async mode** (``UFFD_FEATURE_RWP_ASYNC``): The kernel automatically
++  restores PTE permissions and the thread continues without blocking. No
++  message is delivered to the handler.
++
++**Runtime Mode Switching:**
++
++``UFFDIO_SET_MODE`` toggles ``UFFD_FEATURE_RWP_ASYNC`` at runtime, allowing
++the VMM to switch between lightweight async detection and safe sync
++eviction without re-registering. The toggle takes ``mmap_write_lock()`` to
++ensure all in-flight faults complete before the mode change takes effect.
++
++**Cold Page Detection with PAGEMAP_SCAN:**
++
++RWP-protected PTEs carry the uffd PTE bit; the fault-resolution path
++clears it. ``PAGEMAP_SCAN`` reports ``PAGE_IS_ACCESSED`` once the bit is
++clear on a ``VM_UFFD_RWP`` VMA, so inverting it efficiently reports the
++still-protected (cold) pages::
++
++    struct pm_scan_arg arg = {
++        .size = sizeof(arg),
++        .start = guest_mem_start,
++        .end = guest_mem_end,
++        .vec = (uint64_t)regions,
++        .vec_len = regions_len,
++        .category_mask = PAGE_IS_ACCESSED,
++        .category_inverted = PAGE_IS_ACCESSED,
++        .return_mask = PAGE_IS_ACCESSED,
++    };
++    long n = ioctl(pagemap_fd, PAGEMAP_SCAN, &arg);
++
++The returned ``page_region`` array contains contiguous cold ranges that can
++then be evicted.
++
++**Cleanup:**
++
++When the userfaultfd is closed or the range is unregistered, all PROT_NONE
++PTEs are automatically restored to their normal VMA permissions. This
++prevents pages from becoming permanently inaccessible.
++
++**VMM Working Set Tracking Workflow:**
++
++A typical VMM lifecycle for cold page eviction to tiered storage. Two
++mappings of the same shmem (or hugetlbfs) file are used: ``guest_mem`` is
++the RWP-registered mapping that vCPUs access through, and ``io_mem`` is a
++private mapping for VMM-side I/O. Reading ``io_mem`` does not go through
++the RWP-protected PTEs of ``guest_mem``, so the VMM's own ``pwrite()``
++never traps on its own ::
++
++    /* One-time setup */
++    fd = memfd_create("guest", MFD_CLOEXEC);
++    ftruncate(fd, guest_size);
++    guest_mem = mmap(NULL, guest_size, PROT_READ | PROT_WRITE,
++                     MAP_SHARED, fd, 0);  /* vCPU view, RWP-registered */
++    io_mem    = mmap(NULL, guest_size, PROT_READ | PROT_WRITE,
++                     MAP_SHARED, fd, 0);  /* VMM I/O view, unprotected */
++
++    uffd = userfaultfd(O_CLOEXEC | O_NONBLOCK);
++    ioctl(uffd, UFFDIO_API, &(struct uffdio_api){
++        .api = UFFD_API,
++        .features = UFFD_FEATURE_RWP | UFFD_FEATURE_RWP_ASYNC,
++    });
++    ioctl(uffd, UFFDIO_REGISTER, &(struct uffdio_register){
++        .range = { guest_mem, guest_size },
++        .mode = UFFDIO_REGISTER_MODE_RWP |
++                UFFDIO_REGISTER_MODE_MISSING,
++    });
++
++    /* Tracking loop */
++    while (vm_running) {
++        /* 1. Detection phase (async — no vCPU stalls) */
++        ioctl(uffd, UFFDIO_RWPROTECT, &(struct uffdio_rwprotect){
++            .range = full_range,
++            .mode = UFFDIO_RWPROTECT_MODE_RWP });
++        sleep(tracking_interval);
++
++        /* 2. Find cold pages (uffd bit still set) */
++        ioctl(pagemap_fd, PAGEMAP_SCAN, &(struct pm_scan_arg){
++            .category_mask = PAGE_IS_ACCESSED,
++            .category_inverted = PAGE_IS_ACCESSED,
++            .return_mask = PAGE_IS_ACCESSED,
++            ...
++        });
++
++        /* 3. Switch to sync for safe eviction */
++        ioctl(uffd, UFFDIO_SET_MODE,
++              &(struct uffdio_set_mode){
++                  .disable = UFFD_FEATURE_RWP_ASYNC });
++
++        /* 4. Evict cold pages (vCPU faults block on guest_mem) */
++        for each cold range:
++            /* Read from io_mem -- bypasses RWP, no fault. */
++            pwrite(storage_fd, io_mem + cold_offset, len, offset);
++            /* Drop the page from the shared file. */
++            fallocate(fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
++                      cold_offset, len);
++            /*
++             * Wake any vCPU blocked on the RWP fault for this range:
++             * fallocate() does not iterate ctx->fault_pending_wqh.
++             */
++            ioctl(uffd, UFFDIO_WAKE, &(struct uffdio_range){
++                .start = (uintptr_t)guest_mem + cold_offset,
++                .len = len });
++
++        /* 5. Resume async tracking */
++        ioctl(uffd, UFFDIO_SET_MODE,
++              &(struct uffdio_set_mode){
++                  .enable = UFFD_FEATURE_RWP_ASYNC });
++    }
++
++During step 4, a vCPU that accesses ``guest_mem + cold_offset`` blocks
++with a ``UFFD_PAGEFAULT_FLAG_RWP`` fault while the eviction is in
++progress. After ``fallocate()`` punches the page out and ``UFFDIO_WAKE``
++fires, the vCPU retries the access, faults as ``MISSING``, and the
++handler resolves it with ``UFFDIO_COPY`` from storage.
++
++This workflow targets shmem and hugetlbfs (both support a private
++``io_mem`` mapping over the same fd). Anonymous-memory backings need a
++different inner-loop strategy because the VMM has no way to read the
++page without going through the RWP-protected mapping.
++
+ QEMU/KVM
+ ========
  
- static bool userfaultfd_wp_async_ctx(struct userfaultfd_ctx *ctx)
- {
--	return ctx && (ctx->features & UFFD_FEATURE_WP_ASYNC);
-+	return ctx && (userfaultfd_features(ctx) & UFFD_FEATURE_WP_ASYNC);
- }
- 
- static bool userfaultfd_rwp_async_ctx(struct userfaultfd_ctx *ctx)
- {
--	return ctx && (ctx->features & UFFD_FEATURE_RWP_ASYNC);
-+	return ctx && (userfaultfd_features(ctx) & UFFD_FEATURE_RWP_ASYNC);
- }
- 
- /*
-@@ -2495,7 +2505,7 @@ bool userfaultfd_wp_unpopulated(struct vm_area_struct *vma)
- 	if (!ctx)
- 		return false;
- 
--	return ctx->features & UFFD_FEATURE_WP_UNPOPULATED;
-+	return userfaultfd_features(ctx) & UFFD_FEATURE_WP_UNPOPULATED;
- }
- 
- static int userfaultfd_wake_function(wait_queue_entry_t *wq, unsigned mode,
-@@ -4261,6 +4271,109 @@ static int userfaultfd_rwprotect(struct userfaultfd_ctx *ctx,
- 	return ret;
- }
- 
-+/* Subset of UFFD_API_FEATURES actually supported by this kernel/arch */
-+static __u64 uffd_api_available_features(void)
-+{
-+	__u64 f = UFFD_API_FEATURES;
-+
-+	if (!IS_ENABLED(CONFIG_HAVE_ARCH_USERFAULTFD_MINOR))
-+		f &= ~(UFFD_FEATURE_MINOR_HUGETLBFS | UFFD_FEATURE_MINOR_SHMEM);
-+	if (!pgtable_supports_uffd())
-+		f &= ~UFFD_FEATURE_PAGEFAULT_FLAG_WP;
-+	if (!uffd_supports_wp_marker())
-+		f &= ~(UFFD_FEATURE_WP_HUGETLBFS_SHMEM |
-+		       UFFD_FEATURE_WP_UNPOPULATED |
-+		       UFFD_FEATURE_WP_ASYNC);
-+	/*
-+	 * RWP needs both PROT_NONE support and the uffd PTE bit. The
-+	 * VM_UFFD_RWP check covers compile-time unavailability; the
-+	 * pgtable_supports_uffd() check covers runtime (e.g. riscv
-+	 * without the SVRSW60T59B extension) where the PTE bit is declared
-+	 * but not actually usable.
-+	 */
-+	if (VM_UFFD_RWP == VM_NONE || !pgtable_supports_uffd())
-+		f &= ~(UFFD_FEATURE_RWP | UFFD_FEATURE_RWP_ASYNC);
-+	return f;
-+}
-+
-+/* Async features that can be toggled at runtime via UFFDIO_SET_MODE */
-+#define UFFD_FEATURE_TOGGLEABLE	UFFD_FEATURE_RWP_ASYNC
-+
-+static int userfaultfd_set_mode(struct userfaultfd_ctx *ctx,
-+				unsigned long arg)
-+{
-+	struct uffdio_set_mode mode;
-+	struct mm_struct *mm = ctx->mm;
-+
-+	if (copy_from_user(&mode, (void __user *)arg, sizeof(mode)))
-+		return -EFAULT;
-+
-+	/* enable and disable must not overlap */
-+	if (mode.enable & mode.disable)
-+		return -EINVAL;
-+
-+	/* only toggleable features that this kernel/arch actually supports */
-+	if ((mode.enable | mode.disable) &
-+	    ~(uffd_api_available_features() & UFFD_FEATURE_TOGGLEABLE))
-+		return -EINVAL;
-+
-+	/* RWP_ASYNC can only be enabled on contexts that negotiated RWP */
-+	if ((mode.enable & UFFD_FEATURE_RWP_ASYNC) &&
-+	    !(ctx->features & UFFD_FEATURE_RWP))
-+		return -EINVAL;
-+
-+	if (!mmget_not_zero(mm))
-+		return -ESRCH;
-+
-+	/*
-+	 * Drain in-flight faults before flipping features. mmap_write_lock()
-+	 * blocks new mmap_read_lock() callers, but per-VMA locked faults
-+	 * (lock_vma_under_rcu() + FAULT_FLAG_VMA_LOCK) that acquired before
-+	 * this point keep running. Calling vma_start_write() on each UFFD-
-+	 * armed VMA waits for those readers to drop, so no in-flight fault
-+	 * can observe the old features after mmap_write_unlock().
-+	 */
-+	mmap_write_lock(mm);
-+	{
-+		struct vm_area_struct *vma;
-+		VMA_ITERATOR(vmi, mm, 0);
-+
-+		for_each_vma(vmi, vma) {
-+			if (vma->vm_userfaultfd_ctx.ctx == ctx)
-+				vma_start_write(vma);
-+		}
-+	}
-+	/*
-+	 * Single WRITE_ONCE so lockless readers (fdinfo, poll/read_iter
-+	 * via userfaultfd_is_initialized(), and the userfaultfd_features()
-+	 * helper used elsewhere) can't observe a mid-RMW intermediate
-+	 * value. Hot-path readers already serialise through the mmap lock
-+	 * + vma_start_write() drain above, so their load doesn't need an
-+	 * annotation.
-+	 */
-+	WRITE_ONCE(ctx->features,
-+		   (ctx->features | mode.enable) & ~mode.disable);
-+	mmap_write_unlock(mm);
-+
-+	/*
-+	 * If switching to async, wake threads blocked in handle_userfault().
-+	 * They will retry the fault and auto-resolve under the new mode.
-+	 * len=0 means wake all pending faults on this context.
-+	 */
-+	if (mode.enable & UFFD_FEATURE_RWP_ASYNC) {
-+		struct userfaultfd_wake_range range = { .len = 0 };
-+
-+		spin_lock_irq(&ctx->fault_pending_wqh.lock);
-+		__wake_up_locked_key(&ctx->fault_pending_wqh, TASK_NORMAL,
-+				     &range);
-+		__wake_up(&ctx->fault_wqh, TASK_NORMAL, 1, &range);
-+		spin_unlock_irq(&ctx->fault_pending_wqh.lock);
-+	}
-+
-+	mmput(mm);
-+	return 0;
-+}
-+
- static int userfaultfd_continue(struct userfaultfd_ctx *ctx, unsigned long arg)
- {
- 	__s64 ret;
-@@ -4499,29 +4612,7 @@ static int userfaultfd_api(struct userfaultfd_ctx *ctx,
- 		goto err_out;
- 
- 	/* report all available features and ioctls to userland */
--	uffdio_api.features = UFFD_API_FEATURES;
--#ifndef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
--	uffdio_api.features &=
--		~(UFFD_FEATURE_MINOR_HUGETLBFS | UFFD_FEATURE_MINOR_SHMEM);
--#endif
--	if (!pgtable_supports_uffd())
--		uffdio_api.features &= ~UFFD_FEATURE_PAGEFAULT_FLAG_WP;
--
--	if (!uffd_supports_wp_marker()) {
--		uffdio_api.features &= ~UFFD_FEATURE_WP_HUGETLBFS_SHMEM;
--		uffdio_api.features &= ~UFFD_FEATURE_WP_UNPOPULATED;
--		uffdio_api.features &= ~UFFD_FEATURE_WP_ASYNC;
--	}
--	/*
--	 * RWP needs both PROT_NONE support and the uffd-wp PTE bit. The
--	 * VM_UFFD_RWP check covers compile-time unavailability; the
--	 * pgtable_supports_uffd() check covers runtime (e.g. riscv
--	 * without the SVRSW60T59B extension) where the PTE bit is declared
--	 * but not actually usable.
--	 */
--	if (VM_UFFD_RWP == VM_NONE || !pgtable_supports_uffd())
--		uffdio_api.features &=
--			~(UFFD_FEATURE_RWP | UFFD_FEATURE_RWP_ASYNC);
-+	uffdio_api.features = uffd_api_available_features();
- 
- 	ret = -EINVAL;
- 	if (features & ~uffdio_api.features)
-@@ -4591,6 +4682,9 @@ static long userfaultfd_ioctl(struct file *file, unsigned cmd,
- 	case UFFDIO_RWPROTECT:
- 		ret = userfaultfd_rwprotect(ctx, arg);
- 		break;
-+	case UFFDIO_SET_MODE:
-+		ret = userfaultfd_set_mode(ctx, arg);
-+		break;
- 	}
- 	return ret;
- }
-@@ -4618,7 +4712,7 @@ static void userfaultfd_show_fdinfo(struct seq_file *m, struct file *f)
- 	 *	protocols: aa:... bb:...
- 	 */
- 	seq_printf(m, "pending:\t%lu\ntotal:\t%lu\nAPI:\t%Lx:%x:%Lx\n",
--		   pending, total, UFFD_API, ctx->features,
-+		   pending, total, UFFD_API, userfaultfd_features(ctx),
- 		   UFFD_API_IOCTLS|UFFD_API_RANGE_IOCTLS);
- }
- #endif
 -- 
 2.54.0
 
