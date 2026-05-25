@@ -1,327 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F911BD9C9;
-	Mon, 25 May 2026 17:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779729549; cv=none; b=BdBlSdAuH0siT2uy+yfvOhvDDqiuvbipSjqspm0ucF4fw8uI1LQmeuN0hEfKHknsYFz0BkHcWT0rpLWPjgFM3oBuQn3rn2u7w4yIhJRM6heodFNdFyMqEYwmbGQnMBDPXoU5F0buciXlYQPTE+JD5ItUlf1gqPeJRkgCQZj28YM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779729549; c=relaxed/simple;
-	bh=XDOaoQBfpCf7DMVl8B+eWTRxA5Zyh8M30liKZ1ciNm4=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Sw/ArUj6AtEEkR+o7q/ZmDPLCgOFMe0pqtDxj+SXhaLlshBpf/AZxZiZNybQmBO6kGimOlG26Lf9+PCWv/xrF3wltXIU5aLPQYF++xZZstzlIBKU6ZmYAdzmJeRyiS0eqOXYmPHzXkAPEwahDCZkPuCcfTMNejg1jVuXBCZgLe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lx+cCvbu; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F556235C01
+	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 18:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779732061; cv=pass; b=edjNt+Z+3OpxFV+fb1Fbg6jfyL7Yggmg5JhIFAclMHo0EwtYYyg9FLP5mbLLAunC7QL13Fq2H4sjjXTaFw9BEZwer/f5Yg1oobN9jtSGcBNA9gp2V1RZHpRk7dJPToOM1CVb9XayGRlAlrxrnZsKiWwYvZsuMUPkQcIYZmML4qc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779732061; c=relaxed/simple;
+	bh=ztWDrzYWDuLPAShDNQSj6NTSRJZLB3a5zUnawvigtZA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HGKMVxZdZWRC2FWIa70mfXyMgvZSFH83xDIBEhpgzrdgtTKjv1/5clRlEH8hEAMUWoPYUZIyVERdGddmJwJXVw/XtHzrroTNU2dK57R7iNGvz5l4ZKJWo8KQoPUxXaib/qfySJK+qW8dJpjUfIxLC5xNEMUN1KDmRj2rahpMsCA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dpb/lfzr; arc=pass smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lx+cCvbu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779729546; x=1811265546;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=XDOaoQBfpCf7DMVl8B+eWTRxA5Zyh8M30liKZ1ciNm4=;
-  b=lx+cCvbuFn7BXppGtKqTW9gmyOmCrqzb4iU2T2LQkrUGGXru4Lu94WPt
-   FQ5wtnkZxZcL9T0aaOE0GFl7qFKwl943zNtsqJ7r+aejGpSnsEeWkwq9P
-   aM0OgufOf8olJr4ituuB9/dmURYj6diZFRa1XuIk+oKJwoBWGLzbK3P8M
-   n150v+AK3JzbrVuG6UDYdt++E9YgpE/ttlJa4lrOfEcFgtgba5G3d+evz
-   JJH8xbS2mYHma48xVtwlX3vWSUucKMzikUWFj+UF1FnxnDHSzt7Wf9Iav
-   kGDrxOAwGVAtr5BpasFk+/LVx2ZaHJf+lEGlETQzXugMc8U1sH8+XyOLL
-   A==;
-X-CSE-ConnectionGUID: KwIbXDZjQE+2HPuOqNTQuQ==
-X-CSE-MsgGUID: yhqRZ3L8THG0tZ3uFKdgEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="80666593"
-X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
-   d="scan'208";a="80666593"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 10:19:06 -0700
-X-CSE-ConnectionGUID: bYnvJjBkQRaTbXeYMzMHsQ==
-X-CSE-MsgGUID: H9UZUKqSQRuRM1GFcevPbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
-   d="scan'208";a="240613656"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.234])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 10:19:01 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 25 May 2026 20:18:58 +0300 (EEST)
-To: Vishnu Sankar <vishnuocv@gmail.com>
-cc: Mark Pearson <mpearson-lenovo@squebb.ca>, skhan@linuxfoundation.org, 
-    hmh@hmh.eng.br, Hans de Goede <hansg@kernel.org>, corbet@lwn.net, 
-    derekjohn.clark@gmail.com, LKML <linux-kernel@vger.kernel.org>, 
-    ibm-acpi-devel@lists.sourceforge.net, linux-doc@vger.kernel.org, 
-    platform-driver-x86@vger.kernel.org, vsankar@lenovo.com
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Add USB-C Security (USCS)
- support
-In-Reply-To: <20260522100715.20036-1-vishnuocv@gmail.com>
-Message-ID: <c4c0632b-0a24-8956-9557-69b927e451fb@linux.intel.com>
-References: <20260522100715.20036-1-vishnuocv@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dpb/lfzr"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4856128f670so2110934b6e.0
+        for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 11:01:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779732059; cv=none;
+        d=google.com; s=arc-20240605;
+        b=P7hMA3JDCtJyHodmeU+uxbnrIqc2eiYOmPo+KI9uP/l+v8qbZcVN2CrKnBjSkLjT/G
+         QHMGgq2KsY+OOGaprsTLe8ACh4CIeB5SQkFCE7WHOfCcEX3nvoSzaGry8gGwSMjaLQnX
+         ThaK4qyErwQ8xO3sVHHLWtNTCAIR5xEp96auQduCOayVClJnLr4VgdozB8BJn2QO6tym
+         tontsOpPvJZ0awbcS9PZNZQpcDB9AhJeXM46NT2z+hmoMRTwDVo0WzOyR59DzW8XMXfn
+         NgOK4bIaxnUvxfi+F2ylTrqaP4tmPQxWGv4ivS0wT7vxcIHmkIk4Q3kMFKgDNCWcS1YN
+         QT0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=W20iH+Kk8aoONfJ6qFfQRSl7tdxJkdl2vaFKEEG+2WU=;
+        fh=CvAoNJxu24rG0D2SJaE2994iI9FE2xtVN6/18KyIvjo=;
+        b=WlIqYP9sWjCxc3zbymFibAtHycXgM2g/yZ4Yxl1PB5W133JqH2ka0hGgc43ss7CEwC
+         NRxxL5SyUcHbUnUTLQxgnTdHII7zmBOhBx2U1LEWLLqx3vbmZ5Ih3rIJU32bntpH6FsT
+         w1n/8CngwgVvTmh5K+x393BRuH63sQZ9INhENniG5t7+kzEMw/GhBBZDC/1+FmArDakT
+         9SmZMghI+pV5C3Vd/3KN5jN+w6vXFVATxPSyZVpWLGHSB8/i4/nIxzPbU/MLluIDQguc
+         sULDhKykiv4xu8Pc2ppVqgADxjmFOgVkpd0cbaBheoxmNZ0YZ9Rs8EwPiWCwq+rARhVa
+         TDiw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779732059; x=1780336859; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W20iH+Kk8aoONfJ6qFfQRSl7tdxJkdl2vaFKEEG+2WU=;
+        b=Dpb/lfzrNXmb+qxHu331zQCwMCPCePBoSkgzMaDjb8jL5W3NvUsBVNRVvvqEVl1B96
+         o/TpK9x9gm+CbKXqIsQwAViwkt7947z5RzQjPwwdtaZTIa8/0nyJ3oeT0AIXwRJnStg2
+         YDBrTLRbM+SXspHwRf7fj4GO5SEuj3nzLq66Ahhnb15MpcIYbH98y3EkzWE0HlsNEKmu
+         kD5XbiOPXlAGHEGRHThXyXwps9/rrdz/bGkWwhHrPbIHdHnDe7jXT941v5sh+CL+RPL8
+         eLhEJbyqnbnvd2QgDC1KALetXs42K2hAMe7BYHA+hYHhB4uiKFmSRDrw7jbwz3FPFxzL
+         gcLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779732059; x=1780336859;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=W20iH+Kk8aoONfJ6qFfQRSl7tdxJkdl2vaFKEEG+2WU=;
+        b=pEMFoLNxB+iNhD3HDYJNb1sSJH3+FZAACNrxLDzlIJCPOZB8xo4von/Lanc0yu+YtR
+         sdDthN8m0eBngL51sUJRt7cqak3rf6d6onDnW7LPVnjCOKwVLilIO+IlYqTlkiWPyV9m
+         HeY+e6l72mAuAnhoB2BKf6Z2mmqt3A+G+ggpRPSXpI+M4ViKRK03COq3KcitHKXhlKfI
+         rzTLvF+3pmPwTsG9rN3tqfsFcChYjlYCDax9lTlvV7C79Fb9R5WkcXh7377/ut4GBQF/
+         qE/zxJTD1wNs0WyUNc/sCVgNC5YY14PuEBP7OqhJC28V7TC16wR2BWLcvM5uTiXHxLt1
+         osAw==
+X-Gm-Message-State: AOJu0YxZw1U6M7UnxTA+dQlRYxClNHRRZNbJCXuzMOekfu/e1f9i2U29
+	LBALAYk9MTdUCYZfI1j9/6D3HsQvubDUQ6jWqA2Lq/j9Dvi3GrpVicLEo6eSlxjCfd0BA5U+6to
+	FprKrSkLqziGqIzTGfet1ZDPFa1a9G/6oKaVT
+X-Gm-Gg: Acq92OGdE2cSTJJ/xfGc0jeALwVOvhgfjakNsb2b6mcF5wrJqs1rmnJQKHPq2QISLqA
+	cjky7c3iFaEKTz0S2i+cxi+42gxgtEFFHQz96uG0JyJfD9He7oUEuRJ1Ngu5T8OlOC3nzMzVr1G
+	GEq7+U9IKWMXvy/+oHhSDsf8mKRR18DOR4pU3ifXNMu5uVT9yOVkw7+H9vHZcLkYqLogM5GZJvl
+	XPnkutheTE0HTXZW4pk0x7b4KpQnrBjJrwE4VxxfwgykyknM381F3UD46I4Rsi/EeU7ZznDh0R8
+	/LcnvV6eYCKQsLvyT8HmuDTQI7Hv1s4Vfynd47BiLMPR6L37jOny3pY+gEXSj6ps+LFiyOmQsw=
+	=
+X-Received: by 2002:a05:6808:10c2:b0:46a:7ab9:c339 with SMTP id
+ 5614622812f47-48549eae27fmr10157476b6e.14.1779732059059; Mon, 25 May 2026
+ 11:00:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20260519163434.1045462-1-danielmaraboo@gmail.com>
+ <CAMAsx6fBZTSvtNcWKKQvWTXZAvh9W3GuA5ZES0RdY6gLwH8n0A@mail.gmail.com> <8733zg2zlp.fsf@trenco.lwn.net>
+In-Reply-To: <8733zg2zlp.fsf@trenco.lwn.net>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Mon, 25 May 2026 15:00:48 -0300
+X-Gm-Features: AVHnY4L6trxViAIpsVee0eLJn4qKPAQ_J9ZEOQjVVSnUN8Da7UZjyxTUIe5J8ZQ
+Message-ID: <CAMAsx6d1K2CS=PtiVPruhfqvr6A4=iq1u0091HUrHppzd=gbFw@mail.gmail.com>
+Subject: Re: [PATCH] docs: pt_BR: Translate process/kernel-docs.rst into Portuguese
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 22 May 2026, Vishnu Sankar wrote:
+On Sun, May 24, 2026 at 7:48=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
+ote:
+>
+>
+> Five days is a bit quick to be sending pings.  You must have seen by now
+> that I always get there in the end :)
+>
+> jon
 
-> Newer ThinkPad systems expose a USB-C Security (Restricted Mode) feature.
-> When active, USB-C data connections are disabled while power delivery is
-> preserved. This is useful for kiosk and physically-secured deployments.
-> 
-> Hardware interface:
-> 
-> The HKEY device exposes a read-only ACPI method USCS():
-> 
->   Return value bit layout:
->     Bit 16 : Capability flag (1 = feature present on this SKU)
->     Bit  0 : Current state  (0 = security OFF, 1 = security ON)
-> 
-> The sysfs attribute is read-only.
-> 
-> The Fn+U followed by Fn+S hotkey chord is the only way to toggle the
-> hardware state.
-> 
-> Hotkey:
-> 
-> Fn+U followed by Fn+S generates HKEY event 0x131e.
-> 
-> sysfs interface:
-> 
->   /sys/devices/platform/thinkpad_acpi/usb_c_security  (read-only)
->   "enabled\n"  -- data connections are currently blocked
->   "disabled\n" -- data connections are currently allowed
-> 
->   The attribute is hidden on SKUs where the USCS capability bit (bit 16)
->   is not set, so there is no ABI impact on unsupported hardware.
-> 
-> Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-> Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
-> ---
->  .../admin-guide/laptops/thinkpad-acpi.rst     |  24 ++++
->  drivers/platform/x86/lenovo/thinkpad_acpi.c   | 115 ++++++++++++++++++
->  2 files changed, 139 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> index f874db31801d..db4588af0278 100644
-> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> @@ -1543,6 +1543,30 @@ Values:
->  
->  	This setting can also be toggled via the Fn+doubletap hotkey.
->  
-> +USB-C Security
-> +--------------
-> +
-> +sysfs: usb_c_security
-> +
-> +Reports the current state of the USB-C Security (Restricted Mode) feature
-> +on supported ThinkPad systems. When enabled, USB-C data connections are
-> +disabled while power delivery is preserved.
-> +
-> +The available command is::
-> +
-> +        cat /sys/devices/platform/thinkpad_acpi/usb_c_security
-> +
-> +Values:
-> +
-> +	* ``enabled``  - USB-C data connections are currently blocked
-> +	* ``disabled`` - USB-C data connections are currently allowed
-> +
-> +The attribute is read-only. The USB-C Security state can only be toggled
-> +via the Fn+U followed by Fn+S hotkey chord.
-> +
-> +The sysfs attribute is not created on platforms that do not support this
-> +feature.
-> +
->  Auxmac
->  ------
->  
-> diff --git a/drivers/platform/x86/lenovo/thinkpad_acpi.c b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> index e1cee42a1683..889db802185a 100644
-> --- a/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> @@ -185,6 +185,7 @@ enum tpacpi_hkey_event_t {
->  	TP_HKEY_EV_AMT_TOGGLE		= 0x131a, /* Toggle AMT on/off */
->  	TP_HKEY_EV_CAMERASHUTTER_TOGGLE = 0x131b, /* Toggle Camera Shutter */
->  	TP_HKEY_EV_DOUBLETAP_TOGGLE	= 0x131c, /* Toggle trackpoint doubletap on/off */
-> +	TP_HKEY_EV_USB_C_SECURITY	= 0x131e, /* Toggle USB C Security ON/OFF */
->  	TP_HKEY_EV_PROFILE_TOGGLE	= 0x131f, /* Toggle platform profile in 2024 systems */
->  	TP_HKEY_EV_PROFILE_TOGGLE2	= 0x1401, /* Toggle platform profile in 2025 + systems */
->  
-> @@ -373,6 +374,8 @@ static struct {
->  	u32 has_adaptive_kbd:1;
->  	u32 kbd_lang:1;
->  	u32 trackpoint_doubletap_enable:1;
-> +	u32 usbc_security_supported:1;
-> +	u32 usbc_security_enabled:1;
->  	struct quirk_entry *quirks;
->  } tp_features;
->  
-> @@ -11265,6 +11268,111 @@ static struct ibm_struct hwdd_driver_data = {
->  	.name = "hwdd",
->  };
->  
-> +/*************************************************************************
-> + * USB-C Security subdriver
-> + *
-> + * HKEY.USCS(0) is a read-only ACPI method; its argument is ignored.
-> + * It always returns:
-> + *   bit 16 - USB-C security capability present on this SKU or not
-> + *   bit  0 - USB-C Security state (enable or disable)
-> + *
-> + * Hotkey
-> + * ------
-> + * 0x131e (Fn+U, Fn+S): firmware toggles USBS before firing the event.
-> + * The driver reads back the new state and notifies the sysfs attribute.
-> + *
-> + */
-> +
-> +/* USCS() return word bit layout */
-> +#define USCS_CAP_BIT		BIT(16)	/* capability: feature present on SKU */
-> +#define USCS_STATUS_BIT		BIT(0)	/* current security state */
-> +
-> +static DEFINE_MUTEX(usbc_security_mutex);
-> +
-> +/*
-> + * usbc_security_query - read current USB-C security state via USCS()
-> + * @enabled: out - true when security is ON (data connections blocked)
-> + *
-> + * Returns true if the feature is supported and query succeeded,
-> + * false otherwise (feature absent or ACPI call failed).
-> + */
-> +static bool usbc_security_query(bool *enabled)
-> +{
-> +	int status;
-> +
-> +	mutex_lock(&usbc_security_mutex);
-> +	if (!acpi_evalf(hkey_handle, &status, "USCS", "dd", 0)) {
-> +		mutex_unlock(&usbc_security_mutex);
-> +		return false;
-> +	}
-> +	mutex_unlock(&usbc_security_mutex);
+Hi Jon,
 
-Please use cleanup.h.
+Ok, I'll be waiting then.
 
-> +
-> +	if (!(status & USCS_CAP_BIT)) {
-> +		pr_debug("USCS cap bit absent (raw=0x%x)\n", status);
-> +		return false;
-> +	}
-> +
-> +	*enabled = !!(status & USCS_STATUS_BIT);
+Thanks,
 
-No need to do !! when assigning to bool.
-
-> +	return true;
-> +}
-> +
-> +/* sysfs: /sys/devices/platform/thinkpad_acpi/usb_c_security ---------- */
-> +static ssize_t usb_c_security_show(struct device *dev,
-> +				   struct device_attribute *attr,
-> +				   char *buf)
-> +{
-> +	return sysfs_emit(buf, "%s\n",
-> +			  tp_features.usbc_security_enabled ? "enabled" : "disabled");
-
-Please use string_choices.h.
-
-> +}
-> +
-> +static DEVICE_ATTR_RO(usb_c_security);
-> +
-> +static struct attribute *usbc_security_attributes[] = {
-> +	&dev_attr_usb_c_security.attr,
-> +	NULL,
-> +};
-> +
-> +static umode_t usbc_security_attr_is_visible(struct kobject *kobj,
-> +					     struct attribute *attr, int n)
-> +{
-> +	return tp_features.usbc_security_supported ? attr->mode : 0;
-> +}
-> +
-> +static const struct attribute_group usbc_security_attr_group = {
-> +	.is_visible = usbc_security_attr_is_visible,
-> +	.attrs = usbc_security_attributes,
-> +};
-> +
-> +static int tpacpi_usbc_security_init(struct ibm_init_struct *iibm)
-> +{
-> +	bool enabled;
-> +
-> +	tp_features.usbc_security_supported =
-> +		usbc_security_query(&enabled);
-
-Fits to one line.
-
-> +	tp_features.usbc_security_enabled = enabled;
-
-I'm not sure I follow the logic here as you always seem set it enabled 
-disregarding even support or not?
-
-And that hotkey enabling seems deadcode with it already enabled here.
-
-I feel like I must blind to something obvious but cannot just find 
-what that would be.
-
-> +	return 0;
-> +}
-> +
-> +/* tpacpi_usbc_security_hotkey - handle Fn+U Fn+S hotkey (0x131e) */
-> +static bool tpacpi_usbc_security_hotkey(void)
-> +{
-> +	bool enabled;
-> +
-> +	if (!tp_features.usbc_security_supported)
-> +		return false;
-> +
-> +	if (!usbc_security_query(&enabled))
-> +		return false;
-> +
-> +	tp_features.usbc_security_enabled = enabled;
-> +	sysfs_notify(&tpacpi_pdev->dev.kobj, NULL, "usb_c_security");
-> +	return true;
-> +}
-> +
-> +static struct ibm_struct usbc_security_driver_data = {
-> +	.name = "usbc_security",
-> +};
-> +
->  /* --------------------------------------------------------------------- */
->  
->  static struct attribute *tpacpi_driver_attributes[] = {
-> @@ -11325,6 +11433,7 @@ static const struct attribute_group *tpacpi_groups[] = {
->  	&dprc_attr_group,
->  	&auxmac_attr_group,
->  	&hwdd_attr_group,
-> +	&usbc_security_attr_group,
->  	NULL,
->  };
->  
-> @@ -11479,6 +11588,8 @@ static bool tpacpi_driver_event(const unsigned int hkey_event)
->  	case TP_HKEY_EV_PROFILE_TOGGLE2:
->  		platform_profile_cycle();
->  		return true;
-> +	case TP_HKEY_EV_USB_C_SECURITY:
-> +		return tpacpi_usbc_security_hotkey();
->  	}
->  
->  	return false;
-> @@ -11930,6 +12041,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
->  		.init = tpacpi_hwdd_init,
->  		.data = &hwdd_driver_data,
->  	},
-> +	{
-> +		.init = tpacpi_usbc_security_init,
-> +		.data = &usbc_security_driver_data,
-> +	},
->  };
->  
->  static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
-> 
-
--- 
- i.
-
+Daniel Pereira
