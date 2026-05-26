@@ -1,257 +1,242 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A313FFAB6;
-	Tue, 26 May 2026 14:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779806761; cv=fail; b=Hi3JEI7mzd9Ah+254jwxpdsM9fIMT1KPlBpyiO4tXr5kGpxKAJMk/QPT98KqSjX1UZzA+5QI2QjkAyfIbeab6BecB1i1W9tWE8Rcln3tv18mzW4iw2qvpUqZ3ZqEyfP5wX9G8I0WFXZuY/+yMm2CewGxjDtfgr8pnpNUCMScgog=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779806761; c=relaxed/simple;
-	bh=EYys2JoVMEn3J0tXAYNgMfkgNp3gxV9N6LdAXcAqGjw=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mgzoVtqZKhHDaCxmNX4092WjFfeutR3ixW88d1igBH092ymlB6hvKbqdyO9bSo+Ucctl5OKSMiHWkRYafnrLlJFKkctXd00QInDiLrrfoFRPWGDNdBYRouNIAqQmtG9ygdZYbtlkU9vXNAWzNAqizHl5aIHSKBitdyYpCy1IXP0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q8QNnvWu; arc=fail smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8814028D8;
+	Tue, 26 May 2026 14:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779807409; cv=none; b=pZ4Pk7JfNhLMTf2K41m42Z7ZlITBirKx9c3f7EUmLRIzcRZdMZpahQt5/94iWCuXq/op3MLIONTVtjrH1S14dBWeo7S12N9zkiaTJw16SHlQCDChXl3fg5qtaNuNGvFEFBVl8cseI/9kJw2lhzeytQ4tZzeAYfkYmByHPVH/Lvc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779807409; c=relaxed/simple;
+	bh=HI2FIWaa/lyT/1RCriUL8rLE63X4XxBhc0sBOaPmzOA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iHTMlQWsli75H/RD1nBh02VP/3XXTmsAWg8B/eQEueLhCI+FJdpw1lYfPw+IIGVjVLbOIvucUlUNjPcrhQ60ibJB4ocaNxrllU7XIFwkIFO+kAhaplZW7LE5smdsijwGJfaQ94Emv7d/af0w0CmFwSamW4gkq0pQgFz+tW0Su5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=vVuykufv; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q8QNnvWu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779806759; x=1811342759;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=EYys2JoVMEn3J0tXAYNgMfkgNp3gxV9N6LdAXcAqGjw=;
-  b=Q8QNnvWukhFvqBFdmiFOOglLcZfS9Kk3wjYhlS5Fe4lgOwCghuowqefY
-   ppvFU+bjG/+EL8x21qdDJrBJdfljsnQorCnrDfGEKOtxOvWBmGFNIvrOE
-   UZjnHy31HYJ06tuJGqSLR9FU94D2YqAjTyXwp6iLELxWoemYYO+T6rPMi
-   rHM+DZnP8dhh2ABOUqd3UHir5BxMtI18XBgSU/uq4I6ryBONZyYY7CWtP
-   HRydRI4pGjlbeCWqt/zlmpAftNnpZHMz66tf5UWdOz5UH9SUPO+mPYbra
-   Ms3RmKy93gG8NfB+8TFihpNcGuK5V2/syI8v3xoTpvVCwDZK2uH3I03x2
-   w==;
-X-CSE-ConnectionGUID: 2Sf/QDMdRlulgQ4ehOTQnQ==
-X-CSE-MsgGUID: Qbv5RkLARf+IghjO5ETeEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="80653549"
-X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="80653549"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 07:45:57 -0700
-X-CSE-ConnectionGUID: rEae4kpyRrGF9J4dhrElVw==
-X-CSE-MsgGUID: ZgjdiWyLTCSAJ6a/OyqWng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="237523648"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 07:45:56 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 26 May 2026 07:45:56 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 26 May 2026 07:45:56 -0700
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.0) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 26 May 2026 07:45:56 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BU9bL4SFfmpAJUwKwfAA6QSFjy/gwZSemjZkh36Y4dnGmIzG3FkYO4IQ0xbJmYMOkvqd9fZoLbqAgZcv7jXuySQoewUb5MwD2CIRLxTuaUQqoGPefnFczWzJ+RerE1Xvmsa1o02EmXeLaD96M6eZ+7BH4N7cpgAAtPpIlj/lwvVTnRMtAKlfqtju4m2s5n3leKjxQmY9vKnFpDH8h1sZU+WDsoBtQrAuVOi3Vm51M7Zght+YhgZhG7PoY3iiVCGiIxjoIabccfmVSgWAaRyZnwBaWvW1LpyNzZbY7qz4YpotGudrwCklS0zu2wzRoAc/W+8zrmsB5h/S3bkOm/iZvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pCiJAtWN2nCEfHwW5wLNKmxGahO5ZELHtcXWqP/BoEA=;
- b=ZGIz+WT6DIONItcZ66W59JDExVIjFO/E80nbw5W7xfruLz8KZWyiCH5lzZ6KTUzBHKbs1sPIBgedLL3lsQQuAtAZqRfWroW3TR4rhFoMZJJMOnrHtG0bPRLYHWWW26+25kP9szmjnDCqR9ZEpoEDkIMc/wgNFC/ccRWCIJcl0+eO/fPg+tKilGW/6Frv2W1ICA8SrrFarvL+Tw4GHVcvtQ5WeYOnbeRAfnt5M1xnYm11SMs8ExSJt6CeRuW5CvGziJYDaG9gS25lVZW4+lDoIqpAAJIsAi9M4LZOIDuEacrbUc7NcAmdRHhwV2UWY2NunVgyEKUgC5+WJb6a4zA5/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB8718.namprd11.prod.outlook.com (2603:10b6:8:1b9::20)
- by PH0PR11MB9727.namprd11.prod.outlook.com (2603:10b6:510:399::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Tue, 26 May
- 2026 14:45:54 +0000
-Received: from DS0PR11MB8718.namprd11.prod.outlook.com
- ([fe80::6aa:411d:4bfa:619c]) by DS0PR11MB8718.namprd11.prod.outlook.com
- ([fe80::6aa:411d:4bfa:619c%5]) with mapi id 15.21.0071.011; Tue, 26 May 2026
- 14:45:54 +0000
-Message-ID: <d3191a29-0ce8-4338-80b8-a49c53c1a472@intel.com>
-Date: Tue, 26 May 2026 16:45:44 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 01/14] virtchnl: create 'include/linux/intel'
- and move necessary header files
-To: Jakub Kicinski <kuba@kernel.org>, Aleksandr Loktionov
-	<aleksandr.loktionov@intel.com>
-CC: Larysa Zaremba <larysa.zaremba@intel.com>, Tony Nguyen
-	<anthony.l.nguyen@intel.com>, <davem@davemloft.net>, <pabeni@redhat.com>,
-	<edumazet@google.com>, <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>,
-	<przemyslaw.kitszel@intel.com>, <sridhar.samudrala@intel.com>,
-	<anjali.singhai@intel.com>, <michal.swiatkowski@linux.intel.com>,
-	<maciej.fijalkowski@intel.com>, <emil.s.tantilov@intel.com>,
-	<madhu.chittim@intel.com>, <joshua.a.hay@intel.com>,
-	<jacob.e.keller@intel.com>, <jayaprakash.shanmugam@intel.com>,
-	<jiri@resnulli.us>, <horms@kernel.org>, <corbet@lwn.net>,
-	<richardcochran@gmail.com>, <linux-doc@vger.kernel.org>,
-	<tatyana.e.nikolova@intel.com>, <krzysztof.czurylo@intel.com>,
-	<jgg@ziepe.ca>, <leon@kernel.org>, <linux-rdma@vger.kernel.org>, Samuel Salin
-	<Samuel.salin@intel.com>, NXNE CNSE OSDT ITP Upstreaming
-	<nxne.cnse.osdt.itp.upstreaming@intel.com>
-References: <20260515224443.2772147-1-anthony.l.nguyen@intel.com>
- <20260515224443.2772147-2-anthony.l.nguyen@intel.com>
- <20260520175201.72f83c4a@kernel.org>
- <ag7QUgfpM5UAAE2z@soc-5CG4396X81.clients.intel.com>
- <20260521065609.248c7009@kernel.org>
- <5426379b-1201-4707-8d18-21dca3d1424e@intel.com>
- <20260522084050.5ba31f38@kernel.org>
-Content-Language: en-US
-From: Alexander Lobakin <aleksander.lobakin@intel.com>
-In-Reply-To: <20260522084050.5ba31f38@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI4PEPF000001C7.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:808:1::848) To DS0PR11MB8718.namprd11.prod.outlook.com
- (2603:10b6:8:1b9::20)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="vVuykufv"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id E35DB4E42D5E;
+	Tue, 26 May 2026 14:56:44 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B6C186011D;
+	Tue, 26 May 2026 14:56:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D932B108888A7;
+	Tue, 26 May 2026 16:56:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1779807403; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=YXuDfmit7+SnFC2eXMHF6bUzLKtEmGGgP+BHlQICu74=;
+	b=vVuykufvBeVf0o9scCjfTSKXKkxmoSF8k9MqnfV4K/rGcrJni8V68T2+Y/5YLt62eTqOjT
+	RByUjXlZRlKim9T0zp2RVJSToAgRqto9Rw0xBAYl9S+ELQ+tdvSfYxS+pjRLq8Jco1n4iJ
+	EzpOiYXRujxwjbUsKxh1IR14KH9JKI/PLy9owsaofbmCQOcghHOrLWq359Z3FRaLQ+0Koe
+	z7XcId87/F/t7XWJfiyFUFnVSi5Wrl1fDBsZHQBvDCNvKoXQFb1XWGf3w1Bep73VkhtgKR
+	yP/R2wubw6CyvH346BSkdYHBaDvy0QsTOVjkzg6bXvwafwdMfsOcVWLVZNsUpA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH v6 00/28] mtd: spi-nor: Enhance software protection
+Date: Tue, 26 May 2026 16:56:24 +0200
+Message-Id: <20260526-winbond-v6-18-rc1-spi-nor-swp-v6-0-4092f1419f8f@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB8718:EE_|PH0PR11MB9727:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1990f75c-03de-4a44-880e-08debb357d0b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|11063799006|5023799004|4143699003|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: KgfG/bgI7+DDBpTzRKyvwyCQMsCkxKNjo0fUQHtmWOZuOU+p2bUJ0CWol31WMkZG6fEpbghXEEsz/qCp6OXqQytZwXR76IlpzOVTIAwSUdck5dicPoXS7scU0cP1LQ3qjsMdmvRvyUdqwt6B/AkkkohOsy1RnDxs6EEptw8os8W+SSeVT93ozOqvtDFVyfm9/xYx4qCRkaFmwtn9PHXm8O70FEfeSiAW+WAtVmnCoHndWhRyKxI9O3kzeo74hffecVxJVuasBjqHphoIwxTAzzZCSQlrWHRTUThvK7Mo43T3L9mmMuBbRc7czMdFXThc2+WUMM6/cSjFDgrDaOYMtDKSm8TcjW5353qb+2dG1ZqhxpwjP4K+hH7yPBTkmYS2nzl7czBGqOvj0T8jSW64vIro8YFbFAHNc9QVRixLncRYp4DxUEbXb/qJB6NyeiM7LV2Xws5RXTfhRk+LcYnapNs8iT0tUgXaoYhBIgojIb1Ou+FTgYVXCGg2Q+muCXS6buyUFD9hDkbpemfYzH8Ua1He5lFxeVe4WlX4eIPAtlLT8Js06ZmOZnn3Q5U6xkFIpxJCzTqXVjeKsHePFW1GW9FXMqRQj+oI40plaD1T4G5P3m8cImQ2+k6z3ZLNQxXulLDPzqfQEMT60UTEk+1fAVNnFz6YcArnof/hjRYLXp10jr6sKHod1wrnBuoIGirS
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB8718.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(11063799006)(5023799004)(4143699003)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cmZCY0VBVTEvdUVVbExUcGhMMVhFTzJFaWxWUk5Wb0w5eTVmYWJ4d1ZOKzNn?=
- =?utf-8?B?Z2dLMXA2MllqVVppbmZ0OXdkL0RLSHZwMmVYMHRVWUc0SEhVemRDMFd0YUpu?=
- =?utf-8?B?Z05abzczYXlEN3hPWENYdUlxY0N0TmFGY212Z2VCcjVBSmxITG5IcUppdDJG?=
- =?utf-8?B?L1pkQ3NxWEFQa2xmS1pFNlNxbUdWanVUTWs1QVBYS3dBS3NhYlZnK3g2ZmtY?=
- =?utf-8?B?bFJmYUJIK3NPRTNYTXVzcFlVUUxIcHNXb2EyUkh0RnVrQXp2dWIxbTRmRXNX?=
- =?utf-8?B?c1pLcmhSQmJja2dSZE5wL0hrcnJtNDRRMTJYZDAvU0wrcXBmaWJ2bWFtSmIy?=
- =?utf-8?B?V2kwOTlNSTFWbllDVFRhWSs3dEN0VW9MTzJueFVGL3VONmVZMUE2aURKcHUr?=
- =?utf-8?B?aUZrRXlPTmlUa2F5MTYwYXE5OEdMbUEzakNkRldHSmJMbk5aZlJpeEhNdkhh?=
- =?utf-8?B?elM2dFgvNkNDNWZYalRVRDFpSUQvdW5Ua3NDS2N4ODFkMVlvRUQ2VHZRRGU3?=
- =?utf-8?B?SEREc0tuNU5Kd0ZDZ1NmOThQOVI1T09qRHM5K0lkWHcrNmQzejJtdU9obVlW?=
- =?utf-8?B?L0RLcFoyOHd2RUVSb3BrbEcyK3pWWnNjaFd0MWVZQkhKeEgxYlRhNEpTemZw?=
- =?utf-8?B?N1FOV1QzMU1jN1JNQ2t4d2gyb1JPRjBNbm1FS1FkN2FkYjZvcXBFUHIxYXk2?=
- =?utf-8?B?Z2lVTlUzOVp3aFBkSUs5N3BROWkyT01vV2N4ZnJ4VG1tU2VxQnd4RTdwUElk?=
- =?utf-8?B?ZzYwNEtpMGkyMWhvemwwTStFeVRBa2p6a3FMRExKN2ljVU8wVEM2dXhLK2Fl?=
- =?utf-8?B?QVhCaVRDVE5QQWVIeUtxdWM0cTdyNFNYS3Z5TC9nMjFmaVhUc2N6ZjFNMHpX?=
- =?utf-8?B?QWJJY0J5TW8xSzJNME91SUJMa1RrQkl1V2x5Sm9IeWx0b1BneWRXRHV0TTBq?=
- =?utf-8?B?bnYyQlRLdStQNXNIT29UbnZkcW5ubU9ZR1ZFcXAxOElYWk1YZnFwRzFXVnpH?=
- =?utf-8?B?UHdzS3AxcWV0SU9IcWUwQUc2Y1F1WXFyZEZ2MmRvY1lURjhQWGt4MkZCUzJv?=
- =?utf-8?B?QWJnS08rRE9vYWZnclc2S2p5ZXQ5VTMrMEtoREFMZGJyZ05aSjhiR1pjNnNC?=
- =?utf-8?B?dUxOMWhobktMMEVRaEthMkcxdURWV0VpdkJET0hsL05KeFpoRFdEdFMvYkYy?=
- =?utf-8?B?NHZNK0IzSjdtYTNqcU4zY2gvclV0M2NCVGs0TDlENXZWdGViVU5sNFRaSGFD?=
- =?utf-8?B?SVozYW51RE1idUhwTXZqL3VKdURzUXdDUjFTcWJNeTlDTHE1MVhuaUJPaGUx?=
- =?utf-8?B?UDI3aDFVSkhxbU9BbExXTkNKeldVMnp4eldOcHA0Z2x4TE5xYjhZZ1gyaDR1?=
- =?utf-8?B?bzlEdDE4MkUrYVNFQVA0b2VZS091SVhFaTNsTUI3SFFPMnVONG10TjZtbkFw?=
- =?utf-8?B?N0tIOFRBa2Q0LzcvcGhCZlFRME45S1Z2RVZSMWwvU0piUDFGYkZRYkZFVTh1?=
- =?utf-8?B?M044ZTJTSThWNzRJQkcwUmJ4Y2Jya3Ryd2pWYXdFYUh0T1gxUmlRNm92cUVm?=
- =?utf-8?B?MDErTmpVcUQvdEFnRlRDZm9UK21HaW1wVW0xcnB2NWNLdDh2L2VtNTJ2eTEy?=
- =?utf-8?B?N2RGT3VOTjZvRWRzOFB4eGNhcVdidmVRNlZEMG9QSkdKS0g3Wk9mazdMMXJz?=
- =?utf-8?B?YytmQmJoTU1HK0JPZW5PYlQzVUppanZWdWR4V3JYYno1WnZhaXpzT2lUU2lI?=
- =?utf-8?B?WGZ5aU9MUS9uVGd4MVNTYnB0bTJXQzE0MG4zRkh1QzdUc01XRzhIWTMrNURv?=
- =?utf-8?B?blNGd1V3NXV4QlJBOFVsWnY4cU50YXJUMU52K1I4c2FTNW1qeElEZG5xaG9v?=
- =?utf-8?B?ZlB2azRreS9RZzZYQnZjYVFjN3ZHSEdOQStCbS9iK0w1cGlHa0g1VDd0T1I0?=
- =?utf-8?B?Y2xhUVR2L0tZeERkc0tVRDVvcGVMUnQ2ZHBPdWNvWm4wek5WT2FxQStiNml1?=
- =?utf-8?B?b2V2SXl1a010Sk0ya0xqNmlIQTFqRWplNmRGUm9vZzlncmZiNk9pcTRCNDh1?=
- =?utf-8?B?UysxQndkTzl1cGlreThKT0hsWjJNMitLL3ZNVWZYS051aWc4NDhEZVBTSWVu?=
- =?utf-8?B?SVI4VzdjckJNRUo5OVA2SmQvQWhaT3R3eVFtclZwQWdaL0tWTXhObWdtSTR5?=
- =?utf-8?B?ZHY4YTFyRnF0aE8xekVnd3hicGhXZVVKWk1YMGQvOGViNFE2a1Btck9yNjVz?=
- =?utf-8?B?Q0hndGQ2WisxS1NUWTVsZjE1Rzc4NmtSclZuTXFYNkY3cVRLVDNPZHY5MGR5?=
- =?utf-8?B?Z0VFMkdCYlI5WndJM1ZlSXM3RGJJbUU3SFppTXFyN1JiaTMzRmw0R0dPWDJH?=
- =?utf-8?Q?vBwDcheJFGlD8bmU=3D?=
-X-Exchange-RoutingPolicyChecked: VLbhGFH5M/3a+76+7hBYDqp9kkTwhwKmllKhn8WqYiiqSOo18+CIsU9VoaZFuYtCZWvby3vgJnK3ixy9TTNQwLDSIpBQ93xOm7TIBIBL1MelqZTqjWZuSPWX6I3DotmenlfRZDivtGO27ecN9HnMt67d3T06wJdBGpmAdIeth1ase6fX4heIIIAjqyul2N3b72KxF0LIiHy85R5hvkN4fdZpcCv3pC0JS188LqZp5V+yordFVIcV0ZnuWnlUOmelBpaegou2HY6hHpF+NSi0TI/W6GmGYMMkisbP+yZ9RX6WPlWQS+aUHODEUanTzLRwvj0+AO5RSNjo2mt6Vsqmnw==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1990f75c-03de-4a44-880e-08debb357d0b
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8718.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 14:45:54.2838
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JTa6KbtbrsxTmEEnJjawZ7YX2UiTRti/QGAzLK1XDw8EYkK9k7SZWFTkK57zdeFZHX3CA8D/k1ZO7M+9GrT49J89NjDnnhe8O4/AyybAYF4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB9727
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43OTU7DMBCG4atUXjPI4/FvV9wDsYgdh1oCO7KrF
+ FTl7riVUIS6CMt3Fs83V9ZiTbGx4+HKalxSSyX30E8HFk5Dfo+Qxt5McKEQUcIlZV/yCIsGtFA
+ DQpsT5FKhXWawWo2kJzlpp1g35hqn9HX3X996n1I7l/p9n1vwdv2vvCBwkNb4YFA4R/jiSzl/p
+ Pwcyie72Yv49TRHbvc80b0gtYiT5RqJP3q0eYRmz6PuiTC4OMhovPOPntw8yWnPk92zROPgVTT
+ C2kdPbZ7iu/+p7jmSiiIOTjnz11vX9QfJdnRTDAIAAA==
+X-Change-ID: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
+ Takahiro Kuwano <takahiro.kuwano@infineon.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: Sean Anderson <sean.anderson@linux.dev>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Steam Lin <STLin2@winbond.com>, linux-mtd@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, stable@kernel.org
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Jakub Kicinski <kuba@kernel.org>
-Date: Fri, 22 May 2026 08:40:50 -0700
+Hello,
 
-> On Fri, 22 May 2026 13:08:08 +0200 Alexander Lobakin wrote:
->>>> There are at least
->>>>
->>>> include/linux/mlx4, include/linux/mlx5 and include/linux/bnxt.
->>>>
->>>> Those are per-driver and not per-vendor, but intel ethernet has too many drivers 
->>>> to have separate folders for them.
->>>>
->>>> I just do not think this creates a precedent neccessarily.  
->>>
->>> You just said the other ones are for specific drivers.  
->>
->> Right, but according to your earlier suggestion they belong to
->> include/net, not include/linux.
->>
->> My understanding is that they're under include/linux, not include/net as
->> mlx5 is not only about Ethernet, but also RDMA etc. The same applies to
->> Intel's headers.
->>
->> What's your position after all this? Still include/net/intel? This
->> commit is about stopping scattering Intel headers all over include/linux
->> and set one place for them.
-> 
-> I strongly dislike the idea there are "intel" headers. Header files
-> are not sorted by vendors. That gives off way too much "Intel's corner
-> of the kernel" vibe. "net+Intel" is fine, but Intel by itself is too
-> broad.
-> 
-> So IDK. include/net/intel is fine. So is the current layout. Or stick 
-> to driver / module by module like other vendors.
+Back in October 2025, the "locking" support in SPI NOR was discussed on
+the mailing list (link below). The conclusion was that this support
+could benefit from some enhancements. As I myself had to dig into it,
+here is a proposal.
 
-We'll stick to the current include/linux/net/intel, a bit different
-reasons than yours, but I agree with you in general.
+First issue that I see, the MEMLOCK ioctl is not behaving correctly
+in some cases, as addressed in:
 
-> 
->>>> Folder structure is for you to decide as a maintainer, but it would be nice to 
->>>> have known about such doubts earlier.  
->>>
->>> I'd love to know if you any suggestions for improving the process.
->>> Otherwise please keep your venting off list.  
->>
->> I think Larysa just wanted to say that you disliked this commit after
->> the series went through several iterations on IWL and 3 iterations here,
->> nothing more. It's not about the overall process.
-> 
-> Intel has a strongly negative reviewer score right now.
-> IMHO it's not appropriate for y'all to complain about upstream
-> reviews, or how long it takes to get your patches merged...
+    mtd: spi-nor: swp: Improve locking user experience
 
-We don't complain, apologies if this sounded like that.
+Then there is no clear explanation of the shortcuts taken by the kernel
+in terms of uAPI, so there is an attempt to list them in:
 
-Re review score -- I noticed that as well and have been focusing on
-reviews more than sending patches, *but*:
+    mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
 
-To Aleksandr:
+Plus, Tudor also asked if we could cover locking in the testing
+procedure, which is done in:
 
-Please *stop* spamming IWL/netdev with patches. This doesn't help at all.
-Or at least do minimum 1 review per each patch you send.
+    mtd: spi-nor: Add steps for testing locking support
 
-The imbalance you (not only, but mostly) create will only lead to that
-we won't be able to send anything at all.
+In order to simplify this procedure, and because it got very helpful
+during my testing/development, I want to propose additions to the
+debugfs output:
 
-To you and sorta everyone from Intel:
+    mtd: spi-nor: debugfs: Add locking support TODO: make the captures again
 
-Please focus more on reviews and wait with sending stuff until Intel is
-back to the top 10 reviewers and has at least +/- neutral score.
+Finally, I am providing an implementation for the complement (CMP)
+feature in order to allow finer control of the regions locked. This
+feature is for instance available on Winbond chips:
 
-Most of stuff coming from Intel right now is not critical for customers
-and users, by doing that you paralyze really important series.
+    [core] mtd: spi-nor: swp: Add support for the complement feature
+    [doc]  mtd: spi-nor: Add steps for testing locking with CMP
+    [use]  mtd: spi-nor: winbond: Add CMP locking support
 
-Thanks,
-Olek
+Disclaimer: it was much less straightforward than I initially thought to
+get the CMP feature working correctly. I tested it with as much focus as
+I could, and I am improving the test coverage for the new cases, I am
+also providing extra test cases in the metadata of the commit (which do
+not make sense to test for chip additions, but may be sensible show when
+making core additions like this one), but honestly there are so many
+possibilities, I may still be missing corner cases. I hope this will
+anyway be helpful to others!
+
+All the other patches are misc improvements or style fixes which I faced
+and fixed during my development.
+
+Link: https://lore.kernel.org/linux-mtd/92e99a96-5582-48a5-a4f9-e9b33fcff171@linux.dev/
+
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+Changes in v6:
+- Took most of Sashiko's comments into account:
+  https://sashiko.dev/#/patchset/20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597%40bootlin.com
+  - Fixed a mask ( '|=' instead of '=' ), also reported by Tudor/.
+  - The unlock() ioctl was misunderstood, and can actually unlock more,
+    whereas I was stating that it could only unlock less. I made further
+    tests and fixed the comment.
+  - Added an early return in spi_nor_get_locked_range_sr().
+  - Enhanced the calculations for selecting CMP mode.
+  - Reordered the locking steps to mimic what was done before and make
+    sure early returns would not misbehave (corner case).
+  - Made sure the SR cache was always initialized (corner case).
+  - Made sure new variables were always initialized (corner case).
+  - Made sure we were always passing nor->bouncebuf and not some offsets
+    inside that buffer, making sure we would always be cache line
+    aligned.
+  - Changed some loff_t to u64 to mimic the rest of the code and avoid
+    casting issues.
+  - Moved some variables in the declaration stack.
+  - Fixed several typos.
+  - Fixed a copy paste error in the documentation.
+  - Fixed a flash name in a commit title.
+  - Ignored some warnings about possible overflows when the values are
+    known to be small.
+  - Ignored possible underflows with ilog2() calculations because they
+    cannot happen with production devices.
+- Reordered two patches.
+- Link to v5: https://lore.kernel.org/r/20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597@bootlin.com
+
+Changes in v5:
+- Fixed the writing of SR2 in the locking ops for devices without RDCR
+  capability.
+- Moved the ioctl comments to an existing comment as advised by
+  Pratyush.
+- Changed the documentation to use the concept of lock sector instead of
+  block because on small density devices, the two amounts are typically
+  different.
+- Renamed the debugfs output "#blocks" -> "#sectors" for the same
+  reason.
+- Added a patch to make sure the QE bit is not badly overwritten when
+  using the core's SR/CR status write helpers.
+- Link to v4: https://lore.kernel.org/r/20260403-winbond-v6-18-rc1-spi-nor-swp-v4-0-833dab5e7288@bootlin.com
+
+Changes in v4:
+- Make sure we don't try to show the (SR specific) debugfs info if the
+  chip does not support an SR based locking scheme. For this, add a new
+  helper to derive whether we are using the default ops or not.
+- Fix compilation issue on arm32, by using div_u64.
+- Link to v3: https://lore.kernel.org/r/20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com
+
+Changes in v3:
+- No change at all, just rebased on top of v7.0-rc1.
+- Collected 2 R-by from M. Walle.
+- Link to v2: https://lore.kernel.org/r/20260108-winbond-v6-18-rc1-spi-nor-swp-v2-0-c462ef806130@bootlin.com
+
+Changes in v2:
+- Collect tags.
+- Add missing Fixes/Cc: stable tags.
+- Add a comment explaining why can_be_top && can_be_bottom is a specific
+  condition.
+- Fix commit logs following Michael Walle's reviews.
+- Amend the documentation following our discussion with Michael Walle as
+  well.
+- Cache the SR register for debugfs use.
+- Create a locked sector map file instead of dumping it as part of the
+  `params` file output.
+- Improved greatly the output of the map as suggested by Michael.
+- Add a patch fixing a duplicate dependency in Kconfig.
+- Add an important comment in the doc about the small 4kiB erase size
+  choice.
+- Add test runs for each and every chip for which the CMP feature is
+  added. This prove me that testing of each and every chip was needed,
+  as some of them seem to feature a broken BFPT table which does not
+  advertise a working 35h (Read CR) command.
+- Added a condition on which the CMP feature is enabled: RDCR must be
+  possible.
+- Link to v1: https://lore.kernel.org/r/20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com
+
+---
+Miquel Raynal (28):
+      mtd: spi-nor: debugfs: Fix the flags list
+      mtd: spi-nor: swp: Improve locking user experience
+      mtd: spi-nor: Drop duplicate Kconfig dependency
+      mtd: spi-nor: Make sure the QE bit is kept enabled if useful
+      mtd: spi-nor: Improve opcodes documentation
+      mtd: spi-nor: debugfs: Align variable access with the rest of the file
+      mtd: spi-nor: debugfs: Enhance output
+      mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
+      mtd: spi-nor: swp: Clarify a comment
+      mtd: spi-nor: swp: Use a pointer for SR instead of a single byte
+      mtd: spi-nor: swp: Create a helper that writes SR, CR and checks
+      mtd: spi-nor: swp: Rename a mask
+      mtd: spi-nor: swp: Create a TB intermediate variable
+      mtd: spi-nor: swp: Create helpers for building the SR register
+      mtd: spi-nor: swp: Simplify checking the locked/unlocked range
+      mtd: spi-nor: swp: Cosmetic changes
+      mtd: spi-nor: Create a local SR cache
+      mtd: spi-nor: debugfs: Add locking support
+      mtd: spi-nor: debugfs: Add a locked sectors map
+      mtd: spi-nor: Add steps for testing locking support
+      mtd: spi-nor: swp: Add support for the complement feature
+      mtd: spi-nor: Add steps for testing locking with CMP
+      mtd: spi-nor: winbond: Add W25H512NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H01NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H02NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25Q01NWxxIQ CMP locking support
+      mtd: spi-nor: winbond: Add W25Q01NWxxIM CMP locking support
+      mtd: spi-nor: winbond: Add W25Q02NWxxIM CMP locking support
+
+ Documentation/driver-api/mtd/spi-nor.rst | 169 ++++++++++++++
+ drivers/mtd/spi-nor/Kconfig              |   1 -
+ drivers/mtd/spi-nor/core.c               |  76 ++++++-
+ drivers/mtd/spi-nor/core.h               |  25 ++-
+ drivers/mtd/spi-nor/debugfs.c            |  71 +++++-
+ drivers/mtd/spi-nor/swp.c                | 363 ++++++++++++++++++++++++-------
+ drivers/mtd/spi-nor/winbond.c            |  41 +++-
+ include/linux/mtd/spi-nor.h              |   7 +-
+ 8 files changed, 663 insertions(+), 90 deletions(-)
+---
+base-commit: 2df04c01437d44ea7cac641cb4d0c9fd1275df45
+change-id: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+
+Best regards,
+-- 
+Miquel Raynal <miquel.raynal@bootlin.com>
+
