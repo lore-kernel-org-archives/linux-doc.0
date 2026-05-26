@@ -1,316 +1,231 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from out28-73.mail.aliyun.com (out28-73.mail.aliyun.com [115.124.28.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949C53A8741
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 03:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF232848A1;
+	Tue, 26 May 2026 03:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779765159; cv=none; b=Yb9a2c7diPPGRG0AMYo/1a84tcNgcGQE7syWFxb1AwJRYWLZGguwwx3x7Q6YfvByWwS1VEF0WBu0YoJdvQYTHh7XlfzqH2aELgKbLEoBTI0k68G0/1EPYbBL/QqFmqaCnxpkE+hvEoZJ6u1In8S/tsCYTqOuuxgVJbbO2td6R2o=
+	t=1779767711; cv=none; b=sGjH3Tl48ZdDNRTYpHx7+Q+MuiczBi0zq7eoVNgBknaQK9anx/cfA/bYBYubKlBINYSB9EZImA9XyQWe+v8Wu0hAHp2gSbkUumvYzGFM3N5OAoYkQB4Xnz/SaSVaU/N/uZd/iLYmtLlGV1M1WxZABYErjFKKBBg/u0DhbGfOsrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779765159; c=relaxed/simple;
-	bh=2+AVVSQaPmlGB4Y0wY3BRcks0wPszSb+jkXQdlKYTes=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G1VEhQ+X3ws5oDAbZeEHnF0ubsQNbu3QXS3URJDbNNvR9cvTdSoPN40Fw2WO0IOmdPH7hLb2Yhqzmrls+PZMwXg4N9mB7D8xLVp2ubV8Ma5rTxgF5/jQrHvCOKqfmNcCeGp3rI6Cw1qHmcVE5OD/S9curHmwUB2CZGj1AVMj+Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dnCSa+lf; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dnCSa+lf"
-Message-ID: <de0f2984-44ea-4098-9d19-c63ee035cdaf@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779765145;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B7fYZUv8jUz3LpuMJ3igYxrWXq5kDxizbxy8SIukcuk=;
-	b=dnCSa+lf6J4YpqA1F/oml2kyJgci5cZ58eOEnYBqKE0UtgWMYCewjMuX5Z+cOmiiMRdC+9
-	HkCk8E6c4jPBJNtZFv2okluKn9sW21bAQ4VTHqpbKD08ghX61T3uw/6VYB771obobAF0Nl
-	u7fyjwW9XFiasnsecsX608hrWrHRG80=
-Date: Tue, 26 May 2026 11:11:33 +0800
+	s=arc-20240116; t=1779767711; c=relaxed/simple;
+	bh=QHGCnqM8AAqSmkHGg5tnieUynl4uVOUoHr9OPK3RNJs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pzVSII5UmUu26D64BGqEGUjd0u4DLAFiCXCDcikwR6MAvoslD5L9k4WEqbBOiFkJ/uCp/QyQgCG3KYHn4ocOZkXZAQmuVNrzAITDiMbp9OI5X+QDF0LNB/zc9Coi627IDcysXSdP06y23J6e19jEZMapISgZkqEjVa3VzogaD54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1813779|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.114224-0.0105365-0.87524;FP=455425261123931698|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037022039;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=18;RT=18;SR=0;TI=SMTPD_---.hgpPbBu_1779767696;
+Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.hgpPbBu_1779767696 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Tue, 26 May 2026 11:54:57 +0800
+From: "illusion.wang" <illusion.wang@nebula-matrix.com>
+To: dimon.zhao@nebula-matrix.com,
+	illusion.wang@nebula-matrix.com,
+	alvin.wang@nebula-matrix.com,
+	sam.chen@nebula-matrix.com,
+	netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch,
+	corbet@lwn.net,
+	kuba@kernel.org,
+	horms@kernel.org,
+	linux-doc@vger.kernel.org,
+	pabeni@redhat.com,
+	vadim.fedorenko@linux.dev,
+	lukas.bulwahn@redhat.com,
+	edumazet@google.com,
+	enelsonmoore@gmail.com,
+	skhan@linuxfoundation.org,
+	hkallweit1@gmail.com,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v16 net-next 00/11] nbl driver for Nebulamatrix NICs
+Date: Tue, 26 May 2026 11:54:37 +0800
+Message-ID: <20260526035453.2359-1-illusion.wang@nebula-matrix.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 3/6] alloc_tag: add size-based filtering to ioctl
-To: Abhishek Bapat <abhishekbapat@google.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Sourav Panda <souravpanda@google.com>
-References: <cover.1779471082.git.abhishekbapat@google.com>
- <c4b425d1f9192caca3cad830f322aa048ed26d45.1779471082.git.abhishekbapat@google.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <c4b425d1f9192caca3cad830f322aa048ed26d45.1779471082.git.abhishekbapat@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Hi Abhishek
+This patch series represents the first phase. We plan to integrate it in
+two phases: the first phase covers mailbox and chip configuration,
+while the second phase involves net dev configuration.
+Together, they will provide basic PF-based Ethernet port transmission and
+reception capabilities.
 
+After that, we will consider other features, such as ethtool support,
+flow management, adminq messaging, VF support, debugfs support, etc.
 
-On 2026/5/23 01:45, Abhishek Bapat wrote:
-> Extend the allocinfo filtering mechanism to allow users to filter tags
-> based on the total number of bytes allocated [min_size, max_size]. The
-> size range is inclusive.
->
-> Filtering by size involves retrieving allocinfo per-CPU counters, which
-> is an expensive operation. Hence, the performance of size-based
-> filtering will be worse than other filters.
->
-> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
-> ---
->   include/uapi/linux/alloc_tag.h |  8 +++-
->   lib/alloc_tag.c                | 72 ++++++++++++++++++++++++++++------
->   2 files changed, 68 insertions(+), 12 deletions(-)
->
-> diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_tag.h
-> index 0cc9db5298c6..45f158bee0a6 100644
-> --- a/include/uapi/linux/alloc_tag.h
-> +++ b/include/uapi/linux/alloc_tag.h
-> @@ -39,13 +39,17 @@ enum {
->   	ALLOCINFO_FILTER_FUNCTION,
->   	ALLOCINFO_FILTER_FILENAME,
->   	ALLOCINFO_FILTER_LINENO,
-> -	__ALLOCINFO_FILTER_LAST = ALLOCINFO_FILTER_LINENO
-> +	ALLOCINFO_FILTER_MIN_SIZE,
-> +	ALLOCINFO_FILTER_MAX_SIZE,
-> +	__ALLOCINFO_FILTER_LAST = ALLOCINFO_FILTER_MAX_SIZE
->   };
->   
->   #define ALLOCINFO_FILTER_MASK_MODNAME		(1 << ALLOCINFO_FILTER_MODNAME)
->   #define ALLOCINFO_FILTER_MASK_FUNCTION		(1 << ALLOCINFO_FILTER_FUNCTION)
->   #define ALLOCINFO_FILTER_MASK_FILENAME		(1 << ALLOCINFO_FILTER_FILENAME)
->   #define ALLOCINFO_FILTER_MASK_LINENO		(1 << ALLOCINFO_FILTER_LINENO)
-> +#define ALLOCINFO_FILTER_MASK_MIN_SIZE		(1 << ALLOCINFO_FILTER_MIN_SIZE)
-> +#define ALLOCINFO_FILTER_MASK_MAX_SIZE		(1 << ALLOCINFO_FILTER_MAX_SIZE)
->   
->   #define ALLOCINFO_FILTER_MASKS \
->   	((1 << (__ALLOCINFO_FILTER_LAST + 1)) - 1)
-> @@ -53,6 +57,8 @@ enum {
->   struct allocinfo_filter {
->   	__u64 mask; /* bitmask of the filter fields used */
->   	struct allocinfo_tag fields;
-> +	__u64 min_size;
-> +	__u64 max_size;
->   };
->   
->   struct allocinfo_get_at {
-> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-> index 56c394ef721f..6c8743eead2d 100644
-> --- a/lib/alloc_tag.c
-> +++ b/lib/alloc_tag.c
-> @@ -173,11 +173,21 @@ static int allocinfo_cmp_str(const char *str, const char *template)
->   	return strncmp(allocinfo_str(str), template, ALLOCINFO_STR_SIZE);
->   }
->   
-> +static inline struct alloc_tag_counters allocinfo_prefetch_counters(struct codetag *ct)
-> +{
-> +	return alloc_tag_read(ct_to_alloc_tag(ct));
-> +}
-> +
->   static void allocinfo_to_params(struct codetag *ct,
-> -				struct allocinfo_tag_data *data)
-> +				struct allocinfo_tag_data *data,
-> +				struct alloc_tag_counters *counters)
->   {
-> -	struct alloc_tag *tag = ct_to_alloc_tag(ct);
-> -	struct alloc_tag_counters counter = alloc_tag_read(tag);
-> +	struct alloc_tag_counters local_counters;
-> +
-> +	if (!counters) {
-> +		local_counters = allocinfo_prefetch_counters(ct);
-> +		counters = &local_counters;
-> +	}
->   
->   	if (ct->modname)
->   		allocinfo_copy_str(data->tag.modname, ct->modname);
-> @@ -186,9 +196,9 @@ static void allocinfo_to_params(struct codetag *ct,
->   	allocinfo_copy_str(data->tag.function, ct->function);
->   	allocinfo_copy_str(data->tag.filename, ct->filename);
->   	data->tag.lineno = ct->lineno;
-> -	data->counter.bytes = counter.bytes;
-> -	data->counter.calls = counter.calls;
-> -	data->counter.accurate = !alloc_tag_is_inaccurate(tag);
-> +	data->counter.bytes = counters->bytes;
-> +	data->counter.calls = counters->calls;
-> +	data->counter.accurate = !alloc_tag_is_inaccurate(ct_to_alloc_tag(ct));
->   }
->   
->   static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __user *arg)
-> @@ -204,7 +214,8 @@ static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __user *arg)
->   	return 0;
->   }
->   
-> -static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter)
-> +static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter,
-> +			   struct alloc_tag_counters *counters)
->   {
->   	if (!filter || !filter->mask)
->   		return true;
-> @@ -228,6 +239,17 @@ static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter)
->   	    ct->lineno != filter->fields.lineno)
->   		return false;
->   
-> +	if ((filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) ||
-> +	    (filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZE)) {
-> +		/* We assume counters is not NULL here as per caller logic */
-> +		if ((filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) &&
-> +		    counters->bytes < filter->min_size)
-> +			return false;
-> +		if ((filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) &&
-> +		    counters->bytes > filter->max_size)
-> +			return false;
-> +	}
-> +
->   	return true;
->   }
->   
-> @@ -237,6 +259,9 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
->   	struct codetag *ct;
->   	struct allocinfo_get_at params = {0};
->   	__u64 skip_count;
-> +	bool sizes_set;
-> +	struct alloc_tag_counters counters;
-> +	struct alloc_tag_counters *counters_ptr = NULL;
->   
->   	if (copy_from_user(&params, arg, sizeof(params)))
->   		return -EFAULT;
-> @@ -244,9 +269,16 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
->   	if (params.filter.mask & ~ALLOCINFO_FILTER_MASKS)
->   		return -EINVAL;
->   
-> +	if ((params.filter.mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) &&
-> +	    (params.filter.mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) &&
-> +	    params.filter.min_size > params.filter.max_size)
-> +		return -EINVAL;
-> +
->   	priv = (struct allocinfo_private *)m->private;
->   
->   	skip_count = params.pos;
-> +	sizes_set = (params.filter.mask &
-> +		     (ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCINFO_FILTER_MASK_MAX_SIZE));
->   
->   	mutex_lock(&priv->ioctl_lock);
->   	codetag_lock_module_list(alloc_tag_cttype, true);
-> @@ -261,7 +293,11 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
->   	ct = codetag_next_ct(&priv->ioctl_iter);
->   
->   	while (ct) {
-> -		if (matches_filter(ct, &priv->filter)) {
-> +		if (sizes_set) {
-> +			counters = allocinfo_prefetch_counters(ct);
-> +			counters_ptr = &counters;
-> +		}
-> +		if (matches_filter(ct, &priv->filter, counters_ptr)) {
+changes v15->v16
+Link to v15:https://lore.kernel.org/netdev/20260520032950.4874-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v14->v15
+Link to v14:https://lore.kernel.org/netdev/20260513011649.4404-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v13->v14
+Link to v13:https://lore.kernel.org/netdev/20260428114910.2616-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v12->v13
+Link to v12:https://lore.kernel.org/netdev/20260415033608.2438-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v11->v12
+Link to v11:https://lore.kernel.org/netdev/20260408093739.56001-1-illusion.wang@nebula-matrix.com/
+AI review issues
+changes v10->v11
+Link to v10:https://lore.kernel.org/netdev/20260401022318.28550-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Mohsin
+2.AI review issues
+changes v9->v10
+Link to v9:https://lore.kernel.org/netdev/20260325040048.2313-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Jakub
+2.AI review issue
+changes v8->v9
+Link to v8:https://lore.kernel.org/netdev/20260317034533.5600-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Jakub
+2.AI review issue
+Changes v7→v8
+Link to v7:https://lore.kernel.org/netdev/20260310120959.22015-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Paolo
+Changes v6->v7
+Link to v6:https://lore.kernel.org/netdev/20260306033451.5196-1-illusion.wang@nebula-matrix.com/
+1.Issue found by Jakub
+2.AI review issue
+Changes v5->v6
+Link to V5:https://lore.kernel.org/netdev/20260226073840.3222-1-illusion.wang@nebula-matrix.com/
+1.put all standard linux includes files the .c file which needs it & others
+--Andrew
+2.AI review issue
+Changes v4->v5
+Link to V4:https://lore.kernel.org/netdev/20260206021608.85381-1-illusion.wang@nebula-matrix.com/
+1.change nbl_core to nbl & change ** pointers to *pointers & others
+--Andrew
+2.AI review issue
+Changes v3->v4
+Link to v3: https://lore.kernel.org/netdev/20260123011804.31263-1-illusion.wang@nebula-matrix.com
+1.cut down to part of a mini driver(mailbox and chip init)
+--Jakub Kicinski Simon Horman(some sort of staged approached)
+2.modify issues found by ai.
+3. Reverse Christmas tree/nbl_err/devm_kfree/remove some macros/
+void type to real type/others
+--Andrew Lunn
+4.change deprecated pci_enable_msix_range to pci_alloc_irq_vectors
+5.delete service layer
+6.the style of kconfig---Randy Dunlap
+7.add to Documentation/networking/device_drivers/ethernet/index.rst
+--Simon Horman
+Changes v2 →v3
+Link to v2: https://lore.kernel.org/netdev/20260109100146.63569-1-illusion.wang@nebula-matrix.com/
+1.cut down to a mini driver:
+    delete vf support
+    use promisc mode to cut down flow management
+    drop patch15 in v2
+    delete adminq msg
+    delete abnormal handling
+    delete some unimportant interfaces
+2.modify issues found by ai review
+Changes v1->v2
+Link to v1: https://lore.kernel.org/netdev/20251223035113.31122-1-illusion.wang@nebula-matrix.com/
+1.Format Issues and Compilation Issues
+- Paolo Abeni
+2.add sysfs patch and drop coexisting patch
+- Andrew Lunn
+3.delete some unimportant ndo operations
+4.add machine generated headers patch
+5.Modify the issues found in patch1-2 and apply the same fixes to other
+patches
+6.modify issues found by nipa
 
-alloc_tag_read() walks all per-CPU counters which is not cheap, but here
+illusion.wang (11):
+  net/nebula-matrix: add minimum nbl build framework
+  net/nebula-matrix: add our driver architecture
+  net/nebula-matrix: add chip related definitions
+  net/nebula-matrix: channel msg value and msg struct
+  net/nebula-matrix: add channel layer
+  net/nebula-matrix: add common resource implementation
+  net/nebula-matrix: add intr resource implementation
+  net/nebula-matrix: add vsi resource implementation
+  net/nebula-matrix: add Dispatch layer implementation
+  net/nebula-matrix: add common/ctrl dev init/reinit operation
+  net/nebula-matrix: add common dev start/stop operation
 
-it's called for every codetag unconditionally when sizes_set is true,
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../ethernet/nebula-matrix/nbl.rst            |   28 +
+ MAINTAINERS                                   |   10 +
+ drivers/net/ethernet/Kconfig                  |    1 +
+ drivers/net/ethernet/Makefile                 |    1 +
+ drivers/net/ethernet/nebula-matrix/Kconfig    |   34 +
+ drivers/net/ethernet/nebula-matrix/Makefile   |    6 +
+ .../net/ethernet/nebula-matrix/nbl/Makefile   |   16 +
+ .../nbl/nbl_channel/nbl_channel.c             |  973 ++++++
+ .../nbl/nbl_channel/nbl_channel.h             |  173 +
+ .../nebula-matrix/nbl/nbl_common/nbl_common.c |  216 ++
+ .../nebula-matrix/nbl/nbl_common/nbl_common.h |   33 +
+ .../net/ethernet/nebula-matrix/nbl/nbl_core.h |   59 +
+ .../nebula-matrix/nbl/nbl_core/nbl_dev.c      |  449 +++
+ .../nebula-matrix/nbl/nbl_core/nbl_dev.h      |   58 +
+ .../nebula-matrix/nbl/nbl_core/nbl_dispatch.c |  505 +++
+ .../nebula-matrix/nbl/nbl_core/nbl_dispatch.h |   56 +
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  |  856 +++++
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h  |  548 ++++
+ .../nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.c | 2887 +++++++++++++++++
+ .../nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.h |   11 +
+ .../nbl_hw_leonis/nbl_resource_leonis.c       |  278 ++
+ .../nbl_hw_leonis/nbl_resource_leonis.h       |   12 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h     |   73 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.c  |  266 ++
+ .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.h  |   21 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_resource.c   |  134 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_resource.h   |  110 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_vsi.c        |   26 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_vsi.h        |   12 +
+ .../nbl/nbl_include/nbl_def_channel.h         |  361 +++
+ .../nbl/nbl_include/nbl_def_common.h          |   80 +
+ .../nbl/nbl_include/nbl_def_dev.h             |   16 +
+ .../nbl/nbl_include/nbl_def_dispatch.h        |   42 +
+ .../nbl/nbl_include/nbl_def_hw.h              |   55 +
+ .../nbl/nbl_include/nbl_def_resource.h        |   37 +
+ .../nbl/nbl_include/nbl_include.h             |   79 +
+ .../nbl/nbl_include/nbl_product_base.h        |   19 +
+ .../net/ethernet/nebula-matrix/nbl/nbl_main.c |  337 ++
+ 39 files changed, 8879 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
+ create mode 100644 drivers/net/ethernet/nebula-matrix/Kconfig
+ create mode 100644 drivers/net/ethernet/nebula-matrix/Makefile
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/Makefile
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dev.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
 
-even when the tag would be rejected by modname/function/filename checks
+-- 
+2.47.3
 
-that are plain string comparisons.
-
-For example, say the user filters with MODNAME | MIN_SIZE on a system
-
-with 10000 tags, 100 of which belong to the target module. Today the
-
-code would call alloc_tag_read() 10000 times (once per tag), but only
-
-100 of those tags pass the modname check — the other 9900 per-CPU walks
-
-are wasted.
-
-Would it make sense to split the filter check so that per-CPU counter reads
-
-only happen after tag-based checks pass? Something like:
-
-static bool allocinfo_match_tag(struct codetag *ct,
-
-                         struct allocinfo_filter *filter) { ... }
-
-static bool allocinfo_match_size(struct alloc_tag_counters *counters,
-
-                                    struct allocinfo_filter *filter) { ... }
-
-And in the caller:
-
-bool match = allocinfo_match_tag(ct, &priv->filter);
-
-/* Add comments to help subsequent developers understand the purpose of 
-this modification. */
-
-if (match && sizes_set) {
-
-            counters = allocinfo_prefetch_counters(ct);
-
-            counters_ptr = &counters;
-
-             match = allocinfo_match_size(counters_ptr, &priv->filter);
-
-}
-
-You may find a more elegant approach to resolve this issue.
-
-Thanks
-
-Best Regards
-
-Hao
-
->   			if (skip_count == 0)
->   				break;
->   			skip_count--;
-> @@ -270,7 +306,7 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
->   	}
->   
->   	if (ct) {
-> -		allocinfo_to_params(ct, &params.data);
-> +		allocinfo_to_params(ct, &params.data, counters_ptr);
->   		priv->positioned = true;
->   	}
->   
-> @@ -292,9 +328,15 @@ static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
->   	struct codetag *ct;
->   	struct allocinfo_tag_data params = {0};
->   	int ret = 0;
-> +	bool sizes_set;
-> +	struct alloc_tag_counters counters;
-> +	struct alloc_tag_counters *counters_ptr = NULL;
->   
->   	priv = (struct allocinfo_private *)m->private;
->   
-> +	sizes_set = (priv->filter.mask &
-> +		     (ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCINFO_FILTER_MASK_MAX_SIZE));
-> +
->   	mutex_lock(&priv->ioctl_lock);
->   	codetag_lock_module_list(alloc_tag_cttype, true);
->   
-> @@ -304,10 +346,18 @@ static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
->   	}
->   
->   	ct = codetag_next_ct(&priv->ioctl_iter);
-> -	while (ct && !matches_filter(ct, &priv->filter))
-> +	while (ct) {
-> +		if (sizes_set) {
-> +			counters = allocinfo_prefetch_counters(ct);
-> +			counters_ptr = &counters;
-> +		}
-> +		if (matches_filter(ct, &priv->filter, counters_ptr))
-> +			break;
->   		ct = codetag_next_ct(&priv->ioctl_iter);
-> +	}
-> +
->   	if (ct)
-> -		allocinfo_to_params(ct, &params);
-> +		allocinfo_to_params(ct, &params, counters_ptr);
->   
->   	if (!ct) {
->   		priv->positioned = false;
