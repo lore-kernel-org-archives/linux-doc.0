@@ -1,121 +1,120 @@
-Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4223F88AA;
-	Tue, 26 May 2026 12:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D31352C34;
+	Tue, 26 May 2026 12:34:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779798465; cv=none; b=YrrxGG847tfeWEhARZvj2WgDQzIP/cuyCX3vyZZDj58TQEiKdRsfMv+/9BxvT+vgidhq3rRiZkcwTkhstP1c15MH8u+fVIaSChBuf09N+X4UirgDqcUxJosEqg/j2Lh4YajfBG86xrOkhGL55qBsd/9YS6H8FpsD03M7jq6WHV4=
+	t=1779798868; cv=none; b=LOJ09oWaVqpYEyiAzvN8SRO25pRIZNYNNg8UhIiIOIIa1F62BBFvGHYgeHYhcNRDEDgWggYN0K9SRzNTx/Lr7KStQk2bKx2dAtiAt+0TdnrJwx+tSls0ITU34zzIu+7wMJW8CM80e4AnvTFltqROB7VTQ/S1cqkQZWOdZXw8sl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779798465; c=relaxed/simple;
-	bh=vDlPE3WlLowbB4twTPNt5oAOKEs7T3k99UMNQRP9CcM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PCQW2HGgXmqu9gcuiGCD/CLzy0bCeTJK8X/zHnOm37PBQlPvY2+/WJnv4jS4zRjvj43EQEsIQ/NnYzdUkPyxzxVplVbxqBOByCPuzrrYgjTO3FanAvAPciw3azCc6O15uIc70GTZIfqrQULf0h1qAiErGfKntR3WXEAQLLYiw+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=0PaXCVkX; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=qAvsEodf; arc=none smtp.client-ip=95.216.189.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
+	s=arc-20240116; t=1779798868; c=relaxed/simple;
+	bh=mk/zjg0ab3m+7eKgcFNXydgbAosfernUtmM1ABsyjwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DpdhkiI8GzUKelx//7PLcj3du8NpyvcnvfIHNW3FLX3SFYaDRI23zsB3mK5efJ/u5pmmyQLAx0R+OLYK36AoIYcDKhQnzzi4NSy0obQGylU5IrTXEBTrXZGGuhKI19+rwGmKcsEFUhJRSXk5i4m537P7z9QF4tLaSjXcjtnePNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RmVzUO2d; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="0PaXCVkX";
-	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="qAvsEodf"
-Message-ID: <2d93a9e4-0c36-4bc7-8e94-b15f69ebda79@archlinux.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1779798460;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DumjHkMnQiUKEXczcFzbHTJ12Og3qEh2uESbAgSH9Z0=;
-	b=0PaXCVkXBjwxgV57Gtk9GND9h+M3olt9dDZsAZSMh69khuwz+7omoquMv7bxY+X2NwBvDs
-	7cJghWP+kfKXxa/Mzj4ItNhRylLxtHEbXT2U/CdXfxlLvJjJ5rkSidgc2aBrQrTiI+CPaf
-	ofc7Q62sZXcpwYR2fUFCbVV0KYA5RBkUnwqkS7dvPSc8p+xrEimxO3yvUJhT2LR8N394lG
-	zKL5TDaB8eCxpGZRhxbfjUn9RFNKl2xluA2p7u5kkai+avEVgv9hwAOtKMW2EVgYqK2xAn
-	EZYIc0WKVZAH1Nb4ZDiz1NIO/snRu/iHOKTOeHm8VeRYVTieMy8yWHVg8nfo1l/UbnU8Tv
-	k5Yk3bdm2ZtFa0+WU70NGuYxJOHWvVeBaFwICiatUOh8gM6R/WS3IFlU9YbXwjVzymwuFc
-	XKuulQ5BeoNzGUlr/QrMDgw1cdIvgtAwKofD4IsvIOGsRR1yNR3JjzQoMvKvrQPONqF6JZ
-	OMMNLxAhP1LGiCUgH2GoiCYXngwwZmE2ZcjLiIEAmlhKl2r0JyV2gMJn4Uke4zTOViHDJQ
-	/gJXPKLMTm5lh6Zjv6J183nbfZ/UIz4eehTUQeqX6uRy6jBru/K/rs1ICZHdgd/GSKMS+z
-	nP5SILf6vZKcsnA0+D/43BN50nXByYlhjDbPB2kBPA+oekNoiga84=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1779798460;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DumjHkMnQiUKEXczcFzbHTJ12Og3qEh2uESbAgSH9Z0=;
-	b=qAvsEodfYN9Au3PfLWPaXQEfyjbOcwD3RqWnSlsvTSJQ3NP8ZX9wWEW0wqValvrgMDgl0u
-	ST8XcV+dvsfuSMCQ==
-Authentication-Results: mail.archlinux.org;
-	auth=pass smtp.auth=kpcyrd smtp.mailfrom=kpcyrd@archlinux.org
-Date: Tue, 26 May 2026 14:27:36 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RmVzUO2d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B5C01F00A3A;
+	Tue, 26 May 2026 12:34:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779798867;
+	bh=hmoINqMgVgeubIA80Me9ZHWv15KWusGbb1TzukRmFSk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RmVzUO2ddb4EKCFTrOtfA0cRTCa7E3Y7UkKTIOgQrmtOcTBWRjWqN/mKjD3Nf0j/0
+	 FdpY6rPRp5mwIGNeoyS/Jfh+a9rycednulXrTjh3e8/XdXVBJUOYwi/MzFnf1nmuTw
+	 YS6zEF8tUuYbMkBDMBXuAy4ywWUYKYRlRcF0+NsD5LOW2bs8VXDh8U4RzSCUcj/AO2
+	 cBcuf4qP6WJ2IANsM/9A6Y/h+FjzcIOTv4J/zVJv1rdqmFQ0OnIqfGpSzBBstFTGlZ
+	 0Ap7zIzxAQllaqYuJOqGfvIdgAj99GATDe4GdEWrX/tD4pDyu+mvB2InmD5odu4mZk
+	 l48kefwwgBy7Q==
+Date: Tue, 26 May 2026 15:34:15 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Sarthak Sharma <sarthak.sharma@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+	Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>, Mark Brown <broonie@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] tools/lib/mm: add shared file helpers
+Message-ID: <ahWTRy5gkaeFW7m7@kernel.org>
+References: <20260521111801.173019-1-sarthak.sharma@arm.com>
+ <20260521111801.173019-2-sarthak.sharma@arm.com>
+ <177964236205.4000040.3083558454897469696.b4-review@b4>
+ <ff7d212c-d3e0-4476-8903-ffe88fb7048c@arm.com>
+ <ahVhTWl0fTF3ASsC@kernel.org>
+ <70a9008b-8b13-44f4-81b4-2397b4ccd323@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 07/14] module: Make module authentication usable
- without MODULE_SIG
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Petr Pavlu <petr.pavlu@suse.com>
-Cc: Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
- <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
- Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Eric Snowberg <eric.snowberg@oracle.com>,
- Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez
- <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
- Xiu Jianfeng <xiujianfeng@huawei.com>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
- bpf@vger.kernel.org, =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?=
- <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>,
- Mattia Rizzolo <mattia@mapreri.org>, Christian Heusel <christian@heusel.eu>,
- =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>,
- Eric Biggers <ebiggers@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org,
- debian-kernel@lists.debian.org,
- Holger Levsen <holger@reproducible-builds.org>
-References: <20260505-module-hashes-v5-0-e174a5a49fce@weissschuh.net>
- <20260505-module-hashes-v5-7-e174a5a49fce@weissschuh.net>
- <0a0736a4-2cdd-49f2-9062-e2f18d769fc0@suse.com>
- <4ee3c775-1fbf-45e1-8b77-5f9034f45125@t-8ch.de>
-Content-Language: de-DE, en-US
-From: kpcyrd <kpcyrd@archlinux.org>
-In-Reply-To: <4ee3c775-1fbf-45e1-8b77-5f9034f45125@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <70a9008b-8b13-44f4-81b4-2397b4ccd323@arm.com>
 
-On 5/26/26 1:38 PM, Thomas Weißschuh wrote:
-> On 2026-05-26 12:53:22+0200, Petr Pavlu wrote:
->> Should MODULE_SIG_FORCE be renamed to MODULE_AUTH_FORCE, along with
->> renaming the sig_enforce functionality in kernel/module/auth.c to
->> auth_enforce?
+On Tue, May 26, 2026 at 05:38:29PM +0530, Sarthak Sharma wrote:
+> On 5/26/26 2:31 PM, Mike Rapoport wrote:
+> > On Mon, May 25, 2026 at 11:59:32AM +0530, Sarthak Sharma wrote:
+> >> On 5/24/26 10:36 PM, Mike Rapoport wrote:
+> >>>
+> >>> and while EXIT_FAILURE == KSFT_FAIL I'm not sure it's robust enough.
+> >>
+> >> I used EXIT_FAILURE here because the helper is moving out of selftests
+> >> and should not include kselftest.h anymore. The helper already
+> >> terminated the process on these paths, so I tried to preserve that
+> >> behavior while removing the ksft dependency.
+> > 
+> > In mm selftests a failure to update a /proc or /sysfs file meant there is
+> > no point to continue the test. But if we make it a generic helper for
+> > potentially broader use than mm selftests, exit() on failure is too harsh.
 > 
-> Given that it is a user-visible symbol we'll need to be a bit careful
-> not to break existing configurations.
-> I'll try to use the new "transitional" kconfig attribute.
-A slightly softer worded alternative (yet semantically equivalent) name could be 
-MODULE_AUTH_REQUIRE. No strong opinion though, I think MODULE_AUTH_* does make 
-sense.
+> Okay yeah, this makes sense.
+> 
+> >  
+> >> We can change this to return errors instead of calling exit() and update
+> >> the selftest callers to report failures through the ksft_* helpers. I
+> >> agree this is cleaner, but it would grow the series a bit.
+> >>
+> >> If you feel strongly, I can include these changes in v4. Otherwise I
+> >> feel we can handle it separately later to avoid growing this series.
+> > 
+> > There are not that many callers of write_file() and write_num().
+> > I think a patch that makes them return an error rather than exit() can go
+> > before moving these functions to lib. 
+> > 
+> 
+> So I will add a patch before the move that makes read_file(),
+> write_file(), read_num() and write_num() return errors instead of
+> exiting and update the existing selftest callers to report those
+> failures via ksft_* helpers.
+> 
+> For hugepage_settings.c, I’d prefer to keep the existing fail fast
+> behaviour in this series. After this series, the users are still mm
+> selftests and the new tools/mm/gup_bench tool and for those users a
+> failure to read/write THP or HugeTLB state is fatal to the operation
+> being attempted.
+> 
+> Converting the full hugepage_settings API to return errors would be a
+> larger follow-up, because many of its helpers are used throughout mm
+> selftests. I can handle that in a separate series unless you think it
+> should be folded into this one as well.
 
-I initially shared the concern about renaming well established config options, 
-but the transitional feature does seem to be a good fit for this.
+Keeping fail fast in hugepage_settings for now makes sense, they are not as
+generic as write_file().
 
-Sincerely,
-kpcyrd
+-- 
+Sincerely yours,
+Mike.
