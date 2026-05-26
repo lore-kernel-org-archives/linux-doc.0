@@ -1,107 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C571B6D08;
-	Tue, 26 May 2026 15:19:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE362F549F;
+	Tue, 26 May 2026 15:20:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779808778; cv=none; b=iGySVkyULjZ1sUA+SRMBKojQaZUeYA0z9GiPwV0wU62rSdKQuixHtFeCNXH99GjTtIk5xzf9MEJGtah3r1chwvU3rIVRQ14+TeZxkmo9VW3xULvEXtR4r5TaAsd0zIB/rHUvf+u0HozTg3nyaBC5RxIVeWZSUBDobJWpeIX9t6I=
+	t=1779808811; cv=none; b=aKRGxzsQGkGowxSNFa3bfieealS99vOBaAJFVKHWxyigCxPaq9vGnTfpcqNTdJ7Hy4r9THKdZhrIQ/QGdEYReK/DkjBJZ+iblSv8BEhpZHrYeeyC1L6F39OjPMyWjoPfG7zz4MfM3wxkZrwlpNCG8x9mKWerIjHmxv2XjxpiT0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779808778; c=relaxed/simple;
-	bh=IjCdT7QUzYPO0qYM3E33rBp7fz7JoKrppWlCCqiyh1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mXSTAU+O9+8swTMBPrYy2+m2xhqjzS1+zoUSnz7MqlgTZuNtUBxDiFy+7pAmXGDvdYoHFoekhSiFE/VzViNLOCdgzGUusUN6WHtSFoQdPfR6BxKlP1ER/Y2QHuAWqJ8PbO0ZCIbqemiavmpj+UqBhj4s4mARVvPc0LxMieCivy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DEXgZHuw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779808811; c=relaxed/simple;
+	bh=SH8qWHJju4uEAUf18GIpquuRbDg0vcsabcryMTE0gLE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=sPqJTNt//jgnGd9kcfCv4qISU//KHFk54rj8/0JVtgFlzN/x3CPXyeSdcfPdAKInTloNNGzJU/BBSvH21TBp3W6Nbcwtsy+rvx7+6chZslmQT4zKeUxaDdNGj52Ki6jl76geAcpuF3co84NIFw1sRvxndW3JjktTTa37+1upffY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yf74Wara; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DEXgZHuw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21C411F000E9;
-	Tue, 26 May 2026 15:19:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yf74Wara"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF9D91F000E9;
+	Tue, 26 May 2026 15:20:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779808776;
-	bh=Fj96/yHeNPt6Cv4EkJ4bgbsXqIfa2PjP2NmQ5QjGnZU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DEXgZHuw791/GRbMTcEj+6sGSTqq8DcjMj+sMViOavnQ7zCZ1XF093R0JwczhqgLW
-	 rWzmwVldZKVRyxDJp8jkNVDFSQ4mz8lUiQzzw3d6FwTP1fVx6aVcpYivjY5fMYo3pj
-	 gkQg9QVkMK9nzrCsfj5DASsHTvJhWbbnhEikgkKCmNfTO1sDzOnONxPnIpoiz/zEoz
-	 68YRryRoA3VRde5fpfdWcb3qBQ2KcgLO4iSzhh59cdngtJQF7NXAy0MPsvAoKw7ZUg
-	 FjEXx7lwWFiKCNp9cQOHX6p/zGyaoPiPy0Hg1JaibiaGNdDzip5H24JrHuVX8tfSYO
-	 OgGLH694iilFw==
-Date: Tue, 26 May 2026 16:19:30 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v10 02/30] arm64/fpsimd: Update FA64 and ZT0 enables when
- loading SME state
-Message-ID: <733ec6da-c8de-4b6b-9ab7-1f819a1a8465@sirena.org.uk>
-References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
- <20260306-kvm-arm64-sme-v10-2-43f7683a0fb7@kernel.org>
- <ahWWqU51Zffmhlo5@J2N7QTR9R3>
- <d8074c6b-9bc9-496e-8a74-94ac18ce9a55@sirena.org.uk>
- <ahWsRNb9uZhf46hG@J2N7QTR9R3>
+	s=k20260515; t=1779808810;
+	bh=SH8qWHJju4uEAUf18GIpquuRbDg0vcsabcryMTE0gLE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=Yf74WaraQu+culrxNM7OHuH/zSP4TM4/HGEx2r/fpoNbU4BL7xtLWNZxgSbUt7SXh
+	 9T6fAf5xsM2R0n5yG8qom6jBLJIp+HKzyfs1j/9YkdJ2/T+gUycOjKkEBH6KnE+Xcj
+	 geeN1dYKtNOtgXZ6COQi/gJnMToYeDPUVWQcI11nnoARWBfi8xpqWkJiWhueZevFEY
+	 +R3MeI0W6TilQF5kgigh6D+kl9WvKV642zUaO5awh/BwT1jOmqMd6iiNJEraBusVMe
+	 V+zWOYT16/jLo2/oBL18U5Cny1aV31ES4zb7gm4LLjeWtfwZZ2dlc0Mu9Y9z/KmPij
+	 da3VA4tVczz1Q==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Tudor Ambarus
+ <tudor.ambarus@linaro.org>,  Michael Walle <mwalle@kernel.org>,  Takahiro
+ Kuwano <takahiro.kuwano@infineon.com>,  Richard Weinberger
+ <richard@nod.at>,  Vignesh Raghavendra <vigneshr@ti.com>,  Jonathan Corbet
+ <corbet@lwn.net>,  Shuah Khan <skhan@linuxfoundation.org>,  Sean Anderson
+ <sean.anderson@linux.dev>,  Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>,  Steam Lin <STLin2@winbond.com>,
+  linux-mtd@lists.infradead.org,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  stable@kernel.org
+Subject: Re: [PATCH v5 04/28] mtd: spi-nor: swp: Improve locking user
+ experience
+In-Reply-To: <87v7cakz7u.fsf@bootlin.com> (Miquel Raynal's message of "Tue, 26
+	May 2026 16:44:05 +0200")
+References: <20260507-winbond-v6-18-rc1-spi-nor-swp-v5-0-93453e1a9597@bootlin.com>
+	<20260507-winbond-v6-18-rc1-spi-nor-swp-v5-4-93453e1a9597@bootlin.com>
+	<9432f07f-3724-4257-b6ab-84721e619f78@linaro.org>
+	<875x4fphgr.fsf@bootlin.com>
+	<779f2680-2c67-4bbd-9576-bde8e83d111d@linaro.org>
+	<87o6i7o0tj.fsf@bootlin.com> <2vxz8q965ub7.fsf@kernel.org>
+	<87v7cakz7u.fsf@bootlin.com>
+Date: Tue, 26 May 2026 17:20:06 +0200
+Message-ID: <2vxzcxyi42qh.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lTHQvf4c3zxfQxl6"
-Content-Disposition: inline
-In-Reply-To: <ahWsRNb9uZhf46hG@J2N7QTR9R3>
-X-Cookie: You are fairminded, just and loving.
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, May 26 2026, Miquel Raynal wrote:
 
---lTHQvf4c3zxfQxl6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> Hi Pratyush,
+>
+>> And here's what I am thinking: the first 9 patches are reviewed and good
+>> to go. I want to land them in this merge window so we cut down your
+>> patchset and land stuff sooner.
+>>
+>> Unfortunately I just can't seem to find time to review this series so I
+>> hope this helps some at least.
+>
+> I know what the maintainer load can be, sometimes it does not play well
+> with the rest of the your personal and professional duties. But the
+> series has already been on the list for about 8 months, it's been looked
+> at by other people, the ones who had enough time to dedicate to it. From
+> my perspective, asking such contributions to wait indefinitely and then
+> suggesting partial application without a technical reason is not a
+> sustainable way to handle contributions. This series has not moved much,
+> it could have been applied *much* earlier. I've now addressed most of
+> the comments from Sashiko, v6 is coming, further improving the quality
+> for sure, as there were bugs - there are always. I am of course happy to
+> address further technical concerns, if there are any, but I would
+> strongly prefer merging the series as the coherent set it was intended
+> to be, rather than only taking the preparatory parts.
 
-On Tue, May 26, 2026 at 03:20:52PM +0100, Mark Rutland wrote:
-> On Tue, May 26, 2026 at 02:25:56PM +0100, Mark Brown wrote:
+Unfortunately I am only a patch monkey for SPI NOR these days and do not
+have any time to do reviews, especially for big series. I mainly check
+for reviewed patches and try to apply them. Even that is becoming harder
+these days since I am more busy at new $DAYJOB.
 
-> > I was explicitly going for the opposite of that in order to make it
-> > harder for someone implementing a future extension to miss a place where
-> > an update is required, having the callers independently constructing the
-> > register values feels like it's asking for trouble.
+I understand your frustration, and do take the blame for this, but
+unfortunately can't promise anything better in the future. We pretty
+much don't have any active reviewers in SPI NOR. Michael and Tudor are
+also short on time these days. If your employer cares about SPI NOR,
+perhaps you can encourage them to support developers in helping out with
+reviews and maintenance.
 
-> I didn't say callers should *construct* the value independently, and I
-> showed how to centralize the construction in a __task_smcr() function.
+Applying the reviewed patches reduces the total patchset size and does
+make things easier to review and land. So I don't get why you are so
+opposed to the idea.
 
-> I think callers should pass the entire value around rather than a
-> collection of discrete booleans: constructing a collection of discrete
-> booleans is functionally equivalent to construction the entire value,
-> and we can more easily manage the construction and passing of the entire
-> value.
+But anyway, I'll bite the bullet here and apply the series. You
+generally have high quality patches so I am not super worried about this
+to begin with. We can deal with the bugs or shortcomings later I
+suppose...
 
-I got that, the problem I see is that it's equivalent to passing the
-entire value right up until the point where there's another field that
-needs managing and then every place that sets a new value needs to make
-sure it does the right thing.  I think a __task_smcr() that constructs
-the value each time time as you suggest avoids that well enough.
+>
+> On top of that, as mentioned previously, I now have additional spi-nor
+> improvements and cleanups waiting behind this series. Keeping such a
+> large stack of out of tree patches for months is becoming painful to
+> maintain.
+>
+> Thanks,
+> Miqu=C3=A8l
 
---lTHQvf4c3zxfQxl6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoVugEACgkQJNaLcl1U
-h9BPlwf/Ze/FTGkfrNEWHYQnTukgy62jd2hLEoI81w2cJWeW1iKUcQRKDOnQqfoO
-tdiYqwOiv+lncrlx2l1VXph79UoTYcP6qxN3lKt1cGQVqaTEDXmtMz4uQ4ZJo5Sq
-mqMEFr4VxrejxmenvuTBM4Oz9NT+nGVviTN0lZor1Kn6+8TDPhbJ5SuTCsPy1W1g
-Vc+z92OsPbX2Pv/0v9diUBqEZ5IMEbDL8oGAn7XTXFkgO5ERDV5rDuMn5bza4a2c
-g9SL5xHA4uqZtpCHJWFUninWXEF82rbjg3oJxg0V63ZTMsfoZaW30LH3RATwqbSw
-fx5ZyMSwIve2BQRIl/4avbmXOPJBpw==
-=v5ln
------END PGP SIGNATURE-----
-
---lTHQvf4c3zxfQxl6--
+--=20
+Regards,
+Pratyush Yadav
