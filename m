@@ -1,211 +1,221 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28861401A13
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 16:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC5E3D567A
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 17:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779814752; cv=none; b=N/htdd8aD4Lvz/q3gvUHwyz78QbfbfSRVSD7LIvRooCdEwGpnVOiKsrD0vvK8F9IOIN4d7c23s9WrOjnJFUYthOxSa21GJ+T6zR806ElrJ3XCfhP6v7jcHOEDqVRPiUHvV0qNi7UWVUHGe5eT753xC2DvzuQ2ygHi3A+V7Xh6Kw=
+	t=1779815317; cv=none; b=HcEMVxmk32YQhaT92HC1bb7JGR2L9mcpSrrwH/hH4nm+nfvZlshNIdWd79KT2klzFShWoYSI4jOYb9EECleyc+bi0e9gwyKOBQeY9VIGSPVo3e5h+TD4NFEgZ1OuB2hKbUJVoN/CmGbS4dn0CQikldtpKXS5jqCUc0GIOEPMb6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779814752; c=relaxed/simple;
-	bh=Qu3cX7hp15/dx5l9QwIIMPC3NhQ0zgTS490oYVxhoJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PCLKybfS2/O02Y+ktvS9SkLrq8NIY0q1hGpcJYiwHcA4V984XR0/uaF8bjOxl88EMLsl44WEA1i7COtHdM6D6iwcmmTNTgJfO4D2GwdTvfA/rZpg74i4tSpXpOq7zBSgeEinHcAkatyApmfPQ+mGkOuOMyMIjrTJoj4NiZAwG7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IrQshl4Y; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=oQ+fycG6; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1779815317; c=relaxed/simple;
+	bh=NA27NN5p6I8UVFw/S+uheebpnwu8UHqFyN0ql1ewMQ0=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aKRjS5W9y4FjuCERuSt/wj9Eoq9vcU4e+V2eXa55YxbgJ/fMEdXz6ZeyUfEFhfBz73M5U3brzrOhIsRe4EEqwDAXQ+mdsDAtR478mFrqJUlHmjgtmCwQqmSoNg5+9IVtf5y2NKrNZkw/Xe9v3UEiT9tro9Ea3RiUMa8g1JuVS7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YWfXZnOd; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IrQshl4Y";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="oQ+fycG6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779814750;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=73qJRcIVQTUMp+UCzOKPBNoPdNKc7KyWvvJbngzri24=;
-	b=IrQshl4YLBEKVQSARTc1lqzl/wPCM635kGALBBri5JNqMDQvMAAYmG241r4s74vZh4Pp9O
-	qGwIiLdZdIOxQ8YI+HlfK8RlRPlCWWbsoquKZI+4lyn9zZWCxwe0m07f5pA/xSfz5gRsfZ
-	nvPDjr3bTS+KKgj4k0dlLP4VjAA+wnk=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-179-vTcqpqVPOdOvZu2Cxx-_wQ-1; Tue, 26 May 2026 12:59:08 -0400
-X-MC-Unique: vTcqpqVPOdOvZu2Cxx-_wQ-1
-X-Mimecast-MFC-AGG-ID: vTcqpqVPOdOvZu2Cxx-_wQ_1779814748
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-90cbd806004so2299216985a.0
-        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 09:59:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YWfXZnOd"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-50e5dbd8e0eso126711051cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 10:08:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779814748; x=1780419548; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=73qJRcIVQTUMp+UCzOKPBNoPdNKc7KyWvvJbngzri24=;
-        b=oQ+fycG6vge/XN5x6UArwwdDi8lLNOc77iVLsBK+Y9sFj3i+9d4DjuETJv8G+e11VV
-         Nm5Y6AD2PfMCHj/y9tfGi2SsV799XE/PnZF4bNbqa9Ot/HkHOp0oTqhlHf+54+1qu4mw
-         My0ORacKIjdbhHSbK7aE174okp3bL1FYtatUjEF2ysMsfP8sVgX2+EWbghVlOPjZOql/
-         PGgCFBAIpPobmnZiQULQbxXVtSOD0uAnXAGiKcuU8hxFtdzVpUcmo+9iN2+rq5zx+s+3
-         TZvqrwoqz0m1nmKN1x89Tl9OU83pFmEQItsMts6+QNGNgTbpGoPb2cXHPyF/WODZmje5
-         SUZg==
+        d=gmail.com; s=20251104; t=1779815315; x=1780420115; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hqQXdsbWsKeHXeHKrmCU/WFpGzKvYZdLxIaZX6nvsjQ=;
+        b=YWfXZnOdYjaEcYcg6vbpApiL2SCc0x6gh2tPaOSRmFr9sPMJiewhqe2WWm8lXvkF7p
+         TWKMNVURRZ2Wh50qL6D7hnqYBE0itBgs057Y4S/fZgVqjcANnk55LZZub3KqXMm7o5AE
+         SfW7VlrobGR7UbPS9asYnHQA6g16ppgoSaEl3AIMNn4sj3dHtngklmd0FBJLsDAxSQji
+         6jVsO/pLyLoW+uluW+dcnlbOsajkxa/tteXqbZ6mzY58ikNjFTyDwFwbCKe0ASB12bDs
+         qMAc8MzySFZMkNxPVB15gETScxfAR0OhRsMW9rMmsqbk3A4xtCkJp7OggrnCXZxbXUBS
+         EycA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779814748; x=1780419548;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=73qJRcIVQTUMp+UCzOKPBNoPdNKc7KyWvvJbngzri24=;
-        b=nTcNspSF6w0tdBMLT/W4e6QqxxxwCiuciXrZcBgwuh7b75k7G8A+xRg6XWllwbxAE0
-         pYh/32koh/RKH+xtQQKbZs3vcN4A0B8BdMiXbkap+Ghh++xqM0ZvCinyD7mXTC5V8nr8
-         6n4NaSQw9fHZ1i9DiK90Al0XBSHj/s7cl8sP+JYgvc5MOk8wnjqM4mgGMP05rDw3JquM
-         EYdAENNG/F0+QC2/kQ29oxGro3eLTPT36T2nfVfhKiLgv8Z2qtmQ5pmnoVN2e/0wJA56
-         cRijShsPcNGoS0lXGUYHmcUMhfDDwn2m9rA5UN5EO9fy/x1lSBqVfH7W8y3oUEfAax3d
-         vy5w==
-X-Forwarded-Encrypted: i=1; AFNElJ/GFVTjuuQUx/FV8+CZVMklTHOpvSr0YvLhZj1F1kbS4xX3t59OeXcd1dleFH2MVpUVajuV/QHC7bM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ1fHoF5jiJZqMVUshpR1wtAo3XiRVpwhf19UZfo6OzR/OUZiS
-	+gNjLLcXq9KrQPhaZuzG5t+K6wYK7qlZTp+TRrSf/fzTOQnwhauETF/lDjq3+PX3dZu42x4gGAq
-	Bvz2MzFg1Ccck1E8Wn2jU7ma16+kiSDSq7XHf0yZ+U6v9UR+U6wmuLfOcoYupHg==
-X-Gm-Gg: Acq92OHqQJFOaEhAxXUHVPYg2Ofj9T0fhjZQI4foRfNIadNEQYIHqg4WL9Gi+MGdKtF
-	iLBuYOf75oi+23nlasSbnUSUgsRVoiHRBmNDTSDjk0fJ/YJS3YV70lblPO1ZazbOnT10fax/Q2e
-	ENPBy/8AYoiipMpyw4bfvvukjR4a2kJ87As+9hrx2cW3M+VWgQ52IMg6BujRvP1hOAXOGZzohZW
-	zMSsSow+WxyRLU8OW+sIp59UBK/K/cjRrNiSq+AhmVXwgbhwiiW6/SxKf3s+24bDpMCjbUWbKCd
-	rBwb3cOtIm2jKn6bIeed+pu+8pASXp0OOEmOU8C3k/zFxj+TCzYXT1R3EUnsBhzOxrrRtDBkauk
-	oi35lSRG/gZlhi3hMm3Cx+2IujSBvfJLmlLGbGbJmULt65CZ8itT7cyeA4dTqGm1IJA==
-X-Received: by 2002:a05:620a:2718:b0:914:c0e8:224 with SMTP id af79cd13be357-914c0e80a72mr2780659685a.54.1779814748220;
-        Tue, 26 May 2026 09:59:08 -0700 (PDT)
-X-Received: by 2002:a05:620a:2718:b0:914:c0e8:224 with SMTP id af79cd13be357-914c0e80a72mr2780650485a.54.1779814747523;
-        Tue, 26 May 2026 09:59:07 -0700 (PDT)
-Received: from localhost (pool-100-17-21-205.bstnma.fios.verizon.net. [100.17.21.205])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-914f8806496sm245054085a.38.2026.05.26.09.59.05
+        d=1e100.net; s=20251104; t=1779815315; x=1780420115;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hqQXdsbWsKeHXeHKrmCU/WFpGzKvYZdLxIaZX6nvsjQ=;
+        b=elh2xMRADk3FhFpr0Xt18nOvhNx9DjmY8CSfqOTLsS98unh2xWSy5srfqZvkMVAIF7
+         At+fyE6+hOb+BpqfghML0vRt7cKeoSnuvocHkpPVVlEgnycI/NBn7u90erdeY6LjZTKp
+         dFF5uk/AbbCfSWGGck5iSj0daWy0yHFnNMSrfM4rPqY9vQYyf6fDq41AsSHmMsfGGAwW
+         P3YDGii0lRrkdKJtk9vbzrR8/54mO7uJAAFkxgVEjy66ZfHRuqDjsSdfp187jo6Vl9F0
+         yVmDqazkQZ/5gWFGz9XyUoFyXXaSPb7jAmwyF+9ktwbZ4vOZDbXbcy6lf+3kk14Im/6K
+         nRSQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9if0XlSknXr6H38/KOS1AAuA0VxVnuSugIbNaK+08NnmzNDt8HyShk9kuxKrQpFNEJ9ZKTDVLw2WU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/OSfZXj6Q+VLz0Zs1hoqstxzT8Y7vwIxJ/8Ipz6s+scsSkkhM
+	NyjmGWMLeyuPePQDGohk1k68dCqkpg9FfFP3rCEm7T0roXsiGPhjM6iM
+X-Gm-Gg: Acq92OGtJ8hf/lFHv5XRB9n5NJOGXzCm1jQgXyCPYSITvEHDhOIdvrXyzvLGhfalTKL
+	KnVc8crxQGfZD9o1oOut9Yh4OFEQnvWiinyDsk+AiUmiRYG0y1NGNqPD0248jmCqHnNw3Zz3uLu
+	OnI5tn9IMgd59Bh/3pCCw++fH2LyzkEHYyEB5MXgAnO/x8sxkv12Pja4DOM0yiHHGkUQXUlN2gZ
+	RLte/Cn8xvxa0+rMoG9dtVWBpUkN2e2QWhv/B1Pp9qvV4phB4eeVSIhII7sWyju8T2+j6hmWs+H
+	+tr8QHMHs9vKUuYVWXrv3kWU1vRx4FOS5Gg/1aOdCMlzc434Q6k7hOxU0+wMsdPRyXGQ/xvw40j
+	AFENYHbhvUX6uT9ghd+80jhAxWt2rXbtsJVUe6JIwiYgVHM19ZrcGlitVif80JS5uXhwOMO3Mf2
+	EdlncY4O/b05R8A4rE/jUmKM/zYr+maSyolJf4g9qbOD9wV2q4212FsPUCpja2VmroOnzlGs3PM
+	Br1h66FxjddjaoFhbuHfzxyJvW/2vq7yjgUSUO0SmnJ2o7G2Q==
+X-Received: by 2002:a05:622a:2445:b0:516:dfc9:8449 with SMTP id d75a77b69052e-516dfc99abamr233404601cf.59.1779815314663;
+        Tue, 26 May 2026 10:08:34 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-517069f2d2fsm26751821cf.3.2026.05.26.10.08.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 09:59:06 -0700 (PDT)
-Date: Tue, 26 May 2026 12:59:05 -0400
-From: Eric Chanudet <echanude@redhat.com>
-To: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
-	Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, 
-	Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] cgroup/dmem: add dmem.memcg control file for
- double-charging to memcg
-Message-ID: <ahXKFYBdCMDBvc_N@x1nano>
-References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
- <20260519-cgroup-dmem-memcg-double-charge-v2-2-db4d1407062b@redhat.com>
- <ahBxB5a9sX9DEWvl@localhost.localdomain>
+        Tue, 26 May 2026 10:08:33 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 26 May 2026 18:08:26 +0100
+To: Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v5 12/13] Documentation: ABI: testing: add docs for
+ ad9910 sysfs entries
+Message-ID: <tdhw4z6gsuwdgg4olw5tipgqip7rtdzrl72divxvnwkc2mmpfo@7r4aceyvjvqm>
+References: <20260517-ad9910-iio-driver-v5-0-31599c88314a@analog.com>
+ <20260517-ad9910-iio-driver-v5-12-31599c88314a@analog.com>
+ <vqqvn2cgs3fbp5mq6xfac7iyosaqfrvgngqur4x355a3at7slo@ylrtd6fhi33a>
+ <20260522192040.4e6b11eb@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ahBxB5a9sX9DEWvl@localhost.localdomain>
+In-Reply-To: <20260522192040.4e6b11eb@jic23-huawei>
 
-On Fri, May 22, 2026 at 05:26:16PM +0200, Michal Koutný wrote:
-> Hello Eric.
+On 26/05/22 07:20PM, Jonathan Cameron wrote:
+> On Wed, 20 May 2026 19:47:25 +0100
+> Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
 > 
-> On Tue, May 19, 2026 at 11:59:02AM -0400, Eric Chanudet <echanude@redhat.com> wrote:
-> > Add a root-only cgroupfs file "dmem.memcg" that lets an administrator
-> > configure whether allocations in a dmem region should also be charged to
-> > the memory controller.
-> 
-> This kinda makes sense as it is not unlike io.cost.* device
-> configurators.
-> 
-> Just for my better understanding -- will there be a space for userspace
-> to switch this? (No charged dmem allocations happen before responsible
-> userspace runs, so that the attribute remains unlocked.)
-> 
-> (I'm rather indifferent about the actual double charging/non-charging
-> matter.)
+> > On 26/05/17 07:37PM, Rodrigo Alencar via B4 Relay wrote:
+> > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > > 
+> > > Add custom ABI documentation file for the DDS AD9910 with sysfs entries to
+> > > control Parallel Port, Digital Ramp Generator and OSK parameters.  
+> > 
+> > ...
 
-Yes, this is intended to be configured before the user space stack that
-would start allocating things is started. Once it has started (and tried
-to charge something), the configuration is locked
-
+> > This will become just offset with altcurrent channels. I noticed we have a IIO_PHASE
+> > iio_chan_type, could we have a IIO_FREQUENCY too? Parallel port needs actual raw
+> > frequency values in that case to be written to the dma buffer.
+> > 
+> Sure to IIO_FREQUENCY.  I thought we already did but seems not!
+> The Phase one is a bit special given it's use in resolvers and distance sensors
+> but perhaps it is the right solution here.
+> 
+> 
+> > Then we may have buffer capable channels for the parallel port:
+> > 
+> > out_altcurrent120
+> > 	offset
+> 
+> So that's the amplitude envelope control.
+> 
+> > out_phase120
+> > 	offset
+> 
+> So this is the phase adjustment being controlled. 
+> 
+> > out_frequency120
+> 
+> And this is the frequency being controlled.
+> 
+> > 	scale
+> > 	offset
 > 
 > > 
-> > To handle inheritance, dmem adds a depends_on the memory controller,
-> > unless MEMCG isn't configured in.
+> > Problem is that the math for the actual frequency output is:
 > > 
-> > Double-charging is disabled by default. Once a charge is attempted, the
-> > setting is locked to prevent inconsistent accounting by a small 4-state
-> > machine (off, on, locked off, locked on).
+> > 	f_OUT = f_FTW + (f_RAW * FM)
 > > 
-> > The memcg to charge is derived from the pool's cgroup, since the pool
-> > holds a reference to the dmem cgroup state that keeps the cgroup alive
-> > until it gets uncharged.
+> > where f_FTW is a base frequency (already scaled), FM is a
+> > modulation gain and f_RAW is the contribution from the parallel
+> > port, which is the already scaled:
 > > 
-> > Signed-off-by: Eric Chanudet <echanude@redhat.com>
-> > ---
-> >  Documentation/admin-guide/cgroup-v2.rst |  23 +++++
-> >  kernel/cgroup/dmem.c                    | 158 +++++++++++++++++++++++++++++++-
-> >  2 files changed, 178 insertions(+), 3 deletions(-)
+> > 	f_RAW = RAW * f_SYSCLK / 2^32
+> > 	f_FTW = FTW * f_SYSCLK / 2^32
 > > 
-> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> > index 6efd0095ed995b1550317662bc1b56c7a7f3db23..1d2fa55ddf0faa17baa916a8914d3033e8e42359 100644
-> > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > @@ -2828,6 +2828,29 @@ DMEM Interface Files
-> >  	  drm/0000:03:00.0/vram0 12550144
-> >  	  drm/0000:03:00.0/stolen 8650752
-> >  
-> > +  dmem.memcg
-> > +	A readwrite nested-keyed file that exists only on the root
-> > +	cgroup.
+> > so the above becomes:
+> > 
+> > 	f_OUT = (FTW * f_SYSCLK / 2^32) + (RAW * f_SYSCLK / 2^32) * FM
+> > 	f_OUT = (FTW/FM + RAW) * f_SYSCLK * FM / 2^32
+> > 
+> > if I make:
+> > 
+> > 	SCALE = f_SYSCLK * FM / 2^32
+> > 	OFFSET = FTW/FM
+> > 	f_OUT = (OFFSET + RAW) * SCALE
+> > 
+> > That would work for a IIO_FREQUENCY channel type, problem is that both
+> > scale and offset would depend on the modulation gain (FM)... I suppose
+> > scale should be setting that and offset assumes it is constant to act
+> > only on FTW.
 > 
-> Strictly speaking this is not nested-keyed but flat keyed [1],
+> I'm not that concerned about the coupling - it's a bit of a useability 
+> issue I guess as not obvious which should be the fixed one.  Can we do
+> cache written values and try and compensate to get a pair that is nearest
+> to whatever we try to drive (in either order of setting them?)
 
-Indeed,
+Yeah.. or just document a proper sequence to write things, and indicate that
+writing has side effects and one may read the other attributes to assert
+the desired configuration. See that f_SYSCLK is also another configurable
+variable. Maybe it is not really practical to cache all user choices and derive
+all the other configurations as one changes.
 
-> which leads me to realization that this is the first instance of a boolean.
-> All in call, such a composition comes to my mind (latter is RO):
+> > 
+> > I suppose we can keep altcurrent for other modes as phase and frequency
+> > can be attributes (knobs) for them. However, in parallel mode we are effectively
+> > pushing frequency, phase or amplitude values into the buffer.
 > 
-> 	drm/0000:03:00.0/vram0 enable=0|1 locked=0|1
+> Given that's the thing we are controlling. My Friday evening tired brain agrees
+> that it makes sense to use channel types rather than adjustments on something else.
 > 
-
-So per[1] 1 key, 2 sub-keys (enable RW, locked RO), that looks better
-and match the documentation, thanks!
-
+> I'll think some more on this.  We've never had continuous (well digital
+> so near continous) control of either phase or frequency before - it's just
+> be symbol stuff with a couple of points to set.
 > 
 > 
-> > +static ssize_t dmem_cgroup_memcg_write(struct kernfs_open_file *of, char *buf,
-> > +				       size_t nbytes, loff_t off)
-> > +{
-> > +	while (buf) {
-> > +		struct dmem_cgroup_region *region;
-> > +		char *options, *name;
-> > +		bool flag;
-> > +
-> > +		options = buf;
-> > +		buf = strchr(buf, '\n');
-> > +		if (buf)
-> > +			*buf++ = '\0';
-> 
-> I recall there was a discussion about accepting only a single device per
-> write(2) (at the same time I see this idiom is still present in other
-> dmem.* files, so this is nothing to change in _this_ patch).
+> > 
+> > The polar destination is a corner case, but can be solved when both
+> > phase and altcurrent channels are enabled. When that happens we can
+> > change the scan_type with has_ext_scan_type = 1, so the 16-bit data
+> > bus is split between the two.
+> > 
+> For now I'll just nod at that!
 
-I would second that. When setting say dmem.max for 2 regions, with a
-typo on the second, the first one is set, but write still get EINVAL.
+I took a look at get_current_scan_type() and I faced the issue:
 
-Also, I just notice dmemcg_limit_write() returns EINVAL if the region is
-not found (this patch returns ENODEV).
+	user checks the scan format type before enabling the buffers
 
-> 
-> Thanks,
-> Michal
-> 
-> [1] https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html#format
+In this case I have a scan type that changes with the scan mask:
 
+	altcurrent and phase both selected for buffer transmission would
+	have the scan type changed so that the 16-bit data bus is split
+	between 2 8-bit chunks.
 
+That may also get confusing values for offset and scale. Then I decided
+to have 5 parallel port channels with fixed scan_type:
+
+	0. out_altcurrent120 - amplitude destination (16-bits)
+	1. out_phase120 - phase destination (16-bits)
+	2. out_frequency120 - frequency destination (16-bits)
+	3. out_altcurrent121 - polar destination (8-bits)
+	4. out_phase121 - polar destination (8-bits)
+
+with the possible scan masks:
+
+	0x01: amplitude
+	0x02: phase
+	0x04: frequency
+	0x18: polar
 
 -- 
-Eric Chanudet
+Kind regards,
 
+Rodrigo Alencar
