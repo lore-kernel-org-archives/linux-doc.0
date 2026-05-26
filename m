@@ -1,181 +1,242 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011039.outbound.protection.outlook.com [40.93.194.39])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4343CC7D5;
-	Tue, 26 May 2026 07:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779781705; cv=fail; b=i5g3mRcBhW38eZaGDbMv0kFXsFoJgVFSc+Eh1cZ+2mbwwoMkBNrEhpQjMbeW6NSZ+ycl/iykIdNafCUbEGV5fY3Rwu3RJnUPVdlef3Tkp6SJjFiTN7o+QP+N2ucjN1I71616ArNMCG4cXc50vFWm3xfcKZbWda8nKUbkF2BMROE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779781705; c=relaxed/simple;
-	bh=lno7zle2fANiCK2mPq2+3rCthhZuCpevqnmRShK7bZI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=rqHeodz3EZSC+KiCf3rHd5Bmf63bLiYeUm/W6iFK4AT0xpsgoJK7U6O+FXFVd0PCl2Oqjqf+TtLIVO9Ewecogpk6B5sHTn5uIV1mUMlyD9IHNSMr6BJhiKyuf72TMmEjIPlpeFquNXFXVw5e1kgljJ5fzHtY/UnJz8weciyk5nU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1FLFhHBQ; arc=fail smtp.client-ip=40.93.194.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894603BAD9F;
+	Tue, 26 May 2026 08:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779783305; cv=none; b=Q8McIBs/2gNbqjT2EUxe6LdVZuCIDVb5Xmao+LjiwQTFvKbCbK5EQw4GTmiTFGEFjC4NrFICi7Sx5xs2Tvh7mkvG+NAln66LKi9S5KvqrgdZBdjFK6W45JRzR7cJTWHg9CsyDtSmvqMTNSU6GPoeL/nefhLGQzdmz+ua4IVJqc0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779783305; c=relaxed/simple;
+	bh=iXCcuxwJB6+zffI0Laf8P92Gks99ZAB5jc8ItvHVZ1U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oOycqGvQPtQBrOU69cRd4i2hwKmmHX2t5RcWLOC1XC7xdEnC+y/7NQoFbhU3cm8QOym1K6pl2IdtZLEFeDNZQP4D+jwe1q+udJrv4FPwFfqmZGVP1Sk0Z80zyq8Jnmql2r3kIzkerd2+yKNMG/AiH2/OtVjJqn/mDgHl33sJfa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mGSVDjJf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1FLFhHBQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VO7zBMaGYUcky4/eeXgmhHlCsKV0xpZUUJ94sUN2p+q6ujlVrIbD7M8wKhtksPIJ2x01qSoI7iuHEpkm6OPwbcsCtSpcXAvmXANi8c8tUK4QMul3BLA/Dzpvyc/H3sWU3BLA1xCy66NvcUsytoMs/0m1XqpGwysofXdKi4lmx76RsdE5rcgSLC67vi6ugDxA/q62QNOJ7TePOFHRWZqNvpG6xfhRidwAPMlyMUdz6Wkk/3tW7ByWSEqzxQxnO4M0QUrOx8oWUVG/QeSZJch/ES0JqECPgU9So99sMyw6MxZFafXqfT60mo7ngVgMJJOfkWptcz7lGUrV4dI4OclVSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zzqMnktG7VGvtBCjcsnphYZbqvQVpIRvaPpbrAj+AD0=;
- b=rdR5AeV1tPQP2jlV6oC18M8SFHG09n/FDda/3PVXE9voS3a4HWmUQFQ+iCxGPHkpxip40xfBoVKEwEvbmetvePdbTG3jkzF8q9WY2Z12KmUqC0hC6K1eEDTe7nT+LgEmxkRNQKH0c6tV+4KChGjaFVOyCqRnKvmJvnQwEaf0+ukRBqO2LxSEK6v6x7NhgMEoATUSXVyWNfRE7gNfaSiClDnDgDJLirbo9jZZzTyscKbFyr5H/tMVDFs4sTx4t38LFTW6AGWyGtS0uUgZU4dTXPtz8TmOun+6o930vIz/7lkjCgTZjmbsN5hsRU4r3IZjFmXqdnAO+XV+4s1Dscc8fQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zzqMnktG7VGvtBCjcsnphYZbqvQVpIRvaPpbrAj+AD0=;
- b=1FLFhHBQj1bDgf3FvfUL8pyljFL2DqMvS04etW1Dzy/l2/RcfQshgA3KBBSihkoPrU1LlFuVwjuVuFpJM5Kgck6SWI/FJ/Bh4wwwGBKMRGUIJbTSt4j9fKRlcoc1es7N6pm/OlI65anXpNtXTFJsbWJRNnqBZK6gEgsU14/X81M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS5PPFEAC589ED8.namprd12.prod.outlook.com (2603:10b6:f:fc00::667) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Tue, 26 May
- 2026 07:48:17 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0048.016; Tue, 26 May 2026
- 07:48:17 +0000
-Message-ID: <5d1a20e5-49b7-4aa0-9473-c978f061b717@amd.com>
-Date: Tue, 26 May 2026 09:48:09 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] cgroup/dmem: add dmem.memcg control file for
- double-charging to memcg
-To: Tejun Heo <tj@kernel.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>
-Cc: Eric Chanudet <echanude@redhat.com>, Johannes Weiner
- <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>,
- Natalie Vock <natalie.vock@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "T.J. Mercier" <tjmercier@google.com>,
- Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>,
- Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
-References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
- <20260519-cgroup-dmem-memcg-double-charge-v2-2-db4d1407062b@redhat.com>
- <ahBxB5a9sX9DEWvl@localhost.localdomain> <ahCBrNfiLrh10Vtq@slm.duckdns.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ahCBrNfiLrh10Vtq@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0387.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f7::12) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mGSVDjJf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 332811F000E9;
+	Tue, 26 May 2026 08:14:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779783304;
+	bh=LaExe0o8sgOuAffurTxA31aVwWKAGfat/zImo5zQ05k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mGSVDjJfaqHxThhrHHY8/jlIJxBTbDBY8eXvuoId/eqeQNh1XyQbgLFJzrNsjYz0k
+	 fMkM89kirTVpe1jYVZ1OeFUjsPs+e6TSiyLDr0y5fqzTtQ8PANppUQgUNnSiB6CXI9
+	 dntgodUx4ZbIKxUpC90dMc4ku+2d20O+t1F5zxkWsuon9xc1v639tAX9saPLJT8zUb
+	 2NKb0NiFp6cGqBilQtwPtN4I/oZFLOhz5LErZEpuubsDR4mm2W8/j8eL63Y+0f3YGu
+	 wE1u+Hdd3KNki6jyL7IyhfJ6D1CBdkURnwcFwI89nmVzwNPJLI0M3HYySI6VcBF7xx
+	 8QZ3CQGl+qbgw==
+Date: Tue, 26 May 2026 09:14:49 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-doc@vger.kernel.org, akpm@linux-foundation.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
+	aarcange@redhat.com, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
+	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
+	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
+	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
+	kas@kernel.org, lance.yang@linux.dev, liam@infradead.org, 
+	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
+	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
+	rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com, 
+	rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
+	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
+	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
+	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-hotfixes-unstable v18 00/14] khugepaged: add mTHP
+ collapse support
+Message-ID: <ahVVP_lDpTlRCPXD@lucifer>
+References: <20260522150009.121603-1-npache@redhat.com>
+ <CAA1CXcCoDU_pnp0SmMzRi8wPGB1OBjbbokevq2X_03X1vpWtOw@mail.gmail.com>
+ <ahByO_HWn6MB8z-u@lucifer>
+ <CAA1CXcDoFdZZ4aBx0BPA7QXYKYBYDoqUiLTLYe3L5opJ0LsJGg@mail.gmail.com>
+ <ahB_hae8coGvf12Z@lucifer>
+ <CAA1CXcCoyGzEyeFPW+zKiA2AOj=0Lm7R=odLtVru+dQa0P_2cQ@mail.gmail.com>
+ <ahCFIDuyrvEfB9jv@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS5PPFEAC589ED8:EE_
-X-MS-Office365-Filtering-Correlation-Id: c5503d61-20c8-4a48-4c6a-08debafb25f9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|4143699003|11063799006|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	0e6EUWWX4NYSh1E6k6ETPMHHxUm9KIXuh+D6tSkkdEN/UnAfEvNR8PTUdr0+UYcbkEjv5oRWIl/YpjYj0b8odyGu63+kP3lKWFPJKAmga6RYM66aDk/EVICTriQAwM/wNozhVyCuktbzvj+sl91L1WDWniUfVXF4PecxfweuIqXUARtCrGZFf4z9pQWkFM/yITxjuyiGE1HO66ZUd0XuorgTuIVm6B/yXWa/TnpGisB2EtGIPRujghuUmxMoTPeBLdOJbGa/r6Is9qYcR+RD4p8ETW2yrTaKOgqtmuY4PNpVWtO39/Mr9Kojxjw4FN+nWz8QOjUrMrcSo2KeYO+53gg2ds9rpzmdOHHCfu6tkTDvljntjf+5zqODVHqdRmzXb4EVF0cMy4/x520LNUC3wprS7KbWl+TKpDOWz0QG7oKxt4R5xlMefWVEwsgHb2OJ6wQLddu0Uu/acnogEXQtb3W0YkGxCJJmBjbBJpCtwntT2Og1OxmAW8KBmqCeeX15ukYH1WC7+nomi2Pnx0xfujI4kEtpFpn/HvM+Gin3j7JIsa56AV9GV3Fky2zb4oCF+0s1ZLX23dTgc0gUtBom1+EDgm74LqR0bgVWOThZMTp7vLRyuIj2iAF6LbGuo1k8mEvahQqEqcyaz26T9XrMm05tH6ODQ3i6C23CT3G4EwWQjDgjURqxDkjVHEp6hta2
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(4143699003)(11063799006)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YnRZaWkvdCtmNk00M2VpTFI4OC9JV0w2QU41Q3FVYVlvRFFYc053V3JVaEtv?=
- =?utf-8?B?Z1VOSmhoRXFya25SbGJJVnJWbGdQTFhGY0h2MXZRblFvOURWWkFBTGg3RlMy?=
- =?utf-8?B?L1lJUW5CS1YrU05iU0dnd0lhdlVkQVhVNGhhVzFYOW82TmNwVEc5RlVjWk5G?=
- =?utf-8?B?RHNRbE9YOGhRSjl4Q3QxYU1JQS9aMS9jamhkbjJxNGFOSzV5RVBtbXpKQll0?=
- =?utf-8?B?NjdVRG81dGlBMEFaVjZvSU5nOW5jTkRBNW5BQWZSR2NZM1VFYnZYblFTaEJo?=
- =?utf-8?B?SVh0WmREaCtJS2FCa0JxVDZpbHd2cGppcDlwVjR4M1hFOXJEM1ZNMEcrbVZ1?=
- =?utf-8?B?K3lWN3YrVWwzcUx4UDVjN0ZkbXVnYVRMSzFJbWZQaEFnTWk3bUdkSklGcGxC?=
- =?utf-8?B?VXp0S2RUaE5PVFJ2YmtIK1NvaWkvT3pkVlFCOUtKM29qVkFRVVpqWlYrOEdJ?=
- =?utf-8?B?UGdzRVdBdWwwN244VmMwODJmaCs0Y3BqSGRTL3cyZzFmdUxJYVJaYm9qTmdI?=
- =?utf-8?B?R3RGejdmMXVNMW1YWHJZR09DcXA2SFdJYk1ydDhWWC9vY2ZDWUZPZ2tJYXBi?=
- =?utf-8?B?ZlpHZm9FSlBsamI2VFFLZkI4bEI0WDY0bHcrUUJtTmpmOGtiRHBjWEthQmMw?=
- =?utf-8?B?RHF3MU9lbnZ0SHFReXp0bVZxSG1SSFZZbkIzNzJpd0ZyYXBjV3JDbG95T1dk?=
- =?utf-8?B?enBWWFZQYzQ0NmMwNDNoWUVyRUFKNXo0VTR1NVhiYzRvczRRVkwxa1MyVFYx?=
- =?utf-8?B?blF5SCtZZFExb3JQcHdySGNVUmlmNWlZU2dkaHZHSGQxbW16a0J1M00rc1VX?=
- =?utf-8?B?NkE0UDhLUjlnRXdQZENRSmVCd0JNL1IvcjNBZUtsMEhRZEVHRlpYc1p2VHds?=
- =?utf-8?B?M0hlNkpVMVBaK1UrRkQyZVVySFRqWVU3Qm5vcW0vRzBONWxMdmZXTy9XaVcv?=
- =?utf-8?B?Nzc5SUZuYUV5NWFienFKWjIwTUl5WFZ6QkpQcnE3VXl3R09yZmN3WmRON01D?=
- =?utf-8?B?amgrN1lnQ3lxSzdRd2t1YWo5aHp5TTMrSDRmMjF0UWdoVGpUUnlQOG5BbXo5?=
- =?utf-8?B?V3ByWnNtTTF2UVJwczdKaXpBcmhtMElpcGlYdlFaQXZJWHBBV1dwMnpVMVBZ?=
- =?utf-8?B?TFpHcEZFcE9oOVQxQktPRi8raUNBZkFneEZHUW1mSFYvb2MzSUU4eGRBV0w3?=
- =?utf-8?B?TjJVZlR0MFlHVlUrSWRBelVJeXlTNFZMNXgwTGZRSkFjNUJ3bmFReEtuV09u?=
- =?utf-8?B?ZDl6Q2hMVml0bzVZOThjZllCa0RwUnJzdFF0dnlobEkrdjNFRlBDVXJlL2Mx?=
- =?utf-8?B?Rm1taFY0SDNLT1ZCbWVURTBCZWFjZjlHMlR3SE1WZkVEMll2cWRqVmZTOHhl?=
- =?utf-8?B?bjVZMG1VK0diOEl1VmlMZ0VkbWI4VTNNVHl0TENKbHdKOGZoeTZaSVNNS1VV?=
- =?utf-8?B?V053c2FqbjdXeko3UW50VGM5RFpIY2JiYmIrRkVKbWVkRUZaY21OQ1hCbnF2?=
- =?utf-8?B?Y2FweTdWMzNSL0R0azh0YTVaM041S210aXlReXp2eTJ4eGt4emhiVzJLQUow?=
- =?utf-8?B?dk1qSE1WaVZxaXdtb0hzTlJ2NnYrQS91bkNqZEN5M0M4a01sa1BkdVdZQ1ZQ?=
- =?utf-8?B?dSs5K0lNTTIzQXN2a1Q2Z1J1QWJxTDQrOS9WS1FqeU5kZnRFSGZydVVZdEtE?=
- =?utf-8?B?Z0wzRFNtODUxUjdCRXhqNXliU01qQllNSUZ6VWVpNHl3dEh4S0VjM1FuQnVJ?=
- =?utf-8?B?bDBpY2Q2dzNDZVR6SklJaU1oVjE2NkFVeXI0SFJ6aS9XUHZmWVlEeXR0VGhO?=
- =?utf-8?B?djdVclJ5eDRRM0E5NjY4VU8ra3lmK2l1b3NpVUg1Vkhkb0JuVUdiQjFjL2Nx?=
- =?utf-8?B?OVkrcTRzcUlPNTVseFd2UzhyNlNTNHREUyt0QTRpbzNOOUF2SFFhKzVXOW9m?=
- =?utf-8?B?WlJwNEc1aURnL3dZV0ZyOCtRa3drR3lTUzRab3ZsVlJwdWplcEVLODNGYkx4?=
- =?utf-8?B?aHRkbmNOL0JyVmQ4RHRndjA4N2ZPK3Z4cXM5WjhESVBpMG9xQktmaDQ3OWxm?=
- =?utf-8?B?TU1iclNXcmh3Rk5qNERPcDAyaVRaYkJMc3M3UmNjelF5aGM5a3NRdFlQTDNE?=
- =?utf-8?B?dkRDM0cyZGFJaUtydElPSS9TNVZWcTBpVkVqVHVCT3RVT2NWSUVlclZsUVoy?=
- =?utf-8?B?ck1hakhybDduZHJLOSt6eUc4SC9BS2NrNEZtZmxDdjdnWDBKTFJ5R2EyZWx1?=
- =?utf-8?B?ZkU1WlY2K1pKZXR5b0FhMmMrSStUT0dpM29pYnRNWmtySzZWZFVYZWVONm1q?=
- =?utf-8?Q?mxIPyUlKIGg6hwo/sX?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5503d61-20c8-4a48-4c6a-08debafb25f9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 07:48:17.2835
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HhZ3o6irGAnDgF+V5U7VopQTzq1RBVXmGC4yw4uh6ZzlaSdZvvWPHJpB3Bq1tmy0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPFEAC589ED8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ahCFIDuyrvEfB9jv@lucifer>
 
-On 5/22/26 18:17, Tejun Heo wrote:
-> Hello,
-> 
-> On Fri, May 22, 2026 at 05:26:16PM +0200, Michal Koutný wrote:
->> Hello Eric.
->>
->> On Tue, May 19, 2026 at 11:59:02AM -0400, Eric Chanudet <echanude@redhat.com> wrote:
->>> Add a root-only cgroupfs file "dmem.memcg" that lets an administrator
->>> configure whether allocations in a dmem region should also be charged to
->>> the memory controller.
->>
->> This kinda makes sense as it is not unlike io.cost.* device
->> configurators.
->>
->> Just for my better understanding -- will there be a space for userspace
->> to switch this? (No charged dmem allocations happen before responsible
->> userspace runs, so that the attribute remains unlocked.)
->>
->> (I'm rather indifferent about the actual double charging/non-charging
->> matter.)
-> 
-> I wonder whether this would make more sense as a mount flag? What's the use
-> case for e.g. having different config for different devices? Wouldn't that
-> be really confusing?
+Nico,
 
-From the cloud gaming use case I can't fully rule out that we need mixed settings for different cgroups.
+While I stand by the below, and we very well might wish to delay this until
+the next cycle, I will try to take some time to go through this myself as
+soon as I am able.
 
-Making an educated guess I think the best approach would be to have a default value per dmem given by the driver who creates that dmem.
+If David's happy with it for this cycle, and I don't find anything too
+crazy, then it's not impossible we could still move forward with it now.
 
-Looking at AMD GPUs we have the APUs where VRAM is basically stolen system memory and dGPUs where VRAM is dedicated device memory. So what the driver detects as HW config should affect the default behavior.
+My only aim here is to avoid rushing something in that might have
+unexpected changes or issues in it, given how late in the cycle we are :)
 
-Regards,
-Christian.
+Cheers, Lorenzo
 
-> 
-> Thanks.
-> 
-
+On Fri, May 22, 2026 at 06:12:59PM +0100, Lorenzo Stoakes wrote:
+> On Fri, May 22, 2026 at 10:31:41AM -0600, Nico Pache wrote:
+> > On Fri, May 22, 2026 at 10:20 AM Lorenzo Stoakes <ljs@kernel.org> wrote:
+> > > There's some kind of confusion here.
+> > >
+> > > This series isn't suited for 7.2.
+> > >
+> > > Sorry but Zi's series, unless it depends on functionality here, will have
+> > > to be rebased.
+> > >
+> > > People have been at conferences, people have been on leave, I've had to
+> > > pace myself for health reasons and it seems there's been more than simply
+> > > review comment-based changes happening here.
+> > >
+> > > (Again I strongly encourage, at this stage, to ONLY be making changes based
+> > > on review, not adding ANYTHING else or changing ANYTHING else to avoid
+> > > delays :)
+> >
+> > All the changes are based on review points. Very small changes in this
+> > version; the largest being the one that you specifically argeed too.
+>
+> 16->17
+>
+>  Documentation/admin-guide/mm/transhuge.rst |  24 +++++-------------
+>  include/linux/khugepaged.h                 |   7 ++---
+>  include/trace/events/huge_memory.h         |   3 ++-
+>  mm/huge_memory.c                           |   2 +-
+>  mm/khugepaged.c                            | 168 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------------------------------------------------
+>  mm/vma.c                                   |   6 ++---
+>  tools/testing/vma/include/stubs.h          |   3 ++-
+>  7 files changed, 103 insertions(+), 110 deletions(-)
+>
+> 17->18
+>
+>  Documentation/admin-guide/mm/transhuge.rst |   5 +++--
+>  include/trace/events/huge_memory.h         |   3 +--
+>  mm/khugepaged.c                            | 121 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------------------------------------
+>  3 files changed, 66 insertions(+), 63 deletions(-)
+>
+> These are not small 'very small changes'.
+>
+> We're nearly at rc-5, and this is a major, invasive, dangerous change that
+> we have to get right.
+>
+> You've also made changes unrelated to review, repeatedly, throughout this
+> process, which as I've told you, is causing delays.
+>
+> You've also throughout the review of this series done stuff like make MAJOR
+> changes to things and _kept review tags_.
+>
+> You're forcing us to use git range-diff etc. to forensically check that the
+> series is what is claimed.
+>
+> Dude I mean you switched to using // comment style which is not used in mm
+> anywhere for instance? Don't do things like that and complain about
+> delays. Honestly.
+>
+> Also, again, LSF happened. Other confeerences happened. Bandwidth is
+> reduced.
+>
+> So again, I'm sorry, but you've been hit with some bad luck here.
+>
+> I really wanted this in for 7.2, and I feel bad that we couldn't make it,
+> but you're also doing thing that's making it difficult for us.
+>
+> I've spent double-digits hours on your series, and I've also had work
+> pushed out becasue of that leading me to work evenings and weekends as a
+> result.
+>
+> And I'm not even going to get any credit for it :))
+>
+> So while I sypmathise, really, please have empathy and realise it goes both
+> ways, please.
+>
+> I'm not being mean for the sake of it, I'm pushing back because I feel this
+> is not at a stage where I'd feel confident in this being merged at this
+> time.
+>
+> And it's very much a regret, as I _really_ wanted us to have it in this
+> time. But life and circumstances and the issues mentioned above have
+> intervened, sadly.
+>
+> >
+> > >
+> > > Also - shouldn't mm-unstable already have mm-hotfixes-unstable in it?
+> > >
+> > > I think in mm-next we will have an stable branch, that everything is
+> > > based on, where things go once review is complete and things are mergeable.
+> > >
+> > > And a separate hotfixes branch based on Linus's tree.
+> > >
+> > > That would avoid issues like this :)
+> >
+> > Im sorry im new to this, but I really dont think this tiny error, and
+> > something that I'd confirmed with Andrew beforehand deserves NAKing
+> > and defering it. Ive worked through my PTO to clean up some of these
+> > review nits just to get it in 7.2. I even through this through my
+> > rounds of testing today before resending.
+>
+> The issue wasn't the error (though it wasn't tiny...!), it's the state of
+> review. There was fresh review comments from a few days ago, and there's
+> big diffs between revisions.
+>
+> You've also made unrelated changes as you have done throughout the series.
+>
+> As I said above, I'm sorry that you spent time in your PTO on this, but we
+> cannot rush this in when things are not clearly ready yet, and I am not
+> confident in this being ready at this stage.
+>
+> >
+> > >
+> > > >
+> > > > The intent wasn't that this is a hotfix, just that this was the
+> > > > closest base before the v17 that is already in the tree.
+> > >
+> > > The convention is that [PATCH ... <branch>] indicates the target of the
+> > > changes. Putting the hotfixes branch there implies it's a hotfix.
+> >
+> > Sorry I thought the <branch> was what base you used.
+>
+> I mean, sure there's clearly confusion here as you sent [PATCH 7.2 v16 ...]
+> (against an unreleased kernel version) then a branch specifier then the
+> hotfixes one...
+>
+> Anyway sure, it's fine, I've made vastly more dumb mistakes than that
+> myself, nobody minds, but it's concerning as by convention [PATCH
+> ... <mm->hotfixes<whatever>] generally is taken to mean 'please rush this
+> to hotfixes!' :)
+>
+> So be careful with that please!
+>
+> >
+> > >
+> > > So please be careful with that in future :)
+> >
+> > Yes will do for sure.
+>
+> Thanks!
+>
+> >
+> > >
+> > > >
+> > > > Sorry for the confusion, hopefully Andrew can still apply it to the
+> > > > correct tree.
+> > >
+> > > I'm not even sure what's best for that at this stage given we have
+> > > conflicts and this has to be delayed until 7.3.
+> > >
+> > > I wonder if given that we should not have this in mm-unstable at all and
+> > > just wait it out until the next cycle begins? Review can happen
+> > > concurrently.
+> >
+> > I still dont see why this has to be deferred, I was working with
+> > Andrew to prevent merge headaches.
+>
+> I've explained the why above, and David and I co-maintain THP so I feel
+> that ultimately given the blood, sweat and tears we've put into THP review
+> we ought to have some input on this :)
+>
+> Thanks, Lorenzo
