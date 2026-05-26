@@ -1,172 +1,144 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3747837B415;
-	Tue, 26 May 2026 14:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E8133FD14D;
+	Tue, 26 May 2026 14:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779804636; cv=none; b=Vatev2CvvbQ2kGjltjLIGB/7zihIkV8guGT6kcyQayKRkjZGb8eSY1itW8GFpC/WQGcA+y6kIvYSOeRItEjHXTNc6bW6Jk0AmyKja4Xn8U0lJTymSDQgpfAlB5NQa+l4IGdG4zixN9UyuuhVQA8Tjy6asFFl+JbGoV7srrSs6o0=
+	t=1779805261; cv=none; b=nAugqjE+HqBQXnKKN+NfdOegq33p8OXQH06bgD7vorWREHRNfO8u7MZiqzT2flHgBQ8S4mvjGiZffLFjfT1GgX9/eFsaJ0NLTdNr0YsutrNDbcwWx5zyNJC9Ef0AQJy9sOh1r08SBfZGVWg/Xgz/UGfqeW+wAJxuea5AJ9ADYhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779804636; c=relaxed/simple;
-	bh=mf1IOQWlnc6zQF6HWyGaFflc/mPXBki32bUROyZWCXU=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=a3vtcvYYu8u1XfyXUqp7GaXsD4Inmiemlre/7qkCVZzXamJa0pfQrkQ8EzT3WKq12CW61o2l5Qzl6JU5TlvwYGtT/6y0de9rTL7s9JrOEja0x5QYiFo0G+NY2ZdWmU3nqPyqNmegf3PPfEgcHcksFZ4vXKYdhoNgqLUtNgnCWas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=IyPDDu/L; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1779805261; c=relaxed/simple;
+	bh=oKeqOBlOW8Be2H98W+ENHlID/l7YbOJiPsGt4yqgS+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=losB1KSP1AmemhVCFZfQrtcEd1/QAuR3SMXdi1+OZsGN2o4CKE5xmz2Cep5jv/mYeqJg6AHT4ajXdjD57UOHeqPgQAfVvELWl5VdlvtknCre00+lgOpzEWKrpFq1D0esAFHwKdRiMz1GWJvG10WBICHq0tOj7B3Ncb988rCkG3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=F14nbYYP; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="IyPDDu/L"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64QAvgeb829592;
-	Tue, 26 May 2026 14:10:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=WMj1wY
-	0Czpl5GreJRKqAJyIGPNYvsrXhwZAqrMmKMPA=; b=IyPDDu/LXD6VI5O/XUYiH9
-	TySDdeItbSRcKEnpBTkK1kZwgymbl7rnOkuEGUQAv2b/ksA0bNJ/x3tuBJaFstwn
-	Q2+B0Vs7x6EH3yuZEaA5qHClhG4r3PkLITon05E0J7+aLcX+JABg7HkFmRRNGsaW
-	YfyoTcB9lCA27lBjJ3XiyHl9NJcqxyidveBEECZRlZqeRF2a8D4yJK79HEiQloVq
-	MT0RfxDKBqLXX/6B5u7Eg+ZJBP3WEHAlS+kwOG1loqEMvMrNj4gWZwujCmZckHXd
-	04ss/7rlexJtr8FoKCVoBKMmsfOEZKipRqQlgO+SuZjU9iAjHFk1TWAdCLYCVvQA
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eb4numj88-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 May 2026 14:10:11 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64QE95nH027609;
-	Tue, 26 May 2026 14:10:11 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ebrsg9f4h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 May 2026 14:10:10 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64QEAAWT30147250
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 26 May 2026 14:10:10 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2F96C58050;
-	Tue, 26 May 2026 14:10:10 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AE5975805E;
-	Tue, 26 May 2026 14:10:08 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.63.240])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 26 May 2026 14:10:08 +0000 (GMT)
-Message-ID: <1d32dca26bec72bcfdc326359a17edfeb65b0a3f.camel@linux.ibm.com>
-Subject: Re: [PATCH v5 00/13] ima: Introduce staging mechanism
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        steven chen	
- <chenste@linux.microsoft.com>,
-        Roberto Sassu
- <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
-        skhan@linuxfoundation.org, dmitry.kasatkin@gmail.com,
-        eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
-        serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
-        gregorylumen@linux.microsoft.com,
-        Roberto Sassu <roberto.sassu@huawei.com>
-In-Reply-To: <aaed52cf-26e1-4c40-812d-3788024ce5b5@linux.microsoft.com>
-References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
-	 <99c30be6-8b0f-486a-890c-cf74c5930726@linux.microsoft.com>
-	 <aaed52cf-26e1-4c40-812d-3788024ce5b5@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 26 May 2026 10:10:08 -0400
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="F14nbYYP"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A69B169C;
+	Tue, 26 May 2026 07:20:53 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D58D33F7B4;
+	Tue, 26 May 2026 07:20:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1779805258; bh=oKeqOBlOW8Be2H98W+ENHlID/l7YbOJiPsGt4yqgS+M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F14nbYYPYB2LN8COACBdN+twjwuAYIeYGM2J8IXo78QE4ABzj31FapUzVEAbdR68/
+	 vp89J59Lbka/24fD+2rVIhuJpEKbpJxb6Or8JQDk7VkpomwibdibkkRcNe87C/CqSW
+	 6o4tvmW4yUVy510uaZnZh+LaHy1N+NcMfmkLyvic=
+Date: Tue, 26 May 2026 15:20:52 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v10 02/30] arm64/fpsimd: Update FA64 and ZT0 enables when
+ loading SME state
+Message-ID: <ahWsRNb9uZhf46hG@J2N7QTR9R3>
+References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
+ <20260306-kvm-arm64-sme-v10-2-43f7683a0fb7@kernel.org>
+ <ahWWqU51Zffmhlo5@J2N7QTR9R3>
+ <d8074c6b-9bc9-496e-8a74-94ac18ce9a55@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI2MDEyMSBTYWx0ZWRfXyXXNfOjAxKsS
- gZp588DcnO5iV3mAzQfRZwRsA404TwNt000/t3mgOLc1FUlXU7CpV3cEdEgqnoprztvchJrqw1c
- Gu7Cj9KqMbVbuZYxzI0BPykmnilk/TpYCIOVf2/Tggp7qQN8crTruCt/DJ9xLT7paN2xHhwJtZT
- pxyWgSSWa/BNWj/qARCZr7cfFayDY3vHGnRV0bJcjvggO/ZQETApSHOsGCq00t/Tkl0RuY/DZfq
- S1I7xP6ouAAfHgil+wPYgMXtCKF5Gt+i3jH0cvSs4xcq/Upd6z++iM15En403H9JpzOI2RCpSU7
- tBnMMMRM9fpH0bOmpEMnKz6MRHhId9Ttdbg7MlOc3K6Ewu1OtdWRT9nQVBiYWafxLZzi+CJiFt2
- rL0PTXreKHje4pvqpo+g9XcervDHXicALfW8siAzECANrWqqK805Lzc7FCiAHgdrvFmYkAbPFXB
- oepEpZ4gVOtM8QDFzNw==
-X-Authority-Analysis: v=2.4 cv=UtJT8ewB c=1 sm=1 tr=0 ts=6a15a9c4 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=kPIizgvigglXtppSoNsA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: mMfsEd4qTK_7e7dHtnDYd7lPKgGQUPYO
-X-Proofpoint-GUID: Y6nRJVe9UEGzdMXZoqjiPx922OgtK00S
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-26_03,2026-05-26_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 adultscore=0 clxscore=1015 bulkscore=0
- phishscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605260121
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d8074c6b-9bc9-496e-8a74-94ac18ce9a55@sirena.org.uk>
 
-On Mon, 2026-05-11 at 10:29 -0700, Lakshmi Ramasubramanian wrote:
-> Roberto, Mimi:
->=20
-> I want to add on to the point Steven has brought up.
->=20
-> With "Stage and Delete N" approach, we have the following sequence of=20
-> tasks for trimming the IMA log:
->=20
-> 	1. User mode locks the IMA measurement list through the "write interface=
-".
-> 		a. While this prevents any other user mode process from updating the=
-=20
-> IMA log, kernel can still add new IMA events to the measurement log
-> 	2. User mode reads the TPM Quote and the IMA measurement events and=20
-> sends it to the remote attestation service
-> 	3. Once the remote service has successfully processed the IMA events,=
-=20
-> the user mode determines the number of IMA events "N" to be removed from=
-=20
-> the measurement list maintained in the kernel
-> 	4. User mode provides the value "N" to the kernel
-> 	5. Kernel now determines the point at which to snap the IMA measurement=
-=20
-> list using "N" - without holding a lock
-> 	6. Then, the kernel lock is held and the list is snapped at the point=
-=20
-> determined in the previous step thus keeping the kernel lock time to the=
-=20
-> minimum.
-> 	7. Now, user mode removes the "write" lock on the IMA measurement list
->=20
-> With the above, we believe "Stage and Delete N" alone is sufficient to=
-=20
-> trim IMA log.
+On Tue, May 26, 2026 at 02:25:56PM +0100, Mark Brown wrote:
+> On Tue, May 26, 2026 at 01:48:41PM +0100, Mark Rutland wrote:
+> > On Fri, Mar 06, 2026 at 05:00:54PM +0000, Mark Brown wrote:
+> 
+> > > We provide a helper which does the configuration as part of a
+> > > read/modify/write operation along with the configuration of the task VL,
+> > > then update the floating point state load and SME access trap to use it.
+> 
+> > > +		if (fa64)					\
+> > > +			__new |= SMCR_ELx_FA64;			\
+> > > +		if (zt0)					\
+> > > +			__new |= SMCR_ELx_EZT0;			\
+> 
+> > I'd strongly prefer that we make it the caller's responsiblity to track
+> > all the bits within SMCR, rather than requiring each caller to pass a
+> > bag of booleans.
+> 
+> I was explicitly going for the opposite of that in order to make it
+> harder for someone implementing a future extension to miss a place where
+> an update is required, having the callers independently constructing the
+> register values feels like it's asking for trouble.
 
-Prior versions of removing measurement records (aka "trimming") were reject=
-ed
-for being overly complicated, locking, requiring a new record type, and cod=
-e
-quality.  Patch 11 ("stage and delete N") is much better, but the level of
-precision in removing only those measurements records needed for the TPM qu=
-ote
-seems necessary only if the records are not being saved.
+I didn't say callers should *construct* the value independently, and I
+showed how to centralize the construction in a __task_smcr() function.
 
-The reason for the two methods might be the same =E2=80=94 removing measure=
-ment records
-from the IMA measurement list =E2=80=94 but the motivation for the two meth=
-ods does not
-appear to be the same. The motivation for Patch 9 ("stage and delete") is
-clearly to free kernel memory by exporting and saving the measurement recor=
-ds.
+I think callers should pass the entire value around rather than a
+collection of discrete booleans: constructing a collection of discrete
+booleans is functionally equivalent to construction the entire value,
+and we can more easily manage the construction and passing of the entire
+value.
 
-Remember, the only reason for upstreaming a feature to remove measurement
-records from the IMA measurement list is to address the kernel memory issue=
- =E2=80=94
-clearly not to drop measurement records and break attestation.
+> > 	unsigned long __task_smcr(const struct task_struct *tsk)
+> > 	{
+> > 		unsigned long vq = sve_vq_from_vl(task_get_sme_vl(tsk));
+> > 		unsigned long smcr = vq - 1;
+> 
+> I agree that's a better pattern for the main kernel - we could also do
+> something similar with a task_set_smcr() which wraps the explicitly
+> specifed version.
 
-Upstreaming patch 11 (stage and delete N) would be a concession for your
-environment, but is definitely not the recommended solution.
+I don't think a task_set_smcr() function would gain much vs
+using sysreg_cond_update_s(). I expect that we'd use the SMCR value as
+the source of truth (and hence that would need to be generated outside
+of task_set_smcr()), at which point either task_set_smcr() would be a
+thin wrapper that just hides the register name, or it would generate the
+value independently and obscure the connection.
 
-Mimi
+I expect that what we should have eventually is something like:
+
+	unsigned long smcr = __task_smcr(task);
+
+	sysreg_cond_update_s(SYS_SMCR_EL1, smcr);
+
+	if (za) {
+		__sme load_za(sme_state);
+		if (smcr & SMCR_ELx_EZT0)
+			__sme_load_zt(sme_state);
+	}
+
+... or:
+
+	const unsigned long smcr = __task_smcr(task);
+	const bool zt0 = smcr & SMCR_ELx_EZT0;
+
+	sysreg_cond_update_s(SYS_SMCR_EL1, smcr);
+
+	if (za) {
+		__sme load_za(sme_state);
+		if (zt0)
+			__sme_load_zt(sme_state);
+	}
+
+... where in either case it's clear at the function level that the value
+programmed into SMCR matches what we're using for boolean decisions, and
+it's clear at a higher level that functions are consistent given
+consistent usage of __task_smcr().
+
+> That would I think avoid most of the issue you're seeing?
+
+I'm not sure what you mean here.
+
+I don't think we need task_set_smcr(), and I'd prefer what I suggested.
+
+Mark.
