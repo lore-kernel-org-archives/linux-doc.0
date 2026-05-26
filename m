@@ -1,41 +1,42 @@
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1181427A04;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10704279FE;
 	Tue, 26 May 2026 14:57:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779807437; cv=none; b=fvL2R1QyUPMjo7/bWPHz42yt/Y8K40nBpxIdGx+ydb589AoOlo+l3I4fMaJR/FBmaqbEjVUrylWSKmd8rvlRyc1jyeX688tcdEacCMaZ72os1sDlCHqjqGYJF/lVgUOsmPFV54thj4DETbRVRx/iomlrKct1Cb1RBTD1JEMDwcs=
+	t=1779807437; cv=none; b=lvfw1cqwm12J2Eufl5R9ig4W5x77h5HjLil2FqII2x11+TBvMZoOUq7PVIGnKDe9T7Fdur3QrRX1Qor/dqxIAsmoI+mXu2Df4b7nXTAYhwBUo90Xtb4wTO7U4Z+Y2yDlyKEusP48bvMjzmHlewUuTsxVg/wTDNGPAZYZdsX6/Po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779807437; c=relaxed/simple;
-	bh=AJ5kgwcORFft8X7fGFxg332WWjDtcyKWpTMRFzOEUgE=;
+	bh=O5SRCNJUPxhW0MAcXxjxsdLU2CeqC+uTSU68swKcgmU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CuXVWCrY74Ogw/NxNK1FboKDrQCMHo2uOx4Y6XSx5krYhF1fqcJnlH08p/+6OlNQ2k8FWi9syvenddJIOi++L/NxUEXGgtBroprlqQ6zx1wWvnUIJ+EN0oYlePzitK3H5gABbBVa/NOLT4boyxQYY3Da6PT9dTl1JxwNS82P8tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jpodCC0J; arc=none smtp.client-ip=185.171.202.116
+	 In-Reply-To:To:Cc; b=hgxCOv2Jl/nwrxnQ1kKjCTbU6bTHtCJaSW2RPMquzWLBxxXmm92jSzIsPcvpa7vtCfXB9DkujVSJGyblETRzHAiHCSVlHgqqH7Nw2MYffCkYvfpYeH9xHCq6ZfpmMg7Q5z4F4Xgv7lcmyeZ4en/fbsqIWxt0PR08TpKj0zumvzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZOfMtD+0; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jpodCC0J"
-Received: from smtpout-01.galae.net (unknown [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 626BEC79ABF;
-	Tue, 26 May 2026 14:57:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZOfMtD+0"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id D2532C2C643;
+	Tue, 26 May 2026 14:57:13 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E798A60735;
-	Tue, 26 May 2026 14:56:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8FF88108888D2;
-	Tue, 26 May 2026 16:56:57 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 502206011D;
+	Tue, 26 May 2026 14:57:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F0B59108888C9;
+	Tue, 26 May 2026 16:57:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1779807419; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1779807425; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=380DMxOtkVf4S8j1lpaF5rnIUMKJfHDNDSHsb4bomqI=;
-	b=jpodCC0J/HI4BxzNyH/hQ9d7usrpD7o/C4+HxMswodZ8RXVNr5dOg9AkAjqTW61X1vGfxl
-	VGSbVS8x8S8oShzcV7s24frPWQ+DCRl7UZYtJPRgj4ZDdxe4zWuXmq8bvVc3+bCIgfWGSU
-	GusW3iD9iPhEv8b2cf0jw6cZ5wx8CmHToWf3jtA7ZsqhNDUg66MExHkV9ZpO+VIZDcpSos
-	c2vj+B6Qr2Z9/2Qqu3rGvkR67EXZqGKqeoM8tXbC/yOtnE4mpRVIMyX6JaDjkuGGraFjaO
-	Xg9uGYPbHxwXd90c8djUYPi8fFlGE+uImNDT2GTIJXVgTKzRfxtw3rq2lZXAEA==
+	bh=v0jG7SSL0hvSmqOXyehgxCQdSJBYzJtwCSoWUhoR7Js=;
+	b=ZOfMtD+0427Ea+nIw0akmEqwdqb/QCLYZOTtCBUZYyjzdXNY2h9s3QA3eYoXj7LQvhxAdL
+	h0p8OzFcsI0RSgqmP58Ba9JcxC73nc0qepBwgBOpkJ5b3Z6C2EAFnStFNSun/sHRJz9mLh
+	t+flr4j90/zaxgCbliCQ4jUR+JlixWXSghvSz+kN+8NAmi24qBqpMga+MJHJnXn1pmL0w2
+	eyhVrGcnHwA8lJ7RY4wM4gk/xw1jsFWKUNz9mqeF1st9wxhCd8QNUvf1QOh/Fr2slgNBca
+	9wHgK1xokQDwHikPHSO0vUnvLcCLSvSNpFxBsfy4nvIchSqhIAwr6hMxgNuZjA==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Tue, 26 May 2026 16:56:31 +0200
-Subject: [PATCH v6 07/28] mtd: spi-nor: debugfs: Enhance output
+Date: Tue, 26 May 2026 16:56:34 +0200
+Subject: [PATCH v6 10/28] mtd: spi-nor: swp: Use a pointer for SR instead
+ of a single byte
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260526-winbond-v6-18-rc1-spi-nor-swp-v6-7-4092f1419f8f@bootlin.com>
+Message-Id: <20260526-winbond-v6-18-rc1-spi-nor-swp-v6-10-4092f1419f8f@bootlin.com>
 References: <20260526-winbond-v6-18-rc1-spi-nor-swp-v6-0-4092f1419f8f@bootlin.com>
 In-Reply-To: <20260526-winbond-v6-18-rc1-spi-nor-swp-v6-0-4092f1419f8f@bootlin.com>
 To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
@@ -60,29 +61,189 @@ Cc: Sean Anderson <sean.anderson@linux.dev>,
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-Align the number of dashes to the bigger column width (the title in this
-case) to make the output more pleasant and aligned with what is done
-in the "params" file output.
+At this stage, the Status Register is most often seen as a single
+byte. This is subject to change when we will need to read the CMP bit
+which is located in the Control Register (kind of secondary status
+register). Both will need to be carried.
 
-Reviewed-by: Michael Walle <mwalle@kernel.org>
+Change a few prototypes to carry a u8 pointer. This way it also makes it
+very clear where we access the first register, and where we will access
+the second.
+
+There is no functional change.
+
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- drivers/mtd/spi-nor/debugfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/mtd/spi-nor/swp.c | 48 ++++++++++++++++++++++++-----------------------
+ 1 file changed, 25 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/mtd/spi-nor/debugfs.c b/drivers/mtd/spi-nor/debugfs.c
-index 69830ad43990..d0191eb9f879 100644
---- a/drivers/mtd/spi-nor/debugfs.c
-+++ b/drivers/mtd/spi-nor/debugfs.c
-@@ -144,7 +144,7 @@ static int spi_nor_params_show(struct seq_file *s, void *data)
+diff --git a/drivers/mtd/spi-nor/swp.c b/drivers/mtd/spi-nor/swp.c
+index f221d6361b57..61830f18a147 100644
+--- a/drivers/mtd/spi-nor/swp.c
++++ b/drivers/mtd/spi-nor/swp.c
+@@ -55,13 +55,13 @@ static u64 spi_nor_get_min_prot_length_sr(struct spi_nor *nor)
+ 		return sector_size;
+ }
  
- 	seq_puts(s, "\nsector map\n");
- 	seq_puts(s, " region (in hex)   | erase mask | overlaid\n");
--	seq_puts(s, " ------------------+------------+----------\n");
-+	seq_puts(s, " ------------------+------------+---------\n");
- 	for (i = 0; i < erase_map->n_regions; i++) {
- 		u64 start = region[i].offset;
- 		u64 end = start + region[i].size - 1;
+-static void spi_nor_get_locked_range_sr(struct spi_nor *nor, u8 sr, loff_t *ofs,
++static void spi_nor_get_locked_range_sr(struct spi_nor *nor, const u8 *sr, loff_t *ofs,
+ 					u64 *len)
+ {
+ 	u64 min_prot_len;
+ 	u8 mask = spi_nor_get_sr_bp_mask(nor);
+ 	u8 tb_mask = spi_nor_get_sr_tb_mask(nor);
+-	u8 bp, val = sr & mask;
++	u8 bp, val = sr[0] & mask;
+ 
+ 	if (nor->flags & SNOR_F_HAS_SR_BP3_BIT6 && val & SR_BP3_BIT6)
+ 		val = (val & ~SR_BP3_BIT6) | SR_BP3;
+@@ -81,7 +81,7 @@ static void spi_nor_get_locked_range_sr(struct spi_nor *nor, u8 sr, loff_t *ofs,
+ 	if (*len > nor->params->size)
+ 		*len = nor->params->size;
+ 
+-	if (nor->flags & SNOR_F_HAS_SR_TB && sr & tb_mask)
++	if (nor->flags & SNOR_F_HAS_SR_TB && sr[0] & tb_mask)
+ 		*ofs = 0;
+ 	else
+ 		*ofs = nor->params->size - *len;
+@@ -92,7 +92,7 @@ static void spi_nor_get_locked_range_sr(struct spi_nor *nor, u8 sr, loff_t *ofs,
+  * (if @locked is false); false otherwise.
+  */
+ static bool spi_nor_check_lock_status_sr(struct spi_nor *nor, loff_t ofs,
+-					 u64 len, u8 sr, bool locked)
++					 u64 len, const u8 *sr, bool locked)
+ {
+ 	loff_t lock_offs, lock_offs_max, offs_max;
+ 	u64 lock_len;
+@@ -113,13 +113,13 @@ static bool spi_nor_check_lock_status_sr(struct spi_nor *nor, loff_t ofs,
+ 		return (ofs >= lock_offs_max) || (offs_max <= lock_offs);
+ }
+ 
+-static bool spi_nor_is_locked_sr(struct spi_nor *nor, loff_t ofs, u64 len, u8 sr)
++static bool spi_nor_is_locked_sr(struct spi_nor *nor, loff_t ofs, u64 len, const u8 *sr)
+ {
+ 	return spi_nor_check_lock_status_sr(nor, ofs, len, sr, true);
+ }
+ 
+ static bool spi_nor_is_unlocked_sr(struct spi_nor *nor, loff_t ofs, u64 len,
+-				   u8 sr)
++				   const u8 *sr)
+ {
+ 	return spi_nor_check_lock_status_sr(nor, ofs, len, sr, false);
+ }
+@@ -160,7 +160,8 @@ static bool spi_nor_is_unlocked_sr(struct spi_nor *nor, loff_t ofs, u64 len,
+ static int spi_nor_sr_lock(struct spi_nor *nor, loff_t ofs, u64 len)
+ {
+ 	u64 min_prot_len;
+-	int ret, status_old, status_new;
++	int ret;
++	u8 status_old[1] = {}, status_new[1] = {};
+ 	u8 mask = spi_nor_get_sr_bp_mask(nor);
+ 	u8 tb_mask = spi_nor_get_sr_tb_mask(nor);
+ 	u8 pow, val;
+@@ -172,7 +173,7 @@ static int spi_nor_sr_lock(struct spi_nor *nor, loff_t ofs, u64 len)
+ 	if (ret)
+ 		return ret;
+ 
+-	status_old = nor->bouncebuf[0];
++	status_old[0] = nor->bouncebuf[0];
+ 
+ 	/* If nothing in our range is unlocked, we don't need to do anything */
+ 	if (spi_nor_is_locked_sr(nor, ofs, len, status_old))
+@@ -217,7 +218,7 @@ static int spi_nor_sr_lock(struct spi_nor *nor, loff_t ofs, u64 len)
+ 			return -EINVAL;
+ 	}
+ 
+-	status_new = (status_old & ~mask & ~tb_mask) | val;
++	status_new[0] = (status_old[0] & ~mask & ~tb_mask) | val;
+ 
+ 	/*
+ 	 * Disallow further writes if WP# pin is neither left floating nor
+@@ -225,20 +226,20 @@ static int spi_nor_sr_lock(struct spi_nor *nor, loff_t ofs, u64 len)
+ 	 * WP# pin hard strapped to GND can be a valid use case.
+ 	 */
+ 	if (!(nor->flags & SNOR_F_NO_WP))
+-		status_new |= SR_SRWD;
++		status_new[0] |= SR_SRWD;
+ 
+ 	if (!use_top)
+-		status_new |= tb_mask;
++		status_new[0] |= tb_mask;
+ 
+ 	/* Don't bother if they're the same */
+-	if (status_new == status_old)
++	if (status_new[0] == status_old[0])
+ 		return 0;
+ 
+ 	/* Only modify protection if it will not unlock other areas */
+-	if ((status_new & mask) < (status_old & mask))
++	if ((status_new[0] & mask) < (status_old[0] & mask))
+ 		return -EINVAL;
+ 
+-	return spi_nor_write_sr_and_check(nor, status_new);
++	return spi_nor_write_sr_and_check(nor, status_new[0]);
+ }
+ 
+ /*
+@@ -249,7 +250,8 @@ static int spi_nor_sr_lock(struct spi_nor *nor, loff_t ofs, u64 len)
+ static int spi_nor_sr_unlock(struct spi_nor *nor, loff_t ofs, u64 len)
+ {
+ 	u64 min_prot_len;
+-	int ret, status_old, status_new;
++	int ret;
++	u8 status_old[1], status_new[1];
+ 	u8 mask = spi_nor_get_sr_bp_mask(nor);
+ 	u8 tb_mask = spi_nor_get_sr_tb_mask(nor);
+ 	u8 pow, val;
+@@ -261,7 +263,7 @@ static int spi_nor_sr_unlock(struct spi_nor *nor, loff_t ofs, u64 len)
+ 	if (ret)
+ 		return ret;
+ 
+-	status_old = nor->bouncebuf[0];
++	status_old[0] = nor->bouncebuf[0];
+ 
+ 	/* If nothing in our range is locked, we don't need to do anything */
+ 	if (spi_nor_is_unlocked_sr(nor, ofs, len, status_old))
+@@ -310,24 +312,24 @@ static int spi_nor_sr_unlock(struct spi_nor *nor, loff_t ofs, u64 len)
+ 			return -EINVAL;
+ 	}
+ 
+-	status_new = (status_old & ~mask & ~tb_mask) | val;
++	status_new[0] = (status_old[0] & ~mask & ~tb_mask) | val;
+ 
+ 	/* Don't protect status register if we're fully unlocked */
+ 	if (lock_len == 0)
+-		status_new &= ~SR_SRWD;
++		status_new[0] &= ~SR_SRWD;
+ 
+ 	if (!use_top)
+-		status_new |= tb_mask;
++		status_new[0] |= tb_mask;
+ 
+ 	/* Don't bother if they're the same */
+-	if (status_new == status_old)
++	if (status_new[0] == status_old[0])
+ 		return 0;
+ 
+ 	/* Only modify protection if it will not lock other areas */
+-	if ((status_new & mask) > (status_old & mask))
++	if ((status_new[0] & mask) > (status_old[0] & mask))
+ 		return -EINVAL;
+ 
+-	return spi_nor_write_sr_and_check(nor, status_new);
++	return spi_nor_write_sr_and_check(nor, status_new[0]);
+ }
+ 
+ /*
+@@ -345,7 +347,7 @@ static int spi_nor_sr_is_locked(struct spi_nor *nor, loff_t ofs, u64 len)
+ 	if (ret)
+ 		return ret;
+ 
+-	return spi_nor_is_locked_sr(nor, ofs, len, nor->bouncebuf[0]);
++	return spi_nor_is_locked_sr(nor, ofs, len, nor->bouncebuf);
+ }
+ 
+ static const struct spi_nor_locking_ops spi_nor_sr_locking_ops = {
 
 -- 
 2.53.0
