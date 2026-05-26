@@ -1,338 +1,137 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6E830ACF6
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 09:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865DC165F16;
+	Tue, 26 May 2026 09:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779786003; cv=none; b=ZhG1KPx9FbxkiGHkCFr6FoK9coFZdVlLxPvrZNGBPhw/uI688z1Xia/g4TUK74umR0ApWwoLPeNv8Jn8+eTTIrDXcOGQtYfwoocq+yQ3sfgQhIWUT4NUpcYugb5BRDEArIGfWFSrT3UAEn5aGe/wSMRz3HzO3n8c2oOFnYFQLMI=
+	t=1779786074; cv=none; b=jAJPBzXBdsMM7IRmgRcFxz1Psr5h4AmxrsFOrpTBabSurV5CwF/mj7gAlpa1khkIqaDaF0gbIO4R2mu9YYAUHGUC8eN77YshveGPPOW58F7sTHXXiwhEhVp3k1CLM5gS1sqBJ4HoCKXcI2ALq0zUr3XwNK/BdhfWtHtRPr9jxp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779786003; c=relaxed/simple;
-	bh=gLaH9Y/NUAMrbt1CzCiguQZVPe7IhHt+ukbNCot4UfQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h1QdTnqQBUbbA2EM/dcXveaQH2uedsUytdvgxgyoiviIGrp8fZ88ZrQqZuF9BpcOY1jJ/kmh3ugPsS2+ro/B5VrPqfOd3/anG54rb/h58E0pkMu2lnQRUNG3wT9D1styEp/ip1XXeAveYud2Xwi63VY0tNI8OmzcmyUKdGaXIdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=baaPyYMv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CFOTXZ/J; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Osk3/v8m; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o3oEKfPy; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779786074; c=relaxed/simple;
+	bh=Jlwa6k7B9VClT18htqWlem0GP1db/t0x0Qd54u6HMr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SQqKUiKMSF+1/UbAq6W9AhkPkuZLzZjsStdF+Pfch9Sjr//YBuNdGqZ56tWPMBgraf2lptS2LwZ866L+2PSX2yn1V4LU0jD+tUJLc41rcAqJeh8lb9oTpoUHh1YijNbXPj5WGJPYMqoVR9JHg7ZsQjOz/Xk5vgiZfipYl04vQ0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CGdUa1Jr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="baaPyYMv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CFOTXZ/J";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Osk3/v8m";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o3oEKfPy"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 363006B3E6;
-	Tue, 26 May 2026 08:59:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779785999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ejy15HLRULv/iHzJLGVQCrLp/AiLuLDwUgWtV4C2EU0=;
-	b=baaPyYMv4yGoQHFimAxytqQjn6ho5Zd1wa0FMTwsSYl4HfumaHInOXtFRCQanNqprT5hFp
-	auTBrgDJ8tUVkwo6MaC9M+qFT+nZxC/H4fWaDNQArID5i810CzAF4F5PbEZZtaZC05Nhrn
-	bHaoQ2UTzpstuC6Fr9OqknOV9u9dO9o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779785999;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ejy15HLRULv/iHzJLGVQCrLp/AiLuLDwUgWtV4C2EU0=;
-	b=CFOTXZ/Jc28jW6gUmHAzNdWyt0f6zPZG+4PWGuwLGJUl0oh2nsUA9GcdS6AVEZhA2OrMKV
-	WtkbZVOIvCyH3+BA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779785998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ejy15HLRULv/iHzJLGVQCrLp/AiLuLDwUgWtV4C2EU0=;
-	b=Osk3/v8mo9hxyPDuoXN6f41EsFVPQmCgg+ElT42l3CUUFnP0mQEO8Tf4arcKpUWI3bpw5N
-	32aTrm9kBeHRV4iUfnJ1+9hZL4oCsIj1+zudrX0f+JoDcETLgzINRl2Igclt+cV9fFFw7P
-	GpQad7BUfcrYFlgjt5c27wIFwuvWm2Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779785998;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ejy15HLRULv/iHzJLGVQCrLp/AiLuLDwUgWtV4C2EU0=;
-	b=o3oEKfPyVr5jbUeUmexTQStzMVEUG9KNlGA+0hMIrGHnx4fp31jKEhtkVwom+QxhKRCnN1
-	ZM2Wuy20DjfNrKBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5162C5A10E;
-	Tue, 26 May 2026 08:59:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 01R4Eg1hFWqZZAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 26 May 2026 08:59:57 +0000
-Message-ID: <0057f209-c8a6-48bc-9194-36e3b19bec67@suse.de>
-Date: Tue, 26 May 2026 10:59:56 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CGdUa1Jr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BAB11F00A3A;
+	Tue, 26 May 2026 09:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779786073;
+	bh=6gIEisP8kdco3Djn1c38mmHcBtVair+BJG8S6dLuz6s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CGdUa1JrH5XUiDOyuLGW0WeCBhQqzqe97tZlT1D2tfa/kUOKy5OM9s3fkBWV/7ZCQ
+	 Lc+as+qLHuelmMUDDc2i4t5Kdd4LlaNbsfW4qG2+xFBUGoOB80lpJW7S5QceEVEBpm
+	 M16YcXY9Bv8U6IuygGXw+XFe/jBFhV5DG7ddgcQoOy6a34hLVc6FYnstYRGhIqW5k9
+	 HFLiJ6GIIjkMod3+/JuGBWS75LA+D1eMFeCtjTtEvGg/43idzw+RyZrlC0omZC9S94
+	 hp8D5yTjSn6nJrYvT6KbCVoob4zQA5ylKDha51OMGRplD5YbeH0hXInGArWDw4IiBz
+	 0TWg/r/RizI0A==
+Date: Tue, 26 May 2026 12:01:01 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Sarthak Sharma <sarthak.sharma@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+	Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>, Mark Brown <broonie@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] tools/lib/mm: add shared file helpers
+Message-ID: <ahVhTWl0fTF3ASsC@kernel.org>
+References: <20260521111801.173019-1-sarthak.sharma@arm.com>
+ <20260521111801.173019-2-sarthak.sharma@arm.com>
+ <177964236205.4000040.3083558454897469696.b4-review@b4>
+ <ff7d212c-d3e0-4476-8903-ffe88fb7048c@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/19] drm/atomic: Document atomic commit lifetime
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>,
- Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>,
- Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20260519-drm-mode-config-init-v5-0-388b03321e38@kernel.org>
- <20260519-drm-mode-config-init-v5-1-388b03321e38@kernel.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260519-drm-mode-config-init-v5-1-388b03321e38@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[renesas];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLyhjdboxbrjk5hnijtjs4kbm6)];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid,imap1.dmz-prg2.suse.org:helo,ideasonboard.com:email]
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ff7d212c-d3e0-4476-8903-ffe88fb7048c@arm.com>
 
-Hi,
+On Mon, May 25, 2026 at 11:59:32AM +0530, Sarthak Sharma wrote:
+> Hi Mike!
+> 
+> On 5/24/26 10:36 PM, Mike Rapoport wrote:
+> > On Thu, 21 May 2026 16:47:58 +0530, Sarthak Sharma <sarthak.sharma@arm.com> wrote:
+> > 
+> > Hi Sarthak,
+> > 
+> >>
+> >> diff --git a/tools/lib/mm/file_utils.c b/tools/lib/mm/file_utils.c
+> >> new file mode 100644
+> >> index 000000000000..0f9322f2cf41
+> >> --- /dev/null
+> >> +++ b/tools/lib/mm/file_utils.c
+> >> @@ -0,0 +1,83 @@
+> >> [ ... skip 48 lines ... ]
+> >> +	saved_errno = errno;
+> >> +	close(fd);
+> >> +	errno = saved_errno;
+> >> +	if (numwritten < 0) {
+> >> +		fprintf(stderr, "%s write(%.*s) failed: %s\n",
+> >> +			path, (int)(buflen - 1), buf, strerror(errno));
+> > 
+> > This would break TAP formatting for selftests.
+> 
+> Yes, thanks for pointing it out.
+> 
+> > 
+> >> +		exit(EXIT_FAILURE);
+> > 
+> > and while EXIT_FAILURE == KSFT_FAIL I'm not sure it's robust enough.
+> 
+> I used EXIT_FAILURE here because the helper is moving out of selftests
+> and should not include kselftest.h anymore. The helper already
+> terminated the process on these paths, so I tried to preserve that
+> behavior while removing the ksft dependency.
 
-I left a number of comments on the style of writing. Apart from that, 
-it's great to have the lifetime documented.
+In mm selftests a failure to update a /proc or /sysfs file meant there is
+no point to continue the test. But if we make it a generic helper for
+potentially broader use than mm selftests, exit() on failure is too harsh.
+ 
+> We can change this to return errors instead of calling exit() and update
+> the selftest callers to report failures through the ksft_* helpers. I
+> agree this is cleaner, but it would grow the series a bit.
+> 
+> If you feel strongly, I can include these changes in v4. Otherwise I
+> feel we can handle it separately later to avoid growing this series.
 
-Am 19.05.26 um 11:01 schrieb Maxime Ripard:
-> How drm_atomic_commit and the various entity structures are allocated
-> and freed isn't really trivial. Document it.
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->   Documentation/gpu/drm-kms.rst |  6 +++++
->   drivers/gpu/drm/drm_atomic.c  | 58 +++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 64 insertions(+)
->
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index d22817fdf9aa..36d76e391074 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -282,10 +282,16 @@ structure, ordering of committing state changes to hardware is sequenced using
->   :c:type:`struct drm_crtc_commit <drm_crtc_commit>`.
->   
->   Read on in this chapter, and also in :ref:`drm_atomic_helper` for more detailed
->   coverage of specific topics.
->   
-> +Atomic State Lifetime
-> +---------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_atomic.c
-> +   :doc: state lifetime
-> +
->   Handling Driver Private State
->   -----------------------------
->   
->   .. kernel-doc:: drivers/gpu/drm/drm_atomic.c
->      :doc: handling driver private state
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 170de30c28ae..d98586d89bbe 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -45,10 +45,68 @@
->   #include <drm/drm_colorop.h>
->   
->   #include "drm_crtc_internal.h"
->   #include "drm_internal.h"
->   
-> +/**
-> + * DOC: state lifetime
-> + *
-> + * &struct drm_atomic_commit represents an update to video pipeline
-
-I'd say 'modeset pipeline'. Video sounds too much like V4L.
-
-> + * state. It's a transient object that holds a state update as a
-> + * collection of pointers to individual objects' states. &struct
-> + * drm_atomic_commit has a much shorter lifetime than the objects'
-> + * states, since it's only allocated while preparing, checking or
-> + * committing the update, while object states are allocated when
-> + * preparing the update and kept alive as long as they are active in the
-> + * device.
-> + *
-> + * Their respective lifetimes are:
-> + *
-> + * - at reset time, the object reset implementation will allocate a new
-> + *   default state and will store it in the object state pointer.
-
-Using present seems more natural, e.g., 'allocates' and 'stores'
-
-> + *
-> + * - whenever a new update is needed:
-> + *
-> + *   + A new &struct drm_atomic_commit is allocated using
-> + *     drm_atomic_commit_alloc().
-
-Active form: "drm_atomic_commit_alloc() allocates a new instance of 
-struct drm_atomic_commit."
-
-IIRC the '&' needs to go before drm_atomic_commit.
-
-> + *
-> + *   + The current active state of all entities affected by the update
-> + *     is copied into this new &struct drm_atomic_commit using
-> + *     drm_atomic_get_plane_state(), drm_atomic_get_crtc_state(),
-> + *     drm_atomic_get_connector_state(), or
-> + *     drm_atomic_get_private_obj_state(). This new state can then be
-> + *     modified.
-
-Again use active form.  Mention which helper invokes the copying. I 
-assume it's drm_atomic_commit_alloc() or the UAPI entry points.
-
-> + *
-> + *     At that point, &struct drm_atomic_commit stores three state
-> + *     pointers for any affected entity: the "old" and "new" states, and
-> + *     state_to_destroy. The old state is the state currently active in
-> + *     the hardware, which is either the one initialized by reset() or a
-> + *     newer one if a commit has been made. The new state is the state
-> + *     we just allocated and we might eventually commit to the hardware.
-> + *     The state_to_destroy points to the state we'll eventually have to
-> + *     free when the drm_atomic_commit will be destroyed, and points to
-> + *     the new state for now since the old state is still the active
-> + *     state.
-
-Ok, sounds good.
-
-> + *
-> + *   + After the state is populated, it is checked. If the check is
-
-You mean, it populated the new commit with the updated states?
-
-Where does the check happen?
-
-Again, use active form. Like: 'After ... populated the new commit with 
-the updated states, it checks by invoking atomic_check of all involved 
-pipeline stages."
-
-> + *     successful, the update is committed. Part of the commit is a call
-
-Active form: "successful, ... commits the update."
-
-> + *     to drm_atomic_helper_swap_state() which will turn the new states
-> + *     into the active states. Doing so involves updating the object's
-> + *     state pointer (&drm_crtc.state or similar) to point to the new
-> + *     state, and state_to_destroy will now point to the old states,
-> + *     that used to be active but aren't anymore.
-
-The final sentence ""Doing so..." is serviceable. For splendid writing, 
-you could write somethink like "After swapping states, each object's 
-state pointer refers to the formerly new state. The state_to_destroy 
-pointer refers to the formerly old state."
-
-> + *
-> + *   + When the commit is done, and when all references to our &struct
-> + *     drm_atomic_commit are put, __drm_atomic_commit_free() is called.
-
-Active form: "After commiting the new state to hardware, ... puts all 
-references to strut drm_atomic_commit and calls __drm_atomic_commit_free()".
-
-> + *     It will, in turn, call drm_atomic_commit_clear() that will free
-
-Present form: "It calls ... the frees ... and ...."
-
-Best regards
-Thomas
-
-> + *     all state_to_destroy (ie. old states), and finally free &struct
-> + *     drm_atomic_commit instance.
-> + *
-> + *   + Now, we don't have any active &struct drm_atomic_commit anymore,
-> + *     and only the entity active states remain allocated.
-> + */
-> +
->   void __drm_crtc_commit_free(struct kref *kref)
->   {
->   	struct drm_crtc_commit *commit =
->   		container_of(kref, struct drm_crtc_commit, ref);
->   
->
+There are not that many callers of write_file() and write_num().
+I think a patch that makes them return an error rather than exit() can go
+before moving these functions to lib. 
+ 
+> >>
+> >> diff --git a/tools/testing/selftests/mm/hugepage_settings.c b/tools/testing/selftests/mm/hugepage_settings.c
+> >> index 2eab2110ac6a..5e947abb7425 100644
+> >> --- a/tools/testing/selftests/mm/hugepage_settings.c
+> >> +++ b/tools/testing/selftests/mm/hugepage_settings.c
+> >> @@ -8,8 +8,9 @@
+> >>  #include <stdlib.h>
+> >>  #include <string.h>
+> >>  #include <unistd.h>
+> >> +#include <mm/file_utils.h>
+> >>  
+> >> -#include "vm_util.h"
+> > 
+> > I think it would be fine to include file_utils.h in vm_utils.h and avoid
+> > further churn.
+> 
+> Okay, I'll change this.
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+Sincerely yours,
+Mike.
