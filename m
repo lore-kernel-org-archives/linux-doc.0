@@ -1,381 +1,125 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DB5400E04
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 13:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E693F7865
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 13:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779801114; cv=none; b=t4qVQxZ4hcL+OSdLR7jVo0AUo7Ngc3OvBlDNgw5pxoPWlZNabWyj7lLB7vSxLLo1kNp4CIaMgExKD4zrVenRk7lUJawEXEfX7dflUup+J/tifdnY8LfmPcz/8TiTHwClRuS+1yERNh3+LXueCGs+mG1WInP1dW1tW4ZtCNBYZTA=
+	t=1779801294; cv=none; b=DTHZYKhfQTH0tvVyXnO4rhiEqHuU6hDWSqT97c93/yjv8P9FjJ9HnBrQsj1RgYyxcfmY+Q/Rv2kMiwIILEOHIfAV5xL0AZJz+SSec3VEjW+dfGVXkLsoFpmenWYBzIHQGsJ1Q0+UAhFI6WusUijLE9SDQJN9AQrRKK2sBoftUYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779801114; c=relaxed/simple;
-	bh=z+TQ3T9Oy+ZZa2gZfsK8H+btrtS2pPvwQYb90T0bJv8=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z9j9zvA1NGg9BS6pXMkh4tkuZ6wjXtIM7BW0jEngH/58KOH5W/C9GRmTRe67Dr0eCbuUXQXmORUIRN4MxokAhWX7fdmCWVAp+Q+33g827Vw06ywfTShheZ2IVcAZkmPAcdYYgdceMaGKI9Qxqt0zdxPKzsxOpUoORhMn/eMz95A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wds0qgyf; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779801294; c=relaxed/simple;
+	bh=/+TDbtQdoXZLR15lIobccDcb+fb9SD6eVXuxnbR2M98=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bStz0Ta2Ns6FD7A7Sl4zi8XZkuvSXfWNrRcxRqbE1vWICIb6Wohlcnx5yM8GWfolQkIC/vda+AUA5h+MIjB7iAg7CBAp7Am6zpt8w67sPw9FM/bpNFzoepjm9za7QI422oPt/oA6ichJl2MLieyA/NY2IJZwMCaKq/6UuXiJXOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=WgInIwyk; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wds0qgyf"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4904c1ce4c1so42254475e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 06:11:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="WgInIwyk"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49042aeeb75so55571075e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 06:14:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779801111; x=1780405911; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WqOvSJUHAXMpiDAGk3rY9rJLyQCFTcUSCPYqn0vZPF0=;
-        b=Wds0qgyfFbrkOkWjqMSXAzGM30h8xhtaRKYhjuTsogLxIWzzSqIhfr4LC2G/x8CZs/
-         qmj4IkXmw2cIjIITxFpKvvlYn1L6MbUDecrl8n/aOSrd0xMwgBfamKZpXVT7D7HjWttV
-         weFESA6rz5C2WkmuizEhr80M9gEit3HU42YfghiQK6AgbQlY8ezI05YYHhYlafzijLTd
-         Doz1aG+pf4kz4x5EWUKJdFcQ+61d2FzCa/pUMO54FmqSsMSK17YmJbCwZSl7E/RlDdyx
-         ef5K6AMQtUWBSxdQIKAa5IiPNAA/ojgVbRlyMlbBBWF9hOrpGKVXm2mOYXQV3QQL+MST
-         Zgkg==
+        d=suse.com; s=google; t=1779801290; x=1780406090; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P15uXtg9HdllBQIu/ZsCrfbcDnCOaC1HB3obrbgjmNc=;
+        b=WgInIwykVVoaGAUgaZcwBgPb2XaDQMvOOS2HFW9/o0cQ0HUO1ZApKEHQ8RW4TtLo7Q
+         P0mg/PO6DDRxxTinG9zEP4hYMAMIYBNCHzD2gC9d4XHrk533aUfTsOUTxQ2cT77UpFzy
+         7WI917lhsD43I1Zvr1pMY+XEkFOvYej7aY4h2sc1In8bxj5qJnjlQTbeSV+whjwcW8L3
+         rl4d80CAUdQZmrA25YMNaSrUK3qshiAwA1BJCR4uxhTmL5xmDiKmWxnta6B6HjsCkV6Y
+         nrrS/j/5mHD2Ug5dyQvXBvTz6pC9OMDa7i/iry8dzDHSmtWjgBoG+UCFGAFxHKmGuQV5
+         K/4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779801111; x=1780405911;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WqOvSJUHAXMpiDAGk3rY9rJLyQCFTcUSCPYqn0vZPF0=;
-        b=aNXDgfkt/k5oR63y+SPqMhIELhTq7T081g4/beMXgNu/tluJqsvYtohEGvY4pVq0bB
-         5UWIxqU+Cf/YDH0b2eX5k5VWoDJSQ7qEL3qETo6HYAv/irrpblQj5GiPLDNdxdbAKirM
-         ixIwbsOqmasi9q+AUKXUJQttiEDh+7jpfsYmmzA4XPiqppGBfMvMKZ0EhAaQKipvqgWk
-         qmsazs2txJueeL/M+K1fODeFoTdFEQSnDaln+pwrCdUYxWSXKQj4DCx+D4LSU7HpA580
-         HEwUAKLMXsf0NufwdKu8AO8Hx+dCvnmUGEcAdOMCX8ClrM0FJoBPIsUsI+D3SU0xXf2r
-         Minw==
-X-Forwarded-Encrypted: i=1; AFNElJ/DZouhpuW09WhSAzEwraT/9LcPybEjVZB3cUbVWJ6cjcxOevAPekb/o1OYDwkB68NQRVXqR3676BA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyM7KDYBdbQSxbDEv04geTAZqb97sLts5T0npJ17+l856LqSg9t
-	CrVUVzfIUHmWS5QT/A96fb46SNTYlDXChDX3wuce49QnDiNkTrdMGyiU
-X-Gm-Gg: Acq92OEDsB3ftBYQOcTb/S5ojhxB5UhTxD6uOVAKp/e3YdW128KgqGfdkrEIe4elFma
-	VVzu+m1V1mDbuJ1fiFpqS/yWk9EtN3l9iBP5tzkZsHw9doscHhOpHYyjyuaXBjP5WmS9GedBul0
-	qsaCrciVAU1vGapJR4CJ7kJZVC3+anNQddQTiF0wFiapS5JNuH2UtCRgvskPqicG8eUGAPTtWC6
-	WKcC941hmyjEXv/bfP5rlQhc157y/CyxFVMtnKMH09OYZXAOUbt9f8xYv4XLqijxlHaO/TgtM+L
-	LQUYbJ5CeuwdKnuK9a48c6KnQH/T0tr32M8wg9/Tg0QznqjjjFdSfuYR86PgFZ3PlMKQ6KGtnVF
-	nLieQ01K4x2n0So2DiyDKpM54dFCGfnSSd31YELghTyA17rUpAjiYhpqfbrv8D0a55yMmDldp1P
-	/W0RLeKZ9ZGF45IiL4QwRJHP/pT9rnLoFtxwYHqqPpGaDy/WsuFfQwLAKezl7z1xNDVfwuiwD0e
-	wqj350COIxQ7VzYKcNhYsPyUTl5Lm7DfU6hxyfzKDzWKEUXxSTnNDIwUe3r
-X-Received: by 2002:a05:600c:a011:b0:490:50ff:7943 with SMTP id 5b1f17b1804b1-49050ff7b15mr238902025e9.5.1779801110828;
-        Tue, 26 May 2026 06:11:50 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49042487609sm170628755e9.3.2026.05.26.06.11.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 06:11:50 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Tue, 26 May 2026 14:11:45 +0100
-To: Janani Sunil <janani.sunil@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
-Message-ID: <25mh6grzh7zh3b4uytcqnusyv5zjuf6ia4if3ce3oqzqz56ehi@le72iqv7ye3d>
-References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
- <20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
+        d=1e100.net; s=20251104; t=1779801290; x=1780406090;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P15uXtg9HdllBQIu/ZsCrfbcDnCOaC1HB3obrbgjmNc=;
+        b=Fs5RQy9hChX4+uXm1v+wA1hCYgKAkgH9PyHeGbkUzRAHd/CFjM0jvBZrhQ5MRgNUDL
+         jBVTWzpBc8EGIqiYm4ufvHGBJltu0UARzj9i7A2KQvaQ7qmuua/ItlmgwvoN2xczRrvo
+         JtuMoXHVSVdkY02TKn2CX8crzTLLum8IX524pmsiLardmMNMzLyKWc/Vs2q2p0gesfAr
+         6SSHaW68bFSk5nHks/hGwF0OzA7zMTNBLYPJamsPlpriUntjpr3kcvPh1LR+xrMrIikh
+         MMWW9v2XgH2iBTzvFk08LYb5Ypv4GopcpwD+zeuRz7AXluuxDa1zVwWOlA2qaRFU8K+F
+         TIJQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+U4jLa52yqT38eFmFJeQtstMIlVs2fFJxIH9iOXxsa+/2VB+0a3slNKaROlGysAtn9jinc5+mfA9c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxowwnSDq2e73w6KmiQxtcngsYMVdxXLbB4lPqQRgRQDx40jfpT
+	Goiuov4un0J1fqQxjrD6+cwkkgKJ4TI/m9XD0crSkXRx/oIt+0pT7hP2Yz/WGmYZehA=
+X-Gm-Gg: Acq92OFq3wOciowCT4tWo4axKeptipFn/EnYIfiLPrFpVznx1CRfzobcnt7vweaLVCE
+	3PqLcSUHzrnfWYalxwdxv2BYyW5oklS/BzzfAH2XU75T2g+uMfwunCFrx8Mhk5gj/1J1eiu4m9R
+	cITT7sSCSMS7PTVY8YBvCKHCaa+HfV4BYeKH7+/iy0LfmwS0IRCSPIt8XjP8Qt/9jR99QRfgfex
+	nhf59dJ+oTaSf6reY86oh6EbkE72enCESIhVcrFebb247rEjRCmem2vqK/Q1flfRR3t+6s2qRwM
+	hO1DnRcYBq43xNGpzusLzRiskllXNgE+KCQsm0ez26eqYD/Qcm3UytX8U5XWQd6DV5eLz4hqD0+
+	RCtmV6L6dYpm3uJ0X031D1lc9xvJMTrUME7za5hUDpPlc4cg1i/9PT6jCgFqbOpYGB+Ks/oh3RJ
+	MCmBP5Fzg98TydrfXXtnaUx2gOBZF+1Wh35JpzGNV/KGdB
+X-Received: by 2002:a05:600c:4f91:b0:490:6e12:5418 with SMTP id 5b1f17b1804b1-4906e12552emr91630705e9.23.1779801289895;
+        Tue, 26 May 2026 06:14:49 -0700 (PDT)
+Received: from [192.168.42.79] (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6c9f58dsm34868452f8f.5.2026.05.26.06.14.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2026 06:14:49 -0700 (PDT)
+Message-ID: <a050130e-d354-411a-bfcd-afcfde4cafdc@suse.com>
+Date: Tue, 26 May 2026 15:14:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 10/14] module: Prepare for additional module
+ authentication mechanisms
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
+ <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Eric Snowberg <eric.snowberg@oracle.com>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez
+ <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+ Xiu Jianfeng <xiujianfeng@huawei.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ bpf@vger.kernel.org, =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?=
+ <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>,
+ Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+ Christian Heusel <christian@heusel.eu>, =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?=
+ <mcaju95@gmail.com>, Eric Biggers <ebiggers@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org,
+ debian-kernel@lists.debian.org
+References: <20260505-module-hashes-v5-0-e174a5a49fce@weissschuh.net>
+ <20260505-module-hashes-v5-10-e174a5a49fce@weissschuh.net>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260505-module-hashes-v5-10-e174a5a49fce@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
 
-On 26/05/19 05:42PM, Janani Sunil wrote:
-> Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
-> buffered voltage output digital-to-analog converter (DAC) with an
-> integrated precision reference.
+On 5/5/26 11:05 AM, Thomas Weißschuh wrote:
+> Reorganize the code to make it easier to add the new hash-based module
+> authentication.
+> 
+> Also drop the now unnecessary stub for module_sig_check().
+> 
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 
-...
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - adi,ad5529r-16   # 16-bit variant
-> +      - adi,ad5529r-12   # 12-bit variant
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-max-frequency:
-> +    maximum: 25000000
-> +    description:
-> +      Maximum SPI frequency. The device supports SPI Mode 0 and Mode 3.
-> +      Read operations are limited to 25MHz maximum.
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO connected to the RESET pin. Active low. When asserted low,
-> +      performs a power-on reset and initializes the device to its default state.
-> +
-> +  clear-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO connected to the CLEAR pin. Active low. When asserted low,
-> +      clears all DAC data registers without affecting configuration settings.
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description:
-> +      Interrupt connected to the ALARM pin. Active low interrupt output
-> +      for overtemperature conditions, SPI CRC errors, and function completion.
-> +
-> +  tg0-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO connected to the TG0 toggle pin. Pulsing this pin allows all
-> +      selected DACs to be updated synchronously for coordinated output changes.
-> +
-> +  tg1-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO connected to the TG1 toggle pin. Pulsing this pin allows all
-> +      selected DACs to be updated synchronously for coordinated output changes.
-> +
-> +  tg2-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO connected to the TG2 toggle pin. Pulsing this pin allows all
-> +      selected DACs to be updated synchronously for coordinated output changes.
-> +
-> +  tg3-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO connected to the TG3 toggle pin. Pulsing this pin allows all
-> +      selected DACs to be updated synchronously for coordinated output changes.
-
-Those toggle pins might need to be connected to a pwm source, rather than using
-them as regular gpios (or maybe allow for both).
-
-> +
-> +  io-channels:
-> +    maxItems: 1
-> +    description:
-> +      ADC channel connected to the MUXOUT pin for monitoring output voltage,
-> +      load current sense, and die temperature.
-> +
-> +  io-channel-names:
-> +    const: muxout
-> +
-> +  vdd-supply:
-> +    description: Digital power supply (1.08V to 1.98V)
-> +
-> +  avdd-supply:
-> +    description: Analog power supply (4.75V to 5.25V)
-> +
-> +  hvdd-supply:
-> +    description:
-> +      High voltage positive supply (7V to 45V). Supply voltage should be chosen
-> +      based on configured output ranges (see datasheet Table 9).
-> +
-> +  hvss-supply:
-> +    description:
-> +      High voltage negative supply (-22.5V to 0V). Required only when using bipolar
-> +      output ranges (±5V, ±10V, ±15V, ±20V). Supply voltage should be
-> +      chosen based on configured output ranges (see datasheet Table 9).
-> +
-> +  vref-supply:
-> +    description:
-> +      External voltage reference supply (4.056V to 4.136V, typically 4.096V).
-> +      When specified, the device uses external reference mode and the VREF pin becomes an
-> +      input. The device uses the internal 4.096V precision reference otherwise.
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-
-Probably others may comment on that, but...
-
-This parent node may support device addressing for multi-device support through
-those ID pins. I suppose that each device may have its own power supplies or
-other resources like the toggle pins or reset and enable.
-
-That way I suppose that an example would look like...
-
-> +
-> +patternProperties:
-> +  "^channel@([0-9]|1[0-5])$":
-> +    type: object
-> +    description: Child nodes for individual channel configuration
-> +
-> +    properties:
-> +      reg:
-> +        description: Channel number.
-> +        minimum: 0
-> +        maximum: 15
-> +
-> +      adi,output-range-microvolt:
-> +        description: |
-> +          Output voltage range for this channel as [min, max] in microvolts.
-> +          If not specified, defaults to 0V to 5V range.
-> +        oneOf:
-> +          - items:
-> +              - const: 0
-> +              - enum: [5000000, 10000000, 20000000, 40000000]
-> +          - items:
-> +              - const: -5000000
-> +              - const: 5000000
-> +          - items:
-> +              - const: -10000000
-> +              - const: 10000000
-> +          - items:
-> +              - const: -15000000
-> +              - const: 15000000
-> +          - items:
-> +              - const: -20000000
-> +              - const: 20000000
-> +
-> +    required:
-> +      - reg
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vdd-supply
-> +  - avdd-supply
-> +  - hvdd-supply
-> +
-> +dependencies:
-> +  spi-cpha: [ spi-cpol ]
-> +  spi-cpol: [ spi-cpha ]
-> +
-> +allOf:
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        dac@0 {
-> +            compatible = "adi,ad5529r-16";
-> +            reg = <0>;
-> +            spi-max-frequency = <25000000>;
-> +
-> +            vdd-supply = <&vdd_regulator>;
-> +            avdd-supply = <&avdd_regulator>;
-> +            hvdd-supply = <&hvdd_regulator>;
-> +            hvss-supply = <&hvss_regulator>;
-> +
-> +            reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
-> +
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            channel@0 {
-> +                reg = <0>;
-> +                adi,output-range-microvolt = <0 5000000>;
-> +            };
-> +
-> +            channel@1 {
-> +                reg = <1>;
-> +                adi,output-range-microvolt = <(-10000000) 10000000>;
-> +            };
-> +
-> +            channel@2 {
-> +                reg = <2>;
-> +                adi,output-range-microvolt = <0 40000000>;
-> +            };
-> +        };
-> +    };
-
-...
-
-	spi {
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-		multi-dac@0 {
-			compatible = "adi,ad5529r-16";
-			reg = <0>;
-			spi-max-frequency = <25000000>;
-
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			dac@0 {
-				reg = <0>;
-				vdd-supply = <&vdd_regulator>;
-				avdd-supply = <&avdd_regulator>;
-				hvdd-supply = <&hvdd_regulator>;
-				hvss-supply = <&hvss_regulator>;
-
-				reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
-
-				#address-cells = <1>;
-				#size-cells = <0>;
-
-				channel@0 {
-					reg = <0>;
-					adi,output-range-microvolt = <0 5000000>;
-				};
-
-				channel@1 {
-					reg = <1>;
-					adi,output-range-microvolt = <(-10000000) 10000000>;
-				};
-
-				channel@2 {
-					reg = <2>;
-					adi,output-range-microvolt = <0 40000000>;
-				};
-			}
-
-			dac@1 {
-				reg = <1>;
-				vdd-supply = <&vdd_regulator>;
-				avdd-supply = <&avdd_regulator>;
-				hvdd-supply = <&hvdd_regulator>;
-				hvss-supply = <&hvss_regulator>;
-
-				reset-gpios = <&gpio0 88 GPIO_ACTIVE_LOW>;
-
-				#address-cells = <1>;
-				#size-cells = <0>;
-
-				channel@0 {
-					reg = <0>;
-					adi,output-range-microvolt = <0 5000000>;
-				};
-
-				channel@1 {
-					reg = <1>;
-					adi,output-range-microvolt = <(-10000000) 10000000>;
-				};
-			}
-		};
-	};
-
-then you might need something like:
-
-	patternProperties:
-		"^dac@[0-3]$":
-
-and put most of the things under this node pattern.
-
-So the main driver that you're putting together might need to handle up to four instances.
-Even if your current driver cannot handle this, the dt-bindings might need cover that.
-
-Need to double check if each dac node needs a separate compatible, so you would maybe populate
-a platform data to be shared with the child nodes, which would be a separate driver.
-(not sure if it would make sense to mix and match ad5529r-16 and ad5529r-12).
-
--- 
-Kind regards,
-
-Rodrigo Alencar
+-- Petr
