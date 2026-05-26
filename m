@@ -1,204 +1,316 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D1D3264F2;
-	Tue, 26 May 2026 02:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949C53A8741
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 03:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779762939; cv=none; b=t32eady8i0BPUJKB5+icY7Tto6lelvvZFjPB4vOlJzdmxsHo1mZO9/DnpMNS29LeaCKUUUA7iyFALHbAzFggjBwT7cLyOWnUUefVEDAhevaPkkdCdt/PjzJt+RDR/iW4oXTeGuPcfwTuY5xKKjQMEqjJsbL6pBJMRai0FYB/Opc=
+	t=1779765159; cv=none; b=Yb9a2c7diPPGRG0AMYo/1a84tcNgcGQE7syWFxb1AwJRYWLZGguwwx3x7Q6YfvByWwS1VEF0WBu0YoJdvQYTHh7XlfzqH2aELgKbLEoBTI0k68G0/1EPYbBL/QqFmqaCnxpkE+hvEoZJ6u1In8S/tsCYTqOuuxgVJbbO2td6R2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779762939; c=relaxed/simple;
-	bh=6WuNs68Db22YKlyZABLkieFbKvfcpx6Rf74QPb8/WiQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mfL76aH+k3OsiKLAiLR83i9aVJeywY8hjhMuGchqk0aFQmmRF/P1O7hah/kDXiTz6uBmlgR0we1i2Eqtr4z5hYRzx6z8U1v2XufjrtRM3lmbhBbwFpPO0wOhEYZ2b6brWOJqioOjYxFbKh0KVbJ6RpesyUGq6MG6PUbBQctpeyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bOFxdF9C; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779765159; c=relaxed/simple;
+	bh=2+AVVSQaPmlGB4Y0wY3BRcks0wPszSb+jkXQdlKYTes=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G1VEhQ+X3ws5oDAbZeEHnF0ubsQNbu3QXS3URJDbNNvR9cvTdSoPN40Fw2WO0IOmdPH7hLb2Yhqzmrls+PZMwXg4N9mB7D8xLVp2ubV8Ma5rTxgF5/jQrHvCOKqfmNcCeGp3rI6Cw1qHmcVE5OD/S9curHmwUB2CZGj1AVMj+Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dnCSa+lf; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bOFxdF9C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779762937; x=1811298937;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6WuNs68Db22YKlyZABLkieFbKvfcpx6Rf74QPb8/WiQ=;
-  b=bOFxdF9CBjg0K/np9IkGL1suJCe2JrhWXf9XFaWcsJGm/KRklVUfoHA+
-   8susST3ENzD6svEWoMRU5jxy6Z+kigxGIhEZQFupPNf6zk9KA5NFzQ+54
-   FXe+MxN4RdWTNMFT8rYfgVwzn0ZarpsLpQKXFHK3vZs7I3MWVJnsj8vfh
-   Lp6iICzu8Zcfb88dAWwJ84pYvoiLwZ+wSMboGAlc2LWgFFCp/I4XApifb
-   2QAOU2tmvXh9UX3z0Wdw0bGhIVd+cOSVy9XoIOC5Qy66getxyySPA74jK
-   1oJxggd6yqg6u7XBKHVenJAO6AyM1StCjDtK990hk103rjmo8b6xD7eTu
-   A==;
-X-CSE-ConnectionGUID: 6r9fYfiHQPKz7Z5ss31sVQ==
-X-CSE-MsgGUID: RF/dQPOZSGi86LrDk22G3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="91677854"
-X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
-   d="scan'208";a="91677854"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 19:35:24 -0700
-X-CSE-ConnectionGUID: 2Ngf3jtgRpWTN/eSGePtIw==
-X-CSE-MsgGUID: kDW/DPGxS6CHeP/Vo9jHSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
-   d="scan'208";a="279878326"
-Received: from rpedgeco-desk.jf.intel.com ([10.88.27.139])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 19:35:24 -0700
-From: Rick Edgecombe <rick.p.edgecombe@intel.com>
-To: bp@alien8.de,
-	dave.hansen@intel.com,
-	hpa@zytor.com,
-	kas@kernel.org,
-	kvm@vger.kernel.org,
-	linux-coco@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mingo@redhat.com,
-	nik.borisov@suse.com,
-	pbonzini@redhat.com,
-	seanjc@google.com,
-	tglx@kernel.org,
-	vannapurve@google.com,
-	x86@kernel.org,
-	chao.gao@intel.com,
-	yan.y.zhao@intel.com,
-	kai.huang@intel.com
-Cc: rick.p.edgecombe@intel.com,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: [PATCH v6 10/11] x86/virt/tdx: Enable Dynamic PAMT
-Date: Mon, 25 May 2026 19:35:14 -0700
-Message-ID: <20260526023515.288829-11-rick.p.edgecombe@intel.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
-References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dnCSa+lf"
+Message-ID: <de0f2984-44ea-4098-9d19-c63ee035cdaf@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1779765145;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B7fYZUv8jUz3LpuMJ3igYxrWXq5kDxizbxy8SIukcuk=;
+	b=dnCSa+lf6J4YpqA1F/oml2kyJgci5cZ58eOEnYBqKE0UtgWMYCewjMuX5Z+cOmiiMRdC+9
+	HkCk8E6c4jPBJNtZFv2okluKn9sW21bAQ4VTHqpbKD08ghX61T3uw/6VYB771obobAF0Nl
+	u7fyjwW9XFiasnsecsX608hrWrHRG80=
+Date: Tue, 26 May 2026 11:11:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH v2 3/6] alloc_tag: add size-based filtering to ioctl
+To: Abhishek Bapat <abhishekbapat@google.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ Sourav Panda <souravpanda@google.com>
+References: <cover.1779471082.git.abhishekbapat@google.com>
+ <c4b425d1f9192caca3cad830f322aa048ed26d45.1779471082.git.abhishekbapat@google.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <c4b425d1f9192caca3cad830f322aa048ed26d45.1779471082.git.abhishekbapat@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Hi Abhishek
 
-The Physical Address Metadata Table (PAMT) holds TDX metadata for
-physical memory and must be allocated by the kernel during TDX module
-initialization. Dynamic PAMT is a TDX module feature that can reduce this
-memory use by allocating part of the PAMT dynamically.
 
-All pieces are in place to Enable Dynamic PAMT if it is supported.
-Determine if the TDX module supports it by checking the 'features0' bit
-exposed by the TDX module.
+On 2026/5/23 01:45, Abhishek Bapat wrote:
+> Extend the allocinfo filtering mechanism to allow users to filter tags
+> based on the total number of bytes allocated [min_size, max_size]. The
+> size range is inclusive.
+>
+> Filtering by size involves retrieving allocinfo per-CPU counters, which
+> is an expensive operation. Hence, the performance of size-based
+> filtering will be worse than other filters.
+>
+> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
+> ---
+>   include/uapi/linux/alloc_tag.h |  8 +++-
+>   lib/alloc_tag.c                | 72 ++++++++++++++++++++++++++++------
+>   2 files changed, 68 insertions(+), 12 deletions(-)
+>
+> diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_tag.h
+> index 0cc9db5298c6..45f158bee0a6 100644
+> --- a/include/uapi/linux/alloc_tag.h
+> +++ b/include/uapi/linux/alloc_tag.h
+> @@ -39,13 +39,17 @@ enum {
+>   	ALLOCINFO_FILTER_FUNCTION,
+>   	ALLOCINFO_FILTER_FILENAME,
+>   	ALLOCINFO_FILTER_LINENO,
+> -	__ALLOCINFO_FILTER_LAST = ALLOCINFO_FILTER_LINENO
+> +	ALLOCINFO_FILTER_MIN_SIZE,
+> +	ALLOCINFO_FILTER_MAX_SIZE,
+> +	__ALLOCINFO_FILTER_LAST = ALLOCINFO_FILTER_MAX_SIZE
+>   };
+>   
+>   #define ALLOCINFO_FILTER_MASK_MODNAME		(1 << ALLOCINFO_FILTER_MODNAME)
+>   #define ALLOCINFO_FILTER_MASK_FUNCTION		(1 << ALLOCINFO_FILTER_FUNCTION)
+>   #define ALLOCINFO_FILTER_MASK_FILENAME		(1 << ALLOCINFO_FILTER_FILENAME)
+>   #define ALLOCINFO_FILTER_MASK_LINENO		(1 << ALLOCINFO_FILTER_LINENO)
+> +#define ALLOCINFO_FILTER_MASK_MIN_SIZE		(1 << ALLOCINFO_FILTER_MIN_SIZE)
+> +#define ALLOCINFO_FILTER_MASK_MAX_SIZE		(1 << ALLOCINFO_FILTER_MAX_SIZE)
+>   
+>   #define ALLOCINFO_FILTER_MASKS \
+>   	((1 << (__ALLOCINFO_FILTER_LAST + 1)) - 1)
+> @@ -53,6 +57,8 @@ enum {
+>   struct allocinfo_filter {
+>   	__u64 mask; /* bitmask of the filter fields used */
+>   	struct allocinfo_tag fields;
+> +	__u64 min_size;
+> +	__u64 max_size;
+>   };
+>   
+>   struct allocinfo_get_at {
+> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+> index 56c394ef721f..6c8743eead2d 100644
+> --- a/lib/alloc_tag.c
+> +++ b/lib/alloc_tag.c
+> @@ -173,11 +173,21 @@ static int allocinfo_cmp_str(const char *str, const char *template)
+>   	return strncmp(allocinfo_str(str), template, ALLOCINFO_STR_SIZE);
+>   }
+>   
+> +static inline struct alloc_tag_counters allocinfo_prefetch_counters(struct codetag *ct)
+> +{
+> +	return alloc_tag_read(ct_to_alloc_tag(ct));
+> +}
+> +
+>   static void allocinfo_to_params(struct codetag *ct,
+> -				struct allocinfo_tag_data *data)
+> +				struct allocinfo_tag_data *data,
+> +				struct alloc_tag_counters *counters)
+>   {
+> -	struct alloc_tag *tag = ct_to_alloc_tag(ct);
+> -	struct alloc_tag_counters counter = alloc_tag_read(tag);
+> +	struct alloc_tag_counters local_counters;
+> +
+> +	if (!counters) {
+> +		local_counters = allocinfo_prefetch_counters(ct);
+> +		counters = &local_counters;
+> +	}
+>   
+>   	if (ct->modname)
+>   		allocinfo_copy_str(data->tag.modname, ct->modname);
+> @@ -186,9 +196,9 @@ static void allocinfo_to_params(struct codetag *ct,
+>   	allocinfo_copy_str(data->tag.function, ct->function);
+>   	allocinfo_copy_str(data->tag.filename, ct->filename);
+>   	data->tag.lineno = ct->lineno;
+> -	data->counter.bytes = counter.bytes;
+> -	data->counter.calls = counter.calls;
+> -	data->counter.accurate = !alloc_tag_is_inaccurate(tag);
+> +	data->counter.bytes = counters->bytes;
+> +	data->counter.calls = counters->calls;
+> +	data->counter.accurate = !alloc_tag_is_inaccurate(ct_to_alloc_tag(ct));
+>   }
+>   
+>   static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __user *arg)
+> @@ -204,7 +214,8 @@ static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __user *arg)
+>   	return 0;
+>   }
+>   
+> -static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter)
+> +static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter,
+> +			   struct alloc_tag_counters *counters)
+>   {
+>   	if (!filter || !filter->mask)
+>   		return true;
+> @@ -228,6 +239,17 @@ static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter)
+>   	    ct->lineno != filter->fields.lineno)
+>   		return false;
+>   
+> +	if ((filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) ||
+> +	    (filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZE)) {
+> +		/* We assume counters is not NULL here as per caller logic */
+> +		if ((filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) &&
+> +		    counters->bytes < filter->min_size)
+> +			return false;
+> +		if ((filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) &&
+> +		    counters->bytes > filter->max_size)
+> +			return false;
+> +	}
+> +
+>   	return true;
+>   }
+>   
+> @@ -237,6 +259,9 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
+>   	struct codetag *ct;
+>   	struct allocinfo_get_at params = {0};
+>   	__u64 skip_count;
+> +	bool sizes_set;
+> +	struct alloc_tag_counters counters;
+> +	struct alloc_tag_counters *counters_ptr = NULL;
+>   
+>   	if (copy_from_user(&params, arg, sizeof(params)))
+>   		return -EFAULT;
+> @@ -244,9 +269,16 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
+>   	if (params.filter.mask & ~ALLOCINFO_FILTER_MASKS)
+>   		return -EINVAL;
+>   
+> +	if ((params.filter.mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) &&
+> +	    (params.filter.mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) &&
+> +	    params.filter.min_size > params.filter.max_size)
+> +		return -EINVAL;
+> +
+>   	priv = (struct allocinfo_private *)m->private;
+>   
+>   	skip_count = params.pos;
+> +	sizes_set = (params.filter.mask &
+> +		     (ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCINFO_FILTER_MASK_MAX_SIZE));
+>   
+>   	mutex_lock(&priv->ioctl_lock);
+>   	codetag_lock_module_list(alloc_tag_cttype, true);
+> @@ -261,7 +293,11 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
+>   	ct = codetag_next_ct(&priv->ioctl_iter);
+>   
+>   	while (ct) {
+> -		if (matches_filter(ct, &priv->filter)) {
+> +		if (sizes_set) {
+> +			counters = allocinfo_prefetch_counters(ct);
+> +			counters_ptr = &counters;
+> +		}
+> +		if (matches_filter(ct, &priv->filter, counters_ptr)) {
 
-The TDX module also exposes information about whether the *system* (and
-not the module) supports Dynamic PAMT.
+alloc_tag_read() walks all per-CPU counters which is not cheap, but here
 
-The TDX module documentation describes how PAMT works internally. To allow
-the last level to be dynamically allocated, it uses a 3 level tree
-structure, not unlike page tables. Like page tables, it has a maximum
-address space that it can cover. This address space can be covered in 48
-bits. If the host physical address space is higher than this, than the
-TDX module can't guarantee the tree will be able to cover the TDX memory.
+it's called for every codetag unconditionally when sizes_set is true,
 
-The TDX module exposes this system support via metadata stating the
-minimum number of HKIDs that need to be available in order for Dynamic
-PAMT to be usable. The reasoning appears to be that more HKIDs can shrink
-the "real" addressable physical address bits enough to make the 48 bit
-Dynamic PAMT limit workable on high physical address width HW. However,
-the docs also clearly explain the 48 bit limit and how this fits into the
-Dymamic PAMT tree constraints.
+even when the tag would be rejected by modname/function/filename checks
 
-The handy x86_phys_bits value is already read and adjusted for keyid bits.
-So just compare that against 48 instead of reading more metadata and
-burdening the code with the more tenuous connection to minimum HKID bits.
+that are plain string comparisons.
 
-Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
----
-v6:
- - After Nikolai pointed out that the TDX docs actually have the Dynamic
-   PAMT pages-per-2MB region fixed at 2 instead of variable sized, I
-   checked over the docs more closely looking for anything else that might
-   have been missed. Spotted this 48 bit physical address bit check in the
-   docs, so added it.
----
- arch/x86/include/asm/tdx.h  | 11 ++++++++++-
- arch/x86/virt/vmx/tdx/tdx.c | 11 +++++++++--
- arch/x86/virt/vmx/tdx/tdx.h |  3 ---
- 3 files changed, 19 insertions(+), 6 deletions(-)
+For example, say the user filters with MODNAME | MIN_SIZE on a system
 
-diff --git a/arch/x86/include/asm/tdx.h b/arch/x86/include/asm/tdx.h
-index 191da84bbf2a1..187014686df3e 100644
---- a/arch/x86/include/asm/tdx.h
-+++ b/arch/x86/include/asm/tdx.h
-@@ -33,6 +33,10 @@
- #define TDX_SUCCESS		0ULL
- #define TDX_RND_NO_ENTROPY	0x8000020300000000ULL
- 
-+/* Bit definitions of TDX_FEATURES0 metadata field */
-+#define TDX_FEATURES0_NO_RBP_MOD		BIT_ULL(18)
-+#define TDX_FEATURES0_DYNAMIC_PAMT		BIT_ULL(36)
-+
- #ifndef __ASSEMBLER__
- 
- #include <uapi/asm/mce.h>
-@@ -152,7 +156,12 @@ const struct tdx_sys_info *tdx_get_sysinfo(void);
- 
- static inline bool tdx_supports_dynamic_pamt(const struct tdx_sys_info *sysinfo)
- {
--	return false; /* To be enabled when kernel is ready */
-+	/*
-+	 * The TDX Module's internal Dynamic PAMT tree structure can't
-+	 * handle physical addresses with more than 48 bits.
-+	 */
-+	return sysinfo->features.tdx_features0 & TDX_FEATURES0_DYNAMIC_PAMT &&
-+	       boot_cpu_data.x86_phys_bits <= 48;
- }
- 
- /* Simple structure for pre-allocating Dynamic PAMT pages outside of locks. */
-diff --git a/arch/x86/virt/vmx/tdx/tdx.c b/arch/x86/virt/vmx/tdx/tdx.c
-index 3544794fb092a..75140511571bf 100644
---- a/arch/x86/virt/vmx/tdx/tdx.c
-+++ b/arch/x86/virt/vmx/tdx/tdx.c
-@@ -1028,8 +1028,9 @@ static __init int construct_tdmrs(struct list_head *tmb_list,
- 	return ret;
- }
- 
--static __init int config_tdx_module(struct tdmr_info_list *tdmr_list,
--				    u64 global_keyid)
-+#define TDX_SYS_CONFIG_DYNAMIC_PAMT	BIT(16)
-+
-+static __init int config_tdx_module(struct tdmr_info_list *tdmr_list, u64 global_keyid)
- {
- 	struct tdx_module_args args = {};
- 	u64 *tdmr_pa_array;
-@@ -1056,6 +1057,12 @@ static __init int config_tdx_module(struct tdmr_info_list *tdmr_list,
- 	args.rcx = __pa(tdmr_pa_array);
- 	args.rdx = tdmr_list->nr_consumed_tdmrs;
- 	args.r8 = global_keyid;
-+
-+	if (tdx_supports_dynamic_pamt(&tdx_sysinfo)) {
-+		pr_info("Enable Dynamic PAMT\n");
-+		args.r8 |= TDX_SYS_CONFIG_DYNAMIC_PAMT;
-+	}
-+
- 	ret = seamcall_prerr(TDH_SYS_CONFIG, &args);
- 
- 	/* Free the array as it is not required anymore. */
-diff --git a/arch/x86/virt/vmx/tdx/tdx.h b/arch/x86/virt/vmx/tdx/tdx.h
-index 8c39dde347cc2..68a68468fbeb6 100644
---- a/arch/x86/virt/vmx/tdx/tdx.h
-+++ b/arch/x86/virt/vmx/tdx/tdx.h
-@@ -86,9 +86,6 @@ struct tdmr_info {
- 	DECLARE_FLEX_ARRAY(struct tdmr_reserved_area, reserved_areas);
- } __packed __aligned(TDMR_INFO_ALIGNMENT);
- 
--/* Bit definitions of TDX_FEATURES0 metadata field */
--#define TDX_FEATURES0_NO_RBP_MOD	BIT(18)
--
- /*
-  * Do not put any hardware-defined TDX structure representations below
-  * this comment!
--- 
-2.54.0
+with 10000 tags, 100 of which belong to the target module. Today the
 
+code would call alloc_tag_read() 10000 times (once per tag), but only
+
+100 of those tags pass the modname check — the other 9900 per-CPU walks
+
+are wasted.
+
+Would it make sense to split the filter check so that per-CPU counter reads
+
+only happen after tag-based checks pass? Something like:
+
+static bool allocinfo_match_tag(struct codetag *ct,
+
+                         struct allocinfo_filter *filter) { ... }
+
+static bool allocinfo_match_size(struct alloc_tag_counters *counters,
+
+                                    struct allocinfo_filter *filter) { ... }
+
+And in the caller:
+
+bool match = allocinfo_match_tag(ct, &priv->filter);
+
+/* Add comments to help subsequent developers understand the purpose of 
+this modification. */
+
+if (match && sizes_set) {
+
+            counters = allocinfo_prefetch_counters(ct);
+
+            counters_ptr = &counters;
+
+             match = allocinfo_match_size(counters_ptr, &priv->filter);
+
+}
+
+You may find a more elegant approach to resolve this issue.
+
+Thanks
+
+Best Regards
+
+Hao
+
+>   			if (skip_count == 0)
+>   				break;
+>   			skip_count--;
+> @@ -270,7 +306,7 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
+>   	}
+>   
+>   	if (ct) {
+> -		allocinfo_to_params(ct, &params.data);
+> +		allocinfo_to_params(ct, &params.data, counters_ptr);
+>   		priv->positioned = true;
+>   	}
+>   
+> @@ -292,9 +328,15 @@ static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
+>   	struct codetag *ct;
+>   	struct allocinfo_tag_data params = {0};
+>   	int ret = 0;
+> +	bool sizes_set;
+> +	struct alloc_tag_counters counters;
+> +	struct alloc_tag_counters *counters_ptr = NULL;
+>   
+>   	priv = (struct allocinfo_private *)m->private;
+>   
+> +	sizes_set = (priv->filter.mask &
+> +		     (ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCINFO_FILTER_MASK_MAX_SIZE));
+> +
+>   	mutex_lock(&priv->ioctl_lock);
+>   	codetag_lock_module_list(alloc_tag_cttype, true);
+>   
+> @@ -304,10 +346,18 @@ static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
+>   	}
+>   
+>   	ct = codetag_next_ct(&priv->ioctl_iter);
+> -	while (ct && !matches_filter(ct, &priv->filter))
+> +	while (ct) {
+> +		if (sizes_set) {
+> +			counters = allocinfo_prefetch_counters(ct);
+> +			counters_ptr = &counters;
+> +		}
+> +		if (matches_filter(ct, &priv->filter, counters_ptr))
+> +			break;
+>   		ct = codetag_next_ct(&priv->ioctl_iter);
+> +	}
+> +
+>   	if (ct)
+> -		allocinfo_to_params(ct, &params);
+> +		allocinfo_to_params(ct, &params, counters_ptr);
+>   
+>   	if (!ct) {
+>   		priv->positioned = false;
