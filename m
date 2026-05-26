@@ -1,80 +1,80 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE60F3CDBC8
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 09:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8603D7D98
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 09:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779788016; cv=none; b=fP/YNQfylEyh+GOLuJsVbQpNufnnXaK+GmF+QDhQkbod9i9UaHxAavxoXjauDQao0JicyMiz3jKEA/66f1O0eqr71X07VhWCc86JaQ3/Vz7Jb9aXOZTftC/bMA27gE9SN9V4x2dciL02Ndu0t0mnHsGm3LaIvl8MGruhoKv0gcg=
+	t=1779788065; cv=none; b=aP7MygMbVVHE4C90c1rnbBSHNqdDvX3/uDco6oiWz5GZREam3zfB1Ab9AAy2/uFBgQrcnGggMfsJDG3jXRtHslPFnWvAszySmBuotzsUfSvi/dBqW54wLEqp92V7nesn6hmxhjv28vDNFX0pm8fmGxPajMPFQO6IAF4Rq799/gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779788016; c=relaxed/simple;
-	bh=PfeNDNnCWurQahpnYBkZwSxnuKLz/Nm7MKZNh1qfRik=;
+	s=arc-20240116; t=1779788065; c=relaxed/simple;
+	bh=lZxwbW133aHQAJ2FqRh7DbKu6JmTfyZRTq7ZRlRHT9s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PdzZ6WSCualP+Tl7Rb97iuRRHB8RfWUzsKBzExCm0F3A1/AfAi8LaEuhd2uhWpzu2GiewJYyK/Md99J67G496xK8yPFdiFXg1gDp95rD0xXTW1iBpyUoFV99i/+OY5uhfUAfx4GzeAyWvMgforKx3G0OGT4EwKGdbnQFMtgtTKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sVA8J1Iy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=q1I9JjAu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oaoa9VTc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XlGyeje0; arc=none smtp.client-ip=195.135.223.131
+	 In-Reply-To:Content-Type; b=m88McGY5k9pbriuG5AuSTqHL39KaW0AI2pWwntjQgjS5dkjYVaMP8FcLG20kU22f/ZPxD2Wklcq8mGwCzQ0l4JuTOqcfL1m+SQzBuMtSqSznA1osoryBaBXi0UuDBQnbGP0UA9SpKN82kBqvN2cwEagxnMkuCOwJj+jz2+YkQso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V3phR0bZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NN8a5J+Q; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V3phR0bZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NN8a5J+Q; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sVA8J1Iy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q1I9JjAu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oaoa9VTc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XlGyeje0"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V3phR0bZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NN8a5J+Q";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V3phR0bZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NN8a5J+Q"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DB09A66E35;
-	Tue, 26 May 2026 09:33:31 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 47C586AA49;
+	Tue, 26 May 2026 09:34:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779788013; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779788062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G4y+FdQyG4vd1UAt5SwUKmSBgkQyxPz42yMUqHZGQNM=;
-	b=sVA8J1IyW/dMkuYzYOXaBYZfef5oQHILWrng/dE9C8ChaZjdvIA2q9czsB2J6ZDZB1yj29
-	SLUcyEUUEIeepi4KBwwZ10sqCqpTIichnSvhvzXLL8/8c4Z+f9UwNKmOw/ZvKL6SZmUscV
-	H2zzebzevMJ8wNTKNskH01JP7EcUdaU=
+	bh=KGjP8j98f0ZflthX2YCr4XDHjNgoZU3qX2sa1SLF6iM=;
+	b=V3phR0bZAZNu+lhPPBP5V8WHv0jkI8TXaVi0M2lx4XznlaNCwtQ3yuOIYERwLRp+q+msQV
+	23DLAHijEbL8bZSB4Hx8NENTOl4bxi0Nv21XgryfS3ID0feMA6EgEQAKE655qlEBbVgYA9
+	nnPdWWf7uxkF1EcexfNl/m6oWE0jd5s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779788013;
+	s=susede2_ed25519; t=1779788062;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G4y+FdQyG4vd1UAt5SwUKmSBgkQyxPz42yMUqHZGQNM=;
-	b=q1I9JjAuktBn0t9TG8+GAobzMwhectwZouumUIcq47zTVMFOzIy9c7xdZx0IMd+PO+5Am3
-	G9OyW03L6rcx9LCw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=KGjP8j98f0ZflthX2YCr4XDHjNgoZU3qX2sa1SLF6iM=;
+	b=NN8a5J+Q0HuXYVmRY3FdEiRM9IzaVN3PWS5745SIxi1Xz0O58K9DjUmNEY9aRzPyK/ZC+x
+	9yjgI6FsR96HJjAw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779788011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779788062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G4y+FdQyG4vd1UAt5SwUKmSBgkQyxPz42yMUqHZGQNM=;
-	b=oaoa9VTczw+kf2SRk2uyqkOlw67iGDXAoW/ryHHuriJYO8XN5YrDr0vlA5INTTU+r8SqGV
-	qX9o8In4V/ehyXkqtFxQ1R18YBWeHY4vcxgVrTbw5r5BaQnlJTbqUDD1+mZEhdp2h8HRPk
-	yizq0jaDk0C4pfq4+jozFv84bFBfuEE=
+	bh=KGjP8j98f0ZflthX2YCr4XDHjNgoZU3qX2sa1SLF6iM=;
+	b=V3phR0bZAZNu+lhPPBP5V8WHv0jkI8TXaVi0M2lx4XznlaNCwtQ3yuOIYERwLRp+q+msQV
+	23DLAHijEbL8bZSB4Hx8NENTOl4bxi0Nv21XgryfS3ID0feMA6EgEQAKE655qlEBbVgYA9
+	nnPdWWf7uxkF1EcexfNl/m6oWE0jd5s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779788011;
+	s=susede2_ed25519; t=1779788062;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G4y+FdQyG4vd1UAt5SwUKmSBgkQyxPz42yMUqHZGQNM=;
-	b=XlGyeje0JVhGhQc9qoNPFmtNqRt81/TFYmoNlood/zvH9LwhsKxPqtinJz9vjpMQlsdPdf
-	ElKoLP+Nei3eQoBg==
+	bh=KGjP8j98f0ZflthX2YCr4XDHjNgoZU3qX2sa1SLF6iM=;
+	b=NN8a5J+Q0HuXYVmRY3FdEiRM9IzaVN3PWS5745SIxi1Xz0O58K9DjUmNEY9aRzPyK/ZC+x
+	9yjgI6FsR96HJjAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D7D615A12F;
-	Tue, 26 May 2026 09:33:30 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4F52A5A130;
+	Tue, 26 May 2026 09:34:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1MYdM+poFWpwBgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 26 May 2026 09:33:30 +0000
-Message-ID: <1710fd7f-7bd5-4f87-a2a2-25b518881342@suse.de>
-Date: Tue, 26 May 2026 11:33:30 +0200
+	id I2+6ER1pFWqVBwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 26 May 2026 09:34:21 +0000
+Message-ID: <af08d48e-ef42-489a-9b5c-49654e63f5f0@suse.de>
+Date: Tue, 26 May 2026 11:34:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,7 +82,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 16/19] drm/mode-config: Create
+Subject: Re: [PATCH v5 17/19] drm/drv: Switch skeleton to
  drm_mode_config_create_initial_state()
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -108,10 +108,9 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 References: <20260519-drm-mode-config-init-v5-0-388b03321e38@kernel.org>
- <20260519-drm-mode-config-init-v5-16-388b03321e38@kernel.org>
+ <20260519-drm-mode-config-init-v5-17-388b03321e38@kernel.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -138,7 +137,7 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260519-drm-mode-config-init-v5-16-388b03321e38@kernel.org>
+In-Reply-To: <20260519-drm-mode-config-init-v5-17-388b03321e38@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Score: -2.80
@@ -149,233 +148,64 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TAGGED_RCPT(0.00)[renesas];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[38];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	R_RATELIMIT(0.00)[to_ip_from(RLyhjdboxbrjk5hnijtjs4kbm6)];
 	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	internal_greylist_whitelist(0.00)[10.150.64.97];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,qualcomm.com:email,ideasonboard.com:email,suse.com:url]
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 X-Spam-Flag: NO
 
 
 
 Am 19.05.26 um 11:01 schrieb Maxime Ripard:
-> drm_mode_config_reset() can be used to create the initial state, but
-> also to return to the initial state, when doing a suspend/resume cycle
-> for example.
+> The driver skeleton currently recommends calling
+> drm_mode_config_reset() at probe time to create the initial state.
 >
-> It also affects both the software and the hardware, and drivers can
-> choose to reset the hardware as well. Most will just create an empty
-> state and the synchronisation between hardware and software states will
-> effectively be done when the first commit is done.
+> Now that drm_mode_config_create_initial_state() exists to handle
+> initial state allocation without hardware side effects, update the
+> skeleton to recommend it instead.
 >
-> That dual role can be harmful, since some objects do need to be
-> initialized but also need to be preserved across a suspend/resume cycle.
-> drm_private_obj are such objects for example.
->
-> Thus, create another helper for drivers to call to initialize their
-> state when the driver is loaded, so we can make
-> drm_mode_config_reset() only about handling suspend/resume and similar.
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-There are some notes on the style of writing below.
-
 > ---
->   drivers/gpu/drm/drm_atomic.c      | 13 +++++-
->   drivers/gpu/drm/drm_mode_config.c | 89 +++++++++++++++++++++++++++++++++++++++
->   include/drm/drm_mode_config.h     |  1 +
->   3 files changed, 101 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/drm_drv.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index d98586d89bbe..ea021250925c 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -59,12 +59,21 @@
->    * preparing the update and kept alive as long as they are active in the
->    * device.
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 985c283cf59f..f537556b06a8 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -340,11 +340,13 @@ void drm_minor_release(struct drm_minor *minor)
 >    *
->    * Their respective lifetimes are:
+>    *		// Further setup, display pipeline etc
 >    *
-> - * - at reset time, the object reset implementation will allocate a new
-> - *   default state and will store it in the object state pointer.
-> + * - at driver initialization time, the driver will call
-> + *   drm_mode_config_create_initial_state() to allocate an initial,
-> + *   pristine, state for each object and will store it in the objects
-
-Present form: 'the driver calls', 'and stores it'.
-
-> + *   state pointer. Historically, this was one of
-> + *   drm_mode_config_reset() job, so one might still encounter it in a
-> + *   driver.
-> + *
-> + * - at reset time, for example during suspend/resume,
-
-Are there other reset times?  If not, then rather say
-
-"- when resuming from suspend, drm_mode_config_reset() resets..."
-
-> + *   drm_mode_config_reset() will reset the software and hardware state
-> + *   to a known default and will store it in the object's state pointer.
-
-Present form.
-
-Best regards
-Thomas
-
-> + *   Not all objects are affected by drm_mode_config_reset() though.
+>    *		platform_set_drvdata(pdev, drm);
 >    *
->    * - whenever a new update is needed:
+> - *		drm_mode_config_reset(drm);
+> + *		ret = drm_mode_config_create_initial_state(drm);
+> + *		if (ret)
+> + *			return ret;
 >    *
->    *   + A new &struct drm_atomic_commit is allocated using
->    *     drm_atomic_commit_alloc().
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-> index 9d240817f8b6..f432f485a914 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -21,10 +21,11 @@
->    */
->   
->   #include <linux/export.h>
->   #include <linux/uaccess.h>
->   
-> +#include <drm/drm_atomic.h>
->   #include <drm/drm_drv.h>
->   #include <drm/drm_encoder.h>
->   #include <drm/drm_file.h>
->   #include <drm/drm_framebuffer.h>
->   #include <drm/drm_managed.h>
-> @@ -314,10 +315,98 @@ void drm_mode_config_reset(struct drm_device *dev)
->   	}
->   	drm_connector_list_iter_end(&conn_iter);
->   }
->   EXPORT_SYMBOL(drm_mode_config_reset);
->   
-> +/**
-> + * drm_mode_config_create_initial_state - Allocates the initial state
-> + * @dev: drm device
-> + *
-> + * This functions creates the initial state for all the objects. Drivers
-> + * can use this in e.g. probe to initialize their software state.
-> + *
-> + * It has two main differences with drm_mode_config_reset(): the reset()
-> + * hooks aren't called and thus the hardware will be left untouched, but
-> + * also the &drm_private_obj structures will be initialized as opposed
-> + * to drm_mode_config_reset() that skips them.
-> + *
-> + * Returns: 0 on success, negative error value on failure.
-> + */
-> +int drm_mode_config_create_initial_state(struct drm_device *dev)
-> +{
-> +	struct drm_crtc *crtc;
-> +	struct drm_colorop *colorop;
-> +	struct drm_plane *plane;
-> +	struct drm_connector *connector;
-> +	struct drm_connector_list_iter conn_iter;
-> +	struct drm_private_obj *privobj;
-> +	int ret;
-> +
-> +	drm_for_each_privobj(privobj, dev) {
-> +		struct drm_private_state *privobj_state;
-> +
-> +		if (privobj->state)
-> +			continue;
-> +
-> +		if (!privobj->funcs->atomic_create_state)
-> +			continue;
-> +
-> +		privobj_state = privobj->funcs->atomic_create_state(privobj);
-> +		if (IS_ERR(privobj_state))
-> +			return PTR_ERR(privobj_state);
-> +
-> +		privobj->state = privobj_state;
-> +	}
-> +
-> +	drm_for_each_colorop(colorop, dev) {
-> +		struct drm_colorop_state *colorop_state;
-> +
-> +		if (colorop->state)
-> +			continue;
-> +
-> +		colorop_state = drm_atomic_helper_colorop_create_state(colorop);
-> +		if (IS_ERR(colorop_state))
-> +			return PTR_ERR(colorop_state);
-> +
-> +		colorop->state = colorop_state;
-> +	}
-> +
-> +	drm_for_each_plane(plane, dev) {
-> +		if (plane->state)
-> +			continue;
-> +
-> +		ret = drm_mode_config_plane_create_state(plane);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	drm_for_each_crtc(crtc, dev) {
-> +		if (crtc->state)
-> +			continue;
-> +
-> +		ret = drm_mode_config_crtc_create_state(crtc);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	drm_connector_list_iter_begin(dev, &conn_iter);
-> +	drm_for_each_connector_iter(connector, &conn_iter) {
-> +		if (connector->state)
-> +			continue;
-> +
-> +		ret = drm_mode_config_connector_create_state(connector);
-> +		if (ret) {
-> +			drm_connector_list_iter_end(&conn_iter);
-> +			return ret;
-> +		}
-> +	}
-> +	drm_connector_list_iter_end(&conn_iter);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_mode_config_create_initial_state);
-> +
->   /*
->    * Global properties
->    */
->   static const struct drm_prop_enum_list drm_plane_type_enum_list[] = {
->   	{ DRM_PLANE_TYPE_OVERLAY, "Overlay" },
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index e584652ddf67..d8f5b7e9673e 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -1005,9 +1005,10 @@ int __must_check drmm_mode_config_init(struct drm_device *dev);
->   static inline int drm_mode_config_init(struct drm_device *dev)
->   {
->   	return drmm_mode_config_init(dev);
->   }
->   
-> +int drm_mode_config_create_initial_state(struct drm_device *dev);
->   void drm_mode_config_reset(struct drm_device *dev);
->   void drm_mode_config_cleanup(struct drm_device *dev);
->   
->   #endif
+>    *		ret = drm_dev_register(drm);
+>    *		if (ret)
+>    *			return ret;
+>    *
 >
 
 -- 
