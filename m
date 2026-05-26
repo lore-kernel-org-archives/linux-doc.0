@@ -1,254 +1,163 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730DC3E0256
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 11:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779796718; cv=none; b=QwyN1UfAsKMHAR+UuT4j4DqYG+n2sf7BoQoVaqmkCPoBP2rR6MrywO928ZQ9W2lHL5Bx72UbNH/bzu1zGshM7d2etHvo7t/g/XGLmm+hPrEVhB1hzktg5RPhjo9jtx86DBIT6TNwRQe5bhLa+42fBBTyzsb3E9L9LYncz4CDS5Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779796718; c=relaxed/simple;
-	bh=5W28sDVkarRvqQjMAW82poEsdm8er4gFoT6JmY4x6m0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HATz1KQn95q+hlmNZRmvP9l9wqzHq4Nf6zlt74H5el+CZO90GvOHl0SgtfG9yfMBv31DuZB2D9bEbagFT22Rnc0brmpCRKTaiz/Snu1yQNzhjB/ACrEBX1Nt2KX1wC3BWbTJy6AaAevyrINZn3QCpkieOtQlZf38zaxJz5L36lI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=VA0Jqz6j; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2C22DECBA
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 12:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779796817; cv=pass; b=d2cxbVlFxeliIFLf1isWlh6Pzabex5daMOAB42DF1H6uEhYjanYaX3/YdLo9Lc0tGHQP11Z2BhIV9HEuDA4V9uIfKZqNlXfXrmuV/rbpkBe3fXjOAfG1doBo7f405MIEqhP223H5BT6GhQHdR1EjbIblWlcAH4eUSRGD0rCNsoE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779796817; c=relaxed/simple;
+	bh=++rX8GA/6dLiVp5wot1X1q4t4NIATV95cr8PVbXQrxs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ja39tevE0Eeude2VMBX3MQ1cAUmDsBxIHpsM2BCJAq0HK1IkEhLf2ZL5sLW/q2ItCf21PrvZ4LdN/Nc+yadJbpyBMH/YWxny46VOdQVYkASWTw4kM5DJuqHOgCuDeX2vuRcGVjgokCVq8oFBFEe8Ri3337SV/FLStDuQOqa4Kyw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E8Nwl6fq; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=CktBeHMK; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="VA0Jqz6j"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43d734223e4so6637761f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 04:58:34 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E8Nwl6fq";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="CktBeHMK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779796811;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dPVI6FG+9wTp5VL8rvlsGJ2RfHITdLh7b6n9qoUv9X8=;
+	b=E8Nwl6fq7TnqAiKFZAL5OONJdleqRjUsURVcDVdHfm+eCsSCZBHakYXVImiGp3rd8VM2xW
+	4qyqQcMo2FNHewSvLnU8w6Oi7Eo6hmA4D3CRxmao5lgE9KdcWVFtftqUQ9TWD/qEb8YgtV
+	OIon1qQDSDY2P/mDttnvc/y/ew5m9s0=
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
+ [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-212--FCxgSJUMjmy9NcVoImwew-1; Tue, 26 May 2026 08:00:08 -0400
+X-MC-Unique: -FCxgSJUMjmy9NcVoImwew-1
+X-Mimecast-MFC-AGG-ID: -FCxgSJUMjmy9NcVoImwew_1779796808
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-658c29291c7so16566902d50.3
+        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 05:00:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779796808; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bZhUuVe41aMEeuGs2vlqIiIhFXRheR/zLd6uDqV4Yeba2PQdHgGWGKbUpXeBTKPA/R
+         L6eYvMAKkRLhoPDXLkIsSxCROJDITGLimpqEQt2r9ZA/jYiHrpmKtSjuN4X052GcN/9q
+         m7oN2ou3fnhyGGqMqmP3Fbn7KZK103/77r5VEnVwrtgz9/v3I9DyOP5eaGoo2jRYj8Mu
+         mJUu7N23npNrPPso1Xmnk35MUxCvLt3gnPJDkmvvX9ATdkjIauJbDrTKGTBu1FagrRTa
+         Q6959JMsVrkoO0oHuZ9iQjRHjv/Ws/Ox3w1HpxyE7kk4H3K2xgKKjuKVRF0SdQdHZ0yq
+         2RRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dPVI6FG+9wTp5VL8rvlsGJ2RfHITdLh7b6n9qoUv9X8=;
+        fh=5VV92kMCz1ZJOMbqz+WfzrDpCVeeWd3gIFo5Q2A7lqI=;
+        b=VcJUlB9nAaFk+7/x4QimvMz2x6S3h6MGUhwyF3qeUdS9THZ/StCjORha99xrVushed
+         WOmCF+WDiRs+ZKY/GqjXx5xKI7s3UGBZqCWn1GHMHXRizx/JDie4g8sGp1+RTdFC4Uhl
+         fn/i7/ezajd2PhH1iRyqVr6GtYzpn4qry1PK0M0GFA8yAnUA3F5faI2HRRt8qpyMwoiw
+         gxyTC4U66zNK81/zl3vfDM72FsX6GY3jJaGCQZOzvGPpl6eLbBbwR1U0ngb+d2GGkF+n
+         ZcSVFC4BkNtjAV5fdF8Fan8XYsa8rcMawpBGnp6Ozt4D6mbtIGP3X2dyQNGY7UEaxD5F
+         TNlQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1779796711; x=1780401511; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AcvYzWTe1Y/hmlEUR12/Xq71LkSjxZ5X+aWQvNFuVk4=;
-        b=VA0Jqz6jVFQ3yG6JwjGmfh7ff1Fgh1ZUasbed4oLwSnhPy7hmDa+VJXhPlslsr2lf3
-         dCfGJ/BlvpK1djedBbs/RsSwK5sU6gfpJx8y7ghea+Iex1zA1kt4/BJ1gJrVVakaU4uW
-         3eykLx+EnyHxFFSbLmeIbeX83v8kggpomupg3YRCqE80PBMwgzB+a6ZAKXoX5sh9fJdZ
-         0yplQBP9f+MfgOhTiS5MqoerJ7SFFfLvBkmvNjcQWynCwIsp0xAQczN02eM+05m7iAnS
-         adXc25rRVCCaBiYcu+s0zDLRDRgYRepTcPicuWltRB26Bf8Zx40bV1/0tKp1NQ5Nttxq
-         x78Q==
+        d=redhat.com; s=google; t=1779796808; x=1780401608; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dPVI6FG+9wTp5VL8rvlsGJ2RfHITdLh7b6n9qoUv9X8=;
+        b=CktBeHMKSniHZD86Nwk6ztnntBsWXv1UvzmCUEvNPPCKV48Fn754D67Pj/iGOdUVTk
+         6QSKGFVBTfwdaP6tn2yMLxt6+ogU4CzvBhPihilpTanCbopzBib/xxG+eZ2aTEtCzqsL
+         BRpaOEGOjtMvQSaTzKAi0VBnUGwK9gfc4U/cM+qcIvF32NpyHVZIW8m5VoZ3F+Z0T24u
+         SV0H9/Yyz9268ewM1qjdgwqVd5DDUq9dvzAsxxZkzLv7o2Nituh2/EbiWaUPTpK2RvH+
+         dFZyCt1QlcfeEUYSJQ3klA4fi1SWxFZmFeBrkpX8t0eghKlihUseAjYWuytp4ealbREm
+         DNOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779796711; x=1780401511;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AcvYzWTe1Y/hmlEUR12/Xq71LkSjxZ5X+aWQvNFuVk4=;
-        b=J80ylYcEbsSI3uuwaiwWW7XODKRXcrbLSMfzLGfv3STk9rIHx8oIFuBGG+QabX91gX
-         B5RUhr/xYjJtajix79f0/MbR23xNjoXjAyPnWX0mk0KnM4Y2ACV3aCEBINrFwlmK2eiL
-         yEu+ct8/ewj6ILRL3z8Yfsu+jVTIdrEIhEjEtWNr44gUYbDwWcdFQZJg+fZy0Kk6stw+
-         9miIWjrBdCzZWObEVD/gDSyliLLNDEIeK3fZ5UxR9XWy1tyevOVW98RmNbXXamJe3oyZ
-         xLjJzwLQJcNln276xLYYifeKjzkGrUnjhiAPcPNiE6z3sxqa5mwlKk87SzUaHKfPxgaA
-         bfvQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/Ctq8OgZYzdnht0fYPw8enE5x8iDyfItDzVmemB/RDILlxB1Inju7PWllY/gBdM8p3nA+v9nOHy/c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx482mVm2wMqGl+fnJc/mAHJ6skbB4IxANqx7flNS6+rfFlOb98
-	GVhaqLz6/OHOvQXxg/gCSLVLLcFK7NOlSR+Z65npPvYsEs1Q7JGLzhoGGzsv//BObyI=
-X-Gm-Gg: Acq92OGdVHAiyJWwigd3o/i1Rhnp0VI6I9oP16T8+dqrGhdkR9Jx6ChRsiYy9qgMLWL
-	bLiYwtO1rURb43KSMQPN3kORa6MjqrU1/hbYwplBSTQLBoFo3H4nDgCDnf+6zDHQ15o6Vwwbmka
-	XkqSCVV6/Ut+jbVP6y/mTatFoh2Sd5FjgQLa4hdYSbMjGGltlQzWscL1R0mEl8DInKr5filjzb0
-	v0uO5RswGTbAG+4htgrzNh2eCVa7Rrvr2YiIONZDScEzWFKk7KaFixQh5quFQGBhJIDNnd0xp4x
-	zumgglcrigFu2c1PtL1IUynqd2nLzSprloBYBahr470TAGnC5QF9FqacKIiD4VC1G5ytW2zSi0g
-	AaQN72jpwTqgYOLSwT6QkE/qsI0k5c3ZODsJhsGdBPPfvR0LPVaxQaT18FJo762mzg7CsM5oT+V
-	tPPYtPSS7XSO2OKDZHYKyDH2nPBSv9wBoSIQ5Riz7q6qctv4wRA4EcrsHRYtfBDR95+WgvQv3Pk
-	owi+26fB6Gy02uIVVQTwzYgOzN6aMKbJ+aVetRW9VAflVqc5D5EiuUvnFxeihb3+tGYPg==
-X-Received: by 2002:a05:6000:2888:b0:45d:4c30:81a6 with SMTP id ffacd0b85a97d-45eb30de822mr28814928f8f.5.1779796711490;
-        Tue, 26 May 2026 04:58:31 -0700 (PDT)
-Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6d4741bsm36462739f8f.22.2026.05.26.04.58.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 May 2026 04:58:31 -0700 (PDT)
-Message-ID: <885a7940-3fcd-4fc4-b80e-cd82a817defd@suse.com>
-Date: Tue, 26 May 2026 13:58:29 +0200
+        d=1e100.net; s=20251104; t=1779796808; x=1780401608;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dPVI6FG+9wTp5VL8rvlsGJ2RfHITdLh7b6n9qoUv9X8=;
+        b=FonISjKr7Vq/k7UJ3caQae2sE3V7REHs1Cwt2/0qi4QwYmA+plCkHh6BsalKtoZsYR
+         feM29TeJ5V7XtoU0WyHe5Mw74g1lTXXdeoLDuKJdS/rtDt8bHJHylUgCjFVwYnDKHxNL
+         EbvvQZHG1CscDnmekyQgKY8axUbuQXK7UqjjIajh0FVk14v60DVb+5Lsmo06vdOWakpN
+         jxTGKMHMmVQcmLbIGrf5BDP+M/T4Nwj2QbTQtRN3lY2hYHrnjL1tFgLeE6s7c1AbTDxe
+         bp7xh0z2m5vuQEQeKb/0HtYHOw0EHWgck1SvYw6e2yR1i/jKkzay40kVtySM8maXNOlB
+         4ZfA==
+X-Gm-Message-State: AOJu0YzIO5pJf8j+jX2g9aVdzTh8PM+9D6gbdXnYPKlmAxlAHid+dTzZ
+	Hj4Pfw6ZEb+c2Bx2bQ65G5tgYyd2m6eAHUPA1SlRJxMuaNFSfRJDR6mlXLHgcOeAIhWkTwSaxzB
+	JpB5USvKEfywnLw2RkDCXUu0oVzyEfZ6owKNNk14U9UQQewKMgRZZuLC6r9vcgNbrehJJtpg1qp
+	WtBXymtExjdjLaLHu42NkU2Bx68E0iKUUXyHs8
+X-Gm-Gg: Acq92OGMjZ/lkiBPnTJVcJarCIpykhekHsxFzOavG1tQnP4KdciUzsVEqAX50KgBFLz
+	ciDzfopHxkpbtPERR8rj9rWNdTrpwhEAvc7KgUq4vZNpDTw566HrmTR2MKwNOa/RrKaAOQOooln
+	zsAwgj2Ig5btgx0+VCHyDlhWSDq72Wb9v3X5YxUjXTD1WU4fBmJwK6ptPtKK+5mbXJ+FiEnLLXI
+	X7rOg==
+X-Received: by 2002:a05:690e:4186:b0:65c:febd:c0b7 with SMTP id 956f58d0204a3-65ec9772e80mr14934510d50.20.1779796807853;
+        Tue, 26 May 2026 05:00:07 -0700 (PDT)
+X-Received: by 2002:a05:690e:4186:b0:65c:febd:c0b7 with SMTP id
+ 956f58d0204a3-65ec9772e80mr14934471d50.20.1779796807277; Tue, 26 May 2026
+ 05:00:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/14] module: Move authentication logic into dedicated
- new file
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
- <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
- Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Eric Snowberg <eric.snowberg@oracle.com>,
- Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez
- <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
- Xiu Jianfeng <xiujianfeng@huawei.com>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
- bpf@vger.kernel.org, =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?=
- <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>,
- Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
- Christian Heusel <christian@heusel.eu>, =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?=
- <mcaju95@gmail.com>, Eric Biggers <ebiggers@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org,
- debian-kernel@lists.debian.org
-References: <20260505-module-hashes-v5-0-e174a5a49fce@weissschuh.net>
- <20260505-module-hashes-v5-8-e174a5a49fce@weissschuh.net>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260505-module-hashes-v5-8-e174a5a49fce@weissschuh.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260522150009.121603-1-npache@redhat.com> <20260522150009.121603-15-npache@redhat.com>
+ <94f759f8-e2ed-4f22-b9e7-4693ad005509@kernel.org>
+In-Reply-To: <94f759f8-e2ed-4f22-b9e7-4693ad005509@kernel.org>
+From: Nico Pache <npache@redhat.com>
+Date: Tue, 26 May 2026 06:00:39 -0600
+X-Gm-Features: AVHnY4I2kJlfEdj79rgn-OjWXsjv0gbtFCil3AHTWp4P9-K4HDgNbrjoGJeC5zg
+Message-ID: <CAA1CXcD0w3CJKzwTvv6gaA80XBYwTTbZGnNGJjbirYMZnBmyHg@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v18 14/14] Documentation: mm: update the admin
+ guide for mTHP collapse
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
+	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, 
+	baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com, 
+	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net, 
+	hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com, 
+	jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org, 
+	lance.yang@linux.dev, liam@infradead.org, ljs@kernel.org, 
+	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, 
+	mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, 
+	raquini@redhat.com, rdunlap@infradead.org, richard.weiyang@gmail.com, 
+	rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, 
+	surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de, 
+	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
+	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
+	zokeefe@google.com, Bagas Sanjaya <bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/5/26 11:05 AM, Thomas Weißschuh wrote:
-> The module authentication functionality will also be used by the
-> hash-based module authentication. To make it usable even if
-> CONFIG_MODULE_SIG is disabled, move it to a new file.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> ---
-> [...]
-> diff --git a/kernel/module/auth.c b/kernel/module/auth.c
-> index 956ac63d9d33..831a13eb0c9b 100644
-> --- a/kernel/module/auth.c
-> +++ b/kernel/module/auth.c
-> @@ -5,10 +5,16 @@
->   * Written by David Howells (dhowells@redhat.com)
->   */
->  
-> +#include <linux/errno.h>
->  #include <linux/export.h>
->  #include <linux/module.h>
-> +#include <linux/module_signature.h>
->  #include <linux/moduleparam.h>
-> +#include <linux/security.h>
-> +#include <linux/string.h>
->  #include <linux/types.h>
-> +#include <uapi/linux/module.h>
-> +#include "internal.h"
->  
->  #undef MODULE_PARAM_PREFIX
->  #define MODULE_PARAM_PREFIX "module."
-> @@ -30,3 +36,82 @@ void set_module_sig_enforced(void)
->  {
->  	sig_enforce = true;
->  }
-> +
-> +static int mod_verify_sig(const void *mod, struct load_info *info)
-> +{
-> +	struct module_signature ms;
-> +	size_t sig_len, modlen = info->len;
-> +	int ret;
-> +
-> +	if (modlen <= sizeof(ms))
-> +		return -EBADMSG;
-> +
-> +	memcpy(&ms, mod + (modlen - sizeof(ms)), sizeof(ms));
-> +
-> +	ret = mod_check_sig(&ms, modlen, "module");
-> +	if (ret)
-> +		return ret;
-> +
-> +	sig_len = be32_to_cpu(ms.sig_len);
-> +	modlen -= sig_len + sizeof(ms);
-> +	info->len = modlen;
-> +
-> +	return module_sig_check(mod, modlen, mod + modlen, sig_len);
-> +}
-> +
-> +int module_auth_check(struct load_info *info, int flags)
-> +{
-> +	int err = -ENODATA;
-> +	const unsigned long markerlen = sizeof(MODULE_SIGNATURE_MARKER) - 1;
-> +	const char *reason;
-> +	const void *mod = info->hdr;
-> +	bool mangled_module = flags & (MODULE_INIT_IGNORE_MODVERSIONS |
-> +				       MODULE_INIT_IGNORE_VERMAGIC);
-> +	/*
-> +	 * Do not allow mangled modules as a module with version information
-> +	 * removed is no longer the module that was signed.
-> +	 */
-> +	if (!mangled_module &&
-> +	    info->len > markerlen &&
-> +	    memcmp(mod + info->len - markerlen, MODULE_SIGNATURE_MARKER, markerlen) == 0) {
-> +		/* We truncate the module to discard the signature */
-> +		info->len -= markerlen;
-> +		err = mod_verify_sig(mod, info);
-> +		if (!err) {
-> +			info->auth_ok = true;
-> +			return 0;
-> +		}
-> +	}
-> +
-> +	/*
-> +	 * We don't permit modules to be loaded into the trusted kernels
-> +	 * without a valid signature on them, but if we're not enforcing,
-> +	 * certain errors are non-fatal.
-> +	 */
-> +	switch (err) {
-> +	case -ENODATA:
-> +		reason = "unsigned module";
-> +		break;
-> +	case -ENOPKG:
-> +		reason = "module with unsupported crypto";
-> +		break;
-> +	case -ENOKEY:
-> +		reason = "module with unavailable key";
-> +		break;
-> +
-> +	default:
-> +		/*
-> +		 * All other errors are fatal, including lack of memory,
-> +		 * unparseable signatures, and signature check failures --
-> +		 * even if signatures aren't required.
-> +		 */
-> +		return err;
-> +	}
-> +
-> +	if (is_module_sig_enforced()) {
-> +		pr_notice("Loading of %s is rejected\n", reason);
-> +		return -EKEYREJECTED;
-> +	}
-> +
-> +	return security_locked_down(LOCKDOWN_MODULE_SIGNATURE);
-> +}
+On Fri, May 22, 2026 at 3:59=E2=80=AFPM David Hildenbrand (Arm)
+<david@kernel.org> wrote:
+>
+>
+> >
+> >  process THP controls
+> > @@ -264,11 +265,6 @@ support the following arguments::
+> >  Khugepaged controls
+> >  -------------------
+> >
+> > -.. note::
+> > -   khugepaged currently only searches for opportunities to collapse to
+> > -   PMD-sized THP and no attempt is made to collapse to other THP
+> > -   sizes.
+>
+> Should we maybe leave this here and clarify that for file/shmem, it will =
+still
+> only collapse to PMD-sized THPs?
 
-The resulting call chain of the module authentication/signature
-functions is as follows:
+Ah yes that would be a good idea. Ill send a fixup!
 
-ima_read_modsig() -----------------------------,
-                                               v
-module_auth_check() -> mod_verify_sig() -> mod_check_sig()
-                             |
-                             |-> module_sig_check()
-                             '-> module_hash_check()
+Thank you :)
 
-I think this logic is quite hard to follow because mod_verify_sig(),
-mod_check_sig() and module_sig_check() have very similar names.
+>
+> --
+> Cheers,
+>
+> David
+>
 
-The naming of module_auth_check(), module_sig_check() and
-module_hash_check() looks good to me, but I would prefer to rename
-mod_check_sig() and mod_verify_sig(). Perhaps mod_check_sig() could be
-renamed to mod_check_sig_header(), and mod_verify_sig() to
-mod_dispatch_auth_check()?
-
-Otherwise, the patch looks ok to me. Feel free to add:
-
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
-
--- 
-Thanks,
-Petr
