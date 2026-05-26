@@ -1,157 +1,232 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC33282F1D;
-	Tue, 26 May 2026 12:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F45F232367;
+	Tue, 26 May 2026 12:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779798930; cv=none; b=mV1wPKFzIdbQjFbi14rE/iYJsAbSP9zfK3x5gpN57PO9BjHnYc4LUG/fyoZ5KR5GB7CNwlTeLtWz8zplJWvjhIDDzPcy/ykytuLOTEdEH1SY8n+cB5Sg5saIIIfREnSoEExq1K3OILrttZ4iWJHuYpjJcO2/9gqXEMDTmkS2n8A=
+	t=1779799733; cv=none; b=TkyZ3KOeHf/Co4IPO714R1xqcjHybYdhMTpxVrahL6IBTeiTvNztyyMUZQgIIqjNV/zVkwQpWacBvnKDmnlgwM/zhN+5GNFnAw8y7/jM5Nkd6ImFzpYJF8GKiMNn2+uK+NGBahO7CZVO8VYqHPs0UTFQX8T3X7Mb9sS5YEI/6pY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779798930; c=relaxed/simple;
-	bh=n7j2xB/p2/bpJ4PAZFAH2CPKG+pYjXlg/jFOgnW2DLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ABO4aED5VdF4oSxk/QNAuPmgGCTU24CQHU5AG3n2F+yYGge/1j2frlaQpj0qpbWqJFdNITIY2CJ1+TA0NOCi6LTdNhennFC4+DyflaY7JTQggYYsrSGzaDndJwOmm0Ba+hL7ElX1+Fcr6X1Bn8gemLNpzOEDzcvxW26k9MLn8CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mVrWbuS1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779799733; c=relaxed/simple;
+	bh=iVSKChv7eKUg+EWssQSvbeUHPrHZzgtGW7zvLa9lrck=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=toktFw5ZGjK3qKsP6j+V36R7WfSW0m2VC2+Ihu0iMK8SDjaRBRz/jBxS90F+NRX8vx215818lr5uykHRCeSCwZElTVWmwTA4nBCNW8WqNBxuLv8ciif0QmjTLAjwbSkWo3xoM1GRsiGojCl4A405jyyACormuj1XLJ70/0OmTwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ao89louo; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mVrWbuS1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E9121F000E9;
-	Tue, 26 May 2026 12:35:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779798928;
-	bh=A4I37u3pxMkDLwlxmTpz4QG4dLPJrI76nlF19AT6q0I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=mVrWbuS1XS8D3hQMpCtLJLpnHf6D6jAOgx476wTlix+2MGFvfbpg1YBsuH9+iOE3M
-	 ehoBHdgaQhjGCN3XnDZiu495rlZ0RS9alDi9zTJGtWSYv06o/tia5kgRIpWvUTomr8
-	 6S/kpe1YRlyltFd7QyJ+a9idd7tpmWMwWnB4DIcn/ch/peJ5jLNgBAWTbn0z+gQnyP
-	 TvygqtFjVDwlMKiXi55/NLyDFTQpbIBnNWfXKrp+NxGsl5hru6fZ/T1QAeXv/yyXW5
-	 W2ujko2fWTBrm/4rbOIoTmgEOL0Cg2nds0hZZo0b8OWj12xabcqpiyKv4Llh49MCaE
-	 WhR4tpzTt0/SA==
-Date: Tue, 26 May 2026 13:35:19 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, David
- Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil
- <jan.sun97@gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
-Message-ID: <20260526133519.232fd9d6@jic23-huawei>
-In-Reply-To: <20260525-dedicator-strut-6f7618a92180@spud>
-References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
-	<20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
-	<20260522180207.63b725fb@jic23-huawei>
-	<20260525-dedicator-strut-6f7618a92180@spud>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ao89louo"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5AB5E169C;
+	Tue, 26 May 2026 05:48:45 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B64353F7B4;
+	Tue, 26 May 2026 05:48:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1779799730; bh=iVSKChv7eKUg+EWssQSvbeUHPrHZzgtGW7zvLa9lrck=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ao89louokZgAi+vZXN9MNzXkPL+ttcyCfT2VjmwaTjPb2mDKJJU9tokn4RuoJjn/8
+	 JngV14i95CSd6OnB6OrWcJxgRfHh6gWegBQWcpwifwQcoCy894JweappRrMZPK/ib5
+	 C9qPA2vkR750H04wlFNYcGhvuoMfw1CmRoOrvc5Y=
+Date: Tue, 26 May 2026 13:48:41 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v10 02/30] arm64/fpsimd: Update FA64 and ZT0 enables when
+ loading SME state
+Message-ID: <ahWWqU51Zffmhlo5@J2N7QTR9R3>
+References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
+ <20260306-kvm-arm64-sme-v10-2-43f7683a0fb7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260306-kvm-arm64-sme-v10-2-43f7683a0fb7@kernel.org>
 
-On Mon, 25 May 2026 17:30:02 +0100
-Conor Dooley <conor@kernel.org> wrote:
+On Fri, Mar 06, 2026 at 05:00:54PM +0000, Mark Brown wrote:
+> Currently we enable EL0 and EL1 access to FA64 and ZT0 at boot and leave
+> them enabled throughout the runtime of the system. When we add KVM support
+> we will need to make this configuration dynamic, these features may be
+> disabled for some KVM guests. Since the host kernel saves the floating
+> point state for non-protected guests and we wish to avoid KVM having to
+> reload the floating point state needlessly on guest reentry let's move the
+> configuration of these enables to the floating point state reload.
+> 
+> We provide a helper which does the configuration as part of a
+> read/modify/write operation along with the configuration of the task VL,
+> then update the floating point state load and SME access trap to use it.
+> We also remove the setting of the enable bits from the CPU feature
+> identification and resume paths.  There will be a small overhead from
+> setting the enables one at a time but this should be negligible in the
+> context of the state load or access trap.  In order to avoid compiler
+> warnings due to unused variables in !CONFIG_ARM64_SME cases we avoid
+> storing the vector length in temporary variables.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/fpsimd.h | 18 ++++++++++++++++
+>  arch/arm64/kernel/cpufeature.c  |  2 --
+>  arch/arm64/kernel/fpsimd.c      | 47 +++++++++++------------------------------
+>  3 files changed, 30 insertions(+), 37 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/fpsimd.h b/arch/arm64/include/asm/fpsimd.h
+> index 1d2e33559bd5..7361b3b4a5f5 100644
+> --- a/arch/arm64/include/asm/fpsimd.h
+> +++ b/arch/arm64/include/asm/fpsimd.h
+> @@ -428,6 +428,22 @@ static inline size_t sme_state_size(struct task_struct const *task)
+>  	return __sme_state_size(task_get_sme_vl(task));
+>  }
+>  
+> +/*
+> + * Note that unlike SVE we have additional feature bits for FA64 and
+> + * ZT0 as well as the VL.
+> + */
+> +#define sme_cond_update_smcr(vl, fa64, zt0, reg)		\
+> +	do {							\
+> +		u64 __old = read_sysreg_s((reg));		\
+> +		u64 __new = vl & SMCR_ELx_LEN_MASK;		\
 
-> On Fri, May 22, 2026 at 06:02:07PM +0100, Jonathan Cameron wrote:
-> > On Tue, 19 May 2026 17:42:58 +0200
-> > Janani Sunil <janani.sunil@analog.com> wrote:
-> >  =20
-> > > Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
-> > > buffered voltage output digital-to-analog converter (DAC) with an
-> > > integrated precision reference. =20
-> >=20
-> > Note that I'm seeing this as Changes Requested in the DT-binding patchw=
-ork
-> > but didn't see any replies.
-> >=20
-> > Seems I didn't get the sashiko reply - nor did the IIO patchwork.
-> > Hopefully Janani did!
-> > https://patchwork.kernel.org/project/devicetree/patch/20260519-ad5529r-=
-driver-v3-1-267c0731aa68@analog.com/ =20
->=20
-> The sashiko stuff is per subsystem or something, so dt stuff only goes
-> to us and the submitters. I think that's kinda stupid but also probably
-> required to avoid pissing people off. There's quite a bit of noise
-> generated by it, especially with it repeating the same incorrect stuff
-> on every version.
+Nit: this isn't VL, it's VQ - 1.
 
-When I get on top of the long weekend's backlog I'll start a discussion
-on whether we ask for emails from Sashiko be sent to linux-iio.
+If that value is bigger than SMCR_ELx_LEN_MASK to begin with, there's a
+latent bug in the caller, and silently masking the value is just hiding the
+problem.
 
-I was nervous about doing that until I had some experience of how=20
-reliable the reviews are but given I'm either cutting and pasting stuff
-into threads or telling people to go look, might as well have those emails.
+> +		if (fa64)					\
+> +			__new |= SMCR_ELx_FA64;			\
+> +		if (zt0)					\
+> +			__new |= SMCR_ELx_EZT0;			\
+> +		if (__old != __new)				\
+> +			write_sysreg_s(__new, (reg));		\
+> +	} while (0)
+> +
 
-Jonathan
+I'd strongly prefer that we make it the caller's responsiblity to track
+all the bits within SMCR, rather than requiring each caller to pass a
+bag of booleans.
 
->=20
-> >  =20
-> > >=20
-> > > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> > > ---
-> > >  .../devicetree/bindings/iio/dac/adi,ad5529r.yaml   | 217 +++++++++++=
-++++++++++
-> > >  MAINTAINERS                                        |   7 +
-> > >  2 files changed, 224 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.ya=
-ml b/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
-> > > new file mode 100644
-> > > index 000000000000..eb66f6ca063d
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
-> > > @@ -0,0 +1,217 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/iio/dac/adi,ad5529r.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Analog Devices AD5529R 16-Channel 12/16-bit High Voltage DAC
-> > > +
-> > > +maintainers:
-> > > +  - Janani Sunil <janani.sunil@analog.com>
-> > > +
-> > > +description: |
-> > > +  The AD5529R is a 16-channel, 12-bit or 16-bit, high voltage, buffe=
-red voltage output =20
-> >=20
-> > Long line. Check the wrap.
-> >  =20
-> > > +  digital-to-analog converter (DAC) with an integrated precision ref=
-erence.
-> > > +  The device operates from unipolar and bipolar supplies. It is guar=
-anteed
-> > > +  monotonic and has built-in rail-to-rail output buffers that can so=
-urce or
-> > > +  sink up to 25mA.
-> > > +
-> > > +  Specifications:
-> > > +  * 16 independent 12-bit or 16-bit DAC channels
-> > > +  * Independently programmable output ranges: 0V to 5V, 0V to 10V, 0=
-V to 20V,
-> > > +    0V to 40V, =C2=B15V, =C2=B110V, =C2=B115V, and =C2=B120V
-> > > +  * The device supports SPI communication with Mode 0 and Mode 3.
-> > > +  * 4.096V precision reference, 12ppm/=C2=B0C maximum
-> > > +  * Built-in function generation: Toggle, Sinusoidal Dither, and Ram=
-p waveforms
-> > > +  * Multiplexer for output voltage, load current sense and die tempe=
-rature
-> > > +
-> > > +  Datasheet: https://www.analog.com/media/en/technical-documentation=
-/data-sheets/ad5529r.pdf
-> > > + =20
-> >  =20
-> > > +patternProperties:
-> > > +  "^channel@([0-9]|1[0-5])$": =20
-> >=20
-> > Sashiko commented that this should be hex.  Why the forcing to decimal?
-> >  =20
+Either we can store the full SMCR value in the task, or we can have
+something like:
 
+	unsigned long __task_smcr(const struct task_struct *tsk)
+	{
+		unsigned long vq = sve_vq_from_vl(task_get_sme_vl(tsk));
+		unsigned long smcr = vq - 1;
+
+		if (system_supports_fa64())
+			smcr |= SMCR_ELx_FA64;
+
+		if (system_supports_sme2())
+			smcr |= SMCR_ELx_EZT0;
+
+		return smcr;
+	}
+
+... and if we need a helper for a conditional update, we can have
+generic versions:
+
+	#define sysreg_cond_update(sysreg, val) \
+		sysreg_clear_set(syreg, ~0UL, val)
+
+	#define sysreg_cond_update_s(sysreg, val) \
+		sysreg_clear_set_s(syreg, ~0UL, val)
+
+That way task_fpsimd_load() and do_sme_acc() don't need to duplicate all
+the system_supports_XXX() checks, and both can have:
+
+	sysreg_cond_update_s(SYS_SMCR_EL1, __task_smcr(current));
+
+... which keeps all the points of use simpler and consistent with one
+another, and keeps the logic in the helper far more legibile and robust
+(e.g. no macro variable shadowing).
+
+We can do the same for ZCR, e.g.
+
+	unsigned long __task_zcr(const struct task_struct *tsk)
+	{
+		unsigned long vq = sve_vq_from_vl(task_get_sve_vl(tsk));
+		unsigned long zcr = vq - 1;
+
+		return zcr;
+	}
+
+[...]
+
+> diff --git a/arch/arm64/kernel/fpsimd.c b/arch/arm64/kernel/fpsimd.c
+> index 9de1d8a604cb..cf419319f077 100644
+> --- a/arch/arm64/kernel/fpsimd.c
+> +++ b/arch/arm64/kernel/fpsimd.c
+> @@ -398,11 +398,15 @@ static void task_fpsimd_load(void)
+>  
+>  	/* Restore SME, override SVE register configuration if needed */
+>  	if (system_supports_sme()) {
+> -		unsigned long sme_vl = task_get_sme_vl(current);
+> -
+> -		/* Ensure VL is set up for restoring data */
+> +		/*
+> +		 * Ensure VL is set up for restoring data.  KVM might
+> +		 * disable subfeatures so we reset them each time.
+> +		 */
+>  		if (test_thread_flag(TIF_SME))
+> -			sme_set_vq(sve_vq_from_vl(sme_vl) - 1);
+> +			sme_cond_update_smcr(sve_vq_from_vl(task_get_sme_vl(current)) - 1,
+> +					     system_supports_fa64(),
+> +					     system_supports_sme2(),
+> +					     SYS_SMCR_EL1);
+>  
+>  		write_sysreg_s(current->thread.svcr, SYS_SVCR);
+
+With the proposal above, this would become:
+
+	if (system_supports_sme()) {
+
+		/*
+		 * Ensure any SME controls are configured appropriately
+		 * before restoring state.
+		 */
+		if (test_thread_flag(TIF_SME))
+			sysreg_cond_update_s(SYS_SMCR_EL1, __task_smcr(current));
+
+		[...]
+	}
+
+[...]
+
+> @@ -1400,9 +1376,10 @@ void do_sme_acc(unsigned long esr, struct pt_regs *regs)
+>  		WARN_ON(1);
+>  
+>  	if (!test_thread_flag(TIF_FOREIGN_FPSTATE)) {
+> -		unsigned long vq_minus_one =
+> -			sve_vq_from_vl(task_get_sme_vl(current)) - 1;
+> -		sme_set_vq(vq_minus_one);
+> +		sme_cond_update_smcr(sve_vq_from_vl(task_get_sme_vl(current)) - 1,
+> +				     system_supports_fa64(),
+> +				     system_supports_sme2(),
+> +				     SYS_SMCR_EL1);
+>  
+>  		fpsimd_bind_task_to_cpu();
+>  	} else {
+
+Likewise, with the proposal above, this would become:
+
+	if (!test_thread_flag(TIF_FOREIGN_FPSTATE)) {
+		sysreg_cond_update_s(SYS_SMCR_EL1, __task_smcr(current));
+		fpsimd_bind_task_to_cpu();
+	} else {
+		[...]
+	}
+
+Mark.
