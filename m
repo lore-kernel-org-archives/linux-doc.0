@@ -1,121 +1,495 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8052128643C
-	for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 21:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730BFB67E
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 00:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.65
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779745967; cv=pass; b=j9zq+rsLIGNBnZSXi3FqUJeLPuDE9Xrm8Ny9jiyVHpc4w6do1Z7LsDfa6lDc1Ey71ReHYy/INq/6QJbc3N5Hz7kmsZ7TN5Q8iCHDESPhBy2Bc3XsUmjilU/rHJuF3gmtZTVauxCodly4d8EGrX0YxXbx5CntgdxkCkDEuViKtN4=
+	t=1779753920; cv=pass; b=HL1XidgwiLH9T14vmJ9C0PAqKPugJ0UHMvAj1MyKYSaFjwBpjKwTPqILUMpV4A7yionN9efxPfTIDf8Uf5DHhfcPJ8QaoGeql/RnN6/Ea9AIZ/XPc7koiNAARgxA7dpOQSlxgJ8DbFQc6s96vmq+FEAFYIWaWgQt7cBQE+PD0tc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779745967; c=relaxed/simple;
-	bh=kLeLeR+ah76xi/5PrT+0BJWyrp4RC8lCrf6UVaEHtX0=;
+	s=arc-20240116; t=1779753920; c=relaxed/simple;
+	bh=kWv7HLOBUzZVc47EwDAKstRNfMdk3HO2cKdu4jwKeN0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PT2S9fh2tp5lESEk6f+3z6qJFMXZMGoJDWxf6dxFO62P/2BmbwP2UQLvE96wNp9r7oMc1JKR6SzYUAz74OPzrqDUTGIu9F66QnJ1tQX41vE5FPpu+XMK5SXS/NzwNXCxDuRnH34c4t6IEERScBJpDywDiopJ9n6kpUDpBc0/htw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BexcT5NU; arc=pass smtp.client-ip=209.85.160.173
+	 To:Cc:Content-Type; b=B/keTbSmyp/FnqpGFpRD3218ftrUNwQaUEHosrFniJAoALweCoJGno4HRVA7AI9MUq21jFfRzDwiErb8aI5VqJt3mEuaVuozfR41i/TpUMBMfm6Brs5r5gjYS6XoZaIh+Ot8tyFSzwkKZ2STYEXqn7h45G+F9JJ241WvLWwtHHM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jneWI65i; arc=pass smtp.client-ip=74.125.82.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BexcT5NU"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51306c9f2a8so120264401cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 14:52:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779745965; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jneWI65i"
+Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-135e7f4a295so3745366c88.0
+        for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 17:05:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779753918; cv=none;
         d=google.com; s=arc-20240605;
-        b=RtdvbF3MinT9lglow66ZXyFIcoHCIlhwd4ERyPOlbBecrj6PHQEjRB+sWTeuYQj8a8
-         xVVKfgZIurleAG3y5YkS7RxbS7XBvbks909m/yh0CyxpR6V5v540iMWB94UMeODHDZJX
-         MRgvFIvXmgiZ3jtOr6JhcKL/sLxeKmhQLaEuuWack1j4K5RSoboThiPbgmUY+sqx4Gqt
-         vB65Z8+oycdgD8HEjSl2zJvKs4fAEAnTpN7eMr64cV9yHLFi+KUNXEZ7br96VEF5Awv2
-         oSwTpk/ml/SD/k/1eBJAT5fYIWoeJ3YF3z6l4zPWa8mXijdc+ZiKvy4XPzeWWV7xs8hL
-         bfAg==
+        b=GXmkbA+P+qZXi3OsjM1hViY4Rp2xzAcllkInLcecZUuYP7K6V9Q5U8o4MGQU0GZSCg
+         nhYlE2Y4wFDWA0NmHfh7IH6uB4c1AMzHmrc2J999Hlp9n5xEIL3m+Smqzru9Vjs+xo59
+         Ss6iGnVnM2nooyuScvToSdfLVVeQ6Z1YMK/o+xUUcVMx5dU+WJ9B3pzQz2W6e32Akfiy
+         o0xE4ft/Fg0Wipm1ztGM3SFDkLtI+KdSA1P7hoIMldUMgYw0bXUi8fpi2/h2LffdVSoj
+         4NXcf/+fCamaZWlpNUWmYA5JdT97au084CabZzLGd9ci1dbdL0FdEFIT3lKlh7kmCqwM
+         kNuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=kLeLeR+ah76xi/5PrT+0BJWyrp4RC8lCrf6UVaEHtX0=;
-        fh=F3t4BkkibGblBxW8J22QwoaFRYHq/xpcmDCvpG0JJcA=;
-        b=C3MA22bK2/Z72K6deTETRxNpUZ7/SDuWs3JtJ+nsMKTxLO0WU1SwzTLV0GTFXyz0i9
-         Xic7LWcKspQBdc060trDfyO/rUVPEZkb2FMJFy7tjoejTLRemrtsTrgUJXQvZKC+2F/k
-         aLLz+2RiCmpXRsmgunRegwPYwEL7Bzx/oc2aNs5bwb5f3a2hErPf9tN7Tdb4sN5pggSt
-         eZdfrre69tDoVqDtH/mEmQ1ce5aYItfG1XvK+aw3G0WKNb2dLnd0mISXF8+MEyOe0u5f
-         97Y1ibEqF/fYoE/81otSfaf7TO7NbltLD3sX4Gsepi+VewHYB1GtmrffO8vPb2/m3VzY
-         F1pQ==;
+        bh=NincQHHUkFRFpZCpbw98WAPBg+k0sO/KWp+Cuwbg5yQ=;
+        fh=CPwO/LH9pOS4awm/8JLhA6mIZOu/TU8VD68PyWZvHzc=;
+        b=bDfUYtY6izPyweTojZr2fvAZkTlu3SMtK/dqo4KfBP3H5+w3R2lKElOsGbynPvb1G2
+         4DYus2nyaQvQURIhuvqU3LetWgHlCgzcFmTJwJWZExlmia2wOOeAvp2imZBG2cWvLetG
+         +OJhIpcPPLWDUXseGksvzXKc96mQXiziVF6m6ps1jrORFaRxvJ5YAhsra4KmpCdLA4gd
+         5ZRRCglIuekSIMsJbI8cJM67vO1W06mbPrjVcHY1PNpzDuGivTWdIEbeh9A8bK5Bp+9R
+         1IybO8FqYSBO2ulY0t67yQBH3N/iFN/BYelzNiA4nID8DNgqmw3nFz7a/6eSgzI5v8F7
+         L4PQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779745965; x=1780350765; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779753917; x=1780358717; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kLeLeR+ah76xi/5PrT+0BJWyrp4RC8lCrf6UVaEHtX0=;
-        b=BexcT5NUxfMx5ZU56XMp2pFMfdDsjnpU9Mp377YOaPXveFoNkDxE0YQqLIDG6SP3E+
-         E+LbfKX4mjOyhT/881FpVOupstjSXdQ5Do2D/KTpLUcEG7h54j+xeDv16xnxL9u+/BN0
-         WrVSVO2+SaFJRiPtbZeZ+9XA4sadF/yxh6Y6ycQfDZGfDIhwn9qN+xdz1kyT9OzdTO5C
-         GxC9/7QGHDdLeCsvoQHCxfH+oFMwb8Sa4XSnMVvaXf7u6khDA1P3JDPRuEwJLaE2uXH+
-         P5QRezAwJpFI8WfL8uIm5iqIdCFKsLL1Zaek1yia8g+c4S+cfvyEugJh6sISD9RXIS8r
-         TOAw==
+        bh=NincQHHUkFRFpZCpbw98WAPBg+k0sO/KWp+Cuwbg5yQ=;
+        b=jneWI65imOWm2eZ9PbuZHRH53RP6T2TW6s0YtkZpdwLOjnkuH8hD5qhnwz+95twBRA
+         qVf6Q+g5GN8mDAo4OtJgxWQmET+OIrkXExWypwDfQN572cwm5E3tATSO9F0SyafF8f5m
+         nF3+GGaKVHSLXHqBtsmYy9oh/aD9b6PSJsrKBxT4BOqEPpfd0uWHvcDsDHn00M8kll93
+         hjC32IDhc44p+1OAcMv6H51Vhjy8UPEB++Y7LKztKnn8K0sFs///U+yr2KE/OYvu+Smf
+         WW4J2bss67mRrUyjznK+7IEllbLuTQmgbZEXiSIQ96eJntq2lUB6fsBpZg9m1CmDDzlG
+         8oDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779745965; x=1780350765;
+        d=1e100.net; s=20251104; t=1779753917; x=1780358717;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kLeLeR+ah76xi/5PrT+0BJWyrp4RC8lCrf6UVaEHtX0=;
-        b=oD0qyJMvRGSWgHACEHdP2zdoV0ee7FG3VV906/kC+bBDy+PXTV9eiBXByIB4kbb63F
-         rhVpe+XKmeHD/KQq8HkFYvAVYELiQp/m3E0wGIQcLr1WXf8SYhJoArRBRlo6Q7RMrTgw
-         lfq+uCoA9hCTmDDCkaQ++sCf8I/8fKFkiBKZIvW+8pxexeWcBx2LObB5f2UlzPKlZzKI
-         dhrK6t9qlVI225c4FEDz6AfMiTGtvitaFkdDKSPBnhFo9LY3JNyaIYPg3uO7yE4o4EIZ
-         bGsNw9O1Eqgf3dSQzwhr8QsBUsn89lkWQI6NO7eKn3q46rmWcUXMTtjskV/GPpvTHKci
-         pQfQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8uKe9s2NH9hjJ5KnO+7VgZmKvp+9hbdy4HNSBbT3cBuOBh446EgIR1hvo6a52JgbPsIZjeXImAgxk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx97me33+oXM44R/OupY5+/F59NPL6DW9RaArdgv9ENCv1RcQCR
-	Zbr6F6vv6Zl5FaV6bskxlE+ffQU85tu44IYDzG+1Z5NFwk2gz20d36kTESCDt02D8xvCxJpvXP1
-	groACSj/k00QwR2FMQwh6fVi9B/m3F7SxN0bJ
-X-Gm-Gg: Acq92OHoCbuZJgfBhijcd/HFm6EFKdF6pgJo6jXljnqISTTbDQmHbuZIGTC9FB80gLr
-	dHezmSLL7DEjpWVl87wc0bOgeYp6hIVnF1UWssjUE7uSfSIF+UFmPxEjzshxZ6JXgHqAJiPjiEe
-	DcR2t34i0dGGNYtVxxvO55fXyXY6FaBjbDf9d4sLY2cd+Jmu4TFBfymxMdXQzGF7efT9SugUtKx
-	CX3B9Jp2tg3pb2k0FXXDxQyuqyjZ4Nc3Elzzwybug5q8bjMVpt9UIU1oA6G2aLnFMb6M6g8AoQQ
-	9+pgk8eMFCWKLEemi/HhVtsAnLN2IVKuEgc0fgWJ
-X-Received: by 2002:a05:622a:15cb:b0:516:dc23:c146 with SMTP id
- d75a77b69052e-516dc23c2e2mr190040551cf.37.1779745965432; Mon, 25 May 2026
- 14:52:45 -0700 (PDT)
+        bh=NincQHHUkFRFpZCpbw98WAPBg+k0sO/KWp+Cuwbg5yQ=;
+        b=Dqr6QDZ1FOo7UEr66pJHEgMaZkQ5uaN1I9PpHlVvJpH3ZNAEmIBYy6o7LVjnrB/5hM
+         yFE6ZtrxsARSg/f27uevJ3Nxm95+9iPuDV4JbWmGVFZpoSCYztqFH52Buf+X2sRN7mhp
+         fVqgO65/hxUINx5DXlDJ73r+NuS9ZzMo54nV7RyU1S+3qw64stq432GIjZyX3mC2a2ro
+         GHLF5qYzY+TCkpOFm9r/zYNu+fII5EGn0TkG32km3GzGckEqhpihpZtFHOT6icqgKEB+
+         dg4dtaqn7/8QmaHhQDKe8EIKpZbhjZKucbrjBuoxXcet5DF8adbnX/jh+pEwvJk2TM5q
+         e1VA==
+X-Forwarded-Encrypted: i=1; AFNElJ838uqT+QnpP9cTvFMKpJrCLhZ4f073Xp4ohQkSLeaqtEyHmiclegpf3b3QEmaxX2F86uhq776ARFk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqFP/AsS6TyS7GE7BxTnb05OYwikabHCeuchkNR3TPC7lv4Qsh
+	/0RpFJc7KmtCByi8nA5uzNIPZ5cszf+My1k/V+4afyHvZfUt7sK3a+u7fcJMOYqelosNDyVDslb
+	ZsmPpiDfssiEk4xgbWAfyn8Hx2Wq/Eg==
+X-Gm-Gg: Acq92OFWnbyyjQmrjCzsxl5VWHv31fg9KiJH0NsJxtmtuWPzrQsXSpWUMdVTMaU0pg9
+	DJYkQ9wHUG5FH+LyZSQM0SmroL+5RosU7BA1wss84mnNNiqLO0UgzKxPlKYb+4s+Ox5Tnyhs42D
+	HIwVAbgcz3Fza71EfSFXdquOJEpvFfTwlaVrWWOF6VBTAdTopsXPi2QDcN2NOACxb2RWHCezkVy
+	tMOD80MPpvMLBJFVAfgllySgV2Lr+gVY5NSLRZ5m48z+QEdXbeM/mOyVtTuDYEM3wd3hN7dHHOZ
+	fxXp42Y=
+X-Received: by 2002:a05:7022:610:b0:136:c2fa:32d6 with SMTP id
+ a92af1059eb24-136c2fa37e7mr2419192c88.7.1779753917284; Mon, 25 May 2026
+ 17:05:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260519095622.9541-1-miguel.martin.gil.uni@gmail.com>
- <87cxyj1by0.fsf@trenco.lwn.net> <CAJjvy-ZKGhQEZkuy0nD6PMZBXF75m25iGOJHHvBsUfaiLHXFgQ@mail.gmail.com>
- <875x4bz0fi.fsf@trenco.lwn.net>
-In-Reply-To: <875x4bz0fi.fsf@trenco.lwn.net>
-From: =?UTF-8?Q?Miguel_Mart=C3=ADn_Gil?= <miguel.martin.gil.uni@gmail.com>
-Date: Mon, 25 May 2026 23:52:37 +0200
-X-Gm-Features: AVHnY4LPI9J-7U8YOeLzpXSvN0eFj0FXTk0spwQ27FwX4WG76lheeMHysjbVJ6c
-Message-ID: <CAJjvy-ZE0Qb6=8Huciq_cF3O_3j-7WbePQY4XD_pQT_-jDOPsA@mail.gmail.com>
-Subject: Re: [PATCH] docs: md: fix grammar in speed_limit description
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <CALa+Y15fsgb1SU1xBq6BHsgk9QSJr39L5CZSCahpRu7udGuwKw@mail.gmail.com>
+ <20260521003247.84337-1-sj@kernel.org>
+In-Reply-To: <20260521003247.84337-1-sj@kernel.org>
+From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Date: Mon, 25 May 2026 17:05:06 -0700
+X-Gm-Features: AVHnY4JrstSX8sPAVPbrXAIWWUvcSJkyLCkHpYdCefAqgqndyn1dXmWz0xR_I-A
+Message-ID: <CALa+Y167W9Cs0zFh6rnbDgk91cMvtofSxuAu_-M3dWwiSkbTKQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/7] mm/damon: hardware-sampled access reports + AMD
+ IBS Op example
+To: SeongJae Park <sj@kernel.org>
+Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
+	bijan311@gmail.com, ajayjoshi@micron.com, honggyu.kim@sk.com, 
+	yunjeong.mun@sk.com, bharata@amd.com, Akinobu Mita <akinobu.mita@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Thanks Jon. v2 sent with the corrected Signed-off-by in plain text.
-
-
-On Mon, May 25, 2026 at 10:41=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
-rote:
+On Wed, May 20, 2026 at 5:32=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
+:
 >
-> Miguel Mart=C3=ADn Gil <miguel.martin.gil.uni@gmail.com> writes:
+> On Wed, 20 May 2026 12:01:43 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail=
+.com> wrote:
 >
-> > Hi Jon,
+> > On Mon, May 18, 2026 at 11:19=E2=80=AFPM SeongJae Park <sj@kernel.org> =
+wrote:
+> > >
+> > > + Akinobu
+> > >
+> > > Hello Ravi,
+> > >
+> > > On Sat, 16 May 2026 15:34:25 -0700 Ravi Jonnalagadda <ravis.opensrc@g=
+mail.com> wrote:
+> > >
+> > > > Hi all,
+> > > >
+> > > > This is an RFC, not for merge.  The series exercises and validates
+> > > > damon_report_access() -- the consumer API SeongJae introduced in [1=
+]
+> > > > -- as a substrate for ingesting access reports from hardware-sampli=
+ng
+> > > > sources.  The series includes one worked-example backend, an AMD IB=
+S
+> > > > Op module (damon_ibs.ko), that runs on Zen 3+ silicon via the
+> > > > existing perf event subsystem.
+> > >
+> > > Thank you for sharing this great RFC series!
+> > >
+> > > [...]
+> > > > Why a hardware-source primitive complements existing primitives
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > [...]
+> > > > Both primitives produce a view of hotness that converges to the
+> > > > true distribution over the aggregation interval.  For systems where
+> > > > the address space is small relative to the aggregation rate, this i=
+s
+> > > > the right tool.  On large heterogeneous-memory systems with goal-
+> > > > driven schemes asking the closed-loop tuner to converge on a target
+> > > > distribution, a complementary lower-latency view of accesses can
+> > > > tighten the loop -- reducing the time DAMON's nr_accesses takes to
+> > > > reflect the workload's actual access distribution, which in turn
+> > > > reduces ramp duration and oscillation amplitude during convergence
+> > > > of goal-driven schemes.
+> > > >
+> > > > A hardware-sampling primitive provides this complementary view:
+> > > > hardware retirement records each access at its natural event rate,
+> > > > with a physical address per sample, independent of TLB state and
+> > > > independent of the unmap/fault path.
+> > >
+> > > Yes, I fully agree.  Different multiple access check primitives have =
+different
+> > > characteristics.
+> > >
+> > > [...]
+> > >
+> > > > Demonstration
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > [...]
+> > > > In both regimes, convergence to target is quick, and the workload's
+> > > > measured DRAM share then holds within 1.3 percentage points of
+> > > > target with standard deviation under 1.3 percentage points, sustain=
+ed
+> > > > over runs of 15-30 minutes per target.
+> > >
+> > > I understand this demonstration shows your AMD IBS-based version of D=
+AMON is
+> > > functioning as expected.  Thank you for sharing this!
+> > >
+> > > [...]
+> > > > What's in this series
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >
+> > > >   Patch 1.  mm/damon/core: refcount ops owner module to prevent
+> > > >             rmmod UAF
+> > > >   Patch 2.  mm/damon/paddr: export damon_pa_* ops for IBS module
+> > > >   Patch 3.  mm/damon/core: replace mutex-protected report buffer
+> > > >             with per-CPU lockless ring
+> > > >   Patch 4.  mm/damon/core: flat-array snapshot + bsearch in ring-
+> > > >             drain loop
+> > > >   Patch 5.  mm/damon: add sysfs binding and dispatch hookup for
+> > > >             paddr_ibs operations
+> > > >   Patch 6.  mm/damon/core: accept paddr_ibs in node_eligible_mem_bp
+> > > >             ops check
+> > > >   Patch 7.  mm/damon/damon_ibs: add AMD IBS-based access sampling
+> > > >             backend
+> > > >
+> > > > Patches 1, 3, and 4 are general infrastructure that benefits any
+> > > > consumer of damon_report_access().  Patches 2, 5, 6, and 7 are the
+> > > > worked-example backend (paddr_ibs ops, sysfs binding, IBS module).
+> > >
+> > > I didn't read the detailed code of each patch.  But my high level und=
+erstanding
+> > > is as below.
+> > >
+> > > Patches 1 and 2 are needed for supporting loadable module-based DAMON=
+ operation
+> > > sets (access sampling backend).
+> > >
+> > > Patch 3 is needed for supporting access check primitives that can pro=
+vide the
+> > > access information in only nmi context.  It can also speedup the acce=
+ss
+> > > reporting in general, though.
+> > >
+> > > Patch 4 makes DAMON's internal reported access information retrieval =
+faster, so
+> > > will help any reporting-based DAMON operation set use case.
+> > >
+> > > Patches 5-7 are required for only the IBS-based DAMON operations set
+> > > (paddr_ibs).
+> > >
+> > > So I agree patch 4 is a general infrastructure improvement that benef=
+its
+> > > multiple use cases.
+> > >
+> > > Patch 3 is also arguably general infrastructure improvement, as it wi=
+ll make
+> > > the reporting faster in general.
+> > >
+> > > Patch 1 is not technically coupled with paddr_ibs, and will be needed=
+ for
+> > > general loadable module based access check primitives.  But, should w=
+e support
+> > > lodable modules?  If so, why?
+> > >
+> > > Patch 2 is also not technically coupled with paddr_ibs, to my underst=
+anding, so
+> > > should be categorized together with patch 1?  In other words, if we a=
+gree we
+> > > should support lodable modules based DAMON operation sets, this shoul=
+d be
+> > > useful for not only paddr_ibs but more general cases.
+> > >
+> > > Correct me if I'm wrong.
+> > >
+> > > >
+> > > >
+> > > > Patches worth folding into damon/next
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >
+> > > > Patches 1, 3, and 4 are not specific to IBS or to this RFC's
+> > > > backend.  Each is preparatory infrastructure that any consumer of
+> > > > damon_report_access() will need:
+> > > >
+> > > >   - Patch 1 (refcount ops owner) -- any modular ops set, including
+> > > >     out-of-tree backends, needs clean module unload to avoid UAF
+> > > >     on damon_unregister_ops.
+> > > >   - Patch 3 (per-CPU lockless ring) -- damon_report_access() cannot
+> > > >     be called from NMI context with the current mutex-protected
+> > > >     buffer.  Hardware samplers all need NMI-safe submission.
+> > > >   - Patch 4 (flat-array snapshot + bsearch drain) -- the linear-
+> > > >     scan drain is O(reports x regions) and exceeds the sample
+> > > >     interval at high-CPU x large-region products.  Bsearch brings
+> > > >     it to O(reports x log regions).
+> > > >
+> > > > If these belong directly on damon/next as preparatory patches for
+> > > > damon_report_access() rather than living inside an IBS-specific
+> > > > track, we are happy to rebase and resend them that way.
+> > >
+> > > So I'm bit unsure about patch 1.  If we don't have a plan to support =
+lodable
+> > > modules based DAMON operations set, we might not need it for now.
+> > >
+> > > For patches 3 and 4, I agree those will be useful in general.  Noneth=
+eless, I'd
+> > > slightly prefer to do that optimizations at the later part of the lon=
+g term
+> > > project.
+> > >
+> > > >
+> > > >
+> > > > Relation to prior and ongoing work
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >
+> > > > The IBS sampling pattern in patch 7 -- attr.config=3D0 to use IBS O=
+p
+> > > > default config, dc_phy_addr_valid filter, NMI-safe sample submissio=
+n
+> > > > -- is derived from concepts in Bharata B Rao's pghot RFC v5 [3].
+> > > > The attribution header is in mm/damon/damon_ibs.c and the patch
+> > > > carries a Suggested-by: trailer.
+> > > >
+> > > > Bharata's pghot v7 [4] introduces a different IBS driver targeting
+> > > > the new IBS Memory Profiler (IBS-MProf) facility, which Bharata
+> > > > describes as a facility "that will be present in future AMD
+> > > > processors" -- a separate IBS instance from the one this RFC's
+> > > > backend uses. This version of driver based out of v5 [3] is an
+> > > > example of how DAMON can be benefited from AMD IBS Hardware
+> > > > source and validates importance of IBS information indepedently.
+> > > > It is not meant to be merged in the current form.
+> > > > @Bharata if you see a path where IBS samples can be consumed
+> > > > by DAMON at some point, will be happy to collaborate.
+> > > >
+> > > > Akinobu Mita's perf-event-based access-check RFC [5] explores a
+> > > > configurable perf-event-driven access source for DAMON.  IBS has
+> > > > vendor-specific MSR setup beyond what perf_event_attr alone
+> > > > expresses (e.g. dc_phy_addr_valid filtering on the produced sample,
+> > > > not on the perf attr), so the IBS path here appears complementary
+> > > > to [5] -- operators choose based on whether their hardware sampler
+> > > > fits stock perf or needs additional kernel-side setup.
+> > >
+> > > So apparently there are multiple approaches to develop and use h/w-ba=
+sed access
+> > > monitoring.  Akinobu and you are trying to do that using DAMON as the=
+ frontend,
+> > > and already made the working prototypes.  There were more people who =
+showed
+> > > interest and will to contribute to this project other than you, too. =
+ I 100%
+> > > agree h/w-based access monitoring can be useful, and I of course thin=
+king using
+> > > DAMON as the fronend is the right approach.  I'm all for making this
+> > > upstreamed.
+> > >
+> > > I was therefore spending time on thinking about in what long-term mai=
+ntainable
+> > > shape this capability can successfully be upstreamed.  I suggested
+> > > damon_report_access() as the internal interface between DAMON and the=
+ h/w-based
+> > > access check primitives, and apparently we all (I, Ravi and Akinobu i=
+n this
+> > > context) agreed.  Akinobu thankfully revisioned his implementation ba=
+sed on
+> > > damon_report_access() interface.  Ravi also implemented this RFC base=
+d on the
+> > > interface.
+> > >
+> > > After making the consensus with Akinobu, I was taking time on the use=
+r space
+> > > interface.  When I was discussing with Akinobu, my idea was extending=
+ the user
+> > > interface for the page faults based monitoring v3 [1].  But, recently=
+ I decided
+> > > to make this more general, so proposed data attributes monitoring ext=
+ension [2]
+> > > at LSFMMBPF.  The patch series for the initial change [3] is merged i=
+nto mm-new
+> > > for more testing, today.  The cover letter of the patch series is als=
+o sharing
+> > > how it will be extended for h/w based access monitoring in long term.
+> > >
+> > > I of course want us to go in this direction.  I believe you already h=
+ad chances
+> > > to take a look on the long term plan and didn't make some voice becau=
+se you
+> > > don't strongly disagree about the plan.  If not, please make a voice.
+> > >
+> > Hi SJ,
 > >
-> > Thanks for the review. My apologies, I will use my full name.
+> > One layering question I'd like to flag before the plan is written,
+> > since it affects how this RFC's substrate slots in:
+>
+> To my understanding, this RFC reuses the damon_report_access() infrastruc=
+ture
+> that shared with the per-CPUs/threds/writes/reads monitoring series [1]. =
+ My
+> plan at the moment is to keep using it.  So from high level view, I think=
+ the
+> final picture would be not really different from this RFC.
+>
+
+Hi SJ,
+
+   Sorry for the delayed reply. Was away for a couple of days.
+This resolves the layering question for me.
+
 > >
-> > You can change the signoff to:
-> > Signed-off-by: Miguel Mart=C3=ADn Gil miguel.martin.gil.uni@gmail.com
+> >   In [3], .apply_probes is a periodic per-region classifier driven
+> >   from kdamond_fn after .check_accesses, in process context, that
+> >   applies a (folio -> bool) predicate to each region's sampling_addr
+> >   and accounts the results in r->probe_hits[].  damon_report_access()
+> >   on the other hand is a per-event delivery callback into a per-CPU
+> >   buffer, called from the access source (NMI for IBS / PEBS / SPE,
+> >   process context for page-fault-based sources).  These appear to
+> >   me to sit at different layers - delivery vs. classification.
+> >
+> >   The reason I want to confirm this: NMI context for HW samplers
+> >   precludes the operations .apply_probes can do today (no mutex, no
+> >   kmalloc, no sleep, no folio lookup that touches pte_lock).  And
+> >   the data shape is inverted - .apply_probes asks "does region R's
+> >   sampling_addr have attribute A?", evaluated on the kdamond-chosen
+> >   address; an HW sample announces "PA Y was accessed at retirement
+> >   time T", arriving asynchronously and needing to find the region
+> >   it falls into.  If access events end up routed through
+> >   .apply_probes in the long-term plan, the IBS / PEBS / SPE
+> >   backends would each need a deferral path under it (per-CPU ring
+> >   for NMI-safe submission, region mapping at drain time).
 >
-> Please just send a new patch with the fixed signoff.
+> It will not routed through .apply_probes, but work in a way similar to th=
+e
+> damon_report_access() based design.  That is, each (sampled) access event=
+ will
+> syncronously call damon_report_access() with the access information.  The
+> information is stored in DAMON's internal data structure.  The informatio=
+n will
+> contain the access destination address, the accessor CPU/thread, whether =
+it was
+> reads or writes etc, if available.
 >
-> ...and no HTML mail, please, that won't get through to the mailing
-> lists.
+> Then kdamond will read the reports in the data structure once per samplin=
+g
+> interval and assess if each region got accessed or not since the last sam=
+pling
+> interval.
+>
+> So my plan is not to reuse .apply_probes, but in terms of who consumes th=
+e
+> information, it is not very different.  Accessor will produce the informa=
+tion
+> (report), and kdamond will consume those.  But this is how
+> damon_report_access() based structure is working on, so my understanding =
+is
+> that your RFC is also not very different.  Am I missing something, or do =
+you
+> have any concern on this structure?
+>
+> >
+> >   Happy to be wrong here if you see a unified shape that handles
+> >   both - just want to surface the constraint before the plan is
+> >   written.
+> >
+> > On the loadable-module question for patches 1 and 2: agreed it's a
+> > genuinely open architectural call, not just a paddr_ibs convenience.
+> >
+> >   - paddr_ibs (this RFC) targets the existing IBS Op facility on
+> >     Zen 3+ silicon via the perf event subsystem and uses a
+> > vendor-specific
+> >     overflow-handler filter that perf_event_attr cannot express
+> >     (dc_phy_addr_valid in IBS_OP_DATA3).  Bharata's pghot v7
+> >     [pghot-v7] introduces a separate IBS driver targeting the new
+> > IBS-MProf
+> >     facility on future AMD silicon via direct MSR programming -
+> >     not perf at all.  These are two AMD-specific HW samplers with
+> >     non-overlapping silicon coverage and non-overlapping kernel
+> >     paths.  A distro shipping a single kernel image to a fleet
+> >     with mixed silicon needs runtime-selectable backends, which
+> >     obj=3Dy can't do across exclusive `depends on` chains.
+> >   - Akinobu's perf-event RFC v3 [akinobu-v3] is a useful contrast:
+> >     it stays builtin because it's a generic configurable
+> >     perf_event_attr passthrough, no vendor-specific code in the
+> >     overflow handler.  The tristate case is specifically for the
+> >     backends that need vendor logic outside perf_event_attr
+> >     (IBS dc_phy_addr_valid, future ARM SPE record-format
+> >     handling, future Intel PEBS DLA quirks if they need
+> >     kernel-side filtering beyond what perf delivers).
+>
+> I'm still not familiar with IBS and perf events.  Please bear in mind wit=
+h me.
+> My understanding is that there are vendor-specific knobs for IBS that per=
+f
+> event is not supporting.  So far, that makes sense.  And are you saying t=
+hat
+> you have to write paddr_ibs as a loadable module if you want to support t=
+he
+> vendor-specific knobs?  If I'm understanding you correctly could you furt=
+her
+> share why it cannot be done as a builtin module?
+>
+
+This RFC's IBS backend does not claim exclusive use of IBS.
+
+The reason patch 7 ships as tristate is precedent and reuse: Bharata's
+pghot v5 posted its IBS driver as a module, and I matched that shape
+during development so the two consumers could potentially share IBS
+plumbing instead of duplicating it.  Patches 1 and 2 exist to support
+loadable ops modules generally.
+
+More clarity on the right shape may emerge once Bharata comments on
+the questions below.  If pghot ends up being the sole in-tree consumer
+of legacy IBS Op, the loadable-ops question can be deferred to whenever
+a second primitive actually needs it - patches 1 and 2 dropped, patch 7
+made obj=3Dy or folded.  If both pghot and DAMON consume IBS, the
+modular shape earns its keep.
+
+Bharata - can you please weigh in on the long-term home for legacy IBS
+Op (under pghot alongside IBS-MProf [pghot-v7] vs DAMON-side backend).
+Related: any thoughts on the operator-facing knob to pick between
+consumers when both are present?  Happy to align.
+
+Thanks,
+Ravi
+
+> [1] https://lore.kernel.org/20251208062943.68824-1-sj@kernel.org
+>
 >
 > Thanks,
+> SJ
 >
-> jon
+> [...]
