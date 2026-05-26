@@ -1,419 +1,183 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF0185C4A
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 00:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779757136; cv=pass; b=ZZuioVgq6ZVhtqASKBfD+RPjm1bnIQUfP6B3gCZDuipZLuMLx8BJ0RgNaT832r+Ies7LAAWpXXgTlnsQyJeL3ZiphDuDWp7v0O4vBZ0Og7RrWjcuxjpU2LYnFm707yQsaqbNiGB/k+Znpww1Sb5GGiPRj3B7CLwKd2vD1Qb4aCk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779757136; c=relaxed/simple;
-	bh=35lRTWUoKZja/3WFw+xwXqCU9qXFz7dqwJWDoPP03cA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sj6o3xfdbYtIomGSVroLarTxnX5kghGC74R6sJuzoatoX5fnHg/018Hk/YAujNYct+78C2MQRKa6L48rwELELYLvZZoc/W2YBnTTYtPseaIZi0BlaHaG0tGBAT45TbEBgo/JafATiIJrKErWJVz4rUhzj6YDWD2Ij4r2kOVnxH4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TUzj+jgJ; arc=pass smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TUzj+jgJ"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38e84ed22bdso113973681fa.2
-        for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 17:58:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779757133; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kJNoBlE5LObDAnRl54qfD10eJd8RR89ICcLvLacvC4W5RRzxsN8XBut6bh8BNFY6ka
-         PXlk6QfiUmudZESZkLJHtP/VNZ1GoMRwbeSDuX0pwTitMmC2VOk0YqGtFCUyr7n8J25d
-         NfE/tn2/sMv3ki2IKSiuEbhafpdPua0SYsl1OnUKaZrWkRP1q9voFHNDpeC9BNwzw+Km
-         Hw7ny3v9yZaxH1WSxjh3KDWbHZgAsBs8az35lA7eae66NwFsq22LNDhjWU+b3V45Cbsh
-         FfKHhBeUL68J6T/tf71yJRe3rAZnKuqbKE2Q+nLlPeYjr9rZVal8wpkRspkw4l3dly5V
-         rUxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hU/a8U6/8PCG5iyhBekkPg6xRf0oiS0RAJVmmodueZU=;
-        fh=GalNZyDOQ3M3S4fDIbXHAp4ZcOBnuAF7xXgFuFVBpZE=;
-        b=dXWRRvP/3trGo6wB1FbtySNY9VRnwfXWF/xo1CIILEBakL1F2fu7CA4VY9PDp/WLAY
-         GmzPbSIKZmnU1hlOOo176cr5VIUfOu0itdzhfFiDwOIwzPDqCkHto/XCzhDabPfx9Hm6
-         BthzsO1uY0YokWa7IJzZJy/3PpWmusZ4Rg2Eywzl7sw3CkxKSMAmcpkZylUMjeIKxLxm
-         R5h4RxoUxitpPYUYGL5lD5IQ8zZLCywv3h43wFlFMGzi0YrBLhSaarlrk0DO4hVFLT1d
-         NN3LTq1Y34sGe2E8+3ogSwf5HjxHK3e0/Cq5dQcSlMjDgA2evbrxw9p0eipt+OKVuzBF
-         J2rA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779757133; x=1780361933; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hU/a8U6/8PCG5iyhBekkPg6xRf0oiS0RAJVmmodueZU=;
-        b=TUzj+jgJ9ZboZ/oQmWukx3rjPmcGu0QBQHgd/Trxr5fcuf5nK3xQUIyasIvG3akmLP
-         9gE67YkJu/kL5pLKiuLQ+x0O/coSRswSjUXrHVoT+axYkgSyXJ/F+uZ7cUAxBfIrQcGS
-         dMi85qP2CtmNtO2VzgB2TBG/qjCQ0fLjkGAcQOFDOA8wk57En8YgVqndBhpPhYQJaRzV
-         y5bw39bbtiSzDtToBIL3XwVcZPUWt0ocAzBP+Nrj7A91oD1FZz2Ldh8QCpXViqX9P3jB
-         OQM8ZNX/p2NxPNNfH/5e/Iqkn/0mYY0QoIFxsPVqMRi3dYblwfq7eq587VFjOkNB42Zj
-         fFew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779757133; x=1780361933;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hU/a8U6/8PCG5iyhBekkPg6xRf0oiS0RAJVmmodueZU=;
-        b=mZAL+5aJbQL5VVs7cUdhWlIDWRz3cMIPUMTCPO6uEBXYjvy0qq8PjZg06NREV+qWTN
-         owh1OeX6gsJ+wbM2g8+u1G/gvCsrDKl2XsyZORD7oe/ODM/GQZTH42+fJI62OoHtJp9t
-         vvFCtdAblCki+l6/pkwS20LKWbqS9r9W9b6aRrnex/YmdNpjr0O/cH+lDvg0QabzEtr+
-         ccRr714NsNc/EbLI2UpPY5I2Chkb1dsjm1bfbcHgWOqw4XYBpwX4Wl+BC1obXtDppt5u
-         FBqAk2qswapaNsy1yhw6Qrq33SAXSO8KSc4G18taAYa2eia5aI8DqZl4z4kjn7bY+Hp3
-         887g==
-X-Forwarded-Encrypted: i=1; AFNElJ/BLSWkjJSfWcBOKVodCsICfd9AVxBH74++FAMIZhtgVFS5i87jLpX2DfSm5rx2YWs41683Ssz2NsQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykHdOjSH3ucDKXeSMNUSFbFH5wT2DIkSleBMARAn3vzVJxbZx4
-	Kl4B7f13FWayX3MUrnxgAq2/Hd2yRci7t1Ny7oaIeYmhCGJ5H3onJ16OMIFkfPlOd/vtdLqB0ac
-	pT9yj08W7MohiF9mAA66YO09RvTkmkPU=
-X-Gm-Gg: Acq92OFNW/xuVnB8+9abSJBGTeT4nv2/pg7kcKbyAWpENosqxndifEohebvCgfYF6eQ
-	je+LeRBlNPrrHkoUtfdbZGbGHXWwbjrShk0S3YYpMvrYSxh9Vx/vCn5lm5pdsxUsvGvIs8l7cdZ
-	9WRmtE2gDGLtMIg4lnm5ZJz29QWgJWcRpw4HL2X6Oa5GV5VhItQt84O4wMmlkmVschXHDPAfiD5
-	lQ0AJccweohCmS+n9IkFTLFcy8akET8V1zckpTqddMj1jEFp1Os5epN8bfLmaFivz0kMY0IakET
-	SKF2mdowyAyPhCph5GHEElFo0NMr+rKeHWjxobve
-X-Received: by 2002:ac2:41c1:0:b0:5a8:8de0:4576 with SMTP id
- 2adb3069b0e04-5aa323a9cc5mr4021184e87.25.1779757132412; Mon, 25 May 2026
- 17:58:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98892BE7DC;
+	Tue, 26 May 2026 01:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779760658; cv=none; b=VIWFYl+9ByLGrSefzf1im8OTN2bLvNe8HRAfUQ7qOoGMJBo6L1aIXTrCo5BtG/FHkeI9Yztwyl+RnkhxqQZleXftMv91reV/uvYy1VnE7dAJPQUMIA9phaB8F8dZp0d81V0XD9fOrod1U4UxslXaNWgB1xONyDd2XiZHazsT00M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779760658; c=relaxed/simple;
+	bh=uPQquMxSL+C/uYnX7SEJgLYiEzvz7kSuIPsa2gcnG4A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R7jsfOr8viahGI++DYml8DoRNtLtxHcQdyzvQdnE6hpF/PxuIMnfSS2Mlb+GRqEc/Vld2l67ek+CYodTElnyUbXGop4z+ukrW449VTZzTn5Gq3nDvxE3KsG9wvUCihRPsSTzkZZ/bFegUNA7Uc7CfKWF4TPUikCuVbRwOvBRH80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gPbV90JkxzKHMRq;
+	Tue, 26 May 2026 09:57:21 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 5DB364056B;
+	Tue, 26 May 2026 09:57:33 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.50.87.109])
+	by APP4 (Coremail) with SMTP id gCh0CgCXX1sD_hRqw9GdDg--.18849S4;
+	Tue, 26 May 2026 09:57:33 +0800 (CST)
+From: Zeng Heng <zengheng@huaweicloud.com>
+To: corbet@lwn.net,
+	kuninori.morimoto.gx@renesas.com,
+	maz@kernel.org,
+	oupton@kernel.org,
+	catalin.marinas@arm.com,
+	lucaswei@google.com,
+	yeoreum.yun@arm.com,
+	skhan@linuxfoundation.org,
+	james.clark@linaro.org,
+	broonie@kernel.org,
+	mark.rutland@arm.com,
+	lpieralisi@kernel.org,
+	ryan.roberts@arm.com,
+	will@kernel.org,
+	tongtiangen@huawei.com,
+	kevin.brodsky@arm.com,
+	yangyicong@hisilicon.com,
+	miko.lenczewski@arm.com
+Cc: linux-doc@vger.kernel.org,
+	wangkefeng.wang@huawei.com,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] arm64: kernel: Disable CNP on HiSilicon HIP09
+Date: Tue, 26 May 2026 09:57:20 +0800
+Message-ID: <20260526015720.206854-1-zengheng@huaweicloud.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260522100715.20036-1-vishnuocv@gmail.com> <c4c0632b-0a24-8956-9557-69b927e451fb@linux.intel.com>
-In-Reply-To: <c4c0632b-0a24-8956-9557-69b927e451fb@linux.intel.com>
-From: Vishnu Sankar <vishnuocv@gmail.com>
-Date: Tue, 26 May 2026 09:58:16 +0900
-X-Gm-Features: AVHnY4IKZmXqIk91m7pvQY4-gBoPXinMSWynhQ0WG-PLkjI5idkW9rsYIkH6VyI
-Message-ID: <CABxCQKuWt-iGENEaC_gNFMfWHrr80zJe_xnwEQz1Q-1yADcDOg@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Add USB-C Security (USCS) support
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>, skhan@linuxfoundation.org, hmh@hmh.eng.br, 
-	Hans de Goede <hansg@kernel.org>, corbet@lwn.net, derekjohn.clark@gmail.com, 
-	LKML <linux-kernel@vger.kernel.org>, ibm-acpi-devel@lists.sourceforge.net, 
-	linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	vsankar@lenovo.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgCXX1sD_hRqw9GdDg--.18849S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxJw47Jr13CF1UGr1UAr1xuFg_yoWrZr1fpw
+	4fAr1xJF1DWF13J34UJw17Xr45Can3Gwn8XF1Ut340qr13Z34UZF18Xw1xJFWjqrykWw48
+	uF1q9FyUtF17ArUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0E
+	n4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8
+	ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
+	CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
+	wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
+	7IU0s2-5UUUUU==
+X-CM-SenderInfo: p2hqwxhhqjqx5xdzvxpfor3voofrz/
 
-Hi Ilpo,
+From: Tong Tiangen <tongtiangen@huawei.com>
 
-Thank you for the comments.
+HiSilicon HIP09 implements TLB entry matching behavior that deviates
+from the ARM architecture specification when the CNP (Common not Private)
+bit is set in TTBRx_ELx.
 
-On Tue, May 26, 2026 at 2:19=E2=80=AFAM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
->
-> On Fri, 22 May 2026, Vishnu Sankar wrote:
->
-> > Newer ThinkPad systems expose a USB-C Security (Restricted Mode) featur=
-e.
-> > When active, USB-C data connections are disabled while power delivery i=
-s
-> > preserved. This is useful for kiosk and physically-secured deployments.
-> >
-> > Hardware interface:
-> >
-> > The HKEY device exposes a read-only ACPI method USCS():
-> >
-> >   Return value bit layout:
-> >     Bit 16 : Capability flag (1 =3D feature present on this SKU)
-> >     Bit  0 : Current state  (0 =3D security OFF, 1 =3D security ON)
-> >
-> > The sysfs attribute is read-only.
-> >
-> > The Fn+U followed by Fn+S hotkey chord is the only way to toggle the
-> > hardware state.
-> >
-> > Hotkey:
-> >
-> > Fn+U followed by Fn+S generates HKEY event 0x131e.
-> >
-> > sysfs interface:
-> >
-> >   /sys/devices/platform/thinkpad_acpi/usb_c_security  (read-only)
-> >   "enabled\n"  -- data connections are currently blocked
-> >   "disabled\n" -- data connections are currently allowed
-> >
-> >   The attribute is hidden on SKUs where the USCS capability bit (bit 16=
-)
-> >   is not set, so there is no ABI impact on unsupported hardware.
-> >
-> > Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-> > Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
-> > ---
-> >  .../admin-guide/laptops/thinkpad-acpi.rst     |  24 ++++
-> >  drivers/platform/x86/lenovo/thinkpad_acpi.c   | 115 ++++++++++++++++++
-> >  2 files changed, 139 insertions(+)
-> >
-> > diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Docu=
-mentation/admin-guide/laptops/thinkpad-acpi.rst
-> > index f874db31801d..db4588af0278 100644
-> > --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> > +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> > @@ -1543,6 +1543,30 @@ Values:
-> >
-> >       This setting can also be toggled via the Fn+doubletap hotkey.
-> >
-> > +USB-C Security
-> > +--------------
-> > +
-> > +sysfs: usb_c_security
-> > +
-> > +Reports the current state of the USB-C Security (Restricted Mode) feat=
-ure
-> > +on supported ThinkPad systems. When enabled, USB-C data connections ar=
-e
-> > +disabled while power delivery is preserved.
-> > +
-> > +The available command is::
-> > +
-> > +        cat /sys/devices/platform/thinkpad_acpi/usb_c_security
-> > +
-> > +Values:
-> > +
-> > +     * ``enabled``  - USB-C data connections are currently blocked
-> > +     * ``disabled`` - USB-C data connections are currently allowed
-> > +
-> > +The attribute is read-only. The USB-C Security state can only be toggl=
-ed
-> > +via the Fn+U followed by Fn+S hotkey chord.
-> > +
-> > +The sysfs attribute is not created on platforms that do not support th=
-is
-> > +feature.
-> > +
-> >  Auxmac
-> >  ------
-> >
-> > diff --git a/drivers/platform/x86/lenovo/thinkpad_acpi.c b/drivers/plat=
-form/x86/lenovo/thinkpad_acpi.c
-> > index e1cee42a1683..889db802185a 100644
-> > --- a/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> > +++ b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> > @@ -185,6 +185,7 @@ enum tpacpi_hkey_event_t {
-> >       TP_HKEY_EV_AMT_TOGGLE           =3D 0x131a, /* Toggle AMT on/off =
-*/
-> >       TP_HKEY_EV_CAMERASHUTTER_TOGGLE =3D 0x131b, /* Toggle Camera Shut=
-ter */
-> >       TP_HKEY_EV_DOUBLETAP_TOGGLE     =3D 0x131c, /* Toggle trackpoint =
-doubletap on/off */
-> > +     TP_HKEY_EV_USB_C_SECURITY       =3D 0x131e, /* Toggle USB C Secur=
-ity ON/OFF */
-> >       TP_HKEY_EV_PROFILE_TOGGLE       =3D 0x131f, /* Toggle platform pr=
-ofile in 2024 systems */
-> >       TP_HKEY_EV_PROFILE_TOGGLE2      =3D 0x1401, /* Toggle platform pr=
-ofile in 2025 + systems */
-> >
-> > @@ -373,6 +374,8 @@ static struct {
-> >       u32 has_adaptive_kbd:1;
-> >       u32 kbd_lang:1;
-> >       u32 trackpoint_doubletap_enable:1;
-> > +     u32 usbc_security_supported:1;
-> > +     u32 usbc_security_enabled:1;
-> >       struct quirk_entry *quirks;
-> >  } tp_features;
-> >
-> > @@ -11265,6 +11268,111 @@ static struct ibm_struct hwdd_driver_data =3D=
- {
-> >       .name =3D "hwdd",
-> >  };
-> >
-> > +/*********************************************************************=
-****
-> > + * USB-C Security subdriver
-> > + *
-> > + * HKEY.USCS(0) is a read-only ACPI method; its argument is ignored.
-> > + * It always returns:
-> > + *   bit 16 - USB-C security capability present on this SKU or not
-> > + *   bit  0 - USB-C Security state (enable or disable)
-> > + *
-> > + * Hotkey
-> > + * ------
-> > + * 0x131e (Fn+U, Fn+S): firmware toggles USBS before firing the event.
-> > + * The driver reads back the new state and notifies the sysfs attribut=
-e.
-> > + *
-> > + */
-> > +
-> > +/* USCS() return word bit layout */
-> > +#define USCS_CAP_BIT         BIT(16) /* capability: feature present on=
- SKU */
-> > +#define USCS_STATUS_BIT              BIT(0)  /* current security state=
- */
-> > +
-> > +static DEFINE_MUTEX(usbc_security_mutex);
-> > +
-> > +/*
-> > + * usbc_security_query - read current USB-C security state via USCS()
-> > + * @enabled: out - true when security is ON (data connections blocked)
-> > + *
-> > + * Returns true if the feature is supported and query succeeded,
-> > + * false otherwise (feature absent or ACPI call failed).
-> > + */
-> > +static bool usbc_security_query(bool *enabled)
-> > +{
-> > +     int status;
-> > +
-> > +     mutex_lock(&usbc_security_mutex);
-> > +     if (!acpi_evalf(hkey_handle, &status, "USCS", "dd", 0)) {
-> > +             mutex_unlock(&usbc_security_mutex);
-> > +             return false;
-> > +     }
-> > +     mutex_unlock(&usbc_security_mutex);
->
-> Please use cleanup.h.
-Will do.
-Will replace the manual mutex_lock/unlock pattern with guard(mutex).
->
-> > +
-> > +     if (!(status & USCS_CAP_BIT)) {
-> > +             pr_debug("USCS cap bit absent (raw=3D0x%x)\n", status);
-> > +             return false;
-> > +     }
-> > +
-> > +     *enabled =3D !!(status & USCS_STATUS_BIT);
->
-> No need to do !! when assigning to bool.
-Agreed, will remove the !!.
->
-> > +     return true;
-> > +}
-> > +
-> > +/* sysfs: /sys/devices/platform/thinkpad_acpi/usb_c_security ---------=
-- */
-> > +static ssize_t usb_c_security_show(struct device *dev,
-> > +                                struct device_attribute *attr,
-> > +                                char *buf)
-> > +{
-> > +     return sysfs_emit(buf, "%s\n",
-> > +                       tp_features.usbc_security_enabled ? "enabled" :=
- "disabled");
->
-> Please use string_choices.h.
-Will use str_enabled_disabled() which is already used in
-thinkpad_acpi.c for similar pattern.
->
-> > +}
-> > +
-> > +static DEVICE_ATTR_RO(usb_c_security);
-> > +
-> > +static struct attribute *usbc_security_attributes[] =3D {
-> > +     &dev_attr_usb_c_security.attr,
-> > +     NULL,
-> > +};
-> > +
-> > +static umode_t usbc_security_attr_is_visible(struct kobject *kobj,
-> > +                                          struct attribute *attr, int =
-n)
-> > +{
-> > +     return tp_features.usbc_security_supported ? attr->mode : 0;
-> > +}
-> > +
-> > +static const struct attribute_group usbc_security_attr_group =3D {
-> > +     .is_visible =3D usbc_security_attr_is_visible,
-> > +     .attrs =3D usbc_security_attributes,
-> > +};
-> > +
-> > +static int tpacpi_usbc_security_init(struct ibm_init_struct *iibm)
-> > +{
-> > +     bool enabled;
-> > +
-> > +     tp_features.usbc_security_supported =3D
-> > +             usbc_security_query(&enabled);
->
-> Fits to one line.
-Acked.
->
-> > +     tp_features.usbc_security_enabled =3D enabled;
->
-> I'm not sure I follow the logic here as you always seem set it enabled
-> disregarding even support or not?
->
-> And that hotkey enabling seems deadcode with it already enabled here.
->
-> I feel like I must blind to something obvious but cannot just find
-> what that would be.
-I'm sorry, this is a bug.
-I will change to the following:
-    tp_features.usbc_security_supported =3D usbc_security_query(&enabled);
-    if (tp_features.usbc_security_supported)
-        tp_features.usbc_security_enabled =3D enabled;
+When TTBRx.CNP=1, TLB entries may be incorrectly shared between CPU
+cores, leading to TLB conflicts and stale mappings. This affects
+coherency and can result in incorrect translations.
 
-The hotkey path is not dead code =E2=80=94 it updates usbc_security_enabled
-when the user presses Fn+U Fn+S, since the EC firmware toggles the
-state and fires the event. The init only captures the state at boot;
-subsequent toggles come through the hotkey. Sorry for the confusion in
-the init code.
->
-> > +     return 0;
-> > +}
-> > +
-> > +/* tpacpi_usbc_security_hotkey - handle Fn+U Fn+S hotkey (0x131e) */
-> > +static bool tpacpi_usbc_security_hotkey(void)
-> > +{
-> > +     bool enabled;
-> > +
-> > +     if (!tp_features.usbc_security_supported)
-> > +             return false;
-> > +
-> > +     if (!usbc_security_query(&enabled))
-> > +             return false;
-> > +
-> > +     tp_features.usbc_security_enabled =3D enabled;
-> > +     sysfs_notify(&tpacpi_pdev->dev.kobj, NULL, "usb_c_security");
-> > +     return true;
-> > +}
-> > +
-> > +static struct ibm_struct usbc_security_driver_data =3D {
-> > +     .name =3D "usbc_security",
-> > +};
-> > +
-> >  /* -------------------------------------------------------------------=
--- */
-> >
-> >  static struct attribute *tpacpi_driver_attributes[] =3D {
-> > @@ -11325,6 +11433,7 @@ static const struct attribute_group *tpacpi_gro=
-ups[] =3D {
-> >       &dprc_attr_group,
-> >       &auxmac_attr_group,
-> >       &hwdd_attr_group,
-> > +     &usbc_security_attr_group,
-> >       NULL,
-> >  };
-> >
-> > @@ -11479,6 +11588,8 @@ static bool tpacpi_driver_event(const unsigned =
-int hkey_event)
-> >       case TP_HKEY_EV_PROFILE_TOGGLE2:
-> >               platform_profile_cycle();
-> >               return true;
-> > +     case TP_HKEY_EV_USB_C_SECURITY:
-> > +             return tpacpi_usbc_security_hotkey();
-> >       }
-> >
-> >       return false;
-> > @@ -11930,6 +12041,10 @@ static struct ibm_init_struct ibms_init[] __in=
-itdata =3D {
-> >               .init =3D tpacpi_hwdd_init,
-> >               .data =3D &hwdd_driver_data,
-> >       },
-> > +     {
-> > +             .init =3D tpacpi_usbc_security_init,
-> > +             .data =3D &usbc_security_driver_data,
-> > +     },
-> >  };
-> >
-> >  static int __init set_ibm_param(const char *val, const struct kernel_p=
-aram *kp)
-> >
->
-> --
->  i.
->
+Add the hardware erratum workaround (Hisilicon erratum 162100125) to
+disable CNP on affected HIP09 cores.
 
-I will update the v2 with all these changes soon, if no further comments.
---=20
+Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
+Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+---
+ Documentation/arch/arm64/silicon-errata.rst |  2 ++
+ arch/arm64/Kconfig                          | 15 +++++++++++++++
+ arch/arm64/kernel/cpu_errata.c              |  7 +++++++
+ arch/arm64/kernel/cpufeature.c              |  3 ++-
+ arch/arm64/tools/cpucaps                    |  1 +
+ 5 files changed, 27 insertions(+), 1 deletion(-)
 
-Regards,
+diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+index 211119ce7adc..cd50059edb85 100644
+--- a/Documentation/arch/arm64/silicon-errata.rst
++++ b/Documentation/arch/arm64/silicon-errata.rst
+@@ -284,6 +284,8 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
+ +----------------+-----------------+-----------------+-----------------------------+
++| Hisilicon      | Hip09           | #162100125      | HISILICON_ERRATUM_162100125 |
+++----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
+ +----------------+-----------------+-----------------+-----------------------------+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index fe60738e5943..ed6207c75b54 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1273,6 +1273,21 @@ config HISILICON_ERRATUM_162100801
+ 
+ 	  If unsure, say Y.
+ 
++config HISILICON_ERRATUM_162100125
++	bool "Hisilicon erratum 162100125"
++	default y
++	help
++	  On HiSilicon HIP09, TLB entry matching behavior when CNP
++	  (TTBRx.CNP=1) is enabled differs from the ARM architecture
++	  specification.
++
++	  TLB entries may be incorrectly shared between CPUs, potentially
++	  causing TLB conflicts and stale mappings.
++
++	  Disable CNP support for affected HiSilicon HIP09 cores.
++
++	  If unsure, say Y.
++
+ config QCOM_FALKOR_ERRATUM_1003
+ 	bool "Falkor E1003: Incorrect translation due to ASID change"
+ 	default y
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 5377e4c2eba2..26d9677a20fc 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -968,6 +968,13 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+ 		.matches = has_impdef_pmuv3,
+ 		.cpu_enable = cpu_enable_impdef_pmuv3_traps,
+ 	},
++#ifdef CONFIG_HISILICON_ERRATUM_162100125
++	{
++		.desc = "Hisilicon erratum 162100125",
++		.capability = ARM64_WORKAROUND_HISILICON_ERRATUM_162100125,
++		ERRATA_MIDR_ALL_VERSIONS(MIDR_HISI_HIP09),
++	},
++#endif
+ 	{
+ 	}
+ };
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 6d53bb15cf7b..c4b0db77a58a 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -1785,7 +1785,8 @@ has_useable_cnp(const struct arm64_cpu_capabilities *entry, int scope)
+ 	if (is_kdump_kernel())
+ 		return false;
+ 
+-	if (cpus_have_cap(ARM64_WORKAROUND_NVIDIA_CARMEL_CNP))
++	if (cpus_have_cap(ARM64_WORKAROUND_NVIDIA_CARMEL_CNP) ||
++	    cpus_have_cap(ARM64_WORKAROUND_HISILICON_ERRATUM_162100125))
+ 		return false;
+ 
+ 	return has_cpuid_feature(entry, scope);
+diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+index 811c2479e82d..b797d4893adc 100644
+--- a/arch/arm64/tools/cpucaps
++++ b/arch/arm64/tools/cpucaps
+@@ -128,3 +128,4 @@ WORKAROUND_REPEAT_TLBI
+ WORKAROUND_SPECULATIVE_AT
+ WORKAROUND_SPECULATIVE_SSBS
+ WORKAROUND_SPECULATIVE_UNPRIV_LOAD
++WORKAROUND_HISILICON_ERRATUM_162100125
+-- 
+2.43.0
 
-      Vishnu Sankar
