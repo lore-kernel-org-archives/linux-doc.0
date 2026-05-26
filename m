@@ -1,78 +1,231 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0DA3C0628;
-	Tue, 26 May 2026 23:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844A33C0628
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 23:24:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779837703; cv=none; b=qoNtiQwN5xTOQkUtMe6oEpRmf8vCuHDKGwPBqIN4CLJfbXJOCbAGkPBGOyY7oXIXrUMJSFYMmSwptO2815BVXfZwAdsbNLYZylCoEoTbSn/6Mr/V3hxtsiDIgQPrTvudn7PCfWaHYRXk31UKJyy0tqVaM0EPbVMJAfbwHYT+FL8=
+	t=1779837881; cv=none; b=WdUSqTgx+H0VhW2KAz6+gbniDLAbeZBxFhMM0TTOZx5TS1N8q0+6oSQ49wluHB+GAG2K1KS4aBN4MyQBSV5i5gyydXNVJJ92ibzBr91TVPMVZQoeDa51ZGpG3pZ7Y09h3wVBcWAQUq38oByh+Su1O1Q40gqcNzuTrYxrT5N9pA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779837703; c=relaxed/simple;
-	bh=3JtiWl0vRydfWQsGBpovYwdHgc4CmQTwlFTcACuBDQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Q/hiVuONLHbsZ4ANFAJ/z9QpaSKkwXvmA2LEqxYJmRdI7K3rOrqZ2WVcWlGdnxmkYaT8mLMAH36U0Cy/G2iTdeMbYWX32ktJg95lmgppWm0XvepatGP8sBsaHk0mHhI5VnD3miK663Y13tdL5/huEPEW90bJfJwzomUdzC/7amg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wx5seO9x; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779837881; c=relaxed/simple;
+	bh=UXTsvUwJAnnbaW6Me2kwq7rr2IeY5Ya6eFkpcRf9hb0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hDP0N3NlaMpkOXxMnKLu+u19WvyxLOt615rXwR8rK699Le/yQ+TgoHHo9sJeIFgvW2QSt3o6AMX6j+TPHvbVHhWZOLhU0hpjeRPsycbwiJcT2ONwCJAjcK6cfXKR5cwbOoPsMmi2eFE9iCvwgaYq6xtFo/Kc8yUdcWhhzVB/kgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LrQ4vRNY; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wx5seO9x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3FB51F000E9;
-	Tue, 26 May 2026 23:21:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779837702;
-	bh=yJt45ObCHCD/H8x09SxlAekMdKt4JVSvNjsARTZrmS4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Wx5seO9x3Qhd0dQn/I4XHEcajF6tFXKfoJbKbEQUAkSMioemkM8axOki4sSSCY+YP
-	 wktrLa9DKl0uP9r3gBWXxdl9Rn88nWIkbWlbQnfAj00tg9AFN3lHvd38srCqvx0T6k
-	 5gPSu/uF0Rm2Xk9H3GebR52z1Q+W7IzascSSiSpSmEb3UNGlz1MThc4Cq2ggAbE9ic
-	 PWRXBwG2c5RKRAXGhaI+CF9M9LUmHMmifUthY13f89HfWE9L/gIMy/BUtcT2Y8X/W3
-	 W4cmK/4EE0/5Ggqgde1Wn/TX1Ep+pvidq+PlCdxoGZS4Q7Aro66AN2JH5k6hAv3BVD
-	 4HeYW6a2bl4rA==
-Date: Tue, 26 May 2026 16:21:40 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: "illusion.wang" <illusion.wang@nebula-matrix.com>
-Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
- sam.chen@nebula-matrix.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
- corbet@lwn.net, horms@kernel.org, linux-doc@vger.kernel.org,
- pabeni@redhat.com, vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
- edumazet@google.com, enelsonmoore@gmail.com, skhan@linuxfoundation.org,
- hkallweit1@gmail.com, linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH v16 net-next 00/11] nbl driver for Nebulamatrix NICs
-Message-ID: <20260526162140.38d055b4@kernel.org>
-In-Reply-To: <20260526035453.2359-1-illusion.wang@nebula-matrix.com>
-References: <20260526035453.2359-1-illusion.wang@nebula-matrix.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LrQ4vRNY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779837880; x=1811373880;
+  h=date:from:to:cc:subject:message-id;
+  bh=UXTsvUwJAnnbaW6Me2kwq7rr2IeY5Ya6eFkpcRf9hb0=;
+  b=LrQ4vRNYFy6fjxniLdXeJj3w2whItOOeEjJlvE3kfBIFQGIjjERJdoor
+   3/tcgZM8OHjYk/FRm2lw56JEk32Dz6sgIW1lUsw7PLqFwAgDihoNcdwVP
+   +eytTqMIA02oKmwdwmqQ0Qkvo52oyAejPnjGdfOvik8Mf4A1rNDRjU4NK
+   Mdp+BShRrTltrIyR92VJ2Kqs7pAodZv5TMC/uZwh4arwO5ri34HboNrAU
+   Qj6AI8QPPoh5ftb0tGJiOyYueBuWsrjzuQ30DYcfNPJxsRU3nl+e/mw/C
+   Fdq1yBQQsmXAoZ9RfWmgwLgqWWNO1DycS78Vt7xsm2fyI5dY49mG4Lyn2
+   A==;
+X-CSE-ConnectionGUID: G0h5F/j3Ri6LFffxYcxRXw==
+X-CSE-MsgGUID: cUnKDT+VR42JWS1Nfzlupw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="80572334"
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="80572334"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 16:24:40 -0700
+X-CSE-ConnectionGUID: Ipax1zeCTYeOtLGok01Mow==
+X-CSE-MsgGUID: LHG4i2/DRdm86Ba2Y0PHsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="237893806"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 26 May 2026 16:24:38 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wS18W-00000000CWv-0yiB;
+	Tue, 26 May 2026 23:24:36 +0000
+Date: Wed, 27 May 2026 01:24:04 +0200
+From: kernel test robot <lkp@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, Pratyush Yadav <pratyush@kernel.org>,
+ linux-doc@vger.kernel.org
+Subject: [mtd:spi-nor/next 20/28] htmldocs:
+ Documentation/driver-api/mtd/spi-nor.rst:216: WARNING: Block quote ends
+ without a blank line; unexpected unindent. [docutils]
+Message-ID: <202605270105.CZQo8wSO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Tue, 26 May 2026 11:54:37 +0800 illusion.wang wrote:
-> This patch series represents the first phase. We plan to integrate it in
-> two phases: the first phase covers mailbox and chip configuration,
-> while the second phase involves net dev configuration.
-> Together, they will provide basic PF-based Ethernet port transmission and
-> reception capabilities.
-> 
-> After that, we will consider other features, such as ethtool support,
-> flow management, adminq messaging, VF support, debugfs support, etc.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git spi-nor/next
+head:   113ff79be3bcf0262eb7860d3325dd951ff29499
+commit: ecbba8d91f4bd0fccd722a7e5a57cec385c11ca8 [20/28] mtd: spi-nor: Add steps for testing locking support
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260527/202605270105.CZQo8wSO-lkp@intel.com/reproduce)
 
-The coccicheck bot flagged a new Coccinelle warning introduced by the
-nebula-matrix driver series:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605270105.CZQo8wSO-lkp@intel.com/
 
-  drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c:187:45-52:
-    WARNING: Consider using %pe to print PTR_ERR()
+All warnings (new ones prefixed by >>):
 
-The scripts/coccinelle/misc/ptr_err.cocci rule fires when a PTR_ERR()
-value is passed to a format string without using the %pe specifier,
-which is the kernel-preferred way to print error pointers (it displays
-both the numeric value and the symbolic name).
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:370: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
+   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:393: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
+   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
+   Documentation/driver-api/mtd/spi-nor.rst:215: ERROR: Unexpected indentation. [docutils]
+>> Documentation/driver-api/mtd/spi-nor.rst:216: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: ERROR: Unexpected section title.
 
-Please fix nbl_main.c line 187 to use %pe instead of passing the raw
-PTR_ERR() value to %ld or similar.
 
-For example, change something like:
-  pr_err("...: %ld\n", PTR_ERR(ptr));
-to:
-  pr_err("...: %pe\n", ptr);
+vim +216 Documentation/driver-api/mtd/spi-nor.rst
+
+    78	
+    79	    root@1:~# cat /sys/kernel/debug/spi-nor/spi0.0/capabilities
+    80	    Supported read modes by the flash
+    81	     1S-1S-1S
+    82	      opcode		0x03
+    83	      mode cycles	0
+    84	      dummy cycles	0
+    85	     1S-1S-1S (fast read)
+    86	      opcode		0x0b
+    87	      mode cycles	0
+    88	      dummy cycles	8
+    89	     1S-1S-2S
+    90	      opcode		0x3b
+    91	      mode cycles	0
+    92	      dummy cycles	8
+    93	     1S-2S-2S
+    94	      opcode		0xbb
+    95	      mode cycles	4
+    96	      dummy cycles	0
+    97	     1S-1S-4S
+    98	      opcode		0x6b
+    99	      mode cycles	0
+   100	      dummy cycles	8
+   101	     1S-4S-4S
+   102	      opcode		0xeb
+   103	      mode cycles	2
+   104	      dummy cycles	4
+   105	     4S-4S-4S
+   106	      opcode		0x0b
+   107	      mode cycles	2
+   108	      dummy cycles	4
+   109	
+   110	    Supported page program modes by the flash
+   111	     1S-1S-1S
+   112	      opcode	0x02
+   113	
+   114	    root@1:~# cat /sys/kernel/debug/spi-nor/spi0.0/params
+   115	    name		sst26vf064b
+   116	    id			bf 26 43 bf 26 43
+   117	    size		8.00 MiB
+   118	    write size		1
+   119	    page size		256
+   120	    address nbytes	3
+   121	    flags		HAS_LOCK | HAS_16BIT_SR | SOFT_RESET | SWP_IS_VOLATILE
+   122	
+   123	    opcodes
+   124	     read		0xeb
+   125	      dummy cycles	6
+   126	     erase		0x20
+   127	     program		0x02
+   128	     8D extension	none
+   129	
+   130	    protocols
+   131	     read		1S-4S-4S
+   132	     write		1S-1S-1S
+   133	     register		1S-1S-1S
+   134	
+   135	    erase commands
+   136	     20 (4.00 KiB) [0]
+   137	     d8 (8.00 KiB) [1]
+   138	     d8 (32.0 KiB) [2]
+   139	     d8 (64.0 KiB) [3]
+   140	     c7 (8.00 MiB)
+   141	
+   142	    sector map
+   143	     region (in hex)   | erase mask | flags
+   144	     ------------------+------------+----------
+   145	     00000000-00007fff |     [01  ] |
+   146	     00008000-0000ffff |     [0 2 ] |
+   147	     00010000-007effff |     [0  3] |
+   148	     007f0000-007f7fff |     [0 2 ] |
+   149	     007f8000-007fffff |     [01  ] |
+   150	
+   151	4) Use `mtd-utils <https://git.infradead.org/mtd-utils.git>`__
+   152	   and verify that erase, read and page program operations work fine::
+   153	
+   154	    root@1:~# dd if=/dev/urandom of=./spi_test bs=1M count=2
+   155	    2+0 records in
+   156	    2+0 records out
+   157	    2097152 bytes (2.1 MB, 2.0 MiB) copied, 0.848566 s, 2.5 MB/s
+   158	
+   159	    root@1:~# mtd_debug erase /dev/mtd0 0 2097152
+   160	    Erased 2097152 bytes from address 0x00000000 in flash
+   161	
+   162	    root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read
+   163	    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
+   164	
+   165	    root@1:~# hexdump spi_read
+   166	    0000000 ffff ffff ffff ffff ffff ffff ffff ffff
+   167	    *
+   168	    0200000
+   169	
+   170	    root@1:~# sha256sum spi_read
+   171	    4bda3a28f4ffe603c0ec1258c0034d65a1a0d35ab7bd523a834608adabf03cc5  spi_read
+   172	
+   173	    root@1:~# mtd_debug write /dev/mtd0 0 2097152 spi_test
+   174	    Copied 2097152 bytes from spi_test to address 0x00000000 in flash
+   175	
+   176	    root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read
+   177	    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
+   178	
+   179	    root@1:~# sha256sum spi*
+   180	    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_read
+   181	    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_test
+   182	
+   183	   If the flash comes erased by default and the previous erase was ignored,
+   184	   we won't catch it, thus test the erase again::
+   185	
+   186	    root@1:~# mtd_debug erase /dev/mtd0 0 2097152
+   187	    Erased 2097152 bytes from address 0x00000000 in flash
+   188	
+   189	    root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read
+   190	    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
+   191	
+   192	    root@1:~# sha256sum spi*
+   193	    4bda3a28f4ffe603c0ec1258c0034d65a1a0d35ab7bd523a834608adabf03cc5  spi_read
+   194	    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_test
+   195	
+   196	   Dump some other relevant data::
+   197	
+   198	    root@1:~# mtd_debug info /dev/mtd0
+   199	    mtd.type = MTD_NORFLASH
+   200	    mtd.flags = MTD_CAP_NORFLASH
+   201	    mtd.size = 8388608 (8M)
+   202	    mtd.erasesize = 4096 (4K)
+   203	    mtd.writesize = 1
+   204	    mtd.oobsize = 0
+   205	    regions = 0
+   206	
+   207	5) If your flash supports locking, please go through the following test
+   208	   procedure to make sure it correctly behaves. The below example
+   209	   expects the typical situation where eraseblocks and lock sectors have
+   210	   the same size. In case you enabled MTD_SPI_NOR_USE_4K_SECTORS, you
+   211	   must adapt `bs` accordingly.
+   212	
+   213	   Warning: These tests may hard lock your device! Make sure:
+   214	   - The device is not hard locked already (#WP strapped to low and
+   215	     SR_SRWD bit set)
+ > 216	   - If you have a WPn pin, you may want to set `no-wp` in your DT for
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
