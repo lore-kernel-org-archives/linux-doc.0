@@ -1,163 +1,181 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011039.outbound.protection.outlook.com [40.93.194.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81DE3CBE79
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 07:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779781500; cv=none; b=YcGotAMXohrHC/HYpHyGsPtKwGxWRi+Ok3GR8WEHKbXq5kE0PsJW/HsNYZo5KxVAT5MBCGXNLRwE3/13E15L7HeiOqb+HcGga+LPnen29m6KF63tvI7kkaAJcGAMSRWFW5g/W6vbey0ry09JBT/fYqUShFlBBbXNlN3CLivZs8g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779781500; c=relaxed/simple;
-	bh=HOIrj5sgGXq3c+j31QIdduCco4yj8GtAwZ85IMokvdo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YJTqD3aFAjQhdkw77/u4cvY/Xu+gsaO6ge/LtAOlw1MhmQ6OlmLh5bgIgYxiHC+cVmQeLTLyzZe7jqfYaOa67wzN+knmGLQmc3v7zC3svrVWlglLebvS2L/6XTIIPrrKlEhk2T7HtgaAf7yahHyWnSj/MIdHH/HsBNvlExLBnyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=B62lJTWu; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4343CC7D5;
+	Tue, 26 May 2026 07:48:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779781705; cv=fail; b=i5g3mRcBhW38eZaGDbMv0kFXsFoJgVFSc+Eh1cZ+2mbwwoMkBNrEhpQjMbeW6NSZ+ycl/iykIdNafCUbEGV5fY3Rwu3RJnUPVdlef3Tkp6SJjFiTN7o+QP+N2ucjN1I71616ArNMCG4cXc50vFWm3xfcKZbWda8nKUbkF2BMROE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779781705; c=relaxed/simple;
+	bh=lno7zle2fANiCK2mPq2+3rCthhZuCpevqnmRShK7bZI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=rqHeodz3EZSC+KiCf3rHd5Bmf63bLiYeUm/W6iFK4AT0xpsgoJK7U6O+FXFVd0PCl2Oqjqf+TtLIVO9Ewecogpk6B5sHTn5uIV1mUMlyD9IHNSMr6BJhiKyuf72TMmEjIPlpeFquNXFXVw5e1kgljJ5fzHtY/UnJz8weciyk5nU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1FLFhHBQ; arc=fail smtp.client-ip=40.93.194.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="B62lJTWu"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43fe608cb92so6203416f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 00:44:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1779781496; x=1780386296; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=meQXJPGH/eSRep/h9BO6zFwy/e970wDOwhGQTQCudGw=;
-        b=B62lJTWuXw+j/rjl9d2vdf1PQlB9LhWCYyJSGP0OmkcmwHP1rhVO+nWHNWBvbNCtYU
-         v9A6vmaZFI40/kj4kFl5egR8L8rB583INKQej7us+23x7TyhHxOrGdjUJrkT8SOqpDoI
-         4yN4bCFicyf1jr7wOwCt3Gj2RE2peSDCn0wU8a7xy3QpkschwG0StKQW81ho/GMtVqQf
-         4DpI38GAl/ezkfJ6FcaOvzC3K2O7S2MYOHYnqq3VNvTsoM3O9A14YhucDRkSJmCQl6Ie
-         ExNH4kCGxdcZBqfmfrKzGCWJ570e/WpI2SPUGv5VnJ1t1gl0FtMJsgWRc+EV2bGhkq1Y
-         vAIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779781496; x=1780386296;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=meQXJPGH/eSRep/h9BO6zFwy/e970wDOwhGQTQCudGw=;
-        b=tPhKEnsiqb3gggA3pdxTF+sA1ne5/W1UzVzi+K+eKTKtX7YARXHMFO+KZdeDqpqTL/
-         phYhPlSkglTOVTB8k+NW914ITSFKU15pRDCGgNTzN97V3JXSobg5Kk5QiL1YZ5eNj0BY
-         AEU48387VvfGOPje3O9AsyaB02y7MxcyM3tb2g7ubVjeOt/e57qWCQOmaOR6y5vfB0by
-         Wywfd57m9rxTvQesF9KmVpVotiWfoBLcJRbUSVaEP7dXkV+CWZaemXgt3ihjpLpPFReb
-         47p6YleJjdjoCl93Y9c0k2oGnOiGAl9/S6JJdCeYfD1I9P1twi2tCuXMzhXo0B0TBJHz
-         GVPw==
-X-Forwarded-Encrypted: i=1; AFNElJ/25/SqIyaGrnVeKn+UUicp6NzHqC6RqWATBctmV0gycOmWX/6aY5GDGxczk9VKJc7GRJQvpwQmp9o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywuWKYpa4OGurINyicy72oXJ+eWlPksU4R5J/qmH6pQvjtPvfC
-	DBrkQlV7HRGbU5X9WvpXJYwPjXrN6Rk4xw7r7bx2idf1YtLT9PKdJ9fgBExHWzwRz2g=
-X-Gm-Gg: Acq92OG/XefVjoFWXdseK0FxsjDYGTtLLHS3Num9P3gZj8HX+5c4YRIsfu4CwuJWIMH
-	NSTcbM/2gvLQJ8nXnGkvu4OLO30Z6ErEJvZkndSu8Z38f9XCm+Csd4W61pbuba6hVy/b46xMmR6
-	TbXKFv/TCF7n4f3B6vXtwB9IdLNOHYEj3p866bTiIQ6l8rnNPSiggSRaGXBbiLXvYIsiIp05MJQ
-	4wAl/99eVlN+igwFTfkjX50Jj+0rfn6SCDfatF89NbacrKI1oSz1TIbvgVeXc9BfDAH2Ba6NzrZ
-	Xm84ileqB+JH2YE9tYpjiRvqZ7Ri5XhCNqy1RCAQ3NHzdKyMwaqURhAVdoya87Tz2QT2We3QK/u
-	4DGmYblJkjOnUKyHyZW+IgVD0zk4BIGxo+4/uUKy/LoSGiLIt/Sftet/1g+O6aQaDAR1EOeewBm
-	9V7agj7OO8IwKaOFVsjgl/zyJGK+X6rtZD
-X-Received: by 2002:a05:6000:1a87:b0:43f:dd91:b022 with SMTP id ffacd0b85a97d-45eb38d7d0emr29705304f8f.35.1779781496236;
-        Tue, 26 May 2026 00:44:56 -0700 (PDT)
-Received: from localhost ([140.209.217.212])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6cd151asm32668426f8f.13.2026.05.26.00.44.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 00:44:55 -0700 (PDT)
-Date: Tue, 26 May 2026 09:44:52 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Tariq Toukan <tariqt@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	Mark Bloch <mbloch@nvidia.com>, "Borislav Petkov (AMD)" <bp@alien8.de>, 
-	Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Petr Mladek <pmladek@suse.com>, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Feng Tang <feng.tang@linux.alibaba.com>, Christian Brauner <brauner@kernel.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
-	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
-	Li RongQing <lirongqing@baidu.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
-	Dragos Tatulea <dtatulea@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Shay Drori <shayd@nvidia.com>, 
-	Moshe Shemesh <moshe@nvidia.com>
-Subject: Re: [PATCH net-next 3/3] net/mlx5: Apply devlink default eswitch
- mode during init
-Message-ID: <ahVPASuh4BZGOfx0@FV6GYCPJ69>
-References: <20260521072434.362624-1-tariqt@nvidia.com>
- <20260521072434.362624-4-tariqt@nvidia.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1FLFhHBQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VO7zBMaGYUcky4/eeXgmhHlCsKV0xpZUUJ94sUN2p+q6ujlVrIbD7M8wKhtksPIJ2x01qSoI7iuHEpkm6OPwbcsCtSpcXAvmXANi8c8tUK4QMul3BLA/Dzpvyc/H3sWU3BLA1xCy66NvcUsytoMs/0m1XqpGwysofXdKi4lmx76RsdE5rcgSLC67vi6ugDxA/q62QNOJ7TePOFHRWZqNvpG6xfhRidwAPMlyMUdz6Wkk/3tW7ByWSEqzxQxnO4M0QUrOx8oWUVG/QeSZJch/ES0JqECPgU9So99sMyw6MxZFafXqfT60mo7ngVgMJJOfkWptcz7lGUrV4dI4OclVSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zzqMnktG7VGvtBCjcsnphYZbqvQVpIRvaPpbrAj+AD0=;
+ b=rdR5AeV1tPQP2jlV6oC18M8SFHG09n/FDda/3PVXE9voS3a4HWmUQFQ+iCxGPHkpxip40xfBoVKEwEvbmetvePdbTG3jkzF8q9WY2Z12KmUqC0hC6K1eEDTe7nT+LgEmxkRNQKH0c6tV+4KChGjaFVOyCqRnKvmJvnQwEaf0+ukRBqO2LxSEK6v6x7NhgMEoATUSXVyWNfRE7gNfaSiClDnDgDJLirbo9jZZzTyscKbFyr5H/tMVDFs4sTx4t38LFTW6AGWyGtS0uUgZU4dTXPtz8TmOun+6o930vIz/7lkjCgTZjmbsN5hsRU4r3IZjFmXqdnAO+XV+4s1Dscc8fQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zzqMnktG7VGvtBCjcsnphYZbqvQVpIRvaPpbrAj+AD0=;
+ b=1FLFhHBQj1bDgf3FvfUL8pyljFL2DqMvS04etW1Dzy/l2/RcfQshgA3KBBSihkoPrU1LlFuVwjuVuFpJM5Kgck6SWI/FJ/Bh4wwwGBKMRGUIJbTSt4j9fKRlcoc1es7N6pm/OlI65anXpNtXTFJsbWJRNnqBZK6gEgsU14/X81M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS5PPFEAC589ED8.namprd12.prod.outlook.com (2603:10b6:f:fc00::667) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Tue, 26 May
+ 2026 07:48:17 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0048.016; Tue, 26 May 2026
+ 07:48:17 +0000
+Message-ID: <5d1a20e5-49b7-4aa0-9473-c978f061b717@amd.com>
+Date: Tue, 26 May 2026 09:48:09 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] cgroup/dmem: add dmem.memcg control file for
+ double-charging to memcg
+To: Tejun Heo <tj@kernel.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>
+Cc: Eric Chanudet <echanude@redhat.com>, Johannes Weiner
+ <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>,
+ Natalie Vock <natalie.vock@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "T.J. Mercier" <tjmercier@google.com>,
+ Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>,
+ Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
+References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
+ <20260519-cgroup-dmem-memcg-double-charge-v2-2-db4d1407062b@redhat.com>
+ <ahBxB5a9sX9DEWvl@localhost.localdomain> <ahCBrNfiLrh10Vtq@slm.duckdns.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ahCBrNfiLrh10Vtq@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0387.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f7::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260521072434.362624-4-tariqt@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS5PPFEAC589ED8:EE_
+X-MS-Office365-Filtering-Correlation-Id: c5503d61-20c8-4a48-4c6a-08debafb25f9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|4143699003|11063799006|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	0e6EUWWX4NYSh1E6k6ETPMHHxUm9KIXuh+D6tSkkdEN/UnAfEvNR8PTUdr0+UYcbkEjv5oRWIl/YpjYj0b8odyGu63+kP3lKWFPJKAmga6RYM66aDk/EVICTriQAwM/wNozhVyCuktbzvj+sl91L1WDWniUfVXF4PecxfweuIqXUARtCrGZFf4z9pQWkFM/yITxjuyiGE1HO66ZUd0XuorgTuIVm6B/yXWa/TnpGisB2EtGIPRujghuUmxMoTPeBLdOJbGa/r6Is9qYcR+RD4p8ETW2yrTaKOgqtmuY4PNpVWtO39/Mr9Kojxjw4FN+nWz8QOjUrMrcSo2KeYO+53gg2ds9rpzmdOHHCfu6tkTDvljntjf+5zqODVHqdRmzXb4EVF0cMy4/x520LNUC3wprS7KbWl+TKpDOWz0QG7oKxt4R5xlMefWVEwsgHb2OJ6wQLddu0Uu/acnogEXQtb3W0YkGxCJJmBjbBJpCtwntT2Og1OxmAW8KBmqCeeX15ukYH1WC7+nomi2Pnx0xfujI4kEtpFpn/HvM+Gin3j7JIsa56AV9GV3Fky2zb4oCF+0s1ZLX23dTgc0gUtBom1+EDgm74LqR0bgVWOThZMTp7vLRyuIj2iAF6LbGuo1k8mEvahQqEqcyaz26T9XrMm05tH6ODQ3i6C23CT3G4EwWQjDgjURqxDkjVHEp6hta2
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(4143699003)(11063799006)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YnRZaWkvdCtmNk00M2VpTFI4OC9JV0w2QU41Q3FVYVlvRFFYc053V3JVaEtv?=
+ =?utf-8?B?Z1VOSmhoRXFya25SbGJJVnJWbGdQTFhGY0h2MXZRblFvOURWWkFBTGg3RlMy?=
+ =?utf-8?B?L1lJUW5CS1YrU05iU0dnd0lhdlVkQVhVNGhhVzFYOW82TmNwVEc5RlVjWk5G?=
+ =?utf-8?B?RHNRbE9YOGhRSjl4Q3QxYU1JQS9aMS9jamhkbjJxNGFOSzV5RVBtbXpKQll0?=
+ =?utf-8?B?NjdVRG81dGlBMEFaVjZvSU5nOW5jTkRBNW5BQWZSR2NZM1VFYnZYblFTaEJo?=
+ =?utf-8?B?SVh0WmREaCtJS2FCa0JxVDZpbHd2cGppcDlwVjR4M1hFOXJEM1ZNMEcrbVZ1?=
+ =?utf-8?B?K3lWN3YrVWwzcUx4UDVjN0ZkbXVnYVRMSzFJbWZQaEFnTWk3bUdkSklGcGxC?=
+ =?utf-8?B?VXp0S2RUaE5PVFJ2YmtIK1NvaWkvT3pkVlFCOUtKM29qVkFRVVpqWlYrOEdJ?=
+ =?utf-8?B?UGdzRVdBdWwwN244VmMwODJmaCs0Y3BqSGRTL3cyZzFmdUxJYVJaYm9qTmdI?=
+ =?utf-8?B?R3RGejdmMXVNMW1YWHJZR09DcXA2SFdJYk1ydDhWWC9vY2ZDWUZPZ2tJYXBi?=
+ =?utf-8?B?ZlpHZm9FSlBsamI2VFFLZkI4bEI0WDY0bHcrUUJtTmpmOGtiRHBjWEthQmMw?=
+ =?utf-8?B?RHF3MU9lbnZ0SHFReXp0bVZxSG1SSFZZbkIzNzJpd0ZyYXBjV3JDbG95T1dk?=
+ =?utf-8?B?enBWWFZQYzQ0NmMwNDNoWUVyRUFKNXo0VTR1NVhiYzRvczRRVkwxa1MyVFYx?=
+ =?utf-8?B?blF5SCtZZFExb3JQcHdySGNVUmlmNWlZU2dkaHZHSGQxbW16a0J1M00rc1VX?=
+ =?utf-8?B?NkE0UDhLUjlnRXdQZENRSmVCd0JNL1IvcjNBZUtsMEhRZEVHRlpYc1p2VHds?=
+ =?utf-8?B?M0hlNkpVMVBaK1UrRkQyZVVySFRqWVU3Qm5vcW0vRzBONWxMdmZXTy9XaVcv?=
+ =?utf-8?B?Nzc5SUZuYUV5NWFienFKWjIwTUl5WFZ6QkpQcnE3VXl3R09yZmN3WmRON01D?=
+ =?utf-8?B?amgrN1lnQ3lxSzdRd2t1YWo5aHp5TTMrSDRmMjF0UWdoVGpUUnlQOG5BbXo5?=
+ =?utf-8?B?V3ByWnNtTTF2UVJwczdKaXpBcmhtMElpcGlYdlFaQXZJWHBBV1dwMnpVMVBZ?=
+ =?utf-8?B?TFpHcEZFcE9oOVQxQktPRi8raUNBZkFneEZHUW1mSFYvb2MzSUU4eGRBV0w3?=
+ =?utf-8?B?TjJVZlR0MFlHVlUrSWRBelVJeXlTNFZMNXgwTGZRSkFjNUJ3bmFReEtuV09u?=
+ =?utf-8?B?ZDl6Q2hMVml0bzVZOThjZllCa0RwUnJzdFF0dnlobEkrdjNFRlBDVXJlL2Mx?=
+ =?utf-8?B?Rm1taFY0SDNLT1ZCbWVURTBCZWFjZjlHMlR3SE1WZkVEMll2cWRqVmZTOHhl?=
+ =?utf-8?B?bjVZMG1VK0diOEl1VmlMZ0VkbWI4VTNNVHl0TENKbHdKOGZoeTZaSVNNS1VV?=
+ =?utf-8?B?V053c2FqbjdXeko3UW50VGM5RFpIY2JiYmIrRkVKbWVkRUZaY21OQ1hCbnF2?=
+ =?utf-8?B?Y2FweTdWMzNSL0R0azh0YTVaM041S210aXlReXp2eTJ4eGt4emhiVzJLQUow?=
+ =?utf-8?B?dk1qSE1WaVZxaXdtb0hzTlJ2NnYrQS91bkNqZEN5M0M4a01sa1BkdVdZQ1ZQ?=
+ =?utf-8?B?dSs5K0lNTTIzQXN2a1Q2Z1J1QWJxTDQrOS9WS1FqeU5kZnRFSGZydVVZdEtE?=
+ =?utf-8?B?Z0wzRFNtODUxUjdCRXhqNXliU01qQllNSUZ6VWVpNHl3dEh4S0VjM1FuQnVJ?=
+ =?utf-8?B?bDBpY2Q2dzNDZVR6SklJaU1oVjE2NkFVeXI0SFJ6aS9XUHZmWVlEeXR0VGhO?=
+ =?utf-8?B?djdVclJ5eDRRM0E5NjY4VU8ra3lmK2l1b3NpVUg1Vkhkb0JuVUdiQjFjL2Nx?=
+ =?utf-8?B?OVkrcTRzcUlPNTVseFd2UzhyNlNTNHREUyt0QTRpbzNOOUF2SFFhKzVXOW9m?=
+ =?utf-8?B?WlJwNEc1aURnL3dZV0ZyOCtRa3drR3lTUzRab3ZsVlJwdWplcEVLODNGYkx4?=
+ =?utf-8?B?aHRkbmNOL0JyVmQ4RHRndjA4N2ZPK3Z4cXM5WjhESVBpMG9xQktmaDQ3OWxm?=
+ =?utf-8?B?TU1iclNXcmh3Rk5qNERPcDAyaVRaYkJMc3M3UmNjelF5aGM5a3NRdFlQTDNE?=
+ =?utf-8?B?dkRDM0cyZGFJaUtydElPSS9TNVZWcTBpVkVqVHVCT3RVT2NWSUVlclZsUVoy?=
+ =?utf-8?B?ck1hakhybDduZHJLOSt6eUc4SC9BS2NrNEZtZmxDdjdnWDBKTFJ5R2EyZWx1?=
+ =?utf-8?B?ZkU1WlY2K1pKZXR5b0FhMmMrSStUT0dpM29pYnRNWmtySzZWZFVYZWVONm1q?=
+ =?utf-8?Q?mxIPyUlKIGg6hwo/sX?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5503d61-20c8-4a48-4c6a-08debafb25f9
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 07:48:17.2835
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HhZ3o6irGAnDgF+V5U7VopQTzq1RBVXmGC4yw4uh6ZzlaSdZvvWPHJpB3Bq1tmy0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPFEAC589ED8
 
-Thu, May 21, 2026 at 09:24:34AM +0200, tariqt@nvidia.com wrote:
->From: Mark Bloch <mbloch@nvidia.com>
->
->Apply devlink default eswitch mode for mlx5 devices after successful
->device initialization while holding the devlink instance lock.
->
->At this point the devlink instance is registered and the mlx5 devlink
->operations are available, so the default eswitch mode can be applied to
->the matching PCI devlink handle.
->
->Signed-off-by: Mark Bloch <mbloch@nvidia.com>
->Reviewed-by: Shay Drori <shayd@nvidia.com>
->Reviewed-by: Moshe Shemesh <moshe@nvidia.com>
->Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
->---
-> drivers/net/ethernet/mellanox/mlx5/core/main.c | 17 +++++++++++++++++
-> 1 file changed, 17 insertions(+)
->
->diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
->index 0c6e4efe38c8..4528097f3d84 100644
->--- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
->+++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
->@@ -1391,6 +1391,21 @@ static void mlx5_unload(struct mlx5_core_dev *dev)
-> 	mlx5_free_bfreg(dev, &dev->priv.bfreg);
-> }
+On 5/22/26 18:17, Tejun Heo wrote:
+> Hello,
 > 
->+static void mlx5_devl_apply_default_esw_mode(struct mlx5_core_dev *dev)
->+{
->+	struct devlink *devlink = priv_to_devlink(dev);
->+	int err;
->+
->+	if (!MLX5_ESWITCH_MANAGER(dev))
->+		return;
->+
->+	devl_assert_locked(devlink);
->+	err = devl_apply_default_esw_mode(devlink);
->+	if (err)
->+		mlx5_core_warn(dev, "Couldn't apply default eswitch mode, err %d\n",
->+			       err);
->+}
->+
-> int mlx5_init_one_devl_locked(struct mlx5_core_dev *dev)
-> {
-> 	bool light_probe = mlx5_dev_is_lightweight(dev);
->@@ -1437,6 +1452,7 @@ int mlx5_init_one_devl_locked(struct mlx5_core_dev *dev)
-> 		mlx5_core_err(dev, "mlx5_hwmon_dev_register failed with error code %d\n", err);
+> On Fri, May 22, 2026 at 05:26:16PM +0200, Michal Koutný wrote:
+>> Hello Eric.
+>>
+>> On Tue, May 19, 2026 at 11:59:02AM -0400, Eric Chanudet <echanude@redhat.com> wrote:
+>>> Add a root-only cgroupfs file "dmem.memcg" that lets an administrator
+>>> configure whether allocations in a dmem region should also be charged to
+>>> the memory controller.
+>>
+>> This kinda makes sense as it is not unlike io.cost.* device
+>> configurators.
+>>
+>> Just for my better understanding -- will there be a space for userspace
+>> to switch this? (No charged dmem allocations happen before responsible
+>> userspace runs, so that the attribute remains unlocked.)
+>>
+>> (I'm rather indifferent about the actual double charging/non-charging
+>> matter.)
 > 
-> 	mutex_unlock(&dev->intf_state_mutex);
->+	mlx5_devl_apply_default_esw_mode(dev);
+> I wonder whether this would make more sense as a mount flag? What's the use
+> case for e.g. having different config for different devices? Wouldn't that
+> be really confusing?
 
-I wonder how we can make this work for all. I mean, other driver would
-silently ignore this command like arg, right? Any idea how to make all
-drivers follow the arg from very beginning?
+From the cloud gaming use case I can't fully rule out that we need mixed settings for different cgroups.
 
+Making an educated guess I think the best approach would be to have a default value per dmem given by the driver who creates that dmem.
 
-> 	return 0;
+Looking at AMD GPUs we have the APUs where VRAM is basically stolen system memory and dGPUs where VRAM is dedicated device memory. So what the driver detects as HW config should affect the default behavior.
+
+Regards,
+Christian.
+
 > 
-> err_register:
->@@ -1538,6 +1554,7 @@ int mlx5_load_one_devl_locked(struct mlx5_core_dev *dev, bool recovery)
-> 		goto err_attach;
+> Thanks.
 > 
-> 	mutex_unlock(&dev->intf_state_mutex);
->+	mlx5_devl_apply_default_esw_mode(dev);
-> 	return 0;
-> 
-> err_attach:
->-- 
->2.44.0
->
+
