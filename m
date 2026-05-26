@@ -1,87 +1,86 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B68B3FD123
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 13:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294D03FDBF7
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 13:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779801098; cv=none; b=nsu6Es59SbOX4dwZL0kEc60UXDSqGPmZXrEKQXdqB7klepATBWeX4UK290NM7VZ1ocVxKUzZr/0/dKJqj4hsBT4w0lETsqmDjUUxtOwCvTxjHOBg6j3csVRnd5hjca2bkI7jLyvl0myP3EcH8XQtjvuuleada4Fm96+8Ngd5MDI=
+	t=1779801100; cv=none; b=Am7jq8n+z3rAkHKHnruyndAGpq1pu/OTzPfsQ2Tuoo7vCtq2xGN71vtK3iNK4397ySxfNzhe3c4gGK86/v0+joqYxvffRencK+NACaH92Z2AW2QeUihcxhkh/v4fRPzyHCpLqjxTjkhVv3Dta/fcRgMStCD0RzxY4LGugG62vp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779801098; c=relaxed/simple;
-	bh=bxwOj+1r4hE0BIdCr6O2vUvIE65d0GfBKW7+Xew4ns0=;
+	s=arc-20240116; t=1779801100; c=relaxed/simple;
+	bh=vpDVf/b6zHPEUgtVCAl2sRJELM4MLJc6gtP24/up104=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=p9R3R+17mgwPTVgkDBp807amiCfOZr3Y2NNmvuYTuc0pZ4+j/MbiUrSY/CDVkNA2amzAJTegepXxNxMtnQLSigSRjiEbAN37Duv8q9RzsclajwE41JiafeK//kbJuLuqPv8jY705Uy0eB3UjYA078Dyk9HdB6+Z+06+9m1RJxdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PDOAI/V1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Gk3cyrUJ; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=b2p5SQEaBG3M9WqJ1BrqnwycVK0QWW20JSCXokP2Q1XlQfbWbURqq0Hdo+sOl+gVDOJeZr+Za4S70jgB7pb3GFcj28mFU3+/KMqWRBRTQpUz/Ol0xdo/SvNyTudyl0cmciuGh4KPLTviuAMKECKGV6EPNeTuKpzRAzS9tIdrof8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fYvR5w6s; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=OgIzIFnn; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PDOAI/V1";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Gk3cyrUJ"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64QCsiZB3797199
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 13:11:36 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fYvR5w6s";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OgIzIFnn"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64QCsbPV1163837
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 13:11:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	0kLuBmycbMAXm5ws7TG+DllfddsRIfX83CGKYC8vsgk=; b=PDOAI/V1AKIUSIf2
-	8LvaPFxs17fPgR2zWuSNdcb52ZTD7gi2jw3ii9z1SM41iXVk8OQRCO2FQ8q+SCR5
-	/JtflcFoClrGzQmpfoYS0ldnVSFWfiuBacXjOhhagtO3maaNOe1M7d4zUOs8ZS91
-	kavXyaLsQB9MFi43fZT5WgWWEtTwgvwSlQoQQ4XI+ACQXYpWsi/f1B9vEVPrVQ2A
-	a34h7/8I5jh5U+cF03+RU5qJoMWZ83H76KJNLuPc4Xk+bFRanecdzOazy+2CYEIM
-	uvhPz/zOxWKEOIgbwkrD9f56P6L4eCuTSvqn5h3N4stymJ1FC05EUDPwCYYkObuA
-	6CRf1w==
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ecpy2mg9h-1
+	twry+rQD67k4KXlgASz4DIRuOCwVvltNp8BQTuA56nA=; b=fYvR5w6sNi7BMsr4
+	dpFPfDr5EHSwZvnJfvxEn5F9C+GU349KiW3BLfyFmYF+EgWiyS4k8/fcYX9ZpV6z
+	5TdFUz3zXnCYsljKexRxbQP9Z1DBniywQ59E0oIkk8G9DwY4OBv6hr1lNV9L2BeC
+	I1OdZOZE7K3+IcZYI/p/vkEZks6uqjdDVwp5O2lVsEkYASAwsIrD4e1Zo7W104G5
+	RjCf1fDa/Ff5ygjsMZqs+wxGjfPA8sKHChl65NFHNhETokdczeUxxwbWfr86aqw9
+	IRTyoDQlB1fimEPOO4sOOm8Kt8s7zuk1AbAk1wiS1fizWYpqePQ75Hqb7uDXmX/A
+	Hu0AiA==
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com [209.85.222.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eckyqn4gd-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 13:11:35 +0000 (GMT)
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7e64c83e5c1so1156532a34.2
-        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 06:11:35 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 13:11:37 +0000 (GMT)
+Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-95fd5da382cso3395064241.3
+        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 06:11:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779801095; x=1780405895; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1779801097; x=1780405897; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0kLuBmycbMAXm5ws7TG+DllfddsRIfX83CGKYC8vsgk=;
-        b=Gk3cyrUJO0YjRjrjoHWvyDOzMXHfoFlmHDVTiPLpf0CkSIbx/aYYSq5pwYIvaLjp66
-         u38dwR2697GWy+9GtzuvCah94e1Vr5gy1jryK/MjkjkOnomWB/zzMFwVVLwl6FW9TjPG
-         Kp7iFYIm4UWriWQRf5SkMtea0L7lTMqRWfiIZTw30HxGguDRk1+dYW+dLd7NqTYNJ9+X
-         INbk8PiPvGAWluKj+8BMOy6lap0/95dZbfOm3I2NwBo09wGdKpjHSNOfoSYCOVQy5Ykj
-         pBsd4caG0izV+/f8jcg3Tr49WCtQ6nL4QjZrr7w1D9sP2ZjbVtdyo8W0ad+fVIqPQ38P
-         y/Ug==
+        bh=twry+rQD67k4KXlgASz4DIRuOCwVvltNp8BQTuA56nA=;
+        b=OgIzIFnnymHMAL4iRFkPX81t3cO5wD8p7Rwi38DkrPvZPPuBINzAQc13ub2kGwB2Tr
+         oEUTmiLm2VoIketq4kOo4aPX/UChgE0VLIhDVplC6I5f52ByJISjZ8aKntRCrelmRX5R
+         BVrWhRsDraXu5T3TIZPM0GpLNS1SIXDtF2XeLJ4Lx+Wt4imZsNev35C+2aeJRzL2h3v6
+         /U/tfzondcEdqHgWazr8T40MTQBmftptOolldDKZwgnVtAtN3n3WxFoUW/VGmJU9p6bB
+         W3hfle9auj20uIFZF8WjsQi8KxxXTz+jRb8HfHus7ddPv5jHioQVdVUH5BRJz/4bqItk
+         IbpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779801095; x=1780405895;
+        d=1e100.net; s=20251104; t=1779801097; x=1780405897;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=0kLuBmycbMAXm5ws7TG+DllfddsRIfX83CGKYC8vsgk=;
-        b=TOAtUlnKBJw2/00lktQE56iIQtEfyx8LgLjZ9oWwr7Hu10OypI0B7Zbntdo8A6TZ1U
-         AnPl/OA+81u4QzHvuSbh8xx653f8xKYnJwR97jb+Vrp5WjeLiaNa3L8U/ZXHKjF+G6ts
-         EyT+PkgDjlPKJ/yEhyBtD76fgdXuaFyZxwD31mWDxYG5rqypHCr+QmkLeWqKLfRJSkzE
-         +QfVhhwKjnBerSpkoOD0zaGUWCLbMDNoo2M8jzga42PrgcJqwNlvQDFkL8pUB5KSpxaM
-         UAH9vzpNPx8m59X1zmy4kdvX1zXEBS8e/kqzcvEVQjAi7Y4TTIDH8l53DlkLEMGiEPS9
-         3T6g==
-X-Forwarded-Encrypted: i=1; AFNElJ/T4MG9ACTx52xss+MQrfYzCerrHSkM3PgO4gd5imBN3hsvEl5Yu61mEHyuAhOTnOR/M6fkr8Q1aC4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHrGsY5tSlwhPpH2hGOZyLtrZmB9bDoHQvMmWbY3G/ZrQoWsMl
-	apkRWO9/vOhURlukmOS9VjXTR4opQtqSqlycEl+KxG6pGn9dK5Op4w6QgiPD1MgEceh8MR2Vm3S
-	O8wcfxBtzCuOn/QwjXJguk46q0zRjPl8/iHwSR8IoegQgeFRdARDR6CijTI6C0u/dy6BFZoM=
-X-Gm-Gg: Acq92OHf1aTzIV3n6xNmDwzlqqZrMQzkJoDviQCRg+v6AzE3FZFw0HJhRZf9YJlGwzL
-	/gHneyPnBk/5O7DZ0KFteRR+R/qeNQOwpci0QsrUyjX5+/y453my0XpYcFBiANo9j55pHo1kTTc
-	JqufahXYhEpgndRkJfp64Mx7deQP9E1Ol6pkufXTzeHOqxN4dBFmxGorAWVhMU6LjCJX2kP0oP3
-	Y4/AoE+5anRVpI/c25qqX341wY5N0VNTaHJBM+XwW31THuyVexbT1hXw80Mxz11z23xCrNvFx8d
-	CwqvmkxM5BpaNTzKI57CVD7x3rUvITAlHo5EoyTbWLqn/rsBfq1akp6VOQpUy0I15OJJ6aT4ozK
-	Ix041dJfzFdoT1+tHr3sl4dUeiCdvb7Qs8xPUKtPG+pJ9JWIX50w=
-X-Received: by 2002:a05:6820:4c0b:b0:696:1262:2ac5 with SMTP id 006d021491bc7-69d7eb32a22mr9146020eaf.2.1779801095101;
-        Tue, 26 May 2026 06:11:35 -0700 (PDT)
-X-Received: by 2002:a05:6820:4c0b:b0:696:1262:2ac5 with SMTP id 006d021491bc7-69d7eb32a22mr9145993eaf.2.1779801094678;
-        Tue, 26 May 2026 06:11:34 -0700 (PDT)
+        bh=twry+rQD67k4KXlgASz4DIRuOCwVvltNp8BQTuA56nA=;
+        b=rr156ytxSSrYPkPPB6eUcH26qErIgJ+b3OxMRJjSZ58QmK4v+lfOOc1ASR5QjogN+2
+         np+dMI7MbY2/RVPSi0xFON/LYG01zN6v/dvL+lwrCevBJohLgNU/mkmH/7zpDWAsgxz8
+         LWabz1QjPhOtaKBPMHvolz5LU1JWt1qmUNwmrwEYVW8nzZVH4s9JojRSljTLGDsexYRt
+         Rfe7QcFWLR5vqJaS5Lms5WE1M1Yd4l54+7/Kw2XCq8fVIwHjlCgCaO9VFEIxT8B8hvFp
+         3yOfC7evtETmCSeLtwpYq3mHiLnwg3KuWqoRDHJ+lIphChCfzlr1ZJEH2XOfP6PnMmPD
+         WAsA==
+X-Forwarded-Encrypted: i=1; AFNElJ9/eNHtYNJ7a2cXPGhFuuSCvWbn3/HWFFYX0Af5MMWLzeWGlhHcfg7sU4skIsNXDUP3BWCsvKILlhQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAQWhHFVbhNUQGd0idIlVHshI37uxFoV8pWx9IqavjoeoLco80
+	8WT1yv8uqGkSUTFW7yVMS5uDdVZyJjQfDqPzO/qJlgBOY+V3SyHK0s/KCLbIQ4d6/oZn2s0E6sd
+	3TpVVojI4G2cnDROv9geF4ClQ0A8iDYDU4HjIAMrtCaSGMNoTCvFoFMs5NQ5ki9/2nBiZFLQ=
+X-Gm-Gg: Acq92OEp9fb45YFmOONjPTtyzful/mcNThV7Ly/SELTwZ/dgbWXsKOMSKYwyf+ygT3K
+	fsw4sibVfpe9ByO9LJOwzROmQThWJIoLwgFYLo3UV/L2S20GKo65Q8JWX4l/V3Z0RKXbb8aupOx
+	YWuZMKiArPsD7u2E1PZwftRpny2wrNOoNOaks+tascWTOh265y6SpIidoGysmUjGfNYAogDijoK
+	3x6EzHCJVCJRa4QIv2VX0eGT3esCIzOPXv34BTNd21/o0YMNo4Ws41FLIcsL+SZQ59rx+xjYsiL
+	BVOJraH8TpUFE0GM7QpKmtLTF60X1e0+X4KxOj7yBO9qwYz+BuvxicyGohvEPNAYR1354Ux3c7/
+	fE6/OgfY4FAVHzIcl2nY49e1Sys82MC5HOAX3QPeClIRM368hv061X7KPX59SxA==
+X-Received: by 2002:a05:6102:689c:b0:604:f849:462e with SMTP id ada2fe7eead31-67c8e97905emr7864586137.25.1779801097266;
+        Tue, 26 May 2026 06:11:37 -0700 (PDT)
+X-Received: by 2002:a05:6102:689c:b0:604:f849:462e with SMTP id ada2fe7eead31-67c8e97905emr7864502137.25.1779801096708;
+        Tue, 26 May 2026 06:11:36 -0700 (PDT)
 Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:15ba:1d70:65ea:9578])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6d5e484sm34259426f8f.30.2026.05.26.06.11.33
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6d5e484sm34259426f8f.30.2026.05.26.06.11.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 06:11:33 -0700 (PDT)
+        Tue, 26 May 2026 06:11:36 -0700 (PDT)
 From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Tue, 26 May 2026 15:10:56 +0200
-Subject: [PATCH v19 08/14] crypto: qce - Include algapi.h in the core.h
- header
+Date: Tue, 26 May 2026 15:10:57 +0200
+Subject: [PATCH v19 09/14] crypto: qce - Remove unused ignore_buf
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,7 +89,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260526-qcom-qce-cmd-descr-v19-8-08472fdcbf4a@oss.qualcomm.com>
+Message-Id: <20260526-qcom-qce-cmd-descr-v19-9-08472fdcbf4a@oss.qualcomm.com>
 References: <20260526-qcom-qce-cmd-descr-v19-0-08472fdcbf4a@oss.qualcomm.com>
 In-Reply-To: <20260526-qcom-qce-cmd-descr-v19-0-08472fdcbf4a@oss.qualcomm.com>
 To: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
@@ -113,87 +112,107 @@ Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
         brgl@kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
         Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1314;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2066;
  i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=Qxst61jdIT+8Ht+en2AytpIG+5WhKs6TgGXh9cEYbqk=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBqFZvwlwWuPPOocJK5HTgo9RXGebXz1TH1fLJDZ
- zRrnPDCeUeJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCahWb8AAKCRAFnS7L/zaE
- w4J4D/9TZ8zl+AagDemgV18CxEwlfF5SmO5X5h9N+TTNFeKXSps3Y65GYLhqqOcDTwQ9yafpTQo
- KslC9G7SJjpvzgeNNc2wTbbg6CSoLLgcU/+BZ9aBBUqclXF5KYZkku7BhnlA08xrcEP997eICkl
- fs/sGTC+6k/jVAe7ECWAF2F5HFM7yLvmqrRG99CEqe/ALf2yPaUvxFUUm9YAb56si7pAwpRnVNi
- Jh0g+2REUzCY5DaxJ+ZIBbX3PdDnnrnB6guGPnXEGiDZo1Y0vU3zjZkE6rSBez6L9wksn0tT7lr
- M8uM3wUPXFpgXqJM6sycWYIora5fV37jTMvt3Wcehn3ZR5CBwXxv9gj/KHnD1WR7oiciKughspM
- u9OzucZa544EBjJDx4vfMpaEvl8CTJhnAX+r6i4mLpJMyuU6fMrlK0vxuCovpLxezrvCMywAM/f
- pftFIIt6/7wETddPCn9EJoqeXw+AH+T3K2U9QSZyioq2WWQHRET99cOe8gGv4tjcQx4pPMFS/aQ
- 1KtXTttCSCGY9C69bDcp0AV1JBJKBZoAqNhobsXE1vEccka1CoK4tvm/AZDfpCsIc+RWRk1s1MU
- AWpLZ6pbXtgTIN7LxL7wtShVZLIN/uMKbkwIR4+hsQJV+nDyNxSxmtzGmyDq+wtPiUWEM8U3+xf
- F5T6OyqVNo46OTA==
+ bh=j6XY4tGbVrzzivRLNBnBuYRESnCKLFI7yXVP5haQkuk=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBqFZvwqOknm+Sglsg/uIVkQOWaSxMSKumM4PoIj
+ kftpwf8nOCJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCahWb8AAKCRAFnS7L/zaE
+ w+rsD/wJMly2un6WFFVD7UJ03Bc4ShEGXIFwEcQVsq8e+Xa7FxB/JpHyDdV57iGPjfpiet5Biww
+ PoyWytdBUim6dh3Q7BTADj+AeO7mxw2u3xdpwPi3/x/gcNGRH26OV5Av3goFZyhkLpUDT62QNt9
+ pyYMcgAIFaBgEmQKfcq+dP3pnRTvvMyjf1UMUmjKEGIJJvDeBIeMrYm/1xXH5us6dvRHLngjA0n
+ PLCt4dkaneQmWnuGokrHx4VKB0z1LnGGA+gaPOsUBvwAfJ6ZndBGqRlLKxvX5okM3K7arY9JMR6
+ EMMOa8UZuWPxL9+M+WCiIDTCR1nlLPqS7Pjvz9Oh2VtyYSwhkYR3Ob0iWMZ1KraJEyIfHuo7N8b
+ jnj87TtWJnR8zMaIsbvd2J19LFpYxsfnZPUD8h3+HR5rVlUvJrrDm903yjww4sQ9DvunUC4y5Hs
+ Bbg5poL45iBcgYL20dfor6M4vYLhijGJxZ/Cfa4YcEMzSYKF5eZCbnsqtY0yS7imTVafpaDf4lm
+ KAw+aHaCr4YHgEJ/mX5CfhQSfq5QghGd4c2Ls7VMKtVxftyzf/0swzaxQrJ1tlcwLnIK5K2Qm3k
+ HhH0Ra9K9QHzFSEF/ZdR+3UyRQrIUvabSJVYRRdx1g4+EojjgN8k7SCunAqJBqcbEi06btoKGy2
+ 2ojBZqk7hAD1/eQ==
 X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-GUID: MTtQGVPJTwzHoHqpFWcKornLrnm86Ovh
-X-Authority-Analysis: v=2.4 cv=ML5QXsZl c=1 sm=1 tr=0 ts=6a159c08 cx=c_pps
- a=+3WqYijBVYhDct2f5Fivkw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Authority-Analysis: v=2.4 cv=RMyD2Yi+ c=1 sm=1 tr=0 ts=6a159c09 cx=c_pps
+ a=UbhLPJ621ZpgOD2l3yZY1w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=KKAkSRfTAAAA:8
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=rvG61WhHFVBzVmnuldcA:9 a=QEXdDO2ut3YA:10
- a=eYe2g0i6gJ5uXG_o6N4q:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: MTtQGVPJTwzHoHqpFWcKornLrnm86Ovh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI2MDExNCBTYWx0ZWRfX+L2EmabLE5at
- t73/5ws/VsnNRf9rokGRPJ1ZsiwO1/UdWKa5rZToBGqt43UMABZgny7tHinq/KNHm3RWwGd9LjH
- +F6TnUDH+2aK2xMn1HHsgxNv3VNoiQ+S85nHZNjlf11t6hrwKb6/kbR/wH0+qR45qVFWYAx7ybL
- ssCvVsRH/kT719u9brpFCgA9DrnGZlnyvIjkaTtyXhhyj6xn0LptsLwSWQ8jatQPK9LOvPjxBYj
- ki3m7jg19+kf+uuHPd9GXnl141xo/NpdQPdrUETnLjlhdwcQodjAAPjeTSbWcjxqL5NGfv1kXzU
- pblssV0T4vd2T344VUReb12CYswFLeVrxvm7AsbSA0Fo6EOrmTTj3tkLy3Z2q0tXRe9KkQlDUAj
- MSaMKf6MeeR4LZX2vg+9LfMzKE4TzLqoAncn7462FqApqFsp+NJLtcv+aOxGZxG7c09yLV4s9tw
- cjygUI7SfELvuGWgWiQ==
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=KKAkSRfTAAAA:8
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=tWRRbWwrKX-5tUpmLDIA:9 a=QEXdDO2ut3YA:10
+ a=TOPH6uDL9cOC6tEoww4z:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: VkRzpDe2GvgFrvLCrYWmHRtJu1W31jzy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI2MDExNCBTYWx0ZWRfX1mMinN3msefZ
+ aGL2eijPNMlZQWL7dWOtLPzqY1T7GMROV+qHyHy64hTxOwhk0rNKxfPcfMvoXnVV1TStpCp0JVd
+ GUq9I+G9LDET2ppsueYp8Zgpy1LkI0j1DpmX4diZA6LoiX8dd4fH4ux+hOEvVDItp5WYyXWMsZQ
+ KTEZIa/EcupBQ5KrQUbJVUUu2IlhEYJbgfKgpZPppphi8NXmj2MFQOw7dDVKs8uvdB6MH1RKX1v
+ aBH2NrZ2cQJkcL8vYJ74Gg1+y8bg/jM4CVh/slWJ5xNL5uZKB2L1m6bSMXmfLYW7wD5MJH/9KHI
+ Kruw90pW/8SJkPuydTqg5Wv2/atGKLXaciKnMMxIRIux1poShnOPg8Hef9gydvQJSmxW5KGLSAq
+ y/hk+wxYOCagUzOnWWwHbtfeYjXH/GiU/Vg0x27CXUUJRZy4aEncutBjhMLdQrCGIvvSszNHtL5
+ EEtvGBRAS4ZqGQgv4QA==
+X-Proofpoint-GUID: VkRzpDe2GvgFrvLCrYWmHRtJu1W31jzy
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-05-26_03,2026-05-26_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 spamscore=0 adultscore=0 clxscore=1015
- lowpriorityscore=0 impostorscore=0 phishscore=0 priorityscore=1501
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605260114
+ spamscore=0 priorityscore=1501 malwarescore=0 suspectscore=0 clxscore=1015
+ lowpriorityscore=0 phishscore=0 adultscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605260114
 
 From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-The header defines a struct embedding struct crypto_queue whose size
-needs to be known and which is defined in crypto/algapi.h. Move the
-inclusion from core.c to core.h.
+It's unclear what the purpose of this field is. It has been here since
+the initial commit but without any explanation. The driver works fine
+without it. We still keep allocating more space in the result buffer, we
+just don't need to store its address. While at it: move the
+QCE_IGNORE_BUF_SZ definition into dma.c as it's not used outside of this
+compilation unit.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 ---
- drivers/crypto/qce/core.c | 1 -
- drivers/crypto/qce/core.h | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ drivers/crypto/qce/dma.c | 4 ++--
+ drivers/crypto/qce/dma.h | 2 --
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/crypto/qce/core.c b/drivers/crypto/qce/core.c
-index f671946cf7351cd5f0c319909bafd87e3af701c7..ad37c2b8ae53a373bb248aff06c3b7946e8439a8 100644
---- a/drivers/crypto/qce/core.c
-+++ b/drivers/crypto/qce/core.c
-@@ -13,7 +13,6 @@
- #include <linux/mod_devicetable.h>
- #include <linux/platform_device.h>
- #include <linux/types.h>
--#include <crypto/algapi.h>
- #include <crypto/internal/hash.h>
- 
- #include "core.h"
-diff --git a/drivers/crypto/qce/core.h b/drivers/crypto/qce/core.h
-index eb6fa7a8b64a81daf9ad5304a3ae4e5e597a70b8..f092ce2d3b04a936a37805c20ac5ba78d8fdd2df 100644
---- a/drivers/crypto/qce/core.h
-+++ b/drivers/crypto/qce/core.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/mutex.h>
- #include <linux/workqueue.h>
-+#include <crypto/algapi.h>
+diff --git a/drivers/crypto/qce/dma.c b/drivers/crypto/qce/dma.c
+index 7ec9d72fd690fb17e03ade7efe3cc522fb47e1ac..d1daa229361aa74da5d3d7bfe1bc8ab189761e38 100644
+--- a/drivers/crypto/qce/dma.c
++++ b/drivers/crypto/qce/dma.c
+@@ -9,6 +9,8 @@
  
  #include "dma.h"
  
++#define QCE_IGNORE_BUF_SZ		(2 * QCE_BAM_BURST_SIZE)
++
+ static void qce_dma_release(void *data)
+ {
+ 	struct qce_dma_data *dma = data;
+@@ -43,8 +45,6 @@ int devm_qce_dma_request(struct device *dev, struct qce_dma_data *dma)
+ 		goto error_nomem;
+ 	}
+ 
+-	dma->ignore_buf = dma->result_buf + QCE_RESULT_BUF_SZ;
+-
+ 	return devm_add_action_or_reset(dev, qce_dma_release, dma);
+ 
+ error_nomem:
+diff --git a/drivers/crypto/qce/dma.h b/drivers/crypto/qce/dma.h
+index 31629185000e12242fa07c2cc08b95fcbd5d4b8c..fc337c435cd14917bdfb99febcf9119275afdeba 100644
+--- a/drivers/crypto/qce/dma.h
++++ b/drivers/crypto/qce/dma.h
+@@ -23,7 +23,6 @@ struct qce_result_dump {
+ 	u32 status2;
+ };
+ 
+-#define QCE_IGNORE_BUF_SZ	(2 * QCE_BAM_BURST_SIZE)
+ #define QCE_RESULT_BUF_SZ	\
+ 		ALIGN(sizeof(struct qce_result_dump), QCE_BAM_BURST_SIZE)
+ 
+@@ -31,7 +30,6 @@ struct qce_dma_data {
+ 	struct dma_chan *txchan;
+ 	struct dma_chan *rxchan;
+ 	struct qce_result_dump *result_buf;
+-	void *ignore_buf;
+ };
+ 
+ int devm_qce_dma_request(struct device *dev, struct qce_dma_data *dma);
 
 -- 
 2.47.3
