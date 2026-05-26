@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6253C344B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3714F3C3455;
 	Tue, 26 May 2026 21:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779832340; cv=none; b=VimMRB5+Tbj76RGWQ/KXh0p/CYa6YYeCYxJKsElkDsUGJp6KkBx4tdgp4DL762t8VIpZwBUCjpdhbO/xP5GorezQvTLIAocy1ep+RdwLwE51esA61y8Gdv5YsB/IzHq4KUebEx4yFxPMWV0wnAIpfgZ997pl9KyPONTEEzlvZug=
+	t=1779832340; cv=none; b=sp1OPxesGCh2wyELCjVg0NvcRzlbZF4+bZ8v8D6XSnqJLSVEMWSIr6IcFiIAEveT7NzX+sutut7g2hoFFNyD1HqVO6ZdpgNg8U9uq8vZYWHnc2VaOnIIGWVpt/eMrFOZxZapWS6MkGjIunKmzno9CUCur9a8dESAtJTPGukt/as=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779832340; c=relaxed/simple;
-	bh=wy3Jx648a//MUt9p/ltDo3IVRrC1JhvoQ2FZ28LqGVM=;
+	bh=VXJFwd7+XZM7tBzGTekSDUJDrHYV8J+lvqpkIxEouJE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Kk/2Ef1I6Jq6M1GlWsD89IVrkP5g67iBL+alMvvKdkJn+M9A0DPr0K8nLJCxnOwXXGC5zdDHq11blzDFHjOf1iOQFyvFJxo6mceNajrjZU214acsaAgVPFT6nYbnH6lCDKEc1wmBUbJ78+HNWGn0h8MJNOhYN8qy9fPzNijFU+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g3Tk3KA6; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=RBSQs8jlAFT88HiDcegLaKv9jOeZjAiyIs527XCDf750pDaoVnKGF73tbFjfPyh/+yvoOb4mX/PRKroMnZ91+VH8SWtPDwqjDUrFBM8LmSlsKhQ/h1v/maFfp1HUPkfW4cqIwF2sIPTAl4VAI9F5ruM7c/esLh7LymXZ9o7bqd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KewyH6kj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g3Tk3KA6"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D74BFC2BCFC;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KewyH6kj"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EDBF7C32786;
 	Tue, 26 May 2026 21:52:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779832339;
-	bh=wy3Jx648a//MUt9p/ltDo3IVRrC1JhvoQ2FZ28LqGVM=;
+	s=k20201202; t=1779832340;
+	bh=VXJFwd7+XZM7tBzGTekSDUJDrHYV8J+lvqpkIxEouJE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=g3Tk3KA60xS0nHabooTXsjhTwwc/rX5pMRFRmu7pm2khhPHgn9TyuhIgj7fFWy3Am
-	 fM976EIaFBxlBJBqvohd8c1qk3HUREvceRwelMmLcV0CpRgS78W+ISr8hBsxdsDKO+
-	 nVJmVmWmb31EX91JTjIbKd1QWzLSCnUDkQ01YxZUCoBDsODorm0JpaIWfO0zh62aP6
-	 xhFbvormTTXjkbGMDnOeE9KVxgeNvDTnXdO/ZOl1WnoQAwn+rNXMF8gQ3Lq9g31uvO
-	 g/OuUEyn1lBz15cdJkAfbs/Xkvb48SvwW1QTbMBSpbfwXdz3FF8bL0X+o4BcbPAF0m
-	 +le+kbp5mySQQ==
+	b=KewyH6kjdZr6R6iIHvx5vqYMF8l3AXCTwNqZoLWb/LEte7ZpNZZ+hCD2R9A2Iiylo
+	 KJO6Z+h6gMA/rshXzO1LRbZDgauFiO4LbwXqeAEEgpZhLhCNMJwuGw6HUH0gk+OBTq
+	 CxopedjURp+feaX/GBB9GMbCW1QoqADGUhABeWgJ6xHSZgrd7u7b8h4QCWlh8bKg5r
+	 iefe4a8LDsXquepBadEfXSTx4mgg6ejugXirZEjiZ+u1PCwZAh1cZbKtbrjEnR5r3e
+	 RSB8cRz7gPDSo2UGewj050SJ1/31vYCSLeffFnFC7stEX0AFX+50E24rXG7eKTkKbj
+	 Fm8oa94z9FL8g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F88CD6E43;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4DA1CD5BD2;
 	Tue, 26 May 2026 21:52:19 +0000 (UTC)
 From: Ciprian Regus via B4 Relay <devnull+ciprian.regus.analog.com@kernel.org>
-Date: Wed, 27 May 2026 00:51:49 +0300
-Subject: [PATCH net-next v2 04/10] net: ethernet: oa_tc6: Export the C45
- access functions
+Date: Wed, 27 May 2026 00:51:51 +0300
+Subject: [PATCH net-next v2 06/10] net: ethernet: oa_tc6: Add MMS register
+ formatting macro
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260527-adin1140-driver-v2-4-37e5c8d4e0a0@analog.com>
+Message-Id: <20260527-adin1140-driver-v2-6-37e5c8d4e0a0@analog.com>
 References: <20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com>
 In-Reply-To: <20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com>
 To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
@@ -58,11 +58,11 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
  Ciprian Regus <ciprian.regus@analog.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779832338; l=2238;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779832338; l=1763;
  i=ciprian.regus@analog.com; s=20260330; h=from:subject:message-id;
- bh=G2YKLlP+q7gpNa7VGIqaY6JB/wn+q0v7tTUGj7fc4Ig=;
- b=rXoEtqv1uWHPXPcoFBESGbR3Q5tVL3l15HQBWIwlJn83PG/06JuEZTrkdpI7sO6ZufvqNxuAG
- +xsByidfo8ECAxj++HQOMh/6/3lXG4A1QZPEgZr5tAPniZA+QwpJ7nU
+ bh=5HSxO/CCFrO2eIoVbKXw+TUIV7w+rmcLQuB9FhaUalo=;
+ b=gAhgj0HuuVyFkkyVsoXiYsNNmhf059JmCkplHxS9/qQNqowACEYivJblAY0FDgN/MPrcOhAZ9
+ Tbf0jXL4+GdCa1hPzqVzKEHCOZc5n1eI3gfDMULJqSTAeuYr3FhO9pw
 X-Developer-Key: i=ciprian.regus@analog.com; a=ed25519;
  pk=8WoNhI0kQcQUl8YqJO5ZevROYk9HP8lOIeIgIYgjfbc=
 X-Endpoint-Received: by B4 Relay for ciprian.regus@analog.com/20260330 with
@@ -72,8 +72,10 @@ Reply-To: ciprian.regus@analog.com
 
 From: Ciprian Regus <ciprian.regus@analog.com>
 
-The C45 access functions can still be used by some Ethernet drivers
-which set the OA_TC6_BROKEN_PHY flag. Export them.
+The Open Alliance TC6 standard defines multiple memory maps for the
+MAC-PHY's register space. These are used to separate standard, vendor
+and PHY MMD specific registers. Add a macro to make it more clear which
+memory map each register is part of and allow easier definition.
 
 Signed-off-by: Ciprian Regus <ciprian.regus@analog.com>
 
@@ -81,58 +83,46 @@ Signed-off-by: Ciprian Regus <ciprian.regus@analog.com>
 v2 changelog:
  - New patch
 ---
- drivers/net/ethernet/oa_tc6.c | 10 ++++++----
- include/linux/oa_tc6.h        |  4 ++++
- 2 files changed, 10 insertions(+), 4 deletions(-)
+ drivers/net/ethernet/oa_tc6.c | 4 ++--
+ include/linux/oa_tc6.h        | 3 +++
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
-index 7ae3639beadd..4a1fd9fd75ab 100644
+index 904bd790159d..876891ca9859 100644
 --- a/drivers/net/ethernet/oa_tc6.c
 +++ b/drivers/net/ethernet/oa_tc6.c
-@@ -499,8 +499,8 @@ static int oa_tc6_get_phy_c45_mms(int devnum)
- 	}
+@@ -471,7 +471,7 @@ int oa_tc6_mdiobus_read_c45(struct mii_bus *bus, int addr, int devnum,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = oa_tc6_read_register(tc6, (ret << 16) | regnum, &regval);
++	ret = oa_tc6_read_register(tc6, OA_TC6_MMS_REG(ret, regnum), &regval);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -489,7 +489,7 @@ int oa_tc6_mdiobus_write_c45(struct mii_bus *bus, int addr, int devnum,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	return oa_tc6_write_register(tc6, (ret << 16) | regnum, val);
++	return oa_tc6_write_register(tc6, OA_TC6_MMS_REG(ret, regnum), val);
  }
+ EXPORT_SYMBOL_GPL(oa_tc6_mdiobus_write_c45);
  
--static int oa_tc6_mdiobus_read_c45(struct mii_bus *bus, int addr, int devnum,
--				   int regnum)
-+int oa_tc6_mdiobus_read_c45(struct mii_bus *bus, int addr, int devnum,
-+			    int regnum)
- {
- 	struct oa_tc6 *tc6 = bus->priv;
- 	u32 regval;
-@@ -516,9 +516,10 @@ static int oa_tc6_mdiobus_read_c45(struct mii_bus *bus, int addr, int devnum,
- 
- 	return regval;
- }
-+EXPORT_SYMBOL_GPL(oa_tc6_mdiobus_read_c45);
- 
--static int oa_tc6_mdiobus_write_c45(struct mii_bus *bus, int addr, int devnum,
--				    int regnum, u16 val)
-+int oa_tc6_mdiobus_write_c45(struct mii_bus *bus, int addr, int devnum,
-+			     int regnum, u16 val)
- {
- 	struct oa_tc6 *tc6 = bus->priv;
- 	int ret;
-@@ -529,6 +530,7 @@ static int oa_tc6_mdiobus_write_c45(struct mii_bus *bus, int addr, int devnum,
- 
- 	return oa_tc6_write_register(tc6, (ret << 16) | regnum, val);
- }
-+EXPORT_SYMBOL_GPL(oa_tc6_mdiobus_write_c45);
- 
- static int oa_tc6_mdiobus_register(struct oa_tc6 *tc6)
- {
 diff --git a/include/linux/oa_tc6.h b/include/linux/oa_tc6.h
-index 6c38bf49e2a7..95e041d7d77b 100644
+index ad6f17218603..8b56a132c9e3 100644
 --- a/include/linux/oa_tc6.h
 +++ b/include/linux/oa_tc6.h
-@@ -32,3 +32,7 @@ int oa_tc6_read_registers(struct oa_tc6 *tc6, u32 address, u32 value[],
- 			  u8 length);
- netdev_tx_t oa_tc6_start_xmit(struct oa_tc6 *tc6, struct sk_buff *skb);
- int oa_tc6_zero_align_receive_frame_enable(struct oa_tc6 *tc6);
-+int oa_tc6_mdiobus_read_c45(struct mii_bus *bus, int addr, int devnum,
-+			    int regnum);
-+int oa_tc6_mdiobus_write_c45(struct mii_bus *bus, int addr, int devnum,
-+			     int regnum, u16 val);
+@@ -10,6 +10,9 @@
+ #include <linux/etherdevice.h>
+ #include <linux/spi/spi.h>
+ 
++#define OA_TC6_MMS_REG(mms, reg) \
++	((((mms) & GENMASK(3, 0)) << 16) | ((reg) & GENMASK(15, 0)))
++
+ /* OPEN Alliance TC6 registers */
+ 
+ #define OA_TC6_REG_PHYID			0x0001
 
 -- 
 2.43.0
