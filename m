@@ -1,260 +1,253 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010051.outbound.protection.outlook.com [52.101.69.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708BC37EFF3
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 12:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779797229; cv=pass; b=SP7W5EfuRg7iS6NKolbzOTXW6KPXWSuVufE+bDaGi0gl7x3moSI+zEZeBpNhv8VFP0av1zu5AO3OUJDBxA/+jUqc45pjXkpLQaDtpdb6ifBLyUthMRXcQHxKoz5+n1nTnP1aBWRdaM1VsNwnRP7wEjJSN2R56zSZPUoqLynFGps=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779797229; c=relaxed/simple;
-	bh=gjn7irxVASWEua9zhhchtRuYD5Juo9ZV38SI3YWleII=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e6YbLJREveNb31DeevtCiqd+r7pG36hRRsZerNu2+LcDqCD1xEOXSfpYV19dh3p0U1dh+q0oeP+3hP2lzZHSwkTx8IWgnvFVYhGTFlvXgCYTkEs0aSE+pRaSa8Y7i7q6oyQu8tEMv9UVy5ahDevRiAmEJ/Pmlp38SIQq+1QweoY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HVfLzUdF; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=tIhrCdXC; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53DB350D7D;
+	Tue, 26 May 2026 12:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.51
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779797390; cv=fail; b=TJ4Xtffq6SXybUBwtLxV1DcTBEZy1gAfWuv1OKCqVq3VPkOn1qC2CD8Juqyj6I5qcyrjVfeyBmaoVKE5uOgm+ZkZ0IygUt+x8KWhoKavU165KnFvg4KySXEi8E4qY5iHfXy193J3hYEvoJsC6jYSy3m9IjHWmauY7NgeBw6onL8=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779797390; c=relaxed/simple;
+	bh=PdIAe7DxbZgPf2Jv06nEWDgi1f5T+Zty5Lu1Xcr41Dc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UoWVg5YJ8nqNxf2lmOhyjty0FQWv/IU2qrGE9HYgcwQIsWg+pybwdyqo9SBDRrLT4tQSg9qJE7FubayEML5+vuHPujA7WMdq54ZoLR5HScRHbUpJMhiMU5Fbr5lqYvgLGR5UVnUyiocGqny76MsrG8rLK4kAIBqXhiFdnQ/lZCI=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=d419DwSk; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=d419DwSk; arc=fail smtp.client-ip=52.101.69.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HVfLzUdF";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="tIhrCdXC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779797227;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eiAFrFRbjd4+RPbTvUUvKWoOw3SyaKiqWrxbSKz7lDc=;
-	b=HVfLzUdFsXzTQaZXilIzZ6HO3cqMnKiyJksV14dvWzuCh/5s5snF7PBsabi/ExVLhj8Uvb
-	lTt7PWF41tJKTXkORP5r6PzKmTFg2Bf1NaKPRwPpkjpxjdoPHT01RumLBRxFOo1uw3n6qQ
-	IqZxkBPQsxniKdseE0JHY8yPuO81sOU=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-43-Ja8lapiPNQW9ei79iWpDkQ-1; Tue, 26 May 2026 08:07:06 -0400
-X-MC-Unique: Ja8lapiPNQW9ei79iWpDkQ-1
-X-Mimecast-MFC-AGG-ID: Ja8lapiPNQW9ei79iWpDkQ_1779797226
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-7c9e610f273so126860857b3.0
-        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 05:07:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779797226; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VExPinMXW2rsYntfvvRqMzUalsYRvdn4XxCDLnjRkSrsu+Qagm+QlVe/pL4cn/ZpBM
-         HRRNBx6EYO/M/MqphVSLea1ZaDZz57o/eWHRT+FVnsPx5Rkem772iF/C3ER/OE+jkOGn
-         l6XhboZU9DywMdfjbv1rROALI24A2jarlIHIkBKLDwb9d+qNKRK7+XNXDVrWzSBkThO8
-         wnY943GWONDJWQtPPr4EnziS4nZVgsAA1vhLrfHwyTV7F5+IEN9ndMEA2ZkxFrxbpIUH
-         tbhVpwN3KsmfF+hB7mAMblQ8Aq/vmFp9r6mY+979Rl2mPnMPtHBxpOA8dU2Jd5ORsq8v
-         KCzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eiAFrFRbjd4+RPbTvUUvKWoOw3SyaKiqWrxbSKz7lDc=;
-        fh=p4K4+c0vJsWIvxEOYDBUxHusLdHnQEh7UVBZLcu2eqs=;
-        b=M0I9BLcCMhtdqgO26Ypyjhjc5WoGJ63OU73PcZVKdZgGLrnEmIjAMnDw+dV8yO9Z+U
-         toiQac54i0HaqAB9m5RK4cMZdTiGV106azLvT5DxqYLs7SclDkSZmtCYZ7HOGFHyTX5K
-         y7fvvw3+9jYuImIkJtItJFD7Bmhk/NkGWFZm9paQrdqF1YUQXSpBL7/71XCzH5zJ/3SQ
-         dzrjBIw9P78DdVR/GGY89p3XSG5wS4wV06ZVF7X2Px595P2JVD4zeK/LanKvPbOpmQvg
-         X0A4uIuJ/dbPj1jcYcTJ7UANf5GSwZ/sU3F+KH2iTemxqsfg/mHlTfXHn5GDFfrAiRVE
-         mU0g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779797226; x=1780402026; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eiAFrFRbjd4+RPbTvUUvKWoOw3SyaKiqWrxbSKz7lDc=;
-        b=tIhrCdXCQn4s/fOG4KJdAdtisaWygfNkyvkwGOr1BurSDyL7p+w/4aRLgRER/POXmd
-         U4Fho3FL1jY6yWzPO6LQWDQ7BQ26wqT/ao9Em+fDWlJQkikqntp1VPVv02HQEVoBULLQ
-         W8PBwmYObmfzliVzab/nY/OGaJ5ydGIe/XciZRd5+KGF/uUSBdJFcPxfSuSVWZZemMHd
-         UpMdm9XDcaDcfIYLeBtOelRRDHOaO92Hv1swFSknH/MZtfGeUJT/Hab/CXjyvXZAbDAB
-         6tm8/2jtFow8dHIX15I5y5C4AiYZmBBI8WGIyvTqaoYTTDLTLOMlsH6O7w1Yh9XA+RJ9
-         Lj2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779797226; x=1780402026;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eiAFrFRbjd4+RPbTvUUvKWoOw3SyaKiqWrxbSKz7lDc=;
-        b=WwNDlvGTQyb/+000T7efXsPwgs7xOI+jhxrh5JTQFnbdzlAcmxfGenaeyATNbloHFh
-         7jRtkGk2HtYBp5nJg/aRNK1EfnTt4dDnZYntYMaIMRbhUm6AgFSsdiM/0pRon1LRJBvY
-         DpaKHyd2xXUVPvTYvuU42QtVQVbOlSQcSBrvsypdPDNO2MYhXb7BmosFuwaIKQ3SHWFb
-         hdT5BAXsV5UQEBaWFkCRA+BvNVCBnqP6pQawPQkAHNzNBOX1Se8eydWTEkD22D1KVtN8
-         eSLdWTfys/IJWZhbYt2y5LYLj2eAzY3fwf7hePF83PT+JayCq6YyZ97OjT2kX3bYQISr
-         hvDA==
-X-Forwarded-Encrypted: i=1; AFNElJ9r5liigdz/WY+zSoUSeX6tW/ONHRHb3nedikLIIc09ZaQdP9eR986LLmOe0uKXkrBH4OAtipyj2TM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywa1d/P1UNRZcCRUCod55Pbt6HPWAhRfXhZMsgUTUoa4Q+t7A7J
-	o6Rcj0yqxe/NTerZvNHYFsmvgI8up0sI0okHsdfJ1swJ5kezAgpTiAgS8FF2rUrxiklyq4N++hE
-	COk7KUANdDvCW4Tc2fDPK4tmQOrbgUZ8NB9sK2Iy8Ryu1iB9F23vV/hhofCcjK+lLaX2PyMNrXA
-	bd54F6Qv3plbu/CrEeMW8PfS+dYNKLiL91ns2L
-X-Gm-Gg: Acq92OEDVHR3+I+/kJC5CF2gAAudSKTBw29KMf1OOcrkD/ocURsMspE5LJ8CS/hOtad
-	uK6KGNRx1jTGwJdby2ebP9MYZ4VbwUhAo+2HO9Nqsd9dPg6FJOeNnYmFKjevqCptMVMHkffIJn5
-	rF0CB5wOfxTlG8CMA2r/9FFnRYVXmT6/0mzrIocMHGH0PMvOMIeNxECBkBFAAHzldH6fMw0BPHF
-	/QapdHjv5fcubT7
-X-Received: by 2002:a53:ac94:0:b0:65c:4a37:3975 with SMTP id 956f58d0204a3-65eac8ffbe6mr17560439d50.0.1779797225561;
-        Tue, 26 May 2026 05:07:05 -0700 (PDT)
-X-Received: by 2002:a53:ac94:0:b0:65c:4a37:3975 with SMTP id
- 956f58d0204a3-65eac8ffbe6mr17560402d50.0.1779797225094; Tue, 26 May 2026
- 05:07:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="d419DwSk";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="d419DwSk"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=fail;
+ b=ZL7JV7ISWqTFIkqVqYzfwOqCyF+0kq3xATgtwvMsdOd2bj36VYO+3nBsRL29HyjeregAXK1cZ1BmIjMj7NQr2exAjlS47AM+jTv5UdyvKc5y4u1ANbPY6mvm+kSXi2+bKSwN00sOfYJEPlpJCgYSGXAKPaDf3z5tgq9llNV2F1/yUif7xxCBfgwCl5JOn+gw9bNtznQQtR32lWL9UlftqXJRZbHBxfXYHL//swVxrLJ/XpsF34KP5Ng1XRhqDRJmGE+ek0IrH2i6/v3e921H4C/ghuKmhDS48Fce4m9KoPok0VtzkolD66KHdquCj1ktVuc2qe9id8E2JUERRMktwQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J2OuLL09XAOLOv7/WOg2Zp8xD0NK3sb+jdG85aMxR8k=;
+ b=hrXd7R76oTjPddrKuoOflJdympLvnwCS5M8HHihv7UQgFlRYaf28b0d9OBwwYdigCHsUCyY0GK4ch0lK1cw7U7M2rpf3VpKkBgz66VLThuHzf2M9shDnEkx/ujwNSxS2lQfQZPM13wdIrK5R1J13WIF6BxzInNO5PhfGOrJ/cfnV1dKZkhOYizBEzZzCDOSWeg2BahEFCvBYTUF8N4IsNv06rld0n4yuRmNwSeGSf4p4maNV4RXldrAJ3A447MbaNfR6sWrhNknAxu4FFHKOt+wdcLSAtwPMEZK1NcBgrO9alQZpieM9/Qg4jF6wfB1G8yOnNqfGp95U3HNj3JADGQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=kernel.org smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=fail (48)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J2OuLL09XAOLOv7/WOg2Zp8xD0NK3sb+jdG85aMxR8k=;
+ b=d419DwSkvbtNAvAMrzMqAnVt6d8LgDf9Imle773wQaGOa88tK5vrhfC8LDY7gffe/BGWgZNmjDTI4MyNsh2DipidFUTEXmFUixBob0kcvNDL21GGqAB9R05bvkxtUKdZL8s+fDY6xdDs9niInyFnKt4Kzio12+25l2h6TzebmPA=
+Received: from DU7P251CA0010.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:551::27)
+ by VE1PR08MB5712.eurprd08.prod.outlook.com (2603:10a6:800:1a8::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Tue, 26 May
+ 2026 12:09:43 +0000
+Received: from DU6PEPF0000A7E1.eurprd02.prod.outlook.com
+ (2603:10a6:10:551:cafe::33) by DU7P251CA0010.outlook.office365.com
+ (2603:10a6:10:551::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.48.20 via Frontend Transport; Tue, 26
+ May 2026 12:09:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU6PEPF0000A7E1.mail.protection.outlook.com (10.167.8.40) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.7 via
+ Frontend Transport; Tue, 26 May 2026 12:09:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=G3zbSFFkJNF7sBQpXzFicL/GrdErkBuU1+YmoFwpovLRHB1Ned9A+4qWXfibojbXpsSPUQ6AjiiPtsyAcpURdxljROwHLDw1u2ceayKKajg9uEDPF4yJWyl80cx8xnDdWjnVksuWi4xvKxrSQfyF+CvbtnikySaTUMdxEZGVO0MDqKM2HvY3VbIAp/Iyj2E+1Qm9DKrYZGCxgXd1WFTyG5enRDD/0ED0g+w5t6DAvyB+NMEdtgt5zvWcF16mDsBGWBZeceZwLSchhVwNAAzYMHrxYydolkMqn1zhPjWu5QD528yHE5fuWmr9KZSpq2XDsg6yqyDuJpy6t+Yen7kWug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J2OuLL09XAOLOv7/WOg2Zp8xD0NK3sb+jdG85aMxR8k=;
+ b=c2GHtfoOgarLQNjtDpOXyF4Wwakbqx7wJItE0EX+3JYeGI52heks6io01VNcdWRnV1kAndzTucmBLLd1ooG20SfB3bedWkBDAYAb1DjOY4C07WxB3XK3FBMlAXa2t+QVAhRx/zCJjQO0yV6VVSDb3QGnYVeI/bqEo3PD7cgIkqKtkAbHg3hLZWzQPuznhA6o2C82SJpOVVEqrB3D2P4a5IELH+6eZAPwR1HTtBN1f3QZAXxRlh4Wbw4euVlQ+31jVDqC531Fqly3K2SORt0fuC1rJ50ZlNkqlpuPm78+6rpV85EIzlkTLC0Kx7hoC1pAN7f6Xx03Gj2NO26i1BHu4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J2OuLL09XAOLOv7/WOg2Zp8xD0NK3sb+jdG85aMxR8k=;
+ b=d419DwSkvbtNAvAMrzMqAnVt6d8LgDf9Imle773wQaGOa88tK5vrhfC8LDY7gffe/BGWgZNmjDTI4MyNsh2DipidFUTEXmFUixBob0kcvNDL21GGqAB9R05bvkxtUKdZL8s+fDY6xdDs9niInyFnKt4Kzio12+25l2h6TzebmPA=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DU0PR08MB9203.eurprd08.prod.outlook.com (2603:10a6:10:417::12)
+ by AM9PR08MB6660.eurprd08.prod.outlook.com (2603:10a6:20b:305::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
+ 2026 12:08:38 +0000
+Received: from DU0PR08MB9203.eurprd08.prod.outlook.com
+ ([fe80::f1e:73f2:57df:4047]) by DU0PR08MB9203.eurprd08.prod.outlook.com
+ ([fe80::f1e:73f2:57df:4047%5]) with mapi id 15.21.0048.019; Tue, 26 May 2026
+ 12:08:38 +0000
+Message-ID: <70a9008b-8b13-44f4-81b4-2397b4ccd323@arm.com>
+Date: Tue, 26 May 2026 17:38:29 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/4] tools/lib/mm: add shared file helpers
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Mark Brown <broonie@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260521111801.173019-1-sarthak.sharma@arm.com>
+ <20260521111801.173019-2-sarthak.sharma@arm.com>
+ <177964236205.4000040.3083558454897469696.b4-review@b4>
+ <ff7d212c-d3e0-4476-8903-ffe88fb7048c@arm.com> <ahVhTWl0fTF3ASsC@kernel.org>
+From: Sarthak Sharma <sarthak.sharma@arm.com>
+Content-Language: en-US
+In-Reply-To: <ahVhTWl0fTF3ASsC@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5PR01CA0086.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1ad::12) To DU0PR08MB9203.eurprd08.prod.outlook.com
+ (2603:10a6:10:417::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260522150009.121603-1-npache@redhat.com> <20260522150009.121603-12-npache@redhat.com>
- <2b2cda8c-358a-4a5c-989c-ae42593ef2ea@redhat.com> <20260525121041.2f2508a4f627c338cddd837a@linux-foundation.org>
- <20260526065708.oyyddmt2zgfwu2q7@master>
-In-Reply-To: <20260526065708.oyyddmt2zgfwu2q7@master>
-From: Nico Pache <npache@redhat.com>
-Date: Tue, 26 May 2026 06:07:38 -0600
-X-Gm-Features: AVHnY4JcK8OmA0BDu7BZOR--WqtBBKWM2GWs1qml7WVs0MOjDwCnB55pWKWIb9o
-Message-ID: <CAA1CXcDXyDhMyiVAb8XbusqMU10JXA8nOUw6b4_2i9H-kV2vwQ@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v18 11/14] mm/khugepaged: Introduce mTHP
- collapse support
-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
-	anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, 
-	cl@gentwo.org, corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, 
-	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
-	jack@suse.cz, jackmanb@google.com, jannh@google.com, jglisse@google.com, 
-	joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev, 
-	liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com, 
-	matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
-	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
-	rdunlap@infradead.org, rientjes@google.com, rostedt@goodmis.org, 
-	rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
-	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
-	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
-	zokeefe@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, May 26, 2026 at 12:57=E2=80=AFAM Wei Yang <richard.weiyang@gmail.co=
-m> wrote:
->
-> On Mon, May 25, 2026 at 12:10:41PM -0700, Andrew Morton wrote:
-> >On Mon, 25 May 2026 08:15:53 -0600 Nico Pache <npache@redhat.com> wrote:
-> >
-> >> Can you please append the following fixup that reverts one of the
-> >> changes requested in V17. The issue with the change is described
-> >> below.
-> >
-> >OK.  fyi, what I received was badly mangled: wordwrapping, tabs messed
-> >up, etc.
-> >
-> >Here's my reconstruction:
-> >
->
-> Hi, Nico
->
-> I tried to reply your mail, but found it has some encoding problem, so re=
-ply
-> here.
-
-Yeah sorry I didnt properly configure my email client after getting a
-new laptop.
-
->
-> >
-> >Author: Nico Pache <npache@redhat.com>
-> >Subject: fix potential use-after-free of vma in mthp_collapse()
-> >Date: Mon May 25 07:38:59 2026 -0600
-> >
-> >Between V17 and v18, one reviewer (Wei) brought up that we are not doing
-> >the uffd-armed check until deep in the collapse operation.  While not
-> >functionally incorrect, it can lead to unnecessary work.
->
-> So we decide to tolerate the behavioral change?
-
-Yes, I believe it is ok for now. Either way we needed to remove the
-potential UAF. It only affects the behavior if mTHP is enabled, so the
-legacy behavior is kept. And the uffd case is limited.
-
-My future work involves further optimizing and cleaning up khugepaged.
-I'll make this part of the goal too. My first thought is to do the
-revalidation at every order (between the locks dropping); but that
-essentially pays the same penalty... I can't think of a clean solution
-at the moment.
-
-Does that sound ok?
-
-Cheers,
--- Nico
+X-MS-TrafficTypeDiagnostic:
+	DU0PR08MB9203:EE_|AM9PR08MB6660:EE_|DU6PEPF0000A7E1:EE_|VE1PR08MB5712:EE_
+X-MS-Office365-Filtering-Correlation-Id: 80f91fbd-1f4e-464f-fdb9-08debb1fab42
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|366016|1800799024|376014|7416014|4143699003|22082099003|17002099007|18002099003|56012099003|11063799006|6133799003;
+X-Microsoft-Antispam-Message-Info-Original:
+ ywOf16bn78kshglmNOgYe4JSq3VihEXSaJWBpUEmAf0Q7pHcHRh3mEtOTB8AIaniZ037u9jalkeqd95MaGtXfXaviZIzHolUhrTV13qBXZQT3DVEJLIvSQSwULX0LXQqeACYFJuRlSuW3TenepO6SMVvyDkDiyQLqPyMbYoOI8gixB/wo+Xge1d8SuaaqEqIQkDwZo3OLYSFUp6ZB+pLwOLMiN+Lpd0+OTTCMwzCdhUJ+f0c15jhaZaZaNQ6NUpcVVY085xd6XREEmUQZ/dgRKuKiIDqfjaOlofToHgX2fAZKGZz0lqpf3RJo46JTWwIv2teQIaY5WgEFz4U4pA27basE96TUBKKzj4HfNrAYXENlnb514Kug/b5rDLoP/fP6QKe9a4negwtKiSoxRgfvVxh9Qr62HBJfSDgtzU3L8+8YI2C/RuvnO8/iiMPyIvOHmGsYjhUP7DiYt2a8EHwi/0Dk3b19IfFvX964YZePGaVjm8MRt1Bzwh1hkSBKoLptx39VA/LXckTBB2DCVCTG596yJMx54hI89mkc15zHGhxauh5/cYyE6SF0nYB9BkF/zDRDZWQJaXqtwLebX7BXv3WXgUZswRc0sgGyjwhrGrUDD/5dsdMaMTeVnmkyAhdUDiNEzMflTs9sfzAZ714/NvrNN5IxGN0RzqGcEf/YpdCPZ/HdFZmH5nIgvmaj7sD
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9203.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(4143699003)(22082099003)(17002099007)(18002099003)(56012099003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ lZF0P9fqt63xmYZdr1IgLzIaEZJLVANk8Bk7jNhlgVYKK7T2P4rbzoDqxf4p7dXaS9nUtsBahV70p+dbr9k07jfQYNwknJKj26rusgMIpTIBw4R5JihpWNTCwYb408Z+u/iEYAeqY7CAwh6/SkI+jGDuhbh7Ss2pOD6hSFEg7MZxkYfoup8FRyUm+C0WHZ7EtuBJ0WlWBm2q08GNezl5VlgWcaEhkO85qL+s7ZDwdsR9PV670m23lbqoxpMAtKTA9OuwVyZaj8xdlX+ijzgf5yInF7evoiHyXJwveDX/UZQbOP43mJlnyt1Bn9WzCrk7rHr7x4SGCOWDQWqFELtqBQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6660
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DU6PEPF0000A7E1.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	5c7313ce-eb4c-420b-eae4-08debb1f84a2
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|35042699022|14060799003|36860700016|376014|7416014|56012099003|11063799006|4143699003|6133799003|22082099003|17002099007|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	TMjdkCBe91b7j6wzrLjW/cWFTsi9ChFDISdmHnNvQLw4w52U5YW1iDteP3coEdOhZwF7yjx6wDcH+oygHL++ODdKmV7hSz0CIRXzQipiMlhLkPfX+HRLvLr/Z+wmogFgHamNQ4vg2ka124jHqUdCUBy3cYlBUccdGhD+V4BGoPC132HcRC3YZM7W6/bYE6+RWUJY/1jqXuzhNjM5Kqh+CjJlCbC8tZv5wJ1Veyh1luyvmK7HCkTjVzCLk1BOqs6RhqlOWJrWd/0Xhm0l/5j547An71c0/1YQtb4VmLy8DhHi9hSu9UfPwvTv1VASkFp5rmauWsP0CyPIGQHI0FqVYuPCH/eC1isXnaQs1ojakyM31HRIVLMXpwItZ5Fo7GvaSUVWvcFLbTM0e/OuE0DpRgFln4Wd9ObOk91t596S4OCKWMiivEa3dbNKMacEKt+smA9DqNfxHk/LcACIY9fCWE2B90gQoO/LaYGFzWcsx2u5x57ihgm7sn9CmZ4KyC+eKPExDFk8zy7Yfe6gZliKVNXpWqQbtb4XgjutZR0nFAh/Z+aLbTgpBONx2ETQSHZIWtycR63CKXVjY/BX6AS7a892tim+bcxHgD/EJGnpYF2SlXKMKi55f7eIKrDcPAD4lkomonvN25RpnN4Szm/yO7gNJs18vCVtSjsTsdD3LCM6lxIAYjDIjKjCEL5QRjfbUpfzwmXUgh+0Lo88awWZUy6JGlHqowjIV+t9PwZJPxk=
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(35042699022)(14060799003)(36860700016)(376014)(7416014)(56012099003)(11063799006)(4143699003)(6133799003)(22082099003)(17002099007)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ozA14HkmzKn+h3GA5FbD6QlLPa39ln1aAK9fet3eIRW8QJFb1PQCkTIQneXRXk6GDFJx+s34rvhuhDvA64Vmfv7EDPGQFGZhai++b2O1gIMiRTdt5mlaWeDbUPlmRhMphTAfitnxzk7FEj6ZLzVBQO69esaimC+wWG4oSXUWH9KJI4b/QZI7d4F45mzzGFLbqT9C3WUI7cSVtIQS3llviT0KMzepxGKzNjfH+VB4MetBnuA2jzhUrmrh3jyCjxF4C6pKbwOXpY93zG4aR9TQAcfOxhRz6bKZc9XsG0lRCUzrYjLrJLYpK6rays3KxQ9nlOi8MVS+JeYdIr0DeoyAJrGsY1eq/GwGkFoeMNv0yGsYlGzJUWJVtiPKgP2mGkGzKwvNlj73mcPqG6uZrwmF25TS7T0kGxVyM1nYUkg5rPxmkUurwIUGCSihF7Jm/bpf
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 12:09:42.3883
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80f91fbd-1f4e-464f-fdb9-08debb1fab42
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DU6PEPF0000A7E1.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5712
 
 
--- Nico
 
->
-> >
-> >We optimized this by passing the vma variable to mthp_collapse() and usi=
-ng
-> >the collapse_max_ptes_none() function to check the state of uffd-armed
-> >preventing the wasted work later in the collapse.
-> >
-> >mthp_collapse() is called after mmap_read_unlock(), so the vma pointer c=
-an
-> >become stale.  Remove the vma parameter and pass NULL to
-> >collapse_max_ptes_none() instead.
-> >
-> >Link: https://lore.kernel.org/2b2cda8c-358a-4a5c-989c-ae42593ef2ea@redha=
-t.com
-> >Signed-off-by: Nico Pache <npache@redhat.com>
-> >...
-> >
-> > mm/khugepaged.c |   10 +++++-----
-> > 1 file changed, 5 insertions(+), 5 deletions(-)
-> >
-> >--- a/mm/khugepaged.c~mm-khugepaged-introduce-mthp-collapse-support-fix
-> >+++ a/mm/khugepaged.c
-> >@@ -1502,9 +1502,9 @@ static unsigned int collapse_mthp_count_
-> >  * If a collapse is permitted, we attempt to collapse the PTE range int=
-o a
-> >  * mTHP.
-> >  */
-> >-static int mthp_collapse(struct mm_struct *mm, struct vm_area_struct *v=
-ma,
-> >-              unsigned long address, int referenced, int unmapped,
-> >-              struct collapse_control *cc, unsigned long enabled_orders=
-)
-> >+static int mthp_collapse(struct mm_struct *mm, unsigned long address,
-> >+              int referenced, int unmapped, struct collapse_control *cc=
-,
-> >+              unsigned long enabled_orders)
-> > {
-> >       unsigned int nr_occupied_ptes, nr_ptes, max_ptes_none;
-> >       int collapsed =3D 0, stack_size =3D 0;
-> >@@ -1524,7 +1524,7 @@ static int mthp_collapse(struct mm_struc
-> >               if (!test_bit(order, &enabled_orders))
-> >                       goto next_order;
-> >
-> >-              max_ptes_none =3D collapse_max_ptes_none(cc, vma, order);
-> >+              max_ptes_none =3D collapse_max_ptes_none(cc, NULL, order)=
-;
-> >
-> >               nr_occupied_ptes =3D collapse_mthp_count_present(cc, offs=
-et,
-> >                                                              nr_ptes);
-> >@@ -1749,7 +1749,7 @@ out_unmap:
-> >       if (result =3D=3D SCAN_SUCCEED) {
-> >               /* collapse_huge_page expects the lock to be dropped befo=
-re calling */
-> >               mmap_read_unlock(mm);
-> >-              nr_collapsed =3D mthp_collapse(mm, vma, start_addr, refer=
-enced,
-> >+              nr_collapsed =3D mthp_collapse(mm, start_addr, referenced=
-,
-> >                                            unmapped, cc, enabled_orders=
-);
-> >               /* mmap_lock was released above, set lock_dropped */
-> >               *lock_dropped =3D true;
-> >_
->
-> --
-> Wei Yang
-> Help you, Help me
->
+On 5/26/26 2:31 PM, Mike Rapoport wrote:
+> On Mon, May 25, 2026 at 11:59:32AM +0530, Sarthak Sharma wrote:
+>> Hi Mike!
+>>
+>> On 5/24/26 10:36 PM, Mike Rapoport wrote:
+>>> On Thu, 21 May 2026 16:47:58 +0530, Sarthak Sharma <sarthak.sharma@arm.com> wrote:
+>>>
+>>> Hi Sarthak,
+>>>
+>>>>
+>>>> diff --git a/tools/lib/mm/file_utils.c b/tools/lib/mm/file_utils.c
+>>>> new file mode 100644
+>>>> index 000000000000..0f9322f2cf41
+>>>> --- /dev/null
+>>>> +++ b/tools/lib/mm/file_utils.c
+>>>> @@ -0,0 +1,83 @@
+>>>> [ ... skip 48 lines ... ]
+>>>> +	saved_errno = errno;
+>>>> +	close(fd);
+>>>> +	errno = saved_errno;
+>>>> +	if (numwritten < 0) {
+>>>> +		fprintf(stderr, "%s write(%.*s) failed: %s\n",
+>>>> +			path, (int)(buflen - 1), buf, strerror(errno));
+>>>
+>>> This would break TAP formatting for selftests.
+>>
+>> Yes, thanks for pointing it out.
+>>
+>>>
+>>>> +		exit(EXIT_FAILURE);
+>>>
+>>> and while EXIT_FAILURE == KSFT_FAIL I'm not sure it's robust enough.
+>>
+>> I used EXIT_FAILURE here because the helper is moving out of selftests
+>> and should not include kselftest.h anymore. The helper already
+>> terminated the process on these paths, so I tried to preserve that
+>> behavior while removing the ksft dependency.
+> 
+> In mm selftests a failure to update a /proc or /sysfs file meant there is
+> no point to continue the test. But if we make it a generic helper for
+> potentially broader use than mm selftests, exit() on failure is too harsh.
+
+Okay yeah, this makes sense.
+
+>  
+>> We can change this to return errors instead of calling exit() and update
+>> the selftest callers to report failures through the ksft_* helpers. I
+>> agree this is cleaner, but it would grow the series a bit.
+>>
+>> If you feel strongly, I can include these changes in v4. Otherwise I
+>> feel we can handle it separately later to avoid growing this series.
+> 
+> There are not that many callers of write_file() and write_num().
+> I think a patch that makes them return an error rather than exit() can go
+> before moving these functions to lib. 
+> 
+
+So I will add a patch before the move that makes read_file(),
+write_file(), read_num() and write_num() return errors instead of
+exiting and update the existing selftest callers to report those
+failures via ksft_* helpers.
+
+For hugepage_settings.c, I’d prefer to keep the existing fail fast
+behaviour in this series. After this series, the users are still mm
+selftests and the new tools/mm/gup_bench tool and for those users a
+failure to read/write THP or HugeTLB state is fatal to the operation
+being attempted.
+
+Converting the full hugepage_settings API to return errors would be a
+larger follow-up, because many of its helpers are used throughout mm
+selftests. I can handle that in a separate series unless you think it
+should be folded into this one as well.
+
+>>>>
+>>>> diff --git a/tools/testing/selftests/mm/hugepage_settings.c b/tools/testing/selftests/mm/hugepage_settings.c
+>>>> index 2eab2110ac6a..5e947abb7425 100644
+>>>> --- a/tools/testing/selftests/mm/hugepage_settings.c
+>>>> +++ b/tools/testing/selftests/mm/hugepage_settings.c
+>>>> @@ -8,8 +8,9 @@
+>>>>  #include <stdlib.h>
+>>>>  #include <string.h>
+>>>>  #include <unistd.h>
+>>>> +#include <mm/file_utils.h>
+>>>>  
+>>>> -#include "vm_util.h"
+>>>
+>>> I think it would be fine to include file_utils.h in vm_utils.h and avoid
+>>> further churn.
+>>
+>> Okay, I'll change this.
+> 
 
