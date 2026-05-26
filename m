@@ -1,120 +1,157 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D31352C34;
-	Tue, 26 May 2026 12:34:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC33282F1D;
+	Tue, 26 May 2026 12:35:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779798868; cv=none; b=LOJ09oWaVqpYEyiAzvN8SRO25pRIZNYNNg8UhIiIOIIa1F62BBFvGHYgeHYhcNRDEDgWggYN0K9SRzNTx/Lr7KStQk2bKx2dAtiAt+0TdnrJwx+tSls0ITU34zzIu+7wMJW8CM80e4AnvTFltqROB7VTQ/S1cqkQZWOdZXw8sl0=
+	t=1779798930; cv=none; b=mV1wPKFzIdbQjFbi14rE/iYJsAbSP9zfK3x5gpN57PO9BjHnYc4LUG/fyoZ5KR5GB7CNwlTeLtWz8zplJWvjhIDDzPcy/ykytuLOTEdEH1SY8n+cB5Sg5saIIIfREnSoEExq1K3OILrttZ4iWJHuYpjJcO2/9gqXEMDTmkS2n8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779798868; c=relaxed/simple;
-	bh=mk/zjg0ab3m+7eKgcFNXydgbAosfernUtmM1ABsyjwg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DpdhkiI8GzUKelx//7PLcj3du8NpyvcnvfIHNW3FLX3SFYaDRI23zsB3mK5efJ/u5pmmyQLAx0R+OLYK36AoIYcDKhQnzzi4NSy0obQGylU5IrTXEBTrXZGGuhKI19+rwGmKcsEFUhJRSXk5i4m537P7z9QF4tLaSjXcjtnePNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RmVzUO2d; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779798930; c=relaxed/simple;
+	bh=n7j2xB/p2/bpJ4PAZFAH2CPKG+pYjXlg/jFOgnW2DLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ABO4aED5VdF4oSxk/QNAuPmgGCTU24CQHU5AG3n2F+yYGge/1j2frlaQpj0qpbWqJFdNITIY2CJ1+TA0NOCi6LTdNhennFC4+DyflaY7JTQggYYsrSGzaDndJwOmm0Ba+hL7ElX1+Fcr6X1Bn8gemLNpzOEDzcvxW26k9MLn8CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mVrWbuS1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RmVzUO2d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B5C01F00A3A;
-	Tue, 26 May 2026 12:34:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mVrWbuS1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E9121F000E9;
+	Tue, 26 May 2026 12:35:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779798867;
-	bh=hmoINqMgVgeubIA80Me9ZHWv15KWusGbb1TzukRmFSk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RmVzUO2ddb4EKCFTrOtfA0cRTCa7E3Y7UkKTIOgQrmtOcTBWRjWqN/mKjD3Nf0j/0
-	 FdpY6rPRp5mwIGNeoyS/Jfh+a9rycednulXrTjh3e8/XdXVBJUOYwi/MzFnf1nmuTw
-	 YS6zEF8tUuYbMkBDMBXuAy4ywWUYKYRlRcF0+NsD5LOW2bs8VXDh8U4RzSCUcj/AO2
-	 cBcuf4qP6WJ2IANsM/9A6Y/h+FjzcIOTv4J/zVJv1rdqmFQ0OnIqfGpSzBBstFTGlZ
-	 0Ap7zIzxAQllaqYuJOqGfvIdgAj99GATDe4GdEWrX/tD4pDyu+mvB2InmD5odu4mZk
-	 l48kefwwgBy7Q==
-Date: Tue, 26 May 2026 15:34:15 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Sarthak Sharma <sarthak.sharma@arm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
-	Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>, Mark Brown <broonie@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] tools/lib/mm: add shared file helpers
-Message-ID: <ahWTRy5gkaeFW7m7@kernel.org>
-References: <20260521111801.173019-1-sarthak.sharma@arm.com>
- <20260521111801.173019-2-sarthak.sharma@arm.com>
- <177964236205.4000040.3083558454897469696.b4-review@b4>
- <ff7d212c-d3e0-4476-8903-ffe88fb7048c@arm.com>
- <ahVhTWl0fTF3ASsC@kernel.org>
- <70a9008b-8b13-44f4-81b4-2397b4ccd323@arm.com>
+	s=k20260515; t=1779798928;
+	bh=A4I37u3pxMkDLwlxmTpz4QG4dLPJrI76nlF19AT6q0I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=mVrWbuS1XS8D3hQMpCtLJLpnHf6D6jAOgx476wTlix+2MGFvfbpg1YBsuH9+iOE3M
+	 ehoBHdgaQhjGCN3XnDZiu495rlZ0RS9alDi9zTJGtWSYv06o/tia5kgRIpWvUTomr8
+	 6S/kpe1YRlyltFd7QyJ+a9idd7tpmWMwWnB4DIcn/ch/peJ5jLNgBAWTbn0z+gQnyP
+	 TvygqtFjVDwlMKiXi55/NLyDFTQpbIBnNWfXKrp+NxGsl5hru6fZ/T1QAeXv/yyXW5
+	 W2ujko2fWTBrm/4rbOIoTmgEOL0Cg2nds0hZZo0b8OWj12xabcqpiyKv4Llh49MCaE
+	 WhR4tpzTt0/SA==
+Date: Tue, 26 May 2026 13:35:19 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Cc: Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, David
+ Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil
+ <jan.sun97@gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
+Message-ID: <20260526133519.232fd9d6@jic23-huawei>
+In-Reply-To: <20260525-dedicator-strut-6f7618a92180@spud>
+References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
+	<20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
+	<20260522180207.63b725fb@jic23-huawei>
+	<20260525-dedicator-strut-6f7618a92180@spud>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <70a9008b-8b13-44f4-81b4-2397b4ccd323@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 26, 2026 at 05:38:29PM +0530, Sarthak Sharma wrote:
-> On 5/26/26 2:31 PM, Mike Rapoport wrote:
-> > On Mon, May 25, 2026 at 11:59:32AM +0530, Sarthak Sharma wrote:
-> >> On 5/24/26 10:36 PM, Mike Rapoport wrote:
-> >>>
-> >>> and while EXIT_FAILURE == KSFT_FAIL I'm not sure it's robust enough.
-> >>
-> >> I used EXIT_FAILURE here because the helper is moving out of selftests
-> >> and should not include kselftest.h anymore. The helper already
-> >> terminated the process on these paths, so I tried to preserve that
-> >> behavior while removing the ksft dependency.
-> > 
-> > In mm selftests a failure to update a /proc or /sysfs file meant there is
-> > no point to continue the test. But if we make it a generic helper for
-> > potentially broader use than mm selftests, exit() on failure is too harsh.
-> 
-> Okay yeah, this makes sense.
-> 
-> >  
-> >> We can change this to return errors instead of calling exit() and update
-> >> the selftest callers to report failures through the ksft_* helpers. I
-> >> agree this is cleaner, but it would grow the series a bit.
-> >>
-> >> If you feel strongly, I can include these changes in v4. Otherwise I
-> >> feel we can handle it separately later to avoid growing this series.
-> > 
-> > There are not that many callers of write_file() and write_num().
-> > I think a patch that makes them return an error rather than exit() can go
-> > before moving these functions to lib. 
-> > 
-> 
-> So I will add a patch before the move that makes read_file(),
-> write_file(), read_num() and write_num() return errors instead of
-> exiting and update the existing selftest callers to report those
-> failures via ksft_* helpers.
-> 
-> For hugepage_settings.c, I’d prefer to keep the existing fail fast
-> behaviour in this series. After this series, the users are still mm
-> selftests and the new tools/mm/gup_bench tool and for those users a
-> failure to read/write THP or HugeTLB state is fatal to the operation
-> being attempted.
-> 
-> Converting the full hugepage_settings API to return errors would be a
-> larger follow-up, because many of its helpers are used throughout mm
-> selftests. I can handle that in a separate series unless you think it
-> should be folded into this one as well.
+On Mon, 25 May 2026 17:30:02 +0100
+Conor Dooley <conor@kernel.org> wrote:
 
-Keeping fail fast in hugepage_settings for now makes sense, they are not as
-generic as write_file().
+> On Fri, May 22, 2026 at 06:02:07PM +0100, Jonathan Cameron wrote:
+> > On Tue, 19 May 2026 17:42:58 +0200
+> > Janani Sunil <janani.sunil@analog.com> wrote:
+> >  =20
+> > > Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
+> > > buffered voltage output digital-to-analog converter (DAC) with an
+> > > integrated precision reference. =20
+> >=20
+> > Note that I'm seeing this as Changes Requested in the DT-binding patchw=
+ork
+> > but didn't see any replies.
+> >=20
+> > Seems I didn't get the sashiko reply - nor did the IIO patchwork.
+> > Hopefully Janani did!
+> > https://patchwork.kernel.org/project/devicetree/patch/20260519-ad5529r-=
+driver-v3-1-267c0731aa68@analog.com/ =20
+>=20
+> The sashiko stuff is per subsystem or something, so dt stuff only goes
+> to us and the submitters. I think that's kinda stupid but also probably
+> required to avoid pissing people off. There's quite a bit of noise
+> generated by it, especially with it repeating the same incorrect stuff
+> on every version.
 
--- 
-Sincerely yours,
-Mike.
+When I get on top of the long weekend's backlog I'll start a discussion
+on whether we ask for emails from Sashiko be sent to linux-iio.
+
+I was nervous about doing that until I had some experience of how=20
+reliable the reviews are but given I'm either cutting and pasting stuff
+into threads or telling people to go look, might as well have those emails.
+
+Jonathan
+
+>=20
+> >  =20
+> > >=20
+> > > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> > > ---
+> > >  .../devicetree/bindings/iio/dac/adi,ad5529r.yaml   | 217 +++++++++++=
+++++++++++
+> > >  MAINTAINERS                                        |   7 +
+> > >  2 files changed, 224 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.ya=
+ml b/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
+> > > new file mode 100644
+> > > index 000000000000..eb66f6ca063d
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
+> > > @@ -0,0 +1,217 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/iio/dac/adi,ad5529r.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Analog Devices AD5529R 16-Channel 12/16-bit High Voltage DAC
+> > > +
+> > > +maintainers:
+> > > +  - Janani Sunil <janani.sunil@analog.com>
+> > > +
+> > > +description: |
+> > > +  The AD5529R is a 16-channel, 12-bit or 16-bit, high voltage, buffe=
+red voltage output =20
+> >=20
+> > Long line. Check the wrap.
+> >  =20
+> > > +  digital-to-analog converter (DAC) with an integrated precision ref=
+erence.
+> > > +  The device operates from unipolar and bipolar supplies. It is guar=
+anteed
+> > > +  monotonic and has built-in rail-to-rail output buffers that can so=
+urce or
+> > > +  sink up to 25mA.
+> > > +
+> > > +  Specifications:
+> > > +  * 16 independent 12-bit or 16-bit DAC channels
+> > > +  * Independently programmable output ranges: 0V to 5V, 0V to 10V, 0=
+V to 20V,
+> > > +    0V to 40V, =C2=B15V, =C2=B110V, =C2=B115V, and =C2=B120V
+> > > +  * The device supports SPI communication with Mode 0 and Mode 3.
+> > > +  * 4.096V precision reference, 12ppm/=C2=B0C maximum
+> > > +  * Built-in function generation: Toggle, Sinusoidal Dither, and Ram=
+p waveforms
+> > > +  * Multiplexer for output voltage, load current sense and die tempe=
+rature
+> > > +
+> > > +  Datasheet: https://www.analog.com/media/en/technical-documentation=
+/data-sheets/ad5529r.pdf
+> > > + =20
+> >  =20
+> > > +patternProperties:
+> > > +  "^channel@([0-9]|1[0-5])$": =20
+> >=20
+> > Sashiko commented that this should be hex.  Why the forcing to decimal?
+> >  =20
+
