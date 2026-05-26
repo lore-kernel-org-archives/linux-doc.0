@@ -1,315 +1,178 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0482D7D59
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 09:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DE143D8908;
+	Tue, 26 May 2026 09:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779788175; cv=none; b=W+HS+cKKhiZTY2hSm/beRQctdcHTbCC0/ToxJalc4lZG+g4XhDgRZdzQQdKSOMe16LT8+onAQGWjkGpTD4mYtzgBSx0f3GS5hk7eLGUYfdiOF1+notkrJbujK3P5yOMbKxIym7VTPIlRvqs/ebRJd8ZcG4xw/aQJs4aaf9o1Hpc=
+	t=1779788375; cv=none; b=GNXokhqovmERtxch+ncTyxzwuVC5az1HoS4qpZE2xIasbnSlwXxLDICmQ4lom5VHsIb+DdGWFx7bc5GovNNWP/MakYN09ePAg3xivDYvmBEgxhF0uj5QrLaT5bgapLswXtWlx1n4Y6kMltQTlk1LJlzQStghKmnfOpG3CkERL0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779788175; c=relaxed/simple;
-	bh=z3UCM37jMbbkJHCrJAAoJmp/B6XUaVvm/Y4cz4sJbw8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XREYU7l3ZnDVAUknfAQVrPL3r5+qniN2Kx+lpfTvuZVS0BgeZRPjDx6jh+kOpmciSoUbwdNapL9zTIoJWG+GvF7w+Kr37/I6qf/apdq3YoHeZE52mdeKCRaE96809E+UAouujhOs1bGYw2dGt/UVhr0Es6HHIungjYkY2xgM9jQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W//chOT9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J/ZM3I/F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W0lr0wQ2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Mu8lSDY/; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779788375; c=relaxed/simple;
+	bh=oMmoMD+GjALPUvOfptwGTWbIMDRQTKkEmSqw2+XfJvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nl9gs1Z5EPQewAcmIelSe/KaexcMS/2+O9nAp4f70ZdFPOflTzkD8a6VK7s4awDTuSDfPt6iLh/rkkYzhtguSuyThyvFSe8nKTxYaCcMvyBeEXKXZeTqCfWqSpNBqBe4FqBTFu0F5bGLgOTp2+Q4nHf/7eH6tejVLGk1Uc7o84Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=qoNEcAdf; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W//chOT9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J/ZM3I/F";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W0lr0wQ2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Mu8lSDY/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E1A296B158;
-	Tue, 26 May 2026 09:36:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779788172; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=0TYzxBo6YYni/YvihchIYDS6WS2my53hnhjsZy7G6kk=;
-	b=W//chOT96fM5Q6mOKy+1WnsKLMKs29ilrazvg7PGpWKNkpNT3Jj1eHvEZJVyo3JB7mZZbj
-	A8TYogk0gmoDzQzfqlIXr55ai6Lj+sC159D6UIdAJ9/CjEzVByUpD5zHJ+kprJ3QUb1iTC
-	Rv/n7RKaZRzjS7Pwy9eZTM7S2Wqmyu8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779788172;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=0TYzxBo6YYni/YvihchIYDS6WS2my53hnhjsZy7G6kk=;
-	b=J/ZM3I/FVYIPO50Q+ou1D0SQ1LGqbHaPUevd0R/XYnuXrP2Aw6neXmLQw72o7qpJuX2D4q
-	PxD6+tF9uOpfHjBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=W0lr0wQ2;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Mu8lSDY/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779788171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=0TYzxBo6YYni/YvihchIYDS6WS2my53hnhjsZy7G6kk=;
-	b=W0lr0wQ2Hj6RzqkTrAK41Sd6ZphAOFDgnkszUMT0Dff29O1+nQYwy3h/7jxm3r8/jBU49q
-	N3faH1TERDqjgDijgQChC2NHEfEOUuxgvkHyV/OSIL6KLVMxNRYO1cRnH4fN0Ca/G3p/Io
-	jFTg4i+eRQfJ0fuhmQ1YCeAGyXxWyT8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779788171;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=0TYzxBo6YYni/YvihchIYDS6WS2my53hnhjsZy7G6kk=;
-	b=Mu8lSDY/aNRFbojgtuwTNbIjctkPIXvP2shk5GJ6efj4VMDZhedfSulzGFRCgFWbabxG87
-	bilWMX+wfBnN/0DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 02D285A132;
-	Tue, 26 May 2026 09:36:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ONarOoppFWo8CQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 26 May 2026 09:36:10 +0000
-Message-ID: <7af4b63e-027c-4be3-8ded-6bd770037d3c@suse.de>
-Date: Tue, 26 May 2026 11:36:10 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="qoNEcAdf"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7FFE16F3;
+	Tue, 26 May 2026 02:39:25 -0700 (PDT)
+Received: from thinkpad-e142931.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 89FF53F86F;
+	Tue, 26 May 2026 02:39:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1779788371; bh=oMmoMD+GjALPUvOfptwGTWbIMDRQTKkEmSqw2+XfJvc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qoNEcAdfIv6OxKiwWgg6Qodpo0AIVqevYc0ITRnZAVuHBGkLI45Yq0n51FQdVnUxw
+	 /dsmasqhbW1eQwcvx3sjeHlUbewhgu3PlcuPlBOFrfUIySQqZfR4rEEJhaIrCtY3Ef
+	 jX2igp5g1BVy3pANfLTkrmgkzVtcd50TqMTT1+eU=
+Date: Tue, 26 May 2026 10:39:18 +0100
+From: Wei-Lin Chang <weilin.chang@arm.com>
+To: "Liam R. Howlett" <liam@infradead.org>
+Cc: maple-tree@lists.infradead.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Andrew Ballance <andrewjballance@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 2/2] Documentation: maple_tree: Clarify behavior when
+ using reserved values
+Message-ID: <uspsobhmhxsuw6f6nwmug3jqcyrhhhhzcnt2gqlx2lxwzknc44@vvyqe5snqtjg>
+References: <20260504165746.1422057-1-weilin.chang@arm.com>
+ <20260504165746.1422057-3-weilin.chang@arm.com>
+ <5qnwgdcxqat2zo5qe7qy63xm5awo5l4lkdkf4umbj3sl2ct5sj@v5c3szzdbbq3>
+ <q2dtphja7i45kknjk3bs4hn2bpictyoaideyjfbdh4sz4pxllo@xtsyvo3eztdb>
+ <kkunuk6hph3uwljo26qqgskczsodydsxvbadycube6n2rldjba@rz6of4335slj>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/19] drm/atomic: Rework initial state allocation
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>,
- Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>,
- Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20260519-drm-mode-config-init-v5-0-388b03321e38@kernel.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260519-drm-mode-config-init-v5-0-388b03321e38@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: E1A296B158
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL7gneoo7ydcsn9o76mxr5d8pb)];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url,suse.de:dkim,suse.de:mid]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <kkunuk6hph3uwljo26qqgskczsodydsxvbadycube6n2rldjba@rz6of4335slj>
 
-I only had comments on the writing. Looks good otherwise.
+On Tue, May 12, 2026 at 04:50:36PM -0400, Liam R. Howlett wrote:
+> On 26/05/07 11:09PM, Wei-Lin Chang wrote:
+> > On Thu, May 07, 2026 at 05:24:11AM +0200, Liam R. Howlett wrote:
+> > > On 26/05/04 05:57PM, Wei-Lin Chang wrote:
+> > > > It doesn't matter whether the normal or the advanced API is used if the
+> > > > user uses xa_{mk, to}_value when storing and retrieving the values. Just
+> > > > specify that the normal API blocks usages of reserved values while the
+> > > > advanced API does not.
+> > > 
+> > > Your comment above is incorrect.
+> > > 
+> > > The normal API will filter out reserved values on return while the
+> > > advanced API will return whatever is stored there regardless of the
+> > > value.
+> > > 
+> > > Meaning, if you store a reserved value with the advanced API, it will
+> > > not be returned by the normal API.
+> > 
+> > This is valuable information, thanks for explaining.
+> 
+> Hmm, maybe I answered too quickly here.  We filter out XA_ZERO_ENTRY on
+> normal API searches, which is in the reserved range.
+> 
+> > However, I'm confused how this shows my comment incorrect?
+> 
+> It matters if you use the xa_(mk, to}_value since the top bit will be
+> lost.  Re-reading your comment, you don't specifically say that though,
+> you said 'if the user uses..', so I was confused by your wording of what
+> you were saying.
 
-Best regards
-Thomas
+Ah, sorry for not being clear.
 
-Am 19.05.26 um 11:01 schrieb Maxime Ripard:
-> Hi,
->
-> This series started from my work on the hardware state readout[1], and
-> more specifically a discussion with Thomas[2].
->
-> This series expands the work that has been merged recently to make
-> drm_private_obj and drm_private_state allocation a bit more consistent
-> and ended up creating a new atomic_create_state callback to allocate a
-> new state with no side effect.
->
-> The first patches document the existing behaviour and fix a few
-> cleanups and typos.
->
-> Then, __drm_*_state_reset() helpers are renamed to
-> __drm_*_state_init() to clarify that they initialize rather than
-> reset state, and we add the new atomic_create_state callback to
-> every other DRM object (planes, CRTCs, connectors, colorops).
->
-> Next, we leverage those new callbacks to create a new helper,
-> drm_mode_config_create_initial_state(), to create the initial state
-> for all the objects of a driver, and update the driver skeleton to
-> recommend it.
->
-> Finally, we convert the tidss driver and the bridge_connector to the
-> new pattern.
->
-> This was tested on a TI SK-AM62, with the tidss driver.
->
-> Let me know what you think,
-> Maxime
->
-> 1: https://lore.kernel.org/dri-devel/20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org/
-> 2: https://lore.kernel.org/dri-devel/5920ffe5-b6b1-484b-b320-332b9eb9db82@suse.de/
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
-> Changes in v5:
-> - Address sashiko reviews
-> - Improve the docs
-> - Fix drmm_connector_hdmi_init
-> - Drop drm/tidss: Switch to drm_mode_config_create_initial_state since
->    not all possible bridges would have been converted to create_state
-> - Link to v4: https://lore.kernel.org/r/20260512-drm-mode-config-init-v4-0-591dfdcc1bf9@kernel.org
->
-> Changes in v4:
-> - Rebased on current drm-misc-next
-> - Update drm_atomic_state to drm_atomic_commit
-> - Various doc impromvements
-> - Don't call drm_crtc_vblank_reset in create_state
-> - Prevent mem leak if states already have a state when
->    drm_mode_config_reset or _create_initial_state are called
-> - Link to v3: https://lore.kernel.org/r/20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org
->
-> Changes in v3:
-> - Reintroduce state documentation that was dropped by accident
-> - Change name to drm_mode_config_create_initial_state()
-> - Don't call drm_mode_config_create_initial_state() in drm_dev_register
->    anymore
-> - Drop __drm_atomic_helper_*_create_state
-> - Improve documentation and commit messages where necessary
-> - Collected tags
-> - Link to v2: https://lore.kernel.org/r/20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org
->
-> Changes in v2:
-> - Change the _state_reset function names to _state_init
-> - Change the colorop too
-> - Various doc improvements
-> - Link to v1: https://lore.kernel.org/r/20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org
->
-> ---
-> Maxime Ripard (19):
->        drm/atomic: Document atomic commit lifetime
->        drm/colorop: Fix typos in the doc
->        drm/atomic: Drop drm_private_obj.state assignment from create_state
->        drm/atomic: Expand atomic_create_state expectations for drm_private_obj
->        drm/mode-config: Document drm_private_obj exclusion from drm_mode_config_reset()
->        drm/colorop: Rename __drm_colorop_state_reset()
->        drm/colorop: Create drm_atomic_helper_colorop_create_state()
->        drm/atomic-state-helper: Fix __drm_atomic_helper_plane_reset() doc typo
->        drm/atomic-state-helper: Rename __drm_atomic_helper_plane_state_reset()
->        drm/plane: Add new atomic_create_state callback
->        drm/atomic-state-helper: Rename __drm_atomic_helper_crtc_state_reset()
->        drm/crtc: Add new atomic_create_state callback
->        drm/atomic-state-helper: Rename __drm_atomic_helper_connector_state_reset()
->        drm/hdmi: Rename __drm_atomic_helper_connector_hdmi_reset()
->        drm/connector: Add new atomic_create_state callback
->        drm/mode-config: Create drm_mode_config_create_initial_state()
->        drm/drv: Switch skeleton to drm_mode_config_create_initial_state()
->        drm/tidss: Convert to atomic_create_state
->        drm/bridge_connector: Convert to atomic_create_state
->
->   Documentation/gpu/drm-kms.rst                      |   6 +
->   drivers/gpu/drm/display/drm_bridge_connector.c     |  17 +-
->   drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  15 +-
->   drivers/gpu/drm/drm_atomic.c                       |  67 ++++++++
->   drivers/gpu/drm/drm_atomic_state_helper.c          | 114 ++++++++++---
->   drivers/gpu/drm/drm_colorop.c                      |  41 ++++-
->   drivers/gpu/drm/drm_connector.c                    |  10 +-
->   drivers/gpu/drm/drm_drv.c                          |   4 +-
->   drivers/gpu/drm/drm_mode_config.c                  | 189 ++++++++++++++++++++-
->   drivers/gpu/drm/i915/display/intel_crtc.c          |   2 +-
->   drivers/gpu/drm/i915/display/intel_plane.c         |   2 +-
->   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
->   drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |   2 +-
->   drivers/gpu/drm/tidss/tidss_crtc.c                 |  17 +-
->   drivers/gpu/drm/tidss/tidss_plane.c                |   2 +-
->   drivers/gpu/drm/vc4/vc4_hdmi.c                     |   2 +-
->   include/drm/display/drm_hdmi_state_helper.h        |   4 +-
->   include/drm/drm_atomic.h                           |   5 +-
->   include/drm/drm_atomic_state_helper.h              |  12 +-
->   include/drm/drm_colorop.h                          |   2 +
->   include/drm/drm_connector.h                        |  16 ++
->   include/drm/drm_crtc.h                             |  16 ++
->   include/drm/drm_mode_config.h                      |   1 +
->   include/drm/drm_plane.h                            |  16 ++
->   24 files changed, 496 insertions(+), 68 deletions(-)
-> ---
-> base-commit: 69c95e4c529297c25503e60acba757fba24fdc95
-> change-id: 20260310-drm-mode-config-init-1e1f52b745d0
->
-> Best regards,
+> 
+> > 
+> > From the original doc:
+> > 
+> > <quote>
+> > If the user needs to use a reserved value, then the user can convert the
+> > value when using the :ref:`maple-tree-advanced-api`, but are blocked by
+> > the normal API.
+> > </quote>
+> > 
+> > To me this is conveying the following points:
+> > 
+> > 1. User can convert the value with xa_{mk, to}_value() when using the
+> >    advanced API if reserved values are being stored. This works because
+> >    those functions transform the reserved values into non-reserved ones.
+> > 2. User can not use reserved values with or without xa_{mk, to}_value()
+> >    with the normal API.
+> > 3. What happens when reserved values are stored is not clearly stated,
+> >    but the normal API will block it.
+> > 
+> > In my understanding 2. is incorrect because if xa_{mk, to}_value() are
+> > deployed, it doesn't matter whether the normal or advanced API is used,
+> > they both work since the values stored aren't reserved.
+> > 
+> > Please do you mind pointing out what I am getting wrong here?
+> 
+> I think you are missing the part where the top bit may be lost?
+> 
+> I also don't think the reserved values will matter if you use the
+> advanced API exclusively.  You would have to filter the special cases or
+> whatever you want - that is, if you mix the interfaces then you may see
+> odd behaviour in regards to the special cases in the normal API while
+> the advanced API would return the reserved items and need to be filtered
+> at a higher level than the maple tree code.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+I see.
 
+> 
+> > 
+> > I was genuinely confused when I was reading the doc and trying to use
+> > this data structure.
+> 
+> Then we need to rework the wording somehow.  Thanks.
+> 
+> > 
+> > > 
+> > > > 
+> > > > Signed-off-by: Wei-Lin Chang <weilin.chang@arm.com>
+> > > > ---
+> > > >  Documentation/core-api/maple_tree.rst | 6 +++---
+> > > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > > > 
+> > > > diff --git a/Documentation/core-api/maple_tree.rst b/Documentation/core-api/maple_tree.rst
+> > > > index 87020a30ba69..e5ccafb84804 100644
+> > > > --- a/Documentation/core-api/maple_tree.rst
+> > > > +++ b/Documentation/core-api/maple_tree.rst
+> > > > @@ -30,9 +30,9 @@ Tree reserves values with the bottom two bits set to '10' which are below 4096
+> > > >  (ie 2, 6, 10 .. 4094) for internal use.  If the entries may use reserved
+> > > >  entries then the users can convert the entries using xa_mk_value() and convert
+> > > >  them back by calling xa_to_value().  Note that xa_{mk, to}_value() bit shifts
+> > > > -the given data, so the top bit will be lost.  If the user needs to use a
+> > > > -reserved value, then the user can convert the value when using the
+> > > > -:ref:`maple-tree-advanced-api`, but are blocked by the normal API.
+> > > > +the given data, so the top bit will be lost.  Usage of reserved values is
+> > > > +blocked by the normal API, and will cause undefined behavior if used with the
+> > > > +:ref:`maple-tree-advanced-api`.
+> > > 
+> > > Which behaviour is undefined?
+> > 
+> > I originally thought storing reserved values could break the tree
+> > because of its internal use (see 3. above).
+> 
+> You can't break the tree by storing reserved values.  The normal API
+> will outright not allow storing it while the advanced API will store and
+> return it.
+> 
+> The issue comes from when you mix and match - if you store a reserved
+> value using the advanced api and then iterate through with the normal
+> api, some values may be lost.  Today, that's XA_ZERO_ENTRY only, but we
+> reserve the right to change that if it is necessary for some tree
+> version.
+> 
+> Does that make sense?
 
+Yes! Thanks for taking the time to explain.
+
+Thanks,
+Wei-Lin Chang
+
+> 
+> Thanks,
+> Liam
