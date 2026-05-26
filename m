@@ -1,111 +1,237 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECB7165F16;
-	Tue, 26 May 2026 09:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477FD165F16
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 09:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779786126; cv=none; b=nSHFiuO0jJDZskRKbRXZsMuMY1PsmAFhcP8o7asHlHs3vODXpsRJWvQOotUz7CpW+gx+Rzu0TMuGTXmNsEu6F4h4uQoNMrriwiPWguFDhm8WI7AXVpxiNsZb/INnoYKIlnruUp/p7CcL1sGe0fiuLhpICDnwcnZylM018E9l0ZA=
+	t=1779786196; cv=none; b=MSytfbuNW8GrIvsNyG1jxr5jkAsyJRAsPbLgOGUj3HMeB9X3UOCObr9RR9UyNppzcDO/bJ9uw3V6nbXn7wkgAVtIiJDQ/ePaF4gqRK6O6TN+VJ8Q1ZjtdT9OqqlXOuFX0nbp+BUeZu4b8kwPZMiONLnM4j5jzOrViXhdhR4PkHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779786126; c=relaxed/simple;
-	bh=DFi/cRyCBqJ8Lu+MIcszq98L1mt6KhWwWqdGNno/Ut4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lJidkve3juf5dvT6boihlS8usNPoXynwqDP/NB3C6JbQ1zNnBLYbEih16bxXTwpoK+OO5gIC8MJQca/+9LMIpLpeTeTFgevRjJsZkRXD04ACXUvo/unUK/+HZlpB2E828W9zPvdXCtagpqErATmmqflrshr/YJsvDzJ5mFHKGD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UNomKvyN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779786196; c=relaxed/simple;
+	bh=6fUP9eHDaDSr1CaKSWLIQvZV60PgU9voR+BhaBTxzjE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tT7U1fHyCEYZDDiLlCGoNtCVCrvI97K3NdAVGP3ljrPxRzAlpSBN6tkhwS1BL6tK8aHMXEIhaaGkYWYeicFKuA/NR/nKAkwV6t7ewkhbVwR2AHzDHWuipLSpfNJmprHi4k9i5U+rmJYDEpMfkTIEwyNEMHsWm9m22WXvitV30k0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ssazCIfk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k09tBqN/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cDFJ/fIa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kyNGaIPN; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UNomKvyN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 588C21F000E9;
-	Tue, 26 May 2026 09:01:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779786125;
-	bh=wKXIQCwGOxQ2OgGY1VhstzsSDD6YrQoCwtJahftxT68=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UNomKvyN6nChEG1NxIcLP+N+6IoiopMw+34CALCJS1jVueNSAZJcikxgGk727zWH7
-	 /O9hdPRmLXWLr8Ed/g5NPz49bC9TmUl+HlK7pC9ysMn99RGkLEGAFNNN4AGIutRkgj
-	 1gFbsnqhWoN5v+gZVG5laclAgI8gyuX64MD6KUdEhjrxGfmdFXM/MeaEYKLst8PS/x
-	 aV/64NGkYCAuFFlGutO5jVD5sYTlaFjP/x5AaTy/pBUWXzdo/58xMd6TC7lxShVQK3
-	 PqokTXpjbgijnmPHKlhp3IPbYH0iluKzjd38rqcGXg96LlAvdlj8mG/6OqhU1+bJBV
-	 1wmaetbFt8CRg==
-Date: Tue, 26 May 2026 12:01:53 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Sarthak Sharma <sarthak.sharma@arm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
-	Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>, Mark Brown <broonie@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] tools/lib/mm: move hugepage_settings out of
- selftests
-Message-ID: <ahVhgW4MdQLrtNa0@kernel.org>
-References: <20260521111801.173019-1-sarthak.sharma@arm.com>
- <20260521111801.173019-3-sarthak.sharma@arm.com>
- <177964236208.4000040.6637433432678119173.b4-review@b4>
- <8992b3c0-a2af-436e-a50f-3729cf589d09@arm.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ssazCIfk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k09tBqN/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cDFJ/fIa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kyNGaIPN"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7B9356B2FB;
+	Tue, 26 May 2026 09:03:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779786193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1yHSAnSnfei8Gpn2LyHnScleECQ2X3M3l4lHkpRdlsY=;
+	b=ssazCIfkbn/XH8qvMDgaTEmoPRG0iN7BpVes7jP6wzLpPdPpf7XhxPspDKmhRGrWrWnEcD
+	HUh3FO5qjERqbV5N3xoIBF4nV3HiJmtBErWqgfZ11hJ1w+HJQwUp8ErS5bruCK9F4ClxoY
+	KmcdsDzvdTodr8w0YyVjEVv0YvBEQIo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779786193;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1yHSAnSnfei8Gpn2LyHnScleECQ2X3M3l4lHkpRdlsY=;
+	b=k09tBqN/nuw/Yzpcik8gNJC/9N5tQ/YhIZX6GeULjf4G1J5nKOwBaIvzi5f4hUwfBy3VGC
+	BVL+2GbqYR7y6+Cg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="cDFJ/fIa";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=kyNGaIPN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779786188; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1yHSAnSnfei8Gpn2LyHnScleECQ2X3M3l4lHkpRdlsY=;
+	b=cDFJ/fIaPTLps14vShNqkeLQ2ry751FTf598fjLwi++BhSaPRJArHvYHnNs2o8K1x1p9ZM
+	WYmKvGNoSTsR5qxRfvBEkeET1ApRsnXK6bSgmOEB2po1lJpHYIl0qv7C1IKuSv770Enfux
+	B/amjK67/jPITJ+88L+F77xLF6rjPN0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779786188;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1yHSAnSnfei8Gpn2LyHnScleECQ2X3M3l4lHkpRdlsY=;
+	b=kyNGaIPNw+IYlG1o6Yr0yD6ud8RKRG6VXC/MTwB+b/XtPgHLGgQVcqGfmLlfZ8ktEs28rV
+	CeQn3BXUiwkMbfCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8723A5A112;
+	Tue, 26 May 2026 09:03:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /jKuH8thFWrHZwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 26 May 2026 09:03:07 +0000
+Message-ID: <0f581544-69aa-4d88-9b72-9341a4c847ea@suse.de>
+Date: Tue, 26 May 2026 11:03:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8992b3c0-a2af-436e-a50f-3729cf589d09@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/19] drm/atomic: Drop drm_private_obj.state
+ assignment from create_state
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>,
+ Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20260519-drm-mode-config-init-v5-0-388b03321e38@kernel.org>
+ <20260519-drm-mode-config-init-v5-3-388b03321e38@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260519-drm-mode-config-init-v5-3-388b03321e38@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 7B9356B2FB
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	R_RATELIMIT(0.00)[to_ip_from(RL7gneoo7ydcsn9o76mxr5d8pb)];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	internal_greylist_whitelist(0.00)[2a07:de40:b281:104:10:150:64:97];
+	TAGGED_RCPT(0.00)[renesas];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,suse.de:dkim,suse.com:url,ideasonboard.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Mon, May 25, 2026 at 11:43:37AM +0530, Sarthak Sharma wrote:
-> Hi Mike!
-> 
-> On 5/24/26 10:36 PM, Mike Rapoport wrote:
-> > On Thu, 21 May 2026 16:47:59 +0530, Sarthak Sharma <sarthak.sharma@arm.com> wrote:
-> > 
-> > Hi Sarthak,
-> > 
-> >>
-> >> diff --git a/tools/testing/selftests/mm/hugepage_settings.c b/tools/lib/mm/hugepage_settings.c
-> >> similarity index 98%
-> >> rename from tools/testing/selftests/mm/hugepage_settings.c
-> >> rename to tools/lib/mm/hugepage_settings.c
-> >> index 5e947abb7425..b08b27776fc5 100644
-> >> --- a/tools/testing/selftests/mm/hugepage_settings.c
-> >> +++ b/tools/lib/mm/hugepage_settings.c
-> >> @@ -383,8 +387,6 @@ int detect_hugetlb_page_sizes(unsigned long sizes[], int max)
-> >>  		if (sscanf(entry->d_name, "hugepages-%zukB", &kb) != 1)
-> >>  			continue;
-> >>  		sizes[count++] = kb * 1024;
-> >> -		ksft_print_msg("[INFO] detected hugetlb page size: %zu KiB\n",
-> >> -			       kb);
-> > 
-> > I believe this message is useful for debugging.
-> 
-> I removed this because hugepage_settings.c is now moving out of
-> selftests, and converting the ksft_print_msg() calls to plain printf()
-> would break TAP output for selftests.
-> 
-> I can add these diagnostic lines back, but since this is now a shared
-> helper, in order to preserve TAP compatibility, I'll have to do a
-> fprintf(stderr, "# ..."). I feel this would look a bit odd from a
-> non-selftest invocation though.
 
-I think "# ... " is not that bad to begin with :)
- 
-> Another option is to add a logging hook so selftests can wire this to
-> ksft_print_msg() while non-selftest users can use normal stderr, but
-> that feels too much for 2 print statements and would extend the scope of
-> this series.
-> 
-> Please let me know if you have a preference here.
+
+Am 19.05.26 um 11:01 schrieb Maxime Ripard:
+> The initial intent of the atomic_create_state hook was to simply
+> allocate a proper drm_private_state and return it, without any side
+> effect.
+>
+> However, __drm_atomic_helper_private_obj_create_state(), which most
+> atomic_create_state implementations call, introduces a side effect by
+> setting drm_private_obj.state to the newly allocated state.
+>
+> This assignment defeats the purpose, but is also redundant since
+> drm_atomic_private_obj_init(), the only call site for the
+> atomic_create_state hook, will also set this pointer to the newly
+> allocated state.
+>
+> Drop the assignment in __drm_atomic_helper_private_obj_create_state().
+>
+> Fixes: e7be39ed1716 ("drm/atomic-helper: Add private_obj atomic_create_state helper")
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>   drivers/gpu/drm/drm_atomic_state_helper.c | 2 --
+>   1 file changed, 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index cc70508d4fdb..a82568d87e4f 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -729,12 +729,10 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
+>   void __drm_atomic_helper_private_obj_create_state(struct drm_private_obj *obj,
+>   						  struct drm_private_state *state)
+>   {
+>   	if (state)
+>   		state->obj = obj;
+> -
+> -	obj->state = state;
+>   }
+>   EXPORT_SYMBOL(__drm_atomic_helper_private_obj_create_state);
+>   
+>   /**
+>    * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
+>
 
 -- 
-Sincerely yours,
-Mike.
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
