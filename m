@@ -1,87 +1,132 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606A327AC4C
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 17:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F01F372EF1;
+	Tue, 26 May 2026 17:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779816229; cv=none; b=s7xl8TPuMxG5XOhIvyjDXZ50ESBz3aV4Jz2jdt+AmlMrNya2WwjbHynyiZtWJZSt+jB9KLYVYBzXw4UKnnc1pExIWHQOv9tqQNO57rPpkpG+AjTliGaoEOt8m6KklpEdVYUzRHpIl7US73ROnAbbfPoZU2rtXS4+d6/hNVT4yfo=
+	t=1779817720; cv=none; b=R8TJKctB+YHoYs+eO+98VwrOTE3g9NVc8j4zMuatcFsJw628hOqFTM6XeMumygCHIbx2wa+HaObxovSMOOFmWSy7vaCaT0+vtrJHL1chKX3T2kw0EyPK1uccRr422zbwODhidwRDRno1/SfvH5AsJo1rr21mZJUBTZFiVdAlDUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779816229; c=relaxed/simple;
-	bh=500GhcBqtx50Qu/lYpLpli2EPz84QwQhaEWjlRDRYvY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GIYreCEnUFDh/dZ2OHQs/Fx7Zv1U04JF21jUqIkCJqEHQ+klNzIC8a5QiMX+lNEoueqrZzO9lJqdadnsoF1dcfHRehuRHBlp6SX2vZiQZwx6pUqnwU90kaE7o+U7Cf/NlvQS/g7NGHPyS70wDNVTFpGuH114X8gDyrr0EzWtGLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=t+M6O/gb; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1779817720; c=relaxed/simple;
+	bh=a5Ee7f09oAdBoMKIxduYTdY6R7xOpK2bD0sHpJz4/l0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UXs7BEe8IOt7/YM7kgVHbXf7IOvRZWy/Cs2xKJvOclEu07qSuJNcDFUZEXn/h1da5ZqyplTkVEfRDJoR/+YGRw0YFy5mxID8tZvF/RJMHJvULzIc8KNqBMSD3qtkS9GXfwqy7jvU3iGNm14OToH54E1dGfxenrLkEx2M2qla0+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNZXw6Ea; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="t+M6O/gb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=Cxh1DlAaxIvTlbjwkVTma1SPKEFXNGTJ6tV8wDaY8V4=; b=t+M6O/gb6FU2jJ+W2yt43ebeXF
-	8ouks9MPquQcJ3duI42aGXA7QnvwjIRAfHITUt/BCOQVUzxBRwS5O6nPNjL61/crfvLz/1TuwNmZG
-	DntU3yBseq8AGzhQyzHzQJ3iBbS2eGvoSEm3d1QVy+9L8yUbErbEgnz+cMKjnaxTV2G8Xz0y/ep0R
-	KzrxFJcp/U1c0FwueaREDffFVgnnI6BxJCEDBGxyMKOPJXcT3UqexD53LrOMs5unz+e5JouvX9Jij
-	4i5wN84ao6GO9x0yxN/3LI9rD/yhXw+N4yiqn1cH5NmG5YCDIfdMhyJICu69Qe5D5I6+ymuq7nAM7
-	tr8/rY5Q==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRvVI-00000002iBe-13Bo;
-	Tue, 26 May 2026 17:23:44 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-doc@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Michael Walle <mwalle@kernel.org>,
-	Takahiro Kuwano <takahiro.kuwano@infineon.com>,
-	linux-mtd@lists.infradead.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>
-Subject: [PATCH -next] mtd: spi-nor: testing locking, fix new doc build warnings
-Date: Tue, 26 May 2026 10:23:41 -0700
-Message-ID: <20260526172341.773398-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNZXw6Ea"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779817718; x=1811353718;
+  h=date:from:to:cc:subject:message-id;
+  bh=a5Ee7f09oAdBoMKIxduYTdY6R7xOpK2bD0sHpJz4/l0=;
+  b=KNZXw6EaI7uYqH8F//a6w2O/5P6dEFKhfRsXV+NkemiKm38FEELGfV+e
+   PdQELk+EETmHhe+s7W7OF+b4JgVUbzscHP9EQfrJ45Xf/drnlvsS0ctZR
+   lrtlMkThIjRgq7Sfw1y9ONEcF7gnlrP05QLiHiGMrmxVznA/ycaFyFK9F
+   FOfT2zRSoYN8OuJaH0NsCWs77gef3uwvT+1rqY9ANIJ9dYifowIE7oO1z
+   4WhWVjPIPf6NzH025V/HJGKZ9zHp2joFuiy8iCycwGxCOMSBGRM97UUbe
+   DRoza16uUUjm73y+IwzEc3KrHLbR1z33D6iQJuWuZF4IcDnrHRxXamAWm
+   w==;
+X-CSE-ConnectionGUID: sU4scsulRNOyf/rKYqBT2Q==
+X-CSE-MsgGUID: EEITXgBVSByR5BM9ImSz0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="91211126"
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="91211126"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 10:48:38 -0700
+X-CSE-ConnectionGUID: 7NUp1wFST9aArxjbuvgHGA==
+X-CSE-MsgGUID: fJ6uiUOWRfOcRcZbelprXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="246242838"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 26 May 2026 10:48:36 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wRvtI-00000000CSf-3MYG;
+	Tue, 26 May 2026 17:48:32 +0000
+Date: Tue, 26 May 2026 19:47:33 +0200
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-doc@vger.kernel.org
+Subject: [sailus-media-tree:metadata 59/126] htmldocs:
+ Documentation/userspace-api/media/v4l/subdev-config-model.rst:6: WARNING:
+ duplicate label media_subdev_config_model, other instance in
+ Documentation/userspace-api/media/v4l/dev-subdev.rst
+Message-ID: <202605261948.2WptznsW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Add a blank line to prevent documentation build warnings:
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   5b470f2ed717705b51f4a799722dffb34a37f10a
+commit: 643ed29222de6019c0321bbb7d7d65e6a50fcf4f [59/126] media: Documentation: Add subdev configuration models, raw sensor model
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260526/202605261948.2WptznsW-lkp@intel.com/reproduce)
 
-Documentation/driver-api/mtd/spi-nor.rst:215: ERROR: Unexpected indentation. [docutils]
-Documentation/driver-api/mtd/spi-nor.rst:216: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605261948.2WptznsW-lkp@intel.com/
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-# for spi-nor/next
+All warnings (new ones prefixed by >>):
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Pratyush Yadav <pratyush@kernel.org>
-Cc: Michael Walle <mwalle@kernel.org>
-Cc: Takahiro Kuwano <takahiro.kuwano@infineon.com>
-Cc: linux-mtd@lists.infradead.org
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:6: WARNING: duplicate label media_subdev_config_model, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:35: WARNING: duplicate label media_subdev_config_model_common_raw_sensor, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:: WARNING: duplicate label media_subdev_config_model_common_raw_sensor_subdev, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+   Documentation/userspace-api/media/drivers/camera-sensor.rst:147: WARNING: undefined label: 'media-metadata-layout-ccs' [ref.ref]
 
- Documentation/driver-api/mtd/spi-nor.rst |    1 +
- 1 file changed, 1 insertion(+)
 
---- linux-next-20260525.orig/Documentation/driver-api/mtd/spi-nor.rst
-+++ linux-next-20260525/Documentation/driver-api/mtd/spi-nor.rst
-@@ -211,6 +211,7 @@ section, after the ``---`` marker.
-    must adapt `bs` accordingly.
- 
-    Warning: These tests may hard lock your device! Make sure:
-+
-    - The device is not hard locked already (#WP strapped to low and
-      SR_SRWD bit set)
-    - If you have a WPn pin, you may want to set `no-wp` in your DT for
+vim +6 Documentation/userspace-api/media/v4l/subdev-config-model.rst
+
+     4	
+     5	Sub-device configuration models
+   > 6	===============================
+     7	
+     8	The V4L2 specification defines a subdev API that exposes three type of
+     9	configuration elements: formats, selection rectangles and controls. The
+    10	specification contains generic information about how those configuration
+    11	elements behave, but not precisely how they apply to particular hardware
+    12	features. We leave some leeway to drivers to decide how to map selection
+    13	rectangles to device features, as long as they comply with the V4L2
+    14	specification. This is needed as hardware features differ between devices, so
+    15	it's the driver's responsibility to handle this mapping.
+    16	
+    17	Unfortunately, this lack of clearly defined mapping in the specification has led
+    18	to different drivers mapping the same hardware features to different API
+    19	elements, or implementing the API elements with slightly different
+    20	behaviours. Furthermore, many drivers have implemented selection rectangles in
+    21	ways that do not comply with the V4L2 specification. All of this makes userspace
+    22	development difficult.
+    23	
+    24	Sub-device configuration models specify in detail what the user space can expect
+    25	from a sub-device in terms of V4L2 sub-device interface support, semantics
+    26	included.
+    27	
+    28	A sub-device may implement more than one configuration model at the same
+    29	time. The implemented configuration models can be obtained from the sub-device's
+    30	``V4L2_CID_CONFIG_MODEL`` control.
+    31	
+    32	.. _media_subdev_config_model_common_raw_sensor:
+    33	
+    34	Common raw camera sensor model
+  > 35	------------------------------
+    36	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
