@@ -1,144 +1,112 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E8133FD14D;
-	Tue, 26 May 2026 14:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C5C22157B;
+	Tue, 26 May 2026 14:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779805261; cv=none; b=nAugqjE+HqBQXnKKN+NfdOegq33p8OXQH06bgD7vorWREHRNfO8u7MZiqzT2flHgBQ8S4mvjGiZffLFjfT1GgX9/eFsaJ0NLTdNr0YsutrNDbcwWx5zyNJC9Ef0AQJy9sOh1r08SBfZGVWg/Xgz/UGfqeW+wAJxuea5AJ9ADYhE=
+	t=1779805712; cv=none; b=l5FBH8go16gaqqw+/w/QqOAXDnFKJ5LmzvfJNOw8L56YuyBszYymQNFugcl0WRjOIoNvcMqYph7D2BSfzJDYh37z73Agbuqm10sdg6aXrD5JTADyc+uTRtCzx5DjWm0Uwb2p/itBC0xA1NjZk8xx3yeR0yih1vx4CVzVbFsUqT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779805261; c=relaxed/simple;
-	bh=oKeqOBlOW8Be2H98W+ENHlID/l7YbOJiPsGt4yqgS+M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=losB1KSP1AmemhVCFZfQrtcEd1/QAuR3SMXdi1+OZsGN2o4CKE5xmz2Cep5jv/mYeqJg6AHT4ajXdjD57UOHeqPgQAfVvELWl5VdlvtknCre00+lgOpzEWKrpFq1D0esAFHwKdRiMz1GWJvG10WBICHq0tOj7B3Ncb988rCkG3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=F14nbYYP; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1779805712; c=relaxed/simple;
+	bh=As8bHLBlLr01XyohdNTcNL5lP6Tbe8MGR2T+rJGJxBs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=E4lhqQHAfMNjn/PdL4A71jkO96s5/jKfNoUoJTsZ573i8lKEpPxz8zb52tvSx6iQyAVXCA+Yl4hdM/xIbCMGcWSVe7vVJg/ho0V/VucvC1DkGY9JIsI/aim9VNtDvwnxcrkrJmiK4dHO//ZcUgo7ZL79GesiEqf4XTEaSroDDcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ips0T11H; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="F14nbYYP"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A69B169C;
-	Tue, 26 May 2026 07:20:53 -0700 (PDT)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D58D33F7B4;
-	Tue, 26 May 2026 07:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779805258; bh=oKeqOBlOW8Be2H98W+ENHlID/l7YbOJiPsGt4yqgS+M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F14nbYYPYB2LN8COACBdN+twjwuAYIeYGM2J8IXo78QE4ABzj31FapUzVEAbdR68/
-	 vp89J59Lbka/24fD+2rVIhuJpEKbpJxb6Or8JQDk7VkpomwibdibkkRcNe87C/CqSW
-	 6o4tvmW4yUVy510uaZnZh+LaHy1N+NcMfmkLyvic=
-Date: Tue, 26 May 2026 15:20:52 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v10 02/30] arm64/fpsimd: Update FA64 and ZT0 enables when
- loading SME state
-Message-ID: <ahWsRNb9uZhf46hG@J2N7QTR9R3>
-References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
- <20260306-kvm-arm64-sme-v10-2-43f7683a0fb7@kernel.org>
- <ahWWqU51Zffmhlo5@J2N7QTR9R3>
- <d8074c6b-9bc9-496e-8a74-94ac18ce9a55@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ips0T11H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8972B1F000E9;
+	Tue, 26 May 2026 14:28:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779805711;
+	bh=p0nQZozQqAnFi1e8/sbfxl6VatcGv7ZR6h2AJpKUJlM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ips0T11H1BEJLwMBDHQBYrBhG0vHQcQYOi8DygUZlC1CjfTAo9IfD91aAR8wsyZqD
+	 K0YzcntjPOgS3tdnJrRH9rVOGKTQhPWw+XQnLozrcB+0wgWqzVpauqOOXU8MDDmZxn
+	 UKaDtmYb/+1QRy75RsTlsZfI3kaWSx04T/oWXeIw6R7ozFQ17Dm6LgL5FXq7kVguqG
+	 aK+KpQH5FTbIlOx0oO+vSogDcE3kzcwWhyJxxOkHrVrPPI1/fTFucfUe2LHFWRaUk/
+	 pnocEuuvKSlCCQbofzkvU5afjYJ6clGvR4kbtdLf9NPaPL39a0sSTtK+1VDZ3QkTxw
+	 5WY6UNO5IojBA==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com,
+	bharata@amd.com,
+	Akinobu Mita <akinobu.mita@gmail.com>
+Subject: Re: [RFC PATCH 0/7] mm/damon: hardware-sampled access reports + AMD IBS Op example
+Date: Tue, 26 May 2026 07:28:25 -0700
+Message-ID: <20260526142826.91341-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CALa+Y167W9Cs0zFh6rnbDgk91cMvtofSxuAu_-M3dWwiSkbTKQ@mail.gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d8074c6b-9bc9-496e-8a74-94ac18ce9a55@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 26, 2026 at 02:25:56PM +0100, Mark Brown wrote:
-> On Tue, May 26, 2026 at 01:48:41PM +0100, Mark Rutland wrote:
-> > On Fri, Mar 06, 2026 at 05:00:54PM +0000, Mark Brown wrote:
+On Mon, 25 May 2026 17:05:06 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+
+> On Wed, May 20, 2026 at 5:32 PM SeongJae Park <sj@kernel.org> wrote:
+> >
+> > On Wed, 20 May 2026 12:01:43 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+> >
+> > > On Mon, May 18, 2026 at 11:19 PM SeongJae Park <sj@kernel.org> wrote:
+> > > >
+> > > > + Akinobu
+> > > >
+> > > > Hello Ravi,
+> > > >
+> > > > On Sat, 16 May 2026 15:34:25 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+[...]
+> > To my understanding, this RFC reuses the damon_report_access() infrastructure
+> > that shared with the per-CPUs/threds/writes/reads monitoring series [1].  My
+> > plan at the moment is to keep using it.  So from high level view, I think the
+> > final picture would be not really different from this RFC.
+> >
 > 
-> > > We provide a helper which does the configuration as part of a
-> > > read/modify/write operation along with the configuration of the task VL,
-> > > then update the floating point state load and SME access trap to use it.
+> Hi SJ,
 > 
-> > > +		if (fa64)					\
-> > > +			__new |= SMCR_ELx_FA64;			\
-> > > +		if (zt0)					\
-> > > +			__new |= SMCR_ELx_EZT0;			\
+>    Sorry for the delayed reply. Was away for a couple of days.
+
+No worry!
+
+> This resolves the layering question for me.
+
+Glad to hear it helps!
+
+[...]
+> > I'm still not familiar with IBS and perf events.  Please bear in mind with me.
+> > My understanding is that there are vendor-specific knobs for IBS that perf
+> > event is not supporting.  So far, that makes sense.  And are you saying that
+> > you have to write paddr_ibs as a loadable module if you want to support the
+> > vendor-specific knobs?  If I'm understanding you correctly could you further
+> > share why it cannot be done as a builtin module?
+> >
 > 
-> > I'd strongly prefer that we make it the caller's responsiblity to track
-> > all the bits within SMCR, rather than requiring each caller to pass a
-> > bag of booleans.
+> This RFC's IBS backend does not claim exclusive use of IBS.
 > 
-> I was explicitly going for the opposite of that in order to make it
-> harder for someone implementing a future extension to miss a place where
-> an update is required, having the callers independently constructing the
-> register values feels like it's asking for trouble.
+> The reason patch 7 ships as tristate is precedent and reuse: Bharata's
+> pghot v5 posted its IBS driver as a module, and I matched that shape
+> during development so the two consumers could potentially share IBS
+> plumbing instead of duplicating it.  Patches 1 and 2 exist to support
+> loadable ops modules generally.
 
-I didn't say callers should *construct* the value independently, and I
-showed how to centralize the construction in a __task_smcr() function.
+Got it, thank you for clarifying!
 
-I think callers should pass the entire value around rather than a
-collection of discrete booleans: constructing a collection of discrete
-booleans is functionally equivalent to construction the entire value,
-and we can more easily manage the construction and passing of the entire
-value.
 
-> > 	unsigned long __task_smcr(const struct task_struct *tsk)
-> > 	{
-> > 		unsigned long vq = sve_vq_from_vl(task_get_sme_vl(tsk));
-> > 		unsigned long smcr = vq - 1;
-> 
-> I agree that's a better pattern for the main kernel - we could also do
-> something similar with a task_set_smcr() which wraps the explicitly
-> specifed version.
+Thanks,
+SJ
 
-I don't think a task_set_smcr() function would gain much vs
-using sysreg_cond_update_s(). I expect that we'd use the SMCR value as
-the source of truth (and hence that would need to be generated outside
-of task_set_smcr()), at which point either task_set_smcr() would be a
-thin wrapper that just hides the register name, or it would generate the
-value independently and obscure the connection.
-
-I expect that what we should have eventually is something like:
-
-	unsigned long smcr = __task_smcr(task);
-
-	sysreg_cond_update_s(SYS_SMCR_EL1, smcr);
-
-	if (za) {
-		__sme load_za(sme_state);
-		if (smcr & SMCR_ELx_EZT0)
-			__sme_load_zt(sme_state);
-	}
-
-... or:
-
-	const unsigned long smcr = __task_smcr(task);
-	const bool zt0 = smcr & SMCR_ELx_EZT0;
-
-	sysreg_cond_update_s(SYS_SMCR_EL1, smcr);
-
-	if (za) {
-		__sme load_za(sme_state);
-		if (zt0)
-			__sme_load_zt(sme_state);
-	}
-
-... where in either case it's clear at the function level that the value
-programmed into SMCR matches what we're using for boolean decisions, and
-it's clear at a higher level that functions are consistent given
-consistent usage of __task_smcr().
-
-> That would I think avoid most of the issue you're seeing?
-
-I'm not sure what you mean here.
-
-I don't think we need task_set_smcr(), and I'd prefer what I suggested.
-
-Mark.
+[...]
