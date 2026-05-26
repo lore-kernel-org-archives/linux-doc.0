@@ -1,137 +1,83 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 997033B7B91;
-	Tue, 26 May 2026 18:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D12130C630
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 18:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779820179; cv=none; b=qhc67GbEWM+ZIWexYmVmwVlhXcw2lom6GIYH7m9BgVm/dUGLIVPCW3fpf/FHSsigcpf0Y65MLfJ8ltSBM3ltrBxAyc5Y8OUkVKq5v2pI/dMKslS8XfPRVPu0jauAeWlwm7Jb136Jz4at8g07uwCdJFxvIvofvnjaX/SfQh+46oY=
+	t=1779820886; cv=none; b=B51VuixWcJTSrw5WUG93/fsmdFJzPLvs/PKf0WhT3ydTadEu9yYGgVjz36Gqo0Hkv6OWBFD3Y7YZr0xbs8L4GaU7gUfiKrKhDkWZlsvNjDti5jZNbJ1jRvI7S7MO+ZdYhtzGKLFp8IOi2Sd+aKg1+lKWlkQFpq4Nw2cOPmQaUbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779820179; c=relaxed/simple;
-	bh=KpUppVZ8QZSoZsraIQoIJK5QdakJlsWa/Qre1zpsV2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZCqsF4qhHM95ICWbj9DlaD2Ym6GdNvpvxorGqf1+YFzkSnblX00hNaneQSClotYyUCAlSGmRYmtApjciZzpNwwW6YLmZjHC5xpHNesQd4v+eDk7VZ7BG5ewO2l2J8pDpMuMlEWcU0NcZr89YTAo5MsuqWLtojCGJZGLEgXwwQLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=N4EdRD/0; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1779820886; c=relaxed/simple;
+	bh=RkW0Bv1L0Js8MNsa7V7ZK7EapQX1yrgXE71yF21qq5A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m/I/FzK9F4JxFKTkURNw5Jlz5sgKgC7IqLwAcQC0EP6yYferJACIhG2bSpTBdBMwDWKXMkmwv93Dx8FQPNDMGQvmtL4N3feCIXjQDKzrZYG7oRFWu/s5cmOyOz842+uMxnueGIjTVYdGhRTii+FXrRkYyP945PYijxheaqvyUYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Nz6bHEkR; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="N4EdRD/0"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4EE702936;
-	Tue, 26 May 2026 11:29:30 -0700 (PDT)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CB51C3F7B4;
-	Tue, 26 May 2026 11:29:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779820175; bh=KpUppVZ8QZSoZsraIQoIJK5QdakJlsWa/Qre1zpsV2A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N4EdRD/0ShkZ57IyNX70SdcB/Q5k0LEXw52dLQVujI+Vwslvq6V1hDq1tpeG1/aaX
-	 BAZ3BhKUpKgUUaSLG9f2Swj9DLuk3/9X8+1V4sGBWT+MZ8xj7+w4G+uyn9TryisCLu
-	 ucEf7pUjmBDQD08PtnyFBfYqcdTlbaDowEHWfCLU=
-Date: Tue, 26 May 2026 19:29:24 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v12 01/15] kasan: sw_tags: Use arithmetic shift for
- shadow computation
-Message-ID: <ahXmhNvFbIq-mvfP@arm.com>
-References: <cover.1774872838.git.m.wieczorretman@pm.me>
- <c36fe46e1dde1a759e8ffdd0fe9439bdf2c66dd8.1774872838.git.m.wieczorretman@pm.me>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Nz6bHEkR"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 4F9E9C79ABF;
+	Tue, 26 May 2026 18:41:21 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id AC1C66011D;
+	Tue, 26 May 2026 18:41:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B77FE10888A19;
+	Tue, 26 May 2026 20:41:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1779820880; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=PIYj6/EhK5ecVCOsnUMdIrM77xOW3tv5CbH8SY6+uiQ=;
+	b=Nz6bHEkRxZkrj8vpiUPjypNGWtvq3iwyzcEPzXlDt/ZjsnM2mMc3ZBQKVKFjDosV/fSwYu
+	TOmGaW4YA4bya7sR3S4VRXWbjxOpLwxVUkYcTIzeH9yvppmgf+UE2XxwA2DtNexdyEWFXu
+	iz2b30KR6R+VPfzeSyqkdDfQFfBZkJztustGXA6DEeAUVW33kuNQTEPilC6NIV1EASdwS2
+	YPc2a4cYBJjKpk3PjVi+s5KrE3BdkWIWMzjn+LoZt7JGk1FPEhfqGi8MSeEa7qn8zr/UDQ
+	G8ZiYPgKccD3Y68+Y/bPGnsmFohUlBOjNBjLOByh08kocJcnVajrTzn5ZsUtmQ==
+Message-ID: <422219d6-8377-423c-8ccd-641b2fccaa1a@bootlin.com>
+Date: Tue, 26 May 2026 20:41:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c36fe46e1dde1a759e8ffdd0fe9439bdf2c66dd8.1774872838.git.m.wieczorretman@pm.me>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 06/10] docs: net: refresh netdev feature guidance
+To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+ andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
+ vladimir.oltean@nxp.com, willemb@google.com, sdf.kernel@gmail.com,
+ ecree.xilinx@gmail.com, jesse.brandeburg@intel.com, linux-doc@vger.kernel.org
+References: <20260526160151.2793354-1-kuba@kernel.org>
+ <20260526160151.2793354-7-kuba@kernel.org>
+Content-Language: en-US
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+In-Reply-To: <20260526160151.2793354-7-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Mar 30, 2026 at 02:33:05PM +0000, Maciej Wieczor-Retman wrote:
-> diff --git a/Documentation/arch/arm64/kasan-offsets.sh b/Documentation/arch/arm64/kasan-offsets.sh
-> index 2dc5f9e18039..ce777c7c7804 100644
-> --- a/Documentation/arch/arm64/kasan-offsets.sh
-> +++ b/Documentation/arch/arm64/kasan-offsets.sh
-> @@ -5,8 +5,12 @@
->  
->  print_kasan_offset () {
->  	printf "%02d\t" $1
-> -	printf "0x%08x00000000\n" $(( (0xffffffff & (-1 << ($1 - 1 - 32))) \
-> -			- (1 << (64 - 32 - $2)) ))
-> +	if [[ $2 -ne 4 ]] then
+Hi Jakub
 
-Nitpick: does this need a semicolon before 'then'?
+On 5/26/26 18:01, Jakub Kicinski wrote:
 
-I can see Sashiko raised it here:
+>   
+>    1. netdev->hw_features set contains features whose state may possibly
+>       be changed (enabled or disabled) for a particular device by user's
+> -    request.  This set should be initialized in ndo_init callback and not
+> -    changed later.
+> +    request.  Drivers normally initialize this set before registration or
+> +    in the ndo_init callback. Changes after registration should be made
+> +    very carefully as other parts of the code may assume hw_features are
+> +    static. At the very least changes must be made under rtnl_lock and
+> +    the netdev instance lock, and followed by netdev_update_features().
+Feel free to keep this description as-is, but can we get somewhere the
+actual meaning of "hw" in "hw_features" ? I've seen this cause confusion
+before as this is sometimes wrongly interpreted as "Hardware features",
+which isn't correct as the hardware may do stuff without allowing users
+to change that behaviour.
 
-https://sashiko.dev/#/patchset/cover.1774872838.git.m.wieczorretman@pm.me
+I vaguely recall something along the lines of "Host-Writeable features",
+but I am not sure at all about that...
 
-> +		printf "0x%08x00000000\n" $(( (0xffffffff & (-1 << ($1 - 1 - 32))) \
-> +				- (1 << (64 - 32 - $2)) ))
-> +	else
-> +		printf "0x%08x00000000\n" $(( (0xffffffff & (-1 << ($1 - 1 - 32))) ))
-> +	fi
->  }
->  
->  echo KASAN_SHADOW_SCALE_SHIFT = 3
-[...]
-> diff --git a/scripts/gdb/linux/kasan.py b/scripts/gdb/linux/kasan.py
-> index 56730b3fde0b..4b86202b155f 100644
-> --- a/scripts/gdb/linux/kasan.py
-> +++ b/scripts/gdb/linux/kasan.py
-> @@ -7,7 +7,8 @@
->  #
->  
->  import gdb
-> -from linux import constants, mm
-> +from linux import constants, utils, mm
-> +from ctypes import c_int64 as s64
->  
->  def help():
->      t = """Usage: lx-kasan_mem_to_shadow [Hex memory addr]
-> @@ -39,6 +40,8 @@ class KasanMemToShadow(gdb.Command):
->          else:
->              help()
->      def kasan_mem_to_shadow(self, addr):
-> +        if constants.CONFIG_KASAN_SW_TAGS and not utils.is_target_arch('x86'):
-
-Does this need to be constants.LX_CONFIG_KASAN_SW_TAGS? I don't claim I
-fully understand this script but the other constants.* use LX_*.
-
-> +            addr = s64(addr)
->          return (addr >> self.p_ops.KASAN_SHADOW_SCALE_SHIFT) + self.p_ops.KASAN_SHADOW_OFFSET
-
-And, again, Sashiko mentions that the bitwise right shift here will fail
-after the cast to c_int64. I just tried this in python:
-
->>> from ctypes import c_int64 as s64
->>> s64(0xffff000008eca008) >> 4
-Traceback (most recent call last):
-  File "<python-input-1>", line 1, in <module>
-    s64(0xffff000008eca008) >> 4
-    ~~~~~~~~~~~~~~~~~~~~~~~~^^~~
-TypeError: unsupported operand type(s) for >>: 'c_long' and 'int'
-
-I guess it's hidden by the wrong check on
-constants.CONFIG_KASAN_SW_TAGS.
-
-Otherwise I think the changes are fine. If you fix the above, feel free
-to add:
-
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Maxime
