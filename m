@@ -1,73 +1,75 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91EA2F7EED
-	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 02:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636C62E1722;
+	Tue, 26 May 2026 02:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779762040; cv=none; b=obk9Tzss9pgWP8VaCuN9tsHY3zUiV6M30sNGGXXWmuqFdjwx75Ew4fuMLKSu6wsV4DzgW7LpHWX2dBuhiEO7JJgZBWeyTjk8QxD/9VbPqQ37CbjM2iiC8H06v7LU2d5OseLIUW/LyWOyUgt2wkbp6WMxFhH68Fry+tUqAQQLL5I=
+	t=1779762926; cv=none; b=Sprp1p70cWmzKA2EdUcK20POCyo+/4qrxzG/KEawSMyF0ck9rUn9Uk3OrSt2ORpGGUxu7uYnN2u7JYKjvLB0DrU7Trr45k0RtSnTK8wj0j7qKp1jeLwYnYmzICOwOIrEr3yEQahZs/Vu5wg0jbWFUkSmDiCjeWKkcZtuZNmI57Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779762040; c=relaxed/simple;
-	bh=wSX7HQLlP53MBTgwV2/UOqZrP3UUj1AsBNH2tTFCGIA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rdJDD52iIAys37cMkY+3KKtTTLhSeASrvRcJum31dVCmsdl5G8fwKBbdhONFASHlPmQVglB5K64QAyfAbFcGtBX/XW3isxtD8ICR+ym+AGpBqw9/dGxJAGrzWqXzVQWZai/c/ehiY1I3x9cNpn51l3O+ZRfG+J0RCR76BAG9Jkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ekc/gi9I; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779762926; c=relaxed/simple;
+	bh=SEpamUmtYnjcMiPjIUMQus5ffGo4RJ6Mzn/ClsVQS6k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FdEKz22TJZLqKvX37r9dgfO+TgmkcFVwgmg6OLJ4vK4lQFf5N3HdThlOkwIJUxaVkyCDMv6rlkg2HBnY2A+ttj4XPlMztgpQLt+gdViip10p8UCRzSa4bmDF6KOyyBojcCm+RK5Hq+kO1P1OwnfBM7dXXap969GTA/qq5CVweVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gqeFl+wz; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ekc/gi9I"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-824c9da9928so4602662b3a.3
-        for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 19:20:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779762038; x=1780366838; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WmLGig4rjoyZs66olaJ2SZEhAFnRI+y8KyNxb4ztmCg=;
-        b=Ekc/gi9Ircfsbu1BgetopMBkvYXhF7exgB6xWMsAPzGYnaJTAXKvIgLit6cEixJuJo
-         2F1CJifmtOlNa/jscqam9MGPmctkFN96TkhkcOEczr+wMMVvE4u2ChPDkbXSk+tfWWNz
-         g0V3FiyNGKzqhsWVzqedeKlvEoNgsOau/54PKPbE8UuaTqm7SzZBS5kTo8SUg8iso/qW
-         mJK+pvzp9fMV5Ngk89XiwuhHCKjtajSTl2tyUzG/AX10yhobidY5aLsdPbGSG2rAMtDv
-         MV6djiLgXgsCDUy9YSF/AJ+RTkqXJ8I3J3NNzQ9va4lXHWpYUJaApvHqkd5jTWZM5bKB
-         Jq8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779762038; x=1780366838;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WmLGig4rjoyZs66olaJ2SZEhAFnRI+y8KyNxb4ztmCg=;
-        b=BQ+GTpPZLByOpaPCUcBk2f/USfdpBDlKo3ne+9o9gl2WoG9jUjLpyV3VijEzJFY9W+
-         vxEUsqP//TxrbxcmNvRrmcH5Ic4Z48ImvHIVVlQh/g4BnBITl3PP5Nyw/d163jdXqEYK
-         0+uG3ojFHUIRYqHVUBBbxkBVvex1/pi5EAlwbIwggzM6EZnSXJtvwb6UYdL5Uycw5scY
-         jEbFUUrSOKOSyrCUfNCFbNxjDIbHA/igSK0Iba9FNVgfzu4TsGWRh2jc1H9+qIKt5Lml
-         1gh2eZkV715l/lDhN1WS/PgVuxSztOLvKDeM3qiwtUvqsnBh6/v9IsOUYHnuO56rIbTL
-         Xu+g==
-X-Forwarded-Encrypted: i=1; AFNElJ8Ojsvm+BwQT3vLoyceZpqA494fSYc7zqh7eSoVnpHCOhqnjZXDHJwDdwaO40QkMZHMnDJtOw+iUnY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnAq3W8533snYfuQKnRPAV6bI8uslOKaVqWQZmWTVEa6dMygA2
-	lamurcKsQkOsh4GiVt8q+r+EHlbaiEjKIpeCB/6JVJ0gLK4sxascptv3tvUdshYR
-X-Gm-Gg: Acq92OHn7WmSKY9HAfnkeBN0QCB5RIHGUSbXStdzl+7jtdLZ4nXh4rRrxNHg28NRiTh
-	CBRSRuco7NhAswUCavx69LuTHghBrtWc/WKyI9kBlEnJD6jEKrgO+Zjscu0VUVsAfmO6WHT6b1r
-	kHcbD45ZO4pxHvbFNR5YIjOBEP4hMi/rweFAB3Oq3n8zasWuvODztXoPWwoSJWOcUT0aanaavY5
-	oPbi2yObSMDkYHqdL5FBZUTv5H137exH3bXQevRHqTfV1UA7/anDgHhXotVo3e+7hVbDDnGweXo
-	n++Glo229+WrEpNbKuS8P8G1LgmD0/UD3JQVU44mPtFvrNOcdqcva6DsQqpztlC7KqCeRhHH/4I
-	BI2iVVel6qgooOT/yuGCR94NMdWZ8gjxhO2bggLBiwrwHgf9DOovnWFbatzSC+7gzHzpUobtL1M
-	B2WtINVsqbkknJGeK3vKnxaJnI/S1mEeRf/ekDt42DDp0K
-X-Received: by 2002:a05:6a00:1992:b0:835:4447:69d8 with SMTP id d2e1a72fcca58-8415f307cf5mr15858014b3a.30.1779762038214;
-        Mon, 25 May 2026 19:20:38 -0700 (PDT)
-Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164fd8127sm10277571b3a.50.2026.05.25.19.20.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 19:20:37 -0700 (PDT)
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
-X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	workflows@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gqeFl+wz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779762924; x=1811298924;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=SEpamUmtYnjcMiPjIUMQus5ffGo4RJ6Mzn/ClsVQS6k=;
+  b=gqeFl+wzXJw6pAWN1Wo0riYuLMXR9h9CkLSJBk2X8ftYt9xslaXyDlCX
+   Ew57moTJldiqpWBbWHzLl+ZDDb9A3tbFXCAcnTSbuN4tN0iYJ+wmjfyIF
+   dLv40yvzZje82VIFgcsA1VnWImJTI2CkisfehAoF8FA9pQrwQ1POGu4AA
+   KFWBdi15vmiBFCgKYsjP0/kWS20jeoJN6dX8eRZve5twGJWMjXFM06sCD
+   O4yEfGEAgh6BiQ6A2ZoMIC4KMeGZBOLR80N45Chf/pBt/l2I2JVe4/CW5
+   f7vckg2+HLqhE5vhu8WDgQqMEMU/nci2HOcRhYNwUWNsfUNwfTRpleO/7
+   g==;
+X-CSE-ConnectionGUID: btvjyVpdQnuq7XHtIY5wGw==
+X-CSE-MsgGUID: zYFR1I4XRiiHGnsZ/n7KYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="91677776"
+X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
+   d="scan'208";a="91677776"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 19:35:23 -0700
+X-CSE-ConnectionGUID: PNVu3DbYSY6pP/X2tya8PQ==
+X-CSE-MsgGUID: lN5ATs/uQeuvO7f/Uku0Yw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
+   d="scan'208";a="279878286"
+Received: from rpedgeco-desk.jf.intel.com ([10.88.27.139])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 19:35:24 -0700
+From: Rick Edgecombe <rick.p.edgecombe@intel.com>
+To: bp@alien8.de,
+	dave.hansen@intel.com,
+	hpa@zytor.com,
+	kas@kernel.org,
+	kvm@vger.kernel.org,
+	linux-coco@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Zhan Xusheng <zhanxusheng@xiaomi.com>
-Subject: [PATCH] docs: changes.rst: restore pahole 1.26 minimum (regressed by sort)
-Date: Tue, 26 May 2026 10:20:33 +0800
-Message-ID: <20260526022033.1301884-1-zhanxusheng@xiaomi.com>
-X-Mailer: git-send-email 2.43.0
+	mingo@redhat.com,
+	nik.borisov@suse.com,
+	pbonzini@redhat.com,
+	seanjc@google.com,
+	tglx@kernel.org,
+	vannapurve@google.com,
+	x86@kernel.org,
+	chao.gao@intel.com,
+	yan.y.zhao@intel.com,
+	kai.huang@intel.com
+Cc: rick.p.edgecombe@intel.com,
+	Binbin Wu <binbin.wu@linux.intel.com>
+Subject: [PATCH v6 01/11] x86/virt/tdx: Simplify tdmr_get_pamt_sz()
+Date: Mon, 25 May 2026 19:35:05 -0700
+Message-ID: <20260526023515.288829-2-rick.p.edgecombe@intel.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,60 +78,218 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 9edd04c4189e ("docs: Raise minimum pahole version to 1.26 for
-KF_IMPLICIT_ARGS kfuncs") raised the minimum required pahole version
-from 1.22 to 1.26 in the requirements table and added a paragraph
-explaining the failure mode for distributions still shipping pahole
-v1.25 (e.g. Ubuntu 24.04 LTS).
+For each memory region that the TDX module might use (called TDMR), three
+separate traditional PAMT allocations are needed. One for each supported
+page size (1GB, 2MB, 4KB). These store information on each page in the
+TDMR. In Linux, they are allocated out of one physically contiguous block,
+in order to more efficiently use some internal TDX module book keeping
+resources. So some simple math is needed to break the single large
+allocation into three smaller allocations for each page size.
 
-The next day, commit ece7e57afd51 ("docs: changes.rst and ver_linux:
-sort the lists") came through a different tree (docs vs sched_ext) and
-re-flowed the table alphabetically, but its base did not include
-9edd04c4189e.  When the two commits met in mainline, the textual rewrite
-of the table won and the version bump was lost.  The added "Since Linux
-7.0..." paragraph also disappeared.
+There are some commonalities in the math needed to calculate the base and
+size for each smaller allocation, and so an effort was made to share logic
+across the three. Unfortunately doing this turned out unnaturally tortured,
+with a loop iterating over the three page sizes, only to call into a
+function with cases statement for each page size. In the future Dynamic
+PAMT will add more logic that is special to the 4KB page size, making the
+benefit of the math sharing even more questionable.
 
-The result is that changes.rst on master (v7.1-rc5) lists pahole 1.22
-again, even though sched_ext kfuncs annotated with KF_IMPLICIT_ARGS
-genuinely require v1.26 to produce a correct vmlinux BTF.  Users on
-distributions with pahole v1.25 hit "func_proto incompatible with
-vmlinux" when loading any sched_ext BPF program (scx_simple,
-scx_qmap, ...) and have no documentation pointing them at the version
-gap.
+Three is not a very high number, so get rid of the loop and just duplicate
+the small calculation three times. In doing so, setup for future Dynamic
+PAMT changes.
 
-Restore both changes from 9edd04c4189e.
+Since the loop that iterates over it is gone, further simplify the code by
+dropping the array of intermediate size and base storage. Just store the
+values to their final locations. Accept the small complication of having
+to clear tdmr->pamt_4k_base in the error path, so that tdmr_do_pamt_func()
+will not try to operate on the TDMR struct when attempting to free it.
 
-Fixes: ece7e57afd51 ("docs: changes.rst and ver_linux: sort the lists")
-Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+Assisted-by: GitHub Copilot:claude-opus-4-6 Claude:claude-opus-4-7
+Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
+Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 ---
- Documentation/process/changes.rst | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+v6:
+ - Drop {} by moving a comment (Binbin)
+ - Log tweaks
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 9a99037270ff..a4db8f7b3afb 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -53,7 +53,7 @@ mcelog                 0.6              mcelog --version
- mkimage (optional)     2017.01          mkimage --version
- nfs-utils              1.0.5            showmount --version
- openssl & libcrypto    1.0.0            openssl version
--pahole                 1.22             pahole --version
-+pahole                 1.26             pahole --version
- pcmciautils            004              pccardctl -V
- PPP                    2.4.0            pppd --version
- procps                 3.2.0            ps --version
-@@ -147,6 +147,11 @@ Since Linux 5.2, if CONFIG_DEBUG_INFO_BTF is selected, the build system
- generates BTF (BPF Type Format) from DWARF in vmlinux, a bit later from kernel
- modules as well.  This requires pahole v1.22 or later.
+v4:
+ - Just refer to global var instead of passing pamt_entry_size around
+   (Xiaoyao)
+ - Remove setting pamt_4k_base to zero, because it already is zero.
+   Adjust the comment appropriately (Kai)
+
+v3:
+ - New patch
+---
+ arch/x86/virt/vmx/tdx/tdx.c | 93 ++++++++++++-------------------------
+ 1 file changed, 29 insertions(+), 64 deletions(-)
+
+diff --git a/arch/x86/virt/vmx/tdx/tdx.c b/arch/x86/virt/vmx/tdx/tdx.c
+index 967482ae3c801..487f389f52f4b 100644
+--- a/arch/x86/virt/vmx/tdx/tdx.c
++++ b/arch/x86/virt/vmx/tdx/tdx.c
+@@ -516,31 +516,21 @@ static __init int fill_out_tdmrs(struct list_head *tmb_list,
+  * Calculate PAMT size given a TDMR and a page size.  The returned
+  * PAMT size is always aligned up to 4K page boundary.
+  */
+-static __init unsigned long tdmr_get_pamt_sz(struct tdmr_info *tdmr, int pgsz,
+-					     u16 pamt_entry_size)
++static __init unsigned long tdmr_get_pamt_sz(struct tdmr_info *tdmr, int pgsz)
+ {
+ 	unsigned long pamt_sz, nr_pamt_entries;
++	const int tdx_pg_size_shift[] = { PAGE_SHIFT, PMD_SHIFT, PUD_SHIFT };
++	const u16 pamt_entry_size[TDX_PS_NR] = {
++		tdx_sysinfo.tdmr.pamt_4k_entry_size,
++		tdx_sysinfo.tdmr.pamt_2m_entry_size,
++		tdx_sysinfo.tdmr.pamt_1g_entry_size,
++	};
  
-+Since Linux 7.0, kfuncs annotated with KF_IMPLICIT_ARGS require pahole v1.26
-+or later.  Without it, such kfuncs will have incorrect BTF prototypes in
-+vmlinux, causing BPF programs to fail to load with a "func_proto incompatible
-+with vmlinux" error.  Many sched_ext kfuncs are affected.
+-	switch (pgsz) {
+-	case TDX_PS_4K:
+-		nr_pamt_entries = tdmr->size >> PAGE_SHIFT;
+-		break;
+-	case TDX_PS_2M:
+-		nr_pamt_entries = tdmr->size >> PMD_SHIFT;
+-		break;
+-	case TDX_PS_1G:
+-		nr_pamt_entries = tdmr->size >> PUD_SHIFT;
+-		break;
+-	default:
+-		WARN_ON_ONCE(1);
+-		return 0;
+-	}
++	nr_pamt_entries = tdmr->size >> tdx_pg_size_shift[pgsz];
++	pamt_sz = nr_pamt_entries * pamt_entry_size[pgsz];
+ 
+-	pamt_sz = nr_pamt_entries * pamt_entry_size;
+ 	/* TDX requires PAMT size must be 4K aligned */
+-	pamt_sz = ALIGN(pamt_sz, PAGE_SIZE);
+-
+-	return pamt_sz;
++	return PAGE_ALIGN(pamt_sz);
+ }
+ 
+ /*
+@@ -578,28 +568,21 @@ static __init int tdmr_get_nid(struct tdmr_info *tdmr, struct list_head *tmb_lis
+  * within @tdmr, and set up PAMTs for @tdmr.
+  */
+ static __init int tdmr_set_up_pamt(struct tdmr_info *tdmr,
+-				   struct list_head *tmb_list,
+-				   u16 pamt_entry_size[])
++				   struct list_head *tmb_list)
+ {
+-	unsigned long pamt_base[TDX_PS_NR];
+-	unsigned long pamt_size[TDX_PS_NR];
+-	unsigned long tdmr_pamt_base;
+ 	unsigned long tdmr_pamt_size;
+ 	struct page *pamt;
+-	int pgsz, nid;
+-
++	int nid;
+ 	nid = tdmr_get_nid(tdmr, tmb_list);
+ 
+ 	/*
+ 	 * Calculate the PAMT size for each TDX supported page size
+ 	 * and the total PAMT size.
+ 	 */
+-	tdmr_pamt_size = 0;
+-	for (pgsz = TDX_PS_4K; pgsz < TDX_PS_NR; pgsz++) {
+-		pamt_size[pgsz] = tdmr_get_pamt_sz(tdmr, pgsz,
+-					pamt_entry_size[pgsz]);
+-		tdmr_pamt_size += pamt_size[pgsz];
+-	}
++	tdmr->pamt_4k_size = tdmr_get_pamt_sz(tdmr, TDX_PS_4K);
++	tdmr->pamt_2m_size = tdmr_get_pamt_sz(tdmr, TDX_PS_2M);
++	tdmr->pamt_1g_size = tdmr_get_pamt_sz(tdmr, TDX_PS_1G);
++	tdmr_pamt_size = tdmr->pamt_4k_size + tdmr->pamt_2m_size + tdmr->pamt_1g_size;
+ 
+ 	/*
+ 	 * Allocate one chunk of physically contiguous memory for all
+@@ -607,26 +590,18 @@ static __init int tdmr_set_up_pamt(struct tdmr_info *tdmr,
+ 	 * in overlapped TDMRs.
+ 	 */
+ 	pamt = alloc_contig_pages(tdmr_pamt_size >> PAGE_SHIFT, GFP_KERNEL,
+-			nid, &node_online_map);
++				  nid, &node_online_map);
 +
- It is found in the 'dwarves' or 'pahole' distro packages or from
- https://fedorapeople.org/~acme/dwarves/.
++	/*
++	 * tdmr->pamt_4k_base is still zero so the error
++	 * path of the caller will skip freeing the pamt.
++	 */
+ 	if (!pamt)
+ 		return -ENOMEM;
+ 
+-	/*
+-	 * Break the contiguous allocation back up into the
+-	 * individual PAMTs for each page size.
+-	 */
+-	tdmr_pamt_base = page_to_pfn(pamt) << PAGE_SHIFT;
+-	for (pgsz = TDX_PS_4K; pgsz < TDX_PS_NR; pgsz++) {
+-		pamt_base[pgsz] = tdmr_pamt_base;
+-		tdmr_pamt_base += pamt_size[pgsz];
+-	}
+-
+-	tdmr->pamt_4k_base = pamt_base[TDX_PS_4K];
+-	tdmr->pamt_4k_size = pamt_size[TDX_PS_4K];
+-	tdmr->pamt_2m_base = pamt_base[TDX_PS_2M];
+-	tdmr->pamt_2m_size = pamt_size[TDX_PS_2M];
+-	tdmr->pamt_1g_base = pamt_base[TDX_PS_1G];
+-	tdmr->pamt_1g_size = pamt_size[TDX_PS_1G];
++	tdmr->pamt_4k_base = page_to_phys(pamt);
++	tdmr->pamt_2m_base = tdmr->pamt_4k_base + tdmr->pamt_4k_size;
++	tdmr->pamt_1g_base = tdmr->pamt_2m_base + tdmr->pamt_2m_size;
+ 
+ 	return 0;
+ }
+@@ -657,10 +632,7 @@ static __init void tdmr_do_pamt_func(struct tdmr_info *tdmr,
+ 	tdmr_get_pamt(tdmr, &pamt_base, &pamt_size);
+ 
+ 	/* Do nothing if PAMT hasn't been allocated for this TDMR */
+-	if (!pamt_size)
+-		return;
+-
+-	if (WARN_ON_ONCE(!pamt_base))
++	if (!pamt_base)
+ 		return;
+ 
+ 	pamt_func(pamt_base, pamt_size);
+@@ -686,14 +658,12 @@ static __init void tdmrs_free_pamt_all(struct tdmr_info_list *tdmr_list)
+ 
+ /* Allocate and set up PAMTs for all TDMRs */
+ static __init int tdmrs_set_up_pamt_all(struct tdmr_info_list *tdmr_list,
+-					struct list_head *tmb_list,
+-					u16 pamt_entry_size[])
++				 struct list_head *tmb_list)
+ {
+ 	int i, ret = 0;
+ 
+ 	for (i = 0; i < tdmr_list->nr_consumed_tdmrs; i++) {
+-		ret = tdmr_set_up_pamt(tdmr_entry(tdmr_list, i), tmb_list,
+-				pamt_entry_size);
++		ret = tdmr_set_up_pamt(tdmr_entry(tdmr_list, i), tmb_list);
+ 		if (ret)
+ 			goto err;
+ 	}
+@@ -970,18 +940,13 @@ static __init int construct_tdmrs(struct list_head *tmb_list,
+ 				  struct tdmr_info_list *tdmr_list,
+ 				  struct tdx_sys_info_tdmr *sysinfo_tdmr)
+ {
+-	u16 pamt_entry_size[TDX_PS_NR] = {
+-		sysinfo_tdmr->pamt_4k_entry_size,
+-		sysinfo_tdmr->pamt_2m_entry_size,
+-		sysinfo_tdmr->pamt_1g_entry_size,
+-	};
+ 	int ret;
+ 
+ 	ret = fill_out_tdmrs(tmb_list, tdmr_list);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = tdmrs_set_up_pamt_all(tdmr_list, tmb_list, pamt_entry_size);
++	ret = tdmrs_set_up_pamt_all(tdmr_list, tmb_list);
+ 	if (ret)
+ 		return ret;
  
 -- 
-2.43.0
+2.54.0
 
