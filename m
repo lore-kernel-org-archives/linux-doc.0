@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96287393DF0;
-	Tue, 26 May 2026 22:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0DA3C0628;
+	Tue, 26 May 2026 23:21:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779835204; cv=none; b=M6QOzUMADTckb1gPfVjkI2FMeUYfvN1LkXZYdV8PawJJ35eEjwvZoRy2Hll3oZ7iEQarCytuSjSJbTPZAwMCAW4HNodcLgoj2M0cOBwoSDqym4wiUcfUQpsuUe8Sm5fy01F1ZL4H+PSIysTUEh/Isyo3U6x+qiLKUr3Ui1aQk50=
+	t=1779837703; cv=none; b=qoNtiQwN5xTOQkUtMe6oEpRmf8vCuHDKGwPBqIN4CLJfbXJOCbAGkPBGOyY7oXIXrUMJSFYMmSwptO2815BVXfZwAdsbNLYZylCoEoTbSn/6Mr/V3hxtsiDIgQPrTvudn7PCfWaHYRXk31UKJyy0tqVaM0EPbVMJAfbwHYT+FL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779835204; c=relaxed/simple;
-	bh=h26+61KOumdj6OMx+o53TrtmL/JLA7aOTqcPn2kG/a4=;
+	s=arc-20240116; t=1779837703; c=relaxed/simple;
+	bh=3JtiWl0vRydfWQsGBpovYwdHgc4CmQTwlFTcACuBDQg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NwWgbUouqeDZt1z87i00+8UMDE0r5QlZuNMEM/7wdRtKt9lOj/2ok+u/EFFwEv/cO/Kh9qwOm0kQgN75YISGAe+pSD8WInUby9rgD8EQprqNt+3cM8TCNu/l4iF+/YHYFAFJlxgr4076YGnRiYPYOcZDRIUSpdzKjmHlpji1kIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FyYVfSo6; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Q/hiVuONLHbsZ4ANFAJ/z9QpaSKkwXvmA2LEqxYJmRdI7K3rOrqZ2WVcWlGdnxmkYaT8mLMAH36U0Cy/G2iTdeMbYWX32ktJg95lmgppWm0XvepatGP8sBsaHk0mHhI5VnD3miK663Y13tdL5/huEPEW90bJfJwzomUdzC/7amg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wx5seO9x; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FyYVfSo6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B78C1F000E9;
-	Tue, 26 May 2026 22:40:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wx5seO9x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3FB51F000E9;
+	Tue, 26 May 2026 23:21:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779835203;
-	bh=B4teb5+2Eq3bvRCp7XbnuEPkSigdVnnMwGas0zpifgQ=;
+	s=k20260515; t=1779837702;
+	bh=yJt45ObCHCD/H8x09SxlAekMdKt4JVSvNjsARTZrmS4=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=FyYVfSo61ObFiLbv8LFz9KEEoK0Dn9OK/3KX3j7JUZYrzPnKHcltkTWHW385n0QzF
-	 e+YhNFWbgyDRY3gK//JwLo+AgDdDQU46O6xai6LCYYhjK6s+qTSvRjmNeQWHTqQxGS
-	 Is6FhXZJTqfQCzD+5tb2t5UYPkE9kUroVbrhpc5XZa5jaRKupPh0y4R5Y1O+EjLK/J
-	 lew5T0F3awA9ZdWmJTHaFkAKgTDf7ISHLyIs2INkqr8SQgE+7mrKEBr6BHOlr4k1T4
-	 7RzkFM7yi0OmvQXe8J5b0pugXXX5jtTwnFWB0L3pekm4QxVK5fGr7hCiNtKJhpCKEV
-	 UHVzOjg79PzOA==
-Date: Tue, 26 May 2026 15:40:01 -0700
+	b=Wx5seO9x3Qhd0dQn/I4XHEcajF6tFXKfoJbKbEQUAkSMioemkM8axOki4sSSCY+YP
+	 wktrLa9DKl0uP9r3gBWXxdl9Rn88nWIkbWlbQnfAj00tg9AFN3lHvd38srCqvx0T6k
+	 5gPSu/uF0Rm2Xk9H3GebR52z1Q+W7IzascSSiSpSmEb3UNGlz1MThc4Cq2ggAbE9ic
+	 PWRXBwG2c5RKRAXGhaI+CF9M9LUmHMmifUthY13f89HfWE9L/gIMy/BUtcT2Y8X/W3
+	 W4cmK/4EE0/5Ggqgde1Wn/TX1Ep+pvidq+PlCdxoGZS4Q7Aro66AN2JH5k6hAv3BVD
+	 4HeYW6a2bl4rA==
+Date: Tue, 26 May 2026 16:21:40 -0700
 From: Jakub Kicinski <kuba@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
- vladimir.oltean@nxp.com, willemb@google.com, sdf.kernel@gmail.com,
- ecree.xilinx@gmail.com, jesse.brandeburg@intel.com,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 00/10] docs: net: updates for old and cobwebbed
- docs
-Message-ID: <20260526154001.4a8d30bf@kernel.org>
-In-Reply-To: <20260526153719.7261b7f2@kernel.org>
-References: <20260526160151.2793354-1-kuba@kernel.org>
-	<1c341b25-e720-4f63-9db1-99348c8ebed9@infradead.org>
-	<20260526153719.7261b7f2@kernel.org>
+To: "illusion.wang" <illusion.wang@nebula-matrix.com>
+Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
+ sam.chen@nebula-matrix.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
+ corbet@lwn.net, horms@kernel.org, linux-doc@vger.kernel.org,
+ pabeni@redhat.com, vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
+ edumazet@google.com, enelsonmoore@gmail.com, skhan@linuxfoundation.org,
+ hkallweit1@gmail.com, linux-kernel@vger.kernel.org (open list)
+Subject: Re: [PATCH v16 net-next 00/11] nbl driver for Nebulamatrix NICs
+Message-ID: <20260526162140.38d055b4@kernel.org>
+In-Reply-To: <20260526035453.2359-1-illusion.wang@nebula-matrix.com>
+References: <20260526035453.2359-1-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,15 +48,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 26 May 2026 15:37:19 -0700 Jakub Kicinski wrote:
-> On Tue, 26 May 2026 11:48:41 -0700 Randy Dunlap wrote:
-> > WARNING: ../include/linux/netdevice.h:2622 Excess struct member 'ax25_ptr' description in 'net_device'  
+On Tue, 26 May 2026 11:54:37 +0800 illusion.wang wrote:
+> This patch series represents the first phase. We plan to integrate it in
+> two phases: the first phase covers mailbox and chip configuration,
+> while the second phase involves net dev configuration.
+> Together, they will provide basic PF-based Ethernet port transmission and
+> reception capabilities.
 > 
-> I wonder how that sneaked in? ;) ;)
-> 
-> I'll clean this up separately, hopefully we haven't regressed too many
-> things while the script was broken :(
+> After that, we will consider other features, such as ethtool support,
+> flow management, adminq messaging, VF support, debugfs support, etc.
 
-Ugh, I'm still not seeing this on Linus's tree.
-Is the fix for kernel-doc skipping such warnings on its way to Linus, 
-or queue for -next?
+The coccicheck bot flagged a new Coccinelle warning introduced by the
+nebula-matrix driver series:
+
+  drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c:187:45-52:
+    WARNING: Consider using %pe to print PTR_ERR()
+
+The scripts/coccinelle/misc/ptr_err.cocci rule fires when a PTR_ERR()
+value is passed to a format string without using the %pe specifier,
+which is the kernel-preferred way to print error pointers (it displays
+both the numeric value and the symbolic name).
+
+Please fix nbl_main.c line 187 to use %pe instead of passing the raw
+PTR_ERR() value to %ld or similar.
+
+For example, change something like:
+  pr_err("...: %ld\n", PTR_ERR(ptr));
+to:
+  pr_err("...: %pe\n", ptr);
