@@ -1,112 +1,141 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C5C22157B;
-	Tue, 26 May 2026 14:28:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A05B3FF1AB;
+	Tue, 26 May 2026 14:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779805712; cv=none; b=l5FBH8go16gaqqw+/w/QqOAXDnFKJ5LmzvfJNOw8L56YuyBszYymQNFugcl0WRjOIoNvcMqYph7D2BSfzJDYh37z73Agbuqm10sdg6aXrD5JTADyc+uTRtCzx5DjWm0Uwb2p/itBC0xA1NjZk8xx3yeR0yih1vx4CVzVbFsUqT8=
+	t=1779805787; cv=none; b=AUc5MNpjfYJLd9hFWghdGyk54Ry0pxtYN4CLMwfXQ56mLdFKOSrU81ME70q3qMDpc3R5RwvbJh3BTNo3iCIxb486dS3kJQtsuWKYQX24pIUocgxs0k2Kgij5ULalyfjHg1VI+P4azaIuZ9Q2FADLWEH9eduU3FU5Ih79+n1TcIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779805712; c=relaxed/simple;
-	bh=As8bHLBlLr01XyohdNTcNL5lP6Tbe8MGR2T+rJGJxBs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E4lhqQHAfMNjn/PdL4A71jkO96s5/jKfNoUoJTsZ573i8lKEpPxz8zb52tvSx6iQyAVXCA+Yl4hdM/xIbCMGcWSVe7vVJg/ho0V/VucvC1DkGY9JIsI/aim9VNtDvwnxcrkrJmiK4dHO//ZcUgo7ZL79GesiEqf4XTEaSroDDcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ips0T11H; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779805787; c=relaxed/simple;
+	bh=01QZ3Oc+k3R391wthpsoqAJ4A4j9P7bKR8UG9T3xXXo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GKJewTHD96pW9neIFhdR92mobyLjNtcTYZSdmdGQSY4pAFXP+l6pBsQmpd+IrTIYWkFYWa7ivmjlQfpSYYArIvLuCz0VhDrYBERngxlUpUGDjDnGHMfBZSvHryFg6PXuS7RLoq0VXEfqQfrlCVtI1n3yuvcdOLkUbtfQXa4tymA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EzsWz/vl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ips0T11H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8972B1F000E9;
-	Tue, 26 May 2026 14:28:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EzsWz/vl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76D741F000E9;
+	Tue, 26 May 2026 14:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779805711;
-	bh=p0nQZozQqAnFi1e8/sbfxl6VatcGv7ZR6h2AJpKUJlM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ips0T11H1BEJLwMBDHQBYrBhG0vHQcQYOi8DygUZlC1CjfTAo9IfD91aAR8wsyZqD
-	 K0YzcntjPOgS3tdnJrRH9rVOGKTQhPWw+XQnLozrcB+0wgWqzVpauqOOXU8MDDmZxn
-	 UKaDtmYb/+1QRy75RsTlsZfI3kaWSx04T/oWXeIw6R7ozFQ17Dm6LgL5FXq7kVguqG
-	 aK+KpQH5FTbIlOx0oO+vSogDcE3kzcwWhyJxxOkHrVrPPI1/fTFucfUe2LHFWRaUk/
-	 pnocEuuvKSlCCQbofzkvU5afjYJ6clGvR4kbtdLf9NPaPL39a0sSTtK+1VDZ3QkTxw
-	 5WY6UNO5IojBA==
-From: SeongJae Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com,
-	bharata@amd.com,
-	Akinobu Mita <akinobu.mita@gmail.com>
-Subject: Re: [RFC PATCH 0/7] mm/damon: hardware-sampled access reports + AMD IBS Op example
-Date: Tue, 26 May 2026 07:28:25 -0700
-Message-ID: <20260526142826.91341-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CALa+Y167W9Cs0zFh6rnbDgk91cMvtofSxuAu_-M3dWwiSkbTKQ@mail.gmail.com>
-References: 
+	s=k20260515; t=1779805785;
+	bh=GSX/o3tGKH8prhZQKAGSjMb4rUlV/Z55PxckME59z4U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EzsWz/vlNWJNW+NMA+grSpGmEAlzW1dMhzljG4DDGQOP42grQ3eEtdXE+yg/tu0nJ
+	 e2v3LjX3uBcVx2JXnnVCBQNmCVQI7uLKvZgmd7Nxrd6B+jZBk85BEhu6L9hr4AWOhN
+	 DmVXv8lzXWvF/wiKNTotwFW8EP7Ra+ZA35C0sV8SMVdKBC9j5ntx1+ijctMD6qQYF9
+	 3qUB2mKBtFBdFI85Oqtg3YjaU1gaQYfEjc1plhfWPXZUkEMZg3O4ZfPw+YIn8ZesD3
+	 5FkFfGfwX6V0F/bhrOcnpOSpiV6QT7FJQ6li+thvYCff9a1ujIZiIrS55YWerf7k2a
+	 Zd7p7PpJbHEkA==
+Date: Tue, 26 May 2026 10:29:44 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Song Liu <song@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	bpf@vger.kernel.org, live-patching@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Joshua Peisach <jpeisach@ubuntu.com>,
+	Florian Weimer <fw@deneb.enyo.de>, Breno Leitao <leitao@debian.org>,
+	Anthony Iliopoulos <ailiop@suse.com>,
+	Michal Hocko <mhocko@suse.com>, Jiri Olsa <jolsa@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	KP Singh <kpsingh@kernel.org>
+Subject: Re: [PATCH v3] killswitch: add per-function short-circuit mitigation
+ primitive
+Message-ID: <ahWuWBrZlFsAVZo2@laps>
+References: <CAPhsuW4x8shWon8Moi5VgCq2n4E2EzaaauZ2HHpy42Rp1Y-J-g@mail.gmail.com>
+ <agsVDqdALBoHEHlv@laps>
+ <CAPhsuW44UX663Au=WwHz8MVwnQgLkjxOqpJSCKxNiv3=RpZvqw@mail.gmail.com>
+ <b342c38b-7323-4b72-a239-8a574d6bc36b@iogearbox.net>
+ <agzAwjKhOhuANz_P@laps>
+ <3dd6d852-18fb-4c64-a1ae-0d79ef7c061f@iogearbox.net>
+ <ag8lOe6dAOgnWmsQ@laps>
+ <CAPhsuW7sbt5B+ZeGW8O2JMJ0ELPU-vhZFNvbB+0Q8XhZg6pKYw@mail.gmail.com>
+ <ahGufsGqmLZZQL4M@laps>
+ <e7464a71-7e97-44a9-a5eb-831306fb5019@iogearbox.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <e7464a71-7e97-44a9-a5eb-831306fb5019@iogearbox.net>
 
-On Mon, 25 May 2026 17:05:06 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+On Tue, May 26, 2026 at 03:10:45PM +0200, Daniel Borkmann wrote:
+>On 5/23/26 3:41 PM, Sasha Levin wrote:
+>>On Thu, May 21, 2026 at 11:16:46AM -0700, Song Liu wrote:
+>>>On Thu, May 21, 2026 at 8:31 AM Sasha Levin <sashal@kernel.org> wrote:
+>>>>On Thu, May 21, 2026 at 11:11:16AM +0200, Daniel Borkmann wrote:
+>>>>>On 5/19/26 9:57 PM, Sasha Levin wrote:
+>>>>>>Sure, this would also work. How do you see this happening? Can we let a certain
+>>>>>>user/pid/etc disable the allowlist if they choose to?
+>>>>>
+>>>>>I don't think we should, given then we're back to square one where root
+>>>>>or some other user would be able to just override/bypass an LSM.
+>>>>
+>>>>killswitch already disables itself when lockdown is active. We can easily
+>>>>disable it too when one of the LSMs that cares about this is active.
+>>>>
+>>>>>[...]
+>>>>>>How do you see this working with the allowlist?
+>>>>>
+>>>>>We should look at the underlying areas where most of the CVE-like fixes
+>>>>>took place (these days should be more easily doable given Claude and friends)
+>>>>>and based on that either extend ALLOW_ERROR_INJECTION() or (better) create
+>>>>>new hooks which BPF LSM can consume where you can then have a policy to reject
+>>>>>requests and tighten the attack surface. For example, the AF_ALG stuff you
+>>>>
+>>>>So we could grow the LSM tentacles deeper into the kernel, and we can see where
+>>>>current CVEs are happening, which I suspect is the darker corners of the kernel
+>>>>(old unmaintained, rarely used code), but this definitely won't stay the case,
+>>>>right? Newer and better LLMs will discover issues elsewhere, and once the low
+>>>>hanging fruits are picked off of the current target subsystems, researchers
+>>>>will move elsewhere. We will be dooming ourselves to an endless cat and mouse
+>>>>game where we go add LSM hooks after some big security issue goes public.
+>>>
+>>>Do we really need to add new LSM hooks for recent CVEs?
+>>>
+>>>The LSM hooks are designed to cover all the user-kernel interfaces. Then
+>>>with properly designed policies, we should have coverage for potential CVEs.
+>>>Existing LSM hooks may not be perfect, but we can improve the hooks,
+>>>potentially with the help of smart LLMs, so that these hooks can cover
+>>>future security issues. In some cases, we will need new policies, but I don't
+>>>think new hooks will be needed for most of these CVEs.
+>>
+>>Running a quick LLM evaluation on the last ~70 severe CVEs, it seems that about
+>>40% is doable with the current hooks.
+>
+>
+>Interesting, do you have some more details in which areas your eval sees new
+>lsm hooks missing?
 
-> On Wed, May 20, 2026 at 5:32 PM SeongJae Park <sj@kernel.org> wrote:
-> >
-> > On Wed, 20 May 2026 12:01:43 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
-> >
-> > > On Mon, May 18, 2026 at 11:19 PM SeongJae Park <sj@kernel.org> wrote:
-> > > >
-> > > > + Akinobu
-> > > >
-> > > > Hello Ravi,
-> > > >
-> > > > On Sat, 16 May 2026 15:34:25 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
-[...]
-> > To my understanding, this RFC reuses the damon_report_access() infrastructure
-> > that shared with the per-CPUs/threds/writes/reads monitoring series [1].  My
-> > plan at the moment is to keep using it.  So from high level view, I think the
-> > final picture would be not really different from this RFC.
-> >
-> 
-> Hi SJ,
-> 
->    Sorry for the delayed reply. Was away for a couple of days.
+The recent ones I saw fall into about 5 buckets:
 
-No worry!
+1. Kernel-thread / workqueue context: LSM hooks fire but current is a worker,
+not the actual attacker. Lots of ksmbd, ceph-msgr, and async cleanup races land
+here.
 
-> This resolves the layering question for me.
+2. Driver: pci_driver.probe, notifier_call_chain, ib_* RDMA callbacks, ndo_*,
+bus dispatch tables all sit below any LSM hook. Big chunk of mlx5, RDMA, USB,
+i3c, DRM bugs.
 
-Glad to hear it helps!
+3. Per-packet softirq RX: security_sock_rcv_skb only fires inside
+sk_filter_trim_cap, which UDP encap_rcv bypasses and L2/bridge protocols never
+reach. Covers Bluetooth softirq, bond, IPv6 softirq, TCP-MD5/AO timing leaks,
+etc.
 
-[...]
-> > I'm still not familiar with IBS and perf events.  Please bear in mind with me.
-> > My understanding is that there are vendor-specific knobs for IBS that perf
-> > event is not supporting.  So far, that makes sense.  And are you saying that
-> > you have to write paddr_ibs as a loadable module if you want to support the
-> > vendor-specific knobs?  If I'm understanding you correctly could you further
-> > share why it cannot be done as a builtin module?
-> >
-> 
-> This RFC's IBS backend does not claim exclusive use of IBS.
-> 
-> The reason patch 7 ships as tristate is precedent and reuse: Bharata's
-> pghot v5 posted its IBS driver as a module, and I matched that shape
-> during development so the two consumers could potentially share IBS
-> plumbing instead of duplicating it.  Patches 1 and 2 exist to support
-> loadable ops modules generally.
+4. Netfilter: config path is well-gated via security_netlink_send, but
+per-match callbacks, set GC, and flowtable cleanup have nothing. That's where
+most of the recent netfilter CVEs actually fire.
 
-Got it, thank you for clarifying!
+5. Crypto subsystem + io_uring per-opcode: crypto/ has zero LSM hooks.
 
-
+-- 
 Thanks,
-SJ
-
-[...]
+Sasha
