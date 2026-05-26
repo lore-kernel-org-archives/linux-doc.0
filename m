@@ -1,100 +1,116 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC67D2DEA7B;
-	Tue, 26 May 2026 18:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3D43C060E
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 18:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779821331; cv=none; b=r6P+uedlxGUZqMuUAf4kScRJz5grShd0Roxf33SU93Muwl1QUyvK4z80kgMTwnXv38hqMOQHCxQQXl2mzbCjHhbHfQmBNULy5QdTr4LGzWlmDDA/CLN93gR8uS8zYlBigbKLk0ANHm+1Qy9MwBrtRAk3vrP1dAP9uBW/Iaa495g=
+	t=1779821721; cv=none; b=Nf4Ue0mUBltyu88U2AY9GA1UKUHTnesAFWIRL5oMUOF2vJk5nlKNLb5TifSS/MxDw1yzaA47ugwsFgV9k3Wmbb5LaGXCxQysadWxDY9AgapNps58prIJeOLzYvcaADKXPrSayIkTMrpHbu2y5X3zGOhN57UYFcRM10HS9tJ99qY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779821331; c=relaxed/simple;
-	bh=0EL5x8+TZGDIraf8UUqY4kkZjJXXT2+S4iC1J4z4c40=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=isj3vgzOVBAcWAwI7RzxUUgTVWmJE4oixWg4X+08KlS+S1K8GDRdMw8vyRGlrHzeOXsQc3+m9u7iYTEABwU/Ln+UqMfB4b9frk6hAnMzKXfUSLG/M/lzIp9MhkUD8E7ipmuCvXYoAikEoaIo7oxYZ95UbTMr6Dlv3FVYr9nyFQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=R66C3xZB; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1779821721; c=relaxed/simple;
+	bh=8+FwsiYbTLidaOQnE2uFrRvMyfohje7jhcb8w6PK6TY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dPDzk7bE3illxtgUFaWuvzjPzxAWBpgg8NsN1AV2HzBKOMigGVB9bdQSIXIumZPo8v0jaYj3YvLpm+F/ghdttNWiAiM/YrnFisa4lz7qW5UiKZBCoKICryCt/AOSix0HmaWpS+SRV91QSv5wJkIhEo05klRDs0okerd7M51pq1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RHnIvnhR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R66C3xZB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=q/mZfeEODQi26JC8lul3a6HKpuOhERZOr6DhpJHYplI=; b=R66C3xZBbD38swfm8X5Vh9TTpY
-	3SCmWbtjQQxY4g53/24j0E6g5BmFHCepoU9D4IVSOikao7MYHfk47j9MqtB0SaFFJHMWiS9UJ+yNe
-	L2t3blbuZ+47pt3gboRA77PLNaIAlzaFbhNAr0REeS2CP16Lxr95arGiA/OIr7bxJnMM5Xk4Z2VZU
-	bEcvzfqXtR5GOQqA3cotbxYWRLh6xe4JlXZeLjTZUqfKtmFo80+dX+ePmi4O45l4hZxbOqU2qbnh1
-	gneSXiuj7uYtTkpiJzWqLH7XY5KsL30BtHzcpuQN1sHL5m33t3m6ZNs6URQpC6dx453beQHLQyfuN
-	JJNI+ltg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRwpX-00000002sMM-1vN0;
-	Tue, 26 May 2026 18:48:43 +0000
-Message-ID: <1c341b25-e720-4f63-9db1-99348c8ebed9@infradead.org>
-Date: Tue, 26 May 2026 11:48:41 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RHnIvnhR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01EDA1F01558
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 18:55:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779821720;
+	bh=HXgROzGmAJcCsVgExpV6y9lWb3jWbK1tedmMBM0VEbA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=RHnIvnhRM1W6mbTga0AJ2W18mdbHTBIUsfWktHzxkzabHOXx6HhV3bom4Z3JB+sfq
+	 H7IoxkMH4PyD2oyO4F8xcw+M1RMdjljhyvX3yT4BrZTbTfAba90x7bur4hZh2Mlsx1
+	 ILNMnysvZgiLl+k6WSrNFe72sc7sDMNzKkXdQpWNVbshRLcWbLb+4HrATTQvpOtyFN
+	 XdBfoWD6Sr/SSKcDmCzWCw4LYhvPRwbBteT+f97ymjR9TTIsxfdSAByk3K4m7GI2TY
+	 rIZ3niXDNm+9n2Cfoex4Nb4cAWTk7+aekvP+4VE4nC1s3f2hFX55Fo9T4cn00HF4JJ
+	 TO+9UOCPKu72A==
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-bd4f7f05e90so1896234566b.2
+        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 11:55:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8SoQREnAhzpx/N3eCGVLDGBA+GFqikUUcqch8jeugDVf4Edb6SVqcZZvmJWLL0gSQoRLXolJyV1JQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjjKi4vvHGm2YRLXYOsu659xNRUaMnwipuezbKrnzjIs0FS2Sh
+	ZgapH09/KbQH81xhPS3e5cB6KNuoB+W3tc4ccpl7Nssxtl8zjEEc8DUPh+qe4MVLODq9S+vBiwK
+	8eXaf/MreAhwv0YrNXea/gaNzdO7VAX8=
+X-Received: by 2002:a17:907:d01:b0:bd4:f3e5:b0f6 with SMTP id
+ a640c23a62f3a-bdd26cd21dbmr1255792266b.28.1779821718891; Tue, 26 May 2026
+ 11:55:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 00/10] docs: net: updates for old and cobwebbed
- docs
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
- andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
- vladimir.oltean@nxp.com, willemb@google.com, sdf.kernel@gmail.com,
- ecree.xilinx@gmail.com, jesse.brandeburg@intel.com, linux-doc@vger.kernel.org
-References: <20260526160151.2793354-1-kuba@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260526160151.2793354-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260525122242.36127-1-jiahao.kernel@gmail.com>
+ <20260525122424.3b2818f06832d9d55da8d69b@linux-foundation.org> <9b2ac88c-a67f-2512-d898-3dadd50ec03e@gmail.com>
+In-Reply-To: <9b2ac88c-a67f-2512-d898-3dadd50ec03e@gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Tue, 26 May 2026 11:55:06 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zO1+brQroYufMZ2K=ZH_PBBpzYPsdYm-DT3K2GxoKJs9A@mail.gmail.com>
+X-Gm-Features: AVHnY4LLc2VbUgRMQJCSwM_5Avx8xJ-cNYKTtyXz3u-0Ot15a8J2I4eMGnrIBmI
+Message-ID: <CAO9r8zO1+brQroYufMZ2K=ZH_PBBpzYPsdYm-DT3K2GxoKJs9A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] mm/zswap: Implement per-cgroup proactive writeback
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
+	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue, May 26, 2026 at 4:56=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> w=
+rote:
+>
+>
+>
+> On 2026/5/26 03:24, Andrew Morton wrote:
+> > On Mon, 25 May 2026 20:22:38 +0800 Hao Jia <jiahao.kernel@gmail.com> wr=
+ote:
+> >
+> >> Zswap currently writes back pages to backing swap reactively, triggere=
+d
+> >> either by the shrinker or by the pool reaching its size limit. Althoug=
+h
+> >> proactive memory reclaim can automatically write back a portion of zsw=
+ap
+> >> pages via the shrinker, it cannot explicitly control the amount of
+> >> writeback for a specific memory cgroup. Moreover, proactive memory rec=
+laim
+> >> may not always be triggered during a steady state.
+> >>
+> >> In certain scenarios, it is desirable to trigger writeback in advance =
+to
+> >> free up memory. For example, users may want to prepare for an upcoming
+> >> memory-intensive workload by flushing cold memory to the backing stora=
+ge
+> >> when the system is relatively idle.
+> >>
+> >> This patch series introduces a "zswap_writeback_only" key to memory.re=
+claim
+> >> cgroup interface, allowing users to proactively write back cold compre=
+ssed
+> >> pages from zswap to the backing swap device. When specified, this key
+> >> bypasses standard memory reclaim and exclusively performs proactive zs=
+wap
+> >> writeback up to the requested budget. If omitted, the default reclaim
+> >> behavior remains unchanged.
+> >
+> > Thanks.  AI review found a few things to complain about, one of them
+> > described as "preexisting".
+> >
+>
+> Thanks Andrew.  I have replied to the AI's review comments in a separate
+> email and posted v3.
+> https://lore.kernel.org/all/20260526114601.67041-1-jiahao.kernel@gmail.co=
+m
 
-On 5/26/26 9:01 AM, Jakub Kicinski wrote:
-> I'm hoping to start feeding our docs into the AI review tools, instead
-> of maintaining a separate repo with review prompts. To experiment with
-> that we have to refresh the docs a little bit.
-> 
-> A read thru our current docs makes one slightly question the value
-> of including them in reviews. But directionally, I feel, it's probably
-> still right. I'm hoping the Rx Checksum section about not dropping packets
-> for example to be impactful. I don't think the current AI agents or
-> review docs include this guidance.
-> 
-> Jakub Kicinski (10):
->   docs: net: netdevices: small fixes and clarifications
->   docs: net: fix minor issues with driver guide
->   docs: net: statistics: fix kernel-internal stats list
->   docs: net: update devmem code examples
->   docs: net: fix minor issues with the NAPI guide
->   docs: net: refresh netdev feature guidance
->   docs: net: fix minor issues with checksum offloads
->   docs: net: add Rx notes to the checksum guide
->   docs: net: render the checksum comment in checksum-offloads.rst
->   docs: net: fix minor issues with segmentation offloads
-> 
->  .../networking/checksum-offloads.rst          | 67 ++++++++++++-------
->  Documentation/networking/devmem.rst           | 27 +++-----
->  Documentation/networking/driver.rst           |  7 +-
->  Documentation/networking/napi.rst             | 11 ++-
->  Documentation/networking/netdev-features.rst  | 60 +++++++++++------
->  Documentation/networking/netdevices.rst       | 31 +++++----
->  .../networking/segmentation-offloads.rst      | 37 +++++++++-
->  Documentation/networking/skbuff.rst           |  6 --
->  Documentation/networking/statistics.rst       | 19 ++++--
->  9 files changed, 172 insertions(+), 93 deletions(-)
-> 
+Generally speaking, please give time for reviewers to take a look
+before sending a new version. Less than a day is usually too fast
+(unless you're iterating super fast with the reviewers). Review
+feedback does not have to be addressed immediately, usually wait for a
+bit to collect as much feedback as possible before spinning a new
+version.
 
-There is one more cleanup that you could do. Current (linux-next) docs builds
-give this warning:
-
-WARNING: ../include/linux/netdevice.h:2622 Excess struct member 'ax25_ptr' description in 'net_device'
-
--- 
-~Randy
-
+I will take a look at v3 soon, thank you.
