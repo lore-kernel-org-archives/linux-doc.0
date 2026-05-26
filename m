@@ -1,214 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE153491C4;
-	Tue, 26 May 2026 21:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779831429; cv=fail; b=DNJp/utYGI7rlePHNpoTfhJIdAFF+E6hjFR1WrW5vVAUUupoTQpus/LQEHAkhmAOAuG8hL0LHm7wlQEeodL5O8o9om4BYkMI/G20ImQJM+8UjM+eToVOTXkq35VuIrtWyd8s/2UKYF6Or/ayPP5jwyKPhpMqH6FVtZCrlNchN4I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779831429; c=relaxed/simple;
-	bh=EFDQ4aLv3BaRudtjlZMHsabpKt8E5Kf8RUio5jJG2xo=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=NfR39zLt4CLSHAayaQzUK9ARCTz/7TkC64I0jmtWxrIU3zjJQpuhCYOO6zqw1FqxNuz67GbTo68VVuiYWyTpDUHoPM97GavPahzzxLQGzItlImqj0yNuPkHWULh878ZBfCg7SARL5Y+P/VZB6l09Zq7PK9xwnPq8CnemJq7blq8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WnBFAOir; arc=fail smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041933B4E83;
+	Tue, 26 May 2026 21:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779832340; cv=none; b=dXvQDe4OVOrMMc0Fpelgysce8fbgbcam/rgXqamydbJ2GSOTCyH5+pjOf9XSyBRDrw3GzM5Izir1mDv99LgFbLwEkQP2Mnh1//ahDT0CAi6XeU4b+d2c+DBg3VK1qKplXQTyJLZcGqFqSjpgiC2eLjXutUyn+60l1l+LcJYxtI8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779832340; c=relaxed/simple;
+	bh=qkV3wqiPc1gtpJtbhMXrlyafax8/y9M8/g7Z6MlDhOU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uQ5MfiCvV8qdon3gBJezttEMgcd6pZnWhHuzfMaMOZaZ6Aw3My/t+yuG75sOGuEPKYS4IoR8Pz1j2/XoeBgVYQ6lEDaBl93mMoexcjwcfYIGB6BoSJnlKJeDTfq3PBzRIVXU3wNCL2r9LDMtN3EkUT71WsZQjdbUI5fVBFfdgcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rM1SMVo/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnBFAOir"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779831428; x=1811367428;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=EFDQ4aLv3BaRudtjlZMHsabpKt8E5Kf8RUio5jJG2xo=;
-  b=WnBFAOirZk+8ZIepDXSJI8+JmFQyovyU7Y8t/J6cmk9taOqCj8s3f/jo
-   zg3HZMpn0LYhJxH8ln1x6+2iAtTklZwTNdHmXXP7IjezMKJAd23FjKxvG
-   CWrGVzqcCCDJPK90MAmuAcvUjFBq1iIQ5rcFwJNxUcjCFzEbBBNJfwcDS
-   XjALK96n3qgfBPt6WjvwmzIPfWnRyq857lRFxJfUrdhDzHFRiFUqI4dCe
-   uI4DdJ64yJBl0VprcAyLlWqUkuv5LaOG7bv/EBTzNeHEbF854lOS2ZxEK
-   wuimlaW45zKAbpuE9M2UOYHyXhaoU1+JNJE2naiSRHMhz8j/GeJBCmxtw
-   Q==;
-X-CSE-ConnectionGUID: aCebsOULRHKadFRVeTZHkw==
-X-CSE-MsgGUID: deMsOxmGTGyFOoEZ1Snklw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="92130215"
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="92130215"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 14:37:07 -0700
-X-CSE-ConnectionGUID: QdYy0Gw2TWCToxrnImmOdQ==
-X-CSE-MsgGUID: NwrNNUsnTGKDSqpOS0WiYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="246991077"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 14:37:07 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 26 May 2026 14:37:06 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 26 May 2026 14:37:06 -0700
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.53) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 26 May 2026 14:37:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fzIkHzo+alLnfDGYCIZGuyW5VOzGQzZ2Ozf1XheUhWDAYsw1Jf3d693gyamkOhJZXjbjhrY1R4aA2yZz0jWKQwbxL3BEToSwOMtjtwuja7RoOEQh9AMzYR4Q/8UVLq8kok/MNDDJqlTF9+QfWGY1U/XnMbw1sgxwqzujLXmgKq/JJGCmXkdMXs7/PoPMsRq0ijYrR9nOrjE+RmZogK8Z6dN7hvK2J8JcDVw4w9oCMkoU70xMpXAcv6bJ6yZz4UFdL4toFcwOmGxAxthQwLySpWOl0Ibgeo9bi26+BhPWwrxmLVBGMErgMJtr8d5dOXNXKV8yGEOTc848BsC65MH4RA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4yZPka27ZJ+fvD8KjVUrSsR5e8644bW4Otuloer+WNw=;
- b=b5WCCw7/1WgckXAfuYKcchyGtSQlykjFwpULw32nrnp77juJ46ugvdIf1dxVEMgwBoh06TC95KtU4Z17n1C+WS+CSxxb9dQ/HNYXC+DpwvE9vTOzb+rzCZVa5geQRpLuf+0h0g0ITw50GwZuUtNux5svKTpVb6h23ybUihFQIUL90qz/5JJlnIs11ywnfr9Ueek5EqyfnEtI8T9XPYuSBTtCogebwoOtwPqhgc5HPxjJJ/q69Im/VpDzx7R0jWvNP1ZTyUGSJdl472oIFoT+/3q2K85glxRFv2RI49OnkB+EGWkGOCRj/t4nZC8OsEyCg6aZPr8AFw05K8MglGQYJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7381.namprd11.prod.outlook.com (2603:10b6:8:134::14)
- by DM4PR11MB7349.namprd11.prod.outlook.com (2603:10b6:8:106::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Tue, 26 May
- 2026 21:37:03 +0000
-Received: from DS0PR11MB7381.namprd11.prod.outlook.com
- ([fe80::4c39:dfe6:d6dc:6f58]) by DS0PR11MB7381.namprd11.prod.outlook.com
- ([fe80::4c39:dfe6:d6dc:6f58%5]) with mapi id 15.21.0071.011; Tue, 26 May 2026
- 21:37:03 +0000
-Message-ID: <079fdc7a-086d-4f99-a97a-b95cb19af322@intel.com>
-Date: Tue, 26 May 2026 14:36:59 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 01/14] virtchnl: create 'include/linux/intel'
- and move necessary header files
-To: Alexander Lobakin <aleksander.lobakin@intel.com>, Aleksandr Loktionov
-	<aleksandr.loktionov@intel.com>
-CC: Larysa Zaremba <larysa.zaremba@intel.com>, Tony Nguyen
-	<anthony.l.nguyen@intel.com>, <davem@davemloft.net>, <pabeni@redhat.com>,
-	<edumazet@google.com>, <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>,
-	<przemyslaw.kitszel@intel.com>, <sridhar.samudrala@intel.com>,
-	<anjali.singhai@intel.com>, <michal.swiatkowski@linux.intel.com>,
-	<maciej.fijalkowski@intel.com>, <emil.s.tantilov@intel.com>,
-	<madhu.chittim@intel.com>, <joshua.a.hay@intel.com>,
-	<jayaprakash.shanmugam@intel.com>, <jiri@resnulli.us>, <horms@kernel.org>,
-	<corbet@lwn.net>, <richardcochran@gmail.com>, <linux-doc@vger.kernel.org>,
-	<tatyana.e.nikolova@intel.com>, <krzysztof.czurylo@intel.com>,
-	<jgg@ziepe.ca>, <leon@kernel.org>, <linux-rdma@vger.kernel.org>, Samuel Salin
-	<Samuel.salin@intel.com>, NXNE CNSE OSDT ITP Upstreaming
-	<nxne.cnse.osdt.itp.upstreaming@intel.com>, Jakub Kicinski <kuba@kernel.org>
-References: <20260515224443.2772147-1-anthony.l.nguyen@intel.com>
- <20260515224443.2772147-2-anthony.l.nguyen@intel.com>
- <20260520175201.72f83c4a@kernel.org>
- <ag7QUgfpM5UAAE2z@soc-5CG4396X81.clients.intel.com>
- <20260521065609.248c7009@kernel.org>
- <5426379b-1201-4707-8d18-21dca3d1424e@intel.com>
- <20260522084050.5ba31f38@kernel.org>
- <d3191a29-0ce8-4338-80b8-a49c53c1a472@intel.com>
-Content-Language: en-US
-From: Jacob Keller <jacob.e.keller@intel.com>
-In-Reply-To: <d3191a29-0ce8-4338-80b8-a49c53c1a472@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0232.namprd04.prod.outlook.com
- (2603:10b6:303:87::27) To DS0PR11MB7381.namprd11.prod.outlook.com
- (2603:10b6:8:134::14)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rM1SMVo/"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A4185C2BCC4;
+	Tue, 26 May 2026 21:52:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779832339;
+	bh=qkV3wqiPc1gtpJtbhMXrlyafax8/y9M8/g7Z6MlDhOU=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=rM1SMVo/51AfaSXHxHJr3XooO8PODu/tWig6uTWQnAmYQs9ut5QhI+IGrrY2NroPa
+	 pERvg9aVZLl6KZQCmx0QP2cwQ0loIihIWVx5cFwBpbJxP7eLlF7IS9RHa9XkP7ohAk
+	 Ck2LNbTt9gWm6+L6o6/0OQ31KZ1qQDC+eGsovp8m+8OwhEMXtn8Q6bbk2DhwvjCyc6
+	 MaYoFEUdtNj3bkvOc/sW3rChnoV79PlK7iLlX9LKQBpqUL+cCdb2QO4wp4yuk5zQPX
+	 2m1jRfVvf3+FrqCcGg3j48KqeqvVGEHxJizkjKloXtG8PwsR1xn+QQ2BiTB3ljlfoh
+	 HCwHJjX60JT+w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CD83CD5BD5;
+	Tue, 26 May 2026 21:52:19 +0000 (UTC)
+From: Ciprian Regus via B4 Relay <devnull+ciprian.regus.analog.com@kernel.org>
+Subject: [PATCH net-next v2 00/10] net: Add ADIN1140 support
+Date: Wed, 27 May 2026 00:51:45 +0300
+Message-Id: <20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7381:EE_|DM4PR11MB7349:EE_
-X-MS-Office365-Filtering-Correlation-Id: 24482fb9-c4a8-4ee9-4416-08debb6eecc8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|4143699003|11063799006|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: uvErtOiVlqFx/Gc8mDj8a9eZPwreDBiv/HZHzqA+d+K4fVDa9PKub3OmXxckrxDCn+pa8T9HOq28D1kxkvUqUrLbxhVnpFs9vBPMvuVKK4zaZJCPtuQz2hugkm/1xqpVTr+D0LglL2S2gCnj0CsOb1yjfaHixUOn/lIS3LQd3NMamUlmSA166Y6TUT5zAGam2yfkOv5vs24sorYtrPklOTTjcYr8lBy3IwBxwq+pLg1jB4uZ+YcfTOYboPGcwzIW98bBv4uhqnSC03nITJ9FzD6Lb14toPLQyjFhE6dUNCCTupRu1K88MehuJc3PP4lx4Y1wb4NGNYHg06HJMnWkPrhkcrhIhvYe+q6RXOyevtpNCxWWQAmeQUC86MbAQsN51y7ZqzXXPA1c7RVd+9KhLaQEZqUCZYiYnSYzrB90sUrwRU2E3hr0nogLiNN5xsdgVxDADLNqHQa1gzeUVcXk42kmMSVf/pY8GSnU7kqLybpwOm6LTtvDwwCsauCFwuM/m8YZZcrQLaYxcTGAwk0R2FlWyXACeC53D8hmyhOESbBg9zLSnz+eSukUdYRFUipIy1x5gW2zuLHXslhhOrQO6h7vIEIuMD9Wf1+m6T827qWTotYYQag5J1Rol8a0JyYVJfY21bg+84uQrgkIwxjrsRRouvXzXUVyiHj7EuYnqAtJemnFaaDjXTTIMHes20rC
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7381.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aUgyeWVwOFVJcXZNS0RuNUxCMjI0MlpKNjQ0bi85TFA1cHpCUnpRTG9McUZ1?=
- =?utf-8?B?QTNiREhQYUFJVzNwVGkrd2o4LytEUlVlZENoSTR6RDhOTU9JaTg2ckV5Q0pJ?=
- =?utf-8?B?M0JMWDhHOENqUGZVUHhTcjBVT2JoZElIK3E1em44N2xjOUkzenpDeDlaZWI0?=
- =?utf-8?B?MDlaVjQ4QTJMZlFvM2FReXUwWXpDQTlhM1pZeWkvVWFLRGZRM3YwT3g2TkZj?=
- =?utf-8?B?TlNRcTVWTXdtZGJ3NFBOMm9ybEo4cSt1NFZRV3FqVjNsaFhPL0FpUGJWZ2pS?=
- =?utf-8?B?cGpSNk9Hd0cyRGNxTkwvTFM1WjUyRkhJUjI5cFlNTytIcUpWWGF0a2QveE1m?=
- =?utf-8?B?c0d2WHp4cm5CSCt2eHdkSEJCSU00TGpTdWVXYzV0K2xRcGl5OE94MW9vTExt?=
- =?utf-8?B?ZzJjM2YxVEJkNVJsVm4yYXVFNzA0N2JtdHJFN0NLTXYrK0tyOTBsSUZuN3JF?=
- =?utf-8?B?cCtiajhjalVpN3R6aUY3bVJTOUdybnZjb0l0Q1hEUzBiSTZmZW1ZZGVZaks4?=
- =?utf-8?B?U2trSkdnS3dhNWpzdzVoUDhzVzBQZ2NEeDNpcjVja3NpeEdVN0FJZzRudWdt?=
- =?utf-8?B?V0c2R0NWT0RjZi9TOGVTZVc2eXJhMjVTMmdiQlZJNU1mdGNBdWxTcHE1Y1BN?=
- =?utf-8?B?dWFaK2c3YXRvTXBXZ2tSL1pqYU55WmRjTGdJYTBGOExDSmpqS1N5MjdBSVYz?=
- =?utf-8?B?eEJ4UzR4a2l4dW84UkVnMFN4SnpNVGlSa0NhUC9zQUxJQmpaNnovUm1aUGEv?=
- =?utf-8?B?emRXWXNEV1BDZFVYQnpDK2tDaXlhSzd6ZXhQSWRnRjByaFlSYnF4ckZBMU9V?=
- =?utf-8?B?Ym5paHoxaDVaUGtxVEJkaitiYm05cDg5UWlFd2VMV09kRkZaUStsR0YvdjVG?=
- =?utf-8?B?RXhzcklidDBaOWh3NlNNMUFyMWxobUxEODN1ODJ0clpNWU8xbWVQcFo1bE5Z?=
- =?utf-8?B?cVRCb0p3RjROcmNDYWZvRGUyeldSZ2szSDJXTW9Va3VLUGlMQ2ZtVlk2K3VB?=
- =?utf-8?B?VUsvMkR2WGd3QmRDSFFkWVdZdk1oZGpIT2xCKzd3QWVYV2d6ZTlJaCtLZ0FT?=
- =?utf-8?B?SlJOSmwzK3NuT3Zmem5hZDFhK1JlT3hiSU9OdlVQRG92Ujh2QVV5RDVNQ0JL?=
- =?utf-8?B?a1EzWDFwWEc5V0JsK1R3ckUxL2Jxc2R0aGszYVJaSW9uNU9Oa2I4WTluQTdY?=
- =?utf-8?B?MWI0bURybmNoRnNlbmdQU2w5Zk95U0wwdCtzdFRJdHdOSUF0cFgranJPZzAv?=
- =?utf-8?B?a2xtbHNqWUtaQlZTZjdQa1RkcUNIaGJXRklVRTVTaVpjaVpUUWplalArd3R5?=
- =?utf-8?B?aTBsSGVORzBTOWVJMEgvYTdNSE5abFRYVVVEeDM1bE9KMUNrS0M0TEtEejRU?=
- =?utf-8?B?VnFmZnhVN3hzSDQrQkZkd3Fmc1d1RFptWXVJTTVhbWI1NThuR09BdXB3SVpt?=
- =?utf-8?B?dmRyZitZT0phY3BST3l1Y3lCUUVzbFZxVjB1VnFtV2MrN0I1MFIvczZSRFQr?=
- =?utf-8?B?aFFCSEtrRzQ5b2g3Y0d4bkZxTGcyZUJaY0VNeG5sOENuKzYwWG5yck5ZeDB1?=
- =?utf-8?B?enpGSVZDV0VUMjgxUVA2M2hqdnBHMUlzQ2g4SVRDTWdrTVZNV0RybHlxVlhU?=
- =?utf-8?B?b2E5YWNZNjU2L2VBYzYyOFNKSWVEWG16VmRXQWhWUWhZd0JMSUxTWGdkK2lt?=
- =?utf-8?B?U285NEtFSjJlb2xEdXl6UW1UalFhd3lOSXVONzhwRVYyTk53NTZTOG5SWXBU?=
- =?utf-8?B?LzRxZ0Z3NWRVZnlpc01pdmFDUEU4K1BYTmtuSUd6dS90WWUxTnNKdWtyMktV?=
- =?utf-8?B?NzFrbXdmRkNPYzNwUDJnMDlrOEtYNVArbXJTakgwN04yLzluK2tIQXZxZXkx?=
- =?utf-8?B?SU10REZEYWg1aDhSd05iVHM2emU0UTRrSndmUXF6dVZ6ZWRHYy8zeW9saFpq?=
- =?utf-8?B?U1FLTSthanlKVklsU1FaTnNyR281TktZK0dFWDA2Tkdpa3FzMEFYQzdETXU2?=
- =?utf-8?B?TFEwTGkyN01Pd1h5bTcvTS9rTDlFcHpweERLMSthWU9SWisvWUU5MjR1d3ly?=
- =?utf-8?B?aUxyMHdRTlhDcUtRUWFqd3hJejRMNXByRTllZHRudGtkTVZpL2pHMHlkeCs2?=
- =?utf-8?B?aXBoYjNKMXA1VGR5d3hjNExET3dBOGlrLzZHSVhkd3RxazBoVDZEVVVzNGs0?=
- =?utf-8?B?QVd4T3YwRkFHSzZVWVNLMnUzdkpHTkk3T2ZCd0VZVTdPSW5FaGhvMnNwWVl0?=
- =?utf-8?B?OUZDS3I4OGE2d2hVMXUySlVHejd2RkcrV3czdlZsV0N5WnhSTDh3ckwvdkxU?=
- =?utf-8?B?NGFGMktORVZvTWZuVXllV1h2dnJQdHF2MFo2VHhsclUwcmZ2QmhXUT09?=
-X-Exchange-RoutingPolicyChecked: eMaysa87+msFIC0wK44U73KnGCO2pGD3T5cnu9O1UCbwnz/dOSgXCraxoyBSFrrbNNPaDYe7QUTYcBLqkqINDNmlYNrDHWXM5HxHDOYUoic9UMDIwMyGjhU2V2+NI4HZbaMF0s7a8JcV81WfkBVPMvaTmeXiRPUJZL9rRQbDFuopoNHd5HBt6K258ETOKWVLynZA44MbGmSt1H62TOZK2eXpAD8nKKB2lOKl/D9uNtALlhfDKN1/31z8cwEGF/NyroPhJe5JpiwGv0Mc+Fcc36D8MkOOcJI/Z7KTjxNo7r77kmWAa0lfu7s6/NT+IsYbNxrMnAvyaQLKDLflJe6U/Q==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24482fb9-c4a8-4ee9-4416-08debb6eecc8
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7381.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 21:37:02.9122
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PkVlMn4ePFjI4oPIIByReUMw2zrxHscA036+OsgKOES2TiCwzofgWhJDwtwYhV93R0Q9NCB0UiNLkY+u013hyBTfLAQJsiza/V/sMLritHo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7349
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPEVFmoC/2WNwQrCMBBEf6Xs2cgmqbV68j+kh9DdtguaSFJCp
+ fTfDbl6m8cwb3ZIHIUT3JsdImdJEnwBc2pgXJyfWQkVBoOmw9bclCPxWreoKErmqG7WMZK9dlb
+ 3UFafyJNs1fgEz6vyvK0wlGaRtIb4rVdZ175aL2j/rFmrkglbOxL1/YQP590rzOcxvGE4juMHU
+ edR9rkAAAA=
+To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
+ Ciprian Regus <ciprian.regus@analog.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779832338; l=5877;
+ i=ciprian.regus@analog.com; s=20260330; h=from:subject:message-id;
+ bh=qkV3wqiPc1gtpJtbhMXrlyafax8/y9M8/g7Z6MlDhOU=;
+ b=cmkxchONzMnbGnAMVlKNZCnrkikd8TFL0iz7in8o2Pl4GaMAePC9zkw2gKZqK1W+CxPvQTd6E
+ LsKRcdEpmTNC8cB99GwnGT8Fdu07W5EuW8Qm1QDIVQetKpkJekSaBYM
+X-Developer-Key: i=ciprian.regus@analog.com; a=ed25519;
+ pk=8WoNhI0kQcQUl8YqJO5ZevROYk9HP8lOIeIgIYgjfbc=
+X-Endpoint-Received: by B4 Relay for ciprian.regus@analog.com/20260330 with
+ auth_id=703
+X-Original-From: Ciprian Regus <ciprian.regus@analog.com>
+Reply-To: ciprian.regus@analog.com
 
-On 5/26/2026 7:45 AM, Alexander Lobakin wrote:
-> Re review score -- I noticed that as well and have been focusing on
-> reviews more than sending patches, *but*:
-> 
-> To Aleksandr:
-> 
-> Please *stop* spamming IWL/netdev with patches. This doesn't help at all.
-> Or at least do minimum 1 review per each patch you send.
-> 
+This series introduces support for the ADIN1140 (also called AD3306)
+10BASE-T1S single port MACPHY. The device integrates the MAC and PHY in
+the same package. The communication with the host CPU is done through an
+SPI interface, using the Open Alliance TC6 protocol for control and data
+transactions. As a result, the oa_tc6 framework is used to implement
+the communication with the device (register accesses and Ethernet frame
+RX/TX).
 
-+1. I was actually thinking about some sort of limit on outstanding
-patches/series in the Intel Wired LAN patchwork. I was noticing that we
-have a lot of minor cleanups sitting in IWL queue for months while I was
-covering for Tony.
+The MAC and PHY are connected internally using an MII and MDIO bus.
 
-> The imbalance you (not only, but mostly) create will only lead to that
-> we won't be able to send anything at all.
-> 
-> To you and sorta everyone from Intel:
-> 
-> Please focus more on reviews and wait with sending stuff until Intel is
-> back to the top 10 reviewers and has at least +/- neutral score.
-> 
+The PHY is a half duplex 10Mbps device, which implements both the PLCA
+RS (IEEE 802.3 clause 148) and CSMA/CD methods of accessing the Ethernet
+medium. The 10BASE-T1S standard allows multiple PHY devices to be
+connected (in parallel) on the same single twisted pair network segment,
+so PLCA can be configured in order to provide a fair access scheme to
+all the nodes and reduce the jitter introduced by the unordered CSMA/CD
+transmits. The PHY's internal register map can be accessed using the
+direct MDIO mode of the OA TC6. The control, status, phy id 1 & 2 C22
+registers are mapped to the 0xFF00 - 0xFF03 range. As for C45
+addressable devices, the PHY has PCS, PMA and PLCA blocks.
 
-I know I've been a bit lacking in review last few months, with a lot on
-my plate. I'm hoping to improve over the next release.
+The oa_tc6 framework patches are changes that would make the library
+usable by the subsequent ADIN1140 MAC driver.
 
-> Most of stuff coming from Intel right now is not critical for customers
-> and users, by doing that you paralyze really important series.
-> 
-> Thanks,
-> Olek
+The protected mode patch is required because the ADIN1140 only allows
+protected mode OA TC6 control transactions, which the oa_tc6 framework
+doesn't currently implement.
+
+The OA_TC6_BROKEN_PHY quirk patch is required in order to allow the MAC
+driver to have a custom implementation for the mii_bus access methods as a
+workaround for hardware issues:
+
+1. The OA TC6 standard defines the direct and indirect access modes for
+   MDIO transactions. The ADIN1140 incorrectly advertises indirect mode
+   only (supported capabilities register - 0x2, bit 9), while actually
+   implementing just the direct mode. We cannot rely on the CAP register
+   to choose an access method (which oa_tc6 does by default, even though
+   it only implements the direct mode), so the driver has to use its
+   own.
+2. The ADIN1140 cannot access the C22 register space of the internal
+   PHY, while the PHY is busy receiving frames. If that happens, the
+   CONFIG0 and CONFIG2 registers of the MAC will get corrupted and the
+   data transfer will stop. Those two registers configure settings for
+   the transfer protocol between the MAC and host, so the value for some
+   of their subfields shouldn't be changed while the netdev is up.
+   Since we know the PHY is internal, the MAC driver can implement a
+   custom mii_bus, which can intercept C22 accesses. Most of the
+   registers mapped in the 0x0 - 0x3 range (the only ones the PHY offers)
+   are read only, and their value can be read from somewhere else (e.g
+   the PHYID 1 & 2 have the same value as 0x1 in the MAC memory map).
+   C45 accesses do not cause this issue, so we can properly implement
+   them.
+
+Even though they have different driver, the MAC one cannot function
+without the PHY driver, since the PHY is not compatible with the generic
+c22 driver. As such CONFIG_ADIN1140 selects CONFIG_ADIN1140_PHY.
+
+Signed-off-by: Ciprian Regus <ciprian.regus@analog.com>
+---
+Changes in v2:
+- Add the OA_TC6_BROKEN_PHY quirk flag to the oa_tc6 framework in order
+  to allow ethernet drivers to manage their own mii_bus struct and PHY.
+- Move the OA TC6 standard register definitions in the oa_tc6.h header
+  so other drivers can use them. Do the same for the C45 access
+  functions
+- Add the genphy_read_mmd_c45 and genphy_write_mmd_c45 functions to
+  genphy, which allow drivers that have been discovered over C22 to make
+  direct C45 operations, without using the 0xD and 0xE register. The
+  change was implemented based on the suggestion in this thread:
+  https://lore.kernel.org/all/CY8PR02MB9249CDA8F2C560FDD0F662D883382@CY8PR02MB9249.namprd02.prod.outlook.com/
+- Link to v1: https://lore.kernel.org/r/20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com
+
+---
+Ciprian Regus (10):
+      dt-bindings: net: Add ADIN1140
+      net: ethernet: oa_tc6: Handle the OA TC6 SPI protected mode
+      net: ethernet: oa_tc6: add OA_TC6_BROKEN_PHY quirk flag
+      net: ethernet: oa_tc6: Export the C45 access functions
+      net: ethernet: oa_tc6: Export standard defined registers
+      net: ethernet: oa_tc6: Add MMS register formatting macro
+      net: phy: add generic helpers for direct C45 MMD access
+      net: phy: microchip-t1s: use generic C45 MMD access helpers
+      net: phy: Add support for the ADIN1140 PHY
+      net: ethernet: adi: Add a driver for the ADIN1140 MACPHY
+
+ .../devicetree/bindings/net/adi,adin1140.yaml      |  69 ++
+ Documentation/networking/oa-tc6-framework.rst      |   3 +-
+ MAINTAINERS                                        |  15 +
+ drivers/net/ethernet/adi/Kconfig                   |  12 +
+ drivers/net/ethernet/adi/Makefile                  |   1 +
+ drivers/net/ethernet/adi/adin1140.c                | 811 +++++++++++++++++++++
+ drivers/net/ethernet/microchip/lan865x/lan865x.c   |   6 +-
+ drivers/net/ethernet/oa_tc6.c                      | 202 ++---
+ drivers/net/phy/Kconfig                            |   6 +
+ drivers/net/phy/Makefile                           |   1 +
+ drivers/net/phy/adin1140-phy.c                     |  72 ++
+ drivers/net/phy/microchip_t1s.c                    |  32 +-
+ drivers/net/phy/phy_device.c                       |  25 +
+ include/linux/oa_tc6.h                             |  63 +-
+ include/linux/phy.h                                |   3 +
+ 15 files changed, 1203 insertions(+), 118 deletions(-)
+---
+base-commit: b217a5c25fe4a5fdb63f57d028a88da470601f57
+change-id: 20260429-adin1140-driver-93ae0d376318
+
+Best regards,
+-- 
+Ciprian Regus <ciprian.regus@analog.com>
+
 
