@@ -1,213 +1,188 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11021112.outbound.protection.outlook.com [40.107.74.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A018515A864;
-	Tue, 26 May 2026 06:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779776645; cv=fail; b=EjJeJ2cJv9hPZMeSvGimK5E1KwjMUYDiFBZLBmJFWXZfOTpFqvpAEHu0nhhkdGTlWNOak1muaxdu1eme4QznEhJ9WXBD1nnVZKbmz0fgKCvtxH/78a3yGQD1f11o2xPV5kwo5QiUevfG+ezx1S+6YL3iRrat7+hDzrxXnj5furw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779776645; c=relaxed/simple;
-	bh=DOAVpM+kx/r2rgTyxHfO90fPT2EoS00FAAywUi3NmAc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=f0PxGQijYJZLhYfIL+Pog7i/dgoE472q2xCAxme16v0WUn34OY7v9QWg6Q9mrK+1wk/tLCVN2REAapYJ5e5Zf7fwNoEYDCS6/IyH4wdjftft02pWLL4NaZ3t4Yb3UCiMqJQUHpjsxnO+Xtc5JBQJQUjKEF0RHirejHuFySw8yPo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=eQajecFH; arc=fail smtp.client-ip=40.107.74.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51F63C37AC
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 06:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779778633; cv=none; b=OBkJIANOnCkKzhWDzrmmiqyb5BClUwo7mFLOPEH8SCcwBihlIm7WAiJY+3xCiAQRoJyuzYUv3oHmbDmjaiHyZnyeCyWKu4cWkHG6qdqTyZg0MvH46iY+ku6Pb8NOM+z/qZJMk40pkRtmPs4KP097+6IPjD+BGznID3CMI+Vv81s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779778633; c=relaxed/simple;
+	bh=LCWX/FWzch2f69uBq/OyOfIjJFTVyqrMC/8AOUgEdBw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tq4pcmCtV8xk/9197wRSccLiV+LMKLB85tPQk096v9iEgruTT3pBdiHl09pQ9rn1YZ/D+uill32r/H2t35C+vdU1bLXA2Ra2NWuOeYkfb7dkFXlZ4A9jLVgxwp4k2Tom9PeoHrf6YHQZ039+s2gODCwYNyH/4+lVh8iSuc5SeJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LcI3uw7a; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="eQajecFH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LmkYXqAlTc9d+fiNf2nQfMd45yF0G+zNn9UxajvElqq8+Ba2kote3You2jZczLl/PmUCypIX8s95+VhYY9e6xSvblXkoptEsYO8ZtOc+FwvaeVBDv+CmGSyXkVg0leQkJfg/M4gtHGgxg2/wRGmH/tQmrm80A1dksrKiJI1ssafbMWceq6Vp3Yla5AvLS/NEzlPg6vjk5ER2JqxrxGQEA2TIo0ChdHd2BJtOw7yUaArIbxghjZ68fS1NenlRatmEHwhjpEMwiqO1vjdsKNxT6D1slG95TJMTZRfMdsGaCAQRaJgpI3+FGgCEoC9cwdp5murawdmTzFp5booAtpcWPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=matCIdXAygQBvwCToZcgmY9YQuRh1fRBEJar7Dx1xjM=;
- b=gUOgRkUxiqaQ0uTu27nKRJVpoNIHuIG1au/N58tswxPFkSpTjDeLMURBW3E9a9f38ABVMPgjfU20i468x5P8TsVyYnqgDyzq3BRtFAtcy6VtLmYuZXn1TVabxeldTz5ZeGQgTY/8KZ+4fnMGfOYq7DyytV1j6wtykA3fU5tS+l2dRGEMNn6xasaux056CPNj/tPBKjmX50ScboykOQVQOMNxevGqHQMK2mMbv6aa24g5gTUp2IzQW16m2VcwZuDhJRmSSSY4rYdupHJ3s6TZPYo91GNDH7OGquW5baXaH5wR0/0GXTfDDfIvXCqotG8HA/0h4V1JjfmztR8maGshzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=matCIdXAygQBvwCToZcgmY9YQuRh1fRBEJar7Dx1xjM=;
- b=eQajecFHqO2wBshOdb1HnwTCFmdSwgNcy7H4MVPzMBWFCFFkqDD0wkMlnT1Yfc5CG2WHOTWIyo39fk8aG3vG4/fum6i13hbV+BsIbg9fO8BtsxIyISPg6jrPpf1EEmsCzSo8MdCuk87V71dlgywA43AnyiTZ/hc6TjFHQ3JV1uE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by TY4P286MB7008.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:340::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
- 2026 06:23:59 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.21.0048.019; Tue, 26 May 2026
- 06:23:59 +0000
-Date: Tue, 26 May 2026 15:23:57 +0900
-From: Koichiro Den <den@valinux.co.jp>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, 
-	Frank Li <Frank.Li@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Damien Le Moal <dlemoal@kernel.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] PCI: endpoint: Add PCI DMA endpoint function
- (part 3/3)
-Message-ID: <b5qre4rphbq4datwi3apyh5jy5b7obz4aj3pfn2gzmke6znmib@gpdbheezoi2z>
-References: <20260525063456.3317509-1-den@valinux.co.jp>
- <xnfnxv64hpil6if4ikyohxnarvsekbmjcc37k5zej264ix46z3@qtu6xj2uy3xi>
- <ahQJ4kuaBKMhj52L@ryzen>
- <3dkicfydmrlm2i6ks34kwjdmlvb22ryftkfw2yj62o4rtj5xvl@f4gby5vlwtdf>
- <F31848F5-5481-4402-9B45-9EC7BCC8B0B6@kernel.org>
- <ll76isrjb62ieiz4vhn3u3upp46vnzed3slpqxnni5hymsc4mw@avbx7k473uo4>
- <F8664D81-EABE-4E36-B0C9-2B0C7FA36DC0@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <F8664D81-EABE-4E36-B0C9-2B0C7FA36DC0@kernel.org>
-X-ClientProxiedBy: TYCP286CA0353.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:7c::10) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LcI3uw7a"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-67da63ae541so4920607a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 25 May 2026 23:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779778630; x=1780383430; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mBNJcSkWDMS2F/o+KqKiAkJP47naY8jIDQxVCXbkfTU=;
+        b=LcI3uw7a7Jls9J4c5B0I9OCMJCHKetwP2oq2qmvT5EBxq9U9pnwvVbyynAexh99XMd
+         zj7w+Vu8oWUk3XUiKv9QtPIxW3xBXyr1KsFpfJpJ/RiMWgGTle8ZOueECdbFxXPH//lH
+         zFgdYawcD48kgbFCykq4wDoucPjx5K0zIhpmmU0fQ3q5bf5KTRn9hiSdeOCKvQHi/lr3
+         NplxjEnerXjEpygqcJS3JPR85Xcd7gWIJ8DOpDqumN9L6pQif82bfDuHCrZ3ZAE5qsYk
+         NYDRzE3BdqYikS/zOd2ak/kRerU7fH+2yOVdxDc52O9asPXEt1xZHYCMijOqeDmWMhpZ
+         cySw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779778630; x=1780383430;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mBNJcSkWDMS2F/o+KqKiAkJP47naY8jIDQxVCXbkfTU=;
+        b=pk6yaMcKYvf0WUGnKxbfOyovvxR1MDclfL6Y6fm3omnasecZZ+n5lk5zA2dAG/87oA
+         iDBBe/mSED7zgILX47mc21w6SFLib/DnaNHbY1IcJ64H1r+xUiay96VXwKnRqUdW4Rx+
+         qz1MBL/UU6F7jBbSvUvk1GX9akjNq+/hUeH1yuaEyRjFI2GMFxcb7n8Y2Lt0ZxkXveXe
+         LJDKpYisEzbXBb7sBMbwTE0GbiNaLBzZ8+LbsRPzysmu9pZ/9hea8Y2SMWS6J7ylRY9p
+         LDMOIZfQP6Kf+oS89C97BkrAvwrr5kibNB+Bq87q7f1Sy4G8zBdGzplgApI7XCDVcLHD
+         nTrQ==
+X-Gm-Message-State: AOJu0Yx95efCI2OxAs5r4AuQPTL6nJHQVhmv/qIq0sREhK2It4fNmuR2
+	9s6kVOGImDZ64Fdk6ZVr5GDQMR5JUJVG20VHKwynn+YBejSg6ojeQZD6
+X-Gm-Gg: Acq92OHwYv1wAup6fV2CLAtoNb49TL4GYUWI8lOaAcBMm6O5mgHeE29ugqm4qwcXnxI
+	nFM/qMoeTss0ns6d4s6vXYQjp9mnaaopAwaGF9kHSk8DCXfhjaBTh0SBwVJvWXjxeKvuCMcfETI
+	mCs64Hl2hWJzFS++WNk5cv5Mc8/cY6tWkATSKmRbZ660ZqTQGLbntBi1ljbfb0MtNVYJhBpBR5M
+	Zd1Q0mzY3sIYXK9YBeMWn9rQi3fh3FInfXY6xVDglEV4mbiw0lJ0zbZPXcXiL3SsqO/ahcwsavH
+	H1yKMmV1UbGotVLqhanauOoOhfQs1F+jhVNQK78/FZUgpqMci4dWlbmmZ8Wek889FOUUJl8GQ9i
+	fVwmxzhDCuPQQ2Pz9f9Pnlga9IcoUaHnTngh7EGwAHLQU1PdIviE6kkArvCXAWicfrUZ0cjuRxE
+	v0+exzT6ceqw82I5kIgLK9RA==
+X-Received: by 2002:a05:6402:354d:b0:687:3580:fc26 with SMTP id 4fb4d7f45d1cf-6889cb3d24amr9081852a12.13.1779778629909;
+        Mon, 25 May 2026 23:57:09 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-688baf1e984sm4668480a12.14.2026.05.25.23.57.08
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 25 May 2026 23:57:08 -0700 (PDT)
+Date: Tue, 26 May 2026 06:57:08 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Nico Pache <npache@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
+	aarcange@redhat.com, anshuman.khandual@arm.com, apopple@nvidia.com,
+	baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
+	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
+	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
+	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com,
+	jack@suse.cz, jackmanb@google.com, jannh@google.com,
+	jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org,
+	lance.yang@linux.dev, liam@infradead.org, ljs@kernel.org,
+	mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
+	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com,
+	pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
+	rdunlap@infradead.org, richard.weiyang@gmail.com,
+	rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org,
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com,
+	surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de,
+	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com,
+	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org,
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com,
+	ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-unstable v18 11/14] mm/khugepaged: Introduce mTHP
+ collapse support
+Message-ID: <20260526065708.oyyddmt2zgfwu2q7@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20260522150009.121603-1-npache@redhat.com>
+ <20260522150009.121603-12-npache@redhat.com>
+ <2b2cda8c-358a-4a5c-989c-ae42593ef2ea@redhat.com>
+ <20260525121041.2f2508a4f627c338cddd837a@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TY4P286MB7008:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f2f2eca-3e26-4c6b-6b27-08debaef5f4f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|10070799003|18002099003|56012099003|22082099003|6133799003|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	11mmZbNCecQO4huj9VGcqPMFkNX+aA1HYLi7MvMKpxziIdCAsnO19nYPssbgorBtv8duwxoF1yuCBtJawOWlM9GqkJs4X1OIGoNuC6AcUzb8zfMimkQT2G0/WhETvdyFD7uvtMBhEz/lAxKpWYlsQs3RRDw1piMfEbbGb0d8L7TZd4YU+XwjRD0o0WCMXRjry0OFjWsTq+at1KZwUppcaJDMM/SjaSr4ukrzeI2JzcD1u666caYUOcjJWIfeC68rBPgFcHO3fR3hlcH4oHLkTYeZfhZtDh/MQ/qWLQFytEs2lcD58aLdEPFmbuKIMF9fhRA/pdiigOC7wNzAICQEGLd0Cox+TvBkuJSCY9F+AhndMMpnpVeeWBGSnzxyFBsDUgXn3XtRuEFWs1OwOiwkhcN+9Th0IL8HfgkGGPgKmQ2oUUEedrjGJIwrLmt07rzTwFIVkk79kI+hiNoQPSWqV67c/ezQmTiLOS+/tIOJ1wE8q6YpQ+ruqMXXM0FFwM7AWR8MRzXRaWdtvgX8GqJJBasILOZyREUidUxFflhicKall1rT42jH79eM7PUZny4DrglbRYMQov0M5paHXgMSTZKabTPxsj2gPJzMPEPdFy63yvheLRmR6yxD01BA2g53WVwvD6fI39BWaTTmxqsyn0pWnTfnGYNMvyNZliVMNrkf6smens9qAYVHetnwU0jwwCtMD2GetgeuOPIBFVmMDA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(10070799003)(18002099003)(56012099003)(22082099003)(6133799003)(4143699003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ISnNCCr5hV1O1N/3jCDJkhH4HrxInx2Hl/nCOeo15K232Fh2n7QtrMBh9aip?=
- =?us-ascii?Q?5k9xOS9CScBZ1LqYQnpZsp/o+UmQNWeDTntQUDY6nqqaLm8bNMUld5Y2o+B0?=
- =?us-ascii?Q?DfkvclTMSDk58RhvJ+mpmT/I4GTGK0rBqQMa1NRizkxo3mArdTKzyym8FPxe?=
- =?us-ascii?Q?b6NCj6kVzeVpC8OGBCXBx7f2I28AEzStjXOdcG5EfKwMg8WWKCdEG8mITXaY?=
- =?us-ascii?Q?FI63oXTYywfS8rRigkH5UpeyjirrwQ8Gp+vk818eaiuKqJa1YI5/uw0O6rK7?=
- =?us-ascii?Q?ZLtW9o4pTwQHyRGjw6401TP8pHZbucqaInw4W3LVlICSO8y2USbm4O7kVoCT?=
- =?us-ascii?Q?5qK+3HT9Js1xzjZjNqmR1D94UxuB1bZ7XhrTNcqrTWQmQrS8otRRCB0Lc836?=
- =?us-ascii?Q?kqq4uUOKGRRv0quRzgrdwu5C2plJNm18M86xmIwN9eUm1aL1cbJibbdqqQs9?=
- =?us-ascii?Q?572WQZg6eXu+2IlERoU4yNRt2TqjSFSlA0lTwJQ1sJmF9qlf+w7/rci2MoCO?=
- =?us-ascii?Q?xNqbbgJsVrEv6r4+r5pRZohFPwSm8vdqpLLMh8lEpdH/Vw4nRL/cYzyuq6yY?=
- =?us-ascii?Q?/FxOZwYt1M2MxJlII9SPPb5i9imNW3zGpkR4cC58bwBUtY9Llkf2F8d+gX2g?=
- =?us-ascii?Q?I7PXgEzZ0fBB5cyPN9rMswnWY1p1vybm2oCsePqYuRVqQlOgj1BWoTZa/qLk?=
- =?us-ascii?Q?S0qX/UEs2L/9gZuxJPkPodX6NJqeysQP5/+wIKm+8pIPZE6Aj0H+SmjsSzW9?=
- =?us-ascii?Q?9m3sITZNkdRS/NGXEm+UBNbkrW0Mi7yIfkHDlBhjsv9ffYKoAW9U2MfihRFH?=
- =?us-ascii?Q?9Iky2HasI+cVpt0yAlwn9daUemUisCRxmpPwwYwxs0AfYJo+z9vHmMAUWZmp?=
- =?us-ascii?Q?5khm1SXn2PKdGEc9m6297kvPaKR3BoFr6rPXcyqiTCmSx5sRWpj4MmM41eXk?=
- =?us-ascii?Q?wax4J+M8oBby/3FshLxx9BJMU6BEk89UQHcnDXKNuzKLp4iV7VKH4cWyB8LT?=
- =?us-ascii?Q?TH5I7YPONxbJJtERN3RLYEZZMWDEt3k1yPa8WVOR3lpF1RNFoGI94bZSk/4i?=
- =?us-ascii?Q?aFYJcZZLfJOKTFkgS5c/9vYkiqfEaZSZND9rJli0BM2ZuDcwDMTiLfLSF/Rb?=
- =?us-ascii?Q?Z8G4wvCV2orm/7B1bqBA4ID8MqEhRhgmzkeGicY3vHvEw+BiHiqrr6a2rVCH?=
- =?us-ascii?Q?/O0hCr2L+jhZg7TqwCft8JeIEEDUH5/ujaorkKMDBnEUCn7XBbVhnjEssmki?=
- =?us-ascii?Q?jzjXgywGW8QRokfSBNiv4RPDJIFiBcoonjfoUYcKpuqYzZ4366O9KBRr7TAI?=
- =?us-ascii?Q?KhfMOZ3Mdi6m7YL1LtOgNx9tESwmt0swNTavfA55ogLuUkS6gaqIrtRYj5Qn?=
- =?us-ascii?Q?t7XwFJXZ7omrejdqRmr7zmCHEE0bb+B1xSbaCSXUyVvrl62xoU0U2PL5rxH/?=
- =?us-ascii?Q?O1vls/1ejPLTbds8GVKeMDQlmqp908il6uOLcxsiNLH9tYooVI/YsNd9kFj5?=
- =?us-ascii?Q?NV9kJQaUVvfZZVwOfjeBwOdsAvjywVyqhoavOsDHqUVVNiPs+ztSzbShITx6?=
- =?us-ascii?Q?6PMoaFaACAJ+hATLyzPCuezBXw11a1pZOiHlbwctxum21OBLfG3og2LYOR/w?=
- =?us-ascii?Q?EzyADw0kaZz5+Nhgv1xVz1/oRg2wLYZACkBiCQcN+ipkSuoYs3nDilgEulu0?=
- =?us-ascii?Q?LyG8QDGIUG5HK9PdUGpRa5U9bKlVg96WrMPQjlmyvaWx2/TZmVSjTU3VmQV8?=
- =?us-ascii?Q?Ylrpv4Q0PgNCysUvIsZPJPumYTLczEEuja7Zth+EN5vtQcIW5XCj?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f2f2eca-3e26-4c6b-6b27-08debaef5f4f
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 06:23:59.3078
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hEI4mkdKsImyIQYrqW+jEeiaBdkeOItGA3ZcPAj8+/vEAkpFcu3uZXLMXnf0opR36NuG7GPASObE/bijymUJmg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4P286MB7008
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260525121041.2f2508a4f627c338cddd837a@linux-foundation.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Tue, May 26, 2026 at 07:35:06AM +0200, Niklas Cassel wrote:
-> Hello Koichiro,
-> 
-> On 26 May 2026 04:04:07 CEST, Koichiro Den <den@valinux.co.jp> wrote:
-> >On Mon, May 25, 2026 at 10:32:06PM +0200, Niklas Cassel wrote:
-> >> On 25 May 2026 16:03:35 CEST, Koichiro Den <den@valinux.co.jp> wrote:
-> >> >On Mon, May 25, 2026 at 10:35:46AM +0200, Niklas Cassel wrote:
-> >> >> On Mon, May 25, 2026 at 04:05:02PM +0900, Koichiro Den wrote:
-> >> >> 
-> >> >That restriction should be documented with the new NTB transport, which I will
-> >> >submit if the direction taken by this series is acceptable.
-> >> 
-> >> This is easy for me to say, since I am not the NTB maintainer, but it would be nice if we could somehow come up with a design where we don't only support EPCs that have 'max-functions' != 1, because IIRC, most PCI EPCs have 'max-functions' == 1.
-> >
-> >Yes, that's fair point. As a quick check on v7.1-rc5, among DWC-based EP nodes,
-> >only 6 out of 45 set max-functions > 1 (about 13%). Assuming there are no cases
-> >where the hardware supports more functions than the DT advertises, that means only
-> >about 13% of DWC-based EP instances described in DT could support the "NTB
-> >transport backed by PCI EP DMA" use case. If I also count non-DWC EP nodes, I
-> >get 15 out of 64 (about 23%).
-> 
-> The only DMA "backend" added in your 3-part series is the eDMA in DWC-based controllers.
-> 
-> So if all three of your series lands, then 13% of the DWC-based endpoint controllers can theoretically use this new feature.
-> 
-> 
-> >
-> >If supporting single-function EPCs is a requirement, then the separate PCI DMA
-> >EPF model is not a good choice for that NTB transport use case. We would need to
-> >keep the DMA delegation metadata inside the vNTB function, or use some other
-> >single-function design.
-> >
-> >That is basically option 2 from my earlier mail:
-> >https://lore.kernel.org/linux-pci/xnfnxv64hpil6if4ikyohxnarvsekbmjcc37k5zej264ix46z3@qtu6xj2uy3xi/
-> >
-> >    [snip]
-> >    2. Treat endpoint DMA as a first-class part of vNTB. The RC-side ntb_hw_epf
-> >       would create an auxiliary device, and a new dw-edma-aux driver would create
-> >       the delegated DMA channels on the RC side.
-> >    
-> >       [PATCH 00/15] PCI: endpoint: Remote DMA support via vNTB
-> >       https://lore.kernel.org/linux-pci/20260312165005.1148676-1-den@valinux.co.jp/
-> >    
-> >       I added an ASCII diagram for the overview as a follow-up comment here:
-> >       https://lore.kernel.org/all/sn67hi7kljh7cgmgodatb3naz2astlaklqfobdbxyyzgoohxqb@4nnetbhqwba4/
-> >    [snip]
-> >
-> >Do you prefer the vNTB-integrated model over this series?
-> 
-> My take:
-> 
-> I do think that the design in  this series is more elegant that the vNTB-integrated model.
-> 
-> However, if the design in this series only supports 13% of DWC-based endpoint controllers, when the vNTB-integrated model can support 100% of DWC-based endpoint controllers...
-> 
-> What good it is to have an elegant design if in reality, it supports drastically fewer SoCs?
-> 
-> But please don't listen only to my opinion, Mani is the maintainer, so it would be interesting to hear his thoughts as well.
+On Mon, May 25, 2026 at 12:10:41PM -0700, Andrew Morton wrote:
+>On Mon, 25 May 2026 08:15:53 -0600 Nico Pache <npache@redhat.com> wrote:
+>
+>> Can you please append the following fixup that reverts one of the
+>> changes requested in V17. The issue with the change is described
+>> below.
+>
+>OK.  fyi, what I received was badly mangled: wordwrapping, tabs messed
+>up, etc.
+>
+>Here's my reconstruction:
+>
 
-Yes, I also think the architecture of this series is much cleaner. The option 2
-series may look like it overloads and complicates vNTB a bit too much, and the
-auxiliary device created from ntb_hw_epf only for the channel delegation purpose
-may look awkward to some.
+Hi, Nico
 
-The coverage concern is a real downside of this direction though. This is a
-trade-off between a cleaner PCI/DMA model and broader EPC coverage. On my side,
-R-Car Gen4+ is the main target, so the multi-function requirement is acceptable.
-In that sense, I am also curious whether future DWC-based SoCs will typically
-support more than one function or not.
+I tried to reply your mail, but found it has some encoding problem, so reply
+here.
 
-Thanks for sharing your thoughts, Niklas. I would also like to hear Mani's view
-on this series vs. previous attempts. Any comments from others are also very
-welcome.
+>
+>Author: Nico Pache <npache@redhat.com>
+>Subject: fix potential use-after-free of vma in mthp_collapse()
+>Date: Mon May 25 07:38:59 2026 -0600
+>
+>Between V17 and v18, one reviewer (Wei) brought up that we are not doing
+>the uffd-armed check until deep in the collapse operation.  While not
+>functionally incorrect, it can lead to unnecessary work.
 
-Best regards,
-Koichiro
+So we decide to tolerate the behavioral change?
 
+>
+>We optimized this by passing the vma variable to mthp_collapse() and using
+>the collapse_max_ptes_none() function to check the state of uffd-armed
+>preventing the wasted work later in the collapse.
+>
+>mthp_collapse() is called after mmap_read_unlock(), so the vma pointer can
+>become stale.  Remove the vma parameter and pass NULL to
+>collapse_max_ptes_none() instead.
+>
+>Link: https://lore.kernel.org/2b2cda8c-358a-4a5c-989c-ae42593ef2ea@redhat.com
+>Signed-off-by: Nico Pache <npache@redhat.com>
+>...
+>
+> mm/khugepaged.c |   10 +++++-----
+> 1 file changed, 5 insertions(+), 5 deletions(-)
+>
+>--- a/mm/khugepaged.c~mm-khugepaged-introduce-mthp-collapse-support-fix
+>+++ a/mm/khugepaged.c
+>@@ -1502,9 +1502,9 @@ static unsigned int collapse_mthp_count_
+>  * If a collapse is permitted, we attempt to collapse the PTE range into a
+>  * mTHP.
+>  */
+>-static int mthp_collapse(struct mm_struct *mm, struct vm_area_struct *vma,
+>-		unsigned long address, int referenced, int unmapped,
+>-		struct collapse_control *cc, unsigned long enabled_orders)
+>+static int mthp_collapse(struct mm_struct *mm, unsigned long address,
+>+		int referenced, int unmapped, struct collapse_control *cc,
+>+		unsigned long enabled_orders)
+> {
+> 	unsigned int nr_occupied_ptes, nr_ptes, max_ptes_none;
+> 	int collapsed = 0, stack_size = 0;
+>@@ -1524,7 +1524,7 @@ static int mthp_collapse(struct mm_struc
+> 		if (!test_bit(order, &enabled_orders))
+> 			goto next_order;
 > 
+>-		max_ptes_none = collapse_max_ptes_none(cc, vma, order);
+>+		max_ptes_none = collapse_max_ptes_none(cc, NULL, order);
 > 
-> Kind regards,
-> Niklas
+> 		nr_occupied_ptes = collapse_mthp_count_present(cc, offset,
+> 							       nr_ptes);
+>@@ -1749,7 +1749,7 @@ out_unmap:
+> 	if (result == SCAN_SUCCEED) {
+> 		/* collapse_huge_page expects the lock to be dropped before calling */
+> 		mmap_read_unlock(mm);
+>-		nr_collapsed = mthp_collapse(mm, vma, start_addr, referenced,
+>+		nr_collapsed = mthp_collapse(mm, start_addr, referenced,
+> 					     unmapped, cc, enabled_orders);
+> 		/* mmap_lock was released above, set lock_dropped */
+> 		*lock_dropped = true;
+>_
+
+-- 
+Wei Yang
+Help you, Help me
