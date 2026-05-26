@@ -1,183 +1,176 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11020085.outbound.protection.outlook.com [52.101.229.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98892BE7DC;
-	Tue, 26 May 2026 01:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779760658; cv=none; b=VIWFYl+9ByLGrSefzf1im8OTN2bLvNe8HRAfUQ7qOoGMJBo6L1aIXTrCo5BtG/FHkeI9Yztwyl+RnkhxqQZleXftMv91reV/uvYy1VnE7dAJPQUMIA9phaB8F8dZp0d81V0XD9fOrod1U4UxslXaNWgB1xONyDd2XiZHazsT00M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779760658; c=relaxed/simple;
-	bh=uPQquMxSL+C/uYnX7SEJgLYiEzvz7kSuIPsa2gcnG4A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R7jsfOr8viahGI++DYml8DoRNtLtxHcQdyzvQdnE6hpF/PxuIMnfSS2Mlb+GRqEc/Vld2l67ek+CYodTElnyUbXGop4z+ukrW449VTZzTn5Gq3nDvxE3KsG9wvUCihRPsSTzkZZ/bFegUNA7Uc7CfKWF4TPUikCuVbRwOvBRH80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gPbV90JkxzKHMRq;
-	Tue, 26 May 2026 09:57:21 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 5DB364056B;
-	Tue, 26 May 2026 09:57:33 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.87.109])
-	by APP4 (Coremail) with SMTP id gCh0CgCXX1sD_hRqw9GdDg--.18849S4;
-	Tue, 26 May 2026 09:57:33 +0800 (CST)
-From: Zeng Heng <zengheng@huaweicloud.com>
-To: corbet@lwn.net,
-	kuninori.morimoto.gx@renesas.com,
-	maz@kernel.org,
-	oupton@kernel.org,
-	catalin.marinas@arm.com,
-	lucaswei@google.com,
-	yeoreum.yun@arm.com,
-	skhan@linuxfoundation.org,
-	james.clark@linaro.org,
-	broonie@kernel.org,
-	mark.rutland@arm.com,
-	lpieralisi@kernel.org,
-	ryan.roberts@arm.com,
-	will@kernel.org,
-	tongtiangen@huawei.com,
-	kevin.brodsky@arm.com,
-	yangyicong@hisilicon.com,
-	miko.lenczewski@arm.com
-Cc: linux-doc@vger.kernel.org,
-	wangkefeng.wang@huawei.com,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] arm64: kernel: Disable CNP on HiSilicon HIP09
-Date: Tue, 26 May 2026 09:57:20 +0800
-Message-ID: <20260526015720.206854-1-zengheng@huaweicloud.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EFF2ED154;
+	Tue, 26 May 2026 02:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.85
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779761057; cv=fail; b=Srap+PtJyAXt22RPagrete4NlIrttywbQluas/XkXdzTTI7I5NrCBmzO2SRCXkSYpnW7nh/eEKXaAnwvwx5rkqCusz5qNUvdDEXkSMp36b83BI1EHb2wwSuQWJa2JB/axuJI4mEhHRr8yuTrDV+6/mznfUljSzDMsZ7pDZrYOPE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779761057; c=relaxed/simple;
+	bh=sHpQJ1zRPAXcEqez6Jy5Z6UNNmkU8lsEzQPmPho2t6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=a4ei6h7IciRkYVVZR4urrfz5Rzz4QfpAZF8eum6xHoEg0j36WPIDYasu4DKyDWFXB5IWX6rT3VZa0W2D8UaqTAdHIIEtyjhzUd8L86mw0DBUyGLW225n9CVm8jlzMImsTfQ6hWGSo7GacDLdOrXDVmjOrdLGCSO3ycj1k/g5sjM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=uceSA5j+; arc=fail smtp.client-ip=52.101.229.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="uceSA5j+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OEseYkRGxstWN84ugzY3WaCAOHSwMZSXvpA2jfLpLMkogNkSG5h5GIUt6joc89St/ihLFeHLpMqlPPtYxA4sr7CeVVWVAHSlo34cz0WAONrDQlFUEMShHnMEL5UDj2swvhHfMokndNKkpbEeN+FZyII2xDziCso1xSzj6VDlbiPIkD0GAq1Qt+/u2qVmxUKUj/7b/skZM5acFqPl1RZuN16iBg55b5ko1W8pgmgXYLavllD6taA6dRtQ883c8x4H5kwRQv510U7lVzSwDX3drimiD/y3/FYrLntGctGHHvI/laQgK7rIAHO2lyaPW88+RzOr5tr9XIScJtlkBHfhSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8WB0AUp6IsRgZh+TFnrhh0cXIPS2KXdbXjRnu6TzHOE=;
+ b=KYHTK2mIga92srmztnmED0vqtk/1hz/u7j0Zfgj0Rixgvb2g3NFIunb7KDsbosaR/ATgb00+IIldcf+tEuMXwRJOLRKvlFcpKfvu7PzUnQyBWBGNizCVAyaJsdh2bAXoj/BB2tENFtihtu9a/awEmM9UODxgEYIW/V6+wOr070rRp3QqcUOTLiSpVeVL67sYR0JvFHZVvst41vWrN0DuDSXIQ7KkcIROCCdH0FLX7vxUJ2aQQGQZHqPkOwYfyqAC57fjcpRwHD6n+fCX0Dt+3Yt1RniVudzpC37zQRFq0HQo3HiyRXA4gvBuzOfCwBGkRTfoNLUVSFWiMKI0ze1oyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8WB0AUp6IsRgZh+TFnrhh0cXIPS2KXdbXjRnu6TzHOE=;
+ b=uceSA5j+0EPH6bl8W6l0DzvN++BCq2o+qb6aF5z8fKzJJrS3ctvbRM0zLpa3T1nq5K9hzla3nwiYB6gFI+b/R0xJnvmXFR7pwd6PJ7LYsrWKJtoIESWLqREymojM6PVgd0kdm208Wp0vREtQUzmc6GisDu4NVf9Zhl63ugHUvPk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by TYWP286MB3318.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:2d6::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
+ 2026 02:04:09 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.21.0048.019; Tue, 26 May 2026
+ 02:04:09 +0000
+Date: Tue, 26 May 2026 11:04:07 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, 
+	Frank Li <Frank.Li@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Damien Le Moal <dlemoal@kernel.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] PCI: endpoint: Add PCI DMA endpoint function
+ (part 3/3)
+Message-ID: <ll76isrjb62ieiz4vhn3u3upp46vnzed3slpqxnni5hymsc4mw@avbx7k473uo4>
+References: <20260525063456.3317509-1-den@valinux.co.jp>
+ <xnfnxv64hpil6if4ikyohxnarvsekbmjcc37k5zej264ix46z3@qtu6xj2uy3xi>
+ <ahQJ4kuaBKMhj52L@ryzen>
+ <3dkicfydmrlm2i6ks34kwjdmlvb22ryftkfw2yj62o4rtj5xvl@f4gby5vlwtdf>
+ <F31848F5-5481-4402-9B45-9EC7BCC8B0B6@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <F31848F5-5481-4402-9B45-9EC7BCC8B0B6@kernel.org>
+X-ClientProxiedBy: TY4PR01CA0050.jpnprd01.prod.outlook.com
+ (2603:1096:405:372::12) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgCXX1sD_hRqw9GdDg--.18849S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxJw47Jr13CF1UGr1UAr1xuFg_yoWrZr1fpw
-	4fAr1xJF1DWF13J34UJw17Xr45Can3Gwn8XF1Ut340qr13Z34UZF18Xw1xJFWjqrykWw48
-	uF1q9FyUtF17ArUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0E
-	n4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
-	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8
-	ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
-	CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
-	wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
-	7IU0s2-5UUUUU==
-X-CM-SenderInfo: p2hqwxhhqjqx5xdzvxpfor3voofrz/
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TYWP286MB3318:EE_
+X-MS-Office365-Filtering-Correlation-Id: 005584a0-7aeb-403e-6ae9-08debacb1304
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|366016|376014|1800799024|7416014|6133799003|4143699003|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	xVxMC/ESDPGAmBE9sKIgOziPt4Qny4jq3ks27ZfQa3svSvrCv5zHtoqsZmDvwPfBSerBTlN2Gfxe+anvhZohifAUyyavC/RgLvPWhsxRdB2klax1AzJd8G1h95e551hWUIbiQ9JXQf6kiJaTfNcEg4vkQH27gBkz5FCf5JTNKPfuyfTmnvkDb+c1btVKmdmwRQSbC/B60bey/m9rKuoBh/rqHaJHHO8AkQpfbAHVc8jU1LVFeR/iUkMZTnadSMO+tNcd6Kh86jKXfV0aErMCurRLfwTQyTKFh79xXZUoUpr7yY0evay720evlu+qG7B0yN+XJcIxsMq4uj3sBnuoCqZmSLlYyq5KA11Q8RaNW4MAwhhscjtOxcZmRdGPdv/mEWrTO1FJTL44UorzagHk3xiVXrmIOXy7SoqHPBKVRx6SRzEedtQA06ckNiGJF9b+8flzHw12pIEIgp+oLbP3mHL/m3MSVOqAPM/PPWQsGCJrDXH3NiQ1vGLmfA4aiJLurtH091gaCr68kk66VnVmKspK7SSEAZrfd9v0a+bEmZwWD1h+S+fZBX1bsQyKmfYb2qhCrrpHcoDHDaskPxdAT2UhrrvcWLXLPVwFs8H/62kyPZ1FUEhif114TYen9/jTEHJ6k8OQUc70xN9BZiTrltUxkkG6xb2EvNTLUV6JB1AX/PBVc6KhJY7bf7QY60nf1hXeX+5LrAY4ANRlS675Aw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(376014)(1800799024)(7416014)(6133799003)(4143699003)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VUSs/spRjCw0siL5n4rlOsLHh9B9SdQ31SaPlFJyHipkVkUyEf1IFGiUe8jK?=
+ =?us-ascii?Q?91Q19KKFx8QsDkfwwwOG5DoRWlPYlU6A3KFXMSsjbqLUQOvm/2+QqTohFzV6?=
+ =?us-ascii?Q?OsNU9RUjU5jGIA81qRGAYvjThKnkFhTrUWgJK6FGPP4un+hzJLaPdN31G/36?=
+ =?us-ascii?Q?7/6yQXjf2+s++D8Pg39Dr01YZe51YsqGZr/hTydTgJb6buV+OfWNO+t2fzqR?=
+ =?us-ascii?Q?wBbfuIxr6lyjkAMHmZUsOIS3/QZVicCy2wfYTH9A4cKYnJ63ewL+gmYqEA+m?=
+ =?us-ascii?Q?c0gI7JDkCOmjRpYGS1U8dgn4tbXzND7FrBINTMXjDV8Np1FZNjy7RvmrL3Jq?=
+ =?us-ascii?Q?7KwkaoLY4zvbFXaW/LKwIkohh7jgvbZzrVEtk0UKn41QmdNnAMwN8H47LnFD?=
+ =?us-ascii?Q?W9D77qxc3JkO+o/rlGjsXtek1/mw4HLzPD0vM2XpaYsqZW0ICxV4ebPFoUUz?=
+ =?us-ascii?Q?WrdNvI5auqksP9hbWIl41xXTVGwRKdHlKBDPKuiBYatPEFNicEuvgCpwen31?=
+ =?us-ascii?Q?YQwTGJjrqzLjaX5eK51JYXuOaz0EqatB44+pD1WuO2nrT7j5ujF/UWAFf7SQ?=
+ =?us-ascii?Q?Q9bfUSiXv+74Im/r7/kNELxUCdqk+xOoTI1wTYzsEM1XvJpmwIYf5p/Vs8Md?=
+ =?us-ascii?Q?JzjRLGHeIxz7RJxLQjww2+SxO9REskGqvbWRZjcxfrpK2FcJ91osu/FNJixj?=
+ =?us-ascii?Q?sARIHfy0MksXpM/EkDjSG5OrSYLmWneMxQr+DVoA1CRqTBOdgE4K/jfw7KSj?=
+ =?us-ascii?Q?fx9PSnUhG63QlxZof/M4tZ7uoJSKAs/HQeL9Hyav0zjOlapR+VKG1A036UX6?=
+ =?us-ascii?Q?rRGCb6Xmo0uxFdF/b7WPN5NupZ02qsveS7kStlBxcpbBiXCcvau8RWJnLXer?=
+ =?us-ascii?Q?/N2+6/smeUamAdQdEV+FjeXapSFeUdz4B6VWDcoPdMqfewy744EimbeSlEW3?=
+ =?us-ascii?Q?fH6UGIymUKXXtfm5+AQxEw17zGPHgHO8eOfUeOAdGyco+jfwnb4dFQc/S4ql?=
+ =?us-ascii?Q?DD30uTvybWOGZSwchatEzF2XilfRipyvic+sOqR8YODrE1AFqjq003siiZJB?=
+ =?us-ascii?Q?y3+Lu+3ygm1vRDD0CZ05o49ddIy+s/VxoXKdSWFK+uV8aK99pm2H4I+ybnfC?=
+ =?us-ascii?Q?xd1feR2AybOX7JdJim8Y5UPCBF/7oKw6nZZLFTncB66EDQ1fILsx3MJ/YbJo?=
+ =?us-ascii?Q?KZKd6Js5an/gStqGB3YZhbJdLcIAL9+tcQiQA6ApPLUoSNJemqf+GIVVcErW?=
+ =?us-ascii?Q?+Ld0zpHI10oCpPCFFqsxpt/s2aJsnIPsJsGC7dgJDZurjnKmzCoHsGiBPPch?=
+ =?us-ascii?Q?UQFutWpQ0blaL7jMCdKQEcNlF5hbrBWtFBKvmeAZHMpn7Yz3TY1SNaRNJfBW?=
+ =?us-ascii?Q?LQPY/lAobLitjmQJ/QGpJMUzUE40zBq2zKEffttMzq0c/0NZDq9o+VmLgoPV?=
+ =?us-ascii?Q?ELT0LLcN1Y776SzK+5hkq677YW15Zj8Dv0yzoTLOHrYhTakxZT/hTi3eK0al?=
+ =?us-ascii?Q?pc5X0G+NZ2hPFLXN6e9c8+h7x6kTV4pK15x/OjoZkG2uvdBiCbBcXl9H9RE4?=
+ =?us-ascii?Q?b0xr4GixJlHudhYviZb0kltVSsJpD+xn6v3ZDtNyjsccJjGW2tayhh1FErwh?=
+ =?us-ascii?Q?syFs8C8F8LXIHjjnCKIFNqoE5pVMfUtVi0okVho5vrfdcwxEbWLkl2RNJcip?=
+ =?us-ascii?Q?ij4T+J0PiBLxsI0aKvv53HSx6wfs+OxX6dTBUjZ2qub6TunMeySMgOixlVOH?=
+ =?us-ascii?Q?QPFGrrfW4Ny2BeKVn7VNfvUeZ7G6tgerneV6uE+jMJi5yKQx9OWp?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 005584a0-7aeb-403e-6ae9-08debacb1304
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 02:04:09.4656
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +8ZSgfMyjkypCBqHS7WR1BDmCGq6kbfDE3vNU+BEXV3y3M2MZRtEQPFoYN58TxRpujVI/h7okJ/ckCiREYdSKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWP286MB3318
 
-From: Tong Tiangen <tongtiangen@huawei.com>
+On Mon, May 25, 2026 at 10:32:06PM +0200, Niklas Cassel wrote:
+> On 25 May 2026 16:03:35 CEST, Koichiro Den <den@valinux.co.jp> wrote:
+> >On Mon, May 25, 2026 at 10:35:46AM +0200, Niklas Cassel wrote:
+> >> On Mon, May 25, 2026 at 04:05:02PM +0900, Koichiro Den wrote:
+> >> 
+> >That restriction should be documented with the new NTB transport, which I will
+> >submit if the direction taken by this series is acceptable.
+> 
+> This is easy for me to say, since I am not the NTB maintainer, but it would be nice if we could somehow come up with a design where we don't only support EPCs that have 'max-functions' != 1, because IIRC, most PCI EPCs have 'max-functions' == 1.
 
-HiSilicon HIP09 implements TLB entry matching behavior that deviates
-from the ARM architecture specification when the CNP (Common not Private)
-bit is set in TTBRx_ELx.
+Yes, that's fair point. As a quick check on v7.1-rc5, among DWC-based EP nodes,
+only 6 out of 45 set max-functions > 1 (about 13%). Assuming there are no cases
+where the hardware supports more functions than the DT advertises, that means only
+about 13% of DWC-based EP instances described in DT could support the "NTB
+transport backed by PCI EP DMA" use case. If I also count non-DWC EP nodes, I
+get 15 out of 64 (about 23%).
 
-When TTBRx.CNP=1, TLB entries may be incorrectly shared between CPU
-cores, leading to TLB conflicts and stale mappings. This affects
-coherency and can result in incorrect translations.
+If supporting single-function EPCs is a requirement, then the separate PCI DMA
+EPF model is not a good choice for that NTB transport use case. We would need to
+keep the DMA delegation metadata inside the vNTB function, or use some other
+single-function design.
 
-Add the hardware erratum workaround (Hisilicon erratum 162100125) to
-disable CNP on affected HIP09 cores.
+That is basically option 2 from my earlier mail:
+https://lore.kernel.org/linux-pci/xnfnxv64hpil6if4ikyohxnarvsekbmjcc37k5zej264ix46z3@qtu6xj2uy3xi/
 
-Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
-Signed-off-by: Zeng Heng <zengheng4@huawei.com>
----
- Documentation/arch/arm64/silicon-errata.rst |  2 ++
- arch/arm64/Kconfig                          | 15 +++++++++++++++
- arch/arm64/kernel/cpu_errata.c              |  7 +++++++
- arch/arm64/kernel/cpufeature.c              |  3 ++-
- arch/arm64/tools/cpucaps                    |  1 +
- 5 files changed, 27 insertions(+), 1 deletion(-)
+    [snip]
+    2. Treat endpoint DMA as a first-class part of vNTB. The RC-side ntb_hw_epf
+       would create an auxiliary device, and a new dw-edma-aux driver would create
+       the delegated DMA channels on the RC side.
+    
+       [PATCH 00/15] PCI: endpoint: Remote DMA support via vNTB
+       https://lore.kernel.org/linux-pci/20260312165005.1148676-1-den@valinux.co.jp/
+    
+       I added an ASCII diagram for the overview as a follow-up comment here:
+       https://lore.kernel.org/all/sn67hi7kljh7cgmgodatb3naz2astlaklqfobdbxyyzgoohxqb@4nnetbhqwba4/
+    [snip]
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index 211119ce7adc..cd50059edb85 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -284,6 +284,8 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
- +----------------+-----------------+-----------------+-----------------------------+
-+| Hisilicon      | Hip09           | #162100125      | HISILICON_ERRATUM_162100125 |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index fe60738e5943..ed6207c75b54 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1273,6 +1273,21 @@ config HISILICON_ERRATUM_162100801
- 
- 	  If unsure, say Y.
- 
-+config HISILICON_ERRATUM_162100125
-+	bool "Hisilicon erratum 162100125"
-+	default y
-+	help
-+	  On HiSilicon HIP09, TLB entry matching behavior when CNP
-+	  (TTBRx.CNP=1) is enabled differs from the ARM architecture
-+	  specification.
-+
-+	  TLB entries may be incorrectly shared between CPUs, potentially
-+	  causing TLB conflicts and stale mappings.
-+
-+	  Disable CNP support for affected HiSilicon HIP09 cores.
-+
-+	  If unsure, say Y.
-+
- config QCOM_FALKOR_ERRATUM_1003
- 	bool "Falkor E1003: Incorrect translation due to ASID change"
- 	default y
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 5377e4c2eba2..26d9677a20fc 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -968,6 +968,13 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
- 		.matches = has_impdef_pmuv3,
- 		.cpu_enable = cpu_enable_impdef_pmuv3_traps,
- 	},
-+#ifdef CONFIG_HISILICON_ERRATUM_162100125
-+	{
-+		.desc = "Hisilicon erratum 162100125",
-+		.capability = ARM64_WORKAROUND_HISILICON_ERRATUM_162100125,
-+		ERRATA_MIDR_ALL_VERSIONS(MIDR_HISI_HIP09),
-+	},
-+#endif
- 	{
- 	}
- };
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index 6d53bb15cf7b..c4b0db77a58a 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -1785,7 +1785,8 @@ has_useable_cnp(const struct arm64_cpu_capabilities *entry, int scope)
- 	if (is_kdump_kernel())
- 		return false;
- 
--	if (cpus_have_cap(ARM64_WORKAROUND_NVIDIA_CARMEL_CNP))
-+	if (cpus_have_cap(ARM64_WORKAROUND_NVIDIA_CARMEL_CNP) ||
-+	    cpus_have_cap(ARM64_WORKAROUND_HISILICON_ERRATUM_162100125))
- 		return false;
- 
- 	return has_cpuid_feature(entry, scope);
-diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-index 811c2479e82d..b797d4893adc 100644
---- a/arch/arm64/tools/cpucaps
-+++ b/arch/arm64/tools/cpucaps
-@@ -128,3 +128,4 @@ WORKAROUND_REPEAT_TLBI
- WORKAROUND_SPECULATIVE_AT
- WORKAROUND_SPECULATIVE_SSBS
- WORKAROUND_SPECULATIVE_UNPRIV_LOAD
-+WORKAROUND_HISILICON_ERRATUM_162100125
--- 
-2.43.0
+Do you prefer the vNTB-integrated model over this series?
 
+Best regards,
+Koichiro
+
+> 
+> 
+> Kind regards,
+> Nikla
