@@ -1,107 +1,124 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C59DF23D283;
-	Tue, 26 May 2026 12:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B7926C3B0
+	for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 13:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779800112; cv=none; b=Meoj6Cv09CdIzU1nzRvQ9XjBQnmlQKd2fgJxTJB/br0xCBxgVEpluydNweL7aPb97d4d/5Z591IPYBQoUgaLadc+GVMIWBaUFTK4hYpL76Z8jP4uBjR2L/u8Ow7VOg3OMG5KBfAN1L4n6ilP3X7nIhZg8+/+oBrm7aYCAWauv2k=
+	t=1779800627; cv=none; b=TnGNmDiQGrnKomJ9KsQ32MTIgA/TobvyqhNSzE9urvR4xAI8j7Y1HPkKngkIcHSMPiP1KFNg0my1/+ZfToogTNnI3PX1sgYE4AjDtUPn24svVwHsrullmoNp5OX0mjscSXInT1IFYdaJq0jMflhlJ0Gy6N7tFnr0esbkjorGd0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779800112; c=relaxed/simple;
-	bh=VxSbsncF9vADETy7fhLZoS22+L7DTIEAKMxSb9WtYrM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qlqBZd3EW8LSNSZNSnOh4frsxuZaGrrNbahWdQa8GPYhek9jsAVHMUvSgzwf38/uSNlY09MUVbE/NZKBaP9mzB44MzSqWp4ZLeQvVVfCZ9mo4L8jxgxkGORnbsAuG6gRUhQUm8BpU+/9dvzSDaq1QIG6C+lHBo+ZFjN8S4XcFIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=fo5a9G0/; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1779800627; c=relaxed/simple;
+	bh=cIV7eVLFj1WSRdO8UJfWGAKcQ4RL3tgfGuH1jAdS3kQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dQ98z2ZrVRcm72qHJVkHiBVVFsvlV4SzolDX1ZWrNL/BzB1Y7FUGW8F145D9+xjf4xjCXIHbC/citovbTE/oorBh0rmlSi+rK+Q3NqBxwmVcVxXO5uSGvnsT9rXSdOP5m7+oPnmmiY5OurqoEva9nShaqwAnXreI6iq21h41jL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=CkA/ew8b; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="fo5a9G0/"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 15BC0169C;
-	Tue, 26 May 2026 05:55:05 -0700 (PDT)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D1B823F86F;
-	Tue, 26 May 2026 05:55:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779800110; bh=VxSbsncF9vADETy7fhLZoS22+L7DTIEAKMxSb9WtYrM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fo5a9G0/UR1rJmXRW8xYXjhAvtLS2+70sZ6z1sOp/HlSEMk0q9pDFKe5TXJFhEe9p
-	 Bus1NUBvRv9ywGtrw5jgFylzEHIQv/5HBa9k1qcjGljFnL/ePc8CNz2C2IXRURJUTt
-	 6oHeIDtNLGjpysUwLQableFVV5GxivWDR9z3iuXQ=
-Date: Tue, 26 May 2026 13:55:04 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v10 04/30] arm64/fpsimd: Determine maximum virtualisable
- SME vector length
-Message-ID: <ahWYKJ5zOrnNnAgI@J2N7QTR9R3>
-References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
- <20260306-kvm-arm64-sme-v10-4-43f7683a0fb7@kernel.org>
- <agGwWE2hcj9O4EGu@J2N7QTR9R3.cambridge.arm.com>
- <agHOvFiI1e3y_ur4@sirena.co.uk>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CkA/ew8b"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-44a5174670eso5942900f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 06:03:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1779800624; x=1780405424; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UjNTcWc9bOGf723loCTUep8771/uj7ug5EPYZq+XxOs=;
+        b=CkA/ew8bHQnTyLbheU0tKlrPxe8xDGNFqQotUJEMcWW3Tn4izx9/5Wr69fbvqXNIrH
+         eJhcFYm2FwT43HFHVhup2TEWSY9btQCJdzdHC25FcRPDFu7X2XfkNGJQk6Y1iz5JxwKo
+         QjRf5jvXL7ImDuU+nVFT6WEDEvaTgphh6DX+WVNxkUDEo6LVdU1oGl6Nwp1zelB8yVRj
+         tqr3xqAOovFmzd70qP/wIIL6ed41pFKIxGQCy6wcvHaKBqF7L7MzEay+rWNRiDWepQU+
+         +gjQOuGxUKKqxIyCOBXsupJUjswmD1ds9yBuhKnSOtgCrorIOlMa4DmTgbMDlNkJIqBL
+         tWjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779800624; x=1780405424;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UjNTcWc9bOGf723loCTUep8771/uj7ug5EPYZq+XxOs=;
+        b=UcT0o+qq4hxsFaQHQmbyFelyIUbkOUEmv+BTHk7dzp0hqCqDazs8MdQt6pfzOpYOJb
+         QW51U1xnvOZZoA8X4F8BWHG5zxGBdg6aS5X3Wk3wVHpBTpWB1tjzYGnu7qcubtKcO9WX
+         EE4kn4U/T+TvXudT416FNa7LJogGFuUv55Dt3pd8QcWTRt2B/lltfVxavN1XR9KUG1OL
+         PiaRmumc517K20Fo0eTI+g8bpRb4rLtOdhnadjCyubn3UkrSrK2DvsxQbTPkqB5vv9fq
+         r6ifPQdCqZ0ZMfJOieHBnL+3TwSpqnQCIADOpag7SVNNPBcJEjC2MvOTuLUdwUnprZGG
+         k4/w==
+X-Forwarded-Encrypted: i=1; AFNElJ/Krd02KaUyFDGWN4354jg5ZKHukFXg8Bp57+Ddua+GM0raRRHU2zvPfSG5HvRNoaNmqPM71MLNoe8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6jOieJNR3BO9uHeARA3AOvN2cTzm8kRe5x9VtszG0ZFCPemGc
+	a58paiy04iDcm0LZhBhLbKTK35PvkbWWZHh6pLAhqpM9XcbHPFKm0XAE5SZUAux+o3s=
+X-Gm-Gg: Acq92OGFsuCcdEaGRro1IDbc3icLP+C0lSFtT+0v0mvtqD+4XZpjnHdScVvet39kDFG
+	vhQhOvMvZHQfT+9hFtcKPrEdH53wUK/hyoVqON3oosuyF/a5sh0iswWpeSvCk7lkbox9tMVaJSu
+	5KGDvvf3xasS8MlE6TNsdRSncRYFhoTVoHJvVQXFT/2U+iMYcz+6BnsmC1BntlcbwSYndlXL8ee
+	2oV7I0kGxogiAooKL7+uk9ECSk7Tt+F21/IdS0SLlHw1rDQoySb7sK0wgq2/V18DETyOBTsEyBm
+	eWFWIGWlzyFDJtJlRb03qf9C43EgsuMFxImN3RkLoLBuRFaHioOcMGb5QPspOsu/+YUKD+5gjQu
+	ZrUL4EVorbaJH6eEY86AUaAJcwU2MNIa9DiUz8kfIw2FMDzt36lpTfJWKUe7iYHxu/TGhBxi9In
+	iIwtfH2ldbBEHocguLVdhLbwEQBIYHApXKKKmlB1SSC7Wk
+X-Received: by 2002:a05:600c:45ce:b0:490:52c0:73f1 with SMTP id 5b1f17b1804b1-49052c07823mr223327865e9.9.1779800622880;
+        Tue, 26 May 2026 06:03:42 -0700 (PDT)
+Received: from [192.168.42.79] (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904561a198sm318501285e9.10.2026.05.26.06.03.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2026 06:03:42 -0700 (PDT)
+Message-ID: <635fed3c-4e39-4357-acd1-13f1653f9e3d@suse.com>
+Date: Tue, 26 May 2026 15:03:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agHOvFiI1e3y_ur4@sirena.co.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 09/14] module: Move signature type check out of
+ mod_check_sig()
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
+ <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Eric Snowberg <eric.snowberg@oracle.com>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez
+ <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+ Xiu Jianfeng <xiujianfeng@huawei.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ bpf@vger.kernel.org, =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?=
+ <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>,
+ Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+ Christian Heusel <christian@heusel.eu>, =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?=
+ <mcaju95@gmail.com>, Eric Biggers <ebiggers@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org,
+ debian-kernel@lists.debian.org
+References: <20260505-module-hashes-v5-0-e174a5a49fce@weissschuh.net>
+ <20260505-module-hashes-v5-9-e174a5a49fce@weissschuh.net>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260505-module-hashes-v5-9-e174a5a49fce@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 11, 2026 at 09:42:36PM +0900, Mark Brown wrote:
-> On Mon, May 11, 2026 at 11:32:56AM +0100, Mark Rutland wrote:
-> > On Fri, Mar 06, 2026 at 05:00:56PM +0000, Mark Brown wrote:
+On 5/5/26 11:05 AM, Thomas Weißschuh wrote:
+> Additional signature types are about to be added.
+> As each caller of mod_check_sig() can have different support for these,
+> move the type validation into the callers.
 > 
-> > > +#define SME_VQ_INVALID	(SME_VQ_MAX + 1)
-> 
-> > Does using (SME_VQ_MAX + 1) for this make something easier than if we
-> > used 0?
-> 
-> There were checks for VLs less than $THING which were causing annoyance
-> IIRC but it should be workable since we shouldn't offer SME to guests if
-> the invalid VL comes up.  I'll look again when I'm back from holiday.
-> 
-> > To solve all of the above, I think what we actually want to do is find
-> > the largest uniformly implemented VL which is smaller than the smallest
-> > partially implemented VL.
-> 
-> Yes, that's what we're going for.
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 
-To be clear, that was a concrete suggestiong as to the algorithm.
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 
-I'm saying we should have code along the lines of:
-
-int find_virtualisable_vl(struct vl_info *info)
-{
-        DECLARE_BITMAP(partial_only_map, SVE_VQ_MAX);
-        unsigned long b_min_partial, m_max_virt;
-
-        bitmap_andnot(partial_only_map, info->va_partial_map, info->vq_map,
-                      SVE_VQ_MAX);
-        b_min_partial = find_last_bit(partial_only_map, SVE_VQ_MAX);
-
-        /* All implemented VLs are virtualisable */
-        if (m_min_partial >= SVE_VQ_MAX)
-                return info->max_vl;
-
-        b_max_virt = find_next_bit(info->vq_map, SVE_VQ_MAX, b_min_partial);
-
-        /* No implemented VLs are virtualisable */
-        if (b_max_virt >= SVE_VQ_MAX)
-                return 0;
-
-	/* At least one virtualisable VL exists */
-        return sve_vl_from_vq(__bit_to_vq(b_max_virt));
-}
-
-Mark.
+-- Petr
