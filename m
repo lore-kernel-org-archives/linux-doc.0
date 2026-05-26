@@ -1,204 +1,121 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA213F5BD0;
-	Tue, 26 May 2026 12:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4223F88AA;
+	Tue, 26 May 2026 12:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779797986; cv=none; b=bTgzMUcVPD0ryinwwmX+YgKiav8lXJM6sUwWrolqLgqghKuK01OJrDtF1Jm+RHNfWdaxg3pE9cnI+MVI57puXla84+5KKw7IHQ4M2J4DmxSLWLkGpbOD2mprJcizng9iCIVDvvoDNlgkooeij9k3FMkfwGgl5lq2PfiUYrbZzt0=
+	t=1779798465; cv=none; b=YrrxGG847tfeWEhARZvj2WgDQzIP/cuyCX3vyZZDj58TQEiKdRsfMv+/9BxvT+vgidhq3rRiZkcwTkhstP1c15MH8u+fVIaSChBuf09N+X4UirgDqcUxJosEqg/j2Lh4YajfBG86xrOkhGL55qBsd/9YS6H8FpsD03M7jq6WHV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779797986; c=relaxed/simple;
-	bh=Hh2oQgwDDxLIYUFwNwUl9sy4Mm/ft3z5K4JupbKs8XE=;
+	s=arc-20240116; t=1779798465; c=relaxed/simple;
+	bh=vDlPE3WlLowbB4twTPNt5oAOKEs7T3k99UMNQRP9CcM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FYIsW4JITvJACWzBh5ILCBx87V27xCCe3bTKqxENyngzYRQ5D4l4N5pJzjpk3unQE4S1Rend2fivoa8JM8UYa/fe3TS+zRJY64Q/9XdV+1+6LdFnXFvLaktF5k+ohlez44BAZcyzdum+pfKjNKTYHxDEl7PrKztmOeE/LdEE8OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gPsHp0t3mzKHMdk;
-	Tue, 26 May 2026 20:19:18 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 2730140576;
-	Tue, 26 May 2026 20:19:31 +0800 (CST)
-Received: from [10.174.179.37] (unknown [10.174.179.37])
-	by APP4 (Coremail) with SMTP id gCh0CgAX31rQjxVq6kXSDg--.29133S3;
-	Tue, 26 May 2026 20:19:30 +0800 (CST)
-Message-ID: <262fdd41-81bf-fb65-c1b7-c9f15e893156@huaweicloud.com>
-Date: Tue, 26 May 2026 20:19:28 +0800
+	 In-Reply-To:Content-Type; b=PCQW2HGgXmqu9gcuiGCD/CLzy0bCeTJK8X/zHnOm37PBQlPvY2+/WJnv4jS4zRjvj43EQEsIQ/NnYzdUkPyxzxVplVbxqBOByCPuzrrYgjTO3FanAvAPciw3azCc6O15uIc70GTZIfqrQULf0h1qAiErGfKntR3WXEAQLLYiw+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=0PaXCVkX; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=qAvsEodf; arc=none smtp.client-ip=95.216.189.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="0PaXCVkX";
+	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="qAvsEodf"
+Message-ID: <2d93a9e4-0c36-4bc7-8e94-b15f69ebda79@archlinux.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
+	s=dkim-rsa; t=1779798460;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DumjHkMnQiUKEXczcFzbHTJ12Og3qEh2uESbAgSH9Z0=;
+	b=0PaXCVkXBjwxgV57Gtk9GND9h+M3olt9dDZsAZSMh69khuwz+7omoquMv7bxY+X2NwBvDs
+	7cJghWP+kfKXxa/Mzj4ItNhRylLxtHEbXT2U/CdXfxlLvJjJ5rkSidgc2aBrQrTiI+CPaf
+	ofc7Q62sZXcpwYR2fUFCbVV0KYA5RBkUnwqkS7dvPSc8p+xrEimxO3yvUJhT2LR8N394lG
+	zKL5TDaB8eCxpGZRhxbfjUn9RFNKl2xluA2p7u5kkai+avEVgv9hwAOtKMW2EVgYqK2xAn
+	EZYIc0WKVZAH1Nb4ZDiz1NIO/snRu/iHOKTOeHm8VeRYVTieMy8yWHVg8nfo1l/UbnU8Tv
+	k5Yk3bdm2ZtFa0+WU70NGuYxJOHWvVeBaFwICiatUOh8gM6R/WS3IFlU9YbXwjVzymwuFc
+	XKuulQ5BeoNzGUlr/QrMDgw1cdIvgtAwKofD4IsvIOGsRR1yNR3JjzQoMvKvrQPONqF6JZ
+	OMMNLxAhP1LGiCUgH2GoiCYXngwwZmE2ZcjLiIEAmlhKl2r0JyV2gMJn4Uke4zTOViHDJQ
+	/gJXPKLMTm5lh6Zjv6J183nbfZ/UIz4eehTUQeqX6uRy6jBru/K/rs1ICZHdgd/GSKMS+z
+	nP5SILf6vZKcsnA0+D/43BN50nXByYlhjDbPB2kBPA+oekNoiga84=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
+	s=dkim-ed25519; t=1779798460;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DumjHkMnQiUKEXczcFzbHTJ12Og3qEh2uESbAgSH9Z0=;
+	b=qAvsEodfYN9Au3PfLWPaXQEfyjbOcwD3RqWnSlsvTSJQ3NP8ZX9wWEW0wqValvrgMDgl0u
+	ST8XcV+dvsfuSMCQ==
+Authentication-Results: mail.archlinux.org;
+	auth=pass smtp.auth=kpcyrd smtp.mailfrom=kpcyrd@archlinux.org
+Date: Tue, 26 May 2026 14:27:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] arm64: kernel: Disable CNP on HiSilicon HIP09
-Content-Language: en-US
-To: Vladimir Murzin <vladimir.murzin@arm.com>,
- Zeng Heng <zengheng@huaweicloud.com>, corbet@lwn.net,
- kuninori.morimoto.gx@renesas.com, maz@kernel.org, oupton@kernel.org,
- catalin.marinas@arm.com, lucaswei@google.com, yeoreum.yun@arm.com,
- skhan@linuxfoundation.org, james.clark@linaro.org, broonie@kernel.org,
- mark.rutland@arm.com, lpieralisi@kernel.org, ryan.roberts@arm.com,
- will@kernel.org, tongtiangen@huawei.com, kevin.brodsky@arm.com,
- yangyicong@hisilicon.com, miko.lenczewski@arm.com
-Cc: linux-doc@vger.kernel.org, wangkefeng.wang@huawei.com,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- sunnanyong@huawei.com
-References: <20260526015720.206854-1-zengheng@huaweicloud.com>
- <3e7d5472-9c40-456c-876e-c2e71fa0e8fa@arm.com>
-From: Zeng Heng <zengheng@huaweicloud.com>
-In-Reply-To: <3e7d5472-9c40-456c-876e-c2e71fa0e8fa@arm.com>
+Subject: Re: [PATCH v5 07/14] module: Make module authentication usable
+ without MODULE_SIG
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Petr Pavlu <petr.pavlu@suse.com>
+Cc: Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
+ <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Eric Snowberg <eric.snowberg@oracle.com>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez
+ <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+ Xiu Jianfeng <xiujianfeng@huawei.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ bpf@vger.kernel.org, =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?=
+ <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>,
+ Mattia Rizzolo <mattia@mapreri.org>, Christian Heusel <christian@heusel.eu>,
+ =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>,
+ Eric Biggers <ebiggers@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org,
+ debian-kernel@lists.debian.org,
+ Holger Levsen <holger@reproducible-builds.org>
+References: <20260505-module-hashes-v5-0-e174a5a49fce@weissschuh.net>
+ <20260505-module-hashes-v5-7-e174a5a49fce@weissschuh.net>
+ <0a0736a4-2cdd-49f2-9062-e2f18d769fc0@suse.com>
+ <4ee3c775-1fbf-45e1-8b77-5f9034f45125@t-8ch.de>
+Content-Language: de-DE, en-US
+From: kpcyrd <kpcyrd@archlinux.org>
+In-Reply-To: <4ee3c775-1fbf-45e1-8b77-5f9034f45125@t-8ch.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgAX31rQjxVq6kXSDg--.29133S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3GryrGr1ktFyxZFy5tw18Xwb_yoW7XF15pw
-	4fJr4fJF1DWF13G34UXw1UXr45Ca1fGwn0gF1Utry0qr1avryUAF18Xw1xGFWjqrykWw48
-	ur1j9FyjyF17ArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBY14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
-	c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7V
-	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
-	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6x
-	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
-	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
-	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7sRidbbtUUUUU==
-X-CM-SenderInfo: p2hqwxhhqjqx5xdzvxpfor3voofrz/
+Content-Transfer-Encoding: 8bit
 
-Hi Vladimir,
+On 5/26/26 1:38 PM, Thomas Weißschuh wrote:
+> On 2026-05-26 12:53:22+0200, Petr Pavlu wrote:
+>> Should MODULE_SIG_FORCE be renamed to MODULE_AUTH_FORCE, along with
+>> renaming the sig_enforce functionality in kernel/module/auth.c to
+>> auth_enforce?
+> 
+> Given that it is a user-visible symbol we'll need to be a bit careful
+> not to break existing configurations.
+> I'll try to use the new "transitional" kconfig attribute.
+A slightly softer worded alternative (yet semantically equivalent) name could be 
+MODULE_AUTH_REQUIRE. No strong opinion though, I think MODULE_AUTH_* does make 
+sense.
 
-On 2026/5/26 20:10, Vladimir Murzin wrote:
-> Hi,
-> 
-> On 5/26/26 02:57, Zeng Heng wrote:
->> From: Tong Tiangen <tongtiangen@huawei.com>
->>
->> HiSilicon HIP09 implements TLB entry matching behavior that deviates
->> from the ARM architecture specification when the CNP (Common not Private)
->> bit is set in TTBRx_ELx.
->>
->> When TTBRx.CNP=1, TLB entries may be incorrectly shared between CPU
->> cores, leading to TLB conflicts and stale mappings. This affects
->> coherency and can result in incorrect translations.
->>
->> Add the hardware erratum workaround (Hisilicon erratum 162100125) to
->> disable CNP on affected HIP09 cores.
->>
->> Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
->> Signed-off-by: Zeng Heng <zengheng4@huawei.com>
->> ---
->>   Documentation/arch/arm64/silicon-errata.rst |  2 ++
->>   arch/arm64/Kconfig                          | 15 +++++++++++++++
->>   arch/arm64/kernel/cpu_errata.c              |  7 +++++++
->>   arch/arm64/kernel/cpufeature.c              |  3 ++-
->>   arch/arm64/tools/cpucaps                    |  1 +
->>   5 files changed, 27 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
->> index 211119ce7adc..cd50059edb85 100644
->> --- a/Documentation/arch/arm64/silicon-errata.rst
->> +++ b/Documentation/arch/arm64/silicon-errata.rst
->> @@ -284,6 +284,8 @@ stable kernels.
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
->>   +----------------+-----------------+-----------------+-----------------------------+
->> +| Hisilicon      | Hip09           | #162100125      | HISILICON_ERRATUM_162100125 |
->> ++----------------+-----------------+-----------------+-----------------------------+
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
->>   +----------------+-----------------+-----------------+-----------------------------+
->> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->> index fe60738e5943..ed6207c75b54 100644
->> --- a/arch/arm64/Kconfig
->> +++ b/arch/arm64/Kconfig
->> @@ -1273,6 +1273,21 @@ config HISILICON_ERRATUM_162100801
->>   
->>   	  If unsure, say Y.
->>   
->> +config HISILICON_ERRATUM_162100125
->> +	bool "Hisilicon erratum 162100125"
->> +	default y
->> +	help
->> +	  On HiSilicon HIP09, TLB entry matching behavior when CNP
->> +	  (TTBRx.CNP=1) is enabled differs from the ARM architecture
->> +	  specification.
->> +
->> +	  TLB entries may be incorrectly shared between CPUs, potentially
->> +	  causing TLB conflicts and stale mappings.
->> +
->> +	  Disable CNP support for affected HiSilicon HIP09 cores.
->> +
->> +	  If unsure, say Y.
->> +
->>   config QCOM_FALKOR_ERRATUM_1003
->>   	bool "Falkor E1003: Incorrect translation due to ASID change"
->>   	default y
->> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
->> index 5377e4c2eba2..26d9677a20fc 100644
->> --- a/arch/arm64/kernel/cpu_errata.c
->> +++ b/arch/arm64/kernel/cpu_errata.c
->> @@ -968,6 +968,13 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
->>   		.matches = has_impdef_pmuv3,
->>   		.cpu_enable = cpu_enable_impdef_pmuv3_traps,
->>   	},
->> +#ifdef CONFIG_HISILICON_ERRATUM_162100125
->> +	{
->> +		.desc = "Hisilicon erratum 162100125",
->> +		.capability = ARM64_WORKAROUND_HISILICON_ERRATUM_162100125,
->> +		ERRATA_MIDR_ALL_VERSIONS(MIDR_HISI_HIP09),
->> +	},
->> +#endif
->>   	{
->>   	}
->>   };
->> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
->> index 6d53bb15cf7b..c4b0db77a58a 100644
->> --- a/arch/arm64/kernel/cpufeature.c
->> +++ b/arch/arm64/kernel/cpufeature.c
->> @@ -1785,7 +1785,8 @@ has_useable_cnp(const struct arm64_cpu_capabilities *entry, int scope)
->>   	if (is_kdump_kernel())
->>   		return false;
->>   
->> -	if (cpus_have_cap(ARM64_WORKAROUND_NVIDIA_CARMEL_CNP))
->> +	if (cpus_have_cap(ARM64_WORKAROUND_NVIDIA_CARMEL_CNP) ||
->> +	    cpus_have_cap(ARM64_WORKAROUND_HISILICON_ERRATUM_162100125))
->>   		return false;
-> 
-> Since we now have a second user for this workaround, would it
-> make sense to:
-> 1. factor out the existing ARM64_WORKAROUND_NVIDIA_CARMEL_CNP into a common capability,
->     for example ARM64_WORKAROUND_DISABLE_CNP
-> 2. wire up erratum 162100125 to use the common ARM64_WORKAROUND_DISABLE_CNP capability?
-> 
-> Cheers
-> Vladimir
-> 
+I initially shared the concern about renaming well established config options, 
+but the transitional feature does seem to be a good fit for this.
 
-This makes sense to me. Thanks for the reminder.
-
-Best regards,
-Zeng Heng
-
->>   
->>   	return has_cpuid_feature(entry, scope);
->> diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
->> index 811c2479e82d..b797d4893adc 100644
->> --- a/arch/arm64/tools/cpucaps
->> +++ b/arch/arm64/tools/cpucaps
->> @@ -128,3 +128,4 @@ WORKAROUND_REPEAT_TLBI
->>   WORKAROUND_SPECULATIVE_AT
->>   WORKAROUND_SPECULATIVE_SSBS
->>   WORKAROUND_SPECULATIVE_UNPRIV_LOAD
->> +WORKAROUND_HISILICON_ERRATUM_162100125
->> -- 2.43.0
->>
-> 
-> 
-> 
-
+Sincerely,
+kpcyrd
