@@ -1,65 +1,237 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB5730EF88;
-	Wed, 27 May 2026 22:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D073C9886
+	for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 22:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779920017; cv=none; b=OaFHfMMJ/NDxbAMJZofhoKb9HGTTSG6XpKYpezqJSuxpyRGB1lawQRX6OMhz1dEmopQVOD4CL7/5gc/xYJLB43GprifND7EBMMAOaSYOHWlimfeUbCPoTcH8iSNsq9F4BLuSU26MQ6s1YFh6Eda2yktVMNCKdYeqT/u+XHZ6V4A=
+	t=1779920490; cv=none; b=cwqRe7WBFD3QAjwhscAzgwS1FVt/lwxt/wbNJPiEcU7y+C19cuARxGm21FdQ+OvF56WEtFykq02lydZ9Z4A6llDthDf75KIVT3SsIQlft1lkAfZNFaJWhoKVDDgwLtj8GGbhWjumBlHGsaKEYXIAKXaXDwAk6RfBpMzEENsJw7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779920017; c=relaxed/simple;
-	bh=CW+Iifdz3bIRfnE9d689BzCZ0J+WwvEHLY5CKufVG68=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ISW1qkCItzLtnlc3EPSnzNcrRJOgwM7nm16VOUavjywABuhwek48s59sTA1lLNE3GRl5kbwMJ1tTtcOBwSLZ4fRAW80ohe3TJFGyX1H5EuEyWkS3HrGBXbsab3fjQvzqifeVhQmpbTDeNnphgDZdVdGyjTJ+PAgIbIFl/QMee1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vnMPwzyX; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1779920490; c=relaxed/simple;
+	bh=amt/aSnfCD4mRO9WuKpNVAVi2K/iazes122xLYFRuvc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=miJ0gq/lZHHjn9pfZ4BOWo+Q0BfpXVzYMSTGZae3PVXHN+TcmTQQ/nKEdsbTusSKxkLDU839+o8frhh+l6D3SnW89lgP8oOTaWPm2kY34eqc0vInAMSn1MmZp+5TB/L6LjBKc9e5GaV/ZL/1qGMxU0atgU0OjnBvylbjxZp7QmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NOJ2/KbG; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vnMPwzyX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=dodOOnd1Ef+RhYMklOu6YQdcoDL3YHcV/9uS/rD7CTY=; b=vnMPwzyXnO+XywybwKb5KuliVo
-	5ehX6LavM9xNXUc8+Uq8M0WIEYnduf7HuuJ0hPd/oAjAOU5Lx8Kq3pq4McOVaGwlrkV6ZxI1PQ9Tb
-	3iaBA9kdNaKme+vzOOAat43Uy93oxPXEAdc3EPavWlDRQ99+iSmvZIl6Eb3rCA/U8S3Ci90dJI666
-	WxI5xctNB1UnWl2Lzw7KaOWB62Q5TI/HvXzmX7BGqOW5lj03Z8RNfCgoP1Jzbo0BPSVM5uBrJTVwv
-	bKDttAhwEqwX6OvyS8QdghV5FI7eODY2VXJx3icD+zbh9ot9Zm1+Eo+pXPbyzMw8mW/p6ljC/l/MO
-	E+MWIwMQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSMV9-00000003PNc-3SNN;
-	Wed, 27 May 2026 22:13:23 +0000
-Date: Wed, 27 May 2026 23:13:23 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "Christoph Lameter (Ampere)" <cl@gentwo.org>
-Cc: lirongqing <lirongqing@baidu.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Hao Li <hao.li@linux.dev>, David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH] mm/mempool: use static key for boot-time debug enablement
-Message-ID: <ahdsgyYYDn6juR_R@casper.infradead.org>
-References: <20260527104634.2434-1-lirongqing@baidu.com>
- <4da5d090-8272-7f26-9e83-ea4ab489f1f4@gentwo.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NOJ2/KbG"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2bc85eda6b6so62111385ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 15:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779920488; x=1780525288; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OnV3huOIWH5ncFFvV2J1TuRo9vrXrPmzDdrWQuCOI4A=;
+        b=NOJ2/KbGDQejytdXXdnL5YGRO7gfx0g2ZJNKuqFPJbQwB24q/TTJ979Tf0QlriunD0
+         cCWz5wFzctw2QPLvS7LYdfKdew0L29HaH0uo8iB1QRnr+LDVf3qvG/FPqSND9WyoNu91
+         XwlKAP8ssewCgxsHf00zrqipul6pjS0erYF8GSN0UZe/VIDTraNOK0zzti07+9aPAdmS
+         qhrROI8h/ikaNmmmfyyRLxV2SQ3lThfhakgm+x7ty7QW2r5IDteGvoh/E9CiPVHuW0GI
+         892jehtIwMxjWdr6edK7Wfh4LcUw7pCMd9At4Dxz0ZeLqpDAgJG8rOdznGovcgfTeLBv
+         +bGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779920488; x=1780525288;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OnV3huOIWH5ncFFvV2J1TuRo9vrXrPmzDdrWQuCOI4A=;
+        b=TaRlHkB1lBiNTwx1og1kojE1MxVhF1WQlG1ujEtHdg/5qMDNbUTxmR8zFLMUgYo2x8
+         3XNMqEXilLnnXxdz93Hsg9AAdAnJclt5gWw33wLfYtNwvLlTd7rT/MqJPmu1Ga059m1H
+         9Z9ZGm8XihnWsIc7dgjNhIgEQJpt07256TPW9Kbz3VbjguovtWv7+pmm6vfPAOu917Vl
+         3yILkB2CeKC6Wg7yoXQI04lehndd3XwQI7guk09fFHzlL2/QEMcc98DmnnVEmSUSP1yS
+         zpkZuQ+ZPoNZo2o8Po0hnPgzf1iXmRZ56QKFq3K61bG3uhLfwfBEEn/IGcQI3XTgNtW2
+         +uHw==
+X-Forwarded-Encrypted: i=1; AFNElJ8BYf8eTHJ0cEwX6RKmlIY6x9MXgL227hiXliK/oZyR3Uuq263sbxsqbNGEvCgZl+UydsZXoDNYbw4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLYImMRV+npDX7VG0zoedJKYJo2uqKB6l31hH4CxN5FErhIsPF
+	J86DK8PjczaK/sHgRv1hvQDyVFDzoXxQYnhsDo9AG0+C3rvsE0MMSuRW
+X-Gm-Gg: Acq92OHs7lfCP8+j4Y3QObu2I+OdU9UF8xcRSeN45sJJGR4apmBHXmHsYVKZMVbSux8
+	taHWlnZzjK2lzOgbNweY2H5WSLfak2doj/3Z8L+3hCf+gBu8c9d+06no3zO46y8kqI8TJQ4XQMu
+	dFloRG3cMWoHqp+LaUFysSBx7PcmLBhJ7L2IVa0FqluEKgaoAztCrlXvozv5+zCAZcrYlhFp5ng
+	6jjwWRYaIpjVNbzeD/K+Do0DaYuF2xHf3x5AB5L9OEnG13Yo/0QeuB4i5Jp363/l7vy/R20Rx/e
+	bNwdqHWrnlDFKPJE1Pu8f/2T78A6hnrrc9Ma+DhfuJk9D0U9zBoIYbJJmszFXH7794aNfLeg6YC
+	KH8ov+D7LxBrwv83M8OlLB6bVn98mIXRFn+yPdSkF8sMyZzKm/RSoRW+7jnnDrdfPmLJUlt+7tm
+	zUTun7//aNTg0BW/e+pnE5jwoEnM1GXf+owOV/Sxf9hPAU36PpURGE+qQ=
+X-Received: by 2002:a17:903:390d:b0:2b4:5e0f:c239 with SMTP id d9443c01a7336-2beb03776bcmr248815745ad.10.1779920487731;
+        Wed, 27 May 2026 15:21:27 -0700 (PDT)
+Received: from lappy ([203.105.74.20])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58fd888sm167783445ad.73.2026.05.27.15.21.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 15:21:27 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	Denis Benato <denis.benato@linux.dev>,
+	Zhouwang Huang <honjow311@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v10 0/4] Add MSI Claw HID Configuration Driver
+Date: Wed, 27 May 2026 22:21:18 +0000
+Message-ID: <20260527222122.10620-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4da5d090-8272-7f26-9e83-ea4ab489f1f4@gentwo.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 27, 2026 at 02:29:22PM -0700, Christoph Lameter (Ampere) wrote:
-> Oh someone put an #ifdef CONFIG_SLUB_DEBUG_ON in mempool.c. Overloading
-> the meaning of SLUB_DEBUG_ON as it is used in slub.c with something else.
-> 
-> Someone was assuming that SLUB_DEBUG_ON means the same as SLUB_DEBUG?
-> 
-> Please clean this mess up.
+This series adds an HID Configuration driver for the MSI Claw line of
+Handheld Gaming PC's. The MSI Claw HID interface provides multiple
+features, such as the ability to switch between xinput, dinput, and a
+desktop mode, RGB control, rumble intensity, and mapping of the rear "M"
+keys. There are additional gamepad modes that are not included in this
+driver as they appear to be used in assembly line testing or are
+incomplete in the firmware. During my testing I found them to be unstable.
 
-Isn't that what this patch does?
+The initial version of this driver was written by Denis Benato, which
+contained the initial reverse-engineering and implementation for the
+gamepad mode switching. This work was later expanded by Zhouwang Huang
+to include more gamepad modes and additional features. Finally, I
+refactored the entire driver, fixed multiple bugs, and refined the overall
+format to conform to kernel driver best practices and style guide.
+
+Claude was used initially by Zhouwang Huang to quickly parse HID captures
+during the reverse-engineering of some of the features. Since Claude had
+already been used, as a test of its capabilities I had it implement the
+rumble intensity attribute after I had already rewritten most of the
+driver, which I then manually edited to fix some mistakes. I also used
+Claude to review the driver and these patches for any mistakes and bugs.
+
+Assisted-by: Claude:claude-sonnet-4-6
+Co-developed-by: Denis Benato <denis.benato@linux.dev>
+Signed-off-by: Denis Benato <denis.benato@linux.dev>
+Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
+Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+---
+v10:
+  - Remove additional gamepad_registered variable left over after rename
+    to gp_registered.
+v9: https://lore.kernel.org/linux-input/20260525020543.519082-1-derekjohn.clark@gmail.com/
+  - Don't use devm_* functions in cfg_setup_fn, do manual adding
+    and cleanup to prevent possible use after free.
+  - Use scoped_guard instead of guard in claw_remove.
+  - Rename gamepad_registered to gp_registered for brevity.
+  - Check for drvdata in rgb_queue_fn to avoid use after free during
+    teardown.
+  - Ensure rgb_queue work is canceled during suspend.
+  - Limit guard usage in cfg_setup_fn to avoid holding a lock during
+    registration and add group events.
+v8: https://lore.kernel.org/linux-input/20260522015518.1111290-1-derekjohn.clark@gmail.com/
+  - Use spinlock when accessing gamepad_registered.
+  - Clear state machine on all errors in claw_hw_output_report.
+  - Wrap all branches under single cmd_lock guard in claw_raw_event.
+  - Reject generic ACK in claw_raw_event if waiting_cmd is for another
+    branch.
+  - Wrap all branches under single cmd_lock guard in claw_raw_event.
+  - Reject generic ACK in claw_raw_event if waiting_cmd is for another
+    branch.
+  - Don't close hid devices that couldn't have been opened.
+  - Ensure led_classdev is unregistered if adding attribute group fails.
+  - Reorder remove actions to ensure no use-after free or rearming cleared
+    flags.
+v7: https://lore.kernel.org/linux-input/20260520013158.3633277-1-derekjohn.clark@gmail.com/
+  - Use smp_[store_release|load_acquire] pattern for checking
+    gamepad_registered and rgb_registered to avoid possible races during
+    teardown.
+  - Reorder reinit_completion in claw_hw_output_report to avoid race
+    with possible incoming ACKs.
+  - Reorder cancel_delayed_work_sync to ensure setup can't be re-armed
+    after cancel.
+  - Reset command state machine if hw_output_report has an error.
+  - Add comments to (hopefully) silence sashinko-bot warnings about the
+    use of endpoint matching and the impossible scenario of switching to
+    the alternate endpoint from userspace while the driver is bound.
+  - Don't use spinlock_irqsave when already in irq context.
+  - Add profile_lock for read/write profile_pending.
+  - Use struct for mkey reports and rumble reports, following the
+    pattern established by rgb reports previously.
+  - Add gating to cfg_setup_fn, allowing either gamepad settings or rgb
+    settings to populate if the other fails for any reason.
+  - Match on write address for rumble and mkey reports to prevent late
+    ACK from causing synchronization errors.
+
+v6: https://lore.kernel.org/linux-input/20260518222935.1802071-1-derekjohn.clark@gmail.com/
+  - Add send/ack pattern to ensure synchronous acks.
+  - Use spinlock_irqsave instead of mutex for read/write MODE event
+    data.
+  - add select NEW_LEDS to kconfig.
+  - Make all timeouts 25ms to ensure at least 2 jiffies in a 100Hz
+    config.
+  - Gate all attribute show/store functions with gamepad_registered or
+    rgb_registered, enabling use of devm_device_add_group and ending
+    the need to hold a mutex during remove.
+  - Don't set gamepad_mode on resume, MCU preserves state.
+  - Ensure all count variables are checked for > 0 characters before
+    setting buf - 1 to \n.
+  - Re-arm cfg_setup in resume if it was canceled in an early suspend.
+  - Remove duplicated argv_free macro.
+  - Add spinlock_irqsave vice mutex for read/write access on attribute
+    variables.
+v5: https://lore.kernel.org/linux-input/20260517013925.3120314-1-derekjohn.clark@gmail.com/
+  - Swap disabled & combination mkeys_function enum values.
+  - Fix bug introduced in v5 where claw_buttons_store would return
+    -EINVAL on all valid key entries.
+  - Ensure mode_mutex is properly init.
+  - Ensure claw_remove is calling hid_hw_close and not hid_hw_stop for
+    all paths.
+  - Ensure adding "DISABLED" key to valid entries is done in the correct
+    patch.
+  - Re-enable sending an empty string to clear button mappings in
+    addition to setting DISABLED.
+  - Move adding the RGB device into cfg_setup to prevent led core
+    attributes from being written to prior to setup completing.
+  - Ensure frame_lock is properly init.
+  - Change variable names in RGB functions from frame and zone to f and
+    z respectively to fit all scoped_guard actions in 100 columns.
+v4: https://lore.kernel.org/linux-input/20260516042841.500299-1-derekjohn.clark@gmail.com/
+  - Add msi_suspend/claw_suspend.
+  - Reorder claw_remove to cancel all work before removing sysfs.
+  - Add mutex lock for removing sysfs attributes.
+  - Add mutex lock for MODE command data read/write.
+  - Change dev_warn to dev_dbg in claw_profile_event.
+  - use __free with DEFINE_FREE macro for argv instead of manually
+    running argv_free, cleaining up scoped_guard goto.
+  - Fix frame_calc validity check to use >=.
+  - Use spinlock instead of mutex in raw_event and related attribute
+    _store function.
+  - Ensure delayed work is canceled in suspend & canceled before sysfs
+    attribute removal.
+v3: https://lore.kernel.org/linux-input/20260515033622.2095277-1-derekjohn.clark@gmail.com/
+  - Add mutex for read/write if rgb frame data.
+  - Ensure claw_hw_output_report is properly guarded.
+  - Remove setting rgb_frame_count when reading rgb profiles as it always
+    returns garbage data.
+  - Ensure rgb_speed is getting drvdata from a valid lookup (not hdev).
+  - Use scoped_guard where necessary.
+  - Reoder claw_probe to ensure all mutex, completion, and variable
+    assignments are in place prior to setting drvdata.
+  - Ensure gamepad_mode is set to a valid enum value in claw_probe.
+v2: https://lore.kernel.org/linux-input/20260513231445.3213501-1-derekjohn.clark@gmail.com/
+  - Use mutexes to guard SYNC_TO_ROM calls and pending_profile calls.
+  - Rename driver to hid-msi and add generic entrypoints for
+    probe/resume/remove that call claw specific functions in order to
+    future proof the driver for other MSI HID interfaces.
+  - Fix various bugs and formatting issues.
+v1: https://lore.kernel.org/linux-input/20260510043510.442807-1-derekjohn.clark@gmail.com/
+
+Derek J. Clark (4):
+  HID: hid-msi: Add MSI Claw configuration driver
+  HID: hid-msi: Add M-key mapping attributes
+  HID: hid-msi: Add RGB control interface
+  HID: hid-msi: Add Rumble Intensity Attributes
+
+ MAINTAINERS           |    6 +
+ drivers/hid/Kconfig   |   13 +
+ drivers/hid/Makefile  |    1 +
+ drivers/hid/hid-ids.h |    5 +
+ drivers/hid/hid-msi.c | 1813 +++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 1838 insertions(+)
+ create mode 100644 drivers/hid/hid-msi.c
+
+-- 
+2.53.0
+
