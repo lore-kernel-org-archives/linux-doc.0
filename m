@@ -1,39 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF571390CBD;
-	Wed, 27 May 2026 19:42:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C513B19A0;
+	Wed, 27 May 2026 19:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779910934; cv=none; b=Up8WXSM2LauPq+8JkR2v2Mesrgc91ls2+fG86LAWW8oMTNSx8t1sW+U35zMmlnx7OBNik1hj7tA/KXz3Fj5AZXZ1hgDlJoB5JcD9WBpCN7Cmkv180bY4ifx0nSGyAC3RzQXGNyaD8GyZTfY/rXepjJD3ce4Ybh8P9/dRX8D9Cl0=
+	t=1779911436; cv=none; b=mrAi1MAoqu5Um7ST5/rRxhyZtZragqT9R6NqAxA0SSffB7RLOnTkss54En/qhuqcGfBv+hNRJGmMqYg0gsIxdfxanalT8huSEtXOD1LxWG14mcfbtlcePmSjjBzTg0ro9B2F06Xda5A7BufVxCjyLnwUlC8A3T4Sb5CK18wLvVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779910934; c=relaxed/simple;
-	bh=hsuIsOnl6Qr1eNPF78/qoL76ddZnA5TTQYMnu6+Hqm8=;
+	s=arc-20240116; t=1779911436; c=relaxed/simple;
+	bh=Hlcw5NmDdhXZKNv+/z2jeagFAksri84BWr7P8wwGYNM=;
 	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=U3zar0B91tgm7drIpX/DyADpCLnYjfgp1czW7vnqJvjckYrELeEUNoW2/lL/xxc3q298mmwrWjF814CzcLVxLcnNgiadtumrh+f854MWvtNhj/WC/4AX1Y+nbyQ0EgAcGXeRnCSMs3tx2RDwb6liEDAq42G76xE3GpvcVDEw7IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=13eo1uib; arc=none smtp.client-ip=100.103.45.18
+	 Mime-Version:Content-Type; b=bqg6HooM4MTRw9NuDeIfUwsnMl7OFv+lPMxGS8aoQaasuAQ9wkJlo/SxGd259wgo62YPicXNnQgmzMFLBDGn56pwcif7mJsjkjHcOAZChtoXYiz1Ifxi+3tdWsO0W1lzaLvTmRPKIlTH1ZG/KEOmuuG6JVCnvpv6JoFwVHGmDtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Y5G2G7M8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="13eo1uib"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03CD61F000E9;
-	Wed, 27 May 2026 19:42:10 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Y5G2G7M8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A3C71F000E9;
+	Wed, 27 May 2026 19:50:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1779910931;
-	bh=dzsx17QN9T0JhRcBqlGPVbrJ8cTzRmJjzv1xfhO6wsQ=;
+	d=linux-foundation.org; s=korg; t=1779911434;
+	bh=72Gz2NsTX3fg94N46zv80p0uplq9u+H7HG+tAgnNYCA=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=13eo1uibBU6y9M444AohbuK0xlNn7QjIS9J9iqORqeWQaBv+RoLZweyr212MbtusU
-	 ZsPVwuvGzdHlGaQl9axjxq38vLUKsKUIMyyRaup4vbbEMXfCrzkMhd/WZk7dQ8xd4w
-	 N8KtcVr+EM4beW8uB9CcR11PWiBHxH7VRQMNzhpU=
-Date: Wed, 27 May 2026 12:42:10 -0700
+	b=Y5G2G7M8GI8nodHw68ElsQlY3SOz5wwHEMUtA70B+QukbaRS53+iCic26tCx0xhEX
+	 INr16cLT2gH80YbU40eN256vRUgMZQ81yDmeiYVvPsQcMgs5ev2/8h2TwVEHjHphhU
+	 t7rBVz4iXKmqts1GfofhRkfUhIYR153Mj+0sKSmM=
+Date: Wed, 27 May 2026 12:50:34 -0700
 From: Andrew Morton <akpm@linux-foundation.org>
 To: <wang.yaxin@zte.com.cn>
 Cc: <fan.yu9@zte.com.cn>, <yang.yang29@zte.com.cn>, <corbet@lwn.net>,
  <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <xu.xin16@zte.com.cn>
-Subject: Re: [PATCH 0/3] delaytop: add delay max, timestamp and sorting for
- top latency analysis
-Message-Id: <20260527124210.19726c1c89a94b89310e5a47@linux-foundation.org>
-In-Reply-To: <20260527215524044fG7XSpgveHiaFhraq0yAi@zte.com.cn>
-References: <20260527215524044fG7XSpgveHiaFhraq0yAi@zte.com.cn>
+ <xu.xin16@zte.com.cn>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
+ <linux@weissschuh.net>
+Subject: Re: [PATCH linux next] tools headers UAPI: sync linux/taskstats.h
+ for procacct.c
+Message-Id: <20260527125034.ba695164344d2645dd055af0@linux-foundation.org>
+In-Reply-To: <20260527213558929EhiHHy9EDTMjmg3uuDOMi@zte.com.cn>
+References: <20260527213558929EhiHHy9EDTMjmg3uuDOMi@zte.com.cn>
 X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -41,36 +42,57 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 27 May 2026 21:55:24 +0800 (CST) <wang.yaxin@zte.com.cn> wrote:
+On Wed, 27 May 2026 21:35:58 +0800 (CST) <wang.yaxin@zte.com.cn> wrote:
 
 > From: Wang Yaxin <wang.yaxin@zte.com.cn>
 > 
-> Previously delaytop only showed average delays. This patch adds:
+> Background
+> ==========
+> After commit 9b93f7e32774 ("tools/getdelays: use the static UAPI
+> headers from tools/include/uapi"), the Makefile was changed to use
+> -I../include/uapi/ instead of -I../../usr/include to ensure tools
+> always use the up-to-date UAPI headers.
 > 
-> 1. delay_max fields to track the maximum delay value for each delay type
->    (cpu, blkio, irq, swapin, freepages, thrashing, compact, wpcopy)
->    per task.
-> 
-> 2. The -t/--type option displays only the specified delay type with avg/max
->    values side by side, allowing focused analysis:
->      delaytop -t cpu    # Show only CPU delay with avg/max
->      delaytop -t wpcopy # Show Copy-on-Write delay with avg/max
-> 
-> 3. Wall-clock timestamp when each maximum delay occurred, displayed in the
->    MAX_TIMESTAMP column when using -t/--type option. This enables:
->    - Identifying the time when a process experienced an abnormal delay max
->    - Correlating delay max across multiple processes at the same timestamp
->    - Cross-referencing with logs, traces, or other metrics at that time
-> 
-> 4. When using -t/--type option, tasks are sorted by maximum delay value in
->    descending order (largest delay first), enabling quick identification of
->    top N processes with highest delay spikes.
+> However, only linux/taskstats.h was added to tools/include/uapi/ in
+> commit e5bbb35a07b3 ("tools headers UAPI: sync linux/taskstats.h"),
+> but linux/acct.h was missing.
 
-Sounds useful.  Am I correct in assuming that you're a regular user of
-delaytop and that these changes are based on your experience with it?
+Please let's Cc the author of both of these commits!
 
-AI review claims to have found a number of things:
-	https://sashiko.dev/#/patchset/20260527215524044fG7XSpgveHiaFhraq0yAi@zte.com.cn
+> Problem
+> =======
+> This causes procacct.c to fail to compile with:
+> 
+> procacct.c:234:37: error: 'AGROUP' undeclared (first use in this function)
+> 
+> gcc -I../include/uapi/    getdelays.c   -o getdelays
+> gcc -I../include/uapi/    procacct.c   -o procacct
+> procacct.c: In function ‘print_procacct’:
+> procacct.c:234:37: error: ‘AGROUP’ undeclared (first use in this function)
+> did you mean ‘NOGROUP’?
+>   234 |  , t->version >= 12 ? (t->ac_flag & AGROUP ? 'P' : 'T') : '?'
+>       |                                     ^~~~~~
+>       |                                     NOGROUP
+> procacct.c:234:37: note: each undeclared ident
+> 
+> because procacct.c uses the AGROUP macro defined in linux/acct.h.
+> 
+> Solution
+> ========
+> Add the missing linux/acct.h to complete the static UAPI header set.
+
+It has always annoyed me that we do this by copying the file.  I'm
+surprised that there isn't a way of using the original file directly.
+
+> Fixes: 9b93f7e32774 ("tools/getdelays: use the static UAPI headers from tools/include/uapi")
+>
+> ...
+>
+> --- /dev/null
+> +++ b/tools/include/uapi/linux/acct.h
+>
+> ...
+>
