@@ -1,659 +1,88 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A0F37F015
-	for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 15:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD95842EED9;
+	Wed, 27 May 2026 16:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779897258; cv=none; b=RBxG/gEOQAl3fkfTc0DB5jNOT1GKRegdTky2Dt60elws5lmglrOsu8gHzVD+BxFFMM9bljjA8gjZWz6YTY2El8WnxnsFSXCZHthi3dBvnY2BMfGaKtI9Cy83QZLwHJwN+7/hiiKq4BNuyNMl7WaHjWQMV1W+WwaHO/3W5qUdOwc=
+	t=1779899340; cv=none; b=J1ThBsoD5n06/JgnzI3blXrgIzlkkRyQa2nvZr+CxKRObQEQ3/NvKqg2UpA3IAwx0YwZ9RvTAW79LG2JQ/Baw0eZjCXzIWkHcvR8l7A4pzGRiuQ6hX1kDR3DloXfzmOZG6sUAgdF8MbPeZ/lZdphDROBX4OPupYJgYL/JJZjidg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779897258; c=relaxed/simple;
-	bh=4qbZwf4AkHTTnI62m/Pit848qFCTCymHLvDlgi+fDbg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tW0eWofVBujY1Bix1mzu7SkgBzcE6iFc2gmxFs0n75a4Ktb3//FUN5ioOVAZDyZYsJSTKYaoRI97jt/Zp2hYcbzblYN2Zw4zSP1Bae8FW+XatGpcZZd4Ni2piAiZDnhcgkQjUYiC5IxX+4BzBILMOuTokNZZqQdsXjgKqfgng/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MupmByFe; arc=none smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779899340; c=relaxed/simple;
+	bh=j6Qi8RJirgt6HV90UspX/padkb98DsmtXE9Yl4eElY0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Sh8WMzf2oHJvgXPLGB3KdsiisQ72xizfW6+Jn+UFrtqWNZMML5kul8XhrtTOujptw36jUbTHj4FFdBXmrJnTcwfUfZmxG93WZi+q874rqwmzuwN50lRHA9p8XGw+w9Qxmg7Phnp4nZQ62pjYOD07V1CDqOgRCno7Y5Y4ZaYxqfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1gEPvDa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MupmByFe"
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-63124a80693so4552156137.3
-        for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 08:54:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779897255; x=1780502055; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=46G9SOV3fGDcXXnhtVa1IQkUSKV56AkhW0xp5bAz12g=;
-        b=MupmByFeooK6mKPcQveuSqi96/DM/JGLr8kRvJT+QECrWC+rXThXjDgWQSlOHGhivH
-         3sd4lVX6xPPzSTUc5c2dmhHs55VMeE9WO19ZaIv5Jo4UqEeDgi8EbQCkuxb2ek/Ibdoj
-         BXIvq/8GR4EN2elY2nMw0i8fRVCO3X/CfYNKv3QF7IDE/r46plU56f8LJSHLopG26Cxe
-         5sNOR8ae8Xi2brGjm6ZVcfuedmaWU5i7iYCCOB5z5PwfRTcbhigF2XB5h2laRkXCY/cV
-         5zZSCcAVGLmYX3XiyhZnap6KXFRn6yr9R0rmglwimY8I5sWvfHghPxr2bqCGb/9VFd8w
-         9y/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779897255; x=1780502055;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=46G9SOV3fGDcXXnhtVa1IQkUSKV56AkhW0xp5bAz12g=;
-        b=AIixh4COQR2BBz9Jk5k82UkaDn1vd8hC+q4be+r2dqlDpiLGP+3ifY8VfWqwNqaaGF
-         Ccpjev43wURiMkqj5UZtkqtTQymULnLntxIaFLIjiqIU5DH4UU6cYMhblOZsfjVTFYOL
-         enh8DGbceVkMZzsizv1RFY8INHLZ5pk8eTg8Xk37/RBZXgceQXK6Dxj9gSRF2buH8RKu
-         KKY4e1hOff17hx3rvdF2FZOqjQDs64wulyL4ysnz2f8gql0FbNnL6JePzHQRtL2NFCre
-         VgnjCcf3dm/M3ZbLyJiXbzMN9YapNO3X8GRIkS+SLXlcoSIpbPbP6jQymoCifCokBKU+
-         aHPQ==
-X-Gm-Message-State: AOJu0Yyp/bTDi8s8qeGjQEBqlWz88fRlfZgcsJkEr6lnxjS56JMP1Qj9
-	V0wJxjockyWW7u1NJP0ETTq+4SLyMX755yTpqtrbGEf9Cz7QkVFBw8Fj
-X-Gm-Gg: Acq92OECUN3PjPcbnDTNMhCzGlQDdzz2xNCebDSbTNUFg4TUK98MvtVh59tLd5te/SU
-	oBUofv3ZXmYEQBnvrJwT2ImkpSmJyIi9YV07fdQXDKQfyFp+hDGjl/uPfC0274F5wO8rDw/ZORg
-	rlC63vGhBdW3BdLq7PHcdvse15A68WObAAbOZ9UEndi6ytPRRVf4V82RQQevlK0sSDhWSl3lVzW
-	czsDSUw8noklqXBNG1oxJwe6hbeIeEbA2Kv1levrKTvRhM0q4su6gj/buMxdSMYtQDhA+XTuJRg
-	eYLMNFClDY8KbPbmYLFZc8p50CfK0QiMdj2m+S/a2xnvExOCQQwC/lXwS8EIiXcm1VDBUgo1HOn
-	Zu8ncurEP2hO/HPF3O7ZsD+JdgaIoM+nfMzCuPAv8aKo0ica9qhStfrq5plOAYjXw7O6ETBXn6u
-	sb6ggdhIoALJ9l2AKqyoE2vR8ZQ6OngyoGM+uyMIyJV7NjXnSdnAKMfq52QcCX44fCCt9vU/eGb
-	aaPxV9UWn4I/QEsh6IxNNfaqbOBGw==
-X-Received: by 2002:a05:6102:f93:b0:643:80f1:33d8 with SMTP id ada2fe7eead31-67c7151da74mr12681855137.4.1779897254302;
-        Wed, 27 May 2026 08:54:14 -0700 (PDT)
-Received: from localhost.localdomain (smtp.hostdime.com.br. [187.45.177.18])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-67fd8850d17sm17403158137.1.2026.05.27.08.54.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 08:54:12 -0700 (PDT)
-From: Daniel Pereira <danielmaraboo@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH] docs: pt_BR: add translation for kernel development process guides
-Date: Wed, 27 May 2026 12:53:44 -0300
-Message-ID: <20260527155350.202569-1-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1gEPvDa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C87981F000E9;
+	Wed, 27 May 2026 16:28:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779899332;
+	bh=PNpYzInmKsvKeoIGvFdlPsMH8iJ4KB96xES+eyOmuy8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Y1gEPvDaPsgxSqj07YccbrM3D7EQ9pb9VD8l7tTtDMhRM5H4pI/TE10CqQVYtAR9K
+	 Aiqsz779DFlSCyFOm6VXkZX/aLqddqK0jnSt5HrTVg42v3+Hm2zcnx9eFWLVqH9hw5
+	 tHhrCLAoau6+NNFMERiAGRMQ7XdKXdqaIqV1S3bXbAoaRDuFInsPAVVltq1U6/RP/z
+	 kPBvb4A735+t7INyUzwvNqs1Ce0wPKZggjWRuROF4ifjgh/VcW1zAZFUK0YmoLswYV
+	 MgsZGRWqOB0d5pTq1FS2N6l9UqH1ovOPljofL1u6ut4A/yokL+ccld7JsHEGoQEQ3L
+	 ecNhuNu2CP3TQ==
+Date: Wed, 27 May 2026 09:28:50 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Zhu Yikai <zhuyikai1@h-partners.com>, <netdev@vger.kernel.org>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>, Mohsin
+ Bashir <mohsin.bashr@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
+ <guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
+ <wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>, Zheng Jiezhen
+ <zhengjiezhen@h-partners.com>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v06 3/6] hinic3: Add ethtool coalesce ops
+Message-ID: <20260527092850.0c30c375@kernel.org>
+In-Reply-To: <4bead457b595de335c10878bc09af9b86cea65d0.1779867397.git.zhuyikai1@h-partners.com>
+References: <cover.1779867397.git.zhuyikai1@h-partners.com>
+	<4bead457b595de335c10878bc09af9b86cea65d0.1779867397.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add the Brazilian Portuguese (pt_BR) translation for the
-'development-process.rst' and '2.process.rst' files under
-the 'process/' directory.
+On Wed, 27 May 2026 15:55:58 +0800 Fan Gong wrote:
+>   Implement following ethtool callback function:
+> .get_coalesce
+> .set_coalesce
+> 
+>   These callbacks allow users to utilize ethtool for detailed
+> RX coalesce configuration and monitoring.
+> 
+> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
 
-The main 'index.rst' file is also updated to include references
-to the newly translated documents in the toctree.
+The NIPA CI coccicheck test is failing on the hinic3 ethtool series
+(coalesce ops and/or rss ops patches).  Four new Coccinelle warnings
+were introduced in drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c:
 
-Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
----
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../translations/pt_BR/process/2.Process.rst  | 520 ++++++++++++++++++
- .../pt_BR/process/development-process.rst     |  21 +
- 3 files changed, 542 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/2.Process.rst
- create mode 100644 Documentation/translations/pt_BR/process/development-process.rst
+  hinic3_ethtool.c:1021:11-45: WARNING avoid newline at end of message in NL_SET_ERR_MSG_FMT_MOD
+  hinic3_ethtool.c:1055:12-37: WARNING avoid newline at end of message in NL_SET_ERR_MSG_FMT_MOD
+  hinic3_ethtool.c:1078:11-62: WARNING avoid newline at end of message in NL_SET_ERR_MSG_FMT_MOD
+  hinic3_ethtool.c:1215:29-58: WARNING avoid newline at end of message in NL_SET_ERR_MSG_MOD
 
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 76936710b..7a488f662 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -67,6 +67,7 @@ kernel e sobre como ver seu trabalho integrado.
-    :maxdepth: 1
- 
-    Introdução <process/1.Intro>
-+   Guia do Processo de Desenvolvimento <process/development-process>
-    Index de documentos do Kernel <process/kernel-docs>
-    Regras de licenciamento <process/license-rules>
-    Como começar <process/howto>
-diff --git a/Documentation/translations/pt_BR/process/2.Process.rst b/Documentation/translations/pt_BR/process/2.Process.rst
-new file mode 100644
-index 000000000..5ff35f10a
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/2.Process.rst
-@@ -0,0 +1,520 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Como funciona o processo de desenvolvimento
-+===========================================
-+
-+O desenvolvimento do kernel Linux no início dos anos 1990 era uma
-+atividade bastante informal, envolvendo um número relativamente pequeno de
-+usuários e desenvolvedores. Com uma base de usuários atualmente na casa
-+dos milhões e com cerca de 2.000 desenvolvedores envolvidos ao longo de
-+um ano, o kernel desde então teve que evoluir uma série de processos
-+para manter o desenvolvimento acontecendo de forma fluida. Uma
-+compreensão sólida de como o processo funciona é necessária para ser uma
-+parte eficaz dele.
-+
-+A Visão Geral
-+-------------
-+
-+O kernel Linux usa um modelo de desenvolvimento de lançamento contínuo
-+(*rolling release*), vagamente baseado em tempo. Um novo lançamento de
-+versão principal do kernel (que chamaremos, como exemplo, de 9.x) [1]_
-+ocorre a cada dois ou três meses, trazendo novos recursos, alterações em
-+APIs internas e muito mais. Um lançamento típico pode conter cerca de
-+13.000 conjuntos de alterações (*changesets*) com modificações em várias
-+centenas de milhares de linhas de código. Lançamentos recentes,
-+juntamente com suas datas, podem ser encontrados na `Wikipedia
-+<https://en.wikipedia.org/wiki/Linux_kernel_version_history>`_.
-+
-+.. [1] Rigorosamente falando, o kernel Linux não utiliza o esquema de
-+       numeração de versionamento semântico, mas, em vez disso, o par
-+       9.x identifica a versão de lançamento principal como um número
-+       inteiro. Para cada lançamento, x é incrementado, mas o 9 é
-+       incrementado apenas se x for considerado grande o suficiente
-+       (por exemplo, o Linux 5.0 foi lançado após o Linux 4.20).
-+
-+O processo de integração (*merging*) de patches segue um fluxo simples a
-+cada lançamento. No início de cada ciclo de desenvolvimento, abre-se a
-+**"janela de integração" (*merge window*)**. Durante esse período, todo
-+código considerado estável e aprovado pela comunidade é unificado ao
-+kernel principal (*mainline*). A maior parte das novidades  e todas as
-+grandes mudanças estruturais — entra obrigatoriamente nessa fase, em um
-+ritmo frenético que chega a **1.000 patches (ou conjuntos de alterações)
-+por dia**.
-+
-+(Como observação secundária, vale destacar que as mudanças integradas durante
-+a janela de integração não surgem do nada; elas foram coletadas, testadas e
-+organizadas com antecedência. Como esse processo funciona será descrito em
-+detalhes mais adiante).
-+
-+A janela de integração dura aproximadamente duas semanas. Ao final desse
-+período, Linus Torvalds declarará que a janela está fechada e lançará o
-+primeiro dos kernels "rc". Para o kernel que está destinado a ser o 9.x,
-+por exemplo, o lançamento que ocorre ao final da janela de integração será
-+chamado de 9.x-rc1. O lançamento -rc1 é o sinal de que o prazo para integrar
-+novos recursos terminou e que o período para estabilizar o próximo kernel
-+começou.
-+
-+Ao longo das próximas seis a dez semanas, apenas patches que corrijam
-+problemas devem ser submetidos ao kernel principal. Ocasionalmente, uma
-+mudança mais significativa será permitida, mas esses casos são raros;
-+desenvolvedores que tentam integrar novos recursos fora da janela de
-+integração costumam receber uma recepção pouco amigável. Como regra geral,
-+se você perder a janela de integração para um determinado recurso, o melhor
-+a fazer é esperar pelo próximo ciclo de desenvolvimento. (Abre-se uma
-+exceção ocasional para drivers de hardware que antes não eram suportados;
-+se eles não modificarem nenhum código já existente na árvore, não podem
-+causar regressões e deve ser seguro adicioná-los a qualquer momento).
-+
-+À medida que as correções são integradas ao kernel principal, o ritmo de
-+envio de patches diminui com o tempo. Linus lança novos kernels -rc cerca
-+de uma vez por semana; uma série normal chega a algo entre -rc6 e -rc9 antes
-+que o kernel seja considerado suficientemente estável e o lançamento final
-+seja realizado. Nesse ponto, todo o processo recomeça.
-+
-+Como exemplo, veja como ocorreu o ciclo de desenvolvimento da versão 5.4
-+(todas as datas são de 2019):
-+
-+	==============  ===============================
-+	Setembro 15	5.3 Lançamento estável do 5.3
-+	Setembro 30	5.4-rc1, fechamento da janela de integração
-+	Outubro 6	5.4-rc2
-+	Outubro 13	5.4-rc3
-+	Outubro 20	5.4-rc4
-+	October 27	5.4-rc5
-+	Novembro 3	5.4-rc6
-+	Novembro 10	5.4-rc7
-+	Novembro 17	5.4-rc8
-+	Novembro 24	5.4 Lançamento estável do 5.4
-+	==============  ===============================
-+
-+Como os desenvolvedores decidem quando encerrar o ciclo de desenvolvimento
-+e criar o lançamento estável? A métrica mais significativa utilizada é a
-+lista de regressões de lançamentos anteriores. Nenhum bug é bem-vindo, mas
-+aqueles que quebram sistemas que funcionavam no passado são considerados
-+especialmente graves. Por esta razão, patches que causam regressões são
-+vistos de forma desfavorável e têm grande probabilidade de serem revertidos
-+durante o período de estabilização.
-+
-+O objetivo dos desenvolvedores é corrigir todas as regressões conhecidas
-+antes que o lançamento estável seja feito. No mundo real, esse tipo de
-+perfeição é difícil de alcançar; há simplesmente variáveis demais em um
-+projeto deste tamanho. Chega um ponto em que adiar o lançamento final apenas
-+torna o problema pior; o volume de mudanças esperando pela próxima janela de
-+integração crescerá ainda mais, criando ainda mais regressões no ciclo
-+seguinte. Portanto, a maioria dos kernels é lançada com um pequeno número de
-+regressões conhecidas, embora, felizmente, nenhuma delas seja grave.
-+
-+Assim que um lançamento estável é feito, sua manutenção contínua é passada
-+para a "equipe estável" (*stable team*), atualmente composta por Greg
-+Kroah-Hartman e Sasha Levin. A equipe estável lançará atualizações ocasionais
-+para a versão estável utilizando o esquema de numeração 9.x.y.
-+
-+Para ser considerado para um lançamento de atualização, um patch deve (1)
-+corrigir um bug significativo e (2) já estar integrado ao kernel principal
-+(*mainline*) para o próximo kernel de desenvolvimento. Os kernels normalmente
-+receberão atualizações estáveis por um pouco mais de um ciclo de
-+desenvolvimento após o seu lançamento inicial. Assim, por exemplo, o histórico
-+do kernel 5.2 ocorreu da seguinte forma (todas as datas são de 2019):
-+
-+  ==============  ===============================
-+  7 de Julho      Lançamento estável do 5.2
-+  14 de Julho     5.2.1
-+  21 de Julho     5.2.2
-+  26 de Julho     5.2.3
-+  28 de Julho     5.2.4
-+  31 de Julho     5.2.5
-+  ...             ...
-+  11 de Outubro   5.2.21
-+  ==============  ===============================
-+
-+A versão 5.2.21 foi a última atualização estável do lançamento 5.2.
-+
-+Alguns kernels são designados como kernels de "longo prazo" (*long term*);
-+eles receberão suporte por um período mais longo. Por favor, consulte o
-+seguinte link para obter a lista de versões ativas do kernel de longo prazo
-+e seus respectivos mantenedores:
-+
-+	https://www.kernel.org/category/releases.html
-+
-+A seleção de um kernel para suporte de longo prazo é puramente uma questão
-+de um mantenedor ter a necessidade e o tempo para manter esse lançamento.
-+Não há planos conhecidos para suporte de longo prazo para nenhum lançamento
-+futuro específico.
-+
-+
-+O Ciclo de Vida de um Patch
-+---------------------------
-+
-+Os patches não vão diretamente do teclado do desenvolvedor para o kernel
-+principal. Em vez disso, existe um processo um tanto complexo (embora um
-+tanto informal) projetado para garantir que cada patch seja revisado quanto
-+à sua qualidade e que cada patch implemente uma mudança que seja desejável
-+ter no mainline. Esse processo pode acontecer rapidamente para correções
-+menores ou, no caso de mudanças grandes e controversas, arrastar-se por
-+anos. Grande parte da frustração dos desenvolvedores vem da falta de
-+compreensão desse processo ou de tentativas de burlá-lo.
-+
-+Com a esperança de reduzir essa frustração, este documento descreverá como
-+um patch entra no kernel. O que se segue abaixo é uma introdução que
-+descreve o processo de uma forma um tanto idealizada. Um tratamento muito
-+mais detalhado virá nas seções posteriores.
-+
-+As etapas pelas quais um patch passa são, geralmente:
-+
-+ - Design. É aqui que os requisitos reais para o patch e a forma
-+   como esses requisitos serão atendidos são definidos. O trabalho de
-+   design geralmente é feito sem envolver a comunidade, mas é melhor realizar
-+   esse trabalho abertamente, se possível; isso pode economizar muito tempo
-+   evitando ter que refazer o projeto mais tarde.
-+
-+ - Revisão inicial. Os patches são postados na lista de
-+   discussão relevante, e os desenvolvedores dessa lista respondem com os
-+   comentários que tiverem. Se tudo correr bem, esse processo deve apontar
-+   qualquer problema grave no patch.
-+
-+ - Revisão ampla. Quando o patch estiver próximo de estar
-+   pronto para inclusão no mainline, ele deve ser aceito por um mantenedor de
-+   subsistema relevante — embora essa aceitação não seja uma garantia de que
-+   o patch chegará até o kernel principal. O patch aparecerá na árvore de
-+   subsistema do mantenedor e nas árvores -next. Quando o processo funciona,
-+   esta etapa leva a uma revisão mais ampla do patch e à descoberta de
-+   quaisquer problemas resultantes da integração deste patch com o trabalho
-+   que está sendo feito por outros.
-+
-+ - Por favor, note que a maioria dos mantenedores também tem seus empregos
-+   regulares, portanto, integrar o seu patch pode não ser a maior prioridade
-+   deles. Se o seu patch estiver recebendo feedback sobre alterações que são
-+   necessárias, você deve fazer essas alterações ou justificar por que elas
-+   não devem ser feitas. Se o seu patch não tiver nenhuma objeção de revisão,
-+   mas não estiver sendo integrado pelo mantenedor do subsistema ou driver
-+   adequado, você deve ser persistente em atualizar o patch para o kernel
-+   atual (garantindo que ele seja aplicado de forma limpa) e continuar
-+   enviando-o para revisão e integração.
-+
-+ - Integração no mainline. Eventualmente, um
-+   patch bem-sucedido será integrado ao repositório principal (*mainline*)
-+   gerenciado por Linus Torvalds. Mais comentários e/ou problemas podem surgir
-+   neste momento; é importante que o desenvolvedor seja responsivo a eles e
-+   corrija quaisquer problemas que venham a aparecer.
-+
-+ - Lançamento estável. O número de usuários potencialmente
-+   afetados pelo patch agora é grande, portanto, mais uma vez, novos
-+   problemas podem surgir.
-+
-+ - Manutenção de longo prazo. Embora seja perfeitamente
-+   possível para um desenvolvedor esquecer o código após integrá-lo, esse
-+   tipo de comportamento tende a deixar uma má impressão na comunidade de
-+   desenvolvimento. Integrar o código elimina parte do fardo de manutenção,
-+   já que outros corrigirão problemas causados por mudanças de API. No entanto,
-+   o desenvolvedor original deve continuar assumindo a responsabilidade pelo
-+   código se ele quiser que este permaneça útil no longo prazo.
-+
-+Um dos maiores erros cometidos por desenvolvedores do kernel (ou por seus
-+empregadores) é tentar reduzir todo o processo a uma única etapa de
-+"integração no mainline". Essa abordagem invariavelmente leva à frustração
-+de todos os envolvidos.
-+
-+Como os patches entram no Kernel
-+--------------------------------
-+
-+Existe exatamente uma pessoa que pode integrar patches no repositório do
-+kernel principal: Linus Torvalds. Mas, por exemplo, dos mais de 9.500 patches
-+que entraram no kernel 2.6.38, apenas 112 (cerca de 1,3%) foram escolhidos
-+diretamente pelo próprio Linus. O projeto do kernel há muito tempo cresceu
-+para um tamanho onde nenhum desenvolvedor sozinho conseguiria inspecionar e
-+selecionar cada patch sem ajuda. A maneira como os desenvolvedores do kernel
-+lidaram com esse crescimento foi através do uso de um sistema de "tenentes"
-+(*lieutenant system*) construído em torno de uma cadeia de confiança.
-+
-+A base de código do kernel é logicamente dividida em um conjunto de
-+subsistemas: rede, suporte a arquiteturas específicas,
-+gerenciamento de memória, dispositivos de vídeo, etc. A maioria dos
-+subsistemas possui um mantenedor designado, um desenvolvedor que tem a
-+responsabilidade geral pelo código dentro daquele subsistema. Esses
-+mantenedores de subsistemas são os guardiões (de forma flexível)
-+da parte do kernel que gerenciam; são eles que (geralmente) aceitarão um
-+patch para inclusão no kernel principal.
-+
-+Cada um dos mantenedores de subsistemas gerencia sua própria versão da árvore
-+de fontes do kernel, geralmente (mas certamente nem sempre) usando a
-+ferramenta de gerenciamento de código-fonte Git. Ferramentas como o Git
-+(e ferramentas relacionadas como o quilt ou mercurial) permitem que os
-+mantenedores acompanhem uma lista de patches, incluindo informações de
-+autoria e outros metadados. A qualquer momento, o mantenedor pode identificar
-+quais patches em seu repositório não são encontrados no mainline.
-+
-+Quando a janela de integração se abre, os mantenedores de
-+alto nível pedirão a Linus para realizar o pull de seus repositórios os patches
-+que selecionaram para integração. Se Linus concordar, o fluxo de patches
-+subirá para o seu repositório, tornando-se parte do kernel principal. A
-+quantidade de atenção que Linus dedica a patches específicos
-+recebidos em uma operação de pull varia. Está claro que, às vezes, ele os
-+examina bem de perto. Mas, como regra geral, Linus confia que os mantenedores
-+de subsistemas não enviarão patches ruins para o upstream.
-+
-+Os mantenedores de subsistemas, por sua vez, podem realizar o pull dos patches
-+de outros mantenedores. Por exemplo, a árvore de rede é
-+construída a partir de patches que se acumularam primeiro em árvores dedicadas
-+a drivers de dispositivos de rede, rede sem fio, etc. Essa cadeia
-+de repositórios pode ser arbitrariamente longa, embora raramente exceda dois
-+ou três elos. Como cada mantenedor na cadeia confia naqueles que gerenciam as
-+árvores de nível inferior, esse processo é conhecido como a "cadeia de
-+confiança".
-+
-+Claramente, em um sistema como este, colocar patches no kernel depende de
-+encontrar o mantenedor correto. Enviar patches diretamente para Linus
-+normalmente não é o caminho certo a seguir.
-+
-+
-+Árvore -next
-+-------------
-+
-+A cadeia de árvores de subsistemas orienta o fluxo de patches para o kernel,
-+mas também levanta uma questão interessante: e se alguém quiser dar uma
-+olhada em todos os patches que estão sendo preparados para a próxima janela
-+de integração? Os desenvolvedores estarão interessados em saber quais outras
-+mudanças estão pendentes para ver se há conflitos com os quais se preocupar; um
-+patch que altera o protótipo de uma função central do kernel, por exemplo,
-+entrará em conflito com quaisquer outros patches que usem a forma mais antiga
-+dessa função. Revisores e testadores querem ter acesso às mudanças em sua forma
-+integrada antes que todas essas alterações cheguem ao kernel principal. Seria
-+possível realizar o pull das mudanças de todas as árvores de subsistemas
-+interessantes, mas isso seria um trabalho enorme e propenso a erros.
-+
-+A resposta vem na forma das árvores -next, onde as árvores de subsistemas
-+são coletadas para testes e revisão. A mais antiga dessas árvores, mantida
-+por Andrew Morton, é chamada de "-mm" (de *memory management*, gerenciamento
-+de memória, que foi como ela começou). A árvore -mm integra patches de uma
-+longa lista de árvores de subsistemas; ela também possui alguns patches
-+destinados a ajudar na depuração (*debugging*).
-+
-+Além disso, a árvore -mm contém uma coleção significativa de patches que
-+foram selecionados diretamente por Andrew. Esses patches podem ter sido
-+postados em uma lista de discussão ou podem se aplicar a uma parte do kernel
-+para a qual não existe uma árvore de subsistema designada. Como resultado, a
-+-mm opera como uma espécie de árvore de subsistema de "último recurso"; se
-+não houver outro caminho óbvio para um patch entrar no mainline, é provável
-+que ele acabe na -mm. Patches diversos que se acumulam na
-+-mm eventualmente serão encaminhados para uma árvore de subsistema adequada
-+ou enviados diretamente para Linus. Em um ciclo de desenvolvimento típico,
-+aproximadamente 5% a 10% do total de patches que entram no mainline chegam
-+lá por meio da -mm.
-+
-+O patch -mm atual está disponível no diretório "mmotm" (*-mm of the moment*)
-+em:
-+
-+	https://www.ozlabs.org/~akpm/mmotm/
-+
-+O uso da árvore MMOTM, no entanto, provavelmente será uma experiência
-+frustrante; existe uma chance real de que ela sequer compile.
-+
-+A árvore primária para a integração de patches do próximo ciclo é a
-+linux-next, mantida por Mark Brown. A árvore linux-next é, por design, um
-+snapshot do que se espera que o mainline se pareça após o
-+fechamento da próxima janela de integração. As árvores
-+linux-next são anunciadas nas listas de discussão linux-kernel e linux-next
-+quando são montadas; elas podem ser baixadas em:
-+
-+	https://www.kernel.org/pub/linux/kernel/next/
-+
-+A linux-next tornou-se uma parte integrante do processo de desenvolvimento
-+do kernel; todos os patches integrados durante uma determinada janela de
-+integração devem, idealmente, ter encontrado seu caminho para a linux-next algum
-+tempo antes da abertura da janela de integração.
-+
-+
-+Árvores de laboratório
-+----------------------
-+
-+A árvore de fontes do kernel contém o diretório drivers/staging/, onde residem
-+muitos subdiretórios para drivers ou sistemas de arquivos que estão a caminho
-+de serem adicionados à árvore do kernel. Eles permanecem em drivers/staging/
-+enquanto ainda precisam de mais trabalho; uma vez concluídos, podem ser movidos
-+para o kernel proper Esta é uma maneira de acompanhar drivers que não estão à
-+altura dos padrões de codificação ou de qualidade do kernel Linux, mas que as
-+pessoas podem querer usar e acompanhar o desenvolvimento.
-+
-+Greg Kroah-Hartman atualmente mantém a árvore de staging. Os drivers que
-+ainda precisam de trabalho são enviados a ele, com cada driver tendo seu
-+próprio subdiretório em drivers/staging/. Junto com os arquivos de código-fonte
-+do driver, um arquivo TODO também deve estar presente no diretório. O arquivo
-+TODO lista o trabalho pendente que o driver precisa para ser aceito no kernel
-+propriamente dito, bem como uma lista de pessoas que devem receber cópia
-+(*Cc'd*) em quaisquer patches para o driver. As regras atuais exigem que os
-+drivers contribuídos para o staging devem, no mínimo, compilar corretamente.
-+
-+O staging pode ser uma maneira relativamente fácil de colocar novos drivers
-+no mainline onde, com sorte, eles chamarão a atenção de outros desenvolvedores
-+e melhorarão rapidamente. No entanto, a entrada no staging não é o fim da
-+história; o código no staging que não apresentar progresso regular será,
-+eventualmente, removido. Os distribuidores também tendem a ser relativamente
-+relutantes em habilitar drivers do staging. Portanto, o staging é, na melhor
-+das hipóteses, uma parada no caminho para se tornar um driver mainline adequado.
-+
-+
-+Ferramentas
-+-----------
-+
-+Como pode ser visto no texto acima, o processo de desenvolvimento do kernel
-+depende fortemente da capacidade de guiar coleções de patches em várias
-+direções. Todo esse sistema não funcionaria nem de longe tão bem quanto
-+funciona sem ferramentas adequadamente poderosas. Tutoriais sobre como usar
-+essas ferramentas estão muito além do escopo deste documento, mas há espaço
-+para algumas indicações.
-+
-+De longe, o sistema de gerenciamento de código-fonte dominante usado pela
-+comunidade do kernel é o Git. O Git é um entre vários sistemas de controle
-+de versão distribuídos desenvolvidos na comunidade de software livre. Ele é
-+bem sintonizado para o desenvolvimento do kernel, uma vez que apresenta um
-+excelente desempenho ao lidar com grandes repositórios e grandes volumes de
-+patches. Ele também tem a reputação de ser difícil de aprender e usar, embora
-+tenha melhorado ao longo do tempo. Algum tipo de familiaridade com o Git é
-+quase um requisito para os desenvolvedores do kernel; mesmo que não o usem
-+em seu próprio trabalho, eles precisarão do Git para acompanhar o que outros
-+desenvolvedores (e o mainline) estão fazendo.
-+
-+O Git agora é empacotado por quase todas as distribuições Linux. Existe uma
-+página inicial em:
-+
-+	https://git-scm.com/
-+
-+Essa página possui indicações para documentações e tutoriais.
-+
-+Entre os desenvolvedores do kernel que não usam o Git, a escolha mais popular
-+é, quase certamente, o Mercurial:
-+
-+	https://www.selenic.com/mercurial/
-+
-+O Mercurial compartilha muitos recursos com o Git, mas oferece uma interface
-+que muitos consideram mais fácil de usar.
-+
-+A outra ferramenta que vale a pena conhecer é o Quilt:
-+
-+	https://savannah.nongnu.org/projects/quilt/
-+
-+O Quilt é um sistema de gerenciamento de patches, em vez de um sistema de
-+gerenciamento de código-fonte. Ele não rastreia o histórico ao longo do
-+tempo; em vez disso, ele é orientado a rastrear um conjunto específico de
-+alterações em relação a uma base de código em evolução. Alguns mantenedores
-+de grandes subsistemas usam o Quilt para gerenciar patches destinados a ir
-+para o upstream. Para o gerenciamento de certos tipos de árvores (-mm, por
-+exemplo), o Quilt é a melhor ferramenta para o trabalho.
-+
-+
-+Listas de discussão
-+-------------------
-+
-+Uma grande parte do trabalho de desenvolvimento do kernel Linux é realizada por
-+meio de listas de discussão. É difícil ser um membro plenamente ativo da
-+comunidade sem se inscrever em pelo menos uma lista em algum lugar. No entanto,
-+as listas de discussão do Linux também representam um risco potencial para os
-+desenvolvedores, que correm o risco de serem soterrados por uma avalanche de
-+e-mails, de violar as convenções utilizadas nas listas do Linux, ou ambos.
-+
-+A maioria das listas de discussão do kernel é hospedada no kernel.org; a
-+lista mestre pode ser encontrada em:
-+
-+	https://subspace.kernel.org
-+
-+Existem listas hospedadas em outros locais; por favor, verifique o arquivo
-+MAINTAINERS para encontrar a lista relevante para qualquer subsistema específico.
-+
-+A lista de discussão central para o desenvolvimento do kernel é, naturalmente,
-+a linux-kernel. Esta lista é um lugar intimidador para se estar; o volume pode
-+atingir 500 mensagens por dia, a quantidade de ruído é alta, a conversa pode
-+ser severamente técnica e os participantes nem sempre estão preocupados em
-+demonstrar um alto grau de polidez. No entanto, não há outro lugar onde a
-+comunidade de desenvolvimento do kernel se reúna como um todo; desenvolvedores
-+que evitam esta lista perderão informações importantes.
-+
-+Existem algumas dicas que podem ajudar na sobrevivência na lista linux-kernel:
-+
-+- Faça com que a lista seja entregue em uma pasta separada, em vez de na sua
-+  caixa de entrada principal. É preciso ser capaz de ignorar o fluxo de e-mails
-+  por períodos prolongados de tempo.
-+
-+- Não tente acompanhar cada conversa ninguém mais faz isso. É importante
-+  filtrar tanto pelo tópico de interesse (embora note que conversas longas
-+  podem se desviar do assunto original sem que a linha de assunto do e-mail
-+  seja alterada) quanto pelas pessoas que estão participando.
-+
-+- Não alimente os trolls. Se alguém estiver tentando provocar uma resposta
-+  irada, ignore-o.
-+
-+- Ao responder a um e-mail da lista linux-kernel (o mesmo valendo para outras
-+  listas), preserve o cabeçalho Cc: para todos os envolvidos. Na ausência de um
-+  motivo forte (como uma solicitação explícita), você nunca deve remover
-+  destinatários. Sempre certifique-se de que a pessoa a quem você está
-+  respondendo esteja na lista de Cc:. Essa convenção também torna desnecessário
-+  solicitar explicitamente ser copiado em respostas às suas postagens.
-+
-+- Pesquise nos arquivos da lista (e na internet como um todo) antes de fazer
-+  perguntas. Alguns desenvolvedores podem ficar impacientes com pessoas que
-+  claramente não fizeram sua lição de casa.
-+
-+- Use respostas intercaladas, o que torna sua resposta mais fácil
-+  de ler. (ou seja, evite o "top-posting" — a prática de colocar sua resposta
-+  acima do texto citado ao qual você está respondendo). Para mais detalhes, veja
-+  :ref:`Documentation/process/submitting-patches.rst <interleaved_replies>`.
-+
-+- Pergunte na lista de discussão correta. A lista linux-kernel pode até ser o
-+  ponto de encontro geral, mas não é o melhor lugar para encontrar desenvolvedores
-+  de todos os subsistemas.
-+
-+O último ponto, encontrar a lista de discussão correta  é um lugar comum
-+onde os desenvolvedores iniciantes costumam errar. Alguém que faça uma pergunta
-+relacionada a redes na lista linux-kernel quase certamente receberá uma
-+sugestão educada para perguntar na lista netdev em seu lugar, já que essa é a
-+lista frequentada pela maioria dos desenvolvedores de redes. Existem outras
-+listas para os subsistemas SCSI, video4linux, IDE, filesystem (sistemas de
-+arquivos), etc. O melhor lugar para procurar por listas de discussão é no
-+arquivo MAINTAINERS empacotado junto com o código-fonte do kernel.
-+
-+
-+Começando com o desenvolvimento do kernel
-+-----------------------------------------
-+
-+Perguntas sobre como começar com o processo de desenvolvimento do kernel são
-+comuns — tanto por parte de indivíduos quanto de empresas. Igualmente comuns
-+são os passos em falso que tornam o início do relacionamento mais difícil do
-+que precisa ser.
-+
-+As empresas frequentemente buscam contratar desenvolvedores bem conhecidos para
-+dar o pontapé inicial em um grupo de desenvolvimento. Esta pode, de fato, ser
-+uma técnica eficaz. No entanto, ela também tende a ser cara e não faz muito para
-+expandir o grupo de desenvolvedores de kernel experientes. É possível capacitar
-+desenvolvedores internos no desenvolvimento do kernel Linux, desde que haja o
-+investimento de um pouco de tempo. Dedicar esse tempo pode dotar um empregador
-+de um grupo de desenvolvedores que entendem tanto o kernel quanto a própria
-+empresa, e que também podem ajudar a treinar outros. A médio prazo, esta é
-+frequentemente a abordagem mais lucrativa.
-+
-+Desenvolvedores individuais frequentemente, e de forma compreensível, ficam sem
-+saber por onde começar. Iniciar com um grande projeto pode ser intimidante;
-+muitas vezes deseja-se testar o terreno com algo menor primeiro. Este é o ponto
-+onde alguns desenvolvedores saltam para a criação de patches que corrigem erros
-+de ortografia ou pequenos problemas de estilo de código. Infelizmente, tais
-+patches criam um nível de ruído que distrai a comunidade de desenvolvimento
-+como um todo, por isso, cada vez mais, eles são vistos com desdém. Novos
-+desenvolvedores que desejam se apresentar à comunidade não receberão o tipo de
-+recepção que desejam por esses meios.
-+
-+Andrew Morton dá este conselho para aspirantes a desenvolvedores do kernel:
-+
-+::
-+
-+  "O projeto número um para todos os iniciantes no kernel certamente deveria
-+  ser 'certificar-se de que o kernel funcione perfeitamente o tempo todo em
-+  todas as máquinas em que você conseguir colocar as mãos'. Normalmente, a
-+  maneira de fazer isso é trabalhar com outros para resolver as coisas (isso
-+  pode exigir persistência!), mas tudo bem — isso é parte do desenvolvimento
-+  do kernel."
-+
-+(https://lwn.net/Articles/283982/).
-+
-+Na ausência de problemas óbvios para corrigir, os desenvolvedores são
-+aconselhados a olhar para as listas atuais de regressões e bugs abertos em
-+geral. Nunca há escassez de problemas que precisam de correção; ao abordar
-+esses problemas, os desenvolvedores ganharão experiência com o processo
-+enquanto, ao mesmo tempo, constroem respeito com o restante da comunidade de
-+desenvolvimento.
-diff --git a/Documentation/translations/pt_BR/process/development-process.rst b/Documentation/translations/pt_BR/process/development-process.rst
-new file mode 100644
-index 000000000..737fdcdff
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/development-process.rst
-@@ -0,0 +1,21 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Guia para o Processo de Desenvolvimento do Kernel
-+=================================================
-+
-+O objetivo deste documento é ajudar desenvolvedores (e seus gerentes)
-+a trabalhar com a comunidade de desenvolvimento com o mínimo de frustração.
-+É uma tentativa de documentar como esta comunidade funciona de uma forma
-+que seja acessível àqueles que não estão intimamente familiarizados com o
-+desenvolvimento do kernel Linux (ou, de fato, com o desenvolvimento de
-+software livre em geral). Embora haja algum material técnico aqui, esta
-+é fundamentalmente uma discussão orientada ao processo, que não requer um
-+conhecimento profundo de programação de kernel para ser compreendida.
-+
-+.. toctree::
-+   :caption: Contents
-+   :numbered:
-+   :maxdepth: 2
-+
-+   1.Intro
-+   2.Process
--- 
-2.47.3
+The NL_SET_ERR_MSG_MOD() and NL_SET_ERR_MSG_FMT_MOD() macros must not
+be given a message string that ends with '\n'.  The netlink error-message
+infrastructure handles message termination itself; a trailing newline
+results in malformed extack messages visible to user space.
 
+Please remove the trailing '\n' from all four call sites, e.g.:
+
+  - NL_SET_ERR_MSG_FMT_MOD(extack, "some message\n");
+  + NL_SET_ERR_MSG_FMT_MOD(extack, "some message");
+
+The same rule applies to NL_SET_ERR_MSG_MOD() and the other
+NL_SET_ERR_MSG* family of macros throughout the driver.
