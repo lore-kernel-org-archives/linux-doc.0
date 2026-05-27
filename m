@@ -1,109 +1,88 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356613CD8BD
-	for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 07:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9343C8700
+	for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 07:54:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779868428; cv=none; b=MLbPnstF69AEqmtXVY+OjVb7tUZRBkrRVmffXETOM/Za3dPvVpodKHeTvC2g5nSbLvIM8wk6BtiYr0dO+a9pxamqnCevFgcmHYgeInvYZVKkgjzKLnLLZmaidQnBV3tg4ptuA/aFyd1BReQkuMjdkoNFwVJl/VB6A2o6RDMJOnA=
+	t=1779868473; cv=none; b=phy9SloERfFsT7sFU01hWlzjPUzOvTNoA5w1tPXeRPX3aQOPaGizghBQWHuWbi/szLr+LSR9uG4U+QJdUA8QNlp8qqpaOZbDoKgO4r276p/GWQLsbhYuEyuOlvZub5R6QxOIEqFF7rJe8cDN/ZTci218MKc/tjQUmq06U9Vssq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779868428; c=relaxed/simple;
-	bh=LFyioZCTW+ZiNuJCpdoWoxUyVV6b0Xecy4cKfm9Z1Oc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k9vVx+tqX+rLeFsndfn4kM97cmAxfil7kVCvfMMhmezKC+bZKrPEW0scS5NPrKATjbfeDqQge9nc8iBJrp7w9XGXK/7+a6Yma/m5E/WKv6lJEesXFyYpm8JnVhRavIkpFnUpPpfcbU9W+IuaRqkIqRPQo68xHkYZoDXLywL7DPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VYVEZxjo; arc=none smtp.client-ip=185.246.85.4
+	s=arc-20240116; t=1779868473; c=relaxed/simple;
+	bh=CCnbIBach2b7ZY6IjHTu31zdg4aqc0EOJLy/8+XgcvQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Zl+SjIuw689rEZUMy/mFEmMhCa2x8qLtTn9Hk5Ljx2+7Z7fleexTFPMtv683ja9zfdYKO68BO2C5uOWL5hIsZR7gA1UMYbl6EGW8gK8U8sjhT2zvgfLiNTa3Dhl2z/A1ynx00qIcDvmtpn1tVTB4CngQXR4eQbk68cNRH8eSQeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VPIWEIh0; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VYVEZxjo"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VPIWEIh0"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id A6EBE4E42D65;
-	Wed, 27 May 2026 07:53:45 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id C5A60C2C65F;
+	Wed, 27 May 2026 07:54:29 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 710AE601A1;
-	Wed, 27 May 2026 07:53:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AAD711088805F;
-	Wed, 27 May 2026 09:53:35 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 18C5D601A1;
+	Wed, 27 May 2026 07:54:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6E85710888942;
+	Wed, 27 May 2026 09:54:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1779868424; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=9YBx2gOkZzjwHTBHcOIgoEuKlLYiwrVY86yq/isaziY=;
-	b=VYVEZxjoHGTF9UHTe0v6QhbyMoScdi4783k3JqBrP8iYBgKPvg8oHXzy9gzxc+ijkZVr46
-	Mnh7v7TstFw4AC5dlbL7+vDH2Gp9EjJcADNPvBpXhETpjmmWUe1OL8xahWEQFaRfd2ZBha
-	eJH2m3thL8N/u94fC2W9KcyaA57hS1uskfmVk0s4tdToCV4ZQ+HXKIYlggvLX0vJkprTel
-	oCBFhBF0ebYabZmJgkfehp74Mx+NTaTMCGB9b/JFcNY3rszCYsvS1/isZd7fSGBo7AFqyd
-	699vnJYTjNDd29K9KuJlkk0o7+z94EcYIZqwOZTt8q2lrvjHyN3WNQoLZjENvQ==
-Message-ID: <7bd6c580-8c0c-4323-ad18-84b93c2b61c7@bootlin.com>
-Date: Wed, 27 May 2026 09:53:34 +0200
+	t=1779868469; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=CCnbIBach2b7ZY6IjHTu31zdg4aqc0EOJLy/8+XgcvQ=;
+	b=VPIWEIh0sjpPUqOYdaRpqxskqNu0SooOSXIFx4pGTi1qMovcRTMmaBerYwGL1G5fDkmvbg
+	TRZyPkVyg1wVotOa630qjGY4iI2yk2q8GrVOZQ5V5D0y35eo6o8LuJQTyr8DSuKmx0dkII
+	cju7pr+Fx3QoiY/0FaMT+lDED0ta7X7TO88h1kcqyLy1yUDbvEaofmOQiXDN8MkgcTgA2v
+	rL/FzzHn5KzjVlnOh49gyK6dNq5OzoL9Vlg8394N8GW7G8JLftajR4AGmbJ7Pu8QDBe01M
+	Qnmz51goUmQC2PIsnUPZXnjjGA0bOavyw4gTjnGh/fWPRmX+pvWNcLbU6IeXJQ==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Michael Walle <mwalle@kernel.org>,  Takahiro Kuwano
+ <takahiro.kuwano@infineon.com>,  Richard Weinberger <richard@nod.at>,
+  Vignesh Raghavendra <vigneshr@ti.com>,  Jonathan Corbet <corbet@lwn.net>,
+  Tudor Ambarus <tudor.ambarus@linaro.org>,  Shuah Khan
+ <skhan@linuxfoundation.org>,  Sean Anderson <sean.anderson@linux.dev>,
+  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,  Steam Lin
+ <STLin2@winbond.com>,  linux-mtd@lists.infradead.org,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  stable@kernel.org
+Subject: Re: [PATCH v6 00/28] mtd: spi-nor: Enhance software protection
+In-Reply-To: <2vxz8q964210.fsf@kernel.org> (Pratyush Yadav's message of "Tue,
+	26 May 2026 17:35:23 +0200")
+References: <20260526-winbond-v6-18-rc1-spi-nor-swp-v6-0-4092f1419f8f@bootlin.com>
+	<2vxz8q964210.fsf@kernel.org>
+User-Agent: mu4e 1.12.7; emacs 30.2
+Date: Wed, 27 May 2026 09:54:25 +0200
+Message-ID: <87h5ntl232.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 06/10] docs: net: refresh netdev feature guidance
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
- vladimir.oltean@nxp.com, willemb@google.com, sdf.kernel@gmail.com,
- ecree.xilinx@gmail.com, jesse.brandeburg@intel.com, linux-doc@vger.kernel.org
-References: <20260526160151.2793354-1-kuba@kernel.org>
- <20260526160151.2793354-7-kuba@kernel.org>
- <422219d6-8377-423c-8ccd-641b2fccaa1a@bootlin.com>
- <20260526153532.7979b43c@kernel.org>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <20260526153532.7979b43c@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Jakub
 
-On 5/27/26 00:35, Jakub Kicinski wrote:
-> On Tue, 26 May 2026 20:41:10 +0200 Maxime Chevallier wrote:
->>>    
->>>     1. netdev->hw_features set contains features whose state may possibly
->>>        be changed (enabled or disabled) for a particular device by user's
->>> -    request.  This set should be initialized in ndo_init callback and not
->>> -    changed later.
->>> +    request.  Drivers normally initialize this set before registration or
->>> +    in the ndo_init callback. Changes after registration should be made
->>> +    very carefully as other parts of the code may assume hw_features are
->>> +    static. At the very least changes must be made under rtnl_lock and
->>> +    the netdev instance lock, and followed by netdev_update_features().
->> Feel free to keep this description as-is, but can we get somewhere the
->> actual meaning of "hw" in "hw_features" ? I've seen this cause confusion
->> before as this is sometimes wrongly interpreted as "Hardware features",
->> which isn't correct as the hardware may do stuff without allowing users
->> to change that behaviour.
->>
->> I vaguely recall something along the lines of "Host-Writeable features",
->> but I am not sure at all about that...
-> 
-> Hm. I assumed the hw in hw_features stands for hardware.
-> The magic behavior of host controllable vs hardwired was
-> probably added later without renaming the field.
-> 
-> As you indicate the usual confusion is that it's legal to have
-> a feature in ->features which is not set in ->hw_features which
-> means that features is hardwired "on", it can't be disabled by
-> the user.
-> 
-> The current text does say this: "features whose state may [..]
-> be changed [..] by user's request". But perhaps it's not emphatic
-> enough.
-> 
-> Main question is whether this series should be clarifying
-> this or our criteria is that the series doesn't _add_ confusion,
-> even if it doesn't clarify all the potential confusion points? :)
+> Applied to spi-nor/next. This should give us around 3 weeks to soak in
+> linux next.
 
-Frankly I think your series is good as it is, the text is clear
-enough, and we can redirect people to it if we spot an issue
-on that point during review.
+That's fine. Most of the build related breakages will usually be
+discovered within one week. Testing feedback will anyway be much longer
+to come.
 
-Thanks a lot for answering,
+> Expect the SPI NOR PR a little bit later than usual, around
+> the start of the merge window so we can maximize the exposure of these
+> patches.
 
-Maxime
+I try to send the MTD PR between mid and end of the first week of the
+merge window, getting your PR on the first days of the merge window is
+still completely okay since the branches are already pulled into
+linux-next.
 
+> Apologies once again for the crappy contributor experience, I tried to
+> get to this sooner, but wasn't much successful at it :-/
+
+No worries :-)
+
+Thanks,
+Miqu=C3=A8l
