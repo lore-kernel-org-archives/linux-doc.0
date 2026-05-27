@@ -1,409 +1,189 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022107.outbound.protection.outlook.com [52.101.96.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E36F3955DF
-	for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 11:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779880739; cv=none; b=bZ05X16/FEgwJF8qHCHlYjokh4Nt0cq/cv4u1Ws6yGY2voP31R3qBtgvLr4Ev4MNr9BZLDuzLh1rz1D+rYPfL/mAQG1IXqognCfgUv98Q5Dk3TuWVla1ocMPaWieYsHq3LprRupKU9LPYdV2RwErLWq8TYWto7hsrzrfZzuOXig=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779880739; c=relaxed/simple;
-	bh=FN27m4SiVKoKKQJZICQklh4tJ7BLi1kjebmWEiKzRr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nn1QZIjhmqkKMn4qsI7OZGZXCcgk7jxk/yJ7bFyNG9Usb7cVxwyiUqSE4nyWqshbYNl1LciurGxmmf9MfEnsU8st45qTYMw/9bAz16/T1epoLTuJdDduZDVRYfSQQBgViUPBUQ4OX+DVM3iPhnQ5J0VGc6IAUbmaxOkgMrhwJ38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=e0tb+NwP; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8428F2641CA;
+	Wed, 27 May 2026 11:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.107
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779880762; cv=fail; b=kdXH6yMTPyHnt+5mRiPIeAwS/X+fgR0iwF2Csrab/oT7gM1269Wdnnb4OA4RomChUQAY1Bv6znY2hjkEjkzLBK3e0ArtTbRFd+3OHce/rMNLWbg12Cr7b1CRjPC+8vnecUCpY5Sk/NrNGmb0Nb0r7yK4SHoFC8ouQaDYCDaIisw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779880762; c=relaxed/simple;
+	bh=jtbtELzhE/IIApyPitgMcbhB+bA/a7NE6+IamZzWlms=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=IE/aqXcjB9AuT98vvm/E2HyTnW9YIG9VD2G8vH7+AkYkpHjCSD9j4etXHfsCu5MsVn90zXw+wM8Ghv+Jt/kbJSQY4NopV8PRBzbqZlXsrsw82vMbRxQPBXv8eD9aElLjsC5dmUjNXLfa3qFxWs3aterjyjixPQgUgH8sDUrAbkc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=WW47116H; arc=fail smtp.client-ip=52.101.96.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="e0tb+NwP"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48e8132c6d0so73493515e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 04:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1779880734; x=1780485534; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2m4edkatlPo/SnJtwP05JmYGNwNFA1GT9khKqzT+WYo=;
-        b=e0tb+NwPR5YgSAdbFMS2BC7yI1yITcwsmVNfUW/lV3cA/o/ld88iuHHnnOMBHJCssL
-         1w7jFrxwN2CBFZoWe8o0TZUbvKk/aBvA7BN7mT57ySiR8f4YTUERoRnUylNtHcW1ASIl
-         P8HNFyXRBCdKJwhc3znbYI79ePy86BaEXzqgAA3Hq2K+MU41Z7szmM1+SeDeosJMbZ7h
-         uUYlW/7kC56o1+s2e40CyhQXZ4V86ImjaT+ItVvgv77lVZ/KYkL5LJ2RVMtp47cYoCOD
-         6SU4WxsJsK2BBYjGXYhT/yHhk0WFA7vCko78xhsK9l7aRpJGYraOY4z8vuorRfpNnL4r
-         wLWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779880734; x=1780485534;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2m4edkatlPo/SnJtwP05JmYGNwNFA1GT9khKqzT+WYo=;
-        b=GA/E22LVqHLgRk60Cm9Ua20m/6Poz9S9+KTfcgsXDMr1Pf+vU9ZoWOIwsRPxdpLrHq
-         qtuFANcomN4L8OsoVOBJYwBDZLlde76A2guqcKgn4sBMoZuCTHiFkI5GHFXXTMB8icTO
-         fAb2fNa/1YlIshU1iaqucRk8AfuJnIproTDlf5ArzEw2xEV22Ei5fCkLW7f1vBgNPvtO
-         pNGe5KYKCrwQwjS4bKr5r2Bf1v8B3SqmaEh+yRF96u0D1jrT2XDQ+9rMq+UMabTfHH60
-         oiK88xby7MnBq61t6RQ5twNHR3gdttRL95DeRt8Fsr3BV7rNDnfnVy/6eFD2L/gPYNvZ
-         laDw==
-X-Forwarded-Encrypted: i=1; AFNElJ/YDfeWGq2KtqtEttUKKt2wNFMSo3Ni2dLWMAcrZ0eblBeB/vs4FIdlnpZqeg6d51qXtghPMbwHm38=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXLrjTOZcVJtRJkioSM2sf0Y2Pf0igM8Yr0ndFgOqycyU2yEbp
-	UPWOR6naoUotTMyQXBJ+hAKT7Av8KCnmT38oZ9dQGoHlM7QuVTxS4ILPoxO96EaEdDo=
-X-Gm-Gg: Acq92OEQUMQ9GhB7d/8AUaJvM7njbxeMhblYns5xqTUtfyx/k8xP3UdMepAxRz18w7I
-	1DC+YSFG4yoTjL2Ga0/8D49d8K45RAzLsPmI7hzjKCWEUkHDXaa4MmxnS0DOLOqm8F/MGrQCSh9
-	FAE6qFTu9jGm2NZil3Cm+P2HTszLntcgVTtH8kN2cg3K3Q4ur0K/rYLzn3dJdwj+Af13et1JQS+
-	tupJLm8Bd2jI5OIJtCl1vcxeMQ90o0nW1IoEJ8ESiPg52XrqNvXjwafkRo4ONLQ0ERwliQvXZZj
-	3rsYK8BeX/HLH7+kNjWScRig9D5EI5gjtD4XLup58d4hMTy/K8iOs36sX2Rdau5oy86NYuXToBF
-	2N9kWtODVbE4MEvDQgLPw7xeF4whsP19M6YQBFJeKHnjWEAfSyPyJqxhk8s+TwEM16vgUQ2BWy+
-	e+ldEbEJ79vkvmtMRLcArcbRZhfz0GLr+h
-X-Received: by 2002:a05:600c:3e0c:b0:488:ac01:72de with SMTP id 5b1f17b1804b1-49042489c30mr433858535e9.5.1779880733359;
-        Wed, 27 May 2026 04:18:53 -0700 (PDT)
-Received: from localhost ([140.209.217.212])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4908099800asm22478695e9.5.2026.05.27.04.18.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 04:18:52 -0700 (PDT)
-Date: Wed, 27 May 2026 13:18:47 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Simon Horman <horms@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, "Borislav Petkov (AMD)" <bp@alien8.de>, 
-	Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Petr Mladek <pmladek@suse.com>, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Feng Tang <feng.tang@linux.alibaba.com>, Christian Brauner <brauner@kernel.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
-	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
-	Li RongQing <lirongqing@baidu.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
-	Dragos Tatulea <dtatulea@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Shay Drori <shayd@nvidia.com>, 
-	Moshe Shemesh <moshe@nvidia.com>
-Subject: Re: [PATCH net-next 3/3] net/mlx5: Apply devlink default eswitch
- mode during init
-Message-ID: <ahafaNDr0x-lzA7F@FV6GYCPJ69>
-References: <20260521072434.362624-1-tariqt@nvidia.com>
- <20260521072434.362624-4-tariqt@nvidia.com>
- <ahVPASuh4BZGOfx0@FV6GYCPJ69>
- <8c8df8da-62a9-49e8-84eb-572d54cfeb1f@nvidia.com>
- <ahWm4NXph9gdazV_@FV6GYCPJ69>
- <9aa7c295-35cb-428b-9031-13a2f507ae4b@nvidia.com>
- <ahXF2aQZNOwHdCG_@FV6GYCPJ69>
- <b9105eb7-de56-496e-998f-7c49c660b880@nvidia.com>
- <ahZ9CgIWdjny4N4D@FV6GYCPJ69>
- <b26b9866-440b-45bf-9d2f-7c4d3193c793@nvidia.com>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="WW47116H"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=P9yETGMeK/2HYdq5IUwnSN2U5v7h/PBYKNLp+mfuHYz7e96Iuwi/sm5oGhWjYNbmyWE4shAPBQQE0vAEzKxPCph356Ncy1sQnB3wxKKq1r43zBqK9oVjopX9GNfH3g7Q4kWkYL6xWo3q/KBeahcvAi2R8kWspQ9KAHJibN7Sm1+E6bbtHQL6v8ZLuRnn5kmHZMrZO4Dc/cPtbHLxH/5eBEonG0fCZATEW0g8jPQsVUX0CrCooLDBNU1JpLN9lhrzVE+tjkbpQw8LSFbhEiU9ivJ3mCSIVOvzMgf05oleqsTUzLT62n/yE80SizsAiXbrCTz3c4frcAnPT9J8x/LTXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HuAvmxttfNbUbxrEA+sFPoBBYGkXb1bvXgxonVYcHoU=;
+ b=OSvkAo4DTZ9xBjqjA8UJaQVLVbHwrZHZoOFhuB7+W49+ulL5aXcqetd8zsMHkjq6ZjwooScBLncD2S1WSYsgmFSfHHx9CBcLyQ1mTd72zqRrpBCGgqZ5kB7dv/6QOpjNC/ACllk0b3KX5FX/Meeh5z5dVwatNN6ORN4iPeOBCZG1YnBoQz5OfW/bBgdpKWtJzZRAoUuqjoTrl2B2S8iwcQZMBsBgeH/CzDI1xu8TJfOyBvutLMv2ho5dGElVMNxtmLH/bSPzr6ZXFBqUPg/bIRbzMkazpa4cRpIMkrbVF95mFWGZP4hiuorcHdxsT8rh+QXFwnx/HgbH3ulv7KT97w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HuAvmxttfNbUbxrEA+sFPoBBYGkXb1bvXgxonVYcHoU=;
+ b=WW47116HMo6vfrBHA6GRU88LBd9d8xxVfInpiGX8Ziw8fhZ20OhbMXXZ+SddjQfFow44muETSrxqZdpkDgANTFPYc+NLp9pzqXeBC+GCTOdxm9fzkhlg+Ie9K7uN/1IF9cv+8wyUo643lFNH7+On0YghnmTZDJsCzsFPpU/wjQY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LOYP265MB1888.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:e5::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Wed, 27 May
+ 2026 11:19:18 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0071.011; Wed, 27 May 2026
+ 11:19:18 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 27 May 2026 12:19:17 +0100
+Message-Id: <DITF2JWDL2QL.14JCFDRTJRE83@garyguo.net>
+Cc: "Rahul Bukte" <rahul.bukte@sony.com>, <linux-kernel@vger.kernel.org>,
+ <coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, "Daniel Palmer" <daniel.palmer@sony.com>, "Tim
+ Bird" <tim.bird@sony.com>, <linux-modules@vger.kernel.org>,
+ <linux-tegra@vger.kernel.org>, "Sumit Gupta" <sumitg@nvidia.com>
+Subject: Re: [PATCH v5 1/4] soc/tegra: cbb: Move driver registration from
+ pure_initcall to core_initcall
+From: "Gary Guo" <gary@garyguo.net>
+To: "Shashank Balaji" <shashank.mahadasyam@sony.com>, "Suzuki K Poulose"
+ <suzuki.poulose@arm.com>, "James Clark" <james.clark@linaro.org>,
+ "Alexander Shishkin" <alexander.shishkin@linux.intel.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>, "Luis Chamberlain"
+ <mcgrof@kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>, "Daniel Gomez"
+ <da.gomez@kernel.org>, "Sami Tolvanen" <samitolvanen@google.com>, "Aaron
+ Tomlin" <atomlin@atomlin.com>, "Mike Leach" <mike.leach@arm.com>, "Leo Yan"
+ <leo.yan@arm.com>, "Thierry Reding" <thierry.reding@kernel.org>, "Jonathan
+ Hunter" <jonathanh@nvidia.com>
+X-Mailer: aerc 0.21.0
+References: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
+ <20260518-acpi_mod_name-v5-1-705ccc430885@sony.com>
+In-Reply-To: <20260518-acpi_mod_name-v5-1-705ccc430885@sony.com>
+X-ClientProxiedBy: LO4P265CA0305.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:391::9) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b26b9866-440b-45bf-9d2f-7c4d3193c793@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LOYP265MB1888:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac80ea20-cbb4-4f08-829c-08debbe1caf5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|10070799003|1800799024|4143699003|22082099003|18002099003|921020|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	8S/N00Hc9Ms+w2CN9OTHJEtJyqcpw3f6oOQ7zul0i7/Fu3hI08jyARavJv03UlLIEmJKl+07AQI1kEYTYxcm9UyNW9ZAMEe/Au6jRKdxJ4n6YGe3q0W005QLdCxtPcOR3GRtYPVOREbQv9vZjf0dzpy0IsEApo6xEMvtE4J7Crwnfc6LhmYhlqSL6r6ZCNHoIUSrR16JuSo/KnpH8UJ/Rt6LQDBaWdtev9do1/hyyvFwnxlcL/EhckvbS1bNpTmxshbXkL9SOtnW//gD0iXIrMGbIcrFumrdugmzD4UaPE/hy3rWW9HEvqqc7GOIOeextUilrdNARNVvPxBcvJaZ3Gh7V26wrhMbT6Jk2u90Xc9rxQJkwcNbtFagrROxESMUvV8s9JQQNRKh+UhNj7WET6SKCkIc/5y0pJeI9R/yixiu6jEJSlaUnqHijfORWiVDy9CW9YvnU0Zk8gbx1ZNziX3icBUZbUwuKVhEl4roEqBT3tlSNP173H7vcmFratJ+4AgXAtsB4mcjBpNaGJc7ZIk3T8QUGGRp6IPmc41Z2qXvR/IcaaMhaAbArAUSYCXNTa7xkwOmojeFeHm/WKGKkuxWxbDBbZsYyX6BcyIsAfS4z54W2n48tjj01XHJi0JMAre47snX1U6Y97SHArWsNNNXW33Uh7BAgj1XfLmYj9RfPwMP3ZIkdrF5jqFzzIzNw0VCnSNQhwIbeUG44QF67JHNyZiEcD+/m/6aAjMR/Ag=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(10070799003)(1800799024)(4143699003)(22082099003)(18002099003)(921020)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T0cyUm5ydy82OXMyTk41Qk1jSU5xcktra1plTndKQUpBZmZMOUdmNFdiRk1y?=
+ =?utf-8?B?NWVCMEYvK1lUbUgxWllYVCs0cEU2T3lnL1VIOVBwM3I5TXV6NXl6azBqa0J0?=
+ =?utf-8?B?Q29RZkJ6VmtQWUxCMGx5L1hwR0J3YVZtc0ErWjh5QTZaRitOV3JDZDJIRzIv?=
+ =?utf-8?B?bFBCQm1zT0xUblY1OWxXeWxGRmhjRDFpNzBtYldFcHhpVFZCdjhmNHZwNi91?=
+ =?utf-8?B?dVYvWTJZNVFJVGN1d0NIN09uaHZPR1l2di9VVGNLVlN3ZGxlOTlBd1d0S0pn?=
+ =?utf-8?B?ZlI0Q1BZRzQ2UVZNc1NHa0NDaG5kUTdQckt6QklBcHJqMmpZYTR6bExUTmg5?=
+ =?utf-8?B?NWMvcXl1SEJJY09BSHdFcWpaVmFJK1JlZ29mRGFFVlpLMlBaN25Ib1JlMzFl?=
+ =?utf-8?B?VFhwRnBVWDFvUmZ1MDBUQnMrMVZUZzl3M0ZUUFp4dktjVUd3YWVxUHVOaVh4?=
+ =?utf-8?B?eWpQME9QYTF2Q2pHYS9qWHBNWDFRSUdiZ04yWjc0ajBrUG1CNThTMytZaUlv?=
+ =?utf-8?B?NnN0OEJwNjBvK0ptbU9DcTJtTmNBRitVdkQ2bUlLU2N4VVRFMHdybkZaTjUz?=
+ =?utf-8?B?Y2syVEpVNGY5d1hSaFg4UThOMGphczdYWnZFVUhvc3ViVXJlbERYdk9GVXFB?=
+ =?utf-8?B?R2NyWVBuOUZyVFRWY2VUU0dQaUhPczYvQ0VlUWVIVzRIc3REejZUOXI0ME0r?=
+ =?utf-8?B?eUhPMnRkay9wZ1NwSVlFOUZZcW1jalRZRTIya1R4VG9USjhnNFMrOEZOMEgv?=
+ =?utf-8?B?dGZmTzQrYVFVblBzUmo4RkQvRy9OVWNtS1FFRytVN1ZIQklib1JDUGFFYzdm?=
+ =?utf-8?B?Q3RUWGxFa2dRTTFJY1QvWHNrV1VQRGlGaGlERGxOV0hybU1BNEExam5Ia0JK?=
+ =?utf-8?B?dzkvYmpybnNFWTkwYnBKc2VWY25QdGxlcGtRc0w2OXA4dkhFbUluYmY4UTl2?=
+ =?utf-8?B?RVZmV25SS201cUR2YlRubUpiVEJoQk5pVjJJWTZSMTQ4OVhsQTVrMUpEaGRs?=
+ =?utf-8?B?T0w1ZjY1czlMVkJqQlRWTDhUaklvZFJxaTNheG1XVnVPdmluY3JpajdUMjFv?=
+ =?utf-8?B?K1RjSi94elk1dklsUHBuWTF3SlBvODJFbXppVTdWQ2lGeVJJaXRvWjRtZTV3?=
+ =?utf-8?B?NXFaYXdTaWtrQlcrVTlxQlV2RTVuNEZzUmpKVmF0eDZjeHY1cDRVc2hUV0U2?=
+ =?utf-8?B?VG5nNW5TTS91Znp5aWx1NnJtcWF6eFViNHJqOUVublBvUUdqYlMyd2xRYkNk?=
+ =?utf-8?B?NWEvdkUyNnh0aDR3d01kUTJLR0FpakJmUW5HaEcyUDdmamNwTlQ2Slg2TVE2?=
+ =?utf-8?B?a0ptWUxHQ05VVEVkcm44Qm44enNUaFlXa3dsZysxRURyMjBHM3hKSXFmYmh6?=
+ =?utf-8?B?aWJGeWp4M2xIRFVvdXI3SVJMQW5CQWtBdHQ3TkxxME84cEdCWjNrVVRRczRT?=
+ =?utf-8?B?cjN4dW1mWkxXTmdmRng3THJlbS9yZVNCcmJZRVRUS2s2OWdKQlRBeFRSTFdL?=
+ =?utf-8?B?VW11YWxmSXluWjFialhLNk1DV0k1bzZSYVdUTEN1T2VGL2Z4TUkvWUJHODI1?=
+ =?utf-8?B?M0NYMkdyWkFoWkZacXp0cmMyT2ZBWDVkTnJCc3J6QVJia0lTa1lKVFNHQVRo?=
+ =?utf-8?B?dis2eGNQL0pZVVNVL05udlJMUXY4ZldhYUJTL25zNlpMMkVtMWtJdGEwYVdy?=
+ =?utf-8?B?Ti9qcEp2L0JrU0F5dVRycXlnSzg1TzlGL2tqZ0lyRE01Y3lMZnBPTUFmbGFm?=
+ =?utf-8?B?RjZ6UGNUTlRqTVIrbTNVOTNGSHVDWWxtd3hNWFZqVUNqbkh4YTIwRHFGdEZS?=
+ =?utf-8?B?b0txbEhKSlc3NUExdStoTzhBVEVCc3hVWlY4VzdvTDVzcTdoSXVNZXJKdWxY?=
+ =?utf-8?B?L2x1Z0F3aFc4eFJwc3hvRkxrL0dIZjMyVXhwc1dyOFYrQi9CRVRrSnJnYzk2?=
+ =?utf-8?B?VVVGdWF0aCtrZmN0SFAxWjRIdlh1S3ViWldnVzNURnJGWEFKeWtRYnAzYUNk?=
+ =?utf-8?B?TjhPQmY3TU5RQVpOVW9hL1ZkUUVDZ3BEcWlQSWlJV0FVTTRmZHk2OEtlV3ZJ?=
+ =?utf-8?B?NU5PdklaODZRTDRUcllQUGU2Qkp3TzdZWTg3b1dsRFpybzRnbm90UVVZNFVY?=
+ =?utf-8?B?RGJEdmFSQzVVQy9acHBiTEp2bmc1bkpEMWlZVzVTNG54d2d1bFpvNnFaY3ZF?=
+ =?utf-8?B?b28rdUNFRXR2MWFvVlo1OVlSN0M1c0tRU1VSN0lLZHo0QXRSTzVsVVFmREhY?=
+ =?utf-8?B?Rm1ZT2RIUmtIMzBBcUNjL0lqUHY3UjlUOXpwM0Y1KzA1YzJub25rS0tXYksz?=
+ =?utf-8?B?Y2cwWWhVZGxxN3J3Y01YUHNoRjM4VEF4ZkZrM04rcVN0ZVJJZnpaUT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac80ea20-cbb4-4f08-829c-08debbe1caf5
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 11:19:18.1537
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MIVVDuHTYzocblhcWGETki4XT2P8pTk5yT4T5f5HwecGQl9FcoV4WPB2b6MJ0yER36OI3yCXT5hpGCiEu4rfKA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP265MB1888
 
-Wed, May 27, 2026 at 09:03:26AM +0200, mbloch@nvidia.com wrote:
->
->
->On 27/05/2026 8:14, Jiri Pirko wrote:
->> Tue, May 26, 2026 at 07:13:46PM +0200, mbloch@nvidia.com wrote:
->>>
->>>
->>> On 26/05/2026 19:23, Jiri Pirko wrote:
->>>> Tue, May 26, 2026 at 05:03:57PM +0200, mbloch@nvidia.com wrote:
->>>>>
->>>>>
->>>>> On 26/05/2026 17:07, Jiri Pirko wrote:
->>>>>> Tue, May 26, 2026 at 11:44:46AM +0200, mbloch@nvidia.com wrote:
->>>>>>>
->>>>>>>
->>>>>>> On 26/05/2026 10:44, Jiri Pirko wrote:
->>>>>>>> Thu, May 21, 2026 at 09:24:34AM +0200, tariqt@nvidia.com wrote:
->>>>>>>>> From: Mark Bloch <mbloch@nvidia.com>
->>>>>>>>>
->>>>>>>>> Apply devlink default eswitch mode for mlx5 devices after successful
->>>>>>>>> device initialization while holding the devlink instance lock.
->>>>>>>>>
->>>>>>>>> At this point the devlink instance is registered and the mlx5 devlink
->>>>>>>>> operations are available, so the default eswitch mode can be applied to
->>>>>>>>> the matching PCI devlink handle.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Mark Bloch <mbloch@nvidia.com>
->>>>>>>>> Reviewed-by: Shay Drori <shayd@nvidia.com>
->>>>>>>>> Reviewed-by: Moshe Shemesh <moshe@nvidia.com>
->>>>>>>>> Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
->>>>>>>>> ---
->>>>>>>>> drivers/net/ethernet/mellanox/mlx5/core/main.c | 17 +++++++++++++++++
->>>>>>>>> 1 file changed, 17 insertions(+)
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
->>>>>>>>> index 0c6e4efe38c8..4528097f3d84 100644
->>>>>>>>> --- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
->>>>>>>>> +++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
->>>>>>>>> @@ -1391,6 +1391,21 @@ static void mlx5_unload(struct mlx5_core_dev *dev)
->>>>>>>>> 	mlx5_free_bfreg(dev, &dev->priv.bfreg);
->>>>>>>>> }
->>>>>>>>>
->>>>>>>>> +static void mlx5_devl_apply_default_esw_mode(struct mlx5_core_dev *dev)
->>>>>>>>> +{
->>>>>>>>> +	struct devlink *devlink = priv_to_devlink(dev);
->>>>>>>>> +	int err;
->>>>>>>>> +
->>>>>>>>> +	if (!MLX5_ESWITCH_MANAGER(dev))
->>>>>>>>> +		return;
->>>>>>>>> +
->>>>>>>>> +	devl_assert_locked(devlink);
->>>>>>>>> +	err = devl_apply_default_esw_mode(devlink);
->>>>>>>>> +	if (err)
->>>>>>>>> +		mlx5_core_warn(dev, "Couldn't apply default eswitch mode, err %d\n",
->>>>>>>>> +			       err);
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> int mlx5_init_one_devl_locked(struct mlx5_core_dev *dev)
->>>>>>>>> {
->>>>>>>>> 	bool light_probe = mlx5_dev_is_lightweight(dev);
->>>>>>>>> @@ -1437,6 +1452,7 @@ int mlx5_init_one_devl_locked(struct mlx5_core_dev *dev)
->>>>>>>>> 		mlx5_core_err(dev, "mlx5_hwmon_dev_register failed with error code %d\n", err);
->>>>>>>>>
->>>>>>>>> 	mutex_unlock(&dev->intf_state_mutex);
->>>>>>>>> +	mlx5_devl_apply_default_esw_mode(dev);
->>>>>>>>
->>>>>>>> I wonder how we can make this work for all. I mean, other driver would
->>>>>>>> silently ignore this command like arg, right? Any idea how to make all
->>>>>>>> drivers follow the arg from very beginning?
->>>>>>>>
->>>>>>>
->>>>>>> I have a follow-up series that adds the call to all drivers which support
->>>>>>> setting eswitch mode. When going over the other drivers, what I found is
->>>>>>> that the right point to apply the default is driver specific, drivers
->>>>>>> I have patch for:
->>>>>>>
->>>>>>> 46e16c6d9836 net: Apply devlink esw mode defaults
->>>>>>> ab4f54102ba9 bnxt_en: Apply devlink default eswitch mode during init
->>>>>>> b48cce1607bb liquidio: Apply devlink default eswitch mode during init
->>>>>>> 4ea54b0fe04a ice: Apply devlink default eswitch mode during init
->>>>>>> b7faddaa1c90 octeontx2-af: Apply devlink default eswitch mode during init
->>>>>>> 74b0c22c47b9 octeontx2-pf: Apply devlink default eswitch mode during init
->>>>>>> 5000e4c3d768 nfp: Apply devlink default eswitch mode during init
->>>>>>> 97a218e95e41 netdevsim: Apply devlink default eswitch mode during init
->>>>>>>
->>>>>>> I don't think doing this generically from devlink is realistic. devlink
->>>>>>> doesn't really know when a given driver is ready to change eswitch mode.
->>>>>>> Some drivers need SR-IOV state, representor setup, or other init pieces to
->>>>>>> be ready first, and the locking is not identical across drivers either.
->>>>>>
->>>>>>
->>>>>> Low hanging fruit would be just to call ops->eswitch_mode_set at the end
->>>>>> of register. Multiple reasons:
->>>>>>
->>>>>> 1) end of devl_register is exactly the point userspace is free to issue
->>>>>>    the eswitch mode set. Driver should be ready to handle it.
->>>>>> 2) all drivers would transparently get this functionality, without
->>>>>>    actually knowing this kernel command line arg ever existed, without
->>>>>>    odd wiring call of related exported function. I prefer that stongly.
->>>>>> 3) you should add a there warning for the case this arg is passed yet
->>>>>>    the driver does not implement eswitch_mode_set. User should
->>>>>>    get a feedback like this, not silent ignore.
->>>>>>
->>>>>> The only loose end is see it the void return of devl_register().
->>>>>> Multiple ways to handle the possibly failed eswitch_mode_set(). I would
->>>>>> probably just go for pr_warn, seems to be the most correct.
->>>>>>
->>>>>> Make sense?
->>>>>
->>>>> I see the point, but I don't think devl_register() (at least not the only place)
->>>>> is the right place.
->>>>>
->>>>> There is a small but important difference between userspace doing
->>>>> "devlink eswitch set" after register is done, and devlink core calling
->>>>> eswitch_mode_set() from inside the register flow.
->>>>>
->>>>> Some drivers call devlink_register() while holding the device lock.
->>>>> liquidio is one example. If devlink core calls ops->eswitch_mode_set() from
->>>>> there, we may start the full eswitch mode change while holding that lock.
->>>>> That mode change can create representors, register netdevs, take rtnl,
->>>>> allocate resources, etc. I don't think we want this to become an implicit
->>>>> side effect of devlink registration.
->>>>
->>>> I believe your AI may untagle liquidio locking :)
->>>
->>> I didn't try to solve that one with ai. Most drivers were fairly simple 
->>> so I didn't use ai at all. bnxt was the one where I needed a bit of help :)
->>>
->>>>
->>>>
->>>>>
->>>>> For mlx5, the placement after intf_state_mutex is also intentional:
->>>>>
->>>>> mutex_unlock(&dev->intf_state_mutex);
->>>>> mlx5_devl_apply_default_esw_mode(dev);
->>>>>
->>>>> We can't call it while holding intf_state_mutex because the mode set path
->>>>> takes it internally, and switchdev mode may also create IB representors.
->>>>>
->>>>> Also, devl_register() only covers the first registration. The mlx5 call in
->>>>> mlx5_load_one_devl_locked() is for reload/fw reset recovery kind of flows.
->>>>> In those flows devlink is already registered, so devl_register() is not
->>>>> called again, but the driver state was rebuilt and we may need to apply the
->>>>> default again.
->>>>
->>>> Call it from reload too, right?
->>>
->>> Yes, that was my first thought: apply it from devl_register() for the first
->>> registration and from devlink_reload() after a successful DRIVER_REINIT.
->>>
->>> That covers the clean devlink reload path but....(see bellow)
->>>
->>>>
->>>>
->>>>>
->>>>> Same for reload, fw reset and pci recovery in general. If the driver tears
->>>>> down and rebuilds eswitch related state, the place to apply the default is
->>>>> in that driver's reinit flow, not in devl_register().
->>>>>
->>>>> When I went over the other drivers, the right place was not always the same
->>>>> as devlink registration. I'm not an expert in any of them, so I hope I got
->>>>> the details right, but for example octeontx2 AF needs sr-iov and the
->>>>> representor switch state to be initialized first. nfp can do it after
->>>>> app/vNIC init while the devlink lock is already held. liquidio should do it
->>>>> only after dropping the PCI device lock.
->>>>
->>>> Idk, perhaps do it from devlink_post_register_work of some kind? That
->>>> would allow you to have the same locking ordering as a userspace cal
->>> l.
->>>
->>> I thought about a workqueue too, it was actually my first idea.
->>>
->>> The problem is that then we race with userspace. In the mlx5 version here the
->>> default is applied while the devlink lock is still held, before userspace can
->>> come in and issue its own eswitch set. If we defer it to post-register work,
->>> the devlink instance is already visible and userspace can get there first
->>> and then we might change the user configuration.
->> 
->> Figure that out and expose to user by setting xa_mark only after the
->> work is done? This is doable.
->
->I agree that if devlink can keep the instance hidden/unavailable until the
->post register work is done, that solves the initial userspace race.
->
->The other part is the reinit/recovery case. For that I think devlink core
->needs some explicit indication from the driver that the device is now in
->reinit. Something like (at least that's the code I had initially, but something
->along those lines):
->
->void devl_dev_reinit_begin(struct devlink *devlink);
->void devl_dev_reinit_end(struct devlink *devlink);
->void devl_dev_reinit_abort(struct devlink *devlink);
->
->The core can then mark the instance as temporarily unavailable/in reinit
->between begin/end, and the relevant lookup/dump paths, for example
->devlink_get_from_attrs_lock() and devlink_nl_inst_iter_dumpit(), can reject
->or skip it while reinit is in progress. devlink_reload() can probably mark
->this state by itself around DRIVER_REINIT.
+On Mon May 18, 2026 at 11:19 AM BST, Shashank Balaji wrote:
+> Commit "driver core: platform: set mod_name in driver registration" will =
+set
+> struct device_driver's mod_name member for platform driver registration. =
+For a
+> driver to be registered with its mod_name set, module_kset needs to be
+> initialized, which currently happens in a subsys_initcall in param_sysfs_=
+init().
+> The tegra cbb drivers register themselves before module_kset init, in a
+> pure_initcall. This works currently because lookup_or_create_module_kobje=
+ct(),
+> which dereferences module_kset via kset_find_obj(), is not called if mod_=
+name
+> is not set, which is the case now.
+>=20
+> So in preparation for the commit "driver core: platform: set mod_name in =
+driver registration",
+> move tegra cbb driver registration to core_initcall level, and commit
+> "kernel: param: initialize module_kset in a pure_initcall" will move modu=
+le_kset
+> init to pure_initcall level, ensuring module_kset init happens before teg=
+ra cbb
+> driver registration.
+>=20
+> Suggested-by: Gary Guo <gary@garyguo.net>
+> Acked-by: Sumit Gupta <sumitg@nvidia.com>
+> Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+> Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
 
-I believe this is orthogonal to the problem you are trying to solve in
-this patchset. Not sure why you bring it in to the conversation...
+Reviewed-by: Gary Guo <gary@garyguo.net>
 
+> ---
+> Patch 4 depends on this patch
+> ---
+>  drivers/soc/tegra/cbb/tegra194-cbb.c | 2 +-
+>  drivers/soc/tegra/cbb/tegra234-cbb.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
->
->Then mlx5 would look more or less like:
->	devl_lock(devlink);
->	devl_dev_reinit_begin(devlink);
->	ret = mlx5_load_one_devl_locked(dev, recovery);
->	if (!ret)
->		devl_dev_reinit_end(devlink);
->	else
->		devl_dev_reinit_abort(devlink);
->	devl_unlock(devlink);
->
->This gives devlink core a way to know that the devlink instance is registered,
->but should not be used by userspace at the moment. It also allows keeping the
->default/config apply logic in devlink instead of adding driver specific calls
->to apply it in each init path.
->
->But this still means the generic solution needs some driver help. Drivers need
->to register devlink at a point where the post-register default apply is safe,
->and full reinit paths need to be marked with this begin/end API.
->
->> 
->> 
->>>
->>> Also, the bigger issue for mlx5 is not only initial registration or devlink
->>> reload. Some recovery paths, pci resume, and fw reset flows rebuild the driver
->>> state without going through devlink at all. I did not find a clean way for
->>> devlink core to infer all those points by itself.
->> 
->> If you don't obey current configuration for example in pci resume, it is
->> bug and you should fix it. All these flows should obey current eswitch
->> mode configuration.
->> 
->
->I agree that the device should come back according
->to the intended high level policy. But I don't think full reinit can be treated
->as restoring the whole previous runtime state. There may be user created
->steering rules and other objects which the driver cannot keep or replay. Today
->full reinit brings the device back to a clean initialized state, and that is
->intentional.
->
->So the split I have in mind is:
->
->- full runtime state is not preserved across full reinit;
->- high level devlink policy/configuration should be applied when the device is
->  initialized again;
->- the command line default should not blindly override a later explicit
->  userspace eswitch mode selection.
->
->I am not against moving this into devlink core, and I am willing to work on it.
->
->But before I rework the series, I want to make sure we agree on the direction.
->As I see it, doing this cleanly needs a devlink state like "registered but
->unavailable/in reinit", plus driver annotations for the reinit paths.
->
->If this is not the direction you want, I prefer to know now rather than spend
->time on a version that will be rejected anyway.
->
->Mark
->
->> 
->>>
->>> To handle that from devlink I would still need to add some api for the driver
->>> to tell devlink "I just reinitialized, apply the default now". but nce I had
->>> that driver call , it felt simpler and clearer to let the driver call
->>> the helper directly at the points where it knows eswitch mode is safe.
->>>
->>> I agree that handling all of this inside devlink would be the better option.
->>> I just couldn't make it work in a clean way.
->>>
->>> Mark
->>>
->>>>
->>>>>
->>>>> Mark
->>>>>
->>>>>>
->>>>>>
->>>>>>>
->>>>>>> Also, since this knob is only about eswitch mode, I don't think we need to
->>>>>>> touch every devlink driver. Drivers that don't implement eswitch_mode_set()
->>>>>>> would just ignore it anyway. The follow-up only wires the default into
->>>>>>> drivers that actually support changing eswitch mode.
->>>>>>>
->>>>>>> Mark
->>>>>>>
->>>>>>>>
->>>>>>>>> 	return 0;
->>>>>>>>>
->>>>>>>>> err_register:
->>>>>>>>> @@ -1538,6 +1554,7 @@ int mlx5_load_one_devl_locked(struct mlx5_core_dev *dev, bool recovery)
->>>>>>>>> 		goto err_attach;
->>>>>>>>>
->>>>>>>>> 	mutex_unlock(&dev->intf_state_mutex);
->>>>>>>>> +	mlx5_devl_apply_default_esw_mode(dev);
->>>>>>>>> 	return 0;
->>>>>>>>>
->>>>>>>>> err_attach:
->>>>>>>>> -- 
->>>>>>>>> 2.44.0
->>>>>>>>>
->>>>>>>
->>>>>
->>>
->
