@@ -1,116 +1,172 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECF71E32D6;
-	Wed, 27 May 2026 18:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779908237; cv=pass; b=taSFOKK/z2cI/Cvma/4hN0R2CS5qZpCDBMTK3EJ5HwmTBdAmz3zFsMglio7C2W1WTN/PsP/qtQSXBLYoRLhSyKYs73IZYsPq901GORIOCRJ6OsgERySZyrqNE7TTFLH4NNZArFt02Ec2luv0g8NnFdh356wNh+rJTd/thOmQrTY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779908237; c=relaxed/simple;
-	bh=dPsqvFMUthronaDNPsO9Nf2AfzZZGos2VFwXOO1haoQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DHwbuMuwoP5H4TQ3jdy+VjOffY9EPYcYy0v1nl6gyxlgXHgoqwIwHFkcSpnKCjLAABV+6Mko14PL46KF1ANHaQMVHFPv82nr3CfLKnSV1g/lZRVNPeuDf0m+OlM3oF4SVs9IfVa08w6REGKCORauyxx/eUQX4SDQKiexP0cxWmk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=nF/21SGu; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857C93644CB
+	for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 19:10:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779909059; cv=none; b=QrtyZMhUa5H6Dr62r4M0h/i2qnzOR0nyLhMW5nEtpfF+ZhzjZpWAZuwGL+pJwUOvQWu55A+KEettxjFjQNZB9Es/NQAgr9PVipV2R7gEGdu5321htKamkx0H4MlfJgJVU/C0HUo0af/DudDZKqp0GAsoncHB9kfYD/IhjdBFNaw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779909059; c=relaxed/simple;
+	bh=nAP+UkwFMeiPRtMLEhgLbQeO3ddCP9DTym3xnAPg2B0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N/4yzBXlvVe71pZyYSjpKxBxOFS+E5T4Xq5IOzTvD5qeSbGF+mr2plzfboZm1l4cmzOrdDuX3RTouyW3VXAf6ov0/4KHjdGp//3HMcicq5SpXeqwq2eZ3Bt3OvX9Zv+99x2ipMsq0PHDgxltV8Xi2FJJmKO0MC5E9h26urbkFgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gdTcNzC+; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=sfz1h2uT; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="nF/21SGu"
-ARC-Seal: i=1; a=rsa-sha256; t=1779908230; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=CkWeEonTk9ONsUoUmscz1wwUp0OAFL1DmCR1Hedh25+HbXjjHV6fJXjrxSNU+lG2IVRvMmYODlM+Rplpk+cUMBIXgyx7jGSdx/Fy+gMWJXykHhzt700s/vnAM3wdW71V0M876+OlGWMvKAE2T7sd3H5MLn6GpjHHKtCI4UPITEw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1779908230; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=1BN6G/rgB9O80LfDMRyXKYCm7YGnt9QXu63DWzyvDnA=; 
-	b=FeNP/oVv+zlAvYOvlccNCDLzGlKGeu82yfHrnLA1iO7UH6RQ1PtmR9kUU+8sdtONGmPzR3j2cpHIjP51sCYAPwRmHVYZan1j56bPYCDhjOo2iu9HF+zrSEaLvrZCN1A7MGYj53wwjmJQBJzZiORfVf4+w8oM55M5ZNIPYHWHtjM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779908230;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=1BN6G/rgB9O80LfDMRyXKYCm7YGnt9QXu63DWzyvDnA=;
-	b=nF/21SGuZvfdY0GPR1SaT44THCIhckMsc36QL45w0tKhat6IvPJQoCx9dRBxsDBZ
-	TxuiSSd1aDSkO5kWiSZhMUjV9o8eH+Muppb7PND11esJrlKGFcEFVhhkx5/bNH5rUI8
-	vuA2Av24yMAxeISAxq22BT+uWVNgja7ctThTO+eAGMPlu0O+fYZdOsRNi7h0T6NSCed
-	0Bm/+RCBi8K0gJ3qF8ItvZssF/RFq8rhtnSKzP62SUpO63FxhjYIskkGt8QPwBFZxfi
-	FIlYKfk5mlBmPq/ByTxwuSTPNIddrHCJy2ecSoDiSGes5xUMMTipZwD5+XL5bBBL/s+
-	GJg2Nr3sQw==
-Received: by mx.zohomail.com with SMTPS id 1779908227965615.4832510104864;
-	Wed, 27 May 2026 11:57:07 -0700 (PDT)
-From: Rong Zhang <i@rong.moe>
-Date: Thu, 28 May 2026 02:56:28 +0800
-Subject: [PATCH v2 2/2] ALSA: usb-audio: Add quirk flag for Sennheiser
- MOMENTUM 3
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gdTcNzC+";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="sfz1h2uT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779909057;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fOfRGPugae13jAxurJtrxuSo8jWBso3MtJfxNQrI0Jc=;
+	b=gdTcNzC+w7hvYmbIzbpMyMbUKtSskU41Vv0Bi+Sp2wZ5uZHlnOWV+83w4iGJX5SFwrBF7+
+	caQlZofSL+DwmGtnRXIp3ynnisHcY1gIpG+tQm1tM6nn2ap9K1iyS7rmjbfbUAtqiBZm/0
+	KgleNkWXKy1JGRv3PeXfACEdhsqIQAg=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-453-9VcjMlgtPJuKsRmOpTpigQ-1; Wed, 27 May 2026 15:10:50 -0400
+X-MC-Unique: 9VcjMlgtPJuKsRmOpTpigQ-1
+X-Mimecast-MFC-AGG-ID: 9VcjMlgtPJuKsRmOpTpigQ_1779909050
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-516d51ffb59so37121501cf.3
+        for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 12:10:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1779909050; x=1780513850; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fOfRGPugae13jAxurJtrxuSo8jWBso3MtJfxNQrI0Jc=;
+        b=sfz1h2uTS5r8ZVhzp3aKesp7EAZAfH3UbsW1sI2NyYs7CIylEt5niUhX2qj/X/xTCK
+         Am9PBuwFlJ6txCYqkUXBzaiSDntjA1e3TgirmogUimEf2GNn/C8wTmRCacYylRy1UIUK
+         SvMjAZcKBrQLnkj7kMQKcMuRWhNNmMH0+JyijRKiZJV8K2BU/fu5dwXUzS0vdECWT/0x
+         LYbtt1TzW7RFmp+lVrrBuNmilhFjK6wb7lsmVo77yur8IufKReR08ygks+j+tx+VjVk6
+         WHDl4CDOZKHxsi9a8w1pJW+TrsRiX9L1KOpSz0+PIbwEP3VGCjpohtktgV1driGm8u1Y
+         VdQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779909050; x=1780513850;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fOfRGPugae13jAxurJtrxuSo8jWBso3MtJfxNQrI0Jc=;
+        b=dkdCEMAmcrfQEOxAV0k6Zw5Bl0eDy6nBOHV9Ph0NLGoquhSINw2FFqedaAuUNBV3Fd
+         pAiNmkrsZrCH0/8LXQtY+wEx5Y5fQ0O1TwDe6F4ygH5zhSrtvGUfyKqPAoKggdKuvj+w
+         FhRmm3DpyZ3tC27eNCyqDlLtoa2z9KF1HnXINZ4DoOINMDkUhM1KWzhgX395H8fXvXVG
+         xUIsO0t4l1atkMs0jfu9IZ0DcKm5amxwZrpsFEAOsQa/GB0W0z3Vh/GZWYkhNn16Y+ea
+         Rl0K+EtOyDjeijJkE34GmE9+/zs2+ekE20qudMldDJCW6VVo4M0v+IWGxTQwSfWUhM0K
+         7eUA==
+X-Forwarded-Encrypted: i=1; AFNElJ//knb+OpszLLy825wtvQnPqnHObiuqK6Oia6QEaMXRT++OMs9yabuDz2PUsHs/zgyYabSmAPYEVkI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQe81kavnKe1tpdzi43ytVnC9K0/cUpx/2XIVL4+i0XpckUgQm
+	auzTpiRUr6QF2ejuIESLGbsaCQwOHFQ6X2HhZFFs0/OYQOAdnJZ98RkMJ5hOQLK14VsRee0npFd
+	KVfamOejx9OqEfhJKw/L2rlDAphlgZ0XqlPPNEcHpXPAvUQy8PH9Mjxma4CGfvw==
+X-Gm-Gg: Acq92OGA+0k15j/vGIUL5vi18ZGa8rP2NMM5TMipTlDfHmfY5PDIR39BhXd+Kwg8vAe
+	Xf4fEXIslhZ6lmofWt22Re54aYR2RNMZVyt4KNaqa3jkMoL6Sj/29KN3FuqpDhxVAGmNDSINh5u
+	Jycw0m0N1VXiN79otYsuCoD1YrtuJ2hIjn6ai3/XZBNWcpUlNAE63P86RGNf8X4Bw2mkCOWquUx
+	m1y75E1SE7977YjFb4Aib4VyCNRVjLMJdMTB5W19z51IXbGMAZB8tSGJSwEaFi9a1mC5OGPJcmr
+	bpCtmLAx6QJVBX/1cuJqrtOPWjrrmlvEHcPbmv/2PG12TZjjqT0gSdIAnS56r9wJK3M49+JuzdI
+	AB6SKAMLKh2ANt8zXA0kt9s2LzKiBbBNlYviqM6d2u8MKmynbGPo0J6pak46JAlVwGHhdxeAwbe
+	Hb
+X-Received: by 2002:a05:622a:2d5:b0:516:4fc0:27ac with SMTP id d75a77b69052e-516d43e4561mr348875321cf.50.1779909049449;
+        Wed, 27 May 2026 12:10:49 -0700 (PDT)
+X-Received: by 2002:a05:622a:2d5:b0:516:4fc0:27ac with SMTP id d75a77b69052e-516d43e4561mr348874431cf.50.1779909048607;
+        Wed, 27 May 2026 12:10:48 -0700 (PDT)
+Received: from localhost (pool-100-17-21-205.bstnma.fios.verizon.net. [100.17.21.205])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51706adc8f3sm51751971cf.18.2026.05.27.12.10.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 12:10:47 -0700 (PDT)
+Date: Wed, 27 May 2026 15:10:47 -0400
+From: Eric Chanudet <echanude@redhat.com>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Maarten Lankhorst <dev@lankhorst.se>, 
+	Maxime Ripard <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>, 
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, 
+	Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] mm/memcontrol: add dmem charge/uncharge functions
+Message-ID: <ahWfypvuTVsB-pHQ@x1nano>
+References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
+ <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
+ <ahB7pCu_G4vuswc0@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260528-uac-quirk-get-cur-vol-v2-2-84d3c8f48150@rong.moe>
-References: <20260528-uac-quirk-get-cur-vol-v2-0-84d3c8f48150@rong.moe>
-In-Reply-To: <20260528-uac-quirk-get-cur-vol-v2-0-84d3c8f48150@rong.moe>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: Rong Zhang <i@rong.moe>, linux-sound@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.16-dev-d5d98
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ahB7pCu_G4vuswc0@linux.dev>
 
-The Sennheiser MOMENTUM 3 is a wireless around-ear headphones featuring
-ANC, which can be connected via Bluetooth or USB-C.
+On Fri, May 22, 2026 at 08:53:10AM -0700, Shakeel Butt wrote:
+> On Tue, May 19, 2026 at 11:59:01AM -0400, Eric Chanudet wrote:
+> > Add mem_cgroup_dmem_charge() and mem_cgroup_dmem_uncharge() to allow
+> > dmem pool allocations to optionally be double-charged against the memory
+> > controller. Take the struct cgroup from the dmem pool's css as there is
+> > no convenient object exported to represent these allocations. These will
+> > resolve the effective memory css from that cgroup and perform the
+> > charge.
+> > 
+> > Introduce a MEMCG_DMEM stat counter to memory.stat to make the cgroup's
+> > dmem charge visible.
+> > 
+> > Signed-off-by: Eric Chanudet <echanude@redhat.com>
+> > ---
+> >  include/linux/memcontrol.h | 16 ++++++++++++
+> >  mm/memcontrol.c            | 65 ++++++++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 81 insertions(+)
+> > 
+> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> > index dc3fa687759b45748b2acee6d7f43da325eb50c1..8e1d49b87fb64e6114f3eb920293e14920290fe7 100644
+> > --- a/include/linux/memcontrol.h
+> > +++ b/include/linux/memcontrol.h
+> > @@ -39,6 +39,7 @@ enum memcg_stat_item {
+> >  	MEMCG_ZSWAP_B,
+> >  	MEMCG_ZSWAPPED,
+> >  	MEMCG_ZSWAP_INCOMP,
+> > +	MEMCG_DMEM,
+> >  	MEMCG_NR_STAT,
+> >  };
+> >  
+> > @@ -1872,6 +1873,21 @@ static inline bool mem_cgroup_zswap_writeback_enabled(struct mem_cgroup *memcg)
+> >  }
+> >  #endif
+> >  
+> > +#if defined(CONFIG_MEMCG) && defined(CONFIG_CGROUP_DMEM)
+> > +bool mem_cgroup_dmem_charge(struct cgroup *cgrp, unsigned int nr_pages,
+> > +			    gfp_t gfp_mask);
+> > +void mem_cgroup_dmem_uncharge(struct cgroup *cgrp, unsigned int nr_pages);
+> > +#else
+> > +static inline bool mem_cgroup_dmem_charge(struct cgroup *cgrp,
+> > +					  unsigned int nr_pages, gfp_t gfp_mask)
+> 
+> Please follow Johannes's request to pass the actually memory object instead of
+> naked numbers.
 
-When connecting via USB-C, its UAC mixer works fine and precisely
-corresponds to the reported dB range. However, the mixer's volume
-GET_CUR method is somehow stubbed and returns a constant value (15dB).
-Since commit 86aa1ea1f15c ("ALSA: usb-audio: Do not expose sticky
-mixers"), the sticky check considers the mixer to be sticky and
-unnecessarily disables the mixer.
+Sorry, I misunderstood Johannes' comment. I am not sure what to use
+here. Since these are called from dmem.c, they don't have access to what
+was allocated.
 
-Add a quirk table entry matching VID/PID=0x1377/0x6004 and applying
-the MIXER_GET_CUR_BROKEN quirk flag, so that the mixer is usable again.
+Looking at zswap, it uses obj_cgroup. I thought of resolving the
+obj_cgroup from dmem_cgroup_try_charge and keep it in the
+dmem_cgroup_pool_state, but that made me realize there is a catch with
+this patch set, with something like:
+A: +memory{max:32M}/+dmem
+A/B: +memory{max:16M}
 
-Quirky device sample:
+It gets the CSS from the dmem's cgroup with
+  cgroup_get_e_css(cgrp, &memory_cgrp_subsys);
+  mem_cgroup_from_css(mem_css);
 
-  usb 7-1.4.4.1.1.1: new full-speed USB device number 30 using xhci_hcd
-  usb 7-1.4.4.1.1.1: New USB device found, idVendor=1377, idProduct=6004, bcdDevice=38.85
-  usb 7-1.4.4.1.1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1.4.4.1.1.1: Product: MOMENTUM 3
-  usb 7-1.4.4.1.1.1: Manufacturer: Sennheiser electronic GmbH & Co. KG
-  usb 7-1.4.4.1.1.1: SerialNumber: <REDACTED>
-  usb 7-1.4.4.1.1.1: Found last interface = 0
-  usb 7-1.4.4.1.1.1: 1:1: add audio endpoint 0x3
-  usb 7-1.4.4.1.1.1: Creating new data endpoint #3
-  usb 7-1.4.4.1.1.1: 1:1 Set sample rate 48000, clock 0
-  usb 7-1.4.4.1.1.1: 6:0: sticky mixer values (0/11520/768 => 3840), disabling
-  usb 7-1.4.4.1.1.1: [6] FU [PCM Playback Volume] skipped due to invalid volume
-  input: Sennheiser electronic GmbH & Co. KG MOMENTUM 3 as /devices/pci0000:00/0000:00:08.3/0000:67:00.4/usb7/7-1/7-1.4/7-1.4.4/7-1.4.4.1/7-1.4.4.1.1/7-1.4.4.1.1.1/7-1.4.4.1.1.1:1.2/0003:1377:6004.002B/input/input208
-  input: Sennheiser electronic GmbH & Co. KG MOMENTUM 3 Consumer Control as /devices/pci0000:00/0000:00:08.3/0000:67:00.4/usb7/7-1/7-1.4/7-1.4.4/7-1.4.4.1/7-1.4.4.1.1/7-1.4.4.1.1.1/7-1.4.4.1.1.1:1.2/0003:1377:6004.002B/input/input209
-  hid-generic 0003:1377:6004.002B: input,hiddev99,hidraw12: USB HID v1.11 Device [Sennheiser electronic GmbH & Co. KG MOMENTUM 3] on usb-0000:67:00.4-1.4.4.1.1.1/input2
-
-Signed-off-by: Rong Zhang <i@rong.moe>
----
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index ac2f0f6039be..149f2009df12 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2357,6 +2357,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
- 	DEVICE_FLG(0x1224, 0x2a25, /* Jieli Technology USB PHY 2.0 */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
-+	DEVICE_FLG(0x1377, 0x6004, /* Sennheiser MOMENTUM 3 */
-+		   QUIRK_FLAG_MIXER_GET_CUR_BROKEN),
- 	DEVICE_FLG(0x1395, 0x740a, /* Sennheiser DECT */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x1397, 0x0507, /* Behringer UMC202HD */
+Which would resolve to A's memcg and not enforce the memory.max limit
+set in B when dmem.memcg is set for that region.
 
 -- 
-2.53.0
+Eric Chanudet
 
