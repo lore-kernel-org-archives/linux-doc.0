@@ -1,85 +1,82 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A41E256C8B;
-	Wed, 27 May 2026 12:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAE640758C
+	for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 13:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779883731; cv=none; b=SL5OU0BkkekLESw1SVZRkrMy7jJdWu7X1/bf2dnCGGpyNlWorWzWnXbB666pEG5+YjlrLCj2r+E8qLuVqbC9lM883xiCNm4UTie1S5/mJTVRWgOcss9uPINKfmipdecIrdnB2cX6/V84W6QkjDBuwMlxiVLZ9KEryk6hAM5I36A=
+	t=1779887010; cv=none; b=mMkfkkVPlSODijQDO2KWKk/nOAPFHrVMVCexQCR1dhKlleuAAxmSKz2TQfau3UmV96A3fQNniHvXIfMq1dNI8OCWRO5OekFvx7ifKG5GwyglhOdrdOl0rX0z4zFXMi8/F9ZLlt9Mvh+0iK4pLX79lgjChdAl6co/UkLIMD3CC6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779883731; c=relaxed/simple;
-	bh=4zOX4y6Aruc8X+mmbvAQlp0KXASTGTcN5BBme+WiecY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SP452vDz7E8P61IQMMe04ZVg9N5X311DKzHEK0RKPp6E1FT0oiNBY8GXEGKnYB7t5CCi5F/yDo6bQplhcLYhZ1IyJc5XC87z6txkOro1XZsGYUNGTJc0BF23XYGzWSQXS9V4CGKaZRXJzmLRJoI1fCGrQFJZAY5eI1+bFpPPf/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Zh/CFXTr; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1779887010; c=relaxed/simple;
+	bh=9RZXmD+TnynvW3HqdFQpHhtez52J164lPzrs0JKxoMk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Subject:Cc:
+	 References:In-Reply-To; b=sTc6ZCbw146yiLUA10mtDnd35IDXvx5APwDYc6+uUTZz20kaYPzuMRooeX8SzmV8zg5uVnAGH0rT7WLr5FCpSwwSAZ+amoz0yh8f4X/3zYKZlYO/vGMM55OxTyA6p4R3ggu54xlMRzT/y3P+BjajGAPsG3qTurCMR3gvV+Ti3u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJ0I8tVP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Zh/CFXTr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=2uOGS6PFx1PoazRF6TE6ggG0V1Hfkd9DJj63Ysfrd4o=; b=Zh/CFXTrP4ptmgn7+w8N70lZs3
-	tMC/5fsbxbn2wHOpNU1jVkLqf3ApHx2T2eiV2k/odiQmzSgWVLEejy2NnEYJBR7wSlzRKe9MNdWsb
-	Uz250CCe8+lcaFy+gYDl/SBQlQtRkxsG9gVYJhCzZMWPSzG1MZDgnm8bxM3Co9TERa5A=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wSD3m-004k5J-LQ; Wed, 27 May 2026 14:08:30 +0200
-Date: Wed, 27 May 2026 14:08:30 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
- ethtool pause validation
-Message-ID: <81777bc8-b046-4c76-9f53-e33563b6ad62@lunn.ch>
-References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
- <20260526172447.10ca4b9e@kernel.org>
- <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
- <f9d0b5bf-e285-4694-8147-e7b59164da00@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJ0I8tVP"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 1C6D51F000E9;
+	Wed, 27 May 2026 13:03:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779887009;
+	bh=9RZXmD+TnynvW3HqdFQpHhtez52J164lPzrs0JKxoMk=;
+	h=Date:From:To:Subject:Cc:References:In-Reply-To;
+	b=IJ0I8tVPyY93p0pSbj9KTUU9/F5Uy1f9OlgrN9ol2faMoU8bhjgme5sJuHjkuO8GJ
+	 AJhfc+/JNKVk/Uoo48NTHCHmg0IF4VPLPZF36MEjCnY+kY1BfHY9GrM4dCaLnxLp+i
+	 E1zzPkWQLYgry5onrmOsgvZ4iH6PlcP/iLNiIucgKhhwDDt8GyocRAU/dJKTj/jwdG
+	 5J+8pqudq5LL8tdEvO/zHNfwwijrspeZxLkWAeYSeyekIyNwI7iOT2J8DgKSiQuT35
+	 NGQ9Et3IsD5CARXCD/W0afm6YeCLX55r2AZg7R+A7yCwH1VE9caHjq0npDap9mWjre
+	 fFQkDiESatDZw==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f9d0b5bf-e285-4694-8147-e7b59164da00@bootlin.com>
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=20e2ed32076c9df12bacf9f58bf0fcd3fce525c0e7ac6657a7565cf29f4d;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Wed, 27 May 2026 15:03:25 +0200
+Message-Id: <DITHAAHCPP0Q.2A2I62NEBHJOA@kernel.org>
+From: "Michael Walle" <mwalle@kernel.org>
+To: "Randy Dunlap" <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH -next] mtd: spi-nor: testing locking, fix new doc build
+ warnings
+Cc: "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Pratyush Yadav" <pratyush@kernel.org>,
+ "Takahiro Kuwano" <takahiro.kuwano@infineon.com>,
+ <linux-mtd@lists.infradead.org>, "Miquel Raynal"
+ <miquel.raynal@bootlin.com>, "Richard Weinberger" <richard@nod.at>,
+ "Vignesh Raghavendra" <vigneshr@ti.com>
+X-Mailer: aerc 0.20.0
+References: <20260526172341.773398-1-rdunlap@infradead.org>
+In-Reply-To: <20260526172341.773398-1-rdunlap@infradead.org>
 
-> As for the kAPI testing, I agree that the end goal is to get driver
-> authors to get their flow control implementation right running this
-> suite.
-> 
-> But I don't really see how we can validate kAPI itself, as we're down at
-> the ethnl level.
+--20e2ed32076c9df12bacf9f58bf0fcd3fce525c0e7ac6657a7565cf29f4d
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-All we can do is invoke the kAPI in different ways, and test we get
-the expected results. When it fails, it is down to the developer to
-figure out why, which layer. But they have a description of what the
-test is doing, and why? In most reviews, all i need to explain is the
-expected behaviour, and the second version is correct. So a test with
-explanation text should sort cut that process. I don't think we need
-any more.
+On Tue May 26, 2026 at 7:23 PM CEST, Randy Dunlap wrote:
+> Add a blank line to prevent documentation build warnings:
+>
+> Documentation/driver-api/mtd/spi-nor.rst:215: ERROR: Unexpected indentati=
+on. [docutils]
+> Documentation/driver-api/mtd/spi-nor.rst:216: WARNING: Block quote ends w=
+ithout a blank line; unexpected unindent. [docutils]
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-To some extent, we have an iterative process here. We have never done
-testing of this, we don't know exactly what we need. If we get
-feedback that a test is failing, but they cannot figure out why, we
-might need to help out, and then extend either the text, or add finer
-grain testing to narrow down the problem space. If we get a submission
-which passes all the tests but review turns up problems, we might want
-to ask the developers to extend the tests to catch the failure.
+Reviewed-by: Michael Walle <mwalle@kernel.org>
 
-    Andrew
+--20e2ed32076c9df12bacf9f58bf0fcd3fce525c0e7ac6657a7565cf29f4d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCahbrnhIcbXdhbGxlQGtl
+cm5lbC5vcmcACgkQEic87j4CH/jZMgGA8apjyVdaVecYH9nkB3LTUpLtFds0aFAr
+D9SEwVMC+++3Yab4kXno50ApHYXq8lIVAX9FCn5fnzp72uUTQ+lvLdVWOqFa2AT4
+AONe3cGuhMN52XPkPfZ3wJ/Y3u1XBqYkqqg=
+=7W3L
+-----END PGP SIGNATURE-----
+
+--20e2ed32076c9df12bacf9f58bf0fcd3fce525c0e7ac6657a7565cf29f4d--
