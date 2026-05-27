@@ -1,140 +1,77 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22168149C7B
-	for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 02:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92128634C;
+	Wed, 27 May 2026 02:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779849561; cv=none; b=kbK6RW2ujnmYTv7D4sINAqnzLLmHlBFU0O4DLPVyuISBVVFYKO7iAiBy7k2qtpZQWI9WzpJwGjd4prh/qp0UFiVYL9wPF5RhTbaFHLVjpJ6Of14cer3mYSQ3yHo5bwT8/br3ewKnSP0Cg+U/ZHbpnpUufP5BIBBw6Md6nnL9Lkw=
+	t=1779849599; cv=none; b=pjAtPZ06hTVcSf1LEnR+SVpXMcGGf+ZGvcdlJ0PCwCPj3jZ7QM0n6P4zGorlUDSOiGMz/+7gCkX1imVdbTLSTe95R1SPyaxy79rZUH55Gm9Ef9gbVqj5nYlvTAHJJtBqXjFDFuCWUPPL3B05JSooxLUMCrbgtAfKuDpD/Xhi2G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779849561; c=relaxed/simple;
-	bh=YLHSJWtNRRKULvHiEhk/EuOJw3HGQnVcZ8LNPxAwLsM=;
+	s=arc-20240116; t=1779849599; c=relaxed/simple;
+	bh=IxVcgxaiFRhrbxKKNt/n9CTAfyskZGeCxhccEfOgkOE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gdu1AOWNxMFVwT1ZF9ds9Cj2/hnem36RU03EenGiyWIHpGr2z6um43XD6DHFzZaUIV6K71jtPGa2pABRqwBKRtwtB15HQHEgLwPBUD1J+P1kLWgygDWtfFZ46N+OsJLHV16YRF6pYrH9H9y4Heg4yaGGuQXtkLCEptUUw4+WCt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ayI+kl0C; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=FnxIwlotn7vTqHdqVrGCBSsbBsDASWkZj9GxeYqAvOVHAtTaRjjBs2jJAHl/DGovOqEnvQ7vLHS0OXzS6ly+spiYCn2SJAPZnV1HyMiWf6dV2X2J9w0NU/9uBPyp1TgMTuvBRXaL0dKJPjjhuEUcWOyx+d+iKcJohfcOj8gkFlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XCLEH0ZV; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ayI+kl0C"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-365d8e43759so5660196a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 19:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779849559; x=1780454359; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sGwC6eNLghO2bBmS4gKEtdX6PelNtfsnZTEHkZ16hk4=;
-        b=ayI+kl0CLKR5VSJ/Gf/s2mKDwbNBp9KiF4qPKCWfFUMVYKppunHFJqLVvNZHY18c19
-         FX3jelKC9mzQhdh5RsupERasj63J30hN/P9toP0ciMSWINYKJQ9USeGqdH8av5IIZifF
-         7Rpql11t9M9ZApGvsu1/WtmzrlOp/rkyx86pHSBAUhMLRkCcr7zYxxPHYflfXs4l8lNB
-         i3DgcszCgaAq4ePyL8AvyFy/DCykRrmB6CC3eJ73lwJB5blQYd2wrQiUrWMHZOLoXXYa
-         Dj46b3bJOhwtZKdh90zSRe0Na1qOUvi85/mokKjOvDfUkbpBnAgS8aidM8H5Cfppwxss
-         ex3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779849559; x=1780454359;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sGwC6eNLghO2bBmS4gKEtdX6PelNtfsnZTEHkZ16hk4=;
-        b=kdguQ8BbnJ3EzK6lz5Qu/D+iNDotnRGsLqpvoZhLmjjdJynrrdncRrsQluw2SbqGVB
-         dMtddJm4g8ALqsIs4M8TPgTlLggM0jUZO8QB4TISggpErFWbsv140jW5v1N9w2C10jT2
-         Lz6kol9yvVbpP04WPOunMoETHU8fwcyVnUQjex/pAGBrRgfHEMuuEhZx5f0alwxpKSnF
-         059xyuXIiSQbgINcjm8kv+BhAfk6eJ1kIVHp5F+Sa4/oATgVy7O4tk2WWQdXqfzDmCTs
-         438iRy5Hi0PUaKFlmNFnOWbKMkw2v0kO0+8zzfZPQazl9bpvA1ryGqaMhlqg1niJ0bMI
-         xLzw==
-X-Forwarded-Encrypted: i=1; AFNElJ/PuUtHsGfQVCDSeTRLAh+MBn4/xFjO2+pzrAg/sW16CyQV6N63aa2JuH1h//T9v6cRqav9mgougcU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykqzihmPft3J+TozydCJTRxWBN3fS9q+DXlTysryGCTX95jtIi
-	J5+ZRJuLQnhhNNbzd7Ly8s/bAd7QeiGYsMRY9FDrg/U++sZeLyGJe4Fj5TFYVA==
-X-Gm-Gg: Acq92OE2jWdYNSU41lmBHCaQYKR99kMYkzrudQoekVcI8YfKWXUsY+Y5gEVOA1nUUTs
-	tqV0d48EP8W8iRaPOC+YZqyy3TInoAh94PQiLjpNQPCEm7nzeCWglLOnC1HF4XisvrDuLXwhyPG
-	DViIOlsu6IAkOwx5WGyqJLO+cgf2k2fQFtYgyUhsGiPbJO2cyMUGS6rTWcSb/cxF7xBU1NZjHrT
-	M/glB8KYMvS2i8XVp/1geeC1SzwXsmoaPVCoOZjDCMgCkG8hpjrg2ancrmScVK0ZlfZtcxiku5v
-	w+WraVZ3UljWJZ84VbKuRt5ug+WChiq4nZe2cNqKvXosdf5FvfwZxAA09fRrVq366SiPduPXLrX
-	/8P2GiaMpeGb77sCSqgbhyNrDxRWVESDeDE7yIHId29t9GJPutLLncLc07P0fzS+5FXELFNTtYJ
-	0a9LEFhtWw63Q8h3/8fOxav9HbzjZn7QkWfkMxhmJ9VJJ1w+0j056cdPo=
-X-Received: by 2002:a17:90a:ac10:b0:36a:5b56:5c1d with SMTP id 98e67ed59e1d1-36a5b565cf7mr12903624a91.11.1779849559393;
-        Tue, 26 May 2026 19:39:19 -0700 (PDT)
-Received: from [10.125.192.130] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85202b946dsm11616672a12.13.2026.05.26.19.39.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 May 2026 19:39:18 -0700 (PDT)
-Message-ID: <8eea0a0d-615f-ff72-b019-0634a5f1028b@gmail.com>
-Date: Wed, 27 May 2026 10:39:08 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XCLEH0ZV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=17OZ+SJ5AtcF0dHm0RawFo9m+tVpv7RAqJytRnY3cN8=; b=XCLEH0ZVNQ6eBKZvQo3vAViF8M
+	GU+IsGmQOWY/AM/EqvLA8x+TXS1Cbq3Kz7E2ZiZHHPhN15BBobGE4iLNwChY7TdK7V3/8ay4backk
+	wd0TZEHybBzfziLoK33074mPLo+esM2rHwaTKRKgB0ksLRisHtDs/KClSyXBSddQWfWCSqhkkMZ3V
+	eGD5VCU3gtyHjnGQdF8SFB4WanDBpLM9yOrLvTjuoYwHsqN+aGTwQAe5GYArSXgZmyONAED50Qa6X
+	W/1LAY69lG/60zXasFLKm7QBQXp2tly6ZoWQOIcub4avuVs5iZYEjV4YnPVboQVC8AhBrrlm5ao4S
+	whAtF/HA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wS4BQ-00000003AxU-1t9k;
+	Wed, 27 May 2026 02:39:48 +0000
+Message-ID: <72e0f118-5fa5-4ca7-b443-b472e7ba317d@infradead.org>
+Date: Tue, 26 May 2026 19:39:47 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v2 0/4] mm/zswap: Implement per-cgroup proactive writeback
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org,
- hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org,
- mkoutny@suse.com, nphamcs@gmail.com, chengming.zhou@linux.dev,
- muchun.song@linux.dev, roman.gushchin@linux.dev, cgroups@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Hao Jia <jiahao1@lixiang.com>
-References: <20260525122242.36127-1-jiahao.kernel@gmail.com>
- <20260525122424.3b2818f06832d9d55da8d69b@linux-foundation.org>
- <9b2ac88c-a67f-2512-d898-3dadd50ec03e@gmail.com>
- <CAO9r8zO1+brQroYufMZ2K=ZH_PBBpzYPsdYm-DT3K2GxoKJs9A@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAO9r8zO1+brQroYufMZ2K=ZH_PBBpzYPsdYm-DT3K2GxoKJs9A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 00/10] docs: net: updates for old and cobwebbed
+ docs
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
+ vladimir.oltean@nxp.com, willemb@google.com, sdf.kernel@gmail.com,
+ ecree.xilinx@gmail.com, jesse.brandeburg@intel.com, linux-doc@vger.kernel.org
+References: <20260526160151.2793354-1-kuba@kernel.org>
+ <1c341b25-e720-4f63-9db1-99348c8ebed9@infradead.org>
+ <20260526153719.7261b7f2@kernel.org> <20260526154001.4a8d30bf@kernel.org>
+ <9757813c-dfc2-4979-80da-c3bbf962dc4c@infradead.org>
+ <20260526181513.0393ca46@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260526181513.0393ca46@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
 
-On 2026/5/27 02:55, Yosry Ahmed wrote:
-> On Tue, May 26, 2026 at 4:56 AM Hao Jia <jiahao.kernel@gmail.com> wrote:
->>
->>
->>
->> On 2026/5/26 03:24, Andrew Morton wrote:
->>> On Mon, 25 May 2026 20:22:38 +0800 Hao Jia <jiahao.kernel@gmail.com> wrote:
->>>
->>>> Zswap currently writes back pages to backing swap reactively, triggered
->>>> either by the shrinker or by the pool reaching its size limit. Although
->>>> proactive memory reclaim can automatically write back a portion of zswap
->>>> pages via the shrinker, it cannot explicitly control the amount of
->>>> writeback for a specific memory cgroup. Moreover, proactive memory reclaim
->>>> may not always be triggered during a steady state.
->>>>
->>>> In certain scenarios, it is desirable to trigger writeback in advance to
->>>> free up memory. For example, users may want to prepare for an upcoming
->>>> memory-intensive workload by flushing cold memory to the backing storage
->>>> when the system is relatively idle.
->>>>
->>>> This patch series introduces a "zswap_writeback_only" key to memory.reclaim
->>>> cgroup interface, allowing users to proactively write back cold compressed
->>>> pages from zswap to the backing swap device. When specified, this key
->>>> bypasses standard memory reclaim and exclusively performs proactive zswap
->>>> writeback up to the requested budget. If omitted, the default reclaim
->>>> behavior remains unchanged.
->>>
->>> Thanks.  AI review found a few things to complain about, one of them
->>> described as "preexisting".
->>>
->>
->> Thanks Andrew.  I have replied to the AI's review comments in a separate
->> email and posted v3.
->> https://lore.kernel.org/all/20260526114601.67041-1-jiahao.kernel@gmail.com
+On 5/26/26 6:15 PM, Jakub Kicinski wrote:
+> On Tue, 26 May 2026 17:51:45 -0700 Randy Dunlap wrote:
+>> It's in today's linux-next (20260526), line 1950 of
+>> include/linux/netdevice.h:
 > 
-> Generally speaking, please give time for reviewers to take a look
-> before sending a new version. Less than a day is usually too fast
-> (unless you're iterating super fast with the reviewers). Review
-> feedback does not have to be addressed immediately, usually wait for a
-> bit to collect as much feedback as possible before spinning a new
-> version.
->
+> linux-next is useful, but we try not to merge broken code, not just
+> notice it after the fact. So it'd be great if the fix made its way
+> to Linus and therefore propagate to subsystem -next trees, not just
+> linux-next.
 
-Thanks for the advice, Yosry. Got it.
+OK. I don't quite know what you mean by that, but I just checked the
+current net-next tree and it's still there at line 1950.
 
-> I will take a look at v3 soon, thank you.
+-- 
+~Randy
 
-Appreciate you taking a look at v3.
-
-Thakns,
-Hao
