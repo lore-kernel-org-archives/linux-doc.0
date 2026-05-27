@@ -1,143 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9090E4218AE;
-	Wed, 27 May 2026 13:54:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9DE3C2B84;
+	Wed, 27 May 2026 13:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779890076; cv=none; b=itp/GUpyZEjF7MkiZh5olf96wZp9mI+th0KR2Y/VRY0Jj+1fylf4W1+gUOV5/Lcwkm3S2mdsHSSeelC5ByhTajldfgU3Z7kELi8SzHLm0v7IYkLf2OxTf/qGsnix4fz5Ua54qz289twF08dvDBTvOuvEQ66+uY5ltkTMGyNReq0=
+	t=1779890129; cv=none; b=P5xAAakNLdm9Wg04qYmxcM+zYlicn70jGci7Mlrnr97liV/PczqV1Ty3t1vPv4TtxD62LTCB+s7L1N3P4DthWzilyNTS+x3LiEYVPJvIPOr4hYmlYinqj5zL0COr1gK9U9S2amisKkRp0a8Jtr6K0qJFCG4gUOG4Q7wioKXjiK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779890076; c=relaxed/simple;
-	bh=fK1nAKr7+30b/vQc2CBpGjbhUC9xsssoUNWmQ8uQrQY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ewuu1O7gnM9afQDsg0X7C1GJp9izewr5ih3y3xxgz89xrPp2afCkO7DzxXPb8cmGQ2+9owuPI2QcrjORwKroAVfxfG5DMhkOcUTWoiT+Ls7eWxuu9UwSZ3AWUA4fL6mOpQLDH4pPmp1bT7XVE78DOwkawywqPrP2GqBm2dZEAp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Za8sVtpN; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Za8sVtpN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83A761F00A3D;
-	Wed, 27 May 2026 13:54:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779890074;
-	bh=0gmJLrBDFO3dtJ/TE0yy5dxjGSaWCHkjmIKTQNev58I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Za8sVtpNxG5G6vgwKJ5EJLV88z12rO+NegxjWMFchH1Ni5Lq1/UK/ziiHz5y34RSU
-	 bCFt9N5y5+r4Req+mDBxjWrpCsRhUX/ckcs+ZaZ1oM7fJoOBr49EoY96qLl1R63ClO
-	 VmtBifMYtwA+zMUcj19KRtCTPiCD5Twib8HvdV2Yzou0WHadTG27Pv9jIL4GleSGP7
-	 xuekMK50bHEVn9pjl2WxLxuDNV0lw07W32CI4NO+wVwDMQl25ouqets22dcmOln74C
-	 sPl2rnUXJhfZHyq5nKV1Z+rJEpoBfz9mFrdx+TeJrGcmvUVXZ3M2PNhwX5Ot5J0Vhl
-	 ZQcyem5uTpuWw==
-From: hawk@kernel.org
-To: netdev@vger.kernel.org
-Cc: Jesper Dangaard Brouer <hawk@kernel.org>,
-	=?UTF-8?q?Jonas=20K=C3=B6ppeler?= <j.koeppeler@tu-berlin.de>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Christian Brauner <brauner@kernel.org>,
-	Krishna Kumar <krikku@gmail.com>,
-	Yajun Deng <yajun.deng@linux.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v6 1/5] net: add dev->bql flag to allow BQL sysfs for IFF_NO_QUEUE devices
-Date: Wed, 27 May 2026 15:54:12 +0200
-Message-ID: <20260527135418.1166665-2-hawk@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260527135418.1166665-1-hawk@kernel.org>
-References: <20260527135418.1166665-1-hawk@kernel.org>
+	s=arc-20240116; t=1779890129; c=relaxed/simple;
+	bh=NHz39xYLTeVYIKj/UzhyJPaWvoqcWWwv9ZkniHT/Tvg=;
+	h=Message-ID:Date:Mime-Version:From:To:Cc:Subject:Content-Type; b=C1VBqucMnxQyO+OUUOJvAklYNtwmMp9yPZUDiwdzGAW1Da2uZ3KsO06dk2lswPgBTkXowXuPMXHq4X0XVEoI7Fe7auI+P5rJS0hnWPHBPK1NCQ4Xrvc9Gs2Tpx9VLtgSwwV/KI0R63utIFr1hThwxoonY38As5Eopfq155s/80s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4gQWNB1s5gz4xNtl;
+	Wed, 27 May 2026 21:55:22 +0800 (CST)
+Received: from xaxapp05.zte.com.cn ([10.99.98.109])
+	by mse-fl1.zte.com.cn with SMTP id 64RDtKKQ073485;
+	Wed, 27 May 2026 21:55:20 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Wed, 27 May 2026 21:55:24 +0800 (CST)
+X-Zmail-TransId: 2afa6a16f7cca0e-0721e
+X-Mailer: Zmail v1.0
+Message-ID: <20260527215524044fG7XSpgveHiaFhraq0yAi@zte.com.cn>
+Date: Wed, 27 May 2026 21:55:24 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
+        <yang.yang29@zte.com.cn>
+Cc: <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <xu.xin16@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIDAvM10gZGVsYXl0b3A6IGFkZCBkZWxheSBtYXgsIHRpbWVzdGFtcCBhbmQgc29ydGluZyBmb3IgdG9wIGxhdGVuY3kgYW5hbHlzaXM=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 64RDtKKQ073485
+X-TLS: YES
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SOURCE-IP: 10.5.228.132 unknown Wed, 27 May 2026 21:55:22 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6A16F7CA.000/4gQWNB1s5gz4xNtl
 
-From: Jesper Dangaard Brouer <hawk@kernel.org>
+From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-Virtual devices with IFF_NO_QUEUE or lltx are excluded from BQL sysfs
-by netdev_uses_bql(), since they traditionally lack real hardware
-queues. However, some virtual devices like veth implement a real
-ptr_ring FIFO with NAPI processing and benefit from BQL to limit
-in-flight bytes and reduce latency.
+Previously delaytop only showed average delays. This patch adds:
 
-Add a per-device 'bql' bitfield boolean in the priv_flags_slow section
-of struct net_device. When set, it overrides the IFF_NO_QUEUE/lltx
-exclusion and exposes BQL sysfs entries (/sys/class/net/<dev>/queues/
-tx-<n>/byte_queue_limits/). The flag is still gated on CONFIG_BQL.
+1. delay_max fields to track the maximum delay value for each delay type
+   (cpu, blkio, irq, swapin, freepages, thrashing, compact, wpcopy)
+   per task.
 
-This allows drivers that use BQL despite being IFF_NO_QUEUE to opt in
-to sysfs visibility for monitoring and debugging.
+2. The -t/--type option displays only the specified delay type with avg/max
+   values side by side, allowing focused analysis:
+     delaytop -t cpu    # Show only CPU delay with avg/max
+     delaytop -t wpcopy # Show Copy-on-Write delay with avg/max
 
-Signed-off-by: Jesper Dangaard Brouer <hawk@kernel.org>
-Tested-by: Jonas Köppeler <j.koeppeler@tu-berlin.de>
----
- Documentation/networking/net_cachelines/net_device.rst | 1 +
- include/linux/netdevice.h                              | 2 ++
- net/core/net-sysfs.c                                   | 8 +++++++-
- 3 files changed, 10 insertions(+), 1 deletion(-)
+3. Wall-clock timestamp when each maximum delay occurred, displayed in the
+   MAX_TIMESTAMP column when using -t/--type option. This enables:
+   - Identifying the time when a process experienced an abnormal delay max
+   - Correlating delay max across multiple processes at the same timestamp
+   - Cross-referencing with logs, traces, or other metrics at that time
 
-diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-index 7b3392553fd6..62df1e09656b 100644
---- a/Documentation/networking/net_cachelines/net_device.rst
-+++ b/Documentation/networking/net_cachelines/net_device.rst
-@@ -170,6 +170,7 @@ unsigned_long:1                     see_all_hwtstamp_requests
- unsigned_long:1                     change_proto_down
- unsigned_long:1                     netns_immutable
- unsigned_long:1                     fcoe_mtu
-+unsigned_long:1                     bql                                                                 netdev_uses_bql(net-sysfs.c)
- struct list_head                    net_notifier_list
- struct macsec_ops*                  macsec_ops
- struct udp_tunnel_nic_info*         udp_tunnel_nic_info
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index bf3dd9b2c1a7..6b02e82d9625 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -2077,6 +2077,7 @@ enum netdev_reg_state {
-  *	@change_proto_down: device supports setting carrier via IFLA_PROTO_DOWN
-  *	@netns_immutable: interface can't change network namespaces
-  *	@fcoe_mtu:	device supports maximum FCoE MTU, 2158 bytes
-+ *	@bql:		device uses BQL (DQL sysfs) despite having IFF_NO_QUEUE
-  *
-  *	@net_notifier_list:	List of per-net netdev notifier block
-  *				that follow this device when it is moved
-@@ -2491,6 +2492,7 @@ struct net_device {
- 	unsigned long		change_proto_down:1;
- 	unsigned long		netns_immutable:1;
- 	unsigned long		fcoe_mtu:1;
-+	unsigned long		bql:1;
- 
- 	struct list_head	net_notifier_list;
- 
-diff --git a/net/core/net-sysfs.c b/net/core/net-sysfs.c
-index 3318b5666e43..82833e5dae03 100644
---- a/net/core/net-sysfs.c
-+++ b/net/core/net-sysfs.c
-@@ -1945,10 +1945,16 @@ static const struct kobj_type netdev_queue_ktype = {
- 
- static bool netdev_uses_bql(const struct net_device *dev)
- {
-+	if (!IS_ENABLED(CONFIG_BQL))
-+		return false;
-+
-+	if (dev->bql)
-+		return true;
-+
- 	if (dev->lltx || (dev->priv_flags & IFF_NO_QUEUE))
- 		return false;
- 
--	return IS_ENABLED(CONFIG_BQL);
-+	return true;
- }
- 
- static int netdev_queue_add_kobject(struct net_device *dev, int index)
+4. When using -t/--type option, tasks are sorted by maximum delay value in
+   descending order (largest delay first), enabling quick identification of
+   top N processes with highest delay spikes.
+
+Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
+
+Wang Yaxin (3):
+  delaytop: add delay max for delaytop
+  delaytop: add timestamp of delay max
+  delaytop: sort by max delay to highlight top latency processes
+
+ Documentation/accounting/delay-accounting.rst |  43 ++++
+ tools/accounting/delaytop.c                   | 232 +++++++++++++++---
+ 2 files changed, 247 insertions(+), 28 deletions(-)
+
 -- 
-2.43.0
-
+2.25.1
