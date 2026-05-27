@@ -1,196 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0681427A;
-	Wed, 27 May 2026 15:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB383AA507;
+	Wed, 27 May 2026 15:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779894703; cv=none; b=EiYH3GAIhcg+5YSmq4UJDVej/3epQHIyfWuaLkV6o1xA7lZMonBCtpgtK1I1ovfayDeojswqpk+ZqXQXy3XNqoFwoi8+4DTAt/suX5IbxCm0fWDSw1POuCemmYSHq2Os/Ze5GPOQDVM3sTqESSM9aurN2Yj8YeGwMgsS5AJao1E=
+	t=1779896003; cv=none; b=YDq6B4apaQlNqMLDsEDzGaSziCI56m+ysAAJFX4Zy3k4YZs6mHIfnZ4pVE3lvxeLGL+fUjZleMulZJ4WmA3z7olASIiJT3WSkWU+zvjza5jaU0OVNGJDzkgiaqHgQvbRZTzENmj4+za52aX8ymG52WKYLSLHtgfI+Nt5EAtc0qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779894703; c=relaxed/simple;
-	bh=rtfO5ujh7fvtxf8EwxH550DcHIe38LI9ALq52mY17DE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HQkQXkdxLqPvbqAuwuQ5PztQ5662vbqqv4RklRFZAyfpHp112T0pe8hK5CQG3obe7p38/5LTm70uamsf1HAVewXJ6N3U3R14JdClMqlkNhvQOiVwq4DHROR43W++OVqUNEbkIhGw81jTh+z9cOO/3Gqf9Slmdex+VFn5BovSBSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dtlMFHpX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779896003; c=relaxed/simple;
+	bh=h5ivLqPOtFuMratoUltIBcXA9xXpaycNqIAiiVaY+vo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=r+zPTJNU2TxWCvpew7NzKdciwNw2jJAZdKF7yZi5x7oQ8PUYdAh8TM/sAGFC+RBiLRivdxax7pK7ROkN98+4o1XqSv4q30vsBe14cIMJH/mnq9hdmCUTssgRKHNDtbekMmFs30A3nqt2L2rR/ZJguNqI5usyy/K90MkWMDLg5aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZgLNDbfe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dtlMFHpX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D24B1F000E9;
-	Wed, 27 May 2026 15:11:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779894701;
-	bh=YgZzYt5mfaIHlmQ0ek8+Zpuuv3uc5dxQ5CF0QVad7TQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dtlMFHpXraCXx2iVSn0Rre9CcHTp/4h5x4x/PLuJTASXjPROnaYOWNHvKe7qVzX+n
-	 DIdfdq3TOuQ+ibBvcMR+vEF7CZsoTtjTh+xdnMQ2c3wwT4osUd7OPW27MxmCSoFIOh
-	 iZSgMKJ17c5GNI4eBMz3q6r3Byx5sg1lcqy5+EcG9hEQZgXPOTPgQk2Z2KJbNlDaeA
-	 +XodYw3hrXVlPnVVJ9lxVTvFAQfGAmMATyrv5fTHU8/Qm8atzcCsYXPqFPeAxfw0VK
-	 zkcTar5yyz8H1rajgbqoeeEGs9Fm9pjEmWVNr/7hI08riCOoqvej5cie36oc/F+3OX
-	 0aXvnYcsRC3Rg==
-Date: Wed, 27 May 2026 16:11:36 +0100
-From: Conor Dooley <conor@kernel.org>
-To: ciprian.regus@analog.com
-Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next v2 01/10] dt-bindings: net: Add ADIN1140
-Message-ID: <20260527-nearness-antacid-9f94a3f43abc@spud>
-References: <20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com>
- <20260527-adin1140-driver-v2-1-37e5c8d4e0a0@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZgLNDbfe"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5B73FC2BCB3;
+	Wed, 27 May 2026 15:33:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779896002;
+	bh=h5ivLqPOtFuMratoUltIBcXA9xXpaycNqIAiiVaY+vo=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=ZgLNDbfeTtC3ppE1ycZWRO9pJA5WebnhAdqmoK21eu7PlcvMRgpmiHHs7L6DtZto3
+	 87cUPGERLHDrWOKMlYtwU/klOA9+tCQoxC4JwENEUfcpJi8gryR5rzQ6BBsYRLefcl
+	 sgLWix2ITTXkEzVHAm0JttekojS/UkF1n0cGaml0uFqEI078xjlEXqeRbtESUJFmTN
+	 ggKooBfCypscdoAUWhz+laQ16vzPuQf6mEqIJlq3Ci0AR/GffqCpvQMzbl0jHrdANy
+	 VdlxgAp5AWmChzuQK5LNsCPyiHDFkELLJatMs3wVRaMJeon78fJdGZNa7ICv5Tmtwu
+	 ZZ7/d7rksxo7w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52311CD5BD0;
+	Wed, 27 May 2026 15:33:22 +0000 (UTC)
+From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
+Subject: [PATCH RFC 00/12] Document synchronization used in managing guest
+ faults
+Date: Wed, 27 May 2026 08:33:12 -0700
+Message-Id: <20260527-kvm-locking-docs-v1-0-4fe8b602ff47@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6jZPRRWmjMQlxf91"
-Content-Disposition: inline
-In-Reply-To: <20260527-adin1140-driver-v2-1-37e5c8d4e0a0@analog.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALkOF2oC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDUyNz3eyyXN2c/OTszLx03ZT85GJd42SzlNRUg7TEpORUJaC2gqLUtMw
+ KsJHRSkFuzkqxtbUArG/ejGcAAAA=
+X-Change-ID: 20260527-kvm-locking-docs-3c6dee0fabce
+To: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Tianrui Zhao <zhaotianrui@loongson.cn>, Bibo Mao <maobibo@loongson.cn>, 
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+ Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, Fuad Tabba <tabba@google.com>, 
+ vannapurve@google.com, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
+ Ackerley Tng <ackerleytng@google.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779896001; l=2048;
+ i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
+ bh=h5ivLqPOtFuMratoUltIBcXA9xXpaycNqIAiiVaY+vo=;
+ b=c86I+Wkb6+CiaF3raHTi1YGp98pn1fMqF+h1ivq65CpJt+lVxisSb8FEQ5tUneg/sXQujPwO+
+ ps5IWtwTiXsA1T2xO/Oo8r96KccnU7sFJLwYuW4RaAAKsrkilwumm6N
+X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
+ pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
+X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
+ auth_id=649
+X-Original-From: Ackerley Tng <ackerleytng@google.com>
+Reply-To: ackerleytng@google.com
+
+In [1], Sean suggested consolidating comments for some functions.
+
+While trying to consolidate comments, I read up more about synchronization
+used in managing guest faults and put together some updates for
+Documentation/virt/kvm/locking.rst, including some fixes to the current
+content.
+
+I'm generalizing the kinds of functions Sean was referring to as
+"documentation for functions that depend on derived information from GFNs",
+and kvm_gmem_get_memory_attributes() from the conversion series [1] will
+also point to the documentation that is updated in this patch series.
+
+[1] https://lore.kernel.org/all/ag8JIlHjohAOC3-g@google.com/
+
+Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+---
+Ackerley Tng (12):
+      Documentation: KVM: Elaborate comment on kvm_usage_lock
+      Documentation: KVM: Consolidate notes about cpu_read_lock() and kvm_lock
+      Documentation: KVM: Consolidate notes about kvm->slots_lock and irq_lock
+      Documentation: KVM: Turn - into bullet point
+      Documentation: KVM: Explain what rule the exception section is meant for
+      Documentation: KVM: Have actual headings for exceptions
+      Documentation: KVM: Drop mention of kvm->lock in SRCU documentation
+      Documentation: KVM: Add example for kvm->srcu in relation to mutex/lock
+      Documentation: KVM: Document synchronization for managing guest faults
+      KVM: guest_memfd: Clarify comment about gmem.file vs kvm->srcu
+      KVM: mmu: Point users of host_pfn_mapping_level() to docs
+      Documentation: KVM: Focus acquisition order section on preventing deadlocks
+
+ Documentation/virt/kvm/locking.rst | 173 ++++++++++++++++++++++++++++++++-----
+ arch/loongarch/kvm/mmu.c           |  24 +----
+ arch/x86/kvm/mmu/mmu.c             |  24 +----
+ virt/kvm/guest_memfd.c             |   9 +-
+ 4 files changed, 165 insertions(+), 65 deletions(-)
+---
+base-commit: b7fbe9a1bf9ee6c967ef77d366ca58c35fcf1887
+change-id: 20260527-kvm-locking-docs-3c6dee0fabce
+
+Best regards,
+--
+Ackerley Tng <ackerleytng@google.com>
 
 
---6jZPRRWmjMQlxf91
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 27, 2026 at 12:51:46AM +0300, Ciprian Regus via B4 Relay wrote:
-> From: Ciprian Regus <ciprian.regus@analog.com>
->=20
-> The ADIN1140 is a single port 10BASE-T1S Ethernet controller that
-> includes both the MAC and a PHY in the same package.
->=20
-> Signed-off-by: Ciprian Regus <ciprian.regus@analog.com>
->=20
-> ---
-> v2 changelog:
->  - Reorder the compatible entries in the dt schema (ad3306, adin1140).
->  - Removed "dt-bindings" from the commit title and message.
->  - Updated the DT example to use IRQ_TYPE_LEVEL_LOW instead of
->    IRQ_TYPE_EDGE_FALLING for the interrupt trigger condition.
->  - "implements" -> "tries to implement" in the description.
->  - Removed the MAINTAINERS entry, as it will be added in a later patch
->    in the series.
->  - Reordered as the first patch of the series
-> ---
->  .../devicetree/bindings/net/adi,adin1140.yaml      | 69 ++++++++++++++++=
-++++++
->  1 file changed, 69 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/net/adi,adin1140.yaml b/Do=
-cumentation/devicetree/bindings/net/adi,adin1140.yaml
-> new file mode 100644
-> index 000000000000..518ff6b36c46
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/adi,adin1140.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/adi,adin1140.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ADI ADIN1140 10BASE-T1S MAC-PHY
-> +
-> +maintainers:
-> +  - Ciprian Regus <ciprian.regus@analog.com>
-> +
-> +description: |
-> +  The ADIN1140 (also called AD3306) is a low power single port
-
-Can you explain what is going on here please?
-Is "adin1140" (which I can find no information easily online for) the
-exact same device as the ad3306 (which has an entry on your site)?
-
-> +  10BASE-T1S MAC-PHY. It integrates an Ethernet PHY with a MAC
-> +  and all the associated analog circuitry.
-> +  The device tries to implement the Open Alliance TC6 10BASE-T1x MAC-PHY
-> +  Serial Interface specification and is compliant with the
-> +  IEEE 802.3cg-2019 Ethernet standard for 10 Mbps single pair
-> +  Ethernet (SPE). The device has a 4-wire SPI interface for
-> +  communication between the MAC and host processor.
-> +
-> +allOf:
-> +  - $ref: /schemas/net/ethernet-controller.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - adi,ad3306
-> +      - adi,adin1140
-
-Because if they are really two names for the same part, this compatible
-setup makes no sense, as it means they have a different programming
-models.
-
-Thanks,
-Conor.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-max-frequency:
-> +    maximum: 25000000
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description: Interrupt from the MAC-PHY for receive data available
-> +      and error conditions
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - spi-max-frequency
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    spi {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        ethernet@0 {
-> +            compatible =3D "adi,adin1140";
-> +            reg =3D <0>;
-> +            spi-max-frequency =3D <23000000>;
-> +
-> +            interrupt-parent =3D <&gpio>;
-> +            interrupts =3D <6 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +            local-mac-address =3D [ 00 11 22 33 44 55 ];
-> +        };
-> +    };
->=20
-> --=20
-> 2.43.0
->=20
->=20
-
---6jZPRRWmjMQlxf91
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCahcJqAAKCRB4tDGHoIJi
-0qhLAP9kWEWAgNjViEjtK5sUkLrwsi9MX4d99T72d46+d9VWugD9Fmxa80q0mkV7
-cv9vCA4xbSuUSKeY41ZUEuXqMLwztAE=
-=sl5p
------END PGP SIGNATURE-----
-
---6jZPRRWmjMQlxf91--
