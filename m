@@ -1,73 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FCF23535E;
-	Wed, 27 May 2026 01:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22168149C7B
+	for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 02:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779846028; cv=none; b=B/aDKZZnfJIL6m+FAlcKVflVfALEsbiJIXcvzf9eXt1OPHX6ykxOJmUsWzzwxFtCnaI4nHS2COjCVX3tdotewGedIYJgSyjHSvDmtDWXoCxtH1Sa97fn6wy3odddoitFF7KnxifXa0pgvOtoJBLflKJLLpV/jZ6gu9eayuck5bE=
+	t=1779849561; cv=none; b=kbK6RW2ujnmYTv7D4sINAqnzLLmHlBFU0O4DLPVyuISBVVFYKO7iAiBy7k2qtpZQWI9WzpJwGjd4prh/qp0UFiVYL9wPF5RhTbaFHLVjpJ6Of14cer3mYSQ3yHo5bwT8/br3ewKnSP0Cg+U/ZHbpnpUufP5BIBBw6Md6nnL9Lkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779846028; c=relaxed/simple;
-	bh=3MUBBPppyO0fH/F3MIaALrwek2Q97thIaEAQ5B+cKYA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qL2ffsEjF+i931W/1UCvsLm4LlkLrARE0y33YKBvI/P2CJMMENJm5p1MFyR4T3APKINSpc3Td4s0IMIevbUPkhNf1jHdVJAAAOqUdvDNMTGp3cex6VdD3jV6rHoS+sEyVcN4LpTyHF9Trx2EPIHrgp6IjYzweR/8vPFH8+baWxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HaSlg+qi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779849561; c=relaxed/simple;
+	bh=YLHSJWtNRRKULvHiEhk/EuOJw3HGQnVcZ8LNPxAwLsM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gdu1AOWNxMFVwT1ZF9ds9Cj2/hnem36RU03EenGiyWIHpGr2z6um43XD6DHFzZaUIV6K71jtPGa2pABRqwBKRtwtB15HQHEgLwPBUD1J+P1kLWgygDWtfFZ46N+OsJLHV16YRF6pYrH9H9y4Heg4yaGGuQXtkLCEptUUw4+WCt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ayI+kl0C; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HaSlg+qi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 604B71F000E9;
-	Wed, 27 May 2026 01:40:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779846027;
-	bh=k7APhuaYn+BJj+G8pdfSIyx/xH1eGaLzG4YtD0OwtPg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=HaSlg+qimU8q1kQ7AE/GGxz+RGhvpNsO+GUGBwXE4Z5UEtAT6JlyIacLBE7BVuo1x
-	 g5rrWFWLHmLoirH/+CQ5Vnh5xJvINDkydgK14Bqd4WItdRLWEMVeJ1MiSRn2RMACjf
-	 AMyOMHuJcNM+XDaSIdIPHWN9H/pY4bJ0NBshse3V3XmTPyI6usqvRp2cBfwFIBSZ+G
-	 NLWiUE8CcyyOhxhIyUbL6i/OT9T+X8nN8P7LxeE/HQlqGkeny4uXidwpe14ndoKsNb
-	 fdTB73jSvTpG1EvEXr2DIGSbyaN09e2cUSJa37FoJB5j5FzKd+gKbeYjWPPY9JipHQ
-	 ko85lM5WD4T4A==
-Date: Tue, 26 May 2026 18:40:25 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Demi Marie Obenour via B4 Relay
- <devnull+demiobenour.gmail.com@kernel.org>
-Cc: demiobenour@gmail.com, Herbert Xu <herbert@gondor.apana.org.au>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, Simon
- Horman <horms@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ingo
- Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa
- <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, Adrian Hunter
- <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Eric
- Biggers <ebiggers@google.com>, Ard Biesheuvel <ardb@kernel.org>,
- linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
- io-uring@vger.kernel.org, netdev@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] net: Remove support for AIO on sockets
-Message-ID: <20260526184025.0ca0e979@kernel.org>
-In-Reply-To: <20260523-af-alg-harden-v1-1-c76755c3a5c5@gmail.com>
-References: <20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com>
-	<20260523-af-alg-harden-v1-1-c76755c3a5c5@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ayI+kl0C"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-365d8e43759so5660196a91.0
+        for <linux-doc@vger.kernel.org>; Tue, 26 May 2026 19:39:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779849559; x=1780454359; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sGwC6eNLghO2bBmS4gKEtdX6PelNtfsnZTEHkZ16hk4=;
+        b=ayI+kl0CLKR5VSJ/Gf/s2mKDwbNBp9KiF4qPKCWfFUMVYKppunHFJqLVvNZHY18c19
+         FX3jelKC9mzQhdh5RsupERasj63J30hN/P9toP0ciMSWINYKJQ9USeGqdH8av5IIZifF
+         7Rpql11t9M9ZApGvsu1/WtmzrlOp/rkyx86pHSBAUhMLRkCcr7zYxxPHYflfXs4l8lNB
+         i3DgcszCgaAq4ePyL8AvyFy/DCykRrmB6CC3eJ73lwJB5blQYd2wrQiUrWMHZOLoXXYa
+         Dj46b3bJOhwtZKdh90zSRe0Na1qOUvi85/mokKjOvDfUkbpBnAgS8aidM8H5Cfppwxss
+         ex3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779849559; x=1780454359;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sGwC6eNLghO2bBmS4gKEtdX6PelNtfsnZTEHkZ16hk4=;
+        b=kdguQ8BbnJ3EzK6lz5Qu/D+iNDotnRGsLqpvoZhLmjjdJynrrdncRrsQluw2SbqGVB
+         dMtddJm4g8ALqsIs4M8TPgTlLggM0jUZO8QB4TISggpErFWbsv140jW5v1N9w2C10jT2
+         Lz6kol9yvVbpP04WPOunMoETHU8fwcyVnUQjex/pAGBrRgfHEMuuEhZx5f0alwxpKSnF
+         059xyuXIiSQbgINcjm8kv+BhAfk6eJ1kIVHp5F+Sa4/oATgVy7O4tk2WWQdXqfzDmCTs
+         438iRy5Hi0PUaKFlmNFnOWbKMkw2v0kO0+8zzfZPQazl9bpvA1ryGqaMhlqg1niJ0bMI
+         xLzw==
+X-Forwarded-Encrypted: i=1; AFNElJ/PuUtHsGfQVCDSeTRLAh+MBn4/xFjO2+pzrAg/sW16CyQV6N63aa2JuH1h//T9v6cRqav9mgougcU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YykqzihmPft3J+TozydCJTRxWBN3fS9q+DXlTysryGCTX95jtIi
+	J5+ZRJuLQnhhNNbzd7Ly8s/bAd7QeiGYsMRY9FDrg/U++sZeLyGJe4Fj5TFYVA==
+X-Gm-Gg: Acq92OE2jWdYNSU41lmBHCaQYKR99kMYkzrudQoekVcI8YfKWXUsY+Y5gEVOA1nUUTs
+	tqV0d48EP8W8iRaPOC+YZqyy3TInoAh94PQiLjpNQPCEm7nzeCWglLOnC1HF4XisvrDuLXwhyPG
+	DViIOlsu6IAkOwx5WGyqJLO+cgf2k2fQFtYgyUhsGiPbJO2cyMUGS6rTWcSb/cxF7xBU1NZjHrT
+	M/glB8KYMvS2i8XVp/1geeC1SzwXsmoaPVCoOZjDCMgCkG8hpjrg2ancrmScVK0ZlfZtcxiku5v
+	w+WraVZ3UljWJZ84VbKuRt5ug+WChiq4nZe2cNqKvXosdf5FvfwZxAA09fRrVq366SiPduPXLrX
+	/8P2GiaMpeGb77sCSqgbhyNrDxRWVESDeDE7yIHId29t9GJPutLLncLc07P0fzS+5FXELFNTtYJ
+	0a9LEFhtWw63Q8h3/8fOxav9HbzjZn7QkWfkMxhmJ9VJJ1w+0j056cdPo=
+X-Received: by 2002:a17:90a:ac10:b0:36a:5b56:5c1d with SMTP id 98e67ed59e1d1-36a5b565cf7mr12903624a91.11.1779849559393;
+        Tue, 26 May 2026 19:39:19 -0700 (PDT)
+Received: from [10.125.192.130] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85202b946dsm11616672a12.13.2026.05.26.19.39.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2026 19:39:18 -0700 (PDT)
+Message-ID: <8eea0a0d-615f-ff72-b019-0634a5f1028b@gmail.com>
+Date: Wed, 27 May 2026 10:39:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH v2 0/4] mm/zswap: Implement per-cgroup proactive writeback
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org,
+ hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org,
+ mkoutny@suse.com, nphamcs@gmail.com, chengming.zhou@linux.dev,
+ muchun.song@linux.dev, roman.gushchin@linux.dev, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Hao Jia <jiahao1@lixiang.com>
+References: <20260525122242.36127-1-jiahao.kernel@gmail.com>
+ <20260525122424.3b2818f06832d9d55da8d69b@linux-foundation.org>
+ <9b2ac88c-a67f-2512-d898-3dadd50ec03e@gmail.com>
+ <CAO9r8zO1+brQroYufMZ2K=ZH_PBBpzYPsdYm-DT3K2GxoKJs9A@mail.gmail.com>
+From: Hao Jia <jiahao.kernel@gmail.com>
+In-Reply-To: <CAO9r8zO1+brQroYufMZ2K=ZH_PBBpzYPsdYm-DT3K2GxoKJs9A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, 23 May 2026 15:43:02 -0400 Demi Marie Obenour via B4 Relay
-wrote:
-> The only user of msg->msg_iocb was AF_ALG, but that's deprecated.
-> It can be removed entirely at the cost of only supporting synchronous
-> operations.  This doesn't break userspace, which will silently block
-> (for a bounded amount of time) in io_submit instead of operating
-> asynchronously.
+
+
+On 2026/5/27 02:55, Yosry Ahmed wrote:
+> On Tue, May 26, 2026 at 4:56 AM Hao Jia <jiahao.kernel@gmail.com> wrote:
+>>
+>>
+>>
+>> On 2026/5/26 03:24, Andrew Morton wrote:
+>>> On Mon, 25 May 2026 20:22:38 +0800 Hao Jia <jiahao.kernel@gmail.com> wrote:
+>>>
+>>>> Zswap currently writes back pages to backing swap reactively, triggered
+>>>> either by the shrinker or by the pool reaching its size limit. Although
+>>>> proactive memory reclaim can automatically write back a portion of zswap
+>>>> pages via the shrinker, it cannot explicitly control the amount of
+>>>> writeback for a specific memory cgroup. Moreover, proactive memory reclaim
+>>>> may not always be triggered during a steady state.
+>>>>
+>>>> In certain scenarios, it is desirable to trigger writeback in advance to
+>>>> free up memory. For example, users may want to prepare for an upcoming
+>>>> memory-intensive workload by flushing cold memory to the backing storage
+>>>> when the system is relatively idle.
+>>>>
+>>>> This patch series introduces a "zswap_writeback_only" key to memory.reclaim
+>>>> cgroup interface, allowing users to proactively write back cold compressed
+>>>> pages from zswap to the backing swap device. When specified, this key
+>>>> bypasses standard memory reclaim and exclusively performs proactive zswap
+>>>> writeback up to the requested budget. If omitted, the default reclaim
+>>>> behavior remains unchanged.
+>>>
+>>> Thanks.  AI review found a few things to complain about, one of them
+>>> described as "preexisting".
+>>>
+>>
+>> Thanks Andrew.  I have replied to the AI's review comments in a separate
+>> email and posted v3.
+>> https://lore.kernel.org/all/20260526114601.67041-1-jiahao.kernel@gmail.com
 > 
-> This also makes struct msghdr smaller, helping every other caller of
-> sendmsg().
+> Generally speaking, please give time for reviewers to take a look
+> before sending a new version. Less than a day is usually too fast
+> (unless you're iterating super fast with the reviewers). Review
+> feedback does not have to be addressed immediately, usually wait for a
+> bit to collect as much feedback as possible before spinning a new
+> version.
+>
 
-Acked-by: Jakub Kicinski <kuba@kernel.org>
+Thanks for the advice, Yosry. Got it.
+
+> I will take a look at v3 soon, thank you.
+
+Appreciate you taking a look at v3.
+
+Thakns,
+Hao
