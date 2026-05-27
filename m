@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C58436374;
-	Wed, 27 May 2026 15:33:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F3C3D3D16;
+	Wed, 27 May 2026 15:33:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779896004; cv=none; b=XtIZURHoalEuMafUD1y79sptHM4/IL5oLd5pKZtAac6/dyQlWtJvq/qZM3EbIpKBsJFgvNVHdSrF9q07a9UwFk3TYeXj/519IQeHfC18Qrj3yoqOiFxAAxzQCt73jRb/QcvUvGXyRNYQddmrjpkNj27N/CeQIc1Ji3O57XSv0JQ=
+	t=1779896004; cv=none; b=QNhrG1KwbdLvLgk4DC3PTtYtg5Yy57ZM4++vgXuAIZ+dGB7/70QDTWkFG0x4WKRTGuYNECBydLP4FCfy8tJwSt5ewzwNcgVorX6J+QJN0A2TIcj8HAicXM63ziNMYywpuHWEQbchBI41HYTxknSGELV65mRgQLaecNeLUMwA94g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779896004; c=relaxed/simple;
-	bh=nVpl3TVZQU9iG/8SJ8PbEKLaQViBegpkV2M01+wMc30=;
+	bh=SDxYegV3dg2hqetMhwdqeXXQOxrUizjq1F4c00wAdYo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AFXNkaHAYc5q3w6wfeapfT+bsiLcA5EPAU21aXmCa/WHWDCeUMfRN691bBLlnSZjJnVy9ykukOQgVKne9YwlUsRq4I0LIFVcp0+VygNcxET6bHvN4XkIEKM1pFi99BP0gpCh+rBh0hd3E9E2Ya8LJdSAXbU7wfrQVAsdAOqKfrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H43ckgw1; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=mfTLjbiIpWRcbYR1Y8H3RdkiuYbjp2IcgzzXKMG8NXwzUsJqmxn4qjgOpnB+56tveIwKd5hmbEm5O3BDuYxTgTA2SWKvNSUH4aPmRnsgXrUAF9WzhjbW2KV9ET5SHJCRUT77D+83G2GkEncU5SKTssbkIeRvP5ELeVEirnGZQ3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EfETLX8P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H43ckgw1"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A5489C2BCF6;
-	Wed, 27 May 2026 15:33:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EfETLX8P"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3F083C2BCB4;
+	Wed, 27 May 2026 15:33:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779896002;
-	bh=nVpl3TVZQU9iG/8SJ8PbEKLaQViBegpkV2M01+wMc30=;
+	s=k20201202; t=1779896003;
+	bh=SDxYegV3dg2hqetMhwdqeXXQOxrUizjq1F4c00wAdYo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=H43ckgw1K/X/LMmGirCLu6olwyKN+3u+/yP/z6bq4Ct4qvvq94RCjO4PnMuw80M68
-	 8djH78hYQ/6RueZeAlOGbX/16eqZVSzD6saRHNkwrq5RgAfLSBcybMpNwVtSULUf00
-	 p4iAOaCi1NFHMkYm9rAg0cDrDyfjyQVIs6FJC3oZdgg4LbiCo+7Il/17eSinXotCrL
-	 jBqtiGCtO1xpXV2OxG/7eZgVCon6zt6es2Xn/VF1t1m0DG8/8cQsNzraqRvYxd0y7G
-	 oziRXR42K0miODftx0GpKUUz2adWvK/lDhtgoD8kIhYjikZSvRJUdUEx5x0XEj9IFb
-	 u+EENixrJHRgw==
+	b=EfETLX8PWPzNlXwhunKu2XOnMLme4YYCL6BQ7GyLGzlBVkXiHJ5p+CPHXS4Vs2/Vt
+	 e0Ea2Fn9zVa/EHLEpmzVQx4lT/7PLUzrW3wg+XlBzml/BEA0zfmc8zP7IwimsC0kZa
+	 zM0afIiLEyTXyl//yByWhVt4N0J3/624sMNnKQCCt+isw8BBRYsjajIKG52j5wKlYE
+	 GlxmP2Pz7m9NuGtzmev9SHLjRx5YBN2eN3GI7uGp1pqH6skHwk06FRD+i3ifLFi0ZS
+	 fuTBr+DSl5UDBs+g0Cm57fvpJAG1Tey44suE2iw8miMzFN0lou9WSnAAbZHsKWrHb1
+	 MPhIwNSaQBmlA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C8C4CD6E45;
-	Wed, 27 May 2026 15:33:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B67CD4F54;
+	Wed, 27 May 2026 15:33:23 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Wed, 27 May 2026 08:33:16 -0700
-Subject: [PATCH RFC 04/12] Documentation: KVM: Turn - into bullet point
+Date: Wed, 27 May 2026 08:33:24 -0700
+Subject: [PATCH RFC 12/12] Documentation: KVM: Focus acquisition order
+ section on preventing deadlocks
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260527-kvm-locking-docs-v1-4-4fe8b602ff47@google.com>
+Message-Id: <20260527-kvm-locking-docs-v1-12-4fe8b602ff47@google.com>
 References: <20260527-kvm-locking-docs-v1-0-4fe8b602ff47@google.com>
 In-Reply-To: <20260527-kvm-locking-docs-v1-0-4fe8b602ff47@google.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -55,11 +56,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779896001; l=909;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779896001; l=1268;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=CVJlxPT0bvHHOwHsW6J5heOXwU/ZjkdVD+6fUMJnWDE=;
- b=KkPJHF+eM7NDmHDSEhDOiOBWhwesjg7rIQXxnzpWgTB9I02vfYnNi5BaXX0a183XJ1mq7TDDx
- YhG5/AGb4N7Df+nmEUADJYfEvIEoR/I+w01Jm8766xS2x9bSTAeKxa+
+ bh=AsaYP57e05UmB20wkvz2ac8XwGdrnAvpcLv6/4UIzSY=;
+ b=/yniIvnWn4q3kTWgqqaHndF4zOmwJDCk3stxZhB8gkrHCBDyaGRJ5dgMjaI2FXpf3UqwGtqcK
+ qwfmNRwB7dXCwu4GyjoIDe3TPOjN73gTHFFrxKkm4DEZmg1MiFAmPWK
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -69,28 +70,34 @@ Reply-To: ackerleytng@google.com
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-For the :Protects: section of kvm->mmu_lock, a missing space causes the -
-to render as a literal - instead of a bullet point. Add space to make it
-render as a bullet point.
+Now that the first sentence is already described in more detail in the new
+section on synchronization while managing guest faults, drop the first
+sentence.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- Documentation/virt/kvm/locking.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/virt/kvm/locking.rst | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/Documentation/virt/kvm/locking.rst b/Documentation/virt/kvm/locking.rst
-index 67dd2066f6d98..e349c2cb94943 100644
+index 0663ccfe0633d..f26ea3acd0b70 100644
 --- a/Documentation/virt/kvm/locking.rst
 +++ b/Documentation/virt/kvm/locking.rst
-@@ -283,7 +283,7 @@ time it will be set using the Dirty tracking mechanism described above.
- ^^^^^^^^^^^^^^^^^
- :Type:		spinlock_t or rwlock_t
- :Arch:		any
--:Protects:	-shadow page/shadow tlb entry
-+:Protects:	- shadow page/shadow tlb entry
- :Comment:	it is a spinlock since it is used in mmu notifier.
+@@ -26,11 +26,9 @@ The acquisition orders for mutexes are as follows:
  
- ``kvm->srcu``
+ - vcpu->mutex is taken outside kvm->slots_lock and kvm->slots_arch_lock
+ 
+-- kvm->mn_active_invalidate_count ensures that pairs of
+-  invalidate_range_start() and invalidate_range_end() callbacks
+-  use the same memslots array.  kvm->slots_lock and kvm->slots_arch_lock
+-  are taken on the waiting side when modifying memslots, so MMU notifiers
+-  must not take either kvm->slots_lock or kvm->slots_arch_lock.
++- kvm->slots_lock and kvm->slots_arch_lock are taken on the waiting side when
++  modifying memslots, so MMU notifiers must not take either kvm->slots_lock or
++  kvm->slots_arch_lock.
+ 
+ For SRCU:
+ 
 
 -- 
 2.54.0.823.g6e5bcc1fc9-goog
