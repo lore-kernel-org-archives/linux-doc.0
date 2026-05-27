@@ -1,357 +1,221 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7A833557D;
-	Wed, 27 May 2026 14:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7D4341C2E1;
+	Wed, 27 May 2026 14:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779890824; cv=none; b=pvmNujK2UW5RKOovsEGC5LY0LGpQGDe/3ucPIdJhKhTtDbzs1wjF5Uctw6ehPlZTq7XH+ZaQ4ZxiKKgr5/9R/hlcfErBBWj/LkwSqG1N+H0ZOj3/KaZhNdRgu+DfGUd0TKzakOLFqkJY946S7upJjDeYS2SvhYygEIpLMln5Voo=
+	t=1779891896; cv=none; b=OA4Lgf3Yaz7P17j3ooXzFaXwkOgOT8jLBbiMp5oiKzfDv+zhsU7fyg0BEw7/xEeu3ZhEcGK9NehOOlZTy5iPG4gr6Sw8wMbAuRAo/BkCMm2D+J2VA8KJAqhUlG6m6wUQYGe0Kf8hJ4zMW40dEpJhyPgC71KHnViJdyAsnhLtK8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779890824; c=relaxed/simple;
-	bh=SDfzb/1Kmc5Trou98JEPROybLRDzX5OpaKP4EzW9bos=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ATb6uNgRnLlwHy/6H7c9ef5TtQ2oNQpCWDvmeJtrOoVscW3Epu+NOs0aSvOQPbE8p0/9AlHE+byhUGqhY2Vq+UaIQL3ZPkMEPMzXtIAmgbyW7oT21ep1FKY2SxlsDiRBdH2NNzGmba7d+eCvDDecxnyr8nCC2gV7qiOsvKn6OeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=GHjxepgV; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1779891896; c=relaxed/simple;
+	bh=FoWVMWTOeZH0xBTQybA80G/O70bbICDvl9tgYaqI0Mo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RnQHMlNkajvv7DeJNwR0Ymb+P6vdAqC7gzZ6SKXrAQcFxtWK7D6+b0tNtutC90l38dwrVoC+RRAR6pjOo07sJ4x/UFF/Pwpo7BjwBV95ISYCrcVUqOfI8A7IX1LQtKUfy4zNU5Nkb6+kZ1YaaGMFzyKHgWSsFcJ5KJcZMuHMm+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=KDzV7d+Z; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="GHjxepgV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=0Qlr84M3AeZWVAoevmGDLh4IZ1AZxtRMBdJ6NJSNbEM=; b=GHjxepgVgGnp6Wf+o29m2Ra++S
-	HFNuFpXEwMWMHjCwolxdH0TgvMvXleWGAmx5CPU5vDtEjhmwWU9K01Ot55hcZZ+Q8GVMYh5JJoYlU
-	7+tcNX0fW04IhfaPS18QsbYuu+iwgFrPeQxpV1tTu49ywF8ssNv9hDQ69nuhj6ZPf1XsEpbiuvsb9
-	klvs+2Rpwk0Wb7r8qU0XF6/1mFP8iZyan4JFw+s7/s1bkzd6itDmX+bbtbk+eHBKSVqH5H+baS3AC
-	nAZZrn9qt6TF6bKNOE4huToK+9laoek5rYNPBaT++oIYKWEppfJl+weFUCdsSiOsMFWvhFDALjEVF
-	rmZFus2Q==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wSEuR-003DUA-1w;
-	Wed, 27 May 2026 14:07:00 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Wed, 27 May 2026 07:06:19 -0700
-Subject: [PATCH v8 6/6] selftests/mm: add hwpoison-panic destructive test
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="KDzV7d+Z"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F100027B5;
+	Wed, 27 May 2026 07:24:45 -0700 (PDT)
+Received: from a081061.blr.arm.com (a081061.arm.com [10.164.19.82])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8B84F3F905;
+	Wed, 27 May 2026 07:24:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1779891891; bh=FoWVMWTOeZH0xBTQybA80G/O70bbICDvl9tgYaqI0Mo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KDzV7d+ZQhjtC6yhLxjb8DAHu6cS/1N2fcYy1yfqqJo19/o1xmRf+NIs2PZXrrx7i
+	 2vbFDWE28j6EOU8iszj7v8NwWoqRH50EiHmX5wjD5svsDlS9y6RlYGcod56/muKLlh
+	 TVIueD6LlTBcKoGGhyr+UXVG/GzZ+ptnzxkXXD04=
+From: Sarthak Sharma <sarthak.sharma@arm.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <npache@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Peter Xu <peterx@redhat.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sarthak Sharma <sarthak.sharma@arm.com>
+Subject: [PATCH v4 0/5] selftests/mm: separate GUP microbenchmarking from functional testing
+Date: Wed, 27 May 2026 19:54:27 +0530
+Message-ID: <20260527142432.230127-1-sarthak.sharma@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260527-ecc_panic-v8-6-9ea0cfa16bb0@debian.org>
-References: <20260527-ecc_panic-v8-0-9ea0cfa16bb0@debian.org>
-In-Reply-To: <20260527-ecc_panic-v8-0-9ea0cfa16bb0@debian.org>
-To: Miaohe Lin <linmiaohe@huawei.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Shuah Khan <shuah@kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, 
- "Liam R. Howlett" <liam@infradead.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Breno Leitao <leitao@debian.org>, linux-trace-kernel@vger.kernel.org, 
- kernel-team@meta.com
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10551; i=leitao@debian.org;
- h=from:subject:message-id; bh=SDfzb/1Kmc5Trou98JEPROybLRDzX5OpaKP4EzW9bos=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqFvpb7o3XvcRbKPyXz7XX5qBYI9bJQToApahEY
- 327G7A4xtOJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCahb6WwAKCRA1o5Of/Hh3
- bRBLD/4h24VZsHSQb9dnBv2gc5/3ym90bQI7rQpxuprsupXISYHUL9HYiIqBe28ACS97PYPO91+
- nCIj1wqExeImfriJIlsiGUhcrLTBcFwvwmbMctZ19cBlwVv97HPsYnqzUyQfy5K0T5wzNQaRSjG
- sopEnb9S3U3ZWCTj+YCZ+P8Zca7fy0KDL+4edk19jBTjVweXcXG4pnZIQXeT/Y22sC6C/1tiDcM
- m7bUpFsrsG0GgHeRSQhyvD88B/QCEYcZ9f12FRVS877nxMcY9J11i2BC/YjrCCAE26Pe2ei+KNZ
- uKONOsCzPURI5ubYxB9cs1027cLbuj0b5wFWPLKQHh3XlR1LO+okzSu/nU8yZQRl5CkKAaETkDb
- mtvj8tzqQYIPORHn3YXtrbrcZj+FCyWe3A7/EovZ8Qh0dtuqKiaNCJSXeDYpZnpHUCezHgHAIuO
- be+D8v7rDeMJ3efLJWxgsIfYQdkbvUsRXl2c4so0acS+hkUPe+oZPj/gwAvkoRadtesOFRImiqz
- SIZp7Li/3WAybQkjarOu9L6W/2MaIpyzNc5VX/yuB9SbkZHDsdAc5H1wCAwDpmnGizvmYABx/Z5
- TVLgb0XTikNOOLSTD8bucvWJKb+8JWRmYmSm7AYun+x6CUn78004D8oxOqwwkQhtSLU08TgIu3j
- HH4G+3Q8TZ4RnuA==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
 
-Add a destructive selftest that verifies
-vm.panic_on_unrecoverable_memory_failure actually panics when a
-hwpoison error hits a kernel-owned page.
+gup_test.c currently serves two distinct purposes: microbenchmarking
+(GUP_FAST_BENCHMARK, PIN_FAST_BENCHMARK, PIN_LONGTERM_BENCHMARK) and
+functional correctness testing (GUP_BASIC_TEST, PIN_BASIC_TEST,
+DUMP_USER_PAGES_TEST). Mixing these in a single binary means functional
+tests cannot be run or reported individually and run_vmtests.sh must
+invoke the binary multiple times with different flag combinations to
+cover all configurations.
 
-Three "kinds" of kernel-owned page can be targeted, selectable via
-the script's first positional argument (default: rodata):
+This patch series separates the two concerns: tools/mm/gup_bench for
+benchmarking and tools/testing/selftests/mm/gup_test for functional
+testing. To avoid duplicating HugeTLB and related file helpers, the
+series first prepares the existing file helpers for sharing, then moves
+the common helper code to tools/lib/mm/ so it can be shared by both
+selftests and tools/mm.
 
-  rodata  - a PG_reserved page in the kernel rodata range, sourced
-            from the "Kernel rodata" sub-resource of "System RAM" in
-            /proc/iomem.  That entry is reported on every major
-            architecture and guarantees the chosen PFN is backed by
-            struct page (an online System RAM range, not a firmware
-            hole), is PG_reserved, and is read-only -- so even if
-            the panic fails to fire for some reason, the resulting
-            PG_hwpoison marker on rodata does not corrupt writable
-            kernel state.
+Patch 1 makes read_file(), write_file(), read_num() and write_num() in
+vm_util.c return errors to callers instead of exiting internally. Existing
+mm selftest callers are updated to report failures through kselftest
+helpers. This avoids carrying selftest-specific process-exit behaviour
+into the shared helper implementation moved in the next patch.
 
-  slab    - a slab page found by walking /proc/kpageflags for the
-            first PFN with KPF_SLAB set (and KPF_HWPOISON / KPF_NOPAGE
-            / KPF_COMPOUND_TAIL clear).  Exercises the get_any_page()
-            path on a non PG_reserved kernel-owned page and so
-            catches regressions where get_any_page() collapses
-            kernel-owned pages into a transient -EIO instead of
-            -ENOTRECOVERABLE.
+Patch 2 adds tools/lib/mm/file_utils.[ch], moving read_file(),
+write_file(), read_num() and write_num() out of vm_util.c into a shared
+helper without a kselftest dependency. It keeps the helpers exposed to mm
+selftests through vm_util.h and adds tools/lib/mm/ to the MEMORY
+MANAGEMENT - MISC entry in MAINTAINERS.
 
-  pgtable - same as slab, but the PFN is selected via KPF_PGTABLE.
+Patch 3 moves hugepage_settings.[ch] from selftests/mm to tools/lib/mm/.
+It keeps the helper visible to selftests through vm_util.h where
+possible, uses direct <mm/hugepage_settings.h> includes for users that do
+not include vm_util.h, and removes the remaining kselftest dependency
+from the implementation. The existing HugeTLB diagnostic messages are
+preserved as TAP-comment-style fprintf(stderr, ...) diagnostics. The
+explicit x86 protection_keys 32-bit and 64-bit build rules are also
+updated to preserve prerequisite paths after the source move.
 
-PageLargeKmalloc, the fourth page type matched by
-HWPoisonKernelOwned(), is intentionally not covered: it is a
-PAGE_TYPE_OPS flag with no /proc/kpageflags bit, so selecting such
-a PFN from userspace is not feasible.  The slab and pgtable
-variants already exercise the same get_any_page() positive-check
-branch.
+Patch 4 adds tools/mm/gup_bench.c, a standalone microbenchmark for
+GUP_FAST, PIN_FAST and PIN_LONGTERM via the CONFIG_GUP_TEST debugfs
+interface. It runs the same matrix of configurations as the old
+run_gup_matrix() shell function (all three commands, read/write,
+private/shared, four page counts, THP on/off, hugetlb), but as a
+standalone C program under tools/mm using the shared tools/lib/mm
+helpers. It also restores HugeTLB settings after each hugetlb benchmark
+run and validates numeric command-line arguments instead of relying on
+atoi().
 
-The script enables the sysctl and writes the selected physical
-address to /sys/devices/system/memory/hard_offline_page.  A
-successful run crashes the kernel with
+Patch 5 rewrites gup_test.c as a kselftest harness-based selftest. It
+covers all five GUP kernel functions (get_user_pages, get_user_pages_fast,
+pin_user_pages, pin_user_pages_fast, pin_user_pages with FOLL_LONGTERM)
+plus DUMP_USER_PAGES_TEST, across 12 mapping configurations (THP on,
+THP off and hugetlb, each across private/shared and read/write variants)
+and four batch sizes (1, 512, 123, all pages). It also preserves the old
+sparse dump coverage for pages 0, 19 and 0x1000. Results are reported as
+standard TAP output with no command-line arguments required.
 
-  Memory failure: <pfn>: unrecoverable page
-
-A return from the inject means the panic did not fire and the test
-fails.  Test outcome is therefore observed externally (serial
-console, kdump) rather than from the script's own exit code.
-
-The script is intentionally NOT wired into run_vmtests.sh: every
-successful run panics the kernel, which is incompatible with the
-sequential "run each category in the same VM" model that
-run_vmtests.sh assumes.  It is also not registered as a TEST_PROGS /
-ksft_* wrapper so a default kselftest run does not opt itself into
-a panic.  The script is meant to be executed manually inside a
-disposable VM (e.g. virtme-ng), one variant per VM boot, and
-requires RUN_DESTRUCTIVE=1 in the environment as a safety net.
-
-Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- tools/testing/selftests/mm/Makefile          |   1 +
- tools/testing/selftests/mm/hwpoison-panic.sh | 193 +++++++++++++++++++++++++++
- 2 files changed, 194 insertions(+)
+These patches apply on top of mm/mm-new.
 
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index e6df968f0971..170e376c97b4 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -181,6 +181,7 @@ TEST_FILES += charge_reserved_hugetlb.sh
- TEST_FILES += hugetlb_reparenting_test.sh
- TEST_FILES += test_page_frag.sh
- TEST_FILES += run_vmtests.sh
-+TEST_FILES += hwpoison-panic.sh
- 
- # required by charge_reserved_hugetlb.sh
- TEST_FILES += write_hugetlb_memory.sh
-diff --git a/tools/testing/selftests/mm/hwpoison-panic.sh b/tools/testing/selftests/mm/hwpoison-panic.sh
-new file mode 100755
-index 000000000000..43fc379f8761
---- /dev/null
-+++ b/tools/testing/selftests/mm/hwpoison-panic.sh
-@@ -0,0 +1,193 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Verify vm.panic_on_unrecoverable_memory_failure by injecting a hwpoison
-+# error on a kernel-owned page and confirming the kernel panics.
-+#
-+# Three "kinds" of kernel-owned page can be targeted, selectable via the
-+# first positional argument (default: rodata):
-+#
-+#   rodata  - a PG_reserved page in the kernel rodata range
-+#             (sourced from /proc/iomem "Kernel rodata").  Exercises
-+#             memory_failure() -> get_any_page() on a PageReserved page.
-+#
-+#   slab    - a slab page found via /proc/kpageflags (KPF_SLAB).
-+#             Exercises memory_failure() -> get_any_page() on a non
-+#             PG_reserved kernel-owned page.  This path is what catches
-+#             regressions where get_any_page() collapses kernel-owned
-+#             pages into a transient -EIO instead of -ENOTRECOVERABLE.
-+#
-+#   pgtable - a page-table page found via /proc/kpageflags (KPF_PGTABLE).
-+#             Same path as slab, different page type.
-+#
-+# This test is DESTRUCTIVE: a successful run crashes the kernel.  It is
-+# meant to be executed inside a disposable VM (e.g. virtme-ng) with a
-+# serial console captured by the harness.  It is skipped unless the
-+# caller opts in via RUN_DESTRUCTIVE=1.
-+#
-+# Test passes externally: the kernel must panic with
-+#   "Memory failure: <pfn>: unrecoverable page"
-+# A return from the inject means the panic did not fire and the test
-+# fails.
-+#
-+# Author: Breno Leitao <leitao@debian.org>
-+
-+set -u
-+
-+ksft_skip=4
-+sysctl_path=/proc/sys/vm/panic_on_unrecoverable_memory_failure
-+inject_path=/sys/devices/system/memory/hard_offline_page
-+kpageflags_path=/proc/kpageflags
-+
-+# /proc/kpageflags bit positions (see include/uapi/linux/kernel-page-flags.h)
-+KPF_SLAB=7
-+KPF_COMPOUND_TAIL=16
-+KPF_HWPOISON=19
-+KPF_NOPAGE=20
-+KPF_PGTABLE=26
-+
-+kind=${1:-rodata}
-+
-+ksft_print() { echo "# $*"; }
-+ksft_exit_skip() { ksft_print "$*"; exit "$ksft_skip"; }
-+ksft_exit_fail() { echo "not ok 1 $*"; exit 1; }
-+
-+if [ "$(id -u)" -ne 0 ]; then
-+	ksft_exit_skip "must run as root"
-+fi
-+
-+if [ ! -w "$sysctl_path" ]; then
-+	ksft_exit_skip "$sysctl_path not present (kernel without the sysctl?)"
-+fi
-+
-+if [ ! -w "$inject_path" ]; then
-+	ksft_exit_skip "$inject_path not present (no MEMORY_HOTPLUG?)"
-+fi
-+
-+if [ "${RUN_DESTRUCTIVE:-0}" != "1" ]; then
-+	ksft_exit_skip "destructive test; re-run with RUN_DESTRUCTIVE=1 inside a disposable VM"
-+fi
-+
-+# Pick a PFN inside the kernel image rodata region of /proc/iomem.
-+# This is preferred over a top-level "Reserved" entry because top-level
-+# Reserved ranges are often firmware holes that have no backing struct
-+# page; pfn_to_online_page() returns NULL on those and memory_failure()
-+# bails out with -ENXIO before reaching the panic path.
-+#
-+# "Kernel rodata" is reported as a sub-resource of "System RAM" on every
-+# major architecture, which guarantees:
-+#   - the PFN is backed by struct page (within an online memory range);
-+#   - PG_reserved is set on the page (kernel image area);
-+#   - the memory is read-only, so setting PG_hwpoison on it does not
-+#     corrupt writable kernel state if the panic somehow does not fire.
-+#
-+# /proc/iomem entries look like (indented for sub-resources):
-+#     "  02500000-02ffffff : Kernel rodata"
-+pick_rodata_phys_addr() {
-+	awk -v pagesize="$(getconf PAGE_SIZE)" '
-+	/: Kernel rodata[[:space:]]*$/ {
-+		sub(/^[[:space:]]+/, "")
-+		n = split($0, a, /[- ]/)
-+		start = strtonum("0x" a[1])
-+		end   = strtonum("0x" a[2])
-+		if (end <= start)
-+			next
-+		# Page-align upward and emit the first byte of that page.
-+		pfn = int((start + pagesize - 1) / pagesize)
-+		printf "0x%x\n", pfn * pagesize
-+		exit 0
-+	}
-+	' /proc/iomem
-+}
-+
-+# Walk /proc/kpageflags and return the phys addr of the first PFN that
-+# has bit $1 set, with KPF_HWPOISON, KPF_NOPAGE and KPF_COMPOUND_TAIL
-+# all clear (so we attack a real, non-tail, not-already-poisoned page).
-+#
-+# We skip the first 16 MiB of PFNs to step past low-memory special
-+# ranges (BIOS/EFI/ACPI/etc.) that often are PG_reserved and would not
-+# exhibit the slab/pgtable type we are looking for.
-+pick_kpageflags_phys_addr() {
-+	local want_bit=$1
-+	local pagesize skip_pfn
-+
-+	[ -r "$kpageflags_path" ] || return
-+
-+	pagesize=$(getconf PAGE_SIZE)
-+	skip_pfn=$(((16 * 1024 * 1024) / pagesize))
-+
-+	od -An -tx8 -v -w8 -j "$((skip_pfn * 8))" "$kpageflags_path" 2>/dev/null | \
-+	awk -v want_bit="$want_bit" \
-+	    -v hwp_bit="$KPF_HWPOISON" \
-+	    -v nopage_bit="$KPF_NOPAGE" \
-+	    -v tail_bit="$KPF_COMPOUND_TAIL" \
-+	    -v base_pfn="$skip_pfn" \
-+	    -v pagesize="$pagesize" '
-+	# Test whether bit "b" is set in the 16-hex-digit value "hex".
-+	# Done with substring + per-digit lookup so we never rely on awk
-+	# bitwise operators (mawk lacks them) or 64-bit FP precision.
-+	function bit_set(hex, b,    di, bi, c, v) {
-+		di = int(b / 4)
-+		bi = b - di * 4
-+		c = substr(hex, length(hex) - di, 1)
-+		v = strtonum("0x" c)
-+		if (bi == 0) return (v % 2) == 1
-+		if (bi == 1) return int(v / 2) % 2 == 1
-+		if (bi == 2) return int(v / 4) % 2 == 1
-+		return int(v / 8) % 2 == 1
-+	}
-+	{
-+		gsub(/^[[:space:]]+/, "")
-+		h = $1
-+		if (bit_set(h, want_bit) &&
-+		    !bit_set(h, hwp_bit) &&
-+		    !bit_set(h, nopage_bit) &&
-+		    !bit_set(h, tail_bit)) {
-+			pfn = base_pfn + NR - 1
-+			printf "0x%x\n", pfn * pagesize
-+			exit 0
-+		}
-+	}
-+	'
-+}
-+
-+case "$kind" in
-+rodata)
-+	phys_addr=$(pick_rodata_phys_addr)
-+	missing_msg='no "Kernel rodata" entry in /proc/iomem'
-+	;;
-+slab)
-+	phys_addr=$(pick_kpageflags_phys_addr "$KPF_SLAB")
-+	missing_msg="no usable slab PFN found in $kpageflags_path"
-+	;;
-+pgtable)
-+	phys_addr=$(pick_kpageflags_phys_addr "$KPF_PGTABLE")
-+	missing_msg="no usable page-table PFN found in $kpageflags_path"
-+	;;
-+*)
-+	ksft_exit_fail "unknown kind '$kind' (expected: rodata|slab|pgtable)"
-+	;;
-+esac
-+
-+if [ -z "$phys_addr" ]; then
-+	ksft_exit_skip "$missing_msg"
-+fi
-+
-+ksft_print "enabling $sysctl_path"
-+prior=$(cat "$sysctl_path")
-+echo 1 > "$sysctl_path" || ksft_exit_fail "failed to enable sysctl"
-+
-+ksft_print "injecting hwpoison at phys 0x$(printf '%x' "$phys_addr") (kind=$kind)"
-+ksft_print "expecting kernel panic: 'Memory failure: <pfn>: unrecoverable page'"
-+
-+# If this returns, the kernel did not panic → test failed.  Restore the
-+# sysctl before reporting so the system is left as we found it.
-+if echo "$phys_addr" > "$inject_path"; then
-+	echo "$prior" > "$sysctl_path"
-+	ksft_exit_fail "inject returned without panic; sysctl ineffective"
-+fi
-+
-+# Write failed (e.g. -EINVAL on offlining a non-online region): also a
-+# failure for this test, since we expected the panic path.
-+echo "$prior" > "$sysctl_path"
-+ksft_exit_fail "inject failed before reaching the panic path"
+Changes in v4:
+- Address review feedback from Mike and Sashiko
+- Add a preparatory patch so shared file helpers return errors instead of exiting
+- Reduce include churn by keeping shared helpers exposed through vm_util.h
+- Preserve HugeTLB diagnostics and restore HugeTLB state more carefully
+- Fix selftests/mm build details after moving helpers to tools/lib/mm
+- Tighten gup_bench argument handling and gup_test setup/sparse-dump coverage
 
--- 
-2.54.0
+Changes in v3:
+- Address v2 feedback from Sashiko
+- Add shared file_utils helpers under tools/lib/mm
+- Move hugepage_settings out of selftests and into tools/lib/mm
+- Convert gup_bench to use the shared tools/lib/mm helpers
+- Guard against invalid thread counts in gup_bench
+- Handle thread-array allocation failure cleanly in gup_bench
+- Restore hugetlb settings on setup failure in gup_test
+- Add sparse DUMP_USER_PAGES_TEST coverage for pages 0, 19 and 0x1000 in gup_test
+
+Changes in v2:
+- Address v1 feedback from Sashiko
+- Add fast and longterm GUP/PUP coverage
+- Sweep nr_pages_per_call over 1, 512, 123 and all pages
+- Call madvise(MADV_NOHUGEPAGE) in non-THP variants
+- Use 256 MB for hugetlb fixtures
+- Use hugetlb_restore_settings() in FIXTURE_TEARDOWN instead of atexit()
+- Add TH_LOG to report nr_pages_per_call for each iteration
+- Update Documentation/core-api/pin_user_pages.rst unit testing section
+
+Previous versions:
+v3: https://lore.kernel.org/all/20260521111801.173019-1-sarthak.sharma@arm.com/
+v2: https://lore.kernel.org/all/20260519120506.184512-1-sarthak.sharma@arm.com/
+v1: https://lore.kernel.org/all/20260515084840.174652-1-sarthak.sharma@arm.com/
+
+---
+Sarthak Sharma (5):
+  selftests/mm: make file helpers return errors
+  tools/lib/mm: add shared file helpers
+  tools/lib/mm: move hugepage_settings out of selftests
+  tools/mm: add a standalone GUP microbenchmark
+  selftests/mm: rewrite gup_test as a standalone harness-based selftest
+
+ Documentation/core-api/pin_user_pages.rst     |  12 +-
+ MAINTAINERS                                   |   2 +
+ tools/lib/mm/file_utils.c                     |  82 +++
+ tools/lib/mm/file_utils.h                     |  12 +
+ .../selftests => lib}/mm/hugepage_settings.c  | 103 ++-
+ .../selftests => lib}/mm/hugepage_settings.h  |   0
+ tools/mm/.gitignore                           |   2 +
+ tools/mm/Makefile                             |  10 +-
+ tools/mm/gup_bench.c                          | 433 +++++++++++++
+ tools/testing/selftests/mm/Makefile           |  12 +-
+ tools/testing/selftests/mm/compaction_test.c  |   2 +-
+ tools/testing/selftests/mm/cow.c              |   1 -
+ .../selftests/mm/folio_split_race_test.c      |   1 -
+ tools/testing/selftests/mm/guard-regions.c    |   1 -
+ tools/testing/selftests/mm/gup_longterm.c     |   1 -
+ tools/testing/selftests/mm/gup_test.c         | 606 +++++++++++-------
+ tools/testing/selftests/mm/hmm-tests.c        |   6 +-
+ tools/testing/selftests/mm/hugetlb-madvise.c  |   1 -
+ tools/testing/selftests/mm/hugetlb-mmap.c     |   1 -
+ tools/testing/selftests/mm/hugetlb-mremap.c   |   1 -
+ tools/testing/selftests/mm/hugetlb-shm.c      |   1 -
+ .../selftests/mm/hugetlb-soft-offline.c       |   2 +-
+ tools/testing/selftests/mm/hugetlb-vmemmap.c  |   1 -
+ tools/testing/selftests/mm/hugetlb_dio.c      |   1 -
+ .../selftests/mm/hugetlb_fault_after_madv.c   |   1 -
+ .../selftests/mm/hugetlb_madv_vs_map.c        |   1 -
+ tools/testing/selftests/mm/khugepaged.c       |  14 +-
+ tools/testing/selftests/mm/ksm_tests.c        |   1 -
+ tools/testing/selftests/mm/migration.c        |   5 +-
+ tools/testing/selftests/mm/pagemap_ioctl.c    |   1 -
+ .../testing/selftests/mm/prctl_thp_disable.c  |   1 -
+ tools/testing/selftests/mm/protection_keys.c  |   2 +-
+ tools/testing/selftests/mm/run_vmtests.sh     |  37 +-
+ tools/testing/selftests/mm/soft-dirty.c       |   1 -
+ .../selftests/mm/split_huge_page_test.c       |   6 +-
+ tools/testing/selftests/mm/thuge-gen.c        |   1 -
+ tools/testing/selftests/mm/transhuge-stress.c |   1 -
+ tools/testing/selftests/mm/uffd-common.h      |   1 -
+ tools/testing/selftests/mm/uffd-wp-mremap.c   |   2 +-
+ .../selftests/mm/va_high_addr_switch.c        |   1 -
+ tools/testing/selftests/mm/vm_util.c          |  82 +--
+ tools/testing/selftests/mm/vm_util.h          |   7 +-
+ 42 files changed, 1067 insertions(+), 392 deletions(-)
+ create mode 100644 tools/lib/mm/file_utils.c
+ create mode 100644 tools/lib/mm/file_utils.h
+ rename tools/{testing/selftests => lib}/mm/hugepage_settings.c (89%)
+ rename tools/{testing/selftests => lib}/mm/hugepage_settings.h (100%)
+ create mode 100644 tools/mm/gup_bench.c
+
+
+base-commit: da0a06486ac3ce47c6ffb603d2fd332229d41592
+--
+2.39.5
 
