@@ -1,354 +1,145 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00A11427A;
-	Wed, 27 May 2026 13:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DAA3148D3;
+	Wed, 27 May 2026 13:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779890238; cv=none; b=UnBy/ztO8AbPvEtY0C/JLp3CQaG4gxixTfPjsQUnjXT73LhWB0RyDlreNFyJIePBPEtOWStao6y06APVcRmA9XfqmCxrYTntSry6t2Ll6VRL+WfYciMPDOogiRhUmxode7nvGPGw2IczSrN8eaprLL6kZUpd5UQYGnygJasq/x8=
+	t=1779890253; cv=none; b=UUcekBjDEorr2ERfemo+gdxRlZL8SmrY4S6hclqpumgTG+gKGFyjbs+edei6j5OIKwAis7/ZgT6NxYHCnQTcJea04ZM0xUxLkpwANabC728OZLPoAVGC5oSgHltmrXJRlf7yXD4rlpcuf+72vz55jWLF18kXTRTQPMlNJRw01Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779890238; c=relaxed/simple;
-	bh=m5frYJINE1pm5HkcP1tMMQCNVTrtT++q4aqWT1Fd2ew=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=mKDbMEqnlRr3saAnUldEULYb15UNPlNyms0IiKqchSy7DuwK0zH6coLgtXubGihpHdXSM5oqxS5oNJ35UQjkE/pxE+bNl1RA6Iex846DM8Prj1sH5tX0e5duKMYfDm2q7s4Whyg6IwpkMgOAyKHwZKXevOPFl0225wsxKw976YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4gQWQF3gX9z4xNtb;
-	Wed, 27 May 2026 21:57:09 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl2.zte.com.cn with SMTP id 64RDv7fD077420;
-	Wed, 27 May 2026 21:57:07 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Wed, 27 May 2026 21:57:08 +0800 (CST)
-X-Zmail-TransId: 2afb6a16f834260-ffa76
-X-Mailer: Zmail v1.0
-Message-ID: <20260527215708727RJd3QW4iKNdhZHGNE-ZQ2@zte.com.cn>
-In-Reply-To: <20260527215524044fG7XSpgveHiaFhraq0yAi@zte.com.cn>
-References: 20260527215524044fG7XSpgveHiaFhraq0yAi@zte.com.cn
-Date: Wed, 27 May 2026 21:57:08 +0800 (CST)
+	s=arc-20240116; t=1779890253; c=relaxed/simple;
+	bh=zvlOlKFO5Ea8ZWoxLGLkvjRdz6BrBzYnlRX14u+yQ3M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fKt9SQDogvpjW1n8da3UTeD3nxjqwhPEXDmbYThtvK7UlFXqGOCJlAiMjYp3wmar4PTva9YByOULwP/KX+3Fjqlt3Qww0r3DtFJFz7EyuJP+Z4WDNx6l49zc2HskwifFbFhDKi3C6L2d6Xu8oe5ideIJbtFZ0zmTb+tTjRi17zI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=EQHtVPcI; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="EQHtVPcI"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64QNtAf2686076;
+	Wed, 27 May 2026 13:57:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=XmuqR0
+	b41raTzm3aWHkmUjaUX9RCWIBNdoHdims9XLM=; b=EQHtVPcIq62ecBESz9VdAj
+	U6i0R3TLcWmeerRAxT+Akz8cgGIJsZO9yHMPTJcXvRQgC5cFfhAVsk3bfVfczqSR
+	qSfTtZu54+4YjHumGmjfk3NpGDD+lq4xOdzSFnVXTZGxCZ4/BqZ+j5cx7yYNDNVr
+	V3EZhrYeX3NmZCWfdbTRPQl5PqV8cmGazPCm/DIaehjWu3H857JCsd8htBf/3NmU
+	LoP+cz26KxteFn6irSTPYQhJX9m8+3La/GfrLF5F6ME54sqXhCjZRdf1Wa2u1mcb
+	IwJ9PJO85CXxyVmj5VTvhxmyCWHAMawFuws7NQ2z98A4t2zRJS1cgXZva+CrHXBQ
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eb4nusqhc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 May 2026 13:57:06 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64RDsHUl019929;
+	Wed, 27 May 2026 13:57:05 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4edjrb391u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 May 2026 13:57:05 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64RDv4SK29295182
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 27 May 2026 13:57:04 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 708925804B;
+	Wed, 27 May 2026 13:57:04 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F1F3A58055;
+	Wed, 27 May 2026 13:57:02 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 27 May 2026 13:57:02 +0000 (GMT)
+Message-ID: <23a3b9bb-af97-4285-a03d-7b6e7ccb274e@linux.ibm.com>
+Date: Wed, 27 May 2026 09:57:02 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <wang.yaxin@zte.com.cn>
-Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
-        <yang.yang29@zte.com.cn>, <corbet@lwn.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIDEvM10gZGVsYXl0b3A6IGFkZCBkZWxheSBtYXggZm9yIGRlbGF5dG9w?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 64RDv7fD077420
-X-TLS: YES
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Wed, 27 May 2026 21:57:09 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A16F835.000/4gQWQF3gX9z4xNtb
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/13] ima: Introduce staging mechanism
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        skhan@linuxfoundation.org, zohar@linux.ibm.com,
+        dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+        gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com,
+        nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
+References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
+Content-Language: en-US
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI3MDEzMyBTYWx0ZWRfX5fBf/K24EuzO
+ nsdv6eYPHATZbMRT5JqGcW9mfVnSbQgMnV33bmFilJ4hC0Qx03ABlxrUxBnoRtK4FMi7eHJdD23
+ DS3XntGu4apmc9wMjiR9Ip2toZOoV1OGZcWC+tnleDmZEEp6HClwlCav9pCl51R+pqDcj0Weycx
+ tMh82DTwRb2jIFk/Tmosd+VY1CXNQrqxkcknn1MHAqk38MUDBAd8AdAsc3t2Ku/rMoeu0o1sqfV
+ mY6tn8CZhPwa/lrR4fcy0C6Bpaiubtpq6/g4sy4VDZOv2VzuFbOnKHHHM+Iy3VWJUENY+lI5sUD
+ exVajXD669sqWHoqpGL3/8/ypKn7n0Me9B2sOwZ/RmGaQkZ20mGWFc4k4ULdqJd4vXmQuVIP8sT
+ LVbLzSeJdbE+v7WVIfp+gS17M7UlwbLOh/NrHGuw7E3PSAGwPCzI+QfcRkuppOvFmBSPCfpiKuC
+ HHYM681UH4uzBrOlzzA==
+X-Authority-Analysis: v=2.4 cv=UtJT8ewB c=1 sm=1 tr=0 ts=6a16f832 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=i0EeH86SAAAA:8
+ a=VnNF1IyMAAAA:8 a=0HL81np-4nXxjsgZigQA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: _8K7wRkzeIx9ZU8S6Hmi0OD4GBlx-QKK
+X-Proofpoint-GUID: RBiMu1fVFZe6KM06mXCyXsRsp6HhymSv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-05-27_02,2026-05-26_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0 adultscore=0 clxscore=1011 bulkscore=0
+ phishscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605270133
 
-From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-Previously delaytop only showed average delays. Add delay_max fields to
-track the maximum delay value for each delay type (cpu, blkio, irq, swapin,
-freepages, thrashing, compact, wpcopy) per task.
 
-This provides a global view of all tasks' delay spikes, which is essential
-for identifying processes that experienced brief but significant latency
-events that would be hidden by average-only metrics.
+On 4/29/26 12:03 PM, Roberto Sassu wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+> 
 
-The -t/--type option displays only the specified delay type with avg/max
-values side by side, allowing focused analysis:
-  delaytop -t cpu    # Show only CPU delay with avg/max
-  delaytop -t wpcopy    # Show Copy-on-Write delay with avg/max
+> Usage
+> =====
+> 
+> The IMA staging mechanism can be enabled from the kernel configuration
+> with the CONFIG_IMA_STAGING option.
+> 
+> If it is enabled, IMA duplicates the current measurements interfaces
+> (both binary and ASCII), by adding the _staged file suffix. Both the
+> original and the staging interfaces gain the write permission for the
+> root user and group, but require the process to have CAP_SYS_ADMIN set.
+> 
+> The staging mechanism supports two flavors.
+> 
+> Staging with prompt
+> ~~~~~~~~~~~~~~~~~~~
+> 
+> The current measurements list is moved to a temporary staging area, and
+> staged measurements are deleted upon confirmation.
+> 
+> This staging process is achieved with the following steps.
+> 
+>    1.  echo A > <original interface>: the user requests IMA to stage the
+>        entire measurements list;
+>    2.  cat <_staged interface>: the user reads the staged measurements;
+>    3.  echo D > <_staged interface>: the user requests IMA to delete
+>        staged measurements.
+> 
 
-Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
----
- tools/accounting/delaytop.c | 142 +++++++++++++++++++++++++++++-------
- 1 file changed, 117 insertions(+), 25 deletions(-)
+I have a IMA log sharder (based on FUSE; does more 'copying' than 
+'sharding') that successfully uses this method.
 
-diff --git a/tools/accounting/delaytop.c b/tools/accounting/delaytop.c
-index 72cc500b44b1..586294b29834 100644
---- a/tools/accounting/delaytop.c
-+++ b/tools/accounting/delaytop.c
-@@ -82,6 +82,7 @@
- #define MODE_TYPE_ALL	(0xFFFFFFFF)
- #define MODE_DEFAULT	(1 << 0)
- #define MODE_MEMVERBOSE	(1 << 1)
-+#define MODE_TYPE	(1 << 2)	/* Display specific type with avg/max */
+Tested-by: Stefan Berger <stefanb@linux.ibm.com>
 
- /* PSI statistics structure */
- struct psi_stats {
-@@ -108,20 +109,28 @@ struct task_info {
- 	char command[TASK_COMM_LEN];
- 	unsigned long long cpu_count;
- 	unsigned long long cpu_delay_total;
-+	unsigned long long cpu_delay_max;
- 	unsigned long long blkio_count;
- 	unsigned long long blkio_delay_total;
-+	unsigned long long blkio_delay_max;
- 	unsigned long long swapin_count;
- 	unsigned long long swapin_delay_total;
-+	unsigned long long swapin_delay_max;
- 	unsigned long long freepages_count;
- 	unsigned long long freepages_delay_total;
-+	unsigned long long freepages_delay_max;
- 	unsigned long long thrashing_count;
- 	unsigned long long thrashing_delay_total;
-+	unsigned long long thrashing_delay_max;
- 	unsigned long long compact_count;
- 	unsigned long long compact_delay_total;
-+	unsigned long long compact_delay_max;
- 	unsigned long long wpcopy_count;
- 	unsigned long long wpcopy_delay_total;
-+	unsigned long long wpcopy_delay_max;
- 	unsigned long long irq_count;
- 	unsigned long long irq_delay_total;
-+	unsigned long long irq_delay_max;
- 	unsigned long long mem_count;
- 	unsigned long long mem_delay_total;
- };
-@@ -153,6 +162,7 @@ struct config {
- 	int monitor_pid;		/* Monitor specific PID */
- 	char *container_path;	/* Path to container cgroup */
- 	const struct field_desc *sort_field;	/* Current sort field */
-+	const struct field_desc *type_field;	/* Type field for -t option */
- 	size_t display_mode;	/* Current display mode */
- };
-
-@@ -164,15 +174,15 @@ static int task_count;
- static int running = 1;
- static struct container_stats container_stats;
- static const struct field_desc sort_fields[] = {
--	SORT_FIELD(cpu,		c,	MODE_DEFAULT),
--	SORT_FIELD(blkio,	i,	MODE_DEFAULT),
--	SORT_FIELD(irq,		q,	MODE_DEFAULT),
-+	SORT_FIELD(cpu,		c,	MODE_DEFAULT | MODE_TYPE),
-+	SORT_FIELD(blkio,	i,	MODE_DEFAULT | MODE_TYPE),
-+	SORT_FIELD(irq,		q,	MODE_DEFAULT | MODE_TYPE),
- 	SORT_FIELD(mem,		m,	MODE_DEFAULT | MODE_MEMVERBOSE),
--	SORT_FIELD(swapin,	s,	MODE_MEMVERBOSE),
--	SORT_FIELD(freepages,	r,	MODE_MEMVERBOSE),
--	SORT_FIELD(thrashing,	t,	MODE_MEMVERBOSE),
--	SORT_FIELD(compact,	p,	MODE_MEMVERBOSE),
--	SORT_FIELD(wpcopy,	w,	MODE_MEMVERBOSE),
-+	SORT_FIELD(swapin,	s,	MODE_MEMVERBOSE | MODE_TYPE),
-+	SORT_FIELD(freepages,	r,	MODE_MEMVERBOSE | MODE_TYPE),
-+	SORT_FIELD(thrashing,	t,	MODE_MEMVERBOSE | MODE_TYPE),
-+	SORT_FIELD(compact,	p,	MODE_MEMVERBOSE | MODE_TYPE),
-+	SORT_FIELD(wpcopy,	w,	MODE_MEMVERBOSE | MODE_TYPE),
- 	END_FIELD
- };
- static int sort_selected;
-@@ -218,7 +228,7 @@ static const struct field_desc *get_field_by_name(const char *name)
-
- 	for (field = sort_fields; field->name != NULL; field++) {
- 		field_len = strlen(field->name);
--		if (field_len != strlen(name))
-+		if (field_len != strlen(name) || !(field->supported_modes & MODE_TYPE))
- 			continue;
- 		if (strncmp(field->name, name, field_len) == 0)
- 			return field;
-@@ -265,6 +275,7 @@ static void usage(void)
- 	"  -p, --pid=PID            Monitor only the specified PID\n"
- 	"  -C, --container=PATH     Monitor the container at specified cgroup path\n"
- 	"  -s, --sort=FIELD         Sort by delay field (default: cpu)\n"
-+	"  -t, --type=FIELD         Display only specified delay type with avg/max\n"
- 	"  -M, --memverbose         Display memory detailed information\n");
- 	exit(0);
- }
-@@ -283,6 +294,7 @@ static void parse_args(int argc, char **argv)
- 		{"processes", required_argument, 0, 'P'},
- 		{"sort", required_argument, 0, 's'},
- 		{"container", required_argument, 0, 'C'},
-+		{"type", required_argument, 0, 't'},
- 		{"memverbose", no_argument, 0, 'M'},
- 		{0, 0, 0, 0}
- 	};
-@@ -292,6 +304,7 @@ static void parse_args(int argc, char **argv)
- 	cfg.iterations = 0;
- 	cfg.max_processes = 20;
- 	cfg.sort_field = &sort_fields[0];	/* Default sorted by CPU delay */
-+	cfg.type_field = NULL;				/* No type field by default */
- 	cfg.output_one_time = 0;
- 	cfg.monitor_pid = 0;	/* 0 means monitor all PIDs */
- 	cfg.container_path = NULL;
-@@ -300,7 +313,7 @@ static void parse_args(int argc, char **argv)
- 	while (1) {
- 		int option_index = 0;
-
--		c = getopt_long(argc, argv, "hd:n:p:oP:C:s:M", long_options, &option_index);
-+		c = getopt_long(argc, argv, "hd:n:p:oP:C:s:t:M", long_options, &option_index);
- 		if (c == -1)
- 			break;
-
-@@ -363,6 +376,23 @@ static void parse_args(int argc, char **argv)
-
- 			cfg.sort_field = field;
- 			break;
-+		case 't':
-+			if (strlen(optarg) == 0) {
-+				fprintf(stderr, "Error: empty type field\n");
-+				exit(1);
-+			}
-+
-+			field = get_field_by_name(optarg);
-+			/* Show available fields if invalid option provided */
-+			if (!field) {
-+				fprintf(stderr, "Error: invalid type field '%s'\n", optarg);
-+				display_available_fields(MODE_TYPE);
-+				exit(1);
-+			}
-+
-+			cfg.type_field = field;
-+			cfg.display_mode = MODE_TYPE;
-+			break;
- 		case 'M':
- 			cfg.display_mode = MODE_MEMVERBOSE;
- 			cfg.sort_field = get_field_by_name("mem");
-@@ -699,20 +729,28 @@ static void fetch_and_fill_task_info(int pid, const char *comm)
- 						tasks[task_count].command[TASK_COMM_LEN - 1] = '\0';
- 						SET_TASK_STAT(task_count, cpu_count);
- 						SET_TASK_STAT(task_count, cpu_delay_total);
-+						SET_TASK_STAT(task_count, cpu_delay_max);
- 						SET_TASK_STAT(task_count, blkio_count);
- 						SET_TASK_STAT(task_count, blkio_delay_total);
-+						SET_TASK_STAT(task_count, blkio_delay_max);
- 						SET_TASK_STAT(task_count, swapin_count);
- 						SET_TASK_STAT(task_count, swapin_delay_total);
-+						SET_TASK_STAT(task_count, swapin_delay_max);
- 						SET_TASK_STAT(task_count, freepages_count);
- 						SET_TASK_STAT(task_count, freepages_delay_total);
-+						SET_TASK_STAT(task_count, freepages_delay_max);
- 						SET_TASK_STAT(task_count, thrashing_count);
- 						SET_TASK_STAT(task_count, thrashing_delay_total);
-+						SET_TASK_STAT(task_count, thrashing_delay_max);
- 						SET_TASK_STAT(task_count, compact_count);
- 						SET_TASK_STAT(task_count, compact_delay_total);
-+						SET_TASK_STAT(task_count, compact_delay_max);
- 						SET_TASK_STAT(task_count, wpcopy_count);
- 						SET_TASK_STAT(task_count, wpcopy_delay_total);
-+						SET_TASK_STAT(task_count, wpcopy_delay_max);
- 						SET_TASK_STAT(task_count, irq_count);
- 						SET_TASK_STAT(task_count, irq_delay_total);
-+						SET_TASK_STAT(task_count, irq_delay_max);
- 						set_mem_count(&tasks[task_count]);
- 						set_mem_delay_total(&tasks[task_count]);
- 						task_count++;
-@@ -794,6 +832,45 @@ static int compare_tasks(const void *a, const void *b)
- 	return 0;
- }
-
-+/* Get delay values for a specific field */
-+static void get_field_delay_values(const struct task_info *task, const struct field_desc *field,
-+				   double *avg_ms, double *max_ms)
-+{
-+	unsigned long long total, count, max;
-+
-+	if (!field) {
-+		*avg_ms = 0;
-+		*max_ms = 0;
-+		return;
-+	}
-+
-+	total = *(unsigned long long *)((char *)task + field->total_offset);
-+	count = *(unsigned long *)((char *)task + field->count_offset);
-+	*avg_ms = average_ms(total, count);
-+
-+	/* Get max delay based on field name */
-+	if (strcmp(field->name, "cpu") == 0)
-+		max = task->cpu_delay_max;
-+	else if (strcmp(field->name, "blkio") == 0)
-+		max = task->blkio_delay_max;
-+	else if (strcmp(field->name, "irq") == 0)
-+		max = task->irq_delay_max;
-+	else if (strcmp(field->name, "swapin") == 0)
-+		max = task->swapin_delay_max;
-+	else if (strcmp(field->name, "freepages") == 0)
-+		max = task->freepages_delay_max;
-+	else if (strcmp(field->name, "thrashing") == 0)
-+		max = task->thrashing_delay_max;
-+	else if (strcmp(field->name, "compact") == 0)
-+		max = task->compact_delay_max;
-+	else if (strcmp(field->name, "wpcopy") == 0)
-+		max = task->wpcopy_delay_max;
-+	else
-+		max = 0;
-+
-+	*max_ms = (double)max / 1000000.0;  /* Convert nanoseconds to milliseconds */
-+}
-+
- /* Sort tasks by selected field */
- static void sort_tasks(void)
- {
-@@ -950,21 +1027,29 @@ static void display_results(int psi_ret)
- 	suc &= BOOL_FPRINT(out, "Top %d processes (sorted by %s delay):\n",
- 			cfg.max_processes, get_name_by_field(cfg.sort_field));
-
--	suc &= BOOL_FPRINT(out, "%8s  %8s  %-17s", "PID", "TGID", "COMMAND");
--	if (cfg.display_mode == MODE_MEMVERBOSE) {
--		suc &= BOOL_FPRINT(out, "%8s %8s %8s %8s %8s %8s\n",
--			"MEM(ms)", "SWAP(ms)", "RCL(ms)",
--			"THR(ms)", "CMP(ms)", "WP(ms)");
--		suc &= BOOL_FPRINT(out, "-----------------------");
--		suc &= BOOL_FPRINT(out, "-----------------------");
--		suc &= BOOL_FPRINT(out, "-----------------------");
--		suc &= BOOL_FPRINT(out, "---------------------\n");
-+	if (cfg.display_mode == MODE_TYPE && cfg.type_field) {
-+		/* Display mode for -t option: show only specified type with avg/max */
-+		suc &= BOOL_FPRINT(out, "%8s  %8s  %-17s %12s %12s\n",
-+			"PID", "TGID", "COMMAND",
-+			"AVG(ms)", "MAX(ms)");
-+		suc &= BOOL_FPRINT(out, "----------------------------------------------------\n");
- 	} else {
--		suc &= BOOL_FPRINT(out, "%8s %8s %8s %8s\n",
--			"CPU(ms)", "IO(ms)", "IRQ(ms)", "MEM(ms)");
--		suc &= BOOL_FPRINT(out, "-----------------------");
--		suc &= BOOL_FPRINT(out, "-----------------------");
--		suc &= BOOL_FPRINT(out, "--------------------------\n");
-+		suc &= BOOL_FPRINT(out, "%8s  %8s  %-17s", "PID", "TGID", "COMMAND");
-+		if (cfg.display_mode == MODE_MEMVERBOSE) {
-+			suc &= BOOL_FPRINT(out, "%8s %8s %8s %8s %8s %8s\n",
-+				"MEM(ms)", "SWAP(ms)", "RCL(ms)",
-+				"THR(ms)", "CMP(ms)", "WP(ms)");
-+			suc &= BOOL_FPRINT(out, "-----------------------");
-+			suc &= BOOL_FPRINT(out, "-----------------------");
-+			suc &= BOOL_FPRINT(out, "-----------------------");
-+			suc &= BOOL_FPRINT(out, "---------------------\n");
-+		} else {
-+			suc &= BOOL_FPRINT(out, "%8s %8s %8s %8s\n",
-+				"CPU(ms)", "IO(ms)", "IRQ(ms)", "MEM(ms)");
-+			suc &= BOOL_FPRINT(out, "-----------------------");
-+			suc &= BOOL_FPRINT(out, "-----------------------");
-+			suc &= BOOL_FPRINT(out, "--------------------------\n");
-+		}
- 	}
-
- 	count = task_count < cfg.max_processes ? task_count : cfg.max_processes;
-@@ -972,7 +1057,14 @@ static void display_results(int psi_ret)
- 	for (i = 0; i < count; i++) {
- 		suc &= BOOL_FPRINT(out, "%8d  %8d  %-15s",
- 			tasks[i].pid, tasks[i].tgid, tasks[i].command);
--		if (cfg.display_mode == MODE_MEMVERBOSE) {
-+		if (cfg.display_mode == MODE_TYPE && cfg.type_field) {
-+			double avg_ms, max_ms;
-+
-+			get_field_delay_values(&tasks[i], cfg.type_field, &avg_ms, &max_ms);
-+
-+			suc &= BOOL_FPRINT(out, "%12.2f %12.2f\n",
-+				avg_ms, max_ms);
-+		} else if (cfg.display_mode == MODE_MEMVERBOSE) {
- 			suc &= BOOL_FPRINT(out, DELAY_FMT_MEMVERBOSE,
- 				TASK_AVG(tasks[i], mem),
- 				TASK_AVG(tasks[i], swapin),
--- 
-2.25.1
