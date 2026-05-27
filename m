@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE2443637D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C58436374;
 	Wed, 27 May 2026 15:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779896004; cv=none; b=LVsPBKMIDlEuht3kcgmQ/Tx56GgFUiobP7OQDJh0kKw6aMiPcVoEQ9XHdMic1s81qkDUgDsA5m2hNJubu85ZC9o5JieiJ1x6m4EnAVu7to1ucaIsK/zxILd/4Mrh5aoT1cPtMB6Ql44wBEWrjUtTQSPoAoVSyUBuJrHyJmyQllU=
+	t=1779896004; cv=none; b=XtIZURHoalEuMafUD1y79sptHM4/IL5oLd5pKZtAac6/dyQlWtJvq/qZM3EbIpKBsJFgvNVHdSrF9q07a9UwFk3TYeXj/519IQeHfC18Qrj3yoqOiFxAAxzQCt73jRb/QcvUvGXyRNYQddmrjpkNj27N/CeQIc1Ji3O57XSv0JQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779896004; c=relaxed/simple;
-	bh=bLcxXHk+CcALqz/zzbA0F0Yybtdc+uNVe0wHT/tY7BQ=;
+	bh=nVpl3TVZQU9iG/8SJ8PbEKLaQViBegpkV2M01+wMc30=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=N1a/hydnCoKRyLnAl1BHz9CUIfCRCIgnd8ghQUFF6uPb2B0zGATp5CFXW4DUH6IkCGtljG+rPugxK0n4iYwXht52lOtlC4BhwGsS2Ym6OxIKVnbkbreUy1FdzlAIpWLk1B3DrFfmnqr5Tu0cC4H90OVT7wM1/QTJhjKum+Qvzv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZugAWKNo; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=AFXNkaHAYc5q3w6wfeapfT+bsiLcA5EPAU21aXmCa/WHWDCeUMfRN691bBLlnSZjJnVy9ykukOQgVKne9YwlUsRq4I0LIFVcp0+VygNcxET6bHvN4XkIEKM1pFi99BP0gpCh+rBh0hd3E9E2Ya8LJdSAXbU7wfrQVAsdAOqKfrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H43ckgw1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZugAWKNo"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C532EC2BCFB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H43ckgw1"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A5489C2BCF6;
 	Wed, 27 May 2026 15:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1779896002;
-	bh=bLcxXHk+CcALqz/zzbA0F0Yybtdc+uNVe0wHT/tY7BQ=;
+	bh=nVpl3TVZQU9iG/8SJ8PbEKLaQViBegpkV2M01+wMc30=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=ZugAWKNou/3hhdk3/0CuslHwBG12FxSCoiQDLoZeTluxV075OF9MTYMvYc/B3dwQE
-	 pYt4TldcdTo+0VF7VMlW8lw9NewWgyAdIWMbeWvIm80t/noX6uKVj8+YHOClMxaDVo
-	 SI9Lkr34NYgh7xriAcRUxu/oNZDa6C/QUyWV/aizcmrWJh0YRhl3JQXDarb/ZgIFxK
-	 lN8OjLatlFAtuSoxeVfB037tOrc4k+2l4CHZHZ13eO0wl6Db/kaaZEXq3ztR0j5H8K
-	 zTFb9qQNeo1OydUTwLbFBUwUiAR2+ZYGsaBbOMbsyntsioUdV3Ua50kmUrprl1JrM7
-	 +H6gFaV3R5SOg==
+	b=H43ckgw1K/X/LMmGirCLu6olwyKN+3u+/yP/z6bq4Ct4qvvq94RCjO4PnMuw80M68
+	 8djH78hYQ/6RueZeAlOGbX/16eqZVSzD6saRHNkwrq5RgAfLSBcybMpNwVtSULUf00
+	 p4iAOaCi1NFHMkYm9rAg0cDrDyfjyQVIs6FJC3oZdgg4LbiCo+7Il/17eSinXotCrL
+	 jBqtiGCtO1xpXV2OxG/7eZgVCon6zt6es2Xn/VF1t1m0DG8/8cQsNzraqRvYxd0y7G
+	 oziRXR42K0miODftx0GpKUUz2adWvK/lDhtgoD8kIhYjikZSvRJUdUEx5x0XEj9IFb
+	 u+EENixrJHRgw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCF9BCD4F54;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C8C4CD6E45;
 	Wed, 27 May 2026 15:33:22 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Wed, 27 May 2026 08:33:18 -0700
-Subject: [PATCH RFC 06/12] Documentation: KVM: Have actual headings for
- exceptions
+Date: Wed, 27 May 2026 08:33:16 -0700
+Subject: [PATCH RFC 04/12] Documentation: KVM: Turn - into bullet point
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260527-kvm-locking-docs-v1-6-4fe8b602ff47@google.com>
+Message-Id: <20260527-kvm-locking-docs-v1-4-4fe8b602ff47@google.com>
 References: <20260527-kvm-locking-docs-v1-0-4fe8b602ff47@google.com>
 In-Reply-To: <20260527-kvm-locking-docs-v1-0-4fe8b602ff47@google.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -56,11 +55,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779896001; l=1576;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779896001; l=909;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=omLCISL/Cs1+39lE29MDupCtm4WwTzGw7vDPKSySNYo=;
- b=hprWgud3QVI1IKRiPLGBIYGbG2occ7We7PsN9/HJiCR/0rZEaqlqEP39d5vxdyx0Gpkil7MJV
- OZNw5t9xeHOAhY9qTRJPjQQyqfcQdggNLhA0ARfSxEm8DrBNtkxx0PE
+ bh=CVJlxPT0bvHHOwHsW6J5heOXwU/ZjkdVD+6fUMJnWDE=;
+ b=KkPJHF+eM7NDmHDSEhDOiOBWhwesjg7rIQXxnzpWgTB9I02vfYnNi5BaXX0a183XJ1mq7TDDx
+ YhG5/AGb4N7Df+nmEUADJYfEvIEoR/I+w01Jm8766xS2x9bSTAeKxa+
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -70,41 +69,28 @@ Reply-To: ackerleytng@google.com
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-Exceptions documented are described but without headings, making it hard to
-identify where each exception description ended.
-
-Use actual headings at a lower level than that of the heading used for
-Exception to improve readability.
+For the :Protects: section of kvm->mmu_lock, a missing space causes the -
+to render as a literal - instead of a bullet point. Add space to make it
+render as a bullet point.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- Documentation/virt/kvm/locking.rst | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ Documentation/virt/kvm/locking.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/virt/kvm/locking.rst b/Documentation/virt/kvm/locking.rst
-index 5161636cec481..fc4537a7659a9 100644
+index 67dd2066f6d98..e349c2cb94943 100644
 --- a/Documentation/virt/kvm/locking.rst
 +++ b/Documentation/virt/kvm/locking.rst
-@@ -65,7 +65,8 @@ The general rule in KVM is that any modification to shadow page tables
- (and their entries (SPTEs)) must be protected by ``kvm->mmu_lock``,
- with the exceptions described below.
+@@ -283,7 +283,7 @@ time it will be set using the Dirty tracking mechanism described above.
+ ^^^^^^^^^^^^^^^^^
+ :Type:		spinlock_t or rwlock_t
+ :Arch:		any
+-:Protects:	-shadow page/shadow tlb entry
++:Protects:	- shadow page/shadow tlb entry
+ :Comment:	it is a spinlock since it is used in mmu notifier.
  
--Fast page fault:
-+2.1. Fast page fault
-+^^^^^^^^^^^^^^^^^^^^
- 
- Fast page fault is the fast path which fixes the guest page fault out of
- the mmu-lock on x86. Currently, the page fault can be fast in one of the
-@@ -217,7 +218,8 @@ Since the spte is "volatile" if it can be updated out of mmu-lock, we always
- atomically update the spte and the race caused by fast page fault can be avoided.
- See the comments in spte_needs_atomic_update() and mmu_spte_update().
- 
--Lockless Access Tracking:
-+2.2 Lockless Access Tracking
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- This is used for Intel CPUs that are using EPT but do not support the EPT A/D
- bits. In this case, PTEs are tagged as A/D disabled (using ignored bits), and
+ ``kvm->srcu``
 
 -- 
 2.54.0.823.g6e5bcc1fc9-goog
