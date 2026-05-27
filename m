@@ -1,239 +1,232 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24AD3408000
-	for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 13:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6096540F8ED;
+	Wed, 27 May 2026 13:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779887042; cv=none; b=BzVQrqjYswQmkmrt6dY+S/W42hYv6kdvS4Fei81tON3eBJkJRO5080/zhvXoIv7Z38ceE2Vu7HNYZetajBd+vqkBrjQJXAsGz+lJOKmbMpIQQbDCA8UBlFBf6JK4VapsMlndUHmd+Qj42FLKUfCGaxeAvfJDPxHZVNyjAQqAF74=
+	t=1779888980; cv=none; b=cwCjv05WhIgeU1knXOd3yIIlVNqA4mYp8yhuSxG/ek6djTsig1bCxviC3dRocyAkDDIYumdKfQLB3chXyHprz3OuwNejSLa6EywpHH4bsr6b5/KtLicJ/s+T9gGYfmw1xPpk+MRDsFgqltZ3aOse/KUPk+w3DmG+C48CQ//AAyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779887042; c=relaxed/simple;
-	bh=n2YRYCDgDvS7cVuAaA44v0vEQlFsZo/xvrHLE71A09w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PoLMed5fB+ji7rdKueJQuUqvQO9NIe7mMq0D2eKvAnzmvdwPRnTT1Nvvnm3TzhYShEPu/w638Nf3ePWmQSLKBsW+ZoUygK/4swwIvNbRRzcsQYktTorzJ4/ooSCJAfFbx8x/eEGDk/OAqDkSTPHKuz96PDWuKBWYpoLZtP1DoG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=M9e8XYxE; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="M9e8XYxE"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779887023;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JzRQ9atpIDul4DCdro+GP47BAZ96ySMQWDM6TJI6jOY=;
-	b=M9e8XYxEJR7vKK9og1Edl2s0AdkjYZlrkyUgAxf/mEzX1dBqu8+xAJlqA+VjFx8UAvWsUQ
-	lz+x0EK/QFZNTQMq7phe0s15PQUqGrcXcpJO2q//CxCWwLYT9gcJ2PQc6Ie52H4e1vf6cs
-	tCFi62D1hnDx7NifVk1PBWPfGsuyJgI=
-From: Usama Arif <usama.arif@linux.dev>
-To: lirongqing <lirongqing@baidu.com>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Harry Yoo <harry@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH] mm/mempool: use static key for boot-time debug enablement
-Date: Wed, 27 May 2026 06:03:36 -0700
-Message-ID: <20260527130337.983366-1-usama.arif@linux.dev>
-In-Reply-To: <20260527104634.2434-1-lirongqing@baidu.com>
-References: 
+	s=arc-20240116; t=1779888980; c=relaxed/simple;
+	bh=YgxJKmPXIYin1Yn8QCUn7+UdsOWRLnPzXNB6JtJLDZY=;
+	h=Message-ID:Date:Mime-Version:From:To:Cc:Subject:Content-Type; b=spmxkmZM+U36ztJLkQa0FzLVDAVBxyYNUXdmfhuEqCXxbXGh6xbd1B8uFIKVGc7XihR9Lcho05TaeYqINtNrgHxYE6OCpRIuOTJs4eHkx7CZA1XjYNBrsG25jJaAvJmpV78OUbqFK1H2pgTDv/c7mTU1dH+kAQyDgQJupdIK10k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4gQVxt4SPZz4xNtN;
+	Wed, 27 May 2026 21:36:02 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl2.zte.com.cn with SMTP id 64RDZvCm068562;
+	Wed, 27 May 2026 21:35:57 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Wed, 27 May 2026 21:35:58 +0800 (CST)
+X-Zmail-TransId: 2afc6a16f33ebc8-e93f5
+X-Mailer: Zmail v1.0
+Message-ID: <20260527213558929EhiHHy9EDTMjmg3uuDOMi@zte.com.cn>
+Date: Wed, 27 May 2026 21:35:58 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
+        <yang.yang29@zte.com.cn>
+Cc: <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <xu.xin16@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4IG5leHRdIHRvb2xzIGhlYWRlcnMgVUFQSTogc3luYyBsaW51eC90YXNrc3RhdHMuaCBmb3IgcHJvY2FjY3QuYw==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 64RDZvCm068562
+X-TLS: YES
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SOURCE-IP: 10.5.228.133 unknown Wed, 27 May 2026 21:36:02 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6A16F342.001/4gQVxt4SPZz4xNtN
 
-On Wed, 27 May 2026 06:46:34 -0400 lirongqing <lirongqing@baidu.com> wrote:
+From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-> From: Li RongQing <lirongqing@baidu.com>
-> 
-> Replace the #ifdef CONFIG_SLUB_DEBUG_ON conditional compilation with a
-> static key (mempool_debug_enabled). This allows enabling mempool debugging
-> at boot time via:
-> 
->     mempool_debug
-> 
-> Instead of requiring CONFIG_SLUB_DEBUG_ON at compile time. Benefits:
-> 
-> - Debugging can be enabled without rebuilding the kernel
-> - Uses standard kernel static_key mechanism with minimal overhead
-> 
-> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-> Signed-off-by: Li RongQing <lirongqing@baidu.com>
-> Cc: Vlastimil Babka <vbabka@kernel.org>
-> Cc: Harry Yoo <harry@kernel.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Hao Li <hao.li@linux.dev>
-> Cc: Christoph Lameter <cl@gentwo.org>
-> Cc: David Rientjes <rientjes@google.com>
-> Cc: Roman Gushchin <roman.gushchin@linux.dev>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  5 ++++
->  mm/mempool.c                                    | 32 ++++++++++++++++++-------
->  2 files changed, 28 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 35ed9dc..5a070e6 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3998,6 +3998,11 @@ Kernel parameters
->  			Note that even when enabled, there are a few cases where
->  			the feature is not effective.
->  
-> +	mempool_debug	[MM]
-> +			Enable mempool debugging. This enables element
-> +			poison checking when freeing elements back to the
-> +			pool. Useful for debugging mempool corruption.
-> +
->  	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV,EARLY] Enable memtest
->  			Format: <integer>
->  			default : 0 <disable>
-> diff --git a/mm/mempool.c b/mm/mempool.c
-> index db23e0e..4f429a1 100644
-> --- a/mm/mempool.c
-> +++ b/mm/mempool.c
-> @@ -16,11 +16,28 @@
->  #include <linux/export.h>
->  #include <linux/mempool.h>
->  #include <linux/writeback.h>
-> +#include <linux/static_key.h>
-> +#include <linux/init.h>
->  #include "slab.h"
->  
->  static DECLARE_FAULT_ATTR(fail_mempool_alloc);
->  static DECLARE_FAULT_ATTR(fail_mempool_alloc_bulk);
->  
-> +/*
-> + * Debugging support for mempool using static key.
-> + *
-> + * This allows enabling mempool debug at boot time via:
-> + *   mempool_debug
-> + */
-> +static DEFINE_STATIC_KEY_FALSE(mempool_debug_enabled);
-> +
-> +static int __init mempool_debug_setup(char *str)
-> +{
-> +	static_branch_enable(&mempool_debug_enabled);
-> +	return 0;
-> +}
-> +early_param("mempool_debug", mempool_debug_setup);
-> +
+Background
+==========
+After commit 9b93f7e32774 ("tools/getdelays: use the static UAPI
+headers from tools/include/uapi"), the Makefile was changed to use
+-I../include/uapi/ instead of -I../../usr/include to ensure tools
+always use the up-to-date UAPI headers.
 
-Can static_branch_enable() in mempool_debug_setup() run before
-jump_label_init() has set static_key_initialized?
+However, only linux/taskstats.h was added to tools/include/uapi/ in
+commit e5bbb35a07b3 ("tools headers UAPI: sync linux/taskstats.h"),
+but linux/acct.h was missing.
 
-Looking at start_kernel() in init/main.c:
+Problem
+=======
+This causes procacct.c to fail to compile with:
 
-	setup_arch(&command_line);
-	mm_core_init_early();
-	/* Static keys and static calls are needed by LSMs */
-	jump_label_init();
-	...
-	/* parameters may set static keys */
-	parse_early_param();
+procacct.c:234:37: error: 'AGROUP' undeclared (first use in this function)
 
-This will trigger the warning in include/linux/jump_label.h has:
+gcc -I../include/uapi/    getdelays.c   -o getdelays
+gcc -I../include/uapi/    procacct.c   -o procacct
+procacct.c: In function ‘print_procacct’:
+procacct.c:234:37: error: ‘AGROUP’ undeclared (first use in this function)
+did you mean ‘NOGROUP’?
+  234 |  , t->version >= 12 ? (t->ac_flag & AGROUP ? 'P' : 'T') : '?'
+      |                                     ^~~~~~
+      |                                     NOGROUP
+procacct.c:234:37: note: each undeclared ident
 
-	#define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized, \
-	    "%s(): static key '%pS' used before call to jump_label_init()", \
-	    __func__, (key))
+because procacct.c uses the AGROUP macro defined in linux/acct.h.
 
+Solution
+========
+Add the missing linux/acct.h to complete the static UAPI header set.
 
-mm/dmapool.c registers an equivalent debug toggle via __setup()
-rather than early_param():
+Fixes: 9b93f7e32774 ("tools/getdelays: use the static UAPI headers from tools/include/uapi")
+Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
+---
+ tools/include/uapi/linux/acct.h | 128 ++++++++++++++++++++++++++++++++
+ 1 file changed, 128 insertions(+)
+ create mode 100644 tools/include/uapi/linux/acct.h
 
-	static int __init dmapool_debug_setup(char *str)
-	{
-		static_branch_enable(&dmapool_debug_enabled);
-		return 1;
-	}
-	__setup("dmapool_debug", dmapool_debug_setup);
-
-I think you can reuse that.
-
->  static int __init mempool_faul_inject_init(void)
->  {
->  	int error;
-> @@ -37,7 +54,6 @@ static int __init mempool_faul_inject_init(void)
->  }
->  late_initcall(mempool_faul_inject_init);
->  
-> -#ifdef CONFIG_SLUB_DEBUG_ON
->  static void poison_error(struct mempool *pool, void *element, size_t size,
->  			 size_t byte)
->  {
-> @@ -73,6 +89,9 @@ static void __check_element(struct mempool *pool, void *element, size_t size)
->  
->  static void check_element(struct mempool *pool, void *element)
->  {
-> +	if (!static_branch_unlikely(&mempool_debug_enabled))
-> +		return;
-> +
->  	/* Skip checking: KASAN might save its metadata in the element. */
->  	if (kasan_enabled())
->  		return;
-> @@ -112,6 +131,9 @@ static void __poison_element(void *element, size_t size)
->  
->  static void poison_element(struct mempool *pool, void *element)
->  {
-> +	if (!static_branch_unlikely(&mempool_debug_enabled))
-> +		return;
-> +
-
-Before this change, building with CONFIG_SLUB_DEBUG_ON=y compiled in
-check_element() and poison_element() unconditionally, so the
-poisoning and corruption checks ran on every mempool free/alloc.
-After this change those checks are gated on the mempool_debug boot
-parameter even when CONFIG_SLUB_DEBUG_ON=y.
-
-Existing users who relied on CONFIG_SLUB_DEBUG_ON=y giving them
-mempool poison checking will silently lose it on upgrade unless they
-also add "mempool_debug" to the command line.
-
-Would it be worth defaulting the static key to true under
-CONFIG_SLUB_DEBUG_ON=y, for example:
-
-	#ifdef CONFIG_SLUB_DEBUG_ON
-	static DEFINE_STATIC_KEY_TRUE(mempool_debug_enabled);
-	#else
-	static DEFINE_STATIC_KEY_FALSE(mempool_debug_enabled);
-	#endif
-
-so the previous default behaviour is preserved.
-
-
->  	/* Skip poisoning: KASAN might save its metadata in the element. */
->  	if (kasan_enabled())
->  		return;
-> @@ -140,14 +162,6 @@ static void poison_element(struct mempool *pool, void *element)
->  #endif
->  	}
->  }
-> -#else /* CONFIG_SLUB_DEBUG_ON */
-> -static inline void check_element(struct mempool *pool, void *element)
-> -{
-> -}
-> -static inline void poison_element(struct mempool *pool, void *element)
-> -{
-> -}
-> -#endif /* CONFIG_SLUB_DEBUG_ON */
->  
->  static __always_inline bool kasan_poison_element(struct mempool *pool,
->  		void *element)
-> -- 
-> 2.9.4
-> 
-> 
+diff --git a/tools/include/uapi/linux/acct.h b/tools/include/uapi/linux/acct.h
+new file mode 100644
+index 000000000000..0e591152aa8a
+--- /dev/null
++++ b/tools/include/uapi/linux/acct.h
+@@ -0,0 +1,128 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++ *  BSD Process Accounting for Linux - Definitions
++ *
++ *  Author: Marco van Wieringen (mvw@planets.elm.net)
++ *
++ *  This header file contains the definitions needed to implement
++ *  BSD-style process accounting. The kernel accounting code and all
++ *  user-level programs that try to do something useful with the
++ *  process accounting log must include this file.
++ *
++ *  Copyright (C) 1995 - 1997 Marco van Wieringen - ELM Consultancy B.V.
++ *
++ */
++
++#ifndef _UAPI_LINUX_ACCT_H
++#define _UAPI_LINUX_ACCT_H
++
++#include <linux/types.h>
++
++#include <asm/param.h>
++#include <asm/byteorder.h>
++
++/* 
++ *  comp_t is a 16-bit "floating" point number with a 3-bit base 8
++ *  exponent and a 13-bit fraction.
++ *  comp2_t is 24-bit with 5-bit base 2 exponent and 20 bit fraction
++ *  (leading 1 not stored).
++ *  See linux/kernel/acct.c for the specific encoding systems used.
++ */
++
++typedef __u16	comp_t;
++typedef __u32	comp2_t;
++
++/*
++ *   accounting file record
++ *
++ *   This structure contains all of the information written out to the
++ *   process accounting file whenever a process exits.
++ */
++
++#define ACCT_COMM	16
++
++struct acct
++{
++	char		ac_flag;		/* Flags */
++	char		ac_version;		/* Always set to ACCT_VERSION */
++	/* for binary compatibility back until 2.0 */
++	__u16		ac_uid16;		/* LSB of Real User ID */
++	__u16		ac_gid16;		/* LSB of Real Group ID */
++	__u16		ac_tty;			/* Control Terminal */
++	/* __u32 range means times from 1970 to 2106 */
++	__u32		ac_btime;		/* Process Creation Time */
++	comp_t		ac_utime;		/* User Time */
++	comp_t		ac_stime;		/* System Time */
++	comp_t		ac_etime;		/* Elapsed Time */
++	comp_t		ac_mem;			/* Average Memory Usage */
++	comp_t		ac_io;			/* Chars Transferred */
++	comp_t		ac_rw;			/* Blocks Read or Written */
++	comp_t		ac_minflt;		/* Minor Pagefaults */
++	comp_t		ac_majflt;		/* Major Pagefaults */
++	comp_t		ac_swaps;		/* Number of Swaps */
++/* m68k had no padding here. */
++#if !defined(CONFIG_M68K) || !defined(__KERNEL__)
++	__u16		ac_ahz;			/* AHZ */
++#endif
++	__u32		ac_exitcode;		/* Exitcode */
++	char		ac_comm[ACCT_COMM + 1];	/* Command Name */
++	__u8		ac_etime_hi;		/* Elapsed Time MSB */
++	__u16		ac_etime_lo;		/* Elapsed Time LSB */
++	__u32		ac_uid;			/* Real User ID */
++	__u32		ac_gid;			/* Real Group ID */
++};
++
++struct acct_v3
++{
++	char		ac_flag;		/* Flags */
++	char		ac_version;		/* Always set to ACCT_VERSION */
++	__u16		ac_tty;			/* Control Terminal */
++	__u32		ac_exitcode;		/* Exitcode */
++	__u32		ac_uid;			/* Real User ID */
++	__u32		ac_gid;			/* Real Group ID */
++	__u32		ac_pid;			/* Process ID */
++	__u32		ac_ppid;		/* Parent Process ID */
++	/* __u32 range means times from 1970 to 2106 */
++	__u32		ac_btime;		/* Process Creation Time */
++#ifdef __KERNEL__
++	__u32		ac_etime;		/* Elapsed Time */
++#else
++	float		ac_etime;		/* Elapsed Time */
++#endif
++	comp_t		ac_utime;		/* User Time */
++	comp_t		ac_stime;		/* System Time */
++	comp_t		ac_mem;			/* Average Memory Usage */
++	comp_t		ac_io;			/* Chars Transferred */
++	comp_t		ac_rw;			/* Blocks Read or Written */
++	comp_t		ac_minflt;		/* Minor Pagefaults */
++	comp_t		ac_majflt;		/* Major Pagefaults */
++	comp_t		ac_swaps;		/* Number of Swaps */
++	char		ac_comm[ACCT_COMM];	/* Command Name */
++};
++
++/*
++ *  accounting flags
++ */
++				/* bit set when the process/task ... */
++#define AFORK		0x01	/* ... executed fork, but did not exec */
++#define ASU		0x02	/* ... used super-user privileges */
++#define ACOMPAT		0x04	/* ... used compatibility mode (VAX only not used) */
++#define ACORE		0x08	/* ... dumped core */
++#define AXSIG		0x10	/* ... was killed by a signal */
++#define AGROUP		0x20	/* ... was the last task of the process (task group) */
++
++#if defined(__BYTE_ORDER) ? __BYTE_ORDER == __BIG_ENDIAN : defined(__BIG_ENDIAN)
++#define ACCT_BYTEORDER	0x80	/* accounting file is big endian */
++#elif defined(__BYTE_ORDER) ? __BYTE_ORDER == __LITTLE_ENDIAN : defined(__LITTLE_ENDIAN)
++#define ACCT_BYTEORDER	0x00	/* accounting file is little endian */
++#else
++#error unspecified endianness
++#endif
++
++#ifndef __KERNEL__
++#define ACCT_VERSION	2
++#define AHZ		(HZ)
++#endif	/* __KERNEL */
++
++
++#endif /* _UAPI_LINUX_ACCT_H */
+-- 
+2.25.1
