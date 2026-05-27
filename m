@@ -1,169 +1,212 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C673EEAEE;
-	Wed, 27 May 2026 18:03:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779905035; cv=pass; b=WgWlju/yLNusWTepejhxOZIBYQUDdho15jDUyO8NLybIYM2C80M+HZ+RbURKEAGh7fy1HZrL/OMoco6NpHdVQl0t3LN1gcylXX0JqnoOS3+bTGpyaQ3oOOcwRoLQE4Bu/eVBKfxczVekH+uuNmOlbV6jnD3kOzjfMruBV692gug=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779905035; c=relaxed/simple;
-	bh=9NE1U5Y+LU+TJrHg0ZJQodmwW/H3SP7Y9HxyC95AnGE=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=gxww3ibSFySKLBfTKj0WUF2zd+/VOm0jhCcpgqTArqYmsgkLOKfeTw8loIXw/7BRvB5V9eLMtBqGcPFdLLIF2hetPRgxiOktSqvjsunueDRDNWVzOnuDlzS0jlEtdmHQnCcbGsnGEgJplWD91U4aMcQwHwG1vITC2ikf4hRflR8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=pYciJdN/; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7DB45106F;
+	Wed, 27 May 2026 18:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779905247; cv=none; b=LmBEqxtx98NwNZEctG1WYgFuci/bRnc9uWoBQgyQbuvsRg/QWgYE7K4DFRKCbc3OYrvf/vwVKdXamdbRGMGDS3sTJAf6aUvPYjuI95kZei3H3Eqf+hAsE+EBPLg2WagZF24rl9ljp8yUYRIoXEjLkArW/oACBi3kvpSzEuS9BE8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779905247; c=relaxed/simple;
+	bh=51XUH+sK+SN+nlFz1dl2LW9JG/fpI4iMqLjIsM4rzis=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ddL4MyCOKuMXadpqvssRDfsTJ+JO5kJbkFKTFEWHWF9rpPU0Toiz5glMgjb9gXP/TLexQH0lmA9MWYWMz29UvLuySl1mFFMeXss3u8rv2FQclO9Q4yNjqGqZY4BTW6fEB9BVVIb7tRpw5RVpoj75ktHk1GXSKyOo8RZBv5wwLGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFnJL65Q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="pYciJdN/"
-ARC-Seal: i=1; a=rsa-sha256; t=1779905017; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=A2Zuf9c2qYWXtEQkLLvwlKxhjgO2kjFZzVN5K3YVGIQGgsOQld1M+EFmxRQzq0sDl8ZH+SDTqosNmwjNAQlC3bZym5MhR5yHcxxcTUt0XUKODUzj776plJgUQpUVx+XNGsvES+fWub81KbbT3odPqRHMx4+gq2En/HQZz7/5S6U=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1779905017; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=xTRtxc5my+dZUuILLnX1aDJNMlVpiFAe1vA0Qh3Roxo=; 
-	b=BE3xChQxKKtzQyrgmsrKtszp65Igv9Cbgiyb/uk9Llk8SIqC3yTBqRm/4HIN83JSEx3mbIlQaRy2l1ifVJnYk1I9iF/NABIM6zftO0DHBHMCyMQg6V3Zbd5lRV8URQ4mjY0u35q//cU52as4Nd63I3f2EgR1Ng/hf+A9n20AXsc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779905017;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=xTRtxc5my+dZUuILLnX1aDJNMlVpiFAe1vA0Qh3Roxo=;
-	b=pYciJdN/H7MzTFgpy8zS71Bq95Pjx21I6dmiCw7uU5mtcACltLq0I8Gtz9h549i8
-	BjK/YXC+pr5r0hBq7SGac9ciSiksGtcDkAizAZHIJqlePJFt4VOb2NFtwn12Q9RD7tB
-	+aW+iVFSlYho+h1TV9S7LPj5lYybHUcJkpJgbrtzFLgylVL2eAVDvas+9OD7hRXM04m
-	m2/FtTxz6jyu19bDRupEIvXBpTwrmIe49avgSE3qLcfJGa6S26RFp2JOYXLMcxqA0lU
-	08vblp50uyjSntGzRHtFEb2+y3bwQeQxoQfmU8uS57B71RDiSioTYYyI1UOgVTn731b
-	NBtitHLrEA==
-Received: by mx.zohomail.com with SMTPS id 1779905014735968.8590115968572;
-	Wed, 27 May 2026 11:03:34 -0700 (PDT)
-Message-ID: <744f0877b0b8099a7676cca92e820dfb84f8e3fa.camel@rong.moe>
-Subject: Re: [PATCH 2/3] ALSA: usb-audio: Add
- QUIRK_FLAG_MIXER_SKIP_GET_CUR_VOL
-From: Rong Zhang <i@rong.moe>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet
-	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Gordon Chen
-	 <chengordon326@gmail.com>, linux-sound@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <87tsrtwgyc.wl-tiwai@suse.de>
-References: <20260527-uac-quirk-get-cur-vol-v1-0-e9362b712e5e@rong.moe>
-		<20260527-uac-quirk-get-cur-vol-v1-2-e9362b712e5e@rong.moe>
-	 <87tsrtwgyc.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 28 May 2026 01:58:29 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFnJL65Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2D0B1F000E9;
+	Wed, 27 May 2026 18:07:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779905246;
+	bh=uDOrhsrRdh6+Yf4xP8K2rk2l3PA3yjLH3cn4K7gp9PA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=FFnJL65QyL7vCdq1lNbCKXeys4pP8qgnwtz2ENCtMKNGFAnWbgQefBIPzTalqB4p9
+	 69ef482ntqIYaFaBTjK8Ri/DpQoH9Fy7+RSfCzMoem1CEcqeIZ8lrec/lXxHHusrOo
+	 bmv/CH8JwbO/dzbCPqXgnmDpE43UelMOdfmwaow5EKUrispJz7NJ9HAQU1RM2K/Kqo
+	 ufxgqiINv2CBItOHypvEG/7YLhhyz3tda9+w6zG/PMM7RYqVozGf6HLP+glFuRYdv5
+	 Dk8Fe+Y753hMil5u/TeSa6iaVKy/mmkh6yD1qfHzd2kfiTp5ABjUWxiKUAkJw7iOoy
+	 2yT/TIG/xAscw==
+Date: Wed, 27 May 2026 19:07:13 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
+ <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v13 2/6] iio: adc: ad4691: add initial driver for AD4691
+ family
+Message-ID: <20260527190713.1cba1e89@jic23-huawei>
+In-Reply-To: <20260525-ad4692-multichannel-sar-adc-driver-v13-2-1b7626d3b35c@analog.com>
+References: <20260525-ad4692-multichannel-sar-adc-driver-v13-0-1b7626d3b35c@analog.com>
+	<20260525-ad4692-multichannel-sar-adc-driver-v13-2-1b7626d3b35c@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-9 
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Takashi,
+On Mon, 25 May 2026 13:10:11 +0300
+Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
 
-Thanks for your review.
-
-On Wed, 2026-05-27 at 07:37 +0200, Takashi Iwai wrote:
-> On Tue, 26 May 2026 19:49:24 +0200,
-> Rong Zhang wrote:
-> >=20
-> > Since commit 86aa1ea1f15c ("ALSA: usb-audio: Do not expose sticky
-> > mixers"), the UAC mixer core utilizes volume SET_CUR and GET_CUR to
-> > identify devices with sticky mixers. Unfortunately, even though most
-> > devices with sticky GET_CUR also have corresponding sticky SET_CUR,
-> > which I actually met more since the commit had been merged, there is
-> > also a rare case that some devices may have volume mixers that responds
-> > to SET_CUR properly but with its GET_CUR stubbed. This cause the sticky
-> > check to consider the mixer to be sticky and unnecessarily disable it.
-> >=20
-> > Add QUIRK_FLAG_MIXER_SKIP_GET_CUR_VOL to prevent sending GET_CUR to
-> > mixers by returning -ENXIO early. The error effectively skips the stick=
-y
-> > check as it's only meaningful when the mixer has some sort of self-
-> > awareness. Similar to QUIRK_FLAG_GET_SAMPLE_RATE, this should also help
-> > if some unmet devices can't tolerate volume GET_CUR in other ways.
-> >=20
-> > Signed-off-by: Rong Zhang <i@rong.moe>
-> > ---
-> >  Documentation/sound/alsa-configuration.rst | 4 ++++
-> >  sound/usb/mixer.c                          | 5 +++++
-> >  sound/usb/quirks.c                         | 1 +
-> >  sound/usb/usbaudio.h                       | 6 ++++++
-> >  4 files changed, 16 insertions(+)
-> >=20
-> > diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation=
-/sound/alsa-configuration.rst
-> > index 4b30cd63c5a5..bc3bc65c379a 100644
-> > --- a/Documentation/sound/alsa-configuration.rst
-> > +++ b/Documentation/sound/alsa-configuration.rst
-> > @@ -2389,6 +2389,10 @@ quirk_flags
-> >            from snd_usb_handle_sync_urb. Instead fall through and enque=
-ue a
-> >            packet_info containing only size-0 packets, so the OUT ring =
-keeps
-> >            moving (emits silence). Needed by Behringer Flow 8 (1397:050=
-c).
-> > +        * bit 30: ``mixer_skip_get_cur_vol``
-> > +          Skip reading current volume for mixers, as some devices retu=
-rn
-> > +          constant values or errors but otherwise works fine, i.e., se=
-tting
-> > +          volume takes desired effect.
-> > =20
-> >  This module supports multiple devices, autoprobe and hotplugging.
-> > =20
-> > diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-> > index d61bde654219..3b745aebb181 100644
-> > --- a/sound/usb/mixer.c
-> > +++ b/sound/usb/mixer.c
-> > @@ -420,6 +420,11 @@ static int get_cur_ctl_value(struct usb_mixer_elem=
-_info *cval,
-> >  static inline int get_cur_mix_raw(struct usb_mixer_elem_info *cval,
-> >  				  int channel, int *value)
-> >  {
-> > +	struct snd_usb_audio *chip =3D cval->head.mixer->chip;
-> > +
-> > +	if (chip->quirk_flags & QUIRK_FLAG_MIXER_SKIP_GET_CUR_VOL)
-> > +		return -ENXIO;
+> From: Radu Sabau <radu.sabau@analog.com>
 >=20
-> So this workaround is applied to all mixer controls?
-
-Hmm, it is indeed not very optimal. My initial idea was to prevent
-returning bogus values at all, so I gated GET_CUR here. But as you've
-said this could have a wide impact on other mixers...
-
+> Add support for the Analog Devices AD4691 family of high-speed,
+> low-power multichannel SAR ADCs: AD4691 (16-ch, 500 kSPS),
+> AD4692 (16-ch, 1 MSPS), AD4693 (8-ch, 500 kSPS) and
+> AD4694 (8-ch, 1 MSPS).
 >=20
-> We can put it as a common quirk as you've done, but the question is
-> how many devices need this, too...
-
-While I am not sure if more devices need this (my intuition says yes),
-how about a less radical approach that still relies on the sticky check?
-
-- Rename the quirk flag to QUIRK_FLAG_MIXER_GET_CUR_BROKEN.
-- Add a flag to struct usb_mixer_elem_info to gate GET_CUR.
-- When the sticky check fails, check quirk flags. Gate further GET_CUR
-if the quirk flag is set, otherwise disable the mixer as usual.
-- A mixer with GET_CUR gated will solely relies on the internal cache of
-last set volume.
-
-The quirk flag still applies to all mixers, but as long as a mixer makes
-the sticky check happy, it won't be affected at all. Only those mixers
-with constant GET_CUR values will have their GET_CUR gated. I assume the
-impact is minimal, since it's very unlikely a device would have sticky
-mixers (broken SET_CUR) along with mixers with working SET_CUR but
-broken GET_CUR at the same time.
-
-Thanks,
-Rong
-
+> The driver implements a custom regmap layer over raw SPI to handle the
+> device's mixed 1/2/3/4-byte register widths and uses the standard IIO
+> read_raw/write_raw interface for single-channel reads.
 >=20
+> The chip idles in Autonomous Mode so that single-shot read_raw can use
+> the internal oscillator without disturbing the hardware configuration.
 >=20
-> thanks,
+> Three voltage supply domains are managed: avdd (required), vio, and a
+> reference supply on either the REF pin (ref-supply, external buffer)
+> or the REFIN pin (refin-supply, uses the on-chip reference buffer;
+> REFBUF_EN is set accordingly). Hardware reset is performed by asserting
+> the reset-gpios GPIO line for at least 300 =C2=B5s then deasserting it;
+
+As Sashiko notes this doesn't quite correspond to the code which deasserts
+then sleeps.  The comments in the code make it obvious that was intended
+so this commit description probably just needs an update.
+
+I guess you probably already saw and fixed this.
+
+> a software reset via SPI_CONFIG_A is used as fallback when no reset
+> GPIO is provided.
 >=20
-> Takashi
+> Accumulator channel masking for single-shot reads uses ACC_MASK_REG via
+> an ADDR_DESCENDING SPI write, which covers both mask bytes in a single
+> 16-bit transfer.
+>=20
+> Reviewed-by: David Lechner <dlechner@baylibre.com>
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+
+Otherwise, just one question inline.
+
+> diff --git a/drivers/iio/adc/ad4691.c b/drivers/iio/adc/ad4691.c
+> new file mode 100644
+> index 000000000000..cc1e2ef6bfd8
+> --- /dev/null
+> +++ b/drivers/iio/adc/ad4691.c
+
+
+> +
+> +static bool ad4691_volatile_reg(struct device *dev, unsigned int reg)
+> +{
+> +	switch (reg) {
+> +	case AD4691_STATUS_REG:
+> +	case AD4691_CLAMP_STATUS1_REG:
+> +	case AD4691_CLAMP_STATUS2_REG:
+> +	case AD4691_GPIO_READ:
+> +	case AD4691_ACC_STATUS_FULL1_REG ... AD4691_ACC_STATUS_SAT2_REG:
+> +	case AD4691_ACC_SAT_OVR_REG(0) ... AD4691_ACC_SAT_OVR_REG(15):
+> +		return true;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	/*
+> +	 * Multi-byte registers have non-unit strides; only accept base
+> +	 * addresses to prevent debugfs from triggering reads that cross
+> +	 * register boundaries.
+What does this have to do with preventing debugfs from doing anything.
+It should allow reading of volatile registers. Why is it not enough to
+make the non base aligned registers neither readable nor writeable?
+
+> +	 */
+> +	if (reg >=3D AD4691_AVG_IN(0) && reg <=3D AD4691_AVG_IN(15))
+> +		return (reg - AD4691_AVG_IN(0)) % 2 =3D=3D 0;
+> +	if (reg >=3D AD4691_AVG_STS_IN(0) && reg <=3D AD4691_AVG_STS_IN(15))
+> +		return (reg - AD4691_AVG_STS_IN(0)) % 3 =3D=3D 0;
+> +	if (reg >=3D AD4691_ACC_IN(0) && reg <=3D AD4691_ACC_IN(15))
+> +		return (reg - AD4691_ACC_IN(0)) % 3 =3D=3D 0;
+> +	if (reg >=3D AD4691_ACC_STS_DATA(0) && reg <=3D AD4691_ACC_STS_DATA(15))
+> +		return (reg - AD4691_ACC_STS_DATA(0)) % 4 =3D=3D 0;
+> +
+> +	return false;
+> +}
+> +
+> +static bool ad4691_readable_reg(struct device *dev, unsigned int reg)
+> +{
+> +	switch (reg) {
+> +	case 0 ... AD4691_OSC_FREQ_REG:
+> +	case AD4691_SPARE_CONTROL ... AD4691_ACC_SAT_OVR_REG(15):
+> +	case AD4691_STD_SEQ_CONFIG:
+> +		return true;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	/* Multi-byte registers: only accept base addresses (see volatile_reg).=
+ */
+> +	if (reg >=3D AD4691_AVG_IN(0) && reg <=3D AD4691_AVG_IN(15))
+> +		return (reg - AD4691_AVG_IN(0)) % 2 =3D=3D 0;
+> +	if (reg >=3D AD4691_AVG_STS_IN(0) && reg <=3D AD4691_AVG_STS_IN(15))
+> +		return (reg - AD4691_AVG_STS_IN(0)) % 3 =3D=3D 0;
+> +	if (reg >=3D AD4691_ACC_IN(0) && reg <=3D AD4691_ACC_IN(15))
+> +		return (reg - AD4691_ACC_IN(0)) % 3 =3D=3D 0;
+> +	if (reg >=3D AD4691_ACC_STS_DATA(0) && reg <=3D AD4691_ACC_STS_DATA(15))
+> +		return (reg - AD4691_ACC_STS_DATA(0)) % 4 =3D=3D 0;
+> +
+> +	return false;
+> +}
+
+> +static int ad4691_reset(struct ad4691_state *st)
+> +{
+> +	struct device *dev =3D regmap_get_device(st->regmap);
+> +	struct reset_control *rst;
+> +	int ret;
+> +
+> +	rst =3D devm_reset_control_get_optional_exclusive(dev, NULL);
+> +	if (IS_ERR(rst))
+> +		return dev_err_probe(dev, PTR_ERR(rst), "Failed to get reset\n");
+> +
+> +	if (rst) {
+> +		/*
+> +		 * Assert the reset line to guarantee a clean reset pulse on
+> +		 * every probe, including driver reloads where the line may
+> +		 * already be deasserted (reset_control_put() does not
+> +		 * re-assert on release). tRESETL (minimum pulse width) =3D 10 ns
+> +		 * (Table 5); kernel function-call overhead alone exceeds this,
+> +		 * so no explicit delay is needed between assert and deassert.
+> +		 */
+> +		reset_control_assert(rst);
+> +		ret =3D reset_control_deassert(rst);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		/* No hardware reset available, fall back to software reset. */
+> +		ret =3D regmap_write(st->regmap, AD4691_SPI_CONFIG_A_REG,
+> +				   AD4691_SW_RESET);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	/*
+> +	 * Wait 300 =C2=B5s (Table 5) for the device to complete its internal r=
+eset
+> +	 * sequence before accepting SPI commands.
+> +	 */
+> +	fsleep(300);
+This is what sashiko was moaning about.
+
+> +	return 0;
+> +}
+
+
