@@ -1,38 +1,38 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C129C2DB781;
-	Wed, 27 May 2026 02:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC7F277C9E;
+	Wed, 27 May 2026 03:13:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779850090; cv=none; b=k03/jzR2hs0hvX7uKgIaVaskH99NY/dc6RsRzxYfFfTja4+hc2Tb7cb6XiNb7j4AONOPeeh3liG2gtKsdG7GywZZ09NXWSQhHlBn9+KVBQ0eyIi6CMV2la/lORhT94kZyoYDgjJuHonR5nmglIFg808Z7gqI0q1hcCH+TPnk6oE=
+	t=1779851614; cv=none; b=q4Ynk/tzHWyl5fdwZfRcgNsL3QYp/YMJvUHqaHUw9isJjihNQshFMk5Lc1eL0UU00XRcFsYZ1NtdmQkzBczWaPT4O7Ozfn9tue2tZ6EiywjQJuWLhmpTN7wdo++45PTawOuss/4nqXgjW3ak5vy9FnT6Em8GVgET1sfRIK6ExkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779850090; c=relaxed/simple;
-	bh=OhArExhyFxW6G7UNwjQaVgZXmRB/nNTrfg+Kxp+BsiU=;
+	s=arc-20240116; t=1779851614; c=relaxed/simple;
+	bh=d1KOCvdX3a6rS6lxOCI4VykOPhKfCFHVynoNhaIDO44=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MqwfM1tTVZUtVCozShmmhmyBFaAm5WLe9p5rKcL4Pvze425LLHixEWegbUoU94qEtLtEHS1LDp7yszAdDNVclSa3Vq9x4XxzELBWK7lOwdMviDX3QmSGf/HfZLBQRGDU3mfztDvTCNxPQcCEPh3R1PEzKp2H2/ZE7V1cZ2tvBww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=gIa5tfSt; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=OsuCATRS/sQDcStFzsxSAogQiWuATv8nemE2bpxoQwENguOhiz1wTctI4sZDjir3Gwo7AVyB6fOoiDTu6KQmetNIbt5CQqzYh0ooc7KgXvDnWA11w5hkHyt5eujw1V5KHKW0xhPO4XRLrU/dyfRX+uJ74/UZvjVSfiajGBUWZf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=nIm6kU63; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="gIa5tfSt"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="nIm6kU63"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=NqCAB+KvGtFT9+Ag7X3oNMKQy1eE5n7+jCufEcB2qLs=; b=gIa5tfStp4zgdLLUmF0beJ8kmC
-	IURwABeBvUtoEmBv+28aSIJ3xecvXIrHKSKFcjLCAfnO2lYxinUSO79HpUtsBZostQ/qMnEgpyO1g
-	TJ+Xie6gQZ5fyeDwSDkqgoWWXS3Vyg/YX0STx1LxAKCYljyEQ8FujzdjNkRw8qAPld3w=;
+	bh=xOV+eMXQZHIeZbhjui1qOIrpCtPWtKx1yhCRd/HqaBY=; b=nIm6kU63t2ta1lnKUJWV6yxGmi
+	RGz7oOa8+U+4GleGPhC43cif5aMeJdby8HGIQjXSJrwdloWiRt68+B2F7VbQdqCpWN1k6cJseSbnN
+	bKBDV6rlgtHXdFaJK+dHYhBKWnPSVv/3G90TZqysasFk9tEQjiNNseFYmZxtDspBAKKo=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1wS4J9-004guy-Ri; Wed, 27 May 2026 04:47:47 +0200
-Date: Wed, 27 May 2026 04:47:47 +0200
+	id 1wS4hs-004h37-SR; Wed, 27 May 2026 05:13:20 +0200
+Date: Wed, 27 May 2026 05:13:20 +0200
 From: Andrew Lunn <andrew@lunn.ch>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "Maxime Chevallier (Netdev Foundation)" <maxime.chevallier@bootlin.com>,
-	davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+To: "Maxime Chevallier (Netdev Foundation)" <maxime.chevallier@bootlin.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
 	Russell King <linux@armlinux.org.uk>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -44,9 +44,8 @@ Cc: "Maxime Chevallier (Netdev Foundation)" <maxime.chevallier@bootlin.com>,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
  ethtool pause validation
-Message-ID: <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
+Message-ID: <0796cf1c-b85d-4e1c-b734-e0145e5fc2d9@lunn.ch>
 References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
- <20260526172447.10ca4b9e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,34 +54,130 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260526172447.10ca4b9e@kernel.org>
+In-Reply-To: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
 
-On Tue, May 26, 2026 at 05:24:47PM -0700, Jakub Kicinski wrote:
-> On Fri, 22 May 2026 19:51:06 +0200 Maxime Chevallier (Netdev
-> Foundation) wrote:
-> >  Documentation/networking/pause_test_plan.rst | 556 +++++++++++++++++++
-> 
-> It'd be great to hear from others but IMHO in the current form this is
-> not suitable for Documentation/networking/ We can commit the "knowledge"
-> part but enumerating the test cases seems odd for Documentation/.
+> +   These are used to allow the PHY do know what Pause settings the MAC supports, in
 
-Sorry, not looked too deeply at the actual content yet.
+s/do/to/
 
-What i was thinking was a python file, which sphinx can ingest to
-produce documentation, and place holders were code would be added to
-implement the actual test during the next phase.
+> +Similarly, the link partner can advertise its capabilities through the same
+> +bits. These parameters are exchanged through the negotiation process, but can
+> +also be enforced locally by disabling **pause autoneg**, thus ignoring the
+> +link partner's capabilities.
+> +
+> +The local resolution of the pause configuration after receiving the link-partner
+> +abilities is done according to the following table, from 802.3 Annex 28B.3 :
+> +
+> ++-------------+--------------+--------------------------+
+> +|Local device | Link partner | Pause settings resolution|
+> ++------+------+-------+------+-----------+--------------+
+> +|Pause | Asym | Pause | Asym | RX        | TX           |
+> ++======+======+=======+======+===========+==============+
+> +| 0    | 0    | Any   | Any  | No        | No           |
+> ++------+------+-------+------+-----------+--------------+
+> +| 0    | 1    | 0     | Any  | No        | No           |
+> ++------+------+-------+------+-----------+--------------+
+> +| 0    | 1    | 1     | 0    | No        | No           |
+> ++------+------+-------+------+-----------+--------------+
+> +| 0    | 1    | 1     | 1    | No        | Yes          |
+> ++------+------+-------+------+-----------+--------------+
+> +| 1    | 0    | 0     | Any  | No        | No           |
+> ++------+------+-------+------+-----------+--------------+
+> +| 1    | Any  | 1     | Any  | Yes       | Yes          |
+> ++------+------+-------+------+-----------+--------------+
+> +| 1    | 1    | 0     | 0    | No        | No           |
+> ++------+------+-------+------+-----------+--------------+
+> +| 1    | 1    | 0     | 1    | Yes       | No           |
+> ++------+------+-------+------+-----------+--------------+
+> +
+> +The currently configured and advertised settings can be queried with ::
+> +
+> +  ethtool <iface>
+> +
+> +  Settings for eth0:
+> +        ...
+> +	Supported pause frame use: Symmetric Receive-only
+> +        ...
+> +	Advertised pause frame use: Symmetric Receive-only
+> +        ...
+> +	Link partner advertised pause frame use: Symmetric Receive-only
 
-This is how i've done testing in the past. I would be the evil one who
-thought up the tests and described them in detail using sphinx markup
-in a python test template file. After some review they got passed off
-to a python developer for implementation. And when they got run and
-failed, sometimes the feature developer, the test developer and myself
-got together to figure who made the error.
+> +A : Standalone driver testing
+> +=============================
+> +
+> +Requirements : The interface under test must be connected to a link-partner whose
+> +interface is admin-up. We don't require the link-partner to be configured in any
+> +other specific manner for these tests.
+> +
+> +A.1 : Sanity Checks
+> +~~~~~~~~~~~~~~~~~~~
+> +
+> +Pause autoneg is set to off::
+> +
+> +  ethtool -A <iface> autoneg off
+> +
+> +The 'supported' fields retrieved using the ETHTOOL_MSG_LINKMODES_GET includes
+> +a "Pause" bit and an "Asym" bit.
+> +
+> +The ETHTOOL_MSG_PAUSE_GET command returns the currently configured pause modes
+> +in the "tx" and "rx" attributes.
+> +
+> +These parameters must validate against the following truth table :
+> +
+> +   +--------------+-----------------+
+> +   | linkmodes    | pauseparam      |
+> +   +-------+------+--------+--------+
+> +   | Pause | Asym | rx     | tx     |
+> +   +=======+======+========+========+
+> +   | 0     | 0    | 0      | 0      |
+> +   +-------+------+--------+--------+
+> +   | 0     | 1    | 0      | 0 or 1 |
+> +   +-------+------+--------+--------+
+> +   | 1     | 0    |     rx == tx    |
+> +   +-------+------+--------+--------+
+> +   | 1     | 1    | 0 or 1 | 0 or 1 |
+> +   +-------+------+--------+--------+
 
-I'm not sure we even need sphinx. What i find important is that the
-test is documented. What kAPI calls should be made with what
-parameters. What results we are expected and why? So that when a test
-fails, a developer has the information they need to fix their
-code. The Why? is important, and often missing from the kernel tests.
+I think we need more sanity checks here, in order to know if the tests
+that follow can be run.
 
-	Andrew
+If ETHTOOL_MSG_PAUSE_GET returns -EOPNOTSUPP, it is not a test error,
+but all the following tests using forced pause should be skipped,
+since it indicates forced pause is not supported.
+
+When pause autoneg is on, and LP values are not reported, we probably
+want a warning. I don't think we can say it is an error to report
+local values but not LP values. There is probably firmware
+implementations which don't make it available to user space. But we
+should discourage such behaviour with a warning. And some of the tests
+which follow will need to be skipped.
+
+I would suggest looking through the tests and making a list of things
+which must be implemented in order to actually perform the test. If
+something is missing and returns -EOPNOTSUPP, we need to skip the
+test.
+
+
+> +
+> +Test scenario
+> +-------------
+> +
+> +Following the reported value from::
+> +
+> +        ethtool <iface>
+> +        Settings for <iface>:
+> +                ...
+> +	        Supported pause frame use: <value>
+> +
+> +Iterate over all the 4 combinations of rx and tx pause parameters::
+> +
+> +        ethtool -A <iface> autoneg off rx <rx_val> tx <tx_val>
+> +
+> +The settings must be accepted or rejected, according to the above truth table.
+
+-EOPNOTSUPP should also be consider a pass. Other codes should be a
+fail.
+
+Sorry, out of time now, i will continue later.
+
+       Andrew
