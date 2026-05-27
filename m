@@ -1,40 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C513B19A0;
-	Wed, 27 May 2026 19:50:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32AEF363C73;
+	Wed, 27 May 2026 20:06:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779911436; cv=none; b=mrAi1MAoqu5Um7ST5/rRxhyZtZragqT9R6NqAxA0SSffB7RLOnTkss54En/qhuqcGfBv+hNRJGmMqYg0gsIxdfxanalT8huSEtXOD1LxWG14mcfbtlcePmSjjBzTg0ro9B2F06Xda5A7BufVxCjyLnwUlC8A3T4Sb5CK18wLvVA=
+	t=1779912419; cv=none; b=MPQ2xJB9qtoNUdS34YaBS9FYhJETLdQA32O6FayyT16tEo4nbkASNOsK8GHLu/Ie7wfaLQK/gH9wTX1CL75MYWhlf91QgBbvmyohHizDpgrOCWeEToF0j47bD99uJRZgsgxyik+NrCnOeLbAUA8j1TgP4SqPAflR9HIMl/uSnZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779911436; c=relaxed/simple;
-	bh=Hlcw5NmDdhXZKNv+/z2jeagFAksri84BWr7P8wwGYNM=;
+	s=arc-20240116; t=1779912419; c=relaxed/simple;
+	bh=ctgHzBlfz2XKNFD6qE4yuvhkQXa6+bh4EQsU5ntRZac=;
 	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=bqg6HooM4MTRw9NuDeIfUwsnMl7OFv+lPMxGS8aoQaasuAQ9wkJlo/SxGd259wgo62YPicXNnQgmzMFLBDGn56pwcif7mJsjkjHcOAZChtoXYiz1Ifxi+3tdWsO0W1lzaLvTmRPKIlTH1ZG/KEOmuuG6JVCnvpv6JoFwVHGmDtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Y5G2G7M8; arc=none smtp.client-ip=100.103.45.18
+	 Mime-Version:Content-Type; b=oTJfsb45VWmYpxLFCRc8NEv3CZbQ3365BSTe0nOJYquamEt37TOy2UBB/P+x0of/kY5K34sMaClkVVOpuvexAd8dy2+7AOnIrzh217kvyr9P5kFkgwHQVbp5XPegSicrC4IFbcDbq6HE9W5p1VWuUrWpx+pYlWPs9hnWA5EMoNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=10EY5CEp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Y5G2G7M8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A3C71F000E9;
-	Wed, 27 May 2026 19:50:34 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="10EY5CEp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E30A1F00A3D;
+	Wed, 27 May 2026 20:06:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1779911434;
-	bh=72Gz2NsTX3fg94N46zv80p0uplq9u+H7HG+tAgnNYCA=;
+	d=linux-foundation.org; s=korg; t=1779912417;
+	bh=t24yiIj3iGfqZREtbmVnrduVKwQ03r/frcUxbwRtR14=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Y5G2G7M8GI8nodHw68ElsQlY3SOz5wwHEMUtA70B+QukbaRS53+iCic26tCx0xhEX
-	 INr16cLT2gH80YbU40eN256vRUgMZQ81yDmeiYVvPsQcMgs5ev2/8h2TwVEHjHphhU
-	 t7rBVz4iXKmqts1GfofhRkfUhIYR153Mj+0sKSmM=
-Date: Wed, 27 May 2026 12:50:34 -0700
+	b=10EY5CEpYpPR+7kkjM5ExyfirkKrxnM9VigApFLCRHTylpQaXI94HACcmcmNfRbdh
+	 NbOL8v1sFIii6M8jzCoJOXh+uJWxB45ycXct4pqee3O3+CmSsC4AuYJ1aV5u63vW5a
+	 98ianTyuplHWq18kMmur+rH4qtaY340JL/dvRQCE=
+Date: Wed, 27 May 2026 13:06:56 -0700
 From: Andrew Morton <akpm@linux-foundation.org>
-To: <wang.yaxin@zte.com.cn>
-Cc: <fan.yu9@zte.com.cn>, <yang.yang29@zte.com.cn>, <corbet@lwn.net>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <xu.xin16@zte.com.cn>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
- <linux@weissschuh.net>
-Subject: Re: [PATCH linux next] tools headers UAPI: sync linux/taskstats.h
- for procacct.c
-Message-Id: <20260527125034.ba695164344d2645dd055af0@linux-foundation.org>
-In-Reply-To: <20260527213558929EhiHHy9EDTMjmg3uuDOMi@zte.com.cn>
-References: <20260527213558929EhiHHy9EDTMjmg3uuDOMi@zte.com.cn>
+To: lirongqing <lirongqing@baidu.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Vlastimil Babka <vbabka@kernel.org>, Harry Yoo
+ <harry@kernel.org>, Hao Li <hao.li@linux.dev>, Christoph Lameter
+ <cl@gentwo.org>, David Rientjes <rientjes@google.com>, Roman Gushchin
+ <roman.gushchin@linux.dev>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>
+Subject: Re: [PATCH] mm/mempool: use static key for boot-time debug
+ enablement
+Message-Id: <20260527130656.a448e84a30dc44617b51b45a@linux-foundation.org>
+In-Reply-To: <20260527104634.2434-1-lirongqing@baidu.com>
+References: <20260527104634.2434-1-lirongqing@baidu.com>
 X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -42,57 +44,24 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 27 May 2026 21:35:58 +0800 (CST) <wang.yaxin@zte.com.cn> wrote:
+On Wed, 27 May 2026 06:46:34 -0400 lirongqing <lirongqing@baidu.com> wrote:
 
-> From: Wang Yaxin <wang.yaxin@zte.com.cn>
+> Replace the #ifdef CONFIG_SLUB_DEBUG_ON conditional compilation with a
+> static key (mempool_debug_enabled). This allows enabling mempool debugging
+> at boot time via:
 > 
-> Background
-> ==========
-> After commit 9b93f7e32774 ("tools/getdelays: use the static UAPI
-> headers from tools/include/uapi"), the Makefile was changed to use
-> -I../include/uapi/ instead of -I../../usr/include to ensure tools
-> always use the up-to-date UAPI headers.
+>     mempool_debug
 > 
-> However, only linux/taskstats.h was added to tools/include/uapi/ in
-> commit e5bbb35a07b3 ("tools headers UAPI: sync linux/taskstats.h"),
-> but linux/acct.h was missing.
+> Instead of requiring CONFIG_SLUB_DEBUG_ON at compile time. Benefits:
 
-Please let's Cc the author of both of these commits!
+Sashiko is suggesting that we use mempool_debug=<...> here.  Which permits
+mempool_debug=n if for some reason the kernel is defaulting to "on".  Which
+we might choose to do in the future.   I think that's a little better - do others agree?
 
-> Problem
-> =======
-> This causes procacct.c to fail to compile with:
-> 
-> procacct.c:234:37: error: 'AGROUP' undeclared (first use in this function)
-> 
-> gcc -I../include/uapi/    getdelays.c   -o getdelays
-> gcc -I../include/uapi/    procacct.c   -o procacct
-> procacct.c: In function ‘print_procacct’:
-> procacct.c:234:37: error: ‘AGROUP’ undeclared (first use in this function)
-> did you mean ‘NOGROUP’?
->   234 |  , t->version >= 12 ? (t->ac_flag & AGROUP ? 'P' : 'T') : '?'
->       |                                     ^~~~~~
->       |                                     NOGROUP
-> procacct.c:234:37: note: each undeclared ident
-> 
-> because procacct.c uses the AGROUP macro defined in linux/acct.h.
-> 
-> Solution
-> ========
-> Add the missing linux/acct.h to complete the static UAPI header set.
+Same goes for the new dmapool_debug.
 
-It has always annoyed me that we do this by copying the file.  I'm
-surprised that there isn't a way of using the original file directly.
-
-> Fixes: 9b93f7e32774 ("tools/getdelays: use the static UAPI headers from tools/include/uapi")
->
-> ...
->
-> --- /dev/null
-> +++ b/tools/include/uapi/linux/acct.h
->
-> ...
->
+Sashiko asked a second question:
+	https://sashiko.dev/#/patchset/20260527104634.2434-1-lirongqing@baidu.com
