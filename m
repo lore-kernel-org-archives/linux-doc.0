@@ -1,110 +1,175 @@
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936773438A1
-	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 05:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD551940B0;
+	Thu, 28 May 2026 05:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779946328; cv=none; b=APCVA2La8BrZssQc/+vdOCzUYbp8vDnhZy4eK+ckPJmg5giNrlODSiJu3BzEC5SqpdlYNM1fRQ0x2ZNi66txwre6Nr1ELACBFYS4L5lkMTl3dcLCGBMCKpPZUplRkWNXnFktmWGCzmmd3bag4ZPAgn8HiWP/H8GrEp3U5aPT3YA=
+	t=1779947186; cv=none; b=j+UxHBWKJKbv8QFSQ5L7OyE/aNsYW+r7aVqmtCubZ0E7jCQXbvpwVPqREOQuqSUs9WlOveEyxGKHHpDYkYvnQiafqwNBA0krVcP+E2jHxAMjVbvnUsl1TxDgvLRXjDBsTbjA6mGN4pDz9V2WmpVgkh39V3uSzKRPR+wiiuRypNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779946328; c=relaxed/simple;
-	bh=IK1Bb9AuJqkHv96iXJHC5mPYMiYpKU+zCrPc1d5SoUQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rc/giXX1yjhDFAJLq+1OGwl3zKicojBLIgjqvZGEpnIBaeOzEtZARULe7Ou6b+iDl9CJzEt7i2C6r8IefSRyy16IlkM1v3Qle+OLehtX5XVZZeYODLMoiPMEWctJvWgI1pSXM9TnRGPdj0Ft3uAhtuTuxNHbkq1KqQGgnAuvK4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ncEBLQbH; arc=none smtp.client-ip=74.125.82.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779947186; c=relaxed/simple;
+	bh=vRplcPPetVrP41t9VSybTHS8jAdvhvc/utVsjAH6HOo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rfppKuwa2tm3viw/k0wy1fdgAbFTjDPI8lJE5hp6NH89b5n8qDba/WW7c2K6IQA5dG9Vv3P9uPK7GkJCaIKMPNlSUzfNElpuoQeGjYYjJr/M1FZ2Pehtfl9vVIEMZAliAUcvc+uJLYDLvrDwiT2QuqdmFbTc1PmO8+KnKIhxHbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=xVlWgDX/; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ncEBLQbH"
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-136b46c3540so5171684c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 27 May 2026 22:32:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779946326; x=1780551126; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m51ObGqxvbRirSNNGuV//C4DnnfvAOGn+7qB5s8zlHc=;
-        b=ncEBLQbHMvHTAXzsg6fSL1Q2WHWhxrxg21cDJyqxFA+tTrQfO4yaaVD+vmb0EHzwXF
-         483t8BjbBWwuOrO7qH+J/NZVL5zYxepqv15b6aPnGnvEVmWX6pASjq0IkbFwAkTQh9I8
-         hwpzOszSSgYn2JTbtxrh0MTrhd23NQ0YOsM4pL0Xg1fNOtxvog7oX9dcDx8OSTcw7DAj
-         FV2hIZlQZ0U6Q82zfDUc+9XB5B80QZZRBw4xPnpzOSxls1IYxfNeJC2XKo4bRKszQQb/
-         CN7sjPsYdkybubH3ARplg4x7Dg5mwzk+OpdlfqV6MX/srRKRP/0YM0AjCa69AgXSo79Z
-         BQGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779946326; x=1780551126;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m51ObGqxvbRirSNNGuV//C4DnnfvAOGn+7qB5s8zlHc=;
-        b=lU0jLGXS8cRAuzrl8eFF2/xNz3Br9KVb9POzOVohvE7mTKY3A7Brd+oSjvQX5G7Jq+
-         XrGt7BUKuutto7iewK7y7ilesvUSb3QbXrdb/ihrmWsRuSPdyIWC4SjIFMBJG1iCsESk
-         cwvZ2vBnWnhPDXFjyyuUokJaUYbeXMS5nyxH1w1UdM//f6np+q5NzOIaIwINnNZxfYv8
-         VI7VNYzrddUwNlmmivQVTkxXv7PZjuJJcDq2gtr9v3bD22cEiaTvgXDLgfDyA+c5DfuZ
-         fKUlQReAdAeEv/sIjFz2a47Zx5wd0CYONTAGGfYql80BCqOC36mMqh5BsvDTtngnVzvt
-         X3Yw==
-X-Forwarded-Encrypted: i=1; AFNElJ+pff8j1YFrMIFqrVZ2PICUT+LpEnOOVEIFdyHWz8ok8J9L2KqrgLCavj8dBJMcT2Z8rHNyYpOoEKg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxfkg60fZ7vho0oZwifwZWysezNTq3j0USryPsZcf7DUgFW53gK
-	dNE4EfDidZ8nhlj0AkJGs0X/fw9C6H0qC0yXuLWuHcFmVj/aX1RPek4D
-X-Gm-Gg: Acq92OEX9hDVZaDify4ZHBZD5ARL1BjTT9haRlyaBi0D5vlKhZP8f3shuQwzK/loi9T
-	Pi0vY90AikeYHz+/83kk2YmezaDwzDiGQOmF9BPmoOoGtDJuArYQjiHPX1t7MMuVyKI2HNVKguV
-	nkNVgrbZyjbJvpYh7NqgRU+p7JHETvwrtErmMSRrAH++lUUfq+VgPOL0tpzLvopmJii6Gxe9MyR
-	fRHws4OAWRRaEdsX1WtSgNzvH+L0sdf2d9GJl7ZZwoLWxYh9TSqMvlRQWE4YOnw/gwDtYHHthJo
-	ZA7noaiqj7ilz04kFUU9vtxZHt8P1mxFGd4GjaEynbAD3vRNA3zlvLG/iUP14NZBZJ4tyEjkgrp
-	1Vzwvhga3h0tMi5tjS6WfB4oLOvaL6UfjV06DvizwUNW71W1N7iAuoEGkhc4b0JY79MCj79G8HR
-	UOPhlgeX3Wxn265r5K2C1/+iVit5iD1iRmNj7CHwR2bfjNQypi5ZHsSa+TRi4k/D7Fs53Iusri4
-	mo=
-X-Received: by 2002:a05:7022:6093:b0:12c:6e85:505c with SMTP id a92af1059eb24-1365f70f672mr9871005c88.4.1779946326427;
-        Wed, 27 May 2026 22:32:06 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:ca8d:7a6a:7fd3:5948])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-136b2b1f2a6sm9493424c88.4.2026.05.27.22.32.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 22:32:05 -0700 (PDT)
-Date: Wed, 27 May 2026 22:32:02 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
-	Denis Benato <denis.benato@linux.dev>, Zhouwang Huang <honjow311@gmail.com>, 
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 1/4] HID: hid-msi: Add MSI Claw configuration driver
-Message-ID: <ahfQW54YoHj2Pal_@google.com>
-References: <20260527222122.10620-1-derekjohn.clark@gmail.com>
- <20260527222122.10620-2-derekjohn.clark@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xVlWgDX/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=PjXuJQaHKPAZNAO+ZnE/uu4HDeWWeRJ7hBGHk01iNq0=; b=xVlWgDX/8ECEyuaGDngqYtcU02
+	AkQ11NX0Mo7KeR4uIjQglim7quo5/a1Ab3B8BQh1yj6pM3R0p9BmzezSZ+cU3YUjZFKCvpzeq+dAM
+	9BN5eQV92rsm7SYZ5baZXI8ODI9MDc+BfCZt2pkwYbfhltpvAP2oWnYEC6N0qvwBrXoF6B1Ll5I5L
+	gpnkEK34ol/joGNBygbsgGsaXFp0WgU1Xo3wVZ735edkoP7C7eDnk6YdENi/G24Nv+cRmC1/eOKsY
+	Y0TrSpqZyV4FvewmMmsJU6QC87BdiuyfrDLYQynLgi/gQmvW6AiMUNyunPWkMm1CaJKkxtpJ7Mxz2
+	k60FLnAA==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wSTZN-000000059ys-1IH7;
+	Thu, 28 May 2026 05:46:13 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	iommu@lists.linux.dev,
+	Borislav Petkov <bp@alien8.de>
+Subject: [PATCH] iommu: Documentation: rearrange, update kernel-parameters
+Date: Wed, 27 May 2026 22:46:11 -0700
+Message-ID: <20260528054611.1524937-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260527222122.10620-2-derekjohn.clark@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Derek,
+Add text for some undescribed iommu= parameters (merge, nomerge,
+biomerge, panic, nopanic, pt, nopt). Add "usedac" and its description.
+Add that iommu=pt is equivalent to iommu.passthrough=1
+and that iommu=nopt is equivalent to iommu.passthrough=0.
 
-On Wed, May 27, 2026 at 10:21:19PM +0000, Derek J. Clark wrote:
-> Adds configuration HID driver for the MSI Claw series of handheld PC's.
-> In this initial patch add the initial driver outline and attributes for
-> changing the gamepad mode, M-key behavior, and add a WO reset function.
-> 
-> Sending the SWITCH_MODE and RESET commands causes a USB disconnect in
-> the device. The completion will therefore never get hit and would trigger
-> an -EIO. To avoid showing the user an error for every write to these
-> attrs a bypass for the completion handling is introduced when timeout ==
-> 0.
-> 
-> The initial version of this patch was written by Denis Benato, which
-> contained the initial reverse-engineering and implementation for the
-> gamepad mode switching. This work was later expanded by Zhouwang Huang
-> to include more gamepad modes. Finally, I refactored the drivers data
-> in/out flow and overall format to conform to kernel driver best
-> practices and style guides. Claude was used as an initial reviewer of
-> this patch.
+Move the PPC/POWERNV heading & its option "nobypass" to a separate
+area since the current "iommu=" applies only to X86 (according to
+its heading).
 
-I wonder why do you need to roll asynchronous probing and asynchronous
-resume by hand? This I think complicates the driver greatly and forces
-you to use a ton of works, spinlocks, and checks.
+Unindent the AMD GART IOMMU options heading to make it stand out.
+Also add its kconfig symbol name to be explicit about what these
+options apply to.
 
-Thanks.
+Make sure that the IOMMU options that are listed under AMD Gart
+HW IOMMU-specific options are only for that product; i.e., add "force"
+there and move "merge", "nomerge", and "panic" to the general IOMMU
+options area.
 
--- 
-Dmitry
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+NB: Wording suggestions welcome.
+
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Will Deacon <will@kernel.org>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: iommu@lists.linux.dev
+Cc: Borislav Petkov <bp@alien8.de>
+
+ Documentation/admin-guide/kernel-parameters.txt |   48 +++++++++-----
+ 1 file changed, 32 insertions(+), 16 deletions(-)
+
+--- linux-next-20260527.orig/Documentation/admin-guide/kernel-parameters.txt
++++ linux-next-20260527/Documentation/admin-guide/kernel-parameters.txt
+@@ -2548,23 +2548,41 @@ Kernel parameters
+ 			Don't force hardware IOMMU usage when it is not
+ 			needed. (default).
+ 
++		merge
++			Do scatter-gather (SG) merging. Implies "force"
++			(experimental).
++
++		nomerge
++			Don't do scatter-gather (SG) merging.
++
+ 		biomerge
++			Do scatter-gather (SG) merging. Implies "force"
++			(experimental). [same as "merge"]
++
+ 		panic
++			Always panic when IOMMU overflows.
++
+ 		nopanic
+-		merge
+-		nomerge
++			Don't panic on IOMMU overflows.
++
++		pt
++			Use passththrough mode by default
++			(Equivalent to iommu.passthrough=1)
++
++		nopt
++			Use translated mode for DMA by default
++			(Equivalent to iommu.passthrough=0)
+ 
+ 		soft
+ 			Use software bounce buffering (SWIOTLB) (default for
+ 			Intel machines). This can be used to prevent the usage
+ 			of an available hardware IOMMU.
+ 
+-		pt
+-		nopt
+-		nobypass	[PPC/POWERNV]
+-			Disable IOMMU bypass, using IOMMU for PCI devices.
++		usedac
++			Use the DAC on VIA PCI bridge
++			(default: disable the VIA PCI bridge DAC)
+ 
+-		AMD Gart HW IOMMU-specific options:
++	    AMD Gart HW IOMMU-specific options: (CONFIG_GART_IOMMU)
+ 
+ 		<size>
+ 			Set the size of the remapping area in bytes.
+@@ -2572,6 +2590,9 @@ Kernel parameters
+ 		allowed
+ 			Overwrite iommu off workarounds for specific chipsets
+ 
++		force
++			Overwrite iommu off workarounds for specific chipsets
++
+ 		fullflush
+ 			Flush IOMMU on each allocation (default).
+ 
+@@ -2582,21 +2603,16 @@ Kernel parameters
+ 			Allocate an own aperture over RAM with size
+ 			32MB<<order.  (default: order=1, i.e. 64MB)
+ 
+-		merge
+-			Do scatter-gather (SG) merging. Implies "force"
+-			(experimental).
+-
+-		nomerge
+-			Don't do scatter-gather (SG) merging.
+-
+ 		noaperture
+ 			Ask the IOMMU not to touch the aperture for AGP.
+ 
+ 		noagp
+ 			Don't initialize the AGP driver and use full aperture.
+ 
+-		panic
+-			Always panic when IOMMU overflows.
++	iommu=		[PPC/POWERNV]
++
++		nobypass
++			Disable IOMMU bypass, using IOMMU for PCI devices.
+ 
+ 	iommu.forcedac=	[ARM64,X86,EARLY] Control IOVA allocation for PCI devices.
+ 			Format: { "0" | "1" }
