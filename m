@@ -1,113 +1,145 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0D13F0740;
-	Thu, 28 May 2026 13:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779974965; cv=pass; b=MEYiX+mwE6Q0LE8+rnXtYYw7qGUa3LEeJm9dSTR3h2McObKPoS81oOhGHrdm3f0BsZG1TyM+FDgnKqS8bGhVKeFrt2fffgLDstbDo5bzrcqtcgAFfLDghKVZaNESZJX/h0ch42/f0J/J8iV57iJ6ZoBrmQgKu2BfBU7xLTSbMto=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779974965; c=relaxed/simple;
-	bh=7qEK7ju3Omgrg8aAypHQk6Cbk0gZuRfZUcvvKJcACFA=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=IqFUl5JHJQgoJXrEUtzd37ReJeSqhFszr15boubLmu0RmcBQzk10cOXQ5ugcoy64NiwFbHQfyUmfBbw+UboneiFVyCTGklCxiop30t0wWTxaHvj3nASOicRRgpYUGIo6MVcgfrhviOoSeVALP6zYWlggWHY+ZH54lN4F/eyQrtQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=nAj+e7UB; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3091199EAD
+	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 13:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779975945; cv=none; b=PFKOscRhIkTahQ1vwTW/UGOKKptIE5CZqsRMtXbKOcVNrZC/4vQWYAKDDQmMuAn0IjJUm7b7cI1Bd7VMf4EIQozi5+I/KuXNzM+zRZgGbDtaHkE94wKO56yGRlrTYBdm5UDUAGyntC+BByT8BAqLZYlnxv0Xudpin7jI8z7gKdM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779975945; c=relaxed/simple;
+	bh=nhsyimBQ315HBr0MkYf5dXK4pQhhIUcYzbD+bgi/3No=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=UP/S2J/9ls/6V8cFy1wTCCMNE1jGHja68h7s8MabBcGHHbJYNjKXYyLRH0OrxIIqjS2jNTL9WPLYZCL0oGvp1HMoQWQTeL7RkkTKl809WSvwkx0SQy9Q6i3GKqWxDabpEN6IsGI4Y/wXlbrcNK/O6ItgVOjD0DByYGxcSrtMGlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dFusR6oE; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Vl4vUgQO; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="nAj+e7UB"
-ARC-Seal: i=1; a=rsa-sha256; t=1779974945; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=RtNIp5pQ+N4uRz4sbdKqhMkiyRAh0GZeb5KzdeLEB4592t9KXZCeT3uGsU4/JJajw5kZT9x4sriFz7nqdN7FrKkfRestq+5qJdCG037fCw5e5wTxZQ+IIaPlu3fsNbqIrCVidKckQBffS5zkqzFvEEMGswZhOEVVATPYTrpezAk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1779974945; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=meLy9pmAiQkEggopsXqYM0yVHff10DZv32SxrejNWJE=; 
-	b=DS1Yt5L4rwnHtPxTIL1S8d/AjzpT7Cp6Jpai+ldhLyuCOkVSRaknPqlIB1TmHpOPGfjQmfihjd6ugExjUOJX5aQ8vtC5A0cTn4jnXsTBg/aME2X3YurlZl4qmCwz68/Tc5qh8yvOF9nSIfG+29uAOsAI76L/SvO5ohYenzme1pE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779974945;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=meLy9pmAiQkEggopsXqYM0yVHff10DZv32SxrejNWJE=;
-	b=nAj+e7UBC8m9KsXsA67ZpQ0G+P4Wr+yGaw5uG9KocDsQtEyLCq3sV/BrxzddgPjE
-	/UZ1yJIoR8dbEmFNrpDDypsVD/M7R93gryh7fju8GAXCsig0/YiFnuMu66eOBae0bqY
-	YGcbeWkMT2FfDGnIFF949slQ4UGtgPinNFNmqtkxfBy5s0Zii+UMkFIGlM831KKPntB
-	WcBQh+ZjJcpgexjhte0ekVJEg6jxcFFiqcWdjzvKpwELnvmBbrqw2J+BWnH5Bjf0xXV
-	uGJLHjDDwl/rx5Lpf7VyLwLNX4tBoMPg1Yo10zXrGIGPu69NTu3eK36m6PrwQCYm8Uc
-	15uyo4Ob/A==
-Received: by mx.zohomail.com with SMTPS id 1779974943588581.027273066147;
-	Thu, 28 May 2026 06:29:03 -0700 (PDT)
-Message-ID: <966fd55f52bb5e0bd1d16d3227b2e6695fa23f56.camel@rong.moe>
-Subject: Re: [PATCH v2 1/2] ALSA: usb-audio: Add
- QUIRK_FLAG_MIXER_GET_CUR_BROKEN
-From: Rong Zhang <i@rong.moe>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet
-	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-In-Reply-To: <877boougfq.wl-tiwai@suse.de>
-References: <20260528-uac-quirk-get-cur-vol-v2-0-84d3c8f48150@rong.moe>
-		<20260528-uac-quirk-get-cur-vol-v2-1-84d3c8f48150@rong.moe>
-	 <877boougfq.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 28 May 2026 21:23:53 +0800
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dFusR6oE";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Vl4vUgQO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779975942;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nFh87XciuXKGHbtJRS+GMwtnVHJ+GuXgjN5PHapSR6o=;
+	b=dFusR6oE+odbepH00T92YZjLQuk3JD3a0fJctml2xKYdBCQjNddF70YWj1sRr+hy1lEKpQ
+	ABhji/qR2602C+DyI7dRke/5OACbJsyShShN40keMQ5FLfc5Elre+u02psOjjDfwa8Wf5D
+	eGidVPmFCWrKaPi5ci855dwFX5aFqRk=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-302-lZ09DnqXPk6nAb-zjKBHNA-1; Thu, 28 May 2026 09:45:41 -0400
+X-MC-Unique: lZ09DnqXPk6nAb-zjKBHNA-1
+X-Mimecast-MFC-AGG-ID: lZ09DnqXPk6nAb-zjKBHNA_1779975941
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-91030497912so2465506285a.0
+        for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 06:45:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1779975941; x=1780580741; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nFh87XciuXKGHbtJRS+GMwtnVHJ+GuXgjN5PHapSR6o=;
+        b=Vl4vUgQOEPROhDOC/w7KGhrmeGczVxHBK3Vu1brzT15ebcY/9sAqYCS64DWy/ljrDr
+         sqQl2Ji74cE/4doWOX3AnSEpd8SImPo+Lyia0fiXSYUkg/+Mr/TZXdYrCUbYn1quxmVO
+         QENoyYAV5sQ9hHRE8CEi5KNER0TUXhD5onJewLFeIxw+g2NNgxy7IrtWsgH0+BBdvvBJ
+         FIq3gFezACwSIpcEtQcIKTaEJg7AhQf/bnxo/H2XLWt5yPqA3zQIfsQmeJczbOMLOTSt
+         bD1eDl/PAi2vU/TquwZcUFQCk4LveL9biNLAo3y2HrMciw5tWyK1pgn3pI3q2u1kGZpY
+         fDgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779975941; x=1780580741;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nFh87XciuXKGHbtJRS+GMwtnVHJ+GuXgjN5PHapSR6o=;
+        b=NvKyqsj5qpPgV9EVvKAY44qY72N+g88htNLut6+m9/DZjKQrJ90Ctv8K1OnosFCZXZ
+         VfZqj+SzTOFGGAQa8lkoHwLvXQFRZm84iERV4hCNclDehd7AbfU6WwZtK2/wJLnpZwU9
+         tgIdMJpfsU5OpwiwdWFvhJcmML2LvSIi+8cIcjQ2svV+h2shDm4m/eFJFMmrbV3GrFuz
+         jCo55liZKITuMf1rDqOKEeOQ411c+bGZ4CzY4HOsWG4/VNyFScwI9PaLs+L2z0kyGt86
+         sOPiVFVjvk4InSUxMrruY4ZxNMRTLGkaP7Il4DfKbrCjZ0AAnLJCf29fspCLtA66HLIH
+         Yr3w==
+X-Forwarded-Encrypted: i=1; AFNElJ/X++J9tAJ4fSKEh8e/ET4T072Tq4bRq930EOb3tUbNFX6N4UUr/PITFRBKvrU8peNB+w2vJ4gphdI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgADL9jIQivXhWnR6XAEq6SHBuUMajqStTezWOWhndYmrzxLKi
+	DDuOjDdjaGD4DLXTw1SPru7+pyaL0UaLZv55DqiSeXao92gQuP8jZZcfSKl0Tmb2KDwtVPNjyiV
+	BmlUGZEzdq6kEjNg62y4lS+jcfo87cjsOu0Z0j0QQCU7aZPirB8B/eUKDLXuCkA==
+X-Gm-Gg: Acq92OFB4bJc++Nw+gBzkyIsoBgZP83lYr0FrCBWlzwBCGFF+jPY1y0zpjAfATuASZS
+	6rUH/iJYVYFazPdv180tCxkxRkkWcXezN6QNYEvxMDEAhVRlUwhzQiZYfvSlydyyQpZf4lenLrD
+	IUG1CKyrus9S6+44Ek+u3ou1GdLKPBWawtMS6i4ozWqWhD965FgLJ4gDYmCc48jYM9AB9LZxcDP
+	BLvG8gRzDL6KcN/vw1Z2ARl7BlGDEpPHCLllGmJYL+yFKzH6vlF81k+gUyoJPbQWpHjND+psFSP
+	9Lzb7MZ7PuNZ7iqVuE5yJhucw2LWUpEWovucKASTykxK/N0GloV6G36vSj7ImBWHguSWSG+rYB4
+	nxUvghY8BdSjK0J4Y3Pakx9bjZLztUn2mjkhrQznu5sM8+daIX2jYRrpXLhaN9SNugjxlloc=
+X-Received: by 2002:a05:620a:4802:b0:915:213d:837 with SMTP id af79cd13be357-915213d0e12mr240399885a.57.1779975940600;
+        Thu, 28 May 2026 06:45:40 -0700 (PDT)
+X-Received: by 2002:a05:620a:4802:b0:915:213d:837 with SMTP id af79cd13be357-915213d0e12mr240392885a.57.1779975940161;
+        Thu, 28 May 2026 06:45:40 -0700 (PDT)
+Received: from [192.168.1.3] (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-914f86ff80esm825920285a.13.2026.05.28.06.45.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 06:45:39 -0700 (PDT)
+From: Brian Masney <bmasney@redhat.com>
+Date: Thu, 28 May 2026 09:45:10 -0400
+Subject: [PATCH] docs: mm: clarify that user_reserve_kbytes has no effect
+ when overcommit_memory is set to 0 or 1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-9 
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260528-mm-clarify-docs-v1-1-aa88e83b4bfd@redhat.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqAIBBA0avErBuogUy6SrQwHWsgKxSikO6et
+ HyL/zMkjsIJhipD5EuSHHtBW1dgV7MvjOKKgRpSTUcaQ0C7mSj+QXfYhL0ys/aaNCkHpToje7n
+ /4zi97wffbkU/YQAAAA==
+X-Change-ID: 20260528-mm-clarify-docs-76ab8f82826d
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Matthew Storr <mstorr@redhat.com>, 
+ Brian Masney <bmasney@redhat.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1365; i=bmasney@redhat.com;
+ s=20250903; h=from:subject:message-id;
+ bh=nhsyimBQ315HBr0MkYf5dXK4pQhhIUcYzbD+bgi/3No=;
+ b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGLIk3P7+dlx5slO2ew+X+KooNZ7Fgf4L31/bE8KWtin3l
+ +qGqcv9O0pYGMS4GGTFFFmW5BoVRKSusr13R5MFZg4rE8gQBi5OAZjIgUqG/0nX9onfjnuV7KJz
+ X/jm/tC+7DmPpetWv7kc3FNxJ/JUxmaG7+6f9O9VyuszvjTNrjvvOZunt0HjbFRHSvukvWKKdtW
+ sAA==
+X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
+ fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
 
-Hi Takashi,
+Looking at __vm_enough_memory() in mm/util.c, user_reserve_kbytes has no
+effect when overcommit_memory is set to 0 or 1. The documentation for
+overcommit_memory already references user_reserve_kbytes when the flag
+is set to 2.
 
-Thanks for your review.
+Let's go ahead and add a clarification to user_reserve_kbytes in vm.rst
+that it has no effect when overcommit_memory is set to 0 or 1.
 
-On Thu, 2026-05-28 at 09:44 +0200, Takashi Iwai wrote:
-> On Wed, 27 May 2026 20:56:27 +0200,
-> Rong Zhang wrote:
-> >=20
-> > @@ -1258,6 +1261,16 @@ static int check_sticky_volume_control(struct us=
-b_mixer_elem_info *cval,
-> >  			return 0;
-> >  	}
-> > =20
-> > +	if (cval->head.mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_GET_CUR_BR=
-OKEN) {
-> > +		usb_audio_warn(cval->head.mixer->chip,
-> > +			       "%d:%d: broken mixer GET_CUR (%d/%d/%d =3D> %d)\n",
-> > +			       cval->head.id, mixer_ctrl_intf(cval->head.mixer),
-> > +			       cval->min, cval->max, cval->res, saved);
-> > +
->=20
-> IMO, it's better to be usb_audio_info().  Otherwise it leads to an
-> unnecessary caution.  Basically the behavior is expected, so there is
-> nothing to worry about that.
+Signed-off-by: Brian Masney <bmasney@redhat.com>
+---
+ Documentation/admin-guide/sysctl/vm.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Hmm, makes sense.
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 97e12359775c..b9b0c218bfb4 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -1034,6 +1034,8 @@ min(3% of current process size, user_reserve_kbytes) of free memory.
+ This is intended to prevent a user from starting a single memory hogging
+ process, such that they cannot recover (kill the hog).
+ 
++This setting has no effect when overcommit_memory is set to 0 or 1.
++
+ user_reserve_kbytes defaults to min(3% of the current process size, 128MB).
+ 
+ If this is reduced to zero, then the user will be allowed to allocate
 
-With your suggestion, I also just realized that it makes no sense to
-restore a garbage volume using snd_usb_set_cur_mix_value(..., saved)
-when GET_CUR is broken. It would be probably better to rely on
-init_cur_mix_raw() to initialize the mixer to cval->min instead, just
-like what it does for mixers that return errors for GET_CUR.
+---
+base-commit: e7d700e14934e68f86338c5610cf2ae76798b663
+change-id: 20260528-mm-clarify-docs-76ab8f82826d
 
-Hence, I will turn it into a usb_audio_info(), clear cval->cached and
-goto no_checks, so that init_cur_mix_raw() will initialize it properly.
-The usb_audio_warn() in init_cur_mix_raw() will need to be gated by
-cval->get_cur_broken in this case too.
+Best regards,
+-- 
+Brian Masney <bmasney@redhat.com>
 
-Thanks for your suggestion,
-Rong
-
->=20
->=20
-> thanks,
->=20
-> Takashi
