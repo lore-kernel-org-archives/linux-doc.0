@@ -1,78 +1,91 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D83407CE8
-	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 18:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35533408010
+	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 18:27:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779991831; cv=none; b=HkQa4cMmFjLno4V419qb8hrOo6hRjV47hl0yNhiMiGAq2gkZcIV3jqB4yCW5e/qNyIO48IBYz3fbNHrhL+WSR03bTjOpzm6Ql83mHk2JoIyjCM5TW6w8A9gB95qqDLnNcdwqrXh5AARJru5BOP0c143urF0xNrIMY80CBz4fsJ8=
+	t=1779992836; cv=none; b=u6BhBNgrOMegl9fRbhL218fMvGOC6cHfoMNSamKw3XOUsvYvtu8QJWjRtTpLH5hLsbrpkZ07L+xoVygXl23/pRiIe7YzorDa3rdkxtl5N08U2HTCbVehYFIPWSoRZ4V+jk2B16jPrQt+xRY42H4tPfeuGrBST8fCrO6ivulxP4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779991831; c=relaxed/simple;
-	bh=OGcBQSPhd0OtBm3OPKOKyS5T2hegV57vXbgtm396ogI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uqduAGh+IDK7T+LOsGuvvHv4EtCMHF7CrOg3YTLf6Bw1IzLdp/Tf1eaFDMUa6cnNC0C/M/eBlFgDAxrX+UN8CAuQZyLkQoTJH+NuoY5DMFx3fo5ClEVObqo+d+ISiWF5tFC65/xoTwtFp0Cw0iYLhL8KppAbxus2jIG+DuGboF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jc43HmQU; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1779992836; c=relaxed/simple;
+	bh=Bi/Ekqnmt+zfvrHKtNJFwE8S0+0gM1iROurgHj5oaVA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sJayLS57AyJfLX7NkHWUxpuNc8DEeo+PS/cPJy8Ofocpr9EDdAvPHEzBv+pshdJFYkhOqXOzO8F+oEYfkI2bSoR5Yr7OcYDyRy09kHXojZVmAOKu2ss+e4d4MFWLEmjFDMbbsgXxFwoAMsURB8zLQ6N67L8sQfyxIxTMOiRAgAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1ZMVEpk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jc43HmQU"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6EE5F40E2D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1779991828; bh=OGcBQSPhd0OtBm3OPKOKyS5T2hegV57vXbgtm396ogI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=jc43HmQUowJv4jvfXOeZDuQMO7NmxqXVhJzJgkdBNOP8Xp3hEDIe5A2gw8EeiF9QF
-	 OhMnUlehIfD9NfaMxx5Mmbm19UFWWxptmEOrky0raxqJ7X5C/rE/D236lO7B+U+R8n
-	 v+ddEJwCCPGeJsreIwVS9SR52xzsKYNGKm7pVRfyX5xJ2YaJjuzfzpj0nNiUAFaoZT
-	 SITBWMFSxIP8rnXTDgwBH6kwpxSnlXDES6b9SONgQDLfsgvYV/4wG9y+1SWGey/Vit
-	 zcLC0UfusTE6QJCRfjiT4c02+CEl0/Lz7VS53Gud8M1A33YmSp4nPGCB5C1bTg51N6
-	 /k7wyWsa3VIIw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6EE5F40E2D;
-	Thu, 28 May 2026 18:10:28 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: Amanda =?utf-8?Q?Corr=C3=AAa?= <amandacorreasilvax@gmail.com>,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs: pt_BR: update maintainer-handbooks
-In-Reply-To: <CAMAsx6esEkQ6bGn7RYVrrna2r51qLLTvZbbsWJ=y9zg7aBTgyg@mail.gmail.com>
-References: <20260528041958.57231-1-amandacorreasilvax@gmail.com>
- <CAMAsx6fWkQi1BHRPypDQeXL7LsDftfm5SFsgf1-pSUMQAdo8YA@mail.gmail.com>
- <874ijrlhf4.fsf@trenco.lwn.net>
- <CAMAsx6esEkQ6bGn7RYVrrna2r51qLLTvZbbsWJ=y9zg7aBTgyg@mail.gmail.com>
-Date: Thu, 28 May 2026 12:10:27 -0600
-Message-ID: <87mrxjjtgs.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1ZMVEpk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D28CC1F00ACA
+	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 18:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779992834;
+	bh=uNFRPkLBDJywU48J/noDObDM2rNQtdyFBCATGMJKuNA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=G1ZMVEpk3gU59XUYucRTVMRJcbeiKLzqLpDypug6RLe3b0aZkBevWVae+ifxekpfH
+	 oK0A2zbmeC5ZTA99vp4wtydk0KLKr7s6YrhBhqlELKUA4YPvzb9R897/Puix9njxHP
+	 BFJw1WeJIjscHQ+t+pbLwwad0o7Rs1f9ACYEbBFtGurd7bOngpecSA58TDf8ZtiVMF
+	 Nnxzk9Jx4YRSpY8EU+ZeIq88xf1iP+S/0WJ3tOHqp+jfqCnHUvRStcNy0GkuHYC5VR
+	 1Up7KG4/Rq58EQz73+oQzXQqOS/+d1al4rJVbjlIUq9MknFi0WX8EcGkYOPM6fiLft
+	 TkIgS9+Syz1Hg==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aa0cf8bca3so12141790e87.0
+        for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 11:27:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9sBv9+e45XO5eowzGa1ChXI7ABYPiDeUkXfnmCRQDl4Z1R5L7fbf56pIrpOtehTuz33K4itPSFXm0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw148KrXKvxKXKRjoP/8eWFWnfgjAGhCqU4uaHuwhvZM74C4usS
+	2CihJk+V94ZQxWOWvacbOzT7gfu9VXVJdRLx3rCn6pLxBaNR2tMHefhheROAkooNu/nQU5czMU6
+	BbxX23KQf3E3FOlQuTo28zkoR2ns1L2SM/dAPaNjW
+X-Received: by 2002:a05:6512:4017:b0:5a8:87fc:2b34 with SMTP id
+ 2adb3069b0e04-5aa57e2c285mr81991e87.32.1779992833237; Thu, 28 May 2026
+ 11:27:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20260528095235.2491226-1-me@linux.beauty>
+In-Reply-To: <20260528095235.2491226-1-me@linux.beauty>
+From: Andy Lutomirski <luto@kernel.org>
+Date: Thu, 28 May 2026 11:27:00 -0700
+X-Gmail-Original-Message-ID: <CALCETrXqWcqn_79sMKnkyKOSAjg4AmcSHsuyH83oW8zJFoV6Dw@mail.gmail.com>
+X-Gm-Features: AVHnY4IbWwLdSkNuWrooNBUAlyUyrWFavzF9Z8DQApcFhZZC4EFwzAXsIa5vxFY
+Message-ID: <CALCETrXqWcqn_79sMKnkyKOSAjg4AmcSHsuyH83oW8zJFoV6Dw@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
+ executable startup
+To: Li Chen <me@linux.beauty>
+Cc: Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, x86@kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Daniel Pereira <danielmaraboo@gmail.com> writes:
-
-> On Thu, May 28, 2026 at 11:47=E2=80=AFAM Jonathan Corbet <corbet@lwn.net>=
- wrote:
->>
+On Thu, May 28, 2026 at 2:55=E2=80=AFAM Li Chen <me@linux.beauty> wrote:
 >
->>
->> Is that an Acked-by?
->>
->> Thanks,
->>
->> jon
+
 >
-> Hi Jon,
+> The template pins the executable and denies writes to that file while the
+> template fd is alive,
+
+Please don't.  *Maybe* detect when it gets modified and clear your cache.
+
+Or develop a generic way to open a new fd that's an immutable view
+into an existing file such that the fd retains its contents even if
+the file changes.  (Think a reflink that's not persistent and has no
+name -- you'll need some way to avoid resource exhaustion.)
+
 >
-> Yes, that is an Acked-by.
+> Workload     Calls  subprocess  spawn_template  time_s       Delta
+> (workers)    calls  calls/s     calls/s         seconds
+> 1x16         6144      411.04          420.32   14.95/14.62  +2.26%
+> 2x8          6144      666.78          690.08    9.21/8.90   +3.49%
+> 4x4          6144      955.61         1003.25    6.43/6.12   +4.99%
+> 8x2          6144     1048.25         1069.18    5.86/5.75   +2.00%
 
-Please actually given an Acked-by line when you do that - it makes the
-signal unambiguous and the tools can pick it up.
+This is a lot of complexity in the kernel for a teeny tiny gain.
 
-Thanks,
-
-jon
+I'm with Christian -- a better spawn API would be great (and much
+faster than fork/vfork + exec), but that's a different patch.
