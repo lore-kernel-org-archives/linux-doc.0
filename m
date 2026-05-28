@@ -1,200 +1,372 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021124.outbound.protection.outlook.com [52.101.100.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204BD2DECBA;
-	Thu, 28 May 2026 14:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779978628; cv=fail; b=FmsBjSFI+zK8vd8iJ15QWNMBF5L6JvOqxBQ5xtIdPKd+J9FvSEvK+aL7cJ1O2PsQJVcmXwcX31IwEX4ebV9LdJ+qQPZGuhm+vIj7mBiaF2+559/RQYnvpr2lx7eg7JVi7MhDmAV0dgnMWNGicup07NF2K2bUTGZicr/9Ff9Xd7k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779978628; c=relaxed/simple;
-	bh=9HZ/18Z9GRuD/+dBySkCrHjpLxLvkP8uxuDXkydprNU=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
-	 In-Reply-To:MIME-Version; b=iux7f+7gBzwsJjZdzohgw2vj/ECGYrhGcxG+F+9vfJMQDH9h0DerWiRMsYQLk8CyyNOpkU6lNI3tWPMFihEVm3Be7v/G+Nki0q02VMoBXXCOUGXDxQ/p9uiVK2p9/sfNFJQHS1pQqJvrQ3PlTcwjiaxlgMX85PTqDo/SRWAiCFc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=o5IyIqNG; arc=fail smtp.client-ip=52.101.100.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="o5IyIqNG"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XBe04JYBHVWFT73G2zA9QOGsesaOd9kO8NPlt2zyLOCOWPns403PIlE9zMfYo1I+Y7lPMwHZ/3OYsqyMCGOdK1exT48+a/0A4SZwelkcYahYRzyMSmRTxx1hG+YDlMzkGTGdZS+tc1qV2aYSsTe0O+tyDX6tMHKt+LlOzSukZmxwWs7NoMGHFFUo3CRvPtdn8Cg2D/0JIaPyyiYuopZTMtAfJaXrOp6fD25mNMWSVA0G+2KitE5LuwrOPy2WDxZheuNMFq7Q9yC9Db0Z8uTZtyOVUxhYAoXAv/CD3llIUkReuPwPVWDiIT2dCfcdFFWUlUQlV8oj3kkNg1SyJ3sZoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CnhcYOj9/2Yr9i8/8i3jXYCXrqPOVQvNAUTC+YhAEkw=;
- b=mIGAFp3yoM5FcYbh46JDCPL/zmByT2AkUMofheOaYQSw3aRzOFcj/JSw9XhKPaAdaYDiCDOryRBextNs6+LZ+aloyTdpONL75wsT7p2C+JCrlyVS1ra2DSXI8gtDrdso4VVHFWnVTyqooCWAy4rqhv3IHM0RN9/grh30l/9fBiJ05bdPm+Enq/qg3rY3PEGEjuUCceJKVXE5J8GNiKLr1rijuNPm16sdNA8Dm1H0aj/rdfdCCVQ3hi+TSBXhoqYa9QKuTaD2Pxi/z+U3HMeTHB44zST80CNUq9Hlm3IOYx4zMFipAkyo8FFkaAXehyQ5EIVw5gLJg7VMyWhBNpPbQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CnhcYOj9/2Yr9i8/8i3jXYCXrqPOVQvNAUTC+YhAEkw=;
- b=o5IyIqNGCocNcf/LA14gLOK+grQD1av186AN72bHU7WUsBZ78eTRKM/00W1KWHFviM18u8j1CbpJPHw5ZbdeM3vAQ56vl3MH9QQchGzhcUCcEeGPXA2Mam1eL1OvEnQ2cu2X4f3SOIgbL41Q5H/FCdSny/XsA6BG2byOcDY1cXc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO8P265MB7630.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:3af::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.14; Thu, 28 May
- 2026 14:30:23 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0071.011; Thu, 28 May 2026
- 14:30:23 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 28 May 2026 15:30:22 +0100
-Message-Id: <DIUDREOJ8GWB.3QMNEGBRFQSWK@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Demi Marie Obenour" <demiobenour@gmail.com>, "Miguel Ojeda"
- <miguel.ojeda.sandonis@gmail.com>
-Cc: "Julian Braha" <julianbraha@gmail.com>, <nathan@kernel.org>,
- <nsc@kernel.org>, <jani.nikula@linux.intel.com>,
- <akpm@linux-foundation.org>, <gary@garyguo.net>, <ljs@kernel.org>,
- <arnd@arndb.de>, <gregkh@linuxfoundation.org>, <masahiroy@kernel.org>,
- <ojeda@kernel.org>, <corbet@lwn.net>, <qingfang.deng@linux.dev>,
- <yann.prono@telecomnancy.net>, <ej@inai.de>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kbuild@vger.kernel.org>
-Subject: Re: [RFC PATCH v3 1/3] scripts: add kconfirm
-X-Mailer: aerc 0.21.0
-References: <20260516215354.449807-1-julianbraha@gmail.com>
- <20260516215354.449807-2-julianbraha@gmail.com>
- <ba7ec52f-c4e9-4588-9484-dc8280d55593@gmail.com>
- <CANiq72k_tXGSCd1BEg8XmTr+acZHfdRbcFOVD7=O6yAbmv-nHw@mail.gmail.com>
- <f77a4858-2bcf-4bfb-95e0-24a5d91e0862@gmail.com>
-In-Reply-To: <f77a4858-2bcf-4bfb-95e0-24a5d91e0862@gmail.com>
-X-ClientProxiedBy: LO4P265CA0090.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2bc::11) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.229.168.213])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C92383F44C8;
+	Thu, 28 May 2026 14:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.229.168.213
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779979613; cv=none; b=lc3jWnDnhTyuXpZqHOEV2ByDS3hzEO625NZxnxTUAK9KqJ/uk15w/gYQ+m+wxpB8s+ZRdo7bmz0e915H/bjK2s/4steIb5BjyfJSRG4ILzrGyQheXxjAGB+4S0UCyu1+JxYP9y23Zcl9lcZIBSlyJXltumXSDti/EE/If4uPAgg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779979613; c=relaxed/simple;
+	bh=HcdN2MJYvl+KHwKjnHoTi7A7uZkdZy5lHrZ2PLy16jM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lge7uTUfv3R1Q8pC5b0btUv5dI9zgS9WzyyZYueUSi92j1Do0cPJMuhDaoQHQ1zYz6/OMXWI2ox13QF94tsCL+sVAuiYltC0wLy8NZGNwmFVB8EDMcXPmjVUiVd3q8otp8jBNTDsDO8jORwh9yu+TLgOm3ni/RCsjIDcmmkoTRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.229.168.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrADHzys7VRhqWIwEAA--.17114S2;
+	Thu, 28 May 2026 22:46:19 +0800 (CST)
+Received: from [10.12.169.43] (unknown [10.12.169.43])
+	by gateway (Coremail) with SMTP id _____wBnGr04VRhqnvI3AA--.53379S2;
+	Thu, 28 May 2026 22:46:18 +0800 (CST)
+Message-ID: <09fb5801-dd23-4ad4-aebf-fa4216b7527e@hust.edu.cn>
+Date: Thu, 28 May 2026 22:46:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO8P265MB7630:EE_
-X-MS-Office365-Filtering-Correlation-Id: d9591f19-afb9-4a02-2fb9-08debcc5a72e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|10070799003|1800799024|18002099003|22082099003|6133799003|5023799004|56012099006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	t7h/98rKk7LfmyC+oVK26VNrJ271Wl2ffhrVszXPeXmLcc28Jz/VHUfGkgpCSf3yNocrnIPnrB3dEHJimNpTjVS1QVsgs3WIDFo8ExveFbKx4EzIrGW6J89koO0TQwAZOFpwmRQ4NQWsfmoifvcheMdaC7vx/F4OjthlwLkAOF6unVijl3dPnhMgEk9e6lgWUCIWVmgb5L2/BFCxF4n2LAu+Lymod3rjZ1cvl1NICGPkLwTgEBCt6L7yjbJOOrDZWmiV/VoHh+WQ5MZ8S6Zo3HxcH1YQS08Vf0p9lFB9PD/OWlUw9M9Yfpnk1RET79jW372gue7aUIUYZtpguLMhtq/n5StqPwvjncK+/K5Dvs0bhlez5UKEm0/Ud5xbJCooPxhOxoVOS17A+gjBMN5Oux3uS1+O0iJpDGVDNIHcZDJbQEtJZtxtbeap1xooaOq1H0fVRwdM5AeOxrQq6uUBijXzQwYt2IqsOeXkF+AdODYI70Db51f1PO+pLerlR/OqGDMnkx/9C9ZuO8DobWwEPJ3Maqacxv3/T6ThMEpFY/3xBFqsctNKrgDMximkwq/07emlClR78P/bUzgNKad5qtMrWqBLUGyjBLPyHGrncZcSWSPmaVSUQY4ygDRO/VBfzPNFL7jq63yUfUsMdVh7BantOd08yb6rPNZIrtu3O0oPcYx8NIaeBq7dtSm+ocKDWKUB82UQ3QEVng3G3Jd4kA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(10070799003)(1800799024)(18002099003)(22082099003)(6133799003)(5023799004)(56012099006)(4143699003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SDNYSC9sZ2h6S05leTAvWlY0ckphNUVKc2xrbFJQRjBrOW5WVFhDSjRjaHY1?=
- =?utf-8?B?Vzc5em5jTVM2aS9maUw5amp1VnJxQXdqVGxOWEFjc0VsejZJalFhOUNMMytp?=
- =?utf-8?B?YXc0VWdhTFh4RTJGa3BxNW9iTWhLTjN2RWFuWE12YWJvMklqRDBscUJBeWpj?=
- =?utf-8?B?endDMnNjc2NJL0d3Skg0cHpUOWNpbXR0bDhkU0wweU9ab2VHY25Hck11WDd3?=
- =?utf-8?B?TDRya2tQN0RlN3dhQXFYMEdXeXpsSGtqR1h5MDJGZWQ1R3R3L2VreG51bFVs?=
- =?utf-8?B?cERDcTFUZFNLMDNoc3JlMzV1bjZXa2dBbzhsMWNTbERmZ3o4QVFYME1DbGhN?=
- =?utf-8?B?WFhMcmJXZDBFOHJlc01uakFNZUhocEQzajR1bm5qVEkrMUxyZ2JiRUE1SWFX?=
- =?utf-8?B?MjhnK1diQmZ3WHJDbWp3Vnh4QjlFVldKRGltRm5PUVRTc0tGbTZ6dU16QURV?=
- =?utf-8?B?dTB4S2lLaDBEM2l3VnpQc25LR203d3FDRFpjd3NqZ2xveTQ5N0tEMGQ0R3FP?=
- =?utf-8?B?VVdPR1FCZllHTERzK0hHdmlGcnFJb1dENjhLMTlGN2lFL1FuaVJ4UkdRcXdW?=
- =?utf-8?B?dU5pdXdLZWo3MEthMXVCNy9zeGxPZWx2ZTRkY095SHloMGNSc21aY01jM0F6?=
- =?utf-8?B?VXdpU1pja2tkaGVYdm5EUFhVcnBsNmQ1YnA5azdGR3ZhaXRMOU9CVHhzNjlU?=
- =?utf-8?B?NUFudGppMGl6c3czTk5SenNHd0cvOHorR3JiTVVGVEJOZGd4WndjU3cyN1hs?=
- =?utf-8?B?MldITHpWYjRVNWJuZ3dCNWdOVCtGOXVTcUtRWDE0SVZ1eVZqd2hDbGF4bmxx?=
- =?utf-8?B?b21iekJqYkhGR0hiT05WU3hvalVBNndIRE5nK2hPZ2w1REZRamlGaEk5djZ0?=
- =?utf-8?B?cmgzdFZRM0JUU3ZuU1FzU08zQkFSbUM4QnhUc3FNbE11T1pFUWFTeEFIa1V5?=
- =?utf-8?B?WkUxRWtTaFpiQTkwTlNMRkRUTW8xcEFjREtPczVjeERlTTRCdThVOHQwMDNz?=
- =?utf-8?B?cmhWcXN3Ujlzb0VpcXdqMmEwR0hsZ2laVU1RdllSeXg0cEhycFpxeXR2RUI2?=
- =?utf-8?B?WXRnTlAzUmdCYTBaNHE1NExTYStXNVkyZVh5Wm9odjk2OUIyeWFWb2VJeUVz?=
- =?utf-8?B?QVBTN0QxVU9KVldqZjhYMGdVeUsyUm1LQkxnZkdYVEI1cytoRDNDWkEydzFH?=
- =?utf-8?B?a1B5cTJsbGJLNFNENDVuUHkrbitjUmg5dG5WK1hjZHI1eEd5YnpUT0RFRFpw?=
- =?utf-8?B?ayt3NXl3R2YrclR1dCt0SDdDMXdYcUo3eU5uNG9ocGpldHdHWWRhV3didmNr?=
- =?utf-8?B?ZFJodVpGU1F3dFpDQ0IyZHp4N0FuUDkvZU1Oc3JOY2hvT0tlKzBtQnhWNFJr?=
- =?utf-8?B?V1g4UGdUaTBNZVA1RmVJQXJielg4K3d2TDVMaHNNUUkxaFZ3eFlBQlJLUDYw?=
- =?utf-8?B?QkJBVi92S0V2UnNUL25EVG1DN0cxdHhudmhnNVNUcGFQZEN1R2ZDODlsZmZH?=
- =?utf-8?B?cUpHL1QyUUpCODhDcDdZczcrV2ZRT2lGRTcvUTVEM1IvWEo3VXA1U0xXMity?=
- =?utf-8?B?VEJvdjdTdjlEWmxsR1VvMzIzUUVzaVdkK0VPenFqeDE5b1pDZE83ME01WVEy?=
- =?utf-8?B?dHpTTWp0QzNBS0g0b3dyZUFERkNyWVlGQk5pU0xVT0FNSDVhczVOK3l2TC9F?=
- =?utf-8?B?VjNRVmRMTTJkOU93VVN4MWNHS0U4NUNIQjMzdWQ4cURiVklrWU9xYldta21l?=
- =?utf-8?B?NGZ5aE1HUjJMUkFrTncwTFN2WTV0amc4UjVoZ1ZJSVNURkM3UW15dndRell2?=
- =?utf-8?B?Tm1kcnVRMHB1bkZEY0s4K0czSTJxWGo1b0Vhbk9qb29HY0N4cjhsS1plbGdN?=
- =?utf-8?B?LzJ2b1pwWW9lVVZFdDI3dUxndTQ0cTAyRHVYVCtkOXp1d2FZMi9JNVZkZkJm?=
- =?utf-8?B?Tmt6NVBUbENPUjg5WlpYcnJnTDhyK2EzZm43V0ZHdkwvNnZSYllJTEljaEZp?=
- =?utf-8?B?aU43dXRTK1A0TEQwYWUzWC9vS2hlTkdVMUNyN3FqOFJzZWZOUGJzQzBBNG9P?=
- =?utf-8?B?Rkg3U0k1R01pRWozczUzdDlFa1pnZW1aUnpmK202azJkdVpDZytIYVc1NlRO?=
- =?utf-8?B?eWQyci9ZK1JZclNhdU95WEQ0WWtDZWhaWTVTc1djejdHaGI5bkdRQzZ4dDdU?=
- =?utf-8?B?RTdUdFFUY3F2QXJDMlJXN3BQYkdDN3dmSE5QM1MrdGZ6OVdQbHQwdUhiSk5t?=
- =?utf-8?B?bHdpNm9QOXRhWVJidVdreWtXSldkWElLQk82SUdPdkNZdXBzQXo1ZmVkaDd5?=
- =?utf-8?B?Zy9OaHV6NnZTSVovQ29tTUVLcldMOWFLS1lMZ3dFenZJWnJsWDRaUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9591f19-afb9-4a02-2fb9-08debcc5a72e
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 14:30:23.3596
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: stZVjAnAgKdS9PdlDN4dZlOSzfTuNLZxXC08u0v/gt7POPQirGkSIbr5Nf6qSMg/LcoCQq3g1YKDbuUD3L7WkA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO8P265MB7630
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: update admin-guide/index.rst translation
+To: Yan Zhu <zhuyan2015@qq.com>, corbet@lwn.net, alexs@kernel.org,
+ si.yanteng@linux.dev, kees@kernel.org
+Cc: skhan@linuxfoundation.org, tony.luck@intel.com, gpiccoli@igalia.com,
+ frederic@kernel.org, jani.nikula@intel.com, longman@redhat.com,
+ mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <tencent_7ADF2D1EBD8EAD2028BC93BA7858EA655D0A@qq.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <tencent_7ADF2D1EBD8EAD2028BC93BA7858EA655D0A@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrADHzys7VRhqWIwEAA--.17114S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW3AFWDCF1xuw4fXw1DZr17GFg_yoWxGw15pF
+	nIkryfKF43XF1j9FyxGFWIga4kG3Wktw17K345Gryrtr1jyFs7tr4agas7GFWDGrZYka48
+	XFW5tF4jkr42yrDanT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQFb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
+	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r1q6r43MxAIw2
+	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+	x2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
+	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+	wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j-8nOUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Sun May 17, 2026 at 9:25 PM BST, Demi Marie Obenour wrote:
-> On 5/17/26 05:58, Miguel Ojeda wrote:
->> On Sun, May 17, 2026 at 8:10=E2=80=AFAM Demi Marie Obenour
->> <demiobenour@gmail.com> wrote:
->>>
->>> I think it is simpler to just inline all of this code into its
->>> single call-site.  The safety of the code is obvious in context,
->>> and you can avoid checking for impossible errors.  For instance,
->>> since all of the options have required arguments, it really is safe
->>> to dereference optarg without any null check.
->>=20
->> If we are going to have unsafe code, then let's please build safe
->> abstractions wherever possible, just like we do elsewhere. We should
->> also write `// SAFETY` comments and enable the lints that catch that
->> etc., just like elsewhere too.
->>=20
->> (This is not to say we should use `getopt` instead of something like
->> `clap` -- as soon as we start using `cargo vendor`, then it makes
->> sense to at least consider having a set of vetted, well-known crates
->> to write Rust tools in-tree, as I mentioned in v1.)
+
+On 5/10/26 2:48 PM, Yan Zhu wrote:
+> update Documentation/admin-guide/index.rst Chinese translation
 >
-> I was hoping for Linux to avoid the Rust trend of downloading tons
-> of third-party crates, with all the supply-chain risks that entails.
-> Hence the idea of using getopt and system C libraries.
+> Update the translation through commit f0efd29aa60c
+> ("doc: Add CPU Isolation documentation")
+>
+> Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
+> ---
+>   .../translations/zh_CN/admin-guide/index.rst  | 209 +++++++++++++-----
+>   1 file changed, 159 insertions(+), 50 deletions(-)
+>
+> diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+> index 15d9ab5993a7..575449b91916 100644
+> --- a/Documentation/translations/zh_CN/admin-guide/index.rst
+> +++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+> @@ -1,7 +1,13 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+>   .. include:: ../disclaimer-zh_CN.rst
+>   
+> -:Original: :doc:`../../../admin-guide/index`
+> -:Translator: Alex Shi <alex.shi@linux.alibaba.com>
+> +:Original: Documentation/admin-guide/index.rst
+> +
+> +:翻译:
+> +
+> + 时奎亮 Alex Shi <alex.shi@linux.alibaba.com>
+> +
+> + 朱岩 Yan Zhu <zhuyan2015@qq.com>
+>   
+>   
+>   Linux 内核用户和管理员指南
+> @@ -11,7 +17,11 @@ Linux 内核用户和管理员指南
+>   整体的顺序或组织 - 这些材料不是一个单一的，连贯的文件！幸运的话，情况会随着
+>   时间的推移而迅速改善。
+>   
+> -这个初始部分包含总体信息，包括描述内核的README， 关于内核参数的文档等。
+> +
+> +内核管理通用指南
+> +----------------
+> +
+> +本节包含总体信息，包括描述内核整体的 README 文件、内核参数文档等。
+>   
+>   .. toctree::
+>      :maxdepth: 1
+> @@ -20,17 +30,55 @@ Linux 内核用户和管理员指南
+>   
+>   Todolist:
+>   
+> -*   kernel-parameters
+>   *   devices
+> +*   features
+> +
+> +内核管理接口的重要组成部分是 /proc 和 sysfs 虚拟文件系统；这些文档描述了如何
+> +与之交互。
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   cputopology
+> +
+> +
+> +Todolist:
+Add a blank line here.
+> +*   sysfs-rules
+>   *   sysctl/index
+> +*   abi
+> +
+> +安全相关文档：
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+>   
+> -本节介绍CPU漏洞及其缓解措施。
+>   
+>   Todolist:
+>   
+>   *   hw-vuln/index
+> +*   LSM/index
+> +*   perf-security
+> +
+> +
+> +内核启动
+> +--------
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   bootconfig
+> +
+> +Todolist:
+> +
+> +*   kernel-parameters
+> +*   efi-stub
+> +*   initrd
+> +
+> +
+> +追踪和识别问题
+> +--------------
+>   
+> -下面的一组文档，针对的是试图跟踪问题和bug的用户。
+> +以下是一组面向试图追踪特定问题和 bug 的用户的文档。
+>   
+>   .. toctree::
+>      :maxdepth: 1
+> @@ -39,94 +87,155 @@ Todolist:
+>      reporting-regressions
+>      bug-hunting
+>      bug-bisect
+> -   tainted-kernels
+>      init
+> +   clearing-warn-once
+> +   lockup-watchdogs
+> +   sysrq
+>   
+>   Todolist:
+>   
+> +*   quickly-build-trimmed-linux
+> +*   verify-bugs-and-bisect-regressions
+> +*   tainted-kernels
+>   *   ramoops
+>   *   dynamic-debug-howto
+>   *   kdump/index
+>   *   perf/index
+> +*   pstore-blk
+> +*   kernel-per-CPU-kthreads
+> +*   RAS/index
+> +
+> +
+> +核心内核子系统
+> +--------------
+> +
+> +这些文档描述了核心内核管理接口，这些接口几乎在任何系统上都值得关注。
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   cpu-load
+> +   mm/index
+> +   module-signing
+> +   numastat
+>   
+> -这是应用程序开发人员感兴趣的章节的开始。可以在这里找到涵盖内核ABI各个
+> -方面的文档。
+>   
+>   Todolist:
+>   
+> -*   sysfs-rules
+> +*   cgroup-v2
+> +*   cgroup-v1/index
+> +*   namespaces/index
+> +*   pm/index
+> +*   syscall-user-dispatch
+>   
+> -本手册的其余部分包括各种指南，介绍如何根据您的喜好配置内核的特定行为。
+>   
+> +对非原生二进制格式的支持。请注意，其中一些文档相当古老。
+I think you can emphasize 古老 with bold in RST, which can match the 
+English documentation.
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +
+> +Todolist:
+> +
+> +*   binfmt-misc
+> +*   java
+> +*   mono
+> +
+> +
+> +块设备和文件系统管理
+> +--------------------
+>   
+>   .. toctree::
+>      :maxdepth: 1
+>   
+> -   bootconfig
+> -   clearing-warn-once
+> -   cpu-load
+> -   cputopology
+> -   lockup-watchdogs
+> -   numastat
+> -   unicode
+> -   sysrq
+> -   mm/index
+>   
+>   Todolist:
+>   
+> -*   acpi/index
+> -*   aoe/index
+> -*   auxdisplay/index
+>   *   bcache
+>   *   binderfs
+> -*   binfmt-misc
+>   *   blockdev/index
+> -*   braille-console
+> -*   btmrvl
+> -*   cgroup-v1/index
+> -*   cgroup-v2
+>   *   cifs/index
+> -*   dell_rbu
+>   *   device-mapper/index
+> -*   edid
+> -*   efi-stub
+>   *   ext4
+> +*   filesystem-monitoring
+>   *   nfs/index
+> -*   gpio/index
+> -*   highuid
+> -*   hw_random
+> -*   initrd
+>   *   iostats
+> -*   java
+>   *   jfs
+> -*   kernel-per-CPU-kthreads
+> +*   md
+> +*   ufs
+> +*   xfs
+> +
+> +
+> +专用设备指南
+> +------------
+> +
+> +如何在 Linux 系统中配置硬件。
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +
+Remove one blank line. Only keep one blank line here.
+> +Todolist:
+> +
+> +*   acpi/index
+> +*   aoe/index
+> +*   auxdisplay/index
+> +*   braille-console
+> +*   btmrvl
+> +*   dell_rbu
+> +*   edid
+> +*   gpio/index
+> +*   hw_random
+>   *   laptops/index
+>   *   lcd-panel-cgram
+> -*   ldm
+> -*   LSM/index
+> -*   md
+>   *   media/index
+> -*   module-signing
+> -*   mono
+> -*   namespaces/index
+> +*   nvme-multipath
+>   *   parport
+> -*   perf-security
+> -*   pm/index
+>   *   pnp
+>   *   rapidio
+> -*   ras
+>   *   rtc
+>   *   serial-console
+>   *   svga
+> +*   thermal/index
+>   *   thunderbolt
+> -*   ufs
+>   *   vga-softcursor
+>   *   video-output
+> -*   xfs
+> +
+> +
+> +工作负载分析
+> +------------
+> +
+> +这是一个章节的开始，其中包含对从事 Linux 内核安全关键性分析的应用程序开发人员
+> +和系统集成商感兴趣的信息。这里可以找到支持分析内核与应用程序交互以及关键内核
+> +子系统预期的文档。
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +
+Remove one blank line. Only keep one blank line here.
+> +Todolist:
+> +
+> +*   workload-tracing
+> +
+> +
+> +其他内容
+> +--------
+> +
+> +一些难以分类且通常已过时的文档。
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +
+> +Todolist:
+> +
+> +*   highuid
+> +*   ldm
+> +*   unicode
+>   
+>   .. only::  subproject and html
+>   
+> -   Indices
+> -   =======
+> +   索引
+> +   ====
+>   
+>      * :ref:`genindex`
 
-Well, there're quite a few libraries which are "third-party" but they're
-blessed and used by the Rust compiler itself (and often maintained by the s=
-ame
-group of people behind the Rust project).
-
-https://github.com/rust-lang/rust/blob/main/Cargo.lock
-
-For example, I would trust `clap` to be used, and I think it's a huge
-developer-experience improvement compared to getopt.
-
-I think it's not really reasonable to avoid all dependencies, after all, C =
-tools
-also require a few dependencies, it's just that they're sourced from distro=
- and
-not crates.io.
-
-I think the only issue is that unlike C libraries, there's no unified ways =
-for
-distros to ship these libraries (and some distros don't ship individual Rus=
-t
-crates as libraries at all). It used to be the case that you can enable the
-`rustc_private` feature and just link against whatever the version that the=
- Rust
-compiler depends on, but rustc stopped you from doing that a while ago beca=
-use
-they don't want people to depend on rustc's private dependencies.
-
-If the concern is with supply chain security, there're mechanisms like carg=
-o-vet
-https://github.com/mozilla/cargo-vet which can be used to ensure dependenci=
-es to
-be audited. That plus the hash locking should be sufficient.
-
-Best,
-Gary
