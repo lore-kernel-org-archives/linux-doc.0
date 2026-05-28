@@ -1,165 +1,131 @@
-Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99FC3F7882;
-	Thu, 28 May 2026 16:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375AF3F88A3
+	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 16:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779986847; cv=none; b=MbbDhoBJWIvH307IFkkVzpyfbGyNthpXaci06jfOm5RTqGcY42B+9cxlVfd1SD87XoMEOVyV7LIYXfwm49eL/lKlxdi+0anhpchqwX6tJ+Y5dDjVF3bHoWXtR2Y3anzresPL+jYRvynqA/D5CFTx8msNrHAu4KB/UoqCBYQrzOg=
+	t=1779987371; cv=none; b=aEusNAGvXs0TRYtxkcftT1xcp6jZNHhlbCuyAn1BySSCTKusbX3+vSeDithM5t+SPXaRD+nqzEHkj5yo33SIw3kajRLG6R8zlaK3jJrPJYOkY85Lqo7q9QAB30g67z7oMzzVcV0PumA1iaMmrRZaa1vSOCg1IfvKGZgZsM5/GDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779986847; c=relaxed/simple;
-	bh=wj8hahdPjkjzs0jnbz5LUaTyOITT60B/vUVZ99xZNdU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=gZeYmNqjgXgVWZRPzm46v1HPYPjiTVbURsAMqse0pjGvNiFl/JTZPhWHAGCEUMlt/BTMNaQe7K6/xc72J9XiMRiCC9aecvSsu3l3gqERY7fBfYgLTMZOqCDQQkut5cEXTkJziWv9md76wtipTYUOdxj2wN+SedpYF0XxJ+575QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=xaqIWKXT; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1779987371; c=relaxed/simple;
+	bh=dRm6v9rJ98fryRZu+nDZ52gP6ZF+I/symBIWFqheIec=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RX5lJs/+93ruxY1NIIpV2/jfs8CzjTWvdZbI8nfxAlqtEzi+a2TatPVyuZAz1sDbtwSUdkQazjDCoR9zj5uuyWYD3uPX4pZV+R/O858Jt/ei7KUpw4ZD6ydUPFPISitwcDUo0+BuGXB2xTqudNfc9Bic7ztPSb/GEM98qEwoX5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=axxvXFIh; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="xaqIWKXT"
-Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64SFD0xR651297;
-	Thu, 28 May 2026 12:46:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=kdmrn
-	48MzzK6aj62vBc2tYZtNhaJS0IKAmCJl9WJqDY=; b=xaqIWKXTWYtKTHImJ37pG
-	qMf/rTHDC5VMZjHHNTYcee31OR7RUS2YyVnG/PEpaA4MeoOmD50FkoiS8rYfj8GH
-	fVsPReYVfk9+v5dsg/EBq0glSbyP9m3ZUhqZzhC5GuZwN8XZULXDkdy5yHvFj1ui
-	stpQWkV5FE3wjeTruL7gTxwHFtvVftGeoGK9ckLVYtKMjxlYzWXOIWPlpC4OGT0V
-	EhIjRPoTWsUZyelemtOxFKrq5srA0b6S9AvugTsZGSFnFLHCS9+ImA4bqmg+2+zP
-	kahYy2GbLuw/kZMkKzg2cx03llQ2c/CrrFG/1yZTsvqdQl8ZHKUFKUFqk6S4k85N
-	A==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4ee7x43mh6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 28 May 2026 12:46:56 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 64SGks4A018582
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 28 May 2026 12:46:54 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Thu, 28 May
- 2026 12:46:54 -0400
-Received: from ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912]) by
- ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912%20]) with mapi id
- 15.02.1748.037; Thu, 28 May 2026 12:46:54 -0400
-From: "Regus, Ciprian" <Ciprian.Regus@analog.com>
-To: Conor Dooley <conor@kernel.org>
-CC: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-        Andrew Lunn
-	<andrew+netdev@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Eric
- Dumazet" <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>,
-        Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, Andrew Lunn
-	<andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King
-	<linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH net-next v2 01/10] dt-bindings: net: Add ADIN1140
-Thread-Topic: [PATCH net-next v2 01/10] dt-bindings: net: Add ADIN1140
-Thread-Index: AQHc7Vny63pu2ZCi3kqLvdxOu2lQULYiPpIAgAFdMXA=
-Date: Thu, 28 May 2026 16:46:54 +0000
-Message-ID: <925d1903a01a44d8ac61b1302a820e6a@analog.com>
-References: <20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com>
- <20260527-adin1140-driver-v2-1-37e5c8d4e0a0@analog.com>
- <20260527-nearness-antacid-9f94a3f43abc@spud>
-In-Reply-To: <20260527-nearness-antacid-9f94a3f43abc@spud>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-adiruleop-newscl: Rule Triggered
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="axxvXFIh"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-69df5352d0eso651057eaf.3
+        for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 09:56:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1779987369; x=1780592169; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WDGJeqE4tTfg/YKUkoTVnPS7Lm5TeqY7Toc0BSTB4Ms=;
+        b=axxvXFIhScPMwL1SYv1SB/8Twa6Qjpy4MHe4/Zy7f+oNlk8eF6vcpwSjMxUCgkdaZk
+         H2r4dgPHHu3jnBszJQpKbqLgekX8xr5tOZIcZbJbYQQIZ8ojEJRLFWpfSn02Vdt590Lj
+         +JdTIeluvDz8KhKs9IORim7N+sgGXktxRB1C70gXOxClZT7XoGhKqYzsUg9V7gQMK4UQ
+         QlnyMKWM+ISgiaifbHgBHXkboi3nHAgNX4VdKx0gQ4c9QFzxb5Lc246wAjsS2DSZdHMs
+         J0fMheyMpMNKb9nzBIxJBG9v1ZmNg2RAwLMqUUokGc6eK8QKKzP0eW7ObVslwpDeP5lb
+         H+UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779987369; x=1780592169;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WDGJeqE4tTfg/YKUkoTVnPS7Lm5TeqY7Toc0BSTB4Ms=;
+        b=in+Dv2JyHMzoBnV5VJwiU6sTlpjWhH8r1FGE0C1mDczka2Ly67YkPCBL9/dC4B+/dg
+         /n0aC82BysI92hdddmPLroxE4SmpzppP4XEf/8q2uvV0scCvII+Iciri1WHfwVtVoLqY
+         X/tm19iMSgy1myJ/CVU9l7h8dSKusBcVjU3XwQuNpxQN6EpQnn/jyQ3t/LpQjhZdkcXE
+         OJ/l6aRsHtyr6aQbTc9mZ8MobW/DbZ6cf16t4rqBrTiVdZBlJiu2Hrwg7v1mIFNybbWr
+         ew+bEf8ZNA3VejEGxP09lxcN2BQv0X8eHCsKiYCd9eRtjA7sZX3Y3HuB02wukRoXaGaE
+         FVtA==
+X-Forwarded-Encrypted: i=1; AFNElJ/BnU+waVdMFm9tUMDwNfgPAQLidRKUws6uqqF1AHKAZ/l4FrrBgh9HNEKz+WmkhVzCM5TrSU5mW3M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywt6vgTJD0YtEYz462tDXlAwlZsW+qFjTCUT5bZOpa4T/Eydysz
+	GY+P9fGNPUx38fSLEozCvpv9Wsdk3UHSMZzcxjRD0A0tLisDhP1kfPwUftkAFN+ikYI=
+X-Gm-Gg: Acq92OFseZJVglMX1rI8wJVnUzMu4PGM0iDygNUd3Cg3ns0O1aitFoeMIh96+B1W+lS
+	7obxZCAz3CN6zT2hPRBgzJxSXuHJvg3/ClA2WiEGbuWIiLoYtpJWmyR6b6DY9KXAS1Y81eQy/up
+	wU0C9T14V4dMyr0DfFNj2I7ygn2w7fIoGLpKjiolvs7xRvfoHwvKgEbjCKtcrMGNNc+Cewr1oAa
+	tSbff5ncroxTbzvZOFQda09UqDSZdxor6fGg+4xyYpzAG/fwknq9D9UG5gTcVE+5wpTXCv7E9Ah
+	rbQ3ZBp7Xt8mJGnl5sP6g302EqK+CStLlpLBLpilwK9Wc2xwDl2ThLjhJjVhJ3LmCt7zqkoGxeA
+	9CLBvhVrnvtNn4JeVh210KZnJweeZyed7NViK5XDROeg4eNzQpWNw4KhDjFYMP0Hx22iNTGo5XR
+	9spEzAtew9XcPNZeaxs0MtqVC6h32uHNKGnppl+rz/hYCo3cOS4gEb0lymh5y5HYGuypI0iZxEK
+	mVHGaucum8dLWQ9PVc=
+X-Received: by 2002:a05:6820:4c07:b0:69b:5fcb:1a69 with SMTP id 006d021491bc7-69d7ed105b6mr14873551eaf.59.1779987369074;
+        Thu, 28 May 2026 09:56:09 -0700 (PDT)
+Received: from [192.168.1.102] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69e010cd4casm152656eaf.7.2026.05.28.09.56.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 May 2026 09:56:08 -0700 (PDT)
+Message-ID: <2cfd6455-7b5b-4974-b8a1-4a0abca69768@kernel.dk>
+Date: Thu, 28 May 2026 10:56:06 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Authority-Analysis: v=2.4 cv=X8pi7mTe c=1 sm=1 tr=0 ts=6a187180 cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=xqWC_Br6kY4A:10 a=SuJlEMG_fVsA:10 a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22
- a=gAnH3GRIAAAA:8 a=sIgrHmZHMssAOK1AOucA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI4MDE2OSBTYWx0ZWRfXz0PddYfaVPdM
- dMPUnjnf7uhONk7kvCKdSTwP+xQdvWkrDrn4H9LpR1mMv8jxdOeL3X0o5CZ0Wbzyiy0pIrAWynr
- 7DuUlAr1jxHDdWAJD0wxqYbT5CbifgGTL4NzEvUcMxH1mbwY05pDvCJq5rXWujgafAsx3Jr6Ukp
- /+ma6iLTh2XDkYY6qR++SQN8/HMA8geTVv/Pitj4hXfgkKd0SVUimSJFv8TSX7G9GDI4o81lW/y
- d+2Ttp1Ty9ehBaSwLVLwuD2eQVpBdrSN2PdXVgU9pHwoGxM7gMePOyZKymetB8NejqW0FFpxhAi
- w8akKbOEyjmuU3PWJ3c3Mv1Y+VA6QRaIVvRPpdDxW4qZXtd19XW+kF4QvkzptfGA/77T9savigG
- mVUsvFvOC/D9Bgas9SF4xK7OaAkp2hQ/I69p8ruybJst4zKNDIqKBcd5fRKTMqn/2XndNCM+M9Q
- oTzgvhhx5a0uEIJmjFw==
-X-Proofpoint-ORIG-GUID: BEBfjRElMlo2w4rmdkKDmR3t-kiiuZlj
-X-Proofpoint-GUID: BEBfjRElMlo2w4rmdkKDmR3t-kiiuZlj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-28_05,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0 bulkscore=0 malwarescore=0 clxscore=1011
- priorityscore=1501 suspectscore=0 impostorscore=0 adultscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
- definitions=main-2605280169
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] net: Remove support for AIO on sockets
+To: Christoph Hellwig <hch@infradead.org>
+Cc: demiobenour@gmail.com, Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Willem de Bruijn <willemb@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Simon Horman <horms@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, James Clark
+ <james.clark@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Eric Biggers <ebiggers@google.com>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org,
+ linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
+ netdev@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-doc@vger.kernel.org, =?UTF-8?Q?Toke_H=C3=B8iland-J=C3=B8rgensen?=
+ <toke@toke.dk>, linux-api@vger.kernel.org,
+ David Howells <dhowells@redhat.com>
+References: <20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com>
+ <20260523-af-alg-harden-v1-1-c76755c3a5c5@gmail.com>
+ <ahQCZQNoyO8GQt3H@infradead.org>
+ <92db3ff0-8f0b-4b61-a167-5004ffcf9025@kernel.dk>
+ <ahanjVfIDlCmeCUE@infradead.org>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <ahanjVfIDlCmeCUE@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> > +title: ADI ADIN1140 10BASE-T1S MAC-PHY
-> > +
-> > +maintainers:
-> > +  - Ciprian Regus <ciprian.regus@analog.com>
-> > +
-> > +description: |
-> > +  The ADIN1140 (also called AD3306) is a low power single port
->=20
-> Can you explain what is going on here please?
-> Is "adin1140" (which I can find no information easily online for) the
-> exact same device as the ad3306 (which has an entry on your site)?
+On 5/27/26 2:13 AM, Christoph Hellwig wrote:
+> On Tue, May 26, 2026 at 09:58:27AM -0600, Jens Axboe wrote:
+>>> The current TCP zerocopy implementation provides completion notification
+>>> through the socket error code, which is freaking weird and doesn't
+>>> integrate well with either io_uring or in-kernel callers.
+>>
+>> We already have that via io_uring
+> 
+> Where?  And how do make that available to in-kernel users like
+> storage protocols and network file system, which really suffer from
+> the current MSG_SPLICE_PAGES semantics.
 
-The adin1140 is an upcoming version of ad3306 that lacks some
-(stress test) qualifications, but otherwise they are the exact same die.
+For zero copy, on both the receive and send side. Since we have a proper
+notification channel, that's what we use rather than the hack that is
+the error queue.
 
->=20
-> > +  10BASE-T1S MAC-PHY. It integrates an Ethernet PHY with a MAC
-> > +  and all the associated analog circuitry.
-> > +  The device tries to implement the Open Alliance TC6 10BASE-T1x MAC-
-> PHY
-> > +  Serial Interface specification and is compliant with the
-> > +  IEEE 802.3cg-2019 Ethernet standard for 10 Mbps single pair
-> > +  Ethernet (SPE). The device has a 4-wire SPI interface for
-> > +  communication between the MAC and host processor.
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/net/ethernet-controller.yaml#
-> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - adi,ad3306
-> > +      - adi,adin1140
->=20
-> Because if they are really two names for the same part, this compatible
-> setup makes no sense, as it means they have a different programming
-> models.
+>> , and without needing msg_kiocb or the
+> 
+> What do you think is the downside of using a kiocb here like for
+> everything else with async notifications?
 
-Since they have the same programming model, should I just keep the adi,adin=
-1140
-entry?
+Where would the notifications go? You'd end up inventing something new
+to propagate them to userspace then. The io_uring side does not rely on
+using msg_kiocb, and iirc that part was only ever used for the crypto
+stuff and largely broken. Which is why I do agree with just yanking it
+out.
 
->=20
-> Thanks,
-> Conor.
->=20
-
+-- 
+Jens Axboe
